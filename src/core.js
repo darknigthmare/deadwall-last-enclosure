@@ -4,8 +4,11 @@
   const TILE = 32;
   const WORLD_TILES = 128;
   const WORLD_SIZE = TILE * WORLD_TILES;
-  const SAVE_KEY = 'deadwall-save-v1';
-  const SAVE_VERSION = 1;
+  const SAVE_KEY = 'deadwall-save-v2';
+  const LEGACY_SAVE_KEYS = ['deadwall-save-v1'];
+  const SAVE_BACKUP_KEY = 'deadwall-save-backup-v2';
+  const SETTINGS_KEY = 'deadwall-settings-v1';
+  const SAVE_VERSION = 2;
   const RESOURCE_KEYS = ['wood', 'scrap', 'stone', 'food', 'fuel', 'ammo', 'medicine'];
 
   const RESOURCE_META = {
@@ -103,13 +106,33 @@
   };
 
   const OBJECTIVES = [
-    { id: 'gather', title: 'Sécuriser les matériaux', text: 'Récoltez personnellement 30 unités dans les ruines proches.', target: 30, reward: { wood: 35, scrap: 20 } },
+    { id: 'gather', title: 'Sécuriser les matériaux', text: 'Récoltez puis déposez 30 unités dans un centre ou entrepôt.', target: 30, reward: { wood: 35, scrap: 20 } },
     { id: 'house', title: 'Loger les survivants', text: 'Construisez un dortoir renforcé.', target: 1, reward: { food: 35 } },
     { id: 'farm', title: 'Assurer l’approvisionnement', text: 'Mettez en service une ferme protégée.', target: 1, reward: { wood: 30, stone: 20 } },
     { id: 'walls', title: 'Fermer la première enceinte', text: 'Construisez douze segments de mur ou de porte.', target: 12, reward: { scrap: 45, ammo: 30 } },
+    { id: 'power', title: 'Électrifier la ligne', text: 'Construisez un générateur et gardez une réserve de carburant.', target: 1, reward: { scrap: 35, fuel: 20 } },
     { id: 'defense', title: 'Armer le périmètre', text: 'Construisez un mirador ou une tourelle.', target: 1, reward: { ammo: 70, fuel: 10 } },
+    { id: 'research', title: 'Organiser la recherche', text: 'Lancez une doctrine de recherche depuis le panneau de commandement.', target: 1, reward: { medicine: 8, ammo: 35 } },
     { id: 'wave', title: 'Tenir la ligne', text: 'Survivez à trois vagues complètes.', target: 3, reward: { wood: 80, scrap: 80, stone: 60, food: 60 } }
   ];
+
+  const RESEARCH = [
+    { id: 'logistics', name: 'Doctrine logistique', description: 'Ouvriers plus efficaces et dépôts moins saturés.', cost: { scrap: 45, food: 25 }, insight: 1, tier: 0 },
+    { id: 'fortification', name: 'Chaînage des enceintes', description: 'Murs et portes subissent 12 % de dégâts en moins.', cost: { wood: 55, stone: 35 }, insight: 2, tier: 1 },
+    { id: 'ballistics', name: 'Tables balistiques', description: 'Fusiliers et tourelles tirent mieux sans augmenter la consommation.', cost: { scrap: 80, ammo: 50 }, insight: 3, tier: 2 },
+    { id: 'sanitation', name: 'Brigades sanitaires', description: 'Corps et blessures pèsent moins sur la ligne.', cost: { medicine: 8, food: 40 }, insight: 2, tier: 2 },
+    { id: 'grid', name: 'Réseau prioritaire', description: 'Les circuits partiels restent efficaces et les générateurs consomment 25 % de moins.', cost: { scrap: 90, fuel: 25 }, insight: 3, tier: 3 },
+    { id: 'recon', name: 'Reconnaissance des fronts', description: 'Les vagues sont annoncées cinq secondes plus tôt et les crises sont moins fréquentes.', cost: { scrap: 120, ammo: 65, medicine: 10 }, insight: 4, tier: 4 }
+  ];
+
+  const CRISES = [
+    { id: 'blackout', title: 'Noir électrique', minWave: 2, severity: 1, text: 'Un court-circuit force un délestage brutal.', choiceA: 'Brûler du carburant pour stabiliser.', choiceB: 'Couper les ateliers et préserver la réserve.' },
+    { id: 'injury', title: 'Blessés aux portes', minWave: 3, severity: 1, text: 'Des survivants arrivent mordus et épuisés.', choiceA: 'Consommer des médicaments pour les intégrer.', choiceB: 'Les isoler, au prix du moral.' },
+    { id: 'ammo', title: 'Munitions humides', minWave: 4, severity: 2, text: 'Une réserve a pris l’eau pendant la nuit.', choiceA: 'Sécher et trier maintenant.', choiceB: 'Accepter les pertes et tenir le rythme.' },
+    { id: 'breach', title: 'Fissure dans l’enceinte', minWave: 5, severity: 2, text: 'La pression des corps a ouvert un point faible.', choiceA: 'Réparer les défenses critiques.', choiceB: 'Former des équipes de nettoyage.' }
+  ];
+
+  const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
 
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -151,6 +174,60 @@
   }
   function cityTier(score) { let result = CITY_TIERS[0]; for (const tier of CITY_TIERS) { if (score >= tier.requiredScore) result = tier; else break; } return result; }
   function buildingList(category) { return Object.values(BUILDINGS).filter(def => def.category === category && !['core', 'armoredGate'].includes(def.id)); }
+  function enemyHealthScale(wave) { return 1 + clamp(Math.log2(Math.max(1, wave)) * 0.055, 0, 0.34); }
+  function wallLine(a, b) {
+    const cells = [{ x: a.x, y: a.y }];
+    let x = a.x, y = a.y;
+    const sx = Math.sign(b.x - a.x), sy = Math.sign(b.y - a.y);
+    const dx = Math.abs(b.x - a.x), dy = Math.abs(b.y - a.y);
+    let err = dx - dy;
+    while (x !== b.x || y !== b.y) {
+      const e2 = err * 2, ox = x, oy = y;
+      if (e2 > -dy) { err -= dy; x += sx; }
+      if (e2 < dx) { err += dx; y += sy; }
+      if (x !== ox && y !== oy) cells.push({ x, y: oy });
+      cells.push({ x, y });
+      if (cells.length > WORLD_TILES * 4) break;
+    }
+    const seen = new Set();
+    return cells.filter(cell => {
+      const key = cell.x + ':' + cell.y;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  function powerPriority(def) {
+    if (!def.powerUse) return 0;
+    if (def.defense) return 1;
+    if (def.id === 'clinic') return 2;
+    if (def.production) return 3;
+    return 4;
+  }
+  function researchById(id) { return RESEARCH.find(item => item.id === id) || null; }
+  function crisisForWave(wave, seed = 0) {
+    const pool = CRISES.filter(crisis => wave >= crisis.minWave);
+    if (!pool.length) return null;
+    return pool[Math.floor(seededHash(wave, seed, 91) * pool.length) % pool.length];
+  }
+  function normalizeResearch(value = {}) {
+    return { completed: Array.isArray(value.completed) ? [...new Set(value.completed)] : [], insight: Math.max(0, Number(value.insight || 0)), active: value.active || null };
+  }
+  function migrateSaveData(data) {
+    if (!data || typeof data !== 'object') return null;
+    if (data.version === SAVE_VERSION) return { ...data, research: normalizeResearch(data.research) };
+    if (data.version !== 1) return null;
+    return {
+      ...data,
+      version: SAVE_VERSION,
+      migratedFrom: 1,
+      research: normalizeResearch(),
+      depositedResources: Number(data.stats?.gathered || 0),
+      wavePlan: null,
+      spawnTimer: Number(data.spawnTimer || 0),
+      randomState: Number(data.randomState || Date.now()) >>> 0
+    };
+  }
   function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0) {
     const base = 10 + wave * 5 + Math.pow(wave, 1.62) * 2.35;
     const attraction = 1 + clamp(signature / 360, 0, 0.8);
@@ -219,10 +296,12 @@
   }
 
   const Core = {
-    TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, SAVE_VERSION, RESOURCE_KEYS, RESOURCE_META,
-    DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
+    TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
+    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
+    RESEARCH, CRISES, PERFORMANCE_LIMITS,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
+    enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
     wavePlan, createStats, Random, MinHeap
   };
 

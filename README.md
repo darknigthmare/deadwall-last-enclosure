@@ -103,7 +103,7 @@ docs/ORIGINAL_BRIEF.txt    Postulat initial conservé
 
 ## Sauvegarde
 
-La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v1`. Elle contient la graine du monde, les gisements, le joueur, les unités, les structures, les zombies actifs, la vague, la météo, la progression et les statistiques.
+La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v2` (avec migration et sauvegarde de secours depuis `deadwall-save-v1`). Elle contient la graine du monde, les gisements, le joueur, les unités, les structures, les zombies actifs, la vague, la météo, la progression et les statistiques.
 
 ## Principes à ne pas casser
 
@@ -117,4 +117,4 @@ La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v1`. Elle conti
 ## Crédit du projet
 
 Conception et propriété du projet : **Darknigthmare**.
-Prototype Codex livré en août 2026.
+jeu complet Codex livré en août 2026.

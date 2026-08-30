@@ -7,6 +7,7 @@
   <title>DEADWALL — La Dernière Enceinte</title>
   <meta name="description" content="Jeu de défense de cité zombie, construction et hordes infinies.">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -47,7 +48,7 @@
         <h3 id="selectionName">Structure</h3><p id="selectionDescription"></p>
         <div class="health-line"><span id="selectionHealthFill"></span></div>
         <div class="selection-stats" id="selectionStats"></div>
-        <div class="selection-actions"><button id="repairSelected">RÉPARER</button><button id="upgradeSelected">AMÉLIORER</button><button id="demolishSelected" class="danger">DÉMOLIR</button></div>
+        <div class="selection-actions"><button id="repairSelected">RÉPARER</button><button id="upgradeSelected">AMÉLIORER</button><button id="prioritySelected">PRIORITÉ NORMALE</button><button id="demolishSelected" class="danger">DÉMOLIR</button></div>
       </section>
       <section class="command-card">
         <small>RENFORTS & ORDRES</small>
@@ -56,6 +57,9 @@
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
           <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
+          <button id="researchButton"><span id="researchName">Doctrine logistique</span><small id="researchInsight">0 insight</small></button>
+          <button id="settingsToggle"><span>ACCESSIBILITÉ</span><small>contraste élevé</small></button>
+          <button id="soundToggle"><span>SON</span><small id="soundStatus">activé</small></button>
         </div>
       </section>
     </aside>
@@ -67,7 +71,8 @@
     </div>
 
     <div id="minimapWrap" class="minimap-wrap"><canvas id="minimap" width="220" height="220"></canvas><div class="minimap-label">SECTEUR D-17</div></div>
-    <div id="notifications" class="notifications"></div>
+    <div id="touchControls" class="touch-controls" aria-hidden="true"><button data-dir="up">▲</button><button data-dir="left">◀</button><button id="touchAction">E</button><button data-dir="right">▶</button><button data-dir="down">▼</button><button id="touchFire">●</button></div>
+    <div id="notifications" class="notifications" aria-live="polite"></div>
     <div id="carryIndicator" class="carry-indicator">SAC <strong id="carryValue">0/36</strong></div>
     <div id="damageVignette"></div>
   </div>
@@ -102,5 +107,6 @@
   <noscript>JavaScript doit être activé.</noscript>
   <script src="src/core.js"></script>
   <script src="src/game.js"></script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

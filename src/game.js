@@ -3,10 +3,12 @@
   const C = globalThis.DeadwallCore;
   if (!C) throw new Error('DeadwallCore introuvable.');
   const {
-    TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, SAVE_VERSION, RESOURCE_KEYS, RESOURCE_META,
-    DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
+    TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
+    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
+    RESEARCH, PERFORMANCE_LIMITS,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
+    enemyHealthScale, wallLine, powerPriority, crisisForWave, normalizeResearch, migrateSaveData,
     wavePlan, createStats, Random, MinHeap
   } = C;
 
@@ -17,7 +19,8 @@
     constructor(id, type, gx, gy, rotation = 0, progress = 0) {
       this.id = id; this.type = type; this.gx = gx; this.gy = gy; this.rotation = rotation;
       this.progress = progress; this.dead = false; this.fireCooldown = 0; this.turretAngle = -Math.PI / 2;
-      this.flash = 0; this.powered = true; this.underAttack = 0; this.corpseLoad = 0;
+      this.flash = 0; this.powered = true; this.powerShare = 1; this.priority = 2; this.gateMode = 'auto';
+      this.underAttack = 0; this.corpseLoad = 0;
       this.health = Math.max(40, this.def.health * (progress >= 1 ? 1 : 0.12 + progress * 0.65));
     }
     get def() { return BUILDINGS[this.type]; }
@@ -72,7 +75,7 @@
     constructor(id, kind, x, y, difficulty, waveNumber) {
       const def = ENEMIES[kind];
       this.id = id; this.kind = kind; this.x = x; this.y = y; this.dead = false;
-      this.radius = def.radius; this.maxHealth = def.health * difficulty.enemyHealth * (1 + Math.max(0, waveNumber - 1) * 0.018);
+      this.radius = def.radius; this.maxHealth = def.health * difficulty.enemyHealth * enemyHealthScale(waveNumber);
       this.health = this.maxHealth; this.attackCooldown = 0; this.facing = 0; this.stagger = 0;
       this.howl = 2 + Math.random() * 7; this.bias = Math.random() * 1000; this.anim = Math.random() * 10;
       this.rage = 0; this.stuck = 0; this.lastX = x; this.lastY = y;
@@ -94,13 +97,14 @@
   }
 
   class AudioSystem {
-    constructor() { this.ctx = null; this.master = null; this.enabled = true; this.lastGroan = 0; }
+    constructor() { this.ctx = null; this.master = null; this.enabled = true; this.muted = false; this.lastGroan = 0; }
     unlock() {
       if (!this.enabled || this.ctx) return;
       const AC = globalThis.AudioContext || globalThis.webkitAudioContext;
       if (!AC) { this.enabled = false; return; }
-      this.ctx = new AC(); this.master = this.ctx.createGain(); this.master.gain.value = 0.15; this.master.connect(this.ctx.destination);
+      this.ctx = new AC(); this.master = this.ctx.createGain(); this.master.gain.value = this.muted ? 0 : 0.15; this.master.connect(this.ctx.destination);
     }
+    setMuted(muted) { this.muted = Boolean(muted); if (this.master) this.master.gain.value = this.muted ? 0 : 0.15; }
     tone(freq, duration, type = 'square', volume = 0.08, slide = 0) {
       if (!this.ctx || !this.master || !this.enabled) return;
       const t = this.ctx.currentTime, o = this.ctx.createOscillator(), g = this.ctx.createGain();
@@ -170,12 +174,7 @@
       for (const node of this.nodes) if (!node.depleted && node.x + node.radius > l && node.x - node.radius < r && node.y + node.radius > t && node.y - node.radius < b) return { valid: false, reason: 'Ressource à déblayer' };
       return { valid: true, reason: '' };
     }
-    line(a, b) {
-      const cells = []; let x0 = a.x, y0 = a.y, x1 = b.x, y1 = b.y;
-      const dx = Math.abs(x1 - x0), sx = x0 < x1 ? 1 : -1, dy = -Math.abs(y1 - y0), sy = y0 < y1 ? 1 : -1; let e = dx + dy;
-      while (true) { cells.push({ x: x0, y: y0 }); if (x0 === x1 && y0 === y1) break; const e2 = 2 * e; if (e2 >= dy) { e += dy; x0 += sx; } if (e2 <= dx) { e += dx; y0 += sy; } if (cells.length > WORLD_TILES * 2) break; }
-      return cells;
-    }
+    line(a, b) { return wallLine(a, b); }
     nearestNode(x, y, max = 1000, type = null) {
       let result = null, best = max * max;
       for (const node of this.nodes) { if (node.depleted || (type && node.type !== type)) continue; const d = (node.x - x) ** 2 + (node.y - y) ** 2; if (d < best) { best = d; result = node; } }
@@ -222,7 +221,7 @@
     rebuild(map, target) {
       this.values.fill(0x3fffffff); this.heap.clear();
       const tx = grid(target.x), ty = grid(target.y), start = index(tx, ty); this.values[start] = 0; this.heap.push(start, 0);
-      const dirs = [[-1,0,10],[1,0,10],[0,-1,10],[0,1,10],[-1,-1,14],[1,-1,14],[-1,1,14],[1,1,14]];
+      const dirs = [[-1,0,10],[1,0,10],[0,-1,10],[0,1,10]];
       while (this.heap.size) {
         const current = this.heap.pop(); if (!current || current.priority !== this.values[current.index]) continue;
         const x = current.index % WORLD_TILES, y = Math.floor(current.index / WORLD_TILES);
@@ -235,7 +234,7 @@
       map.flowDirty = false;
     }
     direction(x, y, bias, time) {
-      const gx = grid(x), gy = grid(y), dirs = [[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,-1],[-1,1],[1,1]];
+      const gx = grid(x), gy = grid(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]];
       let bx = gx, by = gy, best = this.values[index(gx, gy)];
       for (let i = 0; i < dirs.length; i++) {
         const nx = gx + dirs[i][0], ny = gy + dirs[i][1]; if (nx < 0 || ny < 0 || nx >= WORLD_TILES || ny >= WORLD_TILES) continue;
@@ -253,7 +252,7 @@
       if (!this.ctx || !this.mctx) throw new Error('Canvas 2D indisponible.');
       this.audio = new AudioSystem(); this.state = 'menu'; this.paused = false; this.gameOver = false;
       this.dpr = 1; this.width = innerWidth; this.height = innerHeight; this.lastFrame = performance.now(); this.nextId = 1;
-      this.input = { keys: new Set(), pressed: new Set(), mouseX: this.width / 2, mouseY: this.height / 2, mouseWorldX: WORLD_SIZE / 2, mouseWorldY: WORLD_SIZE / 2, mouseDown: false };
+      this.input = { keys: new Set(), pressed: new Set(), mouseX: this.width / 2, mouseY: this.height / 2, mouseWorldX: WORLD_SIZE / 2, mouseWorldY: WORLD_SIZE / 2, mouseDown: false, touchFire: false };
       this.camera = { x: WORLD_SIZE / 2, y: WORLD_SIZE / 2, zoom: 1, shake: 0 };
       this.random = new Random(Date.now()); this.world = new WorldMap(17117); this.flow = new FlowField();
       this.resources = makeBag(); this.player = this.makePlayer(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = [];
@@ -261,12 +260,14 @@
       this.difficulty = DIFFICULTIES.standard; this.wave = 1; this.phase = 'calm'; this.phaseTime = 80; this.spawnQueue = []; this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
+      this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
       this.rally = { x: WORLD_SIZE / 2 + 110, y: WORLD_SIZE / 2 }; this.rallyPlacement = false;
       this.selectedBuild = null; this.buildRotation = 0; this.wallStart = null; this.wallPreview = []; this.selectedBuilding = null;
       this.interactionText = ''; this.stats = createStats(); this.objectiveIndex = 0; this.objectiveProgress = 0;
       this.economyTimer = 0; this.metricsTimer = 0; this.uiTimer = 0; this.minimapTimer = 0; this.saveTimer = 0; this.flowTimer = 0;
       this.ui = {}; this.currentCategory = 'colony'; this.lastBuildTier = -1; this.lastBuildSelection = ''; this.buildCollapsed = false;
-      this.cacheUI(); this.createResourceUI(); this.createCategoryUI(); this.bindEvents(); this.resize(); this.refreshContinue();
+      document.body.classList.toggle('high-contrast', this.settings.highContrast);
+      this.cacheUI(); this.createResourceUI(); this.createCategoryUI(); this.bindEvents(); this.resize(); if(innerWidth<=720)this.setBuildCollapsed(true); this.refreshContinue();
       const params = new URLSearchParams(location.search);
       if (params.get('autostart') === '1') setTimeout(() => this.startNew(params.get('difficulty') || 'standard'), 50);
       requestAnimationFrame(t => this.loop(t));
@@ -284,7 +285,7 @@
     }
 
     cacheUI() {
-      const ids = ['hud','mainMenu','pauseMenu','helpModal','gameOver','continueButton','resources','buildCategories','buildList','leftPanel','cityTier','populationValue','powerValue','moraleValue','phaseLabel','waveNumber','waveTimer','threatFill','waveIntel','objectiveTitle','objectiveText','objectiveFill','objectiveCounter','interactionHint','weaponName','weaponAmmo','reloadBar','notifications','damageVignette','carryValue','selectionCard','selectionName','selectionDescription','selectionHealthFill','selectionStats','gameOverStats','recruitWorker','recruitSoldier','repairSelected','upgradeSelected'];
+      const ids = ['hud','rightPanel','mainMenu','pauseMenu','helpModal','gameOver','continueButton','resources','buildCategories','buildList','leftPanel','cityTier','populationValue','powerValue','moraleValue','phaseLabel','waveNumber','waveTimer','threatFill','waveIntel','objectiveTitle','objectiveText','objectiveFill','objectiveCounter','interactionHint','weaponName','weaponAmmo','reloadBar','notifications','damageVignette','carryValue','selectionCard','selectionName','selectionDescription','selectionHealthFill','selectionStats','gameOverStats','recruitWorker','recruitSoldier','repairSelected','upgradeSelected','prioritySelected','researchButton','researchName','researchInsight','settingsToggle','soundToggle','soundStatus','touchControls','touchAction','touchFire'];
       for (const id of ids) this.ui[id] = document.getElementById(id);
     }
 
@@ -342,6 +343,23 @@
       this.canvas.addEventListener('mouseleave', () => { this.input.mouseDown = false; });
       this.canvas.addEventListener('contextmenu', event => event.preventDefault());
       this.canvas.addEventListener('wheel', event => { event.preventDefault(); this.camera.zoom = clamp(this.camera.zoom * (event.deltaY > 0 ? .9 : 1.1), .52, 1.65); }, { passive: false });
+      const touchMap = { up:'KeyW', left:'KeyA', right:'KeyD', down:'KeyS' };
+      for (const button of document.querySelectorAll('#touchControls button[data-dir]')) {
+        const code = touchMap[button.dataset.dir]; if (!code) continue;
+        button.addEventListener('pointerdown', event => { event.preventDefault(); this.input.keys.add(code); button.setPointerCapture?.(event.pointerId); });
+        const release = event => { event.preventDefault(); this.input.keys.delete(code); };
+        button.addEventListener('pointerup', release); button.addEventListener('pointercancel', release); button.addEventListener('pointerleave', release);
+      }
+      if (this.ui.touchAction) {
+        this.ui.touchAction.addEventListener('pointerdown', event => { event.preventDefault(); this.input.keys.add('KeyE'); this.ui.touchAction.setPointerCapture?.(event.pointerId); });
+        const releaseAction = event => { event.preventDefault(); this.input.keys.delete('KeyE'); };
+        this.ui.touchAction.addEventListener('pointerup', releaseAction); this.ui.touchAction.addEventListener('pointercancel', releaseAction); this.ui.touchAction.addEventListener('pointerleave', releaseAction);
+      }
+      if (this.ui.touchFire) {
+        this.ui.touchFire.addEventListener('pointerdown', event => { event.preventDefault(); this.input.touchFire = true; this.input.mouseDown = true; this.ui.touchFire.setPointerCapture?.(event.pointerId); });
+        this.ui.touchFire.addEventListener('pointerup', event => { event.preventDefault(); this.input.touchFire = false; this.input.mouseDown = false; });
+        this.ui.touchFire.addEventListener('pointercancel', event => { event.preventDefault(); this.input.touchFire = false; this.input.mouseDown = false; });
+      }
 
       const click = (id, fn) => document.getElementById(id).addEventListener('click', fn);
       click('newGameButton', () => this.startNew(this.selectedDifficulty()));
@@ -349,10 +367,14 @@
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
       click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id)); click('gameOverMenuButton', () => this.returnToMenu());
-      click('toggleBuild', () => { this.buildCollapsed = !this.buildCollapsed; this.ui.leftPanel.style.transform = this.buildCollapsed ? 'translateX(calc(-100% - 13px))' : ''; });
+      click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.demolishSelected());
       click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => { this.cancelPlacement(); this.rallyPlacement = true; this.notify('Cliquez au sol pour placer le ralliement.'); });
       click('repairAll', () => this.repairAll());
+      if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
+      if (this.ui.researchButton) click('researchButton', () => this.launchResearch());
+      if (this.ui.settingsToggle) click('settingsToggle', () => this.toggleAccessibility());
+      if (this.ui.soundToggle) click('soundToggle', () => this.toggleSound());
       for (const id of ['mainMenu','pauseMenu','helpModal','gameOver']) document.getElementById(id).addEventListener('mousedown', event => event.stopPropagation());
     }
 
@@ -362,7 +384,7 @@
     }
 
     resize() {
-      this.width = Math.max(640, innerWidth); this.height = Math.max(360, innerHeight); this.dpr = Math.min(2, Math.max(1, devicePixelRatio || 1));
+      this.width = Math.max(320, innerWidth); this.height = Math.max(360, innerHeight); this.dpr = Math.min(2, Math.max(1, devicePixelRatio || 1));
       this.canvas.width = Math.floor(this.width * this.dpr); this.canvas.height = Math.floor(this.height * this.dpr); this.canvas.style.width = `${this.width}px`; this.canvas.style.height = `${this.height}px`;
     }
 
@@ -389,6 +411,7 @@
       for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
       this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
+      this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
       this.objectiveIndex = 0; this.objectiveProgress = 0; this.rally = { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = 1;
       this.state = 'playing'; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden');
@@ -399,35 +422,48 @@
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry },
-        buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType })),
-        zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health })),
-        nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, fronts:this.fronts,
-        elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId
+        buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
+        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state })),
+        zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown })),
+        nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
+        elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId,
+        randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources
       };
     }
 
     save(manual = false) {
       if (this.state !== 'playing' || this.gameOver) return;
-      try { localStorage.setItem(SAVE_KEY, JSON.stringify(this.serialize())); this.refreshContinue(); if (manual) this.notify('Partie sauvegardée.', 'good'); }
+      try {
+        const payload = JSON.stringify(this.serialize());
+        const previous = localStorage.getItem(SAVE_KEY);
+        if (previous) localStorage.setItem(SAVE_BACKUP_KEY, previous);
+        localStorage.setItem(SAVE_KEY, payload);
+        this.refreshContinue(); if (manual) this.notify('Partie sauvegardée.', 'good');
+      }
       catch (error) { console.error(error); if (manual) this.notify('Échec de la sauvegarde locale.', 'danger'); }
     }
 
     load() {
       try {
-        const data = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (!data || data.version !== SAVE_VERSION) throw new Error('Sauvegarde incompatible');
-        this.audio.unlock(); this.difficulty = DIFFICULTIES[data.difficulty] || DIFFICULTIES.standard; this.nextId = data.nextId || 1; this.world = new WorldMap(data.worldSeed || 17117); this.flow = new FlowField();
+        let data = null;
+        for (const key of [SAVE_KEY, SAVE_BACKUP_KEY, ...LEGACY_SAVE_KEYS]) {
+          const rawSave = localStorage.getItem(key); if (!rawSave) continue;
+          try { const candidate = migrateSaveData(JSON.parse(rawSave)); if (candidate) { data = candidate; break; } }
+          catch (error) { console.warn(`Sauvegarde ignorée (${key})`, error); }
+        }
+        if (!data) throw new Error('Aucune sauvegarde compatible');
+        this.audio.unlock(); this.difficulty = DIFFICULTIES[data.difficulty] || DIFFICULTIES.standard; this.nextId = data.nextId || 1; this.random = new Random(data.randomState || data.worldSeed || Date.now()); this.world = new WorldMap(data.worldSeed || 17117); this.flow = new FlowField();
         const amounts = new Map((data.nodes || []).map(row => [row[0], row[1]])); for (const node of this.world.nodes) if (amounts.has(node.id)) { node.amount = amounts.get(node.id); node.depleted = node.amount <= .01; }
-        for (const raw of data.buildings || []) { const b = new Building(raw.id, raw.type, raw.gx, raw.gy, raw.rotation, raw.progress); b.health = clamp(raw.health, 1, b.maxHealth); b.corpseLoad = raw.corpseLoad || 0; this.world.add(b); }
+        for (const raw of data.buildings || []) { const b = new Building(raw.id, raw.type, raw.gx, raw.gy, raw.rotation, raw.progress); b.health = clamp(raw.health, 1, b.maxHealth); b.corpseLoad = raw.corpseLoad || 0; b.priority = raw.priority || 2; b.gateMode = raw.gateMode || 'auto'; this.world.add(b); }
         this.resources = makeBag(data.resources); this.player = this.makePlayer(); Object.assign(this.player, data.player || {}); this.player.carry = makeBag(data.player?.carry); this.player.dead = false; this.player.downTimer = 0;
         this.units = (data.units || []).map(raw => { const u = new Unit(raw.id, raw.kind, raw.x, raw.y); u.health = raw.health; u.carry = raw.carry || 0; u.carryType = raw.carryType || null; return u; });
-        this.zombies = (data.zombies || []).map(raw => { const z = new Zombie(raw.id, raw.kind, raw.x, raw.y, this.difficulty, data.wave || 1); z.health = Math.min(z.maxHealth, raw.health); return z; });
-        this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.wave = data.wave || 1; this.phase = data.phase || 'calm'; this.phaseTime = data.phaseTime || 20; this.spawnQueue = data.spawnQueue || []; this.fronts = data.fronts || [];
+        this.zombies = (data.zombies || []).map(raw => { const z = new Zombie(raw.id, raw.kind, raw.x, raw.y, this.difficulty, data.wave || 1); z.health = Math.min(z.maxHealth, raw.health); z.attackCooldown = Math.max(0, Number(raw.attackCooldown || 0)); return z; });
+        this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.wave = data.wave || 1; this.phase = data.phase || 'calm'; this.phaseTime = data.phaseTime || 20; this.spawnQueue = data.spawnQueue || []; this.fronts = data.fronts || []; this.wavePlan = data.wavePlan || null; this.spawnTimer = Number(data.spawnTimer || 0);
         this.elapsed = data.elapsed || 0; this.dayClock = data.dayClock || .2; this.weather = data.weather || 0; this.weatherTarget = this.weather; this.morale = data.morale ?? 100; this.rally = data.rally || { x:WORLD_SIZE/2,y:WORLD_SIZE/2 };
-        this.stats = { ...createStats(), ...(data.stats || {}) }; this.objectiveIndex = data.objectiveIndex || 0; this.objectiveProgress = data.objectiveProgress || 0; this.gameOver = false; this.paused = false; this.cancelPlacement(); this.selectBuilding(null);
+        this.stats = { ...createStats(), ...(data.stats || {}) }; this.objectiveIndex = data.objectiveIndex || 0; this.objectiveProgress = data.objectiveProgress || 0; this.research = normalizeResearch(data.research); this.activeCrisis = data.activeCrisis || null; this.depositedResources = Number(data.depositedResources || 0); this.gameOver = false; this.paused = false; this.cancelPlacement(); this.selectBuilding(null);
         const core = this.core(); if (!core) throw new Error('Centre absent'); this.flow.rebuild(this.world, core); this.refreshMetrics(true); this.camera.x = this.player.x; this.camera.y = this.player.y;
         this.state = 'playing'; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.notify('Sauvegarde restaurée.', 'good'); this.refreshBuildMenu(true); this.updateUI();
-      } catch (error) { console.error(error); localStorage.removeItem(SAVE_KEY); this.refreshContinue(); this.startNew(this.selectedDifficulty()); this.notify('Sauvegarde illisible : nouvelle partie créée.', 'danger'); }
+      } catch (error) { console.error(error); this.refreshContinue(); this.notify('Sauvegarde illisible : aucune donnée supprimée.', 'danger'); }
     }
 
     returnToMenu() {
@@ -435,7 +471,7 @@
       this.state = 'menu'; this.paused = false; this.input.mouseDown = false; this.ui.hud.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.mainMenu.classList.remove('hidden'); this.refreshContinue();
     }
 
-    refreshContinue() { this.ui.continueButton.disabled = !localStorage.getItem(SAVE_KEY); }
+    refreshContinue() { this.ui.continueButton.disabled = !(localStorage.getItem(SAVE_KEY) || LEGACY_SAVE_KEYS.some(key => localStorage.getItem(key)) || localStorage.getItem(SAVE_BACKUP_KEY)); }
     showHelp(show) { this.ui.helpModal.classList.toggle('hidden', !show); }
     onEscape() {
       if (!this.ui.helpModal.classList.contains('hidden')) { this.showHelp(false); return; }
@@ -446,8 +482,9 @@
     togglePause(force) {
       if (this.state !== 'playing' || this.gameOver) return; this.paused = typeof force === 'boolean' ? force : !this.paused; this.input.mouseDown = false; this.ui.pauseMenu.classList.toggle('hidden', !this.paused); if (this.paused) this.save(false);
     }
+    setBuildCollapsed(collapsed){this.buildCollapsed=Boolean(collapsed);this.ui.leftPanel.style.transform=this.buildCollapsed?'translateX(calc(-100% + 36px))':'';if(this.ui.rightPanel)this.ui.rightPanel.classList.toggle('hidden',innerWidth<=720&&!this.buildCollapsed);}
     cancelPlacement() { this.selectedBuild = null; this.wallStart = null; this.wallPreview = []; this.rallyPlacement = false; this.buildRotation = 0; this.refreshBuildMenu(true); }
-    selectBuild(id) { this.audio.ui(); this.rallyPlacement = false; this.selectedBuild = this.selectedBuild === id ? null : id; this.wallStart = null; this.wallPreview = []; this.selectBuilding(null); this.refreshBuildMenu(true); }
+    selectBuild(id) { this.audio.ui(); this.rallyPlacement = false; this.selectedBuild = this.selectedBuild === id ? null : id; this.wallStart = null; this.wallPreview = []; this.selectBuilding(null); this.refreshBuildMenu(true); if(innerWidth<=720&&this.selectedBuild)this.setBuildCollapsed(true); }
     selectBuilding(building) { if (this.selectedBuilding) this.selectedBuilding.selected = false; this.selectedBuilding = building && !building.dead ? building : null; if (this.selectedBuilding) this.selectedBuilding.selected = true; }
 
     placeOne(type, gx, gy, rotation = 0) {
@@ -459,14 +496,16 @@
     }
 
     placeWallLine(type, cells) {
-      const def = BUILDINGS[type]; let placed = 0;
-      for (const cell of cells) {
-        if (!canAfford(this.resources, def.cost)) break;
-        const check = this.world.placement(def, cell.x, cell.y, this.buildRotation); if (!check.valid) continue;
-        spend(this.resources, def.cost); const b = new Building(this.nextId++, type, cell.x, cell.y, this.buildRotation, 0); this.world.add(b); this.stats.buildingsPlaced++; placed++;
+      const def = BUILDINGS[type], unique = wallLine(cells[0] || { x:0, y:0 }, cells[cells.length - 1] || { x:0, y:0 });
+      const cost = scaledCost(def.cost, unique.length);
+      if (!canAfford(this.resources, cost)) { this.notify(`Ligne complète impossible : ${resourceText(cost)} requis.`, 'danger'); return; }
+      for (const cell of unique) {
+        const check = this.world.placement(def, cell.x, cell.y, this.buildRotation);
+        if (!check.valid) { this.notify(`Ligne interrompue : ${check.reason}.`, 'danger'); return; }
       }
-      if (placed) { this.audio.build(); this.notify(`${placed} segment${placed > 1 ? 's' : ''} planifié${placed > 1 ? 's' : ''}.`, 'good'); this.refreshMetrics(true); }
-      else this.notify('Aucun segment ne peut être placé.', 'danger');
+      spend(this.resources, cost);
+      for (const cell of unique) { const b = new Building(this.nextId++, type, cell.x, cell.y, this.buildRotation, 0); this.world.add(b); this.stats.buildingsPlaced++; }
+      this.audio.build(); this.notify(`${unique.length} segments planifiés sans trou.`, 'good'); this.refreshMetrics(true);
     }
 
     repairSelected() {
@@ -554,7 +593,7 @@
       if (this.input.pressed.has('Digit3')) this.switchWeapon('shotgun');
       if (this.input.pressed.has('KeyR')) { if (this.selectedBuild && !this.isLineWall(BUILDINGS[this.selectedBuild])) this.buildRotation = (this.buildRotation + 1) % 4; else this.startReload(); }
       if (this.input.pressed.has('Space')) this.melee();
-      if (this.input.pressed.has('KeyB')) { this.buildCollapsed = !this.buildCollapsed; this.ui.leftPanel.style.transform = this.buildCollapsed ? 'translateX(calc(-100% - 13px))' : ''; }
+      if (this.input.pressed.has('KeyB')) this.setBuildCollapsed(!this.buildCollapsed);
     }
 
     switchWeapon(id) {
@@ -586,7 +625,7 @@
       const sprint = this.input.keys.has('ShiftLeft') && p.stamina > 2 && len > 0; const speed = sprint ? 205 : 136;
       if (sprint) p.stamina = Math.max(0, p.stamina - dt * 25); else p.stamina = Math.min(p.maxStamina, p.stamina + dt * 17);
       p.vx = dx * speed; p.vy = dy * speed; this.moveFriendly(p, p.vx * dt, p.vy * dt);
-      p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
+      if(this.input.touchFire){const target=this.nearestZombie(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
       if (this.input.mouseDown && !this.selectedBuild && !this.rallyPlacement) this.shootPlayer();
       this.updateInteraction(dt);
     }
@@ -619,7 +658,7 @@
       else this.interactionText = '';
       if (!action || !this.input.keys.has('KeyE')) return;
       if (action === 'deposit') {
-        for (const key of RESOURCE_KEYS) { const room = Math.max(0, this.storage - this.resources[key]), moved = Math.min(room, p.carry[key]); this.resources[key] += moved; p.carry[key] -= moved; }
+        let deposited=0;for (const key of RESOURCE_KEYS) { const room = Math.max(0, this.storage - this.resources[key]), moved = Math.min(room, p.carry[key]); this.resources[key] += moved; p.carry[key] -= moved; deposited+=moved; }this.depositedResources+=deposited;
       } else if (action === 'build') {
         if (incomplete.work(dt * 3.7)) this.completeBuilding(incomplete);
         if (this.random.chance(dt * 8)) this.particles.push(new Particle(incomplete.x+this.random.range(-20,20),incomplete.y+this.random.range(-15,15),this.random.range(-8,8),-18,.6,3,'#c9a05a','spark'));
@@ -657,7 +696,7 @@
       for (const b of [...this.world.buildings.values()]) {
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*(.012+this.units.filter(u=>!u.dead&&u.kind==='worker').length*.0009));
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
-        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&b.fireCooldown<=0){const target=this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage,b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
+        if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&b.fireCooldown<=0){const target=this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
         if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&distSq(u,b)<130*130)u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&distSq(this.player,b)<130*130)this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
       }
     }
@@ -672,14 +711,15 @@
         const danger=this.nearestZombie(u.x,u.y,105);
         if(u.kind==='worker'){
           if(danger){u.state='flee';this.moveUnitToward(u,core,dt,u.speed*1.25);continue;}
-          if(u.think<=0){u.think=.7+this.random.range(0,.5);const jobs=this.world.incomplete();if(jobs.length){let best=jobs[0],bd=Infinity;for(const b of jobs){const d=distSq(u,b);if(d<bd){bd=d;best=b;}}u.targetBuilding=best.id;u.state='build';}
-            else if(u.carry>=u.maxCarry)u.state='return';else{const types=['wood','scrap','stone','food','fuel'],type=types[u.id%types.length],node=this.world.nearestNode(u.x,u.y,1150,type)||this.world.nearestNode(u.x,u.y,900);if(node){u.targetNode=node.id;u.state='gather';}else u.state='idle';}}
-          if(u.state==='build'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.completed||b.dead){u.state='idle';u.think=0;}else if(dist(u,b)>62)this.moveUnitToward(u,b,dt);else if(b.work(dt*1.05))this.completeBuilding(b);}
-          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state='idle';u.think=0;}else if(dist(u,node)>node.radius+12)this.moveUnitToward(u,node,dt);else{const amount=node.harvest(dt*3.4*this.difficulty.resourceYield);u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
-          else if(u.state==='return'){const storage=this.world.nearestStorage(u.x,u.y)||core;if(dist(u,storage)>65)this.moveUnitToward(u,storage,dt);else{if(u.carryType)this.resources[u.carryType]=Math.min(this.storage,this.resources[u.carryType]+u.carry);u.carry=0;u.carryType=null;u.state='idle';u.think=0;}}
+          if(u.carry>0&&u.carryType)u.state='return';
+          if(u.think<=0&&u.state!=='return'){u.think=.7+this.random.range(0,.5);const jobs=this.world.incomplete().sort((a,b)=>(b.priority||2)-(a.priority||2)||distSq(u,a)-distSq(u,b));if(jobs.length){u.targetBuilding=jobs[0].id;u.state='build';}
+            else{const types=['wood','scrap','stone','food','fuel'],type=types[u.id%types.length],node=this.world.nearestNode(u.x,u.y,1150,type)||this.world.nearestNode(u.x,u.y,900);if(node){u.targetNode=node.id;u.state='gather';}else u.state='idle';}}
+          if(u.state==='build'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.completed||b.dead){u.state='idle';u.think=0;}else if(dist(u,b)>62)this.moveUnitToward(u,b,dt);else if(b.work(dt*(this.hasResearch('logistics')?1.22:1.05)))this.completeBuilding(b);}
+          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state='idle';u.think=0;}else if(dist(u,node)>node.radius+12)this.moveUnitToward(u,node,dt);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
+          else if(u.state==='return'){const storage=this.world.nearestStorage(u.x,u.y)||core;if(dist(u,storage)>65)this.moveUnitToward(u,storage,dt);else{if(u.carryType){const before=this.resources[u.carryType]||0;this.resources[u.carryType]=Math.min(this.storage,before+u.carry);this.depositedResources+=Math.max(0,this.resources[u.carryType]-before);}u.carry=0;u.carryType=null;u.state='idle';u.think=0;}}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
         } else {
-          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
+          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
           else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
@@ -688,17 +728,18 @@
 
     updateDirector(dt) {
       this.phaseTime-=dt;
-      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10;this.prepareWave();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
+      if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
-        this.spawnTimer-=dt;while(this.spawnQueue.length&&this.spawnTimer<=0&&this.zombies.length<650){this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
-        if(!this.spawnQueue.length&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
+        this.spawnTimer-=dt;while(this.spawnQueue.length&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        if(!this.spawnQueue.length&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight+=1+(this.wave%5===0?1:0);this.activeCrisis=null;this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
     prepareWave() {
       this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature);const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
     }
+    triggerCrisis(){if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;const crisis=crisisForWave(this.wave,this.world.seed);if(!crisis)return;this.activeCrisis=crisis;if(crisis.id==='blackout'){this.resources.fuel=Math.max(0,this.resources.fuel-5);this.weatherTarget=Math.max(this.weatherTarget,.55);}else if(crisis.id==='injury'){this.morale=Math.max(0,this.morale-6);this.resources.medicine=Math.max(0,this.resources.medicine-2);}else if(crisis.id==='ammo'){this.resources.ammo=Math.max(0,this.resources.ammo-12);}else if(crisis.id==='breach'){const wall=this.nearestWall(WORLD_SIZE/2,WORLD_SIZE/2,WORLD_SIZE);if(wall)wall.health=Math.max(1,wall.health-wall.maxHealth*.18);}this.notify(`${crisis.title} — ${crisis.text}`,'danger');}
     startAssault() {
       if(!this.wavePlan)this.prepareWave();this.spawnQueue=[];for(const [kind,count] of Object.entries(this.wavePlan.composition))for(let i=0;i<count;i++)this.spawnQueue.push(kind);this.random.shuffle(this.spawnQueue);this.spawnTimer=.2;
     }
@@ -714,9 +755,9 @@
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
       for(const z of this.zombies){if(z.dead)continue;const def=ENEMIES[z.kind];z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
-        let victim=null,best=34*34;if(!this.player.dead){const d=distSq(z,this.player);if(d<best){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best){best=d;victim=u;}}
-        if(victim){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);}continue;}
         const dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05),look=z.radius+13;
+        let victim=null,best=34*34;if(!this.player.dead){const d=distSq(z,this.player);if(d<best&&this.hasLineOfSight(z,this.player)){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best&&this.hasLineOfSight(z,u)){best=d;victim=u;}}
+        if(victim){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);}continue;}
         const blocker=this.world.at(z.x+dir.x*look,z.y+dir.y*look);
         if(blocker&&!blocker.dead&&blocker.type!=='core'){
           if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;blocker.health-=def.damage*dt*.13;if(z.health<=0){this.killZombie(z,false);continue;}}
@@ -732,13 +773,14 @@
     }
 
     nearestBuilding(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values()){if(b.dead)continue;const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
+    hasLineOfSight(a,b){const steps=Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/18);for(let i=1;i<steps;i++){const t=i/steps,hit=this.world.at(lerp(a.x,b.x,t),lerp(a.y,b.y,t));if(hit&&!hit.dead&&hit.completed&&hit.def.wall)return false;}return true;}
     damageUnit(unit,amount){unit.health-=amount;if(unit.health<=0){unit.dead=true;this.stats.unitsLost++;this.notify(`${unit.kind==='soldier'?'Un fusilier':'Un ouvrier'} a été perdu.`,'danger');for(let i=0;i<8;i++)this.particles.push(new Particle(unit.x,unit.y,this.random.range(-30,30),this.random.range(-35,15),.7,3,'#6f302e','blood'));}}
-    damageBuilding(b,amount){if(b.dead)return;b.health-=amount;b.underAttack=.5;if(b.health<=0)this.destroyBuilding(b);}
+    damageBuilding(b,amount){if(b.dead)return;if(b.def.wall&&this.hasResearch('fortification'))amount*=.88;b.health-=amount;b.underAttack=.5;if(b.health<=0)this.destroyBuilding(b);}
     destroyBuilding(b){if(b.dead)return;b.dead=true;const def=b.def;this.world.remove(b);this.stats.buildingsLost++;this.camera.shake=Math.max(this.camera.shake,def.explosive?18:10);for(let i=0;i<(def.explosive?45:20);i++)this.particles.push(new Particle(b.x+this.random.range(-b.w*TILE/2,b.w*TILE/2),b.y+this.random.range(-b.h*TILE/2,b.h*TILE/2),this.random.range(-90,90),this.random.range(-100,60),this.random.range(.6,1.4),this.random.range(2,7),i%3?'#5c5a51':'#b87948',i%3?'debris':'spark'));
-      if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive))z.health-=120*(1-dist(z,b)/def.explosive);for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
+      if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
       if(b===this.selectedBuilding)this.selectBuilding(null);if(def.id==='core'){this.triggerGameOver();return;}this.notify(`${def.name} détruit — le secteur est ouvert !`,'danger');this.refreshMetrics(true);}
 
-    triggerGameOver(){this.gameOver=true;this.input.mouseDown=false;localStorage.removeItem(SAVE_KEY);this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');}
+    triggerGameOver(){this.gameOver=true;this.input.mouseDown=false;for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])localStorage.removeItem(key);this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');}
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
@@ -747,36 +789,47 @@
     updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const dx=p.vx*dt,dy=p.vy*dt;p.x+=dx;p.y+=dy;p.travelled+=Math.hypot(dx,dy);if(p.travelled>p.range||p.x<0||p.y<0||p.x>WORLD_SIZE||p.y>WORLD_SIZE){p.dead=true;continue;}const targets=this.nearbyZombies(p.x,p.y,18);for(const z of targets){if(z.dead)continue;const hit=distSq(p,z)<(z.radius+p.radius+3)**2;if(!hit)continue;let damage=p.damage,head=false;if(p.owner==='player'&&this.random.chance(this.player.weapon==='shotgun'?.065:.13)){damage*=1.75;head=true;this.stats.headshots++;}z.health-=damage;z.stagger=Math.max(z.stagger,.08);p.dead=true;this.audio.hit();for(let i=0;i<4;i++)this.particles.push(new Particle(z.x,z.y,this.random.range(-45,45),this.random.range(-45,45),.45,2.5,'#6d2928','blood'));if(head)this.floaters.push({x:z.x,y:z.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});if(z.health<=0)this.killZombie(z,head);break;}}
       this.projectiles=this.projectiles.filter(p=>!p.dead);}
 
-    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>1100)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=z.kind==='armored'?2.2:1;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
+    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?.65:(z.kind==='armored'?2.2:1);const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
     nearestWall(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
 
-    updateEffects(dt){for(const node of this.world.nodes)node.flash=Math.max(0,node.flash-dt);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.08,dt);p.vy+=p.kind==='debris'||p.kind==='blood'?65*dt:-4*dt;p.rotation+=dt*4;}this.particles=this.particles.filter(p=>p.life>0);for(const c of this.corpses)c.age+=dt;this.corpses=this.corpses.filter(c=>c.age<100);for(const f of this.floaters){f.life-=dt;f.y-=dt*18;}this.floaters=this.floaters.filter(f=>f.life>0);}
+    updateEffects(dt){for(const node of this.world.nodes)node.flash=Math.max(0,node.flash-dt);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.08,dt);p.vy+=p.kind==='debris'||p.kind==='blood'?65*dt:-4*dt;p.rotation+=dt*4;}this.particles=this.particles.filter(p=>p.life>0);if(this.particles.length>PERFORMANCE_LIMITS.particles)this.particles.splice(0,this.particles.length-PERFORMANCE_LIMITS.particles);for(const c of this.corpses)c.age+=dt;this.corpses=this.corpses.filter(c=>c.age<100);for(const f of this.floaters){f.life-=dt;f.y-=dt*18;}this.floaters=this.floaters.filter(f=>f.life>0);}
 
     economyTick(dt){let foodUse=this.population*.0065*dt;this.resources.food=Math.max(0,this.resources.food-foodUse);if(this.resources.food<=.01)this.morale=Math.max(0,this.morale-dt*.7);else this.morale=Math.min(100,this.morale+dt*.08);
-      for(const b of this.world.buildings.values()){if(b.dead||!b.completed||!b.def.production)continue;const factor=b.def.powerUse?this.powerRatio:1;if(factor<=.05)continue;let can=true;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))if(this.resources[key]<rate*dt*factor)can=false;if(!can)continue;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))this.resources[key]-=rate*dt*factor;for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*dt*factor);}
+      for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.type==='generator'&&this.resources.fuel>0)this.resources.fuel=Math.max(0,this.resources.fuel-dt*(this.hasResearch('grid')?.0135:.018));
+      for(const b of this.world.buildings.values()){if(b.dead||!b.completed||!b.def.production)continue;const factor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;if(factor<=.05)continue;let can=true;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))if(this.resources[key]<rate*dt*factor)can=false;if(!can)continue;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))this.resources[key]-=rate*dt*factor;for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*dt*factor);}
       if(this.morale<20)for(const u of this.units)u.speed=(u.kind==='soldier'?74:60)*.82;else for(const u of this.units)u.speed=u.kind==='soldier'?74:60;
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);
     }
 
-    refreshMetrics(force=false){let score=0,housing=0,storage=0,powerGen=0,powerUse=0;for(const b of this.world.buildings.values()){if(b.dead||!b.completed)continue;score+=b.def.score||0;housing+=b.def.housing||0;storage+=b.def.storage||0;powerGen+=b.def.powerGen||0;powerUse+=b.def.powerUse||0;}this.cityScore=score;const oldTier=this.tier;this.tier=cityTier(score);this.housing=Math.max(1,housing);this.population=1+this.units.filter(u=>!u.dead).length;this.storage=Math.max(100,storage);this.powerGenerated=powerGen;this.powerUsed=powerUse;this.powerRatio=powerUse>0?clamp(powerGen/powerUse,0,1):1;this.signature=score+this.population*2+powerUse*2+this.world.buildings.size*.35;
-      for(const b of this.world.buildings.values())b.powered=!b.def.powerUse||this.powerRatio>.05;
+    refreshMetrics(force=false){let score=0,housing=0,storage=0,powerGen=0,powerUse=0;for(const b of this.world.buildings.values()){if(b.dead||!b.completed)continue;score+=b.def.score||0;housing+=b.def.housing||0;storage+=b.def.storage||0;if(b.def.powerGen)powerGen+=b.type==='generator'&&this.resources.fuel<=0?0:b.def.powerGen;powerUse+=b.def.powerUse||0;}this.cityScore=score;const oldTier=this.tier;this.tier=cityTier(score);this.housing=Math.max(1,housing);this.population=1+this.units.filter(u=>!u.dead).length;this.storage=Math.max(100,storage);this.powerGenerated=powerGen;this.powerUsed=powerUse;this.powerRatio=powerUse>0?clamp(powerGen/powerUse,0,1):1;this.signature=score+this.population*2+powerUse*2+this.world.buildings.size*.35;
+      this.allocatePower(powerGen);
       if(oldTier&&this.tier.id>oldTier.id){this.notify(`La colonie devient : ${this.tier.name}.`,'good');this.audio.siren();this.refreshBuildMenu(true);}else if(force)this.refreshBuildMenu(true);
     }
 
-    updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
+    updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='gather')this.objectiveProgress=this.depositedResources;else if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='power')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='generator').length;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='research')this.objectiveProgress=this.research.completed.length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
       if(this.objectiveProgress>=obj.target){add(this.resources,obj.reward,this.storage);this.notify(`Objectif accompli : ${obj.title}.`,'good');this.objectiveIndex++;this.objectiveProgress=0;this.audio.build();}}
 
+    hasResearch(id){return this.research.completed.includes(id);}
+    currentResearch(){return RESEARCH.find(item=>!this.hasResearch(item.id)&&item.tier<=this.tier.id)||null;}
+    launchResearch(){const item=this.currentResearch();if(!item){this.notify('Toutes les doctrines disponibles sont terminées.','good');return;}if(this.research.insight<item.insight){this.notify(`Insight insuffisant : ${item.insight} requis.`,'danger');return;}if(!spend(this.resources,item.cost)){this.notify(`Recherche : ${resourceText(item.cost)} requis.`,'danger');return;}this.research.insight-=item.insight;this.research.completed.push(item.id);this.notify(`${item.name} validée.`,'good');this.refreshMetrics(true);}
+    cyclePriority(){const b=this.selectedBuilding;if(!b||b.dead)return;b.priority=b.priority>=3?1:b.priority+1;this.notify(`${b.def.name} : priorité ${['','basse','normale','haute'][b.priority]}.`,'good');this.updateSelectionUI();}
+    allocatePower(available){const powered=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&b.def.powerUse).sort((a,b)=>powerPriority(a.def)-powerPriority(b.def)||(b.priority||2)-(a.priority||2));let remaining=available;for(const b of powered){const need=b.def.powerUse||0;if(remaining>=need){b.powered=true;b.powerShare=1;remaining-=need;}else{b.powered=false;b.powerShare=b.def.production?clamp(remaining/Math.max(1,need),0,1):0;if(b.powerShare>0)remaining=0;}}}
+    loadSettings(){const reducedMotion=Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches);try{return{reducedMotion,highContrast:false,muted:false,...JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}')}}catch{return{reducedMotion,highContrast:false,muted:false}}}
+    saveSettings(){try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(this.settings));}catch{}}
+    toggleAccessibility(){this.settings.highContrast=!this.settings.highContrast;document.body.classList.toggle('high-contrast',this.settings.highContrast);this.saveSettings();this.notify(this.settings.highContrast?'Contraste élevé activé.':'Contraste élevé désactivé.');}
+    toggleSound(){this.settings.muted=!this.settings.muted;this.audio.setMuted(this.settings.muted);this.saveSettings();this.notify(this.settings.muted?'Son coupé.':'Son activé.');this.updateUI();}
     daylight(){const angle=this.dayClock*Math.PI*2;return clamp(.5+Math.sin(angle-Math.PI/2)*.62,.08,1);}
 
     updateUI(){for(const key of RESOURCE_KEYS)this.resourceEls[key].textContent=formatNumber(this.resources[key]);this.ui.cityTier.textContent=this.tier.name;this.ui.populationValue.textContent=`${this.population}/${this.housing}`;this.ui.powerValue.textContent=`${Math.floor(this.powerGenerated)}/${Math.ceil(this.powerUsed)}`;this.ui.moraleValue.textContent=`${Math.floor(this.morale)}%`;this.ui.moraleValue.style.color=this.morale<35?'#d7867f':'';this.ui.waveNumber.textContent=this.wave;
       const labels={calm:'CALME RELATIF',warning:'MIGRATION DÉTECTÉE',assault:'ASSAUT EN COURS',aftermath:'SÉCURISATION'};this.ui.phaseLabel.textContent=labels[this.phase];this.ui.waveTimer.textContent=this.phase==='assault'?formatNumber(this.remainingAssault):formatTime(this.phaseTime);
       let threat=0;if(this.phase==='warning')threat=1-this.phaseTime/10;else if(this.phase==='assault')threat=clamp(.4+this.remainingAssault/Math.max(1,this.wavePlan?.total||this.remainingAssault)*.6,0,1);else if(this.phase==='aftermath')threat=.15;this.ui.threatFill.style.width=`${Math.round(threat*100)}%`;
-      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;else if(this.phase==='assault')this.ui.waveIntel.textContent=`${formatNumber(this.remainingAssault)} contacts actifs ou en approche. Les corps augmentent la pression contre les murs.`;else if(this.phase==='aftermath')this.ui.waveIntel.textContent='Nettoyage, réparations et récupération avant la prochaine migration.';else this.ui.waveIntel.textContent=`Signature de cité : ${Math.floor(this.signature)}. Plus la colonie grossit, plus les hordes sont attirées.`;
+      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;else if(this.phase==='assault')this.ui.waveIntel.textContent=`${formatNumber(this.remainingAssault)} contacts actifs ou en approche. Les corps augmentent la pression contre les murs.`;else if(this.phase==='aftermath')this.ui.waveIntel.textContent='Nettoyage, réparations et récupération avant la prochaine migration.';else this.ui.waveIntel.textContent=this.activeCrisis?`${this.activeCrisis.title} : ${this.activeCrisis.text}`:`Signature de cité : ${Math.floor(this.signature)}. Plus la colonie grossit, plus les hordes sont attirées.`;
       const obj=OBJECTIVES[this.objectiveIndex];if(obj){this.ui.objectiveTitle.textContent=obj.title;this.ui.objectiveText.textContent=obj.text;this.ui.objectiveFill.style.width=`${Math.min(100,this.objectiveProgress/obj.target*100)}%`;this.ui.objectiveCounter.textContent=`${Math.floor(Math.min(obj.target,this.objectiveProgress))} / ${obj.target}`;}else{this.ui.objectiveTitle.textContent='Développer la citadelle';this.ui.objectiveText.textContent='La campagne d’introduction est terminée. Construisez librement et survivez sans limite.';this.ui.objectiveFill.style.width='100%';this.ui.objectiveCounter.textContent='MODE INFINI';}
-      this.ui.interactionHint.classList.toggle('hidden',!this.interactionText);if(this.interactionText)this.ui.interactionHint.querySelector('span').textContent=this.interactionText;const w=WEAPONS[this.player.weapon];this.ui.weaponName.textContent=w.name;this.ui.weaponAmmo.textContent=`${this.player.magazine[this.player.weapon]} / ${Math.floor(this.resources.ammo)}`;this.ui.reloadBar.querySelector('span').style.width=this.player.reload>0?`${100-this.player.reload/Math.max(.01,this.player.reloadTotal)*100}%`:'0%';this.ui.carryValue.textContent=`${Math.floor(bagTotal(this.player.carry))}/${this.player.carryCapacity}`;this.ui.damageVignette.style.opacity=clamp((1-this.player.health/this.player.maxHealth)*.72+this.damageFlash,0,.8);
-      this.ui.recruitWorker.disabled=!this.canRecruit('worker');this.ui.recruitSoldier.disabled=!this.canRecruit('soldier');this.updateSelectionUI();}
+      this.ui.interactionHint.classList.toggle('hidden',!this.interactionText);if(this.interactionText)this.ui.interactionHint.querySelector('span').textContent=this.interactionText;const w=WEAPONS[this.player.weapon];this.ui.weaponName.textContent=w.name;this.ui.weaponAmmo.textContent=`${this.player.magazine[this.player.weapon]} / ${Math.floor(this.resources.ammo)}`;this.ui.reloadBar.querySelector('span').style.width=this.player.reload>0?`${100-this.player.reload/Math.max(.01,this.player.reloadTotal)*100}%`:'0%';this.ui.carryValue.textContent=`${Math.floor(bagTotal(this.player.carry))}/${this.player.carryCapacity}`;this.ui.damageVignette.style.opacity=this.settings.reducedMotion?0:clamp((1-this.player.health/this.player.maxHealth)*.72+this.damageFlash,0,.8);
+      const research=this.currentResearch();if(this.ui.researchName)this.ui.researchName.textContent=research?research.name:'Doctrines complètes';if(this.ui.researchInsight)this.ui.researchInsight.textContent=research?`${this.research.insight}/${research.insight} insight · ${resourceText(research.cost)}`:`${this.research.insight} insight`;if(this.ui.researchButton){this.ui.researchButton.disabled=!research||this.research.insight<research.insight||!canAfford(this.resources,research.cost);this.ui.researchButton.title=research?`${research.description} — ${resourceText(research.cost)}`:'Toutes les doctrines disponibles sont terminées.';}
+      if(this.ui.soundStatus)this.ui.soundStatus.textContent=this.settings.muted?'coupé':'activé';this.ui.recruitWorker.disabled=!this.canRecruit('worker');this.ui.recruitSoldier.disabled=!this.canRecruit('soldier');this.updateSelectionUI();}
 
-    updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;}
+    updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;}
 
     render(){const ctx=this.ctx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.fillStyle='#171c18';ctx.fillRect(0,0,this.width,this.height);const shakeX=this.camera.shake?(Math.random()-.5)*this.camera.shake:0,shakeY=this.camera.shake?(Math.random()-.5)*this.camera.shake:0;ctx.save();ctx.translate(this.width/2+shakeX,this.height/2+shakeY);ctx.scale(this.camera.zoom,this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);const view=this.viewBounds();this.drawGround(ctx,view);for(const node of this.world.nodes)if(!node.depleted&&this.visible(node.x,node.y,node.radius+20,view))this.drawNode(ctx,node);for(const corpse of this.corpses)if(this.visible(corpse.x,corpse.y,25,view))this.drawCorpse(ctx,corpse);const buildings=[...this.world.buildings.values()].filter(b=>!b.dead&&this.visible(b.x,b.y,Math.max(b.w,b.h)*TILE+40,view)).sort((a,b)=>a.y-b.y);for(const b of buildings)this.drawBuilding(ctx,b);for(const p of this.particles)if(this.visible(p.x,p.y,20,view))this.drawParticle(ctx,p);for(const u of this.units)if(!u.dead&&this.visible(u.x,u.y,28,view))this.drawUnit(ctx,u);for(const z of this.zombies)if(!z.dead&&this.visible(z.x,z.y,28,view))this.drawZombie(ctx,z);for(const p of this.projectiles)if(!p.dead&&this.visible(p.x,p.y,20,view))this.drawProjectile(ctx,p);if(!this.player.dead)this.drawPlayer(ctx);for(const f of this.floaters)if(this.visible(f.x,f.y,80,view))this.drawFloater(ctx,f);this.drawRally(ctx);this.drawPlacement(ctx);ctx.restore();this.drawNight(ctx);this.drawRain(ctx);this.drawThreatArrows(ctx);this.drawCrosshair(ctx);}
 
@@ -811,7 +864,7 @@
 
     drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=BUILDINGS[this.selectedBuild],cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 
-    drawNight(ctx){const darkness=clamp(1-this.daylight(),0,1)*.72;if(darkness<=.02)return;ctx.save();ctx.fillStyle=`rgba(4,8,12,${darkness})`;ctx.fillRect(0,0,this.width,this.height);ctx.globalCompositeOperation='screen';const lights=[{x:this.player.x,y:this.player.y,r:145,s:.2}];for(const b of this.world.buildings.values()){if(!b.completed||b.dead||!b.powered||!b.def.light||lights.length>90)continue;lights.push({x:b.x,y:b.y,r:b.def.light,s:.18});}for(const l of lights){const sx=(l.x-this.camera.x)*this.camera.zoom+this.width/2,sy=(l.y-this.camera.y)*this.camera.zoom+this.height/2,r=l.r*this.camera.zoom;if(sx+r<0||sx-r>this.width||sy+r<0||sy-r>this.height)continue;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,r);g.addColorStop(0,`rgba(255,218,143,${l.s})`);g.addColorStop(.5,`rgba(186,164,112,${l.s*.5})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fill();}ctx.restore();}
+    drawNight(ctx){const darkness=clamp(1-this.daylight(),0,1)*.72;if(darkness<=.02)return;ctx.save();ctx.fillStyle=`rgba(4,8,12,${darkness})`;ctx.fillRect(0,0,this.width,this.height);ctx.globalCompositeOperation='screen';const lights=[{x:this.player.x,y:this.player.y,r:145,s:.2}];for(const b of this.world.buildings.values()){if(!b.completed||b.dead||!b.powered||!b.def.light||lights.length>=PERFORMANCE_LIMITS.lights)continue;lights.push({x:b.x,y:b.y,r:b.def.light,s:.18});}for(const l of lights){const sx=(l.x-this.camera.x)*this.camera.zoom+this.width/2,sy=(l.y-this.camera.y)*this.camera.zoom+this.height/2,r=l.r*this.camera.zoom;if(sx+r<0||sx-r>this.width||sy+r<0||sy-r>this.height)continue;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,r);g.addColorStop(0,`rgba(255,218,143,${l.s})`);g.addColorStop(.5,`rgba(186,164,112,${l.s*.5})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fill();}ctx.restore();}
 
     drawRain(ctx){if(this.weather<.02)return;ctx.save();ctx.strokeStyle=`rgba(180,195,196,${.08+this.weather*.12})`;ctx.lineWidth=1;const count=Math.floor(45+this.weather*90);for(let i=0;i<count;i++){const x=(seededHash(i,Math.floor(this.elapsed*3),22)*(this.width+200)-100+this.elapsed*110)%(this.width+200)-100,y=(seededHash(i,5,31)*this.height+this.elapsed*(260+i%70))%this.height;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-7,y+17);ctx.stroke();}ctx.restore();}
 

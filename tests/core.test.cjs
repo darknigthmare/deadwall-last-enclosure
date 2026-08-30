@@ -53,3 +53,31 @@ test('génération déterministe et file de priorité', () => {
   assert.equal(heap.pop().index, 3);
   assert.equal(heap.pop().index, 1);
 });
+
+
+test('sauvegardes v2: migration non destructive et état stratégique', () => {
+  assert.equal(C.SAVE_VERSION, 2);
+  const migrated = C.migrateSaveData({ version: 1, stats: { gathered: 44 }, wave: 3 });
+  assert.equal(migrated.version, 2);
+  assert.equal(migrated.migratedFrom, 1);
+  assert.equal(migrated.depositedResources, 44);
+  assert.deepEqual(migrated.research.completed, []);
+});
+
+test('enceintes: ligne supercover sans diagonale poreuse', () => {
+  const cells = C.wallLine({ x: 10, y: 10 }, { x: 13, y: 13 });
+  for (let i = 1; i < cells.length; i += 1) {
+    const dx = Math.abs(cells[i].x - cells[i - 1].x);
+    const dy = Math.abs(cells[i].y - cells[i - 1].y);
+    assert.ok(dx + dy === 1 || (dx === 0 && dy === 0), 'la ligne ne doit pas créer de contact diagonal seul');
+  }
+  assert.ok(cells.length > 4);
+});
+
+test('équilibrage: la santé zombie est plafonnée et les priorités énergie sont stables', () => {
+  assert.ok(C.enemyHealthScale(500) < 1.35);
+  assert.ok(C.wavePlan(100, C.DIFFICULTIES.standard, 0).total > C.wavePlan(20, C.DIFFICULTIES.standard, 0).total);
+  assert.ok(C.powerPriority(C.BUILDINGS.turret) < C.powerPriority(C.BUILDINGS.workshop));
+  assert.ok(C.researchById('logistics'));
+  assert.ok(C.crisisForWave(5, 17117));
+});
