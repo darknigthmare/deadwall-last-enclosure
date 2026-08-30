@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111513">
+  <title>DEADWALL — La Dernière Enceinte</title>
+  <meta name="description" content="Jeu de défense de cité zombie, construction et hordes infinies.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
+
+  <div id="hud" class="hidden">
+    <header id="topbar">
+      <div class="brand-mini"><span class="brand-mark">DW</span><div><strong>DEADWALL</strong><small id="cityTier">REFUGE</small></div></div>
+      <div id="resources" class="resource-strip"></div>
+      <div class="status-strip">
+        <div><small>POP.</small><strong id="populationValue">0/0</strong></div>
+        <div><small>ÉNERGIE</small><strong id="powerValue">0/0</strong></div>
+        <div><small>MORAL</small><strong id="moraleValue">100%</strong></div>
+      </div>
+      <button id="pauseButton" class="icon-button" title="Pause (Échap)">Ⅱ</button>
+    </header>
+
+    <aside id="leftPanel" class="panel build-panel">
+      <div class="panel-head"><div><small>COMMANDER</small><h2>CONSTRUCTION</h2></div><button id="toggleBuild" class="tiny-button">‹</button></div>
+      <div id="buildCategories" class="tabs"></div>
+      <div id="buildList" class="build-list"></div>
+      <div class="build-help"><span><kbd>B</kbd> catalogue</span><span><kbd>Clic</kbd> placer</span><span><kbd>Clic droit</kbd> annuler/sélectionner</span></div>
+    </aside>
+
+    <aside id="rightPanel" class="panel intel-panel">
+      <section class="wave-card">
+        <div class="wave-heading"><div><small id="phaseLabel">CALME RELATIF</small><h2>VAGUE <span id="waveNumber">1</span></h2></div><strong id="waveTimer">01:20</strong></div>
+        <div class="threat-meter"><span id="threatFill"></span></div>
+        <p id="waveIntel">Les éclaireurs surveillent les voies d’approche.</p>
+      </section>
+      <section class="objective-card">
+        <small>OBJECTIF ACTUEL</small><h3 id="objectiveTitle">Établir le refuge</h3>
+        <p id="objectiveText">Récoltez et préparez la première ligne.</p>
+        <div class="objective-progress"><span id="objectiveFill"></span></div><strong id="objectiveCounter">0 / 1</strong>
+      </section>
+      <section id="selectionCard" class="selection-card hidden">
+        <div class="selection-title"><small>SÉLECTION</small><button id="closeSelection">×</button></div>
+        <h3 id="selectionName">Structure</h3><p id="selectionDescription"></p>
+        <div class="health-line"><span id="selectionHealthFill"></span></div>
+        <div class="selection-stats" id="selectionStats"></div>
+        <div class="selection-actions"><button id="repairSelected">RÉPARER</button><button id="upgradeSelected">AMÉLIORER</button><button id="demolishSelected" class="danger">DÉMOLIR</button></div>
+      </section>
+      <section class="command-card">
+        <small>RENFORTS & ORDRES</small>
+        <div class="command-grid">
+          <button id="recruitWorker"><span>OUVRIER</span><small>25 nourriture</small></button>
+          <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions</small></button>
+          <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
+          <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
+        </div>
+      </section>
+    </aside>
+
+    <div id="bottomHud">
+      <div class="weapon-panel"><div id="weaponName">PISTOLET</div><strong id="weaponAmmo">12 / 120</strong><div id="reloadBar"><span></span></div></div>
+      <div id="interactionHint" class="interaction-hint hidden"><kbd>E</kbd><span>Interagir</span></div>
+      <div class="controls-hint"><span><kbd>ZQSD</kbd> bouger</span><span><kbd>Shift</kbd> sprinter</span><span><kbd>Molette</kbd> zoom</span><span><kbd>1–3</kbd> armes</span></div>
+    </div>
+
+    <div id="minimapWrap" class="minimap-wrap"><canvas id="minimap" width="220" height="220"></canvas><div class="minimap-label">SECTEUR D-17</div></div>
+    <div id="notifications" class="notifications"></div>
+    <div id="carryIndicator" class="carry-indicator">SAC <strong id="carryValue">0/36</strong></div>
+    <div id="damageVignette"></div>
+  </div>
+
+  <div id="mainMenu" class="overlay menu-overlay">
+    <div class="menu-backdrop"></div>
+    <main class="menu-card">
+      <div class="eyebrow">PROTOCOLE DE RECONSTRUCTION // SECTEUR D-17</div>
+      <h1>DEAD<span>WALL</span></h1><p class="subtitle">LA DERNIÈRE ENCEINTE</p>
+      <p class="pitch">Récoltez. Fortifiez. Automatisez. Transformez un dépôt abandonné en mégacité avant que la région entière converge vers vos lumières.</p>
+      <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">COMMANDES & SYSTÈMES</button></div>
+      <div class="difficulty-row"><span>DIFFICULTÉ</span><label><input type="radio" name="difficulty" value="story"> Survivant</label><label><input type="radio" name="difficulty" value="standard" checked> Standard</label><label><input type="radio" name="difficulty" value="brutal"> Brutal</label></div>
+      <footer>Version 1.0 · Jeu autonome · Aucun asset ou service externe</footer>
+    </main>
+  </div>
+
+  <div id="pauseMenu" class="overlay hidden"><main class="modal-card"><small>COMMANDEMENT SUSPENDU</small><h2>PAUSE</h2><button id="resumeButton" class="primary">REPRENDRE</button><button id="saveButton">SAUVEGARDER</button><button id="helpPauseButton">COMMANDES</button><button id="quitButton" class="danger">RETOUR AU MENU</button></main></div>
+
+  <div id="helpModal" class="overlay hidden"><main class="help-card"><button id="closeHelp" class="close-modal">×</button><small>MANUEL DE TERRAIN</small><h2>COMMANDES & SYSTÈMES</h2>
+    <div class="help-grid">
+      <section><h3>Survivant</h3><p><kbd>ZQSD</kbd> / flèches : déplacement<br><kbd>Shift</kbd> : sprint<br><kbd>E</kbd> : récolter, déposer, construire<br><kbd>Espace</kbd> : coup de crosse</p></section>
+      <section><h3>Combat</h3><p>Souris : viser<br>Clic gauche : tirer<br><kbd>R</kbd> : recharger<br><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> : armes</p></section>
+      <section><h3>Construction</h3><p><kbd>B</kbd> : catalogue<br>Clic : poser<br>Pour les murs : cliquez, tirez une ligne, relâchez<br>Clic droit : annuler ou sélectionner</p></section>
+      <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
+      <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
+      <section><h3>Commandement</h3><p>Les fusiliers rejoignent le point de ralliement et engagent automatiquement. La cité consomme nourriture, électricité et munitions en continu.</p></section>
+    </div>
+  </main></div>
+
+  <div id="gameOver" class="overlay hidden"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2>LA CITÉ EST TOMBÉE</h2><p id="gameOverStats"></p><button id="restartButton" class="primary">RECOMMENCER</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
+
+  <noscript>JavaScript doit être activé.</noscript>
+  <script src="src/core.js"></script>
+  <script src="src/game.js"></script>
+</body>
+</html>

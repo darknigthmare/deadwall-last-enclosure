@@ -1,0 +1,17 @@
+BRIEF ORIGINAL — DARKNIGTHMARE
+
+Créer un jeu vidéo inspiré du sentiment de progression des publicités de construction de royaume, avec une zone à défendre contre des hordes infinies. Le joueur récolte des ressources et achète directement au sol des tourelles, murs, unités, moyens de production et infrastructures. La colonie et les ennemis doivent grossir continuellement jusqu’à former une cité géante protégée par plusieurs rangées de remparts, avec une sensation d’échelle comparable aux enceintes d’Attack on Titan.
+
+L’univers doit être zombie, sérieux et réaliste, avec une direction semi-réaliste. La difficulté doit venir du nombre, de la pression, des brèches, du manque de ressources, des munitions et de la logistique, plutôt que de zombies fantaisistes transformés en boss à très grande barre de vie.
+
+La boucle essentielle à préserver :
+1. explorer et récolter ;
+2. ramener les ressources ;
+3. financer des chantiers visibles au sol ;
+4. défendre la première zone ;
+5. recruter et automatiser ;
+6. agrandir la cité ;
+7. construire plusieurs enceintes ;
+8. survivre à des hordes de plus en plus vastes ;
+9. perdre éventuellement un secteur, se replier puis le reconquérir ;
+10. continuer sans limite fixe vers une mégacité.

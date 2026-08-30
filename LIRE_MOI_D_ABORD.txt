@@ -1,0 +1,28 @@
+DEADWALL — LA DERNIÈRE ENCEINTE
+
+LANCEMENT IMMÉDIAT
+
+1. Ouvrez DEADWALL_Standalone.html par double-clic.
+2. Cliquez sur NOUVELLE PARTIE.
+3. Choisissez Survivant pour découvrir les systèmes ou Standard pour l’équilibrage de référence.
+
+AUTRE MÉTHODE
+
+- Windows : double-cliquez sur start_windows.bat.
+- Linux/macOS : exécutez ./start_linux.sh.
+- Adresse locale : http://localhost:4173
+
+COMMANDES ESSENTIELLES
+
+ZQSD/WASD : déplacement
+Souris + clic gauche : viser et tirer
+E : récolter, déposer ou construire
+Maj : sprinter
+Espace : mêlée
+R : recharger / tourner une structure pendant le placement
+B : catalogue
+Clic-glissé : tracer les murs
+Clic droit : annuler ou sélectionner
+Échap : pause
+
+Le dossier docs contient le design complet, l’architecture, l’équilibrage, la roadmap 3D et le prompt maître Codex.
