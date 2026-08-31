@@ -7,7 +7,7 @@ const { resolvePublicFile, isGameDocument, isWithin, desktopHtml, isSaveExport, 
 const root = path.resolve('desktop-test-public');
 
 test('desktop protocol serves only the public game surface', () => {
-  for (const file of ['index.html','styles.css','manifest.json','src/core.js','src/game.js','assets/art/terrain-v2.webp']) assert.equal(resolvePublicFile(root, `deadwall://game/${file}`), path.join(root, file));
+  for (const file of ['index.html','styles.css','settings.css','command.css','manifest.json','src/core.js','src/game.js','src/tactics.js','src/profile.js','src/command-ui.js','assets/art/terrain-v2.webp']) assert.equal(resolvePublicFile(root, `deadwall://game/${file}`), path.join(root, file));
   for (const file of ['package.json','.env','.git/config','desktop/main.cjs','sw.js','assets/private.txt','assets/key.pem','src/../../package.json','../package.json','%2e%2e/package.json','assets/%2e%2e/%2e%2e/package.json','assets/%252e%252e/test.png','assets%2ficon.png','assets\\icon.png','assets/icon.png%00','assets/icon.png:secret']) assert.equal(resolvePublicFile(root, `deadwall://game/${file}`), null, file);
 });
 

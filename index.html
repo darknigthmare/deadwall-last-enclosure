@@ -10,6 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="settings.css">
+  <link rel="stylesheet" href="command.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -59,6 +60,7 @@
       <section class="command-card">
         <small>RENFORTS & ORDRES</small>
         <div class="command-grid">
+          <button id="cityCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>POSTE DE COMMANDEMENT</span><small id="enclosureStatus">PÉRIMÈTRE OUVERT</small></button>
           <button id="recruitWorker"><span>OUVRIER</span><small>25 nourriture</small></button>
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
@@ -100,12 +102,39 @@
           <label class="difficulty-option"><input type="radio" name="difficulty" value="brutal"><span><strong>BRUTAL</strong><small>Fronts agressifs · Erreurs coûteuses</small></span></label>
         </div>
       </div>
+      <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
+      <p class="seed-hint" id="seedHint">0 à 4 294 967 295. Une même graine reproduit le terrain et ses ressources, pas le déroulement des combats.</p>
       <footer><span>VERSION 1.0.0</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
     </main>
     <div class="menu-scene-caption" aria-hidden="true"><span>ARCHIVES DU SECTEUR D-17</span><strong>CHAQUE ENCEINTE<br>EST UNE SECONDE CHANCE.</strong><small>Reconstruire. Tenir. Recommencer.</small></div>
   </div>
 
-  <div id="pauseMenu" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><main class="modal-card"><small>COMMANDEMENT SUSPENDU</small><h2 id="pauseTitle">PAUSE</h2><button id="resumeButton" class="primary">REPRENDRE</button><button id="saveButton">SAUVEGARDER</button><button id="helpPauseButton">COMMANDES</button><button id="pauseSettingsButton">PARAMÈTRES & SAUVEGARDES</button><button id="quitButton" class="danger">RETOUR AU MENU</button></main></div>
+  <div id="pauseMenu" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><main class="modal-card"><small>COMMANDEMENT SUSPENDU</small><h2 id="pauseTitle">PAUSE</h2><button id="resumeButton" class="primary">REPRENDRE</button><button id="saveButton">SAUVEGARDER</button><button id="pauseCommandButton" aria-haspopup="dialog" aria-controls="commandModal">POSTE DE COMMANDEMENT</button><button id="helpPauseButton">COMMANDES</button><button id="pauseSettingsButton">PARAMÈTRES & SAUVEGARDES</button><button id="quitButton" class="danger">RETOUR AU MENU</button></main></div>
+
+  <div id="commandModal" class="overlay command-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="commandTitle">
+    <main class="command-post">
+      <header class="command-heading"><button id="commandClose" class="close-modal" aria-label="Fermer le poste de commandement">×</button><small>ÉTAT-MAJOR // SECTEUR D-17</small><h2 id="commandTitle">POSTE DE COMMANDEMENT</h2><p id="commandContext">ACTION SUSPENDUE</p></header>
+      <nav class="command-tabs" role="tablist" aria-label="Dossiers tactiques">
+        <button id="commandTab-enclosure" role="tab" aria-controls="commandPanel-enclosure" aria-selected="true">ENCEINTE</button>
+        <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">OUVRIERS</button>
+        <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
+        <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
+      </nav>
+      <div class="command-body">
+        <section id="commandPanel-enclosure" role="tabpanel" aria-labelledby="commandTab-enclosure">
+          <div class="perimeter-summary"><strong id="perimeterResult">CENTRE EXPOSÉ</strong><p id="perimeterDetails"></p></div>
+          <p id="perimeterAdvice" class="command-note"></p>
+          <div class="gate-controls"><label for="commandGate">PORTE À COMMANDER<select id="commandGate"></select></label><div class="gate-modes" role="group" aria-label="Passage de la porte"><button id="gateMode-auto" aria-pressed="false">AUTO</button><button id="gateMode-open" aria-pressed="false">OUVERTE</button><button id="gateMode-closed" aria-pressed="false">VERROUILLÉE</button></div></div>
+          <p id="gateEmpty" class="command-note">Construisez une porte pour relier votre enceinte aux ressources extérieures.</p>
+          <p class="command-note"><strong>AUTO</strong> laisse passer vos alliés et retient les infectés. <strong>OUVERTE</strong> laisse passer tout le monde. <strong>VERROUILLÉE</strong> bloque les deux camps ; le passage doit être libre. Aucune porte n’est à l’abri des dégâts ou des rampes de corps.</p>
+        </section>
+        <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les fusiliers conservent leur point de ralliement.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p></section>
+        <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
+        <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
+      </div>
+      <p id="commandStatus" class="command-status" role="status" aria-live="polite"></p>
+    </main>
+  </div>
 
   <div id="settingsModal" class="overlay settings-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><main class="settings-card"><button id="settingsClose" class="close-modal" type="button" aria-label="Fermer les paramètres">×</button><small>POSTE DE COMMANDEMENT</small><h2 id="settingsTitle">PARAMÈTRES</h2>
     <fieldset><legend>SON & CONFORT</legend><label class="settings-row" for="settingsVolume"><span>Volume <output id="settingsVolumeValue" for="settingsVolume">70 %</output></span><input id="settingsVolume" type="range" min="0" max="100" value="70"></label><label class="settings-row" for="settingsMuted">Couper le son<input id="settingsMuted" type="checkbox"></label><label class="settings-row" for="settingsContrast">Contraste élevé<input id="settingsContrast" type="checkbox"></label><label class="settings-row" for="settingsMotion">Réduire les animations et secousses<input id="settingsMotion" type="checkbox"></label><label class="settings-row" for="settingsQuality">Qualité d’affichage<select id="settingsQuality"><option value="auto">Automatique</option><option value="low">Légère · résolution réduite</option></select></label></fieldset>
@@ -120,7 +149,7 @@
       <section><h3>Construction</h3><p><kbd>B</kbd> : catalogue<br>Clic : poser<br>Pour les murs : cliquez, tirez une ligne, relâchez<br>Clic droit : annuler ou sélectionner</p></section>
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
-      <section><h3>Commandement</h3><p>Les fusiliers rejoignent le point de ralliement et engagent automatiquement. La cité consomme nourriture, électricité et munitions en continu.</p></section>
+      <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers gardent leur point de ralliement.</p></section>
       <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire ; <strong>FEU</strong> vise la menace la plus proche. Faites glisser au sol pour tracer les murs, touchez une structure pour la sélectionner. Le volet <strong>ACTIONS</strong> donne accès aux armes, à la crosse, au sprint, au zoom, à la rotation et à l’annulation.</p></section>
     </div>
   </main></div>
@@ -130,9 +159,12 @@
   <noscript>JavaScript doit être activé.</noscript>
   <script src="src/core.js"></script>
   <script src="src/save.js"></script>
+  <script src="src/tactics.js"></script>
+  <script src="src/profile.js"></script>
   <script src="src/art.js"></script>
   <script src="src/game.js"></script>
   <script src="src/ui.js"></script>
+  <script src="src/command-ui.js"></script>
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

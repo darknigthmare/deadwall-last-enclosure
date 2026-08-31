@@ -14,3 +14,7 @@ jobs:
           node-version: 22
       - name: Vérification complète
         run: npm run check
+      - name: Endurance logique de deux campagnes
+        env:
+          DEADWALL_SOAK: '1'
+        run: node --test tests/soak.test.cjs

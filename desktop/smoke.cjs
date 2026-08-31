@@ -7,6 +7,10 @@ const path = require('node:path');
 async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, stage, gameURL }) {
   assert.ok(['create','restore'].includes(stage), 'Unknown desktop verification stage');
   fs.mkdirSync(reportRoot, { recursive:true });
+  const network = { completed:[], failed:[] };
+  // Observe completion/errors only; never replace the shell's onBeforeRequest blocker.
+  window.webContents.session.webRequest.onCompleted(details => network.completed.push({url:details.url,status:details.statusCode}));
+  window.webContents.session.webRequest.onErrorOccurred(details => network.failed.push({url:details.url,error:details.error}));
   const errors = [];
   let consoleObserverVerified = false;
   window.webContents.on('console-message', details => {
@@ -33,7 +37,41 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   assert.equal(preferences.sandbox, true);
   assert.equal(preferences.nodeIntegration, false);
   assert.equal(preferences.webSecurity, true);
+  const assets = await window.webContents.executeJavaScript(`(async () => {
+    const game=globalThis.DEADWALL; await game.art.ready;
+    return {...game.art.diagnostics,images:Object.keys(game.art.images).length};
+  })()`);
+  assert.equal(assets.ready.length, 7, 'All seven original bitmap atlases must load in the executable');
+  assert.deepEqual(assets.failed, [], 'No atlas may silently fall back to missing art');
+  assert.equal(assets.images, 7);
+  const localResources = await window.webContents.executeJavaScript(`({
+    modules:{tactics:typeof globalThis.DeadwallTactics,profile:typeof globalThis.DeadwallProfile,command:typeof globalThis.DEADWALL.showCommand},
+    urls:performance.getEntriesByType('resource').map(item=>item.name),
+    scripts:[...document.scripts].map(script=>script.src).filter(Boolean),
+    styles:[...document.styleSheets].map(sheet=>({href:sheet.href,rules:sheet.cssRules.length}))
+  })`);
+  assert.deepEqual(localResources.modules, {tactics:'object',profile:'object',command:'function'});
+  for (const file of ['src/tactics.js','src/profile.js','src/command-ui.js']) assert.ok(localResources.scripts.includes(new URL(file, gameURL).href), `${file} must initialize from the local document`);
+  assert.ok(localResources.styles.some(sheet=>sheet.href===new URL('command.css',gameURL).href && sheet.rules>0), 'Command stylesheet must have loaded rules');
+  assert.ok(localResources.urls.every(url => url.startsWith('deadwall://game/') || url.startsWith('data:') || url.startsWith('blob:deadwall://game/')), 'Initial game resources have no external origins');
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-menu.png`), (await window.webContents.capturePage()).toPNG());
+
+  let menuRecords = null;
+  if (stage === 'restore') {
+    const expected = JSON.parse(await fs.promises.readFile(path.join(reportRoot, 'expected-save.json'), 'utf8'));
+    menuRecords = await window.webContents.executeJavaScript(`(() => {
+      const game=globalThis.DEADWALL,get=id=>document.getElementById(id),original=game.world;
+      get('menuRecordsButton').click();
+      if(get('commandModal').classList.contains('hidden') || game.activeOverlay!==get('commandModal')) throw new Error('Menu records did not open');
+      if(get('commandTab-records').getAttribute('aria-selected')!=='true' || !get('commandTab-workers').disabled) throw new Error('Menu archives expose invalid tactical controls');
+      const profile=game.profile.get(),run=profile.recentRuns.find(item=>item.runId===${JSON.stringify(expected.runId)});
+      if(!run || run.seed!==17117 || profile.summary.retainedRuns!==1) throw new Error('Campaign records did not survive process restart');
+      if(get('recordBoard').children.length!==3 || get('recentCampaigns').querySelectorAll('.campaign-row').length!==1) throw new Error('Saved record cards are missing');
+      get('recentCampaigns').querySelector('button').click();
+      if(get('mapSeed').value!=='17117' || game.world!==original || game.state!=='menu' || !get('commandModal').classList.contains('hidden')) throw new Error('Reusing a seed mutated the campaign');
+      return {restored:true,runIds:profile.recentRuns.map(item=>item.runId),retainedRuns:profile.summary.retainedRuns,difficultyCards:3,reuseWithoutMutation:true};
+    })()`, true);
+  }
 
   const settings = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL,get=id=>document.getElementById(id);
@@ -51,19 +89,52 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   let save;
   if (stage === 'create') {
     save = await window.webContents.executeJavaScript(`(() => {
-      const game=globalThis.DEADWALL; game.startNew('story'); game.togglePause(true);
+      const game=globalThis.DEADWALL,get=id=>document.getElementById(id);
+      document.querySelector('input[name="difficulty"][value="story"]').checked=true;
+      get('mapSeed').value='17117';get('mapSeed').dispatchEvent(new Event('input',{bubbles:true}));
+      get('newGameButton').click();game.togglePause(true);
+      if(game.world.seed!==17117 || game.difficulty.id!=='story') throw new Error('Menu seed/difficulty controls were not applied');
       game.resources.wood=137; game.player.x+=32;
-      return {seed:game.world.seed, wood:game.resources.wood, x:game.player.x};
+      return {seed:game.world.seed, wood:game.resources.wood, x:game.player.x,runId:game.runId,workerOrder:game.workerOrder};
     })()`, true);
     await fs.promises.writeFile(path.join(reportRoot, 'expected-save.json'), JSON.stringify(save));
   } else {
     const expected = JSON.parse(await fs.promises.readFile(path.join(reportRoot, 'expected-save.json'), 'utf8'));
     save = await window.webContents.executeJavaScript(`(() => {
-      const game=globalThis.DEADWALL; game.load(); game.togglePause(true);
-      return {seed:game.world.seed, wood:game.resources.wood, x:game.player.x};
+      const game=globalThis.DEADWALL; document.getElementById('continueButton').click(); game.togglePause(true);
+      return {seed:game.world.seed, wood:game.resources.wood, x:game.player.x,runId:game.runId,workerOrder:game.workerOrder};
     })()`, true);
     assert.deepEqual(save, expected, 'Save must survive closing and reopening the executable');
   }
+  const commandPost = await window.webContents.executeJavaScript(`(async () => {
+    const game=globalThis.DEADWALL,get=id=>document.getElementById(id),elapsed=game.elapsed;
+    get('pauseCommandButton').click();
+    if(get('commandModal').classList.contains('hidden') || !game.paused || game.activeOverlay!==get('commandModal')) throw new Error('Paused command post did not open');
+    await new Promise(resolve=>setTimeout(resolve,160));
+    if(game.elapsed!==elapsed) throw new Error('Simulation advanced behind command post');
+    get('commandTab-workers').click();
+    const order=document.querySelector('[data-worker-order="retreat"]');order.click();
+    if(game.workerOrder!=='retreat' || order.getAttribute('aria-pressed')!=='true') throw new Error('Worker command button did not apply');
+    get('commandTab-research').click();
+    const doctrines=[...get('researchLibrary').querySelectorAll('[data-research-id]')].map(card=>({id:card.dataset.researchId,state:card.dataset.state,disabled:card.querySelector('button').disabled,title:card.querySelector('h3').textContent}));
+    if(doctrines.length!==6 || new Set(doctrines.map(item=>item.id)).size!==6 || doctrines.some(item=>!item.title || !['locked','unfunded','available','complete'].includes(item.state))) throw new Error('Doctrine library is incomplete');
+    if(doctrines.some(item=>['locked','unfunded','complete'].includes(item.state)&&!item.disabled)) throw new Error('Unavailable doctrine became actionable');
+    return {openedFromPause:true,simulationSuspended:true,workerOrder:game.workerOrder,doctrines};
+  })()`, true);
+  await fs.promises.writeFile(path.join(reportRoot, `${stage}-command-doctrines.png`), (await window.webContents.capturePage()).toPNG());
+  const commandClosure = await window.webContents.executeJavaScript(`(() => {
+    const game=globalThis.DEADWALL,get=id=>document.getElementById(id);
+    get('commandTab-records').click();
+    if(get('recordBoard').children.length!==3 || get('recentCampaigns').querySelectorAll('.campaign-row').length!==1) throw new Error('In-game local records are missing');
+    get('commandClose').click();if(!game.paused || !get('commandModal').classList.contains('hidden')) throw new Error('Command closure lost the original pause');
+    game.togglePause(false);get('cityCommandButton').click();
+    if(!game.paused || get('commandModal').classList.contains('hidden')) throw new Error('Command post failed to pause active gameplay');
+    get('commandClose').click();if(game.paused) throw new Error('Command closure failed to resume active gameplay');
+    game.togglePause(true);
+    return {pausePreserved:true,openedFromGameplay:true,resumedGameplay:true,localRecords:true};
+  })()`, true);
+  Object.assign(commandPost, commandClosure);
+  save.workerOrder = commandPost.workerOrder;
   const painted = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL; game.render();
     const pixels=game.ctx.getImageData(0,0,game.canvas.width,game.canvas.height).data;
@@ -84,6 +155,8 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   const exportedSave = JSON.parse(await fs.promises.readFile(exportPath, 'utf8'));
   assert.equal(exportedSave.worldSeed, save.seed);
   assert.equal(exportedSave.resources.wood, save.wood);
+  assert.equal(exportedSave.runId, save.runId);
+  assert.equal(exportedSave.workerOrder, 'retreat', 'Tactical order belongs to the exported campaign');
 
   const imports = await window.webContents.executeJavaScript(`(async () => {
     const game=globalThis.DEADWALL,get=id=>document.getElementById(id),input=get('settingsImportFile');
@@ -97,7 +170,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     await choose('{invalid');
     if(!get('settingsStatus').textContent.includes('Import refusé') || game.world!==original) throw new Error('Corrupt import was not rejected safely');
     await choose(source);get('settingsImportConfirm').click();
-    if(game.world===original || game.world.seed!==${save.seed} || game.resources.wood!==${save.wood}) throw new Error('Confirmed import failed');
+    if(game.world===original || game.world.seed!==${save.seed} || game.resources.wood!==${save.wood} || game.workerOrder!=='retreat' || game.runId!==${JSON.stringify(save.runId)}) throw new Error('Confirmed import failed');
     game.togglePause(true);
     return {preview:true,cancel:true,corruptRejected:true,confirmed:true};
   })()`, true);
@@ -118,10 +191,11 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   }
 
   const routes = {};
-  for (const pathname of ['/index.html','/styles.css','/src/core.js','/assets/icon-512.png','/package.json','/.env','/.git/config','/desktop/main.cjs','/../package.json','/%2e%2e/package.json','/assets/missing.png']) {
+  const publicPaths = ['/index.html','/styles.css','/command.css','/src/core.js','/src/tactics.js','/src/profile.js','/src/command-ui.js','/assets/icon-512.png'];
+  for (const pathname of [...publicPaths,'/package.json','/.env','/.git/config','/desktop/main.cjs','/../package.json','/%2e%2e/package.json','/assets/missing.png']) {
     const response = await serveGame({ url:`deadwall://game${pathname}`, method:'GET' });
     routes[pathname] = response.status;
-    assert.equal(response.status, ['/index.html','/styles.css','/src/core.js','/assets/icon-512.png'].includes(pathname) ? 200 : 404);
+    assert.equal(response.status, publicPaths.includes(pathname) ? 200 : 404);
   }
   assert.equal((await serveGame({ url:gameURL, method:'POST' })).status, 405);
   let externalBlocked = false;
@@ -132,16 +206,18 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   await window.webContents.executeJavaScript("location.href='https://example.com/'");
   await new Promise(resolve => setTimeout(resolve, 150));
   assert.equal(window.webContents.getURL(), gameURL, 'External navigation must be blocked');
+  assert.deepEqual(network.completed.filter(item=>/^(?:https?|wss?|ftp|file):/i.test(item.url)), [], 'No external network request completed');
+  assert.ok(network.failed.some(item=>item.url==='https://example.com/'), 'Native network observer saw the intentionally blocked request');
   assert.deepEqual(errors, [], 'No renderer console errors');
   assert.deepEqual(failedLoads, [], 'No failed document loads');
   if (stage === 'create') {
     save = await window.webContents.executeJavaScript(`(() => {
       const game=globalThis.DEADWALL; game.resources.wood=138;
-      return {seed:game.world.seed,wood:game.resources.wood,x:game.player.x};
+      return {seed:game.world.seed,wood:game.resources.wood,x:game.player.x,runId:game.runId,workerOrder:game.workerOrder};
     })()`);
     await fs.promises.writeFile(path.join(reportRoot, 'expected-save.json'), JSON.stringify(save));
   }
-  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
+  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, localResources, network, menuRecords, commandPost, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-report.json`), JSON.stringify(report, null, 2));
   console.log(`DEADWALL desktop ${stage} verification passed`);
   // The first stage deliberately leaves its latest changes unsaved: this verifies normal close.

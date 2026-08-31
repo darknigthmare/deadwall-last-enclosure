@@ -102,7 +102,7 @@ function installFakeBrowser() {
     addEventListener(type, handler) { listen(documentListeners, type, handler); }
   };
   const tree = {
-    body: ['game','hud','mainMenu','pauseMenu','helpModal','gameOver','settingsModal'],
+    body: ['game','hud','mainMenu','pauseMenu','helpModal','gameOver','settingsModal','commandModal'],
     hud: ['leftPanel','rightPanel','touchControls','pauseButton','resources','topbar'],
     leftPanel: ['toggleBuild','buildCategories','buildList'],
     rightPanel: ['recruitWorker','recruitSoldier','repairSelected','upgradeSelected','demolishSelected','prioritySelected','researchButton','settingsToggle','soundToggle','setRally','repairAll','closeSelection'],
@@ -116,7 +116,7 @@ function installFakeBrowser() {
   const review=document.getElementById('settingsImportReview');review.classList.add('hidden');document.getElementById('settingsModal').appendChild(review);
   for(const id of ['settingsImportSummary','settingsImportConfirm','settingsImportCancel']){const node=document.getElementById(id);node.tagName=id==='settingsImportSummary'?'P':'BUTTON';review.appendChild(node);}
   document.getElementById('menuSettingsButton').tagName='BUTTON';
-  for (const id of ['hud','pauseMenu','helpModal','gameOver','settingsModal']) document.getElementById(id).classList.add('hidden');
+  for (const id of ['hud','pauseMenu','helpModal','gameOver','settingsModal','commandModal']) document.getElementById(id).classList.add('hidden');
   for (const value of ['story','standard','brutal']) { const difficulty = document.getElementById(`difficulty${value[0].toUpperCase()}${value.slice(1)}`); difficulty.tagName = 'INPUT'; difficulty.type = 'radio'; difficulty.name = 'difficulty'; difficulty.value = value; difficulty.checked = value === 'standard'; }
   const buildHelp = new FakeElement(); buildHelp.classList.add('build-help'); document.getElementById('leftPanel').appendChild(buildHelp);
   for (const dir of ['up','left','right','down']) { const button = new FakeElement('button'); button.dataset.dir = dir; document.getElementById('touchControls').appendChild(button); }
@@ -141,7 +141,7 @@ function installFakeBrowser() {
 function bootGame() {
   const env = installFakeBrowser(), projectRoot = path.resolve(__dirname, '..', '..'), gamePath = path.join(projectRoot, 'src/game.js');
   globalThis.DeadwallCore = require(path.join(projectRoot, 'src/core.js'));
-  globalThis.DeadwallSave = require(path.join(projectRoot, 'src/save.js'));
+  globalThis.DeadwallSave = require(path.join(projectRoot, 'src/save.js')); globalThis.DeadwallTactics = require(path.join(projectRoot, 'src/tactics.js')); globalThis.DeadwallProfile = require(path.join(projectRoot, 'src/profile.js'));
   delete require.cache[require.resolve(gamePath)]; require(gamePath);
   return { ...env, game: globalThis.DEADWALL };
 }

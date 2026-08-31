@@ -51,6 +51,7 @@ for(const variant of variants){
       await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(100);
       check('glisser tactile construit plusieurs murs',await page.evaluate(n=>DEADWALL.world.buildings.size>=n+3,buildingsBefore));
       await page.locator('#touchCommandDrawer summary').click();await page.locator('[data-game-command="cancel"]').click();check('annulation tactile',await page.evaluate(()=>!DEADWALL.selectedBuild));
+      if(variant.height>variant.width)check('indication masquée sous le popup Actions portrait',await page.locator('#interactionHint').evaluate(node=>getComputedStyle(node).visibility==='hidden'));
       const zoom=await page.evaluate(()=>DEADWALL.camera.zoom);await page.locator('[data-game-command="zoomIn"]').click();check('zoom tactile',await page.evaluate(old=>DEADWALL.camera.zoom>old,zoom));
       await page.evaluate(()=>{DEADWALL.player.magazine.pistol=2;DEADWALL.player.reload=0;});await page.locator('[data-game-command="reload"]').click();check('rechargement tactile',await page.evaluate(()=>DEADWALL.player.reload>0));await shot('actions');
       await page.locator('#touchCommandDrawer summary').click();await cdp.detach();
@@ -60,6 +61,15 @@ for(const variant of variants){
         if(hidden)hint.classList.add('hidden');
         return a.right+4<=b.left||a.bottom<=b.top||a.top>=b.bottom;
       }));
+      const contextLayout=await page.evaluate(()=>{
+        const hint=document.getElementById('interactionHint'),span=hint.querySelector('span'),hidden=hint.classList.contains('hidden'),text=span.textContent;
+        hint.classList.remove('hidden');span.textContent='Construire Manufacture de munitions — 99 %';
+        const a=hint.getBoundingClientRect(),separate=b=>a.right+4<=b.left||a.left>=b.right+4||a.bottom+4<=b.top||a.top>=b.bottom+4;
+        const result={visible:getComputedStyle(hint).visibility==='visible',padClear:[...document.querySelectorAll('#touchControls button')].every(button=>separate(button.getBoundingClientRect())),notificationsClear:separate(document.querySelector('.notifications').getBoundingClientRect())};
+        span.textContent=text;if(hidden)hint.classList.add('hidden');return result;
+      });
+      check('indication longue sans chevauchement des six commandes tactiles',contextLayout.padClear);
+      if(variant.height>variant.width){check('indication restaurée après fermeture Actions',contextLayout.visible);check('indication longue distincte des notifications portrait',contextLayout.notificationsClear);}
     }
     await page.evaluate(()=>{const g=DEADWALL;g.units=[];g.resources.fuel=50;g.resources.scrap=50;g.activeCrisis={id:'ammo',wave:4,status:'pending',remaining:60,targetId:0,choice:null};g.setBuildCollapsed(true);g.updateUI();});
     await page.locator('#crisisChoiceA').scrollIntoViewIfNeeded();await shot('crise');await page.locator('#crisisChoiceA').click();
@@ -68,6 +78,6 @@ for(const variant of variants){
   }catch(error){report.pass=false;report.failure=error.stack;await shot('failure').catch(()=>{});console.error(`${variant.name}: ${error.message}`);}
   finally{await context.close();}
 }
-await browser.close();await fs.writeFile(path.join(output,'report.json'),JSON.stringify({date:new Date().toISOString(),base,fixtureNote:'Nouvelle partie isolée ; fichier exporté réimporté avec vague=3 ; réserve/crise déterministe et chargeur réduit pour exercer les commandes réelles.',reports},null,2));
+await browser.close();await fs.writeFile(path.join(output,'report.json'),JSON.stringify({date:new Date().toISOString(),base,fixtureNote:'Nouvelle partie isolée ; fichier exporté réimporté avec vague=3 ; réserve/crise déterministe et chargeur réduit pour exercer les commandes réelles ; indication de chantier longue temporaire pour mesurer les collisions HUD.',reports},null,2));
 console.log(JSON.stringify(reports.map(({viewport,checks,pass,failure,errors})=>({viewport,pass,checks:checks.length,errors,failure:failure?.split('\n')[0]})),null,2));
 if(reports.some(report=>!report.pass))process.exitCode=1;

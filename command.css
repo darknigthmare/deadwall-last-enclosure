@@ -1,0 +1,70 @@
+/* A deliberate tactical pause: the command post belongs to the same field kit as the HUD. */
+.command-overlay { z-index: 125; background: #060a08d9; }
+.command-post { position: relative; width: min(920px, 94vw); max-height: calc(100dvh - 28px); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #55604b; border-top: 3px solid var(--accent); background: linear-gradient(125deg, #1d251b, #101812 65%); box-shadow: 0 24px 100px #000c; }
+.command-heading { padding: 24px 28px 16px; border-bottom: 1px solid var(--line); }
+.command-heading small { color: var(--accent-bright); letter-spacing: 1.8px; font-size: 10px; }
+.command-heading h2 { margin: 7px 45px 8px 0; font-size: clamp(20px, 3vw, 30px); letter-spacing: 2px; }
+.command-heading p { color: var(--muted); font-size: 11px; letter-spacing: 1px; margin: 0; }
+.command-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #414a36; flex: 0 0 auto; }
+.command-tabs button { min-width: 0; min-height: 48px; border: 0; padding: 10px 4px; font-size: 11px; background: #152016; }
+.command-tabs button[aria-selected="true"] { color: #151b13; background: var(--accent-bright); font-weight: 800; }
+.command-body { overflow-y: auto; overscroll-behavior: contain; padding: 24px 28px; min-height: 180px; }
+.command-body h3 { margin: 0 0 10px; font-size: 16px; }
+.command-note { color: var(--muted); line-height: 1.65; font-size: 12px; margin: 10px 0 20px; }
+.perimeter-summary { padding: 20px; border: 1px solid var(--line); background: #0c140e; }
+.perimeter-summary strong { display: block; font-size: 24px; letter-spacing: 1px; color: #d7b970; }
+.perimeter-summary strong[data-closed="true"] { color: #b4d29a; }
+.perimeter-summary p { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+.gate-controls { display: grid; grid-template-columns: minmax(150px, 1fr) 1.4fr; gap: 14px; align-items: end; }
+.gate-controls label { display: grid; gap: 8px; color: var(--accent-bright); font-size: 11px; letter-spacing: 1px; }
+.gate-controls select { min-width: 0; width: 100%; min-height: 44px; padding: 8px; color: var(--text); background: #152016; border: 1px solid var(--line); }
+.gate-modes { display: flex; gap: 5px; }
+.gate-modes button { flex: 1; min-height: 44px; padding: 7px; font-size: 10px; }
+.gate-modes [aria-pressed="true"], .order-card[aria-pressed="true"] { border-color: var(--accent-bright); background: #303923; box-shadow: inset 3px 0 var(--accent); }
+.worker-orders, .research-library { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.order-card { min-height: 96px; text-align: left; display: grid; align-content: start; gap: 9px; padding: 16px; }
+.order-card strong { color: var(--accent-bright); font-size: 12px; letter-spacing: 1px; }
+.order-card span { color: var(--muted); font-size: 12px; line-height: 1.55; font-weight: normal; letter-spacing: 0; }
+.doctrine-card { display: flex; flex-direction: column; border: 1px solid var(--line); background: #111b13; padding: 17px; }
+.doctrine-card > small { color: var(--accent); font-size: 10px; letter-spacing: 1px; margin-bottom: 8px; }
+.doctrine-card > p { font-size: 12px; line-height: 1.6; color: var(--muted); margin: 0 0 12px; }
+.doctrine-card .doctrine-cost { color: var(--text); }
+.doctrine-card button { margin-top: auto; min-height: 44px; font-size: 10px; }
+.doctrine-card[data-state="complete"] { border-color: #6c8458; }
+.doctrine-card[data-state="complete"] button { color: #b4d29a; opacity: 1; }
+.doctrine-card[data-state="locked"] { background: #111612; }
+.record-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.record-card { border: 1px solid var(--line); background: #0f1811; padding: 16px; }
+.record-card small, .record-card > span { display: block; font-size: 10px; letter-spacing: 1px; color: var(--muted); }
+.record-card > strong { display: block; font-size: 42px; color: var(--accent-bright); margin: 12px 0 0; }
+.record-card p { font-size: 11px; line-height: 1.6; color: var(--muted); }
+.recent-campaigns { list-style: none; padding: 0; margin: 0; }
+.campaign-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding: 14px 0; }
+.campaign-row strong, .campaign-row span { display: block; font-size: 11px; line-height: 1.6; }
+.campaign-row span { color: var(--muted); }
+.campaign-row button { min-height: 44px; font-size: 10px; padding: 8px 12px; flex-shrink: 0; }
+.command-status { min-height: 38px; margin: 0; padding: 10px 28px; border-top: 1px solid var(--line); color: var(--accent-bright); font-size: 12px; line-height: 1.5; flex: 0 0 auto; }
+#cityCommandButton { grid-column: 1 / -1; border-color: #6d7653; }
+#enclosureStatus { color: #d7b970; }
+#enclosureStatus[data-closed="true"] { color: #b4d29a; }
+.seed-controls { margin-top: 16px; display: flex; gap: 12px; align-items: end; }
+.seed-controls label { flex: 1; min-width: 0; display: grid; gap: 6px; color: var(--muted); font-size: 10px; letter-spacing: 1px; }
+.seed-controls input { width: 100%; min-width: 0; min-height: 44px; padding: 10px; border: 1px solid var(--line); background: #101811cc; color: var(--text); font: inherit; font-size: 12px; letter-spacing: 1px; }
+.seed-controls button { min-height: 44px; padding: 10px 15px; font-size: 11px; }
+.seed-hint { color: var(--muted); font-size: 10px; line-height: 1.5; margin: 6px 0 0; }
+@media (max-width: 600px) {
+  .command-heading { padding: 18px 16px 14px; }
+  .command-body { padding: 18px 16px; }
+  .command-status { padding: 10px 16px; }
+  .command-tabs button { font-size: 9px; letter-spacing: .3px; }
+  .worker-orders, .research-library { grid-template-columns: 1fr; }
+  .gate-controls { grid-template-columns: 1fr; }
+  .record-board { grid-template-columns: 1fr; }
+  .record-card > strong { margin-top: 4px; font-size: 30px; }
+  .record-card p { margin-bottom: 0; }
+  .campaign-row { align-items: stretch; flex-direction: column; }
+  .seed-controls { gap: 8px; }
+}
+@media (max-height: 600px) { .command-heading { padding-top: 12px; padding-bottom: 10px; } .command-heading h2 { font-size: 20px; margin-top: 4px; } }
+.high-contrast .command-post { background: #0b100c; }
+.high-contrast .command-note, .high-contrast .order-card span, .high-contrast .doctrine-card p, .high-contrast .record-card p { color: #e2e8dc; }

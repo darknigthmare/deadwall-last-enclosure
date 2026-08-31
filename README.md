@@ -62,6 +62,10 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Récolte physique de bois, ferraille, pierre, nourriture et carburant.
 - Dépôt des ressources au centre de commandement ou dans les entrepôts.
 - Ouvriers autonomes capables de récolter, transporter et construire.
+- Poste de commandement en pause tactique : ordres collectifs, contrôle des portes, doctrines et archives.
+- Déblaiement physique des corps au pied extérieur des remparts, repli et conservation des cargaisons.
+- Portes automatiques, ouvertes ou verrouillées ; diagnostic réel de fermeture du périmètre.
+- Graines de carte réutilisables et records locaux par difficulté, sans bonus permanent.
 - Fusiliers autonomes rassemblés autour d’un point de ralliement déplaçable.
 - Vingt-deux structures avec coûts, chantier, intégrité, réparation, démolition et amélioration.
 - Palissades, murs d’acier, remparts en béton, portes, pièges, miradors et tourelles.

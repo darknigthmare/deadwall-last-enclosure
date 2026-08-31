@@ -117,10 +117,10 @@
   ];
 
   const RESEARCH = [
-    { id: 'logistics', name: 'Doctrine logistique', description: 'Ouvriers plus efficaces et dépôts moins saturés.', cost: { scrap: 45, food: 25 }, insight: 1, tier: 0 },
+    { id: 'logistics', name: 'Doctrine logistique', description: 'Récolte des ouvriers +18 % ; travail sur chantier environ +16 %.', cost: { scrap: 45, food: 25 }, insight: 1, tier: 0 },
     { id: 'fortification', name: 'Chaînage des enceintes', description: 'Murs et portes subissent 12 % de dégâts en moins.', cost: { wood: 55, stone: 35 }, insight: 2, tier: 1 },
-    { id: 'ballistics', name: 'Tables balistiques', description: 'Fusiliers et tourelles tirent mieux sans augmenter la consommation.', cost: { scrap: 80, ammo: 50 }, insight: 3, tier: 2 },
-    { id: 'sanitation', name: 'Brigades sanitaires', description: 'Corps et blessures pèsent moins sur la ligne.', cost: { medicine: 8, food: 40 }, insight: 2, tier: 2 },
+    { id: 'ballistics', name: 'Tables balistiques', description: 'Dégâts des défenses +12 % ; fusiliers : 35 au lieu de 31 par tir. Même coût en munitions.', cost: { scrap: 80, ammo: 50 }, insight: 3, tier: 2 },
+    { id: 'sanitation', name: 'Brigades sanitaires', description: 'Chaque infecté tué près d’un mur ajoute 0,65 unité de pression au lieu de 1 (2,2 pour les blindés).', cost: { medicine: 8, food: 40 }, insight: 2, tier: 2 },
     { id: 'grid', name: 'Réseau prioritaire', description: 'Les circuits partiels restent efficaces et les générateurs consomment 25 % de moins.', cost: { scrap: 90, fuel: 25 }, insight: 3, tier: 3 },
     { id: 'recon', name: 'Reconnaissance des fronts', description: 'Les vagues sont annoncées cinq secondes plus tôt et les crises sont moins fréquentes.', cost: { scrap: 120, ammo: 65, medicine: 10 }, insight: 4, tier: 4 }
   ];
@@ -152,6 +152,7 @@
   };
   for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
   const STRATEGY_RULES = { spawnBatch: 64, crisisDecisionSeconds: 45, pathMaxExpanded: 8192, pathQueriesPerUpdate: 6, pathRetrySeconds: 1.25 };
+  const WORKER_RULES = { cleanupPerSecond: .9, cleanupRange: 48, retreatRadius: 90, passiveDecayPerSecond: .012 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
 
@@ -335,7 +336,7 @@
     composition.walker = total - assigned;
     return { wave, total, fronts: Math.min(4, 1 + Math.floor((wave - 1) / 3)), spawnInterval: clamp(0.52 - wave * 0.012, 0.07, 0.52), composition };
   }
-  function createStats() { return { kills: 0, shots: 0, headshots: 0, gathered: 0, buildingsPlaced: 0, buildingsLost: 0, unitsLost: 0, wavesSurvived: 0, crisesResolved: 0, playSeconds: 0 }; }
+  function createStats() { return { kills: 0, shots: 0, headshots: 0, gathered: 0, buildingsPlaced: 0, buildingsLost: 0, unitsLost: 0, wavesSurvived: 0, crisesResolved: 0, playSeconds: 0, peakPopulation: 0, peakBuildings: 0 }; }
 
   class Random {
     constructor(seed = Date.now()) { this.state = seed >>> 0; }
@@ -383,7 +384,7 @@
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
-    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES,
+    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,

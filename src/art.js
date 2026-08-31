@@ -147,7 +147,15 @@
       ctx.fillStyle = 'rgba(10,15,12,.22)'; ctx.beginPath();ctx.ellipse(0,height*.32,width*.48,height*.22,0,0,Math.PI*2);ctx.fill();
       if (id === 'house' || id === 'barracks') {
         ctx.rotate(Math.PI / 2); this.blit(ctx, atlas, rect, -height / 2, -width / 2, height, width);
+      } else if (b.def.gate && b.gateMode === 'open') {
+        // Reuse the original gate leaves: compressed at their jambs, with an actual visible passage.
+        const [sx,sy,sw,sh]=rect;
+        this.blit(ctx,atlas,[sx,sy,sw/2,sh],-width/2-2,-height/2-5,width*.24,height+7);
+        this.blit(ctx,atlas,[sx+sw/2,sy,sw/2,sh],width*.26+2,-height/2-5,width*.24,height+7);
+        ctx.strokeStyle='#e2bd71';ctx.lineWidth=1.5;
+        for(const sign of [-1,1]){ctx.beginPath();ctx.moveTo(-4,sign*height*.2);ctx.lineTo(0,sign*height*.32);ctx.lineTo(4,sign*height*.2);ctx.stroke();}
       } else this.blit(ctx, atlas, rect, -width / 2 - 2, -height / 2 - 5, width + 4, height + 7);
+      if(b.def.gate&&b.gateMode==='closed'){ctx.fillStyle='#dfb06e';ctx.fillRect(-4,-height*.46,8,6);ctx.strokeStyle='#dfb06e';ctx.lineWidth=1.5;ctx.strokeRect(-2.5,-height*.46-4,5,5);}
       ctx.restore();
       if (b.corpseLoad > 4) {
         ctx.fillStyle = 'rgba(64,39,32,.8)';

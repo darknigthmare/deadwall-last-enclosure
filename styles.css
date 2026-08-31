@@ -301,6 +301,11 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   .notifications { bottom: 100px; right: 290px; width: min(240px, calc(100vw - 490px)); }
   .notification:nth-child(n+2) { display: none; }
 }
+@media (max-width: 720px) and (orientation: portrait) {
+  .interaction-hint { bottom: calc(174px + var(--safe-bottom)); }
+  .notifications { bottom: calc(238px + var(--safe-bottom)); }
+  #hud:has(#touchCommandDrawer[open]) .interaction-hint { visibility: hidden; }
+}
 .crisis-card { margin: 12px 0; padding: 13px; background: #30221c; border: 1px solid #8f5b3e; border-left: 3px solid var(--accent); }
 .crisis-card > small { color: #e8b675; font-size: 10px; letter-spacing: .08em; }
 .crisis-card h3 { margin: 7px 0; font-size: 17px; color: #fff1d3; }

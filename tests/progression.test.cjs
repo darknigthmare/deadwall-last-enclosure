@@ -138,7 +138,7 @@ test('commandement : améliorer préserve les dégâts ; réparer et démolir le
 test('interface stratégique : doctrines verrouillées distinctes des doctrines terminées et menace toujours bornée', () => {
   const { game } = fresh(); game.research.completed = ['logistics']; game.updateUI();
   assert.match(game.ui.researchName.textContent, /CAMP FORTIFIÉ/); assert.match(game.ui.researchInsight.textContent, /1\/6 doctrines/);
-  assert.equal(game.ui.researchButton.disabled, true); assert.match(game.ui.researchButton.title, /Chaînage/);
+  assert.equal(game.ui.researchButton.disabled, false, 'la bibliothèque reste consultable même sans doctrine finançable'); assert.match(game.ui.researchButton.title, /Chaînage/);
   game.research.completed = C.RESEARCH.map(item => item.id); game.updateUI(); assert.equal(game.ui.researchName.textContent, 'Doctrines complètes');
   game.phase = 'warning';
   for (const [time, width] of [[15,'0%'], [12,'20%'], [7.5,'50%'], [0,'100%'], [-1,'100%']]) {
