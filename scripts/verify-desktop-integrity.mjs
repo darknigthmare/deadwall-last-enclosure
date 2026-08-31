@@ -16,7 +16,8 @@ export function verifyAppAsar(folder,manifest) {
   const files=[];
   for (const name of listPackage(archive)) {
     const relative=name.replaceAll('\\','/').replace(/^\/+/,'');
-    const entry=statFile(archive,relative,false);
+    // ASAR traverses names with the host separator; manifests stay portable POSIX.
+    const entry=statFile(archive,path.normalize(relative),false);
     assert.ok(!entry.link&&!entry.unpacked,'Distribution ASAR must not contain external or linked entries: '+relative);
     if (!entry.files) files.push(relative);
   }
@@ -25,7 +26,7 @@ export function verifyAppAsar(folder,manifest) {
   // manifest must be exactly the original source metadata for every own key.
   for (const [key,value] of Object.entries(embedded)) assert.deepEqual(value,manifest[key],'Embedded source manifest differs: '+key);
   assert.deepEqual(Object.keys(embedded).sort(),['game','version','builtAt','sourceRevision','sourceDirty','electron','platform','arch','signed','files'].sort());
-  return {...verifyManifestFiles(manifest,files,file=>extractFile(archive,file)),sha256:hash(fs.readFileSync(archive)),embeddedManifest:true};
+  return {...verifyManifestFiles(manifest,files,file=>extractFile(archive,path.normalize(file))),sha256:hash(fs.readFileSync(archive)),embeddedManifest:true};
 }
 
 export async function verifyDesktopRelease({folder,manifestPath,archive,expectedRevision}) {
