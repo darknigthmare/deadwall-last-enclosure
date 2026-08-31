@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="settings.css">
   <link rel="stylesheet" href="command.css">
+  <link rel="stylesheet" href="content.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -63,6 +64,7 @@
           <button id="cityCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>POSTE DE COMMANDEMENT</span><small id="enclosureStatus">PÉRIMÈTRE OUVERT</small></button>
           <button id="recruitWorker"><span>OUVRIER</span><small>25 nourriture</small></button>
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
+          <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
           <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
           <button id="researchButton"><span id="researchName">Doctrine logistique</span><small id="researchInsight">0 insight</small></button>
@@ -119,6 +121,7 @@
         <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">OUVRIERS</button>
         <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
         <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
+        <button id="commandTab-field" role="tab" aria-controls="commandPanel-field" aria-selected="false" tabindex="-1">DOSSIERS</button>
       </nav>
       <div class="command-body">
         <section id="commandPanel-enclosure" role="tabpanel" aria-labelledby="commandTab-enclosure">
@@ -131,6 +134,7 @@
         <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les fusiliers conservent leur point de ralliement.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p></section>
         <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
         <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
+        <section id="commandPanel-field" class="hidden" role="tabpanel" aria-labelledby="commandTab-field"><p class="command-note">Chargement des dossiers de terrain… Si ce message persiste, le poste de commandement reste utilisable ; rechargez le jeu pour récupérer les dossiers.</p></section>
       </div>
       <p id="commandStatus" class="command-status" role="status" aria-live="polite"></p>
     </main>
@@ -162,9 +166,11 @@
   <script src="src/tactics.js"></script>
   <script src="src/profile.js"></script>
   <script src="src/art.js"></script>
+  <script src="src/world-content.js"></script>
   <script src="src/game.js"></script>
   <script src="src/ui.js"></script>
   <script src="src/command-ui.js"></script>
+  <script src="src/content-ui.js"></script>
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

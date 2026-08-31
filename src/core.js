@@ -92,12 +92,37 @@
   };
 
   const ENEMIES = {
-    walker: { id: 'walker', name: 'Errant', health: 72, speed: 35, damage: 16, attackRate: 0.75, radius: 11, color: '#596052', unlockWave: 1 },
-    runner: { id: 'runner', name: 'Infecté récent', health: 54, speed: 72, damage: 12, attackRate: 1.2, radius: 10, color: '#6a5d4f', unlockWave: 2 },
-    armored: { id: 'armored', name: 'Infecté protégé', health: 175, speed: 27, damage: 25, attackRate: 0.6, radius: 13, color: '#3f4c4f', unlockWave: 4 },
-    crawler: { id: 'crawler', name: 'Rampant', health: 44, speed: 55, damage: 9, attackRate: 1.55, radius: 8, color: '#655c50', unlockWave: 5 },
-    howler: { id: 'howler', name: 'Hurleur', health: 110, speed: 43, damage: 14, attackRate: 0.9, radius: 12, color: '#6a4b45', unlockWave: 7 }
+    walker: { id: 'walker', name: 'Errant', health: 72, speed: 35, damage: 16, attackRate: 0.75, radius: 11, color: '#596052', unlockWave: 1, structureDamage: 1, corpseLoad: 1,
+      description: 'Civil contaminé aux vêtements usés. Il suit la masse vers les accès faibles de la cité.', weakness: 'Lent et limité au corps-à-corps : garder une ligne de tir et une issue de repli.' },
+    runner: { id: 'runner', name: 'Infecté récent', health: 54, speed: 72, damage: 12, attackRate: 1.2, radius: 10, color: '#6a5d4f', unlockWave: 2, structureDamage: 1, corpseLoad: 1,
+      description: 'Contamination récente, mobilité conservée. Peut franchir un rempart sur un amas de corps suffisant.', weakness: 'Fragile : le traiter avant le contact et dégager les corps au pied des murs.' },
+    armored: { id: 'armored', name: 'Infecté protégé', health: 175, speed: 27, damage: 25, attackRate: 0.6, radius: 13, color: '#3f4c4f', unlockWave: 4, structureDamage: 1, corpseLoad: 2.2,
+      description: 'Ancien agent encore couvert de protections. Résiste davantage et alourdit les amas près des remparts.', weakness: 'Très lent : concentrer les tirs à distance, puis déblayer sa dépouille.' },
+    crawler: { id: 'crawler', name: 'Rampant', health: 44, speed: 55, damage: 9, attackRate: 1.55, radius: 8, color: '#655c50', unlockWave: 5, structureDamage: 1, corpseLoad: 1,
+      description: 'Infecté blessé progressant au ras du sol. Exploite les amas de corps pour passer les murs.', weakness: 'Peu résistant : surveiller les pieds des enceintes et nettoyer les rampes de corps.' },
+    howler: { id: 'howler', name: 'Hurleur', health: 110, speed: 43, damage: 14, attackRate: 0.9, radius: 12, color: '#6a4b45', unlockWave: 7, structureDamage: 1, corpseLoad: 1,
+      description: 'Ses cris agitent les infectés proches et accélèrent brièvement leur avancée, sans créer de renforts.', weakness: 'L’abattre à distance réduit les accélérations du groupe qui l’entoure.' },
+    breacher: { id: 'breacher', name: 'Briseur', health: 140, speed: 30, damage: 18, attackRate: 0.65, radius: 13, color: '#92743e', unlockWave: 3, structureDamage: 1.8, corpseLoad: 1,
+      description: 'Ancien ouvrier en veste ocre. Sa poussée répétée inflige 80 % de dégâts supplémentaires aux structures, pas aux survivants.', weakness: 'Lent et moins résistant qu’un infecté protégé : le viser avant qu’il atteigne une porte.' },
+    stalker: { id: 'stalker', name: 'Traqueur', health: 62, speed: 61, damage: 11, attackRate: 1.1, radius: 10, color: '#465658', unlockWave: 6, structureDamage: 1, corpseLoad: 1,
+      description: 'Silhouette fine en sweat à capuche. Dévie vers un survivant isolé, proche et visible ; revient vers la cité si le passage se ferme.', weakness: 'Rester groupés, fermer une porte ou rompre sa ligne de vue ; il ne voit pas à travers les murs.' },
+    bloated: { id: 'bloated', name: 'Engorgé', health: 145, speed: 23, damage: 20, attackRate: 0.65, radius: 14, color: '#754f46', unlockWave: 8, structureDamage: 1, corpseLoad: 3.4,
+      description: 'Infecté massif au manteau rouge-brun. Sa dépouille ajoute 3,4 unités de pression aux remparts proches. Aucune explosion.', weakness: 'Le plus lent du groupe : l’abattre loin des murs ou affecter des ouvriers au déblaiement.' }
   };
+
+  const ENEMY_RULES = Object.freeze({
+    specialShare: 0.82, sanitizedCorpseLoad: 0.65, structureReach: 18,
+    stalkRange: 210, stalkIsolation: 90, stalkThinkSeconds: 0.5, stalkQueriesPerUpdate: 8,
+    waveWeights: {
+      runner: { base: 0.08, growth: 0.018, maximum: 0.42, origin: 0 },
+      armored: { base: 0.035, growth: 0.012, maximum: 0.28, origin: 0 },
+      crawler: { base: 0.025, growth: 0.009, maximum: 0.22, origin: 0 },
+      howler: { base: 0.012, growth: 0.0045, maximum: 0.13, origin: 0 },
+      breacher: { base: 0.04, growth: 0.003, maximum: 0.10, origin: 3 },
+      stalker: { base: 0.035, growth: 0.004, maximum: 0.09, origin: 6 },
+      bloated: { base: 0.03, growth: 0.003, maximum: 0.07, origin: 8 }
+    }
+  });
 
   const WEAPONS = {
     pistol: { id: 'pistol', name: 'PISTOLET', damage: 42, fireRate: 3.2, magazine: 12, reload: 1.35, spread: 0.035, pellets: 1, ammoPerReload: 1, range: 650, tier: 0 },
@@ -120,7 +145,7 @@
     { id: 'logistics', name: 'Doctrine logistique', description: 'Récolte des ouvriers +18 % ; travail sur chantier environ +16 %.', cost: { scrap: 45, food: 25 }, insight: 1, tier: 0 },
     { id: 'fortification', name: 'Chaînage des enceintes', description: 'Murs et portes subissent 12 % de dégâts en moins.', cost: { wood: 55, stone: 35 }, insight: 2, tier: 1 },
     { id: 'ballistics', name: 'Tables balistiques', description: 'Dégâts des défenses +12 % ; fusiliers : 35 au lieu de 31 par tir. Même coût en munitions.', cost: { scrap: 80, ammo: 50 }, insight: 3, tier: 2 },
-    { id: 'sanitation', name: 'Brigades sanitaires', description: 'Chaque infecté tué près d’un mur ajoute 0,65 unité de pression au lieu de 1 (2,2 pour les blindés).', cost: { medicine: 8, food: 40 }, insight: 2, tier: 2 },
+    { id: 'sanitation', name: 'Brigades sanitaires', description: 'Chaque infecté tué près d’un mur ajoute 0,65 unité de pression au lieu de 1 (2,2 pour les blindés, 3,4 pour les Engorgés).', cost: { medicine: 8, food: 40 }, insight: 2, tier: 2 },
     { id: 'grid', name: 'Réseau prioritaire', description: 'Les circuits partiels restent efficaces et les générateurs consomment 25 % de moins.', cost: { scrap: 90, fuel: 25 }, insight: 3, tier: 3 },
     { id: 'recon', name: 'Reconnaissance des fronts', description: 'Les vagues sont annoncées cinq secondes plus tôt et les crises sont moins fréquentes.', cost: { scrap: 120, ammo: 65, medicine: 10 }, insight: 4, tier: 4 }
   ];
@@ -153,6 +178,13 @@
   for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
   const STRATEGY_RULES = { spawnBatch: 64, crisisDecisionSeconds: 45, pathMaxExpanded: 8192, pathQueriesPerUpdate: 6, pathRetrySeconds: 1.25 };
   const WORKER_RULES = { cleanupPerSecond: .9, cleanupRange: 48, retreatRadius: 90, passiveDecayPerSecond: .012 };
+  const SURVIVORS = {
+    worker: { id:'worker', name:'Ouvrier', description:'Récolte, transporte, construit et déblaye selon les ordres de la cité.', health:85, speed:60, radius:11, cost:{food:25}, tier:0, requires:null, specialist:false },
+    soldier: { id:'soldier', name:'Fusilier', description:'Défend le point de ralliement et consomme des munitions à chaque tir.', health:125, speed:74, radius:12, cost:{food:15,ammo:20,scrap:10}, tier:1, requires:'barracks', specialist:false },
+    medic: { id:'medic', name:'Secouriste', description:'Rejoint les blessés vivants et les soigne avec des médicaments ; aucune résurrection.', health:90, speed:66, radius:11, cost:{food:35,medicine:8}, tier:2, requires:'clinic', specialist:true },
+    engineer: { id:'engineer', name:'Ingénieur', description:'Rejoint les structures endommagées et les répare en consommant les matériaux nécessaires.', health:105, speed:62, radius:11, cost:{food:35,scrap:35}, tier:2, requires:'workshop', specialist:true }
+  };
+  const NPC_RULES = { healPerSecond:6, healRange:64, medicinePerHealth:.025, repairPerSecond:14, repairRange:48, repairScrapPerHealth:1/45, repairWoodPerFullWall:12, repairStonePerFullWall:16, searchRadius:800, rethinkSeconds:.6, dangerRange:105, fleeSpeedMultiplier:1.25, rallyRadius:28 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
 
@@ -318,17 +350,13 @@
     const base = 10 + wave * 5 + Math.pow(wave, 1.62) * 2.35;
     const attraction = 1 + clamp(signature / 360, 0, 0.8);
     const total = Math.max(8, Math.floor(base * difficulty.enemyCount * attraction));
-    const weights = {
-      runner: wave >= 2 ? Math.min(0.42, 0.08 + wave * 0.018) : 0,
-      armored: wave >= 4 ? Math.min(0.28, 0.035 + wave * 0.012) : 0,
-      crawler: wave >= 5 ? Math.min(0.22, 0.025 + wave * 0.009) : 0,
-      howler: wave >= 7 ? Math.min(0.13, 0.012 + wave * 0.0045) : 0
-    };
-    const composition = { walker: total, runner: 0, armored: 0, crawler: 0, howler: 0 };
+    const weights = Object.fromEntries(Object.entries(ENEMY_RULES.waveWeights).map(([kind, rule]) =>
+      [kind, wave >= ENEMIES[kind].unlockWave ? Math.min(rule.maximum, rule.base + (wave - rule.origin) * rule.growth) : 0]));
+    const composition = normalizeSpawnCounts();
     const specialTotal = Object.values(weights).reduce((sum, weight) => sum + weight, 0);
-    const specialScale = specialTotal > 0.82 ? 0.82 / specialTotal : 1;
+    const specialScale = specialTotal > ENEMY_RULES.specialShare ? ENEMY_RULES.specialShare / specialTotal : 1;
     let assigned = 0;
-    for (const kind of ['runner', 'armored', 'crawler', 'howler']) {
+    for (const kind of Object.keys(weights)) {
       const amount = Math.floor(total * weights[kind] * specialScale);
       composition[kind] = amount;
       assigned += amount;
@@ -381,10 +409,31 @@
     }
   }
 
+  // Recoverable scenery, not structures or physical cover. Order matches districtProps (4 x 4).
+  const SCENERY_DEFS = Object.freeze({
+    ruinedHouse: Object.freeze({name:'Maison éventrée',resource:'stone',amount:45,radius:30,renderSize:116}),
+    ruinedShop: Object.freeze({name:'Échoppe condamnée',resource:'scrap',amount:45,radius:28,renderSize:108}),
+    warehouseShell: Object.freeze({name:'Hangar éventré',resource:'scrap',amount:55,radius:34,renderSize:128}),
+    guardBooth: Object.freeze({name:'Poste de garde désert',resource:'wood',amount:35,radius:19,renderSize:72}),
+    ambulance: Object.freeze({name:'Ambulance abandonnée',resource:'medicine',amount:4,radius:23,renderSize:98}),
+    bus: Object.freeze({name:'Autobus immobilisé',resource:'scrap',amount:70,radius:32,renderSize:134}),
+    utilityTruck: Object.freeze({name:'Camion de maintenance',resource:'scrap',amount:55,radius:27,renderSize:112}),
+    tanker: Object.freeze({name:'Citerne abandonnée',resource:'fuel',amount:45,radius:30,renderSize:128}),
+    tent: Object.freeze({name:'Tente de ravitaillement',resource:'food',amount:35,radius:23,renderSize:90}),
+    container: Object.freeze({name:'Conteneur éventré',resource:'scrap',amount:55,radius:27,renderSize:110}),
+    waterTank: Object.freeze({name:'Réservoir désaffecté',resource:'scrap',amount:40,radius:25,renderSize:94}),
+    powerPylon: Object.freeze({name:'Pylône hors service',resource:'scrap',amount:45,radius:20,renderSize:104}),
+    concreteBarricade: Object.freeze({name:'Bloc de barrage abandonné',resource:'stone',amount:45,radius:24,renderSize:98}),
+    burntTree: Object.freeze({name:'Arbre calciné',resource:'wood',amount:35,radius:22,renderSize:96}),
+    rubble: Object.freeze({name:'Tas de gravats',resource:'stone',amount:35,radius:27,renderSize:104}),
+    streetLamp: Object.freeze({name:'Lampadaire hors service',resource:'scrap',amount:35,radius:16,renderSize:86})
+  });
+
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
-    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
-    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES,
+    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
+    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES,
+    SCENERY_DEFS,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,

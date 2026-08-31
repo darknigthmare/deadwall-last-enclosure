@@ -7,8 +7,8 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = path.join(root, 'dist');
 const require = createRequire(import.meta.url);
 const { ASSETS } = require('../src/art.js');
-const scripts = ['src/core.js','src/save.js','src/tactics.js','src/profile.js','src/art.js','src/game.js','src/ui.js','src/command-ui.js'];
-const styles = ['styles.css','settings.css','command.css'];
+const scripts = ['src/core.js','src/save.js','src/tactics.js','src/profile.js','src/art.js','src/world-content.js','src/game.js','src/ui.js','src/command-ui.js','src/content-ui.js'];
+const styles = ['styles.css','settings.css','command.css','content.css'];
 const images = ['assets/deadwall-keyart-v2.webp', ...Object.values(ASSETS).map(asset => asset.url)];
 const publicFiles = ['index.html',...styles,'manifest.json','sw.js',...scripts,'assets/icon.svg','assets/icon-192.png','assets/icon-512.png',...images];
 // Fixed build output, verified inside this repository before recursive replacement.

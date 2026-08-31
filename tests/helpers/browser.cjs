@@ -142,6 +142,7 @@ function bootGame() {
   const env = installFakeBrowser(), projectRoot = path.resolve(__dirname, '..', '..'), gamePath = path.join(projectRoot, 'src/game.js');
   globalThis.DeadwallCore = require(path.join(projectRoot, 'src/core.js'));
   globalThis.DeadwallSave = require(path.join(projectRoot, 'src/save.js')); globalThis.DeadwallTactics = require(path.join(projectRoot, 'src/tactics.js')); globalThis.DeadwallProfile = require(path.join(projectRoot, 'src/profile.js'));
+  globalThis.DeadwallWorldContent = require(path.join(projectRoot, 'src/world-content.js'));
   delete require.cache[require.resolve(gamePath)]; require(gamePath);
   return { ...env, game: globalThis.DEADWALL };
 }

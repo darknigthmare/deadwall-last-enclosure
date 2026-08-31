@@ -39,11 +39,31 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   assert.equal(preferences.webSecurity, true);
   const assets = await window.webContents.executeJavaScript(`(async () => {
     const game=globalThis.DEADWALL; await game.art.ready;
-    return {...game.art.diagnostics,images:Object.keys(game.art.images).length};
+    return {...game.art.diagnostics,expectedKeys:Object.keys(globalThis.DeadwallArt.ASSETS).sort(),imageKeys:Object.keys(game.art.images).sort()};
   })()`);
-  assert.equal(assets.ready.length, 7, 'All seven original bitmap atlases must load in the executable');
+  assert.ok(assets.expectedKeys.length > 0, 'The packaged renderer must declare its atlas catalogue');
+  assert.deepEqual([...assets.ready].sort(), assets.expectedKeys, 'Every declared bitmap atlas must load exactly once');
   assert.deepEqual(assets.failed, [], 'No atlas may silently fall back to missing art');
-  assert.equal(assets.images, 7);
+  assert.deepEqual(assets.imageKeys, assets.expectedKeys, 'All declared atlases have decoded image data');
+  const atlasDrawProbe = await window.webContents.executeJavaScript(`(() => {
+    const art=globalThis.DEADWALL.art,canvas=document.createElement('canvas');canvas.width=64;canvas.height=64;
+    const context=canvas.getContext('2d',{willReadFrequently:true}),draws={};
+    for(const [key,spec] of Object.entries(globalThis.DeadwallArt.ASSETS)){
+      const source=art.images[key],before=art.diagnostics.draws[key]||0;
+      if((source.naturalWidth||source.width)!==spec.width || (source.naturalHeight||source.height)!==spec.height) throw new Error('Atlas dimensions mismatch: '+key);
+      context.clearRect(0,0,64,64);
+      if(!art.blit(context,key,[0,0,spec.width,spec.height],0,0,64,64)) throw new Error('Atlas draw failed: '+key);
+      const pixels=context.getImageData(0,0,64,64).data;let visiblePixels=0;
+      for(let i=3;i<pixels.length;i+=4)if(pixels[i]>0)visiblePixels++;
+      draws[key]={calls:(art.diagnostics.draws[key]||0)-before,visiblePixels};
+    }
+    return {fixture:'Offscreen atlas draw/readback; not proof of gameplay use',draws};
+  })()`);
+  assert.deepEqual(Object.keys(atlasDrawProbe.draws).sort(), assets.expectedKeys);
+  for (const [key,draw] of Object.entries(atlasDrawProbe.draws)) {
+    assert.equal(draw.calls, 1, `${key}: the real atlas renderer must draw`);
+    assert.ok(draw.visiblePixels > 0, `${key}: the draw must contain visible pixels`);
+  }
   const localResources = await window.webContents.executeJavaScript(`({
     modules:{tactics:typeof globalThis.DeadwallTactics,profile:typeof globalThis.DeadwallProfile,command:typeof globalThis.DEADWALL.showCommand},
     urls:performance.getEntriesByType('resource').map(item=>item.name),
@@ -217,7 +237,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     })()`);
     await fs.promises.writeFile(path.join(reportRoot, 'expected-save.json'), JSON.stringify(save));
   }
-  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, localResources, network, menuRecords, commandPost, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
+  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, atlasDrawProbe, localResources, network, menuRecords, commandPost, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-report.json`), JSON.stringify(report, null, 2));
   console.log(`DEADWALL desktop ${stage} verification passed`);
   // The first stage deliberately leaves its latest changes unsaved: this verifies normal close.

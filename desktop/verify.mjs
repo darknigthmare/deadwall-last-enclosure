@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 
 const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('..', import.meta.url));
+const expectedAssetKeys = Object.keys(require('../src/art.js').ASSETS).sort();
 const executableIndex = process.argv.indexOf('--executable');
 const archiveIndex = process.argv.indexOf('--archive');
 if (executableIndex >= 0 && archiveIndex >= 0) throw new Error('Choose either --executable or --archive, not both.');
@@ -56,12 +57,16 @@ for (const stage of ['create','restore']) {
   if (executableIndex >= 0 || archiveIndex >= 0) assert.equal(report.packaged, true, 'QA must run the packaged application');
   assert.equal(report.commandPost.doctrines.length, 6);
   assert.equal(report.commandPost.workerOrder, 'retreat');
-  assert.equal(report.assets.ready.length, 7);
+  assert.deepEqual(report.assets.expectedKeys, expectedAssetKeys, 'Packaged atlas catalogue must match the source under verification');
+  assert.deepEqual([...report.assets.ready].sort(), expectedAssetKeys);
+  assert.deepEqual(report.assets.imageKeys, expectedAssetKeys);
   assert.deepEqual(report.assets.failed, []);
+  assert.deepEqual(Object.keys(report.atlasDrawProbe.draws).sort(), expectedAssetKeys);
+  assert.ok(Object.values(report.atlasDrawProbe.draws).every(draw=>draw.calls===1&&draw.visiblePixels>0));
   assert.deepEqual(report.consoleErrors, []);
   reports.push(report);
 }
 assert.deepEqual(reports[0].save, reports[1].save, 'Final close saves must survive a new native process');
 assert.ok(reports[1].menuRecords.runIds.includes(reports[0].save.runId), 'Archives must load before continuing a campaign');
-fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,atlases:7,recordsAfterRestart:true,consoleErrors:0}, null, 2));
-console.log(`DEADWALL desktop: two launches, seed 17117, tactical pause/orders, six doctrines, persistent records, seven atlases, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
+fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,consoleErrors:0}, null, 2));
+console.log(`DEADWALL desktop: two launches, seed 17117, tactical pause/orders, six doctrines, persistent records, ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);

@@ -1,6 +1,15 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootGame}=require('./helpers/browser.cjs'),C=require('../src/core.js'),Save=require('../src/save.js');
+test('campagne : difficultés inconnues, héritées ou non textuelles reviennent à Standard sans bloquer la sauvegarde',()=>{
+  const {game,storage}=bootGame();
+  for(const difficulty of ['constructor','__proto__','toString','unknown',null,undefined,42,{},[],Symbol('standard')]){
+    assert.doesNotThrow(()=>game.startNew(difficulty,'17117'));
+    assert.equal(game.difficulty,C.DIFFICULTIES.standard);assert.equal(game.phaseTime,82);assert.equal(game.resources.wood,180);
+    assert.equal(game.lastSaveStatus.ok,true);assert.equal(Save.parse(storage.get(C.SAVE_KEY)).difficulty,'standard');
+    assert.doesNotThrow(()=>game.update(.04));game.returnToMenu();assert.equal(game.state,'menu');
+  }
+});
 test('campagne : graine volontaire, nouvelle identité et remise à zéro des ordres',()=>{
   const {game}=bootGame();game.startNew('standard','17117');const first=game.runId;
   const terrain=game.world.nodes.map(node=>[node.type,node.x,node.y,node.amount]);

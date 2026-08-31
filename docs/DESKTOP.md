@@ -58,6 +58,8 @@ La vérification ouvre successivement deux processus avec un **profil temporaire
 
 Les tests Node de `tests/desktop.test.cjs` couvrent la politique de fichiers, les chemins encodés, les origines hostiles, la politique CSP et les préférences invalides. Ils fonctionnent sans Electron ni dépendance installée ; la CI web demeure légère.
 
+Le contrôle d'assets lit `DeadwallArt.ASSETS` dans l'application et le compare au catalogue source utilisé pour la vérification : aucun nombre d'atlas n'est figé dans le test. Chaque entrée doit être chargée, décodée aux dimensions déclarées et dessinable avec des pixels visibles. La sonde de dessin utilise un petit Canvas hors écran ; son rapport l'identifie comme un contrôle de rendu d'atlas, **pas comme une preuve que chaque PNJ, infecté ou décor apparaît naturellement en partie**. La galerie et les scénarios de contenu complètent cette distinction. Les rapports conservent les identifiants exacts des atlas testés.
+
 ## Frontières de sécurité
 
 - Sandbox global et par renderer, `contextIsolation: true`, `nodeIntegration: false`, `webSecurity: true`, aucun webview.

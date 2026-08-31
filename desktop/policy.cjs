@@ -30,7 +30,7 @@ function resolvePublicFile(root, value) {
     const url = new URL(value);
     if (url.protocol !== 'deadwall:' || url.host !== 'game' || url.username || url.password) return null;
     const pathname = decodeURIComponent(url.pathname);
-    if (!/^\/(?:index\.html|(?:styles|settings|command)\.css|manifest\.json|src\/[a-z0-9_-]+\.js|assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_.-]+\.(?:png|webp|jpg|jpeg|svg|ico|woff2|ogg|wav|json))$/i.test(pathname)) return null;
+    if (!/^\/(?:index\.html|(?:styles|settings|command|content)\.css|manifest\.json|src\/[a-z0-9_-]+\.js|assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_.-]+\.(?:png|webp|jpg|jpeg|svg|ico|woff2|ogg|wav|json))$/i.test(pathname)) return null;
     const filename = path.resolve(root, `.${pathname}`);
     return isWithin(root, filename) ? filename : null;
   } catch { return null; }

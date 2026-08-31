@@ -94,7 +94,7 @@ test('production: conservation des intrants et rendement proportionnel à la cap
 
 test('migration horde: compteurs compacts et anciennes files conservent chaque contact', () => {
   const counts = C.normalizeSpawnCounts({ walker: 2, runner: 3, armored: -8 }, ['walker', 'armored', 'inconnu']);
-  assert.deepEqual(counts, { walker: 3, runner: 3, armored: 1, crawler: 0, howler: 0 });
+  assert.deepEqual(counts, { walker: 3, runner: 3, armored: 1, crawler: 0, howler: 0, breacher: 0, stalker: 0, bloated: 0 });
   const composition = { ...counts }, actual = C.normalizeSpawnCounts();
   for (let index = 0; index < 7; index++) actual[C.takeSpawnKind(counts, index / 7)]++;
   assert.deepEqual(actual, composition); assert.equal(C.spawnCount(counts), 0);

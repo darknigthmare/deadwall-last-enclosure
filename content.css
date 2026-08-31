@@ -1,0 +1,29 @@
+/* Field dossiers use real runtime sprites, not a separate promotional illustration. */
+.field-nav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.field-nav button { min-height:44px; flex:1; font-size:11px; padding:8px; }
+.field-nav [aria-pressed="true"] { border-color:var(--accent-bright); color:var(--accent-bright); background:#303923; }
+.field-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.field-card { min-width:0; display:flex; flex-direction:column; padding:16px; border:1px solid var(--line); background:linear-gradient(135deg,#1c251b,#0e1711); }
+.field-card-header { display:flex; align-items:center; gap:12px; min-height:108px; border-bottom:1px solid #59634966; margin-bottom:12px; }
+.field-card canvas { width:112px; height:100px; max-width:38%; object-fit:contain; flex-shrink:0; background:radial-gradient(ellipse,#54624444,transparent 70%); }
+.field-card h3 { color:var(--accent-bright); font-size:17px; }
+.field-card small { display:block; color:var(--muted); font-size:10px; line-height:1.7; letter-spacing:.8px; }
+.field-card p { color:var(--muted); font-size:12px; line-height:1.65; margin:0 0 12px; }
+.field-card .field-counter { color:#d5c9a7; border-left:2px solid #a6905e; padding-left:10px; }
+.field-card .field-cost { color:var(--text); }
+.field-card button { margin-top:auto; min-height:44px; font-size:10px; line-height:1.5; padding:9px; }
+.field-state { min-height:20px; margin-top:8px!important; margin-bottom:0!important; }
+.field-roster { margin:20px 0; padding:0; list-style:none; }
+.field-roster li { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px 16px; border-bottom:1px solid var(--line); padding:13px 0; font-size:12px; line-height:1.5; }
+.field-roster small { display:block; color:var(--muted); font-size:11px; }
+.field-roster strong { color:var(--text); font-size:12px; }
+.field-roster span { color:var(--accent-bright); white-space:nowrap; }
+.field-sector-map { display:block; width:min(100%,480px); height:auto; margin:0 auto 18px; border:1px solid var(--line); background:#0b140e; }
+.field-sector-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.field-sector-list article { min-width:0; padding:15px; border:1px solid var(--line); background:#101b13; }
+.field-sector-list h3 { font-size:13px; color:var(--accent-bright); }
+.field-sector-list p { font-size:11px; color:var(--muted); line-height:1.7; margin:8px 0 0; overflow-wrap:anywhere; }
+.field-sector-list [data-marked="true"] { border-color:var(--accent-bright); }
+.field-sector-list button { min-height:44px; width:100%; font-size:10px; margin-top:10px; }
+.high-contrast .field-card p,.high-contrast .field-card small,.high-contrast .field-sector-list p,.high-contrast .field-roster small { color:#e2e8dc; }
+@media(max-width:600px) { .field-grid,.field-sector-list { grid-template-columns:1fr; } .field-card { padding:13px; } .field-nav { gap:4px; } .field-nav button { font-size:10px; } }

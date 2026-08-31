@@ -18,7 +18,7 @@ for(const variant of [{name:'desktop',width:1440,height:900},{name:'laptop',widt
   const shot=async name=>{await page.waitForTimeout(200);return page.screenshot({path:path.join(output,variant.name+'-'+name+'.png')});};
   const fits=async()=>page.locator('.command-post').evaluate(node=>{const b=node.getBoundingClientRect();return b.x>=0&&b.y>=0&&b.right<=innerWidth+1&&b.bottom<=innerHeight+1&&node.scrollWidth<=node.clientWidth+1&&node.querySelector('.command-body').scrollWidth<=node.querySelector('.command-body').clientWidth+1;});
   try{
-    await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>DEADWALL?.showCommand&&DEADWALL.art?.diagnostics.ready.length===7);
+    await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>DEADWALL?.showCommand&&globalThis.DeadwallArt?.ASSETS&&Object.keys(DeadwallArt.ASSETS).length>0&&DEADWALL.art?.diagnostics.failed.length===0&&DEADWALL.art.diagnostics.ready.length===Object.keys(DeadwallArt.ASSETS).length&&Object.keys(DeadwallArt.ASSETS).every(key=>DEADWALL.art.diagnostics.ready.includes(key)));
     await page.locator('#menuRecordsButton').click();check('archives vierges et commandes de campagne verrouillées',await page.locator('#commandTab-enclosure').isDisabled());
     check('archives dans le viewport',await fits());await shot('archives-vierges');await page.keyboard.press('Escape');
     check('focus rendu au bouton archives',await page.evaluate(()=>document.activeElement.id==='menuRecordsButton'));
@@ -90,8 +90,8 @@ for(const variant of [{name:'desktop',width:1440,height:900},{name:'laptop',widt
     await page.keyboard.press('Escape');await page.locator('#pauseButton').click();await page.locator('#quitButton').click();
     if(variant.name==='desktop'){
       await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
-      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r7');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
-      await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(()=>DEADWALL?.showCommand&&DEADWALL.art?.diagnostics.ready.length===7);
+      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r8');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
+      await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(()=>DEADWALL?.showCommand&&globalThis.DeadwallArt?.ASSETS&&Object.keys(DeadwallArt.ASSETS).length>0&&DEADWALL.art?.diagnostics.failed.length===0&&DEADWALL.art.diagnostics.ready.length===Object.keys(DeadwallArt.ASSETS).length&&Object.keys(DeadwallArt.ASSETS).every(key=>DEADWALL.art.diagnostics.ready.includes(key)));
       await page.locator('#menuRecordsButton').click();check('poste et archives hors ligne',await page.locator('.campaign-row').count()===1);
       await context.setOffline(false);
     }

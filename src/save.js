@@ -31,9 +31,9 @@
     });
     if (cores !== 1) fail('centre de commandement absent ou multiple');
     const units = list(data.units, [], 10000, 'survivants').map(value => {
-      const raw=object(value,'survivant');if(!['worker','soldier'].includes(raw.kind))fail('type de survivant');
+      const raw=object(value,'survivant');if(!owns(C.SURVIVORS,raw.kind))fail('type de survivant');
       const carry=number(raw.carry,0,0,1000,'portage survivant');if(carry>0&&!C.RESOURCE_KEYS.includes(raw.carryType))fail('ressource transportée');
-      return { id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,raw.kind==='soldier'?125:85,.001,raw.kind==='soldier'?125:85,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
+      return { id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
     });
     const zombies = list(data.zombies, [], C.PERFORMANCE_LIMITS.zombies, 'infectés').map(value => { const raw=object(value,'infecté');if(!owns(C.ENEMIES,raw.kind))fail('type infecté');return {id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,1,.001,1e6,'santé infecté'),attackCooldown:number(raw.attackCooldown,0,0,120,'cadence infecté')}; });
     const rawPlayer=object(data.player,'joueur'), health=number(rawPlayer.health,100,0,100,'santé joueur'), weapon=owns(C.WEAPONS,rawPlayer.weapon)?rawPlayer.weapon:'pistol';

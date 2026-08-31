@@ -12,7 +12,10 @@
     infected: { url: 'assets/infected-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
     effects: { url: 'assets/vfx-atlas.webp', width: 1254, height: 1254, matte: 'additive' },
     defenses: { url: 'assets/defenses-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
-    ground: { url: 'assets/terrain-earth.webp', width: 1254, height: 1254, matte: 'none' }
+    ground: { url: 'assets/terrain-earth.webp', width: 1254, height: 1254, matte: 'none' },
+    infectedExpansion: { url: 'assets/infected-expansion-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
+    specialists: { url: 'assets/specialists-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
+    districtProps: { url: 'assets/district-props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' }
   });
   const BUILDINGS = Object.freeze({
     core: [0, 0, 335, 365], house: [350, 0, 255, 365], warehouse: [640, 0, 275, 365],
@@ -32,8 +35,22 @@
   });
   const ACTORS = Object.freeze({
     player: ['survivors', 0], worker: ['survivors', 1], soldier: ['survivors', 2], walker: ['survivors', 3],
-    runner: ['infected', 0], armored: ['infected', 1], crawler: ['infected', 2], howler: ['infected', 3]
+    runner: ['infected', 0], armored: ['infected', 1], crawler: ['infected', 2], howler: ['infected', 3],
+    breacher: ['infectedExpansion', 0], stalker: ['infectedExpansion', 1], bloated: ['infectedExpansion', 2], walkerAlt: ['infectedExpansion', 3],
+    medic: ['specialists', 0], engineer: ['specialists', 1], workerAlt: ['specialists', 2], soldierAlt: ['specialists', 3]
   });
+  const DISTRICT_PROPS = Object.freeze({...Object.fromEntries([
+    'ruinedHouse','ruinedShop','warehouseShell','guardBooth','ambulance','bus','utilityTruck','tanker',
+    'tent','container','waterTank','powerPylon','concreteBarricade','burntTree','rubble','streetLamp'
+  ].map((kind,i)=>[kind,frameRect('districtProps',Math.floor(i/4),i%4,4)])),
+    // Observed silhouettes cross the nominal grid. Keep the complete hangar,
+    // exclude its neighbour from the booth, and exclude rubble from the tree.
+    warehouseShell:[620,0,356,314],guardBooth:[976,0,278,314],burntTree:[326,920,268,334],rubble:[596,940,344,314]
+  });
+  // Appearance is derived from identity, so reloads never reroll a survivor or infected.
+  function actorVariant(kind,id) {
+    return ['worker','soldier','walker'].includes(kind)&&Math.abs(id||0)%3===1?kind+'Alt':kind;
+  }
   const DEFENSES = Object.freeze({
     spikes: [0,0,610,627], armoredGate: [610,0,644,627],
     turret: [0,627,627,627], heavyTurret: [627,627,627,627]
@@ -105,7 +122,7 @@
               const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
               decodeMatte(data.data, canvas.width, canvas.height, spec.matte); ctx.putImageData(data, 0, 0);
               this.images[key] = canvas;
-              const rects = key === 'buildings' ? BUILDINGS : key === 'props' ? PROPS : key === 'defenses' ? DEFENSES : {};
+              const rects = key === 'buildings' ? BUILDINGS : key === 'props' ? PROPS : key === 'defenses' ? DEFENSES : key === 'districtProps' ? DISTRICT_PROPS : {};
               for (const [id, rect] of Object.entries(rects)) this.rects[key + ':' + id] = tightRect(data.data, canvas.width, rect);
             } else this.images[key] = source;
             this.diagnostics.ready.push(key);
@@ -166,6 +183,13 @@
       return true;
     }
     drawNode(ctx, node) {
+      if(node.sceneryKind){
+        const rect=this.rects['districtProps:'+node.sceneryKind];if(!rect)return false;
+        const size=node.renderSize||90,ratio=rect[2]/rect[3],w=ratio>1?size:size*ratio,h=ratio>1?size/ratio:size;
+        ctx.save();ctx.translate(node.x,node.y);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.5,1);
+        if(node.flash>0)ctx.scale(1.03,1.03);
+        this.blit(ctx,'districtProps',rect,-w/2,-h/2,w,h);ctx.restore();return true;
+      }
       const variant = Math.abs(node.variant || 0) % 4;
       const key = node.type === 'wood' ? ['tree', 'pine', 'logs', 'tree'][variant] :
         node.type === 'scrap' ? ['scrap', 'sedan', 'van', 'truck'][variant] :
@@ -178,13 +202,13 @@
       this.blit(ctx, 'props', rect, -w / 2, -h / 2, w, h); ctx.restore(); return true;
     }
     drawActor(ctx, entity, kind, time, reducedMotion, compact) {
-      const spec = ACTORS[kind]; if (!spec || !this.images[spec[0]]) return false;
+      const spec = ACTORS[actorVariant(kind,entity.id)]; if (!spec || !this.images[spec[0]]) return false;
       let previous = this.motion.get(entity);
       if (!previous) { previous = { x: entity.x, y: entity.y, until: 0 }; this.motion.set(entity, previous); }
       if (Math.hypot(entity.x - previous.x, entity.y - previous.y) > .12) previous.until = time + .12;
       previous.x = entity.x; previous.y = entity.y;
       const frame = reducedMotion || previous.until < time ? 0 : Math.floor(time * (kind === 'runner' ? 13 : 9) + (entity.id || 0)) % 8;
-      const size = (kind === 'player' ? 57 : kind === 'armored' ? 62 : kind === 'crawler' ? 49 : 55) * (compact ? 1.1 : 1);
+      const size = (kind === 'player' ? 57 : ['armored','breacher','bloated'].includes(kind) ? 62 : kind === 'crawler' ? 49 : 55) * (compact ? 1.1 : 1);
       ctx.save(); ctx.translate(entity.x, entity.y);
       if (kind === 'player') { ctx.strokeStyle = '#ddba69'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0, 3, 16, 12, 0, 0, Math.PI * 2); ctx.stroke(); }
       ctx.rotate(entity.facing || 0);
@@ -210,5 +234,5 @@
       ctx.restore();return true;
     }
   }
-  return { ASSETS, BUILDINGS, PROPS, DEFENSES, ACTORS, frameRect, decodeMatte, tightRect, create: () => new Art() };
+  return { ASSETS, BUILDINGS, PROPS, DEFENSES, DISTRICT_PROPS, ACTORS, actorVariant, frameRect, decodeMatte, tightRect, create: () => new Art() };
 });

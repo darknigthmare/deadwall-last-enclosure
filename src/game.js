@@ -64,10 +64,13 @@
 
   class Unit {
     constructor(id, kind, x, y) {
+      const def=Object.prototype.hasOwnProperty.call(C.SURVIVORS,kind)?C.SURVIVORS[kind]:null;
+      if(!def)throw new Error('Profil de survivant inconnu.');
       this.id = id; this.kind = kind; this.x = x; this.y = y; this.dead = false;
-      this.maxHealth = kind === 'soldier' ? 125 : 85; this.health = this.maxHealth;
-      this.radius = kind === 'soldier' ? 12 : 11; this.speed = kind === 'soldier' ? 74 : 60;
+      this.maxHealth = def.health; this.health = this.maxHealth;
+      this.radius = def.radius; this.speed = def.speed;
       this.state = 'idle'; this.targetNode = -1; this.targetBuilding = -1; this.think = 0;
+      this.targetUnit = -1; this.supportActive = false;
       this.fireCooldown = 0; this.facing = 0; this.carryType = null; this.carry = 0; this.maxCarry = 10;
       const a = Math.random() * Math.PI * 2, r = 35 + Math.random() * 70;
       this.offset = { x: Math.cos(a) * r, y: Math.sin(a) * r };
@@ -76,12 +79,14 @@
 
   class Zombie {
     constructor(id, kind, x, y, difficulty, waveNumber) {
+      if (!Object.hasOwn(ENEMIES, kind)) throw new RangeError('Profil infecté inconnu.');
       const def = ENEMIES[kind];
       this.id = id; this.kind = kind; this.x = x; this.y = y; this.dead = false;
       this.radius = def.radius; this.maxHealth = def.health * difficulty.enemyHealth * enemyHealthScale(waveNumber);
       this.health = this.maxHealth; this.attackCooldown = 0; this.facing = 0; this.stagger = 0;
       this.howl = 2 + Math.random() * 7; this.bias = Math.random() * 1000; this.anim = Math.random() * 10;
       this.rage = 0; this.stuck = 0; this.lastX = x; this.lastY = y;
+      this.prey = null; this.huntThink = Math.random() * C.ENEMY_RULES.stalkThinkSeconds;
     }
   }
 
@@ -142,6 +147,9 @@
       this.seed = seed; this.occupancy = new Int32Array(WORLD_TILES * WORLD_TILES);
       this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
       this.generateNodes();
+      const content=globalThis.DeadwallWorldContent?.generate(this.seed);
+      this.sites=content?.sites||[];
+      for(const prop of content?.props||[])this.nodes.push(Object.assign(new ResourceNode(this.nodeId++,prop.type,prop.x,prop.y,prop.amount,prop.radius,0),{sceneryKind:prop.sceneryKind,siteId:prop.siteId,renderSize:prop.renderSize}));
     }
     cells(building) {
       const out = [];
@@ -502,9 +510,10 @@
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
       document.getElementById('mapSeed')?.setCustomValidity?.('');
-      this.audio.unlock(); this.difficulty = DIFFICULTIES[id] || DIFFICULTIES.standard; this.random = new Random(Date.now()); this.nextId = 1;
+      id = typeof id === 'string' && Object.hasOwn(DIFFICULTIES, id) ? id : 'standard';
+      this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       this.world = new WorldMap(seed ?? this.random.int(1000, 9999999)); this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
-      this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
+      this.fieldMarker=null;this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
@@ -527,7 +536,7 @@
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding })),
+        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId,
@@ -564,7 +573,7 @@
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
-      this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
+      this.fieldMarker=null;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
@@ -674,13 +683,17 @@
     }
 
     canRecruit(kind) {
-      if (this.population >= this.housing) return false;
-      if (kind === 'worker') return canAfford(this.resources, { food:25 });
-      return this.world.has('barracks') && canAfford(this.resources, { food:15, ammo:20, scrap:10 });
+      const def=Object.prototype.hasOwnProperty.call(C.SURVIVORS,kind)?C.SURVIVORS[kind]:null;
+      return Boolean(def&&this.canIssueCommand()&&this.core()&&this.population<this.housing&&this.tier.id>=def.tier&&(!def.requires||this.world.has(def.requires))&&canAfford(this.resources,def.cost));
     }
     recruit(kind) {
-      if (!this.canRecruit(kind)) { this.notify(kind === 'soldier' && !this.world.has('barracks') ? 'Construisez une caserne.' : 'Logements ou ressources insuffisants.', 'danger'); return; }
-      spend(this.resources, kind === 'worker' ? { food:25 } : { food:15, ammo:20, scrap:10 }); const core = this.core(); const unit = new Unit(this.nextId++, kind, core.x + this.random.range(-35,35), core.y + this.random.range(-35,35)); this.units.push(unit); this.refreshMetrics(true); this.notify(kind === 'worker' ? 'Nouvel ouvrier affecté.' : 'Fusilier prêt au combat.', 'good');
+      if(!Object.prototype.hasOwnProperty.call(C.SURVIVORS,kind)||!this.canIssueCommand())return false;
+      const def=C.SURVIVORS[kind];
+      if(!this.canRecruit(kind)){const reason=def.requires&&!this.world.has(def.requires)?`${BUILDINGS[def.requires].name} terminé requis.`:this.tier.id<def.tier?`Nécessite le palier ${CITY_TIERS[def.tier].name}.`:this.population>=this.housing?'Logements insuffisants.':`Recrutement : ${resourceText(def.cost)} requis.`;this.notify(reason,'danger');return false;}
+      if(!spend(this.resources,def.cost))return false;
+      const core=this.core(),unit=new Unit(this.nextId++,kind,core.x+this.random.range(-35,35),core.y+this.random.range(-35,35));
+      if(this.workerOrder==='retreat'&&(kind==='worker'||def.specialist))unit.state='flee';
+      this.units.push(unit);this.refreshMetrics(true);this.audio.ui();this.notify(`${def.name} prêt à intervenir.`,'good');return true;
     }
 
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
@@ -837,7 +850,7 @@
       const node = this.world.nearestNode(p.x,p.y,62); let action = null;
       if (storage && carried > .01 && dist(storage,p) < 100) { this.interactionText = `Déposer ${Math.floor(carried)} unités`; action = 'deposit'; }
       else if (incomplete) { this.interactionText = `Construire ${incomplete.def.name} — ${Math.floor(incomplete.progress*100)} %`; action = 'build'; }
-      else if (node && bagTotal(p.carry) < p.carryCapacity) { this.interactionText = `Récolter ${RESOURCE_META[node.type].label.toLowerCase()}`; action = 'harvest'; }
+      else if (node && bagTotal(p.carry) < p.carryCapacity) { this.interactionText = node.sceneryKind ? `Fouiller ${C.SCENERY_DEFS[node.sceneryKind].name} · ${RESOURCE_META[node.type].label.toLowerCase()}` : `Récolter ${RESOURCE_META[node.type].label.toLowerCase()}`; action = 'harvest'; }
       else this.interactionText = '';
       if (!action || !this.input.keys.has('KeyE')) return;
       if (action === 'deposit') {
@@ -909,7 +922,7 @@
       // Rotate the first claimant so unreachable jobs cannot starve later workers or soldiers of A*.
       this.unitUpdateOffset=(firstUnit+STRATEGY_RULES.pathQueriesPerUpdate)%Math.max(1,unitCount);
       for(let turn=0;turn<unitCount;turn++){const u=this.units[(firstUnit+turn)%unitCount];if(u.dead)continue;u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
-        const danger=this.nearestZombie(u.x,u.y,105);
+        const danger=this.nearestZombie(u.x,u.y,C.SURVIVORS[u.kind]?.specialist?C.NPC_RULES.dangerRange:105);
         if(u.kind==='worker'){
           if(danger){u.state='flee';this.moveUnitToward(u,core,dt,u.speed*1.25);continue;}
           if(order==='retreat'){this.retreatWorker(u,core,dt);continue;}
@@ -943,12 +956,76 @@
           else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange))this.clearCorpsesWithWorker(u,b,dt);else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
           else if(u.state==='return'){const storage=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&(b.type==='core'||b.type==='warehouse')&&this.workerJobAvailable(u,`return:${b.id}`)).sort((a,b)=>distSq(u,a)-distSq(u,b))[0];if(storage)this.depositWorker(u,storage,dt);}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
-        } else {
+        } else if(C.SURVIVORS[u.kind]?.specialist){
+          this.updateSpecialist(u,dt,danger,core);
+        } else if(u.kind==='soldier') {
           const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
           else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
       this.units=this.units.filter(u=>!u.dead);
+    }
+
+    updateSpecialist(unit, dt, danger, core) {
+      unit.supportActive=false;
+      if(danger){unit.state='flee';unit.targetUnit=-1;unit.targetBuilding=-1;this.moveUnitToward(unit,core,dt,unit.speed*C.NPC_RULES.fleeSpeedMultiplier);return;}
+      if(this.workerOrder==='retreat'){unit.targetUnit=-1;this.retreatWorker(unit,core,dt);return;}
+      if(unit.carry>0){unit.state='return';this.depositWorker(unit,core,dt);return;}
+      if(unit.kind==='medic'){
+        let target=unit.targetUnit===0?this.player:this.units.find(candidate=>candidate.id===unit.targetUnit);
+        if(unit.think<=0||unit.targetUnit!==-1&&!this.medicTargetValid(unit,target)){
+          unit.think=C.NPC_RULES.rethinkSeconds;target=this.findMedicTarget(unit);unit.targetUnit=target?(target===this.player?0:target.id):-1;
+        }
+        if(target){unit.state='repair';if(this.workerCanWorkAt(unit,target,C.NPC_RULES.healRange)){unit.facing=Math.atan2(target.y-unit.y,target.x-unit.x);unit.supportActive=this.healWithMedic(unit,target,dt)>0;}else this.moveWorkerToJob(unit,target,dt,`medic:${unit.targetUnit}`);return;}
+      }else{
+        let building=this.world.buildings.get(unit.targetBuilding);
+        if(unit.think<=0||unit.targetBuilding!==-1&&!this.engineerTargetValid(unit,building)){
+          unit.think=C.NPC_RULES.rethinkSeconds;building=this.findEngineerTarget(unit);unit.targetBuilding=building?.id??-1;
+        }
+        if(building){const point=this.workerBuildExit(unit,building,'repair');if(point){unit.state='repair';if(this.workerCanWorkAt(unit,point,C.NPC_RULES.repairRange)){unit.facing=Math.atan2(building.y-unit.y,building.x-unit.x);unit.supportActive=this.repairWithEngineer(unit,building,dt,point)>0;}else this.moveWorkerToJob(unit,point,dt,point.key);return;}}
+      }
+      unit.state='idle';const target={x:this.rally.x+unit.offset.x*.35,y:this.rally.y+unit.offset.y*.35};
+      if(dist(unit,target)>C.NPC_RULES.rallyRadius)this.moveUnitToward(unit,target,dt);
+    }
+
+    medicTargetValid(unit, target) {
+      if(!target||target.dead||target.health<=0||target.health>=target.maxHealth||this.resources.medicine<=0||distSq(unit,target)>C.NPC_RULES.searchRadius**2)return false;
+      return this.workerJobAvailable(unit,`medic:${target===this.player?0:target.id}`);
+    }
+
+    findMedicTarget(unit) {
+      return [this.player,...this.units].filter(target=>this.medicTargetValid(unit,target)).sort((a,b)=>a.health/a.maxHealth-b.health/b.maxHealth||distSq(unit,a)-distSq(unit,b))[0]||null;
+    }
+
+    healWithMedic(unit, target, dt) {
+      if(unit.kind!=='medic'||unit.dead||unit.health<=0||this.workerOrder==='retreat'||!(dt>0)||!target||target.dead||target.health<=0||!this.workerCanWorkAt(unit,target,C.NPC_RULES.healRange))return 0;
+      const amount=Math.max(0,Math.min(target.maxHealth-target.health,dt*C.NPC_RULES.healPerSecond,(this.resources.medicine||0)/C.NPC_RULES.medicinePerHealth));
+      if(amount>0){this.resources.medicine=Math.max(0,this.resources.medicine-amount*C.NPC_RULES.medicinePerHealth);target.health=Math.min(target.maxHealth,target.health+amount);}
+      return amount;
+    }
+
+    engineerRepairRates(building) {
+      return {scrap:C.NPC_RULES.repairScrapPerHealth,wood:building.type==='woodWall'?C.NPC_RULES.repairWoodPerFullWall/building.maxHealth:0,stone:building.type==='concreteWall'?C.NPC_RULES.repairStonePerFullWall/building.maxHealth:0};
+    }
+
+    engineerTargetValid(unit, building) {
+      if(!building||building.dead||!building.completed||building.health<=0||building.health>=building.maxHealth||distSq(unit,building)>C.NPC_RULES.searchRadius**2)return false;
+      if(Object.entries(this.engineerRepairRates(building)).some(([key,rate])=>rate>0&&!(this.resources[key]>0)))return false;
+      return Boolean(this.workerBuildExit(unit,building,'repair'));
+    }
+
+    findEngineerTarget(unit) {
+      return [...this.world.buildings.values()].filter(building=>this.engineerTargetValid(unit,building)).sort((a,b)=>(b.priority||2)-(a.priority||2)||a.health/a.maxHealth-b.health/b.maxHealth||distSq(unit,a)-distSq(unit,b))[0]||null;
+    }
+
+    repairWithEngineer(unit, building, dt, point=null) {
+      if(unit.kind!=='engineer'||unit.dead||unit.health<=0||this.workerOrder==='retreat'||!(dt>0)||!building||building.dead||!building.completed||building.health<=0||this.world.buildings.get(building.id)!==building)return 0;
+      point=point||this.workerBuildExit(unit,building,'repair');
+      if(!point||!this.workerCanWorkAt(unit,point,C.NPC_RULES.repairRange))return 0;
+      const rates=this.engineerRepairRates(building);let amount=Math.max(0,Math.min(building.maxHealth-building.health,dt*C.NPC_RULES.repairPerSecond));
+      for(const [key,rate]of Object.entries(rates))if(rate>0)amount=Math.min(amount,Math.max(0,this.resources[key]||0)/rate);
+      if(amount>0){for(const [key,rate]of Object.entries(rates))if(rate>0)this.resources[key]=Math.max(0,this.resources[key]-amount*rate);building.health=Math.min(building.maxHealth,building.health+amount);}
+      return amount;
     }
 
     workerResourceTarget(unit) {
@@ -966,9 +1043,10 @@
     setWorkerOrder(order) {
       if(!this.canIssueCommand()||!['auto','harvest','build','clear','retreat'].includes(order))return false;
       if(this.workerOrder===order)return true;
+      const previous=this.workerOrder;
       this.workerOrder=order;
-      for(const unit of this.units)if(!unit.dead&&unit.kind==='worker'){
-        unit.state=order==='retreat'?'flee':unit.carry>0?'return':'idle';unit.think=0;unit.targetNode=-1;unit.targetBuilding=-1;unit.navigation=null;
+      for(const unit of this.units)if(!unit.dead&&(unit.kind==='worker'||C.SURVIVORS[unit.kind]?.specialist&&(order==='retreat'||previous==='retreat'))){
+        unit.state=order==='retreat'?'flee':unit.carry>0?'return':'idle';unit.think=0;unit.targetNode=-1;unit.targetBuilding=-1;unit.targetUnit=-1;unit.navigation=null;unit.supportActive=false;
       }
       this.audio.ui();this.save(false);return true;
     }
@@ -993,11 +1071,11 @@
       return true;
     }
 
-    workerBuildExit(unit, building) {
+    workerBuildExit(unit, building, keyPrefix='exit') {
       // Leave the future collision footprint by walking before finishing a wall around ourselves.
       const offset=Math.max(TILE/2,unit.radius+4),x=clamp(unit.x,building.left+TILE/2,building.right-TILE/2),y=clamp(unit.y,building.top+TILE/2,building.bottom-TILE/2);
       const points=[{x:building.left-offset,y},{x:building.right+offset,y},{x,y:building.top-offset},{x,y:building.bottom+offset}];
-      return points.map((point,i)=>({...point,key:`exit:${building.id}:${i}`})).filter(point=>point.x>=offset&&point.y>=offset&&point.x<=WORLD_SIZE-offset&&point.y<=WORLD_SIZE-offset&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
+      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>point.x>=offset&&point.y>=offset&&point.x<=WORLD_SIZE-offset&&point.y<=WORLD_SIZE-offset&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
     }
 
     workerJobAvailable(unit, key) {
@@ -1129,37 +1207,110 @@
       while(this.spawnQueue.length<STRATEGY_RULES.spawnBatch&&spawnCount(this.pendingSpawns)){const kind=takeSpawnKind(this.pendingSpawns,this.random.next());if(!kind)break;this.spawnQueue.push(kind);}
     }
     spawnZombie(kind) {
+      if(!Object.hasOwn(ENEMIES,kind))return false;
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
       if(front==='north'){x=this.random.range(80,WORLD_SIZE-80);y=margin;}else if(front==='south'){x=this.random.range(80,WORLD_SIZE-80);y=WORLD_SIZE-margin;}else if(front==='east'){x=WORLD_SIZE-margin;y=this.random.range(80,WORLD_SIZE-80);}else{x=margin;y=this.random.range(80,WORLD_SIZE-80);}
-      x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave));
+      x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave));return true;
     }
 
     get remainingAssault(){return this.spawnQueue.length+spawnCount(this.pendingSpawns)+this.zombies.filter(z=>!z.dead).length;}
 
+    stalkerScanClaims(dt){
+      const claims=new Set(),count=this.zombies.length,first=(this.stalkerScanOffset||0)%Math.max(1,count);
+      // Rotate only scan rights: ordinary movement and attack ordering stay unchanged.
+      for(let turn=0;turn<count&&claims.size<C.ENEMY_RULES.stalkQueriesPerUpdate;turn++){
+        const index=(first+turn)%count,z=this.zombies[index];this.stalkerScanOffset=(index+1)%count;
+        if(!z.dead&&z.kind==='stalker'&&z.huntThink<=dt)claims.add(z.id);
+      }
+      return claims;
+    }
+    isolatedStalkerTargets(){
+      // One spatial index per scan batch avoids an all-pairs search in large colonies.
+      const allies=[this.player,...this.units].filter(actor=>!actor.dead),size=C.ENEMY_RULES.stalkIsolation,buckets=new Map();
+      const key=(x,y)=>x+','+y;
+      for(const actor of allies){const cell=key(Math.floor(actor.x/size),Math.floor(actor.y/size));if(!buckets.has(cell))buckets.set(cell,[]);buckets.get(cell).push(actor);}
+      return allies.filter(actor=>{
+        const cx=Math.floor(actor.x/size),cy=Math.floor(actor.y/size);
+        for(let y=cy-1;y<=cy+1;y++)for(let x=cx-1;x<=cx+1;x++)for(const other of buckets.get(key(x,y))||[])
+          if(other!==actor&&distSq(actor,other)<=size*size)return false;
+        return true;
+      });
+    }
+    hostilePositionClear(entity,x,y){
+      const radius=entity.radius||0,probe={x,y,radius,dead:false};
+      for(let gy=grid(y-radius);gy<=grid(y+radius);gy++)for(let gx=grid(x-radius);gx<=grid(x+radius);gx++){
+        const building=this.world.at(world(gx),world(gy));
+        if(building&&!building.dead&&!T.openGate(building)&&T.overlapsBuilding(building,probe))return false;
+      }
+      return true;
+    }
+    stalkerCorridorClear(z,target){
+      const steps=Math.max(1,Math.ceil(dist(z,target)/(TILE/3)));
+      for(let i=1;i<=steps;i++)if(!this.hostilePositionClear(z,lerp(z.x,target.x,i/steps),lerp(z.y,target.y,i/steps)))return false;
+      return true;
+    }
+    findStalkerPrey(z,candidates){
+      let prey=null,best=C.ENEMY_RULES.stalkRange**2;
+      for(const target of candidates){const distance=distSq(z,target);if(distance<=best&&this.hostileLineClear(z,target)&&this.stalkerCorridorClear(z,target)){best=distance;prey=target;}}
+      return prey;
+    }
+    hostileLineClear(from,to,barriersOnly=true,ignored=null){
+      // Exact segment/rectangle clipping also catches the thin edge of a wall corner.
+      const seen=new Set();
+      for(let gy=grid(Math.min(from.y,to.y));gy<=grid(Math.max(from.y,to.y));gy++)for(let gx=grid(Math.min(from.x,to.x));gx<=grid(Math.max(from.x,to.x));gx++){
+        const building=this.world.at(world(gx),world(gy));
+        if(!building||building===ignored||seen.has(building)||building.dead||T.openGate(building)||(barriersOnly&&!T.blocksEnclosure(building)))continue;
+        seen.add(building);let near=0,far=1,intersects=true;
+        for(const [origin,delta,low,high]of [[from.x,to.x-from.x,building.left,building.right],[from.y,to.y-from.y,building.top,building.bottom]]){
+          if(Math.abs(delta)<1e-9){if(origin<low||origin>high){intersects=false;break;}}
+          else{const a=(low-origin)/delta,b=(high-origin)/delta;near=Math.max(near,Math.min(a,b));far=Math.min(far,Math.max(a,b));if(near>far){intersects=false;break;}}
+        }
+        if(intersects)return false;
+      }
+      return true;
+    }
+    damageZombieBuilding(z,building,amount){
+      if(!building||building.dead||T.openGate(building))return false;
+      const target={x:clamp(z.x,building.left,building.right),y:clamp(z.y,building.top,building.bottom)};
+      const distance=dist(z,target);if(distance>z.radius+C.ENEMY_RULES.structureReach)return false;
+      // A blocked local approach cannot damage the next structure behind the first.
+      if(!this.hostileLineClear(z,target,false,building))return false;
+      this.damageBuilding(building,amount*(ENEMIES[z.kind].structureDamage||1));return true;
+    }
+
     updateZombies(dt) {
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
+      const stalkClaims=this.stalkerScanClaims(dt);let stalkCandidates=null;
       for(const z of this.zombies){if(z.dead)continue;const def=ENEMIES[z.kind];z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
-        const dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05),look=z.radius+13;
-        let victim=null,best=34*34;if(!this.player.dead){const d=distSq(z,this.player);if(d<best&&this.hasLineOfSight(z,this.player)){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best&&this.hasLineOfSight(z,u)){best=d;victim=u;}}
+        let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed);const speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05),look=z.radius+13;
+        if(z.kind==='stalker'){
+          z.huntThink-=dt;
+          if(z.prey&&(z.prey.dead||distSq(z,z.prey)>C.ENEMY_RULES.stalkRange**2||!this.hostileLineClear(z,z.prey))){z.prey=null;z.huntThink=0;}
+          if(z.huntThink<=0&&stalkClaims.has(z.id)){if(stalkCandidates===null)stalkCandidates=this.isolatedStalkerTargets();z.prey=this.findStalkerPrey(z,stalkCandidates);z.huntThink=C.ENEMY_RULES.stalkThinkSeconds;}
+          if(z.prey){const distance=dist(z,z.prey);if(distance>0){const hunt={x:(z.prey.x-z.x)/distance,y:(z.prey.y-z.y)/distance};
+            if(this.hostilePositionClear(z,z.x+hunt.x*speed*dt,z.y+hunt.y*speed*dt))dir=hunt;else{z.prey=null;z.huntThink=0;}
+          }}
+        }
+        let victim=null,best=34*34;if(!this.player.dead){const d=distSq(z,this.player);if(d<best&&this.hostileLineClear(z,this.player)){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best&&this.hostileLineClear(z,u)){best=d;victim=u;}}
         if(victim){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);}continue;}
         let blocker=this.world.at(z.x+dir.x*look,z.y+dir.y*look);if(T.openGate(blocker))blocker=null;
         if(blocker&&!blocker.dead&&blocker.type!=='core'){
-          if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;this.damageBuilding(blocker,def.damage*dt*.13);if(z.health<=0){this.killZombie(z,false);continue;}}
+          if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;this.damageZombieBuilding(z,blocker,def.damage*dt*.13);if(z.health<=0){this.killZombie(z,false);continue;}}
           const ramp=blocker.def.wall&&blocker.corpseLoad>15+(z.id%18)&&(z.kind==='runner'||z.kind==='crawler');
-          if(!ramp){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageBuilding(blocker,def.damage*this.difficulty.enemyDamage);}continue;}
-        }else if(blocker&&blocker.type==='core'){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageBuilding(blocker,def.damage*this.difficulty.enemyDamage);}continue;}
+          if(!ramp){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
+        }else if(blocker&&blocker.type==='core'){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
         z.facing=Math.atan2(dir.y,dir.x);z.x=clamp(z.x+dir.x*speed*dt,3,WORLD_SIZE-3);z.y=clamp(z.y+dir.y*speed*dt,3,WORLD_SIZE-3);
         if(this.random.chance(dt*.45)){const nearby=this.nearbyZombies(z.x,z.y,22);for(const o of nearby){if(o===z)continue;const dx=z.x-o.x,dy=z.y-o.y,l=Math.hypot(dx,dy)||1;z.x+=dx/l*.15;z.y+=dy/l*.15;break;}}
         const moved=Math.hypot(z.x-z.lastX,z.y-z.lastY);if(moved<.2)z.stuck+=dt;else z.stuck=Math.max(0,z.stuck-dt);z.lastX=z.x;z.lastY=z.y;
-        if(z.stuck>2.5){const near=this.world.at(z.x+dir.x*30,z.y+dir.y*30)||this.nearestBuilding(z.x,z.y,48);if(near&&!T.openGate(near)&&z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageBuilding(near,def.damage*this.difficulty.enemyDamage);}}
+        if(z.stuck>2.5){const near=this.world.at(z.x+dir.x*30,z.y+dir.y*30)||this.nearestBuilding(z.x,z.y,48);if(near&&!T.openGate(near)&&z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,near,def.damage*this.difficulty.enemyDamage);}}
       }
       this.zombies=this.zombies.filter(z=>!z.dead);
     }
 
     nearestBuilding(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values()){if(b.dead)continue;const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
     hasLineOfSight(a,b){const steps=Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/18);for(let i=1;i<steps;i++){const t=i/steps,hit=this.world.at(lerp(a.x,b.x,t),lerp(a.y,b.y,t));if(T.blocksEnclosure(hit))return false;}return true;}
-    damageUnit(unit,amount){unit.health-=amount;if(unit.health<=0){unit.dead=true;this.stats.unitsLost++;this.notify(`${unit.kind==='soldier'?'Un fusilier':'Un ouvrier'} a été perdu.`,'danger');for(let i=0;i<8;i++)this.particles.push(new Particle(unit.x,unit.y,this.random.range(-30,30),this.random.range(-35,15),.7,3,'#6f302e','blood'));}}
+    damageUnit(unit,amount){if(!unit||unit.dead||!(amount>0))return;unit.health=Math.max(0,unit.health-amount);if(unit.health<=0){unit.dead=true;unit.supportActive=false;this.stats.unitsLost++;this.notify(`Un ${(C.SURVIVORS[unit.kind]?.name||'survivant').toLowerCase()} a été perdu.`,'danger');for(let i=0;i<8;i++)this.particles.push(new Particle(unit.x,unit.y,this.random.range(-30,30),this.random.range(-35,15),.7,3,'#6f302e','blood'));}}
     damageBuilding(b,amount){if(b.dead)return;if(b.def.wall&&this.hasResearch('fortification'))amount*=.88;b.health-=amount;b.underAttack=.5;if(b.health<=0)this.destroyBuilding(b);}
     destroyBuilding(b){if(b.dead)return;b.dead=true;const def=b.def;this.world.remove(b);this.stats.buildingsLost++;this.camera.shake=Math.max(this.camera.shake,def.explosive?18:10);for(let i=0;i<(def.explosive?45:20);i++)this.particles.push(new Particle(b.x+this.random.range(-b.w*TILE/2,b.w*TILE/2),b.y+this.random.range(-b.h*TILE/2,b.h*TILE/2),this.random.range(-90,90),this.random.range(-100,60),this.random.range(.6,1.4),this.random.range(2,7),i%3?'#5c5a51':'#b87948',i%3?'debris':'spark'));
       if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
@@ -1174,7 +1325,7 @@
     updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const dx=p.vx*dt,dy=p.vy*dt;p.x+=dx;p.y+=dy;p.travelled+=Math.hypot(dx,dy);if(p.travelled>p.range||p.x<0||p.y<0||p.x>WORLD_SIZE||p.y>WORLD_SIZE){p.dead=true;continue;}const targets=this.nearbyZombies(p.x,p.y,18);for(const z of targets){if(z.dead)continue;const hit=distSq(p,z)<(z.radius+p.radius+3)**2;if(!hit)continue;let damage=p.damage,head=false;if(p.owner==='player'&&this.random.chance(this.player.weapon==='shotgun'?.065:.13)){damage*=1.75;head=true;this.stats.headshots++;}z.health-=damage;z.stagger=Math.max(z.stagger,.08);p.dead=true;this.audio.hit();for(let i=0;i<4;i++)this.particles.push(new Particle(z.x,z.y,this.random.range(-45,45),this.random.range(-45,45),.45,2.5,'#6d2928','blood'));if(head)this.floaters.push({x:z.x,y:z.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});if(z.health<=0)this.killZombie(z,head);break;}}
       this.projectiles=this.projectiles.filter(p=>!p.dead);}
 
-    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?.65:(z.kind==='armored'?2.2:1);const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
+    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
     nearestWall(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
 
     updateEffects(dt){for(const node of this.world.nodes)node.flash=Math.max(0,node.flash-dt);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.08,dt);p.vy+=p.kind==='debris'||p.kind==='blood'?65*dt:-4*dt;p.rotation+=dt*4;}this.particles=this.particles.filter(p=>p.life>0);if(this.particles.length>PERFORMANCE_LIMITS.particles)this.particles.splice(0,this.particles.length-PERFORMANCE_LIMITS.particles);for(const c of this.corpses)c.age+=dt;this.corpses=this.corpses.filter(c=>c.age<100);for(const f of this.floaters){f.life-=dt;f.y-=dt*18;}this.floaters=this.floaters.filter(f=>f.life>0);}
@@ -1191,7 +1342,7 @@
         for(const [key,rate]of Object.entries(b.def.consumes||{}))this.resources[key]-=rate*seconds*fraction;
         for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
       }
-      if(this.morale<20)for(const u of this.units)u.speed=(u.kind==='soldier'?74:60)*.82;else for(const u of this.units)u.speed=u.kind==='soldier'?74:60;
+      for(const unit of this.units)unit.speed=(C.SURVIVORS[unit.kind]?.speed||60)*(this.morale<20?.82:1);
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);
     }
 
@@ -1259,7 +1410,7 @@
 
     updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionCard.dataset.state=!b.completed?'construction':b.health/b.maxHealth<.35?'critical':b.def.powerUse&&!b.powered?'unpowered':'operational';this.ui.selectionCard.dataset.priority=String(b.priority||2);this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.completed||!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;}
 
-    render(){const ctx=this.ctx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.fillStyle='#171c18';ctx.fillRect(0,0,this.width,this.height);const shakeX=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0,shakeY=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0;ctx.save();ctx.translate(this.width/2+shakeX,this.height/2+shakeY);ctx.scale(this.camera.zoom,this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);const view=this.viewBounds();this.crowdDetail=this.width>720&&this.camera.zoom>.72&&this.zombies.length<320;this.drawGround(ctx,view);for(const node of this.world.nodes)if(!node.depleted&&this.visible(node.x,node.y,node.radius+20,view))this.drawNode(ctx,node);for(const corpse of this.corpses)if(this.visible(corpse.x,corpse.y,25,view))this.drawCorpse(ctx,corpse);const buildings=[...this.world.buildings.values()].filter(b=>!b.dead&&this.visible(b.x,b.y,Math.max(b.w,b.h)*TILE+40,view)).sort((a,b)=>a.y-b.y);for(const b of buildings)this.drawBuilding(ctx,b);for(const p of this.particles)if(this.visible(p.x,p.y,20,view))this.drawParticle(ctx,p);for(const u of this.units)if(!u.dead&&this.visible(u.x,u.y,28,view))this.drawUnit(ctx,u);for(const z of this.zombies)if(!z.dead&&this.visible(z.x,z.y,28,view))this.drawZombie(ctx,z);for(const p of this.projectiles)if(!p.dead&&this.visible(p.x,p.y,20,view))this.drawProjectile(ctx,p);if(!this.player.dead)this.drawPlayer(ctx);for(const f of this.floaters)if(this.visible(f.x,f.y,80,view))this.drawFloater(ctx,f);this.drawRally(ctx);this.drawPlacement(ctx);ctx.restore();this.drawNight(ctx);this.drawRain(ctx);this.drawThreatArrows(ctx);this.drawCrosshair(ctx);}
+    render(){const ctx=this.ctx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.fillStyle='#171c18';ctx.fillRect(0,0,this.width,this.height);const shakeX=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0,shakeY=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0;ctx.save();ctx.translate(this.width/2+shakeX,this.height/2+shakeY);ctx.scale(this.camera.zoom,this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);const view=this.viewBounds();this.crowdDetail=this.width>720&&this.camera.zoom>.72&&this.zombies.length<320;this.drawGround(ctx,view);this.contentUI?.drawMarker(ctx,view);for(const node of this.world.nodes)if(!node.depleted&&this.visible(node.x,node.y,Math.max(node.radius+20,(node.renderSize||0)/2+10),view))this.drawNode(ctx,node);for(const corpse of this.corpses)if(this.visible(corpse.x,corpse.y,25,view))this.drawCorpse(ctx,corpse);const buildings=[...this.world.buildings.values()].filter(b=>!b.dead&&this.visible(b.x,b.y,Math.max(b.w,b.h)*TILE+40,view)).sort((a,b)=>a.y-b.y);for(const b of buildings)this.drawBuilding(ctx,b);for(const p of this.particles)if(this.visible(p.x,p.y,20,view))this.drawParticle(ctx,p);for(const u of this.units)if(!u.dead&&this.visible(u.x,u.y,28,view))this.drawUnit(ctx,u);for(const z of this.zombies)if(!z.dead&&this.visible(z.x,z.y,28,view))this.drawZombie(ctx,z);for(const p of this.projectiles)if(!p.dead&&this.visible(p.x,p.y,20,view))this.drawProjectile(ctx,p);if(!this.player.dead)this.drawPlayer(ctx);for(const f of this.floaters)if(this.visible(f.x,f.y,80,view))this.drawFloater(ctx,f);this.drawRally(ctx);this.drawPlacement(ctx);ctx.restore();this.drawNight(ctx);this.drawRain(ctx);this.drawThreatArrows(ctx);this.drawCrosshair(ctx);}
 
     viewBounds(){const hw=this.width/this.camera.zoom/2+120,hh=this.height/this.camera.zoom/2+120;return{left:this.camera.x-hw,right:this.camera.x+hw,top:this.camera.y-hh,bottom:this.camera.y+hh};}
     visible(x,y,r,v){return x+r>=v.left&&x-r<=v.right&&y+r>=v.top&&y-r<=v.bottom;}
@@ -1318,6 +1469,15 @@
       if(b.underAttack>0){ctx.strokeStyle=`rgba(197,83,73,${.45+Math.sin(this.elapsed*10)*.25})`;ctx.lineWidth=3;ctx.strokeRect(l-2,t-2,w+4,h+4);}ctx.restore();}
 
     drawUnit(ctx,u){
+      if(u.kind==='medic'||u.kind==='engineer'){
+        ctx.save();ctx.strokeStyle=u.kind==='medic'?'#a8dad0':'#e0b666';ctx.fillStyle=ctx.strokeStyle;ctx.lineWidth=1.5;
+        // Shape and colour both identify the support role; no motion is needed to read it.
+        if(u.kind==='medic'){ctx.fillRect(u.x-4,u.y-30,8,3);ctx.fillRect(u.x-1.5,u.y-33,3,9);}
+        else{ctx.strokeRect(u.x-4,u.y-32,8,7);ctx.beginPath();ctx.moveTo(u.x-2,u.y-34);ctx.lineTo(u.x+2,u.y-34);ctx.stroke();}
+        if(u.supportActive){ctx.globalAlpha=.65;ctx.beginPath();ctx.arc(u.x,u.y,21,0,Math.PI*2);ctx.stroke();
+          if(!this.settings.reducedMotion&&u.kind==='engineer')this.art?.drawEffect(ctx,'spark',u.x+12,u.y,19,(this.elapsed+u.id)%1,.4);}
+        ctx.restore();
+      }
       if(u.state==='clear'){
         ctx.strokeStyle='#a9c7b0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(u.x-4,u.y-24);ctx.lineTo(u.x+4,u.y-30);ctx.moveTo(u.x-6,u.y-24);ctx.lineTo(u.x,u.y-19);ctx.stroke();
         const wall=this.world.buildings.get(u.targetBuilding);
@@ -1411,7 +1571,7 @@
       if(this.state!=='playing'||this.selectedBuild||this.rallyPlacement||globalThis.matchMedia?.('(pointer: coarse)')?.matches)return;const x=this.input.mouseX,y=this.input.mouseY,gap=this.player.weapon==='shotgun'?8:5;ctx.save();ctx.strokeStyle=this.player.reload>0?'rgba(216,173,77,.78)':'rgba(235,240,235,.88)';ctx.lineWidth=1.25;ctx.beginPath();ctx.moveTo(x-gap-8,y);ctx.lineTo(x-gap,y);ctx.moveTo(x+gap,y);ctx.lineTo(x+gap+8,y);ctx.moveTo(x,y-gap-8);ctx.lineTo(x,y-gap);ctx.moveTo(x,y+gap);ctx.lineTo(x,y+gap+8);ctx.stroke();ctx.fillStyle=this.player.reload>0?'#d8ad4d':'#edf1ec';ctx.fillRect(x-1,y-1,2,2);ctx.restore();
     }
 
-    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/WORLD_SIZE,sy=h/WORLD_SIZE;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((WORLD_SIZE/2-430)*sx,(WORLD_SIZE/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}ctx.fillStyle='#b64f45';const step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(!z.dead)ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
+    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/WORLD_SIZE,sy=h/WORLD_SIZE;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((WORLD_SIZE/2-430)*sx,(WORLD_SIZE/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(!z.dead)ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
   }
 
   try {

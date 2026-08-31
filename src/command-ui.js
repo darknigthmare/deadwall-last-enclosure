@@ -2,7 +2,7 @@
   'use strict';
   const game=globalThis.DEADWALL,C=globalThis.DeadwallCore,get=id=>document.getElementById(id);
   const modal=get('commandModal');if(!game||!modal)return;
-  const tabs=['enclosure','workers','research','records'];
+  const tabs=['enclosure','workers','research','records','field'];
   const orders=[
     ['auto','AUTONOMIE','Chantiers puis collecte selon les besoins de la cité.'],
     ['harvest','RÉCOLTER','Collecte prioritaire ; chantiers si aucune ressource accessible.'],
@@ -38,12 +38,12 @@
   });
   function chooseTab(id,focus=false){
     if(!tabs.includes(id))return;
-    if(game.state!=='playing'||game.gameOver)id='records';
+    if((game.state!=='playing'||game.gameOver)&&!['records','field'].includes(id))id='records';
     tab=id;
     for(const name of tabs){
       const button=get('commandTab-'+name),selected=name===id;
       button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;
-      button.disabled=name!=='records'&&(game.state!=='playing'||game.gameOver);
+      button.disabled=!['records','field'].includes(name)&&(game.state!=='playing'||game.gameOver);
       get('commandPanel-'+name).classList.toggle('hidden',!selected);
     }
     refresh();if(focus)get('commandTab-'+tab).focus();
@@ -120,7 +120,7 @@
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshRecords();
+    refreshRecords();game.contentUI?.refresh();
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
   }
   game.showCommand=(show,requestedTab='enclosure')=>{

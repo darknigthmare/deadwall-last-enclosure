@@ -10,14 +10,16 @@ test('art: tous les bâtiments et infectés ont un atlas ou un effet géométriq
   for (const [id, def] of Object.entries(Core.BUILDINGS))
     assert.ok(Art.BUILDINGS[id] || Art.PROPS[id] || Art.DEFENSES[id], id);
   for (const id of Object.keys(Core.ENEMIES)) assert.ok(Art.ACTORS[id], id);
+  for (const id of Object.keys(Core.SURVIVORS)) assert.ok(Art.ACTORS[id], id);
+  for (const id of Object.keys(Core.SCENERY_DEFS||{})) assert.ok(Art.DISTRICT_PROPS[id], id);
   for (const spec of Object.values(Art.ASSETS)) {
     assert.ok(fs.statSync(path.join(__dirname, '..', spec.url)).size > 1000);
     const sw = fs.readFileSync(path.join(__dirname, '../sw.js'), 'utf8');
     assert.ok(sw.includes(spec.url), spec.url + ' hors cache PWA');
   }
 });
-test('art: cellules et 64 poses animées restent dans leurs atlas sans dépasser', () => {
-  for (const [atlas, rects] of [['buildings', Art.BUILDINGS], ['props', Art.PROPS], ['defenses', Art.DEFENSES]]) {
+test('art: cellules et toutes les poses animées restent dans leurs atlas sans dépasser', () => {
+  for (const [atlas, rects] of [['buildings', Art.BUILDINGS], ['props', Art.PROPS], ['defenses', Art.DEFENSES], ['districtProps',Art.DISTRICT_PROPS]]) {
     const spec = Art.ASSETS[atlas];
     for (const rect of Object.values(rects)) {
       assert.ok(rect[0] >= 0 && rect[1] >= 0 && rect[2] > 0 && rect[3] > 0);
@@ -28,6 +30,20 @@ test('art: cellules et 64 poses animées restent dans leurs atlas sans dépasser
     const [x, y, w, h] = Art.frameRect(atlas, row, frame);
     assert.ok(x >= 0 && y >= 0 && x + w <= Art.ASSETS[atlas].width && y + h <= Art.ASSETS[atlas].height);
   }
+});
+test('art: variantes cosmétiques stables sans modifier le rôle ni remplacer les spécialistes',()=>{
+  for(const kind of ['worker','soldier','walker']){
+    assert.equal(Art.actorVariant(kind,1),kind+'Alt');assert.equal(Art.actorVariant(kind,2),kind);
+    assert.equal(Art.actorVariant(kind,4),kind+'Alt');assert.ok(Art.ACTORS[Art.actorVariant(kind,1)]);
+  }
+  for(const kind of ['medic','engineer','breacher','stalker','bloated','player'])assert.equal(Art.actorVariant(kind,1),kind);
+});
+test('art: découpes de quartiers suivent les silhouettes observées sans fragment voisin',()=>{
+  assert.deepEqual(Art.DISTRICT_PROPS.warehouseShell,[620,0,356,314]);
+  assert.deepEqual(Art.DISTRICT_PROPS.guardBooth,[976,0,278,314]);
+  assert.deepEqual(Art.DISTRICT_PROPS.burntTree,[326,920,268,334]);
+  assert.deepEqual(Art.DISTRICT_PROPS.rubble,[596,940,344,314]);
+  assert.equal(Object.keys(Art.DISTRICT_PROPS).length,16);
 });
 test('art: import du chroma et du damier sans effacer les marques claires isolées', () => {
   const magenta = new Uint8ClampedArray([255, 0, 255, 255, 80, 70, 50, 255]);

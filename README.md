@@ -1,6 +1,6 @@
 # DEADWALL — La Dernière Enceinte
 
-Jeu autonome de **survie, construction de cité et défense contre des hordes zombies infinies**. Le joueur commence comme récupérateur armé autour d’un dépôt abandonné, puis automatise la collecte, recrute des ouvriers et des fusiliers, développe des industries et ferme plusieurs enceintes concentriques.
+Jeu autonome de **survie, construction de cité et défense contre des hordes zombies infinies**. Le joueur commence comme récupérateur armé autour d’un dépôt abandonné, puis automatise la collecte, recrute des ouvriers, des fusiliers et des spécialistes, développe des industries et ferme plusieurs enceintes concentriques.
 
 Le moteur **2D/2.5D top-down Canvas** est distribué en application Windows autonome et en version navigateur/PWA. Les assets originaux OpenAI sont embarqués ; aucun compte ni service distant n'est nécessaire pour jouer. Le shell PC utilise Electron : ce n'est pas une réécriture Unreal ou un moteur 3D natif.
 
@@ -59,7 +59,8 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 ## Systèmes jouables
 
 - Personnage contrôlé directement avec santé, endurance, portage, armes, chargeurs et réanimation.
-- Récolte physique de bois, ferraille, pierre, nourriture et carburant.
+- Récolte physique de bois, ferraille, pierre, nourriture, carburant et médicaments trouvés dans les ambulances.
+- Six secteurs déterministes, 48 vestiges récupérables et seize types de ruines, véhicules et équipements ; le dépôt initial et les anciens gisements restent inchangés.
 - Dépôt des ressources au centre de commandement ou dans les entrepôts.
 - Ouvriers autonomes capables de récolter, transporter et construire.
 - Poste de commandement en pause tactique : ordres collectifs, contrôle des portes, doctrines et archives.
@@ -67,13 +68,15 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Portes automatiques, ouvertes ou verrouillées ; diagnostic réel de fermeture du périmètre.
 - Graines de carte réutilisables et records locaux par difficulté, sans bonus permanent.
 - Fusiliers autonomes rassemblés autour d’un point de ralliement déplaçable.
+- Secouristes et ingénieurs recrutables au palier Avant-poste après construction de la clinique ou de l’atelier : soins et réparations de terrain payés sur les stocks, trajets physiques et repli.
+- Dossiers de terrain : huit fiches d’infectés et leurs contres, recrutement, personnel nommé, carte des secteurs et repère de navigation sans téléportation.
 - Vingt-deux structures avec coûts, chantier, intégrité, réparation, démolition et amélioration.
 - Palissades, murs d’acier, remparts en béton, portes, pièges, miradors et tourelles.
 - Tracé rapide de longues lignes de murs pour créer plusieurs enceintes concentriques.
 - Population, logements, nourriture, moral, capacité de stockage et réseau électrique.
 - Fermes, scieries, centres de recyclage, concasseurs, raffineries et manufactures de munitions.
 - Cycle jour/nuit, éclairages alimentés, pluie et visibilité dégradée.
-- Hordes infinies provenant de plusieurs fronts, avec cinq profils d’infectés.
+- Hordes infinies provenant de plusieurs fronts, avec huit profils d’infectés : Errant, Coureur, Protégé, Rampant, Hurleur, Briseur, Traqueur et Engorgé.
 - Champ de flux pondéré : les zombies privilégient les portes et points faibles, mais attaquent un mur lorsque le détour coûte trop cher.
 - Accumulation de cadavres au pied des remparts, augmentant la pression et créant des possibilités de franchissement.
 - Signature de la cité : population, bâtiments, production et consommation électrique attirent davantage d’infectés.
@@ -82,7 +85,7 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Trois difficultés : Survivant, Standard et Brutal.
 - Objectifs d’introduction, récompenses, paliers de cité et mode infini.
 - Son généré procéduralement avec Web Audio, sans fichiers audio externes.
-- Sept textures/atlas OpenAI intégrés au terrain, aux 22 structures, aux props et épaves, aux personnages et aux effets ; 64 poses réparties en huit cycles animés.
+- Dix textures/atlas OpenAI intégrés au terrain, aux 22 structures, aux props et épaves, aux personnages et aux effets ; 128 poses réparties en seize cycles de déplacement, dont trois variantes cosmétiques stables.
 - Navigation alliée par les portes de plusieurs enceintes ; cargaisons partielles conservées et industrie arrêtée à stock plein.
 - Quatre crises à deux choix avec coûts et effets réels ; six doctrines de recherche et progression de cité.
 - Paramètres persistants : volume, contraste, mouvements réduits, qualité légère ; export/import JSON avec validation et confirmation.
@@ -95,6 +98,8 @@ npm run check
 ```
 
 La suite couvre économie, doctrines, difficultés, crises, navigation concentrique, hordes compactées, sauvegardes corrompues et secours, audio, tactile, atlas, protocoles HTTP/PC, build et PWA. Le rendu simulé des tests Node est complété par des contrôles Chromium et de vrais lancements Electron : [audit commercial](docs/AUDIT_COMMERCIAL.md), [audit UX](docs/AUDIT_UX_RUNTIME.md), [provenance des visuels](docs/GAME_ART_PROVENANCE.md).
+
+Extension de contenu : [infectés](docs/ENEMY_CONTENT.md), [spécialistes](docs/SPECIALISTS.md), [secteurs](docs/WORLD_CONTENT.md), [assets et prompts exacts](docs/CONTENT_ART_PROVENANCE.md). Les véhicules restent des épaves récupérables, pas des véhicules pilotables. Les secteurs ne sont pas des couvertures physiques ; les vrais remparts construits définissent l’enceinte.
 
 ## Structure
 
