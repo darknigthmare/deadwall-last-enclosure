@@ -109,7 +109,7 @@
     { id: 'gather', title: 'Sécuriser les matériaux', text: 'Récoltez puis déposez 30 unités dans un centre ou entrepôt.', target: 30, reward: { wood: 35, scrap: 20 } },
     { id: 'house', title: 'Loger les survivants', text: 'Construisez un dortoir renforcé.', target: 1, reward: { food: 35 } },
     { id: 'farm', title: 'Assurer l’approvisionnement', text: 'Mettez en service une ferme protégée.', target: 1, reward: { wood: 30, stone: 20 } },
-    { id: 'walls', title: 'Fermer la première enceinte', text: 'Construisez douze segments de mur ou de porte.', target: 12, reward: { scrap: 45, ammo: 30 } },
+    { id: 'walls', title: 'Préparer la première enceinte', text: 'Construisez douze segments de mur ou de porte, puis reliez-les autour de la cité en conservant un accès allié.', target: 12, reward: { scrap: 45, ammo: 30 } },
     { id: 'power', title: 'Électrifier la ligne', text: 'Construisez un générateur et gardez une réserve de carburant.', target: 1, reward: { scrap: 35, fuel: 20 } },
     { id: 'defense', title: 'Armer le périmètre', text: 'Construisez un mirador ou une tourelle.', target: 1, reward: { ammo: 70, fuel: 10 } },
     { id: 'research', title: 'Organiser la recherche', text: 'Lancez une doctrine de recherche depuis le panneau de commandement.', target: 1, reward: { medicine: 8, ammo: 35 } },
@@ -131,6 +131,27 @@
     { id: 'ammo', title: 'Munitions humides', minWave: 4, severity: 2, text: 'Une réserve a pris l’eau pendant la nuit.', choiceA: 'Sécher et trier maintenant.', choiceB: 'Accepter les pertes et tenir le rythme.' },
     { id: 'breach', title: 'Fissure dans l’enceinte', minWave: 5, severity: 2, text: 'La pression des corps a ouvert un point faible.', choiceA: 'Réparer les défenses critiques.', choiceB: 'Former des équipes de nettoyage.' }
   ];
+
+  const CRISIS_CHOICES = {
+    blackout: {
+      A: { label: 'Stabiliser le réseau', cost: { fuel: 12, scrap: 8 }, description: 'Maintient toute la production.', effects: {} },
+      B: { label: 'Délester les ateliers', cost: {}, description: 'Production réduite de moitié pendant 60 secondes.', effects: { productionMultiplier: .5, duration: 60 } }
+    },
+    injury: {
+      A: { label: 'Soigner et accueillir', cost: { medicine: 6, food: 12 }, description: 'Un ouvrier rejoint la cité ; moral +4. Une place de logement requise.', effects: { workers: 1, morale: 4 } },
+      B: { label: 'Maintenir la quarantaine', cost: {}, description: 'Préserve les réserves ; moral −5.', effects: { morale: -5 } }
+    },
+    ammo: {
+      A: { label: 'Sécher et trier', cost: { fuel: 8, scrap: 10 }, description: 'Sauve la réserve de munitions.', effects: {} },
+      B: { label: 'Écarter les lots humides', cost: {}, description: 'Perte de 18 munitions, dans la limite du stock.', effects: { ammo: -18 } }
+    },
+    breach: {
+      A: { label: 'Consolider la fissure', cost: { wood: 20, scrap: 15, stone: 10 }, description: 'Restaure 20 % de l’intégrité maximale du mur ciblé.', effects: { wallRepair: .2 } },
+      B: { label: 'Déblayer sous pression', cost: {}, description: 'Retire 18 corps ; le mur perd 12 % de son intégrité maximale sans être détruit.', effects: { corpseCleanup: 18, wallDamage: .12 } }
+    }
+  };
+  for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
+  const STRATEGY_RULES = { spawnBatch: 64, crisisDecisionSeconds: 45, pathMaxExpanded: 8192, pathQueriesPerUpdate: 6, pathRetrySeconds: 1.25 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
 
@@ -210,6 +231,70 @@
     if (!pool.length) return null;
     return pool[Math.floor(seededHash(wave, seed, 91) * pool.length) % pool.length];
   }
+  function normalizeCrisis(value) {
+    if (!value || !CRISES.some(crisis => crisis.id === value.id)) return null;
+    // Old saves already applied an automatic penalty: do not ask/pay for it a second time.
+    if (!['pending', 'resolved'].includes(value.status)) return null;
+    if (value.status === 'resolved' && !['A', 'B'].includes(value.choice)) return null;
+    return { id: value.id, wave: Math.max(1, Math.floor(Number(value.wave) || 1)), status: value.status,
+      remaining: clamp(Number(value.remaining) || 0, 0, 120), targetId: Math.max(0, Math.floor(Number(value.targetId) || 0)),
+      choice: ['A', 'B'].includes(value.choice) ? value.choice : null };
+  }
+  function normalizeSpawnCounts(value = {}, legacyQueue = []) {
+    const counts = {};
+    for (const kind of Object.keys(ENEMIES)) {
+      const amount = Number(value?.[kind]);
+      counts[kind] = Number.isFinite(amount) ? clamp(Math.floor(amount), 0, Number.MAX_SAFE_INTEGER / 8) : 0;
+    }
+    if (Array.isArray(legacyQueue)) for (const kind of legacyQueue) if (Object.hasOwn(counts, kind)) counts[kind]++;
+    return counts;
+  }
+  function spawnCount(counts = {}) { return Object.keys(ENEMIES).reduce((total, kind) => total + (counts[kind] || 0), 0); }
+  function takeSpawnKind(counts, roll) {
+    const total = spawnCount(counts); if (!total) return null;
+    let position = Math.min(total - 1, Math.floor(clamp(roll, 0, 1) * total));
+    for (const kind of Object.keys(ENEMIES)) {
+      if (position < counts[kind]) { counts[kind]--; return kind; }
+      position -= counts[kind];
+    }
+    return null;
+  }
+  function productionFraction(stock, production, consumes, capacity, seconds) {
+    if (!(seconds > 0)) return 0;
+    let fraction = 1;
+    for (const [key, rate] of Object.entries(production || {})) if (rate > 0) fraction = Math.min(fraction, Math.max(0, capacity - (stock[key] || 0)) / (rate * seconds));
+    for (const [key, rate] of Object.entries(consumes || {})) if (rate > 0) fraction = Math.min(fraction, Math.max(0, stock[key] || 0) / (rate * seconds));
+    return clamp(fraction, 0, 1);
+  }
+  function findFriendlyPath(start, goal, blocked, width = WORLD_TILES, height = WORLD_TILES, maxExpanded = STRATEGY_RULES.pathMaxExpanded) {
+    const valid = point => point.x >= 0 && point.y >= 0 && point.x < width && point.y < height;
+    if (!valid(start) || !valid(goal) || blocked(goal.x, goal.y)) return null;
+    const key = point => point.y * width + point.x, origin = key(start), target = key(goal);
+    if (origin === target) return [];
+    const costs = new Int32Array(width * height); costs.fill(0x3fffffff); costs[origin] = 0;
+    const previous = new Int32Array(width * height); previous.fill(-1);
+    const open = new MinHeap(), distance = (x, y) => Math.abs(x - goal.x) + Math.abs(y - goal.y);
+    open.push(origin, distance(start.x, start.y));
+    let expanded = 0;
+    while (open.size && expanded < maxExpanded) {
+      const current = open.pop(), x = current.index % width, y = Math.floor(current.index / width);
+      if (current.priority !== costs[current.index] + distance(x, y)) continue;
+      if (current.index === target) {
+        const result = []; let cursor = target;
+        while (cursor !== origin) { result.push({ x: cursor % width, y: Math.floor(cursor / width) }); cursor = previous[cursor]; }
+        return result.reverse();
+      }
+      expanded++;
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const nx = x + dx, ny = y + dy;
+        if (nx < 0 || ny < 0 || nx >= width || ny >= height || blocked(nx, ny)) continue;
+        const next = ny * width + nx, cost = costs[current.index] + 1;
+        if (cost >= costs[next]) continue;
+        costs[next] = cost; previous[next] = current.index; open.push(next, cost + distance(nx, ny));
+      }
+    }
+    return null;
+  }
   function normalizeResearch(value = {}) {
     return { completed: Array.isArray(value.completed) ? [...new Set(value.completed)] : [], insight: Math.max(0, Number(value.insight || 0)), active: value.active || null };
   }
@@ -250,7 +335,7 @@
     composition.walker = total - assigned;
     return { wave, total, fronts: Math.min(4, 1 + Math.floor((wave - 1) / 3)), spawnInterval: clamp(0.52 - wave * 0.012, 0.07, 0.52), composition };
   }
-  function createStats() { return { kills: 0, shots: 0, headshots: 0, gathered: 0, buildingsPlaced: 0, buildingsLost: 0, unitsLost: 0, wavesSurvived: 0, playSeconds: 0 }; }
+  function createStats() { return { kills: 0, shots: 0, headshots: 0, gathered: 0, buildingsPlaced: 0, buildingsLost: 0, unitsLost: 0, wavesSurvived: 0, crisesResolved: 0, playSeconds: 0 }; }
 
   class Random {
     constructor(seed = Date.now()) { this.state = seed >>> 0; }
@@ -298,10 +383,11 @@
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
-    RESEARCH, CRISES, PERFORMANCE_LIMITS,
+    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
+    normalizeCrisis, normalizeSpawnCounts, spawnCount, takeSpawnKind, productionFraction, findFriendlyPath,
     wavePlan, createStats, Random, MinHeap
   };
 

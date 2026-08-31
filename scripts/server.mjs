@@ -4,7 +4,7 @@ import { extname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
-const publicFiles = new Set(['index.html', 'styles.css', 'manifest.json', 'sw.js', 'src/core.js', 'src/game.js']);
+const publicFiles = new Set(['index.html', 'styles.css', 'settings.css', 'manifest.json', 'sw.js', 'src/core.js', 'src/save.js', 'src/art.js', 'src/game.js', 'src/ui.js']);
 const publicAssetTypes = new Set(['.png', '.webp', '.svg', '.jpg', '.jpeg', '.avif', '.woff', '.woff2']);
 const mime = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',

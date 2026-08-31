@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0 — édition PC et audit commercial du 31 août 2026
+
+- Application Windows x64 hors ligne : protocole isolé, plein écran, profil persistant, fermeture avec sauvegarde vérifiée, archive portable et manifeste SHA-256.
+- Sept nouveaux assets OpenAI : terrain, structures, fortifications articulées, props/épaves, huit cycles de personnages et effets animés. Tous embarqués dans PC, standalone et PWA.
+- Correction des pertes de cargaison, gaspillage industriel, navigation alliée entre enceintes et file de horde non bornée.
+- Crises avec décisions payantes ou de secours, délais et conséquences sauvegardés.
+- Sauvegardes transactionnelles, backup protégé, réanimation/rechargement conservés, import/export avec confirmation.
+- Paramètres persistants, audio résilient, contrôles tactiles de combat et de construction.
+- Corrections recherche, reconnaissance, tutoriel électrique, coût de recrutement et destruction des pièges.
+- Audits et limites dans docs/AUDIT_COMMERCIAL.md, docs/AUDIT_UX_RUNTIME.md et docs/DESKTOP.md.
+
 ## 1.0.0 — finition du 31 août 2026
 
 - Illustration originale OpenAI et direction CSS de commandement unifiée.

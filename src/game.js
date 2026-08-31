@@ -5,10 +5,11 @@
   const {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, WEAPONS, OBJECTIVES,
-    RESEARCH, PERFORMANCE_LIMITS,
+    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, crisisForWave, normalizeResearch, migrateSaveData,
+    normalizeCrisis, normalizeSpawnCounts, spawnCount, takeSpawnKind, productionFraction, findFriendlyPath,
     wavePlan, createStats, Random, MinHeap
   } = C;
 
@@ -97,29 +98,31 @@
   }
 
   class AudioSystem {
-    constructor() { this.ctx = null; this.master = null; this.enabled = true; this.muted = false; this.lastGroan = 0; }
+    constructor() { this.ctx = null; this.master = null; this.enabled = true; this.muted = false; this.volume = .7; this.lastGroan = 0; this.noiseBuffers = new Map(); this.voices = 0; }
     unlock() {
-      if (!this.enabled || this.ctx) return;
-      const AC = globalThis.AudioContext || globalThis.webkitAudioContext;
-      if (!AC) { this.enabled = false; return; }
-      this.ctx = new AC(); this.master = this.ctx.createGain(); this.master.gain.value = this.muted ? 0 : 0.15; this.master.connect(this.ctx.destination);
+      if (!this.enabled) return false;
+      try {
+        if(!this.ctx){const AC=globalThis.AudioContext||globalThis.webkitAudioContext;if(!AC){this.enabled=false;return false;}this.ctx=new AC();this.master=this.ctx.createGain();this.master.connect(this.ctx.destination);this.setMuted(this.muted);}
+        if(this.ctx.state==='suspended'||this.ctx.state==='interrupted')this.ctx.resume()?.catch?.(()=>{});
+        return true;
+      }catch{this.enabled=false;return false;}
     }
-    setMuted(muted) { this.muted = Boolean(muted); if (this.master) this.master.gain.value = this.muted ? 0 : 0.15; }
+    setMuted(muted) { this.muted = Boolean(muted); if (this.master) this.master.gain.value = this.muted ? 0 : 0.15 * this.volume; }
+    setVolume(value) { this.volume=clamp(Number(value)||0,0,1);this.setMuted(this.muted); }
     tone(freq, duration, type = 'square', volume = 0.08, slide = 0) {
-      if (!this.ctx || !this.master || !this.enabled) return;
+      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.voices>=48) return;
       const t = this.ctx.currentTime, o = this.ctx.createOscillator(), g = this.ctx.createGain();
       o.type = type; o.frequency.setValueAtTime(freq, t); if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(20, freq + slide), t + duration);
       g.gain.setValueAtTime(volume, t); g.gain.exponentialRampToValueAtTime(0.0001, t + duration);
-      o.connect(g); g.connect(this.master); o.start(t); o.stop(t + duration);
+      o.connect(g); g.connect(this.master);this.voices++;o.onended=()=>{this.voices=Math.max(0,this.voices-1);o.disconnect();g.disconnect();}; o.start(t); o.stop(t + duration);
     }
     noise(duration = 0.08, volume = 0.12, lowpass = 1800) {
-      if (!this.ctx || !this.master || !this.enabled) return;
+      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.voices>=48) return;
       const length = Math.max(1, Math.floor(this.ctx.sampleRate * duration));
-      const buffer = this.ctx.createBuffer(1, length, this.ctx.sampleRate), data = buffer.getChannelData(0);
-      for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / length);
+      let buffer=this.noiseBuffers.get(length);if(!buffer){buffer=this.ctx.createBuffer(1,length,this.ctx.sampleRate);const data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);if(this.noiseBuffers.size<12)this.noiseBuffers.set(length,buffer);}
       const source = this.ctx.createBufferSource(), filter = this.ctx.createBiquadFilter(), gain = this.ctx.createGain();
       filter.type = 'lowpass'; filter.frequency.value = lowpass; gain.gain.value = volume;
-      source.buffer = buffer; source.connect(filter); filter.connect(gain); gain.connect(this.master); source.start();
+      source.buffer = buffer; source.connect(filter); filter.connect(gain); gain.connect(this.master);this.voices++;source.onended=()=>{this.voices=Math.max(0,this.voices-1);source.disconnect();filter.disconnect();gain.disconnect();}; source.start();
     }
     shot(weapon) {
       if (weapon === 'shotgun') { this.noise(.18, .25, 900); this.tone(70, .14, 'sawtooth', .11, -35); }
@@ -135,7 +138,7 @@
   class WorldMap {
     constructor(seed = 17117) {
       this.seed = seed; this.occupancy = new Int32Array(WORLD_TILES * WORLD_TILES);
-      this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true;
+      this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
       this.generateNodes();
     }
     cells(building) {
@@ -144,16 +147,19 @@
       return out;
     }
     add(building) {
+      this.navigationVersion++;
       this.buildings.set(building.id, building);
       for (const cell of this.cells(building)) this.occupancy[index(cell.x, cell.y)] = building.id;
       for (const node of this.nodes) if (!node.depleted && node.x + node.radius > building.left - 6 && node.x - node.radius < building.right + 6 && node.y + node.radius > building.top - 6 && node.y - node.radius < building.bottom + 6) { node.depleted = true; node.amount = 0; }
       this.flowDirty = true;
     }
     remove(building) {
+      this.navigationVersion++;
       for (const cell of this.cells(building)) if (this.occupancy[index(cell.x, cell.y)] === building.id) this.occupancy[index(cell.x, cell.y)] = 0;
       this.buildings.delete(building.id); this.flowDirty = true;
     }
     rewrite(building, oldCells) {
+      this.navigationVersion++;
       for (const cell of oldCells) if (this.occupancy[index(cell.x, cell.y)] === building.id) this.occupancy[index(cell.x, cell.y)] = 0;
       for (const cell of this.cells(building)) this.occupancy[index(cell.x, cell.y)] = building.id;
       this.flowDirty = true;
@@ -257,10 +263,11 @@
       this.random = new Random(Date.now()); this.world = new WorldMap(17117); this.flow = new FlowField();
       this.resources = makeBag(); this.player = this.makePlayer(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = [];
       this.buckets = new Map(); this.bucketSize = 160; this.notifications = []; this.notificationId = 1;
-      this.difficulty = DIFFICULTIES.standard; this.wave = 1; this.phase = 'calm'; this.phaseTime = 80; this.spawnQueue = []; this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
+      this.difficulty = DIFFICULTIES.standard; this.wave = 1; this.phase = 'calm'; this.phaseTime = 80; this.spawnQueue = []; this.pendingSpawns = normalizeSpawnCounts(); this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
+      this.audio.setVolume(this.settings.volume);
       this.rally = { x: WORLD_SIZE / 2 + 110, y: WORLD_SIZE / 2 }; this.rallyPlacement = false;
       this.selectedBuild = null; this.buildRotation = 0; this.wallStart = null; this.wallPreview = []; this.selectedBuilding = null;
       this.interactionText = ''; this.stats = createStats(); this.objectiveIndex = 0; this.objectiveProgress = 0;
@@ -275,9 +282,9 @@
       requestAnimationFrame(t => this.loop(t));
     }
 
-    makePlayer() {
+    makePlayer(id = this.nextId++) {
       return {
-        id: this ? this.nextId++ : 1, x: WORLD_SIZE / 2 + 130, y: WORLD_SIZE / 2, radius: 13,
+        id, x: WORLD_SIZE / 2 + 130, y: WORLD_SIZE / 2, radius: 13,
         health: 100, maxHealth: 100, dead: false, downTimer: 0, invulnerable: 0,
         facing: 0, vx: 0, vy: 0, stamina: 100, maxStamina: 100,
         weapon: 'pistol', magazine: { pistol: 12, rifle: 30, shotgun: 8 },
@@ -289,6 +296,7 @@
     cacheUI() {
       const ids = ['hud','rightPanel','mainMenu','pauseMenu','helpModal','gameOver','continueButton','resources','buildCategories','buildList','leftPanel','cityTier','populationValue','powerValue','moraleValue','phaseLabel','waveNumber','waveTimer','threatFill','waveIntel','objectiveTitle','objectiveText','objectiveFill','objectiveCounter','interactionHint','weaponName','weaponAmmo','reloadBar','notifications','damageVignette','carryValue','selectionCard','selectionName','selectionDescription','selectionHealthFill','selectionStats','gameOverStats','recruitWorker','recruitSoldier','repairSelected','upgradeSelected','prioritySelected','researchButton','researchName','researchInsight','settingsToggle','soundToggle','soundStatus','touchControls','touchAction','touchFire','toggleBuild'];
       for (const id of ids) this.ui[id] = document.getElementById(id);
+      this.ui.settingsModal = document.getElementById('settingsModal');
     }
 
     createResourceUI() {
@@ -320,7 +328,7 @@
         if (this.state !== 'playing' || this.paused || this.gameOver || this.activeOverlay) return;
         if (event.target?.closest?.('#resources')) return;
         if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
-        if (event.target?.closest?.('button, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
+        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
         if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
         if (!event.repeat) this.input.pressed.add(event.code); this.input.keys.add(event.code);
       });
@@ -353,6 +361,22 @@
       this.canvas.addEventListener('mouseleave', () => { this.input.mouseDown = false; });
       this.canvas.addEventListener('contextmenu', event => event.preventDefault());
       this.canvas.addEventListener('wheel', event => { event.preventDefault(); this.camera.zoom = clamp(this.camera.zoom * (event.deltaY > 0 ? .9 : 1.1), .52, 1.65); }, { passive: false });
+      this.canvas.style.touchAction='none';
+      const touchPoint=event=>{this.input.mouseX=event.clientX;this.input.mouseY=event.clientY;this.updateMouseWorld();};
+      this.canvas.addEventListener('pointerdown',event=>{
+        if(!event.pointerType||event.pointerType==='mouse'||this.state!=='playing'||this.paused||this.gameOver)return;
+        event.preventDefault();this.audio.unlock();this.canvasPointerId=event.pointerId;this.canvas.setPointerCapture?.(event.pointerId);touchPoint(event);
+        if(this.rallyPlacement){this.rally={x:this.input.mouseWorldX,y:this.input.mouseWorldY};this.rallyPlacement=false;this.notify('Point de ralliement déplacé.','good');}
+        else if(this.selectedBuild){if(this.isLineWall(BUILDINGS[this.selectedBuild])){this.wallStart={x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)};this.updateWallPreview();}else this.placeOne(this.selectedBuild,grid(this.input.mouseWorldX),grid(this.input.mouseWorldY),this.buildRotation);}
+        else this.selectBuilding(this.world.at(this.input.mouseWorldX,this.input.mouseWorldY));
+      });
+      this.canvas.addEventListener('pointermove',event=>{if(event.pointerId!==this.canvasPointerId)return;event.preventDefault();touchPoint(event);});
+      this.canvas.addEventListener('pointerup',event=>{
+        if(event.pointerId!==this.canvasPointerId)return;event.preventDefault();touchPoint(event);
+        if(this.state==='playing'&&!this.paused&&this.wallStart&&this.selectedBuild)this.placeWallLine(this.selectedBuild,this.wallPreview);
+        this.canvasPointerId=null;this.wallStart=null;this.wallPreview=[];
+      });
+      this.canvas.addEventListener('pointercancel',event=>{if(event.pointerId===this.canvasPointerId){this.canvasPointerId=null;this.wallStart=null;this.wallPreview=[];}});
       const touchMap = { up:'KeyW', left:'KeyA', right:'KeyD', down:'KeyS' };
       for (const button of document.querySelectorAll('#touchControls button[data-dir]')) {
         const code = touchMap[button.dataset.dir]; if (!code) continue;
@@ -366,7 +390,7 @@
         this.ui.touchAction.addEventListener('pointerup', releaseAction); this.ui.touchAction.addEventListener('pointercancel', releaseAction); this.ui.touchAction.addEventListener('pointerleave', releaseAction);
       }
       if (this.ui.touchFire) {
-        this.ui.touchFire.addEventListener('pointerdown', event => { event.preventDefault(); this.input.touchFire = true; this.input.mouseDown = true; this.ui.touchFire.setPointerCapture?.(event.pointerId); });
+        this.ui.touchFire.addEventListener('pointerdown', event => { event.preventDefault(); this.audio.unlock(); this.input.touchFire = true; this.input.mouseDown = true; this.ui.touchFire.setPointerCapture?.(event.pointerId); });
         this.ui.touchFire.addEventListener('pointerup', event => { event.preventDefault(); this.input.touchFire = false; this.input.mouseDown = false; });
         this.ui.touchFire.addEventListener('pointercancel', event => { event.preventDefault(); this.input.touchFire = false; this.input.mouseDown = false; });
       }
@@ -383,7 +407,7 @@
       click('repairAll', () => this.repairAll());
       if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
       if (this.ui.researchButton) click('researchButton', () => this.launchResearch());
-      if (this.ui.settingsToggle) click('settingsToggle', () => this.toggleAccessibility());
+      if (this.ui.settingsToggle) click('settingsToggle', () => this.showSettings ? this.showSettings(true) : this.toggleAccessibility());
       if (this.ui.soundToggle) click('soundToggle', () => this.toggleSound());
       for (const id of ['mainMenu','pauseMenu','helpModal','gameOver']) document.getElementById(id).addEventListener('mousedown', event => event.stopPropagation());
     }
@@ -394,7 +418,7 @@
     }
 
     resize() {
-      this.width = Math.max(320, innerWidth); this.height = Math.max(360, innerHeight); this.dpr = Math.min(2, Math.max(1, devicePixelRatio || 1));
+      this.width = Math.max(320, innerWidth); this.height = Math.max(360, innerHeight); this.dpr = Math.min(this.settings.quality==='low'?1:2, Math.max(1, devicePixelRatio || 1));
       this.canvas.width = Math.floor(this.width * this.dpr); this.canvas.height = Math.floor(this.height * this.dpr); this.canvas.style.width = `${this.width}px`; this.canvas.style.height = `${this.height}px`;
       const compact = this.isCompactViewport();
       if (compact && this.compactViewport !== compact) this.buildCollapsed = true;
@@ -405,6 +429,7 @@
 
     releaseInputs() {
       this.input.keys.clear(); this.input.pressed.clear(); this.input.mouseDown = false; this.input.touchFire = false;
+      this.canvasPointerId=null;
       this.wallStart = null; this.wallPreview = [];
     }
 
@@ -420,7 +445,7 @@
     }
 
     syncOverlayFocus() {
-      const overlays = [this.ui.helpModal, this.ui.gameOver, this.ui.pauseMenu, this.ui.mainMenu];
+      const overlays = [this.ui.settingsModal, this.ui.helpModal, this.ui.gameOver, this.ui.pauseMenu, this.ui.mainMenu].filter(Boolean);
       const next = overlays.find(node => !node.classList.contains('hidden')) || null;
       const previous = this.activeOverlay, focused = document.activeElement;
       if (previous && previous.contains(focused)) this.overlayFocusTargets.set(previous, focused);
@@ -474,7 +499,7 @@
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
       this.player.x = core.x + 135; this.player.y = core.y + 20;
       for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
-      this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
+      this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.pendingSpawns = normalizeSpawnCounts(); this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
       this.objectiveIndex = 0; this.objectiveProgress = 0; this.rally = { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
@@ -486,59 +511,71 @@
     serialize() {
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
-        resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry },
+        resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
+          dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
+          reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state })),
+        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown })),
-        nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
+        nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId,
         randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources
       };
     }
 
     save(manual = false) {
-      if (this.state !== 'playing' || this.gameOver) return;
+      if (this.state !== 'playing' || this.gameOver) return false;
       try {
-        const payload = JSON.stringify(this.serialize());
-        const previous = localStorage.getItem(SAVE_KEY);
-        if (previous) localStorage.setItem(SAVE_BACKUP_KEY, previous);
+        const payload = JSON.stringify(this.serialize()); globalThis.DeadwallSave.parse(payload);
+        let previous = null;
+        try { const raw=localStorage.getItem(SAVE_KEY); if(raw){globalThis.DeadwallSave.parse(raw);previous=raw;} } catch {}
+        // Never replace a valid backup with corrupt bytes, and never discard it on a failed primary write.
         localStorage.setItem(SAVE_KEY, payload);
-        this.refreshContinue(); if (manual) this.notify('Partie sauvegardée.', 'good');
+        if(previous)try{localStorage.setItem(SAVE_BACKUP_KEY,previous);}catch{}
+        this.lastSaveStatus={ok:true,time:Date.now(),message:'Sauvegarde locale à jour.'};
+        this.refreshContinue(); if (manual) this.notify('Partie sauvegardée.', 'good'); return true;
+      } catch (error) {
+        this.lastSaveStatus={ok:false,time:Date.now(),message:'Stockage indisponible. Exportez une copie depuis les paramètres.'};
+        console.error(error); if(manual)this.notify(this.lastSaveStatus.message,'danger'); return false;
       }
-      catch (error) { console.error(error); if (manual) this.notify('Échec de la sauvegarde locale.', 'danger'); }
+    }
+
+    restoreSave(input) {
+      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed), nextFlow=new FlowField();
+      const amounts=new Map(data.nodes);for(const node of nextWorld.nodes)if(amounts.has(node.id)){node.amount=amounts.get(node.id);node.depleted=node.amount<=.01;}
+      for(const raw of data.buildings){const b=new Building(raw.id,raw.type,raw.gx,raw.gy,raw.rotation,raw.progress);Object.assign(b,{health:raw.health,corpseLoad:raw.corpseLoad,priority:raw.priority,gateMode:raw.gateMode});nextWorld.add(b);}
+      const nextCore=[...nextWorld.buildings.values()].find(b=>b.type==='core');if(!nextCore)throw new Error('Centre absent');
+      const nextUnits=data.units.map(raw=>{const unit=new Unit(raw.id,raw.kind,raw.x,raw.y);Object.assign(unit,raw);if(unit.state==='gather'){const node=nextWorld.nodes.find(item=>item.id===unit.targetNode);if(!node||node.depleted||(unit.carry>0&&unit.carryType!==node.type)){unit.state=unit.carry>0?'return':'idle';unit.targetNode=-1;}else unit.think=.3;}return unit;});
+      const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;return zombie;});
+      const nextPlayer={...this.makePlayer(data.nextId),...data.player};nextFlow.rebuild(nextWorld,nextCore);
+      const pending=C.normalizeSpawnCounts?C.normalizeSpawnCounts(data.pendingSpawns,data.spawnQueue):null;
+      const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
+      // Commit only after the complete candidate world, entities and navigation have been constructed.
+      Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
+      this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
+      this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
 
     load() {
-      try {
-        let data = null;
-        for (const key of [SAVE_KEY, SAVE_BACKUP_KEY, ...LEGACY_SAVE_KEYS]) {
-          const rawSave = localStorage.getItem(key); if (!rawSave) continue;
-          try { const candidate = migrateSaveData(JSON.parse(rawSave)); if (candidate) { data = candidate; break; } }
-          catch (error) { console.warn(`Sauvegarde ignorée (${key})`, error); }
-        }
-        if (!data) throw new Error('Aucune sauvegarde compatible');
-        this.audio.unlock(); this.difficulty = DIFFICULTIES[data.difficulty] || DIFFICULTIES.standard; this.nextId = data.nextId || 1; this.random = new Random(data.randomState || data.worldSeed || Date.now()); this.world = new WorldMap(data.worldSeed || 17117); this.flow = new FlowField();
-        const amounts = new Map((data.nodes || []).map(row => [row[0], row[1]])); for (const node of this.world.nodes) if (amounts.has(node.id)) { node.amount = amounts.get(node.id); node.depleted = node.amount <= .01; }
-        for (const raw of data.buildings || []) { const b = new Building(raw.id, raw.type, raw.gx, raw.gy, raw.rotation, raw.progress); b.health = clamp(raw.health, 1, b.maxHealth); b.corpseLoad = raw.corpseLoad || 0; b.priority = raw.priority || 2; b.gateMode = raw.gateMode || 'auto'; this.world.add(b); }
-        this.resources = makeBag(data.resources); this.player = this.makePlayer(); Object.assign(this.player, data.player || {}); this.player.carry = makeBag(data.player?.carry); this.player.dead = false; this.player.downTimer = 0;
-        this.units = (data.units || []).map(raw => { const u = new Unit(raw.id, raw.kind, raw.x, raw.y); u.health = raw.health; u.carry = raw.carry || 0; u.carryType = raw.carryType || null; return u; });
-        this.zombies = (data.zombies || []).map(raw => { const z = new Zombie(raw.id, raw.kind, raw.x, raw.y, this.difficulty, data.wave || 1); z.health = Math.min(z.maxHealth, raw.health); z.attackCooldown = Math.max(0, Number(raw.attackCooldown || 0)); return z; });
-        this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.wave = data.wave || 1; this.phase = data.phase || 'calm'; this.phaseTime = data.phaseTime || 20; this.spawnQueue = data.spawnQueue || []; this.fronts = data.fronts || []; this.wavePlan = data.wavePlan || null; this.spawnTimer = Number(data.spawnTimer || 0);
-        this.elapsed = data.elapsed || 0; this.dayClock = data.dayClock || .2; this.weather = data.weather || 0; this.weatherTarget = this.weather; this.morale = data.morale ?? 100; this.rally = data.rally || { x:WORLD_SIZE/2,y:WORLD_SIZE/2 };
-        this.stats = { ...createStats(), ...(data.stats || {}) }; this.objectiveIndex = data.objectiveIndex || 0; this.objectiveProgress = data.objectiveProgress || 0; this.research = normalizeResearch(data.research); this.activeCrisis = data.activeCrisis || null; this.depositedResources = Number(data.depositedResources || 0); this.gameOver = false; this.paused = false; this.cancelPlacement(); this.selectBuilding(null);
-        const core = this.core(); if (!core) throw new Error('Centre absent'); this.flow.rebuild(this.world, core); this.refreshMetrics(true); this.camera.x = this.player.x; this.camera.y = this.player.y;
-        this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus(); this.notify('Sauvegarde restaurée.', 'good'); this.refreshBuildMenu(true); this.updateUI();
-      } catch (error) { console.error(error); this.refreshContinue(); this.notify('Sauvegarde illisible : aucune donnée supprimée.', 'danger'); }
+      for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS]){
+        try{const raw=localStorage.getItem(key);if(!raw)continue;this.restoreSave(globalThis.DeadwallSave.parse(raw));this.notify(key===SAVE_KEY?'Sauvegarde restaurée.':'Copie de secours restaurée.','good');return true;}
+        catch(error){console.warn(`Sauvegarde ignorée (${key})`,error);}
+      }
+      this.refreshContinue();this.notify('Aucune sauvegarde lisible. La partie actuelle reste intacte.','danger');return false;
     }
 
     returnToMenu() {
-      if (this.state === 'playing' && !this.gameOver) this.save(false);
+      if (this.state === 'playing' && !this.gameOver && !this.save(false)) {
+        this.paused = true; this.releaseInputs(); this.ui.pauseMenu.classList.remove('hidden'); this.syncOverlayFocus();
+        this.notify('Sauvegarde impossible : exportez votre partie depuis les paramètres avant de quitter.', 'danger');
+        return false;
+      }
       this.state = 'menu'; this.paused = false; this.helpWasPaused = null; this.ui.hud.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.mainMenu.classList.remove('hidden');
       document.body.dataset.phase = 'menu'; this.ui.hud.dataset.phase = 'menu'; document.body.classList.remove('morale-critical','power-critical','player-critical','crisis-active','carry-full','is-reloading');
       this.refreshContinue(); this.syncOverlayFocus();
     }
 
-    refreshContinue() { this.ui.continueButton.disabled = !(localStorage.getItem(SAVE_KEY) || LEGACY_SAVE_KEYS.some(key => localStorage.getItem(key)) || localStorage.getItem(SAVE_BACKUP_KEY)); }
+    refreshContinue() { try{this.ui.continueButton.disabled = !(localStorage.getItem(SAVE_KEY) || LEGACY_SAVE_KEYS.some(key => localStorage.getItem(key)) || localStorage.getItem(SAVE_BACKUP_KEY));}catch{this.ui.continueButton.disabled=true;} }
     showHelp(show) {
       const visible = !this.ui.helpModal.classList.contains('hidden'); if (visible === Boolean(show)) return;
       if (show) {
@@ -551,6 +588,7 @@
       this.ui.helpModal.classList.toggle('hidden', !show); this.syncOverlayFocus();
     }
     onEscape() {
+      if(this.ui.settingsModal&&!this.ui.settingsModal.classList.contains('hidden')){this.showSettings?.(false);return;}
       if (!this.ui.helpModal.classList.contains('hidden')) { this.showHelp(false); return; }
       if (this.state !== 'playing' || this.gameOver) return;
       if (this.selectedBuild || this.rallyPlacement) { this.cancelPlacement(); return; }
@@ -581,6 +619,8 @@
     }
 
     placeWallLine(type, cells) {
+      const candidate = BUILDINGS[type];
+      if (!candidate || !this.isLineWall(candidate) || candidate.unlockTier > this.tier.id || (candidate.requires && !this.world.has(candidate.requires))) { this.notify('Technologie non disponible.', 'danger'); return; }
       const def = BUILDINGS[type], unique = wallLine(cells[0] || { x:0, y:0 }, cells[cells.length - 1] || { x:0, y:0 });
       const cost = scaledCost(def.cost, unique.length);
       if (!canAfford(this.resources, cost)) { this.notify(`Ligne complète impossible : ${resourceText(cost)} requis.`, 'danger'); return; }
@@ -601,7 +641,7 @@
     }
 
     upgradeSelected() {
-      const b = this.selectedBuilding; if (!b || !b.def.upgradeTo) return; const next = BUILDINGS[b.def.upgradeTo];
+      const b = this.selectedBuilding; if (!b || b.dead || !b.completed || !b.def.upgradeTo) return; const next = BUILDINGS[b.def.upgradeTo];
       if (next.unlockTier > this.tier.id) { this.notify(`Nécessite le palier ${CITY_TIERS[next.unlockTier].name}.`, 'danger'); return; }
       const cost = scaledCost(next.cost, .72); if (!spend(this.resources, cost)) { this.notify('Ressources insuffisantes pour l’amélioration.', 'danger'); return; }
       const oldCells = this.world.cells(b), ratio = b.health / b.maxHealth; b.type = next.id; b.health = Math.max(1, next.health * ratio); this.world.rewrite(b, oldCells); this.audio.build(); this.notify(`${next.name} opérationnel.`, 'good'); this.refreshMetrics(true);
@@ -664,6 +704,7 @@
 
     update(dt) {
       this.elapsed += dt; this.stats.playSeconds += dt; this.dayClock = (this.dayClock + dt / 260) % 1;
+      this.updateCrisis(dt);
       this.weather = lerp(this.weather, this.weatherTarget, clamp(dt * .04, 0, 1)); this.damageFlash = Math.max(0, this.damageFlash - dt * 2.8); this.camera.shake = Math.max(0, this.camera.shake - dt * 22);
       if (Math.floor(this.elapsed) > 0 && Math.floor(this.elapsed) % 95 === 0 && Math.floor(this.elapsed - dt) % 95 !== 0) this.weatherTarget = this.random.chance(.42) ? this.random.range(.35, 1) : 0;
       this.handlePressed(); this.updateMouseWorld(); this.updateDirector(dt);
@@ -722,22 +763,39 @@
       this.updateInteraction(dt);
     }
 
+    friendlyPositionClear(entity, x, y) {
+      const r = entity.radius * .78;
+      return !this.world.solidForFriendly(x-r,y) && !this.world.solidForFriendly(x+r,y) && !this.world.solidForFriendly(x,y-r) && !this.world.solidForFriendly(x,y+r);
+    }
+
     moveFriendly(entity, dx, dy) {
-      const can = (x, y) => {
-        const r = entity.radius * .78;
-        return !this.world.solidForFriendly(x-r,y) && !this.world.solidForFriendly(x+r,y) && !this.world.solidForFriendly(x,y-r) && !this.world.solidForFriendly(x,y+r);
-      };
-      const nx = clamp(entity.x + dx, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (can(nx, entity.y)) entity.x = nx;
-      const ny = clamp(entity.y + dy, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (can(entity.x, ny)) entity.y = ny;
+      const nx = clamp(entity.x + dx, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (this.friendlyPositionClear(entity, nx, entity.y)) entity.x = nx;
+      const ny = clamp(entity.y + dy, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (this.friendlyPositionClear(entity, entity.x, ny)) entity.y = ny;
     }
 
     moveUnitToward(unit, target, dt, speed = unit.speed) {
-      let dx = target.x - unit.x, dy = target.y - unit.y, l = Math.hypot(dx, dy); if (l < 2) return true; dx /= l; dy /= l; unit.facing = Math.atan2(dy, dx);
-      const ox = unit.x, oy = unit.y; this.moveFriendly(unit, dx * speed * dt, dy * speed * dt);
-      if (Math.hypot(unit.x - ox, unit.y - oy) < speed * dt * .2) {
-        const sign = unit.id % 2 ? 1 : -1; this.moveFriendly(unit, -dy * speed * dt * sign, dx * speed * dt * sign);
+      if (dist(unit, target) < 2) return true;
+      const goalX = grid(target.x), goalY = grid(target.y), version = this.world.navigationVersion;
+      let route = unit.navigation;
+      if (!route || route.goalX !== goalX || route.goalY !== goalY || route.version !== version || (route.retryAt && this.elapsed >= route.retryAt)) {
+        const steps = Math.max(1, Math.ceil(dist(unit, target) / (TILE / 3)));
+        let direct = true;
+        for (let i = 1; i <= steps; i++) if (!this.friendlyPositionClear(unit, lerp(unit.x, target.x, i / steps), lerp(unit.y, target.y, i / steps))) { direct = false; break; }
+        if (!direct && this.navigationBudget === 0) return false;
+        if (!direct && Number.isFinite(this.navigationBudget)) this.navigationBudget--;
+        const cells = direct ? [] : findFriendlyPath({ x: grid(unit.x), y: grid(unit.y) }, { x: goalX, y: goalY }, (x, y) => Boolean(this.world.solidForFriendly(world(x), world(y))));
+        route = unit.navigation = { goalX, goalY, version, cells, next: 0, direct, retryAt: cells === null ? this.elapsed + STRATEGY_RULES.pathRetrySeconds : 0 };
       }
-      return l < 18;
+      if (route.cells === null) return false;
+      while (route.next < route.cells.length && Math.hypot(world(route.cells[route.next].x) - unit.x, world(route.cells[route.next].y) - unit.y) < 5) route.next++;
+      const cell = route.cells[route.next], waypoint = cell ? { x: world(cell.x), y: world(cell.y) } : target;
+      const dx = waypoint.x - unit.x, dy = waypoint.y - unit.y, length = Math.hypot(dx, dy);
+      if (!length) return dist(unit, target) < 18;
+      unit.facing = Math.atan2(dy, dx);
+      const step = Math.min(length, speed * dt), ox = unit.x, oy = unit.y;
+      this.moveFriendly(unit, dx / length * step, dy / length * step);
+      if (Math.hypot(unit.x - ox, unit.y - oy) < step * .1 && !route.retryAt) route.retryAt = this.elapsed + STRATEGY_RULES.pathRetrySeconds;
+      return dist(unit, target) < 18;
     }
 
     updateInteraction(dt) {
@@ -785,30 +843,46 @@
     }
 
     updateBuildings(dt) {
+      const workerCount = this.units.filter(u => !u.dead && u.kind === 'worker').length;
       for (const b of [...this.world.buildings.values()]) {
-        if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*(.012+this.units.filter(u=>!u.dead&&u.kind==='worker').length*.0009));
+        if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*(.012+workerCount*.0009));
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
         if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&b.fireCooldown<=0){const target=this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
         if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&distSq(u,b)<130*130)u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&distSq(this.player,b)<130*130)this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
       }
     }
 
-    completeBuilding(b) { b.progress=1;b.health=b.maxHealth;this.world.flowDirty=true;this.audio.build();this.notify(`${b.def.name} mis en service.`,'good');this.floaters.push({x:b.x,y:b.y-22,text:'OPÉRATIONNEL',color:'#8fb47e',life:1.2,maxLife:1.2});this.refreshMetrics(true); }
+    completeBuilding(b) { b.progress=1;b.health=b.maxHealth;this.world.flowDirty=true;this.world.navigationVersion++;this.audio.build();this.notify(`${b.def.name} mis en service.`,'good');this.floaters.push({x:b.x,y:b.y-22,text:'OPÉRATIONNEL',color:'#8fb47e',life:1.2,maxLife:1.2});this.refreshMetrics(true); }
 
     fireFriendly(x,y,angle,damage,range,color) { const speed=900;this.projectiles.push(new Projectile(this.nextId++,x+Math.cos(angle)*18,y+Math.sin(angle)*18,Math.cos(angle)*speed,Math.sin(angle)*speed,damage,range,'friendly',color,2));this.audio.noise(.035,.025,1600); }
 
     updateUnits(dt) {
       const core=this.core();if(!core)return;
+      this.navigationBudget=STRATEGY_RULES.pathQueriesPerUpdate;
       for(const u of this.units){if(u.dead)continue;u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
         const danger=this.nearestZombie(u.x,u.y,105);
         if(u.kind==='worker'){
           if(danger){u.state='flee';this.moveUnitToward(u,core,dt,u.speed*1.25);continue;}
-          if(u.carry>0&&u.carryType)u.state='return';
-          if(u.think<=0&&u.state!=='return'){u.think=.7+this.random.range(0,.5);const jobs=this.world.incomplete().sort((a,b)=>(b.priority||2)-(a.priority||2)||distSq(u,a)-distSq(u,b));if(jobs.length){u.targetBuilding=jobs[0].id;u.state='build';}
-            else{const types=['wood','scrap','stone','food','fuel'],type=types[u.id%types.length],node=this.world.nearestNode(u.x,u.y,1150,type)||this.world.nearestNode(u.x,u.y,900);if(node){u.targetNode=node.id;u.state='gather';}else u.state='idle';}}
+          if(u.carry>0&&u.carryType&&(u.state!=='gather'||u.carry>=u.maxCarry-.01))u.state='return';
+          if(u.think<=0&&u.state!=='return'){
+            u.think=.7+this.random.range(0,.5);
+            const currentNode=this.world.nodes.find(n=>n.id===u.targetNode),currentBuilding=this.world.buildings.get(u.targetBuilding);
+            const continuing=(u.state==='gather'&&currentNode&&!currentNode.depleted&&this.resources[currentNode.type]<this.storage-.01)||(u.state==='build'&&currentBuilding&&!currentBuilding.completed&&!currentBuilding.dead);
+            if(!continuing){
+              if(u.carry>.01){u.state='return';}
+              else{
+                const jobs=this.world.incomplete().sort((a,b)=>(b.priority||2)-(a.priority||2)||distSq(u,a)-distSq(u,b));
+                if(jobs.length){u.targetBuilding=jobs[0].id;u.state='build';}
+                else{const node=this.workerResourceTarget(u);if(node){u.targetNode=node.id;u.state='gather';}else u.state='idle';}
+              }
+            }
+          }
           if(u.state==='build'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.completed||b.dead){u.state='idle';u.think=0;}else if(dist(u,b)>62)this.moveUnitToward(u,b,dt);else if(b.work(dt*(this.hasResearch('logistics')?1.22:1.05)))this.completeBuilding(b);}
           else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state='idle';u.think=0;}else if(dist(u,node)>node.radius+12)this.moveUnitToward(u,node,dt);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
-          else if(u.state==='return'){const storage=this.world.nearestStorage(u.x,u.y)||core;if(dist(u,storage)>65)this.moveUnitToward(u,storage,dt);else{if(u.carryType){const before=this.resources[u.carryType]||0;this.resources[u.carryType]=Math.min(this.storage,before+u.carry);this.depositedResources+=Math.max(0,this.resources[u.carryType]-before);}u.carry=0;u.carryType=null;u.state='idle';u.think=0;}}
+          else if(u.state==='return'){const storage=this.world.nearestStorage(u.x,u.y)||core;if(dist(u,storage)>65)this.moveUnitToward(u,storage,dt);else{
+            if(u.carryType){const room=Math.max(0,this.storage-(this.resources[u.carryType]||0)),moved=Math.min(room,u.carry);this.resources[u.carryType]+=moved;u.carry-=moved;this.depositedResources+=moved;}
+            if(u.carry<.01){u.carry=0;u.carryType=null;u.state='idle';u.think=0;}
+          }}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
         } else {
           const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
@@ -818,22 +892,89 @@
       this.units=this.units.filter(u=>!u.dead);
     }
 
+    workerResourceTarget(unit) {
+      const types=['wood','scrap','stone','food','fuel'],preferred=types[unit.id%types.length];
+      let nearest=null,best=Infinity;
+      for(const node of this.world.nodes){
+        if(node.depleted||this.resources[node.type]>=this.storage-.01)continue;
+        const distance=distSq(unit,node);if(distance>1150*1150)continue;
+        const score=distance*(node.type===preferred?.8:1)*(1+(this.resources[node.type]||0)/Math.max(1,this.storage));
+        if(score<best){best=score;nearest=node;}
+      }
+      return nearest;
+    }
+
     updateDirector(dt) {
       this.phaseTime-=dt;
       if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
-        this.spawnTimer-=dt;while(this.spawnQueue.length&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
-        if(!this.spawnQueue.length&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight+=1+(this.wave%5===0?1:0);this.activeCrisis=null;this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
+        this.spawnTimer-=dt;while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight+=1+(this.wave%5===0?1:0);this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
     prepareWave() {
       this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature);const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
     }
-    triggerCrisis(){if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;const crisis=crisisForWave(this.wave,this.world.seed);if(!crisis)return;this.activeCrisis=crisis;if(crisis.id==='blackout'){this.resources.fuel=Math.max(0,this.resources.fuel-5);this.weatherTarget=Math.max(this.weatherTarget,.55);}else if(crisis.id==='injury'){this.morale=Math.max(0,this.morale-6);this.resources.medicine=Math.max(0,this.resources.medicine-2);}else if(crisis.id==='ammo'){this.resources.ammo=Math.max(0,this.resources.ammo-12);}else if(crisis.id==='breach'){const wall=this.nearestWall(WORLD_SIZE/2,WORLD_SIZE/2,WORLD_SIZE);if(wall)wall.health=Math.max(1,wall.health-wall.maxHealth*.18);}this.notify(`${crisis.title} — ${crisis.text}`,'danger');}
+    triggerCrisis(){
+      if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;
+      const crisis=crisisForWave(this.wave,this.world.seed);if(!crisis)return;
+      const wall=crisis.id==='breach'?this.nearestWall(WORLD_SIZE/2,WORLD_SIZE/2,WORLD_SIZE):null;
+      if(crisis.id==='breach'&&!wall)return;
+      this.activeCrisis={id:crisis.id,wave:this.wave,status:'pending',remaining:STRATEGY_RULES.crisisDecisionSeconds,targetId:wall?.id||0,choice:null};
+      this.notify(`${crisis.title} — choisissez une réponse dans le commandement.`,'danger');this.updateCrisisUI();
+    }
+    crisisDefinition(){return CRISES.find(crisis=>crisis.id===this.activeCrisis?.id)||null;}
+    canResolveCrisis(choice){
+      const definition=this.crisisDefinition(),option=definition?.choices?.[choice];
+      if(!option||this.activeCrisis.status!=='pending'||!canAfford(this.resources,option.cost))return false;
+      if(option.effects.workers&&this.population+option.effects.workers>this.housing)return false;
+      if(option.effects.wallRepair&&!this.world.buildings.has(this.activeCrisis.targetId))return false;
+      return true;
+    }
+    resolveCrisis(choice,automatic=false){
+      if(this.state!=='playing'||this.gameOver||(!automatic&&this.paused)||!this.canResolveCrisis(choice))return false;
+      const crisis=this.activeCrisis,definition=this.crisisDefinition(),option=definition.choices[choice];
+      if(!spend(this.resources,option.cost))return false;
+      const effect=option.effects;
+      if(effect.morale)this.morale=clamp(this.morale+effect.morale,0,100);
+      if(effect.ammo)this.resources.ammo=clamp(this.resources.ammo+effect.ammo,0,this.storage);
+      if(effect.workers){const core=this.core();for(let i=0;i<effect.workers;i++)this.units.push(new Unit(this.nextId++,'worker',core.x+70,core.y+this.random.range(-25,25)));}
+      const wall=this.world.buildings.get(crisis.targetId);
+      if(wall&&!wall.dead){if(effect.wallRepair)wall.health=Math.min(wall.maxHealth,wall.health+wall.maxHealth*effect.wallRepair);if(effect.wallDamage)wall.health=Math.max(1,wall.health-wall.maxHealth*effect.wallDamage);if(effect.corpseCleanup)wall.corpseLoad=Math.max(0,wall.corpseLoad-effect.corpseCleanup);}
+      crisis.status='resolved';crisis.choice=choice;crisis.remaining=effect.duration||0;
+      this.stats.crisesResolved=(this.stats.crisesResolved||0)+1;
+      this.notify(`${definition.title} : ${option.label}${automatic?' (délai écoulé)':''}. ${option.description}`,choice==='A'?'good':'normal');
+      if(!crisis.remaining)this.activeCrisis=null;
+      this.refreshMetrics(true);this.updateCrisisUI();this.save(false);return true;
+    }
+    updateCrisis(dt){
+      const crisis=this.activeCrisis;if(!crisis)return;
+      crisis.remaining=Math.max(0,crisis.remaining-dt);
+      if(crisis.remaining>0)return;
+      if(crisis.status==='pending')this.resolveCrisis('B',true);else this.activeCrisis=null;
+    }
+    updateCrisisUI(){
+      const card=document.getElementById('crisisCard');if(!card)return;
+      const definition=this.crisisDefinition(),crisis=this.activeCrisis;
+      card.classList.toggle('hidden',!definition);if(!definition)return;
+      const title=document.getElementById('crisisTitle'),description=document.getElementById('crisisText'),timer=document.getElementById('crisisTimer');
+      if(title)title.textContent=definition.title;
+      if(description)description.textContent=crisis.status==='pending'?definition.text:definition.choices[crisis.choice].description;
+      if(timer)timer.textContent=crisis.status==='pending'?`Décision : ${Math.ceil(crisis.remaining)} s · sans ordre, réponse B`:`Retour à la normale : ${Math.ceil(crisis.remaining)} s`;
+      for(const choice of ['A','B']){
+        const button=document.getElementById(`crisisChoice${choice}`);if(!button)continue;
+        const option=definition.choices[choice];button.classList.toggle('hidden',crisis.status!=='pending');button.disabled=!this.canResolveCrisis(choice);
+        button.textContent=`${option.label} — ${resourceText(option.cost)||'Sans coût matériel'}. ${option.description}`;
+        if(!button.dataset.crisisBound){button.dataset.crisisBound='true';button.addEventListener('click',()=>{if(!button.disabled&&!button.closest('[inert]'))this.resolveCrisis(choice);});}
+      }
+    }
     startAssault() {
-      if(!this.wavePlan)this.prepareWave();this.spawnQueue=[];for(const [kind,count] of Object.entries(this.wavePlan.composition))for(let i=0;i<count;i++)this.spawnQueue.push(kind);this.random.shuffle(this.spawnQueue);this.spawnTimer=.2;
+      if(!this.wavePlan)this.prepareWave();this.spawnQueue=[];this.pendingSpawns=normalizeSpawnCounts(this.wavePlan.composition);this.refillSpawnQueue();this.spawnTimer=.2;
+    }
+    refillSpawnQueue(){
+      while(this.spawnQueue.length<STRATEGY_RULES.spawnBatch&&spawnCount(this.pendingSpawns)){const kind=takeSpawnKind(this.pendingSpawns,this.random.next());if(!kind)break;this.spawnQueue.push(kind);}
     }
     spawnZombie(kind) {
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
@@ -841,7 +982,7 @@
       x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave));
     }
 
-    get remainingAssault(){return this.spawnQueue.length+this.zombies.filter(z=>!z.dead).length;}
+    get remainingAssault(){return this.spawnQueue.length+spawnCount(this.pendingSpawns)+this.zombies.filter(z=>!z.dead).length;}
 
     updateZombies(dt) {
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
@@ -852,7 +993,7 @@
         if(victim){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);}continue;}
         const blocker=this.world.at(z.x+dir.x*look,z.y+dir.y*look);
         if(blocker&&!blocker.dead&&blocker.type!=='core'){
-          if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;blocker.health-=def.damage*dt*.13;if(z.health<=0){this.killZombie(z,false);continue;}}
+          if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;this.damageBuilding(blocker,def.damage*dt*.13);if(z.health<=0){this.killZombie(z,false);continue;}}
           const ramp=blocker.def.wall&&blocker.corpseLoad>15+(z.id%18)&&(z.kind==='runner'||z.kind==='crawler');
           if(!ramp){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageBuilding(blocker,def.damage*this.difficulty.enemyDamage);}continue;}
         }else if(blocker&&blocker.type==='core'){if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageBuilding(blocker,def.damage*this.difficulty.enemyDamage);}continue;}
@@ -872,7 +1013,7 @@
       if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
       if(b===this.selectedBuilding)this.selectBuilding(null);if(def.id==='core'){this.triggerGameOver();return;}this.notify(`${def.name} détruit — le secteur est ouvert !`,'danger');this.refreshMetrics(true);}
 
-    triggerGameOver(){this.gameOver=true;this.releaseInputs();for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])localStorage.removeItem(key);this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();}
+    triggerGameOver(){this.gameOver=true;this.releaseInputs();for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])try{localStorage.removeItem(key);}catch{}this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();}
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
@@ -888,7 +1029,16 @@
 
     economyTick(dt){let foodUse=this.population*.0065*dt;this.resources.food=Math.max(0,this.resources.food-foodUse);if(this.resources.food<=.01)this.morale=Math.max(0,this.morale-dt*.7);else this.morale=Math.min(100,this.morale+dt*.08);
       for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.type==='generator'&&this.resources.fuel>0)this.resources.fuel=Math.max(0,this.resources.fuel-dt*(this.hasResearch('grid')?.0135:.018));
-      for(const b of this.world.buildings.values()){if(b.dead||!b.completed||!b.def.production)continue;const factor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;if(factor<=.05)continue;let can=true;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))if(this.resources[key]<rate*dt*factor)can=false;if(!can)continue;if(b.def.consumes)for(const [key,rate]of Object.entries(b.def.consumes))this.resources[key]-=rate*dt*factor;for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*dt*factor);}
+      for(const b of this.world.buildings.values()){
+        if(b.dead||!b.completed||!b.def.production)continue;
+        const crisisFactor=b.def.powerUse&&this.activeCrisis?.id==='blackout'&&this.activeCrisis.status==='resolved'&&this.activeCrisis.choice==='B'?.5:1;
+        const powerFactor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;
+        if(powerFactor<=.05)continue;
+        const seconds=dt*powerFactor*crisisFactor,fraction=productionFraction(this.resources,b.def.production,b.def.consumes,this.storage,seconds);
+        if(fraction<=0)continue;
+        for(const [key,rate]of Object.entries(b.def.consumes||{}))this.resources[key]-=rate*seconds*fraction;
+        for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+      }
       if(this.morale<20)for(const u of this.units)u.speed=(u.kind==='soldier'?74:60)*.82;else for(const u of this.units)u.speed=u.kind==='soldier'?74:60;
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);
     }
@@ -898,7 +1048,7 @@
       if(oldTier&&this.tier.id>oldTier.id){this.notify(`La colonie devient : ${this.tier.name}.`,'good');this.audio.siren();this.refreshBuildMenu(true);}else if(force)this.refreshBuildMenu(true);
     }
 
-    updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='gather')this.objectiveProgress=this.depositedResources;else if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='power')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='generator').length;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='research')this.objectiveProgress=this.research.completed.length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
+    updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='gather')this.objectiveProgress=this.depositedResources;else if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='power')this.objectiveProgress=this.resources.fuel>0?[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='generator').length:0;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='research')this.objectiveProgress=this.research.completed.length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
       if(this.objectiveProgress>=obj.target){add(this.resources,obj.reward,this.storage);this.notify(`Objectif accompli : ${obj.title}.`,'good');this.objectiveIndex++;this.objectiveProgress=0;this.audio.build();}}
 
     hasResearch(id){return this.research.completed.includes(id);}
@@ -906,13 +1056,14 @@
     launchResearch(){const item=this.currentResearch();if(!item){this.notify('Toutes les doctrines disponibles sont terminées.','good');return;}if(this.research.insight<item.insight){this.notify(`Insight insuffisant : ${item.insight} requis.`,'danger');return;}if(!spend(this.resources,item.cost)){this.notify(`Recherche : ${resourceText(item.cost)} requis.`,'danger');return;}this.research.insight-=item.insight;this.research.completed.push(item.id);this.notify(`${item.name} validée.`,'good');this.refreshMetrics(true);}
     cyclePriority(){const b=this.selectedBuilding;if(!b||b.dead)return;b.priority=b.priority>=3?1:b.priority+1;this.notify(`${b.def.name} : priorité ${['','basse','normale','haute'][b.priority]}.`,'good');this.updateSelectionUI();}
     allocatePower(available){const powered=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&b.def.powerUse).sort((a,b)=>powerPriority(a.def)-powerPriority(b.def)||(b.priority||2)-(a.priority||2));let remaining=available;for(const b of powered){const need=b.def.powerUse||0;if(remaining>=need){b.powered=true;b.powerShare=1;remaining-=need;}else{b.powered=false;b.powerShare=b.def.production?clamp(remaining/Math.max(1,need),0,1):0;if(b.powerShare>0)remaining=0;}}}
-    loadSettings(){const reducedMotion=Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches);try{return{reducedMotion,highContrast:false,muted:false,...JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}')}}catch{return{reducedMotion,highContrast:false,muted:false}}}
+    loadSettings(){const reducedMotion=Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches),defaults={reducedMotion,highContrast:false,muted:false,volume:.7,quality:'auto'};try{const raw=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');if(!raw||typeof raw!=='object')return defaults;return{reducedMotion:typeof raw.reducedMotion==='boolean'?raw.reducedMotion:reducedMotion,highContrast:raw.highContrast===true,muted:raw.muted===true,volume:typeof raw.volume==='number'&&Number.isFinite(raw.volume)?clamp(raw.volume,0,1):.7,quality:raw.quality==='low'?'low':'auto'}}catch{return defaults}}
     saveSettings(){try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(this.settings));}catch{}}
     toggleAccessibility(){this.settings.highContrast=!this.settings.highContrast;document.body.classList.toggle('high-contrast',this.settings.highContrast);this.saveSettings();this.notify(this.settings.highContrast?'Contraste élevé activé.':'Contraste élevé désactivé.');}
     toggleSound(){this.settings.muted=!this.settings.muted;this.audio.setMuted(this.settings.muted);this.saveSettings();this.notify(this.settings.muted?'Son coupé.':'Son activé.');this.updateUI();}
     daylight(){const angle=this.dayClock*Math.PI*2;return clamp(.5+Math.sin(angle-Math.PI/2)*.62,.08,1);}
 
     updateUI(){
+      this.updateCrisisUI();
       for(const key of RESOURCE_KEYS){
         this.resourceEls[key].textContent=formatNumber(this.resources[key]);
         const lowThreshold=key==='medicine'?4:(key==='fuel'?8:12);this.resourceItems[key]?.classList.toggle('is-low',this.resources[key]<lowThreshold);
@@ -925,14 +1076,14 @@
       document.body.classList.toggle('carry-full',bagTotal(this.player.carry)>=this.player.carryCapacity*.9);
       this.refreshBuildAffordability();this.ui.cityTier.textContent=this.tier.name;this.ui.populationValue.textContent=`${this.population}/${this.housing}`;this.ui.powerValue.textContent=`${Math.floor(this.powerGenerated)}/${Math.ceil(this.powerUsed)}`;this.ui.moraleValue.textContent=`${Math.floor(this.morale)}%`;this.ui.moraleValue.style.color=this.morale<35?'#d7867f':'';this.ui.waveNumber.textContent=this.wave;
       const labels={calm:'CALME RELATIF',warning:'MIGRATION DÉTECTÉE',assault:'ASSAUT EN COURS',aftermath:'SÉCURISATION'};this.ui.phaseLabel.textContent=labels[this.phase];this.ui.waveTimer.textContent=this.phase==='assault'?formatNumber(this.remainingAssault):formatTime(this.phaseTime);
-      let threat=0;if(this.phase==='warning')threat=1-this.phaseTime/10;else if(this.phase==='assault')threat=clamp(.4+this.remainingAssault/Math.max(1,this.wavePlan?.total||this.remainingAssault)*.6,0,1);else if(this.phase==='aftermath')threat=.15;this.ui.threatFill.style.width=`${Math.round(threat*100)}%`;
-      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;else if(this.phase==='assault')this.ui.waveIntel.textContent=`${formatNumber(this.remainingAssault)} contacts actifs ou en approche. Les corps augmentent la pression contre les murs.`;else if(this.phase==='aftermath')this.ui.waveIntel.textContent='Nettoyage, réparations et récupération avant la prochaine migration.';else this.ui.waveIntel.textContent=this.activeCrisis?`${this.activeCrisis.title} : ${this.activeCrisis.text}`:`Signature de cité : ${Math.floor(this.signature)}. Plus la colonie grossit, plus les hordes sont attirées.`;
+      let threat=0;if(this.phase==='warning')threat=clamp(1-this.phaseTime/(this.hasResearch('recon')?15:10),0,1);else if(this.phase==='assault')threat=clamp(.4+this.remainingAssault/Math.max(1,this.wavePlan?.total||this.remainingAssault)*.6,0,1);else if(this.phase==='aftermath')threat=.15;this.ui.threatFill.style.width=`${Math.round(threat*100)}%`;
+      if(this.phase==='warning')this.ui.waveIntel.textContent=`Approche par ${this.fronts.map(f=>({north:'le nord',south:'le sud',east:'l’est',west:'l’ouest'})[f]).join(' et ')}. Préparez les portes.`;else if(this.phase==='assault')this.ui.waveIntel.textContent=`${formatNumber(this.remainingAssault)} contacts actifs ou en approche. Les corps augmentent la pression contre les murs.`;else if(this.phase==='aftermath')this.ui.waveIntel.textContent='Nettoyage, réparations et récupération avant la prochaine migration.';else this.ui.waveIntel.textContent=this.crisisDefinition()?`${this.crisisDefinition().title} : ${this.crisisDefinition().text}`:`Signature de cité : ${Math.floor(this.signature)}. Plus la colonie grossit, plus les hordes sont attirées.`;
       const obj=OBJECTIVES[this.objectiveIndex];if(obj){this.ui.objectiveTitle.textContent=obj.title;this.ui.objectiveText.textContent=obj.text;this.ui.objectiveFill.style.width=`${Math.min(100,this.objectiveProgress/obj.target*100)}%`;this.ui.objectiveCounter.textContent=`${Math.floor(Math.min(obj.target,this.objectiveProgress))} / ${obj.target}`;}else{this.ui.objectiveTitle.textContent='Développer la citadelle';this.ui.objectiveText.textContent='La campagne d’introduction est terminée. Construisez librement et survivez sans limite.';this.ui.objectiveFill.style.width='100%';this.ui.objectiveCounter.textContent='MODE INFINI';}
       this.ui.interactionHint.classList.toggle('hidden',!this.interactionText);if(this.interactionText)this.ui.interactionHint.querySelector('span').textContent=this.interactionText;const w=WEAPONS[this.player.weapon];this.ui.weaponName.textContent=w.name;this.ui.weaponAmmo.textContent=`${this.player.magazine[this.player.weapon]} / ${Math.floor(this.resources.ammo)}`;this.ui.reloadBar.querySelector('span').style.width=this.player.reload>0?`${100-this.player.reload/Math.max(.01,this.player.reloadTotal)*100}%`:'0%';this.ui.carryValue.textContent=`${Math.floor(bagTotal(this.player.carry))}/${this.player.carryCapacity}`;this.ui.damageVignette.style.opacity=this.settings.reducedMotion?0:clamp((1-this.player.health/this.player.maxHealth)*.72+this.damageFlash,0,.8);document.body.classList.toggle('is-reloading',this.player.reload>0);
-      const research=this.currentResearch();if(this.ui.researchName)this.ui.researchName.textContent=research?research.name:'Doctrines complètes';if(this.ui.researchInsight)this.ui.researchInsight.textContent=research?`${this.research.insight}/${research.insight} insight · ${resourceText(research.cost)}`:`${this.research.insight} insight`;if(this.ui.researchButton){this.ui.researchButton.disabled=!research||this.research.insight<research.insight||!canAfford(this.resources,research.cost);this.ui.researchButton.title=research?`${research.description} — ${resourceText(research.cost)}`:'Toutes les doctrines disponibles sont terminées.';}
-      if(this.ui.soundStatus)this.ui.soundStatus.textContent=this.settings.muted?'coupé':'activé';if(this.ui.soundToggle)this.ui.soundToggle.setAttribute('aria-pressed',String(!this.settings.muted));if(this.ui.settingsToggle)this.ui.settingsToggle.setAttribute('aria-pressed',String(this.settings.highContrast));this.ui.recruitWorker.disabled=!this.canRecruit('worker');this.ui.recruitSoldier.disabled=!this.canRecruit('soldier');this.updateSelectionUI();}
+      const research=this.currentResearch(),lockedResearch=research?null:RESEARCH.find(item=>!this.hasResearch(item.id));if(this.ui.researchName)this.ui.researchName.textContent=research?research.name:lockedResearch?`Palier requis : ${CITY_TIERS[lockedResearch.tier].name}`:'Doctrines complètes';if(this.ui.researchInsight)this.ui.researchInsight.textContent=research?`${this.research.insight}/${research.insight} insight · ${resourceText(research.cost)}`:`${this.research.insight} insight · ${this.research.completed.length}/${RESEARCH.length} doctrines`;if(this.ui.researchButton){this.ui.researchButton.disabled=!research||this.research.insight<research.insight||!canAfford(this.resources,research.cost);this.ui.researchButton.title=research?`${research.description} — ${resourceText(research.cost)}`:lockedResearch?`${lockedResearch.name} nécessite le palier ${CITY_TIERS[lockedResearch.tier].name}.`:'Toutes les doctrines sont terminées.';}
+      if(this.ui.soundStatus)this.ui.soundStatus.textContent=this.settings.muted?'coupé':'activé';if(this.ui.soundToggle)this.ui.soundToggle.setAttribute('aria-pressed',String(!this.settings.muted));if(this.ui.settingsToggle){this.ui.settingsToggle.setAttribute('aria-haspopup','dialog');this.ui.settingsToggle.setAttribute('aria-controls','settingsModal');}this.ui.recruitWorker.disabled=!this.canRecruit('worker');this.ui.recruitSoldier.disabled=!this.canRecruit('soldier');this.updateSelectionUI();}
 
-    updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionCard.dataset.state=!b.completed?'construction':b.health/b.maxHealth<.35?'critical':b.def.powerUse&&!b.powered?'unpowered':'operational';this.ui.selectionCard.dataset.priority=String(b.priority||2);this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;}
+    updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionCard.dataset.state=!b.completed?'construction':b.health/b.maxHealth<.35?'critical':b.def.powerUse&&!b.powered?'unpowered':'operational';this.ui.selectionCard.dataset.priority=String(b.priority||2);this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.completed||!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;}
 
     render(){const ctx=this.ctx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.fillStyle='#171c18';ctx.fillRect(0,0,this.width,this.height);const shakeX=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0,shakeY=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0;ctx.save();ctx.translate(this.width/2+shakeX,this.height/2+shakeY);ctx.scale(this.camera.zoom,this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);const view=this.viewBounds();this.crowdDetail=this.width>720&&this.camera.zoom>.72&&this.zombies.length<320;this.drawGround(ctx,view);for(const node of this.world.nodes)if(!node.depleted&&this.visible(node.x,node.y,node.radius+20,view))this.drawNode(ctx,node);for(const corpse of this.corpses)if(this.visible(corpse.x,corpse.y,25,view))this.drawCorpse(ctx,corpse);const buildings=[...this.world.buildings.values()].filter(b=>!b.dead&&this.visible(b.x,b.y,Math.max(b.w,b.h)*TILE+40,view)).sort((a,b)=>a.y-b.y);for(const b of buildings)this.drawBuilding(ctx,b);for(const p of this.particles)if(this.visible(p.x,p.y,20,view))this.drawParticle(ctx,p);for(const u of this.units)if(!u.dead&&this.visible(u.x,u.y,28,view))this.drawUnit(ctx,u);for(const z of this.zombies)if(!z.dead&&this.visible(z.x,z.y,28,view))this.drawZombie(ctx,z);for(const p of this.projectiles)if(!p.dead&&this.visible(p.x,p.y,20,view))this.drawProjectile(ctx,p);if(!this.player.dead)this.drawPlayer(ctx);for(const f of this.floaters)if(this.visible(f.x,f.y,80,view))this.drawFloater(ctx,f);this.drawRally(ctx);this.drawPlacement(ctx);ctx.restore();this.drawNight(ctx);this.drawRain(ctx);this.drawThreatArrows(ctx);this.drawCrosshair(ctx);}
 
@@ -946,6 +1097,7 @@
         if(n>.74){ctx.fillStyle='rgba(150,135,95,.045)';ctx.beginPath();ctx.arc(x*tile+n*tile,y*tile+seededHash(y,x,3)*tile,6+n*8,0,Math.PI*2);ctx.fill();}
       }
       const c=WORLD_SIZE/2;
+      this.art?.drawGround(ctx,v,WORLD_SIZE);
       ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,WORLD_SIZE,132);ctx.fillRect(c-66,0,132,WORLD_SIZE);
       ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,WORLD_SIZE,4);ctx.fillRect(0,c+66,WORLD_SIZE,4);ctx.fillRect(c-70,0,4,WORLD_SIZE);ctx.fillRect(c+66,0,4,WORLD_SIZE);
       if(v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
@@ -959,10 +1111,13 @@
 
 
 
-    drawNode(ctx,node){ctx.save();ctx.translate(node.x,node.y);ctx.scale(node.flash>0?1.08:1,node.flash>0?1.08:1);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.35,1);ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(5,8,node.radius*1.05,node.radius*.48,0,0,Math.PI*2);ctx.fill();if(node.type==='wood'){ctx.fillStyle='#4c3927';ctx.fillRect(-4,-3,8,node.radius+8);const colors=['#344631','#3d5036','#46593c'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2;ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.arc(Math.cos(a)*node.radius*.45,Math.sin(a)*node.radius*.28-node.radius*.52,node.radius*.52,0,Math.PI*2);ctx.fill();}}else if(node.type==='scrap'){const colors=['#626967','#77766c','#4f5859','#805f48'];for(let i=0;i<7;i++){ctx.save();ctx.rotate((i*1.7+node.variant)*.45);ctx.fillStyle=colors[(i+node.variant)%4];ctx.fillRect(-node.radius*.65+i*2,-8+(i%3)*5,node.radius*.8,7);ctx.restore();}ctx.strokeStyle='#383d3c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(5,1,node.radius*.38,0,Math.PI*2);ctx.stroke();}else if(node.type==='stone'){const colors=['#67665f','#7a786e','#565750'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2,r=node.radius*(i? .45:.15);ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.moveTo(Math.cos(a)*r-8,Math.sin(a)*r+5);ctx.lineTo(Math.cos(a)*r+9,Math.sin(a)*r+3);ctx.lineTo(Math.cos(a)*r+4,Math.sin(a)*r-13);ctx.lineTo(Math.cos(a)*r-9,Math.sin(a)*r-7);ctx.closePath();ctx.fill();}}else if(node.type==='food'){ctx.fillStyle='#3f5035';ctx.fillRect(-node.radius,-node.radius*.55,node.radius*2,node.radius*1.1);ctx.strokeStyle='#718153';ctx.lineWidth=2;for(let i=-3;i<=3;i++){ctx.beginPath();ctx.moveTo(i*5,9);ctx.lineTo(i*6+Math.sin(i+this.elapsed)*2,-12);ctx.stroke();}ctx.fillStyle='#7f6b43';ctx.fillRect(-8,-2,16,12);}else{for(let i=-1;i<=1;i++){ctx.fillStyle='#444c49';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,18);ctx.fillStyle='#9a723c';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,4);}}ctx.restore();}
+    drawNode(ctx,node){if(this.art?.drawNode(ctx,node))return;ctx.save();ctx.translate(node.x,node.y);ctx.scale(node.flash>0?1.08:1,node.flash>0?1.08:1);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.35,1);ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(5,8,node.radius*1.05,node.radius*.48,0,0,Math.PI*2);ctx.fill();if(node.type==='wood'){ctx.fillStyle='#4c3927';ctx.fillRect(-4,-3,8,node.radius+8);const colors=['#344631','#3d5036','#46593c'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2;ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.arc(Math.cos(a)*node.radius*.45,Math.sin(a)*node.radius*.28-node.radius*.52,node.radius*.52,0,Math.PI*2);ctx.fill();}}else if(node.type==='scrap'){const colors=['#626967','#77766c','#4f5859','#805f48'];for(let i=0;i<7;i++){ctx.save();ctx.rotate((i*1.7+node.variant)*.45);ctx.fillStyle=colors[(i+node.variant)%4];ctx.fillRect(-node.radius*.65+i*2,-8+(i%3)*5,node.radius*.8,7);ctx.restore();}ctx.strokeStyle='#383d3c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(5,1,node.radius*.38,0,Math.PI*2);ctx.stroke();}else if(node.type==='stone'){const colors=['#67665f','#7a786e','#565750'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2,r=node.radius*(i? .45:.15);ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.moveTo(Math.cos(a)*r-8,Math.sin(a)*r+5);ctx.lineTo(Math.cos(a)*r+9,Math.sin(a)*r+3);ctx.lineTo(Math.cos(a)*r+4,Math.sin(a)*r-13);ctx.lineTo(Math.cos(a)*r-9,Math.sin(a)*r-7);ctx.closePath();ctx.fill();}}else if(node.type==='food'){ctx.fillStyle='#3f5035';ctx.fillRect(-node.radius,-node.radius*.55,node.radius*2,node.radius*1.1);ctx.strokeStyle='#718153';ctx.lineWidth=2;for(let i=-3;i<=3;i++){ctx.beginPath();ctx.moveTo(i*5,9);ctx.lineTo(i*6+Math.sin(i+this.elapsed)*2,-12);ctx.stroke();}ctx.fillStyle='#7f6b43';ctx.fillRect(-8,-2,16,12);}else{for(let i=-1;i<=1;i++){ctx.fillStyle='#444c49';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,18);ctx.fillStyle='#9a723c';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,4);}}ctx.restore();}
 
     drawBuilding(ctx,b){const d=b.def,l=b.left,t=b.top,w=b.w*TILE,h=b.h*TILE;ctx.save();if(!b.completed){ctx.fillStyle='rgba(210,168,74,.07)';ctx.strokeStyle='rgba(232,203,126,.8)';ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.fillRect(l+2,t+2,w-4,h-4);ctx.strokeRect(l+2,t+2,w-4,h-4);ctx.setLineDash([]);ctx.strokeStyle='rgba(232,203,126,.3)';ctx.beginPath();ctx.moveTo(l,t);ctx.lineTo(l+w,t+h);ctx.moveTo(l+w,t);ctx.lineTo(l,t+h);ctx.stroke();ctx.fillStyle='#7a6040';for(let i=0;i<Math.floor(b.progress*6);i++)ctx.fillRect(l+7+(i%3)*14,t+h-12-Math.floor(i/3)*10,11,8);ctx.fillStyle='#d2a84a';ctx.fillRect(l,t+h+4,w*b.progress,3);ctx.restore();return;}
-      if(d.id==='core'||b.type==='core'){
+      if(this.art?.drawBuilding(ctx,b,this.world)){
+        if(b.def.production&&b.powered&&!this.settings.reducedMotion)this.art.drawEffect(ctx,'smoke',b.x+w*.25,t-6,28,((this.elapsed*.55+b.id)%1),.35);
+      }
+      else if(d.id==='core'||b.type==='core'){
         ctx.fillStyle='rgba(0,0,0,.38)';ctx.fillRect(l+9,t+12,w-1,h-2);
         ctx.fillStyle='#252d29';ctx.fillRect(l+2,t+7,w-4,h-9);
         ctx.fillStyle=d.color;ctx.beginPath();ctx.moveTo(l+7,t+6);ctx.lineTo(l+w-7,t+6);ctx.lineTo(l+w-2,t+13);ctx.lineTo(l+w-2,t+h-5);ctx.lineTo(l+2,t+h-5);ctx.lineTo(l+2,t+13);ctx.closePath();ctx.fill();
@@ -976,13 +1131,19 @@
       else if(d.id==='spikes'){ctx.fillStyle='rgba(0,0,0,.25)';ctx.fillRect(l+3,t+10,w-2,h-6);ctx.strokeStyle='#85877f';ctx.lineWidth=3;for(let i=3;i<w;i+=8){ctx.beginPath();ctx.moveTo(l+i,t+h-4);ctx.lineTo(l+i+6,t+5);ctx.moveTo(l+i+7,t+h-4);ctx.lineTo(l+i+1,t+5);ctx.stroke();}}
       else if(d.wall){ctx.fillStyle='rgba(0,0,0,.32)';ctx.fillRect(l+5,t+7,w,h);ctx.fillStyle=d.color;ctx.fillRect(l+1,t+3,w-2,h-4);ctx.fillStyle=d.roof;ctx.fillRect(l+2,t+2,w-4,Math.max(6,h*.28));ctx.strokeStyle='rgba(0,0,0,.32)';ctx.lineWidth=1;for(let i=1;i<Math.max(1,b.w*2);i++){const x=l+i/(b.w*2)*w;ctx.beginPath();ctx.moveTo(x,t+3);ctx.lineTo(x,t+h-2);ctx.stroke();}if(d.gate){ctx.fillStyle='#242b29';ctx.fillRect(l+w*.22,t+h*.25,w*.56,h*.72);ctx.strokeStyle='#9b8b64';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(l+w/2,t+h*.28);ctx.lineTo(l+w/2,t+h-2);ctx.stroke();}if(b.corpseLoad>4){ctx.fillStyle='rgba(63,45,39,.8)';const piles=Math.min(8,Math.floor(b.corpseLoad/3));for(let i=0;i<piles;i++){ctx.beginPath();ctx.ellipse(l+5+(i/Math.max(1,piles-1))*(w-10),t+h+2,8,4+i*.35,0,0,Math.PI*2);ctx.fill();}}}
       else{ctx.fillStyle='rgba(0,0,0,.34)';ctx.fillRect(l+7,t+9,w,h);ctx.fillStyle=d.color;ctx.fillRect(l+1,t+7,w-2,h-8);ctx.fillStyle=d.roof;ctx.fillRect(l+3,t+2,w-6,h*.68);ctx.strokeStyle='rgba(255,255,255,.11)';ctx.strokeRect(l+3,t+2,w-6,h*.68);ctx.fillStyle='rgba(15,20,18,.55)';for(let x=l+10;x<l+w-8;x+=19)ctx.fillRect(x,t+h*.76,9,6);ctx.fillStyle='rgba(235,221,165,.8)';ctx.font=`bold ${Math.max(11,Math.min(18,w*.22))}px Bahnschrift,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(d.symbol||'',l+w/2,t+h*.38);if(d.production){ctx.strokeStyle='rgba(20,23,20,.55)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(l+w*.75,t+4);ctx.lineTo(l+w*.75,t-11);ctx.stroke();ctx.fillStyle='rgba(90,96,89,.38)';ctx.beginPath();ctx.arc(l+w*.75,t-16,7+Math.sin(this.elapsed*1.2+b.id)*2,0,Math.PI*2);ctx.fill();}}
-      if(d.range){ctx.save();ctx.translate(b.x,b.y-3);ctx.rotate(b.turretAngle);ctx.fillStyle='#232a2a';ctx.fillRect(-6,-6,d.id==='heavyTurret'?30:23,12);ctx.fillStyle='#7d8581';ctx.fillRect(7,-2,d.id==='heavyTurret'?27:20,4);if(b.flash>0){ctx.fillStyle='#ffd06f';ctx.beginPath();ctx.moveTo(33,0);ctx.lineTo(45,-6);ctx.lineTo(42,0);ctx.lineTo(45,6);ctx.closePath();ctx.fill();}ctx.restore();}
+      if(d.range&&!this.art?.drawTurret(ctx,b)){ctx.save();ctx.translate(b.x,b.y-3);ctx.rotate(b.turretAngle);ctx.fillStyle='#232a2a';ctx.fillRect(-6,-6,d.id==='heavyTurret'?30:23,12);ctx.fillStyle='#7d8581';ctx.fillRect(7,-2,d.id==='heavyTurret'?27:20,4);if(b.flash>0){ctx.fillStyle='#ffd06f';ctx.beginPath();ctx.moveTo(33,0);ctx.lineTo(45,-6);ctx.lineTo(42,0);ctx.lineTo(45,6);ctx.closePath();ctx.fill();}ctx.restore();}
       if(b.selected){ctx.strokeStyle='#e3be60';ctx.lineWidth=2;ctx.setLineDash([8,5]);ctx.strokeRect(l-4,t-4,w+8,h+8);ctx.setLineDash([]);}if(b.health<b.maxHealth||b.underAttack>0||b.selected){const ratio=b.health/b.maxHealth;ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillRect(l,t-9,w,5);ctx.fillStyle=ratio<.35?'#b94d43':ratio<.7?'#c49b4b':'#76966a';ctx.fillRect(l+1,t-8,(w-2)*ratio,3);}if(d.powerUse&&!b.powered){ctx.fillStyle='rgba(20,22,20,.7)';ctx.fillRect(l,t,w,h);ctx.fillStyle='#c8944a';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('⚡',b.x,b.y);}
       const integrity=b.health/b.maxHealth;if(integrity<.72){ctx.strokeStyle=integrity<.35?'rgba(201,82,69,.72)':'rgba(20,24,21,.58)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(l+w*.2,t+h*.24);ctx.lineTo(l+w*.32,t+h*.39);ctx.lineTo(l+w*.25,t+h*.56);ctx.moveTo(l+w*.78,t+h*.34);ctx.lineTo(l+w*.66,t+h*.47);ctx.lineTo(l+w*.73,t+h*.62);ctx.stroke();}
-      if(integrity<.35&&!this.settings.reducedMotion){ctx.fillStyle=`rgba(214,104,48,${.5+Math.sin(this.elapsed*9+b.id)*.22})`;ctx.beginPath();ctx.moveTo(l+w*.7,t+h*.2);ctx.lineTo(l+w*.64,t+h*.04);ctx.lineTo(l+w*.76,t+h*.14);ctx.lineTo(l+w*.8,t+h*.02);ctx.lineTo(l+w*.84,t+h*.24);ctx.closePath();ctx.fill();}
+      if(integrity<.35&&!this.settings.reducedMotion&&this.art?.drawEffect(ctx,'fire',b.x,b.y-8,Math.max(38,w*.6),(this.elapsed*.7+b.id)%1,.85)){}else if(integrity<.35&&!this.settings.reducedMotion){ctx.fillStyle=`rgba(214,104,48,${.5+Math.sin(this.elapsed*9+b.id)*.22})`;ctx.beginPath();ctx.moveTo(l+w*.7,t+h*.2);ctx.lineTo(l+w*.64,t+h*.04);ctx.lineTo(l+w*.76,t+h*.14);ctx.lineTo(l+w*.8,t+h*.02);ctx.lineTo(l+w*.84,t+h*.24);ctx.closePath();ctx.fill();}
       if(b.underAttack>0){ctx.strokeStyle=`rgba(197,83,73,${.45+Math.sin(this.elapsed*10)*.25})`;ctx.lineWidth=3;ctx.strokeRect(l-2,t-2,w+4,h+4);}ctx.restore();}
 
     drawUnit(ctx,u){
+      if(this.art?.drawActor(ctx,u,u.kind,this.elapsed,this.settings.reducedMotion,this.width<=720)){
+        this.drawActorBars(ctx,u,false);
+        if(u.carry>0){ctx.fillStyle='#d2a84a';ctx.fillRect(u.x-6,u.y+20,12*Math.min(1,u.carry/u.maxCarry),3);}
+        if(u.state==='build'){ctx.fillStyle='#d2a84a';ctx.fillRect(u.x-2,u.y-28,4,6);}
+        return;
+      }
       ctx.save();ctx.translate(u.x,u.y);const scale=this.width<=720?1.22:1.08;ctx.scale(scale,scale);ctx.rotate(u.facing);const moving=u.state==='move'||u.state==='haul',stride=this.settings.reducedMotion?0:Math.sin(this.elapsed*(moving?9:3)+u.id)*2;
       ctx.fillStyle='rgba(0,0,0,.34)';ctx.beginPath();ctx.ellipse(1,6,u.radius*1.15,u.radius*.68,0,0,Math.PI*2);ctx.fill();
       ctx.strokeStyle=u.kind==='soldier'?'#38483b':'#66533a';ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-4,2);ctx.lineTo(-12,6+stride);ctx.moveTo(-4,-2);ctx.lineTo(-12,-6-stride);ctx.stroke();
@@ -993,6 +1154,11 @@
     }
 
     drawZombie(ctx,z){
+      if(this.art?.drawActor(ctx,z,z.kind,this.elapsed,this.settings.reducedMotion,this.width<=720)){
+        if(z.health/z.maxHealth<.55||z.kind==='armored'||z.kind==='howler')this.drawActorBars(ctx,z,true);
+        if(z.rage>0){ctx.strokeStyle='rgba(198,77,62,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(z.x,z.y,17,0,Math.PI*2);ctx.stroke();}
+        return;
+      }
       const d=ENEMIES[z.kind],detail=this.crowdDetail;ctx.save();ctx.translate(z.x,z.y);const scale=this.width<=720?1.28:1.12;ctx.scale(scale,scale);ctx.rotate(z.facing);const stride=this.settings.reducedMotion?0:Math.sin(this.elapsed*d.speed*.15+z.anim)*3,asym=(z.id%3-1)*1.4;
       ctx.fillStyle='rgba(0,0,0,.36)';ctx.beginPath();ctx.ellipse(-1,6,z.radius*1.25,z.radius*.68,0,0,Math.PI*2);ctx.fill();
       if(z.kind==='crawler'){
@@ -1009,6 +1175,9 @@
     }
 
     drawPlayer(ctx){
+      if(this.art?.drawActor(ctx,this.player,'player',this.elapsed,this.settings.reducedMotion,this.width<=720)){
+        this.drawActorBars(ctx,this.player,false,true);return;
+      }
       const p=this.player;ctx.save();ctx.translate(p.x,p.y);const scale=this.width<=720?1.2:1.1;ctx.scale(scale,scale);ctx.rotate(p.facing);const moving=Math.hypot(p.vx,p.vy)>1,stride=this.settings.reducedMotion?0:Math.sin(this.elapsed*(moving?10:3))*(moving?2.2:.25),flash=p.invulnerable>0&&Math.floor(p.invulnerable*10)%2===0;
       ctx.fillStyle='rgba(0,0,0,.42)';ctx.beginPath();ctx.ellipse(0,7,16,9,0,0,Math.PI*2);ctx.fill();
       ctx.strokeStyle='#3a413d';ctx.lineWidth=5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-5,-2);ctx.lineTo(-13,-7-stride);ctx.moveTo(-5,2);ctx.lineTo(-13,7+stride);ctx.stroke();
@@ -1020,8 +1189,13 @@
       ctx.rotate(-p.facing);ctx.fillStyle='rgba(0,0,0,.68)';ctx.fillRect(-20,-31,40,4);ctx.fillStyle=p.health<35?'#c55349':'#82ad78';ctx.fillRect(-20,-31,40*p.health/p.maxHealth,4);ctx.fillStyle='rgba(0,0,0,.62)';ctx.fillRect(-20,-24,40,3);ctx.fillStyle='#d8ad4d';ctx.fillRect(-20,-24,40*p.stamina/p.maxStamina,3);ctx.restore();
     }
 
+    drawActorBars(ctx,actor,hostile=false,player=false){
+      const w=player?40:26,x=actor.x-w/2,y=actor.y-(player?32:26),ratio=clamp(actor.health/actor.maxHealth,0,1);
+      if(player||hostile||ratio<1){ctx.fillStyle='rgba(0,0,0,.8)';ctx.fillRect(x,y,w,4);ctx.fillStyle=hostile||ratio<.35?'#cb685b':'#97c37f';ctx.fillRect(x,y,w*ratio,3);}
+      if(player){ctx.fillStyle='rgba(0,0,0,.75)';ctx.fillRect(x,y+7,w,3);ctx.fillStyle='#d8ad4d';ctx.fillRect(x,y+7,w*clamp(actor.stamina/actor.maxStamina,0,1),3);}
+    }
     drawProjectile(ctx,p){const speed=Math.hypot(p.vx,p.vy)||1,nx=p.vx/speed,ny=p.vy/speed;ctx.strokeStyle=p.color;ctx.lineWidth=p.radius;ctx.globalAlpha=.78;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-nx*18,p.y-ny*18);ctx.stroke();ctx.globalAlpha=1;}
-    drawParticle(ctx,p){const ratio=clamp(p.life/p.maxLife,0,1);ctx.save();ctx.globalAlpha=ratio;ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.fillStyle=p.color;if(p.kind==='dust'||p.kind==='smoke'){ctx.beginPath();ctx.arc(0,0,p.size*(1.4-ratio*.35),0,Math.PI*2);ctx.fill();}else if(p.kind==='spark'||p.kind==='muzzle')ctx.fillRect(-p.size*1.8,-p.size*.25,p.size*3.6,p.size*.5);else ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.7);ctx.restore();}
+    drawParticle(ctx,p){const ratio=clamp(p.life/p.maxLife,0,1);if(this.art?.drawEffect(ctx,p.kind,p.x,p.y,Math.max(15,p.size*9),1-ratio,ratio,p.rotation))return;ctx.save();ctx.globalAlpha=ratio;ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.fillStyle=p.color;if(p.kind==='dust'||p.kind==='smoke'){ctx.beginPath();ctx.arc(0,0,p.size*(1.4-ratio*.35),0,Math.PI*2);ctx.fill();}else if(p.kind==='spark'||p.kind==='muzzle')ctx.fillRect(-p.size*1.8,-p.size*.25,p.size*3.6,p.size*.5);else ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.7);ctx.restore();}
     drawCorpse(ctx,c){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
@@ -1056,6 +1230,7 @@
 
   try {
     const game = new Game();
+    game.art = globalThis.DeadwallArt?.create();
     globalThis.DEADWALL = game;
   } catch (error) {
     console.error('DEADWALL failed to start:', error);

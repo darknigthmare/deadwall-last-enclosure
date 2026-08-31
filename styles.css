@@ -259,7 +259,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   .weapon-panel > div { font-size: 8px; letter-spacing: .5px; }
   .weapon-panel strong { font-size: 13px; }
   .carry-indicator { left: auto; right: calc(8px + var(--safe-right)); bottom: calc(76px + var(--safe-bottom)); font-size: 9px; }
-  .interaction-hint { position: fixed; right: 0; bottom: 112px; width: min(280px, calc(100vw - 24px)); font-size: 10px; }
+  .interaction-hint { position: fixed; right: calc(100px + var(--safe-right)); bottom: calc(116px + var(--safe-bottom)); width: min(280px, calc(100vw - 116px - var(--safe-right))); font-size: 10px; }
   .controls-hint, .minimap-wrap { display: none; }
   .notifications { top: auto; left: auto; right: calc(8px + var(--safe-right)); bottom: calc(182px + var(--safe-bottom)); width: min(300px, calc(100vw - 24px)); }
   .notification { font-size: 10px; padding: 8px 11px; }
@@ -301,6 +301,15 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   .notifications { bottom: 100px; right: 290px; width: min(240px, calc(100vw - 490px)); }
   .notification:nth-child(n+2) { display: none; }
 }
+.crisis-card { margin: 12px 0; padding: 13px; background: #30221c; border: 1px solid #8f5b3e; border-left: 3px solid var(--accent); }
+.crisis-card > small { color: #e8b675; font-size: 10px; letter-spacing: .08em; }
+.crisis-card h3 { margin: 7px 0; font-size: 17px; color: #fff1d3; }
+.crisis-card p { color: #e3d7c5; font-size: 12px; line-height: 1.55; }
+.crisis-choices { display: grid; gap: 7px; margin: 12px 0; }
+.crisis-choices button { padding: 10px; text-align: left; font-size: 11px; line-height: 1.6; min-height: 44px; white-space: normal; }
+.crisis-choices button:first-child { border-color: #bd9755; }
+.crisis-choices button:disabled { opacity: .6; }
+.high-contrast .crisis-card { background: #000; border-color: #ffe9ad; }
 /* Accessibility themes use opaque surfaces and no full-page filters. */
 .high-contrast { --panel: #000; --surface: #111; --text: #fff; --muted: #e0e5dc; --accent: #ffdc78; --accent-bright: #ffe9ad; --line: #939c8c; --ok: #b7eda3; --danger: #ffb3a0; }
 .high-contrast .panel, .high-contrast .weapon-panel, .high-contrast .modal-card, .high-contrast .help-card, .high-contrast .notification, .high-contrast .carry-indicator, .high-contrast #topbar { background: #030703; border-color: #aab599; }

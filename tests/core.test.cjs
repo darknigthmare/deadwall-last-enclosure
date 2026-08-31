@@ -81,3 +81,43 @@ test('équilibrage: la santé zombie est plafonnée et les priorités énergie s
   assert.ok(C.researchById('logistics'));
   assert.ok(C.crisisForWave(5, 17117));
 });
+
+test('production: conservation des intrants et rendement proportionnel à la capacité disponible', () => {
+  const stock = C.makeBag({ ammo: 500, scrap: 100 });
+  assert.equal(C.productionFraction(stock, { ammo: .9 }, { scrap: .11 }, 500, 1), 0);
+  stock.ammo = 499.55;
+  assert.ok(Math.abs(C.productionFraction(stock, { ammo: .9 }, { scrap: .11 }, 500, 1) - .5) < 1e-8);
+  stock.scrap = .011;
+  assert.ok(Math.abs(C.productionFraction(stock, { ammo: .9 }, { scrap: .11 }, 500, 1) - .1) < 1e-8);
+  assert.equal(C.productionFraction(stock, { ammo: .9 }, {}, 500, 0), 0);
+});
+
+test('migration horde: compteurs compacts et anciennes files conservent chaque contact', () => {
+  const counts = C.normalizeSpawnCounts({ walker: 2, runner: 3, armored: -8 }, ['walker', 'armored', 'inconnu']);
+  assert.deepEqual(counts, { walker: 3, runner: 3, armored: 1, crawler: 0, howler: 0 });
+  const composition = { ...counts }, actual = C.normalizeSpawnCounts();
+  for (let index = 0; index < 7; index++) actual[C.takeSpawnKind(counts, index / 7)]++;
+  assert.deepEqual(actual, composition); assert.equal(C.spawnCount(counts), 0);
+  assert.equal(C.takeSpawnKind(counts, .5), null);
+});
+
+test('navigation: grille bornée, pas diagonaux et arrêt explicite lorsque la route est fermée', () => {
+  const blocked = (x, y) => x === 3 && y !== 5;
+  const route = C.findFriendlyPath({ x: 1, y: 1 }, { x: 5, y: 1 }, blocked, 7, 7);
+  assert.ok(route.some(point => point.x === 3 && point.y === 5));
+  let previous = { x: 1, y: 1 };
+  for (const point of route) { assert.equal(Math.abs(point.x - previous.x) + Math.abs(point.y - previous.y), 1); assert.equal(blocked(point.x, point.y), false); previous = point; }
+  assert.equal(C.findFriendlyPath({ x: 1, y: 1 }, { x: 5, y: 1 }, x => x === 3, 7, 7), null);
+  assert.equal(C.findFriendlyPath({ x: 1, y: 1 }, { x: 5, y: 1 }, blocked, 7, 7, 1), null);
+});
+
+test('crises: choix de secours toujours payable et états historiques non appliqués deux fois', () => {
+  for (const crisis of C.CRISES) {
+    assert.ok(C.bagTotal(crisis.choices.A.cost) > 0);
+    assert.equal(C.bagTotal(crisis.choices.B.cost), 0);
+    assert.ok(crisis.choices.A.description && crisis.choices.B.description);
+  }
+  assert.equal(C.normalizeCrisis({ id: 'ammo', title: 'ancienne crise déjà appliquée' }), null);
+  assert.equal(C.normalizeCrisis({ id: 'ammo', status: 'resolved', choice: 'inconnu' }), null);
+  assert.deepEqual(C.normalizeCrisis({ id: 'ammo', wave: 5, status: 'pending', remaining: 23 }), { id: 'ammo', wave: 5, status: 'pending', remaining: 23, targetId: 0, choice: null });
+});

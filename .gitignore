@@ -10,3 +10,5 @@ coverage/
 .env*
 
 dist
+release/
+artifacts/ux-qa/

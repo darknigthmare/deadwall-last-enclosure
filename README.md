@@ -2,20 +2,24 @@
 
 Jeu autonome de **survie, construction de cité et défense contre des hordes zombies infinies**. Le joueur commence comme récupérateur armé autour d’un dépôt abandonné, puis automatise la collecte, recrute des ouvriers et des fusiliers, développe des industries et ferme plusieurs enceintes concentriques.
 
-Cette livraison est une version complète et jouable en **2D/2.5D top-down Canvas**, sans bibliothèque, compte, serveur distant ni asset externe. Elle sert aussi de verticale de référence pour un futur port 3D semi-réaliste.
+Le moteur **2D/2.5D top-down Canvas** est distribué en application Windows autonome et en version navigateur/PWA. Les assets originaux OpenAI sont embarqués ; aucun compte ni service distant n'est nécessaire pour jouer. Le shell PC utilise Electron : ce n'est pas une réécriture Unreal ou un moteur 3D natif.
 
 ## Lancer le jeu
 
-### Méthode la plus simple
+### Application Windows autonome — recommandée sur PC
 
-Ouvrir `index.html` dans un navigateur moderne.
+Extraire entièrement l'archive **DEADWALL-1.0.0-Windows-x64-portable.zip**, puis lancer **DEADWALL.exe**. Aucun Node.js, navigateur installé ou serveur local n'est requis. F11 / Alt+Entrée basculent en plein écran. Les sauvegardes persistent dans AppData, indépendamment du dossier du jeu.
 
-### Windows
+La distribution locale est non signée ; ne pas désactiver SmartScreen. Construction, vérification du vrai exécutable et limites de distribution : [docs/DESKTOP.md](docs/DESKTOP.md).
+
+### Fichier autonome et édition navigateur
+
+Ouvrir **DEADWALL_Standalone.html** pour la version monofichier contenant tous les scripts, styles et images, y compris sans connexion. Pour le développement sous Windows :
 
 Double-cliquer sur `start_windows.bat`, puis ouvrir l’adresse indiquée :
 
 ```text
-http://localhost:4173
+http://127.0.0.1:4173
 ```
 
 ### Linux / macOS
@@ -30,7 +34,7 @@ http://localhost:4173
 npm start
 ```
 
-Aucune installation `npm install` n’est nécessaire.
+Aucune installation de dépendances n'est nécessaire pour le serveur local ni les tests Node. Le packaging PC requiert les outils décrits dans le guide Windows.
 
 ## Commandes
 
@@ -74,6 +78,10 @@ Aucune installation `npm install` n’est nécessaire.
 - Trois difficultés : Survivant, Standard et Brutal.
 - Objectifs d’introduction, récompenses, paliers de cité et mode infini.
 - Son généré procéduralement avec Web Audio, sans fichiers audio externes.
+- Sept textures/atlas OpenAI intégrés au terrain, aux 22 structures, aux props et épaves, aux personnages et aux effets ; 64 poses réparties en huit cycles animés.
+- Navigation alliée par les portes de plusieurs enceintes ; cargaisons partielles conservées et industrie arrêtée à stock plein.
+- Quatre crises à deux choix avec coûts et effets réels ; six doctrines de recherche et progression de cité.
+- Paramètres persistants : volume, contraste, mouvements réduits, qualité légère ; export/import JSON avec validation et confirmation.
 
 ## Vérification du projet
 
@@ -82,7 +90,7 @@ npm test
 npm run check
 ```
 
-La suite couvre l’économie, les vagues, les paliers, le catalogue, la file de priorité du pathfinding, les références HTML, le démarrage complet, le déclenchement d’une horde, le rendu Canvas simulé et la sauvegarde/reprise.
+La suite couvre économie, doctrines, difficultés, crises, navigation concentrique, hordes compactées, sauvegardes corrompues et secours, audio, tactile, atlas, protocoles HTTP/PC, build et PWA. Le rendu simulé des tests Node est complété par des contrôles Chromium et de vrais lancements Electron : [audit commercial](docs/AUDIT_COMMERCIAL.md), [audit UX](docs/AUDIT_UX_RUNTIME.md), [provenance des visuels](docs/GAME_ART_PROVENANCE.md).
 
 ## Structure
 
@@ -91,6 +99,10 @@ index.html                  Interface et écrans
 styles.css                 Direction visuelle et responsive
 src/core.js                Données, équilibrage et fonctions pures
 src/game.js                Simulation, IA, rendu, interface et sauvegarde
+src/art.js                 Atlas, import des mattes et cycles animés
+src/save.js                Validation transactionnelle des sauvegardes
+src/ui.js                  Paramètres, export et import confirmés
+desktop/                   Application Windows isolée et vérification PC
 scripts/server.mjs         Serveur local sans dépendance
 tests/                     Tests automatiques Node.js
 docs/GAME_DESIGN.md        Règles de conception complètes
@@ -117,4 +129,4 @@ La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v2` (avec migra
 ## Crédit du projet
 
 Conception et propriété du projet : **Darknigthmare**.
-jeu complet Codex livré en août 2026.
+Moteur et édition PC livrés avec leurs limites documentées. Les véhicules sont des épaves récupérables, pas des véhicules pilotables ; aucune campagne scénarisée, métaprogression ou certification boutique n'est annoncée.

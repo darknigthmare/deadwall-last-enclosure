@@ -1,5 +1,5 @@
-const CACHE = 'deadwall-v1.0.0-r5';
-const ASSETS = ['./','index.html','styles.css','manifest.json','src/core.js','src/game.js','assets/icon.svg','assets/icon-192.png','assets/icon-512.png','assets/deadwall-keyart-v2.webp'];
+const CACHE = 'deadwall-v1.0.0-r6';
+const ASSETS = ['./','index.html','styles.css','settings.css','manifest.json','src/core.js','src/save.js','src/art.js','src/game.js','src/ui.js','assets/icon.svg','assets/icon-192.png','assets/icon-512.png','assets/deadwall-keyart-v2.webp','assets/buildings-atlas.webp','assets/props-atlas.webp','assets/survivors-atlas.webp','assets/infected-atlas.webp','assets/vfx-atlas.webp','assets/terrain-earth.webp','assets/defenses-atlas.webp'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 const CACHE_PREFIX = 'deadwall-v';
 const assetURLs = new Set(ASSETS.map(asset => new URL(asset, self.registration.scope).href));
