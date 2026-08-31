@@ -71,6 +71,7 @@
       this.radius = def.radius; this.speed = def.speed;
       this.state = 'idle'; this.targetNode = -1; this.targetBuilding = -1; this.think = 0;
       this.targetUnit = -1; this.supportActive = false;
+      this.squad = null;
       this.fireCooldown = 0; this.facing = 0; this.carryType = null; this.carry = 0; this.maxCarry = 10;
       const a = Math.random() * Math.PI * 2, r = 35 + Math.random() * 70;
       this.offset = { x: Math.cos(a) * r, y: Math.sin(a) * r };
@@ -279,7 +280,7 @@
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
-      this.workerOrder = 'auto'; this.runId = null; this.narrative=globalThis.DeadwallNarrative.create();
+      this.workerOrder = 'auto'; this.runId = null; this.scenarioId = 'classic'; this.narrative=globalThis.DeadwallNarrative.create();
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
       this.audio.setVolume(this.settings.volume);
@@ -344,6 +345,7 @@
         if (this.state !== 'playing' || this.paused || this.gameOver || this.activeOverlay) return;
         if (event.target?.closest?.('#resources')) return;
         if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
+        if((event.ctrlKey||event.altKey||event.metaKey)&&[...C.SQUAD_RULES.keys,'KeyG','KeyT'].includes(event.code))return;
         if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
         if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
         if (!event.repeat) this.input.pressed.add(event.code); this.input.keys.add(event.code);
@@ -354,7 +356,7 @@
         this.audio.unlock(); this.updateMouseWorld();
         if (this.state !== 'playing' || this.paused || this.gameOver) return;
         if (event.button === 0) {
-          if (this.rallyPlacement) { this.rally = { x: this.input.mouseWorldX, y: this.input.mouseWorldY }; this.rallyPlacement = false; this.notify('Point de ralliement déplacé.', 'good'); this.audio.ui(); return; }
+          if (this.rallyPlacement) { this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY }); return; }
           if (this.selectedBuild) {
             const def = BUILDINGS[this.selectedBuild];
             if (this.isLineWall(def)) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.wallPreview = [this.wallStart]; }
@@ -382,7 +384,7 @@
       this.canvas.addEventListener('pointerdown',event=>{
         if(!event.pointerType||event.pointerType==='mouse'||this.state!=='playing'||this.paused||this.gameOver)return;
         event.preventDefault();this.audio.unlock();this.canvasPointerId=event.pointerId;this.canvas.setPointerCapture?.(event.pointerId);touchPoint(event);
-        if(this.rallyPlacement){this.rally={x:this.input.mouseWorldX,y:this.input.mouseWorldY};this.rallyPlacement=false;this.notify('Point de ralliement déplacé.','good');}
+        if(this.rallyPlacement){this.placeSquadRally({x:this.input.mouseWorldX,y:this.input.mouseWorldY});}
         else if(this.selectedBuild){if(this.isLineWall(BUILDINGS[this.selectedBuild])){this.wallStart={x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)};this.updateWallPreview();}else this.placeOne(this.selectedBuild,grid(this.input.mouseWorldX),grid(this.input.mouseWorldY),this.buildRotation);}
         else this.selectBuilding(this.world.at(this.input.mouseWorldX,this.input.mouseWorldY));
       });
@@ -416,10 +418,11 @@
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.demolishSelected());
-      click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => { this.cancelPlacement(); this.rallyPlacement = true; this.notify('Cliquez au sol pour placer le ralliement.'); });
+      click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => this.beginSquadRally(null));
       click('repairAll', () => this.repairAll());
       if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
       if (this.ui.researchButton) click('researchButton', () => this.showCommand ? this.showCommand(true, 'research') : this.launchResearch());
@@ -523,41 +526,56 @@
         const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
         if(accepted!==true)return false;
       }
-      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'')!==false;
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic')!==false;
     }
 
-    startNew(id = 'standard', seedText = '') {
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic') {
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
       document.getElementById('mapSeed')?.setCustomValidity?.('');
       id = typeof id === 'string' && Object.hasOwn(DIFFICULTIES, id) ? id : 'standard';
+      let scenario;
+      try { scenario = globalThis.DeadwallScenarios.initialState(scenarioId, id); }
+      catch (error) { this.notify(error.message, 'danger'); return false; }
+      this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       this.world = new WorldMap(seed ?? this.random.int(1000, 9999999)); this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
+      if (scenario.id !== 'classic') this.resources = scenario.resources;
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
+      if (scenario.id !== 'classic') core.health = scenario.coreHealth;
       this.player.x = core.x + 135; this.player.y = core.y + 20;
-      for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      if (scenario.id === 'classic') {
+        for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      } else {
+        for (const kind of scenario.roster) this.units.push(new Unit(this.nextId++, kind, core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      }
       this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.pendingSpawns = normalizeSpawnCounts(); this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
+      if (scenario.id !== 'classic') this.phaseTime = scenario.calmSeconds;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
       this.objectiveIndex = 0; this.objectiveProgress = 0; this.rally = { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
+      this.squads = globalThis.DeadwallSquads.create(this.rally);
+      this.ensureSquads();
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = 1;
       this.ui.commandModal?.classList.add('hidden'); this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus();
       this.notify(`Protocole lancé — difficulté ${this.difficulty.label}.`, 'good'); this.notify('Récoltez puis rapportez les matériaux au centre.'); this.refreshBuildMenu(true); this.updateUI(); this.save(false);
+      if (scenario.id !== 'classic') this.notify(globalThis.DeadwallScenarios.get(scenario.id).name + ' — ' + globalThis.DeadwallScenarios.get(scenario.id).tradeoff);
     }
 
     serialize() {
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
+        scenarioId: this.scenarioId, squads: this.squads,
         workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
+        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,squad:u.squad,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId,
@@ -595,6 +613,7 @@
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
+      this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
@@ -713,11 +732,73 @@
       if(!this.canRecruit(kind)){const reason=def.requires&&!this.world.has(def.requires)?`${BUILDINGS[def.requires].name} terminé requis.`:this.tier.id<def.tier?`Nécessite le palier ${CITY_TIERS[def.tier].name}.`:this.population>=this.housing?'Logements insuffisants.':`Recrutement : ${resourceText(def.cost)} requis.`;this.notify(reason,'danger');return false;}
       if(!spend(this.resources,def.cost))return false;
       const core=this.core(),unit=new Unit(this.nextId++,kind,core.x+this.random.range(-35,35),core.y+this.random.range(-35,35));
+      if(kind==='soldier'){this.ensureSquads();unit.squad=globalThis.DeadwallSquads.nextGroup(this.units);}
       if(this.workerOrder==='retreat'&&(kind==='worker'||def.specialist))unit.state='flee';
       this.units.push(unit);this.refreshMetrics(true);this.audio.ui();this.notify(`${def.name} prêt à intervenir.`,'good');return true;
     }
 
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
+
+    ensureSquads() {
+      const Q=globalThis.DeadwallSquads;if(!this.squads)this.squads=Q.create(this.rally);
+      const missing=this.units.some(unit=>unit.kind==='soldier'&&!unit.dead&&!Q.validIndex(unit.squad));
+      if(missing){const assignments=Q.assignments(this.units);for(const unit of this.units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);}
+      return this.squads;
+    }
+    canCommandSquads(){return this.canIssueCommand()&&(!this.activeOverlay||this.activeOverlay===this.ui.commandModal);}
+    selectSquad(index) {
+      if(!this.canCommandSquads()||!globalThis.DeadwallSquads.validIndex(index))return false;
+      this.ensureSquads();if(this.rallyPlacement&&this.rallyPlacement.squad!==index)this.rallyPlacement=false;
+      this.squads.selected=index;this.squadUI?.refresh();return true;
+    }
+    squadRallyStatus(point) {
+      const radius=C.SURVIVORS.soldier.radius,margin=radius+4;
+      if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<margin||point.y<margin||point.x>WORLD_SIZE-margin||point.y>WORLD_SIZE-margin)return{ok:false,reason:'Choisissez un point à l’intérieur de la carte.'};
+      const probe={...point,radius};
+      if([...this.world.buildings.values()].some(b=>T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)))return{ok:false,reason:'Ce point est bloqué par un rempart ou une porte verrouillée.'};
+      return{ok:true,reason:''};
+    }
+    setSquadRally(index, point) {
+      const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||(index!==null&&!Q.validIndex(index)))return false;
+      const status=this.squadRallyStatus(point);if(!status.ok){this.notify(status.reason,'danger');this.squadUI?.announce(status.reason);return false;}
+      this.ensureSquads();
+      if(index===null){this.rally={x:point.x,y:point.y};for(let group=0;group<C.SQUAD_RULES.count;group++)this.squads=Q.withOrder(this.squads,group,'rally',point);}
+      else this.squads=Q.withOrder(this.squads,index,'rally',point);
+      for(const unit of this.units)if(unit.kind==='soldier'&&(index===null||unit.squad===index))unit.navigation=null;
+      const message=index===null?'Ralliement général transmis aux trois sections.':'Section '+C.SQUAD_RULES.labels[index]+' : point de ralliement transmis.';
+      this.notify(message,'good');this.squadUI?.announce(message);this.audio.ui();this.save(false);this.squadUI?.refresh();return true;
+    }
+    retreatSquad(index=this.squads?.selected??0) {
+      const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||!Q.validIndex(index)||!this.core())return false;
+      this.ensureSquads();this.squads=Q.withOrder(this.squads,index,'retreat');
+      for(const unit of this.units)if(unit.kind==='soldier'&&unit.squad===index)unit.navigation=null;
+      if(this.rallyPlacement&&this.rallyPlacement.squad===index)this.rallyPlacement=false;
+      const message='Section '+C.SQUAD_RULES.labels[index]+' : repli vers le centre, par les accès ouverts.';
+      this.notify(message);this.squadUI?.announce(message);this.audio.ui();this.save(false);this.squadUI?.refresh();return true;
+    }
+    beginSquadRally(index=this.squads?.selected??0) {
+      if(!this.canCommandSquads()||(index!==null&&!globalThis.DeadwallSquads.validIndex(index)))return false;
+      this.ensureSquads();this.cancelPlacement();
+      if(this.activeOverlay===this.ui.commandModal)this.showCommand?.(false);
+      if(this.paused)this.togglePause(false);
+      this.rallyPlacement={squad:index};this.releaseInputs();this.canvas.focus();
+      const message=index===null?'Cliquez au sol pour le ralliement général. Échap annule.':'Section '+C.SQUAD_RULES.labels[index]+' : cliquez au sol. Échap annule.';
+      this.notify(message);this.squadUI?.announce(message);return true;
+    }
+    placeSquadRally(point) {
+      if(this.state!=='playing'||this.paused||this.gameOver||this.activeOverlay||!this.rallyPlacement)return false;
+      const index=this.rallyPlacement===true?null:this.rallyPlacement.squad;
+      if(!this.setSquadRally(index,point))return false;
+      this.rallyPlacement=false;this.input.mouseDown=false;return true;
+    }
+    getSquadSummary() {
+      const state=this.squads||globalThis.DeadwallSquads.create(this.rally),core=this.core();
+      return state.groups.map((group,index)=>{
+        const units=this.units.filter(u=>u.kind==='soldier'&&!u.dead&&u.health>0&&u.squad===index),target=group.order==='retreat'?core:group.rally;
+        return{index,label:C.SQUAD_RULES.labels[index],order:group.order,rally:{...group.rally},count:units.length,selected:state.selected===index,
+          blocked:units.filter(u=>u.navigation?.cells===null&&target&&dist(u,target)>C.SQUAD_RULES.retreatRadius).length};
+      });
+    }
 
     coreArrivalPosition(entity, preferred) {
       const core = this.core(); if (!core) return null;
@@ -801,6 +882,11 @@
       if (this.input.pressed.has('Digit1')) this.switchWeapon('pistol');
       if (this.input.pressed.has('Digit2')) this.switchWeapon('rifle');
       if (this.input.pressed.has('Digit3')) this.switchWeapon('shotgun');
+      if(this.state==='playing'&&!this.paused&&!this.activeOverlay&&!this.gameOver){
+        C.SQUAD_RULES.keys.forEach((key,index)=>{if(this.input.pressed.has(key))this.selectSquad(index);});
+        if(this.input.pressed.has('KeyG'))this.beginSquadRally();
+        if(this.input.pressed.has('KeyT'))this.retreatSquad();
+      }
       if (this.input.pressed.has('KeyR')) { if (this.selectedBuild && !this.isLineWall(BUILDINGS[this.selectedBuild])) this.buildRotation = (this.buildRotation + 1) % 4; else this.startReload(); }
       if (this.input.pressed.has('Space')) this.melee();
       if (this.input.pressed.has('KeyB')) this.setBuildCollapsed(!this.buildCollapsed);
@@ -975,6 +1061,7 @@
 
     updateUnits(dt) {
       const core=this.core();if(!core)return;
+      this.ensureSquads();
       this.navigationBudget=STRATEGY_RULES.pathQueriesPerUpdate;
       const order=this.workerOrder||'auto';
       const unitCount=this.units.length,firstUnit=(this.unitUpdateOffset||0)%Math.max(1,unitCount);
@@ -1018,8 +1105,15 @@
         } else if(C.SURVIVORS[u.kind]?.specialist){
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
-          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
-          else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
+          const rules=C.SQUAD_RULES,group=this.squads.groups[u.squad],retreat=group.order==='retreat';
+          const target=this.nearestZombie(u.x,u.y,rules.range);
+          if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
+            if(d>rules.advanceRange){if(!retreat)this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}
+            else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=rules.fireCooldown;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');}
+            else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;if(target.health<=0)this.killZombie(target,false);}
+          }
+          if(retreat){u.state='flee';if(dist(u,core)>rules.retreatRadius)this.moveUnitToward(u,core,dt);}
+          else if(!target){u.state='move';const targetPoint={x:group.rally.x+u.offset.x*rules.formationScale,y:group.rally.y+u.offset.y*rules.formationScale};if(dist(u,targetPoint)>rules.rallyRadius)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
       this.units=this.units.filter(u=>!u.dead);
@@ -1377,7 +1471,14 @@
       if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
       if(b===this.selectedBuilding)this.selectBuilding(null);if(def.id==='core'){this.triggerGameOver();return;}this.notify(`${def.name} détruit — le secteur est ouvert !`,'danger');this.refreshMetrics(true);}
 
-    triggerGameOver(){this.recordCampaign(true);this.gameOver=true;this.releaseInputs();for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])try{localStorage.removeItem(key);}catch{}this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();}
+    triggerGameOver(){
+      this.recordCampaign(true);this.gameOver=true;this.releaseInputs();
+      for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])try{localStorage.removeItem(key);}catch{}
+      this.refreshContinue();
+      this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;
+      this.battlefieldUI?.refreshDefeat();this.battlefieldUI?.refresh(true);
+      this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();
+    }
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
@@ -1530,7 +1631,7 @@
     }
     recordCampaign(ended=false){
       if(!this.profile||!this.runId)return;
-      this.profileStatus=this.profile.record({runId:this.runId,seed:this.world.seed,difficulty:this.difficulty.id,
+      this.profileStatus=this.profile.record({runId:this.runId,seed:this.world.seed,difficulty:this.difficulty.id,scenarioId:this.scenarioId,
         wavesSurvived:Math.floor(this.stats.wavesSurvived),kills:Math.floor(this.stats.kills),playSeconds:this.stats.playSeconds,
         population:Math.max(this.stats.peakPopulation||0,this.population),buildings:Math.max(this.stats.peakBuildings||0,[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed).length),ended});
     }
@@ -1552,6 +1653,8 @@
 
     updateUI(){
       this.updateCrisisUI();
+      this.squadUI?.refresh();
+      this.battlefieldUI?.refresh();
       this.updateEnclosureIntel();this.commandUI?.refresh();
       for(const key of RESOURCE_KEYS){
         this.resourceEls[key].textContent=formatNumber(this.resources[key]);
@@ -1709,7 +1812,7 @@
     drawCorpse(ctx,c){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
-    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+Math.sin(this.elapsed*2)*3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();}
+    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+Math.sin(this.elapsed*2)*3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
 
     drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=BUILDINGS[this.selectedBuild],cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 

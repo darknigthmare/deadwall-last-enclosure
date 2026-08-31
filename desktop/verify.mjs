@@ -58,6 +58,15 @@ for (const stage of ['create','restore']) {
   if (executableIndex >= 0 || archiveIndex >= 0) assert.equal(report.packaged, true, 'QA must run the packaged application');
   assert.equal(report.commandPost.doctrines.length, 6);
   assert.equal(report.commandPost.workerOrder, 'retreat');
+  assert.deepEqual(report.distribution, {publicFiles:42,nativeRoutes:41,serviceWorkerBlocked:true});
+  assert.equal(report.save.scenarioId, 'rearguard'); assert.equal(report.save.difficulty, 'story');
+  assert.equal(report.squads.sections, 3); assert.equal(report.squads.selected, 2);
+  assert.equal(report.squads.alphaOrder, 'retreat'); assert.equal(report.squads.restored, stage==='restore');
+  assert.equal(report.squads.ordersWithoutCost, true); assert.equal(report.squads.positionsUnchanged, true); assert.equal(report.squads.simulationRngUnchanged, true);
+  assert.deepEqual(report.squads.state, report.save.squads); assert.deepEqual(report.squads.soldiers, report.save.soldiers);
+  assert.equal(report.save.soldiers.length, 1); assert.equal(report.save.soldiers[0].squad, 0);
+  assert.equal(report.battlefield.fronts, 4); assert.deepEqual(report.battlefield.directions, ['NORD','EST','SUD','OUEST']);
+  assert.equal(report.battlefield.debriefMetrics, 6); assert.equal(report.battlefield.hiddenDebrief, true); assert.equal(report.battlefield.campaignIntact, true);
   assert.deepEqual(report.assets.expectedKeys, expectedAssetKeys, 'Packaged atlas catalogue must match the source under verification');
   assert.deepEqual([...report.assets.ready].sort(), expectedAssetKeys);
   assert.deepEqual(report.assets.imageKeys, expectedAssetKeys);
@@ -70,6 +79,7 @@ for (const stage of ['create','restore']) {
   assert.equal(report.narrative.read, true); assert.equal(report.narrative.repeatRejected, true);
   assert.equal(report.narrative.commandJournal, true); assert.equal(report.narrative.restored, stage==='restore');
   assert.equal(report.imports.narrativePreserved, true);
+  assert.equal(report.imports.scenarioPreserved, true); assert.equal(report.imports.squadsPreserved, true);
   assert.deepEqual(report.consoleErrors, []);
   reports.push(report);
 }
@@ -77,5 +87,6 @@ assert.deepEqual(reports[0].save, reports[1].save, 'Final close saves must survi
 assert.deepEqual(reports[0].narrative.state, reports[1].narrative.state, 'Narrative decisions, partial surveys and read entries must survive a new native process');
 assert.equal(reports[0].narrative.insight, reports[1].narrative.insight, 'Loading must not grant narrative rewards twice');
 assert.ok(reports[1].menuRecords.runIds.includes(reports[0].save.runId), 'Archives must load before continuing a campaign');
-fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
-console.log(`DEADWALL desktop: two launches, seed 17117, tactical pause/orders, six doctrines, persistent records, journal partial survey/unique choice/read state, ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
+assert.equal(reports[1].menuRecords.scenarioId, 'rearguard'); assert.equal(reports[1].menuRecords.scenarioRecordsSeparated, true);
+fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,distribution:reports[0].distribution,scenario:{id:'rearguard',menuSelected:true,afterRestart:true,importExport:true,recordsSeparated:true},squads:{sections:3,selected:2,alphaOrder:'retreat',afterRestart:true,importExport:true,ordersWithoutCost:true,positionsUnchanged:true,simulationRngUnchanged:true},battlefield:{fronts:4,debriefMetrics:6,hiddenDebrief:true,nonDestructive:true},atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
+console.log(`DEADWALL desktop: two launches, rearguard/story seed 17117, persistent squad selection/orders, four fronts and six hidden debrief metrics without campaign mutation, six doctrines, separate records, journal partial survey/unique choice/read state, 42 distribution files (41 native routes, service worker blocked), ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);

@@ -16,6 +16,12 @@
   const element=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
   const bind=(id,fn)=>get(id)?.addEventListener('click',event=>{if(!event.currentTarget.disabled&&!event.currentTarget.closest('[inert]'))fn();});
   const workerCards=new Map(),researchCards=new Map();
+  const recordScenario=element('select'),recordLabel=element('label','CONDITIONS DE DÉPART DES RECORDS','records-scenario');
+  recordScenario.id='recordScenario';recordLabel.htmlFor='recordScenario';
+  for(const scenario of globalThis.DeadwallScenarios.list()){const option=element('option',scenario.name);option.value=scenario.id;recordScenario.appendChild(option);}
+  recordScenario.value='classic';recordLabel.appendChild(recordScenario);
+  get('recordsScenarioFilter').appendChild(recordLabel);
+  recordScenario.addEventListener('change',()=>{recordsKey='';refreshRecords();});
   for(const [id,title,description] of orders){
     const button=element('button',undefined,'order-card');button.type='button';button.dataset.workerOrder=id;
     button.appendChild(element('strong',title));button.appendChild(element('span',description));
@@ -77,10 +83,10 @@
   }
   function refreshRecords(){
     const profile=game.profile?.get();if(!profile)return;
-    const key=JSON.stringify(profile);if(key===recordsKey)return;recordsKey=key;
+    const selectedScenario=recordScenario.value||'classic',key=selectedScenario+JSON.stringify(profile);if(key===recordsKey)return;recordsKey=key;
     get('recordBoard').replaceChildren();get('recentCampaigns').replaceChildren();
     for(const id of ['story','standard','brutal']){
-      const best=profile.byDifficulty[id],card=element('article',undefined,'record-card');
+      const best=profile.byScenario[selectedScenario][id],card=element('article',undefined,'record-card');
       card.appendChild(element('small',C.DIFFICULTIES[id].label));
       card.appendChild(element('strong',C.formatNumber(best.wavesSurvived)));
       card.appendChild(element('span','VAGUES SURVÉCUES'));
@@ -91,12 +97,13 @@
     if(!profile.recentRuns.length)get('recentCampaigns').appendChild(element('p','Vos campagnes apparaîtront ici après une sauvegarde.','command-note'));
     for(const run of profile.recentRuns){
       const row=element('li',undefined,'campaign-row'),copy=element('div');
-      copy.appendChild(element('strong','CARTE '+run.seed+' · '+C.DIFFICULTIES[run.difficulty].label));
+      copy.appendChild(element('strong','CARTE '+run.seed+' · '+C.DIFFICULTIES[run.difficulty].label+' · '+globalThis.DeadwallScenarios.get(run.scenarioId).name));
       copy.appendChild(element('span',run.wavesSurvived+' vagues · '+C.formatNumber(run.kills)+' éliminations · '+(run.ended?'cité tombée':'archive de campagne')));
       const button=element('button','RÉUTILISER LA CARTE');button.type='button';
       button.setAttribute('aria-label','Réutiliser la carte '+run.seed);
       button.addEventListener('click',()=>{
         get('mapSeed').value=String(run.seed);get('mapSeed').setCustomValidity('');
+        if(get('startScenario')){get('startScenario').value=run.scenarioId||'classic';game.scenarioUI?.refresh();}
         message('Carte '+run.seed+' préparée dans le menu. Aucun changement de la campagne actuelle.');
         if(game.state==='menu'){game.showCommand(false);get('mapSeed').focus();}
       });
@@ -138,7 +145,7 @@
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();
+    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();game.squadUI?.refresh();game.battlefieldUI?.refresh(true);
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
   }
   game.showCommand=(show,requestedTab='enclosure')=>{

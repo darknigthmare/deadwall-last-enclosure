@@ -2,6 +2,8 @@
   'use strict';
   const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
   const N = typeof module !== 'undefined' && module.exports ? require('./narrative.js') : global.DeadwallNarrative;
+  const Q = typeof module !== 'undefined' && module.exports ? require('./squads.js') : global.DeadwallSquads;
+  const S = typeof module !== 'undefined' && module.exports ? require('./scenarios.js') : global.DeadwallScenarios;
   const MAX_FILE_BYTES = 8 * 1024 * 1024;
   const owns = (table,key) => typeof key==='string' && Object.prototype.hasOwnProperty.call(table,key);
   const fail = label => { throw new Error(`Sauvegarde invalide : ${label}.`); };
@@ -19,6 +21,7 @@
   function validate(input) {
     const source = object(input, 'document');
     const data = C.migrateSaveData(source); if (!data) fail('version incompatible');
+    const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
     const entityId = raw => { const id = integer(raw.id, undefined, 1, 0x7ffffffe, 'identifiant'); if (ids.has(id)) fail('identifiant dupliqué'); ids.add(id); maximumId = Math.max(maximumId, id); return id; };
     const buildings = list(data.buildings, [], C.WORLD_TILES ** 2, 'structures').map(value => {
@@ -34,8 +37,9 @@
     const units = list(data.units, [], 10000, 'survivants').map(value => {
       const raw=object(value,'survivant');if(!owns(C.SURVIVORS,raw.kind))fail('type de survivant');
       const carry=number(raw.carry,0,0,1000,'portage survivant');if(carry>0&&!C.RESOURCE_KEYS.includes(raw.carryType))fail('ressource transportée');
-      return { id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
+      return { id:entityId(raw),kind:raw.kind,squad:Q.unitGroup(raw.kind,raw.squad),...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
     });
+    const assignments=Q.assignments(units);for(const unit of units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);
     const zombies = list(data.zombies, [], C.PERFORMANCE_LIMITS.zombies, 'infectés').map(value => { const raw=object(value,'infecté');if(!owns(C.ENEMIES,raw.kind))fail('type infecté');return {id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,1,.001,1e6,'santé infecté'),attackCooldown:number(raw.attackCooldown,0,0,120,'cadence infecté')}; });
     const rawPlayer=object(data.player,'joueur'), health=number(rawPlayer.health,100,0,100,'santé joueur'), weapon=owns(C.WEAPONS,rawPlayer.weapon)?rawPlayer.weapon:'pistol';
     const magazine=Object.fromEntries(Object.entries(C.WEAPONS).map(([key,def])=>[key,integer(rawPlayer.magazine?.[key],def.magazine,0,def.magazine,'chargeur')]));
@@ -49,7 +53,10 @@
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
     const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
     const narrative=N.normalize(data.narrative);
-    return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
+    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2});
+    return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117)+(scenarioId==='classic'?'':':'+scenarioId),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
+      scenarioId,
+      squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
       elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex:integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif'),objectiveProgress:number(data.objectiveProgress,0,0,1e12,'progression'),nextId:Math.max(integer(data.nextId,maximumId+1,1,0x7ffffffe,'prochain ID'),maximumId+1),research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };

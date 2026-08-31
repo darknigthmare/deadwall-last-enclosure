@@ -95,7 +95,7 @@ test('secouriste : reliquat de médicament consommé au prorata, zéro soin grat
 test('secouriste : mur fermé interdit les soins, puis le passage réel par la porte débloque le blessé', () => {
   const { game, Unit } = fresh(), gate = ring(game), medic = specialist(game, Unit, 'medic', C.world(69), C.world(63));
   const patient = specialist(game, Unit, 'soldier', C.world(71), C.world(63)); patient.health = 20;
-  game.player.x = game.core().x; game.player.y = game.core().y; game.rally = { x: patient.x, y: patient.y }; patient.offset = { x:0, y:0 };
+  game.player.x = game.core().x; game.player.y = game.core().y; assert.equal(game.setSquadRally(null, { x: patient.x, y: patient.y }), true); patient.offset = { x:0, y:0 };
   assert.equal(game.setGateMode('closed', gate), true); const medicine = game.resources.medicine;
   assert.ok(C.dist(medic, patient) <= C.NPC_RULES.healRange); tick(game, 1);
   assert.equal(patient.health, 20); assert.equal(game.resources.medicine, medicine); assert.ok(medic.x < gate.left);
@@ -107,7 +107,7 @@ test('secouriste : mur fermé interdit les soins, puis le passage réel par la p
 test('secouriste : un blessé inaccessible ne prive pas un autre blessé accessible de soins', () => {
   const { game, Unit } = fresh(), gate = ring(game), medic = specialist(game, Unit, 'medic', C.world(68), C.world(63));
   const outside = specialist(game, Unit, 'soldier', C.world(72), C.world(63)), inside = specialist(game, Unit, 'worker', C.world(67), C.world(63));
-  outside.health = 1; inside.health = 20; game.rally = { x: outside.x, y: outside.y }; outside.offset = { x:0, y:0 };
+  outside.health = 1; inside.health = 20; assert.equal(game.setSquadRally(null, { x: outside.x, y: outside.y }), true); outside.offset = { x:0, y:0 };
   game.player.x = game.core().x; game.player.y = game.core().y; game.setGateMode('closed', gate); tick(game, 1);
   assert.equal(outside.health, 1); assert.ok(inside.health > 20);
 });

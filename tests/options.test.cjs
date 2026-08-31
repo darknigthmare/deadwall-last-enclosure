@@ -27,3 +27,47 @@ test('import UI : prévisualisation sans mutation, annulation et confirmation ex
   await handler({target:{files:[{size:10,text:async()=>'{corrompu'}],value:'file'}});assert.equal(game.world,world);assert.equal(storage.get(C.SAVE_KEY),save);assert.match(elements.get('settingsStatus').textContent,/Import refusé/);
   await handler({target:{files:[{size:10,text:async()=>JSON.stringify(data)}],value:'file'}});elements.get('settingsImportConfirm').click();assert.equal(game.wave,8);assert.equal(JSON.parse(storage.get(C.SAVE_KEY)).wave,8);assert.equal(game.paused,false);
 });
+
+test('import UI : les quatre départs validés sont identifiés avant confirmation sans changer la cité courante',async()=>{
+  const S=require('../src/scenarios.js');
+  for(const scenario of S.list()){
+    const{game,elements,storage}=bootOptions();game.startNew('brutal','17117',scenario.id);
+    const imported=JSON.parse(JSON.stringify(game.serialize()));imported.resources.wood-=7;
+    game.startNew('standard','42','classic');game.showSettings(true);
+    const world=game.world,raw=storage.get(C.SAVE_KEY),handler=elements.get('settingsImportFile')._listeners.get('change')[0];
+    await handler({target:{files:[{size:10,text:async()=>JSON.stringify(imported)}]}});
+    const summary=elements.get('settingsImportSummary').textContent;
+    assert.ok(summary.includes('Départ : '+scenario.name));assert.match(summary,/Brutal/);assert.match(summary,/Carte 17117/);
+    assert.equal(game.world,world);assert.equal(game.scenarioId,'classic');assert.equal(game.world.seed,42);assert.equal(storage.get(C.SAVE_KEY),raw);
+    elements.get('settingsImportConfirm').click();
+    assert.equal(game.scenarioId,scenario.id);assert.equal(game.difficulty.id,'brutal');assert.equal(game.world.seed,17117);
+    assert.equal(game.resources.wood,imported.resources.wood,'la confirmation restaure les stocks sans réappliquer le départ');
+    assert.equal(JSON.parse(storage.get(C.SAVE_KEY)).scenarioId,scenario.id);
+  }
+});
+
+test('import UI : une ancienne sauvegarde affiche Classique et un départ inconnu reste refusé avant confirmation',async()=>{
+  const{game,elements,storage}=bootOptions();game.startNew('standard','17117','convoy');game.showSettings(true);
+  const data=JSON.parse(JSON.stringify(game.serialize()));delete data.scenarioId;
+  const handler=elements.get('settingsImportFile')._listeners.get('change')[0],world=game.world,raw=storage.get(C.SAVE_KEY);
+  await handler({target:{files:[{size:10,text:async()=>JSON.stringify(data)}]}});
+  assert.match(elements.get('settingsImportSummary').textContent,/Départ : Départ classique/);
+  elements.get('settingsImportCancel').click();assert.equal(game.scenarioId,'convoy');
+  data.scenarioId='<img src=x onerror=alert(1)>';
+  await handler({target:{files:[{size:10,text:async()=>JSON.stringify(data)}]}});
+  assert.match(elements.get('settingsStatus').textContent,/Import refusé/);assert.equal(elements.get('settingsImportReview').classList.contains('hidden'),true);
+  assert.equal(elements.get('settingsImportSummary').textContent.includes(data.scenarioId),false);
+  elements.get('settingsImportConfirm').dispatch('click');
+  assert.equal(game.world,world);assert.equal(game.scenarioId,'convoy');assert.equal(storage.get(C.SAVE_KEY),raw);
+});
+
+test('import UI : une lecture précédente ne remplace pas le scénario du dernier fichier sélectionné',async()=>{
+  const{game,elements}=bootOptions();game.startNew('standard','17117','classic');game.showSettings(true);
+  const first=JSON.parse(JSON.stringify(game.serialize())),last=JSON.parse(JSON.stringify(first));first.scenarioId='reconstruction';last.scenarioId='rearguard';
+  const handler=elements.get('settingsImportFile')._listeners.get('change')[0];let resolveFirst;
+  const reading=handler({target:{files:[{size:10,text:()=>new Promise(resolve=>{resolveFirst=resolve;})}]}});
+  await handler({target:{files:[{size:10,text:async()=>JSON.stringify(last)}]}});
+  resolveFirst(JSON.stringify(first));await reading;
+  assert.match(elements.get('settingsImportSummary').textContent,/Départ : Arrière-garde/);
+  elements.get('settingsImportConfirm').click();assert.equal(game.scenarioId,'rearguard');
+});

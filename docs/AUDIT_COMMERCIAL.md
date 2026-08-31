@@ -4,6 +4,8 @@ Périmètre : simulation Canvas existante, identité zombie réaliste, construct
 
 ## Passe de fiabilité après le récit — 31 août 2026
 
+La passe suivante de cette même version ajoute les départs, sections, fronts et débrief. Son périmètre et ses mesures sont consignés dans [COMPLETION_PASS.md](COMPLETION_PASS.md). Le cache courant est r11 ; r10 ci-dessous désigne la livraison de fiabilité précédente.
+
 Quatre défauts supplémentaires ont été reproduits puis corrigés, sans changement des coûts, de la difficulté ou du contenu artistique :
 
 | Priorité | Défaut reproduit | Correction et régression automatisée |

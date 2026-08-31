@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="command.css">
   <link rel="stylesheet" href="content.css">
   <link rel="stylesheet" href="narrative.css">
+  <link rel="stylesheet" href="squads.css">
+  <link rel="stylesheet" href="finish.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -41,6 +43,7 @@
         <div class="wave-heading"><div><small id="phaseLabel">CALME RELATIF</small><h2>VAGUE <span id="waveNumber">1</span></h2></div><strong id="waveTimer">01:20</strong></div>
         <div class="threat-meter"><span id="threatFill"></span></div>
         <p id="waveIntel">Les éclaireurs surveillent les voies d’approche.</p>
+        <p id="innerRingAlert" class="inner-ring-alert hidden" role="status" aria-live="polite"></p>
       </section>
       <section class="objective-card">
         <small>OBJECTIF ACTUEL</small><h3 id="objectiveTitle">Établir le refuge</h3>
@@ -68,6 +71,7 @@
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
           <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
+          <button id="squadCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SECTIONS DE FUSILIERS</span><small>A · B · C — ordres et repli</small></button>
           <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
           <button id="researchButton"><span id="researchName">Doctrine logistique</span><small id="researchInsight">0 insight</small></button>
           <button id="settingsToggle"><span>PARAMÈTRES</span><small>son · accessibilité · sauvegardes</small></button>
@@ -107,6 +111,7 @@
           <label class="difficulty-option"><input type="radio" name="difficulty" value="brutal"><span><strong>BRUTAL</strong><small>Fronts agressifs · Erreurs coûteuses</small></span></label>
         </div>
       </div>
+      <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — classique</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
       <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
       <p class="seed-hint" id="seedHint">0 à 4 294 967 295. Une même graine reproduit le terrain et ses ressources, pas le déroulement des combats.</p>
       <footer><span>VERSION 1.0.0</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
@@ -121,7 +126,7 @@
       <header class="command-heading"><button id="commandClose" class="close-modal" aria-label="Fermer le poste de commandement">×</button><small>ÉTAT-MAJOR // SECTEUR D-17</small><h2 id="commandTitle">POSTE DE COMMANDEMENT</h2><p id="commandContext">ACTION SUSPENDUE</p></header>
       <nav class="command-tabs" role="tablist" aria-label="Dossiers tactiques">
         <button id="commandTab-enclosure" role="tab" aria-controls="commandPanel-enclosure" aria-selected="true">ENCEINTE</button>
-        <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">OUVRIERS</button>
+        <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">ÉQUIPES</button>
         <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
         <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
         <button id="commandTab-field" role="tab" aria-controls="commandPanel-field" aria-selected="false" tabindex="-1">DOSSIERS</button>
@@ -132,13 +137,14 @@
           <section id="commandCrisisCard" class="crisis-card hidden" aria-labelledby="commandCrisisTitle"><small>INCIDENT EN COURS</small><h3 id="commandCrisisTitle"></h3><p id="commandCrisisText"></p><p id="commandCrisisTimer"></p><div class="crisis-choices"><button id="commandCrisisA" type="button"></button><button id="commandCrisisB" type="button"></button></div></section>
           <div class="perimeter-summary"><strong id="perimeterResult">CENTRE EXPOSÉ</strong><p id="perimeterDetails"></p></div>
           <p id="perimeterAdvice" class="command-note"></p>
+          <section class="battlefield-report" aria-labelledby="battlefieldTitle"><h3 id="battlefieldTitle">SITUATION PAR FRONT</h3><p class="command-note">Contacts vivants par direction depuis le centre. Proximité : rayon de 320 unités, pas une preuve de brèche. Remparts fragiles : intégrité à 30 % ou moins.</p><div id="battlefieldSectors" class="battlefield-sectors"></div></section>
           <div class="gate-controls"><label for="commandGate">PORTE À COMMANDER<select id="commandGate"></select></label><div class="gate-modes" role="group" aria-label="Passage de la porte"><button id="gateMode-auto" aria-pressed="false">AUTO</button><button id="gateMode-open" aria-pressed="false">OUVERTE</button><button id="gateMode-closed" aria-pressed="false">VERROUILLÉE</button></div></div>
           <p id="gateEmpty" class="command-note">Construisez une porte pour relier votre enceinte aux ressources extérieures.</p>
           <p class="command-note"><strong>AUTO</strong> laisse passer vos alliés et retient les infectés. <strong>OUVERTE</strong> laisse passer tout le monde. <strong>VERROUILLÉE</strong> bloque les deux camps ; le passage doit être libre. Aucune porte n’est à l’abri des dégâts ou des rampes de corps.</p>
         </section>
-        <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les fusiliers conservent leur point de ralliement.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p></section>
+        <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les sections de fusiliers disposent de leurs propres ordres ci-dessous.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p><section id="squadCommandPanel" aria-label="Sections de fusiliers"></section></section>
         <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
-        <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
+        <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordsScenarioFilter"></div><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
         <section id="commandPanel-field" class="hidden" role="tabpanel" aria-labelledby="commandTab-field"><p class="command-note">Chargement des dossiers de terrain… Si ce message persiste, le poste de commandement reste utilisable ; rechargez le jeu pour récupérer les dossiers.</p></section>
         <section id="commandPanel-journal" class="hidden" role="tabpanel" aria-labelledby="commandTab-journal">
           <header class="narrative-heading"><small>TRACES DE TERRAIN · OPÉRATIONS FACULTATIVES</small><h3>Ce que nous choisissons de garder</h3><p id="narrativeSummary" class="command-note">Le journal sera disponible au chargement du récit.</p><button id="narrativeReadAll" type="button">MARQUER COMME LU</button></header>
@@ -164,16 +170,19 @@
       <section><h3>Construction</h3><p><kbd>B</kbd> : catalogue<br>Clic : poser<br>Pour les murs : cliquez, tirez une ligne, relâchez<br>Clic droit : annuler ou sélectionner</p></section>
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
-      <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers gardent leur point de ralliement.</p></section>
+      <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers sont répartis en sections A, B et C : <kbd>4</kbd> <kbd>5</kbd> <kbd>6</kbd> sélectionnent une section, <kbd>G</kbd> place son point et <kbd>T</kbd> ordonne son repli au centre. Les mêmes ordres sont accessibles dans ÉQUIPES sur écran tactile. Un ordre ne traverse pas une porte verrouillée.</p></section>
       <section><h3>Journal de D-17</h3><p>Six traces facultatives attendent dans les secteurs de récupération. Marquez un lieu depuis le journal, rejoignez son centre puis maintenez <kbd>E</kbd> ou <strong>ACTION</strong> pendant le relevé. La récolte et les chantiers restent prioritaires. Rapportez la trace près du dépôt pour engager un choix ; lire n’accorde aucun bonus. Les fragments écrits ne prouvent pas que leurs auteurs sont encore vivants. La fin du récit ne termine pas les hordes.</p></section>
       <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire ; <strong>FEU</strong> vise la menace la plus proche. Faites glisser au sol pour tracer les murs, touchez une structure pour la sélectionner. Le volet <strong>ACTIONS</strong> donne accès aux armes, à la crosse, au sprint, au zoom, à la rotation et à l’annulation.</p></section>
     </div>
   </main></div>
 
-  <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="gameOverStats"></p><button id="restartButton" class="primary">RECOMMENCER</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
+  <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="debriefCampaign" class="debrief-campaign"></p><p id="debriefDuration"></p><p id="gameOverStats" class="debrief-legacy"></p><div id="debriefMetrics" class="debrief-metrics"></div><h3>POUR LA PROCHAINE CITÉ</h3><ul id="debriefLessons" class="debrief-lessons"></ul><p class="command-note">Les records restent dans vos archives. Rejouer crée une nouvelle campagne sans bonus permanent ; la cité perdue n'est pas restaurée.</p><button id="restartButton" class="primary">REJOUER CETTE CARTE</button><button id="gameOverNewMapButton">NOUVELLE CARTE · MÊME DÉPART</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
 
   <noscript>JavaScript doit être activé.</noscript>
   <script src="src/core.js"></script>
+  <script src="src/scenarios.js"></script>
+  <script src="src/squads.js"></script>
+  <script src="src/battlefield.js"></script>
   <script src="src/narrative.js"></script>
   <script src="src/save.js"></script>
   <script src="src/tactics.js"></script>
@@ -185,6 +194,9 @@
   <script src="src/command-ui.js"></script>
   <script src="src/content-ui.js"></script>
   <script src="src/narrative-ui.js"></script>
+  <script src="src/scenario-ui.js"></script>
+  <script src="src/squad-ui.js"></script>
+  <script src="src/battlefield-ui.js"></script>
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

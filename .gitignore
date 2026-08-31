@@ -17,3 +17,5 @@ artifacts/content-qa/
 artifacts/narrative-qa/
 artifacts/http-qa/
 artifacts/reliability-qa/
+artifacts/performance-qa/
+artifacts/completion-qa/

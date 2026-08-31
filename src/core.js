@@ -10,7 +10,15 @@
   const SETTINGS_KEY = 'deadwall-settings-v1';
   const SAVE_VERSION = 2;
   const RESEARCH_INSIGHT_MAX = 1e12;
+  const BATTLEFIELD_RULES = Object.freeze({ innerRadius: 320, fragileWallRatio: .3, refreshSeconds: .5, alarmCooldownSeconds: 15 });
   const RESOURCE_KEYS = ['wood', 'scrap', 'stone', 'food', 'fuel', 'ammo', 'medicine'];
+  const SQUAD_RULES = Object.freeze({
+    count:3, labels:Object.freeze(['ALPHA','BRAVO','CHARLIE']),
+    keys:Object.freeze(['Digit4','Digit5','Digit6']), retreatRadius:36,
+    rallyRadius:22, formationScale:.35, range:345, advanceRange:285,
+    fireCooldown:.24, damage:31, researchedDamage:35, projectileRange:520,
+    meleeRange:28, meleeCooldown:.7, meleeDamage:18, pursuitSpeed:.8
+  });
 
   const RESOURCE_META = {
     wood: { label: 'BOIS', short: 'B', color: '#94704a' },
@@ -110,6 +118,36 @@
     bloated: { id: 'bloated', name: 'Engorgé', health: 145, speed: 23, damage: 20, attackRate: 0.65, radius: 14, color: '#754f46', unlockWave: 8, structureDamage: 1, corpseLoad: 3.4,
       description: 'Infecté massif au manteau rouge-brun. Sa dépouille ajoute 3,4 unités de pression aux remparts proches. Aucune explosion.', weakness: 'Le plus lent du groupe : l’abattre loin des murs ou affecter des ouvriers au déblaiement.' }
   };
+
+  const START_SCENARIO_STORY_BONUS = Object.freeze({ wood: 50, scrap: 35, food: 50, ammo: 50 });
+  const START_SCENARIOS = Object.freeze(Object.fromEntries([
+    {
+      id: 'classic', name: 'Départ classique', description: 'Trois ouvriers et un dépôt intact : le point de départ historique de D-17.',
+      advantage: 'Réserves équilibrées ; conseillé pour découvrir la cité.', tradeoff: 'Aucune défense préinstallée : récolter, construire et tenir la première ligne.',
+      resources: { wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 },
+      roster: ['worker', 'worker', 'worker'], coreHealthRatio: 1, calmSeconds: 82
+    },
+    {
+      id: 'convoy', name: 'Convoi de civils', description: 'Deux récupérateurs supplémentaires ont rejoint le dépôt avec le dernier convoi.',
+      advantage: 'Cinq ouvriers pour récolter et monter les premiers chantiers.', tradeoff: 'Tous les logements sont occupés ; nourriture, carburant et médicaments réduits.',
+      resources: { wood: 180, scrap: 120, stone: 70, food: 80, fuel: 25, ammo: 180, medicine: 8 },
+      roster: ['worker', 'worker', 'worker', 'worker', 'worker'], coreHealthRatio: 1, calmSeconds: 82
+    },
+    {
+      id: 'reconstruction', name: 'Dépôt à reconstruire', description: 'Le dépôt a tenu le choc, mais son intégrité doit être restaurée avant que la ligne cède.',
+      advantage: 'Davantage de matériaux et trente secondes de préparation supplémentaires avant les multiplicateurs de difficulté.',
+      tradeoff: 'Centre à 60 % de son intégrité ; moins de carburant et de munitions. La réparation consomme la ferraille.',
+      resources: { wood: 225, scrap: 150, stone: 90, food: 130, fuel: 30, ammo: 120, medicine: 12 },
+      roster: ['worker', 'worker', 'worker'], coreHealthRatio: .6, calmSeconds: 112
+    },
+    {
+      id: 'rearguard', name: 'Arrière-garde', description: 'Un fusilier couvre deux ouvriers ; les premiers contacts approchent déjà du dépôt.',
+      advantage: 'Un soldat et davantage de munitions dès l’arrivée ; aucun recrutement avancé n’est débloqué.',
+      tradeoff: 'Un ouvrier de moins, moins de bois, de ferraille et de nourriture ; préparation initiale raccourcie.',
+      resources: { wood: 130, scrap: 110, stone: 70, food: 115, fuel: 45, ammo: 220, medicine: 12 },
+      roster: ['worker', 'worker', 'soldier'], coreHealthRatio: 1, calmSeconds: 64
+    }
+  ].map(scenario => [scenario.id, Object.freeze({ ...scenario, resources: Object.freeze(scenario.resources), roster: Object.freeze(scenario.roster) })])));
 
   const ENEMY_RULES = Object.freeze({
     specialShare: 0.82, sanitizedCorpseLoad: 0.65, structureReach: 18,
@@ -443,9 +481,9 @@
 
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
-    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
+    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
-    SCENERY_DEFS,
+    SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,

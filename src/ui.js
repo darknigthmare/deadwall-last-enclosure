@@ -44,7 +44,8 @@
       // A newer choice, cancellation or closed dialog owns the UI now.
       if(revision!==importRevision)return;
       pendingImport=Save.parse(text);
-      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;
+      const scenario = globalThis.DeadwallScenarios.get(pendingImport.scenarioId);
+      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures · Départ : ${scenario.name} · ${C.DIFFICULTIES[pendingImport.difficulty].label} · Carte ${pendingImport.worldSeed}. Confirmez pour remplacer la partie en cours.`;
       get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');
     }catch(error){if(revision===importRevision)status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}
   });

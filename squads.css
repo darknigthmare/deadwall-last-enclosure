@@ -1,0 +1,22 @@
+/* Tactical teams retain DEADWALL's olive / sodium command-room palette. */
+.squad-command { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+.squad-command > h3 { font-size: 13px; letter-spacing: 2px; color: var(--accent-bright); }
+.squad-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.squad-card { min-width: 0; border: 1px solid var(--line); padding: 12px; background: #141d15; }
+.squad-card[data-selected="true"] { border-color: var(--accent); box-shadow: inset 0 2px 0 var(--accent); }
+.squad-select { width: 100%; min-height: 48px; text-align: left; padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+.squad-select strong { color: var(--accent-bright); font-size: 12px; letter-spacing: 1.6px; }
+.squad-select span { font-size: 12px; color: var(--text); }
+.squad-order { font-size: 10px; letter-spacing: .5px; color: var(--accent-bright); line-height: 1.5; }
+.squad-access { min-height: 5.5em; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.squad-actions { display: grid; gap: 7px; }
+.squad-actions button { min-width: 0; min-height: 44px; padding: 9px 6px; font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.squad-actions button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-bright); }
+.squad-status { min-height: 1.6em; color: var(--accent-bright); font-size: 12px; line-height: 1.6; }
+.high-contrast .squad-access { color: #e2e8dc; }
+@media (max-width: 700px) {
+  .squad-grid { grid-template-columns: 1fr; }
+  .squad-access { min-height: 0; }
+  .squad-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .squad-actions button:first-child { grid-column: 1 / -1; }
+}

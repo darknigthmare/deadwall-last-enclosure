@@ -516,6 +516,70 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 @media(max-width:600px) { .command-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); } .command-tabs button { min-height:44px; } .narrative-choices { grid-template-columns:1fr; } .narrative-operation>summary { padding:13px; } .narrative-operation-body { padding:0 13px 13px; } }
 
 </style>
+  <style>
+/* Tactical teams retain DEADWALL's olive / sodium command-room palette. */
+.squad-command { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+.squad-command > h3 { font-size: 13px; letter-spacing: 2px; color: var(--accent-bright); }
+.squad-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.squad-card { min-width: 0; border: 1px solid var(--line); padding: 12px; background: #141d15; }
+.squad-card[data-selected="true"] { border-color: var(--accent); box-shadow: inset 0 2px 0 var(--accent); }
+.squad-select { width: 100%; min-height: 48px; text-align: left; padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+.squad-select strong { color: var(--accent-bright); font-size: 12px; letter-spacing: 1.6px; }
+.squad-select span { font-size: 12px; color: var(--text); }
+.squad-order { font-size: 10px; letter-spacing: .5px; color: var(--accent-bright); line-height: 1.5; }
+.squad-access { min-height: 5.5em; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.squad-actions { display: grid; gap: 7px; }
+.squad-actions button { min-width: 0; min-height: 44px; padding: 9px 6px; font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.squad-actions button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-bright); }
+.squad-status { min-height: 1.6em; color: var(--accent-bright); font-size: 12px; line-height: 1.6; }
+.high-contrast .squad-access { color: #e2e8dc; }
+@media (max-width: 700px) {
+  .squad-grid { grid-template-columns: 1fr; }
+  .squad-access { min-height: 0; }
+  .squad-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .squad-actions button:first-child { grid-column: 1 / -1; }
+}
+
+</style>
+  <style>
+/* Dispatch board additions share DEADWALL's existing military-paper palette. */
+.scenario-picker { margin:20px 0; padding:16px; background:#101a13e8; border:1px solid #515b43; border-left:3px solid var(--accent-bright); }
+.scenario-picker h2 { margin:0 0 12px; font-size:12px; letter-spacing:1.5px; }
+.scenario-picker label { display:grid; gap:8px; color:#cad1bf; font-size:12px; }
+.scenario-picker select, .records-scenario select { width:100%; min-height:44px; background:#18231b; color:#edf0e7; border:1px solid #788466; padding:10px; font:inherit; }
+.scenario-picker p { font-size:12px; line-height:1.65; color:#d4d8c8; margin:12px 0; }
+.scenario-picker .scenario-facts { color:#e4cd8c; }
+.scenario-picker small { display:block; font-size:11px; line-height:1.5; color:#b5bfaa; }
+.records-scenario { display:grid; gap:8px; margin:0 0 20px; font-size:12px; }
+.battlefield-report { margin:20px 0; }
+.battlefield-sectors { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.battlefield-sector { background:#142018; border:1px solid #56614a; padding:12px; }
+.battlefield-sector h4 { margin:0 0 10px; font-size:11px; letter-spacing:1px; color:#e2cc8b; }
+.battlefield-sector strong { font-size:15px; }
+.battlefield-sector p, .battlefield-sector small { font-size:12px; line-height:1.5; color:#c8d1be; margin:8px 0; }
+.battlefield-sector[data-alert="true"] { border-color:#db9c75; background:#32271b; }
+.inner-ring-alert { padding:8px 10px; border-left:3px solid #dfad77; color:#ffdcaa!important; background:#392a1e; font-weight:700; font-size:11px; line-height:1.5; }
+.gameover-card { width:min(680px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; }
+.debrief-campaign { color:#e4cd8c; font-size:12px; line-height:1.6; }
+.debrief-legacy { display:none; }
+.debrief-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:22px 0; }
+.debrief-metric { display:grid; gap:8px; padding:12px 8px; background:#19241a; border:1px solid #505c43; }
+.debrief-metric strong { color:#f2ddb2; font-size:25px; font-variant-numeric:tabular-nums; }
+.debrief-metric span { font-size:10px; line-height:1.5; }
+.gameover-card h3 { margin:22px 0 12px; color:#e4cd8c; font-size:12px; letter-spacing:1px; }
+.debrief-lessons { padding-left:20px; text-align:left; color:#d1d8c5; font-size:12px; line-height:1.7; }
+.debrief-lessons li + li { margin-top:8px; }
+.high-contrast .battlefield-sector p, .high-contrast .battlefield-sector small, .high-contrast .scenario-picker small { color:#eef5e7; }
+@media(max-width:480px) {
+  .scenario-picker { padding:12px; }
+  .debrief-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .gameover-card { padding:22px 16px; }
+  .gameover-card h2 { font-size:26px; }
+  .battlefield-sector { padding:10px; }
+  .battlefield-sector strong { font-size:13px; }
+}
+
+</style>
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -544,6 +608,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         <div class="wave-heading"><div><small id="phaseLabel">CALME RELATIF</small><h2>VAGUE <span id="waveNumber">1</span></h2></div><strong id="waveTimer">01:20</strong></div>
         <div class="threat-meter"><span id="threatFill"></span></div>
         <p id="waveIntel">Les éclaireurs surveillent les voies d’approche.</p>
+        <p id="innerRingAlert" class="inner-ring-alert hidden" role="status" aria-live="polite"></p>
       </section>
       <section class="objective-card">
         <small>OBJECTIF ACTUEL</small><h3 id="objectiveTitle">Établir le refuge</h3>
@@ -571,6 +636,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
           <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
+          <button id="squadCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SECTIONS DE FUSILIERS</span><small>A · B · C — ordres et repli</small></button>
           <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
           <button id="researchButton"><span id="researchName">Doctrine logistique</span><small id="researchInsight">0 insight</small></button>
           <button id="settingsToggle"><span>PARAMÈTRES</span><small>son · accessibilité · sauvegardes</small></button>
@@ -610,6 +676,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
           <label class="difficulty-option"><input type="radio" name="difficulty" value="brutal"><span><strong>BRUTAL</strong><small>Fronts agressifs · Erreurs coûteuses</small></span></label>
         </div>
       </div>
+      <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — classique</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
       <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
       <p class="seed-hint" id="seedHint">0 à 4 294 967 295. Une même graine reproduit le terrain et ses ressources, pas le déroulement des combats.</p>
       <footer><span>VERSION 1.0.0</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
@@ -624,7 +691,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       <header class="command-heading"><button id="commandClose" class="close-modal" aria-label="Fermer le poste de commandement">×</button><small>ÉTAT-MAJOR // SECTEUR D-17</small><h2 id="commandTitle">POSTE DE COMMANDEMENT</h2><p id="commandContext">ACTION SUSPENDUE</p></header>
       <nav class="command-tabs" role="tablist" aria-label="Dossiers tactiques">
         <button id="commandTab-enclosure" role="tab" aria-controls="commandPanel-enclosure" aria-selected="true">ENCEINTE</button>
-        <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">OUVRIERS</button>
+        <button id="commandTab-workers" role="tab" aria-controls="commandPanel-workers" aria-selected="false" tabindex="-1">ÉQUIPES</button>
         <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
         <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
         <button id="commandTab-field" role="tab" aria-controls="commandPanel-field" aria-selected="false" tabindex="-1">DOSSIERS</button>
@@ -635,13 +702,14 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
           <section id="commandCrisisCard" class="crisis-card hidden" aria-labelledby="commandCrisisTitle"><small>INCIDENT EN COURS</small><h3 id="commandCrisisTitle"></h3><p id="commandCrisisText"></p><p id="commandCrisisTimer"></p><div class="crisis-choices"><button id="commandCrisisA" type="button"></button><button id="commandCrisisB" type="button"></button></div></section>
           <div class="perimeter-summary"><strong id="perimeterResult">CENTRE EXPOSÉ</strong><p id="perimeterDetails"></p></div>
           <p id="perimeterAdvice" class="command-note"></p>
+          <section class="battlefield-report" aria-labelledby="battlefieldTitle"><h3 id="battlefieldTitle">SITUATION PAR FRONT</h3><p class="command-note">Contacts vivants par direction depuis le centre. Proximité : rayon de 320 unités, pas une preuve de brèche. Remparts fragiles : intégrité à 30 % ou moins.</p><div id="battlefieldSectors" class="battlefield-sectors"></div></section>
           <div class="gate-controls"><label for="commandGate">PORTE À COMMANDER<select id="commandGate"></select></label><div class="gate-modes" role="group" aria-label="Passage de la porte"><button id="gateMode-auto" aria-pressed="false">AUTO</button><button id="gateMode-open" aria-pressed="false">OUVERTE</button><button id="gateMode-closed" aria-pressed="false">VERROUILLÉE</button></div></div>
           <p id="gateEmpty" class="command-note">Construisez une porte pour relier votre enceinte aux ressources extérieures.</p>
           <p class="command-note"><strong>AUTO</strong> laisse passer vos alliés et retient les infectés. <strong>OUVERTE</strong> laisse passer tout le monde. <strong>VERROUILLÉE</strong> bloque les deux camps ; le passage doit être libre. Aucune porte n’est à l’abri des dégâts ou des rampes de corps.</p>
         </section>
-        <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les fusiliers conservent leur point de ralliement.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p></section>
+        <section id="commandPanel-workers" class="hidden" role="tabpanel" aria-labelledby="commandTab-workers"><h3 id="workerSummary"></h3><p class="command-note">Un ordre collectif pour tous les ouvriers. Les sections de fusiliers disposent de leurs propres ordres ci-dessous.</p><div id="workerOrders" class="worker-orders"></div><p id="workerAccess" class="command-note"></p><section id="squadCommandPanel" aria-label="Sections de fusiliers"></section></section>
         <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
-        <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
+        <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordsScenarioFilter"></div><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
         <section id="commandPanel-field" class="hidden" role="tabpanel" aria-labelledby="commandTab-field"><p class="command-note">Chargement des dossiers de terrain… Si ce message persiste, le poste de commandement reste utilisable ; rechargez le jeu pour récupérer les dossiers.</p></section>
         <section id="commandPanel-journal" class="hidden" role="tabpanel" aria-labelledby="commandTab-journal">
           <header class="narrative-heading"><small>TRACES DE TERRAIN · OPÉRATIONS FACULTATIVES</small><h3>Ce que nous choisissons de garder</h3><p id="narrativeSummary" class="command-note">Le journal sera disponible au chargement du récit.</p><button id="narrativeReadAll" type="button">MARQUER COMME LU</button></header>
@@ -667,13 +735,13 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       <section><h3>Construction</h3><p><kbd>B</kbd> : catalogue<br>Clic : poser<br>Pour les murs : cliquez, tirez une ligne, relâchez<br>Clic droit : annuler ou sélectionner</p></section>
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
-      <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers gardent leur point de ralliement.</p></section>
+      <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers sont répartis en sections A, B et C : <kbd>4</kbd> <kbd>5</kbd> <kbd>6</kbd> sélectionnent une section, <kbd>G</kbd> place son point et <kbd>T</kbd> ordonne son repli au centre. Les mêmes ordres sont accessibles dans ÉQUIPES sur écran tactile. Un ordre ne traverse pas une porte verrouillée.</p></section>
       <section><h3>Journal de D-17</h3><p>Six traces facultatives attendent dans les secteurs de récupération. Marquez un lieu depuis le journal, rejoignez son centre puis maintenez <kbd>E</kbd> ou <strong>ACTION</strong> pendant le relevé. La récolte et les chantiers restent prioritaires. Rapportez la trace près du dépôt pour engager un choix ; lire n’accorde aucun bonus. Les fragments écrits ne prouvent pas que leurs auteurs sont encore vivants. La fin du récit ne termine pas les hordes.</p></section>
       <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire ; <strong>FEU</strong> vise la menace la plus proche. Faites glisser au sol pour tracer les murs, touchez une structure pour la sélectionner. Le volet <strong>ACTIONS</strong> donne accès aux armes, à la crosse, au sprint, au zoom, à la rotation et à l’annulation.</p></section>
     </div>
   </main></div>
 
-  <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="gameOverStats"></p><button id="restartButton" class="primary">RECOMMENCER</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
+  <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="debriefCampaign" class="debrief-campaign"></p><p id="debriefDuration"></p><p id="gameOverStats" class="debrief-legacy"></p><div id="debriefMetrics" class="debrief-metrics"></div><h3>POUR LA PROCHAINE CITÉ</h3><ul id="debriefLessons" class="debrief-lessons"></ul><p class="command-note">Les records restent dans vos archives. Rejouer crée une nouvelle campagne sans bonus permanent ; la cité perdue n'est pas restaurée.</p><button id="restartButton" class="primary">REJOUER CETTE CARTE</button><button id="gameOverNewMapButton">NOUVELLE CARTE · MÊME DÉPART</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
 
   <noscript>JavaScript doit être activé.</noscript>
   <script>
@@ -689,7 +757,15 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const SETTINGS_KEY = 'deadwall-settings-v1';
   const SAVE_VERSION = 2;
   const RESEARCH_INSIGHT_MAX = 1e12;
+  const BATTLEFIELD_RULES = Object.freeze({ innerRadius: 320, fragileWallRatio: .3, refreshSeconds: .5, alarmCooldownSeconds: 15 });
   const RESOURCE_KEYS = ['wood', 'scrap', 'stone', 'food', 'fuel', 'ammo', 'medicine'];
+  const SQUAD_RULES = Object.freeze({
+    count:3, labels:Object.freeze(['ALPHA','BRAVO','CHARLIE']),
+    keys:Object.freeze(['Digit4','Digit5','Digit6']), retreatRadius:36,
+    rallyRadius:22, formationScale:.35, range:345, advanceRange:285,
+    fireCooldown:.24, damage:31, researchedDamage:35, projectileRange:520,
+    meleeRange:28, meleeCooldown:.7, meleeDamage:18, pursuitSpeed:.8
+  });
 
   const RESOURCE_META = {
     wood: { label: 'BOIS', short: 'B', color: '#94704a' },
@@ -789,6 +865,36 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     bloated: { id: 'bloated', name: 'Engorgé', health: 145, speed: 23, damage: 20, attackRate: 0.65, radius: 14, color: '#754f46', unlockWave: 8, structureDamage: 1, corpseLoad: 3.4,
       description: 'Infecté massif au manteau rouge-brun. Sa dépouille ajoute 3,4 unités de pression aux remparts proches. Aucune explosion.', weakness: 'Le plus lent du groupe : l’abattre loin des murs ou affecter des ouvriers au déblaiement.' }
   };
+
+  const START_SCENARIO_STORY_BONUS = Object.freeze({ wood: 50, scrap: 35, food: 50, ammo: 50 });
+  const START_SCENARIOS = Object.freeze(Object.fromEntries([
+    {
+      id: 'classic', name: 'Départ classique', description: 'Trois ouvriers et un dépôt intact : le point de départ historique de D-17.',
+      advantage: 'Réserves équilibrées ; conseillé pour découvrir la cité.', tradeoff: 'Aucune défense préinstallée : récolter, construire et tenir la première ligne.',
+      resources: { wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 },
+      roster: ['worker', 'worker', 'worker'], coreHealthRatio: 1, calmSeconds: 82
+    },
+    {
+      id: 'convoy', name: 'Convoi de civils', description: 'Deux récupérateurs supplémentaires ont rejoint le dépôt avec le dernier convoi.',
+      advantage: 'Cinq ouvriers pour récolter et monter les premiers chantiers.', tradeoff: 'Tous les logements sont occupés ; nourriture, carburant et médicaments réduits.',
+      resources: { wood: 180, scrap: 120, stone: 70, food: 80, fuel: 25, ammo: 180, medicine: 8 },
+      roster: ['worker', 'worker', 'worker', 'worker', 'worker'], coreHealthRatio: 1, calmSeconds: 82
+    },
+    {
+      id: 'reconstruction', name: 'Dépôt à reconstruire', description: 'Le dépôt a tenu le choc, mais son intégrité doit être restaurée avant que la ligne cède.',
+      advantage: 'Davantage de matériaux et trente secondes de préparation supplémentaires avant les multiplicateurs de difficulté.',
+      tradeoff: 'Centre à 60 % de son intégrité ; moins de carburant et de munitions. La réparation consomme la ferraille.',
+      resources: { wood: 225, scrap: 150, stone: 90, food: 130, fuel: 30, ammo: 120, medicine: 12 },
+      roster: ['worker', 'worker', 'worker'], coreHealthRatio: .6, calmSeconds: 112
+    },
+    {
+      id: 'rearguard', name: 'Arrière-garde', description: 'Un fusilier couvre deux ouvriers ; les premiers contacts approchent déjà du dépôt.',
+      advantage: 'Un soldat et davantage de munitions dès l’arrivée ; aucun recrutement avancé n’est débloqué.',
+      tradeoff: 'Un ouvrier de moins, moins de bois, de ferraille et de nourriture ; préparation initiale raccourcie.',
+      resources: { wood: 130, scrap: 110, stone: 70, food: 115, fuel: 45, ammo: 220, medicine: 12 },
+      roster: ['worker', 'worker', 'soldier'], coreHealthRatio: 1, calmSeconds: 64
+    }
+  ].map(scenario => [scenario.id, Object.freeze({ ...scenario, resources: Object.freeze(scenario.resources), roster: Object.freeze(scenario.roster) })])));
 
   const ENEMY_RULES = Object.freeze({
     specialShare: 0.82, sanitizedCorpseLoad: 0.65, structureReach: 18,
@@ -1122,9 +1228,9 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
-    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
+    RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
-    SCENERY_DEFS,
+    SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
@@ -1134,6 +1240,146 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
   if (typeof module !== 'undefined' && module.exports) module.exports = Core;
   global.DeadwallCore = Core;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+  <script>
+(function initDeadwallScenarios(global) {
+  'use strict';
+  const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
+  if (!C) throw new Error('DeadwallCore introuvable pour les départs.');
+  const DEFAULT_ID = 'classic';
+
+  function normalize(id) {
+    if (id === undefined) return DEFAULT_ID;
+    if (typeof id !== 'string' || !Object.prototype.hasOwnProperty.call(C.START_SCENARIOS, id)) throw new RangeError('Départ de campagne inconnu.');
+    return id;
+  }
+  function get(id) { return C.START_SCENARIOS[normalize(id)]; }
+  function list() { return Object.values(C.START_SCENARIOS); }
+  function initialState(id, difficulty = 'standard') {
+    const scenario = get(id);
+    if (typeof difficulty !== 'string' || !Object.prototype.hasOwnProperty.call(C.DIFFICULTIES, difficulty)) throw new RangeError('Difficulté de campagne inconnue.');
+    const resources = C.makeBag(scenario.resources);
+    if (difficulty === 'story') C.add(resources, C.START_SCENARIO_STORY_BONUS);
+    return {
+      id: scenario.id, resources, roster: scenario.roster.slice(),
+      coreHealth: C.BUILDINGS.core.health * scenario.coreHealthRatio,
+      calmSeconds: scenario.calmSeconds * C.DIFFICULTIES[difficulty].calmTime
+    };
+  }
+  const api = Object.freeze({ DEFAULT_ID, normalize, get, list, initialState });
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  global.DeadwallScenarios = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+  <script>
+(function initDeadwallSquads(global) {
+  'use strict';
+  const C=typeof module!=='undefined'&&module.exports?require('./core.js'):global.DeadwallCore;
+  const RULES=C.SQUAD_RULES,validIndex=value=>Number.isInteger(value)&&value>=0&&value<RULES.count;
+  const invalid=label=>{throw new RangeError('Sections invalides : '+label+'.');};
+  const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
+  function point(value){
+    if(!object(value)||!Number.isFinite(value.x)||!Number.isFinite(value.y)||value.x< -64||value.y< -64||value.x>C.WORLD_SIZE+64||value.y>C.WORLD_SIZE+64)invalid('ralliement');
+    return{x:value.x,y:value.y};
+  }
+  function create(rally={x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2}){
+    return{version:1,selected:0,groups:Array.from({length:RULES.count},()=>({order:'rally',rally:point(rally)}))};
+  }
+  function normalize(raw,legacyRally){
+    if(raw===undefined)return create(legacyRally);
+    if(!object(raw)||raw.version!==1||!validIndex(raw.selected)||!Array.isArray(raw.groups)||raw.groups.length!==RULES.count)invalid('format');
+    return{version:1,selected:raw.selected,groups:raw.groups.map(group=>{
+      if(!object(group)||!['rally','retreat'].includes(group.order))invalid('ordre');
+      return{order:group.order,rally:point(group.rally)};
+    })};
+  }
+  function unitGroup(kind,value){
+    if(value===undefined||value===null)return null;
+    if(kind!=='soldier'||!validIndex(value))invalid('affectation');
+    return value;
+  }
+  function counts(units){
+    const result=Array(RULES.count).fill(0);
+    for(const unit of units)if(unit.kind==='soldier'&&!unit.dead&&unit.health>0&&validIndex(unit.squad))result[unit.squad]++;
+    return result;
+  }
+  function nextGroup(units){const totals=counts(units);return totals.indexOf(Math.min(...totals));}
+  function assignments(units){
+    const totals=counts(units),assigned=new Map();
+    // Stable IDs, not array order or campaign RNG, decide ties for legacy saves.
+    for(const unit of units.filter(unit=>unit.kind==='soldier'&&!unit.dead&&unit.health>0).slice().sort((a,b)=>a.id-b.id)){
+      let squad=unitGroup(unit.kind,unit.squad);
+      if(squad===null){squad=totals.indexOf(Math.min(...totals));totals[squad]++;}
+      assigned.set(unit.id,squad);
+    }
+    return assigned;
+  }
+  function withOrder(state,index,order,rally){
+    if(!validIndex(index)||!['rally','retreat'].includes(order))return null;
+    const result=normalize(state);
+    result.groups[index]={order,rally:order==='rally'?point(rally):result.groups[index].rally};
+    return result;
+  }
+  const api={RULES,validIndex,create,normalize,unitGroup,counts,nextGroup,assignments,withOrder};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  global.DeadwallSquads=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+  <script>
+(function initBattlefield(global) {
+  'use strict';
+  const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
+  const DIRECTIONS = Object.freeze([
+    Object.freeze({ id: 'north', label: 'NORD' }), Object.freeze({ id: 'east', label: 'EST' }),
+    Object.freeze({ id: 'south', label: 'SUD' }), Object.freeze({ id: 'west', label: 'OUEST' })
+  ]);
+  function direction(origin, point) {
+    const dx = point.x - origin.x, dy = point.y - origin.y;
+    return Math.abs(dx) > Math.abs(dy) ? (dx >= 0 ? 'east' : 'west') : (dy >= 0 ? 'south' : 'north');
+  }
+  function inspect(core, zombies, buildings) {
+    const sectors = DIRECTIONS.map(item => ({ ...item, contacts: 0, innerContacts: 0, walls: 0, fragileWalls: 0 }));
+    const byId = Object.fromEntries(sectors.map(sector => [sector.id, sector]));
+    if (!core || core.dead) return { sectors, contacts: 0, innerContacts: 0, fragileWalls: 0 };
+    let contacts = 0, innerContacts = 0, fragileWalls = 0;
+    for (const zombie of zombies) {
+      if (zombie.dead || zombie.health <= 0) continue;
+      const sector = byId[direction(core, zombie)]; sector.contacts++; contacts++;
+      if ((zombie.x - core.x) ** 2 + (zombie.y - core.y) ** 2 <= C.BATTLEFIELD_RULES.innerRadius ** 2) {
+        sector.innerContacts++; innerContacts++;
+      }
+    }
+    for (const building of buildings) {
+      if (building.dead || !building.completed || !building.def?.wall || building.health <= 0) continue;
+      const sector = byId[direction(core, building)]; sector.walls++;
+      if (building.health / building.maxHealth <= C.BATTLEFIELD_RULES.fragileWallRatio) {
+        sector.fragileWalls++; fragileWalls++;
+      }
+    }
+    return { sectors, contacts, innerContacts, fragileWalls };
+  }
+  function debrief(stats, resources) {
+    const values = [
+      ['VAGUES REPOUSSÉES', stats.wavesSurvived], ['INFECTÉS ÉLIMINÉS', stats.kills],
+      ['PIC DE POPULATION', stats.peakPopulation], ['PIC DE STRUCTURES', stats.peakBuildings],
+      ['ÉQUIPIERS PERDUS', stats.unitsLost], ['STRUCTURES PERDUES', stats.buildingsLost]
+    ].map(([label, value]) => ({ label, value: Math.max(0, Math.floor(value || 0)) }));
+    const lessons = [];
+    // These are observed conditions, not an invented cause of defeat.
+    if (resources.ammo < 1) lessons.push('La réserve commune de munitions était vide : anticipez la production et le coût des défenses.');
+    if (resources.food <= .01) lessons.push('Les rations étaient épuisées : protégez une production alimentaire avant de recruter davantage.');
+    if (resources.fuel <= 0) lessons.push('La réserve de carburant était vide : les générateurs ne pouvaient plus alimenter la ligne.');
+    if (stats.unitsLost > 0) lessons.push('Des équipiers ont été perdus : repliez les sections et ouvriers avant la rupture de la ligne.');
+    if (lessons.length < 2) lessons.push('Une seconde enceinte laisse du temps pour se replier. Gardez ses portes couvertes et le pied des murs dégagé.');
+    return { values, lessons: lessons.slice(0, 3) };
+  }
+  const api = Object.freeze({ DIRECTIONS, direction, inspect, debrief });
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  global.DeadwallBattlefield = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
 
 </script>
@@ -1235,6 +1481,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   'use strict';
   const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
   const N = typeof module !== 'undefined' && module.exports ? require('./narrative.js') : global.DeadwallNarrative;
+  const Q = typeof module !== 'undefined' && module.exports ? require('./squads.js') : global.DeadwallSquads;
+  const S = typeof module !== 'undefined' && module.exports ? require('./scenarios.js') : global.DeadwallScenarios;
   const MAX_FILE_BYTES = 8 * 1024 * 1024;
   const owns = (table,key) => typeof key==='string' && Object.prototype.hasOwnProperty.call(table,key);
   const fail = label => { throw new Error(`Sauvegarde invalide : ${label}.`); };
@@ -1252,6 +1500,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   function validate(input) {
     const source = object(input, 'document');
     const data = C.migrateSaveData(source); if (!data) fail('version incompatible');
+    const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
     const entityId = raw => { const id = integer(raw.id, undefined, 1, 0x7ffffffe, 'identifiant'); if (ids.has(id)) fail('identifiant dupliqué'); ids.add(id); maximumId = Math.max(maximumId, id); return id; };
     const buildings = list(data.buildings, [], C.WORLD_TILES ** 2, 'structures').map(value => {
@@ -1267,8 +1516,9 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     const units = list(data.units, [], 10000, 'survivants').map(value => {
       const raw=object(value,'survivant');if(!owns(C.SURVIVORS,raw.kind))fail('type de survivant');
       const carry=number(raw.carry,0,0,1000,'portage survivant');if(carry>0&&!C.RESOURCE_KEYS.includes(raw.carryType))fail('ressource transportée');
-      return { id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
+      return { id:entityId(raw),kind:raw.kind,squad:Q.unitGroup(raw.kind,raw.squad),...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
     });
+    const assignments=Q.assignments(units);for(const unit of units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);
     const zombies = list(data.zombies, [], C.PERFORMANCE_LIMITS.zombies, 'infectés').map(value => { const raw=object(value,'infecté');if(!owns(C.ENEMIES,raw.kind))fail('type infecté');return {id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,1,.001,1e6,'santé infecté'),attackCooldown:number(raw.attackCooldown,0,0,120,'cadence infecté')}; });
     const rawPlayer=object(data.player,'joueur'), health=number(rawPlayer.health,100,0,100,'santé joueur'), weapon=owns(C.WEAPONS,rawPlayer.weapon)?rawPlayer.weapon:'pistol';
     const magazine=Object.fromEntries(Object.entries(C.WEAPONS).map(([key,def])=>[key,integer(rawPlayer.magazine?.[key],def.magazine,0,def.magazine,'chargeur')]));
@@ -1282,7 +1532,10 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
     const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
     const narrative=N.normalize(data.narrative);
-    return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
+    const squads=Q.normalize(data.squads,data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2});
+    return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117)+(scenarioId==='classic'?'':':'+scenarioId),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
+      scenarioId,
+      squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
       elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex:integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif'),objectiveProgress:number(data.objectiveProgress,0,0,1e12,'progression'),nextId:Math.max(integer(data.nextId,maximumId+1,1,0x7ffffffe,'prochain ID'),maximumId+1),research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
@@ -1388,6 +1641,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const MAX_PROFILE_BYTES = 64 * 1024;
   const MAX_RECOVERY_BYTES = 256 * 1024;
   const DIFFICULTIES = ['story', 'standard', 'brutal'];
+  // Schema identifiers only; gameplay values remain in core.START_SCENARIOS.
+  const SCENARIOS = ['classic', 'convoy', 'reconstruction', 'rearguard'];
   const METRICS = ['wavesSurvived', 'kills', 'playSeconds', 'peakPopulation', 'peakBuildings'];
   const clone = value => JSON.parse(JSON.stringify(value));
   const object = value => value && typeof value === 'object' && !Array.isArray(value);
@@ -1411,13 +1666,15 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
   function identity(value, allowLegacy) {
     if (!object(value) || !DIFFICULTIES.includes(value.difficulty)) invalid('difficulté');
+    const scenarioId = value.scenarioId === undefined ? 'classic' : value.scenarioId;
+    if (!SCENARIOS.includes(scenarioId)) invalid('départ');
     // Existing versioned saves can contain a uint32 seed; new map input is intentionally narrower.
     const seed = counter(value.seed, 'graine');
     if (seed > 0xffffffff) invalid('graine');
     let runId = value.runId;
-    if (allowLegacy && (runId === undefined || runId === null || runId === '')) runId = `legacy:${value.difficulty}:${seed}`;
+    if (allowLegacy && (runId === undefined || runId === null || runId === '')) runId = `legacy:${value.difficulty}:${seed}` + (scenarioId === 'classic' ? '' : ':' + scenarioId);
     if (typeof runId !== 'string' || !/^[a-zA-Z0-9:_-]{1,128}$/.test(runId)) invalid('identifiant de partie');
-    return { runId, seed, difficulty:value.difficulty };
+    return { runId, seed, difficulty:value.difficulty, scenarioId };
   }
 
   function metrics(value) {
@@ -1435,21 +1692,25 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   }
 
   function empty() {
-    return summarize({ version:VERSION, updatedAt:0, byDifficulty:Object.fromEntries(DIFFICULTIES.map(id => [id,Object.fromEntries(METRICS.map(key => [key,0]))])), recentRuns:[] });
+    const byScenario = Object.fromEntries(SCENARIOS.map(scenario => [scenario, Object.fromEntries(DIFFICULTIES.map(id => [id,Object.fromEntries(METRICS.map(key => [key,0]))]))]));
+    // byDifficulty is retained as the classic-only v1 compatibility view, not an aggregate.
+    return summarize({ version:VERSION, updatedAt:0, byDifficulty:clone(byScenario.classic), byScenario, recentRuns:[] });
   }
 
   function mergeRun(left, right) {
-    if (left.runId !== right.runId || left.seed !== right.seed || left.difficulty !== right.difficulty) invalid('identifiant réutilisé pour une autre carte ou difficulté');
+    if (left.runId !== right.runId || left.seed !== right.seed || left.difficulty !== right.difficulty || left.scenarioId !== right.scenarioId) invalid('identifiant réutilisé pour une autre carte, difficulté ou départ');
     return { ...left, ...Object.fromEntries(METRICS.map(key => [key,Math.max(left[key],right[key])])), ended:left.ended || right.ended, startedAt:Math.min(left.startedAt,right.startedAt), updatedAt:Math.max(left.updatedAt,right.updatedAt) };
   }
 
   function merge(left, right) {
     const result = clone(left);
-    for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byDifficulty[difficulty][key] = Math.max(left.byDifficulty[difficulty][key],right.byDifficulty[difficulty][key]);
+    for (const scenario of SCENARIOS) for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byScenario[scenario][difficulty][key] = Math.max(left.byScenario[scenario][difficulty][key], right.byScenario[scenario][difficulty][key]);
+    for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byScenario.classic[difficulty][key] = Math.max(result.byScenario.classic[difficulty][key], left.byDifficulty[difficulty][key], right.byDifficulty[difficulty][key]);
     const runs = new Map(left.recentRuns.map(run => [run.runId,clone(run)]));
     for (const run of right.recentRuns) runs.set(run.runId, runs.has(run.runId) ? mergeRun(runs.get(run.runId),run) : clone(run));
     result.recentRuns = [...runs.values()].sort((a,b) => b.updatedAt-a.updatedAt || (a.runId<b.runId?-1:a.runId>b.runId?1:0)).slice(0,MAX_RECENT_RUNS);
-    for (const run of result.recentRuns) for (const key of METRICS) result.byDifficulty[run.difficulty][key] = Math.max(result.byDifficulty[run.difficulty][key],run[key]);
+    for (const run of result.recentRuns) for (const key of METRICS) result.byScenario[run.scenarioId][run.difficulty][key] = Math.max(result.byScenario[run.scenarioId][run.difficulty][key],run[key]);
+    result.byDifficulty = clone(result.byScenario.classic);
     result.updatedAt = Math.max(left.updatedAt,right.updatedAt,...result.recentRuns.map(run => run.updatedAt));
     return summarize(result);
   }
@@ -1459,6 +1720,13 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     const profile = empty();
     profile.updatedAt = counter(value.updatedAt,'date');
     for (const difficulty of DIFFICULTIES) profile.byDifficulty[difficulty] = metrics(value.byDifficulty[difficulty]);
+    if (value.byScenario !== undefined) {
+      if (!object(value.byScenario) || Object.keys(value.byScenario).some(id => !SCENARIOS.includes(id))) invalid('records par départ');
+      for (const scenario of SCENARIOS) {
+        if (!object(value.byScenario[scenario])) invalid('records par départ');
+        for (const difficulty of DIFFICULTIES) profile.byScenario[scenario][difficulty] = metrics(value.byScenario[scenario][difficulty]);
+      }
+    }
     const ids = new Set();
     profile.recentRuns = value.recentRuns.map(value => {
       const run = { ...identity(value,false), ...metrics(value), startedAt:counter(value.startedAt,'début'), updatedAt:counter(value.updatedAt,'mise à jour') };
@@ -1562,7 +1830,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         if(typeof ended!=='boolean')invalid('état de partie');
         incoming={...id,wavesSurvived:counter(snapshot.wavesSurvived,'vagues survécues'),kills:counter(snapshot.kills,'infectés éliminés'),playSeconds:counter(snapshot.playSeconds,'durée',false),peakPopulation:counter(snapshot.population,'population'),peakBuildings:counter(snapshot.buildings,'structures'),ended};
         const previous=profile.recentRuns.find(run=>run.runId===incoming.runId);
-        if(previous&&(previous.seed!==incoming.seed||previous.difficulty!==incoming.difficulty))invalid('identifiant réutilisé');
+        if(previous&&(previous.seed!==incoming.seed||previous.difficulty!==incoming.difficulty||previous.scenarioId!==incoming.scenarioId))invalid('identifiant réutilisé');
         if(previous){
           for(const key of METRICS)incoming[key]=Math.max(incoming[key],previous[key]);
           incoming.ended ||= previous.ended;
@@ -1582,7 +1850,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     return Object.freeze({ load, save, record, get:()=>clone(profile) });
   }
 
-  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,normalizeSeed,validate,create,load:storage=>create(storage).load()};
+  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,SCENARIOS:Object.freeze(SCENARIOS),normalizeSeed,validate,create,load:storage=>create(storage).load()};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   global.DeadwallProfile=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
@@ -1949,6 +2217,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       this.radius = def.radius; this.speed = def.speed;
       this.state = 'idle'; this.targetNode = -1; this.targetBuilding = -1; this.think = 0;
       this.targetUnit = -1; this.supportActive = false;
+      this.squad = null;
       this.fireCooldown = 0; this.facing = 0; this.carryType = null; this.carry = 0; this.maxCarry = 10;
       const a = Math.random() * Math.PI * 2, r = 35 + Math.random() * 70;
       this.offset = { x: Math.cos(a) * r, y: Math.sin(a) * r };
@@ -2157,7 +2426,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
-      this.workerOrder = 'auto'; this.runId = null; this.narrative=globalThis.DeadwallNarrative.create();
+      this.workerOrder = 'auto'; this.runId = null; this.scenarioId = 'classic'; this.narrative=globalThis.DeadwallNarrative.create();
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
       this.audio.setVolume(this.settings.volume);
@@ -2222,6 +2491,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         if (this.state !== 'playing' || this.paused || this.gameOver || this.activeOverlay) return;
         if (event.target?.closest?.('#resources')) return;
         if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
+        if((event.ctrlKey||event.altKey||event.metaKey)&&[...C.SQUAD_RULES.keys,'KeyG','KeyT'].includes(event.code))return;
         if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
         if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
         if (!event.repeat) this.input.pressed.add(event.code); this.input.keys.add(event.code);
@@ -2232,7 +2502,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         this.audio.unlock(); this.updateMouseWorld();
         if (this.state !== 'playing' || this.paused || this.gameOver) return;
         if (event.button === 0) {
-          if (this.rallyPlacement) { this.rally = { x: this.input.mouseWorldX, y: this.input.mouseWorldY }; this.rallyPlacement = false; this.notify('Point de ralliement déplacé.', 'good'); this.audio.ui(); return; }
+          if (this.rallyPlacement) { this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY }); return; }
           if (this.selectedBuild) {
             const def = BUILDINGS[this.selectedBuild];
             if (this.isLineWall(def)) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.wallPreview = [this.wallStart]; }
@@ -2260,7 +2530,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       this.canvas.addEventListener('pointerdown',event=>{
         if(!event.pointerType||event.pointerType==='mouse'||this.state!=='playing'||this.paused||this.gameOver)return;
         event.preventDefault();this.audio.unlock();this.canvasPointerId=event.pointerId;this.canvas.setPointerCapture?.(event.pointerId);touchPoint(event);
-        if(this.rallyPlacement){this.rally={x:this.input.mouseWorldX,y:this.input.mouseWorldY};this.rallyPlacement=false;this.notify('Point de ralliement déplacé.','good');}
+        if(this.rallyPlacement){this.placeSquadRally({x:this.input.mouseWorldX,y:this.input.mouseWorldY});}
         else if(this.selectedBuild){if(this.isLineWall(BUILDINGS[this.selectedBuild])){this.wallStart={x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)};this.updateWallPreview();}else this.placeOne(this.selectedBuild,grid(this.input.mouseWorldX),grid(this.input.mouseWorldY),this.buildRotation);}
         else this.selectBuilding(this.world.at(this.input.mouseWorldX,this.input.mouseWorldY));
       });
@@ -2294,10 +2564,11 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.demolishSelected());
-      click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => { this.cancelPlacement(); this.rallyPlacement = true; this.notify('Cliquez au sol pour placer le ralliement.'); });
+      click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => this.beginSquadRally(null));
       click('repairAll', () => this.repairAll());
       if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
       if (this.ui.researchButton) click('researchButton', () => this.showCommand ? this.showCommand(true, 'research') : this.launchResearch());
@@ -2401,41 +2672,56 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
         if(accepted!==true)return false;
       }
-      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'')!==false;
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic')!==false;
     }
 
-    startNew(id = 'standard', seedText = '') {
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic') {
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
       document.getElementById('mapSeed')?.setCustomValidity?.('');
       id = typeof id === 'string' && Object.hasOwn(DIFFICULTIES, id) ? id : 'standard';
+      let scenario;
+      try { scenario = globalThis.DeadwallScenarios.initialState(scenarioId, id); }
+      catch (error) { this.notify(error.message, 'danger'); return false; }
+      this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       this.world = new WorldMap(seed ?? this.random.int(1000, 9999999)); this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
+      if (scenario.id !== 'classic') this.resources = scenario.resources;
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
+      if (scenario.id !== 'classic') core.health = scenario.coreHealth;
       this.player.x = core.x + 135; this.player.y = core.y + 20;
-      for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      if (scenario.id === 'classic') {
+        for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      } else {
+        for (const kind of scenario.roster) this.units.push(new Unit(this.nextId++, kind, core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+      }
       this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.pendingSpawns = normalizeSpawnCounts(); this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
+      if (scenario.id !== 'classic') this.phaseTime = scenario.calmSeconds;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
       this.objectiveIndex = 0; this.objectiveProgress = 0; this.rally = { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
+      this.squads = globalThis.DeadwallSquads.create(this.rally);
+      this.ensureSquads();
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = 1;
       this.ui.commandModal?.classList.add('hidden'); this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus();
       this.notify(`Protocole lancé — difficulté ${this.difficulty.label}.`, 'good'); this.notify('Récoltez puis rapportez les matériaux au centre.'); this.refreshBuildMenu(true); this.updateUI(); this.save(false);
+      if (scenario.id !== 'classic') this.notify(globalThis.DeadwallScenarios.get(scenario.id).name + ' — ' + globalThis.DeadwallScenarios.get(scenario.id).tradeoff);
     }
 
     serialize() {
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
+        scenarioId: this.scenarioId, squads: this.squads,
         workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
+        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,squad:u.squad,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, nextId:this.nextId,
@@ -2473,6 +2759,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
+      this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
@@ -2591,11 +2878,73 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       if(!this.canRecruit(kind)){const reason=def.requires&&!this.world.has(def.requires)?`${BUILDINGS[def.requires].name} terminé requis.`:this.tier.id<def.tier?`Nécessite le palier ${CITY_TIERS[def.tier].name}.`:this.population>=this.housing?'Logements insuffisants.':`Recrutement : ${resourceText(def.cost)} requis.`;this.notify(reason,'danger');return false;}
       if(!spend(this.resources,def.cost))return false;
       const core=this.core(),unit=new Unit(this.nextId++,kind,core.x+this.random.range(-35,35),core.y+this.random.range(-35,35));
+      if(kind==='soldier'){this.ensureSquads();unit.squad=globalThis.DeadwallSquads.nextGroup(this.units);}
       if(this.workerOrder==='retreat'&&(kind==='worker'||def.specialist))unit.state='flee';
       this.units.push(unit);this.refreshMetrics(true);this.audio.ui();this.notify(`${def.name} prêt à intervenir.`,'good');return true;
     }
 
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
+
+    ensureSquads() {
+      const Q=globalThis.DeadwallSquads;if(!this.squads)this.squads=Q.create(this.rally);
+      const missing=this.units.some(unit=>unit.kind==='soldier'&&!unit.dead&&!Q.validIndex(unit.squad));
+      if(missing){const assignments=Q.assignments(this.units);for(const unit of this.units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);}
+      return this.squads;
+    }
+    canCommandSquads(){return this.canIssueCommand()&&(!this.activeOverlay||this.activeOverlay===this.ui.commandModal);}
+    selectSquad(index) {
+      if(!this.canCommandSquads()||!globalThis.DeadwallSquads.validIndex(index))return false;
+      this.ensureSquads();if(this.rallyPlacement&&this.rallyPlacement.squad!==index)this.rallyPlacement=false;
+      this.squads.selected=index;this.squadUI?.refresh();return true;
+    }
+    squadRallyStatus(point) {
+      const radius=C.SURVIVORS.soldier.radius,margin=radius+4;
+      if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<margin||point.y<margin||point.x>WORLD_SIZE-margin||point.y>WORLD_SIZE-margin)return{ok:false,reason:'Choisissez un point à l’intérieur de la carte.'};
+      const probe={...point,radius};
+      if([...this.world.buildings.values()].some(b=>T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)))return{ok:false,reason:'Ce point est bloqué par un rempart ou une porte verrouillée.'};
+      return{ok:true,reason:''};
+    }
+    setSquadRally(index, point) {
+      const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||(index!==null&&!Q.validIndex(index)))return false;
+      const status=this.squadRallyStatus(point);if(!status.ok){this.notify(status.reason,'danger');this.squadUI?.announce(status.reason);return false;}
+      this.ensureSquads();
+      if(index===null){this.rally={x:point.x,y:point.y};for(let group=0;group<C.SQUAD_RULES.count;group++)this.squads=Q.withOrder(this.squads,group,'rally',point);}
+      else this.squads=Q.withOrder(this.squads,index,'rally',point);
+      for(const unit of this.units)if(unit.kind==='soldier'&&(index===null||unit.squad===index))unit.navigation=null;
+      const message=index===null?'Ralliement général transmis aux trois sections.':'Section '+C.SQUAD_RULES.labels[index]+' : point de ralliement transmis.';
+      this.notify(message,'good');this.squadUI?.announce(message);this.audio.ui();this.save(false);this.squadUI?.refresh();return true;
+    }
+    retreatSquad(index=this.squads?.selected??0) {
+      const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||!Q.validIndex(index)||!this.core())return false;
+      this.ensureSquads();this.squads=Q.withOrder(this.squads,index,'retreat');
+      for(const unit of this.units)if(unit.kind==='soldier'&&unit.squad===index)unit.navigation=null;
+      if(this.rallyPlacement&&this.rallyPlacement.squad===index)this.rallyPlacement=false;
+      const message='Section '+C.SQUAD_RULES.labels[index]+' : repli vers le centre, par les accès ouverts.';
+      this.notify(message);this.squadUI?.announce(message);this.audio.ui();this.save(false);this.squadUI?.refresh();return true;
+    }
+    beginSquadRally(index=this.squads?.selected??0) {
+      if(!this.canCommandSquads()||(index!==null&&!globalThis.DeadwallSquads.validIndex(index)))return false;
+      this.ensureSquads();this.cancelPlacement();
+      if(this.activeOverlay===this.ui.commandModal)this.showCommand?.(false);
+      if(this.paused)this.togglePause(false);
+      this.rallyPlacement={squad:index};this.releaseInputs();this.canvas.focus();
+      const message=index===null?'Cliquez au sol pour le ralliement général. Échap annule.':'Section '+C.SQUAD_RULES.labels[index]+' : cliquez au sol. Échap annule.';
+      this.notify(message);this.squadUI?.announce(message);return true;
+    }
+    placeSquadRally(point) {
+      if(this.state!=='playing'||this.paused||this.gameOver||this.activeOverlay||!this.rallyPlacement)return false;
+      const index=this.rallyPlacement===true?null:this.rallyPlacement.squad;
+      if(!this.setSquadRally(index,point))return false;
+      this.rallyPlacement=false;this.input.mouseDown=false;return true;
+    }
+    getSquadSummary() {
+      const state=this.squads||globalThis.DeadwallSquads.create(this.rally),core=this.core();
+      return state.groups.map((group,index)=>{
+        const units=this.units.filter(u=>u.kind==='soldier'&&!u.dead&&u.health>0&&u.squad===index),target=group.order==='retreat'?core:group.rally;
+        return{index,label:C.SQUAD_RULES.labels[index],order:group.order,rally:{...group.rally},count:units.length,selected:state.selected===index,
+          blocked:units.filter(u=>u.navigation?.cells===null&&target&&dist(u,target)>C.SQUAD_RULES.retreatRadius).length};
+      });
+    }
 
     coreArrivalPosition(entity, preferred) {
       const core = this.core(); if (!core) return null;
@@ -2679,6 +3028,11 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       if (this.input.pressed.has('Digit1')) this.switchWeapon('pistol');
       if (this.input.pressed.has('Digit2')) this.switchWeapon('rifle');
       if (this.input.pressed.has('Digit3')) this.switchWeapon('shotgun');
+      if(this.state==='playing'&&!this.paused&&!this.activeOverlay&&!this.gameOver){
+        C.SQUAD_RULES.keys.forEach((key,index)=>{if(this.input.pressed.has(key))this.selectSquad(index);});
+        if(this.input.pressed.has('KeyG'))this.beginSquadRally();
+        if(this.input.pressed.has('KeyT'))this.retreatSquad();
+      }
       if (this.input.pressed.has('KeyR')) { if (this.selectedBuild && !this.isLineWall(BUILDINGS[this.selectedBuild])) this.buildRotation = (this.buildRotation + 1) % 4; else this.startReload(); }
       if (this.input.pressed.has('Space')) this.melee();
       if (this.input.pressed.has('KeyB')) this.setBuildCollapsed(!this.buildCollapsed);
@@ -2853,6 +3207,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     updateUnits(dt) {
       const core=this.core();if(!core)return;
+      this.ensureSquads();
       this.navigationBudget=STRATEGY_RULES.pathQueriesPerUpdate;
       const order=this.workerOrder||'auto';
       const unitCount=this.units.length,firstUnit=(this.unitUpdateOffset||0)%Math.max(1,unitCount);
@@ -2896,8 +3251,15 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         } else if(C.SURVIVORS[u.kind]?.specialist){
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
-          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
-          else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
+          const rules=C.SQUAD_RULES,group=this.squads.groups[u.squad],retreat=group.order==='retreat';
+          const target=this.nearestZombie(u.x,u.y,rules.range);
+          if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
+            if(d>rules.advanceRange){if(!retreat)this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}
+            else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=rules.fireCooldown;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');}
+            else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;if(target.health<=0)this.killZombie(target,false);}
+          }
+          if(retreat){u.state='flee';if(dist(u,core)>rules.retreatRadius)this.moveUnitToward(u,core,dt);}
+          else if(!target){u.state='move';const targetPoint={x:group.rally.x+u.offset.x*rules.formationScale,y:group.rally.y+u.offset.y*rules.formationScale};if(dist(u,targetPoint)>rules.rallyRadius)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
       this.units=this.units.filter(u=>!u.dead);
@@ -3255,7 +3617,14 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
       if(b===this.selectedBuilding)this.selectBuilding(null);if(def.id==='core'){this.triggerGameOver();return;}this.notify(`${def.name} détruit — le secteur est ouvert !`,'danger');this.refreshMetrics(true);}
 
-    triggerGameOver(){this.recordCampaign(true);this.gameOver=true;this.releaseInputs();for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])try{localStorage.removeItem(key);}catch{}this.refreshContinue();this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();}
+    triggerGameOver(){
+      this.recordCampaign(true);this.gameOver=true;this.releaseInputs();
+      for(const key of [SAVE_KEY,SAVE_BACKUP_KEY,...LEGACY_SAVE_KEYS])try{localStorage.removeItem(key);}catch{}
+      this.refreshContinue();
+      this.ui.gameOverStats.textContent=`Vague ${this.wave} · ${formatNumber(this.stats.kills)} infectés éliminés · ${formatTime(this.stats.playSeconds)} de résistance · ${this.stats.buildingsPlaced} structures construites.`;
+      this.battlefieldUI?.refreshDefeat();this.battlefieldUI?.refresh(true);
+      this.ui.gameOver.classList.remove('hidden');this.syncOverlayFocus();
+    }
 
     rebuildBuckets(){this.buckets.clear();for(const z of this.zombies){if(z.dead)continue;const bx=Math.floor(z.x/this.bucketSize),by=Math.floor(z.y/this.bucketSize),key=bx+by*1000;if(!this.buckets.has(key))this.buckets.set(key,[]);this.buckets.get(key).push(z);}}
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
@@ -3408,7 +3777,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     }
     recordCampaign(ended=false){
       if(!this.profile||!this.runId)return;
-      this.profileStatus=this.profile.record({runId:this.runId,seed:this.world.seed,difficulty:this.difficulty.id,
+      this.profileStatus=this.profile.record({runId:this.runId,seed:this.world.seed,difficulty:this.difficulty.id,scenarioId:this.scenarioId,
         wavesSurvived:Math.floor(this.stats.wavesSurvived),kills:Math.floor(this.stats.kills),playSeconds:this.stats.playSeconds,
         population:Math.max(this.stats.peakPopulation||0,this.population),buildings:Math.max(this.stats.peakBuildings||0,[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed).length),ended});
     }
@@ -3430,6 +3799,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     updateUI(){
       this.updateCrisisUI();
+      this.squadUI?.refresh();
+      this.battlefieldUI?.refresh();
       this.updateEnclosureIntel();this.commandUI?.refresh();
       for(const key of RESOURCE_KEYS){
         this.resourceEls[key].textContent=formatNumber(this.resources[key]);
@@ -3587,7 +3958,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     drawCorpse(ctx,c){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
-    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+Math.sin(this.elapsed*2)*3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();}
+    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+Math.sin(this.elapsed*2)*3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
 
     drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=BUILDINGS[this.selectedBuild],cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 
@@ -3677,7 +4048,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       // A newer choice, cancellation or closed dialog owns the UI now.
       if(revision!==importRevision)return;
       pendingImport=Save.parse(text);
-      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;
+      const scenario = globalThis.DeadwallScenarios.get(pendingImport.scenarioId);
+      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures · Départ : ${scenario.name} · ${C.DIFFICULTIES[pendingImport.difficulty].label} · Carte ${pendingImport.worldSeed}. Confirmez pour remplacer la partie en cours.`;
       get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');
     }catch(error){if(revision===importRevision)status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}
   });
@@ -3717,6 +4089,12 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const element=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
   const bind=(id,fn)=>get(id)?.addEventListener('click',event=>{if(!event.currentTarget.disabled&&!event.currentTarget.closest('[inert]'))fn();});
   const workerCards=new Map(),researchCards=new Map();
+  const recordScenario=element('select'),recordLabel=element('label','CONDITIONS DE DÉPART DES RECORDS','records-scenario');
+  recordScenario.id='recordScenario';recordLabel.htmlFor='recordScenario';
+  for(const scenario of globalThis.DeadwallScenarios.list()){const option=element('option',scenario.name);option.value=scenario.id;recordScenario.appendChild(option);}
+  recordScenario.value='classic';recordLabel.appendChild(recordScenario);
+  get('recordsScenarioFilter').appendChild(recordLabel);
+  recordScenario.addEventListener('change',()=>{recordsKey='';refreshRecords();});
   for(const [id,title,description] of orders){
     const button=element('button',undefined,'order-card');button.type='button';button.dataset.workerOrder=id;
     button.appendChild(element('strong',title));button.appendChild(element('span',description));
@@ -3778,10 +4156,10 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   }
   function refreshRecords(){
     const profile=game.profile?.get();if(!profile)return;
-    const key=JSON.stringify(profile);if(key===recordsKey)return;recordsKey=key;
+    const selectedScenario=recordScenario.value||'classic',key=selectedScenario+JSON.stringify(profile);if(key===recordsKey)return;recordsKey=key;
     get('recordBoard').replaceChildren();get('recentCampaigns').replaceChildren();
     for(const id of ['story','standard','brutal']){
-      const best=profile.byDifficulty[id],card=element('article',undefined,'record-card');
+      const best=profile.byScenario[selectedScenario][id],card=element('article',undefined,'record-card');
       card.appendChild(element('small',C.DIFFICULTIES[id].label));
       card.appendChild(element('strong',C.formatNumber(best.wavesSurvived)));
       card.appendChild(element('span','VAGUES SURVÉCUES'));
@@ -3792,12 +4170,13 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     if(!profile.recentRuns.length)get('recentCampaigns').appendChild(element('p','Vos campagnes apparaîtront ici après une sauvegarde.','command-note'));
     for(const run of profile.recentRuns){
       const row=element('li',undefined,'campaign-row'),copy=element('div');
-      copy.appendChild(element('strong','CARTE '+run.seed+' · '+C.DIFFICULTIES[run.difficulty].label));
+      copy.appendChild(element('strong','CARTE '+run.seed+' · '+C.DIFFICULTIES[run.difficulty].label+' · '+globalThis.DeadwallScenarios.get(run.scenarioId).name));
       copy.appendChild(element('span',run.wavesSurvived+' vagues · '+C.formatNumber(run.kills)+' éliminations · '+(run.ended?'cité tombée':'archive de campagne')));
       const button=element('button','RÉUTILISER LA CARTE');button.type='button';
       button.setAttribute('aria-label','Réutiliser la carte '+run.seed);
       button.addEventListener('click',()=>{
         get('mapSeed').value=String(run.seed);get('mapSeed').setCustomValidity('');
+        if(get('startScenario')){get('startScenario').value=run.scenarioId||'classic';game.scenarioUI?.refresh();}
         message('Carte '+run.seed+' préparée dans le menu. Aucun changement de la campagne actuelle.');
         if(game.state==='menu'){game.showCommand(false);get('mapSeed').focus();}
       });
@@ -3839,7 +4218,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();
+    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();game.squadUI?.refresh();game.battlefieldUI?.refresh(true);
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
@@ -4033,6 +4412,170 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   get('journalCommandButton').addEventListener('click',event=>{if(!event.currentTarget?.closest('[inert]'))open();});
   get('narrativeReadAll').addEventListener('click',event=>{if(event.currentTarget?.disabled||event.currentTarget?.closest('[inert]'))return;if(game.markNarrativeRead()){write('Journal marqué comme lu. Aucun coût ni récompense.');refresh();get('commandTab-journal').focus();}});
   game.narrativeUI={refresh,open};refresh();
+})();
+
+</script>
+  <script>
+(function initScenarioMenu(global) {
+  'use strict';
+  const game = global.DEADWALL, C = global.DeadwallCore, S = global.DeadwallScenarios;
+  if (!game || !C || !S) return;
+  const select = document.getElementById('startScenario');
+  const description = document.getElementById('startScenarioDescription');
+  const facts = document.getElementById('startScenarioFacts');
+  if (!select || !description || !facts) return;
+  const previous = select.value;
+  select.replaceChildren();
+  for (const scenario of S.list()) {
+    const option = document.createElement('option');
+    option.value = scenario.id; option.textContent = scenario.name;
+    select.appendChild(option);
+  }
+  select.value = S.list().some(scenario => scenario.id === previous) ? previous : S.DEFAULT_ID;
+  select.setAttribute('aria-describedby', 'startScenarioDescription startScenarioFacts');
+
+  function refresh() {
+    let definition;
+    try { definition = S.get(select.value); }
+    catch { select.value = S.DEFAULT_ID; definition = S.get(S.DEFAULT_ID); }
+    const state = S.initialState(definition.id, game.selectedDifficulty());
+    description.textContent = definition.description + ' ' + definition.advantage + ' ' + definition.tradeoff;
+    const workers = state.roster.filter(kind => kind === 'worker').length;
+    const soldiers = state.roster.filter(kind => kind === 'soldier').length;
+    const team = workers + ' ouvriers' + (soldiers ? ' · ' + soldiers + ' fusilier' : '');
+    const stocks = C.RESOURCE_KEYS.map(key => C.RESOURCE_META[key].label.toLowerCase() + ' ' + C.formatNumber(state.resources[key])).join(' · ');
+    facts.textContent = team + ' · Centre ' + C.formatNumber(state.coreHealth) + ' / ' + C.formatNumber(C.BUILDINGS.core.health) + ' PV · Calme initial ' + C.formatTime(state.calmSeconds) + '. Réserves : ' + stocks + '. Les records sont séparés par départ et difficulté.';
+  }
+  select.addEventListener('change', refresh);
+  for (const id of ['difficultyStory', 'difficultyStandard', 'difficultyBrutal']) document.getElementById(id)?.addEventListener('change', refresh);
+  game.scenarioUI = Object.freeze({ refresh });
+  refresh();
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+  <script>
+(function initDeadwallSquadUI(){
+  'use strict';
+  const game=globalThis.DEADWALL,C=globalThis.DeadwallCore,root=document.getElementById('squadCommandPanel');
+  if(!game||!C||!root)return;
+  const node=(tag,text,className)=>{const item=document.createElement(tag);if(text!==undefined)item.textContent=text;if(className)item.className=className;return item;};
+  root.classList.add('squad-command');root.setAttribute('aria-labelledby','squadHeading');
+  const heading=node('h3','SECTIONS DE FUSILIERS');heading.id='squadHeading';
+  const intro=node('p','Trois sections partagent les mêmes munitions. Les nouvelles recrues renforcent la section la moins peuplée. Les ordres ne déplacent personne instantanément.','command-note');
+  const shortcuts=node('p','Clavier en jeu : 4 / 5 / 6 sélectionnent une section, G prépare son point, T ordonne son repli. Le ralliement général commande les trois sections.','command-note');
+  const cards=node('div',undefined,'squad-grid'),status=node('p','','squad-status');status.id='squadStatus';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+  const views=[];
+  for(let index=0;index<C.SQUAD_RULES.count;index++){
+    const card=node('article',undefined,'squad-card');card.dataset.squad=String(index);
+    const select=node('button',undefined,'squad-select');select.type='button';select.dataset.squadSelect=String(index);
+    const name=node('strong',C.SQUAD_RULES.labels[index]),count=node('span','0 fusilier');select.appendChild(name);select.appendChild(count);
+    select.setAttribute('aria-label','Sélectionner la section '+C.SQUAD_RULES.labels[index]);select.setAttribute('aria-pressed','false');
+    const order=node('p','','squad-order'),access=node('p','','squad-access'),buttons=node('div',undefined,'squad-actions');
+    const rally=node('button','POINT AU SOL · REPREND LE JEU'),here=node('button','RALLIER MA POSITION'),retreat=node('button','REPLI AU CENTRE');
+    for(const [button,action]of [[rally,'rally'],[here,'here'],[retreat,'retreat']]){button.type='button';button.dataset.squadAction=action;button.dataset.squadIndex=String(index);button.setAttribute('aria-label',button.textContent+' — section '+C.SQUAD_RULES.labels[index]);buttons.appendChild(button);}
+    select.addEventListener('click',()=>{if(game.selectSquad(index)){game.audio.ui();announce('Section '+C.SQUAD_RULES.labels[index]+' sélectionnée.');}});
+    rally.addEventListener('click',()=>game.beginSquadRally(index));
+    here.addEventListener('click',()=>game.setSquadRally(index,{x:game.player.x,y:game.player.y}));
+    retreat.addEventListener('click',()=>game.retreatSquad(index));
+    for(const item of [select,order,access,buttons])card.appendChild(item);cards.appendChild(card);views.push({card,select,count,order,access,rally,here,retreat});
+  }
+  root.replaceChildren(heading,intro,cards,shortcuts,status);
+  function announce(text){status.textContent=text;}
+  function refresh(){
+    const allowed=game.canCommandSquads(),summary=game.getSquadSummary();
+    for(const group of summary){
+      const view=views[group.index];
+      view.card.dataset.selected=String(group.selected);view.select.setAttribute('aria-pressed',String(group.selected));view.select.disabled=!allowed;
+      view.count.textContent=group.count+' fusilier'+(group.count===1?'':'s');
+      view.order.textContent=group.order==='retreat'?'ORDRE : REPLI AU CENTRE':'RALLIEMENT : '+C.grid(group.rally.x)+' / '+C.grid(group.rally.y);
+      view.access.textContent=!group.count?'Section en attente de recrutement.':group.blocked?group.blocked+' trajet'+(group.blocked===1?'':'s')+' bloqué'+(group.blocked===1?'':'s')+' : contrôlez les portes.':group.order==='retreat'?'Repli physique ; riposte conservée, aucune poursuite.':'Contact hostile prioritaire, puis retour au point de section.';
+      view.rally.disabled=!allowed;view.here.disabled=!allowed||game.player.dead;view.retreat.disabled=!allowed;
+      view.retreat.setAttribute('aria-pressed',String(group.order==='retreat'));
+    }
+    const shortcut=document.getElementById('squadCommandButton');
+    if(shortcut){shortcut.disabled=game.state!=='playing'||game.gameOver;shortcut.setAttribute('aria-label','Sections de fusiliers — '+summary.reduce((total,g)=>total+g.count,0)+' présents');}
+  }
+  function drawMarkers(ctx,view){
+    if(game.state!=='playing'||game.gameOver||!game.squads)return;
+    const counts=globalThis.DeadwallSquads.counts(game.units),core=game.core(),selected=game.squads.selected;
+    ctx.save();ctx.lineWidth=1.5;ctx.font='bold 10px monospace';ctx.textAlign='center';
+    game.squads.groups.forEach((group,index)=>{
+      if(!counts[index])return;const point=group.order==='retreat'?core:group.rally;
+      if(!point||!game.visible(point.x,point.y,60,view))return;
+      ctx.strokeStyle=index===selected?'#e0b45e':'#9baa86';ctx.fillStyle='#111911dc';
+      ctx.beginPath();ctx.arc(point.x,point.y,18+index*5,0,Math.PI*2);ctx.fill();ctx.stroke();
+      ctx.fillStyle=index===selected?'#ffe0a1':'#d1d8c5';ctx.fillText(String.fromCharCode(65+index)+' · '+(group.order==='retreat'?'REPLI':counts[index]),point.x,point.y-27-index*13);
+    });
+    for(const unit of game.units){
+      if(unit.kind!=='soldier'||unit.dead||unit.squad!==selected||!game.visible(unit.x,unit.y,30,view))continue;
+      ctx.strokeStyle='#e0b45e';ctx.beginPath();ctx.arc(unit.x,unit.y,unit.radius+4,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#ffe0a1';ctx.fillText(String.fromCharCode(65+selected),unit.x,unit.y-unit.radius-8);
+    }
+    ctx.restore();
+  }
+  document.getElementById('squadCommandButton')?.addEventListener('click',()=>game.showCommand?.(true,'workers'));
+  game.squadUI={refresh,announce,drawMarkers};refresh();
+})();
+
+</script>
+  <script>
+(function initBattlefieldUI() {
+  'use strict';
+  const game = globalThis.DEADWALL, B = globalThis.DeadwallBattlefield, C = globalThis.DeadwallCore;
+  if (!game || !B) return;
+  const get = id => document.getElementById(id), cards = new Map();
+  const panel = get('battlefieldSectors'), alert = get('innerRingAlert');
+  if (!panel || !alert) return;
+  let lastWorld = null, sampledAt = -Infinity, alarmAt = -Infinity, lastAlert = '', lastCritical = false;
+  const element = (tag, text, className) => {
+    const node = document.createElement(tag); if (text !== undefined) node.textContent = text;
+    if (className) node.className = className; return node;
+  };
+  for (const direction of B.DIRECTIONS) {
+    const card = element('article', undefined, 'battlefield-sector'), title = element('h4', direction.label);
+    const contacts = element('strong'), inner = element('p'), walls = element('small');
+    for (const node of [title, contacts, inner, walls]) card.appendChild(node);
+    panel.appendChild(card); cards.set(direction.id, { card, contacts, inner, walls });
+  }
+  function refresh(force = false) {
+    if (game.world !== lastWorld) {
+      lastWorld = game.world; sampledAt = -Infinity; alarmAt = -Infinity; lastCritical = false; lastAlert = '';
+    }
+    if (game.state !== 'playing' || game.gameOver) { alert.classList.add('hidden'); return; }
+    if (!force && game.elapsed - sampledAt < C.BATTLEFIELD_RULES.refreshSeconds) return;
+    sampledAt = game.elapsed;
+    const snapshot = B.inspect(game.core(), game.zombies, game.world.buildings.values());
+    for (const sector of snapshot.sectors) {
+      const view = cards.get(sector.id);
+      view.contacts.textContent = sector.contacts + ' contacts actifs';
+      view.inner.textContent = sector.innerContacts ? sector.innerContacts + ' près du centre' : 'Aucun contact près du centre';
+      view.walls.textContent = sector.fragileWalls + ' remparts fragiles / ' + sector.walls;
+      view.card.dataset.alert = String(sector.innerContacts > 0);
+    }
+    const active = snapshot.sectors.filter(sector => sector.innerContacts).map(sector => sector.label);
+    const text = active.length ? 'CONTACTS PROCHES DU CENTRE · ' + active.join(' / ') : '';
+    alert.classList.toggle('hidden', !text);
+    if (text !== lastAlert) { alert.textContent = text; lastAlert = text; }
+    if (text && !lastCritical && !game.paused && game.elapsed - alarmAt >= C.BATTLEFIELD_RULES.alarmCooldownSeconds) {
+      // One restrained signal on entry; no looping alarm, RNG use or flashing.
+      game.audio.tone(520, .18, 'triangle', .055, -120); alarmAt = game.elapsed;
+    }
+    lastCritical = Boolean(text);
+  }
+  function refreshDefeat() {
+    const summary = B.debrief(game.stats, game.resources), grid = get('debriefMetrics'), lessons = get('debriefLessons');
+    if (!grid || !lessons) return;
+    grid.replaceChildren(); lessons.replaceChildren();
+    for (const metric of summary.values) {
+      const card = element('div', undefined, 'debrief-metric');
+      card.appendChild(element('strong', C.formatNumber(metric.value))); card.appendChild(element('span', metric.label)); grid.appendChild(card);
+    }
+    for (const lesson of summary.lessons) lessons.appendChild(element('li', lesson));
+    const scenario = globalThis.DeadwallScenarios?.get(game.scenarioId || 'classic');
+    get('debriefCampaign').textContent = (scenario?.name || 'Départ classique') + ' · ' + game.difficulty.label + ' · CARTE ' + game.world.seed;
+    get('debriefDuration').textContent = C.formatTime(game.stats.playSeconds) + ' de résistance · centre de commandement détruit';
+  }
+  game.battlefieldUI = Object.freeze({ refresh, refreshDefeat });
+  refresh();
 })();
 
 </script>

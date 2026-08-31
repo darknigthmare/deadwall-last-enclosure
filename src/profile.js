@@ -9,6 +9,8 @@
   const MAX_PROFILE_BYTES = 64 * 1024;
   const MAX_RECOVERY_BYTES = 256 * 1024;
   const DIFFICULTIES = ['story', 'standard', 'brutal'];
+  // Schema identifiers only; gameplay values remain in core.START_SCENARIOS.
+  const SCENARIOS = ['classic', 'convoy', 'reconstruction', 'rearguard'];
   const METRICS = ['wavesSurvived', 'kills', 'playSeconds', 'peakPopulation', 'peakBuildings'];
   const clone = value => JSON.parse(JSON.stringify(value));
   const object = value => value && typeof value === 'object' && !Array.isArray(value);
@@ -32,13 +34,15 @@
 
   function identity(value, allowLegacy) {
     if (!object(value) || !DIFFICULTIES.includes(value.difficulty)) invalid('difficulté');
+    const scenarioId = value.scenarioId === undefined ? 'classic' : value.scenarioId;
+    if (!SCENARIOS.includes(scenarioId)) invalid('départ');
     // Existing versioned saves can contain a uint32 seed; new map input is intentionally narrower.
     const seed = counter(value.seed, 'graine');
     if (seed > 0xffffffff) invalid('graine');
     let runId = value.runId;
-    if (allowLegacy && (runId === undefined || runId === null || runId === '')) runId = `legacy:${value.difficulty}:${seed}`;
+    if (allowLegacy && (runId === undefined || runId === null || runId === '')) runId = `legacy:${value.difficulty}:${seed}` + (scenarioId === 'classic' ? '' : ':' + scenarioId);
     if (typeof runId !== 'string' || !/^[a-zA-Z0-9:_-]{1,128}$/.test(runId)) invalid('identifiant de partie');
-    return { runId, seed, difficulty:value.difficulty };
+    return { runId, seed, difficulty:value.difficulty, scenarioId };
   }
 
   function metrics(value) {
@@ -56,21 +60,25 @@
   }
 
   function empty() {
-    return summarize({ version:VERSION, updatedAt:0, byDifficulty:Object.fromEntries(DIFFICULTIES.map(id => [id,Object.fromEntries(METRICS.map(key => [key,0]))])), recentRuns:[] });
+    const byScenario = Object.fromEntries(SCENARIOS.map(scenario => [scenario, Object.fromEntries(DIFFICULTIES.map(id => [id,Object.fromEntries(METRICS.map(key => [key,0]))]))]));
+    // byDifficulty is retained as the classic-only v1 compatibility view, not an aggregate.
+    return summarize({ version:VERSION, updatedAt:0, byDifficulty:clone(byScenario.classic), byScenario, recentRuns:[] });
   }
 
   function mergeRun(left, right) {
-    if (left.runId !== right.runId || left.seed !== right.seed || left.difficulty !== right.difficulty) invalid('identifiant réutilisé pour une autre carte ou difficulté');
+    if (left.runId !== right.runId || left.seed !== right.seed || left.difficulty !== right.difficulty || left.scenarioId !== right.scenarioId) invalid('identifiant réutilisé pour une autre carte, difficulté ou départ');
     return { ...left, ...Object.fromEntries(METRICS.map(key => [key,Math.max(left[key],right[key])])), ended:left.ended || right.ended, startedAt:Math.min(left.startedAt,right.startedAt), updatedAt:Math.max(left.updatedAt,right.updatedAt) };
   }
 
   function merge(left, right) {
     const result = clone(left);
-    for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byDifficulty[difficulty][key] = Math.max(left.byDifficulty[difficulty][key],right.byDifficulty[difficulty][key]);
+    for (const scenario of SCENARIOS) for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byScenario[scenario][difficulty][key] = Math.max(left.byScenario[scenario][difficulty][key], right.byScenario[scenario][difficulty][key]);
+    for (const difficulty of DIFFICULTIES) for (const key of METRICS) result.byScenario.classic[difficulty][key] = Math.max(result.byScenario.classic[difficulty][key], left.byDifficulty[difficulty][key], right.byDifficulty[difficulty][key]);
     const runs = new Map(left.recentRuns.map(run => [run.runId,clone(run)]));
     for (const run of right.recentRuns) runs.set(run.runId, runs.has(run.runId) ? mergeRun(runs.get(run.runId),run) : clone(run));
     result.recentRuns = [...runs.values()].sort((a,b) => b.updatedAt-a.updatedAt || (a.runId<b.runId?-1:a.runId>b.runId?1:0)).slice(0,MAX_RECENT_RUNS);
-    for (const run of result.recentRuns) for (const key of METRICS) result.byDifficulty[run.difficulty][key] = Math.max(result.byDifficulty[run.difficulty][key],run[key]);
+    for (const run of result.recentRuns) for (const key of METRICS) result.byScenario[run.scenarioId][run.difficulty][key] = Math.max(result.byScenario[run.scenarioId][run.difficulty][key],run[key]);
+    result.byDifficulty = clone(result.byScenario.classic);
     result.updatedAt = Math.max(left.updatedAt,right.updatedAt,...result.recentRuns.map(run => run.updatedAt));
     return summarize(result);
   }
@@ -80,6 +88,13 @@
     const profile = empty();
     profile.updatedAt = counter(value.updatedAt,'date');
     for (const difficulty of DIFFICULTIES) profile.byDifficulty[difficulty] = metrics(value.byDifficulty[difficulty]);
+    if (value.byScenario !== undefined) {
+      if (!object(value.byScenario) || Object.keys(value.byScenario).some(id => !SCENARIOS.includes(id))) invalid('records par départ');
+      for (const scenario of SCENARIOS) {
+        if (!object(value.byScenario[scenario])) invalid('records par départ');
+        for (const difficulty of DIFFICULTIES) profile.byScenario[scenario][difficulty] = metrics(value.byScenario[scenario][difficulty]);
+      }
+    }
     const ids = new Set();
     profile.recentRuns = value.recentRuns.map(value => {
       const run = { ...identity(value,false), ...metrics(value), startedAt:counter(value.startedAt,'début'), updatedAt:counter(value.updatedAt,'mise à jour') };
@@ -183,7 +198,7 @@
         if(typeof ended!=='boolean')invalid('état de partie');
         incoming={...id,wavesSurvived:counter(snapshot.wavesSurvived,'vagues survécues'),kills:counter(snapshot.kills,'infectés éliminés'),playSeconds:counter(snapshot.playSeconds,'durée',false),peakPopulation:counter(snapshot.population,'population'),peakBuildings:counter(snapshot.buildings,'structures'),ended};
         const previous=profile.recentRuns.find(run=>run.runId===incoming.runId);
-        if(previous&&(previous.seed!==incoming.seed||previous.difficulty!==incoming.difficulty))invalid('identifiant réutilisé');
+        if(previous&&(previous.seed!==incoming.seed||previous.difficulty!==incoming.difficulty||previous.scenarioId!==incoming.scenarioId))invalid('identifiant réutilisé');
         if(previous){
           for(const key of METRICS)incoming[key]=Math.max(incoming[key],previous[key]);
           incoming.ended ||= previous.ended;
@@ -203,7 +218,7 @@
     return Object.freeze({ load, save, record, get:()=>clone(profile) });
   }
 
-  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,normalizeSeed,validate,create,load:storage=>create(storage).load()};
+  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,SCENARIOS:Object.freeze(SCENARIOS),normalizeSeed,validate,create,load:storage=>create(storage).load()};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   global.DeadwallProfile=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

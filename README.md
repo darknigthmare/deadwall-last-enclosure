@@ -48,6 +48,8 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 | Coup de crosse | Espace |
 | Recharger | R |
 | Changer d’arme | 1, 2, 3 |
+| Sélectionner Alpha / Bravo / Charlie | 4, 5, 6 |
+| Placer le point de la section / repli au centre | G / T |
 | Catalogue de construction | B |
 | Poser un bâtiment | Clic gauche |
 | Tracer une ligne de murs | Cliquer, tirer, relâcher |
@@ -66,8 +68,10 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Poste de commandement en pause tactique : ordres collectifs, contrôle des portes, doctrines et archives.
 - Déblaiement physique des corps au pied extérieur des remparts, repli et conservation des cargaisons.
 - Portes automatiques, ouvertes ou verrouillées ; diagnostic réel de fermeture du périmètre.
-- Graines de carte réutilisables et records locaux par difficulté, sans bonus permanent.
-- Fusiliers autonomes rassemblés autour d’un point de ralliement déplaçable.
+- Quatre départs à contreparties : classique, convoi de civils, dépôt à reconstruire et arrière-garde. Graines réutilisables et records séparés par départ et difficulté, sans bonus permanent.
+- Trois sections de fusiliers avec ralliements indépendants, repli physique, raccourcis et commandes tactiles dans ÉQUIPES.
+- Situation par front : contacts vivants, proximité du centre et remparts fragiles ; alerte visuelle avec signal sonore ponctuel.
+- Bilan de défaite avec six mesures de campagne et conseils fondés sur l’état final ; relance sur la même carte ou une nouvelle carte dans les mêmes conditions.
 - Secouristes et ingénieurs recrutables au palier Avant-poste après construction de la clinique ou de l’atelier : soins et réparations de terrain payés sur les stocks, trajets physiques et repli.
 - Dossiers de terrain : huit fiches d’infectés et leurs contres, recrutement, personnel nommé, carte des secteurs et repère de navigation sans téléportation.
 - Registre de D-17 : six traces originales à relever physiquement, douze décisions possibles (une par secteur), quatre chapitres persistants et un épilogue qui laisse les hordes continuer.
@@ -104,6 +108,8 @@ La suite couvre économie, doctrines, difficultés, crises, navigation concentri
 Extension de contenu : [infectés](docs/ENEMY_CONTENT.md), [spécialistes](docs/SPECIALISTS.md), [secteurs](docs/WORLD_CONTENT.md), [assets et prompts exacts](docs/CONTENT_ART_PROVENANCE.md). Les véhicules restent des épaves récupérables, pas des véhicules pilotables. Les secteurs ne sont pas des couvertures physiques ; les vrais remparts construits définissent l’enceinte.
 
 Passe histoire et cohérence : [registre de D-17](docs/NARRATIVE.md), [audit de cette passe](docs/AUDIT_STORY_RELEASE.md). Les fragments sont des documents retrouvés, pas des dialogues de PNJ présents ni des voix enregistrées. La simulation reste jouable sans accomplir ces opérations facultatives.
+
+Passe de clôture : [départs et compatibilité](docs/SCENARIOS.md), [sections et ordres](docs/SQUADS.md), [audit et mesures de charge](docs/COMPLETION_PASS.md). Les extensions spéculatives de la roadmap sont distinctes du contenu livré. La signature et la publication en boutique demandent une identité et un choix de distribution éditeur.
 
 ## Structure
 

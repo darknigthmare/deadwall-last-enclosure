@@ -13,6 +13,9 @@ Le jeu actuel utilise un moteur Canvas 2D/2.5D, livré en application Windows El
 - six secteurs nommés, 48 vestiges récupérables et dossiers de terrain ;
 - huit profils d'infectés, dix atlas/textures originaux et seize cycles animés ;
 - édition PC hors ligne, sandbox et archives portables non signées.
+- quatre conditions de départ, douze combinaisons avec les difficultés et records séparés ;
+- trois sections de fusiliers, points indépendants, repli et raccourcis 4/5/6/G/T ;
+- situation par front, alerte de proximité du centre et bilan de défaite mesuré.
 
 Ces intitulés ne promettent pas de véhicules pilotables, de gestion de morsures, de population abritée automatiquement ou de coopération. Le récit et ses opérations sont documentés par leur module propre ; ils ne remplacent pas une campagne de combat intégralement scénarisée.
 
@@ -21,10 +24,8 @@ Ces intitulés ne promettent pas de véhicules pilotables, de gestion de morsure
 - essais matériels élargis et suivi du budget de rendu sur petites configurations ;
 - enrichissement des statistiques et des retours d'action selon les essais humains ;
 - scénarios de non-régression supplémentaires pour imports et mises à jour ;
-- ergonomie d'équipes et affectations plus fines, au-delà des ordres collectifs livrés ;
-- alarmes par secteur ;
-- raccourcis de groupes de fusiliers ;
-- davantage de scénarios de départ.
+- affectations individuelles plus fines, au-delà des trois sections livrées ;
+- variantes supplémentaires au-delà des quatre conditions de départ livrées.
 
 ## Pistes — Simulation urbaine avancée, non livrée
 

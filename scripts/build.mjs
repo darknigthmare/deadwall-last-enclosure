@@ -7,8 +7,8 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const dist = path.join(root, 'dist');
 const require = createRequire(import.meta.url);
 const { ASSETS } = require('../src/art.js');
-const scripts = ['src/core.js','src/narrative.js','src/save.js','src/tactics.js','src/profile.js','src/art.js','src/world-content.js','src/game.js','src/ui.js','src/command-ui.js','src/content-ui.js','src/narrative-ui.js'];
-const styles = ['styles.css','settings.css','command.css','content.css','narrative.css'];
+const scripts = ['src/core.js','src/scenarios.js','src/squads.js','src/battlefield.js','src/narrative.js','src/save.js','src/tactics.js','src/profile.js','src/art.js','src/world-content.js','src/game.js','src/ui.js','src/command-ui.js','src/content-ui.js','src/narrative-ui.js','src/scenario-ui.js','src/squad-ui.js','src/battlefield-ui.js'];
+const styles = ['styles.css','settings.css','command.css','content.css','narrative.css','squads.css','finish.css'];
 const images = ['assets/deadwall-keyart-v2.webp', ...Object.values(ASSETS).map(asset => asset.url)];
 const publicFiles = ['index.html',...styles,'manifest.json','sw.js',...scripts,'assets/icon.svg','assets/icon-192.png','assets/icon-512.png',...images];
 // Fixed build output, verified inside this repository before recursive replacement.
