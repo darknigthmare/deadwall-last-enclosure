@@ -1,0 +1,20 @@
+# Upload exclusions only. Public HTTP files are still selected by scripts/build.mjs.
+# Keep package.json, vercel.json, scripts/build.mjs, src/, assets/ and runtime CSS.
+artifacts/
+outputs/
+release/
+dist/
+coverage/
+desktop/
+tests/
+docs/
+.github/
+.env*
+*.log
+AGENTS.md
+SOURCE_PROVENANCE.md
+DEADWALL_Standalone.html
+scripts/package-desktop.mjs
+scripts/release-policy.cjs
+scripts/verify-desktop-integrity.mjs
+scripts/server.mjs

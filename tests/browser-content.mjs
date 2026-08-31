@@ -123,9 +123,9 @@ for(const variant of variants){
     await page.evaluate(()=>{DEADWALL.paused=false;DEADWALL.restoreSave(JSON.parse(localStorage.getItem(DeadwallCore.SAVE_KEY)));});
     await page.locator('#pauseButton').click();await page.locator('#quitButton').click();
     await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
-    const required=['assets/infected-expansion-atlas.webp','assets/specialists-atlas.webp','assets/district-props-atlas.webp','src/world-content.js','src/content-ui.js','content.css'];
-    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r8');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
-    check('cache r8 contient les trois nouveaux atlas et modules de contenu');
+    const required=['assets/infected-expansion-atlas.webp','assets/specialists-atlas.webp','assets/district-props-atlas.webp','src/world-content.js','src/content-ui.js','content.css','src/narrative.js','src/narrative-ui.js','narrative.css'];
+    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r9');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
+    check('cache r9 contient les trois nouveaux atlas, modules de contenu et récit');
     await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(ready);
     await page.locator('#menuRecordsButton').click();await page.locator('#commandTab-field').click();await page.locator('[data-field-view="crew"]').click();
     check('portraits et dossiers fonctionnent après rechargement hors ligne',(await checkPortraits('article[data-survivor-profile]')).every(result=>result.ok));

@@ -9,7 +9,7 @@ Périmètre : simulation Canvas existante, identité zombie réaliste, construct
 | P1 | Un ouvrier passe en retour dès la première fraction de ressource récoltée : son sac de 10 unités n'est jamais rempli. | Poursuite de la récolte jusqu'au sac plein ou au gisement épuisé ; conservation du type récolté et des cibles sauvegardées. | Un ouvrier immobile au gisement récolte exactement 10 unités en douze pas de 0,25 seconde. |
 | P1 | Un dépôt presque plein efface toute la cargaison de l'ouvrier ; une manufacture pleine continue à dépenser de la ferraille. | Dépôt partiel conservant le reliquat porté, sélection de ressources non saturées, production et consommation proportionnelles à la capacité réellement disponible. | Stock à 499/500 et sac de 10 : une unité déposée, neuf conservées ; munitions à 500 : aucune ferraille consommée. |
 | P1 | Les alliés n'ont pas de chemin vers les portes : déplacement direct puis glissement latéral, insuffisant pour plusieurs enceintes. | Recherche de chemin cardinale A* bornée, routes mémorisées par unité et invalidées par modification des structures ; les murs restent infranchissables. | Traversée réelle de deux enceintes à portes opposées ; fermeture d'une porte invalide la route sans téléportation. |
-| P1 | La file de horde contient une chaîne par infecté et est intégralement sérialisée, même quand la population simultanée est plafonnée. | Cinq compteurs de contacts en attente et tampon de 64 apparitions maximum ; composition et nombre total conservés. | Vague 1000 : file et compteurs sérialisés en moins de 1 500 caractères ; composition exacte d'une vague entièrement consommée. |
+| P1 | La file de horde contient une chaîne par infecté et est intégralement sérialisée, même quand la population simultanée est plafonnée. | Compteurs par profil (huit depuis l'extension de contenu) et tampon de 64 apparitions maximum ; composition et nombre total conservés. | Vague 1000 : file et compteurs sérialisés en moins de 1 500 caractères ; composition exacte d'une vague entièrement consommée. |
 | P1 | Les textes `choiceA`/`choiceB` des crises ne sont jamais proposés ; seuls des malus automatiques existent. | Deux décisions réelles avec coûts, conditions et conséquences ; délai sauvegardé de 45 secondes, réponse B gratuite par défaut, délestage temporaire réellement simulé. | Coûts exacts, refus sans ressources/logements, absence de double application, délai et rendement industriel testés. |
 
 Un verrou supplémentaire interdit de tracer un mur avancé si la cité a perdu le palier requis après sélection de l'outil. L'amélioration d'un mur exige désormais un chantier terminé. Le bonus de nettoyage à distance lié au nombre d'ouvriers est supprimé : seule une lente érosion passive subsiste sans intervention locale.
@@ -23,11 +23,11 @@ Le coût affiché du fusilier inclut les 10 ferrailles réellement débitées. U
 | Crise | A : intervention financée | B : réponse de secours, sans coût matériel préalable |
 | --- | --- | --- |
 | Noir électrique | 12 carburant et 8 ferraille : réseau stabilisé. | Rendement des industries électriques divisé par deux pendant 60 secondes. |
-| Blessés aux portes | 6 médicaments et 12 nourriture : un ouvrier, moral +4 ; une place de logement nécessaire. | Quarantaine, moral −5. |
+| Blessés aux portes | 6 médicaments et 12 nourriture : un ouvrier, moral +4 ; une place de logement nécessaire. | Accueil différé, aucun recrutement, moral −5. |
 | Munitions humides | 8 carburant et 10 ferraille : réserve sauvée. | Perte de 18 munitions au maximum. |
 | Fissure dans l'enceinte | 20 bois, 15 ferraille et 10 pierre : restauration de 20 % de l'intégrité maximale du mur concerné. | Déblaiement de 18 corps ; perte de 12 % d'intégrité maximale, sans destruction automatique du mur. |
 
-Le chronomètre n'avance pas pendant la pause. Les boutons de crise ne peuvent pas agir derrière un écran de pause. Une décision refusée ne consomme rien ; une décision acceptée ne peut être exécutée une seconde fois. Les effets encore actifs persistent au changement de vague.
+Le chronomètre n'avance pas pendant la pause. Les décisions sont accessibles depuis le HUD actif ou la section ENCEINTE du poste en pause tactique, jamais derrière les autres modales. Une décision refusée ne consomme rien ; une décision acceptée ne peut être exécutée une seconde fois. Les effets encore actifs persistent au changement de vague.
 
 ## Compatibilité des sauvegardes
 

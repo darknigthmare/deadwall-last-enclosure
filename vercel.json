@@ -42,5 +42,6 @@
     }
   ],
   "buildCommand": "npm run build",
+  "installCommand": "",
   "outputDirectory": "dist"
 }

@@ -43,6 +43,8 @@ Le script reconstruit `dist`, copie tous ses assets locaux, crée un `app.asar`,
 
 `release-manifest.json` indique les versions, la révision source au moment de la fabrication et les SHA-256 de chaque fichier source distribué, de l'exécutable et du ZIP. Si des modifications ne sont pas encore commitées, les hashes des fichiers sont la preuve exacte du contenu ; la révision Git seule ne décrit pas ces modifications.
 
+La fabrication exige une provenance Git lisible : un échec de commande Git ne peut plus être présenté comme un arbre propre. Les métadonnées de `package.json` sont normalisées avant calcul de l'empreinte, sans le champ de développement `private` que Packager retire et avec le LF final qu'il ajoute. Avant création du ZIP, chaque fichier du vrai `app.asar` est relu et comparé au manifeste, avec rejet des fichiers supplémentaires et liens. La licence du jeu reste distincte de `LICENSE` et `LICENSES.chromium.html`, conservés avec le runtime ; leur présence et leurs empreintes sont vérifiées avant création du ZIP. `NOTICES_TIERS.md` explique ces composants et les limites de la revue. Voir [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Vérifier le vrai exécutable
 
 ```powershell
@@ -52,6 +54,8 @@ npm run test:desktop
 npm run test:desktop -- --executable C:\livrable\DEADWALL-win32-x64\DEADWALL.exe --output C:\preuves
 # Ou extraire le ZIP joueur dans un dossier neuf et vérifier CET exemplaire :
 npm run test:desktop -- --archive C:\livrable\DEADWALL-1.0.0-Windows-x64-portable.zip --output C:\preuves
+# Vérifier également l'intégrité de cet exemplaire extrait (révision Git complète) :
+node scripts/verify-desktop-integrity.mjs --folder C:\preuves\run-EXEMPLE\unpacked\DEADWALL-win32-x64 --manifest C:\livrable\release-manifest.json --archive C:\livrable\DEADWALL-1.0.0-Windows-x64-portable.zip --revision REVISION_GIT_40_CARACTERES --output C:\preuves
 ```
 
 La vérification ouvre successivement deux processus avec un **profil temporaire isolé** : elle démarre une partie, modifie son état, ferme avec la sauvegarde normale, relance puis restaure exactement les valeurs attendues. Elle vérifie le rendu Canvas, les réglages persistants, le vrai bouton d'export, l'import avec prévisualisation/annulation/confirmation et le rejet d'un fichier corrompu. Elle contrôle aussi l'isolation, F11/Alt+Entrée, l'absence de Node dans le renderer, les chemins privés, les méthodes interdites, le blocage réseau/navigation/fenêtres externes et les erreurs console avec un observateur effectivement testé. Les captures et les rapports JSON restent dans le dossier de preuves indiqué à la fin. Le test choisit automatiquement un chemin d'export isolé et simule la sélection du fichier importé ; il ne constitue pas un audit visuel des dialogues système. Il ne touche pas au profil du joueur.
@@ -76,3 +80,5 @@ La fabrication suit la [distribution Electron](https://www.electronjs.org/docs/l
 Le livrable local est **non signé**. Aucun certificat éditeur, installateur signé, compte de boutique, licence de boutique, Steamworks, mise à jour automatique ni publication d'archive externe n'est inventé. Windows SmartScreen peut avertir sur un exécutable téléchargé non signé. Une identité d'éditeur avec certificat, une matrice matérielle étendue, des essais longue durée et les vérifications de boutique restent des étapes de mise sur le marché. Ne pas désactiver les protections Windows pour prétendre avoir validé ces étapes.
 
 Le ZIP est une distribution portable du programme ; son profil reste volontairement dans AppData afin de survivre aux mises à jour. Le shell n'ajoute ni télémétrie, ni service payant, ni dépendance réseau au gameplay.
+
+Le build web reste indépendant des outils PC : il est vérifié dans un dossier sans `node_modules`, et Vercel n'exécute aucune installation npm pour construire `dist`. Les exclusions `.vercelignore` concernent l'envoi CLI ; elles ne remplacent pas la sélection des fichiers publics ni les contrôles HTTP.

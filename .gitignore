@@ -14,3 +14,5 @@ release/
 artifacts/ux-qa/
 artifacts/command-qa/
 artifacts/content-qa/
+artifacts/narrative-qa/
+artifacts/http-qa/

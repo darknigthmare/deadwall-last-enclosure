@@ -277,7 +277,7 @@
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
-      this.workerOrder = 'auto'; this.runId = null;
+      this.workerOrder = 'auto'; this.runId = null; this.narrative=globalThis.DeadwallNarrative.create();
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
       this.audio.setVolume(this.settings.volume);
@@ -410,7 +410,7 @@
       }
 
       const click = (id, fn) => { const button = document.getElementById(id); button.addEventListener('click', event => { if (!button.disabled && !button.closest('[inert]')) fn(event); }); };
-      click('newGameButton', () => this.startNew(this.selectedDifficulty(), document.getElementById('mapSeed')?.value || ''));
+      click('newGameButton', () => this.requestNewGame());
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
@@ -449,7 +449,16 @@
 
     overlayFocusable(overlay) {
       const candidates = [...overlay.querySelectorAll('button, input, select, textarea, a[href], [tabindex]')]
-        .filter(node => !node.disabled && node.getAttribute('tabindex') !== '-1' && !node.closest('[inert], .hidden') && node.getClientRects().length > 0);
+        .filter(node => {
+          if (node.disabled || node.getAttribute('tabindex') === '-1' || node.closest('[inert], .hidden') || !node.getClientRects().length) return false;
+          // Chromium can retain layout rectangles for the non-focusable content of closed details.
+          for (let ancestor = node.parentNode; ancestor && ancestor !== overlay; ancestor = ancestor.parentNode) {
+            if (ancestor.tagName !== 'DETAILS' || ancestor.open) continue;
+            const summary = [...ancestor.children].find(child => child.tagName === 'SUMMARY');
+            if (!summary?.contains(node)) return false;
+          }
+          return true;
+        });
       // A radio group is one Tab stop; arrow keys keep their native selection behavior.
       return candidates.filter(node => {
         if (node.type !== 'radio' || !node.name) return true;
@@ -505,6 +514,16 @@
 
     isLineWall(def) { return ['woodWall','steelWall','concreteWall'].includes(def.id); }
 
+    requestNewGame() {
+      if(this.state!=='menu'||this.activeOverlay!==this.ui.mainMenu)return false;
+      this.refreshContinue();
+      if(!this.ui.continueButton.disabled){
+        const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
+        if(accepted!==true)return false;
+      }
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'')!==false;
+    }
+
     startNew(id = 'standard', seedText = '') {
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
@@ -513,7 +532,7 @@
       id = typeof id === 'string' && Object.hasOwn(DIFFICULTIES, id) ? id : 'standard';
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       this.world = new WorldMap(seed ?? this.random.int(1000, 9999999)); this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
-      this.fieldMarker=null;this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
+      this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
@@ -531,7 +550,7 @@
     serialize() {
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
-        workerOrder: this.workerOrder, runId: this.runId,
+        workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
@@ -573,7 +592,7 @@
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
-      this.fieldMarker=null;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
+      this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
@@ -757,7 +776,7 @@
       if (this.world.flowDirty) { this.flowTimer -= dt; if (this.flowTimer <= 0) { const core = this.core(); if (core) this.flow.rebuild(this.world, core); this.flowTimer = .22; } }
       this.rebuildBuckets(); this.updatePlayer(dt); this.updateBuildings(dt); this.updateUnits(dt); this.updateZombies(dt); this.rebuildBuckets(); this.updateProjectiles(dt); this.updateEffects(dt);
       this.economyTimer += dt; if (this.economyTimer >= .25) { this.economyTick(this.economyTimer); this.economyTimer = 0; }
-      this.metricsTimer -= dt; if (this.metricsTimer <= 0) { this.refreshMetrics(); this.updateObjective(); this.metricsTimer = .45; }
+      this.metricsTimer -= dt; if (this.metricsTimer <= 0) { this.refreshMetrics(); this.updateObjective(); this.updateNarrative(); this.metricsTimer = .45; }
       this.saveTimer += dt; if (this.saveTimer >= 30) { this.save(false); this.saveTimer = 0; }
       this.uiTimer -= dt; if (this.uiTimer <= 0) { this.updateUI(); this.uiTimer = .09; }
       this.minimapTimer -= dt; if (this.minimapTimer <= 0) { this.renderMinimap(); this.minimapTimer = .22; }
@@ -845,14 +864,29 @@
     }
 
     updateInteraction(dt) {
-      const p = this.player, carried = bagTotal(p.carry), storage = this.world.nearestStorage(p.x,p.y);
-      let incomplete = null, incompleteD = 78 * 78; for (const b of this.world.buildings.values()) if (!b.dead && !b.completed) { const d = (b.x-p.x)**2+(b.y-p.y)**2; if (d < incompleteD) { incompleteD=d; incomplete=b; } }
-      const node = this.world.nearestNode(p.x,p.y,62); let action = null;
+      const p = this.player;
+      if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || !(dt > 0) || !Number.isFinite(dt)) { this.interactionText = ''; return; }
+      const carried = bagTotal(p.carry);
+      let storage = null, storageD = 100 * 100, incomplete = null, incompleteD = 78 * 78, node = null, nodeD = 62 * 62;
+      // Choose the nearest usable target: a wall must not hide a second, reachable action.
+      for (const b of this.world.buildings.values()) {
+        if (b.dead) continue;
+        const d = distSq(p, b);
+        if (!b.completed && d < incompleteD && this.workerCanWorkAt(p, b, 78)) { incompleteD = d; incomplete = b; }
+        if (carried > .01 && b.completed && (b.type === 'core' || b.type === 'warehouse') && d < storageD && this.workerCanWorkAt(p, b, 100)) { storageD = d; storage = b; }
+      }
+      if (carried < p.carryCapacity) for (const candidate of this.world.nodes) {
+        if (candidate.depleted) continue;
+        const d = distSq(p, candidate);
+        if (d < nodeD && this.workerCanWorkAt(p, candidate, 62)) { nodeD = d; node = candidate; }
+      }
+      let action = null;
       if (storage && carried > .01 && dist(storage,p) < 100) { this.interactionText = `Déposer ${Math.floor(carried)} unités`; action = 'deposit'; }
       else if (incomplete) { this.interactionText = `Construire ${incomplete.def.name} — ${Math.floor(incomplete.progress*100)} %`; action = 'build'; }
       else if (node && bagTotal(p.carry) < p.carryCapacity) { this.interactionText = node.sceneryKind ? `Fouiller ${C.SCENERY_DEFS[node.sceneryKind].name} · ${RESOURCE_META[node.type].label.toLowerCase()}` : `Récolter ${RESOURCE_META[node.type].label.toLowerCase()}`; action = 'harvest'; }
       else this.interactionText = '';
-      if (!action || !this.input.keys.has('KeyE')) return;
+      if (!action) { this.updateNarrativeSurvey?.(dt); return; }
+      if (!this.input.keys.has('KeyE')) return;
       if (action === 'deposit') {
         let deposited=0;for (const key of RESOURCE_KEYS) { const room = Math.max(0, this.storage - this.resources[key]), moved = Math.min(room, p.carry[key]); this.resources[key] += moved; p.carry[key] -= moved; deposited+=moved; }this.depositedResources+=deposited;
       } else if (action === 'build') {
@@ -878,8 +912,21 @@
     }
 
     melee() {
-      const p = this.player; if (p.dead || p.meleeCooldown > 0) return; p.meleeCooldown = .65; let hit = false;
-      for (const z of this.nearbyZombies(p.x,p.y,55)) { const a = Math.atan2(z.y-p.y,z.x-p.x), delta = Math.atan2(Math.sin(a-p.facing),Math.cos(a-p.facing)); if (Math.abs(delta)<1.15) { z.health -= 36; z.stagger=.35; z.x += Math.cos(a)*20; z.y += Math.sin(a)*20; hit=true; if(z.health<=0)this.killZombie(z,false); } }
+      const p = this.player; if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || p.meleeCooldown > 0) return;
+      p.meleeCooldown = .65; let hit = false;
+      for (const z of this.nearbyZombies(p.x, p.y, 55)) {
+        const a = Math.atan2(z.y - p.y, z.x - p.x), delta = Math.atan2(Math.sin(a - p.facing), Math.cos(a - p.facing));
+        if (z.dead || Math.abs(delta) >= 1.15 || !this.hostileLineClear(p, z)) continue;
+        z.health -= 36; z.stagger = .35; hit = true;
+        // Preserve the 20px shove, stopping each short step before a physical obstacle.
+        for (let step = 0; step < 5; step++) {
+          const nx = clamp(z.x + Math.cos(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
+          const ny = clamp(z.y + Math.sin(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
+          if (!this.hostilePositionClear(z, nx, ny)) break;
+          z.x = nx; z.y = ny;
+        }
+        if (z.health <= 0) this.killZombie(z, false);
+      }
       this.audio.tone(hit?90:160,.08,'square',.05,-40); this.camera.shake=Math.max(this.camera.shake,3);
     }
 
@@ -893,7 +940,7 @@
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*C.WORKER_RULES.passiveDecayPerSecond);
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
         if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&b.fireCooldown<=0){const target=this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
-        if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&distSq(u,b)<130*130)u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&distSq(this.player,b)<130*130)this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
+        if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&u.health>0&&distSq(u,b)<130*130&&this.workerCanWorkAt(u,b,130))u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&this.player.health>0&&distSq(this.player,b)<130*130&&this.workerCanWorkAt(this.player,b,130))this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
       }
     }
 
@@ -959,7 +1006,7 @@
         } else if(C.SURVIVORS[u.kind]?.specialist){
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
-          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
+          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
           else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
@@ -1140,7 +1187,7 @@
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
         this.spawnTimer-=dt;while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
-        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight+=1+(this.wave%5===0?1:0);this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
+        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
@@ -1157,6 +1204,7 @@
     }
     crisisDefinition(){return CRISES.find(crisis=>crisis.id===this.activeCrisis?.id)||null;}
     canResolveCrisis(choice){
+      if(choice!=='A'&&choice!=='B')return false;
       const definition=this.crisisDefinition(),option=definition?.choices?.[choice];
       if(!option||this.activeCrisis.status!=='pending'||!canAfford(this.resources,option.cost))return false;
       if(option.effects.workers&&this.population+option.effects.workers>this.housing)return false;
@@ -1164,7 +1212,7 @@
       return true;
     }
     resolveCrisis(choice,automatic=false){
-      if(this.state!=='playing'||this.gameOver||(!automatic&&this.paused)||!this.canResolveCrisis(choice))return false;
+      if(this.state!=='playing'||this.gameOver||(automatic?this.paused:!this.canIssueCommand())||!this.canResolveCrisis(choice))return false;
       const crisis=this.activeCrisis,definition=this.crisisDefinition(),option=definition.choices[choice];
       if(!spend(this.resources,option.cost))return false;
       const effect=option.effects;
@@ -1180,6 +1228,7 @@
       this.refreshMetrics(true);this.updateCrisisUI();this.save(false);return true;
     }
     updateCrisis(dt){
+      if(this.state!=='playing'||this.paused||this.gameOver||!(dt>0)||!Number.isFinite(dt))return;
       const crisis=this.activeCrisis;if(!crisis)return;
       crisis.remaining=Math.max(0,crisis.remaining-dt);
       if(crisis.remaining>0)return;
@@ -1322,8 +1371,46 @@
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
     nearestZombie(x,y,range){let result=null,best=range*range;for(const z of this.nearbyZombies(x,y,range)){const d=(z.x-x)**2+(z.y-y)**2;if(d<best){best=d;result=z;}}return result;}
 
-    updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const dx=p.vx*dt,dy=p.vy*dt;p.x+=dx;p.y+=dy;p.travelled+=Math.hypot(dx,dy);if(p.travelled>p.range||p.x<0||p.y<0||p.x>WORLD_SIZE||p.y>WORLD_SIZE){p.dead=true;continue;}const targets=this.nearbyZombies(p.x,p.y,18);for(const z of targets){if(z.dead)continue;const hit=distSq(p,z)<(z.radius+p.radius+3)**2;if(!hit)continue;let damage=p.damage,head=false;if(p.owner==='player'&&this.random.chance(this.player.weapon==='shotgun'?.065:.13)){damage*=1.75;head=true;this.stats.headshots++;}z.health-=damage;z.stagger=Math.max(z.stagger,.08);p.dead=true;this.audio.hit();for(let i=0;i<4;i++)this.particles.push(new Particle(z.x,z.y,this.random.range(-45,45),this.random.range(-45,45),.45,2.5,'#6d2928','blood'));if(head)this.floaters.push({x:z.x,y:z.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});if(z.health<=0)this.killZombie(z,head);break;}}
-      this.projectiles=this.projectiles.filter(p=>!p.dead);}
+    updateProjectiles(dt) {
+      if (!(dt > 0) || !Number.isFinite(dt)) return;
+      const maxRadius = Math.max(...Object.values(ENEMIES).map(enemy => enemy.radius));
+      for (const p of this.projectiles) {
+        if (p.dead) continue;
+        const fullDx = p.vx * dt, fullDy = p.vy * dt, fullLength = Math.hypot(fullDx, fullDy), remaining = p.range - p.travelled;
+        if (!(fullLength > 0) || !(remaining > 0) || p.x < 0 || p.y < 0 || p.x > WORLD_SIZE || p.y > WORLD_SIZE) { p.dead = true; continue; }
+        let fraction = Math.min(1, remaining / fullLength);
+        if (fullDx > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.x) / fullDx);
+        else if (fullDx < 0) fraction = Math.min(fraction, -p.x / fullDx);
+        if (fullDy > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.y) / fullDy);
+        else if (fullDy < 0) fraction = Math.min(fraction, -p.y / fullDy);
+        const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
+        let target = null, impact = Infinity;
+        // Swept circle collision removes frame-rate tunnelling; shots still pass over walls.
+        for (const z of this.nearbyZombies(p.x + dx / 2, p.y + dy / 2, length / 2 + maxRadius + p.radius + 3)) {
+          if (z.dead) continue;
+          const ox = p.x - z.x, oy = p.y - z.y, radius = z.radius + p.radius + 3, c = ox * ox + oy * oy - radius * radius;
+          let time = 0;
+          if (c > 0) {
+            const b = ox * dx + oy * dy, discriminant = b * b - lengthSq * c;
+            if (!lengthSq || discriminant < 0) continue;
+            time = (-b - Math.sqrt(discriminant)) / lengthSq;
+            if (time < 0 || time > 1) continue;
+          }
+          if (time < impact || (time === impact && z.id < target.id)) { target = z; impact = time; }
+        }
+        const travel = target ? impact : 1;
+        p.x += dx * travel; p.y += dy * travel; p.travelled = Math.min(p.range, p.travelled + length * travel);
+        if (target) {
+          let damage = p.damage, head = false;
+          if (p.owner === 'player' && this.random.chance(this.player.weapon === 'shotgun' ? .065 : .13)) { damage *= 1.75; head = true; this.stats.headshots++; }
+          target.health -= damage; target.stagger = Math.max(target.stagger, .08); p.dead = true; this.audio.hit();
+          for (let i = 0; i < 4; i++) this.particles.push(new Particle(target.x, target.y, this.random.range(-45,45), this.random.range(-45,45), .45, 2.5, '#6d2928', 'blood'));
+          if (head) this.floaters.push({x:target.x,y:target.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});
+          if (target.health <= 0) this.killZombie(target, head);
+        } else if (fraction < 1 || p.travelled >= p.range || p.x <= 0 || p.y <= 0 || p.x >= WORLD_SIZE || p.y >= WORLD_SIZE) p.dead = true;
+      }
+      this.projectiles = this.projectiles.filter(p => !p.dead);
+    }
 
     killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
     nearestWall(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
@@ -1353,6 +1440,71 @@
 
     updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='gather')this.objectiveProgress=this.depositedResources;else if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='power')this.objectiveProgress=this.resources.fuel>0?[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='generator').length:0;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='research')this.objectiveProgress=this.research.completed.length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
       if(this.objectiveProgress>=obj.target){add(this.resources,obj.reward,this.storage);this.notify(`Objectif accompli : ${obj.title}.`,'good');this.objectiveIndex++;this.objectiveProgress=0;this.audio.build();}}
+
+    updateNarrativeSurvey(dt) {
+      if(this.state!=='playing'||this.paused||this.gameOver||this.player.dead||this.player.health<=0)return false;
+      const N=globalThis.DeadwallNarrative,rules=C.NARRATIVE_RULES;
+      const site=(this.world.sites||[]).find(site=>distSq(this.player,site)<=rules.surveyRadius**2);
+      if(!site)return false;
+      const record=this.narrative.sectors[site.theme];
+      // Survey the surrounding area from a standable position, not a fictional object
+      // at its exact centre. Existing saves may already contain a wall on that point.
+      if(!record||record.survey>=rules.surveySeconds||!this.friendlyPositionClear(this.player,this.player.x,this.player.y))return false;
+      this.interactionText='Relever les traces · '+site.name+' · '+Math.floor(record.survey)+' / '+rules.surveySeconds+' s';
+      if(!this.input.keys.has('KeyE')||!Number.isFinite(dt)||dt<=0)return false;
+      record.survey=Math.min(rules.surveySeconds,record.survey+Math.min(dt,rules.maxStep));
+      if(record.survey>=rules.surveySeconds-1e-8){
+        record.survey=rules.surveySeconds;this.narrative.unread.push('sector:'+site.theme);
+        const definition=N.SECTORS.find(item=>item.id===site.theme);
+        this.notify('Trace relevée : '+definition.title+'. Retournez au dépôt pour décider.','good');
+        this.audio.ui();this.updateNarrative();this.save(false);
+      }
+      return true;
+    }
+
+    updateNarrative() {
+      if(this.state!=='playing'||this.gameOver)return;
+      const N=globalThis.DeadwallNarrative;
+      for(const id of N.chaptersFor(this.narrative,{objectiveIndex:this.objectiveIndex,wavesSurvived:this.stats.wavesSurvived})){
+        this.narrative.chapters.push(id);this.narrative.unread.push('chapter:'+id);
+        this.notify('Registre D-17 : '+N.CHAPTERS.find(item=>item.id===id).title+'.','good');
+      }
+      this.narrativeUI?.refresh();
+    }
+
+    narrativeStatus(theme,choice) {
+      const def=globalThis.DeadwallNarrative.SECTORS.find(item=>item.id===theme);
+      if(!def)return {ok:false,reason:'Dossier inconnu.'};
+      if(!this.canIssueCommand())return {ok:false,reason:'Disponible pendant la campagne, depuis le commandement.'};
+      if(this.player.dead||this.player.health<=0)return {ok:false,reason:'Le commandant doit être debout.'};
+      const record=this.narrative.sectors[theme];
+      if(record.choice!==null)return {ok:false,reason:'Décision déjà consignée pour cette campagne.'};
+      if(record.survey<C.NARRATIVE_RULES.surveySeconds)return {ok:false,reason:'Rejoignez le centre du secteur et maintenez ACTION / E pendant huit secondes, hors collecte ou chantier.'};
+      const core=this.core();
+      if(!core||!this.workerCanWorkAt(this.player,core,C.NARRATIVE_RULES.debriefRadius))return {ok:false,reason:'Retournez près du centre de commandement, par un accès ouvert.'};
+      if(choice!==undefined&&!['A','B'].includes(choice))return {ok:false,reason:'Décision inconnue.'};
+      if(choice!==undefined&&this.research.insight+def.choices[choice].reward.insight>C.RESEARCH_INSIGHT_MAX)return {ok:false,reason:'Réserve d’insight maximale. Dépensez de l’insight ou choisissez le partage.'};
+      if(choice==='B'&&!this.units.some(unit=>!unit.dead&&unit.health>0))return {ok:false,reason:'Recrutez au moins un survivant pour partager ce moment avec l’équipe.'};
+      if(choice!==undefined&&!canAfford(this.resources,def.choices[choice].cost))return {ok:false,reason:'Réserves insuffisantes ; aucun stock ne sera débité.'};
+      return {ok:true,reason:'Décision unique ; coût prélevé dans les réserves du dépôt.'};
+    }
+
+    resolveNarrative(theme,choice) {
+      if(!['A','B'].includes(choice)||!this.narrativeStatus(theme,choice).ok)return false;
+      const option=globalThis.DeadwallNarrative.SECTORS.find(item=>item.id===theme).choices[choice];
+      // Commit once, synchronously: no reward is ever granted during load, rendering or reading.
+      if(!spend(this.resources,option.cost))return false;
+      this.narrative.sectors[theme].choice=choice;
+      this.research.insight+=option.reward.insight;
+      this.morale=clamp(this.morale+option.reward.morale,0,100);
+      this.notify(option.label+' : décision consignée.','good');this.audio.ui();
+      this.updateNarrative();this.updateUI();this.save(false);return true;
+    }
+
+    markNarrativeRead() {
+      if(this.state!=='playing'||this.gameOver)return false;
+      this.narrative.unread=[];this.narrativeUI?.refresh();this.save(false);return true;
+    }
 
     hasResearch(id){return this.research.completed.includes(id);}
     currentResearch(){return RESEARCH.find(item=>!this.hasResearch(item.id)&&item.tier<=this.tier.id)||null;}

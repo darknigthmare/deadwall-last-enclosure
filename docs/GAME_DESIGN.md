@@ -28,7 +28,7 @@ Le personnage reste jouable à toutes les étapes. Le joueur peut toujours reven
 - déposer les ressources ;
 - tracer les futures enceintes ;
 - construire et réparer ;
-- recruter ouvriers et fusiliers ;
+- recruter ouvriers, fusiliers et spécialistes accessibles au palier atteint ;
 - équilibrer nourriture, logements, stockage et énergie ;
 - repositionner le point de ralliement.
 
@@ -71,7 +71,9 @@ Le personnage reste jouable à toutes les étapes. Le joueur peut toujours reven
 | Munitions | joueur, fusiliers, miradors et tourelles |
 | Médicaments | clinique et infrastructures sanitaires |
 
-Le joueur collecte personnellement dans un sac limité. Les ouvriers créent ensuite une boucle collecte → transport → stockage. Les industries transforment l’économie d’un système de récupération en système de production.
+Le joueur collecte personnellement dans un sac limité. Les ouvriers créent ensuite une boucle collecte → transport → stockage, conservent tout reliquat si le dépôt est plein et évitent les ressources saturées. Les industries produisent dans la limite du stockage sans gaspiller leurs intrants. Le plafond de stockage s'applique séparément à chaque ressource.
+
+La carte ajoute six sites abandonnés, 48 vestiges et seize silhouettes de ruines, véhicules et équipements. Ces éléments sont des ressources récupérables passables, pas des bâtiments à occuper, un couvert physique ou des véhicules pilotables. Les ambulances offrent notamment quelques médicaments.
 
 ## 5. Construction
 
@@ -101,6 +103,8 @@ Une bonne cité n’est pas un carré unique. Elle comporte :
 
 La chute d’une structure ordinaire ou d’un rempart ne termine pas la partie. La défaite survient uniquement lorsque le centre de commandement est détruit.
 
+Le poste de commandement met la simulation en pause pour préparer les ordres. Les portes proposent automatique (alliés uniquement), ouverte (tous) et verrouillée (personne) ; une fermeture occupée est refusée. Un diagnostic topologique distingue un périmètre effectivement fermé d'un simple nombre de murs, sans inventer un compteur d'enceintes complètes.
+
 ## 7. Infectés
 
 ### Errant
@@ -123,22 +127,34 @@ Profil bas et rapide, efficace autour des débris et contre les positions mal fe
 
 Agite les infectés proches et augmente temporairement leur vitesse d’assaut.
 
+### Briseur
+
+Ancien ouvrier en veste ocre, lent. Inflige 80 % de dégâts supplémentaires aux structures au contact, sans bonus contre les survivants. Apparaît à partir de la vague 3.
+
+### Traqueur
+
+Infecté mobile qui dévie vers un survivant proche, isolé et visible. Les groupes et les enceintes fermées contrent cette chasse ; il ne traverse pas les murs. Apparaît à partir de la vague 6.
+
+### Engorgé
+
+Infecté massif et très lent dont la dépouille augmente davantage la pression des corps. Aucune explosion, capacité surnaturelle ou santé de boss. Apparaît à partir de la vague 8.
+
 ## 8. Navigation des hordes
 
 Le monde utilise un champ de flux calculé depuis le centre de commandement. Chaque cellule reçoit un coût :
 
 - terrain libre : faible ;
-- porte : moyen ;
+- porte ouverte : passage libre ; porte automatique ou verrouillée : accès à détruire ;
 - palissade : élevé ;
 - acier : très élevé ;
 - béton : extrêmement élevé ;
 - bâtiment : coût important mais traversable après destruction.
 
-Les hordes suivent donc naturellement les accès les moins coûteux. Elles n’effectuent pas un contournement absurde si détruire un mur est finalement plus rapide.
+Les hordes suivent les accès les moins coûteux selon ce modèle, qui équilibre détour et destruction des structures. Ce n'est pas une garantie de chemin optimal continu dans toutes les configurations. Les alliés utilisent leurs propres routes cardinales et respectent les modes de portes.
 
 ## 9. Pression des cadavres
 
-Un infecté tué près d’un rempart augmente sa charge de corps. Les ouvriers et le temps réduisent lentement cette charge. Au-delà d’un seuil, certains profils rapides ou rampants peuvent utiliser l’accumulation comme rampe et franchir la structure sans qu’elle soit encore détruite.
+Un infecté tué près d'un rempart augmente sa charge de corps. Une faible érosion passive la réduit avec le temps. L'ordre Déblaiement affecte des ouvriers à la face extérieure accessible du mur : ils doivent réellement s'y rendre et interrompent la collecte pendant ce travail. Seuls les Infectés récents et Rampants utilisent une accumulation suffisante comme rampe.
 
 Ce système empêche une stratégie fondée uniquement sur un mur gigantesque et des armes automatiques sans gestion du terrain.
 
@@ -155,6 +171,8 @@ La cité suit :
 - signature globale.
 
 Une pénurie de nourriture fait baisser le moral et réduit la vitesse des unités. Un déficit énergétique ralentit ou coupe les équipements dépendants de l’électricité.
+
+Les secouristes rejoignent les blessés vivants et dépensent des médicaments ; les ingénieurs rejoignent les structures endommagées et dépensent les matériaux de réparation. Leur recrutement exige clinique ou atelier au palier Avant-poste. Les quatre rôles occupent un logement et consomment des rations ; les spécialistes ne ressuscitent pas une unité ou un bâtiment détruit.
 
 ## 11. Signature
 
@@ -179,6 +197,8 @@ La taille des vagues reçoit un multiplicateur d’attraction pouvant atteindre 
 | Citadelle | plusieurs enceintes permanentes |
 | Mégacité | survie infinie à très grande signature |
 
+Ce tableau décrit les usages visés, pas des conditions exclusives : plusieurs enceintes sont constructibles avant Citadelle. Huit objectifs introduisent les systèmes ; six doctrines apportent des bonus déterminés et achetables une seule fois. Quatre crises présentent deux décisions avec coûts, effets et délai sauvegardés.
+
 ## 13. Conditions de réussite et d’échec
 
 Il n’existe pas de victoire finale obligatoire dans le mode infini. Les objectifs sont :
@@ -191,6 +211,10 @@ Il n’existe pas de victoire finale obligatoire dans le mode infini. Les object
 
 La défaite est la destruction du centre de commandement.
 
+Le registre de D-17 ajoute un arc facultatif : six traces relevées sur place, une décision au dépôt par secteur et quatre chapitres persistants. Il relie exploration, ressources, recherche et moral sans suspendre le jeu par une scène obligatoire. Son épilogue ne termine pas la simulation. Le sort des auteurs des documents reste inconnu ; ils ne sont pas des PNJ présents. Voir [NARRATIVE.md](NARRATIVE.md).
+
+Les records locaux distinguent vagues réellement survécues, éliminations, durée, pic de population et pic de structures, pour chacune des trois difficultés. Les dix campagnes récentes sont conservées sans transformer chaque sauvegarde en nouvelle partie. Réutiliser une graine recrée la carte ; cela ne garantit pas une simulation compétitive déterministe. Aucun bonus permanent ni classement en ligne n'est attribué.
+
 ## 14. Ton et direction artistique
 
 - palette terre, acier, béton, végétation sale et éclairages sodium ;
@@ -199,3 +223,5 @@ La défaite est la destruction du centre de commandement.
 - pluie, nuit, fumée, étincelles, impacts et corps persistants ;
 - aucun zombie fluorescent ni mutation spectaculaire incohérente ;
 - musique discrète, sons mécaniques et sirènes procédurales.
+
+Le rendu actuel utilise des textures et atlas originaux OpenAI, complétés par des effets et dessins procéduraux de secours. Les dix textures/atlas couvrent terrain, structures, décors, personnages et effets ; les seize cycles de huit poses incluent trois variantes cosmétiques. Leur provenance est conservée dans [GAME_ART_PROVENANCE.md](GAME_ART_PROVENANCE.md) et [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md). La livraison et les points commerciaux encore ouverts sont documentés dans [DESKTOP.md](DESKTOP.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

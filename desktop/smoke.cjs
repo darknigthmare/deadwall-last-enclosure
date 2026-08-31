@@ -65,14 +65,14 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     assert.ok(draw.visiblePixels > 0, `${key}: the draw must contain visible pixels`);
   }
   const localResources = await window.webContents.executeJavaScript(`({
-    modules:{tactics:typeof globalThis.DeadwallTactics,profile:typeof globalThis.DeadwallProfile,command:typeof globalThis.DEADWALL.showCommand},
+    modules:{tactics:typeof globalThis.DeadwallTactics,profile:typeof globalThis.DeadwallProfile,command:typeof globalThis.DEADWALL.showCommand,narrative:typeof globalThis.DeadwallNarrative,journal:typeof globalThis.DEADWALL.narrativeUI?.refresh},
     urls:performance.getEntriesByType('resource').map(item=>item.name),
     scripts:[...document.scripts].map(script=>script.src).filter(Boolean),
     styles:[...document.styleSheets].map(sheet=>({href:sheet.href,rules:sheet.cssRules.length}))
   })`);
-  assert.deepEqual(localResources.modules, {tactics:'object',profile:'object',command:'function'});
-  for (const file of ['src/tactics.js','src/profile.js','src/command-ui.js']) assert.ok(localResources.scripts.includes(new URL(file, gameURL).href), `${file} must initialize from the local document`);
-  assert.ok(localResources.styles.some(sheet=>sheet.href===new URL('command.css',gameURL).href && sheet.rules>0), 'Command stylesheet must have loaded rules');
+  assert.deepEqual(localResources.modules, {tactics:'object',profile:'object',command:'function',narrative:'object',journal:'function'});
+  for (const file of ['src/tactics.js','src/profile.js','src/command-ui.js','src/narrative.js','src/narrative-ui.js']) assert.ok(localResources.scripts.includes(new URL(file, gameURL).href), `${file} must initialize from the local document`);
+  for (const file of ['command.css','narrative.css']) assert.ok(localResources.styles.some(sheet=>sheet.href===new URL(file,gameURL).href && sheet.rules>0), `${file} must have loaded rules`);
   assert.ok(localResources.urls.every(url => url.startsWith('deadwall://game/') || url.startsWith('data:') || url.startsWith('blob:deadwall://game/')), 'Initial game resources have no external origins');
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-menu.png`), (await window.webContents.capturePage()).toPNG());
 
@@ -155,6 +155,53 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   })()`, true);
   Object.assign(commandPost, commandClosure);
   save.workerOrder = commandPost.workerOrder;
+  const expectedNarrative = stage === 'restore' ? JSON.parse(await fs.promises.readFile(path.join(reportRoot, 'expected-narrative.json'), 'utf8')) : null;
+  const narrative = await window.webContents.executeJavaScript(`(() => {
+    const game=globalThis.DEADWALL,N=globalThis.DeadwallNarrative,C=globalThis.DeadwallCore,get=id=>document.getElementById(id),copy=value=>JSON.parse(JSON.stringify(value));
+    const stage=${JSON.stringify(stage)},expected=${JSON.stringify(expectedNarrative)},origin={x:game.player.x,y:game.player.y};
+    if(stage==='create'){
+      const before={resources:copy(game.resources),insight:game.research.insight,morale:game.morale};
+      // Controlled integration fixture: relocate the commander and advance only
+      // real survey actions. This is not evidence of travelling a whole campaign.
+      game.togglePause(false);game.input.keys.add('KeyE');
+      for(const [theme,seconds]of [['market',2],['housing',C.NARRATIVE_RULES.surveySeconds]]){
+        const site=game.world.sites.find(item=>item.theme===theme);if(!site)throw new Error('Narrative site is missing: '+theme);
+        Object.assign(game.player,{x:site.x,y:site.y});
+        for(let elapsed=0;elapsed<seconds;elapsed+=.25)if(!game.updateNarrativeSurvey(Math.min(.25,seconds-elapsed)))throw new Error('Native survey action did not advance');
+      }
+      game.input.keys.delete('KeyE');Object.assign(game.player,origin);game.togglePause(true);
+      if(JSON.stringify(game.resources)!==JSON.stringify(before.resources)||game.research.insight!==before.insight||game.morale!==before.morale)throw new Error('Survey granted an unadvertised reward');
+    }else{
+      if(JSON.stringify(game.narrative)!==JSON.stringify(expected.state)||game.research.insight!==expected.insight)throw new Error('Narrative state did not survive process restart');
+    }
+    get('pauseCommandButton').click();get('commandTab-journal').click();
+    if(get('commandModal').classList.contains('hidden')||get('commandTab-journal').getAttribute('aria-selected')!=='true'||!game.paused)throw new Error('Journal did not open inside paused command post');
+    const cards=[...get('narrativeOperations').querySelectorAll('[data-narrative-sector]')],ids=cards.map(card=>card.dataset.narrativeSector).sort();
+    if(JSON.stringify(ids)!==JSON.stringify(N.SECTORS.map(item=>item.id).sort()))throw new Error('Native journal operation catalogue is incomplete');
+    if(get('narrativeChapters').querySelectorAll('[data-narrative-chapter]').length!==N.CHAPTERS.length)throw new Error('Native narrative chapters are missing');
+    const housing=cards.find(card=>card.dataset.narrativeSector==='housing'),market=cards.find(card=>card.dataset.narrativeSector==='market'),button=housing.querySelector('[data-narrative-choice="A"]');
+    if(game.narrative.sectors.market.survey!==2||market.querySelector('progress').value!==2)throw new Error('Partial survey progress is missing from the journal');
+    if(stage==='create'){
+      housing.open=true;
+      if(button.disabled||housing.dataset.state!=='ready')throw new Error('Surveyed operation is unavailable at the depot');
+      const before={resources:copy(game.resources),insight:game.research.insight},option=N.SECTORS.find(item=>item.id==='housing').choices.A;
+      button.click();
+      if(game.narrative.sectors.housing.choice!=='A'||game.research.insight!==before.insight+option.reward.insight)throw new Error('Journal choice did not apply its one-time insight reward');
+      for(const key of C.RESOURCE_KEYS)if(game.resources[key]!==before.resources[key]-(option.cost[key]||0))throw new Error('Journal choice cost mismatch: '+key);
+      if(!game.narrative.unread.length||get('narrativeReadAll').disabled)throw new Error('Fresh narrative entries were not marked unread');
+      get('narrativeReadAll').click();
+    }
+    if(housing.dataset.state!=='resolved'||!button.disabled||!get('narrativeReadAll').disabled||game.narrative.unread.length!==0)throw new Error('Resolved/read state is inconsistent');
+    const settled={resources:copy(game.resources),insight:game.research.insight};
+    if(game.resolveNarrative('housing','A')||game.resolveNarrative('housing','B'))throw new Error('A journal decision could be repeated');
+    if(JSON.stringify(game.resources)!==JSON.stringify(settled.resources)||game.research.insight!==settled.insight)throw new Error('Repeated journal decision changed the economy');
+    const result={fixture:'Controlled commander relocation and real survey actions; not a full exploration playthrough',commandJournal:true,sectorIds:ids,chapterCards:N.CHAPTERS.length,partialSurvey:game.narrative.sectors.market.survey,choice:game.narrative.sectors.housing.choice,read:true,repeatRejected:true,restored:stage==='restore',state:copy(game.narrative),insight:game.research.insight,wood:game.resources.wood};
+    get('commandClose').click();if(!game.paused)throw new Error('Journal closure lost the original pause');
+    return result;
+  })()`, true);
+  if (stage === 'create') await fs.promises.writeFile(path.join(reportRoot, 'expected-narrative.json'), JSON.stringify({state:narrative.state,insight:narrative.insight}));
+  else assert.deepEqual({state:narrative.state,insight:narrative.insight}, expectedNarrative, 'Partial survey, unique choice and read state must survive restart');
+  save.wood = narrative.wood;
   const painted = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL; game.render();
     const pixels=game.ctx.getImageData(0,0,game.canvas.width,game.canvas.height).data;
@@ -177,6 +224,8 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   assert.equal(exportedSave.resources.wood, save.wood);
   assert.equal(exportedSave.runId, save.runId);
   assert.equal(exportedSave.workerOrder, 'retreat', 'Tactical order belongs to the exported campaign');
+  assert.deepEqual(exportedSave.narrative, narrative.state, 'Local export preserves the complete narrative state');
+  assert.equal(exportedSave.research.insight, narrative.insight);
 
   const imports = await window.webContents.executeJavaScript(`(async () => {
     const game=globalThis.DEADWALL,get=id=>document.getElementById(id),input=get('settingsImportFile');
@@ -191,10 +240,14 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     if(!get('settingsStatus').textContent.includes('Import refusé') || game.world!==original) throw new Error('Corrupt import was not rejected safely');
     await choose(source);get('settingsImportConfirm').click();
     if(game.world===original || game.world.seed!==${save.seed} || game.resources.wood!==${save.wood} || game.workerOrder!=='retreat' || game.runId!==${JSON.stringify(save.runId)}) throw new Error('Confirmed import failed');
+    if(JSON.stringify(game.narrative)!==JSON.stringify(${JSON.stringify(narrative.state)})||game.research.insight!==${narrative.insight})throw new Error('Confirmed import changed narrative decisions or granted their reward again');
     game.togglePause(true);
-    return {preview:true,cancel:true,corruptRejected:true,confirmed:true};
+    get('pauseCommandButton').click();get('commandTab-journal').click();
+    if(get('narrativeOperations').querySelector('[data-narrative-sector="housing"]').dataset.state!=='resolved'||get('narrativeOperations').querySelector('[data-narrative-sector="market"] progress').value!==2||!get('narrativeReadAll').disabled)throw new Error('Journal did not refresh after import');
+    get('commandClose').click();
+    return {preview:true,cancel:true,corruptRejected:true,confirmed:true,narrativePreserved:true};
   })()`, true);
-  assert.deepEqual(imports, {preview:true,cancel:true,corruptRejected:true,confirmed:true});
+  assert.deepEqual(imports, {preview:true,cancel:true,corruptRejected:true,confirmed:true,narrativePreserved:true});
 
   window.webContents.sendInputEvent({ type:'keyDown', keyCode:'F11' });
   window.webContents.sendInputEvent({ type:'keyUp', keyCode:'F11' });
@@ -211,7 +264,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   }
 
   const routes = {};
-  const publicPaths = ['/index.html','/styles.css','/command.css','/src/core.js','/src/tactics.js','/src/profile.js','/src/command-ui.js','/assets/icon-512.png'];
+  const publicPaths = ['/index.html','/styles.css','/command.css','/narrative.css','/src/core.js','/src/tactics.js','/src/profile.js','/src/command-ui.js','/src/narrative.js','/src/narrative-ui.js','/assets/icon-512.png'];
   for (const pathname of [...publicPaths,'/package.json','/.env','/.git/config','/desktop/main.cjs','/../package.json','/%2e%2e/package.json','/assets/missing.png']) {
     const response = await serveGame({ url:`deadwall://game${pathname}`, method:'GET' });
     routes[pathname] = response.status;
@@ -237,7 +290,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     })()`);
     await fs.promises.writeFile(path.join(reportRoot, 'expected-save.json'), JSON.stringify(save));
   }
-  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, atlasDrawProbe, localResources, network, menuRecords, commandPost, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
+  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, atlasDrawProbe, localResources, network, menuRecords, commandPost, narrative, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-report.json`), JSON.stringify(report, null, 2));
   console.log(`DEADWALL desktop ${stage} verification passed`);
   // The first stage deliberately leaves its latest changes unsaved: this verifies normal close.

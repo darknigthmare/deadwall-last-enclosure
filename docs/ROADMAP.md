@@ -1,35 +1,48 @@
 # Roadmap de production
 
-La version 1.0 incluse est une verticale complète et jouable. Les étapes suivantes concernent le passage d’un jeu Canvas autonome à une production commerciale 3D semi-réaliste.
+Le jeu actuel utilise un moteur Canvas 2D/2.5D, livré en application Windows Electron autonome et en navigateur/PWA. Une présentation commerciale ne nécessite pas, à elle seule, un changement de moteur. Ce document sépare les systèmes présents des pistes futures ; il ne constitue ni un engagement de contenu ni une certification de sortie.
 
-## Phase 1 — Consolidation de la version actuelle
+## Déjà présent dans la base actuelle
 
-- profils graphiques pour les petites configurations ;
-- écran de statistiques détaillées ;
-- export/import manuel des sauvegardes ;
-- nettoyage des corps assignable à des équipes ;
-- portes ouvertes/fermées manuellement ;
+- mode graphique léger, contraste, mouvements réduits et volume persistants ;
+- sauvegarde/reprise et export/import JSON validés, avec secours ;
+- ordres ouvriers dont déblaiement physique et repli ;
+- portes automatiques, ouvertes ou verrouillées et diagnostic de périmètre ;
+- six doctrines et records locaux, dix campagnes récentes ;
+- secouristes et ingénieurs, soins/réparations payés sur stock ;
+- six secteurs nommés, 48 vestiges récupérables et dossiers de terrain ;
+- huit profils d'infectés, dix atlas/textures originaux et seize cycles animés ;
+- édition PC hors ligne, sandbox et archives portables non signées.
+
+Ces intitulés ne promettent pas de véhicules pilotables, de gestion de morsures, de population abritée automatiquement ou de coopération. Le récit et ses opérations sont documentés par leur module propre ; ils ne remplacent pas une campagne de combat intégralement scénarisée.
+
+## Pistes — Consolidation de la version actuelle
+
+- essais matériels élargis et suivi du budget de rendu sur petites configurations ;
+- enrichissement des statistiques et des retours d'action selon les essais humains ;
+- scénarios de non-régression supplémentaires pour imports et mises à jour ;
+- ergonomie d'équipes et affectations plus fines, au-delà des ordres collectifs livrés ;
 - alarmes par secteur ;
 - raccourcis de groupes de fusiliers ;
 - davantage de scénarios de départ.
 
-## Phase 2 — Simulation urbaine avancée
+## Pistes — Simulation urbaine avancée, non livrée
 
 - routes logistiques visibles ;
 - brouettes, chariots, camionnettes et camions ;
-- travailleurs spécialisés ;
+- métiers supplémentaires au-delà des secouristes et ingénieurs existants ;
 - incendies et propagation ;
 - eau potable, canalisations et contamination ;
 - quarantaine, morsures et tests ;
-- quartiers nommés pouvant être évacués et fermés ;
+- évacuation/fermeture administrée des quartiers, au-delà des sites nommés actuels ;
 - opérations de reconquête rue par rue ;
 - avant-postes reliés à la cité.
 
-## Phase 3 — Port 3D semi-réaliste
+## Option distincte — Port 3D semi-réaliste, non implémenté
 
-### Cible recommandée
+### Exemple de cible à évaluer
 
-Unreal Engine 5 pour la production principale, avec :
+Une réécriture sous Unreal Engine 5 pourrait être étudiée, avec :
 
 - caméra troisième personne et vue stratégique continue ;
 - World Partition ;
@@ -40,6 +53,8 @@ Unreal Engine 5 pour la production principale, avec :
 - Instanced Static Mesh pour les remparts ;
 - sauvegarde versionnée reprenant le schéma actuel ;
 - Blueprints privilégiés, C++ uniquement pour les systèmes de foule et de sauvegarde nécessitant des performances supplémentaires.
+
+Aucun projet Unreal, Blueprint, système Mass, Niagara ou port Godot n'est livré ici. Ce chantier demanderait une décision séparée, une production d'assets adaptée et ses propres tests ; il n'est pas une condition déclarée pour vendre une édition 2D aboutie.
 
 ### Verticale 3D initiale
 
@@ -54,7 +69,7 @@ Unreal Engine 5 pour la production principale, avec :
 - sauvegarde ;
 - cycle jour/nuit.
 
-## Phase 4 — Mégacité et sièges
+## Pistes lointaines — Mégacité et sièges, non livrées
 
 - remparts habitables ;
 - voies ferrées internes ;
@@ -65,11 +80,15 @@ Unreal Engine 5 pour la production principale, avec :
 - sièges durant plusieurs jours ;
 - plusieurs fronts commandés en coopération.
 
-## Phase 5 — Modes
+## Pistes — Modes supplémentaires, non livrés
 
 - campagne scénarisée ;
-- Citadelle infinie ;
+- variantes du mode infini déjà jouable ;
 - simulation réaliste ;
 - scénarios spécialisés ;
 - coopération jusqu’à quatre joueurs ;
 - défis hebdomadaires locaux ou serveur optionnel sans avantage payant.
+
+## Sortie commerciale : travail distinct du contenu
+
+Signature et identité éditeur, distribution choisie, conditions pour les joueurs, support, classifications éventuellement applicables et validation matérielle/humaine restent à préparer. Les limites sont consignées dans [DESKTOP.md](DESKTOP.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Un ZIP généré, un build vert ou un hébergement opérationnel ne valent pas certification commerciale.

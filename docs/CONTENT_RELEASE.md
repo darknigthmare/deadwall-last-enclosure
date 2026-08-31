@@ -25,9 +25,9 @@ Les nouvelles conditions, coûts et limites sont décrits dans [ENEMY_CONTENT.md
 
 ## Vérification reproductible
 
-`npm run check` reconstruit les 31 fichiers publics et le standalone, vérifie la syntaxe et exécute les tests Node. Avec `DEADWALL_SOAK=1`, les deux campagnes d’endurance logique sont incluses.
+`npm run check` reconstruit tous les fichiers publics déclarés et le standalone, vérifie la syntaxe et exécute les tests Node. Avec `DEADWALL_SOAK=1`, les deux campagnes d’endurance logique sont incluses. Le nombre de fichiers évolue avec les modules ; les tests de distribution le comparent aux dépendances réellement déclarées.
 
-La suite `tests/browser-content.mjs` couvre six formats : 1440×900, 1280×720, 390×844, 320×640, 1024×768 et 844×390. Elle contrôle le recrutement par les boutons, le coût exact, la sauvegarde/reprise, les portraits décodés, les dossiers, les repères, le contraste, le focus et le cache PWA r8 hors connexion.
+La suite `tests/browser-content.mjs` couvre six formats : 1440×900, 1280×720, 390×844, 320×640, 1024×768 et 844×390. Elle contrôle le recrutement par les boutons, le coût exact, la sauvegarde/reprise, les portraits décodés, les dossiers, les repères, le contraste, le focus et le cache PWA hors connexion (révision r9 depuis l'ajout des modules narratifs). Une attente mise à jour n'est pas, à elle seule, une preuve de nouvelle exécution navigateur.
 
 Les placements de bâtiments, déplacements de caméra, visites de secteurs et présentations des huit infectés utilisent des fixtures explicitement nommées : ils prouvent l’intégration et le rendu, pas une progression humaine complète. Les tests antérieurs de commandement et d’UX sont conservés. Le contrôle natif lance réellement deux processus Electron et vérifie l’état sauvegardé entre eux.
 

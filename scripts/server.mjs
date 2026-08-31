@@ -4,7 +4,7 @@ import { extname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
-const publicFiles = new Set(['index.html', 'styles.css', 'settings.css', 'command.css', 'content.css', 'manifest.json', 'sw.js', 'src/core.js', 'src/save.js', 'src/art.js', 'src/tactics.js', 'src/profile.js', 'src/world-content.js', 'src/game.js', 'src/ui.js', 'src/command-ui.js', 'src/content-ui.js']);
+const publicFiles = new Set(['index.html', 'styles.css', 'settings.css', 'command.css', 'content.css', 'narrative.css', 'manifest.json', 'sw.js', 'src/core.js', 'src/narrative.js', 'src/save.js', 'src/art.js', 'src/tactics.js', 'src/profile.js', 'src/world-content.js', 'src/game.js', 'src/ui.js', 'src/command-ui.js', 'src/content-ui.js', 'src/narrative-ui.js']);
 const publicAssetTypes = new Set(['.png', '.webp', '.svg', '.jpg', '.jpeg', '.avif', '.woff', '.woff2']);
 const mime = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',

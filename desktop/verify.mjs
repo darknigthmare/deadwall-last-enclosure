@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('..', import.meta.url));
 const expectedAssetKeys = Object.keys(require('../src/art.js').ASSETS).sort();
+const expectedNarrative = require('../src/narrative.js');
 const executableIndex = process.argv.indexOf('--executable');
 const archiveIndex = process.argv.indexOf('--archive');
 if (executableIndex >= 0 && archiveIndex >= 0) throw new Error('Choose either --executable or --archive, not both.');
@@ -63,10 +64,18 @@ for (const stage of ['create','restore']) {
   assert.deepEqual(report.assets.failed, []);
   assert.deepEqual(Object.keys(report.atlasDrawProbe.draws).sort(), expectedAssetKeys);
   assert.ok(Object.values(report.atlasDrawProbe.draws).every(draw=>draw.calls===1&&draw.visiblePixels>0));
+  assert.deepEqual(report.narrative.sectorIds, expectedNarrative.SECTORS.map(item=>item.id).sort());
+  assert.equal(report.narrative.chapterCards, expectedNarrative.CHAPTERS.length);
+  assert.equal(report.narrative.partialSurvey, 2); assert.equal(report.narrative.choice, 'A');
+  assert.equal(report.narrative.read, true); assert.equal(report.narrative.repeatRejected, true);
+  assert.equal(report.narrative.commandJournal, true); assert.equal(report.narrative.restored, stage==='restore');
+  assert.equal(report.imports.narrativePreserved, true);
   assert.deepEqual(report.consoleErrors, []);
   reports.push(report);
 }
 assert.deepEqual(reports[0].save, reports[1].save, 'Final close saves must survive a new native process');
+assert.deepEqual(reports[0].narrative.state, reports[1].narrative.state, 'Narrative decisions, partial surveys and read entries must survive a new native process');
+assert.equal(reports[0].narrative.insight, reports[1].narrative.insight, 'Loading must not grant narrative rewards twice');
 assert.ok(reports[1].menuRecords.runIds.includes(reports[0].save.runId), 'Archives must load before continuing a campaign');
-fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,consoleErrors:0}, null, 2));
-console.log(`DEADWALL desktop: two launches, seed 17117, tactical pause/orders, six doctrines, persistent records, ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
+fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
+console.log(`DEADWALL desktop: two launches, seed 17117, tactical pause/orders, six doctrines, persistent records, journal partial survey/unique choice/read state, ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);

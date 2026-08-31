@@ -2,7 +2,7 @@
   'use strict';
   const game=globalThis.DEADWALL,C=globalThis.DeadwallCore,get=id=>document.getElementById(id);
   const modal=get('commandModal');if(!game||!modal)return;
-  const tabs=['enclosure','workers','research','records','field'];
+  const tabs=['enclosure','workers','research','records','field','journal'];
   const orders=[
     ['auto','AUTONOMIE','Chantiers puis collecte selon les besoins de la cité.'],
     ['harvest','RÉCOLTER','Collecte prioritaire ; chantiers si aucune ressource accessible.'],
@@ -36,14 +36,32 @@
     if(game.setGateMode(mode,gate)){message('Porte '+gate.id+' : '+modes.find(item=>item[0]===mode)[1].toLowerCase()+'.');refresh();}
     else message('Ordre refusé. Le passage doit être libre et la porte terminée pour verrouiller.');
   });
+  for(const choice of ['A','B'])bind('commandCrisis'+choice,()=>{
+    const definition=game.crisisDefinition(),option=definition?.choices?.[choice];
+    if(game.resolveCrisis(choice))message(definition.title+' : '+option.label+'. '+option.description);
+    else message('Décision indisponible : vérifiez les réserves, les logements et la cible de la crise.');
+    refresh();get('commandTab-enclosure').focus();
+  });
+  function refreshCrisis(){
+    const crisis=game.activeCrisis,definition=game.crisisDefinition(),visible=game.state==='playing'&&!game.gameOver&&Boolean(definition);
+    get('commandCrisisCard').classList.toggle('hidden',!visible);if(!visible)return;
+    get('commandCrisisTitle').textContent=definition.title;
+    get('commandCrisisText').textContent=crisis.status==='pending'?definition.text:definition.choices[crisis.choice].description;
+    get('commandCrisisTimer').textContent=crisis.status==='pending'?'Décision suspendue : '+Math.ceil(crisis.remaining)+' s restantes en jeu. Sans ordre au terme du délai, réponse B.':'Effet en cours : '+Math.ceil(crisis.remaining)+' s de simulation restantes.';
+    for(const choice of ['A','B']){
+      const option=definition.choices[choice],button=get('commandCrisis'+choice);
+      button.classList.toggle('hidden',crisis.status!=='pending');button.disabled=!game.canIssueCommand()||!game.canResolveCrisis(choice);
+      button.textContent=option.label+' — '+(C.resourceText(option.cost)||'Sans coût matériel')+'. '+option.description;
+    }
+  }
   function chooseTab(id,focus=false){
     if(!tabs.includes(id))return;
-    if((game.state!=='playing'||game.gameOver)&&!['records','field'].includes(id))id='records';
+    if((game.state!=='playing'||game.gameOver)&&!['records','field','journal'].includes(id))id='records';
     tab=id;
     for(const name of tabs){
       const button=get('commandTab-'+name),selected=name===id;
       button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;
-      button.disabled=!['records','field'].includes(name)&&(game.state!=='playing'||game.gameOver);
+      button.disabled=!['records','field','journal'].includes(name)&&(game.state!=='playing'||game.gameOver);
       get('commandPanel-'+name).classList.toggle('hidden',!selected);
     }
     refresh();if(focus)get('commandTab-'+tab).focus();
@@ -120,7 +138,7 @@
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshRecords();game.contentUI?.refresh();
+    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
@@ -135,7 +153,7 @@
       if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}
       previousPause=null;
     }
-    game.syncOverlayFocus();
+    game.syncOverlayFocus();refresh();
   };
   game.commandUI={refresh};
   bind('cityCommandButton',()=>game.showCommand(true));

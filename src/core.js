@@ -9,6 +9,7 @@
   const SAVE_BACKUP_KEY = 'deadwall-save-backup-v2';
   const SETTINGS_KEY = 'deadwall-settings-v1';
   const SAVE_VERSION = 2;
+  const RESEARCH_INSIGHT_MAX = 1e12;
   const RESOURCE_KEYS = ['wood', 'scrap', 'stone', 'food', 'fuel', 'ammo', 'medicine'];
 
   const RESOURCE_META = {
@@ -45,28 +46,28 @@
   const BUILDINGS = {
     core: B('core', 'Centre de commandement', 'colony', '◆', 'Cœur vital de la colonie. Sa destruction met fin à la partie.', {}, 3200, 0, [4, 4], 0, 8,
       { symbol: 'CC', color: '#4a514c', roof: '#69716a', powerGen: 8, housing: 6, storage: 500, light: 250 }),
-    house: B('house', 'Dortoir renforcé', 'colony', '⌂', 'Ajoute huit places et protège la population pendant les alertes.', { wood: 70, scrap: 20 }, 700, 18, [3, 2], 0, 4,
+    house: B('house', 'Dortoir renforcé', 'colony', '⌂', 'Ajoute huit places de logement. Le repli des équipes doit être ordonné séparément.', { wood: 70, scrap: 20 }, 700, 18, [3, 2], 0, 4,
       { symbol: 'H', color: '#665845', roof: '#85755c', housing: 8, light: 70 }),
     warehouse: B('warehouse', 'Entrepôt', 'colony', '▤', 'Augmente le stockage et sert de point de dépôt aux équipes de collecte.', { wood: 55, scrap: 45 }, 900, 22, [3, 3], 0, 5,
       { symbol: 'ST', storage: 600, light: 55 }),
-    barracks: B('barracks', 'Caserne', 'colony', '★', 'Permet de former des fusiliers et sert de poste de repli.', { wood: 75, scrap: 70, ammo: 25 }, 1050, 30, [4, 3], 1, 9,
+    barracks: B('barracks', 'Caserne', 'colony', '★', 'Permet de recruter des fusiliers et ajoute quatre logements. Leur ralliement reste à vos ordres.', { wood: 75, scrap: 70, ammo: 25 }, 1050, 30, [4, 3], 1, 9,
       { symbol: 'CA', color: '#485144', roof: '#687263', powerUse: 1, housing: 4, light: 80 }),
-    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soigne les unités proches et stabilise les blessés.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
+    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soins de proximité sous alimentation électrique ; permet de recruter des secouristes. Aucun remède à la contamination.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
       { symbol: '+', color: '#586965', roof: '#7c928b', powerUse: 2, light: 90 }),
 
     farm: B('farm', 'Ferme protégée', 'industry', '≋', 'Produit régulièrement de la nourriture. Sa grande surface doit être défendue.', { wood: 55, stone: 25 }, 540, 20, [4, 3], 0, 5,
       { symbol: 'F', color: '#4d5c3f', roof: '#657952', production: { food: 0.42 } }),
     generator: B('generator', 'Générateur', 'industry', '⚡', 'Fournit de l’énergie aux ateliers, projecteurs et tourelles.', { scrap: 55, fuel: 20 }, 650, 18, [2, 2], 1, 5,
       { symbol: 'G', color: '#6c5e3f', roof: '#8c784b', powerGen: 24, light: 100, explosive: 70 }),
-    lumber: B('lumber', 'Scierie', 'industry', '╫', 'Transforme les zones boisées en approvisionnement régulier.', { wood: 45, scrap: 35 }, 750, 22, [3, 3], 1, 6,
+    lumber: B('lumber', 'Scierie', 'industry', '╫', 'Produit du bois sous alimentation électrique, indépendamment des gisements récoltés à la main.', { wood: 45, scrap: 35 }, 750, 22, [3, 3], 1, 6,
       { symbol: 'B', color: '#674f3b', roof: '#84664c', powerUse: 1, production: { wood: 0.48 } }),
     scrapyard: B('scrapyard', 'Centre de recyclage', 'industry', '⚙', 'Trie les carcasses et produit de la ferraille utilisable.', { wood: 35, scrap: 50 }, 780, 24, [3, 3], 1, 6,
       { symbol: 'R', color: '#505957', roof: '#6f7875', powerUse: 2, production: { scrap: 0.36 } }),
     quarry: B('quarry', 'Concasseur', 'industry', '▲', 'Produit pierre et agrégats pour les remparts lourds.', { wood: 45, scrap: 55, stone: 20 }, 850, 27, [3, 3], 2, 7,
       { symbol: 'Q', color: '#5d5b55', roof: '#7d7970', powerUse: 3, production: { stone: 0.34 } }),
-    refinery: B('refinery', 'Micro-raffinerie', 'industry', '◉', 'Récupère et stabilise du carburant. Risque d’explosion sous les tirs.', { scrap: 90, stone: 40, fuel: 25 }, 700, 34, [3, 3], 2, 9,
+    refinery: B('refinery', 'Micro-raffinerie', 'industry', '◉', 'Produit du carburant sous alimentation électrique. Explose lors de sa destruction.', { scrap: 90, stone: 40, fuel: 25 }, 700, 34, [3, 3], 2, 9,
       { symbol: 'RF', color: '#655c45', roof: '#887a56', powerUse: 4, production: { fuel: 0.18 }, explosive: 110 }),
-    workshop: B('workshop', 'Atelier militaire', 'industry', '⚒', 'Entretient les armes et déverrouille les défenses avancées.', { wood: 55, scrap: 100, stone: 25 }, 1000, 35, [4, 3], 2, 10,
+    workshop: B('workshop', 'Atelier militaire', 'industry', '⚒', 'Permet de recruter des ingénieurs et de construire les tourelles du palier atteint.', { wood: 55, scrap: 100, stone: 25 }, 1000, 35, [4, 3], 2, 10,
       { symbol: 'AT', color: '#50544f', roof: '#72766f', powerUse: 4, light: 90 }),
     ammoFactory: B('ammoFactory', 'Manufacture de munitions', 'industry', '●', 'Transforme la ferraille en munitions.', { scrap: 120, stone: 55, fuel: 15 }, 950, 38, [4, 3], 3, 12,
       { symbol: 'MU', color: '#594d43', roof: '#806e5c', powerUse: 5, production: { ammo: 0.9 }, consumes: { scrap: 0.11 }, explosive: 90 }),
@@ -152,7 +153,7 @@
 
   const CRISES = [
     { id: 'blackout', title: 'Noir électrique', minWave: 2, severity: 1, text: 'Un court-circuit force un délestage brutal.', choiceA: 'Brûler du carburant pour stabiliser.', choiceB: 'Couper les ateliers et préserver la réserve.' },
-    { id: 'injury', title: 'Blessés aux portes', minWave: 3, severity: 1, text: 'Des survivants arrivent mordus et épuisés.', choiceA: 'Consommer des médicaments pour les intégrer.', choiceB: 'Les isoler, au prix du moral.' },
+    { id: 'injury', title: 'Blessés aux portes', minWave: 3, severity: 1, text: 'Un survivant blessé et épuisé demande refuge. Son état impose un choix d’accueil ; les médicaments ne sont pas un remède à la contamination.', choiceA: 'Soigner ses blessures et l’accueillir.', choiceB: 'Différer son accueil, au prix du moral.' },
     { id: 'ammo', title: 'Munitions humides', minWave: 4, severity: 2, text: 'Une réserve a pris l’eau pendant la nuit.', choiceA: 'Sécher et trier maintenant.', choiceB: 'Accepter les pertes et tenir le rythme.' },
     { id: 'breach', title: 'Fissure dans l’enceinte', minWave: 5, severity: 2, text: 'La pression des corps a ouvert un point faible.', choiceA: 'Réparer les défenses critiques.', choiceB: 'Former des équipes de nettoyage.' }
   ];
@@ -164,7 +165,7 @@
     },
     injury: {
       A: { label: 'Soigner et accueillir', cost: { medicine: 6, food: 12 }, description: 'Un ouvrier rejoint la cité ; moral +4. Une place de logement requise.', effects: { workers: 1, morale: 4 } },
-      B: { label: 'Maintenir la quarantaine', cost: {}, description: 'Préserve les réserves ; moral −5.', effects: { morale: -5 } }
+      B: { label: 'Différer l’accueil', cost: {}, description: 'Aucun recrutement ; préserve les réserves, moral −5.', effects: { morale: -5 } }
     },
     ammo: {
       A: { label: 'Sécher et trier', cost: { fuel: 8, scrap: 10 }, description: 'Sauve la réserve de munitions.', effects: {} },
@@ -176,6 +177,16 @@
     }
   };
   for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
+  const NARRATIVE_RULES = Object.freeze({surveySeconds:8,surveyRadius:90,debriefRadius:180,maxStep:.25});
+  // Six optional, one-use decisions. No resource spawns or permanent combat modifiers.
+  const NARRATIVE_OPERATIONS = Object.freeze({
+    housing:{A:{cost:{wood:12,scrap:12},insight:1},B:{cost:{food:8},morale:4}},
+    market:{A:{cost:{scrap:16,food:8},insight:1},B:{cost:{food:8},morale:4}},
+    aid:{A:{cost:{scrap:12,medicine:2},insight:1},B:{cost:{food:8},morale:4}},
+    industry:{A:{cost:{scrap:18,fuel:6},insight:1},B:{cost:{food:8},morale:4}},
+    transit:{A:{cost:{scrap:16,fuel:6},insight:1},B:{cost:{food:8},morale:4}},
+    checkpoint:{A:{cost:{wood:12,scrap:14},insight:1},B:{cost:{food:8},morale:4}}
+  });
   const STRATEGY_RULES = { spawnBatch: 64, crisisDecisionSeconds: 45, pathMaxExpanded: 8192, pathQueriesPerUpdate: 6, pathRetrySeconds: 1.25 };
   const WORKER_RULES = { cleanupPerSecond: .9, cleanupRange: 48, retreatRadius: 90, passiveDecayPerSecond: .012 };
   const SURVIVORS = {
@@ -200,7 +211,8 @@
   function canAfford(stock, cost, multiplier = 1) { return RESOURCE_KEYS.every(key => (stock[key] || 0) + 1e-6 >= (cost[key] || 0) * multiplier); }
   function spend(stock, cost, multiplier = 1) {
     if (!canAfford(stock, cost, multiplier)) return false;
-    for (const key of RESOURCE_KEYS) stock[key] -= (cost[key] || 0) * multiplier;
+    // canAfford tolerates floating-point dust, never leave an unsavable negative residue.
+    for (const key of RESOURCE_KEYS) stock[key] = Math.max(0, (stock[key] || 0) - (cost[key] || 0) * multiplier);
     return true;
   }
   function add(stock, gain, cap = Infinity) {
@@ -432,7 +444,7 @@
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
-    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES,
+    RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,

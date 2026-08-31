@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="settings.css">
   <link rel="stylesheet" href="command.css">
   <link rel="stylesheet" href="content.css">
+  <link rel="stylesheet" href="narrative.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -62,6 +63,7 @@
         <small>RENFORTS & ORDRES</small>
         <div class="command-grid">
           <button id="cityCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>POSTE DE COMMANDEMENT</span><small id="enclosureStatus">PÉRIMÈTRE OUVERT</small></button>
+          <button id="journalCommandButton" class="narrative-hud-button" aria-haspopup="dialog" aria-controls="commandModal"><span>JOURNAL DE D-17</span><small id="journalUnread">TRACES DE TERRAIN</small></button>
           <button id="recruitWorker"><span>OUVRIER</span><small>25 nourriture</small></button>
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
           <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
@@ -96,6 +98,7 @@
       <p class="pitch">Récoltez. Fortifiez. Automatisez. Transformez un dépôt abandonné en mégacité avant que la région entière converge vers vos lumières.</p>
       <div class="menu-status" aria-label="Caractéristiques de la campagne"><span>CAMPAGNE INFINIE</span><span>SAUVEGARDE LOCALE</span><span>JOUABLE HORS LIGNE</span></div>
       <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">MANUEL DE TERRAIN</button><button id="menuSettingsButton">PARAMÈTRES</button></div>
+      <p class="campaign-save-note" id="campaignSaveNote">Une seule campagne active sur cet appareil, sans cloud ni emplacements multiples. Exportez une copie JSON dans Paramètres pour la conserver. La destruction du centre termine la campagne et efface sa sauvegarde active ; vos fichiers exportés restent intacts.</p>
       <div class="difficulty-row">
         <span class="difficulty-label">PROTOCOLE DE MENACE</span>
         <div class="difficulty-options">
@@ -122,9 +125,11 @@
         <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
         <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
         <button id="commandTab-field" role="tab" aria-controls="commandPanel-field" aria-selected="false" tabindex="-1">DOSSIERS</button>
+        <button id="commandTab-journal" role="tab" aria-controls="commandPanel-journal" aria-selected="false" tabindex="-1">JOURNAL</button>
       </nav>
       <div class="command-body">
         <section id="commandPanel-enclosure" role="tabpanel" aria-labelledby="commandTab-enclosure">
+          <section id="commandCrisisCard" class="crisis-card hidden" aria-labelledby="commandCrisisTitle"><small>INCIDENT EN COURS</small><h3 id="commandCrisisTitle"></h3><p id="commandCrisisText"></p><p id="commandCrisisTimer"></p><div class="crisis-choices"><button id="commandCrisisA" type="button"></button><button id="commandCrisisB" type="button"></button></div></section>
           <div class="perimeter-summary"><strong id="perimeterResult">CENTRE EXPOSÉ</strong><p id="perimeterDetails"></p></div>
           <p id="perimeterAdvice" class="command-note"></p>
           <div class="gate-controls"><label for="commandGate">PORTE À COMMANDER<select id="commandGate"></select></label><div class="gate-modes" role="group" aria-label="Passage de la porte"><button id="gateMode-auto" aria-pressed="false">AUTO</button><button id="gateMode-open" aria-pressed="false">OUVERTE</button><button id="gateMode-closed" aria-pressed="false">VERROUILLÉE</button></div></div>
@@ -135,6 +140,12 @@
         <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
         <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
         <section id="commandPanel-field" class="hidden" role="tabpanel" aria-labelledby="commandTab-field"><p class="command-note">Chargement des dossiers de terrain… Si ce message persiste, le poste de commandement reste utilisable ; rechargez le jeu pour récupérer les dossiers.</p></section>
+        <section id="commandPanel-journal" class="hidden" role="tabpanel" aria-labelledby="commandTab-journal">
+          <header class="narrative-heading"><small>TRACES DE TERRAIN · OPÉRATIONS FACULTATIVES</small><h3>Ce que nous choisissons de garder</h3><p id="narrativeSummary" class="command-note">Le journal sera disponible au chargement du récit.</p><button id="narrativeReadAll" type="button">MARQUER COMME LU</button></header>
+          <p id="narrativeBrief" class="command-note"></p><p id="narrativeContext" class="narrative-context"></p>
+          <section aria-labelledby="narrativeChaptersTitle"><h3 id="narrativeChaptersTitle">CHRONIQUE DU DÉPÔT</h3><div id="narrativeChapters" class="narrative-chapters"></div></section>
+          <section aria-labelledby="narrativeOperationsTitle"><h3 id="narrativeOperationsTitle">SIX TRACES À RAPPORTER</h3><p class="command-note">Marquer un secteur ne déplace personne. Rejoignez son centre et maintenez E, ou ACTION sur écran tactile, hors récolte et chantier. Une fois le relevé terminé, revenez près du dépôt pour décider. Chaque décision engage son coût une seule fois et reste définitive pour cette campagne.</p><div id="narrativeOperations" class="narrative-operations"></div></section>
+        </section>
       </div>
       <p id="commandStatus" class="command-status" role="status" aria-live="polite"></p>
     </main>
@@ -154,6 +165,7 @@
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
       <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers gardent leur point de ralliement.</p></section>
+      <section><h3>Journal de D-17</h3><p>Six traces facultatives attendent dans les secteurs de récupération. Marquez un lieu depuis le journal, rejoignez son centre puis maintenez <kbd>E</kbd> ou <strong>ACTION</strong> pendant le relevé. La récolte et les chantiers restent prioritaires. Rapportez la trace près du dépôt pour engager un choix ; lire n’accorde aucun bonus. Les fragments écrits ne prouvent pas que leurs auteurs sont encore vivants. La fin du récit ne termine pas les hordes.</p></section>
       <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire ; <strong>FEU</strong> vise la menace la plus proche. Faites glisser au sol pour tracer les murs, touchez une structure pour la sélectionner. Le volet <strong>ACTIONS</strong> donne accès aux armes, à la crosse, au sprint, au zoom, à la rotation et à l’annulation.</p></section>
     </div>
   </main></div>
@@ -162,6 +174,7 @@
 
   <noscript>JavaScript doit être activé.</noscript>
   <script src="src/core.js"></script>
+  <script src="src/narrative.js"></script>
   <script src="src/save.js"></script>
   <script src="src/tactics.js"></script>
   <script src="src/profile.js"></script>
@@ -171,6 +184,7 @@
   <script src="src/ui.js"></script>
   <script src="src/command-ui.js"></script>
   <script src="src/content-ui.js"></script>
+  <script src="src/narrative-ui.js"></script>
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

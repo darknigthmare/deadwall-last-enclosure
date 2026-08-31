@@ -24,7 +24,7 @@ récolter → déposer → construire → automatiser → agrandir → fortifier
 10. Toute croissance de la cité augmente également sa signature.
 11. Les ressources, bâtiments, unités, énergie, population, moral, munitions et vagues restent interconnectés.
 12. Aucun service payant, publicité, énergie mobile, microtransaction ou télémétrie intrusive.
-13. Aucun asset externe non licencié. Les graphismes actuels sont procéduraux.
+13. Aucun asset externe non licencié. Les graphismes actuels combinent atlas/textures originaux OpenAI documentés et rendu procédural de secours ; préserver leur provenance et les notices des composants tiers.
 14. La sauvegarde existante ne doit jamais être cassée silencieusement.
 15. Le projet doit rester lançable sans installation complexe.
 

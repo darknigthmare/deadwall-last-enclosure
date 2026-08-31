@@ -70,6 +70,7 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Fusiliers autonomes rassemblés autour d’un point de ralliement déplaçable.
 - Secouristes et ingénieurs recrutables au palier Avant-poste après construction de la clinique ou de l’atelier : soins et réparations de terrain payés sur les stocks, trajets physiques et repli.
 - Dossiers de terrain : huit fiches d’infectés et leurs contres, recrutement, personnel nommé, carte des secteurs et repère de navigation sans téléportation.
+- Registre de D-17 : six traces originales à relever physiquement, douze décisions possibles (une par secteur), quatre chapitres persistants et un épilogue qui laisse les hordes continuer.
 - Vingt-deux structures avec coûts, chantier, intégrité, réparation, démolition et amélioration.
 - Palissades, murs d’acier, remparts en béton, portes, pièges, miradors et tourelles.
 - Tracé rapide de longues lignes de murs pour créer plusieurs enceintes concentriques.
@@ -82,6 +83,7 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Signature de la cité : population, bâtiments, production et consommation électrique attirent davantage d’infectés.
 - Repli progressif : perdre un mur ou un quartier n’entraîne pas une défaite immédiate ; seule la chute du centre termine la partie.
 - Sauvegarde automatique toutes les trente secondes et sauvegarde manuelle depuis la pause.
+- Confirmation avant remplacement d’une campagne depuis le menu ; export libre pour conserver une autre cité.
 - Trois difficultés : Survivant, Standard et Brutal.
 - Objectifs d’introduction, récompenses, paliers de cité et mode infini.
 - Son généré procéduralement avec Web Audio, sans fichiers audio externes.
@@ -101,6 +103,8 @@ La suite couvre économie, doctrines, difficultés, crises, navigation concentri
 
 Extension de contenu : [infectés](docs/ENEMY_CONTENT.md), [spécialistes](docs/SPECIALISTS.md), [secteurs](docs/WORLD_CONTENT.md), [assets et prompts exacts](docs/CONTENT_ART_PROVENANCE.md). Les véhicules restent des épaves récupérables, pas des véhicules pilotables. Les secteurs ne sont pas des couvertures physiques ; les vrais remparts construits définissent l’enceinte.
 
+Passe histoire et cohérence : [registre de D-17](docs/NARRATIVE.md), [audit de cette passe](docs/AUDIT_STORY_RELEASE.md). Les fragments sont des documents retrouvés, pas des dialogues de PNJ présents ni des voix enregistrées. La simulation reste jouable sans accomplir ces opérations facultatives.
+
 ## Structure
 
 ```text
@@ -118,13 +122,15 @@ docs/GAME_DESIGN.md        Règles de conception complètes
 docs/ARCHITECTURE.md       Architecture technique
 docs/BALANCING.md          Formules et valeurs d’équilibrage
 docs/CODEX_MASTER_PROMPT.md Prompt maître de continuation
-docs/ROADMAP.md            Passage vers une production 3D
+docs/ROADMAP.md            Consolidation et options de production
 docs/ORIGINAL_BRIEF.txt    Postulat initial conservé
 ```
 
 ## Sauvegarde
 
-La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v2` (avec migration et sauvegarde de secours depuis `deadwall-save-v1`). Elle contient la graine du monde, les gisements, le joueur, les unités, les structures, les zombies actifs, la vague, la météo, la progression et les statistiques.
+La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v2` (avec migration et sauvegarde de secours depuis `deadwall-save-v1`). Elle contient la graine du monde, les gisements, le joueur, les unités, les structures, les zombies actifs, la vague, la météo, la progression, les statistiques et le registre narratif. Les anciens fichiers sans registre restent compatibles ; aucun choix ni gain ne leur est attribué rétroactivement.
+
+Une seule campagne est active sur chaque profil. La chute du centre termine cette campagne et efface sa sauvegarde active et ses copies de secours ; les records locaux et les fichiers JSON exportés restent conservés. Exportez avant une nouvelle partie pour garder une cité. Ne jouez pas simultanément la même campagne dans plusieurs onglets.
 
 ## Principes à ne pas casser
 
@@ -138,4 +144,4 @@ La sauvegarde utilise `localStorage` sous la clé `deadwall-save-v2` (avec migra
 ## Crédit du projet
 
 Conception et propriété du projet : **Darknigthmare**.
-Moteur et édition PC livrés avec leurs limites documentées. Les véhicules sont des épaves récupérables, pas des véhicules pilotables ; aucune campagne scénarisée, métaprogression ou certification boutique n'est annoncée.
+Moteur et édition PC livrés avec leurs limites documentées. Un arc narratif facultatif est intégré à la survie infinie ; ce n’est pas une campagne cinématique distincte. Les véhicules sont des épaves récupérables, pas des véhicules pilotables. Aucune métaprogression ni certification boutique n’est annoncée.

@@ -1,0 +1,41 @@
+/* The journal extends the existing field kit; it never covers active play automatically. */
+.command-tabs { grid-template-columns:repeat(6,minmax(0,1fr)); }
+.command-grid .narrative-hud-button { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:44px; padding:9px 11px; }
+.command-grid .narrative-hud-button small { margin:0; color:var(--accent-bright); }
+.narrative-hud-button[data-unread="true"] { border-color:var(--accent-bright); }
+.narrative-heading { border-bottom:1px solid var(--line); margin-bottom:18px; padding-bottom:16px; }
+.narrative-heading>small { display:block; font-size:10px; line-height:1.6; letter-spacing:1px; color:var(--accent-bright); margin-bottom:9px; }
+.narrative-heading>button { min-height:44px; padding:9px 12px; font-size:10px; }
+.narrative-heading .command-note { margin:8px 0 12px; }
+.narrative-context { padding:12px 14px; border-left:3px solid var(--accent); background:#182119; color:var(--text); font-size:12px; line-height:1.6; margin-bottom:22px; }
+.narrative-chapters { display:grid; gap:12px; margin:0 0 24px; }
+.narrative-chapter { border:1px solid var(--line); background:#101911; padding:16px; }
+.narrative-chapter h4 { margin:0 0 8px; color:var(--accent-bright); font-size:14px; }
+.narrative-chapter p,.narrative-operation p { margin:8px 0 12px; color:var(--muted); font-size:12px; line-height:1.7; }
+.narrative-operations { display:grid; gap:12px; }
+.narrative-operation { min-width:0; border:1px solid var(--line); background:#101911; }
+.narrative-operation[data-state="ready"] { border-color:#b5a366; }
+.narrative-operation[data-state="resolved"] { border-color:#6c8458; }
+.narrative-operation>summary { cursor:pointer; padding:16px; min-height:60px; color:var(--text); font-size:13px; font-weight:700; line-height:1.5; }
+.narrative-operation>summary::marker { color:var(--accent-bright); }
+.narrative-operation>summary span { color:var(--accent-bright); }
+.narrative-operation>summary small { display:block; margin:5px 0 0 16px; color:var(--muted); font-size:11px; font-weight:400; }
+.narrative-operation-body { padding:0 16px 16px; border-top:1px solid #35422c; }
+.narrative-operation progress { width:100%; height:8px; accent-color:var(--accent-bright); }
+.narrative-source { color:var(--accent-bright)!important; font-size:11px!important; }
+.narrative-trace { margin:12px 0; padding:2px 14px; border-left:2px solid #87947c; }
+.narrative-trace p { color:#d9dfcf; }
+.narrative-mark { min-height:44px; padding:9px 12px; font-size:10px; }
+.narrative-choices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+.narrative-choice { display:flex; flex-direction:column; min-width:0; padding:13px; border:1px solid var(--line); background:#1a241a; }
+.narrative-choice h4 { color:var(--accent-bright); font-size:12px; line-height:1.6; margin:0 0 7px; }
+.narrative-choice .narrative-cost { color:var(--text); }
+.narrative-choice button { margin-top:auto; min-height:44px; padding:10px; font-size:10px; line-height:1.6; white-space:normal; }
+.narrative-reason { color:var(--accent-bright)!important; }
+.narrative-choice-reason { color:var(--accent-bright)!important; font-size:12px; }
+.campaign-save-note { margin:12px 0 22px; max-width:680px; color:#b9c3b1; font-size:11px; line-height:1.6; }
+.high-contrast .campaign-save-note { color:#e2e8dc; }
+.narrative-outcome { padding:12px; border-left:3px solid #8cac75; background:#1e2a1d; color:var(--text)!important; }
+.high-contrast .narrative-operation,.high-contrast .narrative-chapter,.high-contrast .narrative-choice { background:#050905; border-color:var(--line); }
+.high-contrast .narrative-operation p,.high-contrast .narrative-chapter p,.high-contrast .narrative-operation small { color:#e2e8dc; }
+@media(max-width:600px) { .command-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); } .command-tabs button { min-height:44px; } .narrative-choices { grid-template-columns:1fr; } .narrative-operation>summary { padding:13px; } .narrative-operation-body { padding:0 13px 13px; } }

@@ -1,6 +1,7 @@
 (function initDeadwallSave(global) {
   'use strict';
   const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
+  const N = typeof module !== 'undefined' && module.exports ? require('./narrative.js') : global.DeadwallNarrative;
   const MAX_FILE_BYTES = 8 * 1024 * 1024;
   const owns = (table,key) => typeof key==='string' && Object.prototype.hasOwnProperty.call(table,key);
   const fail = label => { throw new Error(`Sauvegarde invalide : ${label}.`); };
@@ -46,9 +47,10 @@
     const pending=object(data.pendingSpawns||{},'migration');for(const [key,value]of Object.entries(pending)){if(!owns(C.ENEMIES,key))fail('migration inconnue');integer(value,0,0,Number.MAX_SAFE_INTEGER/10,'effectif migration');}
     let plan=null;if(data.wavePlan){const raw=object(data.wavePlan,'plan de migration'),composition=Object.fromEntries(Object.keys(C.ENEMIES).map(kind=>[kind,integer(raw.composition?.[kind],0,0,1e12,'composition migration')]));const total=integer(raw.total,undefined,1,1e12,'total migration');if(Object.values(composition).reduce((a,b)=>a+b,0)!==total)fail('composition migration incohérente');plan={wave,total,fronts:integer(raw.fronts,1,1,4,'fronts migration'),spawnInterval:number(raw.spawnInterval,.3,.01,5,'intervalle migration'),composition};}
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
-    const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,1e12,'insight'),active:null};
+    const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
+    const narrative=N.normalize(data.narrative);
     return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
-      nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
+      narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
       elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex:integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif'),objectiveProgress:number(data.objectiveProgress,0,0,1e12,'progression'),nextId:Math.max(integer(data.nextId,maximumId+1,1,0x7ffffffe,'prochain ID'),maximumId+1),research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
   }

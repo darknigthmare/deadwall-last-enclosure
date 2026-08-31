@@ -472,6 +472,50 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 @media(max-width:600px) { .field-grid,.field-sector-list { grid-template-columns:1fr; } .field-card { padding:13px; } .field-nav { gap:4px; } .field-nav button { font-size:10px; } }
 
 </style>
+  <style>
+/* The journal extends the existing field kit; it never covers active play automatically. */
+.command-tabs { grid-template-columns:repeat(6,minmax(0,1fr)); }
+.command-grid .narrative-hud-button { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:44px; padding:9px 11px; }
+.command-grid .narrative-hud-button small { margin:0; color:var(--accent-bright); }
+.narrative-hud-button[data-unread="true"] { border-color:var(--accent-bright); }
+.narrative-heading { border-bottom:1px solid var(--line); margin-bottom:18px; padding-bottom:16px; }
+.narrative-heading>small { display:block; font-size:10px; line-height:1.6; letter-spacing:1px; color:var(--accent-bright); margin-bottom:9px; }
+.narrative-heading>button { min-height:44px; padding:9px 12px; font-size:10px; }
+.narrative-heading .command-note { margin:8px 0 12px; }
+.narrative-context { padding:12px 14px; border-left:3px solid var(--accent); background:#182119; color:var(--text); font-size:12px; line-height:1.6; margin-bottom:22px; }
+.narrative-chapters { display:grid; gap:12px; margin:0 0 24px; }
+.narrative-chapter { border:1px solid var(--line); background:#101911; padding:16px; }
+.narrative-chapter h4 { margin:0 0 8px; color:var(--accent-bright); font-size:14px; }
+.narrative-chapter p,.narrative-operation p { margin:8px 0 12px; color:var(--muted); font-size:12px; line-height:1.7; }
+.narrative-operations { display:grid; gap:12px; }
+.narrative-operation { min-width:0; border:1px solid var(--line); background:#101911; }
+.narrative-operation[data-state="ready"] { border-color:#b5a366; }
+.narrative-operation[data-state="resolved"] { border-color:#6c8458; }
+.narrative-operation>summary { cursor:pointer; padding:16px; min-height:60px; color:var(--text); font-size:13px; font-weight:700; line-height:1.5; }
+.narrative-operation>summary::marker { color:var(--accent-bright); }
+.narrative-operation>summary span { color:var(--accent-bright); }
+.narrative-operation>summary small { display:block; margin:5px 0 0 16px; color:var(--muted); font-size:11px; font-weight:400; }
+.narrative-operation-body { padding:0 16px 16px; border-top:1px solid #35422c; }
+.narrative-operation progress { width:100%; height:8px; accent-color:var(--accent-bright); }
+.narrative-source { color:var(--accent-bright)!important; font-size:11px!important; }
+.narrative-trace { margin:12px 0; padding:2px 14px; border-left:2px solid #87947c; }
+.narrative-trace p { color:#d9dfcf; }
+.narrative-mark { min-height:44px; padding:9px 12px; font-size:10px; }
+.narrative-choices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+.narrative-choice { display:flex; flex-direction:column; min-width:0; padding:13px; border:1px solid var(--line); background:#1a241a; }
+.narrative-choice h4 { color:var(--accent-bright); font-size:12px; line-height:1.6; margin:0 0 7px; }
+.narrative-choice .narrative-cost { color:var(--text); }
+.narrative-choice button { margin-top:auto; min-height:44px; padding:10px; font-size:10px; line-height:1.6; white-space:normal; }
+.narrative-reason { color:var(--accent-bright)!important; }
+.narrative-choice-reason { color:var(--accent-bright)!important; font-size:12px; }
+.campaign-save-note { margin:12px 0 22px; max-width:680px; color:#b9c3b1; font-size:11px; line-height:1.6; }
+.high-contrast .campaign-save-note { color:#e2e8dc; }
+.narrative-outcome { padding:12px; border-left:3px solid #8cac75; background:#1e2a1d; color:var(--text)!important; }
+.high-contrast .narrative-operation,.high-contrast .narrative-chapter,.high-contrast .narrative-choice { background:#050905; border-color:var(--line); }
+.high-contrast .narrative-operation p,.high-contrast .narrative-chapter p,.high-contrast .narrative-operation small { color:#e2e8dc; }
+@media(max-width:600px) { .command-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); } .command-tabs button { min-height:44px; } .narrative-choices { grid-template-columns:1fr; } .narrative-operation>summary { padding:13px; } .narrative-operation-body { padding:0 13px 13px; } }
+
+</style>
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -522,6 +566,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         <small>RENFORTS & ORDRES</small>
         <div class="command-grid">
           <button id="cityCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>POSTE DE COMMANDEMENT</span><small id="enclosureStatus">PÉRIMÈTRE OUVERT</small></button>
+          <button id="journalCommandButton" class="narrative-hud-button" aria-haspopup="dialog" aria-controls="commandModal"><span>JOURNAL DE D-17</span><small id="journalUnread">TRACES DE TERRAIN</small></button>
           <button id="recruitWorker"><span>OUVRIER</span><small>25 nourriture</small></button>
           <button id="recruitSoldier"><span>FUSILIER</span><small>15 nourriture · 20 munitions · 10 ferraille</small></button>
           <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
@@ -556,6 +601,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       <p class="pitch">Récoltez. Fortifiez. Automatisez. Transformez un dépôt abandonné en mégacité avant que la région entière converge vers vos lumières.</p>
       <div class="menu-status" aria-label="Caractéristiques de la campagne"><span>CAMPAGNE INFINIE</span><span>SAUVEGARDE LOCALE</span><span>JOUABLE HORS LIGNE</span></div>
       <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">MANUEL DE TERRAIN</button><button id="menuSettingsButton">PARAMÈTRES</button></div>
+      <p class="campaign-save-note" id="campaignSaveNote">Une seule campagne active sur cet appareil, sans cloud ni emplacements multiples. Exportez une copie JSON dans Paramètres pour la conserver. La destruction du centre termine la campagne et efface sa sauvegarde active ; vos fichiers exportés restent intacts.</p>
       <div class="difficulty-row">
         <span class="difficulty-label">PROTOCOLE DE MENACE</span>
         <div class="difficulty-options">
@@ -582,9 +628,11 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         <button id="commandTab-research" role="tab" aria-controls="commandPanel-research" aria-selected="false" tabindex="-1">DOCTRINES</button>
         <button id="commandTab-records" role="tab" aria-controls="commandPanel-records" aria-selected="false" tabindex="-1">ARCHIVES</button>
         <button id="commandTab-field" role="tab" aria-controls="commandPanel-field" aria-selected="false" tabindex="-1">DOSSIERS</button>
+        <button id="commandTab-journal" role="tab" aria-controls="commandPanel-journal" aria-selected="false" tabindex="-1">JOURNAL</button>
       </nav>
       <div class="command-body">
         <section id="commandPanel-enclosure" role="tabpanel" aria-labelledby="commandTab-enclosure">
+          <section id="commandCrisisCard" class="crisis-card hidden" aria-labelledby="commandCrisisTitle"><small>INCIDENT EN COURS</small><h3 id="commandCrisisTitle"></h3><p id="commandCrisisText"></p><p id="commandCrisisTimer"></p><div class="crisis-choices"><button id="commandCrisisA" type="button"></button><button id="commandCrisisB" type="button"></button></div></section>
           <div class="perimeter-summary"><strong id="perimeterResult">CENTRE EXPOSÉ</strong><p id="perimeterDetails"></p></div>
           <p id="perimeterAdvice" class="command-note"></p>
           <div class="gate-controls"><label for="commandGate">PORTE À COMMANDER<select id="commandGate"></select></label><div class="gate-modes" role="group" aria-label="Passage de la porte"><button id="gateMode-auto" aria-pressed="false">AUTO</button><button id="gateMode-open" aria-pressed="false">OUVERTE</button><button id="gateMode-closed" aria-pressed="false">VERROUILLÉE</button></div></div>
@@ -595,6 +643,12 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         <section id="commandPanel-research" class="hidden" role="tabpanel" aria-labelledby="commandTab-research"><h3 id="researchBudget"></h3><p class="command-note">Gagnez de l’insight en repoussant les assauts. Choisissez librement une doctrine de votre palier : le coût est payé une seule fois et son effet est immédiat pour cette campagne.</p><div id="researchLibrary" class="research-library"></div></section>
         <section id="commandPanel-records" class="hidden" role="tabpanel" aria-labelledby="commandTab-records"><h3>RECORDS PAR PROTOCOLE</h3><div id="recordBoard" class="record-board"></div><p id="profileStatus" class="command-note"></p><h3>10 DERNIÈRES CAMPAGNES CONSERVÉES</h3><ul id="recentCampaigns" class="recent-campaigns"></ul><p class="command-note">Réutiliser une carte prépare sa graine au menu sans interrompre votre partie. Les archives n’accordent aucun avantage permanent et ne constituent pas un classement en ligne. L’export de cité transfère la campagne, pas tout cet historique local.</p></section>
         <section id="commandPanel-field" class="hidden" role="tabpanel" aria-labelledby="commandTab-field"><p class="command-note">Chargement des dossiers de terrain… Si ce message persiste, le poste de commandement reste utilisable ; rechargez le jeu pour récupérer les dossiers.</p></section>
+        <section id="commandPanel-journal" class="hidden" role="tabpanel" aria-labelledby="commandTab-journal">
+          <header class="narrative-heading"><small>TRACES DE TERRAIN · OPÉRATIONS FACULTATIVES</small><h3>Ce que nous choisissons de garder</h3><p id="narrativeSummary" class="command-note">Le journal sera disponible au chargement du récit.</p><button id="narrativeReadAll" type="button">MARQUER COMME LU</button></header>
+          <p id="narrativeBrief" class="command-note"></p><p id="narrativeContext" class="narrative-context"></p>
+          <section aria-labelledby="narrativeChaptersTitle"><h3 id="narrativeChaptersTitle">CHRONIQUE DU DÉPÔT</h3><div id="narrativeChapters" class="narrative-chapters"></div></section>
+          <section aria-labelledby="narrativeOperationsTitle"><h3 id="narrativeOperationsTitle">SIX TRACES À RAPPORTER</h3><p class="command-note">Marquer un secteur ne déplace personne. Rejoignez son centre et maintenez E, ou ACTION sur écran tactile, hors récolte et chantier. Une fois le relevé terminé, revenez près du dépôt pour décider. Chaque décision engage son coût une seule fois et reste définitive pour cette campagne.</p><div id="narrativeOperations" class="narrative-operations"></div></section>
+        </section>
       </div>
       <p id="commandStatus" class="command-status" role="status" aria-live="polite"></p>
     </main>
@@ -614,6 +668,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
       <section><h3>Commandement</h3><p>Ouvrez le poste de commandement pour suspendre l’action, commander les portes, affecter les ouvriers et choisir vos doctrines. Le déblaiement exige un trajet jusqu’au pied extérieur des remparts. Les fusiliers gardent leur point de ralliement.</p></section>
+      <section><h3>Journal de D-17</h3><p>Six traces facultatives attendent dans les secteurs de récupération. Marquez un lieu depuis le journal, rejoignez son centre puis maintenez <kbd>E</kbd> ou <strong>ACTION</strong> pendant le relevé. La récolte et les chantiers restent prioritaires. Rapportez la trace près du dépôt pour engager un choix ; lire n’accorde aucun bonus. Les fragments écrits ne prouvent pas que leurs auteurs sont encore vivants. La fin du récit ne termine pas les hordes.</p></section>
       <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire ; <strong>FEU</strong> vise la menace la plus proche. Faites glisser au sol pour tracer les murs, touchez une structure pour la sélectionner. Le volet <strong>ACTIONS</strong> donne accès aux armes, à la crosse, au sprint, au zoom, à la rotation et à l’annulation.</p></section>
     </div>
   </main></div>
@@ -633,6 +688,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const SAVE_BACKUP_KEY = 'deadwall-save-backup-v2';
   const SETTINGS_KEY = 'deadwall-settings-v1';
   const SAVE_VERSION = 2;
+  const RESEARCH_INSIGHT_MAX = 1e12;
   const RESOURCE_KEYS = ['wood', 'scrap', 'stone', 'food', 'fuel', 'ammo', 'medicine'];
 
   const RESOURCE_META = {
@@ -669,28 +725,28 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const BUILDINGS = {
     core: B('core', 'Centre de commandement', 'colony', '◆', 'Cœur vital de la colonie. Sa destruction met fin à la partie.', {}, 3200, 0, [4, 4], 0, 8,
       { symbol: 'CC', color: '#4a514c', roof: '#69716a', powerGen: 8, housing: 6, storage: 500, light: 250 }),
-    house: B('house', 'Dortoir renforcé', 'colony', '⌂', 'Ajoute huit places et protège la population pendant les alertes.', { wood: 70, scrap: 20 }, 700, 18, [3, 2], 0, 4,
+    house: B('house', 'Dortoir renforcé', 'colony', '⌂', 'Ajoute huit places de logement. Le repli des équipes doit être ordonné séparément.', { wood: 70, scrap: 20 }, 700, 18, [3, 2], 0, 4,
       { symbol: 'H', color: '#665845', roof: '#85755c', housing: 8, light: 70 }),
     warehouse: B('warehouse', 'Entrepôt', 'colony', '▤', 'Augmente le stockage et sert de point de dépôt aux équipes de collecte.', { wood: 55, scrap: 45 }, 900, 22, [3, 3], 0, 5,
       { symbol: 'ST', storage: 600, light: 55 }),
-    barracks: B('barracks', 'Caserne', 'colony', '★', 'Permet de former des fusiliers et sert de poste de repli.', { wood: 75, scrap: 70, ammo: 25 }, 1050, 30, [4, 3], 1, 9,
+    barracks: B('barracks', 'Caserne', 'colony', '★', 'Permet de recruter des fusiliers et ajoute quatre logements. Leur ralliement reste à vos ordres.', { wood: 75, scrap: 70, ammo: 25 }, 1050, 30, [4, 3], 1, 9,
       { symbol: 'CA', color: '#485144', roof: '#687263', powerUse: 1, housing: 4, light: 80 }),
-    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soigne les unités proches et stabilise les blessés.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
+    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soins de proximité sous alimentation électrique ; permet de recruter des secouristes. Aucun remède à la contamination.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
       { symbol: '+', color: '#586965', roof: '#7c928b', powerUse: 2, light: 90 }),
 
     farm: B('farm', 'Ferme protégée', 'industry', '≋', 'Produit régulièrement de la nourriture. Sa grande surface doit être défendue.', { wood: 55, stone: 25 }, 540, 20, [4, 3], 0, 5,
       { symbol: 'F', color: '#4d5c3f', roof: '#657952', production: { food: 0.42 } }),
     generator: B('generator', 'Générateur', 'industry', '⚡', 'Fournit de l’énergie aux ateliers, projecteurs et tourelles.', { scrap: 55, fuel: 20 }, 650, 18, [2, 2], 1, 5,
       { symbol: 'G', color: '#6c5e3f', roof: '#8c784b', powerGen: 24, light: 100, explosive: 70 }),
-    lumber: B('lumber', 'Scierie', 'industry', '╫', 'Transforme les zones boisées en approvisionnement régulier.', { wood: 45, scrap: 35 }, 750, 22, [3, 3], 1, 6,
+    lumber: B('lumber', 'Scierie', 'industry', '╫', 'Produit du bois sous alimentation électrique, indépendamment des gisements récoltés à la main.', { wood: 45, scrap: 35 }, 750, 22, [3, 3], 1, 6,
       { symbol: 'B', color: '#674f3b', roof: '#84664c', powerUse: 1, production: { wood: 0.48 } }),
     scrapyard: B('scrapyard', 'Centre de recyclage', 'industry', '⚙', 'Trie les carcasses et produit de la ferraille utilisable.', { wood: 35, scrap: 50 }, 780, 24, [3, 3], 1, 6,
       { symbol: 'R', color: '#505957', roof: '#6f7875', powerUse: 2, production: { scrap: 0.36 } }),
     quarry: B('quarry', 'Concasseur', 'industry', '▲', 'Produit pierre et agrégats pour les remparts lourds.', { wood: 45, scrap: 55, stone: 20 }, 850, 27, [3, 3], 2, 7,
       { symbol: 'Q', color: '#5d5b55', roof: '#7d7970', powerUse: 3, production: { stone: 0.34 } }),
-    refinery: B('refinery', 'Micro-raffinerie', 'industry', '◉', 'Récupère et stabilise du carburant. Risque d’explosion sous les tirs.', { scrap: 90, stone: 40, fuel: 25 }, 700, 34, [3, 3], 2, 9,
+    refinery: B('refinery', 'Micro-raffinerie', 'industry', '◉', 'Produit du carburant sous alimentation électrique. Explose lors de sa destruction.', { scrap: 90, stone: 40, fuel: 25 }, 700, 34, [3, 3], 2, 9,
       { symbol: 'RF', color: '#655c45', roof: '#887a56', powerUse: 4, production: { fuel: 0.18 }, explosive: 110 }),
-    workshop: B('workshop', 'Atelier militaire', 'industry', '⚒', 'Entretient les armes et déverrouille les défenses avancées.', { wood: 55, scrap: 100, stone: 25 }, 1000, 35, [4, 3], 2, 10,
+    workshop: B('workshop', 'Atelier militaire', 'industry', '⚒', 'Permet de recruter des ingénieurs et de construire les tourelles du palier atteint.', { wood: 55, scrap: 100, stone: 25 }, 1000, 35, [4, 3], 2, 10,
       { symbol: 'AT', color: '#50544f', roof: '#72766f', powerUse: 4, light: 90 }),
     ammoFactory: B('ammoFactory', 'Manufacture de munitions', 'industry', '●', 'Transforme la ferraille en munitions.', { scrap: 120, stone: 55, fuel: 15 }, 950, 38, [4, 3], 3, 12,
       { symbol: 'MU', color: '#594d43', roof: '#806e5c', powerUse: 5, production: { ammo: 0.9 }, consumes: { scrap: 0.11 }, explosive: 90 }),
@@ -776,7 +832,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
   const CRISES = [
     { id: 'blackout', title: 'Noir électrique', minWave: 2, severity: 1, text: 'Un court-circuit force un délestage brutal.', choiceA: 'Brûler du carburant pour stabiliser.', choiceB: 'Couper les ateliers et préserver la réserve.' },
-    { id: 'injury', title: 'Blessés aux portes', minWave: 3, severity: 1, text: 'Des survivants arrivent mordus et épuisés.', choiceA: 'Consommer des médicaments pour les intégrer.', choiceB: 'Les isoler, au prix du moral.' },
+    { id: 'injury', title: 'Blessés aux portes', minWave: 3, severity: 1, text: 'Un survivant blessé et épuisé demande refuge. Son état impose un choix d’accueil ; les médicaments ne sont pas un remède à la contamination.', choiceA: 'Soigner ses blessures et l’accueillir.', choiceB: 'Différer son accueil, au prix du moral.' },
     { id: 'ammo', title: 'Munitions humides', minWave: 4, severity: 2, text: 'Une réserve a pris l’eau pendant la nuit.', choiceA: 'Sécher et trier maintenant.', choiceB: 'Accepter les pertes et tenir le rythme.' },
     { id: 'breach', title: 'Fissure dans l’enceinte', minWave: 5, severity: 2, text: 'La pression des corps a ouvert un point faible.', choiceA: 'Réparer les défenses critiques.', choiceB: 'Former des équipes de nettoyage.' }
   ];
@@ -788,7 +844,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     },
     injury: {
       A: { label: 'Soigner et accueillir', cost: { medicine: 6, food: 12 }, description: 'Un ouvrier rejoint la cité ; moral +4. Une place de logement requise.', effects: { workers: 1, morale: 4 } },
-      B: { label: 'Maintenir la quarantaine', cost: {}, description: 'Préserve les réserves ; moral −5.', effects: { morale: -5 } }
+      B: { label: 'Différer l’accueil', cost: {}, description: 'Aucun recrutement ; préserve les réserves, moral −5.', effects: { morale: -5 } }
     },
     ammo: {
       A: { label: 'Sécher et trier', cost: { fuel: 8, scrap: 10 }, description: 'Sauve la réserve de munitions.', effects: {} },
@@ -800,6 +856,16 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     }
   };
   for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
+  const NARRATIVE_RULES = Object.freeze({surveySeconds:8,surveyRadius:90,debriefRadius:180,maxStep:.25});
+  // Six optional, one-use decisions. No resource spawns or permanent combat modifiers.
+  const NARRATIVE_OPERATIONS = Object.freeze({
+    housing:{A:{cost:{wood:12,scrap:12},insight:1},B:{cost:{food:8},morale:4}},
+    market:{A:{cost:{scrap:16,food:8},insight:1},B:{cost:{food:8},morale:4}},
+    aid:{A:{cost:{scrap:12,medicine:2},insight:1},B:{cost:{food:8},morale:4}},
+    industry:{A:{cost:{scrap:18,fuel:6},insight:1},B:{cost:{food:8},morale:4}},
+    transit:{A:{cost:{scrap:16,fuel:6},insight:1},B:{cost:{food:8},morale:4}},
+    checkpoint:{A:{cost:{wood:12,scrap:14},insight:1},B:{cost:{food:8},morale:4}}
+  });
   const STRATEGY_RULES = { spawnBatch: 64, crisisDecisionSeconds: 45, pathMaxExpanded: 8192, pathQueriesPerUpdate: 6, pathRetrySeconds: 1.25 };
   const WORKER_RULES = { cleanupPerSecond: .9, cleanupRange: 48, retreatRadius: 90, passiveDecayPerSecond: .012 };
   const SURVIVORS = {
@@ -824,7 +890,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   function canAfford(stock, cost, multiplier = 1) { return RESOURCE_KEYS.every(key => (stock[key] || 0) + 1e-6 >= (cost[key] || 0) * multiplier); }
   function spend(stock, cost, multiplier = 1) {
     if (!canAfford(stock, cost, multiplier)) return false;
-    for (const key of RESOURCE_KEYS) stock[key] -= (cost[key] || 0) * multiplier;
+    // canAfford tolerates floating-point dust, never leave an unsavable negative residue.
+    for (const key of RESOURCE_KEYS) stock[key] = Math.max(0, (stock[key] || 0) - (cost[key] || 0) * multiplier);
     return true;
   }
   function add(stock, gain, cap = Infinity) {
@@ -1056,7 +1123,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const Core = {
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
-    RESEARCH, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES,
+    RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
@@ -1071,9 +1138,103 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
 </script>
   <script>
+(function initNarrative(root, factory) {
+  'use strict';
+  const api=factory(typeof module==='object'&&module.exports?require('./core.js'):root.DeadwallCore);
+  if(typeof module==='object'&&module.exports)module.exports=api;
+  root.DeadwallNarrative=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(C) {
+  'use strict';
+  // Authored traces belong to places, not living units. No hidden survivor or rescue is promised.
+  const CHAPTERS=[
+    {id:'departure',title:'I · Le point de retour',text:'D-17 était un dépôt municipal. Trois ouvriers ont choisi d’y rester avec vous. Il reste des outils, un peu de vivres et une règle écrite sur la porte : personne ne part sans savoir où revenir. Commencez par rapporter des matériaux ; une cité ne tient pas dans un sac.'},
+    {id:'shelter',title:'II · Une place derrière les murs',text:'Un dortoir et une ferme ne rendent personne invulnérable. Ils donnent une raison de revenir. Gardez des portes praticables, des réserves et une ligne de repli : les bâtiments ne mettront pas automatiquement vos équipes à l’abri.'},
+    {id:'initiative',title:'III · Ce qu’ils ont laissé',text:'Les quartiers n’étaient pas vides avant votre arrivée. Leurs traces racontent des décisions prises avec trop peu de temps. Au dépôt, vous pouvez en tirer une méthode ou en faire un moment partagé avec l’équipe. Choisir l’un, c’est renoncer à l’autre pour ce dossier.'},
+    {id:'network',title:'IV · La dernière enceinte',text:'Six quartiers ont retrouvé une place dans le registre de D-17. La ligne a tenu au moins trois migrations. Vous n’avez ni retrouvé tous les disparus, ni arrêté la contamination. Vous avez gardé leurs pratiques d’entraide et un point de retour. La dernière enceinte n’est pas le dernier mur : c’est la décision de ne pas abandonner ceux qui le défendent. Les migrations continuent.'}
+  ];
+  const definitions=[
+    {id:'housing',title:'Les portes entrouvertes',source:'Liste au crayon · Lina, habitante · date illisible',
+      excerpt:'« Troisième maison : deux personnes. Cinquième : une seule, qui entend mal. Laissez les clés chez moi. Si le convoi ne vient pas, on part ensemble. » La dernière case n’a jamais été cochée.',
+      discovery:'Une liste de voisins, pas un inventaire de ruines. Leur destination reste inconnue.',
+      a:['Formaliser les tournées','Vous recopiez les tournées rue par rue. À côté de chaque départ, vous laissez une case pour le retour. Le prochain responsable ne devra pas tout réapprendre.'],
+      b:['Lire les noms à l’équipe','Au dépôt, vous prenez le temps de lire chaque nom. Aucun disparu n’est déclaré sauvé ; ceux qui sont ici savent qu’ils seront comptés.']},
+    {id:'market',title:'Le registre des parts',source:'Cahier de comptoir · Sami, répartiteur bénévole · avant le dernier départ',
+      excerpt:'« Les rations des absents restent à part jusqu’au soir. Ne rayez pas quelqu’un parce qu’il rentre en retard. Nous avons déjà fait cette erreur hier. » Sous la page, une balance est bloquée par la poussière.',
+      discovery:'Le marché distribuait ses dernières réserves. Le registre parle de confiance avant de parler de quantités.',
+      a:['Étudier la répartition','Vous séparez le registre en deux colonnes : distribué et attendu. La méthode ne remplit pas les étagères, mais elle montre enfin où les réserves disparaissent.'],
+      b:['Partager un repas au dépôt','Une part des réserves devient un repas commun. Pour quelques minutes, les voix autour de la table couvrent les bruits venus du dehors.']},
+    {id:'aid',title:'La colonne des incertains',source:'Fiche de triage · Nora, soignante · fin de permanence',
+      excerpt:'« Blessure ne veut pas dire morsure. Morsure ne veut pas dire diagnostic certain. Séparez les couchages, gardez les noms et notez ce que vous avez réellement vu. » La fiche suivante manque.',
+      discovery:'Le camp n’a laissé ni remède ni certitude. Seulement une consigne : soigner sans inventer de diagnostic.',
+      a:['Consigner le protocole','Vous recopiez les observations avant les conclusions. Dans la marge, le mot « guérison » reste barré. Les équipes auront au moins une méthode commune pour parler des blessures.'],
+      b:['Organiser une relève','Vous mettez des rations de côté pour la relève. Quelqu’un s’assoit enfin sans garder son équipement contre lui. Personne ne lui demande de se dépêcher.']},
+    {id:'industry',title:'La lumière de service',source:'Cahier de quart · initiales E.R. · après le premier délestage',
+      excerpt:'« Garder une lampe pour le retour des équipes. Couper le reste avant que la citerne soit vide. Le prochain quart doit trouver assez de carburant pour redémarrer. » Le fusible de rechange est déjà absent.',
+      discovery:'Le site s’est arrêté pour économiser une reprise qui n’est peut-être jamais venue.',
+      a:['Analyser le délestage','Vous reconstituez le raisonnement du dernier quart sur un schéma. Une ligne est soulignée deux fois : économiser assez pour pouvoir redémarrer.'],
+      b:['Tenir la veillée','L’équipe partage ses rations sous la lampe du dépôt. Au-delà du halo, on entend toujours les grilles. À l’intérieur, chacun raconte un endroit qu’il aimerait revoir.']},
+    {id:'transit',title:'Le trajet barré',source:'Feuille de route · Sami V., conducteur · dernier service connu',
+      excerpt:'« Terminus fermé. Barrage fermé. D-17 reste praticable à pied. Je ne peux pas promettre un autre passage. J’ai laissé cette copie pour ceux qui arrivent après nous. » Aucun horaire de retour n’est inscrit.',
+      discovery:'Les autobus sont immobilisés. La route indiquait un refuge possible, pas une évacuation garantie.',
+      a:['Reporter les itinéraires','La feuille de route rejoint la carte du dépôt. Vous y marquez les interruptions connues, sans transformer un ancien itinéraire en promesse de passage sûr.'],
+      b:['Transmettre le point de retour','Autour d’un repas, vous rappelez le nom de D-17 à ceux qui viennent d’arriver. Pas comme une destination finale. Comme un endroit où quelqu’un comptera leur retour.']},
+    {id:'checkpoint',title:'Deux ordres sur le même billet',source:'Billet de barrage · auteur inconnu · après la fermeture',
+      excerpt:'« Fermer le passage. » Au verso, d’une autre main : « Laisser sortir les familles à pied. Ne promettez pas que la route est sûre. » Les deux signatures ont été arrachées avec le bas du papier.',
+      discovery:'Le barrage garde la trace d’un désaccord. Aucun document ne dit qui a finalement traversé.',
+      a:['Étudier les points de rupture','Vous posez les deux ordres côte à côte. Un accès unique a transformé chaque décision en impasse. Le dossier de la prochaine enceinte commence par cette leçon.'],
+      b:['Inscrire le droit au repli','Vous lisez le billet devant l’équipe, puis le retournez. Sur la face vide, vous écrivez qu’un quartier peut être perdu sans que ceux qui le défendent soient abandonnés.']}
+  ];
+  const SECTORS=definitions.map(def=>{
+    const choices=Object.fromEntries(['A','B'].map((key,index)=>{
+      const rule=C.NARRATIVE_OPERATIONS[def.id][key],copy=index?def.b:def.a;
+      return [key,{label:copy[0],outcome:copy[1],cost:{...rule.cost},reward:{insight:rule.insight||0,morale:rule.morale||0,resources:{}}}];
+    }));
+    const {a,b,...text}=def;return {...text,choices};
+  });
+  const ids=SECTORS.map(item=>item.id),chapterIds=CHAPTERS.map(item=>item.id);
+  const fail=()=>{throw new Error('Sauvegarde invalide : registre narratif.');};
+  const plain=value=>value&&typeof value==='object'&&!Array.isArray(value);
+  const unique=(value,allowed,max)=>{
+    if(!Array.isArray(value)||value.length>max||new Set(value).size!==value.length||value.some(id=>typeof id!=='string'||!allowed.includes(id)))fail();
+    return value.slice();
+  };
+  function create(){
+    return {version:1,sectors:Object.fromEntries(ids.map(id=>[id,{survey:0,choice:null}])),chapters:['departure'],unread:['chapter:departure']};
+  }
+  function normalize(raw){
+    if(raw===undefined)return create();
+    if(!plain(raw)||raw.version!==1||!plain(raw.sectors)||Object.keys(raw.sectors).some(id=>!ids.includes(id)))fail();
+    const sectors=Object.fromEntries(ids.map(id=>{
+      if(!Object.hasOwn(raw.sectors,id))fail();
+      const item=raw.sectors[id];
+      if(!plain(item)||typeof item.survey!=='number'||!Number.isFinite(item.survey)||item.survey<0||item.survey>C.NARRATIVE_RULES.surveySeconds||![null,'A','B'].includes(item.choice))fail();
+      if(item.choice!==null&&item.survey!==C.NARRATIVE_RULES.surveySeconds)fail();
+      return [id,{survey:item.survey,choice:item.choice}];
+    }));
+    const chapters=unique(raw.chapters,chapterIds,chapterIds.length);if(!chapters.includes('departure'))fail();
+    const available=[...chapters.map(id=>'chapter:'+id),...ids.filter(id=>sectors[id].survey===C.NARRATIVE_RULES.surveySeconds).map(id=>'sector:'+id)];
+    const unread=unique(raw.unread,available,chapterIds.length+ids.length);
+    return {version:1,sectors,chapters,unread};
+  }
+  function status(state){
+    return {observed:ids.filter(id=>state.sectors[id].survey===C.NARRATIVE_RULES.surveySeconds).length,resolved:ids.filter(id=>state.sectors[id].choice!==null).length,unread:state.unread.length};
+  }
+  function chaptersFor(state,facts){
+    const next=[];
+    if(facts.objectiveIndex>=3)next.push('shelter');
+    if(status(state).observed>0)next.push('initiative');
+    if(status(state).resolved===ids.length&&facts.wavesSurvived>=3)next.push('network');
+    return next.filter(id=>!state.chapters.includes(id));
+  }
+  return Object.freeze({CHAPTERS,SECTORS,RULES:C.NARRATIVE_RULES,create,normalize,status,chaptersFor});
+});
+
+</script>
+  <script>
 (function initDeadwallSave(global) {
   'use strict';
   const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : global.DeadwallCore;
+  const N = typeof module !== 'undefined' && module.exports ? require('./narrative.js') : global.DeadwallNarrative;
   const MAX_FILE_BYTES = 8 * 1024 * 1024;
   const owns = (table,key) => typeof key==='string' && Object.prototype.hasOwnProperty.call(table,key);
   const fail = label => { throw new Error(`Sauvegarde invalide : ${label}.`); };
@@ -1119,9 +1280,10 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     const pending=object(data.pendingSpawns||{},'migration');for(const [key,value]of Object.entries(pending)){if(!owns(C.ENEMIES,key))fail('migration inconnue');integer(value,0,0,Number.MAX_SAFE_INTEGER/10,'effectif migration');}
     let plan=null;if(data.wavePlan){const raw=object(data.wavePlan,'plan de migration'),composition=Object.fromEntries(Object.keys(C.ENEMIES).map(kind=>[kind,integer(raw.composition?.[kind],0,0,1e12,'composition migration')]));const total=integer(raw.total,undefined,1,1e12,'total migration');if(Object.values(composition).reduce((a,b)=>a+b,0)!==total)fail('composition migration incohérente');plan={wave,total,fronts:integer(raw.fronts,1,1,4,'fronts migration'),spawnInterval:number(raw.spawnInterval,.3,.01,5,'intervalle migration'),composition};}
     const stats=Object.fromEntries(Object.keys(C.createStats()).map(key=>[key,number(data.stats?.[key],0,0,1e15,'statistiques')]));
-    const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,1e12,'insight'),active:null};
+    const research={completed:list(data.research?.completed,[],C.RESEARCH.length,'doctrines').filter(id=>C.RESEARCH.some(item=>item.id===id)),insight:number(data.research?.insight,0,0,C.RESEARCH_INSIGHT_MAX,'insight'),active:null};
+    const narrative=N.normalize(data.narrative);
     return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
-      nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
+      narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');return[integer(row[0],undefined,0,1e9,'gisement ID'),number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
       elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex:integer(data.objectiveIndex,0,0,C.OBJECTIVES.length,'objectif'),objectiveProgress:number(data.objectiveProgress,0,0,1e12,'progression'),nextId:Math.max(integer(data.nextId,maximumId+1,1,0x7ffffffe,'prochain ID'),maximumId+1),research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
   }
@@ -1993,7 +2155,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
-      this.workerOrder = 'auto'; this.runId = null;
+      this.workerOrder = 'auto'; this.runId = null; this.narrative=globalThis.DeadwallNarrative.create();
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
       this.audio.setVolume(this.settings.volume);
@@ -2126,7 +2288,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       }
 
       const click = (id, fn) => { const button = document.getElementById(id); button.addEventListener('click', event => { if (!button.disabled && !button.closest('[inert]')) fn(event); }); };
-      click('newGameButton', () => this.startNew(this.selectedDifficulty(), document.getElementById('mapSeed')?.value || ''));
+      click('newGameButton', () => this.requestNewGame());
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
@@ -2165,7 +2327,16 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     overlayFocusable(overlay) {
       const candidates = [...overlay.querySelectorAll('button, input, select, textarea, a[href], [tabindex]')]
-        .filter(node => !node.disabled && node.getAttribute('tabindex') !== '-1' && !node.closest('[inert], .hidden') && node.getClientRects().length > 0);
+        .filter(node => {
+          if (node.disabled || node.getAttribute('tabindex') === '-1' || node.closest('[inert], .hidden') || !node.getClientRects().length) return false;
+          // Chromium can retain layout rectangles for the non-focusable content of closed details.
+          for (let ancestor = node.parentNode; ancestor && ancestor !== overlay; ancestor = ancestor.parentNode) {
+            if (ancestor.tagName !== 'DETAILS' || ancestor.open) continue;
+            const summary = [...ancestor.children].find(child => child.tagName === 'SUMMARY');
+            if (!summary?.contains(node)) return false;
+          }
+          return true;
+        });
       // A radio group is one Tab stop; arrow keys keep their native selection behavior.
       return candidates.filter(node => {
         if (node.type !== 'radio' || !node.name) return true;
@@ -2221,6 +2392,16 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     isLineWall(def) { return ['woodWall','steelWall','concreteWall'].includes(def.id); }
 
+    requestNewGame() {
+      if(this.state!=='menu'||this.activeOverlay!==this.ui.mainMenu)return false;
+      this.refreshContinue();
+      if(!this.ui.continueButton.disabled){
+        const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
+        if(accepted!==true)return false;
+      }
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'')!==false;
+    }
+
     startNew(id = 'standard', seedText = '') {
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
@@ -2229,7 +2410,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       id = typeof id === 'string' && Object.hasOwn(DIFFICULTIES, id) ? id : 'standard';
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
       this.world = new WorldMap(seed ?? this.random.int(1000, 9999999)); this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
-      this.fieldMarker=null;this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
+      this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
       this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
@@ -2247,7 +2428,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     serialize() {
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
-        workerOrder: this.workerOrder, runId: this.runId,
+        workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
@@ -2289,7 +2470,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
       Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
-      this.fieldMarker=null;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
+      this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
@@ -2473,7 +2654,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       if (this.world.flowDirty) { this.flowTimer -= dt; if (this.flowTimer <= 0) { const core = this.core(); if (core) this.flow.rebuild(this.world, core); this.flowTimer = .22; } }
       this.rebuildBuckets(); this.updatePlayer(dt); this.updateBuildings(dt); this.updateUnits(dt); this.updateZombies(dt); this.rebuildBuckets(); this.updateProjectiles(dt); this.updateEffects(dt);
       this.economyTimer += dt; if (this.economyTimer >= .25) { this.economyTick(this.economyTimer); this.economyTimer = 0; }
-      this.metricsTimer -= dt; if (this.metricsTimer <= 0) { this.refreshMetrics(); this.updateObjective(); this.metricsTimer = .45; }
+      this.metricsTimer -= dt; if (this.metricsTimer <= 0) { this.refreshMetrics(); this.updateObjective(); this.updateNarrative(); this.metricsTimer = .45; }
       this.saveTimer += dt; if (this.saveTimer >= 30) { this.save(false); this.saveTimer = 0; }
       this.uiTimer -= dt; if (this.uiTimer <= 0) { this.updateUI(); this.uiTimer = .09; }
       this.minimapTimer -= dt; if (this.minimapTimer <= 0) { this.renderMinimap(); this.minimapTimer = .22; }
@@ -2561,14 +2742,29 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     }
 
     updateInteraction(dt) {
-      const p = this.player, carried = bagTotal(p.carry), storage = this.world.nearestStorage(p.x,p.y);
-      let incomplete = null, incompleteD = 78 * 78; for (const b of this.world.buildings.values()) if (!b.dead && !b.completed) { const d = (b.x-p.x)**2+(b.y-p.y)**2; if (d < incompleteD) { incompleteD=d; incomplete=b; } }
-      const node = this.world.nearestNode(p.x,p.y,62); let action = null;
+      const p = this.player;
+      if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || !(dt > 0) || !Number.isFinite(dt)) { this.interactionText = ''; return; }
+      const carried = bagTotal(p.carry);
+      let storage = null, storageD = 100 * 100, incomplete = null, incompleteD = 78 * 78, node = null, nodeD = 62 * 62;
+      // Choose the nearest usable target: a wall must not hide a second, reachable action.
+      for (const b of this.world.buildings.values()) {
+        if (b.dead) continue;
+        const d = distSq(p, b);
+        if (!b.completed && d < incompleteD && this.workerCanWorkAt(p, b, 78)) { incompleteD = d; incomplete = b; }
+        if (carried > .01 && b.completed && (b.type === 'core' || b.type === 'warehouse') && d < storageD && this.workerCanWorkAt(p, b, 100)) { storageD = d; storage = b; }
+      }
+      if (carried < p.carryCapacity) for (const candidate of this.world.nodes) {
+        if (candidate.depleted) continue;
+        const d = distSq(p, candidate);
+        if (d < nodeD && this.workerCanWorkAt(p, candidate, 62)) { nodeD = d; node = candidate; }
+      }
+      let action = null;
       if (storage && carried > .01 && dist(storage,p) < 100) { this.interactionText = `Déposer ${Math.floor(carried)} unités`; action = 'deposit'; }
       else if (incomplete) { this.interactionText = `Construire ${incomplete.def.name} — ${Math.floor(incomplete.progress*100)} %`; action = 'build'; }
       else if (node && bagTotal(p.carry) < p.carryCapacity) { this.interactionText = node.sceneryKind ? `Fouiller ${C.SCENERY_DEFS[node.sceneryKind].name} · ${RESOURCE_META[node.type].label.toLowerCase()}` : `Récolter ${RESOURCE_META[node.type].label.toLowerCase()}`; action = 'harvest'; }
       else this.interactionText = '';
-      if (!action || !this.input.keys.has('KeyE')) return;
+      if (!action) { this.updateNarrativeSurvey?.(dt); return; }
+      if (!this.input.keys.has('KeyE')) return;
       if (action === 'deposit') {
         let deposited=0;for (const key of RESOURCE_KEYS) { const room = Math.max(0, this.storage - this.resources[key]), moved = Math.min(room, p.carry[key]); this.resources[key] += moved; p.carry[key] -= moved; deposited+=moved; }this.depositedResources+=deposited;
       } else if (action === 'build') {
@@ -2594,8 +2790,21 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     }
 
     melee() {
-      const p = this.player; if (p.dead || p.meleeCooldown > 0) return; p.meleeCooldown = .65; let hit = false;
-      for (const z of this.nearbyZombies(p.x,p.y,55)) { const a = Math.atan2(z.y-p.y,z.x-p.x), delta = Math.atan2(Math.sin(a-p.facing),Math.cos(a-p.facing)); if (Math.abs(delta)<1.15) { z.health -= 36; z.stagger=.35; z.x += Math.cos(a)*20; z.y += Math.sin(a)*20; hit=true; if(z.health<=0)this.killZombie(z,false); } }
+      const p = this.player; if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || p.meleeCooldown > 0) return;
+      p.meleeCooldown = .65; let hit = false;
+      for (const z of this.nearbyZombies(p.x, p.y, 55)) {
+        const a = Math.atan2(z.y - p.y, z.x - p.x), delta = Math.atan2(Math.sin(a - p.facing), Math.cos(a - p.facing));
+        if (z.dead || Math.abs(delta) >= 1.15 || !this.hostileLineClear(p, z)) continue;
+        z.health -= 36; z.stagger = .35; hit = true;
+        // Preserve the 20px shove, stopping each short step before a physical obstacle.
+        for (let step = 0; step < 5; step++) {
+          const nx = clamp(z.x + Math.cos(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
+          const ny = clamp(z.y + Math.sin(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
+          if (!this.hostilePositionClear(z, nx, ny)) break;
+          z.x = nx; z.y = ny;
+        }
+        if (z.health <= 0) this.killZombie(z, false);
+      }
       this.audio.tone(hit?90:160,.08,'square',.05,-40); this.camera.shake=Math.max(this.camera.shake,3);
     }
 
@@ -2609,7 +2818,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*C.WORKER_RULES.passiveDecayPerSecond);
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
         if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&b.fireCooldown<=0){const target=this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
-        if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&distSq(u,b)<130*130)u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&distSq(this.player,b)<130*130)this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
+        if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&u.health>0&&distSq(u,b)<130*130&&this.workerCanWorkAt(u,b,130))u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&this.player.health>0&&distSq(this.player,b)<130*130&&this.workerCanWorkAt(this.player,b,130))this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
       }
     }
 
@@ -2675,7 +2884,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         } else if(C.SURVIVORS[u.kind]?.specialist){
           this.updateSpecialist(u,dt,danger,core);
         } else if(u.kind==='soldier') {
-          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
+          const target=this.nearestZombie(u.x,u.y,345);if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);if(d>285)this.moveUnitToward(u,target,dt,u.speed*.8);else if(u.fireCooldown<=0&&this.resources.ammo>=1){u.fireCooldown=.24;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?35:31,520,'#ffe0a0');}else if(d<28&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=.7;target.health-=18;if(target.health<=0)this.killZombie(target,false);}}
           else{const targetPoint={x:this.rally.x+u.offset.x*.35,y:this.rally.y+u.offset.y*.35};if(dist(u,targetPoint)>22)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
@@ -2856,7 +3065,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
         this.spawnTimer-=dt;while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
-        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight+=1+(this.wave%5===0?1:0);this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
+        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
@@ -2873,6 +3082,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     }
     crisisDefinition(){return CRISES.find(crisis=>crisis.id===this.activeCrisis?.id)||null;}
     canResolveCrisis(choice){
+      if(choice!=='A'&&choice!=='B')return false;
       const definition=this.crisisDefinition(),option=definition?.choices?.[choice];
       if(!option||this.activeCrisis.status!=='pending'||!canAfford(this.resources,option.cost))return false;
       if(option.effects.workers&&this.population+option.effects.workers>this.housing)return false;
@@ -2880,7 +3090,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       return true;
     }
     resolveCrisis(choice,automatic=false){
-      if(this.state!=='playing'||this.gameOver||(!automatic&&this.paused)||!this.canResolveCrisis(choice))return false;
+      if(this.state!=='playing'||this.gameOver||(automatic?this.paused:!this.canIssueCommand())||!this.canResolveCrisis(choice))return false;
       const crisis=this.activeCrisis,definition=this.crisisDefinition(),option=definition.choices[choice];
       if(!spend(this.resources,option.cost))return false;
       const effect=option.effects;
@@ -2896,6 +3106,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       this.refreshMetrics(true);this.updateCrisisUI();this.save(false);return true;
     }
     updateCrisis(dt){
+      if(this.state!=='playing'||this.paused||this.gameOver||!(dt>0)||!Number.isFinite(dt))return;
       const crisis=this.activeCrisis;if(!crisis)return;
       crisis.remaining=Math.max(0,crisis.remaining-dt);
       if(crisis.remaining>0)return;
@@ -3038,8 +3249,46 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     nearbyZombies(x,y,range){const out=[],minX=Math.floor((x-range)/this.bucketSize),maxX=Math.floor((x+range)/this.bucketSize),minY=Math.floor((y-range)/this.bucketSize),maxY=Math.floor((y+range)/this.bucketSize),r2=range*range;for(let by=minY;by<=maxY;by++)for(let bx=minX;bx<=maxX;bx++){const bucket=this.buckets.get(bx+by*1000);if(bucket)for(const z of bucket)if(!z.dead&&(z.x-x)**2+(z.y-y)**2<=r2)out.push(z);}return out;}
     nearestZombie(x,y,range){let result=null,best=range*range;for(const z of this.nearbyZombies(x,y,range)){const d=(z.x-x)**2+(z.y-y)**2;if(d<best){best=d;result=z;}}return result;}
 
-    updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const dx=p.vx*dt,dy=p.vy*dt;p.x+=dx;p.y+=dy;p.travelled+=Math.hypot(dx,dy);if(p.travelled>p.range||p.x<0||p.y<0||p.x>WORLD_SIZE||p.y>WORLD_SIZE){p.dead=true;continue;}const targets=this.nearbyZombies(p.x,p.y,18);for(const z of targets){if(z.dead)continue;const hit=distSq(p,z)<(z.radius+p.radius+3)**2;if(!hit)continue;let damage=p.damage,head=false;if(p.owner==='player'&&this.random.chance(this.player.weapon==='shotgun'?.065:.13)){damage*=1.75;head=true;this.stats.headshots++;}z.health-=damage;z.stagger=Math.max(z.stagger,.08);p.dead=true;this.audio.hit();for(let i=0;i<4;i++)this.particles.push(new Particle(z.x,z.y,this.random.range(-45,45),this.random.range(-45,45),.45,2.5,'#6d2928','blood'));if(head)this.floaters.push({x:z.x,y:z.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});if(z.health<=0)this.killZombie(z,head);break;}}
-      this.projectiles=this.projectiles.filter(p=>!p.dead);}
+    updateProjectiles(dt) {
+      if (!(dt > 0) || !Number.isFinite(dt)) return;
+      const maxRadius = Math.max(...Object.values(ENEMIES).map(enemy => enemy.radius));
+      for (const p of this.projectiles) {
+        if (p.dead) continue;
+        const fullDx = p.vx * dt, fullDy = p.vy * dt, fullLength = Math.hypot(fullDx, fullDy), remaining = p.range - p.travelled;
+        if (!(fullLength > 0) || !(remaining > 0) || p.x < 0 || p.y < 0 || p.x > WORLD_SIZE || p.y > WORLD_SIZE) { p.dead = true; continue; }
+        let fraction = Math.min(1, remaining / fullLength);
+        if (fullDx > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.x) / fullDx);
+        else if (fullDx < 0) fraction = Math.min(fraction, -p.x / fullDx);
+        if (fullDy > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.y) / fullDy);
+        else if (fullDy < 0) fraction = Math.min(fraction, -p.y / fullDy);
+        const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
+        let target = null, impact = Infinity;
+        // Swept circle collision removes frame-rate tunnelling; shots still pass over walls.
+        for (const z of this.nearbyZombies(p.x + dx / 2, p.y + dy / 2, length / 2 + maxRadius + p.radius + 3)) {
+          if (z.dead) continue;
+          const ox = p.x - z.x, oy = p.y - z.y, radius = z.radius + p.radius + 3, c = ox * ox + oy * oy - radius * radius;
+          let time = 0;
+          if (c > 0) {
+            const b = ox * dx + oy * dy, discriminant = b * b - lengthSq * c;
+            if (!lengthSq || discriminant < 0) continue;
+            time = (-b - Math.sqrt(discriminant)) / lengthSq;
+            if (time < 0 || time > 1) continue;
+          }
+          if (time < impact || (time === impact && z.id < target.id)) { target = z; impact = time; }
+        }
+        const travel = target ? impact : 1;
+        p.x += dx * travel; p.y += dy * travel; p.travelled = Math.min(p.range, p.travelled + length * travel);
+        if (target) {
+          let damage = p.damage, head = false;
+          if (p.owner === 'player' && this.random.chance(this.player.weapon === 'shotgun' ? .065 : .13)) { damage *= 1.75; head = true; this.stats.headshots++; }
+          target.health -= damage; target.stagger = Math.max(target.stagger, .08); p.dead = true; this.audio.hit();
+          for (let i = 0; i < 4; i++) this.particles.push(new Particle(target.x, target.y, this.random.range(-45,45), this.random.range(-45,45), .45, 2.5, '#6d2928', 'blood'));
+          if (head) this.floaters.push({x:target.x,y:target.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});
+          if (target.health <= 0) this.killZombie(target, head);
+        } else if (fraction < 1 || p.travelled >= p.range || p.x <= 0 || p.y <= 0 || p.x >= WORLD_SIZE || p.y >= WORLD_SIZE) p.dead = true;
+      }
+      this.projectiles = this.projectiles.filter(p => !p.dead);
+    }
 
     killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
     nearestWall(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
@@ -3069,6 +3318,71 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     updateObjective(){const obj=OBJECTIVES[this.objectiveIndex];if(!obj)return;if(obj.id==='gather')this.objectiveProgress=this.depositedResources;else if(obj.id==='house')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='house').length;else if(obj.id==='farm')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='farm').length;else if(obj.id==='walls')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&b.def.wall).length;else if(obj.id==='power')this.objectiveProgress=this.resources.fuel>0?[...this.world.buildings.values()].filter(b=>b.completed&&b.type==='generator').length:0;else if(obj.id==='defense')this.objectiveProgress=[...this.world.buildings.values()].filter(b=>b.completed&&['watchtower','turret','heavyTurret'].includes(b.type)).length;else if(obj.id==='research')this.objectiveProgress=this.research.completed.length;else if(obj.id==='wave')this.objectiveProgress=this.stats.wavesSurvived;
       if(this.objectiveProgress>=obj.target){add(this.resources,obj.reward,this.storage);this.notify(`Objectif accompli : ${obj.title}.`,'good');this.objectiveIndex++;this.objectiveProgress=0;this.audio.build();}}
+
+    updateNarrativeSurvey(dt) {
+      if(this.state!=='playing'||this.paused||this.gameOver||this.player.dead||this.player.health<=0)return false;
+      const N=globalThis.DeadwallNarrative,rules=C.NARRATIVE_RULES;
+      const site=(this.world.sites||[]).find(site=>distSq(this.player,site)<=rules.surveyRadius**2);
+      if(!site)return false;
+      const record=this.narrative.sectors[site.theme];
+      // Survey the surrounding area from a standable position, not a fictional object
+      // at its exact centre. Existing saves may already contain a wall on that point.
+      if(!record||record.survey>=rules.surveySeconds||!this.friendlyPositionClear(this.player,this.player.x,this.player.y))return false;
+      this.interactionText='Relever les traces · '+site.name+' · '+Math.floor(record.survey)+' / '+rules.surveySeconds+' s';
+      if(!this.input.keys.has('KeyE')||!Number.isFinite(dt)||dt<=0)return false;
+      record.survey=Math.min(rules.surveySeconds,record.survey+Math.min(dt,rules.maxStep));
+      if(record.survey>=rules.surveySeconds-1e-8){
+        record.survey=rules.surveySeconds;this.narrative.unread.push('sector:'+site.theme);
+        const definition=N.SECTORS.find(item=>item.id===site.theme);
+        this.notify('Trace relevée : '+definition.title+'. Retournez au dépôt pour décider.','good');
+        this.audio.ui();this.updateNarrative();this.save(false);
+      }
+      return true;
+    }
+
+    updateNarrative() {
+      if(this.state!=='playing'||this.gameOver)return;
+      const N=globalThis.DeadwallNarrative;
+      for(const id of N.chaptersFor(this.narrative,{objectiveIndex:this.objectiveIndex,wavesSurvived:this.stats.wavesSurvived})){
+        this.narrative.chapters.push(id);this.narrative.unread.push('chapter:'+id);
+        this.notify('Registre D-17 : '+N.CHAPTERS.find(item=>item.id===id).title+'.','good');
+      }
+      this.narrativeUI?.refresh();
+    }
+
+    narrativeStatus(theme,choice) {
+      const def=globalThis.DeadwallNarrative.SECTORS.find(item=>item.id===theme);
+      if(!def)return {ok:false,reason:'Dossier inconnu.'};
+      if(!this.canIssueCommand())return {ok:false,reason:'Disponible pendant la campagne, depuis le commandement.'};
+      if(this.player.dead||this.player.health<=0)return {ok:false,reason:'Le commandant doit être debout.'};
+      const record=this.narrative.sectors[theme];
+      if(record.choice!==null)return {ok:false,reason:'Décision déjà consignée pour cette campagne.'};
+      if(record.survey<C.NARRATIVE_RULES.surveySeconds)return {ok:false,reason:'Rejoignez le centre du secteur et maintenez ACTION / E pendant huit secondes, hors collecte ou chantier.'};
+      const core=this.core();
+      if(!core||!this.workerCanWorkAt(this.player,core,C.NARRATIVE_RULES.debriefRadius))return {ok:false,reason:'Retournez près du centre de commandement, par un accès ouvert.'};
+      if(choice!==undefined&&!['A','B'].includes(choice))return {ok:false,reason:'Décision inconnue.'};
+      if(choice!==undefined&&this.research.insight+def.choices[choice].reward.insight>C.RESEARCH_INSIGHT_MAX)return {ok:false,reason:'Réserve d’insight maximale. Dépensez de l’insight ou choisissez le partage.'};
+      if(choice==='B'&&!this.units.some(unit=>!unit.dead&&unit.health>0))return {ok:false,reason:'Recrutez au moins un survivant pour partager ce moment avec l’équipe.'};
+      if(choice!==undefined&&!canAfford(this.resources,def.choices[choice].cost))return {ok:false,reason:'Réserves insuffisantes ; aucun stock ne sera débité.'};
+      return {ok:true,reason:'Décision unique ; coût prélevé dans les réserves du dépôt.'};
+    }
+
+    resolveNarrative(theme,choice) {
+      if(!['A','B'].includes(choice)||!this.narrativeStatus(theme,choice).ok)return false;
+      const option=globalThis.DeadwallNarrative.SECTORS.find(item=>item.id===theme).choices[choice];
+      // Commit once, synchronously: no reward is ever granted during load, rendering or reading.
+      if(!spend(this.resources,option.cost))return false;
+      this.narrative.sectors[theme].choice=choice;
+      this.research.insight+=option.reward.insight;
+      this.morale=clamp(this.morale+option.reward.morale,0,100);
+      this.notify(option.label+' : décision consignée.','good');this.audio.ui();
+      this.updateNarrative();this.updateUI();this.save(false);return true;
+    }
+
+    markNarrativeRead() {
+      if(this.state!=='playing'||this.gameOver)return false;
+      this.narrative.unread=[];this.narrativeUI?.refresh();this.save(false);return true;
+    }
 
     hasResearch(id){return this.research.completed.includes(id);}
     currentResearch(){return RESEARCH.find(item=>!this.hasResearch(item.id)&&item.tier<=this.tier.id)||null;}
@@ -3368,7 +3682,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   'use strict';
   const game=globalThis.DEADWALL,C=globalThis.DeadwallCore,get=id=>document.getElementById(id);
   const modal=get('commandModal');if(!game||!modal)return;
-  const tabs=['enclosure','workers','research','records','field'];
+  const tabs=['enclosure','workers','research','records','field','journal'];
   const orders=[
     ['auto','AUTONOMIE','Chantiers puis collecte selon les besoins de la cité.'],
     ['harvest','RÉCOLTER','Collecte prioritaire ; chantiers si aucune ressource accessible.'],
@@ -3402,14 +3716,32 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     if(game.setGateMode(mode,gate)){message('Porte '+gate.id+' : '+modes.find(item=>item[0]===mode)[1].toLowerCase()+'.');refresh();}
     else message('Ordre refusé. Le passage doit être libre et la porte terminée pour verrouiller.');
   });
+  for(const choice of ['A','B'])bind('commandCrisis'+choice,()=>{
+    const definition=game.crisisDefinition(),option=definition?.choices?.[choice];
+    if(game.resolveCrisis(choice))message(definition.title+' : '+option.label+'. '+option.description);
+    else message('Décision indisponible : vérifiez les réserves, les logements et la cible de la crise.');
+    refresh();get('commandTab-enclosure').focus();
+  });
+  function refreshCrisis(){
+    const crisis=game.activeCrisis,definition=game.crisisDefinition(),visible=game.state==='playing'&&!game.gameOver&&Boolean(definition);
+    get('commandCrisisCard').classList.toggle('hidden',!visible);if(!visible)return;
+    get('commandCrisisTitle').textContent=definition.title;
+    get('commandCrisisText').textContent=crisis.status==='pending'?definition.text:definition.choices[crisis.choice].description;
+    get('commandCrisisTimer').textContent=crisis.status==='pending'?'Décision suspendue : '+Math.ceil(crisis.remaining)+' s restantes en jeu. Sans ordre au terme du délai, réponse B.':'Effet en cours : '+Math.ceil(crisis.remaining)+' s de simulation restantes.';
+    for(const choice of ['A','B']){
+      const option=definition.choices[choice],button=get('commandCrisis'+choice);
+      button.classList.toggle('hidden',crisis.status!=='pending');button.disabled=!game.canIssueCommand()||!game.canResolveCrisis(choice);
+      button.textContent=option.label+' — '+(C.resourceText(option.cost)||'Sans coût matériel')+'. '+option.description;
+    }
+  }
   function chooseTab(id,focus=false){
     if(!tabs.includes(id))return;
-    if((game.state!=='playing'||game.gameOver)&&!['records','field'].includes(id))id='records';
+    if((game.state!=='playing'||game.gameOver)&&!['records','field','journal'].includes(id))id='records';
     tab=id;
     for(const name of tabs){
       const button=get('commandTab-'+name),selected=name===id;
       button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1;
-      button.disabled=!['records','field'].includes(name)&&(game.state!=='playing'||game.gameOver);
+      button.disabled=!['records','field','journal'].includes(name)&&(game.state!=='playing'||game.gameOver);
       get('commandPanel-'+name).classList.toggle('hidden',!selected);
     }
     refresh();if(focus)get('commandTab-'+tab).focus();
@@ -3486,7 +3818,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshRecords();game.contentUI?.refresh();
+    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
@@ -3501,7 +3833,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}
       previousPause=null;
     }
-    game.syncOverlayFocus();
+    game.syncOverlayFocus();refresh();
   };
   game.commandUI={refresh};
   bind('cityCommandButton',()=>game.showCommand(true));
@@ -3600,6 +3932,86 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   game.contentUI={refresh,drawMarker,drawMinimap,choose};
   get('specialistCommandButton')?.addEventListener('click',()=>{game.showCommand(true,'field');choose('crew');});
   game.art?.ready.then(drawPortraits);choose('infected');
+})();
+
+</script>
+  <script>
+(function initNarrativeJournal(){
+  'use strict';
+  const game=globalThis.DEADWALL,N=globalThis.DeadwallNarrative,C=globalThis.DeadwallCore,get=id=>document.getElementById(id);
+  const panel=get('commandPanel-journal'),modal=get('commandModal');if(!game||!N||!panel||!modal)return;
+  const append=(parent,...children)=>{for(const child of children)parent.appendChild(child);};
+  const el=(tag,text,className)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;};
+  const write=text=>{get('commandStatus').textContent=text;},cards=new Map(),chapters=new Map();
+  const rule=C.NARRATIVE_RULES||{surveySeconds:8,surveyRadius:90,debriefRadius:180};
+  get('narrativeBrief').textContent='Les fragments viennent de lieux abandonnés. Ils ne sont ni des appels radio ni la preuve que leurs auteurs sont encore vivants. Lire et marquer un lieu ne donne aucune ressource ; seuls les choix explicitement engagés au dépôt produisent leur effet.';
+  for(const chapter of N.CHAPTERS){
+    const card=el('article',undefined,'narrative-chapter');card.dataset.narrativeChapter=chapter.id;
+    append(card,el('h4',chapter.title),el('p',chapter.text));get('narrativeChapters').appendChild(card);chapters.set(chapter.id,card);
+  }
+  for(const sector of N.SECTORS){
+    const card=el('details',undefined,'narrative-operation');card.dataset.narrativeSector=sector.id;
+    const summary=el('summary'),title=el('span',sector.title),state=el('small'),body=el('div',undefined,'narrative-operation-body');
+    summary.setAttribute('tabindex','0');
+    append(summary,title,state);card.appendChild(summary);card.appendChild(body);
+    const location=el('p'),mark=el('button','MARQUER LE SECTEUR','narrative-mark'),progress=el('progress');
+    mark.type='button';mark.dataset.narrativeMark=sector.id;progress.max=rule.surveySeconds;progress.value=0;progress.setAttribute('aria-label','Relevé : '+sector.title);
+    const prompt=el('p'),trace=el('blockquote',undefined,'narrative-trace'),source=el('p',sector.source,'narrative-source'),excerpt=el('p',sector.excerpt),discovery=el('p',sector.discovery);
+    append(trace,source,excerpt,discovery);append(body,location,mark,prompt,progress,trace);
+    const reason=el('p','','narrative-reason');reason.id='narrativeReason-'+sector.id;body.appendChild(reason);
+    const choices=el('div',undefined,'narrative-choices'),choiceNodes={};
+    for(const choice of ['A','B']){
+      const def=sector.choices[choice],choiceCard=el('article',undefined,'narrative-choice'),cost=el('p','COÛT · '+(C.resourceText(def.cost)||'Aucun coût matériel'),'narrative-cost'),reward=el('p'),button=el('button','ENGAGER · '+def.label),availability=el('p','','narrative-choice-reason');
+      availability.id='narrativeChoiceReason-'+sector.id+'-'+choice;
+      button.type='button';button.dataset.narrativeChoice=choice;button.dataset.narrativeTheme=sector.id;button.setAttribute('aria-describedby',availability.id);
+      append(choiceCard,el('h4',def.label),cost,reward,availability,button);choices.appendChild(choiceCard);choiceNodes[choice]={button,reward,availability};
+      button.addEventListener('click',()=>{
+        if(button.disabled||button.closest('[inert]'))return;
+        if(game.resolveNarrative(sector.id,choice)){write('Décision consignée : '+def.label+'. '+def.outcome);refresh();summary.focus();}
+        else{write(game.narrativeStatus(sector.id,choice).reason||'Décision indisponible.');refresh();}
+      });
+    }
+    const outcome=el('p','','narrative-outcome');append(body,choices,outcome);get('narrativeOperations').appendChild(card);
+    mark.addEventListener('click',()=>{
+      if(mark.disabled||mark.closest('[inert]'))return;
+      const site=(game.world.sites||[]).find(item=>item.theme===sector.id);if(!site)return;
+      game.fieldMarker=game.fieldMarker===site.id?null:site.id;
+      write(game.fieldMarker?'Repère posé : '+site.name+'. Aucun ordre de déplacement.':'Repère retiré.');game.contentUI?.refresh();refresh();
+    });
+    cards.set(sector.id,{card,summary,state,location,mark,progress,prompt,trace,reason,choices,choiceNodes,outcome});
+  }
+  function rewardText(reward,playing){
+    const result=[];if(reward.insight)result.push('Insight +'+reward.insight);
+    if(reward.morale){const actual=playing?Math.min(reward.morale,Math.max(0,100-game.morale)):reward.morale;result.push('Moral +'+C.formatNumber(actual)+(actual<reward.morale?' (plafond 100 ; maximum +'+reward.morale+')':''));}
+    for(const [key,value]of Object.entries(reward.resources||{}))if(value>0){const actual=playing?Math.min(value,Math.max(0,game.storage-(game.resources[key]||0))):value;result.push(C.RESOURCE_META[key].label+' +'+C.formatNumber(actual)+(actual<value?' (stock limité)':''));}
+    return 'EFFET · '+(result.join(' · ')||'Trace conservée, sans bonus matériel');
+  }
+  function refresh(){
+    const state=game.narrative;if(!state)return;
+    const counts=N.status(state),unread=Array.isArray(state.unread)?state.unread.length:counts.unread||0,playing=game.state==='playing'&&!game.gameOver;
+    get('journalUnread').textContent=unread?unread+' NOUVELLE'+(unread>1?'S':''):'TRACES DE TERRAIN';get('journalCommandButton').dataset.unread=String(unread>0);
+    if(modal.classList.contains('hidden'))return;
+    get('narrativeSummary').textContent=counts.observed+'/6 relevés · '+counts.resolved+'/6 décisions · '+unread+' entrée'+(unread>1?'s':'')+' non lue'+(unread>1?'s':'');
+    get('narrativeReadAll').disabled=!playing||!unread;
+    get('narrativeContext').textContent=!playing?'Consultation du journal. Lancez ou reprenez une campagne pour intervenir.':'Relevé : maintenir E ou ACTION pendant '+rule.surveySeconds+' secondes à moins de '+rule.surveyRadius+' unités du centre du secteur. Débriefing : commandant vivant, accès libre au dépôt et distance maximale '+rule.debriefRadius+' unités.';
+    for(const [id,card]of chapters)card.classList.toggle('hidden',!state.chapters.includes(id));
+    for(const sector of N.SECTORS){
+      const entry=state.sectors[sector.id]||{survey:0,choice:null},nodes=cards.get(sector.id),site=(game.world.sites||[]).find(item=>item.theme===sector.id),observed=entry.survey>=rule.surveySeconds,resolved=Boolean(entry.choice);
+      nodes.card.dataset.state=resolved?'resolved':observed?'ready':'survey';nodes.state.textContent=resolved?'Décision consignée':observed?'Trace relevée · retour au dépôt':C.formatNumber(entry.survey)+' / '+rule.surveySeconds+' s de relevé';
+      nodes.location.textContent=site?site.name+' · cellule '+Math.floor(site.x/C.TILE)+','+Math.floor(site.y/C.TILE):'Secteur indisponible sur cette carte.';
+      nodes.mark.disabled=!playing||!site;nodes.mark.textContent=site&&game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER LE SECTEUR';
+      nodes.progress.value=Math.min(rule.surveySeconds,entry.survey);nodes.progress.classList.toggle('hidden',observed);
+      nodes.prompt.textContent=observed?'Le relevé reste conservé si vous repartez ou sauvegardez.':'Rejoignez le centre indiqué puis maintenez E ou ACTION. Relâcher ou quitter le lieu conserve le relevé partiel. Aucun progrès dans les menus, pendant la pause ou à terre.';
+      nodes.trace.classList.toggle('hidden',!observed);nodes.choices.classList.toggle('hidden',!observed||resolved);nodes.outcome.classList.toggle('hidden',!resolved);
+      nodes.outcome.textContent=resolved?sector.choices[entry.choice].label+' — '+sector.choices[entry.choice].outcome:'';
+      const availability=playing?game.narrativeStatus(sector.id):{ok:false,reason:'Disponible pendant une campagne.'};nodes.reason.textContent=resolved?'Décision définitive pour cette campagne. Les hordes continuent.':availability.ok?'Au dépôt : choisissez une orientation ci-dessous. Le coût est prélevé immédiatement.':availability.reason;
+      for(const choice of ['A','B']){const status=playing?game.narrativeStatus(sector.id,choice):{ok:false,reason:'Disponible pendant une campagne.'},choiceNode=nodes.choiceNodes[choice];choiceNode.button.disabled=!observed||resolved||!status.ok;choiceNode.reward.textContent=rewardText(sector.choices[choice].reward,playing);choiceNode.availability.textContent=status.ok?'Disponible : ce choix est définitif.':status.reason;}
+    }
+  }
+  function open(){game.showCommand(true,'journal');refresh();}
+  get('journalCommandButton').addEventListener('click',event=>{if(!event.currentTarget?.closest('[inert]'))open();});
+  get('narrativeReadAll').addEventListener('click',event=>{if(event.currentTarget?.disabled||event.currentTarget?.closest('[inert]'))return;if(game.markNarrativeRead()){write('Journal marqué comme lu. Aucun coût ni récompense.');refresh();get('commandTab-journal').focus();}});
+  game.narrativeUI={refresh,open};refresh();
 })();
 
 </script>

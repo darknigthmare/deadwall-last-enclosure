@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { packager } from '@electron/packager';
 import { flipFuses, getCurrentFuseWire, FuseState, FuseVersion, FuseV1Options } from '@electron/fuses';
+import { runtimePackageJson, sourceState, runtimeNotices } from './release-policy.cjs';
+import { verifyAppAsar } from './verify-desktop-integrity.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const packageData = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
@@ -30,7 +32,7 @@ fs.cpSync(path.join(root, 'dist'), path.join(staging, 'dist'), { recursive:true 
 fs.mkdirSync(path.join(staging, 'desktop'));
 for (const filename of ['main.cjs','policy.cjs','preload.cjs','smoke.cjs']) fs.copyFileSync(path.join(root, 'desktop', filename), path.join(staging, 'desktop', filename));
 fs.copyFileSync(path.join(root, 'LICENSE.md'), path.join(staging, 'LICENSE.md'));
-fs.writeFileSync(path.join(staging, 'package.json'), JSON.stringify({ name:packageData.name, productName:'DEADWALL', version:packageData.version, description:packageData.description, author:'Darknigthmare', main:'desktop/main.cjs', private:true }, null, 2));
+fs.writeFileSync(path.join(staging, 'package.json'), runtimePackageJson(packageData));
 
 // ICO supports a PNG payload. Reuse the project's original icon without a conversion dependency.
 const png = fs.readFileSync(path.join(root, 'assets', 'icon-192.png'));
@@ -49,9 +51,8 @@ function fileHashes(directory, prefix = '') {
     return entry.isDirectory() ? fileHashes(filename, `${relative}/`) : [{ file:relative, bytes:fs.statSync(filename).size, sha256:createHash('sha256').update(fs.readFileSync(filename)).digest('hex') }];
   });
 }
-const revision = spawnSync('git', ['rev-parse','HEAD'], { cwd:root, encoding:'utf8', windowsHide:true }).stdout?.trim() || null;
-const sourceDirty = Boolean(spawnSync('git', ['status','--porcelain'], { cwd:root, encoding:'utf8', windowsHide:true }).stdout?.trim());
-const sourceManifest = { game:'DEADWALL — La Dernière Enceinte', version:packageData.version, builtAt:new Date().toISOString(), sourceRevision:revision, sourceDirty, electron:packageData.devDependencies.electron, platform:'win32', arch:'x64', signed:false, files:fileHashes(staging) };
+const provenance = sourceState(spawnSync('git', ['rev-parse','HEAD'], { cwd:root, encoding:'utf8', windowsHide:true }), spawnSync('git', ['status','--porcelain'], { cwd:root, encoding:'utf8', windowsHide:true }));
+const sourceManifest = { game:'DEADWALL — La Dernière Enceinte', version:packageData.version, builtAt:new Date().toISOString(), ...provenance, electron:packageData.devDependencies.electron, platform:'win32', arch:'x64', signed:false, files:fileHashes(staging) };
 fs.writeFileSync(path.join(staging, 'build-manifest.json'), JSON.stringify(sourceManifest, null, 2));
 
 const [folder] = await packager({
@@ -62,6 +63,8 @@ const [folder] = await packager({
   appCopyright:'Copyright Darknigthmare. All rights reserved.',
   win32metadata:{ CompanyName:'Darknigthmare', FileDescription:'DEADWALL — La Dernière Enceinte', ProductName:'DEADWALL', InternalName:'DEADWALL', OriginalFilename:'DEADWALL.exe' }
 });
+// Check the bytes that will ship, not only the pre-packager staging directory.
+const asarIntegrity = verifyAppAsar(folder, sourceManifest);
 const executable = path.join(folder, 'DEADWALL.exe');
 const fusePolicy = {
   version:FuseVersion.V1,
@@ -79,10 +82,12 @@ for (const [key, enabled] of Object.entries(fusePolicy)) if (key !== 'version' &
 const fuses = Object.fromEntries(Object.entries(fuseWire).map(([key,value]) => [FuseV1Options[key] || key, FuseState[value] || value]));
 fs.writeFileSync(path.join(folder, 'LIRE_MOI.txt'), `DEADWALL — La Dernière Enceinte ${packageData.version}\r\n\r\nExtraire TOUT le dossier avant de lancer DEADWALL.exe. Ne pas déplacer le seul .exe.\r\nWindows 10/11 64 bits. Aucun navigateur, Node.js, compte ou réseau requis pour jouer.\r\nF11 ou Alt+Entrée : plein écran. Échap : pause. Alt+F4 : sauvegarder et quitter.\r\nLa perte du focus met la partie en pause.\r\nSauvegardes et réglages : %APPDATA%\\DEADWALL. Ne supprimez pas ce dossier pour mettre à jour le jeu.\r\nL'édition Windows a son propre profil, distinct des sauvegardes du navigateur.\r\n\r\nCette archive locale n'est pas signée numériquement. Windows peut afficher SmartScreen.\r\nUne signature éditeur et la validation matérielle étendue restent nécessaires avant distribution commerciale publique.\r\nLe moteur existant est Canvas 2D/2.5D, distribué dans une application desktop Electron sécurisée.\r\nIl ne s'agit pas d'un port Unreal/Godot ni d'un installateur système.\r\n`);
 fs.copyFileSync(path.join(root, 'LICENSE.md'), path.join(folder, 'LICENCE_JEU.md'));
+fs.copyFileSync(path.join(root, 'docs', 'THIRD_PARTY_NOTICES.md'), path.join(folder, 'NOTICES_TIERS.md'));
+const notices = runtimeNotices(folder);
 const zip = path.join(runRoot, `DEADWALL-${packageData.version}-Windows-x64-portable.zip`);
 console.log(`Executable packaged: ${executable}\nCreating portable archive…`);
 await run('powershell.exe', ['-NoProfile','-NonInteractive','-Command','Compress-Archive -LiteralPath $env:DEADWALL_PACKAGE_FOLDER -DestinationPath $env:DEADWALL_PACKAGE_ARCHIVE -CompressionLevel Optimal'], { ...process.env, DEADWALL_PACKAGE_FOLDER:folder, DEADWALL_PACKAGE_ARCHIVE:zip });
-const release = { ...sourceManifest, fuses, executable, archive:zip, archiveBytes:fs.statSync(zip).size, archiveSha256:createHash('sha256').update(fs.readFileSync(zip)).digest('hex'), executableSha256:createHash('sha256').update(fs.readFileSync(executable)).digest('hex') };
+const release = { ...sourceManifest, asarIntegrity, fuses, runtimeNotices:notices, executable, archive:zip, archiveBytes:fs.statSync(zip).size, archiveSha256:createHash('sha256').update(fs.readFileSync(zip)).digest('hex'), executableSha256:createHash('sha256').update(fs.readFileSync(executable)).digest('hex') };
 const manifest = path.join(runRoot, 'release-manifest.json');
 fs.writeFileSync(manifest, JSON.stringify(release, null, 2));
 console.log(`Windows portable ready (unsigned): ${zip}\nManifest: ${manifest}`);
