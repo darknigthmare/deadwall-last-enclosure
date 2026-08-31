@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 const require=createRequire(import.meta.url),{chromium}=require(process.env.DEADWALL_PLAYWRIGHT_MODULE||'playwright');
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
-const output=path.join(root,'artifacts','command-qa',process.env.DEADWALL_QA_LABEL||'local');
+const output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'command-qa',process.env.DEADWALL_QA_LABEL||'local');
 await fs.mkdir(output,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.DEADWALL_CHROMIUM||undefined,headless:true});
 const reports=[];
@@ -90,7 +90,7 @@ for(const variant of [{name:'desktop',width:1440,height:900},{name:'laptop',widt
     await page.keyboard.press('Escape');await page.locator('#pauseButton').click();await page.locator('#quitButton').click();
     if(variant.name==='desktop'){
       await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
-      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r11');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
+      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r12');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
       await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(()=>DEADWALL?.showCommand&&globalThis.DeadwallArt?.ASSETS&&Object.keys(DeadwallArt.ASSETS).length>0&&DEADWALL.art?.diagnostics.failed.length===0&&DEADWALL.art.diagnostics.ready.length===Object.keys(DeadwallArt.ASSETS).length&&Object.keys(DeadwallArt.ASSETS).every(key=>DEADWALL.art.diagnostics.ready.includes(key)));
       await page.locator('#menuRecordsButton').click();check('poste et archives hors ligne',await page.locator('.campaign-row').count()===1);
       await context.setOffline(false);

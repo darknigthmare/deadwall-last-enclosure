@@ -236,6 +236,7 @@
   const NPC_RULES = { healPerSecond:6, healRange:64, medicinePerHealth:.025, repairPerSecond:14, repairRange:48, repairScrapPerHealth:1/45, repairWoodPerFullWall:12, repairStonePerFullWall:16, searchRadius:800, rethinkSeconds:.6, dangerRange:105, fleeSpeedMultiplier:1.25, rallyRadius:28 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
+  const MAINTENANCE_RULES = Object.freeze({ repairHealthPerScrap:45, repairWoodPerWall:12, repairStonePerWall:16, upgradeFactor:.72, salvageFactor:.4, emergencyHealthPerScrap:85, emergencyHealthPerWood:180, emergencyHealthPerStone:220 });
 
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
   function lerp(a, b, t) { return a + (b - a) * t; }
@@ -483,7 +484,7 @@
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
-    SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES,
+    SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES, MAINTENANCE_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,

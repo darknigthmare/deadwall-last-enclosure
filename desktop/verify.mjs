@@ -55,6 +55,8 @@ for (const stage of ['create','restore']) {
   });
   const report = JSON.parse(fs.readFileSync(path.join(reportRoot, `${stage}-report.json`), 'utf8'));
   assert.equal(report.ok, true); assert.equal(report.stage, stage);
+  assert.equal(report.painted.pass, true, 'Native Canvas readback must reject blank opaque frames');
+  assert.ok(report.painted.colorBuckets >= 8 && report.painted.channelRange >= 24);
   if (executableIndex >= 0 || archiveIndex >= 0) assert.equal(report.packaged, true, 'QA must run the packaged application');
   assert.equal(report.commandPost.doctrines.length, 6);
   assert.equal(report.commandPost.workerOrder, 'retreat');

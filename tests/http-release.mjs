@@ -7,7 +7,7 @@ import {createGameServer} from '../scripts/server.mjs';
 
 // HTTP-only integration gate: no browser, user profile or external service.
 const root=fileURLToPath(new URL('..',import.meta.url)),dist=path.join(root,'dist');
-const label=new Date().toISOString().replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(root,'artifacts','http-qa',label);
+const label=new Date().toISOString().replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'http-qa',label);
 const server=createGameServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const base='http://127.0.0.1:'+server.address().port,results=[];
 const hash=value=>createHash('sha256').update(value).digest('hex');

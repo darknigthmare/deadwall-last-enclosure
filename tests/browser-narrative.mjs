@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 if(process.env.DEADWALL_QA_BROWSER_APPROVED!=='1')throw new Error('Browser QA not started: obtain approval, then set DEADWALL_QA_BROWSER_APPROVED=1.');
 const require=createRequire(import.meta.url),{chromium}=require(process.env.DEADWALL_PLAYWRIGHT_MODULE||'playwright');
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
-const label=(process.env.DEADWALL_QA_LABEL||'narrative-'+new Date().toISOString()).replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(root,'artifacts','narrative-qa',label);
+const label=(process.env.DEADWALL_QA_LABEL||'narrative-'+new Date().toISOString()).replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'narrative-qa',label);
 await fs.mkdir(output,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.DEADWALL_CHROMIUM||undefined,headless:true});
 const variants=[{name:'desktop',width:1440,height:900},{name:'laptop',width:1280,height:720},{name:'mobile',width:390,height:844,touch:true},{name:'small-mobile',width:320,height:640,touch:true},{name:'tablet',width:1024,height:768,touch:true},{name:'landscape',width:844,height:390,touch:true}],reports=[];
@@ -86,7 +86,7 @@ for(const variant of variants){
     check('annuler préserve monde, réserves et sauvegarde exacte',await page.evaluate(snapshot=>DEADWALL.state==='menu'&&DEADWALL.world.seed===snapshot.world&&DEADWALL.runId===snapshot.runId&&JSON.stringify(DEADWALL.resources)===snapshot.resources&&localStorage.getItem(DeadwallCore.SAVE_KEY)===snapshot.save,preserved));await shot('nouvelle-partie-annulee');
     await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
     const required=['src/narrative.js','src/narrative-ui.js','narrative.css','src/save.js','src/command-ui.js','assets/infected-expansion-atlas.webp','assets/specialists-atlas.webp','assets/district-props-atlas.webp'];
-    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r11');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);check('cache r11 contient récit, sauvegarde, commandement et atlas');
+    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r12');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);check('cache r12 contient récit, sauvegarde, commandement et atlas');
     await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(ready);await page.locator('#continueButton').click();await page.locator('#journalCommandButton').click();
     check('reprise hors ligne conserve la décision et les modules du journal',await page.evaluate(()=>DEADWALL.narrative.sectors.housing.choice==='A'&&DEADWALL.narrative.sectors.housing.survey===8&&Boolean(DEADWALL.narrativeUI)));
     check('journal hors ligne sans débordement',await fits());await shot('journal-hors-ligne');await context.setOffline(false);

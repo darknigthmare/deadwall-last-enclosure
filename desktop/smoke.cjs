@@ -4,9 +4,41 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
+// Serialized into the renderer below; keep this probe independent of Node and Electron.
+function analyzeCanvasPixels(pixels,width,height) {
+  const result={width,height,samples:0,opaque:0,colorBuckets:0,channelRange:0,nonDominant:0,pass:false};
+  if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||!Number.isSafeInteger(width*height*4)||pixels?.length!==width*height*4)return result;
+  const columns=Math.min(32,width),rows=Math.min(24,height),colors=new Map(),low=[255,255,255],high=[0,0,0];
+  for(let row=0;row<rows;row++)for(let column=0;column<columns;column++){
+    const x=Math.floor((column+.5)*width/columns),y=Math.floor((row+.5)*height/rows),i=(y*width+x)*4;
+    result.samples++;
+    if(pixels[i+3]<240)continue;
+    result.opaque++;
+    const key=((pixels[i]>>3)<<10)|((pixels[i+1]>>3)<<5)|(pixels[i+2]>>3);
+    colors.set(key,(colors.get(key)||0)+1);
+    for(let channel=0;channel<3;channel++){low[channel]=Math.min(low[channel],pixels[i+channel]);high[channel]=Math.max(high[channel],pixels[i+channel]);}
+  }
+  result.colorBuckets=colors.size;
+  result.channelRange=result.opaque?Math.max(...high.map((value,index)=>value-low[index])):0;
+  result.nonDominant=result.opaque-Math.max(0,...colors.values());
+  // Alpha alone passes for a blank alpha:false canvas. Demand distributed RGB variation too.
+  // This rejects uniform/near-uniform frames, not proof that every gameplay asset is visible.
+  result.pass=result.samples>=100&&result.opaque>=result.samples*.95&&result.colorBuckets>=8&&result.channelRange>=24&&result.nonDominant>=result.samples*.02;
+  return result;
+}
+
+function afterTwoAnimationFrames() {
+  return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))));
+}
+
 async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, stage, gameURL }) {
   assert.ok(['create','restore'].includes(stage), 'Unknown desktop verification stage');
   fs.mkdirSync(reportRoot, { recursive:true });
+  async function captureSettled(filename) {
+    // Flush the style/layout changes of the last UI action before capturing its label/state.
+    await window.webContents.executeJavaScript(`(${afterTwoAnimationFrames.toString()})()`);
+    await fs.promises.writeFile(path.join(reportRoot,filename),(await window.webContents.capturePage()).toPNG());
+  }
   const network = { completed:[], failed:[] };
   // Observe completion/errors only; never replace the shell's onBeforeRequest blocker.
   window.webContents.session.webRequest.onCompleted(details => network.completed.push({url:details.url,status:details.statusCode}));
@@ -74,7 +106,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   for (const file of ['src/tactics.js','src/profile.js','src/command-ui.js','src/narrative.js','src/narrative-ui.js','src/scenarios.js','src/scenario-ui.js','src/squads.js','src/squad-ui.js','src/battlefield.js','src/battlefield-ui.js']) assert.ok(localResources.scripts.includes(new URL(file, gameURL).href), `${file} must initialize from the local document`);
   for (const file of ['command.css','narrative.css','squads.css','finish.css']) assert.ok(localResources.styles.some(sheet=>sheet.href===new URL(file,gameURL).href && sheet.rules>0), `${file} must have loaded rules`);
   assert.ok(localResources.urls.every(url => url.startsWith('deadwall://game/') || url.startsWith('data:') || url.startsWith('blob:deadwall://game/')), 'Initial game resources have no external origins');
-  await fs.promises.writeFile(path.join(reportRoot, `${stage}-menu.png`), (await window.webContents.capturePage()).toPNG());
+  await captureSettled(`${stage}-menu.png`);
 
   let menuRecords = null;
   if (stage === 'restore') {
@@ -147,7 +179,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     if(doctrines.some(item=>['locked','unfunded','complete'].includes(item.state)&&!item.disabled)) throw new Error('Unavailable doctrine became actionable');
     return {openedFromPause:true,simulationSuspended:true,workerOrder:game.workerOrder,doctrines};
   })()`, true);
-  await fs.promises.writeFile(path.join(reportRoot, `${stage}-command-doctrines.png`), (await window.webContents.capturePage()).toPNG());
+  await captureSettled(`${stage}-command-doctrines.png`);
   const commandClosure = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL,get=id=>document.getElementById(id);
     get('commandTab-records').click();
@@ -179,7 +211,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     if(soldiers.length!==1 || soldiers[0].squad!==0) throw new Error('Rearguard rifleman lost its original squad');
     return {sections:cards.length,labels,selected:game.squads.selected,alphaOrder:game.squads.groups[0].order,ordersWithoutCost:true,positionsUnchanged:true,simulationRngUnchanged:true,restored:${JSON.stringify(stage)}==='restore',state:copy(game.squads),soldiers};
   })()`, true);
-  await fs.promises.writeFile(path.join(reportRoot, `${stage}-command-squads.png`), (await window.webContents.capturePage()).toPNG());
+  await captureSettled(`${stage}-command-squads.png`);
   const battlefield = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL,B=globalThis.DeadwallBattlefield,C=globalThis.DeadwallCore,get=id=>document.getElementById(id);
     get('commandTab-enclosure').click();
@@ -255,13 +287,13 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   const painted = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL; game.render();
     const pixels=game.ctx.getImageData(0,0,game.canvas.width,game.canvas.height).data;
-    let opaque=0; for(let i=3;i<pixels.length;i+=400) if(pixels[i]) opaque++;
-    return {state:game.state, paused:game.paused, opaque};
+    const probe=(${analyzeCanvasPixels.toString()})(pixels,game.canvas.width,game.canvas.height);
+    return {state:game.state,paused:game.paused,...probe};
   })()`);
   assert.equal(painted.state, 'playing');
   assert.equal(painted.paused, true);
-  assert.ok(painted.opaque > 100, 'The game canvas must really render');
-  await fs.promises.writeFile(path.join(reportRoot, `${stage}-game.png`), (await window.webContents.capturePage()).toPNG());
+  assert.equal(painted.pass,true,'The game canvas must contain opaque, distributed RGB variation; a blank canvas must fail');
+  await captureSettled(`${stage}-game.png`);
 
   const exported = new Promise((resolve,reject) => {
     const timeout = setTimeout(() => reject(new Error('Local JSON save export timed out')), 5000);
@@ -364,4 +396,4 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   await closeSafely();
 }
 
-module.exports = { verifyWindow };
+module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames };

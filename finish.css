@@ -1,4 +1,10 @@
 /* Dispatch board additions share DEADWALL's existing military-paper palette. */
+.maintenance-quotes { margin-top:10px; border-top:1px solid #515b43; padding-top:6px; }
+.maintenance-quotes p, .demolition-review p { margin:6px 0; font-size:11px; line-height:1.6; color:#d3d9c8; overflow-wrap:anywhere; }
+.demolition-review { margin-top:12px; padding:10px; border:1px solid #c58b6b; background:#302219; }
+.demolition-review h4 { margin:0 0 8px; color:#ffcf9f; font-size:11px; letter-spacing:.5px; }
+.demolition-review button { min-height:44px; }
+.high-contrast .maintenance-quotes p, .high-contrast .demolition-review p { color:#fff; }
 .scenario-picker { margin:20px 0; padding:16px; background:#101a13e8; border:1px solid #515b43; border-left:3px solid var(--accent-bright); }
 .scenario-picker h2 { margin:0 0 12px; font-size:12px; letter-spacing:1.5px; }
 .scenario-picker label { display:grid; gap:8px; color:#cad1bf; font-size:12px; }

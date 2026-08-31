@@ -60,7 +60,12 @@
         <h3 id="selectionName">Structure</h3><p id="selectionDescription"></p>
         <div class="health-line"><span id="selectionHealthFill"></span></div>
         <div class="selection-stats" id="selectionStats"></div>
-        <div class="selection-actions"><button id="repairSelected">RÉPARER</button><button id="upgradeSelected">AMÉLIORER</button><button id="prioritySelected">PRIORITÉ NORMALE</button><button id="demolishSelected" class="danger">DÉMOLIR</button></div>
+        <div class="selection-actions"><button id="repairSelected" aria-describedby="selectionRepairQuote">RÉPARER</button><button id="upgradeSelected" aria-describedby="selectionUpgradeQuote">AMÉLIORER</button><button id="prioritySelected">PRIORITÉ NORMALE</button><button id="demolishSelected" class="danger" aria-expanded="false" aria-controls="demolitionReview">DÉMOLIR…</button></div>
+        <div class="maintenance-quotes"><p id="selectionRepairQuote"></p><p id="selectionUpgradeQuote"></p></div>
+        <section id="demolitionReview" class="demolition-review hidden" aria-labelledby="demolitionTitle">
+          <h4 id="demolitionTitle">CONFIRMER LE DÉMONTAGE</h4><p id="demolitionSummary"></p>
+          <div class="selection-actions"><button id="demolitionCancel">CONSERVER</button><button id="demolitionConfirm" class="danger">DÉMONTER</button></div>
+        </section>
       </section>
       <section class="command-card">
         <small>RENFORTS & ORDRES</small>
@@ -72,7 +77,7 @@
           <button id="specialistCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SPÉCIALISTES</span><small>secouriste · ingénieur</small></button>
           <button id="setRally"><span>POINT DE RALLIEMENT</span><small>puis cliquez au sol</small></button>
           <button id="squadCommandButton" aria-haspopup="dialog" aria-controls="commandModal"><span>SECTIONS DE FUSILIERS</span><small>A · B · C — ordres et repli</small></button>
-          <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small>défenses endommagées</small></button>
+          <button id="repairAll"><span>RÉPARATION D’URGENCE</span><small id="repairAllQuote">défenses endommagées</small></button>
           <button id="researchButton"><span id="researchName">Doctrine logistique</span><small id="researchInsight">0 insight</small></button>
           <button id="settingsToggle"><span>PARAMÈTRES</span><small>son · accessibilité · sauvegardes</small></button>
           <button id="soundToggle"><span>SON</span><small id="soundStatus">activé</small></button>

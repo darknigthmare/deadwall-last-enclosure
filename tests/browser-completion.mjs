@@ -10,7 +10,7 @@ if(process.env.DEADWALL_QA_BROWSER_APPROVED!=='1')throw new Error('Browser QA no
 const require=createRequire(import.meta.url),{chromium}=require(process.env.DEADWALL_PLAYWRIGHT_MODULE||'playwright');
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
 const label=(process.env.DEADWALL_QA_LABEL||'completion-'+new Date().toISOString()).replace(/[^a-zA-Z0-9_-]/g,'_');
-const output=path.join(root,'artifacts','completion-qa',label);
+const output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'completion-qa',label);
 const variants=[
   {name:'desktop',width:1440,height:900},{name:'laptop',width:1280,height:720},
   {name:'mobile',width:390,height:844,touch:true},{name:'small-mobile',width:320,height:640,touch:true},
@@ -100,8 +100,8 @@ try{
       check('reprise recharge scénario, ordres et sélection sauvegardés',await page.evaluate(before=>DEADWALL.scenarioId==='rearguard'&&DEADWALL.world.seed===17117&&DEADWALL.runId===before.runId&&JSON.stringify(DEADWALL.squads)===before.squads,checkpoint));
       await page.locator('#pauseButton').click();await page.locator('#saveButton').click();await page.locator('#quitButton').click();
       await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
-      await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r11');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
-      check('cache r11 contient les six modules JS et deux CSS ajoutés');
+      await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r12');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
+      check('cache r12 contient les six modules JS et deux CSS ajoutés');
       offline=true;await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(ready);await page.locator('#continueButton').click();await page.locator('#squadCommandButton').click();
       check('PWA hors ligne reprend les mêmes sections et départ',await page.evaluate(before=>DEADWALL.scenarioId==='rearguard'&&DEADWALL.runId===before.runId&&JSON.stringify(DEADWALL.squads)===before.squads&&Boolean(DEADWALL.scenarioUI&&DEADWALL.squadUI&&DEADWALL.battlefieldUI),checkpoint));
       check('équipes hors ligne sans débordement',await fits('.command-post'));
@@ -157,7 +157,7 @@ try{
     finally{await context.setOffline(false).catch(()=>{});await context.close();}
   }
 }finally{await browser.close();}
-const scope='Six contextes vierges. Vrais select, boutons, navigation clavier, clic de point au sol, sauvegarde, reprise et PWA r11 hors ligne. Entrées clavier et souris automatisées à toutes les tailles, pas une certification matérielle tactile/manette. Le calme est prolongé pour isoler les commandes. Contacts, murs, statistiques et destructions du centre sont des fixtures précisément décrites ; elles ne constituent pas des vagues jouées, une mesure de difficulté ou un équilibrage humain. Débrief et séparation des records contrôlés contre ces fixtures. Captures brutes à inspecter, sans certification commerciale ni conformité globale d’accessibilité.';
+const scope='Six contextes vierges. Vrais select, boutons, navigation clavier, clic de point au sol, sauvegarde, reprise et PWA r12 hors ligne. Entrées clavier et souris automatisées à toutes les tailles, pas une certification matérielle tactile/manette. Le calme est prolongé pour isoler les commandes. Contacts, murs, statistiques et destructions du centre sont des fixtures précisément décrites ; elles ne constituent pas des vagues jouées, une mesure de difficulté ou un équilibrage humain. Débrief et séparation des records contrôlés contre ces fixtures. Captures brutes à inspecter, sans certification commerciale ni conformité globale d’accessibilité.';
 await fs.writeFile(path.join(output,'report.json'),JSON.stringify({date:new Date().toISOString(),base,label,scope,reports},null,2));
 console.log(JSON.stringify(reports.map(({viewport,checks,pass,failure,errors,httpErrors,requestFailures})=>({viewport,checks:checks.length,pass,failure:failure?.split('\n')[0],errors,httpErrors,requestFailures})),null,2));
 if(reports.some(report=>!report.pass))process.exitCode=1;

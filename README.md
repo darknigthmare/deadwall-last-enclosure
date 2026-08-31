@@ -76,6 +76,7 @@ Aucune installation de dépendances n'est nécessaire pour le serveur local ni l
 - Dossiers de terrain : huit fiches d’infectés et leurs contres, recrutement, personnel nommé, carte des secteurs et repère de navigation sans téléportation.
 - Registre de D-17 : six traces originales à relever physiquement, douze décisions possibles (une par secteur), quatre chapitres persistants et un épilogue qui laisse les hordes continuer.
 - Vingt-deux structures avec coûts, chantier, intégrité, réparation, démolition et amélioration.
+- Entretien avec devis visibles, réparation d’urgence chiffrée et confirmation du démontage ; récupération réellement stockable et perte de capacité d’un entrepôt annoncées avant confirmation.
 - Palissades, murs d’acier, remparts en béton, portes, pièges, miradors et tourelles.
 - Tracé rapide de longues lignes de murs pour créer plusieurs enceintes concentriques.
 - Population, logements, nourriture, moral, capacité de stockage et réseau électrique.
@@ -110,6 +111,8 @@ Extension de contenu : [infectés](docs/ENEMY_CONTENT.md), [spécialistes](docs/
 Passe histoire et cohérence : [registre de D-17](docs/NARRATIVE.md), [audit de cette passe](docs/AUDIT_STORY_RELEASE.md). Les fragments sont des documents retrouvés, pas des dialogues de PNJ présents ni des voix enregistrées. La simulation reste jouable sans accomplir ces opérations facultatives.
 
 Passe de clôture : [départs et compatibilité](docs/SCENARIOS.md), [sections et ordres](docs/SQUADS.md), [audit et mesures de charge](docs/COMPLETION_PASS.md). Les extensions spéculatives de la roadmap sont distinctes du contenu livré. La signature et la publication en boutique demandent une identité et un choix de distribution éditeur.
+
+Consolidation r12 : [corrections et limites](docs/POLISH_R12.md), [interactions de proximité](docs/INTERACTION_FEEDBACK.md). Aucun ajout de contenu, de moteur ou d’asset n’est annoncé par cette passe corrective.
 
 ## Structure
 

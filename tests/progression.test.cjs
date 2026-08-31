@@ -131,7 +131,8 @@ test('commandement : améliorer préserve les dégâts ; réparer et démolir le
   elements.get('upgradeSelected').click(); assert.equal(wall.type, 'steelWall'); closeTo(wall.health, wall.maxHealth / 2);
   assert.equal(game.resources.scrap, before.scrap - cost.scrap); assert.equal(game.resources.stone, before.stone - cost.stone);
   game.updateUI(); elements.get('repairSelected').click(); assert.equal(wall.health, wall.maxHealth);
-  elements.get('demolishSelected').click(); assert.equal(wall.dead, true); assert.equal(game.world.buildings.has(wall.id), false);
+  elements.get('demolishSelected').click(); assert.equal(wall.dead, false, 'aperçu sans démontage');
+  elements.get('demolitionConfirm').click(); assert.equal(wall.dead, true); assert.equal(game.world.buildings.has(wall.id), false);
   game.selectBuilding(game.core()); elements.get('demolishSelected').click(); assert.ok(game.core(), 'le commandement ne se démolit pas');
 });
 

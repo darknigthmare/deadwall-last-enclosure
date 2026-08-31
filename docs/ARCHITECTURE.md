@@ -40,6 +40,9 @@ Contient les objets de simulation et le contrôleur principal :
 
 | Module | Responsabilité |
 | --- | --- |
+| `src/scenarios.js`, `src/scenario-ui.js` | Quatre départs à contreparties, choix et aperçu de leurs conditions initiales. |
+| `src/squads.js`, `src/squad-ui.js` | Trois sections, ordres/ralliements et interface de commandement. |
+| `src/battlefield.js`, `src/battlefield-ui.js` | Contacts par front, proximité du centre et débrief factuel. |
 | `src/narrative.js` | Traces originales, chapitres et validation stricte du registre ; aucun gain au chargement. Chargé après core et avant save. |
 | `src/narrative-ui.js` | Journal facultatif, relevés et choix affichés ; transactions uniquement dans Game. |
 | `src/save.js` | Validation et migration transactionnelles de sauvegardes avant mutation du monde. |
@@ -107,7 +110,7 @@ Le mode n'a pas de dernière vague scénarisée ; les nombres restent toutefois 
 
 La sauvegarde versionnée contient :
 
-- difficulté et graine ;
+- difficulté, graine et condition de départ ;
 - ressources ;
 - joueur et chargeurs ;
 - structures, intégrité, progression et pression des corps ;
@@ -116,11 +119,16 @@ La sauvegarde versionnée contient :
 - état des gisements ;
 - directeur de vague ;
 - cycle journalier et météo ;
-- moral, point de ralliement, statistiques et objectifs.
+- moral, points de ralliement et ordres des trois sections, statistiques et objectifs ;
+- registre narratif et décisions uniques.
 
 La version 2 conserve une copie de secours et accepte la migration v1. Les compteurs de horde, ordres, modes de portes, doctrines, crises et états de spécialistes sont additifs. Les routes temporaires sont recalculées. Le profil de records utilise ses propres clés et conserve dix campagnes récentes ; les meilleurs résultats anciens restent mémorisés. Les profils Windows et navigateur sont séparés : aucun profil voisin n'est lu automatiquement.
 
 Une migration devra augmenter `SAVE_VERSION` et prévoir une fonction de transformation avant toute modification incompatible.
+
+La reprise utilise l’identifiant temporaire réservé 0 pour le joueur, déjà représenté par cette sentinelle dans les cibles de soin : ouvrir une sauvegarde ne consomme plus un nouvel identifiant. Les compteurs dérivés épuisés sont refusés avant remplacement du monde. Les IDs de structures restent compatibles avec la grille `Int32Array` ; il ne s’agit pas d’un espace d’identifiants infini.
+
+Les devis d’entretien sont recalculés depuis les structures vivantes et les stocks courants. La confirmation du démontage est transitoire : ni sauvegardée, ni conservée à un changement de sélection ou à l’ouverture d’une modale. Les coûts restent centralisés dans `MAINTENANCE_RULES`.
 
 ## Extension recommandée
 

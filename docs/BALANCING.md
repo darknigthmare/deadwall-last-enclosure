@@ -95,6 +95,14 @@ Les six doctrines s'achètent instantanément une seule fois, contre ressources 
 
 ## Philosophie de réglage
 
+### Entretien des structures
+
+`MAINTENANCE_RULES` conserve les valeurs historiques : réparation individuelle = plafond(dégâts / 45) ferraille, plus plafond(ratio de dégâts × 12) bois pour une palissade ou plafond(ratio × 16) pierre pour un rempart en béton. Amélioration = coût du modèle suivant × 0,72, arrondi supérieur par ressource ; le ratio de dégâts est conservé. Réparation collective des seules défenses achevées vivantes = plafond(dégâts / 85) ferraille, / 180 bois et / 220 pierre.
+
+Le démontage demande désormais une confirmation. Son remboursement potentiel garde le coefficient 0,4 arrondi supérieur par ressource, puis est limité à l’espace réellement disponible. Retirer un entrepôt réduit la capacité ; l’excédent déjà présent est annoncé avant confirmation et écrêté immédiatement lors du démontage, au lieu d’attendre le prochain tick économique. Les chantiers n’apportent aucune capacité avant leur achèvement. Aucun coût n’est prélevé pendant l’aperçu.
+
+### Opérations facultatives
+
 Les six opérations narratives facultatives donnent chacune soit 1 insight contre un coût sectoriel, soit au plus 4 moral contre 8 nourriture et la présence d’un équipier vivant. Un relevé demande 8 secondes actives à moins de 90 unités du centre du secteur ; une décision demande le retour accessible à moins de 180 unités du dépôt. Chaque choix est unique et ne crée aucune ressource. Les règles exactes sont centralisées dans `NARRATIVE_RULES` / `NARRATIVE_OPERATIONS` ; la borne technique d’insight est `RESEARCH_INSIGHT_MAX`. Voir [NARRATIVE.md](NARRATIVE.md).
 
 - rendre chaque nouvelle enceinte utile sans la rendre absolue ;

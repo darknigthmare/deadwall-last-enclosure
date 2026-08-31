@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 
 const require=createRequire(import.meta.url),{chromium}=require(process.env.DEADWALL_PLAYWRIGHT_MODULE||'playwright');
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
-const label=(process.env.DEADWALL_QA_LABEL||'local').replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(root,'artifacts','content-qa',label);
+const label=(process.env.DEADWALL_QA_LABEL||'local').replace(/[^a-zA-Z0-9_-]/g,'_'),output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'content-qa',label);
 await fs.mkdir(output,{recursive:true});
 const browser=await chromium.launch({executablePath:process.env.DEADWALL_CHROMIUM||undefined,headless:true});
 const variants=[{name:'desktop',width:1440,height:900},{name:'laptop',width:1280,height:720},{name:'mobile',width:390,height:844,touch:true},{name:'small-mobile',width:320,height:640,touch:true},{name:'tablet',width:1024,height:768,touch:true},{name:'landscape',width:844,height:390,touch:true}];
@@ -124,8 +124,8 @@ for(const variant of variants){
     await page.locator('#pauseButton').click();await page.locator('#quitButton').click();
     await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
     const required=['assets/infected-expansion-atlas.webp','assets/specialists-atlas.webp','assets/district-props-atlas.webp','src/world-content.js','src/content-ui.js','content.css','src/narrative.js','src/narrative-ui.js','narrative.css'];
-    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r11');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
-    check('cache r11 contient les trois nouveaux atlas, modules de contenu et récit');
+    await page.waitForFunction(async files=>{const cache=await caches.open('deadwall-v1.0.0-r12');return(await Promise.all(files.map(file=>cache.match(new URL(file,location.href).href)))).every(Boolean);},required);
+    check('cache r12 contient les trois nouveaux atlas, modules de contenu et récit');
     await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(ready);
     await page.locator('#menuRecordsButton').click();await page.locator('#commandTab-field').click();await page.locator('[data-field-view="crew"]').click();
     check('portraits et dossiers fonctionnent après rechargement hors ligne',(await checkPortraits('article[data-survivor-profile]')).every(result=>result.ok));

@@ -340,7 +340,7 @@
       addEventListener('blur', () => this.releaseInputs());
       document.addEventListener('visibilitychange', () => { if (document.hidden) this.releaseInputs(); });
       addEventListener('keydown', event => {
-        if (event.code === 'Escape') { event.preventDefault(); this.onEscape(); return; }
+        if (event.code === 'Escape') { event.preventDefault(); if (!event.repeat) this.onEscape(); return; }
         if (event.code === 'Tab' && this.activeOverlay) { this.trapOverlayFocus(event); return; }
         if (this.state !== 'playing' || this.paused || this.gameOver || this.activeOverlay) return;
         if (event.target?.closest?.('#resources')) return;
@@ -421,7 +421,8 @@
       click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId)); click('gameOverMenuButton', () => this.returnToMenu());
       click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
-      click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.demolishSelected());
+      click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
+      click('demolitionCancel', () => this.cancelDemolition(true)); click('demolitionConfirm', () => this.confirmDemolition());
       click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => this.beginSquadRally(null));
       click('repairAll', () => this.repairAll());
       if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
@@ -482,6 +483,7 @@
       for (const overlay of overlays) overlay.inert = overlay !== next;
       this.activeOverlay = next;
       if (next === previous) return;
+      if (next) this.cancelDemolition();
       this.releaseInputs();
       if (next) {
         const candidates = this.overlayFocusable(next), remembered = this.overlayFocusTargets.get(next);
@@ -607,11 +609,13 @@
       const nextCore=[...nextWorld.buildings.values()].find(b=>b.type==='core');if(!nextCore)throw new Error('Centre absent');
       const nextUnits=data.units.map(raw=>{const unit=new Unit(raw.id,raw.kind,raw.x,raw.y);Object.assign(unit,raw);if(unit.state==='gather'){const node=nextWorld.nodes.find(item=>item.id===unit.targetNode);if(!node||node.depleted||(unit.carry>0&&unit.carryType!==node.type)){unit.state=unit.carry>0?'return':'idle';unit.targetNode=-1;}else unit.think=.3;}return unit;});
       const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;return zombie;});
-      const nextPlayer={...this.makePlayer(data.nextId),...data.player};nextFlow.rebuild(nextWorld,nextCore);
+      // The player is not an allocated save entity; support orders already use
+      // the reserved target 0. Loading must not consume a future entity ID.
+      const nextPlayer={...this.makePlayer(0),...data.player};nextFlow.rebuild(nextWorld,nextCore);
       const pending=C.normalizeSpawnCounts?C.normalizeSpawnCounts(data.pendingSpawns,data.spawnQueue):null;
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
-      Object.assign(this,{difficulty,nextId:data.nextId+1,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
+      Object.assign(this,{difficulty,nextId:data.nextId,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?[]:data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
@@ -671,7 +675,7 @@
     }
     cancelPlacement() { this.selectedBuild = null; this.wallStart = null; this.wallPreview = []; this.rallyPlacement = false; this.buildRotation = 0; this.refreshBuildMenu(true); }
     selectBuild(id) { this.audio.ui(); this.rallyPlacement = false; this.selectedBuild = this.selectedBuild === id ? null : id; this.wallStart = null; this.wallPreview = []; this.selectBuilding(null); this.refreshBuildMenu(true); if(this.isCompactViewport()&&this.selectedBuild)this.setBuildCollapsed(true); }
-    selectBuilding(building) { if (this.selectedBuilding) this.selectedBuilding.selected = false; this.selectedBuilding = building && !building.dead ? building : null; if (this.selectedBuilding) this.selectedBuilding.selected = true; }
+    selectBuilding(building) { this.cancelDemolition(); if (this.selectedBuilding) this.selectedBuilding.selected = false; this.selectedBuilding = building && !building.dead ? building : null; if (this.selectedBuilding) this.selectedBuilding.selected = true; }
 
     placeOne(type, gx, gy, rotation = 0) {
       const def = BUILDINGS[type], check = this.world.placement(def, gx, gy, rotation);
@@ -696,27 +700,83 @@
       this.audio.build(); this.notify(`${unique.length} segments planifiés sans trou.`, 'good'); this.refreshMetrics(true);
     }
 
+    structureActionStatus(action, b = this.selectedBuilding) {
+      const rules=C.MAINTENANCE_RULES;
+      if(!b||b.dead||this.world.buildings.get(b.id)!==b)return{ok:false,cost:{},reason:'Sélectionnez une structure existante.'};
+      let cost={},reason='';
+      if(action==='repair'){
+        const ratio=clamp(1-b.health/b.maxHealth,0,1);
+        cost={scrap:Math.ceil(ratio*b.maxHealth/rules.repairHealthPerScrap),wood:b.type==='woodWall'?Math.ceil(ratio*rules.repairWoodPerWall):0,stone:b.type==='concreteWall'?Math.ceil(ratio*rules.repairStonePerWall):0};
+        if(!b.completed)reason='Terminez le chantier.';
+        else if(b.health>=b.maxHealth)reason='Intégrité complète.';
+      }else if(action==='upgrade'){
+        const next=BUILDINGS[b.def.upgradeTo];
+        if(!next)reason='Aucune amélioration disponible.';
+        else{
+          cost=scaledCost(next.cost,rules.upgradeFactor);
+          if(!b.completed)reason='Terminez le chantier.';
+          else if(next.unlockTier>this.tier.id)reason=`Palier requis : ${CITY_TIERS[next.unlockTier].name}.`;
+          else if(next.requires&&!this.world.has(next.requires))reason=`${BUILDINGS[next.requires].name} terminé requis.`;
+        }
+      }else if(action==='demolish'){
+        if(b.type==='core')reason='Le centre de commandement ne peut pas être démonté.';
+        const cap=Math.max(100,this.storage-(b.completed?(b.def.storage||0):0)),requested=scaledCost(b.def.cost,rules.salvageFactor),refund={},lost={};
+        for(const key of RESOURCE_KEYS){refund[key]=Math.min(requested[key]||0,Math.max(0,cap-this.resources[key]));lost[key]=Math.max(0,this.resources[key]-cap);}
+        return{ok:!reason&&this.canIssueCommand(),reason:reason||(!this.canIssueCommand()?'Reprenez la partie pour agir.':''),cost,cap,refund,lost};
+      }else return{ok:false,cost,reason:'Action inconnue.'};
+      if(!reason&&!canAfford(this.resources,cost))reason='Réserves insuffisantes.';
+      if(!reason&&!this.canIssueCommand())reason='Reprenez la partie pour agir.';
+      return{ok:!reason,cost,reason};
+    }
+    maintenanceAmounts(bag) {
+      return RESOURCE_KEYS.filter(key=>bag[key]>0).map(key=>{
+        const value=bag[key],amount=Number.isInteger(value)?String(value):value<.01?'< 0,01':'≈ '+value.toLocaleString('fr-FR',{maximumFractionDigits:2});
+        return RESOURCE_META[key].short+' '+amount;
+      }).join(' · ')||'aucun matériau';
+    }
     repairSelected() {
-      const b = this.selectedBuilding; if (!b || b.dead || !b.completed || b.health >= b.maxHealth) return;
-      const ratio = 1 - b.health / b.maxHealth, cost = { scrap: Math.ceil(ratio * b.maxHealth / 45), wood: b.type === 'woodWall' ? Math.ceil(ratio * 12) : 0, stone: b.type === 'concreteWall' ? Math.ceil(ratio * 16) : 0 };
-      if (!spend(this.resources, cost)) { this.notify('Matériaux de réparation insuffisants.', 'danger'); return; }
-      b.health = b.maxHealth; b.underAttack = 0; this.audio.build(); this.notify(`${b.def.name} réparé.`, 'good');
+      const b=this.selectedBuilding,quote=this.structureActionStatus('repair',b);
+      if(!quote.ok){this.notify(quote.reason,'danger');return false;}
+      if(!spend(this.resources,quote.cost))return false;
+      b.health=b.maxHealth;b.underAttack=0;this.audio.build();this.notify(`${b.def.name} réparé.`,'good');this.updateSelectionUI();return true;
     }
 
     upgradeSelected() {
-      const b = this.selectedBuilding; if (!b || b.dead || !b.completed || !b.def.upgradeTo) return; const next = BUILDINGS[b.def.upgradeTo];
-      if (next.unlockTier > this.tier.id) { this.notify(`Nécessite le palier ${CITY_TIERS[next.unlockTier].name}.`, 'danger'); return; }
-      const cost = scaledCost(next.cost, .72); if (!spend(this.resources, cost)) { this.notify('Ressources insuffisantes pour l’amélioration.', 'danger'); return; }
-      const oldCells = this.world.cells(b), ratio = b.health / b.maxHealth; b.type = next.id; b.health = Math.max(1, next.health * ratio); this.world.rewrite(b, oldCells); this.audio.build(); this.notify(`${next.name} opérationnel.`, 'good'); this.refreshMetrics(true);
+      const b=this.selectedBuilding,quote=this.structureActionStatus('upgrade',b);
+      if(!quote.ok){this.notify(quote.reason,'danger');return false;}
+      const next=BUILDINGS[b.def.upgradeTo];if(!spend(this.resources,quote.cost))return false;
+      this.cancelDemolition();
+      const oldCells = this.world.cells(b), ratio = b.health / b.maxHealth; b.type = next.id; b.health = Math.max(1, next.health * ratio); this.world.rewrite(b, oldCells); this.audio.build(); this.notify(`${next.name} opérationnel.`, 'good'); this.refreshMetrics(true);this.updateSelectionUI();return true;
     }
 
     demolishSelected() {
-      const b = this.selectedBuilding; if (!b || b.type === 'core') return; add(this.resources, scaledCost(b.def.cost, .4), this.storage); this.world.remove(b); b.dead = true; this.selectBuilding(null); this.notify('Structure démontée : 40 % des matériaux récupérés.'); this.refreshMetrics(true);
+      const b=this.selectedBuilding,quote=this.structureActionStatus('demolish',b);
+      if(!quote.ok){this.notify(quote.reason,'danger');return false;}
+      // The quote includes capacity lost with a warehouse, not an impossible refund.
+      for(const key of RESOURCE_KEYS)this.resources[key]=Math.min(quote.cap,this.resources[key]+quote.refund[key]);
+      this.world.remove(b);b.dead=true;this.selectBuilding(null);this.notify('Structure démontée. Récupération : '+this.maintenanceAmounts(quote.refund)+'.');this.audio.build();this.refreshMetrics(true);return true;
+    }
+    requestDemolition(){
+      const quote=this.structureActionStatus('demolish');if(!quote.ok)return false;
+      this.pendingDemolition=this.selectedBuilding;this.updateSelectionUI();document.getElementById('demolitionCancel')?.focus();return true;
+    }
+    cancelDemolition(focus=false){
+      this.pendingDemolition=null;document.getElementById('demolitionReview')?.classList.add('hidden');
+      const button=document.getElementById('demolishSelected');button?.setAttribute('aria-expanded','false');if(focus)button?.focus();
+    }
+    confirmDemolition(){
+      if(!this.pendingDemolition||this.pendingDemolition!==this.selectedBuilding){this.cancelDemolition();return false;}
+      const result=this.demolishSelected();if(!result)this.cancelDemolition(true);else this.canvas.focus({preventScroll:true});return result;
+    }
+    emergencyRepairStatus(){
+      const rules=C.MAINTENANCE_RULES,defenses=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&b.def.defense&&b.health<b.maxHealth);
+      const missing=defenses.reduce((sum,b)=>sum+b.maxHealth-b.health,0),cost={scrap:Math.ceil(missing/rules.emergencyHealthPerScrap),wood:Math.ceil(missing/rules.emergencyHealthPerWood),stone:Math.ceil(missing/rules.emergencyHealthPerStone)};
+      return{defenses,cost,ok:this.canIssueCommand()&&defenses.length>0&&canAfford(this.resources,cost)};
     }
 
     repairAll() {
-      const defenses = [...this.world.buildings.values()].filter(b => b.completed && b.def.defense && b.health < b.maxHealth);
-      const missing = defenses.reduce((sum,b) => sum + b.maxHealth - b.health, 0), cost = { scrap: Math.ceil(missing / 85), wood: Math.ceil(missing / 180), stone: Math.ceil(missing / 220) };
+      if(!this.canIssueCommand())return false;
+      const {defenses,cost}=this.emergencyRepairStatus();
       if (!defenses.length) { this.notify('Les défenses sont déjà intactes.'); return; }
       if (!spend(this.resources, cost)) { this.notify(`Réparation : ${resourceText(cost)} requis.`, 'danger'); return; }
       for (const b of defenses) b.health = b.maxHealth; this.audio.build(); this.notify(`${defenses.length} défenses remises en état.`, 'good');
@@ -758,6 +818,21 @@
       if([...this.world.buildings.values()].some(b=>T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)))return{ok:false,reason:'Ce point est bloqué par un rempart ou une porte verrouillée.'};
       return{ok:true,reason:''};
     }
+    squadFormationTarget(unit,group) {
+      const radius=unit.radius,margin=radius+4;
+      const preferred={x:group.rally.x+unit.offset.x*C.SQUAD_RULES.formationScale,y:group.rally.y+unit.offset.y*C.SQUAD_RULES.formationScale};
+      // A valid rally can have an obstructed formation offset, including after a gate closes.
+      // Check only nearby footprints, with the full radius and touching cell boundaries.
+      for(const point of [preferred,group.rally]){
+        if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<margin||point.y<margin||point.x>WORLD_SIZE-margin||point.y>WORLD_SIZE-margin)continue;
+        const probe={...point,radius};let blocked=false;
+        for(let y=Math.ceil((point.y-radius)/TILE)-1;y<=grid(point.y+radius)&&!blocked;y++)for(let x=Math.ceil((point.x-radius)/TILE)-1;x<=grid(point.x+radius);x++){
+          const b=this.world.atCell(x,y);if(T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)){blocked=true;break;}
+        }
+        if(!blocked)return{x:point.x,y:point.y};
+      }
+      return null;
+    }
     setSquadRally(index, point) {
       const Q=globalThis.DeadwallSquads;if(!this.canCommandSquads()||(index!==null&&!Q.validIndex(index)))return false;
       const status=this.squadRallyStatus(point);if(!status.ok){this.notify(status.reason,'danger');this.squadUI?.announce(status.reason);return false;}
@@ -794,9 +869,9 @@
     getSquadSummary() {
       const state=this.squads||globalThis.DeadwallSquads.create(this.rally),core=this.core();
       return state.groups.map((group,index)=>{
-        const units=this.units.filter(u=>u.kind==='soldier'&&!u.dead&&u.health>0&&u.squad===index),target=group.order==='retreat'?core:group.rally;
+        const units=this.units.filter(u=>u.kind==='soldier'&&!u.dead&&u.health>0&&u.squad===index),retreat=group.order==='retreat';
         return{index,label:C.SQUAD_RULES.labels[index],order:group.order,rally:{...group.rally},count:units.length,selected:state.selected===index,
-          blocked:units.filter(u=>u.navigation?.cells===null&&target&&dist(u,target)>C.SQUAD_RULES.retreatRadius).length};
+          blocked:units.filter(u=>{const target=retreat?core:this.squadFormationTarget(u,group);return !target||(u.navigation?.cells===null&&dist(u,target)>(retreat?C.SQUAD_RULES.retreatRadius:C.SQUAD_RULES.rallyRadius));}).length};
       });
     }
 
@@ -965,6 +1040,7 @@
       const p = this.player;
       if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || !(dt > 0) || !Number.isFinite(dt)) { this.interactionText = ''; return; }
       const carried = bagTotal(p.carry);
+      const depositable = RESOURCE_KEYS.reduce((total, key) => total + Math.min(p.carry[key], Math.max(0, this.storage - this.resources[key])), 0);
       let storage = null, storageD = 100 * 100, incomplete = null, incompleteD = 78 * 78, node = null, nodeD = 62 * 62;
       // Choose the nearest usable target: a wall must not hide a second, reachable action.
       for (const b of this.world.buildings.values()) {
@@ -979,10 +1055,14 @@
         if (d < nodeD && this.workerCanWorkAt(p, candidate, 62)) { nodeD = d; node = candidate; }
       }
       let action = null;
-      if (storage && carried > .01 && dist(storage,p) < 100) { this.interactionText = `Déposer ${Math.floor(carried)} unités`; action = 'deposit'; }
+      if (storage && depositable > 0 && dist(storage,p) < 100) {
+        const amount = Math.floor(depositable);
+        this.interactionText = amount > 0 ? `Déposer ${amount} unité${amount > 1 ? 's' : ''}` : 'Déposer moins d’une unité';
+        action = 'deposit';
+      }
       else if (incomplete) { this.interactionText = `Construire ${incomplete.def.name} — ${Math.floor(incomplete.progress*100)} %`; action = 'build'; }
       else if (node && bagTotal(p.carry) < p.carryCapacity) { this.interactionText = node.sceneryKind ? `Fouiller ${C.SCENERY_DEFS[node.sceneryKind].name} · ${RESOURCE_META[node.type].label.toLowerCase()}` : `Récolter ${RESOURCE_META[node.type].label.toLowerCase()}`; action = 'harvest'; }
-      else this.interactionText = '';
+      else this.interactionText = storage ? 'Stockage plein : dépensez les réserves ou terminez un entrepôt.' : '';
       if (!action) { this.updateNarrativeSurvey?.(dt); return; }
       if (!this.input.keys.has('KeyE')) return;
       if (action === 'deposit') {
@@ -992,7 +1072,6 @@
         if (this.random.chance(dt * 8)) this.particles.push(new Particle(incomplete.x+this.random.range(-20,20),incomplete.y+this.random.range(-15,15),this.random.range(-8,8),-18,.6,3,'#c9a05a','spark'));
       } else {
         const room = p.carryCapacity - bagTotal(p.carry), amount = node.harvest(Math.min(room, dt * 10 * this.difficulty.resourceYield)); p.carry[node.type] += amount; this.stats.gathered += amount;
-        if (this.objectiveIndex === 0) this.objectiveProgress += amount;
         if (this.random.chance(dt * 8)) this.particles.push(new Particle(node.x+this.random.range(-8,8),node.y+this.random.range(-8,8),this.random.range(-10,10),this.random.range(-20,-5),.5,3,RESOURCE_META[node.type].color,'debris'));
       }
     }
@@ -1113,7 +1192,7 @@
             else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;if(target.health<=0)this.killZombie(target,false);}
           }
           if(retreat){u.state='flee';if(dist(u,core)>rules.retreatRadius)this.moveUnitToward(u,core,dt);}
-          else if(!target){u.state='move';const targetPoint={x:group.rally.x+u.offset.x*rules.formationScale,y:group.rally.y+u.offset.y*rules.formationScale};if(dist(u,targetPoint)>rules.rallyRadius)this.moveUnitToward(u,targetPoint,dt);}
+          else if(!target){u.state='move';const targetPoint=this.squadFormationTarget(u,group);if(targetPoint&&dist(u,targetPoint)>rules.rallyRadius)this.moveUnitToward(u,targetPoint,dt);}
         }
       }
       this.units=this.units.filter(u=>!u.dead);
@@ -1675,7 +1754,35 @@
       const research=this.currentResearch(),lockedResearch=research?null:RESEARCH.find(item=>!this.hasResearch(item.id));if(this.ui.researchName)this.ui.researchName.textContent=research?'DOCTRINES · CHOISIR':lockedResearch?`Palier requis : ${CITY_TIERS[lockedResearch.tier].name}`:'Doctrines complètes';if(this.ui.researchInsight)this.ui.researchInsight.textContent=research?`${this.research.insight}/${research.insight} insight · ${resourceText(research.cost)}`:`${this.research.insight} insight · ${this.research.completed.length}/${RESEARCH.length} doctrines`;if(this.ui.researchButton){this.ui.researchButton.disabled=false;this.ui.researchButton.title=research?`${research.description} — ${resourceText(research.cost)}`:lockedResearch?`${lockedResearch.name} nécessite le palier ${CITY_TIERS[lockedResearch.tier].name}.`:'Toutes les doctrines sont terminées.';}
       if(this.ui.soundStatus)this.ui.soundStatus.textContent=this.settings.muted?'coupé':'activé';if(this.ui.soundToggle)this.ui.soundToggle.setAttribute('aria-pressed',String(!this.settings.muted));if(this.ui.settingsToggle){this.ui.settingsToggle.setAttribute('aria-haspopup','dialog');this.ui.settingsToggle.setAttribute('aria-controls','settingsModal');}this.ui.recruitWorker.disabled=!this.canRecruit('worker');this.ui.recruitSoldier.disabled=!this.canRecruit('soldier');this.updateSelectionUI();}
 
-    updateSelectionUI(){const b=this.selectedBuilding;if(!b||b.dead){this.ui.selectionCard.classList.add('hidden');return;}this.ui.selectionCard.classList.remove('hidden');this.ui.selectionCard.dataset.state=!b.completed?'construction':b.health/b.maxHealth<.35?'critical':b.def.powerUse&&!b.powered?'unpowered':'operational';this.ui.selectionCard.dataset.priority=String(b.priority||2);this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;this.ui.repairSelected.disabled=b.health>=b.maxHealth||!b.completed;this.ui.upgradeSelected.disabled=!b.completed||!b.def.upgradeTo||BUILDINGS[b.def.upgradeTo].unlockTier>this.tier.id;if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;}
+    updateSelectionUI(){
+      const get=id=>document.getElementById(id),emergency=this.emergencyRepairStatus();
+      get('repairAll').disabled=!emergency.ok;
+      get('repairAllQuote').textContent=emergency.defenses.length?emergency.defenses.length+' défense'+(emergency.defenses.length>1?'s':'')+' · '+resourceText(emergency.cost)+(canAfford(this.resources,emergency.cost)?'':' · stocks insuffisants'):'Défenses intactes';
+      const b=this.selectedBuilding;
+      if(!b||b.dead||this.world.buildings.get(b.id)!==b){this.ui.selectionCard.classList.add('hidden');this.cancelDemolition();return;}
+      this.ui.selectionCard.classList.remove('hidden');this.ui.selectionCard.dataset.state=!b.completed?'construction':b.health/b.maxHealth<.35?'critical':b.def.powerUse&&!b.powered?'unpowered':'operational';this.ui.selectionCard.dataset.priority=String(b.priority||2);
+      this.ui.selectionName.textContent=b.def.name;this.ui.selectionDescription.textContent=b.completed?b.def.description:`Chantier à ${Math.floor(b.progress*100)} %. Maintenez E à proximité ou assignez des ouvriers.`;
+      this.ui.selectionHealthFill.style.width=`${b.health/b.maxHealth*100}%`;this.ui.selectionHealthFill.style.background=b.health/b.maxHealth<.35?'#b94d43':'#7da46e';
+      this.ui.selectionStats.innerHTML=`<span>Intégrité <strong>${Math.ceil(b.health)} / ${b.maxHealth}</strong></span><span>Énergie <strong>${b.def.powerUse?(b.powered?'Oui':'Non'):'—'}</strong></span><span>Construction <strong>${Math.floor(b.progress*100)}%</strong></span><span>Pression corps <strong>${b.def.wall?Math.floor(b.corpseLoad):0}</strong></span>`;
+      for(const [action,label,id]of [['repair','Réparation','selectionRepairQuote'],['upgrade','Amélioration','selectionUpgradeQuote']]){
+        const quote=this.structureActionStatus(action,b),cost=resourceText(quote.cost);
+        this.ui[action==='repair'?'repairSelected':'upgradeSelected'].disabled=!quote.ok;
+        get(id).textContent=label+' : '+(cost?cost+(quote.reason?' — '+quote.reason:''):quote.reason);
+      }
+      const demolition=this.structureActionStatus('demolish',b),pending=this.pendingDemolition===b&&demolition.ok;
+      get('demolishSelected').disabled=!demolition.ok;get('demolishSelected').title=demolition.reason||'Vérifier les matériaux récupérables avant de démonter.';
+      get('demolishSelected').setAttribute('aria-expanded',String(pending));get('demolitionReview').classList.toggle('hidden',!pending);
+      if(pending){
+        const warnings=[];
+        if(b.def.wall)warnings.push('Ce démontage peut ouvrir votre enceinte.');
+        if(b.completed&&b.def.storage)warnings.push('Capacité restante : '+demolition.cap+' par ressource.');
+        if(bagTotal(demolition.lost)>0)warnings.push('Excédent perdu : '+this.maintenanceAmounts(demolition.lost)+'.');
+        if(b.completed&&b.def.housing)warnings.push('Logements retirés : '+b.def.housing+'.');
+        if(b.completed&&b.def.powerGen)warnings.push('Production électrique retirée : '+b.def.powerGen+'.');
+        get('demolitionSummary').textContent=b.def.name+' — récupération possible maintenant : '+this.maintenanceAmounts(demolition.refund)+'. '+warnings.join(' ')+' Cette action est irréversible.';
+      }
+      if(this.ui.prioritySelected)this.ui.prioritySelected.textContent=`PRIORITÉ ${['','BASSE','NORMALE','HAUTE'][b.priority||2]}`;
+    }
 
     render(){const ctx=this.ctx;ctx.setTransform(this.dpr,0,0,this.dpr,0,0);ctx.fillStyle='#171c18';ctx.fillRect(0,0,this.width,this.height);const shakeX=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0,shakeY=(this.camera.shake&&!this.settings.reducedMotion)?(Math.random()-.5)*this.camera.shake:0;ctx.save();ctx.translate(this.width/2+shakeX,this.height/2+shakeY);ctx.scale(this.camera.zoom,this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);const view=this.viewBounds();this.crowdDetail=this.width>720&&this.camera.zoom>.72&&this.zombies.length<320;this.drawGround(ctx,view);this.contentUI?.drawMarker(ctx,view);for(const node of this.world.nodes)if(!node.depleted&&this.visible(node.x,node.y,Math.max(node.radius+20,(node.renderSize||0)/2+10),view))this.drawNode(ctx,node);for(const corpse of this.corpses)if(this.visible(corpse.x,corpse.y,25,view))this.drawCorpse(ctx,corpse);const buildings=[...this.world.buildings.values()].filter(b=>!b.dead&&this.visible(b.x,b.y,Math.max(b.w,b.h)*TILE+40,view)).sort((a,b)=>a.y-b.y);for(const b of buildings)this.drawBuilding(ctx,b);for(const p of this.particles)if(this.visible(p.x,p.y,20,view))this.drawParticle(ctx,p);for(const u of this.units)if(!u.dead&&this.visible(u.x,u.y,28,view))this.drawUnit(ctx,u);for(const z of this.zombies)if(!z.dead&&this.visible(z.x,z.y,28,view))this.drawZombie(ctx,z);for(const p of this.projectiles)if(!p.dead&&this.visible(p.x,p.y,20,view))this.drawProjectile(ctx,p);if(!this.player.dead)this.drawPlayer(ctx);for(const f of this.floaters)if(this.visible(f.x,f.y,80,view))this.drawFloater(ctx,f);this.drawRally(ctx);this.drawPlacement(ctx);ctx.restore();this.drawNight(ctx);this.drawRain(ctx);this.drawThreatArrows(ctx);this.drawCrosshair(ctx);}
 
@@ -1812,7 +1919,7 @@
     drawCorpse(ctx,c){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
-    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+Math.sin(this.elapsed*2)*3,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
+    drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+(this.settings.reducedMotion?0:Math.sin(this.elapsed*2)*3),0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
 
     drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=BUILDINGS[this.selectedBuild],cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 

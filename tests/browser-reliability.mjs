@@ -11,7 +11,7 @@ if(process.env.DEADWALL_QA_BROWSER_APPROVED!=='1')throw new Error('Browser QA no
 const require=createRequire(import.meta.url),{chromium}=require(process.env.DEADWALL_PLAYWRIGHT_MODULE||'playwright'),Save=require('../src/save.js');
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
 const label=(process.env.DEADWALL_QA_LABEL||'reliability-'+new Date().toISOString()).replace(/[^a-zA-Z0-9_-]/g,'_');
-const output=path.join(root,'artifacts','reliability-qa',label);
+const output=path.join(process.env.DEADWALL_QA_OUTPUT_ROOT||path.join(root,'artifacts'),'reliability-qa',label);
 const variants=[
   {name:'desktop',width:1440,height:900},{name:'laptop',width:1280,height:720},
   {name:'mobile',width:390,height:844,touch:true},{name:'small-mobile',width:320,height:640,touch:true},

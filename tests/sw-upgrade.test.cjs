@@ -3,8 +3,8 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),source=fs.readFileSync(path.join(root,'sw.js'),'utf8');
-const added=['squads.css','finish.css','src/scenarios.js','src/squads.js','src/battlefield.js','src/scenario-ui.js','src/squad-ui.js','src/battlefield-ui.js'];
-const previous='deadwall-v1.0.0-r10',current='deadwall-v1.0.0-r11';
+const added=['index.html','src/core.js','src/game.js','src/save.js','squads.css','finish.css','src/scenarios.js','src/squads.js','src/battlefield.js','src/scenario-ui.js','src/squad-ui.js','src/battlefield-ui.js'];
+const previous='deadwall-v1.0.0-r11',current='deadwall-v1.0.0-r12';
 
 // Cache.addAll is deliberately modelled as one deferred atomic operation. These
 // tests check SW event/promise orchestration, not a browser Cache implementation.
@@ -42,9 +42,9 @@ function workerFixture({failedAsset=null}={}){
 }
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 
-test('PWA upgrade : installation r11 attend toutes les dépendances avant activation et purge sélective',{timeout:3000},async t=>{
+test('PWA upgrade : installation r12 attend toutes les dépendances avant activation et purge sélective',{timeout:3000},async t=>{
   const worker=workerFixture();t.after(()=>worker.release());
-  const oldBytes=new Map([[worker.url('index.html'),'old r10 page']]),foreign=new Map([['proof','keep']]);
+  const oldBytes=new Map([[worker.url('index.html'),'old r11 page']]),foreign=new Map([['proof','keep']]);
   worker.stores.set(previous,oldBytes);worker.stores.set('another-game-v11',foreign);worker.stores.set('deadwall-static-v1',new Map([['proof','keep too']]));
   let settled=false;const installing=worker.dispatch('install').then(()=>{settled=true;});
   await flush();
@@ -64,15 +64,15 @@ test('PWA upgrade : installation r11 attend toutes les dépendances avant activa
   assert.ok(worker.trace.indexOf('delete:'+previous)<worker.trace.indexOf('claim'));
 });
 
-test('PWA upgrade : échec de chacune des huit nouvelles dépendances conserve la version précédente',{timeout:3000},async()=>{
+test('PWA upgrade : échec de chacune des douze dépendances critiques conserve la version précédente',{timeout:3000},async()=>{
   for(const failedAsset of added){
-    const worker=workerFixture({failedAsset}),oldBytes=new Map([[worker.url('index.html'),'working r10'],[worker.url('src/game.js'),'old game']]);
+    const worker=workerFixture({failedAsset}),oldBytes=new Map([[worker.url('index.html'),'working r11'],[worker.url('src/game.js'),'old game']]);
     worker.stores.set(previous,oldBytes);worker.stores.set('another-game-v11',new Map([['proof','keep']]));
     const installing=worker.dispatch('install');await flush();worker.release();
     await assert.rejects(installing,new RegExp(failedAsset.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
     assert.deepEqual(worker.counts(),{skipWaiting:0,claimed:0},failedAsset);
     assert.equal(worker.stores.get(previous),oldBytes,failedAsset);
-    assert.equal(worker.stores.get(previous).get(worker.url('index.html')),'working r10');
+    assert.equal(worker.stores.get(previous).get(worker.url('index.html')),'working r11');
     assert.equal(worker.stores.get(previous).get(worker.url('src/game.js')),'old game');
     assert.equal(worker.stores.has('another-game-v11'),true);
     assert.equal(worker.trace.some(entry=>entry.startsWith('delete:')),false);
