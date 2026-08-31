@@ -3,8 +3,9 @@
   const game=globalThis.DEADWALL, Save=globalThis.DeadwallSave, C=globalThis.DeadwallCore;
   if(!game||!Save)return;
   const get=id=>document.getElementById(id), modal=get('settingsModal');if(!modal)return;
-  let previousPause=null, pendingImport=null;
+  let previousPause=null, pendingImport=null, importRevision=0;
   const status=text=>{get('settingsStatus').textContent=text;};
+  function clearImport(){importRevision++;pendingImport=null;get('settingsImportFile').value='';get('settingsImportReview').classList.add('hidden');}
   function refresh(){
     get('settingsVolume').value=Math.round(game.settings.volume*100);get('settingsVolumeValue').textContent=`${Math.round(game.settings.volume*100)} %`;
     get('settingsMuted').checked=game.settings.muted;get('settingsContrast').checked=game.settings.highContrast;get('settingsMotion').checked=game.settings.reducedMotion;get('settingsQuality').value=game.settings.quality;
@@ -14,7 +15,7 @@
   game.showSettings=show=>{
     const visible=!modal.classList.contains('hidden');if(visible===Boolean(show))return;
     if(show){previousPause=game.state==='playing'&&!game.gameOver?game.paused:null;if(previousPause!==null){game.paused=true;game.save(false);}refresh();}
-    else{if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}previousPause=null;pendingImport=null;get('settingsImportReview').classList.add('hidden');}
+    else{if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}previousPause=null;clearImport();}
     modal.classList.toggle('hidden',!show);game.syncOverlayFocus();
   };
   for(const id of ['menuSettingsButton','pauseSettingsButton'])get(id)?.addEventListener('click',()=>game.showSettings(true));
@@ -35,14 +36,22 @@
   });
   get('settingsImport').addEventListener('click',()=>get('settingsImportFile').click());
   get('settingsImportFile').addEventListener('change',async event=>{
-    pendingImport=null;get('settingsImportReview').classList.add('hidden');
-    try{const file=event.target.files?.[0];if(!file)return;if(file.size>Save.MAX_FILE_BYTES)throw new Error('Fichier trop volumineux : maximum 8 Mo.');pendingImport=Save.parse(await file.text());get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');}
-    catch(error){status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}finally{event.target.value='';}
+    const file=event.target.files?.[0];clearImport();const revision=importRevision;
+    try{
+      if(!file)return;
+      if(file.size>Save.MAX_FILE_BYTES)throw new Error('Fichier trop volumineux : maximum 8 Mo.');
+      const text=await file.text();
+      // A newer choice, cancellation or closed dialog owns the UI now.
+      if(revision!==importRevision)return;
+      pendingImport=Save.parse(text);
+      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;
+      get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');
+    }catch(error){if(revision===importRevision)status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}
   });
-  get('settingsImportCancel').addEventListener('click',()=>{pendingImport=null;get('settingsImportReview').classList.add('hidden');get('settingsImport').focus();status('Import annulé.');});
+  get('settingsImportCancel').addEventListener('click',()=>{clearImport();get('settingsImport').focus();status('Import annulé.');});
   get('settingsImportConfirm').addEventListener('click',()=>{
     if(!pendingImport)return;
-    try{if(game.state==='playing'&&!game.gameOver&&!game.save(false))throw new Error('Exportez votre partie actuelle puis revenez au menu avant l’import : le stockage local est indisponible.');game.restoreSave(pendingImport);pendingImport=null;get('settingsImportReview').classList.add('hidden');const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');}
+    try{if(game.state==='playing'&&!game.gameOver&&!game.save(false))throw new Error('Exportez votre partie actuelle puis revenez au menu avant l’import : le stockage local est indisponible.');game.restoreSave(pendingImport);clearImport();const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');}
     catch(error){status(error.message);}
   });
   get('settingsFullscreen').addEventListener('click',async()=>{try{if(globalThis.deadwallDesktop?.isDesktop)await globalThis.deadwallDesktop.toggleFullscreen();else if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{status('Plein écran indisponible dans cet environnement.');}});

@@ -90,7 +90,7 @@ for(const variant of [{name:'desktop',width:1440,height:900},{name:'laptop',widt
     await page.keyboard.press('Escape');await page.locator('#pauseButton').click();await page.locator('#quitButton').click();
     if(variant.name==='desktop'){
       await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
-      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r9');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
+      await page.waitForFunction(async()=>{const cache=await caches.open('deadwall-v1.0.0-r10');return !!(await cache.match(new URL('src/command-ui.js',location.href).href));});
       await context.setOffline(true);await page.reload({waitUntil:'load'});await page.waitForFunction(()=>DEADWALL?.showCommand&&globalThis.DeadwallArt?.ASSETS&&Object.keys(DeadwallArt.ASSETS).length>0&&DEADWALL.art?.diagnostics.failed.length===0&&DEADWALL.art.diagnostics.ready.length===Object.keys(DeadwallArt.ASSETS).length&&Object.keys(DeadwallArt.ASSETS).every(key=>DEADWALL.art.diagnostics.ready.includes(key)));
       await page.locator('#menuRecordsButton').click();check('poste et archives hors ligne',await page.locator('.campaign-row').count()===1);
       await context.setOffline(false);

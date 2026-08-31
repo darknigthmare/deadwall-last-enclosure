@@ -126,9 +126,9 @@
   });
 
   const WEAPONS = {
-    pistol: { id: 'pistol', name: 'PISTOLET', damage: 42, fireRate: 3.2, magazine: 12, reload: 1.35, spread: 0.035, pellets: 1, ammoPerReload: 1, range: 650, tier: 0 },
-    rifle: { id: 'rifle', name: 'FUSIL D’ASSAUT', damage: 34, fireRate: 8.2, magazine: 30, reload: 1.8, spread: 0.055, pellets: 1, ammoPerReload: 1, range: 760, tier: 1 },
-    shotgun: { id: 'shotgun', name: 'FUSIL À POMPE', damage: 18, fireRate: 1.05, magazine: 8, reload: 2.25, spread: 0.21, pellets: 8, ammoPerReload: 2, range: 420, tier: 2 }
+    pistol: { id: 'pistol', name: 'PISTOLET', damage: 42, headshotChance: .13, headshotMultiplier: 1.75, fireRate: 3.2, magazine: 12, reload: 1.35, spread: 0.035, pellets: 1, ammoPerReload: 1, range: 650, tier: 0 },
+    rifle: { id: 'rifle', name: 'FUSIL D’ASSAUT', damage: 34, headshotChance: .13, headshotMultiplier: 1.75, fireRate: 8.2, magazine: 30, reload: 1.8, spread: 0.055, pellets: 1, ammoPerReload: 1, range: 760, tier: 1 },
+    shotgun: { id: 'shotgun', name: 'FUSIL À POMPE', damage: 18, headshotChance: .065, headshotMultiplier: 1.75, fireRate: 1.05, magazine: 8, reload: 2.25, spread: 0.21, pellets: 8, ammoPerReload: 2, range: 420, tier: 2 }
   };
 
   const OBJECTIVES = [

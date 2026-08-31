@@ -2,6 +2,19 @@
 
 Périmètre : simulation Canvas existante, identité zombie réaliste, construction concentrique, économie, population, défense, recherche, crises, sauvegardes additives v2 et livraison autonome. Cette note décrit des comportements inspectés et testés ; elle ne constitue pas une certification commerciale exhaustive ni une mesure de performance sur toutes les machines.
 
+## Passe de fiabilité après le récit — 31 août 2026
+
+Quatre défauts supplémentaires ont été reproduits puis corrigés, sans changement des coûts, de la difficulté ou du contenu artistique :
+
+| Priorité | Défaut reproduit | Correction et régression automatisée |
+| --- | --- | --- |
+| P1 | Une réanimation à pas réel laisse un chronomètre légèrement négatif ; le validateur refuse ensuite la sauvegarde, l'export et le retour au menu. | Chronomètre borné à zéro ; tests à 25 Hz, 60 Hz et pas irrégulier, reprise à terre et pénalité de cargaison unique. |
+| P1 | Un mur adjacent à l'est du centre emprisonne le commandant réanimé ou l'ouvrier accueilli lors d'une crise. | Position historique conservée si le rayon entier est libre ; sinon arrivée au centre passable, jamais hors de l'enceinte. Mobilité, coûts uniques et reprise testés. |
+| P2 | Changer d'arme pendant le vol modifie les chances de tir à la tête des projectiles déjà tirés. | Probabilité et multiplicateur capturés au départ. Les neuf couples d'armes sont testés ; dégâts et tirages aléatoires à arme constante inchangés, tirs alliés non critiques. |
+| P2 | Deux lectures d'import terminées hors ordre peuvent confirmer l'ancien fichier ; une lecture tardive peut rouvrir un aperçu annulé. | Révision de lecture invalidée par nouveau choix, annulation, fermeture et confirmation. Aucun remplacement avant confirmation ; erreur ou résultat périmé ignoré sans vol de focus. |
+
+Régressions : `tests/revival-save.test.cjs`, `tests/safe-arrivals.test.cjs`, `tests/projectile-weapon.test.cjs` et `tests/import-concurrency.test.cjs`. Le format de sauvegarde reste v2 ; les projectiles restent transitoires. Le cache hors ligne passe à `deadwall-v1.0.0-r10`. Les essais navigateur et la distribution native sont des portes de validation distinctes à consigner dans le rapport de livraison, pas des résultats déduits des tests Node.
+
 ## Les cinq défauts stratégiques prioritaires
 
 | Priorité | Défaut reproductible avant correction | Correction livrée | Vérification |

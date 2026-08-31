@@ -91,9 +91,11 @@
   }
 
   class Projectile {
-    constructor(id, x, y, vx, vy, damage, range, owner, color = '#ffe09a', radius = 2) {
+    constructor(id, x, y, vx, vy, damage, range, owner, color = '#ffe09a', radius = 2, headshotChance = 0, headshotMultiplier = 1) {
       this.id = id; this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.damage = damage;
       this.range = range; this.owner = owner; this.color = color; this.radius = radius; this.travelled = 0; this.dead = false;
+      // Capture the firing weapon's values: switching weapons cannot alter a shot in flight.
+      this.headshotChance = headshotChance; this.headshotMultiplier = headshotMultiplier;
     }
   }
 
@@ -717,6 +719,16 @@
 
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
 
+    coreArrivalPosition(entity, preferred) {
+      const core = this.core(); if (!core) return null;
+      const margin = entity.radius + 4, probe = { x: preferred.x, y: preferred.y, radius: entity.radius };
+      const clear = preferred.x >= margin && preferred.y >= margin && preferred.x <= WORLD_SIZE - margin && preferred.y <= WORLD_SIZE - margin
+        && ![...this.world.buildings.values()].some(building => T.blocksFriendly(building) && T.overlapsBuilding(building, probe));
+      // The command centre is passable and its footprint cannot overlap a wall.
+      // Fall back inside it, never search for an arrival beyond a closed enclosure.
+      return clear ? { x: preferred.x, y: preferred.y } : { x: core.x, y: core.y };
+    }
+
     setGateMode(mode, building = this.selectedBuilding) {
       if (!this.canIssueCommand() || !building || this.world.buildings.get(building.id) !== building) return false;
       if (!T.GATE_MODES.includes(mode) || !T.isGate(building) || !T.operational(building)) return false;
@@ -812,8 +824,8 @@
     updatePlayer(dt) {
       const p = this.player; p.shootCooldown = Math.max(0, p.shootCooldown - dt); p.meleeCooldown = Math.max(0, p.meleeCooldown - dt); p.invulnerable = Math.max(0, p.invulnerable - dt);
       if (p.dead) {
-        p.downTimer -= dt; this.interactionText = `Réanimation dans ${Math.ceil(Math.max(0,p.downTimer))} s`;
-        if (p.downTimer <= 0) { const core = this.core(); if (core) { p.dead = false; p.health = p.maxHealth; p.x = core.x + 80; p.y = core.y; p.invulnerable = 3; for (const key of RESOURCE_KEYS) p.carry[key] *= .5; this.notify('Vous êtes de nouveau opérationnel.', 'good'); } }
+        p.downTimer = Math.max(0, p.downTimer - dt); this.interactionText = `Réanimation dans ${Math.ceil(p.downTimer)} s`;
+        if (p.downTimer <= 0) { const core = this.core(); if (core) { const arrival = this.coreArrivalPosition(p, { x: core.x + 80, y: core.y }); p.dead = false; p.health = p.maxHealth; p.x = arrival.x; p.y = arrival.y; p.invulnerable = 3; for (const key of RESOURCE_KEYS) p.carry[key] *= .5; this.notify('Vous êtes de nouveau opérationnel.', 'good'); } }
         return;
       }
       if (p.reload > 0) { p.reload -= dt; if (p.reload <= 0) { p.reload = 0; this.finishReload(); } }
@@ -905,7 +917,7 @@
       p.magazine[p.weapon]--; p.shootCooldown = 1 / w.fireRate; this.stats.shots++; this.audio.shot(p.weapon); this.camera.shake = Math.max(this.camera.shake, p.weapon === 'shotgun' ? 8 : p.weapon === 'rifle' ? 3 : 4);
       for (let i = 0; i < w.pellets; i++) {
         const angle = p.facing + this.random.range(-w.spread, w.spread), speed = 970;
-        this.projectiles.push(new Projectile(this.nextId++, p.x + Math.cos(angle)*22, p.y + Math.sin(angle)*22, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', p.weapon === 'shotgun' ? 1.4 : 2));
+        this.projectiles.push(new Projectile(this.nextId++, p.x + Math.cos(angle)*22, p.y + Math.sin(angle)*22, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', p.weapon === 'shotgun' ? 1.4 : 2, w.headshotChance, w.headshotMultiplier));
       }
       for (let i=0;i<3;i++) this.particles.push(new Particle(p.x+Math.cos(p.facing)*25,p.y+Math.sin(p.facing)*25,Math.cos(p.facing)*this.random.range(50,110)+this.random.range(-20,20),Math.sin(p.facing)*this.random.range(50,110)+this.random.range(-20,20),.1,this.random.range(2,4),'#ffd070','muzzle'));
       if (p.magazine[p.weapon] <= 0) this.startReload();
@@ -1218,7 +1230,7 @@
       const effect=option.effects;
       if(effect.morale)this.morale=clamp(this.morale+effect.morale,0,100);
       if(effect.ammo)this.resources.ammo=clamp(this.resources.ammo+effect.ammo,0,this.storage);
-      if(effect.workers){const core=this.core();for(let i=0;i<effect.workers;i++)this.units.push(new Unit(this.nextId++,'worker',core.x+70,core.y+this.random.range(-25,25)));}
+      if(effect.workers){const core=this.core();for(let i=0;i<effect.workers;i++){const unit=new Unit(this.nextId++,'worker',core.x+70,core.y+this.random.range(-25,25));Object.assign(unit,this.coreArrivalPosition(unit,unit));this.units.push(unit);}}
       const wall=this.world.buildings.get(crisis.targetId);
       if(wall&&!wall.dead){if(effect.wallRepair)wall.health=Math.min(wall.maxHealth,wall.health+wall.maxHealth*effect.wallRepair);if(effect.wallDamage)wall.health=Math.max(1,wall.health-wall.maxHealth*effect.wallDamage);if(effect.corpseCleanup)wall.corpseLoad=Math.max(0,wall.corpseLoad-effect.corpseCleanup);}
       crisis.status='resolved';crisis.choice=choice;crisis.remaining=effect.duration||0;
@@ -1402,7 +1414,7 @@
         p.x += dx * travel; p.y += dy * travel; p.travelled = Math.min(p.range, p.travelled + length * travel);
         if (target) {
           let damage = p.damage, head = false;
-          if (p.owner === 'player' && this.random.chance(this.player.weapon === 'shotgun' ? .065 : .13)) { damage *= 1.75; head = true; this.stats.headshots++; }
+          if (p.owner === 'player' && this.random.chance(p.headshotChance)) { damage *= p.headshotMultiplier; head = true; this.stats.headshots++; }
           target.health -= damage; target.stagger = Math.max(target.stagger, .08); p.dead = true; this.audio.hit();
           for (let i = 0; i < 4; i++) this.particles.push(new Particle(target.x, target.y, this.random.range(-45,45), this.random.range(-45,45), .45, 2.5, '#6d2928', 'blood'));
           if (head) this.floaters.push({x:target.x,y:target.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});

@@ -805,9 +805,9 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   });
 
   const WEAPONS = {
-    pistol: { id: 'pistol', name: 'PISTOLET', damage: 42, fireRate: 3.2, magazine: 12, reload: 1.35, spread: 0.035, pellets: 1, ammoPerReload: 1, range: 650, tier: 0 },
-    rifle: { id: 'rifle', name: 'FUSIL D’ASSAUT', damage: 34, fireRate: 8.2, magazine: 30, reload: 1.8, spread: 0.055, pellets: 1, ammoPerReload: 1, range: 760, tier: 1 },
-    shotgun: { id: 'shotgun', name: 'FUSIL À POMPE', damage: 18, fireRate: 1.05, magazine: 8, reload: 2.25, spread: 0.21, pellets: 8, ammoPerReload: 2, range: 420, tier: 2 }
+    pistol: { id: 'pistol', name: 'PISTOLET', damage: 42, headshotChance: .13, headshotMultiplier: 1.75, fireRate: 3.2, magazine: 12, reload: 1.35, spread: 0.035, pellets: 1, ammoPerReload: 1, range: 650, tier: 0 },
+    rifle: { id: 'rifle', name: 'FUSIL D’ASSAUT', damage: 34, headshotChance: .13, headshotMultiplier: 1.75, fireRate: 8.2, magazine: 30, reload: 1.8, spread: 0.055, pellets: 1, ammoPerReload: 1, range: 760, tier: 1 },
+    shotgun: { id: 'shotgun', name: 'FUSIL À POMPE', damage: 18, headshotChance: .065, headshotMultiplier: 1.75, fireRate: 1.05, magazine: 8, reload: 2.25, spread: 0.21, pellets: 8, ammoPerReload: 2, range: 420, tier: 2 }
   };
 
   const OBJECTIVES = [
@@ -1969,9 +1969,11 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   }
 
   class Projectile {
-    constructor(id, x, y, vx, vy, damage, range, owner, color = '#ffe09a', radius = 2) {
+    constructor(id, x, y, vx, vy, damage, range, owner, color = '#ffe09a', radius = 2, headshotChance = 0, headshotMultiplier = 1) {
       this.id = id; this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.damage = damage;
       this.range = range; this.owner = owner; this.color = color; this.radius = radius; this.travelled = 0; this.dead = false;
+      // Capture the firing weapon's values: switching weapons cannot alter a shot in flight.
+      this.headshotChance = headshotChance; this.headshotMultiplier = headshotMultiplier;
     }
   }
 
@@ -2595,6 +2597,16 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 
     core() { for (const b of this.world.buildings.values()) if (b.type === 'core' && !b.dead) return b; return null; }
 
+    coreArrivalPosition(entity, preferred) {
+      const core = this.core(); if (!core) return null;
+      const margin = entity.radius + 4, probe = { x: preferred.x, y: preferred.y, radius: entity.radius };
+      const clear = preferred.x >= margin && preferred.y >= margin && preferred.x <= WORLD_SIZE - margin && preferred.y <= WORLD_SIZE - margin
+        && ![...this.world.buildings.values()].some(building => T.blocksFriendly(building) && T.overlapsBuilding(building, probe));
+      // The command centre is passable and its footprint cannot overlap a wall.
+      // Fall back inside it, never search for an arrival beyond a closed enclosure.
+      return clear ? { x: preferred.x, y: preferred.y } : { x: core.x, y: core.y };
+    }
+
     setGateMode(mode, building = this.selectedBuilding) {
       if (!this.canIssueCommand() || !building || this.world.buildings.get(building.id) !== building) return false;
       if (!T.GATE_MODES.includes(mode) || !T.isGate(building) || !T.operational(building)) return false;
@@ -2690,8 +2702,8 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
     updatePlayer(dt) {
       const p = this.player; p.shootCooldown = Math.max(0, p.shootCooldown - dt); p.meleeCooldown = Math.max(0, p.meleeCooldown - dt); p.invulnerable = Math.max(0, p.invulnerable - dt);
       if (p.dead) {
-        p.downTimer -= dt; this.interactionText = `Réanimation dans ${Math.ceil(Math.max(0,p.downTimer))} s`;
-        if (p.downTimer <= 0) { const core = this.core(); if (core) { p.dead = false; p.health = p.maxHealth; p.x = core.x + 80; p.y = core.y; p.invulnerable = 3; for (const key of RESOURCE_KEYS) p.carry[key] *= .5; this.notify('Vous êtes de nouveau opérationnel.', 'good'); } }
+        p.downTimer = Math.max(0, p.downTimer - dt); this.interactionText = `Réanimation dans ${Math.ceil(p.downTimer)} s`;
+        if (p.downTimer <= 0) { const core = this.core(); if (core) { const arrival = this.coreArrivalPosition(p, { x: core.x + 80, y: core.y }); p.dead = false; p.health = p.maxHealth; p.x = arrival.x; p.y = arrival.y; p.invulnerable = 3; for (const key of RESOURCE_KEYS) p.carry[key] *= .5; this.notify('Vous êtes de nouveau opérationnel.', 'good'); } }
         return;
       }
       if (p.reload > 0) { p.reload -= dt; if (p.reload <= 0) { p.reload = 0; this.finishReload(); } }
@@ -2783,7 +2795,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       p.magazine[p.weapon]--; p.shootCooldown = 1 / w.fireRate; this.stats.shots++; this.audio.shot(p.weapon); this.camera.shake = Math.max(this.camera.shake, p.weapon === 'shotgun' ? 8 : p.weapon === 'rifle' ? 3 : 4);
       for (let i = 0; i < w.pellets; i++) {
         const angle = p.facing + this.random.range(-w.spread, w.spread), speed = 970;
-        this.projectiles.push(new Projectile(this.nextId++, p.x + Math.cos(angle)*22, p.y + Math.sin(angle)*22, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', p.weapon === 'shotgun' ? 1.4 : 2));
+        this.projectiles.push(new Projectile(this.nextId++, p.x + Math.cos(angle)*22, p.y + Math.sin(angle)*22, Math.cos(angle)*speed, Math.sin(angle)*speed, w.damage, w.range, 'player', '#ffe2a0', p.weapon === 'shotgun' ? 1.4 : 2, w.headshotChance, w.headshotMultiplier));
       }
       for (let i=0;i<3;i++) this.particles.push(new Particle(p.x+Math.cos(p.facing)*25,p.y+Math.sin(p.facing)*25,Math.cos(p.facing)*this.random.range(50,110)+this.random.range(-20,20),Math.sin(p.facing)*this.random.range(50,110)+this.random.range(-20,20),.1,this.random.range(2,4),'#ffd070','muzzle'));
       if (p.magazine[p.weapon] <= 0) this.startReload();
@@ -3096,7 +3108,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
       const effect=option.effects;
       if(effect.morale)this.morale=clamp(this.morale+effect.morale,0,100);
       if(effect.ammo)this.resources.ammo=clamp(this.resources.ammo+effect.ammo,0,this.storage);
-      if(effect.workers){const core=this.core();for(let i=0;i<effect.workers;i++)this.units.push(new Unit(this.nextId++,'worker',core.x+70,core.y+this.random.range(-25,25)));}
+      if(effect.workers){const core=this.core();for(let i=0;i<effect.workers;i++){const unit=new Unit(this.nextId++,'worker',core.x+70,core.y+this.random.range(-25,25));Object.assign(unit,this.coreArrivalPosition(unit,unit));this.units.push(unit);}}
       const wall=this.world.buildings.get(crisis.targetId);
       if(wall&&!wall.dead){if(effect.wallRepair)wall.health=Math.min(wall.maxHealth,wall.health+wall.maxHealth*effect.wallRepair);if(effect.wallDamage)wall.health=Math.max(1,wall.health-wall.maxHealth*effect.wallDamage);if(effect.corpseCleanup)wall.corpseLoad=Math.max(0,wall.corpseLoad-effect.corpseCleanup);}
       crisis.status='resolved';crisis.choice=choice;crisis.remaining=effect.duration||0;
@@ -3280,7 +3292,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
         p.x += dx * travel; p.y += dy * travel; p.travelled = Math.min(p.range, p.travelled + length * travel);
         if (target) {
           let damage = p.damage, head = false;
-          if (p.owner === 'player' && this.random.chance(this.player.weapon === 'shotgun' ? .065 : .13)) { damage *= 1.75; head = true; this.stats.headshots++; }
+          if (p.owner === 'player' && this.random.chance(p.headshotChance)) { damage *= p.headshotMultiplier; head = true; this.stats.headshots++; }
           target.health -= damage; target.stagger = Math.max(target.stagger, .08); p.dead = true; this.audio.hit();
           for (let i = 0; i < 4; i++) this.particles.push(new Particle(target.x, target.y, this.random.range(-45,45), this.random.range(-45,45), .45, 2.5, '#6d2928', 'blood'));
           if (head) this.floaters.push({x:target.x,y:target.y-16,text:'TÊTE',color:'#d9b56a',life:.75,maxLife:.75});
@@ -3624,8 +3636,9 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   const game=globalThis.DEADWALL, Save=globalThis.DeadwallSave, C=globalThis.DeadwallCore;
   if(!game||!Save)return;
   const get=id=>document.getElementById(id), modal=get('settingsModal');if(!modal)return;
-  let previousPause=null, pendingImport=null;
+  let previousPause=null, pendingImport=null, importRevision=0;
   const status=text=>{get('settingsStatus').textContent=text;};
+  function clearImport(){importRevision++;pendingImport=null;get('settingsImportFile').value='';get('settingsImportReview').classList.add('hidden');}
   function refresh(){
     get('settingsVolume').value=Math.round(game.settings.volume*100);get('settingsVolumeValue').textContent=`${Math.round(game.settings.volume*100)} %`;
     get('settingsMuted').checked=game.settings.muted;get('settingsContrast').checked=game.settings.highContrast;get('settingsMotion').checked=game.settings.reducedMotion;get('settingsQuality').value=game.settings.quality;
@@ -3635,7 +3648,7 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   game.showSettings=show=>{
     const visible=!modal.classList.contains('hidden');if(visible===Boolean(show))return;
     if(show){previousPause=game.state==='playing'&&!game.gameOver?game.paused:null;if(previousPause!==null){game.paused=true;game.save(false);}refresh();}
-    else{if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}previousPause=null;pendingImport=null;get('settingsImportReview').classList.add('hidden');}
+    else{if(previousPause!==null&&game.state==='playing'&&!game.gameOver){game.paused=previousPause;game.ui.pauseMenu.classList.toggle('hidden',!game.paused);}previousPause=null;clearImport();}
     modal.classList.toggle('hidden',!show);game.syncOverlayFocus();
   };
   for(const id of ['menuSettingsButton','pauseSettingsButton'])get(id)?.addEventListener('click',()=>game.showSettings(true));
@@ -3656,14 +3669,22 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
   });
   get('settingsImport').addEventListener('click',()=>get('settingsImportFile').click());
   get('settingsImportFile').addEventListener('change',async event=>{
-    pendingImport=null;get('settingsImportReview').classList.add('hidden');
-    try{const file=event.target.files?.[0];if(!file)return;if(file.size>Save.MAX_FILE_BYTES)throw new Error('Fichier trop volumineux : maximum 8 Mo.');pendingImport=Save.parse(await file.text());get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');}
-    catch(error){status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}finally{event.target.value='';}
+    const file=event.target.files?.[0];clearImport();const revision=importRevision;
+    try{
+      if(!file)return;
+      if(file.size>Save.MAX_FILE_BYTES)throw new Error('Fichier trop volumineux : maximum 8 Mo.');
+      const text=await file.text();
+      // A newer choice, cancellation or closed dialog owns the UI now.
+      if(revision!==importRevision)return;
+      pendingImport=Save.parse(text);
+      get('settingsImportSummary').textContent=`Vague ${pendingImport.wave} · ${pendingImport.units.length+1} survivants · ${pendingImport.buildings.length} structures. Confirmez pour remplacer la partie en cours.`;
+      get('settingsImportReview').classList.remove('hidden');get('settingsImportConfirm').focus();status('Fichier vérifié. Aucune donnée remplacée avant confirmation.');
+    }catch(error){if(revision===importRevision)status(`Import refusé. ${error.message} La partie actuelle reste intacte.`);}
   });
-  get('settingsImportCancel').addEventListener('click',()=>{pendingImport=null;get('settingsImportReview').classList.add('hidden');get('settingsImport').focus();status('Import annulé.');});
+  get('settingsImportCancel').addEventListener('click',()=>{clearImport();get('settingsImport').focus();status('Import annulé.');});
   get('settingsImportConfirm').addEventListener('click',()=>{
     if(!pendingImport)return;
-    try{if(game.state==='playing'&&!game.gameOver&&!game.save(false))throw new Error('Exportez votre partie actuelle puis revenez au menu avant l’import : le stockage local est indisponible.');game.restoreSave(pendingImport);pendingImport=null;get('settingsImportReview').classList.add('hidden');const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');}
+    try{if(game.state==='playing'&&!game.gameOver&&!game.save(false))throw new Error('Exportez votre partie actuelle puis revenez au menu avant l’import : le stockage local est indisponible.');game.restoreSave(pendingImport);clearImport();const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');}
     catch(error){status(error.message);}
   });
   get('settingsFullscreen').addEventListener('click',async()=>{try{if(globalThis.deadwallDesktop?.isDesktop)await globalThis.deadwallDesktop.toggleFullscreen();else if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{status('Plein écran indisponible dans cet environnement.');}});
