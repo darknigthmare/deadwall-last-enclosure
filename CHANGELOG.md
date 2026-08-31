@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0 — finition du 31 août 2026
+
+- Illustration originale OpenAI et direction CSS de commandement unifiée.
+- HUD, panneaux, menus, contraste et contrôle tactile adaptés à six formats d'écran.
+- Focus clavier des modales, radios de difficulté, catalogue replié et perte de focus corrigés.
+- Serveur local restreint aux fichiers publics ; isolation des caches hors ligne.
+- Version autonome et PWA synchronisées avec les assets locaux.
+- Contrôles et limites documentés dans docs/VISUAL_RELEASE.md.
+
 ## 1.0.0 — 29 août 2026
 
 - Première version complète jouable.

@@ -10,23 +10,23 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
 
   <div id="hud" class="hidden">
     <header id="topbar">
       <div class="brand-mini"><span class="brand-mark">DW</span><div><strong>DEADWALL</strong><small id="cityTier">REFUGE</small></div></div>
-      <div id="resources" class="resource-strip"></div>
+      <div id="resources" class="resource-strip" tabindex="0" role="group" aria-label="Réserves de la cité. Faites défiler pour consulter toutes les ressources."></div>
       <div class="status-strip">
         <div><small>POP.</small><strong id="populationValue">0/0</strong></div>
         <div><small>ÉNERGIE</small><strong id="powerValue">0/0</strong></div>
         <div><small>MORAL</small><strong id="moraleValue">100%</strong></div>
       </div>
-      <button id="pauseButton" class="icon-button" title="Pause (Échap)">Ⅱ</button>
+      <button id="pauseButton" class="icon-button" type="button" title="Pause (Échap)" aria-label="Mettre le jeu en pause">Ⅱ</button>
     </header>
 
     <aside id="leftPanel" class="panel build-panel">
-      <div class="panel-head"><div><small>COMMANDER</small><h2>CONSTRUCTION</h2></div><button id="toggleBuild" class="tiny-button">‹</button></div>
+      <div class="panel-head"><div><small>COMMANDER</small><h2>CONSTRUCTION</h2></div><button id="toggleBuild" class="tiny-button" type="button" aria-label="Replier le catalogue" aria-expanded="true">‹</button></div>
       <div id="buildCategories" class="tabs"></div>
       <div id="buildList" class="build-list"></div>
       <div class="build-help"><span><kbd>B</kbd> catalogue</span><span><kbd>Clic</kbd> placer</span><span><kbd>Clic droit</kbd> annuler/sélectionner</span></div>
@@ -71,27 +71,36 @@
     </div>
 
     <div id="minimapWrap" class="minimap-wrap"><canvas id="minimap" width="220" height="220"></canvas><div class="minimap-label">SECTEUR D-17</div></div>
-    <div id="touchControls" class="touch-controls" aria-hidden="true"><button data-dir="up">▲</button><button data-dir="left">◀</button><button id="touchAction">E</button><button data-dir="right">▶</button><button data-dir="down">▼</button><button id="touchFire">●</button></div>
+    <div id="touchControls" class="touch-controls" role="group" aria-label="Contrôles tactiles"><button type="button" data-dir="up" aria-label="Avancer">▲</button><button type="button" data-dir="left" aria-label="Aller à gauche">◀</button><button id="touchAction" type="button" aria-label="Interagir ou construire">ACTION</button><button type="button" data-dir="right" aria-label="Aller à droite">▶</button><button type="button" data-dir="down" aria-label="Reculer">▼</button><button id="touchFire" type="button" aria-label="Tirer avec auto-visée">FEU</button></div>
     <div id="notifications" class="notifications" aria-live="polite"></div>
     <div id="carryIndicator" class="carry-indicator">SAC <strong id="carryValue">0/36</strong></div>
     <div id="damageVignette"></div>
   </div>
 
   <div id="mainMenu" class="overlay menu-overlay">
-    <div class="menu-backdrop"></div>
-    <main class="menu-card">
-      <div class="eyebrow">PROTOCOLE DE RECONSTRUCTION // SECTEUR D-17</div>
-      <h1>DEAD<span>WALL</span></h1><p class="subtitle">LA DERNIÈRE ENCEINTE</p>
+    <div class="menu-backdrop" aria-hidden="true"></div>
+    <main class="menu-card" aria-labelledby="deadwallTitle">
+      <div class="eyebrow"><span class="eyebrow-signal"></span> PROTOCOLE DE RECONSTRUCTION // SECTEUR D-17</div>
+      <h1 id="deadwallTitle">DEAD<span>WALL</span></h1><p class="subtitle">LA DERNIÈRE ENCEINTE</p>
       <p class="pitch">Récoltez. Fortifiez. Automatisez. Transformez un dépôt abandonné en mégacité avant que la région entière converge vers vos lumières.</p>
-      <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">COMMANDES & SYSTÈMES</button></div>
-      <div class="difficulty-row"><span>DIFFICULTÉ</span><label><input type="radio" name="difficulty" value="story"> Survivant</label><label><input type="radio" name="difficulty" value="standard" checked> Standard</label><label><input type="radio" name="difficulty" value="brutal"> Brutal</label></div>
-      <footer>Version 1.0 · Jeu autonome · Aucun asset ou service externe</footer>
+      <div class="menu-status" aria-label="Caractéristiques de la campagne"><span>CAMPAGNE INFINIE</span><span>SAUVEGARDE LOCALE</span><span>JOUABLE HORS LIGNE</span></div>
+      <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">MANUEL DE TERRAIN</button></div>
+      <div class="difficulty-row">
+        <span class="difficulty-label">PROTOCOLE DE MENACE</span>
+        <div class="difficulty-options">
+          <label class="difficulty-option"><input type="radio" name="difficulty" value="story"><span><strong>SURVIVANT</strong><small>Économie tolérante · Pression progressive</small></span></label>
+          <label class="difficulty-option"><input type="radio" name="difficulty" value="standard" checked><span><strong>STANDARD</strong><small>Expérience DEADWALL équilibrée</small></span></label>
+          <label class="difficulty-option"><input type="radio" name="difficulty" value="brutal"><span><strong>BRUTAL</strong><small>Fronts agressifs · Erreurs coûteuses</small></span></label>
+        </div>
+      </div>
+      <footer><span>VERSION 1.0.0</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
     </main>
+    <div class="menu-scene-caption" aria-hidden="true"><span>ARCHIVES DU SECTEUR D-17</span><strong>CHAQUE ENCEINTE<br>EST UNE SECONDE CHANCE.</strong><small>Reconstruire. Tenir. Recommencer.</small></div>
   </div>
 
-  <div id="pauseMenu" class="overlay hidden"><main class="modal-card"><small>COMMANDEMENT SUSPENDU</small><h2>PAUSE</h2><button id="resumeButton" class="primary">REPRENDRE</button><button id="saveButton">SAUVEGARDER</button><button id="helpPauseButton">COMMANDES</button><button id="quitButton" class="danger">RETOUR AU MENU</button></main></div>
+  <div id="pauseMenu" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle"><main class="modal-card"><small>COMMANDEMENT SUSPENDU</small><h2 id="pauseTitle">PAUSE</h2><button id="resumeButton" class="primary">REPRENDRE</button><button id="saveButton">SAUVEGARDER</button><button id="helpPauseButton">COMMANDES</button><button id="quitButton" class="danger">RETOUR AU MENU</button></main></div>
 
-  <div id="helpModal" class="overlay hidden"><main class="help-card"><button id="closeHelp" class="close-modal">×</button><small>MANUEL DE TERRAIN</small><h2>COMMANDES & SYSTÈMES</h2>
+  <div id="helpModal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><main class="help-card"><button id="closeHelp" class="close-modal" type="button" aria-label="Fermer le manuel">×</button><small>MANUEL DE TERRAIN</small><h2 id="helpTitle">COMMANDES & SYSTÈMES</h2>
     <div class="help-grid">
       <section><h3>Survivant</h3><p><kbd>ZQSD</kbd> / flèches : déplacement<br><kbd>Shift</kbd> : sprint<br><kbd>E</kbd> : récolter, déposer, construire<br><kbd>Espace</kbd> : coup de crosse</p></section>
       <section><h3>Combat</h3><p>Souris : viser<br>Clic gauche : tirer<br><kbd>R</kbd> : recharger<br><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> : armes</p></section>
@@ -99,10 +108,11 @@
       <section><h3>Économie</h3><p>Le joueur porte les ressources au centre ou à un entrepôt. Les ouvriers automatisent collecte et chantiers. Les industries prennent ensuite le relais.</p></section>
       <section><h3>Enceintes</h3><p>Les infectés utilisent un champ de flux : ils cherchent portes et points faibles, puis frappent les murs si le détour devient trop long. Les corps accumulés augmentent la pression.</p></section>
       <section><h3>Commandement</h3><p>Les fusiliers rejoignent le point de ralliement et engagent automatiquement. La cité consomme nourriture, électricité et munitions en continu.</p></section>
+      <section class="touch-only"><h3>Contrôles tactiles</h3><p>La croix directionnelle déplace le survivant. Maintenez <strong>ACTION</strong> pour récolter, déposer ou construire. <strong>FEU</strong> engage automatiquement la menace la plus proche. Ouvrez le catalogue avec sa poignée latérale.</p></section>
     </div>
   </main></div>
 
-  <div id="gameOver" class="overlay hidden"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2>LA CITÉ EST TOMBÉE</h2><p id="gameOverStats"></p><button id="restartButton" class="primary">RECOMMENCER</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
+  <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="gameOverStats"></p><button id="restartButton" class="primary">RECOMMENCER</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
 
   <noscript>JavaScript doit être activé.</noscript>
   <script src="src/core.js"></script>

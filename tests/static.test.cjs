@@ -35,8 +35,17 @@ test('build: la sortie publique n’expose pas les sources de pilotage', () => {
   assert.ok(fs.existsSync(path.join(dist, 'assets', 'icon.svg')));
   assert.ok(fs.existsSync(path.join(dist, 'assets', 'icon-192.png')));
   assert.ok(fs.existsSync(path.join(dist, 'assets', 'icon-512.png')));
+  const backdrop = fs.readFileSync(path.join(dist, 'assets', 'deadwall-keyart-v2.webp'));
+  assert.equal(backdrop.subarray(0, 4).toString('ascii'), 'RIFF');
+  assert.equal(backdrop.subarray(8, 12).toString('ascii'), 'WEBP');
+  assert.ok(backdrop.length < 700_000, 'le fond de menu doit rester léger');
+  const sw = fs.readFileSync(path.join(dist, 'sw.js'), 'utf8');
+  assert.match(sw, /assets\/deadwall-keyart-v2\.webp/);
   const standalone = fs.readFileSync(path.join(root, 'DEADWALL_Standalone.html'), 'utf8');
   assert.doesNotMatch(standalone, /href="(?:styles\.css|manifest\.json)/);
   assert.doesNotMatch(standalone, /src="(?:src\/|assets\/)/);
   assert.doesNotMatch(standalone, /serviceWorker\.register/);
+  assert.match(standalone, /data:image\/webp;base64/);
+  assert.doesNotMatch(standalone, /assets\/deadwall-keyart-v2\.webp/);
+  assert.doesNotMatch(standalone, /url\(\s*["']?assets\//);
 });
