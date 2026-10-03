@@ -19,7 +19,7 @@ function normalizeMechanism(raw,full){
  if(!raw||Array.isArray(raw)||typeof raw!=='object'||Object.keys(raw).length!==4||Object.keys(raw).some(k=>!['kind','charges','cooldown','caught'].includes(k)))bad();
  const recipe=typeof raw.kind==='string'&&Object.hasOwn(R.mechanisms||{},raw.kind)?R.mechanisms[raw.kind]:null;
  if(!recipe||!int(raw.charges,0,recipe.charges)||!num(raw.cooldown,0,recipe.cooldown)||!Array.isArray(raw.caught)||raw.charges+raw.caught.length>recipe.charges||!recipe.holdSeconds&&raw.caught.length)bad();
- if(full&&recipe.strictTier&&C.cityTier(full.urban?.peakScore||0).id<recipe.tier)bad();
+ if(full&&recipe.strictTier&&C.Urban.knownTier(full.urban).id<recipe.tier)bad();
  const ids=new Set(),zombies=full?.zombies&&new Set(full.zombies.map(z=>z.id));
  const caught=raw.caught.map(c=>{
   if(!c||Array.isArray(c)||Object.keys(c).length!==2||Object.keys(c).some(k=>!['id','left'].includes(k))||!int(c.id)||ids.has(c.id)||!num(c.left,Number.MIN_VALUE,recipe.holdSeconds)||zombies&&!zombies.has(c.id))bad();
@@ -324,7 +324,7 @@ function install(g){
   if(f.regulator){ctx.fillStyle='#98b9ad';ctx.fillRect(b.left+4,b.top+4,9,9);ctx.fillStyle='#273b34';ctx.fillRect(b.left+7,b.top+6,2,5);}ctx.restore();return r;
  });
  wrap('drawGround',(old,ctx,...args)=>{const r=old(ctx,...args);if(!home()&&!args[0]?.homeProjection)return r;ctx.save();for(const d of state.debris){const v=args[0];if(v&&(d.x+d.w/2<v.left||d.x-d.w/2>v.right||d.y+d.h/2<v.top||d.y-d.h/2>v.bottom))continue;ctx.fillStyle='#887661';ctx.fillRect(d.x-d.w/2+3,d.y+d.h/2+4,16,5);ctx.fillStyle='#a7a295';ctx.fillRect(d.x-d.w/2+11,d.y+d.h/2+1,10,6);}ctx.restore();return r;});
- const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
+ const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
  g.fortificationPack=api;
  g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);job=null;message='';},reset:()=>{state=initial();job=null;message='';}});
  return api;

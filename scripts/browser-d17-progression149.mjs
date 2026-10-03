@@ -188,13 +188,15 @@ function prepareAge149(targetAge) {
   }
   const raw = g.serialize();
   raw.urban.peakScore = Math.max(before.urban.peakScore, score());
+  // Explicit inherited knowledge fixture; these prepared scenes do not meet campaign 1.51 gates.
+  delete raw.urban.progression151;
   raw.phase = 'calm'; raw.phaseTime = 120; raw.zombies = []; raw.spawnQueue = []; raw.pendingSpawns = C.normalizeSpawnCounts();
   raw.dayworks.night = null; raw.citadel.baseline = null;
   g.restoreSave(DeadwallSave.validate(raw)); g.togglePause(true); g.updateUI();
   if (g.random.state !== rng || g.tier.id !== targetAge || g.cityScore !== threshold) throw Error('Fixture failed derived exact age or preserved RNG');
-  return { kind: 'explicit-physical-city-age', targetAge, threshold, currentScore: g.cityScore, added, rngPreserved: true,
-    assignedFields: ['buildings[legal completed structures including declared target-age models]', 'nextId', 'urban.peakScore[actual completed score]', 'phase', 'phaseTime', 'zombies[earlier synthetic scene only]', 'spawnQueue', 'pendingSpawns', 'dayworks.night', 'citadel.baseline'],
-    limitation: 'Prepared completed infrastructure, not an organically financed campaign, balance trial or elapsed human progression. Stocks, population and crafting possessions are not granted.' };
+  return { kind: 'explicit-physical-city-with-inherited-age-knowledge', targetAge, threshold, currentScore: g.cityScore, added, rngPreserved: true,
+    assignedFields: ['buildings[legal completed structures including declared target-age models]', 'nextId', 'urban.peakScore[actual completed score]', 'urban.progression151[omitted to import inherited knowledge]', 'phase', 'phaseTime', 'zombies[earlier synthetic scene only]', 'spawnQueue', 'pendingSpawns', 'dayworks.night', 'citadel.baseline'],
+    limitation: 'Prepared completed infrastructure and imported inherited age knowledge; not an organically financed 1.51 campaign, balance trial or elapsed human progression. Stocks, population and crafting possessions are not granted.' };
 }
 
 async function saveContinue149(page, touch) {
@@ -234,7 +236,7 @@ async function growth149(page, touch, check, rec, age, label) {
   check(label + ': consultation preserves all saved fields and RNG', result.saved === before); delete result.saved;
   check(label + ': reached age is backed by completed structure score and remembered peak', result.model.age.id === age && result.reached.length === age + 1);
   check(label + ': current and next catalogues list exactly their declared models', JSON.stringify(result.renderedCurrent) === JSON.stringify(result.model.currentModels.map(d => d.id)) && JSON.stringify(result.renderedNext) === JSON.stringify(result.model.nextModels.map(d => d.id)));
-  if (age < 10) check(label + ': remaining points and next threshold agree with completed score', result.model.remaining === Math.max(0, result.model.next.requiredScore - result.model.currentScore) && result.remainingText.includes(result.model.remaining.toFixed(1)));
+  if (age < 10) check(label + ': remaining development points and next threshold agree with capped completed models', result.model.remaining === Math.max(0, result.model.next.requiredScore - result.model.developmentScore) && result.remainingText.includes(result.model.remaining.toFixed(1)));
   else check(label + ': last age has no invented twelfth threshold and keeps construction active', result.model.next === null && result.model.nextModels.length === 0 && result.remainingText.includes('continuent'));
   if ([0, 1, 3, 6, 8, 10].includes(age)) await rec.screenshot(label + '-growth');
   return { ...result, geometry };

@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const C = require('../src/core.js');
 const Save = require('../src/save.js');
 const { bootGame } = require('./helpers/browser.cjs');
+const { legacyAge } = require('./helpers/legacy-city.cjs');
 
 const closeTo = (actual, expected, message) => assert.ok(Math.abs(actual - expected) < 1e-8, message || `${actual} != ${expected}`);
 function fresh() {
@@ -22,6 +23,8 @@ function tick(game, seconds) {
 }
 function unlock(game) {
   building(game, 'clinic', 75, 75); building(game, 'workshop', 79, 75); building(game, 'house', 75, 79); game.refreshMetrics(true);
+  // Historical knowledge isolates recruitment and pause transactions, not current campaign progression.
+  legacyAge(game, C.Urban.score(game.world.buildings.values()));
 }
 function ring(game) {
   for (let x = 58; x <= 70; x++) { building(game, 'woodWall', x, 58); building(game, 'woodWall', x, 70); }

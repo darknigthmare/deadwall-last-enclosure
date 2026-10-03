@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootGame}=require('./helpers/browser.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const C=require('../src/core.js'),Kit=require('../src/expansion-kit.js'),Fort=require('../src/fortification-pack.js'),Team=require('../src/companions-pack.js'),Loadout=require('../src/loadout129.js');
@@ -6,7 +7,7 @@ const G=require('../src/frontier-geometry.js'),FR=C.FortificationPackRules,TR=C.
 const mechanisms=['guideRail','ratchet','clamp','counterweight'],exercises=['triage','sapeur','veille','coordination'],copy=v=>JSON.parse(JSON.stringify(v));
 // Historical ages, completed supports, resources and actor positions are explicit
 // model fixtures. Payment, access checks, work, effects and save/load use the engine.
-function fresh(tier=10,ids=[]){const{game:g}=bootGame();Kit.install(g);Fort.install(g);Team.install(g);Loadout.install(g);g.startNew('standard','17117');g.units=[];g.world.nodes.forEach(n=>{n.amount=0;n.depleted=true;});g.urban.attain(C.CITY_TIERS[tier].requiredScore);g.refreshMetrics(true);g.worldEvolution.enableWorld4();g.population=10;for(const key of C.RESOURCE_KEYS)g.resources[key]=300;for(const id of ids)assert.equal(g.worldEvolution.assignCompanion(id),true);standAt(g,g.player,g.core());return g;}
+function fresh(tier=10,ids=[]){const{game:g}=bootGame();Kit.install(g);Fort.install(g);Team.install(g);Loadout.install(g);g.startNew('standard','17117');g.units=[];g.world.nodes.forEach(n=>{n.amount=0;n.depleted=true;});legacyAge(g,C.CITY_TIERS[tier].requiredScore);g.refreshMetrics(true);g.worldEvolution.enableWorld4();g.population=10;for(const key of C.RESOURCE_KEYS)g.resources[key]=300;for(const id of ids)assert.equal(g.worldEvolution.assignCompanion(id),true);standAt(g,g.player,g.core());return g;}
 function structure(g,type,x=72,y=72){const b=new(g.core().constructor)(g.nextId++,type,x,y,0,1);g.world.add(b);g.refreshMetrics(true);g.selectBuilding(b);standAt(g,g.player,b);return b;}
 function bag(g,cost){standAt(g,g.player,g.core());for(const[key,n]of Object.entries(cost)){const result=g.loadout.transfer('depot','sac',key,n);assert.equal(result.ok,true,result.reason);assert.equal(result.amount,n);}assert.ok(C.bagTotal(g.player.carry)<=36);}
 const fit=(g,b)=>g.fortificationPack.snapshot().fittings.find(f=>f.id===b.id)?.mechanism;
@@ -16,6 +17,7 @@ function install(g,kind){const b=support(g,kind),r=FR.mechanisms[kind];assert.eq
 function infected(g,b){assert.equal(g.spawnZombie('walker'),true);const z=g.zombies.at(-1);z.x=b.right+z.radius+FR.mechanismContactReach-1;z.y=b.y;g.rebuildBuckets();return z;}
 function battle(g,seconds){for(let left=seconds;left>1e-8;left-=.04){g.updateZombies(Math.min(left,.04));g.rebuildBuckets();}}
 function stable(g){const raw=copy(g.serialize());delete raw.timestamp;return raw;}
+function lowerKnowledge(raw,tier){raw.urban.peakScore=C.CITY_TIERS[tier].requiredScore;if(raw.urban.progression151)raw.urban.progression151.age=tier;}
 function trainWork(g,seconds){for(let left=seconds;left>1e-8;left-=.1)g.companionsPack.update(Math.min(left,.1));}
 function prepared(g,id,exercise){const r=TR.exercises[exercise],s=g.companionsPack.snapshot();s.trained=[id,id+':escort',...(r.requires==='support'?[id+':support']:[])];g.companionsPack.restore(s);}
 function complete(g,id,exercise){const r=TR.exercises[exercise];prepared(g,id,exercise);assert.equal(g.companionsPack.train(id,exercise).ok,true);trainWork(g,r.seconds+.1);assert.equal(g.companionsPack.snapshot().training,null);}
@@ -44,7 +46,7 @@ for(const kind of mechanisms){
  test('150 '+kind+' : palier, atelier et sac réel avant un paiement final unique',()=>{
   const r=FR.mechanisms[kind],g=fresh(r.tier-1),b=support(g,kind),carried={...g.player.carry},stocks={...g.resources};
   assert.match(g.fortificationPack.previewMechanism(kind,b.id).reason,/Palier/);assert.equal(g.fortificationPack.startMechanism(kind,b.id).ok,false);assert.deepEqual(g.player.carry,carried);assert.deepEqual(g.resources,stocks);
-  g.urban.attain(C.CITY_TIERS[r.tier].requiredScore);g.refreshMetrics(true);const prior=stable(g);
+  legacyAge(g,C.CITY_TIERS[r.tier].requiredScore);g.refreshMetrics(true);const prior=stable(g);
   for(let i=0;i<4;i++){assert.equal(g.fortificationPack.previewMechanism(kind,b.id).ok,true);g.fortificationPack.actions();}assert.deepEqual(stable(g),prior);
   const a=g.fortificationPack.actions().find(v=>v.id==='mechanism-'+kind);assert.equal(a.disabled,false);assert.match(a.description,/dans le sac/);assert.equal(a.run().ok,true);work(g,r.seconds-.25);assert.deepEqual(g.player.carry,carried);assert.equal(fit(g,b),undefined);work(g,.25);
   assert.deepEqual(fit(g,b),{kind,charges:r.charges,cooldown:0,caught:[]});for(const[key,n]of Object.entries(r.cost))assert.equal(carried[key]-g.player.carry[key],n);assert.deepEqual(g.resources,stocks);const paid={...g.player.carry};work(g,30);assert.deepEqual(g.player.carry,paid);
@@ -62,7 +64,7 @@ for(const kind of mechanisms){
   const g=fresh(),b=install(g,kind),r=FR.mechanisms[kind];standAt(g,g.player,g.core());const z=infected(g,b),hp=z.health;g.updateZombies(.04);
   assert.equal(hp-z.health,r.damage);assert.equal(fit(g,b).charges,r.charges-1);assert.equal(fit(g,b).cooldown,r.cooldown);if(r.holdSeconds)assert.ok(z.stagger>r.holdSeconds-.1);else assert.equal(fit(g,b).caught.length,0);
   const saved=copy(g.serialize()),stored=copy(fit(g,b)),stock={...g.resources};assert.equal(g.save(false),true);assert.equal(g.load(),true);assert.deepEqual(fit(g,b),stored);assert.deepEqual(g.resources,stock);
-  const world=g.world,invalid=copy(saved);invalid.urban.peakScore=C.CITY_TIERS[r.tier-1].requiredScore;assert.throws(()=>g.restoreSave(invalid),/Fortifications/);assert.equal(g.world,world);assert.deepEqual(g.resources,stock);
+  const world=g.world,invalid=copy(saved);lowerKnowledge(invalid,r.tier-1);assert.throws(()=>g.restoreSave(invalid),/Fortifications/);assert.equal(g.world,world);assert.deepEqual(g.resources,stock);
   let living=g.zombies.find(v=>v.id===z.id);living.x=3900;living.y=3900;g.rebuildBuckets();battle(g,Math.max(r.cooldown,r.holdSeconds)+.1);
   for(let i=1;i<r.charges;i++){const e=infected(g,b);g.updateZombies(.04);assert.equal(fit(g,b).charges,r.charges-i-1);e.x=3900;e.y=3900;g.rebuildBuckets();battle(g,Math.max(r.cooldown,r.holdSeconds)+.1);}
   const exhausted=infected(g,b),remaining=exhausted.health;g.updateZombies(.04);assert.equal(exhausted.health,remaining);assert.equal(fit(g,b).charges,0);exhausted.x=3900;exhausted.y=3900;g.rebuildBuckets();
@@ -75,7 +77,7 @@ for(const exercise of exercises){
  test('150 '+exercise+' : équipier exact, palier et prérequis contrôlés avant paiement',()=>{
   const g=fresh(r.tier-1,[id]),stocks={...g.resources};prepared(g,id,exercise);assert.match(g.companionsPack.train(id,exercise).reason,/Palier/);assert.deepEqual(g.resources,stocks);
   const action=g.companionsPack.actions().find(a=>a.id==='train-'+id+'-'+exercise);assert.equal(action.disabled,true);assert.match(action.description,/seulement/);assert.match(action.reason,/Palier/);
-  g.urban.attain(C.CITY_TIERS[r.tier].requiredScore);g.refreshMetrics(true);const empty=g.companionsPack.snapshot();empty.trained=[];g.companionsPack.restore(empty);assert.equal(g.companionsPack.train(id,exercise).ok,false);assert.deepEqual(g.resources,stocks);
+  legacyAge(g,C.CITY_TIERS[r.tier].requiredScore);g.refreshMetrics(true);const empty=g.companionsPack.snapshot();empty.trained=[];g.companionsPack.restore(empty);assert.equal(g.companionsPack.train(id,exercise).ok,false);assert.deepEqual(g.resources,stocks);
   prepared(g,id,exercise);assert.equal(g.companionsPack.train(id,exercise).ok,true);for(const[key,n]of Object.entries(r.cost))assert.equal(stocks[key]-g.resources[key],n);assert.equal(g.companionsPack.snapshot().training.left,r.seconds);const paid={...g.resources};assert.equal(g.companionsPack.train(id,exercise).ok,false);assert.deepEqual(g.resources,paid);
  });
  test('150 '+exercise+' : durée payée suspendue, Continue exacte et annulation sans remboursement',()=>{
@@ -93,7 +95,7 @@ for(const exercise of exercises){
   const g=fresh(10,[id]);complete(g,id,exercise);const valid=copy(g.serialize()),world=g.world,stocks={...g.resources};
   for(const mode of ['tier','wrong-role','prerequisite','duplicate','timer']){
    const raw=copy(valid),s=raw.expansions127.modules.companions;
-   if(mode==='tier')raw.urban.peakScore=C.CITY_TIERS[r.tier-1].requiredScore;
+   if(mode==='tier')lowerKnowledge(raw,r.tier-1);
    if(mode==='wrong-role'){s.trained=s.trained.filter(v=>v!==id+':'+exercise);const other=id==='samir'?'malik':'samir';s.trained.push(other,other+':escort',other+':support',other+':'+exercise);}
    if(mode==='prerequisite')s.trained=s.trained.filter(v=>v!==id+':'+r.requires);if(mode==='duplicate')s.trained.push(id+':'+exercise);if(mode==='timer'){s.trained=s.trained.filter(v=>v!==id+':'+exercise);s.training={id,left:r.seconds+1,exercise};}
    assert.throws(()=>g.restoreSave(raw),/Équipe/,mode);assert.equal(g.world,world);assert.deepEqual(g.resources,stocks);

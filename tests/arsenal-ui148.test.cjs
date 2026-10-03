@@ -1,14 +1,17 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const Assets=require('../src/assets136.js');
 let g,C;
 test.before(()=>{({g}=bootDocument134());C=globalThis.DeadwallCore;});
 // Full-document DOM fixtures, not Chromium or a naturally played campaign.
+// Historical completed-construction knowledge fixture for 1.48 content:
+// the completed workshop and warehouses earn the old score before importing it.
 function fresh(){g.startNew('standard','17117');g.campaignIntro132.skip();g.units=[];g.world.nodes.forEach(n=>n.depleted=true);standAt(g,g.player,g.core());}
 function button(action){return g.arsenalUI134.element.querySelectorAll('button').find(b=>b.dataset.action===action);}
 function structure(type,x,y){const b=new(g.core().constructor)(g.nextId++,type,x,y,0,1);g.world.add(b);g.refreshMetrics(true);return b;}
-function workshop(){const b=structure('workshop',72,72);for(let i=0;i<5;i++)structure('warehouse',86,60+i*5);standAt(g,g.player,b);assert.ok(g.tier.id>=2);assert.equal(b.powered,true);return b;}
+function workshop(){let b=structure('workshop',72,72);for(let i=0;i<5;i++)structure('warehouse',86,60+i*5);legacyAge(g,g.cityScore);b=g.world.buildings.get(b.id);standAt(g,g.player,b);assert.ok(g.tier.id>=2);assert.equal(b.powered,true);return b;}
 function finish(seconds){for(let i=0;i<seconds*10+1;i++)g.arsenal134.step(.1);}
 
 test('148 armurerie DOM : atelier indisponible explique le refus et le clic refusé ne prélève rien',()=>{

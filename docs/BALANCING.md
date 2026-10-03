@@ -1,5 +1,9 @@
 # Équilibrage de référence
 
+## Campagne — 1.51
+
+Les nouveaux âges exigent un crédit de développement diversifié et des conditions de population, ravitaillement, exploration et survie. Les répétitions gardent leur score physique et leur effet sur la signature, mais leur contribution au développement est plafonnée par modèle. Voir [LIVRAISON_1_51.md](LIVRAISON_1_51.md) et les règles de `core.js`. La cible Standard de 6 à 10 heures devra être confrontée à des campagnes humaines ; les simulations de cadence sont des bornes optimistes.
+
 ## Extension des âges — 1.50
 
 Les valeurs autoritaires sont dans `core.js` : `CityContent150`, `Infrastructure.SURFACES`, `FortificationPackRules.mechanisms` et `CompanionPackRules.exercises`. Les paliers, coûts et supports affichés proviennent de ces objets ; le guide [LIVRAISON_1_50.md](LIVRAISON_1_50.md) explique les contreparties. Les six évolutions gardent l'emprise et la proportion de santé, avec le coût d'évolution ordinaire du moteur.

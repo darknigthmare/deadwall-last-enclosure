@@ -2,15 +2,16 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const{boot131}=require('./helpers/expansions131.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const C=require('../src/core.js'),G=require('../src/frontier-geometry.js'),Survey=require('../src/frontier-survey.js');
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 function fresh(){const{g}=boot131();g.phaseTime=999;g.units=[];return g;}
 function add(g,type,x,y,progress=1){const b=new(g.core().constructor)(g.nextId++,type,x,y,0,progress);g.world.add(b);g.refreshMetrics(true);return b;}
 function ticks(g,n,method='update'){for(let i=0;i<n;i++)g[method](.04);}
 function paidPrepare(g,b,method){g.selectBuilding(b);standAt(g,g.player,b);const q=g.defense131[method](b.id);assert.ok(q.ok,q.reason);}
 function late(g){
- // Prepared city, not a claim of organically played hours: actual buildings unlock the peak.
+ // Prepared historical knowledge isolates endgame transactions, not current 1.51 campaign progression.
  for(let i=0;i<40;i++)add(g,'megaTower',3+i%8*7,3+Math.floor(i/8)*7);
  add(g,'warehouse',4,43);add(g,'logisticsCenter',9,43);add(g,'logisticsHub',16,43);add(g,'generator',26,43);add(g,'powerPlant',31,43);
- g.refreshMetrics(true);for(const k of C.RESOURCE_KEYS)g.resources[k]=5000;
+ g.refreshMetrics(true);legacyAge(g,C.Urban.score(g.world.buildings.values()));for(const k of C.RESOURCE_KEYS)g.resources[k]=5000;
  g.restoreSave(g.serialize());assert.equal(g.tier.id,10);assert.ok(g.cityScore>=1850);assert.ok(g.storage>=5000);
 }
 function visit(g,p){const raw=g.serialize(),q=G.global(p,p.w/2,-2);Object.assign(raw.frontier,{active:true,...q,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y}});if(!raw.frontier.seen.includes(p.id))raw.frontier.seen.push(p.id);for(let i=0;i<g.frontier.world().threatCount(p);i++)raw.frontier.enemies[p.id+':e'+i]=0;raw.frontier.kills=Object.values(raw.frontier.enemies).filter(x=>x===0).length;g.restoreSave(raw);}

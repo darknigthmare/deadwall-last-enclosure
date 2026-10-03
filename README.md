@@ -1,3 +1,22 @@
+# DEADWALL 1.51.0 — Campagne, équilibrage et exploration
+
+La progression vers les onze âges repose désormais sur une cité diversifiée, des capacités de ravitaillement opérationnelles, des habitants et des unités, des reconnaissances achevées, des sites effectivement récoltés et des hordes survécues. Répéter un bâtiment bon marché ne suffit plus à débloquer la mégaville. Les points physiques continuent à attirer les ennemis ; les connaissances acquises restent mémorisées après une perte.
+
+L’objectif en Standard est **6 à 10 heures jusqu’au 11ᵉ âge**. Les simulations mesurent des bornes de cadence et les tests vérifient les conditions de progression ; une campagne humaine complète reste à chronométrer. Le premier Camp reste accessible avant la première horde. Les anciennes sauvegardes conservent leurs âges acquis.
+
+Cette version corrige aussi la sortie de D17 à travers une défense, l’accès à certaines ressources selon la seed, la cohérence conduite/sauvegarde au bord du monde, les apparitions accumulées sous le plafond d’ennemis, la priorité des opérations payées et les mises à jour après une défaite. Guide : [docs/LIVRAISON_1_51.md](docs/LIVRAISON_1_51.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:balance
+```
+
+Base cumulative : commit `69c3c35382e9f87ab0972fe025f87e9edf6d10dd` (1.50). Les preuves et archives historiques sont conservées. Destination autorisée : https://deadwall-last-enclosure.vercel.app/ ; les reçus de publication et de validation sont établis après exécution.
+
+## Historique conservé — 1.50
+
 # DEADWALL 1.50.0 — Onze âges, nouveaux choix
 
 Les derniers âges de D-17 avaient beaucoup moins de nouveaux choix que le camp et l'avant-poste. Cette version ajoute 20 modèles de bâtiments, six chemins d'évolution, trois revêtements de route, quatre montages mécaniques à charges finies, quatre formations des compagnons et quatre cours de construction tardives. Chaque ajout utilise les ressources et les systèmes physiques du jeu.

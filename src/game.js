@@ -1085,13 +1085,19 @@
     }
 
     update(dt) {
+      if (this.gameOver) return;
       this.elapsed += dt; this.stats.playSeconds += dt; this.dayClock = (this.dayClock + dt / 260) % 1;
       this.updateCrisis(dt);
       this.weather = lerp(this.weather, this.weatherTarget, clamp(dt * .04, 0, 1)); this.damageFlash = Math.max(0, this.damageFlash - dt * 2.8); this.camera.shake = Math.max(0, this.camera.shake - dt * 22);
       if (Math.floor(this.elapsed) > 0 && Math.floor(this.elapsed) % 95 === 0 && Math.floor(this.elapsed - dt) % 95 !== 0) this.weatherTarget = this.random.chance(.42) ? this.random.range(.35, 1) : 0;
       this.handlePressed(); this.updateMouseWorld(); this.updateDirector(dt); this.powerGrid?.step(dt,true);
       if (this.world.flowDirty) { this.flowTimer -= dt; if (this.flowTimer <= 0) { const core = this.core(); if (core) this.flow.rebuild(this.world, core); this.flowTimer = .22; } }
-      this.rebuildBuckets(); this.updatePlayer(dt); this.updateBuildings(dt); this.updateUnits(dt); this.updateZombies(dt); this.rebuildBuckets(); this.updateProjectiles(dt); this.updateEffects(dt);
+      this.rebuildBuckets(); this.updatePlayer(dt); if (this.gameOver) return;
+      this.updateBuildings(dt); if (this.gameOver) return;
+      this.updateUnits(dt); if (this.gameOver) return;
+      this.updateZombies(dt); if (this.gameOver) return;
+      this.rebuildBuckets(); this.updateProjectiles(dt); if (this.gameOver) return;
+      this.updateEffects(dt); if (this.gameOver) return;
       this.economyTimer += dt; if (this.economyTimer >= .25) { this.economyTick(this.economyTimer); this.economyTimer = 0; }
       this.metricsTimer -= dt; if (this.metricsTimer <= 0) { this.refreshMetrics(); this.updateObjective(); this.updateNarrative(); this.metricsTimer = .45; }
       this.saveTimer += dt; if (this.saveTimer >= 30) { this.save(false); this.saveTimer = 0; }
@@ -1545,7 +1551,11 @@
       if(this.phase==='calm'&&this.phaseTime<=0){this.phase='warning';this.phaseTime=10+(this.hasResearch('recon')?5:0);this.prepareWave();this.triggerCrisis();this.notify(`Migration détectée — ${this.wavePlan.total} contacts estimés.`,'danger');this.audio.siren();}
       else if(this.phase==='warning'&&this.phaseTime<=0){this.phase='assault';this.phaseTime=0;this.startAssault();this.notify('ASSAUT : toutes les unités aux remparts !','danger');}
       else if(this.phase==='assault'){
-        this.spawnTimer-=dt;while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        this.spawnTimer-=dt;
+        // Capacity delays arrivals; it must not bank a burst of overdue spawns.
+        if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
+        while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
+        if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
         if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
@@ -1722,7 +1732,7 @@
     updateZombies(dt) {
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
       const stalkClaims=this.stalkerScanClaims(dt);let stalkCandidates=null;
-      for(const z of this.zombies){if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
+      for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
         let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1);const look=z.radius+13;
         if(z.kind==='stalker'){
@@ -3037,7 +3047,7 @@
     const result=original(b,amount);if(running()&&!fireDamage&&amount>0&&live(b)){ensure();if(engine.ignite(b,'machinery',g.elapsed)){b.siegeOffline=true;g.refreshMetrics(true);g.notify('Départ de feu : '+b.def.name+'.','danger');}}return result;
   });
   wrap('destroyBuilding',(original,b)=>{
-    const explosive=live(b)&&operational(b)&&b.def?.explosive;const result=original(b);
+    const explosive=b&&!b.dead&&(b.completed||b.progress>=1)&&b.def?.explosive;const result=original(b);
     if(explosive&&playing()){ensure();const count=engine.explosion(b,buildings(),g.elapsed);if(count)g.notify('L’explosion a embrasé '+count+' structure'+(count>1?'s':'')+' voisine'+(count>1?'s':'')+'.','danger');}
     reconcile();mark();return result;
   });
@@ -3051,7 +3061,8 @@
     ensure();dousing.clear();mark();const result=original(dt);
     if(running()&&Number.isFinite(dt)&&dt>0){
       const before=engine.state.fires.length;fireDamage=true;
-      try{engine.step(Math.min(dt,R.maxStep),{buildings:buildings(),resources:g.resources,weather:g.weather,running:true,damage:(b,n)=>g.damageBuilding(b,n),units:g.units,at:g.elapsed});}finally{fireDamage=false;}
+      try{engine.step(Math.min(dt,R.maxStep),{buildings:buildings(),resources:g.resources,weather:g.weather,running:true,damage:(b,n)=>{g.damageBuilding(b,n);return !g.gameOver;},units:g.units,at:g.elapsed});}finally{fireDamage=false;}
+      if(g.gameOver)return result;
       if(!live(g.player))engine.playerDown();mark();
       if(engine.state.fires.length!==before)g.refreshMetrics(true);
       if(engine.state.stats.ignitions>seenIgnitions){seenIgnitions=engine.state.stats.ignitions;g.siegeUI?.refresh();}

@@ -12,7 +12,9 @@ function vehicle(g,kind='break'){
  assert.ok(g.worldEvolution.selectVehicle(kind));standAt(g,g.player,g.core());g.resources.wood=g.resources.scrap=400;assert.ok(g.expeditions.buildCar().ok);
  const v=g.expeditions.car();empty(g);g.player.x=v.x+36;g.player.y=v.y;return v;
 }
-function enter(g){const v=g.expeditions.car();g.player.x=4058;g.player.y=2048;if(v){v.x=g.player.x;v.y=g.player.y;v.driving=true;g.player.radius=22;}assert.ok(g.frontier.enter());if(v)assert.ok(g.frontier.board());}
+// Prepared travel pose fixture: board through the real controller so each model
+// retains its actual physical radius, then use a clear approach inside its seam.
+function enter(g){const v=g.expeditions.car();if(v){g.player.x=v.x+36;g.player.y=v.y;assert.ok(g.expeditions.board().ok);g.player.x=C.WORLD_SIZE-Math.max(28,g.player.radius/.9+8)+1;g.player.y=2048;v.x=g.player.x;v.y=g.player.y;assert.ok(g.expeditions.carClear(v.x,v.y));}else{g.player.x=4058;g.player.y=2048;}assert.ok(g.frontier.enter());if(v)assert.ok(g.frontier.board());}
 function service(g){Object.assign(g.player.carry,{scrap:8,fuel:1});assert.ok(g.travel131.begin('service').ok);ticks(g,R.serviceSeconds);assert.equal(g.travel131.busy(),false);assert.equal(g.travel131.snapshot().tuning.remaining,2000);}
 function known(g,ids){g.frontier.revealSites(ids);}
 function stable(g){const d=g.serialize();delete d.timestamp;return d;}

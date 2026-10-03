@@ -139,7 +139,7 @@ function install(g){
  // The shared depositedResources counter also includes workers. Only the player's
  // actual interaction can advance these first personal gestures or frame this return.
  wrap('updateInteraction',(old,...args)=>{const before=g.depositedResources,result=old(...args),amount=g.depositedResources-before;if(running()&&local())recordDeposit(amount);return result;});
- wrap('update',(old,dt)=>{if(g.player.dead||g.player.health<=0||g.gameOver){cancel();scene=null;}const wasRunning=running();if(wasRunning&&task&&(g.input.mouseDown||g.input.touchFire||['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyZ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyE','KeyF','KeyR','PageUp','PageDown'].some(k=>g.input.keys.has(k)||g.input.pressed.has(k))))cancel();const result=old(dt);if(wasRunning)tick(dt);if(g.player.dead||g.gameOver){cancel();scene=null;}return result;});
+ wrap('update',(old,dt)=>{if(g.player.dead||g.player.health<=0||g.gameOver){cancel();scene=null;}const wasRunning=running();if(wasRunning&&task&&(g.input.mouseDown||g.input.touchFire||['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyZ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyE','KeyF','KeyR','PageUp','PageDown'].some(k=>g.input.keys.has(k)||g.input.pressed.has(k))))cancel();const result=old(dt);if(wasRunning&&!g.gameOver)tick(dt);if(g.player.dead||g.gameOver){cancel();scene=null;}return result;});
  wrap('returnToMenu',(old,...args)=>{cancel();scene=null;return old(...args);});return api;
 }
 const api={install,initial,normalize};root.DeadwallChronicles131=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;

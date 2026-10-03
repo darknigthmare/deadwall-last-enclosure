@@ -22,14 +22,16 @@ export function defenseCampFixture() {
   }
   const current = g.serialize();
   current.urban.peakScore = Math.max(current.urban.peakScore, C.Urban.score(current.buildings));
+  // Prepared inherited knowledge keeps this historical content scene outside campaign 1.51 qualification.
+  delete current.urban.progression151;
   current.phase = 'calm'; current.phaseTime = 120; current.units = [];
   current.resources = { ...raw.resources, wood: 900, scrap: 900, stone: 300, ammo: 100, fuel: 40 };
   g.restoreSave(globalThis.DeadwallSave.validate(current)); g.togglePause(true);
-  if (g.random.state !== rng || g.tier.id < 2) throw Error('Fixture changed RNG or failed its actual built-score tier');
+  if (g.random.state !== rng || g.tier.id < 2) throw Error('Fixture changed RNG or failed its imported inherited tier');
   globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(added.map(b => [b.type, b.id]));
-  return { type: 'prepared-physical-defense-camp', added, achievedTier: g.tier.id, resources: { ...g.resources }, rngPreserved: true,
-    assignedFields: ['buildings[4 completed legal supports]', 'nextId', 'urban.peakScore[actual built score]', 'phase', 'phaseTime', 'units', 'resources.wood', 'resources.scrap', 'resources.stone', 'resources.ammo', 'resources.fuel'],
-    note: 'Explicit completed infrastructure and finite common material, not a naturally developed colony. Background workers are excluded. No crafted item, fitting, mechanism, enemy, player health, RNG, terrain/node or save identity is assigned.' };
+  return { type: 'prepared-physical-defense-camp-with-inherited-knowledge', added, achievedTier: g.tier.id, resources: { ...g.resources }, rngPreserved: true,
+    assignedFields: ['buildings[4 completed legal supports]', 'nextId', 'urban.peakScore[actual built score]', 'urban.progression151[omitted to import inherited knowledge]', 'phase', 'phaseTime', 'units', 'resources.wood', 'resources.scrap', 'resources.stone', 'resources.ammo', 'resources.fuel'],
+    note: 'Explicit completed infrastructure, inherited age knowledge and finite common material, not a naturally developed 1.51 colony. Background workers are excluded. No crafted item, fitting, mechanism, enemy, player health, RNG, terrain/node or save identity is assigned.' };
 }
 
 export function defenseServiceFixture({ type, bag = null }) {

@@ -1,7 +1,7 @@
 /** Explicit advanced integration fixture, never presented as human progression.
  * Every injected structure has a legal physical footprint and ordinary completed
- * building data. No synthetic tier is assigned: score and age derive from those
- * structures. Paid foundations, terrain, nodes, RNG, identity and player health
+ * building data. The physical score derives from those structures; age knowledge is
+ * explicitly imported through the legacy save path, without campaign gates. Paid foundations, terrain, nodes, RNG, identity and player health
  * are retained. These prepared structures have not been organically financed.
  */
 export function prepareAge150(targetAge) {
@@ -53,13 +53,15 @@ export function prepareAge150(targetAge) {
   }
   const raw = g.serialize();
   raw.urban.peakScore = Math.max(before.urban.peakScore, score());
+  // Explicit inherited knowledge fixture; these prepared scenes do not meet campaign 1.51 gates.
+  delete raw.urban.progression151;
   raw.phase = 'calm'; raw.phaseTime = 300; raw.zombies = []; raw.spawnQueue = []; raw.pendingSpawns = C.normalizeSpawnCounts();
   raw.dayworks.night = null; raw.citadel.baseline = null;
   g.restoreSave(DeadwallSave.validate(raw)); g.togglePause(true); g.updateUI();
   if (g.random.state !== rng || g.tier.id !== targetAge || g.cityScore !== threshold) throw Error('Fixture failed derived exact age or preserved RNG');
-  return { kind: 'explicit-physical-city-age', targetAge, threshold, currentScore: g.cityScore, added, rngPreserved: true,
-    assignedFields: ['buildings[legal completed structures including declared target-age models]', 'nextId', 'urban.peakScore[actual completed score]', 'phase', 'phaseTime', 'zombies[earlier synthetic scene only]', 'spawnQueue', 'pendingSpawns', 'dayworks.night', 'citadel.baseline'],
-    limitation: 'Prepared completed infrastructure, not an organically financed campaign, balance trial or elapsed human progression. Stocks, population and crafting possessions are not granted.' };
+  return { kind: 'explicit-physical-city-with-inherited-age-knowledge', targetAge, threshold, currentScore: g.cityScore, added, rngPreserved: true,
+    assignedFields: ['buildings[legal completed structures including declared target-age models]', 'nextId', 'urban.peakScore[actual completed score]', 'urban.progression151[omitted to import inherited knowledge]', 'phase', 'phaseTime', 'zombies[earlier synthetic scene only]', 'spawnQueue', 'pendingSpawns', 'dayworks.night', 'citadel.baseline'],
+    limitation: 'Prepared completed infrastructure and imported inherited age knowledge; not an organically financed 1.51 campaign, balance trial or elapsed human progression. Stocks, population and crafting possessions are not granted.' };
 }
 
 /** Advanced scene material and completed supports, not an organically built city. */

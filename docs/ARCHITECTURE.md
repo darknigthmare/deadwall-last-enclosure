@@ -1,5 +1,9 @@
 # Architecture technique
 
+## Progression et correctifs — 1.51
+
+Les règles numériques de campagne restent dans `core.js` et le contrôleur de progression dans `urban.js`. Un sous-registre optionnel versionné `urban.progression151` distingue les nouveaux âges qualifiés des connaissances héritées. Les contrôles de capacité dérivent du monde courant. Les correctifs de service et de sortie modifient les contrôleurs sans régénérer les cartes G1–G7.
+
 ## Extension des âges — 1.50
 
 `core.js` expose `CityContent150` (20 définitions, six évolutions de même emprise et quatre plans), `Infrastructure.SURFACES` et les recettes/formations dans les règles historiques. Les contrôleurs existants assurent les paiements, travaux, productions, soins, tirs et batteries. Une évolution reste instantanée et payée ; elle ne réinitialise pas la santé. Les registres de voirie/montages/formations acceptent les identifiants nouveaux avec contrôle strict ; les routes historiques à trois champs conservent leur état et leur avantage.

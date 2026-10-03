@@ -1490,7 +1490,7 @@
       }
       if(spawned){self.exploration125.wildHordes=(self.exploration125.wildHordes||0)+1;self.notify?.(`Bande errante détectée près de ${settlement.name} · ${spawned} contacts.`,'danger');return true;}return false;
     }
-    game.update=function update125(dt){const result=baseUpdate(dt);if(isGeneration4(this)&&!this.paused&&!this.frontier?.active()){if(!Number.isFinite(this.exploration125.wildNext)||this.exploration125.wildNext<=0)schedule(this);else if((this.elapsed||0)>=this.exploration125.wildNext){spawnPack(this);schedule(this);}}return result;};
+    game.update=function update125(dt){const result=baseUpdate(dt);if(!this.gameOver&&isGeneration4(this)&&!this.paused&&!this.frontier?.active()){if(!Number.isFinite(this.exploration125.wildNext)||this.exploration125.wildNext<=0)schedule(this);else if((this.elapsed||0)>=this.exploration125.wildNext){spawnPack(this);schedule(this);}}return result;};
     game.exploration125.spawnWildHorde=()=>spawnPack(game);game.exploration125.scheduleWildHorde=()=>schedule(game);
   }
 

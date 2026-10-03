@@ -1116,7 +1116,8 @@
       const byId=new Map(buildings.map(b=>[b.id,b]));
       for(const f of [...this.state.fires]){const b=byId.get(f.id);if(!operational(b))continue;
         f.age=Math.min(RULES.burnSeconds,f.age+dt);f.heat=Math.min(100,f.heat+RULES.heatGrowth*(1-weather*.5)*dt);f.spread=Math.min(RULES.spreadSeconds,f.spread+dt);
-        if(typeof damage==='function')damage(b,(RULES.damageBase+RULES.damageHeat*f.heat)*susceptibility(b)*dt);
+      // Explicit false stops after fatal damage; legacy undefined callbacks continue.
+      if(typeof damage==='function'&&damage(b,(RULES.damageBase+RULES.damageHeat*f.heat)*susceptibility(b)*dt)===false)return true;
         if(!live(b))continue;
         if(f.age>=RULES.burnSeconds){this.state.fires.splice(this.state.fires.indexOf(f),1);this.addStat('burnedOut',1);this.log('burnedOut',f.id,at);continue;}
         if(f.spread>=RULES.spreadSeconds){f.spread=0;if(f.heat>=RULES.spreadHeat){const target=buildings.filter(c=>operational(c)&&c.id!==b.id&&susceptibility(c)&&!this.fire(c.id)&&!this.state.wet.some(w=>w.id===c.id)&&edgeDistance(b,c)<=RULES.spreadGap&&heatClear(b,c,buildings)).sort((a,c)=>edgeDistance(b,a)-edgeDistance(b,c)||a.id-c.id)[0];if(target)this.ignite(target,'spread',at);}}
@@ -1614,7 +1615,8 @@
  add('megaReserve','Réserve stratégique de mégaville',10,'storage',[8,6],{wood:650,scrap:1400,stone:1500},{storage:15000,storageDepot:true,powerUse:5,requires:'logisticsHub',description:'Quinze mille places par ressource, accessibles aux porteurs. Aucun stock livré avec le bâtiment.'});
  function score(buildings){return Array.from(buildings).reduce((n,b)=>n+(!b.dead&&(b.completed===true||b.progress===1)?C.BUILDINGS[b.type]?.score||0:0),0);}
  function empty(){return{version:1,peakScore:0,skipNightWave:0,flashlight:rules.flashlightDefault};}
- function normalize(raw){if(raw===undefined)return empty();if(!raw||raw.version!==1||!Number.isFinite(raw.peakScore)||raw.peakScore<0||raw.peakScore>1e12||!Number.isInteger(raw.skipNightWave)||raw.skipNightWave<0||raw.skipNightWave>1e7||typeof raw.flashlight!=='boolean')throw Error('Registre de ville et nuit invalide.');return{version:1,peakScore:raw.peakScore,skipNightWave:raw.skipNightWave,flashlight:raw.flashlight};}
+ function normalize(raw){if(raw===undefined)return empty();if(!raw||raw.version!==1||!Number.isFinite(raw.peakScore)||raw.peakScore<0||raw.peakScore>1e12||!Number.isInteger(raw.skipNightWave)||raw.skipNightWave<0||raw.skipNightWave>1e7||typeof raw.flashlight!=='boolean')throw Error('Registre de ville et nuit invalide.');const out={version:1,peakScore:raw.peakScore,skipNightWave:raw.skipNightWave,flashlight:raw.flashlight};
+  if(raw.progression151!==undefined){const p=raw.progression151;if(!p||p.version!==1||!Number.isInteger(p.age)||p.age<0||p.age>=C.CITY_TIERS.length||p.age>C.cityTier(raw.peakScore).id)throw Error('Progression urbaine invalide.');out.progression151={version:1,age:p.age};}return out;}
  const old=C.migrateSaveData;
  C.migrateSaveData=raw=>{if(!raw||typeof raw!=='object')return null;const modern=raw.version===10;if(modern&&raw.urban===undefined)throw Error('Sauvegarde v10 sans registre urbain.');const u=normalize(modern?raw.urban:undefined),base=old(modern?{...raw,version:9}:raw);if(!base)return null;if(!modern){u.peakScore=score(base.buildings||[]);u.skipNightWave=base.phase==='calm'?0:base.wave||0;}return{...base,version:10,urban:u};};
  C.Urban=Object.freeze({RULES:rules,BUILDINGS:Object.freeze(defs),empty,normalize,score});C.SAVE_VERSION=10;C.SAVE_KEY='deadwall-save-v10';C.SAVE_BACKUP_KEY='deadwall-save-backup-v10';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v9','deadwall-save-backup-v9',...C.LEGACY_SAVE_KEYS])];
@@ -2168,4 +2170,30 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  const dayworks=Object.freeze({...prior,PLANS:Object.freeze([...prior.PLANS,...plans]),footprint});
  C.Dayworks=dayworks;root.DeadwallDayworks=dayworks;
  C.CityContent150=Object.freeze({BUILDINGS:Object.freeze(defs),UPGRADES:freeze(upgrades),PLANS:plans});
+})(globalThis);
+
+/* 1.51 — city ages require a living settlement; raw score still attracts hordes. */
+(function(root){
+ 'use strict';const C=root.DeadwallCore;
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const RULES=freeze({version:1,fullModels:3,partialModels:2,partialFactor:.25,fullWalls:160,partialWalls:80,poiHarvest:12,feedstockSeconds:30,populationFoodPerSecond:.0065});
+ const columns=freeze({
+  waves:[0,0,2,5,9,14,21,30,40,50,60],population:[1,1,8,14,22,34,50,72,100,140,190],
+  surveys:[0,0,1,2,3,4,5,6,6,6,6],pois:[0,0,0,1,2,4,6,9,12,16,20],biomes:[0,0,0,0,0,2,2,3,3,4,4],
+  variety:[0,1,6,10,14,18,22,26,30,34,38],housing:[1,8,14,22,36,54,76,110,150,200,240],
+  storage:[100,500,1100,1700,2300,2900,3900,6100,8500,12000,18000],
+  workers:[0,0,3,4,6,8,12,16,22,28,36],soldiers:[0,0,2,3,5,7,10,14,20,26,34],specialists:[0,0,0,1,2,3,4,6,8,10,12],
+  power:[0,0,24,40,60,90,120,170,220,280,360],
+  wood:[0,0,.3,.4,.5,.6,.9,1.2,1.5,2,2.5],scrap:[0,0,.3,.4,.5,.6,.9,1.2,1.5,2,2.5],
+  stone:[0,0,0,.2,.3,.4,.6,.8,1.1,1.7,2.5],food:[0,0,.3,.4,.6,.8,1.1,1.4,1.8,2.3,3],
+  fuel:[0,0,0,.1,.1,.15,.2,.25,.35,.45,.6],ammo:[0,0,0,0,.6,.9,1.2,1.8,2.6,3.6,5.2],medicine:[0,0,0,0,0,0,.05,.08,.11,.15,.2]
+ });
+ const LABELS=freeze({score:'Développement diversifié',waves:'Vagues réellement survécues',population:'Habitants vivants',surveys:'Relevés de terrain achevés',pois:'Lieux régionaux récoltés',biomes:'Biomes des lieux récoltés',variety:'Modèles achevés distincts',housing:'Places de logement',storage:'Stockage par ressource',workers:'Ouvriers vivants',soldiers:'Fusiliers vivants',specialists:'Secouristes et ingénieurs vivants',power:'Production électrique soutenable',wood:'Production de bois',scrap:'Production de ferraille',stone:'Production de pierre',food:'Production de vivres',fuel:'Production de carburant',ammo:'Production de munitions',medicine:'Production de médicaments'});
+ const TIER_REQUIREMENTS=freeze(C.CITY_TIERS.map(t=>({age:t.id,score:t.requiredScore,...Object.fromEntries(Object.entries(columns).map(([key,values])=>[key,values[t.id]]))})));
+ function done(b){return b&&!b.dead&&(b.health===undefined||b.health>0)&&(b.completed===true||b.completed===undefined&&b.progress===1);}
+ function developmentScore(buildings){const counts=new Map();let score=0;for(const b of buildings){if(!done(b))continue;const d=C.BUILDINGS[b.type];if(!d)continue;const n=counts.get(b.type)||0;counts.set(b.type,n+1);const full=d.wall?RULES.fullWalls:RULES.fullModels,partial=d.wall?RULES.partialWalls:RULES.partialModels;score+=(d.score||0)*(n<full?1:n<full+partial?RULES.partialFactor:0);}return score;}
+ function requirements(age,facts){const spec=TIER_REQUIREMENTS[age];if(!spec)throw Error('Âge urbain inconnu.');const criteria=Object.entries(spec).filter(([key,value])=>key!=='age'&&value>0).map(([id,required])=>{const bypass=id==='biomes'&&facts.generation<6,current=Number.isFinite(facts[id])?facts[id]:0;return{id,label:LABELS[id],current,required,met:bypass||current+1e-7>=required,unit:C.RESOURCE_KEYS.includes(id)?'u/s':id==='score'?'pts':id==='power'?'unités':'',...(bypass?{legacy:true}:{})};});return{age,criteria,missing:criteria.filter(c=>!c.met),met:criteria.every(c=>c.met)};}
+ const initial=age=>({version:1,age:age??0});
+ C.Balance151=freeze({RULES,TIER_REQUIREMENTS,LABELS,developmentScore,requirements,initial,done});
+ C.Urban=Object.freeze({...C.Urban,knownTier:raw=>{const state=C.Urban.normalize(raw);return state.progression151?C.CITY_TIERS[state.progression151.age]:C.cityTier(state.peakScore);}});
 })(globalThis);

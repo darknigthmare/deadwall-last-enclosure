@@ -1,5 +1,9 @@
 # Game Design — DEADWALL
 
+## Progression de campagne — 1.51
+
+L’âge suivant dépend de la croissance opérationnelle de D17 et d’actions physiques en campagne : recruter, ravitailler, achever les reconnaissances, récolter des sites régionaux et survivre aux assauts. Préparatifs affiche les conditions restantes. Les âges acquis persistent après les pertes ; les installations détruites ne fournissent plus leurs capacités.
+
 ## Choix par âge — 1.50
 
 Les onze âges restent déterminés par les constructions achevées. Le pic historique conserve les connaissances ; les recettes gardent leurs prérequis matériels. Les paliers tardifs proposent désormais des alternatives de défense, d'alimentation, de stockage, de soins et d'énergie. Six évolutions réutilisent exactement la même emprise et peuvent changer de fonction : un laboratoire transformé en pôle de triage cesse de fabriquer des médicaments.

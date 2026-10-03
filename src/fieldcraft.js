@@ -42,7 +42,11 @@ function attach(g){
   for(let x=b.l+16;x<b.r;x+=32)points.push({x,y:b.t-r},{x,y:b.b+r});
   for(let y=b.t+16;y<b.b;y+=32)points.push({x:b.l-r,y},{x:b.r+r,y});
   const left=Math.floor((b.l-r-16)/32)*32+16,right=Math.ceil((b.r+r-16)/32)*32+16,top=Math.floor((b.t-r-16)/32)*32+16,bottom=Math.ceil((b.b+r-16)/32)*32+16;for(let yy=Math.floor(b.t/32)*32+16;yy<b.b;yy+=32)points.push({x:left,y:yy},{x:right,y:yy});for(let xx=Math.floor(b.l/32)*32+16;xx<b.r;xx+=32)points.push({x:xx,y:top},{x:xx,y:bottom});
-  const reach=e.maxAmount!==undefined?e.radius+12:Math.max(36,u.radius+15);return points.filter(p=>distance(p,e)<=reach&&g.friendlyPositionClear(u,p.x,p.y)&&g.friendlyPositionClear(u,Math.floor(p.x/32)*32+16,Math.floor(p.y/32)*32+16)).sort((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)-Math.hypot(b.x-u.x,b.y-u.y))[0]||null;
+  const reach=e.maxAmount!==undefined?e.radius+12:Math.max(36,u.radius+15),pick=options=>options.filter(p=>distance(p,e)<=reach&&g.friendlyPositionClear(u,p.x,p.y)&&g.friendlyPositionClear(u,Math.floor(p.x/32)*32+16,Math.floor(p.y/32)*32+16)).sort((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)-Math.hypot(b.x-u.x,b.y-u.y))[0]||null;
+  const available=pick(points);if(available||e.maxAmount===undefined||reach<=r)return available;
+  // A nearby standing point can snap back inside the same deposit. Try its
+  // existing work reach before treating an otherwise clear resource as blocked.
+  const outer=reach-1e-6;return pick([{x:b.l-outer,y},{x:b.r+outer,y},{x,y:b.t-outer},{x,y:b.b+outer}]);
  }
  function workAt(u,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(u.x-e.x,u.y-e.y)<=r&&segment(u,u,e);if(distance(u,e)>r||!g.friendlyPositionClear(u,u.x,u.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,u.x)),y:Math.max(b.t,Math.min(b.b,u.y))},d=Math.hypot(u.x-p.x,u.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,u,{x:p.x+(u.x-p.x)/d*(u.radius+1),y:p.y+(u.y-p.y)/d*(u.radius+1)});}
  function pack(){
@@ -182,7 +186,7 @@ function attach(g){
  const targetOpacity=()=>g.nightwatch.isBlackout()?1:Math.max(0,Math.min(1,1-g.daylight()))*.72;
  wrap('update',(old,dt)=>{
   const result=old(dt);
-  if(Number.isFinite(dt)&&dt>0){const target=targetOpacity();if(opacity===null)opacity=target;opacity+=Math.max(-dt/rules.transition,Math.min(dt/rules.transition,target-opacity));}
+  if(!g.gameOver&&Number.isFinite(dt)&&dt>0){const target=targetOpacity();if(opacity===null)opacity=target;opacity+=Math.max(-dt/rules.transition,Math.min(dt/rules.transition,target-opacity));}
   return result;
  });
  function snapshot(){return{version:1,nodes:g.world.nodes.map(n=>[n.id,n.x,n.y]),opacity,attempt,outcome};}

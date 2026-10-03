@@ -1,14 +1,17 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const {boot131}=require('./helpers/expansions131.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const C=require('../src/core.js'),R=C.Arsenal134Rules,D=R.catalog;
 const newIds=['assemblyHammer','wreckingBar','singleShot'];
 const clone=value=>JSON.parse(JSON.stringify(value));
-// Completed buildings and achieved city scores are explicit model fixtures.
+// Historical completed-construction knowledge fixtures for 1.48 content.
+// Import knowledge only after the fixture buildings physically earn their score;
+// this does not exercise 1.51 campaign progression.
 // Paid assembly, withdrawal, barricade work and shooting use the real controllers.
 function fresh(){const {g}=boot131();require('../src/succession133.js').install(g);require('../src/arsenal134.js').install(g);require('../src/barricades134.js').install(g);g.startNew('standard','17117');g.units=[];g.world.nodes.forEach(n=>n.depleted=true);g.phaseTime=999;standAt(g,g.player,g.core());return g;}
 function structure(g,type,x,y,progress=1){const b=new(g.core().constructor)(g.nextId++,type,x,y,0,progress);g.world.add(b);g.refreshMetrics(true);return b;}
-function workshop(g){const b=structure(g,'workshop',72,72);for(let i=0;i<5;i++)structure(g,'warehouse',86,60+i*5);assert.ok(g.tier.id>=2);standAt(g,g.player,b);assert.equal(b.powered,true);return b;}
+function workshop(g){let b=structure(g,'workshop',72,72);for(let i=0;i<5;i++)structure(g,'warehouse',86,60+i*5);legacyAge(g,g.cityScore);b=g.world.buildings.get(b.id);assert.ok(g.tier.id>=2);standAt(g,g.player,b);assert.equal(b.powered,true);return b;}
 function work(g,seconds){for(let left=seconds;left>1e-8;left-=R.maxStep)g.arsenal134.step(Math.min(left,R.maxStep));}
 function craft(g,id){const q=g.arsenal134.preview('craft',id);assert.equal(q.ok,true,q.reason);assert.equal(g.arsenal134.begin('craft',id).ok,true);work(g,q.seconds);return g.arsenal134.snapshot().locker.at(-1);}
 function obtain(g,id){const i=craft(g,id);standAt(g,g.player,g.core());assert.equal(g.arsenal134.transfer(i.uid,'carried').ok,true);return i;}
@@ -78,7 +81,7 @@ test('148 atelier : arme monocoup assemblée vide, recharge payée et tir réel 
 });
 
 test('148 atelier : poids conserve l’objet déjà payé au râtelier quand le harnais est plein',()=>{
- const g=fresh();workshop(g);for(let n=0;n<5;n++)structure(g,'warehouse',96,60+n*5);assert.ok(g.tier.id>=3);const i=craft(g,'wreckingBar');standAt(g,g.player,g.core());g.resources.scrap=300;const large=obtain(g,'heavyNest');assert.equal(item(g,large.uid).id,'heavyNest');assert.equal(g.arsenal134.view().weight+3.7>R.carryKg,true);const stock={...g.resources};assert.equal(g.arsenal134.transfer(i.uid,'carried').ok,false);assert.equal(item(g,i.uid).id,'wreckingBar');assert.deepEqual(g.resources,stock);assert.equal(g.arsenal134.transfer(large.uid,'locker').ok,true);assert.equal(g.arsenal134.transfer(i.uid,'carried').ok,true);assert.deepEqual(g.resources,stock);
+ const g=fresh();workshop(g);for(let n=0;n<5;n++)structure(g,'warehouse',96,60+n*5);legacyAge(g,g.cityScore);assert.ok(g.tier.id>=3);const i=craft(g,'wreckingBar');standAt(g,g.player,g.core());g.resources.scrap=300;const large=obtain(g,'heavyNest');assert.equal(item(g,large.uid).id,'heavyNest');assert.equal(g.arsenal134.view().weight+3.7>R.carryKg,true);const stock={...g.resources};assert.equal(g.arsenal134.transfer(i.uid,'carried').ok,false);assert.equal(item(g,i.uid).id,'wreckingBar');assert.deepEqual(g.resources,stock);assert.equal(g.arsenal134.transfer(large.uid,'locker').ok,true);assert.equal(g.arsenal134.transfer(i.uid,'carried').ok,true);assert.deepEqual(g.resources,stock);
 });
 
 test('148 atelier : outils tenus accélèrent leurs vrais travaux, sans rendement ni bonus au simple portage',()=>{

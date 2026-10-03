@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const C=require('../src/core.js'),{bootGame}=require('./helpers/browser.cjs');
 const {standAt}=require('./helpers/physical-fixtures.cjs');
@@ -7,7 +8,7 @@ function fresh(){
  const {game:g}=bootGame();g.startNew('standard','903145');g.units=[];
  // Prepared infrastructure and stocks; all new ensemble purchases use the real transaction.
  const office=new(g.core().constructor)(g.nextId++,'planningOffice',70,59,0,1);
- g.world.add(office);g.urban.attain(48);g.refreshMetrics(true);
+ g.world.add(office);legacyAge(g,48);g.refreshMetrics(true);
  for(const k of C.RESOURCE_KEYS)g.resources[k]=Math.min(2000,g.storage);
  g.restoreSave(g.serialize());
  return g;

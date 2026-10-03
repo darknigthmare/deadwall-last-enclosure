@@ -6,6 +6,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const C = require('../src/core.js');
 const { bootGame } = require('./helpers/browser.cjs');
+const { legacyAge } = require('./helpers/legacy-city.cjs');
 
 function fresh(difficulty = 'standard') { const env = bootGame(); env.game.startNew(difficulty); return env; }
 function addBuilding(game, type, gx = 72, gy = 72, progress = 1) {
@@ -46,7 +47,9 @@ test('progression : les coûts unitaires sont finançables et les doctrines resp
   addBuilding(game, 'house'); game.refreshMetrics(true);
   assert.equal(game.tier.id, 1); assert.equal(game.currentResearch().id, 'fortification');
   for (let i = 0; i < 8; i++) addBuilding(game, 'ammoFactory', 80 + (i % 4) * 4, 80 + Math.floor(i / 4) * 4);
-  game.refreshMetrics(true); assert.ok(game.tier.id >= 4);
+  game.refreshMetrics(true);
+  // Historical knowledge isolates doctrine transactions; repeated fixtures do not earn current campaign ages.
+  legacyAge(game, C.Urban.score(game.world.buildings.values())); assert.ok(game.tier.id >= 4);
   while (game.currentResearch()) {
     const item = game.currentResearch(); game.resources = C.makeBag(Object.fromEntries(C.RESOURCE_KEYS.map(key => [key, 500])));
     const before = { ...game.resources }, insight = game.research.insight;
@@ -126,9 +129,12 @@ test('commandement : caserne, ressources et logements conditionnent le recruteme
 });
 
 test('commandement : améliorer préserve les dégâts ; réparer et démolir le mur fonctionnent', () => {
-  const { game, elements } = fresh(), wall = addBuilding(game, 'woodWall');
+  const { game, elements } = fresh(); let wall = addBuilding(game, 'woodWall');
   for (let i = 0; i < 5; i++) addBuilding(game, 'house', 78 + i * 3, 78);
-  game.refreshMetrics(true); wall.health = wall.maxHealth / 2; game.selectBuilding(wall); game.updateUI();
+  game.refreshMetrics(true);
+  // Historical knowledge isolates upgrade payments and damage preservation, not current campaign progression.
+  legacyAge(game, C.Urban.score(game.world.buildings.values())); wall = game.world.buildings.get(wall.id);
+  wall.health = wall.maxHealth / 2; game.selectBuilding(wall); game.updateUI();
   const before = { ...game.resources }, cost = C.scaledCost(C.BUILDINGS.steelWall.cost, .72);
   elements.get('upgradeSelected').click(); assert.equal(wall.type, 'steelWall'); closeTo(wall.health, wall.maxHealth / 2);
   assert.equal(game.resources.scrap, before.scrap - cost.scrap); assert.equal(game.resources.stone, before.stone - cost.stone);

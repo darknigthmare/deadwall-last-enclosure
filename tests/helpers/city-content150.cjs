@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./legacy-city.cjs');
 const assert=require('node:assert/strict');
 const {bootDocument134}=require('../../scripts/qa-startup134.cjs');
 const {standAt}=require('./physical-fixtures.cjs');
@@ -28,7 +29,7 @@ function prepare(g,type){
 }
 function advanced(g,type){
  const C=globalThis.DeadwallCore;
- g.urban.attain(1850);prepare(g,'megaReserve');
+ legacyAge(g,1850);prepare(g,'megaReserve');
  if(type&&C.BUILDINGS[type].requires)prepare(g,C.BUILDINGS[type].requires);
  g.refreshMetrics(true);for(const key of C.RESOURCE_KEYS)g.resources[key]=Math.min(3000,g.storage);
  // Materialize the normal wave plan before exact round-trip comparisons.

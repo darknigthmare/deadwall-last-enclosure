@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const C = require('../src/core.js');
@@ -24,7 +25,7 @@ test('D17 growth dossier explains a late storage bottleneck and follows complete
   g.campaignIntro132.skip();
   g.units = [];
   // Explicit previously reached age fixture. It grants no building or materials.
-  g.urban.attain(1200);
+  legacyAge(g,1200);
   g.refreshMetrics(true);
   const row = () => doc.getElementById('urbanCurrentModels').children.find(n => n.dataset.model === 'megaTower');
   const warning = () => row().children.find(n => n.dataset.storageWarning === 'megaTower');

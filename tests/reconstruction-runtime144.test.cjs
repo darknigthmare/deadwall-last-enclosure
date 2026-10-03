@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootGame}=require('./helpers/browser.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const C=require('../src/core.js'),Kit=require('../src/expansion-kit.js'),Fort=require('../src/fortification-pack.js');
@@ -23,7 +24,7 @@ test('reconstruction : coût entier unique, nouvel ID, priorité haute et vrai t
  standAt(g,g.player,next);g.input.keys.add('KeyE');for(let n=0;n<500&&!next.completed;n++)g.updateInteraction(.1);g.input.keys.clear();assert.equal(next.completed,true);assert.equal(g.housing,housing+C.BUILDINGS.house.housing);assert.equal(g.infrastructure.snapshot().stats.reconstructed,1);
 });
 test('reconstruction : stockage et énergie n’arrivent pas au financement du chantier',()=>{
- for(const [type,metric]of [['warehouse','storage'],['generator','powerGenerated']]){const{game:g}=fresh(),b=ruin(g,type),before=g[metric];prepare(g,b);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,true);const next=g.world.atCell(b.gx,b.gy);assert.equal(g[metric],before);standAt(g,g.player,next);g.input.keys.add('KeyE');for(let n=0;n<700&&!next.completed;n++)g.updateInteraction(.1);g.input.keys.clear();assert.equal(next.completed,true);assert.ok(g[metric]>before);}
+ for(const [type,metric]of [['warehouse','storage'],['generator','powerGenerated']]){const{game:g}=fresh();legacyAge(g,C.CITY_TIERS[C.BUILDINGS[type].unlockTier].requiredScore);const b=ruin(g,type),before=g[metric];prepare(g,b);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,true);const next=g.world.atCell(b.gx,b.gy);assert.equal(g[metric],before);standAt(g,g.player,next);g.input.keys.add('KeyE');for(let n=0;n<700&&!next.completed;n++)g.updateInteraction(.1);g.input.keys.clear();assert.equal(next.completed,true);assert.ok(g[metric]>before);}
 });
 test('reconstruction : accès physique et sécurité sont revérifiés à la confirmation',()=>{
  const{game:g}=fresh(),b=ruin(g);prepare(g,b);g.player.x=100;g.player.y=100;let before=stable(g);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,false);assert.equal(stable(g),before);
@@ -60,6 +61,6 @@ test('reconstruction : les restes récupérés après le financement restent fin
  const{game:g}=fresh(),b=ruin(g),debris=g.fortificationPack.snapshot().debris[0],total=C.bagTotal(debris.remaining);prepare(g,b);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,true);const stock={...g.resources};assert.equal(g.fortificationPack.startRecovery(debris.id).ok,true);for(let n=0;n<200&&g.fortificationPack.busy();n++)g.fortificationPack.step(.25);assert.ok(Math.abs(C.bagTotal(g.player.carry)-total)<1e-7);assert.deepEqual(g.resources,stock);assert.equal(g.fortificationPack.snapshot().debris.length,0);assert.equal(g.fortificationPack.startRecovery(debris.id).ok,false);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,false);
 });
 test('reconstruction : un croquis historique est exigé puis reconnu depuis le registre existant',()=>{
- const{game:g}=fresh();add(g,'workshop',30,30);g.urban.attain(1000);g.refreshMetrics(true);const b=ruin(g,'prefabYard'),before=stable(g);let q=g.infrastructure.rebuild(b.id);assert.equal(q.ok,false);assert.match(q.reason,/Croquis/);assert.equal(stable(g),before);
+ const{game:g}=fresh();add(g,'workshop',30,30);legacyAge(g,1000);g.refreshMetrics(true);const b=ruin(g,'prefabYard'),before=stable(g);let q=g.infrastructure.rebuild(b.id);assert.equal(q.ok,false);assert.match(q.reason,/Croquis/);assert.equal(stable(g),before);
  const data=g.serialize(),site=data.dayworks.sites.find(s=>s.id==='industry-1');assert.ok(site);site.seen=true;site.survey=C.DAYWORKS_RULES.surveySeconds;data.dayworks.stats.surveyed++;assert.equal(g.restoreSave(data),true);q=prepare(g,b);assert.equal(g.infrastructure.confirmRebuild(b.id).ok,true);assert.equal(g.world.atCell(b.gx,b.gy).progress,0);
 });

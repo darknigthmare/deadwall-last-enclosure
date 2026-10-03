@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const C=require('../src/core.js'),{bootGame}=require('./helpers/browser.cjs');
 const Kit=require('../src/expansion-kit.js'),Pack=require('../src/fortification-pack.js');
@@ -16,7 +17,7 @@ function fresh(withDocument=false){
  for(const type of ['planningOffice','warehouse']){
   const p=free(g,type),b=new(g.core().constructor)(g.nextId++,type,p.x,p.y,0,1);g.world.add(b);
  }
- g.urban.attain(48);g.refreshMetrics(true);
+ legacyAge(g,48);g.refreshMetrics(true);
  for(const k of C.RESOURCE_KEYS)g.resources[k]=Math.min(2000,g.storage);
  g.restoreSave(g.serialize());return withDocument?{...env,g}:g;
 }

@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootGame}=require('./helpers/browser.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
@@ -25,7 +26,7 @@ test('urban planning: a paid foundation projects full score only after physical 
 test('urban planning: retained knowledge after destruction does not understate points needed to reach a new age',()=>{
  const{g}=fresh(),b=paid(g);finish(g,b);
  // Explicit previously reached age fixture: knowledge persists, buildings and stocks do not.
- g.urban.attain(48);g.refreshMetrics(true);g.destroyBuilding(b);g.refreshMetrics(true);
+ legacyAge(g,48);g.refreshMetrics(true);g.destroyBuilding(b);g.refreshMetrics(true);
  const before=stable(g),v=g.urban.planning();assert.equal(v.age.id,3);assert.equal(v.peakScore,48);assert.equal(v.currentScore,8);assert.equal(v.next.requiredScore,85);assert.equal(v.remaining,77);assert.equal(v.remainingAfterPending,77);assert.equal(v.pendingScore,0);assert.equal(stable(g),before);
 });
 test('urban planning: a suspended foundation remains conditional, and a physically occupied foundation earns no age',()=>{
@@ -35,15 +36,15 @@ test('urban planning: a suspended foundation remains conditional, and a physical
 });
 test('urban planning: upcoming models show real costs and completed prerequisites, without exposing upgrade-only or future build actions',()=>{
  const{g}=fresh(),v=g.urban.planning(),search=v.nextModels.find(d=>d.id==='searchlight');assert.ok(search);assert.equal(search.requirementMet,false);assert.equal(search.requirementName,C.BUILDINGS.generator.name);assert.deepEqual(search.cost,C.BUILDINGS.searchlight.cost);assert.ok(v.nextModels.every(d=>C.BUILDINGS[d.id].unlockTier===1));
- g.urban.attain(10);g.refreshMetrics(true);const b=paid(g);assert.equal(g.urban.planning().nextModels.find(d=>d.id==='rowHomes').requirementMet,false);finish(g,b);assert.equal(g.urban.planning().nextModels.find(d=>d.id==='rowHomes').requirementMet,true);
+ legacyAge(g,10);g.refreshMetrics(true);const b=paid(g);assert.equal(g.urban.planning().nextModels.find(d=>d.id==='rowHomes').requirementMet,false);finish(g,b);assert.equal(g.urban.planning().nextModels.find(d=>d.id==='rowHomes').requirementMet,true);
  g.resources.wood=7;g.resources.scrap=0;const row=g.urban.planning().nextModels.find(d=>d.id==='rowHomes');assert.equal(row.missing.wood,113);assert.equal(row.missing.scrap,60);row.cost.wood=999;assert.equal(C.BUILDINGS.rowHomes.cost.wood,120);
- g.urban.attain(48);g.refreshMetrics(true);assert.ok(!g.urban.planning().currentModels.some(d=>d.id==='armoredGate'));
+ legacyAge(g,48);g.refreshMetrics(true);assert.ok(!g.urban.planning().currentModels.some(d=>d.id==='armoredGate'));
 });
 test('urban planning: save and Continue restore the actual foundation forecast, while a new campaign clears it',()=>{
  const{g}=fresh(),b=paid(g);b.work(3);g.refreshMetrics(true);const v=g.urban.planning();assert.equal(g.save(false),true);g.returnToMenu();assert.equal(g.load(),true);assert.deepEqual(g.urban.planning(),v);g.startNew('standard','903145');assert.equal(g.urban.planning().pending.length,0);assert.equal(g.urban.planning().peakScore,8);
 });
 test('urban planning: the final age keeps the existing construction loop without a fabricated next threshold',()=>{
- const{g}=fresh();g.urban.attain(1850);g.refreshMetrics(true);const before=stable(g),v=g.urban.planning();assert.equal(v.age.id,10);assert.equal(v.next,null);assert.equal(v.nextModels.length,0);assert.equal(v.remaining,0);assert.ok(v.currentModels.some(d=>d.id==='megaReserve'));assert.equal(stable(g),before);
+ const{g}=fresh();legacyAge(g,1850);g.refreshMetrics(true);const before=stable(g),v=g.urban.planning();assert.equal(v.age.id,10);assert.equal(v.next,null);assert.equal(v.nextModels.length,0);assert.equal(v.remaining,0);assert.ok(v.currentModels.some(d=>d.id==='megaReserve'));assert.equal(stable(g),before);
 });
 test('urban planning UI: actual dossier shows a conditional forecast, upcoming costs and changing prerequisites',()=>{
  const{g,doc}=fresh(true);g.coordinationUI.open();g.urbanUI.refresh(true);assert.match(doc.getElementById('urbanRemaining').textContent,/2.0 points/);assert.match(doc.getElementById('urbanPotential').textContent,/Aucun chantier/);assert.ok(doc.getElementById('urbanNextModels').children.some(c=>c.dataset.model==='searchlight'));

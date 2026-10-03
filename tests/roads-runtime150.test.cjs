@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 
@@ -14,7 +15,7 @@ function setup(){
   let added=false;for(let y=70;y<90&&!added;y++)for(let x=70;x<90&&!added;x++)if(g.world.placement(C.BUILDINGS[type],x,y,0).valid){g.world.add(new(g.core().constructor)(g.nextId++,type,x,y,0,1));added=true;}
   assert.equal(added,true,type+' fixture has a lawful footprint');
  }
- g.urban.attain(85);g.refreshMetrics(true);g.restoreSave(g.serialize());
+ legacyAge(g,85);g.refreshMetrics(true);g.restoreSave(g.serialize());
  let cell;for(let y=58;y<70&&!cell;y++)for(let x=54;x<75&&!cell;x++){
   const p={x,y},q=g.infrastructure.plan(p,p);
   if(q.ok&&g.friendlyPositionClear(g.player,x*32+16,y*32+16))cell=p;
@@ -45,7 +46,7 @@ test('routes150 : vrai volet, financement payé, pause, ACTION tactile, rénovat
  const paused=g.infrastructure.snapshot();g.togglePause(true);g.input.keys.add('KeyE');for(let i=0;i<10;i++)g.updateInteraction(.04);g.input.keys.clear();assert.deepEqual(g.infrastructure.snapshot(),paused);g.togglePause(false);
  work(g,cell,()=>g.infrastructure.snapshot().roads[0].progress===1);assert.deepEqual(g.infrastructure.snapshot().roads[0],{...cell,progress:1});continueExactly(g,'historical completed gravel');
  for(const id of ['paving','concrete','logistics']){
-  const s=D.SURFACES[id];g.urban.attain(C.CITY_TIERS[s.unlockTier].requiredScore);g.refreshMetrics(true);g.infrastructure.open();g.infrastructureUI.refresh(true);
+  const s=D.SURFACES[id];legacyAge(g,C.CITY_TIERS[s.unlockTier].requiredScore);g.refreshMetrics(true);g.infrastructure.open();g.infrastructureUI.refresh(true);
   assert.equal(doc.getElementById('infraSurface-'+id).disabled,false);doc.getElementById('infraSurface-'+id).click();doc.getElementById('infraMode-upgrade').click();
   const previous=D.surface(g.infrastructure.snapshot().roads[0]),stock={...g.resources};doc.getElementById('infraPreview').click();assert.deepEqual(g.resources,stock);
   const quote=g.infrastructure.overview().preview;assert.equal(quote.ok,true);doc.getElementById('infraCommit').click();

@@ -18,7 +18,7 @@ function validate(raw,data){
  const knownSkills=new Set(ids.flatMap(id=>[id,...Object.entries(exercises()).filter(([,option])=>allows(option,id)).map(([exercise])=>skill(id,exercise))]));
  if(!raw||raw.version!==1||!['follow','hold','rally'].includes(raw.order)||!Object.hasOwn(R.formations,raw.formation)||!Object.hasOwn(R.disciplines,raw.discipline)||!Array.isArray(raw.trained)||raw.trained.length>knownSkills.size||new Set(raw.trained).size!==raw.trained.length||raw.trained.some(id=>!knownSkills.has(id)))fail();
  const s=initial();s.order=raw.order;s.formation=raw.formation;s.discipline=raw.discipline;s.trained=[...raw.trained];s.anchor=raw.anchor===null?null:point(raw.anchor);if((s.order==='rally')!==!!s.anchor)fail();
- const attained=data?C.cityTier(data.urban?.peakScore||0).id:null;
+ const attained=data?C.Urban.knownTier(data.urban).id:null;
  for(const id of ids)for(const[exercise,option]of Object.entries(exercises()))if(s.trained.includes(skill(id,exercise))&&(!allows(option,id)||!s.trained.includes(skill(id,option.requires))||attained!==null&&option.tier!==undefined&&attained<option.tier))fail();
  if(raw.training!==null){
   if(!raw.training||!ids.includes(raw.training.id))fail();const exercise=raw.training.exercise===undefined?'specialty':raw.training.exercise,option=trainingOption(exercise);
@@ -130,7 +130,8 @@ function install(g){
   if(state.training)add('train-cancel','Interrompre l’entraînement · sans remboursement',!can()?'Commandement indisponible.':'',cancelTraining);
   return out;
  }
- const busy=()=>!!state.training&&trainingAvailable()&&atHome()&&g.phase==='calm'&&assigned(state.training.id);
+ // A suspended paid exercise waits for the operation that already occupies the hands.
+ const busy=()=>!!state.training&&trainingAvailable()&&atHome()&&g.phase==='calm'&&assigned(state.training.id)&&!g.expansions.busy?.('companions');
  const api={busy,cancelTraining,setOrder,setFormation,setDiscipline,train,fill,share,control,resumePosition,record,overview,actions,update,snapshot:()=>copy(state),restore:data=>{state=validate(data);message='';},reset:()=>{state=initial();message='';}};
  g.companionsPack=Object.freeze(api);
  const old=g.update.bind(g);g.update=dt=>{const value=old(dt);update(dt);return value;};

@@ -128,7 +128,7 @@
       const byId=new Map(buildings.map(b=>[b.id,b]));
       for(const f of [...this.state.fires]){const b=byId.get(f.id);if(!operational(b))continue;
         f.age=Math.min(RULES.burnSeconds,f.age+dt);f.heat=Math.min(100,f.heat+RULES.heatGrowth*(1-weather*.5)*dt);f.spread=Math.min(RULES.spreadSeconds,f.spread+dt);
-        if(typeof damage==='function')damage(b,(RULES.damageBase+RULES.damageHeat*f.heat)*susceptibility(b)*dt);
+        if(typeof damage==='function'&&damage(b,(RULES.damageBase+RULES.damageHeat*f.heat)*susceptibility(b)*dt)===false)return true;
         if(!live(b))continue;
         if(f.age>=RULES.burnSeconds){this.state.fires.splice(this.state.fires.indexOf(f),1);this.addStat('burnedOut',1);this.log('burnedOut',f.id,at);continue;}
         if(f.spread>=RULES.spreadSeconds){f.spread=0;if(f.heat>=RULES.spreadHeat){const target=buildings.filter(c=>operational(c)&&c.id!==b.id&&susceptibility(c)&&!this.fire(c.id)&&!this.state.wet.some(w=>w.id===c.id)&&edgeDistance(b,c)<=RULES.spreadGap&&heatClear(b,c,buildings)).sort((a,c)=>edgeDistance(b,a)-edgeDistance(b,c)||a.id-c.id)[0];if(target)this.ignite(target,'spread',at);}}

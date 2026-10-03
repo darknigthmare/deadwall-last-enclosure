@@ -1,4 +1,5 @@
 'use strict';
+const {legacyAge}=require('./helpers/legacy-city.cjs');
 const test=require('node:test'),assert=require('node:assert/strict');
 const C=require('../src/core.js');
 const H=require('./helpers/city-content150.cjs');
@@ -25,9 +26,9 @@ for(const id of ids)test('cité150 '+id+' : chantier payé, capacités après tr
 });
 
 test('cité150 : âge insuffisant, prérequis perdu et manque de stocks ne prélèvent rien',()=>{
- for(const id of ids){const {g,C}=H.fresh(),d=C.BUILDINGS[id];g.urban.attain(C.CITY_TIERS[d.unlockTier-1].requiredScore);g.refreshMetrics(true);
+ for(const id of ids){const {g,C}=H.fresh(),d=C.BUILDINGS[id];legacyAge(g,C.CITY_TIERS[d.unlockTier-1].requiredScore);g.refreshMetrics(true);
   let before=H.stable(g),p=H.freeCell(g,id);assert.equal(g.placeOne(id,p.gx,p.gy),false);assert.deepEqual(H.stable(g),before);
-  g.urban.attain(C.CITY_TIERS[d.unlockTier].requiredScore);g.refreshMetrics(true);before=H.stable(g);assert.equal(g.placeOne(id,p.gx,p.gy),false);assert.deepEqual(H.stable(g),before);
+  legacyAge(g,C.CITY_TIERS[d.unlockTier].requiredScore);g.refreshMetrics(true);before=H.stable(g);assert.equal(g.placeOne(id,p.gx,p.gy),false);assert.deepEqual(H.stable(g),before);
   H.advanced(g,id);p=H.freeCell(g,id);for(const key of C.RESOURCE_KEYS)g.resources[key]=0;before=H.stable(g);assert.equal(g.placeOne(id,p.gx,p.gy),false);assert.deepEqual(H.stable(g),before);
   for(const key of C.RESOURCE_KEYS)g.resources[key]=Math.min(3000,g.storage);const prerequisite=[...g.world.buildings.values()].find(b=>b.type===d.requires);g.destroyBuilding(prerequisite);before=H.stable(g);assert.equal(g.placeOne(id,p.gx,p.gy),false);assert.deepEqual(H.stable(g),before);
  }
@@ -79,7 +80,7 @@ test('cité150 évolutions : refus au palier bas, sans prérequis, chantier inac
  let before=H.stable(g);assert.equal(g.upgradeSelected(),false,'Workshop absent');assert.deepEqual(H.stable(g),before);
  H.prepare(g,'workshop');b.progress=.5;g.refreshMetrics(true);before=H.stable(g);assert.equal(g.upgradeSelected(),false);assert.deepEqual(H.stable(g),before);
  b.progress=1;g.refreshMetrics(true);for(const key of C.RESOURCE_KEYS)g.resources[key]=0;before=H.stable(g);assert.equal(g.upgradeSelected(),false);assert.deepEqual(H.stable(g),before);
- const early=H.fresh();H.prepare(early.g,'barracks');early.g.urban.attain(48);early.g.resources.stone=75;early.g.refreshMetrics(true);const old=H.build(early.g,'casemate150');early.g.selectBuilding(old);before=H.stable(early.g);assert.equal(early.g.upgradeSelected(),false,'Mégaville I not reached');assert.deepEqual(H.stable(early.g),before);
+ const early=H.fresh();H.prepare(early.g,'barracks');legacyAge(early.g,48);early.g.resources.stone=75;early.g.refreshMetrics(true);const old=H.build(early.g,'casemate150');early.g.selectBuilding(old);before=H.stable(early.g);assert.equal(early.g.upgradeSelected(),false,'Mégaville I not reached');assert.deepEqual(H.stable(early.g),before);
 });
 
 test('cité150 industrie : intrants, puissance, saturation et filières sans carburant appliqués',()=>{

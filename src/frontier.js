@@ -14,10 +14,19 @@ const tell=t=>{message=t;g.notify(t);return false;};
 // Local driving reserves the full profile radius (see expeditions.carClear).
 // Its centre must be able to reach the seam before the boundary rejects it.
 const exitInset=base=>g.expeditions.driving()?Math.max(base,g.player.radius/.9+8):base;
+function exitClear(p,side,driving){
+ // Sweep the same friendly footprint as local movement, including automatic gates.
+ const inset=driving?Math.max(26,p.radius/.9+4):p.radius+4,edge=side==='east'||side==='south'?C.WORLD_SIZE-inset:inset;
+ const target={x:side==='east'||side==='west'?edge:p.x,y:side==='north'||side==='south'?edge:p.y};
+ const clear=(x,y)=>driving?g.expeditions.carClear(x,y):g.friendlyPositionClear(p,x,y);
+ const steps=Math.max(1,Math.ceil(Math.hypot(target.x-p.x,target.y-p.y)/4));
+ for(let i=0;i<=steps;i++)if(!clear(p.x+(target.x-p.x)*i/steps,p.y+(target.y-p.y)*i/steps))return false;
+ return true;
+}
 const materialReady=()=>g.player.reload<=0&&!g.selectedBuild&&!g.fieldSupplies?.busy()&&!g.essentials?.busy()&&!g.expansions?.busy();
 function syncUI(){document.body.classList.toggle('region-active',state.active&&g.state==='playing');g.frontierUI?.refresh(true);}
 function enter(){if(g.fieldSupplies?.busy()||g.essentials?.busy())return false;ensure();if(!can()||state.active)return false;const p=g.player,inset=exitInset(56),side=p.x>C.WORLD_SIZE-inset?'east':p.x<inset?'west':p.y>C.WORLD_SIZE-inset?'south':p.y<inset?'north':null;if(!side)return tell('Rejoignez un bord de D-17.');if(state.generation<4&&(side==='east'||side==='west'?Math.abs(p.y-2048):Math.abs(p.x-2048))>66)return tell('La jonction routière est au milieu de ce côté de D-17.');
-const driving=g.expeditions.driving(),v=car();if(state.car&&driving)return false;world();g.departure130?.beforeExit(side);if(g.fieldcraft?.context().mounted)g.fieldcraft.control();state.active=true;state.z=0;state.inside=null;state.anchor={x:p.x,y:p.y};Object.assign(state,P.exitPosition(p,side,g));
+const driving=g.expeditions.driving(),v=car();if(state.car&&driving)return false;if(!exitClear(p,side,driving))return tell('Le passage hors de D-17 est obstrué. Rejoignez un accès dégagé.');world();g.departure130?.beforeExit(side);if(g.fieldcraft?.context().mounted)g.fieldcraft.control();state.active=true;state.z=0;state.inside=null;state.anchor={x:p.x,y:p.y};Object.assign(state,P.exitPosition(p,side,g));
 if(driving&&v){v.driving=false;state.car={id:v.id,x:state.x,y:state.y,a:v.angle,driving:true};v.regionAway=true;p.radius=13;}g.fieldcraft?.cancel();g.cancelPlacement();oldCollapse=g.buildCollapsed;g.setBuildCollapsed(true);g.releaseInputs();p.regionAbsent=true;near=world().nearPOI(state.x,state.y,130);message='Région : ressources finies, rues et intérieurs. D-17 continue de vivre.';syncUI();g.save(false);return true;}
 function gate(){
   if(state.generation<4)return P.entryTarget(state,g);

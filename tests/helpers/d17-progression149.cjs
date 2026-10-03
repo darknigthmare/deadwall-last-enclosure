@@ -3,17 +3,19 @@ const assert=require('node:assert/strict');
 const C=require('../../src/core.js');
 const {bootDocument134}=require('../../scripts/qa-startup134.cjs');
 const {standAt}=require('./physical-fixtures.cjs');
+const {legacyAge}=require('./legacy-city.cjs');
 
 // This is a transaction/transition scenario, not a human campaign timing run.
-// After the two first native ages, a finite prepared material reserve supplies
+// After Avant-poste, a finite prepared material reserve supplies
 // the normal 36-unit bag. Every delivery, price and construction remains real.
 // Exterior actor placements omit travel. Waves, harvesting and economy do not
-// advance here; no score, tier, building completion or save record is injected.
+// advance here. Camp remains native; later earned-score thresholds explicitly
+// import historical knowledge. This does not exercise the 1.51 campaign gates.
 function auditD17Progression(){
  const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132?.skip();
  assert.equal(g.frontier.snapshot().generation,7,'The shipped HTML starts the current G7 campaign');
  const initial={...g.resources},reserve=C.makeBag({wood:30000,scrap:60000,stone:60000,food:500,fuel:2000,ammo:1000,medicine:200});
- const supplied=C.makeBag(),nativeHarvested=C.makeBag(),paid=C.makeBag(),constructions=[],transitions=[],normalizedFields=[];
+ const supplied=C.makeBag(),nativeHarvested=C.makeBag(),paid=C.makeBag(),constructions=[],transitions=[],normalizedFields=[],legacyKnowledgeImports=[];
  let activeConstructionSeconds=0,deliveries=0,saveReloads=0;
  const close=(actual,expected,label)=>assert.ok(Math.abs(actual-expected)<1e-7,`${label}: ${actual} / ${expected}`);
  function fund(cost){
@@ -69,6 +71,7 @@ function auditD17Progression(){
   for(let tick=0;tick<1200&&!b.completed;tick++){g.updateInteraction(.25);seconds+=.25;}
   g.input.keys.clear();assert.equal(b.completed,true,type+' must physically finish');g.refreshMetrics(true);
   close(g.cityScore,score+def.score,type+' actual score');close(g.housing,housing+(def.housing||0),type+' housing');close(g.storage,storage+(def.storage||0),type+' storage');
+  if(C.cityTier(g.cityScore).id>g.tier.id){legacyKnowledgeImports.push({type,score:g.cityScore,age:C.cityTier(g.cityScore).id});legacyAge(g,g.cityScore);}
   activeConstructionSeconds+=seconds;
   const row={type,id:b.id,fromAge:age,toAge:g.tier.id,cost:{...def.cost},scoreBefore:score,scoreAfter:g.cityScore,activeConstructionSeconds:seconds};constructions.push(row);
   if(g.tier.id!==age){assert.equal(g.tier.id,age+1,'The scenario visits every age in order');transitions.push({...row,name:g.tier.name,threshold:g.tier.requiredScore,cumulativeConstructionSeconds:activeConstructionSeconds});continueExactly(g.tier.name);b=g.world.buildings.get(b.id);}
@@ -117,7 +120,7 @@ function auditD17Progression(){
  const beforeLoss={score:g.cityScore,storage:g.storage,housing:g.housing},knowledge=g.tier.id,capacity=g.storage,megaReserve=[...g.world.buildings.values()].find(b=>b.type==='megaReserve'),scoreBeforeLoss=g.cityScore;
  g.destroyBuilding(megaReserve);assert.equal(g.tier.id,knowledge);assert.equal(g.cityScore,scoreBeforeLoss-C.BUILDINGS.megaReserve.score);assert.equal(g.storage,capacity-C.BUILDINGS.megaReserve.storage);
  continueExactly('MÉGAVILLE III after loss');
- const report={version:1,scenario:'D17 finite materials / real transactions / all eleven ages',runtime:'Full shipped HTML script order under a simulated DOM',regionalGeneration:g.frontier.snapshot().generation,limits:['Exterior positions are fixture placements; travel is omitted.','After Avant-poste, a finite scenario reserve supplies the bag; harvesting and material waiting are omitted.','Director and enemy combat do not run.','Construction action seconds are isolated active work, not campaign duration.','DOM simulation does not verify CSS layout, image decoding, physical devices or browser frame rate.'],initialNativeResources:initial,nativeHarvested,supplied,remainingReserve:reserve,paid,deliveries,saveReloads,normalizedFields,constructions,transitions,recruits:recruitProof,activeConstructionSeconds,powerBeforeHousingShedding:powerBefore,powerAfterHousingShedding,beforeLoss,finalAge:g.tier.id,finalName:g.tier.name,finalScore:g.cityScore,finalStorage:g.storage,finalHousing:g.housing,saveVersion:g.serialize().version,pass:true};
+ const report={version:1,scenario:'D17 finite materials / real transactions / historical eleven-age knowledge',knowledgeMode:'historical-earned-score-legacy-knowledge-fixture',legacyKnowledgeImports,runtime:'Full shipped HTML script order under a simulated DOM',regionalGeneration:g.frontier.snapshot().generation,limits:['Exterior positions are fixture placements; travel is omitted.','Camp is native; later historical knowledge is explicitly imported only after physical construction earns its score. This does not validate 1.51 campaign gates.','After Avant-poste, a finite scenario reserve supplies the bag; harvesting and material waiting are omitted.','Director and enemy combat do not run.','Construction action seconds are isolated active work, not campaign duration.','DOM simulation does not verify CSS layout, image decoding, physical devices or browser frame rate.'],initialNativeResources:initial,nativeHarvested,supplied,remainingReserve:reserve,paid,deliveries,saveReloads,normalizedFields,constructions,transitions,recruits:recruitProof,activeConstructionSeconds,powerBeforeHousingShedding:powerBefore,powerAfterHousingShedding,beforeLoss,finalAge:g.tier.id,finalName:g.tier.name,finalScore:g.cityScore,finalStorage:g.storage,finalHousing:g.housing,saveVersion:g.serialize().version,pass:true};
  g.startNew('standard','903145');assert.equal(g.tier.id,0);assert.equal(g.cityScore,8);assert.equal(g.urban.snapshot().peakScore,8);
  return report;
 }
