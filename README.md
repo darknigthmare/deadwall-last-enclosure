@@ -1,3 +1,20 @@
+# DEADWALL 1.50.0 — Onze âges, nouveaux choix
+
+Les derniers âges de D-17 avaient beaucoup moins de nouveaux choix que le camp et l'avant-poste. Cette version ajoute 20 modèles de bâtiments, six chemins d'évolution, trois revêtements de route, quatre montages mécaniques à charges finies, quatre formations des compagnons et quatre cours de construction tardives. Chaque ajout utilise les ressources et les systèmes physiques du jeu.
+
+Dans **Préparatifs → Catalogue des âges**, consultez les onze paliers, les coûts, les supports requis et les raisons d'un verrouillage. Quatre atlas originaux représentent les 20 nouveaux modèles. Guide : [docs/LIVRAISON_1_50.md](docs/LIVRAISON_1_50.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:city
+```
+
+Base cumulative : commit `3a42ec0c20b536e6210273a3557cf63306d1ffb2` (1.49). Les vérifications de cette version et les distributions sont consignées après exécution ; les preuves historiques ci-dessous décrivent leurs propres versions. Destination demandée : https://deadwall-last-enclosure.vercel.app/ ; la fabrication locale ne constitue pas une publication distante.
+
+## Historique conservé — 1.49
+
 # DEADWALL 1.49.0 — D-17, du refuge à la mégaville
 
 La croissance de D-17 comporte onze âges, jusqu’à Mégaville III à 1 850 points de constructions achevées. Le dossier Préparatifs explique désormais les capacités de stockage insuffisantes avant les gros chantiers. Les prix, seuils, collisions, ressources et sauvegardes restent ceux du jeu existant.

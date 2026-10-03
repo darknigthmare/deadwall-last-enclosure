@@ -1,5 +1,11 @@
 # Architecture technique
 
+## Extension des âges — 1.50
+
+`core.js` expose `CityContent150` (20 définitions, six évolutions de même emprise et quatre plans), `Infrastructure.SURFACES` et les recettes/formations dans les règles historiques. Les contrôleurs existants assurent les paiements, travaux, productions, soins, tirs et batteries. Une évolution reste instantanée et payée ; elle ne réinitialise pas la santé. Les registres de voirie/montages/formations acceptent les identifiants nouveaux avec contrôle strict ; les routes historiques à trois champs conservent leur état et leur avantage.
+
+`city-catalogue150.js` dérive le catalogue des vraies règles. `city-catalogue-ui150.js` l'affiche dans Préparatifs et n'effectue aucune transaction. Le contenu caché ne déclenche pas de boucle de rendu supplémentaire. `d17-art150.js` associe 20 rectangles mesurés à quatre atlas originaux ; son dernier raccord intervient après les peintres historiques pour afficher les batteries du nouveau catalogue. Les cartes ne mémorisent pas les positions des ennemis ; la tour nouvelle utilise le service de visibilité physique existant.
+
 ## Objectif de la version actuelle
 
 Le moteur est un Canvas 2D/2.5D avec interface HTML/CSS et simulation JavaScript. Le joueur utilise soit l'application Windows Electron autonome, soit la PWA, soit le fichier HTML autonome. Aucun service réseau n'est requis pour une partie locale. Le développement web utilise un build Node.js sans dépendances externes ; fabriquer le paquet Windows exige les outils Electron verrouillés par le lockfile. Ce n'est pas un port 3D natif.

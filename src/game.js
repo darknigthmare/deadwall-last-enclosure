@@ -3615,14 +3615,14 @@
   'use strict';
   const g=root.DEADWALL,C=root.DeadwallCore,D=root.DeadwallInfrastructure,R=D?.RULES;
   if(!g||!C||!D)throw Error('Dépendances du réseau routier absentes.');if(g.infrastructure)return;
-  let engine=new D.Engine(),worldRef=null,pending=null,tool='none',preview=null,anchor=null,notice='',marked=null,buildingAgain=false,rebuildPreview=null;
+  let engine=new D.Engine(),worldRef=null,pending=null,tool='none',preview=null,anchor=null,notice='',marked=null,buildingAgain=false,rebuildPreview=null,selectedSurface='gravel',roadMode='new';
   const assignments=new Map();let nextInspection=0,rebuildCloseHook=false;
   const live=u=>Boolean(u&&!u.dead&&u.health>0),op=b=>live(b)&&(b.completed===true||b.progress>=1);
   const buildings=()=>[...g.world.buildings.values()],distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay;
   const activeDay=()=>running()&&g.phase==='calm';
   const wrap=(name,fn)=>{const old=g[name];if(typeof old!=='function')throw Error('Interface de voirie absente : '+name);g[name]=function(...args){return fn(old.bind(g),...args);};};
-  function ensure(){if(worldRef!==g.world){worldRef=g.world;engine=new D.Engine(pending||undefined);pending=null;tool='none';preview=null;anchor=null;notice='';marked=null;buildingAgain=false;rebuildPreview=null;assignments.clear();nextInspection=0;}return engine;}
+  function ensure(){if(worldRef!==g.world){worldRef=g.world;engine=new D.Engine(pending||undefined);pending=null;tool='none';preview=null;anchor=null;notice='';marked=null;buildingAgain=false;rebuildPreview=null;selectedSurface='gravel';roadMode='new';assignments.clear();nextInspection=0;}return engine;}
   const tell=(text,tone=null)=>{notice=text;if(tone){g.notify(text,tone);g.audio?.ui();}g.infrastructureUI?.refresh(true);return text;};
   const depots=()=>buildings().filter(b=>op(b)&&b.type==='roadDepot'&&b.powered&&!b.siegeOffline&&!b.territoryOffline);
   const slots=()=>Math.min(R.maxCrew,depots().length*R.crewPerDepot);
@@ -3645,16 +3645,21 @@
   }
   function clearOtherTools(){const t=g.dayworks?.overview()?.tool;if(t&&t!=='none')g.dayworks.setTool(t);if(g.siege?.toolActive())g.siege.toggleTool();g.releaseInputs?.();if(g.player)g.player.reload=0;}
   function available(){return g.canIssueCommand()&&live(g.player)&&g.phase==='calm';}
-  function beginTrace(){ensure();rebuildPreview=null;if(!available()||!g.world.has('planningOffice'))return{ok:false,reason:tell('Bureau de chantier terminé et journée calme requis.')};
+  const roadOptions=()=>({surface:selectedSurface,mode:roadMode,tier:g.tier.id,has:type=>g.world.has(type)});
+  function roadStatus(){if(!available()||!g.world.has('planningOffice'))return{ok:false,reason:'Bureau de chantier terminé et journée calme requis.'};return D.surfaceStatus(selectedSurface,g.tier.id,type=>g.world.has(type));}
+  function chooseSurface(id,mode=roadMode){ensure();if(!Object.hasOwn(D.SURFACES,id)||!['new','upgrade'].includes(mode)||!g.canIssueCommand())return{ok:false,reason:tell('Revêtement ou mode de travaux indisponible.')};
+    selectedSurface=id;roadMode=mode;preview=null;anchor=null;tool='none';g.releaseInputs?.();const q=roadStatus();tell(q.ok?D.SURFACES[id].name+' sélectionné : '+(mode==='upgrade'?'améliorer les voies achevées.':'financer une nouvelle trace.'):q.reason);return q;
+  }
+  function beginTrace(){ensure();rebuildPreview=null;const status=roadStatus();if(!status.ok)return{ok:false,reason:tell(status.reason)};
     g.cancelPlacement?.();clearOtherTools();tool='trace';anchor=null;preview=null;g.showCommand?.(false);if(g.paused)g.togglePause?.(false);
     tell('Choisissez le départ puis l’arrivée. Le coude suit d’abord l’axe horizontal ; le financement sera confirmé séparément.');return{ok:true};
   }
-  function plan(a,b){ensure();rebuildPreview=null;preview=null;anchor=null;tool='none';if(!available()||!g.world.has('planningOffice'))return{ok:false,reason:tell('Bureau de chantier terminé et journée calme requis.')};
+  function plan(a,b){ensure();rebuildPreview=null;preview=null;anchor=null;tool='none';const status=roadStatus();if(!status.ok)return{ok:false,reason:tell(status.reason)};
     const cells=D.line(a,b);if(!cells)return{ok:false,reason:tell('Trace hors carte ou trop longue : 64 cellules maximum.')};
-    preview=cells;anchor=null;tool='none';const q=D.quote(engine.state,cells,g.resources,blocked);tell(q.reason);return q;
+    preview=cells;anchor=null;tool='none';const q=D.quote(engine.state,cells,g.resources,blocked,roadOptions());tell(q.reason);return q;
   }
   function commit(){ensure();if(!available()||!g.world.has('planningOffice')||!preview)return{ok:false,reason:tell('Aucun projet finançable pendant cette phase.')};
-    const q=engine.commit(preview,g.resources,blocked);if(!q.ok){tell(q.reason);return q;}
+    const q=engine.commit(preview,g.resources,blocked,roadOptions());if(!q.ok){tell(q.reason);return q;}
     preview=null;anchor=null;tool='none';g.save(false);tell(q.cells.length+' cellules financées. Rejoignez-les avec les outils, ou affectez des ouvriers.','good');return q;
   }
   function cancel(){preview=null;anchor=null;if(tool==='trace')tool='none';g.releaseInputs?.();tell('Aperçu annulé. Aucun matériau débité.');}
@@ -3665,7 +3670,7 @@
   function activeTool(){return tool==='work'&&!g.siege?.toolActive()&&(!g.dayworks||g.dayworks.overview().tool==='none');}
   function nearestJob(u){
     let result=null,best=Infinity;
-    for(const p of engine.state.roads)if(p.progress<1){
+    for(const p of engine.state.roads)if(D.unfinished(p)){
       const target=point(p),d=distance(u,target);if(d<best&&d<=1400&&g.workerJobAvailable?.(u,'road:'+p.x+':'+p.y)!==false&&!blocked(p.x,p.y)){best=d;result=p;}
     }return result;
   }
@@ -3741,14 +3746,19 @@
   }
   function mark(id){ensure();const r=engine.state.ruins.find(r=>r.id===id);if(!r||!g.canIssueCommand())return false;marked=id;g.showCommand?.(false);tell('Empreinte marquée. Aucun déplacement automatique du commandant.');return true;}
   function findPath(start,goal,isBlocked,width=128,height=128,maxExpanded=8192,kind='friendly'){
-    ensure();const ratio=kind==='truck'?R.truckSpeed:R.friendlySpeed;
-    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y);return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/ratio);
+    ensure();const maximum=Math.max(...Object.values(D.SURFACES).map(s=>kind==='truck'?s.truckSpeed:s.friendlySpeed));
+    return D.findRoute(start,goal,isBlocked,(x,y)=>{const road=engine.road(x,y);if(road?.progress!==1)return 1;const b=g.world.atCell?.(x,y),s=D.surface(road),ratio=kind==='truck'?s.truckSpeed:s.friendlySpeed;return live(b)&&!b.def.gate?1:1/ratio;},width,height,maxExpanded,1/maximum);
   }
   function drawRoads(ctx,view){ensure();const v=view||{left:0,top:0,right:4096,bottom:4096};ctx.save();
     for(const p of engine.state.roads){const x=p.x*32,y=p.y*32;if(x+32<v.left||x>v.right||y+32<v.top||y>v.bottom)continue;
-      ctx.fillStyle=p.progress===1?'#888474':'rgba(200,178,112,.20)';ctx.globalAlpha=p.progress===1?.75:1;ctx.fillRect(x+1,y+1,30,30);
-      if(p.progress<1){ctx.strokeStyle='#dbbb78';ctx.setLineDash([4,4]);ctx.strokeRect(x+3,y+3,26,26);ctx.setLineDash([]);ctx.fillStyle='#e2be6c';ctx.fillRect(x+5,y+25,22*p.progress,3);}
-      else{ctx.strokeStyle='rgba(218,213,190,.38)';ctx.lineWidth=1;for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(x+5+i*8,y+7+(p.x%3));ctx.lineTo(x+8+i*8,y+17);ctx.stroke();}}
+      const s=D.surface(p);ctx.fillStyle=p.progress===1?s.color:'rgba(200,178,112,.20)';ctx.globalAlpha=p.progress===1?.85:1;ctx.fillRect(x+1,y+1,30,30);
+      if(p.progress===1){ctx.strokeStyle='rgba(218,213,190,.42)';ctx.lineWidth=1;
+        if(s.pattern==='paving'){for(let row=0;row<3;row++)for(let col=0;col<3;col++)ctx.strokeRect(x+3+col*9,y+3+row*9,8,8);}
+        else if(s.pattern==='concrete'){ctx.strokeRect(x+3,y+3,26,26);ctx.beginPath();ctx.moveTo(x+16,y+3);ctx.lineTo(x+16,y+29);ctx.moveTo(x+3,y+16);ctx.lineTo(x+29,y+16);ctx.stroke();}
+        else if(s.pattern==='logistics'){ctx.fillStyle='#d7c68c';ctx.fillRect(x+6,y+4,2,24);ctx.fillRect(x+24,y+4,2,24);ctx.fillRect(x+15,y+7,2,7);ctx.fillRect(x+15,y+19,2,7);}
+        else for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(x+5+i*8,y+7+(p.x%3));ctx.lineTo(x+8+i*8,y+17);ctx.stroke();}
+      }
+      if(D.unfinished(p)){const progress=p.upgrade?.progress??p.progress;ctx.globalAlpha=1;ctx.strokeStyle=p.upgrade?'#e6a866':'#dbbb78';ctx.setLineDash([4,4]);ctx.strokeRect(x+3,y+3,26,26);ctx.setLineDash([]);ctx.fillStyle='#29342e';ctx.fillRect(x+5,y+25,22,3);ctx.fillStyle='#e2be6c';ctx.fillRect(x+5,y+25,22*progress,3);}
     }ctx.restore();
   }
   function drawGuide(ctx){if(preview){ctx.save();for(const p of preview){ctx.fillStyle=blocked(p.x,p.y)?'rgba(214,96,73,.45)':'rgba(145,202,143,.28)';ctx.fillRect(p.x*32+1,p.y*32+1,30,30);}ctx.restore();}
@@ -3756,8 +3766,8 @@
     const r=engine.state.ruins.find(r=>r.id===marked);if(!r)return;const d=C.BUILDINGS[r.type],w=(r.rotation%2?d.size[1]:d.size[0])*32,h=(r.rotation%2?d.size[0]:d.size[1])*32;
     ctx.save();ctx.strokeStyle='#e6b28a';ctx.setLineDash([7,5]);ctx.lineWidth=2;ctx.strokeRect(r.gx*32,r.gy*32,w,h);ctx.setLineDash([]);ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillStyle='#f0c398';ctx.fillText('À RECONSTRUIRE · '+d.name,r.gx*32+w/2,r.gy*32-12);ctx.restore();
   }
-  function overview(){reconcile();return{phase:g.phase,notice,tool,preview:preview?D.quote(engine.state,preview,g.resources,blocked):null,rebuildPreview:rebuildPreview?{...rebuildPreview.quote,check:reconstructionStatus(rebuildPreview.id)}:null,
-    roads:engine.state.roads.map(r=>({...r})),complete:engine.state.roads.filter(p=>p.progress===1).length,slots:slots(),
+  function overview(){reconcile();return{phase:g.phase,notice,tool,selectedSurface,roadMode,surfaces:Object.values(D.SURFACES).map(s=>({...s,status:D.surfaceStatus(s.id,g.tier.id,type=>g.world.has(type))})),preview:preview?D.quote(engine.state,preview,g.resources,blocked,roadOptions()):null,rebuildPreview:rebuildPreview?{...rebuildPreview.quote,check:reconstructionStatus(rebuildPreview.id)}:null,
+    roads:engine.state.roads.map(r=>({...r,...(r.upgrade?{upgrade:{...r.upgrade}}:{})})),complete:engine.state.roads.filter(p=>p.progress===1).length,jobs:engine.state.roads.filter(D.unfinished).length,slots:slots(),
     crew:engine.state.crew.map(c=>({...c,job:assignments.get(c.id)||'Prise de poste',blocked:g.units.find(u=>u.id===c.id)?.navigation?.cells===null})),
     ruins:engine.state.ruins.map(r=>({...r,name:C.BUILDINGS[r.type]?.name||r.type,status:reconstructionStatus(r.id)})),stats:{...engine.state.stats}};}
   wrap('serialize',(old,...args)=>{reconcile();return{...old(...args),infrastructure:engine.snapshot()};});
@@ -3774,7 +3784,7 @@
     if(!activeDay()||!finiteStep(dt)||!g.input.keys.has('KeyE'))return;
     const p=nearestJob(g.player);if(!p)return;const target=point(p);
     if(!g.workerCanWorkAt(g.player,target,R.workRange)||!secure(g.player)||!secure(target)){g.interactionText='Accès libre et abords sécurisés requis.';return;}
-    if(engine.work(p.x,p.y,Math.min(dt,R.maxStep)*R.playerWork))changed();g.interactionText='Stabilisation : '+Math.floor(p.progress*100)+' %';
+    const targetName=D.SURFACES[p.upgrade?.surface||p.surface||'gravel'].name;if(engine.work(p.x,p.y,Math.min(dt,R.maxStep)*R.playerWork))changed();g.interactionText=targetName+' : '+Math.floor((p.upgrade?.progress??p.progress)*100)+' %';
   });
   for(const name of ['shootPlayer','melee','startReload'])wrap(name,(old,...args)=>activeTool()||tool==='trace'||preview?false:old(...args));
   if(typeof g.cancelPlacement==='function')wrap('cancelPlacement',(old,...args)=>{anchor=null;preview=null;if(tool==='trace')tool='none';return old(...args);});
@@ -3801,7 +3811,7 @@
     g.canvas.addEventListener('mousedown',e=>{if(tool==='trace'||preview){e.preventDefault();e.stopImmediatePropagation();}},true);
     g.canvas.addEventListener('contextmenu',e=>{if(tool==='trace'||preview){e.preventDefault();e.stopImmediatePropagation();cancel();}},true);
   }
-  g.infrastructure=Object.freeze({version:D.VERSION,snapshot:()=>{reconcile();return engine.snapshot();},overview,beginTrace,plan,commit,cancel,equip,isAssigned,assign,recall,updateAssignedUnit,
+  g.infrastructure=Object.freeze({version:D.VERSION,snapshot:()=>{reconcile();return engine.snapshot();},overview,chooseSurface,beginTrace,plan,commit,cancel,equip,isAssigned,assign,recall,updateAssignedUnit,
     speed:(x,y,kind)=>{ensure();const boost=engine.multiplier(x,y,kind);if(boost===1)return 1;const gx=Math.floor(x/32),gy=Math.floor(y/32),b=g.world.atCell?.(gx,gy);return live(b)&&!b.def.gate?1:boost;},
     findPath,reconstructionStatus,rebuild,confirmRebuild,cancelRebuild,forget,mark,removeRoad,drawRoads,drawGuide,toolActive:activeTool,
     open:()=>{g.showCommand?.(true,'field');g.infrastructureUI?.open();}});
@@ -3817,6 +3827,7 @@
   const button=(title,id,action)=>{const b=el('button',title);b.type='button';b.id=id;b.addEventListener('click',()=>{if(!b.disabled&&!b.closest('[inert]')){action();refresh(true);}});return b;};
   const css=el('style');css.textContent=`
   .infra16{--edge:#56695c;--muted:#c0cabc;color:#efeee0;padding:10px 0 24px;max-width:100%}.infra16 *{box-sizing:border-box}.infra16 p{font-size:13px;line-height:1.65;color:var(--muted)}.infra16 h2{font-size:32px;line-height:1.1;margin:10px 0}.infra16 h3{font-size:18px;margin:8px 0 12px}.infra16 small{font-size:11px;letter-spacing:.06em;color:#dbc79a}.infra16 button,.infra16 input{font:inherit;font-size:12px;min-height:42px;border:1px solid #81907a;border-radius:5px;background:#2c4035;color:#f7f0d5;padding:9px 12px;max-width:100%}.infra16 input{width:100%}.infra16 button{cursor:pointer}.infra16 button:disabled{opacity:.45;cursor:not-allowed}.infra16 button:focus-visible,.infra16 input:focus-visible{outline:3px solid #f7ca72;outline-offset:3px}.infra16 button[aria-selected=true]{background:#617056;border-color:#d3c18b}.infra16-hero{padding:24px;border:1px solid #a29b75;border-radius:10px;background:linear-gradient(125deg,#404c38,#1a2e29);display:grid;grid-template-columns:1.7fr 1fr;gap:22px}.infra16-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}.infra16-metrics div{padding:12px;border:1px solid #819078;border-radius:6px}.infra16-metrics b{display:block;font-size:27px}.infra16-tabs,.infra16-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.infra16-status{border-left:3px solid #dec185;background:#243a2f;padding:11px 15px;min-height:46px}.infra16-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:17px}.infra16-card{border:1px solid var(--edge);border-radius:9px;padding:19px;background:#1a3028;min-width:0}.infra16-card label{display:block;font-size:12px;color:#dfdbba;margin:0 0 5px}.infra16-coords{display:grid;grid-template-columns:1fr 1fr;gap:10px}.infra16-map{width:100%;height:auto;aspect-ratio:1;border:1px solid #617663;border-radius:7px;background:#11251b}.infra16-preview{border:1px solid #c3a671;background:#303d29;border-radius:7px;padding:15px;margin:15px 0}.infra16-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}.infra16-row{padding:12px 0;border-bottom:1px solid var(--edge);display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px}.infra16-pager{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-top:12px}.infra16-confirm{border:2px solid #d79c78;background:#3d3025;padding:14px;border-radius:7px}.infra16 .hidden{display:none!important}.city16-dock{margin-top:8px;background:#183023;border:1px solid #6e8369;border-radius:7px;padding:0 10px;color:#e9e7ce;pointer-events:auto}.city16-dock summary{min-height:46px;cursor:pointer;padding:12px 2px;font-size:12px;line-height:1.5}.city16-dock summary:focus-visible{outline:3px solid #f7cc80;outline-offset:3px}.city16-dock[data-danger=true]{border-color:#e4a377}.city16-dock>div{padding-bottom:10px}.city16-open{display:block;width:100%;min-height:44px;margin:6px 0;background:#314b3a;border:1px solid #7c9379;color:#eee8cd;border-radius:5px;text-align:left;padding:10px;cursor:pointer}.high-contrast .infra16-card{background:#08160c;color:white}.high-contrast .infra16 p{color:#eee}.infra16-note{font-size:12px;color:#d0b58b!important}
+  .infra16 button[aria-pressed=true]{background:#617056;border-color:#d3c18b}.infra16 fieldset{border:1px solid var(--edge);border-radius:7px;min-width:0;margin:12px 0;padding:10px}.infra16 legend{font-size:13px;color:#dfdbba;padding:0 5px}
   @media(max-width:720px){.infra16-hero,.infra16-grid,.infra16-list{grid-template-columns:1fr}.infra16-hero{padding:18px}.infra16 h2{font-size:26px}.infra16 button,.infra16 input{min-height:46px}.infra16-tabs{display:grid;grid-template-columns:1fr 1fr}.infra16-row{align-items:flex-start;flex-wrap:wrap}.infra16-card{padding:15px}}
   `;document.head.appendChild(css);
   const panel=el('section',undefined,'infra16 hidden');panel.id='infrastructurePanel';field.appendChild(panel);
@@ -3828,12 +3839,16 @@
   const sections={},tabButtons={};let tab='roads',page=0,lastRefresh=-Infinity,worldRef=null,pending=null,listKey='';
   function choose(id,focus=false){if(!sections[id])return;if(pending?.type==='rebuild'&&id!=='rebuild'){g.infrastructure.cancelRebuild();pending=null;review.classList.add('hidden');}tab=id;for(const key of Object.keys(sections)){sections[key].classList.toggle('hidden',key!==id);tabButtons[key].setAttribute('aria-selected',String(key===id));tabButtons[key].tabIndex=key===id?0:-1;}if(focus)tabButtons[id].focus();refresh(true);}
   for(const [id,label]of [['roads','LES LIAISONS'],['rebuild','APRÈS LE SIÈGE']]){const b=button(label,'infra-sub-'+id,()=>choose(id));b.setAttribute('role','tab');b.setAttribute('aria-controls','infra-view-'+id);tabs.appendChild(b);tabButtons[id]=b;const s=el('section');s.id='infra-view-'+id;s.setAttribute('role','tabpanel');s.setAttribute('aria-labelledby',b.id);sections[id]=s;panel.appendChild(s);b.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.code)){e.preventDefault();choose(e.code==='Home'?'roads':e.code==='End'?'rebuild':tab==='roads'?'rebuild':'roads',true);}});}
-  const roadGrid=el('div',undefined,'infra16-grid'),instructions=el('article',undefined,'infra16-card');instructions.append(el('h3','Financer une piste stabilisée'),el('p','Deux matériaux par cellule : 2 pierre et 1 ferraille. Le financement ne termine pas les travaux. Un tronçon comporte au plus 64 cellules, reliées par leurs côtés.'));
+  const roadGrid=el('div',undefined,'infra16-grid'),instructions=el('article',undefined,'infra16-card');instructions.append(el('h3','Financer et améliorer les voies'),el('p','Un tronçon comporte au plus 64 cellules, reliées par leurs côtés. Le financement engage les matériaux ; les travaux se font ensuite sur place.'));
+  const surfaces=el('fieldset'),legend=el('legend','Revêtement à construire'),surfaceButtons={},surfaceRows={};surfaces.id='infraSurfaces';surfaces.appendChild(legend);
+  for(const s of Object.values(D.SURFACES)){const row=el('div',undefined,'infra16-row'),label=el('span'),b=button(s.name,'infraSurface-'+s.id,()=>g.infrastructure.chooseSurface(s.id));b.setAttribute('aria-pressed','false');row.append(b,label);surfaces.appendChild(row);surfaceButtons[s.id]=b;surfaceRows[s.id]=label;}instructions.appendChild(surfaces);
+  const modes=el('div',undefined,'infra16-actions'),newMode=button('NOUVELLE TRACE','infraMode-new',()=>g.infrastructure.chooseSurface(g.infrastructure.overview().selectedSurface,'new')),upgradeMode=button('AMÉLIORER LES VOIES','infraMode-upgrade',()=>g.infrastructure.chooseSurface(g.infrastructure.overview().selectedSurface,'upgrade'));modes.append(newMode,upgradeMode);instructions.appendChild(modes);
+  const surfaceNote=el('p');surfaceNote.id='infraSurfaceDetails';instructions.appendChild(surfaceNote);
   const coords=el('div',undefined,'infra16-coords'),inputs={};for(const [id,label,n]of [['x1','Départ X',65],['y1','Départ Y',58],['x2','Arrivée X',74],['y2','Arrivée Y',58]]){const box=el('div'),l=el('label',label),input=el('input');input.type='number';input.min=1;input.max=126;input.step=1;input.value=n;input.id='infra-'+id;l.htmlFor=input.id;box.append(l,input);coords.appendChild(box);inputs[id]=input;input.addEventListener('input',()=>{if(g.infrastructure.overview().preview)g.infrastructure.cancel();if(pending?.type==='road'){pending=null;review.classList.add('hidden');}});}instructions.appendChild(coords);
   const actions=el('div',undefined,'infra16-actions'),preview=button('PRÉVISUALISER','infraPreview',()=>{for(const input of Object.values(inputs))if(!input.reportValidity())return;g.infrastructure.plan({x:Number(inputs.x1.value),y:Number(inputs.y1.value)},{x:Number(inputs.x2.value),y:Number(inputs.y2.value)});}),draw=button('TRACER AU SOL','infraTrace',()=>g.infrastructure.beginTrace()),equip=button('OUTILS DE VOIRIE','infraEquip',()=>g.infrastructure.equip());actions.append(preview,draw,equip);instructions.appendChild(actions);
   const quoteBox=el('div',undefined,'infra16-preview hidden'),quoteText=el('p'),confirm=button('FINANCER LES TRAVAUX','infraCommit',()=>g.infrastructure.commit()),cancel=button('ANNULER L’APERÇU','infraCancel',()=>g.infrastructure.cancel());quoteBox.append(quoteText,confirm,cancel);instructions.appendChild(quoteBox);
-  instructions.append(el('p','Piste achevée : +18 % pour les déplacements alliés et +30 % pour les fourgons. Les infectés gagnent aussi 10 %. Les portes, les murs et les cargaisons gardent toutes leurs règles.'),el('p','Une piste est un revêtement non destructible, pas un rempart. Les bâtiments qui la recouvrent en neutralisent le bonus ; une porte peut la traverser.','infra16-note'));
-  const mapBox=el('article',undefined,'infra16-card'),map=el('canvas');map.id='infraMap';map.width=512;map.height=512;map.className='infra16-map';map.setAttribute('role','img');map.setAttribute('aria-label','Carte schématique des structures, pistes financées, emplacements détruits et du commandant.');mapBox.append(el('h3','Le réseau et ses coupures'),map,el('p','Ocre : pistes achevées. Pointillés : travaux. Rouge : emplacements perdus. Clair : structures. Bleu : commandant. Cette carte ne valide pas une enceinte fermée.'));
+  instructions.append(el('p','Améliorer paie uniquement la différence de matériaux et de travail entre les deux revêtements. L’ancien bonus reste actif pendant la rénovation ; le nouveau arrive à l’achèvement.'),el('p','Les infectés profitent eux aussi des voies rapides. Le revêtement ne remplace pas les remparts. Les bâtiments qui le recouvrent neutralisent son bonus ; une porte peut le traverser. Aucune ressource naturelle ni surface régionale n’est changée.','infra16-note'));
+  const mapBox=el('article',undefined,'infra16-card'),map=el('canvas');map.id='infraMap';map.width=512;map.height=512;map.className='infra16-map';map.setAttribute('role','img');map.setAttribute('aria-label','Carte schématique des structures, pistes financées, emplacements détruits et du commandant.');mapBox.append(el('h3','Le réseau et ses coupures'),map,el('p','Gris : voies achevées, selon leur revêtement. Ocre : nouvelle trace en travaux ; orange : rénovation. Rouge : emplacements perdus. Clair : structures. Bleu : commandant. Cette carte ne valide pas une enceinte fermée.'));
   roadGrid.append(instructions,mapBox);sections.roads.appendChild(roadGrid);
   const crews=el('article',undefined,'infra16-card'),crewRows=el('div'),crewNote=el('p'),assign=button('DÉTACHER UN OUVRIER','infraAssign',()=>g.infrastructure.assign());crews.append(el('h3','Une équipe de voirie, pas des ouvriers gratuits'),el('p','L’atelier alimenté accueille deux ouvriers existants, jusqu’à huit au total. Ils déposent leur sac, rejoignent les cellules financées et travaillent sur place. Les équipes de secours et des quartiers ne sont pas détournées.'),crewNote,assign,crewRows);sections.roads.appendChild(crews);
   const erase=el('details',undefined,'infra16-card');erase.append(el('summary','Retirer une cellule sans remboursement'));const remove=button('RETIRER LA CELLULE DE DÉPART','infraRemove',()=>{const x=Number(inputs.x1.value),y=Number(inputs.y1.value),r=g.infrastructure.removeRoad(x,y);if(r.confirm){pending={type:'road',x,y};showConfirm(r.reason);}});erase.append(el('p','Utilise les coordonnées Départ X / Y ci-dessus. Retire seulement le revêtement ; n’enlève ni bâtiment ni porte.'),remove);sections.roads.appendChild(erase);
@@ -3849,7 +3864,7 @@
   dock.addEventListener('toggle',()=>{if(!dock.open&&content.contains(document.activeElement))summary.focus({preventScroll:true});});
   function drawMap(v){const c=map.getContext('2d');c.fillStyle='#11251b';c.fillRect(0,0,512,512);c.strokeStyle='#2c4233';c.lineWidth=1;for(let i=0;i<512;i+=32){c.beginPath();c.moveTo(i,0);c.lineTo(i,512);c.moveTo(0,i);c.lineTo(512,i);c.stroke();}
     for(const b of g.world.buildings.values())if(!b.dead){c.fillStyle=b.def.gate?'#e1d893':'#a9baa3';c.fillRect(b.gx*4,b.gy*4,b.w*4,b.h*4);}
-    for(const r of v.roads){c.fillStyle=r.progress===1?'#dec28b':'#80744f';c.fillRect(r.x*4+1,r.y*4+1,3,3);}
+    for(const r of v.roads){c.fillStyle=r.progress===1?D.surface(r).color:'#80744f';c.fillRect(r.x*4+1,r.y*4+1,3,3);if(r.upgrade){c.fillStyle='#e6a866';c.fillRect(r.x*4+1,r.y*4+1,1,1);}}
     for(const r of v.ruins){c.strokeStyle='#e7a286';c.strokeRect(r.gx*4,r.gy*4,8,8);}
     c.fillStyle='#9cdef5';c.beginPath();c.arc(g.player.x/8,g.player.y/8,4,0,Math.PI*2);c.fill();
   }
@@ -3859,11 +3874,14 @@
     if(worldRef!==g.world){worldRef=g.world;pending=null;review.classList.add('hidden');page=0;listKey='';}
     const v=g.infrastructure.overview(),can=g.canIssueCommand(),day=can&&g.phase==='calm'&&!g.player.dead,playing=g.state==='playing'&&!g.gameOver;
     const fires=g.siege?.snapshot().fires.length||0,escorts=g.citadel?.overview().active||0;
-    text(summary,fires?'URGENCE INCENDIE · '+fires+' foyer(s)':'OPÉRATIONS · '+escorts+' escorte(s) · '+(g.salvage?.snapshot().crews.length||0)+' récupération(s) · '+(v.roads.length-v.complete)+' travaux');dock.dataset.danger=String(fires>0);dock.classList.toggle('hidden',!playing);hud.disabled=!playing;
+    text(summary,fires?'URGENCE INCENDIE · '+fires+' foyer(s)':'OPÉRATIONS · '+escorts+' escorte(s) · '+(g.salvage?.snapshot().crews.length||0)+' récupération(s) · '+v.jobs+' travaux');dock.dataset.danger=String(fires>0);dock.classList.toggle('hidden',!playing);hud.disabled=!playing;
     if(panel.classList.contains('hidden'))return;
-    text(nums.roads,v.complete);text(nums.jobs,v.roads.length-v.complete);text(nums.crew,v.crew.length);text(nums.ruins,v.ruins.length);text(status,v.notice||'Les chantiers se préparent au calme. Une voie rapide vers la cité n’est jamais une défense.');
-    preview.disabled=draw.disabled=!day||!g.world.has('planningOffice');equip.disabled=remove.disabled=!day;equip.setAttribute('aria-pressed',String(v.tool==='work'));assign.disabled=!day||v.crew.length>=v.slots||g.workerOrder==='retreat';
-    quoteBox.classList.toggle('hidden',!v.preview);if(v.preview){text(quoteText,(v.preview.cells?.length||0)+' nouvelles cellules · '+C.resourceText(v.preview.cost||{})+' — '+v.preview.reason);confirm.disabled=!day||!v.preview.ok;}
+    text(nums.roads,v.complete);text(nums.jobs,v.jobs);text(nums.crew,v.crew.length);text(nums.ruins,v.ruins.length);text(status,v.notice||'Les chantiers se préparent au calme. Une voie rapide vers la cité n’est jamais une défense.');
+    for(const s of v.surfaces){const selected=s.id===v.selectedSurface,b=surfaceButtons[s.id];b.disabled=!can||!s.status.ok;b.setAttribute('aria-pressed',String(selected));text(surfaceRows[s.id],C.CITY_TIERS[s.unlockTier].name+' · '+(s.status.ok?'disponible':s.status.reason));}
+    const selected=D.SURFACES[v.selectedSurface],percent=n=>Math.round((n-1)*100);text(surfaceNote,selected.name+' : '+C.resourceText(selected.cost)+' / cellule ; '+selected.workSeconds+' unités de travail. Achevé : alliés +'+percent(selected.friendlySpeed)+' %, fourgons +'+percent(selected.truckSpeed)+' %, infectés +'+percent(selected.hostileSpeed)+' %.');
+    newMode.disabled=!can;upgradeMode.disabled=!can||selected.rank===0;newMode.setAttribute('aria-pressed',String(v.roadMode==='new'));upgradeMode.setAttribute('aria-pressed',String(v.roadMode==='upgrade'));
+    const selectedStatus=v.surfaces.find(s=>s.id===v.selectedSurface).status;preview.disabled=draw.disabled=!day||!g.world.has('planningOffice')||!selectedStatus.ok;equip.disabled=remove.disabled=!day;equip.setAttribute('aria-pressed',String(v.tool==='work'));assign.disabled=!day||v.crew.length>=v.slots||g.workerOrder==='retreat';
+    quoteBox.classList.toggle('hidden',!v.preview);if(v.preview){text(quoteText,(v.preview.cells?.length||0)+' cellules '+(v.roadMode==='upgrade'?'à améliorer':'nouvelles')+' · '+C.resourceText(v.preview.cost||{})+' — '+v.preview.reason);confirm.disabled=!day||!v.preview.ok;}
     text(crewNote,v.crew.length+' / '+v.slots+' places alimentées. Crépuscule, danger, perte du poste ou repli général : retour au centre.');
     const remembered=document.activeElement?.id;crewRows.replaceChildren();for(const u of v.crew){const row=el('div',undefined,'infra16-row'),b=button(u.returning?'RAPPEL EN COURS':'RAPPELER','infraRecall-'+u.id,()=>g.infrastructure.recall(u.id));b.disabled=!can||u.returning;row.append(el('span','#'+u.id+' · '+u.job+(u.blocked?' · accès bloqué':'')),b);crewRows.appendChild(row);}if(remembered?.startsWith('infraRecall-'))document.getElementById(remembered)?.focus({preventScroll:true});
     const pages=Math.max(1,Math.ceil(v.ruins.length/8));page=Math.min(Math.max(0,page),pages-1);const show=v.ruins.slice().reverse().slice(page*8,page*8+8),key=JSON.stringify(show);

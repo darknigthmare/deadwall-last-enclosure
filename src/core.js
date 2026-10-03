@@ -1033,7 +1033,10 @@
   const clone=x=>JSON.parse(JSON.stringify(x));
   const live=b=>Boolean(b&&!b.dead&&b.health>0);
   const operational=b=>live(b)&&(b.completed===true||b.progress>=1);
-  const susceptibility=b=>MATERIALS[b?.type]||(['expeditionOffice','expeditionGarage'].includes(b?.type)?.7:0)||(root.DeadwallCore?.PowerGrid?.BUILDINGS[b?.type]?.battery ? .6 : 0)||(root.DeadwallCore?.Urban?.BUILDINGS[b?.type]?({power:1.1,fuel:1.2,ammo:1.1,housing:.65,hospital:.45,storage:.8,food:.7,scrap:.6,stone:.35,solar:.15,lamp:0}[root.DeadwallCore.Urban.BUILDINGS[b.type].urbanKind]||0):0);
+  const susceptibility=b=>{
+    const added=root.DeadwallCore?.CityContent150?.BUILDINGS?.[b?.type];
+    return MATERIALS[b?.type]||(['expeditionOffice','expeditionGarage'].includes(b?.type)?.7:0)||(root.DeadwallCore?.PowerGrid?.BUILDINGS[b?.type]?.battery||added?.battery?.capacity ? .6 : 0)||((root.DeadwallCore?.Urban?.BUILDINGS[b?.type]||added)?({power:1.1,fuel:1.2,ammo:1.1,housing:.65,hospital:.45,storage:.8,food:.7,scrap:.6,stone:.35,solar:.15,lamp:0}[(root.DeadwallCore.Urban?.BUILDINGS[b?.type]||added).urbanKind]||0):0);
+  };
   function create(){return {version:1,tanks:[],fires:[],wet:[],crew:[],playerWater:0,lastWave:null,history:[],
     stats:{ignitions:0,extinguished:0,burnedOut:0,destroyed:0,waterProduced:0,waterUsed:0,waterLost:0}};}
   function normalize(raw){
@@ -1404,6 +1407,12 @@
   const RULES=Object.freeze({saveVersion:8,tile:32,worldTiles:128,maxRoads:2048,maxTrace:64,maxCrew:8,crewPerDepot:2,maxRuins:96,maxStep:.25,
     cost:Object.freeze({stone:2,scrap:1}),workSeconds:3,playerWork:1.4,workerWork:1,workRange:48,dangerRange:110,homeRange:60,
     friendlySpeed:1.18,truckSpeed:1.30,hostileSpeed:1.10,maxExpanded:8192});
+  const SURFACES=Object.freeze({
+    gravel:Object.freeze({id:'gravel',name:'Piste stabilisée',rank:0,unlockTier:1,requires:'planningOffice',cost:RULES.cost,workSeconds:RULES.workSeconds,friendlySpeed:RULES.friendlySpeed,truckSpeed:RULES.truckSpeed,hostileSpeed:RULES.hostileSpeed,color:'#888474',pattern:'gravel'}),
+    paving:Object.freeze({id:'paving',name:'Voie pavée',rank:1,unlockTier:4,requires:'roadDepot',cost:Object.freeze({stone:5,scrap:2}),workSeconds:6,friendlySpeed:1.24,truckSpeed:1.40,hostileSpeed:1.15,color:'#9b9786',pattern:'paving'}),
+    concrete:Object.freeze({id:'concrete',name:'Chaussée bétonnée',rank:2,unlockTier:7,requires:'roadDepot',workshop:true,cost:Object.freeze({stone:9,scrap:4}),workSeconds:10,friendlySpeed:1.30,truckSpeed:1.52,hostileSpeed:1.20,color:'#adafa2',pattern:'concrete'}),
+    logistics:Object.freeze({id:'logistics',name:'Axe logistique',rank:3,unlockTier:10,requires:'roadDepot',workshop:true,cost:Object.freeze({stone:14,scrap:8,fuel:1}),workSeconds:16,friendlySpeed:1.36,truckSpeed:1.65,hostileSpeed:1.26,color:'#626963',pattern:'logistics'})
+  });
   const BUILDINGS=Object.freeze({roadDepot:Object.freeze({id:'roadDepot',name:'Atelier de voirie',category:'industry',icon:'▱',symbol:'VOIRIE',
     description:'Deux ouvriers existants peuvent être détachés aux pistes financées. Travail diurne, accès physique et alimentation électrique requis.',
     cost:Object.freeze({wood:45,scrap:55,stone:35}),health:850,size:Object.freeze([3,3]),unlockTier:1,requires:'planningOffice',score:6,buildTime:26,powerUse:1,color:'#6b6757',roof:'#aba187',light:60})});
@@ -1414,12 +1423,29 @@
   const key=(x,y)=>y*RULES.worldTiles+x;
   const cell=p=>object(p)&&integer(p.x,1,126)&&integer(p.y,1,126);
   const fail=message=>{throw new Error('Réseau de cité invalide : '+message+'.');};
+  const surface=p=>SURFACES[p?.surface||'gravel'];
+  const unfinished=p=>p.progress<1||Boolean(p.upgrade);
+  function surfaceStatus(id,tier,has=()=>false){
+    const s=Object.hasOwn(SURFACES,id)&&SURFACES[id];if(!s)return{ok:false,reason:'Revêtement inconnu.'};
+    if(!integer(tier,0,10)||tier<s.unlockTier)return{ok:false,reason:'Palier '+s.unlockTier+' requis pour '+s.name+'.'};
+    if(typeof has!=='function'||!has(s.requires)||s.workshop&&!has('workshop'))return{ok:false,reason:'Bâtiment achevé requis : '+(s.workshop?'atelier de voirie et atelier':s.requires==='roadDepot'?'atelier de voirie':'bureau de chantier')+'.'};
+    return{ok:true,reason:s.name+' disponible.'};
+  }
   function create(){return{version:1,roads:[],crew:[],ruins:[],stats:{laid:0,reconstructed:0,forgotten:0}};}
   function normalize(raw){
     if(raw===undefined)return create();
     if(!object(raw)||raw.version!==1||!Array.isArray(raw.roads)||raw.roads.length>RULES.maxRoads||!Array.isArray(raw.crew)||raw.crew.length>RULES.maxCrew||!Array.isArray(raw.ruins)||raw.ruins.length>RULES.maxRuins)fail('format ou capacité');
     const ids=new Set(),workers=new Set(),ruins=new Set(),positions=new Set();
-    const roads=raw.roads.map(p=>{if(!cell(p)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y));return{x:p.x,y:p.y,progress:p.progress};});
+    const roads=raw.roads.map(p=>{
+      if(!cell(p)||!finite(p.progress,0,1)||ids.has(key(p.x,p.y)))fail('piste dupliquée ou hors carte');ids.add(key(p.x,p.y));
+      const road={x:p.x,y:p.y,progress:p.progress};
+      if(Object.hasOwn(p,'surface')){if(typeof p.surface!=='string'||!Object.hasOwn(SURFACES,p.surface))fail('revêtement inconnu');road.surface=p.surface;}
+      if(Object.hasOwn(p,'upgrade')){
+        const u=p.upgrade;if(!object(u)||Object.keys(u).length!==2||!Object.hasOwn(u,'surface')||!Object.hasOwn(u,'progress')||typeof u.surface!=='string'||!Object.hasOwn(SURFACES,u.surface)||!finite(u.progress,0,1)||u.progress===1||p.progress!==1||SURFACES[u.surface].rank<=surface(road).rank)fail('mise à niveau du revêtement');
+        road.upgrade={surface:u.surface,progress:u.progress};
+      }
+      return road;
+    });
     const crew=raw.crew.map(u=>{if(!object(u)||!integer(u.id,1)||typeof u.returning!=='boolean'||workers.has(u.id))fail('équipe');workers.add(u.id);return{id:u.id,returning:u.returning};});
     const blueprints=raw.ruins.map(b=>{
       if(!object(b)||!integer(b.id,1)||typeof b.type!=='string'||!/^[a-zA-Z][a-zA-Z0-9]{0,39}$/.test(b.type)||b.type==='core'||!integer(b.gx,1,126)||!integer(b.gy,1,126)||!integer(b.rotation,0,3)||!finite(b.at)||ruins.has(b.id)||positions.has(b.gx+':'+b.gy))fail('empreinte de reconstruction');
@@ -1437,20 +1463,31 @@
     while(p.y!==b.y){p.y+=Math.sign(b.y-p.y);out.push({...p});}
     return out;
   }
-  function quote(state,cells,stock,blocked=()=>false){
+  function quote(state,cells,stock,blocked=()=>false,options){
     if(!Array.isArray(cells)||!cells.length||cells.length>RULES.maxTrace||!object(stock))return{ok:false,reason:'Trace vide, trop longue ou réserves absentes.'};
-    const seen=new Set(),existing=new Set(state.roads.map(p=>key(p.x,p.y))),fresh=[];
+    const id=options?.surface??'gravel',mode=options?.mode??'new',target=Object.hasOwn(SURFACES,id)&&SURFACES[id];
+    if(!target||!['new','upgrade'].includes(mode))return{ok:false,reason:'Revêtement ou mode de travaux invalide.'};
+    if(options){const status=surfaceStatus(id,options.tier,options.has);if(!status.ok)return status;}
+    else if(id!=='gravel'||mode!=='new')return{ok:false,reason:'Conditions de déblocage absentes.'};
+    const seen=new Set(),existing=new Map(state.roads.map(p=>[key(p.x,p.y),p])),fresh=[],cost={};
     for(const p of cells){
       if(!cell(p)||seen.has(key(p.x,p.y)))return{ok:false,reason:'Une cellule de la trace est invalide ou répétée.'};
       if(seen.size){const prev=cells[seen.size-1];if(Math.abs(prev.x-p.x)+Math.abs(prev.y-p.y)!==1)return{ok:false,reason:'La piste doit rester raccordée par ses côtés.'};}
-      seen.add(key(p.x,p.y));if(existing.has(key(p.x,p.y)))continue;
+      seen.add(key(p.x,p.y));const previous=existing.get(key(p.x,p.y));
+      if(mode==='new'&&previous)continue;
+      if(mode==='upgrade'){
+        if(!previous)return{ok:false,reason:'La mise à niveau exige une route achevée sur chaque cellule.'};
+        if(unfinished(previous))return{ok:false,reason:'Achevez les travaux déjà financés avant une nouvelle mise à niveau.'};
+        if(surface(previous).rank>target.rank)return{ok:false,reason:'Une mise à niveau ne peut pas dégrader un revêtement.'};
+        if(surface(previous).rank===target.rank)continue;
+      }
       if(blocked(p.x,p.y))return{ok:false,reason:'Une structure ou une ressource empêche ce tronçon.'};fresh.push({x:p.x,y:p.y});
+      for(const [resource,n]of Object.entries(target.cost)){const amount=n-(mode==='upgrade'?(surface(previous).cost[resource]||0):0);if(amount>0)cost[resource]=(cost[resource]||0)+amount;}
     }
-    if(!fresh.length)return{ok:false,reason:'Cette trace est déjà financée.'};
-    if(state.roads.length+fresh.length>RULES.maxRoads)return{ok:false,reason:'Limite de 2 048 cellules de piste atteinte.'};
-    const cost=Object.fromEntries(Object.entries(RULES.cost).map(([k,n])=>[k,n*fresh.length]));
-    if(Object.entries(cost).some(([k,n])=>!finite(stock[k])||stock[k]<n))return{ok:false,reason:'Pierre ou ferraille insuffisante.',cost};
-    return{ok:true,cells:fresh,cost,reason:'Financement complet, puis travaux sur place. Aucune piste terminée instantanément.'};
+    if(!fresh.length)return{ok:false,reason:mode==='upgrade'?'Ces cellules possèdent déjà ce revêtement.':'Cette trace est déjà financée.'};
+    if(mode==='new'&&state.roads.length+fresh.length>RULES.maxRoads)return{ok:false,reason:'Limite de 2 048 cellules de piste atteinte.'};
+    if(Object.entries(cost).some(([k,n])=>!finite(stock[k])||stock[k]<n))return{ok:false,reason:'Matériaux du revêtement insuffisants.',cost};
+    return{ok:true,cells:fresh,cost,surface:id,mode,reason:mode==='upgrade'?'Différence de matériaux financée, puis travaux sur place. Le bonus du revêtement précédent reste actif jusqu’à achèvement.':'Financement complet, puis travaux sur place. Aucune piste terminée instantanément.'};
   }
   class Heap{
     constructor(){this.items=[];}
@@ -1480,13 +1517,16 @@
     snapshot(){return copy(this.state);}
     road(x,y){return this.index.get(key(x,y))||null;}
     at(x,y){if(!finite(x,0,4096)||!finite(y,0,4096))return null;return this.road(Math.floor(x/32),Math.floor(y/32));}
-    multiplier(x,y,kind='friendly'){return this.at(x,y)?.progress===1?(kind==='truck'?RULES.truckSpeed:kind==='hostile'?RULES.hostileSpeed:RULES.friendlySpeed):1;}
-    commit(cells,stock,blocked){const q=quote(this.state,cells,stock,blocked);if(!q.ok)return q;
+    multiplier(x,y,kind='friendly'){const p=this.at(x,y),s=surface(p);return p?.progress===1?(kind==='truck'?s.truckSpeed:kind==='hostile'?s.hostileSpeed:s.friendlySpeed):1;}
+    commit(cells,stock,blocked,options){const q=quote(this.state,cells,stock,blocked,options);if(!q.ok)return q;
       for(const [k,n]of Object.entries(q.cost))stock[k]-=n;
-      for(const p of q.cells){const item={...p,progress:0};this.state.roads.push(item);this.index.set(key(p.x,p.y),item);}return q;
+      for(const p of q.cells){if(q.mode==='upgrade'){this.road(p.x,p.y).upgrade={surface:q.surface,progress:0};continue;}
+        const item={...p,progress:0};if(q.surface!=='gravel')item.surface=q.surface;this.state.roads.push(item);this.index.set(key(p.x,p.y),item);}return q;
     }
-    work(x,y,seconds){const p=this.road(x,y);if(!p||p.progress===1||!finite(seconds,0,RULES.maxStep*RULES.playerWork)||seconds===0)return false;
-      p.progress=Math.min(1,p.progress+seconds/RULES.workSeconds);if(p.progress>1-1e-9)p.progress=1;
+    work(x,y,seconds){const p=this.road(x,y);if(!p||!unfinished(p)||!finite(seconds,0,RULES.maxStep*RULES.playerWork)||seconds===0)return false;
+      if(p.upgrade){const u=p.upgrade,required=SURFACES[u.surface].workSeconds-surface(p).workSeconds;u.progress=Math.min(1,u.progress+seconds/required);
+        if(u.progress<1-1e-9)return false;p.surface=u.surface;delete p.upgrade;return true;}
+      p.progress=Math.min(1,p.progress+seconds/surface(p).workSeconds);if(p.progress>1-1e-9)p.progress=1;
       if(p.progress===1){this.state.stats.laid=Math.min(1e12,this.state.stats.laid+1);return true;}return false;
     }
     remove(x,y){const p=this.road(x,y);if(!p)return false;this.state.roads=this.state.roads.filter(r=>r!==p);this.index.delete(key(x,y));return true;}
@@ -1511,7 +1551,7 @@
     if(typeof previousPath==='function')C.findFriendlyPath=function(...args){return root.DEADWALL?.infrastructure?root.DEADWALL.infrastructure.findPath(...args):previousPath(...args);};
     C.SAVE_VERSION=8;C.SAVE_KEY='deadwall-save-v8';C.SAVE_BACKUP_KEY='deadwall-save-backup-v8';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v7','deadwall-save-backup-v7',...(C.LEGACY_SAVE_KEYS||[])])];C.INFRASTRUCTURE_RULES=RULES;C.Infrastructure=API;
   }
-  const API=Object.freeze({VERSION,RULES,BUILDINGS,create,normalize,line,quote,findRoute,Engine,install});root.DeadwallInfrastructure=API;
+  const API=Object.freeze({VERSION,RULES,SURFACES,BUILDINGS,surface,surfaceStatus,unfinished,create,normalize,line,quote,findRoute,Engine,install});root.DeadwallInfrastructure=API;
   if(typeof module!=='undefined'&&module.exports&&!module.exports.BUILDINGS)module.exports=API;if(root.DeadwallCore)install(root.DeadwallCore);
 })(typeof globalThis!=='undefined'?globalThis:this);
 
@@ -1737,7 +1777,7 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
 (function(root){'use strict';root.DeadwallCore.ExplorePackRules=Object.freeze({maxSurveys:128,maxCaches:8,maxMarkers:24,maxCargo:8,cacheCapacity:54,cacheCost:{wood:6,scrap:3},markerCost:{wood:2,scrap:1},surveyCost:{food:1},surveySeconds:3,cacheSeconds:4,markerSeconds:1.5,extractSeconds:6,recoverSeconds:2,deliverySeconds:2,cargoAmount:24,cargoSpeed:.72,compactExtract:Object.freeze({name:'Arrimer un ballot compact',seconds:3,cost:Object.freeze({wood:1,scrap:1}),amount:12,speed:.86}),stashSeconds:3,reach:72,danger:175,markerSpacing:96,placementSpacing:36,movementTolerance:2,maxStep:.1});})(globalThis);
 
 /* 1.27 — field-team tactics and supplies: metres and active simulation seconds. */
-(function(root){'use strict';root.DeadwallCore.CompanionPackRules=Object.freeze({homeReach:100,shareRange:3,positionRange:180,defenseRange:4,reserve:Object.freeze({ammo:8,medicine:2,scrap:2}),training:Object.freeze({seconds:45,cost:Object.freeze({food:20,scrap:12}),bonus:Object.freeze({lea:1.2,samir:1.25,ines:1.25,malik:1.2})}),exercises:Object.freeze({escort:Object.freeze({name:'Exercice d’escorte',description:'Suivre + File : réduit de 30 % l’écart de formation, sans accélérer ni franchir les obstacles.',seconds:60,cost:Object.freeze({food:24,scrap:14}),requires:'specialty',gapFactor:.7}),support:Object.freeze({name:'Exercice d’appui',description:'Tenir + Défense : portée de Malik 8 m, soins et réparation ×1,15, repérage de Léa ×1,10 ; ressources usuelles consommées, aucun bonus en poursuite.',seconds:75,cost:Object.freeze({food:30,scrap:20,ammo:8}),requires:'escort',defenseRange:8,serviceFactor:1.15,scoutFactor:1.1})}),formations:Object.freeze({line:Object.freeze({name:'Ligne rapprochée',back:2,step:0,side:1.5}),file:Object.freeze({name:'File dans les passages',back:1.8,step:1.8,side:0}),spread:Object.freeze({name:'Espacement extérieur',back:3,step:0,side:3})}),disciplines:Object.freeze({free:Object.freeze({name:'Tir à volonté'}),defensive:Object.freeze({name:'Défense rapprochée'}),silent:Object.freeze({name:'Silence, aucun tir'})})});})(globalThis);
+(function(root){'use strict';root.DeadwallCore.CompanionPackRules=Object.freeze({homeReach:100,trainingDanger:145,shareRange:3,positionRange:180,defenseRange:4,reserve:Object.freeze({ammo:8,medicine:2,scrap:2}),training:Object.freeze({seconds:45,cost:Object.freeze({food:20,scrap:12}),bonus:Object.freeze({lea:1.2,samir:1.25,ines:1.25,malik:1.2})}),exercises:Object.freeze({escort:Object.freeze({name:'Exercice d’escorte',description:'Suivre + File : réduit de 30 % l’écart de formation, sans accélérer ni franchir les obstacles.',seconds:60,cost:Object.freeze({food:24,scrap:14}),requires:'specialty',gapFactor:.7}),support:Object.freeze({name:'Exercice d’appui',description:'Tenir + Défense : portée de Malik 8 m, soins et réparation ×1,15, repérage de Léa ×1,10 ; ressources usuelles consommées, aucun bonus en poursuite.',seconds:75,cost:Object.freeze({food:30,scrap:20,ammo:8}),requires:'escort',defenseRange:8,serviceFactor:1.15,scoutFactor:1.1}),triage:Object.freeze({name:'Triage de proximité',description:'Samir seulement. Tenir + Défense + Ligne : soins ×1,35 en plus de l’appui ; chaque point de vie conserve son coût en médicaments. Aucune résurrection ni soin hors portée.',seconds:90,cost:Object.freeze({food:36,scrap:18,medicine:4}),requires:'support',tier:4,allowedCompanions:Object.freeze(['samir']),order:'hold',formation:'line',discipline:'defensive',healFactor:1.35}),sapeur:Object.freeze({name:'Dépannage en position abritée',description:'Inès seulement. Tenir + Défense + Espacement : réparation du véhicule ×1,45 en plus de l’appui, avec la ferraille usuelle. Restez près du véhicule par un accès libre ; aucun blindage gratuit.',seconds:105,cost:Object.freeze({food:42,scrap:36,fuel:6}),requires:'support',tier:6,allowedCompanions:Object.freeze(['ines']),order:'hold',formation:'spread',discipline:'defensive',repairFactor:1.45}),veille:Object.freeze({name:'Veille de tir latérale',description:'Malik seulement. Tenir + Défense + Espacement : engagement jusqu’à 10 m, au lieu des 8 m d’appui. Mêmes dégâts, cadence et cartouches ; la ligne de tir reste physique et aucun contact de carte n’est révélé.',seconds:120,cost:Object.freeze({food:48,scrap:28,ammo:18}),requires:'support',tier:8,allowedCompanions:Object.freeze(['malik']),order:'hold',formation:'spread',discipline:'defensive',defenseRange:10}),coordination:Object.freeze({name:'Coordination du regroupement',description:'Léa seulement. Regrouper + Ligne : écart au point de ralliement réduit de 45 %. Ne déplace pas les autres équipiers ; obstacles, vitesse et portée de détection restent inchangés.',seconds:135,cost:Object.freeze({food:54,scrap:40,medicine:2}),requires:'escort',tier:10,allowedCompanions:Object.freeze(['lea']),order:'rally',formation:'line',gapFactor:.55})}),formations:Object.freeze({line:Object.freeze({name:'Ligne rapprochée',back:2,step:0,side:1.5}),file:Object.freeze({name:'File dans les passages',back:1.8,step:1.8,side:0}),spread:Object.freeze({name:'Espacement extérieur',back:3,step:0,side:3})}),disciplines:Object.freeze({free:Object.freeze({name:'Tir à volonté'}),defensive:Object.freeze({name:'Défense rapprochée'}),silent:Object.freeze({name:'Silence, aucun tir'})})});})(globalThis);
 
 /* 1.27 — five finite, physical fortification and industry extensions. */
 (function(root){'use strict';root.DeadwallCore.FortificationPackRules=Object.freeze({
@@ -1752,7 +1792,11 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
  mechanismContactReach:22,
  mechanisms:Object.freeze({
   ankle:Object.freeze({name:'Entrave de cheville',seconds:8,cost:Object.freeze({wood:6,scrap:10}),charges:6,damage:12,holdSeconds:2.5,cooldown:1,tier:1,description:'Six déclenchements finis : 12 dégâts et 2,5 s de ralentissement et de délai d’attaque. Un infecté déjà entravé ne consomme pas une deuxième charge.'}),
-  blades:Object.freeze({name:'Lames de contact',seconds:12,cost:Object.freeze({wood:6,scrap:18}),charges:6,damage:28,holdSeconds:0,cooldown:.7,tier:2,requires:'workshop',description:'Six impacts mécaniques de 28 dégâts, espacés d’au moins 0,7 s. Atelier terminé requis ; aucun gain de santé ni de cadence pour le Hérisson.'})
+  blades:Object.freeze({name:'Lames de contact',seconds:12,cost:Object.freeze({wood:6,scrap:18}),charges:6,damage:28,holdSeconds:0,cooldown:.7,tier:2,requires:'workshop',description:'Six impacts mécaniques de 28 dégâts, espacés d’au moins 0,7 s. Atelier terminé requis ; aucun gain de santé ni de cadence pour le Hérisson.'}),
+  guideRail:Object.freeze({name:'Guides à câble',seconds:14,cost:Object.freeze({wood:10,scrap:16}),charges:8,damage:6,holdSeconds:3,cooldown:1.2,tier:3,requires:'workshop',strictTier:true,description:'Huit ralentissements de 3 s pour couvrir un repli ; seulement 6 dégâts par contact. Câbles finis, atelier achevé et accès libre requis.'}),
+  ratchet:Object.freeze({name:'Cliquet à dents remplaçables',seconds:18,cost:Object.freeze({wood:4,scrap:30}),charges:12,damage:18,holdSeconds:0,cooldown:.35,tier:5,requires:'workshop',strictTier:true,description:'Douze impacts de 18 dégâts, espacés d’au moins 0,35 s. Davantage de contacts au prix de 30 ferrailles ; ne retient pas les infectés.'}),
+  clamp:Object.freeze({name:'Mâchoire d’immobilisation',seconds:20,cost:Object.freeze({wood:8,scrap:24}),charges:3,damage:8,holdSeconds:6,cooldown:2,tier:7,requires:'workshop',strictTier:true,description:'Trois entraves longues de 6 s pour ménager une fenêtre de secours ; seulement 8 dégâts. Une cible déjà entravée ne gaspille pas une seconde charge.'}),
+  counterweight:Object.freeze({name:'Percuteur à contrepoids',seconds:24,cost:Object.freeze({wood:6,scrap:20,stone:10}),charges:2,damage:52,holdSeconds:0,cooldown:2.5,tier:9,requires:'workshop',strictTier:true,description:'Deux impacts lourds de 52 dégâts au contact, sans explosion ni zone magique. Peu de déclenchements et 2,5 s de réarmement ; les flancs demeurent à défendre.'})
  }),
  regulatorCost:Object.freeze({scrap:6}),inputReserve:25,
  debrisFactor:.12,debrisRate:6,debrisResources:Object.freeze(['wood','scrap','stone'])
@@ -2021,3 +2065,107 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   repair:Object.freeze({name:'Compléter la cassette de réparation',amount:80,seconds:8,cost:Object.freeze({scrap:4,wood:2})})
  })
 });})(globalThis);
+
+/* 1.50 — city choices use the existing physical construction and economy. */
+(function(root){
+ 'use strict';const C=root.DeadwallCore;if(C.CityContent150)return;
+ const freeze=value=>{for(const v of Object.values(value))if(v&&typeof v==='object')freeze(v);return Object.freeze(value);};
+ const defs={};
+ function add(id,name,tier,category,family150,size,cost,health,buildTime,score,description,extra){
+  const def={id,name,unlockTier:tier,category,family150,size,cost,health,buildTime,score,description,
+   icon:category==='defense'?'▣':category==='colony'?'⌂':'▦',symbol:name.split(' ').map(v=>v[0]).join('').slice(0,3),color:'#60675b',roof:'#8b8f79',...extra};
+  if(C.BUILDINGS[id])throw Error('Construction de cité déjà déclarée : '+id);
+  defs[id]=def;C.BUILDINGS[id]=def;return def;
+ }
+ add('casemate150','Casemate de tir',3,'defense','defense',[3,2],{wood:35,scrap:105,stone:75,ammo:30},1250,32,12,
+  'Position autonome à cadence modérée. Une cartouche par tir, portée courte et emprise à protéger ; aucun soldat fourni.',
+  {defense:true,range:270,fireRate:1,damage:46,ammoPerShot:1,observerRange150:9,requires:'barracks',sprite149:'manufacture'});
+ add('aidStation150','Poste de secours de rempart',3,'colony','medical',[3,2],{wood:55,scrap:95,stone:55,medicine:12},780,28,10,
+  'Soigne les personnes vivantes présentes et accessibles, contre médicaments et courant. Petite portée ; ne fabrique pas de fournitures.',
+  {urbanKind:'hospital',medicalRadius:115,healRate:1.2,medicinePerHealth:.035,powerUse:2,light:65,requires:'clinic',sprite149:'hospital'});
+ add('courtyardGarden150','Jardin vivrier de quartier',4,'industry','garden',[3,3],{wood:35,scrap:20,stone:55},320,24,4,
+  'Petit jardin aménagé produisant lentement des vivres sans courant ni carburant. Fragile, moins productif qu’une ferme ; les allées dessinées restent décoratives.',
+  {urbanKind:'food',production:{food:.22},requires:'farm',sprite149:'food'});
+ add('gateStore150','Soute de porte',4,'colony','storage',[3,3],{wood:75,scrap:130,stone:85},1150,30,12,
+  'Ajoute 450 places par ressource et accepte les dépôts réels sans courant. Réserve compacte pour un accès extérieur ; aucun stock livré.',
+  {urbanKind:'storage',storage:450,storageDepot:true,requires:'warehouse',sprite149:'storage'});
+ add('sterilizationLab150','Station de stérilisation',5,'industry','medicine',[4,3],{wood:95,scrap:220,stone:160,medicine:18},920,38,18,
+  'Prépare des médicaments contre nourriture, ferraille et courant. Aucun soin direct ; arrête les intrants lorsque la sortie est pleine.',
+  {urbanKind:'scrap',production:{medicine:.11},consumes:{food:.18,scrap:.045},powerUse:5,requires:'clinic',sprite149:'manufacture'});
+ add('solarPark150','Parc solaire',5,'industry','solar',[5,4],{wood:120,scrap:360,stone:220},900,38,18,
+  '45 unités électriques pendant le calme uniquement. Grande emprise sans combustible ; aucune production à l’alerte, à l’assaut ou pendant la sécurisation.',
+  {urbanKind:'solar',powerGen:45,solar:true,requires:'workshop'});
+ add('biofuelYard150','Unité de valorisation du bois',6,'industry','fuel',[5,4],{wood:110,scrap:280,stone:160,fuel:30},900,42,22,
+  'Convertit bois et ferraille en carburant avec du courant. Alternative à la micro-raffinerie ; cesse de consommer si le stockage est plein, destruction explosive.',
+  {urbanKind:'fuel',production:{fuel:.45},consumes:{wood:.65,scrap:.04},powerUse:6,explosive:60,requires:'refinery',sprite149:'power'});
+ add('garrisonQuarters150','Cantonnement de garnison',6,'colony','housing',[4,3],{wood:130,scrap:260,stone:260},1200,40,22,
+  '36 logements et 350 places par ressource dans un bloc de deux niveaux. Les recrutements restent payés et les habitants consomment des rations ; aucun soldat offert.',
+  {urbanKind:'housing',floors:2,housing:36,storage:350,powerUse:2,light:100,requires:'barracks',sprite149:'housingLow'});
+ add('electricCannery150','Conserverie électrique',7,'industry','food',[5,4],{wood:180,scrap:440,stone:360},1100,44,26,
+  'Produit des vivres sans carburant, contre bois et huit unités électriques. La serre peut remplacer cet atelier : moins de débit, davantage de courant, sans consommation de bois.',
+  {urbanKind:'food',production:{food:2.1},consumes:{wood:.15},powerUse:8,requires:'farm',sprite149:'food'});
+ add('twinGun150','Position de mitrailleuses jumelées',7,'defense','defense',[2,3],{wood:70,scrap:280,stone:260,ammo:100},1200,42,24,
+  'Position automatique sans courant. Deux cartouches par tir et cadence soutenue : choisissez une filière de munitions avant d’en multiplier les postes.',
+  {defense:true,range:330,fireRate:4.5,damage:31,ammoPerShot:2,observerRange150:11,requires:'ammoFactory',sprite149:'manufacture'});
+ add('triageStation150','Antenne sanitaire',7,'colony','medical',[3,2],{wood:100,scrap:310,stone:240,medicine:32},1150,42,24,
+  'Soins rapides sur une petite zone, contre davantage de médicaments et de courant par personne soignée. Remplace le poste de secours sans agrandir son emprise.',
+  {urbanKind:'hospital',medicalRadius:115,healRate:2.6,medicinePerHealth:.055,powerUse:4,light:85,requires:'clinic',sprite149:'hospital'});
+ add('reinforcedCasemate150','Casemate renforcée',8,'defense','defense',[3,2],{wood:65,scrap:420,stone:510,ammo:140},2100,58,28,
+  'Casemate plus résistante et toujours autonome. Deux cartouches par tir, portée contenue et cadence modérée ; même emprise que le premier modèle.',
+  {defense:true,range:300,fireRate:1.4,damage:54,ammoPerShot:2,observerRange150:10,requires:'workshop',sprite149:'manufacture'});
+ add('electricGreenhouse150','Serres éclairées',8,'industry','food',[5,4],{wood:220,scrap:520,stone:420},1000,48,28,
+  'Culture de vivres sans bois ni carburant, contre quatorze unités électriques. Moins de débit que la conserverie ; même emprise, production limitée par courant et stockage.',
+  {urbanKind:'food',production:{food:1.6},powerUse:14,requires:'farm',sprite149:'food'});
+ add('wallStore150','Dépôt de rempart',8,'colony','storage',[3,3],{wood:130,scrap:320,stone:260},1800,42,24,
+  'Ajoute 1 200 places par ressource avec un dépôt physique sans courant. Emprise compacte et résistance accrue ; aucun convoyeur, véhicule ou matériau fourni.',
+  {urbanKind:'storage',storage:1200,storageDepot:true,requires:'warehouse',sprite149:'storage'});
+ add('dualRecovery150','Centre de récupération mixte',9,'industry','recovery',[3,3],{wood:140,scrap:520,stone:370,fuel:50},1250,48,30,
+  'Produit bois et ferraille ensemble contre combustible et courant. Si une sortie sature, tout le traitement s’arrête ; remplace le banc de récupération sans agrandir le terrain.',
+  {urbanKind:'scrap',production:{wood:.45,scrap:.65},consumes:{fuel:.07},powerUse:6,requires:'workshop',sprite149:'manufacture'});
+ add('concreteWatch150','Tour de veille béton',9,'defense','watch',[2,2],{wood:110,scrap:450,stone:620,ammo:100},1300,50,30,
+  'Poste d’observation physique de 28 mètres. Tir automatique lent à longue portée, contre courant et munitions ; les obstacles et la nuit limitent la vision.',
+  {defense:true,range:580,fireRate:.65,damage:68,ammoPerShot:1,powerUse:4,light:170,observerRange150:28,requires:'workshop',sprite149:'manufacture'});
+ add('medicalComplex150','Pôle de triage',9,'colony','medical',[4,3],{wood:180,scrap:650,stone:550,medicine:45},1500,52,32,
+  'Soigne les blessés proches et accessibles contre médicaments et courant. Remplace la station de stérilisation : sa production de médicaments disparaît, les soins exigent une autre filière.',
+  {urbanKind:'hospital',medicalRadius:130,healRate:2.8,medicinePerHealth:.055,powerUse:8,light:120,requires:'clinic',sprite149:'hospital'});
+ add('continuityArsenal150','Arsenal de continuité',10,'industry','ammo',[5,4],{wood:280,scrap:980,stone:850,ammo:160},1650,62,36,
+  'Munitions contre ferraille, pierre et douze unités électriques, sans carburant. Une filière alternative pour les sièges ; aucune cartouche livrée au chantier.',
+  {urbanKind:'ammo',production:{ammo:2.1},consumes:{scrap:.46,stone:.08},powerUse:12,explosive:75,requires:'ammoFactory',sprite149:'manufacture'});
+ add('equippedShelter150','Abri de repli équipé',10,'colony','shelter',[4,3],{wood:220,scrap:700,stone:760,medicine:30},1900,56,34,
+  '32 logements, 1 000 places par ressource et soins lents sur place. Dépôt physique, médicaments et courant restent nécessaires ; ni repli instantané ni occupants offerts.',
+  {urbanKind:'housing',floors:2,housing:32,storage:1000,storageDepot:true,medicalRadius:100,healRate:.8,medicinePerHealth:.04,powerUse:3,light:95,requires:'hospital',sprite149:'housingLow'});
+ add('frontBattery150','Accumulateur de front',10,'industry','battery',[3,3],{scrap:820,stone:600,fuel:55},1250,52,32,
+  'Réserve électrique courte à forte puissance : 1 500 unités, sortie maximale de 100. Se charge avec le surplus réel du réseau ; toujours vide à sa mise en service.',
+  {urbanKind:'scrap',battery:{capacity:1500,chargeRate:10,output:100},requires:'powerPlant',sprite149:'manufacture'});
+ const upgrades={casemate150:'reinforcedCasemate150',aidStation150:'triageStation150',gateStore150:'wallStore150',sterilizationLab150:'medicalComplex150',electricCannery150:'electricGreenhouse150',recoveryBench:'dualRecovery150'};
+ // The historical upgrade changes type immediately: equal footprints preserve occupation.
+ for(const [from,to]of Object.entries(upgrades)){
+  const source=C.BUILDINGS[from],target=C.BUILDINGS[to];
+  if(source.upgradeTo||source.size.some((n,i)=>n!==target.size[i]))throw Error('Évolution de cité incompatible : '+from);
+  if(defs[from])source.upgradeTo=to;else C.BUILDINGS[from]=freeze({...source,upgradeTo:to});
+ }
+ for(const def of Object.values(defs))freeze(def);
+ const plans=freeze([
+  {id:'forwardCare150',name:'Cour de soutien avancée',w:12,h:9,unlock:null,tier150:7,
+   description:'Antenne sanitaire, soute de porte, cantonnement et lampadaire séparés par des passages. Quatre chantiers à financer puis construire ; aucune enceinte ni réserve fournie.',
+   layout:[['triageStation150',0,0],['gateStore150',8,0],['garrisonQuarters150',0,6],['streetlight',10,6]]},
+  {id:'electricFoodCourt150',name:'Cour alimentaire électrique',w:15,h:11,unlock:null,tier150:8,
+   description:'Serres éclairées, parc solaire, dépôt de rempart et lampadaire. Le parc produit au calme seulement : préparez le courant nocturne séparément. Chaque fondation est payée au coût ordinaire.',
+   layout:[['electricGreenhouse150',0,0],['solarPark150',9,0],['wallStore150',0,7],['streetlight',12,8]]},
+  {id:'watchedBastion150',name:'Bastion sous veille',w:14,h:9,unlock:null,tier150:9,
+   description:'Deux casemates renforcées, tour de veille et dépôt compact autour d’une liaison libre. Aucun mur inclus ; armes, courant, munitions et observation restent ceux des supports construits.',
+   layout:[['reinforcedCasemate150',0,0],['reinforcedCasemate150',10,0],['concreteWatch150',0,5],['wallStore150',10,5]]},
+  {id:'continuitySector150',name:'Secteur de continuité',w:15,h:10,unlock:null,tier150:10,
+   description:'Arsenal, accumulateur, abri équipé et dépôt de rempart. Fonds et chantiers ordinaires ; batterie vide, habitants à recruter, médicaments et matériaux à transporter.',
+   layout:[['continuityArsenal150',0,0],['frontBattery150',11,0],['equippedShelter150',0,6],['wallStore150',11,6]]}
+ ]);
+ const prior=C.Dayworks,byId=new Map(plans.map(p=>[p.id,p]));
+ function footprint(id,gx,gy){
+  if(!byId.has(id))return prior.footprint(id,gx,gy);
+  if(!Number.isInteger(gx)||gx< -128||gx>128||!Number.isInteger(gy)||gy< -128||gy>128)throw Error('Projet inconnu.');
+  return byId.get(id).layout.map(([type,x,y,rotation=0])=>({type,gx:gx+x,gy:gy+y,rotation}));
+ }
+ const dayworks=Object.freeze({...prior,PLANS:Object.freeze([...prior.PLANS,...plans]),footprint});
+ C.Dayworks=dayworks;root.DeadwallDayworks=dayworks;
+ C.CityContent150=Object.freeze({BUILDINGS:Object.freeze(defs),UPGRADES:freeze(upgrades),PLANS:plans});
+})(globalThis);

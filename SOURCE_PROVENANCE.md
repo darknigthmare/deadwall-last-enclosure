@@ -1,5 +1,9 @@
 # Source provenance
 
+## Continuation 1.50 — extension des onze âges
+
+Base cumulative : commit `3a42ec0c20b536e6210273a3557cf63306d1ffb2` (1.49), conservé dans l'historique. Cette passe ajoute le catalogue réel des onze âges, 20 bâtiments et leurs sprites originaux, six évolutions, la voirie avancée, des montages finis, des formations et quatre cours tardives. Les images OpenAI ImageGen et leurs prompts sont documentés dans `assets/art150/`. Aucun asset de tiers ni dépendance supplémentaire ajouté. Les ZIP historiques et le fichier fourni par l'utilisateur restent conservés. Guide : `docs/LIVRAISON_1_50.md` ; preuves actuelles séparées sous `/workspace/deadwall-cloud/age-content150/` et `/workspace/deadwall-cloud/age-content150-20261003/`. Seules les commandes exécutées sur les sources finales peuvent attester leur validation et leur publication.
+
 This repository was initialized from the playable project archive generated in the associated ChatGPT conversation.
 
 - Project: `DEADWALL — La Dernière Enceinte`

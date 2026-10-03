@@ -1,3 +1,14 @@
+# 1.50.0 — Onze âges, nouveaux choix
+
+- D-17 : 20 bâtiments distincts pour les paliers intermédiaires et tardifs, six évolutions à même emprise, coûts, prérequis et effets dans le catalogue du moteur.
+- Voirie : pavés, béton et voie logistique ; rénovation payée et travaillée au sol, avantage du revêtement précédent conservé jusqu'à l'achèvement, accélération des infectés également effective.
+- Hérissons : quatre montages mécaniques à réserves finies ; compagnons : quatre formations spécialisées payées et temporisées, sans nouveau rôle d'unité ni détection distante.
+- Urbanisme : quatre cours tardives à financer puis construire ; Préparatifs : catalogue consultable des onze âges avec coûts et conditions réels.
+- Présentation : quatre atlas originaux, 20 sprites distincts, batterie affichant sa charge réelle et canons suivant leur orientation de combat.
+- Observation des nouvelles casemates, mitrailleuses et tour de veille soumise à la portée, aux obstacles et à la nuit ; courant requis selon le poste. Industries et abris nouveaux intégrés aux incendies ordinaires.
+- Évolutions industrielles : régulateur incompatible à retirer explicitement avant paiement ; les réserves compatibles sont conservées. Nouvelles formations : une menace physique suspend le travail et libère les mains pour se défendre, sans perdre le temps payé.
+- Sauvegarde générale v20 et générations G1–G7 conservées ; extensions strictes des registres existants. QA `test:city`, distributions et cache PWA 1.50.0. Résultats consignés après exécution dans les preuves courantes.
+
 # 1.49.0 — D-17, du refuge à la mégaville
 
 - Vérification transactionnelle des onze âges, des bâtiments finaux, de la logistique et de Continuer ; scènes tardives préparées explicitement distinguées d’une campagne humaine.

@@ -44,6 +44,10 @@ jobs:
         run: npm run test:preparations
       - name: D17 defenses and crafting
         run: npm run test:defenses
+      - name: D-17 du refuge aux onze âges
+        run: npm run test:d17
+      - name: Catalogue, constructions et préparatifs de chaque âge
+        run: npm run test:city
       - name: Version autonome ouverte depuis le disque
         run: npm run test:standalone
       - name: Archives web et autonome

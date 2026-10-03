@@ -1,5 +1,11 @@
 # Game Design — DEADWALL
 
+## Choix par âge — 1.50
+
+Les onze âges restent déterminés par les constructions achevées. Le pic historique conserve les connaissances ; les recettes gardent leurs prérequis matériels. Les paliers tardifs proposent désormais des alternatives de défense, d'alimentation, de stockage, de soins et d'énergie. Six évolutions réutilisent exactement la même emprise et peuvent changer de fonction : un laboratoire transformé en pôle de triage cesse de fabriquer des médicaments.
+
+Les routes avancées favorisent aussi les infectés. Les montages mécaniques ont des charges finies à refaire physiquement. Les formations développent les quatre compagnons existants selon leurs ordres et positions. Les cours de quartier financent des fondations ordinaires, avec accès ouverts ; elles ne créent ni soldats, ni charge de batterie, ni munitions gratuits. Le catalogue des âges permet de préparer ces choix sans dépenser. Liste et contreparties : [LIVRAISON_1_50.md](LIVRAISON_1_50.md).
+
 ## 1. Vision
 
 DEADWALL est un mélange d’action-survie, de construction, de gestion de colonie et de tower defense. La promesse n’est pas seulement « tuer beaucoup de zombies », mais **voir une poignée de survivants transformer physiquement un refuge en cité fortifiée**, puis défendre cette cité à travers plusieurs lignes de repli.

@@ -1,5 +1,11 @@
 # Équilibrage de référence
 
+## Extension des âges — 1.50
+
+Les valeurs autoritaires sont dans `core.js` : `CityContent150`, `Infrastructure.SURFACES`, `FortificationPackRules.mechanisms` et `CompanionPackRules.exercises`. Les paliers, coûts et supports affichés proviennent de ces objets ; le guide [LIVRAISON_1_50.md](LIVRAISON_1_50.md) explique les contreparties. Les six évolutions gardent l'emprise et la proportion de santé, avec le coût d'évolution ordinaire du moteur.
+
+Le parc solaire produit pendant la phase calme seulement. L'accumulateur de front commence vide. Les armes consomment les munitions communes et les soins consomment les médicaments. Les serres éclairées suppriment l'intrant bois de la conserverie au prix d'un autre rendement et d'une demande électrique supérieure. Les routes avancées accélèrent aussi les ennemis, et leur rénovation exige paiement et travail réel. Ces options nécessitent des essais de campagne humaine pour affiner les arbitrages ; des scènes automatisées préparées ne mesurent pas une campagne complète.
+
 ## Ressources initiales — Standard
 
 | Bois | Ferraille | Pierre | Nourriture | Carburant | Munitions | Médicaments |

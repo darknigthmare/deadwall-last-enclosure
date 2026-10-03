@@ -4,7 +4,7 @@ const Assets=require('../src/assets136.js'),B=require('../src/biomes135.js'),P=r
 global.Image=class{set src(v){this.onerror?.();}};const paintNode=Art.create().drawNode;delete global.Image;
 const ctx=()=>({globalAlpha:1,save(){},restore(){},translate(){},rotate(){},scale(){}});
 test('141 : deux sprites individuels natifs, dimensions et hashes de provenance, chargeur et cache PWA',()=>{
- const data=JSON.parse(fs.readFileSync(path.join(root,'assets/PROVENANCE_1_41.json'),'utf8'));assert.equal(data.images.length,2);assert.equal(Object.keys(Art.ASSETS).length,59);
+ const data=JSON.parse(fs.readFileSync(path.join(root,'assets/PROVENANCE_1_41.json'),'utf8'));assert.equal(data.images.length,2);assert.equal(Object.keys(Art.ASSETS).length,63);
  for(const item of data.images){const buf=fs.readFileSync(path.join(root,item.runtime)),spec=Assets.ASSETS141[item.id];assert.equal(buf.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(buf.readUInt32BE(16),spec.width);assert.equal(buf.readUInt32BE(20),spec.height);assert.equal(buf[25],6,'RGBA PNG');assert.equal(crypto.createHash('sha256').update(buf).digest('hex'),item.sha256);assert.equal(item.alpha_extrema[0],0);assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(item.runtime));}
 });
 test('141 G7 : D17 peint les mêmes espèces dérivées du biome régional, sans modifier les ressources',()=>{

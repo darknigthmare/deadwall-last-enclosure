@@ -9,7 +9,7 @@ function stable(g){const d=g.serialize();delete d.timestamp;return JSON.stringif
 const consumer=(id,need,partial=false,rank=1,light=false)=>({id,need,partial,rank,priority:2,light});
 const battery=(extra={})=>({id:1,charge:0,capacity:900,chargeRate:6,output:8,mode:'auto',...extra});
 const plan=(extra={})=>D.plan({generation:8,consumers:[],batteries:[battery()],phase:'calm',dt:.1,...extra});
-test('électricité: trois réserves, trois âges, limites connues et total 69',()=>{assert.equal(Object.keys(D.BUILDINGS).length,3);assert.equal(Object.keys(C.BUILDINGS).length,71);assert.deepEqual(Object.values(D.BUILDINGS).map(b=>b.unlockTier),[2,5,8]);assert.equal(C.SAVE_VERSION,20);assert.equal(D.RULES.efficiency,.9)});
+test('électricité: trois réserves historiques, trois âges et catalogue complet',()=>{assert.equal(Object.keys(D.BUILDINGS).length,3);assert.equal(Object.keys(C.BUILDINGS).length,71+Object.keys(C.CityContent150.BUILDINGS).length);assert.deepEqual(Object.values(D.BUILDINGS).map(b=>b.unlockTier),[2,5,8]);assert.equal(C.SAVE_VERSION,20);assert.equal(D.RULES.efficiency,.9)});
 test('plan: une batterie vide reçoit seulement le surplus après rendement',()=>{const p=plan({consumers:[consumer(2,4)]});assert.equal(p.chargeInput,4);assert.ok(Math.abs(p.changes[0].stored-.36)<1e-9);assert.equal(p.batteryOutput,0)});
 test('plan: le débit de charge limite le stockage malgré un grand surplus',()=>{const p=plan({generation:100});assert.equal(p.chargeInput,6);assert.ok(Math.abs(p.changes[0].charge-.54)<1e-9)});
 test('plan: batterie pleine ne consomme pas le surplus',()=>{const p=plan({batteries:[battery({charge:900})]});assert.equal(p.chargeInput,0);assert.equal(p.changes[0].charge,900)});

@@ -6,6 +6,7 @@
   'use strict';
   const Artwork136=root.DeadwallAssets136||(typeof require==='function'?require('./assets136.js'):null);
   const D17Art149=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
+  const D17Art150=root.DeadwallD17Art150||(typeof require==='function'?require('./d17-art150.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -14,6 +15,7 @@
     ...(Artwork136?.ASSETS140||{}),
     ...(Artwork136?.ASSETS141||{}),
     ...(D17Art149?.ASSETS||{}),
+    ...(D17Art150?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
@@ -291,6 +293,7 @@
       ctx.restore(); return true;
     }
     drawBuilding(ctx, b, world) {
+      if(D17Art150?.drawBuilding(ctx,this,b)||D17Art150?.drawFallback(ctx,this,b))return true;
       const atlas = b.type === 'spikes' || b.type === 'armoredGate' ? 'defenses' : b.def.wall ? 'props' : 'buildings';
       const id = b.type;
       const rect = this.rects[atlas + ':' + id]; if (!rect) return false;
@@ -487,6 +490,7 @@
       ctx.restore(); return true;
     }
     drawTurret(ctx, building) {
+      if(D17Art150?.drawGun(ctx,this,building))return true;
       const kind = building.type === 'heavyTurret' ? 'heavyTurret' : 'turret';
       const rect = this.rects['defenses:' + kind]; if (!rect) return false;
       const size = kind === 'heavyTurret' ? 66 : building.type === 'watchtower' ? 45 : 57;
@@ -499,6 +503,7 @@
   // These buildings use the dedicated Canvas painters installed by the extension runtimes.
   // They have no atlas rectangle; the integration suite renders each painter in Chromium.
   const PROCEDURAL_BUILDINGS = Object.freeze({
+    ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.CityContent150?.BUILDINGS||{}).map(id=>[id,'CityContent150'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.Expeditions?.BUILDINGS||{}).map(id=>[id,'Expeditions'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.PowerGrid?.BUILDINGS||{}).map(id=>[id,'PowerGrid'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.Urban?.BUILDINGS||{}).map(id=>[id,'Urban'])),

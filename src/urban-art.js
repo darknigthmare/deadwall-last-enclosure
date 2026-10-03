@@ -1,12 +1,14 @@
 /* Footprint-preserving 2.5D architecture. Floors are visible volumes, not visitable interiors. */
 (function(root){
- 'use strict';const C=root.DeadwallCore||require('./core.js'),D17=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
+ 'use strict';const C=root.DeadwallCore||require('./core.js'),D17=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null),D150=root.DeadwallD17Art150||(typeof require==='function'?require('./d17-art150.js'):null);
  const rect=(c,x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(x,y,w,h)};
  function volume(c,x,y,w,h,z,color){
   rect(c,x+8,y+8,w,h,'rgba(0,0,0,.35)');rect(c,x,y-z,w,h+z,'#28372f');rect(c,x+3,y-z+4,w-6,h+z-7,color);rect(c,x+3,y-z+3,w-6,h*.55,'#94a08e');
   c.strokeStyle='#c1c6ac';c.lineWidth=1;c.strokeRect(x+4,y-z+4,w-8,h*.55-1);rect(c,x+w-9,y-z+9,6,h+z-13,'#3d5045');
  }
- function draw(c,b,art){const d=b.def;if(!d.urbanKind)return false;const w=b.w*32,h=b.h*32,x=b.left,y=b.top,kind=d.urbanKind,lit=b.powered&&!b.siegeOffline;
+ function draw(c,b,art){const d=b.def;
+  if(D150?.drawBuilding(c,art,b))return true;
+  if(!d.urbanKind)return false;const w=b.w*32,h=b.h*32,x=b.left,y=b.top,kind=d.urbanKind,lit=b.powered&&!b.siegeOffline;
   if(D17?.drawUrban(c,art,b)){
    c.save();c.textAlign='center';c.font='bold 10px sans-serif';c.fillStyle='#e6ddbd';c.fillText(d.symbol,b.x,y+h-8,Math.max(24,w-15));c.restore();return true;
   }

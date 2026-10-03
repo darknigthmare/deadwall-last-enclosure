@@ -1,0 +1,215 @@
+{
+  "version": "1.50.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "images": [
+    {
+      "id": "d17Defense150",
+      "runtime": "assets/art150/defense-atlas.png",
+      "source": "/workspace/generated_images/exec-cfae4c2a-dd74-4efd-b297-6380bd86870d.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2308766,
+      "sha256": "8c72ee2c416ee4b224eeecbbc5de1d3fae0834a6810c10802795de62a1faa195",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "casemate150": [
+          38,
+          45,
+          431,
+          360
+        ],
+        "reinforcedCasemate150": [
+          531,
+          51,
+          456,
+          368
+        ],
+        "twinGun150": [
+          1080,
+          46,
+          425,
+          372
+        ],
+        "concreteWatch150": [
+          101,
+          422,
+          314,
+          558
+        ],
+        "frontBattery150": [
+          547,
+          520,
+          443,
+          430
+        ]
+      }
+    },
+    {
+      "id": "d17Medical150",
+      "runtime": "assets/art150/medical-atlas.png",
+      "source": "/workspace/generated_images/exec-a50a013b-fca1-4b27-91c9-6eb4b5d5e4c7.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2310798,
+      "sha256": "b36dc4d8963ec33a1d2fe6074235e9c9ddbdd407ed692e1bfe3bd400a9036b34",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "aidStation150": [
+          107,
+          191,
+          356,
+          262
+        ],
+        "triageStation150": [
+          573,
+          150,
+          391,
+          301
+        ],
+        "sterilizationLab150": [
+          1032,
+          55,
+          464,
+          398
+        ],
+        "medicalComplex150": [
+          56,
+          527,
+          494,
+          412
+        ],
+        "equippedShelter150": [
+          614,
+          511,
+          493,
+          419
+        ]
+      }
+    },
+    {
+      "id": "d17Production150",
+      "runtime": "assets/art150/production-atlas.png",
+      "source": "/workspace/generated_images/exec-babfe4c9-6012-4dcd-b582-1657ac8b7adb.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2925217,
+      "sha256": "fb5644179b64e91a65a5cef4b19dad4db4532fb325bdc340b6a449917f078847",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "courtyardGarden150": [
+          44,
+          32,
+          414,
+          401
+        ],
+        "biofuelYard150": [
+          488,
+          27,
+          508,
+          413
+        ],
+        "electricCannery150": [
+          1023,
+          43,
+          496,
+          401
+        ],
+        "electricGreenhouse150": [
+          18,
+          508,
+          575,
+          456
+        ],
+        "continuityArsenal150": [
+          602,
+          493,
+          581,
+          482
+        ]
+      }
+    },
+    {
+      "id": "d17District150",
+      "runtime": "assets/art150/district-atlas.png",
+      "source": "/workspace/generated_images/exec-97e9f825-9f65-42f9-b11f-a8c96f8cc538.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2515488,
+      "sha256": "981984e1b5207dffb974f096ef56fd7e52dc6f8667613c9208dc3bab685e3266",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "gateStore150": [
+          52,
+          63,
+          399,
+          375
+        ],
+        "solarPark150": [
+          513,
+          28,
+          504,
+          437
+        ],
+        "garrisonQuarters150": [
+          1048,
+          46,
+          450,
+          430
+        ],
+        "wallStore150": [
+          35,
+          517,
+          481,
+          398
+        ],
+        "dualRecovery150": [
+          580,
+          528,
+          427,
+          395
+        ]
+      }
+    }
+  ],
+  "spriteCount": 20,
+  "pixelEdits": false,
+  "simulationChanges": false,
+  "promptFile": "assets/art150/PROMPTS.md",
+  "notes": [
+    "Gun barrels follow the actual turretAngle through the existing Canvas equipment layer; native defense bases deliberately contain no fixed gun barrel.",
+    "Sprites add no inventory, storage, medical production, free recruits, battery charge, lights or interior.",
+    "medicalComplex150 is the Pôle de triage: its medical equipment is scenery, not medication production."
+  ]
+}

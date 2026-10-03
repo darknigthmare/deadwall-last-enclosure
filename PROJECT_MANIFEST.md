@@ -1,4 +1,8 @@
-# Livraison courante — DEADWALL 1.49.0
+# Livraison courante — DEADWALL 1.50.0
+
+Base cumulative : commit `3a42ec0c20b536e6210273a3557cf63306d1ffb2` (1.49). Extension des onze âges : 20 modèles, six évolutions, trois routes avancées, quatre montages de Hérisson, quatre formations de compagnons et quatre cours tardives. Catalogue et conditions dérivés des données du moteur ; quatre atlas originaux pour les 20 nouveaux modèles. Guide : `docs/LIVRAISON_1_50.md`. Sauvegarde générale v20, terrain et contenu historique conservés. Les résultats courants et les archives exactes sont attestés séparément après exécution ; aucun résultat historique n'est réattribué à cette passe. La fabrication locale n'atteste pas une publication Vercel.
+
+## Livraison historique — DEADWALL 1.49.0
 
 Base cumulative : commit 67bcb1f2f3adf90a4f76669e676cfb03cec90e73 (1.48), poussé sans force sur main. Cette passe vérifie la progression D-17 jusqu’à Mégaville III, rend le besoin de stockage visible et complète les images urbaines et de construction. Guide : docs/LIVRAISON_1_49.md. Six images originales et module d17-art149 distribués dans web/PWA/autonome. Sauvegarde v20 et règles de progression existantes conservées. Les résultats courants sont consignés séparément après leurs commandes réelles ; aucun résultat historique n’est réattribué. La fabrication du build ne prouve pas une publication Vercel.
 

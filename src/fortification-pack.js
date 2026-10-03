@@ -19,6 +19,7 @@ function normalizeMechanism(raw,full){
  if(!raw||Array.isArray(raw)||typeof raw!=='object'||Object.keys(raw).length!==4||Object.keys(raw).some(k=>!['kind','charges','cooldown','caught'].includes(k)))bad();
  const recipe=typeof raw.kind==='string'&&Object.hasOwn(R.mechanisms||{},raw.kind)?R.mechanisms[raw.kind]:null;
  if(!recipe||!int(raw.charges,0,recipe.charges)||!num(raw.cooldown,0,recipe.cooldown)||!Array.isArray(raw.caught)||raw.charges+raw.caught.length>recipe.charges||!recipe.holdSeconds&&raw.caught.length)bad();
+ if(full&&recipe.strictTier&&C.cityTier(full.urban?.peakScore||0).id<recipe.tier)bad();
  const ids=new Set(),zombies=full?.zombies&&new Set(full.zombies.map(z=>z.id));
  const caught=raw.caught.map(c=>{
   if(!c||Array.isArray(c)||Object.keys(c).length!==2||Object.keys(c).some(k=>!['id','left'].includes(k))||!int(c.id)||ids.has(c.id)||!num(c.left,Number.MIN_VALUE,recipe.holdSeconds)||zombies&&!zombies.has(c.id))bad();
@@ -308,9 +309,15 @@ function install(g){
   const record=b&&!b.dead&&b.completed&&b.type!=='core'&&g.world.buildings.get(b.id)===b&&state.debris.length<R.maxDebris?{id:b.id,type:b.type,x:b.x,y:b.y,w:b.w*C.TILE,h:b.h*C.TILE,remaining:Object.fromEntries(R.debrisResources.map(k=>[k,Math.floor((b.def.cost[k]||0)*R.debrisFactor)]))}:null;
   const result=old(b,...args);reconcile();if(record&&state.debris.length<R.maxDebris&&!g.world.buildings.has(record.id)&&C.bagTotal(record.remaining)>0&&!state.debris.some(d=>d.id===record.id))state.debris.push(record);return result;
  });
+ wrap('structureActionStatus',(old,action,b=g.selectedBuilding)=>{
+  const quote=old(action,b),f=b&&fitting(b.id),next=b?.def?.upgradeTo&&C.BUILDINGS[b.def.upgradeTo];
+  if(action==='upgrade'&&quote.ok&&f?.regulator&&next&&(!next.production||!Object.keys(next.consumes||{}).length))
+   return{...quote,ok:false,reason:'Retirez le régulateur via Fortifications avant cette évolution.'};
+  return quote;
+ });
  wrap('demolishSelected',(old,...args)=>{const r=old(...args);reconcile();return r;});
  wrap('drawBuilding',(old,ctx,b,...args)=>{const r=old(ctx,b,...args),f=fitting(b.id);if(!f||!b.completed||b.dead)return r;ctx.save();
-  if(f.mechanism){const m=f.mechanism;ctx.fillStyle=m.charges>0?'#bcb797':'#555d51';ctx.strokeStyle=m.kind==='ankle'?'#a8bf99':'#d2b79c';ctx.lineWidth=2;ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);for(let i=0;i<R.mechanisms[m.kind].charges;i++){ctx.fillStyle=i<m.charges?'#dfc692':'#485047';ctx.fillRect(b.left+3+i*4,b.bottom-7,3,4);}if(b.flash>0){ctx.strokeStyle='#ffe3a3';ctx.strokeRect(b.left-2,b.top-2,b.right-b.left+4,b.bottom-b.top+4);}}
+  if(f.mechanism){const m=f.mechanism,recipe=R.mechanisms[m.kind],pitch=Math.min(4,(b.right-b.left-6)/recipe.charges);ctx.fillStyle=m.charges>0?'#bcb797':'#555d51';ctx.strokeStyle=recipe.holdSeconds?'#a8bf99':'#d2b79c';ctx.lineWidth=2;ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);for(let i=0;i<recipe.charges;i++){ctx.fillStyle=i<m.charges?'#dfc692':'#485047';ctx.fillRect(b.left+3+i*pitch,b.bottom-7,Math.min(3,pitch-0.5),4);}if(b.flash>0){ctx.strokeStyle='#ffe3a3';ctx.strokeRect(b.left-2,b.top-2,b.right-b.left+4,b.bottom-b.top+4);}}
   if(f.net>0){ctx.strokeStyle='#99a8a1';ctx.lineWidth=1;for(let x=b.left+4;x<b.right;x+=9){ctx.beginPath();ctx.moveTo(x,b.top+3);ctx.lineTo(Math.min(b.right,x+12),b.bottom-3);ctx.stroke();}ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);}
   if(f.ammo>0&&!g.operationsArt?.draw(ctx,'ammo',b.left+11,b.bottom-4,23)){ctx.fillStyle='#526149';ctx.fillRect(b.left+4,b.bottom-14,15,10);ctx.fillStyle='#d5c58b';ctx.fillRect(b.left+7,b.bottom-12,9,2);}
   if(f.repair>0&&!g.operationsArt?.draw(ctx,'support',b.right-12,b.bottom-4,21)){ctx.fillStyle='#916d4b';ctx.fillRect(b.right-20,b.bottom-14,16,10);ctx.strokeStyle='#d5b87a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.right-18,b.bottom-9);ctx.lineTo(b.right-6,b.bottom-9);ctx.stroke();}

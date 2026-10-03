@@ -52,7 +52,10 @@
         else if (!player.regionAbsent) observer('local', player, R.player, () => alive(player) && !player.regionAbsent);
       }
       for (const u of g.units || []) observer('local', u, R.units[u.kind], () => alive(u) && !u.regionAbsent);
-      for (const b of world.buildings.values()) observer('local', b, R.buildings[b.type], () => operational(b), b);
+      for (const b of world.buildings.values()) {
+        const range = R.buildings[b.type] ?? C.CityContent150?.BUILDINGS?.[b.type]?.observerRange150;
+        observer('local', b, range, () => operational(b), b);
+      }
 
       const evolution = g.worldEvolution?.overview?.();
       if (f.active) for (const c of evolution?.companions || []) {

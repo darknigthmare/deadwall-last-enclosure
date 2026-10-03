@@ -1,0 +1,25 @@
+.city-catalogue150{margin:20px 0 0;padding:16px;border:1px solid #657463;border-radius:6px;min-width:0;color:#e0e5d6;background:#1b251f}
+.city-catalogue150 legend{padding:0 8px;color:#d6cda2;font-size:1.1rem;font-weight:700}
+.city-catalogue-controls150{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin:14px 0}
+.city-catalogue-controls150 label{grid-column:1/-1;font-size:.75rem;letter-spacing:.08em;color:#c3cbb9}
+.city-catalogue-controls150 select,.city-catalogue-controls150 button,.city-catalogue-card150 button{min-height:44px;max-width:100%;font:inherit;white-space:normal}
+.city-catalogue-controls150 select{width:100%;min-width:0;padding:10px;border:1px solid #7c8a73;background:#26362b;color:#eef0df}
+.city-catalogue-controls150 button,.city-catalogue-card150 button{padding:10px 12px;border:1px solid #758366;border-radius:3px;background:#33442f;color:#eef0df;cursor:pointer;font-size:.8rem}
+.city-catalogue150 :is(button,select,summary):focus-visible{outline:3px solid #dfce80;outline-offset:3px}
+.city-catalogue-summary150{padding:10px;background:#28362b;border-left:3px solid #b7bb83;line-height:1.5}
+.city-catalogue-note150{font-size:.85rem;line-height:1.5;color:#bdc8b8}
+.city-catalogue-group150,.city-catalogue-shared150{margin:10px 0;padding:0 12px;border:1px solid #53664f;border-radius:4px}
+.city-catalogue150 summary{padding:13px 0;min-height:44px;box-sizing:border-box;cursor:pointer;color:#dce3c5;line-height:1.4;font-weight:600}
+.city-catalogue-list150{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:10px;margin:0 0 12px;min-width:0}
+.city-catalogue-card150{padding:12px;border:1px solid #4e6249;border-radius:4px;background:#232f26;min-width:0;overflow-wrap:anywhere}
+.city-catalogue-card150[data-new=true]{border-top:3px solid #9ab78e}
+.city-catalogue-card150 h3{margin:0 0 7px;font-size:1rem;color:#eceacf}
+.city-catalogue-card150 p{margin:7px 0;font-size:.86rem;line-height:1.5}
+.city-catalogue-cost150{color:#d1c391}
+.city-catalogue-state150{color:#b2d0a7}
+.city-catalogue-card150[data-known=false] .city-catalogue-state150{color:#d9c298}
+.city-catalogue-conditions150,.city-catalogue-facts150{padding-left:18px;font-size:.8rem;color:#c5cdbd;line-height:1.5;margin:8px 0}
+.city-catalogue-card150 li+li{margin-top:5px}
+.city-catalogue-card150 button{width:100%;margin-top:7px}
+.city-catalogue-card150 button:disabled{opacity:.55;cursor:default}
+@media(max-width:540px){.city-catalogue150{padding:12px}.city-catalogue-controls150{grid-template-columns:minmax(0,1fr)}.city-catalogue-list150{grid-template-columns:minmax(0,1fr)}.city-catalogue-group150,.city-catalogue-shared150{padding:0 9px}}

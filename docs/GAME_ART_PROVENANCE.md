@@ -1,5 +1,9 @@
 # DEADWALL — assets de jeu OpenAI
 
+## Compléments des âges — 1.50
+
+Quatre PNG originaux dans `assets/art150/` fournissent 20 silhouettes distinctes pour les nouvelles défenses, postes médicaux, productions et aménagements de D-17. Leurs prompts, dimensions et empreintes sont conservés avec les originaux. `src/d17-art150.js` utilise des rectangles mesurés sans retoucher les pixels ; les canons suivent l'angle réel du tir et l'accumulateur affiche la charge du contrôleur d'énergie. Le chargeur commun, le web, la PWA et le HTML autonome embarquent les mêmes fichiers. Les anciens atlas et replis graphiques restent disponibles.
+
 Ce document décrit le premier lot de sept atlas. Le catalogue actuel comprend dix atlas et seize cycles d’acteurs : les trois nouvelles planches, leurs prompts exacts et limites sont documentés dans [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md).
 
 Création le 31 août 2026 avec **l'outil OpenAI ImageGen intégré**, et non des placeholders CSS, des images téléchargées ou une API simulée. Les originaux PNG sont conservés dans le dossier de génération Codex de cette session. Les fichiers ci-dessous sont les copies WebP réellement chargées par src/art.js et embarquées dans les trois distributions.
