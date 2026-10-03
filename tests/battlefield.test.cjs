@@ -136,7 +136,7 @@ test('situation UI : quatre fronts et échantillonnage limité à une fois par d
   assert.deepEqual(panel.children.map(card=>card.children[0].textContent),['NORD','EST','SUD','OUEST']);
   enemy();g.elapsed=.499;g.battlefieldUI.refresh();assert.equal(inspections(),before);assert.equal(get('innerRingAlert').classList.contains('hidden'),true);
   g.elapsed=.5;g.battlefieldUI.refresh();assert.equal(inspections(),before+1);
-  assert.match(panel.children[1].children[1].textContent,/1 contacts actifs/);
+  assert.match(panel.children[1].children[1].textContent,/1 contact\(s\) observé\(s\)/);
   assert.equal(panel.children[1].dataset.alert,'true');assert.match(get('innerRingAlert').textContent,/EST/);
   for(let i=0;i<10;i++)g.battlefieldUI.refresh();
   assert.equal(inspections(),before+1);

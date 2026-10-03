@@ -84,13 +84,13 @@ test('quartiers runtime : extraction partielle, IDs et cible de collecte survive
 });
 
 test('quartiers runtime : ancienne sauvegarde conserve les gisements et ses bâtiments effacent les nouveaux décors superposés',()=>{
-  const {game}=bootGame(),content=globalThis.DeadwallWorldContent;
-  try { delete globalThis.DeadwallWorldContent;game.startNew('standard','17117'); }
-  finally { globalThis.DeadwallWorldContent=content; }
-  const historical=game.world.nodes[0];historical.harvest(9);
+  const {game}=bootGame();game.startNew('standard','17117');
+  // Construct the old payload, not an invalid current runtime missing its world module.
+  const oldWorld=legacyWorld(game.world.constructor,17117);
+  const historical=oldWorld.nodes[0];historical.harvest(9);
   const decor=Content.generate(17117).props[0],Building=game.core().constructor;
   const house=new Building(game.nextId++,'house',Math.floor(decor.x/C.TILE)-1,Math.floor(decor.y/C.TILE)-1,0,1);
-  game.world.add(house);const legacy=game.serialize();assert.equal(legacy.nodes.length,game.world.nodes.length);
+  game.world.add(house);const legacy=game.serialize();legacy.version=2;legacy.nodes=oldWorld.nodes.map(node=>[node.id,node.amount]);assert.equal(legacy.nodes.length,oldWorld.nodes.length);
   game.restoreSave(legacy);
   assert.equal(game.world.nodes.find(node=>node.id===historical.id).amount,historical.amount);
   const overlapping=game.world.nodes.filter(node=>node.sceneryKind&&node.x+node.radius>house.left-6&&node.x-node.radius<house.right+6&&node.y+node.radius>house.top-6&&node.y-node.radius<house.bottom+6);

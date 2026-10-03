@@ -1,28 +1,27 @@
-DEADWALL — LA DERNIÈRE ENCEINTE
+DEADWALL 1.48.0 — BASTIONS & ATELIERS
 
-LANCEMENT IMMÉDIAT
+Extraire intégralement la variante choisie.
+Archive autonome : ouvrir DEADWALL_Standalone.html.
+Archive web/mobile : servir web/ à la racine en HTTPS ; première visite connectée avant le hors-ligne.
+Archive sources : npm ci puis npm start ; npm run build prépare le HTML autonome.
+Portable Windows : fabrication et validation sur Windows ; conserver le profil %APPDATA%\DEADWALL.
 
-1. Ouvrez DEADWALL_Standalone.html par double-clic.
-2. Cliquez sur NOUVELLE PARTIE.
-3. Choisissez Survivant pour découvrir les systèmes ou Standard pour l’équilibrage de référence.
+Guide actuel : docs/LIVRAISON_1_48.md
+D-17 : Avant-porte hérissée et Redoute de maintenance, 17/27 fondations à financer puis construire.
+Hérissons : Entrave de cheville ou Lames de contact, six déclenchements, matériaux du sac.
+Porte-bouclier dès la vague 9, Fonceur dès la vague 11, budget total des vagues conservé.
+Armurerie : Marteau d’assemblage, Arrache-clous de chantier et Carabine monocoup récupérée.
+Outils spécialisés fabriqués au contact du même atelier achevé, alimenté et accessible.
+Aucun chargeur offert ; objets prêts à retirer au dépôt, poids et usure effectifs.
+Les cartes et directions des contacts demandent la vue réelle d’un allié ou poste opérationnel.
+Sauvegarde v20, générations G1–G7, buffer borné et contenu cumulatif conservés.
 
-AUTRE MÉTHODE
-
-- Windows : double-cliquez sur start_windows.bat.
-- Linux/macOS : exécutez ./start_linux.sh.
-- Adresse locale : http://localhost:4173
-
-COMMANDES ESSENTIELLES
-
-ZQSD/WASD : déplacement
-Souris + clic gauche : viser et tirer
-E : récolter, déposer ou construire
-Maj : sprinter
-Espace : mêlée
-R : recharger / tourner une structure pendant le placement
-B : catalogue
-Clic-glissé : tracer les murs
-Clic droit : annuler ou sélectionner
-Échap : pause
-
-Le dossier docs contient le design complet, l’architecture, l’équilibrage, la roadmap 3D et le prompt maître Codex.
+Contrôles : DEADWALL_SOAK=1 npm run check puis les parcours navigateur, dont test:defenses.
+Résultats, durées, empreintes et contrôles des archives extraites : rapport courant séparé.
+Les résultats historiques ne constituent pas une validation de cette version.
+Les fabrications exigent un dépôt Git avec un commit ; l’archive sources ne contient pas .git.
+Références 1.41–1.47 et vingt-deux anciens ZIP sélectionnés conservés séparément.
+Destination Vercel demandée : https://deadwall-last-enclosure.vercel.app/
+Jeton : https://vercel.com/account/tokens ; renseigner VERCEL_TOKEN uniquement dans les secrets de l’environnement.
+Configuration enregistrée et staging local ne prouvent pas une publication.
+Appareils physiques, Windows natif, ouverture directe file://, signature et boutiques restent à valider.

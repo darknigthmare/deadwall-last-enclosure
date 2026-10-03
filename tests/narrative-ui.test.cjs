@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {bootGame}=require('./helpers/browser.cjs'),C=require('../src/core.js'),N=require('../src/narrative.js'),Save=require('../src/save.js');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
@@ -30,7 +32,7 @@ function journalFixture({playing=true}={}){
   const card=theme=>descendants(get('narrativeOperations')).find(node=>node.dataset.narrativeSector===theme);
   const choice=(theme,key)=>descendants(card(theme)).find(node=>node.dataset.narrativeChoice===key);
   const observe=theme=>{game.narrative.sectors[theme].survey=C.NARRATIVE_RULES.surveySeconds;game.narrative.unread.push('sector:'+theme);};
-  const core=()=>Object.assign(game.player,{x:game.core().x,y:game.core().y});
+  const core=()=>standAt(game,game.player,game.core());
   return {...env,get,open,card,choice,observe,core};
 }
 

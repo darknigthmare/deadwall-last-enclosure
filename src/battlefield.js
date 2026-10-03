@@ -45,7 +45,46 @@
     if (lessons.length < 2) lessons.push('Une seconde enceinte laisse du temps pour se replier. Gardez ses portes couvertes et le pied des murs dégagé.');
     return { values, lessons: lessons.slice(0, 3) };
   }
-  const api = Object.freeze({ DIRECTIONS, direction, inspect, debrief });
+  // Presentation sees contacts through the same disposable frame as the maps.
+  // The director's living total stays separate; it supplies no hostile position.
+  function observedSnapshot(game, inspectContacts = inspect) {
+    const actors = game.zombies.filter(z => !z.dead && z.health > 0);
+    const vision = game.visibility?.frame?.();
+    const seen = actors.filter(z => vision?.canSeeLocal?.(z));
+    const result = inspectContacts(game.core(), seen, game.world.buildings.values());
+    return { ...result, observedContacts: result.contacts, contacts: actors.length };
+  }
+  function assaultStatus(snapshot, incoming, announcedFronts, night, spawnTimer, pattern) {
+    const present = snapshot.contacts;
+    const activeFronts = snapshot.sectors.filter(sector => sector.contacts > 0)
+      .map(({ id, label, contacts }) => ({ id, label, contacts }));
+    const next = incoming > 0 ? (night ? C.Dayworks.frontGroup(night, pattern) : announcedFronts) : [];
+    const nextFronts = DIRECTIONS.filter(item => next.includes(item.id)).map(item => ({ ...item }));
+    const echelon = night ? Math.min(3, Math.floor(night.emitted * 3 / night.total) + 1) : null;
+    // The saved spawn timer already includes the pause at each exact stage boundary.
+    // While it expires, contacts on the field remain a live assault.
+    const boundary = night && night.pauses > 0 && night.emitted < night.total
+      && night.emitted === Math.ceil(night.total * night.pauses / 3);
+    const pauseSeconds = boundary && spawnTimer > 0 ? Math.ceil(spawnTimer) : 0;
+    return { present, incoming, observed: snapshot.observedContacts, activeFronts, nextFronts, echelon, pauseSeconds };
+  }
+  function assaultText(status) {
+    const lines = [`${C.formatNumber(status.present)} présents · ${C.formatNumber(status.incoming)} encore à venir.`];
+    if (status.activeFronts.length) lines.push((status.observed === undefined ? 'Contacts : ' : 'Contacts observés : ') + status.activeFronts.map(front => `${front.label} ${C.formatNumber(front.contacts)}`).join(' / ') + '.');
+    else if (status.observed === 0) lines.push('Aucun contact actuellement observé.');
+    if (status.nextFronts.length) lines.push('Arrivées annoncées : ' + status.nextFronts.map(front => front.label).join(' / ') + '.');
+    if (status.echelon) lines.push(`Échelon ${status.echelon}/3${status.pauseSeconds ? ` · reprise des arrivées dans ${status.pauseSeconds} s, assaut toujours actif` : ''}.`);
+    return lines.join(' ');
+  }
+  function assaultCompactText(status) {
+    const lines = [assaultCountsText(status).slice(0,-1) + (status.echelon ? ` · échelon ${status.echelon}/3.` : '.')];
+    if (status.activeFronts.length) lines.push((status.observed === undefined ? 'Contacts : ' : 'Observés : ') + status.activeFronts.map(front => front.label).join(' / ') + '.');
+    else if (status.nextFronts.length) lines.push('Arrivées : ' + status.nextFronts.map(front => front.label).join(' / ') + '.');
+    if (status.pauseSeconds) lines.push(`Reprise des arrivées dans ${status.pauseSeconds} s.`);
+    return lines.join(' ');
+  }
+  function assaultCountsText(status) { return `${C.formatNumber(status.present)} présents · ${C.formatNumber(status.incoming)} à venir.`; }
+  const api = Object.freeze({ DIRECTIONS, direction, inspect, observedSnapshot, debrief, assaultStatus, assaultText, assaultCompactText, assaultCountsText });
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.DeadwallBattlefield = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

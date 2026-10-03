@@ -113,6 +113,22 @@ test('serveur: seules les ressources publiques sont accessibles, sans traversée
   });
 });
 
+test('serveur: tous les scripts déclarés par le HTML courant sont servis avec leurs octets et leur MIME', async t => {
+  const { createGameServer } = await import('../scripts/server.mjs');
+  const server = createGameServer({ rootDirectory: root });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const html = readFileSync(path.join(root, 'index.html'), 'utf8');
+  const scripts = [...html.matchAll(/<script\s+src="([^"]+)"/g)].map(match => match[1]);
+  assert.ok(scripts.includes('src/visibility146.js'));
+  for (const name of scripts) {
+    const result = await request(server, '/' + name);
+    assert.equal(result.status, 200, name);
+    assert.match(result.headers['content-type'], /javascript/, name);
+    assert.equal(result.body, readFileSync(path.join(root, name), 'utf8'), name);
+  }
+});
+
 function serviceWorkerHarness() {
   const listeners = {};
   const stores = new Map();
@@ -189,7 +205,25 @@ test('PWA: une réponse HTTP valide est mise en cache, sans mémoriser les erreu
   assert.equal(await queryResponse.text(), 'new css');
   assert.equal((await cached.match(request.url + '?release=current')), undefined, 'les paramètres ne créent pas de copies du cache');
   worker.setFetch(async () => new Response('server error', { status: 503 }));
-  assert.equal((await worker.dispatch('fetch', request)).status, 503);
+  const fallback = await worker.dispatch('fetch', request);
+  assert.equal(fallback.status, 200);
+  assert.equal(await fallback.text(), 'new css');
   assert.equal(await (await cached.match(request)).text(), 'new css');
   assert.equal(await worker.dispatch('fetch', { ...request, method: 'POST' }), undefined);
+});
+
+test('PWA: panne HTTP conserve le jeu installé et erreur originale si aucun fichier local', async () => {
+  const worker = serviceWorkerHarness();
+  const cached = await worker.caches.open(worker.cacheName);
+  await cached.put(worker.scope + 'index.html', new Response('jeu installé'));
+  for (const status of [404, 502, 503]) {
+    worker.setFetch(async () => new Response('indisponible', { status }));
+    const page = await worker.dispatch('fetch', { method: 'GET', url: worker.scope + '?launch=1', mode: 'navigate' });
+    assert.equal(page.status, 200);
+    assert.equal(await page.text(), 'jeu installé');
+    const script = await worker.dispatch('fetch', { method: 'GET', url: worker.scope + 'src/game.js', mode: 'same-origin' });
+    assert.equal(script.status, status, 'un script absent ne reçoit jamais du HTML de remplacement');
+    assert.equal(await script.text(), 'indisponible');
+    assert.equal(await cached.match(worker.scope + 'src/game.js'), undefined);
+  }
 });

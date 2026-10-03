@@ -1,0 +1,11 @@
+# Matières industrielles — 1.38
+
+Deux images individuelles créées avec image_gen intégré. Images opaques d’origine, sans retouche raster. Destinées uniquement aux types de bâtiments compatibles ; décor sans effet sur la géométrie.
+
+## roof-metal.png
+
+Use case: stylized-concept. Asset type: seamless tileable roof material texture for a top-down realistic 2D survival game. Create ONE flat continuous surface of old industrial corrugated sheet-metal roofing, exact orthographic straight-down view, zero perspective. Weathered desaturated gray olive metal with subtle brown rust speckles, dusty zinc, very narrow parallel raised ribs evenly running vertically from top edge to bottom edge, fine scratches and irregular subdued mottling. The texture must seamlessly tile on ALL four edges and not have any framing border or roof outline. Soft neutral overhead illumination, no directional cast shadows, no bright highlights. Low contrast, fine scale weathering, no large conspicuous patch or unique focal feature, no objects, no nails larger than tiny dots, no gutters, no windows, no text. Opaque square image, texture fills every pixel to the edges. Production-ready repeatable game material, painterly realistic detail consistent with earthy grounded post-apocalyptic industrial buildings. Not an entire building, only the material swatch.
+
+## interior-concrete.png
+
+Use case: stylized-concept. Asset type: seamless tileable industrial interior concrete floor texture for a top-down realistic 2D survival game. ONE continuous flat surface, exact orthographic straight-down view, zero perspective. Old poured concrete, desaturated warm gray and dusty beige, very fine aggregate, tiny pits, subdued scuff marks, faint irregular dust mottling. Balanced even brightness, gentle natural variation, low contrast, believable worn utility-room or warehouse floor. SEAMLESS tile on ALL four edges, texture fills all pixels, opaque square. No slab grid, no straight border, no wall, no room, no furniture, no object, no leaves, no pooled water, no footprints, no text, no huge cracks or unique focal stains. No directional shadows or light gradient. Fine painterly realistic detail in earthy muted palette; intended for large repeated floor areas where furniture, structural joints and shadows are rendered separately in the game.

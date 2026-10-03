@@ -7,14 +7,84 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - name: Vérification complète
-        run: npm run check
-      - name: Endurance logique de deux campagnes
+          node-version: 24
+          cache: npm
+      - name: Installer les dépendances de développement
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Vérification complète avec endurance
         env:
           DEADWALL_SOAK: '1'
-        run: node --test tests/soak.test.cjs
+        run: npm run check
+      - name: Installer Chromium pour les parcours réels
+        run: npx playwright install --with-deps chromium
+      - name: Navigateur desktop, mobile et PWA hors ligne
+        run: npm run test:browser
+      - name: Campagne réelle et préparatifs de siège sur quatre formats
+        run: npm run test:campaign
+      - name: Repli et récompenses réservées dans des scènes avancées
+        run: npm run test:tactics
+      - name: Terrain régional et commandes natives sur quatre formats
+        run: npm run test:terrain
+      - name: Parcours régional réel sur une autre graine
+        run: npm run test:journey
+      - name: Échelons d'assaut et reprise dans une scène avancée
+        run: npm run test:assault
+      - name: Reconstruction confirmée et physiquement achevée
+        run: npm run test:reconstruction
+      - name: Contacts observés et disparition immédiate sur les cartes
+        run: npm run test:visibility
+      - name: Appoints du sac et préparation des nouveaux fronts
+        run: npm run test:preparations
+      - name: D17 defenses and crafting
+        run: npm run test:defenses
+      - name: Version autonome ouverte depuis le disque
+        run: npm run test:standalone
+      - name: Archives web et autonome
+        run: npm run package:web
+      - name: Conserver les preuves et livrables
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-web-qa
+          path: |
+            artifacts/qa/
+            release/web/
+          if-no-files-found: warn
+
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Installer les outils Windows
+        run: npm ci
+      - name: Fabriquer le portable Windows
+        run: npm run package:desktop
+      - name: Vérifier deux lancements de l’archive extraite
+        shell: pwsh
+        run: |
+          $package = Get-ChildItem release/desktop -Recurse -Filter '*-Windows-x64-portable.zip' | Select-Object -First 1
+          if (-not $package) { throw 'Archive Windows introuvable.' }
+          npm run test:desktop -- --archive $package.FullName --output artifacts/qa/windows
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Conserver le portable et ses preuves
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-windows-qa
+          path: |
+            release/desktop/**/DEADWALL-*-Windows-x64-portable.zip
+            release/desktop/**/release-manifest.json
+            artifacts/qa/windows/
+          if-no-files-found: warn

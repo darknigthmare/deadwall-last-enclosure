@@ -1,0 +1,3221 @@
+{
+  "version": 1,
+  "note": "Catalogue de conception ; trois descriptions partielles du réseau actuel, 48 projets. Aucune génération supplémentaire.",
+  "profiles": [
+    {
+      "id": "road133-runtime-axis",
+      "title": "Axes régionaux actuels",
+      "group": "current",
+      "status": "pilote",
+      "generated": true,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          7,
+          9
+        ],
+        "lanes": null,
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": false
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Segments reliés du réseau G4/G5 ; largeur ne prouvant ni nombre de voies ni régime de circulation.",
+      "risk": "Les croisements actuels sont à niveau ; aucune voie rapide dénivelée ne doit être déduite de leur largeur.",
+      "decor": "Accotements, marquages interrompus aux raccords et abords existants.",
+      "night": "Éclairage existant des lieux et matériel nocturne ; le réseau routier ne reçoit pas automatiquement des lampadaires.",
+      "supplies": "Ressources dans les vrais contenants des lieux voisins ; aucun budget supplémentaire sur le bitume.",
+      "check": "Comparer les centres, largeurs et raccords aux segments réels G4/G5 et aux accès p.drive.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-runtime-axis-v1",
+          "name": "Axe historique de 7 m",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-axis-v2",
+          "name": "Axe G5 de 7 m",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-axis-v3",
+          "name": "Axe G5 de 9 m",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-axis-v4",
+          "name": "Raccord entre noyau et région",
+          "status": "pilote"
+        }
+      ],
+      "runtime": {
+        "files": [
+          "src/frontier-world.js",
+          "src/world-stream131.js",
+          "src/region-roadkit.js"
+        ],
+        "locator": "world.roads: width===7 || width===9",
+        "caveat": "Profil descriptif seulement. Le moteur ne modélise pas les voies séparément et ne simule pas le code de la route."
+      }
+    },
+    {
+      "id": "road133-runtime-street",
+      "title": "Rues régionales actuelles",
+      "group": "current",
+      "status": "pilote",
+      "generated": true,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          5.8,
+          5.8
+        ],
+        "lanes": null,
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": false
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Rues de bourgs et bouts de réseau ; même ligne centrale pour carte, peinture et recherche routière.",
+      "risk": "La largeur ne garantit pas une manœuvre de camion : les véhicules doivent encore passer les collisions réelles.",
+      "decor": "Accotements, marquages interrompus aux raccords et abords existants.",
+      "night": "Éclairage existant des lieux et matériel nocturne ; le réseau routier ne reçoit pas automatiquement des lampadaires.",
+      "supplies": "Ressources dans les vrais contenants des lieux voisins ; aucun budget supplémentaire sur le bitume.",
+      "check": "Comparer les centres, largeurs et raccords aux segments réels G4/G5 et aux accès p.drive.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-runtime-street-v1",
+          "name": "Rue traversante",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-street-v2",
+          "name": "Rue périphérique",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-street-v3",
+          "name": "Rue oblique",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-street-v4",
+          "name": "Extrémité régionale",
+          "status": "pilote"
+        }
+      ],
+      "runtime": {
+        "files": [
+          "src/frontier-world.js",
+          "src/world-stream131.js",
+          "src/region-roadkit.js"
+        ],
+        "locator": "world.roads: width===5.8",
+        "caveat": "Profil descriptif seulement. Le moteur ne modélise pas les voies séparément et ne simule pas le code de la route."
+      }
+    },
+    {
+      "id": "road133-runtime-drive",
+      "title": "Accès actuels aux bâtiments",
+      "group": "current",
+      "status": "pilote",
+      "generated": true,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          4,
+          4
+        ],
+        "lanes": null,
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": false
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Relier la façade au vrai segment public, sans peindre de bordure en travers du raccord.",
+      "risk": "Un accès de 4 m est un corridor partagé, pas une rue à deux voies ni un lieu de demi-tour garanti.",
+      "decor": "Accotements, marquages interrompus aux raccords et abords existants.",
+      "night": "Éclairage existant des lieux et matériel nocturne ; le réseau routier ne reçoit pas automatiquement des lampadaires.",
+      "supplies": "Ressources dans les vrais contenants des lieux voisins ; aucun budget supplémentaire sur le bitume.",
+      "check": "Comparer les centres, largeurs et raccords aux segments réels G4/G5 et aux accès p.drive.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-runtime-drive-v1",
+          "name": "Accès de maison",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-drive-v2",
+          "name": "Accès de commerce",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-drive-v3",
+          "name": "Accès de service",
+          "status": "pilote"
+        },
+        {
+          "id": "road133-runtime-drive-v4",
+          "name": "Accès oblique",
+          "status": "pilote"
+        }
+      ],
+      "runtime": {
+        "files": [
+          "src/frontier-world.js",
+          "src/world-stream131.js",
+          "src/region-roadkit.js"
+        ],
+        "locator": "poi.drive: {a,b,width:4}",
+        "caveat": "Profil descriptif seulement. Le moteur ne modélise pas les voies séparément et ne simule pas le code de la route."
+      }
+    },
+    {
+      "id": "road133-trail",
+      "title": "Sentier forestier",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "natural",
+        "dimension": "carriageway",
+        "metres": [
+          1.2,
+          2.2
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "pedestrian"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot"
+      ],
+      "access": "Parcours piéton entre lisière, clairière et repère ; raccord piéton seulement.",
+      "risk": "Ne jamais autoriser une voiture parce que les deux extrémités touchent des routes.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-trail-v1",
+          "name": "Lisière feuillue",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trail-v2",
+          "name": "Sous-bois résineux",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trail-v3",
+          "name": "Ancien passage de bûcheron",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trail-v4",
+          "name": "Sentier de crête",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-dirt",
+      "title": "Chemin de terre agricole",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "earth",
+        "dimension": "carriageway",
+        "metres": [
+          3,
+          4.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Voie partagée vers une parcelle, avec poche de croisement hors cultures.",
+      "risk": "Ornières visuelles distinctes de la traction future ; éviter une impasse sans retour.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-dirt-v1",
+          "name": "Deux ornières herbeuses",
+          "status": "plan"
+        },
+        {
+          "id": "road133-dirt-v2",
+          "name": "Terre battue sèche",
+          "status": "plan"
+        },
+        {
+          "id": "road133-dirt-v3",
+          "name": "Chemin creux drainé",
+          "status": "plan"
+        },
+        {
+          "id": "road133-dirt-v4",
+          "name": "Desserte de grange",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-gravel",
+      "title": "Chemin empierré",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "gravel",
+        "dimension": "carriageway",
+        "metres": [
+          3.5,
+          5.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Accès rural stabilisé avec accotement et rayon de giration selon le véhicule retenu.",
+      "risk": "Des cailloux décoratifs ne deviennent pas des gisements infinis.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-gravel-v1",
+          "name": "Grave calcaire",
+          "status": "plan"
+        },
+        {
+          "id": "road133-gravel-v2",
+          "name": "Gravier sombre",
+          "status": "plan"
+        },
+        {
+          "id": "road133-gravel-v3",
+          "name": "Empierrement réparé",
+          "status": "plan"
+        },
+        {
+          "id": "road133-gravel-v4",
+          "name": "Rive de carrière",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-bocage",
+      "title": "Chemin de bocage",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "earth",
+        "dimension": "carriageway",
+        "metres": [
+          3,
+          4.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Talus et haies placés après le corridor praticable ; ouvertures alignées avec les parcelles.",
+      "risk": "Branches, clôtures et murets ne masquent pas totalement la prochaine sortie.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-bocage-v1",
+          "name": "Haies basses",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bocage-v2",
+          "name": "Talus et fossés",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bocage-v3",
+          "name": "Murets ajourés",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bocage-v4",
+          "name": "Passage entre vergers",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-forest-track",
+      "title": "Piste forestière",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "gravel",
+        "dimension": "carriageway",
+        "metres": [
+          3.5,
+          5.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Piste d’exploitation vers aire de retournement ; barrière placée sur une entrée élargie.",
+      "risk": "Réserver le balayage du grumier avant troncs, tas de bois et fossés.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-forest-track-v1",
+          "name": "Pare-feu",
+          "status": "plan"
+        },
+        {
+          "id": "road133-forest-track-v2",
+          "name": "Desserte de coupe",
+          "status": "plan"
+        },
+        {
+          "id": "road133-forest-track-v3",
+          "name": "Piste à lacets",
+          "status": "plan"
+        },
+        {
+          "id": "road133-forest-track-v4",
+          "name": "Accès de poste forestier",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-logging-spur",
+      "title": "Antenne de débardage",
+      "group": "path",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "earth",
+        "dimension": "carriageway",
+        "metres": [
+          3,
+          5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Branche courte de piste, avec extrémité lisible et aire latérale de chargement.",
+      "risk": "Ne pas la traiter comme un raccourci permanent du réseau principal.",
+      "decor": "Fossé, barrière, borne, tas de branchages et souche hors du corridor. Les troncs et houppiers sont réservés après le tracé.",
+      "night": "Chemin normalement sombre ; balise ou lampe portative avec origine et durée explicites.",
+      "supplies": "Bois seulement sur des objets récoltables finis hors de la circulation ; aucune richesse attribuée à la texture du chemin.",
+      "check": "Parcourir entrée, croisement éventuel, destination et retour avec chaque gabarit autorisé.",
+      "sources": [
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-logging-spur-v1",
+          "name": "Coupe récente",
+          "status": "plan"
+        },
+        {
+          "id": "road133-logging-spur-v2",
+          "name": "Coupe ancienne",
+          "status": "plan"
+        },
+        {
+          "id": "road133-logging-spur-v3",
+          "name": "Place de dépôt",
+          "status": "plan"
+        },
+        {
+          "id": "road133-logging-spur-v4",
+          "name": "Passage humide stabilisé",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-country",
+      "title": "Petite route de campagne",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          4.5,
+          6
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Deux sens sur chaussée étroite ; accotements irréguliers et accès agricoles espacés.",
+      "risk": "Absence de ligne centrale possible ; aucun marquage autoroutier.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-country-v1",
+          "name": "Bocage",
+          "status": "plan"
+        },
+        {
+          "id": "road133-country-v2",
+          "name": "Plaine cultivée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-country-v3",
+          "name": "Vignoble",
+          "status": "plan"
+        },
+        {
+          "id": "road133-country-v4",
+          "name": "Route de ferme dispersée",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-departmental",
+      "title": "Route départementale",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          6,
+          7.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Axe interurbain raccordant les bourgs ; carrefours lisibles et voies d’accès latérales.",
+      "risk": "Le statut départemental ne fixe pas à lui seul la largeur ni la vitesse.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-departmental-v1",
+          "name": "Plaine à fossés",
+          "status": "plan"
+        },
+        {
+          "id": "road133-departmental-v2",
+          "name": "Traversée de bois",
+          "status": "plan"
+        },
+        {
+          "id": "road133-departmental-v3",
+          "name": "Entrée de village",
+          "status": "plan"
+        },
+        {
+          "id": "road133-departmental-v4",
+          "name": "Secteur de relief",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-village-street",
+      "title": "Traversée de village",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          5,
+          6.5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Transition visible entre campagne et bâti ; trottoirs et seuils de commerces cohérents.",
+      "risk": "Réserver une continuité piétonne sans rétrécir le véhicule jusqu’à traverser les murs.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-village-street-v1",
+          "name": "Rue de mairie",
+          "status": "plan"
+        },
+        {
+          "id": "road133-village-street-v2",
+          "name": "Rue de marché",
+          "status": "plan"
+        },
+        {
+          "id": "road133-village-street-v3",
+          "name": "Faubourg artisanal",
+          "status": "plan"
+        },
+        {
+          "id": "road133-village-street-v4",
+          "name": "Rue ancienne contrainte",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-bypass",
+      "title": "Rocade urbaine",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          12,
+          18
+        ],
+        "lanes": {
+          "forward": 2,
+          "backward": 2,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Chaussées séparées ; connexions regroupées et traversées piétonnes explicitement aménagées.",
+      "risk": "Une artère divisée n’est pas automatiquement une autoroute ; son régime reste déclaré.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-bypass-v1",
+          "name": "Boulevard périphérique",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bypass-v2",
+          "name": "Contournement industriel",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bypass-v3",
+          "name": "Section en tranchée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bypass-v4",
+          "name": "Liaison entre faubourgs",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-mountain-road",
+      "title": "Route de montagne",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          4.5,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Le tracé suit le relief avec lacets séparés en altitude et soutènements du bon côté.",
+      "risk": "Pas de nœud routier à l’intersection projetée de deux lacets de hauteurs différentes.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-mountain-road-v1",
+          "name": "Versant boisé",
+          "status": "plan"
+        },
+        {
+          "id": "road133-mountain-road-v2",
+          "name": "Lacet rocheux",
+          "status": "plan"
+        },
+        {
+          "id": "road133-mountain-road-v3",
+          "name": "Balcon exposé",
+          "status": "plan"
+        },
+        {
+          "id": "road133-mountain-road-v4",
+          "name": "Route de col",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-coastal-road",
+      "title": "Route littorale",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          5.5,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Conserver côte, talus et accès de plage ; parking sur parcelle dédiée.",
+      "risk": "Nécessite une vraie limite d’eau et un traitement des franchissements avant activation.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-coastal-road-v1",
+          "name": "Dune reculée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-coastal-road-v2",
+          "name": "Falaise",
+          "status": "plan"
+        },
+        {
+          "id": "road133-coastal-road-v3",
+          "name": "Front de petite ville",
+          "status": "plan"
+        },
+        {
+          "id": "road133-coastal-road-v4",
+          "name": "Digue accessible",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-stone-lane",
+      "title": "Rue pavée ou chemin en pierre",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "stone",
+        "dimension": "carriageway",
+        "metres": [
+          3,
+          6
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Desserte ancienne à faible gabarit ; distinguer pavage construit et éboulis naturel.",
+      "risk": "Le pavé ne justifie pas des rochers bloquants sur l’axe.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-stone-lane-v1",
+          "name": "Pavés de bourg",
+          "status": "plan"
+        },
+        {
+          "id": "road133-stone-lane-v2",
+          "name": "Dalles de cour",
+          "status": "plan"
+        },
+        {
+          "id": "road133-stone-lane-v3",
+          "name": "Voie antique réparée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-stone-lane-v4",
+          "name": "Ruelle minérale",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-motorway-2x2",
+      "title": "Autoroute 2 × 2 voies",
+      "group": "motorway",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          14,
+          14
+        ],
+        "lanes": {
+          "forward": 2,
+          "backward": 2,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Deux voies par sens, séparateur central, bords et bandes de sécurité réservés en plus de la chaussée.",
+      "risk": "Aucun accès de maison, carrefour à niveau, arrêt de bus ou giratoire sur la section courante.",
+      "decor": "Séparateur, glissières, clôture, panneaux et ouvrages de drainage suivent le profil et ses transitions.",
+      "night": "Échanges ou aires éclairés seulement si leur installation est alimentée ; longues sections sombres cohérentes.",
+      "supplies": "Récupération dans les véhicules ou installations accessibles ; pas de caisses disséminées sur chaque voie.",
+      "check": "Suivre séparément chaque sens et chaque bretelle ; aucune liaison à niveau, demi-tour par terre-plein ou accès de parcelle.",
+      "sources": [
+        "exchange"
+      ],
+      "variants": [
+        {
+          "id": "road133-motorway-2x2-v1",
+          "name": "Plaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x2-v2",
+          "name": "Tranchée boisée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x2-v3",
+          "name": "Remblai rural",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x2-v4",
+          "name": "Périphérie lointaine",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-motorway-2x3",
+      "title": "Autoroute 2 × 3 voies",
+      "group": "motorway",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          21,
+          21
+        ],
+        "lanes": {
+          "forward": 3,
+          "backward": 3,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Trois voies par sens ; élargissement progressif annoncé depuis une section 2 × 2.",
+      "risk": "Interdire la disparition abrupte d’une voie et réserver les insertions avant les obstacles.",
+      "decor": "Séparateur, glissières, clôture, panneaux et ouvrages de drainage suivent le profil et ses transitions.",
+      "night": "Échanges ou aires éclairés seulement si leur installation est alimentée ; longues sections sombres cohérentes.",
+      "supplies": "Récupération dans les véhicules ou installations accessibles ; pas de caisses disséminées sur chaque voie.",
+      "check": "Suivre séparément chaque sens et chaque bretelle ; aucune liaison à niveau, demi-tour par terre-plein ou accès de parcelle.",
+      "sources": [
+        "exchange"
+      ],
+      "variants": [
+        {
+          "id": "road133-motorway-2x3-v1",
+          "name": "Approche métropolitaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x3-v2",
+          "name": "Corridor logistique",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x3-v3",
+          "name": "Section entre échanges",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x3-v4",
+          "name": "Élargissement ancien",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-motorway-2x4",
+      "title": "Autoroute 2 × 4 voies",
+      "group": "motorway",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          28,
+          28
+        ],
+        "lanes": {
+          "forward": 4,
+          "backward": 4,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Quatre voies par sens sur corridor majeur, avec emprise nettement supérieure aux axes ruraux.",
+      "risk": "Forme rare et territorialisée ; pas une largeur tirée au hasard au milieu d’un village.",
+      "decor": "Séparateur, glissières, clôture, panneaux et ouvrages de drainage suivent le profil et ses transitions.",
+      "night": "Échanges ou aires éclairés seulement si leur installation est alimentée ; longues sections sombres cohérentes.",
+      "supplies": "Récupération dans les véhicules ou installations accessibles ; pas de caisses disséminées sur chaque voie.",
+      "check": "Suivre séparément chaque sens et chaque bretelle ; aucune liaison à niveau, demi-tour par terre-plein ou accès de parcelle.",
+      "sources": [
+        "exchange"
+      ],
+      "variants": [
+        {
+          "id": "road133-motorway-2x4-v1",
+          "name": "Couronne métropolitaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x4-v2",
+          "name": "Nœud interrégional",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x4-v3",
+          "name": "Approche de grand échange",
+          "status": "plan"
+        },
+        {
+          "id": "road133-motorway-2x4-v4",
+          "name": "Tronc commun de deux axes",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-ramp",
+      "title": "Bretelle autoroutière",
+      "group": "motorway",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          3.5,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "one-way"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Une ou deux voies à sens unique déclarées ; séparation, courbe puis insertion progressive.",
+      "risk": "Pas de virage à angle droit directement sur la chaussée rapide ni de demi-tour implicite.",
+      "decor": "Séparateur, glissières, clôture, panneaux et ouvrages de drainage suivent le profil et ses transitions.",
+      "night": "Échanges ou aires éclairés seulement si leur installation est alimentée ; longues sections sombres cohérentes.",
+      "supplies": "Récupération dans les véhicules ou installations accessibles ; pas de caisses disséminées sur chaque voie.",
+      "check": "Suivre séparément chaque sens et chaque bretelle ; aucune liaison à niveau, demi-tour par terre-plein ou accès de parcelle.",
+      "sources": [
+        "exchange"
+      ],
+      "variants": [
+        {
+          "id": "road133-ramp-v1",
+          "name": "Bretelle de sortie",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ramp-v2",
+          "name": "Bretelle d’entrée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ramp-v3",
+          "name": "Boucle lente",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ramp-v4",
+          "name": "Bretelle à deux voies",
+          "status": "plan",
+          "lanesOverride": {
+            "forward": 2,
+            "backward": 0
+          },
+          "carriagewayMetres": 7
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-work-zone",
+      "title": "Section en travaux",
+      "group": "road",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          3.2,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Déviation et rétrécissement raccordés ; balisage progressif en amont et sortie visible.",
+      "risk": "Les cônes n’annulent pas les collisions ni les sens de circulation ; gabarit déclaré par variante.",
+      "decor": "Bornes, signalisation, fossés, murs, clôtures et abribus selon le territoire, hors des trajectoires et triangles de visibilité.",
+      "night": "Campagne majoritairement sombre ; points éclairés près des usages actifs, jamais une guirlande gratuite sur chaque route.",
+      "supplies": "Stocks limités aux coffres, dépôts et commerces. Le nombre de panneaux et de fissures ne multiplie pas les ressources.",
+      "check": "Contrôler transition de largeur, branches, obstacles, façade et visibilité à l’approche.",
+      "sources": [
+        "arp",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-work-zone-v1",
+          "name": "Alternat abandonné",
+          "status": "plan"
+        },
+        {
+          "id": "road133-work-zone-v2",
+          "name": "Chaussée réparée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-work-zone-v3",
+          "name": "Déviation provisoire",
+          "status": "plan"
+        },
+        {
+          "id": "road133-work-zone-v4",
+          "name": "Voie neutralisée",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-tee",
+      "title": "Carrefour en T",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          18,
+          40
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Trois branches réellement raccordées ; la branche secondaire rejoint une zone de visibilité libre.",
+      "risk": "Interrompre les lignes au bon endroit ; pas de quatrième sortie dessinée sans sol praticable.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-tee-v1",
+          "name": "T rural",
+          "status": "plan"
+        },
+        {
+          "id": "road133-tee-v2",
+          "name": "T de village",
+          "status": "plan"
+        },
+        {
+          "id": "road133-tee-v3",
+          "name": "T canalisé",
+          "status": "plan"
+        },
+        {
+          "id": "road133-tee-v4",
+          "name": "T de desserte industrielle",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-offset",
+      "title": "Carrefours décalés",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          40,
+          100
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Deux T séparés par une section assez longue pour le véhicule de référence.",
+      "risk": "Ne pas fusionner les deux carrefours en une tache d’asphalte avec croisements ambigus.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-offset-v1",
+          "name": "Décalage droit",
+          "status": "plan"
+        },
+        {
+          "id": "road133-offset-v2",
+          "name": "Décalage gauche",
+          "status": "plan"
+        },
+        {
+          "id": "road133-offset-v3",
+          "name": "Entrées de hameau",
+          "status": "plan"
+        },
+        {
+          "id": "road133-offset-v4",
+          "name": "Accès de ferme opposés",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-cross",
+      "title": "Carrefour à quatre branches",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          22,
+          50
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Quatre branches à niveau ; bords continus et aire commune libre d’objets.",
+      "risk": "Éviter l’excès de branches et distinguer lampadaire, feu décoratif et feu réellement fonctionnel.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-cross-v1",
+          "name": "Croix rurale",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cross-v2",
+          "name": "Croix urbaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cross-v3",
+          "name": "Carrefour à îlots",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cross-v4",
+          "name": "Intersection de zone artisanale",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-fork",
+      "title": "Bifurcation en Y",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          20,
+          55
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Trois branches ; îlot possible hors des trajectoires et panneaux sur les approches.",
+      "risk": "Pas d’angle aigu imposant de traverser le terre-plein pour suivre le GPS.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-fork-v1",
+          "name": "Fourche forestière",
+          "status": "plan"
+        },
+        {
+          "id": "road133-fork-v2",
+          "name": "Bifurcation de vallée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-fork-v3",
+          "name": "Séparation de faubourg",
+          "status": "plan"
+        },
+        {
+          "id": "road133-fork-v4",
+          "name": "Choix de contournement",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-roundabout-compact",
+      "title": "Giratoire compact",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "outer-diameter",
+        "metres": [
+          24,
+          34
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "one-way"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Anneau à sens unique, îlot central et couronne franchissable si prévue pour le grand gabarit.",
+      "risk": "Les entrées infléchissent les trajectoires ; aucune route ne coupe visuellement l’îlot.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-roundabout-compact-v1",
+          "name": "Village",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-compact-v2",
+          "name": "Entrée de bourg",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-compact-v3",
+          "name": "Petit parc d’activité",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-compact-v4",
+          "name": "Carrefour de faubourg",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-roundabout-rural",
+      "title": "Giratoire interurbain",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "outer-diameter",
+        "metres": [
+          36,
+          56
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "one-way"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Anneau et branches séparés ; îlots d’approche et visibilité latérale dégagée.",
+      "risk": "Panneaux hors du balayage des véhicules ; pas d’arbre sur l’anneau.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-roundabout-rural-v1",
+          "name": "Quatre branches",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-rural-v2",
+          "name": "Trois branches",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-rural-v3",
+          "name": "Accès de zone industrielle",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-rural-v4",
+          "name": "Transition de contournement",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-roundabout-urban",
+      "title": "Grand giratoire urbain",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "outer-diameter",
+        "metres": [
+          45,
+          70
+        ],
+        "lanes": {
+          "forward": 2,
+          "backward": 0,
+          "separated": false,
+          "traffic": "one-way"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Deux voies circulaires proposées, choix de sortie et rabattement cohérents.",
+      "risk": "Deux voies ne doublent pas mécaniquement la capacité ; piétons et cyclistes ont des parcours séparés.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-roundabout-urban-v1",
+          "name": "Place périphérique",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-urban-v2",
+          "name": "Porte de ville",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-urban-v3",
+          "name": "Carrefour commercial",
+          "status": "plan"
+        },
+        {
+          "id": "road133-roundabout-urban-v4",
+          "name": "Double desserte de boulevard",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-diamond",
+      "title": "Échangeur en losange",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          240,
+          480
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": true,
+          "traffic": "junction"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Quatre bretelles raccordent une route transversale au-dessus ou au-dessous de l’axe rapide.",
+      "risk": "Croisements éventuels seulement aux terminaisons sur la route secondaire, jamais sur l’autoroute.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-diamond-v1",
+          "name": "Route au-dessus",
+          "status": "plan"
+        },
+        {
+          "id": "road133-diamond-v2",
+          "name": "Route au-dessous",
+          "status": "plan"
+        },
+        {
+          "id": "road133-diamond-v3",
+          "name": "Terminaisons en T",
+          "status": "plan"
+        },
+        {
+          "id": "road133-diamond-v4",
+          "name": "Terminaisons giratoires",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-trumpet",
+      "title": "Échangeur en trompette",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          300,
+          650
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": true,
+          "traffic": "junction"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Raccord à trois branches, avec boucle et bretelles lisibles en altitude.",
+      "risk": "Ne pas imposer une croisée à niveau au tronc principal ni une sortie en sens interdit.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-trumpet-v1",
+          "name": "Terminaison rurale",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trumpet-v2",
+          "name": "Liaison de vallée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trumpet-v3",
+          "name": "Accès de péage",
+          "status": "plan"
+        },
+        {
+          "id": "road133-trumpet-v4",
+          "name": "Jonction de contournement",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-cloverleaf",
+      "title": "Échangeur à boucles",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          400,
+          800
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": true,
+          "traffic": "junction"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Boucles et voies collectrices réservées avant les parcelles voisines.",
+      "risk": "Les entrecroisements demandent une vraie longueur de transition ; ne pas miniaturiser le trèfle.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-cloverleaf-v1",
+          "name": "Demi-trèfle",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cloverleaf-v2",
+          "name": "Trèfle historique",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cloverleaf-v3",
+          "name": "Boucles avec collectrices",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cloverleaf-v4",
+          "name": "Boucle et bretelle directe",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-directional",
+      "title": "Échangeur directionnel",
+      "group": "junction",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          500,
+          1100
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": true,
+          "traffic": "junction"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Bretelles directes en couches distinctes, rares et réservées aux grands axes.",
+      "risk": "Niveaux, piles et rampes doivent former une structure physiquement continue.",
+      "decor": "Îlots, bordures et panneaux découlent des branches. Laisser le centre des trajectoires vide ; pas de buisson planté dans un raccord.",
+      "night": "Éclairer une entrée ou un conflit précis si le lieu est alimenté. Les marquages réfléchissants ne sont pas des sources lumineuses.",
+      "supplies": "Un carrefour n’est pas un gisement ; une épave éventuelle conserve un budget unique et une voie de retour.",
+      "check": "Tester toutes les paires origine–sortie permises ; interdire les autres dans le graphe et les collisions.",
+      "sources": [
+        "arp",
+        "exchange",
+        "urban"
+      ],
+      "variants": [
+        {
+          "id": "road133-directional-v1",
+          "name": "Trois branches",
+          "status": "plan"
+        },
+        {
+          "id": "road133-directional-v2",
+          "name": "Quatre branches",
+          "status": "plan"
+        },
+        {
+          "id": "road133-directional-v3",
+          "name": "Superposition urbaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-directional-v4",
+          "name": "Nœud de fret",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-small-bridge",
+      "title": "Petit pont rural",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          3.5,
+          6
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Tablier reliant deux berges avec culées et parapets ; croisement alterné si étroit.",
+      "risk": "Aucune connexion GPS entre le lit inférieur et le tablier au milieu de l’ouvrage.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-small-bridge-v1",
+          "name": "Pont de pierre",
+          "status": "plan"
+        },
+        {
+          "id": "road133-small-bridge-v2",
+          "name": "Pont de béton",
+          "status": "plan"
+        },
+        {
+          "id": "road133-small-bridge-v3",
+          "name": "Petit ouvrage métallique",
+          "status": "plan"
+        },
+        {
+          "id": "road133-small-bridge-v4",
+          "name": "Pont de ferme",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-river-bridge",
+      "title": "Pont routier de rivière",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          6,
+          9
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Tablier à deux sens, approches progressives et continuité de protection des bords.",
+      "risk": "Rivière et piles sont de vrais volumes ; un pilier ne se place pas sur le chemin sous ouvrage.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-river-bridge-v1",
+          "name": "Poutres de béton",
+          "status": "plan"
+        },
+        {
+          "id": "road133-river-bridge-v2",
+          "name": "Arches",
+          "status": "plan"
+        },
+        {
+          "id": "road133-river-bridge-v3",
+          "name": "Pont ancien élargi",
+          "status": "plan"
+        },
+        {
+          "id": "road133-river-bridge-v4",
+          "name": "Tablier réparé",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-viaduct",
+      "title": "Viaduc routier",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          14,
+          28
+        ],
+        "lanes": {
+          "forward": 2,
+          "backward": 2,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Travées, piles et chaussées continues au-dessus d’une vallée ou d’infrastructures.",
+      "risk": "Le nombre de voies de la variante fixe la largeur ; aucune collision globale à toute altitude.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-viaduct-v1",
+          "name": "Deux voies par sens",
+          "status": "plan"
+        },
+        {
+          "id": "road133-viaduct-v2",
+          "name": "Trois voies par sens",
+          "status": "plan",
+          "lanesOverride": {
+            "forward": 3,
+            "backward": 3
+          },
+          "carriagewayMetres": 21
+        },
+        {
+          "id": "road133-viaduct-v3",
+          "name": "Tabliers séparés",
+          "status": "plan"
+        },
+        {
+          "id": "road133-viaduct-v4",
+          "name": "Courbe de vallée",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-steel-bridge",
+      "title": "Pont à charpente métallique",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "steel",
+        "dimension": "carriageway",
+        "metres": [
+          3.5,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Poutres, contreventements et gabarit intérieur ; réserver une approche avant le portail.",
+      "risk": "La silhouette de la charpente ne doit pas bloquer un véhicule annoncé compatible.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-steel-bridge-v1",
+          "name": "Treillis riveté",
+          "status": "plan"
+        },
+        {
+          "id": "road133-steel-bridge-v2",
+          "name": "Tablier mixte",
+          "status": "plan"
+        },
+        {
+          "id": "road133-steel-bridge-v3",
+          "name": "Pont industriel",
+          "status": "plan"
+        },
+        {
+          "id": "road133-steel-bridge-v4",
+          "name": "Remplacement provisoire",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-footbridge",
+      "title": "Passerelle piétonne",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "timber",
+        "dimension": "carriageway",
+        "metres": [
+          1.5,
+          3
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "pedestrian"
+        },
+        "level": "grade-separated",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot"
+      ],
+      "access": "Relier deux chemins par escaliers ou rampes piétonnes explicitement présents.",
+      "risk": "Ne jamais connecter la voie automobile à la passerelle dans le graphe de véhicule.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-footbridge-v1",
+          "name": "Bois de campagne",
+          "status": "plan"
+        },
+        {
+          "id": "road133-footbridge-v2",
+          "name": "Acier urbain",
+          "status": "plan"
+        },
+        {
+          "id": "road133-footbridge-v3",
+          "name": "Passerelle de canal",
+          "status": "plan"
+        },
+        {
+          "id": "road133-footbridge-v4",
+          "name": "Passage de ravin",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-underpass",
+      "title": "Passage inférieur",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "concrete",
+        "dimension": "carriageway",
+        "metres": [
+          4,
+          8
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "below-ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Le passage inférieur conserve sa propre altitude et ses accès de drainage.",
+      "risk": "Piles et culées ne se confondent pas avec une barrière couvrant tout le rectangle.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-underpass-v1",
+          "name": "Route sous voie rapide",
+          "status": "plan"
+        },
+        {
+          "id": "road133-underpass-v2",
+          "name": "Chemin sous remblai",
+          "status": "plan"
+        },
+        {
+          "id": "road133-underpass-v3",
+          "name": "Passage de service",
+          "status": "plan"
+        },
+        {
+          "id": "road133-underpass-v4",
+          "name": "Accès agricole busé",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-short-tunnel",
+      "title": "Tunnel routier bidirectionnel",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          6,
+          8
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "below-ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Un tube à deux sens ; portails, parois et cheminement d’évacuation réservés avant le décor.",
+      "risk": "Nécessite visibilité et éclairage cohérents ; pas de forêt générée dans le volume creusé.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-short-tunnel-v1",
+          "name": "Traversée rocheuse",
+          "status": "plan"
+        },
+        {
+          "id": "road133-short-tunnel-v2",
+          "name": "Tunnel de col",
+          "status": "plan"
+        },
+        {
+          "id": "road133-short-tunnel-v3",
+          "name": "Tunnel court périurbain",
+          "status": "plan"
+        },
+        {
+          "id": "road133-short-tunnel-v4",
+          "name": "Ouvrage ancien élargi",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-twin-tunnel",
+      "title": "Tunnel à deux tubes",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "carriageway",
+        "metres": [
+          14,
+          21
+        ],
+        "lanes": {
+          "forward": 2,
+          "backward": 2,
+          "separated": true,
+          "traffic": "bidirectional"
+        },
+        "level": "below-ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Un tube par sens ; voies maintenues depuis les portails et liaisons de secours identifiées.",
+      "risk": "Les galeries de secours ne sont pas des raccourcis pour les véhicules.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-twin-tunnel-v1",
+          "name": "Deux voies par tube",
+          "status": "plan"
+        },
+        {
+          "id": "road133-twin-tunnel-v2",
+          "name": "Trois voies par tube",
+          "status": "plan",
+          "lanesOverride": {
+            "forward": 3,
+            "backward": 3
+          },
+          "carriagewayMetres": 21
+        },
+        {
+          "id": "road133-twin-tunnel-v3",
+          "name": "Tubes décalés",
+          "status": "plan"
+        },
+        {
+          "id": "road133-twin-tunnel-v4",
+          "name": "Tunnel autoroutier long",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-cut-cover",
+      "title": "Tranchée couverte",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "concrete",
+        "dimension": "carriageway",
+        "metres": [
+          6,
+          14
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "below-ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Route sous couverture avec ouvrages latéraux et surface supérieure distincte.",
+      "risk": "La parcelle au-dessus n’interagit pas à travers la dalle avec les objets du dessous.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-cut-cover-v1",
+          "name": "Couverture urbaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cut-cover-v2",
+          "name": "Passage de périphérie",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cut-cover-v3",
+          "name": "Écran de quartier",
+          "status": "plan"
+        },
+        {
+          "id": "road133-cut-cover-v4",
+          "name": "Court tunnel d’accès",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-rock-gallery",
+      "title": "Galerie de protection",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "concrete",
+        "dimension": "carriageway",
+        "metres": [
+          5,
+          7
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Couverture accolée au versant, ouvertures vers l’aval et débouchés dégagés.",
+      "risk": "Protection visuelle sans effondrement simulé tant que cette mécanique n’existe pas.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-rock-gallery-v1",
+          "name": "Pare-blocs",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rock-gallery-v2",
+          "name": "Galerie de falaise",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rock-gallery-v3",
+          "name": "Secteur avalancheux",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rock-gallery-v4",
+          "name": "Galerie semi-ouverte",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-ford",
+      "title": "Gué aménagé",
+      "group": "structure",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "stone",
+        "dimension": "carriageway",
+        "metres": [
+          3,
+          5
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 0,
+          "separated": false,
+          "traffic": "shared"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Route traversant réellement un lit peu profond avec seuils et retour sur les berges.",
+      "risk": "Projet conditionné à une hydrologie jouable ; crue et profondeur ne sont pas de simples textures.",
+      "decor": "Culées, piles, parapets, caniveaux et locaux techniques suivent le volume réel ; aucune plante dans un tablier ou un tube.",
+      "night": "Portails, niches et cheminements identifiés ; éclairage intérieur dépendant d’une alimentation et du bon niveau.",
+      "supplies": "Outillage et réserve dans un local ou un coffre accessible ; aucune nourriture dans le béton structurel.",
+      "check": "Vérifier au-dessus, au-dessous et dans le volume ; conserver les hauteurs dans collision, GPS, caméra, lumière et sauvegarde.",
+      "sources": [
+        "tunnel",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-ford-v1",
+          "name": "Dalles basses",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ford-v2",
+          "name": "Radier de béton",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ford-v3",
+          "name": "Pierres maçonnées",
+          "status": "plan"
+        },
+        {
+          "id": "road133-ford-v4",
+          "name": "Déviation de pont",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-rest-area",
+      "title": "Aire de repos",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          70,
+          160
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Entrée puis boucle de stationnement puis sortie ; sentiers séparés des manœuvres.",
+      "risk": "Les réserves appartiennent aux coffres ou au local ; les tables ne produisent pas de nourriture.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-rest-area-v1",
+          "name": "Aire boisée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rest-area-v2",
+          "name": "Belvédère",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rest-area-v3",
+          "name": "Aire de plaine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-rest-area-v4",
+          "name": "Aire de poids lourds",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-service-area",
+      "title": "Aire de services",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          120,
+          260
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Pompes, stationnement, boutique et livraisons reliés sans traverser le sens rapide.",
+      "risk": "Aucune pompe infinie ; alimentation et carburant viennent d’un état de lieu fini.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-service-area-v1",
+          "name": "Petite station",
+          "status": "plan"
+        },
+        {
+          "id": "road133-service-area-v2",
+          "name": "Grande aire",
+          "status": "plan"
+        },
+        {
+          "id": "road133-service-area-v3",
+          "name": "Station fermée",
+          "status": "plan"
+        },
+        {
+          "id": "road133-service-area-v4",
+          "name": "Aire avec motel",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-toll",
+      "title": "Ancienne barrière de péage",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          80,
+          220
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "car",
+        "truck"
+      ],
+      "access": "Élargissement progressif vers les cabines puis convergence vers l’axe.",
+      "risk": "Ne pas laisser tous les passages physiquement fermés sans retour annoncé avant l’approche.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-toll-v1",
+          "name": "Péage pleine voie",
+          "status": "plan"
+        },
+        {
+          "id": "road133-toll-v2",
+          "name": "Sortie à tickets",
+          "status": "plan"
+        },
+        {
+          "id": "road133-toll-v3",
+          "name": "Voie de service",
+          "status": "plan"
+        },
+        {
+          "id": "road133-toll-v4",
+          "name": "Barrière partiellement évacuée",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-maintenance",
+      "title": "Centre d’entretien routier",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          60,
+          150
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Cour, atelier, matériaux, garage et portail de service ; accès depuis le réseau secondaire.",
+      "risk": "Engins décoratifs non pilotables tant que leur conduite n’est pas disponible.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-maintenance-v1",
+          "name": "Petit dépôt",
+          "status": "plan"
+        },
+        {
+          "id": "road133-maintenance-v2",
+          "name": "District autoroutier",
+          "status": "plan"
+        },
+        {
+          "id": "road133-maintenance-v3",
+          "name": "Station hivernale",
+          "status": "plan"
+        },
+        {
+          "id": "road133-maintenance-v4",
+          "name": "Atelier départemental",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-bus-bay",
+      "title": "Arrêt en retrait",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "asphalt",
+        "dimension": "envelope",
+        "metres": [
+          25,
+          60
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car"
+      ],
+      "access": "Baie en retrait sur route compatible et chemin piéton vers les habitations.",
+      "risk": "Pas d’arrêt public posé sur une section courante autoroutière.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-bus-bay-v1",
+          "name": "Abri de village",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bus-bay-v2",
+          "name": "Arrêt rural",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bus-bay-v3",
+          "name": "Arrêt scolaire",
+          "status": "plan"
+        },
+        {
+          "id": "road133-bus-bay-v4",
+          "name": "Ancienne halte de quartier",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-layby",
+      "title": "Refuge et aire de retournement",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "gravel",
+        "dimension": "envelope",
+        "metres": [
+          15,
+          45
+        ],
+        "lanes": {
+          "forward": 0,
+          "backward": 0,
+          "separated": false,
+          "traffic": "junction"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Élargissement latéral hors du flux, dimensionné selon le véhicule admis.",
+      "risk": "Ne pas masquer une absence de demi-tour par une téléportation du véhicule.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-layby-v1",
+          "name": "Refuge de piste",
+          "status": "plan"
+        },
+        {
+          "id": "road133-layby-v2",
+          "name": "Demi-tour forestier",
+          "status": "plan"
+        },
+        {
+          "id": "road133-layby-v3",
+          "name": "Renfoncement rocheux",
+          "status": "plan"
+        },
+        {
+          "id": "road133-layby-v4",
+          "name": "Accès de secours",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-industrial-road",
+      "title": "Desserte industrielle",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "concrete",
+        "dimension": "carriageway",
+        "metres": [
+          7,
+          10
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Portails en retrait, giration, quais et bandes piétonnes raccordés aux parcelles.",
+      "risk": "Les remorques ne traversent ni clôtures ni rangées de conteneurs lors de leur virage.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-industrial-road-v1",
+          "name": "Boucle d’entrepôts",
+          "status": "plan"
+        },
+        {
+          "id": "road133-industrial-road-v2",
+          "name": "Cour d’usine",
+          "status": "plan"
+        },
+        {
+          "id": "road133-industrial-road-v3",
+          "name": "Accès de carrière",
+          "status": "plan"
+        },
+        {
+          "id": "road133-industrial-road-v4",
+          "name": "Desserte de silo",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    },
+    {
+      "id": "road133-quay-road",
+      "title": "Voirie portuaire",
+      "group": "service",
+      "status": "plan",
+      "generated": false,
+      "geometry": {
+        "surface": "concrete",
+        "dimension": "carriageway",
+        "metres": [
+          7,
+          12
+        ],
+        "lanes": {
+          "forward": 1,
+          "backward": 1,
+          "separated": false,
+          "traffic": "bidirectional"
+        },
+        "level": "ground",
+        "units": "regional-metres",
+        "indicative": true
+      },
+      "users": [
+        "foot",
+        "car",
+        "truck"
+      ],
+      "access": "Séparer quai, voie lourde, stockage et circulation des équipes ; clôture traversée par un vrai portail.",
+      "risk": "Projet lié au port et à l’eau ; pas de ponton décoratif traité comme route terrestre.",
+      "decor": "Places, bordures, mobilier, poubelles, enseignes et matériel de travail suivent les zones d’usage ; garder les issues libres.",
+      "night": "Éclairages de tâche et de façade avec circuit ou générateur déclaré ; réserves de carburant finies.",
+      "supplies": "Budget de site fixé avant répartition entre contenants ; un nouveau décor n’ajoute pas une deuxième réserve.",
+      "check": "Prouver le parcours routier et piéton entrée–usage–chargement–sortie, y compris avec un véhicule long.",
+      "sources": [
+        "exchange",
+        "arp"
+      ],
+      "variants": [
+        {
+          "id": "road133-quay-road-v1",
+          "name": "Quai cargo",
+          "status": "plan"
+        },
+        {
+          "id": "road133-quay-road-v2",
+          "name": "Terminal de fret",
+          "status": "plan"
+        },
+        {
+          "id": "road133-quay-road-v3",
+          "name": "Port de pêche",
+          "status": "plan"
+        },
+        {
+          "id": "road133-quay-road-v4",
+          "name": "Desserte d’atelier naval",
+          "status": "plan"
+        }
+      ],
+      "runtime": null
+    }
+  ],
+  "sources": [
+    {
+      "id": "arp",
+      "title": "Cerema — Aménagement des routes principales, présentation du guide (2022)",
+      "url": "https://www.cerema.fr/fr/actualites/amenagement-routes-principales-guide-reference",
+      "scope": "Hiérarchie, contexte, profils, visibilité, transitions et entretien. Les dimensions ci-dessous sont des propositions de jeu, pas des valeurs normatives extraites du guide."
+    },
+    {
+      "id": "exchange",
+      "title": "Cerema — Motorway Interchanges, édition corrigée 2015 / mise à jour 2021, publication 2023",
+      "url": "https://doc.cerema.fr/Default/doc/SYRACUSE/594140",
+      "scope": "Conception des échanges et accès aux aires annexes. Notice consultée ; aucun schéma du guide reproduit."
+    },
+    {
+      "id": "urban",
+      "title": "Département de Haute-Savoie — Guide des traversées d’agglomération, édition 2016, hébergé par Cerema",
+      "url": "https://www.cerema.fr/system/files/documents/2021/12/rrd74-gata_gt_a-edition2016.pdf",
+      "scope": "Distinction entre chaussée, carrefour, giratoire traditionnel, compact et mini-giratoire. Référence locale, pas une norme universelle."
+    },
+    {
+      "id": "tunnel",
+      "title": "CETU — Géométrie des tunnels routiers",
+      "url": "https://www.cetu.developpement-durable.gouv.fr/geometrie-a573.html",
+      "scope": "Séparation du profil en long et du dimensionnement du tunnel. Page de références consultée ; les gabarits de jeu ne certifient aucun ouvrage réel."
+    }
+  ],
+  "spawnProposals": {
+    "isolated": {
+      "empty": 70,
+      "infected": 24,
+      "allied": 5,
+      "hostile": 1
+    },
+    "village": {
+      "empty": 54,
+      "infected": 34,
+      "allied": 10,
+      "hostile": 2
+    },
+    "service": {
+      "empty": 48,
+      "infected": 40,
+      "allied": 9,
+      "hostile": 3
+    },
+    "industrial": {
+      "empty": 51,
+      "infected": 40,
+      "allied": 5,
+      "hostile": 4
+    },
+    "interchange": {
+      "empty": 68,
+      "infected": 26,
+      "allied": 4,
+      "hostile": 2
+    },
+    "tunnel": {
+      "empty": 76,
+      "infected": 22,
+      "allied": 1,
+      "hostile": 1
+    }
+  }
+}

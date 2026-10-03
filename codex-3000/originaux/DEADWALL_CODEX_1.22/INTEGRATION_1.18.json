@@ -1,0 +1,24 @@
+{
+  "game_version": "1.18.0-rc.1",
+  "codex_version": "1.3.0",
+  "new_plans": 0,
+  "linked_plans": 42,
+  "unchanged_generations": [
+    1,
+    2,
+    3
+  ],
+  "guide": "05_RELAIS_1.18.md",
+  "modules": [
+    "frontier-logistics.js",
+    "frontier-care.js",
+    "frontier-care-ui.js"
+  ],
+  "features": [
+    "Inventaires physiques distincts",
+    "Relais dans les contenants vidés",
+    "Soins et réparation interrompables",
+    "Budget de retour sans déplacement automatique"
+  ],
+  "save_version": 17
+}

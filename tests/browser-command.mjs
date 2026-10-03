@@ -12,7 +12,7 @@ const reports=[];
 for(const variant of [{name:'desktop',width:1440,height:900},{name:'laptop',width:1280,height:720},{name:'mobile',width:390,height:844,touch:true},{name:'small-mobile',width:320,height:640,touch:true},{name:'tablet',width:1024,height:768,touch:true},{name:'landscape',width:844,height:390,touch:true}]){
   const context=await browser.newContext({viewport:variant,hasTouch:!!variant.touch,isMobile:!!variant.touch,deviceScaleFactor:1});
   const page=await context.newPage(),report={viewport:variant,checks:[],errors:[]};reports.push(report);
-  page.on('pageerror',error=>report.errors.push(error.message));
+  page.setDefaultTimeout(5000);page.on('pageerror',error=>report.errors.push(error.message));
   page.on('console',msg=>{if(msg.type()==='error')report.errors.push(msg.text());});
   const check=(name,value=true)=>{assert.ok(value,name);report.checks.push(name);};
   const shot=async name=>{await page.waitForTimeout(200);return page.screenshot({path:path.join(output,variant.name+'-'+name+'.png')});};

@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const C=require('../src/core.js'),N=require('../src/narrative.js'),Save=require('../src/save.js');
 const {bootGame}=require('./helpers/browser.cjs');
@@ -10,7 +12,7 @@ function observe(game,theme){
   for(let i=0;i<200;i++)game.updateNarrativeSurvey(.04);
   game.input.keys.delete('KeyE');return site;
 }
-function returnToCore(game){game.player.x=game.core().x;game.player.y=game.core().y;game.paused=true;game.activeOverlay=game.ui.commandModal;}
+function returnToCore(game){standAt(game,game.player,game.core());game.paused=true;game.activeOverlay=game.ui.commandModal;}
 
 test('récit : six traces originales, deux choix bornés, quatre chapitres et aucun gain de simple visite',()=>{
   assert.equal(N.SECTORS.length,6);assert.equal(N.CHAPTERS.length,4);
@@ -57,10 +59,10 @@ test('récit : le relevé réel passe par ACTION libre, sans détourner la réco
   const {game}=start(),site=game.world.sites[0];
   game.player.x=site.x;game.player.y=site.y;game.input.keys.add('KeyE');
   // Clear only a test fixture's existing random node at the centre, not production resources.
-  for(const node of game.world.nodes)if(C.dist(node,site)<100)node.depleted=true;
+  for(const node of game.world.nodes)if(C.dist(node,site)<240)node.depleted=true;
   game.updateInteraction(.1);assert.equal(game.narrative.sectors[site.theme].survey,.1);
   const node=game.world.nodes.find(item=>item.siteId===site.id);
-  node.x=site.x;node.y=site.y;node.depleted=false;node.amount=20;
+  node.x=site.x+85;node.y=site.y;node.depleted=false;node.amount=20;game.world.navigationVersion++;
   game.updateInteraction(.1);assert.ok(C.bagTotal(game.player.carry)>0);assert.equal(game.narrative.sectors[site.theme].survey,.1);
 });
 
@@ -173,7 +175,7 @@ test('récit : coût refusé derrière un rempart entre le commandant et le dép
   const {game}=start();observe(game,'housing');
   const data=clone(game.serialize()),core=game.core(),wallId=game.nextId++;
   data.buildings.push({id:wallId,type:'woodWall',gx:67,gy:64,rotation:0,progress:1,health:360});
-  data.nextId=game.nextId;game.restoreSave(data);
+  data.nextId=game.nextId;data.urban.peakScore=C.Urban.score(data.buildings);game.restoreSave(data);
   Object.assign(game.player,{x:core.x+145,y:core.y+16});game.paused=true;game.activeOverlay=game.ui.commandModal;
   const before=clone(game.resources);assert.equal(game.resolveNarrative('housing','A'),false);assert.deepEqual(game.resources,before);
 });
@@ -182,7 +184,7 @@ test('récit : une construction ancienne au centre du secteur ne condamne pas le
   const {game}=start(),site=game.world.sites[0],data=clone(game.serialize());
   const gx=C.grid(site.x),gy=C.grid(site.y);
   data.buildings.push({id:game.nextId,type:'woodWall',gx,gy,rotation:0,progress:1,health:360});
-  data.nextId=game.nextId+1;game.restoreSave(data);
+  data.nextId=game.nextId+1;data.urban.peakScore=C.Urban.score(data.buildings);game.restoreSave(data);
   Object.assign(game.player,{x:gx*C.TILE-22,y:site.y});game.input.keys.add('KeyE');
   assert.equal(game.friendlyPositionClear(game.player,game.player.x,game.player.y),true);
   assert.equal(game.workerCanWorkAt(game.player,site,90),false,'le point central est réellement obstrué');

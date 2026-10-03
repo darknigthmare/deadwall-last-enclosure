@@ -1,0 +1,158 @@
+    bindEvents() {
+      const playable = () => this.state === 'playing' && !this.paused && !this.gameOver && !this.activeOverlay;
+      const hardwareKeys = new Set(), controls = new Set();
+      const pointerHolds = code => [...controls].some(control => control.code === code && control.pointers.size > 0);
+      const syncHeld = code => {
+        if (code === 'fire') {
+          this.input.touchFire = pointerHolds('fire');
+          this.input.mouseDown = Boolean(this.mouseFireHeld || this.input.touchFire);
+        } else if (hardwareKeys.has(code) || pointerHolds(code)) this.input.keys.add(code);
+        else this.input.keys.delete(code);
+      };
+      this.clearHeldControls = () => {
+        hardwareKeys.clear();
+        for (const control of controls) {
+          const ids = [...control.pointers]; control.pointers.clear();
+          for (const id of ids) if (control.button.hasPointerCapture?.(id)) {
+            try { control.button.releasePointerCapture(id); } catch {}
+          }
+        }
+      };
+      this.bindHeldControl = (button, code) => {
+        if (!button) return;
+        const control = { button, code, pointers: new Set() }; controls.add(control);
+        button.addEventListener('pointerdown', event => {
+          if (!playable() || button.disabled || button.closest('[inert]') || event.button !== 0 || control.pointers.has(event.pointerId)) return;
+          event.preventDefault(); this.audio.unlock(); control.pointers.add(event.pointerId);
+          try { button.setPointerCapture?.(event.pointerId); } catch {}
+          syncHeld(code);
+        });
+        const release = event => {
+          if (!control.pointers.delete(event.pointerId)) return;
+          if (event.cancelable) event.preventDefault();
+          syncHeld(code);
+        };
+        for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) button.addEventListener(type, release);
+        // A release outside the button also completes the gesture if capture is unavailable.
+        addEventListener('pointerup', release); addEventListener('pointercancel', release);
+        button.addEventListener('pointerleave', event => {
+          if (!button.hasPointerCapture?.(event.pointerId)) release(event);
+        });
+      };
+      const mousePosition = event => {
+        this.input.mouseX = event.clientX; this.input.mouseY = event.clientY; this.updateMouseWorld();
+      };
+      const cancelWallDrag = () => { this.wallStart = null; this.wallPreview = []; };
+      const cancelCanvasPointer = event => {
+        if (event.pointerId !== this.canvasPointerId) return;
+        this.canvasPointerId = null; cancelWallDrag();
+      };
+      addEventListener('resize', () => this.resize());
+      this.compactMediaQuery?.addEventListener?.('change', () => this.resize());
+      addEventListener('blur', () => this.suspendForFocusLoss());
+      document.addEventListener('visibilitychange', () => { if (document.hidden) this.suspendForFocusLoss(); });
+      addEventListener('keydown', event => {
+        if (event.code === 'Escape') { event.preventDefault(); if (!event.repeat) this.onEscape(); return; }
+        if (event.code === 'Tab' && this.activeOverlay) { this.trapOverlayFocus(event); return; }
+        if (!playable()) return;
+        if (event.target?.closest?.('#resources')) return;
+        if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
+        // Browser/OS shortcuts must not move, reload or command the colony.
+        if (event.ctrlKey || event.altKey || event.metaKey) return;
+        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
+        if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
+        if (!event.repeat) this.input.pressed.add(event.code);
+        hardwareKeys.add(event.code); this.input.keys.add(event.code);
+      });
+      addEventListener('keyup', event => { hardwareKeys.delete(event.code); syncHeld(event.code); });
+      this.canvas.addEventListener('mousemove', event => { if (this.canvasPointerId == null) mousePosition(event); });
+      this.canvas.addEventListener('mousedown', event => {
+        if (this.canvasPointerId != null || event.sourceCapabilities?.firesTouchEvents) return;
+        this.audio.unlock(); mousePosition(event);
+        if (!playable()) return;
+        if (event.button === 0) {
+          if (this.rallyPlacement) { this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY }); return; }
+          if (this.selectedBuild) {
+            const def = BUILDINGS[this.selectedBuild];
+            if (this.isLineWall(def)) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.wallPreview = [this.wallStart]; }
+            else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX), grid(this.input.mouseWorldY), this.buildRotation);
+            return;
+          }
+          this.mouseFireHeld = true; syncHeld('fire');
+        } else if (event.button === 2) {
+          event.preventDefault();
+          if (this.selectedBuild || this.rallyPlacement) this.cancelPlacement();
+          else this.selectBuilding(this.world.at(this.input.mouseWorldX, this.input.mouseWorldY));
+        }
+      });
+      this.canvas.addEventListener('mouseup', event => {
+        if (event.button !== 0 || this.canvasPointerId != null || event.sourceCapabilities?.firesTouchEvents) return;
+        this.mouseFireHeld = false; syncHeld('fire'); mousePosition(event);
+        const type = this.selectedBuild, cells = this.wallStart ? [...this.wallPreview] : [];
+        cancelWallDrag();
+        if (playable() && type && cells.length) this.placeWallLine(type, cells);
+      });
+      addEventListener('mouseup', event => {
+        if (event.button !== 0 || this.canvasPointerId != null) return;
+        this.mouseFireHeld = false; syncHeld('fire');
+        if (event.target !== this.canvas) cancelWallDrag();
+      });
+      this.canvas.addEventListener('mouseleave', () => { if (this.canvasPointerId != null) return; this.mouseFireHeld = false; syncHeld('fire'); cancelWallDrag(); });
+      this.canvas.addEventListener('contextmenu', event => event.preventDefault());
+      this.canvas.addEventListener('wheel', event => {
+        event.preventDefault(); if (!playable()) return;
+        this.camera.zoom = clamp(this.camera.zoom * (event.deltaY > 0 ? .9 : 1.1), .52, 1.65); mousePosition(event);
+      }, { passive: false });
+      this.canvas.style.touchAction = 'none';
+      this.canvas.addEventListener('pointerdown', event => {
+        if (!event.pointerType || event.pointerType === 'mouse' || !playable() || this.canvasPointerId != null || event.button !== 0) return;
+        event.preventDefault(); this.audio.unlock(); this.canvasPointerId = event.pointerId;
+        try { this.canvas.setPointerCapture?.(event.pointerId); } catch {}
+        mousePosition(event);
+        if (this.rallyPlacement) this.placeSquadRally({ x: this.input.mouseWorldX, y: this.input.mouseWorldY });
+        else if (this.selectedBuild) {
+          if (this.isLineWall(BUILDINGS[this.selectedBuild])) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.updateWallPreview(); }
+          else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX), grid(this.input.mouseWorldY), this.buildRotation);
+        } else this.selectBuilding(this.world.at(this.input.mouseWorldX, this.input.mouseWorldY));
+      });
+      this.canvas.addEventListener('pointermove', event => {
+        if (event.pointerId !== this.canvasPointerId) return;
+        event.preventDefault(); mousePosition(event);
+      });
+      this.canvas.addEventListener('pointerup', event => {
+        if (event.pointerId !== this.canvasPointerId) return;
+        event.preventDefault(); mousePosition(event);
+        const type = this.selectedBuild, cells = this.wallStart ? [...this.wallPreview] : [];
+        this.canvasPointerId = null; cancelWallDrag();
+        if (this.canvas.hasPointerCapture?.(event.pointerId)) {
+          try { this.canvas.releasePointerCapture(event.pointerId); } catch {}
+        }
+        if (playable() && type && cells.length) this.placeWallLine(type, cells);
+      });
+      this.canvas.addEventListener('pointercancel', cancelCanvasPointer);
+      this.canvas.addEventListener('lostpointercapture', cancelCanvasPointer);
+      const touchMap = { up: 'KeyW', left: 'KeyA', right: 'KeyD', down: 'KeyS' };
+      for (const button of document.querySelectorAll('#touchControls button[data-dir]')) {
+        const code = touchMap[button.dataset.dir]; if (code) this.bindHeldControl(button, code);
+      }
+      this.bindHeldControl(this.ui.touchAction, 'KeyE'); this.bindHeldControl(this.ui.touchFire, 'fire');
+
+      const click = (id, fn) => { const button = document.getElementById(id); button.addEventListener('click', event => { if (!button.disabled && !button.closest('[inert]')) fn(event); }); };
+      click('newGameButton', () => this.requestNewGame());
+      click('continueButton', () => this.load());
+      click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
+      click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId));
+      click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
+      click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
+      click('demolitionCancel', () => this.cancelDemolition(true)); click('demolitionConfirm', () => this.confirmDemolition());
+      click('recruitWorker', () => this.recruit('worker')); click('recruitSoldier', () => this.recruit('soldier')); click('setRally', () => this.beginSquadRally(null));
+      click('repairAll', () => this.repairAll());
+      if (this.ui.prioritySelected) click('prioritySelected', () => this.cyclePriority());
+      if (this.ui.researchButton) click('researchButton', () => this.showCommand ? this.showCommand(true, 'research') : this.launchResearch());
+      if (this.ui.settingsToggle) click('settingsToggle', () => this.showSettings ? this.showSettings(true) : this.toggleAccessibility());
+      if (this.ui.soundToggle) click('soundToggle', () => this.toggleSound());
+      for (const id of ['mainMenu','pauseMenu','helpModal','gameOver']) document.getElementById(id).addEventListener('mousedown', event => event.stopPropagation());
+    }
+

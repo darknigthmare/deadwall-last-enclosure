@@ -19,3 +19,19 @@ artifacts/http-qa/
 artifacts/reliability-qa/
 artifacts/performance-qa/
 artifacts/completion-qa/
+
+.qa-tools/
+.deadwall-backup-*/
+
+# Generated release artifacts; rebuild with npm run build.
+/DEADWALL_Standalone.html
+/MANIFEST_SHA256.json
+
+/reports/*
+!/reports/1.35.0/
+/reports/1.35.0/*
+!/reports/1.35.0/legacy-g5-start-save.json
+/outputs/
+/artifacts/
+*.zip
+*.exe

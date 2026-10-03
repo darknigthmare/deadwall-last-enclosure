@@ -1,0 +1,3 @@
+Codex 1.20 : les 500 fiches restent celles de la 1.19.
+Nouveau guide : GUIDE_RETOUR_D17.html et 07_CHEMINS_RETOUR_1.20.md.
+Le lecteur historique reste LECTEUR_CODEX_500.html.

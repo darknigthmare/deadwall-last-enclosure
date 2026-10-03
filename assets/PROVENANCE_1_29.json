@@ -1,0 +1,26 @@
+{
+  "generator": "image_gen built-in",
+  "date": "2026-09-27",
+  "outputs": [
+    "assets/commander-rig129.png",
+    "assets/loadout-character129.png",
+    "assets/loadout-items129.png"
+  ],
+  "prompts": [
+    {
+      "key": "rig129",
+      "prompt": "Use case: stylized-concept. Asset: production 2D video game articulated character sprite atlas. Reference image is ONLY for character identity and materials: short dark hair, ochre jacket, olive backpack, charcoal cargo trousers, brown boots. Create NEW strict orthographic overhead sprites looking directly vertically down at the character, facing EAST (right). Actual transparent background. Wide 2:1 canvas, EXACTLY 4 equal columns and 2 equal rows, eight well separated cells, no drawn grid or text. TOP ROW: isolated UPPER BODY ONLY, head, shoulders, jacket, arms, backpack, and held weapon, absolutely NO LEGS or boots. Cell1 aiming rifle right, cell2 aiming pistol right, cell3 same rifle with tiny recoil, cell4 same pistol with tiny recoil. Upper body pelvic joint pivot at exact center of each cell; head slightly toward right of pivot, backpack left, weapon points right. BOTTOM ROW: isolated LOWER BODY ONLY, belt pelvis and two trouser legs and boots, NO head arms torso backpack or weapon, same overhead view, faces right, same pelvis pivot exact cell center. Four leg walk phases: neutral feet, left step forward right back, passing neutral, right step forward left back. All components consistent scale, fit within cell with generous transparent margin. These parts will overlap at the same pivot in game. Detailed hand-painted grounded survival game assets, restrained highlights, sharp readable silhouette. No floor, shadow, glow, backdrop, labels, gore, cutaway organs, or full-body characters. This is disassembled animation rig, not character portraits.",
+      "reference": "assets/commander-pistol-atlas.png"
+    },
+    {
+      "key": "paper129",
+      "prompt": "Use case: stylized-concept. Asset: full body inventory character paperdoll for a grounded survival game. Reference only for identity: adult male survivor with short dark brown hair, mustard ochre canvas jacket, dark charcoal cargo trousers, brown practical boots, olive green backpack and simple utility belt. New single full length character in relaxed symmetrical neutral stance, facing viewer, slight three quarter camera for depth but both hands and feet visible, arms slightly away from body. Unarmed, no armor or helmet, no extra pouches, no UI, no text. Premium realistic hand-painted game inventory illustration, weathered fabric, anatomical hands, neutral determined face. Soft restrained warm highlight from upper left, no glowing outlines, no floor shadow. Figure centered, full body completely within image with 8 percent transparent margin. Portrait canvas. Genuinely transparent background, no scenery. Consistent with reference character, higher detail suitable for large inventory display.",
+      "reference": "assets/commander-pistol-atlas.png"
+    },
+    {
+      "key": "icons129",
+      "prompt": "Use case: stylized-concept. Asset: production inventory item icon atlas for a grounded survival game. Genuine transparent background, square canvas, exactly FOUR columns by FOUR rows, 16 equally sized cells, generous empty transparent margins, each item centered separately and never crosses cell. No grid lines, no text, no labels, no numbers, no background, no ground shadows. Crisp detailed hand-painted realistic 3D inventory objects, olive charcoal ochre muted palette, upper left soft lighting, consistent isometric view. Row1 left to right: bundle of short timber planks; pile of scrap metal plates; two gray stone chunks; folded blue tarp. Row2: small bandage roll; red medical first aid pouch; clear capped water bottle; plain unlabeled canned food. Row3: small olive hiking backpack; compact brown shoulder satchel; rectangular green military supply crate; black portable electric lantern. Row4: small black handgun; wood-stock rifle angled bottom-left to top-right; compact pickaxe; folded shovel. Exactly one coherent object icon per cell, objects individually isolated, all silhouettes easy to recognize at 48 pixels. No brands or insignia.",
+      "reference": null
+    }
+  ]
+}

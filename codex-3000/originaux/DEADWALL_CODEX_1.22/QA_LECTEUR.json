@@ -1,0 +1,134 @@
+{
+  "version": "1.3.0",
+  "browser": "144.0.7559.96",
+  "profiles": [
+    {
+      "name": "bureau",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "checks": [
+        {
+          "label": "500 fiches chargées sans requête externe",
+          "ok": true
+        },
+        {
+          "label": "Guide 1.18 sans nouveau pilote fictif",
+          "ok": true
+        },
+        {
+          "label": "Vingt fiches et vingt-cinq familles dans le catalogue",
+          "ok": true
+        },
+        {
+          "label": "Filtre des huit nouveaux plans",
+          "ok": true
+        },
+        {
+          "label": "458 concepts signalés comme non intégrés",
+          "ok": true
+        },
+        {
+          "label": "Fiche maison sur sous-sol et couverture 1.17",
+          "ok": true
+        },
+        {
+          "label": "Lien profond vers la fiche",
+          "ok": true
+        },
+        {
+          "label": "Le programme contient des espaces et du mobilier",
+          "ok": true
+        },
+        {
+          "label": "Absence de débordement horizontal de la page",
+          "ok": true
+        },
+        {
+          "label": "Retour au catalogue avec filtres conservés",
+          "ok": true
+        },
+        {
+          "label": "Page suivante et vingt résultats",
+          "ok": true
+        },
+        {
+          "label": "Aucune erreur JavaScript",
+          "ok": true
+        },
+        {
+          "label": "Aucune requête externe",
+          "ok": true
+        }
+      ],
+      "errors": [],
+      "external_requests": []
+    },
+    {
+      "name": "tactile",
+      "viewport": [
+        390,
+        844
+      ],
+      "checks": [
+        {
+          "label": "500 fiches chargées sans requête externe",
+          "ok": true
+        },
+        {
+          "label": "Guide 1.18 sans nouveau pilote fictif",
+          "ok": true
+        },
+        {
+          "label": "Vingt fiches et vingt-cinq familles dans le catalogue",
+          "ok": true
+        },
+        {
+          "label": "Filtre des huit nouveaux plans",
+          "ok": true
+        },
+        {
+          "label": "458 concepts signalés comme non intégrés",
+          "ok": true
+        },
+        {
+          "label": "Fiche maison sur sous-sol et couverture 1.17",
+          "ok": true
+        },
+        {
+          "label": "Lien profond vers la fiche",
+          "ok": true
+        },
+        {
+          "label": "Le programme contient des espaces et du mobilier",
+          "ok": true
+        },
+        {
+          "label": "Absence de débordement horizontal de la page",
+          "ok": true
+        },
+        {
+          "label": "Retour au catalogue avec filtres conservés",
+          "ok": true
+        },
+        {
+          "label": "Page suivante et vingt résultats",
+          "ok": true
+        },
+        {
+          "label": "Aucune erreur JavaScript",
+          "ok": true
+        },
+        {
+          "label": "Aucune requête externe",
+          "ok": true
+        }
+      ],
+      "errors": [],
+      "external_requests": []
+    }
+  ],
+  "passed": 26,
+  "failed": 0
+}

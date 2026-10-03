@@ -1,0 +1,29 @@
+{
+  "version": "1.37.0",
+  "images": [
+    {
+      "runtime": "assets/art137/survivor-crouch.png",
+      "dimensions": [
+        1469,
+        1071
+      ],
+      "sha256": "dda028906b955a5cffedb05901152e80a33bd1627231ec8f50282af1d3f644a8",
+      "source": "image_gen built-in",
+      "reference": "assets/commander-rig130.png",
+      "alpha": "native, unmodified",
+      "prompts": "assets/art137/PROMPTS.md"
+    },
+    {
+      "runtime": "assets/art137/survivor-prone.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "sha256": "28517c7c9eeb89414d3320ef2807c18fe9b6d2e37022fd4d7051822f64f7978f",
+      "source": "image_gen built-in",
+      "reference": "assets/commander-rig130.png",
+      "alpha": "native, unmodified",
+      "prompts": "assets/art137/PROMPTS.md"
+    }
+  ]
+}

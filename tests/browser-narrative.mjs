@@ -18,7 +18,7 @@ for(const variant of variants){
   const context=await browser.newContext({viewport:{width:variant.width,height:variant.height},hasTouch:!!variant.touch,isMobile:!!variant.touch,deviceScaleFactor:1});
   const page=await context.newPage(),report={viewport:variant,checks:[],errors:[],httpErrors:[],dialogs:[],screenshots:[],fixtures:[]};reports.push(report);let expectedDialog=false;
   page.setDefaultTimeout(16000);
-  page.on('pageerror',error=>report.errors.push(error.message));
+  page.setDefaultTimeout(5000);page.on('pageerror',error=>report.errors.push(error.message));
   page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text());});
   page.on('response',response=>{if(response.status()>=400)report.httpErrors.push({status:response.status(),url:response.url()});});
   page.on('dialog',async dialog=>{report.dialogs.push({type:dialog.type(),message:dialog.message(),expected:expectedDialog});if(!expectedDialog)report.errors.push('Unexpected dialog: '+dialog.message());await dialog.dismiss();});

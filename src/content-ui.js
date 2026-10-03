@@ -17,7 +17,7 @@
     canvas.width=160;canvas.height=140;canvas.setAttribute('aria-hidden','true');portraits.push({canvas,kind});
     copy.append(el('small',meta),el('h3',title));head.append(canvas,copy);card.appendChild(head);return card;
   }
-  sections.infected.appendChild(el('p','Huit profils, des réponses différentes. Les seuils indiquent l’entrée dans la composition des hordes ; l’effectif de chaque profil dépend ensuite de la vague. Les points de vie ci-dessous sont les valeurs de base, avant protocole et progression.','command-note'));
+  sections.infected.appendChild(el('p',Object.keys(C.ENEMIES).length+' profils, des réponses différentes. Les seuils indiquent l’entrée dans la composition des hordes ; l’effectif de chaque profil dépend ensuite de la vague. Les points de vie ci-dessous sont les valeurs de base, avant protocole et progression.','command-note'));
   const bestiary=el('div',undefined,'field-grid');sections.infected.appendChild(bestiary);
   for(const [kind,def]of Object.entries(C.ENEMIES).sort((a,b)=>a[1].unlockWave-b[1].unlockWave)){
     const card=portraitCard(kind,def.name,'DÈS LA VAGUE '+def.unlockWave+' · '+def.health+' PV');card.dataset.enemyProfile=kind;

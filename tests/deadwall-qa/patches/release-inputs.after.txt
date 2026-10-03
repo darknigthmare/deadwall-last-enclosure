@@ -1,0 +1,17 @@
+    releaseInputs() {
+      this.clearHeldControls?.();
+      this.input.keys.clear(); this.input.pressed.clear(); this.input.mouseDown = false; this.input.touchFire = false;
+      this.mouseFireHeld = false;
+      const pointerId = this.canvasPointerId;
+      this.canvasPointerId = null;
+      this.wallStart = null; this.wallPreview = [];
+      if (pointerId != null && this.canvas.hasPointerCapture?.(pointerId)) {
+        try { this.canvas.releasePointerCapture(pointerId); } catch {}
+      }
+    }
+
+    suspendForFocusLoss() {
+      this.releaseInputs();
+      // Never auto-resume: returning to the window must be a deliberate action.
+      if (this.state === 'playing' && !this.gameOver && !this.paused) this.togglePause(true);
+    }

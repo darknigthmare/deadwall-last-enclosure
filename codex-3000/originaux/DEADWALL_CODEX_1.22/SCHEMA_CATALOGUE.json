@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "version",
+    "fiches"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "fiches": {
+      "type": "array",
+      "minItems": 500,
+      "maxItems": 500,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "nom",
+          "famille",
+          "statut",
+          "parcelle",
+          "espaces",
+          "graphe_acces",
+          "generation",
+          "loot",
+          "qa",
+          "integration"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^DW-[0-9]{4}$"
+          },
+          "nom": {
+            "type": "string",
+            "minLength": 5
+          },
+          "statut": {
+            "enum": [
+              "pilote_1_15",
+              "pilote_1_16",
+              "pilote_1_17",
+              "conception_non_integree"
+            ]
+          },
+          "espaces": {
+            "type": "array",
+            "minItems": 3
+          },
+          "graphe_acces": {
+            "type": "array",
+            "minItems": 5
+          },
+          "qa": {
+            "type": "array",
+            "minItems": 8
+          }
+        }
+      }
+    }
+  }
+}

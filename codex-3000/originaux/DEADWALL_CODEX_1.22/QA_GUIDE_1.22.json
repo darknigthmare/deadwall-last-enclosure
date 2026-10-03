@@ -1,0 +1,119 @@
+{
+  "profiles": [
+    {
+      "profile": "bureau",
+      "width": 1440,
+      "height": 1020,
+      "checks": [
+        {
+          "label": "Titre du guide 1.22",
+          "ok": true
+        },
+        {
+          "label": "Douze objectifs présents",
+          "ok": true
+        },
+        {
+          "label": "Quatre recettes présentes",
+          "ok": true
+        },
+        {
+          "label": "Filtre light",
+          "ok": true
+        },
+        {
+          "label": "Filtre aid",
+          "ok": true
+        },
+        {
+          "label": "Filtre brace",
+          "ok": true
+        },
+        {
+          "label": "Filtre decoy",
+          "ok": true
+        },
+        {
+          "label": "Retour à tous les objectifs",
+          "ok": true
+        },
+        {
+          "label": "Ancres internes valides",
+          "ok": true
+        },
+        {
+          "label": "Absence de débordement horizontal",
+          "ok": true
+        },
+        {
+          "label": "Audit dépliable",
+          "ok": true
+        },
+        {
+          "label": "Pas d’erreur JavaScript",
+          "ok": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "height": 844,
+      "checks": [
+        {
+          "label": "Titre du guide 1.22",
+          "ok": true
+        },
+        {
+          "label": "Douze objectifs présents",
+          "ok": true
+        },
+        {
+          "label": "Quatre recettes présentes",
+          "ok": true
+        },
+        {
+          "label": "Filtre light",
+          "ok": true
+        },
+        {
+          "label": "Filtre aid",
+          "ok": true
+        },
+        {
+          "label": "Filtre brace",
+          "ok": true
+        },
+        {
+          "label": "Filtre decoy",
+          "ok": true
+        },
+        {
+          "label": "Retour à tous les objectifs",
+          "ok": true
+        },
+        {
+          "label": "Ancres internes valides",
+          "ok": true
+        },
+        {
+          "label": "Absence de débordement horizontal",
+          "ok": true
+        },
+        {
+          "label": "Audit dépliable",
+          "ok": true
+        },
+        {
+          "label": "Pas d’erreur JavaScript",
+          "ok": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "passed": 24,
+  "failed": 0,
+  "scope": "Guide HTML chargé par set_content dans Chromium local, bureau 1440×1020 et mobile 390×844. Ancres, filtres, structure, débordement et erreurs contrôlés ; captures bureau et mobile examinées."
+}

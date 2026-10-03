@@ -1,0 +1,1366 @@
+{
+  "family": "Commerces non alimentaires",
+  "count": 40,
+  "compositions": [
+    {
+      "id": "DW-1081",
+      "name": "Centre commercial régional — Zone commerciale / évacuation interrompue",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0041",
+      "module": "zone-commerciale",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0041 (Centre commercial régional) au contexte « Zone commerciale », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mail, boutiques, grandes surfaces, couloir logistique, réserves, quais, parkings.",
+        "Raccorder « mail » à l’accès public et « parkings » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1081.md"
+    },
+    {
+      "id": "DW-1082",
+      "name": "Centre commercial régional — Village et bourg / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0041",
+      "module": "village",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0041 (Centre commercial régional) au contexte « Village et bourg », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mail, boutiques, grandes surfaces, couloir logistique, réserves, quais, parkings.",
+        "Raccorder « mail » à l’accès public et « parkings » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1082.md"
+    },
+    {
+      "id": "DW-1083",
+      "name": "Galerie marchande de quartier — Ville moyenne / arrêt de maintenance",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0042",
+      "module": "ville",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0042 (Galerie marchande de quartier) au contexte « Ville moyenne », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : passage couvert, boutiques, petites réserves, sanitaires.",
+        "Raccorder « passage couvert » à l’accès public et « sanitaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1083.md"
+    },
+    {
+      "id": "DW-1084",
+      "name": "Galerie marchande de quartier — Grande ville et métropole / reprise progressive de la végétation",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0042",
+      "module": "metropole",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0042 (Galerie marchande de quartier) au contexte « Grande ville et métropole », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : passage couvert, boutiques, petites réserves, sanitaires.",
+        "Raccorder « passage couvert » à l’accès public et « sanitaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1084.md"
+    },
+    {
+      "id": "DW-1085",
+      "name": "Parc commercial ouvert — Village et bourg / première récupération passée",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0043",
+      "module": "village",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0043 (Parc commercial ouvert) au contexte « Village et bourg », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : magasins indépendants, parking, voie de service, trottoirs.",
+        "Raccorder « magasins indépendants » à l’accès public et « trottoirs » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1085.md"
+    },
+    {
+      "id": "DW-1086",
+      "name": "Parc commercial ouvert — Zone commerciale / relais temporaire envisagé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0043",
+      "module": "zone-commerciale",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0043 (Parc commercial ouvert) au contexte « Zone commerciale », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : magasins indépendants, parking, voie de service, trottoirs.",
+        "Raccorder « magasins indépendants » à l’accès public et « trottoirs » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1086.md"
+    },
+    {
+      "id": "DW-1087",
+      "name": "Grand magasin à étages — Grande ville et métropole / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0044",
+      "module": "metropole",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0044 (Grand magasin à étages) au contexte « Grande ville et métropole », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, plateaux de vente, cabines, réserves, monte-charge.",
+        "Raccorder « hall » à l’accès public et « monte-charge » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1087.md"
+    },
+    {
+      "id": "DW-1088",
+      "name": "Grand magasin à étages — Ville moyenne / réseau principal coupé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0044",
+      "module": "ville",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0044 (Grand magasin à étages) au contexte « Ville moyenne », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, plateaux de vente, cabines, réserves, monte-charge.",
+        "Raccorder « hall » à l’accès public et « monte-charge » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1088.md"
+    },
+    {
+      "id": "DW-1089",
+      "name": "Magasin de bricolage — Zone commerciale / reprise progressive de la végétation",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0045",
+      "module": "zone-commerciale",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0045 (Magasin de bricolage) au contexte « Zone commerciale », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cour matériaux, vente, outillage, découpe, réserve.",
+        "Raccorder « cour matériaux » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1089.md"
+    },
+    {
+      "id": "DW-1090",
+      "name": "Magasin de bricolage — Village et bourg / repli organisé interrompu",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0045",
+      "module": "village",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0045 (Magasin de bricolage) au contexte « Village et bourg », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cour matériaux, vente, outillage, découpe, réserve.",
+        "Raccorder « cour matériaux » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1090.md"
+    },
+    {
+      "id": "DW-1091",
+      "name": "Jardinerie — Ville moyenne / relais temporaire envisagé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0046",
+      "module": "ville",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0046 (Jardinerie) au contexte « Ville moyenne », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : serres de vente, pépinière, animalerie, réserve, parking.",
+        "Raccorder « serres de vente » à l’accès public et « parking » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1091.md"
+    },
+    {
+      "id": "DW-1092",
+      "name": "Jardinerie — Grande ville et métropole / évacuation interrompue",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0046",
+      "module": "metropole",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0046 (Jardinerie) au contexte « Grande ville et métropole », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : serres de vente, pépinière, animalerie, réserve, parking.",
+        "Raccorder « serres de vente » à l’accès public et « parking » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1092.md"
+    },
+    {
+      "id": "DW-1093",
+      "name": "Magasin d'ameublement — Village et bourg / réseau principal coupé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0047",
+      "module": "village",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0047 (Magasin d'ameublement) au contexte « Village et bourg », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : showrooms, commande, retrait, stock démonté, service.",
+        "Raccorder « showrooms » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1093.md"
+    },
+    {
+      "id": "DW-1094",
+      "name": "Magasin d'ameublement — Zone commerciale / arrêt de maintenance",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0047",
+      "module": "zone-commerciale",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0047 (Magasin d'ameublement) au contexte « Zone commerciale », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : showrooms, commande, retrait, stock démonté, service.",
+        "Raccorder « showrooms » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1094.md"
+    },
+    {
+      "id": "DW-1095",
+      "name": "Magasin d'électroménager — Grande ville et métropole / repli organisé interrompu",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0048",
+      "module": "metropole",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0048 (Magasin d'électroménager) au contexte « Grande ville et métropole », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, diagnostic, retrait, réserve.",
+        "Raccorder « vente » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1095.md"
+    },
+    {
+      "id": "DW-1096",
+      "name": "Magasin d'électroménager — Ville moyenne / première récupération passée",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0048",
+      "module": "ville",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0048 (Magasin d'électroménager) au contexte « Ville moyenne », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, diagnostic, retrait, réserve.",
+        "Raccorder « vente » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1096.md"
+    },
+    {
+      "id": "DW-1097",
+      "name": "Librairie indépendante — Zone commerciale / évacuation interrompue",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0049",
+      "module": "zone-commerciale",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0049 (Librairie indépendante) au contexte « Zone commerciale », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rayons, comptoir, réserve, coin lecture.",
+        "Raccorder « rayons » à l’accès public et « coin lecture » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1097.md"
+    },
+    {
+      "id": "DW-1098",
+      "name": "Librairie indépendante — Village et bourg / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0049",
+      "module": "village",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0049 (Librairie indépendante) au contexte « Village et bourg », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rayons, comptoir, réserve, coin lecture.",
+        "Raccorder « rayons » à l’accès public et « coin lecture » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1098.md"
+    },
+    {
+      "id": "DW-1099",
+      "name": "Papeterie de gros — Ville moyenne / arrêt de maintenance",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0050",
+      "module": "ville",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0050 (Papeterie de gros) au contexte « Ville moyenne », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, reprographie, réserve papier, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1099.md"
+    },
+    {
+      "id": "DW-1100",
+      "name": "Papeterie de gros — Grande ville et métropole / reprise progressive de la végétation",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0050",
+      "module": "metropole",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0050 (Papeterie de gros) au contexte « Grande ville et métropole », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, reprographie, réserve papier, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1100.md"
+    },
+    {
+      "id": "DW-1101",
+      "name": "Magasin de vêtements — Village et bourg / première récupération passée",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0051",
+      "module": "village",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0051 (Magasin de vêtements) au contexte « Village et bourg », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, cabines, réserve, local personnel.",
+        "Raccorder « vente » à l’accès public et « local personnel » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1101.md"
+    },
+    {
+      "id": "DW-1102",
+      "name": "Magasin de vêtements — Zone commerciale / relais temporaire envisagé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0051",
+      "module": "zone-commerciale",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0051 (Magasin de vêtements) au contexte « Zone commerciale », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, cabines, réserve, local personnel.",
+        "Raccorder « vente » à l’accès public et « local personnel » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1102.md"
+    },
+    {
+      "id": "DW-1103",
+      "name": "Magasin de sport — Grande ville et métropole / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0052",
+      "module": "metropole",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0052 (Magasin de sport) au contexte « Grande ville et métropole », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, atelier cycles, réserve, essayage.",
+        "Raccorder « vente » à l’accès public et « essayage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1103.md"
+    },
+    {
+      "id": "DW-1104",
+      "name": "Magasin de sport — Ville moyenne / réseau principal coupé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0052",
+      "module": "ville",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0052 (Magasin de sport) au contexte « Ville moyenne », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, atelier cycles, réserve, essayage.",
+        "Raccorder « vente » à l’accès public et « essayage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1104.md"
+    },
+    {
+      "id": "DW-1105",
+      "name": "Pharmacie commerciale — Zone commerciale / reprise progressive de la végétation",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0053",
+      "module": "zone-commerciale",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0053 (Pharmacie commerciale) au contexte « Zone commerciale », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, préparation, stock sécurisé, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1105.md"
+    },
+    {
+      "id": "DW-1106",
+      "name": "Pharmacie commerciale — Village et bourg / repli organisé interrompu",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0053",
+      "module": "village",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0053 (Pharmacie commerciale) au contexte « Village et bourg », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, préparation, stock sécurisé, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1106.md"
+    },
+    {
+      "id": "DW-1107",
+      "name": "Animalerie — Ville moyenne / relais temporaire envisagé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0054",
+      "module": "ville",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0054 (Animalerie) au contexte « Ville moyenne », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, soins courts, réserve aliments, nettoyage.",
+        "Raccorder « vente » à l’accès public et « nettoyage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1107.md"
+    },
+    {
+      "id": "DW-1108",
+      "name": "Animalerie — Grande ville et métropole / évacuation interrompue",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0054",
+      "module": "metropole",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0054 (Animalerie) au contexte « Grande ville et métropole », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, soins courts, réserve aliments, nettoyage.",
+        "Raccorder « vente » à l’accès public et « nettoyage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1108.md"
+    },
+    {
+      "id": "DW-1109",
+      "name": "Boutique informatique — Village et bourg / réseau principal coupé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0055",
+      "module": "village",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0055 (Boutique informatique) au contexte « Village et bourg », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, réparation, stock, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1109.md"
+    },
+    {
+      "id": "DW-1110",
+      "name": "Boutique informatique — Zone commerciale / arrêt de maintenance",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0055",
+      "module": "zone-commerciale",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0055 (Boutique informatique) au contexte « Zone commerciale », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente, réparation, stock, bureau.",
+        "Raccorder « vente » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1110.md"
+    },
+    {
+      "id": "DW-1111",
+      "name": "Quincaillerie ancienne — Grande ville et métropole / repli organisé interrompu",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0056",
+      "module": "metropole",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0056 (Quincaillerie ancienne) au contexte « Grande ville et métropole », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : comptoir, tiroirs, arrière-boutique, cour.",
+        "Raccorder « comptoir » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1111.md"
+    },
+    {
+      "id": "DW-1112",
+      "name": "Quincaillerie ancienne — Ville moyenne / première récupération passée",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0056",
+      "module": "ville",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0056 (Quincaillerie ancienne) au contexte « Ville moyenne », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : comptoir, tiroirs, arrière-boutique, cour.",
+        "Raccorder « comptoir » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1112.md"
+    },
+    {
+      "id": "DW-1113",
+      "name": "Magasin de déstockage — Zone commerciale / évacuation interrompue",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0057",
+      "module": "zone-commerciale",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0057 (Magasin de déstockage) au contexte « Zone commerciale », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente en bacs, arrivage, tri, réserve.",
+        "Raccorder « vente en bacs » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1113.md"
+    },
+    {
+      "id": "DW-1114",
+      "name": "Magasin de déstockage — Village et bourg / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0057",
+      "module": "village",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0057 (Magasin de déstockage) au contexte « Village et bourg », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : vente en bacs, arrivage, tri, réserve.",
+        "Raccorder « vente en bacs » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1114.md"
+    },
+    {
+      "id": "DW-1115",
+      "name": "Marché couvert — Ville moyenne / arrêt de maintenance",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0058",
+      "module": "ville",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0058 (Marché couvert) au contexte « Ville moyenne », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : allées, étals, froid, lavage, quai.",
+        "Raccorder « allées » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1115.md"
+    },
+    {
+      "id": "DW-1116",
+      "name": "Marché couvert — Grande ville et métropole / reprise progressive de la végétation",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0058",
+      "module": "metropole",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0058 (Marché couvert) au contexte « Grande ville et métropole », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : allées, étals, froid, lavage, quai.",
+        "Raccorder « allées » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1116.md"
+    },
+    {
+      "id": "DW-1117",
+      "name": "Négoce de matériaux — Village et bourg / première récupération passée",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0059",
+      "module": "village",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0059 (Négoce de matériaux) au contexte « Village et bourg », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, hangar, cour granulats, chargement.",
+        "Raccorder « accueil » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1117.md"
+    },
+    {
+      "id": "DW-1118",
+      "name": "Négoce de matériaux — Zone commerciale / relais temporaire envisagé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0059",
+      "module": "zone-commerciale",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0059 (Négoce de matériaux) au contexte « Zone commerciale », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, hangar, cour granulats, chargement.",
+        "Raccorder « accueil » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1118.md"
+    },
+    {
+      "id": "DW-1119",
+      "name": "Galerie semi-abandonnée — Grande ville et métropole / service déplacé à l’arrière",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0060",
+      "module": "metropole",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0060 (Galerie semi-abandonnée) au contexte « Grande ville et métropole », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mail, boutiques actives, cellules condamnées, réserves.",
+        "Raccorder « mail » à l’accès public et « réserves » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1119.md"
+    },
+    {
+      "id": "DW-1120",
+      "name": "Galerie semi-abandonnée — Ville moyenne / réseau principal coupé",
+      "family": "Commerces non alimentaires",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0060",
+      "module": "ville",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0060 (Galerie semi-abandonnée) au contexte « Ville moyenne », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mail, boutiques actives, cellules condamnées, réserves.",
+        "Raccorder « mail » à l’accès public et « réserves » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Commerces non alimentaires/DW-1120.md"
+    }
+  ]
+}

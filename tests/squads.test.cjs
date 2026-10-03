@@ -1,10 +1,12 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const C=require('../src/core.js'),Q=require('../src/squads.js'),Save=require('../src/save.js'),T=require('../src/tactics.js');
 const {bootGame}=require('./helpers/browser.cjs');
 const fresh=()=>{const env=bootGame();env.game.startNew('standard','17117');return env;};
 function add(game,type,gx,gy,rotation=0){const b=new(game.core().constructor)(game.nextId++,type,gx,gy,rotation,1);game.world.add(b);return b;}
-function soldier(game,squad=0,x=game.core().x,y=game.core().y){const unit=new(game.units[0].constructor)(game.nextId++,'soldier',x,y);unit.squad=squad;unit.offset={x:0,y:0};game.units.push(unit);return unit;}
+function soldier(game,squad=0,x=game.core().x,y=game.core().y){const unit=new(game.units[0].constructor)(game.nextId++,'soldier',x,y);unit.squad=squad;unit.offset={x:0,y:0};game.units.push(unit);if(!game.friendlyPositionClear(unit,unit.x,unit.y))standAt(game,unit,game.core());return unit;}
 function tick(game,steps=1){for(let n=0;n<steps;n++){game.elapsed+=.04;game.updateUnits(.04);}}
 function tactical(game){game.ui.commandModal.classList.remove('hidden');game.paused=true;game.syncOverlayFocus();}
 const live=(id,squad=null)=>({id,kind:'soldier',squad,health:100,dead:false});
@@ -75,8 +77,8 @@ test('sections : points hors carte, rayon chevauchant et porte fermée refusés 
 });
 test('sections : repli avance vers le centre sans poursuivre une menace éloignée',()=>{
   const {game}=fresh(),unit=soldier(game,1,game.core().x+230,game.core().y);game.units=[unit];game.zombies=[];game.retreatSquad(1);
-  const before=C.dist(unit,game.core()),ammo=game.resources.ammo;
-  tick(game,20);assert.ok(C.dist(unit,game.core())<before);assert.ok(unit.x>game.core().x+100,'pas de téléportation');assert.equal(game.resources.ammo,ammo);
+  const before=game.fieldcraft.distance(unit,game.core()),ammo=game.resources.ammo;
+  tick(game,20);assert.ok(game.fieldcraft.distance(unit,game.core())<before);assert.ok(unit.x>game.core().x+100,'pas de téléportation');assert.equal(game.resources.ammo,ammo);
 });
 test('sections : repli peut riposter mais dépense les munitions normales et ne poursuit pas',()=>{
   const {game}=fresh(),unit=soldier(game,0,game.core().x+180,game.core().y);game.units=[unit];game.startAssault();
@@ -91,8 +93,8 @@ test('sections : le repli ne traverse pas une enceinte verrouillée puis utilise
   const gate=add(game,'gate',70,64,1);gate.gateMode='closed';game.retreatSquad(2);const before={x:unit.x,y:unit.y};
   tick(game,100);assert.deepEqual({x:unit.x,y:unit.y},before);assert.equal(game.getSquadSummary()[2].blocked,1);
   assert.equal(game.setGateMode('auto',gate),true);let crossed=false;
-  for(let n=0;n<800&&C.dist(unit,game.core())>C.SQUAD_RULES.retreatRadius;n++){tick(game);assert.ok(game.friendlyPositionClear(unit,unit.x,unit.y));if(C.grid(unit.x)===70&&[64,65].includes(C.grid(unit.y)))crossed=true;}
-  assert.ok(crossed);assert.ok(C.dist(unit,game.core())<=C.SQUAD_RULES.retreatRadius);
+  for(let n=0;n<800&&game.fieldcraft.distance(unit,game.core())>C.SQUAD_RULES.retreatRadius;n++){tick(game);assert.ok(game.friendlyPositionClear(unit,unit.x,unit.y));if(C.grid(unit.x)===70&&[64,65].includes(C.grid(unit.y)))crossed=true;}
+  assert.ok(crossed);assert.ok(game.fieldcraft.distance(unit,game.core())<=C.SQUAD_RULES.retreatRadius);
 });
 test('sections : la sauvegarde conserve points, repli, sélection et identités sans débit au chargement',()=>{
   const {game}=fresh();soldier(game,0);soldier(game,2);game.setSquadRally(2,{x:2400,y:2200});game.retreatSquad(0);game.selectSquad(2);

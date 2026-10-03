@@ -1,0 +1,1366 @@
+{
+  "family": "Secours et protection civile",
+  "count": 40,
+  "compositions": [
+    {
+      "id": "DW-1361",
+      "name": "Caserne de pompiers — Centre d’évacuation abandonné / reprise progressive de la végétation",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0181",
+      "module": "camp-evacuation",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0181 (Caserne de pompiers) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, remise, vestiaires, repos, atelier.",
+        "Raccorder « accueil » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1361.md"
+    },
+    {
+      "id": "DW-1362",
+      "name": "Caserne de pompiers — Station-service et aire routière / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0181",
+      "module": "station-service",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0181 (Caserne de pompiers) au contexte « Station-service et aire routière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, remise, vestiaires, repos, atelier.",
+        "Raccorder « accueil » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1362.md"
+    },
+    {
+      "id": "DW-1363",
+      "name": "Centre de secours rural — Ville moyenne / relais temporaire envisagé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0182",
+      "module": "ville",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0182 (Centre de secours rural) au contexte « Ville moyenne », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bureau, garage, stock, vestiaires.",
+        "Raccorder « bureau » à l’accès public et « vestiaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1363.md"
+    },
+    {
+      "id": "DW-1364",
+      "name": "Centre de secours rural — Zone industrielle / évacuation interrompue",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0182",
+      "module": "industrie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0182 (Centre de secours rural) au contexte « Zone industrielle », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bureau, garage, stock, vestiaires.",
+        "Raccorder « bureau » à l’accès public et « vestiaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1364.md"
+    },
+    {
+      "id": "DW-1365",
+      "name": "Commissariat de quartier — Station-service et aire routière / réseau principal coupé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0183",
+      "module": "station-service",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0183 (Commissariat de quartier) au contexte « Station-service et aire routière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureaux, repos, archives.",
+        "Raccorder « accueil » à l’accès public et « archives » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1365.md"
+    },
+    {
+      "id": "DW-1366",
+      "name": "Commissariat de quartier — Centre d’évacuation abandonné / arrêt de maintenance",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0183",
+      "module": "camp-evacuation",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0183 (Commissariat de quartier) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureaux, repos, archives.",
+        "Raccorder « accueil » à l’accès public et « archives » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1366.md"
+    },
+    {
+      "id": "DW-1367",
+      "name": "Poste de police rurale — Zone industrielle / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0184",
+      "module": "industrie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0184 (Poste de police rurale) au contexte « Zone industrielle », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureau, garage, logement.",
+        "Raccorder « accueil » à l’accès public et « logement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1367.md"
+    },
+    {
+      "id": "DW-1368",
+      "name": "Poste de police rurale — Ville moyenne / première récupération passée",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0184",
+      "module": "ville",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0184 (Poste de police rurale) au contexte « Ville moyenne », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureau, garage, logement.",
+        "Raccorder « accueil » à l’accès public et « logement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1368.md"
+    },
+    {
+      "id": "DW-1369",
+      "name": "Poste de surveillance de plage — Centre d’évacuation abandonné / évacuation interrompue",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0185",
+      "module": "camp-evacuation",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0185 (Poste de surveillance de plage) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, soins, stock, terrasse.",
+        "Raccorder « accueil » à l’accès public et « terrasse » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1369.md"
+    },
+    {
+      "id": "DW-1370",
+      "name": "Poste de surveillance de plage — Station-service et aire routière / service déplacé à l’arrière",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0185",
+      "module": "station-service",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0185 (Poste de surveillance de plage) au contexte « Station-service et aire routière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, soins, stock, terrasse.",
+        "Raccorder « accueil » à l’accès public et « terrasse » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1370.md"
+    },
+    {
+      "id": "DW-1371",
+      "name": "Base de sauvetage côtier — Ville moyenne / arrêt de maintenance",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0186",
+      "module": "ville",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0186 (Base de sauvetage côtier) au contexte « Ville moyenne », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : garage nautique, atelier, repos, quai.",
+        "Raccorder « garage nautique » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1371.md"
+    },
+    {
+      "id": "DW-1372",
+      "name": "Base de sauvetage côtier — Zone industrielle / reprise progressive de la végétation",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0186",
+      "module": "industrie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0186 (Base de sauvetage côtier) au contexte « Zone industrielle », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : garage nautique, atelier, repos, quai.",
+        "Raccorder « garage nautique » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1372.md"
+    },
+    {
+      "id": "DW-1373",
+      "name": "Centre de protection civile — Station-service et aire routière / première récupération passée",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0187",
+      "module": "station-service",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0187 (Centre de protection civile) au contexte « Station-service et aire routière », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, stock, formation, garage.",
+        "Raccorder « accueil » à l’accès public et « garage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1373.md"
+    },
+    {
+      "id": "DW-1374",
+      "name": "Centre de protection civile — Centre d’évacuation abandonné / relais temporaire envisagé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0187",
+      "module": "camp-evacuation",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0187 (Centre de protection civile) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, stock, formation, garage.",
+        "Raccorder « accueil » à l’accès public et « garage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1374.md"
+    },
+    {
+      "id": "DW-1375",
+      "name": "Poste médical de stade — Zone industrielle / service déplacé à l’arrière",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0188",
+      "module": "industrie",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0188 (Poste médical de stade) au contexte « Zone industrielle », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : triage, soins, repos, stock.",
+        "Raccorder « triage » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1375.md"
+    },
+    {
+      "id": "DW-1376",
+      "name": "Poste médical de stade — Ville moyenne / réseau principal coupé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0188",
+      "module": "ville",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0188 (Poste médical de stade) au contexte « Ville moyenne », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : triage, soins, repos, stock.",
+        "Raccorder « triage » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1376.md"
+    },
+    {
+      "id": "DW-1377",
+      "name": "Refuge d'urgence communal — Centre d’évacuation abandonné / reprise progressive de la végétation",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0189",
+      "module": "camp-evacuation",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0189 (Refuge d'urgence communal) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, dortoirs, réfectoire, stock, sanitaires.",
+        "Raccorder « accueil » à l’accès public et « sanitaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1377.md"
+    },
+    {
+      "id": "DW-1378",
+      "name": "Refuge d'urgence communal — Station-service et aire routière / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0189",
+      "module": "station-service",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0189 (Refuge d'urgence communal) au contexte « Station-service et aire routière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, dortoirs, réfectoire, stock, sanitaires.",
+        "Raccorder « accueil » à l’accès public et « sanitaires » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1378.md"
+    },
+    {
+      "id": "DW-1379",
+      "name": "Centre d'hébergement de crise — Ville moyenne / relais temporaire envisagé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0190",
+      "module": "ville",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0190 (Centre d'hébergement de crise) au contexte « Ville moyenne », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : enregistrement, couchages, sanitaires, logistique.",
+        "Raccorder « enregistrement » à l’accès public et « logistique » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1379.md"
+    },
+    {
+      "id": "DW-1380",
+      "name": "Centre d'hébergement de crise — Zone industrielle / évacuation interrompue",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0190",
+      "module": "industrie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0190 (Centre d'hébergement de crise) au contexte « Zone industrielle », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : enregistrement, couchages, sanitaires, logistique.",
+        "Raccorder « enregistrement » à l’accès public et « logistique » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1380.md"
+    },
+    {
+      "id": "DW-1381",
+      "name": "Dépôt de secours — Station-service et aire routière / réseau principal coupé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0191",
+      "module": "station-service",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0191 (Dépôt de secours) au contexte « Station-service et aire routière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, stock, inspection, expédition.",
+        "Raccorder « réception » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1381.md"
+    },
+    {
+      "id": "DW-1382",
+      "name": "Dépôt de secours — Centre d’évacuation abandonné / arrêt de maintenance",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0191",
+      "module": "camp-evacuation",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0191 (Dépôt de secours) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, stock, inspection, expédition.",
+        "Raccorder « réception » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1382.md"
+    },
+    {
+      "id": "DW-1383",
+      "name": "Atelier d'ambulances — Zone industrielle / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0192",
+      "module": "industrie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0192 (Atelier d'ambulances) au contexte « Zone industrielle », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, baies, lavage, réserve.",
+        "Raccorder « réception » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1383.md"
+    },
+    {
+      "id": "DW-1384",
+      "name": "Atelier d'ambulances — Ville moyenne / première récupération passée",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0192",
+      "module": "ville",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0192 (Atelier d'ambulances) au contexte « Ville moyenne », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, baies, lavage, réserve.",
+        "Raccorder « réception » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1384.md"
+    },
+    {
+      "id": "DW-1385",
+      "name": "Centre de gestion de crise — Centre d’évacuation abandonné / évacuation interrompue",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0193",
+      "module": "camp-evacuation",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0193 (Centre de gestion de crise) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, coordination, cartographie, repos.",
+        "Raccorder « hall » à l’accès public et « repos » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1385.md"
+    },
+    {
+      "id": "DW-1386",
+      "name": "Centre de gestion de crise — Station-service et aire routière / service déplacé à l’arrière",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0193",
+      "module": "station-service",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0193 (Centre de gestion de crise) au contexte « Station-service et aire routière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, coordination, cartographie, repos.",
+        "Raccorder « hall » à l’accès public et « repos » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1386.md"
+    },
+    {
+      "id": "DW-1387",
+      "name": "Poste de secours autoroutier — Ville moyenne / arrêt de maintenance",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0194",
+      "module": "ville",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0194 (Poste de secours autoroutier) au contexte « Ville moyenne », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : garage, veille, stock, aire de départ.",
+        "Raccorder « garage » à l’accès public et « aire de départ » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1387.md"
+    },
+    {
+      "id": "DW-1388",
+      "name": "Poste de secours autoroutier — Zone industrielle / reprise progressive de la végétation",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0194",
+      "module": "industrie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0194 (Poste de secours autoroutier) au contexte « Zone industrielle », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : garage, veille, stock, aire de départ.",
+        "Raccorder « garage » à l’accès public et « aire de départ » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1388.md"
+    },
+    {
+      "id": "DW-1389",
+      "name": "Tour de guet forestière — Station-service et aire routière / première récupération passée",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0195",
+      "module": "station-service",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0195 (Tour de guet forestière) au contexte « Station-service et aire routière », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : base, escalier, cabine, réserve.",
+        "Raccorder « base » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1389.md"
+    },
+    {
+      "id": "DW-1390",
+      "name": "Tour de guet forestière — Centre d’évacuation abandonné / relais temporaire envisagé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0195",
+      "module": "camp-evacuation",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0195 (Tour de guet forestière) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : base, escalier, cabine, réserve.",
+        "Raccorder « base » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1390.md"
+    },
+    {
+      "id": "DW-1391",
+      "name": "Centre de gardes forestiers — Zone industrielle / service déplacé à l’arrière",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0196",
+      "module": "industrie",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0196 (Centre de gardes forestiers) au contexte « Zone industrielle », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureaux, atelier, garage.",
+        "Raccorder « accueil » à l’accès public et « garage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1391.md"
+    },
+    {
+      "id": "DW-1392",
+      "name": "Centre de gardes forestiers — Ville moyenne / réseau principal coupé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0196",
+      "module": "ville",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0196 (Centre de gardes forestiers) au contexte « Ville moyenne », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureaux, atelier, garage.",
+        "Raccorder « accueil » à l’accès public et « garage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1392.md"
+    },
+    {
+      "id": "DW-1393",
+      "name": "Chenil de secours — Centre d’évacuation abandonné / reprise progressive de la végétation",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0197",
+      "module": "camp-evacuation",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0197 (Chenil de secours) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, boxes, soins, aliments.",
+        "Raccorder « accueil » à l’accès public et « aliments » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1393.md"
+    },
+    {
+      "id": "DW-1394",
+      "name": "Chenil de secours — Station-service et aire routière / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0197",
+      "module": "station-service",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0197 (Chenil de secours) au contexte « Station-service et aire routière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, boxes, soins, aliments.",
+        "Raccorder « accueil » à l’accès public et « aliments » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1394.md"
+    },
+    {
+      "id": "DW-1395",
+      "name": "Poste de secours de montagne — Ville moyenne / relais temporaire envisagé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0198",
+      "module": "ville",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0198 (Poste de secours de montagne) au contexte « Ville moyenne », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, garage, soins, matériel.",
+        "Raccorder « accueil » à l’accès public et « matériel » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1395.md"
+    },
+    {
+      "id": "DW-1396",
+      "name": "Poste de secours de montagne — Zone industrielle / évacuation interrompue",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0198",
+      "module": "industrie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0198 (Poste de secours de montagne) au contexte « Zone industrielle », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, garage, soins, matériel.",
+        "Raccorder « accueil » à l’accès public et « matériel » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1396.md"
+    },
+    {
+      "id": "DW-1397",
+      "name": "Plateforme de secours aérien — Station-service et aire routière / réseau principal coupé",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0199",
+      "module": "station-service",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0199 (Plateforme de secours aérien) au contexte « Station-service et aire routière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bâtiment d'équipe, hangar, aire extérieure, stock.",
+        "Raccorder « bâtiment d'équipe » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1397.md"
+    },
+    {
+      "id": "DW-1398",
+      "name": "Plateforme de secours aérien — Centre d’évacuation abandonné / arrêt de maintenance",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0199",
+      "module": "camp-evacuation",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0199 (Plateforme de secours aérien) au contexte « Centre d’évacuation abandonné », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bâtiment d'équipe, hangar, aire extérieure, stock.",
+        "Raccorder « bâtiment d'équipe » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1398.md"
+    },
+    {
+      "id": "DW-1399",
+      "name": "Point de distribution d'eau d'urgence — Zone industrielle / repli organisé interrompu",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0200",
+      "module": "industrie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0200 (Point de distribution d'eau d'urgence) au contexte « Zone industrielle », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, cuves, distribution, stock.",
+        "Raccorder « accueil » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1399.md"
+    },
+    {
+      "id": "DW-1400",
+      "name": "Point de distribution d'eau d'urgence — Ville moyenne / première récupération passée",
+      "family": "Secours et protection civile",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0200",
+      "module": "ville",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0200 (Point de distribution d'eau d'urgence) au contexte « Ville moyenne », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, cuves, distribution, stock.",
+        "Raccorder « accueil » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Secours et protection civile/DW-1400.md"
+    }
+  ]
+}

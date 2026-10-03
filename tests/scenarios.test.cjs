@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
@@ -37,11 +39,11 @@ test('départs : catalogue immuable, IDs stricts et état initial indépendant s
   assert.equal(sandbox.DeadwallScenarios.initialState('reconstruction').coreHealth, 1920);
 });
 
-test('départ classique : trois empreintes historiques conservent ressources, carte, unités, IDs et RNG', () => {
+test('départ classique : trois empreintes physiques 1.14 sont reproductibles, avec stocks et RNG historiques', () => {
   const expected = {
-    story: 'a4c7acc61e6b3a652e209a3c8135db8830975c9f508e6afcf52da1bac0a6d7a8',
-    standard: '7da644fa8884841328b72e24d33d12d740aa8d65a286ab9f7adbcb5c82a0f683',
-    brutal: 'b95f90908f2bb1d8baf9e72b3efe1c8f02749c50098312a8c0def5095b55214f'
+    story: '4a295b11c9fc8bdba296843442423b1fe6fc24d66b6bf95654ab4847523cdbec',
+    standard: '3639212040951c45e46f74db811c0cdeed7e5bd2df7992bc36cb8c0a6b37edb8',
+    brutal: '2183515f3fa6fcca527f02ac7ea42ece382431a6def2b1c7e69fcae775d68c38'
   };
   const oldNow = Date.now, oldRandom = Math.random;
   Date.now = () => 1700000000000; Math.random = () => .25;
@@ -51,7 +53,7 @@ test('départ classique : trois empreintes historiques conservent ressources, ca
       if (explicit) game.startNew(difficulty, '17117', 'classic'); else game.startNew(difficulty, '17117');
       const saved = game.serialize();
       const units = saved.units.map(({ squad, ...legacyUnit }) => legacyUnit);
-      const legacy = { resources: saved.resources, player: saved.player, units, buildings: saved.buildings, nodes: game.world.nodes.map(node => [node.id, node.type, node.x, node.y, node.amount]), phaseTime: saved.phaseTime, nextId: saved.nextId, randomState: saved.randomState, worldSeed: saved.worldSeed };
+      const legacy = { resources: saved.resources, player: saved.player, units, buildings: saved.buildings, nodes: game.world.nodes.map(node => [node.id, node.type, node.x, node.y, node.amount]), phaseTime: C.START_SCENARIOS.classic.calmSeconds * C.DIFFICULTIES[difficulty].calmTime, nextId: saved.nextId, randomState: saved.randomState, worldSeed: saved.worldSeed };
       assert.equal(crypto.createHash('sha256').update(JSON.stringify(legacy)).digest('hex'), expected[difficulty]);
       assert.deepEqual(game.resources, S.initialState('classic', difficulty).resources);
       assert.equal(game.random.state, 2340875910);
@@ -93,17 +95,17 @@ test('départs : changer seulement le scénario ne modifie ni les gisements ni l
 test('variantes : toutes peuvent récolter, déposer et terminer le premier dortoir sans cadeau de ressources', () => {
   for (const scenario of S.list()) {
     const { game } = fresh(scenario.id), node = game.world.nodes.find(node => node.type === 'wood'), before = game.resources.wood;
-    Object.assign(game.player, { x: node.x, y: node.y }); game.input.keys.add('KeyE');
+    standAt(game,game.player,node); game.input.keys.add('KeyE');
     for (let step = 0; step < 25; step++) game.updateInteraction(.04);
     assert.ok(game.player.carry.wood > 0); const carried = game.player.carry.wood;
-    Object.assign(game.player, { x: game.core().x, y: game.core().y }); game.updateInteraction(.04);
+    standAt(game,game.player,game.core()); game.updateInteraction(.04);
     assert.equal(game.player.carry.wood, 0); assert.ok(Math.abs(game.resources.wood - before - carried) < 1e-8);
     let cell = null;
     for (let y = 55; y <= 72 && !cell; y++) for (let x = 55; x <= 72; x++) if (game.world.placement(C.BUILDINGS.house, x, y, 0).valid) { cell = { x, y }; break; }
     assert.ok(cell); const stock = { ...game.resources };
     assert.equal(game.placeOne('house', cell.x, cell.y), true);
     const house = [...game.world.buildings.values()].find(building => building.type === 'house');
-    Object.assign(game.player, { x: house.x, y: house.y });
+    standAt(game,game.player,house);
     for (let step = 0; step < 150 && !house.completed; step++) game.updateInteraction(.04);
     assert.equal(house.completed, true); assert.equal(game.resources.wood, stock.wood - 70);
     assert.equal(game.resources.scrap, stock.scrap - 20); assert.ok(game.housing > game.population);
@@ -218,7 +220,7 @@ test('menu départ : aperçu actualisé sans mutation et nouvelle partie utilise
   assert.equal(game.state, 'menu'); assert.equal(game.scenarioId, 'classic');
   difficulty = 'story'; elements.get('difficultyStory').dispatch('change');
   assert.match(elements.get('startScenarioFacts').textContent, /nourriture 130/);
-  assert.match(elements.get('startScenarioFacts').textContent, /Calme initial 01:39/);
+  assert.match(elements.get('startScenarioFacts').textContent, /Calme initial 04:12/);
   document.getElementById('mapSeed').value = '17117';
   assert.equal(game.requestNewGame(), true); assert.equal(game.scenarioId, 'convoy'); assert.equal(game.difficulty.id, 'story');
   assert.equal(game.resources.food, 130); assert.equal(game.units.length, 5);

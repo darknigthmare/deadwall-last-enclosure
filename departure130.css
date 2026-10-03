@@ -1,0 +1,10 @@
+.departure130{position:absolute;z-index:24;left:50%;top:118px;transform:translateX(-50%);width:min(540px,calc(100% - 32px));box-sizing:border-box;padding:14px 18px;border:1px solid #c4a368;border-left:4px solid #d5b471;background:linear-gradient(115deg,rgba(35,40,35,.97),rgba(18,24,25,.97));box-shadow:0 8px 24px #0007;color:#f5edd8;pointer-events:none;border-radius:3px;font:13px/1.45 system-ui,sans-serif}
+.departure130[data-tone=danger]{border-color:#c78d69;border-left-color:#ecae75}
+.departure130 strong{display:block;font-size:16px;letter-spacing:.035em}
+.departure130-clock{display:block;margin-top:3px;color:#ead1a0;font-size:12px;font-variant-numeric:tabular-nums}
+.departure130 p{margin:9px 0 6px}.departure130 small{display:block;font-size:11px;line-height:1.5;color:#bbc9c5}
+.departure130.hidden{display:none!important}
+@media(max-width:700px){.departure130{top:106px;padding:10px 12px;width:calc(100% - 24px);font-size:12px}.departure130 strong{font-size:14px}.departure130 small{font-size:10px}}
+@media(max-height:550px){.departure130{top:76px;max-width:520px;padding:8px 12px}.departure130 p{margin:5px 0}.departure130 small{font-size:10px}}
+
+.departure130-announcement{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}

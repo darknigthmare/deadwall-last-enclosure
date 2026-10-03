@@ -8,7 +8,7 @@ const Core = require('../src/core.js');
 
 test('art: tous les bâtiments et infectés ont un atlas ou un effet géométrique déclaré', () => {
   for (const [id, def] of Object.entries(Core.BUILDINGS))
-    assert.ok(Art.BUILDINGS[id] || Art.PROPS[id] || Art.DEFENSES[id], id);
+    assert.ok(Art.BUILDINGS[id] || Art.PROPS[id] || Art.DEFENSES[id] || (Art.PROCEDURAL_BUILDINGS[id] && Core[Art.PROCEDURAL_BUILDINGS[id]]?.BUILDINGS[id]), id);
   for (const id of Object.keys(Core.ENEMIES)) assert.ok(Art.ACTORS[id], id);
   for (const id of Object.keys(Core.SURVIVORS)) assert.ok(Art.ACTORS[id], id);
   for (const id of Object.keys(Core.SCENERY_DEFS||{})) assert.ok(Art.DISTRICT_PROPS[id], id);

@@ -4,7 +4,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),source=fs.readFileSync(path.join(root,'sw.js'),'utf8');
 const added=['index.html','src/core.js','src/game.js','src/save.js','squads.css','finish.css','src/scenarios.js','src/squads.js','src/battlefield.js','src/scenario-ui.js','src/squad-ui.js','src/battlefield-ui.js'];
-const previous='deadwall-v1.0.0-r11',current='deadwall-v1.0.0-r12';
+const previous='deadwall-v1.0.0-r11',current=/const CACHE = '([^']+)'/.exec(source)[1];
 
 // Cache.addAll is deliberately modelled as one deferred atomic operation. These
 // tests check SW event/promise orchestration, not a browser Cache implementation.

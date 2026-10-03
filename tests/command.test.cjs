@@ -5,7 +5,7 @@ test('campagne : difficultés inconnues, héritées ou non textuelles reviennent
   const {game,storage}=bootGame();
   for(const difficulty of ['constructor','__proto__','toString','unknown',null,undefined,42,{},[],Symbol('standard')]){
     assert.doesNotThrow(()=>game.startNew(difficulty,'17117'));
-    assert.equal(game.difficulty,C.DIFFICULTIES.standard);assert.equal(game.phaseTime,82);assert.equal(game.resources.wood,180);
+    assert.equal(game.difficulty,C.DIFFICULTIES.standard);assert.equal(game.phaseTime,C.Dayworks.dayDuration(1));assert.equal(game.resources.wood,180);
     assert.equal(game.lastSaveStatus.ok,true);assert.equal(Save.parse(storage.get(C.SAVE_KEY)).difficulty,'standard');
     assert.doesNotThrow(()=>game.update(.04));game.returnToMenu();assert.equal(game.state,'menu');
   }

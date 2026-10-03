@@ -19,7 +19,7 @@
     return {
       id: scenario.id, resources, roster: scenario.roster.slice(),
       coreHealth: C.BUILDINGS.core.health * scenario.coreHealthRatio,
-      calmSeconds: scenario.calmSeconds * C.DIFFICULTIES[difficulty].calmTime
+      calmSeconds: C.Dayworks ? C.Dayworks.dayDuration(1, C.DIFFICULTIES[difficulty].calmTime, scenario.calmSeconds) : scenario.calmSeconds * C.DIFFICULTIES[difficulty].calmTime
     };
   }
   const api = Object.freeze({ DEFAULT_ID, normalize, get, list, initialState });

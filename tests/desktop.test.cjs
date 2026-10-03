@@ -4,11 +4,21 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { resolvePublicFile, isGameDocument, isWithin, desktopHtml, isSaveExport, windowBounds, CONTENT_SECURITY_POLICY } = require('../desktop/policy.cjs');
+const { publicDistributionFiles } = require('../desktop/smoke.cjs');
 const root = path.resolve('desktop-test-public');
 
 test('desktop protocol serves only the public game surface', () => {
   for (const file of ['index.html','styles.css','settings.css','command.css','manifest.json','src/core.js','src/game.js','src/tactics.js','src/profile.js','src/command-ui.js','assets/art/terrain-v2.webp']) assert.equal(resolvePublicFile(root, `deadwall://game/${file}`), path.join(root, file));
   for (const file of ['package.json','.env','.git/config','desktop/main.cjs','sw.js','assets/private.txt','assets/key.pem','src/../../package.json','../package.json','%2e%2e/package.json','assets/%2e%2e/%2e%2e/package.json','assets/%252e%252e/test.png','assets%2ficon.png','assets\\icon.png','assets/icon.png%00','assets/icon.png:secret']) assert.equal(resolvePublicFile(root, `deadwall://game/${file}`), null, file);
+});
+
+test('desktop QA covers every current module, stylesheet and art dependency', () => {
+  const sourceRoot = path.resolve(__dirname, '..');
+  const files = publicDistributionFiles(sourceRoot);
+  for (const required of ['src/command-presentation129.js', 'src/succession133.js', 'src/hud135.js', 'assets/art141/reeds.png', 'assets/command-room132.webp', 'hud135.css', 'sw.js']) assert.ok(files.includes(required), required);
+  assert.equal(new Set(files).size, files.length);
+  for (const file of files) assert.equal(resolvePublicFile(sourceRoot, 'deadwall://game/' + file), file === 'sw.js' ? null : path.join(sourceRoot, file), file);
+  for (const privateFile of ['package.json', 'desktop/main.cjs', 'tests/desktop.test.cjs', 'docs/THIRD_PARTY_NOTICES.md']) assert.ok(!files.includes(privateFile), privateFile);
 });
 
 test('desktop rejects other origins, credentials, ports and malformed URLs', () => {

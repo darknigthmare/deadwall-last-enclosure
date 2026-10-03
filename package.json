@@ -1,19 +1,35 @@
 {
   "name": "deadwall-last-enclosure",
-  "version": "1.0.0",
+  "version": "1.48.0",
   "private": true,
   "main": "desktop/main.cjs",
-  "description": "DEADWALL — jeu autonome de défense de cité contre des hordes zombies infinies.",
+  "description": "Explorez, bâtissez et ravitaillez une cité fortifiée à défendre contre les hordes de la nuit.",
   "scripts": {
     "start": "node scripts/server.mjs",
     "dev": "node scripts/server.mjs",
     "test": "node --test tests/*.test.cjs",
-    "check": "node --check src/core.js && node --check src/scenarios.js && node --check src/scenario-ui.js && node --check src/squads.js && node --check src/squad-ui.js && node --check src/battlefield.js && node --check src/battlefield-ui.js && node --check src/narrative.js && node --check src/save.js && node --check src/tactics.js && node --check src/profile.js && node --check src/command-ui.js && node --check src/world-content.js && node --check src/content-ui.js && node --check src/narrative-ui.js && node --check src/art.js && node --check src/game.js && node --check src/ui.js && node --check sw.js && node --check desktop/main.cjs && node --check desktop/preload.cjs && node --check desktop/policy.cjs && node --check desktop/smoke.cjs && node --check desktop/verify.mjs && node --check scripts/release-policy.cjs && node --check scripts/verify-desktop-integrity.mjs && node --check scripts/package-desktop.mjs && npm run build && npm test",
+    "check": "node scripts/check-syntax134.mjs && npm run build && npm test",
     "build": "node scripts/build.mjs",
     "desktop": "npm run build && electron .",
     "desktop:setup": "install-electron",
     "package:desktop": "node scripts/package-desktop.mjs",
-    "test:desktop": "node desktop/verify.mjs"
+    "test:desktop": "node desktop/verify.mjs",
+    "test:browser": "node scripts/browser-qa142.mjs",
+    "test:world": "node tests/frontier-geometry-audit.cjs",
+    "coop": "node scripts/coop-server.mjs",
+    "package:web": "node scripts/package-web.mjs",
+    "verify:web": "node scripts/package-web.mjs --verify",
+    "package:source": "node scripts/package-source.mjs",
+    "test:standalone": "node scripts/browser-standalone142.mjs",
+    "test:campaign": "node scripts/browser-campaign143.mjs",
+    "test:tactics": "node scripts/browser-tactics143.mjs",
+    "test:journey": "node scripts/browser-journey144.mjs",
+    "test:assault": "node scripts/browser-assault144.mjs",
+    "test:reconstruction": "node scripts/browser-reconstruction144.mjs",
+    "test:terrain": "node scripts/browser-terrain145.mjs",
+    "test:visibility": "node scripts/browser-visibility146.mjs",
+    "test:preparations": "node scripts/browser-preparations147.mjs",
+    "test:defenses": "node scripts/browser-defenses148.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -21,6 +37,14 @@
   "devDependencies": {
     "@electron/fuses": "2.1.3",
     "@electron/packager": "20.3.0",
-    "electron": "44.0.0"
+    "@napi-rs/canvas": "0.1.100",
+    "electron": "44.0.0",
+    "playwright": "1.62.1"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "overrides": {
+    "undici": "7.29.1"
   }
 }

@@ -1,0 +1,26 @@
+{
+  "version": "1.6.0",
+  "game": "1.21.0-rc.1",
+  "save_version": 18,
+  "base_sha256": "20e6729f592e5d9642c52d632af2f6b3aedb4041b0a80d37626d4472ef9500e0",
+  "base_hashes_verified": 532,
+  "fiches_preserved": 500,
+  "catalogue_preserved": true,
+  "reader_preserved": true,
+  "active_plans": 42,
+  "not_implemented": 458,
+  "new_plans": 0,
+  "new_guide": "08_RECONNAISSANCE_TOURNEES_1.21.md",
+  "rules": {
+    "research_seconds": 40,
+    "food_per_dossier": 5,
+    "max_reports_per_dossier": 3,
+    "max_stops": 6,
+    "hint_radius_m": 65,
+    "hint_offset_m": 28,
+    "travel_cell_m": 128
+  },
+  "world_regenerated": false,
+  "guide_checks": 14,
+  "guide_visual_review": true
+}

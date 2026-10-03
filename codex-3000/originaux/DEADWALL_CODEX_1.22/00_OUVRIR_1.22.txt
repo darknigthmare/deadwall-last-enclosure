@@ -1,0 +1,8 @@
+DEADWALL — COMPAGNON 1.22
+
+Ouvrir GUIDE_SERVICES_ESSENTIELS.html pour les nouveautés et leur audit.
+Le lecteur précédent et ses 500 fiches restent présents, à l’identique.
+Les douze objectifs se déroulent dans les 42 plans existants : pas de nouveaux plans de bâtiment.
+Les 458 conceptions non intégrées gardent leur statut.
+Le format de campagne du jeu devient v19 ; conserver un export v18 avant transfert.
+Les sources de la génération précédente, le catalogue et les guides historiques sont conservés.

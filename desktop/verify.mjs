@@ -10,6 +10,8 @@ const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('..', import.meta.url));
 const expectedAssetKeys = Object.keys(require('../src/art.js').ASSETS).sort();
 const expectedNarrative = require('../src/narrative.js');
+const { publicDistributionFiles } = require('./smoke.cjs');
+const expectedPublicFiles = publicDistributionFiles(root);
 const executableIndex = process.argv.indexOf('--executable');
 const archiveIndex = process.argv.indexOf('--archive');
 if (executableIndex >= 0 && archiveIndex >= 0) throw new Error('Choose either --executable or --archive, not both.');
@@ -60,7 +62,7 @@ for (const stage of ['create','restore']) {
   if (executableIndex >= 0 || archiveIndex >= 0) assert.equal(report.packaged, true, 'QA must run the packaged application');
   assert.equal(report.commandPost.doctrines.length, 6);
   assert.equal(report.commandPost.workerOrder, 'retreat');
-  assert.deepEqual(report.distribution, {publicFiles:42,nativeRoutes:41,serviceWorkerBlocked:true});
+  assert.deepEqual(report.distribution, {publicFiles:expectedPublicFiles.length,nativeRoutes:expectedPublicFiles.length-1,serviceWorkerBlocked:true});
   assert.equal(report.save.scenarioId, 'rearguard'); assert.equal(report.save.difficulty, 'story');
   assert.equal(report.squads.sections, 3); assert.equal(report.squads.selected, 2);
   assert.equal(report.squads.alphaOrder, 'retreat'); assert.equal(report.squads.restored, stage==='restore');
@@ -91,4 +93,4 @@ assert.equal(reports[0].narrative.insight, reports[1].narrative.insight, 'Loadin
 assert.ok(reports[1].menuRecords.runIds.includes(reports[0].save.runId), 'Archives must load before continuing a campaign');
 assert.equal(reports[1].menuRecords.scenarioId, 'rearguard'); assert.equal(reports[1].menuRecords.scenarioRecordsSeparated, true);
 fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,distribution:reports[0].distribution,scenario:{id:'rearguard',menuSelected:true,afterRestart:true,importExport:true,recordsSeparated:true},squads:{sections:3,selected:2,alphaOrder:'retreat',afterRestart:true,importExport:true,ordersWithoutCost:true,positionsUnchanged:true,simulationRngUnchanged:true},battlefield:{fronts:4,debriefMetrics:6,hiddenDebrief:true,nonDestructive:true},atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
-console.log(`DEADWALL desktop: two launches, rearguard/story seed 17117, persistent squad selection/orders, four fronts and six hidden debrief metrics without campaign mutation, six doctrines, separate records, journal partial survey/unique choice/read state, 42 distribution files (41 native routes, service worker blocked), ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
+console.log(`DEADWALL desktop: two launches, rearguard/story seed 17117, persistent squad selection/orders, four fronts and six hidden debrief metrics without campaign mutation, six doctrines, separate records, journal partial survey/unique choice/read state, ${expectedPublicFiles.length} distribution files (${expectedPublicFiles.length-1} native routes, service worker blocked), ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);

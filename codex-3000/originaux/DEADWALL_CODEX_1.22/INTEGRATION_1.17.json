@@ -1,0 +1,98 @@
+{
+  "codex_version": "1.2.0",
+  "game_version": "1.17.0-rc.1",
+  "generation_requise": 3,
+  "pilotes_total": 42,
+  "nouveaux_plans": [
+    {
+      "id": "DW-0004",
+      "runtime": "basementHouse",
+      "dimensions_m": [
+        18,
+        15
+      ],
+      "niveaux": [
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "DW-0053",
+      "runtime": "pharmacy",
+      "dimensions_m": [
+        24,
+        18
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0073",
+      "runtime": "centralKitchen",
+      "dimensions_m": [
+        38,
+        29
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0126",
+      "runtime": "dental",
+      "dimensions_m": [
+        25,
+        20
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0237",
+      "runtime": "reuse",
+      "dimensions_m": [
+        40,
+        28
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0289",
+      "runtime": "freight",
+      "dimensions_m": [
+        46,
+        24
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0306",
+      "runtime": "joinery",
+      "dimensions_m": [
+        35,
+        26
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0331",
+      "runtime": "generatorRoom",
+      "dimensions_m": [
+        16,
+        13
+      ],
+      "niveaux": [
+        0
+      ]
+    }
+  ],
+  "heritage": "Générations 1 et 2 inchangées; gameplay de reconnaissance également actif sur ces campagnes."
+}

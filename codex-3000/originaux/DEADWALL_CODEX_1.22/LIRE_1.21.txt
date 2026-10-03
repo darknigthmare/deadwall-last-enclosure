@@ -1,0 +1,7 @@
+DEADWALL 1.21 — HORIZONS RECONNUS
+
+Ouvrir GUIDE_RECONNAISSANCE_TOURNEES.html pour les nouvelles règles.
+Le lecteur des 500 lieux reste LECTEUR_CODEX_500.html.
+500 fiches et sources antérieures conservées, 42 plans pilotes et 458 conceptions.
+La sauvegarde du jeu passe en v18 ; garder un export d’origine.
+Le jeu complet est livré séparément.

@@ -1,0 +1,1 @@
+overlay.querySelectorAll('button, input, select, textarea, a[href], [tabindex]')

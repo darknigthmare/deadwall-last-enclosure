@@ -1,0 +1,36 @@
+{
+  "version": "1.40.0",
+  "prompts": "PROMPTS.md",
+  "assets": [
+    {
+      "file": "assets/art140/van.png",
+      "key": "art140Van",
+      "source": "generated_images/exec-da05f79a-0e19-426d-a977-0a65dc202b1a.png",
+      "width": 2016,
+      "height": 780,
+      "mode": "RGBA",
+      "sha256": "5aff053ad4e18a281df729905cb7d68031527f99917cc979f786a3d696583370",
+      "generator": "image_gen.imagegen",
+      "transparent_background": true,
+      "generated_new": true,
+      "pixel_changes": false,
+      "pose": "orthographic zenith, front right",
+      "purpose": "individual vehicle silhouette, used by the existing local and regional vehicle painters"
+    },
+    {
+      "file": "assets/art140/buggy.png",
+      "key": "art140Buggy",
+      "source": "generated_images/exec-68b8465b-67df-4391-a7f9-711f4d6441be.png",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "sha256": "95c94656bc24148007d5845e07ed7304e97ab9e017c4a788205d3c586ba3a0cc",
+      "generator": "image_gen.imagegen",
+      "transparent_background": true,
+      "generated_new": true,
+      "pixel_changes": false,
+      "pose": "orthographic zenith, front right",
+      "purpose": "individual vehicle silhouette, used by the existing local and regional vehicle painters"
+    }
+  ]
+}

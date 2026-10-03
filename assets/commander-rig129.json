@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "provider": "OpenAI imagegen",
+  "source": "assets/commander-rig129.png",
+  "width": 1774,
+  "height": 887,
+  "sha256": "63f9f846ee5d4f2b0af4474aefd719dedd02f5a0ea17581d0610700226920a12",
+  "sourcePixelsUnmodified": true,
+  "description": "Quatre torses indépendants (fusil, pistolet, recul fusil, recul pistolet) et quatre phases de jambes/bassin. Pivots mesurés et transformation de perspective appliqués au rendu uniquement.",
+  "scale": 0.105,
+  "legScale": 0.72,
+  "legProjection": -1.0471975511965976,
+  "upper": [
+    {
+      "rect": [
+        48,
+        122,
+        411,
+        291
+      ],
+      "pivot": [
+        160,
+        335
+      ]
+    },
+    {
+      "rect": [
+        488,
+        120,
+        371,
+        291
+      ],
+      "pivot": [
+        604,
+        335
+      ]
+    },
+    {
+      "rect": [
+        921,
+        119,
+        419,
+        292
+      ],
+      "pivot": [
+        1040,
+        335
+      ]
+    },
+    {
+      "rect": [
+        1374,
+        117,
+        385,
+        298
+      ],
+      "pivot": [
+        1491,
+        335
+      ]
+    }
+  ],
+  "lower": [
+    {
+      "rect": [
+        55,
+        533,
+        303,
+        243
+      ],
+      "pivot": [
+        315,
+        650
+      ]
+    },
+    {
+      "rect": [
+        481,
+        528,
+        384,
+        254
+      ],
+      "pivot": [
+        634,
+        650
+      ]
+    },
+    {
+      "rect": [
+        946,
+        553,
+        272,
+        223
+      ],
+      "pivot": [
+        1180,
+        658
+      ]
+    },
+    {
+      "rect": [
+        1356,
+        538,
+        394,
+        244
+      ],
+      "pivot": [
+        1567,
+        658
+      ]
+    }
+  ]
+}

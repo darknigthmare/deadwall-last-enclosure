@@ -34,6 +34,7 @@ test('endurance technique : deux cartes, 30 minutes simulées, sauvegardes et pl
     add(game, 'warehouse', 59, 59); add(game, 'farm', 59, 66);
     add(game, 'house', 66, 66); add(game, 'generator', 66, 60);
     game.refreshMetrics(true);
+    game.fieldcraft.setup(); // Normalise explicitly arranged scene before measuring its invariant.
     assert.equal(game.getEnclosureStatus().enclosed, enclosed);
     return { gateId: gate?.id, targetId: target.id };
   }
@@ -127,7 +128,7 @@ test('endurance technique : deux cartes, 30 minutes simulées, sauvegardes et pl
       const pressureBefore = game.world.buildings.get(ids.targetId).corpseLoad;
       game.update(.04);
       if (pressureBefore - game.world.buildings.get(ids.targetId).corpseLoad > C.WORKER_RULES.passiveDecayPerSecond * .04 + 1e-8) report.cleanupSteps++;
-      if (game.workerOrder === 'retreat' && game.units.some(unit => unit.kind === 'worker' && C.dist(unit, game.core()) <= C.WORKER_RULES.retreatRadius)) report.retreatArrivalSteps++;
+      if (game.workerOrder === 'retreat' && game.units.some(unit => unit.kind === 'worker' && game.fieldcraft.distance(unit, game.core()) <= C.WORKER_RULES.retreatRadius)) report.retreatArrivalSteps++;
       if ((step + 1) % 100 === 0) invariant(game, report);
       if ((step + 1) % 1500 === 0) checkpoint(game, report);
     }
@@ -137,7 +138,8 @@ test('endurance technique : deux cartes, 30 minutes simulées, sauvegardes et pl
     assert.equal(game.profile.get().summary.retainedRuns, 1);
 
     // Separate late-wave pressure probe, not part of the 900-second session evidence.
-    game.wave = 1000; game.phase = 'assault'; game.prepareWave(); game.startAssault();
+    const pressureState=game.serialize();pressureState.citadel.baseline=null;game.restoreSave(pressureState);
+    game.wave = 1000; game.phase = 'warning'; game.prepareWave();game.phase='assault'; game.startAssault();
     game.zombies = []; game.spawnTimer = -1000;
     const expected = game.wavePlan.total;
     game.update(.04);

@@ -4,6 +4,27 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
+function publicDistributionFiles(publicRoot) {
+  const html = fs.readFileSync(path.join(publicRoot, 'index.html'), 'utf8');
+  const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);
+  const styles = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(match => match[1]);
+  const manifest = JSON.parse(fs.readFileSync(path.join(publicRoot, 'manifest.json'), 'utf8'));
+  const files = new Set(['index.html', 'manifest.json', 'sw.js', ...scripts, ...styles,
+    ...manifest.icons.map(icon => icon.src),
+    ...Object.values(require(path.join(publicRoot, 'src', 'art.js')).ASSETS).map(asset => asset.url)]);
+  for (const style of styles) {
+    for (const match of fs.readFileSync(path.join(publicRoot, style), 'utf8').matchAll(/url\(["']?(assets\/[^)"']+)/g)) files.add(match[1]);
+  }
+  for (const script of scripts) {
+    for (const match of fs.readFileSync(path.join(publicRoot, script), 'utf8').matchAll(/["'](assets\/[a-zA-Z0-9_./-]+\.(?:png|webp|jpg|jpeg|svg|avif))["']/g)) files.add(match[1]);
+  }
+  for (const file of files) {
+    assert.match(file, /^(?:[A-Za-z0-9_.-]+\/)*[A-Za-z0-9_.-]+$/, 'Public distribution path must stay local');
+    assert.ok(!file.split('/').some(part => part === '.' || part === '..'), 'Public distribution path cannot traverse directories');
+  }
+  return [...files].sort();
+}
+
 // Serialized into the renderer below; keep this probe independent of Node and Electron.
 function analyzeCanvasPixels(pixels,width,height) {
   const result={width,height,samples:0,opaque:0,colorBuckets:0,channelRange:0,nonDominant:0,pass:false};
@@ -148,7 +169,12 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
       get('startScenario').value='rearguard';get('startScenario').dispatchEvent(new Event('change',{bubbles:true}));
       if(!get('startScenarioFacts').textContent.includes('2 ouvriers · 1 fusilier') || !get('startScenarioDescription').textContent) throw new Error('Rearguard menu preview is missing');
       get('mapSeed').value='17117';get('mapSeed').dispatchEvent(new Event('input',{bubbles:true}));
-      get('newGameButton').click();game.togglePause(true);
+      get('newGameButton').click();
+      if(game.campaignIntro132?.isOpen()) {
+        get('campaignIntro132Skip').click();
+        if(game.campaignIntro132.isOpen()) throw new Error('The native campaign introduction did not close through its skip control');
+      }
+      game.togglePause(true);
       if(game.world.seed!==17117 || game.difficulty.id!=='story' || game.scenarioId!=='rearguard') throw new Error('Menu seed/difficulty/scenario controls were not applied');
       const initial=globalThis.DeadwallScenarios.initialState('rearguard','story');
       if(JSON.stringify(game.resources)!==JSON.stringify(initial.resources) || JSON.stringify(game.units.map(unit=>unit.kind))!==JSON.stringify(initial.roster)) throw new Error('Rearguard initial resources or roster were not applied');
@@ -351,13 +377,8 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   }
 
   const routes = {};
-  const publicPaths = [
-    '/index.html','/styles.css','/settings.css','/command.css','/content.css','/narrative.css','/squads.css','/finish.css','/manifest.json',
-    '/src/core.js','/src/scenarios.js','/src/squads.js','/src/battlefield.js','/src/narrative.js','/src/save.js','/src/art.js','/src/tactics.js','/src/profile.js','/src/world-content.js','/src/game.js','/src/ui.js','/src/command-ui.js','/src/content-ui.js','/src/narrative-ui.js','/src/scenario-ui.js','/src/squad-ui.js','/src/battlefield-ui.js',
-    '/assets/icon.svg','/assets/icon-192.png','/assets/icon-512.png','/assets/deadwall-keyart-v2.webp','/assets/buildings-atlas.webp','/assets/props-atlas.webp','/assets/survivors-atlas.webp','/assets/infected-atlas.webp','/assets/vfx-atlas.webp','/assets/terrain-earth.webp','/assets/defenses-atlas.webp','/assets/infected-expansion-atlas.webp','/assets/specialists-atlas.webp','/assets/district-props-atlas.webp'
-  ];
-  const distributionPaths = [...publicPaths,'/sw.js'];
-  assert.equal(new Set(distributionPaths).size, 42, 'The verified public distribution contains 42 distinct files');
+  const distributionPaths = publicDistributionFiles(path.join(app.getAppPath(), 'dist')).map(file => '/' + file);
+  const publicPaths = distributionPaths.filter(file => file !== '/sw.js');
   for (const pathname of distributionPaths) {
     const info = await fs.promises.stat(path.join(app.getAppPath(), 'dist', pathname.slice(1)));
     assert.ok(info.isFile() && info.size > 0, `${pathname} must be present in the distribution`);
@@ -396,4 +417,4 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   await closeSafely();
 }
 
-module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames };
+module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames, publicDistributionFiles };

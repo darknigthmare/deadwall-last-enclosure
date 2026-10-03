@@ -1,0 +1,1366 @@
+{
+  "family": "Forêts et filière bois",
+  "count": 40,
+  "compositions": [
+    {
+      "id": "DW-1761",
+      "name": "Scierie de vallée — Petit bois et lisière / reprise progressive de la végétation",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0381",
+      "module": "bois-lisiere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0381 (Scierie de vallée) au contexte « Petit bois et lisière », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : parc à grumes, découpe, séchage, stock, cour.",
+        "Raccorder « parc à grumes » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1761.md"
+    },
+    {
+      "id": "DW-1762",
+      "name": "Scierie de vallée — Clairière et coupe forestière / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0381",
+      "module": "clairiere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0381 (Scierie de vallée) au contexte « Clairière et coupe forestière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : parc à grumes, découpe, séchage, stock, cour.",
+        "Raccorder « parc à grumes » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1762.md"
+    },
+    {
+      "id": "DW-1763",
+      "name": "Petite scierie artisanale — Forêt immense / relais temporaire envisagé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0382",
+      "module": "foret-profonde",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0382 (Petite scierie artisanale) au contexte « Forêt immense », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cour, atelier, séchage, bureau.",
+        "Raccorder « cour » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1763.md"
+    },
+    {
+      "id": "DW-1764",
+      "name": "Petite scierie artisanale — Scierie et dépôt de bois / évacuation interrompue",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0382",
+      "module": "scierie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0382 (Petite scierie artisanale) au contexte « Scierie et dépôt de bois », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cour, atelier, séchage, bureau.",
+        "Raccorder « cour » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1764.md"
+    },
+    {
+      "id": "DW-1765",
+      "name": "Dépôt de grumes — Clairière et coupe forestière / réseau principal coupé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0383",
+      "module": "clairiere",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0383 (Dépôt de grumes) au contexte « Clairière et coupe forestière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : piste, aires de stockage, chargement.",
+        "Raccorder « piste » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1765.md"
+    },
+    {
+      "id": "DW-1766",
+      "name": "Dépôt de grumes — Petit bois et lisière / arrêt de maintenance",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0383",
+      "module": "bois-lisiere",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0383 (Dépôt de grumes) au contexte « Petit bois et lisière », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : piste, aires de stockage, chargement.",
+        "Raccorder « piste » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1766.md"
+    },
+    {
+      "id": "DW-1767",
+      "name": "Séchoir à bois — Scierie et dépôt de bois / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0384",
+      "module": "scierie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0384 (Séchoir à bois) au contexte « Scierie et dépôt de bois », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chambres, chargement, technique.",
+        "Raccorder « chambres » à l’accès public et « technique » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1767.md"
+    },
+    {
+      "id": "DW-1768",
+      "name": "Séchoir à bois — Forêt immense / première récupération passée",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0384",
+      "module": "foret-profonde",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0384 (Séchoir à bois) au contexte « Forêt immense », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chambres, chargement, technique.",
+        "Raccorder « chambres » à l’accès public et « technique » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1768.md"
+    },
+    {
+      "id": "DW-1769",
+      "name": "Atelier de charbon patrimonial — Petit bois et lisière / évacuation interrompue",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0385",
+      "module": "bois-lisiere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0385 (Atelier de charbon patrimonial) au contexte « Petit bois et lisière », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : clairière, aires de fours, stock, abri.",
+        "Raccorder « clairière » à l’accès public et « abri » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1769.md"
+    },
+    {
+      "id": "DW-1770",
+      "name": "Atelier de charbon patrimonial — Clairière et coupe forestière / service déplacé à l’arrière",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0385",
+      "module": "clairiere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0385 (Atelier de charbon patrimonial) au contexte « Clairière et coupe forestière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : clairière, aires de fours, stock, abri.",
+        "Raccorder « clairière » à l’accès public et « abri » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1770.md"
+    },
+    {
+      "id": "DW-1771",
+      "name": "Maison forestière — Forêt immense / arrêt de maintenance",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0386",
+      "module": "foret-profonde",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0386 (Maison forestière) au contexte « Forêt immense », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : logement, bureau, remise, cour.",
+        "Raccorder « logement » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1771.md"
+    },
+    {
+      "id": "DW-1772",
+      "name": "Maison forestière — Scierie et dépôt de bois / reprise progressive de la végétation",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0386",
+      "module": "scierie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0386 (Maison forestière) au contexte « Scierie et dépôt de bois », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : logement, bureau, remise, cour.",
+        "Raccorder « logement » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1772.md"
+    },
+    {
+      "id": "DW-1773",
+      "name": "Camp de bûcherons — Clairière et coupe forestière / première récupération passée",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0387",
+      "module": "clairiere",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0387 (Camp de bûcherons) au contexte « Clairière et coupe forestière », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : dortoir, réfectoire, atelier, stock.",
+        "Raccorder « dortoir » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1773.md"
+    },
+    {
+      "id": "DW-1774",
+      "name": "Camp de bûcherons — Petit bois et lisière / relais temporaire envisagé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0387",
+      "module": "bois-lisiere",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0387 (Camp de bûcherons) au contexte « Petit bois et lisière », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : dortoir, réfectoire, atelier, stock.",
+        "Raccorder « dortoir » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1774.md"
+    },
+    {
+      "id": "DW-1775",
+      "name": "Cabane d'observation — Scierie et dépôt de bois / service déplacé à l’arrière",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0388",
+      "module": "scierie",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0388 (Cabane d'observation) au contexte « Scierie et dépôt de bois », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : abri, accès, petit stock.",
+        "Raccorder « abri » à l’accès public et « petit stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1775.md"
+    },
+    {
+      "id": "DW-1776",
+      "name": "Cabane d'observation — Forêt immense / réseau principal coupé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0388",
+      "module": "foret-profonde",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0388 (Cabane d'observation) au contexte « Forêt immense », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : abri, accès, petit stock.",
+        "Raccorder « abri » à l’accès public et « petit stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1776.md"
+    },
+    {
+      "id": "DW-1777",
+      "name": "Tour d'observation naturaliste — Petit bois et lisière / reprise progressive de la végétation",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0389",
+      "module": "bois-lisiere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0389 (Tour d'observation naturaliste) au contexte « Petit bois et lisière », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : base, escalier, plateforme.",
+        "Raccorder « base » à l’accès public et « plateforme » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1777.md"
+    },
+    {
+      "id": "DW-1778",
+      "name": "Tour d'observation naturaliste — Clairière et coupe forestière / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0389",
+      "module": "clairiere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0389 (Tour d'observation naturaliste) au contexte « Clairière et coupe forestière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : base, escalier, plateforme.",
+        "Raccorder « base » à l’accès public et « plateforme » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1778.md"
+    },
+    {
+      "id": "DW-1779",
+      "name": "Pépinière forestière — Forêt immense / relais temporaire envisagé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0390",
+      "module": "foret-profonde",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0390 (Pépinière forestière) au contexte « Forêt immense », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : semis, serres, hangar, eau.",
+        "Raccorder « semis » à l’accès public et « eau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1779.md"
+    },
+    {
+      "id": "DW-1780",
+      "name": "Pépinière forestière — Scierie et dépôt de bois / évacuation interrompue",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0390",
+      "module": "scierie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0390 (Pépinière forestière) au contexte « Scierie et dépôt de bois », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : semis, serres, hangar, eau.",
+        "Raccorder « semis » à l’accès public et « eau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1780.md"
+    },
+    {
+      "id": "DW-1781",
+      "name": "Clairière de coupe — Clairière et coupe forestière / réseau principal coupé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0391",
+      "module": "clairiere",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0391 (Clairière de coupe) au contexte « Clairière et coupe forestière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : piste, souches, piles de bois, aire d'engins.",
+        "Raccorder « piste » à l’accès public et « aire d'engins » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1781.md"
+    },
+    {
+      "id": "DW-1782",
+      "name": "Clairière de coupe — Petit bois et lisière / arrêt de maintenance",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0391",
+      "module": "bois-lisiere",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0391 (Clairière de coupe) au contexte « Petit bois et lisière », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : piste, souches, piles de bois, aire d'engins.",
+        "Raccorder « piste » à l’accès public et « aire d'engins » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1782.md"
+    },
+    {
+      "id": "DW-1783",
+      "name": "Forêt ancienne — Scierie et dépôt de bois / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0392",
+      "module": "scierie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0392 (Forêt ancienne) au contexte « Scierie et dépôt de bois », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : canopée, sous-bois, clairières, ravines.",
+        "Raccorder « canopée » à l’accès public et « ravines » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1783.md"
+    },
+    {
+      "id": "DW-1784",
+      "name": "Forêt ancienne — Forêt immense / première récupération passée",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0392",
+      "module": "foret-profonde",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0392 (Forêt ancienne) au contexte « Forêt immense », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : canopée, sous-bois, clairières, ravines.",
+        "Raccorder « canopée » à l’accès public et « ravines » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1784.md"
+    },
+    {
+      "id": "DW-1785",
+      "name": "Plantation de conifères — Petit bois et lisière / évacuation interrompue",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0393",
+      "module": "bois-lisiere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0393 (Plantation de conifères) au contexte « Petit bois et lisière », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rangs, layons, zone de coupe, chemins.",
+        "Raccorder « rangs » à l’accès public et « chemins » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1785.md"
+    },
+    {
+      "id": "DW-1786",
+      "name": "Plantation de conifères — Clairière et coupe forestière / service déplacé à l’arrière",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0393",
+      "module": "clairiere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0393 (Plantation de conifères) au contexte « Clairière et coupe forestière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rangs, layons, zone de coupe, chemins.",
+        "Raccorder « rangs » à l’accès public et « chemins » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1786.md"
+    },
+    {
+      "id": "DW-1787",
+      "name": "Bois riverain — Forêt immense / arrêt de maintenance",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0394",
+      "module": "foret-profonde",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0394 (Bois riverain) au contexte « Forêt immense », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : berge, sous-bois, passages, clairières.",
+        "Raccorder « berge » à l’accès public et « clairières » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1787.md"
+    },
+    {
+      "id": "DW-1788",
+      "name": "Bois riverain — Scierie et dépôt de bois / reprise progressive de la végétation",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0394",
+      "module": "scierie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0394 (Bois riverain) au contexte « Scierie et dépôt de bois », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : berge, sous-bois, passages, clairières.",
+        "Raccorder « berge » à l’accès public et « clairières » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1788.md"
+    },
+    {
+      "id": "DW-1789",
+      "name": "Bois brûlé — Clairière et coupe forestière / première récupération passée",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0395",
+      "module": "clairiere",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0395 (Bois brûlé) au contexte « Clairière et coupe forestière », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : lisière de feu, troncs, repousses, pistes.",
+        "Raccorder « lisière de feu » à l’accès public et « pistes » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1789.md"
+    },
+    {
+      "id": "DW-1790",
+      "name": "Bois brûlé — Petit bois et lisière / relais temporaire envisagé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0395",
+      "module": "bois-lisiere",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0395 (Bois brûlé) au contexte « Petit bois et lisière », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : lisière de feu, troncs, repousses, pistes.",
+        "Raccorder « lisière de feu » à l’accès public et « pistes » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1790.md"
+    },
+    {
+      "id": "DW-1791",
+      "name": "Bois de tempête — Scierie et dépôt de bois / service déplacé à l’arrière",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0396",
+      "module": "scierie",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0396 (Bois de tempête) au contexte « Scierie et dépôt de bois », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : couloir de chutes, chemin, bois sur pied.",
+        "Raccorder « couloir de chutes » à l’accès public et « bois sur pied » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1791.md"
+    },
+    {
+      "id": "DW-1792",
+      "name": "Bois de tempête — Forêt immense / réseau principal coupé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0396",
+      "module": "foret-profonde",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0396 (Bois de tempête) au contexte « Forêt immense », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : couloir de chutes, chemin, bois sur pied.",
+        "Raccorder « couloir de chutes » à l’accès public et « bois sur pied » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1792.md"
+    },
+    {
+      "id": "DW-1793",
+      "name": "Zone de débardage — Petit bois et lisière / reprise progressive de la végétation",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0397",
+      "module": "bois-lisiere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0397 (Zone de débardage) au contexte « Petit bois et lisière », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pistes, rampe, stock, cour.",
+        "Raccorder « pistes » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1793.md"
+    },
+    {
+      "id": "DW-1794",
+      "name": "Zone de débardage — Clairière et coupe forestière / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0397",
+      "module": "clairiere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0397 (Zone de débardage) au contexte « Clairière et coupe forestière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pistes, rampe, stock, cour.",
+        "Raccorder « pistes » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1794.md"
+    },
+    {
+      "id": "DW-1795",
+      "name": "Atelier de palettes — Forêt immense / relais temporaire envisagé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0398",
+      "module": "foret-profonde",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0398 (Atelier de palettes) au contexte « Forêt immense », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bois brut, découpe, assemblage, stock.",
+        "Raccorder « bois brut » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1795.md"
+    },
+    {
+      "id": "DW-1796",
+      "name": "Atelier de palettes — Scierie et dépôt de bois / évacuation interrompue",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0398",
+      "module": "scierie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0398 (Atelier de palettes) au contexte « Scierie et dépôt de bois », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bois brut, découpe, assemblage, stock.",
+        "Raccorder « bois brut » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1796.md"
+    },
+    {
+      "id": "DW-1797",
+      "name": "Dépôt de bois de chauffage — Clairière et coupe forestière / réseau principal coupé",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0399",
+      "module": "clairiere",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0399 (Dépôt de bois de chauffage) au contexte « Clairière et coupe forestière », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : ronds, fendage, séchage, chargement.",
+        "Raccorder « ronds » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1797.md"
+    },
+    {
+      "id": "DW-1798",
+      "name": "Dépôt de bois de chauffage — Petit bois et lisière / arrêt de maintenance",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0399",
+      "module": "bois-lisiere",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0399 (Dépôt de bois de chauffage) au contexte « Petit bois et lisière », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : ronds, fendage, séchage, chargement.",
+        "Raccorder « ronds » à l’accès public et « chargement » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1798.md"
+    },
+    {
+      "id": "DW-1799",
+      "name": "Arboretum — Scierie et dépôt de bois / repli organisé interrompu",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0400",
+      "module": "scierie",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0400 (Arboretum) au contexte « Scierie et dépôt de bois », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chemins, collections, accueil, entretien.",
+        "Raccorder « chemins » à l’accès public et « entretien » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1799.md"
+    },
+    {
+      "id": "DW-1800",
+      "name": "Arboretum — Forêt immense / première récupération passée",
+      "family": "Forêts et filière bois",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0400",
+      "module": "foret-profonde",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0400 (Arboretum) au contexte « Forêt immense », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chemins, collections, accueil, entretien.",
+        "Raccorder « chemins » à l’accès public et « entretien » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Forêts et filière bois/DW-1800.md"
+    }
+  ]
+}

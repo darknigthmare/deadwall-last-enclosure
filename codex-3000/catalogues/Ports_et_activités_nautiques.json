@@ -1,0 +1,1366 @@
+{
+  "family": "Ports et activités nautiques",
+  "count": 40,
+  "compositions": [
+    {
+      "id": "DW-1841",
+      "name": "Port de pêche — Port marchand / reprise progressive de la végétation",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0421",
+      "module": "port",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0421 (Port de pêche) au contexte « Port marchand », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quais, criée, filets, atelier.",
+        "Raccorder « quais » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1841.md"
+    },
+    {
+      "id": "DW-1842",
+      "name": "Port de pêche — Lac et base de loisirs / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0421",
+      "module": "lac",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0421 (Port de pêche) au contexte « Lac et base de loisirs », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quais, criée, filets, atelier.",
+        "Raccorder « quais » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1842.md"
+    },
+    {
+      "id": "DW-1843",
+      "name": "Port de plaisance — Plage et dune / relais temporaire envisagé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0422",
+      "module": "plage",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0422 (Port de plaisance) au contexte « Plage et dune », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pontons, capitainerie, sanitaires, atelier.",
+        "Raccorder « pontons » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1843.md"
+    },
+    {
+      "id": "DW-1844",
+      "name": "Port de plaisance — Rivière, berges et gué / évacuation interrompue",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0422",
+      "module": "riviere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0422 (Port de plaisance) au contexte « Rivière, berges et gué », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pontons, capitainerie, sanitaires, atelier.",
+        "Raccorder « pontons » à l’accès public et « atelier » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1844.md"
+    },
+    {
+      "id": "DW-1845",
+      "name": "Port de commerce — Lac et base de loisirs / réseau principal coupé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0423",
+      "module": "lac",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0423 (Port de commerce) au contexte « Lac et base de loisirs », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quais, hangars, cours, administration.",
+        "Raccorder « quais » à l’accès public et « administration » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1845.md"
+    },
+    {
+      "id": "DW-1846",
+      "name": "Port de commerce — Port marchand / arrêt de maintenance",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0423",
+      "module": "port",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0423 (Port de commerce) au contexte « Port marchand », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quais, hangars, cours, administration.",
+        "Raccorder « quais » à l’accès public et « administration » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1846.md"
+    },
+    {
+      "id": "DW-1847",
+      "name": "Terminal ferry — Rivière, berges et gué / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0424",
+      "module": "riviere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0424 (Terminal ferry) au contexte « Rivière, berges et gué », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, attente, passerelles, files véhicules.",
+        "Raccorder « accueil » à l’accès public et « files véhicules » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1847.md"
+    },
+    {
+      "id": "DW-1848",
+      "name": "Terminal ferry — Plage et dune / première récupération passée",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0424",
+      "module": "plage",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0424 (Terminal ferry) au contexte « Plage et dune », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, attente, passerelles, files véhicules.",
+        "Raccorder « accueil » à l’accès public et « files véhicules » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1848.md"
+    },
+    {
+      "id": "DW-1849",
+      "name": "Chantier naval — Port marchand / évacuation interrompue",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0425",
+      "module": "port",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0425 (Chantier naval) au contexte « Port marchand », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cales, ateliers, stock, quais.",
+        "Raccorder « cales » à l’accès public et « quais » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1849.md"
+    },
+    {
+      "id": "DW-1850",
+      "name": "Chantier naval — Lac et base de loisirs / service déplacé à l’arrière",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0425",
+      "module": "lac",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0425 (Chantier naval) au contexte « Lac et base de loisirs », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : cales, ateliers, stock, quais.",
+        "Raccorder « cales » à l’accès public et « quais » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1850.md"
+    },
+    {
+      "id": "DW-1851",
+      "name": "Atelier de réparation nautique — Plage et dune / arrêt de maintenance",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0426",
+      "module": "plage",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0426 (Atelier de réparation nautique) au contexte « Plage et dune », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, hangar, stock, rampe.",
+        "Raccorder « réception » à l’accès public et « rampe » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1851.md"
+    },
+    {
+      "id": "DW-1852",
+      "name": "Atelier de réparation nautique — Rivière, berges et gué / reprise progressive de la végétation",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0426",
+      "module": "riviere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0426 (Atelier de réparation nautique) au contexte « Rivière, berges et gué », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, hangar, stock, rampe.",
+        "Raccorder « réception » à l’accès public et « rampe » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1852.md"
+    },
+    {
+      "id": "DW-1853",
+      "name": "Capitainerie — Lac et base de loisirs / première récupération passée",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0427",
+      "module": "lac",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0427 (Capitainerie) au contexte « Lac et base de loisirs », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureau avec vue, radio, réserve.",
+        "Raccorder « accueil » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1853.md"
+    },
+    {
+      "id": "DW-1854",
+      "name": "Capitainerie — Port marchand / relais temporaire envisagé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0427",
+      "module": "port",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0427 (Capitainerie) au contexte « Port marchand », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, bureau avec vue, radio, réserve.",
+        "Raccorder « accueil » à l’accès public et « réserve » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1854.md"
+    },
+    {
+      "id": "DW-1855",
+      "name": "Hangar à bateaux — Rivière, berges et gué / service déplacé à l’arrière",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0428",
+      "module": "riviere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0428 (Hangar à bateaux) au contexte « Rivière, berges et gué », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : baies, voiles, atelier, cale.",
+        "Raccorder « baies » à l’accès public et « cale » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1855.md"
+    },
+    {
+      "id": "DW-1856",
+      "name": "Hangar à bateaux — Plage et dune / réseau principal coupé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0428",
+      "module": "plage",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0428 (Hangar à bateaux) au contexte « Plage et dune », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : baies, voiles, atelier, cale.",
+        "Raccorder « baies » à l’accès public et « cale » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1856.md"
+    },
+    {
+      "id": "DW-1857",
+      "name": "Écluse portuaire — Port marchand / reprise progressive de la végétation",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0429",
+      "module": "port",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0429 (Écluse portuaire) au contexte « Port marchand », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : sas, quais, commande, passerelle.",
+        "Raccorder « sas » à l’accès public et « passerelle » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1857.md"
+    },
+    {
+      "id": "DW-1858",
+      "name": "Écluse portuaire — Lac et base de loisirs / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0429",
+      "module": "lac",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0429 (Écluse portuaire) au contexte « Lac et base de loisirs », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : sas, quais, commande, passerelle.",
+        "Raccorder « sas » à l’accès public et « passerelle » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1858.md"
+    },
+    {
+      "id": "DW-1859",
+      "name": "Dépôt de conteneurs — Plage et dune / relais temporaire envisagé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0430",
+      "module": "plage",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0430 (Dépôt de conteneurs) au contexte « Plage et dune », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rangées, allées, cour de manutention, bureau.",
+        "Raccorder « rangées » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1859.md"
+    },
+    {
+      "id": "DW-1860",
+      "name": "Dépôt de conteneurs — Rivière, berges et gué / évacuation interrompue",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0430",
+      "module": "riviere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0430 (Dépôt de conteneurs) au contexte « Rivière, berges et gué », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : rangées, allées, cour de manutention, bureau.",
+        "Raccorder « rangées » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1860.md"
+    },
+    {
+      "id": "DW-1861",
+      "name": "Entrepôt douanier fictif — Lac et base de loisirs / réseau principal coupé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0431",
+      "module": "lac",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0431 (Entrepôt douanier fictif) au contexte « Lac et base de loisirs », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, inspection, stock, quai.",
+        "Raccorder « accueil » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1861.md"
+    },
+    {
+      "id": "DW-1862",
+      "name": "Entrepôt douanier fictif — Port marchand / arrêt de maintenance",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0431",
+      "module": "port",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0431 (Entrepôt douanier fictif) au contexte « Port marchand », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, inspection, stock, quai.",
+        "Raccorder « accueil » à l’accès public et « quai » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1862.md"
+    },
+    {
+      "id": "DW-1863",
+      "name": "Gare fluviale — Rivière, berges et gué / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0432",
+      "module": "riviere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0432 (Gare fluviale) au contexte « Rivière, berges et gué », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, ponton, bagagerie, service.",
+        "Raccorder « hall » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1863.md"
+    },
+    {
+      "id": "DW-1864",
+      "name": "Gare fluviale — Plage et dune / première récupération passée",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0432",
+      "module": "plage",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0432 (Gare fluviale) au contexte « Plage et dune », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, ponton, bagagerie, service.",
+        "Raccorder « hall » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1864.md"
+    },
+    {
+      "id": "DW-1865",
+      "name": "Petit embarcadère — Port marchand / évacuation interrompue",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0433",
+      "module": "port",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0433 (Petit embarcadère) au contexte « Port marchand », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chemin, quai, abri, anneaux.",
+        "Raccorder « chemin » à l’accès public et « anneaux » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1865.md"
+    },
+    {
+      "id": "DW-1866",
+      "name": "Petit embarcadère — Lac et base de loisirs / service déplacé à l’arrière",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0433",
+      "module": "lac",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0433 (Petit embarcadère) au contexte « Lac et base de loisirs », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : chemin, quai, abri, anneaux.",
+        "Raccorder « chemin » à l’accès public et « anneaux » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1866.md"
+    },
+    {
+      "id": "DW-1867",
+      "name": "Base nautique de loisirs — Plage et dune / arrêt de maintenance",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0434",
+      "module": "plage",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0434 (Base nautique de loisirs) au contexte « Plage et dune », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, vestiaires, hangar, ponton.",
+        "Raccorder « accueil » à l’accès public et « ponton » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1867.md"
+    },
+    {
+      "id": "DW-1868",
+      "name": "Base nautique de loisirs — Rivière, berges et gué / reprise progressive de la végétation",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0434",
+      "module": "riviere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0434 (Base nautique de loisirs) au contexte « Rivière, berges et gué », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, vestiaires, hangar, ponton.",
+        "Raccorder « accueil » à l’accès public et « ponton » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1868.md"
+    },
+    {
+      "id": "DW-1869",
+      "name": "Bateau-restaurant amarré — Lac et base de loisirs / première récupération passée",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0435",
+      "module": "lac",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0435 (Bateau-restaurant amarré) au contexte « Lac et base de loisirs », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : passerelle, salle, cuisine, pont.",
+        "Raccorder « passerelle » à l’accès public et « pont » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1869.md"
+    },
+    {
+      "id": "DW-1870",
+      "name": "Bateau-restaurant amarré — Port marchand / relais temporaire envisagé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0435",
+      "module": "port",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0435 (Bateau-restaurant amarré) au contexte « Port marchand », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : passerelle, salle, cuisine, pont.",
+        "Raccorder « passerelle » à l’accès public et « pont » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1870.md"
+    },
+    {
+      "id": "DW-1871",
+      "name": "Phare côtier — Rivière, berges et gué / service déplacé à l’arrière",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0436",
+      "module": "riviere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0436 (Phare côtier) au contexte « Rivière, berges et gué », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : logement, escalier, lanterne, service.",
+        "Raccorder « logement » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1871.md"
+    },
+    {
+      "id": "DW-1872",
+      "name": "Phare côtier — Plage et dune / réseau principal coupé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0436",
+      "module": "plage",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0436 (Phare côtier) au contexte « Plage et dune », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : logement, escalier, lanterne, service.",
+        "Raccorder « logement » à l’accès public et « service » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1872.md"
+    },
+    {
+      "id": "DW-1873",
+      "name": "Dépôt de dragage abandonné — Port marchand / reprise progressive de la végétation",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0437",
+      "module": "port",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0437 (Dépôt de dragage abandonné) au contexte « Port marchand », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quai, atelier, stock, berges.",
+        "Raccorder « quai » à l’accès public et « berges » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1873.md"
+    },
+    {
+      "id": "DW-1874",
+      "name": "Dépôt de dragage abandonné — Lac et base de loisirs / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0437",
+      "module": "lac",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0437 (Dépôt de dragage abandonné) au contexte « Lac et base de loisirs », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : quai, atelier, stock, berges.",
+        "Raccorder « quai » à l’accès public et « berges » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1874.md"
+    },
+    {
+      "id": "DW-1875",
+      "name": "Port sec intérieur — Plage et dune / relais temporaire envisagé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0438",
+      "module": "plage",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0438 (Port sec intérieur) au contexte « Plage et dune », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : terminal ferroviaire, stock, cour, bureau.",
+        "Raccorder « terminal ferroviaire » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1875.md"
+    },
+    {
+      "id": "DW-1876",
+      "name": "Port sec intérieur — Rivière, berges et gué / évacuation interrompue",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0438",
+      "module": "riviere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0438 (Port sec intérieur) au contexte « Rivière, berges et gué », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : terminal ferroviaire, stock, cour, bureau.",
+        "Raccorder « terminal ferroviaire » à l’accès public et « bureau » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1876.md"
+    },
+    {
+      "id": "DW-1877",
+      "name": "Marina sinistrée — Lac et base de loisirs / réseau principal coupé",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0439",
+      "module": "lac",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0439 (Marina sinistrée) au contexte « Lac et base de loisirs », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pontons brisés, quais, capitainerie, épaves.",
+        "Raccorder « pontons brisés » à l’accès public et « épaves » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1877.md"
+    },
+    {
+      "id": "DW-1878",
+      "name": "Marina sinistrée — Port marchand / arrêt de maintenance",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0439",
+      "module": "port",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0439 (Marina sinistrée) au contexte « Port marchand », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pontons brisés, quais, capitainerie, épaves.",
+        "Raccorder « pontons brisés » à l’accès public et « épaves » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1878.md"
+    },
+    {
+      "id": "DW-1879",
+      "name": "Hameau lacustre — Rivière, berges et gué / repli organisé interrompu",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0440",
+      "module": "riviere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0440 (Hameau lacustre) au contexte « Rivière, berges et gué », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : maisons, chemins, pontons, hangars.",
+        "Raccorder « maisons » à l’accès public et « hangars » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1879.md"
+    },
+    {
+      "id": "DW-1880",
+      "name": "Hameau lacustre — Plage et dune / première récupération passée",
+      "family": "Ports et activités nautiques",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0440",
+      "module": "plage",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0440 (Hameau lacustre) au contexte « Plage et dune », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : maisons, chemins, pontons, hangars.",
+        "Raccorder « maisons » à l’accès public et « hangars » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Ports et activités nautiques/DW-1880.md"
+    }
+  ]
+}

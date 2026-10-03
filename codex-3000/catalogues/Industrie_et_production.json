@@ -1,0 +1,1366 @@
+{
+  "family": "Industrie et production",
+  "count": 40,
+  "compositions": [
+    {
+      "id": "DW-1601",
+      "name": "Atelier de métallurgie — Zone industrielle / reprise progressive de la végétation",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0301",
+      "module": "industrie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0301 (Atelier de métallurgie) au contexte « Zone industrielle », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, usinage, assemblage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1601.md"
+    },
+    {
+      "id": "DW-1602",
+      "name": "Atelier de métallurgie — Port marchand / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0301",
+      "module": "port",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0301 (Atelier de métallurgie) au contexte « Port marchand », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, usinage, assemblage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1602.md"
+    },
+    {
+      "id": "DW-1603",
+      "name": "Fonderie abandonnée — Entrepôt et plateforme logistique / relais temporaire envisagé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0302",
+      "module": "entrepot",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0302 (Fonderie abandonnée) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, préparation, moulage, stock.",
+        "Raccorder « hall » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1603.md"
+    },
+    {
+      "id": "DW-1604",
+      "name": "Fonderie abandonnée — Carrière / évacuation interrompue",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0302",
+      "module": "carriere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0302 (Fonderie abandonnée) au contexte « Carrière », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : hall, préparation, moulage, stock.",
+        "Raccorder « hall » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1604.md"
+    },
+    {
+      "id": "DW-1605",
+      "name": "Usine textile — Port marchand / réseau principal coupé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0303",
+      "module": "port",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0303 (Usine textile) au contexte « Port marchand », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : coupe, couture, finition, emballage.",
+        "Raccorder « coupe » à l’accès public et « emballage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1605.md"
+    },
+    {
+      "id": "DW-1606",
+      "name": "Usine textile — Zone industrielle / arrêt de maintenance",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0303",
+      "module": "industrie",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0303 (Usine textile) au contexte « Zone industrielle », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : coupe, couture, finition, emballage.",
+        "Raccorder « coupe » à l’accès public et « emballage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1606.md"
+    },
+    {
+      "id": "DW-1607",
+      "name": "Usine d'emballages — Carrière / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0304",
+      "module": "carriere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0304 (Usine d'emballages) au contexte « Carrière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, transformation, pliage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1607.md"
+    },
+    {
+      "id": "DW-1608",
+      "name": "Usine d'emballages — Entrepôt et plateforme logistique / première récupération passée",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0304",
+      "module": "entrepot",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0304 (Usine d'emballages) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, transformation, pliage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1608.md"
+    },
+    {
+      "id": "DW-1609",
+      "name": "Imprimerie industrielle — Zone industrielle / évacuation interrompue",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0305",
+      "module": "industrie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0305 (Imprimerie industrielle) au contexte « Zone industrielle », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : papier, presses, finition, expédition.",
+        "Raccorder « papier » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1609.md"
+    },
+    {
+      "id": "DW-1610",
+      "name": "Imprimerie industrielle — Port marchand / service déplacé à l’arrière",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0305",
+      "module": "port",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0305 (Imprimerie industrielle) au contexte « Port marchand », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : papier, presses, finition, expédition.",
+        "Raccorder « papier » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1610.md"
+    },
+    {
+      "id": "DW-1611",
+      "name": "Atelier de menuiserie — Entrepôt et plateforme logistique / arrêt de maintenance",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0306",
+      "module": "entrepot",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0306 (Atelier de menuiserie) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bois, découpe, assemblage, finition.",
+        "Raccorder « bois » à l’accès public et « finition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1611.md"
+    },
+    {
+      "id": "DW-1612",
+      "name": "Atelier de menuiserie — Carrière / reprise progressive de la végétation",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0306",
+      "module": "carriere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0306 (Atelier de menuiserie) au contexte « Carrière », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : bois, découpe, assemblage, finition.",
+        "Raccorder « bois » à l’accès public et « finition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1612.md"
+    },
+    {
+      "id": "DW-1613",
+      "name": "Usine de meubles — Port marchand / première récupération passée",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0307",
+      "module": "port",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0307 (Usine de meubles) au contexte « Port marchand », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, usinage, montage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1613.md"
+    },
+    {
+      "id": "DW-1614",
+      "name": "Usine de meubles — Zone industrielle / relais temporaire envisagé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0307",
+      "module": "industrie",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0307 (Usine de meubles) au contexte « Zone industrielle », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, usinage, montage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1614.md"
+    },
+    {
+      "id": "DW-1615",
+      "name": "Fabrique de céramique — Carrière / service déplacé à l’arrière",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0308",
+      "module": "carriere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0308 (Fabrique de céramique) au contexte « Carrière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : argile, modelage, séchage, cuisson.",
+        "Raccorder « argile » à l’accès public et « cuisson » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1615.md"
+    },
+    {
+      "id": "DW-1616",
+      "name": "Fabrique de céramique — Entrepôt et plateforme logistique / réseau principal coupé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0308",
+      "module": "entrepot",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0308 (Fabrique de céramique) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : argile, modelage, séchage, cuisson.",
+        "Raccorder « argile » à l’accès public et « cuisson » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1616.md"
+    },
+    {
+      "id": "DW-1617",
+      "name": "Verrerie désaffectée — Zone industrielle / reprise progressive de la végétation",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0309",
+      "module": "industrie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0309 (Verrerie désaffectée) au contexte « Zone industrielle », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : matières, hall, refroidissement, stock.",
+        "Raccorder « matières » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1617.md"
+    },
+    {
+      "id": "DW-1618",
+      "name": "Verrerie désaffectée — Port marchand / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0309",
+      "module": "port",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0309 (Verrerie désaffectée) au contexte « Port marchand », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : matières, hall, refroidissement, stock.",
+        "Raccorder « matières » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1618.md"
+    },
+    {
+      "id": "DW-1619",
+      "name": "Usine de préfabrication — Entrepôt et plateforme logistique / relais temporaire envisagé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0310",
+      "module": "entrepot",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0310 (Usine de préfabrication) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mélange, moulage, cure, cour.",
+        "Raccorder « mélange » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1619.md"
+    },
+    {
+      "id": "DW-1620",
+      "name": "Usine de préfabrication — Carrière / évacuation interrompue",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0310",
+      "module": "carriere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0310 (Usine de préfabrication) au contexte « Carrière », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : mélange, moulage, cure, cour.",
+        "Raccorder « mélange » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1620.md"
+    },
+    {
+      "id": "DW-1621",
+      "name": "Atelier de plasturgie — Port marchand / réseau principal coupé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0311",
+      "module": "port",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0311 (Atelier de plasturgie) au contexte « Port marchand », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : matières, machines, finition, expédition.",
+        "Raccorder « matières » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1621.md"
+    },
+    {
+      "id": "DW-1622",
+      "name": "Atelier de plasturgie — Zone industrielle / arrêt de maintenance",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0311",
+      "module": "industrie",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0311 (Atelier de plasturgie) au contexte « Zone industrielle », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : matières, machines, finition, expédition.",
+        "Raccorder « matières » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1622.md"
+    },
+    {
+      "id": "DW-1623",
+      "name": "Fabrique de produits ménagers — Carrière / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0312",
+      "module": "carriere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0312 (Fabrique de produits ménagers) au contexte « Carrière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, cuves, conditionnement, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1623.md"
+    },
+    {
+      "id": "DW-1624",
+      "name": "Fabrique de produits ménagers — Entrepôt et plateforme logistique / première récupération passée",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0312",
+      "module": "entrepot",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0312 (Fabrique de produits ménagers) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, cuves, conditionnement, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1624.md"
+    },
+    {
+      "id": "DW-1625",
+      "name": "Atelier de batteries — Zone industrielle / évacuation interrompue",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0313",
+      "module": "industrie",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0313 (Atelier de batteries) au contexte « Zone industrielle », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, diagnostic, assemblage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1625.md"
+    },
+    {
+      "id": "DW-1626",
+      "name": "Atelier de batteries — Port marchand / service déplacé à l’arrière",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0313",
+      "module": "port",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0313 (Atelier de batteries) au contexte « Port marchand », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, diagnostic, assemblage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1626.md"
+    },
+    {
+      "id": "DW-1627",
+      "name": "Usine de machines agricoles — Entrepôt et plateforme logistique / arrêt de maintenance",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0314",
+      "module": "entrepot",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0314 (Usine de machines agricoles) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pièces, montage, finition, cour.",
+        "Raccorder « pièces » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1627.md"
+    },
+    {
+      "id": "DW-1628",
+      "name": "Usine de machines agricoles — Carrière / reprise progressive de la végétation",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0314",
+      "module": "carriere",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0314 (Usine de machines agricoles) au contexte « Carrière », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : pièces, montage, finition, cour.",
+        "Raccorder « pièces » à l’accès public et « cour » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1628.md"
+    },
+    {
+      "id": "DW-1629",
+      "name": "Atelier de réparation industrielle — Port marchand / première récupération passée",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0315",
+      "module": "port",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0315 (Atelier de réparation industrielle) au contexte « Port marchand », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, démontage, usinage, remontage.",
+        "Raccorder « accueil » à l’accès public et « remontage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1629.md"
+    },
+    {
+      "id": "DW-1630",
+      "name": "Atelier de réparation industrielle — Zone industrielle / relais temporaire envisagé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0315",
+      "module": "industrie",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0315 (Atelier de réparation industrielle) au contexte « Zone industrielle », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : accueil, démontage, usinage, remontage.",
+        "Raccorder « accueil » à l’accès public et « remontage » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1630.md"
+    },
+    {
+      "id": "DW-1631",
+      "name": "Usine agroalimentaire sèche — Carrière / service déplacé à l’arrière",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0316",
+      "module": "carriere",
+      "state": "service-arriere",
+      "summary": "Adapter le programme DW-0316 (Usine agroalimentaire sèche) au contexte « Carrière », puis appliquer l’état « service déplacé à l’arrière ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, broyage, conditionnement, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "L’accès public a été délaissé au profit de la livraison ou du passage de maintenance, avec une cause visible près de la façade.",
+        "access": "Raccorder la voie de service au réseau parent. La façade peut être encombrée seulement si une entrée alternative lisible existe.",
+        "loot": "Déplacer une partie des réserves de service vers le quai ou la cour sans copier les stocks intérieurs. Garder les denrées dans leur contenant adapté.",
+        "night": "Éclairer ponctuellement la porte de service et le poste de déchargement ; la façade abandonnée peut rester sombre.",
+        "risk": "Arrivée par un angle étroit et retour plus long ; le coffre reste sur un emplacement réellement accessible.",
+        "qa": "Tester réseau–cour–pièce–sortie et vérifier que les réserves déplacées ne restent pas doublées dans le parent."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1631.md"
+    },
+    {
+      "id": "DW-1632",
+      "name": "Usine agroalimentaire sèche — Entrepôt et plateforme logistique / réseau principal coupé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0316",
+      "module": "entrepot",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0316 (Usine agroalimentaire sèche) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, broyage, conditionnement, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1632.md"
+    },
+    {
+      "id": "DW-1633",
+      "name": "Brasserie désaffectée — Zone industrielle / reprise progressive de la végétation",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0317",
+      "module": "industrie",
+      "state": "lisiere-reprise",
+      "summary": "Adapter le programme DW-0317 (Brasserie désaffectée) au contexte « Zone industrielle », puis appliquer l’état « reprise progressive de la végétation ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, cuves, embouteillage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le manque d’entretien a laissé la végétation gagner les marges et les ouvertures. L’ancien usage reste identifiable.",
+        "access": "Réserver les chemins avant troncs et arbustes. Une branche visuelle n’impose pas un collider plein couvrant une porte.",
+        "loot": "Conserver les ressources dans les contenants du parent ; les végétaux nouveaux ne donnent pas automatiquement un second stock de bois.",
+        "night": "Lumière portée ou posée au point de travail ; les anciens appareils restent éteints sans source. La végétation ne devient pas luminescente.",
+        "risk": "Silhouettes masquées et route secondaire moins lisible ; maintenir un repère de retour distinct.",
+        "qa": "Contrôler le trajet après végétalisation, l’absence de ressource générée hors budget et l’état des toitures."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1633.md"
+    },
+    {
+      "id": "DW-1634",
+      "name": "Brasserie désaffectée — Port marchand / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0317",
+      "module": "port",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0317 (Brasserie désaffectée) au contexte « Port marchand », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, cuves, embouteillage, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1634.md"
+    },
+    {
+      "id": "DW-1635",
+      "name": "Laiterie — Entrepôt et plateforme logistique / relais temporaire envisagé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0318",
+      "module": "entrepot",
+      "state": "relai-temporaire",
+      "summary": "Adapter le programme DW-0318 (Laiterie) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « relais temporaire envisagé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception froide, traitement, emballage, expédition.",
+        "Raccorder « réception froide » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le programme prévoit une occupation future courte : travail, stockage temporaire et veille, sans déclarer de nouveaux PNJ déjà présents.",
+        "access": "Séparer arrivée, circulation et repli ; ne pas fermer toutes les issues avec une défense improvisée.",
+        "loot": "Le matériel de l’occupation future doit venir d’un stock ou d’un coût explicite. Le butin ancien reste un budget séparé et fini.",
+        "night": "Lampe de travail et faible balisage des issues ; foyer seulement sur sol dégagé compatible. La durée et le combustible sont à raccorder au système nocturne.",
+        "risk": "Une halte éclairée ne devient pas une zone sûre. Nourriture, garde et relation de faction sont à développer si l’occupation devient active.",
+        "qa": "Avant intégration, tester coût d’installation, extinction, départ et sauvegarde sans duplication des réserves."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1635.md"
+    },
+    {
+      "id": "DW-1636",
+      "name": "Laiterie — Carrière / évacuation interrompue",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0318",
+      "module": "carriere",
+      "state": "evacuation",
+      "summary": "Adapter le programme DW-0318 (Laiterie) au contexte « Carrière », puis appliquer l’état « évacuation interrompue ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception froide, traitement, emballage, expédition.",
+        "Raccorder « réception froide » à l’accès public et « expédition » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le départ a commencé par l’accès public avant de s’arrêter. Les objets personnels suivent le trajet de sortie, pas une dispersion uniforme.",
+        "access": "Garder le passage de départ ouvert ; les bagages occupent les bords. Prévoir le contournement du dernier véhicule seulement si la parcelle le permet.",
+        "loot": "Réduire les réserves transportables près de l’entrée ; conserver du matériel lourd dans ses espaces de travail. Les deux zones partagent le budget fini du parent.",
+        "night": "Balisage de sortie et une lampe temporaire près du point de rassemblement. Les autres appareils sont éteints faute de service ; toute activation dépend d’un système implémenté.",
+        "risk": "Contacts regroupés sur l’ancienne file de départ, sortie visuellement encombrée mais réellement franchissable.",
+        "qa": "Comparer entrée et issue après placement des bagages ; aucune ressource abandonnée ne s’ajoute hors budget."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1636.md"
+    },
+    {
+      "id": "DW-1637",
+      "name": "Tannerie abandonnée — Port marchand / réseau principal coupé",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0319",
+      "module": "port",
+      "state": "reseau-coupe",
+      "summary": "Adapter le programme DW-0319 (Tannerie abandonnée) au contexte « Port marchand », puis appliquer l’état « réseau principal coupé ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, travées, bassins, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Le lieu conserve ses appareils mais son alimentation principale ne fonctionne plus. Les traces de panne suivent la chaîne technique.",
+        "access": "Rendre le coffret et la source atteignables depuis le service. Ne pas exiger une interaction de réparation non implémentée pour ressortir.",
+        "loot": "Réserves inchangées par l’absence de courant ; les appareils ne se transforment pas tous en piles récupérables.",
+        "night": "Éclairage autonome seulement : lampe, balise ou foyer adapté. Un futur rétablissement devra propager l’état vers les appareils liés.",
+        "risk": "Zones d’ombre, contraste et méprise sur un bâtiment silencieux ; ni monstre fluorescent ni bonus de butin nocturne.",
+        "qa": "Couper et rétablir une source dans une future intégration ; aucun point lumineux indépendant non déclaré."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1637.md"
+    },
+    {
+      "id": "DW-1638",
+      "name": "Tannerie abandonnée — Zone industrielle / arrêt de maintenance",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0319",
+      "module": "industrie",
+      "state": "maintenance",
+      "summary": "Adapter le programme DW-0319 (Tannerie abandonnée) au contexte « Zone industrielle », puis appliquer l’état « arrêt de maintenance ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : réception, travées, bassins, stock.",
+        "Raccorder « réception » à l’accès public et « stock » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Une intervention a interrompu l’usage du lieu. Outils et pièces sont concentrés sur la zone technique effectivement choisie.",
+        "access": "Conserver entrée publique et détour autour du poste d’intervention. Le matériel de maintenance n’occupe pas l’escalier ni l’accès à la réserve.",
+        "loot": "Répartir le budget d’outillage du parent vers la zone d’intervention ; ne pas transformer une pièce domestique en stock industriel sans changement de programme.",
+        "night": "Lampe de tâche au poste et balise de retour ; le réseau principal peut être coupé. L’appareil doit avoir un support, une source et un état épuisé.",
+        "risk": "Angle mort derrière la machine ou le poste ; le détour doit rester possible même si un contact approche de l’entrée.",
+        "qa": "Prouver le trajet poste–réserve–issue ; aucun halo n’active les machines de décor."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1638.md"
+    },
+    {
+      "id": "DW-1639",
+      "name": "Zone artisanale mixte — Carrière / repli organisé interrompu",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0320",
+      "module": "carriere",
+      "state": "repli-organise",
+      "summary": "Adapter le programme DW-0320 (Zone artisanale mixte) au contexte « Carrière », puis appliquer l’état « repli organisé interrompu ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : voirie, petits lots, ateliers, cours.",
+        "Raccorder « voirie » à l’accès public et « cours » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Les occupants ont préparé une sortie secondaire et regroupé les objets utiles près d’un point de départ, avant de disparaître.",
+        "access": "Garder une boucle entre pièce principale et sortie secondaire. Les défenses improvisées doivent avoir un passage lisible ou un état ouvert explicite.",
+        "loot": "Déplacer les réserves réellement préparées vers le point de départ ; ne pas répliquer leur quantité dans les pièces d’origine.",
+        "night": "Une balise marque l’issue et une lampe de tâche le dernier poste ; sources éteintes ou actives selon l’état de dispositif réellement généré.",
+        "risk": "Cul-de-sac évitable si le repère est compris ; la seconde issue ne doit pas donner sur une parcelle inaccessible.",
+        "qa": "Tester les deux sens de la boucle avec la géométrie finale et le niveau de chaque objet déplacé."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1639.md"
+    },
+    {
+      "id": "DW-1640",
+      "name": "Zone artisanale mixte — Entrepôt et plateforme logistique / première récupération passée",
+      "family": "Industrie et production",
+      "kind": "composition",
+      "status": "conception_non_integree",
+      "parent": "DW-0320",
+      "module": "entrepot",
+      "state": "recuperation",
+      "summary": "Adapter le programme DW-0320 (Zone artisanale mixte) au contexte « Entrepôt et plateforme logistique », puis appliquer l’état « première récupération passée ». Le programme complet du parent reste la référence des pièces et gabarits.",
+      "program_rules": [
+        "Préserver les usages du programme : voirie, petits lots, ateliers, cours.",
+        "Raccorder « voirie » à l’accès public et « cours » au parcours de retour ; ne pas imposer une liaison directe si le parent exige un couloir ou un niveau.",
+        "Conserver dimensions, niveaux possibles et dégagements du parent. Agrandir dans les limites du programme, choisir explicitement une variante plus petite ou refuser la parcelle.",
+        "Les contraintes territoriales priment sur le placement. Si le parent requiert eau, relief ou réseau spécialisé absent du contexte, réserver cet ouvrage ou refuser cette composition."
+      ],
+      "overrides": {
+        "cause": "Des récupérateurs ont déjà fouillé une partie accessible du lieu. Les éléments ouverts montrent leur parcours et leurs limites.",
+        "access": "Conserver la collision des gros meubles et châssis ; les portes ouvertes restent liées à un état sauvegardé et ne forment pas de nouvelle brèche invisible.",
+        "loot": "Les contenants visités commencent partiellement ou totalement épuisés dans une future instance ; les réserves restantes n’augmentent pas pour compenser.",
+        "night": "Une balise usagée près du retour peut raconter le passage ; elle reste éteinte si aucun dispositif actif n’a été créé.",
+        "risk": "Lecture trompeuse d’un site supposé vide ; le joueur doit pouvoir distinguer exploré et sûr.",
+        "qa": "Vérifier états initiaux, quantités réduites et conservation exacte après aller-retour et reprise."
+      },
+      "acceptance": [
+        "Vérifier la compatibilité du programme avec le territoire avant géométrie.",
+        "Tester accès public, service, usage et retour après application de l’état.",
+        "Conserver la somme des ressources et les identifiants uniques, y compris les contenants déplacés.",
+        "Conserver source lumineuse, domaine, niveau et temps restant à la reprise.",
+        "Ne changer le statut qu’après implémentation, tests de comportement et preuve visuelle."
+      ],
+      "implementation": "Composition documentaire uniquement. Aucun lieu, faction, danger climatique ou mécanisme nouveau créé dans la partie par cette fiche.",
+      "path": "compositions/Industrie et production/DW-1640.md"
+    }
+  ]
+}

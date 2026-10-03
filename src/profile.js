@@ -27,6 +27,21 @@
     return seed;
   }
 
+  function freshSeed(avoid = []) {
+    let seed;
+    try {
+      if (typeof global.crypto?.getRandomValues === 'function') {
+        const values = new Uint32Array(1);
+        global.crypto.getRandomValues(values);
+        seed = values[0];
+      }
+    } catch { /* Offline shells may expose crypto while denying entropy access. */ }
+    if (seed === undefined) seed = (Math.floor(Math.random() * 0x100000000) ^ Date.now()) >>> 0;
+    const excluded = new Set(avoid.filter(value => Number.isInteger(value) && value >= 0 && value <= 0xffffffff));
+    while (excluded.has(seed)) seed = (seed + 1) >>> 0;
+    return seed;
+  }
+
   function counter(value, field, integer = true) {
     if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > Number.MAX_SAFE_INTEGER || (integer && !Number.isSafeInteger(value))) invalid(field);
     return value;
@@ -218,7 +233,7 @@
     return Object.freeze({ load, save, record, get:()=>clone(profile) });
   }
 
-  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,SCENARIOS:Object.freeze(SCENARIOS),normalizeSeed,validate,create,load:storage=>create(storage).load()};
+  const api={VERSION,PROFILE_KEY,BACKUP_KEY,RECOVERY_KEY,MAX_RECENT_RUNS,MAX_PROFILE_BYTES,SCENARIOS:Object.freeze(SCENARIOS),normalizeSeed,freshSeed,validate,create,load:storage=>create(storage).load()};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   global.DeadwallProfile=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

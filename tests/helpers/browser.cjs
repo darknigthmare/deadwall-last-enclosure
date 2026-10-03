@@ -4,7 +4,7 @@
 
 const path = require('node:path');
 
-function installFakeBrowser() {
+function installFakeBrowser({ readyState = 'loading', currentScript = null, search = '' } = {}) {
   class FakeClassList {
     constructor() { this.values = new Set(); }
     add(...values) { values.forEach(value => this.values.add(value)); }
@@ -40,7 +40,7 @@ function installFakeBrowser() {
   class FakeElement {
     constructor(tag = 'div', id = '') {
       this.tagName = tag.toUpperCase(); this.id = id; this.classList = new FakeClassList();
-      this.style = {}; this.dataset = {}; this.children = []; this.textContent = ''; this.disabled = false;
+      this.style = {setProperty(name,value){this[name]=value;}}; this.dataset = {}; this.children = []; this.textContent = ''; this.disabled = false;
       this.value = ''; this.width = 220; this.height = 220; this.clientWidth = 1280; this.clientHeight = 720;
       this.parentNode = null; this._innerHTML = ''; this._listeners = new Map();
       this.attributes = new Map(); this.inert = false;
@@ -50,8 +50,9 @@ function installFakeBrowser() {
     addEventListener(type, handler) { if (!this._listeners.has(type)) this._listeners.set(type, []); this._listeners.get(type).push(handler); }
     removeEventListener() {}
     setPointerCapture() {}
-    dispatch(type, extra = {}) { const event = { preventDefault() {}, pointerId: 1, target: this, ...extra }; for (const handler of this._listeners.get(type) || []) handler(event); }
+    dispatch(type, extra = {}) { const event = { preventDefault() {}, stopPropagation() {}, stopImmediatePropagation() {}, pointerId: 1, pointerType: 'touch', button: 0, buttons: type === 'pointerup' ? 0 : 1, isPrimary: true, target: this, currentTarget: this, ...extra }; for (const handler of this._listeners.get(type) || []) handler(event); }
     appendChild(node) { if (node) { node.parentNode = this; this.children.push(node); } return node; }
+    append(...nodes) { nodes.forEach(node => this.appendChild(node)); }
     prepend(node) { if (node) { node.parentNode = this; this.children.unshift(node); } return node; }
     replaceChildren(...nodes) { this.children = []; nodes.forEach(node => this.appendChild(node)); }
     matches(selector) {
@@ -71,6 +72,7 @@ function installFakeBrowser() {
     querySelectorAll(selector) { return this.children.flatMap(child => [...(selector.split(',').some(part => child.matches(part.trim())) ? [child] : []), ...child.querySelectorAll(selector)]); }
     setAttribute(name, value) { this.attributes.set(name, String(value)); }
     getAttribute(name) { return this.attributes.get(name) ?? null; }
+    removeAttribute(name) { this.attributes.delete(name); }
     focus() { if (!this.closest('[inert], .hidden')) document.activeElement = this; }
     click() { if (!this.disabled && !this.closest('[inert], .hidden')) this.dispatch('click'); }
     getClientRects() { return this.closest('.hidden') ? [] : [this.getBoundingClientRect()]; }
@@ -88,15 +90,17 @@ function installFakeBrowser() {
   const elements = new Map(), windowListeners = new Map(), documentListeners = new Map();
   const buttons = new Set(['newGameButton','continueButton','howToButton','helpPauseButton','closeHelp','pauseButton','resumeButton','saveButton','quitButton','restartButton','gameOverMenuButton','toggleBuild','closeSelection','repairSelected','upgradeSelected','demolishSelected','recruitWorker','recruitSoldier','setRally','repairAll','prioritySelected','researchButton','settingsToggle','soundToggle','touchAction','touchFire']);
   const listen = (listeners, type, handler) => { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(handler); };
-  const dispatch = (listeners, type, extra = {}) => { const event = { code: '', target: document.activeElement, defaultPrevented: false, preventDefault() { this.defaultPrevented = true; }, ...extra }; for (const handler of listeners.get(type) || []) handler(event); return event; };
+  const dispatch = (listeners, type, extra = {}) => { const event = { code: '', target: document.activeElement, defaultPrevented: false, propagationStopped: false, immediatePropagationStopped: false, preventDefault() { this.defaultPrevented = true; }, stopPropagation() { this.propagationStopped = true; }, stopImmediatePropagation() { this.propagationStopped = this.immediatePropagationStopped = true; }, ...extra }; for (const handler of listeners.get(type) || []) { handler(event); if(event.immediatePropagationStopped)break; } return event; };
   const document = {
     body: new FakeElement('body', 'body'),
-    activeElement: null, hidden: false,
+    activeElement: null, hidden: false, readyState, currentScript,
+    head: new FakeElement('head', 'head'),
     getElementById(id) {
       if (!elements.has(id)) elements.set(id, new FakeElement(id === 'game' || id === 'minimap' ? 'canvas' : buttons.has(id) ? 'button' : 'div', id));
       return elements.get(id);
     },
     createElement(tag) { return new FakeElement(tag); },
+    createTextNode(text) { const node = new FakeElement('#text'); node.textContent = String(text); return node; },
     querySelector(selector) { return selector.includes('difficulty') ? document.getElementById('difficultyStandard') : new FakeElement('input'); },
     querySelectorAll(selector) { return selector === '#touchControls button[data-dir]' ? document.getElementById('touchControls').children.filter(node => node.dataset.dir) : document.body.querySelectorAll(selector); },
     addEventListener(type, handler) { listen(documentListeners, type, handler); }
@@ -131,21 +135,24 @@ function installFakeBrowser() {
   const mediaListeners = [], compactMedia = { matches: false, addEventListener(type, callback) { if (type === 'change') mediaListeners.push(callback); }, setMatches(value) { this.matches = value; mediaListeners.forEach(callback => callback({ matches: value })); } };
   Object.assign(globalThis, {
     document, window: globalThis, localStorage, innerWidth: 1280, innerHeight: 720, devicePixelRatio: 1,
-    location: { search: '', href: 'http://localhost/' },
+    location: { search, href: 'http://localhost/' },
     matchMedia(query) { return query.includes('(pointer: coarse)') ? compactMedia : { matches: false }; },
     addEventListener(type, handler) { listen(windowListeners, type, handler); }, removeEventListener() {}, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
   return { storage, elements, compactMedia, dispatchWindow: (type, extra) => dispatch(windowListeners, type, extra), dispatchDocument: (type, extra) => dispatch(documentListeners, type, extra) };
 }
 
-function bootGame() {
-  const env = installFakeBrowser(), projectRoot = path.resolve(__dirname, '..', '..'), gamePath = path.join(projectRoot, 'src/game.js');
+function bootGame(options) {
+  const env = installFakeBrowser(options), projectRoot = path.resolve(__dirname, '..', '..'), gamePath = path.join(projectRoot, 'src/game.js');
   globalThis.DeadwallCore = require(path.join(projectRoot, 'src/core.js'));
   globalThis.DeadwallScenarios = require(path.join(projectRoot, 'src/scenarios.js'));
   globalThis.DeadwallNarrative = require(path.join(projectRoot, 'src/narrative.js'));
   globalThis.DeadwallSave = require(path.join(projectRoot, 'src/save.js')); globalThis.DeadwallTactics = require(path.join(projectRoot, 'src/tactics.js')); globalThis.DeadwallProfile = require(path.join(projectRoot, 'src/profile.js'));
   globalThis.DeadwallWorldContent = require(path.join(projectRoot, 'src/world-content.js'));
+  globalThis.DeadwallBattlefield = require(path.join(projectRoot, 'src/battlefield.js'));
   delete require.cache[require.resolve(gamePath)]; require(gamePath);
+  require(path.join(projectRoot, 'src/linecare.js')).install(globalThis.DEADWALL);
+  require(path.join(projectRoot, 'src/recon.js')).install(globalThis.DEADWALL);
   return { ...env, game: globalThis.DEADWALL };
 }
 

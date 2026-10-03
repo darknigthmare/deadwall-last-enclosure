@@ -1,0 +1,6006 @@
+{
+  "version": "1.23",
+  "count": 1000,
+  "index": [
+    {
+      "id": "DW-0001",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0002",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0003",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0004",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0005",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0006",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0007",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0008",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0009",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0010",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0011",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0012",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0013",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0014",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0015",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0016",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0017",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0018",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0019",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0020",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0021",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0022",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0023",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0024",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0025",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0026",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0027",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0028",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0029",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0030",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0031",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0032",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0033",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0034",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0035",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0036",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0037",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0038",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0039",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0040",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0041",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0042",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0043",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0044",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0045",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0046",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0047",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0048",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0049",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0050",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0051",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0052",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0053",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0054",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0055",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0056",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0057",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0058",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0059",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0060",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0061",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0062",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0063",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0064",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0065",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0066",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0067",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0068",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0069",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0070",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0071",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0072",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0073",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0074",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0075",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0076",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0077",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0078",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0079",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0080",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0081",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0082",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0083",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0084",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0085",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0086",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0087",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0088",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0089",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0090",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0091",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0092",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0093",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0094",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0095",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0096",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0097",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0098",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0099",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0100",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0101",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0102",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0103",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0104",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0105",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0106",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0107",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0108",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0109",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0110",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0111",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0112",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0113",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0114",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0115",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0116",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0117",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0118",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0119",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0120",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0121",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0122",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0123",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0124",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0125",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0126",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0127",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0128",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0129",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0130",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0131",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0132",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0133",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0134",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0135",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0136",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0137",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0138",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0139",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0140",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0141",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0142",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0143",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0144",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0145",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0146",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0147",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0148",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0149",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0150",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0151",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0152",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0153",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0154",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0155",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0156",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0157",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0158",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0159",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0160",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0161",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0162",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0163",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0164",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0165",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0166",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0167",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0168",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0169",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0170",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0171",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0172",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0173",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0174",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0175",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0176",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0177",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0178",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0179",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0180",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0181",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0182",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0183",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0184",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0185",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0186",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0187",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0188",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0189",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0190",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0191",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0192",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0193",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0194",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0195",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0196",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0197",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0198",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0199",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0200",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0201",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0202",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0203",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0204",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0205",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0206",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0207",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0208",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0209",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0210",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0211",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0212",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0213",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0214",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0215",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0216",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0217",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0218",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0219",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0220",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0221",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0222",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0223",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0224",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0225",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0226",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0227",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0228",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0229",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0230",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0231",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0232",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0233",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0234",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0235",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0236",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0237",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0238",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0239",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0240",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0241",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0242",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0243",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0244",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0245",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0246",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0247",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0248",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0249",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0250",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0251",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0252",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0253",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0254",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0255",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0256",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0257",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0258",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0259",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0260",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0261",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0262",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0263",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0264",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0265",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0266",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0267",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0268",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0269",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0270",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0271",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0272",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0273",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0274",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0275",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0276",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0277",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0278",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0279",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0280",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0281",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0282",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0283",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0284",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0285",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0286",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0287",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0288",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0289",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0290",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0291",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0292",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0293",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0294",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0295",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0296",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0297",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0298",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0299",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0300",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0301",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0302",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0303",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0304",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0305",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0306",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0307",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0308",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0309",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0310",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0311",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0312",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0313",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0314",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0315",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0316",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0317",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0318",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0319",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0320",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0321",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0322",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0323",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0324",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0325",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0326",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0327",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0328",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0329",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0330",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0331",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0332",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0333",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0334",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0335",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0336",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0337",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0338",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0339",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0340",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0341",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0342",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0343",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0344",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0345",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0346",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0347",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0348",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0349",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0350",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0351",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0352",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0353",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0354",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0355",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0356",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0357",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0358",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0359",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0360",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0361",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0362",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0363",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0364",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0365",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0366",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0367",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0368",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0369",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0370",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0371",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0372",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0373",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0374",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0375",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0376",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0377",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0378",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0379",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0380",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0381",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0382",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0383",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0384",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0385",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0386",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0387",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0388",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0389",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0390",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0391",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0392",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0393",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0394",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0395",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0396",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0397",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0398",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0399",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0400",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0401",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0402",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0403",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0404",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0405",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0406",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0407",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0408",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0409",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0410",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0411",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0412",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0413",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0414",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0415",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0416",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0417",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0418",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0419",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0420",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0421",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0422",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0423",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0424",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0425",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0426",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0427",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0428",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0429",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0430",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0431",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0432",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0433",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0434",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0435",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0436",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0437",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0438",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0439",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0440",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0441",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0442",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0443",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0444",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0445",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0446",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0447",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0448",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0449",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0450",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0451",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0452",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0453",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0454",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0455",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0456",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0457",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0458",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0459",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0460",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0461",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0462",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0463",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0464",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0465",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0466",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0467",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0468",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0469",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0470",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0471",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0472",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0473",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0474",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0475",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0476",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0477",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0478",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0479",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0480",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0481",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0482",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0483",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0484",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0485",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0486",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0487",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0488",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0489",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0490",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0491",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0492",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0493",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0494",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0495",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0496",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0497",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0498",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0499",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0500",
+      "source": "DEADWALL_CODEX_500_LIEUX_1.22.zip",
+      "status": "conservé dans l'archive 1.22 originale"
+    },
+    {
+      "id": "DW-0501",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0502",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0503",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0504",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0505",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0506",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0507",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0508",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 01",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0509",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0510",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0511",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0512",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0513",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0514",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0515",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0516",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 01",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0517",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0518",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0519",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0520",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0521",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0522",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0523",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0524",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 01",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0525",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0526",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0527",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0528",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0529",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0530",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0531",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0532",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 01",
+      "family": "public"
+    },
+    {
+      "id": "DW-0533",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0534",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0535",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0536",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0537",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0538",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0539",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0540",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 01",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0541",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0542",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0543",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0544",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0545",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0546",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0547",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0548",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 01",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0549",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0550",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0551",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0552",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0553",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0554",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0555",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0556",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 01",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0557",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0558",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0559",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0560",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0561",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0562",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0563",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0564",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 01",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0565",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0566",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0567",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0568",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0569",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0570",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0571",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0572",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 02",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0573",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0574",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0575",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0576",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0577",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0578",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0579",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0580",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 02",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0581",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0582",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0583",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0584",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0585",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0586",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0587",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0588",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 02",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0589",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0590",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0591",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0592",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0593",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0594",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0595",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0596",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 02",
+      "family": "public"
+    },
+    {
+      "id": "DW-0597",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0598",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0599",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0600",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0601",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0602",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0603",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0604",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 02",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0605",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0606",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0607",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0608",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0609",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0610",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0611",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0612",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 02",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0613",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0614",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0615",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0616",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0617",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0618",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0619",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0620",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 02",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0621",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0622",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0623",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0624",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0625",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0626",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0627",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0628",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 02",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0629",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0630",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0631",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0632",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0633",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0634",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0635",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0636",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 03",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0637",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0638",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0639",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0640",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0641",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0642",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0643",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0644",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 03",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0645",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0646",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0647",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0648",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0649",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0650",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0651",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0652",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 03",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0653",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0654",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0655",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0656",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0657",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0658",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0659",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0660",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 03",
+      "family": "public"
+    },
+    {
+      "id": "DW-0661",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0662",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0663",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0664",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0665",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0666",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0667",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0668",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 03",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0669",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0670",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0671",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0672",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0673",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0674",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0675",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0676",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 03",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0677",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0678",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0679",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0680",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0681",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0682",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0683",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0684",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 03",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0685",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0686",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0687",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0688",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0689",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0690",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0691",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0692",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 03",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0693",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0694",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0695",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0696",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0697",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0698",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0699",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0700",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 04",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0701",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0702",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0703",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0704",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0705",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0706",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0707",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0708",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 04",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0709",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0710",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0711",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0712",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0713",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0714",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0715",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0716",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 04",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0717",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0718",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0719",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0720",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0721",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0722",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0723",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0724",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 04",
+      "family": "public"
+    },
+    {
+      "id": "DW-0725",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0726",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0727",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0728",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0729",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0730",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0731",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0732",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 04",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0733",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0734",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0735",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0736",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0737",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0738",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0739",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0740",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 04",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0741",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0742",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0743",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0744",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0745",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0746",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0747",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0748",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 04",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0749",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0750",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0751",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0752",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0753",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0754",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0755",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0756",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 04",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0757",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0758",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0759",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0760",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0761",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0762",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0763",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0764",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 05",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0765",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0766",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0767",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0768",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0769",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0770",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0771",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0772",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 05",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0773",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0774",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0775",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0776",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0777",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0778",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0779",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0780",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 05",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0781",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0782",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0783",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0784",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0785",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0786",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0787",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0788",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 05",
+      "family": "public"
+    },
+    {
+      "id": "DW-0789",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0790",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0791",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0792",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0793",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0794",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0795",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0796",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 05",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0797",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0798",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0799",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0800",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0801",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0802",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0803",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0804",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 05",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0805",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0806",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0807",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0808",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0809",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0810",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0811",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0812",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 05",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0813",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0814",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0815",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0816",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0817",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0818",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0819",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0820",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 05",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0821",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0822",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0823",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0824",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0825",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0826",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0827",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0828",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 06",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0829",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0830",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0831",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0832",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0833",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0834",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0835",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0836",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 06",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0837",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0838",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0839",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0840",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0841",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0842",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0843",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0844",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 06",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0845",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0846",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0847",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0848",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0849",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0850",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0851",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0852",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 06",
+      "family": "public"
+    },
+    {
+      "id": "DW-0853",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0854",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0855",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0856",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0857",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0858",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0859",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0860",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 06",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0861",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0862",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0863",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0864",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0865",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0866",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0867",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0868",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 06",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0869",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0870",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0871",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0872",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0873",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0874",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0875",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0876",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 06",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0877",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0878",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0879",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0880",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0881",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0882",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0883",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0884",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 06",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0885",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0886",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0887",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0888",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0889",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0890",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0891",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0892",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 07",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0893",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0894",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0895",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0896",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0897",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0898",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0899",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0900",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 07",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0901",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0902",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0903",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0904",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0905",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0906",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0907",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0908",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 07",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0909",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0910",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0911",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0912",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0913",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0914",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0915",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0916",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 07",
+      "family": "public"
+    },
+    {
+      "id": "DW-0917",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0918",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0919",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0920",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0921",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0922",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0923",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0924",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 07",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0925",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0926",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0927",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0928",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0929",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0930",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0931",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0932",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 07",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0933",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0934",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0935",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0936",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0937",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Parking silo — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0938",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Terminal poids lourds — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0939",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Port de plaisance — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0940",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petit aérodrome — variante 07",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0941",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison incendiée — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0942",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble éventré — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0943",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Commerce pillé — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0944",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Usine sinistrée — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0945",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel abandonné — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0946",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Lotissement ravagé — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0947",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Village déserté — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0948",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial effondré — variante 07",
+      "family": "ruines"
+    },
+    {
+      "id": "DW-0949",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison de lotissement — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0950",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison mitoyenne — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0951",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Villa isolée — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0952",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme familiale — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0953",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Immeuble résidentiel — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0954",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Barre de logements — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0955",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Résidence senior — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0956",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Maison avec sous-sol — variante 08",
+      "family": "habitat"
+    },
+    {
+      "id": "DW-0957",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supérette — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0958",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centre commercial — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0959",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Supermarché — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0960",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Magasin de bricolage — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0961",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Pharmacie — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0962",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station-service — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0963",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Restaurant routier — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0964",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hôtel — variante 08",
+      "family": "commerce"
+    },
+    {
+      "id": "DW-0965",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Scierie — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0966",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Garage automobile — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0967",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Entrepôt logistique — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0968",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Petite usine — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0969",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Carrière — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0970",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mine — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0971",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Centrale locale — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0972",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Station de pompage — variante 08",
+      "family": "industrie"
+    },
+    {
+      "id": "DW-0973",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "École — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0974",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Mairie — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0975",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Clinique — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0976",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Caserne de pompiers — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0977",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de police — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0978",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bibliothèque — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0979",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Salle des fêtes — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0980",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Église et presbytère — variante 08",
+      "family": "public"
+    },
+    {
+      "id": "DW-0981",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Hameau agricole — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0982",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Cabane forestière — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0983",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt forestier — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0984",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme céréalière — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0985",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Ferme d'élevage — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0986",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Relais de chasse — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0987",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Moulin rural — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0988",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Serres maraîchères — variante 08",
+      "family": "rural"
+    },
+    {
+      "id": "DW-0989",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Bunker de défense civile — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0990",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt militaire — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0991",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Poste de contrôle — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0992",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Camp retranché abandonné — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0993",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Abri ferroviaire — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0994",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Site radar — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0995",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Batterie côtière — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0996",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt carburant sécurisé — variante 08",
+      "family": "militaire"
+    },
+    {
+      "id": "DW-0997",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare routière — variante 08",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0998",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Dépôt de bus — variante 08",
+      "family": "transport"
+    },
+    {
+      "id": "DW-0999",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Gare ferroviaire — variante 08",
+      "family": "transport"
+    },
+    {
+      "id": "DW-1000",
+      "source": "SUPPLEMENT_501_1000_1.23",
+      "status": "nouvelle fiche 1.23",
+      "name": "Aire d'autoroute — variante 08",
+      "family": "transport"
+    }
+  ]
+}

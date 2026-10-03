@@ -13,7 +13,7 @@
   function openGate(building) { return isGate(building) && operational(building) && gateMode(building) === 'open'; }
   function blocksFriendly(building) {
     const def = definition(building);
-    return Boolean(operational(building) && def?.wall && (!def.gate || gateMode(building) === 'closed'));
+    return Boolean(operational(building) && def && building.type !== 'spikes' && (!def.gate || gateMode(building) === 'closed'));
   }
   function blocksEnclosure(building) {
     const def = definition(building);

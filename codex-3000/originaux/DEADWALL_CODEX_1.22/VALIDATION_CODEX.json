@@ -1,0 +1,88 @@
+{
+  "version": "1.3.0",
+  "perimetre": "Validation documentaire du codex externe, pas qualification de 500 niveaux jouables",
+  "fiches": 500,
+  "familles": {
+    "Habitat individuel": 20,
+    "Habitat collectif": 20,
+    "Commerces non alimentaires": 20,
+    "Alimentation et restauration": 20,
+    "Services et petits ateliers": 20,
+    "Hôtellerie et hébergement": 20,
+    "Santé": 20,
+    "Éducation et connaissance": 20,
+    "Administration et communauté": 20,
+    "Secours et protection civile": 20,
+    "Abris et souterrains": 20,
+    "Entrepôts et réserves": 20,
+    "Automobile et carburant": 20,
+    "Routes et ouvrages": 20,
+    "Ferroviaire et transports collectifs": 20,
+    "Industrie et production": 20,
+    "Énergie et communication": 20,
+    "Eau et réseaux": 20,
+    "Agriculture": 20,
+    "Forêts et filière bois": 20,
+    "Mines et matériaux": 20,
+    "Ports et activités nautiques": 20,
+    "Loisirs et culture": 20,
+    "Quartiers et agglomérations": 20,
+    "Ruines et lieux dégradés visitables": 20
+  },
+  "espaces": 2061,
+  "descriptions_de_props": 6039,
+  "controles": [
+    {
+      "controle": "500 fiches exactement",
+      "reussi": true
+    },
+    {
+      "controle": "500 identifiants ordonnés et stables",
+      "reussi": true
+    },
+    {
+      "controle": "500 noms distincts",
+      "reussi": true
+    },
+    {
+      "controle": "25 familles, 20 fiches chacune",
+      "reussi": true
+    },
+    {
+      "controle": "42 pilotes et 458 conceptions distincts",
+      "reussi": true
+    },
+    {
+      "controle": "Guide opérationnel 1.18 présent",
+      "reussi": true
+    },
+    {
+      "controle": "2061 espaces distincts documentés",
+      "reussi": true
+    },
+    {
+      "controle": "Chaque fiche possède un Markdown correspondant",
+      "reussi": true
+    },
+    {
+      "controle": "Graphes, plages de dimensions et props valides",
+      "reussi": true
+    },
+    {
+      "controle": "Aucun statut intégré donné aux 458 plans futurs",
+      "reussi": true
+    },
+    {
+      "controle": "Validation JSON Schema",
+      "reussi": true
+    },
+    {
+      "controle": "Guides et lecteur présents",
+      "reussi": true
+    },
+    {
+      "controle": "Aucun fichier de police embarqué",
+      "reussi": true
+    }
+  ]
+}

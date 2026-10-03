@@ -1,0 +1,7 @@
+    work(amount) {
+      if (this.dead || this.completed) return false;
+      const before = this.progress;
+      this.progress = clamp(this.progress + amount / Math.max(1, this.def.buildTime), 0, 1);
+      this.health = Math.max(this.health, this.maxHealth * (0.12 + this.progress * 0.88));
+      return before < 1 && this.completed;
+    }

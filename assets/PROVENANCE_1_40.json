@@ -1,0 +1,27 @@
+{
+  "version": "1.40.0",
+  "images": [
+    {
+      "runtime": "assets/art140/van.png",
+      "dimensions": [
+        2016,
+        780
+      ],
+      "sha256": "5aff053ad4e18a281df729905cb7d68031527f99917cc979f786a3d696583370",
+      "source": "image_gen built-in",
+      "alpha": "native, original PNG unmodified",
+      "prompts": "assets/art140/PROMPTS.md"
+    },
+    {
+      "runtime": "assets/art140/buggy.png",
+      "dimensions": [
+        1774,
+        887
+      ],
+      "sha256": "95c94656bc24148007d5845e07ed7304e97ab9e017c4a788205d3c586ba3a0cc",
+      "source": "image_gen built-in",
+      "alpha": "native, original PNG unmodified",
+      "prompts": "assets/art140/PROMPTS.md"
+    }
+  ]
+}

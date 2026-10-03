@@ -37,7 +37,7 @@ test('directeur de horde: composition cohérente et croissance infinie', () => {
 test('paliers et catalogue de construction', () => {
   assert.equal(C.cityTier(0).name, 'REFUGE');
   assert.equal(C.cityTier(48).name, 'FORTERESSE');
-  assert.equal(C.cityTier(500).name, 'MÉGACITÉ');
+  assert.equal(C.cityTier(500).name, 'GRANDE MÉTROPOLE');
   assert.ok(Object.keys(C.BUILDINGS).length >= 20);
   assert.equal(C.BUILDINGS.woodWall.upgradeTo, 'steelWall');
   assert.equal(C.BUILDINGS.steelWall.upgradeTo, 'concreteWall');
@@ -56,9 +56,9 @@ test('génération déterministe et file de priorité', () => {
 
 
 test('sauvegardes v2: migration non destructive et état stratégique', () => {
-  assert.equal(C.SAVE_VERSION, 2);
+  assert.equal(C.SAVE_VERSION, 20);
   const migrated = C.migrateSaveData({ version: 1, stats: { gathered: 44 }, wave: 3 });
-  assert.equal(migrated.version, 2);
+  assert.equal(migrated.version, C.SAVE_VERSION);
   assert.equal(migrated.migratedFrom, 1);
   assert.equal(migrated.depositedResources, 44);
   assert.deepEqual(migrated.research.completed, []);
@@ -94,7 +94,7 @@ test('production: conservation des intrants et rendement proportionnel à la cap
 
 test('migration horde: compteurs compacts et anciennes files conservent chaque contact', () => {
   const counts = C.normalizeSpawnCounts({ walker: 2, runner: 3, armored: -8 }, ['walker', 'armored', 'inconnu']);
-  assert.deepEqual(counts, { walker: 3, runner: 3, armored: 1, crawler: 0, howler: 0, breacher: 0, stalker: 0, bloated: 0 });
+  assert.deepEqual(counts, { walker: 3, runner: 3, armored: 1, crawler: 0, howler: 0, breacher: 0, stalker: 0, bloated: 0, shielded: 0, charger: 0 });
   const composition = { ...counts }, actual = C.normalizeSpawnCounts();
   for (let index = 0; index < 7; index++) actual[C.takeSpawnKind(counts, index / 7)]++;
   assert.deepEqual(actual, composition); assert.equal(C.spawnCount(counts), 0);

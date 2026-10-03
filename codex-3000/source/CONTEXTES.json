@@ -1,0 +1,200 @@
+{
+  "Habitat individuel": [
+    "quartier-pavillonnaire",
+    "hameau",
+    "village",
+    "ferme"
+  ],
+  "Habitat collectif": [
+    "quartier-collectif",
+    "ville",
+    "metropole",
+    "centre-historique"
+  ],
+  "Commerces non alimentaires": [
+    "zone-commerciale",
+    "ville",
+    "village",
+    "metropole"
+  ],
+  "Alimentation et restauration": [
+    "zone-commerciale",
+    "village",
+    "ville",
+    "station-service"
+  ],
+  "Services et petits ateliers": [
+    "atelier",
+    "village",
+    "industrie",
+    "ville"
+  ],
+  "Hôtellerie et hébergement": [
+    "village",
+    "zone-loisirs",
+    "ville",
+    "lac"
+  ],
+  "Santé": [
+    "hopital-soins",
+    "ville",
+    "village",
+    "camp-evacuation"
+  ],
+  "Éducation et connaissance": [
+    "ecole-civique",
+    "ville",
+    "quartier-collectif",
+    "village"
+  ],
+  "Administration et communauté": [
+    "ecole-civique",
+    "ville",
+    "village",
+    "centre-historique"
+  ],
+  "Secours et protection civile": [
+    "camp-evacuation",
+    "ville",
+    "station-service",
+    "industrie"
+  ],
+  "Abris et souterrains": [
+    "ville",
+    "camp-allie",
+    "montagne",
+    "industrie"
+  ],
+  "Entrepôts et réserves": [
+    "entrepot",
+    "port",
+    "industrie",
+    "gare-fret"
+  ],
+  "Automobile et carburant": [
+    "station-service",
+    "industrie",
+    "ville",
+    "atelier"
+  ],
+  "Routes et ouvrages": [
+    "routes-coutures",
+    "montagne",
+    "riviere",
+    "ville"
+  ],
+  "Ferroviaire et transports collectifs": [
+    "gare-fret",
+    "metropole",
+    "industrie",
+    "port"
+  ],
+  "Industrie et production": [
+    "industrie",
+    "entrepot",
+    "port",
+    "carriere"
+  ],
+  "Énergie et communication": [
+    "energie",
+    "industrie",
+    "ville",
+    "montagne"
+  ],
+  "Eau et réseaux": [
+    "eau-services",
+    "riviere",
+    "ville",
+    "industrie"
+  ],
+  "Agriculture": [
+    "ferme",
+    "prairie",
+    "hameau",
+    "terre-aride"
+  ],
+  "Forêts et filière bois": [
+    "bois-lisiere",
+    "foret-profonde",
+    "clairiere",
+    "scierie"
+  ],
+  "Mines et matériaux": [
+    "mine",
+    "carriere",
+    "montagne",
+    "terre-aride"
+  ],
+  "Ports et activités nautiques": [
+    "port",
+    "plage",
+    "lac",
+    "riviere"
+  ],
+  "Loisirs et culture": [
+    "zone-loisirs",
+    "lac",
+    "plage",
+    "ville"
+  ],
+  "Quartiers et agglomérations": [
+    "hameau",
+    "village",
+    "ville",
+    "metropole"
+  ],
+  "Ruines et lieux dégradés visitables": [
+    "ruines-vegetales",
+    "centre-historique",
+    "industrie",
+    "bois-lisiere"
+  ],
+  "habitat": [
+    "quartier-pavillonnaire",
+    "hameau",
+    "village",
+    "quartier-collectif"
+  ],
+  "commerce": [
+    "zone-commerciale",
+    "ville",
+    "village",
+    "metropole"
+  ],
+  "industrie": [
+    "industrie",
+    "atelier",
+    "entrepot",
+    "gare-fret"
+  ],
+  "public": [
+    "ecole-civique",
+    "ville",
+    "village",
+    "camp-evacuation"
+  ],
+  "rural": [
+    "ferme",
+    "prairie",
+    "bois-lisiere",
+    "hameau"
+  ],
+  "militaire": [
+    "camp-allie",
+    "camp-hostile",
+    "camp-fortune",
+    "camp-evacuation"
+  ],
+  "transport": [
+    "station-service",
+    "gare-fret",
+    "port",
+    "routes-coutures"
+  ],
+  "ruines": [
+    "ruines-vegetales",
+    "centre-historique",
+    "industrie",
+    "bois-lisiere"
+  ]
+}

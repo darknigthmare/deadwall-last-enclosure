@@ -1,0 +1,27 @@
+{
+  "version": "1.38.0",
+  "images": [
+    {
+      "runtime": "assets/art138/roof-metal.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sha256": "9747cf93a21eb2169f2b4144ab9103dbd3a5361117d4f9327287492cbff05928",
+      "source": "image_gen built-in",
+      "alpha": "opaque, original PNG unmodified",
+      "prompts": "assets/art138/PROMPTS.md"
+    },
+    {
+      "runtime": "assets/art138/interior-concrete.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "sha256": "3f08c1f2afb5ac6c5960b2d09bd8850bd54b372ea5643c3d28c6164498cc8a6e",
+      "source": "image_gen built-in",
+      "alpha": "opaque, original PNG unmodified",
+      "prompts": "assets/art138/PROMPTS.md"
+    }
+  ]
+}

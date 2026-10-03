@@ -16,7 +16,7 @@ for(const variant of variants){
   const context=await browser.newContext({viewport:{width:variant.width,height:variant.height},hasTouch:!!variant.touch,isMobile:!!variant.touch,deviceScaleFactor:1});
   const page=await context.newPage(),report={viewport:variant,checks:[],errors:[],httpErrors:[],screenshots:[],canvasFixtures:[]};reports.push(report);
   page.setDefaultTimeout(15000);
-  page.on('pageerror',error=>report.errors.push(error.message));
+  page.setDefaultTimeout(5000);page.on('pageerror',error=>report.errors.push(error.message));
   page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text());});
   page.on('response',response=>{if(response.status()>=400)report.httpErrors.push({status:response.status(),url:response.url()});});
   const check=(name,value=true)=>{assert.ok(value,name);report.checks.push(name);};
@@ -39,7 +39,8 @@ for(const variant of variants){
     check('dix atlas chargés sans échec',await page.evaluate(()=>DEADWALL.art.diagnostics.ready.length===10));
     await page.locator('#menuRecordsButton').click();await page.locator('#commandTab-field').click();
     check('dossiers accessibles au menu sans commencer une campagne',await page.evaluate(()=>DEADWALL.state==='menu'&&document.getElementById('commandTab-field').getAttribute('aria-selected')==='true'));
-    await page.locator('[data-field-view="infected"]').click();check('huit profils infectés lisibles',await page.locator('article[data-enemy-profile]').count()===8);
+    await page.locator('[data-field-view="infected"]').click();const infectedProfileCount=await page.evaluate(()=>Object.keys(DeadwallCore.ENEMIES).length);
+    check(infectedProfileCount+' profils infectés lisibles',await page.locator('article[data-enemy-profile]').count()===infectedProfileCount);
     check('seuils de vagues exacts et aucun texte indéfini',await page.evaluate(()=>{
       const cards=[...document.querySelectorAll('article[data-enemy-profile]')],waves=cards.map(card=>DeadwallCore.ENEMIES[card.dataset.enemyProfile].unlockWave);
       return !document.getElementById('commandPanel-field').textContent.includes('undefined')&&cards.every((card,index)=>card.querySelector('small').textContent.includes('DÈS LA VAGUE '+waves[index]+' · ')&&(!index||waves[index]>=waves[index-1]));
@@ -113,12 +114,12 @@ for(const variant of variants){
     report.hordeFixture=await page.evaluate(()=>{
       const g=DEADWALL,C=DeadwallCore;g.art.drawNode=g.qaDrawNode;const before={...g.art.diagnostics.draws};
       g.wave=8;g.phase='assault';g.wavePlan=C.wavePlan(8,g.difficulty,0);g.startAssault();g.zombies=[];
-      const kinds=Object.keys(C.ENEMIES);for(const [index,kind]of kinds.entries()){g.spawnZombie(kind);const zombie=g.zombies.at(-1);zombie.x=g.core().x-120+(index%4)*80;zombie.y=g.core().y-100+Math.floor(index/4)*90;}
+      const kinds=Object.entries(C.ENEMIES).filter(([,def])=>def.unlockWave<=g.wave).map(([kind])=>kind);for(const [index,kind]of kinds.entries()){g.spawnZombie(kind);const zombie=g.zombies.at(-1);zombie.x=g.core().x-120+(index%4)*80;zombie.y=g.core().y-100+Math.floor(index/4)*90;}
       const medic=g.units.find(u=>u.kind==='medic'),engineer=g.units.find(u=>u.kind==='engineer');medic.x=g.core().x-80;medic.y=g.core().y+100;engineer.x=g.core().x+80;engineer.y=g.core().y+100;
       g.player.x=g.core().x;g.player.y=g.core().y+170;g.camera.x=g.core().x;g.camera.y=g.core().y;g.camera.zoom=.8;g.fieldMarker=null;g.render();
-      return{types:g.zombies.map(z=>z.kind),composition:g.wavePlan.composition,atlasDelta:Object.fromEntries(['infectedExpansion','specialists'].map(key=>[key,(g.art.diagnostics.draws[key]||0)-(before[key]||0)]))};
+      return{types:g.zombies.map(z=>z.kind),composition:g.wavePlan.composition,total:g.wavePlan.total,atlasDelta:Object.fromEntries(['infectedExpansion','specialists'].map(key=>[key,(g.art.diagnostics.draws[key]||0)-(before[key]||0)]))};
     });
-    check('huit types engendrés avec composition de vague huit',report.hordeFixture.types.length===8&&new Set(report.hordeFixture.types).size===8&&Object.values(report.hordeFixture.composition).every(count=>count>0));
+    check('huit types débloqués à la vague huit, profils futurs à zéro et budget exact',report.hordeFixture.types.length===8&&new Set(report.hordeFixture.types).size===8&&Object.entries(report.hordeFixture.composition).every(([kind,count])=>report.hordeFixture.types.includes(kind)?count>0:count===0)&&Object.values(report.hordeFixture.composition).reduce((total,count)=>total+count,0)===report.hordeFixture.total);
     check('atlases nouveaux infectés et spécialistes réellement dessinés',report.hordeFixture.atlasDelta.infectedExpansion>=3&&report.hordeFixture.atlasDelta.specialists>=2);await shot('horde-huit-profils-fixture');await shotCanvas('horde-huit-profils-fixture');
     await page.evaluate(()=>{DEADWALL.paused=false;DEADWALL.restoreSave(JSON.parse(localStorage.getItem(DeadwallCore.SAVE_KEY)));});
     await page.locator('#pauseButton').click();await page.locator('#quitButton').click();

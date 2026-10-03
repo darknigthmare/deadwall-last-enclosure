@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const C = require('../src/core.js');
@@ -46,13 +48,13 @@ test('ordres ouvriers : auto/chantiers respectent les priorités et récolte cho
   const { game, worker, Node } = fresh();
   const low = structure(game, 'woodWall', 69, 64, 0), high = structure(game, 'woodWall', 72, 67, 0);
   low.priority = 1; high.priority = 3;
-  const node = new Node(901, 'wood', worker.x, worker.y, 100, 20, 0); game.world.nodes = [node];
+  const node = new Node(901, 'wood', worker.x + 80, worker.y, 100, 20, 0); game.world.nodes = [node];
   game.updateUnits(.1); assert.equal(worker.targetBuilding, high.id); assert.equal(worker.state, 'build');
-  game.setWorkerOrder('harvest'); game.updateUnits(.1);
+  game.setWorkerOrder('harvest');standAt(game,worker,node);game.updateUnits(.1);
   assert.equal(worker.state, 'gather'); assert.equal(worker.targetNode, node.id); assert.ok(worker.carry > 0);
   const carried = worker.carry; game.setWorkerOrder('build');
   assert.equal(worker.state, 'return'); assert.equal(worker.carry, carried, 'le changement d’ordre ne détruit pas la récolte partielle');
-  worker.x = game.core().x; worker.y = game.core().y; game.updateUnits(.1); game.updateUnits(.1);
+  standAt(game,worker,game.core()); game.updateUnits(.1); game.updateUnits(.1);
   assert.equal(worker.state, 'build'); assert.equal(worker.targetBuilding, high.id);
 });
 
@@ -61,8 +63,8 @@ test('ordres ouvriers : replis de tâche explicites, et le nettoyage détourne v
   const job = structure(game, 'woodWall', 69, 64, 0);
   game.setWorkerOrder('harvest'); game.updateUnits(.1); assert.equal(worker.state, 'build', 'sans gisement utile, finir les chantiers');
   job.progress = 1;
-  const node = new Node(902, 'wood', worker.x, worker.y, 100, 20, 0); game.world.nodes = [node];
-  game.setWorkerOrder('build'); game.updateUnits(.1); assert.equal(worker.state, 'gather', 'sans chantier, collecter');
+  const node = new Node(902, 'wood', worker.x+100, worker.y, 100, 20, 0); game.world.nodes = [node];
+  standAt(game,worker,node);game.setWorkerOrder('build'); game.updateUnits(.1); assert.equal(worker.state, 'gather', 'sans chantier, collecter');
   worker.carry = 0; worker.carryType = null;
   game.setWorkerOrder('clear'); tick(game, 2);
   assert.equal(worker.state, 'idle'); assert.equal(worker.carry, 0); assert.ok(node.amount > 99, 'aucune collecte pendant le nettoyage dédié');
@@ -111,7 +113,7 @@ test('contacts ouvriers : ni récolte ni construction à travers un mur même si
 
 test('repli : priorité au centre, arrêt des travaux extérieurs et cargaison partielle conservée à stock plein', () => {
   const { game, worker, Node } = fresh();
-  game.world.nodes = [new Node(904, 'wood', worker.x, worker.y, 100, 20, 0)];
+  game.world.nodes = [new Node(904, 'wood', worker.x + 120, worker.y, 100, 20, 0)];
   const job = structure(game, 'woodWall', 69, 66, 0);
   worker.carry = 10; worker.carryType = 'wood'; game.resources.wood = game.storage - 3;
   const deposits = game.depositedResources; game.setWorkerOrder('retreat'); tick(game, 1);
@@ -119,15 +121,15 @@ test('repli : priorité au centre, arrêt des travaux extérieurs et cargaison p
   tick(game, 1); assert.equal(worker.carry, 7); assert.equal(job.progress, 0); assert.equal(game.world.nodes[0].amount, 100);
   game.resources.wood -= 5; game.updateUnits(.1); assert.equal(worker.carry, 2);
   game.resources.wood -= 2; game.updateUnits(.1); assert.equal(worker.carry, 0); assert.equal(worker.carryType, null);
-  assert.equal(worker.state, 'flee'); assert.ok(C.dist(worker, game.core()) <= C.WORKER_RULES.retreatRadius);
+  assert.equal(worker.state, 'flee'); assert.ok(game.fieldcraft.distance(worker, game.core()) <= C.WORKER_RULES.retreatRadius);
   assert.equal(game.getWorkerSummary().retreating, 1);
 });
 
 test('repli : un entrepôt extérieur plus proche ne détourne pas le retour au centre', () => {
   const { game, worker } = fresh(); structure(game, 'warehouse', 74, 62);
-  worker.x = C.world(75); worker.y = C.world(64); worker.carry = 7; worker.carryType = 'wood';
+  standAt(game,worker,[...game.world.buildings.values()].find(b=>b.type==='warehouse'));worker.carry = 7; worker.carryType = 'wood';
   game.setWorkerOrder('retreat'); game.updateUnits(.1); assert.equal(worker.carry, 7, 'aucun dépôt extérieur avant le repli');
-  tick(game, 9); assert.equal(worker.carry, 0); assert.ok(C.dist(worker, game.core()) <= C.WORKER_RULES.retreatRadius);
+  tick(game, 9); assert.equal(worker.carry, 0); assert.ok(game.fieldcraft.distance(worker, game.core()) <= C.WORKER_RULES.retreatRadius);
 });
 
 test('ouvriers : menace, mort et chantier disparu interrompent proprement le travail sans perdre le sac', () => {

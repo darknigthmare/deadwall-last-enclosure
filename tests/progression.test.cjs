@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -19,10 +21,10 @@ test('difficulté : stocks, délai, récolte, santé et dégâts appliquent les 
     assert.equal(game.resources.wood, 180 + (bonus ? 50 : 0));
     assert.equal(game.resources.scrap, 120 + (bonus ? 35 : 0));
     assert.equal(game.resources.food, 130 + (bonus ? 50 : 0));
-    closeTo(game.phaseTime, 82 * difficulty.calmTime);
+    closeTo(game.phaseTime, C.Dayworks.dayDuration(1, difficulty.calmTime));
     const worker = game.units[0], Node = game.world.nodes[0].constructor;
-    const node = new Node(999, 'wood', worker.x, worker.y, 100, 20, 0);
-    game.world.nodes = [node]; game.units = [worker]; worker.targetNode = node.id; worker.state = 'gather'; worker.think = 5;
+    const node = new Node(999, 'wood', game.core().x + 350, game.core().y, 100, 20, 0);
+    game.world.nodes = [node]; game.units = [worker]; worker.targetNode = node.id; worker.state = 'gather'; worker.think = 5;standAt(game,worker,node);
     game.updateUnits(.1); closeTo(worker.carry, .34 * difficulty.resourceYield, 'rendement');
     game.units = []; game.wave = 12; game.spawnZombie('walker');
     const zombie = game.zombies[0];
@@ -36,7 +38,7 @@ test('difficulté : stocks, délai, récolte, santé et dégâts appliquent les 
 
 test('progression : les coûts unitaires sont finançables et les doctrines respectent leurs paliers', () => {
   for (const item of [...Object.values(C.BUILDINGS), ...C.RESEARCH]) {
-    for (const amount of Object.values(item.cost)) assert.ok(amount <= C.BUILDINGS.core.storage, item.id);
+    for (const amount of Object.values(item.cost)) assert.ok(amount <= C.BUILDINGS.core.storage + (item.unlockTier>=7?2*C.BUILDINGS.warehouse.storage:0), item.id);
   }
   const { game } = fresh(); game.research.insight = 100;
   assert.equal(game.currentResearch().id, 'logistics');
@@ -67,11 +69,11 @@ test('recherche : ressources ou insight insuffisants ne consomment rien', () => 
 
 test('doctrines : logistique accélère collecte et construction, balistique augmente les deux défenses', () => {
   const { game } = fresh(), worker = game.units[0], Unit = worker.constructor, Node = game.world.nodes[0].constructor;
-  const node = new Node(999, 'wood', worker.x, worker.y, 100, 20, 0);
-  game.units = [worker]; game.world.nodes = [node]; worker.state = 'gather'; worker.targetNode = node.id; worker.think = 20;
+  const node = new Node(999, 'wood', game.core().x + 350, game.core().y, 100, 20, 0);
+  game.units = [worker]; game.world.nodes = [node]; worker.state = 'gather'; worker.targetNode = node.id; worker.think = 20;standAt(game,worker,node);
   game.updateUnits(.25); const basicHarvest = worker.carry; worker.carry = 0; game.research.completed.push('logistics');
   game.updateUnits(.25); closeTo(worker.carry, basicHarvest * 1.18);
-  const site = addBuilding(game, 'house', 72, 72, 0); worker.carry = 0; worker.state = 'build'; worker.targetBuilding = site.id; worker.x = site.x; worker.y = site.y;
+  const site = addBuilding(game, 'house', 72, 72, 0); worker.carry = 0; worker.state = 'build'; worker.targetBuilding = site.id; standAt(game,worker,site);
   game.updateUnits(1); closeTo(site.progress, 1.22 / site.def.buildTime);
   game.research.completed = []; site.progress = 0; game.updateUnits(1); closeTo(site.progress, 1.05 / site.def.buildTime);
 
@@ -159,10 +161,127 @@ test('tutoriel : électrifier exige un générateur terminé et une réserve ré
 });
 
 test('défense : un piège usé qui tue son dernier infecté est effectivement détruit', () => {
-  const { game } = fresh(), trap = addBuilding(game, 'spikes', 70, 70);
+  const { game } = fresh();
+  // This isolates trap wear: the forced incoming actor must not start inside a physical prop.
+  let cell=null;for(let y=56;y<75&&!cell;y++)for(let x=56;x<78;x++)if(game.world.placement(C.BUILDINGS.spikes,x,y).valid&&game.friendlyPositionClear({radius:11},x*32-10,y*32+16)){cell={x,y};break;}
+  assert.ok(cell,'fixture avec accès libre au piège');const trap=addBuilding(game,'spikes',cell.x,cell.y);
   trap.health = .1; game.units = []; game.player.dead = true; game.spawnZombie('walker');
   const zombie = game.zombies[0]; Object.assign(zombie, { x: trap.left - 10, y: trap.y, health: .1, attackCooldown: 1 });
   game.flow.direction = () => ({ x: 1, y: 0 }); game.updateZombies(.1);
   assert.equal(zombie.dead, true); assert.equal(trap.dead, true); assert.equal(game.world.buildings.has(trap.id), false);
   assert.equal(game.stats.buildingsLost, 1); assert.equal(game.stats.kills, 1);
+});
+
+test('objectif : un dépôt plein réserve toute la récompense sans perdre le critère accompli', () => {
+  const { game } = fresh(), index = C.OBJECTIVES.findIndex(obj => obj.id === 'house');
+  game.objectiveIndex = index;
+  const house = addBuilding(game, 'house'); game.refreshMetrics(true);
+  game.resources.food = game.storage;
+  const before = { ...game.resources };
+  game.updateObjective();
+  assert.equal(game.objectiveIndex, index);
+  assert.equal(game.objectiveReady, true);
+  assert.equal(game.objectiveProgress, C.OBJECTIVES[index].target);
+  assert.deepEqual(game.resources, before, 'aucune partie de la récompense ne disparaît dans le plafond');
+  game.destroyBuilding(house); game.updateObjective(); game.updateUI();
+  assert.equal(game.objectiveReady, true, 'le dortoir détruit ne retire pas une récompense déjà acquise');
+  assert.equal(game.objectiveProgress, 1);
+  assert.match(game.ui.objectiveText.textContent, /Objectif rempli.*récompense réservée/i);
+  assert.match(game.ui.objectiveText.textContent, /35.*nourriture/i);
+  game.resources.food -= 35;
+  game.updateObjective();
+  assert.equal(game.resources.food, game.storage);
+  assert.equal(game.objectiveIndex, index + 1);
+  assert.equal(game.objectiveReady, false);
+  assert.equal(game.objectiveProgress, 0);
+  game.updateObjective();
+  assert.equal(game.resources.food, game.storage, 'le versement ne peut être répété');
+});
+
+test('objectif : une seule place manquante empêche le versement partiel de plusieurs ressources', () => {
+  const { game } = fresh(), index = C.OBJECTIVES.findIndex(obj => obj.id === 'gather');
+  game.objectiveIndex = index; game.depositedResources = 30;
+  game.resources.wood = game.storage - 35; game.resources.scrap = game.storage - 19;
+  const before = { ...game.resources };
+  for (let tick = 0; tick < 3; tick++) game.updateObjective();
+  assert.equal(game.notifications.filter(n => /Récompense réservée/.test(n.text)).length, 1, 'une seule annonce pendant l’attente');
+  assert.equal(game.objectiveIndex, index);
+  assert.equal(game.objectiveReady, true);
+  assert.deepEqual(game.resources, before, 'ni bois versé seul, ni ferraille écrêtée');
+  game.updateUI();
+  assert.match(game.ui.objectiveText.textContent, /1.*ferraille/i);
+  assert.match(game.ui.objectiveCounter.textContent, /30 \/ 30/);
+  game.resources.scrap -= 1;
+  game.updateObjective();
+  assert.equal(game.objectiveIndex, index + 1);
+  assert.equal(game.resources.wood, game.storage);
+  assert.equal(game.resources.scrap, game.storage);
+  assert.equal(game.notifications.filter(n => /Récompense reçue/.test(n.text)).length, 1);
+  assert.ok(C.RESOURCE_KEYS.every(key => game.resources[key] <= game.storage));
+  game.updateObjective();
+  assert.equal(game.resources.wood, game.storage);
+  assert.equal(game.resources.scrap, game.storage);
+});
+
+test('objectif : récompense réservée et bâtiment perdu persistent jusqu’à un versement unique après reprise', () => {
+  const { game } = fresh(), index = C.OBJECTIVES.findIndex(obj => obj.id === 'house');
+  game.objectiveIndex = index;
+  const house = addBuilding(game, 'house'); game.refreshMetrics(true);
+  game.resources.food = game.storage; game.updateObjective(); game.destroyBuilding(house);
+  assert.equal(game.save(false), true);
+  assert.equal(game.load(), true);
+  assert.equal(game.objectiveIndex, index); assert.equal(game.objectiveReady, true);
+  assert.equal(game.objectiveProgress, 1);
+  assert.equal([...game.world.buildings.values()].some(b => b.type === 'house'), false);
+  game.updateObjective(); assert.equal(game.objectiveIndex, index);
+  game.resources.food -= 35; game.updateObjective();
+  assert.equal(game.resources.food, game.storage);
+  assert.equal(game.objectiveIndex, index + 1); assert.equal(game.objectiveReady, false);
+  assert.equal(game.save(false), true); assert.equal(game.load(), true);
+  game.updateObjective();
+  assert.equal(game.resources.food, game.storage);
+  assert.equal(game.objectiveIndex, index + 1, 'la reprise ne réattribue pas la récompense du dortoir');
+});
+
+test('objectif : sauvegardes sans attente et nouvelle campagne ne reçoivent aucune récompense héritée', () => {
+  const { game } = fresh(), Save = require('../src/save.js');
+  assert.equal(game.objectiveReady, false);
+  const old = structuredClone(game.serialize()); delete old.objectiveReady;
+  assert.equal(Save.validate(old).objectiveReady, false);
+  assert.equal(game.restoreSave(old), true); assert.equal(game.objectiveReady, false);
+  game.depositedResources = 30; game.resources.wood = game.storage; game.updateObjective();
+  assert.equal(game.objectiveReady, true);
+  game.startNew('standard', '71717');
+  assert.equal(game.objectiveReady, false); assert.equal(game.objectiveIndex, 0); assert.equal(game.objectiveProgress, 0);
+  assert.equal(game.resources.wood, 180);
+});
+
+test('objectif : les attentes malformées sont refusées avant toute mutation de la campagne', () => {
+  const { game } = fresh(), Save = require('../src/save.js'), raw = structuredClone(game.serialize()), world = game.world;
+  const before = { ...game.resources };
+  for (const objectiveReady of [null, 0, 1, 'true', {}, []]) {
+    const invalid = { ...raw, objectiveReady };
+    assert.throws(() => Save.validate(invalid), /objectif/i);
+    assert.throws(() => game.restoreSave(invalid), /objectif/i);
+  }
+  for (const invalid of [
+    { ...raw, objectiveReady: true, objectiveProgress: 29 },
+    { ...raw, objectiveReady: true, objectiveIndex: C.OBJECTIVES.length, objectiveProgress: 30 }
+  ]) {
+    assert.throws(() => Save.validate(invalid), /objectif/i);
+    assert.throws(() => game.restoreSave(invalid), /objectif/i);
+  }
+  assert.equal(Save.validate({ ...raw, objectiveReady: true, objectiveProgress: 30 }).objectiveReady, true);
+  assert.equal(Save.validate({ ...raw, objectiveReady: true, objectiveProgress: 50 }).objectiveProgress, 30, 'une attente valide est figée sur la cible');
+  assert.equal(game.world, world); assert.deepEqual(game.resources, before);
+});
+
+test('objectif : un versement immédiat ne présente pas de fausse attente et ne se répète pas', () => {
+  const { game } = fresh(); game.depositedResources = 30;
+  const before = { ...game.resources };
+  game.updateObjective(); game.updateObjective();
+  assert.equal(game.objectiveIndex, 1); assert.equal(game.objectiveReady, false);
+  assert.equal(game.resources.wood, before.wood + 35); assert.equal(game.resources.scrap, before.scrap + 20);
+  assert.equal(game.notifications.filter(n => /Récompense reçue/.test(n.text)).length, 1);
+  assert.equal(game.notifications.filter(n => /Récompense réservée/.test(n.text)).length, 0);
 });

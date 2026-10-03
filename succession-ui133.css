@@ -1,0 +1,101 @@
+/* Survivor succession: a quiet field dossier over the bastion, with clear trade-offs. */
+.succession133 { position: fixed; inset: 0; z-index: 240; overflow: auto; isolation: isolate; background: #0a100f; color: #eee9dc; }
+.succession133.hidden { display: none; }
+.succession133 *, .succession133 *::before, .succession133 *::after { box-sizing: border-box; }
+.succession133-scene { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg,#09100ff0,#09100fdc),url('assets/intro-bastion132.webp') center/cover; }
+.succession133-shell { width: min(1200px,100%); margin: auto; min-height: 100%; padding: clamp(20px,4vw,56px); display: grid; grid-template-rows: auto 1fr auto; gap: 26px; }
+.succession133-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid #77836c47; }
+.succession133-eyebrow { margin: 0 0 12px; color: #d3b683; letter-spacing: .2em; font-size: 10px; font-weight: 800; line-height: 1.5; }
+.succession133 h1 { margin: 0; font-size: clamp(30px,4vw,52px); line-height: 1.08; letter-spacing: -.035em; text-wrap: balance; }
+.succession133-clock { display: flex; align-items: center; gap: 12px; color: #bbc5b7; font-size: 11px; line-height: 1.6; max-width: 220px; margin: 0; }
+.succession133 svg { width: 24px; height: 24px; flex-shrink: 0; }
+.succession133-body { display: grid; grid-template-columns: minmax(190px,.75fr) minmax(0,2fr); gap: clamp(22px,4vw,56px); align-items: start; }
+.succession133-memory { padding-right: 22px; border-right: 1px solid #77836c35; }
+.succession133-portrait { position: relative; height: 212px; overflow: hidden; margin-bottom: 18px; background: radial-gradient(ellipse at bottom,#5a5c424f,transparent 70%); border-bottom: 1px solid #a8ac8c50; }
+.succession133-portrait img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center 20%; filter: grayscale(.9) brightness(.68); opacity: .8; }
+.succession133-stamp { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%) rotate(-5deg); border: 1px solid #c39377; padding: 5px 9px; color: #e0b197; background: #101614dc; white-space: nowrap; letter-spacing: .2em; font-size: 9px; font-weight: 800; }
+.succession133-memory h2 { margin: 0 0 8px; font-size: 20px; line-height: 1.2; overflow-wrap: anywhere; }
+.succession133-place { margin: 0; color: #d5ba91; font-size: 11px; line-height: 1.65; font-variant-numeric: tabular-nums; }
+.succession133-memory-text { color: #bbc4b6; font-size: 12px; line-height: 1.75; margin: 18px 0; }
+.succession133-risk { border-left: 2px solid #b57b5e; padding-left: 12px; color: #dfb598; font-size: 11px; line-height: 1.7; margin: 0; }
+.succession133-description { font-size: 14px; line-height: 1.75; color: #c9d1c2; margin: 0 0 20px; max-width: 650px; }
+.succession133-choices { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.succession133-choice { min-width: 0; padding: 18px; display: block; text-align: left; color: #d7dece; background: #16201ac9; border: 1px solid #536149; border-radius: 2px; position: relative; transition: background .18s,border-color .18s; }
+.succession133-choice:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.succession133-choice:hover { background: #233026; border-color: #a3ae83; }
+.succession133-choice.is-selected { border-color: #dec084; background: #2c3022ee; box-shadow: inset 3px 0 #d7b374; }
+.succession133-choice-heading { display: flex; justify-content: space-between; align-items: center; color: #b7c399; margin-bottom: 12px; }
+.succession133-number { color: #7e8c73; font-size: 11px; letter-spacing: .14em; font-variant-numeric: tabular-nums; }
+.succession133-choice.is-selected .succession133-number { color: #e8c588; }
+.succession133-choice h3 { margin: 0 0 8px; color: #f2ecda; font-size: 18px; line-height: 1.2; letter-spacing: -.02em; }
+.succession133-profile-copy { font-size: 11px; line-height: 1.65; margin: 0 0 12px; color: #c3cbb8; }
+.succession133-strengths,.succession133-tradeoffs { list-style: none; margin: 0; padding: 0; font-size: 11px; line-height: 1.7; }
+.succession133-strengths li::before { content: '+'; margin-right: 6px; color: #bfcf96; }
+.succession133-tradeoffs { color: #dbb395; margin-top: 5px; }
+.succession133-tradeoffs li::before { content: '−'; margin-right: 6px; }
+.succession133-departure { display: flex; gap: 13px; align-items: center; padding: 16px 0 0; color: #bdc8b3; }
+.succession133-departure svg { color: #c8ad77; }
+.succession133-departure p { font-size: 11px; line-height: 1.75; margin: 0; }
+.succession133-footer { border-top: 1px solid #77836c47; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.succession133-status { flex: 1; color: #c5cebb; font-size: 11px; line-height: 1.65; margin: 0; }
+.succession133-controls { display: flex; gap: 12px; align-items: center; }
+.succession133-controls button { min-height: 48px; padding: 13px 18px; border-radius: 2px; font-size: 10px; line-height: 1.45; font-weight: 800; letter-spacing: .09em; }
+.succession133-confirm { background: #d3b47b; color: #142017; border: 1px solid #e8d199; }
+.succession133-confirm:hover { background: #ead09b; }
+.succession133-quit { border: 1px solid #647258; background: #121b15; color: #c7d0bf; }
+.succession133 button:focus-visible { outline: 3px solid #f7e8bd; outline-offset: 4px; }
+.succession133 button:disabled { cursor: default; opacity: .5; }
+.succession133-static .succession133-choice,.reduced-motion .succession133-choice { transition: none; }
+.high-contrast .succession133 { background: #07110a; color: #fff; }
+.high-contrast .succession133-scene { opacity: .15; }
+.high-contrast .succession133-choice { color: #fff; background: #0a160e; border-color: #b7c9a7; }
+.high-contrast .succession133-choice.is-selected { border-color: #fff0bf; background: #25341b; }
+.high-contrast .succession133-profile-copy,.high-contrast .succession133-memory-text,.high-contrast .succession133-description,.high-contrast .succession133-status { color: #f0f6e8; }
+@media (max-width: 800px) {
+ .succession133-shell { gap: 20px; }
+ .succession133-header { align-items: start; }
+ .succession133-clock { max-width: 170px; font-size: 10px; }
+ .succession133-body { grid-template-columns: minmax(150px,.65fr) minmax(0,2fr); gap: 20px; }
+ .succession133-memory { padding-right: 15px; }
+ .succession133-choice { padding: 14px; }
+ .succession133-footer { flex-wrap: wrap; }
+ .succession133-status { flex-basis: 100%; }
+ .succession133-controls { margin-left: auto; }
+}
+@media (max-width: 590px) {
+ .succession133-shell { padding: 20px; }
+ .succession133-header { display: block; }
+ .succession133-clock { max-width: none; margin-top: 16px; }
+ .succession133-body { display: block; }
+ .succession133-memory { border-right: 0; border-bottom: 1px solid #77836c35; padding: 0 0 20px; margin-bottom: 20px; min-height: 120px; }
+ .succession133-portrait { width: 78px; height: 108px; float: left; margin: 0 14px 8px 0; }
+ .succession133-stamp { font-size: 6px; padding: 3px; letter-spacing: .08em; }
+ .succession133-memory h2 { font-size: 18px; }
+ .succession133-memory-text { margin: 10px 0; }
+ .succession133-risk { clear: both; margin-top: 10px; }
+ .succession133-choice { padding: 13px; }
+ .succession133-choice h3 { font-size: 16px; overflow-wrap: anywhere; }
+ .succession133-description { font-size: 13px; }
+ .succession133-controls { width: 100%; flex-wrap: wrap; }
+ .succession133-controls button { flex: 1 1 170px; }
+ .succession133-confirm { order: -1; }
+}
+@media (max-width: 359px) { .succession133-choices { grid-template-columns: 1fr; } }
+@media (max-height: 650px) and (min-width: 801px) { .succession133-shell { padding: 22px 40px; gap: 18px; } .succession133-portrait { height: 145px; } .succession133-choice { padding: 12px 16px; } }
+@media (prefers-reduced-motion: reduce) { .succession133-choice { transition: none; } }
+@media (forced-colors: active) { .succession133-scene,.succession133-portrait { display: none; } .succession133-choice.is-selected { outline: 2px solid Highlight; } .succession133-controls button { border: 2px solid ButtonText; } }
+.succession133-armory { border: 1px solid #8d9a74; background: #132017f5; color: #e7ecdb; pointer-events: auto; border-radius: 3px; }
+.succession133-armory.hidden { display: none; }
+.succession133-armory summary { display: flex; gap: 8px; align-items: center; min-height: 42px; padding: 9px 13px; font-size: 10px; letter-spacing: .09em; font-weight: 800; cursor: pointer; }
+.succession133-armory svg { width: 18px; height: 18px; }
+.succession133-armory-body { width: min(300px,calc(100vw - 34px)); max-height: 55vh; overflow: auto; padding: 0 14px 14px; }
+.succession133-armory h2 { font-size: 14px; margin: 4px 0 10px; }
+.succession133-armory p { color: #c2ccb4; font-size: 10px; line-height: 1.6; margin: 8px 0; }
+.succession133-armory-rows { display: grid; gap: 8px; }
+.succession133-requisition { width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px; padding: 10px; text-align: left; border: 1px solid #7d8a62; background: #273520; color: #e5ebd6; min-height: 44px; }
+.succession133-requisition strong { font-size: 12px; }
+.succession133-requisition span { font-size: 9px; color: #d9c897; }
+.succession133-requisition:disabled { opacity: .6; }
+.succession133-armory :focus-visible { outline: 2px solid #f3dfac; outline-offset: 3px; }
+#hud>.succession133-armory { position: absolute; bottom: 20px; left: 20px; z-index: 30; }
+@media (forced-colors:active) { .succession133-armory,.succession133-requisition { border: 1px solid ButtonText; } }

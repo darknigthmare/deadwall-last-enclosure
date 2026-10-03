@@ -1,0 +1,5 @@
+import {WebSocketServer} from 'ws';
+const port=Number(process.env.PORT||4290),wss=new WebSocketServer({port}),clients=new Map();
+const send=(ws,m)=>ws.readyState===1&&ws.send(JSON.stringify(m)),broadcast=(room,m,skip)=>{for(const[ws,c]of clients)if(ws!==skip&&c.room===room)send(ws,m);};
+wss.on('connection',ws=>{const id=Math.random().toString(36).slice(2,10);clients.set(ws,{id,room:null,name:'Survivant'});ws.on('message',data=>{let m;try{m=JSON.parse(String(data))}catch{return;}const c=clients.get(ws);if(m.type==='join'&&/^[A-Za-z0-9_-]{2,24}$/.test(m.room)){c.room=m.room;c.name=String(m.name||'Survivant').slice(0,24);send(ws,{type:'joined',id});return;}if(!c.room||m.room!==c.room)return;if(m.type==='state'&&m.state&&Number.isFinite(m.state.x+m.state.y))broadcast(c.room,{type:'peer',id:c.id,name:c.name,state:m.state},ws);if(m.type==='ping'&&Number.isFinite(m.x+m.y))broadcast(c.room,{type:'ping',id:c.id,name:c.name,x:m.x,y:m.y},ws);});ws.on('close',()=>{const c=clients.get(ws);if(c?.room)broadcast(c.room,{type:'leave',id:c.id},ws);clients.delete(ws);});});
+console.log('DEADWALL coop relay ws://0.0.0.0:'+port);

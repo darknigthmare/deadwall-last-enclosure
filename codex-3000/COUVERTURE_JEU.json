@@ -1,0 +1,530 @@
+{
+  "meaning": "62 gabarits simplifiés reliés à des identifiants historiques ; aucun dérivé1001–3000 intégré automatiquement.",
+  "pilots": [
+    {
+      "id": "DW-0001",
+      "type": "house",
+      "name": "Maison de lotissement",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0003",
+      "type": "duplex",
+      "name": "Maison à étage",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0010",
+      "type": "cabin",
+      "name": "Chalet forestier",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0021",
+      "type": "apartments",
+      "name": "Immeuble de trois étages",
+      "levels": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "DW-0041",
+      "type": "mall",
+      "name": "Centre commercial régional",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0045",
+      "type": "hardware",
+      "name": "Magasin de bricolage",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0061",
+      "type": "grocer",
+      "name": "Supérette de quartier",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0062",
+      "type": "market",
+      "name": "Supermarché avec quai",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0069",
+      "type": "diner",
+      "name": "Restaurant routier",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0101",
+      "type": "hotel",
+      "name": "Hôtel de centre-ville",
+      "levels": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "DW-0123",
+      "type": "clinic",
+      "name": "Dispensaire rural",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0142",
+      "type": "school",
+      "name": "École primaire",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0161",
+      "type": "townhall",
+      "name": "Mairie",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0201",
+      "type": "bunker",
+      "name": "Abri communal souterrain",
+      "levels": [
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "DW-0221",
+      "type": "warehouse",
+      "name": "Entrepôt de messagerie",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0241",
+      "type": "garage",
+      "name": "Garage automobile",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0247",
+      "type": "fuel",
+      "name": "Station-service",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0381",
+      "type": "sawmill",
+      "name": "Scierie de vallée",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0401",
+      "type": "mine",
+      "name": "Mine à galerie",
+      "levels": [
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "DW-0403",
+      "type": "quarry",
+      "name": "Carrière de pierre",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0481",
+      "type": "ruin",
+      "name": "Maison effondrée visitable",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0498",
+      "type": "motel",
+      "name": "Motel gagné par la forêt",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0065",
+      "type": "bakery",
+      "name": "Boulangerie artisanale",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0153",
+      "type": "library",
+      "name": "Bibliothèque municipale",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0046",
+      "type": "garden",
+      "name": "Jardinerie",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0097",
+      "type": "veterinary",
+      "name": "Clinique vétérinaire",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0085",
+      "type": "laundry",
+      "name": "Laverie automatique",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0181",
+      "type": "firestation",
+      "name": "Caserne de pompiers",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0224",
+      "type": "selfstorage",
+      "name": "Garde-meubles",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0367",
+      "type": "marketgarden",
+      "name": "Exploitation maraîchère",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0082",
+      "type": "postoffice",
+      "name": "Bureau postal",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0444",
+      "type": "gym",
+      "name": "Gymnase municipal",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0104",
+      "type": "inn",
+      "name": "Auberge de village",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0251",
+      "type": "scrapyard",
+      "name": "Casse automobile",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0004",
+      "type": "basementHouse",
+      "name": "Maison sur sous-sol",
+      "levels": [
+        -1,
+        0
+      ]
+    },
+    {
+      "id": "DW-0053",
+      "type": "pharmacy",
+      "name": "Pharmacie commerciale",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0073",
+      "type": "centralKitchen",
+      "name": "Cuisine centrale",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0126",
+      "type": "dental",
+      "name": "Cabinet dentaire",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0237",
+      "type": "reuse",
+      "name": "Recyclerie",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0289",
+      "type": "freight",
+      "name": "Halle fret désaffectée",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0306",
+      "type": "joinery",
+      "name": "Atelier de menuiserie",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0331",
+      "type": "generatorRoom",
+      "name": "Local groupe électrogène",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0501",
+      "type": "cottageSmall",
+      "name": "Petite maison ouvrière",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0502",
+      "type": "rowhouse",
+      "name": "Maison étroite",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0503",
+      "type": "bungalow",
+      "name": "Pavillon",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0504",
+      "type": "familyHouse",
+      "name": "Maison familiale",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0505",
+      "type": "farmhouse",
+      "name": "Corps de ferme",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0506",
+      "type": "villa",
+      "name": "Grande villa",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0507",
+      "type": "duplexWide",
+      "name": "Maison double",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0508",
+      "type": "studioBlock",
+      "name": "Petit collectif",
+      "levels": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "DW-0509",
+      "type": "longBlock",
+      "name": "Barre de logements",
+      "levels": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "DW-0510",
+      "type": "residence",
+      "name": "Grande résidence",
+      "levels": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "DW-0511",
+      "type": "cornerShop",
+      "name": "Commerce d’angle",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0512",
+      "type": "superstore",
+      "name": "Grande surface",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0513",
+      "type": "cafe",
+      "name": "Café de quartier",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0514",
+      "type": "bank",
+      "name": "Agence bancaire",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0515",
+      "type": "officeBlock",
+      "name": "Immeuble de bureaux",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0516",
+      "type": "medicalCentre",
+      "name": "Maison de santé",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0517",
+      "type": "smallWorkshop",
+      "name": "Atelier artisanal",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0518",
+      "type": "logisticsHall",
+      "name": "Plateforme logistique",
+      "levels": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0519",
+      "type": "chapel",
+      "name": "Chapelle et salle commune",
+      "levels": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0520",
+      "type": "waterStation",
+      "name": "Station de pompage",
+      "levels": [
+        0
+      ]
+    }
+  ]
+}

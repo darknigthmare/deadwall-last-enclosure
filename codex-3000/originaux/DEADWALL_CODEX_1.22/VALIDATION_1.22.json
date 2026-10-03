@@ -1,0 +1,53 @@
+{
+  "version": "1.7.0",
+  "game_version": "1.22.0-rc.1",
+  "checks": [
+    {
+      "label": "Archive 1.21 intacte et empreinte vérifiée",
+      "ok": true
+    },
+    {
+      "label": "538 fichiers de la base validés par leur manifeste",
+      "ok": true
+    },
+    {
+      "label": "500 fiches Markdown conservées",
+      "ok": true
+    },
+    {
+      "label": "Catalogue : 500 fiches",
+      "ok": true
+    },
+    {
+      "label": "Couverture : 42 plans pilotes",
+      "ok": true
+    },
+    {
+      "label": "Guide HTML et Markdown présents",
+      "ok": true
+    },
+    {
+      "label": "12 programmes distincts",
+      "ok": true
+    },
+    {
+      "label": "4 familles de recettes",
+      "ok": true
+    },
+    {
+      "label": "Aucune nouvelle carte prétendument intégrée",
+      "ok": true
+    },
+    {
+      "label": "Aucun fichier de police embarqué",
+      "ok": true
+    },
+    {
+      "label": "Guide navigateur : 24 contrôles sans échec",
+      "ok": true
+    }
+  ],
+  "preserved_files": 538,
+  "preserved_fiches": 500,
+  "guide_checks": 24
+}

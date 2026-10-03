@@ -1,0 +1,54 @@
+{
+  "source": "Unmodified DEADWALL 1.41.0 release",
+  "method": "Full G7 geometry, every populated floor, seven streamed chunks and initial threats",
+  "rows": [
+    {
+      "seed": 0,
+      "generation": 7,
+      "size": 24576,
+      "roads": 3310,
+      "pois": 1311,
+      "floors": 1760,
+      "geometry": "7e5fd1468c513b6a8fca6769a1377852200e3c3d85449b4802a447c7658dfb7c",
+      "plans": "64497e1f0525b2f7e5cd21d5c6f56244a85cac33d1324c9101cabb429b471ab1",
+      "finiteNodes": "2d6f829b31ce07807c9189e1ef272cad761c6de0bd838c90dcfdf1106b4c2202",
+      "threats": "e13f3e269ed6eb31b53a9a584cd0cf3dbce629418b46c49aaa0b7174b6a34505"
+    },
+    {
+      "seed": 17117,
+      "generation": 7,
+      "size": 24576,
+      "roads": 3178,
+      "pois": 1267,
+      "floors": 1648,
+      "geometry": "8a5de76ad98c2bd4359f96695208624c70aaa147247d814b3bfa9ce46231f250",
+      "plans": "df7dbfdca2e39a243266c95d32398a14aa274b0cb6d6c830c136db50bfe995a1",
+      "finiteNodes": "d8fe1ac7821e4e0862ab3bdb8849e91f634d2c1a8e9a9dd8c52cfd774f653289",
+      "threats": "c20f2f177328c89b3b0a07d4455e7dd42264078aad74f8c1e01486df3bb34d39"
+    },
+    {
+      "seed": 84329,
+      "generation": 7,
+      "size": 24576,
+      "roads": 3146,
+      "pois": 1329,
+      "floors": 1775,
+      "geometry": "701d88458b68b83314467ff6594ea12ba8f4dd57f84c0239e37cb9d8af06afba",
+      "plans": "10be0f5a62e10efb1401f72e51cdae650651feaf746146188f49162440af4b00",
+      "finiteNodes": "f2d5f6227ea3eb1bbbb342ee22e763b36d608fcfcfc9501baa2d47a809b7da54",
+      "threats": "95a963a5682ba081feddcd506ee39e9b1b0715dd8e92e8b637d667371c784f42"
+    },
+    {
+      "seed": 4294967295,
+      "generation": 7,
+      "size": 24576,
+      "roads": 3077,
+      "pois": 1292,
+      "floors": 1753,
+      "geometry": "e9fca983ae8ec7891f239d9b45825f72e5cbb34968743131bebddcab97461591",
+      "plans": "f7f519bf12f8f891c4e94e9085903b6cdebac969d725f190d51cb3ee2c528eea",
+      "finiteNodes": "84b50b20a38d42f5e4f333062cb8450c18aa3f5ff2f78b5e8dc95a9d92fb6fad",
+      "threats": "4958065a68ee86d7fe8d07e055ac526539393bb228f1d263461491baabcc7d77"
+    }
+  ]
+}

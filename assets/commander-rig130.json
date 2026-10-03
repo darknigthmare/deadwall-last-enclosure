@@ -1,0 +1,112 @@
+{
+  "version": 2,
+  "provider": "OpenAI imagegen",
+  "source": "assets/commander-rig130.png",
+  "width": 1774,
+  "height": 887,
+  "sha256": "f619945032bc04c2a23ed92efe7cd384692335468121b6b3ef71120f991eee6a",
+  "sourcePixelsUnmodified": true,
+  "description": "Vue du dessus orthographique : quatre torses et quatre phases de bassin/jambes, direction source vers la droite; pivots de raccord mesurés; aucune compensation angulaire ou échelle indépendante des jambes. Phase neutre au repos.",
+  "scale": 0.105,
+  "idleLower": 1,
+  "upper": [
+    {
+      "rect": [
+        24,
+        130,
+        470,
+        276
+      ],
+      "pivot": [
+        185,
+        268
+      ]
+    },
+    {
+      "rect": [
+        500,
+        130,
+        400,
+        276
+      ],
+      "pivot": [
+        661,
+        268
+      ]
+    },
+    {
+      "rect": [
+        918,
+        130,
+        461,
+        276
+      ],
+      "pivot": [
+        1080,
+        268
+      ]
+    },
+    {
+      "rect": [
+        1390,
+        130,
+        368,
+        276
+      ],
+      "pivot": [
+        1550,
+        268
+      ]
+    }
+  ],
+  "lower": [
+    {
+      "rect": [
+        99,
+        516,
+        293,
+        248
+      ],
+      "pivot": [
+        158,
+        645
+      ]
+    },
+    {
+      "rect": [
+        550,
+        530,
+        231,
+        230
+      ],
+      "pivot": [
+        606,
+        645
+      ]
+    },
+    {
+      "rect": [
+        970,
+        530,
+        274,
+        230
+      ],
+      "pivot": [
+        1032,
+        645
+      ]
+    },
+    {
+      "rect": [
+        1410,
+        530,
+        236,
+        230
+      ],
+      "pivot": [
+        1472,
+        645
+      ]
+    }
+  ]
+}

@@ -68,3 +68,11 @@
 @media (max-height: 600px) { .command-heading { padding-top: 12px; padding-bottom: 10px; } .command-heading h2 { font-size: 20px; margin-top: 4px; } }
 .high-contrast .command-post { background: #0b100c; }
 .high-contrast .command-note, .high-contrast .order-card span, .high-contrast .doctrine-card p, .high-contrast .record-card p { color: #e2e8dc; }
+
+/* Explicit seed selection keeps both actions readable at narrow widths. */
+.seed-controls { display: grid; grid-template-columns: minmax(0,1fr) repeat(3,auto); }
+@media(max-width:600px) {
+  .seed-controls { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .seed-controls > label, .seed-controls #deadwall125-menu-map { grid-column: 1 / -1; }
+  .seed-controls > button { min-width: 0; padding: 9px 7px; font-size: 10px; white-space: normal; }
+}

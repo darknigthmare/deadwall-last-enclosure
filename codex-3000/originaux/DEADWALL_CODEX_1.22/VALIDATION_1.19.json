@@ -1,0 +1,12 @@
+{
+  "version": "1.4.0",
+  "game": "1.19.0-rc.1",
+  "base_archive_sha256": "56577eaaa0e7222c430d360c47d1ac055041ff4efb90a97629a7d8baabf9c58b",
+  "base_hashes_verified": 522,
+  "fiches_preserved": 500,
+  "catalogue_preserved": true,
+  "reader_preserved": true,
+  "new_place_plans": 0,
+  "guide_included": true,
+  "source_files_preserved": true
+}

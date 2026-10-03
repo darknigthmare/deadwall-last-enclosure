@@ -1,0 +1,144 @@
+{
+  "codex_version": "1.1.0",
+  "game_version": "1.16.0-rc.1",
+  "generation_requise": 2,
+  "nouveaux_plans": [
+    {
+      "id": "DW-0065",
+      "runtime": "bakery",
+      "dimensions_m": [
+        22,
+        17
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0153",
+      "runtime": "library",
+      "dimensions_m": [
+        32,
+        24
+      ],
+      "niveaux": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0046",
+      "runtime": "garden",
+      "dimensions_m": [
+        36,
+        28
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0097",
+      "runtime": "veterinary",
+      "dimensions_m": [
+        26,
+        20
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0085",
+      "runtime": "laundry",
+      "dimensions_m": [
+        21,
+        15
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0181",
+      "runtime": "firestation",
+      "dimensions_m": [
+        36,
+        28
+      ],
+      "niveaux": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0224",
+      "runtime": "selfstorage",
+      "dimensions_m": [
+        36,
+        26
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0367",
+      "runtime": "marketgarden",
+      "dimensions_m": [
+        32,
+        24
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0082",
+      "runtime": "postoffice",
+      "dimensions_m": [
+        28,
+        22
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0444",
+      "runtime": "gym",
+      "dimensions_m": [
+        38,
+        28
+      ],
+      "niveaux": [
+        0
+      ]
+    },
+    {
+      "id": "DW-0104",
+      "runtime": "inn",
+      "dimensions_m": [
+        28,
+        23
+      ],
+      "niveaux": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "DW-0251",
+      "runtime": "scrapyard",
+      "dimensions_m": [
+        35,
+        25
+      ],
+      "niveaux": [
+        0
+      ]
+    }
+  ],
+  "plans_pilotes_total": 34,
+  "conceptions_futures": 466
+}

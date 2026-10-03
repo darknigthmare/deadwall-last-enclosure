@@ -1,0 +1,30 @@
+{
+  "source": "DEADWALL1.40.0",
+  "programmes": 62,
+  "generations": {
+    "1": {
+      "sha256": "5c0d296402f90071481234af621d5952a5089fc4d47b297b930e30fd01fb906a",
+      "levels": 91
+    },
+    "2": {
+      "sha256": "50076d5f9c5453d98418235e2a30600750bd598e4cd7cf309c4a0dc789afd4b3",
+      "levels": 91
+    },
+    "3": {
+      "sha256": "56dc40c500e36d78f407f781d396dc060a5aacd97e1219032f6d11e07c20feb4",
+      "levels": 91
+    },
+    "4": {
+      "sha256": "abd3b73397927a6d54359dae513bd0fccea119d02b17405905dc78d57ff63640",
+      "levels": 91
+    },
+    "5": {
+      "sha256": "abd3b73397927a6d54359dae513bd0fccea119d02b17405905dc78d57ff63640",
+      "levels": 91
+    },
+    "6": {
+      "sha256": "abd3b73397927a6d54359dae513bd0fccea119d02b17405905dc78d57ff63640",
+      "levels": 91
+    }
+  }
+}

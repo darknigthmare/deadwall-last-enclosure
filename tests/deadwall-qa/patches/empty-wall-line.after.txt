@@ -1,0 +1,3 @@
+    placeWallLine(type, cells) {
+      if (!Array.isArray(cells) || cells.length === 0 || cells.some(cell => !cell || !Number.isInteger(cell.x) || !Number.isInteger(cell.y) || cell.x < 0 || cell.y < 0 || cell.x >= WORLD_TILES || cell.y >= WORLD_TILES)) return false;
+      const candidate = Object.hasOwn(BUILDINGS, type) ? BUILDINGS[type] : null;

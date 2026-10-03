@@ -1,0 +1,31 @@
+{
+  "version": "1.32.0",
+  "tool": "OpenAI built-in image_gen",
+  "usage": "Original cinematic and menu illustrations for DEADWALL",
+  "images": [
+    {
+      "path": "assets/intro-road132.webp",
+      "prompt": "Use case: illustration-story. Asset type: full-screen cinematic chapter image for DEADWALL, a serious realistic zombie survival and bastion building videogame. One single landscape 16:9 frame, no montage, no typography. A rain-wet rural evacuation road in contemporary rural France at cold dawn, wrecked ordinary cars stopped along shoulders, abandoned road barrier, an adult lone survivor seen from behind at medium distance carrying a worn olive backpack and a low-slung ordinary rifle, three small survivors further up road, distant forest and a squat disused logistics depot only just visible through mist. Tense human resilience, subdued olive, charcoal, wet concrete, faint amber lamps. Painterly semi-realistic high quality videogame concept art with crisp readable silhouettes, atmospheric depth, natural muted colors, believable proportions. Composition main vanishing road and people in upper central-right, lower third dark and calm for separately rendered subtitles; no written text, no logo, no supernatural creatures, no zombies close up, no gore, no futuristic tech.",
+      "source": "/workspace/scratch/001defc40d26/generated_images/exec-06c7fb96-2e14-40e8-856d-5df602f28362.png",
+      "processing": "Lossy WebP encoding quality 86; original dimensions and content retained.",
+      "sha256": "8ddce36382e330a4b443d3d769286c11262891da3cac0562f3ab741fbfb8ec9a",
+      "bytes": 358638
+    },
+    {
+      "path": "assets/intro-bastion132.webp",
+      "prompt": "Use case: illustration-story. Asset type: full-screen chapter and menu artwork for DEADWALL, serious realistic zombie survival videogame. One landscape 16:9 illustration, no collage and no typography. First arrival at a very modest abandoned French logistics depot at dawn: a single squat weathered concrete and corrugated steel warehouse, open chain-link gate and a broken fence, stacked pallets, a battered small utility vehicle, three adult survivors unloading tools and wooden planks. Important: this is an unfortified starting refuge, no giant fortress, no built turrets, no advanced city, no army. Faint warm worklamp at warehouse door, misty forest beyond, worn olive gray concrete palette, natural copper sunlight, determined quiet human mood. Cinematic semi-realistic painterly videogame key art, precise readable architecture, coherent perspective and shadows. Main warehouse upper-middle-right, lower left and bottom dark calm space for UI. No text, logo, watermarks, sci-fi or fantasy.",
+      "source": "/workspace/scratch/001defc40d26/generated_images/exec-76ba7597-1e53-467d-91da-f9d846d9577b.png",
+      "processing": "Lossy WebP encoding quality 86; original dimensions and content retained.",
+      "sha256": "63bb2388cd517e9b099657776d3f50cd827ef894ae03a07536113afdf0d5b7f8",
+      "bytes": 288010
+    },
+    {
+      "path": "assets/command-room132.webp",
+      "prompt": "Use case: stylized-concept. Asset type: immersive command post background illustration for DEADWALL serious grounded zombie survival game. Single wide landscape 16:9 view into a makeshift command room inside an old rural French logistics warehouse: a battered wooden operations table with folded paper terrain maps without readable labels, analog handheld radio, compass, binoculars, pencil, worn gloves and small flashlight. Pegged map board on concrete wall, coils of cable, a warm practical desk lamp and muted cool light from barred window, distant glimpse of fence and pines. No people, no holograms, no screens or futuristic technology. Semi-realistic atmospheric videogame concept painting, rich material detail, olive drab, brass, charcoal, dust in subtle light. Table recedes coherently toward upper-right; left third and lower third dim low-contrast space for live game UI overlay. No text, logo or watermark.",
+      "source": "/workspace/scratch/001defc40d26/generated_images/exec-ee992382-f2e6-4c2f-af11-93c66b38ae9a.png",
+      "processing": "Lossy WebP encoding quality 86; original dimensions and content retained.",
+      "sha256": "793339946a3c1bbb455a4690034e16640c3afe96a8844914121b8b0f9bbf695a",
+      "bytes": 200524
+    }
+  ]
+}

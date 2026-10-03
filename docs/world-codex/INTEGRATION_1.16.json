@@ -1,0 +1,144 @@
+{
+  "game": "1.16.0-rc.1",
+  "codex": "1.1.0",
+  "generation_required": 2,
+  "active_total": 34,
+  "design_only": 466,
+  "new_plans": [
+    {
+      "id": "bakery",
+      "name": "Boulangerie artisanale",
+      "w": 22,
+      "h": 17,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0065"
+    },
+    {
+      "id": "library",
+      "name": "Bibliothèque municipale",
+      "w": 32,
+      "h": 24,
+      "levels": [
+        0,
+        1
+      ],
+      "layout": "places116",
+      "codex": "DW-0153"
+    },
+    {
+      "id": "garden",
+      "name": "Jardinerie",
+      "w": 36,
+      "h": 28,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0046"
+    },
+    {
+      "id": "veterinary",
+      "name": "Clinique vétérinaire",
+      "w": 26,
+      "h": 20,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0097"
+    },
+    {
+      "id": "laundry",
+      "name": "Laverie automatique",
+      "w": 21,
+      "h": 15,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0085"
+    },
+    {
+      "id": "firestation",
+      "name": "Caserne de pompiers",
+      "w": 36,
+      "h": 28,
+      "levels": [
+        0,
+        1
+      ],
+      "layout": "places116",
+      "codex": "DW-0181"
+    },
+    {
+      "id": "selfstorage",
+      "name": "Garde-meubles",
+      "w": 36,
+      "h": 26,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0224"
+    },
+    {
+      "id": "marketgarden",
+      "name": "Exploitation maraîchère",
+      "w": 32,
+      "h": 24,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0367"
+    },
+    {
+      "id": "postoffice",
+      "name": "Bureau postal",
+      "w": 28,
+      "h": 22,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0082"
+    },
+    {
+      "id": "gym",
+      "name": "Gymnase municipal",
+      "w": 38,
+      "h": 28,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0444"
+    },
+    {
+      "id": "inn",
+      "name": "Auberge de village",
+      "w": 28,
+      "h": 23,
+      "levels": [
+        0,
+        1
+      ],
+      "layout": "places116",
+      "codex": "DW-0104"
+    },
+    {
+      "id": "scrapyard",
+      "name": "Casse automobile",
+      "w": 35,
+      "h": 25,
+      "levels": [
+        0
+      ],
+      "layout": "places116",
+      "codex": "DW-0251"
+    }
+  ]
+}

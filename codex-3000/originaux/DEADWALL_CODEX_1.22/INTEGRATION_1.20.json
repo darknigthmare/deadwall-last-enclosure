@@ -1,0 +1,14 @@
+{
+  "version": "1.5.0",
+  "game_version": "1.20.0-rc.1",
+  "base_sha256": "7c89c4b4651adb639cab4af8d5f3f1bbfb89f6b691dc6ecf80bae22ac9ee8b2f",
+  "base_hashes_verified": 526,
+  "fiches_preserved": 500,
+  "active_plans": 42,
+  "not_implemented": 458,
+  "save_version": 17,
+  "new_plans": 0,
+  "guide_added": true,
+  "existing_reader_preserved": true,
+  "guide_checks": 12
+}

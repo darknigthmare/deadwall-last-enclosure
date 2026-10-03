@@ -1,0 +1,37 @@
+{
+  "version": "1.41.0",
+  "images": [
+    {
+      "id": "art141Reeds",
+      "runtime": "assets/art141/reeds.png",
+      "source": "/workspace/scratch/001defc40d26/generated_images/exec-47df7c88-7348-4d31-a070-093617471902.png",
+      "dimensions": [
+        1356,
+        1160
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "18dbdc99dc9fd945f6ebcbb3741475d7451c4545f3ad0fd3eaddc1c98fec7b86",
+      "method": "built-in image generation; native alpha; copied unchanged"
+    },
+    {
+      "id": "art141FallenBranch",
+      "runtime": "assets/art141/fallen-branch.png",
+      "source": "/workspace/scratch/001defc40d26/generated_images/exec-3dcc51da-f832-49ba-a30f-cae25086c5d5.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "e14c1ec39d983b15075a0c54c5da96576fb2beb745c8d8120146ebab50552caf",
+      "method": "built-in image generation; native alpha; copied unchanged"
+    }
+  ]
+}

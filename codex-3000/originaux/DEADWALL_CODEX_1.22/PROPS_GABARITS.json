@@ -1,0 +1,562 @@
+{
+  "sedan": {
+    "nom": "Voiture compacte",
+    "dimensions_m": [
+      4.6,
+      1.85,
+      1.5
+    ],
+    "ancrage": "parking",
+    "regles": [
+      "À l’intérieur d’une place ou dans une scène d’arrêt justifiée; portes et accès voiture réservés.",
+      "Axe de place ±3°; accident = orientation causale propre à la scène.",
+      0.65
+    ]
+  },
+  "van": {
+    "nom": "Fourgon",
+    "dimensions_m": [
+      5.4,
+      2.05,
+      2.4
+    ],
+    "ancrage": "parking",
+    "regles": [
+      "À l’intérieur d’une place ou dans une scène d’arrêt justifiée; portes et accès voiture réservés.",
+      "Axe de place ±3°; accident = orientation causale propre à la scène.",
+      0.65
+    ]
+  },
+  "bus": {
+    "nom": "Autobus",
+    "dimensions_m": [
+      12.0,
+      2.55,
+      3.2
+    ],
+    "ancrage": "parking",
+    "regles": [
+      "À l’intérieur d’une place ou dans une scène d’arrêt justifiée; portes et accès voiture réservés.",
+      "Axe de place ±3°; accident = orientation causale propre à la scène.",
+      0.65
+    ]
+  },
+  "bed": {
+    "nom": "Lit adulte",
+    "dimensions_m": [
+      2.05,
+      1.6,
+      0.6
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "bunk": {
+    "nom": "Lits superposés",
+    "dimensions_m": [
+      2.1,
+      0.95,
+      1.8
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "sofa": {
+    "nom": "Canapé",
+    "dimensions_m": [
+      2.2,
+      0.95,
+      0.85
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "wardrobe": {
+    "nom": "Armoire",
+    "dimensions_m": [
+      1.2,
+      0.65,
+      2.0
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "desk": {
+    "nom": "Bureau",
+    "dimensions_m": [
+      1.4,
+      0.7,
+      0.75
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "chair": {
+    "nom": "Chaise",
+    "dimensions_m": [
+      0.48,
+      0.5,
+      0.9
+    ],
+    "ancrage": "poste",
+    "regles": [
+      "Dans une zone de travail; réserver l’espace de la personne et l’ouverture des tiroirs.",
+      "Axes de la pièce; petite variation de chaise ±8° après test de clearance.",
+      0.75
+    ]
+  },
+  "table": {
+    "nom": "Table",
+    "dimensions_m": [
+      1.6,
+      0.85,
+      0.75
+    ],
+    "ancrage": "poste",
+    "regles": [
+      "Dans une zone de travail; réserver l’espace de la personne et l’ouverture des tiroirs.",
+      "Axes de la pièce; petite variation de chaise ±8° après test de clearance.",
+      0.75
+    ]
+  },
+  "child_table": {
+    "nom": "Table enfant",
+    "dimensions_m": [
+      1.1,
+      0.7,
+      0.55
+    ],
+    "ancrage": "poste",
+    "regles": [
+      "Dans une zone de travail; réserver l’espace de la personne et l’ouverture des tiroirs.",
+      "Axes de la pièce; petite variation de chaise ±8° après test de clearance.",
+      0.75
+    ]
+  },
+  "shelf": {
+    "nom": "Rayonnage",
+    "dimensions_m": [
+      2.4,
+      0.7,
+      2.1
+    ],
+    "ancrage": "travee",
+    "regles": [
+      "Dans une travée alignée; séparer allée publique et passage de maintenance.",
+      "Axes des travées uniquement, pas de rotation indépendante par meuble.",
+      1.4
+    ]
+  },
+  "counter": {
+    "nom": "Comptoir",
+    "dimensions_m": [
+      2.1,
+      0.8,
+      1.1
+    ],
+    "ancrage": "poste",
+    "regles": [
+      "Dans une zone de travail; réserver l’espace de la personne et l’ouverture des tiroirs.",
+      "Axes de la pièce; petite variation de chaise ±8° après test de clearance.",
+      0.75
+    ]
+  },
+  "fridge": {
+    "nom": "Réfrigérateur",
+    "dimensions_m": [
+      0.8,
+      0.8,
+      1.85
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "sink": {
+    "nom": "Évier",
+    "dimensions_m": [
+      0.8,
+      0.65,
+      0.9
+    ],
+    "ancrage": "mur_technique",
+    "regles": [
+      "Appui au mur portant les réseaux; maintenir leur continuité.",
+      "Angle exact du mur technique.",
+      0.9
+    ]
+  },
+  "medical": {
+    "nom": "Armoire de soins",
+    "dimensions_m": [
+      1.2,
+      0.65,
+      1.8
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "stretcher": {
+    "nom": "Brancard",
+    "dimensions_m": [
+      2.1,
+      0.75,
+      0.9
+    ],
+    "ancrage": "poste",
+    "regles": [
+      "Dans une zone de travail; réserver l’espace de la personne et l’ouverture des tiroirs.",
+      "Axes de la pièce; petite variation de chaise ±8° après test de clearance.",
+      0.75
+    ]
+  },
+  "pallet": {
+    "nom": "Palette",
+    "dimensions_m": [
+      1.2,
+      0.8,
+      0.15
+    ],
+    "ancrage": "stock",
+    "regles": [
+      "En groupe sur une aire de stockage; support porteur obligatoire pour tout empilement.",
+      "Alignement palette dominant; désordre local de ±4° seulement.",
+      0.85
+    ]
+  },
+  "crate": {
+    "nom": "Caisse",
+    "dimensions_m": [
+      1.2,
+      0.8,
+      0.9
+    ],
+    "ancrage": "stock",
+    "regles": [
+      "En groupe sur une aire de stockage; support porteur obligatoire pour tout empilement.",
+      "Alignement palette dominant; désordre local de ±4° seulement.",
+      0.85
+    ]
+  },
+  "workbench": {
+    "nom": "Établi",
+    "dimensions_m": [
+      2.0,
+      0.85,
+      0.9
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "machine": {
+    "nom": "Machine d’atelier",
+    "dimensions_m": [
+      2.6,
+      1.6,
+      1.7
+    ],
+    "ancrage": "machine",
+    "regles": [
+      "Sur un socle ou plancher porteur; zone de service autour des faces ouvrantes.",
+      "Axe de production; aucune variation décorative de la machine fixe.",
+      1.2
+    ]
+  },
+  "logs": {
+    "nom": "Lot de grumes",
+    "dimensions_m": [
+      4.4,
+      1.4,
+      1.2
+    ],
+    "ancrage": "stock_long",
+    "regles": [
+      "Parallèle au trajet d’extraction du matériau; aire de recul libre.",
+      "Axe de manutention; extrémités ne traversant aucune paroi.",
+      2.0
+    ]
+  },
+  "barrel": {
+    "nom": "Fût fermé",
+    "dimensions_m": [
+      0.62,
+      0.62,
+      0.9
+    ],
+    "ancrage": "stock",
+    "regles": [
+      "En groupe sur une aire de stockage; support porteur obligatoire pour tout empilement.",
+      "Alignement palette dominant; désordre local de ±4° seulement.",
+      0.85
+    ]
+  },
+  "fuel_can": {
+    "nom": "Bidon de carburant",
+    "dimensions_m": [
+      0.35,
+      0.19,
+      0.47
+    ],
+    "ancrage": "stock",
+    "regles": [
+      "En groupe sur une aire de stockage; support porteur obligatoire pour tout empilement.",
+      "Alignement palette dominant; désordre local de ±4° seulement.",
+      0.85
+    ]
+  },
+  "pump": {
+    "nom": "Pompe de station",
+    "dimensions_m": [
+      0.8,
+      0.65,
+      1.8
+    ],
+    "ancrage": "station",
+    "regles": [
+      "Sur une île de pompes, hors chaussée; couloir pour véhicule de chaque côté.",
+      "Axe de l’île et de la circulation; aucune rotation aléatoire.",
+      1.2
+    ]
+  },
+  "locker": {
+    "nom": "Casier",
+    "dimensions_m": [
+      0.45,
+      0.5,
+      1.9
+    ],
+    "ancrage": "mur",
+    "regles": [
+      "Appui sur une paroi compatible; dos à 0–0,08 m de la paroi.",
+      "Angle de la paroi ou +90°; aucun bruit libre.",
+      0.8
+    ]
+  },
+  "bin": {
+    "nom": "Bac roulant",
+    "dimensions_m": [
+      0.6,
+      0.75,
+      1.1
+    ],
+    "ancrage": "service",
+    "regles": [
+      "Sur une aire de déchets accessible au ramassage, hors sortie et réserve propre.",
+      "Aligné au mur de service, légèrement décalé selon usage.",
+      0.8
+    ]
+  },
+  "rack_pipe": {
+    "nom": "Rack de tubes",
+    "dimensions_m": [
+      6.0,
+      1.1,
+      2.5
+    ],
+    "ancrage": "stock_long",
+    "regles": [
+      "Parallèle au trajet d’extraction du matériau; aire de recul libre.",
+      "Axe de manutention; extrémités ne traversant aucune paroi.",
+      2.0
+    ]
+  },
+  "bench": {
+    "nom": "Banc extérieur",
+    "dimensions_m": [
+      1.8,
+      0.65,
+      0.85
+    ],
+    "ancrage": "chemin",
+    "regles": [
+      "En bordure d’un chemin sans réduire sa largeur utile.",
+      "Orienté selon la bordure ou la vue utile.",
+      0.6
+    ]
+  },
+  "sign": {
+    "nom": "Panneau",
+    "dimensions_m": [
+      0.8,
+      0.12,
+      2.0
+    ],
+    "ancrage": "chemin",
+    "regles": [
+      "En bordure d’un chemin sans réduire sa largeur utile.",
+      "Orienté selon la bordure ou la vue utile.",
+      0.6
+    ]
+  },
+  "tree": {
+    "nom": "Arbre, tronc et canopée séparés",
+    "dimensions_m": [
+      0.65,
+      0.65,
+      8.0
+    ],
+    "ancrage": "nature",
+    "regles": [
+      "Dans un peuplement corrélé au sol, au relief et à l’humidité; collider du tronc distinct du feuillage.",
+      "Rotation continue libre; densité et taille corrélées, pas grille visuelle.",
+      0.15
+    ]
+  },
+  "rubble": {
+    "nom": "Débris bas",
+    "dimensions_m": [
+      1.6,
+      1.3,
+      0.5
+    ],
+    "ancrage": "degat",
+    "regles": [
+      "Sous une rupture identifiable; gravité, matériau et direction de chute définissent le tas.",
+      "Cône de chute local, pas bruit uniforme sur toute la parcelle.",
+      0.1
+    ]
+  },
+  "rock": {
+    "nom": "Rocher",
+    "dimensions_m": [
+      1.5,
+      1.2,
+      1.0
+    ],
+    "ancrage": "nature",
+    "regles": [
+      "Dans un peuplement corrélé au sol, au relief et à l’humidité; collider du tronc distinct du feuillage.",
+      "Rotation continue libre; densité et taille corrélées, pas grille visuelle.",
+      0.15
+    ]
+  },
+  "tent": {
+    "nom": "Tente",
+    "dimensions_m": [
+      3.5,
+      2.6,
+      2.1
+    ],
+    "ancrage": "camp",
+    "regles": [
+      "Sur terrain praticable, relié au sentier et sans fermer la circulation du camp.",
+      "Entrée vers l’allée; variabilité locale d’implantation.",
+      1.2
+    ]
+  },
+  "server": {
+    "nom": "Baie technique",
+    "dimensions_m": [
+      0.8,
+      1.1,
+      2.0
+    ],
+    "ancrage": "travee",
+    "regles": [
+      "Dans une travée alignée; séparer allée publique et passage de maintenance.",
+      "Axes des travées uniquement, pas de rotation indépendante par meuble.",
+      1.4
+    ]
+  },
+  "cabinet": {
+    "nom": "Armoire technique",
+    "dimensions_m": [
+      1.0,
+      0.6,
+      2.0
+    ],
+    "ancrage": "mur_technique",
+    "regles": [
+      "Appui au mur portant les réseaux; maintenir leur continuité.",
+      "Angle exact du mur technique.",
+      0.9
+    ]
+  },
+  "tank": {
+    "nom": "Cuve de site",
+    "dimensions_m": [
+      2.8,
+      2.8,
+      3.0
+    ],
+    "ancrage": "machine",
+    "regles": [
+      "Sur un socle ou plancher porteur; zone de service autour des faces ouvrantes.",
+      "Axe de production; aucune variation décorative de la machine fixe.",
+      1.2
+    ]
+  },
+  "boat": {
+    "nom": "Embarcation légère",
+    "dimensions_m": [
+      5.5,
+      2.2,
+      1.4
+    ],
+    "ancrage": "quai",
+    "regles": [
+      "À flot ou sur un berceau; passerelle vers un quai réel.",
+      "Parallèle au ponton ou au sens d’échouage de la scène.",
+      1.0
+    ]
+  },
+  "container": {
+    "nom": "Conteneur court",
+    "dimensions_m": [
+      6.06,
+      2.44,
+      2.59
+    ],
+    "ancrage": "stock",
+    "regles": [
+      "En groupe sur une aire de stockage; support porteur obligatoire pour tout empilement.",
+      "Alignement palette dominant; désordre local de ±4° seulement.",
+      0.85
+    ]
+  },
+  "wagon": {
+    "nom": "Wagon de référence",
+    "dimensions_m": [
+      18.0,
+      3.1,
+      4.0
+    ],
+    "ancrage": "rail",
+    "regles": [
+      "Sur des rails raccordés; gabarit autour des véhicules et traversées réservées.",
+      "Tangente du rail, jamais rotation indépendante.",
+      0.7
+    ]
+  }
+}

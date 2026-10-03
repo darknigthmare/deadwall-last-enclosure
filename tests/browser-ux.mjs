@@ -14,7 +14,7 @@ const variants=[{name:'desktop',width:1440,height:900},{name:'mobile',width:390,
 for(const variant of variants){
   const context=await browser.newContext({viewport:{width:variant.width,height:variant.height},hasTouch:!!variant.touch,isMobile:!!variant.touch,deviceScaleFactor:1,acceptDownloads:true,serviceWorkers:'block'});
   const page=await context.newPage(),report={viewport:variant,checks:[],errors:[],screenshots:[]};reports.push(report);
-  page.on('pageerror',error=>report.errors.push(error.message));page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text());});
+  page.setDefaultTimeout(5000);page.on('pageerror',error=>report.errors.push(error.message));page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text());});
   const check=(name,value=true)=>{assert.ok(value,name);report.checks.push(name);};
   const shot=async name=>{const file=`${variant.name}-${name}.png`;await page.screenshot({path:path.join(output,file),fullPage:false});report.screenshots.push(file);};
   try{

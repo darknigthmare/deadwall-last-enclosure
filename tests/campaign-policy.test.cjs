@@ -83,6 +83,7 @@ function workTarget(game, report) {
 }
 
 function playerPolicy(game, report, step) {
+  const policy=report;
   const player = game.player;
   game.input.keys.clear(); game.input.mouseDown = false;
   if (player.dead) return;
@@ -106,7 +107,13 @@ function playerPolicy(game, report, step) {
     goal = { x: player.x + (player.x - target.x), y: player.y + (player.y - target.y) };
     reach = 0; game.input.keys.add('ShiftLeft');
   }
-  if (goal && distance(player, goal) > reach) {
+  if (goal && !game.workerCanWorkAt(player,goal,reach)) {
+    goal=game.fieldcraft.service(player,goal)||goal;
+    const key=Math.floor(goal.x/32)+':'+Math.floor(goal.y/32)+':'+game.world.navigationVersion;
+    if(policy.routeKey!==key||!policy.route||game.elapsed-(policy.routeTime||0)>2){
+      const route=require('../src/recon.js').routeBetween(game,player,{...goal,reach:reach||12});policy.route=route.ok?route.path.slice(1):null;policy.routeKey=key;policy.routeTime=game.elapsed;
+    }
+    if(policy.route){while(policy.route.length&&distance(player,policy.route[0])<4)policy.route.shift();if(policy.route.length)goal=policy.route[0];}
     const dx = goal.x - player.x, dy = goal.y - player.y;
     if (Math.abs(dx) > 4) game.input.keys.add(dx < 0 ? 'KeyA' : 'KeyD');
     if (Math.abs(dy) > 4) game.input.keys.add(dy < 0 ? 'KeyW' : 'KeyS');

@@ -1,0 +1,208 @@
+/* 1.35: every field instrument belongs to a bounded row/column. Loaded LAST. */
+#hud.hud135{--hud-gap:8px;position:fixed;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:var(--hud-gap);padding:calc(8px + var(--safe-top)) calc(10px + var(--safe-right)) calc(8px + var(--safe-bottom)) calc(10px + var(--safe-left));overflow:hidden;pointer-events:none;isolation:isolate}
+#hud.hud135[data-blocked=true]{visibility:hidden;pointer-events:none}
+#hud.hud135 #topbar{position:static;inset:auto;grid-row:1;grid-template-columns:150px minmax(0,1fr) auto 44px 44px;min-width:0;min-height:60px}
+#hud.hud135 #topbar::after{display:none}#hud.hud135 #topbar>.icon-button{grid-row:1;width:44px;min-width:44px}
+/* Definite rows on the buttons otherwise make CSS auto-placement reserve the
+   first cells and push brand/resources into unbounded implicit columns. */
+#hud.hud135 #topbar>.brand-mini{grid-column:1;grid-row:1;min-width:0}
+#hud.hud135 #topbar>#resources{grid-column:2;grid-row:1;min-width:0}
+#hud.hud135 #topbar>.status-strip{grid-column:3;grid-row:1}
+#hud.hud135 #topbar>#hudSettings14{grid-column:4}
+#hud.hud135 #topbar>#pauseButton{grid-column:5}
+#hud.hud135 #topbar>.icon-button>.dw-glyph132{width:22px;height:22px;margin:0}
+.hud135-main{--hud-right-width:218px;display:grid;grid-template-columns:44px minmax(0,1fr) var(--hud-right-width);min-height:0;gap:var(--hud-gap);overflow:hidden}
+#hud.hud135[data-build=true] .hud135-main{grid-template-columns:260px minmax(0,1fr) var(--hud-right-width)}
+#hud.hud135[data-region=true] .hud135-main{grid-template-columns:0 minmax(0,1fr) var(--hud-right-width)}
+.hud135-left,.hud135-center,.hud135-right{min-width:0;min-height:0;max-height:100%}
+.hud135-left{display:flex;align-items:flex-start;overflow:hidden}.hud135-center{display:flex;flex-direction:column;align-items:center;gap:8px;overflow:hidden}.hud135-right{display:flex;flex-direction:column;gap:8px;overflow-y:auto;overflow-anchor:none;scrollbar-width:thin;align-items:stretch;pointer-events:auto}
+#hud.hud135 #leftPanel{position:static;inset:auto;width:100%;max-width:none;max-height:100%;height:100%;transform:none;transition:none;min-height:0}
+#hud.hud135 #leftPanel.is-collapsed{height:44px;width:44px;flex-shrink:0}#hud.hud135 #leftPanel.is-collapsed .panel-head{padding:0;min-height:42px;justify-content:center}#hud.hud135 #leftPanel.is-collapsed .panel-head>div{display:none}#hud.hud135 #leftPanel.is-collapsed #toggleBuild{width:42px;min-width:42px;height:42px}
+.hud135-drawer,.hud135-tools{margin:0;background:#132019f5;border:1px solid #687557;border-radius:3px;pointer-events:auto;min-width:0}
+.hud135-drawer>summary,.hud135-tools>summary,.hud135-region-tools>summary{padding:12px;min-height:42px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:.07em;color:#e9d9af;list-style-position:inside;user-select:none}
+.hud135-drawer[open]>summary,.hud135-tools[open]>summary{border-bottom:1px solid #485440;color:#ffe4a9}
+#hud.hud135 #rightPanel{position:static;inset:auto;width:100%;max-width:none;max-height:none;overflow:visible;border:0;box-shadow:none;opacity:1}
+#hud.hud135[data-region=true] #rightPanel:not(.hidden){display:block!important}
+#hud.hud135 #rightPanel section{padding:11px}.hud135-drawer>summary:focus-visible,.hud135-tools>summary:focus-visible{outline:2px solid #ffe1a1;outline-offset:-3px}
+#hud.hud135 #minimapWrap{display:block;position:static;inset:auto;width:100%;height:auto;border:0;box-shadow:none}#hud.hud135 #minimap{width:100%;height:auto;aspect-ratio:1;max-width:none}#hud.hud135 #frontierAccess{margin:0;min-height:40px}
+.hud135-alerts{flex:0 1 auto;max-height:33%;width:min(560px,100%);min-height:0;overflow:auto;scrollbar-width:thin;pointer-events:none}.hud135-alerts:empty{display:none}
+#hud.hud135 #notifications{position:static;inset:auto;width:100%;max-width:none;gap:5px}.hud135-alerts>.departure130,.hud135-alerts>.chronicles-scene{position:static;inset:auto;transform:none;width:100%;margin:6px 0 0;z-index:auto;max-height:none;overflow-wrap:anywhere}
+.hud135-alerts>.chronicles-scene{grid-template-columns:85px minmax(0,1fr) auto;padding:9px;gap:10px;border-block-width:1px}.hud135-alerts .chronicles-picture{width:85px;height:auto}.hud135-alerts button{pointer-events:auto}.hud135-alerts .chronicles-scene-copy p{font-size:12px}
+.hud135-context{display:flex;flex-direction:column;gap:7px;width:min(610px,100%);min-height:0;max-height:78%;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;pointer-events:auto;margin-top:auto}
+.hud135-context:empty{display:none}
+#hud.hud135 .hud135-context>#interventions134Dock,#hud.hud135 .hud135-context>#activeReload14,#hud.hud135 .hud135-context>#interactionHint,#hud.hud135 .hud135-context>#expansionWork,#hud.hud135 .hud135-context>#localActions14,#hud.hud135 .hud135-context>#expHUD,#hud.hud135 .hud135-context>#fieldDock{position:static;inset:auto;transform:none;width:100%;max-width:none;max-height:none;flex:0 0 auto;margin:0;z-index:auto;box-sizing:border-box}
+#hud.hud135 #interventions134Dock{overflow:visible;box-shadow:none;padding:12px;font-size:12px}#hud.hud135 #interventions134Dock header{gap:8px}#hud.hud135 #interventions134Dock header button{font-size:10px;padding:8px;min-height:40px}#hud.hud135 #interventions134Dock h2{font-size:14px}
+#hud.hud135 #localActions14{flex-wrap:wrap;justify-content:flex-start;padding:8px}#hud.hud135 #localActions14 strong{flex:1 1 150px}#hud.hud135 #localActions14 button{min-height:40px}#hud.hud135 #activeReload14{padding:9px 12px}#hud.hud135 .active-track14{margin:10px 0}
+#hud.hud135 #expHUD{display:flex;align-items:center;gap:8px;padding:7px}#hud.hud135 #expHUD.hidden{display:none!important}#hud.hud135 #expHUD small{flex:1}#hud.hud135 #expHUD button{width:auto;min-width:100px}
+#hud.hud135 #fieldDock{padding:9px}.hud135-region-tools{border-top:1px solid #495a46;margin-top:7px}.hud135-region-tools>summary{font-size:10px;padding:8px;min-height:36px}.hud135-region-tools>button{min-height:42px;padding:7px 10px;margin:3px}.hud135-region-tools .return-hud{flex-wrap:wrap}
+#hud.hud135 #interactionHint{visibility:visible}
+#hud.hud135 .field-dock-actions{display:flex;flex-wrap:wrap}#hud.hud135 .field-dock-actions button{flex:1 1 80px;min-height:40px;font-size:10px;padding:7px}#hud.hud135 .field-dock-status{white-space:normal;overflow-wrap:anywhere;font-size:11px;line-height:1.5}
+.hud135-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:end;min-width:0}.hud135-combat{display:flex;align-items:center;gap:9px;min-width:0;flex-wrap:wrap}.hud135-tools{min-width:200px;max-width:min(650px,65vw)}.hud135-tools[open]{width:100%;max-width:none}.hud135-auxiliary{display:flex;flex-direction:column;gap:5px;min-width:0;max-width:min(650px,65vw);pointer-events:auto}.hud135-auxiliary:has(.hud135-tools[open]){grid-column:1/-1;grid-row:2;max-width:none}
+#hud.hud135 #bottomHud{position:static;inset:auto;transform:none;display:flex;align-items:flex-start;min-width:0;gap:3px}#hud.hud135 .weapon-panel{min-width:200px;max-width:none;width:100%;padding:8px 11px;gap:5px 14px}#hud.hud135 .weapon-panel strong{font-size:15px}
+#hud.hud135 .controls-hint{display:none}#hud.hud135 #carryIndicator{position:static;inset:auto;padding:10px;margin:0;pointer-events:auto;font-size:11px;white-space:nowrap}
+#hud.hud135 #deadwall125-mobility{position:static;inset:auto;transform:none;max-width:100%;white-space:normal;font-size:9px;padding:3px 8px}.region-active #hud.hud135 #deadwall125-mobility{display:none}
+.hud135-utility-host{max-height:34dvh;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+#hud.hud135 #fieldUtilityTray{position:static;inset:auto;transform:none;max-width:none;display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px;padding:9px;margin:0;border:0;width:100%;z-index:auto}
+#hud.hud135 #fieldUtilityTray>details,#hud.hud135 #fieldUtilityTray>details[open]{position:static;inset:auto;transform:none;width:auto;max-width:100%;max-height:none;flex:1 1 160px;box-shadow:none}#hud.hud135 #fieldUtilityTray>details[open]{flex-basis:100%;order:2}#hud.hud135 #fieldUtilityTray>details[open]>div{max-height:none;overflow:visible}#hud.hud135 #fieldUtilityTray>button{flex:1 1 150px;min-height:44px;font-size:11px}
+#hud.hud135 #touchControls,#hud.hud135 #touchCommandDrawer{position:static;inset:auto;transform:none;z-index:auto}#hud.hud135 #touchControls{grid-column:1;grid-row:2;pointer-events:none}#hud.hud135 #touchControls button{pointer-events:auto}#hud.hud135 #urbanTorchHud{position:static;inset:auto;max-width:none;grid-column:1/-1;min-height:35px}#hud.hud135 #touchCommandDrawer{max-width:100%;width:100%;flex-shrink:0}
+#hud.hud135 #touchCommandDrawer[open]{max-height:35dvh;overflow:auto}#hud.hud135 #touchCommandDrawer .touch-command-grid{position:static;max-width:100%;width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
+#hud.hud135 #damageVignette{z-index:-1}
+@media(max-width:1100px){#hud.hud135 #topbar{grid-template-columns:104px minmax(0,1fr) auto 44px 44px}.hud135-main{--hud-right-width:146px}#hud.hud135[data-build=true] .hud135-main{grid-template-columns:230px minmax(0,1fr) var(--hud-right-width)}#hud.hud135[data-region=true] .hud135-main{grid-template-columns:0 minmax(0,1fr) var(--hud-right-width)}.hud135-right:has(details[open]){width:100%;justify-self:end}.hud135-main:has(.hud135-right details[open]){--hud-right-width:230px}#hud.hud135 .brand-mark{display:none}.hud135-tools>summary{font-size:10px}}
+@media(max-width:720px),(pointer:coarse){
+ #hud.hud135{--hud-gap:5px;padding:calc(5px + var(--safe-top)) calc(5px + var(--safe-right)) calc(5px + var(--safe-bottom)) calc(5px + var(--safe-left))}
+ #hud.hud135 #topbar{grid-template-columns:70px minmax(0,1fr) 40px 40px;grid-template-rows:48px 25px;min-height:73px}#hud.hud135 #topbar>.icon-button{width:40px;min-width:40px}#hud.hud135 #topbar>#hudSettings14{grid-column:3}#hud.hud135 #topbar>#pauseButton{grid-column:4}#hud.hud135 #topbar>.status-strip{grid-column:1/-1;grid-row:2}#hud.hud135 .brand-mini{padding:5px}.hud135-main,#hud.hud135[data-region=true] .hud135-main{grid-template-columns:44px minmax(0,1fr) 91px}
+ #hud.hud135[data-region=true] .hud135-main{grid-template-columns:0 minmax(0,1fr) 91px}#hud.hud135[data-build=true] .hud135-main{grid-template-columns:minmax(190px,68%) minmax(0,1fr) 0}#hud.hud135[data-build=true] .hud135-right{display:none}
+ .hud135-main:has(.hud135-right details[open]),#hud.hud135[data-region=true] .hud135-main:has(.hud135-right details[open]){grid-template-columns:44px minmax(0,1fr) minmax(210px,68%)}.hud135-right:has(details[open]){width:100%}.hud135-drawer>summary{padding:10px 5px;font-size:9px;letter-spacing:0}
+ .hud135-context{max-height:90%;gap:5px}.hud135-alerts{max-height:27%}.hud135-alerts>.chronicles-scene{grid-template-columns:minmax(0,1fr) auto;padding:8px}.hud135-alerts .chronicles-picture{display:none}.hud135-alerts>.departure130{font-size:11px;padding:8px}.hud135-alerts .departure130 strong{font-size:12px}
+ #hud.hud135 #interventions134Dock header{flex-wrap:wrap}#hud.hud135 #interventions134Dock header button{width:100%}.hud135-footer{grid-template-columns:148px minmax(0,1fr);gap:4px}.hud135-combat{grid-column:1/-1;gap:6px;flex-wrap:nowrap}.hud135-auxiliary,.hud135-auxiliary:has(.hud135-tools[open]){grid-row:2;grid-column:2;min-width:0;max-width:none;max-height:max(170px,28dvh);overflow:auto;overscroll-behavior:contain;align-self:end;scrollbar-width:thin}.hud135-tools{min-width:0;max-width:none;width:100%;flex-shrink:0}.hud135-tools[open]{max-height:none;overflow:visible}
+ #hud.hud135 #bottomHud{flex:1;min-width:0}#hud.hud135 .weapon-panel{min-width:0;max-width:none;gap:4px;font-size:10px}#hud.hud135 .weapon-panel>div{font-size:9px}#hud.hud135 #carryIndicator{font-size:10px;padding:8px}#hud.hud135 #touchControls{grid-template-columns:repeat(3,44px);gap:3px}#hud.hud135 #touchControls button{width:44px;height:40px;min-height:40px}#hud.hud135 #touchCommandDrawer{max-width:100%;width:100%}#hud.hud135 #touchCommandDrawer[open]{max-height:none;overflow:visible}.hud135-tools>summary{padding:10px 7px;font-size:10px}.hud135-utility-host{max-height:none}
+}
+@media(max-height:550px) and (min-width:721px){#hud.hud135 #topbar{min-height:48px}.hud135-main{--hud-right-width:130px}.hud135-context{max-height:100%}.hud135-alerts{max-height:30%}.hud135-auxiliary{max-height:max(150px,28dvh);overflow:auto}.hud135-tools[open]{max-height:none;overflow:visible}.hud135-utility-host{max-height:none}}
+@media(prefers-reduced-motion:reduce){.hud135 *{scroll-behavior:auto}}
+/* Narrow view: selectors form a row above context instead of squeezing a third column. */
+@media(max-width:720px),(pointer:coarse){
+ #hud.hud135 .hud135-main,#hud.hud135 .hud135-main:has(.hud135-right details[open]){grid-template-columns:44px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #hud.hud135[data-region=true] .hud135-main,#hud.hud135[data-region=true] .hud135-main:has(.hud135-right details[open]){grid-template-columns:0 minmax(0,1fr)}
+ #hud.hud135 .hud135-left{grid-column:1;grid-row:1/3}#hud.hud135 .hud135-center{grid-column:2;grid-row:2}
+ #hud.hud135 .hud135-right{grid-column:2;grid-row:1;display:flex;flex-direction:row;flex-wrap:wrap;width:100%;gap:4px;max-height:min(30dvh,200px)}
+ #hud.hud135 .hud135-right>.hud135-drawer{flex:1 1 40%}#hud.hud135 .hud135-right>.hud135-drawer[open]{flex-basis:100%;order:2}
+ #hud.hud135[data-build=true] .hud135-main{grid-template-columns:minmax(190px,68%) minmax(0,1fr)}#hud.hud135[data-build=true] .hud135-right{display:none}#hud.hud135[data-build=true] .hud135-center{grid-row:1/3}
+}
+/* The live wave/time readout stays outside the optional situation dossier. */
+.hud135-right>#hud135Wave{padding:11px;background:#132019f5;border:1px solid #687557;flex-shrink:0;pointer-events:auto}
+#hud.hud135 .hud135-right>#hud135Wave[data-phase=warning],#hud.hud135 .hud135-right>#hud135Wave[data-phase=assault]{position:sticky;top:0;z-index:2}
+#hud135Wave .wave-heading{gap:8px}#hud135Wave .wave-heading h2{font-size:14px;margin:4px 0 0}#hud135Wave .wave-heading>strong{font-size:20px}#hud135Wave .wave-heading small{font-size:8px;letter-spacing:.045em}#hud135Wave .threat-meter{margin:9px 0 0}
+#hud135Wave #waveIntel{margin:7px 0 0;color:#d6dece;font-size:11px;line-height:1.45}
+#hud135Wave #waveIntel[hidden],.hud143-battle-actions[hidden]{display:none}
+#hud135Wave #innerRingAlert{margin:7px 0 0}
+.hud143-battle-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:7px;position:sticky;bottom:0;background:#132019;z-index:1}
+.hud143-battle-actions>button{min-width:0;min-height:42px;padding:7px 2px;font-size:9px;line-height:1.4;color:#f0dfb4;background:#253727;border:1px solid #82926b;cursor:pointer}
+.hud143-battle-actions>button:focus-visible{outline:2px solid #ffe1a1;outline-offset:-3px}
+.coord-briefing143{padding:12px;border-left:3px solid #d4b47a;background:#283728;color:#f1dfb4!important}
+.coord-battle-actions143{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 20px}
+.coord-battle-actions143>button{min-width:0;min-height:44px;padding:8px 6px;color:#f0dfb4;background:#253727;border:1px solid #82926b;font:inherit;font-size:11px;line-height:1.3}
+.coord-battle-actions143>button:focus-visible{outline:2px solid #ffe1a1;outline-offset:2px}
+.coord-tactical147{border:1px solid #687557;background:#17251c;margin:0 0 14px;padding:0 12px;color:#d6dece}
+.coord-tactical147>summary{min-height:44px;padding:12px 0;font-size:13px;line-height:1.5;cursor:pointer;color:#f0dfb4}
+.coord-tactical147>summary:focus-visible{outline:2px solid #ffe1a1;outline-offset:2px}
+.coord-tactical147 ol{padding-left:22px;margin:0 0 12px;font-size:12px;line-height:1.6}
+.coord-tactical147 li[data-current=true]{color:#ffe1a1;font-weight:bold}
+.coord-tactical147 p{font-size:12px;line-height:1.5;margin:0 0 12px}.coord-tactical147 .coord-visibility147{color:#aebca6}
+@media(max-height:500px){
+ #coordinationPanel{padding-top:4px}
+ #coordinationPanel>small{display:none}
+ #coordinationHeading143{font-size:18px;line-height:1.3;margin:0 0 4px}
+ #coordinationPanel>.coord-context{font-size:12px;line-height:1.35;margin:0 0 6px}
+ #coordinationPanel>.coord-briefing143{font-size:12px;line-height:1.4;padding:7px;margin:0 0 6px}
+ #coordinationPanel>.coord-battle-actions143{margin:0 0 10px}
+}
+@media(max-width:720px),(pointer:coarse){#hud.hud135 .hud135-right>#hud135Wave{flex:1 1 100%;padding:6px 9px}#hud135Wave .wave-heading{align-items:center}#hud135Wave .wave-heading>div{display:flex;align-items:center;gap:9px;flex-wrap:wrap}#hud135Wave .wave-heading h2{font-size:12px;margin:0}#hud135Wave .wave-heading>strong{font-size:17px}#hud135Wave .threat-meter{margin-top:4px}}
+.hud135-alerts{pointer-events:auto}
+
+/* A visible objective gives the first three physical actions a stable anchor. */
+#hud.hud135 .hud135-right>#hud135Objective{flex:0 0 auto;padding:11px;background:#132019f5;border:1px solid #687557}
+#hud135Objective>small{display:block;color:#e9d9af;font-size:9px;letter-spacing:.06em}
+#hud135Objective h3{font-size:13px;line-height:1.4;margin:7px 0}
+#hud135Objective p{font-size:11px;line-height:1.5;margin:6px 0;color:#d0d8c5}
+#hud135Objective>strong{font-size:10px;line-height:1.5}
+#hud135Objective .objective-progress{margin:8px 0}
+.hud135-objective-instructions>summary,.hud135-local-actions>summary{display:none}
+.hud135-objective-instructions>p{margin:6px 0}
+#hud.hud135 .hud135-local-actions>#localActions14{position:static;inset:auto;transform:none;width:100%;max-width:none;margin:0}
+@media(max-width:720px),(pointer:coarse){
+ #hud.hud135 .hud135-right{max-height:min(38dvh,280px)}
+ #hud.hud135 .hud135-right>#hud135Objective{flex:1 1 100%;padding:8px 9px;order:1}
+ #hud.hud135 .hud135-right>.hud135-drawer{order:2}
+ #hud.hud135 .hud135-right>.hud135-drawer[open]{order:3}
+ #hud135Objective>small{display:none}#hud135Objective h3{font-size:12px;margin:0 0 4px}
+ #hud135Objective p{font-size:11px;margin:3px 0}#hud135Objective .objective-progress{margin:5px 0}
+}
+/* Preserve a usable view of the field on a phone held sideways while keeping
+   the direction pad and all seven existing touch actions available. */
+@media(max-height:560px) and (pointer:coarse),(max-height:560px) and (max-width:720px){
+ #hud.hud135 .hud135-footer{grid-template-columns:185px minmax(0,1fr)}
+ #hud.hud135 #touchControls{grid-template-columns:repeat(4,44px);grid-template-rows:repeat(2,44px);gap:3px}
+ #hud.hud135 #touchControls button{height:44px;min-height:44px}
+ #hud.hud135 #touchControls [data-dir="up"]{grid-column:2;grid-row:1}
+ #hud.hud135 #touchControls [data-dir="left"]{grid-column:1;grid-row:2}
+ #hud.hud135 #touchControls [data-dir="down"]{grid-column:2;grid-row:2}
+ #hud.hud135 #touchControls [data-dir="right"]{grid-column:3;grid-row:2}
+ #hud.hud135 #touchControls #touchAction{grid-column:4;grid-row:1}
+ #hud.hud135 #touchControls #touchFire{grid-column:4;grid-row:2}
+ #hud.hud135 #touchControls #urbanTorchHud{grid-column:1;grid-row:1;min-width:0;max-width:44px;padding:3px;font-size:9px;line-height:1.3;overflow-wrap:anywhere}
+ #hud.hud135 .hud135-auxiliary,.hud135-auxiliary:has(.hud135-tools[open]){max-height:100px}
+ #hud.hud135 .hud135-right{max-height:min(40dvh,170px)}
+}
+/* Short touch screens use side instruments and one compact action shelf so the
+   player remains visible in the middle of the field. Details stay inspectable. */
+#hud.hud135[data-short=true] #topbar{grid-template-rows:38px 22px;min-height:60px}
+#hud.hud135[data-short=true] .resource-item{padding:6px 7px}.hud135[data-short=true] .resource-item strong{font-size:15px;margin-top:3px}
+#hud.hud135[data-short=true] .hud135-main,#hud.hud135[data-short=true] .hud135-main:has(.hud135-right details[open]){grid-template-columns:44px minmax(0,1fr) 220px;grid-template-rows:minmax(0,1fr)}
+#hud.hud135[data-short=true][data-region=true] .hud135-main,#hud.hud135[data-short=true][data-region=true] .hud135-main:has(.hud135-right details[open]){grid-template-columns:0 minmax(0,1fr) 220px}
+#hud.hud135[data-short=true] .hud135-left{grid-column:1;grid-row:1}
+#hud.hud135[data-short=true] .hud135-center{grid-column:2;grid-row:1}
+#hud.hud135[data-short=true] .hud135-right{grid-column:3;grid-row:1;flex-direction:column;flex-wrap:nowrap;max-height:100%;gap:4px}
+#hud.hud135[data-short=true] .hud135-right>#hud135Wave{flex:0 0 auto}
+#hud.hud135[data-short=true] .hud135-right>#hud135Wave[data-phase=warning],#hud.hud135[data-short=true] .hud135-right>#hud135Wave[data-phase=assault]{padding-block:4px}
+#hud.hud135[data-short=true] #hud135Wave[data-phase=warning] .threat-meter,#hud.hud135[data-short=true] #hud135Wave[data-phase=assault] .threat-meter{display:none}
+#hud.hud135[data-short=true] #hud135Wave #waveIntel{font-size:10px;line-height:1.3;margin-top:4px}
+#hud.hud135[data-short=true] #hud135Wave #innerRingAlert{font-size:10px;line-height:1.2;padding:2px 4px;margin-top:3px}
+#hud.hud135[data-short=true] .hud143-battle-actions{margin-top:4px}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true]{padding-block:2px}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true] .wave-heading{line-height:1}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true] #waveIntel{line-height:1.2;margin-top:2px}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true] #innerRingAlert{font-size:0;line-height:0;padding:0 2px;margin-top:2px}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true] #innerRingAlert::before{content:attr(data-summary);display:block;font-size:10px;line-height:12px}
+#hud.hud135[data-short=true] #hud135Wave[data-reading=true] .hud143-battle-actions{margin-top:2px}
+#hud.hud135[data-short=true] .hud135-right>.hud135-drawer{flex:0 0 auto}
+#hud.hud135[data-short=true] .weapon-panel{padding:5px 9px}
+#hud.hud135[data-short=true] #carryIndicator{padding:6px 8px}
+#hud.hud135[data-short=true] .hud135-auxiliary{display:grid;grid-template-columns:1fr 1fr;gap:4px;max-height:100px;align-items:end}
+#hud.hud135[data-short=true] .hud135-local-actions{grid-column:1/-1;min-width:0;background:#132019f5;border:1px solid #687557}
+#hud.hud135[data-short=true] .hud135-local-actions>summary{display:block;padding:10px;min-height:40px;cursor:pointer;font-size:10px;color:#e9d9af;list-style-position:inside}
+#hud.hud135[data-short=true] .hud135-objective-instructions>summary{display:block;padding:4px 0;cursor:pointer;font-size:10px;color:#e9d9af}
+#hud.hud135[data-short=true] #hud135Objective{display:grid;flex:0 0 auto;grid-template-columns:minmax(0,1fr) auto;gap:3px 7px}
+#hud.hud135[data-short=true] #hud135Objective h3{font-size:11px;margin:0;grid-column:1}
+#hud.hud135[data-short=true] #hud135Objective>strong{font-size:9px;grid-column:2;text-align:right}
+#hud.hud135[data-short=true] #hud135Objective>small,#hud.hud135[data-short=true] #hud135Objective>.objective-progress{display:none}
+#hud.hud135[data-short=true] .hud135-objective-instructions{grid-column:1/-1;grid-row:2}
+#hud.hud135[data-short=true] .hud135-local-actions>summary:focus-visible,#hud.hud135[data-short=true] .hud135-objective-instructions>summary:focus-visible{outline:2px solid #ffe1a1;outline-offset:-2px}
+/* Regional instruments share the existing two-row touch shelf. The real dock,
+   stair controls and vehicle dossier remain reachable in its terrain disclosure. */
+#hud.hud135 #fieldDockTerrain{display:none}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]{display:grid;grid-column:2;grid-row:2;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:44px 44px;gap:3px;height:91px;max-height:91px;overflow:visible;position:relative}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#fieldDock{display:contents}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true] .field-dock-actions{grid-column:1/-1;grid-row:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;margin:0}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true] .field-dock-actions button{height:44px;min-height:44px;min-width:0;font-size:10px;padding:5px 2px;overflow-wrap:anywhere}
+#hud.hud135[data-region=true] #fieldDockTerrain{display:block;grid-column:1;grid-row:2;min-width:0;background:#132019f5;border:1px solid #687557;border-radius:3px;pointer-events:auto}
+#hud.hud135[data-region=true] #fieldDockTerrain>summary{height:44px;min-height:44px;box-sizing:border-box;padding:7px 5px;font-size:10px;line-height:1.4;cursor:pointer;list-style-position:inside;color:#e9d9af}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools{grid-column:2;grid-row:2}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer{grid-column:3;grid-row:2}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer{min-height:0;max-height:44px}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools>summary,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer>summary{height:44px;min-height:44px;box-sizing:border-box;font-size:10px;padding:7px 5px}
+#hud.hud135[data-region=true] #fieldDockTerrain[open]>.field-dock-terrain-body{position:absolute;bottom:calc(100% + 4px);left:0;right:0;max-height:min(45dvh,180px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#132019fa;border:1px solid #8d9a70;padding:8px;z-index:5}
+#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools[open]>.hud135-utility-host,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer[open]>.touch-command-grid{position:absolute;bottom:calc(100% + 4px);left:0;right:0;max-height:min(45dvh,180px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#132019fa;border:1px solid #8d9a70;padding:8px;z-index:5}
+#hud.hud135[data-region=true] .field-dock-terrain-body .field-dock-context{gap:6px}
+#hud.hud135[data-region=true] .field-dock-terrain-body button{min-height:44px}
+#hud.hud135[data-region=true] .field-dock-terrain-body>#interactionHint{position:static;inset:auto;transform:none;width:100%;margin:6px 0;box-sizing:border-box}
+#hud.hud135 #fieldDockTerrain>summary:focus-visible{outline:2px solid #ffe1a1;outline-offset:-3px}
+#hud.hud135[data-region=true] #fieldDockTerrain>summary{display:grid;grid-template-columns:10px minmax(0,1fr);align-content:center;gap:2px;list-style:none}
+#hud.hud135[data-region=true] #fieldDockTerrain>summary::before{content:'▸';grid-column:1;grid-row:1}
+#hud.hud135[data-region=true] #fieldDockTerrain[open]>summary::before{content:'▾'}
+#hud.hud135[data-region=true] #fieldDockTerrain>summary>span{grid-column:2;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:inherit}
+#hud.hud135[data-region=true] #fieldDockTerrain .field-dock-target{color:#ffe1a1}
+#hud.hud135[data-region=true] #touchControls button{height:44px;min-height:44px}
+#hud.hud135[data-region=true] #touchControls #urbanTorchHud{font-size:9px;line-height:11px;letter-spacing:0;padding:1px 2px;overflow-wrap:normal;word-break:normal}
+@media(max-width:720px){
+ #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]{height:138px;max-height:138px;grid-template-rows:44px 44px 44px}
+ #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true] .field-dock-actions{grid-row:1/3;grid-template-columns:repeat(4,minmax(44px,1fr));grid-template-rows:44px 44px}
+ #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true] .field-dock-actions>#fieldDockPosture{grid-column:1/-1}
+ #hud.hud135[data-region=true] #fieldDockTerrain,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer{grid-row:3}
+ #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true] #fieldDockTerrain>summary,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools>summary,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer>summary{font-size:9px;padding:5px 3px;overflow-wrap:anywhere}
+}
+@media(max-width:720px) and (min-height:561px){
+ #hud.hud135[data-region=true] #touchControls #urbanTorchHud{width:100%;max-width:none;grid-column:1/-1;font-size:11px;line-height:1.2;padding:2px 4px}
+}
+
+/* Optional workbench illustrations leave diagnostics and controls in live HTML. */
+#hud.hud135 .interventions134-heading{min-width:0;flex:1}#hud.hud135 .interventions134-heading[data-illustrated=true]{display:grid;grid-template-columns:54px minmax(0,1fr);column-gap:9px;align-items:center}#hud.hud135 .interventions134-heading[data-illustrated=true]>small,#hud.hud135 .interventions134-heading[data-illustrated=true]>h2{grid-column:2}#hud.hud135 .interventions134-illustration{grid-column:1;grid-row:1/3;width:54px;height:54px;object-fit:contain;pointer-events:none}

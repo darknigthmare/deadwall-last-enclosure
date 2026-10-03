@@ -18,3 +18,9 @@ scripts/package-desktop.mjs
 scripts/release-policy.cjs
 scripts/verify-desktop-integrity.mjs
 scripts/server.mjs
+
+# Local QA and integration history are never uploaded to the public game.
+reports/
+.qa-tools/
+.deadwall*/
+.deadwall*-receipt.json

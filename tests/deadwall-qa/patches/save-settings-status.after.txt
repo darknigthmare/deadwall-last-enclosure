@@ -1,0 +1,8 @@
+    saveSettings() {
+      try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings)); return true; }
+      catch {
+        const status = document.getElementById('settingsStatus');
+        if (status) status.textContent = 'Options appliquées pour cette session seulement : stockage indisponible.';
+        return false;
+      }
+    }

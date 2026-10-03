@@ -31,7 +31,7 @@
       const view=views[group.index];
       view.card.dataset.selected=String(group.selected);view.select.setAttribute('aria-pressed',String(group.selected));view.select.disabled=!allowed;
       view.count.textContent=group.count+' fusilier'+(group.count===1?'':'s');
-      view.order.textContent=group.order==='retreat'?'ORDRE : REPLI AU CENTRE':'RALLIEMENT : '+C.grid(group.rally.x)+' / '+C.grid(group.rally.y);
+      view.order.textContent=group.order==='retreat'?'ORDRE : REPLI '+(group.retreatTarget?.type==='fallbackRedoubt'?'À LA REDOUTE #'+group.retreatTarget.id:'AU CENTRE'):'RALLIEMENT : '+C.grid(group.rally.x)+' / '+C.grid(group.rally.y);
       view.access.textContent=!group.count?'Section en attente de recrutement.':group.blocked?group.blocked+' trajet'+(group.blocked===1?'':'s')+' bloqué'+(group.blocked===1?'':'s')+' : contrôlez les portes.':group.order==='retreat'?'Repli physique ; riposte conservée, aucune poursuite.':'Contact hostile prioritaire, puis retour au point de section.';
       view.rally.disabled=!allowed;view.here.disabled=!allowed||game.player.dead;view.retreat.disabled=!allowed;
       view.retreat.setAttribute('aria-pressed',String(group.order==='retreat'));
@@ -41,10 +41,10 @@
   }
   function drawMarkers(ctx,view){
     if(game.state!=='playing'||game.gameOver||!game.squads)return;
-    const counts=globalThis.DeadwallSquads.counts(game.units),core=game.core(),selected=game.squads.selected;
+    const counts=globalThis.DeadwallSquads.counts(game.units),selected=game.squads.selected;
     ctx.save();ctx.lineWidth=1.5;ctx.font='bold 10px monospace';ctx.textAlign='center';
     game.squads.groups.forEach((group,index)=>{
-      if(!counts[index])return;const point=group.order==='retreat'?core:group.rally;
+      if(!counts[index])return;const point=group.order==='retreat'?game.squadRetreatTarget(group):group.rally;
       if(!point||!game.visible(point.x,point.y,60,view))return;
       ctx.strokeStyle=index===selected?'#e0b45e':'#9baa86';ctx.fillStyle='#111911dc';
       ctx.beginPath();ctx.arc(point.x,point.y,18+index*5,0,Math.PI*2);ctx.fill();ctx.stroke();

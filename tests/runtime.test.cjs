@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -42,7 +44,7 @@ test('smoke test du jeu complet: démarrage, simulation, horde, rendu et sauvega
   assert.equal(commandCore.priority, 3, 'la priorité de structure doit être pilotable');
 
   const depositedBefore = game.depositedResources;
-  game.player.x = commandCore.x; game.player.y = commandCore.y; game.player.carry.wood = 5; game.input.keys.add('KeyE');
+  standAt(game,game.player,commandCore); game.player.carry.wood = 5; game.input.keys.add('KeyE');
   game.updateInteraction(0.1); game.input.keys.delete('KeyE');
   assert.equal(game.depositedResources, depositedBefore + 5, 'le dépôt manuel doit créditer le tutoriel');
 
@@ -52,8 +54,8 @@ test('smoke test du jeu complet: démarrage, simulation, horde, rendu et sauvega
   assert.equal(wall.health, 112, 'la doctrine de fortification doit réduire les dégâts de 12 %');
 
   const originalBuildings = game.world.buildings;
-  const oversizedDefense = { dead:false, completed:true, priority:3, def:{ powerUse:6, defense:true } };
-  const smallClinic = { dead:false, completed:true, priority:2, def:{ id:'clinic', powerUse:3 } };
+  const oversizedDefense = { id:1,health:1,dead:false, completed:true, priority:3, def:{ powerUse:6, defense:true } };
+  const smallClinic = { id:2,health:1,dead:false, completed:true, priority:2, def:{ id:'clinic', powerUse:3 } };
   game.world.buildings = new Map([[1, oversizedDefense], [2, smallClinic]]); game.allocatePower(3); game.world.buildings = originalBuildings;
   assert.equal(oversizedDefense.powered, false); assert.equal(smallClinic.powered, true, 'le délestage ne doit pas gaspiller un reliquat utilisable');
   game.save(false);
@@ -173,8 +175,22 @@ test('mouvement réduit: la caméra ne tremble pas, le menu oublie les alertes d
   assert.equal(game.activeOverlay, game.ui.mainMenu);
 });
 
-test('menace nord: indicateur visible sous le HUD sur desktop, mobile portrait et tactile paysage', () => {
-  const { game, elements, compactMedia } = bootGame(); game.startNew();
+test('menace nord: contact réellement observé sous le HUD, aucune flèche après départ de l’observateur', () => {
+  const { game, elements, compactMedia } = bootGame(); game.startNew('standard', '903145');
+  // Explicit geometry fixture: a distant living walker is observed by an actual
+  // living worker. Neither detection nor the physical line of sight is mocked.
+  const observer = game.units[0], home = { x: observer.x, y: observer.y };
+  const enemy = { id: game.nextId, kind: 'walker', health: 40, dead: false, radius: DeadwallCore.ENEMIES.walker.radius, attackCooldown: 0 };
+  let found = false;
+  for (let distance = 900; distance <= 1200; distance += 16) {
+    Object.assign(enemy, { x: game.camera.x, y: game.camera.y - distance });
+    Object.assign(observer, { x: enemy.x + 48, y: enemy.y });
+    if (enemy.y < enemy.radius || !game.friendlyPositionClear(enemy, enemy.x, enemy.y) || !game.friendlyPositionClear(observer, observer.x, observer.y) || !game.hostileLineClear(observer, enemy) || !game.visibility.canSeeLocal(enemy)) continue;
+    found = true; break;
+  }
+  assert.ok(found, 'un corridor libre et un véritable observateur doivent rendre la scène visible');
+  const observationPoint = { x: observer.x, y: observer.y };
+  game.zombies = [enemy];
   const rect = (left, top, right, bottom) => ({ left, top, right, bottom, width: right-left, height: bottom-top });
   const cases = [
     { width:1280, height:720, compact:false, topbar:72, left:rect(14,88,294,628), right:rect(980,88,1266,360) },
@@ -186,11 +202,22 @@ test('menace nord: indicateur visible sous le HUD sur desktop, mobile portrait e
     game.setBuildCollapsed(sample.compact);
     elements.get('topbar').getBoundingClientRect=()=>rect(0,0,sample.width,sample.topbar);
     game.ui.leftPanel.getBoundingClientRect=()=>sample.left; game.ui.rightPanel.getBoundingClientRect=()=>sample.right;
-    game.zombies=[{ x:game.camera.x, y:game.camera.y-3000 }];
+    Object.assign(observer, observationPoint);
+    assert.ok(game.visibility.canSeeLocal(enemy), 'le contact vivant doit être réellement observé avant la projection');
+    const resources = { ...game.resources }, randomState = game.random.state, elapsed = game.elapsed;
     const positions=[]; game.ctx.translate=(x,y)=>positions.push([x,y]); game.drawThreatArrows(game.ctx);
+    assert.equal(positions.length, 1, 'un seul indicateur nord doit être peint');
     const [x,y]=positions[0]; assert.equal(x,sample.width/2);
     assert.ok(y-14>=sample.topbar+10, 'la pointe doit rester sous la barre, avec une marge');
     assert.ok(y+14<sample.height, 'le marqueur doit rester dans la fenêtre');
     for(const panel of [sample.left,sample.right]) if(panel.left<x+14&&panel.right>x-14) assert.ok(y-14>=panel.bottom+10, 'le panneau visible ne doit pas recouvrir le marqueur');
+    Object.assign(observer, home);
+    assert.ok(enemy.health > 0 && !enemy.dead);
+    assert.equal(game.visibility.canSeeLocal(enemy), false, 'le même infecté vivant devient non observé lorsque l’allié repart');
+    positions.length = 0; game.drawThreatArrows(game.ctx);
+    assert.equal(positions.length, 0, 'aucune flèche ne doit divulguer la position du contact désormais caché');
+    assert.deepEqual(game.resources, resources);
+    assert.equal(game.random.state, randomState);
+    assert.equal(game.elapsed, elapsed);
   }
 });

@@ -7,7 +7,7 @@ const Save = require('../src/save.js');
 const { bootGame } = require('./helpers/browser.cjs');
 
 const originalKinds = ['walker', 'runner', 'armored', 'crawler', 'howler'];
-const newKinds = ['breacher', 'stalker', 'bloated'];
+const newKinds = ['breacher', 'stalker', 'bloated', 'shielded', 'charger'];
 const kinds = [...originalKinds, ...newKinds];
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-7, `${actual} != ${expected}`);
 function fresh() {
@@ -29,7 +29,7 @@ function gateBarrier(game) {
   return add(game, 'gate', 70, 70, 1);
 }
 
-test('infectés : huit profils documentés, les cinq historiques gardent leurs statistiques', () => {
+test('infectés : dix profils documentés, les cinq historiques gardent leurs statistiques', () => {
   assert.deepEqual(Object.keys(C.ENEMIES), kinds);
   const previous = [[72,35,16,.75,11,1],[54,72,12,1.2,10,2],[175,27,25,.6,13,4],[44,55,9,1.55,8,5],[110,43,14,.9,12,7]];
   originalKinds.forEach((kind,index) => assert.deepEqual(['health','speed','damage','attackRate','radius','unlockWave'].map(field=>C.ENEMIES[kind][field]),previous[index]));
@@ -41,9 +41,9 @@ test('infectés : huit profils documentés, les cinq historiques gardent leurs s
   assert.equal(C.ENEMIES.breacher.name, 'Briseur'); assert.equal(C.ENEMIES.stalker.name, 'Traqueur'); assert.equal(C.ENEMIES.bloated.name, 'Engorgé');
 });
 
-test('hordes : introductions 3/6/8, total historique strict et huit compteurs bornés jusqu’à la vague 1000000', () => {
+test('hordes : introductions 3/6/8/9/11, total historique strict et dix compteurs bornés jusqu’à la vague 1000000', () => {
   for (const difficulty of Object.values(C.DIFFICULTIES)) for (const signature of [0, 360, 1000]) {
-    for (const wave of [1,2,3,4,5,6,7,8,20,100,1000,1000000]) {
+    for (const wave of [1,2,3,4,5,6,7,8,9,11,20,100,1000,1000000]) {
       const plan = C.wavePlan(wave, difficulty, signature);
       const expected = Math.max(8,Math.floor((10+wave*5+wave**1.62*2.35)*difficulty.enemyCount*(1+C.clamp(signature/360,0,.8))));
       assert.equal(plan.total, expected); assert.equal(C.spawnCount(plan.composition), expected);
@@ -62,7 +62,7 @@ test('hordes : introductions 3/6/8, total historique strict et huit compteurs bo
 test('hordes : les vagues 1 et 2 conservent exactement leurs anciens profils et effectifs', () => {
   for (const wave of [1,2]) {
     const plan=C.wavePlan(wave),runner=wave===2?Math.floor(plan.total*(.08+wave*.018)):0;
-    assert.deepEqual(plan.composition,{walker:plan.total-runner,runner,armored:0,crawler:0,howler:0,breacher:0,stalker:0,bloated:0});
+    assert.deepEqual(plan.composition,{walker:plan.total-runner,runner,armored:0,crawler:0,howler:0,breacher:0,stalker:0,bloated:0,shielded:0,charger:0});
   }
 });
 
@@ -73,7 +73,7 @@ test('infectés : aucune nouvelle santé de boss, même en Brutal à très longu
   for(const zombie of game.zombies) assert.ok(zombie.maxHealth <= armored.maxHealth);
 });
 
-test('hordes : huit compteurs tirés sans perte et sans accepter un identifiant inconnu', () => {
+test('hordes : dix compteurs tirés sans perte et sans accepter un identifiant inconnu', () => {
   const counts=C.normalizeSpawnCounts(Object.fromEntries(kinds.map((kind,i)=>[kind,i+1])),['breacher','bloated','constructor']);
   const expected={...counts}, actual=C.normalizeSpawnCounts();
   while(C.spawnCount(counts)){const kind=C.takeSpawnKind(counts,.731);assert.ok(kinds.includes(kind));actual[kind]++;}
@@ -83,13 +83,13 @@ test('hordes : huit compteurs tirés sans perte et sans accepter un identifiant 
   assert.equal(game.nextId,nextId);assert.equal(game.zombies.length,0);
 });
 
-test('sauvegarde : huit profils actifs et file compacte gardent santé, cadence et effectifs', () => {
+test('sauvegarde : dix profils actifs et file compacte gardent santé, cadence et effectifs', () => {
   const {game,storage}=fresh(); game.player.dead=false; game.wave=12; game.phase='assault';
   game.wavePlan=C.wavePlan(12); game.pendingSpawns=C.normalizeSpawnCounts(Object.fromEntries(kinds.map((kind,i)=>[kind,100+i]))); game.spawnQueue=['breacher','stalker','bloated'];
   for(const kind of kinds){const z=spawn(game,kind);z.health-=7;z.attackCooldown=.4;}
   const before=game.zombies.map(z=>({kind:z.kind,health:z.health,attackCooldown:z.attackCooldown})),remaining=game.remainingAssault;
-  assert.equal(game.save(false),true);const raw=JSON.parse(storage.get(C.SAVE_KEY));assert.equal(raw.version,2);assert.equal(raw.spawnQueue.length,3);
-  assert.equal(game.load(),true);assert.equal(game.remainingAssault,remaining);assert.equal(game.spawnQueue.length,0);
+  assert.equal(game.save(false),true);const raw=JSON.parse(storage.get(C.SAVE_KEY));assert.equal(raw.version,C.SAVE_VERSION);assert.equal(raw.spawnQueue.length,3);
+  assert.equal(game.load(),true);assert.equal(game.remainingAssault,remaining);assert.deepEqual(game.spawnQueue,raw.spawnQueue);assert.deepEqual(game.pendingSpawns,raw.pendingSpawns);
   assert.deepEqual(game.zombies.map(z=>({kind:z.kind,health:z.health,attackCooldown:z.attackCooldown})),before);
   assert.ok(game.zombies.every(z=>z.prey===null),'la cible fugitive est réévaluée, jamais un objet obsolète sérialisé');
 });

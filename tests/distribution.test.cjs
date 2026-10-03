@@ -19,6 +19,8 @@ function publicFiles(){
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'),'utf8'));
   const files=['index.html','manifest.json','sw.js',...scripts,...styles,...manifest.icons.map(icon=>icon.src),...Object.values(require('../src/art.js').ASSETS).map(asset=>asset.url)];
   for(const style of styles)for(const match of fs.readFileSync(path.join(root,style),'utf8').matchAll(/url\(["']?(assets\/[^)"']+)/g))files.push(match[1]);
+  // UI illustrations are assigned to img.src at runtime, without an Art atlas entry.
+  for(const script of scripts)for(const match of fs.readFileSync(path.join(root,script),'utf8').matchAll(/["'](assets\/[a-zA-Z0-9_./-]+\.(?:png|webp|jpg|jpeg|svg|avif))["']/g))files.push(match[1]);
   return [...new Set(files)].sort();
 }
 

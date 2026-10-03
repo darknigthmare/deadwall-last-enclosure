@@ -1,0 +1,68 @@
+/* D-17 arrival: full-screen tableaux, no simulated time while the viewer reads. */
+.campaign-intro132 { position: fixed; inset: 0; z-index: 220; display: grid; grid-template-rows: auto minmax(0,1fr) auto; overflow: hidden; isolation: isolate; color: #f0e7d7; background: #111714; font-family: inherit; }
+.campaign-intro132.hidden { display: none; }
+.campaign132-picture, .campaign132-shade { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -2; }
+.campaign132-picture { object-fit: cover; object-position: center 40%; opacity: .9; animation: campaign132-arrival 28s ease-out both; }
+.campaign132-shade { z-index: -1; background: linear-gradient(90deg, rgba(8,13,12,.72), transparent 82%), linear-gradient(0deg,#080e0d 0%,rgba(8,14,13,.96) 6%,rgba(8,14,13,.55) 44%,rgba(8,14,13,.04) 80%,rgba(8,14,13,.45)); }
+.campaign132-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(20px,3vw,48px) clamp(22px,5.5vw,90px); border-bottom: 1px solid #ded7b925; }
+.campaign132-brand { font-size: clamp(18px,2vw,28px); letter-spacing: .22em; font-weight: 900; }
+.campaign132-mode { color: #d3c9b2; font-size: 10px; letter-spacing: .23em; text-align: right; }
+.campaign132-copy { align-self: end; width: min(750px,100%); max-height:100%; min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; padding: clamp(36px,12vh,160px) clamp(22px,5.5vw,90px) 20px; box-sizing: border-box; }
+.campaign132-eyebrow { color: #dab885; font-size: 10px; font-weight: 800; letter-spacing: .22em; margin: 0 0 20px; }
+.campaign132-title { font-size: clamp(32px,4.3vw,64px); font-weight: 850; line-height: 1.05; letter-spacing: -.035em; margin: 0 0 22px; text-wrap: balance; }
+.campaign132-text { max-width: 580px; font-size: clamp(14px,1.25vw,18px); line-height: 1.7; color: #e2dfd5; margin: 0; }
+.campaign132-line { border-left: 2px solid #bca071; padding-left: 14px; color: #b5bbaa; font-size: 12px; line-height: 1.65; margin: 21px 0 0; }
+.campaign132-facts { font-size: 12px; line-height: 1.65; color: #e3c798; padding: 14px 0 0; margin: 14px 0 0; border-top: 1px solid #e1d6b729; }
+.campaign132-facts[hidden] { display: none; }
+.campaign132-basics { display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin:16px 0 0;padding:14px 0 0;border-top:1px solid #e1d6b729; }
+.campaign132-basics[hidden] { display:none; }
+.campaign132-basics dt { color:#f0d39e;font-size:10px;font-weight:800;letter-spacing:.06em; }
+.campaign132-basics dd { margin:4px 0 0;color:#d0d8c5;font-size:11px;line-height:1.4; }
+.campaign-intro132[data-shot="first-watch"] .campaign132-copy { padding-top:clamp(24px,4vh,60px); }
+.campaign132-controls { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px 24px; padding: 24px clamp(22px,5.5vw,90px) 28px; }
+.campaign132-progress { display: flex; align-items: center; gap: 10px; list-style: none; padding: 0; margin: 0; max-width: 320px; }
+.campaign132-progress li { flex: 1; border-top: 2px solid #566056; padding-top: 10px; color: #889280; font-size: 10px; letter-spacing: .1em; font-variant-numeric: tabular-nums; transition: color .2s,border-color .2s; }
+.campaign132-progress li.is-current { color: #f4d899; border-color: #edc277; }
+.campaign132-progress li.is-past { color: #b7c8b2; border-color: #829d7d; }
+.campaign132-navigation { display: flex; align-items: center; gap: 10px; }
+.campaign132-controls button { min-height: 48px; padding: 13px 21px; border-radius: 2px; font-size: 10px; line-height: 1.35; letter-spacing: .12em; font-weight: 800; }
+.campaign132-controls .campaign132-next { color: #152019; background: #d3b477; border: 1px solid #ecd29d; box-shadow: 0 4px 30px #0006; }
+.campaign132-controls .campaign132-next:hover { background: #ead09b; }
+.campaign132-controls .campaign132-back { background: #111b1780; color: #cccbbf; border: 1px solid #e3d8bb45; }
+.campaign132-controls .campaign132-back:disabled { visibility: hidden; }
+.campaign132-controls .campaign132-skip { grid-column: 2; justify-self: end; color: #b2b9ad; background: none; border: 0; box-shadow: none; min-height: 44px; padding: 9px 0 9px 18px; }
+.campaign132-controls button:focus-visible { outline: 3px solid #f7e8bd; outline-offset: 4px; }
+.campaign132-status { grid-column: 1; grid-row: 2; margin: 0; align-self: center; color: #939f8f; font-size: 10px; letter-spacing: .08em; }
+@keyframes campaign132-arrival { from { transform: scale(1.035); } to { transform: scale(1); } }
+.campaign132-static .campaign132-picture { animation: none; }
+.campaign132-static .campaign132-progress li { transition: none; }
+@media (max-width: 720px) {
+ .campaign132-top { padding: 20px 22px; }
+ .campaign132-mode { font-size: 8px; max-width: 120px; line-height: 1.6; }
+ .campaign132-copy { padding-top: 20vh; }
+ .campaign132-title { max-width: 500px; }
+ .campaign132-controls { grid-template-columns: 1fr; gap: 20px; }
+ .campaign132-progress { max-width: none; }
+ .campaign132-navigation { justify-content: space-between; }
+ .campaign132-navigation button { flex: 1; }
+ .campaign132-controls .campaign132-skip { grid-column: 1; justify-self: center; padding: 10px; }
+ .campaign132-status { grid-column: 1; grid-row: auto; text-align: center; }
+ .campaign132-picture { object-position: 62% center; }
+}
+@media (max-height: 600px) and (orientation: landscape) {
+ .campaign132-top { padding-top: 14px; padding-bottom: 14px; }
+ .campaign132-copy { padding-top: 40px; width: min(780px,100%); }
+ .campaign132-title { font-size: 30px; margin-bottom: 12px; }
+ .campaign132-eyebrow { margin-bottom: 12px; }
+ .campaign132-text { font-size: 13px; }
+ .campaign132-controls { padding-top: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .campaign132-picture { animation: none; }
+ .campaign132-progress li { transition: none; }
+}
+@media (forced-colors: active) {
+ .campaign132-picture,.campaign132-shade { display: none; }
+ .campaign132-progress li.is-current { border-color: Highlight; color: Highlight; }
+ .campaign132-controls .campaign132-next { border: 2px solid ButtonText; }
+}

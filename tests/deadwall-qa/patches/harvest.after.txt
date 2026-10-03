@@ -1,0 +1,7 @@
+    harvest(amount) {
+      if (this.depleted || !Number.isFinite(amount) || amount <= 0 || !Number.isFinite(this.amount) || this.amount <= 0) return 0;
+      const value = Math.min(this.amount, amount);
+      this.amount -= value; this.flash = 0.14;
+      if (this.amount <= 0.01) { this.amount = 0; this.depleted = true; }
+      return value;
+    }

@@ -1,0 +1,40 @@
+    depthEntries(view) {
+      const entries = this.depthQueue || (this.depthQueue = []); entries.length = 0;
+      const push = (kind, entity, radius, depth = entity.y) => {
+        if (entity.dead || !this.visible(entity.x, entity.y, radius, view)) return;
+        entries.push({ kind, entity, depth, id: entity.id || 0, order: entries.length });
+      };
+      for (const node of this.world.nodes) if (!node.depleted) push(0, node, Math.max(node.radius + 20, (node.renderSize || 0) / 2 + 10));
+      for (const building of this.world.buildings.values()) push(1, building, Math.max(building.w, building.h) * TILE + 40, building.bottom);
+      for (const unit of this.units) push(2, unit, 28);
+      for (const zombie of this.zombies) push(3, zombie, 28);
+      push(4, this.player, 28);
+      entries.sort((a, b) => a.depth - b.depth || a.kind - b.kind || a.id - b.id || a.order - b.order);
+      return entries;
+    }
+
+    render() {
+      const ctx = this.ctx;
+      ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); ctx.fillStyle = '#171c18'; ctx.fillRect(0, 0, this.width, this.height);
+      const shakeX = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
+      const shakeY = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
+      ctx.save(); ctx.translate(this.width / 2 + shakeX, this.height / 2 + shakeY); ctx.scale(this.camera.zoom, this.camera.zoom); ctx.translate(-this.camera.x, -this.camera.y);
+      const view = this.viewBounds();
+      this.crowdDetail = this.width > 720 && this.camera.zoom > .72 && this.zombies.length < 320;
+      this.drawGround(ctx, view); this.contentUI?.drawMarker(ctx, view);
+      for (const corpse of this.corpses) if (this.visible(corpse.x, corpse.y, 25, view)) this.drawCorpse(ctx, corpse);
+      // One common ground-depth queue: no faction is always painted on top.
+      for (const entry of this.depthEntries(view)) {
+        if (entry.kind === 0) this.drawNode(ctx, entry.entity);
+        else if (entry.kind === 1) this.drawBuilding(ctx, entry.entity);
+        else if (entry.kind === 2) this.drawUnit(ctx, entry.entity);
+        else if (entry.kind === 3) this.drawZombie(ctx, entry.entity);
+        else this.drawPlayer(ctx);
+      }
+      for (const particle of this.particles) if (this.visible(particle.x, particle.y, 20, view)) this.drawParticle(ctx, particle);
+      for (const projectile of this.projectiles) if (!projectile.dead && this.visible(projectile.x, projectile.y, 20, view)) this.drawProjectile(ctx, projectile);
+      for (const floater of this.floaters) if (this.visible(floater.x, floater.y, 80, view)) this.drawFloater(ctx, floater);
+      this.drawRally(ctx); this.drawPlacement(ctx); ctx.restore();
+      this.drawNight(ctx); this.drawRain(ctx); this.drawThreatArrows(ctx); this.drawCrosshair(ctx);
+    }
+

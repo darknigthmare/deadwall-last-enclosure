@@ -1,0 +1,9 @@
+    work(amount) {
+      if (this.dead || this.health <= 0 || this.completed || !Number.isFinite(amount) || amount <= 0) return false;
+      const before = this.progress;
+      this.progress = clamp(this.progress + amount / Math.max(1, this.def.buildTime), 0, 1);
+      // Construction adds only the integrity of the work actually completed.
+      // Existing combat damage must not disappear at every worker tick.
+      this.health = Math.min(this.maxHealth, this.health + (this.progress - before) * this.maxHealth * 0.88);
+      return before < 1 && this.completed;
+    }

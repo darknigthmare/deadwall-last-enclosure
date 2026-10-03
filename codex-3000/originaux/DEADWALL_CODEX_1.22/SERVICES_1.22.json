@@ -1,0 +1,167 @@
+{
+  "jobs": [
+    [
+      "light-grid",
+      "La lampe du dernier quart",
+      "light",
+      "Local groupe électrogène ; garage ou entrepôt en repli",
+      "Émile, électricien",
+      "Un ballast portable resté près du groupe arrêté. Le rapport ne remet pas le site sous tension."
+    ],
+    [
+      "light-exit",
+      "Les sorties balisées",
+      "light",
+      "École, bibliothèque ou mairie",
+      "Mina, responsable des locaux",
+      "Les balises laissées après l’évacuation servent à préparer le chemin de retour ; elles ne certifient pas la sûreté de la rue."
+    ],
+    [
+      "light-stores",
+      "La réserve des ampoules",
+      "light",
+      "Magasin de bricolage, supermarché ou centre commercial",
+      "Louis, magasinier",
+      "Les boîtiers d’atelier sont encombrants. Leur intérêt vient du retour au dépôt et du tri, pas d’une caisse récompensée à distance."
+    ],
+    [
+      "aid-clean",
+      "Le plateau propre",
+      "aid",
+      "Cabinet dentaire ou dispensaire",
+      "Nora, soignante",
+      "Les plateaux propres doivent rester distincts du matériel utilisé. Aucun remède à la contamination n’est ajouté."
+    ],
+    [
+      "aid-shift",
+      "La relève des soigneurs",
+      "aid",
+      "Clinique vétérinaire, dispensaire ou hôtel",
+      "Ada, assistante",
+      "Le nécessaire du personnel est récupérable. Les occupants absents et les animaux ne sont pas déclarés sauvés."
+    ],
+    [
+      "aid-shelter",
+      "Le casier des nuits longues",
+      "aid",
+      "Abri, caserne de pompiers ou hôtel",
+      "Samir, veilleur",
+      "La liste de relève rappelle qu’il faut vérifier les personnes avant le registre. Le matériel mobile complète les soins existants."
+    ],
+    [
+      "brace-timber",
+      "Les bastaings secs",
+      "brace",
+      "Scierie ou entrepôt",
+      "Jeanne, cheffe de chantier",
+      "Ferrures et cales conservées sous couverture. Le kit répare une structure ; il ne change pas son intégrité maximale."
+    ],
+    [
+      "brace-joinery",
+      "Le gabarit de réparation",
+      "brace",
+      "Menuiserie, bricolage ou maison",
+      "Paul, menuisier",
+      "Un gabarit et des attaches permettent de préparer une intervention plutôt que de chercher les outils sous la pression de la nuit."
+    ],
+    [
+      "brace-freight",
+      "L’atelier du quai",
+      "brace",
+      "Halle de fret, entrepôt ou garage",
+      "Rosa, manutentionnaire",
+      "Les tendeurs intacts sont séparés des sangles usées. Le programme respecte la disposition fonctionnelle d’un atelier de manutention."
+    ],
+    [
+      "decoy-alarm",
+      "La sirène muette",
+      "decoy",
+      "Caserne de pompiers ou garage",
+      "Luc, mécanicien",
+      "Le boîtier indépendant sert à préparer une diversion sonore. Il ne bloque pas les infectés qui voient le commandant."
+    ],
+    [
+      "decoy-post",
+      "Le dernier appel",
+      "decoy",
+      "Bureau postal, mairie ou école",
+      "Iris, agente du tri",
+      "Le petit module d’annonce peut fonctionner sans le standard. Ce n’est pas une nouvelle radio de communication avec des PNJ."
+    ],
+    [
+      "decoy-road",
+      "La ligne des poids lourds",
+      "decoy",
+      "Garage, station-service ou entrepôt",
+      "Malik, dépanneur",
+      "Un avertisseur permet de produire un bruit distinct du moteur. Le joueur doit s’éloigner du point où il l’a posé."
+    ]
+  ],
+  "recipes": [
+    [
+      "light",
+      "Lampe de secours",
+      "5 ferrailles + 2 carburants",
+      "60 secondes",
+      "Rayon de 10 m en région. Dans D-17, conversion en unités locales ; participe à la visibilité des défenses. Murs occultants, aucune production électrique."
+    ],
+    [
+      "aid",
+      "Trousse de relève",
+      "6 médicaments + 2 rations",
+      "Utilisation ponctuelle",
+      "Jusqu’à 40 vie par personne, 120 au total dans la cité, avec distance et ligne de vue. En région : commandant seulement. Aucune résurrection."
+    ],
+    [
+      "brace",
+      "Étai de brèche",
+      "12 bois + 6 ferrailles",
+      "Utilisation ponctuelle",
+      "Jusqu’à 160 intégrité sur un mur ou une porte achevé, endommagé et atteint physiquement. Maximum inchangé, D-17 uniquement."
+    ],
+    [
+      "decoy",
+      "Avertisseur déporté",
+      "8 ferrailles + 1 carburant",
+      "18 secondes",
+      "Signal régional fixe de 38 m, atténué par les obstacles. Pas un aimant sur la horde globale ; un infecté qui revoit le joueur peut le poursuivre."
+    ]
+  ],
+  "audit": [
+    [
+      "Des lieux intéressants à fouiller, mais peu d’objectifs propres à leur activité",
+      "12 programmes rattachés à des meubles existants, notes, relevés et modules uniques.",
+      "Pas de nouveaux bâtiments, d’occupants vivants ou de 500 cartes intégrées."
+    ],
+    [
+      "Peu de conséquences directes des expéditions sur la défense nocturne",
+      "Les modules ouvrent quatre recettes et fournissent un petit lot fini ; les kits servent pendant les interventions.",
+      "Pas de nouveau directeur de horde ni d’équilibrage général d’une mégacité."
+    ],
+    [
+      "Des retours de collecte peu différenciés",
+      "Un module au dos ou sur le râtelier du break, vitesse réduite et perte récupérable au sol.",
+      "Pas d’inventaire volumétrique ; places techniques distinctes du sac."
+    ],
+    [
+      "Manque de décisions de préparation entre lumière, soins et réparations",
+      "Quatre familles payantes, fabrication au dépôt, ceinture limitée et usage conditionnel.",
+      "Aucun bonus permanent gratuit ou invulnérabilité."
+    ],
+    [
+      "Risques d’effets et récompenses répétés à la reprise",
+      "États persistants, livraison unique, durée restante, validation des positions et quantités.",
+      "La sauvegarde n’est pas un service anti-triche externe."
+    ],
+    [
+      "Lecture des ajouts trop dispersée dans les menus",
+      "Une section optionnelle et filtrable dans la carte, matériel repliable, entrée tactile.",
+      "Les anciens menus ne sont pas entièrement refondus."
+    ],
+    [
+      "D-17 trop petit pour le fantasme de métropole",
+      "Emprise honnêtement conservée et documentée ; aucune icône agrandie pour simuler une extension.",
+      "La croissance constructible sur des kilomètres reste un chantier architectural distinct."
+    ]
+  ]
+}

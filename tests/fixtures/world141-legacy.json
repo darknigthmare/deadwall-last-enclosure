@@ -1,0 +1,233 @@
+{
+  "method": "actual G1–G6 geometry, 6 plans per world and 6 chunks per world",
+  "rows": [
+    {
+      "seed": 17117,
+      "generation": 1,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 211,
+      "geometry": "42d3ea40f38a6c453012937b90c9c79d9dada7493adb5f629f896361b3ada13e",
+      "plans": "09f0618b233ce4ea036450b36b9e870c465db1e90a0e1d66ae96f889128ed190",
+      "finiteNodes": "50e0888e3812287551bf90d08679b6e52ef5792736dd0f3b81bd1d413e5a634f"
+    },
+    {
+      "seed": 17117,
+      "generation": 2,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 223,
+      "geometry": "a26d9c1b935873fa85a69b918395b75a6162a467fb64e80a348b957ee1e58c21",
+      "plans": "09f0618b233ce4ea036450b36b9e870c465db1e90a0e1d66ae96f889128ed190",
+      "finiteNodes": "50e0888e3812287551bf90d08679b6e52ef5792736dd0f3b81bd1d413e5a634f"
+    },
+    {
+      "seed": 17117,
+      "generation": 3,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 231,
+      "geometry": "170fc9c77ee41705b469b3d9e7aeb9d3a177e2481463dfa58ea3e905f4ba733e",
+      "plans": "09f0618b233ce4ea036450b36b9e870c465db1e90a0e1d66ae96f889128ed190",
+      "finiteNodes": "50e0888e3812287551bf90d08679b6e52ef5792736dd0f3b81bd1d413e5a634f"
+    },
+    {
+      "seed": 17117,
+      "generation": 4,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 1668,
+      "pois": 644,
+      "geometry": "f161d9598e1afabbad26b1aad2cd1c3c2d73f4b2cbae0eafd89d37880a6976ff",
+      "plans": "09f0618b233ce4ea036450b36b9e870c465db1e90a0e1d66ae96f889128ed190",
+      "finiteNodes": "50e0888e3812287551bf90d08679b6e52ef5792736dd0f3b81bd1d413e5a634f"
+    },
+    {
+      "seed": 17117,
+      "generation": 5,
+      "size": 24576,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 2432,
+      "pois": 1783,
+      "geometry": "f256585f0888306e5fb3ba437a674e0e13e4796e96c9f75a17675835d6fe30ae",
+      "plans": "09f0618b233ce4ea036450b36b9e870c465db1e90a0e1d66ae96f889128ed190",
+      "finiteNodes": "62f3bb454112ebbd9a33f5a2ee203575a57d0d9dfa597f5fb17fa0c53452cf42"
+    },
+    {
+      "seed": 17117,
+      "generation": 6,
+      "size": 24576,
+      "home": {
+        "x": 9448,
+        "y": 12490,
+        "size": 128,
+        "minX": 9384,
+        "minY": 12426,
+        "maxX": 9512,
+        "maxY": 12554
+      },
+      "roads": 3330,
+      "pois": 1628,
+      "geometry": "24aa6a40f79d96e309a8c59871a19461a43d5351a0d2858c6420c4ec0ead1b46",
+      "plans": "66aad88b5bb429fbc883b72022a5107280444ce39af2b8c5ed0c2a4848930dca",
+      "finiteNodes": "188f65d9f784cf34758832bd1f6afc01cc144b9e6436db6b1a02128a4852ff09"
+    },
+    {
+      "seed": 84329,
+      "generation": 1,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 204,
+      "geometry": "4e26747af76cde80b0f542ab8b63d30d7d85883581813478e95a5cb65fe3cb56",
+      "plans": "0e068a1682080dd7bbd974b6e8abc3949eeadbf8b55b3ba6677c431d92a5e3e1",
+      "finiteNodes": "51adf871e405dabffc62e8dd357f51d7961af47ce198726f73e112aac1bc1ba9"
+    },
+    {
+      "seed": 84329,
+      "generation": 2,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 216,
+      "geometry": "6b81137ff431bc2f84b5757828ae84680ce23089d99cb1206793a0f25e02d301",
+      "plans": "0e068a1682080dd7bbd974b6e8abc3949eeadbf8b55b3ba6677c431d92a5e3e1",
+      "finiteNodes": "51adf871e405dabffc62e8dd357f51d7961af47ce198726f73e112aac1bc1ba9"
+    },
+    {
+      "seed": 84329,
+      "generation": 3,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 102,
+      "pois": 224,
+      "geometry": "6cde187b859a2e34a6ed237a977c99ed242d05b7b16f17fb6e79c34385f1afc0",
+      "plans": "0e068a1682080dd7bbd974b6e8abc3949eeadbf8b55b3ba6677c431d92a5e3e1",
+      "finiteNodes": "51adf871e405dabffc62e8dd357f51d7961af47ce198726f73e112aac1bc1ba9"
+    },
+    {
+      "seed": 84329,
+      "generation": 4,
+      "size": 8192,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 1677,
+      "pois": 633,
+      "geometry": "cb8115aab3834a53091b9103bfb25d3916f44cd3462952649ea765d4b1958d09",
+      "plans": "0e068a1682080dd7bbd974b6e8abc3949eeadbf8b55b3ba6677c431d92a5e3e1",
+      "finiteNodes": "51adf871e405dabffc62e8dd357f51d7961af47ce198726f73e112aac1bc1ba9"
+    },
+    {
+      "seed": 84329,
+      "generation": 5,
+      "size": 24576,
+      "home": {
+        "x": 4096,
+        "y": 4096,
+        "size": 128,
+        "minX": 4032,
+        "minY": 4032,
+        "maxX": 4160,
+        "maxY": 4160
+      },
+      "roads": 2439,
+      "pois": 1793,
+      "geometry": "623d61283a4ca54b89932fac6fcd3464df303e349968e6f099d0f50a684ee275",
+      "plans": "0e068a1682080dd7bbd974b6e8abc3949eeadbf8b55b3ba6677c431d92a5e3e1",
+      "finiteNodes": "49a2a15e56392af97926f48c7c3f986286afddc9ba3388153bdddd37eddcaa28"
+    },
+    {
+      "seed": 84329,
+      "generation": 6,
+      "size": 24576,
+      "home": {
+        "x": 14747,
+        "y": 12508,
+        "size": 128,
+        "minX": 14683,
+        "minY": 12444,
+        "maxX": 14811,
+        "maxY": 12572
+      },
+      "roads": 3139,
+      "pois": 1604,
+      "geometry": "7d610cc167a568b35aafb7fd4cd36728517e2f61aa4c35138d9068c61716305b",
+      "plans": "46b3d4c79aa70c581448979d3264104d174951c183721867799f2046a3101580",
+      "finiteNodes": "38ed943371314256122eb4fb9af0e2c3589c6dee12599460a8a2b70e08a16271"
+    }
+  ]
+}

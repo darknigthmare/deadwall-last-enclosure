@@ -225,3 +225,12 @@ Les records locaux distinguent vagues réellement survécues, éliminations, dur
 - musique discrète, sons mécaniques et sirènes procédurales.
 
 Le rendu actuel utilise des textures et atlas originaux OpenAI, complétés par des effets et dessins procéduraux de secours. Les dix textures/atlas couvrent terrain, structures, décors, personnages et effets ; les seize cycles de huit poses incluent trois variantes cosmétiques. Leur provenance est conservée dans [GAME_ART_PROVENANCE.md](GAME_ART_PROVENANCE.md) et [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md). La livraison et les points commerciaux encore ouverts sont documentés dans [DESKTOP.md](DESKTOP.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+
+## Extension 1.48 — Défendre les accès et choisir son matériel
+
+L’Avant-porte hérissée prépare les flancs d’une porte avec quatre Hérissons et deux miradors. La Redoute de maintenance agence deux lignes avec portes décalées et les infrastructures d’atelier ; leurs côtés ouverts doivent être complétés selon le terrain. Les montages de Hérissons utilisent six charges mécaniques payées depuis le sac. Une entrave donne du temps pour les tirs et le repli ; les lames offrent davantage d’impact au prix de matériaux et d’un atelier. Aucun ensemble n’efface les exigences de construction, d’enceinte, de munitions ou de nettoyage.
+
+Le Porte-bouclier réemploie l’équipement d’un agent antiémeute : son frontal protège des balles, ses côtés restent exposés. Le Fonceur est un infecté récent capable d’un élan court, précédé d’une préparation et suivi d’une récupération. La position, les obstacles et le timing permettent de les contrer ; leur rôle ne repose pas sur une mutation ou une santé de boss. Ils entrent dans les futures migrations de D-17 ; les contacts régionaux historiques gardent leurs profils.
+
+Le Marteau d’assemblage et l’Arrache-clous donnent des choix entre vitesse de travaux, masse, fatigue et usure. La Carabine monocoup est légère mais impose une recharge après chaque tir. Le matériel tient dans le registre d’armurerie existant, reste payé, transporté et entretenu physiquement. Les systèmes et contenus précédents restent actifs. Règles précises et validation : `LIVRAISON_1_48.md`.

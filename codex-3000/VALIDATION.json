@@ -1,0 +1,18 @@
+{
+  "total": 3000,
+  "parents": 1000,
+  "compositions": 2000,
+  "modules": 59,
+  "pilots": 62,
+  "original_files_preserved": 1051,
+  "original_payloads_unchanged": 1000,
+  "all_paths_exist": true,
+  "ids_contiguous_unique": true,
+  "parents_resolve": true,
+  "distinct_context_and_state_per_parent": true,
+  "contexts_compatible_with_family": true,
+  "complete_parent_in_offline_reader": true,
+  "offline_without_fetch": true,
+  "initial_page_limit": 24,
+  "scope": "Données et conservation ; aucune certification de3000 lieux en jeu."
+}

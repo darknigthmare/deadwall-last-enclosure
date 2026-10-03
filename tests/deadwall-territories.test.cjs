@@ -1,0 +1,65 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const T=require('./deadwall-territories/territories.js'),R=T.RULES;
+const bag=(value=0)=>Object.fromEntries(T.KEYS.map(k=>[k,value]));
+const ctx=()=>({running:true,canCommand:true,dead:false,atPost:true,accessible:true,operational:true,powered:true,secure:true,
+  carry:{...bag(),food:30},resources:bag(200),storage:500,workerAvailable:true,workerPresent:true,enemies:0,innerEnemies:0,defenders:1,garage:true,reachable:true,origin:{x:2048,y:2048}});
+function held(id='housing'){const e=new T.Engine(),c=ctx();e.post(id,11);for(let i=0;i<56;i++)e.claim(id,.25,c);return {e,c,s:e.sector(id)};}
+function produce(e,c,id='housing',seconds=20){for(let i=0;i<seconds*4;i++)e.tick(id,.25,c);}
+function ready(){const h=held();h.e.assign('housing',42,h.c);produce(h.e,h.c,'housing',120);return h;}
+function returning(){const h=ready(),t=h.e.dispatch('housing',h.c).truck;h.e.arrivePost(t,{arrived:true,operational:true});return {...h,t};}
+
+test('six secteurs distincts, trois structures et réserves finies',()=>{assert.equal(T.SECTORS.length,6);assert.equal(Object.keys(T.BUILDINGS).length,3);assert.equal(new Set(T.SECTORS.map(s=>s.id)).size,6);for(const d of T.SECTORS){assert(d.rate>0);assert(d.reserve>0);assert(Object.isFrozen(d));}});
+test('état vierge sans crédits ni bonus',()=>{const e=new T.Engine();assert.equal(e.overview().held,0);assert.equal(e.state.stats.delivered,0);assert.deepEqual(e.snapshot(),T.create());});
+test('la capture prend quatorze secondes et six rations transportées',()=>{const e=new T.Engine(),c=ctx();e.post('housing',11);for(let i=0;i<55;i++)e.claim('housing',.25,c);assert.equal(e.sector('housing').status,'neutral');assert.equal(c.carry.food,30);assert.equal(e.claim('housing',.25,c).event,'captured');assert.equal(c.carry.food,24);assert.equal(e.sector('housing').supplies,6);assert.equal(e.sector('housing').stock,0);});
+for(const [name,changes]of [['pause',{running:false}],['mort',{dead:true}],['éloignement',{atPost:false}],['porte fermée',{accessible:false}],['chantier',{operational:false}],['infecté',{secure:false}],['sac vide',{carry:bag()}]])test('capture refusée : '+name,()=>{const e=new T.Engine(),c={...ctx(),...changes};e.post('housing',11);assert.equal(e.claim('housing',.25,c).ok,false);assert.equal(e.sector('housing').control,0);});
+for(const value of [NaN,Infinity,-1,0,1])test('pas de temps invalide refusé : '+String(value),()=>{const e=new T.Engine(),c=ctx();e.post('housing',11);assert.equal(e.claim('housing',value,c).ok,false);});
+test('une capture ne se répète pas à E maintenu',()=>{const {e,c,s}=held();const food=c.carry.food;e.claim('housing',.25,c);assert.equal(s.captures,1);assert.equal(c.carry.food,food);});
+test('affectation unique et refus des doubles équipes',()=>{const {e,c,s}=held();assert(e.assign('housing',42,c).ok);assert(!e.assign('housing',43,c).ok);e.post('market',12);for(let i=0;i<56;i++)e.claim('market',.25,c);assert(!e.assign('market',42,c).ok);assert.equal(s.workerId,42);});
+test('le rappel garde une liste de repli sans duplication',()=>{const {e,c}=held();e.assign('housing',42,c);assert(e.unassign('housing'));assert(!e.unassign('housing'));assert.deepEqual(e.state.withdrawing,[42]);});
+test('production uniquement locale avec présence et rations réelles',()=>{const {e,c,s}=held();e.assign('housing',42,c);const before=c.resources.wood;produce(e,c);assert(Math.abs(s.stock-8.4)<1e-8);assert.equal(c.resources.wood,before);assert(Math.abs(s.supplies-5.5)<1e-8);assert(Math.abs(s.remaining-891.6)<1e-8);});
+for(const [name,changes]of [['absent',{workerPresent:false}],['électricité',{powered:false}],['simulation en pause',{running:false}]])test('tri interrompu : '+name,()=>{const {e,c,s}=held();e.assign('housing',42,c);produce(e,{...c,...changes});assert.equal(s.stock,0);assert.equal(s.supplies,6);});
+test('pas de production sans affectation',()=>{const {e,c,s}=held();produce(e,c);assert.equal(s.stock,0);});
+test('stock local plein : pas de perte de réserve ni de rations',()=>{const {e,c,s}=held();e.assign('housing',42,c);s.stock=120;s.remaining-=120;const before=s.supplies;produce(e,c);assert.equal(s.supplies,before);assert.equal(s.remaining,780);});
+test('dernier fragment produit proportionnellement aux rations',()=>{const {e,c,s}=held();e.assign('housing',42,c);s.supplies=.001;e.tick('housing',.25,c);assert(Math.abs(s.stock-.0168)<1e-8);assert.equal(s.supplies,0);});
+test('réserve épuisée ne se régénère pas',()=>{const {e,c,s}=held();e.assign('housing',42,c);s.remaining=0;produce(e,c);assert.equal(s.stock,0);assert.equal(s.supplies,6);});
+test('présence hostile : contestation et arrêt du tri',()=>{const {e,c,s}=held();e.assign('housing',42,c);e.tick('housing',.25,{...c,enemies:1,innerEnemies:0});assert.equal(s.status,'contested');assert.equal(s.stock,0);assert.equal(s.pressure,0);});
+test('supériorité au pied du poste : perte au seuil, pas de fin de campagne',()=>{const {e,c,s}=held();e.assign('housing',42,c);s.stock=20;s.remaining-=20;let r;for(let i=0;i<96;i++)r=e.tick('housing',.25,{...c,enemies:1,innerEnemies:1,defenders:0});assert.equal(r.event,'lost');assert.equal(s.stock,0);assert.equal(s.supplies,0);assert.deepEqual(e.state.withdrawing,[42]);assert.equal(s.losses,1);assert.equal(e.state.gameOver,undefined);});
+test('défense suffisante : la pression redescend',()=>{const {e,c,s}=held();s.pressure=10;e.tick('housing',.25,{...c,enemies:2,innerEnemies:2,defenders:2});assert.equal(s.pressure,9.625);assert.equal(s.status,'contested');});
+test('destruction du poste entraîne la perte immédiate',()=>{const {e,c,s}=held();assert.equal(e.tick('housing',.25,{...c,operational:false}).event,'lost');assert.equal(s.status,'lost');});
+test('reconquête plus longue, coût réel et réserve non renouvelée',()=>{const {e,c,s}=ready(),remaining=s.remaining;e.lose('housing');for(let i=0;i<87;i++)e.claim('housing',.25,c);assert.equal(s.status,'lost');assert.equal(e.claim('housing',.25,c).event,'reclaimed');assert.equal(s.remaining,remaining);assert.equal(s.stock,0);assert.equal(s.captures,2);assert.equal(e.state.stats.reclaimed,1);});
+test('évacuation rappelant les convois aller mais pas les retours',()=>{const {e,c,s}=ready(),t=e.dispatch('housing',c).truck;assert.equal(e.lose('housing','evacuated').event,'evacuated');assert.equal(t.phase,'returning');assert.equal(t.food,12);assert.equal(t.recalled,true);assert.equal(s.automatic,false);});
+test('ravitaillement depuis le vrai sac et plafonnement local',()=>{const {e,c,s}=held();s.supplies=35;const food=c.carry.food;assert(e.supply('housing',c).ok);assert.equal(s.supplies,36);assert.equal(c.carry.food,food-1);assert(!e.supply('housing',c).ok);});
+for(const [name,changes]of [['garage',{garage:false}],['itinéraire',{reachable:false}],['réserves',{resources:bag()}],['pause',{canCommand:false}],['poste',{operational:false}]])test('départ de convoi refusé : '+name,()=>{const {e,c}=held();const stock=structuredClone(c.resources);assert(!e.dispatch('housing',{...c,...changes}).ok);assert.equal(e.state.trucks.length,0);assert.deepEqual(c.resources,stock);});
+test('départ atomique : rations chargées, carburant consommé, une desserte',()=>{const {e,c}=ready(),food=c.resources.food,fuel=c.resources.fuel;const r=e.dispatch('housing',c);assert(r.ok);assert.equal(c.resources.food,food-12);assert.equal(c.resources.fuel,fuel-6);assert.equal(r.truck.food,12);assert.equal(r.truck.cargo,0);assert(!e.dispatch('housing',c).ok);});
+test('arrivée : approvisionnement local et chargement sans crédit distant',()=>{const {e,c,s}=ready(),before=c.resources.wood,t=e.dispatch('housing',c).truck;const local=s.stock;e.arrivePost(t,{arrived:true,operational:true});assert.equal(t.cargo,48);assert(Math.abs(s.stock-(local-48))<1e-8);assert.equal(t.phase,'returning');assert.equal(c.resources.wood,before);});
+test('pas de double chargement au poste',()=>{const {e,c,t}=returning(),cargo=t.cargo;assert(!e.arrivePost(t,{arrived:true,operational:true}).ok);assert.equal(t.cargo,cargo);});
+test('dépôt plein : le reliquat reste physiquement dans le fourgon',()=>{const {e,c,t}=returning();c.resources.wood=495;c.storage=500;const r=e.unload(t,{...c,arrived:true});assert(r.waiting);assert.equal(c.resources.wood,500);assert.equal(t.cargo,43);assert.equal(e.state.stats.delivered,5);assert.equal(e.state.trucks.length,1);});
+test('déchargement fractionné conserve exactement la quantité totale',()=>{const {e,c,t}=returning();c.storage=500;c.resources.wood=490;e.unload(t,{...c,arrived:true});c.resources.wood=300;assert.equal(e.unload(t,{...c,arrived:true}).event,'returned');assert.equal(c.resources.wood,338);assert.equal(e.state.stats.delivered,48);assert.equal(e.state.trucks.length,0);assert(!e.unload(t,{...c,arrived:true}).ok);});
+test('rappel : retour des rations, jamais du carburant dépensé',()=>{const {e,c}=ready(),food=c.resources.food,fuel=c.resources.fuel,t=e.dispatch('housing',c).truck;assert(e.recall(t.id).ok);e.unload(t,{...c,arrived:true});assert.equal(c.resources.food,food);assert.equal(c.resources.fuel,fuel-6);assert.equal(e.state.stats.delivered,0);});
+test('convoi détruit : lot perdu une fois et aucune compensation gratuite',()=>{const {e,c,t}=returning(),before=c.resources.wood;assert.equal(e.damage(t.id,240).event,'truckLost');assert.equal(e.state.trucks.length,0);assert.equal(e.state.stats.convoysLost,1);assert.equal(c.resources.wood,before);assert.equal(e.damage(t.id,1),null);});
+test('réparation du fourgon coûte de la ferraille et respecte sa santé maximale',()=>{const {e,c,t}=returning();e.damage(t.id,50);const scrap=c.resources.scrap;assert(e.repair(t.id,{...c,atTruck:true}).ok);assert.equal(t.health,240);assert.equal(c.resources.scrap,scrap-8);assert(!e.repair(t.id,{...c,atTruck:true}).ok);});
+test('réparation refusée à distance et au combat',()=>{const {e,c,t}=returning();e.damage(t.id,100);assert(!e.repair(t.id,{...c,atTruck:false}).ok);assert(!e.repair(t.id,{...c,atTruck:true,secure:false}).ok);assert.equal(t.health,140);});
+test('sauvegarde/restauration ne redistribue ni cargaisons ni rations',()=>{const {e,c,t}=returning();const snapshot=e.snapshot();for(let i=0;i<20;i++){const restored=new T.Engine(snapshot);assert.deepEqual(restored.snapshot(),snapshot);}assert.equal(t.cargo,48);});
+test('objets sauvegardés indépendants de l’état vivant',()=>{const {e}=returning(),s=e.snapshot();s.trucks[0].cargo=0;assert.equal(e.state.trucks[0].cargo,48);});
+test('rejet des ressources en transit dupliquées',()=>{const {e}=returning(),s=e.snapshot();s.sectors.housing.remaining=900;assert.throws(()=>T.normalize(s),/dupliqu/);});
+test('rejet des postes partagés et des ouvriers dupliqués',()=>{const {e,c}=held();e.assign('housing',42,c);const s=e.snapshot();s.sectors.market={...s.sectors.housing,remaining:840};assert.throws(()=>T.normalize(s),/dupliqu/);});
+test('rejet des véhicules en surnombre, des destinations doublées et ID réutilisés',()=>{const {e}=returning(),s=e.snapshot();s.trucks.push({...s.trucks[0],id:2});s.nextTruckId=3;assert.throws(()=>T.normalize(s),/identité/);s.trucks.length=1;s.nextTruckId=1;assert.throws(()=>T.normalize(s),/identité/);});
+test('rejet des stocks, coordonnées et états non finis',()=>{for(const mutate of [s=>s.sectors.housing.stock=NaN,s=>s.trucks[0].x=Infinity,s=>s.sectors.housing.status='victory',s=>s.trucks[0].health=0]){const {e}=returning(),s=e.snapshot();mutate(s);assert.throws(()=>T.normalize(s));}});
+test('journal borné après des centaines de trajets',()=>{const e=new T.Engine();for(let i=0;i<600;i++)e.log('returned','housing');assert.equal(e.state.events.length,R.eventLimit);T.normalize(e.snapshot());});
+test('simulation de six quartiers : budget, pertes, reprise, pas de création de matière',()=>{
+ const e=new T.Engine(),c=ctx();c.resources=bag(1000);c.storage=10000;c.carry.food=500;
+ for(let i=0;i<6;i++){const id=T.SECTORS[i].id;e.post(id,100+i);for(let n=0;n<56;n++)e.claim(id,.25,c);assert(e.assign(id,200+i,c).ok);}
+ for(let step=0;step<2000;step++)for(const d of T.SECTORS)e.tick(d.id,.25,c);
+ for(const d of T.SECTORS){const s=e.sector(d.id);assert(s.stock<=120);const t=e.dispatch(d.id,c).truck;e.arrivePost(t,{arrived:true,operational:true});e.unload(t,{...c,arrived:true});assert(Math.abs(s.remaining+s.stock+s.exported-d.reserve)<1e-7);}
+ const restored=new T.Engine(e.snapshot());assert.equal(restored.state.stats.convoysReturned,6);assert.equal(restored.overview().held,6);
+});
+test('changements de statut et sauvegardes aléatoires respectent les bornes sur 2500 pas',()=>{
+ let {e,c}=held();e.assign('housing',42,c);let seed=71;const rnd=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);
+ for(let i=0;i<2500;i++){
+   const s=e.sector('housing');
+   if(['lost','evacuated'].includes(s.status)){c.carry.food=30;e.claim('housing',.25,c);}else e.tick('housing',.25,{...c,enemies:rnd()<.25?1:0,innerEnemies:rnd()<.1?2:0,defenders:0});
+   if(i%40===0)e=new T.Engine(e.snapshot());
+ }
+ T.normalize(e.snapshot());assert(e.sector('housing').remaining<=900);
+});

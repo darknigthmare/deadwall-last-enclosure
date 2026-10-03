@@ -1,0 +1,33 @@
+{
+  "document_version": "1.4.0",
+  "game_version": "1.19.0-rc.1",
+  "save_version": 17,
+  "new_save_migration": false,
+  "region_generations_preserved": [
+    1,
+    2,
+    3
+  ],
+  "places": 500,
+  "active_place_archetypes": 42,
+  "new_place_archetypes": 0,
+  "fiches_changed": 0,
+  "projection": {
+    "local_units_per_metre": 32,
+    "local_tiles": 128,
+    "tile_local_units": 32,
+    "local_bounds_metres": [
+      4032,
+      4160
+    ],
+    "home_side_metres": 128,
+    "region_side_metres": 8192
+  },
+  "new_modules": [
+    "atlas-projection.js",
+    "atlas-render.js",
+    "atlas-view.js"
+  ],
+  "new_document": "06_ATLAS_D17_1.19.md",
+  "reader_policy": "LECTEUR_CODEX_500.html et ses sources restent ceux de la 1.18 ; les fiches et leur couverture ne changent pas. Le guide Atlas 1.19 est une page compagnon indépendante."
+}

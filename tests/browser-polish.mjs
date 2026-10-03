@@ -25,7 +25,7 @@ try{
     const context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:!!viewport.touch,isMobile:!!viewport.touch,deviceScaleFactor:1});
     const page=await context.newPage(),report={viewport,checks:[],errors:[],httpErrors:[],requestFailures:[],screenshots:[],fixtures:[],observations:{}};reports.push(report);
     page.setDefaultTimeout(20000);
-    page.on('pageerror',error=>report.errors.push(error.message));
+    page.setDefaultTimeout(5000);page.on('pageerror',error=>report.errors.push(error.message));
     page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text());});
     page.on('response',response=>{if(response.status()>=400)report.httpErrors.push({status:response.status(),url:response.url()});});
     page.on('requestfailed',request=>report.requestFailures.push({url:request.url(),failure:request.failure()?.errorText}));

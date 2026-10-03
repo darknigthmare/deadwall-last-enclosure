@@ -1,0 +1,20 @@
+'use strict';
+// Actual Canvas painters; reproducible staged views, not browser screenshots.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {createCanvas}=require('@napi-rs/canvas');
+const G=require('../src/frontier-geometry.js'),W=require('../src/frontier-world.js'),Road=require('../src/region-roadkit.js');
+require('../src/frontier-art.js');
+const out=path.join(__dirname,'../reports/1.29.0/captures');fs.mkdirSync(out,{recursive:true});
+const canvas=createCanvas(1400,900),c=canvas.getContext('2d');
+const roads=[{a:{x:20,y:60},b:{x:180,y:60},width:12},{a:{x:100,y:20},b:{x:100,y:60},width:6}],pixelCanvas=createCanvas(800,400),pc=pixelCanvas.getContext('2d');pc.fillStyle='#65754f';pc.fillRect(0,0,800,400);pc.scale(4,4);Road.drawNetwork(pc,roads);
+const rgb=(x,y)=>Array.from(pc.getImageData(Math.floor(x*4),Math.floor(y*4),1,1).data).slice(0,3);
+assert.deepEqual(rgb(96.7,60),[80,92,83],'no driveway shoulder across main asphalt');assert.deepEqual(rgb(100,60),[80,92,83],'no dashed road mark through intersection');assert.deepEqual(rgb(105.5,67.8),[101,117,79],'no circular widening invented at junction');
+const world=W.create(17117,4),p=world.pois.find(p=>p.type==='school'),centre={x:(p.x+p.drive.a.x)/2,y:(p.y+p.drive.a.y)/2},scale=16,view={l:centre.x-700/scale,r:centre.x+700/scale,t:centre.y-450/scale,b:centre.y+450/scale},v={world,z:0,inside:null,taken:{}},places=world.nearPOI(centre.x,centre.y,85);
+c.fillStyle='#65754f';c.fillRect(0,0,1400,900);c.save();c.translate(700,450);c.scale(scale,scale);c.translate(-centre.x,-centre.y);
+for(const q of places)globalThis.DeadwallFrontierArt.lotGround(c,q,v);
+Road.drawNetwork(c,[...world.roads,...places.map(q=>q.drive)],{view});
+for(const q of places)globalThis.DeadwallFrontierArt.lot(c,q,v,false);
+c.restore();
+fs.writeFileSync(path.join(out,'routes-ecole-129.png'),canvas.toBuffer('image/png'));
+fs.writeFileSync(path.join(out,'routes-pixels-129.json'),JSON.stringify({renderer:'real Canvas painters, staged regional geometry',browser:false,seed:world.seed,generation:world.generation,place:p.id,centre,scale,checks:{noShoulderOverAsphalt:rgb(96.7,60),noDashThroughJunction:rgb(100,60),noInventedIsland:rgb(105.5,67.8)}},null,2)+'\n');
+console.log(JSON.stringify({image:path.join(out,'routes-ecole-129.png'),place:p.id,seed:world.seed,pixelChecks:3}));

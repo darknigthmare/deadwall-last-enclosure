@@ -70,15 +70,15 @@
       button.disabled=!['records','field','journal'].includes(name)&&(game.state!=='playing'||game.gameOver);
       get('commandPanel-'+name).classList.toggle('hidden',!selected);
     }
-    refresh();if(focus)get('commandTab-'+tab).focus();
+    refresh(true);if(focus)get('commandTab-'+tab).focus();
   }
   for(const id of tabs){
     bind('commandTab-'+id,()=>chooseTab(id));
     get('commandTab-'+id).addEventListener('keydown',event=>{
-      if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.code))return;
+      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.code))return;
       event.preventDefault();
       const enabled=tabs.filter(name=>!get('commandTab-'+name).disabled),index=enabled.indexOf(tab);
-      chooseTab(event.code==='Home'?enabled[0]:event.code==='End'?enabled.at(-1):enabled[(index+(event.code==='ArrowRight'?1:-1)+enabled.length)%enabled.length],true);
+      chooseTab(event.code==='Home'?enabled[0]:event.code==='End'?enabled.at(-1):enabled[(index+(['ArrowRight','ArrowDown'].includes(event.code)?1:-1)+enabled.length)%enabled.length],true);
     });
   }
   function refreshRecords(){
@@ -110,7 +110,7 @@
       row.appendChild(copy);row.appendChild(button);get('recentCampaigns').appendChild(row);
     }
   }
-  function refresh(){
+  function refresh(presentationForce=false){
     if(modal.classList.contains('hidden'))return;
     const playing=game.state==='playing'&&!game.gameOver;
     get('commandContext').textContent=playing?'ACTION SUSPENDUE · VAGUE '+game.wave+' · CARTE '+game.world.seed:'ARCHIVES LOCALES · SANS BONUS PERMANENT';
@@ -145,8 +145,14 @@
         button.textContent=done?'ACTIVE':locked?'PALIER '+C.CITY_TIERS[item.tier].name:!affordable?'RÉSERVES / INSIGHT INSUFFISANTS':'VALIDER LA DOCTRINE';
       }
     }
-    refreshCrisis();refreshRecords();game.contentUI?.refresh();game.narrativeUI?.refresh();game.squadUI?.refresh();game.battlefieldUI?.refresh(true);
+    refreshCrisis();
+    if(tab==='records')refreshRecords();
+    if(tab==='field')game.contentUI?.refresh();
+    if(tab==='journal')game.narrativeUI?.refresh();
+    if(tab==='workers')game.squadUI?.refresh();
+    if(tab==='enclosure')game.battlefieldUI?.refresh(true);
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
+    game.commandPresentation?.refresh(presentationForce===true);
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
     const visible=!modal.classList.contains('hidden');
@@ -161,6 +167,12 @@
       previousPause=null;
     }
     game.syncOverlayFocus();refresh();
+  };
+  const suspendForFocusLoss=game.suspendForFocusLoss.bind(game);
+  game.suspendForFocusLoss=(...args)=>{
+    // This pause belongs to focus loss, so closing nested dialogs must retain it.
+    if(previousPause!==null&&!modal.classList.contains('hidden')&&game.state==='playing'&&!game.gameOver){previousPause=true;game.ui.pauseMenu.classList.remove('hidden');}
+    const result=suspendForFocusLoss(...args);if(!modal.classList.contains('hidden'))game.syncOverlayFocus();return result;
   };
   game.commandUI={refresh};
   bind('cityCommandButton',()=>game.showCommand(true));

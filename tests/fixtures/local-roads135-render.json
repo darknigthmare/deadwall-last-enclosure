@@ -1,0 +1,29 @@
+{
+  "provenance": "Unmodified exploration-125.js from released 1.35; Canvas command traces, no pixel/driver dependency",
+  "entries": [
+    {
+      "revision": 1,
+      "seed": 17117,
+      "view": {
+        "left": 900,
+        "top": 900,
+        "right": 3200,
+        "bottom": 3200
+      },
+      "commands": 350,
+      "sha256": "4134e244bcd7ab4a37488403aa7626c32934bc31fd196b3405a6971229f059be"
+    },
+    {
+      "revision": 2,
+      "seed": 17117,
+      "view": {
+        "left": 900,
+        "top": 900,
+        "right": 3200,
+        "bottom": 3200
+      },
+      "commands": 350,
+      "sha256": "f8adc0768695cb944cd9b6eaba4a39a042546479f5a49f963d63fa956a08322a"
+    }
+  ]
+}

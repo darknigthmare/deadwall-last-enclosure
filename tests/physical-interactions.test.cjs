@@ -18,12 +18,15 @@ function add(game, type, gx, gy, rotation = 0, progress = 1) {
 function spawn(game, kind, x, y) {
   assert.equal(game.spawnZombie(kind), true);
   const zombie = game.zombies.at(-1); zombie.x = zombie.lastX = x; zombie.y = zombie.lastY = y;
+  // These generic swept-impact checks hit the unprotected back. Frontal shield
+  // geometry and damage are exercised separately by enemy-specials148.
+  if(kind==='shielded')zombie.facing=0;
   return zombie;
 }
 function corner(env) {
   const { game, Node } = env, wall = add(game, 'woodWall', 70, 70);
   Object.assign(game.player, { x: wall.left - 14, y: wall.top + 24 });
-  const node = new Node(999, 'wood', wall.left + 24, wall.top - 23, 100, 17, 0);
+  const node = new Node(999, 'wood', wall.left + 22, wall.top - 21, 100, 8, 0);
   game.world.nodes = [node]; game.input.keys.add('KeyE');
   return { wall, node };
 }
@@ -75,14 +78,14 @@ test('interaction : le relevé narratif ne prend la main que sans action concurr
   const { game, Node } = fresh(); let surveyed = 0;
   game.updateNarrativeSurvey = dt => { surveyed += dt; }; game.input.keys.add('KeyE');
   Object.assign(game.player, { x: 1000, y: 1000 }); game.updateInteraction(.1); assert.equal(surveyed, .1);
-  game.world.nodes = [new Node(999, 'wood', 1020, 1000, 100, 13, 0)];
+  game.world.nodes = [new Node(999, 'wood', 1045, 1000, 100, 13, 0)];
   game.updateInteraction(.1); assert.equal(surveyed, .1); assert.equal(game.player.carry.wood, 1);
 });
 
 test('interaction et mêlée : pause, menu et commandant à terre ne permettent aucune action directe', () => {
   for (const state of ['paused', 'menu', 'dead', 'gameOver']) {
     const { game, Node } = fresh(); Object.assign(game.player, { x: 1000, y: 1000, facing: 0 });
-    const node = new Node(999, 'wood', 1020, 1000, 100, 13, 0), zombie = spawn(game, 'armored', 1030, 1000);
+    const node = new Node(999, 'wood', 1045, 1000, 100, 13, 0), zombie = spawn(game, 'armored', 1030, 1000);
     game.world.nodes = [node]; game.rebuildBuckets(); game.input.keys.add('KeyE');
     if (state === 'paused') game.paused = true;
     if (state === 'menu') game.state = 'menu';
@@ -186,14 +189,14 @@ test('crises : les clés héritées et choix inconnus sont refusés sans excepti
 
 test('soldat : une attaque sans munitions ne traverse pas le coin d’un mur', () => {
   const { game } = fresh(), wall = add(game, 'woodWall', 70, 70);
-  const soldier = new (game.units[0].constructor)(game.nextId++, 'soldier', wall.left - 10, wall.top + 8);
+  const soldier = new (game.units[0].constructor)(game.nextId++, 'soldier', wall.left - 13, wall.top + 16);
   game.units = [soldier]; game.player.dead = true; game.resources.ammo = 0;
-  const zombie = spawn(game, 'crawler', wall.left + 12, wall.top - 9), health = zombie.health;
+  const zombie = spawn(game, 'crawler', wall.left + 16, wall.top - 13), health = zombie.health;
   assert.equal(game.friendlyPositionClear(soldier, soldier.x, soldier.y), true);
   assert.equal(game.hostilePositionClear(zombie, zombie.x, zombie.y), true);
-  assert.equal(game.hostileLineClear(soldier, zombie), false); assert.ok(C.dist(soldier, zombie) < 28);
+  assert.equal(game.hostileLineClear(soldier, zombie), false); assert.ok(C.dist(soldier, zombie) > 28);
   game.rebuildBuckets(); game.updateUnits(.04); assert.equal(zombie.health, health); assert.equal(soldier.fireCooldown, 0);
-  game.world.remove(wall); game.updateUnits(.04); assert.equal(zombie.health, health - 18);
+  game.world.remove(wall); zombie.x=soldier.x+20;zombie.y=soldier.y;game.rebuildBuckets();game.updateUnits(.04); assert.equal(zombie.health, health - 18);
   assert.equal(soldier.fireCooldown, .7); assert.equal(game.resources.ammo, 0);
 });
 

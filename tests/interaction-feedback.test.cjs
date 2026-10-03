@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const C = require('../src/core.js');
 const Save = require('../src/save.js');
 const { bootGame } = require('./helpers/browser.cjs');
+const {standAt}=require('./helpers/physical-fixtures.cjs');
 
 function fresh() {
   const env = bootGame(); env.game.startNew('standard', '17117');
@@ -13,7 +14,7 @@ function fresh() {
 }
 function closeTo(actual, expected) { assert.ok(Math.abs(actual - expected) < 1e-8, actual + ' / ' + expected); }
 function atCore(game, dx = 0, dy = 0) {
-  game.player.x = game.core().x + dx; game.player.y = game.core().y + dy;
+  standAt(game,game.player,game.core());
 }
 function add(game, type, gx, gy, progress = 1) {
   const building = new (game.core().constructor)(game.nextId++, type, gx, gy, 0, progress);
@@ -23,7 +24,7 @@ function add(game, type, gx, gy, progress = 1) {
 test('tutoriel : la récolte non déposée ne fait jamais monter puis retomber le compteur', () => {
   const { game } = fresh(), node = game.world.nodes.find(candidate => candidate.type === 'wood');
   // Isolate manual collection; this is a feedback fixture, not a campaign balance test.
-  game.units = []; game.player.x = node.x; game.player.y = node.y;
+  game.units = []; standAt(game,game.player,node);
   for (let step = 0; step < 51; step++) {
     game.update(.04);
     assert.equal(game.depositedResources, 0);
@@ -91,7 +92,7 @@ test('dépôt plein : un chantier accessible reste constructible sans devoir qui
 test('dépôt plein : une ressource accessible reste récoltable et ne crédite pas le tutoriel', () => {
   const { game } = fresh(), Node = game.world.nodes[0].constructor; atCore(game, 80);
   game.resources.wood = game.storage; game.player.carry.wood = 10;
-  const node = new Node(99999, 'scrap', game.player.x + 20, game.player.y, 100, 17, 0); game.world.nodes = [node];
+  const node = new Node(99999, 'scrap', game.player.x + 52, game.player.y, 100, 17, 0); game.world.nodes = [node];
   game.updateInteraction(.04);
   assert.match(game.interactionText, /^Récolter/); closeTo(game.player.carry.scrap, .4);
   assert.equal(game.player.carry.wood, 10); assert.equal(game.depositedResources, 0); assert.equal(game.objectiveProgress, 0);
@@ -102,7 +103,7 @@ test('dépôt plein : un entrepôt saturé ne masque pas un vrai relevé narrati
   // Put a completed warehouse at a sector in this isolated spatial fixture.
   // No survey stub: the ordinary narrative eligibility/progress code is exercised.
   const warehouse = add(game, 'warehouse', Math.floor(site.x / C.TILE), Math.floor(site.y / C.TILE));
-  game.world.nodes = []; game.player.x = site.x; game.player.y = site.y;
+  game.world.nodes = []; game.player.x=site.x;game.player.y=site.y;standAt(game,game.player,warehouse);
   assert.ok(C.dist(game.player, warehouse) < 100);
   game.resources.wood = game.storage; game.player.carry.wood = 10;
   const before = game.narrative.sectors[site.theme].survey; game.updateInteraction(.04);

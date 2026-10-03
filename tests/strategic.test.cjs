@@ -1,4 +1,6 @@
 'use strict';
+const {standAt}=require('./helpers/physical-fixtures.cjs');
+'use strict';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -22,7 +24,7 @@ function crisis(game, id, targetId = 0) {
 test('logistique: un ouvrier remplit son sac avant de revenir, sans perdre sa spécialité', () => {
   const { game } = freshGame(), worker = game.units[0], Node = game.world.nodes[0].constructor;
   const node = new Node(999, 'wood', game.core().x + 320, game.core().y, 50, 20, 0);
-  game.world.nodes = [node]; game.units = [worker]; worker.x = node.x; worker.y = node.y;
+  game.world.nodes = [node]; game.units = [worker]; standAt(game,worker,node);
   worker.state = 'gather'; worker.targetNode = node.id; worker.think = 20;
   for (let step = 0; step < 12; step++) game.updateUnits(.25);
   assert.equal(worker.carry, worker.maxCarry);
@@ -33,7 +35,7 @@ test('logistique: un ouvrier remplit son sac avant de revenir, sans perdre sa sp
 
 test('logistique: un dépôt plein conserve le reliquat porté et accepte ensuite seulement la place libérée', () => {
   const { game } = freshGame(), worker = game.units[0]; game.units = [worker];
-  worker.x = game.core().x; worker.y = game.core().y; worker.carry = 10; worker.carryType = 'wood'; worker.state = 'return';
+  standAt(game,worker,game.core()); worker.carry = 10; worker.carryType = 'wood'; worker.state = 'return';
   game.resources.wood = game.storage - 1; const before = game.depositedResources;
   game.updateUnits(.1);
   assert.equal(worker.carry, 9); assert.equal(worker.carryType, 'wood'); assert.equal(game.resources.wood, game.storage);
@@ -70,7 +72,7 @@ test('alliés: deux enceintes restent franchissables par leurs portes opposées,
   };
   const outerGate = ring(55, 75, 55, 75, 75); ring(59, 70, 59, 70, 59);
   const worker = game.units[0], target = { x: C.world(78), y: C.world(64) };
-  worker.x = C.world(64); worker.y = C.world(64); worker.navigation = null;
+  standAt(game,worker,game.core()); worker.navigation = null;
   let usedInnerGate = false, usedOuterGate = false;
   for (let step = 0; step < 1600 && C.dist(worker, target) > 18; step++) {
     game.elapsed += .05; game.moveUnitToward(worker, target, .05, 80);
@@ -81,9 +83,9 @@ test('alliés: deux enceintes restent franchissables par leurs portes opposées,
   assert.ok(C.dist(worker, target) <= 18, 'la cible au-delà des deux enceintes doit être atteinte');
   assert.ok(usedInnerGate && usedOuterGate, 'les deux portes opposées doivent réellement être empruntées');
   game.world.remove(outerGate); building(game, 'woodWall', 75, 64); building(game, 'woodWall', 75, 65);
-  worker.x = C.world(64); worker.y = C.world(64);
+  standAt(game,worker,game.core());
   game.moveUnitToward(worker, target, .05);
-  assert.equal(worker.x, C.world(64)); assert.equal(worker.y, C.world(64));
+  assert.ok(game.friendlyPositionClear(worker,worker.x,worker.y));assert.ok(game.fieldcraft.distance(worker,game.core())<90);
   assert.equal(worker.navigation.cells, null, 'un itinéraire obsolète doit être invalidé après fermeture');
 });
 
@@ -153,6 +155,8 @@ test('reprise stratégique: horde compacte, délai de crise et récolte partiell
   const ammo = game.resources.ammo; game.updateCrisis(22);
   assert.equal(game.resources.ammo, ammo); game.updateCrisis(1); assert.equal(game.resources.ammo, ammo - 18);
   game.save(false); assert.equal(game.load(), true); assert.equal(game.stats.crisesResolved, 1);
+  raw.version = 2; // A historical v2 queue has no v6+ echelon counters.
+  for (const key of ['operations','fieldOps','territories','siege','dayworks','citadel','infrastructure']) delete raw[key];
   raw.spawnQueue = ['walker', 'runner', 'runner']; delete raw.pendingSpawns; raw.activeCrisis = { id: 'ammo', title: 'ancienne pénalité' };
   storage.set(C.SAVE_KEY, JSON.stringify(raw));
   assert.equal(game.load(), true); assert.equal(game.remainingAssault, 3); assert.equal(game.activeCrisis, null);

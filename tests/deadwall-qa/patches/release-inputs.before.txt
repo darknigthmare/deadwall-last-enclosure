@@ -1,0 +1,5 @@
+    releaseInputs() {
+      this.input.keys.clear(); this.input.pressed.clear(); this.input.mouseDown = false; this.input.touchFire = false;
+      this.canvasPointerId=null;
+      this.wallStart = null; this.wallPreview = [];
+    }

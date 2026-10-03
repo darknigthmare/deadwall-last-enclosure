@@ -90,3 +90,10 @@ Un ajout n’est terminé que lorsqu’il possède :
 - ne jamais rendre une unique couche de mur suffisante à toutes les vagues ;
 - ne jamais supprimer une fonctionnalité existante pour livrer plus vite ;
 - ne jamais déclarer une tâche terminée sans tests.
+
+
+## Références modulaires — 1.26
+
+Consulter `docs/codex/README.md`, les quatre familles territoriales et `docs/codex/CONTRATS.md` avant d’ajouter un lieu. Le catalogue `codex-3000/` préserve les 1 000 fiches originales et ajoute 2 000 compositions reliées à leur parent. Une fiche de conception n’est pas un lieu jouable : les statuts doivent être explicitement séparés dans le guide, les rapports et les interfaces.
+
+Toute nouvelle interaction doit raccorder géométrie, ressources, temps, risque, lumière, étages, annulation et sauvegarde. Réutiliser les registres présents. Ne pas copier les chiffres dans les peintres ni ajouter un deuxième système indépendant pour le même équipement. Respecter les contrats nuits et animation documentés dans `NUITS_1_26.md` et `ACTOR_ANIMATIONS_1.26.md`.

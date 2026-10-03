@@ -1,0 +1,775 @@
+{
+  "bois-lisiere": {
+    "id": "bois-lisiere",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        40,
+        40
+      ],
+      "max": [
+        180,
+        160
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "natural",
+    "resources": [
+      "wood",
+      "stone"
+    ],
+    "levels": "ground",
+    "modules": [
+      "bois-lisiere-composition131-1",
+      "bois-lisiere-composition131-2",
+      "bois-lisiere-composition131-3",
+      "bois-lisiere-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "foret-profonde": {
+    "id": "foret-profonde",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        200,
+        200
+      ],
+      "max": [
+        1024,
+        1024
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "natural",
+    "resources": [
+      "wood",
+      "scrap"
+    ],
+    "levels": "ground",
+    "modules": [
+      "foret-profonde-composition131-1",
+      "foret-profonde-composition131-2",
+      "foret-profonde-composition131-3",
+      "foret-profonde-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "montagne": {
+    "id": "montagne",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        120,
+        160
+      ],
+      "max": [
+        1024,
+        1024
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "rock",
+    "resources": [
+      "stone",
+      "food"
+    ],
+    "levels": "requires-relief",
+    "modules": [
+      "montagne-composition131-1",
+      "montagne-composition131-2",
+      "montagne-composition131-3",
+      "montagne-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "port": {
+    "id": "port",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        90,
+        70
+      ],
+      "max": [
+        600,
+        400
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 8,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "scrap",
+      "fuel"
+    ],
+    "levels": "requires-water",
+    "modules": [
+      "port-composition131-1",
+      "port-composition131-2",
+      "port-composition131-3",
+      "port-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "plage": {
+    "id": "plage",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        60,
+        40
+      ],
+      "max": [
+        600,
+        180
+      ]
+    },
+    "entry": {
+      "foot": 1.8,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "sand",
+    "resources": [
+      "food",
+      "medicine"
+    ],
+    "levels": "requires-water",
+    "modules": [
+      "plage-composition131-1",
+      "plage-composition131-2",
+      "plage-composition131-3",
+      "plage-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "ville": {
+    "id": "ville",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        120,
+        100
+      ],
+      "max": [
+        800,
+        800
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 7,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "food",
+      "scrap",
+      "medicine"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "ville-composition131-1",
+      "ville-composition131-2",
+      "ville-composition131-3",
+      "ville-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "village": {
+    "id": "village",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        80,
+        60
+      ],
+      "max": [
+        400,
+        300
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5.5,
+      "returnRequired": true
+    },
+    "surface": "mixed",
+    "resources": [
+      "food",
+      "wood",
+      "scrap"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "village-composition131-1",
+      "village-composition131-2",
+      "village-composition131-3",
+      "village-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "metropole": {
+    "id": "metropole",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        250,
+        250
+      ],
+      "max": [
+        1600,
+        1600
+      ]
+    },
+    "entry": {
+      "foot": 2.5,
+      "vehicle": 9,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "food",
+      "scrap",
+      "medicine"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "metropole-composition131-1",
+      "metropole-composition131-2",
+      "metropole-composition131-3",
+      "metropole-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "camp-fortune": {
+    "id": "camp-fortune",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        18,
+        18
+      ],
+      "max": [
+        65,
+        55
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "dry",
+    "resources": [
+      "food",
+      "wood"
+    ],
+    "levels": "ground",
+    "modules": [
+      "camp-fortune-composition131-1",
+      "camp-fortune-composition131-2",
+      "camp-fortune-composition131-3",
+      "camp-fortune-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "camp-allie": {
+    "id": "camp-allie",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        24,
+        24
+      ],
+      "max": [
+        110,
+        90
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 5.5,
+      "returnRequired": true
+    },
+    "surface": "dry",
+    "resources": [
+      "food",
+      "medicine",
+      "scrap"
+    ],
+    "levels": "ground",
+    "modules": [
+      "camp-allie-composition131-1",
+      "camp-allie-composition131-2",
+      "camp-allie-composition131-3",
+      "camp-allie-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "camp-hostile": {
+    "id": "camp-hostile",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        30,
+        24
+      ],
+      "max": [
+        100,
+        80
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5.5,
+      "returnRequired": true
+    },
+    "surface": "dry",
+    "resources": [
+      "scrap",
+      "ammo"
+    ],
+    "levels": "ground",
+    "modules": [
+      "camp-hostile-composition131-1",
+      "camp-hostile-composition131-2",
+      "camp-hostile-composition131-3",
+      "camp-hostile-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "quartier-pavillonnaire": {
+    "id": "quartier-pavillonnaire",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        70,
+        70
+      ],
+      "max": [
+        420,
+        360
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5.5,
+      "returnRequired": true
+    },
+    "surface": "mixed",
+    "resources": [
+      "food",
+      "scrap"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "quartier-pavillonnaire-composition131-1",
+      "quartier-pavillonnaire-composition131-2",
+      "quartier-pavillonnaire-composition131-3",
+      "quartier-pavillonnaire-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "industrie": {
+    "id": "industrie",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        80,
+        70
+      ],
+      "max": [
+        700,
+        520
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 8,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "scrap",
+      "fuel"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "industrie-composition131-1",
+      "industrie-composition131-2",
+      "industrie-composition131-3",
+      "industrie-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "zone-commerciale": {
+    "id": "zone-commerciale",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        80,
+        80
+      ],
+      "max": [
+        600,
+        500
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 7,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "food",
+      "scrap"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "zone-commerciale-composition131-1",
+      "zone-commerciale-composition131-2",
+      "zone-commerciale-composition131-3",
+      "zone-commerciale-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "zone-loisirs": {
+    "id": "zone-loisirs",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        50,
+        50
+      ],
+      "max": [
+        450,
+        350
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "mixed",
+    "resources": [
+      "food",
+      "medicine"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "zone-loisirs-composition131-1",
+      "zone-loisirs-composition131-2",
+      "zone-loisirs-composition131-3",
+      "zone-loisirs-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "mine": {
+    "id": "mine",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        45,
+        45
+      ],
+      "max": [
+        220,
+        170
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "rock",
+    "resources": [
+      "stone",
+      "scrap"
+    ],
+    "levels": "requires-underground",
+    "modules": [
+      "mine-composition131-1",
+      "mine-composition131-2",
+      "mine-composition131-3",
+      "mine-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "carriere": {
+    "id": "carriere",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        100,
+        100
+      ],
+      "max": [
+        600,
+        500
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 9,
+      "returnRequired": true
+    },
+    "surface": "rock",
+    "resources": [
+      "stone",
+      "fuel"
+    ],
+    "levels": "requires-relief",
+    "modules": [
+      "carriere-composition131-1",
+      "carriere-composition131-2",
+      "carriere-composition131-3",
+      "carriere-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "prairie": {
+    "id": "prairie",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        120,
+        120
+      ],
+      "max": [
+        1024,
+        1024
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "natural",
+    "resources": [
+      "wood",
+      "stone"
+    ],
+    "levels": "ground",
+    "modules": [
+      "prairie-composition131-1",
+      "prairie-composition131-2",
+      "prairie-composition131-3",
+      "prairie-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "ferme": {
+    "id": "ferme",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        50,
+        40
+      ],
+      "max": [
+        220,
+        180
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "dry",
+    "resources": [
+      "wood",
+      "food",
+      "fuel"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "ferme-composition131-1",
+      "ferme-composition131-2",
+      "ferme-composition131-3",
+      "ferme-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "marais": {
+    "id": "marais",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        90,
+        80
+      ],
+      "max": [
+        700,
+        500
+      ]
+    },
+    "entry": {
+      "foot": 1.5,
+      "vehicle": 5,
+      "returnRequired": true
+    },
+    "surface": "dry-platform",
+    "resources": [
+      "scrap"
+    ],
+    "levels": "requires-water",
+    "modules": [
+      "marais-composition131-1",
+      "marais-composition131-2",
+      "marais-composition131-3",
+      "marais-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "riviere": {
+    "id": "riviere",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        80,
+        80
+      ],
+      "max": [
+        1024,
+        400
+      ]
+    },
+    "entry": {
+      "foot": 1.8,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "dry-bank",
+    "resources": [
+      "scrap",
+      "stone"
+    ],
+    "levels": "requires-water",
+    "modules": [
+      "riviere-composition131-1",
+      "riviere-composition131-2",
+      "riviere-composition131-3",
+      "riviere-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "gare": {
+    "id": "gare",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        80,
+        60
+      ],
+      "max": [
+        600,
+        300
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 7,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "scrap",
+      "food"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "gare-composition131-1",
+      "gare-composition131-2",
+      "gare-composition131-3",
+      "gare-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "hopital": {
+    "id": "hopital",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        60,
+        50
+      ],
+      "max": [
+        320,
+        250
+      ]
+    },
+    "entry": {
+      "foot": 2.2,
+      "vehicle": 6,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "medicine",
+      "food"
+    ],
+    "levels": "existing-floors",
+    "modules": [
+      "hopital-composition131-1",
+      "hopital-composition131-2",
+      "hopital-composition131-3",
+      "hopital-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  },
+  "aire-route": {
+    "id": "aire-route",
+    "status": "design",
+    "footprintMetres": {
+      "min": [
+        75,
+        45
+      ],
+      "max": [
+        260,
+        130
+      ]
+    },
+    "entry": {
+      "foot": 2,
+      "vehicle": 8,
+      "returnRequired": true
+    },
+    "surface": "paved",
+    "resources": [
+      "fuel",
+      "food",
+      "scrap"
+    ],
+    "levels": "ground",
+    "modules": [
+      "aire-route-composition131-1",
+      "aire-route-composition131-2",
+      "aire-route-composition131-3",
+      "aire-route-composition131-4"
+    ],
+    "populationSource": "one stable site occupancy draw; no actor count implied"
+  }
+}

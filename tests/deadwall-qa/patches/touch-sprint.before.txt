@@ -1,0 +1,2 @@
+  const sprint=get('touchSprint');sprint.addEventListener('pointerdown',event=>{if(game.paused||game.state!=='playing')return;event.preventDefault();game.input.keys.add('ShiftLeft');sprint.setPointerCapture?.(event.pointerId);});
+  for(const type of ['pointerup','pointercancel','lostpointercapture'])sprint.addEventListener(type,()=>game.input.keys.delete('ShiftLeft'));

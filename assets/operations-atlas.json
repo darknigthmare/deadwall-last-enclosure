@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "provider": "OpenAI imagegen — outil intégré",
+  "date": "2026-09-26",
+  "url": "assets/operations-atlas.png",
+  "width": 1536,
+  "height": 1024,
+  "matte": "none",
+  "sha256": "86a8e9b1c3391590c52569b0f047505353acbb4e941c93d21b910f2e8021929f",
+  "pixelEdits": false,
+  "source": "exec-6781da06-ee7f-42c7-938c-57c7db2d5033.png",
+  "description": "Atlas généré en une passe puis copié sans modification de pixels. Découpes mesurées sur l’alpha, seuil8 et marge3px. Le piquet garde son point d’ancrage au pied ; les objets plats utilisent le centre de leur emprise.",
+  "sizeConvention": "dimension maximale de la silhouette, ratio conservé",
+  "sprites": {
+    "cache": {
+      "rect": [
+        50,
+        133,
+        312,
+        345
+      ],
+      "pivot": [
+        0.5,
+        0.9
+      ]
+    },
+    "cargo": {
+      "rect": [
+        440,
+        221,
+        329,
+        241
+      ],
+      "pivot": [
+        0.5,
+        0.8
+      ]
+    },
+    "marker": {
+      "rect": [
+        909,
+        65,
+        228,
+        419
+      ],
+      "pivot": [
+        0.125,
+        0.98
+      ]
+    },
+    "bedroll": {
+      "rect": [
+        1162,
+        122,
+        342,
+        363
+      ],
+      "pivot": [
+        0.5,
+        0.57
+      ]
+    },
+    "tarp": {
+      "rect": [
+        29,
+        590,
+        438,
+        347
+      ],
+      "pivot": [
+        0.5,
+        0.64
+      ]
+    },
+    "ammo": {
+      "rect": [
+        503,
+        616,
+        263,
+        284
+      ],
+      "pivot": [
+        0.5,
+        0.88
+      ]
+    },
+    "support": {
+      "rect": [
+        802,
+        581,
+        316,
+        354
+      ],
+      "pivot": [
+        0.5,
+        0.88
+      ]
+    },
+    "casualty": {
+      "rect": [
+        1153,
+        521,
+        358,
+        443
+      ],
+      "pivot": [
+        0.5,
+        0.56
+      ]
+    }
+  },
+  "generation": {
+    "transparent_background": true,
+    "mode": "built-in",
+    "prompt": "Use case: stylized-concept. Asset type: production sprite atlas for DEADWALL, a serious semi-realistic top-down 2.5D zombie survival game. Create ONE clean transparent PNG sprite sheet, 1536 by 1024 if possible, exactly 4 columns by 2 rows, eight separate isolated utility objects, each centered in its own generous equally sized cell. View is orthographic from above at about 65 degrees, showing upper surfaces and a small front edge, matching detailed muted realistic RTS props: worn olive canvas, dull warm brown wood, gray steel and restrained ochre accents, hand-painted realistic texture with crisp readable silhouettes. Soft neutral upper-left illumination. No broad cast shadows, only tight contact shadows within each object's silhouette. Row 1 left to right: (1) small rough timber supply cache, hinged lid propped open, a few wrapped provisions inside; (2) compact rectangular bundle wrapped in dark olive canvas securely tied with two tan ropes, resting flat on the ground; (3) single improvised vertical wooden trail stake with a small weathered ochre fabric pennant, clearly standing in the ground; (4) compact open olive sleeping bag on a thin ground mat, with a small folded blanket pillow at its head, unoccupied. Row 2 left to right: (5) small low rain shelter made from a taut dull olive tarp over two stakes and guy ropes, open front, empty below; (6) squat dark olive ammunition chest with fitted latches and partly open lid showing a few brass cartridges, no letters or insignia; (7) open rugged field support case containing a neatly rolled bandage, small medicine pouch and simple repair tool, no icon or writing; (8) human casualty resting supine on a simple canvas stretcher, wearing dull civilian ochre jacket, gray trousers and boots, arms safely at sides, blanket partly covering legs, non-graphic and fully clothed. Respect this exact ordering. Every object must be fully contained inside its cell with at least 45 pixels of entirely empty transparent gutter on all sides. Keep scale similar and give each object approximately 65 percent of its cell width, allow the upright stake to be taller. Absolutely transparent background with real alpha outside the sprites, no solid background, no grid, no labels, no typography, no UI, no decorative borders, no terrain tiles, no extraneous objects, no glow, no vignette, no scene composition. This is a practical sheet of eight unconnected game sprites."
+  }
+}

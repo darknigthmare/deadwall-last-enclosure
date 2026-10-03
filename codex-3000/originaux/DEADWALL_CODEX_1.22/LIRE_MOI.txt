@@ -1,0 +1,14 @@
+DEADWALL — COMPAGNON ATLAS 1.19
+
+Nouveau : GUIDE_ATLAS_D17.html ou 06_ATLAS_D17_1.19.md.
+Les 500 fiches, le catalogue JSON, le lecteur 1.18 et ses sources sont conservés à l’identique.
+Aucun nouveau lieu n’est annoncé. Voir INTEGRATION_1.19.json.
+Les rapports QA_LECTEUR.json et VALIDATION_CODEX.json sont historiques ; la vérification propre à cette livraison est VALIDATION_1.19.json.
+
+DEADWALL — CODEX DU MONDE 1.3 / COMPAGNON DU JEU 1.18
+500 fiches, 25 familles, 42 plans pilotes.
+
+Ouvrir LECTEUR_CODEX_500.html.
+05_RELAIS_1.18.md décrit les nouvelles mécaniques sans ajouter de plans.
+Sources : source/generer_codex.py, creer_lecteur.py et valider_codex.py.
+Aucune police ou ressource graphique tierce livrée.

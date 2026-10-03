@@ -1,0 +1,26 @@
+[
+  {
+    "file": "assets/hero-harvest133.png",
+    "source": "/workspace/scratch/001defc40d26/generated_images/exec-980ddcc0-5ab1-4ce4-ab4f-f2b8eeb5a6e9.png",
+    "provider": "OpenAI imagegen built-in",
+    "prompt": "Use case: stylized-concept. Asset type: production 2D top-down game sprite animation atlas, 1536x1024 landscape, transparent background. Input reference: commander-rig130, character identity/material/color/top-down camera reference ONLY. Create 32 complete full-body sprites of this SAME rugged survivor with ochre field jacket, dark cargo trousers, brown boots, black gloves, olive compact backpack, short brown hair. Strict ORTHOGRAPHIC BIRD'S-EYE straight overhead, faces toward screen RIGHT in all frames, head seen from above. Exactly 8 columns x 4 rows, equally spaced invisible grid cells192x256. One complete sprite per cell. ROW1 eight successive frames of chopping with wood axe: ready, pullback, full windup, accelerating, contact, followthrough, recover, ready. ROW2 same 8-phase cycle mining with pickaxe. ROW3 eight phases using short crowbar to pry/salvage. ROW4 eight phases reaching forward to open a container and pick up an object with bare gloved hands, no container drawn. All body/tools entirely inside cell, >12px clear gutters, hips consistently anchored in every cell, same scale; feet naturally under pelvis, no detached torso. Ground is invisible. No ground shadows, no scenery, no text, no grid lines, no extra objects. Semi-realistic game artwork, sharply readable natural grounded anatomy. Different sequential action poses not eight repeated idle poses. No rifle or pistol. True alpha background.",
+    "sha256": "e358086b59677d6c35254ff7c31a1dc8138328d9fe209cdd06ea4cd4cf6e278c",
+    "bytes": 2291935,
+    "sourcePixelsUnmodified": true,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "file": "assets/hero-actions133.png",
+    "source": "/workspace/scratch/001defc40d26/generated_images/exec-9e95faa8-3202-4ee9-9f5e-b3ed7256deda.png",
+    "provider": "OpenAI imagegen built-in",
+    "prompt": "Use case: stylized-concept. Asset type: production 2D top-down game sprite animation atlas,1536x1024 landscape, true transparent background. Input reference commander-rig130 for SAME survivor identity, materials, colors, orthographic overhead angle ONLY. 32 full-body sprites in exactly8 columns x4 rows equal invisible192x256 cells. All facing screen RIGHT, bird's eye directly overhead (top of brown hair visible), ochre jacket dark gray cargo trousers brown boots black gloves olive backpack. ROW1 eight successive phases of hammering/building: ready, pull back, windup, swing, hit, followthrough, recover,ready. ROW2 eight successive phases of digging with long handled shovel: plant blade, press, lean, lever, lift, move aside, empty, reset. ROW3 eight successive phases kneeling and carefully applying a bandage to forearm (medical action, no gore). ROW4 eight successive phases opening a right-side door by reaching, grasping, turning, pulling and release; do not draw the door. Keep hips in constant cell coordinate, full body and tool inside each cell, >12px safe gutters, exact same scale. Natural grounded feet, no detached parts, no frontal or isometric view. No rifle/pistol. No backgrounds, no shadows, no text, no grid. Game-ready semi-realistic detailed raster with genuinely different smooth keyframes.",
+    "sha256": "0d08fdb4ca33685959078da5e5de31b88e8616549a3da5143b0ac7a732b26408",
+    "bytes": 2303066,
+    "sourcePixelsUnmodified": true,
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  }
+]

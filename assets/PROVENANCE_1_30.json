@@ -1,0 +1,11 @@
+{
+  "version": "1.30.0",
+  "assets": [
+    {
+      "file": "commander-rig130.png",
+      "source": "OpenAI built-in image generation",
+      "generated": "2026-09-27",
+      "prompt": "Use case: stylized-concept. Production sprite atlas for a 2D TOP-DOWN video game with an ABSOLUTE VERTICAL ORTHOGRAPHIC CAMERA looking straight DOWN from the ceiling, NOT isometric, NOT three-quarter, NOT a character lying down. Draw only TOP surfaces: crown of dark brown hair, tops of shoulders, tops of boots. NO faces, NO vertical side of torso, NO long legs projecting sideways. Character wears ochre canvas jacket, olive small backpack, charcoal cargo trousers and brown boots. Genuine transparent background. WIDE 2:1 image with EXACTLY 4 columns and 2 rows of evenly spaced isolated animation parts, no lines, text or labels. All face RIGHT/east. Row1 is UPPER BODY ONLY, a compact overhead head/shoulders/arms silhouette: first rifle aiming east, second pistol aiming east, third rifle tiny recoil, fourth pistol tiny recoil. No legs on upper parts. Each upper part is centered on same pelvis attachment location at exact center of its cell. Row2 is LOWER BODY ONLY viewed STRICTLY FROM ABOVE: belt/pelvis plus two SHORT foreshortened legs ending in clearly visible TOP surfaces of boots with toes toward RIGHT, two legs spaced vertically on the page. Four phases of natural walk: upper boot a small step east, feet neutral, lower boot a small step east, feet neutral. Pelvis stays at exact center of every cell. Lower-body total silhouette must be compact: at most the width of the upper body's shoulders, with feet close to hips as a ceiling view. Never draw the long front/side surface of trousers: legs are seen end-on from above. These lower parts will be underneath torso at same pivot; torso overlaps pelvis but boot tips remain visible. Same pixel scale for all parts. Moderately detailed painted flat game sprites, readable silhouette, subdued olive/ochre/charcoal palette, no outline glow, no floor shadow, no environment. Camera geometry is the most important constraint: fully overhead orthographic, not 3D perspective or isometric."
+    }
+  ]
+}

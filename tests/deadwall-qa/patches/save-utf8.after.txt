@@ -1,0 +1,5 @@
+  function parse(text) {
+    if (typeof text !== 'string' || text.length > MAX_FILE_BYTES) fail('fichier trop volumineux');
+    if (new TextEncoder().encode(text).byteLength > MAX_FILE_BYTES) fail('fichier trop volumineux');
+    return validate(JSON.parse(text));
+  }

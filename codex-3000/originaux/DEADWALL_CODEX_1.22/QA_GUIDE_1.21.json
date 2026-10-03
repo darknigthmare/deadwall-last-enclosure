@@ -1,0 +1,79 @@
+{
+  "profiles": [
+    {
+      "profile": "bureau",
+      "width": 1440,
+      "height": 1050,
+      "checks": [
+        {
+          "label": "Langue française",
+          "ok": true
+        },
+        {
+          "label": "Pas de débordement horizontal",
+          "ok": true
+        },
+        {
+          "label": "Sommaire relié à toutes les sections",
+          "ok": true
+        },
+        {
+          "label": "Paramètres clés présents",
+          "ok": true
+        },
+        {
+          "label": "Trois repères de lecture",
+          "ok": true
+        },
+        {
+          "label": "Aucune dépendance externe au rendu",
+          "ok": true
+        },
+        {
+          "label": "Aucune erreur JavaScript",
+          "ok": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "profile": "mobile",
+      "width": 390,
+      "height": 844,
+      "checks": [
+        {
+          "label": "Langue française",
+          "ok": true
+        },
+        {
+          "label": "Pas de débordement horizontal",
+          "ok": true
+        },
+        {
+          "label": "Sommaire relié à toutes les sections",
+          "ok": true
+        },
+        {
+          "label": "Paramètres clés présents",
+          "ok": true
+        },
+        {
+          "label": "Trois repères de lecture",
+          "ok": true
+        },
+        {
+          "label": "Aucune dépendance externe au rendu",
+          "ok": true
+        },
+        {
+          "label": "Aucune erreur JavaScript",
+          "ok": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "render_mode": "HTML local rendu avec Chromium ; captures bureau et mobile examinées. Ouverture file:// interdite par la politique du navigateur de cet environnement ; document injecté pour le contrôle de présentation."
+}

@@ -1,0 +1,525 @@
+# Habitat individuel
+Maison de lotissement|entrée,séjour,cuisine,garage,jardin|Le garage donne sur la voie; la cuisine rejoint le jardin par une sortie arrière.
+Maison mitoyenne étroite|sas,salon traversant,cuisine arrière,cour|Les deux murs mitoyens restent aveugles; aucun passage ne traverse une parcelle voisine.
+Maison à étage avec balcon|vestibule,séjour,chambres,palier,balcon|L'escalier arrive sur un palier distribuant les chambres; le balcon est porté par la façade.
+Maison sur sous-sol|entrée,séjour,buanderie,cave,chaufferie|La cave reste sous l'emprise du logement; ses soupiraux correspondent au niveau du terrain.
+Pavillon à patio|galerie,salon,cuisine,patio,cellier|Le patio structure une circulation en anneau, sans meuble fermant le passage.
+Maison rurale en pierre|cuisine commune,réserve,chambres,appentis,cour|La cour sépare le logement de la remise; les ouvertures respectent l'épaisseur des murs.
+Longère habitée|pièce commune,chambres,grange attenante,remise|La façade longue suit le chemin; le stockage poussiéreux ne sert pas d'entrée au logement.
+Maison de gardien|poste d'accueil,logement,réserve,cour de service|Le bureau voit l'accès du domaine; la chambre ne donne pas directement sur le contrôle.
+Villa avec piscine|hall,salon,cuisine,chambres,local piscine|Le local technique est près du bassin; le joueur peut contourner l'eau sans la traverser.
+Chalet forestier|sas humide,séjour,coin nuit,bûcher|Le bûcher extérieur couvert et le sas expliquent la présence de bois et d'outils.
+Cabane de pêcheur|pièce de vie,atelier filets,réserve,ponton|Une passerelle relie le ponton à une berge stable; les filets restent près de l'atelier.
+Maison mobile en parc|séjour compact,chambre,sanitaires,terrasse,abri|Le logement repose sur ses appuis et se distingue d'un véhicule pilotable.
+Duplex au-dessus d'une boutique|entrée indépendante,séjour,chambres,terrasse technique|Le logement a son propre escalier, sans traverser la réserve commerciale.
+Maison d'angle commerçante|boutique d'angle,cuisine,appartement,cour de livraison|Les deux façades sont publiques; les livraisons arrivent depuis la rue secondaire.
+Maison en autoconstruction|pièce occupée,extension inachevée,atelier,stock matériaux|Les espaces habités restent séparés du chantier; une issue achevée est conservée.
+Maison en gradins|hall,demi-niveaux,terrasse,sous-sol|Chaque demi-niveau épouse le terrain et possède un escalier de liaison réel.
+Maison familiale adaptée|salon,chambre de plain-pied,salle d'eau,rampe|Les fonctions essentielles restent accessibles sans escalier; les seuils ne bloquent pas le parcours.
+Ancien presbytère|vestibule,bibliothèque,cuisine,chambres,cour|La cour rejoint l'édifice communautaire voisin, mais le logement garde son entrée propre.
+Maison d'éclusier|logement,atelier hydraulique,bureau,jardin|La maison est près de l'écluse sans obstruer le chemin de halage.
+Ferme reconvertie en habitation|salon dans la grange,cuisine,chambres,ancienne étable|Les portes charretières et la charpente témoignent de l'ancien usage sans remplacer les cloisons domestiques.
+# Habitat collectif
+Immeuble de trois étages|hall,cage d'escalier,appartements,local poubelles,caves|Le noyau vertical reste superposé; chaque appartement est accessible depuis son palier.
+Barre résidentielle|galerie d'entrée,coursive,appartements,caves collectives|Deux cages distribuées évitent une impasse de circulation sur toute la longueur.
+Tour résidentielle|hall,ascenseurs,escalier protégé,appartements,local technique|Les gaines et les noyaux verticaux restent à la même position sur tous les niveaux.
+Résidence à cour intérieure|porche,cour,quatre cages,logements,abri vélos|Le porche débouche dans la cour; les vélos et poubelles n'occupent pas sa largeur utile.
+Résidence étudiante|accueil,chambres,cuisines communes,laverie,salle d'étude|Les cuisines sont groupées par palier; la laverie suit une gaine technique.
+Foyer de travailleurs|réception,dortoirs,réfectoire,bagagerie,vestiaires|La cuisine et les denrées sont hors des dortoirs; l'issue arrière reste utilisable.
+Résidence seniors|salons,studios,infirmerie,terrasse,réserves|Les trajets essentiels sont courts et lisibles; aucun étage ne repose sur un escalier décoratif.
+Habitat coopératif|cuisine partagée,ateliers,logements,buanderie,jardin|Les espaces communs sont distincts des logements privés et de leurs zones de repos.
+Immeuble avec commerces|vitrines,réserves commerciales,hall résidentiel,appartements|Le hall des habitants est indépendant des quais et de l'arrière-boutique.
+Résidence à passerelles|halls,passerelles,logements,terrasses|Chaque passerelle repose sur des supports et rejoint un palier, pas une fenêtre fictive.
+Lofts industriels|hall,lofts,ateliers privés,mezzanines,technique|La trame de poteaux reste lisible; les cloisons intérieures définissent de vraies fonctions domestiques.
+Caserne reconvertie en logements|cour,galeries,chambres familiales,buanderies,caves|Les anciennes enfilades sont transformées en accès privatifs sans condamner l'évacuation.
+Résidence de tourisme|réception,studios,local ménage,piscine commune|Le circuit du linge ne traverse pas la zone mouillée de la piscine.
+Immeuble à coursive extérieure|escalier extérieur,coursive,appartements,remises|La coursive est portée hors de la façade et dessert toutes les portes palières.
+Habitat en terrasses|accès bas,escaliers,maisons superposées,jardins suspendus|Les terrasses reposent sur un volume inférieur; les eaux s'évacuent vers le terrain.
+Résidence sur parking souterrain|rampe,parking,sas piéton,hall,logements|La rampe des voitures ne sert pas d'unique sortie aux piétons.
+Foyer parental|accueil,chambres familiales,cuisine,espace enfants,laverie|Les poussettes restent près de l'entrée; les couchages sont hors de la circulation des visiteurs.
+Internat résidentiel|surveillance,chambres,sanitaires,salles d'étude|Les sanitaires se rejoignent depuis les couloirs sans traverser une autre chambre.
+Résidence médicale légère|accueil,studios,poste infirmier,salle de soins|Les médicaments restent dans une pièce dédiée et les soins près du poste.
+Îlot mixte dense|commerces,cours,cages,appartements,ateliers|Les mitoyens structurent les parcelles; cour de service et passage public sont distingués.
+# Commerces non alimentaires
+Centre commercial régional|mail,boutiques,grandes surfaces,couloir logistique,réserves,quais,parkings|Le public entre par le mail; chaque boutique rejoint sa réserve et les livraisons arrière sans traverser une autre cellule.
+Galerie marchande de quartier|passage couvert,boutiques,petites réserves,sanitaires|Deux débouchés piétons restent reliés; chaque réserve appartient à sa boutique.
+Parc commercial ouvert|magasins indépendants,parking,voie de service,trottoirs|Les poids lourds circulent derrière les magasins et les clients sur un chemin protégé.
+Grand magasin à étages|hall,plateaux de vente,cabines,réserves,monte-charge|Le monte-charge relie réception et stocks; un escalier public dessert chaque plateau.
+Magasin de bricolage|cour matériaux,vente,outillage,découpe,réserve|Le stock lourd est au sol; panneaux et poutres sont orientés vers les allées de manutention.
+Jardinerie|serres de vente,pépinière,animalerie,réserve,parking|Le terreau est près du chargement et les serres sont raccordées au parcours client.
+Magasin d'ameublement|showrooms,commande,retrait,stock démonté,service|Le mobilier monté reste dans les showrooms; les cartons de retrait sont dans la logistique.
+Magasin d'électroménager|vente,diagnostic,retrait,réserve|Les appareils encombrants sont proches du quai; l'atelier ne coupe pas la file des clients.
+Librairie indépendante|rayons,comptoir,réserve,coin lecture|Les rayonnages suivent des travées et les livres ne remplissent pas toute l'allée.
+Papeterie de gros|vente,reprographie,réserve papier,bureau|Le papier est au sec; la finition et les outils de coupe restent hors de la file publique.
+Magasin de vêtements|vente,cabines,réserve,local personnel|Les cabines sont adossées à une paroi; les portants ont des écarts pour circuler.
+Magasin de sport|vente,atelier cycles,réserve,essayage|Les cycles accèdent à l'atelier par l'extérieur sans traverser les cabines.
+Pharmacie commerciale|vente,préparation,stock sécurisé,bureau|Les médicaments sont derrière le comptoir et dans le stock, jamais dispersés sur le parking.
+Animalerie|vente,soins courts,réserve aliments,nettoyage|Les réseaux humides sont groupés et les déchets sont séparés des aliments.
+Boutique informatique|vente,réparation,stock,bureau|Les composants restent près de l'établi; aucun carburant générique ne remplace le contenu informatique.
+Quincaillerie ancienne|comptoir,tiroirs,arrière-boutique,cour|Les petites pièces sont dans les tiroirs; les encombrants rejoignent la cour.
+Magasin de déstockage|vente en bacs,arrivage,tri,réserve|Le désordre se concentre dans les bacs et zones de tri, pas sur toutes les sorties.
+Marché couvert|allées,étals,froid,lavage,quai|Les denrées arrivent par les quais; les étals sont séparés par des allées publiques continues.
+Négoce de matériaux|accueil,hangar,cour granulats,chargement|Les engins ont une aire de manœuvre et les bureaux restent hors de leur trajectoire.
+Galerie semi-abandonnée|mail,boutiques actives,cellules condamnées,réserves|La fermeture s'applique cellule par cellule; le mail ne devient pas une barrière de gravats uniforme.
+# Alimentation et restauration
+Supérette de quartier|vente,caisse,réserve,chambre froide|L'entrée publique donne sur la rue; la réserve est desservie depuis une porte latérale.
+Supermarché avec quai|vente,boulangerie,froid,réserve,réception|Une boucle client entoure les gondoles; la manutention circule derrière les comptoirs.
+Hypermarché périphérique|vente,galerie,réserve,quais,parking|Les accès lourds restent loin de l'entrée et des abris à chariots.
+Épicerie rurale|vente,comptoir,réserve,logement arrière|Le stock est proportionné à un village; les voitures font un arrêt court devant.
+Boulangerie artisanale|boutique,fournil,pétrissage,réserve farine|La farine rejoint le fournil sans passer par le comptoir; chaleur et vente sont distinctes.
+Boucherie|boutique,découpe,froid,lavage|Le circuit froid rejoint découpe et vente; les déchets sortent par l'arrière.
+Poissonnerie|étal sur glace,préparation,froid,nettoyage|Les points d'eau et caniveaux suivent la préparation; le stock rejoint la livraison.
+Primeur|vente,cour à cagettes,réserve fraîche,bureau|Les cagettes sont groupées par arrivage sans barrer le trottoir.
+Restaurant routier|salle,cuisine,réserve,sanitaires,parking poids lourds|L'entrée à pied est protégée des manœuvres de camions.
+Restaurant de centre-ville|salle,bar,cuisine,cave,office|La livraison passe par une ruelle; la cave rejoint l'office et non une table client.
+Restauration rapide avec drive|commande,cuisine,stock,drive,parking|La file de véhicules est continue et séparée des traversées piétonnes.
+Cafétéria industrielle|service,cuisine,plonge,réfectoire|Le retour des plateaux ne coupe pas la file de service.
+Cuisine centrale|réception,préparation,cuisson,conditionnement,expédition|Le produit traverse une chaîne lisible et les retours sales utilisent un trajet distinct.
+Dépôt alimentaire associatif|accueil,tri,stock sec,froid,distribution|La distribution est publique mais pas le stock ni les opérations de tri.
+Grossiste fruits et légumes|quais,halle de tri,froid,bureaux|Les allées servent aux palox et engins, pas à une promenade de supermarché.
+Entrepôt frigorifique|sas froid,chambres,compresseurs,quais|Les chambres sont desservies par un couloir; les compresseurs sont hors de leur stockage.
+Atelier de conserves|lavage,préparation,stérilisation,emballage,réserve|Le décor montre la chaîne brut/conditionné sans transformer chaque table en caisse universelle.
+Cantine scolaire|réfectoire,office,plonge,réserve|Les petites tables sont dimensionnées pour les enfants et la livraison évite la cour.
+Kiosque de parc|vente,petit stock,point d'eau,terrasse|Le bâtiment est compact et relié au chemin; aucun quai industriel disproportionné.
+Marché de plein air|stands,allées,stationnement service,collecte déchets|Les stands suivent l'axe de rue en laissant une voie de service continue.
+# Services et petits ateliers
+Banque de quartier|accueil,guichets,bureaux,coffre|Le coffre est en arrière et les files d'attente restent hors des sorties.
+Bureau postal|accueil,tri,casier colis,quai|Les colis traversent le tri avant distribution; les clients ne traversent pas le quai.
+Agence d'intérim|accueil,attente,bureaux,archives|Les entretiens sont séparés de l'attente et les archives sont au sec.
+Salon de coiffure|accueil,coupe,lavage,réserve|Les bacs suivent un mur technique; le personnel peut passer derrière les fauteuils.
+Laverie automatique|machines,pliage,local technique,attente|Le dos des machines donne sur une maintenance accessible.
+Pressing|dépôt,nettoyage,repassage,stock vêtements|Les machines ventilées sont séparées du public et des portants propres.
+Cordonnerie|comptoir,réparation,stock|L'établi est accessible; les tiroirs servent aux petites pièces plutôt qu'à la nourriture.
+Centre de reprographie|accueil,impression,finition,réserve papier|Le circuit des rouleaux et papiers ne traverse pas la file d'attente.
+Agence immobilière|vitrine,accueil,bureaux,réunion|Les clés et dossiers sont derrière les bureaux; les plans sont visibles depuis l'accueil.
+Cabinet comptable|accueil,bureaux,archives,réunion|La quantité d'archives est proportionnée aux postes de travail.
+Étude notariale|accueil,salles de signature,archives sécurisées,bureaux|Les rendez-vous sont discrets et les archives ne servent pas de couloir.
+Atelier électronique|réception,diagnostic,soudure,stock composants|Les appareils en attente restent associés à leur poste; les déchets sont séparés.
+Entreprise de plomberie|bureau,atelier,stock tubes,cour|Les tuyaux longs sont parallèles à leur sortie vers les véhicules.
+Entreprise d'électricité|accueil,préparation,stock câbles,garage|Les tourets et tableaux sont regroupés par usage; l'aire de départ reste libre.
+Serrurerie|comptoir,forge légère,usinage,stock profilés|Les profilés ont une allée de manipulation distincte du trajet client.
+Service funéraire|accueil,salon,préparation,garage|L'accueil et la préparation suivent des circulations séparées.
+Clinique vétérinaire|accueil,consultation,soins,chenil|Le chenil possède un accès de service et le stockage médical est séparé.
+Salon de toilettage animalier|accueil,lavage,séchage,attente|Les espaces humides sont regroupés et ventilés, hors attente sèche.
+Centre téléphonique|accueil,plateau de postes,serveurs,pause|Les câbles suivent des goulottes; les serveurs occupent leur local propre.
+Bureau d'ingénierie|accueil,maquettes,bureaux,salle des plans|Les maquettes et matériaux restent dans l'atelier plutôt que sur toutes les tables.
+# Hôtellerie et hébergement
+Hôtel de centre-ville|réception,bagagerie,chambres,linge,petit-déjeuner|Les noyaux verticaux sont superposés; la livraison du linge passe par le service.
+Hôtel routier à coursive|accueil,chambres,coursive,laverie,parking|Les voitures sont devant les chambres mais ne coupent pas la coursive.
+Grand hôtel de congrès|lobby,réunion,chambres,cuisine,quais|Les banquets sont livrés par monte-charge et non par les ascenseurs clients.
+Auberge de village|salle commune,cuisine,chambres,cour|Les chambres sont au-dessus; les denrées rejoignent la cuisine depuis la cour.
+Gîte collectif|accueil,dortoirs,cuisine,sanitaires|Un sas humide précède les couchages et les casiers sont hors des lits.
+Auberge de jeunesse|réception,chambres partagées,cuisine,salon|Les salons bruyants sont distincts de l'accès aux chambres.
+Maison d'hôtes|salon,cuisine privée,chambres,jardin|Le circuit de l'hôte reste séparé des déplacements des visiteurs.
+Camping organisé|accueil,emplacements,sanitaires,atelier|Les voies desservent des emplacements et les sanitaires sont hors zone inondable.
+Camping à la ferme|accueil,prairie,sanitaires,remise|Les visiteurs n'empruntent pas les manœuvres des engins agricoles.
+Village de vacances|accueil,pavillons,réfectoire,loisirs|Les cheminements piétons forment un réseau; la logistique suit sa périphérie.
+Centre de séminaire|accueil,salles,restauration,chambres|Les cloisons modulables ne modifient pas les sorties permanentes.
+Refuge de montagne|sas,salle commune,dortoir,réserve|Le ravitaillement limité par le sentier justifie des stocks compacts et regroupés.
+Relais équestre|accueil,chambres,sellerie,écuries|L'accès des chevaux est séparé des cuisines et des chambres.
+Hôtel thermal|réception,chambres,soins,bains,technique|Les réseaux humides et les circuits de linge sont structurés par les bains.
+Hôtel d'aéroport|lobby,chambres,navettes,cuisine|La dépose des navettes est séparée du parking de longue durée.
+Hôtel capsule|accueil,capsules,casiers,sanitaires|Chaque capsule possède une ouverture accessible et une circulation devant elle.
+Résidence saisonnière|accueil,studios,stock linge,garage cycles|Les chariots de ménage ne sont pas stockés dans le couloir d'évacuation.
+Ferme-auberge|salle,cuisine,réserve,logements,exploitation|Les denrées viennent de l'exploitation par un accès distinct des clients.
+Manoir de réception|hall,salons,office,chambres,parc|L'office dessert les salons sans traverser leur mobilier de réception.
+Centre de vacances fermé|accueil,dortoirs,infirmerie,cuisine,terrains|La fermeture apparaît par un stockage saisonnier ordonné, pas par du chaos uniforme.
+# Santé
+Cabinet médical|accueil,attente,consultation,réserve|Le patient rejoint la consultation sans traverser le bureau privé.
+Maison de santé|accueil,consultations,soins,personnel,réserve|Les consultations bordent un couloir et les soins sont près du stockage médical.
+Dispensaire rural|attente,consultation,soins,stock|Le volume et le stock restent adaptés à un petit territoire rural.
+Centre de radiologie|accueil,vestiaires,imagerie,commande|La commande est séparée de l'examen et le chemin du patient est explicite.
+Laboratoire d'analyses|accueil,prélèvement,analyse,stock froid|Les échantillons passent vers le laboratoire par un circuit interne hors public.
+Cabinet dentaire|accueil,salle de soins,stérilisation,réserve|La stérilisation se situe entre le soin et le rangement propre.
+Centre de rééducation|accueil,gymnase,consultation,vestiaires|La pratique nécessite un centre dégagé et des barres d'appui reliées aux murs.
+Centre de dialyse|accueil,soins,traitement d'eau,personnel|Le local technique dessert les soins sans devenir une traversée publique.
+Centre de transfusion|accueil,don,collation,stock froid|Le parcours conduit de l'accueil au soin puis au repos; le stock a son accès service.
+Urgences hospitalières|triage,attente,boxes,déchocage,arrivée ambulances|Les brancards suivent un axe large distinct de la file piétonne.
+Hôpital général|hall,consultations,blocs,chambres,logistique|Les réseaux public, soignant et technique utilisent des noyaux et des seuils distincts.
+Clinique chirurgicale|accueil,préparation,bloc,repos,stérilisation|L'environnement distingue propre, sale et public sans disposer de provisions génériques dans le bloc.
+Maternité|accueil,salles de naissance,chambres,nurserie|Les pièces calmes rejoignent un poste infirmier central et lisible.
+Hôpital pédiatrique|accueil,consultations,chambres,salle de jeux|Le mobilier est adapté; les jeux restent hors des trajets de soins.
+Établissement gériatrique|accueil,unités de vie,soins,cuisine,jardin|Les unités s'organisent autour de salons, pas autour d'un couloir interminable uniforme.
+Centre de soins psychiatriques|accueil,consultations,chambres,salles d'activité,jardin|Le lieu montre des usages de soin; ne pas transformer ses occupants en caricatures ennemies.
+Maison de convalescence|salon,chambres,kinésithérapie,restaurant|Des parcours courts relient les chambres au jardin et à la rééducation.
+Hôpital de campagne|triage,tentes de soins,stock,énergie,eau|Les groupes et citernes sont près des besoins mais hors des chemins de patients.
+Centre ambulancier|bureau,garage,vestiaires,repos|Les portes de remise ouvrent sur une aire de départ libre.
+Ancien sanatorium|galeries,chambres,soins,cuisine,chaufferie|Les galeries continues et l'ouverture à la lumière expliquent le plan ancien.
+# Éducation et connaissance
+École maternelle|accueil,classes,repos,sanitaires,cour|Les sanitaires sont proches des classes et la cour possède une limite protectrice.
+École primaire|hall,classes,bibliothèque,cantine,cour|Les classes donnent sur un couloir; le service de cantine arrive hors de la cour.
+Collège|vie scolaire,classes,laboratoires,réfectoire,gymnase|Les salles spécialisées disposent de leur réserve et restent proches du réseau principal.
+Lycée général|hall,classes,sciences,bibliothèque,administration|Les ailes publiques et scientifiques se distinguent par leur profondeur et leurs objets.
+Lycée professionnel|classes,ateliers,stock,vestiaires,cour technique|Les ateliers se livrent depuis la cour et leurs machines ne barrent pas le passage des élèves.
+Campus universitaire|amphithéâtres,bibliothèque,laboratoires,services|Le campus comprend plusieurs bâtiments reliés à pied, pas un entrepôt unique.
+École d'art|ateliers,salles de dessin,stock matières,exposition|Les fours et poussières restent en atelier; les visiteurs entrent par l'exposition.
+Conservatoire|accueil,répétition,auditorium,réserve instruments|Les grands instruments accèdent à leurs salles depuis un parcours de largeur suffisante.
+École de danse|accueil,studios,vestiaires,réserve|Les studios restent libres au centre; la circulation n'emprunte pas la piste de pratique.
+École de cuisine|vestiaires,cuisines pédagogiques,salle,stock|Les denrées vont du stock aux postes et les retours sales reviennent autrement.
+Centre d'apprentissage mécanique|classes,atelier automobile,magasin,vestiaires|Les portes et baies permettent d'entrer un véhicule à sa véritable taille.
+Centre de formation agricole|classes,serres,atelier,parc matériel|Les trajets lourds sont distincts des liaisons entre les classes.
+Bibliothèque municipale|accueil,rayons,lecture,archives|Les rayons sont orientés autour d'allées lisibles; les archives ne sont pas publiques.
+Médiathèque|accueil,livres,postes numériques,animation|Les salles d'animation sont séparées des espaces de lecture calme.
+Centre de recherche|accueil,laboratoires,bureaux,technique|Les accès techniques desservent les laboratoires sans traverser le public.
+Observatoire pédagogique|accueil,classe,coupole,atelier|La coupole repose sur un volume accessible avec un escalier réellement raccordé.
+Planétarium|hall,salle de projection,commande,atelier|La commande rejoint la projection par un accès réservé; la sortie ne passe pas devant le projecteur.
+Archives universitaires|réception,tri,magasins,consultation|Le document va du quai au tri puis au magasin sec avant consultation.
+Centre aéré|accueil,activités,cuisine,cour|Les groupes se séparent sans condamner les issues; le stockage d'activités reste dédié.
+École réutilisée par une association|ancienne classe,atelier,dépôt,cour|Le nouvel usage s'appuie sur le plan scolaire encore reconnaissable.
+# Administration et communauté
+Mairie|accueil,état civil,salle du conseil,archives|Le public reste à l'accueil et au guichet; archives et travail interne sont en retrait.
+Hôtel de ville métropolitain|hall,services,salle du conseil,logistique|Plusieurs ailes et noyaux sont nécessaires pour un volume métropolitain.
+Annexe administrative|guichets,bureaux,attente,stock|Le parcours client est court et distinct des liaisons entre bureaux.
+Tribunal|hall,salles d'audience,bureaux,archives|Séparer les flux publics et professionnels sans reproduire une sécurité réelle détaillée.
+Maison de justice|accueil,entretiens,réunion,archives|L'attente ne donne pas directement sur les documents ni sur les entretiens.
+Centre fiscal|accueil,guichets,bureaux,archives|La file rejoint les guichets; le stock documentaire est central pour le personnel.
+Maison associative|accueil,salles,atelier,cuisine|Plusieurs activités peuvent utiliser des salles indépendantes.
+Salle des fêtes|hall,salle avec scène,office,réserve|La réserve de tables et de chaises donne directement sur la grande salle.
+Centre social|accueil,ateliers,aide administrative,cuisine|Les consultations et ateliers sont séparables; le public ne traverse pas les réserves.
+Office du tourisme|accueil,exposition,bureau,stock|La vitrine est sur le trajet piéton et les cartes sont des renseignements plausibles.
+Bourse du travail|hall,bureaux,réunion,archives|La grande salle reste accessible sans traverser un bureau occupé.
+Maison de quartier|entrée,salle polyvalente,cuisine,cour|La cour rejoint la salle; les denrées arrivent par le service.
+Dépôt de mobilier électoral|réception,stock de tables,stock de panneaux,bureau|Le lieu sert au stockage de matériel, pas à décrire des procédures électorales réelles.
+Atelier municipal|bureau,garage,stock,outillage,cour|Les matériels sont groupés par métier et les véhicules partent directement de la cour.
+Dépôt de voirie|atelier,sel,signalisation,cour|Les engins circulent à l'extérieur des zones piétonnes; le sel est sous couvert.
+Maison du parc naturel|accueil,exposition,bureaux,atelier|Le bâtiment est un départ de sentiers et non une impasse au milieu de la forêt.
+Centre d'information routière|accueil,salle écrans,serveurs,repos|Les cartes et écrans restent près du travail de coordination; la technique est attenante.
+Maison des archives|réception,tri,magasins,lecture|Le circuit documentaire reste sec et séparé des visiteurs.
+Église paroissiale|porche,nef,sacristie,clocher|Les volumes et supports sont crédibles; l'accès au clocher ne traverse pas un décor fermé.
+Temple communautaire|entrée,salle principale,annexes,cuisine|Les usages et le mobilier sont traités avec respect, sans piège caricatural lié au culte.
+# Secours et protection civile
+Caserne de pompiers|accueil,remise,vestiaires,repos,atelier|La remise est orientée sur une aire de départ libre et les piétons restent hors des portes véhicules.
+Centre de secours rural|bureau,garage,stock,vestiaires|Le plan est compact; le matériel rejoint directement le véhicule.
+Commissariat de quartier|accueil,bureaux,repos,archives|Les espaces publics et administratifs sont séparés, sans reproduire une sécurité réelle.
+Poste de police rurale|accueil,bureau,garage,logement|Le garage rejoint la voie; le logement possède une zone privée.
+Poste de surveillance de plage|accueil,soins,stock,terrasse|La vue vers le rivage est libre et la sortie vers la plage est continue.
+Base de sauvetage côtier|garage nautique,atelier,repos,quai|Le hangar rejoint une mise à l'eau et la passerelle piétonne reste distincte.
+Centre de protection civile|accueil,stock,formation,garage|Le matériel est rangé par kits près des aires de chargement.
+Poste médical de stade|triage,soins,repos,stock|L'accès des brancards relie les tribunes à une sortie ambulance dédiée.
+Refuge d'urgence communal|accueil,dortoirs,réfectoire,stock,sanitaires|La distribution ne traverse pas les couchages; des séparations légères préservent l'intimité.
+Centre d'hébergement de crise|enregistrement,couchages,sanitaires,logistique|Les zones de repos et les manutentions sont séparées malgré un usage temporaire.
+Dépôt de secours|réception,stock,inspection,expédition|Chaque arrivage est contrôlé avant stockage; les kits restent identifiables.
+Atelier d'ambulances|réception,baies,lavage,réserve|Le lavage est séparé des postes électriques et du matériel propre.
+Centre de gestion de crise|hall,coordination,cartographie,repos|Les cartes et communications sont dans une salle commune; la logistique reste derrière.
+Poste de secours autoroutier|garage,veille,stock,aire de départ|Il rejoint une voie de service plutôt que de se poser au milieu de l'autoroute.
+Tour de guet forestière|base,escalier,cabine,réserve|La cabine est supportée; l'escalier est continu et le stock est au sol.
+Centre de gardes forestiers|accueil,bureaux,atelier,garage|La cour rejoint une piste; les cartes et outils correspondent au secteur forestier.
+Chenil de secours|accueil,boxes,soins,aliments|Les cours sont séparées et le nettoyage ne traverse pas la réserve d'aliments.
+Poste de secours de montagne|accueil,garage,soins,matériel|Le sas humide et le séchoir précèdent le repos et les stocks secs.
+Plateforme de secours aérien|bâtiment d'équipe,hangar,aire extérieure,stock|L'aire extérieure reste vide d'obstacles; les stocks se trouvent dans le bâtiment.
+Point de distribution d'eau d'urgence|accueil,cuves,distribution,stock|Les files à pied restent distinctes de la manœuvre du camion-citerne.
+# Abris et souterrains
+Abri communal souterrain|sas,couloir,salle collective,réserve,sanitaires|Les accès rejoignent réellement la surface; le local d'air n'est pas un dortoir.
+Abri domestique|escalier,petite réserve,couchage,ventilation|L'emprise doit tenir sous la maison hôte et son escalier débouche dans une pièce compatible.
+Bunker de commandement fictif|sas,salle des cartes,bureaux,repos,technique|Le lieu est fictif et abandonné; aucune implantation de site sensible réel n'est reproduite.
+Dépôt enterré fictif|rampe,sas,magasins,bureau|La manutention suit une rampe accessible et les piétons ont leur dégagement.
+Abri ferroviaire ancien|escalier,galerie,salles,local d'air|L'accès se situe à côté des voies plutôt qu'au milieu de leur gabarit.
+Ancien fort|cour,casemates,galeries,remparts|Les murs sont continus avec des passages explicites et des volumes porteurs.
+Batterie côtière désaffectée|accès,plateformes,galeries,stock|Les installations historiques fictives sont inertes; l'intérêt est spatial, pas opératoire.
+Blockhaus de carrefour|entrée coudée,salle,réserve|Le béton possède une épaisseur crédible et occupe une parcelle, pas l'échelle d'une caisse.
+Abri de mineurs|entrée,salle refuge,réserve d'eau,ventilation|Le refuge rejoint la galerie et ne remplace pas l'accès principal de la mine.
+Refuge de tunnel|sas,salle de secours,technique|L'accès est sur le bas-côté et ne ferme pas la voie circulable.
+Centre radio enterré fictif|sas,radio,atelier,repos|L'antenne est reliée à la surface et les appareils occupent le local technique.
+Caserne isolée désaffectée|cour,dortoirs,réfectoire,atelier|L'ensemble est constitué de plusieurs bâtiments fonctionnels et non d'un unique prop à fouiller.
+Camp d'entraînement abandonné|accueil,dortoirs,hangars,parcours sportif|Le parcours est inerte; ses obstacles ne ferment pas les liaisons entre bâtiments.
+Dépôt de surplus civil|vente,tri,stock,chargement|Les objets sont déclassés et triés; aucune arme fonctionnelle n'est décrite comme fabrication.
+Ancien poste frontière|guichet,bureaux,inspection,parking|Les files automobiles rejoignent les voies et les logements sont en retrait.
+Maison de garde d'un fort|bureau,logement,réserve,cour|L'accès au fort et celui de l'habitation sont distincts.
+Abri d'un poste électrique|sas,local opérateur,stock,ventilation|L'abri est proche du poste mais n'est pas placé sous un équipement sans volume propre.
+Galerie technique abandonnée|accès,collecteur,chambres techniques,sortie|Les conduites restent continues et une hauteur de passage est conservée.
+Souterrain de château|escalier,caves,galerie,sortie secondaire|Les caves suivent l'emprise supérieure et les arches reposent sur des supports.
+Complexe privé de survie|sas,pièces de vie,stock,atelier,eau|Les fonctions domestiques sont complètes; aucune réserve infinie ni plan militaire réel.
+# Entrepôts et réserves
+Entrepôt de messagerie|quais entrants,tri,quais sortants,bureaux|Les flux traversent le tri et les allées ne coupent pas le chargement.
+Plateforme logistique|réception,magasins,préparation,expédition|Les travées sont adressées et les passages piétons séparés des chariots.
+Dépôt de meubles|réception,stock volumineux,préparation,bureau|Les objets lourds sont au sol; l'espace permet de sortir un meuble sans traverser les autres.
+Garde-meubles|accueil,boxes,couloirs,chargement|Chaque box s'ouvre sur un couloir commun de largeur utilisable.
+Self-stockage extérieur|accueil,rangées de boxes,voies,aire de manœuvre|Les portes font face à une allée plutôt qu'à un autre mur inaccessible.
+Hangar agricole de stockage|auvent,travées,stock sec,cour|Les outils et récoltes sont séparés par la trame du hangar.
+Dépôt de boissons|quai,palettes,consignes,bureau|Les emballages vides reviennent par une zone différente du stock prêt à expédier.
+Stockage textile|réception,portants,emballage,expédition|Les vêtements restent au sec et regroupés par portants, pas parmi les machines sales.
+Magasin de pièces automobiles|comptoir,rayons,stock lourd,livraison|Les petites pièces suivent des bacs et les gros ensembles occupent les niveaux bas.
+Entrepôt de matériaux longs|cour,hangar,préparation,bureau|Les poutres et tubes sont parallèles à leurs sorties de manutention.
+Dépôt de carrelage|showroom,palettes,découpe,retrait|Le stock lourd reste au sol et l'exposition est distincte de la manutention.
+Centre de déménagement|bureau,garage,stock temporaire,atelier|Les caisses sont groupées par client et par opération, pas réparties uniformément.
+Dépôt scénique|atelier,éclairage,son,décors,quai|Les câbles sont sur racks et les décors longs rejoignent le quai sans traverser les postes.
+Réserve muséale|sas,magasins,conditionnement,atelier|Le public ne traverse pas les magasins; les caisses protègent des collections distinctes.
+Réserve hospitalière|réception,stock propre,linge,expédition|La réserve propre ne sert pas de transit aux déchets hospitaliers.
+Dépôt de mobilier communal|hangar,tri,réparation,cour|Tables et chaises sont stockées en lots cohérents et les sorties sont larges.
+Recyclerie|apport,tri,réparation,vente,stock|Les objets non triés sont distincts de ceux remis en vente.
+Dépôt de colis automatisé|quai,tri mécanique,maintenance,bureau|Le personnel peut longer les convoyeurs sans passer sur leur emplacement.
+Entrepôt portuaire|quai,magasins,administration,cour|La réception par l'eau et l'expédition par la route expliquent son orientation.
+Dépôt de chantier temporaire|base-vie,stock,atelier,chargement|La parcelle est raccordée au chantier et ne se superpose pas à la chaussée traversante.
+# Automobile et carburant
+Garage automobile indépendant|accueil,baies,magasin de pièces,cour|Les portes de baie s'alignent sur l'aire de manœuvre et permettent d'ouvrir les voitures.
+Concession automobile|showroom,vente,atelier,stock véhicules|L'atelier et les véhicules livrés sont séparés de l'exposition publique.
+Carrosserie|réception,démontage,tôlerie,peinture|Les pièces restent associées aux véhicules et la cabine occupe son propre local.
+Atelier de pneumatiques|accueil,baies,stock pneus,compresseur|Les roues sont regroupées par dimensions et accessibles depuis les postes.
+Station de contrôle technique|accueil,piste d'inspection,attente,bureau|La piste traverse une baie de longueur réelle et ressort sur la cour.
+Lavage automobile|file d'attente,portique,aspiration,technique|Les eaux suivent des caniveaux; l'attente ne bloque pas la route.
+Station-service de village|pompes,boutique,stock,livraison|Les pompes sont sur une parcelle latérale avec des entrées et sorties identifiables.
+Station autoroutière|pompes légères,pompes lourdes,boutique,restauration,parking|Les circulations légères, lourdes et piétonnes sont séparées.
+Station urbaine compacte|pompes,caisse,petit atelier,réserve|Un recul permet l'attente sans fermer le trottoir.
+Dépôt civil de carburant|accueil,citernes,chargement,maintenance|Les installations restent des décors de stockage fictifs; aucun procédé dangereux n'est fourni.
+Casse automobile|accueil,tri,épaves,pièces,atelier|Les empilements sont intentionnels, portés et rangés le long d'allées d'engins.
+Dépanneur routier|bureau,garage,parc véhicules,atelier|Les véhicules accidentés restent dans un parc et la sortie du dépanneur est dégagée.
+Location de véhicules|accueil,clés,lavage,parc|Le parc rejoint le contrôle de sortie et la maintenance se trouve en fond.
+Atelier de motos|vente,atelier,stock,vestiaires|La largeur des baies correspond aux motos, pas à des véhicules redimensionnés arbitrairement.
+Garage poids lourds|accueil,grandes baies,stock,aire de rotation|Les portes hautes et grandes trajectoires correspondent réellement aux camions.
+Dépôt de bus|remise,atelier,lavage,exploitation|Les rayons de giration et les couloirs piétons sont réservés avant le placement des bus.
+Parking à étages|rampe,niveaux,sas piétons,sorties|Les rampes relient des niveaux réels et ne coupent pas les places de stationnement.
+Parking de supermarché|allées,places,abris à chariots,livraisons|Les véhicules suivent les places; le chargement commercial reste indépendant.
+Parking improvisé de terrain vague|chemin,poches de stationnement,retournement|Les angles irréguliers résultent des chemins et du relief, pas d'un tirage uniforme à 360 degrés.
+Garage de collection|hall d'exposition,atelier,réserve,cour|L'espace permet d'ouvrir les véhicules et l'atelier dispose de ses propres outils.
+# Routes et ouvrages
+Carrefour de village|chaussées,trottoirs,angles bâtis,arrêts|Les voies se raccordent et la visibilité reste dégagée aux angles.
+Rond-point périphérique|anneau,branches,îlot,accotements|Les branches arrivent tangentiellement et le rayon permet les mouvements attendus.
+Aire de repos forestière|voie d'accès,parking,tables,sanitaires|Le retour vers la route est raccordé; les tables sont en retrait des véhicules.
+Aire de service de plaine|parking,restauration,pompes,maintenance|Le ravitaillement, le repos et les livraisons possèdent leurs propres emprises.
+Pont routier|tablier,culées,accès,inspection|Le tablier est porté au-dessus de l'eau et rejoint réellement les chaussées.
+Viaduc|tablier,piles,accès bas,maintenance|Les piles rejoignent le terrain; le niveau inférieur ne se confond pas avec le tablier.
+Tunnel routier|entrée,chaussée,niches,sorties techniques|Le tube est continu et les niches ne ferment pas les voies.
+Passage inférieur|rampes,ouvrage,trottoir,drainage|Le profil en creux correspond au niveau de la route supérieure.
+Échangeur autoroutier|bretelles,chaussées,ouvrages,accotements|Les bretelles rejoignent les bonnes voies et les différences de niveau sont explicites.
+Péage abandonné|approche,cabines,voies,local personnel|Les voies s'élargissent avant les cabines et se regroupent après elles.
+Poste d'entretien routier|bureau,atelier,garage,cour|La sortie des engins rejoint la voirie de service sans traverser les stocks.
+Déviation de travaux|chaussée temporaire,chantier,stock|La déviation est un véritable parcours continu, pas une barrière décorative sans issue.
+Route effondrée|approche,rupture,versant,passage secondaire|Le relief explique l'effondrement et le détour existe physiquement ailleurs.
+Passage à gué|rives,pentes,lit,chemin alternatif|Les profondeurs et franchissements sont explicites; l'eau n'est pas une texture solide.
+Route agricole|voie,haies,fossés,accès aux champs|Les portails rejoignent des parcelles et les courbes suivent leur géométrie.
+Piste forestière|voie,clairières,drainage,dépôt de bois|Les branches rejoignent les zones exploitées plutôt qu'une grille uniforme.
+Rue commerçante|chaussée,trottoirs,vitrines,arrière-cours|Les façades regardent le public; les livraisons utilisent les ruelles.
+Ruelle de service|voie étroite,portes de réserves,déchets|Le stockage reste sur les côtés et une allée de manutention demeure ouverte.
+Boulevard urbain|voies,trottoirs,terre-plein,contre-allées|Les plantations, arrêts et stationnements suivent la hiérarchie des voies.
+Impasse résidentielle|retournement,trottoir,parcelles,venelle|L'aire de demi-tour reste libre même lorsqu'une venelle offre un autre accès piéton.
+# Ferroviaire et transports collectifs
+Gare de village|hall,guichet,quai,local technique|Le quai est parallèle aux rails et l'accès voyageur n'impose pas une traversée arbitraire.
+Gare urbaine|hall,passage souterrain,quais,bureaux|Les quais sont reliés au hall par un passage et des escaliers réels.
+Gare terminus|hall,quais en impasse,services,logistique|Les rails finissent sur des butoirs et pas sous une façade inexpliquée.
+Gare de marchandises|voies,quai fret,entrepôts,cour|L'entrepôt est orienté entre sa réception ferroviaire et sa sortie routière.
+Triage ferroviaire|faisceau de voies,poste,atelier,service|Les aiguillages relient réellement les voies et les rayons restent cohérents.
+Dépôt de locomotives|remise,atelier,stock,voies d'accès|Les baies sont alignées sur les rails continus.
+Rotonde ancienne|plaque tournante,remises,atelier|La trame est radiale autour de la plaque et non constituée de hangars éparpillés.
+Atelier de wagons|hall,baies,stock,cour|Les baies ont une longueur compatible avec les wagons et leurs dégagements.
+Halle fret désaffectée|quai,stock,bureau,rampe|La double desserte rail/route reste lisible même après abandon.
+Poste d'aiguillage|accès,salle des commandes,technique|La salle voit les voies et l'escalier rejoint son niveau réel.
+Maison de passage à niveau|logement,bureau,cour,barrières|La maison est hors du gabarit des trains et la route traverse les rails de manière continue.
+Passage ferroviaire supérieur|pont,voies,culées,inspection|Les niveaux ferroviaire et routier restent physiquement distincts.
+Tunnel ferroviaire|portail,galerie,niches,service|Le gabarit du train est continu; les niches et câbles restent sur les côtés.
+Station de métro|entrée,mezzanine,quais,technique|Les escaliers relient de vrais niveaux et les quais bordent les voies.
+Dépôt de tramway|remise,atelier,voies courbes,administration|Les courbes et portes sont compatibles avec les rames.
+Arrêt de tramway|quai,abri,traversées,voie|L'accès depuis le trottoir reste réel et ne traverse aucune paroi.
+Terminal intermodal|rail,route,conteneurs,gestion|Les zones de transfert ont des dimensions compatibles avec wagons, camions et portiques.
+Dépôt d'entretien des voies|atelier,traverses,cour,voie annexe|Le matériel long est orienté parallèlement au chargement.
+Wagons-hébergement abandonnés|voie de garage,voitures aménagées,accès au sol|Les escaliers amovibles rejoignent les portes des voitures et leurs véritables niveaux.
+Voie verte sur ancienne ligne|chemin,ancien quai,ponts,vestiges|Le chemin suit le tracé ferroviaire et ses ouvrages au lieu d'ignorer le relief.
+# Industrie et production
+Atelier de métallurgie|réception,usinage,assemblage,stock|Les matériaux vont des racks aux machines puis aux postes d'assemblage.
+Fonderie abandonnée|hall,préparation,moulage,stock|Les machines inertes et volumes hauts sont implantés sur une trame de manutention.
+Usine textile|coupe,couture,finition,emballage|Les rouleaux restent avant la coupe et les produits finis sont près de l'expédition.
+Usine d'emballages|réception,transformation,pliage,stock|Les bobines et palettes correspondent aux étapes de fabrication visibles.
+Imprimerie industrielle|papier,presses,finition,expédition|Les machines lourdes sont au sol et le papier suit un circuit de manutention.
+Atelier de menuiserie|bois,découpe,assemblage,finition|Le stockage long possède une allée et la finition reste hors de la poussière.
+Usine de meubles|réception,usinage,montage,stock|Les meubles incomplets expliquent la séquence d'assemblage.
+Fabrique de céramique|argile,modelage,séchage,cuisson|Le séchage est une étape spatiale entre les postes et les fours inertes.
+Verrerie désaffectée|matières,hall,refroidissement,stock|Les débris sont près des ruptures et les grandes installations restent sur leurs supports.
+Usine de préfabrication|mélange,moulage,cure,cour|La cour permet de manipuler les pièces et n'est pas remplie sans allées.
+Atelier de plasturgie|matières,machines,finition,expédition|Les bacs suivent des lots de production plutôt qu'un mélange générique.
+Fabrique de produits ménagers|réception,cuves,conditionnement,stock|Décor de production fictif et inerte; aucune formule ni procédure chimique dangereuse.
+Atelier de batteries|réception,diagnostic,assemblage,stock|Les postes techniques sont séparés des bureaux et du stockage propre.
+Usine de machines agricoles|pièces,montage,finition,cour|Les engins assemblés sont proches des portes de sortie de grande taille.
+Atelier de réparation industrielle|accueil,démontage,usinage,remontage|Les lots de pièces restent associés à leur poste et à la machine démontée.
+Usine agroalimentaire sèche|réception,broyage,conditionnement,stock|Les denrées restent protégées des ateliers mécaniques.
+Brasserie désaffectée|réception,cuves,embouteillage,stock|Le lieu conserve sa chaîne historique sans décrire une recette de production.
+Laiterie|réception froide,traitement,emballage,expédition|Le réseau humide et la chaîne du froid structurent le plan.
+Tannerie abandonnée|réception,travées,bassins,stock|Les bassins occupent des volumes non franchissables et les passages restent identifiables.
+Zone artisanale mixte|voirie,petits lots,ateliers,cours|Chaque entreprise a sa fonction, son stock et son entrée, pas un assortiment de bâtiments identiques.
+# Énergie et communication
+Poste électrique de quartier|enceinte,équipements,local opérateur,accès|Les équipements inertes reposent sur des socles; le lieu n'est pas un guide d'intervention réel.
+Sous-station industrielle|cour,équipements,commande,maintenance|Les espaces de maintenance sont libres autour des objets fixes.
+Centrale thermique fictive|turbines,commande,maintenance,stock|Le complexe fictionnel privilégie la lecture des volumes sans détails opératoires sensibles.
+Centrale hydroélectrique|barrage,halle,commande,accès|Le barrage relie les rives et la halle possède un accès routier en aval.
+Petit barrage de retenue|digue,déversoir,local,chemin|Les niveaux amont et aval sont explicites et le chemin longe l'ouvrage.
+Ferme solaire|rangées de panneaux,chemins,local,clôture|Les panneaux suivent une orientation dominante et les chemins d'entretien, pas des rotations aléatoires.
+Parc éolien|pistes,plateformes,mâts,local|Les mâts ont des fondations et des accès adaptés à leur échelle.
+Chaufferie urbaine|réception,chaudières,commande,stock|La livraison du combustible n'emprunte pas les bureaux.
+Chaufferie biomasse|silo,chaufferie,maintenance,cour|Le silo est relié à la halle et accessible aux livraisons.
+Station de cogénération|machines,commande,stock,maintenance|Les zones de maintenance restent ouvertes autour des équipements inertes.
+Local groupe électrogène|machine,réserve,entretien,ventilation|Le groupe est dans un local technique et non dans une chambre ou une cuisine.
+Réserve civile de batteries|baies,commande,maintenance,sas|Les armoires sont disposées en rangées avec accès de maintenance.
+Tour de télécommunication|socle,abri technique,accès|Le mât est ancré; les câbles rejoignent un local situé au sol.
+Relais radio rural|local,antenne,énergie,atelier|L'antenne et le bâtiment forment un ensemble avec une desserte rurale.
+Central téléphonique|accueil,commutation,énergie,maintenance|Les plateaux techniques sont distincts de l'espace public.
+Centre de données|accueil,serveurs,refroidissement,énergie|Les allées et le refroidissement sont organisés autour des rangées de baies.
+Station satellite fictive|antennes,commande,atelier,stock|Les paraboles reposent sur des socles; le plan reste fictionnel et non opératoire.
+Dépôt technique d'éclairage|atelier,mâts,câblage,garage|Les pièces longues s'alignent avec la sortie de cour et les luminaires sont rangés par lot.
+Usine à gaz désaffectée|enceinte,réservoirs,bureaux,maintenance|Les vestiges industriels sont inertes et reliés spatialement, sans procédés dangereux.
+Station de recharge routière|places dédiées,bornes,abri technique,attente|Les bornes desservent de vraies places et restent hors des voies traversantes.
+# Eau et réseaux
+Château d'eau|socle,escalier,cuve,local|La cuve repose sur le socle et son accès est cohérent avec sa hauteur.
+Station de pompage|prise d'eau,pompes,commande,maintenance|La prise est réellement reliée à l'eau et les pompes restent accessibles.
+Usine de traitement d'eau|prise,bassins,halles,commande|Les volumes suivent une chaîne de traitement lisible sans constituer un manuel réel.
+Station d'épuration|réception,bassins,technique,service|Les passerelles longent des bassins non traversables à pied.
+Bassin d'orage|digue,entrée d'eau,déversoir,chemin|Le relief dirige l'eau et le chemin reste sur la berge.
+Réservoir enterré|accès,chambres techniques,cuve|Le volume est sous le terrain et la maintenance rejoint les chambres par un accès propre.
+Canal avec écluse|biefs,sas,maison,chemin de halage|Les niveaux d'eau et les franchissements des rives sont cohérents.
+Aqueduc ancien|arches,conduit,inspection,accès|Les arches sont supportées et le conduit se trouve au-dessus des piles.
+Collecteur visitable fictif|entrée,galerie,chambres,sortie|Un passage sec est distingué du canal et permet un vrai retour.
+Local d'égout de quartier|trappe,escalier,galerie technique|La trappe et l'escalier relient deux niveaux réels, sans porte menant au vide.
+Lavoir ancien|bassin,abri,arrivée d'eau,chemin|L'eau possède une arrivée et une sortie; le toit est porté par des supports.
+Fontaine de village|bassin,place,technique|La fontaine occupe une place avec une circulation périphérique.
+Puits agricole|margelle,abri,chemin,réserve|Le puits est un ouvrage identifiable; la margelle et l'accès restent distincts du terrain.
+Station d'irrigation|pompes,collecteurs,stock tuyaux,cour|Les conduites suivent les bords des champs et rejoignent les prises.
+Barrage de petite rivière|retenue,digue,commande,chemin|L'eau, le relief et les accès d'une rive à l'autre sont cohérents.
+Digue côtière|couronnement,escaliers,ouvrage technique|La protection est linéaire et les accès à la plage sont localisés.
+Portes anti-crue fictives|ouvrage,circulation,local de service|Le passage d'eau reste dimensionné; le dispositif est un décor fictif non opératoire.
+Dépôt de citernes|cour,hangar,maintenance,bureau|Les cuves sont calées et l'aire permet leur manutention.
+Captage forestier|prise protégée,local,chemin|La petite emprise suit le terrain humide sans parking commercial disproportionné.
+Réseau de bassins abandonné|bassins,liaisons,local,friches|La végétation colonise les zones sèches et les bassins conservent leurs limites.
+# Agriculture
+Ferme céréalière|habitation,hangar,silos,cour,champs|Les engins sont près des hangars et les cultures suivent des parcelles accessibles.
+Ferme bovine|étable,fourrage,soins,cour,logement|La nourriture et les animaux ont leurs circuits; le logement est à l'écart des effluents.
+Bergerie|bâtiment du troupeau,foin,soins,pâtures|Les portes rejoignent les parcs et les clôtures suivent le terrain.
+Élevage avicole|bâtiments,aliments,conditionnement,service|Les aliments, produits et retours sales restent séparés.
+Porcherie désaffectée|cases,aliments,lavage,cour|La trame des cases demeure lisible malgré l'abandon.
+Ferme laitière|étable,traite,froid,fourrage|Le circuit du lait est distinct des déplacements des animaux.
+Exploitation maraîchère|champs,serres,lavage,conditionnement|La récolte rejoint lavage et expédition; les planches de culture restent desservies.
+Serres horticoles|serres,préparation,stock,vente|Les plantations suivent les tables et les allées d'entretien.
+Verger|rangs d'arbres,hangar,tri,stock|Les rangs suivent pente et accès; les lisières présentent des manques et irrégularités.
+Vignoble fictif|parcelles,hangar,chai,logement|Le relief et les chemins expliquent les rangs; aucune recette d'alcool n'est nécessaire.
+Oliveraie|arbres,hangar,presse,stock|L'espacement varie avec le terrain tout en conservant les accès de récolte.
+Ferme apicole|ruchers,atelier,stock,emballage|Les ruches sont en groupes protégés et l'atelier reste hors du passage public.
+Centre équestre|écuries,sellerie,manège,carrière,logement|Les chevaux disposent de parcours propres; le fourrage est proche des écuries.
+Ferme pédagogique|accueil,parcs,atelier,réserve|Le public suit un parcours guidé distinct des mouvements d'engins.
+Coopérative agricole|réception,silos,magasin,cour|Une boucle de livraison permet l'attente des camions sans fermer la sortie.
+Silo à grains|tour,réception,chargement,commande|La tour est à l'échelle; les matières transitent à son pied.
+Dépôt d'amendements agricoles|accueil,stock,chargement,cour|Les sacs restent scellés et groupés, sans composition chimique ou procédé dangereux décrit.
+Champ abandonné en friche|parcelle,fossés,chemin,remise|La repousse vient des lisières et fossés plutôt que d'un bruit uniforme partout.
+Jardins familiaux|allées,parcelles,cabanons,eau|Chaque parcelle est accessible; le cabanon reste un petit bâtiment proportionné.
+Ferme expérimentale|laboratoire,champs d'essai,serres,hangar|Les parcelles sont identifiées et le laboratoire séparé du trafic des engins.
+# Forêts et filière bois
+Scierie de vallée|parc à grumes,découpe,séchage,stock,cour|Les grumes deviennent des planches le long d'un flux lisible et les engins ont une aire de manœuvre.
+Petite scierie artisanale|cour,atelier,séchage,bureau|L'échelle est réduite mais les étapes de travail restent distinctes.
+Dépôt de grumes|piste,aires de stockage,chargement|Les piles sont parallèles au chargement et jamais dans l'intérieur d'un virage.
+Séchoir à bois|chambres,chargement,technique|Les stocks avant et après séchage sont séparés et les chambres accessibles.
+Atelier de charbon patrimonial|clairière,aires de fours,stock,abri|Les fours inertes témoignent de l'ancienne activité sans décrire sa conduite.
+Maison forestière|logement,bureau,remise,cour|Le bâtiment se trouve à une jonction de pistes avec une clairière d'accès.
+Camp de bûcherons|dortoir,réfectoire,atelier,stock|Les couchages sont en retrait des opérations de grumes et d'engins.
+Cabane d'observation|abri,accès,petit stock|Le poste repose sur le terrain et garde une vue sur sa zone d'observation.
+Tour d'observation naturaliste|base,escalier,plateforme|La structure est supportée et son parcours vertical est réellement connecté.
+Pépinière forestière|semis,serres,hangar,eau|Les plants sont en séries adaptées à l'entretien avec des allées continues.
+Clairière de coupe|piste,souches,piles de bois,aire d'engins|Les traces suivent les trajets d'exploitation et la régénération commence sur les bords.
+Forêt ancienne|canopée,sous-bois,clairières,ravines|Les bosquets sont corrélés au sol et à l'humidité; de vrais vides interrompent la densité.
+Plantation de conifères|rangs,layons,zone de coupe,chemins|Les rangs d'origine sont perturbés par les éclaircies et la mortalité.
+Bois riverain|berge,sous-bois,passages,clairières|Les espèces et densités suivent l'humidité; les franchissements sont localisés.
+Bois brûlé|lisière de feu,troncs,repousses,pistes|Le front d'incendie conserve des poches épargnées et des zones de reprise.
+Bois de tempête|couloir de chutes,chemin,bois sur pied|Une direction dominante explique les troncs tombés avec des variations locales.
+Zone de débardage|pistes,rampe,stock,cour|La rampe rejoint la route de transport et les rayons des engins sont dégagés.
+Atelier de palettes|bois brut,découpe,assemblage,stock|Les palettes restent volontairement alignées en piles accessibles.
+Dépôt de bois de chauffage|ronds,fendage,séchage,chargement|Les stères sous abri se distinguent du bois brut extérieur.
+Arboretum|chemins,collections,accueil,entretien|Les essences sont en collections localisées; les chemins organisent la découverte.
+# Mines et matériaux
+Mine à galerie|entrée,galeries,chambres,atelier,stock|Le réseau possède des soutènements et des connexions réelles entre surface et sous-sol.
+Mine à ciel ouvert|gradins,pistes,atelier,chargement|Les gradins et rampes forment un parcours continu plutôt qu'un trou peint.
+Carrière de pierre|fronts,cour de taille,pistes,stock|Les déblais sont au pied des fronts et les blocs suivent la taille puis le chargement.
+Carrière de granulats|fronts,concassage,criblage,stock|Les tas sont séparés par type et desservis par des allées de manutention.
+Sablière|bassins,extraction,lavage,stock|L'eau et le terrain meuble gouvernent les accès aux zones de travail.
+Gravière|plans d'eau,berges,tri,stock|Les plateformes sont portées et les berges ont des parcours accessibles.
+Mine désaffectée inondée|portail,galerie sèche,zone inondée,atelier|L'eau coupe certaines branches mais ne supprime pas silencieusement l'unique retour.
+Puits de mine ancien|chevalement,recette,treuil inerte,bâtiments|La structure est supportée et les niveaux jouables possèdent une liaison définie.
+Mine de sel fictive|descente,galeries,salles,chargement|Les chambres restent raccordées au réseau et leurs objets suivent une orientation d'exploitation.
+Mine de charbon historique|entrée,galeries,tri,stock|Les berlines et rails rendent lisible l'ancienne activité sans procédé d'exploitation réel.
+Galerie de prospection|portail,branche courte,réserve d'outils|Le lieu possède une fin définie et un retour, pas un labyrinthe infini automatique.
+Centre de concassage|réception,machines,tas,chargement|Les tas se trouvent à la sortie des convoyeurs et sont accessibles aux camions.
+Atelier de tailleur de pierre|cour à blocs,atelier,finition,stock|Les blocs lourds restent au sol et le bureau est hors de la poussière.
+Négoce de roches décoratives|showroom,cour,stock,chargement|Le public visite l'exposition sans traverser les trajectoires d'engins.
+Ancienne briqueterie|argile,formage,séchage,fours|Les séchoirs ont une trame répétée fonctionnelle et les fours une échelle crédible.
+Four à chaux patrimonial|accès haut,four inerte,accès bas,stock|Les deux niveaux s'appuient sur le relief; le lieu n'est pas un manuel de production.
+Champ de terrils|pentes,chemins,plateforme,friches|La végétation et les accès suivent la stabilité du terrain et l'humidité.
+Base géologique|bureau,carothèque,atelier,garage|Les échantillons sont rangés et identifiés dans la carothèque.
+Tunnel minier réaffecté|entrée,galeries de stockage,quais,service|Le nouvel usage conserve la lecture du réseau ancien.
+Village minier fantôme|logements,école,commerce,puits,chemins|L'extraction explique l'organisation du village et la localisation de ses services.
+# Ports et activités nautiques
+Port de pêche|quais,criée,filets,atelier|Les denrées vont des bateaux à la criée; les pontons restent à hauteur crédible.
+Port de plaisance|pontons,capitainerie,sanitaires,atelier|Les pontons sont reliés et les piétons ne traversent pas les mises à l'eau.
+Port de commerce|quais,hangars,cours,administration|Les grandes emprises raccordent les flux d'eau, de rail et de route.
+Terminal ferry|accueil,attente,passerelles,files véhicules|Les embarquements piétons et automobiles sont distincts.
+Chantier naval|cales,ateliers,stock,quais|Les coques reposent sur des supports et ne flottent pas au-dessus de la terre.
+Atelier de réparation nautique|réception,hangar,stock,rampe|Le chemin des bateaux relie la rampe à des baies suffisamment grandes.
+Capitainerie|accueil,bureau avec vue,radio,réserve|Le bureau voit le bassin et l'entrée publique donne sur le quai.
+Hangar à bateaux|baies,voiles,atelier,cale|La longueur des baies correspond aux coques et la cale est raccordée.
+Écluse portuaire|sas,quais,commande,passerelle|Les niveaux d'eau sont distincts et les rives restent reliées.
+Dépôt de conteneurs|rangées,allées,cour de manutention,bureau|Les empilements sont supportés et seules les portes accessibles sont interactives.
+Entrepôt douanier fictif|accueil,inspection,stock,quai|L'organisation générale est fictionnelle sans détail de sécurité opérationnelle réelle.
+Gare fluviale|hall,ponton,bagagerie,service|Le ponton rejoint la berge et sa passerelle suit le niveau prévu de l'eau.
+Petit embarcadère|chemin,quai,abri,anneaux|Le petit ouvrage est lié à un village, pas à une logistique commerciale géante.
+Base nautique de loisirs|accueil,vestiaires,hangar,ponton|Les embarcations longues sont orientées vers la mise à l'eau.
+Bateau-restaurant amarré|passerelle,salle,cuisine,pont|Les niveaux sont raccordés dans une coque cohérente et le retour vers le quai est visible.
+Phare côtier|logement,escalier,lanterne,service|L'escalier est continu et le socle ancré au promontoire.
+Dépôt de dragage abandonné|quai,atelier,stock,berges|Les engins inertes et conduites sont regroupés selon l'ancienne opération portuaire.
+Port sec intérieur|terminal ferroviaire,stock,cour,bureau|Les conteneurs sont justifiés par la logistique rail/route même sans bord d'eau.
+Marina sinistrée|pontons brisés,quais,capitainerie,épaves|Les dégâts suivent une direction de houle et les passages rompus sont lisibles.
+Hameau lacustre|maisons,chemins,pontons,hangars|Les maisons sont hors de l'eau ou sur de vrais supports.
+# Loisirs et culture
+Parc urbain|allées,pelouses,jeux,service|Le mobilier suit les chemins et les plantes forment des massifs, pas une dispersion uniforme.
+Terrain de football|pelouse,vestiaires,tribunes,service|Les proportions du terrain sont cohérentes et les équipes disposent d'un accès propre.
+Stade municipal|terrain,gradins,circulations,vestiaires|Les gradins sont portés et plusieurs sorties sont desservies par de vraies circulations.
+Gymnase|hall,salle,vestiaires,stock|Le centre de la salle reste libre et les agrès sont rangés en réserve.
+Piscine municipale|accueil,vestiaires,douches,bassins,technique|Le parcours sec/humide et la maintenance des bassins restent séparés.
+Cinéma multiplexe|hall,salles,projection,confiserie,service|Chaque salle est accessible sans traverser une projection voisine.
+Cinéma de quartier|hall,salle,projection,bureau|La cabine de projection se situe derrière la salle à la bonne hauteur.
+Théâtre|hall,salle,scène,coulisses,atelier|La scène rejoint les coulisses et les décors arrivent par l'arrière.
+Salle de concert|entrée,salle,scène,loges,technique|Les artistes et le chargement ne suivent pas le même parcours que le public.
+Musée local|accueil,salles,réserve,atelier|La réserve est hors du parcours des visiteurs et les objets exposés gardent un cartel.
+Musée industriel|hall des machines,galeries,atelier,réserve|Les pièces lourdes sont supportées et accessibles autour de leur emprise.
+Parc d'attractions abandonné|entrées,allées,attractions,service|Les attractions sont à leur échelle et les chemins techniques restent derrière elles.
+Fête foraine démontée|terrain,stocks,remorques,atelier|Les éléments sont regroupés par attraction et le terrain garde des circulations.
+Campement de clairière|sentier,emplacements,foyer éteint,stock|Les tentes restent hors de la route et les ressources sont modestes.
+Base de scoutisme|accueil,cabanes,réfectoire,clairières|Les petits bâtiments sont liés par des chemins plutôt qu'une grille militaire.
+Club de tennis|accueil,courts,vestiaires,réserve|Les courts ont leurs proportions et un accès sans franchir les filets.
+Bowling|accueil,pistes,bar,maintenance|Le public est du côté du lancer et les machines à l'arrière des pistes.
+Salle d'arcade|entrée,machines,atelier,stock|Les bornes suivent des rangées avec passage de maintenance arrière.
+Jardin botanique|serres,collections,accueil,entretien|Les biotopes sont groupés et les serres adaptées à leur collection.
+Cimetière paysager|entrée,allées,sections,entretien|Les sections sont reliées par des chemins et traitées avec sobriété.
+# Quartiers et agglomérations
+Village-rue|rue,maisons,commerces,cours,jardins|Le bâti suit un axe ancien; les profondeurs de parcelles ne sont pas toutes identiques.
+Village autour d'une place|place,mairie,commerces,maisons,ruelles|Les espaces publics convergent vers la place et les services passent à l'arrière.
+Village agricole dispersé|fermes,chemins,champs,petit centre|Les parcelles agricoles déterminent les distances et les chemins.
+Village perché|rues en pente,escaliers,placettes,maisons|Le relief est réel et limite l'accès des véhicules.
+Village forestier|maisons,scierie,dépôt de bois,pistes|La scierie est en lisière et les logements hors de sa manutention.
+Village minier reconverti|corons,friche,commerces,parc|La trame ancienne est conservée et les usages nouveaux sont identifiables.
+Village côtier|port,ruelles,maisons,commerces|Les activités portuaires occupent le rivage et les logements les voies de vie.
+Bourg ferroviaire|gare,avenue,entrepôts,habitat|L'urbanisation est organisée autour de la gare et de rares traversées des voies.
+Bourg de carrefour|croisement,commerces,garages,habitat|Les stations et cours sont en retrait des routes qui expliquent l'existence du bourg.
+Hameau de montagne|chalets,remises,sentiers,source|Les pentes et orientations façonnent les accès et les parcelles.
+Lotissement périurbain|rues,impasses,parcelles,parc|La régularité des lots est perturbée par leur occupation, pas par des routes incohérentes.
+Quartier pavillonnaire ancien|rues,jardins,maisons,ateliers|Les parcelles longues portent des transformations et annexes successives.
+Centre-ville dense|îlots,places,commerces,logements,services|Les mitoyens et cours évitent les vides réguliers entre tous les bâtiments.
+Faubourg industriel|rues,ateliers,logements,entrepôts|Le passage de l'habitat à l'industrie se fait progressivement.
+Quartier portuaire habité|quais,ateliers,commerces,logements|Les zones techniques bordent l'eau et les logements les rues publiques.
+Quartier hospitalier|hôpital,cliniques,logements,services|Les accès publics, urgences et logistique restent distincts à l'échelle du quartier.
+Quartier universitaire|facultés,résidences,bibliothèques,espaces verts|Le réseau piéton est continu et la logistique se place en périphérie.
+Cité-jardin|maisons,espaces communs,jardins,services|Les réseaux verts sont hiérarchisés et les accès privatifs clairs.
+Ville nouvelle en chantier|quartiers livrés,chantier,réserves,voirie|Les fronts de chantier sont continus et séparés des quartiers occupés.
+Petite ville évacuée|centre,habitat,services,rassemblement|Le désordre se concentre sur les axes d'évacuation et non également dans chaque rue.
+# Ruines et lieux dégradés visitables
+Maison effondrée visitable|façade conservée,pièces,zone de chute,cave|Les gravats viennent des murs tombés et laissent un parcours réel dans les pièces survivantes.
+Maison incendiée|murs extérieurs,pièces brûlées,garage,cour|La propagation du feu est localisée et laisse des poches moins touchées.
+Immeuble partiellement effondré|hall,cage stable,étages,zone ouverte|Les étages accessibles restent portés; une rupture de dalle interrompt réellement un trajet.
+Hôtel abandonné visitable|lobby,couloirs,chambres,linge,service|Les chambres possèdent des états différents et les circulations gardent leur logique hôtelière.
+Centre commercial pillé|mail,boutiques,réserves,quais,parking|Le pillage est plus fort côté public et certaines réserves arrière peuvent être restées fermées.
+Supermarché sinistré|vente,froid,stock,quai|Les dégâts sont localisés et le rangement encore lisible sous le désordre.
+Garage éventré|atelier,baie détruite,stock,cour|La toiture tombée correspond aux supports manquants; les véhicules restent contournables.
+Entrepôt à toit percé|quais,allées,stock,zone humide|La zone humide se trouve sous la brèche et le stock sec ailleurs.
+Usine en friche|ateliers,bureaux,cours,réseaux|Les plantes suivent fissures et lumière; les machines conservent leur chaîne d'origine.
+École endommagée|classes,préau,administration,cour|La destruction se concentre sur un secteur expliqué et non sur tous les objets à la fois.
+Hôpital évacué|accueil,soins,chambres,stock|Certains locaux sont vidés et d'autres fermés; l'évacuation a laissé des indices distincts.
+Église en ruine|nef,collatéraux,sacristie,clocher|Les arches sont supportées et le clocher possède un accès vérifié séparément.
+Fort envahi par la végétation|cour,galeries,casemates,accès|La végétation entre par la lumière et les souterrains restent distincts du plein air.
+Station-service brûlée|pompes,boutique,atelier,aire|L'auvent est soit porté, soit réellement effondré; les pompes restent hors de la route.
+Pont rompu|approches,tablier restant,lit,chemin inférieur|Le tablier présente une vraie interruption et un détour physique est proposé ailleurs.
+Tunnel obstrué|entrée,section accessible,éboulis,niche|L'éboulis ferme une profondeur explicite; le retour n'est pas un passage invisible.
+Mine abandonnée visitable|galeries stables,chambres,atelier,éboulis|Les branches mortes et détours structurent l'exploration; les minerais ne couvrent pas uniformément chaque mur.
+Motel gagné par la forêt|cour,chambres,coursive,réserve|La repousse vient de la périphérie et la coursive conserve son parcours.
+Village ruiné visitable|rue,maisons,place,atelier,jardins|Les parcelles d'origine sont reconnaissables et chaque maison conserve ses fonctions.
+Bunker civil dégradé|sas,galerie,salle collective,réserve,sortie|Le sous-sol rejoint la surface et les pannes/encombrements sont localisés.

@@ -1,0 +1,23 @@
+[
+  {
+    "seed": 17117,
+    "pois": 223,
+    "poiHash": "55e8d7d8cf35a382459bd7a1da7f713195da2f2661dd3240fe5387bc5bf40ef3",
+    "plansHash": "43fd314d3bd45d2245fcde710f367dc0edd28df14c6ee4c3b3a624019175418f",
+    "chunksHash": "a8e59ecc6d7365cdc544acc5d854e5b44e62b77baeed14ce48ebfecd492b6d00"
+  },
+  {
+    "seed": 42,
+    "pois": 215,
+    "poiHash": "23e3063acb09ea48eabcb8d319111af646996017010a7184e658745594764021",
+    "plansHash": "45f1e322a4eaabb3acbe9809de497dff13bb1cb3f616eee8addea80503c4f5ca",
+    "chunksHash": "1d7efd4d7b0d17533b0da262dfa9696e7f0543b73a783a7c2f4ace605879b832"
+  },
+  {
+    "seed": 903145,
+    "pois": 207,
+    "poiHash": "d85d06c4a99dc8080b988482caf1e0af0bc34085b004607b596a6e1014c7940b",
+    "plansHash": "78514d5b281f2fb5afc3fe184defe11611fd3441be31775bacecb76261d442d8",
+    "chunksHash": "b433ea4ef20d3381a95920e6dc6827777435341346fa6e47613dba810ac612ee"
+  }
+]

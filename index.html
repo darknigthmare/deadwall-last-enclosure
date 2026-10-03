@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#111513">
   <title>DEADWALL — La Dernière Enceinte</title>
-  <meta name="description" content="Jeu de défense de cité zombie, construction et hordes infinies.">
+  <meta name="description" content="Explorez D-17 le jour, bâtissez ses enceintes et protégez ses équipes, ses quartiers et ses convois contre les hordes de la nuit.">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -15,6 +15,21 @@
   <link rel="stylesheet" href="narrative.css">
   <link rel="stylesheet" href="squads.css">
   <link rel="stylesheet" href="finish.css">
+  <link rel="stylesheet" href="exploration-125.css">
+  <link rel="stylesheet" href="night-gear.css">
+  <link rel="stylesheet" href="world-codex.css">
+  <link rel="stylesheet" href="expansion-ui.css">
+<link rel="stylesheet" href="loadout129.css">
+<link rel="stylesheet" href="command-presentation129.css">
+<link rel="stylesheet" href="departure130.css">
+<link rel="stylesheet" href="chronicles131.css">
+<link rel="stylesheet" href="campaign-intro132.css">
+<link rel="stylesheet" href="presentation132.css">
+<link rel="stylesheet" href="succession-ui133.css">
+<link rel="stylesheet" href="arsenal134.css">
+<link rel="stylesheet" href="interventions134.css">
+<link rel="stylesheet" href="barricades134.css">
+<link rel="stylesheet" href="hud135.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -117,9 +132,9 @@
         </div>
       </div>
       <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — classique</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
-      <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
-      <p class="seed-hint" id="seedHint">0 à 4 294 967 295. Une même graine reproduit le terrain et ses ressources, pas le déroulement des combats.</p>
-      <footer><span>VERSION 1.0.0</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
+      <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Nouvelle carte aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="randomMapSeedButton" aria-describedby="seedHint">TIRER UNE GRAINE</button><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
+      <p class="seed-hint" id="seedHint">Champ vide : nouvelle graine à chaque départ. Un nombre de 0 à 4 294 967 295 reproduit le terrain, les biomes et la position de D-17 dans cette version du générateur. L’aperçu prépare uniquement le prochain départ.</p>
+      <footer><span>VERSION 1.48.0 · BASTIONS &amp; ATELIERS</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
     </main>
     <div class="menu-scene-caption" aria-hidden="true"><span>ARCHIVES DU SECTEUR D-17</span><strong>CHAQUE ENCEINTE<br>EST UNE SECONDE CHANCE.</strong><small>Reconstruire. Tenir. Recommencer.</small></div>
   </div>
@@ -184,7 +199,25 @@
   <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="debriefCampaign" class="debrief-campaign"></p><p id="debriefDuration"></p><p id="gameOverStats" class="debrief-legacy"></p><div id="debriefMetrics" class="debrief-metrics"></div><h3>POUR LA PROCHAINE CITÉ</h3><ul id="debriefLessons" class="debrief-lessons"></ul><p class="command-note">Les records restent dans vos archives. Rejouer crée une nouvelle campagne sans bonus permanent ; la cité perdue n'est pas restaurée.</p><button id="restartButton" class="primary">REJOUER CETTE CARTE</button><button id="gameOverNewMapButton">NOUVELLE CARTE · MÊME DÉPART</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
 
   <noscript>JavaScript doit être activé.</noscript>
-  <script src="src/core.js"></script>
+  <script src="src/frontier-specialists.js"></script>
+<script src="src/frontier-places.js"></script>
+<script src="src/settlement-plans.js"></script>
+<script src="src/frontier-geometry.js"></script>
+<script src="src/region-roadkit.js"></script>
+<script src="src/region-settlements.js"></script>
+<script src="src/frontier-world.js"></script>
+<script src="src/frontier-state.js"></script>
+<script src="src/frontier-logistics.js"></script>
+<script src="src/field-atlas-state.js"></script>
+<script src="src/essential-content.js"></script>
+<script src="src/essential-state.js"></script>
+<script src="src/world-evolution-state.js"></script>
+<script src="src/core.js"></script>
+<script src="src/biomes135.js"></script>
+<script src="src/geography135.js"></script>
+<script src="src/world-spawns131.js"></script>
+<script src="src/world-stream131.js"></script>
+
   <script src="src/scenarios.js"></script>
   <script src="src/squads.js"></script>
   <script src="src/battlefield.js"></script>
@@ -192,9 +225,35 @@
   <script src="src/save.js"></script>
   <script src="src/tactics.js"></script>
   <script src="src/profile.js"></script>
+  <script src="src/assets136.js"></script>
   <script src="src/art.js"></script>
   <script src="src/world-content.js"></script>
-  <script src="src/game.js"></script>
+  <script src="src/salvage.js"></script>
+  <script src="src/urban.js"></script>
+  <script src="src/urban-art.js"></script>
+  <script src="src/nightwatch.js"></script>
+  <script src="src/power-grid.js"></script>
+  <script src="src/power-grid-art.js"></script>
+  <script src="src/expeditions.js"></script>
+  <script src="src/expedition-art.js"></script>
+  <script src="src/fieldcraft.js"></script>
+  <script src="src/atlas-projection.js"></script>
+<script src="src/field-atlas-art.js"></script>
+<script src="src/atlas-render.js"></script>
+<script src="src/frontier-routing.js"></script>
+<script src="src/frontier-survey.js"></script>
+<script src="src/frontier.js"></script>
+<script src="src/ground135.js"></script>
+<script src="src/frontier-art.js"></script>
+<script src="src/frontier-care.js"></script>
+<script src="src/return-routes.js"></script>
+<script src="src/field-atlas.js"></script>
+<script src="src/essential-ops.js"></script>
+<script src="src/essential-art.js"></script>
+<script src="src/world-evolution.js"></script>
+<script src="src/world-evolution-art.js"></script>
+<script src="src/coop.js"></script>
+<script src="src/game.js"></script>
   <script src="src/ui.js"></script>
   <script src="src/command-ui.js"></script>
   <script src="src/content-ui.js"></script>
@@ -202,6 +261,70 @@
   <script src="src/scenario-ui.js"></script>
   <script src="src/squad-ui.js"></script>
   <script src="src/battlefield-ui.js"></script>
+  <script src="src/coordination.js"></script>
+  <script src="src/coordination-ui.js"></script>
+  <script src="src/linecare.js"></script>
+  <script src="src/linecare-ui.js"></script>
+  <script src="src/recon-art.js"></script>
+  <script src="src/recon.js"></script>
+  <script src="src/recon-ui.js"></script>
+  <script src="src/salvage-ui.js"></script>
+  <script src="src/urban-ui.js"></script>
+  <script src="src/power-grid-ui.js"></script>
+  <script src="src/expeditions-ui.js"></script>
+  <script src="src/fieldcraft-ui.js"></script>
+<script src="src/atlas-view.js"></script>
+<script src="src/frontier-ui.js"></script>
+<script src="src/frontier-care-ui.js"></script>
+<script src="src/return-routes-ui.js"></script>
+<script src="src/field-atlas-ui.js"></script>
+<script src="src/essential-ui.js"></script>
+<script src="src/world-evolution-ui.js"></script>
+  <script src="src/night-gear.js"></script>
+  <script src="src/exploration-125.js"></script>
+  <script src="src/visibility146.js"></script>
+  <script src="src/actor-presentation.js"></script>
+<script src="src/operations-art.js"></script>
+<script src="src/world-codex-nature.js"></script>
+<script src="src/world-codex-habitat.js"></script>
+<script src="src/road-profiles133.js"></script>
+<script src="src/world-codex-activites.js"></script>
+<script src="src/world-codex-systemes.js"></script>
+<script src="src/equipment-codex134.js"></script>
+<script src="src/biomes-codex135.js"></script>
+<script src="src/world-codex.js"></script>
+<script src="src/expansion-kit.js"></script>
+<script src="src/exploration-pack.js"></script>
+<script src="src/survival-pack.js"></script>
+<script src="src/fortification-pack.js"></script>
+<script src="src/companions-pack.js"></script>
+<script src="src/campaign-pack.js"></script>
+<script src="src/defense-pack131.js"></script>
+<script src="src/exploration-pack131.js"></script>
+<script src="src/player-pack131.js"></script>
+<script src="src/world-pack131.js"></script>
+<script src="src/chronicles131-data.js"></script>
+<script src="src/chronicles131.js"></script>
+<script src="src/chronicles131-ui.js"></script>
+<script src="src/expansion-ui.js"></script>
+<script src="src/loadout129.js"></script>
+<script src="src/loadout-ui129.js"></script>
+<script src="src/command-presentation129.js"></script>
+<script src="src/departure130.js"></script>
+<script src="src/campaign-intro132.js"></script>
+<script src="src/presentation132.js"></script>
+<script src="src/hero-actions133.js"></script>
+<script src="src/succession133.js"></script>
+<script src="src/succession-ui133.js"></script>
+<script src="src/arsenal134.js"></script>
+<script src="src/arsenal-ui134.js"></script>
+<script src="src/interventions134.js"></script>
+<script src="src/interventions-ui134.js"></script>
+<script src="src/barricades134.js"></script>
+<script src="src/barricades-ui134.js"></script>
+<script src="src/hud135.js"></script>
+
+
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

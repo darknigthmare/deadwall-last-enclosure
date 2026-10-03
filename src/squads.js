@@ -11,12 +11,22 @@
   function create(rally={x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2}){
     return{version:1,selected:0,groups:Array.from({length:RULES.count},()=>({order:'rally',rally:point(rally)}))};
   }
-  function normalize(raw,legacyRally){
+  function normalize(raw,legacyRally,buildings){
     if(raw===undefined)return create(legacyRally);
     if(!object(raw)||raw.version!==1||!validIndex(raw.selected)||!Array.isArray(raw.groups)||raw.groups.length!==RULES.count)invalid('format');
+    const structures=buildings===undefined?null:new Map(buildings.map(b=>[b.id,b]));
     return{version:1,selected:raw.selected,groups:raw.groups.map(group=>{
       if(!object(group)||!['rally','retreat'].includes(group.order))invalid('ordre');
-      return{order:group.order,rally:point(group.rally)};
+      const result={order:group.order,rally:point(group.rally)};
+      if(group.retreatBuildingId!==undefined){
+        const id=group.retreatBuildingId;
+        if(group.order!=='retreat'||!Number.isInteger(id)||id<1||id>0x7ffffffe)invalid('destination de repli');
+        const building=structures?.get(id);
+        if(building&&(building.type!=='fallbackRedoubt'||building.progress<1))invalid('redoute de repli');
+        // A removed redoubt is a normal battlefield loss: resume at the centre.
+        if(!structures||building&&!building.dead&&building.health>0)result.retreatBuildingId=id;
+      }
+      return result;
     })};
   }
   function unitGroup(kind,value){
@@ -40,11 +50,12 @@
     }
     return assigned;
   }
-  function withOrder(state,index,order,rally){
+  function withOrder(state,index,order,rally,retreatBuildingId){
     if(!validIndex(index)||!['rally','retreat'].includes(order))return null;
     const result=normalize(state);
     result.groups[index]={order,rally:order==='rally'?point(rally):result.groups[index].rally};
-    return result;
+    if(retreatBuildingId!==undefined)result.groups[index].retreatBuildingId=retreatBuildingId;
+    return normalize(result);
   }
   const api={RULES,validIndex,create,normalize,unitGroup,counts,nextGroup,assignments,withOrder};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
