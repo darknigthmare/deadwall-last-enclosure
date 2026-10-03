@@ -1,3 +1,9 @@
+# Livraison courante — DEADWALL 1.49.0
+
+Base cumulative : commit 67bcb1f2f3adf90a4f76669e676cfb03cec90e73 (1.48), poussé sans force sur main. Cette passe vérifie la progression D-17 jusqu’à Mégaville III, rend le besoin de stockage visible et complète les images urbaines et de construction. Guide : docs/LIVRAISON_1_49.md. Six images originales et module d17-art149 distribués dans web/PWA/autonome. Sauvegarde v20 et règles de progression existantes conservées. Les résultats courants sont consignés séparément après leurs commandes réelles ; aucun résultat historique n’est réattribué. La fabrication du build ne prouve pas une publication Vercel.
+
+## Livraisons historiques conservées
+
 ## Livraison courante 1.48.0 — Bastions & ateliers
 
 Sources cumulatives depuis la référence immuable 1.47 : deux ensembles `Dayworks.PLANS`, deux montages finis dans `fortification-pack.js`, deux infectés dans le catalogue et les contrôleurs de combat existants, trois recettes dans l’arsenal existant. Le crafting partage les gardes de mains et les outils tenus ; le bestiaire dérive son nombre de profils. Aucun nouveau registre de ressources, aucune dépendance ou géographie supplémentaire. Sauvegarde générale v20, coordonnées et stocks hérités conservés.

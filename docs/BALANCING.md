@@ -51,11 +51,15 @@ La signature influe uniquement sur la quantité des contacts ; elle ne renforce 
 | Camp fortifié | 10 |
 | Avant-poste | 24 |
 | Forteresse | 48 |
-| Cité | 85 |
-| Citadelle | 135 |
-| Mégacité | 210 |
+| Ville | 85 |
+| Grande ville | 135 |
+| Métropole | 210 |
+| Grande métropole | 420 |
+| Mégaville I | 750 |
+| Mégaville II | 1200 |
+| Mégaville III | 1850 |
 
-Les segments de mur rapportent un faible score afin qu’une enceinte aide à progresser sans permettre de débloquer toute la technologie en construisant uniquement des palissades.
+Les segments de mur rapportent un faible score afin qu’une enceinte aide à progresser sans permettre de débloquer rapidement toute la technologie en construisant uniquement des palissades. Les âges utilisent le pic du score achevé ; aucun minimum de population ou de vague ne les conditionne. La répétition de bâtiments précoces reste possible : il faut la distinguer d’une cité viable. Le tableau décrit le catalogue installé courant ; les seuils sont conservés par la passe 1.49.
 
 ## Énergie
 

@@ -1,3 +1,10 @@
+# 1.49.0 — D-17, du refuge à la mégaville
+
+- Vérification transactionnelle des onze âges, des bâtiments finaux, de la logistique et de Continuer ; scènes tardives préparées explicitement distinguées d’une campagne humaine.
+- Capacité de stockage requise et manquante affichée dans Préparatifs depuis les coûts et bâtiments vivants.
+- Six images originales pour l’architecture et les travaux de D-17 ; intégration web/PWA/autonome, provenance et replis graphiques conservés.
+- Documentation des onze vrais noms et seuils ; mesures séparées du travail, de la production et du début automatisé, sans durée humaine entière inventée.
+
 # 1.48.0 — Bastions & ateliers
 
 - D-17 : Avant-porte hérissée (17 fondations) et Redoute de maintenance (27), coûts complets du catalogue et passages physiques, côtés ouverts sans enceinte annoncée à tort.

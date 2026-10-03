@@ -43,3 +43,8 @@ Les briefs de génération ont demandé des **assets runtime originaux** pour DE
 ## Vérification
 
 tests/art.test.cjs contrôle couverture du catalogue, limites des rectangles, 64 poses et masquage conservant les détails clairs. La galerie de rendu et les captures de partie ont été inspectées dans Chromium ; le test local charge les sept assets, vérifie l'absence de magenta opaque et mesure 90 pas simulation+rendu avec 300 infectés visibles. Ces mesures locales ne constituent pas une promesse de fréquence d'image sur tout matériel.
+
+
+## Compléments D-17 — 1.49
+
+Six images originales générées avec OpenAI Image Generation : centres (3 sprites), logements (6 sprites à 2/4/8/12/15/20 niveaux), industries (3), services (2), chantiers (3), cour compactée (texture). Les atlas conservent leur alpha natif et les pixels générés ; les rectangles de lecture ne modifient pas les images. Prompts exacts, génération/édition du logement, empreintes et dimensions : assets/art149/PROMPTS.md et assets/art149/PROVENANCE.json. Ces visuels sont intégrés au jeu ; aucun asset de tiers ni intérieur visitable ajouté.

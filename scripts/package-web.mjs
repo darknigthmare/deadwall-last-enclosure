@@ -160,7 +160,7 @@ export function packageWeb({ output = path.join(root, 'release', 'web') } = {}) 
   fs.mkdirSync(output, { recursive:true });
   const directory = fs.mkdtempSync(path.join(path.resolve(output), 'build-'));
   const provenanceFiles = ['docs/ART_PROVENANCE.md', 'docs/GAME_ART_PROVENANCE.md', 'docs/CONTENT_ART_PROVENANCE.md',
-    ...directoryFiles(path.join(root, 'assets')).filter(file => /(?:^|\/)(?:PROVENANCE_[A-Za-z0-9_.-]+\.json|PROMPTS\.md)$/.test(file)).map(file => 'assets/' + file)];
+    ...directoryFiles(path.join(root, 'assets')).filter(file => /(?:^|\/)(?:PROVENANCE(?:_[A-Za-z0-9_.-]+)?\.json|PROMPTS\.md)$/.test(file)).map(file => 'assets/' + file)];
   const archives = [];
   for (const variant of ['web', 'standalone']) {
     const staged = path.join(directory, variant);

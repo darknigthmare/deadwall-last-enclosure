@@ -1,3 +1,15 @@
+DEADWALL 1.49.0 — D-17, DU REFUGE À LA MÉGAVILLE
+
+Guide actuel : docs/LIVRAISON_1_49.md
+Onze âges jusqu’à Mégaville III : score de constructions achevées, pas attente d’une dernière vague.
+Stockage : dépôt initial500 ; entrepôt achevé+600 ; la tour de mégaville demande1600pierres.
+Préparatifs affiche désormais le stockage insuffisant avant les gros chantiers.
+Six images originales : centres, logements, industries, services, chantiers et matière de cour.
+Vérification : DEADWALL_SOAK=1 npm run check puis npm run test:d17.
+13min23s mesurent uniquement les travaux d’un parcours tardif préparé ; la durée humaine complète reste inconnue.
+
+Instructions de distribution antérieures conservées :
+
 DEADWALL 1.48.0 — BASTIONS & ATELIERS
 
 Extraire intégralement la variante choisie.

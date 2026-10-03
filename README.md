@@ -1,3 +1,21 @@
+# DEADWALL 1.49.0 — D-17, du refuge à la mégaville
+
+La croissance de D-17 comporte onze âges, jusqu’à Mégaville III à 1 850 points de constructions achevées. Le dossier Préparatifs explique désormais les capacités de stockage insuffisantes avant les gros chantiers. Les prix, seuils, collisions, ressources et sauvegardes restent ceux du jeu existant.
+
+Six images originales complètent les centres, logements, industries, services, chantiers et cours de travail. Les sprites utilisent le chargeur d’art commun et les emprises physiques actuelles ; ils sont intégrés au web, à la PWA et au HTML autonome.
+
+```sh
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:d17
+```
+
+Guide actuel : [docs/LIVRAISON_1_49.md](docs/LIVRAISON_1_49.md). Il détaille les onze seuils, le parcours contrôlé, les coûts et les mesures de temps. Les travaux seuls du parcours préparé prennent 13 min 23 s ; collecte, déplacements et combats sont exclus. La durée d’une campagne humaine complète reste à mesurer. Les résultats définitifs de vérification sont consignés séparément après exécution.
+
+Base committée et poussée : `67bcb1f` (1.48). Les anciennes archives et leurs preuves sont conservées. Cette continuation ne constitue pas une attestation de publication Vercel.
+
+## Historique conservé — 1.48
+
 # DEADWALL 1.48.0 — Bastions & ateliers
 
 Financez une avant-porte hérissée ou une redoute de maintenance, puis construisez leurs 17 ou 27 fondations ordinaires. Préparez sur un Hérisson deux montages mécaniques à six déclenchements depuis les matériaux du sac. Les nouveaux Porte-boucliers et Fonceurs ajoutent des faiblesses de position et de timing aux migrations de D-17, sans gonfler le total des vagues.

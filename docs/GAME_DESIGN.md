@@ -193,11 +193,15 @@ La taille des vagues reçoit un multiplicateur d’attraction pouvant atteindre 
 | Camp fortifié | caserne, générateur, automatisation fiable |
 | Avant-poste | acier, atelier, clinique et industrie avancée |
 | Forteresse | béton, manufacture de munitions, portes blindées |
-| Cité | tourelles lourdes et défense multi-secteurs |
-| Citadelle | plusieurs enceintes permanentes |
-| Mégacité | survie infinie à très grande signature |
+| Ville | tourelles lourdes, hôpital, halle et logistique |
+| Grande ville | centrale, valorisation et cuisine industrielle |
+| Métropole | tours, granulats et arsenal métropolitain |
+| Grande métropole | logements et services de grande capacité |
+| Mégaville I | grand ensemble fortifié, raffinerie et stockage électrique |
+| Mégaville II | tour de mégaville et complexe nourricier |
+| Mégaville III | centrale et réserve stratégique ; croissance et survie continues |
 
-Ce tableau décrit les usages visés, pas des conditions exclusives : plusieurs enceintes sont constructibles avant Citadelle. Huit objectifs introduisent les systèmes ; six doctrines apportent des bonus déterminés et achetables une seule fois. Quatre crises présentent deux décisions avec coûts, effets et délai sauvegardés.
+Ce tableau décrit les onze âges actuels et leurs modèles, pas des conditions exclusives : plusieurs enceintes sont constructibles bien avant les mégavilles. Le déblocage dépend du pic de score des bâtiments achevés, sans minimum de population ou de vague. Huit objectifs introduisent les systèmes ; six doctrines apportent des bonus déterminés et achetables une seule fois. Quatre crises présentent deux décisions avec coûts, effets et délai sauvegardés. Les seuils et limites de durée sont précisés dans [LIVRAISON_1_49.md](LIVRAISON_1_49.md).
 
 ## 13. Conditions de réussite et d’échec
 
@@ -224,7 +228,7 @@ Les records locaux distinguent vagues réellement survécues, éliminations, dur
 - aucun zombie fluorescent ni mutation spectaculaire incohérente ;
 - musique discrète, sons mécaniques et sirènes procédurales.
 
-Le rendu actuel utilise des textures et atlas originaux OpenAI, complétés par des effets et dessins procéduraux de secours. Les dix textures/atlas couvrent terrain, structures, décors, personnages et effets ; les seize cycles de huit poses incluent trois variantes cosmétiques. Leur provenance est conservée dans [GAME_ART_PROVENANCE.md](GAME_ART_PROVENANCE.md) et [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md). La livraison et les points commerciaux encore ouverts sont documentés dans [DESKTOP.md](DESKTOP.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Le rendu actuel utilise des textures et atlas originaux OpenAI, complétés par des effets et dessins procéduraux de secours. Les dix textures/atlas initiaux couvrent terrain, structures, décors, personnages et effets ; les seize cycles de huit poses incluent trois variantes cosmétiques. Les images ajoutées ensuite conservent leur provenance propre. La passe 1.49 apporte six images D-17, dix-sept sprites et une matière de cour, dont les logements à 2/4/8/12/15/20 niveaux. Leur provenance est conservée dans [GAME_ART_PROVENANCE.md](GAME_ART_PROVENANCE.md), [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md) et `assets/art149/PROVENANCE.json`. La livraison et les points commerciaux encore ouverts sont documentés dans [DESKTOP.md](DESKTOP.md) et [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 
 ## Extension 1.48 — Défendre les accès et choisir son matériel

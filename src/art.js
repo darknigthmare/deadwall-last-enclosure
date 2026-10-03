@@ -5,6 +5,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function(root) {
   'use strict';
   const Artwork136=root.DeadwallAssets136||(typeof require==='function'?require('./assets136.js'):null);
+  const D17Art149=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -12,6 +13,7 @@
     ...(Artwork136?.ASSETS139||{}),
     ...(Artwork136?.ASSETS140||{}),
     ...(Artwork136?.ASSETS141||{}),
+    ...(D17Art149?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },

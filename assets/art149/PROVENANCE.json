@@ -1,0 +1,232 @@
+{
+  "version": "1.49.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "images": [
+    {
+      "id": "d17Core149",
+      "runtime": "assets/art149/core-atlas.png",
+      "source": "/workspace/generated_images/exec-ac3f34ff-fffd-469a-a147-88d6faab2356.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "68ffd07270af4265662f3b9cba8fc2735443f34b4d5c4689577458bc8472e17a",
+      "bytes": 2249385,
+      "method": "built-in Image Gen; native image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "coreRefuge": [
+          13,
+          205,
+          488,
+          599
+        ],
+        "coreSteel": [
+          523,
+          166,
+          497,
+          639
+        ],
+        "coreConcrete": [
+          1035,
+          104,
+          488,
+          705
+        ]
+      },
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "d17Housing149",
+      "runtime": "assets/art149/housing-atlas.png",
+      "source": "/workspace/generated_images/exec-6cb0fc72-1c2e-4327-ad02-e9319e35b039.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "af53462951c627bcbc561c379b1a674f3fc0a439c1dafc4a67a3e135d9f44230",
+      "bytes": 2385385,
+      "method": "built-in Image Gen reference edit of original housing atlas; native final image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "housingLow": [
+          82,
+          191,
+          409,
+          250
+        ],
+        "housingApartment": [
+          624,
+          61,
+          319,
+          394
+        ],
+        "housingBlock": [
+          1111,
+          7,
+          303,
+          449
+        ],
+        "housingComplex": [
+          90,
+          529,
+          368,
+          474
+        ],
+        "housingFortified": [
+          588,
+          490,
+          361,
+          517
+        ],
+        "housingTower": [
+          1166,
+          464,
+          233,
+          549
+        ]
+      },
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "generationReference": {
+        "source": "/workspace/generated_images/exec-0cc807ac-91b0-48aa-8efc-3e39ade59050.png",
+        "sha256": "42f0fecb3242f6ac1153c4b780534c4afb1f6309e2df37fd7eddcd7c0b212173"
+      }
+    },
+    {
+      "id": "d17Industry149",
+      "runtime": "assets/art149/industry-atlas.png",
+      "source": "/workspace/generated_images/exec-876040a9-d76b-4426-85ff-470face2f6cd.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "69bcdf076218ad824e4a02db63a3e751e21ac6c4ba95cffc1d2d8c42954d759d",
+      "bytes": 2515200,
+      "method": "built-in Image Gen; native image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "manufacture": [
+          14,
+          194,
+          538,
+          631
+        ],
+        "power": [
+          569,
+          171,
+          430,
+          658
+        ],
+        "food": [
+          1014,
+          254,
+          515,
+          575
+        ]
+      },
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "d17Services149",
+      "runtime": "assets/art149/services-atlas.png",
+      "source": "/workspace/generated_images/exec-43a88d80-697d-421b-b0ae-8e995e0d7dae.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256": "409bc02747331b599bc0aa23235bf1783c6142f5bcb4a5bd31b7fee5f924e788",
+      "bytes": 2597743,
+      "method": "built-in Image Gen; native image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "hospital": [
+          9,
+          155,
+          766,
+          625
+        ],
+        "storage": [
+          790,
+          146,
+          744,
+          681
+        ]
+      },
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    },
+    {
+      "id": "d17Construction149",
+      "runtime": "assets/art149/construction-atlas.png",
+      "source": "/workspace/generated_images/exec-93fbe893-4d01-4900-a4c6-ff0eadd29b5d.png",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "mode": "RGBA",
+      "sha256": "783d60a800fa9c6e9cd3c622c1b12a41a159b653c579d29fe3c915b00b5f52a6",
+      "bytes": 2432401,
+      "method": "built-in Image Gen; native image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {
+        "foundation": [
+          46,
+          159,
+          641,
+          483
+        ],
+        "frame": [
+          768,
+          119,
+          638,
+          534
+        ],
+        "scaffold": [
+          1480,
+          23,
+          666,
+          637
+        ]
+      },
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d17Yard149",
+      "runtime": "assets/art149/working-yard.png",
+      "source": "/workspace/generated_images/exec-f98a5255-f082-4c18-ab37-f21a176dbccb.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "sha256": "98beecb96665672c97c7c202a7756de0b136ed7bbcf349fb3c9bd260b926562b",
+      "bytes": 3827663,
+      "method": "built-in Image Gen; native image copied unchanged",
+      "pixelEdits": false,
+      "sprites": {}
+    }
+  ],
+  "spriteCount": 17,
+  "textureCount": 1,
+  "pixelEdits": false,
+  "simulationChanges": false,
+  "promptFile": "assets/art149/PROMPTS.md"
+}

@@ -12,7 +12,10 @@
   function planning(){const v=overview(),pending=[];
    for(const b of g.world.buildings.values())if(live(b)&&!b.completed&&b.progress<1)pending.push({id:b.id,name:b.def.name,progress:b.progress,score:b.def.score||0});
    const pendingScore=pending.reduce((n,b)=>n+b.score,0),potentialScore=v.currentScore+pendingScore;
-   const models=tier=>Object.values(C.BUILDINGS).filter(d=>d.unlockTier===tier&&!['core','armoredGate'].includes(d.id)).map(d=>({id:d.id,name:d.name,description:d.description,cost:{...d.cost},score:d.score||0,requires:d.requires||null,requirementName:d.requires?C.BUILDINGS[d.requires].name:null,requirementMet:!d.requires||g.world.has(d.requires),missing:Object.fromEntries(Object.entries(d.cost).map(([key,n])=>[key,Math.max(0,n-(g.resources[key]||0))]).filter(([,n])=>n>0))}));
+   const models=tier=>Object.values(C.BUILDINGS).filter(d=>d.unlockTier===tier&&!['core','armoredGate'].includes(d.id)).map(d=>{
+    const minimumStorage=Math.max(0,...Object.values(d.cost));
+    return{id:d.id,name:d.name,description:d.description,cost:{...d.cost},score:d.score||0,requires:d.requires||null,requirementName:d.requires?C.BUILDINGS[d.requires].name:null,requirementMet:!d.requires||g.world.has(d.requires),minimumStorage,storageShortfall:Math.max(0,minimumStorage-g.storage),missing:Object.fromEntries(Object.entries(d.cost).map(([key,n])=>[key,Math.max(0,n-(g.resources[key]||0))]).filter(([,n])=>n>0))};
+   });
    return{...v,pending,pendingScore,potentialScore,potentialAge:C.cityTier(Math.max(v.peakScore,potentialScore)),remaining:v.next?Math.max(0,v.next.requiredScore-v.currentScore):0,remainingAfterPending:v.next?Math.max(0,v.next.requiredScore-potentialScore):0,currentModels:models(v.age.id),nextModels:v.next?models(v.next.id):[]};
   }
   function flashlight(value){ensure();if(!g.canIssueCommand()||g.player.dead||typeof value!=='boolean')return false;state.flashlight=value;g.nightwatch?.invalidate();g.audio?.ui();g.save(false);return true;}
