@@ -231,7 +231,7 @@ function install(g){
   for(const f of state.fittings){
    const m=f.mechanism,b=m&&building(f.id),recipe=m&&R.mechanisms[m.kind];if(!b||b.type!=='spikes'||!recipe)continue;
    m.cooldown=Math.max(0,m.cooldown-dt);
-   // Old infecteds do not serialize stagger. The paid support owns its remaining
+   // Historical saves can omit stagger. The paid support owns its remaining
    // entravement and reapplies it before the existing movement calculation.
    for(const c of m.caught){const z=zombies.get(c.id);if(z){z.stagger=Math.max(z.stagger||0,c.left);c.left=Math.max(0,c.left-dt);}else c.left=0;}
    m.caught=m.caught.filter(c=>c.left>0);

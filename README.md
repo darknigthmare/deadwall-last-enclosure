@@ -1,4 +1,6 @@
-# DEADWALL 1.53.0 — Monde, cohérence et fluidité
+# DEADWALL 1.53.1 — Monde, cohérence et fluidité
+
+Le correctif 1.53.1 conserve les ralentissements et l'agitation des dix profils d'infectés lors d'une sauvegarde/reprise, ainsi que le prochain cri des Hurleurs. Les anciennes copies restent lisibles ; les coûts, dégâts et conditions des onze âges restent ceux de la campagne existante.
 
 Cette passe corrige les manipulations de matériel au volant ou pendant une recharge, les menaces individuelles autour des interventions, les commandes de compagnons après une défaite et la migration extérieure lorsque le joueur monte à l’étage. Les boutons annoncent les disponibilités effectivement vérifiées par les actions.
 

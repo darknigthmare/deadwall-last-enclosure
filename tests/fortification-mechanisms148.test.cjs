@@ -135,8 +135,19 @@ test('148 montage : destruction préserve un autre effet distinct plus long',()=
 });
 
 test('148 montage : sauvegarde réelle conserve charges, cooldown et entrave sans remise à neuf',()=>{
- const g=fresh(),b=install(g),z=enemy(g,b);g.updateZombies(.04);const saved=copy(g.serialize()),stored=copy(mechanism(g,b)),carried={...g.player.carry},stock={...g.resources};assert.equal(saved.version,20);g.restoreSave(saved);assert.deepEqual(mechanism(g,b),stored);assert.deepEqual(g.player.carry,carried);assert.deepEqual(g.resources,stock);const restored=g.zombies.find(e=>e.id===z.id);assert.equal(restored.stagger,0,'Le propriétaire historique ne sauvegarde pas stagger');g.updateZombies(.04);assert.equal(mechanism(g,b).charges,5);assert.ok(Math.abs(restored.stagger-(stored.caught[0].left-.04))<1e-8);assert.ok(mechanism(g,b).cooldown<stored.cooldown);
+ const g=fresh(),b=install(g),z=enemy(g,b);g.updateZombies(.04);const saved=copy(g.serialize()),stored=copy(mechanism(g,b)),carried={...g.player.carry},stock={...g.resources};assert.equal(saved.version,20);g.restoreSave(saved);assert.deepEqual(mechanism(g,b),stored);assert.deepEqual(g.player.carry,carried);assert.deepEqual(g.resources,stock);const restored=g.zombies.find(e=>e.id===z.id);assert.equal(restored.stagger,saved.zombies.find(e=>e.id===z.id).stagger,'La reprise conserve l’entrave active sans attendre un tick du piège');g.updateZombies(.04);assert.equal(mechanism(g,b).charges,5);assert.ok(Math.abs(restored.stagger-(stored.caught[0].left-.04))<1e-8);assert.ok(mechanism(g,b).cooldown<stored.cooldown);
  const stable=copy(g.serialize());for(let i=0;i<3;i++){g.restoreSave(stable);assert.deepEqual(g.fortificationPack.snapshot(),stable.expansions127.modules.fortification);assert.deepEqual(g.resources,stock);}
+});
+
+test('montage : une ancienne sauvegarde sans stagger reprend l’entrave payée avant le mouvement',()=>{
+ const g=fresh(),b=install(g),z=enemy(g,b);g.updateZombies(.04);
+ const saved=copy(g.serialize()),stored=copy(mechanism(g,b)),stock={...g.resources},carried={...g.player.carry};
+ delete saved.zombies[0].stagger;delete saved.zombies[0].rage;
+ g.restoreSave(saved);const restored=g.zombies.find(e=>e.id===z.id);
+ assert.equal(restored.stagger,0);assert.deepEqual(mechanism(g,b),stored);
+ g.updateZombies(.04);assert.equal(mechanism(g,b).charges,stored.charges);
+ assert.ok(Math.abs(restored.stagger-(stored.caught[0].left-.04))<1e-8);
+ assert.deepEqual(g.resources,stock);assert.deepEqual(g.player.carry,carried);
 });
 
 test('148 montage : travail non payé annulé au chargement, ancienne sauvegarde sans montage et nouvelle campagne vides',()=>{

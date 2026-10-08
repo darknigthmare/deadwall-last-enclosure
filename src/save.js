@@ -44,11 +44,14 @@
     const zombies = list(data.zombies, [], C.PERFORMANCE_LIMITS.zombies, 'infectés').map(value => {
       const raw=object(value,'infecté');if(!owns(C.ENEMIES,raw.kind))fail('type infecté');
       const out={id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,1,.001,1e6,'santé infecté'),attackCooldown:number(raw.attackCooldown,0,0,120,'cadence infecté')};
+      out.stagger=number(raw.stagger,0,0,120,'entrave infecté');out.rage=number(raw.rage,0,0,120,'agitation infecté');
+      // Historical saves did not retain the howl timer. Leave it absent so
+      // their initial delay is supplied by the existing constructor.
+      if(raw.kind==='howler'&&raw.howl!==undefined)out.howl=number(raw.howl,undefined,0,120,'délai de cri infecté');
       if(raw.kind==='shielded'||raw.kind==='charger'){
         const core=buildings.find(b=>b.type==='core'),size=C.BUILDINGS.core.size;
         const facing=Math.atan2((core.gy+size[1]/2)*C.TILE-out.y,(core.gx+size[0]/2)*C.TILE-out.x);
         out.facing=number(raw.facing,facing,-Math.PI,Math.PI,'orientation infecté');
-        out.stagger=number(raw.stagger,0,0,120,'entrave infecté');out.rage=number(raw.rage,0,0,120,'agitation infecté');
       }
       if(raw.kind==='charger'){
         if(raw.charge===undefined)out.charge={stage:'ready',timer:0,angle:out.facing};

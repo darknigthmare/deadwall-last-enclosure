@@ -694,7 +694,8 @@
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
         units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,squad:u.squad,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown,
-          ...(z.kind==='shielded'||z.kind==='charger'?{facing:z.facing,stagger:z.stagger,rage:z.rage}:{}),...(z.kind==='charger'?{charge:{...z.charge}}:{}) })),
+          stagger:z.stagger,rage:z.rage,...(z.kind==='howler'?{howl:Math.max(0,z.howl)}:{}),
+          ...(z.kind==='shielded'||z.kind==='charger'?{facing:z.facing}:{}),...(z.kind==='charger'?{charge:{...z.charge}}:{}) })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
         randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources
@@ -741,7 +742,9 @@
       const nextCore=[...nextWorld.buildings.values()].find(b=>b.type==='core');if(!nextCore)throw new Error('Centre absent');
       const nextUnits=data.units.map(raw=>{const unit=new Unit(raw.id,raw.kind,raw.x,raw.y);Object.assign(unit,raw);if(unit.state==='gather'){const node=nextWorld.nodes.find(item=>item.id===unit.targetNode);if(!node||node.depleted||(unit.carry>0&&unit.carryType!==node.type)){unit.state=unit.carry>0?'return':'idle';unit.targetNode=-1;}else unit.think=.3;}return unit;});
       const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;
-        if(raw.kind==='shielded'||raw.kind==='charger'){zombie.facing=raw.facing;zombie.stagger=raw.stagger;zombie.rage=raw.rage;}if(raw.kind==='charger')zombie.charge={...raw.charge};return zombie;});
+        zombie.stagger=raw.stagger;zombie.rage=raw.rage;
+        if(raw.kind==='howler'&&raw.howl!==undefined)zombie.howl=raw.howl;
+        if(raw.kind==='shielded'||raw.kind==='charger')zombie.facing=raw.facing;if(raw.kind==='charger')zombie.charge={...raw.charge};return zombie;});
       // The player is not an allocated save entity; support orders already use
       // the reserved target 0. Loading must not consume a future entity ID.
       const nextPlayer={...this.makePlayer(0),...data.player};nextFlow.rebuild(nextWorld,nextCore);

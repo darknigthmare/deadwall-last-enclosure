@@ -126,6 +126,8 @@ Le mode n'a pas de dernière vague scénarisée ; les nombres restent toutefois 
 
 ## Sauvegarde
 
+Les infectés locaux conservent désormais `stagger` et `rage` pour chacun des dix profils, ainsi que le délai `howl` des Hurleurs. Ces champs additifs sont validés avant remplacement du monde. Leur absence dans une copie historique garde les valeurs de reprise antérieures ; un cri déjà dû est enregistré à zéro. La graine de carte et les statistiques ennemies restent inchangées.
+
 La sauvegarde versionnée contient :
 
 - difficulté, graine et condition de départ ;
