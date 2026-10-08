@@ -41,6 +41,7 @@
       return { id:entityId(raw),kind:raw.kind,squad:Q.unitGroup(raw.kind,raw.squad),...position(raw),health:number(raw.health,C.SURVIVORS[raw.kind].health,.001,C.SURVIVORS[raw.kind].health,'santé survivant'),carry,carryType:C.RESOURCE_KEYS.includes(raw.carryType)?raw.carryType:null,state:['idle','move','haul','gather','build','repair','clear','return','flee'].includes(raw.state)?raw.state:carry>0?'return':'idle',targetNode:integer(raw.targetNode,-1,-1,1e9,'cible récolte'),targetBuilding:integer(raw.targetBuilding,-1,-1,Number.MAX_SAFE_INTEGER,'cible chantier'),targetUnit:integer(raw.targetUnit,-1,-1,0x7ffffffe,'cible soins'),fireCooldown:number(raw.fireCooldown,0,0,120,'cadence survivant') };
     });
     const assignments=Q.assignments(units);for(const unit of units)if(assignments.has(unit.id))unit.squad=assignments.get(unit.id);
+    const unitIds=new Set(units.map(unit=>unit.id));
     const zombies = list(data.zombies, [], C.PERFORMANCE_LIMITS.zombies, 'infectés').map(value => {
       const raw=object(value,'infecté');if(!owns(C.ENEMIES,raw.kind))fail('type infecté');
       const out={id:entityId(raw),kind:raw.kind,...position(raw),health:number(raw.health,1,.001,1e6,'santé infecté'),attackCooldown:number(raw.attackCooldown,0,0,120,'cadence infecté')};
@@ -48,6 +49,13 @@
       // Historical saves did not retain the howl timer. Leave it absent so
       // their initial delay is supplied by the existing constructor.
       if(raw.kind==='howler'&&raw.howl!==undefined)out.howl=number(raw.howl,undefined,0,120,'délai de cri infecté');
+      if(raw.kind==='stalker'){
+        if(raw.huntThink!==undefined)out.huntThink=number(raw.huntThink,undefined,0,C.ENEMY_RULES.stalkThinkSeconds,'délai de traque');
+        if(raw.preyId!==undefined){
+          out.preyId=raw.preyId===null?null:integer(raw.preyId,undefined,0,MAX_ENTITY_ID,'proie infecté');
+          if(out.preyId!==null&&out.preyId!==0&&!unitIds.has(out.preyId))fail('proie absente');
+        }
+      }
       if(raw.kind==='shielded'||raw.kind==='charger'){
         const core=buildings.find(b=>b.type==='core'),size=C.BUILDINGS.core.size;
         const facing=Math.atan2((core.gy+size[1]/2)*C.TILE-out.y,(core.gx+size[0]/2)*C.TILE-out.x);

@@ -41,6 +41,18 @@ async function stableCampaign(page) {
     frontier: { seen: DEADWALL.frontier.snapshot().seen, taken: DEADWALL.frontier.snapshot().taken }, elapsed: DEADWALL.elapsed }));
 }
 
+async function torchReadout(page) {
+  return page.locator('#urbanTorchHud').evaluate(button => {
+    const box = button.getBoundingClientRect(), range = document.createRange();
+    range.selectNodeContents(button);
+    const text = [...range.getClientRects()];
+    return { enabled: DEADWALL.urban.snapshot().flashlight, pressed: button.getAttribute('aria-pressed'), label: button.textContent,
+      fits: button.scrollWidth <= button.clientWidth + 1 && button.scrollHeight <= button.clientHeight + 1 && text.every(r =>
+        r.left >= box.left && r.right <= box.right && r.top >= box.top && r.bottom <= box.bottom),
+      receivesPointer: document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2)?.closest('#urbanTorchHud') === button };
+  });
+}
+
 async function firePlayer(page, context, touch) {
   const before = await page.evaluate(() => ({ weapon: DEADWALL.player.weapon, magazine: DEADWALL.player.magazine[DEADWALL.player.weapon] }));
   let session;
@@ -126,6 +138,15 @@ try {
       if (viewport.touch) {
         check('All touch controls remain inside the viewport', geometry.touchControls.length >= 6 && geometry.touchControls.every(box => withinWidth(box) && box.height > 0 && box.y >= -1 && box.bottom <= geometry.height + 1));
         check('Touch HUD preserves at least 130 pixels of field height', geometry.center.height >= 130);
+        profile.torch = { off: await torchReadout(page) };
+        check('Touch flashlight off state fits fully inside its actual pointer target', !profile.torch.off.enabled && profile.torch.off.pressed === 'false' && profile.torch.off.label.includes('ÉTEINTE') && profile.torch.off.fits && profile.torch.off.receivesPointer);
+        await page.locator('#urbanTorchHud').tap();
+        await page.waitForFunction(() => document.getElementById('urbanTorchHud').getAttribute('aria-pressed') === 'true');
+        profile.torch.on = await torchReadout(page);
+        check('Real touch activates the flashlight and keeps its full on state legible', profile.torch.on.enabled && profile.torch.on.label.includes('ALLUMÉE') && profile.torch.on.fits && profile.torch.on.receivesPointer);
+        await page.locator('#urbanTorchHud').tap();
+        await page.waitForFunction(() => document.getElementById('urbanTorchHud').getAttribute('aria-pressed') === 'false');
+        check('Real touch switches the flashlight off before the rest of the campaign', !await page.evaluate(() => DEADWALL.urban.snapshot().flashlight));
       }
       if (!await page.locator('#hud135ObjectiveInstructions').evaluate(node => node.open)) {
         await page.locator('#hud135ObjectiveInstructions > summary').click();
@@ -180,6 +201,17 @@ try {
       await page.locator('#frontierAccess').click();
       await page.locator('#frontierMap').waitFor({ state: 'visible' });
       check('Real map access opens a paused dossier', await page.evaluate(() => DEADWALL.paused && DEADWALL.activeOverlay?.id === 'commandModal'));
+      profile.commandNavigation = await page.locator('#commandTab-field').evaluate(button => {
+        const box=button.getBoundingClientRect(),nav=button.closest('.command-tabs').getBoundingClientRect();
+        return { selected: button.getAttribute('aria-selected'), visible: box.width>0 && box.height>0 &&
+          box.left>=Math.max(0,nav.left)-1 && box.right<=Math.min(innerWidth,nav.right)+1 &&
+          box.top>=Math.max(0,nav.top)-1 && box.bottom<=Math.min(innerHeight,nav.bottom)+1,
+          bodyScroll:document.querySelector('.command-body').scrollTop,pageX:scrollX,pageY:scrollY };
+      });
+      check('Map shortcut reveals the selected Operations tab within the command navigation', profile.commandNavigation.selected==='true' && profile.commandNavigation.visible);
+      await page.locator('#commandTab-field').click();
+      check('Revealing the active command tab preserves dossier scroll and page position', await page.evaluate(before =>
+        document.querySelector('.command-body').scrollTop===before.bodyScroll && scrollX===before.pageX && scrollY===before.pageY, profile.commandNavigation));
       profile.atlas = await page.evaluate(() => ({ position: DEADWALL.frontierUI.atlas.position(), bounds: DEADWALL.frontierUI.atlas.bounds(), provenance: document.getElementById('atlasWorld').textContent }));
       const pos = profile.atlas.position, bounds = profile.atlas.bounds, size = profile.world.size;
       check('Initial atlas covers and centers the complete region', pos.x === size / 2 && pos.y === size / 2 && bounds.left <= 0 && bounds.top <= 0 && bounds.right >= size && bounds.bottom >= size);

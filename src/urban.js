@@ -14,7 +14,7 @@
     variety:new Set(buildings.filter(b=>b.type!=='core'&&!def(b).wall).map(b=>b.type)).size,
     housing:Math.max(1,buildings.reduce((n,b)=>n+(def(b).housing||0),0))+annex.housing,storage:Math.max(100,buildings.reduce((n,b)=>n+(def(b).storage||0),0))+annex.storage,power:annex.power,surveys:0,pois:0,biomes:0,generation:0};
    for(const b of buildings){const d=def(b);if(!online(b)||!d.powerGen||d.solar&&g.phase!=='calm')continue;
-    const fuelRate=(b.type==='generator'?.018:d.generatorFuel||0)*(g.hasResearch('grid')?.75:1);
+    const fuelRate=(d.generatorFuel||0)*(g.hasResearch('grid')?.75:1);
     result.power+=d.powerGen;if(fuelRate){thermalPower+=d.powerGen;thermalFuel+=fuelRate;}
    }
    const consumers=buildings.filter(b=>online(b)&&enabled(b)&&def(b).powerUse).map(b=>({id:b.id,need:def(b).powerUse,rank:C.powerPriority(def(b)),priority:b.priority||2,partial:Boolean(def(b).production),light:def(b).urbanKind==='lamp'||b.type==='perimeterLight'}));

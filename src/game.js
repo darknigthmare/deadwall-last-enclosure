@@ -591,6 +591,8 @@
       for (const overlay of overlays) overlay.inert = overlay !== next;
       this.activeOverlay = next;
       if (next === previous) return;
+      // Opening or leaving a modal must not charge its wall time to the next frame.
+      this.lastFrame = performance.now();
       if (next) this.cancelDemolition();
       this.releaseInputs();
       if (next) {
@@ -684,6 +686,7 @@
 
     serialize() {
       this.ensureSquads();
+      const livingUnits=this.units.filter(unit=>!unit.dead),preyUnits=new Set(livingUnits);
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
         scenarioId: this.scenarioId, squads: this.squads,
@@ -692,9 +695,10 @@
           dead: this.player.dead, downTimer: this.player.downTimer, stamina: this.player.stamina, invulnerable: this.player.invulnerable,
           reload: this.player.reload, reloadTotal: this.player.reloadTotal, shootCooldown: this.player.shootCooldown, meleeCooldown: this.player.meleeCooldown },
         buildings: [...this.world.buildings.values()].map(b => ({ id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation,progress:b.progress,health:b.health,corpseLoad:b.corpseLoad,priority:b.priority,gateMode:b.gateMode })),
-        units: this.units.filter(u => !u.dead).map(u => ({ id:u.id,kind:u.kind,squad:u.squad,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
+        units: livingUnits.map(u => ({ id:u.id,kind:u.kind,squad:u.squad,x:u.x,y:u.y,health:u.health,carry:u.carry,carryType:u.carryType,state:u.state,targetNode:u.targetNode,targetBuilding:u.targetBuilding,targetUnit:u.targetUnit,fireCooldown:u.fireCooldown })),
         zombies: this.zombies.filter(z => !z.dead).map(z => ({ id:z.id,kind:z.kind,x:z.x,y:z.y,health:z.health,attackCooldown:z.attackCooldown,
           stagger:z.stagger,rage:z.rage,...(z.kind==='howler'?{howl:Math.max(0,z.howl)}:{}),
+          ...(z.kind==='stalker'?{huntThink:Math.max(0,z.huntThink),preyId:z.prey&&!z.prey.dead&&!z.prey.regionAbsent?(z.prey===this.player?0:preyUnits.has(z.prey)?z.prey.id:null):null}:{}),
           ...(z.kind==='shielded'||z.kind==='charger'?{facing:z.facing}:{}),...(z.kind==='charger'?{charge:{...z.charge}}:{}) })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
         elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
@@ -744,10 +748,13 @@
       const nextZombies=data.zombies.map(raw=>{const zombie=new Zombie(raw.id,raw.kind,raw.x,raw.y,difficulty,data.wave);zombie.health=Math.min(zombie.maxHealth,raw.health);zombie.attackCooldown=raw.attackCooldown;
         zombie.stagger=raw.stagger;zombie.rage=raw.rage;
         if(raw.kind==='howler'&&raw.howl!==undefined)zombie.howl=raw.howl;
+        if(raw.kind==='stalker'&&raw.huntThink!==undefined)zombie.huntThink=raw.huntThink;
         if(raw.kind==='shielded'||raw.kind==='charger')zombie.facing=raw.facing;if(raw.kind==='charger')zombie.charge={...raw.charge};return zombie;});
       // The player is not an allocated save entity; support orders already use
       // the reserved target 0. Loading must not consume a future entity ID.
       const nextPlayer={...this.makePlayer(0),...data.player};nextFlow.rebuild(nextWorld,nextCore);
+      const preyById=new Map(nextUnits.map(unit=>[unit.id,unit]));preyById.set(0,nextPlayer);
+      for(let i=0;i<nextZombies.length;i++)if(data.zombies[i].kind==='stalker'&&data.zombies[i].preyId!==undefined)nextZombies[i].prey=preyById.get(data.zombies[i].preyId)||null;
       // Keep bounded draws in their saved order; compact only large historical queues.
       const buffered=data.spawnQueue.length<=STRATEGY_RULES.spawnBatch?data.spawnQueue.slice():null,pending=C.normalizeSpawnCounts?C.normalizeSpawnCounts(data.pendingSpawns,buffered?[]:data.spawnQueue):null;
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
@@ -1094,15 +1101,22 @@
 
     loop(timestamp) {
       const milliseconds = timestamp - this.lastFrame;
-      const dt = Math.min(.04, Math.max(0, milliseconds / 1000)); this.lastFrame = timestamp;
+      this.lastFrame = Number.isFinite(timestamp) ? timestamp : performance.now();
       if (this.settings.quality === 'auto' && this.displayQuality153 && this.dpr !== this.displayQuality153.dpr) this.applyDisplayResolution153(this.displayQuality153.dpr);
-      if (this.state === 'playing' && !this.paused && !this.gameOver) this.update(dt);
+      const active = () => this.state === 'playing' && !this.paused && !this.gameOver && !this.activeOverlay && !document.hidden && document.visibilityState !== 'hidden';
+      const rules=C.SIMULATION_RULES;
+      if(active()&&Number.isFinite(milliseconds)&&milliseconds>0&&milliseconds<=rules.maxFrameSeconds*1000){
+        const seconds=milliseconds/1000,steps=Math.min(rules.maxSteps,Math.ceil(seconds/rules.maxStepSeconds)),dt=seconds/steps;
+        // Consume only this frame, with bounded physical steps and one key press delivery.
+        // Discard long stalls instead of building an unbounded catch-up backlog.
+        for(let step=0;step<steps&&active();step++){this.update(dt);if(step===0)this.input.pressed.clear();}
+      }else if(!active()||milliseconds>rules.maxFrameSeconds*1000)this.input.pressed.clear();
       this.render();
       if (this.settings.quality === 'auto') this.displayQuality153?.observe(milliseconds, {
-        active: this.state === 'playing' && !this.paused && !this.gameOver,
-        visible: document.visibilityState !== 'hidden'
+        active: active(),
+        visible: !document.hidden && document.visibilityState !== 'hidden'
       });
-      this.input.pressed.clear(); requestAnimationFrame(t => this.loop(t));
+      requestAnimationFrame(t => this.loop(t));
     }
 
     update(dt) {
@@ -1303,7 +1317,7 @@
     }
 
     damagePlayer(amount) {
-      const p=this.player;if(p.dead||p.invulnerable>0)return;amount=this.playerOps131?.absorbDamage(amount)??amount;p.health-=amount;this.damageFlash=.32;this.camera.shake=Math.max(this.camera.shake,5);
+      const p=this.player;if(p.dead||p.invulnerable>0)return;amount=this.playerOps131?.absorbDamage(amount)??amount;p.health-=amount;if(amount>0)this.survivalPack?.damageReceived?.();this.damageFlash=.32;this.camera.shake=Math.max(this.camera.shake,5);
       if(p.health<=0){p.health=0;p.dead=true;p.downTimer=8;this.input.mouseDown=false;this.notify(this.succession133?'Le survivant est mort. Son équipement reste sur place.':'Commandant à terre — évacuation médicale en cours.','danger');}
     }
 
@@ -1677,14 +1691,18 @@
         return true;
       });
     }
-    hostilePositionClear(entity,x,y){
+    zombieCanClimb(entity,building){
+      return Boolean(building?.def.wall&&building.corpseLoad>15+(entity.id%18)&&(entity.kind==='runner'||entity.kind==='crawler'));
+    }
+    hostileBuildingAt(entity,x,y){
       const radius=entity.radius||0,probe={x,y,radius,dead:false};
       for(let gy=grid(y-radius);gy<=grid(y+radius);gy++)for(let gx=grid(x-radius);gx<=grid(x+radius);gx++){
         const building=this.world.at(world(gx),world(gy));
-        if(building&&!building.dead&&!T.openGate(building)&&T.overlapsBuilding(building,probe))return false;
+        if(building&&!building.dead&&!T.openGate(building)&&!this.zombieCanClimb(entity,building)&&T.overlapsBuilding(building,probe))return building;
       }
-      return true;
+      return null;
     }
+    hostilePositionClear(entity,x,y){return !this.hostileBuildingAt(entity,x,y);}
     stalkerCorridorClear(z,target){
       const steps=Math.max(1,Math.ceil(dist(z,target)/(TILE/3)));
       for(let i=1;i<=steps;i++)if(!this.hostilePositionClear(z,lerp(z.x,target.x,i/steps),lerp(z.y,target.y,i/steps)))return false;
@@ -1751,6 +1769,19 @@
       for(let i=0;i<steps;i++){const x=clamp(z.x+dx,3,WORLD_SIZE-3),y=clamp(z.y+dy,3,WORLD_SIZE-3);if(!this.hostilePositionClear(z,x,y)){this.endZombieCharge(z);return false;}z.x=x;z.y=y;}
       return true;
     }
+    moveOrdinaryZombie(z,dir,distance){
+      const steps=Math.max(1,Math.ceil(distance/C.ENEMY_RULES.moveStep)),dx=dir.x*distance/steps,dy=dir.y*distance/steps;
+      for(let i=0;i<steps;i++){
+        const x=clamp(z.x+dx,3,WORLD_SIZE-3),y=clamp(z.y+dy,3,WORLD_SIZE-3);
+        if(!this.hostilePositionClear(z,x,y)){
+          const blocker=this.hostileBuildingAt(z,x,y);
+          if(blocker&&z.attackCooldown<=0&&this.damageZombieBuilding(z,blocker,ENEMIES[z.kind].damage*this.difficulty.enemyDamage))z.attackCooldown=1/ENEMIES[z.kind].attackRate;
+          return false;
+        }
+        z.x=x;z.y=y;
+      }
+      return true;
+    }
 
     updateZombies(dt) {
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
@@ -1773,11 +1804,11 @@
         let blocker=this.world.at(z.x+dir.x*look,z.y+dir.y*look);if(T.openGate(blocker))blocker=null;
         if(blocker&&!blocker.dead&&blocker.type!=='core'){
           if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;this.damageZombieBuilding(z,blocker,def.damage*dt*.13);if(z.health<=0){this.killZombie(z,false);continue;}}
-          const ramp=blocker.def.wall&&blocker.corpseLoad>15+(z.id%18)&&(z.kind==='runner'||z.kind==='crawler');
+          const ramp=this.zombieCanClimb(z,blocker);
           if(!ramp){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
         }else if(blocker&&blocker.type==='core'){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
-        z.facing=Math.atan2(dir.y,dir.x);if(z.kind==='charger')this.moveChargingZombie(z,dir,speed*dt);else{z.x=clamp(z.x+dir.x*speed*dt,3,WORLD_SIZE-3);z.y=clamp(z.y+dir.y*speed*dt,3,WORLD_SIZE-3);}
-        if(this.random.chance(dt*.45)){const nearby=this.nearbyZombies(z.x,z.y,22);for(const o of nearby){if(o===z)continue;const dx=z.x-o.x,dy=z.y-o.y,l=Math.hypot(dx,dy)||1,x=z.x+dx/l*.15,y=z.y+dy/l*.15;if(z.kind!=='charger'||this.hostilePositionClear(z,x,y)){z.x=x;z.y=y;}break;}}
+        z.facing=Math.atan2(dir.y,dir.x);if(z.kind==='charger')this.moveChargingZombie(z,dir,speed*dt);else this.moveOrdinaryZombie(z,dir,speed*dt);
+        if(this.random.chance(dt*.45)){const nearby=this.nearbyZombies(z.x,z.y,22);for(const o of nearby){if(o===z)continue;const dx=z.x-o.x,dy=z.y-o.y,l=Math.hypot(dx,dy)||1,x=z.x+dx/l*.15,y=z.y+dy/l*.15;if(this.hostilePositionClear(z,x,y)){z.x=x;z.y=y;}break;}}
         const moved=Math.hypot(z.x-z.lastX,z.y-z.lastY);if(moved<.2)z.stuck+=dt;else z.stuck=Math.max(0,z.stuck-dt);z.lastX=z.x;z.lastY=z.y;
         if(z.stuck>2.5){const near=this.world.at(z.x+dir.x*30,z.y+dir.y*30)||this.nearestBuilding(z.x,z.y,48);if(near&&!T.openGate(near)&&z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,near,def.damage*this.difficulty.enemyDamage);}}
       }

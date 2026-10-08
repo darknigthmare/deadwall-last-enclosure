@@ -81,6 +81,18 @@
   function actorVariant(kind,id) {
     return ['worker','soldier','walker'].includes(kind)&&Math.abs(id||0)%3===1?kind+'Alt':kind;
   }
+  // These two native rows cross their nominal cells. Measured cuts retain the
+  // crawler's fingers and the rifle muzzle without borrowing a neighbour.
+  // The nominal cell remains the pivot and scale reference; PNGs are unchanged.
+  const ACTOR_FRAME_CUTS154 = Object.freeze({
+    'infected:2':Object.freeze([[28,506,203,83],[253,510,190,81],[469,509,198,89],[690,512,201,80],
+      [913,509,187,80],[1127,508,180,90],[1341,510,199,77],[1553,510,196,84]].map(Object.freeze)),
+    'specialists:3':Object.freeze([[65,673,142,175],[283,673,158,175],[499,673,156,172],[736,672,150,167],
+      [954,671,144,172],[1184,672,163,170],[1405,672,166,169],[1624,672,142,174]].map(Object.freeze))
+  });
+  function actorFrameRect(atlas,row,frame) {
+    return ACTOR_FRAME_CUTS154[atlas+':'+row]?.[frame%8]||frameRect(atlas,row,frame);
+  }
   const DEFENSES = Object.freeze({
     spikes: [0,0,610,627], armoredGate: [610,0,644,627],
     turret: [0,627,627,627], heavyTurret: [627,627,627,627]
@@ -507,7 +519,11 @@
         const pose=heroPose(entity,time,reducedMotion,previous.until>=time),rect=HERO_FRAMES[atlas][pose.row][pose.frame];
         const scale=.27*(compact?1.1:1),pivotX=128+pose.frame*256-rect[0],pivotY=HERO_PIVOT_Y[pose.row]-rect[1];
         this.blit(ctx,atlas,rect,-pivotX*scale,-pivotY*scale,rect[2]*scale,rect[3]*scale);
-      }else this.blit(ctx, spec[0], frameRect(spec[0], spec[1], frame), -size / 2, -size / 2, size, size);
+      }else {
+        const nominal=frameRect(spec[0],spec[1],frame),rect=actorFrameRect(spec[0],spec[1],frame);
+        this.blit(ctx,spec[0],rect,(rect[0]-nominal[0])*size/nominal[2]-size/2,
+          (rect[1]-nominal[1])*size/nominal[3]-size/2,rect[2]*size/nominal[2],rect[3]*size/nominal[3]);
+      }
       ctx.restore(); this.drawInfectedEquipment(ctx,entity,kind,compact); return true;
     }
     drawInfectedEquipment(ctx,entity,kind,compact){
@@ -557,5 +573,5 @@
     planningOffice:'Dayworks', restShelter:'Dayworks', dayGreenhouse:'Dayworks', prefabYard:'Dayworks',
     receptionHall:'Citadel', radioRelay:'Citadel', roadDepot:'Infrastructure'
   });
-  return { ASSETS, BUILDINGS, PROPS, DEFENSES, DISTRICT_PROPS, PROCEDURAL_BUILDINGS, ACTORS, HERO_STATES, HERO_FRAMES, HERO_PIVOT_Y, HERO_RIG, HERO_LOW137, HERO_ACTIONS133, HERO_ACTION_PIVOTS133, heroActionPose133, isolateHeroFrames133, heroRigPose, heroPose, reloadPose137, actorVariant, frameRect, decodeMatte, tightRect, create: () => new Art() };
+  return { ASSETS, BUILDINGS, PROPS, DEFENSES, DISTRICT_PROPS, PROCEDURAL_BUILDINGS, ACTORS, HERO_STATES, HERO_FRAMES, HERO_PIVOT_Y, HERO_RIG, HERO_LOW137, HERO_ACTIONS133, HERO_ACTION_PIVOTS133, heroActionPose133, isolateHeroFrames133, heroRigPose, heroPose, reloadPose137, actorVariant, ACTOR_FRAME_CUTS154, actorFrameRect, frameRect, decodeMatte, tightRect, create: () => new Art() };
 });

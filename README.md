@@ -1,3 +1,19 @@
+# DEADWALL 1.54.0 — Terrain, combat et reprise
+
+L’audit du jeu corrige le temps de simulation à faible cadence, les collisions d’infectés aux angles des enceintes et la reprise de chasse des Traqueurs. Les bandes sauvages ne sont annoncées que lorsqu’un allié les observe ; les réanimés interrompent aussi les manipulations dangereuses. Une blessure coupe immédiatement le pansement, même si un autre soin suit dans la même frame.
+
+La passe vérifie les onze âges, les images, le parcours clavier/tactile, les sauvegardes et les mises à jour hors ligne. Les constats, corrections et limites sont détaillés dans [docs/AUDIT_1_54.md](docs/AUDIT_1_54.md). La cible de campagne Standard reste **6 à 10 heures**, à vérifier en parties humaines complètes.
+
+```sh
+npm ci
+npm start
+npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:campaign
+```
+
+## Historique conservé — 1.53.1
+
 # DEADWALL 1.53.1 — Monde, cohérence et fluidité
 
 Le correctif 1.53.1 conserve les ralentissements et l'agitation des dix profils d'infectés lors d'une sauvegarde/reprise, ainsi que le prochain cri des Hurleurs. Les anciennes copies restent lisibles ; les coûts, dégâts et conditions des onze âges restent ceux de la campagne existante.

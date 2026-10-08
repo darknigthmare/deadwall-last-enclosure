@@ -1,0 +1,11 @@
+# PWA et relais co-op — audit 1.54
+
+Le cache PWA conserve les fichiers déjà installés au lieu de remplacer chaque fichier séparément dès qu'une réponse réseau arrive. Une erreur HTTP pendant le précache d'un nouveau service worker laisse la version précédente utilisable. Lorsque le précache suivant réussit, le nouveau worker s'active, retire les anciens caches DEADWALL et sert les nouveaux fichiers à la prochaine ouverture. Une page déjà ouverte conserve ses objets JavaScript en mémoire ; aucune partie n'est fermée automatiquement.
+
+Le cache reste limité aux ressources publiques déclarées, à son origine et à sa version. Les paramètres d'URL ne multiplient pas ses entrées. Un fichier local manquant peut être récupéré en ligne ; une erreur d'écriture du cache ne masque pas une réponse disponible. Ce mécanisme ne vérifie pas un manifeste cryptographique : des réponses HTTP 200 incorrectes fournies par un serveur demeurent hors de sa garantie. La comparaison des empreintes de publication est un contrôle de distribution distinct.
+
+La préversion co-op échange uniquement des présences et des repères régionaux. Inventaires, constructions, combats et sauvegardes restent locaux. Elle exige un relais WebSocket séparé et s'utilise depuis un serveur local de développement ; les politiques réseau du site publié et de l'application PC restent conservées.
+
+Le relais ignore les messages JSON sans objet et exige des coordonnées numériques. Un changement de salon annonce le départ aux pairs de l'ancien salon avant de rejoindre le nouveau. Le client ignore les événements tardifs d'une connexion remplacée et efface les repères quand sa connexion ferme. Le panneau annonce connexion, refus et fermeture sans reconstruire les champs ; les boutons de repère et déconnexion suivent l'état réel. Le repère demande une connexion établie et une présence dans la région.
+
+Les tests ciblés utilisent de vrais clients WebSocket pour les messages, les changements de salon et leur isolation ; les événements de reconnexion et le statut HTML disposent de cas distincts. La fixture navigateur de mise à jour prépare deux couples index/script et une réponse 503, puis vérifie reprise connectée et hors ligne. Elle ne constitue ni une campagne de jeu native, ni une attestation de multijoueur autoritaire ou de fonctionnement Windows.

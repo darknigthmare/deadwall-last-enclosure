@@ -70,7 +70,11 @@
       button.disabled=!['records','field','journal'].includes(name)&&(game.state!=='playing'||game.gameOver);
       get('commandPanel-'+name).classList.toggle('hidden',!selected);
     }
-    refresh(true);if(focus)get('commandTab-'+tab).focus();
+    refresh(true);
+    const selectedButton=get('commandTab-'+tab);
+    // Shortcuts can choose a tab beyond the horizontal mobile navigation.
+    selectedButton.scrollIntoView?.({block:'nearest',inline:'nearest',behavior:'instant'});
+    if(focus)selectedButton.focus({preventScroll:true});
   }
   for(const id of tabs){
     bind('commandTab-'+id,()=>chooseTab(id));

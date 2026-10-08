@@ -1500,13 +1500,19 @@
       const limit=C?.PERFORMANCE_LIMITS?.zombies||700;if(self.zombies.length>limit-16)return false;
       const candidates=(plan.settlements||[]).filter(st=>Math.hypot(st.x-self.player.x,st.y-self.player.y)>650);if(!candidates.length)return false;
       const settlement=self.random?.pick?.(candidates)||candidates[Math.floor(Math.random()*candidates.length)],kinds=Object.entries(C?.ENEMIES||{}).filter(([,def])=>(def.unlockWave||1)<=(self.wave||1)).map(([kind])=>kind);if(!kinds.length)return false;
-      const count=clamp(2+Math.floor((self.wave||1)/3),2,10);let spawned=0;
+      const count=clamp(2+Math.floor((self.wave||1)/3),2,10),spawned=[];
       for(let i=0;i<count;i++){
         const kind=self.random?.pick?.(kinds)||kinds[i%kinds.length],radius=C.ENEMIES[kind]?.radius||12;let position=null;
         for(let attempt=0;attempt<16&&!position;attempt++){const angle=(self.random?.range?.(0,Math.PI*2)??Math.random()*Math.PI*2),distance=(self.random?.range?.(260,420)??320),x=clamp(settlement.x+Math.cos(angle)*distance,radius+30,plan.worldSize-radius-30),y=clamp(settlement.y+Math.sin(angle)*distance,radius+30,plan.worldSize-radius-30);if(Math.hypot(x-self.player.x,y-self.player.y)>520&&self.hostilePositionClear({radius},x,y))position={x,y};}
-        if(!position||!self.spawnZombie(kind))continue;const zombie=self.zombies[self.zombies.length-1];zombie.x=position.x;zombie.y=position.y;zombie.bias+=(self.random?.range?.(-60,60)??0);spawned++;
+        if(!position||!self.spawnZombie(kind))continue;const zombie=self.zombies[self.zombies.length-1];zombie.x=position.x;zombie.y=position.y;zombie.bias+=(self.random?.range?.(-60,60)??0);spawned.push(zombie);
       }
-      if(spawned){self.exploration125.wildHordes=(self.exploration125.wildHordes||0)+1;self.notify?.(`Bande errante détectée près de ${settlement.name} · ${spawned} contacts.`,'danger');return true;}return false;
+      if(spawned.length){
+        self.exploration125.wildHordes=(self.exploration125.wildHordes||0)+1;
+        // Birth is a director event; only actual allied observation can disclose it.
+        const vision=self.visibility?.frame?.(),observed=spawned.filter(z=>vision?.canSeeLocal(z)).length;
+        if(observed)self.notify?.(`Bande errante observée près de ${settlement.name} · ${observed} contact${observed>1?'s':''} observé${observed>1?'s':''}.`,'danger');
+        return true;
+      }return false;
     }
     game.update=function update125(dt){const result=baseUpdate(dt);if(!this.gameOver&&isGeneration4(this)&&!this.paused&&!this.frontier?.active()){if(!Number.isFinite(this.exploration125.wildNext)||this.exploration125.wildNext<=0)schedule(this);else if((this.elapsed||0)>=this.exploration125.wildNext){spawnPack(this);schedule(this);}}return result;};
     game.exploration125.spawnWildHorde=()=>spawnPack(game);game.exploration125.scheduleWildHorde=()=>schedule(game);

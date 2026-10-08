@@ -212,6 +212,39 @@ test('PWA: une réponse HTTP valide est mise en cache, sans mémoriser les erreu
   assert.equal(await worker.dispatch('fetch', { ...request, method: 'POST' }), undefined);
 });
 
+test('PWA: les fichiers déjà installés restent ensemble pendant une mise à jour partiellement indisponible', async () => {
+  const worker = serviceWorkerHarness();
+  const cached = await worker.caches.open(worker.cacheName);
+  await cached.put(worker.scope, new Response('index installé'));
+  await cached.put(worker.scope + 'index.html', new Response('index installé'));
+  await cached.put(worker.scope + 'src/game.js', new Response('moteur installé'));
+  let networkRequests = 0;
+  worker.setFetch(async request => {
+    networkRequests++;
+    return request.url.endsWith('src/game.js')
+      ? new Response('indisponible', { status: 503 }) : new Response('nouvel index');
+  });
+  const page = await worker.dispatch('fetch', { method: 'GET', url: worker.scope + '?launch=1', mode: 'navigate' });
+  const game = await worker.dispatch('fetch', { method: 'GET', url: worker.scope + 'src/game.js', mode: 'same-origin' });
+  assert.equal(await page.text(), 'index installé');
+  assert.equal(await game.text(), 'moteur installé');
+  assert.equal(networkRequests, 0, 'une requête ordinaire ne remplace pas une partie du cache de version');
+  assert.equal(await (await cached.match(worker.scope)).text(), 'index installé');
+});
+
+test('PWA: récupérer un fichier manquant reste possible quand son écriture locale échoue', async () => {
+  const worker = serviceWorkerHarness();
+  const open = worker.caches.open;
+  worker.caches.open = async name => {
+    const cache = await open(name);
+    return { ...cache, put: async () => { throw new Error('QuotaExceededError'); } };
+  };
+  worker.setFetch(async () => new Response('moteur disponible'));
+  const response = await worker.dispatch('fetch', { method: 'GET', url: worker.scope + 'src/game.js', mode: 'same-origin' });
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), 'moteur disponible');
+});
+
 test('PWA: panne HTTP conserve le jeu installé et erreur originale si aucun fichier local', async () => {
   const worker = serviceWorkerHarness();
   const cached = await worker.caches.open(worker.cacheName);

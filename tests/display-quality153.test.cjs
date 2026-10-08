@@ -46,7 +46,7 @@ test('affichage153 : jitter isolé et cadence intermédiaire évitent les oscill
   assert.equal(Display.create(1).dpr, 1);
 });
 
-test('boucle153 : l’adaptation conserve dimensions CSS, entrées et pas de simulation plafonné', () => {
+test('boucle153 : l’adaptation conserve dimensions CSS, entrées et temps avec des pas physiques plafonnés', () => {
   globalThis.DeadwallDisplayQuality153 = Display;
   const { game: g } = bootGame();
   const oldDpr = globalThis.devicePixelRatio;
@@ -54,14 +54,16 @@ test('boucle153 : l’adaptation conserve dimensions CSS, entrées et pas de sim
     globalThis.devicePixelRatio = 2; g.settings.quality = 'auto'; g.resize();
     const before = { width: g.width, height: g.height, mouseX: g.input.mouseX, mouseY: g.input.mouseY };
     const steps = [], edges = [], paintings = [];
-    g.state = 'playing'; g.paused = false; g.gameOver = false; g.lastFrame = 0;
+    g.state = 'playing'; g.paused = false; g.gameOver = false; g.activeOverlay = null; g.lastFrame = 0;
     g.input.pressed.add('KeyE');
     g.update = dt => { steps.push(dt); edges.push(g.input.pressed.has('KeyE')); };
     g.render = () => paintings.push({ dpr: g.dpr, width: g.canvas.width, height: g.canvas.height });
     for (let i = 1; i <= 60; i++) g.loop(i * 100);
     assert.equal(g.dpr, 1); assert.equal(g.canvas.width, g.width); assert.equal(g.canvas.height, g.height);
     assert.deepEqual({ width: g.width, height: g.height, mouseX: g.input.mouseX, mouseY: g.input.mouseY }, before);
-    assert.ok(steps.every(dt => dt === .04)); assert.equal(steps.length, 60);
+    assert.ok(steps.every(dt => dt > 0 && dt <= .04)); assert.equal(steps.length, 180);
+    assert.ok(Math.abs(steps.reduce((sum,dt)=>sum+dt,0)-6)<1e-10);
+    assert.equal(paintings.length,60);
     assert.equal(edges.filter(Boolean).length, 1); assert.equal(edges[0], true);
     assert.ok(paintings.every(p => p.width === Math.floor(before.width * p.dpr) && p.height === Math.floor(before.height * p.dpr)));
     g.settings.quality = 'high'; g.resize(); assert.equal(g.dpr, 2);

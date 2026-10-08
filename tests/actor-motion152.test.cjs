@@ -12,7 +12,7 @@ async function painter(){
  return{art,paint(actor,time,kind=actor.kind||'bloated',reduced=false){
   assert.equal(art.drawActor(ctx,actor,kind,time,reduced,false),true);
   const spec=A.ACTORS[A.actorVariant(kind,actor.id)];assert.equal(atlas,spec[0]);
-  const frame=Array.from({length:8},(_,n)=>A.frameRect(spec[0],spec[1],n)).findIndex(r=>r.every((v,i)=>v===rect[i]));
+  const frame=Array.from({length:8},(_,n)=>A.actorFrameRect(spec[0],spec[1],n)).findIndex(r=>r.every((v,i)=>v===rect[i]));
   assert.ok(frame>=0);return frame;
  }};
 }

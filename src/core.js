@@ -66,7 +66,7 @@
     farm: B('farm', 'Ferme protégée', 'industry', '≋', 'Produit régulièrement de la nourriture. Sa grande surface doit être défendue.', { wood: 55, stone: 25 }, 540, 20, [4, 3], 0, 5,
       { symbol: 'F', color: '#4d5c3f', roof: '#657952', production: { food: 0.42 } }),
     generator: B('generator', 'Générateur', 'industry', '⚡', 'Fournit de l’énergie aux ateliers, projecteurs et tourelles.', { scrap: 55, fuel: 20 }, 650, 18, [2, 2], 1, 5,
-      { symbol: 'G', color: '#6c5e3f', roof: '#8c784b', powerGen: 24, light: 100, explosive: 70 }),
+      { symbol: 'G', color: '#6c5e3f', roof: '#8c784b', powerGen: 24, generatorFuel: .018, light: 100, explosive: 70 }),
     lumber: B('lumber', 'Scierie', 'industry', '╫', 'Produit du bois sous alimentation électrique, indépendamment des gisements récoltés à la main.', { wood: 45, scrap: 35 }, 750, 22, [3, 3], 1, 6,
       { symbol: 'B', color: '#674f3b', roof: '#84664c', powerUse: 1, production: { wood: 0.48 } }),
     scrapyard: B('scrapyard', 'Centre de recyclage', 'industry', '⚙', 'Trie les carcasses et produit de la ferraille utilisable.', { wood: 35, scrap: 50 }, 780, 24, [3, 3], 1, 6,
@@ -154,7 +154,7 @@
   ].map(scenario => [scenario.id, Object.freeze({ ...scenario, resources: Object.freeze(scenario.resources), roster: Object.freeze(scenario.roster) })])));
 
   const ENEMY_RULES = Object.freeze({
-    specialShare: 0.82, sanitizedCorpseLoad: 0.65, structureReach: 18,
+    specialShare: 0.82, sanitizedCorpseLoad: 0.65, structureReach: 18, moveStep: 5,
     stalkRange: 210, stalkIsolation: 90, stalkThinkSeconds: 0.5, stalkQueriesPerUpdate: 8,
     shield: Object.freeze({ halfAngle: Math.PI * 55 / 180, damageMultiplier: .35 }),
     charge: Object.freeze({ windupSeconds: .65, rushSeconds: .7, recoverySeconds: 3, rushSpeed: 2.2, recoverySpeed: .55, probeDistance: 24, moveStep: 5 }),
@@ -245,6 +245,7 @@
   const NPC_RULES = { healPerSecond:6, healRange:64, medicinePerHealth:.025, repairPerSecond:14, repairRange:48, repairScrapPerHealth:1/45, repairWoodPerFullWall:12, repairStonePerFullWall:16, searchRadius:800, rethinkSeconds:.6, dangerRange:105, fleeSpeedMultiplier:1.25, rallyRadius:28 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
+  const SIMULATION_RULES = Object.freeze({ maxStepSeconds: .04, maxFrameSeconds: .25, maxSteps: 7 });
   const MAINTENANCE_RULES = Object.freeze({ repairHealthPerScrap:45, repairWoodPerWall:12, repairStonePerWall:16, upgradeFactor:.72, salvageFactor:.4, emergencyHealthPerScrap:85, emergencyHealthPerWood:180, emergencyHealthPerStone:220 });
 
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -493,7 +494,7 @@
   const Core = { RECON_RULES,
     TILE, WORLD_TILES, WORLD_SIZE, SAVE_KEY, LEGACY_SAVE_KEYS, SAVE_BACKUP_KEY, SETTINGS_KEY, SAVE_VERSION,
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
-    RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, STRATEGY_RULES, WORKER_RULES, LINECARE_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
+    RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, SIMULATION_RULES, STRATEGY_RULES, WORKER_RULES, LINECARE_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES, MAINTENANCE_RULES,
     clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,

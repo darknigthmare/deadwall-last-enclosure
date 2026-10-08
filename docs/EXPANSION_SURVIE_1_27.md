@@ -25,3 +25,7 @@ Les chiffres de gameplay sont centralisés dans `DeadwallCore.SurvivalPackRules`
 ## Correctifs de cohérence — 1.28
 
 Les interactions locales avec les camps et feux contrôlent désormais les solides G4 sur tout le segment d’accès. On ne peut plus profiter d’un feu, entretenir une lanterne ou recevoir la protection d’une bâche à travers un mur de station. La préparation et le pansement sont interrompus avant une éventuelle réanimation dans la même mise à jour. Les coûts, soins, autonomies, limites de haltes et format sauvegardé restent identiques.
+
+## Interruption au moment de l’impact — 1.54
+
+Les vrais dégâts reçus à pied dans D-17 ou dans la région interrompent immédiatement le pansement et la préparation. Un kit de relève ou un autre service qui soigne ensuite dans la même image ne peut plus masquer la blessure et conserver le soin perdu. Un impact refusé par l’invulnérabilité conserve le pansement. Une pose inachevée ne consomme pas ses médicaments ; un pansement déjà payé ne les restitue pas. Le registre de sauvegarde reste inchangé. `tests/survival-damage154.test.cjs` couvre ces interactions et leur reprise avec les contrôleurs réellement installés.
