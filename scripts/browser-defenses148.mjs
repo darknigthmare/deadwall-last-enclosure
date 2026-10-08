@@ -164,7 +164,7 @@ try {
       profile.checkpoints.push(await saveContinue(page, viewport.touch)); native('Native Save/Continue preserves the entire campaign before first RAF', profile.checkpoints.at(-1).pass);
       profile.native.pass = profile.native.checks.every(c => c.pass);
 
-      profile.fixtures.push(await page.evaluate(defenseCampFixture));
+      const campFixture = await page.evaluate(defenseCampFixture); profile.fixtures.push(campFixture);
       advanced('Prepared camp derives tier2 from real completed buildings and gives no crafted item or trap', await page.evaluate(() => DEADWALL.tier.id >= 2 && DEADWALL.fortificationPack.snapshot().fittings.length === 0 && !DEADWALL.arsenal134.snapshot().locker.length));
       for (const [id, count] of [['spikedApproach', 17], ['maintenanceRedoubt', 27]]) {
         await dayworks(page, viewport.touch);
@@ -244,7 +244,7 @@ try {
         if (kind === 'ankle') advanced('Actual ankle contact interrupts a charger and holds finite saved stagger/attack delay', effect.charge.stage === 'recover' && effect.stagger > 2 && effect.mechanism.caught.some(c => c.id === contact.ids[0]));
         profile.checkpoints.push(await saveContinue(page, viewport.touch)); advanced(kind + ': Continue preserves charge, caught hold, special facing/state and all saved fields exactly', profile.checkpoints.at(-1).pass);
         // Retain the fixture identities as evidence; only actual saved supports are selected.
-        await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, profile.fixtures.find(f => f.type === 'prepared-physical-defense-camp'));
+        await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, campFixture);
         if (kind === 'ankle') {
           await expireHeldContacts(page, viewport.touch, profile, advanced);
           profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' })); profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 }));
@@ -263,7 +263,7 @@ try {
         profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind, hidden: true })); profile['hidden-' + kind] = await maps(page, viewport.touch, advanced, 0, () => rec.screenshot('hidden-' + kind));
         advanced(kind + ': a living unseen special remains part of global pressure without revealing its direction or marker', profile['hidden-' + kind].actors === 1);
         profile.checkpoints.push(await saveContinue(page, viewport.touch)); advanced(kind + ': hidden contact and queued types survive Continue with exact RNG and positions', profile.checkpoints.at(-1).pass);
-        await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, profile.fixtures.find(f => f.type === 'prepared-physical-defense-camp'));
+        await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, campFixture);
       }
       profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' })); profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: 'shielded' }));
       profile.visibleShield = await maps(page, viewport.touch, advanced, 1, () => rec.screenshot('observed-shielded')); await resumeCommand(page, viewport.touch);
