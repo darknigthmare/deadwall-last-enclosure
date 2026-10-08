@@ -29,8 +29,8 @@ test('136 présentation : lecture légère du matériel, aucun appel à la vue d
 });
 test('136 présentation : recul bref du fusil à verrou et du pistolet mitrailleur à leur cadence réelle',()=>{
  const{game:g}=bootGame();g.startNew('standard','17117');g.art={};g.player.weapon='rifle';let equipment={id:'hunting',category:'firearm',condition:100,fireRate:.67};g.arsenal134={visualEquipment:()=>equipment};Presentation.install(g);
- g.player.shootCooldown=1.45;assert.equal(g.actorPresentation.player().visualRecoil,true,'départ du coup à verrou');g.player.shootCooldown=.5;assert.equal(g.actorPresentation.player().visualRecoil,false,'le recul cesse avant la fin du verrouillage');
- equipment={id:'smg',category:'firearm',condition:100,fireRate:10};g.player.shootCooldown=.03;assert.equal(g.actorPresentation.player().visualRecoil,true,'rafale rapide encore dans sa fenêtre de recul');g.player.shootCooldown=.01;assert.equal(g.actorPresentation.player().visualRecoil,false);
+ g.player.shootCooldown=1.45;g.stats.shots++;assert.equal(g.actorPresentation.player().visualRecoil,true,'départ du coup à verrou');g.player.shootCooldown=.5;assert.equal(g.actorPresentation.player().visualRecoil,false,'le recul cesse avant la fin du verrouillage');
+ equipment={id:'smg',category:'firearm',condition:100,fireRate:10};g.player.shootCooldown=.03;g.stats.shots++;assert.equal(g.actorPresentation.player().visualRecoil,true,'rafale rapide encore dans sa fenêtre de recul');g.player.shootCooldown=.01;assert.equal(g.actorPresentation.player().visualRecoil,false);
 });
 test('136 inventaire : les 17 équipements de contact gardent leur identité visuelle réelle',()=>{
  const {boot127}=require('./helpers/expansions127.cjs'),Loadout=require('../src/loadout129.js'),e=boot127(),g=e.game;g.startNew('standard','17117');Loadout.install(g);

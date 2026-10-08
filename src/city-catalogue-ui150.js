@@ -13,6 +13,7 @@
   // Install after Game's historical PowerGridArt wrapper, so the new front
   // accumulator keeps its own silhouette and reads the real stored charge.
   globalThis.DeadwallD17Art150?.install?.(g);
+  globalThis.DeadwallD17Art152?.install?.(g);
   const catalogue=model.create(C),el=(tag,value,cls)=>{const n=doc.createElement(tag);if(value!==undefined)n.textContent=value;if(cls)n.className=cls;return n;};
   const write=(n,v)=>{if(n.textContent!==String(v))n.textContent=String(v);};
   const block=el('fieldset',undefined,'city-catalogue150');block.id='cityCatalogue150';

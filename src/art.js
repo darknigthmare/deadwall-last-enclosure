@@ -7,6 +7,8 @@
   const Artwork136=root.DeadwallAssets136||(typeof require==='function'?require('./assets136.js'):null);
   const D17Art149=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
   const D17Art150=root.DeadwallD17Art150||(typeof require==='function'?require('./d17-art150.js'):null);
+  const D17Art152=root.DeadwallD17Art152||(typeof require==='function'?require('./d17-art152.js'):null);
+  const VehicleArt152=root.DeadwallVehicleArt152||(typeof require==='function'?require('./vehicle-art152.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -16,6 +18,8 @@
     ...(Artwork136?.ASSETS141||{}),
     ...(D17Art149?.ASSETS||{}),
     ...(D17Art150?.ASSETS||{}),
+    ...(D17Art152?.ASSETS||{}),
+    ...(VehicleArt152?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
@@ -237,7 +241,7 @@
   }
   class Art {
     constructor() {
-      this.images = {}; this.rects = {}; this.actionFrames133 = {}; this.motion = new WeakMap(); this.namedMotion = new Map();
+      this.images = {}; this.rects = {}; this.actionFrames133 = {}; this.motion = new WeakMap(); this.namedMotion = new Map(); this.nodeSpecies = new WeakMap();
       this.diagnostics = { ready: [], failed: [], draws: {} };
       this.ready = Promise.all(Object.entries(ASSETS).map(([key, spec]) => this.load(key, spec)));
     }
@@ -293,7 +297,7 @@
       ctx.restore(); return true;
     }
     drawBuilding(ctx, b, world) {
-      if(D17Art150?.drawBuilding(ctx,this,b)||D17Art150?.drawFallback(ctx,this,b))return true;
+      if(D17Art152?.drawBuilding(ctx,this,b)||D17Art150?.drawBuilding(ctx,this,b)||D17Art150?.drawFallback(ctx,this,b))return true;
       const atlas = b.type === 'spikes' || b.type === 'armoredGate' ? 'defenses' : b.def.wall ? 'props' : 'buildings';
       const id = b.type;
       const rect = this.rects[atlas + ':' + id]; if (!rect) return false;
@@ -329,6 +333,7 @@
     }
     drawNode(ctx, node, game) {
       if(node.sceneryKind){
+        this.nodeSpecies?.delete(node);
         const rect=this.rects['districtProps:'+node.sceneryKind];if(!rect)return false;
         const size=node.renderSize||90,ratio=rect[2]/rect[3],w=ratio>1?size:size*ratio,h=ratio>1?size/ratio:size;
         ctx.save();ctx.translate(node.x,node.y);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.5,1);
@@ -342,12 +347,19 @@
       if(generation===7&&(node.type==='stone'||node.type==='wood'&&variant!==2)){
         const B=root.DeadwallBiomes135,P=root.DeadwallAtlasProjection;
         if(B&&P&&Artwork136){
-          const q=P.toRegion(node.x,node.y,game),profile=node.type==='wood'?B.pickTree(game.world.seed,q.x,q.y,'local:'+node.id,{generation}):B.pickRock(game.world.seed,q.x,q.y,'local:'+node.id,{generation});
-          const key=(node.type==='wood'?Artwork136.TREE_SPRITES:Artwork136.ROCK_SPRITES)[profile.species],size=node.radius*(node.type==='wood'?3.5:2.65);
+          const q=P.toRegion(node.x,node.y,game),seed=game.world.seed,cache=this.nodeSpecies||(this.nodeSpecies=new WeakMap());
+          let saved=cache.get(node);
+          // Only the pure species choice is cached, one record per live node.
+          // Resolved regional coordinates cover custom homes and worldSeed origins.
+          if(!saved||saved.world!==game.world||saved.seed!==seed||saved.generation!==generation||saved.id!==node.id||saved.type!==node.type||saved.variant!==variant||saved.x!==node.x||saved.y!==node.y||saved.qx!==q.x||saved.qy!==q.y||saved.biomes!==B||saved.projection!==P){
+            const species=(node.type==='wood'?B.pickTree(seed,q.x,q.y,'local:'+node.id,{generation}):B.pickRock(seed,q.x,q.y,'local:'+node.id,{generation})).species;
+            saved={world:game.world,seed,generation,id:node.id,type:node.type,variant,x:node.x,y:node.y,qx:q.x,qy:q.y,biomes:B,projection:P,species};cache.set(node,saved);
+          }
+          const key=(node.type==='wood'?Artwork136.TREE_SPRITES:Artwork136.ROCK_SPRITES)[saved.species],size=node.radius*(node.type==='wood'?3.5:2.65);
           const alpha=clamp(node.amount/node.maxAmount,.45,1);
           if(Artwork136.drawSprite(ctx,this,key,node.x,node.y,size,size,{alpha}))return true;
         }
-      }
+      }else this.nodeSpecies?.delete(node);
       const key = node.type === 'wood' ? ['tree', 'pine', 'logs', 'tree'][variant] :
         node.type === 'scrap' ? ['scrap', 'sedan', 'van', 'truck'][variant] :
         node.type === 'fuel' ? (variant % 2 ? 'pickup' : 'fuel') : node.type === 'stone' ? 'rocks' : variant === 3 ? 'supplies' : 'crops';
@@ -442,11 +454,14 @@
       const spec = ACTORS[actorVariant(kind,entity.id)]; if (!spec || (!this.images[spec[0]] && !(kind==='player'&&(this.images[atlas]||this.images.commanderRig&&canArticulate(entity)||this.actionFrames133[heroActionPose133(entity,reducedMotion)?.atlas]||entity.visualUnarmed||entity.visualEquipmentCategory)))) return false;
       const motions=entity.visualIdentity?this.namedMotion:this.motion,key=entity.visualIdentity||entity;
       let previous = motions.get(key);
-      if (!previous || entity.visualMotionReset) { previous = { x: entity.x, y: entity.y, until: -1 }; motions.set(key, previous); }
+      if (!previous || entity.visualMotionReset || time < previous.time) { previous = { x: entity.x, y: entity.y, time, moving: false, until: -1 }; motions.set(key, previous); }
       if(this.namedMotion.size>2048)this.namedMotion.delete(this.namedMotion.keys().next().value);
-      const distance=Math.hypot(entity.x - previous.x, entity.y - previous.y);
-      if (distance > .12 && distance < 100) previous.until = time + .12;
-      previous.x = entity.x; previous.y = entity.y;
+      const distance=Math.hypot(entity.x - previous.x, entity.y - previous.y),dt=time-previous.time;
+      // Repeated paints preserve a paused pose; a new stationary simulation
+      // sample stops it. Slow movement must not depend on the display rate.
+      const inferredMoving=dt===0&&distance<1e-8?previous.moving:dt>0&&dt<=.25&&distance>1e-5&&distance<100;
+      const moving=typeof entity.visualMoving==='boolean'?entity.visualMoving:inferredMoving;
+      previous.x = entity.x; previous.y = entity.y; previous.time=time; previous.moving=moving; previous.until=moving?time:-1;
       const frame = reducedMotion || previous.until < time || kind==='charger'&&entity.charge?.stage==='windup' ? 0 : Math.floor(time * (kind === 'runner'||kind==='charger'&&entity.charge?.stage==='rush' ? 13 : 9) + (entity.id || 0)) % 8;
       const size = (kind === 'player' ? 57 : ['armored','breacher','bloated','shielded'].includes(kind) ? 62 : kind === 'crawler' ? 49 : 55) * (compact ? 1.1 : 1);
       ctx.save(); ctx.translate(entity.x, entity.y);

@@ -24,8 +24,19 @@ test('actions133 : déposer joue une action courte une fois, sans modifier les q
 });
 test('actions133 : pause fige le geste, mouvement, tir, décès et reprise le retirent',()=>{
  const g=fresh();node(g,'wood');g.updateInteraction(.08);const p={...pose(g)};g.paused=true;g.updateInteraction(.04);assert.deepEqual(pose(g),p);g.paused=false;
- g.player.x+=10;assert.equal(pose(g),null);g.heroActions133.reset();node(g,'stone');g.updateInteraction(.04);assert.equal(pose(g).kind,'pick');g.input.mouseDown=true;assert.equal(pose(g),null);
- g.input.mouseDown=false;g.updateInteraction(.04);g.player.dead=true;assert.equal(pose(g),null);g.player.dead=false;g.updateInteraction(.04);g.startNew('standard','17118');assert.equal(pose(g),null);
+ g.player.x+=10;assert.equal(pose(g),null);g.heroActions133.reset();node(g,'stone');g.updateInteraction(.04);assert.equal(pose(g).kind,'pick');g.shootPlayer();assert.ok(g.player.shootCooldown>0);assert.equal(pose(g),null);
+ g.player.shootCooldown=0;g.updateInteraction(.04);g.player.dead=true;assert.equal(pose(g),null);g.player.dead=false;g.updateInteraction(.04);g.startNew('standard','17118');assert.equal(pose(g),null);
+});
+test('actions133 : un tir refusé ne masque pas une récolte réelle et un vrai tir garde la priorité',()=>{
+ for(const input of ['mouseDown','touchFire']){
+  const g=fresh(),n=node(g,'wood');g.player.magazine.pistol=0;g.resources.ammo=0;g.player.carry.ammo=0;g.input[input]=true;
+  const amount=n.amount;g.updatePlayer(.04);assert.ok(n.amount<amount);assert.equal(g.player.reload,0);assert.equal(g.player.shootCooldown,0);assert.equal(pose(g)?.kind,'chop');
+  g.player.magazine.pistol=1;const shots=g.stats.shots;g.shootPlayer();assert.equal(g.stats.shots,shots+1);assert.equal(pose(g),null);
+ }
+});
+test('actions133 : le délai d’équipement sans tir ne masque pas une récolte réelle',()=>{
+ const g=fresh(),n=node(g,'wood'),amount=n.amount;g.player.shootCooldown=.2;g.updateInteraction(.04);
+ assert.ok(n.amount<amount);assert.equal(g.stats.shots,0);assert.equal(pose(g)?.kind,'chop');
 });
 test('actions133 : postures basses conservent leur silhouette, marche réelle conserve le rig',()=>{
  const g=fresh();node(g,'wood');g.updateInteraction(.04);g.player.posture='crouch';assert.equal(pose(g),null);g.player.posture='prone';assert.equal(pose(g),null);

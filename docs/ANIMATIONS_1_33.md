@@ -29,6 +29,8 @@ Les poses partagent une échelle et un pivot sous la tête/bassin. Elles sont or
 
 ## Vérification
 
+La passe 1.52 observe les tirs effectivement comptés pour réserver le recul à l’arme qui vient de tirer et interrompre les gestes de travail. Un tir refusé ou un simple délai d’équipement ne masque plus une récolte réellement effectuée. Les acteurs lents et ralentis animent leurs pas selon les déplacements et le temps de simulation, indépendamment de la fréquence de peinture ; le premier pas de simulation immobile retrouve une pose neutre et les peintures répétées en pause gardent la même phase. Ces observations restent transitoires et ne modifient ni les sauvegardes, ni les rendements, ni la cadence des armes.
+
 `tests/hero-actions133.test.cjs` couvre les transactions de récolte locales/régionales, dépôt unique, chantier, pelle, scellé, pansement, pause, interruption, reprise, huit phases, transparence, découpe des voisins et successeur sans arme. Les suites de locomotion 1.30 sont conservées pour la visée, le recul, les huit déplacements et le suivi des pieds.
 
 - `scripts/capture-actions133.cjs` produit une planche du vrai peintre `Art.drawHeroAction133` sur fond neutre et les rectangles mesurés.

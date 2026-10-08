@@ -5,10 +5,14 @@
  function resourceAction(type,scenery=false){return scenery?'pry':type==='wood'?'chop':type==='stone'?'pick':['scrap','fuel'].includes(type)?'pry':'handle';}
  function install(g){
   if(g.heroActions133)return g.heroActions133;
-  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0;
+  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false;
   const wrap=(name,fn)=>{const old=g[name];if(typeof old==='function')g[name]=function(...args){return fn(old.bind(this),...args);};};
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay&&g.player&&!g.player.dead&&g.player.health>0;
-  const armed=()=>g.input?.mouseDown||g.input?.touchFire||g.player?.reload>0||g.player?.meleeCooldown>0;
+  const armed=()=>{
+   const shots=finite(g.stats?.shots);if(shots!==fireSerial){firing=shots>fireSerial;fireSerial=shots;}
+   if(!(g.player?.shootCooldown>0))firing=false;
+   return firing||g.player?.reload>0||g.player?.meleeCooldown>0;
+  };
   function position(){const f=g.frontier?.position?.(),regional=!!f?.active,p=g.player||{};return{world:g.world,player:p,regional,x:regional?f.x*32:p.x,y:regional?f.y*32:p.y,z:regional?f.z:0,inside:regional?f.inside:null,driving:regional?!!f.car?.driving:!!g.expeditions?.driving?.()};}
   const same=(a,b)=>a&&b&&a.world===b.world&&a.player===b.player&&a.regional===b.regional&&a.z===b.z&&a.inside===b.inside&&Math.hypot(a.x-b.x,a.y-b.y)<.12;
   function reset(){action=null;serial++;}
@@ -80,7 +84,7 @@
    else if(serial===stamp)idleStep(dt);
    return result;
   });
-  for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false)reset();return r;});
+  for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false){reset();fireSerial=finite(g.stats?.shots);firing=false;}return r;});
   g.heroActions133=Object.freeze({pose,reset});return g.heroActions133;
  }
  const api=Object.freeze({install,resourceAction});root.DeadwallHeroActions133=api;if(typeof module==='object'&&module.exports)module.exports=api;

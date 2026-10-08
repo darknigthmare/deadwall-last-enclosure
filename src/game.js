@@ -1154,8 +1154,9 @@
       if(this.input.touchFire){if(this.nightwatch?.isBlackout())p.facing=Math.atan2(this.input.mouseWorldY-p.y,this.input.mouseWorldX-p.x);const target=this.nightwatch?this.nightwatch.target(p.x,p.y,720):this.nearestZombie(p.x,p.y,720);if(target)p.facing=Math.atan2(target.y-p.y,target.x-p.x);}else p.facing = Math.atan2(this.input.mouseWorldY - p.y, this.input.mouseWorldX - p.x);
       if (this.input.mouseDown && !this.selectedBuild && !this.rallyPlacement) this.shootPlayer();
       // E passes through several legacy owners before the base handler. Gate
-      // their common player entry so none can work while the weapon reloads.
+      // their common entry while another action owns the commander's hands.
       if (p.reload > 0) this.interactionText = 'Rechargement en cours : attendez avant de manipuler le matériel.';
+      else if (this.expansions?.busy()) this.interactionText = 'Activité en cours : terminez ou interrompez-la avant de manipuler le matériel.';
       else this.updateInteraction(dt);
     }
 
@@ -1199,6 +1200,7 @@
       const p = this.player;
       if (this.state !== 'playing' || this.paused || this.gameOver || p.dead || !(dt > 0) || !Number.isFinite(dt)) { this.interactionText = ''; return; }
       if (p.reload > 0) { this.interactionText = 'Rechargement en cours : attendez avant de manipuler le matériel.'; return; }
+      if (this.expansions?.busy()) { this.interactionText = 'Activité en cours : terminez ou interrompez-la avant de manipuler le matériel.'; return; }
       const carried = bagTotal(p.carry);
       const depositable = RESOURCE_KEYS.reduce((total, key) => total + Math.min(p.carry[key], Math.max(0, this.storage - this.resources[key])), 0);
       let storage = null, storageD = 100 * 100, incomplete = null, incompleteD = 78 * 78, node = null, nodeD = 62 * 62;
@@ -2837,6 +2839,7 @@
  });
  // A hook in the original updateUnits loop calls this function before choosing an ordinary worker task.
  g.territories=Object.freeze({version:'1.2.0-candidate.1',snapshot:()=>{ensure();reconcile();return engine.snapshot();},overview:()=>engine.overview(),
+   presentationStatus:b=>b?.type==='sectorPost'?engine.sector(nearSite(b)?.theme)?.status||null:null,
    assign,unassign:id=>{if(!g.canIssueCommand())return false;const r=engine.unassign(id);if(r)g.save(false);refresh();return r;},
    dispatch,takeFood,evacuate,chooseFallback,rallySquad,mark,open,refresh,context,updateAssignedUnit,
    recall:id=>{if(!g.canIssueCommand())return{ok:false};const r=notify(engine.recall(id));if(r.ok)g.save(false);refresh();return r;},
@@ -3108,6 +3111,7 @@
       vulnerable:bs.filter(b=>operational(b)&&b.def.wall&&(b.health/b.maxHealth<.35||b.corpseLoad>15)).length};}
   function assaultPattern(){ensure();const profile=engine.state.lastWave;return profile?.wave===g.wave?F.PROFILE_BY_ID[profile.id]?.frontPattern:undefined;}
   g.siege=Object.freeze({version:'1.3.0-candidate.1',playerDown:()=>{ensure();engine.playerDown();tool=false;},snapshot:()=>{reconcile();return engine.snapshot();},overview,assaultPattern,assign,release,toggleTool,selectBuilding,updateAssignedUnit,
+    presentationWaterRatio:b=>b?.type==='fireCistern'?(engine.tank(b.id)?.water||0)/R.waterCapacity:0,
     isAssigned:id=>Boolean(engine.member(id)),toolActive:()=>tool,pumpFuelPerMinute,drawFire,markOffline:mark,service,
     open:()=>{g.showCommand?.(true,'field');g.siegeUI?.open();}});
   ensure();reconcile();mark();

@@ -2,7 +2,7 @@
   'use strict';
   const C = typeof module !== 'undefined' && module.exports ? require('./core.js') : root.DeadwallCore;
   const B = typeof module !== 'undefined' && module.exports ? require('./battlefield.js') : root.DeadwallBattlefield;
-  const VERSION = '1.51.0';
+  const VERSION = '1.52.0';
   function searchable(value) { return String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('fr-FR').trim(); }
   function matches(def, query) {
     const haystack = searchable([def?.name, def?.description, def?.category].join(' '));

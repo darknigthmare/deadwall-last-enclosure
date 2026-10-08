@@ -31,7 +31,7 @@
  }
  function install(g){
   if(g.actorPresentation)return g.actorPresentation;
-  const homeProxy={},regionProxy={};let observed=null,workSerial=0,work=false,joints=null;
+  const homeProxy={},regionProxy={};let observed=null,workSerial=0,work=false,joints=null,recoil=null,shotSerial=finite(g.stats?.shots);
   const wrap=(name,fn)=>{const old=g[name];if(typeof old!=='function')return;g[name]=function(...args){return fn(old.bind(this),...args);};};
   function sample(view){
    const regional=Boolean(g.frontier?.active()),p=g.player||{};
@@ -43,11 +43,18 @@
   }
   function sameScene(a,b){return a&&b&&a.world===b.world&&a.actor===b.actor&&a.regional===b.regional&&a.z===b.z&&a.dead===b.dead&&a.driving===b.driving;}
   function running(s){return g.state==='playing'&&!g.paused&&!g.gameOver&&!s.dead&&!s.driving;}
-  function reset(){observed=null;joints=null;work=false;workSerial++;}
+  function reset(){observed=null;joints=null;work=false;workSerial++;recoil=null;shotSerial=finite(g.stats?.shots);}
   function recordStationary(s){joints=standingStep(null,s,.04);observed={...s,moving:false,sprinting:false,speed:0,vx:0,vy:0,work:false,reset:true};return observed;}
   function walkingSpeed(s){
    if(s.regional)return (root.DeadwallCore?.Frontier?.RULES?.walk||3.5)*32*(g.worldEvolution?.surface(s.view)?.speed||1);
    return 136*(g.exploration125?.currentSurface?.multiplier||1)*(g.infrastructure?.speed(s.x,s.y)||1);
+  }
+  function observeShot(s,equipment){
+   const shots=finite(g.stats?.shots);if(shots===shotSerial)return;
+   equipment=equipment===undefined?g.arsenal134?.visualEquipment?.():equipment;
+   const p=g.player||{},period=1/(equipment?.fireRate||root.DeadwallCore?.WEAPONS?.[p.weapon]?.fireRate||3.2);
+   recoil=shots>shotSerial?{...s,weapon:p.weapon,equipment:equipment?.id||null,period,until:finite(g.elapsed)+.08-Math.max(0,period-finite(p.shootCooldown))}:null;
+   shotSerial=shots;
   }
   function player(view){
    const s=sample(view),p=g.player||{};
@@ -55,11 +62,16 @@
    if(!sameScene(observed,s)||Math.hypot(s.x-observed.x,s.y-observed.y)>.001)recordStationary(s);
    if(!running(s)){observed.moving=false;observed.sprinting=false;observed.work=false;observed.speed=0;observed.vx=observed.vy=0;}
    const equipment=g.arsenal134?.visualEquipment?.(),hasEquipmentService=typeof g.arsenal134?.visualEquipment==='function';
+   const cooldown=finite(p.shootCooldown);observeShot(s,equipment);
+   // The shared fire delay also survives a weapon switch and equipment changes.
+   // Only the firearm that actually fired may use its recoil pose.
+   const recoiling=Boolean(sameScene(recoil,s)&&recoil.weapon===p.weapon&&recoil.equipment===(equipment?.id||null)&&
+    (!equipment||equipment.category==='firearm')&&finite(g.elapsed)<recoil.until&&cooldown<=recoil.period+1e-9&&cooldown>Math.max(0,recoil.period-.08));
    const proxy=s.regional?regionProxy:homeProxy,action=g.heroActions133?.pose?.()||null;
    const working=g.heroActions133?Boolean(action):observed.work&&running(s);
    Object.assign(proxy,{id:p.id||0,x:s.x,y:s.y,facing:s.facing,health:finite(p.health),maxHealth:finite(p.maxHealth,100),
     dead:s.dead,invulnerable:finite(p.invulnerable),visualUnarmed:hasEquipmentService?!equipment:Boolean(g.succession133&&!g.succession133.ownsWeapon(p.weapon)),visualEquipmentId:equipment?.id||null,visualEquipmentCategory:equipment?.category||null,visualEquipmentRate:equipment?.fireRate||0,weapon:p.weapon,reload:finite(p.reload),reloadTotal:finite(p.reloadTotal),
-    shootCooldown:finite(p.shootCooldown),visualRecoil:finite(p.shootCooldown)>Math.max(0,1/(equipment?.fireRate||root.DeadwallCore?.WEAPONS?.[p.weapon]?.fireRate||3.2)-.08),meleeCooldown:s.regional&&!equipment?0:finite(p.meleeCooldown),stamina:s.stamina,
+    shootCooldown:cooldown,visualRecoil:recoiling,meleeCooldown:s.regional&&!equipment?0:finite(p.meleeCooldown),stamina:s.stamina,
     vx:observed.vx,vy:observed.vy,visualPosture:s.posture,visualAction:working?'work':'',visualAction133:action,
     visualMoving:observed.moving&&running(s),visualSpeed:observed.speed,visualMotionReset:observed.reset,
     sprinting:observed.sprinting&&running(s),
@@ -94,6 +106,7 @@
    // movement restarts at frame one while the regional gait keeps advancing.
    const priorJoints=sameScene(observed,before)&&Math.hypot(observed.x-before.x,observed.y-before.y)<.001?joints:null;
    const result=old(dt),after=sample(),dx=after.x-before.x,dy=after.y-before.y,distance=Math.hypot(dx,dy);
+   observeShot(after);
    const continuous=sameScene(before,after)&&Number.isFinite(dt)&&dt>0&&distance<=Math.max(3,500*dt);
    if(!continuous||!running(after)){recordStationary(after);return result;}
    const speed=distance/dt,moving=distance>.01;
@@ -103,6 +116,7 @@
     work:finite(g.stats?.gathered)>gathered+1e-9||workSerial!==serial&&work};
    return result;
   });
+  wrap('shootPlayer',(old,...args)=>{const result=old(...args);observeShot(sample());return result;});
   for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...args)=>{const result=old(...args);reset();connect();return result;});
   wrap('render',(old,...args)=>{connect();return old(...args);});
   g.actorPresentation=Object.freeze({player,reset});connect();return g.actorPresentation;

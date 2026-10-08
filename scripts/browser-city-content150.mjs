@@ -396,7 +396,7 @@ try {
       const native = (name, pass) => check(profile.nativeChecks, name, pass), advanced = (name, pass) => check(profile.advancedChecks, name, pass);
       await page.goto(base, { waitUntil: 'networkidle' }); await ready(page); await page.waitForFunction(() => DEADWALL.cityCatalogueUI150 && DEADWALL.d17Art150);
       profile.loadedArt = await loadedAssets(page, harness.assetKeys); native('Every declared asset decodes with the exact runtime registry', profile.loadedArt.failed.length === 0);
-      native('Runtime package and menu expose delivery version 1.51', harness.version.startsWith('1.51.') && await page.locator('#mainMenu footer').textContent().then(t => t.includes(harness.version)));
+      native('Runtime package and menu expose delivery version 1.52', harness.version.startsWith('1.52.') && await page.locator('#mainMenu footer').textContent().then(t => t.includes(harness.version)));
       await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', viewport.touch);
       await page.waitForFunction(() => !DEADWALL.paused && !DEADWALL.activeOverlay);
       const systemsDevelopment = process.env.DEADWALL_QA_SMOKE === 'systems';

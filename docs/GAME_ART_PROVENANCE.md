@@ -1,10 +1,14 @@
 # DEADWALL — assets de jeu OpenAI
 
+## Compléments des services et véhicules — 1.52
+
+Cinq PNG transparents originaux dans `assets/art152/` complètent 28 silhouettes de services, logistique, énergie et éclairage, et cinq véhicules légers. Les images générées sont conservées sans retouche ; les découpes sont mesurées dans les marges alpha. Le chargeur commun embarque les mêmes fichiers dans le web, la PWA et le HTML autonome. Les états de charge, alimentation, contrôle territorial, dégâts et récupération restent issus des contrôleurs existants. Provenance : `assets/art152/PROVENANCE.json`, `PROVENANCE_VEHICLES.json` et `PROMPTS.md`.
+
 ## Compléments des âges — 1.50
 
 Quatre PNG originaux dans `assets/art150/` fournissent 20 silhouettes distinctes pour les nouvelles défenses, postes médicaux, productions et aménagements de D-17. Leurs prompts, dimensions et empreintes sont conservés avec les originaux. `src/d17-art150.js` utilise des rectangles mesurés sans retoucher les pixels ; les canons suivent l'angle réel du tir et l'accumulateur affiche la charge du contrôleur d'énergie. Le chargeur commun, le web, la PWA et le HTML autonome embarquent les mêmes fichiers. Les anciens atlas et replis graphiques restent disponibles.
 
-Ce document décrit le premier lot de sept atlas. Le catalogue actuel comprend dix atlas et seize cycles d’acteurs : les trois nouvelles planches, leurs prompts exacts et limites sont documentés dans [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md).
+Ce document décrit le premier lot de sept atlas. Le catalogue de cette première extension comprenait dix atlas et seize cycles d’acteurs : les trois nouvelles planches, leurs prompts exacts et limites sont documentés dans [CONTENT_ART_PROVENANCE.md](CONTENT_ART_PROVENANCE.md).
 
 Création le 31 août 2026 avec **l'outil OpenAI ImageGen intégré**, et non des placeholders CSS, des images téléchargées ou une API simulée. Les originaux PNG sont conservés dans le dossier de génération Codex de cette session. Les fichiers ci-dessous sont les copies WebP réellement chargées par src/art.js et embarquées dans les trois distributions.
 
@@ -41,7 +45,7 @@ Les briefs de génération ont demandé des **assets runtime originaux** pour DE
 - Le chargeur effectue donc un **décodage technique de matte** une seule fois dans un canvas : neutralité claire connectée au bord pour les bâtiments, chroma magenta pour les autres découpes. Les zones claires isolées, notamment la croix de clinique, restent opaques. Les effets noirs sont rendus en mode screen.
 - Les rectangles découpés respectent les marges réellement observées, pas la résolution ou la grille idéale demandées. Les poses gardent une cellule fixe pour éviter les variations de pivot dues à un recadrage par image.
 - Les huit cycles totalisent 64 poses générées ; ce ne sont pas des animations squelettiques 3D ou un ensemble d'animations de mort/rechargement. L'arme tenue par le personnage est stylisée, les statistiques des trois armes restent celles du gameplay.
-- Les véhicules sont des silhouettes de gisements récupérables de ferraille/carburant. Pas de conduite, transport ou physique automobile.
+- Les véhicules sont des silhouettes de gisements récupérables de ferraille/carburant. Ce premier lot précédait la conduite et le transport, ajoutés par les versions ultérieures.
 - Un chargement d'image défaillant conserve le rendu géométrique jouable ; les erreurs sont consignées dans DEADWALL.art.diagnostics.failed. Aucun appel réseau OpenAI n'existe dans le jeu distribué.
 
 ## Vérification

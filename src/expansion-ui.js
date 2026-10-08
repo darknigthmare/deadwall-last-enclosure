@@ -231,7 +231,8 @@
       let fraction = null, label = LABELS[id];
       if (id === 'companions') {
         const task = api.snapshot().training, rules = globalThis.DeadwallCore?.CompanionPackRules;
-        if (task && rules?.training?.seconds) fraction = 1 - task.left / rules.training.seconds;
+        const duration = task?.exercise ? rules?.exercises?.[task.exercise]?.seconds : rules?.training?.seconds;
+        if (task && duration > 0) fraction = 1 - task.left / duration;
         label = 'Entraînement de l’équipe';
       } else if (id === 'fortification') {
         const job = api.job;

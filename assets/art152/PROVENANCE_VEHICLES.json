@@ -1,0 +1,63 @@
+{
+  "version": "1.52.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "spriteCount": 5,
+  "pixelEdits": false,
+  "references": [
+    "assets/art140/van.png",
+    "assets/art139/truck.png",
+    "assets/art140/buggy.png"
+  ],
+  "images": [
+    {
+      "id": "d17Vehicles152",
+      "runtime": "assets/art152/vehicles-atlas.png",
+      "source": "/workspace/generated_images/exec-c9efc1af-df23-4f05-b59c-d5638619a4ba.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 1911557,
+      "sha256": "a4bd324be804bd5a5b6c1d3faf42f291d9f4d917111056924a8e5aae9c21244f",
+      "pixelEdits": false,
+      "method": "built-in Image Gen; native alpha PNG copied unchanged",
+      "sprites": {
+        "compact": [
+          13,
+          189,
+          476,
+          294
+        ],
+        "break": [
+          503,
+          181,
+          600,
+          313
+        ],
+        "motorcycle": [
+          1104,
+          197,
+          422,
+          274
+        ],
+        "skate": [
+          14,
+          688,
+          486,
+          167
+        ],
+        "bike": [
+          514,
+          644,
+          594,
+          245
+        ]
+      }
+    }
+  ]
+}

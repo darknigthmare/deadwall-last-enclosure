@@ -73,3 +73,24 @@ test('présentation : une réanimation ne joue pas un cycle de course entre les 
  const{game:g}=fresh();clear(g);g.player.dead=true;g.player.health=0;g.player.downTimer=.01;g.updatePlayer(.04);
  const p=g.actorPresentation.player();assert.equal(p.dead,false);assert.equal(p.visualMoving,false);assert.equal(p.sprinting,false);assert.equal(p.visualMotionReset,true);
 });
+
+test('présentation : changer d’arme ne transmet pas le recul ni ne crée de tir pendant le délai précédent',()=>{
+ const{game:g}=fresh();clear(g);g.player.weapon='shotgun';g.shootPlayer();assert.equal(g.stats.shots,1);assert.equal(g.actorPresentation.player().visualRecoil,true);
+ const snapshot=g.serialize();g.switchWeapon('pistol');assert.equal(g.actorPresentation.player().visualRecoil,false);
+ for(let i=0;i<25;i++){g.updatePlayer(.04);assert.equal(g.actorPresentation.player().visualRecoil,false);}
+ g.shootPlayer();assert.equal(g.stats.shots,2);assert.equal(g.actorPresentation.player().visualRecoil,true);
+ g.updatePlayer(.09);assert.equal(g.actorPresentation.player().visualRecoil,false);
+ g.restoreSave(snapshot);assert.equal(g.actorPresentation.player().visualRecoil,false,'une reprise n’invente pas un nouveau tir');
+});
+
+test('présentation : le délai d’équipement sans tir ne produit aucun recul',()=>{
+ const{game:g}=fresh();g.arsenal134={visualEquipment:()=>({id:'rifle',category:'firearm',fireRate:C.WEAPONS.rifle.fireRate})};
+ g.player.weapon='rifle';g.player.shootCooldown=.2;const before=JSON.stringify(g.player);
+ assert.equal(g.actorPresentation.player().visualRecoil,false);assert.equal(JSON.stringify(g.player),before);
+});
+
+test('présentation : un changement immédiat d’arme entre deux peintures ne reporte pas le recul',()=>{
+ const{game:g}=fresh();clear(g);g.player.weapon='shotgun';g.shootPlayer();g.switchWeapon('pistol');
+ for(let i=0;i<25;i++){g.updatePlayer(.04);assert.equal(g.actorPresentation.player().visualRecoil,false);}
+ assert.equal(g.stats.shots,1);
+});

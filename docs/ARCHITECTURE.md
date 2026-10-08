@@ -1,5 +1,13 @@
 # Architecture technique
 
+## Qualité du monde et du rendu — 1.52
+
+`d17-art152.js` associe 28 modèles existants à quatre atlas transparents. Le chargeur commun expose les images, et le raccord final après les peintres historiques conserve les overlays de dégâts et lit les scalaires des propriétaires (`powerGrid.charge`, `siege.presentationWaterRatio`, `territories.presentationStatus`). Ces lectures n'appellent ni snapshot, ni réconciliation, ni RNG. Les listes explicites web/serveur/PWA et le HTML autonome incluent les nouveaux modules et images.
+
+`world-evolution-ui.js` résume les individus filtrés par `visibility146.frame().canSeeRegional`, plutôt que les groupes historiquement découverts. Les flammes physiques restent des sources de lumière ; leur validation utilise un ensemble d'identifiants calculé paresseusement par frame. Les guards d'interaction de `game.js` et `frontier.js` réservent les mains avant les wrappers historiques. Les caches de marche, geste et recul sont transitoires et ne modifient pas le format de sauvegarde.
+
+`vehicle-art152.js` conserve les profils et rectangles physiques des cinq véhicules légers, avec coffre, capot et états de service. Dans `Art`, un `WeakMap` par objet ressource conserve uniquement l'espèce G7. Monde, seed, génération, identité, type, variante, position locale, coordonnées régionales résolues et fournisseurs invalident cette sélection. Quantité, rayon et flash restent lus au dessin ; G1–G6 et les grumes conservent leurs peintres. Aucun résultat de simulation ou RNG n'est mis en cache.
+
 ## Progression et correctifs — 1.51
 
 Les règles numériques de campagne restent dans `core.js` et le contrôleur de progression dans `urban.js`. Un sous-registre optionnel versionné `urban.progression151` distingue les nouveaux âges qualifiés des connaissances héritées. Les contrôles de capacité dérivent du monde courant. Les correctifs de service et de sortie modifient les contrôleurs sans régénérer les cartes G1–G7.

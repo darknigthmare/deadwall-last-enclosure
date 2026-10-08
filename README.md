@@ -1,3 +1,20 @@
+# DEADWALL 1.52.0 — D17, visibilité et animations
+
+Cette passe corrige les animations lentes sur les écrans à haute fréquence, la priorité des gestes de récolte et le recul après changement d'arme. Le HUD régional et son dossier affichent uniquement les contacts actuellement observés. Les travaux payés réservent correctement les mains du commandant ; les infectés réanimés bloquent les opérations de terrain dangereuses et la défaite arrête leur progression.
+
+Les services, la logistique, l'énergie et l'éclairage de D17 reçoivent 28 sprites originaux, avec leurs états physiques d'alimentation, charge et contrôle territorial. Les véhicules légers sont également complétés. Les cartes G1–G7, les fonctions des bâtiments et la progression diversifiée des onze âges sont conservées. La cible Standard reste **6 à 10 heures**, à confirmer par des campagnes humaines complètes.
+
+Guide et limites de validation : [docs/LIVRAISON_1_52.md](docs/LIVRAISON_1_52.md). Les résultats de contrôle, archives et vérifications HTTPS sont consignés séparément après exécution. Destination autorisée : https://deadwall-last-enclosure.vercel.app/.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:quality
+```
+
+## Historique conservé — 1.51
+
 # DEADWALL 1.51.0 — Campagne, équilibrage et exploration
 
 La progression vers les onze âges repose désormais sur une cité diversifiée, des capacités de ravitaillement opérationnelles, des habitants et des unités, des reconnaissances achevées, des sites effectivement récoltés et des hordes survécues. Répéter un bâtiment bon marché ne suffit plus à débloquer la mégaville. Les points physiques continuent à attirer les ennemis ; les connaissances acquises restent mémorisées après une perte.

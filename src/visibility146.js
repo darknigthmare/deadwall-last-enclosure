@@ -25,8 +25,12 @@
       const blackout = Boolean(g.nightwatch?.isBlackout?.());
       const daylight = blackout ? 0 : Math.max(0, Math.min(1, g.daylight?.() ?? 1));
       const ambient = R.nightFloor + (1 - R.nightFloor) * daylight;
-      let region = null, maxObserverRange = 0, maxLightRange = 0;
+      let region = null, fireIds = null, maxObserverRange = 0, maxLightRange = 0;
       const regionalWorld = () => region || (region = g.frontier?.world?.());
+      const fireActive = id => {
+        if (!fireIds) fireIds = new Set((g.siege?.snapshot?.().fires || []).map(f => f.id));
+        return fireIds.has(id);
+      };
       const localPoint = p => ({ x: (p.x - home.minX) * R.unitsPerMetre, y: (p.y - home.minY) * R.unitsPerMetre });
       const regionalPoint = p => ({ x: home.minX + p.x / R.unitsPerMetre, y: home.minY + p.y / R.unitsPerMetre });
       const bucket = p => Math.floor(p.x / R.indexCell) + ',' + Math.floor(p.y / R.indexCell);
@@ -41,9 +45,13 @@
         if (!finite(p) || !Number.isFinite(p.r) || p.r <= 0 || !valid()) return;
         const q = domain === 'local' ? regionalPoint(p) : p;
         const building = domain === 'local' && Number.isInteger(p.id) ? world.buildings.get(p.id) : null;
+        // A fire remains physical light while the burning support's services are offline.
+        const sourceValid = building ? p.fire === true
+          ? () => alive(building) && fireActive(building.id)
+          : () => operational(building) : valid;
         const value = { x: q.x, y: q.y, z: domain === 'local' ? 0 : p.z ?? 0, inside: p.inside ?? null,
           range: p.r / (domain === 'local' ? R.unitsPerMetre : 1) * C.Urban.RULES.detectThreshold,
-          angle: p.angle || 0, half: p.half ?? Math.PI, valid: building ? () => operational(building) : valid, building };
+          angle: p.angle || 0, half: p.half ?? Math.PI, valid: sourceValid, building };
         lights.push(value); put(lightIndex, value); maxLightRange = Math.max(maxLightRange, value.range);
       }
 

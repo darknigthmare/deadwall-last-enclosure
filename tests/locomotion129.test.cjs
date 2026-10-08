@@ -88,7 +88,7 @@ test('présentation : les lectures régionales utilisent la pose légère sans s
 test('présentation : le recul d’arme ne couvre que les premières 80 ms du vrai délai de tir',()=>{
  const {game:g}=setup();const C=require('../src/core.js');
  for(const weapon of ['pistol','rifle','shotgun']){
-  g.player.weapon=weapon;g.player.shootCooldown=1/C.WEAPONS[weapon].fireRate;
+  g.player.weapon=weapon;g.player.shootCooldown=1/C.WEAPONS[weapon].fireRate;g.stats.shots++;
   assert.equal(g.actorPresentation.player().visualRecoil,true);
   g.player.shootCooldown-=.09;assert.equal(g.actorPresentation.player().visualRecoil,false);
  }

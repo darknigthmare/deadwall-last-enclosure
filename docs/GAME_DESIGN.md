@@ -6,7 +6,7 @@ L’âge suivant dépend de la croissance opérationnelle de D17 et d’actions 
 
 ## Choix par âge — 1.50
 
-Les onze âges restent déterminés par les constructions achevées. Le pic historique conserve les connaissances ; les recettes gardent leurs prérequis matériels. Les paliers tardifs proposent désormais des alternatives de défense, d'alimentation, de stockage, de soins et d'énergie. Six évolutions réutilisent exactement la même emprise et peuvent changer de fonction : un laboratoire transformé en pôle de triage cesse de fabriquer des médicaments.
+Les constructions achevées contribuent au développement diversifié ; les conditions de campagne de `Balance151` qualifient les âges suivants. Les connaissances acquises restent mémorisées ; les recettes gardent leurs prérequis matériels. Les paliers tardifs proposent désormais des alternatives de défense, d'alimentation, de stockage, de soins et d'énergie. Six évolutions réutilisent exactement la même emprise et peuvent changer de fonction : un laboratoire transformé en pôle de triage cesse de fabriquer des médicaments.
 
 Les routes avancées favorisent aussi les infectés. Les montages mécaniques ont des charges finies à refaire physiquement. Les formations développent les quatre compagnons existants selon leurs ordres et positions. Les cours de quartier financent des fondations ordinaires, avec accès ouverts ; elles ne créent ni soldats, ni charge de batterie, ni munitions gratuits. Le catalogue des âges permet de préparer ces choix sans dépenser. Liste et contreparties : [LIVRAISON_1_50.md](LIVRAISON_1_50.md).
 
@@ -211,7 +211,7 @@ La taille des vagues reçoit un multiplicateur d’attraction pouvant atteindre 
 | Mégaville II | tour de mégaville et complexe nourricier |
 | Mégaville III | centrale et réserve stratégique ; croissance et survie continues |
 
-Ce tableau décrit les onze âges actuels et leurs modèles, pas des conditions exclusives : plusieurs enceintes sont constructibles bien avant les mégavilles. Le déblocage dépend du pic de score des bâtiments achevés, sans minimum de population ou de vague. Huit objectifs introduisent les systèmes ; six doctrines apportent des bonus déterminés et achetables une seule fois. Quatre crises présentent deux décisions avec coûts, effets et délai sauvegardés. Les seuils et limites de durée sont précisés dans [LIVRAISON_1_49.md](LIVRAISON_1_49.md).
+Ce tableau décrit les onze âges actuels et leurs modèles, pas des conditions exclusives : plusieurs enceintes sont constructibles bien avant les mégavilles. Le déblocage courant exige le crédit de développement et les conditions opérationnelles de `Balance151`, dont population et hordes réellement survécues. Le pic de score seul décrit les connaissances des sauvegardes héritées. Huit objectifs introduisent les systèmes ; six doctrines apportent des bonus déterminés et achetables une seule fois. Quatre crises présentent deux décisions avec coûts, effets et délai sauvegardés. Les seuils et limites de durée sont précisés dans [LIVRAISON_1_49.md](LIVRAISON_1_49.md).
 
 ## 13. Conditions de réussite et d’échec
 

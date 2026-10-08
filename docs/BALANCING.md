@@ -69,7 +69,7 @@ La signature influe uniquement sur la quantité des contacts ; elle ne renforce 
 | Mégaville II | 1200 |
 | Mégaville III | 1850 |
 
-Les segments de mur rapportent un faible score afin qu’une enceinte aide à progresser sans permettre de débloquer rapidement toute la technologie en construisant uniquement des palissades. Les âges utilisent le pic du score achevé ; aucun minimum de population ou de vague ne les conditionne. La répétition de bâtiments précoces reste possible : il faut la distinguer d’une cité viable. Le tableau décrit le catalogue installé courant ; les seuils sont conservés par la passe 1.49.
+Les segments de mur rapportent un faible score afin qu’une enceinte aide à progresser sans permettre de débloquer rapidement toute la technologie en construisant uniquement des palissades. Ces seuils s’appliquent au crédit de développement diversifié dans les nouvelles campagnes. Les conditions de population, ravitaillement, exploration et hordes survécues de `Balance151` s’y ajoutent ; voir les matrices de LIVRAISON_1_51.md. Le pic physique conserve les connaissances héritées, sans qualifier seul les nouveaux âges. La répétition reste possible et augmente toujours la signature.
 
 ## Énergie
 
@@ -132,7 +132,7 @@ Bureau et entrepôt achevés ; deux places par entrepôt, quatre au maximum. Co�
 
 ## Extension 1.11
 
-Les paliers et l’éclairage actuels sont détaillés dans VILLES_SANS_LUNE_1.11.md. Les anciens seuils 0/10/24/48/85/135/210 sont conservés ; 420/750/1200/1850 prolongent la croissance. Le plus haut score construit débloque durablement les connaissances, sans préserver les capacités des bâtiments perdus. Nuits noires : 4 + 3k.
+Les paliers et l’éclairage actuels sont détaillés dans VILLES_SANS_LUNE_1.11.md. Les anciens seuils 0/10/24/48/85/135/210 sont conservés ; 420/750/1200/1850 prolongent la croissance. Les âges qualifiés sont mémorisés durablement, sans préserver les capacités des bâtiments perdus. Le pic construit seul décrit le déblocage hérité avant 1.51. Nuits noires : 4 + 3k.
 
 
 ## Nuits et accompagnateurs — 1.26

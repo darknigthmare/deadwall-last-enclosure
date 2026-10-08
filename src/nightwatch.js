@@ -22,7 +22,7 @@
     if((b.type==='generator'||b.def.generatorFuel)&&g.resources.fuel<=0)continue;
     staticSources.push({id:b.id,x:b.x,y:b.y,r:b.def.light,angle:(b.rotation||0)*Math.PI/2,half:b.def.beamHalfAngle||Math.PI});
    }
-   for(const f of g.siege?.snapshot().fires||[]){const b=g.world.buildings.get(f.id);if(live(b))staticSources.push({id:b.id,x:b.x,y:b.y,r:110,half:Math.PI,angle:0});}
+   for(const f of g.siege?.snapshot().fires||[]){const b=g.world.buildings.get(f.id);if(live(b))staticSources.push({id:b.id,x:b.x,y:b.y,r:110,half:Math.PI,angle:0,fire:true});}
    if(polygons.size>200)polygons.clear();}
    const list=staticSources.slice();const car=g.expeditions?.entity();if(car?.driving&&car.fuel>0)list.unshift({id:'exp-headlights',x:car.x,y:car.y,r:260,angle:car.angle,half:.55});if(live(g.player)&&!g.player.regionAbsent&&!isBlackout())list.push({id:'ambient-player',x:g.player.x,y:g.player.y,r:145,angle:0,half:Math.PI});if(live(g.player)&&!g.player.regionAbsent&&state().flashlight)list.unshift({id:'player',x:g.player.x,y:g.player.y,r:R.flashRange,angle:g.player.facing,half:R.flashHalfAngle});
    for(const e of g.essentials?.lights('local')||[])list.push({id:'kit-'+e.id,x:e.x,y:e.y,r:e.r,angle:0,half:Math.PI});

@@ -1,0 +1,256 @@
+{
+  "version": "1.52.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "spriteCount": 28,
+  "pixelEdits": false,
+  "images": [
+    {
+      "id": "d17Services152",
+      "runtime": "assets/art152/services-atlas.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2649281,
+      "sha256": "b5fb0ee600bbc4223889c2562eb292d9f4979e1c5fd8323765ac5d659468324e",
+      "pixelEdits": false,
+      "sprites": {
+        "fieldKitchen": [
+          32,
+          127,
+          351,
+          327
+        ],
+        "dressingWorkshop": [
+          420,
+          107,
+          351,
+          347
+        ],
+        "recoveryBench": [
+          791,
+          134,
+          347,
+          321
+        ],
+        "fireStation": [
+          1160,
+          96,
+          352,
+          361
+        ],
+        "receptionHall": [
+          33,
+          565,
+          578,
+          362
+        ],
+        "restShelter": [
+          641,
+          577,
+          353,
+          351
+        ],
+        "planningOffice": [
+          1026,
+          626,
+          465,
+          301
+        ]
+      },
+      "source": "/workspace/generated_images/exec-3b2e0abe-a8e2-4220-8151-3ef89edb813e.png",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged"
+    },
+    {
+      "id": "d17Logistics152",
+      "runtime": "assets/art152/logistics-atlas.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2620835,
+      "sha256": "ad6fd0725b15ebcce038dc37f38798a377336acc80840f495b331b5508fec45e",
+      "pixelEdits": false,
+      "sprites": {
+        "sectorPost": [
+          36,
+          79,
+          291,
+          384
+        ],
+        "logisticsGarage": [
+          339,
+          120,
+          412,
+          343
+        ],
+        "fallbackRedoubt": [
+          767,
+          126,
+          323,
+          340
+        ],
+        "prefabYard": [
+          1109,
+          118,
+          401,
+          346
+        ],
+        "roadDepot": [
+          41,
+          559,
+          348,
+          353
+        ],
+        "expeditionOffice": [
+          430,
+          528,
+          435,
+          386
+        ],
+        "expeditionGarage": [
+          899,
+          560,
+          388,
+          354
+        ]
+      },
+      "source": "/workspace/generated_images/exec-fe9f62b9-9737-4231-a5d2-abb810f0efcf.png",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged"
+    },
+    {
+      "id": "d17Energy152",
+      "runtime": "assets/art152/energy-atlas.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2669770,
+      "sha256": "a569d9edfdf0ee31f314533e7be12aaedf926f346150a957a2cacd11a5497a35",
+      "pixelEdits": false,
+      "sprites": {
+        "fireCistern": [
+          35,
+          171,
+          247,
+          312
+        ],
+        "dayGreenhouse": [
+          330,
+          143,
+          440,
+          348
+        ],
+        "solarCourt": [
+          800,
+          153,
+          452,
+          330
+        ],
+        "radioRelay": [
+          1279,
+          18,
+          232,
+          473
+        ],
+        "batteryCabinet": [
+          31,
+          705,
+          254,
+          225
+        ],
+        "batteryStation": [
+          322,
+          613,
+          492,
+          328
+        ],
+        "batteryComplex": [
+          844,
+          559,
+          666,
+          385
+        ]
+      },
+      "source": "/workspace/generated_images/exec-026f9010-fdaa-4de9-8b45-1627aae79dd8.png",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged"
+    },
+    {
+      "id": "d17Lighting152",
+      "runtime": "assets/art152/lighting-atlas.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "bytes": 2334805,
+      "sha256": "e8e146fb210cf22009ca0db2698bf86412c15c69cb3a5d5333ad3904b3ec5f2c",
+      "pixelEdits": false,
+      "sprites": {
+        "beacon": [
+          92,
+          207,
+          163,
+          260
+        ],
+        "streetlight": [
+          382,
+          49,
+          196,
+          418
+        ],
+        "searchlight": [
+          724,
+          152,
+          371,
+          316
+        ],
+        "perimeterLight": [
+          1244,
+          114,
+          226,
+          354
+        ],
+        "districtSearchlight": [
+          54,
+          571,
+          490,
+          387
+        ],
+        "alarmTower": [
+          622,
+          478,
+          444,
+          480
+        ],
+        "fireScreen": [
+          1147,
+          680,
+          332,
+          279
+        ]
+      },
+      "source": "/workspace/generated_images/exec-43e8dce1-503d-4a81-a4eb-f85a9bc2fbc9.png",
+      "method": "built-in Image Gen; native alpha PNG copied unchanged"
+    }
+  ]
+}

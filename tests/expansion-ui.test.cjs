@@ -24,7 +24,7 @@ function fixture(beforeInstall) {
   };
   const drawers = ['essentialQuick', 'nightGearQuick'].map(id => { const n = el('details', id); n.appendChild(el('summary')); doc.body.appendChild(n); return n; });
   const dock = el('section', 'fieldDock', 'field-dock'); doc.body.appendChild(dock);
-  g.nightGear = {}; g.essentialUI = { open() { old.click(); } };
+  g.nightGear = { lights: () => [] }; g.essentialUI = { open() { old.click(); } };
   const actualFrontier = g.frontier;
   let region = false; g.frontier = { active: () => region };
   let calls = 0, count = 0, available = true, dynamic = false, orderCount = 0, reason = 'Approchez du point.';

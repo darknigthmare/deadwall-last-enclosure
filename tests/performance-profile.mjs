@@ -14,19 +14,19 @@ const require=createRequire(import.meta.url),{chromium}=require(process.env.DEAD
 const root=fileURLToPath(new URL('..',import.meta.url)),base=process.env.DEADWALL_QA_URL||'http://127.0.0.1:4322';
 const label=(process.env.DEADWALL_QA_LABEL||'performance-'+new Date().toISOString()).replace(/[^a-zA-Z0-9_-]/g,'_');
 function setting(name,fallback,min,max){const value=Number(process.env[name]??fallback);assert.ok(Number.isFinite(value)&&value>=min&&value<=max,`${name} must be between ${min} and ${max}`);return value;}
-const config={viewport:{width:1280,height:720},deviceScaleFactor:setting('DEADWALL_PERF_DPR',2,1,2),warmupMilliseconds:setting('DEADWALL_PERF_WARMUP_MS',2000,1000,5000),sampleMilliseconds:setting('DEADWALL_PERF_SAMPLE_MS',6000,3000,30000),chunkMilliseconds:1000,seed:17117,qualities:['auto','low'],scenes:['quiet','enclosed-720'],headless:process.env.DEADWALL_PERF_HEADED!=='1'};
+const config={viewport:{width:setting('DEADWALL_PERF_WIDTH',1280,320,1920),height:setting('DEADWALL_PERF_HEIGHT',720,320,1080)},touch:process.env.DEADWALL_PERF_TOUCH==='1',detail:process.env.DEADWALL_PERF_DETAIL==='1',deviceScaleFactor:setting('DEADWALL_PERF_DPR',2,1,2),warmupMilliseconds:setting('DEADWALL_PERF_WARMUP_MS',2000,1000,5000),sampleMilliseconds:setting('DEADWALL_PERF_SAMPLE_MS',6000,3000,30000),chunkMilliseconds:1000,seed:17117,qualities:['auto','low'],scenes:['quiet','enclosed-720'],headless:process.env.DEADWALL_PERF_HEADED!=='1'};
 const parent=path.resolve(process.env.DEADWALL_PERF_OUTPUT||path.join(root,'artifacts','performance-qa'));
 await fs.mkdir(parent,{recursive:true});const output=await fs.mkdtemp(path.join(parent,label+'-'));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const localSources=Object.fromEntries(await Promise.all(['src/core.js','src/game.js','src/art.js'].map(async file=>[file,sha(await fs.readFile(path.join(root,file)))])));
 function git(args){try{return execFileSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true}).trim();}catch{return null;}}
-const report={date:new Date().toISOString(),base,output,config,scope:'Sequential, fresh isolated Chromium contexts at 1280x720. Real RAF warm-up and sampling; no direct update(dt) stepping. CPU wall time includes nested instrumentation, JavaScript, synchronous Canvas commands, DOM work and pauses; render() return is not GPU presentation completion. RAF pacing also includes compositor, instrumentation and external machine load. Quiet and injected 720-enemy scenes are not a natural campaign, maximum-content combat, accessibility test, minimum-spec test or FPS guarantee. No hardware equivalence is inferred from emulated DPR. No audio, user input, service worker or network activity is intentionally added during sampling. Do not run concurrently with builds, tests or other browser QA. Repeat on target hardware before publishing system requirements.',source:{revision:git(['rev-parse','HEAD']),workingTree:git(['status','--short']),localSources},host:{platform:os.platform(),release:os.release(),architecture:os.arch(),node:process.version,cpuModels:[...new Set(os.cpus().map(cpu=>cpu.model))],logicalCpus:os.cpus().length,totalMemoryBytes:os.totalmem(),freeMemoryBytesAtStart:os.freemem()},runs:[]};
+const report={date:new Date().toISOString(),base,output,config,scope:'Sequential, fresh isolated Chromium contexts at the recorded viewport. Real RAF warm-up and sampling; no direct update(dt) stepping. CPU wall time includes nested instrumentation, JavaScript, synchronous Canvas commands, DOM work and pauses; render() return is not GPU presentation completion. RAF pacing also includes compositor, instrumentation and external machine load. Quiet and injected 720-enemy scenes are not a natural campaign, maximum-content combat, accessibility test, minimum-spec test or FPS guarantee. No hardware equivalence is inferred from emulated DPR. No audio, user input, service worker or network activity is intentionally added during sampling. Do not run concurrently with builds, tests or other browser QA. Repeat on target hardware before publishing system requirements.',source:{revision:git(['rev-parse','HEAD']),workingTree:git(['status','--short']),localSources},host:{platform:os.platform(),release:os.release(),architecture:os.arch(),node:process.version,cpuModels:[...new Set(os.cpus().map(cpu=>cpu.model))],logicalCpus:os.cpus().length,totalMemoryBytes:os.totalmem(),freeMemoryBytesAtStart:os.freemem()},runs:[]};
 const ready=()=>globalThis.DEADWALL?.showSettings&&DEADWALL.commandUI&&DEADWALL.art?.diagnostics.ready.length===Object.keys(DeadwallArt.ASSETS).length&&!DEADWALL.art.diagnostics.failed.length;
 
 // Serialized into the page: every non-natural scene intervention is returned below.
 function prepareFixture({scene,quality,seed}){
   const g=DEADWALL,C=DeadwallCore;g.audio.setMuted(true);g.settings.muted=true;g.settings.quality=quality;g.settings.reducedMotion=false;g.resize();
-  g.startNew('standard',String(seed));g.random=new C.Random(seed);g.releaseInputs();g.cancelPlacement();g.phaseTime=9999;g.saveTimer=0;
+  g.startNew('standard',String(seed));g.campaignIntro132?.skip();g.random=new C.Random(seed);g.releaseInputs();g.cancelPlacement();g.phaseTime=9999;g.saveTimer=0;
   const core=g.core(),buildingLayout=[],actorCounts={},enemyCounts={};
   g.player.x=core.x;g.player.y=core.y;g.camera.x=core.x;g.camera.y=core.y;
   g.units.forEach((unit,index)=>{unit.x=core.x-40+index*40;unit.y=core.y+20;unit.offset={x:(index-1)*30,y:20};});
@@ -53,16 +53,16 @@ function prepareFixture({scene,quality,seed}){
       z.x=core.x+(front===1?depth:front===3?-depth:offset);z.y=core.y+(front===0?-depth:front===2?depth:offset);
       z.lastX=z.x;z.lastY=z.y;z.bias=index*.731;z.anim=index%10;z.howl=2+index%7;z.huntThink=(index%10)/20;
     }
-    g.dayClock=0;g.weather=.65;g.weatherTarget=.65;g.camera.zoom=.52;
+    g.dayClock=0;g.weather=.65;g.weatherTarget=.65;g.camera.zoom=Math.min(.52,(g.width-48)/1280,(g.height-48)/1280);
     for(const node of g.world.nodes)if(g.world.at(node.x,node.y)){node.amount=0;node.depleted=true;}
   }else{g.dayClock=.5;g.weather=0;g.weatherTarget=0;g.camera.zoom=1;}
   g.refreshMetrics(true);g.flow.rebuild(g.world,core);g.rebuildBuckets();g.updateUI();g.renderMinimap();
   for(const u of g.units)actorCounts[u.kind]=(actorCounts[u.kind]||0)+1;
   for(const z of g.zombies)enemyCounts[z.kind]=(enemyCounts[z.kind]||0)+1;
-  return{scene,seed,quality,backingCanvas:{width:g.canvas.width,height:g.canvas.height,dpr:g.dpr},startingStructures:g.world.buildings.size,buildingLayout,actorCounts,enemyCounts,startingZombies:g.zombies.length,startingVisibleZombies:g.zombies.filter(z=>g.visible(z.x,z.y,28,g.viewBounds())).length,zoom:g.camera.zoom,startingDayClock:g.dayClock,weather:g.weather,ammo:g.resources.ammo,enclosed:g.getEnclosureStatus().enclosed,notes:scene==='quiet'?'Fresh map with three workers; commander centred and worker positions/RNG normalized; calm prolonged. Ordinary worker AI and economy remain enabled. No player input.':'Completed, unpaid two-ring concrete enclosure with closed powered gates and sixteen houses injected. Forty-eight unpaid full-health mixed-role units placed inside; retreat order; ammunition deliberately zero so no friendly bullets/casualties lower the 720-enemy count. Eight profiles evenly mixed at normal wave-12 health, manually placed on four flanks. Nodes beneath structures depleted. Night, rain, camera and actor variation normalized. No resurrection, health reset, enemy replenishment or method stubbing during sampling. This omits a firing army, projectiles, a natural economy and a naturally built city.'};
+  return{scene,seed,quality,backingCanvas:{width:g.canvas.width,height:g.canvas.height,dpr:g.dpr},startingStructures:g.world.buildings.size,buildingLayout,actorCounts,enemyCounts,startingZombies:g.zombies.length,startingVisibleZombies:g.zombies.filter(z=>g.visible(z.x,z.y,28,g.viewBounds())).length,zoom:g.camera.zoom,startingDayClock:g.dayClock,weather:g.weather,ammo:g.resources.ammo,enclosed:g.getEnclosureStatus().enclosed,notes:scene==='quiet'?'Campaign introduction skipped through its controller. Fresh map with three workers; commander centred and worker positions/RNG normalized; calm prolonged. Ordinary worker AI and economy remain enabled. No player input.':'Campaign introduction skipped through its controller. Completed, unpaid two-ring concrete enclosure with closed powered gates and sixteen houses injected. Forty-eight unpaid full-health mixed-role units placed inside; retreat order; ammunition deliberately zero so no friendly bullets/casualties lower the 720-enemy count. All current enemy profiles evenly mixed at normal wave-12 health, manually placed on four flanks. Nodes beneath structures depleted. Night, rain and actor variation normalized; stress zoom fits the recorded viewport with at least 24 pixels of margin so all 720 contacts start inside render culling. No resurrection, health reset, enemy replenishment or method stubbing during sampling. This omits a firing army, projectiles, a natural economy and a naturally built city.'};
 }
 
-function installProfiler(){
+function installProfiler({detail=false}={}){
   const g=DEADWALL,originals=[],samples={},visibilityChanges=[];let active=false,frameCount=0,lastRaf=null,rafId,startWall=0,startElapsed=0,startState=null;
   const pacing=[],population={zombies:{min:Infinity,max:0},structures:{min:Infinity,max:0},units:{min:Infinity,max:0},particles:{min:Infinity,max:0},visibleZombies:{min:Infinity,max:0}};
   function state(){const view=g.viewBounds();return{elapsed:g.elapsed,phase:g.phase,wave:g.wave,gameOver:g.gameOver,paused:g.paused,coreHealth:g.core()?.health,zombies:g.zombies.filter(z=>!z.dead).length,structures:g.world.buildings.size,units:g.units.filter(u=>!u.dead).length,particles:g.particles.length,visibleZombies:g.zombies.filter(z=>!z.dead&&g.visible(z.x,z.y,28,view)).length,projectiles:g.projectiles.length,corpses:g.corpses.length,documentVisibility:document.visibilityState};}
@@ -73,6 +73,7 @@ function installProfiler(){
   }
   for(const method of ['update','render','updateBuildings','updateUnits','updateZombies','rebuildBuckets','updateProjectiles','updateEffects','economyTick','refreshMetrics','updateUI','renderMinimap','drawGround','drawNight','drawRain','drawThreatArrows'])wrap(g,method);
   wrap(g.flow,'rebuild','flow.rebuild');
+  if(detail){for(const method of ['depthEntries','drawNode','drawBuilding','drawUnit','drawZombie','drawPlayer','drawCorpse','drawPlacement','drawCrosshair'])wrap(g,method);for(const method of ['blit','drawNode','drawActor','drawBuilding'])wrap(g.art,method,'art.'+method);}
   function observe(timestamp){
     if(active){if(lastRaf!==null)pacing.push(timestamp-lastRaf);lastRaf=timestamp;frameCount++;
       // One coarse sample per 30 frames, outside both measured game functions.
@@ -100,7 +101,7 @@ const browser=await chromium.launch({executablePath:process.env.DEADWALL_CHROMIU
 report.browserVersion=browser.version();
 try{
   for(const quality of config.qualities)for(const scene of config.scenes){
-    const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor,serviceWorkers:'block',reducedMotion:'no-preference'}),page=await context.newPage();
+    const context=await browser.newContext({viewport:config.viewport,hasTouch:config.touch,isMobile:config.touch,deviceScaleFactor:config.deviceScaleFactor,serviceWorkers:'block',reducedMotion:'no-preference'}),page=await context.newPage();
     const run={quality,scene,errors:[],httpErrors:[],requestFailures:[],loadedSources:{},checks:[]},sourceReads=[];report.runs.push(run);
     page.on('pageerror',error=>run.errors.push(error.message));page.on('console',message=>{if(message.type()==='error')run.errors.push(message.text());});
     page.on('requestfailed',request=>run.requestFailures.push({url:request.url(),failure:request.failure()?.errorText}));
@@ -120,7 +121,7 @@ try{
       run.fixture=await page.evaluate(prepareFixture,{scene,quality,seed:config.seed});
       check('fixture starts playing and visible',await page.evaluate(()=>DEADWALL.state==='playing'&&!DEADWALL.paused&&!DEADWALL.gameOver&&document.visibilityState==='visible'));
       if(scene==='enclosed-720')check('720 mixed infecteds inside render culling area and a sealed enclosure',run.fixture.startingZombies===720&&run.fixture.startingVisibleZombies===720&&run.fixture.enclosed);
-      await page.evaluate(installProfiler);
+      await page.evaluate(installProfiler,{detail:config.detail});
       console.log(`[profile] ${quality}/${scene}: RAF warm-up ${config.warmupMilliseconds} ms`);run.warmupFrames=await rafWait(page,config.warmupMilliseconds);
       await page.evaluate(()=>__deadwallProfile.begin());
       for(let sampled=0;sampled<config.sampleMilliseconds;sampled+=config.chunkMilliseconds){await rafWait(page,Math.min(config.chunkMilliseconds,config.sampleMilliseconds-sampled));console.log(`[profile] ${quality}/${scene}: sampled ${Math.min(config.sampleMilliseconds,sampled+config.chunkMilliseconds)}/${config.sampleMilliseconds} ms`);}
