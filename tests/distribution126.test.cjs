@@ -1,15 +1,17 @@
 'use strict';
-const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http');
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),http=require('node:http'),vm=require('node:vm');
 const {pathToFileURL}=require('node:url'),{resolvePublicFile}=require('../desktop/policy.cjs');
 const root=path.resolve(__dirname,'..');
 test('distribution126 : chaque dépendance de la page est livrée, servie et précachée',async t=>{
  const {createGameServer}=await import(pathToFileURL(path.join(root,'scripts/server.mjs')).href),server=createGameServer({rootDirectory:path.join(root,'dist')});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>server.close(resolve)));
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),worker=fs.readFileSync(path.join(root,'sw.js'),'utf8');
+ const declaration=/^const\s+ASSETS\s*=\s*\[[\s\S]*?\]\s*;/m.exec(worker);assert.ok(declaration,'Déclaration de précache ASSETS absente.');
+ const assets=JSON.parse(vm.runInNewContext(declaration[0]+'\nJSON.stringify(ASSETS)',Object.create(null),{timeout:1000}));assert.ok(Array.isArray(assets));assert.ok(assets.every(name=>typeof name==='string'));const precached=new Set(assets);
  const urls=[...new Set([...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m=>m[1]).filter(x=>/\.(js|css|json|svg)$/.test(x)))];
  for(const name of urls){
   assert.ok(fs.existsSync(path.join(root,'dist',name)),name);
-  assert.ok(worker.includes("'"+name+"'"),name+' absent cache');
+  assert.ok(precached.has(name),name+' absent cache');
   assert.equal(resolvePublicFile(path.join(root,'dist'),'deadwall://game/'+name),path.join(root,'dist',name));
   const response=await new Promise((resolve,reject)=>{const req=http.request({host:'127.0.0.1',port:server.address().port,path:'/'+name,method:'HEAD'},res=>{res.resume();res.on('end',()=>resolve(res));});req.on('error',reject);req.end();});
   assert.equal(response.statusCode,200,name);

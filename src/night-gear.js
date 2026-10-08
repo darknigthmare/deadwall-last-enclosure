@@ -208,7 +208,8 @@ function install(g){
  if(root.document){ui=mount(g);wrap('updateUI',(old,...a)=>{const result=old(...a);ui?.refresh();return result;});}
  return g.nightGear;
 }
-function glyph(c,x,y,kind,on,scale,time){
+function glyph(c,x,y,kind,on,scale,time,g=null,identity=kind){
+ if(root.DeadwallWorldPropsArt153?.drawLight(c,g?.art,kind,x,y,scale,{identity,seed:g?.world?.seed??0,on,time,reducedMotion:g?.settings?.reducedMotion}))return;
  c.save();c.translate(x,y);c.scale(scale,scale);c.lineWidth=.07;c.strokeStyle='#28372c';c.fillStyle='#645b43';
  if(['branch','torch','campfire'].includes(kind)){
   c.strokeStyle='#6f4c2f';c.lineWidth=.16;c.beginPath();c.moveTo(-.36,.28);c.lineTo(.32,-.14);if(kind==='campfire'){c.moveTo(-.35,-.16);c.lineTo(.35,.26);}c.stroke();
@@ -230,13 +231,13 @@ function depthEntries(g,domain,state,fixtures,v,view){
   if(d.z!==z||z!==0&&d.inside!==v.inside)continue;
   if(domain==='region'&&root.DeadwallFrontierArt?.visiblePoint&&!root.DeadwallFrontierArt.visiblePoint(g,d,v))continue;
   if(view?(domain==='local'?!g.visible(d.x,d.y,scale,view):d.x<view.l-scale||d.x>view.r+scale||d.y<view.t-scale||d.y>view.b+scale):Math.hypot(d.x-p.x,d.y-p.y)>80*scale)continue;
-  entries.push({kind:'light',id:'night:'+d.id,x:d.x,y:d.y,depth:d.y+.24*scale,draw(ctx){glyph(ctx,d.x,d.y,d.kind,d.kind==='solar'?(g.daylight()<.45||g.nightwatch.isBlackout()):d.on,scale*.85,g.settings.reducedMotion?0:g.elapsed);}});
+  entries.push({kind:'light',id:'night:'+d.id,x:d.x,y:d.y,depth:d.y+.24*scale,draw(ctx){glyph(ctx,d.x,d.y,d.kind,d.kind==='solar'?(g.daylight()<.45||g.nightwatch.isBlackout()):d.on,scale*.85,g.settings.reducedMotion?0:g.elapsed,g,d.id);}});
  }
  return entries;
 }
 function drawCarried(ctx,g,domain,state,v){
  v=v||g.frontier.position?.()||g.frontier.snapshot();if((domain==='region')!==g.frontier.active()||g.player.dead||g.expeditions.driving()||v.car?.driving)return;
- const p=domain==='region'?v:g.player,scale=domain==='local'?32:1,d=state.devices.find(d=>d.location==='belt'&&d.on);if(d)glyph(ctx,p.x+.38*scale,p.y+.24*scale,d.kind,true,.55*scale,g.settings.reducedMotion?0:g.elapsed);
+ const p=domain==='region'?v:g.player,scale=domain==='local'?32:1,d=state.devices.find(d=>d.location==='belt'&&d.on);if(d)glyph(ctx,p.x+.38*scale,p.y+.24*scale,d.kind,true,.55*scale,g.settings.reducedMotion?0:g.elapsed,g,d.id);
 }
 function draw(ctx,g,domain,state,fixtures,view){for(const entry of depthEntries(g,domain,state,fixtures,null,view))entry.draw(ctx);if(view?.carried!==false)drawCarried(ctx,g,domain,state);}
 function mount(g){

@@ -7,10 +7,10 @@ const ctx=()=>createCanvas(1000,1000).getContext('2d');
 const recorder=()=>{const calls=[];return {calls,art:{images:Object.fromEntries(Object.keys(A.ASSETS).map(k=>[k,{}])),blit(c,atlas,r,...d){calls.push({atlas,r,d,filter:c.filter,alpha:c.globalAlpha});return true;}}};};
 
 test('150 art: four native original PNGs have exact tracked bytes and decoded dimensions, transparency and loader entries',async()=>{
- assert.equal(meta.images.length,4);assert.equal(meta.spriteCount,20);assert.equal(meta.pixelEdits,false);assert.equal(Object.keys(Art.ASSETS).length,68);
+ assert.equal(meta.images.length,4);assert.equal(meta.spriteCount,20);assert.equal(meta.pixelEdits,false);assert.equal(Object.keys(A.ASSETS).length,4);assert.deepEqual(Object.keys(A.ASSETS).sort(),meta.images.map(item=>item.id).sort());
  for(const item of meta.images){const p=path.join(root,item.runtime),buf=fs.readFileSync(p),im=await loadImage(p),spec=A.ASSETS[item.id];
   assert.equal(buf.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(buf[25],6);assert.equal(buf.length,item.bytes);assert.equal(crypto.createHash('sha256').update(buf).digest('hex'),item.sha256);
-  assert.equal(im.width,spec.width);assert.equal(im.height,spec.height);assert.equal(Art.ASSETS[item.id],spec);assert.equal(spec.matte,'none');assert.equal(item.pixelEdits,false);assert.equal(item.alpha_extrema[0],0);assert.ok(item.alpha_extrema[1]>=254);
+  assert.equal(im.width,spec.width);assert.equal(im.height,spec.height);assert.equal(Art.ASSETS[item.id],spec);assert.equal(spec.url,item.runtime);assert.equal(spec.matte,'none');assert.equal(item.pixelEdits,false);assert.equal(item.alpha_extrema[0],0);assert.ok(item.alpha_extrema[1]>=254);
   assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes(item.runtime));
  }
 });

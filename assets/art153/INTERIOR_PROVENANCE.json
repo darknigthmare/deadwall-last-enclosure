@@ -1,0 +1,1281 @@
+{
+  "version": "1.53.0",
+  "authoring": "Original image_gen PNGs copied without pixel edits, and original hand-authored SVGs. Cropping occurs only at runtime.",
+  "assets": [
+    {
+      "file": "interior-home-atlas.png",
+      "prompt": "Original production game sprite atlas for DEADWALL, serious abandoned rural and industrial zombie survival world, dirty muted earth, steel, faded olive, tan. TRUE TRANSPARENT ALPHA BACKGROUND. Wide landscape image exactly 1536x1024 pixels, STRICT 4 columns by 4 rows regular grid of 384x256 pixel cells. Each cell contains ONLY ONE complete isolated furniture object centered with at least 28 pixels of transparent gutter on all sides. Exact camera: orthographic overhead, nearly straight top down, slight visible SOUTH face, longest edge runs horizontal left to right. No oblique isometric diamonds. Low compact height, crisp readable broad silhouettes and material detailing at tiny game scale. No floor, no scene, no people, no shadow cast outside the silhouette, no labels, no cell borders, no text. IMPORTANT each family occupies TWO consecutive adjacent cells A then B and is visibly a DIFFERENT PHYSICAL MODEL with changed construction and silhouette, never just a recolor. Four rows in exact order: row 1 columns 1 and 2: double bed: A scratched wood bed with moss gray blanket, B tubular steel bed with dark ochre folded quilt; row 1 columns 3 and 4: sofa: A battered two-seat olive sofa with split cushion, B brown leather sofa with one sagged pillow; row 2 columns 1 and 2: dining table: A oak rectangular table with one white mug, B rough trestle table with folded cloth; row 2 columns 3 and 4: office desk: A metal office desk with switched-off flat monitor and paper, B wooden desk with closed notebook and desk lamp; row 3 columns 1 and 2: wardrobe: A old double-door timber wardrobe, B narrow metal locker pair; row 3 columns 3 and 4: shelving: A 3-bay steel stocked shelving with sealed boxes, B wood bookshelf with uneven books; row 4 columns 1 and 2: refrigerator: A compact ivory single fridge, B steel double-door commercial fridge; row 4 columns 3 and 4: sink: A porcelain single kitchen basin inset in wood, B stainless twin basin steel stand. Every silhouette must be fully inside its own cell; do not omit or repeat any cell.",
+      "sourcePath": "/workspace/generated_images/exec-40563426-3fca-4dcf-b474-b0256345364e.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/interior-home-atlas.png",
+      "bytes": 2379240,
+      "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            97,
+            12,
+            236,
+            243
+          ],
+          "components": 1,
+          "alpha64Pixels": 47286
+        },
+        {
+          "cell": 1,
+          "rect": [
+            452,
+            14,
+            225,
+            240
+          ],
+          "components": 1,
+          "alpha64Pixels": 41936
+        },
+        {
+          "cell": 2,
+          "rect": [
+            807,
+            44,
+            310,
+            189
+          ],
+          "components": 1,
+          "alpha64Pixels": 51010
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1187,
+            53,
+            308,
+            179
+          ],
+          "components": 1,
+          "alpha64Pixels": 48231
+        },
+        {
+          "cell": 4,
+          "rect": [
+            71,
+            269,
+            289,
+            216
+          ],
+          "components": 1,
+          "alpha64Pixels": 43657
+        },
+        {
+          "cell": 5,
+          "rect": [
+            432,
+            293,
+            299,
+            178
+          ],
+          "components": 1,
+          "alpha64Pixels": 35941
+        },
+        {
+          "cell": 6,
+          "rect": [
+            815,
+            267,
+            291,
+            217
+          ],
+          "components": 1,
+          "alpha64Pixels": 47267
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1203,
+            257,
+            278,
+            229
+          ],
+          "components": 1,
+          "alpha64Pixels": 42704
+        },
+        {
+          "cell": 8,
+          "rect": [
+            108,
+            497,
+            215,
+            239
+          ],
+          "components": 1,
+          "alpha64Pixels": 45039
+        },
+        {
+          "cell": 9,
+          "rect": [
+            494,
+            503,
+            172,
+            224
+          ],
+          "components": 1,
+          "alpha64Pixels": 34658
+        },
+        {
+          "cell": 10,
+          "rect": [
+            802,
+            503,
+            319,
+            224
+          ],
+          "components": 1,
+          "alpha64Pixels": 60426
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1243,
+            506,
+            196,
+            218
+          ],
+          "components": 1,
+          "alpha64Pixels": 37727
+        },
+        {
+          "cell": 12,
+          "rect": [
+            145,
+            754,
+            141,
+            243
+          ],
+          "components": 1,
+          "alpha64Pixels": 31110
+        },
+        {
+          "cell": 13,
+          "rect": [
+            468,
+            741,
+            225,
+            256
+          ],
+          "components": 1,
+          "alpha64Pixels": 52538
+        },
+        {
+          "cell": 14,
+          "rect": [
+            824,
+            747,
+            272,
+            249
+          ],
+          "components": 1,
+          "alpha64Pixels": 54081
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1213,
+            742,
+            256,
+            255
+          ],
+          "components": 1,
+          "alpha64Pixels": 47520
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "interior-service-atlas.png",
+      "prompt": "Original production game sprite atlas for DEADWALL, serious abandoned rural and industrial zombie survival world, dirty muted earth, steel, faded olive, tan. TRUE TRANSPARENT ALPHA BACKGROUND. Wide landscape image exactly 1536x1024 pixels, STRICT 4 columns by 4 rows regular grid of 384x256 pixel cells. Each cell contains ONLY ONE complete isolated furniture object centered with at least 28 pixels of transparent gutter on all sides. Exact camera: orthographic overhead, nearly straight top down, slight visible SOUTH face, longest edge runs horizontal left to right. No oblique isometric diamonds. Low compact height, crisp readable broad silhouettes and material detailing at tiny game scale. No floor, no scene, no people, no shadow cast outside the silhouette, no labels, no cell borders, no text. IMPORTANT each family occupies TWO consecutive adjacent cells A then B and is visibly a DIFFERENT PHYSICAL MODEL with changed construction and silhouette, never just a recolor. Four rows in exact order: row 1 columns 1 and 2: dental chair: A reclining faded jade dentist chair with bowl, B tan dentist chair with metal arm; row 1 columns 3 and 4: sterilizer: A stainless rectangular autoclave with closed round hatch, B ivory square sterilizer with two closed doors; row 2 columns 1 and 2: steel preparation table: A broad stainless table with two bowls, B steel prep table with chopping board; row 2 columns 3 and 4: dish drying rack: A long steel rack with white plates, B wooden slatted drying rack with two trays; row 3 columns 1 and 2: shop counter: A long wooden shop counter and mechanical register, B metal reception counter with closed drawer; row 3 columns 3 and 4: oven: A heavy steel bakery oven with three dark closed windows, B square cooking range with four black burners; row 4 columns 1 and 2: washing machine: A ivory circular front-loader, B steel laundry machine with large dark round hatch; row 4 columns 3 and 4: animal kennel: A empty square wire dog cage, B empty kennel with sturdy rusty steel mesh. Every silhouette must be fully inside its own cell; do not omit or repeat any cell.",
+      "sourcePath": "/workspace/generated_images/exec-171e9119-27d3-413a-b701-08808be1e8b2.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/interior-service-atlas.png",
+      "bytes": 2596462,
+      "sha256": "5bac912a410ab7372b55e229c5e6942f3d2c2463be3ce077656f87e14a83793a",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            56,
+            15,
+            292,
+            238
+          ],
+          "components": 1,
+          "alpha64Pixels": 35779
+        },
+        {
+          "cell": 1,
+          "rect": [
+            472,
+            9,
+            244,
+            246
+          ],
+          "components": 1,
+          "alpha64Pixels": 33846
+        },
+        {
+          "cell": 2,
+          "rect": [
+            838,
+            37,
+            243,
+            201
+          ],
+          "components": 1,
+          "alpha64Pixels": 44494
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1232,
+            27,
+            224,
+            221
+          ],
+          "components": 1,
+          "alpha64Pixels": 45064
+        },
+        {
+          "cell": 4,
+          "rect": [
+            46,
+            276,
+            299,
+            186
+          ],
+          "components": 1,
+          "alpha64Pixels": 47278
+        },
+        {
+          "cell": 5,
+          "rect": [
+            424,
+            277,
+            307,
+            185
+          ],
+          "components": 1,
+          "alpha64Pixels": 48254
+        },
+        {
+          "cell": 6,
+          "rect": [
+            803,
+            303,
+            314,
+            149
+          ],
+          "components": 1,
+          "alpha64Pixels": 36217
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1189,
+            295,
+            308,
+            153
+          ],
+          "components": 1,
+          "alpha64Pixels": 37264
+        },
+        {
+          "cell": 8,
+          "rect": [
+            28,
+            515,
+            334,
+            182
+          ],
+          "components": 1,
+          "alpha64Pixels": 46507
+        },
+        {
+          "cell": 9,
+          "rect": [
+            411,
+            530,
+            334,
+            169
+          ],
+          "components": 1,
+          "alpha64Pixels": 49638
+        },
+        {
+          "cell": 10,
+          "rect": [
+            829,
+            498,
+            261,
+            216
+          ],
+          "components": 1,
+          "alpha64Pixels": 49414
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1227,
+            492,
+            238,
+            227
+          ],
+          "components": 1,
+          "alpha64Pixels": 45240
+        },
+        {
+          "cell": 12,
+          "rect": [
+            93,
+            720,
+            203,
+            276
+          ],
+          "components": 1,
+          "alpha64Pixels": 51820
+        },
+        {
+          "cell": 13,
+          "rect": [
+            458,
+            716,
+            235,
+            278
+          ],
+          "components": 1,
+          "alpha64Pixels": 60157
+        },
+        {
+          "cell": 14,
+          "rect": [
+            826,
+            732,
+            268,
+            263
+          ],
+          "components": 1,
+          "alpha64Pixels": 50426
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1206,
+            728,
+            272,
+            267
+          ],
+          "components": 1,
+          "alpha64Pixels": 59023
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "interior-workshop-atlas.png",
+      "prompt": "Original production game sprite atlas for DEADWALL, serious abandoned rural and industrial zombie survival world, dirty muted earth, steel, faded olive, tan. TRUE TRANSPARENT ALPHA BACKGROUND. Wide landscape image exactly 1536x1024 pixels, STRICT 4 columns by 4 rows regular grid of 384x256 pixel cells. Each cell contains ONLY ONE complete isolated furniture object centered with at least 28 pixels of transparent gutter on all sides. Exact camera: orthographic overhead, nearly straight top down, slight visible SOUTH face, longest edge runs horizontal left to right. No oblique isometric diamonds. Low compact height, crisp readable broad silhouettes and material detailing at tiny game scale. No floor, no scene, no people, no shadow cast outside the silhouette, no labels, no cell borders, no text. IMPORTANT each family occupies TWO consecutive adjacent cells A then B and is visibly a DIFFERENT PHYSICAL MODEL with changed construction and silhouette, never just a recolor. Four rows in exact order: row 1 columns 1 and 2: timber rack: A long steel rack of rough oak planks, B wooden trestles with pale pine boards; row 1 columns 3 and 4: saw bench: A scratched green table saw with circular blade, B rusty industrial table saw with timber guide; row 2 columns 1 and 2: clamp rack: A wood rack with six iron clamps, B steel bar rack with four large C clamps; row 2 columns 3 and 4: pallet stack: A neat stack of three weathered wood pallets, B offset broken stack of four pallets; row 3 columns 1 and 2: generator: A stopped olive diesel generator with no light or exhaust, B stationary square yellow construction generator stopped; row 3 columns 3 and 4: electrical rack: A closed steel cabinet with dark dials, B tall beige distribution rack with breakers OFF; row 4 columns 1 and 2: workbench: A scratched thick plank workbench with vise, B steel workshop bench with bolted vice and drawer; row 4 columns 3 and 4: industrial machine: A broad gray old lathe with dark inactive controls, B heavy worn green drill press work platform inactive. Every silhouette must be fully inside its own cell; do not omit or repeat any cell.",
+      "sourcePath": "/workspace/generated_images/exec-14748523-1d03-419f-a2f8-9acf02b26365.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/interior-workshop-atlas.png",
+      "bytes": 2334203,
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            41,
+            61,
+            328,
+            172
+          ],
+          "components": 1,
+          "alpha64Pixels": 41008
+        },
+        {
+          "cell": 1,
+          "rect": [
+            421,
+            73,
+            323,
+            161
+          ],
+          "components": 1,
+          "alpha64Pixels": 29705
+        },
+        {
+          "cell": 2,
+          "rect": [
+            815,
+            42,
+            298,
+            206
+          ],
+          "components": 1,
+          "alpha64Pixels": 40898
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1186,
+            41,
+            303,
+            203
+          ],
+          "components": 1,
+          "alpha64Pixels": 41525
+        },
+        {
+          "cell": 4,
+          "rect": [
+            67,
+            275,
+            284,
+            191
+          ],
+          "components": 1,
+          "alpha64Pixels": 33207
+        },
+        {
+          "cell": 5,
+          "rect": [
+            439,
+            283,
+            286,
+            183
+          ],
+          "components": 1,
+          "alpha64Pixels": 26450
+        },
+        {
+          "cell": 6,
+          "rect": [
+            835,
+            288,
+            260,
+            175
+          ],
+          "components": 1,
+          "alpha64Pixels": 42059
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1196,
+            277,
+            289,
+            190
+          ],
+          "components": 1,
+          "alpha64Pixels": 42352
+        },
+        {
+          "cell": 8,
+          "rect": [
+            50,
+            525,
+            328,
+            190
+          ],
+          "components": 1,
+          "alpha64Pixels": 36862
+        },
+        {
+          "cell": 9,
+          "rect": [
+            461,
+            506,
+            245,
+            205
+          ],
+          "components": 1,
+          "alpha64Pixels": 42895
+        },
+        {
+          "cell": 10,
+          "rect": [
+            872,
+            497,
+            195,
+            220
+          ],
+          "components": 1,
+          "alpha64Pixels": 39561
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1275,
+            491,
+            141,
+            219
+          ],
+          "components": 1,
+          "alpha64Pixels": 28530
+        },
+        {
+          "cell": 12,
+          "rect": [
+            47,
+            761,
+            324,
+            189
+          ],
+          "components": 1,
+          "alpha64Pixels": 43473
+        },
+        {
+          "cell": 13,
+          "rect": [
+            430,
+            761,
+            310,
+            197
+          ],
+          "components": 1,
+          "alpha64Pixels": 48418
+        },
+        {
+          "cell": 14,
+          "rect": [
+            794,
+            758,
+            347,
+            199
+          ],
+          "components": 1,
+          "alpha64Pixels": 50680
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1277,
+            723,
+            163,
+            262
+          ],
+          "components": 1,
+          "alpha64Pixels": 26652
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "interior-utility-atlas.png",
+      "prompt": "Original production game sprite atlas for DEADWALL, serious abandoned rural and industrial zombie survival world, dirty muted earth, steel, faded olive, tan. TRUE TRANSPARENT ALPHA BACKGROUND. Wide landscape image exactly 1536x1024 pixels, STRICT 4 columns by 4 rows regular grid of 384x256 pixel cells. Each cell contains ONLY ONE complete isolated furniture object centered with at least 28 pixels of transparent gutter on all sides. Exact camera: orthographic overhead, nearly straight top down, slight visible SOUTH face, longest edge runs horizontal left to right. No oblique isometric diamonds. Low compact height, crisp readable broad silhouettes and material detailing at tiny game scale. No floor, no scene, no people, no shadow cast outside the silhouette, no labels, no cell borders, no text. IMPORTANT each family occupies TWO consecutive adjacent cells A then B and is visibly a DIFFERENT PHYSICAL MODEL with changed construction and silhouette, never just a recolor. Four rows in exact order: row 1 columns 1 and 2: plant tray: A rectangular wood tray with three rows of small vegetables, B steel trough with compact herb plants; row 1 columns 3 and 4: tire pile: A square pile of four worn black tires, B offset pile of three thick rugged tires; row 2 columns 1 and 2: hose rack: A long steel frame with three rolled canvas hoses, B rusty broad frame with two curled rubber hoses; row 2 columns 3 and 4: bench: A long outdoor slatted timber bench, B simple steel-frame bench with faded green seat; row 3 columns 1 and 2: salvage crate: A closed wood reinforced box, B closed strapped metal cargo crate; row 3 columns 3 and 4: medical storage: A faded ivory medical locker with simple olive cross, B rugged closed tan first-aid chest with plain white cross; row 4 columns 1 and 2: fuel cans: A olive rectangular jerry can, B rusty paired square fuel tins; row 4 columns 3 and 4: fuel pump: A squat vintage rusty ochre service pump with black hose and inactive display, B scratched green box fuel dispenser with dark meter. Every silhouette must be fully inside its own cell; do not omit or repeat any cell.",
+      "sourcePath": "/workspace/generated_images/exec-7058006e-559e-411e-a3e2-ad77630131a6.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/interior-utility-atlas.png",
+      "bytes": 2343180,
+      "sha256": "05be511ba41556d9fc622fad611b5145f8657d1672681b6088bd384446b3929c",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            47,
+            54,
+            295,
+            172
+          ],
+          "components": 1,
+          "alpha64Pixels": 44997
+        },
+        {
+          "cell": 1,
+          "rect": [
+            432,
+            51,
+            305,
+            172
+          ],
+          "components": 1,
+          "alpha64Pixels": 39715
+        },
+        {
+          "cell": 2,
+          "rect": [
+            837,
+            22,
+            250,
+            221
+          ],
+          "components": 1,
+          "alpha64Pixels": 48256
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1213,
+            18,
+            266,
+            225
+          ],
+          "components": 1,
+          "alpha64Pixels": 41867
+        },
+        {
+          "cell": 4,
+          "rect": [
+            47,
+            309,
+            295,
+            162
+          ],
+          "components": 1,
+          "alpha64Pixels": 34855
+        },
+        {
+          "cell": 5,
+          "rect": [
+            436,
+            300,
+            294,
+            173
+          ],
+          "components": 1,
+          "alpha64Pixels": 39050
+        },
+        {
+          "cell": 6,
+          "rect": [
+            804,
+            311,
+            318,
+            160
+          ],
+          "components": 1,
+          "alpha64Pixels": 35406
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1191,
+            308,
+            308,
+            170
+          ],
+          "components": 1,
+          "alpha64Pixels": 33714
+        },
+        {
+          "cell": 8,
+          "rect": [
+            54,
+            535,
+            281,
+            196
+          ],
+          "components": 1,
+          "alpha64Pixels": 49216
+        },
+        {
+          "cell": 9,
+          "rect": [
+            441,
+            543,
+            284,
+            184
+          ],
+          "components": 1,
+          "alpha64Pixels": 46571
+        },
+        {
+          "cell": 10,
+          "rect": [
+            879,
+            511,
+            166,
+            231
+          ],
+          "components": 1,
+          "alpha64Pixels": 35302
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1205,
+            550,
+            278,
+            170
+          ],
+          "components": 1,
+          "alpha64Pixels": 41641
+        },
+        {
+          "cell": 12,
+          "rect": [
+            115,
+            769,
+            166,
+            215
+          ],
+          "components": 1,
+          "alpha64Pixels": 32222
+        },
+        {
+          "cell": 13,
+          "rect": [
+            474,
+            779,
+            216,
+            191
+          ],
+          "components": 1,
+          "alpha64Pixels": 36370
+        },
+        {
+          "cell": 14,
+          "rect": [
+            874,
+            754,
+            187,
+            241
+          ],
+          "components": 1,
+          "alpha64Pixels": 31380
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1260,
+            753,
+            195,
+            242
+          ],
+          "components": 1,
+          "alpha64Pixels": 35088
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "habitat-residential-atlas.png",
+      "prompt": "Original serious rural zombie survival production game sprite atlas DEADWALL. TRUE TRANSPARENT ALPHA BACKGROUND, no backdrop. Exactly 1536x1024 wide image. STRICT regular 4 columns by 4 rows of 384x256px cells. Each cell one complete isolated rectangular building roof, centered with 25px transparent gutters; longest edge horizontal. CAMERA EXACTLY STRAIGHT OVERHEAD: show the TOP surface of the roof from above, no south front facade, no angled isometric diamond, no horizon, no people. Realistic dirty muted earth/steel/concrete/slate, strong silhouette and crisp broad details readable on tiny map. No gardens, pavement, fences, cars, furniture, ground, labels, borders or legible text. Each family TWO ADJACENT cells A then B visibly different structural roofs, same physical family. Do not omit or repeat any cell. Order: row 1 columns 1 and 2: cottage roof: A modest compact terracotta hipped tile roof with chimney, B small battered gray slate gable roof with low brick chimney; row 1 columns 3 and 4: farm roof: A long brown tile farmhouse roof with two chimneys, B long corrugated patched old farm building roof; row 2 columns 1 and 2: row house roof: A long narrow dark slate roof with two chimney stacks, B narrower uneven ochre tile gable roof; row 2 columns 3 and 4: collective residential roof: A broad flat gravel apartment roof with low ventilation ducts, B broad flat mossy bitumen roof with small stairs access hatch; row 3 columns 1 and 2: hotel roof: A broad flat worn cream concrete hotel roof with two square ventilation housings, B broad old zinc hotel roof with skylights; row 3 columns 3 and 4: retail roof: A low flat wide shop roof with squat duct and tar patches, B low broad ribbed metal supermarket roof with two exhaust domes; row 4 columns 1 and 2: civic office roof: A dignified slate pitched roof with central pale stone ridge, B wide flat civic roof with rectangular skylight and parapet; row 4 columns 3 and 4: chapel roof: A long stone chapel slate roof with small square stone bell housing seen strictly overhead, B long steep ochre tile chapel roof with simple timber bell housing. Each building MUST remain a complete rectangular roof cut viewed directly from above, detached with transparent background. No roof spreads outside its cell.",
+      "sourcePath": "/workspace/generated_images/exec-c7104525-2fd3-408a-bd4f-595888c6e230.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/habitat-residential-atlas.png",
+      "bytes": 2922608,
+      "sha256": "dc0d263d50358c255878f5f46c34af82a4534f1c09d9454c06b05de258923101",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            37,
+            41,
+            286,
+            188
+          ],
+          "components": 1,
+          "alpha64Pixels": 51086
+        },
+        {
+          "cell": 1,
+          "rect": [
+            362,
+            47,
+            315,
+            179
+          ],
+          "components": 1,
+          "alpha64Pixels": 50334
+        },
+        {
+          "cell": 2,
+          "rect": [
+            711,
+            45,
+            424,
+            182
+          ],
+          "components": 1,
+          "alpha64Pixels": 72733
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1158,
+            47,
+            360,
+            179
+          ],
+          "components": 1,
+          "alpha64Pixels": 59005
+        },
+        {
+          "cell": 4,
+          "rect": [
+            26,
+            299,
+            362,
+            171
+          ],
+          "components": 1,
+          "alpha64Pixels": 54695
+        },
+        {
+          "cell": 5,
+          "rect": [
+            413,
+            299,
+            302,
+            173
+          ],
+          "components": 1,
+          "alpha64Pixels": 46231
+        },
+        {
+          "cell": 6,
+          "rect": [
+            746,
+            274,
+            377,
+            213
+          ],
+          "components": 1,
+          "alpha64Pixels": 76507
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1150,
+            279,
+            359,
+            207
+          ],
+          "components": 1,
+          "alpha64Pixels": 69429
+        },
+        {
+          "cell": 8,
+          "rect": [
+            26,
+            523,
+            362,
+            223
+          ],
+          "components": 1,
+          "alpha64Pixels": 69467
+        },
+        {
+          "cell": 9,
+          "rect": [
+            414,
+            533,
+            333,
+            202
+          ],
+          "components": 1,
+          "alpha64Pixels": 61549
+        },
+        {
+          "cell": 10,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ],
+          "components": 1,
+          "alpha64Pixels": 61129
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ],
+          "components": 1,
+          "alpha64Pixels": 71265
+        },
+        {
+          "cell": 12,
+          "rect": [
+            28,
+            766,
+            341,
+            218
+          ],
+          "components": 1,
+          "alpha64Pixels": 66148
+        },
+        {
+          "cell": 13,
+          "rect": [
+            396,
+            774,
+            315,
+            204
+          ],
+          "components": 1,
+          "alpha64Pixels": 58926
+        },
+        {
+          "cell": 14,
+          "rect": [
+            747,
+            776,
+            359,
+            197
+          ],
+          "components": 1,
+          "alpha64Pixels": 56767
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1146,
+            748,
+            366,
+            225
+          ],
+          "components": 1,
+          "alpha64Pixels": 59912
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "habitat-services-atlas.png",
+      "prompt": "Original serious rural zombie survival production game sprite atlas DEADWALL. TRUE TRANSPARENT ALPHA BACKGROUND, no backdrop. Exactly 1536x1024 wide image. STRICT regular 4 columns by 4 rows of 384x256px cells. Each cell one complete isolated rectangular building roof, centered with 25px transparent gutters; longest edge horizontal. CAMERA EXACTLY STRAIGHT OVERHEAD: show the TOP surface of the roof from above, no south front facade, no angled isometric diamond, no horizon, no people. Realistic dirty muted earth/steel/concrete/slate, strong silhouette and crisp broad details readable on tiny map. No gardens, pavement, fences, cars, furniture, ground, labels, borders or legible text. Each family TWO ADJACENT cells A then B visibly different structural roofs, same physical family. Do not omit or repeat any cell. Order: row 1 columns 1 and 2: school roof: A wide clay tile school roof with multiple short chimneys, B flat weathered zinc school roof with square skylight; row 1 columns 3 and 4: clinic roof: A pale flat hospital roof with small ventilation and worn simple dark medical cross, B low gray tile clinic roof with broad skylights and no text; row 2 columns 1 and 2: industrial roof: A broad weathered corrugated sawtooth metal factory roof, B broad flat corrugated rust-streaked warehouse roof with two ventilation pods; row 2 columns 3 and 4: workshop roof: A compact galvanized corrugated workshop roof with raised skylight, B compact old rusty metal garage roof with patch strips; row 3 columns 1 and 2: service roof: A low flat square station-service roof with central vent, B broad flat roof of fire station with two small ducts; row 3 columns 3 and 4: greenhouse roof: A translucent ribbed weathered glass greenhouse roof, B old milky plastic multi-span nursery roof; row 4 columns 1 and 2: underground entrance roof: A heavy low flat concrete shelter access roof with wide dark closed hatch, B low rough concrete bunker entrance roof with two heavy vents; row 4 columns 3 and 4: ruined building roof: A partly collapsed dirty wood and terracotta roof with visible broken rafters, B shattered mossy slate roof with holes and pale masonry rubble. Each building MUST remain a complete rectangular roof cut viewed directly from above, detached with transparent background. No roof spreads outside its cell.",
+      "sourcePath": "/workspace/generated_images/exec-c90453e0-1a70-4db8-acf4-df621c549076.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/habitat-services-atlas.png",
+      "bytes": 3088359,
+      "sha256": "1ef26b6574b24dbda7ce96d921b5e2b7c826cb87f8f58f9bd2fbec71efbb274d",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            17,
+            18,
+            369,
+            238
+          ],
+          "components": 1,
+          "alpha64Pixels": 67803
+        },
+        {
+          "cell": 1,
+          "rect": [
+            409,
+            40,
+            343,
+            204
+          ],
+          "components": 1,
+          "alpha64Pixels": 63944
+        },
+        {
+          "cell": 2,
+          "rect": [
+            789,
+            39,
+            345,
+            212
+          ],
+          "components": 1,
+          "alpha64Pixels": 67908
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1167,
+            41,
+            352,
+            209
+          ],
+          "components": 1,
+          "alpha64Pixels": 64322
+        },
+        {
+          "cell": 4,
+          "rect": [
+            18,
+            279,
+            359,
+            224
+          ],
+          "components": 1,
+          "alpha64Pixels": 70400
+        },
+        {
+          "cell": 5,
+          "rect": [
+            406,
+            284,
+            357,
+            217
+          ],
+          "components": 1,
+          "alpha64Pixels": 72023
+        },
+        {
+          "cell": 6,
+          "rect": [
+            791,
+            291,
+            342,
+            206
+          ],
+          "components": 1,
+          "alpha64Pixels": 64930
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1164,
+            295,
+            353,
+            202
+          ],
+          "components": 1,
+          "alpha64Pixels": 67569
+        },
+        {
+          "cell": 8,
+          "rect": [
+            43,
+            528,
+            260,
+            228
+          ],
+          "components": 1,
+          "alpha64Pixels": 53611
+        },
+        {
+          "cell": 9,
+          "rect": [
+            341,
+            530,
+            414,
+            227
+          ],
+          "components": 1,
+          "alpha64Pixels": 86114
+        },
+        {
+          "cell": 10,
+          "rect": [
+            786,
+            537,
+            346,
+            214
+          ],
+          "components": 1,
+          "alpha64Pixels": 68801
+        },
+        {
+          "cell": 11,
+          "rect": [
+            1164,
+            534,
+            354,
+            216
+          ],
+          "components": 1,
+          "alpha64Pixels": 69433
+        },
+        {
+          "cell": 12,
+          "rect": [
+            34,
+            781,
+            333,
+            212
+          ],
+          "components": 1,
+          "alpha64Pixels": 64882
+        },
+        {
+          "cell": 13,
+          "rect": [
+            402,
+            787,
+            347,
+            204
+          ],
+          "components": 1,
+          "alpha64Pixels": 64858
+        },
+        {
+          "cell": 14,
+          "rect": [
+            776,
+            766,
+            361,
+            229
+          ],
+          "components": 1,
+          "alpha64Pixels": 72613
+        },
+        {
+          "cell": 15,
+          "rect": [
+            1158,
+            763,
+            365,
+            241
+          ],
+          "components": 1,
+          "alpha64Pixels": 73176
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "habitat-ruins-atlas.png",
+      "prompt": "Original serious rural zombie survival production game sprite atlas DEADWALL. TRUE TRANSPARENT ALPHA BACKGROUND, no backdrop. Exactly 1536x1024 wide image. STRICT regular 4 columns by 2 rows of 384x512px cells. Each cell one complete isolated derelict recoverable structure, centered with 25px transparent gutters; longest edge horizontal. CAMERA EXACTLY STRAIGHT OVERHEAD: show the TOP surface of the roof from above, no south front facade, no angled isometric diamond, no horizon, no people. Realistic dirty muted earth/steel/concrete/slate, strong silhouette and crisp broad details readable on tiny map. No gardens, pavement, fences, cars, furniture, ground, labels, borders or legible text. Each family TWO ADJACENT cells A then B visibly different structural roofs, same physical family. Do not omit or repeat any cell. Order: row 1 columns 1 and 2: recoverable ruined house: A roofless compact abandoned stone house shell with broken walls and collapsed tiles, B fractured old timber house shell with fallen rafters; no intact habitable roof; row 1 columns 3 and 4: recoverable ruined shop: A abandoned small brick storefront shell with broken square windows and fallen corrugated awning, B old boarded tiny shop ruin with one collapsed wall; row 2 columns 1 and 2: recoverable warehouse shell: A broad open collapsed steel warehouse frame with broken metal roof and discarded beams, B ruined low brick industrial hangar shell with twisted girders; row 2 columns 3 and 4: abandoned guard booth: A small closed derelict rusty timber checkpoint booth, B small concrete guard hut with chipped walls and dark windows. Ruin sprites show shattered inner walls from straight overhead and slight south elevation, serious plausible broken structures, no resource boxes or colored game symbols.",
+      "sourcePath": "/workspace/generated_images/exec-c4d8b890-45fe-43a2-a14c-1617ec957070.png",
+      "generator": "image_gen.imagegen",
+      "transparentBackground": true,
+      "url": "assets/art153/habitat-ruins-atlas.png",
+      "bytes": 2796245,
+      "sha256": "59bbe7fb51ba1c6812dd88d9e7dc291028917f053c2ccfe89946dae1820cc5e2",
+      "sourceCopyVerified": true,
+      "alphaMeasuredCuts": [
+        {
+          "cell": 0,
+          "rect": [
+            26,
+            61,
+            380,
+            395
+          ],
+          "components": 1,
+          "alpha64Pixels": 115605
+        },
+        {
+          "cell": 1,
+          "rect": [
+            413,
+            64,
+            387,
+            397
+          ],
+          "components": 1,
+          "alpha64Pixels": 114203
+        },
+        {
+          "cell": 2,
+          "rect": [
+            825,
+            85,
+            349,
+            355
+          ],
+          "components": 1,
+          "alpha64Pixels": 103805
+        },
+        {
+          "cell": 3,
+          "rect": [
+            1197,
+            102,
+            312,
+            352
+          ],
+          "components": 1,
+          "alpha64Pixels": 86197
+        },
+        {
+          "cell": 4,
+          "rect": [
+            42,
+            503,
+            410,
+            433
+          ],
+          "components": 1,
+          "alpha64Pixels": 145166
+        },
+        {
+          "cell": 5,
+          "rect": [
+            474,
+            507,
+            399,
+            425
+          ],
+          "components": 1,
+          "alpha64Pixels": 141842
+        },
+        {
+          "cell": 6,
+          "rect": [
+            935,
+            575,
+            235,
+            318
+          ],
+          "components": 1,
+          "alpha64Pixels": 61208
+        },
+        {
+          "cell": 7,
+          "rect": [
+            1227,
+            567,
+            250,
+            333
+          ],
+          "components": 1,
+          "alpha64Pixels": 71167
+        }
+      ],
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "interior-surfaces.svg",
+      "url": "assets/art153/interior-surfaces.svg",
+      "generator": "original SVG authored specifically for DEADWALL",
+      "bytes": 7089,
+      "sha256": "285679a5e699684af96c7aca75c2a27c66cbde0040e5a14de2886fb4f0fe3caa",
+      "externalDependencies": []
+    },
+    {
+      "file": "interior-vending.svg",
+      "url": "assets/art153/interior-vending.svg",
+      "generator": "original SVG authored specifically for DEADWALL",
+      "bytes": 1471,
+      "sha256": "0ba4200cdbba67d1d207380d57fbc5b26e6a287e9def9344d01e84a388f7b728",
+      "externalDependencies": []
+    }
+  ],
+  "isolatedArtwork": {
+    "regionalFurniture": 64,
+    "localVending": 2,
+    "roofArchetypes": 32,
+    "recoverableRuins": 8
+  },
+  "materialMotifs": 16,
+  "pixelModifications": [],
+  "copyrightSources": "No external image source or third-party asset.",
+  "scopeLimit": "62 existing place presets share 16 roof archetypes, each with two roof models. These are not 62 newly designed buildings. No content resources, harvest yield, floor geometry or collider added."
+}

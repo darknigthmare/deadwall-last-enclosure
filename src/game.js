@@ -284,6 +284,7 @@
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0;
       this.cityScore = 0; this.tier = CITY_TIERS[0]; this.housing = 0; this.population = 1; this.storage = 500; this.powerGenerated = 0; this.powerUsed = 0; this.powerRatio = 1; this.signature = 0;
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0; this.settings = this.loadSettings(); this.audio.setMuted(this.settings.muted);
+      this.displayQuality153 = globalThis.DeadwallDisplayQuality153?.create(Math.min(2, Math.max(1, devicePixelRatio || 1)));
       this.workerOrder = 'auto'; this.runId = null; this.scenarioId = 'classic'; this.narrative=globalThis.DeadwallNarrative.create();
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
@@ -522,11 +523,21 @@
     }
 
     resize() {
-      this.width = Math.max(320, innerWidth); this.height = Math.max(360, innerHeight); this.dpr = Math.min(this.settings.quality==='low'?1:2, Math.max(1, devicePixelRatio || 1));
-      this.canvas.width = Math.floor(this.width * this.dpr); this.canvas.height = Math.floor(this.height * this.dpr); this.canvas.style.width = `${this.width}px`; this.canvas.style.height = `${this.height}px`;
+      this.width = Math.max(320, innerWidth); this.height = Math.max(360, innerHeight);
+      const native = Math.min(2, Math.max(1, devicePixelRatio || 1));
+      this.displayQuality153?.reset(native);
+      this.applyDisplayResolution153(this.settings.quality === 'low' ? 1 : native);
       const compact = this.isCompactViewport();
       if (compact && this.compactViewport !== compact) this.buildCollapsed = true;
       this.compactViewport = compact; this.setBuildCollapsed(this.buildCollapsed);
+    }
+
+    applyDisplayResolution153(dpr) {
+      this.dpr = dpr;
+      const width = Math.floor(this.width * dpr), height = Math.floor(this.height * dpr);
+      if (this.canvas.width !== width) this.canvas.width = width;
+      if (this.canvas.height !== height) this.canvas.height = height;
+      this.canvas.style.width = `${this.width}px`; this.canvas.style.height = `${this.height}px`;
     }
 
     isCompactViewport() { return this.compactMediaQuery ? this.compactMediaQuery.matches : innerWidth <= 720; }
@@ -1079,9 +1090,16 @@
     }
 
     loop(timestamp) {
-      const dt = Math.min(.04, Math.max(0, (timestamp - this.lastFrame) / 1000)); this.lastFrame = timestamp;
+      const milliseconds = timestamp - this.lastFrame;
+      const dt = Math.min(.04, Math.max(0, milliseconds / 1000)); this.lastFrame = timestamp;
+      if (this.settings.quality === 'auto' && this.displayQuality153 && this.dpr !== this.displayQuality153.dpr) this.applyDisplayResolution153(this.displayQuality153.dpr);
       if (this.state === 'playing' && !this.paused && !this.gameOver) this.update(dt);
-      this.render(); this.input.pressed.clear(); requestAnimationFrame(t => this.loop(t));
+      this.render();
+      if (this.settings.quality === 'auto') this.displayQuality153?.observe(milliseconds, {
+        active: this.state === 'playing' && !this.paused && !this.gameOver,
+        visible: document.visibilityState !== 'hidden'
+      });
+      this.input.pressed.clear(); requestAnimationFrame(t => this.loop(t));
     }
 
     update(dt) {
@@ -1987,7 +2005,7 @@
     }
     cyclePriority(){const b=this.selectedBuilding;if(!b||b.dead)return;b.priority=b.priority>=3?1:b.priority+1;this.notify(`${b.def.name} : priorité ${['','basse','normale','haute'][b.priority]}.`,'good');this.updateSelectionUI();}
     allocatePower(available){const powered=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&b.def.powerUse).sort((a,b)=>powerPriority(a.def)-powerPriority(b.def)||(b.priority||2)-(a.priority||2));let remaining=available;for(const b of powered){const need=b.def.powerUse||0;if(remaining>=need){b.powered=true;b.powerShare=1;remaining-=need;}else{b.powered=false;b.powerShare=b.def.production?clamp(remaining/Math.max(1,need),0,1):0;if(b.powerShare>0)remaining=0;}}}
-    loadSettings(){const reducedMotion=Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches),defaults={reducedMotion,highContrast:false,muted:false,volume:.7,quality:'auto'};try{const raw=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');if(!raw||typeof raw!=='object')return defaults;return{reducedMotion:typeof raw.reducedMotion==='boolean'?raw.reducedMotion:reducedMotion,highContrast:raw.highContrast===true,muted:raw.muted===true,volume:typeof raw.volume==='number'&&Number.isFinite(raw.volume)?clamp(raw.volume,0,1):.7,quality:raw.quality==='low'?'low':'auto'}}catch{return defaults}}
+    loadSettings(){const reducedMotion=Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches),defaults={reducedMotion,highContrast:false,muted:false,volume:.7,quality:'auto'};try{const raw=JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}');if(!raw||typeof raw!=='object')return defaults;return{reducedMotion:typeof raw.reducedMotion==='boolean'?raw.reducedMotion:reducedMotion,highContrast:raw.highContrast===true,muted:raw.muted===true,volume:typeof raw.volume==='number'&&Number.isFinite(raw.volume)?clamp(raw.volume,0,1):.7,quality:['low','high'].includes(raw.quality)?raw.quality:'auto'}}catch{return defaults}}
     saveSettings() {
       try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings)); return true; }
       catch {

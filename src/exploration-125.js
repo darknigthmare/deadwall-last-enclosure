@@ -795,12 +795,16 @@
 
   function drawStationFurniture(ctx, item) {
     if(drawRotatedFeature(ctx,item,drawStationFurniture))return;
+    const owner=globalThis.DEADWALL;
     ctx.save();
     if (item.kind === 'counter') { ctx.fillStyle = '#463e33'; ctx.fillRect(item.x - item.w / 2, item.y - item.h / 2, item.w, item.h); ctx.fillStyle = '#a89255'; ctx.fillRect(item.x - item.w / 2 + 7, item.y - item.h / 2 + 4, item.w - 14, 4); }
     else if(item.kind==='shelf'){ctx.fillStyle='#3e443f';ctx.fillRect(item.x-item.w/2,item.y-item.h/2,item.w,item.h);ctx.fillStyle='#77705a';for(let y=item.y-item.h/2+9;y<item.y+item.h/2;y+=17)ctx.fillRect(item.x-item.w/2+3,y,item.w-6,3);}
     else if(item.kind==='workbench'){ctx.fillStyle='#504333';ctx.fillRect(item.x-item.w/2,item.y-item.h/2,item.w,item.h);ctx.fillStyle='#8d7550';ctx.fillRect(item.x-item.w/2+5,item.y-item.h/2+4,item.w-10,4);}
     else if(item.kind==='vending'){ctx.fillStyle='#4f5a55';ctx.fillRect(item.x-item.w/2,item.y-item.h/2,item.w,item.h);ctx.fillStyle='#9b7448';ctx.fillRect(item.x-item.w*.32,item.y-item.h*.32,item.w*.64,item.h*.22);}
     else { ctx.fillStyle = '#615b4c'; ctx.fillRect(item.x - 8, item.y - 13, 16, 26); ctx.fillStyle = '#b99b56'; ctx.fillRect(item.x - 5, item.y - 9, 10, 5); }
+    // The physical support stays legible along long counters and shelves;
+    // proportional sprites add detail without shrinking their occupied surface.
+    globalThis.DeadwallInteriorArt153?.drawFurniture(ctx,owner?.art,{...item,x:item.x-item.w/2,y:item.y-item.h/2},{seed:owner?.world?.seed||0,alignLongAxis:true});
     ctx.restore();
   }
 
@@ -811,6 +815,7 @@
 
   function drawYardProp(ctx, p) {
     if(drawRotatedFeature(ctx,p,drawYardProp))return;
+    if(globalThis.DeadwallWorldPropsArt153?.drawYardProp(ctx,globalThis.DEADWALL?.art,p,{seed:globalThis.DEADWALL?.world?.seed||0}))return;
     ctx.save();
     if (p.kind === 'shed') {ctx.fillStyle='#51483a';ctx.fillRect(p.x-p.size*.45,p.y-p.size*.35,p.size*.9,p.size*.7);ctx.fillStyle='#746b55';ctx.fillRect(p.x-p.size*.48,p.y-p.size*.35-8,p.size*.96,p.size*.7);ctx.strokeStyle='#403e31';ctx.lineWidth=1;for(let x=p.x-p.size*.4;x<p.x+p.size*.45;x+=7){ctx.beginPath();ctx.moveTo(x,p.y-p.size*.35-8);ctx.lineTo(x,p.y+p.size*.35-8);ctx.stroke();}ctx.fillStyle='#292f27';ctx.fillRect(p.x-4,p.y+p.size*.35-7,8,7);}
     else if (p.kind === 'barrel') { ctx.fillStyle = '#545a55'; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * .36, 0, Math.PI * 2); ctx.fill(); }
@@ -852,9 +857,10 @@
     // The roof covers the actual x/y footprint; compact facades do not pretend
     // that a top-down footprint is an upright front-view wall.
     ctx.fillStyle=roofs[type]||'#5d6055';ctx.fillRect(l-3,roofTop-2,w+6,h+4);
+    const roofPainted153=globalThis.DeadwallInteriorArt153?.drawLocalRoof(ctx,globalThis.DEADWALL?.art,building,{x:l-3,y:roofTop-2,w:w+6,h:h+4},{seed:globalThis.DEADWALL?.world?.seed||0});
     const material=globalThis.DeadwallAssets136?.surfaceFor138(type,'roof',{domain:'local'});
-    if(material&&!residential)globalThis.DeadwallAssets136.drawSurface138(ctx,globalThis.DEADWALL?.art,material,l-3,roofTop-2,w+6,h+4,{tile:256,alpha:.72});
-    if(residential){
+    if(!roofPainted153&&material&&!residential)globalThis.DeadwallAssets136.drawSurface138(ctx,globalThis.DEADWALL?.art,material,l-3,roofTop-2,w+6,h+4,{tile:256,alpha:.72});
+    if(!roofPainted153&&residential){
       const vertical=w<h,ridge=vertical?building.x:roofTop+h*.48;
       ctx.fillStyle='rgba(188,173,137,.14)';if(vertical)ctx.fillRect(l-2,roofTop-1,w/2+2,h+2);else ctx.fillRect(l-2,roofTop-1,w+4,h*.48+1);
       ctx.strokeStyle='rgba(23,29,26,.38)';ctx.lineWidth=1;
@@ -862,7 +868,7 @@
       for(let x=l+11;x<r;x+=18){ctx.beginPath();ctx.moveTo(x,roofTop);ctx.lineTo(x,roofBottom);ctx.stroke();}
       ctx.strokeStyle='#a08c69';ctx.lineWidth=3;ctx.beginPath();if(vertical){ctx.moveTo(ridge,roofTop-2);ctx.lineTo(ridge,roofBottom+2);}else{ctx.moveTo(l-3,ridge);ctx.lineTo(r+3,ridge);}ctx.stroke();
       ctx.fillStyle='#373b34';ctx.fillRect(r-30,roofTop+10,12,17);ctx.fillStyle='#8d8270';ctx.fillRect(r-31,roofTop+8,12,6);
-    }else{
+    }else if(!roofPainted153){
       ctx.strokeStyle='rgba(172,171,146,.22)';ctx.lineWidth=1;for(let x=l+9;x<r;x+=14){ctx.beginPath();ctx.moveTo(x,roofTop+3);ctx.lineTo(x,roofBottom-3);ctx.stroke();}
       ctx.strokeStyle='#929384';ctx.lineWidth=3;ctx.strokeRect(l+2,roofTop+3,w-4,h-6);
       ctx.fillStyle='#35413e';ctx.fillRect(l+15,roofTop+15,Math.min(44,w*.28),18);ctx.strokeStyle='#87938b';ctx.lineWidth=2;ctx.strokeRect(l+15,roofTop+15,Math.min(44,w*.28),18);
@@ -899,6 +905,9 @@
   }
 
   function drawRoadProp(ctx, prop) {
+    const owner=globalThis.DEADWALL, seed=owner?.world?.seed||0;
+    if(globalThis.DeadwallWorldPropsArt153?.drawRoadProp(ctx,owner?.art,prop,{seed}))return;
+    if(prop.kind==='debris'&&globalThis.DeadwallNatureArt153?.drawSprite(ctx,owner?.art,'rubble',prop.id??(prop.x+':'+prop.y),prop.x,prop.y,28,20,{seed,angle:prop.angle||0}))return;
     ctx.save(); ctx.translate(prop.x, prop.y); ctx.rotate(prop.angle || 0);
     if (prop.kind === 'cone') { ctx.fillStyle = '#c46f3e'; ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(-7, 8); ctx.lineTo(7, 8); ctx.closePath(); ctx.fill(); ctx.fillStyle = '#d8c89a'; ctx.fillRect(-5, 1, 10, 3); }
     else if (prop.kind === 'roadSign') { ctx.strokeStyle = '#6f746e'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, 5); ctx.lineTo(0, 20); ctx.stroke(); ctx.fillStyle = '#666d68'; ctx.fillRect(-10, -8, 20, 14); }
@@ -1003,6 +1012,15 @@
   }
 
   function drawTerrainDecor133(ctx,prop) {
+    const owner=globalThis.DEADWALL,seed=owner?.world?.seed||0;
+    if(globalThis.DeadwallWorldPropsArt153?.drawTerrainDecor(ctx,owner?.art,prop,{seed}))return;
+    const family=prop.kind==='grass'?'grass':prop.kind==='stump'?'stump':null;
+    if(family&&globalThis.DeadwallNatureArt153?.drawSprite(ctx,owner?.art,family,prop.id??(prop.x+':'+prop.y),prop.x,prop.y,prop.kind==='stump'?18:24,prop.kind==='stump'?14:20,{seed,angle:prop.angle||0}))return;
+    if(prop.kind==='bench'){
+      ctx.save();ctx.translate(prop.x,prop.y);ctx.rotate(prop.angle||0);
+      const painted=globalThis.DeadwallInteriorArt153?.drawFurniture(ctx,owner?.art,{...prop,id:prop.id??(prop.x+':'+prop.y),x:-21,y:-7,w:42,h:20},{seed,alignLongAxis:true});
+      ctx.restore();if(painted)return;
+    }
     ctx.save();ctx.translate(prop.x,prop.y);ctx.rotate(prop.angle);ctx.lineWidth=2;
     if(prop.kind==='manhole'){ctx.fillStyle='#353b37';ctx.strokeStyle='#77776a';ctx.beginPath();ctx.ellipse(0,0,10,8,0,0,Math.PI*2);ctx.fill();ctx.stroke();for(let i=-5;i<8;i+=5){ctx.beginPath();ctx.moveTo(i,-5);ctx.lineTo(i,5);ctx.stroke();}}
     else if(prop.kind==='drain'){ctx.fillStyle='#242b27';ctx.fillRect(-11,-5,22,10);ctx.strokeStyle='#646a60';for(let x=-8;x<=8;x+=4){ctx.beginPath();ctx.moveTo(x,-5);ctx.lineTo(x,5);ctx.stroke();}}

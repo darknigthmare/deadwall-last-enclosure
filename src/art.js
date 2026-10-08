@@ -9,6 +9,10 @@
   const D17Art150=root.DeadwallD17Art150||(typeof require==='function'?require('./d17-art150.js'):null);
   const D17Art152=root.DeadwallD17Art152||(typeof require==='function'?require('./d17-art152.js'):null);
   const VehicleArt152=root.DeadwallVehicleArt152||(typeof require==='function'?require('./vehicle-art152.js'):null);
+  const NatureArt153=root.DeadwallNatureArt153||(typeof require==='function'?require('./nature-art153.js'):null);
+  const WorldPropsArt153=root.DeadwallWorldPropsArt153||(typeof require==='function'?require('./world-props-art153.js'):null);
+  const InteriorArt153=root.DeadwallInteriorArt153||(typeof require==='function'?require('./interior-art153.js'):null);
+  const RenderCache153=root.DeadwallRenderCache153||(typeof require==='function'?require('./render-cache153.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -20,6 +24,9 @@
     ...(D17Art150?.ASSETS||{}),
     ...(D17Art152?.ASSETS||{}),
     ...(VehicleArt152?.ASSETS||{}),
+    ...(NatureArt153?.ASSETS||{}),
+    ...(WorldPropsArt153?.ASSETS||{}),
+    ...(InteriorArt153?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
@@ -243,6 +250,7 @@
     constructor() {
       this.images = {}; this.rects = {}; this.actionFrames133 = {}; this.motion = new WeakMap(); this.namedMotion = new Map(); this.nodeSpecies = new WeakMap();
       this.diagnostics = { ready: [], failed: [], draws: {} };
+      this.renderCache153=RenderCache153?.create();
       this.ready = Promise.all(Object.entries(ASSETS).map(([key, spec]) => this.load(key, spec)));
     }
     load(key, spec) {
@@ -283,7 +291,9 @@
     }
     blit(ctx, atlas, rect, x, y, w, h) {
       const image = this.images[atlas]; if (!image) return false;
-      ctx.drawImage(image, ...rect, x, y, w, h);
+      const cached=this.renderCache153?.get(ctx,atlas,image,rect,w,h);
+      if(cached)ctx.drawImage(cached.image,0,0,cached.width,cached.height,x,y,w,h);
+      else ctx.drawImage(image, ...rect, x, y, w, h);
       this.diagnostics.draws[atlas] = (this.diagnostics.draws[atlas] || 0) + 1;
       return true;
     }
@@ -331,9 +341,26 @@
       }
       return true;
     }
+    drawWorldNode153(ctx, node, seed, rect) {
+      ctx.save();
+      if(node.flash>0){ctx.translate(node.x,node.y);ctx.scale(1.03,1.03);ctx.translate(-node.x,-node.y);}
+      let painted=NatureArt153?.drawSceneryNode(ctx,this,node,{seed})||WorldPropsArt153?.drawSceneryNode(ctx,this,node,{seed,rect});
+      if(!painted&&node.sceneryKind){
+        ctx.globalAlpha*=clamp(node.amount/node.maxAmount,.5,1);
+        painted=InteriorArt153?.drawSceneryRuin(ctx,this,node,{seed,size:node.renderSize||90});
+      }
+      if(!painted&&!node.sceneryKind&&['wood','stone'].includes(node.type)){
+        const variant=Math.abs(node.variant||0)%4;
+        const family=node.type==='stone'?'limestone':variant===1?'pine':variant===2?'logs':'oak';
+        const size=node.radius*(node.type==='wood'&&variant!==2?3.5:2.65);
+        painted=NatureArt153?.drawSprite(ctx,this,family,node.id,node.x,node.y,size,size,{seed,alpha:clamp(node.amount/node.maxAmount,.45,1)});
+      }
+      ctx.restore();return !!painted;
+    }
     drawNode(ctx, node, game) {
       if(node.sceneryKind){
         this.nodeSpecies?.delete(node);
+        if(this.drawWorldNode153(ctx,node,game?.world?.seed||0,game?.fieldcraft?.rect(node)))return true;
         const rect=this.rects['districtProps:'+node.sceneryKind];if(!rect)return false;
         const size=node.renderSize||90,ratio=rect[2]/rect[3],w=ratio>1?size:size*ratio,h=ratio>1?size/ratio:size;
         ctx.save();ctx.translate(node.x,node.y);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.5,1);
@@ -357,9 +384,11 @@
           }
           const key=(node.type==='wood'?Artwork136.TREE_SPRITES:Artwork136.ROCK_SPRITES)[saved.species],size=node.radius*(node.type==='wood'?3.5:2.65);
           const alpha=clamp(node.amount/node.maxAmount,.45,1);
+          if(NatureArt153?.drawSprite(ctx,this,saved.species,node.id,node.x,node.y,size,size,{seed,alpha}))return true;
           if(Artwork136.drawSprite(ctx,this,key,node.x,node.y,size,size,{alpha}))return true;
         }
       }else this.nodeSpecies?.delete(node);
+      if(this.drawWorldNode153(ctx,node,game?.world?.seed||0,game?.fieldcraft?.rect(node)))return true;
       const key = node.type === 'wood' ? ['tree', 'pine', 'logs', 'tree'][variant] :
         node.type === 'scrap' ? ['scrap', 'sedan', 'van', 'truck'][variant] :
         node.type === 'fuel' ? (variant % 2 ? 'pickup' : 'fuel') : node.type === 'stone' ? 'rocks' : variant === 3 ? 'supplies' : 'crops';

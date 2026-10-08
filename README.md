@@ -1,3 +1,22 @@
+# DEADWALL 1.53.0 — Monde, cohérence et fluidité
+
+Cette passe corrige les manipulations de matériel au volant ou pendant une recharge, les menaces individuelles autour des interventions, les commandes de compagnons après une défaite et la migration extérieure lorsque le joueur monte à l’étage. Les boutons annoncent les disponibilités effectivement vérifiées par les actions.
+
+Le monde reçoit **318 silhouettes et variantes**, plus **16 motifs de sols**, dans 21 atlas PNG originaux et deux SVG. Les arbres et roches suivent les espèces des douze biomes ; les meubles, toits, ruines, équipements, éclairages et objets des anciennes cartes utilisent leurs propriétaires physiques. Le catalogue distingue les modèles réellement raccordés des réserves graphiques. Les micrograins du sol restent procéduraux. Les PNG originaux et leurs provenances sont conservés.
+
+Le mode graphique **Automatique** adapte la résolution à la cadence ; **Élevée** conserve une résolution fixe et **Légère** utilise une densité de un. La simulation, les coordonnées de jeu et les sauvegardes restent indépendantes de ces choix. Les collisions d’annexes et les découpes de sprites disposent de caches transitoires bornés ; les anciens atlas d’acteurs conservent leurs pixels.
+
+La progression des onze âges garde l’objectif Standard de **6 à 10 heures**, à confirmer par des campagnes humaines complètes. Guide et limites : [docs/LIVRAISON_1_53.md](docs/LIVRAISON_1_53.md). Les mesures finales, contrôles, archives et vérifications HTTPS sont consignés séparément après exécution. Destination autorisée : https://deadwall-last-enclosure.vercel.app/.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:world-art
+```
+
+## Historique conservé — 1.52
+
 # DEADWALL 1.52.0 — D17, visibilité et animations
 
 Cette passe corrige les animations lentes sur les écrans à haute fréquence, la priorité des gestes de récolte et le recul après changement d'arme. Le HUD régional et son dossier affichent uniquement les contacts actuellement observés. Les travaux payés réservent correctement les mains du commandant ; les infectés réanimés bloquent les opérations de terrain dangereuses et la défaite arrête leur progression.

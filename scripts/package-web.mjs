@@ -147,6 +147,12 @@ export function deliveryGuide(version) {
   return `docs/LIVRAISON_${match[1]}_${match[2]}.md`;
 }
 
+export function artProvenanceFiles(assetsDirectory) {
+  return directoryFiles(assetsDirectory)
+    .filter(file => /(?:^|\/)(?:[A-Za-z0-9_.-]*PROVENANCE[A-Za-z0-9_.-]*\.json|[A-Za-z0-9_.-]*PROMPTS[A-Za-z0-9_.-]*\.md)$/.test(file))
+    .map(file => 'assets/' + file);
+}
+
 export function packageWeb({ output = path.join(root, 'release', 'web') } = {}) {
   const built = spawnSync(process.execPath, [path.join(root, 'scripts', 'build.mjs')], { cwd:root, stdio:'inherit', windowsHide:true });
   if (built.error || built.status !== 0) throw built.error || new Error('Le build web a échoué.');
@@ -160,7 +166,7 @@ export function packageWeb({ output = path.join(root, 'release', 'web') } = {}) 
   fs.mkdirSync(output, { recursive:true });
   const directory = fs.mkdtempSync(path.join(path.resolve(output), 'build-'));
   const provenanceFiles = ['docs/ART_PROVENANCE.md', 'docs/GAME_ART_PROVENANCE.md', 'docs/CONTENT_ART_PROVENANCE.md',
-    ...directoryFiles(path.join(root, 'assets')).filter(file => /(?:^|\/)(?:PROVENANCE(?:_[A-Za-z0-9_.-]+)?\.json|PROMPTS\.md)$/.test(file)).map(file => 'assets/' + file)];
+    ...artProvenanceFiles(path.join(root, 'assets'))];
   const archives = [];
   for (const variant of ['web', 'standalone']) {
     const staged = path.join(directory, variant);

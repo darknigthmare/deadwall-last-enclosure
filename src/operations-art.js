@@ -44,6 +44,17 @@
     g.operationsArt = Object.freeze({
       draw(ctx, type, x, y, size) {
         const frame = measure(type, x, y, size), art = g.art;
+        const props = globalThis.DeadwallWorldPropsArt153;
+        if (frame && type !== 'casualty' && props?.drawSprite) {
+          const family = props.OPERATIONS[type];
+          // A transported parcel keeps its cosmetic identity while moving.
+          const identity = type === 'cargo' ? type : type + ':' + x + ':' + y;
+          const seed = g.world?.seed ?? 0;
+          const variant = type === 'bedroll' ? 0 : undefined;
+          const sprite = props.select(family, identity, seed, variant);
+          const pivot = type === 'marker' ? (sprite?.variant === 0 ? [.14, .98] : [.5, .98]) : SPRITES[type].pivot;
+          if (props.drawSprite(ctx, art, family, identity, x, y, size, size, {seed, variant, pivot})) return true;
+        }
         if (!frame || !art?.images?.operations || !ctx || typeof ctx.drawImage !== 'function') return false;
         if (typeof art.blit === 'function') return art.blit(ctx, 'operations', frame.source, ...frame.destination);
         return draw(ctx, art.images.operations, type, x, y, size);

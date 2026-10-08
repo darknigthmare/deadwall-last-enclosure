@@ -1,0 +1,2406 @@
+{
+  "version": "1.53.0",
+  "generator": "OpenAI Image Gen integrated tool",
+  "pixelEdits": false,
+  "spriteCount": 100,
+  "morphologicalVariantsPerFamily": 4,
+  "images": [
+    {
+      "id": "natureTreesBroad153",
+      "runtime": "assets/art153/nature-trees-broad.png",
+      "source": "/workspace/generated_images/exec-4545182c-7496-43e1-ad67-ef16a1df42d8.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2358036,
+      "sha256": "a90e293784cbfe83623c489d4b021ff597641288de502db705076194f6d3770e",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "oak:0": [
+          71,
+          64,
+          250,
+          233
+        ],
+        "oak:1": [
+          452,
+          55,
+          270,
+          238
+        ],
+        "oak:2": [
+          862,
+          91,
+          181,
+          180
+        ],
+        "oak:3": [
+          1217,
+          71,
+          270,
+          223
+        ],
+        "beech:0": [
+          61,
+          380,
+          263,
+          246
+        ],
+        "beech:1": [
+          431,
+          381,
+          290,
+          249
+        ],
+        "beech:2": [
+          821,
+          377,
+          308,
+          260
+        ],
+        "beech:3": [
+          1268,
+          425,
+          179,
+          174
+        ],
+        "birch:0": [
+          55,
+          689,
+          276,
+          260
+        ],
+        "birch:1": [
+          433,
+          695,
+          297,
+          240
+        ],
+        "birch:2": [
+          833,
+          687,
+          276,
+          265
+        ],
+        "birch:3": [
+          1244,
+          699,
+          215,
+          226
+        ]
+      },
+      "measurements": {
+        "oak:0": {
+          "solidPixels": 38744,
+          "bounds": [
+            73,
+            66,
+            246,
+            229
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            341
+          ]
+        },
+        "oak:1": {
+          "solidPixels": 37917,
+          "bounds": [
+            454,
+            57,
+            266,
+            234
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            341
+          ]
+        },
+        "oak:2": {
+          "solidPixels": 20834,
+          "bounds": [
+            864,
+            93,
+            177,
+            176
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            341
+          ]
+        },
+        "oak:3": {
+          "solidPixels": 35986,
+          "bounds": [
+            1219,
+            73,
+            266,
+            219
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            341
+          ]
+        },
+        "beech:0": {
+          "solidPixels": 44702,
+          "bounds": [
+            63,
+            382,
+            259,
+            242
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            341,
+            384,
+            341
+          ]
+        },
+        "beech:1": {
+          "solidPixels": 46115,
+          "bounds": [
+            433,
+            383,
+            286,
+            245
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            341,
+            384,
+            341
+          ]
+        },
+        "beech:2": {
+          "solidPixels": 50772,
+          "bounds": [
+            823,
+            379,
+            304,
+            256
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            341,
+            384,
+            341
+          ]
+        },
+        "beech:3": {
+          "solidPixels": 20722,
+          "bounds": [
+            1270,
+            427,
+            175,
+            170
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            341,
+            384,
+            341
+          ]
+        },
+        "birch:0": {
+          "solidPixels": 42715,
+          "bounds": [
+            57,
+            691,
+            272,
+            256
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            682,
+            384,
+            341
+          ]
+        },
+        "birch:1": {
+          "solidPixels": 45026,
+          "bounds": [
+            435,
+            697,
+            293,
+            236
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            682,
+            384,
+            341
+          ]
+        },
+        "birch:2": {
+          "solidPixels": 36117,
+          "bounds": [
+            835,
+            689,
+            272,
+            261
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            682,
+            384,
+            341
+          ]
+        },
+        "birch:3": {
+          "solidPixels": 33209,
+          "bounds": [
+            1246,
+            701,
+            211,
+            222
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            682,
+            384,
+            341
+          ]
+        }
+      },
+      "prompt": "Edit this original tree atlas into a production-ready transparent game sprite atlas. Preserve exactly these TWELVE distinct botanical crowns and their row/column order and physical morphology. Landscape PNG 1536 by 1024. IMPORTANT: EVERY crown including all twigs must fit fully within a 210 by 210 pixel area centered inside each cell of a strict four columns by three rows grid. Shrink each entire original crown to about 60 percent of its current dimensions BEFORE positioning, leaving at least 65 pixels clear alpha gap to its cell boundaries, particularly between rows. ALL BACKGROUND genuinely transparent alpha 0. Absolutely no green backdrop, no green translucent haze, no ground, no cast shadow. Botanical foliage and branch holes remain transparent. Straight vertical orthographic overhead perspective. Each complete isolated crown retains detailed muted realistic European vegetation and upper-left soft lighting. Do not crop any twigs or leaves, do not duplicate or add objects. No text or labels. Large genuinely clear transparent gutters are more important than filling the page.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-d54e1020-6c1e-44f5-96d4-cc7d346c3b82.png",
+        "sha256": "b8dc40a32bbc8ffd20ad31ac7734cbfa5fffa50c3ec33d640134c2b5a585e23a",
+        "originalPrompt": "Create a commercial game sprite atlas PNG, transparent alpha background, landscape 1536 by 1024, exactly twelve separate tree crowns in a strict four columns by three rows grid with broad empty transparent gutters. TRUE STRAIGHT OVERHEAD ORTHOGRAPHIC VIEW, looking vertically down onto tree foliage, no side view, no horizon, no labels or numbers, no floor tile, no background. Gritty semi-realistic painterly physical vegetation for European post-apocalyptic survival game, earthy olive green, grey brown bark, muted high detail, softly lit upper left, precisely readable tiny. Each centered crown fills at most 80 percent of its grid cell, no foliage touches neighboring cell. Row 1 FOUR OAK crowns distinct morphology: round dense lobed crown; asymmetric three-lobed mature crown with exposed branch; compact young tight crown; old split crown with small bare branch gap. Row 2 FOUR BEECH crowns distinct morphology: broad smooth oval crown; branching irregular fan; dense multi-lobed mature crown; compact young round crown. Row 3 FOUR BIRCH crowns: airy small lobed crown with visible white branch wood; twin lobed crown; sparse asymmetric fine leaves with white limbs; compact bushy pale green crown. Botanical differences must remain unmistakable from directly overhead. Transparent alpha outside silhouette including interior holes. NO cast shadows extending beyond cells. NO stumps, no separate trunks outside crowns. Professional clean game atlas."
+      },
+      "imageGenEdit": true
+    },
+    {
+      "id": "natureTreesConifer153",
+      "runtime": "assets/art153/nature-trees-conifer.png",
+      "source": "/workspace/generated_images/exec-782191ad-3f19-4bb1-89e3-7db6a0a92060.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2592630,
+      "sha256": "3ef1e9e49285831c4157062bce035b298434598792b46a1834d05f9c6851a3a8",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "pine:0": [
+          53,
+          57,
+          307,
+          272
+        ],
+        "pine:1": [
+          455,
+          57,
+          238,
+          246
+        ],
+        "pine:2": [
+          790,
+          66,
+          340,
+          257
+        ],
+        "pine:3": [
+          1187,
+          47,
+          300,
+          272
+        ],
+        "fir:0": [
+          56,
+          374,
+          281,
+          282
+        ],
+        "fir:1": [
+          434,
+          354,
+          304,
+          308
+        ],
+        "fir:2": [
+          843,
+          401,
+          233,
+          236
+        ],
+        "fir:3": [
+          1211,
+          374,
+          280,
+          273
+        ],
+        "poplar:0": [
+          93,
+          685,
+          188,
+          296
+        ],
+        "poplar:1": [
+          416,
+          690,
+          320,
+          284
+        ],
+        "poplar:2": [
+          847,
+          707,
+          229,
+          269
+        ],
+        "poplar:3": [
+          1185,
+          677,
+          303,
+          312
+        ]
+      },
+      "measurements": {
+        "pine:0": {
+          "solidPixels": 52540,
+          "bounds": [
+            55,
+            59,
+            303,
+            268
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            341
+          ]
+        },
+        "pine:1": {
+          "solidPixels": 35088,
+          "bounds": [
+            457,
+            59,
+            234,
+            242
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            341
+          ]
+        },
+        "pine:2": {
+          "solidPixels": 58035,
+          "bounds": [
+            792,
+            68,
+            336,
+            253
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            341
+          ]
+        },
+        "pine:3": {
+          "solidPixels": 42539,
+          "bounds": [
+            1189,
+            49,
+            296,
+            268
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            341
+          ]
+        },
+        "fir:0": {
+          "solidPixels": 45593,
+          "bounds": [
+            58,
+            376,
+            277,
+            278
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            341,
+            384,
+            341
+          ]
+        },
+        "fir:1": {
+          "solidPixels": 53524,
+          "bounds": [
+            436,
+            356,
+            300,
+            304
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            341,
+            384,
+            341
+          ]
+        },
+        "fir:2": {
+          "solidPixels": 31166,
+          "bounds": [
+            845,
+            403,
+            229,
+            232
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            341,
+            384,
+            341
+          ]
+        },
+        "fir:3": {
+          "solidPixels": 40375,
+          "bounds": [
+            1213,
+            376,
+            276,
+            269
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            341,
+            384,
+            341
+          ]
+        },
+        "poplar:0": {
+          "solidPixels": 37484,
+          "bounds": [
+            95,
+            687,
+            184,
+            292
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            682,
+            384,
+            341
+          ]
+        },
+        "poplar:1": {
+          "solidPixels": 60887,
+          "bounds": [
+            418,
+            692,
+            316,
+            280
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            682,
+            384,
+            341
+          ]
+        },
+        "poplar:2": {
+          "solidPixels": 38405,
+          "bounds": [
+            849,
+            709,
+            225,
+            265
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            682,
+            384,
+            341
+          ]
+        },
+        "poplar:3": {
+          "solidPixels": 59745,
+          "bounds": [
+            1187,
+            679,
+            299,
+            308
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            682,
+            384,
+            341
+          ]
+        }
+      },
+      "prompt": "Edit this original tree atlas into a production-ready transparent game sprite atlas. Preserve exactly these TWELVE distinct botanical crowns and their row/column order and physical morphology. Landscape PNG 1536 by 1024. IMPORTANT: EVERY crown including all twigs must fit fully within a 210 by 210 pixel area centered inside each cell of a strict four columns by three rows grid. Shrink each entire original crown to about 60 percent of its current dimensions BEFORE positioning, leaving at least 65 pixels clear alpha gap to its cell boundaries, particularly between rows. ALL BACKGROUND genuinely transparent alpha 0. Absolutely no green backdrop, no green translucent haze, no ground, no cast shadow. Botanical foliage and branch holes remain transparent. Straight vertical orthographic overhead perspective. Each complete isolated crown retains detailed muted realistic European vegetation and upper-left soft lighting. Do not crop any twigs or leaves, do not duplicate or add objects. No text or labels. Large genuinely clear transparent gutters are more important than filling the page.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-ec41cbc8-bd40-4596-b7d0-be0cd2018bf5.png",
+        "sha256": "85fd74f2a8eb4154dd66078a40240e2d027a65676d4c439ff3b1b66066cacc17",
+        "originalPrompt": "Create commercial game sprite atlas PNG, true transparent alpha, landscape 1536 by 1024, EXACTLY TWELVE individually isolated tree crowns in FOUR COLUMNS THREE ROWS with broad empty transparent gutters. STRICT VERTICAL OVERHEAD orthographic camera, crowns as seen looking straight downward, NO side profile no horizon no text labels no backdrop. Gritty semi-realistic painted European foliage for zombie survival game, muted earthy greens, detailed needles and branches, gentle top-left diffuse light, readable at game scale. Every centered silhouette fills at most 80 percent of a cell. ROW ONE FOUR SCOTS PINE crowns, differentiated irregular open needle clusters: broad branching asymmetrical, compact young round, old two large separated lobes with central orange bark, uneven windswept sparse crown. ROW TWO FOUR FIR crowns: dense radial pointed needle arms dark blue-green; layered large radial star; compact young short-arm radial star; asymmetric partially broken radial star with dead twig. ROW THREE FOUR POPLAR crowns viewed vertically from above: compact narrow elliptical pale-green crown; fine multi-lobed airy oval; tightly clustered pale small crown; irregular oval with exposed grey branch gap. IMPORTANT crowns viewed straight downward, poplars not upright silhouettes. Morphological shape variants, not copies recolored or rotated. Native alpha outside every shape and in branch holes. No overlapping cells and no huge shadows."
+      },
+      "imageGenEdit": true
+    },
+    {
+      "id": "natureTreesWet153",
+      "runtime": "assets/art153/nature-trees-wet.png",
+      "source": "/workspace/generated_images/exec-5bd865f5-a891-4870-8435-3db3af3965a2.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2616339,
+      "sha256": "2495db088eca53d7569f9152cd972129d4d8a8ddb66348b1777ee73813e67e0b",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "willow:0": [
+          56,
+          63,
+          292,
+          281
+        ],
+        "willow:1": [
+          448,
+          63,
+          289,
+          275
+        ],
+        "willow:2": [
+          830,
+          85,
+          254,
+          250
+        ],
+        "willow:3": [
+          1171,
+          60,
+          303,
+          289
+        ],
+        "alder:0": [
+          65,
+          391,
+          287,
+          264
+        ],
+        "alder:1": [
+          449,
+          374,
+          289,
+          266
+        ],
+        "alder:2": [
+          856,
+          419,
+          208,
+          221
+        ],
+        "alder:3": [
+          1188,
+          386,
+          298,
+          265
+        ],
+        "fruit:0": [
+          71,
+          708,
+          257,
+          252
+        ],
+        "fruit:1": [
+          429,
+          680,
+          292,
+          290
+        ],
+        "fruit:2": [
+          804,
+          687,
+          308,
+          286
+        ],
+        "fruit:3": [
+          1192,
+          685,
+          296,
+          278
+        ]
+      },
+      "measurements": {
+        "willow:0": {
+          "solidPixels": 57685,
+          "bounds": [
+            58,
+            65,
+            288,
+            277
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            341
+          ]
+        },
+        "willow:1": {
+          "solidPixels": 46097,
+          "bounds": [
+            450,
+            65,
+            285,
+            271
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            341
+          ]
+        },
+        "willow:2": {
+          "solidPixels": 41367,
+          "bounds": [
+            832,
+            87,
+            250,
+            246
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            341
+          ]
+        },
+        "willow:3": {
+          "solidPixels": 52001,
+          "bounds": [
+            1173,
+            62,
+            299,
+            285
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            341
+          ]
+        },
+        "alder:0": {
+          "solidPixels": 50310,
+          "bounds": [
+            67,
+            393,
+            283,
+            260
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            341,
+            384,
+            341
+          ]
+        },
+        "alder:1": {
+          "solidPixels": 47685,
+          "bounds": [
+            451,
+            376,
+            285,
+            262
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            341,
+            384,
+            341
+          ]
+        },
+        "alder:2": {
+          "solidPixels": 28857,
+          "bounds": [
+            858,
+            421,
+            204,
+            217
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            341,
+            384,
+            341
+          ]
+        },
+        "alder:3": {
+          "solidPixels": 48868,
+          "bounds": [
+            1190,
+            388,
+            294,
+            261
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            341,
+            384,
+            341
+          ]
+        },
+        "fruit:0": {
+          "solidPixels": 42468,
+          "bounds": [
+            73,
+            710,
+            253,
+            248
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            682,
+            384,
+            341
+          ]
+        },
+        "fruit:1": {
+          "solidPixels": 48110,
+          "bounds": [
+            431,
+            682,
+            288,
+            286
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            682,
+            384,
+            341
+          ]
+        },
+        "fruit:2": {
+          "solidPixels": 52737,
+          "bounds": [
+            806,
+            689,
+            304,
+            282
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            682,
+            384,
+            341
+          ]
+        },
+        "fruit:3": {
+          "solidPixels": 55016,
+          "bounds": [
+            1194,
+            687,
+            292,
+            274
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            682,
+            384,
+            341
+          ]
+        }
+      },
+      "prompt": "Edit this original tree atlas into a production-ready transparent game sprite atlas. Preserve exactly these TWELVE distinct botanical crowns and their row/column order and physical morphology. Landscape PNG 1536 by 1024. IMPORTANT: EVERY crown including all twigs must fit fully within a 210 by 210 pixel area centered inside each cell of a strict four columns by three rows grid. Shrink each entire original crown to about 60 percent of its current dimensions BEFORE positioning, leaving at least 65 pixels clear alpha gap to its cell boundaries, particularly between rows. ALL BACKGROUND genuinely transparent alpha 0. Absolutely no green backdrop, no green translucent haze, no ground, no cast shadow. Botanical foliage and branch holes remain transparent. Straight vertical orthographic overhead perspective. Each complete isolated crown retains detailed muted realistic European vegetation and upper-left soft lighting. Do not crop any twigs or leaves, do not duplicate or add objects. No text or labels. Large genuinely clear transparent gutters are more important than filling the page.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-9a3c6335-b51a-4c47-a77f-09d5414ad2b1.png",
+        "sha256": "91d8df15d9e28fa106af8389c32d773c979ca5d57ebb416db625fe52e769f37b",
+        "originalPrompt": "Create original commercial game PNG atlas, true transparent alpha, landscape 1536 by 1024, EXACTLY TWELVE isolated TREE CROWNS, strict FOUR COLUMNS by THREE ROWS grid, each cell has large empty transparent gutters, silhouette centered fits 80% max. Orthographic STRAIGHT DOWN OVERHEAD camera, looking vertically into canopy, absolutely NO upright side view and no horizon, text, labels, backgrounds or ground discs. Semi-realistic high-detail painted European abandoned nature, muted olive sage dark green grey-brown bark, diffused upper-left lighting for serious post-apocalyptic game. ROW ONE FOUR WILLOW crowns: broad draping radial strands viewed from top; asymmetric two-lobed cascading crown; compact soft feathery crown; old open crown showing grey branch fork, all willow leaf strips. ROW TWO FOUR ALDER crowns: dark rounded dense clumps; irregular moist broadleaf three lobes; small dense young crown; open asymmetric crown showing bark. ROW THREE FOUR ABANDONED FRUIT TREE crowns: small squat rounded apple canopy with a FEW tiny muted red fruit flecks; irregular pear-like three-lobed crown with small ochre fruit; broad old apple crown exposed branching and sparse foliage gap; dense compact orchard crown with few tiny fruit. Distinct botanic leaf texture and four morphological silhouettes per row, not color-swaps or rotated copies. Everything isolated with native transparent alpha, no cast shadows escaping cell."
+      },
+      "imageGenEdit": true
+    },
+    {
+      "id": "natureRocks153",
+      "runtime": "assets/art153/nature-rocks.png",
+      "source": "/workspace/generated_images/exec-a44d4eef-c9ad-4cb6-be62-956943ca2c51.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2205484,
+      "sha256": "3e205605bedf1e643a3986a43b711779bf9c3427e520f81f52a3739ef370c1ca",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "limestone:0": [
+          110,
+          85,
+          183,
+          156
+        ],
+        "limestone:1": [
+          475,
+          82,
+          206,
+          161
+        ],
+        "limestone:2": [
+          834,
+          104,
+          225,
+          129
+        ],
+        "limestone:3": [
+          1228,
+          73,
+          203,
+          176
+        ],
+        "granite:0": [
+          93,
+          301,
+          224,
+          179
+        ],
+        "granite:1": [
+          474,
+          309,
+          232,
+          168
+        ],
+        "granite:2": [
+          842,
+          309,
+          219,
+          176
+        ],
+        "granite:3": [
+          1210,
+          317,
+          244,
+          158
+        ],
+        "schist:0": [
+          92,
+          542,
+          221,
+          174
+        ],
+        "schist:1": [
+          468,
+          543,
+          234,
+          178
+        ],
+        "schist:2": [
+          868,
+          538,
+          165,
+          190
+        ],
+        "schist:3": [
+          1196,
+          548,
+          264,
+          160
+        ],
+        "scree:0": [
+          90,
+          772,
+          217,
+          189
+        ],
+        "scree:1": [
+          460,
+          778,
+          251,
+          181
+        ],
+        "scree:2": [
+          830,
+          794,
+          257,
+          161
+        ],
+        "scree:3": [
+          1222,
+          774,
+          226,
+          184
+        ]
+      },
+      "measurements": {
+        "limestone:0": {
+          "solidPixels": 20530,
+          "bounds": [
+            112,
+            87,
+            179,
+            152
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            256
+          ]
+        },
+        "limestone:1": {
+          "solidPixels": 20977,
+          "bounds": [
+            477,
+            84,
+            202,
+            157
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            256
+          ]
+        },
+        "limestone:2": {
+          "solidPixels": 20107,
+          "bounds": [
+            836,
+            106,
+            221,
+            125
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            256
+          ]
+        },
+        "limestone:3": {
+          "solidPixels": 21510,
+          "bounds": [
+            1230,
+            75,
+            199,
+            172
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            256
+          ]
+        },
+        "granite:0": {
+          "solidPixels": 29498,
+          "bounds": [
+            95,
+            303,
+            220,
+            175
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            256,
+            384,
+            256
+          ]
+        },
+        "granite:1": {
+          "solidPixels": 25817,
+          "bounds": [
+            476,
+            311,
+            228,
+            164
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            256,
+            384,
+            256
+          ]
+        },
+        "granite:2": {
+          "solidPixels": 25920,
+          "bounds": [
+            844,
+            311,
+            215,
+            172
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            256,
+            384,
+            256
+          ]
+        },
+        "granite:3": {
+          "solidPixels": 26899,
+          "bounds": [
+            1212,
+            319,
+            240,
+            154
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            256,
+            384,
+            256
+          ]
+        },
+        "schist:0": {
+          "solidPixels": 27689,
+          "bounds": [
+            94,
+            544,
+            217,
+            170
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            512,
+            384,
+            256
+          ]
+        },
+        "schist:1": {
+          "solidPixels": 27423,
+          "bounds": [
+            470,
+            545,
+            230,
+            174
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            512,
+            384,
+            256
+          ]
+        },
+        "schist:2": {
+          "solidPixels": 20316,
+          "bounds": [
+            870,
+            540,
+            161,
+            186
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            512,
+            384,
+            256
+          ]
+        },
+        "schist:3": {
+          "solidPixels": 30893,
+          "bounds": [
+            1198,
+            550,
+            260,
+            156
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            512,
+            384,
+            256
+          ]
+        },
+        "scree:0": {
+          "solidPixels": 25885,
+          "bounds": [
+            92,
+            774,
+            213,
+            185
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            768,
+            384,
+            256
+          ]
+        },
+        "scree:1": {
+          "solidPixels": 26714,
+          "bounds": [
+            462,
+            780,
+            247,
+            177
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            768,
+            384,
+            256
+          ]
+        },
+        "scree:2": {
+          "solidPixels": 24646,
+          "bounds": [
+            832,
+            796,
+            253,
+            157
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            768,
+            384,
+            256
+          ]
+        },
+        "scree:3": {
+          "solidPixels": 28040,
+          "bounds": [
+            1224,
+            776,
+            222,
+            180
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            768,
+            384,
+            256
+          ]
+        }
+      },
+      "prompt": "Edit this original 16-rock game atlas to provide fully isolated production sprites with safe margins. Preserve EXACTLY sixteen distinct rock clusters in current four-column four-row order: limestone row1, granite row2, schist row3, scree row4, each with its four physical shapes. Landscape PNG 1536 by 1024. CRITICAL: each entire rock cluster INCLUDING every detached gravel chip must fit inside a 150 by 150 pixel box exactly centered within its 384 by 256 cell. Reduce each ENTIRE cluster to half current size, then position. No chip touches outer PNG edge or neighboring cell. Leave 45 pixels completely empty alpha above/below every object and more than100 left/right. Genuine alpha0 transparent background, no gray backdrop, no fog, no dirt floor or cast shadows escaping rock silhouettes. Top-down overhead orthographic realistic detailed earthy stone, weathered limestone pale cream, granular grey granite, dark layered schist, scattered grey scree. Keep natural cracks tiny moss on rock only. No labels text or lines. Preserve all rock parts without cropping.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-afe30830-7641-4086-94cd-d48abccd9fe1.png",
+        "sha256": "e13c1ce260a20aff20646357f06389ce53a5e565ce5eb08863b0381e23699190",
+        "originalPrompt": "Create original gritty commercial game sprite atlas PNG, genuine transparent alpha background, landscape 1536 by 1024, EXACTLY SIXTEEN isolated ROCK CLUSTERS in FOUR COLUMNS FOUR ROWS grid, very generous transparent gutters. Camera strict straight downward orthographic overhead, surfaces and top planes visible, not frontal side view. High-detail semirealistic painted physical stone for European zombie survival world, no fantasy glow, upper-left diffuse light, no ground tile no text labels. EACH centered silhouette max 80 percent cell. ROW1 FOUR LIMESTONE types: single pale weathered rounded block with cracks; low three pale irregular rocks cluster; flattened chipped pale slab; porous pale rugged angular outcrop. ROW2 FOUR GRANITE: broad mottled grey irregular block; two compact rounded granular boulders; jagged dark mottled faceted cluster; low cracked grey outcrop. ROW3 FOUR SCHIST: angular layered dark slate block; loose two-layer uneven slabs; narrow split slate outcrop; broad fractured layered slab with ridges. ROW4 FOUR SCREE: pile of many small mixed grey fragments; crescent group of fine jagged fragments; low split pile angular gravel; compact group of coarse fractured chunks. Shapes distinct not color-swaps, no shapes cropped, native alpha outside stone, little embedded moss and dirt on stones only. No huge cast shadow."
+      },
+      "imageGenEdit": true
+    },
+    {
+      "id": "natureDecorGreen153",
+      "runtime": "assets/art153/nature-decor-green.png",
+      "source": "/workspace/generated_images/exec-442efc22-c53e-4632-a8b0-44e5fe62f354.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2232834,
+      "sha256": "c2529c57ef78471755a558e2ae84e2dc1305c776f50cb3e563a07dfa89d8d7d0",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "grass:0": [
+          111,
+          65,
+          172,
+          173
+        ],
+        "grass:1": [
+          449,
+          71,
+          235,
+          171
+        ],
+        "grass:2": [
+          848,
+          69,
+          224,
+          183
+        ],
+        "grass:3": [
+          1262,
+          70,
+          167,
+          167
+        ],
+        "dryGrass:0": [
+          90,
+          301,
+          214,
+          182
+        ],
+        "dryGrass:1": [
+          444,
+          303,
+          251,
+          177
+        ],
+        "dryGrass:2": [
+          846,
+          311,
+          226,
+          166
+        ],
+        "dryGrass:3": [
+          1206,
+          297,
+          280,
+          193
+        ],
+        "flowers:0": [
+          77,
+          546,
+          221,
+          179
+        ],
+        "flowers:1": [
+          454,
+          552,
+          232,
+          176
+        ],
+        "flowers:2": [
+          847,
+          550,
+          226,
+          180
+        ],
+        "flowers:3": [
+          1223,
+          547,
+          247,
+          189
+        ],
+        "reeds:0": [
+          65,
+          757,
+          284,
+          220
+        ],
+        "reeds:1": [
+          457,
+          778,
+          245,
+          186
+        ],
+        "reeds:2": [
+          836,
+          780,
+          266,
+          198
+        ],
+        "reeds:3": [
+          1251,
+          761,
+          192,
+          213
+        ]
+      },
+      "measurements": {
+        "grass:0": {
+          "solidPixels": 18112,
+          "bounds": [
+            113,
+            67,
+            168,
+            169
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            256
+          ]
+        },
+        "grass:1": {
+          "solidPixels": 20880,
+          "bounds": [
+            451,
+            73,
+            231,
+            167
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            256
+          ]
+        },
+        "grass:2": {
+          "solidPixels": 23233,
+          "bounds": [
+            850,
+            71,
+            220,
+            179
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            256
+          ]
+        },
+        "grass:3": {
+          "solidPixels": 16032,
+          "bounds": [
+            1264,
+            72,
+            163,
+            163
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            256
+          ]
+        },
+        "dryGrass:0": {
+          "solidPixels": 20363,
+          "bounds": [
+            92,
+            303,
+            210,
+            178
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            256,
+            384,
+            256
+          ]
+        },
+        "dryGrass:1": {
+          "solidPixels": 21746,
+          "bounds": [
+            446,
+            305,
+            247,
+            173
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            256,
+            384,
+            256
+          ]
+        },
+        "dryGrass:2": {
+          "solidPixels": 15791,
+          "bounds": [
+            848,
+            313,
+            222,
+            162
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            256,
+            384,
+            256
+          ]
+        },
+        "dryGrass:3": {
+          "solidPixels": 25662,
+          "bounds": [
+            1208,
+            299,
+            276,
+            189
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            256,
+            384,
+            256
+          ]
+        },
+        "flowers:0": {
+          "solidPixels": 24588,
+          "bounds": [
+            79,
+            548,
+            217,
+            175
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            512,
+            384,
+            256
+          ]
+        },
+        "flowers:1": {
+          "solidPixels": 22173,
+          "bounds": [
+            456,
+            554,
+            228,
+            172
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            512,
+            384,
+            256
+          ]
+        },
+        "flowers:2": {
+          "solidPixels": 24670,
+          "bounds": [
+            849,
+            552,
+            222,
+            176
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            512,
+            384,
+            256
+          ]
+        },
+        "flowers:3": {
+          "solidPixels": 26315,
+          "bounds": [
+            1225,
+            549,
+            243,
+            185
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            512,
+            384,
+            256
+          ]
+        },
+        "reeds:0": {
+          "solidPixels": 31466,
+          "bounds": [
+            67,
+            759,
+            280,
+            216
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            768,
+            384,
+            256
+          ]
+        },
+        "reeds:1": {
+          "solidPixels": 19952,
+          "bounds": [
+            459,
+            780,
+            241,
+            182
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            768,
+            384,
+            256
+          ]
+        },
+        "reeds:2": {
+          "solidPixels": 27353,
+          "bounds": [
+            838,
+            782,
+            262,
+            194
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            768,
+            384,
+            256
+          ]
+        },
+        "reeds:3": {
+          "solidPixels": 16319,
+          "bounds": [
+            1253,
+            763,
+            188,
+            209
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            768,
+            384,
+            256
+          ]
+        }
+      },
+      "prompt": "Edit this original vegetation atlas into a valid production transparent sprite atlas. Preserve EXACTLY SIXTEEN distinct vegetation props and exact four-column four-row ordering, landscape PNG 1536 by 1024. Critical isolation: EACH entire tuft, all blades and seed heads, flowers and stalks must fit fully within a 150 by 150 pixel box centered inside its 384 by 256 cell. Shrink the ENTIRE prop to about half of its current size and place at the exact cell center, never overlap or touch any neighbor. At least 45 pixels fully empty transparent alpha margin above and below each object. ALL BACKGROUND alpha0 transparent, no green haze, no grass floor disc, no cast shadows, no text or labels. Preserve four distinct fresh-grass clumps row1, four dead-grass clumps row2, four tiny meadow-flower patches row3, four reed clumps row4. True overhead orthographic camera. Detailed gritty semi-realistic earthy sage olive ochre European post-apocalyptic vegetation.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-9e0dfea2-45ba-4849-a543-b51c50f0ddce.png",
+        "sha256": "d26ca47cdd279f03d0139e40755e9b076b3a15f099c3a68371dcf8058c46fcb1",
+        "originalPrompt": "Create original game sprite atlas PNG, native genuine transparent alpha, landscape 1536 by 1024, EXACTLY SIXTEEN individually isolated vegetation ground props in FOUR COLUMNS FOUR ROWS strict grid with large empty transparent gutters. TRUE OVERHEAD VERTICAL camera looking straight downward; no upright side-on shrub view, no background floor discs, no text labels or numbers. Realistic European abandoned meadow/wetland game scenery, muted sage olive ochre green, delicate detail readable small, upper-left soft lighting. Each centered prop occupies max 70 percent cell and never crosses gutters. ROW1 FOUR GRASS clumps: round tuft fine bent blades; loose three connected tufts; wide irregular fan of fresh blades; small denser grass nest. ROW2 FOUR DRY GRASS: sparse ochre radiating clump; broken bent straw nest; two small dead tufts; spread flattened pale grass cluster. ROW3 FOUR SMALL MEADOW FLOWER patches: cluster tiny white flowers in grass; loose muted pale yellow flowers and leaves; small dusty violet wildflowers; irregular little daisies mixed dry stalks. Natural restrained colors not magic glow. ROW4 FOUR REEDS viewed from above: coarse green blade rosette and few brown seed heads; two separated reed clumps; tangled bent reeds cluster; slender sparse reed clump. Distinct physical shapes each, not repeated copies. Everything true alpha outside silhouette, not square textures."
+      },
+      "imageGenEdit": true
+    },
+    {
+      "id": "natureDecorForest153",
+      "runtime": "assets/art153/nature-decor-forest.png",
+      "source": "/workspace/generated_images/exec-e51c6a01-4731-476c-8422-d99842007e01.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2545189,
+      "sha256": "ba5f0e65ba8ef3930092ccea5f584671dab1e79265b6844900e1f298c17be89a",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "pebbles:0": [
+          55,
+          50,
+          289,
+          218
+        ],
+        "pebbles:1": [
+          425,
+          63,
+          311,
+          200
+        ],
+        "pebbles:2": [
+          801,
+          66,
+          313,
+          188
+        ],
+        "pebbles:3": [
+          1194,
+          54,
+          287,
+          211
+        ],
+        "fallenBranch:0": [
+          71,
+          290,
+          277,
+          194
+        ],
+        "fallenBranch:1": [
+          426,
+          329,
+          303,
+          159
+        ],
+        "fallenBranch:2": [
+          823,
+          300,
+          263,
+          184
+        ],
+        "fallenBranch:3": [
+          1195,
+          303,
+          304,
+          175
+        ],
+        "leaves:0": [
+          62,
+          516,
+          296,
+          209
+        ],
+        "leaves:1": [
+          429,
+          515,
+          308,
+          210
+        ],
+        "leaves:2": [
+          806,
+          518,
+          313,
+          230
+        ],
+        "leaves:3": [
+          1184,
+          524,
+          303,
+          212
+        ],
+        "rubble:0": [
+          57,
+          762,
+          295,
+          218
+        ],
+        "rubble:1": [
+          424,
+          759,
+          318,
+          224
+        ],
+        "rubble:2": [
+          808,
+          767,
+          299,
+          216
+        ],
+        "rubble:3": [
+          1188,
+          758,
+          294,
+          224
+        ]
+      },
+      "measurements": {
+        "pebbles:0": {
+          "solidPixels": 30115,
+          "bounds": [
+            57,
+            52,
+            285,
+            214
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            256
+          ]
+        },
+        "pebbles:1": {
+          "solidPixels": 20937,
+          "bounds": [
+            427,
+            65,
+            307,
+            196
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            256
+          ]
+        },
+        "pebbles:2": {
+          "solidPixels": 14578,
+          "bounds": [
+            803,
+            68,
+            309,
+            184
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            256
+          ]
+        },
+        "pebbles:3": {
+          "solidPixels": 38248,
+          "bounds": [
+            1196,
+            56,
+            283,
+            207
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            256
+          ]
+        },
+        "fallenBranch:0": {
+          "solidPixels": 14036,
+          "bounds": [
+            73,
+            292,
+            273,
+            190
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            0,
+            256,
+            384,
+            256
+          ]
+        },
+        "fallenBranch:1": {
+          "solidPixels": 13878,
+          "bounds": [
+            428,
+            331,
+            299,
+            155
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            384,
+            256,
+            384,
+            256
+          ]
+        },
+        "fallenBranch:2": {
+          "solidPixels": 15450,
+          "bounds": [
+            825,
+            302,
+            259,
+            180
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            768,
+            256,
+            384,
+            256
+          ]
+        },
+        "fallenBranch:3": {
+          "solidPixels": 19883,
+          "bounds": [
+            1197,
+            305,
+            300,
+            171
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            1152,
+            256,
+            384,
+            256
+          ]
+        },
+        "leaves:0": {
+          "solidPixels": 38086,
+          "bounds": [
+            64,
+            518,
+            292,
+            205
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            0,
+            512,
+            384,
+            256
+          ]
+        },
+        "leaves:1": {
+          "solidPixels": 38609,
+          "bounds": [
+            431,
+            517,
+            304,
+            206
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            384,
+            512,
+            384,
+            256
+          ]
+        },
+        "leaves:2": {
+          "solidPixels": 35072,
+          "bounds": [
+            808,
+            520,
+            309,
+            226
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            768,
+            512,
+            384,
+            256
+          ]
+        },
+        "leaves:3": {
+          "solidPixels": 35754,
+          "bounds": [
+            1186,
+            526,
+            299,
+            208
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            1152,
+            512,
+            384,
+            256
+          ]
+        },
+        "rubble:0": {
+          "solidPixels": 45436,
+          "bounds": [
+            59,
+            764,
+            291,
+            214
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            0,
+            768,
+            384,
+            256
+          ]
+        },
+        "rubble:1": {
+          "solidPixels": 44927,
+          "bounds": [
+            426,
+            761,
+            314,
+            220
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            384,
+            768,
+            384,
+            256
+          ]
+        },
+        "rubble:2": {
+          "solidPixels": 37566,
+          "bounds": [
+            810,
+            769,
+            295,
+            212
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            768,
+            768,
+            384,
+            256
+          ]
+        },
+        "rubble:3": {
+          "solidPixels": 43937,
+          "bounds": [
+            1190,
+            760,
+            290,
+            220
+          ],
+          "method": "native alpha > 8, measured clear gutters contain scattered fragments",
+          "nominalCell": [
+            1152,
+            768,
+            384,
+            256
+          ]
+        }
+      },
+      "prompt": "Create original commercial game sprite atlas PNG, true transparent alpha background, landscape 1536 by 1024, exactly SIXTEEN separate ground clutter sprites in strict FOUR COLUMNS FOUR ROWS grid, centered and fully contained with broad transparent gutters. True vertical overhead orthographic camera no horizon. Gritty semi-realistic European post-apocalypse nature, earthy brown olive grey stone, detailed readable tiny, diffuse upper-left light. No background floor disc no text labels numbers no border. ROW1 FOUR PEBBLE patches: round cluster of rounded small grey stones; arc of scattered pale pebbles; sparse trail angular stones; dense compact mixed gravel. ROW2 FOUR FALLEN BRANCHES: forked weathered oak twig; curved broken branch with two offshoots; three small crossed sticks; short thick branch with bark and broken tip. ROW3 FOUR LEAF LITTER patches: loose mixed curled brown oak leaves; cluster olive damp leaves with gaps; dry pale birch litter few fine twigs; flattened cluster brown leaf fragments. ROW4 FOUR SMALL BUILDING RUBBLE patches: cracked broken grey concrete chunks; scattered old red bricks mixed with dust fragments; three pale cement fragments with small twisted metal wire; low uneven pile old plaster and slate debris. Max 70 percent cell size, real irregular silhouettes with isolated fragments inside each sprite. Native alpha in all outside gaps, no large shadow or floor."
+    },
+    {
+      "id": "natureSpent153",
+      "runtime": "assets/art153/nature-spent.png",
+      "source": "/workspace/generated_images/exec-15bd61e6-c12d-4981-a581-d4c1290d9520.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 2068239,
+      "sha256": "078c84fd96e8166c6f887d574f899c7d85c90c02e7303f778956bd974e3a984a",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "pixelEdits": false,
+      "method": "OpenAI Image Gen, original PNG copied byte-for-byte; native Canvas measures alpha rectangles only",
+      "sprites": {
+        "stump:0": [
+          90,
+          80,
+          229,
+          160
+        ],
+        "stump:1": [
+          493,
+          87,
+          169,
+          140
+        ],
+        "stump:2": [
+          868,
+          82,
+          178,
+          154
+        ],
+        "stump:3": [
+          1260,
+          68,
+          179,
+          171
+        ],
+        "exhaustedRock:0": [
+          88,
+          325,
+          221,
+          145
+        ],
+        "exhaustedRock:1": [
+          464,
+          317,
+          245,
+          153
+        ],
+        "exhaustedRock:2": [
+          837,
+          332,
+          246,
+          141
+        ],
+        "exhaustedRock:3": [
+          1242,
+          330,
+          216,
+          138
+        ],
+        "logs:0": [
+          87,
+          580,
+          219,
+          108
+        ],
+        "logs:1": [
+          478,
+          562,
+          213,
+          126
+        ],
+        "logs:2": [
+          844,
+          565,
+          238,
+          128
+        ],
+        "logs:3": [
+          1247,
+          561,
+          213,
+          142
+        ],
+        "burntTree:0": [
+          78,
+          752,
+          253,
+          218
+        ],
+        "burntTree:1": [
+          460,
+          766,
+          247,
+          193
+        ],
+        "burntTree:2": [
+          842,
+          761,
+          239,
+          217
+        ],
+        "burntTree:3": [
+          1234,
+          778,
+          235,
+          185
+        ]
+      },
+      "measurements": {
+        "stump:0": {
+          "solidPixels": 18702,
+          "bounds": [
+            92,
+            82,
+            225,
+            156
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            0,
+            384,
+            256
+          ]
+        },
+        "stump:1": {
+          "solidPixels": 13699,
+          "bounds": [
+            495,
+            89,
+            165,
+            136
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            0,
+            384,
+            256
+          ]
+        },
+        "stump:2": {
+          "solidPixels": 18822,
+          "bounds": [
+            870,
+            84,
+            174,
+            150
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            0,
+            384,
+            256
+          ]
+        },
+        "stump:3": {
+          "solidPixels": 19278,
+          "bounds": [
+            1262,
+            70,
+            175,
+            167
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            0,
+            384,
+            256
+          ]
+        },
+        "exhaustedRock:0": {
+          "solidPixels": 20824,
+          "bounds": [
+            90,
+            327,
+            217,
+            141
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            256,
+            384,
+            256
+          ]
+        },
+        "exhaustedRock:1": {
+          "solidPixels": 21106,
+          "bounds": [
+            466,
+            319,
+            241,
+            149
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            256,
+            384,
+            256
+          ]
+        },
+        "exhaustedRock:2": {
+          "solidPixels": 22734,
+          "bounds": [
+            839,
+            334,
+            242,
+            137
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            256,
+            384,
+            256
+          ]
+        },
+        "exhaustedRock:3": {
+          "solidPixels": 19715,
+          "bounds": [
+            1244,
+            332,
+            212,
+            134
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            256,
+            384,
+            256
+          ]
+        },
+        "logs:0": {
+          "solidPixels": 20426,
+          "bounds": [
+            89,
+            582,
+            215,
+            104
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            512,
+            384,
+            256
+          ]
+        },
+        "logs:1": {
+          "solidPixels": 20378,
+          "bounds": [
+            480,
+            564,
+            209,
+            122
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            512,
+            384,
+            256
+          ]
+        },
+        "logs:2": {
+          "solidPixels": 17913,
+          "bounds": [
+            846,
+            567,
+            234,
+            124
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            512,
+            384,
+            256
+          ]
+        },
+        "logs:3": {
+          "solidPixels": 20667,
+          "bounds": [
+            1249,
+            563,
+            209,
+            138
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            512,
+            384,
+            256
+          ]
+        },
+        "burntTree:0": {
+          "solidPixels": 15635,
+          "bounds": [
+            80,
+            754,
+            249,
+            214
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            0,
+            768,
+            384,
+            256
+          ]
+        },
+        "burntTree:1": {
+          "solidPixels": 22096,
+          "bounds": [
+            462,
+            768,
+            243,
+            189
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            384,
+            768,
+            384,
+            256
+          ]
+        },
+        "burntTree:2": {
+          "solidPixels": 21322,
+          "bounds": [
+            844,
+            763,
+            235,
+            213
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            768,
+            768,
+            384,
+            256
+          ]
+        },
+        "burntTree:3": {
+          "solidPixels": 28579,
+          "bounds": [
+            1236,
+            780,
+            231,
+            181
+          ],
+          "method": "native alpha > 8 connected components, nearest complete silhouette",
+          "nominalCell": [
+            1152,
+            768,
+            384,
+            256
+          ]
+        }
+      },
+      "prompt": "Edit this original 16-object game atlas to have truly empty production sprite gutters. Preserve exactly SIXTEEN different objects in exactly four columns and four rows with the current order: row1 four stumps, row2 four exhausted stone remnants, row3 four log piles, row4 four burned tree remains. Landscape PNG 1536 by 1024. CRITICAL: every COMPLETE object including detached stones, roots, twig tips must fit entirely within a 150 by 150 pixel area centered inside its 384 by 256 cell. Reduce each ENTIRE object to about half current size before placing; leave at least 45 pixels totally transparent above and below each and 100 pixels left/right margin. No object may extend into or touch another cell. Genuine alpha0 transparent background throughout gutters and between pieces, no colored backdrop, no haze or dust outside silhouettes, no ground discs, no shadows outside silhouette. Keep detailed gritty realistic bark and stone, serious post-apocalyptic materials, overhead orthographic camera, muted natural colors, no text or labels. Do not crop any root, branch, stones or wood.",
+      "reference": {
+        "source": "/workspace/generated_images/exec-f8689718-e61a-42bb-85b7-c3da9b281ce8.png",
+        "sha256": "fb9d040c6767f75f603eea444c798f20fc59b39d446401982c47dbc7c335e6da",
+        "originalPrompt": "Create original serious commercial game sprite atlas PNG, landscape 1536 by 1024, TRUE TRANSPARENT ALPHA, EXACTLY SIXTEEN isolated objects in strict FOUR COLUMNS FOUR ROWS, wide clear transparent gutters. Camera TRUE STRAIGHT DOWN overhead orthographic, realistic semirealistic detailed weathered earth bark timber stone, diffuse upper-left lighting. No floor tile, no text, no labels, no horizon. Each centered silhouette max70%cell. ROW ONE FOUR TREE STUMPS seen from top: old irregular brown trunk cut with annual rings and two roots; small pale birch stump with white bark; dark conifer stump rough orange-brown rings; split hollow rotten stump with jagged rim. ROW TWO FOUR EXHAUSTED STONE REMNANTS: low fractured pale limestone chip group and extraction scars; dark granite split fragment group; flat broken slate shards; scatter of tiny grey scree gravel. These are debris remnants not intact giant rocks. ROW THREE FOUR LOG PILES viewed from overhead: two parallel bark logs with exposed cut ends; three uneven short logs stacked; single thick felled trunk with snapped fork; loose split firewood pile. ROW FOUR FOUR BURNED TREE CROWN REMAINS seen from vertically above: blackened forked charred branch skeleton; three-arm burned crown with sparse dry dark leaves; hollow charcoal irregular trunk with radiating dead twigs; collapsed burned tree remains scattered around central stump. Serious physical fire damage not supernatural. Shapes diverse distinct, not recolored copies, alpha outside complete silhouettes, no big cast shadows."
+      },
+      "imageGenEdit": true
+    }
+  ]
+}

@@ -9,7 +9,7 @@ async function sprite(type){
  return{key,spec,image,pixels,rect,art};
 }
 test('140 silhouettes : fourgon et buggy individuels transparents, anciens registres conservés',{skip:!native},async()=>{
- assert.equal(Object.keys(Assets.ASSETS).length,27);assert.equal(Object.keys(Assets.ASSETS138).length,2);assert.equal(Object.keys(Assets.ASSETS139).length,2);assert.equal(Object.keys(Assets.ASSETS140).length,2);assert.equal(Object.keys(Assets.ASSETS141).length,2);assert.equal(Object.keys(Art.ASSETS).length,68);
+ assert.equal(Object.keys(Assets.ASSETS).length,27);assert.equal(Object.keys(Assets.ASSETS138).length,2);assert.equal(Object.keys(Assets.ASSETS139).length,2);assert.equal(Object.keys(Assets.ASSETS140).length,2);assert.equal(Object.keys(Assets.ASSETS141).length,2);assert.equal(Object.keys(Art.ASSETS).length,91);
  for(const type of ['van','buggy']){
   const s=await sprite(type),p=C.WorldEvolution.RULES.vehicles[type];assert.equal(Art.ASSETS[s.key],s.spec);assert.equal(s.spec.matte,'none');assert.equal(s.image.width,s.spec.width);assert.equal(s.image.height,s.spec.height);
   assert.ok(s.pixels.some((_,i)=>i%4===3&&s.pixels[i]===0),'transparent background');assert.ok(s.pixels.some((_,i)=>i%4===3&&s.pixels[i]===255),'opaque vehicle body');assert.ok(Math.abs(s.rect[2]/s.rect[3]-p.w/p.h)<.5,'silhouette fits the intended profile');

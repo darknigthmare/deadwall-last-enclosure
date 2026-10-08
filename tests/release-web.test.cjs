@@ -15,6 +15,20 @@ function fixture(t) {
   return { directory, staged };
 }
 
+test('release web: les provenances et prompts des trois catalogues 153 sont livrés avec les historiques', async t => {
+  const { artProvenanceFiles } = await release;
+  const { staged } = fixture(t);
+  const files = ['art152/PROVENANCE.json', 'art152/PROMPTS.md',
+    'art153/INTERIOR_PROVENANCE.json', 'art153/INTERIOR_PROMPTS.md',
+    'art153/NATURE_PROVENANCE153.json', 'art153/PROMPTS_NATURE153.md',
+    'art153/PROPS_PROVENANCE.json', 'art153/PROPS_PROMPTS.md'];
+  for (const file of [...files, 'art153/props-road.png', 'art153/README.md']) {
+    fs.mkdirSync(path.dirname(path.join(staged, file)), { recursive: true });
+    fs.writeFileSync(path.join(staged, file), 'fixture');
+  }
+  assert.deepEqual(artProvenanceFiles(staged), files.map(file => 'assets/' + file).sort());
+});
+
 test('release web: CRC-32 compatible ZIP et compression déterministe', async t => {
   const { crc32, fileManifest, writeZip, verifyZip } = await release;
   assert.equal(crc32(Buffer.from('123456789')), 0xcbf43926);
