@@ -81,6 +81,11 @@ async function resume(page, touch) {
   await activate(page, '#resumeButton', touch);
   await page.waitForFunction(() => !DEADWALL.paused && !DEADWALL.activeOverlay);
 }
+async function touchStairs(page, delta) {
+  const terrain = page.locator('#fieldDockTerrain');
+  if (!await terrain.evaluate(node => node.open)) await activate(page, '#fieldDockTerrain > summary', true);
+  await activate(page, delta > 0 ? '#dockUp' : '#dockDown', true);
+}
 
 async function atlasGallery(page) {
   return page.evaluate(() => {
@@ -310,11 +315,11 @@ try {
       await retainCanvasProof(profile.groundRender, output, profile, 'real-ground-canvas');
       await rec.screenshot('real-ground-interior-paused');
       await resume(page, !!view.touch);
-      if (view.touch) await activate(page, '#frontierUp', true); else { await page.locator('#game').focus(); await page.keyboard.press('PageUp'); }
+      if (view.touch) await touchStairs(page, 1); else { await page.locator('#game').focus(); await page.keyboard.press('PageUp'); }
       await page.waitForFunction(() => DEADWALL.frontier.position().z === 1, null, { timeout: 5000 });
       const before = await floorReadout(page);
       check('Prepared exterior event is still pending after the native ascent', before.evolution.groups.length === 1 && before.evolution.clock < before.evolution.nextHorde);
-      await page.waitForFunction(due => DEADWALL.worldEvolution.snapshot().clock >= due + .15, before.evolution.nextHorde, { timeout: 10000 });
+      await page.waitForFunction(target => DEADWALL.worldEvolution.snapshot().clock >= target, Math.max(before.evolution.nextHorde + .15, before.evolution.clock + .6), { timeout: 10000 });
       await pause(page, !!view.touch); const upstairs = await floorReadout(page); profile.upstairs = { before, after: upstairs };
       check('Native upper stair leaves the exterior clock and migration moving with ordinary RAF', upstairs.position.z === 1 && upstairs.evolution.clock - before.evolution.clock >= .6 && Math.hypot(upstairs.evolution.groups[0].x - before.evolution.groups[0].x, upstairs.evolution.groups[0].y - before.evolution.groups[0].y) > .3);
       check('Due exterior horde event stays outdoors while the upper-floor actor receives no contacts or damage', upstairs.evolution.groups.length === 2 && upstairs.evolution.serial === 2 && upstairs.evolution.nextHorde > upstairs.evolution.clock && upstairs.contacts.length === 0 && upstairs.health === before.health && JSON.stringify(upstairs.carry) === JSON.stringify(before.carry) && JSON.stringify(upstairs.taken) === JSON.stringify(before.taken));
@@ -328,7 +333,7 @@ try {
       check('Native Save/reload/Continue restores complete material and seeded RNG upstairs', profile.restore.pass && profile.restore.restoreComparison.expectedRNG === profile.restore.restoreComparison.restoredRNG && await page.evaluate(() => DEADWALL.frontier.position().z === 1));
       check('Native Continue retains the selected automatic display quality', await page.evaluate(() => DEADWALL.settings.quality === 'auto' && document.getElementById('settingsQuality').value === 'auto'));
       await rec.screenshot('continued-upper-floor');
-      if (view.touch) await activate(page, '#frontierDown', true); else { await page.locator('#game').focus(); await page.keyboard.press('PageDown'); }
+      if (view.touch) await touchStairs(page, -1); else { await page.locator('#game').focus(); await page.keyboard.press('PageDown'); }
       await page.waitForFunction(() => DEADWALL.frontier.position().z === 0 && DEADWALL.worldEvolution.groupMembers().length > 0, null, { timeout: 5000 });
       await pause(page, !!view.touch); profile.returned = await floorReadout(page);
       check('Native descent restores actual outdoor individuals exclusively on ground level', profile.returned.contacts.length > 0 && profile.returned.contacts.every(e => e.z === 0) && JSON.stringify(profile.returned.carry) === JSON.stringify(upstairs.carry) && JSON.stringify(profile.returned.taken) === JSON.stringify(upstairs.taken));
