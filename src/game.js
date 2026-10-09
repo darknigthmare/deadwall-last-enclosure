@@ -1125,7 +1125,11 @@
       this.updateCrisis(dt);
       this.weather = lerp(this.weather, this.weatherTarget, clamp(dt * .04, 0, 1)); this.damageFlash = Math.max(0, this.damageFlash - dt * 2.8); this.camera.shake = Math.max(0, this.camera.shake - dt * 22);
       if (Math.floor(this.elapsed) > 0 && Math.floor(this.elapsed) % 95 === 0 && Math.floor(this.elapsed - dt) % 95 !== 0) this.weatherTarget = this.random.chance(.42) ? this.random.range(.35, 1) : 0;
-      this.handlePressed(); this.updateMouseWorld(); this.updateDirector(dt); this.powerGrid?.step(dt,true);
+      this.handlePressed();
+      // A contextual command can open a paused dossier while processing this step.
+      // Stop here so its saved state cannot be followed by combat or upkeep.
+      if (this.state !== 'playing' || this.paused || this.activeOverlay || this.gameOver) return;
+      this.updateMouseWorld(); this.updateDirector(dt); this.powerGrid?.step(dt,true);
       if (this.world.flowDirty) { this.flowTimer -= dt; if (this.flowTimer <= 0) { const core = this.core(); if (core) this.flow.rebuild(this.world, core); this.flowTimer = .22; } }
       this.rebuildBuckets(); this.updatePlayer(dt); if (this.gameOver) return;
       this.updateBuildings(dt); if (this.gameOver) return;
@@ -2558,7 +2562,7 @@
       text(ui.summary,engine.state.completed.length+' / '+O.CONTRACTS.length+' contrats livrés · '+Object.keys(O.BLUEPRINTS).filter(id=>engine.canBuild(id)).length+' / 4 plans récupérés');
     }
     if(!ui.logisticsPanel.classList.contains('hidden')){
-      const report=O.logistics({resources:g.resources,storage:g.storage,population:g.population,buildings:[...g.world.buildings.values()],hasResearch:id=>g.hasResearch(id),activeCrisis:g.activeCrisis,siegeFuelUse:g.siege?.pumpFuelPerMinute()||0});
+      const report=O.logistics({resources:g.resources,storage:g.storage,population:g.population,buildings:[...g.world.buildings.values()],hasResearch:id=>g.hasResearch(id),inputReserve:id=>g.fortificationPack?.inputReserve(id)||0,activeCrisis:g.activeCrisis,siegeFuelUse:g.siege?.pumpFuelPerMinute()||0});
       for(const row of report.rows){const cells=ui.rows.get(row.key);text(cells[0],Math.floor(row.stock)+' / '+row.capacity);text(cells[1],row.production.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));text(cells[2],row.consumption.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));text(cells[3],(row.net>=0?'+':'')+row.net.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));cells[3].dataset.negative=String(row.net<0);}
       text(ui.logisticsStatus,report.unpowered+' équipement(s) sans allocation complète · '+report.pausedIndustry+' industrie(s) arrêtée(s). Les tirs, récoltes, chantiers et variations futures de stocks ne sont pas projetés.');
     }

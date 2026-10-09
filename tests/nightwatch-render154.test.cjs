@@ -1,10 +1,11 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const {createCanvas}=require('@napi-rs/canvas'),C=require('../src/core.js');
+const oracle=require('./fixtures/night-render154.cjs');
 const current=fs.readFileSync(require.resolve('../src/nightwatch.js'),'utf8');
 // Reconstruct only the previous two-read drawing path as a pixel oracle. The
 // external audit additionally runs against the saved, unmodified source file.
-const baseline=process.env.DEADWALL_NIGHTWATCH_BASELINE?fs.readFileSync(process.env.DEADWALL_NIGHTWATCH_BASELINE,'utf8'):current.replace('const lights=sources();','').replaceAll('for(const l of lights)','for(const l of sources())');
+const baseline=process.env.DEADWALL_NIGHTWATCH_BASELINE?fs.readFileSync(process.env.DEADWALL_NIGHTWATCH_BASELINE,'utf8'):current.replace(/  function draw\(ctx\)\{[\s\S]*?(?=\n  g.drawNight=draw;)/,oracle.localDraw.replace('const lights=sources();','').replaceAll('for(const l of lights)','for(const l of sources())'));
 function fixture(source,mode){
  const module={exports:{}},context={module,require:()=>C,document:{createElement:()=>createCanvas(1,1)}};vm.runInNewContext(source,context);
  const reads={gear:0,kits:0,car:0},lamp={id:1,type:'streetlight',x:100,y:90,health:100,completed:true,powered:true,def:{light:95,powerUse:1}},wall={id:2,x:160,y:80,health:100,completed:true,def:{},gateMode:mode==='open'?'open':'closed'},buildings=new Map([[1,lamp]]);

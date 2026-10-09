@@ -1,9 +1,9 @@
 {
   "name": "deadwall-last-enclosure",
-  "version": "1.54.0",
+  "version": "1.55.0",
   "private": true,
   "main": "desktop/main.cjs",
-  "description": "Explorez, bâtissez et ravitaillez une cité fortifiée à défendre contre les hordes de la nuit.",
+  "description": "Explorez, b\u00e2tissez et ravitaillez une cit\u00e9 fortifi\u00e9e \u00e0 d\u00e9fendre contre les hordes de la nuit.",
   "scripts": {
     "start": "node scripts/server.mjs",
     "dev": "node scripts/server.mjs",

@@ -39,3 +39,12 @@ test('regional stairs HUD: refresh moves focus from a newly unreachable floor ac
   pose(g, away, { inside: building.id }); g.worldEvolutionUI.refresh(true);
   assert.equal(doc.activeElement.id, 'fieldDockMap'); assert.equal(doc.getElementById('dockUp').disabled, true);
 });
+test('regional stairs HUD: live readouts keep the reachable native activation target attached and focused', () => {
+  const { g, doc, building, approach } = setup(); pose(g, approach, { inside: building.id });
+  g.worldEvolutionUI.refresh(true); const up = doc.getElementById('dockUp'); up.focus();
+  const bag = { ...g.player.carry }, stocks = { ...g.resources }, before = g.frontier.position();
+  for (let i = 0; i < 4; i++) g.worldEvolutionUI.refresh(true);
+  assert.equal(doc.getElementById('dockUp'), up); assert.ok(up.parentNode); assert.equal(doc.activeElement, up);
+  assert.equal(up.disabled, false); assert.deepEqual(g.frontier.position(), before);
+  assert.deepEqual(g.player.carry, bag); assert.deepEqual(g.resources, stocks);
+});

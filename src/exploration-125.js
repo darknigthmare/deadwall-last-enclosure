@@ -884,8 +884,52 @@
     ctx.restore();
   }
 
-  function drawHouse(ctx, house) { drawBuildingShell134(ctx,house,true); }
-  function drawSettlementBuilding(ctx, building) { drawBuildingShell134(ctx,building,!!building.residential); }
+  // Cache only a stable projected shell. Moving cameras keep the native path
+  // until its physical pixel phase repeats; a hit is copied without resampling.
+  // Grouped compositing changes RGB rounding by at most three levels in the
+  // native raster audit. Only the unclipped opaque local painter opts in:
+  // clipped regional projections and transparent contexts stay native.
+  function createBuildingShellCache155({canvas=()=>globalThis.document?.createElement?.('canvas'),bytes=8*1024*1024,entries=96}={}) {
+    const items=new Map();let pending=new WeakMap(),used=0;
+    const equal=(a,b)=>a&&a.length===b.length&&a.every((value,index)=>Object.is(value,b[index]));
+    const remove=building=>{const old=items.get(building);if(old){used-=old.bytes;items.delete(building);}pending.delete(building);};
+    const states=['globalAlpha','filter','imageSmoothingEnabled','imageSmoothingQuality','lineCap','lineJoin','lineWidth','miterLimit','lineDashOffset','shadowColor'];
+    function paint(ctx,building,draw,revision=[],unclipped=false){
+      const m=ctx.getTransform?.();
+      if(!unclipped||ctx.getContextAttributes?.()?.alpha!==false||ctx.globalAlpha!==1||(ctx.filter&&ctx.filter!=='none')||!m||![m.a,m.b,m.c,m.d,m.e,m.f,building.x,building.y,building.w,building.h].every(Number.isFinite)||building.w<=0||building.h<=0||m.a<=0||m.d<=0||m.b!==0||m.c!==0||ctx.globalCompositeOperation!=='source-over'||ctx.shadowBlur||ctx.shadowOffsetX||ctx.shadowOffsetY){draw();return false;}
+      const q=buildingProjection134(building),left=Math.floor((q.l-7)*m.a+m.e),top=Math.floor((q.roofTop-6)*m.d+m.f),right=Math.ceil((q.r+10)*m.a+m.e),bottom=Math.ceil((q.b+10)*m.d+m.f);
+      const width=right-left,height=bottom-top,size=width*height*4;
+      if(width<1||height<1||width>2048||height>2048||size>Math.min(bytes,1024*1024)||entries<1){draw();return false;}
+      const dash=ctx.getLineDash?.()||[],key=[building.id,building.variant,building.x,building.y,building.w,building.h,building.kind,building.type,building.rearDoorX,building.visualRotation,m.a,m.d,m.e-left,m.f-top,width,height,...states.map(name=>ctx[name]),dash.join(','),...revision];
+      let saved=items.get(building);
+      if(saved&&!equal(saved.key,key)){remove(building);saved=null;}
+      if(!saved){
+        if(!equal(pending.get(building),key)){pending.set(building,key);draw();return false;}
+        let image,c;
+        try{image=canvas();c=image?.getContext?.('2d');}catch{draw();return false;}
+        if(!c||typeof c.setTransform!=='function'){draw();return false;}
+        image.width=width;image.height=height;c.setTransform(m.a,0,0,m.d,m.e-left,m.f-top);
+        for(const name of states)if(ctx[name]!==undefined)c[name]=ctx[name];
+        c.setLineDash?.(dash);c.shadowColor=ctx.shadowColor;
+        draw(c);
+        while(items.size>=entries||used+size>bytes)remove(items.keys().next().value);
+        saved={key,image,bytes:size};items.set(building,saved);used+=size;
+      }else{items.delete(building);items.set(building,saved);}
+      ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';if('filter' in ctx)ctx.filter='none';ctx.shadowColor='rgba(0,0,0,0)';ctx.drawImage(saved.image,left,top);ctx.restore();
+      return true;
+    }
+    return Object.freeze({paint,clear(){items.clear();pending=new WeakMap();used=0;},stats:()=>({bytes:used,entries:items.size,maxBytes:bytes,maxEntries:entries})});
+  }
+  const BUILDING_SHELL_CACHE155=createBuildingShellCache155();
+  let BUILDING_SHELL_WORLD155;
+  function drawCachedBuildingShell155(ctx,building,residential){
+    const owner=globalThis.DEADWALL,art=owner?.art,interior=globalThis.DeadwallInteriorArt153,assets=globalThis.DeadwallAssets136;
+    if(BUILDING_SHELL_WORLD155!==owner?.world){BUILDING_SHELL_CACHE155.clear();BUILDING_SHELL_WORLD155=owner?.world;}
+    const images=Object.keys(interior?.ASSETS||{}).map(key=>art?.images?.[key]);
+    BUILDING_SHELL_CACHE155.paint(ctx,building,c=>drawBuildingShell134(c||ctx,building,residential),[residential,owner?.world,owner?.world?.seed,art,interior,assets,art?.diagnostics?.ready?.length,...images,art?.images?.art138RoofMetal],ctx===owner?.ctx&&!owner.frontier?.active?.());
+  }
+  function drawHouse(ctx, house) { drawCachedBuildingShell155(ctx,house,true); }
+  function drawSettlementBuilding(ctx, building) { drawCachedBuildingShell155(ctx,building,!!building.residential); }
 
   function drawStationLoot(ctx,node){ctx.save();ctx.translate(node.x,node.y);const ratio=node.maxAmount?clamp(node.amount/node.maxAmount,.2,1):1;ctx.globalAlpha=ratio;ctx.fillStyle=node.type==='fuel'?'#8c743f':node.type==='medicine'?'#6f9189':'#727e50';ctx.fillRect(-9,-7,18,14);ctx.strokeStyle='rgba(230,220,181,.35)';ctx.strokeRect(-9,-7,18,14);if(node.type==='medicine'){ctx.fillStyle='#c9d3ca';ctx.fillRect(-2,-5,4,10);ctx.fillRect(-5,-2,10,4);}ctx.restore();}
 
@@ -1567,5 +1611,5 @@
     return true;
   }
 
-  return Object.freeze({ drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
+  return Object.freeze({ createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
 });

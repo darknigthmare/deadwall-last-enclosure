@@ -26,7 +26,7 @@
   class Cache{
     constructor({bytes=LIMITS.bytes,entries=LIMITS.entries,canvas}={}){
       this.maxBytes=bytes;this.maxEntries=entries;this.makeCanvas=canvas||(()=>root.document?.createElement?.('canvas'));
-      this.items=new Map();this.bytes=0;this.stats={hits:0,misses:0,evictions:0};
+      this.items=new Map();this.rectKeys=new WeakMap();this.bytes=0;this.stats={hits:0,misses:0,evictions:0};
     }
     remove(key){const old=this.items.get(key);if(!old)return;this.items.delete(key);this.bytes-=old.bytes;}
     get(c,atlas,image,rect,w,h){
@@ -36,7 +36,13 @@
       // Art publishes immutable decoded sources. Identity and size changes
       // invalidate these copies; live scene canvases must never be passed here.
       if(x+sw>(image.width||image.naturalWidth)||y+sh>(image.height||image.naturalHeight))return null;
-      const key=atlas+':'+rect.join(',')+':'+level,old=this.items.get(key);
+      // Immutable atlas rectangles recur for every copy of a tree or building.
+      // Remember one key per live rectangle, not every atlas/zoom ever visited.
+      // Mutable rectangles retain their immediate geometry invalidation.
+      const immutable=Object.isFrozen(rect),memo=immutable?this.rectKeys.get(rect):null;
+      const key=memo&&memo.atlas===atlas&&memo.level===level?memo.key:atlas+':'+rect.join(',')+':'+level;
+      if(immutable&&(!memo||memo.key!==key))this.rectKeys.set(rect,{atlas,level,key});
+      const old=this.items.get(key);
       if(old&&old.source===image&&old.sourceWidth===image.width&&old.sourceHeight===image.height){
         this.items.delete(key);this.items.set(key,old);this.stats.hits++;return old;
       }
@@ -54,7 +60,7 @@
       const entry={image:canvas,width,height,bytes,source:image,sourceWidth:image.width,sourceHeight:image.height,level};
       this.items.set(key,entry);this.bytes+=bytes;this.stats.misses++;return entry;
     }
-    clear(){this.items.clear();this.bytes=0;}
+    clear(){this.items.clear();this.rectKeys=new WeakMap();this.bytes=0;}
   }
   return Object.freeze({LIMITS,NATIVE_ACTORS,levelFor,create:options=>new Cache(options)});
 });

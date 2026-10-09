@@ -6,6 +6,17 @@ const COMPANION_ART=Object.freeze({
  ines:Object.freeze({kind:'engineer',id:2}),
  malik:Object.freeze({kind:'soldier',id:3})
 });
+const ANNEX_ART=Object.freeze({housing:'house',workshop:'workshop',clinic:'clinic',depot:'warehouse',watch:'watchtower',power:'generator'});
+function drawAnnex(c,g,b,x,y){
+ const art=g.art,rect=art?.rects?.['buildings:'+ANNEX_ART[b.type]],ready=b.progress>=1&&rect&&art?.images?.buildings&&typeof art.blit==='function';
+ c.fillStyle=b.progress>=1?(ready?'#4b584b':'#768b72'):'#8b765a';c.fillRect(x,y,20,9);
+ if(b.progress<1){c.fillStyle='#d5bd82';c.fillRect(x,y+9,20*b.progress,.55);return;}
+ if(!ready)return;
+ // The paid foundation remains 20×9 m. Fit the original alpha-trimmed image
+ // without stretching it; its lower edge stays on the foundation's contact.
+ const scale=Math.min(20/rect[2],13/rect[3]),w=rect[2]*scale,h=rect[3]*scale;
+ art.blit(c,'buildings',rect,x+(20-w)/2,y+9-h,w,h);
+}
 const presentations=new WeakMap(),ACTOR_MARGIN=1.25;
 function presentation(g,p){
  let state=presentations.get(g);
@@ -71,7 +82,7 @@ function drawInfected(c,g,v,view,members){
 }
 function drawEnemies(c,g,v,view){drawInfected(c,g,v,view,v.enemies||[]);const ids=new Set([...(v.enemies||[]),...(g.worldEvolution?.groupMembers?.()||[])].map(e=>e.id)),state=enemyPresentations.get(g);if(state)for(const id of state.actors.keys())if(!ids.has(id))state.actors.delete(id);}
 
-function draw(c,g,v,view){const e=g.worldEvolution?.overview();if(!e)return;if(v.z===0){for(const d of e.districts){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.setLineDash([]);for(const b of d.buildings){const col=b.slot%2,row=Math.floor(b.slot/2),x=-22+col*28,y=-22+row*13;c.fillStyle=b.progress>=1?'#768b72':'#8b765a';c.fillRect(x,y,20,9);if(b.progress<1){c.fillStyle='#d5bd82';c.fillRect(x,y+9,20*b.progress,.55);}}c.restore();}}
+function draw(c,g,v,view){const e=g.worldEvolution?.overview();if(!e)return;if(v.z===0){for(const d of e.districts){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.setLineDash([]);for(const b of d.buildings){const col=b.slot%2,row=Math.floor(b.slot/2),x=-22+col*28,y=-22+row*13;drawAnnex(c,g,b,x,y);}c.restore();}}
 if(v.z===0)drawInfected(c,g,v,view,g.worldEvolution.groupMembers?.()||[]);
 drawCompanions(c,g,v,view,e.companions);}
 function drawGround(c,g,v,view,evolution=g.worldEvolution?.overview()){if(v.z!==0)return;for(const d of evolution?.districts||[]){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.restore();}}
@@ -90,11 +101,11 @@ function depthEntries(g,v,view,e=g.worldEvolution?.overview()){
  const ec=enemyPresentations.get(g);if(ec)for(const id of ec.actors.keys())if(!ids.has(id))ec.actors.delete(id);
  if(v.z===0)for(const d of e?.districts||[]){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;
   for(const b of d.buildings){const x=-22+b.slot%2*28,y=-22+Math.floor(b.slot/2)*13,depth=Math.max(...[[x,y],[x+20,y],[x,y+9],[x+20,y+9]].map(([xx,yy])=>d.pos.y+Math.sin(d.pos.a)*xx+Math.cos(d.pos.a)*yy));
-   entries.push({kind:'annex',id:d.id+':'+b.slot,depth,draw(c){c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.fillStyle=b.progress>=1?'#768b72':'#8b765a';c.fillRect(x,y,20,9);if(b.progress<1){c.fillStyle='#d5bd82';c.fillRect(x,y+9,20*b.progress,.55);}c.restore();}});
+   entries.push({kind:'annex',id:d.id+':'+b.slot,depth,draw(c){c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);drawAnnex(c,g,b,x,y);c.restore();}});
   }
  }
  return entries;
 }
 function atlas(c,g,v,cam,label,vision=g.visibility?.frame?.(),marked=new Set()){const e=g.worldEvolution?.overview();if(!e)return;for(const d of e.districts)if(d.level){const q=cam.screen(d.pos.x,d.pos.y);c.strokeStyle='#d4c28e';c.strokeRect(q.x-5,q.y-5,10,10);if(cam.scale>.5)label('ANNEXE '+d.id.toUpperCase(),q.x,q.y-10,false,'#e1d2a4');}for(const contact of g.worldEvolution.groupMembers?.()||[]){if(marked.has(contact.id)||contact.z!==(v.active?v.z:0)||!vision?.canSeeRegional(contact))continue;marked.add(contact.id);const q=cam.screen(contact.x,contact.y);c.fillStyle='#cb8270';c.beginPath();c.arc(q.x,q.y,2.5,0,Math.PI*2);c.fill();}}
-const api=Object.freeze({draw,drawEnemies,drawGround,depthEntries,atlas,COMPANION_ART});root.DeadwallWorldEvolutionArt=api;if(typeof module==='object'&&module.exports)module.exports=api;
+const api=Object.freeze({draw,drawEnemies,drawGround,depthEntries,atlas,COMPANION_ART,ANNEX_ART});root.DeadwallWorldEvolutionArt=api;if(typeof module==='object'&&module.exports)module.exports=api;
 })(globalThis);

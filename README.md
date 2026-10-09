@@ -1,3 +1,21 @@
+# DEADWALL 1.55.0 — Commandement, relais et logistique
+
+Ouvrir le devis d'orientation suspend immédiatement le combat. Les relais attendent la fin d'une recharge et tiennent compte des réanimés réellement proches ; le bilan Logistique reflète les centrales actives et les réserves d'intrants payées. Les actions d'escalier restent activables pendant les rafraîchissements, les annexes reçoivent six silhouettes existantes et les libellés tactiles restent lisibles.
+
+Le masque nocturne réutilise ses pixels lorsque la scène reste identique ; les façades locales stables disposent d'un cache borné et les sprites évitent des clés répétées pour les rectangles immuables. Les mesures du candidat restent limitées au GPU logiciel du cloud, sans budget FPS garanti. Cartes G1–G7, coûts, stocks, onze âges et sauvegardes v20 sont conservés.
+
+Guide : [docs/LIVRAISON_1_55.md](docs/LIVRAISON_1_55.md). Preuves ciblées et limites : [docs/AUDIT_1_55.md](docs/AUDIT_1_55.md). Les résultats du contrôle global et de la publication sont consignés dans le compte rendu de livraison. La cible Standard de **6 à 10 heures** demande encore des campagnes humaines complètes.
+
+```sh
+npm ci
+npm start
+npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:campaign
+```
+
+## Historique conservé — 1.54.0
+
 # DEADWALL 1.54.0 — Terrain, combat et reprise
 
 L’audit du jeu corrige le temps de simulation à faible cadence, les collisions d’infectés aux angles des enceintes et la reprise de chasse des Traqueurs. Les bandes sauvages ne sont annoncées que lorsqu’un allié les observe ; les réanimés interrompent aussi les manipulations dangereuses. Une blessure coupe immédiatement le pansement, même si un autre soin suit dans la même frame.

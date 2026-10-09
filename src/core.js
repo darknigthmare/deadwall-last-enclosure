@@ -718,14 +718,14 @@
     for(const b of ctx.buildings||[]){
       if(b.dead||!b.completed||!b.def)continue;
       if((b.territoryOffline||b.siegeOffline||b.dayOffline)&&b.def.production){pausedIndustry++;continue;}
-      if(b.type==='generator'&&!b.siegeOffline&&ctx.resources.fuel>0){const use=(ctx.hasResearch('grid')?.0135:.018)*60;consumption.fuel+=use;generatorUse+=use;}
+      if(b.def.generatorFuel&&!b.siegeOffline&&!b.territoryOffline&&ctx.resources.fuel>0){const use=b.def.generatorFuel*(ctx.hasResearch('grid')?.75:1)*60;consumption.fuel+=use;generatorUse+=use;}
       if(b.def.powerUse&&!b.powered)unpowered++;
       if(!b.def.production)continue;
       const power=b.def.powerUse?(b.powered?1:(b.powerShare||0)*(ctx.hasResearch('grid')?.7:.35)):1;
       const crisis=b.def.powerUse&&ctx.activeCrisis?.id==='blackout'&&ctx.activeCrisis.status==='resolved'&&ctx.activeCrisis.choice==='B'?.5:1;
-      let fraction=1;
+      const reserve=Math.max(0,ctx.inputReserve?.(b.id)||0);let fraction=1;
       for(const [key,rate]of Object.entries(b.def.production))if(rate>0)fraction=Math.min(fraction,Math.max(0,ctx.storage-ctx.resources[key])/(rate*.25*Math.max(.0001,power)*crisis));
-      for(const [key,rate]of Object.entries(b.def.consumes||{}))if(rate>0)fraction=Math.min(fraction,ctx.resources[key]/(rate*.25*Math.max(.0001,power)*crisis));
+      for(const [key,rate]of Object.entries(b.def.consumes||{}))if(rate>0)fraction=Math.min(fraction,Math.max(0,ctx.resources[key]-reserve)/(rate*.25*Math.max(.0001,power)*crisis));
       if(power<=.05||fraction<=0){pausedIndustry++;continue;}
       const factor=Math.min(1,fraction)*power*crisis*60;
       for(const [key,rate]of Object.entries(b.def.production))production[key]+=rate*factor;
