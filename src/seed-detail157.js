@@ -61,6 +61,25 @@
   menu:[.62,.3,false],tray:[.65,.35,false],screen:[.65,.55,false],notice:[.62,.25,false],
   toolbox:[.7,.45,true],palletMark:[1.15,.7,false]
  });
+ const variantFixtures=Object.freeze({
+  'piscine-privee':['pool','patio'],'piscine-d-hotel':['pool','bench'],
+  'jardin-fleuri':['flowerbed','planter'],'jardin-sauvage':['hedge','tree'],
+  'potager':['cropbed','compost'],'verger':['tree','waterButt'],
+  'pelouse-et-jeux':['playset','bench'],'aire-de-jeux':['playset','bench'],
+  'jardin-partage':['cropbed','bench'],'cour-recreation':['playset','bench'],
+  'cour-collective':['bench','planter'],'cour-de-materiel':['pallet','barrel'],
+  'cour-de-service':['pallet','trash'],'cour-atelier':['worktable','barrel'],
+  'terrasse':['patio','bench'],'terrasse-fermee':['patio','bench'],
+  'serre':['cropbed','planter'],'serre-de-vente':['planter','flowerbed'],
+  'parcelles-en-friche':['cropbed','hedge'],'plantations':['cropbed','waterButt'],
+  'parking-residentiel':['bikeRack','sign'],'parking-du-personnel':['bikeRack','sign'],
+  'stock-arriere':['pallet','crateStack'],'zone-de-containers':['container','pallet'],
+  'quai-sature':['pallet','crateStack'],'cour-de-livraison':['pallet','cart'],
+  'livraison-matinale':['pallet','cart'],'stock-de-pieces':['crateStack','tire'],
+  'coupure-du-reseau':['barrel','bollard'],'panne':['worktable','barrel'],
+  'maintenance':['worktable','barrel'],'materiaux-stocks':['pallet','scrapHeap'],
+  'zone-de-manutention':['pallet','container'],'chantier-abandonne':['scrapHeap','worktable']
+ });
  const SURFACES=new Set(['flowerbed','cropbed','patio','clothesline','laundryLine','canopy','rug','paper','toy','basket','countertop','menu','tray','screen','notice','palletMark']);
  const minx=p=>-11,maxx=p=>p.w+11,maxy=p=>p.h+25;
  const hit=(a,b,margin=0)=>a.x<b.x+b.w+margin&&a.x+a.w>b.x-margin&&a.y<b.y+b.h+margin&&a.y+a.h>b.y-margin;
@@ -99,9 +118,9 @@
   const outdoorKinds=profile.yard.filter(kind=>kind!=='pool');
   // Occupied, serviced sites have more environmental storytelling than a barren yard.
   const target=p.w<15?5:p.w<32?8:11;
-  const stockKinds=pool?['pool',...outdoorKinds]:outdoorKinds;
+  const required=variantFixtures[variant]||[];
   for(let i=0;i<target;i++){
-   let kind=i===0&&pool?'pool':stockKinds[randIndex(stockKinds.length,seed,p.id,variant,'kind',i)];
+   let kind=i<required.length?required[i]:outdoorKinds[randIndex(outdoorKinds.length,seed,p.id,variant,'kind',i)];
    const [w,h]=objects[kind];let placed=null;
    // Rectangles use the actual parcel reserve. Search several deterministic slots;
    // never place furniture over a building, an existing resource or a parked vehicle.
