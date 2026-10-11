@@ -17,6 +17,22 @@ test('Codex 3000 canonical compilation: 1,000 parents + 2,000 contextual variant
   if(i>=1000){assert.ok(r.module&&r.state,r.id);assert.equal(R.get(r.parent).original,true);}
  }
 });
+test('Codex 3000 preserves original metric plot bounds and authored floor programmes',()=>{
+ const house=R.template('DW-0001',0,'P1000');
+ assert.deepEqual(house.reference.min,[12,10]);
+ assert.deepEqual(house.reference.max,[28,24]);
+ const supplement=R.template('DW-0501',0,'P1001');
+ assert.deepEqual(supplement.reference.min,[10,9]);
+ assert.ok(supplement.levels.includes(0)&&supplement.levels.includes(1));
+ assert.equal(typeof supplement.adapted,'boolean');
+ for(const [id,meta] of Object.entries(data.parents)){
+  const authored=meta[4];
+  assert.ok(authored&&authored.sourceMin.length===2&&authored.sourceMax.length===2,id);
+  assert.ok(authored.sourceMin.every((n,i)=>n>0&&n<=authored.sourceMax[i]),id);
+  assert.ok(authored.levels.length&&authored.levels.includes(0),id);
+  assert.ok(authored.levels.every(z=>Number.isInteger(z)&&z>=-1&&z<=2),id);
+ }
+});
 test('All 3,000 programme cards are queryable and never disguised as already placed POIs',()=>{
  const entries=Codex.entries.filter(e=>e.id.startsWith('programme-DW-'));
  assert.equal(entries.length,3000);
