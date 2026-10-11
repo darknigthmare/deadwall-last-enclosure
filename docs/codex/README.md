@@ -31,3 +31,7 @@ Le guide ajoute 96 compositions contextuelles et quatre fiches de règles effect
 ## Extension 1.33
 
 Les [contrats routiers](ROUTES_1_33.md) séparent chaussées, emprises, sens, hauteurs, surfaces et transitions. Ils couvrent chemins, campagnes, départementales, autoroutes 2 × 2 / 2 × 3 / 2 × 4, carrefours, giratoires, échanges, ponts, tunnels et aires. Les probabilités routières de conception restent hors générateur ; la présence de ces fiches n’active aucun pont, tunnel ni faction humaine. Le [lecteur autonome de l’addendum](../../codex-3000/addendum-1.33/LIRE_ROUTES.html) conserve recherche, regroupement et filtre de disponibilité sans modifier le compagnon historique.
+
+## Addendum 1.57 — variantes de seed jouables
+
+[Voir la matrice de génération détaillée](SEED_DETAIL_1_57.md). L'Atlas en jeu ajoute **62 fiches** propres aux **62 gabarits régionaux G7**, soit 277 fiches au total si l'inventaire 1.33 à 215 fiches est conservé. Les 17 familles et 86 variantes combinent jardins, clôtures avec ouverture, piscine unique selon la parcelle, meubles et cours cohérents par activité, ainsi que des reprises de chaussée. Le décor solide est pris en compte par les collisions et les véhicules ; les objets historiques, stocks et empreintes de sauvegarde restent inchangés. Les 3 000 compositions de conception et les vrais ouvrages routiers non implantés restent explicitement hors de cette couverture jouable.
