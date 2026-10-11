@@ -113,12 +113,12 @@
    x:Math.round(x*100)/100,y:Math.round(y*100)/100,w:shape[0],h:shape[1],
    solid:shape[2],surface:SURFACES.has(kind),z,decor157:true});
  }
- function yard(seed,p,variant,profile){
+ function yard(seed,p,variant,profile,story=[]){
   const details=[],used=outdoorOccupied(p),pool=variant==='piscine-privee'||variant==='piscine-d-hotel';
   const outdoorKinds=profile.yard.filter(kind=>kind!=='pool');
   // Occupied, serviced sites have more environmental storytelling than a barren yard.
   const target=p.w<15?5:p.w<32?8:11;
-  const required=variantFixtures[variant]||[];
+  const required=[...story.filter(kind=>Object.hasOwn(objects,kind)).slice(0,2),...(variantFixtures[variant]||[])];
   for(let i=0;i<target;i++){
    let kind=i<required.length?required[i]:outdoorKinds[randIndex(outdoorKinds.length,seed,p.id,variant,'kind',i)];
    const [w,h]=objects[kind];let placed=null;
@@ -179,10 +179,10 @@
   }
   return Object.freeze(result);
  }
- function make(seed,p,z,plan){
+ function make(seed,p,z,plan,options={}){
   if(!Number.isInteger(seed)||!p?.id||!Number.isFinite(p.w+p.h)||!Array.isArray(plan?.objects))throw Error('Fiche de detail157 invalide');
-  const family=familyFor(p.type),profile=profiles[family],variant=planVariant(seed,p);
-  return Object.freeze({family,variant,outdoor:z===0?yard(seed,p,variant,profile):Object.freeze([]),interior:interior(seed,p,z,plan)});
+  const family=profiles[options.family]?options.family:familyFor(p.type),profile=profiles[family],variant=planVariant(seed,p);
+  return Object.freeze({family,variant,outdoor:z===0?yard(seed,p,variant,profile,options.story):Object.freeze([]),interior:interior(seed,p,z,plan)});
  }
  function validCatalogue(types=G?.PRESETS||[]){
   return {complete:types.every(p=>Object.hasOwn(typeFamily,p.id)&&!!profiles[typeFamily[p.id]]),
