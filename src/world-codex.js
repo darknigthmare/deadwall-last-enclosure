@@ -1,13 +1,13 @@
 (function(root,factory){'use strict';
   const packs=typeof module==='object'&&module.exports?{
     nature:require('./world-codex-nature.js'),habitat:require('./world-codex-habitat.js'),
-    activites:require('./world-codex-activites.js'),systemes:require('./world-codex-systemes.js'),equipment134:require('./equipment-codex134.js'),biomes135:require('./biomes-codex135.js')
+    activites:require('./world-codex-activites.js'),systemes:require('./world-codex-systemes.js'),equipment134:require('./equipment-codex134.js'),biomes135:require('./biomes-codex135.js'),seed157:require('./world-codex-seed157.js')
   }:root.DeadwallCodexPacks;
   const api=factory(packs||{});
   if(typeof module==='object'&&module.exports)module.exports=api;
   else{root.DeadwallWorldCodex=api;if(root.DEADWALL&&root.document)api.install(root.DEADWALL,root.document);}
 })(typeof globalThis!=='undefined'?globalThis:this,function(packs){'use strict';
-  const entries=Object.freeze(['nature','habitat','activites','systemes','equipment134','biomes135'].flatMap(k=>packs[k]||[]));
+  const entries=Object.freeze(['nature','habitat','activites','systemes','equipment134','biomes135','seed157'].flatMap(k=>packs[k]||[]));
   const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité'});
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
