@@ -23,6 +23,7 @@
   industrie:['sawmill','mine','quarry','scrapyard'],
   campagne:['marketgarden'],
   reseaux:['fuel','generatorRoom','waterStation'],
+  securite:['bunker','firestation'],
   ruines:['ruin']
  });
  const typeFamily=Object.freeze(Object.fromEntries(Object.entries(groups).flatMap(([key,types])=>types.map(t=>[t,key]))));
@@ -42,6 +43,7 @@
   industrie:{variants:['site-arrete','materiaux-stocks','chantier-abandonne','zone-manutention','maintenance'],yard:['pallet','barrel','container','worktable','scrapHeap','tire','sign','lamp'],interior:['toolbox','paper','fallenStock','smallCabinet','palletMark']},
   campagne:{variants:['potager','serre','plantations','parcelles-en-friche','irrigation-arretee'],yard:['cropbed','cropbed','waterButt','planter','compost','shed','tree','barrel','pallet'],interior:['paper','toolbox','basket','tray','smallCabinet']},
   reseaux:{variants:['maintenance','coupure-du-reseau','station-fermee','equipement-en-panne','zone-technique'],yard:['barrel','pallet','sign','lamp','worktable','container','scrapHeap','bollard'],interior:['toolbox','paper','smallCabinet','notice','tray']},
+  securite:{variants:['cour-de-materiel','vestiaires-et-intervention','stocks-de-secours','poste-de-controle','parking-securise'],yard:['barrel','pallet','crateStack','sign','lamp','bollard','bench','trash','container'],interior:['smallCabinet','paper','notice','chair','toolbox','tray']},
   ruines:{variants:['jardin-en-friche','cour-eboulee','vegetation-reprise','abandon-prolonge'],yard:['scrapHeap','hedge','tree','flowerbed','trash','pallet','waterButt'],interior:['paper','fallenStock','chair','rug','smallCabinet']}
  });
  // Metres in the same local coordinate system as the building plan.
