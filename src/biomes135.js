@@ -23,7 +23,7 @@ function habitat(seed,x,y,base=sampleBase(seed,x,y,false)){
  treeFactor*=1-orchard+orchard*(k.orchardRowFloor+k.orchardRowPeak*rowStrength);
  return{id,name:k.habitats[id].name,weights,treeFactor,rockFactor,decorFactor,decorPool,openness:clamp(opening*forest+(1-cover)*(open+mineral+urban)),canopy:clamp((1-opening)*forest+cover*(open+humid+urban)),mineral:clamp(stone*mineral),wetness:clamp(wet*humid),orchardAngle,rowDistance,rowSpacing:k.orchardRowSpacing,rowStrength:clamp(rowStrength*orchard)};
 }
-function sample(seed,x,y,withPalette=true,options={}){const s=sampleBase(seed,x,y,withPalette);if(options?.generation!==7)return s;const h=habitat(seed,x,y,s);return{...s,treeChance:clamp(s.treeChance*h.treeFactor),rockChance:clamp(s.rockChance*h.rockFactor),decorChance:clamp(s.decorChance*h.decorFactor),habitat:h};}
+function sample(seed,x,y,withPalette=true,options={}){const s=sampleBase(seed,x,y,withPalette);if(options?.generation!==7&&options?.generation!==8)return s;const h=habitat(seed,x,y,s);return{...s,treeChance:clamp(s.treeChance*h.treeFactor),rockChance:clamp(s.rockChance*h.rockFactor),decorChance:clamp(s.decorChance*h.decorFactor),habitat:h};}
 function weighted(pool,seed,...key){const entries=Object.entries(pool||{}).filter(([,v])=>Number.isFinite(v)&&v>0);if(!entries.length)throw Error('Pool écologique vide.');let n=hash(seed,...key)/4294967296*entries.reduce((s,[,v])=>s+v,0);for(const [id,w]of entries){n-=w;if(n<0)return id;}return entries.at(-1)[0];}
 function definition(id){const d=typeof id==='string'?BY[id]:id?.def||BY[id?.id];if(!d)throw Error('Biome inconnu : '+String(id));return d;}
 function buildingPool(id){return definition(id).buildings;}
