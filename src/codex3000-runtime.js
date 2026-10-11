@@ -177,9 +177,27 @@
   return Object.freeze({eligible,placed,rejected,unsupported,programmeCount:rows.length});
  }
 
+ function detailFamily(family){
+  if(/Habitat individuel|^habitat$|^rural$/i.test(family))return 'residence';
+  if(/Habitat collectif/i.test(family))return 'collective';
+  if(/Alimentation/i.test(family))return 'alimentation';
+  if(/Hôtellerie/i.test(family))return 'hebergement';
+  if(/Santé/i.test(family))return 'medical';
+  if(/Éducation|connaissance/i.test(family))return 'education';
+  if(/Administration|communauté/i.test(family))return 'administration';
+  if(/Secours|Abris|militaire|^public$/i.test(family))return 'securite';
+  if(/Agriculture|Forêts|^rural$/i.test(family))return 'campagne';
+  if(/Mines|Industrie|production|^industrie$/i.test(family))return 'industrie';
+  if(/Entrepôts|Ferroviaire/i.test(family))return 'logistique';
+  if(/Automobile|carburant|Énergie|Eau/i.test(family))return 'reseaux';
+  if(/Loisirs/i.test(family))return 'loisirs';
+  if(/ruines/i.test(family))return 'ruines';
+  if(/atelier|Services/i.test(family))return 'artisanat';
+  return 'magasins';
+ }
  function programmeProps(state){return STATE_FEATURES[state]||[];}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily});
 });
