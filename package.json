@@ -5,8 +5,11 @@
   "main": "desktop/main.cjs",
   "description": "Explorez, b\u00e2tissez et ravitaillez une cit\u00e9 fortifi\u00e9e \u00e0 d\u00e9fendre contre les hordes de la nuit.",
   "scripts": {
+    "prestart": "node scripts/compile-codex3000.mjs",
     "start": "node scripts/server.mjs",
+    "predev": "node scripts/compile-codex3000.mjs",
     "dev": "node scripts/server.mjs",
+    "pretest": "node scripts/compile-codex3000.mjs",
     "test": "node --test tests/*.test.cjs",
     "check": "node scripts/check-syntax134.mjs && npm run build && npm test",
     "build": "node scripts/build.mjs",
