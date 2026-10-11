@@ -1,12 +1,13 @@
 /* Streamed regional world. The defending city keeps its bounded historical simulation. */
 (function(root){'use strict';const Settle=root.DeadwallRegionSettlements||(typeof require==='function'?require('./region-settlements.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
 const Detail157=root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null);
+const Codex3000=root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null);
 const sizeForGeneration=g=>g>=5?(root.DeadwallCore?.WorldStreamRules131?.size||24576):8192;
 const threatCount=(seed,p)=>p.generation>=5&&['allied','empty'].includes(p.occupation)?0:1+G.hash(seed,p.id,'threat')%4;
 const RULES=Object.freeze({size:8192,chunk:256,chunkCache:25,planCache:48,metreUnits:32,footRadius:.32,carRadius:2.5,walk:3.5,run:5.0,roadSpeed:18,offroadSpeed:7.2,fuelPerMetre:.004,lootRate:3,maxEnemy:48,baseMin:4032,baseMax:4160,discover:65,lootReach:1.6});
 const TOWNS=[{id:'t0',name:'Les Verrières',x:4700,y:4070,r:500,a:.06},{id:'t1',name:'Val-des-Ormes',x:2550,y:2600,r:600,a:-.12},{id:'t2',name:'Saint-Roch',x:6300,y:2250,r:600,a:.1},{id:'t3',name:'La Briqueterie',x:2600,y:6250,r:600,a:.03},{id:'t4',name:'Moulin-Neuf',x:5900,y:6300,r:620,a:-.1},{id:'t5',name:'Bois-Mort',x:1200,y:4100,r:430,a:.15}];
 const LINES=[[[32,4096],[1200,4100],[2650,4096],[4032,4096],[4160,4096],[4700,4070],[6500,4190],[8160,4170]],[[4096,32],[3910,1500],[4096,2700],[4096,4032],[4096,4160],[4000,5500],[4160,7000],[4096,8160]],[[1200,4100],[1700,3250],[2550,2600],[4096,2700],[5150,2350],[6300,2250],[7400,2650]],[[1200,4100],[1500,5100],[2600,6250],[4000,5500],[4950,5900],[5900,6300],[7300,6050],[7650,4850],[6500,4190]],[[6300,2250],[6500,3300],[6500,4190]],[[2550,2600],[2100,1350],[3200,900],[3910,1500]],[[2600,6250],[2650,7350],[4160,7000],[5900,6300]]];
-function create(seed,requestedGeneration=3,effects={}){const isG6=requestedGeneration>=6,generation=isG6?requestedGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,requestedGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,requestedGeneration):[];let geography=null;
+function create(seed,requestedGeneration=3,effects={}){const isG6=requestedGeneration>=6,generation=isG6?requestedGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7,8].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let codexCoverage=null,settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,requestedGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,requestedGeneration):[];let geography=null;
 const addRoad=(a,b,width=7)=>{const r={id:'r'+roads.length,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},width};roads.push(r);return r;};
 const placementRoadBins=new Map();let placementRoadPad=0;
 // Construction-only broad phase: a parcel includes its reserved lot and paved
@@ -21,11 +22,11 @@ function indexPlacementParcel(p){
  for(let y=Math.floor(box.t/256);y<=Math.floor(box.b/256);y++)for(let x=Math.floor(box.l/256);x<=Math.floor(box.r/256);x++){const key=x+','+y;if(!placementParcelBins.has(key))placementParcelBins.set(key,[]);placementParcelBins.get(key).push(p);}
 }
 function preparePlacementRoads(){for(const r of roads){placementRoadPad=Math.max(placementRoadPad,r.width/Math.SQRT2);for(let y=Math.floor(Math.min(r.a.y,r.b.y)/256);y<=Math.floor(Math.max(r.a.y,r.b.y)/256);y++)for(let x=Math.floor(Math.min(r.a.x,r.b.x)/256);x<=Math.floor(Math.max(r.a.x,r.b.x)/256);x++){const key=x+','+y;if(!placementRoadBins.has(key))placementRoadBins.set(key,[]);placementRoadBins.get(key).push(r);}}}
-function placementRoads(box){if(requestedGeneration!==7)return roads;const found=new Set();for(let y=Math.floor((box.t-placementRoadPad)/256);y<=Math.floor((box.b+placementRoadPad)/256);y++)for(let x=Math.floor((box.l-placementRoadPad)/256);x<=Math.floor((box.r+placementRoadPad)/256);x++)for(const r of placementRoadBins.get(x+','+y)||[])found.add(r);return found;}
+function placementRoads(box){if(requestedGeneration<7)return roads;const found=new Set();for(let y=Math.floor((box.t-placementRoadPad)/256);y<=Math.floor((box.b+placementRoadPad)/256);y++)for(let x=Math.floor((box.l-placementRoadPad)/256);x<=Math.floor((box.r+placementRoadPad)/256);x++)for(const r of placementRoadBins.get(x+','+y)||[])found.add(r);return found;}
 if(!isG6){for(const poly of LINES)for(let i=1;i<poly.length;i++)addRoad(poly[i-1],poly[i]);
 for(const t of TOWNS){const point=(x,y)=>[t.x+x*Math.cos(t.a)-y*Math.sin(t.a),t.y+x*Math.sin(t.a)+y*Math.cos(t.a)];for(let n=-2;n<=2;n++){const off=n*132;addRoad(point(-350,off),point(370-(n%2)*50,off),5.8);addRoad(point(off,-320),point(off,330),5.8);}const p=point(0,0);addRoad([t.x,t.y],point(0,-320),5.8);}
 }
-if(isG6){if(!Geo||!Biomes)throw Error('Géographie ou biomes 1.35 absents');geography=Geo.generate(seed,{addRoad,biomes:Biomes,generation:requestedGeneration});const Road=root.DeadwallRoadKit||(typeof require==='function'?require('./region-roadkit.js'):null),network=Road.topology(roads,seed);roads.splice(0,roads.length,...network.roads);settlementData={towns:geography.towns,sectors:geography.sectors,junctions:network.junctions};outerBuilding=true;if(requestedGeneration===7)preparePlacementRoads();}
+if(isG6){if(!Geo||!Biomes)throw Error('Géographie ou biomes 1.35 absents');geography=Geo.generate(seed,{addRoad,biomes:Biomes,generation:requestedGeneration});const Road=root.DeadwallRoadKit||(typeof require==='function'?require('./region-roadkit.js'):null),network=Road.topology(roads,seed);roads.splice(0,roads.length,...network.roads);settlementData={towns:geography.towns,sectors:geography.sectors,junctions:network.junctions};outerBuilding=true;if(requestedGeneration>=7)preparePlacementRoads();}
 function nearestRoad(point,tree=roadTree){
  let result=null;const check=r=>{nearestChecks++;const n=G.nearest(point,r.a,r.b);if(!result||n.d<result.d||(n.d===result.d&&(roadOrder.get(r)??roads.indexOf(r))<(roadOrder.get(result.road)??roads.indexOf(result.road))))result={...n,road:r};};
  if(!roadIndexReady){for(const r of roads)check(r);return result;}
@@ -33,17 +34,17 @@ function nearestRoad(point,tree=roadTree){
  while(stack.length){const node=stack.pop();if(result&&distance(node)>result.d*result.d+1e-9)continue;if(node.items){for(const r of node.items)check(r);continue;}const dl=distance(node.left),dr=distance(node.right);if(dl<dr){stack.push(node.right,node.left);}else stack.push(node.left,node.right);}
  return result;
 }
-function install(type,x,y,a,road,name){const d=G.BY[type];const p={id:'P'+String(pois.length).padStart(4,'0'),type,x,y,a,w:d.w,h:d.h,name:name||d.name,levels:d.levels,codex:d.codex,road:road.id,generation};const service=G.global(p,p.w/2,p.h/2+5),lot={x:service.x,y:service.y,w:p.w+26,h:p.h+48,a};const b=G.bounds(lot),limit=outerBuilding?size:8192;
- if(b.l<40||b.t<40||b.r>limit-40||b.b>limit-40||G.overlap(b,{l:home.minX-16,r:home.maxX+16,t:home.minY-16,b:home.maxY+16}))return false;const nearby=requestedGeneration===7?[...placementParcels(b)]:pois;if(nearby.some(q=>G.overlap(b,q.reserve,1))||annexReservations.some(q=>G.overlap(b,q,2)))return false;
+function install(type,x,y,a,road,name){const d=G.BY[type]||Codex3000?.preset(type);if(!d)return false;const p={id:'P'+String(pois.length).padStart(4,'0'),type,x,y,a,w:d.w,h:d.h,name:name||d.name,levels:d.levels,codex:d.codex,road:road.id,generation};const service=G.global(p,p.w/2,p.h/2+5),lot={x:service.x,y:service.y,w:p.w+26,h:p.h+48,a};const b=G.bounds(lot),limit=outerBuilding?size:8192;
+ if(b.l<40||b.t<40||b.r>limit-40||b.b>limit-40||G.overlap(b,{l:home.minX-16,r:home.maxX+16,t:home.minY-16,b:home.maxY+16}))return false;const nearby=requestedGeneration>=7?[...placementParcels(b)]:pois;if(nearby.some(q=>G.overlap(b,q.reserve,1))||annexReservations.some(q=>G.overlap(b,q,2)))return false;
  // Any public road through a prospective built/service envelope vetoes this parcel.
- const prohibited={x:-10,y:-17,w:p.w+20,h:p.h+32};for(const r of placementRoads(b)){const pad=requestedGeneration===7?r.width/2:0,box=pad?{x:prohibited.x-pad,y:prohibited.y-pad,w:prohibited.w+pad*2,h:prohibited.h+pad*2}:prohibited;if(G.segmentRect(G.local(p,r.a.x,r.a.y),G.local(p,r.b.x,r.b.y),box))return false;}
+ const prohibited={x:-10,y:-17,w:p.w+20,h:p.h+32};for(const r of placementRoads(b)){const pad=requestedGeneration>=7?r.width/2:0,box=pad?{x:prohibited.x-pad,y:prohibited.y-pad,w:prohibited.w+pad*2,h:prohibited.h+pad*2}:prohibited;if(G.segmentRect(G.local(p,r.a.x,r.a.y),G.local(p,r.b.x,r.b.y),box))return false;}
  const front=G.global(p,p.w/2,-19),near=G.nearest(front,road.a,road.b);p.drive={a:{x:near.x,y:near.y},b:G.global(p,p.w/2,0),width:4};p.reserve=b;
- if(requestedGeneration===7){
+ if(requestedGeneration>=7){
   const corridorHits=(drive,box)=>G.segmentRect(drive.a,drive.b,{x:box.l-drive.width/2,y:box.t-drive.width/2,w:box.r-box.l+drive.width,h:box.b-box.t+drive.width});
   const d=p.drive,corridor={l:Math.min(d.a.x,d.b.x),r:Math.max(d.a.x,d.b.x),t:Math.min(d.a.y,d.b.y),b:Math.max(d.a.y,d.b.y)},approaches=placementParcels(corridor,d.width/2+1);
   if([...approaches].some(q=>corridorHits(p.drive,q.reserve))||nearby.some(q=>corridorHits(q.drive,b))||annexReservations.some(q=>corridorHits(p.drive,q)))return false;
  }
- p.parking=G.parking(p);p.outdoor=G.outdoor(p);pois.push(p);if(requestedGeneration===7)indexPlacementParcel(p);return p;
+ p.parking=G.parking(p);p.outdoor=G.outdoor(p);pois.push(p);if(requestedGeneration>=7)indexPlacementParcel(p);return p;
 }
 if(!isG6){const east=roads.find(r=>r.a.x===4160&&r.a.y===4096);if(east){install('house',4248,4142,0,east,'La Maison du chemin est');install('grocer',4390,4156,0,east,'L’Épicerie des retours');install('fuel',4530,3990,Math.PI,east,'Les Pompes des Verrières');}
 for(const r of [...roads]){const len=Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y),angle=Math.atan2(r.b.y-r.a.y,r.b.x-r.a.x);for(let at=40+random()*40;at<len-40;at+=65+random()*90){const x=r.a.x+(r.b.x-r.a.x)*at/len,y=r.a.y+(r.b.y-r.a.y)*at/len,urban=Math.max(...TOWNS.map(t=>Math.max(0,1-Math.hypot(x-t.x,y-t.y)/t.r)));if(random()>(urban>.1?.82:.21))continue;
@@ -68,7 +69,16 @@ if(requestedGeneration>=5){
  settlementData={towns:[...(settlementData?.towns||TOWNS),...extension.towns],junctions:settlementData?.junctions||null,sectors:extension.sectors};
 }
 }
-if(requestedGeneration===7){populateG7();placementRoadBins.clear();placementParcelBins.clear();}else if(isG6)populateG6();
+if(requestedGeneration>=7){
+ populateG7();
+ if(requestedGeneration===8){
+  const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);
+  if(!Codex3000||Codex3000.summary().count!==3000)throw Error('Codex 3000 runtime incomplet');
+  codexCoverage=Codex3000.populateRegion({seed,roads,install,biomes:Biomes,
+   towns:settlementData.towns,sectors:settlementData.sectors,spawn:Spawn,home});
+ }
+ placementRoadBins.clear();placementParcelBins.clear();
+}else if(isG6)populateG6();
 for(const r of roads)for(let y=Math.floor(Math.min(r.a.y,r.b.y)/256);y<=Math.floor(Math.max(r.a.y,r.b.y)/256);y++)for(let x=Math.floor(Math.min(r.a.x,r.b.x)/256);x<=Math.floor(Math.max(r.a.x,r.b.x)/256);x++){
  if(!G.segmentRect(r.a,r.b,{x:x*256,y:y*256,w:256,h:256}))continue;const key=x+','+y;if(!roadBins.has(key))roadBins.set(key,[]);roadBins.get(key).push(r);
 }
@@ -167,12 +177,16 @@ const paved=[...localRoads];for(const items of [trees,rocks])for(let i=items.len
 const c={cx,cy,trees,rocks,...(cleared.length?{cleared}:{})};chunks.set(id,c);if(chunks.size>RULES.chunkCache)chunks.delete(chunks.keys().next().value);return c;}
 function prefetch(x,y,budget=1){const cx=Math.floor(x/256),cy=Math.floor(y/256),order=[[0,0],[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];let loaded=0;for(const [dx,dy]of order){const a=cx+dx,b=cy+dy;if(a<0||b<0||a>=size/256||b>=size/256||chunks.has(a+','+b))continue;chunk(a,b);if(++loaded>=budget)break;}return loaded;}
 function around(x,y,r=100){const out=[];for(let cy=Math.floor((y-r)/256);cy<=Math.floor((y+r)/256);cy++)for(let cx=Math.floor((x-r)/256);cx<=Math.floor((x+r)/256);cx++)out.push(chunk(cx,cy));return out;}
-function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
+function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
 function sceneryRadius(t){const depleted=(effects.resourceTaken?.(t.id)||0)>=t.amount-.001;return depleted?(t.kind==='rock'?0:Math.min(t.r,.18)):t.r;}
 function detailAt(p,z=0){
  if(requestedGeneration<7||!Detail157||!p||!p.levels?.includes(z))return{interior:[],outdoor:[],variant:null};
  const key=p.id+':'+z;if(detailCache.has(key)){const val=detailCache.get(key);detailCache.delete(key);detailCache.set(key,val);return val;}
- const val=Detail157.make(seed,p,z,plan(p,z));detailCache.set(key,val);
+ const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
+  biome:p.biome,townKind:settlementData?.towns?.find(t=>t.id===p.town)?.kind});
+ const detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[]});
+ const val=Object.freeze({...detail,programme3000:programme?.id||null,programmeState:programme?.state||null});
+ detailCache.set(key,val);
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);
  return val;
 }
@@ -201,7 +215,7 @@ function line(a,b,z=0,inside=null,ignore=null,r=.05){
 }
 function containers(x,y,r=3,z=0,inside=null){const out=[];for(const p of nearPOI(x,y,r+8)){if(z!==0&&p.id!==inside||!p.levels.includes(z))continue;for(const b of plan(p,z).objects){const point=G.global(p,b.x+b.w/2,b.y+b.h/2),reach=Math.hypot(b.w,b.h)/2+r;if(Math.hypot(point.x-x,point.y-y)<reach)out.push({...b,...point,worldAngle:p.a,poi:p.id,z});}if(z===0)for(const b of p.outdoor||[]){const point=G.global(p,b.x+b.w/2,b.y+b.h/2);if(Math.hypot(point.x-x,point.y-y)<r+Math.hypot(b.w,b.h)/2)out.push({...b,...point,worldAngle:p.a,poi:p.id,z:0});}if(z===0)for(const b of p.parking)if(Math.hypot(x-b.x,y-b.y)<r+2.4)out.push({...b,poi:p.id,z:0});}if(z===0)for(const c of around(x,y,r+5))for(const t of [...c.trees,...c.rocks])if(Math.hypot(x-t.x,y-t.y)<r+t.r)out.push({...t,z:0});return out;}
 function vehicleClear(x,y,a,w=4.8,h=2.03){const car={x,y,w,h,a},pad=Math.max(w,h)/2+.5;if(x<pad||y<pad||x>size-pad||y>size-pad)return false;for(const p of nearPOI(x,y,9)){const pl=plan(p,0),destroyed=!!effects.structureDestroyed?.(p.id);for(const o of [...(destroyed?[]:pl.walls),...pl.objects,...(p.outdoor||[]),...detailAt(p,0).interior.filter(o=>o.solid),...detailAt(p,0).outdoor.filter(o=>o.solid)]){const center=G.global(p,o.x+o.w/2,o.y+o.h/2);if(G.obb(car,{...center,w:o.w,h:o.h,a:p.a}))return false;}for(const v of p.parking)if(G.obb(car,v))return false;}for(const c of around(x,y,7))for(const t of [...c.trees,...c.rocks]){const q=G.local(car,t.x,t.y);const radius=sceneryRadius(t);if(radius>0&&G.circleRect(q.x,q.y,radius,{x:0,y:0,w:car.w,h:car.h}))return false;}return true;}
-return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:requestedGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
+return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:requestedGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
 }
 const api={RULES,TOWNS,LINES,create,sizeForGeneration,threatCount};root.DeadwallFrontierWorld=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
