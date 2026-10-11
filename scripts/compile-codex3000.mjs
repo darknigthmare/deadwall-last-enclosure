@@ -47,7 +47,7 @@ for(const p of originals){
   const dim=[Math.min(78,Math.max(neededW,Math.min(originalW,78))),Math.min(75,Math.max(neededH,Math.min(originalH,75)))];
   for(let i=0;i<rooms.length;i++){
     if(!envelope.levels.includes(rooms[i][2])){
-      const title=rooms[i][0].normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+      const title=rooms[i][0].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
       if(envelope.levels.includes(-1)&&/cave|sous.sol|galerie|reserve|chaufferie|local technique/.test(title))rooms[i][2]=-1;
       else if(envelope.levels.includes(1)&&/chambre|dortoir|repos|etage|bureau|archives/.test(title))rooms[i][2]=1;
       else rooms[i][2]=0;
