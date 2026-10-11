@@ -17,15 +17,45 @@ assert(states.length===8&&modules.length>=59,'modules ou états manquants');
 const str=v=>String(v??'').replace(/\s+/g,' ').trim().slice(0,130);
 const res=v=>{const text=String(v??'scrap').toLowerCase();for(const [word,key] of [['medicine','medicine'],['medicament','medicine'],['soin','medicine'],['food','food'],['aliment','food'],['nourrit','food'],['wood','wood'],['bois','wood'],['fuel','fuel'],['carburant','fuel'],['stone','stone'],['pierre','stone'],['ammo','ammo'],['munition','ammo']])if(text.includes(word))return key;return 'scrap';};
 const source=new Map();
+function authoredEnvelope(p){
+  const n=Number(p.id.slice(3)),rootPart=n<=500
+    ?'codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/'
+    :'codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/';
+  const raw=fs.readFileSync(path.join(root,rootPart+p.id+'.md'),'utf8');
+  const old=/Enveloppe de parcelle proposée\s*:\s*de\s*(\d+)\s*[×x]\s*(\d+)\s*m\s*à\s*(\d+)\s*[×x]\s*(\d+)\s*m/i.exec(raw);
+  const next=/\*\*Emprise\s*:\*\*\s*(\d+)\s*[×x]\s*(\d+)\s*m/i.exec(raw);
+  const dims=old?{min:[+old[1],+old[2]],max:[+old[3],+old[4]]}
+    :next?{min:[+next[1],+next[2]],max:[+next[1],+next[2]]}:null;
+  const floorText=/Niveaux proposés\s*:\s*([-\d,\s]+)/i.exec(raw)?.[1]
+    ||/\*\*Niveaux\s*:\*\*\s*(\d+)/i.exec(raw)?.[1]||'0';
+  let levels=old?floorText.split(',').map(Number).filter(v=>Number.isInteger(v)&&v>=-1&&v<=2)
+    :Array.from({length:Math.max(1,Math.min(3,Number(floorText)||1))},(_,i)=>i);
+  if(!levels.includes(0))levels.push(0);
+  levels=[...new Set(levels)].sort((a,b)=>a-b);
+  assert(dims&&dims.min.every(v=>v>0)&&levels.length>0,'emprise/niveaux non reconnus '+p.id);
+  return {sourceMin:dims.min,sourceMax:dims.max,levels};
+}
 for(const p of originals){
   const parts=p.espaces?.length?p.espaces:p.zones?.length?p.zones:[];
   const rooms=parts.map((x,i)=>[str(typeof x==='string'?x:x?.nom??x?.zone??x?.name??'Salle '+(i+1)),
    res(x?.ressource??x?.ressource_dominante??x?.resource),Number(x?.z??x?.niveau??0)||0]).filter(x=>x[0]).slice(0,18);
   if(!rooms.length)rooms.push(['Accueil','scrap',0],['Service','wood',0],['Réserve','scrap',0]);
-  const dim=[Math.max(17,Math.min(78,Math.round(22+rooms.length*2))),Math.max(15,Math.min(70,Math.ceil(rooms.length/2)*8+4))];
+  const envelope=authoredEnvelope(p);
+  const [originalW,originalH]=envelope.sourceMin;
+  const neededW=Math.max(17,Math.min(78,Math.round(20+rooms.length*1.25)));
+  const neededH=Math.max(18,Math.min(75,Math.ceil(rooms.length/2)*7+1));
+  const dim=[Math.min(78,Math.max(neededW,Math.min(originalW,78))),Math.min(75,Math.max(neededH,Math.min(originalH,75)))];
+  for(let i=0;i<rooms.length;i++){
+    if(!envelope.levels.includes(rooms[i][2])){
+      const title=rooms[i][0].normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+      if(envelope.levels.includes(-1)&&/cave|sous.sol|galerie|reserve|chaufferie|local technique/.test(title))rooms[i][2]=-1;
+      else if(envelope.levels.includes(1)&&/chambre|dortoir|repos|etage|bureau|archives/.test(title))rooms[i][2]=1;
+      else rooms[i][2]=0;
+    }
+  }
   const family=str(p.famille??p.family),name=str(p.nom??p.name);
   assert(name&&family,'parent incomplet '+p.id);
-  source.set(p.id,[name,family,dim,rooms]);
+  source.set(p.id,[name,family,dim,rooms,envelope]);
 }
 const rows=index.entries.map((x,i)=>{
   const id='DW-'+String(i+1).padStart(4,'0'),parent=x.parent??x.id,p=source.get(parent);
@@ -45,4 +75,4 @@ const text='/* Generated from original Codex 3000. Do not hand-edit. */\n(functi
  JSON.stringify(data).replace(/</g,'\\u003c')+
  ';root.DeadwallCodex3000Data=data;if(typeof module==="object"&&module.exports)module.exports=data;})(typeof globalThis!=="undefined"?globalThis:this);\n';
 if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==text)fs.writeFileSync(dest,text);
-console.log('Codex live : '+rows.length+' fiches, '+source.size+' parents, '+modules.length+' contextes ; '+Buffer.byteLength(text)+' octets');
+console.log('Codex live : '+rows.length+' fiches, '+source.size+' parents, '+modules.length+' modules, 8 états ; '+Buffer.byteLength(text)+' octets');
