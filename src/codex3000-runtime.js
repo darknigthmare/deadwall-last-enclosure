@@ -65,13 +65,15 @@
  // new plans can be used only on new programme-native sites.
  function template(id,seed=0,siteId='P0000'){
   const programme=get(id);if(!programme)throw Error('Fiche du codex absente : '+id);
-  const parent=parentFor(programme),[name,family,dim,rooms]=parent;
+  const parent=parentFor(programme),[name,family,dim,rooms,source]=parent;
   const normalized=rooms.map(([title,res,z])=>({name:title,resource:res,z:Number.isInteger(z)&&z>=-1&&z<=2?z:0}));
-  const levels=[...new Set([0,...normalized.map(q=>q.z)])].sort((a,b)=>a-b);
+  const levels=[...new Set([0,...normalized.map(q=>q.z),...(source?.levels||[])])].sort((a,b)=>a-b);
   // Promote upper floors only when source rooms explicitly request them.
   const width=Math.max(17,Math.min(78,dim[0])),height=Math.max(18,Math.min(75,dim[1]));
   const plan={id:programme.id,name:programme.name,family,parent:programme.parent,module:programme.module,
-   state:programme.state,siteId,w:width,h:height,levels,rooms:normalized,seed};
+   state:programme.state,siteId,w:width,h:height,levels,rooms:normalized,seed,
+   reference:{min:source?.sourceMin||[width,height],max:source?.sourceMax||[width,height]},
+   adapted:width!==(source?.sourceMin?.[0]??width)||height!==(source?.sourceMin?.[1]??height)};
   return Object.freeze(plan);
  }
  function floor(programme,seed,z=0,siteId='P0000'){
