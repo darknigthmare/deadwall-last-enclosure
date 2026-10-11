@@ -7,6 +7,7 @@
  const api=factory(data,G);root.DeadwallCodex3000Runtime=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(DATA,G){'use strict';
+ const Recipes159=globalThis.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null);
  const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map();
  for(const r of rows){const p=Object.freeze({id:'DW-'+String(r[0]).padStart(4,'0'),name:r[1],family:r[2],
    parent:'DW-'+String(r[3]).padStart(4,'0'),module:r[4],state:r[5],original:r[0]<=1000});
@@ -202,8 +203,10 @@
   return 'magasins';
  }
  function programmeProps(state){return STATE_FEATURES[state]||[];}
+ function describe(id){return Recipes159.describe(id,DATA,{get,parentFor,detailFamily});}
+ function enrich(options){return Recipes159.enrich({...options,data:DATA,runtime:{get,parentFor,detailFamily},geometry:G});}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich});
 });

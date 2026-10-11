@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import Recipes159 from '../src/codex3000-recipes159.js';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 /* Reproducible compiler; never modifies the original 3,000 source records. */
@@ -71,8 +72,9 @@ const data={version:1,count:3000,
  modules:Object.fromEntries(modules.map(x=>[x.id,[str(x.title),x.status]])),
  states:Object.fromEntries(states.map(x=>[x.id,[str(x.name),str(x.cause)]]))};
 assert(rows.length===3000&&new Set(rows.map(x=>x[0])).size===3000,'couverture non exhaustive');
+data.details159=Recipes159.compact(Recipes159.compile(originals,states));
 const dest=path.join(root,'src/codex3000-live-data.js');
-const text='/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
+const text=fs.readFileSync(path.join(root,'src/codex3000-recipes159.js'),'utf8')+'\n'+'/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
  JSON.stringify(data).replace(/</g,'\\u003c')+
  ';root.DeadwallCodex3000Data=data;if(typeof module==="object"&&module.exports)module.exports=data;})(typeof globalThis!=="undefined"?globalThis:this);\n';
 if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==text)fs.writeFileSync(dest,text);

@@ -45,6 +45,22 @@
         if(entry.status==='pilote')card.appendChild(el('p','Une partie du lieu existe. Les variantes et extensions décrites ne sont pas toutes intégrées.','world-codex-boundary'));
         const details=el('details'),summary=el('summary','Accès, ressources et précautions');details.appendChild(summary);
         for(const[key,label]of Object.entries(fields)){if(!entry[key])continue;const p=el('p');append(p,el('strong',label+' — '),el('span',entry[key]));details.appendChild(p);}
+        if(entry.id.startsWith('programme-DW-'))details.addEventListener('toggle',()=>{
+          if(!details.open||details.dataset.recipeLoaded)return;
+          const recipe=globalThis.DeadwallCodex3000Runtime?.describe(entry.id.slice('programme-'.length));if(!recipe)return;
+          details.dataset.recipeLoaded='true';details.appendChild(el('h5','PROGRAMME COMPLET : PIÈCES, COURS ET MOBILIER'));
+          for(const room of recipe.rooms){const section=el('section');
+            section.appendChild(el('h5',room.name+' · '+(room.exterior?'Extérieur':'Intérieur')));
+            section.appendChild(el('p','Équipement : '+room.kit.inventory.join(', ')+'. Dégagement proposé : '+room.kit.clearance+' m.'));
+            if(room.authoredProps.length)section.appendChild(el('p','Mobilier source : '+room.authoredProps.map(p=>p.nom+' ('+p.quantite_par_espace.join('–')+')').join(' ; ')+'.'));
+            if(room.area)section.appendChild(el('p','Surface source : '+room.area.join('–')+' m². Les maxima ne se cumulent pas sur une parcelle minimale.'));
+            if(room.classificationSource==='inference')section.appendChild(el('p','Intérieur/extérieur déduit du nom : prescription à vérifier avant nouvelle architecture.'));
+            details.appendChild(section);
+          }
+          if(recipe.gardenOptions.length)details.appendChild(el('p','Jardins possibles : '+recipe.gardenOptions.map(v=>v.name+' (au moins '+v.minArea+' m² libres)').join(' ; ')+'.'));
+          if(recipe.causal)details.appendChild(el('p','État du lieu : '+recipe.causal.cause+' '+recipe.causal.access));
+          details.appendChild(el('p','Enrichissement physique optionnel au dépôt. Aucun objet de décor ne fournit de butin supplémentaire.'));
+        });
         card.appendChild(details);list.appendChild(card);
       }
       if(found.length>visible){const more=el('button','AFFICHER '+Math.min(36,found.length-visible)+' FICHES SUPPLÉMENTAIRES');more.type='button';more.addEventListener('click',()=>{visible+=36;refresh(false);});list.appendChild(more);}

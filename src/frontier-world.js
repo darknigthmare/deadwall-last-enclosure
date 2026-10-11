@@ -204,10 +204,11 @@ function detailAt(p,z=0){
  const key=p.id+':'+z;if(detailCache.has(key)){const val=detailCache.get(key);detailCache.delete(key);detailCache.set(key,val);return val;}
  const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
   biome:p.biome,townKind:settlementData?.towns?.find(t=>t.id===p.town)?.kind});
- const detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[],family:Codex3000?.detailFamily(programme?.family)});
+ let detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[],family:Codex3000?.detailFamily(programme?.family)});
+ if(effects.detailVersion===2&&programme)detail=Codex3000.enrich({seed,p,z,plan:plan(p,z),detail,programme:programme.id,shapes:Detail157.objects});
  // Legacy G7 saves keep their collision graph. New campaigns opt in explicitly;
  // programme-native G8 sites have physical details from their creation.
- const layer=p.generation===8||effects.detailVersion===1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
+ const layer=p.generation===8||effects.detailVersion>=1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
  const val=Object.freeze({...layer,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);
