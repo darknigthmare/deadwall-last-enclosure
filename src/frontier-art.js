@@ -67,7 +67,7 @@ function lotGround141(c,p){
  if(!natural)wornPad141(c,-8,p.h+2,p.w+16,7,seed^961,'#858a72');
  else for(const o of p.outdoor||[])if(['generator','electricalRack','machine','workbench'].includes(o.kind))wornPad141(c,o.x-.3,o.y-.3,o.w+.6,o.h+.6,G.hash(seed,o.id),'#9a9d84');
 }
-function lotGround(c,p,v){if(v.z!==0)return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){lotGround141(c,p);for(const o of v.world.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o);}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
+function lotGround(c,p,v){if(v.z!==0)return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){lotGround141(c,p);for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o);}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
 // Floors are painted before the shared queue; their furniture, walls and roofs
 // participate in the same world-space depth ordering as actors and equipment.
 function inLot(c,p,draw){c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);draw();c.restore();}
@@ -87,7 +87,7 @@ function lotFloor(c,p,v,g=root.DEADWALL){const entered=v.inside===p.id,pl=v.worl
   for(const room of pl.rooms){fill(c,room.x,room.y,room.w,room.h,['#b9b79f','#a8b49b','#b8ac93'][G.hash(room.name)%3]);c.strokeStyle='rgba(60,80,60,.12)';c.lineWidth=.015;for(let x=room.x;x<room.x+room.w;x+=.7){c.beginPath();c.moveTo(x,room.y);c.lineTo(x,room.y+room.h);c.stroke();}}
   if(!root.DeadwallInteriorArt153?.drawFloor?.(c,g?.art,p,{x:.24,y:.24,w:p.w-.48,h:p.h-.48},{seed:v.world.seed??g?.world?.seed??0,floor:entered?v.z:0}))surface138(c,p,'floor',.24,.24,p.w-.48,p.h-.48,entered?v.z:0);
   if(destroyed)fill(c,0,0,p.w,p.h,'#625f52');
-  for(const o of v.world.detailAt?.(p,entered?v.z:0)?.interior||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o);
+  for(const o of v.world?.detailAt?.(p,entered?v.z:0)?.interior||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o);
   for(const t of destroyed?[]:pl.stairs){fill(c,t.x,t.y,t.w,t.h,'#6d8271');c.strokeStyle='#c4c7a9';c.lineWidth=.07;for(let y=t.y;y<t.y+t.h;y+=.27){c.beginPath();c.moveTo(t.x,y);c.lineTo(t.x+t.w,y);c.stroke();}c.fillStyle='#eadbab';c.font='.42px sans-serif';c.textAlign='center';c.fillText('⇅',t.x+t.w/2,t.y+t.h/2);}
   if(p.type==='gym'&&entered){c.strokeStyle='#ede3b9';c.lineWidth=.075;c.strokeRect(2,2,p.w-4,p.h-10);c.beginPath();c.moveTo(p.w/2,2);c.lineTo(p.w/2,p.h-8);c.stroke();c.beginPath();c.arc(p.w/2,(p.h-6)/2,2.5,0,Math.PI*2);c.stroke();}
  }
@@ -102,10 +102,10 @@ c.strokeStyle='#c6bea1';c.lineWidth=.15;c.strokeRect(.13,.13,p.w-.26,p.h-.26);
 function lotEntries(g,p,v){const entries=[],add=(kind,id,depth,draw)=>entries.push({kind,id,depth,draw}),pl=v.world.plan(p,v.inside===p.id?v.z:0),destroyed=!!g?.worldEvolution?.structureDestroyed(p.id);
  if(openLot(g,p,v)){
   for(const o of pl.objects)add('furniture',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:v.inside===p.id?v.z:0})));
-  for(const o of v.world.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface)add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o)));
+  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface)add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o)));
   for(const [i,b]of (destroyed?[]:pl.walls).entries())add('wall',p.id+':wall:'+i,rectDepth(p,b),c=>inLot(c,p,()=>{const shade=localShadow(p.a,.12,.16);fill(c,b.x+shade.x,b.y+shade.y,b.w,b.h,'rgba(0,0,0,.23)');fill(c,b.x,b.y,b.w,b.h,'#506652');fill(c,b.x,b.y,b.w,Math.min(.075,b.h),'#b7c09e');}));
  }else add('roof',p.id,rectDepth(p,{x:0,y:0,w:p.w,h:p.h}),c=>lotRoof(c,p,v,g));
- if(v.z===0){for(const o of v.world.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o)));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}
+ if(v.z===0){for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o)));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}
  return entries;
 }
 function lotLabel(c,p,v){const q=G.global(p,p.w/2,-19);c.fillStyle='#eee4bd';c.font=12/(v.scale||32)+'px sans-serif';c.textAlign='center';c.fillText(p.name,q.x,q.y);}
