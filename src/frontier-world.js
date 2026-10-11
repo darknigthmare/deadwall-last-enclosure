@@ -184,7 +184,7 @@ function detailAt(p,z=0){
  const key=p.id+':'+z;if(detailCache.has(key)){const val=detailCache.get(key);detailCache.delete(key);detailCache.set(key,val);return val;}
  const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
   biome:p.biome,townKind:settlementData?.towns?.find(t=>t.id===p.town)?.kind});
- const detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[]});
+ const detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[],family:Codex3000?.detailFamily(programme?.family)});
  const val=Object.freeze({...detail,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);
