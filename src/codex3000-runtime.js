@@ -77,7 +77,8 @@
  function floor(programme,seed,z=0,siteId='P0000'){
   const blueprint=template(programme,seed,siteId);if(!blueprint.levels.includes(z))throw Error('Niveau indisponible');
   const w=blueprint.w,h=blueprint.h,t=.24,mid=w/2,lo=mid-1.7,hi=mid+1.7,walls=[],rooms=[],objects=[],stairs=[];
-  const target=blueprint.rooms.filter(r=>r.z===z),cellCount=Math.max(1,Math.ceil(target.length/2));
+  const target=blueprint.rooms.filter(r=>r.z===z);if(!target.length)target.push({name:'Accueil',resource:'scrap',z},{name:'Réserve',resource:'wood',z});
+  const cellCount=Math.max(1,Math.ceil(target.length/2));
   const height=Math.max(h,cellCount*6.7+1),roomH=(height-.8)/cellCount;
   const wall=(x,y,a,b)=>{if(a>.08&&b>.08)walls.push({x,y,w:a,h:b});};
   const hwall=(x,y,len,door,opening)=>{wall(x,y,door-opening/2-x,t);wall(door+opening/2,y,x+len-door-opening/2,t);};
