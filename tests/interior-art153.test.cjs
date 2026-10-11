@@ -31,7 +31,7 @@ test('all generated cuts and vector surfaces decode with their exact declared di
  const painter=await art();
  for(const [key,spec]of Object.entries(A.ASSETS)){assert.ok(fs.statSync(path.join(root,spec.url)).size>100);assert.equal(painter.images[key].width,spec.width,key);assert.equal(painter.images[key].height,spec.height,key);}
  for(const groups of [A.FURNITURE,A.ROOFS,A.RUINS])for(const pair of Object.values(groups)){
-  assert.equal(pair.length,2);assert.notDeepEqual(pair[0].rect,pair[1].rect);
+  assert.ok(pair.length>=2);assert.equal(new Set(pair.map(sprite=>JSON.stringify(sprite.rect))).size,pair.length);
   for(const sprite of pair){const spec=A.ASSETS[sprite.atlas],[x,y,w,h]=sprite.rect;assert.ok(x>=0&&y>=0&&w>0&&h>0&&x+w<=spec.width&&y+h<=spec.height);const c=createCanvas(w,h);c.getContext('2d').drawImage(painter.images[sprite.atlas],x,y,w,h,0,0,w,h);assert.ok(opaqueBounds(c).r>0,sprite.family);}
  }
 });
@@ -66,7 +66,7 @@ test('local wall shelves rotate only for opposite long axes and keep their real 
 });
 test('roof variants cover exact parcel rectangles at each orientation and never paint a physical door or wall',async()=>{
  const painter=await art();
- for(const family of A.ROOF_FAMILIES){const type=Object.keys(A.ROOF_ALIASES).find(id=>A.ROOF_ALIASES[id]===family);for(const variant of [0,1])for(let turn=0;turn<4;turn++){
+ for(const family of A.ROOF_FAMILIES){const type=Object.keys(A.ROOF_ALIASES).find(id=>A.ROOF_ALIASES[id]===family);for(const variant of A.roofChoices(type).map((_,i)=>i))for(let turn=0;turn<4;turn++){
   const canvas=createCanvas(300,300),c=canvas.getContext('2d');c.translate(150,150);c.rotate(turn*Math.PI/2);const rect={x:-70,y:-45,w:140,h:90};assert.equal(A.drawRoof(c,painter,{type,id:'roof:'+type,w:18,h:14},rect,{variant}),true);
   const b=opaqueBounds(canvas),halfW=turn%2?45:70,halfH=turn%2?70:45;assert.ok(b.l>=150-halfW&&b.r<=150+halfW&&b.t>=150-halfH&&b.b<=150+halfH,type+' '+turn);
  }}

@@ -1,3 +1,18 @@
+# DEADWALL 1.57.0 — Lieux, intérieurs et variantes
+
+Le PR #1 enrichit les 62 gabarits régionaux G7 et raccorde les programmes du Codex 3000 à une extension G8 activable depuis le dépôt de D-17. Les anciennes sauvegardes gardent leurs prélèvements, supports payés et collisions historiques. Les variantes de toits, bâtiments et petits objets se choisissent depuis la seed et leur identité stable.
+
+Guide : [docs/LIVRAISON_1_57.md](docs/LIVRAISON_1_57.md). Corrections et limites : [docs/AUDIT_1_57.md](docs/AUDIT_1_57.md). Les résultats finaux et la publication sont attestés séparément dans le compte rendu de livraison. La cible Standard de **6 à 10 heures** attend des campagnes humaines complètes.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser
+```
+
+## Historique conservé — 1.56
+
 # DEADWALL 1.56.0 — Accès, soins et fortifications
 
 Les fondations d'annexes partagent maintenant leurs obstacles avec la marche, les véhicules, les tirs et la visibilité. Pression des corps, filets et déblaiement prennent en compte les extrémités des portes. Les commandes du monde conservent leurs boutons et actualisent leurs actions pendant les rafraîchissements.

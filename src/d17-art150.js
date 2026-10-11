@@ -5,6 +5,7 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(root){
  'use strict';
  const A149=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
+ const V157=root.DeadwallD17ExtendedVariants157||(typeof require==='function'?require('./d17-extended-variants157.js'):null);
  const ASSETS=Object.freeze({
   d17Defense150:Object.freeze({url:'assets/art150/defense-atlas.png',width:1536,height:1024,matte:'none'}),
   d17Medical150:Object.freeze({url:'assets/art150/medical-atlas.png',width:1536,height:1024,matte:'none'}),
@@ -37,15 +38,16 @@
  const GUNS=Object.freeze({casemate150:1,reinforcedCasemate150:1,twinGun150:2,concreteWatch150:1});
  function spriteFor(value){const type=typeof value==='string'?value:value?.type||value?.id;return Object.hasOwn(SPRITES,type)?SPRITES[type]:null;}
  function riseFor(b){return b?.def?.family150==='watch'?56:b?.def?.floors?Math.min(108,b.def.floors*5):18;}
- function measure(b){
-  const s=spriteFor(b);if(!s||![b.x,b.y,b.w,b.h].every(Number.isFinite)||b.w<=0||b.h<=0)return null;
+ function measure(b,{seed=0,art}={}){
+  const historical=spriteFor(b);if(!historical)return null;
+  const s=V157?.choose(b,historical,{seed,art})||historical;if(![b.x,b.y,b.w,b.h].every(Number.isFinite)||b.w<=0||b.h<=0)return null;
   const inset=3,rise=riseFor(b),scale=Math.min(Math.max(1,b.w*32-inset*2)/s.rect[2],Math.max(1,b.h*32+rise-inset*2)/s.rect[3]);
   const w=s.rect[2]*scale,h=s.rect[3]*scale;
-  return {atlas:s.atlas,source:s.rect,destination:[b.x-w/2,b.y+b.h*16-inset-h,w,h],rise};
+  return {atlas:s.atlas,source:s.rect,destination:[b.x-w/2,b.y+b.h*16-inset-h,w,h],rise,sprite:s};
  }
  function operational(b){return !!(b&&!b.dead&&b.completed===true&&!(b.health<=0));}
- function drawBuilding(c,art,b,{charge=0}={}){
-  if(!operational(b))return false;const frame=measure(b);if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
+ function drawBuilding(c,art,b,{charge=0,seed=0}={}){
+  if(!operational(b))return false;const frame=measure(b,{seed,art});if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
   c.save();
   if(b.def?.powerUse&&(!b.powered||b.siegeOffline||b.territoryOffline||b.gridOffline)&&'filter' in c)c.filter='brightness(.50) saturate(.55)';
   if(art.blit)art.blit(c,frame.atlas,frame.source,...frame.destination);else c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination);
@@ -55,9 +57,10 @@
   }
   c.restore();return true;
  }
- function drawGun(c,art,b){
+ function drawGun(c,art,b,{seed=0}={}){
   if(!operational(b)||!Object.hasOwn(GUNS,b.type)||!Number.isFinite(b.x)||!Number.isFinite(b.y)||!Number.isFinite(b.turretAngle)||!c?.save)return false;
-  c.save();c.translate(b.x,b.y-3);c.rotate(b.turretAngle);
+  const frame=measure(b,{seed,art}),pivot=frame?.sprite?.gunPivot;
+  c.save();c.translate(pivot?frame.destination[0]+frame.destination[2]*pivot[0]:b.x,pivot?frame.destination[1]+frame.destination[3]*pivot[1]:b.y-3);c.rotate(b.turretAngle);
   const barrels=GUNS[b.type],offsets=barrels===2?[-5,5]:[0];
   for(const y of offsets){c.fillStyle='#242c29';c.fillRect(-8,y-3,18,6);c.fillStyle='#858d7f';c.fillRect(1,y-2,26,4);c.fillStyle='#414a41';c.fillRect(15,y-3,10,6);c.fillStyle='#bac0aa';c.fillRect(3,y-1,19,1);}
   if(b.flash>0){
@@ -75,8 +78,12 @@
  function install(g){
   if(!g?.art||g.d17Art150)return g?.d17Art150||null;
   const old=g.art.drawBuilding.bind(g.art);
-  g.art.drawBuilding=(c,b,...args)=>drawBuilding(c,g.art,b,{charge:b.type==='frontBattery150'?(g.powerGrid?.charge?.(b.id)||0):0})||old(c,b,...args);
-  if(typeof g.art.drawTurret==='function'){const oldGun=g.art.drawTurret.bind(g.art);g.art.drawTurret=(c,b,...args)=>drawGun(c,g.art,b)||oldGun(c,b,...args);}
+  g.art.drawBuilding=(c,b,...args)=>{
+   const seed=g.world?.seed??0,frame=measure(b,{seed,art:g.art}),ready=frame&&operational(b)&&g.art.images?.[frame.atlas];
+   const charge=ready&&b.type==='frontBattery150'?(g.powerGrid?.charge?.(b.id)||0):0;
+   return drawBuilding(c,g.art,b,{seed,charge})||old(c,b,...args);
+  };
+  if(typeof g.art.drawTurret==='function'){const oldGun=g.art.drawTurret.bind(g.art);g.art.drawTurret=(c,b,...args)=>drawGun(c,g.art,b,{seed:g.world?.seed??0})||oldGun(c,b,...args);}
   g.d17Art150=Object.freeze({spriteFor,measure});return g.d17Art150;
  }
  return Object.freeze({ASSETS,SPRITES,GUNS,spriteFor,riseFor,measure,operational,drawBuilding,drawGun,drawFallback,install});

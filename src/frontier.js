@@ -1,16 +1,17 @@
 /* Regional travel. The historical defending city keeps updating while its commander is elsewhere. */
 (function(root){'use strict';const C=root.DeadwallCore,G=root.DeadwallFrontierGeometry,W=root.DeadwallFrontierWorld,R=W.RULES,Survey=root.DeadwallFrontierSurvey||(typeof require==='function'?require('./frontier-survey.js'):null),T=C.FrontierTacticsRules,P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null);
-function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
+function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
 const wrap=(n,fn)=>{const f=g[n].bind(g);g[n]=(...a)=>fn(f,...a);};const can=()=>g.state==='playing'&&!g.gameOver&&!g.player.dead&&(!g.paused||g.activeOverlay===g.ui.commandModal);const car=()=>g.expeditions.car();
 function ensure(){if(home!==g.world){const next=C.Frontier.normalize(pending||undefined);
 // Geometry and its bounded read caches are independent of loot, actors and damage.
 // Keep this same game's model across a compatible restore; destruction is read live.
-if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation)region=null;
+if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion)region=null;
 home=g.world;state=next;takenCount=Object.keys(state.taken).length;pending=null;near=[];enemies.clear();bullets=[];action=null;locked=null;focus=null;candidates=[];sound={kind:'Silence',radius:0,time:0};pulse=0;}const v=car();if(state.car&&(!v||v.id!==state.car.id))state.car=null;if(v)v.regionAway=!!state.car;g.player.regionAbsent=state.active;return state;}
 // Frequent pose readers do not need geometry or a validated copy of the expedition history.
 function position(){ensure();return{active:state.active,generation:state.generation,x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
 const world=()=>{ensure();if(!region){
- region=W.create(g.world.seed,state.generation,{structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0});
+ regionDetailVersion=state.detailVersion;
+ region=W.create(g.world.seed,state.generation,{detailVersion:state.detailVersion,structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0});
  // Annex foundations already occupy physical space. Give all regional readers
  // the same live obstacles, without changing generated plans or saved records.
  const blocked=region.blocked,line=region.line,vehicle=region.vehicleClear;

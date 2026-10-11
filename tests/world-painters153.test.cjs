@@ -22,8 +22,8 @@ function familyOf(call,catalogue){return Object.entries(catalogue).find(([,forms
 function campaign(g){const state=g.serialize();delete state.timestamp;return JSON.stringify(state);}
 function capture(c,name,metadata={}){const dir=process.env.DEADWALL_NATIVE153_CAPTURE_DIR;if(!dir)return;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,name+'.png'),c.canvas.toBuffer('image/png'));fs.writeFileSync(path.join(dir,name+'.json'),JSON.stringify({width:c.canvas.width,height:c.canvas.height,rgbaSha256:hash(c),...metadata},null,2)+'\n');}
 
-test('153 world painters: real Art loader decodes all 91 assets including every botanical, object and interior plate',async()=>{
- const art=await nativeArt();assert.equal(Object.keys(Art.ASSETS).length,91);assert.deepEqual(art.diagnostics.failed,[]);assert.equal(art.diagnostics.ready.length,91);
+test('153 world painters: real Art loader decodes every declared asset including every botanical, object and interior plate',async()=>{
+ const art=await nativeArt();assert.deepEqual(art.diagnostics.failed,[]);assert.deepEqual([...art.diagnostics.ready].sort(),Object.keys(Art.ASSETS).sort());
  for(const catalog of[Nature.ASSETS,Props.ASSETS,Interior.ASSETS])for(const[key,spec]of Object.entries(catalog)){assert.deepEqual(Art.ASSETS[key],spec);assert.ok(art.images[key]);assert.equal(art.images[key].width,spec.width);assert.equal(art.images[key].height,spec.height);}
  assert.deepEqual([...Nature.TREES].sort(),Object.keys(C.BiomeRules135.trees).sort());assert.deepEqual([...Nature.ROCKS].sort(),Object.keys(C.BiomeRules135.rocks).sort());assert.deepEqual([...Nature.DECOR].sort(),[...new Set(C.BiomeRules135.defs.flatMap(d=>Object.keys(d.decor)))].sort());
 });

@@ -6,6 +6,8 @@
   if (typeof module === 'object' && module.exports) module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function(root) {
   'use strict';
+  const Variants157=root.DeadwallBuildingVariants157||(typeof require==='function'?require('./building-variants157.js'):null);
+  const worldSeeds=new WeakMap();
   const ASSETS = Object.freeze({
     d17Core149: Object.freeze({url:'assets/art149/core-atlas.png',width:1536,height:1024,matte:'none'}),
     d17Housing149: Object.freeze({url:'assets/art149/housing-atlas.png',width:1536,height:1024,matte:'none'}),
@@ -43,30 +45,33 @@
     return Object.hasOwn(URBAN,def.urbanKind)?URBAN[def.urbanKind]:null;
   }
   function constructionSprite(progress) { return progress<.34?'foundation':progress<.72?'frame':'scaffold'; }
-  function measure(type,b,{rise=0,inset=3}={}) {
-    const spec=Object.hasOwn(SPRITES,type)?SPRITES[type]:null;
+  function measure(type,b,{rise=0,inset=3,sprite=null}={}) {
+    const spec=sprite||(Object.hasOwn(SPRITES,type)?SPRITES[type]:null);
     if(!spec||!b||![b.x,b.y,b.w,b.h,rise,inset].every(Number.isFinite)||b.w<=0||b.h<=0||rise<0||inset<0)return null;
     const w=b.w*32,h=b.h*32,scale=Math.min(Math.max(1,w-inset*2)/spec.rect[2],Math.max(1,h+rise-inset*2)/spec.rect[3]);
     const width=spec.rect[2]*scale,height=spec.rect[3]*scale;
     return {atlas:spec.atlas,source:spec.rect,destination:[b.x-width/2,b.y+h/2-inset-height,width,height]};
   }
   function drawSprite(c,art,type,b,options) {
-    const frame=measure(type,b,options);
+    const seed=options?.seed??worldSeeds.get(art)?.()??0;
+    const identity=b?.id??[b?.gx,b?.gy,b?.type].join(':');
+    const sprite=b&&!b.dead&&b.completed!==false?Variants157?.alternateFor(type,identity,seed,art?.images):null;
+    const frame=measure(type,b,{...options,sprite});
     if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
     if(typeof art.blit==='function')return art.blit(c,frame.atlas,frame.source,...frame.destination);
     c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination);return true;
   }
-  function drawCore(c,art,b,tier=0) {
+  function drawCore(c,art,b,tier=0,options={}) {
     if(b?.type!=='core'||b.dead||b.completed===false)return false;
-    return drawSprite(c,art,coreSprite(tier),b,{rise:56});
+    return drawSprite(c,art,coreSprite(tier),b,{...options,rise:56});
   }
-  function drawUrban(c,art,b) {
+  function drawUrban(c,art,b,options={}) {
     const type=urbanSprite(b?.def);if(!type||b.dead||b.completed===false)return false;
     const rise=b.def.urbanKind==='housing'?Math.min(108,(b.def.floors||3)*5):b.def.urbanKind==='hospital'?38:18;
     c.save();
     // Baked sodium highlights become subdued when the real services lose power.
     if(b.def.powerUse&&(!b.powered||b.siegeOffline||b.territoryOffline)&&'filter' in c)c.filter='brightness(.50) saturate(.55)';
-    const painted=drawSprite(c,art,type,b,{rise});c.restore();return painted;
+    const painted=drawSprite(c,art,type,b,{...options,rise});c.restore();return painted;
   }
   function eligibleSite(b) { return !!(b&&!b.dead&&b.completed===false&&Number.isFinite(b.progress)&&b.progress>=0&&b.progress<1&&!b.def?.wall&&b.type!=='spikes'&&b.def?.urbanKind!=='lamp'); }
   function drawConstruction(c,art,b,{suspended=false}={}) {
@@ -92,6 +97,9 @@
   }
   function install(g) {
     if(!g?.art||g.d17Art149)return g?.d17Art149||null;
+    // Read the current world's seed after restoration/startNew; no save field or
+    // game RNG is used by this presentation-only provider.
+    worldSeeds.set(g.art,()=>g.world?.seed??0);
     const previous=g.art.drawBuilding.bind(g.art);
     g.art.drawBuilding=(c,b,...args)=>drawCore(c,g.art,b,g.tier?.id||0)||previous(c,b,...args);
     if(typeof g.drawBuilding==='function') {

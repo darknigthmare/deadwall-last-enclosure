@@ -24,6 +24,18 @@ function publicFiles(){
   return [...new Set(files)].sort();
 }
 
+function buildSourceFiles(){
+  const catalogues=[
+    {file:'codex-3000/originaux/DEADWALL_CODEX_1.22/CATALOGUE_500.json',directory:'codex-3000/originaux/DEADWALL_CODEX_1.22/fiches'},
+    {file:'codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/CATALOGUE_501_1000.json',directory:'codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000'}
+  ];
+  // Build-time source dependencies are uploaded to Vercel, not copied to dist.
+  // The compiler reads the authored envelopes from these 1,000 parent records.
+  return ['scripts/compile-codex3000.mjs','codex-3000/INDEX_3000.json',
+    'codex-3000/source/CONTEXTES.json','codex-3000/source/ETATS.json','codex-3000/source/MODULES.json',
+    ...catalogues.flatMap(source=>[source.file,...JSON.parse(fs.readFileSync(path.join(root,source.file),'utf8')).fiches.map(parent=>source.directory+'/'+parent.id+'.md')])];
+}
+
 function fixture(t){
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-distribution-'));
   t.after(()=>{
@@ -81,17 +93,22 @@ test('distribution: exclusions Vercel ciblées, build et données publiques cons
     return new RegExp('^'+expression+'(?:/|$)').test(filename);
   });
   for(const file of ['artifacts/content-qa/save.json','outputs/screenshot.png','desktop/main.cjs','tests/server.test.cjs','docs/ORIGINAL_BRIEF.txt','release/game.exe','.env','.env.production','build.log'])assert.equal(ignored(file),true,file);
-  for(const file of ['package.json','package-lock.json','vercel.json','scripts/build.mjs',...publicFiles()])assert.equal(ignored(file),false,file);
+  for(const file of ['package.json','package-lock.json','vercel.json','scripts/build.mjs',...buildSourceFiles(),...publicFiles()])assert.equal(ignored(file),false,file);
 });
 
 test('distribution: vrai build public sans node_modules ni installation',t=>{
-  const directory=fixture(t),files=publicFiles();
-  for(const file of [...files,'scripts/build.mjs','package.json']){
+  const directory=fixture(t),files=publicFiles(),generated='src/codex3000-live-data.js';
+  // Require real regeneration: copying a previously compiled module would hide
+  // missing source inputs in the dependency-free Vercel build fixture.
+  for(const file of [...files.filter(file=>file!==generated),...buildSourceFiles(),'scripts/build.mjs','package.json']){
     const destination=path.join(directory,file);fs.mkdirSync(path.dirname(destination),{recursive:true});fs.copyFileSync(path.join(root,file),destination);
   }
   assert.equal(fs.existsSync(path.join(directory,'node_modules')),false);
+  assert.equal(fs.existsSync(path.join(directory,generated)),false);
   const result=spawnSync(process.execPath,[path.join(directory,'scripts/build.mjs')],{cwd:directory,encoding:'utf8',windowsHide:true,env:{...process.env,NODE_PATH:''}});
   assert.equal(result.status,0,result.stderr||result.stdout);
+  assert.equal(fs.existsSync(path.join(directory,'node_modules')),false,'le build ne nécessite ni crée une installation');
+  assert.deepEqual(fs.readFileSync(path.join(directory,generated)),fs.readFileSync(path.join(root,generated)),'le vrai compilateur reconstruit les mêmes octets depuis les sources auteur');
   const built=fs.readdirSync(path.join(directory,'dist'),{recursive:true}).filter(file=>fs.statSync(path.join(directory,'dist',file)).isFile()).map(file=>file.replaceAll('\\','/')).sort();
   assert.deepEqual(built,files);
   const standalone=fs.readFileSync(path.join(directory,'DEADWALL_Standalone.html'),'utf8');

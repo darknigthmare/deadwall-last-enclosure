@@ -1,9 +1,10 @@
 /* Original utility silhouettes; historical controllers retain every paid support. */
 (function(root,factory){
- 'use strict';const api=factory();root.DeadwallD17Art152=api;
+ 'use strict';const api=factory(root);root.DeadwallD17Art152=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(){
+})(typeof globalThis!=='undefined'?globalThis:this,function(root){
  'use strict';
+ const V157=root.DeadwallD17ExtendedVariants157||(typeof require==='function'?require('./d17-extended-variants157.js'):null);
  const ASSETS=Object.freeze({
   d17Services152:Object.freeze({url:'assets/art152/services-atlas.png',width:1536,height:1024,matte:'none'}),
   d17Logistics152:Object.freeze({url:'assets/art152/logistics-atlas.png',width:1536,height:1024,matte:'none'}),
@@ -22,11 +23,12 @@
  const LIGHTS=Object.freeze(['beacon','streetlight','searchlight','perimeterLight','districtSearchlight']);
  function spriteFor(value){const id=typeof value==='string'?value:value?.type||value?.id;return Object.hasOwn(SPRITES,id)?SPRITES[id]:null;}
  function riseFor(b){return RISE[b?.type]??18;}
- function measure(b){
-  const sprite=spriteFor(b);if(!sprite||![b.x,b.y,b.w,b.h].every(Number.isFinite)||b.w<=0||b.h<=0)return null;
+ function measure(b,{seed=0,art}={}){
+  const historical=spriteFor(b);if(!historical)return null;
+  const sprite=V157?.choose(b,historical,{seed,art})||historical;if(![b.x,b.y,b.w,b.h].every(Number.isFinite)||b.w<=0||b.h<=0)return null;
   const inset=3,rise=riseFor(b),scale=Math.min(Math.max(1,b.w*32-inset*2)/sprite.rect[2],Math.max(1,b.h*32+rise-inset*2)/sprite.rect[3]);
   const w=sprite.rect[2]*scale,h=sprite.rect[3]*scale;
-  return{atlas:sprite.atlas,source:sprite.rect,destination:[b.x-w/2,b.y+b.h*16-inset-h,w,h],rise};
+  return{atlas:sprite.atlas,source:sprite.rect,destination:[b.x-w/2,b.y+b.h*16-inset-h,w,h],rise,sprite};
  }
  function operational(b){return !!(b&&!b.dead&&b.completed===true&&!(b.health<=0));}
  function offline(b){return !!(!b.powered||b.siegeOffline||b.territoryOffline||b.gridOffline||b.dayOffline);}
@@ -36,13 +38,14 @@
   c.fillStyle='#141f19';c.fillRect(b.left+5,b.bottom+2,w-10,5);
   c.fillStyle='#c5b778';c.fillRect(b.left+5,b.bottom+2,(w-10)*ratio,5);
  }
- function drawLightState(c,b){
+ function drawLightState(c,b,frame){
   if(!LIGHTS.includes(b.type))return;
   const active=!offline(b);c.fillStyle=active?'#dfcd94':'#555f53';c.fillRect(b.x-3,b.bottom-6,6,2);
   if(!b.def?.beamHalfAngle)return;
   // The physical light service owns its cone. This small rotating head marker
   // retains the selected heading even in daylight, when the cone is invisible.
-  c.save();c.translate(b.x,b.y-17);c.rotate((b.rotation||0)*Math.PI/2);
+  const pivot=frame?.sprite?.directionPivot;
+  c.save();c.translate(pivot?frame.destination[0]+frame.destination[2]*pivot[0]:b.x,pivot?frame.destination[1]+frame.destination[3]*pivot[1]:b.y-17);c.rotate((b.rotation||0)*Math.PI/2);
   c.fillStyle=active?'#dfcd94':'#68746b';c.beginPath();c.moveTo(7,-3);c.lineTo(13,0);c.lineTo(7,3);c.closePath();c.fill();c.restore();
  }
  function drawTerritoryState(c,b,sectorState,frame){
@@ -51,35 +54,38 @@
   }else if(b.type==='fallbackRedoubt'){
    const angle=Number.isFinite(b.turretAngle)?b.turretAngle:0,m=frame||measure(b);if(!m)return;
    // The measured roof pivot is 163,94 inside this 323x340 source cut.
-   const x=m.destination[0]+m.destination[2]*163/323,y=m.destination[1]+m.destination[3]*94/340;
+   const pivot=m.sprite?.turretPivot||[163/323,94/340],x=m.destination[0]+m.destination[2]*pivot[0],y=m.destination[1]+m.destination[3]*pivot[1];
    c.strokeStyle='#363e37';c.lineWidth=5;c.beginPath();c.moveTo(x,y);c.lineTo(x+Math.cos(angle)*35,y+Math.sin(angle)*35);c.stroke();
   }
  }
- function drawWater(c,b,waterRatio){
+ function drawWater(c,b,waterRatio,frame){
   if(b.type!=='fireCistern')return;
   const ratio=Number.isFinite(waterRatio)?Math.max(0,Math.min(1,waterRatio)):0;
+  const gauge=frame?.sprite?.waterGauge;
+  if(gauge){const[dX,dY,dW,dH]=frame.destination,x=dX+dW*gauge[0],y=dY+dH*gauge[1],w=dW*gauge[2],h=dH*gauge[3],inset=Math.min(1,w/4,h/4);
+   c.fillStyle='#799fb0';c.fillRect(x,y,w,h);c.fillStyle='#c5e2d9';c.fillRect(x+inset,y+h-inset-ratio*(h-2*inset),w-2*inset,ratio*(h-2*inset));return;}
   c.fillStyle='#799fb0';c.fillRect(b.x+22,b.y-22,10,44);
   c.fillStyle='#c5e2d9';c.fillRect(b.x+23,b.y+21-ratio*42,8,ratio*42);
  }
- function drawBuilding(c,art,b,{charge=0,sectorState=null,waterRatio=0}={}){
-  if(!operational(b))return false;const frame=measure(b);
+ function drawBuilding(c,art,b,{charge=0,sectorState=null,waterRatio=0,seed=0}={}){
+  if(!operational(b))return false;const frame=measure(b,{seed,art});
   if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
   c.save();
   if(b.def?.powerUse&&offline(b)&&'filter' in c)c.filter='brightness(.50) saturate(.55)';
   const painted=art.blit?art.blit(c,frame.atlas,frame.source,...frame.destination):(c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination),true);
   c.restore();if(!painted)return false;
-  c.save();drawCharge(c,b,charge);drawLightState(c,b);drawTerritoryState(c,b,sectorState,frame);drawWater(c,b,waterRatio);c.restore();return true;
+  c.save();drawCharge(c,b,charge);drawLightState(c,b,frame);drawTerritoryState(c,b,sectorState,frame);drawWater(c,b,waterRatio,frame);c.restore();return true;
  }
  function install(g){
   if(!g?.art||g.d17Art152)return g?.d17Art152||null;
   const previous=g.art.drawBuilding.bind(g.art);
   g.art.drawBuilding=(c,b,...args)=>{
    // Charge is read once from its owner; no snapshot, inventory or RNG during paint.
-   const sprite=spriteFor(b),ready=sprite&&operational(b)&&g.art.images?.[sprite.atlas];
+   const seed=g.world?.seed??0,frame=measure(b,{seed,art:g.art}),ready=frame&&operational(b)&&g.art.images?.[frame.atlas];
    const charge=ready&&b.def?.battery?g.powerGrid?.charge?.(b.id)||0:0;
    const sectorState=ready&&b.type==='sectorPost'?g.territories?.presentationStatus?.(b)||null:null;
    const waterRatio=ready&&b.type==='fireCistern'?g.siege?.presentationWaterRatio?.(b)||0:0;
-   return drawBuilding(c,g.art,b,{charge,sectorState,waterRatio})||previous(c,b,...args);
+   return drawBuilding(c,g.art,b,{charge,sectorState,waterRatio,seed})||previous(c,b,...args);
   };
   g.d17Art152=Object.freeze({spriteFor,measure});return g.d17Art152;
  }

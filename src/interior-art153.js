@@ -12,6 +12,7 @@
   habitatResidential153:Object.freeze({url:'assets/art153/habitat-residential-atlas.png',width:1536,height:1024,matte:'none'}),
   habitatServices153:Object.freeze({url:'assets/art153/habitat-services-atlas.png',width:1536,height:1024,matte:'none'}),
   habitatRuins153:Object.freeze({url:'assets/art153/habitat-ruins-atlas.png',width:1536,height:1024,matte:'none'}),
+  habitatRoofs157:Object.freeze({url:'assets/art157/roofs-atlas.png',width:1536,height:1024,matte:'none'}),
   interiorSurfaces153:Object.freeze({url:'assets/art153/interior-surfaces.svg',width:1024,height:1024,matte:'none'}),
   interiorVending153:Object.freeze({url:'assets/art153/interior-vending.svg',width:256,height:128,matte:'none'})
  });
@@ -50,15 +51,74 @@
  const FURNITURE=Object.freeze({...gridSprites(furnitureGroups),vending:Object.freeze([
   Object.freeze({atlas:'interiorVending153',family:'vending',variant:0,rect:Object.freeze([20,6,88,116])}),
   Object.freeze({atlas:'interiorVending153',family:'vending',variant:1,rect:Object.freeze([156,9,73,113])})
- ])}),ROOFS=gridSprites(roofGroups),RUINS=gridSprites({habitatRuins153:RUIN_FAMILIES},512);
- function hash(...values){let h=2166136261;for(const value of values)for(const ch of String(value??'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}h^=h>>>16;h=Math.imul(h,0x7feb352d);return(h^h>>>15)>>>0;}
+ ])}),RUINS=gridSprites({habitatRuins153:RUIN_FAMILIES},512);
+ // Alpha-measured cuts keep chimneys and parapets, without borrowing another cell.
+ const ROOF_CUTS157=Object.freeze([
+  [58,73,291,171],[431,63,298,180],[815,71,292,173],[1188,71,289,174],
+  [55,300,299,180],[430,302,306,179],[805,289,313,190],[1188,303,298,175],
+  [53,544,302,177],[428,534,310,187],[809,541,306,182],[1184,544,307,177],
+  [53,774,303,184],[432,777,304,179],[804,777,313,183],[1203,777,266,184]
+ ].map(Object.freeze));
+ const ROOF_MODELS157=Object.freeze([
+  'terracotta-hipped','terracotta-dormer','slate-mansard','patched-metal',
+  'concrete-services','flat-water-tank','slate-three-dormers','terracotta-double-ridge',
+  'corrugated-metal','industrial-sawtooth','concrete-ducts','rusted-metal',
+  'terracotta-skylight','concrete-ventilation','metal-skylights','weathered-flat'
+ ]);
+ const ROOF_GROUPS157=Object.freeze({
+  cottage:Object.freeze([0,1,2,3]),farm:Object.freeze([0,1,3,7]),
+  rowhouse:Object.freeze([4,5,6,7]),collective:Object.freeze([4,5,6,7]),hotel:Object.freeze([4,5,6,7]),
+  industrial:Object.freeze([8,9,10,11]),workshop:Object.freeze([8,9,10,11]),
+  retail:Object.freeze([12,13,14,15]),civic:Object.freeze([12,13,14,15]),school:Object.freeze([12,13,14,15]),
+  clinic:Object.freeze([12,13,14,15]),service:Object.freeze([12,13,14,15])
+ });
+ const ROOFS=Object.freeze(Object.fromEntries(Object.entries(gridSprites(roofGroups)).map(([family,historical])=>[
+  family,Object.freeze([...historical,...(ROOF_GROUPS157[family]||[]).map((cell,i)=>Object.freeze({
+   atlas:'habitatRoofs157',family,variant:historical.length+i,model:ROOF_MODELS157[cell],rect:ROOF_CUTS157[cell]
+  }))])
+ ])));
+ const CABIN_ROOFS=Object.freeze([ROOFS.cottage[0],ROOFS.cottage[1],ROOFS.cottage[2],ROOFS.cottage[5]]);
+ const selections=new WeakMap();
+ function hash(...values){let h=2166136261;for(const value of values){const text=String(value??'');for(const ch of text.length+':'+text){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}}h^=h>>>16;h=Math.imul(h,0x7feb352d);return(h^h>>>15)>>>0;}
  function variantFor(item,{seed=0,floor=0,variant}={},kind='furniture',count=2){
+  if(!Number.isSafeInteger(count)||count<=0)return 0;
   if(Number.isSafeInteger(variant))return((variant%count)+count)%count;
-  return hash(seed,item?.id,item?.kind||item?.type,item?.variant,item?.x,item?.y,floor,kind)%count;
+  const identity=item?.id??[item?.kind||item?.type||'',item?.x??'',item?.y??''].join(':'),cacheable=item&&typeof item==='object',cached=cacheable?selections.get(item):null;
+  if(cached&&cached.identity===identity&&cached.seed===seed&&cached.floor===floor&&cached.kind===kind&&cached.count===count)return cached.index;
+  const index=hash(seed,identity,floor,kind)%count;
+  if(cacheable)selections.set(item,{identity,seed,floor,kind,count,index});return index;
  }
- function spriteForFurniture(item,options={}){const kind=typeof item==='string'?item:item?.kind||item?.type;const sprites=Object.hasOwn(FURNITURE,kind)?FURNITURE[kind]:null;return sprites?.[variantFor(typeof item==='string'?{kind:item}:item,options)]||null;}
- function roofFamily(item){const kind=typeof item==='string'?item:item?.type||item?.kind;return Object.hasOwn(ROOF_ALIASES,kind)?ROOF_ALIASES[kind]:null;}
- function spriteForRoof(item,options={}){const family=roofFamily(item);return family?ROOFS[family][variantFor(typeof item==='string'?{type:item}:item,options,'roof')]:null;}
+ function spriteForFurniture(item,options={}){const kind=typeof item==='string'?item:item?.kind||item?.type;const sprites=Object.hasOwn(FURNITURE,kind)?FURNITURE[kind]:null;return sprites?.[variantFor(typeof item==='string'?{kind:item}:item,options,'furniture:'+kind,sprites.length)]||null;}
+ const programmeRoofs=new Map();
+ const CODEX_ROOFS=Object.freeze({residence:'cottage',collective:'collective',magasins:'retail',alimentation:'retail',artisanat:'workshop',hebergement:'hotel',medical:'clinic',education:'school',administration:'civic',securite:'service',logistique:'industrial',reseaux:'service',industrie:'industrial',campagne:'farm',loisirs:'civic',ruines:'ruin'});
+ function programmeRoof(kind){
+  if(!/^codex3000-\d{4}$/.test(kind||''))return null;
+  if(programmeRoofs.has(kind))return programmeRoofs.get(kind);
+  // Resolve at use time: the browser loads the furniture owner before the Codex runtime.
+  const codex=root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),preset=codex?.preset?.(kind);
+  if(!preset)return null;const card=codex.get?.(preset.codex),parent=codex.parentFor?.(card),detail=codex.detailFamily?.(preset.family);
+  const name=[preset.name,parent?.[0]].filter(Boolean).join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  let family=CODEX_ROOFS[detail]||null;
+  if(detail==='ruines')family='ruin';
+  else if(/\bserres?\b/.test(name))family='greenhouse';
+  else if(/chapelle|eglise|paroisse|sanctuaire/.test(name))family='chapel';
+  else if(/\babris?\b|bunker|souterrain|mine a galeries/.test(name))family='underground';
+  else if(detail==='collective')family='collective';
+  else if(/ecole|universite|college|lycee|maternelle|gymnase/.test(name))family='school';
+  else if(/clinique|dispensaire|hopital|cabinet medical|maison de soins|centre medical|infirmerie/.test(name))family='clinic';
+  else if(/\bhotel\b|motel|auberge/.test(name))family='hotel';
+  else if(/mairie|bibliotheque|banque|administration/.test(name))family='civic';
+  else if(/scierie|fonderie|manufacture|entrepot|depot de bois|depot logistique/.test(name))family='industrial';
+  else if(/garage|carrosserie/.test(name)||detail!=='industrie'&&/atelier/.test(name))family='workshop';
+  else if(/ferme|grange|bergerie|etable/.test(name))family='farm';
+  else if(/cabane|chalet/.test(name))family='cottage';
+  else if(/pompier|commissariat|poste de controle|station.service/.test(name))family='service';
+  if(!family)return null;const result=Object.freeze({family,cabin:family==='cottage'&&/cabane|chalet/.test(name)});programmeRoofs.set(kind,result);return result;
+ }
+ function roofFamily(item){const kind=typeof item==='string'?item:item?.type||item?.kind;return Object.hasOwn(ROOF_ALIASES,kind)?ROOF_ALIASES[kind]:programmeRoof(kind)?.family||null;}
+ function roofChoices(item,{local=false}={}){const kind=typeof item==='string'?item:local?item?.kind||item?.type:item?.type||item?.kind;
+  const family=local?(Object.hasOwn(LOCAL_ROOFS,kind)?LOCAL_ROOFS[kind]:programmeRoof(kind)?.family||null):roofFamily(item);return family?(kind==='cabin'||programmeRoof(kind)?.cabin?CABIN_ROOFS:ROOFS[family]):null;}
+ function spriteForRoof(item,options={}){const family=roofFamily(item),sprites=roofChoices(item);return sprites?.[variantFor(typeof item==='string'?{type:item}:item,{...options,floor:0},'roof:'+family,sprites.length)]||null;}
  function validRect(rect){return rect&&[rect.x,rect.y,rect.w,rect.h].every(Number.isFinite)&&rect.w>0&&rect.h>0;}
  function paint(c,art,sprite,rect,{fit=false,alpha=1}={}){
   const img=art?.images?.[sprite?.atlas];if(!img||!c?.drawImage||!validRect(rect))return false;
@@ -89,14 +149,14 @@
   return roofPlane(c,art,spriteForRoof(item,options),roofFamily(item),rect);
  }
  function drawLocalRoof(c,art,item,rect,options={}){
-  const kind=item?.kind||item?.type,type=Object.hasOwn(LOCAL_ROOFS,kind)?LOCAL_ROOFS[kind]:null;if(!type)return false;
+  const kind=item?.kind||item?.type,type=Object.hasOwn(LOCAL_ROOFS,kind)?LOCAL_ROOFS[kind]:programmeRoof(kind)?.family||null;if(!type)return false;
   // Only the already-projected roof plane is decorated. Facades, entrances and shadows stay with the local painter.
-  return roofPlane(c,art,ROOFS[type][variantFor(item,options,'roof')],type,rect);
+  const sprites=roofChoices(item,{local:true});return roofPlane(c,art,sprites[variantFor(item,{...options,floor:0},'roof:'+type,sprites.length)],type,rect);
  }
  function drawSceneryRuin(c,art,item,{size=item?.def?.renderSize||item?.renderSize||100,seed=0,variant}={}){
   const kind=item?.sceneryKind||item?.kind||item?.type,sprites=Object.hasOwn(RUINS,kind)?RUINS[kind]:null;
   if(!sprites||!Number.isFinite(size)||size<=0)return false;
-  const sprite=sprites[variantFor(item,{seed,variant},'ruin')];
+  const sprite=sprites[variantFor(item,{seed,variant},'ruin:'+kind,sprites.length)];
   return paint(c,art,sprite,{x:item.x-size/2,y:item.y-size/2,w:size,h:size},{fit:true});
  }
  const FLOOR_FAMILIES=Object.freeze(['wood','tile','concrete','rubber']);
@@ -122,5 +182,5 @@
   // The tile scale is fixed in the owner's local metres, independent of camera and zoom.
   const scale=tile/256;c.save();c.beginPath();c.rect(rect.x,rect.y,rect.w,rect.h);c.clip();c.scale(scale,scale);c.fillStyle=pattern;c.fillRect(rect.x/scale,rect.y/scale,rect.w/scale,rect.h/scale);c.restore();return true;
  }
- return Object.freeze({ASSETS,FURNITURE,ROOFS,RUINS,FURNITURE_FAMILIES,ROOF_FAMILIES,RUIN_FAMILIES,ROOF_ALIASES,LOCAL_ROOFS,FLOOR_FAMILIES,hash,variantFor,spriteForFurniture,roofFamily,spriteForRoof,floorFamily,validRect,paint,drawFurniture,drawRoof,drawLocalRoof,drawSceneryRuin,drawFloor});
+ return Object.freeze({ASSETS,FURNITURE,ROOFS,RUINS,ROOF_CUTS157,ROOF_MODELS157,ROOF_GROUPS157,FURNITURE_FAMILIES,ROOF_FAMILIES,RUIN_FAMILIES,ROOF_ALIASES,LOCAL_ROOFS,FLOOR_FAMILIES,hash,variantFor,spriteForFurniture,roofFamily,roofChoices,spriteForRoof,floorFamily,validRect,paint,drawFurniture,drawRoof,drawLocalRoof,drawSceneryRuin,drawFloor});
 });

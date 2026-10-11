@@ -26,7 +26,7 @@ test('routes 1.33 : refus des identités, variantes, géométries et promesses c
   assert.ok(R.validate(null).length);
 });
 test('routes 1.33 : guide raccordé, recherche sans accents et projets masqués dans le terrain',()=>{
-  assert.equal(C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)).length,215);assert.equal(C.query({text:'routes',status:'terrain'}).filter(e=>e.id.startsWith('road133-')).length,3);
+  assert.equal(C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)).length,215);assert.equal(C.query({text:'routes',status:'terrain'}).filter(e=>e.id.startsWith('road133-')).length,3);
   for(const word of['autoroute','tunnel','échangeur','giratoire','chemin'])assert.ok(C.query({text:'routes '+word,status:'plan'}).length,word);
   assert.equal(C.query({text:'autoroute 4 voies',status:'plan'}).some(e=>e.id==='road133-motorway-2x4'),true);
   for(const entry of R.entries)assert.equal(C.entries.find(e=>e.id===entry.id),entry);

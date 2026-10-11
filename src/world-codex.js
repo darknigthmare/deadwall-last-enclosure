@@ -1,21 +1,21 @@
 (function(root,factory){'use strict';
   const packs=typeof module==='object'&&module.exports?{
     nature:require('./world-codex-nature.js'),habitat:require('./world-codex-habitat.js'),
-    activites:require('./world-codex-activites.js'),systemes:require('./world-codex-systemes.js'),equipment134:require('./equipment-codex134.js'),biomes135:require('./biomes-codex135.js')
+    activites:require('./world-codex-activites.js'),systemes:require('./world-codex-systemes.js'),equipment134:require('./equipment-codex134.js'),biomes135:require('./biomes-codex135.js'),seed157:require('./world-codex-seed157.js'),programmes:require('./world-codex-3000.js')
   }:root.DeadwallCodexPacks;
   const api=factory(packs||{});
   if(typeof module==='object'&&module.exports)module.exports=api;
   else{root.DeadwallWorldCodex=api;if(root.DEADWALL&&root.document)api.install(root.DEADWALL,root.document);}
 })(typeof globalThis!=='undefined'?globalThis:this,function(packs){'use strict';
-  const entries=Object.freeze(['nature','habitat','activites','systemes','equipment134','biomes135'].flatMap(k=>packs[k]||[]));
-  const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité'});
-  const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu'});
+  const entries=Object.freeze(['nature','habitat','activites','systemes','equipment134','biomes135','seed157','programmes'].flatMap(k=>packs[k]||[]));
+  const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité',programmes:'Codex 3 000'});
+  const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
   const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' '))]));
   function query(filters={}){
     const words=normalize(filters.text).split(' ').filter(Boolean),family=filters.family||'all',status=filters.status||'all';
-    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&e.status!=='plan'||e.status===status)&&words.every(word=>index.get(e.id).includes(word)));
+    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word)));
   }
   function install(game,document){
     if(!game||!document||game.worldCodex)return false;
@@ -32,13 +32,14 @@
     const status=el('select');status.id='worldCodexStatus';const statusLabel=el('label','COUVERTURE');statusLabel.setAttribute('for',status.id);statusLabel.appendChild(status);
     function option(select,value,label){const n=el('option',label);n.value=value;select.appendChild(n);}
     option(family,'all','Toutes les familles');for(const[k,v]of Object.entries(families))option(family,k,v);
-    option(status,'terrain','Contenu présent');option(status,'all','Présent et projets');for(const[k,v]of Object.entries(statuses))option(status,k,v);
+    option(status,'terrain','Contenu présent');option(status,'all','Présent et projets');option(status,'programme','Les 3 000 programmes');for(const[k,v]of Object.entries(statuses))option(status,k,v);
     family.value='all';status.value='terrain';append(controls,searchLabel,familyLabel,statusLabel);
     const count=el('p','','world-codex-count');count.setAttribute('role','status');count.setAttribute('aria-live','polite');count.setAttribute('aria-atomic','true');
     const list=el('div',undefined,'world-codex-list');list.id='worldCodexResults';
-    function refresh(){const found=query({text:search.value,family:family.value,status:status.value});list.replaceChildren();count.textContent=found.length+' fiche'+(found.length===1?'':'s')+' · '+entries.length+' fiches dans le guide';
+    let visible=36;
+    function refresh(reset=true){if(reset!==false)visible=36;const found=query({text:search.value,family:family.value,status:status.value});list.replaceChildren();count.textContent=found.length+' fiche'+(found.length===1?'':'s')+' trouvée(s) · '+entries.length+' dans le guide';
       if(!found.length){list.appendChild(el('p','Aucune fiche pour ces filtres. Essayez un terme plus court ou « Présent et projets ».','world-codex-empty'));return;}
-      for(const entry of found){const card=el('article',undefined,'world-codex-card');card.dataset.codexId=entry.id;
+      for(const entry of found.slice(0,visible)){const card=el('article',undefined,'world-codex-card');card.dataset.codexId=entry.id;
         append(card,el('small',families[entry.family]+' · '+statuses[entry.status],'world-codex-status status-'+entry.status),el('h4',entry.title),el('p',entry.summary));
         if(entry.status==='plan')card.appendChild(el('p','Conception : ce programme n’est pas annoncé comme jouable.','world-codex-boundary'));
         if(entry.status==='pilote')card.appendChild(el('p','Une partie du lieu existe. Les variantes et extensions décrites ne sont pas toutes intégrées.','world-codex-boundary'));
@@ -46,6 +47,7 @@
         for(const[key,label]of Object.entries(fields)){if(!entry[key])continue;const p=el('p');append(p,el('strong',label+' — '),el('span',entry[key]));details.appendChild(p);}
         card.appendChild(details);list.appendChild(card);
       }
+      if(found.length>visible){const more=el('button','AFFICHER '+Math.min(36,found.length-visible)+' FICHES SUPPLÉMENTAIRES');more.type='button';more.addEventListener('click',()=>{visible+=36;refresh(false);});list.appendChild(more);}
     }
     for(const control of[search,family,status]){control.addEventListener(control===search?'input':'change',refresh);control.addEventListener('keydown',event=>{if(event.code!=='Escape'&&event.code!=='Tab')event.stopPropagation();});}
     const actions=el('div',undefined,'world-codex-actions');

@@ -1,5 +1,6 @@
 (function(root){'use strict';
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
+const BuildingVariants157=root.DeadwallBuildingVariants157||(typeof require==='function'?require('./building-variants157.js'):null);
 const COMPANION_ART=Object.freeze({
  lea:Object.freeze({kind:'workerAlt',id:0}),
  samir:Object.freeze({kind:'medic',id:1}),
@@ -7,11 +8,13 @@ const COMPANION_ART=Object.freeze({
  malik:Object.freeze({kind:'soldier',id:3})
 });
 const ANNEX_ART=Object.freeze({housing:'house',workshop:'workshop',clinic:'clinic',depot:'warehouse',watch:'watchtower',power:'generator'});
-function drawAnnex(c,g,b,x,y){
- const art=g.art,rect=art?.rects?.['buildings:'+ANNEX_ART[b.type]],ready=b.progress>=1&&rect&&art?.images?.buildings&&typeof art.blit==='function';
+function drawAnnex(c,g,b,x,y,districtId){
+ const art=g.art,identity='annex:'+districtId+':'+b.slot,variant=BuildingVariants157?.annexSprite(b.type,identity,g.world?.seed??0),nativeReady=b.progress>=1&&variant&&art?.images?.[variant.atlas]&&typeof c.drawImage==='function';
+ const rect=art?.rects?.['buildings:'+ANNEX_ART[b.type]],legacyReady=b.progress>=1&&rect&&art?.images?.buildings&&typeof art.blit==='function',ready=nativeReady||legacyReady;
  c.fillStyle=b.progress>=1?(ready?'#4b584b':'#768b72'):'#8b765a';c.fillRect(x,y,20,9);
  if(b.progress<1){c.fillStyle='#d5bd82';c.fillRect(x,y+9,20*b.progress,.55);return;}
- if(!ready)return;
+ if(nativeReady&&BuildingVariants157.drawAnnex(c,art,b.type,identity,g.world?.seed??0,x,y))return;
+ if(!legacyReady)return;
  // The paid foundation remains 20×9 m. Fit the original alpha-trimmed image
  // without stretching it; its lower edge stays on the foundation's contact.
  const scale=Math.min(20/rect[2],13/rect[3]),w=rect[2]*scale,h=rect[3]*scale;
@@ -82,7 +85,7 @@ function drawInfected(c,g,v,view,members){
 }
 function drawEnemies(c,g,v,view){drawInfected(c,g,v,view,v.enemies||[]);const ids=new Set([...(v.enemies||[]),...(g.worldEvolution?.groupMembers?.()||[])].map(e=>e.id)),state=enemyPresentations.get(g);if(state)for(const id of state.actors.keys())if(!ids.has(id))state.actors.delete(id);}
 
-function draw(c,g,v,view){const e=g.worldEvolution?.overview();if(!e)return;if(v.z===0){for(const d of e.districts){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.setLineDash([]);for(const b of d.buildings){const col=b.slot%2,row=Math.floor(b.slot/2),x=-22+col*28,y=-22+row*13;drawAnnex(c,g,b,x,y);}c.restore();}}
+function draw(c,g,v,view){const e=g.worldEvolution?.overview();if(!e)return;if(v.z===0){for(const d of e.districts){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.setLineDash([]);for(const b of d.buildings){const col=b.slot%2,row=Math.floor(b.slot/2),x=-22+col*28,y=-22+row*13;drawAnnex(c,g,b,x,y,d.id);}c.restore();}}
 if(v.z===0)drawInfected(c,g,v,view,g.worldEvolution.groupMembers?.()||[]);
 drawCompanions(c,g,v,view,e.companions);}
 function drawGround(c,g,v,view,evolution=g.worldEvolution?.overview()){if(v.z!==0)return;for(const d of evolution?.districts||[]){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);c.strokeStyle='#d7c798';c.lineWidth=.08;c.setLineDash([.7,.45]);c.strokeRect(-28,-28,56,56);c.restore();}}
@@ -101,7 +104,7 @@ function depthEntries(g,v,view,e=g.worldEvolution?.overview()){
  const ec=enemyPresentations.get(g);if(ec)for(const id of ec.actors.keys())if(!ids.has(id))ec.actors.delete(id);
  if(v.z===0)for(const d of e?.districts||[]){if(!d.level||d.pos.x<view.l-40||d.pos.x>view.r+40||d.pos.y<view.t-40||d.pos.y>view.b+40)continue;
   for(const b of d.buildings){const x=-22+b.slot%2*28,y=-22+Math.floor(b.slot/2)*13,depth=Math.max(...[[x,y],[x+20,y],[x,y+9],[x+20,y+9]].map(([xx,yy])=>d.pos.y+Math.sin(d.pos.a)*xx+Math.cos(d.pos.a)*yy));
-   entries.push({kind:'annex',id:d.id+':'+b.slot,depth,draw(c){c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);drawAnnex(c,g,b,x,y);c.restore();}});
+   entries.push({kind:'annex',id:d.id+':'+b.slot,depth,draw(c){c.save();c.translate(d.pos.x,d.pos.y);c.rotate(d.pos.a);drawAnnex(c,g,b,x,y,d.id);c.restore();}});
   }
  }
  return entries;

@@ -8,6 +8,8 @@
   const D17Art149=root.DeadwallD17Art149||(typeof require==='function'?require('./d17-art149.js'):null);
   const D17Art150=root.DeadwallD17Art150||(typeof require==='function'?require('./d17-art150.js'):null);
   const D17Art152=root.DeadwallD17Art152||(typeof require==='function'?require('./d17-art152.js'):null);
+  const BuildingVariants157=root.DeadwallBuildingVariants157||(typeof require==='function'?require('./building-variants157.js'):null);
+  const D17ExtendedVariants157=root.DeadwallD17ExtendedVariants157||(typeof require==='function'?require('./d17-extended-variants157.js'):null);
   const VehicleArt152=root.DeadwallVehicleArt152||(typeof require==='function'?require('./vehicle-art152.js'):null);
   const NatureArt153=root.DeadwallNatureArt153||(typeof require==='function'?require('./nature-art153.js'):null);
   const WorldPropsArt153=root.DeadwallWorldPropsArt153||(typeof require==='function'?require('./world-props-art153.js'):null);
@@ -23,6 +25,8 @@
     ...(D17Art149?.ASSETS||{}),
     ...(D17Art150?.ASSETS||{}),
     ...(D17Art152?.ASSETS||{}),
+    ...(BuildingVariants157?.ASSETS||{}),
+    ...(D17ExtendedVariants157?.ASSETS||{}),
     ...(VehicleArt152?.ASSETS||{}),
     ...(NatureArt153?.ASSETS||{}),
     ...(WorldPropsArt153?.ASSETS||{}),
@@ -319,10 +323,13 @@
       ctx.restore(); return true;
     }
     drawBuilding(ctx, b, world) {
-      if(D17Art152?.drawBuilding(ctx,this,b)||D17Art150?.drawBuilding(ctx,this,b)||D17Art150?.drawFallback(ctx,this,b))return true;
-      const atlas = b.type === 'spikes' || b.type === 'armoredGate' ? 'defenses' : b.def.wall ? 'props' : 'buildings';
+      if(BuildingVariants157?.drawBuilding(ctx,this,b,world))return true;
+      const seed=world?.seed??0;
+      if(D17Art152?.drawBuilding(ctx,this,b,{seed})||D17Art150?.drawBuilding(ctx,this,b,{seed})||D17Art150?.drawFallback(ctx,this,b))return true;
+      const originalAtlas = b.type === 'spikes' || b.type === 'armoredGate' ? 'defenses' : b.def.wall ? 'props' : 'buildings';
       const id = b.type;
-      const rect = this.rects[atlas + ':' + id]; if (!rect) return false;
+      const alternate=BuildingVariants157?.operational(b)?BuildingVariants157.alternateFor(id,b.id??[b.gx,b.gy,id].join(':'),world?.seed??0,this.images):null;
+      const atlas=alternate?.atlas||originalAtlas,rect=alternate?.rect||this.rects[originalAtlas + ':' + id]; if (!rect) return false;
       let width = b.w * 32, height = b.h * 32, angle = b.rotation * Math.PI / 2;
       if (b.def.wall && !b.def.gate) {
         const up = world.atCell(b.gx, b.gy - 1), down = world.atCell(b.gx, b.gy + 1);
@@ -331,18 +338,25 @@
           (Number(Boolean(left?.def.wall)) + Number(Boolean(right?.def.wall))) ? Math.PI / 2 : 0;
         width = 34; height = 30;
       } else if (b.rotation % 2) [width, height] = [height, width];
+      // New silhouettes retain their native proportions inside the original
+      // local display area and contact. Occupancy and connection axes stay owned
+      // by the existing building and wall logic above.
+      const nativeScale=alternate?Math.min((width+4)/rect[2],(height+7)/rect[3]):1;
+      const nativeWidth=rect[2]*nativeScale,nativeHeight=rect[3]*nativeScale,nativeTop=height/2+2-nativeHeight;
       ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(angle);
       ctx.fillStyle = 'rgba(10,15,12,.22)'; ctx.beginPath();ctx.ellipse(0,height*.32,width*.48,height*.22,0,0,Math.PI*2);ctx.fill();
-      if (id === 'house' || id === 'barracks') {
+      if (!alternate&&(id === 'house' || id === 'barracks')) {
         ctx.rotate(Math.PI / 2); this.blit(ctx, atlas, rect, -height / 2, -width / 2, height, width);
       } else if (b.def.gate && b.gateMode === 'open') {
         // Reuse the original gate leaves: compressed at their jambs, with an actual visible passage.
         const [sx,sy,sw,sh]=rect;
-        this.blit(ctx,atlas,[sx,sy,sw/2,sh],-width/2-2,-height/2-5,width*.24,height+7);
-        this.blit(ctx,atlas,[sx+sw/2,sy,sw/2,sh],width*.26+2,-height/2-5,width*.24,height+7);
+        const top=alternate?nativeTop:-height/2-5,leafHeight=alternate?nativeHeight:height+7;
+        this.blit(ctx,atlas,[sx,sy,sw/2,sh],-width/2-2,top,width*.24,leafHeight);
+        this.blit(ctx,atlas,[sx+sw/2,sy,sw/2,sh],width*.26+2,top,width*.24,leafHeight);
         ctx.strokeStyle='#e2bd71';ctx.lineWidth=1.5;
         for(const sign of [-1,1]){ctx.beginPath();ctx.moveTo(-4,sign*height*.2);ctx.lineTo(0,sign*height*.32);ctx.lineTo(4,sign*height*.2);ctx.stroke();}
-      } else this.blit(ctx, atlas, rect, -width / 2 - 2, -height / 2 - 5, width + 4, height + 7);
+      } else if(alternate)this.blit(ctx,atlas,rect,-nativeWidth/2,nativeTop,nativeWidth,nativeHeight);
+      else this.blit(ctx, atlas, rect, -width / 2 - 2, -height / 2 - 5, width + 4, height + 7);
       if(b.def.gate&&b.gateMode==='closed'){ctx.fillStyle='#dfb06e';ctx.fillRect(-4,-height*.46,8,6);ctx.strokeStyle='#dfb06e';ctx.lineWidth=1.5;ctx.strokeRect(-2.5,-height*.46-4,5,5);}
       ctx.restore();
       if (b.corpseLoad > 4) {
