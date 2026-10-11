@@ -127,9 +127,59 @@
    entry:{x:w/2,y:-1},exit:{x:w/2,y:height+1},style:'codex3000',programme:blueprint.id};
   return wsh;
  }
+ const presets=new Map();
+ function preset(type){
+  if(!/^codex3000-\d{4}$/.test(type))return null;
+  if(presets.has(type))return presets.get(type);
+  const id='DW-'+type.slice(-4),card=get(id);
+  if(!card||NOT_RENDERABLE.has(card.family))return null;
+  const b=template(id,0,'P0000');
+  const d=Object.freeze({id:type,name:card.name.slice(0,80),w:b.w,h:b.h,levels:b.levels,
+    codex:id,layout:'codex3000',family:card.family});
+  presets.set(type,d);return d;
+ }
+ function populateRegion({seed,roads,install,biomes,towns,sectors,spawn,home}){
+  if(!DATA||typeof install!=='function')return{eligible:0,placed:0,unsupported:rows.length};
+  const viable=roads.filter(r=>r.roadClass!=='approach'
+    &&Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y)>=55);
+  if(!viable.length)return{eligible:0,placed:0,unsupported:rows.length};
+  const bySector=new Map(sectors.map(s=>[s.id,s]));let eligible=0,placed=0,rejected=0,unsupported=0;
+  for(const card of byId.values()){
+   if(NOT_RENDERABLE.has(card.family)){unsupported++;continue;}
+   let accepted=false,qualified=false;const d=preset('codex3000-'+card.id.slice(3));
+   const start=G.hash(seed,card.id,'road158')%viable.length;
+   // Bounded attempts: no placed building may slice a road, neighbour or approach.
+   for(let k=0;k<10;k++){
+    const r=viable[(start+k*83)%viable.length],angle=Math.atan2(r.b.y-r.a.y,r.b.x-r.a.x),
+      f=.15+.7*(G.hash(seed,card.id,k,'frontage158')/4294967296),side=G.hash(seed,card.id,k,'side158')%2?1:-1,
+      off=r.width/2+26+d.h/2+(k%3)*7,
+      x=r.a.x+(r.b.x-r.a.x)*f-Math.sin(angle)*off*side,
+      y=r.a.y+(r.b.y-r.a.y)*f+Math.cos(angle)*off*side;
+    const biome=biomes.sample(seed,x,y,false,{generation:7});
+    const town=towns.find(t=>Math.hypot(x-t.x,y-t.y)<t.radius+55);
+    if(!enabled(card,{biome:biome.id,townKind:town?.kind})){continue;}
+    qualified=true;
+    const p=install(d.id,x,y,angle+(side<0?Math.PI:0),r);
+    if(!p)continue;
+    const distance=Math.hypot(p.x-home.x,p.y-home.y),occupancy=spawn.roll({seed,id:p.id,biome:biome.def.spawnBiome,distance});
+    Object.assign(p,{generation:8,programme3000:card.id,biome:biome.id,
+      occupation:occupancy.kind,distanceBand:occupancy.band,
+      zone:town?'centre':'activite',sector:'S'+Math.floor(p.x/1024)+'_'+Math.floor(p.y/1024),
+      frontier131:{role:occupancy.kind==='allied'?'relay':occupancy.kind==='infected'?'contested':'waypoint'}});
+    if(town){p.town=town.id;p.name=card.name.slice(0,70)+' · '+town.name;town.parcels++;}
+    else p.name=card.name.slice(0,75)+' · '+biome.name;
+    bySector.get(p.sector)?.sites.push(p.id);
+    placed++;accepted=true;break;
+   }
+   if(qualified)eligible++;if(!accepted)rejected++;
+  }
+  for(const town of towns)if(town.program141)town.program141.parcels=town.parcels;
+  return Object.freeze({eligible,placed,rejected,unsupported,programmeCount:rows.length});
+ }
+
  function programmeProps(state){return STATE_FEATURES[state]||[];}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion});
 });
