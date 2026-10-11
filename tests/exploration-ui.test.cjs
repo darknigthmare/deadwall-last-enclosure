@@ -122,7 +122,11 @@ test('UI équipe : les prérequis sont expliqués, les aides décrites et le foc
   const allText=n=>[n.textContent,...n.children.map(allText)].join(' ');
   assert.match(allText(get('evolutionPanel')),/Il faut 4 personnes/);assert.match(allText(get('evolutionPanel')),/médicament du sac/);
   g.population=4;g.resources.food=20;g.worldEvolutionUI.refresh();const before=get('comp-lea');assert.equal(before.disabled,false);before.focus();
-  g.worldEvolutionUI.refresh();assert.notEqual(get('comp-lea'),before);assert.equal(document.activeElement,get('comp-lea'));
+  const carry={...g.player.carry},stocks={...g.resources},paused=g.paused,elapsed=g.elapsed,fee=globalThis.DeadwallCore.WorldEvolution.RULES.companionRules.assignmentFood;
+  g.worldEvolutionUI.refresh();assert.equal(get('comp-lea'),before);assert.ok(document.body.contains(before));assert.equal(document.activeElement,before);assert.deepEqual(g.resources,stocks);
+  before.onclick();assert.equal(get('comp-lea'),before);assert.equal(before.textContent,'RETIRER');assert.deepEqual(g.worldEvolution.overview().companions.map(c=>c.id),['lea']);assert.deepEqual(g.resources,{...stocks,food:stocks.food-fee});
+  before.onclick();assert.equal(before.textContent,'AFFECTER');assert.deepEqual(g.worldEvolution.overview().companions,[]);assert.deepEqual(g.resources,{...stocks,food:stocks.food-fee});
+  assert.deepEqual(g.player.carry,carry);assert.equal(g.paused,paused);assert.equal(g.elapsed,elapsed);assert.equal(document.activeElement,before);
 });
 
 test('UI coop : les rafraîchissements et actions conservent adresse, salle, nom et focus',()=>{

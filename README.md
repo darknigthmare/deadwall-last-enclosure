@@ -1,3 +1,21 @@
+# DEADWALL 1.56.0 — Accès, soins et fortifications
+
+Les fondations d'annexes partagent maintenant leurs obstacles avec la marche, les véhicules, les tirs et la visibilité. Pression des corps, filets et déblaiement prennent en compte les extrémités des portes. Les commandes du monde conservent leurs boutons et actualisent leurs actions pendant les rafraîchissements.
+
+Une blessure interrompt le travail d'armurerie même si un soin suit dans le même pas. Les soins de clinique utilisent les médicaments disponibles ; hôpitaux et cliniques exigent la présence réelle du blessé. Les opérations de camp refusent une halte trop courte. Les onze âges, les graines G1–G7, les stocks finis et les sauvegardes v20 sont conservés.
+
+Guide : [docs/LIVRAISON_1_56.md](docs/LIVRAISON_1_56.md). Corrections, reproductions et limites : [docs/AUDIT_1_56.md](docs/AUDIT_1_56.md). Les contrôles finaux et la publication sont attestés séparément dans le compte rendu de livraison. Les grandes hordes sur GPU logiciel restent lentes ; la cible Standard de **6 à 10 heures** attend des campagnes humaines complètes.
+
+```sh
+npm ci
+npm start
+npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:campaign
+```
+
+## Historique conservé — 1.55.0
+
 # DEADWALL 1.55.0 — Commandement, relais et logistique
 
 Ouvrir le devis d'orientation suspend immédiatement le combat. Les relais attendent la fin d'une recharge et tiennent compte des réanimés réellement proches ; le bilan Logistique reflète les centrales actives et les réserves d'intrants payées. Les actions d'escalier restent activables pendant les rafraîchissements, les annexes reçoivent six silhouettes existantes et les libellés tactiles restent lisibles.

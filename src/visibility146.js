@@ -75,7 +75,7 @@
           const shape = R.districtGeometry;
           const box = { x: shape.left + b.slot % shape.columns * shape.columnStep,
             y: shape.top + Math.floor(b.slot / shape.columns) * shape.rowStep, w: shape.width, h: shape.height };
-          const annex = { pose: { ...d.pos, w: 0, h: 0 }, box, building: b };
+          const annex = { id: 'annex:' + d.id + ':' + b.slot, pose: { ...d.pos, w: 0, h: 0 }, box, building: b };
           districts.push(annex);
           const p = G.global(annex.pose, box.x + box.w / 2, box.y + box.h / 2);
           observer('region', { ...p, z: 0, inside: null }, R.districts[b.type], () => b.progress >= 1, null, annex);
@@ -135,13 +135,13 @@
           if (d === a.annex) continue;
           if (G.segmentRect(G.local(d.pose, a.x, a.y), G.local(d.pose, b.x, b.y), d.box)) return false;
         }
-        const part = homeInterval(a, b), w = part?.enter === 0 && part.exit === 1 ? null : regionalWorld();
-        if (!part) return Boolean(w?.line?.(a, b, 0, a.inside, null, R.lineRadius));
+        const part = homeInterval(a, b), w = part?.enter === 0 && part.exit === 1 ? null : regionalWorld(), ignoredAnnex = a.annex?.id ?? null;
+        if (!part) return Boolean(w?.line?.(a, b, 0, a.inside, ignoredAnnex, R.lineRadius));
         const at = t => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
         const entry = at(part.enter), exit = at(part.exit);
         if (!g.hostileLineClear(localPoint(entry), localPoint(exit), false, a.building)) return false;
-        if (part.enter > 0 && !w?.line?.(a, entry, 0, a.inside, null, R.lineRadius)) return false;
-        if (part.exit < 1 && !w?.line?.(exit, b, 0, b.inside, null, R.lineRadius)) return false;
+        if (part.enter > 0 && !w?.line?.(a, entry, 0, a.inside, ignoredAnnex, R.lineRadius)) return false;
+        if (part.exit < 1 && !w?.line?.(exit, b, 0, b.inside, ignoredAnnex, R.lineRadius)) return false;
         return true;
       }
       function illuminated(p) {

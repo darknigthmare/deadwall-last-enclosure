@@ -1,5 +1,11 @@
 # Équilibrage de référence
 
+## Soins et cohérence — 1.56
+
+La clinique conserve ses débits historiques : 1,6 PV/s pour le commandant et 2,2 PV/s par unité dans un rayon de 130 unités locales. Elle consomme désormais 0,025 médicament par PV effectivement rendu, comme le coût unitaire du secouriste. Ces valeurs sont dans `NPC_RULES`. Stock insuffisant : soin au prorata, sans dépassement ; personne indemne, morte, absente ou inaccessible : aucun soin ni médicament consommé. Courant et états d'arrêt restent requis. Les hôpitaux gardent leurs propres débits et coûts.
+
+Pression des corps, filets et déblaiement utilisent l'emprise des portes avec le rayon historique de 52 unités. Les devis de camp temporaire refusent un travail plus long que leur support restant. Aucun coût de construction, seuil d'âge, rendement de gisement, statistique d'infecté, charge de filet ou débit de déblaiement n'est modifié.
+
 ## Campagne — 1.51
 
 Les nouveaux âges exigent un crédit de développement diversifié et des conditions de population, ravitaillement, exploration et survie. Les répétitions gardent leur score physique et leur effet sur la signature, mais leur contribution au développement est plafonnée par modèle. Voir [LIVRAISON_1_51.md](LIVRAISON_1_51.md) et les règles de `core.js`. La cible Standard de 6 à 10 heures devra être confrontée à des campagnes humaines ; les simulations de cadence sont des bornes optimistes.

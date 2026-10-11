@@ -210,7 +210,8 @@ test('clinique : les soins exigent un contact accessible et conservent les débi
     const resources = { ...game.resources }; game.updateBuildings(1);
     const accessible = mode === 'auto' || mode === 'open';
     assert.equal(game.player.health, accessible ? 21.6 : 20, mode); assert.equal(unit.health, accessible ? 22.2 : 20, mode);
-    assert.deepEqual(game.resources, resources, 'aucun coût ou munitions ajoutés aux soins passifs');
+    for(const key of C.RESOURCE_KEYS)if(key!=='medicine')assert.equal(game.resources[key],resources[key],key+' conserve son stock');
+    assert.ok(Math.abs(game.resources.medicine-(resources.medicine-(accessible?1.6+2.2:0)*C.NPC_RULES.clinicMedicinePerHealth))<1e-7,'Les PV utiles sont payés en médicaments, sans changer les débits historiques.');
   }
 });
 

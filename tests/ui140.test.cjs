@@ -18,7 +18,8 @@ test('UI 1.40 : sécuriser une annexe rend le focus à Districts quand le contr�
  const before={...g.resources},elapsed=g.elapsed,button=doc.getElementById('claim-east');activate(doc,button);
  assert.equal(g.worldEvolution.snapshot().districts.east.level,1);
  assert.equal(g.resources.wood,before.wood-120);assert.equal(g.resources.stone,before.stone-100);assert.equal(g.resources.scrap,before.scrap-80);
- assert.equal(doc.getElementById('claim-east').disabled,true);assert.equal(doc.body.contains(button),false);
+ assert.equal(doc.getElementById('claim-east'),button);assert.equal(button.disabled,true);assert.equal(doc.body.contains(button),true);
+ const paid={...g.resources};button.onclick();assert.deepEqual(g.resources,paid,'Le contrôle désactivé ne paie pas une seconde sécurisation');assert.equal(g.worldEvolution.snapshot().districts.east.level,1);
  assert.ok(doc.activeElement===doc.getElementById('evoTab-districts'),'Onglet connecté et utilisable après la sécurisation');
  assert.ok(doc.body.contains(doc.activeElement));assert.equal(g.activeOverlay,g.ui.commandModal);assert.equal(g.paused,true);assert.equal(g.elapsed,elapsed);
  const saved=g.serialize();g.restoreSave(saved);assert.equal(g.worldEvolution.snapshot().districts.east.level,1);assert.equal(g.resources.wood,before.wood-120);

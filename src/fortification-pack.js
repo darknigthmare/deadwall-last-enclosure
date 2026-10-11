@@ -304,7 +304,7 @@ function install(g){
    for(const [k,rate]of Object.entries(b.def.production))g.resources[k]=Math.min(g.storage,g.resources[k]+rate*seconds*fraction);
   }guarded=[];return result;
  });
- wrap('killZombie',(old,z,...args)=>{const b=z&&!z.dead?g.nearestWall(z.x,z.y,52):null,f=b&&fitting(b.id),before=b?.corpseLoad||0,r=old(z,...args);if(f?.net>0&&b&&b.corpseLoad>before){const n=Math.min(f.net,b.corpseLoad-before);b.corpseLoad-=n;f.net-=n;}return r;});
+ wrap('killZombie',(old,z,...args)=>{const b=z&&!z.dead?g.nearestWall(z.x,z.y,52,true):null,f=b&&fitting(b.id),before=b?.corpseLoad||0,r=old(z,...args);if(f?.net>0&&b&&b.corpseLoad>before){const n=Math.min(f.net,b.corpseLoad-before);b.corpseLoad-=n;f.net-=n;}return r;});
  wrap('destroyBuilding',(old,b,...args)=>{
   const record=b&&!b.dead&&b.completed&&b.type!=='core'&&g.world.buildings.get(b.id)===b&&state.debris.length<R.maxDebris?{id:b.id,type:b.type,x:b.x,y:b.y,w:b.w*C.TILE,h:b.h*C.TILE,remaining:Object.fromEntries(R.debrisResources.map(k=>[k,Math.floor((b.def.cost[k]||0)*R.debrisFactor)]))}:null;
   const result=old(b,...args);reconcile();if(record&&state.debris.length<R.maxDebris&&!g.world.buildings.has(record.id)&&C.bagTotal(record.remaining)>0&&!state.debris.some(d=>d.id===record.id))state.debris.push(record);return result;

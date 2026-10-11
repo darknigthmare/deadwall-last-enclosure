@@ -166,6 +166,15 @@ test('hub intégré : les cinq vrais modules fournissent leurs actions et une pr
 test('anciens dossiers : panneau masqué sans reconstruction et rafraîchissement automatique plafonné', () => {
   const { g, doc, actualFrontier, elements } = fixture(); g.frontier = actualFrontier;
   const proto = Object.getPrototypeOf(doc.body); proto.append = function (...nodes) { for (const node of nodes) this.appendChild(node); };
+  // This legacy fixture loads the real world panel, whose DOM reconciliation
+  // uses native insertBefore. Match reparenting and null-reference append.
+  proto.insertBefore = function (node, reference) {
+    if (node === reference) return node;
+    if (node.parentNode) node.remove();
+    const index = reference === null ? this.children.length : this.children.indexOf(reference);
+    if (index < 0) throw Error('Insertion reference is not a child of this parent.');
+    this.children.splice(index, 0, node); node.parentNode = this; return node;
+  };
   const originalGet = doc.getElementById.bind(doc); doc.getElementById = id => doc.body.querySelectorAll('#' + id)[0] || originalGet(id);
   const host = doc.createElement('section'); host.id = 'frontierDossier'; doc.body.appendChild(host); elements.set(host.id, host);
   g.frontierUI = { open() { host.classList.remove('hidden'); return true; } };

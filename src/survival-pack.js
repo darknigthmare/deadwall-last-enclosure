@@ -68,7 +68,7 @@ function install(g){
    target=placement||campPosition(p);if(!clearCamp(target)||!line(p,target))return{ok:false,reason:'Un sol extérieur dégagé est requis devant vous.'};
   }
   if(['rest','cover','service','ration','restSheltered'].includes(kind)){target=['ration','restSheltered'].includes(kind)&&id!==undefined?state.camps.find(c=>c.id===id&&near(p,c)):nearestCamp(p);if(!target)return{ok:false,reason:'Approchez d’un bivouac accessible.'};}
-  if(['ration','restSheltered'].includes(kind)&&target.left<=remainingSeconds)return{ok:false,reason:'La halte expire avant la fin de cette préparation.'};
+  if(['rest','cover','service','ration','restSheltered'].includes(kind)&&target.left<=remainingSeconds)return{ok:false,reason:'La halte expire avant la fin de cette préparation.'};
   if(['rest','restSheltered'].includes(kind)&&g.player.health>=g.player.maxHealth)return{ok:false,reason:'Vous êtes déjà en bonne santé.'};
   if(kind==='restSheltered'&&target.cover<=remainingSeconds)return{ok:false,reason:'Une bâche doit abriter cette halte jusqu’à la fin de la relève.'};
   if(kind==='ration'&&g.player.stamina>=g.player.maxStamina)return{ok:false,reason:'Votre endurance est déjà pleine.'};

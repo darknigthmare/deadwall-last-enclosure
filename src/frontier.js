@@ -9,7 +9,15 @@ if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation)r
 home=g.world;state=next;takenCount=Object.keys(state.taken).length;pending=null;near=[];enemies.clear();bullets=[];action=null;locked=null;focus=null;candidates=[];sound={kind:'Silence',radius:0,time:0};pulse=0;}const v=car();if(state.car&&(!v||v.id!==state.car.id))state.car=null;if(v)v.regionAway=!!state.car;g.player.regionAbsent=state.active;return state;}
 // Frequent pose readers do not need geometry or a validated copy of the expedition history.
 function position(){ensure();return{active:state.active,generation:state.generation,x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
-const world=()=>{ensure();if(!region)region=W.create(g.world.seed,state.generation,{structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0});return region;};
+const world=()=>{ensure();if(!region){
+ region=W.create(g.world.seed,state.generation,{structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0});
+ // Annex foundations already occupy physical space. Give all regional readers
+ // the same live obstacles, without changing generated plans or saved records.
+ const blocked=region.blocked,line=region.line,vehicle=region.vehicleClear;
+ region.blocked=(x,y,r=.32,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore)||z===0&&!!g.worldEvolution?.districtBlocked(x,y,r,null,ignore);
+ region.line=(a,b,z=0,inside=null,ignore=null,r=.05)=>line(a,b,z,inside,ignore,r)&&(z!==0||g.worldEvolution?.districtLineClear(a,b,r,ignore)!==false);
+ region.vehicleClear=(x,y,a,w=4.8,h=2.03)=>vehicle(x,y,a,w,h)&&!g.worldEvolution?.districtBlocked(x,y,0,{a,w,h});
+}return region;};
 const tell=t=>{message=t;g.notify(t);return false;};
 // Local driving reserves the full profile radius (see expeditions.carClear).
 // Its centre must be able to reach the seam before the boundary rejects it.
@@ -49,7 +57,7 @@ function disembark(){
  const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},clearance=Math.max(1.55,vp.h/2+R.footRadius+.01);
  for(let i=0;i<20;i++){
   const a=state.car.a+Math.PI/2+(i%2)*Math.PI,r=clearance+Math.floor(i/2)*.25,x=state.car.x+Math.cos(a)*r,y=state.car.y+Math.sin(a)*r;
-  if(!world().blocked(x,y,R.footRadius)&&!g.worldEvolution?.districtBlocked(x,y,R.footRadius)&&world().line(state.car,{x,y},0,null,null,R.footRadius)){
+  if(!world().blocked(x,y,R.footRadius)&&world().line(state.car,{x,y},0,null,null,R.footRadius)){
    state.car.driving=false;state.x=x;state.y=y;return true;
   }
  }
@@ -83,12 +91,12 @@ function stairs(delta){
  g.save(false);return true;
 }
 function hitsBase(x,y){return state.generation<4&&P.homeBarrier(x,y,g);}
-const vehicleClear=(x,y,a,vp)=>world().vehicleClear(x,y,a,vp.w,vp.h)&&!g.worldEvolution?.districtBlocked(x,y,0,{a,w:vp.w,h:vp.h});
+const vehicleClear=(x,y,a,vp)=>world().vehicleClear(x,y,a,vp.w,vp.h);
 function overlapsCar(x,y){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},q=G.local({...state.car,w:vp.w,h:vp.h},x,y);return G.circleRect(q.x,q.y,R.footRadius,{x:0,y:0,w:vp.w,h:vp.h});}
 function move(dx,dy){
  const w=world(),n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/.16)),driving=state.car?.driving;
  const clear=(x,y)=>{
-  if(hitsBase(x,y)||!driving&&state.z===0&&g.worldEvolution?.districtBlocked(x,y,R.footRadius))return false;
+  if(hitsBase(x,y))return false;
   // An older save can retain the driver inside a destroyed vehicle. Let them
   // clear that overlap once; the wreck remains solid when approached outside.
   if(!driving&&state.z===0&&state.car&&(car()?.health>0||!overlapsCar(state.x,state.y))&&overlapsCar(x,y))return false;
@@ -151,7 +159,7 @@ function selection(){candidates=Survey.targets(world(),state,state.taken,R.lootR
 function cycle(){if(!can()||!state.active||state.car?.driving)return false;selection();if(!candidates.length)return false;const at=candidates.findIndex(b=>b.id===focus?.id);locked=candidates[(at+1)%candidates.length].id;selection();return true;}
 function emitNoise(radius,kind){if(!state.active||radius<=0)return;sound={kind,radius,time:T.pulse+0.2};Survey.hear(world(),enemies.values(),state,radius,T);g.worldEvolution?.hear(state,radius);}
 function visibleEnemy(e){return e.z===state.z&&world().line(state,e,e.z,e.z?state.inside:null,null,.015);}
-function enemyBlocked(e,x,y){if(world().blocked(x,y,T.enemyRadius,e.z,e.z?e.poi:null)||e.z===0&&g.worldEvolution?.districtBlocked(x,y,T.enemyRadius))return true;if(e.z===0&&state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},q=G.local({...state.car,w:vp.w,h:vp.h},x,y);return G.circleRect(q.x,q.y,T.enemyRadius,{x:0,y:0,w:vp.w,h:vp.h});}return false;}
+function enemyBlocked(e,x,y){if(world().blocked(x,y,T.enemyRadius,e.z,e.z?e.poi:null))return true;if(e.z===0&&state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},q=G.local({...state.car,w:vp.w,h:vp.h},x,y);return G.circleRect(q.x,q.y,T.enemyRadius,{x:0,y:0,w:vp.w,h:vp.h});}return false;}
 function enemyTurn(dt){const budget={left:T.pathBudget};for(const e of enemies.values()){
  Survey.step(world(),e,state,dt,e.biomeProfile?{...T,enemySpeed:e.biomeProfile.speed}:T,budget,(x,y)=>enemyBlocked(e,x,y));
  const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},target=state.car?.driving?Survey.edge(e,{...state.car,w:vp.w,h:vp.h}):state,reach=state.car?.driving ? .8 : .9;

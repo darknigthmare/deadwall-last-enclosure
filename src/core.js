@@ -60,7 +60,7 @@
       { symbol: 'ST', storage: 600, light: 55 }),
     barracks: B('barracks', 'Caserne', 'colony', '★', 'Permet de recruter des fusiliers et ajoute quatre logements. Leur ralliement reste à vos ordres.', { wood: 75, scrap: 70, ammo: 25 }, 1050, 30, [4, 3], 1, 9,
       { symbol: 'CA', color: '#485144', roof: '#687263', powerUse: 1, housing: 4, light: 80 }),
-    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soins de proximité sous alimentation électrique ; permet de recruter des secouristes. Aucun remède à la contamination.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
+    clinic: B('clinic', 'Clinique', 'colony', '+', 'Soins de proximité contre médicaments et sous alimentation électrique ; permet de recruter des secouristes. Aucun remède à la contamination.', { wood: 60, scrap: 55, medicine: 8 }, 850, 28, [3, 3], 2, 7,
       { symbol: '+', color: '#586965', roof: '#7c928b', powerUse: 2, light: 90 }),
 
     farm: B('farm', 'Ferme protégée', 'industry', '≋', 'Produit régulièrement de la nourriture. Sa grande surface doit être défendue.', { wood: 55, stone: 25 }, 540, 20, [4, 3], 0, 5,
@@ -242,7 +242,7 @@
     medic: { id:'medic', name:'Secouriste', description:'Rejoint les blessés vivants et les soigne avec des médicaments ; aucune résurrection.', health:90, speed:66, radius:11, cost:{food:35,medicine:8}, tier:2, requires:'clinic', specialist:true },
     engineer: { id:'engineer', name:'Ingénieur', description:'Rejoint les structures endommagées et les répare en consommant les matériaux nécessaires.', health:105, speed:62, radius:11, cost:{food:35,scrap:35}, tier:2, requires:'workshop', specialist:true }
   };
-  const NPC_RULES = { healPerSecond:6, healRange:64, medicinePerHealth:.025, repairPerSecond:14, repairRange:48, repairScrapPerHealth:1/45, repairWoodPerFullWall:12, repairStonePerFullWall:16, searchRadius:800, rethinkSeconds:.6, dangerRange:105, fleeSpeedMultiplier:1.25, rallyRadius:28 };
+  const NPC_RULES = { healPerSecond:6, healRange:64, medicinePerHealth:.025, clinicRange:130, clinicPlayerHealPerSecond:1.6, clinicUnitHealPerSecond:2.2, clinicMedicinePerHealth:.025, repairPerSecond:14, repairRange:48, repairScrapPerHealth:1/45, repairWoodPerFullWall:12, repairStonePerFullWall:16, searchRadius:800, rethinkSeconds:.6, dangerRange:105, fleeSpeedMultiplier:1.25, rallyRadius:28 };
 
   const PERFORMANCE_LIMITS = { zombies: 720, corpses: 900, particles: 950, lights: 85 };
   const SIMULATION_RULES = Object.freeze({ maxStepSeconds: .04, maxFrameSeconds: .25, maxSteps: 7 });

@@ -136,6 +136,7 @@ function install(g){
  g.expansions.register({id:'arsenal134',title:'Armurerie & défenses',overview,actions,busy:api.busy,validate,snapshot:api.snapshot,restore:raw=>{state=validate(raw);task=null;message='';},reset:()=>{state=initial();task=null;message='';}});
  wrap('startNew',(old,...a)=>{const world=g.world,result=old(...a);if(g.world!==world)ensure();return result;});
  wrap('restoreSave',(old,raw)=>{const result=old(raw);if(result!==false){ensure(raw);apply();}return result;});
+ wrap('damagePlayer',(old,...a)=>{const health=g.player?.health,result=old(...a);if(task&&g.player?.health<health)cancel('Blessure reçue : travail interrompu ; matériaux conservés.');return result;});
  wrap('update',(old,dt)=>{if(task&&(!alive()||g.gameOver))cancel();const run=g.state==='playing'&&!g.paused&&!g.activeOverlay&&!g.gameOver,result=old(dt);if(run)step(dt);return result;});
  wrap('switchWeapon',(old,id)=>{ensure();const i=state.carried.find(i=>i.id===id&&D[i.id].category==='firearm')||state.carried.find(i=>D[i.id].base===id&&D[i.id].category==='firearm');return i?equip(i.uid):fail('Aucune arme de cette famille dans le harnais.');});
  wrap('shootPlayer',(old,...a)=>{if(active()&&D[active().id].category!=='firearm'){melee();return;}return old(...a);});

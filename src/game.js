@@ -17,6 +17,7 @@
 
   const now = () => performance.now() / 1000;
   const rotateSize = (def, rotation) => Math.abs(rotation) % 2 ? [def.size[1], def.size[0]] : def.size;
+  const distanceToBuildingSquared = (p, b) => (p.x - clamp(p.x, b.left, b.right)) ** 2 + (p.y - clamp(p.y, b.top, b.bottom)) ** 2;
 
   class Building {
     constructor(id, type, gx, gy, rotation = 0, progress = 0) {
@@ -1330,7 +1331,14 @@
         if (b.dead) continue; b.fireCooldown=Math.max(0,b.fireCooldown-dt);b.flash=Math.max(0,b.flash-dt);b.underAttack=Math.max(0,b.underAttack-dt);b.corpseLoad=Math.max(0,b.corpseLoad-dt*C.WORKER_RULES.passiveDecayPerSecond);
         if(!b.completed){if(b.work(dt*.075))this.completeBuilding(b);continue;}
         if(b.def.range&&b.powered&&this.resources.ammo>=(b.def.ammoPerShot||1)&&(!this.citadel||this.citadel.canFire(b.def.ammoPerShot||1))&&b.fireCooldown<=0){const target=this.nightwatch?this.nightwatch.target(b.x,b.y,b.def.range):this.nearestZombie(b.x,b.y,b.def.range);if(target){b.turretAngle=Math.atan2(target.y-b.y,target.x-b.x);b.fireCooldown=1/b.def.fireRate;this.resources.ammo-=b.def.ammoPerShot||1;b.flash=.06;this.fireFriendly(b.x,b.y-3,b.turretAngle,b.def.damage*(this.hasResearch('ballistics')?1.12:1),b.def.range,b.type==='heavyTurret'?'#ffc56e':'#ffe4a1');}}
-        if(b.type==='clinic'&&b.powered){for(const u of this.units)if(!u.dead&&u.health>0&&distSq(u,b)<130*130&&this.workerCanWorkAt(u,b,130))u.health=Math.min(u.maxHealth,u.health+dt*2.2);if(!this.player.dead&&this.player.health>0&&distSq(this.player,b)<130*130&&this.workerCanWorkAt(this.player,b,130))this.player.health=Math.min(this.player.maxHealth,this.player.health+dt*1.6);}
+        if(b.type==='clinic'&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline&&Number.isFinite(dt)&&dt>0){
+          const r=C.NPC_RULES;
+          for(const u of [...this.units,this.player])if(!u.dead&&u.health>0&&!u.regionAbsent&&distSq(u,b)<r.clinicRange*r.clinicRange&&this.workerCanWorkAt(u,b,r.clinicRange)){
+            const rate=u===this.player?r.clinicPlayerHealPerSecond:r.clinicUnitHealPerSecond;
+            const healed=Math.max(0,Math.min(u.maxHealth-u.health,dt*rate,this.resources.medicine/r.clinicMedicinePerHealth));
+            if(healed>0){u.health+=healed;this.resources.medicine=Math.max(0,this.resources.medicine-healed*r.clinicMedicinePerHealth);}
+          }
+        }
       }
     }
 
@@ -1583,7 +1591,7 @@
       if(unit.dead||wall.dead||!wall.completed||!wall.def.wall||!this.workerCanWorkAt(unit,point,C.WORKER_RULES.cleanupRange))return 0;
       const before=wall.corpseLoad,amount=Math.min(before,dt*C.WORKER_RULES.cleanupPerSecond);wall.corpseLoad=Math.max(0,before-amount);
       let removed=Math.ceil(before)-Math.ceil(wall.corpseLoad);
-      for(let i=this.corpses.length-1;i>=0&&removed>0;i--)if(distSq(this.corpses[i],wall)<=52*52){this.corpses.splice(i,1);removed--;}
+      for(let i=this.corpses.length-1;i>=0&&removed>0;i--)if(distanceToBuildingSquared(this.corpses[i],wall)<=52*52){this.corpses.splice(i,1);removed--;}
       return amount;
     }
 
@@ -1890,8 +1898,8 @@
       this.projectiles = this.projectiles.filter(p => !p.dead);
     }
 
-    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
-    nearestWall(x,y,range){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
+    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52,true);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
+    nearestWall(x,y,range,fromSurface=false){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=fromSurface?distanceToBuildingSquared({x,y},b):(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
 
     updateEffects(dt){for(const node of this.world.nodes)node.flash=Math.max(0,node.flash-dt);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.08,dt);p.vy+=p.kind==='debris'||p.kind==='blood'?65*dt:-4*dt;p.rotation+=dt*4;}this.particles=this.particles.filter(p=>p.life>0);if(this.particles.length>PERFORMANCE_LIMITS.particles)this.particles.splice(0,this.particles.length-PERFORMANCE_LIMITS.particles);for(const c of this.corpses)c.age+=dt;this.corpses=this.corpses.filter(c=>c.age<100);for(const f of this.floaters){f.life-=dt;f.y-=dt*18;}this.floaters=this.floaters.filter(f=>f.life>0);}
 

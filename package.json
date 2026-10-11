@@ -1,6 +1,6 @@
 {
   "name": "deadwall-last-enclosure",
-  "version": "1.55.0",
+  "version": "1.56.0",
   "private": true,
   "main": "desktop/main.cjs",
   "description": "Explorez, b\u00e2tissez et ravitaillez une cit\u00e9 fortifi\u00e9e \u00e0 d\u00e9fendre contre les hordes de la nuit.",

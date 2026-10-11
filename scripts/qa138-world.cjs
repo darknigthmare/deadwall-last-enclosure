@@ -58,7 +58,9 @@ function district(observe=false){
  assert.equal(g.worldEvolution.claimDistrict('north'),true);assert.equal(g.worldEvolution.buildDistrict('north','housing'),true);
  const d=g.worldEvolution.overview().districts.find(d=>d.id==='north'),shape={x:d.pos.x-12,y:d.pos.y-17.5,a:d.pos.a,w:20,h:9};assert.equal(d.pos.a,0);
  let q,key;
- for(const side of [-1,1]){const point={x:shape.x+side*(shape.w/2+vp.w/2+.8),y:shape.y};if(Array.from({length:40},(_,i)=>i*.1).every(n=>w.vehicleClear(point.x-side*n,point.y,side>0?Math.PI:0,vp.w,vp.h))){q=point;key=side>0?'KeyA':'KeyD';break;}}
+ // All 40 approach probes must stay outside the same live annex collider.
+ // The following native movement still reaches the facade and tests its stop.
+ for(const side of [-1,1]){const point={x:shape.x+side*(shape.w/2+vp.w/2+4.8),y:shape.y};if(Array.from({length:40},(_,i)=>i*.1).every(n=>w.vehicleClear(point.x-side*n,point.y,side>0?Math.PI:0,vp.w,vp.h))){q=point;key=side>0?'KeyA':'KeyD';break;}}
  assert.ok(q,'Annexe fixture has a real unobstructed approach for the bus.');stage(g,'region',q,key==='KeyD'?0:Math.PI);assert.equal(G.obb({...q,a:0,w:vp.w,h:vp.h},shape),false);
  ticks(g,key,35);const after=g.frontier.position(),overlap=G.obb({...after,w:vp.w,h:vp.h},shape);
  if(observe)return{scenario:'district',district:d.id,shape,start:q,after,overlap};

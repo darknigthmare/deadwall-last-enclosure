@@ -71,7 +71,7 @@
    if(b.rotation===value)return true;const cells=g.world.cells(b);b.rotation=value;g.world.rewrite(b,cells);g.nightwatch?.invalidate();g.save(false);g.audio?.ui();return true;}
   function medical(dt){if(!Number.isFinite(dt)||dt<=0||dt>.25||g.state!=='playing'||g.gameOver||g.paused||g.activeOverlay)return;
    for(const b of g.world.buildings.values())if(live(b)&&b.completed&&b.powered&&!b.siegeOffline&&!b.territoryOffline&&b.def.medicalRadius){
-    for(const u of [g.player,...g.units])if(live(u)&&u.health<u.maxHealth&&Math.hypot(u.x-b.x,u.y-b.y)<=b.def.medicalRadius&&g.workerCanWorkAt(u,b,b.def.medicalRadius)){
+    for(const u of [g.player,...g.units])if(live(u)&&!u.regionAbsent&&u.health<u.maxHealth&&Math.hypot(u.x-b.x,u.y-b.y)<=b.def.medicalRadius&&g.workerCanWorkAt(u,b,b.def.medicalRadius)){
      const n=Math.max(0,Math.min(u.maxHealth-u.health,b.def.healRate*dt,g.resources.medicine/b.def.medicinePerHealth));if(n>0){g.resources.medicine=Math.max(0,g.resources.medicine-n*b.def.medicinePerHealth);u.health+=n;}
     }
    }
