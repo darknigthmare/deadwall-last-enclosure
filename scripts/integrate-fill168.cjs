@@ -26,14 +26,15 @@ replace('src/codex-coverage167.js',"['recipe159','anchors160','quantities164','e
 replace('scripts/compile-codex3000.mjs',"const text=fs.readFileSync(path.join(root,'src/codex-coverage167.js')", "const text=fs.readFileSync(path.join(root,'src/codex-fill168.js'),'utf8')+'\\n'+fs.readFileSync(path.join(root,'src/codex-coverage167.js')");
 replace('tests/distribution.test.cjs',"return ['src/codex-coverage167.js'","return ['src/codex-fill168.js','src/codex-coverage167.js'");
 replace('scripts/browser-plan165.mjs',"host.locator('input')","host.locator('input[type=number]')",4);
-// Only negative tests for the previously next revision move from 6 to 7.
-// Existing valid-revision tests are preserved; fill168 tests explicitly add revision 6.
+// Negative next-revision checks remain strict; prior implemented revisions remain valid.
 for(const file of fs.readdirSync('tests').filter(n=>/\.test\.cjs$/.test(n)&&!n.includes('fill168'))){
  const name='tests/'+file;let text=fs.readFileSync(name,'utf8'),next=text;
  next=next.replace(/detailVersion:\s*6\b/g,'detailVersion:7').replace(/upgradeDetails159\(6\)/g,'upgradeDetails159(7)');
  next=next.replace(/\[6,-1,1\.5/g,'[7,-1,1.5').replace(/\[-1,6,'1'/g,"[-1,7,'1'");
  if(next!==text){read(name);staged.set(name,next);}
 }
+// This older test still rejected revision 4, which was already implemented before this pass.
+replace('tests/codex-recipes159.test.cjs','state.detailVersion=4;assert.throws(()=>S.normalize(state));',"for(const v of [0,1,2,3,4,5,6])assert.equal(S.normalize({...state,detailVersion:v}).detailVersion,v);for(const v of [7,-1,1.5,'6',true,null,NaN,Infinity])assert.throws(()=>S.normalize({...state,detailVersion:v}));");
 const sw=read('sw.js'),match=sw.match(/^const CACHE = '([^']+)';/);if(!match)throw Error('Cache marker absent');replace('sw.js',match[0],"const CACHE = 'deadwall-v1.57.0-fill168';");
 const dir='artifacts/qa/fill168-integration';fs.mkdirSync(dir,{recursive:true});
 const records=[];for(const [file,text]of staged){if(text===original.get(file))continue;const sha=s=>crypto.createHash('sha256').update(s).digest('hex');records.push({file,before:sha(original.get(file)),after:sha(text)});}
