@@ -77,7 +77,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
   const seen=new Set(data.frontier.seen);
   for(const id of data.expansions127?.modules.world131?.surveyed||[])for(const site of next.sectors.find(s=>s.id===id)?.sites||[])seen.add(site);
   data.frontier.seen=[...seen];data.frontier.generation=8;
-  try{g.restoreSave(data);}catch(error){return fail(error.message);}
+  try{if(g.restoreSave(data)!==true)return fail('La sauvegarde a refusé cette extension ; aucun site ajouté.');}catch(error){return fail(error.message);}
   return done('Monde G8 activé : programmes Codex 3000 éligibles sur les routes existantes ; sites historiques préservés.');
  }
  function detailUpgradeStatus159(target=2){
