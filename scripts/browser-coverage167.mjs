@@ -2,8 +2,9 @@ import {createHarness,recorder,ready,chooseCampaign,openCommand,activate} from '
 const h=await createHarness('coverage167','Actual Codex DOM inspection. Source/model reports never modify campaign state; isolated recipe scenes are not discovered locations. Mobile views are emulated.');h.report.profiles=[];
 try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844,touch:true},{width:844,height:390,touch:true}]){
-  const context=await h.browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:!!viewport.touch,isMobile:!!viewport.touch,serviceWorkers:'block'}),page=await context.newPage(),profile={viewport};h.report.profiles.push(profile);page.setDefaultTimeout(60000);
+  const context=await h.browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:!!viewport.touch,isMobile:!!viewport.touch,serviceWorkers:'block'}),page=await context.newPage(),profile={viewport};h.report.profiles.push(profile);page.setDefaultTimeout(30000);
   const {check,screenshot,errors}=recorder(page,profile,h.output,viewport.width+'-');
+  page.on('pageerror',error=>console.log('COVERAGE167_PAGE_ERROR '+JSON.stringify({viewport,message:error.message,stack:error.stack})));
   try{
    await page.goto(h.base,{waitUntil:'networkidle'});await ready(page);await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);await openCommand(page,viewport.touch,'field');await activate(page,'[data-field-view="world-codex"]',viewport.touch);
    await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');
@@ -26,7 +27,9 @@ try{
    check('All inspection operations preserve every saved field',await saved()===before);
    check('The ten-axis report fits the mobile/desktop card',await coverage.evaluate(n=>n.scrollWidth<=n.clientWidth+1&&document.documentElement.scrollWidth<=innerWidth+1));
    check('No JavaScript or HTTP errors',errors()===0);profile.pass=true;
-  }catch(error){profile.pass=false;profile.failure=error.stack;await screenshot('failure').catch(()=>{});}finally{await context.close();console.log(JSON.stringify({viewport,pass:profile.pass,checks:profile.checks.length,failure:profile.failure?.split('\n')[0]}));}
+  }catch(error){profile.pass=false;profile.failure=error.stack;await screenshot('failure').catch(()=>{});}finally{
+   await context.close();console.log(JSON.stringify({viewport,pass:profile.pass,checks:profile.checks.length,failure:profile.failure,pageErrors:profile.pageErrors,consoleErrors:profile.consoleErrors,httpErrors:profile.httpErrors,requestFailures:profile.requestFailures}));
+  }
  }
 }finally{h.report.pass=h.report.profiles.length===3&&h.report.profiles.every(p=>p.pass);await h.close();await h.finish();}
 if(!h.report.pass)process.exitCode=1;

@@ -79,17 +79,24 @@ jobs:
       - name: Observe the real furnishing transaction and exact persisted fields
         if: ${{ !cancelled() }}
         run: node scripts/browser-quantities164.mjs
-      - name: Stamp source revision
+      - name: Print completed report diagnostics and stamp source revision
         if: always()
         run: |
           mkdir -p artifacts/qa/coverage167
           git rev-parse HEAD > artifacts/qa/coverage167/revision.txt
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const root='artifacts/qa';
+          for(const name of fs.readdirSync(root).filter(n=>/^(coverage167|quantities164)-/.test(n))){
+            const file=root+'/'+name+'/report.json';if(!fs.existsSync(file))continue;
+            const report=JSON.parse(fs.readFileSync(file,'utf8'));
+            for(const p of report.profiles||[])console.log('REPORT167 '+JSON.stringify({suite:name,viewport:p.viewport,pass:p.pass,failure:p.failure,transaction:p.transaction,pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,httpErrors:p.httpErrors,requestFailures:p.requestFailures}));
+          }
+          JS
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: deadwall-codex167-browser
-          path: |
-            artifacts/qa/coverage167/
-            artifacts/qa/quantities164/
+          path: artifacts/qa/
           retention-days: 14
-          if-no-files-found: warn
+          if-no-files-found: error

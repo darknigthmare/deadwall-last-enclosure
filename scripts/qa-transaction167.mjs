@@ -30,8 +30,10 @@ export async function readTransaction(page,revision){
  const currentRevision=after.frontier.detailVersion,savedRevision=stored.frontier.detailVersion;
  const normalize=s=>{const result=structuredClone(s);result.frontier.detailVersion=started.frontier.detailVersion;return result;};
  const beforeClickChanges=differencePaths(data.armed,started),preRestoreChanges=differencePaths(started,beforeRestore),submittedChanges=differencePaths(started,normalize(input)),restoredChanges=differencePaths(started,normalize(after)),storedChanges=differencePaths(started,normalize(stored));
- return {ok:data.ok&&data.calls===1&&data.trusted,revision:currentRevision,savedRevision,expectedRevision:revision,
+ const result={ok:data.ok&&data.calls===1&&data.trusted,revision:currentRevision,savedRevision,expectedRevision:revision,
   beforeClickChanges,preRestoreChanges,submittedChanges,restoredChanges,storedChanges,
   onlyRevision:currentRevision===revision&&preRestoreChanges.length===0&&submittedChanges.length===0&&restoredChanges.length===0,
   storedOnlyRevision:savedRevision===revision&&storedChanges.length===0};
+ // Diagnostic keys only; do not print full player saves or arbitrary stored values.
+ console.log('TRANSACTION167 '+JSON.stringify(result));return result;
 }
