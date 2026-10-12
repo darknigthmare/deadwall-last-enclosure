@@ -211,6 +211,7 @@ function detailAt(p,z=0){
  const layer=p.generation===8||effects.detailVersion>=1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
  let dressed=Codex3000?.dress?.({seed,p,z,plan:plan(p,z),detail:layer})||layer;
  if(effects.detailVersion>=3&&programme)dressed=Codex3000.anchored({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
+ if(effects.detailVersion>=4&&programme)dressed=Codex3000.quantities({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  const colliders160=Object.freeze({interior:Object.freeze(dressed.interior.filter(o=>o.solid)),outdoor:Object.freeze(dressed.outdoor.filter(o=>o.solid))});
  const val=Object.freeze({...dressed,colliders160,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);

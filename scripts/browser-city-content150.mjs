@@ -1,3 +1,4 @@
+import { observeCityFrames164 } from './browser-city-proof164.mjs';
 import { matchesDeliveryVersion163 } from './browser-proof163.mjs';
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
@@ -357,27 +358,29 @@ async function artScene150(page, touch, rec) {
   if (await page.locator('#commandModal').isVisible()) await activate(page, '#commandReturn129', touch);
   if (!await page.locator('#pauseMenu').isVisible()) await activate(page, '#pauseButton', touch);
   const fixture = await page.evaluate(prepareSupports150, { allModels: true });
-  const observation = await page.evaluate(() => {
-    const g = DEADWALL, A = DeadwallD17Art150, ids = Object.keys(DeadwallCore.CityContent150.BUILDINGS), original = { ...g.camera }, persistent = () => { const { timestamp, ...s } = g.serialize(); return JSON.stringify(s); }, before = persistent(), paints = [], blit = g.art.blit;
-    g.art.blit = function (ctx, key, rect, ...args) { if (Object.hasOwn(A.ASSETS, key)) paints.push({ key, rect: [...rect] }); return blit.call(this, ctx, key, rect, ...args); };
-    globalThis.__CITY150_PHOTO__ = original;
-    const models = ids.map(type => [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead));
-    const bounds = { left: Math.min(...models.map(b => b.left)), right: Math.max(...models.map(b => b.right)), top: Math.min(...models.map(b => b.top - 120)), bottom: Math.max(...models.map(b => b.bottom)) };
-    g.camera.x = (bounds.left + bounds.right) / 2; g.camera.y = (bounds.top + bounds.bottom) / 2; g.camera.zoom = Math.min(.55, g.width / (bounds.right - bounds.left + 120), g.height / (bounds.bottom - bounds.top + 180)); g.render();
-    g.art.blit = blit;
-    return { fixture: 'Transient camera only; paused backdrop hidden only during photographs. No grant of visibility or gameplay zoom.', ids,
-      spriteIds: Object.keys(A.SPRITES), paints, bounds, decoded: Object.entries(A.ASSETS).map(([key, spec]) => ({ key, width: g.art.images[key]?.width, height: g.art.images[key]?.height, expectedWidth: spec.width, expectedHeight: spec.height })),
-      paintedIds: ids.filter(id => paints.some(p => p.key === A.SPRITES[id].atlas && JSON.stringify(p.rect) === JSON.stringify(A.SPRITES[id].rect))),
-      persistentUnchanged: before === persistent() };
-  });
-  const style = await page.addStyleTag({ content: '#pauseMenu { visibility:hidden!important; }' });
+  // Snapshot the camera before any observational work; restore on failures too.
+  const originalCamera = await page.evaluate(() => ({ ...DEADWALL.camera }));
+  let style, observation;
   try {
+    await page.evaluate(() => {
+      const g = DEADWALL, ids = Object.keys(DeadwallCore.CityContent150.BUILDINGS);
+      const models = ids.map(type => [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead));
+      if (models.some(b => !b)) throw Error('A required completed city model is missing');
+      const bounds = { left: Math.min(...models.map(b => b.left)), right: Math.max(...models.map(b => b.right)), top: Math.min(...models.map(b => b.top - 120)), bottom: Math.max(...models.map(b => b.bottom)) };
+      g.camera.x = (bounds.left + bounds.right) / 2; g.camera.y = (bounds.top + bounds.bottom) / 2;
+      g.camera.zoom = Math.min(.55, g.width / (bounds.right - bounds.left + 120), g.height / (bounds.bottom - bounds.top + 180));
+    });
+    observation = await page.evaluate(observeCityFrames164);
+    style = await page.addStyleTag({ content: '#pauseMenu { visibility:hidden!important; }' });
     await rec.screenshot('city-20-native-models');
     for (const type of ['casemate150', 'gateStore150', 'electricCannery150', 'continuityArsenal150', 'frontBattery150']) {
       await page.evaluate(type => { const g = DEADWALL, b = [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead); g.camera.x = b.x; g.camera.y = b.y - 18; g.camera.zoom = Math.min(1.7, g.width / (b.w * 32 + 160), g.height / (b.h * 32 + 210)); g.render(); }, type);
       await rec.screenshot('native-model-' + type);
     }
-  } finally { await style.evaluate(n => n.remove()); await page.evaluate(() => { Object.assign(DEADWALL.camera, globalThis.__CITY150_PHOTO__); DEADWALL.render(); }); }
+  } finally {
+    try { if (style) await style.evaluate(n => n.remove()); }
+    finally { await page.evaluate(camera => { Object.assign(DEADWALL.camera, camera); DEADWALL.render(); }, originalCamera); }
+  }
   return { fixture, ...observation };
 }
 
@@ -535,7 +538,7 @@ try {
       await activate(page, '#pauseButton', viewport.touch);
       profile.art = await artScene150(page, viewport.touch, rec); profile.fixtures.push(profile.art.fixture);
       advanced('Twenty new physical support IDs map one-to-one to native decoded atlas sprites', profile.art.ids.length === 20 && JSON.stringify(profile.art.ids.slice().sort()) === JSON.stringify(profile.art.spriteIds.slice().sort()) && profile.art.decoded.every(i => i.width === i.expectedWidth && i.height === i.expectedHeight));
-      advanced('Actual city renderer paints every one of the twenty native sprites without persistent changes', profile.art.paintedIds.length === profile.art.ids.length && profile.art.persistentUnchanged);
+      advanced('Actual city renderer paints all twenty exact selected frames on their own supports without persistent changes', profile.art.paintedIds.length === profile.art.ids.length && profile.art.persistentUnchanged);
       profile.finalArt = await loadedAssets(page, harness.assetKeys); advanced('Final registry remains entirely decoded with no failed asset', profile.finalArt.failed.length === 0);
       profile.checkpoints.push(await saveContinue150(page, viewport.touch)); advanced('All new city objects, road, mechanism and learned exercise survive final exact Save/menu/Continue', profile.checkpoints.at(-1).pass);
       advanced('All four browser error collectors are empty', rec.errors() === 0);

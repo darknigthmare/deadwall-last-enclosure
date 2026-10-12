@@ -71,6 +71,9 @@
           if(!details.open||details.dataset.recipeLoaded)return;
           const recipe=globalThis.DeadwallCodex3000Runtime?.describe(entry.id.slice('programme-'.length));if(!recipe)return;
           details.dataset.recipeLoaded='true';details.appendChild(el('h5','PROGRAMME COMPLET : PIÈCES, COURS ET MOBILIER'));
+          details.appendChild(el('h5','SÉRIES DE MOBILIER — ACTIVATION OPTIONNELLE'));
+          details.appendChild(el('p','Au dépôt D-17, « COMPLÉTER LES SÉRIES DE MOBILIER » active la révision 4 : répétitions de meubles compatibles d’après les quantités auteur, selon les emplacements libres. Jusqu’à 24 compléments par étage et 6 par pièce ; aucun remplacement des meubles présents ni nouveau butin. Les dimensions, faces de service et passages restent prioritaires. Une quantité source reste un objectif, pas une garantie de pose. Les équipements sans quantité ou support exploitable restent des prescriptions.'));
+
           for(const room of recipe.rooms){const section=el('section');
             section.appendChild(el('h5',room.name+' · '+(room.exterior?'Extérieur':'Intérieur')));
             section.appendChild(el('p','Équipement : '+room.kit.inventory.join(', ')+'. Dégagement proposé : '+room.kit.clearance+' m.'));
