@@ -1,3 +1,20 @@
+# DEADWALL 1.57.2 — Arrivée à D-17
+
+Une nouvelle campagne commence au dépôt de D-17, un refuge à construire, puis permet d'explorer la région G8 au-delà de ses limites. Les arbres et les rochers locaux emploient maintenant les espèces de cette région. Après une perte de focus pendant l'introduction, **Prendre mon quart** ou **Passer l'introduction** lance directement la partie lorsque la fenêtre est active ; les pauses volontaires restent respectées.
+
+L'identité de campagne reste stable dès la première sauvegarde : une nouvelle partie ne crée plus deux entrées dans les archives. **Continuer** conserve la carte, les possessions et l'identité enregistrées, y compris les anciennes campagnes.
+
+Le nouveau parcours navigateur contrôle le terrain effectivement dessiné, les espèces utilisées, Pause/Reprendre, l'historique et les remplacements de campagne sur ordinateur et mobile. Diagnostic et résultats : [docs/FIX_ARRIVAL_1_57_2.md](docs/FIX_ARRIVAL_1_57_2.md).
+
+```sh
+npm ci
+DEADWALL_SOAK=1 npm run check
+npm run test:arrival
+npm run test:browser
+```
+
+## Historique conservé — 1.57.1
+
 # DEADWALL 1.57.1 — Nouvelles parties G8
 
 **Nouvelle partie** crée directement le monde G8 et ses lieux issus du Codex 3000, avec la graine choisie ou une nouvelle graine aléatoire. **Continuer** conserve la génération, les découvertes et les prélèvements de la sauvegarde. L’extension au dépôt reste disponible pour une campagne G7 existante.

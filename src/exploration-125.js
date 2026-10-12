@@ -1178,7 +1178,8 @@
         game.startNew=function startNew125(...args){const result=baseStart(...args);if(result===false)return result;if(this.state==='playing'){
           this.exploration125.layoutRevision=3;
           if(!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
-          if(typeof this.runId==='string'&&!this.runId.includes(GENERATION_MARKER))this.runId+=GENERATION_MARKER;
+          // The first autosave already recorded this campaign ID. Generation now
+          // lives in its explicit register; keep :g4 as a legacy read hint only.
           this.exploration125.generation=4;this.exploration125.layoutRevision=3;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;delete this.world.__terrain133Prepared;sync();this.save?.(false);
         }return result;};
       }

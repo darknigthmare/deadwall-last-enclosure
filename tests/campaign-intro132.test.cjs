@@ -52,17 +52,58 @@ test('intro 132 : clavier, focus modal, navigation inverse et réduction du mouv
  dispatchWindow('keydown',{code:'Escape'});assert.equal(a.isOpen(),false);assert.equal(g.paused,false);assert.equal(g.chronicles131.snapshot().prologue.status,'active');
 });
 
-test('intro 132 : quitter la fenêtre préserve une pause volontaire après le dernier tableau',()=>{
+test('intro 132 : une fermeture par API préserve la suspension après une perte de focus',()=>{
  const {g,doc}=fresh();g.suspendForFocusLoss();g.campaignIntro132.skip();
  assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);assert.equal(g.ui.pauseMenu.classList.contains('hidden'),false);assert.ok(g.ui.pauseMenu.contains(doc.activeElement));
  const elapsed=g.elapsed;g.loop(g.lastFrame+40);assert.equal(g.elapsed,elapsed);g.togglePause(false);assert.equal(g.paused,false);
 });
 
+test('intro : terminer explicitement une nouvelle arrivée reprend après le retour au premier plan',()=>{
+ for(const action of ['skip','next','escape']){
+  const {g,doc,dispatchWindow}=fresh(),a=g.campaignIntro132,before=stable(g),world=g.world;
+  dispatchWindow('blur');assert.equal(a.isOpen(),true);assert.equal(g.activeOverlay,a.element);
+  dispatchWindow('focus');assert.equal(g.paused,true,'Revenir à la fenêtre ne lance pas le jeu');
+  if(action==='next')for(let i=0;i<a.view().total;i++)doc.getElementById('campaignIntro132Next').click();
+  else if(action==='skip')doc.getElementById('campaignIntro132Skip').click();
+  else a.element.dispatch('keydown',{code:'Escape'});
+  assert.equal(a.isOpen(),false,action);assert.equal(g.paused,false,action);assert.equal(g.activeOverlay,null,action);
+  assert.equal(g.ui.pauseMenu.classList.contains('hidden'),true);assert.equal(g.world,world);assert.deepEqual(stable(g),before);
+  assert.equal(doc.activeElement,g.canvas);g.loop(g.lastFrame+40);assert.ok(g.elapsed>before.elapsed);
+  dispatchWindow('blur');const elapsed=g.elapsed;g.loop(g.lastFrame+40);
+  assert.equal(g.paused,true,'Une perte de focus en jeu suspend toujours la simulation');assert.equal(g.activeOverlay,g.ui.pauseMenu);assert.equal(g.elapsed,elapsed);
+  dispatchWindow('focus');assert.equal(g.paused,true,'Le retour au premier plan ne reprend jamais seul');
+ }
+});
+
+test('intro : une vraie demande de pause reste prioritaire sur le clic de fin du nouveau prologue',()=>{
+ for(const pauseFirst of [true,false]){
+  const {g,doc,dispatchWindow}=fresh();
+  if(pauseFirst)g.togglePause(true);dispatchWindow('blur');if(!pauseFirst)g.togglePause(true);
+  dispatchWindow('focus');doc.getElementById('campaignIntro132Skip').click();
+  assert.equal(g.campaignIntro132.isOpen(),false);assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);
+  doc.getElementById('resumeButton').click();assert.equal(g.paused,false);assert.equal(g.activeOverlay,null);
+ }
+});
+
+test('intro : un document caché ou sans focus ne reprend pas même si un contrôle est activé par script',()=>{
+ for(const inactive of [{hidden:true},{visibilityState:'hidden'},{hasFocus:()=>false}]){
+  const {g,doc,dispatchWindow}=fresh(),before=g.elapsed;Object.assign(doc,inactive);
+  doc.getElementById('campaignIntro132Skip').click();
+  assert.equal(g.campaignIntro132.isOpen(),false);assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);
+  g.loop(g.lastFrame+40);assert.equal(g.elapsed,before);
+  doc.hidden=false;doc.visibilityState='visible';doc.hasFocus=()=>true;dispatchWindow('focus');
+  assert.equal(g.paused,true,'Rendre le document visible ne reprend pas la campagne');
+ }
+});
+
 test('intro 132 : relecture depuis pause, commandement et menu ne modifie ni campagne ni prologue',()=>{
- const {g,doc}=fresh();g.campaignIntro132.skip();g.togglePause(true);const before=stable(g);doc.getElementById('resumeButton').focus();
- assert.ok(g.campaignIntro132.replay());g.campaignIntro132.skip();assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);assert.equal(doc.activeElement.id,'resumeButton');assert.deepEqual(stable(g),before);
- g.togglePause(false);g.showCommand(true);assert.ok(g.campaignIntro132.replay());g.campaignIntro132.skip();assert.equal(g.activeOverlay,g.ui.commandModal);g.showCommand(false);assert.equal(g.paused,false);
- g.returnToMenu();const menuBefore=stable(g);assert.ok(g.campaignIntro132.replay());g.campaignIntro132.skip();assert.equal(g.state,'menu');assert.equal(g.activeOverlay,g.ui.mainMenu);assert.deepEqual(stable(g),menuBefore);
+ const {g,doc,dispatchWindow}=fresh();g.campaignIntro132.skip();g.togglePause(true);const before=stable(g);doc.getElementById('resumeButton').focus();
+ assert.ok(g.campaignIntro132.replay());doc.getElementById('campaignIntro132Skip').click();assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);assert.equal(doc.activeElement.id,'resumeButton');assert.deepEqual(stable(g),before);
+ g.togglePause(false);g.showCommand(true);assert.ok(g.campaignIntro132.replay());doc.getElementById('campaignIntro132Skip').click();assert.equal(g.activeOverlay,g.ui.commandModal);g.showCommand(false);assert.equal(g.paused,false);
+ g.showCommand(true);assert.ok(g.campaignIntro132.replay());dispatchWindow('blur');dispatchWindow('focus');doc.getElementById('campaignIntro132Skip').click();
+ assert.equal(g.activeOverlay,g.ui.commandModal);assert.equal(g.paused,true);g.showCommand(false);
+ assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.pauseMenu);assert.deepEqual(stable(g),before);g.togglePause(false);
+ g.returnToMenu();const menuBefore=stable(g);assert.ok(g.campaignIntro132.replay());doc.getElementById('campaignIntro132Skip').click();assert.equal(g.state,'menu');assert.equal(g.activeOverlay,g.ui.mainMenu);assert.deepEqual(stable(g),menuBefore);
 });
 
 test('intro 132 : première collecte, dépôt personnel et chantier réel avancent le HUD sans supprimer les objectifs',()=>{
