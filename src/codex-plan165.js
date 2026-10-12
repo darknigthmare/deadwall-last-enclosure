@@ -3,6 +3,7 @@
  if(typeof module==='object'&&module.exports)module.exports=api;
  if(root.document?.addEventListener)api.install(root.document);
 })(typeof globalThis!=='undefined'?globalThis:this,function(root){'use strict';
+ const Coverage=root.DeadwallCodexCoverage167||(typeof require==='function'?require('./codex-coverage167.js'):null);
  const RULES=Object.freeze({width:900,height:720,minSeed:0,maxSeed:4294967295});
  function dependencies(){return {
   runtime:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),
@@ -60,7 +61,7 @@
   }finally{c.restore();}
   return true;
  }
- const CSS='.codex-plan165{border:1px solid #687557;padding:12px;margin:14px 0;min-width:0}.codex-plan165-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.codex-plan165 label{display:flex;flex-direction:column;gap:5px;min-width:0;font-size:12px}.codex-plan165 input,.codex-plan165 select,.codex-plan165 button{min-height:44px;box-sizing:border-box;max-width:100%;font:inherit}.codex-plan165 input{width:170px}.codex-plan165 button{white-space:normal;padding:8px 12px}.codex-plan165 canvas{display:block;max-width:100%;width:100%;height:auto;margin-top:10px}.codex-plan165 [hidden]{display:none!important}.codex-plan165-status{overflow-wrap:anywhere;line-height:1.5}.codex-plan165 :focus-visible{outline:2px solid #e4c78e;outline-offset:2px}';
+ const CSS='.codex-plan165{border:1px solid #687557;padding:12px;margin:14px 0;min-width:0}.codex-plan165-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.codex-plan165 label{display:flex;flex-direction:column;gap:5px;min-width:0;font-size:12px}.codex-plan165 input,.codex-plan165 select,.codex-plan165 button{min-height:44px;box-sizing:border-box;max-width:100%;font:inherit}.codex-plan165 input{width:170px}.codex-plan165 button{white-space:normal;padding:8px 12px}.codex-plan165 canvas{display:block;max-width:100%;width:100%;height:auto;margin-top:10px}.codex-plan165 [hidden]{display:none!important}.codex-plan165-status{overflow-wrap:anywhere;line-height:1.5}.codex-plan165 :focus-visible{outline:2px solid #e4c78e;outline-offset:2px}.codex-coverage167{border-top:1px solid #687557;margin-top:12px;padding-top:8px;overflow-wrap:anywhere;min-width:0}.codex-coverage167 h6{font-size:13px}.codex-coverage167 li{font-size:12px;line-height:1.55;margin:5px 0}';
  function mount(doc,details,id){
   if(details.querySelector('[data-codex-plan165]'))return;
   const el=(tag,text)=>{const e=doc.createElement(tag);if(text!==undefined)e.textContent=text;return e;};
@@ -72,13 +73,17 @@
   const floorLabel=el('label','Niveau'),floor=el('select');floorLabel.append(floor);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
-  const canvas=el('canvas');canvas.width=RULES.width;canvas.height=RULES.height;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
+  const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
   try{for(const z of dependencies().runtime.template(id,0,'preview-'+id).levels){const option=el('option',z===0?'Rez-de-chaussée':z<0?'Sous-sol '+Math.abs(z):'Étage '+z);option.value=String(z);floor.append(option);}floor.value='0';}
   catch(e){show.disabled=true;status.textContent=e.message;}
+  const coverage=el('div');coverage.className='codex-coverage167';
+  if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
     const preview=inspect(id,seed.value,Number(floor.value));
-    if(!preview.supported){canvas.hidden=true;status.textContent=preview.reason;return;}
+    if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
+    if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
+    canvas.width=RULES.width;canvas.height=RULES.height;
     if(!render(canvas,preview))throw Error('Le peintre du jeu est indisponible.');
     const s=preview.summary;
     status.textContent=s.rooms+' pièces · '+s.sourceObjects+' objets du plan · '+s.solidDetails+' détails solides · '+s.anchoredContents+' petits ensembles décoratifs sur les meubles ajoutés. '+s.quantityUnplaced+' compléments demandés non posés faute de capacité, d’espace ou d’accès.'
@@ -90,7 +95,8 @@
   show.addEventListener('click',e=>{e.stopPropagation();generate();});
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
-  controls.append(seedLabel,floorLabel,show);host.append(controls,status,canvas);details.append(host);
+  controls.append(seedLabel,floorLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }
  const documents=new WeakSet();

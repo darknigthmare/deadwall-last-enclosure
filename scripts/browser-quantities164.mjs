@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import {armTransaction,readTransaction} from './qa-transaction167.mjs';
 import {createHarness,recorder,ready,chooseCampaign,openCommand,activate} from './browser-qa-common144.mjs';
 const h=await createHarness('quantities164','Real DOM activation and saved revision. Depot position is an explicit physically free fixture; furniture pictures are prepared actual-world scenes, not natural exploration. No stock, geometry or AI override.');
 h.report.profiles=[];
@@ -13,10 +14,10 @@ try{
    profile.fixture=await page.evaluate(()=>{const g=DEADWALL,point=g.fieldcraft.service(g.player,g.core());if(!point)throw Error('No actual depot service point');const before={x:g.player.x,y:g.player.y};g.player.x=point.x;g.player.y=point.y;g.player.navigation=null;if(!g.friendlyPositionClear(g.player,point.x,point.y))throw Error('Depot fixture collides');return{before,point,assignedFields:['player.x','player.y','player.navigation']};});
    await openCommand(page,viewport.touch);await activate(page,'#expansionFieldTab',viewport.touch);await activate(page,'#expansionGroup-world',viewport.touch);await activate(page,'#expansionTab-world131',viewport.touch);
    const action='#expansionAction-world131-quantityDetails164';await page.locator(action).scrollIntoViewIfNeeded();check('Source quantity upgrade is available through the real depot action',await page.locator(action).isEnabled());
-   await page.evaluate(()=>{const g=DEADWALL,original=g.restoreSave,clean=()=>{const s=g.serialize();delete s.timestamp;return s;};globalThis.__QUANTITY164_BEFORE=clean();globalThis.__QUANTITY164_RESTORE=original;g.restoreSave=function(...args){const result=original.apply(this,args);globalThis.__QUANTITY164_AFTER={ok:result,save:clean()};return result;};});
+   await armTransaction(page,action);
    await activate(page,action,viewport.touch);
-   const change=await page.evaluate(()=>{const g=DEADWALL;g.restoreSave=globalThis.__QUANTITY164_RESTORE;const before=globalThis.__QUANTITY164_BEFORE,after=globalThis.__QUANTITY164_AFTER;if(!after)return{ok:false};const revision=after.save.frontier.detailVersion;after.save.frontier.detailVersion=before.frontier.detailVersion;return{ok:after.ok===true,revision,onlyRevision:JSON.stringify(before)===JSON.stringify(after.save),savedRevision:DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY)).frontier.detailVersion};});
-   check('Activation changes only the detail revision, with no added stocks or moved saved objects',change.ok&&change.revision===4&&change.onlyRevision);check('The real action persists revision four',change.savedRevision===4);
+   const change=await readTransaction(page,4);profile.transaction=change;
+   check('Activation changes only the detail revision, with no added stocks or moved saved objects',change.ok&&change.revision===4&&change.onlyRevision);check('The real action persists revision four and every other field',change.savedRevision===4&&change.storedOnlyRevision);
    await page.evaluate(()=>DEADWALL.worldCodex.open());await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');const card=page.locator('[data-codex-id="programme-DW-0001"]');await card.locator('summary').click();
    await card.getByText('SÉRIES DE MOBILIER — ACTIVATION OPTIONNELLE',{exact:true}).waitFor();check('Programme explains optional series without claiming extra loot',/ni nouveau butin/i.test(await card.innerText()));await screenshot('source-prescription');
    const scenes=await page.evaluate(()=>{const w=DeadwallFrontierWorld.create(17117,8,{detailVersion:4}),subjects=[],types=new Set();for(const p of w.pois){if(types.has(p.type))continue;types.add(p.type);if(w.detailAt(p,0).quantities164.added>0)subjects.push(p);if(subjects.length===2)break;}
