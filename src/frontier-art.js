@@ -72,7 +72,7 @@ function lotGround(c,p,v,g=root.DEADWALL){if(v.z!==0)return;c.save();c.translate
 // participate in the same world-space depth ordering as actors and equipment.
 function inLot(c,p,draw){c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);draw();c.restore();}
 function openLot(g,p,v){return v.inside===p.id||p.type==='ruin'||!!g?.worldEvolution?.structureDestroyed(p.id);}
-function rectDepth(p,o){return Math.max(...[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].map(([x,y])=>G.global(p,x,y).y));}
+function rectDepth(p,o){if(o.dressing160&&o.supportBounds)return rectDepth(p,o.supportBounds)+.0001;return Math.max(...[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].map(([x,y])=>G.global(p,x,y).y));}
 function vehicleDepth(v){return v.y+Math.abs(Math.sin(v.a||0))*(v.w||4.6)/2+Math.abs(Math.cos(v.a||0))*(v.h||1.85)/2;}
 function visiblePoint(g,p,v){
  if((p.z??0)!==v.z||v.z!==0&&p.inside!==v.inside)return false;
@@ -102,7 +102,7 @@ c.strokeStyle='#c6bea1';c.lineWidth=.15;c.strokeRect(.13,.13,p.w-.26,p.h-.26);
 function lotEntries(g,p,v){const entries=[],add=(kind,id,depth,draw)=>entries.push({kind,id,depth,draw}),pl=v.world.plan(p,v.inside===p.id?v.z:0),destroyed=!!g?.worldEvolution?.structureDestroyed(p.id);
  if(openLot(g,p,v)){
   for(const o of pl.objects)add('furniture',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:v.inside===p.id?v.z:0})));
-  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface)add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));
+  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface&&!(destroyed&&o.dressing160&&o.plane==='wall'))add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));
   for(const [i,b]of (destroyed?[]:pl.walls).entries())add('wall',p.id+':wall:'+i,rectDepth(p,b),c=>inLot(c,p,()=>{const shade=localShadow(p.a,.12,.16);fill(c,b.x+shade.x,b.y+shade.y,b.w,b.h,'rgba(0,0,0,.23)');fill(c,b.x,b.y,b.w,b.h,'#506652');fill(c,b.x,b.y,b.w,Math.min(.075,b.h),'#b7c09e');}));
  }else add('roof',p.id,rectDepth(p,{x:0,y:0,w:p.w,h:p.h}),c=>lotRoof(c,p,v,g));
  if(v.z===0){for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}

@@ -103,6 +103,7 @@
   return true;
  }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
+  if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return painter?.draw(c,o)||false;}
   if(!c||!valid(o))return false;c.save();
   try{
    // Parcel rotation and current floor belong to the caller. Uniform source

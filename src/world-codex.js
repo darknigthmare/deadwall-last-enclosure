@@ -12,7 +12,7 @@
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
-  const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' '))]));
+  const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' ')+' '+(e.id.startsWith('programme-')?globalThis.DeadwallCodex3000Runtime?.searchTerms?.(e.id.slice(10))||'':''))]));
   function query(filters={}){
     const words=normalize(filters.text).split(' ').filter(Boolean),family=filters.family||'all',status=filters.status||'all';
     return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word)));

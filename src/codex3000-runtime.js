@@ -204,9 +204,11 @@
  }
  function programmeProps(state){return STATE_FEATURES[state]||[];}
  function describe(id){return Recipes159.describe(id,DATA,{get,parentFor,detailFamily});}
+ function dress(options){const api=globalThis.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return api?api.enrich(options):options.detail;}
+ function searchTerms(id){const entry=get(id);return entry?DATA.details159?.search160?.[entry.parent]||'':'';}
  function enrich(options){return Recipes159.enrich({...options,data:DATA,runtime:{get,parentFor,detailFamily},geometry:G});}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms});
 });

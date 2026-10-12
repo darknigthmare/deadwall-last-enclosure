@@ -73,8 +73,11 @@ const data={version:1,count:3000,
  states:Object.fromEntries(states.map(x=>[x.id,[str(x.name),str(x.cause)]]))};
 assert(rows.length===3000&&new Set(rows.map(x=>x[0])).size===3000,'couverture non exhaustive');
 data.details159=Recipes159.compact(Recipes159.compile(originals,states));
+// Author-supported nouns are indexed once per parent, not 3000 times per search.
+// Each source keeps its dimensions and constraints; this is a read-only index.
+data.details159.search160=Object.fromEntries(originals.map(p=>[p.id,(p.espaces||p.zones||[]).map(r=>[r.nom||r.zone,...(r.props||[]).map(o=>o.nom),...Recipes159.kitFor(r.nom||r.zone).inventory].join(' ')).join(' ')]));
 const dest=path.join(root,'src/codex3000-live-data.js');
-const text=fs.readFileSync(path.join(root,'src/codex3000-recipes159.js'),'utf8')+'\n'+'/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
+const text=fs.readFileSync(path.join(root,'src/codex-dressing160.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'src/codex3000-recipes159.js'),'utf8')+'\n'+'/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
  JSON.stringify(data).replace(/</g,'\\u003c')+
  ';root.DeadwallCodex3000Data=data;if(typeof module==="object"&&module.exports)module.exports=data;})(typeof globalThis!=="undefined"?globalThis:this);\n';
 if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==text)fs.writeFileSync(dest,text);
