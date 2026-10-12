@@ -211,9 +211,10 @@
  function enrich(options){return Recipes159.enrich({...options,data:DATA,runtime:{get,parentFor,detailFamily},geometry:G});}
  function anchored(options){return Anchors160.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function quantities(options){const q=globalThis.DeadwallCodexQuantities164||(typeof require==='function'?require('./codex-quantities164.js'):null);if(!q)throw Error('Séries de mobilier non chargées');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
+ function ensembles(options){const q=globalThis.DeadwallCodexEnsembles165||(typeof require==='function'?require('./codex-ensembles165.js'):null);if(!q)throw Error('Ensembles de mobilier non chargés');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,searchDocument});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,searchDocument});
 });

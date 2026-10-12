@@ -9,6 +9,7 @@
  const Interior=typeof require==='function'?require('./interior-art153.js'):null;
  const route=(owner,family)=>Object.freeze({owner,family});
  const PRESENTATIONS=Object.freeze({
+  table:route('furniture','table'),
   bed:route('furniture','bed'),sofa:route('furniture','sofa'),shelf:route('furniture','shelf'),fridge:route('furniture','fridge'),desk:route('furniture','desk'),workbench:route('furniture','workbench'),counter:route('furniture','counter'),medical:route('furniture','medical'),oven:route('furniture','oven'),washer:route('furniture','washer'),electricalRack:route('furniture','electricalRack'),hoseRack:route('furniture','hoseRack'),
   pool:route('props','pool157'),greenhouse:route('props','greenhouse157'),bench:route('props','bench157'),playset:route('props','playset157'),
   barbecue:route('props','barbecue157'),clothesline:route('props','clothesline157'),laundryLine:route('props','clothesline157'),bikeRack:route('props','bikeRack157'),compost:route('props','compost157'),
@@ -32,9 +33,16 @@
  function paintImage(c,o,art,seed){
   const spec=presentationFor(o.kind),x=o.x+o.w/2,y=o.y+o.h/2;
   const p=root.DeadwallWorldPropsArt153||Props,n=root.DeadwallNatureArt153||Nature,i=root.DeadwallInteriorArt153||Interior;
-  if(spec.owner==='props')return !!p?.drawSprite(c,art,spec.family,o.id,x,y,o.w,o.h,{seed});
+  if(spec.owner==='props')return !!p?.drawSprite(c,art,spec.family,o.id,x,y,o.w,o.h,{seed,...(o.profile165&&o.kind==='chair'?{variant:['office','reception'].includes(o.profile165)?1:0}:{})});
   if(spec.owner==='nature')return !!n?.drawSprite(c,art,o.kind==='tree'&&n.TREES.includes(o.species)?o.species:spec.family,o.id,x,y,o.w,o.h,{seed});
-  if(spec.owner==='furniture'){const forms=i?.FURNITURE?.[spec.family],sprite=forms?.[variantFor(o,seed,forms.length)];return !!sprite&&!!i.paint(c,art,sprite,o,{fit:true});}
+  if(spec.owner==='furniture'){
+   // The historical first table image already includes chairs. New groups use
+   // the bare second table, or the real workbench for an assembly station.
+   const family=o.kind==='table'&&o.profile165==='workshop'?'workbench':spec.family;
+   const forms=i?.FURNITURE?.[family];
+   const index=o.kind==='table'&&o.profile165&&family==='table'?1:variantFor(o,seed,forms?.length||1);
+   const sprite=forms?.[index];return !!sprite&&!!i.paint(c,art,sprite,o,{fit:true});
+  }
   return false;
  }
  // Fallbacks use named, readable physical shapes. Small surface marks can stay
@@ -73,7 +81,7 @@
    case 'patio':fill(.02,.04,.96,.92,v?'#918e78':'#aca58e');for(let k=1;k<5;k++)line([[k/5,.05],[k/5,.95]],'#767e6c',.025);for(let k=1;k<3;k++)line([[.03,k/3],[.96,k/3]],'#7b8270',.03);break;
    case 'rug':fill(.03,.05,.94,.90,v?'#657766':'#9b7a63');box(.12,.15,.76,.70,'#b4a37c',.075);line(v?[[.18,.28],[.80,.76]]:[[.18,.5],[.8,.5]],'#d3bb93',.065);break;
    case 'palletMark':box(.05,.05,.90,.90,'#aea48c',.05);for(const a of[.1,.82])line([[a,.12],[a+.07,.26],[a,.44],[a+.07,.63],[a,.86]],'#9c9780',.05);break;
-   case 'bench':case 'worktable':case 'officeDesk':case 'countertop':fill(.07,.14,.86,.70,wood);for(let k=0;k<4;k++)fill(.1,.21+k*.16,.80,.035,'#4d5845');box(.04,.09,.92,.80,metal,.045);break;
+   case 'table':case 'bench':case 'worktable':case 'officeDesk':case 'countertop':fill(.07,.14,.86,.70,wood);for(let k=0;k<4;k++)fill(.1,.21+k*.16,.80,.035,'#4d5845');box(.04,.09,.92,.80,metal,.045);break;
    case 'chair':fill(.16,.11,.68,.78,wood);fill(.22,.38,.56,.40,v?'#6b826b':'#baac82');box(.14,.11,.72,.78,metal,.07);line([[.24,.19],[.76,.19]],'#dcc4a0',.08);break;
    case 'smallCabinet':case 'wardrobe':fill(.04,.07,.92,.85,wood);box(.04,.07,.92,.85,metal,.035);line([[.5,.10],[.5,.89]],'#4b5245');fill(.42,.42,.04,.16,metal);fill(.55,.42,.04,.16,metal);break;
    case 'shelfEnd':case 'bookshelf':case 'display':fill(.04,.06,.92,.90,wood);for(let k=0;k<3;k++){fill(.10,.10+k*.28,.80,.05,metal);for(let j=0;j<4;j++)fill(.12+j*.2,.16+k*.25,.13,.14,['#8c8c6f','#637f72','#a99678'][(j+k+v)%3]);}break;
@@ -105,8 +113,18 @@
   return true;
  }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
-  if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return painter?.draw(c,o)||false;}
+  if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);
+   if(c&&Number.isFinite(o.surfaceAngle165)){const sw=o.surfaceWidth165,sh=o.surfaceHeight165;if(!Number.isFinite(sw+sh)||sw<=0||sh<=0)return false;
+    c.save();try{c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.surfaceAngle165);return painter?.draw(c,{...o,x:-sw/2,y:-sh/2,w:sw,h:sh})||false;}finally{c.restore();}
+   }return painter?.draw(c,o)||false;
+  }
   if(!c||!valid(o))return false;c.save();
+  if(o.ensemble165&&Number.isFinite(o.angle165)){
+   const sw=o.spriteWidth165,sh=o.spriteHeight165;if(!Number.isFinite(sw+sh)||sw<=0||sh<=0){c.restore();return false;}
+   try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.angle165);
+    return draw(c,{...o,ensemble165:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+   }finally{c.restore();}
+  }
   if(o.anchored160){
    const a=o.angle160,sw=o.spriteWidth160,sh=o.spriteHeight160;
    if(!Number.isFinite(a+sw+sh)||sw<=0||sh<=0){c.restore();return false;}

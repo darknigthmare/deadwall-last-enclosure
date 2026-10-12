@@ -34,12 +34,15 @@
   details=R.dress({seed,p,z,plan,detail:details});
   details=R.anchored({seed,p,z,plan,detail:details,programme:id});
   details=R.quantities({seed,p,z,plan,detail:details,programme:id});
+  details=R.ensembles({seed,p,z,plan,detail:details,programme:id});
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
   return {id,seed,z,levels:[...template.levels],supported:true,p,plan,details,
    summary:Object.freeze({rooms:plan.rooms.length,sourceObjects:plan.objects.length,
     solidDetails:details.interior.filter(o=>o.solid).length,anchoredContents:contents,
+    composedGroups:details.ensembles165?.groups?.length||0,composedSeats:(details.ensembles165?.groups||[]).reduce((n,g)=>n+g.seats,0),
+    groupUnplaced:(details.ensembles165?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0),
     exteriorSpacesSimplified:approximated,adapted:template.adapted===true,
     quantityUnplaced:(details.quantities164?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0)}),
    reference:template.reference};
@@ -62,7 +65,7 @@
   if(details.querySelector('[data-codex-plan165]'))return;
   const el=(tag,text)=>{const e=doc.createElement(tag);if(text!==undefined)e.textContent=text;return e;};
   const host=el('section');host.className='codex-plan165';host.dataset.codexPlan165=id;
-  host.append(el('h5','APERÇU DU PLAN DE RECETTE'),el('p','Lecture seule : gabarit simplifié, pas la carte de votre partie ni un lieu ajouté. Les prescriptions non matérialisées restent signalées.'));
+  host.append(el('h5','APERÇU DU PLAN DE RECETTE'),el('p','Lecture seule : gabarit simplifié, pas la carte de votre partie ni un lieu ajouté. Les prescriptions non matérialisées restent signalées. Les ensembles table-assises de la révision 5 sont visibles ici ; dans la partie, COMPOSER TABLES ET ASSISES au dépôt reste une activation volontaire, sans nouveau butin.'));
   const controls=el('div');controls.className='codex-plan165-controls';
   const seedLabel=el('label','Graine de prévisualisation'),seed=el('input');seed.type='number';seed.min='0';seed.max=String(RULES.maxSeed);seed.step='1';
   seed.value=String((root.DEADWALL?.world?.seed??0)>>>0);seedLabel.append(seed);
@@ -79,6 +82,7 @@
     if(!render(canvas,preview))throw Error('Le peintre du jeu est indisponible.');
     const s=preview.summary;
     status.textContent=s.rooms+' pièces · '+s.sourceObjects+' objets du plan · '+s.solidDetails+' détails solides · '+s.anchoredContents+' petits ensembles décoratifs sur les meubles ajoutés. '+s.quantityUnplaced+' compléments demandés non posés faute de capacité, d’espace ou d’accès.'
+     +' '+s.composedGroups+' ensembles table-assises · '+s.composedSeats+' sièges composés · '+s.groupUnplaced+' ensembles non posés. Aperçu de la révision 5, activation volontaire au dépôt.'
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
      +(s.exteriorSpacesSimplified.length?' Extérieurs source encore simplifiés : '+s.exteriorSpacesSimplified.join(', ')+'.':'');
     canvas.hidden=false;visible=true;show.textContent='ACTUALISER LE PLAN';
