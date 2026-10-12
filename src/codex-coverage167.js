@@ -73,7 +73,7 @@
    }
    const props=specs.map((s,i)=>{
     const req=quantity(s.quantite_par_espace),items=allocations.get(i)||[],minimum=req&&!r.exterior?req[0]*indices.length:null;
-    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.h)-s.gabarit_m?.largeur)<.001).length;
+    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.spriteWidth170||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.spriteHeight170||o.h)-s.gabarit_m?.largeur)<.001).length;
     const below=minimum===null?null:Math.max(0,minimum-items.length);
     if(below>0)issues.push({kind:'furniture',name:r.name+' — '+(s.nom||s.asset),reason:'below-source-minimum',missing:below});
     if(items.length>exact)issues.push({kind:'dimensions',name:r.name+' — '+(s.nom||s.asset),reason:'footprint-differs',count:items.length-exact});
@@ -85,7 +85,7 @@
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
   const complements169=detail.infill169?{
    revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
@@ -93,7 +93,8 @@
    remaining:detail.infill169.requests.reduce((n,r)=>n+r.unplaced,0),requests:copy(detail.infill169.requests),zoneRefusals:copy(detail.infill169.zoneRefusals),
    note:'Zones de placement au sol, sans nouvelle clôture ni déplacement du plan historique. Les réseaux et interactions de ces meubles ne sont pas simulés.'
   }:null;
-  return freeze({complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  const stations170=detail.stations170?copy(detail.stations170):null;
+  return freeze({stations170,complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -137,6 +138,7 @@
    const names={'complete':'objectif de placement atteint','already-present':'déjà présent','space-or-access':'place ou accès insuffisants','layer-cap':'limite du plan','baseline-inaccessible':'accès de départ indisponible','requires-building-support':'support technique non matérialisé','unsupported-source-dimensions':'gabarit source non pris en charge','unsupported-source-clearance':'dégagement source non pris en charge','invalid-source-range':'quantité source invalide','duplicate-prescription':'prescription dupliquée','clean-storage-conflict':'réserve propre incompatible'};
    for(const r of f.requests)host.appendChild(el('p',r.name+' — '+r.kind+' : '+r.existing+' déjà présents, '+r.added+' ajoutés, '+r.unplaced+' non posés. '+(names[r.reason]||r.reason)+'.'));
   }
+  if(inspected&&report.stations170){const s=report.stations170;host.appendChild(el('h6','ATELIERS ET STOCKAGES — RÉVISION 8'));host.appendChild(el('p',s.added+' équipements statiques ajoutés. Les machines gardent quatre faces de maintenance ; les stocks posés au sol gardent leur accès. Aucune alimentation ni ressource supplémentaire.'));for(const r of s.requests)if(r.unplaced)host.appendChild(el('p',r.name+' — '+r.kind+' : '+r.unplaced+' élément(s) non posé(s), motif '+r.reason+'.'));}
   if(report.scope==='unsupported')host.appendChild(el('p','Aucun plan de substitution produit pour ce programme spécialisé.'));
   if(s.sourceGaps.unmappedKinds.length)host.appendChild(el('p','Gabarits encore absents : '+s.sourceGaps.unmappedKinds.join(', ')+'.'));
   return host;
