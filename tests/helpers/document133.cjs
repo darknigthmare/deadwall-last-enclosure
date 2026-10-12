@@ -3,8 +3,9 @@
 // This checks registration/lifecycle; it is not a layout engine or browser QA.
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const {installFakeBrowser}=require('./browser.cjs');
-function bootDocument133(){
+function bootDocument133({storageEntries=[]}={}){
  const env=installFakeBrowser({readyState:'loading',currentScript:{tagName:'SCRIPT'}}),proto=Object.getPrototypeOf(document.body),root=path.resolve(__dirname,'../..');
+ for(const [key,value]of storageEntries)env.storage.set(key,String(value));
  proto.insertBefore=function(n,s){const i=this.children.indexOf(s);this.children.splice(i<0?this.children.length:i,0,n);n.parentNode=this;};
  proto.before=function(n){this.parentNode?.insertBefore(n,this);};
  proto.after=function(n){const p=this.parentNode;if(!p)return;p.children.splice(p.children.indexOf(this)+1,0,n);n.parentNode=p;};

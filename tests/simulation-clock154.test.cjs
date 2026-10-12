@@ -68,8 +68,13 @@ test('clock154: closing a pause between animation callbacks resets the wall-time
 });
 
 test('clock154: invalid and reversed timestamps cannot poison finite campaign time',()=>{
-  const {g}=fixture(),steps=[];g.update=dt=>steps.push(dt);
-  g.loop(NaN);assert.equal(steps.length,0);assert.ok(Number.isFinite(g.lastFrame));
-  g.loop(g.lastFrame-1);assert.equal(steps.length,0);
-  g.loop(g.lastFrame+16);assert.deepEqual(steps,[.016]);
+  const {g}=fixture(),steps=[],prior=globalThis.performance,fallbackTime=2040;g.update=dt=>steps.push(dt);
+  // The synthetic frame times need an exact fallback baseline as well. A real
+  // fractional clock can round (lastFrame + 16) across a binary exponent boundary.
+  globalThis.performance={now:()=>fallbackTime};
+  try{
+    g.loop(NaN);assert.equal(steps.length,0);assert.ok(Number.isFinite(g.lastFrame));assert.equal(g.lastFrame,fallbackTime);
+    g.loop(g.lastFrame-1);assert.equal(steps.length,0);assert.equal(g.lastFrame,fallbackTime-1);
+    g.loop(g.lastFrame+16);assert.deepEqual(steps,[.016]);
+  }finally{globalThis.performance=prior;}
 });

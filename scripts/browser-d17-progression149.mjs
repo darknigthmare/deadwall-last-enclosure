@@ -337,7 +337,7 @@ try {
       await rec.screenshot('menu'); await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', viewport.touch);
       await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
       const start = await readEconomy(page); profile.timing.nativeStart = start;
-      native('Fresh D17 starts at Refuge with G7 first gestures and actual score8', await page.evaluate(() => DEADWALL.tier.id === 0 && DEADWALL.cityScore === 8 && DEADWALL.chronicles131.snapshot().prologue.status === 'active'));
+      native('Fresh D17 starts at Refuge with G8 first gestures and actual score8', await page.evaluate(() => DEADWALL.tier.id === 0 && DEADWALL.cityScore === 8 && DEADWALL.chronicles131.snapshot().prologue.status === 'active'));
       await rec.screenshot('native-refuge');
       profile.ages.push(await growth149(page, viewport.touch, native, rec, 0, 'native-age-0'));
       profile.artStages.push(await inspectArtStage149(page, 0, native));

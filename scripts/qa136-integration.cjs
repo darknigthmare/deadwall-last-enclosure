@@ -4,7 +4,7 @@
 const assert=require('node:assert/strict');
 const {bootDocument134}=require('./qa-startup134.cjs');
 const {standAt}=require('../tests/helpers/physical-fixtures.cjs');
-function start(seed=17117){const env=bootDocument134();env.g.startNew('standard',String(seed));env.g.campaignIntro132.skip();assert.equal(env.g.frontier.position().generation,7);return env;}
+function start(seed=17117){const env=bootDocument134();env.g.startNew('standard',String(seed));env.g.campaignIntro132.skip();assert.equal(env.g.frontier.position().generation,8);return env;}
 function ticks(g,count){for(let i=0;i<count;i++){g.update(.04);g.input.pressed.clear();}}
 function act(g,count){g.input.keys.add('KeyE');ticks(g,count);g.input.keys.delete('KeyE');}
 function loop(){

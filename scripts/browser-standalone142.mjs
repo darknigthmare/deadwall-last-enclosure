@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createServer } from 'node:http';
-import { ready, loadedAssets, chooseCampaign, worldSnapshot, recorder } from './browser-qa-common142.mjs';
+import { ready, loadedAssets, chooseCampaign, worldSnapshot, hasCurrentProgrammes, recorder } from './browser-qa-common142.mjs';
 
 const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -25,7 +25,7 @@ const output = path.join(path.resolve(process.env.DEADWALL_QA_OUTPUT || path.joi
 await fs.mkdir(output, { recursive: true });
 const report = { started: new Date().toISOString(), version, file, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'),
   transport, fileSchemeVerified: false,
-  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh G7, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
+  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh G8, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
 let browser, checks, server;
 try {
   let documentURL = pathToFileURL(file).href;
@@ -57,7 +57,8 @@ try {
   await page.locator('#campaignIntro132Skip').click();
   await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
   report.world = await worldSnapshot(page);
-  checks.check('Fresh requested G7 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 7 && report.world.size === 24576 && report.world.towns === 34);
+  checks.check('Fresh requested G8 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 8 && report.world.size === 24576 && report.world.towns === 34);
+  checks.check('Embedded generation installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(report.world));
   await checks.screenshot('game');
   await page.locator('#pauseButton').click();
   await page.locator('#saveButton').click();
@@ -65,7 +66,7 @@ try {
     const data = DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY));
     return { ok: DEADWALL.lastSaveStatus.ok, version: data.version, runId: data.runId, seed: data.worldSeed, generation: data.frontier.generation };
   });
-  checks.check('Real save control writes a validated v20 G7 snapshot', checkpoint.ok && checkpoint.version === 20 && checkpoint.generation === 7 && checkpoint.seed === 17117);
+  checks.check('Real save control writes a validated v20 G8 snapshot', checkpoint.ok && checkpoint.version === 20 && checkpoint.generation === 8 && checkpoint.seed === 17117);
   await page.locator('#pauseSettingsButton').click();
   const downloadEvent = page.waitForEvent('download');
   await page.locator('#settingsExport').click();

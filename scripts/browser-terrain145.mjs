@@ -57,7 +57,7 @@ try {
     try {
       await page.goto(base, { waitUntil: 'networkidle' }); await ready(page);
       await chooseCampaign(page, '903145'); await activate(page, '#campaignIntro132Skip', viewport.touch);
-      check('Fresh campaign uses requested seed and G7', await page.evaluate(() => DEADWALL.world.seed === 903145 && DEADWALL.frontier.position().generation === 7));
+      check('Fresh campaign uses requested seed and G8', await page.evaluate(() => DEADWALL.world.seed === 903145 && DEADWALL.frontier.position().generation === 8));
       // This seed's eastbound road is clear. An ordinary held movement crosses
       // the seam; no API call or coordinate assignment transports the player.
       await holdInput(page, context, viewport.touch, 'd', '#touchControls [data-dir="right"]', () =>

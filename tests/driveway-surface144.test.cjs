@@ -5,7 +5,7 @@ const {bootDocument134}=require('../scripts/qa-startup134.cjs'),{describeWorld}=
 const preserved=require('./fixtures/world-surface143-preserved.json');
 let g,C;
 test.before(()=>{({g}=bootDocument134());C=globalThis.DeadwallCore;});
-function begin(){g.startNew('standard','17117');g.campaignIntro132.skip();return g.frontier.world();}
+function begin(){g.startNew('standard','17117');g.campaignIntro132.skip();require('./helpers/generation141.cjs').legacy(g,7);return g.frontier.world();}
 function onAccess(p,t=.15){return{x:p.drive.a.x+(p.drive.b.x-p.drive.a.x)*t,y:p.drive.a.y+(p.drive.b.y-p.drive.a.y)*t,generation:7,z:0};}
 function offAccess(w,p){
  const q=onAccess(p),dx=p.drive.b.x-p.drive.a.x,dy=p.drive.b.y-p.drive.a.y,length=Math.hypot(dx,dy);
