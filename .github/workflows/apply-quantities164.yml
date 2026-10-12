@@ -1,0 +1,44 @@
+name: Apply reviewed furniture 164 patch
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/apply-quantities164.yml'
+      - 'scripts/apply-quantities164.py'
+      - 'scripts/quantities164.patch.json'
+permissions:
+  contents: write
+concurrency:
+  group: apply-furniture164-pr2
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.event.pull_request.number == 2 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/codex3000-detailed-programmes-159'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify original hashes and apply only the reviewed files
+        run: python3 scripts/apply-quantities164.py
+      - name: Compile and check source, geometry and transactional activation
+        run: |
+          node scripts/compile-codex3000.mjs
+          node --test --test-concurrency=1 tests/city-proof164.test.cjs tests/codex-quantities164.test.cjs tests/qa-contracts163.test.cjs tests/defenses-qa148.test.cjs
+      - name: Append commit to this PR only, refusing concurrent changes
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eu
+          branch=feat/codex3000-detailed-programmes-159
+          current=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$current" = "$EXPECTED_HEAD"
+          git diff --check
+          git diff --cached --check
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'feat(codex): authored furniture series, optional revision 4 and exact city render proof'
+          git push origin "HEAD:refs/heads/$branch"
+          git rev-parse HEAD
