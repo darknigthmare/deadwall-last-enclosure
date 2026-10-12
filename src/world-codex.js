@@ -12,10 +12,11 @@
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
-  const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' ')+' '+(e.id.startsWith('programme-')?globalThis.DeadwallCodex3000Runtime?.searchTerms?.(e.id.slice(10))||'':''))]));
+  const runtime160=globalThis.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null);
+  const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' '))]));
   function query(filters={}){
     const words=normalize(filters.text).split(' ').filter(Boolean),family=filters.family||'all',status=filters.status||'all';
-    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word)));
+    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word)||(e.id.startsWith('programme-DW-')&&runtime160?.searchDocument(e.id.slice(10)).includes(word))));
   }
   function install(game,document){
     if(!game||!document||game.worldCodex)return false;
@@ -52,7 +53,7 @@
           for(const room of recipe.rooms){const section=el('section');
             section.appendChild(el('h5',room.name+' · '+(room.exterior?'Extérieur':'Intérieur')));
             section.appendChild(el('p','Équipement : '+room.kit.inventory.join(', ')+'. Dégagement proposé : '+room.kit.clearance+' m.'));
-            if(room.authoredProps.length)section.appendChild(el('p','Mobilier source : '+room.authoredProps.map(p=>p.nom+' ('+p.quantite_par_espace.join('–')+')').join(' ; ')+'.'));
+            if(room.authoredProps.length)section.appendChild(el('p','Mobilier source : '+room.authoredProps.map(p=>p.nom+' ('+p.quantite_par_espace.join('–')+' ; '+[p.gabarit_m.longueur,p.gabarit_m.largeur,p.gabarit_m.hauteur].join(' × ')+' m ; dégagement '+p.degagement_min_m+' m)').join(' ; ')+'.'));
             if(room.area)section.appendChild(el('p','Surface source : '+room.area.join('–')+' m². Les maxima ne se cumulent pas sur une parcelle minimale.'));
             if(room.classificationSource==='inference')section.appendChild(el('p','Intérieur/extérieur déduit du nom : prescription à vérifier avant nouvelle architecture.'));
             details.appendChild(section);

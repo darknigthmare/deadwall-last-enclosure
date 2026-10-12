@@ -141,5 +141,5 @@ test('Absent legacy detail flags retain traversable saved positions while new ca
  const before=g.frontier.position();g.input.keys.add('KeyD');for(let i=0;i<10;i++)g.update(.04);g.input.keys.clear();
  assert.ok(Math.hypot(g.frontier.position().x-before.x,g.frontier.position().y-before.y)>.05,'saved actor cannot move');
  const saved=g.serialize();assert.equal(g.restoreSave(saved),true);assert.equal(g.frontier.snapshot().detailVersion,0);
- for(const value of [-1,3,'1',true,null])assert.throws(()=>S.normalize({...saved.frontier,detailVersion:value}),/Détail/);
+ for(const value of [-1,4,'1',true,null])assert.throws(()=>S.normalize({...saved.frontier,detailVersion:value}),/Détail/);
 });

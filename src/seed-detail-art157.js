@@ -9,6 +9,7 @@
  const Interior=typeof require==='function'?require('./interior-art153.js'):null;
  const route=(owner,family)=>Object.freeze({owner,family});
  const PRESENTATIONS=Object.freeze({
+  bed:route('furniture','bed'),sofa:route('furniture','sofa'),shelf:route('furniture','shelf'),fridge:route('furniture','fridge'),desk:route('furniture','desk'),workbench:route('furniture','workbench'),counter:route('furniture','counter'),medical:route('furniture','medical'),oven:route('furniture','oven'),washer:route('furniture','washer'),electricalRack:route('furniture','electricalRack'),hoseRack:route('furniture','hoseRack'),
   pool:route('props','pool157'),greenhouse:route('props','greenhouse157'),bench:route('props','bench157'),playset:route('props','playset157'),
   barbecue:route('props','barbecue157'),clothesline:route('props','clothesline157'),laundryLine:route('props','clothesline157'),bikeRack:route('props','bikeRack157'),compost:route('props','compost157'),
   chair:route('props','chair157'),tv:route('props','tv157'),rug:route('props','rug157'),smallCabinet:route('props','wardrobe157'),shelfEnd:route('props','bookshelf157'),
@@ -98,6 +99,7 @@
    case 'toolbox':fill(.08,.28,.84,.61,'#56726a');box(.31,.10,.38,.19,metal,.065);fill(.10,.29,.8,.10,metal);box(.08,.28,.84,.61,'#a8ad95',.06);fill(.43,.41,.13,.17,'#c2b08a');break;
    case 'sink':fill(.04,.04,.92,.92,metal);oval(.5,.52,.34,.34,'#4e665c');oval(.5,.52,.23,.24,'#bac7b6');line([[.50,.14],[.50,.32],[.63,.32]],'#d0d1bd',.06);break;
    case 'shower':fill(.04,.04,.92,.92,'#bec2ac');box(.06,.05,.89,.90,metal,.07);oval(.76,.22,.07,.075,'#687f73');line([[.76,.21],[.76,.54]],metal,.06);oval(.30,.72,.04,.045,'#556b5e');break;
+   case 'bed':case 'sofa':case 'shelf':case 'fridge':case 'desk':case 'workbench':case 'counter':case 'medical':case 'oven':case 'washer':case 'electricalRack':case 'hoseRack':fill(.04,.06,.92,.88,wood);box(.04,.06,.92,.88,metal,.05);fill(.12,.17,.76,.16,metal);break;
    default:return false;
   }
   return true;
@@ -105,6 +107,14 @@
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
   if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return painter?.draw(c,o)||false;}
   if(!c||!valid(o))return false;c.save();
+  if(o.anchored160){
+   const a=o.angle160,sw=o.spriteWidth160,sh=o.spriteHeight160;
+   if(!Number.isFinite(a+sw+sh)||sw<=0||sh<=0){c.restore();return false;}
+   try{const cx=o.x+o.w/2,cy=o.y+o.h/2;
+    c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(cx,cy);c.rotate(a);
+    return draw(c,{...o,anchored160:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+   }finally{c.restore();}
+  }
   try{
    // Parcel rotation and current floor belong to the caller. Uniform source
    // scaling plus this clip preserves the physical blocker and open entrances.

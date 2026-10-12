@@ -77,7 +77,7 @@ data.details159=Recipes159.compact(Recipes159.compile(originals,states));
 // Each source keeps its dimensions and constraints; this is a read-only index.
 data.details159.search160=Object.fromEntries(originals.map(p=>[p.id,(p.espaces||p.zones||[]).map(r=>[r.nom||r.zone,...(r.props||[]).map(o=>o.nom),...Recipes159.kitFor(r.nom||r.zone).inventory].join(' ')).join(' ')]));
 const dest=path.join(root,'src/codex3000-live-data.js');
-const text=fs.readFileSync(path.join(root,'src/codex-dressing160.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'src/codex3000-recipes159.js'),'utf8')+'\n'+'/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
+const text=fs.readFileSync(path.join(root,'src/codex-anchors160.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'src/codex-dressing160.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'src/codex3000-recipes159.js'),'utf8')+'\n'+'/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
  JSON.stringify(data).replace(/</g,'\\u003c')+
  ';root.DeadwallCodex3000Data=data;if(typeof module==="object"&&module.exports)module.exports=data;})(typeof globalThis!=="undefined"?globalThis:this);\n';
 if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==text)fs.writeFileSync(dest,text);

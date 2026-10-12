@@ -205,11 +205,12 @@ function detailAt(p,z=0){
  const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
   biome:p.biome,townKind:settlementData?.towns?.find(t=>t.id===p.town)?.kind});
  let detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[],family:Codex3000?.detailFamily(programme?.family)});
- if(effects.detailVersion===2&&programme)detail=Codex3000.enrich({seed,p,z,plan:plan(p,z),detail,programme:programme.id,shapes:Detail157.objects});
+ if(effects.detailVersion>=2&&programme)detail=Codex3000.enrich({seed,p,z,plan:plan(p,z),detail,programme:programme.id,shapes:Detail157.objects});
  // Legacy G7 saves keep their collision graph. New campaigns opt in explicitly;
  // programme-native G8 sites have physical details from their creation.
  const layer=p.generation===8||effects.detailVersion>=1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
- const dressed=Codex3000?.dress?.({seed,p,z,plan:plan(p,z),detail:layer})||layer;
+ let dressed=Codex3000?.dress?.({seed,p,z,plan:plan(p,z),detail:layer})||layer;
+ if(effects.detailVersion>=3&&programme)dressed=Codex3000.anchored({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  const colliders160=Object.freeze({interior:Object.freeze(dressed.interior.filter(o=>o.solid)),outdoor:Object.freeze(dressed.outdoor.filter(o=>o.solid))});
  const val=Object.freeze({...dressed,colliders160,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);

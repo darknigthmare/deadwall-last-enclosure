@@ -8,6 +8,8 @@
  if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(DATA,G){'use strict';
  const Recipes159=globalThis.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null);
+ const Anchors160=globalThis.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null);
+ const search160=new Map();
  const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map();
  for(const r of rows){const p=Object.freeze({id:'DW-'+String(r[0]).padStart(4,'0'),name:r[1],family:r[2],
    parent:'DW-'+String(r[3]).padStart(4,'0'),module:r[4],state:r[5],original:r[0]<=1000});
@@ -207,8 +209,10 @@
  function dress(options){const api=globalThis.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return api?api.enrich(options):options.detail;}
  function searchTerms(id){const entry=get(id);return entry?DATA.details159?.search160?.[entry.parent]||'':'';}
  function enrich(options){return Recipes159.enrich({...options,data:DATA,runtime:{get,parentFor,detailFamily},geometry:G});}
+ function anchored(options){return Anchors160.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,searchDocument});
 });
