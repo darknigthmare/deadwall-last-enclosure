@@ -1,3 +1,4 @@
+import { matchesDeliveryVersion163 } from './browser-proof163.mjs';
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -396,7 +397,7 @@ try {
       const native = (name, pass) => check(profile.nativeChecks, name, pass), advanced = (name, pass) => check(profile.advancedChecks, name, pass);
       await page.goto(base, { waitUntil: 'networkidle' }); await ready(page); await page.waitForFunction(() => DEADWALL.cityCatalogueUI150 && DEADWALL.d17Art150);
       profile.loadedArt = await loadedAssets(page, harness.assetKeys); native('Every declared asset decodes with the exact runtime registry', profile.loadedArt.failed.length === 0);
-      native('Runtime package and menu expose delivery version 1.53', harness.version.startsWith('1.53.') && await page.locator('#mainMenu footer').textContent().then(t => t.includes(harness.version)));
+      native('Menu exposes exactly the current package delivery version', matchesDeliveryVersion163(harness.version, await page.locator('#mainMenu footer').textContent()));
       await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', viewport.touch);
       await page.waitForFunction(() => !DEADWALL.paused && !DEADWALL.activeOverlay);
       const systemsDevelopment = process.env.DEADWALL_QA_SMOKE === 'systems';

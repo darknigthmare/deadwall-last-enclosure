@@ -1,3 +1,4 @@
+import { observeCoreFrame163 } from './browser-proof163.mjs';
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, holdInput, visibleInPanel } from './browser-qa-common144.mjs';
 import { loadedAssets } from './browser-qa-common142.mjs';
@@ -305,14 +306,9 @@ function prepareLostStorage149() {
 }
 
 async function inspectArtStage149(page, age, check) {
-  const art = await page.evaluate(() => {
-    const g = DEADWALL; g.render();
-    const sprite = g.d17Art149?.coreSprite(g.tier.id), registry = DeadwallD17Art149;
-    return { age: g.tier.id, coreSprite: sprite, atlas: sprite && registry.SPRITES[sprite]?.atlas,
-      ready: [...g.art.diagnostics.ready].sort(), failed: [...g.art.diagnostics.failed],
-      declared: Object.keys(DeadwallArt.ASSETS).sort(), draws: { ...g.art.diagnostics.draws } };
-  });
-  check('Age' + age + ': current D17 centre sprite belongs to the decoded registry and is physically drawn', art.age === age && !!art.atlas && art.ready.includes(art.atlas) && art.draws[art.atlas] > 0);
+  const art = await page.evaluate(observeCoreFrame163);
+  check('Age' + age + ': current D17 centre uses its exact decoded sprite, crop and physical draw rectangle', art.age === age && art.ready.includes(art.atlas) && art.exactDraw);
+  check('Age' + age + ': observing the actual core painter leaves all saved state unchanged', art.savedUnchanged);
   check('Age' + age + ': every current declared texture decodes without a failed resource', art.failed.length === 0 && JSON.stringify(art.ready) === JSON.stringify(art.declared));
   return art;
 }

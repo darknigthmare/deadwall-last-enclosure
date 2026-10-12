@@ -110,10 +110,11 @@ async function planPreview(page, touch, id, site) {
   return { intended: { id, gx: site.gx, gy: site.gy }, actual, point };
 }
 
-async function expireHeldContacts(page, touch, profile, check) {
-  const before = await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism);
+async function expireHeldContacts(page, touch, profile, check, ids = null) {
+  const before = await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes)?.mechanism);
+  assert.ok(before, 'The paid physical mount must still exist before observing hold expiry');
   if (!before.caught.length) return;
-  profile.fixtures.push(await page.evaluate(defenseHeldContactDepartureFixture));
+  profile.fixtures.push(await page.evaluate(defenseHeldContactDepartureFixture, { ids }));
   await activate(page, '#resumeButton', touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.every(f => !f.mechanism?.caught.length)); await activate(page, '#pauseButton', touch);
   check('Actual RAF expires the saved hold after physical contact departure without charging another trigger', await page.evaluate(before => { const m = DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism; return m.caught.length === 0 && m.charges === before.charges; }, before));
 }
@@ -247,10 +248,12 @@ try {
         await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, campFixture);
         if (kind === 'ankle') {
           await expireHeldContacts(page, viewport.touch, profile, advanced);
-          profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' })); profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 }));
+          profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' }));
+          const exhaustionContacts = await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 });
+          profile.fixtures.push(exhaustionContacts);
           await activate(page, '#resumeButton', viewport.touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.some(f => f.mechanism?.charges === 0), null, { timeout: 18000 }); await activate(page, '#pauseButton', viewport.touch);
           advanced('Remaining finite ankle charges actually exhaust against ordinary-health physical contacts', await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism.charges === 0));
-          await expireHeldContacts(page, viewport.touch, profile, advanced);
+          await expireHeldContacts(page, viewport.touch, profile, advanced, exhaustionContacts.ids);
           profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'spikes', bag: recipe.cost })); await fortifications(page, viewport.touch);
           advanced('An exhausted mount can be renewed only with another real bag cost and no held contact', await page.locator(selector).isEnabled());
           await activate(page, selector, viewport.touch); await unpause(page, viewport.touch); await page.waitForFunction(() => !DEADWALL.fortificationPack.busy(), null, { timeout: 15000 }); await activate(page, '#pauseButton', viewport.touch);

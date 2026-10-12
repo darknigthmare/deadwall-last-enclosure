@@ -140,25 +140,34 @@ export function defenseContactFixture({ kind, trap = false, count = 1, hidden = 
     note: 'Explicit finite24-contact assault, valid ordinary enemy health/rules, physical positions and 90s arrival timer; null night uses supported legacy continuous mode. A visible shield outside a trap is a single nonoverlapping contact30 units from the living local player, with no competing unit; ordinary victim AI must maintain its actual frontal orientation. Charger at a trap starts in a declared .7s rush directed at the actual support, to test interruption; its separate free-field scene starts ready. No simulated late-wave progression, AI/vision/RNG override, resource, fitted trap, weapon or player-health assignment.' };
 }
 
-export function defenseHeldContactDepartureFixture() {
-  const g = globalThis.DEADWALL, C = globalThis.DeadwallCore;
+export function defenseHeldContactDepartureFixture({ ids = null } = {}) {
+  const g = globalThis.DEADWALL;
   if (!g.paused) throw Error('Held-contact departure requires real pause');
   const before = g.fortificationPack.snapshot(), fitting = before.fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes), support = g.world.buildings.get(fitting?.id);
-  if (!support || !fitting.mechanism) throw Error('Existing paid physical mount required');
-  const rng = g.random.state, moves = [];
-  for (const caught of fitting.mechanism.caught) {
-    const z = g.zombies.find(z => z.id === caught.id); if (!z || z.dead) throw Error('Held live contact identity required');
+  if (!support || support.dead || !fitting?.mechanism) throw Error('Existing paid physical mount required');
+  const held = new Map(fitting.mechanism.caught.map(c => [c.id, c.left]));
+  const selected = ids === null ? [...held.keys()] : ids;
+  if (!Array.isArray(selected) || selected.some(id => !Number.isSafeInteger(id) || id <= 0) || new Set(selected).size !== selected.length || [...held.keys()].some(id => !selected.includes(id))) throw Error('Explicit unique contact IDs must include every held contact');
+  const contacts = selected.map(id => g.zombies.find(z => z.id === id));
+  if (contacts.some(z => !z || z.dead || !(z.health > 0))) throw Error('Live contact identity required');
+  const rng = g.random.state, moves = [], planned = [];
+  const otherActors = [g.player, ...g.units, ...g.zombies.filter(z => !selected.includes(z.id))].filter(a => !a.dead && a.health > 0);
+  // Prepare every departure before writing any position. The six-contact scene
+  // includes enemies whose hold has expired: leaving those behind lets normal
+  // combat destroy the support while the probe is meant to observe hold expiry.
+  for (const z of contacts) {
     let point;
-    for (const distance of [400, 480, 560]) for (const [dx, dy] of [[distance, 0], [-distance, 0], [0, distance], [0, -distance]]) {
-      const x = support.x + dx, y = support.y + dy;
-      if (!point && g.hostilePositionClear(z, x, y)) point = { x, y };
+    for (const distance of [400, 480, 560]) for (let angle = 0; angle < 8 && !point; angle++) {
+      const x = support.x + Math.cos(angle * Math.PI / 4) * distance, y = support.y + Math.sin(angle * Math.PI / 4) * distance;
+      if (g.hostilePositionClear(z, x, y) && [...otherActors, ...planned].every(a => Math.hypot(x - a.x, y - a.y) > z.radius + a.radius + 2)) point = { x, y };
     }
     if (!point) throw Error('No physical departure point outside mount reach');
-    moves.push({ id: z.id, from: { x: z.x, y: z.y }, to: point, health: z.health, holdRemaining: caught.left });
-    z.x = point.x; z.y = point.y;
+    moves.push({ id: z.id, from: { x: z.x, y: z.y }, to: point, health: z.health, holdRemaining: held.get(z.id) ?? null });
+    planned.push({ ...point, radius: z.radius });
   }
+  for (let i = 0; i < contacts.length; i++) { contacts[i].x = planned[i].x; contacts[i].y = planned[i].y; }
   g.rebuildBuckets();
   if (g.random.state !== rng || JSON.stringify(g.fortificationPack.snapshot()) !== JSON.stringify(before)) throw Error('Departure changed the paid mount or RNG');
   return { type: 'prepared-held-contact-departure', moves, assignedFields: moves.map(z => 'zombies[' + z.id + '].x/y'),
-    note: 'Only the existing synthetic held contact position is relocated to genuinely free ground at least400 game units away. Health, saved hold, recovery timer, identity, mount/charge count, material and RNG stay intact. Ordinary RAF must expire the real hold before the scene may retire its contact.' };
+    note: 'Only explicitly identified synthetic contacts move to distinct free points at least400 units away. The whole declared contact group leaves, including expired holds. No enemy is deleted, healed or disabled; support health, charges, timers, stock and RNG are unchanged. Ordinary RAF must still expire the saved holds.' };
 }
