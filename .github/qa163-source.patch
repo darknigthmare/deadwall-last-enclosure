@@ -1,0 +1,108 @@
+diff --git a/scripts/browser-city-content150.mjs b/scripts/browser-city-content150.mjs
+index c976fd4..7a2b8a2 100644
+--- a/scripts/browser-city-content150.mjs
++++ b/scripts/browser-city-content150.mjs
+@@ -1 +1,2 @@
++import { matchesDeliveryVersion163 } from './browser-proof163.mjs';
+ import assert from 'node:assert/strict';
+@@ -398,3 +399,3 @@ try {
+       profile.loadedArt = await loadedAssets(page, harness.assetKeys); native('Every declared asset decodes with the exact runtime registry', profile.loadedArt.failed.length === 0);
+-      native('Runtime package and menu expose delivery version 1.53', harness.version.startsWith('1.53.') && await page.locator('#mainMenu footer').textContent().then(t => t.includes(harness.version)));
++      native('Menu exposes exactly the current package delivery version', matchesDeliveryVersion163(harness.version, await page.locator('#mainMenu footer').textContent()));
+       await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', viewport.touch);
+diff --git a/scripts/browser-d17-progression149.mjs b/scripts/browser-d17-progression149.mjs
+index 6f642b3..b8396b5 100644
+--- a/scripts/browser-d17-progression149.mjs
++++ b/scripts/browser-d17-progression149.mjs
+@@ -1 +1,2 @@
++import { observeCoreFrame163 } from './browser-proof163.mjs';
+ import assert from 'node:assert/strict';
+@@ -307,10 +308,5 @@ function prepareLostStorage149() {
+ async function inspectArtStage149(page, age, check) {
+-  const art = await page.evaluate(() => {
+-    const g = DEADWALL; g.render();
+-    const sprite = g.d17Art149?.coreSprite(g.tier.id), registry = DeadwallD17Art149;
+-    return { age: g.tier.id, coreSprite: sprite, atlas: sprite && registry.SPRITES[sprite]?.atlas,
+-      ready: [...g.art.diagnostics.ready].sort(), failed: [...g.art.diagnostics.failed],
+-      declared: Object.keys(DeadwallArt.ASSETS).sort(), draws: { ...g.art.diagnostics.draws } };
+-  });
+-  check('Age' + age + ': current D17 centre sprite belongs to the decoded registry and is physically drawn', art.age === age && !!art.atlas && art.ready.includes(art.atlas) && art.draws[art.atlas] > 0);
++  const art = await page.evaluate(observeCoreFrame163);
++  check('Age' + age + ': current D17 centre uses its exact decoded sprite, crop and physical draw rectangle', art.age === age && art.ready.includes(art.atlas) && art.exactDraw);
++  check('Age' + age + ': observing the actual core painter leaves all saved state unchanged', art.savedUnchanged);
+   check('Age' + age + ': every current declared texture decodes without a failed resource', art.failed.length === 0 && JSON.stringify(art.ready) === JSON.stringify(art.declared));
+diff --git a/scripts/browser-defenses-fixtures148.mjs b/scripts/browser-defenses-fixtures148.mjs
+index 456a8b6..2ac2906 100644
+--- a/scripts/browser-defenses-fixtures148.mjs
++++ b/scripts/browser-defenses-fixtures148.mjs
+@@ -142,19 +142,28 @@ export function defenseContactFixture({ kind, trap = false, count = 1, hidden =
+ 
+-export function defenseHeldContactDepartureFixture() {
+-  const g = globalThis.DEADWALL, C = globalThis.DeadwallCore;
++export function defenseHeldContactDepartureFixture({ ids = null } = {}) {
++  const g = globalThis.DEADWALL;
+   if (!g.paused) throw Error('Held-contact departure requires real pause');
+   const before = g.fortificationPack.snapshot(), fitting = before.fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes), support = g.world.buildings.get(fitting?.id);
+-  if (!support || !fitting.mechanism) throw Error('Existing paid physical mount required');
+-  const rng = g.random.state, moves = [];
+-  for (const caught of fitting.mechanism.caught) {
+-    const z = g.zombies.find(z => z.id === caught.id); if (!z || z.dead) throw Error('Held live contact identity required');
++  if (!support || support.dead || !fitting?.mechanism) throw Error('Existing paid physical mount required');
++  const held = new Map(fitting.mechanism.caught.map(c => [c.id, c.left]));
++  const selected = ids === null ? [...held.keys()] : ids;
++  if (!Array.isArray(selected) || selected.some(id => !Number.isSafeInteger(id) || id <= 0) || new Set(selected).size !== selected.length || [...held.keys()].some(id => !selected.includes(id))) throw Error('Explicit unique contact IDs must include every held contact');
++  const contacts = selected.map(id => g.zombies.find(z => z.id === id));
++  if (contacts.some(z => !z || z.dead || !(z.health > 0))) throw Error('Live contact identity required');
++  const rng = g.random.state, moves = [], planned = [];
++  const otherActors = [g.player, ...g.units, ...g.zombies.filter(z => !selected.includes(z.id))].filter(a => !a.dead && a.health > 0);
++  // Prepare every departure before writing any position. The six-contact scene
++  // includes enemies whose hold has expired: leaving those behind lets normal
++  // combat destroy the support while the probe is meant to observe hold expiry.
++  for (const z of contacts) {
+     let point;
+-    for (const distance of [400, 480, 560]) for (const [dx, dy] of [[distance, 0], [-distance, 0], [0, distance], [0, -distance]]) {
+-      const x = support.x + dx, y = support.y + dy;
+-      if (!point && g.hostilePositionClear(z, x, y)) point = { x, y };
++    for (const distance of [400, 480, 560]) for (let angle = 0; angle < 8 && !point; angle++) {
++      const x = support.x + Math.cos(angle * Math.PI / 4) * distance, y = support.y + Math.sin(angle * Math.PI / 4) * distance;
++      if (g.hostilePositionClear(z, x, y) && [...otherActors, ...planned].every(a => Math.hypot(x - a.x, y - a.y) > z.radius + a.radius + 2)) point = { x, y };
+     }
+     if (!point) throw Error('No physical departure point outside mount reach');
+-    moves.push({ id: z.id, from: { x: z.x, y: z.y }, to: point, health: z.health, holdRemaining: caught.left });
+-    z.x = point.x; z.y = point.y;
++    moves.push({ id: z.id, from: { x: z.x, y: z.y }, to: point, health: z.health, holdRemaining: held.get(z.id) ?? null });
++    planned.push({ ...point, radius: z.radius });
+   }
++  for (let i = 0; i < contacts.length; i++) { contacts[i].x = planned[i].x; contacts[i].y = planned[i].y; }
+   g.rebuildBuckets();
+@@ -162,3 +171,3 @@ export function defenseHeldContactDepartureFixture() {
+   return { type: 'prepared-held-contact-departure', moves, assignedFields: moves.map(z => 'zombies[' + z.id + '].x/y'),
+-    note: 'Only the existing synthetic held contact position is relocated to genuinely free ground at least400 game units away. Health, saved hold, recovery timer, identity, mount/charge count, material and RNG stay intact. Ordinary RAF must expire the real hold before the scene may retire its contact.' };
++    note: 'Only explicitly identified synthetic contacts move to distinct free points at least400 units away. The whole declared contact group leaves, including expired holds. No enemy is deleted, healed or disabled; support health, charges, timers, stock and RNG are unchanged. Ordinary RAF must still expire the saved holds.' };
+ }
+diff --git a/scripts/browser-defenses148.mjs b/scripts/browser-defenses148.mjs
+index a05dacf..7465a17 100644
+--- a/scripts/browser-defenses148.mjs
++++ b/scripts/browser-defenses148.mjs
+@@ -112,6 +112,7 @@ async function planPreview(page, touch, id, site) {
+ 
+-async function expireHeldContacts(page, touch, profile, check) {
+-  const before = await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism);
++async function expireHeldContacts(page, touch, profile, check, ids = null) {
++  const before = await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes)?.mechanism);
++  assert.ok(before, 'The paid physical mount must still exist before observing hold expiry');
+   if (!before.caught.length) return;
+-  profile.fixtures.push(await page.evaluate(defenseHeldContactDepartureFixture));
++  profile.fixtures.push(await page.evaluate(defenseHeldContactDepartureFixture, { ids }));
+   await activate(page, '#resumeButton', touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.every(f => !f.mechanism?.caught.length)); await activate(page, '#pauseButton', touch);
+@@ -249,6 +250,8 @@ try {
+           await expireHeldContacts(page, viewport.touch, profile, advanced);
+-          profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' })); profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 }));
++          profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' }));
++          const exhaustionContacts = await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 });
++          profile.fixtures.push(exhaustionContacts);
+           await activate(page, '#resumeButton', viewport.touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.some(f => f.mechanism?.charges === 0), null, { timeout: 18000 }); await activate(page, '#pauseButton', viewport.touch);
+           advanced('Remaining finite ankle charges actually exhaust against ordinary-health physical contacts', await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism.charges === 0));
+-          await expireHeldContacts(page, viewport.touch, profile, advanced);
++          await expireHeldContacts(page, viewport.touch, profile, advanced, exhaustionContacts.ids);
+           profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'spikes', bag: recipe.cost })); await fortifications(page, viewport.touch);

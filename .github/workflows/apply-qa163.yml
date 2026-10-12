@@ -1,0 +1,54 @@
+name: Apply verified QA 163 patch once
+on:
+  pull_request:
+    paths:
+      - '.github/qa163-source.patch'
+      - '.github/workflows/apply-qa163.yml'
+permissions:
+  contents: write
+concurrency:
+  group: apply-qa163-pr2
+  cancel-in-progress: false
+jobs:
+  apply:
+    if: github.event.pull_request.number == 2 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/codex3000-detailed-programmes-159'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Apply only to the verified source parent and fingerprints
+        run: |
+          test "$(git rev-parse HEAD^)" = dfff00e6cfc3658c8924deb28325497574ff2373
+          echo '709297bcf517b173408aeb0a9cfc1b23566f3a85fda38d82a08fe0904b34f290  .github/qa163-source.patch' | sha256sum -c -
+          git apply --index .github/qa163-source.patch
+          python3 - <<'PY'
+          import subprocess
+          expected = {
+            'scripts/browser-city-content150.mjs': '7a2b8a25b48a2ae657a30a7348b1b7208482af00',
+            'scripts/browser-d17-progression149.mjs': 'b8396b5f5d9d1b5f469e1631179f23b95505fd45',
+            'scripts/browser-defenses-fixtures148.mjs': '2ac2906ce83b0266e8fb9a334ad4df37a73b2a28',
+            'scripts/browser-defenses148.mjs': '7465a176cb40cc4fee3023a1a8d39cdd707b7325'
+          }
+          paths = subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines()
+          assert set(paths) == set(expected)
+          for path, fingerprint in expected.items():
+              assert subprocess.check_output(['git', 'hash-object', path], text=True).strip() == fingerprint, path
+          PY
+      - name: Validate the applied code before committing
+        run: |
+          node scripts/compile-codex3000.mjs
+          node scripts/check-syntax134.mjs
+          npm run build
+          node --test --test-concurrency=1 tests/qa-contracts163.test.cjs tests/defenses-qa148.test.cjs
+      - name: Publish a fast-forward on the existing PR branch only
+        run: |
+          ref=refs/heads/feat/codex3000-detailed-programmes-159
+          test "$(git ls-remote origin "$ref" | cut -f1)" = "$(git rev-parse HEAD)"
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'test: repair exact art, version and isolated defense regression contracts'
+          git push origin "HEAD:$ref"
