@@ -26,7 +26,18 @@ try{
    await host.locator('input[type=number]').fill('17118');await host.getByRole('button').click();check('Another seed changes the recipe presentation',image!==await canvas.evaluate(c=>c.toDataURL()));
    await host.locator('input[type=number]').fill('-1');await host.getByRole('button').click();check('Invalid seed is explained with no stale visible canvas',!await canvas.isVisible()&&/Graine entière/.test(await host.innerText()));
    await host.locator('input[type=number]').fill('42');await host.getByRole('button').click();
-   await card.locator('summary').click();await card.locator('summary').click();check('Reopening never duplicates the inspector',await card.locator('[data-codex-plan165]').count()===1);
+   // Closing intentionally releases the canvas buffer. Reopening the source
+   // disclosure must not regenerate a plan until the user requests it again.
+   const lastValid=await canvas.evaluate(c=>c.toDataURL());
+   await card.locator(':scope > details > summary').click();
+   await page.waitForFunction(()=>{const c=document.querySelector('[data-codex-id="programme-DW-0501"] canvas');return c?.hidden&&c.width===1&&c.height===1;});
+   check('Closing releases the hidden drawing buffer',await canvas.evaluate(c=>c.hidden&&c.width===1&&c.height===1));
+   await card.locator(':scope > details > summary').click();await host.waitFor();
+   check('Reopening never duplicates the inspector',await card.locator('[data-codex-plan165]').count()===1);
+   check('Reopening source fields leaves the plan dormant',!await canvas.isVisible()&&await canvas.evaluate(c=>c.width===1&&c.height===1));
+   await host.getByRole('button',{name:'AFFICHER LE PLAN',exact:true}).click();
+   await canvas.waitFor({state:'visible'});
+   check('Explicit regeneration after reopening reproduces the exact plan',lastValid===await canvas.evaluate(c=>c.toDataURL()));
    await canvas.scrollIntoViewIfNeeded();await screenshot('recipe-plan');check('No horizontal document overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    check('All inspection controls leave the persisted campaign and RNG untouched',before===await stamp(page));
    await page.locator('#worldCodexSearch').fill('DW-0300');const unsupported=page.locator('[data-codex-id="programme-DW-0300"]');await unsupported.locator('summary').click();const unavailable=unsupported.locator('[data-codex-plan165]');await unavailable.waitFor();await unavailable.getByRole('button').click();
