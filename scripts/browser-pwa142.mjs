@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
-import { createHarness, recorder, ready, loadedAssets, chooseCampaign, worldSnapshot, campaignSnapshot, observeRestore, restoredCampaign } from './browser-qa-common142.mjs';
+import { createHarness, recorder, ready, loadedAssets, chooseCampaign, worldSnapshot, hasCurrentProgrammes, campaignSnapshot, observeRestore, restoredCampaign } from './browser-qa-common142.mjs';
 
-const harness = await createHarness('pwa', 'Fresh Chromium service worker, exact served cache manifest, offline reload, new G7 campaign and offline save/continue. This checks local browser offline behavior; it does not certify a production origin or physical mobile device.');
+const harness = await createHarness('pwa', 'Fresh Chromium service worker, exact served cache manifest, offline reload, new G8 campaign and offline save/continue. This checks local browser offline behavior; it does not certify a production origin or physical mobile device.');
 const { browser, base, version, output } = harness;
 harness.report.profiles = [];
 async function runProfile(viewport) {
@@ -54,8 +54,8 @@ async function runProfile(viewport) {
     const offlineResponse = await page.reload({ waitUntil: 'load' });
     check('Offline document comes from the service worker', offlineResponse?.status() === 200 && offlineResponse.fromServiceWorker());
     await ready(page);
-    check('Current menu and G7 controllers load offline', await page.locator('#mainMenu').isVisible() && (await page.locator('#mainMenu').innerText()).includes('VERSION ' + version) &&
-      await page.evaluate(() => !!DeadwallCore.GeographyRules141 && !!DeadwallCore.EcologyRules141 && !!DEADWALL.frontier));
+    check('Current menu and G8 controllers load offline', await page.locator('#mainMenu').isVisible() && (await page.locator('#mainMenu').innerText()).includes('VERSION ' + version) &&
+      await page.evaluate(() => !!DeadwallCore.GeographyRules141 && !!DeadwallCore.EcologyRules141 && !!globalThis.DeadwallCodex3000Runtime && !!DEADWALL.frontier));
     report.offlineAssets = await loadedAssets(page, harness.assetKeys);
     check('Every declared image loads and decodes offline');
     await chooseCampaign(page);
@@ -68,12 +68,13 @@ async function runProfile(viewport) {
     await page.locator('#campaignIntro132Next').click();
     await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
     report.offlineWorld = await worldSnapshot(page);
-    check('Offline new campaign generates the requested G7 territory', report.offlineWorld.seed === 17117 && report.offlineWorld.generation === 7 && report.offlineWorld.size === 24576 && report.offlineWorld.towns === 34);
-    await screenshot('offline-g7');
+    check('Offline new campaign generates the requested G8 territory', report.offlineWorld.seed === 17117 && report.offlineWorld.generation === 8 && report.offlineWorld.size === 24576 && report.offlineWorld.towns === 34);
+    check('Offline generation installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(report.offlineWorld));
+    await screenshot('offline-g8');
     await page.locator('#pauseButton').click();
     await page.locator('#saveButton').click();
     const checkpoint = report.checkpoint = await campaignSnapshot(page);
-    check('Offline save button stores a valid identified campaign', checkpoint.ok && !!checkpoint.runId && checkpoint.generation === 7);
+    check('Offline save button stores a valid identified campaign', checkpoint.ok && !!checkpoint.runId && checkpoint.generation === 8);
     await page.locator('#quitButton').click();
     const continuedResponse = await page.reload({ waitUntil: 'load' });
     check('Second offline reload comes from service worker', continuedResponse?.fromServiceWorker() === true);
@@ -83,6 +84,9 @@ async function runProfile(viewport) {
     await page.locator('#continueButton').click();
     await page.waitForFunction(() => DEADWALL.state === 'playing');
     check('Offline continue restores the same campaign', await restoredCampaign(page, checkpoint));
+    report.continuedWorld = await worldSnapshot(page);
+    check('Offline continue rebuilds the same current Codex 3000 places and plans', hasCurrentProgrammes(report.continuedWorld) &&
+      JSON.stringify(report.continuedWorld.programmes) === JSON.stringify(report.offlineWorld.programmes));
     await screenshot('offline-continued');
     check('No page, console, HTTP or request failures', errors() === 0);
     report.pass = true;

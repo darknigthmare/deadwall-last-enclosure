@@ -3,9 +3,10 @@ const test = require('node:test'), assert = require('node:assert/strict');
 const { bootDocument134 } = require('../scripts/qa-startup134.cjs');
 let g, C, G;
 test.before(() => { ({ g } = bootDocument134()); C = globalThis.DeadwallCore; G = globalThis.DeadwallFrontierGeometry; });
-function fresh(seed = '17117', generation = 7) {
+function fresh(seed = '17117', generation = 8) {
   g.startNew('standard', seed); g.campaignIntro132.skip();
-  if (generation !== 7) { const raw = g.serialize(); Object.assign(raw.frontier, { generation, x: 4096, y: 4096, z: 0, inside: null }); assert.equal(g.restoreSave(raw), true); }
+  if (generation !== g.frontier.position().generation) { const raw = g.serialize(); Object.assign(raw.frontier, { generation, x: 4096, y: 4096, z: 0, inside: null }); assert.equal(g.restoreSave(raw), true); }
+  assert.equal(g.frontier.position().generation, generation);
   g.tier = { id: 4 }; for (const key of C.RESOURCE_KEYS) g.resources[key] = 10000;
 }
 function point(id, x, y) { const p = g.worldEvolution.overview().districts.find(d => d.id === id).pos; return { ...G.global({ ...p, w: 0, h: 0 }, x, y), a: p.a }; }

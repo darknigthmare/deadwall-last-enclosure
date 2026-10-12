@@ -7,12 +7,13 @@ test.before(() => { ({ g } = bootDocument134()); C = globalThis.DeadwallCore; G 
 
 // Prepared historical knowledge and finite depot stocks isolate the existing
 // paid annex commands. These fixtures make no organic campaign-time claim.
-function fresh(generation = 7, seed = '17117') {
+function fresh(generation = 8, seed = '17117') {
   g.startNew('standard', seed); g.campaignIntro132.skip(); g.phaseTime = 999;
-  if (generation !== 7) {
+  if (generation !== g.frontier.position().generation) {
     const raw = g.serialize(); Object.assign(raw.frontier, { generation, x: 4096, y: 4096, z: 0, inside: null });
     g.restoreSave(raw);
   }
+  assert.equal(g.frontier.position().generation, generation);
   legacyAge(g, 1850);
   for (const key of C.RESOURCE_KEYS) g.resources[key] = 2000;
   return g.frontier.world();

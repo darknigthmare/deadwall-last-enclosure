@@ -52,6 +52,22 @@ function afterTwoAnimationFrames() {
   return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(true))));
 }
 
+// Serialized into the renderer, and exercised against the actual battlefield UI in tests.
+function inspectBattlefieldUI(game, document, battlefield) {
+  const expected = battlefield.observedSnapshot(game, battlefield.inspect);
+  game.battlefieldUI.refresh(true);
+  const cards = [...document.getElementById('battlefieldSectors').querySelectorAll('.battlefield-sector')];
+  const directions = cards.map(card => card.querySelector('h4').textContent);
+  if (JSON.stringify(directions) !== JSON.stringify(['NORD','EST','SUD','OUEST'])) throw new Error('Native directional fronts are incomplete');
+  for (let index = 0; index < cards.length; index++) {
+    const card = cards[index], sector = expected.sectors[index];
+    if (card.querySelector('strong').textContent !== sector.contacts + ' contact(s) observé(s)' ||
+        card.querySelector('small').textContent !== sector.fragileWalls + ' remparts fragiles / ' + sector.walls ||
+        card.dataset.alert !== String(sector.innerContacts > 0)) throw new Error('Native front report disagrees with observed campaign contacts: ' + sector.label);
+  }
+  return { fronts:cards.length, directions, contacts:expected.contacts };
+}
+
 async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, stage, gameURL }) {
   assert.ok(['create','restore'].includes(stage), 'Unknown desktop verification stage');
   fs.mkdirSync(reportRoot, { recursive:true });
@@ -68,7 +84,12 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   let consoleObserverVerified = false;
   window.webContents.on('console-message', details => {
     if (details.message === 'DEADWALL_QA_CONSOLE_OBSERVER') consoleObserverVerified = true;
-    if (details.level === 'error') errors.push(details.message);
+    if (details.level === 'error') {
+      errors.push(details.message);
+      // Electron can reject executeJavaScript with only a generic sandbox error.
+      // Keep the original renderer failure in the process log even before a report exists.
+      console.error(`[DEADWALL desktop ${stage} renderer] ${details.message} (${details.sourceId || 'unknown source'}:${details.lineNumber || 0})`);
+    }
   });
   const failedLoads = [];
   window.webContents.on('did-fail-load', (_event, code, message, url) => failedLoads.push({ code, message, url }));
@@ -243,13 +264,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     get('commandTab-enclosure').click();
     const campaign=()=>JSON.stringify({save:{...game.serialize(),timestamp:0},profile:game.profile.get(),state:game.state,gameOver:game.gameOver});
     const before=campaign(),world=game.world;
-    const expected=B.observedSnapshot(game,B.inspect);game.battlefieldUI.refresh(true);
-    const cards=[...get('battlefieldSectors').querySelectorAll('.battlefield-sector')],directions=cards.map(card=>card.querySelector('h4').textContent);
-    if(JSON.stringify(directions)!==JSON.stringify(['NORD','EST','SUD','OUEST'])) throw new Error('Native directional fronts are incomplete');
-    for(let index=0;index<cards.length;index++){
-      const card=cards[index],sector=expected.sectors[index];
-      if(card.querySelector('strong').textContent!==sector.contacts+' contact(s) observé(s)' || card.querySelector('small').textContent!==sector.fragileWalls+' remparts fragiles / '+sector.walls || card.dataset.alert!==String(sector.innerContacts>0)) throw new Error('Native front report disagrees with current campaign');
-    }
+    const fronts=(${inspectBattlefieldUI.toString()})(game,document,B);
     // Non-destructive UI fixture: render the hidden debrief using current, real
     // campaign values. No centre damage, defeat, replay, artificial kills or losses.
     const summary=B.debrief(game.stats,game.resources);game.battlefieldUI.refreshDefeat();
@@ -259,7 +274,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     if(!get('debriefCampaign').textContent.includes(globalThis.DeadwallScenarios.get('rearguard').name) || !get('debriefCampaign').textContent.includes('17117')) throw new Error('Native debrief is missing scenario/map identity');
     if(!get('gameOver').classList.contains('hidden') || game.gameOver || !game.core() || game.core().health<=0 || world!==game.world || before!==campaign()) throw new Error('Native debrief probe changed the campaign');
     get('commandClose').click();if(!game.paused) throw new Error('Squad/front command closure lost the original pause');
-    return {fixture:'Current campaign contacts and hidden debrief rendering only; no defeat/replay or fabricated statistics',fronts:cards.length,directions,contacts:expected.contacts,debriefMetrics:metrics.length,metrics,hiddenDebrief:true,campaignIntact:true};
+    return {fixture:'Current observed campaign contacts and hidden debrief rendering only; no defeat/replay or fabricated statistics',...fronts,debriefMetrics:metrics.length,metrics,hiddenDebrief:true,campaignIntact:true};
   })()`, true);
   save.squads = squads.state;
   save.soldiers = squads.soldiers;
@@ -417,5 +432,4 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   await closeSafely();
 }
 
-module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames, publicDistributionFiles };
-
+module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames, inspectBattlefieldUI, publicDistributionFiles };

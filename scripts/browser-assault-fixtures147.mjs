@@ -58,3 +58,22 @@ export function maximumObservedAssaultFixture() {
     assignedFields: ['five-existing-contact-positions', 'four-completed-watchtower-buildings', 'nextId', 'resources.ammo', 'urban.peakScore'],
     notes: 'Five existing living contacts repositioned and four legally placed observation posts added. Common ammo explicitly set to zero to prevent real defence fire during layout/Continue checks. Urban history follows real built score. No enemy added, health changed, arrival budget changed, player moved or perception stubbed.' };
 }
+
+/** End the declared layout-only positions before timing live arrival echelons. */
+export function restoreObservedContactPositions(fixture) {
+  const g = globalThis.DEADWALL;
+  if (!g.paused || g.player.dead || g.player.health <= 0) throw Error('Restore the layout fixture while its commander is alive and paused');
+  const contacts = fixture.changed.map(change => {
+    const contact = g.zombies.find(z => z.id === change.id && !z.dead && z.health > 0);
+    if (!contact || !Number.isFinite(change.before.x) || !Number.isFinite(change.before.y)) throw Error('The observed contact must retain its original arrival position');
+    return { contact, change };
+  });
+  const changed = contacts.map(({ contact, change }) => {
+    const before = { x: contact.x, y: contact.y };
+    Object.assign(contact, change.before);
+    return { id: contact.id, before, after: { x: contact.x, y: contact.y } };
+  });
+  g.battlefieldUI.refresh(true); g.updateUI();
+  return { type: 'end-observed-layout-fixture', changed, assignedFields: ['five-existing-contact-positions'],
+    notes: 'The five layout contacts return to their recorded natural arrival positions before live echelon timing. No healing, health, stock, clock, RNG or arrival-budget changes. Observation posts remain real saved structures.' };
+}

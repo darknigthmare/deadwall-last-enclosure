@@ -4,9 +4,10 @@ const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const {standAt}=require('./helpers/physical-fixtures.cjs');
 const {g}=bootDocument134(),C=globalThis.DeadwallCore,P=globalThis.DeadwallAtlasProjection;
 const sides={east:{gx:127,gy:64,x:4050,y:2064,dx:1,dy:0},west:{gx:0,gy:64,x:46,y:2064,dx:-1,dy:0},north:{gx:64,gy:0,x:2064,y:46,dx:0,dy:-1},south:{gx:64,gy:127,x:2064,y:4050,dx:0,dy:1}};
-function fresh(generation=7){
+function fresh(generation=8){
  g.startNew('standard','17117');g.campaignIntro132.skip();
- if(generation!==7){const s=g.serialize(),home=globalThis.DeadwallGeography135.home(s.worldSeed,generation);Object.assign(s.frontier,{generation,x:home.maxX+2,y:home.y});s.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(s);}
+ if(generation!==g.frontier.position().generation){const s=g.serialize(),home=globalThis.DeadwallGeography135.home(s.worldSeed,generation);Object.assign(s.frontier,{generation,x:home.maxX+2,y:home.y});s.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(s);}
+ assert.equal(g.frontier.position().generation,generation);
 }
 function stable(){const s=g.serialize();delete s.timestamp;return s;}
 function place(type,gx,gy,rotation=0){const b=new(g.core().constructor)(g.nextId++,type,gx,gy,rotation,1);g.world.add(b);g.refreshMetrics(true);return b;}

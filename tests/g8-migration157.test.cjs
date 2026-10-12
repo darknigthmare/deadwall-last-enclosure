@@ -61,6 +61,8 @@ test('Programme-native details use their actual family for variants, fences and 
 
 function campaign(){
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');
+ require('./helpers/generation141.cjs').legacy(g,7);
+ assert.equal(g.frontier.position().generation,7,'Manual extension scenarios start from an explicitly preserved G7 campaign');
  standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();return g;
 }
 const activate=g=>g.worldOps131.actions().find(a=>a.id==='expandCodex3000').run();

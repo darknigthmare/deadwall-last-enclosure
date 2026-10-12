@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, holdInput, visibleInPanel, saveReloadContinue } from './browser-qa-common144.mjs';
 
-const harness = await createHarness('journey', 'NATIVE JOURNEY: four fresh seed-54831 G7 campaigns. Real DOM controls, keyboard and held touch input inspect biomes and atlas, walk away from and back to the core, test a real preparation refusal, recruit personnel, end the calm with confirmation, and reach the first warning and assault through ordinary RAF. A manual scroll tests tactical HUD clipping before automatic target scrolling. Save/reload/continue compares every validated field. No stocks, positions, actors, phases, timers, RNG or simulation fixtures are injected. This supplements campaign143; it does not repeat its complete harvest/deposit/construction loop or certify physical devices or balancing.');
+const harness = await createHarness('journey', 'NATIVE JOURNEY: four fresh seed-54831 G8 campaigns. Real DOM controls, keyboard and held touch input inspect biomes and atlas, walk away from and back to the core, test a real preparation refusal, recruit personnel, end the calm with confirmation, and reach the first warning and assault through ordinary RAF. A manual scroll tests tactical HUD clipping before automatic target scrolling. Save/reload/continue compares every validated field. No stocks, positions, actors, phases, timers, RNG or simulation fixtures are injected. This supplements campaign143; it does not repeat its complete harvest/deposit/construction loop or certify physical devices or balancing.');
 const { browser, base, report, output } = harness;
 report.profiles = [];
 report.normalizedFields = [];
@@ -97,7 +97,7 @@ try {
       profile.world = await page.evaluate(() => {
         const w = DEADWALL.frontier.world(); return { seed: w.seed, generation: w.generation, size: w.size, towns: w.towns.length, home: w.home };
       });
-      check('A different native seed starts the complete G7 regional world', profile.world.seed === 54831 && profile.world.generation === 7 && profile.world.size === 24576 && profile.world.towns === 34);
+      check('A different native seed starts the complete G8 regional world', profile.world.seed === 54831 && profile.world.generation === 8 && profile.world.size === 24576 && profile.world.towns === 34);
       await activate(page, '#campaignIntro132Skip', viewport.touch);
       if (!await page.locator('#hud135Map').evaluate(node => node.open)) await activate(page, '#hud135Map > summary', viewport.touch);
       await activate(page, '#frontierAccess', viewport.touch);

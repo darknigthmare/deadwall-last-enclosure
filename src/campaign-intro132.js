@@ -6,7 +6,7 @@ const SHOTS=Object.freeze([
  Object.freeze({id:'road',image:'assets/intro-road132.webp',eyebrow:'AVANT LE PREMIER QUART',title:'Il fallait un endroit où revenir.',text:'Les infectés ont gagné les routes abandonnées. Chaque halte peut devenir un piège, chaque départ couper le chemin du retour. Au milieu des messages sans réponse, un nom revient encore : D-17.',line:'Une destination. Aucune promesse de secours.'}),
  Object.freeze({id:'bastion',image:'assets/intro-bastion132.webp',eyebrow:'DÉPÔT MUNICIPAL · D-17',title:'Ce lieu ne tient pas encore.',text:'Un dépôt, quelques outils, des mains pour travailler. Pour en faire un refuge, il faudra tenir ses accès quand les infectés arriveront à la nuit. Ceux qui ont laissé les registres n’ont pas tous laissé d’adresse de retour.',line:'La clé est restée sur le tableau. La relève commence avec vous.'}),
  Object.freeze({id:'command',image:'assets/command-room132.webp',eyebrow:'PRENDRE LA RELÈVE',title:'Commander commence au sol.',text:'Vous porterez les premiers matériaux. Vous déciderez où construire, qui protéger et quel passage garder libre. Plus le refuge grandira, plus son bruit et ses lumières attireront les migrations.',line:'Le centre doit tenir. Prévoyez toujours une ligne de repli.'}),
- Object.freeze({id:'first-watch',image:'assets/intro-bastion132.webp',eyebrow:'VOTRE PREMIER JOUR',title:'Avant la nuit, une première ligne.',text:'Récoltez près du dépôt. Rapportez votre chargement. Financez un chantier, puis aidez à le terminer. Vos ouvriers prennent leur part du travail ; la défense, elle, reste à préparer.',line:'Ne partez pas trop loin avant que D-17 puisse se défendre sans vous.'})
+ Object.freeze({id:'first-watch',image:'assets/intro-bastion132.webp',eyebrow:'VOTRE PREMIER JOUR',title:'Avant la nuit, une première ligne.',text:'Vous arrivez au dépôt de D-17, un refuge à bâtir. Récoltez à proximité, rapportez votre chargement et financez un chantier, puis aidez à le terminer. Préparez sa défense avant de partir explorer.',line:'Les routes et les lieux de la région se rejoignent au-delà des bords de D-17.'})
 ]);
 function install(g,doc=root.document){
  if(g?.campaignIntro132)return g.campaignIntro132;
@@ -25,11 +25,11 @@ function install(g,doc=root.document){
  const status=el('p','campaign132-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.setAttribute('aria-atomic','true');
  for(const n of [eyebrow,title,text,line,facts,basics])copy.appendChild(n);
  const controls=el('footer','campaign132-controls'),navigation=el('div','campaign132-navigation');
- const back=button('campaignIntro132Back','PRÉCÉDENT',previous,'campaign132-back'),nextButton=button('campaignIntro132Next','CONTINUER',next,'campaign132-next'),skip=button('campaignIntro132Skip','PASSER L’INTRODUCTION',finish,'campaign132-skip');
+ const back=button('campaignIntro132Back','PRÉCÉDENT',previous,'campaign132-back'),nextButton=button('campaignIntro132Next','CONTINUER',()=>next(true),'campaign132-next'),skip=button('campaignIntro132Skip','PASSER L’INTRODUCTION',()=>finish(true),'campaign132-skip');
  skip.setAttribute('aria-description','Le suivi des premiers gestes reste actif après cette introduction.');
  navigation.appendChild(back);navigation.appendChild(nextButton);controls.appendChild(progress);controls.appendChild(navigation);controls.appendChild(skip);controls.appendChild(status);
  for(const n of [picture,shade,top,copy,controls])overlay.appendChild(n);doc.body.appendChild(overlay);
- let opened=false,index=0,previousPause=false,returnFocus=null,previousOverlay=null,modeReplay=false,scenarioId='classic';
+ let opened=false,index=0,previousPause=false,focusLost=false,returnFocus=null,previousOverlay=null,modeReplay=false,scenarioId='classic';
  const inertBefore=new Map(),wrap=(name,fn)=>{if(typeof g[name]!=='function')return;const old=g[name].bind(g);g[name]=(...args)=>fn(old,...args);};
  function scenario(){return C.START_SCENARIOS[scenarioId]||C.START_SCENARIOS.classic;}
  function refresh(){
@@ -44,7 +44,7 @@ function install(g,doc=root.document){
   status.textContent='Tableau '+(index+1)+' sur '+SHOTS.length+' · '+shot.eyebrow;g.paused=g.state==='playing'?true:g.paused;
  }
  function resetScroll(){overlay.scrollTop=0;copy.scrollTop=0;}
- function next(){if(!opened)return false;if(index===SHOTS.length-1)return finish();index++;resetScroll();refresh();nextButton.focus({preventScroll:true});g.audio.ui?.();return true;}
+ function next(fromInput=false){if(!opened)return false;if(index===SHOTS.length-1)return finish(fromInput);index++;resetScroll();refresh();nextButton.focus({preventScroll:true});g.audio.ui?.();return true;}
  function previous(){if(!opened||index===0)return false;index--;resetScroll();refresh();nextButton.focus({preventScroll:true});g.audio.ui?.();return true;}
  function sync(){
   for(const n of [...Array.from(doc.body.children),g.ui.hud,g.ui.mainMenu,g.ui.pauseMenu,g.ui.commandModal,g.ui.settingsModal,g.ui.helpModal]){
@@ -58,16 +58,21 @@ function install(g,doc=root.document){
   if(opened||g.gameOver||!['playing','menu'].includes(g.state))return false;
   if(g.state==='playing'&&(g.player.dead||g.player.health<=0))return false;
   if(g.activeOverlay&&![g.ui.mainMenu,g.ui.pauseMenu,g.ui.commandModal].includes(g.activeOverlay))return false;
-  previousPause=g.paused;returnFocus=doc.activeElement;previousOverlay=g.activeOverlay;modeReplay=replay;scenarioId=g.state==='playing'?g.scenarioId:(doc.getElementById('startScenario')?.value||'classic');
+  previousPause=g.paused;focusLost=false;returnFocus=doc.activeElement;previousOverlay=g.activeOverlay;modeReplay=replay;scenarioId=g.state==='playing'?g.scenarioId:(doc.getElementById('startScenario')?.value||'classic');
   opened=true;index=0;resetScroll();g.releaseInputs();g.cancelPlacement?.();overlay.classList.remove('hidden');doc.body.classList.add('campaign-intro-active');refresh();g.syncOverlayFocus();nextButton.focus({preventScroll:true});return true;
  }
  function cleanup(){
   opened=false;overlay.classList.add('hidden');overlay.inert=true;doc.body.classList.remove('campaign-intro-active');
   for(const[n,inert]of inertBefore)n.inert=inert;inertBefore.clear();g.releaseInputs();
  }
- function finish(){
-  if(!opened)return false;const focus=returnFocus;cleanup();returnFocus=null;
-  if(g.state==='playing'&&!g.gameOver){g.paused=previousPause;if(!previousOverlay||previousOverlay===g.ui.pauseMenu||previousOverlay.classList.contains('hidden'))g.ui.pauseMenu.classList.toggle('hidden',!previousPause);}
+ function finish(fromInput=false){
+  if(!opened)return false;
+  const inactive=doc.hidden||doc.visibilityState==='hidden'||doc.hasFocus?.()===false;
+  // Finishing a new arrival is already a deliberate start. A passive API close,
+  // replay or explicit pause must still retain the suspension after focus loss.
+  const pause=previousPause||inactive||focusLost&&(!fromInput||modeReplay),focus=returnFocus;
+  cleanup();returnFocus=null;
+  if(g.state==='playing'&&!g.gameOver){g.paused=pause;if(!previousOverlay||previousOverlay===g.ui.pauseMenu||previousOverlay.classList.contains('hidden'))g.ui.pauseMenu.classList.toggle('hidden',!pause);}
   g.syncOverlayFocus();g.updateUI();
   if(focus&&(!g.activeOverlay||g.activeOverlay.contains(focus))&&!focus.closest?.('[inert], .hidden')&&focus.getClientRects?.().length)focus.focus({preventScroll:true});
   else if(!g.activeOverlay&&g.state==='playing')g.canvas.focus({preventScroll:true});
@@ -93,12 +98,11 @@ function install(g,doc=root.document){
  wrap('canIssueCommand',(old,...args)=>!opened&&old(...args));
  wrap('update',(old,...args)=>{if(opened){g.releaseInputs();return;}return old(...args);});
  wrap('togglePause',(old,...args)=>{if(opened){if(args[0]===true)previousPause=true;sync();return false;}return old(...args);});
- wrap('onEscape',(old,...args)=>opened?finish():old(...args));
+ wrap('onEscape',(old,...args)=>opened?finish(true):old(...args));
  for(const name of ['showHelp','showSettings','showCommand'])wrap(name,(old,show,...args)=>opened&&show?false:old(show,...args));
- wrap('suspendForFocusLoss',(old,...args)=>{if(opened&&g.state==='playing')previousPause=true;const result=old(...args);if(opened)sync();return result;});
- // A new campaign crosses several historical world initializers. Their saves
- // may precede the final :g4 identity; publish only the completed entry to the
- // profile. Saved campaigns and their existing history are never renamed here.
+ wrap('suspendForFocusLoss',(old,...args)=>{if(opened&&g.state==='playing')focusLost=true;const result=old(...args);if(opened)sync();return result;});
+ // Record history only after every new-campaign initializer has finished.
+ // Initial identities and existing archives remain unchanged.
  let startDepth161=0,pendingRecord161=null;
  wrap('recordCampaign',(old,...args)=>{if(startDepth161){pendingRecord161=args;return;}return old(...args);});
  wrap('startNew',(old,...args)=>{
@@ -132,10 +136,10 @@ function install(g,doc=root.document){
  wrap('updateUI',(old,...args)=>{const result=old(...args);guide();if(opened)refresh();return result;});
  overlay.addEventListener('keydown',event=>{
   if(!opened)return;
-  if(event.code==='Escape'){event.preventDefault();event.stopPropagation();finish();}
+  if(event.code==='Escape'){event.preventDefault();event.stopPropagation();finish(true);}
   else if(event.code==='Tab'){event.stopPropagation();g.trapOverlayFocus(event);}
   else if(!event.altKey&&!event.ctrlKey&&!event.metaKey&&['ArrowRight','ArrowLeft'].includes(event.code)){
-   event.preventDefault();event.stopPropagation();if(!event.repeat)(event.code==='ArrowRight'?next:previous)();
+   event.preventDefault();event.stopPropagation();if(!event.repeat){if(event.code==='ArrowRight')next(true);else previous();}
   }
   else if(!event.altKey&&!event.ctrlKey&&!event.metaKey&&['PageDown','PageUp','Home','End'].includes(event.code)){
    // The footer stays reachable on small screens; its focused buttons must still
@@ -146,7 +150,7 @@ function install(g,doc=root.document){
    else copy.scrollTop+=(event.code==='PageDown'?1:-1)*Math.max(80,(copy.clientHeight||g.height||400)*.8);
   }
  });
- const api=Object.freeze({replay:()=>open(true),next,previous,skip:finish,refresh,isOpen:()=>opened,view:()=>({open:opened,index,total:SHOTS.length,replay:modeReplay,scenario:scenarioId}),element:overlay});g.campaignIntro132=api;return api;
+ const api=Object.freeze({replay:()=>open(true),next:()=>next(),previous,skip:()=>finish(),refresh,isOpen:()=>opened,view:()=>({open:opened,index,total:SHOTS.length,replay:modeReplay,scenario:scenarioId}),element:overlay});g.campaignIntro132=api;return api;
 }
 const api=Object.freeze({install,SHOTS});root.DeadwallCampaignIntro132=api;
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else if(root.DEADWALL&&root.document)install(root.DEADWALL,root.document);

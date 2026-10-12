@@ -30,6 +30,8 @@ jobs:
         run: node scripts/browser-prescriptions161.mjs
       - name: Cours, jardins et cheminements du Codex sur desktop et mobile
         run: node scripts/browser-sites162.mjs
+      - name: Nouvelle partie, arrivée à D-17 et reprise sur ordinateur et mobile
+        run: npm run test:arrival
       - name: Campagne réelle et préparatifs de siège sur quatre formats
         run: npm run test:campaign
       - name: Repli et récompenses réservées dans des scènes avancées
