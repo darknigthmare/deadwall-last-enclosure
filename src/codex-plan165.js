@@ -16,7 +16,8 @@
   if(!['string','number'].includes(typeof value))throw Error('Graine entière requise.');
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
- function inspect(id,rawSeed=0,z=0){
+ function inspect(id,rawSeed=0,z=0,detailVersion=5){
+  if(![5,6].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
@@ -36,10 +37,11 @@
   details=R.anchored({seed,p,z,plan,detail:details,programme:id});
   details=R.quantities({seed,p,z,plan,detail:details,programme:id});
   details=R.ensembles({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion===6)details=R.fill({seed,p,z,plan,detail:details,programme:id});
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
-  return {id,seed,z,levels:[...template.levels],supported:true,p,plan,details,
+  return {id,seed,z,detailVersion,levels:[...template.levels],supported:true,p,plan,details,
    summary:Object.freeze({rooms:plan.rooms.length,sourceObjects:plan.objects.length,
     solidDetails:details.interior.filter(o=>o.solid).length,anchoredContents:contents,
     composedGroups:details.ensembles165?.groups?.length||0,composedSeats:(details.ensembles165?.groups||[]).reduce((n,g)=>n+g.seats,0),
@@ -71,6 +73,7 @@
   const seedLabel=el('label','Graine de prévisualisation'),seed=el('input');seed.type='number';seed.min='0';seed.max=String(RULES.maxSeed);seed.step='1';
   seed.value=String((root.DEADWALL?.world?.seed??0)>>>0);seedLabel.append(seed);
   const floorLabel=el('label','Niveau'),floor=el('select');floorLabel.append(floor);
+  const fillLabel=el('label','Compléter les minima auteur (révision 6)'),fillToggle=el('input');fillToggle.type='checkbox';fillToggle.dataset.fill168='revision';fillToggle.style.width='24px';fillLabel.append(fillToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
@@ -80,14 +83,15 @@
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
-    const preview=inspect(id,seed.value,Number(floor.value));
+    const preview=inspect(id,seed.value,Number(floor.value),fillToggle.checked?6:5);
     if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
     if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
     canvas.width=RULES.width;canvas.height=RULES.height;
     if(!render(canvas,preview))throw Error('Le peintre du jeu est indisponible.');
     const s=preview.summary;
     status.textContent=s.rooms+' pièces · '+s.sourceObjects+' objets du plan · '+s.solidDetails+' détails solides · '+s.anchoredContents+' petits ensembles décoratifs sur les meubles ajoutés. '+s.quantityUnplaced+' compléments demandés non posés faute de capacité, d’espace ou d’accès.'
-     +' '+s.composedGroups+' ensembles table-assises · '+s.composedSeats+' sièges composés · '+s.groupUnplaced+' ensembles non posés. Aperçu de la révision 5, activation volontaire au dépôt.'
+     +' '+s.composedGroups+' ensembles table-assises · '+s.composedSeats+' sièges composés · '+s.groupUnplaced+' ensembles non posés. Aperçu de la révision '+preview.detailVersion+', activation volontaire au dépôt.'
+     +(preview.details.fill168?' '+preview.details.fill168.added+' équipements manquants effectivement ajoutés ; aucun stock ni branchement supplémentaire.':'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
      +(s.exteriorSpacesSimplified.length?' Extérieurs source encore simplifiés : '+s.exteriorSpacesSimplified.join(', ')+'.':'');
     canvas.hidden=false;visible=true;show.textContent='ACTUALISER LE PLAN';
@@ -95,7 +99,8 @@
   show.addEventListener('click',e=>{e.stopPropagation();generate();});
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
-  controls.append(seedLabel,floorLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  fillToggle.addEventListener('change',()=>{if(visible)generate();});
+  controls.append(seedLabel,floorLabel,fillLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

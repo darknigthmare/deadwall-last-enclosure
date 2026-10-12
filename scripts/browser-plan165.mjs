@@ -15,7 +15,7 @@ try{
    await card.locator('summary').click();const host=card.locator('[data-codex-plan165]');await host.waitFor();
    check('Opening source fields adds one read-only inspector',await host.count()===1&&(await host.innerText()).includes('Lecture seule'));
    check('Opening a card alone does not generate or display a plan',!await host.locator('canvas').isVisible());
-   await host.locator('input').fill('42');await host.getByRole('button').click();await host.locator('canvas').waitFor({state:'visible'});
+   await host.locator('input[type=number]').fill('42');await host.getByRole('button').click();await host.locator('canvas').waitFor({state:'visible'});
    const canvas=host.locator('canvas'),image=await canvas.evaluate(c=>c.toDataURL());
    check('Existing lot painter generated visible pixels',await canvas.evaluate(c=>{const p=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let different=0;for(let i=0;i<p.length;i+=4)if(p[i]!==40||p[i+1]!==56||p[i+2]!==46)different++;return different>1000;}));
    check('Counts disclose source objects and unplaced requests',/objets du plan/.test(await host.innerText())&&/non posés/.test(await host.innerText()));
@@ -23,9 +23,9 @@ try{
    check('Authored upper floor is selectable',await host.locator('select option[value="1"]').count()===1);
    await host.locator('select').selectOption('1');check('Selecting upstairs redraws instead of reusing the ground floor',image!==await canvas.evaluate(c=>c.toDataURL()));
    await host.locator('select').selectOption('0');check('Returning downstairs reproduces the previous image',image===await canvas.evaluate(c=>c.toDataURL()));
-   await host.locator('input').fill('17118');await host.getByRole('button').click();check('Another seed changes the recipe presentation',image!==await canvas.evaluate(c=>c.toDataURL()));
-   await host.locator('input').fill('-1');await host.getByRole('button').click();check('Invalid seed is explained with no stale visible canvas',!await canvas.isVisible()&&/Graine entière/.test(await host.innerText()));
-   await host.locator('input').fill('42');await host.getByRole('button').click();
+   await host.locator('input[type=number]').fill('17118');await host.getByRole('button').click();check('Another seed changes the recipe presentation',image!==await canvas.evaluate(c=>c.toDataURL()));
+   await host.locator('input[type=number]').fill('-1');await host.getByRole('button').click();check('Invalid seed is explained with no stale visible canvas',!await canvas.isVisible()&&/Graine entière/.test(await host.innerText()));
+   await host.locator('input[type=number]').fill('42');await host.getByRole('button').click();
    await card.locator('summary').click();await card.locator('summary').click();check('Reopening never duplicates the inspector',await card.locator('[data-codex-plan165]').count()===1);
    await canvas.scrollIntoViewIfNeeded();await screenshot('recipe-plan');check('No horizontal document overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    check('All inspection controls leave the persisted campaign and RNG untouched',before===await stamp(page));
