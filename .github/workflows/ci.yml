@@ -26,6 +26,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Navigateur desktop, mobile et PWA hors ligne
         run: npm run test:browser
+      - name: Codex détaillé et identité de campagne sur quatre formats
+        run: node scripts/browser-prescriptions161.mjs
       - name: Campagne réelle et préparatifs de siège sur quatre formats
         run: npm run test:campaign
       - name: Repli et récompenses réservées dans des scènes avancées

@@ -243,12 +243,12 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     get('commandTab-enclosure').click();
     const campaign=()=>JSON.stringify({save:{...game.serialize(),timestamp:0},profile:game.profile.get(),state:game.state,gameOver:game.gameOver});
     const before=campaign(),world=game.world;
-    const expected=B.inspect(game.core(),game.zombies,game.world.buildings.values());game.battlefieldUI.refresh(true);
+    const expected=B.observedSnapshot(game,B.inspect);game.battlefieldUI.refresh(true);
     const cards=[...get('battlefieldSectors').querySelectorAll('.battlefield-sector')],directions=cards.map(card=>card.querySelector('h4').textContent);
     if(JSON.stringify(directions)!==JSON.stringify(['NORD','EST','SUD','OUEST'])) throw new Error('Native directional fronts are incomplete');
     for(let index=0;index<cards.length;index++){
       const card=cards[index],sector=expected.sectors[index];
-      if(card.querySelector('strong').textContent!==sector.contacts+' contacts actifs' || card.querySelector('small').textContent!==sector.fragileWalls+' remparts fragiles / '+sector.walls || card.dataset.alert!==String(sector.innerContacts>0)) throw new Error('Native front report disagrees with current campaign');
+      if(card.querySelector('strong').textContent!==sector.contacts+' contact(s) observé(s)' || card.querySelector('small').textContent!==sector.fragileWalls+' remparts fragiles / '+sector.walls || card.dataset.alert!==String(sector.innerContacts>0)) throw new Error('Native front report disagrees with current campaign');
     }
     // Non-destructive UI fixture: render the hidden debrief using current, real
     // campaign values. No centre damage, defeat, replay, artificial kills or losses.
@@ -418,3 +418,4 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
 }
 
 module.exports = { verifyWindow, analyzeCanvasPixels, afterTwoAnimationFrames, publicDistributionFiles };
+
