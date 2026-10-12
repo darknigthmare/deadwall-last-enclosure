@@ -213,9 +213,10 @@
  function quantities(options){const q=globalThis.DeadwallCodexQuantities164||(typeof require==='function'?require('./codex-quantities164.js'):null);if(!q)throw Error('Séries de mobilier non chargées');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
  function ensembles(options){const q=globalThis.DeadwallCodexEnsembles165||(typeof require==='function'?require('./codex-ensembles165.js'):null);if(!q)throw Error('Ensembles de mobilier non chargés');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function fill(options){const api=globalThis.DeadwallCodexFill168||(typeof require==='function'?require('./codex-fill168.js'):null);if(!api)throw Error('Complément mobilier non chargé');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
+ function infill(options){const api=globalThis.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);if(!api)throw Error('Compléments de cour non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
  function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,searchDocument});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,infill,searchDocument});
 });

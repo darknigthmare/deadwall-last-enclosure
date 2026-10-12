@@ -21,7 +21,8 @@
   if(cache.has(id)){const v=cache.get(id);cache.delete(id);cache.set(id,v);return v;}
   const {R,G,D,Q}=deps(),record=R?.get(id);if(!record)throw Error('Programme absent du Codex.');
   const d=R.describe(id),t=R.template(id),recipe=!!R.preset('codex3000-'+id.slice(3));
-  const shapes={...G.SHAPES,...D.objects,...Q.EXTRA_SHAPES},specs=d.rooms.flatMap(r=>r.authoredProps);
+  const extra=root.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);
+  const shapes={...G.SHAPES,...D.objects,...Q.EXTRA_SHAPES,...extra?.SHAPES},specs=d.rooms.flatMap(r=>r.authoredProps);
   const invalid=specs.filter(s=>!quantity(s.quantite_par_espace)||!dimensions(s.gabarit_m));
   const unknown=[...new Set(specs.filter(s=>!Object.hasOwn(shapes,s.asset)).map(s=>s.asset||s.nom||'non identifié'))].sort();
   const compatible=recipe&&R.enabled(record,{townKind:'grande-ville'}),graph=d.access||[],names=new Set(d.rooms.flatMap(r=>[r.id,r.name]));
@@ -72,7 +73,7 @@
    }
    const props=specs.map((s,i)=>{
     const req=quantity(s.quantite_par_espace),items=allocations.get(i)||[],minimum=req&&!r.exterior?req[0]*indices.length:null;
-    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.h)-s.gabarit_m?.largeur)<.001).length;
+    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.h)-s.gabarit_m?.largeur)<.001).length;
     const below=minimum===null?null:Math.max(0,minimum-items.length);
     if(below>0)issues.push({kind:'furniture',name:r.name+' — '+(s.nom||s.asset),reason:'below-source-minimum',missing:below});
     if(items.length>exact)issues.push({kind:'dimensions',name:r.name+' — '+(s.nom||s.asset),reason:'footprint-differs',count:items.length-exact});
@@ -84,9 +85,15 @@
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
-  return freeze({source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  const complements169=detail.infill169?{
+   revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
+   zones:detail.infill169.zones.map(zone=>({...zone,representedProps:detail.outdoor.filter(o=>o.infill169&&o.zone169===zone.id).map(o=>({id:o.id,kind:o.kind,source:o.source169}))})),
+   remaining:detail.infill169.requests.reduce((n,r)=>n+r.unplaced,0),requests:copy(detail.infill169.requests),zoneRefusals:copy(detail.infill169.zoneRefusals),
+   note:'Zones de placement au sol, sans nouvelle clôture ni déplacement du plan historique. Les réseaux et interactions de ces meubles ne sont pas simulés.'
+  }:null;
+  return freeze({complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -124,6 +131,11 @@
    const issues=el('ul'),labels={'not-materialized-on-floor':'espace non matérialisé à cet étage','exterior-simplified-inside-shell':'extérieur encore représenté dans la coque','level-differs-from-source':'niveau différent de la prescription','ambiguous-room-name':'nom ambigu : attribution refusée','below-source-minimum':'quantité sous le minimum auteur','footprint-differs':'dimensions au sol différentes de la source'};
    for(const i of report.issues.slice(0,RULES.displayIssues))issues.appendChild(el('li',i.name+' — '+(labels[i.reason]||i.reason)+(i.missing?' : '+i.missing+' manquant(s)':'')));
    if(report.issues.length>RULES.displayIssues)issues.appendChild(el('li',(report.issues.length-RULES.displayIssues)+' écarts supplémentaires dans le rapport exporté.'));host.appendChild(issues);
+  }
+  if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));
+   host.appendChild(el('p',f.interior+' nouveaux objets intérieurs · '+f.outdoor+' nouveaux objets de cour · '+f.zones.length+' zones réservées au sol · '+f.remaining+' compléments non posés. '+f.note));
+   const names={'complete':'objectif de placement atteint','already-present':'déjà présent','space-or-access':'place ou accès insuffisants','layer-cap':'limite du plan','baseline-inaccessible':'accès de départ indisponible','requires-building-support':'support technique non matérialisé','unsupported-source-dimensions':'gabarit source non pris en charge','unsupported-source-clearance':'dégagement source non pris en charge','invalid-source-range':'quantité source invalide','duplicate-prescription':'prescription dupliquée','clean-storage-conflict':'réserve propre incompatible'};
+   for(const r of f.requests)host.appendChild(el('p',r.name+' — '+r.kind+' : '+r.existing+' déjà présents, '+r.added+' ajoutés, '+r.unplaced+' non posés. '+(names[r.reason]||r.reason)+'.'));
   }
   if(report.scope==='unsupported')host.appendChild(el('p','Aucun plan de substitution produit pour ce programme spécialisé.'));
   if(s.sourceGaps.unmappedKinds.length)host.appendChild(el('p','Gabarits encore absents : '+s.sourceGaps.unmappedKinds.join(', ')+'.'));

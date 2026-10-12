@@ -2198,3 +2198,9 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  C.Balance151=freeze({RULES,TIER_REQUIREMENTS,LABELS,developmentScore,requirements,initial,done});
  C.Urban=Object.freeze({...C.Urban,knownTier:raw=>{const state=C.Urban.normalize(raw);return state.progression151?C.CITY_TIERS[state.progression151.age]:C.cityTier(state.peakScore);}});
 })(globalThis);
+
+/* Source furnishing capacity: optional revision 7 follows the unchanged revision 6. */
+(function(root){'use strict';root.DeadwallCore.CodexInfill169Rules=Object.freeze({
+ revision:7,maxAdded:24,maxPerSpace:6,maxPerSpec:3,maxYardZones:2,attempts:28,
+ minClearance:.8,maxClearance:1.8,maxWidth:3.5,maxDepth:2.5,maxHeight:2.5
+});})(globalThis);

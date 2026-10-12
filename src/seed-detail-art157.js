@@ -113,6 +113,14 @@
   return true;
  }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
+  if(o?.infill169){
+   const painter=root.DeadwallCodexInfill169Art||(typeof require==='function'?require('./codex-infill169-art.js'):null);
+   if(!c||![o.x,o.y,o.w,o.h,o.angle169,o.spriteWidth169,o.spriteHeight169].every(Number.isFinite)||o.w<=0||o.h<=0||o.spriteWidth169<=0||o.spriteHeight169<=0)return false;
+   c.save();try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.angle169);
+    const local={...o,infill169:false,x:-o.spriteWidth169/2,y:-o.spriteHeight169/2,w:o.spriteWidth169,h:o.spriteHeight169};
+    return painter?.draw(c,local)||draw(c,local,{art,seed});
+   }finally{c.restore();}
+  }
   if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);
    if(c&&Number.isFinite(o.surfaceAngle165)){const sw=o.surfaceWidth165,sh=o.surfaceHeight165;if(!Number.isFinite(sw+sh)||sw<=0||sh<=0)return false;
     c.save();try{c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.surfaceAngle165);return painter?.draw(c,{...o,x:-sw/2,y:-sh/2,w:sw,h:sh})||false;}finally{c.restore();}
