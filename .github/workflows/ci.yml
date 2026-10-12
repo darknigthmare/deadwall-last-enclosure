@@ -66,6 +66,33 @@ jobs:
             release/web/
           if-no-files-found: warn
 
+  touch-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Installer les outils navigateur sans Electron
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Reconstruire les sources du codex
+        run: node scripts/compile-codex3000.mjs
+      - name: Installer Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Commandes tactiles, polices de remplacement et rotation
+        run: node scripts/browser-touch-layout162.mjs
+      - name: Conserver les captures et diagnostics tactiles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-touch-layout-qa
+          path: artifacts/qa/touch-layout162-*/
+          if-no-files-found: warn
+
   windows:
     runs-on: windows-latest
     timeout-minutes: 30
