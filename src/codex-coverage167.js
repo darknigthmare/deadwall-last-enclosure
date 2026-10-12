@@ -61,8 +61,7 @@
    const status=ambiguous?'ambiguous-room-name':indices.length?(r.exterior?'exterior-simplified-inside-shell':!expected?'level-differs-from-source':'represented'):expected?'not-materialized-on-floor':'not-requested-on-floor';
    if(!['represented','not-requested-on-floor'].includes(status))issues.push({kind:'room',name:r.name,reason:status});
    const specs=r.authoredProps||[],allocations=new Map();
-   // Reserve each specification's minimum first, then distribute surplus up to its
-   // maximum. One object can never satisfy two specifications of the same kind.
+   // Allocate source minima before optional surplus, without double-crediting objects.
    for(const kind of new Set(specs.map(s=>s.asset))){
     const pool=r.exterior?[]:physical.filter(o=>!assignedObjects.has(o.id)&&o.kind===kind&&indices.some(i=>inside(plan.rooms[i],o)));
     const related=specs.map((s,i)=>({s,i,range:quantity(s.quantite_par_espace)})).filter(x=>x.s.asset===kind);
@@ -105,16 +104,28 @@
    distinctParentSourceRooms:sourceRooms,distinctParentFurnitureReferences:sourceProps,families:[...families.values()].sort((a,b)=>a.name.localeCompare(b.name,'fr')),scope:'catalogue-not-world-population'});
  }
  function render(doc,host,report){
-  const s=report.source||report,el=(tag,text)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
+  const s=report?.source||report;
+  if(!doc?.createElement||!host?.replaceChildren||!s?.axes||!s?.sourceGaps)throw Error('Contrat d’affichage du bilan invalide.');
+  // Both source-only and inspected reports have totals, but only inspected reports
+  // contain model rooms and issues. Discriminate by scope, not by that shared key.
+  const inspected=report.scope==='isolated-recipe-not-live-world';
+  if(inspected&&(!report.totals||!Array.isArray(report.rooms)||!Array.isArray(report.issues)||!Array.isArray(report.unmatchedModelRooms)))throw Error('Bilan de modèle incomplet.');
+  const el=(tag,text)=>{const n=doc.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
   host.replaceChildren();host.dataset.coverage167=s.id;host.dataset.scope=report.scope||s.scope;host.dataset.floor=report.floor===undefined?'':String(report.floor);host.appendChild(el('h6','BILAN SOURCE / MODÈLE — DIX AXES'));
   const list=el('dl');list.className='codex-specifications161';
-  for(const a of s.axes){list.appendChild(el('dt',a.label));list.appendChild(el('dd',(a.key==='representation'&&report.totals?'Modèle inspecté':STATUS[a.status])+' · '+a.count+' · '+a.note));}host.appendChild(list);
+  for(const a of s.axes){
+   const modelAxis=inspected&&a.key==='representation';
+   const count=modelAxis?report.rooms.reduce((n,r)=>n+r.modelRoomIndices.length,0)+report.unmatchedModelRooms.length:a.count;
+   const note=modelAxis?'Étage '+report.floor+' de la recette isolée, pas un lieu ajouté à la carte.':a.note;
+   list.appendChild(el('dt',a.label));list.appendChild(el('dd',(modelAxis?'Modèle inspecté':STATUS[a.status])+' · '+count+' · '+note));
+  }host.appendChild(list);
   host.appendChild(el('p','Les occurrences héritées ne sont pas des architectures indépendantes. Un objet du bon type ne prouve ni sa fonction, ni sa hauteur, ni sa présence sur votre carte.'));
-  if(report.totals){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source.'));
+  if(inspected){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source.'));
    const issues=el('ul'),labels={'not-materialized-on-floor':'espace non matérialisé à cet étage','exterior-simplified-inside-shell':'extérieur encore représenté dans la coque','level-differs-from-source':'niveau différent de la prescription','ambiguous-room-name':'nom ambigu : attribution refusée','below-source-minimum':'quantité sous le minimum auteur','footprint-differs':'dimensions au sol différentes de la source'};
    for(const i of report.issues.slice(0,RULES.displayIssues))issues.appendChild(el('li',i.name+' — '+(labels[i.reason]||i.reason)+(i.missing?' : '+i.missing+' manquant(s)':'')));
    if(report.issues.length>RULES.displayIssues)issues.appendChild(el('li',(report.issues.length-RULES.displayIssues)+' écarts supplémentaires dans le rapport exporté.'));host.appendChild(issues);
   }
+  if(report.scope==='unsupported')host.appendChild(el('p','Aucun plan de substitution produit pour ce programme spécialisé.'));
   if(s.sourceGaps.unmappedKinds.length)host.appendChild(el('p','Gabarits encore absents : '+s.sourceGaps.unmappedKinds.join(', ')+'.'));
   return host;
  }

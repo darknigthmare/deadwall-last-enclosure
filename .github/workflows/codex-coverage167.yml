@@ -10,7 +10,7 @@ on:
       - 'scripts/qa-transaction167.mjs'
       - 'scripts/browser-coverage167.mjs'
       - 'scripts/browser-quantities164.mjs'
-      - 'tests/codex-coverage167.test.cjs'
+      - 'tests/codex-coverage*.test.cjs'
       - 'tests/qa-transaction167.test.cjs'
       - 'tests/distribution.test.cjs'
   workflow_dispatch:
@@ -36,8 +36,8 @@ jobs:
           node-version: 24
       - name: Rebuild from authored sources without installed dependencies
         run: npm run build
-      - name: Exact source coverage, allocation and dependency-free distribution tests
-        run: node --test --test-concurrency=1 tests/codex-coverage167.test.cjs tests/qa-transaction167.test.cjs tests/distribution.test.cjs
+      - name: Exact source coverage, report rendering, allocation and dependency-free distribution tests
+        run: node --test --test-concurrency=1 tests/codex-coverage*.test.cjs tests/qa-transaction167.test.cjs tests/distribution.test.cjs
       - name: Audit all source programmes and inspect each compatible model floor
         if: ${{ !cancelled() }}
         run: node scripts/audit-codex167.mjs --all-models
