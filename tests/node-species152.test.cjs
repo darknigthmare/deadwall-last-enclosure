@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),path=require('node:path');
 const native=require('@napi-rs/canvas');
-const Art=require('../src/art.js'),Assets=require('../src/assets136.js'),B=require('../src/biomes135.js'),P=require('../src/atlas-projection.js');
+const Art=require('../src/art.js'),Assets=require('../src/assets136.js'),Nature=require('../src/nature-art153.js'),B=require('../src/biomes135.js'),P=require('../src/atlas-projection.js');
 
 function context(){
  const stack=[];let matrix={a:1,b:0,c:0,d:1,e:0,f:0};
@@ -14,14 +14,14 @@ function context(){
   getTransform(){return{...matrix};}
  };return{c};
 }
-async function painter(run){
+async function painter(run,generation=7){
  const previous={Image:globalThis.Image,B:globalThis.DeadwallBiomes135,P:globalThis.DeadwallAtlasProjection};
  globalThis.Image=class{set src(_){this.onerror();}};
  try{
   const art=Art.create();await art.ready;globalThis.Image=previous.Image;
   const hits={wood:0,stone:0},provider={...B,pickTree(...args){hits.wood++;return B.pickTree(...args);},pickRock(...args){hits.stone++;return B.pickRock(...args);}};
   globalThis.DeadwallBiomes135=provider;globalThis.DeadwallAtlasProjection=P;
-  const pose={generation:7},game={world:{seed:17117},frontier:{position:()=>pose}},draws=[];
+  const pose={generation},game={world:{seed:17117},frontier:{position:()=>pose}},draws=[];
   for(const key of [...Object.values(Assets.TREE_SPRITES),...Object.values(Assets.ROCK_SPRITES)])art.images[key]={width:1254,height:1254};
   for(const[id,rect]of Object.entries(Art.PROPS))art.rects['props:'+id]=rect;
   art.rects['districtProps:burntTree']=Art.DISTRICT_PROPS.burntTree;
@@ -33,7 +33,7 @@ async function painter(run){
  }finally{globalThis.Image=previous.Image;globalThis.DeadwallBiomes135=previous.B;globalThis.DeadwallAtlasProjection=previous.P;}
 }
 
-test('species152: repeated G7 paints reuse the exact regional species without resampling ecology',()=>painter(h=>{
+for(const generation of [7,8])test(`species152: repeated G${generation} paints reuse the exact regional species without resampling ecology`,()=>painter(h=>{
  for(const type of ['wood','stone']){
   const n=h.node(type),before=JSON.stringify(n),expected=h.expected(n),first=h.paint(n);
   assert.equal(first.key,expected);
@@ -41,6 +41,19 @@ test('species152: repeated G7 paints reuse the exact regional species without re
   assert.equal(h.hits[type],1,type+' samples once');assert.equal(JSON.stringify(n),before);
  }
  assert.ok(h.art.nodeSpecies instanceof WeakMap);
+},generation));
+
+test('species152: changing G7 to G8 and back refreshes the species cache without changing resources',()=>painter(h=>{
+ const nodes=[h.node('wood'),h.node('stone')],before=JSON.stringify(nodes);
+ let count=0;
+ for(const generation of [7,8,7,8]){
+  h.pose.generation=generation;count++;
+  for(const n of nodes){
+   assert.equal(h.paint(n).key,h.expected(n));assert.equal(h.hits[n.type],count);
+   h.paint(n);assert.equal(h.hits[n.type],count,'unchanged generation reuses its cached selection');
+  }
+ }
+ assert.equal(JSON.stringify(nodes),before);
 }));
 
 test('species152: world, seed, identity, position, variant, providers and resolved origin invalidate the selection',()=>painter(h=>{
@@ -59,21 +72,21 @@ test('species152: world, seed, identity, position, variant, providers and resolv
  for(const change of changes){change();const actual=h.paint(n);assert.equal(actual.key,h.expected(n));assert.equal(h.hits.wood+h.hits.stone,++count);h.paint(n);assert.equal(h.hits.wood+h.hits.stone,count,'same signature reuses one record');}
 }));
 
-test('species152: historical generations, log and scenery painters remain live and returning to G7 resamples',()=>painter(h=>{
+for(const currentGeneration of [7,8])test(`species152: historical generations, log and scenery painters remain live and returning to G${currentGeneration} resamples`,()=>painter(h=>{
  const n=h.node();h.paint(n);let count=1;
  for(const generation of [1,2,3,4,5,6]){
   h.pose.generation=generation;n.amount=12;n.flash=.2;
   const legacy=h.paint(n);assert.equal(legacy.key,'props');assert.equal(legacy.alpha,.45);assert.deepEqual(legacy.matrix,{a:1.04,b:0,c:0,d:1.04,e:n.x,f:n.y},'Only the historical flash transform reaches the actual blit.');
-  assert.equal(h.hits.wood,count);h.pose.generation=7;assert.equal(h.paint(n).key,h.expected(n));assert.equal(h.hits.wood,++count);
+  assert.equal(h.hits.wood,count);h.pose.generation=currentGeneration;assert.equal(h.paint(n).key,h.expected(n));assert.equal(h.hits.wood,++count);
  }
  n.variant=2;assert.equal(h.paint(n).key,'props');assert.equal(h.hits.wood,count);
  n.variant=0;assert.equal(h.paint(n).key,h.expected(n));assert.equal(h.hits.wood,++count);
  n.sceneryKind='burntTree';assert.equal(h.paint(n).key,'districtProps');assert.equal(h.hits.wood,count);
  delete n.sceneryKind;h.paint(n);assert.equal(h.hits.wood,++count);
  h.paint({...n});assert.equal(h.hits.wood,++count,'a new node with an identical saved ID has its own record');
-}));
+},currentGeneration));
 
-test('species152: quantity and geometry stay live, native alpha paint matches uncached output, and rendering is pure',()=>painter(async h=>{
+for(const generation of [7,8])test(`species152 G${generation}: quantity and geometry stay live, native alpha paint matches uncached output, and rendering is pure`,()=>painter(async h=>{
  const nodes=[h.node('wood'),h.node('stone')];
  for(const n of nodes){
   const first=h.paint(n);n.amount=5;n.maxAmount=80;n.radius=39;n.flash=.2;
@@ -91,10 +104,41 @@ test('species152: quantity and geometry stay live, native alpha paint matches un
  Math.random=()=>{throw Error('Rendering consumed randomness');};
  try{for(const n of nodes)assert.deepEqual(render(n,true),render(n,false));}finally{Math.random=random;}
  assert.equal(JSON.stringify({game:h.game,nodes}),before);assert.deepEqual(h.hits,{wood:1,stone:1});
-}));
+},generation));
 
-test('species152: an atlas arriving after a fallback paint uses the cached species immediately',()=>painter(h=>{
+for(const generation of [7,8])test(`species152 G${generation}: loaded native atlases paint the regional species and preserve simulation state`,()=>painter(async h=>{
+ const nodes=[h.node('wood'),h.node('stone')],Core=require('../src/core.js');
+ h.game.random=h.game.world.rng=new Core.Random(h.game.world.seed);
+ const expected=new Map();
+ for(const n of nodes){
+  const q=P.toRegion(n.x,n.y,h.game),species=B[n.type==='wood'?'pickTree':'pickRock'](h.game.world.seed,q.x,q.y,'local:'+n.id,{generation}).species,sprite=Nature.select(species,n.id,h.game.world.seed);
+  assert.notEqual(species,n.type==='wood'?'oak':'limestone','fixture distinguishes regional ecology from the generic native fallback');
+  h.art.images[sprite.atlas]=await native.loadImage(path.join(__dirname,'..',Art.ASSETS[sprite.atlas].url));
+  expected.set(n,{species,sprite});Object.freeze(n);
+ }
+ Object.freeze(h.game.world);const before=JSON.stringify({game:h.game,nodes}),random=Math.random,draws=[];
+ h.art.blit=(c,key,rect,...destination)=>{draws.push({key,rect});c.drawImage(h.art.images[key],...rect,...destination);return true;};
+ const render=(n,cached)=>{
+  const canvas=native.createCanvas(128,128),c=canvas.getContext('2d');c.fillStyle='#34402b';c.fillRect(0,0,128,128);c.globalAlpha=.79;c.translate(64.37-n.x,64.61-n.y);
+  const beforeTransform=c.getTransform(),beforeAlpha=c.globalAlpha;
+  if(cached)assert.equal(h.art.drawNode(c,n,h.game),true);
+  else{const size=n.radius*(n.type==='wood'?3.5:2.65);assert.equal(Nature.drawSprite(c,h.art,expected.get(n).species,n.id,n.x,n.y,size,size,{seed:h.game.world.seed,alpha:.5}),true);}
+  assert.deepEqual(c.getTransform(),beforeTransform);assert.equal(c.globalAlpha,beforeAlpha);
+  return c.getImageData(0,0,128,128).data;
+ };
+ Math.random=()=>{throw Error('Rendering consumed randomness');};
+ try{
+  for(const n of nodes){
+   draws.length=0;const actual=render(n,true),{sprite}=expected.get(n);
+   assert.deepEqual(draws,[{key:sprite.atlas,rect:sprite.rect}],'the native sprite uses the regional species, not the generic family');
+   assert.deepEqual(actual,render(n,false));assert.deepEqual(actual,render(n,true),'cached frames preserve the native pixels');
+  }
+ }finally{Math.random=random;}
+ assert.equal(JSON.stringify({game:h.game,nodes}),before);assert.deepEqual(h.hits,{wood:1,stone:1});
+},generation));
+
+for(const generation of [7,8])test(`species152 G${generation}: an atlas arriving after a fallback paint uses the cached species immediately`,()=>painter(h=>{
  const n=h.node(),key=h.expected(n),image=h.art.images[key];delete h.art.images[key];
  assert.equal(h.paint(n).key,'props');assert.equal(h.hits.wood,1);
  h.art.images[key]=image;assert.equal(h.paint(n).key,key);assert.equal(h.hits.wood,1);
-}));
+},generation));

@@ -394,10 +394,10 @@
         this.blit(ctx,'districtProps',rect,-w/2,-h/2,w,h);ctx.restore();return true;
       }
       const variant = Math.abs(node.variant || 0) % 4;
-      // Local G7 botanical appearance shares the region's ecology. This is a
+      // Local G7/G8 botanical appearance shares the region's ecology. This is a
       // painter only: collision radius, finite amount and saved IDs are untouched.
       const generation=game?.frontier?.position?.().generation;
-      if(generation===7&&(node.type==='stone'||node.type==='wood'&&variant!==2)){
+      if(generation>=7&&(node.type==='stone'||node.type==='wood'&&variant!==2)){
         const B=root.DeadwallBiomes135,P=root.DeadwallAtlasProjection;
         if(B&&P&&Artwork136){
           const q=P.toRegion(node.x,node.y,game),seed=game.world.seed,cache=this.nodeSpecies||(this.nodeSpecies=new WeakMap());

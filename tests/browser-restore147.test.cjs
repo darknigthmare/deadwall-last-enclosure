@@ -54,7 +54,7 @@ test('reprise QA147 : l’observation campagne conserve son plan séparé et les
 });
 
 test('assaut QA147 : la fixture maximum utilise de vrais postes, des contacts existants et une ligne de vue physique', async () => {
-  const { maximumObservedAssaultFixture } = await import('../scripts/browser-assault-fixtures147.mjs');
+  const { maximumObservedAssaultFixture, restoreObservedContactPositions } = await import('../scripts/browser-assault-fixtures147.mjs');
   const { g } = bootDocument134(); g.startNew('standard', '54831'); g.campaignIntro132.skip();
   g.wave = 8; g.phase = 'warning'; g.wavePlan = { ...C.wavePlan(8, g.difficulty, g.signature), total: 24, fronts: 4,
     composition: Object.fromEntries(Object.entries(C.ENEMIES).map(([kind,def]) => [kind,def.unlockWave<=8?3:0])) }; g.fronts = ['north', 'east', 'south', 'west'];
@@ -68,4 +68,14 @@ test('assaut QA147 : la fixture maximum utilise de vrais postes, des contacts ex
   assert.ok(observed.sectors.every(sector => sector.contacts > 0)); assert.ok(observed.innerContacts > 0); assert.ok(observed.observedContacts >= 5);
   assert.deepEqual(g.zombies.map(z => z.id), ids); assert.deepEqual(g.zombies.map(z => z.health), health); assert.equal(g.random.state, rng);
   assert.doesNotThrow(() => globalThis.DeadwallSave.validate(g.serialize()), 'La fixture garde une sauvegarde cohérente');
+  const before = clone(g.serialize()); delete before.timestamp;
+  const restored = restoreObservedContactPositions(fixture), after = clone(g.serialize()); delete after.timestamp;
+  assert.equal(restored.changed.length, 5);
+  for (const change of fixture.changed) {
+    const contact = after.zombies.find(z => z.id === change.id), expected = before.zombies.find(z => z.id === change.id);
+    assert.equal(contact.x, change.before.x); assert.equal(contact.y, change.before.y);
+    Object.assign(expected, change.before);
+  }
+  assert.deepEqual(after, before, 'Seules les positions temporaires sont restaurées : aucun soin, temps, tirage, stock ou budget modifié');
+  assert.ok(Math.hypot(g.zombies[4].x - g.player.x, g.zombies[4].y - g.player.y) > 1000, 'Le contact de démonstration ne reste pas à côté du commandant pendant le test des échelons');
 });

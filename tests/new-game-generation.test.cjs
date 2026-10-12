@@ -62,6 +62,10 @@ function harvestContainer(g, generation) {
     if (fixture) break;
   }
   assert.ok(fixture, 'The generated region has a physically reachable, unlocked finite container');
+  // Independent worker deposits must not be mistaken for duplicated container
+  // loot while the full simulation runs this isolated player transaction.
+  const workerOrder = g.workerOrder;
+  assert.equal(g.setWorkerOrder('retreat'), true);
   const { point, item } = fixture, raw = g.serialize();
   Object.assign(raw.frontier, { ...point, active: true, anchor: { x: g.player.x, y: g.player.y } });
   assert.equal(g.restoreSave(raw), true);
@@ -71,7 +75,7 @@ function harvestContainer(g, generation) {
   const bag = g.player.carry[item.resource], stock = copy(g.resources);
   g.input.keys.add('KeyE');
   try { for (let i = 0; i < 600 && g.frontier.takenAmount(item.id) < item.amount; i++) g.update(.04); }
-  finally { g.input.keys.clear(); }
+  finally { g.input.keys.clear(); assert.equal(g.setWorkerOrder(workerOrder), true); }
   assert.equal(g.frontier.takenAmount(item.id), item.amount, 'The real E interaction depletes the whole container');
   assert.equal(g.player.carry[item.resource], bag + item.amount);
   // Full simulation updates consume colony rations during the E action.
@@ -110,6 +114,33 @@ test('Nouvelle partie: the shipped document starts current G8, and a different s
   click(g, g.ui.newGameButton);
   assert.notEqual(g.world.seed, 84329, 'An empty seed field starts a fresh map');
   currentRegion(env, g.world.seed);
+});
+
+test('Nouvelle partie: finishing the introduction after focus loss keeps the same G8 campaign through Pause and Reprendre', () => {
+  const env = bootDocument133(); env.ready();
+  const g = env.g;
+  document.getElementById('mapSeed').value = '84329'; click(g, g.ui.newGameButton);
+  const region = currentRegion(env, 84329), local = g.world, expected = checkpoint(g), map = geometry(region);
+  assert.equal(g.frontier.active(), false, 'Arrival is at the D-17 depot within the current region');
+  assert.ok(g.world.nodes.some(n => !n.depleted && n.amount > 0));
+  assert.ok(g.world.buildings.has(g.core().id));
+  assert.equal(g.activeOverlay, g.campaignIntro132.element);
+  assert.equal(g.ui.pauseMenu.classList.contains('hidden'), true);
+  env.dispatchWindow('blur'); env.dispatchWindow('focus');
+  assert.equal(g.campaignIntro132.isOpen(), true); assert.equal(g.paused, true);
+  click(g, g.campaignIntro132.element.querySelector('#campaignIntro132Skip'));
+  assert.equal(g.paused, false); assert.equal(g.activeOverlay, null);
+  assert.equal(g.ui.pauseMenu.classList.contains('hidden'), true);
+  click(g, document.getElementById('pauseButton'));
+  assert.equal(g.activeOverlay, g.ui.pauseMenu);
+  click(g, document.getElementById('resumeButton'));
+  assert.equal(g.paused, false); assert.equal(g.activeOverlay, null);
+  assert.equal(g.world, local); assert.equal(g.frontier.world(), region);
+  assert.deepEqual(checkpoint(g), expected, 'Pause and Reprendre never replace, migrate or reset the new campaign');
+  assert.deepEqual(geometry(g.frontier.world()), map);
+  assert.equal(g.save(false), true);
+  const saved = globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY));
+  assert.equal(saved.runId, expected.runId); assert.equal(saved.worldSeed, 84329); assert.equal(saved.frontier.generation, 8);
 });
 
 test('Continuer: current G8 keeps its seed, actual programme container depletion and carried loot after restarting the document', () => {

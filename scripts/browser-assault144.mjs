@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, visibleInPanel, saveReloadContinue } from './browser-qa-common144.mjs';
-import { maximumObservedAssaultFixture } from './browser-assault-fixtures147.mjs';
+import { maximumObservedAssaultFixture, restoreObservedContactPositions } from './browser-assault-fixtures147.mjs';
 
-const harness = await createHarness('assault', 'EXPLICIT SYNTHETIC FIXTURE: a fresh seed-54831 G8 campaign is put at warning wave 8 with 24 contacts, three of each of the eight profiles, and four announced directions. First, real unobserved north contacts must reveal no occupied direction. A declared maximum-layout fixture then repositions five existing contacts, adds four legally placed operational observation posts, zeroes common ammo to prevent defence fire, and updates urban history for those posts. The player position, contact health and arrival budget remain intact; actual visibility146 and LOS determine observed contacts. Real DOM controls and ordinary RAF perform spawning, six-second echelon delays, pause, preparations and save/reload/continue. Modern bounded buffers preserve every validated field and draw order exactly; oversized historical buffers alone may use their declared migration. This is integration/layout evidence, not organically reached wave 8, balancing or physical-device certification.');
+const harness = await createHarness('assault', 'EXPLICIT SYNTHETIC FIXTURE: a fresh seed-54831 G8 campaign is put at warning wave 8 with 24 contacts, three of each of the eight profiles, and four announced directions. First, real unobserved north contacts must reveal no occupied direction. A declared maximum-layout fixture then repositions five existing contacts, adds four legally placed operational observation posts, zeroes common ammo to prevent defence fire, and updates urban history for those posts. The player position, contact health and arrival budget remain intact; actual visibility146 and LOS determine observed contacts. After the layout assertions, the five contacts return to their recorded natural arrival positions before timing further echelons, with no healing or other state changes. Real DOM controls and ordinary RAF perform spawning, six-second echelon delays, pause, preparations and save/reload/continue. Modern bounded buffers preserve every validated field and draw order exactly; oversized historical buffers alone may use their declared migration. This is integration/layout evidence, not organically reached wave 8, balancing or physical-device certification.');
 const { browser, base, report, output } = harness;
 report.profiles = [];
 report.normalizedFields = [];
@@ -19,7 +19,9 @@ async function snapshot(page) {
       counts[Math.abs(dx) > Math.abs(dy) ? dx >= 0 ? 'east' : 'west' : dy >= 0 ? 'south' : 'north']++;
     }
     const observed = g.battlefieldUI.snapshot();
-    return { elapsed: g.elapsed, phase: g.phase, paused: g.paused, wave: g.wave, incoming: g.spawnQueue.length + Object.values(g.pendingSpawns).reduce((a, b) => a + b, 0),
+    return { elapsed: g.elapsed, phase: g.phase, paused: g.paused, overlay: g.activeOverlay?.id || null,
+      player: { dead: g.player.dead, health: g.player.health, x: g.player.x, y: g.player.y },
+      wave: g.wave, incoming: g.spawnQueue.length + Object.values(g.pendingSpawns).reduce((a, b) => a + b, 0),
       present: live.length, fronts: counts, night: n, spawnTimer: g.spawnTimer, remaining: g.remainingAssault, pending: { ...g.pendingSpawns },
       observed: observed.observedContacts, observedFronts: Object.fromEntries(observed.sectors.map(sector => [sector.id, sector.contacts])), innerObserved: observed.innerContacts,
       queue: [...g.spawnQueue], randomState: g.random.state, zombies: live.map(z => ({ id: z.id, kind: z.kind, x: z.x, y: z.y, health: z.health })),
@@ -92,6 +94,10 @@ try {
       const paused = await snapshot(page); await page.waitForTimeout(1200); const frozen = await snapshot(page);
       check('Real command pause freezes clock, arrival delay and physical contacts', paused.elapsed === frozen.elapsed && paused.spawnTimer === frozen.spawnTimer &&
         paused.night.emitted === frozen.night.emitted && JSON.stringify(paused.zombies) === JSON.stringify(frozen.zombies));
+      // A contact placed beside the commander to exercise the centre alert can
+      // kill them while a slow CI machine times the next echelon. End that
+      // temporary layout setup before testing the actual saved arrival delay.
+      profile.fixtures.push(await page.evaluate(restoreObservedContactPositions, profile.fixtures[1]));
       await resumeCommand(page, viewport.touch);
       profile.checkpoint = await saveReloadContinue(page, viewport.touch);
       check('Continue preserves every validated field, exact night, wave plan, RNG, actors and canonical arrival budgets', profile.checkpoint.pass);
