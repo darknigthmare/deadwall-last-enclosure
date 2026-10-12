@@ -6,7 +6,9 @@ function fixture(){const e=boot131({ui:true,generation:7});const store=new Map()
 const saved=g=>{const s=g.serialize();delete s.timestamp;return JSON.stringify(s);};
 test('161: one completed identity per new campaign; repeated saves, pause and restore never fork the history',()=>{
  const {g}=fixture();g.startNew('story','17117','rearguard');const id=g.runId;
- assert.match(id,/:g4$/);assert.equal(g.profile.get().recentRuns.length,1);assert.equal(g.profile.get().recentRuns[0].runId,id);
+ // Main 1.57.2 preserves the initial identity instead of appending a generation suffix.
+ // The historical suffixed IDs remain covered by campaign-identity.test.cjs.
+ assert.match(id,/^run:.+/);assert.doesNotMatch(id,/:g4$/);assert.equal(g.profile.get().recentRuns.length,1);assert.equal(g.profile.get().recentRuns[0].runId,id);
  assert.equal(g.profile.get().recentRuns[0].scenarioId,'rearguard');assert.equal(g.profile.get().recentRuns[0].peakPopulation,4);
  g.campaignIntro132.skip();g.togglePause(true);for(let n=0;n<4;n++)assert.notEqual(g.save(false),false);
  const data=g.serialize(),before=JSON.stringify(g.profile.get());g.restoreSave(data);g.save(false);
@@ -26,5 +28,5 @@ test('161: an initializer exception releases the record gate and publishes no pa
  g.recordCampaign=(...args)=>{writes++;return record(...args);};
  g.startNew=()=>{g.recordCampaign(false);throw new Error('fixture initialization failed');};Intro.install(g,e.doc);
  assert.throws(()=>g.startNew(),/fixture initialization failed/);assert.equal(writes,0);
- g.recordCampaign(false);assert.equal(writes,1); // Gate must not remain stuck after the throw.
+ g.recordCampaign(false);assert.equal(writes,1);
 });
