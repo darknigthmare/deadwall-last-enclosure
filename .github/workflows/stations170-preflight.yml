@@ -12,7 +12,9 @@ jobs:
   merge-and-test:
     if: github.repository == 'darknigthmare/deadwall-last-enclosure'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,31 +34,68 @@ jobs:
           r=json.load(open('artifacts/qa/stations170-preflight/integration.json'))
           subprocess.run(['git','add','--',*[x['path'] for x in r['files']]],check=True)
           PY
-          git commit -m 'Local integration of tested revision eight (not published)'
-      - name: Merge pinned main 1.57.2 without discarding either side
-        run: git merge --no-ff --no-commit c7174caa3a7fe3eea0a3f28acd9b49a8ebab410c
+          git commit -m 'feat(codex): integrate optional revision-eight source machines and ground storage'
+      - name: Merge pinned main and resolve only inspected conflict hashes
+        run: |
+          if ! git merge --no-ff --no-commit c7174caa3a7fe3eea0a3f28acd9b49a8ebab410c; then
+            python3 .github/stations170/resolve.py
+          fi
+          test -z "$(git diff --name-only --diff-filter=U)"
+          git commit -m 'merge: preserve main 1.57.2 arrival and campaign identity alongside cumulative Codex'
       - name: Install locked tools and build merged result
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: |
           npm ci
+          node scripts/check-syntax134.mjs
           npm run build
       - name: Verify cumulative source, save and arrival contracts
         run: |
           set -o pipefail
-          node --test --test-concurrency=1 tests/codex-stations170.test.cjs tests/codex-infill*.test.cjs tests/codex-fill168*.test.cjs tests/codex-coverage*.test.cjs tests/distribution.test.cjs tests/new-game-generation.test.cjs tests/campaign-identity.test.cjs tests/campaign-intro132.test.cjs | tee artifacts/qa/stations170-preflight/contracts.log
+          node --test --test-concurrency=1 tests/codex-stations170.test.cjs tests/codex-infill*.test.cjs tests/codex-fill168*.test.cjs tests/codex-coverage*.test.cjs tests/distribution.test.cjs tests/new-game-generation.test.cjs tests/campaign-identity.test.cjs tests/campaign-intro132.test.cjs tests/campaign-records161.test.cjs tests/desktop-smoke.test.cjs | tee artifacts/qa/stations170-preflight/contracts.log
       - name: Actual browser activation, Continue and corrected arrival
         run: |
           npx playwright install --with-deps chromium
           node scripts/browser-stations170.mjs
           npm run test:arrival
+      - name: Compare every compatible recipe and source budget
+        run: |
+          set -o pipefail
+          node scripts/audit-stations170.mjs | tee artifacts/qa/stations170-preflight/audit.log
       - name: Collect source hashes and unresolved conflict stages
         if: always()
         run: python3 .github/stations170/collect.py
+      - name: Publish validated merge only on unchanged PR branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test -z "$(git diff --name-only --diff-filter=U)"
+          git merge-base --is-ancestor "$GITHUB_SHA" HEAD
+          git merge-base --is-ancestor c7174caa3a7fe3eea0a3f28acd9b49a8ebab410c HEAD
+          python3 - <<'PY'
+          import subprocess
+          tracked=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          cleanup=[p for p in tracked if p.startswith('.github/merge169/') or p.startswith('.github/stations170/') or p in ['.github/workflows/merge-source169.yml','.github/workflows/stations170-preflight.yml']]
+          if cleanup:subprocess.run(['git','rm','--',*cleanup],check=True)
+          generated='src/codex3000-live-data.js'
+          if subprocess.check_output(['git','ls-files',generated]).strip():subprocess.run(['git','add','--',generated],check=True)
+          dirty=subprocess.check_output(['git','diff','--name-only','-z']).decode().split('\0')
+          if any(dirty):raise RuntimeError('Unexpected source drift after tests: '+repr(dirty))
+          PY
+          git commit -m 'chore(codex): remove verified one-time integration transports'
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          echo "::add-mask::$auth"
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
+          trap 'git config --local --unset-all http.https://github.com/.extraheader || true' EXIT
+          branch='feat/codex3000-detailed-programmes-159'
+          remote=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$remote" = "$GITHUB_SHA"
+          git push origin "HEAD:refs/heads/$branch"
+          git rev-parse HEAD > artifacts/qa/stations170-preflight/published-revision.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: deadwall-stations170-preflight
           path: artifacts/qa/
-          retention-days: 7
+          retention-days: 14
           if-no-files-found: error
