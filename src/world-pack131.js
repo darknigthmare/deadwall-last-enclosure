@@ -88,7 +88,23 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  g.expansions.register({id:'world131',title:'Monde & relais',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);task=null;message='';},reset:()=>{state=initial();task=null;message='';},busy:api.busy});
  const unavailable=()=>!g.player||g.player.dead||g.player.health<=0||g.gameOver||g.state!=='playing';
  const update=g.update.bind(g);g.update=dt=>{if(task&&unavailable())cancel();const r=update(dt);if(task&&unavailable())cancel();step(dt);return r;};const menu=g.returnToMenu.bind(g);g.returnToMenu=(...a)=>{cancel();return menu(...a);};
- const start=g.startNew.bind(g);g.startNew=(...a)=>{const r=start(...a);if(r!==false&&g.state==='playing'&&pos().generation===4){const data=g.serialize();data.frontier.generation=root.DeadwallGeography135?7:5;if(data.frontier.generation>=6){const home=root.DeadwallGeography135.home(data.worldSeed,data.frontier.generation);data.frontier.x=home.maxX+2;data.frontier.y=home.y;}g.restoreSave(data);g.save(false);}return r;};return api;
+ const start=g.startNew.bind(g);
+ g.startNew=(...a)=>{
+  const r=start(...a);
+  if(r!==false&&g.state==='playing'&&pos().generation===4){
+   const data=g.serialize();
+   // Fresh campaigns use the shipped Codex world immediately. Loading a saved
+   // campaign still keeps its recorded generation and optional G7 upgrade.
+   data.frontier.generation=root.DeadwallGeography135?8:5;
+   if(data.frontier.generation>=6){
+    const home=root.DeadwallGeography135.home(data.worldSeed,data.frontier.generation);
+    data.frontier.x=home.maxX+2;data.frontier.y=home.y;
+   }
+   g.restoreSave(data);g.save(false);
+  }
+  return r;
+ };
+ return api;
 }
 const api={install,normalize,initial};root.DeadwallWorldPack131=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

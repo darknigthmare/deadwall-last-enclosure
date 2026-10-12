@@ -4,4 +4,5 @@ const titles={access:'escalier inaccessible à travers une cloison',landing:'pal
 for(const[name,title]of Object.entries(titles))test('Monde 137 : '+title,()=>{
  const r=spawnSync(process.execPath,[path.resolve(__dirname,'../scripts/qa137-world.cjs'),name],{encoding:'utf8',timeout:90000});
  assert.equal(r.status,0,r.stderr||r.stdout);const v=JSON.parse(r.stdout.trim());assert.equal(v.scenario,name);assert.equal(v.status,'passed');assert.equal(v.browser,false);
+ if(name==='companion')assert.equal(v.generation,7,'The historical open-road encounter retains its explicit G7 geometry');
 });

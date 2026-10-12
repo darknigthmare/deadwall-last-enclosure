@@ -117,8 +117,21 @@ export async function chooseCampaign(page, seed = '17117') {
 export async function worldSnapshot(page) {
   return page.evaluate(() => {
     const w = DEADWALL.frontier.world();
-    return { seed: w.seed, generation: w.generation, size: w.size, towns: w.towns.length, home: w.home };
+    const programmes = w.pois.filter(p => p.programme3000);
+    return { seed: w.seed, generation: w.generation, size: w.size, towns: w.towns.length, home: w.home,
+      programmes: { count: programmes.length, sample: programmes.slice(0, 3).map(p => {
+        const plan = w.plan(p, 0);
+        return { id: p.id, programme: p.programme3000, codex: p.codex, generation: p.generation,
+          rooms: plan.rooms.length, resources: plan.objects.filter(o => Number.isFinite(o.amount) && o.amount > 0).length,
+          roadDistance: w.nearestRoad(p.drive.a).d };
+      }) } };
   });
+}
+
+/** A generation label alone does not prove that current places were installed. */
+export function hasCurrentProgrammes(world) {
+  return world.programmes.count >= 3 && world.programmes.sample.length === 3 && world.programmes.sample.every(p =>
+    p.generation === 8 && /^DW-\d{4}$/.test(p.programme) && p.codex === p.programme && p.rooms > 0 && p.resources > 0 && p.roadDistance < .15);
 }
 
 export async function campaignSnapshot(page) {

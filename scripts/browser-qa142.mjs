@@ -1,17 +1,20 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHarness, recorder, ready, loadedAssets, chooseCampaign, worldSnapshot, campaignSnapshot, observeRestore, restoredCampaign } from './browser-qa-common142.mjs';
+import { createHarness, recorder, ready, loadedAssets, chooseCampaign, worldSnapshot, hasCurrentProgrammes, campaignSnapshot, observeRestore, restoredCampaign } from './browser-qa-common142.mjs';
 import { openCommand as openGrowthCommand, activate as activateGrowth, visibleInPanel } from './browser-qa-common144.mjs';
 
 const harness = await createHarness('browser', 'Real Chromium desktop, laptop and touch viewport input; menu, introduction, HUD, firing, atlas, export/import preview and save/reload/continue. Emulated mobile input does not certify physical devices, audio, performance or accessibility.');
 const { browser, base, version, report, output } = harness;
 report.profiles = [];
-const profiles = [
+const views = [
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'laptop', width: 1280, height: 720 },
   { name: 'mobile', width: 390, height: 844, touch: true },
   { name: 'mobile-landscape', width: 844, height: 390, touch: true }
 ];
+const chosen = process.env.DEADWALL_QA_PROFILES?.split(',');
+const profiles = chosen ? views.filter(view => chosen.includes(view.name)) : views;
+if (!profiles.length) throw Error('At least one known browser QA profile is required');
 
 async function movePlayer(page, context, touch) {
   const before = await page.evaluate(() => ({ x: DEADWALL.player.x, y: DEADWALL.player.y }));
@@ -118,7 +121,8 @@ try {
       await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
       check('Taking the first watch resumes play');
       profile.world = await worldSnapshot(page);
-      check('Requested seed starts a complete G7 region', profile.world.seed === 17117 && profile.world.generation === 7 && profile.world.size === 24576 && profile.world.towns === 34);
+      check('Requested seed starts a complete G8 region', profile.world.seed === 17117 && profile.world.generation === 8 && profile.world.size === 24576 && profile.world.towns === 34);
+      check('New campaign installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(profile.world));
       profile.geometry = await page.evaluate(() => {
         const box = id => { const r = document.getElementById(id).getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom }; };
         return { width: innerWidth, height: innerHeight, documentWidth: document.documentElement.scrollWidth,
@@ -215,7 +219,7 @@ try {
       profile.atlas = await page.evaluate(() => ({ position: DEADWALL.frontierUI.atlas.position(), bounds: DEADWALL.frontierUI.atlas.bounds(), provenance: document.getElementById('atlasWorld').textContent }));
       const pos = profile.atlas.position, bounds = profile.atlas.bounds, size = profile.world.size;
       check('Initial atlas covers and centers the complete region', pos.x === size / 2 && pos.y === size / 2 && bounds.left <= 0 && bounds.top <= 0 && bounds.right >= size && bounds.bottom >= size);
-      check('Atlas provenance matches the actual world', profile.atlas.provenance.includes('Graine 17117') && profile.atlas.provenance.includes('G7') && profile.atlas.provenance.includes('24.576'));
+      check('Atlas provenance matches the actual world', profile.atlas.provenance.includes('Graine 17117') && profile.atlas.provenance.includes('G8') && profile.atlas.provenance.includes('24.576'));
       const before = await stableCampaign(page);
       await page.locator('#frontierMap').scrollIntoViewIfNeeded();
       const point = await page.evaluate(() => {
@@ -241,7 +245,7 @@ try {
       await page.locator('#pauseButton').click();
       await page.locator('#saveButton').click();
       const checkpoint = profile.checkpoint = await campaignSnapshot(page);
-      check('Real save button writes a valid identified G7 campaign', checkpoint.ok && checkpoint.generation === 7 && checkpoint.seed === 17117 && !!checkpoint.runId);
+      check('Real save button writes a valid identified G8 campaign', checkpoint.ok && checkpoint.generation === 8 && checkpoint.seed === 17117 && !!checkpoint.runId);
       await page.locator('#quitButton').click();
       await page.reload({ waitUntil: 'networkidle' });
       await ready(page);
@@ -250,6 +254,9 @@ try {
       await page.locator('#continueButton').click();
       await page.waitForFunction(() => DEADWALL.state === 'playing');
       check('Continue restores every validated campaign field except timestamp and recomputed wave plan', await restoredCampaign(page, checkpoint));
+      profile.continuedWorld = await worldSnapshot(page);
+      check('Continue rebuilds the same current Codex 3000 places and plans', hasCurrentProgrammes(profile.continuedWorld) &&
+        JSON.stringify(profile.continuedWorld.programmes) === JSON.stringify(profile.world.programmes));
       await screenshot('continued');
       await openGrowthCommand(page, viewport.touch, 'field');
       await activateGrowth(page, '#coordinationTab', viewport.touch);

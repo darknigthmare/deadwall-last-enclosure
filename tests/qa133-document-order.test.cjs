@@ -9,7 +9,7 @@ test('QA133 document complet : scripts de distribution, première sauvegarde, in
  e.ready();assert.equal(g.startupReady,true);assert.ok(g.successionUI133);assert.ok(g.campaignIntro132);assert.ok(g.heroActions133);
  g.startNew('standard','17117');assert.equal(g.campaignIntro132.isOpen(),true);assert.equal(g.successionUI133.isOpen(),false);
  const C=globalThis.DeadwallCore,stored=globalThis.DeadwallSave.parse(e.storage.get(C.SAVE_KEY));
- assert.equal(stored.exploration125.layoutRevision,3);assert.equal(stored.frontier.generation,7);assert.equal(stored.succession133.pending,false);
+ assert.equal(stored.exploration125.layoutRevision,3);assert.equal(stored.frontier.generation,8);assert.equal(stored.succession133.pending,false);
  g.campaignIntro132.skip();const run=g.runId,world=g.world,stock={...g.resources},population=g.units.length,elapsed=g.elapsed;
  g.player.carry.wood=12;g.damagePlayer(10000);assert.equal(g.successionUI133.isOpen(),true);assert.equal(g.activeOverlay,g.successionUI133.element);assert.equal(g.ui.hud.inert,true);
  assert.equal(g.succession133.remains()[0].bag.wood,12);assert.equal(g.lastSaveStatus.ok,true);

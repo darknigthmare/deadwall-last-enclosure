@@ -6,12 +6,12 @@ test.before(()=>{g=bootDocument134().g;C=globalThis.DeadwallCore;});
 function begin(generation){
  g.startNew('standard','17117');g.campaignIntro132.skip();
  if(generation===5)assert.equal(g.restoreSave(JSON.parse(fs.readFileSync(require.resolve('../reports/1.35.0/legacy-g5-start-save.json'),'utf8'))),true);
- if(generation===6){
-  // This historical bus fixture predates G7. Select its original generation
-  // before any exploration, retaining the actual G6 geometry and save checks.
-  const d=g.serialize(),h=globalThis.DeadwallGeography135.home(g.world.seed,6);
+ if(generation===6||generation===7){
+  // These historical bus fixtures select their requested generation before
+  // exploration, retaining the actual G6/G7 geometry and save checks.
+  const d=g.serialize(),h=globalThis.DeadwallGeography135.home(g.world.seed,generation);
   assert.equal(d.frontier.active,false);assert.deepEqual(d.frontier.seen,[]);assert.deepEqual(d.frontier.taken,{});assert.deepEqual(d.frontier.enemies,{});
-  Object.assign(d.frontier,{generation:6,x:h.maxX+2,y:h.y,z:0,inside:null,anchor:null,car:null});assert.equal(g.restoreSave(d),true);
+  Object.assign(d.frontier,{generation,x:h.maxX+2,y:h.y,z:0,inside:null,anchor:null,car:null});assert.equal(g.restoreSave(d),true);
  }
  assert.equal(g.frontier.position().generation,generation);
 }

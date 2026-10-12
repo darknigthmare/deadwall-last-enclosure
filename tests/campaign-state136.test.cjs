@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 let env,g,C;
 test.before(()=>{env=bootDocument134();g=env.g;C=globalThis.DeadwallCore;});
-function begin(){g.startNew('standard','17117');g.campaignIntro132.skip();assert.equal(g.frontier.position().generation,7);}
+function begin(){g.startNew('standard','17117');g.campaignIntro132.skip();assert.equal(g.frontier.position().generation,8);}
 function successor(){g.player.invulnerable=0;g.damagePlayer(10000);assert.equal(g.successionUI133.isOpen(),true);assert.equal(g.successionUI133.choose('porter'),true);assert.equal(g.successionUI133.confirm(),true);}
 function click(id){const b=env.doc.getElementById(id);assert.ok(env.doc.body.contains(b),id+' monté');assert.equal(b.disabled,false,id+' disponible');b.click();}
 const text=n=>[n.textContent,...n.children.map(text)].join(' ');

@@ -33,11 +33,15 @@ test('137 : poser et reprendre un poste attendent la recharge sans perdre objet 
 });
 
 test('137 : une frappe multicible blesse chacun des infectés sélectionnés dans une horde serrée',()=>{
- start();const item=craft('plank');assert.equal(g.arsenal134.equip(item.uid).ok,true);
+ start();
+ // This encounter requires the open-road population used by its G7 fixture.
+ // Select it explicitly before exploration; G8 adds parcels to those roads.
+ require('./helpers/generation141.cjs').legacy(g,7);assert.equal(g.frontier.position().generation,7);
+ const item=craft('plank');assert.equal(g.arsenal134.equip(item.uid).ok,true);
  g.player.x=4058;g.player.y=2048;assert.equal(g.frontier.enter(),true);g.update(.04);
  const w=g.frontier.world(),home=w.home;let point;
  for(const r of w.roads){const p={x:(r.a.x+r.b.x)/2,y:(r.a.y+r.b.y)/2};if(Math.hypot(p.x-home.x,p.y-home.y)<800||w.nearPOI(p.x,p.y,120).length)continue;if([0,1,1.25].every(dx=>!w.blocked(p.x+dx,p.y,.4,0,null))&&w.line(p,{x:p.x+1.25,y:p.y},0,null,null,.015)){point=p;break;}}
- assert.ok(point,'La rencontre préparée respecte un sol ouvert du vrai monde G6.');
+ assert.ok(point,'La rencontre préparée respecte un sol ouvert du vrai monde G7.');
  const prepared=g.serialize(),h=prepared.worldEvolution.groups[0];assert.ok(h,'Horde créée par le système existant.');
  Object.assign(prepared.frontier,{x:point.x,y:point.y,a:0,z:0,inside:null});Object.assign(h,{x:point.x+1,y:point.y,kind:'resting',contacts:{},injuries:{},fallen:[],lost:0,wound:0});
  for(const[index,dx]of [[0,1],[1,1.25]])h.contacts[index]={x:point.x+dx,y:point.y,z:0,a:Math.PI,mode:'idle',ttl:0,gx:point.x+dx,gy:point.y,cool:0};

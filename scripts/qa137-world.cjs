@@ -4,7 +4,7 @@
 const assert=require('node:assert/strict');
 const {bootDocument134}=require('./qa-startup134.cjs');
 const copy=v=>JSON.parse(JSON.stringify(v));
-function start(){const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();assert.equal(g.frontier.position().generation,7);return g;}
+function start(){const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();assert.equal(g.frontier.position().generation,8);return g;}
 function at(g,p,q,z=0){
  const raw=g.serialize(),w=g.frontier.world();
  Object.assign(raw.frontier,{active:true,anchor:raw.frontier.anchor||{x:raw.player.x,y:raw.player.y},x:q.x,y:q.y,z,inside:p.id,seen:[...new Set([...raw.frontier.seen,p.id])]});
@@ -53,14 +53,18 @@ function wreck(){
  return{scenario:'wreck',status:'passed',browser:false,poi:p.id,vehicle:cv.id,kind:cv.type,taken:n,trunkOpenBeforeAndAfter:true,method:'Actual E harvest and real car painter command trace; no browser screenshot'};
 }
 function companion(){
- const g=start();g.player.x=4058;g.player.y=2048;assert.equal(g.frontier.enter(),true);ticks(g);const w=g.frontier.world();let point;
+ const g=start();
+ // Preserve this historical empty-road encounter explicitly. Its G7 parcel
+ // population is part of the fixture; G8 fills many of those approaches.
+ require('../tests/helpers/generation141.cjs').legacy(g,7);assert.equal(g.frontier.position().generation,7);
+ g.player.x=4058;g.player.y=2048;assert.equal(g.frontier.enter(),true);ticks(g);const w=g.frontier.world();let point;
  for(const r of w.roads){const q={x:(r.a.x+r.b.x)/2,y:(r.a.y+r.b.y)/2};if(Math.hypot(q.x-w.home.x,q.y-w.home.y)<800||w.nearPOI(q.x,q.y,120).length)continue;if([0,1,1.25].every(dx=>!w.blocked(q.x+dx,q.y,.4))&&w.line(q,{x:q.x+1.25,y:q.y},0,null,null,.015)){point=q;break;}}
  assert.ok(point);const raw=g.serialize(),h=raw.worldEvolution.groups[0];assert.ok(h);Object.assign(raw.frontier,{...point,z:0,inside:null,a:0});Object.assign(h,{x:point.x+1,y:point.y,kind:'resting',contacts:{},injuries:{},fallen:[],lost:0,wound:0});
  for(const[index,dx]of [[0,1.25],[1,1]])h.contacts[index]={x:point.x+dx,y:point.y,z:0,a:Math.PI,mode:'idle',ttl:0,gx:point.x+dx,gy:point.y,cool:0};
  assert.equal(g.restoreSave(raw),true);const origin={...point,z:0},target=g.worldEvolution.groupMembers().sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y))[0];assert.equal(target.id,h.id+':1');
  assert.equal(g.frontier.companionShot(origin,3,17),true);const after=g.worldEvolution.snapshot().groups.find(group=>group.id===h.id);assert.deepEqual(after.injuries,{'1':17},'Le tir atteint le contact sélectionné, pas le premier voisin de la liste.');
  assert.equal(g.save(false),true);assert.equal(g.load(),true);assert.deepEqual(g.worldEvolution.snapshot().groups.find(group=>group.id===h.id).injuries,after.injuries);
- return{scenario:'companion',status:'passed',browser:false,group:h.id,target:target.id,injuries:after.injuries,prepared:'Two close contacts on a physically clear generated road; actual companion targeting and damage API'};
+ return{scenario:'companion',status:'passed',browser:false,generation:w.generation,group:h.id,target:target.id,injuries:after.injuries,prepared:'Two close contacts on a physically clear generated G7 road; actual companion targeting and damage API'};
 }
 const scenarios={access,landing,recover,passage,wreck,companion};module.exports={scenarios};
 if(require.main===module){try{const name=process.argv[2];if(!scenarios[name])throw Error('Unknown scenario '+name);process.stdout.write(JSON.stringify(scenarios[name]())+'\n');}catch(e){console.error(e.stack);process.exitCode=1;}}

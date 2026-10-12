@@ -1,3 +1,11 @@
+# DEADWALL 1.57.1 — Nouvelles parties G8
+
+**Nouvelle partie** crée directement le monde G8 et ses lieux issus du Codex 3000, avec la graine choisie ou une nouvelle graine aléatoire. **Continuer** conserve la génération, les découvertes et les prélèvements de la sauvegarde. L’extension au dépôt reste disponible pour une campagne G7 existante.
+
+Le cache PWA et les repères de version passent à 1.57.1. Diagnostic du démarrage et de l’ancienne version encore servie par Vercel : [docs/FIX_NEW_GAME_1_57_1.md](docs/FIX_NEW_GAME_1_57_1.md).
+
+## Historique conservé — 1.57.0
+
 # DEADWALL 1.57.0 — Lieux, intérieurs et variantes
 
 Le PR #1 enrichit les 62 gabarits régionaux G7 et raccorde les programmes du Codex 3000 à une extension G8 activable depuis le dépôt de D-17. Les anciennes sauvegardes gardent leurs prélèvements, supports payés et collisions historiques. Les variantes de toits, bâtiments et petits objets se choisissent depuis la seed et leur identité stable.

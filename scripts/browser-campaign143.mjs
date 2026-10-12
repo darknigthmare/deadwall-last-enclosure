@@ -239,7 +239,7 @@ try {
       await page.goto(base, { waitUntil: 'networkidle' }); await ready(page); await chooseCampaign(page);
       await activate(page, '#campaignIntro132Skip', viewport.touch);
       await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
-      check('Fresh campaign starts with the real G7 prologue', await page.evaluate(() => DEADWALL.frontier.snapshot().generation === 7 && DEADWALL.chronicles131.snapshot().prologue.status === 'active'));
+      check('Fresh campaign starts with the real G8 prologue', await page.evaluate(() => DEADWALL.frontier.snapshot().generation === 8 && DEADWALL.chronicles131.snapshot().prologue.status === 'active'));
       await screenshot('start');
       await openCommand(page, viewport.touch, 'workers');
       await activate(page, '[data-worker-order="retreat"]', viewport.touch);

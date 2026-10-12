@@ -13,7 +13,7 @@ const {legacyAge}=require('./legacy-city.cjs');
 // import historical knowledge. This does not exercise the 1.51 campaign gates.
 function auditD17Progression(){
  const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132?.skip();
- assert.equal(g.frontier.snapshot().generation,7,'The shipped HTML starts the current G7 campaign');
+ assert.equal(g.frontier.snapshot().generation,8,'The shipped HTML starts the current G8 campaign');
  const initial={...g.resources},reserve=C.makeBag({wood:30000,scrap:60000,stone:60000,food:500,fuel:2000,ammo:1000,medicine:200});
  const supplied=C.makeBag(),nativeHarvested=C.makeBag(),paid=C.makeBag(),constructions=[],transitions=[],normalizedFields=[],legacyKnowledgeImports=[];
  let activeConstructionSeconds=0,deliveries=0,saveReloads=0;
