@@ -1,0 +1,62 @@
+name: DEADWALL stations and main synchronization
+on:
+  push:
+    branches: [feat/codex3000-detailed-programmes-159]
+    paths: ['.github/stations170/**', '.github/workflows/stations170-preflight.yml', 'src/codex-stations170.js', 'tests/codex-stations170*', 'scripts/browser-stations170.mjs']
+permissions:
+  contents: read
+concurrency:
+  group: stations170-preflight
+  cancel-in-progress: true
+jobs:
+  merge-and-test:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Apply exact source integration in a disposable checkout
+        run: |
+          git merge-base --is-ancestor 884eb2b6bf0e038f53a1d2c0581ff6353a6981ed HEAD
+          python3 .github/stations170/integrate.py
+          git config user.name 'DEADWALL validation'
+          git config user.email 'validation@users.noreply.github.com'
+          python3 - <<'PY'
+          import json,subprocess
+          r=json.load(open('artifacts/qa/stations170-preflight/integration.json'))
+          subprocess.run(['git','add','--',*[x['path'] for x in r['files']]],check=True)
+          PY
+          git commit -m 'Local integration of tested revision eight (not published)'
+      - name: Merge pinned main 1.57.2 without discarding either side
+        run: git merge --no-ff --no-commit c7174caa3a7fe3eea0a3f28acd9b49a8ebab410c
+      - name: Install locked tools and build merged result
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          npm run build
+      - name: Verify cumulative source, save and arrival contracts
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/codex-stations170.test.cjs tests/codex-infill*.test.cjs tests/codex-fill168*.test.cjs tests/codex-coverage*.test.cjs tests/distribution.test.cjs tests/new-game-generation.test.cjs tests/campaign-identity.test.cjs tests/campaign-intro132.test.cjs | tee artifacts/qa/stations170-preflight/contracts.log
+      - name: Actual browser activation, Continue and corrected arrival
+        run: |
+          npx playwright install --with-deps chromium
+          node scripts/browser-stations170.mjs
+          npm run test:arrival
+      - name: Collect source hashes and unresolved conflict stages
+        if: always()
+        run: python3 .github/stations170/collect.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-stations170-preflight
+          path: artifacts/qa/
+          retention-days: 7
+          if-no-files-found: error
