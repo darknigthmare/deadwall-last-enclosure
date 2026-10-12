@@ -97,6 +97,12 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Real browser and offline regression
         run: npm run test:browser
+      - name: Read-only recipe plans and anchored surface contents
+        if: ${{ !cancelled() }}
+        run: |
+          node --test --test-concurrency=1 tests/codex-plan165.test.cjs tests/codex-surface165.test.cjs tests/codex-surface165-raster.test.cjs
+          node scripts/browser-plan165.mjs
+          node scripts/browser-quantities164.mjs
       - name: Codex source and furnishing contracts
         if: ${{ !cancelled() }}
         run: node scripts/browser-prescriptions161.mjs && node scripts/browser-sites162.mjs

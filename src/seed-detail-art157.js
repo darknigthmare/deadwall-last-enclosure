@@ -112,7 +112,12 @@
    if(!Number.isFinite(a+sw+sh)||sw<=0||sh<=0){c.restore();return false;}
    try{const cx=o.x+o.w/2,cy=o.y+o.h/2;
     c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(cx,cy);c.rotate(a);
-    return draw(c,{...o,anchored160:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+    const painted=draw(c,{...o,anchored160:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+    // Contents share the real furniture transform and clip, including quarter turns.
+    // Rendering must not append colliders or turn source prescriptions into loot.
+    const contents=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);
+    if(painted&&contents?.surfaceItems165)for(const child of contents.surfaceItems165(o,seed))contents.draw(c,child);
+    return painted;
    }finally{c.restore();}
   }
   try{

@@ -71,5 +71,39 @@
    return true;
   }finally{c.restore();}
  }
- return Object.freeze({META,PALETTES,typeFor,enrich,valid,draw});
+
+ // Revision 165 is paint-only: revision-3/4 furnishings are appended after the
+ // historical dressing pass. Attach their contents while drawing, never by
+ // adding objects to a saved floor, collider list or resource container.
+ const SURFACE165=Object.freeze({maxPerSupport:3,maxCache:128,minSide:.3,insetRatio:.12});
+ const surfaceCache165=new Map(),EMPTY165=Object.freeze([]);
+ function surfaceItems165(support,seed=0){
+  if(!support?.anchored160||!support.id||!Number.isInteger(seed))return EMPTY165;
+  const w=support.spriteWidth160,h=support.spriteHeight160;
+  if(!Number.isFinite(w+h)||w<SURFACE165.minSide||h<SURFACE165.minSide||w>8||h>8)return EMPTY165;
+  const style=typeFor(support);if(!style)return EMPTY165;
+  // Locals are relative to the unrotated sprite, not its world-aligned collider.
+  // One entry per immutable support identity/seed; no retained scene references.
+  const key=JSON.stringify([seed,support.id,support.kind,support.room||'',support.z??0,w,h]);
+  if(surfaceCache165.has(key)){const value=surfaceCache165.get(key);surfaceCache165.delete(key);surfaceCache165.set(key,value);return value;}
+  const ix=w*SURFACE165.insetRatio,iy=h*SURFACE165.insetRatio,freeW=w-2*ix,freeH=h-2*iy;
+  const slots=Math.min(SURFACE165.maxPerSupport,Math.max(1,Math.floor(freeW/.5)));
+  const roll=hash('supported-contents165',seed,support.id,support.kind);
+  const count=style==='linen'?Math.min(2,slots):1+roll%slots,cell=freeW/count;
+  const children=[];
+  for(let i=0;i<count;i++){
+   const pick=hash('supported-item165',seed,support.id,i),cw=Math.min(.65,cell*.65),ch=Math.min(.46,freeH*.62);
+   const x=-w/2+ix+i*cell+(cell-cw)/2,y=-h/2+iy+(freeH-ch)*((pick%997)/997);
+   const itemStyle=style==='medical'&&i%2?'bottle':style==='linen'&&support.kind==='wardrobe'?'label':style;
+   children.push(Object.freeze({id:support.id+':surface165:'+i,kind:'dressing160',style:itemStyle,label:META[itemStyle],
+    x,y,w:cw,h:ch,z:support.z??0,solid:false,surface:false,decor157:true,dressing160:true,surface165:true,
+    supportId:support.id,plane:'furniture',variant:pick%2,room:support.room||'',
+    supportBounds:Object.freeze({x:-w/2,y:-h/2,w,h})}));
+  }
+  const value=Object.freeze(children);surfaceCache165.set(key,value);
+  if(surfaceCache165.size>SURFACE165.maxCache)surfaceCache165.delete(surfaceCache165.keys().next().value);
+  return value;
+ }
+ function surfaceCacheStats165(){return Object.freeze({entries:surfaceCache165.size,limit:SURFACE165.maxCache});}
+ return Object.freeze({META,PALETTES,typeFor,enrich,valid,draw,SURFACE165,surfaceItems165,surfaceCacheStats165});
 });
