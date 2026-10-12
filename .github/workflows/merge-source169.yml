@@ -1,0 +1,80 @@
+name: DEADWALL one-time reviewed source merge 169
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/merge169/**'
+      - '.github/workflows/merge-source169.yml'
+permissions:
+  contents: read
+concurrency:
+  group: reviewed-source-merge169
+  cancel-in-progress: true
+jobs:
+  integrate:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.event.pull_request.number == 2 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/codex3000-detailed-programmes-159'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Verify exact base and all 28 files before source changes
+        run: |
+          test "$(git rev-parse HEAD^)" = 'f98b3643bdda21592053ea1b8cd1864fe2d1224b'
+          node .github/merge169/apply.cjs --verify
+          node .github/merge169/apply.cjs
+      - name: Install locked development dependencies
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Build and verify cumulative source and save contracts
+        run: |
+          npm run build
+          node --test --test-concurrency=1 tests/codex-infill*.test.cjs tests/codex-fill168.test.cjs tests/codex-coverage*.test.cjs tests/distribution.test.cjs
+      - name: Test actual browser activation and preservation
+        run: |
+          npx playwright install --with-deps chromium
+          node scripts/browser-infill169.mjs
+      - name: Publish only verified target files with a branch lease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          const report=JSON.parse(fs.readFileSync('artifacts/qa/merge169/verified.json'));
+          for(const item of report.files){const b=fs.readFileSync(item.path);const sha=crypto.createHash('sha1').update(Buffer.from('blob '+b.length+'\0')).update(b).digest('hex');if(sha!==item.sha)throw Error('Post-test source drift '+item.path);}
+          execFileSync('git',['add','--',...report.files.map(f=>f.path)]);
+          const staged=execFileSync('git',['diff','--cached','--name-only','-z']).toString().split('\0').filter(Boolean).sort();
+          if(JSON.stringify(staged)!==JSON.stringify(report.files.map(f=>f.path).sort()))throw Error('Unexpected staged paths');
+          JS
+          auth=$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)
+          echo "::add-mask::$auth"
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
+          trap 'git config --local --unset-all http.https://github.com/.extraheader || true' EXIT
+          branch='feat/codex3000-detailed-programmes-159'
+          remote=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$remote" = "$EXPECTED_HEAD"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat(codex): merge source equipment and yard infill as independent revision seven'
+          git push origin "HEAD:refs/heads/$branch"
+          git rev-parse HEAD > artifacts/qa/merge169/published-revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-merge169-verification
+          path: artifacts/qa/
+          if-no-files-found: error
+          retention-days: 14
