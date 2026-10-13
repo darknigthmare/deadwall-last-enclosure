@@ -85,7 +85,7 @@
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
   const complements169=detail.infill169?{
    revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
@@ -94,7 +94,8 @@
    note:'Zones de placement au sol, sans nouvelle clôture ni déplacement du plan historique. Les réseaux et interactions de ces meubles ne sont pas simulés.'
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
-  return freeze({stations170,complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  const gardens171=detail.gardens171?copy(detail.gardens171):null;
+  return freeze({gardens171,stations170,complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -139,6 +140,7 @@
    for(const r of f.requests)host.appendChild(el('p',r.name+' — '+r.kind+' : '+r.existing+' déjà présents, '+r.added+' ajoutés, '+r.unplaced+' non posés. '+(names[r.reason]||r.reason)+'.'));
   }
   if(inspected&&report.stations170){const s=report.stations170;host.appendChild(el('h6','ATELIERS ET STOCKAGES — RÉVISION 8'));host.appendChild(el('p',s.added+' équipements statiques ajoutés. Les machines gardent quatre faces de maintenance ; les stocks posés au sol gardent leur accès. Aucune alimentation ni ressource supplémentaire.'));for(const r of s.requests)if(r.unplaced)host.appendChild(el('p',r.name+' — '+r.kind+' : '+r.unplaced+' élément(s) non posé(s), motif '+r.reason+'.'));}
+  if(inspected&&report.gardens171){const g=report.gardens171;host.appendChild(el('h6','JARDINS COMPOSÉS — RÉVISION 9'));host.appendChild(el('p',g.added+' équipements ajoutés dans '+g.groups.length+' zones composées. Les équipements de kit restent distincts des minima auteur et des extérieurs encore dans la coque. Aucun nouveau butin ni branchement.'));for(const zone of g.groups)host.appendChild(el('p',zone.name+' : '+zone.existing.length+' objets existants rapprochés, '+zone.added.length+' posés, '+zone.unplaced.length+' non posés. Surface libre accessible avant composition : '+zone.usableArea+' m².'));for(const r of g.requests)if(r.unplaced)host.appendChild(el('p',r.name+' — '+r.kind+' : non posé, '+r.reason+'.'));}
   if(report.scope==='unsupported')host.appendChild(el('p','Aucun plan de substitution produit pour ce programme spécialisé.'));
   if(s.sourceGaps.unmappedKinds.length)host.appendChild(el('p','Gabarits encore absents : '+s.sourceGaps.unmappedKinds.join(', ')+'.'));
   return host;

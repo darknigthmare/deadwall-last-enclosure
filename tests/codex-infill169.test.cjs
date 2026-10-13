@@ -92,8 +92,8 @@ test('169 revision seven uses world collision, visibility and streaming while pr
  console.log('INFILL169_WORLD '+JSON.stringify({physicalChecks:checked}));
 });
 test('169 save acceptance is explicit and migration changes no other field or player possession',()=>{
- for(const detailVersion of [0,1,2,3,4,5,6,7,8])assert.equal(S.normalize({...S.initial(),detailVersion}).detailVersion,detailVersion);
- for(const v of [-1,9,1.5,NaN,Infinity,'6',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
+ for(const detailVersion of [0,1,2,3,4,5,6,7,8,9])assert.equal(S.normalize({...S.initial(),detailVersion}).detailVersion,detailVersion);
+ for(const v of [-1,10,1.5,NaN,Infinity,'6',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
  const snap=()=>{const data=g.serialize();delete data.timestamp;return data;},before=snap(),restore=g.restoreSave;

@@ -115,6 +115,10 @@
   return true;
  }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
+  if(o?.garden171){
+   const {spriteWidth171:w,spriteHeight171:h,angle171:a}=o;if(!c||![o.x,o.y,o.w,o.h,w,h,a].every(Number.isFinite)||w<=0||h<=0||o.w<=0||o.h<=0)return false;
+   c.save();try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(a);return draw(c,{...o,garden171:false,x:-w/2,y:-h/2,w,h},{art,seed});}finally{c.restore();}
+  }
   if(o?.infill169){
    const painter=root.DeadwallCodexInfill169Art||(typeof require==='function'?require('./codex-infill169-art.js'):null);
    if(!c||![o.x,o.y,o.w,o.h,o.angle169,o.spriteWidth169,o.spriteHeight169].every(Number.isFinite)||o.w<=0||o.h<=0||o.spriteWidth169<=0||o.spriteHeight169<=0)return false;

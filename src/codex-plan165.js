@@ -17,7 +17,7 @@
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5){
-  if(![5,6,7,8].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
@@ -40,6 +40,7 @@
   if(detailVersion>=6)details=R.fill({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=7)details=R.infill({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=8)details=R.stations({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
@@ -78,6 +79,7 @@
   const fillLabel=el('label','Compléter les minima auteur (révision 6)'),fillToggle=el('input');fillToggle.type='checkbox';fillToggle.dataset.fill168='revision';fillToggle.style.width='24px';fillLabel.append(fillToggle);
   const yardLabel=el('label','Compléter pièces et cours (révision 7, inclut la 6)'),yardToggle=el('input');yardToggle.type='checkbox';yardToggle.dataset.infill169='revision';yardToggle.style.width='24px';yardLabel.append(yardToggle);
   const stationLabel=el('label','Compléter ateliers et stockages (révision 8, inclut 6–7)'),stationToggle=el('input');stationToggle.type='checkbox';stationToggle.dataset.stations170='revision';stationToggle.style.width='24px';stationLabel.append(stationToggle);
+  const gardenLabel=el('label','Composer les jardins et cours (révision 9, inclut 6–8)'),gardenToggle=el('input');gardenToggle.type='checkbox';gardenToggle.dataset.gardens171='revision';gardenToggle.style.width='24px';gardenLabel.append(gardenToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
@@ -87,7 +89,7 @@
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
-    const preview=inspect(id,seed.value,Number(floor.value),stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
+    const preview=inspect(id,seed.value,Number(floor.value),gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
     if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
     if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
     canvas.width=RULES.width;canvas.height=RULES.height;
@@ -98,6 +100,7 @@
      +(preview.details.fill168?' '+preview.details.fill168.added+' équipements manquants effectivement ajoutés ; aucun stock ni branchement supplémentaire.':'')
      +(preview.details.infill169?' '+preview.details.infill169.added+' compléments de pièces et cours ; '+preview.details.infill169.zones.length+' zones de placement extérieures. Aucun jardin natif complet garanti.':'')
      +(preview.details.stations170?' '+preview.details.stations170.added+' machines, palettes ou caisses placées ; zones de service libres, appareils non alimentés.':'')
+     +(preview.details.gardens171?' '+preview.details.gardens171.added+' équipements de jardin placés ; composition par zones et chemins préservés, sans nouveau butin.':'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
      +(s.exteriorSpacesSimplified.length?' Extérieurs source encore simplifiés : '+s.exteriorSpacesSimplified.join(', ')+'.':'');
     canvas.hidden=false;visible=true;show.textContent='ACTUALISER LE PLAN';
@@ -106,9 +109,9 @@
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
-  const syncRevisions=()=>{yardToggle.disabled=stationToggle.checked;fillToggle.disabled=stationToggle.checked||yardToggle.checked;if(visible)generate();};
-  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  const syncRevisions=()=>{stationToggle.disabled=gardenToggle.checked;yardToggle.disabled=gardenToggle.checked||stationToggle.checked;fillToggle.disabled=gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
+  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

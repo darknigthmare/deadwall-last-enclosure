@@ -86,7 +86,7 @@ test('166 ensembles: actual G8 revision 5 keeps G7/G8 plans and stocks and expos
  }
  assert.ok(count>0);console.log('PHYSICAL166 '+JSON.stringify({sites:sites.length,newSolidObjects:count}));
  const p=b.pois[0],before=digest(b.detailAt(p,0));for(const q of b.pois.slice(1,80))b.detailAt(q,0);assert.equal(digest(b.detailAt(p,0)),before);
- for(const v of [0,1,2,3,4,5])assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);assert.throws(()=>S.normalize({...S.initial(),detailVersion:9}));
+ for(const v of [0,1,2,3,4,5])assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);assert.throws(()=>S.normalize({...S.initial(),detailVersion:10}));
 });
 test('166 ensembles: revision-five activation is transactional, explicit and refuses repeat, reload and failed restore',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
@@ -96,5 +96,5 @@ test('166 ensembles: revision-five activation is transactional, explicit and ref
  g.restoreSave=()=>false;try{assert.equal(action().run().ok,false);assert.deepEqual(snapshot(),before);}finally{g.restoreSave=restore;}
  g.player.reload=1;assert.ok(action().disabled);assert.equal(action().run().ok,false);g.player.reload=0;
  const r=action().run();assert.ok(r.ok,r.reason);const after=snapshot();assert.equal(after.frontier.detailVersion,5);after.frontier.detailVersion=before.frontier.detailVersion;assert.deepEqual(after,before);
- assert.ok(action().disabled);assert.equal(action().run().ok,false);assert.equal(g.worldOps131.upgradeDetails159(9).ok,false);
+ assert.ok(action().disabled);assert.equal(action().run().ok,false);assert.equal(g.worldOps131.upgradeDetails159(10).ok,false);
 });
