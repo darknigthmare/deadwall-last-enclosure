@@ -60,6 +60,24 @@ test('160 context art: mechanical layers move only for the matching physical ope
  s.setJob(null);assert.equal(visualCapture(s).digest,idle.digest,'Ending or losing the operation resets its transient motion');
 });
 
+test('160 context art: one paid support animates its own rotor while a separate decorative pump in the same site stays still',()=>{
+ const s=scene();s.o=frozen({...s.o,id:s.p.id+':160:pump-control'});
+ const decoration=frozen({...s.o,id:s.p.id+':160:pump',x:16,y:4,w:6,h:4});
+ s.plan=frozen({...s.plan,visuals160:[decoration,s.o],operations160:[{key:'pump',kind:'pumpBasin',supportId:s.o.id}]});
+ const idleControl=visualCapture(s),idleDecoration=visualCapture({...s,o:decoration});
+ assert.equal(idleDecoration.calls.length,2,'The actual decorative base and rotor PNGs are both visible');
+ s.setJob(payload(.12));const firstControl=visualCapture(s),firstDecoration=visualCapture({...s,o:decoration});
+ assert.equal(A.pose(s.game,s.p,s.plan,s.o,{world:s.world}).fullKey,'P9001:160:pump');
+ assert.equal(A.pose(s.game,s.p,s.plan,s.o,{world:s.world}).active,true);
+ assert.equal(A.pose(s.game,s.p,s.plan,decoration,{world:s.world}).fullKey,null,'The decorative ID is not the explicit operation support');
+ assert.equal(A.pose(s.game,s.p,s.plan,decoration,{world:s.world}).active,false);
+ s.setJob(payload(.28));const secondControl=visualCapture(s),secondDecoration=visualCapture({...s,o:decoration});
+ assert.notEqual(firstControl.digest,idleControl.digest);assert.notEqual(secondControl.digest,firstControl.digest,'Paid support follows actual progress');
+ assert.deepEqual(firstControl.calls[0].matrix,secondControl.calls[0].matrix);assert.notDeepEqual(firstControl.calls[1].matrix,secondControl.calls[1].matrix);
+ assert.equal(firstDecoration.digest,idleDecoration.digest);assert.equal(secondDecoration.digest,idleDecoration.digest,'Separate scenery never follows this operation');
+ assert.deepEqual(firstDecoration.calls.map(call=>call.matrix),secondDecoration.calls.map(call=>call.matrix));
+});
+
 test('160 context art: pause and reduced motion preserve persistent quantities and do not invent progress',()=>{
  const s=scene();s.setJob(payload(.23));const before=JSON.stringify({p:s.p,o:s.o,plan:s.plan,completed:[...s.completed]}),first=visualCapture(s);s.game.paused=true;s.game.elapsed+=500;assert.equal(visualCapture(s).digest,first.digest,'Owner progress is frozen during pause');
  s.game.settings.reducedMotion=true;const reduced=visualCapture(s);s.setJob(payload(.78));assert.equal(visualCapture(s).digest,reduced.digest,'Reduced motion retains the real active state without continuous spinning');assert.equal(JSON.stringify({p:s.p,o:s.o,plan:s.plan,completed:[...s.completed]}),before);

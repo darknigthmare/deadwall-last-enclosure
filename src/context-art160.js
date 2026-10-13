@@ -31,7 +31,7 @@
  function bounds(p,o){const points=[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].map(([x,y])=>globalPoint(p,x,y));return{l:Math.min(...points.map(q=>q.x)),r:Math.max(...points.map(q=>q.x)),t:Math.min(...points.map(q=>q.y)),b:Math.max(...points.map(q=>q.y))};}
  function inView(p,o,view){if(!view||![view.l,view.r,view.t,view.b].every(Number.isFinite))return true;const q=bounds(p,o);return q.r>=view.l&&q.l<=view.r&&q.b>=view.t&&q.t<=view.b;}
  function complete(g,world,key){if(!key)return false;return g?.contextOperations160?.isComplete?.(key)===true||world?.contextCompleted160?.(key)===true;}
- function fullKey(p,plan,o){if(o.completedKey)return o.completedKey;const kind=o.kind==='pumpBase'?'pumpBasin':o.kind==='railSwitch'?'switchTrack':o.kind==='valveBody'?'restoreAccess':null;const op=kind&&plan?.operations160?.find(q=>q.kind===kind);return op?p.id+':160:'+op.key:null;}
+ function fullKey(p,plan,o){if(o.completedKey)return o.completedKey;const kind=o.kind==='pumpBase'?'pumpBasin':o.kind==='railSwitch'?'switchTrack':o.kind==='valveBody'?'restoreAccess':null;const op=kind&&plan?.operations160?.find(q=>q.kind===kind&&(!q.supportId||q.supportId===o.id));return op?p.id+':160:'+op.key:null;}
  function pose(g,p,plan,o,{world}={}){const key=fullKey(p,plan,o),job=key?g?.contextOperations160?.presentation?.(key):null,progress=job&&Number.isFinite(job.progress)?Math.max(0,Math.min(1,job.progress)):0;
   return Object.freeze({fullKey:key,active:!!job,kind:job?.kind||null,progress,elapsed:job?.elapsed??0,complete:complete(g,world,key),angle:job?(g?.settings?.reducedMotion?0:progress*Math.PI*6):0});
  }

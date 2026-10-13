@@ -148,18 +148,19 @@ async function artScene160(page,fixture){return page.evaluate(async f=>{
   // keep the same strict source, destination and matrix comparisons below.
   const transformCanvas=document.createElement('canvas');transformCanvas.width=1;transformCanvas.height=1;
   const transformContext=transformCanvas.getContext('2d');
-  transformContext.setTransform(g.dpr,0,0,g.dpr,0,0);transformContext.translate(g.width/2,g.height/2);
-  transformContext.scale(scale,scale);transformContext.translate(-v.x,-v.y);
-  transformContext.translate(p.x,p.y);transformContext.rotate(p.a||0);transformContext.translate(-p.w/2,-p.h/2);
-  const transform=transformContext.getTransform();
-  function translatedRotation(base,x,y,angle){
-    transformContext.save();try{transformContext.setTransform(base);transformContext.translate(x,y);transformContext.rotate(angle);return transformContext.getTransform();}
-    finally{transformContext.restore();}
+  function ownerTransform(extra=[]){
+    transformContext.setTransform(g.dpr,0,0,g.dpr,0,0);transformContext.translate(g.width/2,g.height/2);
+    transformContext.scale(scale,scale);transformContext.translate(-v.x,-v.y);
+    transformContext.translate(p.x,p.y);transformContext.rotate(p.a||0);transformContext.translate(-p.w/2,-p.h/2);
+    // Replaying the full sequence avoids a lossy getTransform/setTransform round trip.
+    for(const[x,y,angle]of extra){transformContext.translate(x,y);transformContext.rotate(angle);}
+    return transformContext.getTransform();
   }
+  const transform=ownerTransform();
   const same=(a,b)=>a.length===b.length&&a.every((value,i)=>Number.isFinite(value)&&Math.abs(value-b[i])<.000001),matrix=m=>[m.a,m.b,m.c,m.d,m.e,m.f];
-  function expect(o,angle=0,base=transform){
+  function expect(o,angle=0,extra=[]){
     const frame=A.measure(o.kind,o,{seed:w.seed,variant:o.variant,angle});if(!frame)return;
-    let m=base,d=frame.destination;if(angle){const x=d[0]+d[2]*frame.sprite.pivot[0],y=d[1]+d[3]*frame.sprite.pivot[1];m=translatedRotation(base,x,y,angle);d=[d[0]-x,d[1]-y,d[2],d[3]];}
+    let m=ownerTransform(extra),d=frame.destination;if(angle){const x=d[0]+d[2]*frame.sprite.pivot[0],y=d[1]+d[3]*frame.sprite.pivot[1];m=ownerTransform([...extra,[x,y,angle]]);d=[d[0]-x,d[1]-y,d[2],d[3]];}
     const corners=[[d[0],d[1]],[d[0]+d[2],d[1]],[d[0],d[1]+d[3]],[d[0]+d[2],d[1]+d[3]]].map(([x,y])=>m.transformPoint({x,y})),
       visible=Math.max(...corners.map(q=>q.x))>0&&Math.min(...corners.map(q=>q.x))<g.canvas.width&&Math.max(...corners.map(q=>q.y))>0&&Math.min(...corners.map(q=>q.y))<g.canvas.height;
     expected.push({owner:o.id,kind:o.kind,atlas:frame.sprite.atlas,source:frame.source,destination:d,matrix:matrix(m),visible});
@@ -171,7 +172,7 @@ async function artScene160(page,fixture){return page.evaluate(async f=>{
     if(o.kind==='valveBody')expect({id:o.id+':wheel',kind:'valveWheel',x:o.x+o.w*.35,y:o.y+o.h*.02,w:o.w*.42,h:o.h*.52,variant:A.select(o.kind,o.id,{seed:w.seed,variant:o.variant})?.variant},state.angle);
   }
   for(const o of plan.terrain160.filter(o=>o.kind==='rail')){const vertical=o.h>o.w,length=vertical?o.h:o.w,count=Math.max(1,Math.min(128,Math.ceil(length/3)));
-    for(let i=0;i<count;i++){const at=i*length/count,size=length/count,part={id:o.id+':'+i,kind:'railTrack',x:vertical?-size/2:o.x+at,y:vertical?-o.w/2:o.y,w:vertical?size:o.w/count,h:vertical?o.w:o.h,variant:o.variant},m=vertical?translatedRotation(transform,o.x+o.w/2,o.y+at+size/2,Math.PI/2):transform;expect(part,0,m);}}
+    for(let i=0;i<count;i++){const at=i*length/count,size=length/count,part={id:o.id+':'+i,kind:'railTrack',x:vertical?-size/2:o.x+at,y:vertical?-o.w/2:o.y,w:vertical?size:o.w/count,h:vertical?o.w:o.h,variant:o.variant},extra=vertical?[[o.x+o.w/2,o.y+at+size/2,Math.PI/2]]:[];expect(part,0,extra);}}
   for(const o of plan.volumes160)if(!A.viewerInside(v,p,o)){
     const item={id:o.id,type:A.ROOF_TYPES[o.roofFamily]||o.roofFamily||'warehouse'},sprite=DeadwallInteriorArt153.spriteForRoof(item,{seed:w.seed});if(!sprite)continue;
     const d=[o.x,o.y,o.w,o.h],corners=[[o.x,o.y],[o.x+o.w,o.y+o.h]].map(([x,y])=>transform.transformPoint({x,y}));
