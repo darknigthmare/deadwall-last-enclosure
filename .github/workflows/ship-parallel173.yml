@@ -1,0 +1,134 @@
+name: DEADWALL reviewed parallel integration
+on:
+  push:
+    branches: ['feat/codex3000-detailed-programmes-159']
+    paths:
+      - '.github/reviewed173/**'
+      - '.github/workflows/ship-parallel173.yml'
+permissions:
+  contents: read
+concurrency:
+  group: reviewed-parallel173
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Verify and apply exact reviewed source
+        run: python3 .github/reviewed173/apply.py
+      - name: Install locked tools and build
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          node scripts/check-syntax134.mjs
+          npm run build
+      - name: Cumulative source, geometry, atlas, save and distribution contracts
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/codex*.test.cjs tests/networks173.test.cjs tests/site-infrastructure173.test.cjs tests/g8-migration157.test.cjs tests/distribution.test.cjs 2>&1 | tee artifacts/qa/reviewed173/contracts.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-parallel173-contracts
+          path: artifacts/qa/
+          retention-days: 14
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Verify and apply exact reviewed source
+        run: python3 .github/reviewed173/apply.py
+      - name: Install locked browser and build
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          npm run build
+          npx playwright install --with-deps chromium
+      - name: Trusted depot activation, exact save, Continue and laboratory controls
+        run: node scripts/browser-parallel173.mjs
+      - name: Original source-model inspector regression
+        if: ${{ !cancelled() }}
+        run: node scripts/browser-coverage167.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-parallel173-browser
+          path: artifacts/qa/
+          retention-days: 14
+  audits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify and apply exact reviewed source
+        run: python3 .github/reviewed173/apply.py
+      - name: Dependency-free build and complete recipe comparisons
+        run: |
+          npm run build
+          node scripts/audit-packing173.mjs
+          node scripts/audit-native173.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-parallel173-audits
+          path: artifacts/qa/
+          retention-days: 14
+  publish:
+    needs: [contracts, browser, audits]
+    if: ${{ github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/codex3000-detailed-programmes-159' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Reapply verified source and publish only on the unchanged PR branch
+        env:
+          REVIEWED_HEAD: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          branch='feat/codex3000-detailed-programmes-159'
+          remote=$(git ls-remote origin "refs/heads/$branch" | cut -f1)
+          test "$remote" = "$REVIEWED_HEAD" || { echo 'PR head changed; publication refused'; exit 1; }
+          python3 .github/reviewed173/apply.py
+          mapfile -t files < artifacts/qa/reviewed173/paths.txt
+          git add -- "${files[@]}"
+          test "$(git diff --cached --name-only | wc -l)" -eq 32
+          git config user.name 'DEADWALL validation'
+          git config user.email 'validation@users.noreply.github.com'
+          git commit -m 'feat(codex): complete freestanding furniture and add isolated native architecture and network laboratory'
+          git push origin "HEAD:refs/heads/$branch"
+          git rev-parse HEAD > artifacts/qa/reviewed173/published.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-parallel173-publication
+          path: artifacts/qa/reviewed173/
+          retention-days: 14
