@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  native:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -21,51 +21,82 @@ jobs:
       - name: Vérification complète avec endurance
         env:
           DEADWALL_SOAK: '1'
-        run: npm run check
-      - name: Installer Chromium pour les parcours réels
-        run: npx playwright install --with-deps chromium
-      - name: Navigateur desktop, mobile et PWA hors ligne
-        run: npm run test:browser
-      - name: Nouvelle partie, arrivée à D-17 et reprise sur ordinateur et mobile
-        run: npm run test:arrival
-      - name: Campagne réelle et préparatifs de siège sur quatre formats
-        run: npm run test:campaign
-      - name: Repli et récompenses réservées dans des scènes avancées
-        run: npm run test:tactics
-      - name: Terrain régional et commandes natives sur quatre formats
-        run: npm run test:terrain
-      - name: Parcours régional réel sur une autre graine
-        run: npm run test:journey
-      - name: Échelons d'assaut et reprise dans une scène avancée
-        run: npm run test:assault
-      - name: Reconstruction confirmée et physiquement achevée
-        run: npm run test:reconstruction
-      - name: Contacts observés et disparition immédiate sur les cartes
-        run: npm run test:visibility
-      - name: Appoints du sac et préparation des nouveaux fronts
-        run: npm run test:preparations
-      - name: D17 defenses and crafting
-        run: npm run test:defenses
-      - name: Composants et actions des sprites sur trois formats
-        run: npm run test:sprites
-      - name: Codex, lieux connus et choix réels de D-17
-        run: npm run test:codex
-      - name: D-17 du refuge aux onze âges
-        run: npm run test:d17
-      - name: Catalogue, constructions et préparatifs de chaque âge
-        run: npm run test:city
-      - name: Version autonome ouverte depuis le disque
-        run: npm run test:standalone
-      - name: Archives web et autonome
-        run: npm run package:web
-      - name: Résumer les échecs QA en annotations lisibles
+        shell: bash
+        run: |
+          mkdir -p artifacts/qa/native
+          npm run check 2>&1 | tee artifacts/qa/native/check.log
+      - name: Résumer les échecs natifs
         if: failure()
         run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
-      - name: Conserver les preuves et livrables
+      - name: Conserver le journal natif
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: deadwall-web-qa
+          name: deadwall-native-qa-attempt-${{ github.run_attempt }}
+          path: artifacts/qa/
+          if-no-files-found: warn
+
+  browser:
+    name: browser / ${{ matrix.group }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - group: interface
+            suites: 'test:browser test:arrival test:codex test:standalone package:web'
+          - group: campaign
+            suites: 'test:campaign test:tactics test:reconstruction'
+          - group: exploration
+            suites: 'test:terrain test:journey test:visibility'
+          - group: siege
+            suites: 'test:assault test:preparations test:defenses test:sprites'
+          - group: d17
+            suites: 'test:d17'
+          - group: city
+            suites: 'test:city'
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Installer les dépendances de développement
+        run: npm ci
+      - name: Construire la version du commit testé
+        run: npm run build
+      - name: Installer Chromium pour les parcours réels
+        run: npx playwright install --with-deps chromium
+      - name: Exécuter tous les parcours du groupe
+        shell: bash
+        env:
+          DEADWALL_CI_SUITES: ${{ matrix.suites }}
+        run: |
+          mkdir -p artifacts/qa
+          job_status=0
+          for suite in $DEADWALL_CI_SUITES; do
+            suite_status=0
+            if npm run "$suite"; then
+              suite_status=0
+            else
+              suite_status=$?
+              job_status=1
+            fi
+            printf '%s\t%s\n' "$suite" "$suite_status" >> artifacts/qa/ci-results.tsv
+          done
+          exit "$job_status"
+      - name: Résumer les échecs QA en annotations lisibles
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
+      - name: Conserver les preuves et livrables du groupe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-web-qa-${{ matrix.group }}-attempt-${{ github.run_attempt }}
           path: |
             artifacts/qa/
             release/web/
@@ -98,9 +129,22 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: deadwall-windows-qa
+          name: deadwall-windows-qa-attempt-${{ github.run_attempt }}
           path: |
             release/desktop/**/DEADWALL-*-Windows-x64-portable.zip
             release/desktop/**/release-manifest.json
             artifacts/qa/windows/
           if-no-files-found: warn
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [native, browser, windows]
+    if: ${{ always() }}
+    steps:
+      - name: Vérifier les résultats de tous les jobs requis
+        env:
+          REQUIRED_JOB_RESULTS: ${{ toJSON(needs) }}
+        run: |
+          node -e 'const results = JSON.parse(process.env.REQUIRED_JOB_RESULTS); const expected = ["native", "browser", "windows"]; const failed = expected.filter(name => results[name]?.result !== "success"); for (const name of expected) console.log(name + ": " + (results[name]?.result || "missing")); if (failed.length) process.exit(1);'
