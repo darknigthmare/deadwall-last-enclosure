@@ -86,15 +86,18 @@ async function planRoute(page, request) {
   }, request);
 }
 
-async function navigate(page, context, touch, request) {
+async function navigate(page, context, touch, request, deadline = null) {
   const route = await planRoute(page, request);
   const keys = { up: 'w', down: 's', left: 'a', right: 'd' };
   for (const segment of route.segments) {
     const axis = ['left', 'right'].includes(segment.direction) ? 'x' : 'y';
     const sign = ['left', 'up'].includes(segment.direction) ? -1 : 1;
+    const timeout = deadline === null ? 15000 : Math.min(15000, deadline - Date.now());
+    assert.ok(timeout > 0, 'Global construction work deadline expired during the physical route');
+    if (deadline !== null) page.setDefaultTimeout(timeout);
     await withHold(page, context, touch, keys[segment.direction], '#touchControls [data-dir="' + segment.direction + '"]', () =>
       page.waitForFunction(({ axis, sign, target }) => sign * (DEADWALL.player[axis] - target[axis]) >= -2,
-        { axis, sign, target: segment.target }, { timeout: 15000 }));
+        { axis, sign, target: segment.target }, { timeout: deadline === null ? 15000 : Math.max(1, Math.min(15000, deadline - Date.now())) }));
   }
   await page.waitForFunction(() => DEADWALL.input.keys.size === 0);
   return route;
@@ -106,7 +109,29 @@ async function readEconomy(page) {
     player: { x: DEADWALL.player.x, y: DEADWALL.player.y }, workerOrder: DEADWALL.workerOrder }));
 }
 
+function inspectPlannedPlacement150({ type, site }) {
+  const g = DEADWALL, def = DeadwallCore.BUILDINGS[type], safe = g.hud135.measure();
+  const placement = g.world.placement(def, site.gx, site.gy, 0);
+  const bounds = { left: site.gx * 32, top: site.gy * 32, right: (site.gx + def.size[0]) * 32, bottom: (site.gy + def.size[1]) * 32 };
+  const overlaps = (actor, margin) => actor.x + actor.radius + margin > bounds.left && actor.x - actor.radius - margin < bounds.right && actor.y + actor.radius + margin > bounds.top && actor.y - actor.radius - margin < bounds.bottom;
+  const actors = [g.player, ...g.units].filter(actor => overlaps(actor, 5)).map(actor => ({ id: actor.id, kind: actor === g.player ? 'player' : actor.kind, x: actor.x, y: actor.y, radius: actor.radius, dead: actor.dead, health: actor.health, state: actor.state, bodyOverlap: overlaps(actor, 0), safetyMarginOverlap: true }));
+  const screen = { x: (site.gx * 32 + 16 - g.camera.x) * g.camera.zoom + g.width / 2, y: (site.gy * 32 + 16 - g.camera.y) * g.camera.zoom + g.height / 2 };
+  const hit = document.elementFromPoint(screen.x, screen.y), screenClear = screen.x >= safe.left + 10 && screen.x <= safe.right - 10 && screen.y >= safe.top + 10 && screen.y <= safe.bottom - 10;
+  const withinSearch = Math.abs(site.gx - Math.floor(g.player.x / 32)) <= 12 && Math.abs(site.gy - Math.floor(g.player.y / 32)) <= 12;
+  return { type, site, bounds, placement: { valid: placement.valid, reason: placement.reason }, actors, screen, safe: { ...safe }, screenClear, hit: { id: hit?.id, tag: hit?.tagName, className: hit?.className },
+    camera: { ...g.camera }, player: { id: g.player.id, x: g.player.x, y: g.player.y, radius: g.player.radius, health: g.player.health, dead: g.player.dead }, workerOrder: g.workerOrder,
+    withinSearch, selectedBuild: g.selectedBuild, valid: placement.valid && !actors.length && screenClear && hit?.id === 'game' && withinSearch };
+}
+
 async function chooseSite(page, type, plannedSite = null) {
+  if (plannedSite) {
+    const diagnostic = await page.evaluate(inspectPlannedPlacement150, { type, site: plannedSite });
+    if (!diagnostic.valid) {
+      const error = Error('No valid visible unoccupied placement for ' + type + ': ' + JSON.stringify(diagnostic));
+      error.deadwallPlacement150 = diagnostic; throw error;
+    }
+    return { gx: plannedSite.gx, gy: plannedSite.gy, screen: diagnostic.screen, cost: await page.evaluate(type => DeadwallCore.BUILDINGS[type].cost, type), diagnostic };
+  }
   return page.evaluate(({ type, plannedSite }) => {
     const game = DEADWALL, core = game.core(), def = DeadwallCore.BUILDINGS[type], safe = game.hud135.measure(), candidates = [];
     const origin = { gx: Math.floor(game.player.x / 32), gy: Math.floor(game.player.y / 32) };
@@ -127,8 +152,48 @@ async function chooseSite(page, type, plannedSite = null) {
   }, { type, plannedSite });
 }
 
+async function selectConstruction150(page, touch, type, category = null) {
+  if (await page.evaluate(type => DEADWALL.selectedBuild === type, type)) return;
+  if (await page.evaluate(() => DEADWALL.buildCollapsed)) await activate(page, '#toggleBuild', touch);
+  category ??= await page.evaluate(type => DeadwallCore.BUILDINGS[type].category, type);
+  await activate(page, '#buildCategories [data-category="' + category + '"]', touch);
+  await activate(page, '#buildList [data-build-id="' + type + '"]', touch);
+  await page.waitForFunction(type => DEADWALL.selectedBuild === type, type);
+}
+
+async function clearPlacementWorkers150(page, touch, type, site, diagnostic) {
+  const blockers = diagnostic.actors.filter(actor => actor.kind !== 'player');
+  assert.ok(blockers.length && blockers.every(actor => actor.kind === 'worker' && !actor.dead && actor.health > 0), 'Only living workers can be cleared through the worker-order UI: ' + JSON.stringify(diagnostic));
+  const previousOrder = diagnostic.workerOrder, result = { before: diagnostic, command: 'harvest', previousOrder };
+  try {
+    await openCommand(page, touch, 'workers'); await activate(page, '[data-worker-order="harvest"]', touch);
+    await page.waitForFunction(() => DEADWALL.workerOrder === 'harvest'); await resumeCommand(page, touch);
+    // Ordinary RAF must move the actual blockers. A safety buffer gives the
+    // real order/build controls time to finish; death cannot count as clearing.
+    await page.waitForFunction(({ site, type, blockers }) => {
+      const g = DEADWALL, d = DeadwallCore.BUILDINGS[type], bounds = { left: site.gx * 32, top: site.gy * 32, right: (site.gx + d.size[0]) * 32, bottom: (site.gy + d.size[1]) * 32 };
+      const margin = 5 + 32;
+      const clear = actor => actor.x + actor.radius + margin <= bounds.left || actor.x - actor.radius - margin >= bounds.right || actor.y + actor.radius + margin <= bounds.top || actor.y - actor.radius - margin >= bounds.bottom;
+      return !g.paused && !g.player.dead && !g.gameOver && g.units.every(clear) && blockers.every(old => { const unit = g.units.find(unit => unit.id === old.id); return unit && !unit.dead && unit.health > 0 && Math.hypot(unit.x - old.x, unit.y - old.y) > 1; });
+    }, { site, type, blockers }, { timeout: 30000 });
+    result.afterMovement = await page.evaluate(inspectPlannedPlacement150, { type, site });
+    result.movedWorkers = await page.evaluate(blockers => blockers.map(old => {
+      const unit = DEADWALL.units.find(unit => unit.id === old.id);
+      return { id: old.id, before: { x: old.x, y: old.y }, after: unit && { x: unit.x, y: unit.y, state: unit.state, health: unit.health, dead: unit.dead }, distance: unit && Math.hypot(unit.x - old.x, unit.y - old.y) };
+    }), blockers);
+  } catch (error) { error.deadwallWorkerClear150 = result; throw error; }
+  finally {
+    await openCommand(page, touch, 'workers'); await activate(page, '[data-worker-order="' + previousOrder + '"]', touch);
+    await page.waitForFunction(order => DEADWALL.workerOrder === order, previousOrder); await resumeCommand(page, touch);
+    await selectConstruction150(page, touch, type);
+    result.afterRestore = await page.evaluate(inspectPlannedPlacement150, { type, site });
+  }
+  return result;
+}
+
 async function exposePlannedSite150(page, context, touch, type, site) {
-  const controls = { zoom: [], movements: [] };
+  const controls = { zoom: [], movements: [], observations: [], workerCommands: [] };
+  let workerAttempts = 0;
   if (touch) {
     if (!await page.locator('#touchCommandDrawer').evaluate(n => n.open)) await activate(page, '#touchCommandDrawer > summary', true);
     for (let i = 0; i < 5 && await page.evaluate(() => DEADWALL.camera.zoom > .53); i++) {
@@ -142,36 +207,72 @@ async function exposePlannedSite150(page, context, touch, type, site) {
     try { const placement = await chooseSite(page, type, site); return { ...controls, placement }; }
     catch (error) {
       if (!error.message.includes('No valid visible unoccupied placement')) throw error;
-      const movement = await page.evaluate(({ type, site }) => {
+      const diagnostic = error.deadwallPlacement150; controls.observations.push(diagnostic);
+      assert.ok(diagnostic?.placement.valid, 'Prepared footprint must remain legally buildable: ' + JSON.stringify(diagnostic));
+      if (diagnostic.actors.some(actor => actor.kind !== 'player')) {
+        assert.ok(workerAttempts++ < 2, 'Workers still occupy the protected placement margin after two real order attempts: ' + JSON.stringify(controls));
+        try { controls.workerCommands.push(await clearPlacementWorkers150(page, touch, type, site, diagnostic)); }
+        catch (error) { error.deadwallPlacementControls150 = controls; error.deadwallPlacement150 = await page.evaluate(inspectPlannedPlacement150, { type, site }); throw error; }
+        continue;
+      }
+      const route = await page.evaluate(({ type, site }) => {
         const g = DEADWALL, p = g.player, d = DeadwallCore.BUILDINGS[type], safe = g.hud135.measure();
         const bounds = { left: site.gx * 32, top: site.gy * 32, right: (site.gx + d.size[0]) * 32, bottom: (site.gy + d.size[1]) * 32 };
-        const penalty = q => { const x = (site.gx * 32 + 16 - q.x) * g.camera.zoom + g.width / 2, y = (site.gy * 32 + 16 - q.y) * g.camera.zoom + g.height / 2;
-          return Math.max(0, safe.left + 10 - x, x - safe.right + 10) + Math.max(0, safe.top + 10 - y, y - safe.bottom + 10); };
-        const choices = [['right', 'd', 32, 0], ['down', 's', 0, 32], ['left', 'a', -32, 0], ['up', 'w', 0, -32]].map(([direction, key, dx, dy]) => ({ direction, key, target: { x: p.x + dx, y: p.y + dy }, dx, dy }));
-        return choices.filter(c => {
-          const q = c.target, closest = { x: Math.max(bounds.left, Math.min(bounds.right, q.x)), y: Math.max(bounds.top, Math.min(bounds.bottom, q.y)) };
-          return Math.hypot(q.x - closest.x, q.y - closest.y) > p.radius + 4 && [.25, .5, .75, 1].every(t => g.friendlyPositionClear(p, p.x + c.dx * t, p.y + c.dy * t)) && penalty(q) < penalty(p);
-        }).sort((a, b) => penalty(a.target) - penalty(b.target))[0] || null;
+        const outside = (q, margin) => q.x + p.radius + margin <= bounds.left || q.x - p.radius - margin >= bounds.right || q.y + p.radius + margin <= bounds.top || q.y - p.radius - margin >= bounds.bottom;
+        const goal = q => {
+          const x = (site.gx * 32 + 16 - q.x) * g.camera.zoom + g.width / 2, y = (site.gy * 32 + 16 - q.y) * g.camera.zoom + g.height / 2;
+          return outside(q, 17) && Math.abs(site.gx - Math.floor(q.x / 32)) <= 12 && Math.abs(site.gy - Math.floor(q.y / 32)) <= 12 && x >= safe.left + 20 && x <= safe.right - 20 && y >= safe.top + 20 && y <= safe.bottom - 20 && document.elementFromPoint(x, y)?.id === 'game';
+        };
+        const spacing = 16, key = cell => cell.x + ':' + cell.y, point = cell => ({ x: p.x + cell.x * spacing, y: p.y + cell.y * spacing });
+        // Cardinal BFS permits a temporary detour around native obstacles;
+        // every point and intervening sample still uses real body collisions.
+        for (const margin of [128, 256, 512]) {
+          const queue = [{ x: 0, y: 0 }], parents = new Map([['0:0', null]]); let found;
+          for (let head = 0; head < queue.length && head < 12000; head++) {
+            const cell = queue[head], q = point(cell);
+            if (goal(q)) { found = cell; break; }
+            for (const [dx, dy] of [[1, 0], [0, -1], [-1, 0], [0, 1]]) {
+              const next = { x: cell.x + dx, y: cell.y + dy }, id = key(next), to = point(next);
+              if (parents.has(id) || Math.abs(to.x - p.x) > margin || Math.abs(to.y - p.y) > margin || !outside(to, 5)) continue;
+              if (![.25, .5, .75, 1].every(t => g.friendlyPositionClear(p, q.x + (to.x - q.x) * t, q.y + (to.y - q.y) * t))) continue;
+              parents.set(id, cell); queue.push(next);
+            }
+          }
+          if (!found) continue;
+          const cells = []; for (let cell = found; cell; cell = parents.get(key(cell))) cells.push(cell); cells.reverse();
+          const segments = [];
+          for (let i = 1; i < cells.length; i++) {
+            const a = cells[i - 1], b = cells[i], direction = b.x > a.x ? 'right' : b.x < a.x ? 'left' : b.y > a.y ? 'down' : 'up';
+            if (segments.at(-1)?.direction === direction) segments.at(-1).target = point(b); else segments.push({ direction, target: point(b) });
+          }
+          return { margin, segments };
+        }
+        return null;
       }, { type, site });
-      assert.ok(movement, 'Real zoom and collision-free movement must expose the prepared footprint; no hidden/forced canvas click');
-      const axis = movement.dx ? 'x' : 'y', sign = (movement.dx || movement.dy) > 0 ? 1 : -1;
-      await withHold(page, context, touch, movement.key, '#touchControls [data-dir="' + movement.direction + '"]', () => page.waitForFunction(({ axis, sign, target }) => sign * (DEADWALL.player[axis] - target[axis]) >= -2, { axis, sign, target: movement.target }));
-      controls.movements.push({ ...movement, afterRelease: await page.evaluate(() => ({ x: DEADWALL.player.x, y: DEADWALL.player.y, held: [...DEADWALL.input.keys] })) });
+      assert.ok(route?.segments.length, 'No collision-safe real-input route can expose the legally buildable unoccupied footprint: ' + JSON.stringify(diagnostic));
+      const keys = { up: 'w', down: 's', left: 'a', right: 'd' };
+      for (const movement of route.segments) {
+        const axis = ['left', 'right'].includes(movement.direction) ? 'x' : 'y', sign = ['left', 'up'].includes(movement.direction) ? -1 : 1;
+        await withHold(page, context, touch, keys[movement.direction], '#touchControls [data-dir="' + movement.direction + '"]', () => page.waitForFunction(({ axis, sign, target }) => sign * (DEADWALL.player[axis] - target[axis]) >= -2, { axis, sign, target: movement.target }, { timeout: 15000 }));
+        await page.waitForFunction(() => DEADWALL.input.keys.size === 0);
+        controls.movements.push({ ...movement, afterRelease: await page.evaluate(() => ({ x: DEADWALL.player.x, y: DEADWALL.player.y, held: [...DEADWALL.input.keys] })) });
+      }
     }
   }
   throw Error('Prepared construction site remained outside the actual unobstructed canvas after real view controls');
 }
 
 async function placeBuilding(page, context, touch, type, category, plannedSite = null) {
-  if (await page.evaluate(() => DEADWALL.buildCollapsed)) await activate(page, '#toggleBuild', touch);
-  await activate(page, '#buildCategories [data-category="' + category + '"]', touch);
-  await activate(page, '#buildList [data-build-id="' + type + '"]', touch);
-  await page.waitForFunction(type => DEADWALL.selectedBuild === type, type);
+  await selectConstruction150(page, touch, type, category);
   const placementView = plannedSite ? await exposePlannedSite150(page, context, touch, type, plannedSite) : null;
   const site = placementView?.placement || await chooseSite(page, type), before = await readEconomy(page);
   await observePayment(page, 'placeOne', type);
-  if (touch) await page.touchscreen.tap(site.screen.x, site.screen.y);
-  else await page.mouse.click(site.screen.x, site.screen.y);
+  // Revalidate after any real UI/order/movement work and immediately before
+  // input. A worker returning into the safety margin remains a hard refusal.
+  const finalPlacement = await chooseSite(page, type, { gx: site.gx, gy: site.gy });
+  assert.equal(finalPlacement.diagnostic.selectedBuild, type, 'Real build UI must still select the intended paid construction');
+  if (touch) await page.touchscreen.tap(finalPlacement.screen.x, finalPlacement.screen.y);
+  else await page.mouse.click(finalPlacement.screen.x, finalPlacement.screen.y);
   await page.waitForFunction(site => [...DEADWALL.world.buildings.values()].some(building => building.type === site.type && building.gx === site.gx && building.gy === site.gy), { ...site, type });
   const building = await page.evaluate(site => {
     const b = [...DEADWALL.world.buildings.values()].find(b => b.type === site.type && b.gx === site.gx && b.gy === site.gy);
@@ -180,12 +281,28 @@ async function placeBuilding(page, context, touch, type, category, plannedSite =
   const after = await readEconomy(page);
   const payment = await page.evaluate(() => globalThis.__CITY150_PAYMENT__);
   assert.ok(payment?.result === true, 'Real canvas dispatch succeeds');
+  assert.ok(payment.placement?.valid && payment.placement.type === type && payment.placement.gx === site.gx && payment.placement.gy === site.gy && payment.placement.rotation === 0 && payment.placement.actors.length === 0,
+    'Actual synchronous payment must still use the intended legally free footprint with every body and its safety margin outside: ' + JSON.stringify(payment.placement));
   for (const [key, amount] of Object.entries(site.cost)) assert.ok(Math.abs(payment.before[key] - payment.after[key] - amount) < 1e-6, type + ' pays its real ' + key + ' cost synchronously');
   assert.equal(building.completed, false, 'Placement creates an unfinished worksite');
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !DEADWALL.selectedBuild);
   if (!await page.evaluate(() => DEADWALL.buildCollapsed)) await activate(page, '#toggleBuild', touch);
   return { ...building, cost: site.cost, payment, before, after, placementView };
+}
+
+function inspectConstructionWork150(id) {
+  const g = DEADWALL, p = g.player, b = g.world.buildings.get(id), core = g.core();
+  const physicalActors = [{ entity: p, kind: 'player' }, ...g.units.map(entity => ({ entity, kind: entity.kind })), ...g.zombies.map(entity => ({ entity, kind: 'infected' })),
+    { entity: g.expeditions.entity(), kind: 'vehicle' }, ...(g.territories?.truckEntities() || []).map(entity => ({ entity, kind: 'truck' }))];
+  const occupants = b ? physicalActors.filter(({ entity }) => entity && !entity.dead && (entity.health === undefined || entity.health > 0) && DeadwallFieldcraft.collides(b, entity.x, entity.y, entity.radius || 12))
+    .map(({ entity, kind }) => ({ id: entity.id, kind, x: entity.x, y: entity.y, radius: entity.radius || 12, health: entity.health, state: entity.state })) : [];
+  const clearance = b ? g.fieldcraft.distance(p, b) : null;
+  return { elapsed: g.elapsed, progress: b?.progress, state: g.state, paused: g.paused, overlay: g.activeOverlay?.id, gameOver: g.gameOver, held: [...g.input.keys], interaction: g.interactionText, workerOrder: g.workerOrder,
+    player: { id: p.id, x: p.x, y: p.y, radius: p.radius, health: p.health, dead: p.dead, reload: p.reload }, clearance, bodyOutside: !!b && clearance >= p.radius + 4, canWork: !!b && g.workerCanWorkAt(p, b, 78),
+    target: b && { id: b.id, type: b.type, left: b.left, right: b.right, top: b.top, bottom: b.bottom, progress: b.progress, completed: b.completed, completionBlocked: !!b.completionBlocked, health: b.health, dead: b.dead },
+    occupants, core: core && { id: core.id, left: core.left, right: core.right, top: core.top, bottom: core.bottom, health: core.health },
+    units: g.units.map(u => ({ id: u.id, kind: u.kind, x: u.x, y: u.y, radius: u.radius, health: u.health, dead: u.dead, state: u.state, targetNode: u.targetNode, targetBuilding: u.targetBuilding })) };
 }
 
 async function workManually(page, context, touch, id) {
@@ -203,12 +320,88 @@ async function workManually(page, context, touch, id) {
   }
   assert.ok(route.afterRelease.bodyOutside && route.afterRelease.canWork && route.afterRelease.held.length === 0,
     'Actual released player body must remain outside the footprint and within physical work range: ' + JSON.stringify(route.afterRelease));
-  route.workStarted = await page.evaluate(id => ({ elapsed: DEADWALL.elapsed, progress: DEADWALL.world.buildings.get(id).progress }), id);
-  await withHold(page, context, touch, 'e', '#touchAction', () => page.waitForFunction(id => DEADWALL.world.buildings.get(id)?.completed, id, { timeout: 45000 }));
-  await page.waitForFunction(() => !DEADWALL.input.keys.has('KeyE'));
-  route.workCompleted = await page.evaluate(id => ({ elapsed: DEADWALL.elapsed, progress: DEADWALL.world.buildings.get(id).progress }), id);
-  route.ordinarySimulationWorkSeconds = route.workCompleted.elapsed - route.workStarted.elapsed;
-  return route;
+  const deadline = Date.now() + 45000, workDeadline = deadline - 3000;
+  // Reserve cleanup inside the original 45-second wall-clock budget. Holds,
+  // real movement and worker commands share it; no retry receives a new timer.
+  const remaining = limit => { const value = limit - Date.now(); assert.ok(value > 0, 'Global 45000ms construction work budget exhausted'); return value; };
+  const step = async (action, limit = workDeadline) => { page.setDefaultTimeout(Math.min(30000, remaining(limit))); const result = await action(); remaining(limit); return result; };
+  const workersUI = async limit => {
+    if (!await step(() => page.locator('#pauseMenu').isVisible(), limit)) await step(() => activate(page, '#pauseButton', touch), limit);
+    await step(() => activate(page, '#pauseCommandButton', touch), limit);
+    await step(() => page.locator('#commandModal').waitFor({ state: 'visible' }), limit);
+    await step(() => activate(page, '#commandTab-workers', touch), limit);
+  };
+  const resumeUI = async limit => {
+    await step(() => activate(page, '#commandReturn129', touch), limit);
+    if (await step(() => page.locator('#pauseMenu').isVisible(), limit)) await step(() => activate(page, '#resumeButton', touch), limit);
+    await step(() => page.waitForFunction(() => !DEADWALL.paused && !DEADWALL.activeOverlay, null, { timeout: remaining(limit) }), limit);
+  };
+  route.workStarted = await page.evaluate(inspectConstructionWork150, id); route.holds = []; route.workObservations = []; route.workerEvacuations = [];
+  const previousOrder = route.workStarted.workerOrder; let workerOrderChanged = false, workError = null;
+  try {
+    while (true) {
+      remaining(workDeadline);
+      const observation = await step(() => page.evaluate(inspectConstructionWork150, id)); route.workObservations.push(observation);
+      assert.ok(observation.state === 'playing' && !observation.paused && !observation.overlay && !observation.gameOver && !observation.player.dead && observation.player.health > 0 && observation.target && !observation.target.dead && observation.target.health > 0,
+        'Physical paid construction requires the real living commander and support: ' + JSON.stringify(observation));
+      if (observation.target.completed) {
+        route.completedOutsideHold = route.holds.at(-1)?.stop !== 'completed';
+        route.workCompleted = observation; break;
+      }
+      if (!observation.bodyOutside || !observation.canWork) {
+        route.physicalCorrections.push(await step(() => navigate(page, context, touch, { kind: 'building', id, range: 78 }, workDeadline)));
+        continue;
+      }
+      if (observation.occupants.length) {
+        assert.ok(observation.occupants.every(actor => actor.kind === 'worker'), 'Non-worker physical occupants must remain a refusal: ' + JSON.stringify(observation));
+        const evacuation = { before: observation }; route.workerEvacuations.push(evacuation);
+        if (!workerOrderChanged) {
+          await workersUI(workDeadline); await step(() => activate(page, '[data-worker-order="harvest"]', touch));
+          workerOrderChanged = true;
+          await step(() => page.waitForFunction(() => DEADWALL.workerOrder === 'harvest', null, { timeout: remaining(workDeadline) })); await resumeUI(workDeadline);
+        }
+        await step(() => page.waitForFunction(({ id, blockers }) => {
+          const g = DEADWALL, b = g.world.buildings.get(id), margin = 5 + 32;
+          if (!b || g.paused || g.player.dead || g.gameOver) return false;
+          const clear = u => u.x + u.radius + margin <= b.left || u.x - u.radius - margin >= b.right || u.y + u.radius + margin <= b.top || u.y - u.radius - margin >= b.bottom;
+          return g.units.every(clear) && blockers.every(old => { const u = g.units.find(u => u.id === old.id); return u && !u.dead && u.health > 0 && Math.hypot(u.x - old.x, u.y - old.y) > 1; });
+        }, { id, blockers: observation.occupants }, { timeout: remaining(workDeadline) }));
+        evacuation.after = await step(() => page.evaluate(inspectConstructionWork150, id));
+        // Keep the real harvest order until actual completion. Reinstating
+        // retreat while this footprint is passable can bring workers back in.
+        continue;
+      }
+      const hold = { before: observation }; route.holds.push(hold);
+      hold.stop = await withHold(page, context, touch, 'e', '#touchAction', async () => {
+        const handle = await page.waitForFunction(id => {
+          const g = DEADWALL, b = g.world.buildings.get(id), p = g.player;
+          if (b?.completed) return 'completed';
+          if (!b || b.dead || b.health <= 0 || p.dead || g.gameOver || g.paused || g.activeOverlay) return 'interrupted';
+          if (g.fieldcraft.distance(p, b) < p.radius + 4 || !g.workerCanWorkAt(p, b, 78)) return 'position';
+          const actors = [p, ...g.units, ...g.zombies, g.expeditions.entity(), ...(g.territories?.truckEntities() || [])];
+          if (actors.some(a => a && !a.dead && (a.health === undefined || a.health > 0) && DeadwallFieldcraft.collides(b, a.x, a.y, a.radius || 12))) return 'occupants';
+          return false;
+        }, id, { timeout: remaining(workDeadline) });
+        try { return await handle.jsonValue(); } finally { await handle.dispose(); }
+      });
+      await step(() => page.waitForFunction(() => !DEADWALL.input.keys.has('KeyE'), null, { timeout: remaining(workDeadline) }));
+      hold.after = await step(() => page.evaluate(inspectConstructionWork150, id)); hold.progressDelta = hold.after.target.progress - hold.before.target.progress;
+    }
+    assert.ok(route.holds.some(hold => hold.progressDelta > 0), 'Held ordinary E must have produced observed progress on the paid support');
+    route.ordinarySimulationWorkSeconds = route.workCompleted.elapsed - route.workStarted.elapsed;
+    return route;
+  } catch (error) {
+    workError = error; route.lastObservation = await page.evaluate(inspectConstructionWork150, id).catch(() => null); error.deadwallConstruction150 = route; throw error;
+  } finally {
+    try {
+      if (workerOrderChanged) {
+        await workersUI(deadline); await step(() => activate(page, '[data-worker-order="' + previousOrder + '"]', touch), deadline);
+        await step(() => page.waitForFunction(order => DEADWALL.workerOrder === order, previousOrder, { timeout: remaining(deadline) }), deadline); await resumeUI(deadline);
+        route.workerOrderRestored = await step(() => page.evaluate(() => DEADWALL.workerOrder), deadline);
+      }
+    } catch (error) { route.workerOrderRestoreFailure = error.stack; if (!workError) { error.deadwallConstruction150 = route; throw error; } }
+    finally { page.setDefaultTimeout(30000); }
+  }
 }
 
 async function waitForExercise150(page, profile) {
@@ -270,8 +463,16 @@ async function observePayment(page, method, type) {
   await page.evaluate(({ method, type }) => {
     const g = DEADWALL, original = g[method]; globalThis.__CITY150_PAYMENT__ = null;
     g[method] = function (...args) {
-      const before = { ...g.resources }, rng = g.random.state, result = original.apply(this, args);
-      if (!type || args[0] === type) { globalThis.__CITY150_PAYMENT__ = { before, after: { ...g.resources }, rng, afterRNG: g.random.state, result }; g[method] = original; }
+      const before = { ...g.resources }, rng = g.random.state;
+      let placement = null;
+      if (method === 'placeOne') {
+        const [id, gx, gy, rotation = 0] = args, def = DeadwallCore.BUILDINGS[id], width = rotation % 2 ? def.size[1] : def.size[0], height = rotation % 2 ? def.size[0] : def.size[1];
+        const bounds = { left: gx * 32, top: gy * 32, right: (gx + width) * 32, bottom: (gy + height) * 32 };
+        const actors = [g.player, ...g.units].filter(a => a.x + a.radius + 5 > bounds.left && a.x - a.radius - 5 < bounds.right && a.y + a.radius + 5 > bounds.top && a.y - a.radius - 5 < bounds.bottom).map(a => ({ id: a.id, kind: a === g.player ? 'player' : a.kind, x: a.x, y: a.y, radius: a.radius }));
+        placement = { type: id, gx, gy, rotation, valid: g.world.placement(def, gx, gy, rotation).valid, actors };
+      }
+      const result = original.apply(this, args);
+      if (!type || args[0] === type) { globalThis.__CITY150_PAYMENT__ = { before, after: { ...g.resources }, rng, afterRNG: g.random.state, result, placement }; g[method] = original; }
       return result;
     };
   }, { method, type });
@@ -357,16 +558,93 @@ async function artScene150(page, touch, rec) {
   if (!await page.locator('#pauseMenu').isVisible()) await activate(page, '#pauseButton', touch);
   const fixture = await page.evaluate(prepareSupports150, { allModels: true });
   const observation = await page.evaluate(() => {
-    const g = DEADWALL, A = DeadwallD17Art150, ids = Object.keys(DeadwallCore.CityContent150.BUILDINGS), original = { ...g.camera }, persistent = () => { const { timestamp, ...s } = g.serialize(); return JSON.stringify(s); }, before = persistent(), paints = [], blit = g.art.blit;
-    g.art.blit = function (ctx, key, rect, ...args) { if (Object.hasOwn(A.ASSETS, key)) paints.push({ key, rect: [...rect] }); return blit.call(this, ctx, key, rect, ...args); };
-    globalThis.__CITY150_PHOTO__ = original;
-    const models = ids.map(type => [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead));
+    const g = DEADWALL, A = DeadwallD17Art150, ids = Object.keys(DeadwallCore.CityContent150.BUILDINGS), original = { ...g.camera }, persistent = () => { const { timestamp, ...s } = g.serialize(); return JSON.stringify(s); }, before = persistent(), paints = [];
+    const seed = g.world.seed, context = g.ctx, drawBuilding = g.art.drawBuilding, drawImage = context.drawImage;
+    const ownDrawImage = Object.getOwnPropertyDescriptor(context, 'drawImage');
+    const referenceCanvas = document.createElement('canvas'); referenceCanvas.width = 1; referenceCanvas.height = 1;
+    const referenceContext = referenceCanvas.getContext('2d', { alpha: false });
+    const same = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((n, i) => Number.isFinite(n) && Number.isFinite(b[i]) && Math.abs(n - b[i]) < 1e-9);
+    const models = ids.map(type => [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead && b.health > 0));
+    if (models.some(b => !b)) throw Error('Missing live completed city art owner');
+    // Use each live owner's production selection, never an atlas-wide draw
+    // counter or acceptance of either the historical or alternate source.
+    const owners = models.map(b => {
+      const canonical = A.SPRITES[b.type], selected = DeadwallD17ExtendedVariants157.choose(b, canonical, { seed, art: g.art });
+      const expected = A.measure(b, { seed, art: g.art }), spec = DeadwallArt.ASSETS[expected?.atlas], image = g.art.images[expected?.atlas];
+      return { owner: b, expected, image, proof: { id: b.id, type: b.type, live: g.world.buildings.get(b.id) === b && A.operational(b),
+        canonical: { atlas: canonical.atlas, source: [...canonical.rect] }, selected: { atlas: expected?.atlas, source: expected?.source && [...expected.source], destination: expected?.destination && [...expected.destination] },
+        selectionAgrees: !!expected && expected.sprite === selected && expected.atlas === selected.atlas && same(expected.source, selected.rect),
+        selectedRegistered: !!spec, selectedDecoded: !!spec && !!image && image.width === spec.width && image.height === spec.height && g.art.diagnostics.ready.includes(expected.atlas) && !g.art.diagnostics.failed.includes(expected.atlas),
+        sourceWithinAtlas: !!expected && !!image && expected.source.length === 4 && expected.source.every(Number.isFinite) && expected.source[0] >= 0 && expected.source[1] >= 0 && expected.source[2] > 0 && expected.source[3] > 0 && expected.source[0] + expected.source[2] <= image.width && expected.source[1] + expected.source[3] <= image.height,
+        rendererCalls: 0, rendererReturned: false, observed: [] } };
+    });
+    const ownerByObject = new Map(owners.map(owner => [owner.owner, owner]));
     const bounds = { left: Math.min(...models.map(b => b.left)), right: Math.max(...models.map(b => b.right)), top: Math.min(...models.map(b => b.top - 120)), bottom: Math.max(...models.map(b => b.bottom)) };
-    g.camera.x = (bounds.left + bounds.right) / 2; g.camera.y = (bounds.top + bounds.bottom) / 2; g.camera.zoom = Math.min(.55, g.width / (bounds.right - bounds.left + 120), g.height / (bounds.bottom - bounds.top + 180)); g.render();
-    g.art.blit = blit;
+    let paintingOwner = null;
+    g.art.drawBuilding = function(c, b, ...args) {
+      const previous = paintingOwner; paintingOwner = c === context ? ownerByObject.get(b) ?? null : null;
+      try {
+        if (paintingOwner) paintingOwner.proof.rendererCalls++;
+        const result = drawBuilding.call(this, c, b, ...args);
+        if (paintingOwner) paintingOwner.proof.rendererReturned = result === true;
+        return result;
+      } finally { paintingOwner = previous; }
+    };
+    context.drawImage = function(image, ...args) {
+      if (paintingOwner) {
+        const { expected, image: sourceImage, proof } = paintingOwner;
+        let matchedSource = false, sampling = 'unresolved', cacheKey = null;
+        if (expected && sourceImage && args.length === 8) {
+          if (image === sourceImage) {
+            sampling = 'decoded-atlas'; matchedSource = same(args.slice(0, 4), expected.source);
+          } else {
+            // Resolve only the native raster of this exact atlas, source cut
+            // and decoded image. Another owner's cached picture cannot pass.
+            const prefix = expected.atlas + ':' + expected.source.join(',') + ':';
+            const cached = [...(g.art.renderCache153?.items?.entries() ?? [])].find(([key, item]) =>
+              key === prefix + item.level && Number.isInteger(item.level) && item.level > 0 && item.image === image && item.source === sourceImage &&
+              item.sourceWidth === sourceImage.width && item.sourceHeight === sourceImage.height &&
+              item.width === Math.ceil(expected.source[2] / 2 ** item.level) && item.height === Math.ceil(expected.source[3] / 2 ** item.level));
+            if (cached) {
+              sampling = 'native-raster-cache'; cacheKey = cached[0];
+              matchedSource = same(args.slice(0, 4), [0, 0, cached[1].width, cached[1].height]);
+            }
+          }
+        }
+        const destination = args.slice(4), matrix = this.getTransform();
+        const transform = [matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f];
+        // Repeat the production camera operations through Canvas itself so
+        // its native matrix rounding is compared against the same operations.
+        referenceContext.setTransform(g.dpr, 0, 0, g.dpr, 0, 0);
+        referenceContext.translate(g.width / 2 + (g.frameShake?.x ?? 0), g.height / 2 + (g.frameShake?.y ?? 0));
+        referenceContext.scale(g.camera.zoom, g.camera.zoom);
+        referenceContext.translate(-g.camera.x, -g.camera.y);
+        const referenceMatrix = referenceContext.getTransform();
+        const expectedTransform = [referenceMatrix.a, referenceMatrix.b, referenceMatrix.c, referenceMatrix.d, referenceMatrix.e, referenceMatrix.f];
+        const paint = { ownerId: proof.id, type: proof.type, key: expected?.atlas, rect: args.slice(0, 4), destination, transform, expectedTransform, sampling, cacheKey,
+          matched: matchedSource && same(destination, expected?.destination) && same(transform, expectedTransform) };
+        paints.push(paint); proof.observed.push(paint);
+      }
+      return drawImage.call(this, image, ...args);
+    };
+    globalThis.__CITY150_PHOTO__ = original;
+    try {
+      g.camera.x = (bounds.left + bounds.right) / 2; g.camera.y = (bounds.top + bounds.bottom) / 2;
+      g.camera.zoom = Math.min(.55, g.width / (bounds.right - bounds.left + 120), g.height / (bounds.bottom - bounds.top + 180)); g.render();
+    } catch (error) { Object.assign(g.camera, original); delete globalThis.__CITY150_PHOTO__; throw error; }
+    finally {
+      g.art.drawBuilding = drawBuilding;
+      if (ownDrawImage) Object.defineProperty(context, 'drawImage', ownDrawImage);
+      else delete context.drawImage;
+    }
+    const decoded = [...new Set([...Object.keys(A.ASSETS), ...owners.map(owner => owner.expected?.atlas)])].map(key => {
+      const spec = DeadwallArt.ASSETS[key];
+      return { key, declared: !!spec, ready: g.art.diagnostics.ready.includes(key), failed: g.art.diagnostics.failed.includes(key), width: g.art.images[key]?.width, height: g.art.images[key]?.height, expectedWidth: spec?.width, expectedHeight: spec?.height };
+    });
+    const ownerProofs = owners.map(owner => owner.proof);
     return { fixture: 'Transient camera only; paused backdrop hidden only during photographs. No grant of visibility or gameplay zoom.', ids,
-      spriteIds: Object.keys(A.SPRITES), paints, bounds, decoded: Object.entries(A.ASSETS).map(([key, spec]) => ({ key, width: g.art.images[key]?.width, height: g.art.images[key]?.height, expectedWidth: spec.width, expectedHeight: spec.height })),
-      paintedIds: ids.filter(id => paints.some(p => p.key === A.SPRITES[id].atlas && JSON.stringify(p.rect) === JSON.stringify(A.SPRITES[id].rect))),
+      spriteIds: Object.keys(A.SPRITES), seed, owners: ownerProofs, paints, bounds, decoded,
+      paintedIds: ownerProofs.filter(owner => owner.live && owner.selectionAgrees && owner.selectedRegistered && owner.selectedDecoded && owner.sourceWithinAtlas && owner.rendererCalls > 0 && owner.rendererReturned && owner.observed.some(paint => paint.ownerId === owner.id && paint.type === owner.type && paint.matched)).map(owner => owner.type),
       persistentUnchanged: before === persistent() };
   });
   const style = await page.addStyleTag({ content: '#pauseMenu { visibility:hidden!important; }' });
@@ -534,7 +812,7 @@ try {
       advanced('Completed exercise refuses duplicate purchase with an explicit reason', profile.exercise.completed.duplicate.disabled && profile.exercise.completed.duplicate.reason.includes('déjà acquis'));
       await activate(page, '#pauseButton', viewport.touch);
       profile.art = await artScene150(page, viewport.touch, rec); profile.fixtures.push(profile.art.fixture);
-      advanced('Twenty new physical support IDs map one-to-one to native decoded atlas sprites', profile.art.ids.length === 20 && JSON.stringify(profile.art.ids.slice().sort()) === JSON.stringify(profile.art.spriteIds.slice().sort()) && profile.art.decoded.every(i => i.width === i.expectedWidth && i.height === i.expectedHeight));
+      advanced('Twenty new physical support IDs map one-to-one to native decoded atlas sprites', profile.art.ids.length === 20 && profile.art.owners.length === 20 && new Set(profile.art.owners.map(owner => owner.id)).size === 20 && JSON.stringify(profile.art.ids.slice().sort()) === JSON.stringify(profile.art.spriteIds.slice().sort()) && profile.art.decoded.every(i => i.declared && i.ready && !i.failed && i.width > 0 && i.height > 0 && i.width === i.expectedWidth && i.height === i.expectedHeight));
       advanced('Actual city renderer paints every one of the twenty native sprites without persistent changes', profile.art.paintedIds.length === profile.art.ids.length && profile.art.persistentUnchanged);
       profile.finalArt = await loadedAssets(page, harness.assetKeys); advanced('Final registry remains entirely decoded with no failed asset', profile.finalArt.failed.length === 0);
       profile.checkpoints.push(await saveContinue150(page, viewport.touch)); advanced('All new city objects, road, mechanism and learned exercise survive final exact Save/menu/Continue', profile.checkpoints.at(-1).pass);
@@ -543,6 +821,8 @@ try {
       console.log(JSON.stringify({ profile: viewport.name, stage: 'complete', checks: profile.checks.length, nativeChecks: profile.nativeChecks.length, advancedChecks: profile.advancedChecks.length, checkpoints: profile.checkpoints.length, errors: rec.errors() }));
     } catch (error) {
       profile.pass = false; profile.failure = error.stack; profile.inputFailure = error.deadwallInput; profile.touchTargetFailure = error.deadwallTouchTarget;
+      profile.placementFailure = error.deadwallPlacement150; profile.placementControlsFailure = error.deadwallPlacementControls150; profile.workerClearFailure = error.deadwallWorkerClear150;
+      profile.constructionFailure = error.deadwallConstruction150;
       if (page) {
         const diagnostic = await page.evaluate(() => { const g = DEADWALL; return {
           state: g.state, paused: g.paused, overlay: g.activeOverlay?.id, elapsed: g.elapsed, age: g.tier.id, phase: g.phase,
