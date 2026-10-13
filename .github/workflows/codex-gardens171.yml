@@ -1,0 +1,90 @@
+name: DEADWALL composed gardens
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/codex-gardens171.yml'
+      - 'src/codex*'
+      - 'src/frontier-world.js'
+      - 'src/frontier-state.js'
+      - 'src/world-pack131.js'
+      - 'src/seed-detail-art157.js'
+      - 'scripts/*gardens171*'
+      - 'scripts/compile-codex3000.mjs'
+      - 'tests/codex-gardens171*'
+      - 'tests/distribution.test.cjs'
+      - 'sw.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codex-gardens171-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  contracts-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install locked test tools and rebuild authored sources
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          npm run build
+          mkdir -p artifacts/qa/gardens171-ci
+      - name: Layout, atlas, possessions and migration contracts
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 tests/codex-gardens171*.test.cjs tests/codex-coverage*.test.cjs tests/g8-migration157.test.cjs tests/recipe-activation159.test.cjs tests/codex-stations170.test.cjs tests/distribution.test.cjs | tee artifacts/qa/gardens171-ci/contracts.log
+      - name: Compare every compatible source recipe without changing historical data
+        run: node scripts/audit-gardens171.mjs
+      - name: Record tested revision
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/gardens171-ci
+          git rev-parse HEAD > artifacts/qa/gardens171-ci/revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-gardens171-audit
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install locked browser and build
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          npm run build
+          npx playwright install --with-deps chromium
+      - name: Trusted opt-in, exact stored save, Continue and real recipe rendering
+        run: |
+          node scripts/browser-gardens171.mjs
+          node scripts/render-gardens171.mjs
+      - name: Record tested revision
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/gardens171-ci
+          git rev-parse HEAD > artifacts/qa/gardens171-ci/revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-gardens171-browser
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error
