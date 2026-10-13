@@ -23,8 +23,25 @@ jobs:
           DEADWALL_SOAK: '1'
         shell: bash
         run: |
+          set -o pipefail
           mkdir -p artifacts/qa/native
-          npm run check 2>&1 | tee artifacts/qa/native/check.log
+          node scripts/ci-native-receipt160.mjs start --label ci-native160 --directory artifacts/qa/native
+          if npm run check 2>&1 | tee artifacts/qa/native/ci-native160.log; then
+            native_pipeline=("${PIPESTATUS[@]}")
+          else
+            native_pipeline=("${PIPESTATUS[@]}")
+          fi
+          check_status="${native_pipeline[0]}"
+          tee_status="${native_pipeline[1]}"
+          receipt_status=0
+          if node scripts/ci-native-receipt160.mjs finish --label ci-native160 --directory artifacts/qa/native --exit-code "$check_status" --tee-exit-code "$tee_status"; then
+            receipt_status=0
+          else
+            receipt_status=$?
+          fi
+          if [ "$check_status" -ne 0 ]; then exit "$check_status"; fi
+          if [ "$tee_status" -ne 0 ]; then exit "$tee_status"; fi
+          exit "$receipt_status"
       - name: Résumer les échecs natifs
         if: failure()
         run: node scripts/ci-failure-summary.mjs --directory artifacts/qa

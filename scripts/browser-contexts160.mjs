@@ -95,7 +95,13 @@ function prepareField160({kind,multiplier=2,healthDeficit=0,reloadReady=false}){
   if(!selected)throw Error('No real seeded '+kind+' work support');const{p,op,point}=selected,raw=g.serialize(),rng=raw.randomState,depot=JSON.stringify(raw.resources),taken=JSON.stringify(raw.frontier.taken),previous=JSON.stringify(raw.expansions127.modules.context160);
   Object.assign(raw.frontier,{active:true,x:point.x,y:point.y,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y}});
   raw.frontier.seen=[...new Set([...raw.frontier.seen,p.id])];raw.player.carry=C.makeBag();for(const[k,n]of Object.entries(C.ContextRules160.operations[kind].cost))raw.player.carry[k]=n*multiplier;
-  if(reloadReady){raw.player.magazine.pistol=6;raw.player.carry.ammo=1;}
+  if(reloadReady){
+    const arsenal=raw.expansions127.modules.arsenal134,equipped=arsenal?.carried.find(item=>item.uid===arsenal.equipped),spec=C.Arsenal134Rules.catalog[equipped?.id];
+    if(!arsenal?.initialized||spec?.category!=='firearm'||spec.base!=='pistol'||raw.player.weapon!=='pistol'||spec.magazine<=6)
+      throw Error('Reload fixture requires the actual equipped pistol with room for a finite reload');
+    // The active magazine and its physical carried owner are one possession.
+    raw.player.magazine.pistol=6;equipped.rounds=6;raw.player.carry.ammo=1;
+  }
   if(kind==='medicalCare')raw.player.health=g.player.maxHealth-healthDeficit;
   const preparedThreats=[];for(const near of w.nearPOI(point.x,point.y,180))for(let i=0;i<w.threatCount(near);i++){const id=near.id+':e'+i;raw.frontier.enemies[id]=0;delete raw.frontier.tracks[id];preparedThreats.push(id);}
   raw.frontier.kills=Object.values(raw.frontier.enemies).filter(h=>h===0).length;
@@ -105,7 +111,7 @@ function prepareField160({kind,multiplier=2,healthDeficit=0,reloadReady=false}){
   const q=g.contextOperations160.preview(p.id,op.key);
   return{type:'advanced-real-site-finite-bag',kind,id:p.id,key:op.key,fullKey:p.id+':160:'+op.key,programme:p.codex,typeId:p.type,levels:p.levels,mode:p.context160.mode,
     point,rule:C.ContextRules160.operations[kind],preview:q,preparedThreats,preparedGroups,
-    assignedFields:['frontier pose/anchor/seen','finite player.carry','player.health only for care','named deterministic near contacts neutralized',...(reloadReady?['finite pistol magazine6 and carried ammo1']:[])],rngPreserved:true,depotPreserved:true,lootLedgerPreserved:true,completedPreserved:true};
+    assignedFields:['frontier pose/anchor/seen','finite player.carry','player.health only for care','named deterministic near contacts neutralized',...(reloadReady?['finite equipped pistol magazine6 and matching arsenal134 carried owner rounds6','finite carried ammo1']:[])],rngPreserved:true,depotPreserved:true,lootLedgerPreserved:true,completedPreserved:true};
 }
 async function prepared(page,touch,kind,options={}){
   if(!await page.locator('#pauseMenu').isVisible())await activate(page,'#pauseButton',touch);
@@ -136,13 +142,24 @@ async function artScene160(page,fixture){return page.evaluate(async f=>{
   const g=DEADWALL,A=DeadwallContextArt160,w=g.frontier.world(),p=w.pois.find(p=>p.id===f.id),plan=w.plan(p,0),ctx=g.ctx;
   await g.art.ensureAssets(Object.keys(A.ASSETS));
   const v=g.frontier.overview(),
-    persistent=()=>{const{timestamp,...data}=g.serialize();return JSON.stringify(data);},before=persistent(),scale=v.scale,
-    transform=new DOMMatrix([g.dpr*scale,0,0,g.dpr*scale,g.dpr*(g.width/2-scale*v.x),g.dpr*(g.height/2-scale*v.y)])
-      .translate(p.x,p.y).rotate((p.a||0)*180/Math.PI).translate(-p.w/2,-p.h/2),expected=[];
+    persistent=()=>{const{timestamp,...data}=g.serialize();return JSON.stringify(data);},before=persistent(),scale=v.scale,expected=[];
+  // Chromium Canvas transforms and DOMMatrix arithmetic round differently at
+  // regional coordinates. Replay the actual production Canvas operations;
+  // keep the same strict source, destination and matrix comparisons below.
+  const transformCanvas=document.createElement('canvas');transformCanvas.width=1;transformCanvas.height=1;
+  const transformContext=transformCanvas.getContext('2d');
+  transformContext.setTransform(g.dpr,0,0,g.dpr,0,0);transformContext.translate(g.width/2,g.height/2);
+  transformContext.scale(scale,scale);transformContext.translate(-v.x,-v.y);
+  transformContext.translate(p.x,p.y);transformContext.rotate(p.a||0);transformContext.translate(-p.w/2,-p.h/2);
+  const transform=transformContext.getTransform();
+  function translatedRotation(base,x,y,angle){
+    transformContext.save();try{transformContext.setTransform(base);transformContext.translate(x,y);transformContext.rotate(angle);return transformContext.getTransform();}
+    finally{transformContext.restore();}
+  }
   const same=(a,b)=>a.length===b.length&&a.every((value,i)=>Number.isFinite(value)&&Math.abs(value-b[i])<.000001),matrix=m=>[m.a,m.b,m.c,m.d,m.e,m.f];
   function expect(o,angle=0,base=transform){
     const frame=A.measure(o.kind,o,{seed:w.seed,variant:o.variant,angle});if(!frame)return;
-    let m=base,d=frame.destination;if(angle){const x=d[0]+d[2]*frame.sprite.pivot[0],y=d[1]+d[3]*frame.sprite.pivot[1];m=base.translate(x,y).rotate(angle*180/Math.PI);d=[d[0]-x,d[1]-y,d[2],d[3]];}
+    let m=base,d=frame.destination;if(angle){const x=d[0]+d[2]*frame.sprite.pivot[0],y=d[1]+d[3]*frame.sprite.pivot[1];m=translatedRotation(base,x,y,angle);d=[d[0]-x,d[1]-y,d[2],d[3]];}
     const corners=[[d[0],d[1]],[d[0]+d[2],d[1]],[d[0],d[1]+d[3]],[d[0]+d[2],d[1]+d[3]]].map(([x,y])=>m.transformPoint({x,y})),
       visible=Math.max(...corners.map(q=>q.x))>0&&Math.min(...corners.map(q=>q.x))<g.canvas.width&&Math.max(...corners.map(q=>q.y))>0&&Math.min(...corners.map(q=>q.y))<g.canvas.height;
     expected.push({owner:o.id,kind:o.kind,atlas:frame.sprite.atlas,source:frame.source,destination:d,matrix:matrix(m),visible});
@@ -154,7 +171,7 @@ async function artScene160(page,fixture){return page.evaluate(async f=>{
     if(o.kind==='valveBody')expect({id:o.id+':wheel',kind:'valveWheel',x:o.x+o.w*.35,y:o.y+o.h*.02,w:o.w*.42,h:o.h*.52,variant:A.select(o.kind,o.id,{seed:w.seed,variant:o.variant})?.variant},state.angle);
   }
   for(const o of plan.terrain160.filter(o=>o.kind==='rail')){const vertical=o.h>o.w,length=vertical?o.h:o.w,count=Math.max(1,Math.min(128,Math.ceil(length/3)));
-    for(let i=0;i<count;i++){const at=i*length/count,size=length/count,part={id:o.id+':'+i,kind:'railTrack',x:vertical?-size/2:o.x+at,y:vertical?-o.w/2:o.y,w:vertical?size:o.w/count,h:vertical?o.w:o.h,variant:o.variant},m=vertical?transform.translate(o.x+o.w/2,o.y+at+size/2).rotate(90):transform;expect(part,0,m);}}
+    for(let i=0;i<count;i++){const at=i*length/count,size=length/count,part={id:o.id+':'+i,kind:'railTrack',x:vertical?-size/2:o.x+at,y:vertical?-o.w/2:o.y,w:vertical?size:o.w/count,h:vertical?o.w:o.h,variant:o.variant},m=vertical?translatedRotation(transform,o.x+o.w/2,o.y+at+size/2,Math.PI/2):transform;expect(part,0,m);}}
   for(const o of plan.volumes160)if(!A.viewerInside(v,p,o)){
     const item={id:o.id,type:A.ROOF_TYPES[o.roofFamily]||o.roofFamily||'warehouse'},sprite=DeadwallInteriorArt153.spriteForRoof(item,{seed:w.seed});if(!sprite)continue;
     const d=[o.x,o.y,o.w,o.h],corners=[[o.x,o.y],[o.x+o.w,o.y+o.h]].map(([x,y])=>transform.transformPoint({x,y}));

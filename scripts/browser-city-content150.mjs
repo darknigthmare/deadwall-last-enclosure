@@ -481,7 +481,9 @@ async function observePayment(page, method, type) {
 /** Capture and bubbling listeners bracket existing UI handlers in the same event. */
 async function observeControlPayment(page, selector) {
   await page.locator(selector).evaluate(n => {
-    const read = () => ({ resources: { ...DEADWALL.resources }, carry: { ...DEADWALL.player.carry }, rng: DEADWALL.random.state });
+    // The same-event simulation stamp precedes every resumed RAF. A later
+    // Playwright read may already observe ordinary work that has progressed.
+    const read = () => ({ elapsed: DEADWALL.elapsed, resources: { ...DEADWALL.resources }, carry: { ...DEADWALL.player.carry }, rng: DEADWALL.random.state });
     n.addEventListener('click', () => { globalThis.__CITY150_CONTROL_PAYMENT__ = { before: read() }; }, { capture: true, once: true });
     n.addEventListener('click', () => { globalThis.__CITY150_CONTROL_PAYMENT__.after = read(); }, { once: true });
   });
@@ -785,8 +787,8 @@ try {
       await openExpansion(page, viewport.touch, 'fortification', 'defense');
       const mechanismSelector = '#expansionAction-fortification-mechanism-guideRail'; await observeControlPayment(page, mechanismSelector); await activate(page, mechanismSelector, viewport.touch);
       if (await page.locator('#pauseMenu').isVisible()) await activate(page, '#resumeButton', viewport.touch);
-      profile.mechanism = await page.evaluate(() => ({ payment: globalThis.__CITY150_CONTROL_PAYMENT__, start: DEADWALL.elapsed, job: { ...DEADWALL.fortificationPack.job } }));
-      advanced('Physical guide rail starts a 14-second job and does not debit its recipe early', profile.mechanism.job.seconds === recipe.seconds && JSON.stringify(profile.mechanism.payment.before.carry) === JSON.stringify(profile.mechanism.payment.after.carry));
+      profile.mechanism = await page.evaluate(() => ({ payment: globalThis.__CITY150_CONTROL_PAYMENT__, start: globalThis.__CITY150_CONTROL_PAYMENT__.before.elapsed, observedElapsed: DEADWALL.elapsed, job: { ...DEADWALL.fortificationPack.job } }));
+      advanced('Physical guide rail starts a 14-second job and does not debit its recipe early', profile.mechanism.job.seconds === recipe.seconds && Number.isFinite(profile.mechanism.start) && profile.mechanism.payment.before.elapsed === profile.mechanism.payment.after.elapsed && JSON.stringify(profile.mechanism.payment.before.carry) === JSON.stringify(profile.mechanism.payment.after.carry));
       await page.waitForFunction(() => !DEADWALL.fortificationPack.busy(), null, { timeout: Math.max(60000, recipe.seconds * 5000) });
       profile.mechanism.completed = await page.evaluate(id => ({ elapsed: DEADWALL.elapsed, bag: { ...DEADWALL.player.carry }, state: DEADWALL.fortificationPack.snapshot(), id }), profile.mechanism.job.building);
       const fitting = profile.mechanism.completed.state.fittings.find(f => f.id === profile.mechanism.job.building);
@@ -797,8 +799,8 @@ try {
       await openExpansion(page, viewport.touch, 'companions', 'player');
       const trainingSelector = '#expansionAction-companions-train-samir-triage'; await observeControlPayment(page, trainingSelector); await activate(page, trainingSelector, viewport.touch);
       if (await page.locator('#pauseMenu').isVisible()) await activate(page, '#resumeButton', viewport.touch);
-      profile.exercise = await page.evaluate(() => ({ payment: globalThis.__CITY150_CONTROL_PAYMENT__, start: DEADWALL.elapsed, training: DEADWALL.companionsPack.snapshot().training, rule: DeadwallCore.CompanionPackRules.exercises.triage }));
-      advanced('Triage starts the genuine 90-second exercise with exact depot payment', profile.exercise.training?.exercise === 'triage' && profile.exercise.training.left <= 90 && profile.exercise.payment.before.resources.food - profile.exercise.payment.after.resources.food === 36 && profile.exercise.payment.before.resources.scrap - profile.exercise.payment.after.resources.scrap === 18 && profile.exercise.payment.before.resources.medicine - profile.exercise.payment.after.resources.medicine === 4);
+      profile.exercise = await page.evaluate(() => ({ payment: globalThis.__CITY150_CONTROL_PAYMENT__, start: globalThis.__CITY150_CONTROL_PAYMENT__.before.elapsed, observedElapsed: DEADWALL.elapsed, training: DEADWALL.companionsPack.snapshot().training, rule: DeadwallCore.CompanionPackRules.exercises.triage }));
+      advanced('Triage starts the genuine 90-second exercise with exact depot payment', profile.exercise.training?.exercise === 'triage' && profile.exercise.training.left <= 90 && Number.isFinite(profile.exercise.start) && profile.exercise.payment.before.elapsed === profile.exercise.payment.after.elapsed && profile.exercise.payment.before.resources.food - profile.exercise.payment.after.resources.food === 36 && profile.exercise.payment.before.resources.scrap - profile.exercise.payment.after.resources.scrap === 18 && profile.exercise.payment.before.resources.medicine - profile.exercise.payment.after.resources.medicine === 4);
       await page.waitForFunction(() => DEADWALL.companionsPack.snapshot().training?.left < 89.5); await activate(page, '#pauseButton', viewport.touch);
       profile.exercise.partial = await page.evaluate(() => DEADWALL.companionsPack.snapshot());
       profile.checkpoints.push(await saveContinue150(page, viewport.touch)); advanced('Active triage remaining duration, finite payment, fitting, buildings and RNG restore exactly', profile.checkpoints.at(-1).pass);

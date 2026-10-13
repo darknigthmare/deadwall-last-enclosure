@@ -111,14 +111,30 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   assert.equal(preferences.sandbox, true);
   assert.equal(preferences.nodeIntegration, false);
   assert.equal(preferences.webSecurity, true);
-  const assets = await window.webContents.executeJavaScript(`(async () => {
+  const startupAssets = await window.webContents.executeJavaScript(`(async () => {
     const game=globalThis.DEADWALL; await game.art.ready;
-    return {...game.art.diagnostics,expectedKeys:Object.keys(globalThis.DeadwallArt.ASSETS).sort(),imageKeys:Object.keys(game.art.images).sort()};
+    const specs=globalThis.DeadwallArt.ASSETS,keys=Object.keys(specs).sort();
+    return {...game.art.diagnostics,expectedKeys:keys,eagerKeys:keys.filter(key=>specs[key].lazy!==true),lazyKeys:keys.filter(key=>specs[key].lazy===true),imageKeys:Object.keys(game.art.images).sort()};
   })()`);
-  assert.ok(assets.expectedKeys.length > 0, 'The packaged renderer must declare its atlas catalogue');
-  assert.deepEqual([...assets.ready].sort(), assets.expectedKeys, 'Every declared bitmap atlas must load exactly once');
+  assert.ok(startupAssets.expectedKeys.length > 0, 'The packaged renderer must declare its atlas catalogue');
+  assert.deepEqual([...startupAssets.eagerKeys,...startupAssets.lazyKeys].sort(), startupAssets.expectedKeys, 'Eager and optional keys cover the declared catalogue exactly');
+  assert.deepEqual([...startupAssets.ready].sort(), startupAssets.eagerKeys, 'Fresh startup decodes every eager atlas and leaves optional atlases lazy');
+  assert.deepEqual(startupAssets.failed, [], 'No startup atlas may silently fall back to missing art');
+  assert.deepEqual(startupAssets.imageKeys, startupAssets.eagerKeys, 'Fresh startup has exactly the eager decoded images');
+  // Explicit gallery QA requests optional images only after recording the untouched startup.
+  // This does not change production startup or claim native G10 gameplay ownership.
+  const assets = await window.webContents.executeJavaScript(`(async () => {
+    const game=globalThis.DEADWALL,optionalRequested=Object.keys(globalThis.DeadwallArt.ASSETS).filter(key=>globalThis.DeadwallArt.ASSETS[key].lazy===true).sort();
+    if(typeof game.art.ensureAssets!=='function') throw new Error('Optional atlas loader unavailable');
+    const optionalResults=await game.art.ensureAssets(optionalRequested);
+    return {...game.art.diagnostics,expectedKeys:Object.keys(globalThis.DeadwallArt.ASSETS).sort(),imageKeys:Object.keys(game.art.images).sort(),optionalRequested,optionalResults};
+  })()`);
+  assert.deepEqual(assets.expectedKeys, startupAssets.expectedKeys, 'Explicit QA loading never changes the catalogue');
+  assert.deepEqual(assets.optionalRequested, startupAssets.lazyKeys, 'QA requests exactly the optional atlas keys');
+  assert.deepEqual(assets.optionalResults, startupAssets.lazyKeys.map(()=>true), 'Every optional image decodes successfully on its explicit QA request');
+  assert.deepEqual([...assets.ready].sort(), assets.expectedKeys, 'Every declared bitmap atlas must load exactly once after explicit QA requests');
   assert.deepEqual(assets.failed, [], 'No atlas may silently fall back to missing art');
-  assert.deepEqual(assets.imageKeys, assets.expectedKeys, 'All declared atlases have decoded image data');
+  assert.deepEqual(assets.imageKeys, assets.expectedKeys, 'All declared atlases have decoded image data after explicit QA requests');
   const atlasDrawProbe = await window.webContents.executeJavaScript(`(() => {
     const art=globalThis.DEADWALL.art,canvas=document.createElement('canvas');canvas.width=64;canvas.height=64;
     const context=canvas.getContext('2d',{willReadFrequently:true}),draws={};
@@ -425,7 +441,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     })()`);
     await fs.promises.writeFile(path.join(reportRoot, 'expected-save.json'), JSON.stringify(save));
   }
-  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, assets, atlasDrawProbe, localResources, distribution, network, menuRecords, commandPost, squads, battlefield, narrative, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
+  const report = { ok:true, stage, packaged:app.isPackaged, versions:process.versions, isolation, preferences:{ sandbox:preferences.sandbox, contextIsolation:preferences.contextIsolation, nodeIntegration:preferences.nodeIntegration, webSecurity:preferences.webSecurity }, startupAssets, assets, atlasDrawProbe, localResources, distribution, network, menuRecords, commandPost, squads, battlefield, narrative, settings, imports, save, exportPath, painted, routes, fullscreen:true, externalBlocked, popupBlocked:popup, navigationBlocked:true, consoleObserverVerified, consoleErrors:errors, failedLoads };
   await fs.promises.writeFile(path.join(reportRoot, `${stage}-report.json`), JSON.stringify(report, null, 2));
   console.log(`DEADWALL desktop ${stage} verification passed`);
   // The first stage deliberately leaves its latest changes unsaved: this verifies normal close.

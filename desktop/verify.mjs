@@ -9,7 +9,10 @@ import { safeDiagnosticText } from '../scripts/ci-failure-summary.mjs';
 
 const require = createRequire(import.meta.url);
 const root = fileURLToPath(new URL('..', import.meta.url));
-const expectedAssetKeys = Object.keys(require('../src/art.js').ASSETS).sort();
+const expectedAssets = require('../src/art.js').ASSETS;
+const expectedAssetKeys = Object.keys(expectedAssets).sort();
+const expectedEagerAssetKeys = expectedAssetKeys.filter(key=>expectedAssets[key].lazy!==true);
+const expectedLazyAssetKeys = expectedAssetKeys.filter(key=>expectedAssets[key].lazy===true);
 const expectedNarrative = require('../src/narrative.js');
 const { publicDistributionFiles } = require('./smoke.cjs');
 const expectedPublicFiles = publicDistributionFiles(root);
@@ -81,6 +84,14 @@ for (const stage of ['create','restore']) {
   assert.equal(report.save.soldiers.length, 1); assert.equal(report.save.soldiers[0].squad, 0);
   assert.equal(report.battlefield.fronts, 4); assert.deepEqual(report.battlefield.directions, ['NORD','EST','SUD','OUEST']);
   assert.equal(report.battlefield.debriefMetrics, 6); assert.equal(report.battlefield.hiddenDebrief, true); assert.equal(report.battlefield.campaignIntact, true);
+  assert.deepEqual(report.startupAssets.expectedKeys, expectedAssetKeys, 'Startup catalogue must match the source under verification');
+  assert.deepEqual(report.startupAssets.eagerKeys, expectedEagerAssetKeys);
+  assert.deepEqual(report.startupAssets.lazyKeys, expectedLazyAssetKeys);
+  assert.deepEqual([...report.startupAssets.ready].sort(), expectedEagerAssetKeys, 'Fresh startup decodes only the source-declared eager atlases');
+  assert.deepEqual(report.startupAssets.imageKeys, expectedEagerAssetKeys);
+  assert.deepEqual(report.startupAssets.failed, []);
+  assert.deepEqual(report.assets.optionalRequested, expectedLazyAssetKeys, 'Native QA explicitly requests all optional atlases');
+  assert.deepEqual(report.assets.optionalResults, expectedLazyAssetKeys.map(()=>true));
   assert.deepEqual(report.assets.expectedKeys, expectedAssetKeys, 'Packaged atlas catalogue must match the source under verification');
   assert.deepEqual([...report.assets.ready].sort(), expectedAssetKeys);
   assert.deepEqual(report.assets.imageKeys, expectedAssetKeys);
@@ -103,8 +114,8 @@ assert.deepEqual(reports[0].narrative.state, reports[1].narrative.state, 'Narrat
 assert.equal(reports[0].narrative.insight, reports[1].narrative.insight, 'Loading must not grant narrative rewards twice');
 assert.ok(reports[1].menuRecords.runIds.includes(reports[0].save.runId), 'Archives must load before continuing a campaign');
 assert.equal(reports[1].menuRecords.scenarioId, 'rearguard'); assert.equal(reports[1].menuRecords.scenarioRecordsSeparated, true);
-fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,distribution:reports[0].distribution,scenario:{id:'rearguard',menuSelected:true,afterRestart:true,importExport:true,recordsSeparated:true},squads:{sections:3,selected:2,alphaOrder:'retreat',afterRestart:true,importExport:true,ordersWithoutCost:true,positionsUnchanged:true,simulationRngUnchanged:true},battlefield:{fronts:4,debriefMetrics:6,hiddenDebrief:true,nonDestructive:true},atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
-console.log(`DEADWALL desktop: two launches, rearguard/story seed 17117, persistent squad selection/orders, four fronts and six hidden debrief metrics without campaign mutation, six doctrines, separate records, journal partial survey/unique choice/read state, ${expectedPublicFiles.length} distribution files (${expectedPublicFiles.length-1} native routes, service worker blocked), ${expectedAssetKeys.length} declared atlases loaded/drawn, saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
+fs.writeFileSync(path.join(reportRoot, 'summary.json'), JSON.stringify({ok:true,executable,packaged:reports.every(report=>report.packaged),stages:2,seed:reports[0].save.seed,workerOrder:'retreat',doctrines:6,distribution:reports[0].distribution,scenario:{id:'rearguard',menuSelected:true,afterRestart:true,importExport:true,recordsSeparated:true},squads:{sections:3,selected:2,alphaOrder:'retreat',afterRestart:true,importExport:true,ordersWithoutCost:true,positionsUnchanged:true,simulationRngUnchanged:true},battlefield:{fronts:4,debriefMetrics:6,hiddenDebrief:true,nonDestructive:true},startupAtlases:expectedEagerAssetKeys.length,optionalQAAtlases:expectedLazyAssetKeys.length,atlasScope:'Explicit optional gallery loading and offscreen readback; not proof of native G10 gameplay use',atlases:expectedAssetKeys.length,atlasKeys:expectedAssetKeys,atlasDrawProbes:expectedAssetKeys.length,recordsAfterRestart:true,narrative:{sectorCards:expectedNarrative.SECTORS.length,chapterCards:expectedNarrative.CHAPTERS.length,partialSurveySeconds:2,choice:'A',read:true,rewardNotRepeated:true,importExport:true,afterRestart:true},consoleErrors:0}, null, 2));
+console.log(`DEADWALL desktop: two launches, rearguard/story seed 17117, persistent squad selection/orders, four fronts and six hidden debrief metrics without campaign mutation, six doctrines, separate records, journal partial survey/unique choice/read state, ${expectedPublicFiles.length} distribution files (${expectedPublicFiles.length-1} native routes, service worker blocked), ${expectedEagerAssetKeys.length} startup atlases and ${expectedLazyAssetKeys.length} explicitly requested optional QA atlases (${expectedAssetKeys.length} offscreen atlas draw probes), saves/import/export, Canvas, sandbox, fullscreen and offline security passed.\nEvidence: ${reportRoot}`);
 } catch (error) {
   const failureFile = path.join(reportRoot, 'verification-failure.json');
   const failure = {

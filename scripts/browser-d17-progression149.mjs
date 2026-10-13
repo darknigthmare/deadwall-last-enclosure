@@ -304,7 +304,10 @@ function prepareLostStorage149() {
     limitation: 'Prepared loss of advanced scene infrastructure, not an organically survived siege. Native home, house, people, stock, possessions, health, RNG and remembered age are retained.' };
 }
 
-async function inspectArtStage149(page, age, check) {
+async function inspectArtStage149(page, age, check, expectedAssets) {
+  // Save/Continue replaces the Art instance. Its ready promise covers eager
+  // startup textures; this explicit gallery also prepares every optional atlas.
+  const preparedAssets = await loadedAssets(page, expectedAssets);
   const art = await page.evaluate(() => {
     const g = DEADWALL, core = g.core(), registry = DeadwallD17Art149;
     const sprite = g.d17Art149?.coreSprite(g.tier.id), seed = g.world.seed;
@@ -368,7 +371,7 @@ async function inspectArtStage149(page, age, check) {
     art.age === age && !!art.atlas && art.declared.includes(art.atlas) && art.ready.includes(art.atlas) &&
     art.coreRendererReturned && art.observed.some(draw => draw.ownerId === art.coreId && draw.matched));
   check('Age' + age + ': every current declared texture decodes without a failed resource', art.failed.length === 0 && JSON.stringify(art.ready) === JSON.stringify(art.declared));
-  return art;
+  return { ...art, assetPreparation: preparedAssets.preparation };
 }
 
 const views = [{ name: 'desktop', width: 1366, height: 768 }, { name: 'mobile', width: 390, height: 844, touch: true }, { name: 'mobile-landscape', width: 844, height: 390, touch: true }];
@@ -394,7 +397,7 @@ try {
       native('Fresh D17 starts at Refuge with G8 first gestures and actual score8', await page.evaluate(() => DEADWALL.tier.id === 0 && DEADWALL.cityScore === 8 && DEADWALL.chronicles131.snapshot().prologue.status === 'active'));
       await rec.screenshot('native-refuge');
       profile.ages.push(await growth149(page, viewport.touch, native, rec, 0, 'native-age-0'));
-      profile.artStages.push(await inspectArtStage149(page, 0, native));
+      profile.artStages.push(await inspectArtStage149(page, 0, native, harness.assetKeys));
       await activate(page, '#commandTab-workers', viewport.touch); await activate(page, '[data-worker-order="retreat"]', viewport.touch); await resumeCommand(page, viewport.touch);
       profile.harvestRoute = await navigate(page, context, viewport.touch, { kind: 'node', type: 'scrap', amount: 24, range: 62 });
       const beforeHarvest = await readEconomy(page);
@@ -419,14 +422,14 @@ try {
       profile.timing.nativeCompletion = await readEconomy(page);
       native('Manual E/ACTION completes the paid house, reaches score12 and Camp fortifié', await page.evaluate(id => DEADWALL.world.buildings.get(id)?.completed && DEADWALL.tier.id === 1 && DEADWALL.cityScore === 12 && DEADWALL.workerOrder === 'retreat', profile.house.id));
       await rec.screenshot('native-built-camp'); profile.ages.push(await growth149(page, viewport.touch, native, rec, 1, 'native-age-1'));
-      profile.artStages.push(await inspectArtStage149(page, 1, native));
+      profile.artStages.push(await inspectArtStage149(page, 1, native, harness.assetKeys));
       profile.checkpoints.push(await saveContinue149(page, viewport.touch)); native('Native Save/Continue preserves every saved field, actual age, identity and RNG', profile.checkpoints.at(-1).pass);
       console.log(JSON.stringify({ viewport: viewport.name, step: 'native-complete', elapsedSimulationSeconds: profile.timing.nativeCompletion.elapsed - start.elapsed }));
       for (let age = 2; age <= 10; age++) {
         profile.fixtures.push(await page.evaluate(prepareAge149, age));
         advanced('Prepared age' + age + ': all knowledge derives from its exact completed physical threshold', profile.fixtures.at(-1).currentScore === profile.fixtures.at(-1).threshold && profile.fixtures.at(-1).rngPreserved);
         profile.ages.push(await growth149(page, viewport.touch, advanced, rec, age, 'prepared-age-' + age));
-        profile.artStages.push(await inspectArtStage149(page, age, advanced));
+        profile.artStages.push(await inspectArtStage149(page, age, advanced, harness.assetKeys));
         if ([3, 6, 8, 10].includes(age)) {
           const visual = await cityView149(page, viewport.touch, rec, age); (profile.cityViews ||= []).push({ age, ...visual });
           advanced('Age' + age + ': transient visual overview grants no saved state', visual.savedUnchanged);

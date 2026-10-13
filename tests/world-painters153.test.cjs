@@ -2,11 +2,11 @@
 const test=require('node:test'),assert=require('node:assert/strict'),path=require('node:path'),crypto=require('node:crypto'),fs=require('node:fs');
 const N=require('@napi-rs/canvas'),Art=require('../src/art.js'),Nature=require('../src/nature-art153.js'),Props=require('../src/world-props-art153.js'),Interior=require('../src/interior-art153.js'),Assets=require('../src/assets136.js'),B=require('../src/biomes135.js'),P=require('../src/atlas-projection.js'),Ground=require('../src/ground135.js'),T=require('../src/tactics.js'),Field=require('../src/fieldcraft.js'),C=require('../src/core.js');
 const root=path.resolve(__dirname,'..');let ready;
-async function nativeArt(){
+async function nativeArt(prepare){
  if(!ready)ready=(async()=>{const previous={Image:globalThis.Image,document:globalThis.document};
   class LocalImage extends N.Image{set src(value){super.src=path.resolve(root,value);}}
   globalThis.Image=LocalImage;globalThis.document={createElement(kind){assert.equal(kind,'canvas');return N.createCanvas(1,1);}};
-  try{const art=Art.create();await art.ready;art.renderCache153=require('../src/render-cache153.js').create({canvas:()=>N.createCanvas(1,1)});return art;}finally{globalThis.Image=previous.Image;globalThis.document=previous.document;}
+  try{const art=Art.create();await art.ready;if(prepare)await prepare(art);art.renderCache153=require('../src/render-cache153.js').create({canvas:()=>N.createCanvas(1,1)});return art;}finally{globalThis.Image=previous.Image;globalThis.document=previous.document;}
  })();return ready;
 }
 const context=()=>N.createCanvas(360,360).getContext('2d');
@@ -22,8 +22,16 @@ function familyOf(call,catalogue){return Object.entries(catalogue).find(([,forms
 function campaign(g){const state=g.serialize();delete state.timestamp;return JSON.stringify(state);}
 function capture(c,name,metadata={}){const dir=process.env.DEADWALL_NATIVE153_CAPTURE_DIR;if(!dir)return;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,name+'.png'),c.canvas.toBuffer('image/png'));fs.writeFileSync(path.join(dir,name+'.json'),JSON.stringify({width:c.canvas.width,height:c.canvas.height,rgbaSha256:hash(c),...metadata},null,2)+'\n');}
 
-test('153 world painters: real Art loader decodes every declared asset including every botanical, object and interior plate',async()=>{
- const art=await nativeArt();assert.deepEqual(art.diagnostics.failed,[]);assert.deepEqual([...art.diagnostics.ready].sort(),Object.keys(Art.ASSETS).sort());
+test('153 world painters: real loader starts with 143 eager images, then decodes all 146 declared images after three explicit optional requests',async()=>{
+ const keys=Object.keys(Art.ASSETS).sort(),eager=keys.filter(key=>Art.ASSETS[key].lazy!==true),lazy=keys.filter(key=>Art.ASSETS[key].lazy===true);
+ assert.equal(eager.length,143);assert.deepEqual(lazy,['civilRail160','shoreServices160','waterPort160']);
+ const art=await nativeArt(async art=>{
+  assert.deepEqual(art.diagnostics.failed,[]);assert.deepEqual([...art.diagnostics.ready].sort(),eager,'Initial ready excludes every optional atlas');
+  assert.deepEqual(Object.keys(art.images).sort(),eager,'Only historical images are actually decoded at startup');
+  assert.deepEqual(await art.ensureAssets(lazy),[true,true,true],'The real loader decodes all three original optional PNGs on demand');
+ });
+ assert.deepEqual(art.diagnostics.failed,[]);assert.deepEqual([...art.diagnostics.ready].sort(),keys);assert.equal(art.diagnostics.ready.length,146);
+ assert.deepEqual(Object.keys(art.images).sort(),keys);for(const[key,spec]of Object.entries(Art.ASSETS)){assert.ok(art.images[key],key);assert.equal(art.images[key].width,spec.width,key+' decoded width');assert.equal(art.images[key].height,spec.height,key+' decoded height');}
  for(const catalog of[Nature.ASSETS,Props.ASSETS,Interior.ASSETS])for(const[key,spec]of Object.entries(catalog)){assert.deepEqual(Art.ASSETS[key],spec);assert.ok(art.images[key]);assert.equal(art.images[key].width,spec.width);assert.equal(art.images[key].height,spec.height);}
  assert.deepEqual([...Nature.TREES].sort(),Object.keys(C.BiomeRules135.trees).sort());assert.deepEqual([...Nature.ROCKS].sort(),Object.keys(C.BiomeRules135.rocks).sort());assert.deepEqual([...Nature.DECOR].sort(),[...new Set(C.BiomeRules135.defs.flatMap(d=>Object.keys(d.decor)))].sort());
 });
