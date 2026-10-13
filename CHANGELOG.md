@@ -1,3 +1,13 @@
+# 1.60.0 — Ouvrages, territoires et services de terrain
+
+- G10 : contrats des 626 programmes auparavant exclus, dont 300 sans plan natif et 326 sans contexte territorial ; implantation conditionnée par la graine, l'emprise et les accès, avec 96 essais au maximum par candidat.
+- Activation volontaire depuis G8 ou G9 au dépôt, dans Monde & relais ; G8 inclut aussi les ajouts G9. Lieux, identifiants, prélèvements et possessions antérieurs conservés ; activation refusée si elle recouvre un support ou un acteur conservé.
+- Ouvrages & services : accès, bassins, aiguillages et soins payés dans le sac après un travail temporisé et revalidé. Interruption sans débit ; réalisations permanentes sauvegardées et soins limités à la santé utile.
+- Présentation : trois atlas originaux, 48 découpes pour 24 familles à deux variantes, composants mécaniques séparés observant les travaux et l'état réels ; chargement à la demande, sans remplacer les images historiques.
+- Guide : les 4 000 programmes restent consultables ; filtre des 626 programmes G10 et accès aux vrais contrôleurs de terrain, sans révéler de lieu inconnu ni activer une extension à la consultation.
+- Portée : 18 fiches issues de six parents conservent des prescriptions multiniveaux partiellement adaptées et signalées. Camps hostiles abandonnés occupés par des infectés ; trains, bateaux et réseau d'eau potable ne deviennent pas des services pilotables.
+- Validation et publication 1.60 liées à leurs propres reçus ; ni durée humaine Standard de 6–10 heures, ni cadence sur matériel physique, ni qualification commerciale déduite de cette extension. Guide : [docs/LIVRAISON_1_60.md](docs/LIVRAISON_1_60.md).
+
 # 1.50.0 — Onze âges, nouveaux choix
 
 - D-17 : 20 bâtiments distincts pour les paliers intermédiaires et tardifs, six évolutions à même emprise, coûts, prérequis et effets dans le catalogue du moteur.

@@ -96,6 +96,17 @@ export async function ready(page) {
 }
 
 export async function loadedAssets(page, expected) {
+  // Asset galleries explicitly request optional sheets; normal startup keeps them lazy.
+  const preparation = await page.evaluate(async keys => {
+    const initial = [...DEADWALL.art.diagnostics.ready].sort();
+    const lazy = keys.filter(key => DeadwallArt.ASSETS[key]?.lazy === true);
+    if(lazy.length) {
+      if(typeof DEADWALL.art.ensureAssets !== 'function') throw Error('Optional atlas loader unavailable');
+      const loaded = await DEADWALL.art.ensureAssets(lazy);
+      if(loaded.some(value => value !== true)) throw Error('Optional atlas decoding failed');
+    }
+    return { initial, lazyRequested: lazy };
+  }, expected);
   const result = await page.evaluate(() => ({
     declared: Object.keys(DeadwallArt.ASSETS).sort(),
     loaded: [...DEADWALL.art.diagnostics.ready].sort(),
@@ -104,7 +115,7 @@ export async function loadedAssets(page, expected) {
   assert.deepEqual(result.declared, expected, 'Browser and source declare the same art assets');
   assert.deepEqual(result.loaded, expected, 'Every declared art asset loads and decodes');
   assert.deepEqual(result.failed, [], 'No art decoding failures');
-  return result;
+  return { ...result, preparation };
 }
 
 export async function chooseCampaign(page, seed = '17117') {

@@ -2,10 +2,11 @@
 (function(root){
  'use strict';
  const finite=n=>Number.isFinite(n)?n:0;
+ const CONTEXT_WORK160=Object.freeze({restoreAccess:'build',pumpBasin:'handle',switchTrack:'pry',medicalCare:'dressing'}),EPSILON160=1e-8;
  function resourceAction(type,scenery=false){return scenery?'pry':type==='wood'?'chop':type==='stone'?'pick':['scrap','fuel'].includes(type)?'pry':'handle';}
  function install(g){
   if(g.heroActions133)return g.heroActions133;
-  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false;
+  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false,contextSample160=null;
   const wrap=(name,fn)=>{const old=g[name];if(typeof old==='function')g[name]=function(...args){return fn(old.bind(this),...args);};};
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay&&g.player&&!g.player.dead&&g.player.health>0;
   const armed=()=>{
@@ -16,16 +17,44 @@
   function position(){const f=g.frontier?.position?.(),regional=!!f?.active,p=g.player||{};return{world:g.world,player:p,regional,x:regional?f.x*32:p.x,y:regional?f.y*32:p.y,z:regional?f.z:0,inside:regional?f.inside:null,driving:regional?!!f.car?.driving:!!g.expeditions?.driving?.()};}
   const same=(a,b)=>a&&b&&a.world===b.world&&a.player===b.player&&a.regional===b.regional&&a.z===b.z&&a.inside===b.inside&&Math.hypot(a.x-b.x,a.y-b.y)<.12;
   function reset(){action=null;serial++;}
-  function record(kind,dt,{x,y}={},oneShot=false){
-   const p=position();if(!running()||armed()||p.driving||!Number.isFinite(dt)||dt<=0){reset();return;}
+  function resetAll(){contextSample160=null;reset();}
+  function record(kind,dt,{x,y}={},oneShot=false,fallbackFacing){
+   const p=position();if(!running()||armed()||p.driving||!Number.isFinite(dt)||dt<=0){reset();return false;}
    const continuous=action?.kind===kind&&same(action.position,p)&&action.oneShot===oneShot;
    action={kind,elapsed:(continuous?action.elapsed:0)+Math.min(dt,.1),position:p,oneShot,
-    facing:Number.isFinite(x)&&Number.isFinite(y)&&Math.hypot(x-p.x,y-p.y)>.1?Math.atan2(y-p.y,x-p.x):finite(g.player.facing)};
-   serial++;
+    facing:Number.isFinite(x)&&Number.isFinite(y)&&Math.hypot(x-p.x,y-p.y)>.1?Math.atan2(y-p.y,x-p.x):Number.isFinite(fallbackFacing)?fallbackFacing:finite(g.player.facing)};
+   serial++;return true;
+  }
+  // This view belongs to the maintenance owner. Reading it never previews a
+  // site, generates the region, pays a cost or advances the actual job.
+  function contextState160(){
+   const owner=g.contextOperations160;if(!owner?.busy?.())return null;
+   const view=owner.activity?.(),anchor=view?.anchor,f=g.frontier?.position?.();
+   if(!view||!Object.hasOwn(CONTEXT_WORK160,view.kind)||typeof view.fullKey!=='string'||!/^P\d{4}:160:[a-z][a-zA-Z0-9-]{0,31}$/.test(view.fullKey)||
+     !Number.isFinite(view.elapsed)||view.elapsed<0||!Number.isFinite(view.start)||!Number.isFinite(view.duration)||view.duration<=0||
+     !Number.isFinite(view.progress)||Math.abs(view.progress-Math.min(1,view.elapsed/view.duration))>EPSILON160||
+     !anchor||![anchor.x,anchor.y,anchor.z].every(Number.isFinite)||!f?.active||f.generation!==10||f.car?.driving||f.z!==anchor.z)return null;
+   return{owner,view,world:g.world,player:g.player,facing:Number.isFinite(f.a)?f.a:finite(g.player.facing)};
+  }
+  const sameContext160=(a,b)=>!!a&&!!b&&a.owner===b.owner&&a.world===b.world&&a.player===b.player&&
+   a.view.fullKey===b.view.fullKey&&a.view.kind===b.view.kind&&a.view.start===b.view.start&&a.view.duration===b.view.duration&&
+   ['x','y','z'].every(k=>a.view.anchor[k]===b.view.anchor[k]);
+  function observeContextWork160(kind,dt,point){
+   const current=contextState160(),maxStep=root.DeadwallCore?.ContextRules160?.maxStep??.25;
+   if(!current||!running()||!Number.isFinite(dt)||dt<=0||dt>maxStep+EPSILON160||kind!==current.view.kind||
+     !point||!['x','y','z'].every(k=>Number.isFinite(point[k])&&Math.abs(point[k]-current.view.anchor[k])<=EPSILON160))return false;
+   const advance=current.view.elapsed-(sameContext160(contextSample160,current)?contextSample160.view.elapsed:0);
+   if(advance<=EPSILON160||Math.abs(advance-dt)>EPSILON160)return false;
+   const support=current.view.workTarget,target=support&&['x','y','z'].every(k=>Number.isFinite(support[k]))&&support.z===current.view.anchor.z?support:current.view.anchor;
+   if(!record(CONTEXT_WORK160[kind],dt,{x:target.x*32,y:target.y*32},false,current.facing))return false;
+   // The native elapsed time keeps a continuous phase even when maintenance
+   // ticks outside our update wrapper. It also freezes naturally during pause.
+   action.elapsed=current.view.elapsed;action.context160=current;contextSample160=current;return true;
   }
   function pose(){
    if(!action)return null;const p=position();
    if(g.state!=='playing'||g.gameOver||g.player.dead||g.player.health<=0||p.driving||armed()||!same(action.position,p)){reset();return null;}
+   if(action.context160){const current=contextState160();if(!sameContext160(action.context160,current)||Math.abs(current.view.elapsed-action.context160.view.elapsed)>EPSILON160){if(!current)contextSample160=null;reset();return null;}}
    const posture=p.regional?g.worldEvolution?.posture?.().key:g.player.posture;
    // The action sheets contain planted feet. A prone/crouching character retains
    // the matching native posture instead of snapping upright to swing a tool.
@@ -75,6 +104,9 @@
   });
   wrap('update',(old,dt)=>{
    const stamp=serial,active=running(),p=position(),taskBefore=g.worldOps131?.busy?.()?g.worldOps131.activity?.():null,careBefore=g.survivalPack?.busy?.()?g.survivalPack.activity?.():null;
+   // Capture a baseline, never a gesture: only the owner's subsequent useful
+   // progress may call observeContextWork160 and select a work pose.
+   contextSample160=contextState160();
    insideUpdate=true;let result;try{result=old(dt);}finally{insideUpdate=false;}
    if(!active||!running()||!Number.isFinite(dt)||dt<=0)return result;
    if(!same(p,position())||armed()){reset();return result;}
@@ -84,8 +116,8 @@
    else if(serial===stamp)idleStep(dt);
    return result;
   });
-  for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false){reset();fireSerial=finite(g.stats?.shots);firing=false;}return r;});
-  g.heroActions133=Object.freeze({pose,reset});return g.heroActions133;
+  for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false){resetAll();fireSerial=finite(g.stats?.shots);firing=false;}return r;});
+  g.heroActions133=Object.freeze({pose,reset:resetAll,observeContextWork160});return g.heroActions133;
  }
  const api=Object.freeze({install,resourceAction});root.DeadwallHeroActions133=api;if(typeof module==='object'&&module.exports)module.exports=api;
  if(root.DEADWALL&&root.document)install(root.DEADWALL);

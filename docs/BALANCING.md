@@ -1,5 +1,20 @@
 # Équilibrage de référence
 
+## Travaux de terrain — 1.60
+
+`ContextRules160` et `ContextGeometryRules160` dans `core.js` font autorité. L'activation G10 ne coûte ni matériau ni temps et n'offre pas de stock. Chaque lieu conserve un budget hérité fini, réparti une seule fois entre ses contenants.
+
+| Intervention | Temps de simulation actif | Coût dans le sac | Effet |
+|---|---:|---|---|
+| Rétablir cet accès | 16 s | 8 bois + 6 ferrailles | Ouvre l'obstruction déclarée, une seule fois |
+| Purger ce bassin | 18 s | 2 carburants + 3 ferrailles | Dégage le bassin déclaré, une seule fois |
+| Déverrouiller cet aiguillage | 10 s | 4 ferrailles | Modifie l'accès déclaré, une seule fois |
+| Soins au poste médical | 10 s | 1 médicament | Rend au plus 20 PV utiles, répétable si nécessaire |
+
+Ces actions exigent le support intact, son point de travail accessible à pied sur le bon niveau et un sac suffisant. La portée de travail est de 2,2 m ; une menace visible à moins de 12 m refuse l'intervention. Déplacement, blessure, tir, rechargement, perte du support ou changement de sac interrompent le travail avant paiement. Pause et modale suspendent l'avancement. Une tâche inachevée n'est pas reprise au chargement. Le prélèvement final est unique et ne débite jamais le dépôt de D-17.
+
+La purge ne produit aucune eau potable ; l'aiguillage ne lance pas de train. Les camps réutilisent les services et stocks payés existants. Les seuils des onze âges et la cible Standard de 6 à 10 heures restent ceux de la campagne actuelle ; cette extension ne mesure pas la durée d'une partie humaine complète. Voir [LIVRAISON_1_60.md](LIVRAISON_1_60.md).
+
 ## Soins et cohérence — 1.56
 
 La clinique conserve ses débits historiques : 1,6 PV/s pour le commandant et 2,2 PV/s par unité dans un rayon de 130 unités locales. Elle consomme désormais 0,025 médicament par PV effectivement rendu, comme le coût unitaire du secouriste. Ces valeurs sont dans `NPC_RULES`. Stock insuffisant : soin au prorata, sans dépassement ; personne indemne, morte, absente ou inaccessible : aucun soin ni médicament consommé. Courant et états d'arrêt restent requis. Les hôpitaux gardent leurs propres débits et coûts.

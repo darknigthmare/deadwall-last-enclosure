@@ -1,5 +1,14 @@
 # Codex modulaire DEADWALL — 1.33
 
+## Addendum 1.60 — contextes G10
+
+Les 626 programmes exclus par les capacités du runtime 1.59 disposent de contrats physiques G10 : 300 programmes sans preset historique et 326 intérieurs dont le contexte manquait. Leur liste exacte, les 100 profils parents spéciaux et les onze contextes sont conservés dans [CONTRATS.json](../../codex-3000/addendum-1.60/CONTRATS.json). Les données compilées restent dérivées de ces sources, avec leur provenance et leurs emprises auteur.
+
+Le Guide conserve 4 000 programmes ; son filtre G10 distingue l'éligibilité logicielle de la présence dans la région courante. Les implantations dépendent de la graine, des accès et de l'espace réservé. Les liens de carte ne concernent que les lieux déjà repérés. Ouvrir une fiche ou le dossier d'activation ne révèle aucun lieu et n'active pas G10. L'action volontaire reste au dépôt de D-17, dans Monde & relais, depuis G8 ou G9.
+
+Dix-huit fiches provenant de Viaduc, Passage inférieur, Échangeur autoroutier, Passage ferroviaire supérieur, Aqueduc ancien et Station de métro ont des références multiniveaux partiellement adaptées. Le champ `implementation160` décrit le parcours visitable et le domaine fermé ; l'éligibilité G10 ne signifie donc pas que chaque prescription auteur est entièrement simulée. Les camps hostiles représentent d'anciens sites occupés par des infectés. Services, coûts, atlas, limites et vérifications : [LIVRAISON_1_60.md](../LIVRAISON_1_60.md).
+
+## Référence historique — 1.33 à 1.57
 
 Le codex se lit à trois niveaux :
 

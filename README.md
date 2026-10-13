@@ -1,3 +1,22 @@
+# DEADWALL 1.60.0 — Ouvrages, territoires et services de terrain
+
+Les 626 programmes exclus en 1.59 disposent désormais de contrats et de plans G10 : ouvrages routiers, rail, eau, ports, quartiers et contextes des bâtiments existants. Au dépôt de D-17, ouvrez **Monde & relais** puis **ACTIVER LES 626 PROGRAMMES TERRITORIAUX** depuis une campagne G8 ou G9. La génération ajoute les lieux qui trouvent une emprise et des accès compatibles avec la graine ; elle conserve les sites et prélèvements antérieurs. Activer 626 programmes éligibles ne garantit pas 626 nouvelles implantations dans chaque région.
+
+**Ouvrages & services** propose des travaux physiques d'accès, de bassin, d'aiguillage et de soins, avec matériaux pris dans le sac à l'achèvement. Trois atlas originaux ajoutent 48 découpes pour 24 familles à deux variantes, dont des composants mécaniques séparés qui suivent les travaux réels. Les atlas se chargent à la demande ; leur disponibilité hors ligne dépend du support et de leur première consultation.
+
+Guide et limites : [docs/LIVRAISON_1_60.md](docs/LIVRAISON_1_60.md). Les prescriptions multiniveaux de 18 fiches sont partiellement adaptées ; leurs parcours visitables et parties fermées sont signalés. La cible Standard de 6 à 10 heures reste à mesurer par des campagnes humaines complètes. Les contrôles de cette version et sa publication doivent être attestés par leurs propres reçus.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:contexts
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:sprites
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:codex
+```
+
+## Historique conservé — 1.59.0
+
 # DEADWALL 1.59.0 — Sprites, gestes et Codex utilisable
 
 Les pièges utilisent désormais des bases et pièces mobiles séparées. Les gestes des acteurs, le recul des postes, les filets et les caisses suivent une action effective de la simulation ; une usine à l’arrêt ne fume plus. Les silhouettes propres aux équipements, les dépouilles, les escaliers, les cloisons et les sites d’expédition complètent le rendu. Les graines, prélèvements, coûts et générations de carte restent ceux des campagnes existantes.

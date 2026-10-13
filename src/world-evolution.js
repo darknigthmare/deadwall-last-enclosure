@@ -110,7 +110,7 @@ const rt=new Map();function assignCompanion(id){if(!Object.hasOwn(R.companions,i
 function companionStep(dt,f){
  const rules=R.companionRules,T=C.FrontierTacticsRules,Survey=root.DeadwallFrontierSurvey,w=world();
  const blocked=(x,y)=>{if(w.blocked(x,y,rules.radius,f.z,f.inside))return true;if(f.z===0&&f.car){const v=vehicleProfile(),q=G.local({...f.car,w:v.w,h:v.h},x,y);if(G.circleRect(q.x,q.y,rules.radius,{x:0,y:0,w:v.w,h:v.h}))return true;}return false;};
- const clear=(a,b)=>w.line(a,b,f.z,f.inside,null,rules.radius)&&!blocked(b.x,b.y);
+ const clear=(a,b)=>(w.movementLine||w.line).call(w,a,b,f.z,f.inside,null,rules.radius)&&!blocked(b.x,b.y);
  for(let i=0;i<state.companions.length;i++){
   const c=state.companions[i];if(c.health<=0)continue;
   if(f.car?.driving){rt.set(c.id,{x:f.x,y:f.y,z:f.z,inside:f.inside,a:f.a,riding:true});g.companionsPack?.record(c.id,rt.get(c.id));continue;}

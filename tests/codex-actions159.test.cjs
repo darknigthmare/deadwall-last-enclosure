@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
-const A=require('../src/world-codex-actions159.js'),C=require('../src/core.js'),City=require('../src/city-catalogue150.js'),R=require('../src/codex3000-runtime.js'),Guide=require('../src/world-codex.js');
+const A=require('../src/world-codex-actions159.js'),C=require('../src/core.js'),City=require('../src/city-catalogue150.js'),R=require('../src/codex3000-runtime.js'),X=require('../src/codex-context160.js'),Guide=require('../src/world-codex.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const fs=require('node:fs'),path=require('node:path');
 const textTree=n=>n.textContent+' '+n.children.map(textTree).join(' ');
@@ -8,7 +8,7 @@ const clean=g=>{const data=g.serialize();delete data.timestamp;return structured
 function fixture(){
  const saved={seen:['P0100'],pin:null,taken:{'P0100:0:0':4},generation:9},calls=[];
  const hidden={id:'P0101',get name(){throw Error('Hidden name accessed');},get programme3000(){throw Error('Hidden programme accessed');},get codex(){throw Error('Hidden programme accessed');}};
- const frontier={discoveries:()=>saved.seen.slice(),world:()=>({pois:[{id:'P0100',name:'Centre de traitement connu',programme3000:'DW-3001',codex:'DW-3001',levels:[0,1]},hidden]}),pin:id=>{if(!saved.seen.includes(id))return false;saved.pin=id;calls.push(['pin',id]);return true;},overview(){throw Error('Reading must not synchronize tracks');},snapshot(){throw Error('Reading must not synchronize tracks');}};
+ const frontier={position:()=>({generation:saved.generation}),discoveries:()=>saved.seen.slice(),world:()=>({pois:[{id:'P0100',name:'Centre de traitement connu',programme3000:'DW-3001',codex:'DW-3001',levels:[0,1]},hidden]}),pin:id=>{if(!saved.seen.includes(id))return false;saved.pin=id;calls.push(['pin',id]);return true;},overview(){throw Error('Reading must not synchronize tracks');},snapshot(){throw Error('Reading must not synchronize tracks');}};
  const game={state:'playing',gameOver:false,player:{dead:false},canIssueCommand:()=>true,frontier,frontierUI:{open(){calls.push(['open']);return true;},atlas:{focusPOI(id){calls.push(['focus',id]);return saved.seen.includes(id);}}},serialize(){throw Error('Must not serialize');},random:{next(){throw Error('No simulation RNG');}}};
  return{game,saved,calls};
 }
@@ -16,6 +16,8 @@ test('The shipped HTML loads the operational guide after its catalogue owner and
  const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8'),scripts=[...html.matchAll(/<script src="([^"]+)"/g)].map(m=>m[1]);
  assert.equal(scripts.filter(p=>p==='src/world-codex-actions159.js').length,1);
  assert.ok(scripts.indexOf('src/city-catalogue150.js')<scripts.indexOf('src/world-codex-actions159.js'));
+ assert.ok(scripts.indexOf('src/codex-context160-data.js')<scripts.indexOf('src/codex-context160.js'));
+ assert.ok(scripts.indexOf('src/codex-context160.js')<scripts.indexOf('src/world-codex-3000.js'));
  assert.ok(scripts.indexOf('src/world-codex-actions159.js')<scripts.indexOf('src/world-codex.js'));
 });
 test('Codex derives every actual city choice, exact costs, prerequisites and all eleven ages',()=>{
@@ -28,11 +30,36 @@ test('Codex derives every actual city choice, exact costs, prerequisites and all
  assert.equal(new Set(expected.items.map(e=>e.tier)).size,11);
  assert.equal(Guide.entries.filter(e=>e.status==='programme').length,4000);assert.equal(Guide.entries.filter(e=>e.choice159).length,180);
 });
-test('Capability reports the existing 300 missing presets and 626 unsupported programmes without enabling them',()=>{
- const records=R.records,before=JSON.stringify(records),summary=A.availabilitySummary();assert.deepEqual(summary,{programmes:4000,choices:180,missingPlan:300,unsupported:626});
- assert.equal(A.capability('programme-DW-0300').hasPlan,false);assert.equal(A.capability('DW-0300').eligible,false);assert.match(A.capability('DW-0300').text,/générations actuelles/);
+test('Capability exposes626 exact G10 contracts while preserving the300 and326 historical generation gates',()=>{
+ const records=R.records,before=JSON.stringify(records),summary=A.availabilitySummary();assert.deepEqual(summary,{programmes:4000,choices:180,missingPlan:0,unsupported:0,contextual160:626,historicalMissingPlan:300,historicalUnsupported:626});
+ for(const id of X.ids){const c=A.capability(id);assert.equal(c.hasPlan,true);assert.equal(c.eligible,true);assert.equal(c.generation,10);assert.equal(c.context160,X.get(id).context160);assert.deepEqual(c.supportedGenerations,[10]);assert.match(c.text,/activer volontairement au dépôt/);assert.match(c.text,/ne garantit pas un emplacement/);assert.equal(c.historicalEligible,false);}
+ assert.equal(A.capability('programme-DW-0300').historicalHasPlan,false);assert.equal(A.capability('DW-1241').historicalHasPlan,true);
  for(const card of records.filter(p=>p.extension===158)){assert.equal(A.capability(card.id).hasPlan,true);assert.equal(A.capability(card.id).eligible,true);assert.equal(A.capability(card.id).generation,9);}
  assert.equal(A.capability('DW-9999'),null);assert.equal(JSON.stringify(records),before);assert.equal(R.preset('codex3000-0300'),null);
+});
+test('Programme status separates software support from the actual campaign generation without reading an unseen world',()=>{
+ const {game,saved}=fixture();saved.seen=[];game.frontier.world=()=>assert.fail('No discovery means no region lookup');
+ const before=JSON.stringify(saved),status=A.programmeStatus(game,'DW-0300');
+ assert.equal(status.eligible,true);assert.equal(status.generation,10);assert.equal(status.currentGeneration,9);assert.equal(status.active,false);assert.equal(status.needsActivation160,true);
+ assert.deepEqual(A.knownPlaces(game,'DW-0300'),[]);assert.deepEqual(A.knownProgrammes(game),[]);assert.equal(JSON.stringify(saved),before);
+ saved.generation=10;const activated=A.programmeStatus(game,'DW-0300');assert.equal(activated.active,true);assert.equal(activated.needsActivation160,false);assert.match(activated.text,/réellement repérés/);
+ saved.generation=8;assert.equal(A.programmeStatus(game,'DW-3001').active,false);assert.equal(A.programmeStatus(game,'DW-0001').active,true);assert.equal(A.programmeStatus(game,'DW-9999'),null);
+});
+test('G10 guide navigation opens only the true controller and never previews, activates or spends from a card',()=>{
+ const {game,saved,calls}=fixture();saved.seen=[];game.frontier.world=()=>assert.fail('Opening link must not enumerate an unseen world');
+ game.worldOps131={previewTerritories160:()=>assert.fail('Guide must not prepare a preview'),activateTerritories160:()=>assert.fail('Guide must not execute activation')};
+ game.expansionUI={open(id){calls.push(['operations',id]);return true;}};const before=JSON.stringify(saved);
+ assert.equal(A.canOpenTerritories160(game,'DW-0300'),true);assert.equal(A.openTerritories160(game,'DW-0300'),true);assert.deepEqual(calls,[['operations','world131']]);assert.equal(JSON.stringify(saved),before);
+ calls.length=0;for(const id of ['DW-0001','DW-3001','DW-9999'])assert.equal(A.openTerritories160(game,id),false);assert.deepEqual(calls,[]);
+ saved.generation=10;assert.equal(A.openTerritories160(game,'DW-0300'),false);saved.generation=7;assert.equal(A.openTerritories160(game,'DW-0300'),false);
+ saved.generation=8;game.expansionUI.open=()=>false;assert.equal(A.openTerritories160(game,'DW-0300'),false);
+ delete game.worldOps131.activateTerritories160;assert.equal(A.canOpenTerritories160(game,'DW-0300'),false);
+});
+test('G10 cards preserve every original programme ID and distinguish the18 limited reference adaptations',()=>{
+ const cards=Guide.entries.filter(e=>e.status==='programme'),partial=X.records.filter(c=>c.implementation160?.fullyImplementedReference===false);
+ assert.equal(cards.length,4000);assert.equal(partial.length,18);
+ for(const c of X.records){const card=cards.find(card=>card.id==='programme-'+c.id);assert.equal(card.title,c.id+' · '+R.get(c.id).name);assert.match(card.interactions,/s’active volontairement au dépôt/);assert.match(card.source,/ne promettent pas 626 lieux/);}
+ for(const c of partial){const card=cards.find(card=>card.id==='programme-'+c.id);assert.equal(A.capability(c.id).implementation160.fullyImplementedReference,false);assert.ok(card.risks.includes(c.implementation160.text));assert.ok(card.source.includes(c.implementation160.text));}
 });
 test('Known-place lookup filters discoveries before touching hidden programme metadata and returns isolated data',()=>{
  const {game,saved}=fixture(),before=JSON.stringify(saved),places=A.knownPlaces(game,'programme-DW-3001');assert.deepEqual(places,[{id:'P0100',name:'Centre de traitement connu',programme:'DW-3001',levels:[0,1]}]);
@@ -66,8 +93,9 @@ test('All city choice types navigate the true age catalogue without firing its a
  for(const item of A.catalogue.items){calls.length=0;assert.equal(A.openChoice(game,item.key),true);assert.deepEqual(calls,['open',item.tier]);}
  assert.equal(A.openChoice(game,'fake:waterNetwork'),false);game.player.dead=true;assert.equal(A.openChoice(game,A.catalogue.items[0].key),false);
 });
-test('Guide usage filters show actual choices, known programmes and exclusions without revealing hidden sites',()=>{
- const {game}=fixture();assert.equal(Guide.query({availability:'city'},game).length,180);assert.equal(Guide.query({availability:'unavailable'},game).length,626);assert.equal(Guide.query({availability:'supported'},game).length,3374);
+test('Guide usage filters distinguish626 G10 contracts from actual known sites without creating new cards',()=>{
+ const {game}=fixture();assert.equal(Guide.entries.length,4615);assert.equal(Guide.query({availability:'city'},game).length,180);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
+ assert.deepEqual(Guide.query({availability:'context160'},game).map(e=>e.id.replace('programme-','')),X.ids);
  assert.deepEqual(Guide.query({availability:'known'},game).map(e=>e.id),['programme-DW-3001']);assert.equal(Guide.query({availability:'known',text:'DW-3002'},game).length,0);
 });
 test('Shipped guide opens a specific real age and card with visible native button focus and no spending or RNG',()=>{
@@ -83,12 +111,23 @@ test('Shipped guide opens a specific real age and card with visible native butto
 test('Guide live diagnostics update readable limits without replacing focused native controls',()=>{
  const {g,doc}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='city';use.dispatch('change');search.value='counterweight';search.dispatch('input');
  const card=doc.getElementById('worldCodexResults').querySelectorAll('article').find(n=>n.dataset.codexId==='city159-mechanism:counterweight');assert.ok(card);const button=card.querySelectorAll('button')[0];button.focus();const before=clean(g);g.worldCodex.updateLive(true);assert.equal(doc.activeElement,button);assert.deepEqual(clean(g),before);
- assert.match(doc.getElementById('worldCodexCoverage159').textContent,/626/);assert.match(doc.getElementById('worldCodexCoverage159').textContent,/300/);
- use.value='unavailable';search.value='DW-0300';use.dispatch('change');assert.equal(doc.getElementById('worldCodexStatus').value,'programme');assert.match(textTree(doc.getElementById('worldCodexResults')),/sans plan additionnel implantable/);
+ assert.match(doc.getElementById('worldCodexCoverage159').textContent,/626 contrats territoriaux G10/);assert.match(doc.getElementById('worldCodexCoverage159').textContent,/dépend de la graine/);
+ use.value='context160';search.value='DW-0300';use.dispatch('change');assert.equal(doc.getElementById('worldCodexStatus').value,'programme');assert.match(textTree(doc.getElementById('worldCodexResults')),/compatible avec G10/);
+ assert.ok(doc.getElementById('worldCodexResults').querySelectorAll('button').some(b=>b.dataset.codexTerritories160==='programme-DW-0300'));
 });
-test('A partial native freight site remains linked despite the complete rail programme being unsupported',()=>{
+test('The shipped G10 card button is keyboard-focusable and requests controller navigation without activation or notebook changes',()=>{
+ const {g,doc}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();
+ const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='context160';search.value='DW-0300';use.dispatch('change');
+ const card=doc.getElementById('worldCodexResults').querySelectorAll('article').find(n=>n.dataset.codexId==='programme-DW-0300');assert.ok(card);
+ const button=card.querySelectorAll('button').find(n=>n.dataset.codexTerritories160==='programme-DW-0300');assert.ok(button);assert.equal(button.type,'button');assert.equal(button.disabled,false);assert.match(button.getAttribute('aria-label'),/Voie verte/);
+ const before=clean(g),rng=g.random.state,owner=g.expansionUI,worldOwner=g.worldOps131,calls=[];
+ g.expansionUI={open(id){calls.push(id);return true;}};g.worldOps131={previewTerritories160:()=>assert.fail('Card must not preview'),activateTerritories160:()=>assert.fail('Card must not activate')};
+ try{button.focus();assert.equal(doc.activeElement,button);button.click();assert.deepEqual(calls,['world131']);assert.deepEqual(clean(g),before);assert.equal(g.random.state,rng);assert.equal(g.frontier.position().generation,8);}
+ finally{g.expansionUI=owner;g.worldOps131=worldOwner;}
+});
+test('A partial native freight site remains linked while its complete rail context requires G10',()=>{
  const {game}=fixture();game.frontier.world=()=>({pois:[{id:'P0100',name:'Halle fret désaffectée',type:'freight',codex:'DW-0289',levels:[0]}]});
- assert.equal(A.capability('DW-0289').eligible,false);assert.equal(A.knownPlaces(game,'DW-0289')[0].id,'P0100');assert.equal(A.placeAction(game,'DW-0289','P0100','map'),true);
+ assert.equal(A.capability('DW-0289').eligible,true);assert.equal(A.capability('DW-0289').historicalEligible,false);assert.equal(A.programmeStatus(game,'DW-0289').active,false);assert.equal(A.knownPlaces(game,'DW-0289')[0].id,'P0100');assert.equal(A.placeAction(game,'DW-0289','P0100','map'),true);
 });
 test('Shipped regional guide uses the real atlas and saved waypoint without touching unknown sites or resources',()=>{
  const {g,doc}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();const world=g.frontier.world(),place=world.pois.find(p=>p.programme3000),code=place.programme3000;

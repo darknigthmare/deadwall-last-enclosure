@@ -31,7 +31,7 @@ function buildSourceFiles(){
   ];
   // Build-time source dependencies are uploaded to Vercel, not copied to dist.
   // The compiler reads the authored envelopes from these 1,000 parent records.
-  return ['scripts/compile-codex3000.mjs','codex-3000/INDEX_3000.json',
+  return ['scripts/compile-codex3000.mjs','scripts/compile-codex-context160.mjs','codex-3000/addendum-1.60/CONTRATS.json','codex-3000/INDEX_3000.json',
     'codex-3000/addendum-1.58/validation.mjs','codex-3000/addendum-1.58/reader.mjs',...['A','B','C','D'].map(lot=>'codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json'),
     'codex-3000/source/CONTEXTES.json','codex-3000/source/ETATS.json','codex-3000/source/MODULES.json',
     ...catalogues.flatMap(source=>[source.file,...JSON.parse(fs.readFileSync(path.join(root,source.file),'utf8')).fiches.map(parent=>source.directory+'/'+parent.id+'.md')])];
@@ -98,18 +98,18 @@ test('distribution: exclusions Vercel ciblées, build et données publiques cons
 });
 
 test('distribution: vrai build public sans node_modules ni installation',t=>{
-  const directory=fixture(t),files=publicFiles(),generated='src/codex3000-live-data.js';
+  const directory=fixture(t),files=publicFiles(),generated=['src/codex3000-live-data.js','src/codex-context160-data.js'];
   // Require real regeneration: copying a previously compiled module would hide
   // missing source inputs in the dependency-free Vercel build fixture.
-  for(const file of [...files.filter(file=>file!==generated),...buildSourceFiles(),'scripts/build.mjs','package.json']){
+  for(const file of [...files.filter(file=>!generated.includes(file)),...buildSourceFiles(),'scripts/build.mjs','package.json']){
     const destination=path.join(directory,file);fs.mkdirSync(path.dirname(destination),{recursive:true});fs.copyFileSync(path.join(root,file),destination);
   }
   assert.equal(fs.existsSync(path.join(directory,'node_modules')),false);
-  assert.equal(fs.existsSync(path.join(directory,generated)),false);
+  for(const file of generated)assert.equal(fs.existsSync(path.join(directory,file)),false,file+' doit être réellement régénéré');
   const result=spawnSync(process.execPath,[path.join(directory,'scripts/build.mjs')],{cwd:directory,encoding:'utf8',windowsHide:true,env:{...process.env,NODE_PATH:''}});
   assert.equal(result.status,0,result.stderr||result.stdout);
   assert.equal(fs.existsSync(path.join(directory,'node_modules')),false,'le build ne nécessite ni crée une installation');
-  assert.deepEqual(fs.readFileSync(path.join(directory,generated)),fs.readFileSync(path.join(root,generated)),'le vrai compilateur reconstruit les mêmes octets depuis les sources auteur');
+  for(const file of generated)assert.deepEqual(fs.readFileSync(path.join(directory,file)),fs.readFileSync(path.join(root,file)),file+' : le vrai compilateur reconstruit les mêmes octets depuis les sources auteur');
   const built=fs.readdirSync(path.join(directory,'dist'),{recursive:true}).filter(file=>fs.statSync(path.join(directory,'dist',file)).isFile()).map(file=>file.replaceAll('\\','/')).sort();
   assert.deepEqual(built,files);
   const standalone=fs.readFileSync(path.join(directory,'DEADWALL_Standalone.html'),'utf8');
@@ -129,7 +129,7 @@ test('distribution: vrai build public sans node_modules ni installation',t=>{
       fs.readFileSync(path.join(directory,definition.url)),key+' conserve exactement les octets PNG');
     for(const field of ['width','height','matte'])assert.equal(actual[field],definition[field],key+' '+field);
   }
-  const extensions=[['trap-art159','DeadwallTrapArt159'],['equipment-art159','DeadwallEquipmentArt159'],['actor-actions159','DeadwallActorActions159'],['post-art159','DeadwallPostArt159'],['expedition-sprites159','DeadwallExpeditionSprites159'],['structure-art159','DeadwallStructureArt159']];
+  const extensions=[['trap-art159','DeadwallTrapArt159'],['equipment-art159','DeadwallEquipmentArt159'],['actor-actions159','DeadwallActorActions159'],['post-art159','DeadwallPostArt159'],['expedition-sprites159','DeadwallExpeditionSprites159'],['structure-art159','DeadwallStructureArt159'],['context-art160','DeadwallContextArt160']];
   const inlineScripts=[...standalone.matchAll(/<script>\n([\s\S]*?)\n<\/script>/g)].map(match=>match[1]);
   for(const [file,globalName] of extensions){
     const scripts=inlineScripts.filter(script=>script.includes('root.'+globalName+'=api'));
@@ -140,15 +140,57 @@ test('distribution: vrai build public sans node_modules ni installation',t=>{
     for(const [key,definition]of Object.entries(expected)){
       assert.ok(Object.isFrozen(actual[key]),key);assert.match(actual[key].url,/^data:image\/png;base64,/);
       assert.deepEqual(Buffer.from(actual[key].url.slice('data:image/png;base64,'.length),'base64'),fs.readFileSync(path.join(directory,definition.url)),key+' original brut embarqué');
-      for(const field of ['width','height','matte'])assert.equal(actual[key][field],definition[field],key+' '+field);
+      for(const field of ['width','height','matte','lazy'])assert.equal(actual[key][field],definition[field],key+' '+field);
     }
   }
 });
 
-test('distribution: PWA et protocole PC couvrent tout le contrat public actuel',()=>{
+test('distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC',()=>{
   const source=fs.readFileSync(path.join(root,'sw.js'),'utf8');
-  const assets=JSON.parse(vm.runInNewContext(source+';JSON.stringify(ASSETS)',{URL,self:{registration:{scope:'https://deadwall.test/'},addEventListener(){}}}));
-  assert.deepEqual([...new Set(assets.filter(file=>file!=='./'))].sort(),publicFiles().filter(file=>file!=='sw.js'));
+  const {assets,optional}=JSON.parse(vm.runInNewContext(source+';JSON.stringify({assets:ASSETS,optional:OPTIONAL_ASSETS})',{URL,self:{registration:{scope:'https://deadwall.test/'},addEventListener(){}}}));
+  const definitions=Object.values(require('../src/art.js').ASSETS),eager=definitions.filter(asset=>asset.lazy!==true),lazy=definitions.filter(asset=>asset.lazy===true);
+  assert.equal(eager.length,143);assert.equal(lazy.length,3);
+  assert.equal(new Set(assets).size,assets.length,'aucun doublon dans le précache');
+  assert.equal(new Set(optional).size,optional.length,'aucun doublon optionnel');
+  assert.deepEqual([...optional].sort(),lazy.map(asset=>asset.url).sort(),'seuls les trois PNG lazy sont optionnels');
+  for(const asset of eager){assert.ok(assets.includes(asset.url),asset.url+' précaché');assert.ok(!optional.includes(asset.url));}
+  for(const asset of lazy)assert.ok(!assets.includes(asset.url),asset.url+' ne bloque pas installation ou démarrage');
+  assert.ok(optional.every(file=>!assets.includes(file)),'manifestes disjoints');
+  assert.deepEqual([...new Set([...assets,...optional].filter(file=>file!=='./'))].sort(),publicFiles().filter(file=>file!=='sw.js'));
   for(const file of publicFiles().filter(file=>file!=='sw.js'))assert.equal(resolvePublicFile(root,'deadwall://game/'+file),path.join(root,file),file);
   assert.equal(resolvePublicFile(root,'deadwall://game/sw.js'),null);
+});
+
+test('distribution: le vrai worker installe le shell seul puis met en cache un PNG lazy uniquement à sa demande',async()=>{
+  const source=fs.readFileSync(path.join(root,'sw.js'),'utf8'),scope='https://deadwall.test/',handlers={},stores=new Map(),installed=[];
+  let networkCalls=0,offline=false;
+  const url=value=>new URL(typeof value==='string'?value:value.url,scope).href;
+  const caches={
+    async open(name){
+      if(!stores.has(name))stores.set(name,new Map());const store=stores.get(name);
+      return{
+        async addAll(files){installed.push(...files);for(const file of files)store.set(url(file),new Response('shell:'+file));},
+        async match(request){return store.get(url(request))?.clone();},
+        async put(request,response){store.set(url(request),response.clone());}
+      };
+    },
+    async keys(){return [...stores.keys()];},async delete(name){return stores.delete(name);}
+  };
+  const sandbox={URL,Response,caches,self:{registration:{scope},clients:{async claim(){}},async skipWaiting(){},addEventListener(type,handler){handlers[type]=handler;}},
+    async fetch(request){networkCalls++;if(offline)throw Error('offline');return new Response(fs.readFileSync(path.join(root,new URL(request.url).pathname.slice(1))),{headers:{'Content-Type':'image/png'}});}};
+  const contract=JSON.parse(vm.runInNewContext(source+';JSON.stringify({cache:CACHE,assets:ASSETS,optional:OPTIONAL_ASSETS})',sandbox));
+  let installing;handlers.install({waitUntil(value){installing=value;}});await installing;
+  assert.deepEqual(installed,contract.assets,'addAll reçoit seulement ASSETS');
+  const store=stores.get(contract.cache);
+  for(const file of contract.optional)assert.equal(store.has(url(file)),false,file+' absent avant visite');
+  const request=file=>({url:url(file),method:'GET',mode:'cors'});
+  const fetchEvent=async file=>{let response;handlers.fetch({request:request(file),respondWith(value){response=value;}});assert.ok(response);return await response;};
+  const file=contract.optional[0],expected=fs.readFileSync(path.join(root,file)),online=await fetchEvent(file);
+  assert.equal(online.status,200);assert.deepEqual(Buffer.from(await online.arrayBuffer()),expected);assert.equal(networkCalls,1);
+  assert.ok(store.has(url(file)),'la première vraie réponse remplit le cache optionnel');
+  offline=true;const cached=await fetchEvent(file);
+  assert.deepEqual(Buffer.from(await cached.arrayBuffer()),expected);assert.equal(networkCalls,1,'la revisite hors ligne ne relance pas le réseau');
+  const failure=await fetchEvent(contract.optional[1]);assert.equal(failure.type,'error');assert.equal(networkCalls,2);
+  assert.equal(store.has(url(contract.optional[1])),false,'un échec optionnel ne crée pas de fausse réponse');
+  for(const shell of contract.assets)assert.ok(store.has(url(shell)),shell+' demeure disponible après cet échec');
 });

@@ -4,9 +4,10 @@
 (function(root,factory){'use strict';
  const dependency=(globalName,file)=>root[globalName]||(typeof require==='function'?require(file):null);
  const api=factory(dependency('DeadwallCore','./core.js'),dependency('DeadwallCityCatalogue150','./city-catalogue150.js'),
-  dependency('DeadwallCodex3000Runtime','./codex3000-runtime.js'),dependency('DeadwallBiomes135','./biomes135.js'));
+  dependency('DeadwallCodex3000Runtime','./codex3000-runtime.js'),dependency('DeadwallBiomes135','./biomes135.js'),
+  dependency('DeadwallCodexContext160','./codex-context160.js'));
  root.DeadwallCodexActions159=api;if(typeof module==='object'&&module.exports)module.exports=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(C,City,R,B){'use strict';
+})(typeof globalThis!=='undefined'?globalThis:this,function(C,City,R,B,X){'use strict';
  const catalogue=C&&City?City.create(C):null,choices=new Map((catalogue?.items||[]).map(item=>[item.key,item]));
  const contexts=(B?.defs||[]).flatMap(b=>['',...Object.keys(C?.WorldTownRules141?.required||{}),'cite-industrielle'].map(townKind=>({biome:b.id,townKind})));
  const capabilities=new Map();
@@ -41,9 +42,19 @@
  function capability(programmeId){
   const id=String(programmeId||'').replace(/^programme-/,''),cached=capabilities.get(id);if(cached)return cached;
   const record=R?.get(id);if(!record)return null;
-  const preset=R.preset('codex3000-'+record.id.slice(3)),eligible=!!preset&&contexts.some(context=>R.enabled(record,context));
-  const value=Object.freeze({id:record.id,hasPlan:!!preset,eligible,generation:record.extension===158?9:8,
-   text:!preset?'Programme spécialisé sans plan additionnel implantable dans les générations actuelles : eau, ouvrages, rail ou composition de quartier. Les lieux partiels déjà repérés restent visitables.':
+  const historicalPreset=R.preset('codex3000-'+record.id.slice(3)),historicalEligible=!!historicalPreset&&contexts.some(context=>R.enabled(record,context));
+  const contract=X?.get(record.id),contextPreset=contract&&X.preset(X.typeFor(record.id));
+  const preset=contract?contextPreset:historicalPreset,eligible=contract?!!contextPreset:historicalEligible;
+  const scope=contract?'Site abandonné à explorer, avec réserves finies. '+
+   (contract.operationCandidates.length?'Les services indiqués demandent une intervention physique payée sur place. ':'')+
+   'Les accès suivent la géométrie réelle du lieu. '+(contract.implementation160?.text||''):null;
+  const value=Object.freeze({id:record.id,hasPlan:!!preset,eligible,generation:contract?10:record.extension===158?9:8,
+   context160:contract?.context160||null,scope,
+   historicalHasPlan:!!historicalPreset,historicalEligible,
+   supportedGenerations:Object.freeze(contract?[10]:record.extension===158?[9,10]:[8,9,10]),
+   adaptation:contract?.adaptation||null,implementation160:contract?.implementation160||null,
+   text:contract?'Programme territorial compatible avec G10, à activer volontairement au dépôt depuis Monde & relais. '+scope+' Une fiche ne garantit pas un emplacement sur chaque graine.':
+    !preset?'Programme spécialisé sans plan additionnel implantable dans les générations actuelles : eau, ouvrages, rail ou composition de quartier. Les lieux partiels déjà repérés restent visitables.':
     !eligible?'Plan métrique consultable ; son contexte complet spécialisé n’est pas implanté dans les générations actuelles. Les lieux partiels déjà repérés restent visitables.':
     record.extension===158?'Programme compatible avec G9, activée volontairement au dépôt. Une fiche ne garantit pas un emplacement sur chaque graine.':
     'Programme compatible avec les implantations G8 et G9. Une fiche ne garantit pas un emplacement sur chaque graine.'});
@@ -58,6 +69,29 @@
    .map(p=>Object.freeze({id:p.id,name:p.name,programme:id,levels:Object.freeze([...(p.levels||[0])])}));
  }
  function canNavigate(game){return game?.state==='playing'&&!game.gameOver&&!game.player?.dead&&game.canIssueCommand?.()===true;}
+ function programmeStatus(game,programmeId){
+  const c=capability(programmeId);if(!c)return null;
+  // Position is a lightweight owner read. A guide refresh must not prepare a
+  // territorial preview or inspect a region absent from the discovery notebook.
+  const currentGeneration=game?.frontier?.position?.().generation??null;
+  const active=Number.isInteger(currentGeneration)&&c.supportedGenerations.includes(currentGeneration);
+  return Object.freeze({...c,currentGeneration,active,needsActivation160:!!c.context160&&!active,
+   text:c.context160?(active?'Programme territorial pris en charge par G10, activée dans cette campagne. '+c.scope+
+    ' Une fiche ne garantit pas un emplacement sur chaque graine. Seuls les lieux réellement repérés figurent ci-dessous.':
+    c.text+' G10 n’est pas activée dans cette campagne. Rejoignez le dépôt pour consulter son activation après G8 ou G9.'):c.text});
+ }
+ function canOpenTerritories160(game,programmeId){
+  const c=capability(programmeId);
+  if(!c?.context160||!canNavigate(game)||typeof game.expansionUI?.open!=='function'||
+   typeof game.worldOps131?.previewTerritories160!=='function'||typeof game.worldOps131?.activateTerritories160!=='function')return false;
+  return [8,9].includes(game.frontier?.position?.().generation);
+ }
+ function openTerritories160(game,programmeId){
+  if(!canOpenTerritories160(game,programmeId))return false;
+  // Only navigation: the controller retains its preview, physical guards and
+  // explicit activation button. Reading a Codex card never runs that action.
+  return game.expansionUI.open('world131')!==false;
+ }
  function knownProgrammes(game){
   const frontier=game?.frontier;if(typeof frontier?.discoveries!=='function'||typeof frontier?.world!=='function')return [];
   const known=new Set(frontier.discoveries());if(!known.size)return [];
@@ -90,7 +124,8 @@
   else document?.getElementById?.('cityCatalogueAge150')?.focus?.({preventScroll:true});
   return true;
  }
- function availabilitySummary(){let missingPlan=0,unsupported=0;for(const record of R?.records||[]){const c=capability(record.id);if(!c.hasPlan)missingPlan++;if(!c.eligible)unsupported++;}
-  return Object.freeze({programmes:R?.records.length||0,choices:choices.size,missingPlan,unsupported});}
- return Object.freeze({entries,catalogue,capability,knownPlaces,knownProgrammes,canNavigate,placeAction,choiceContext,choiceStatus,openChoice,availabilitySummary});
+ function availabilitySummary(){let missingPlan=0,unsupported=0,contextual160=0,historicalMissingPlan=0,historicalUnsupported=0;
+  for(const record of R?.records||[]){const c=capability(record.id);if(!c.hasPlan)missingPlan++;if(!c.eligible)unsupported++;if(c.context160)contextual160++;if(!c.historicalHasPlan)historicalMissingPlan++;if(!c.historicalEligible)historicalUnsupported++;}
+  return Object.freeze({programmes:R?.records.length||0,choices:choices.size,missingPlan,unsupported,contextual160,historicalMissingPlan,historicalUnsupported});}
+ return Object.freeze({entries,catalogue,capability,programmeStatus,canOpenTerritories160,openTerritories160,knownPlaces,knownProgrammes,canNavigate,placeAction,choiceContext,choiceStatus,openChoice,availabilitySummary});
 });

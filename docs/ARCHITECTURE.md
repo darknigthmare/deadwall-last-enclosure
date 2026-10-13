@@ -1,5 +1,15 @@
 # Architecture technique
 
+## Contextes physiques et services — 1.60
+
+`codex-3000/addendum-1.60/CONTRATS.json` conserve les 626 identifiants exclus en 1.59, leurs parents et les limites de leurs adaptations. `compile-codex-context160.mjs` produit `codex-context160-data.js` ; `codex-context160.js` fournit des lectures pures des contrats. Les 300 programmes sans preset reprennent l'emprise minimale auteur ; les 326 plans intérieurs existants gardent leurs dimensions et niveaux. `codex-geometry160.js` ajoute leurs sols, volumes, passages, obstacles et points de travail en utilisant les règles de `core.js`.
+
+G10 reprend le monde G9 puis ajoute ces programmes, sans rendre actifs les anciens filtres G8/G9 ni redistribuer leurs lieux. Le placement reste borné et peut refuser une instance. `world-pack131.js` prépare l'extension depuis G8 ou G9, vérifie les possessions, acteurs, corps, dispositifs et annexes conservés, puis valide la sauvegarde complète avant restauration. Une consultation du Guide ne prépare ni n'active cette extension.
+
+`context-operations160.js` rejoint le registre existant `expansions127` sous l'identifiant `context160`. Les tâches sont transitoires ; seul l'ensemble strict des accès, bassins et aiguillages achevés est sauvegardé. Les opérations revalident support, niveau, distance, menace, mains, état du sac et santé avant le paiement final. Le monde lit les réalisations depuis leur propriétaire pour modifier les vrais obstacles. Vision et mouvement distinguent les solides opaques des terrains infranchissables visibles, notamment l'eau.
+
+`context-art160.js` utilise trois atlas originaux déclarés `lazy` dans le chargeur commun. Les 143 images historiques gardent leur chargement initial ; les trois nouvelles images sont demandées selon le contenu rencontré, dans une file bornée à deux décodages simultanés. Les pièces mobiles lisent l'avancement et l'état du propriétaire d'opération ; les poses et caches ne sont pas sauvegardés. La PWA distribue ces atlas comme ressources optionnelles, mises en cache à leur première consultation connectée. Le HTML autonome contient leurs octets et les décode à la demande. Les limites des 18 références multiniveaux et la procédure de validation figurent dans [LIVRAISON_1_60.md](LIVRAISON_1_60.md).
+
 ## Qualité du monde et du rendu — 1.52
 
 `d17-art152.js` associe 28 modèles existants à quatre atlas transparents. Le chargeur commun expose les images, et le raccord final après les peintres historiques conserve les overlays de dégâts et lit les scalaires des propriétaires (`powerGrid.charge`, `siege.presentationWaterRatio`, `territories.presentationStatus`). Ces lectures n'appellent ni snapshot, ni réconciliation, ni RNG. Les listes explicites web/serveur/PWA et le HTML autonome incluent les nouveaux modules et images.

@@ -2198,3 +2198,16 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  C.Balance151=freeze({RULES,TIER_REQUIREMENTS,LABELS,developmentScore,requirements,initial,done});
  C.Urban=Object.freeze({...C.Urban,knownTier:raw=>{const state=C.Urban.normalize(raw);return state.progression151?C.CITY_TIERS[state.progression151.age]:C.cityTier(state.peakScore);}});
 })(globalThis);
+
+/* G10 field work: paid materials and active simulation time, never a loot grant. */
+(function(root){'use strict';
+ const C=root.DeadwallCore,freeze=value=>{for(const child of Object.values(value))if(child&&typeof child==='object')freeze(child);return Object.freeze(value);};
+ C.ContextRules160=freeze({version:1,maxRecords:5000,reach:2.2,danger:12,moveTolerance:.06,maxStep:.25,healthEpsilon:.000001,noiseInterval:.8,
+  operations:{
+   restoreAccess:{name:'Rétablir cet accès',seconds:16,cost:{wood:8,scrap:6},repeat:false},
+   pumpBasin:{name:'Purger ce bassin',seconds:18,cost:{fuel:2,scrap:3},repeat:false},
+   switchTrack:{name:'Déverrouiller cet aiguillage',seconds:10,cost:{scrap:4},repeat:false},
+   medicalCare:{name:'Soins au poste médical',seconds:10,cost:{medicine:1},repeat:true,heal:20}
+  }});
+ C.ContextGeometryRules160=freeze({attemptLimit:96,frontSetback:26,roadWidth:8,walkWidth:3.2,bridgeWidth:10,wallThickness:.28,contextBandWidth:8,gateWidth:3.2,terrainClearance:1,clusterBlockWidth:18,clusterBlockHeight:14,clusterGap:12});
+})(globalThis);

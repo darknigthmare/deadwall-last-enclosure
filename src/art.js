@@ -22,8 +22,10 @@
   const ActorActions159=root.DeadwallActorActions159||(typeof require==='function'?require('./actor-actions159.js'):null);
   const PostArt159=root.DeadwallPostArt159||(typeof require==='function'?require('./post-art159.js'):null);
   const ExpeditionSprites159=root.DeadwallExpeditionSprites159||(typeof require==='function'?require('./expedition-sprites159.js'):null);
+  const ContextArt160=root.DeadwallContextArt160||(typeof require==='function'?require('./context-art160.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
+    ...(ContextArt160?.ASSETS||{}),
     ...(Artwork136?.ASSETS||{}),
     ...(Artwork136?.ASSETS138||{}),
     ...(Artwork136?.ASSETS139||{}),
@@ -281,7 +283,38 @@
       this.images = {}; this.rects = {}; this.actionFrames133 = {}; this.motion = new WeakMap(); this.namedMotion = new Map(); this.nodeSpecies = new WeakMap();
       this.diagnostics = { ready: [], failed: [], draws: {} };
       this.renderCache153=RenderCache153?.create();
-      this.ready = Promise.all(Object.entries(ASSETS).map(([key, spec]) => this.load(key, spec)));
+      this.assetRequests160=new Map();this.lazyQueue160=[];this.activeLazyLoads160=0;
+      this.ready = Promise.all(Object.entries(ASSETS).filter(([,spec])=>spec.lazy!==true).map(([key,spec])=>{
+        const pending=this.load(key,spec);
+        this.assetRequests160.set(key,pending.then(()=>!!this.images[key]&&!this.diagnostics.failed.includes(key),()=>false));
+        return pending;
+      }));
+    }
+    ensure(key) {
+      if(typeof key!=='string'||!Object.hasOwn(ASSETS,key))return Promise.resolve(false);
+      const existing=this.assetRequests160.get(key);if(existing)return existing;
+      if(this.images[key]&&!this.diagnostics.failed.includes(key)){
+        const ready=Promise.resolve(true);this.assetRequests160.set(key,ready);return ready;
+      }
+      const pending=new Promise(resolve=>this.lazyQueue160.push({key,resolve}));
+      this.assetRequests160.set(key,pending);this.drainLazy160();return pending;
+    }
+    ensureAssets(keys) {
+      return Promise.all(Array.isArray(keys)?keys.map(key=>this.ensure(key)):[]);
+    }
+    drainLazy160() {
+      while(this.activeLazyLoads160<2&&this.lazyQueue160.length){
+        const job=this.lazyQueue160.shift();this.activeLazyLoads160++;
+        const finish=ok=>{
+          this.activeLazyLoads160--;job.resolve(ok);this.drainLazy160();
+        };
+        // Deferred images share the historical dimension and matte decoder.
+        // Failed requests stay settled so painting cannot retry each frame.
+        Promise.resolve().then(()=>this.load(job.key,ASSETS[job.key])).then(
+          ()=>finish(!!this.images[job.key]&&!this.diagnostics.failed.includes(job.key)),
+          ()=>{if(!this.diagnostics.failed.includes(job.key))this.diagnostics.failed.push(job.key);finish(false);}
+        );
+      }
     }
     load(key, spec) {
       return new Promise(resolve => {

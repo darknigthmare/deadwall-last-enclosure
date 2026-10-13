@@ -7,7 +7,7 @@ const threatCount=(seed,p)=>p.generation>=5&&['allied','empty'].includes(p.occup
 const RULES=Object.freeze({size:8192,chunk:256,chunkCache:25,planCache:48,metreUnits:32,footRadius:.32,carRadius:2.5,walk:3.5,run:5.0,roadSpeed:18,offroadSpeed:7.2,fuelPerMetre:.004,lootRate:3,maxEnemy:48,baseMin:4032,baseMax:4160,discover:65,lootReach:1.6});
 const TOWNS=[{id:'t0',name:'Les Verrières',x:4700,y:4070,r:500,a:.06},{id:'t1',name:'Val-des-Ormes',x:2550,y:2600,r:600,a:-.12},{id:'t2',name:'Saint-Roch',x:6300,y:2250,r:600,a:.1},{id:'t3',name:'La Briqueterie',x:2600,y:6250,r:600,a:.03},{id:'t4',name:'Moulin-Neuf',x:5900,y:6300,r:620,a:-.1},{id:'t5',name:'Bois-Mort',x:1200,y:4100,r:430,a:.15}];
 const LINES=[[[32,4096],[1200,4100],[2650,4096],[4032,4096],[4160,4096],[4700,4070],[6500,4190],[8160,4170]],[[4096,32],[3910,1500],[4096,2700],[4096,4032],[4096,4160],[4000,5500],[4160,7000],[4096,8160]],[[1200,4100],[1700,3250],[2550,2600],[4096,2700],[5150,2350],[6300,2250],[7400,2650]],[[1200,4100],[1500,5100],[2600,6250],[4000,5500],[4950,5900],[5900,6300],[7300,6050],[7650,4850],[6500,4190]],[[6300,2250],[6500,3300],[6500,4190]],[[2550,2600],[2100,1350],[3200,900],[3910,1500]],[[2600,6250],[2650,7350],[4160,7000],[5900,6300]]];
-function create(seed,requestedGeneration=3,effects={}){const isG6=requestedGeneration>=6,generation=isG6?requestedGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7,8,9].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let codexCoverage=null,settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,requestedGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,requestedGeneration):[];let geography=null;
+function create(seed,requestedGeneration=3,effects={}){const baseGeneration=Math.min(requestedGeneration,9),isG6=requestedGeneration>=6,generation=isG6?baseGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7,8,9,10].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const Context160=requestedGeneration===10?(root.DeadwallCodexContext160||(typeof require==='function'?require('./codex-context160.js'):null)):null,Geometry160=requestedGeneration===10?(root.DeadwallCodexGeometry160||(typeof require==='function'?require('./codex-geometry160.js'):null)):null;if(requestedGeneration===10&&(!Context160||!Geometry160))throw Error('Contextes physiques160 absents');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let codexCoverage=null,contextCoverage160=null,settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,baseGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,baseGeneration):[];let geography=null;
 const addRoad=(a,b,width=7)=>{const r={id:'r'+roads.length,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},width};roads.push(r);return r;};
 const placementRoadBins=new Map();let placementRoadPad=0;
 // Construction-only broad phase: a parcel includes its reserved lot and paved
@@ -26,7 +26,7 @@ function placementRoads(box){if(requestedGeneration<7)return roads;const found=n
 if(!isG6){for(const poly of LINES)for(let i=1;i<poly.length;i++)addRoad(poly[i-1],poly[i]);
 for(const t of TOWNS){const point=(x,y)=>[t.x+x*Math.cos(t.a)-y*Math.sin(t.a),t.y+x*Math.sin(t.a)+y*Math.cos(t.a)];for(let n=-2;n<=2;n++){const off=n*132;addRoad(point(-350,off),point(370-(n%2)*50,off),5.8);addRoad(point(off,-320),point(off,330),5.8);}const p=point(0,0);addRoad([t.x,t.y],point(0,-320),5.8);}
 }
-if(isG6){if(!Geo||!Biomes)throw Error('Géographie ou biomes 1.35 absents');geography=Geo.generate(seed,{addRoad,biomes:Biomes,generation:requestedGeneration});const Road=root.DeadwallRoadKit||(typeof require==='function'?require('./region-roadkit.js'):null),network=Road.topology(roads,seed);roads.splice(0,roads.length,...network.roads);settlementData={towns:geography.towns,sectors:geography.sectors,junctions:network.junctions};outerBuilding=true;if(requestedGeneration>=7)preparePlacementRoads();}
+if(isG6){if(!Geo||!Biomes)throw Error('Géographie ou biomes 1.35 absents');geography=Geo.generate(seed,{addRoad,biomes:Biomes,generation:baseGeneration});const Road=root.DeadwallRoadKit||(typeof require==='function'?require('./region-roadkit.js'):null),network=Road.topology(roads,seed);roads.splice(0,roads.length,...network.roads);settlementData={towns:geography.towns,sectors:geography.sectors,junctions:network.junctions};outerBuilding=true;if(requestedGeneration>=7)preparePlacementRoads();}
 function nearestRoad(point,tree=roadTree){
  let result=null;const check=r=>{nearestChecks++;const n=G.nearest(point,r.a,r.b);if(!result||n.d<result.d||(n.d===result.d&&(roadOrder.get(r)??roads.indexOf(r))<(roadOrder.get(result.road)??roads.indexOf(result.road))))result={...n,road:r};};
  if(!roadIndexReady){for(const r of roads)check(r);return result;}
@@ -34,7 +34,7 @@ function nearestRoad(point,tree=roadTree){
  while(stack.length){const node=stack.pop();if(result&&distance(node)>result.d*result.d+1e-9)continue;if(node.items){for(const r of node.items)check(r);continue;}const dl=distance(node.left),dr=distance(node.right);if(dl<dr){stack.push(node.right,node.left);}else stack.push(node.left,node.right);}
  return result;
 }
-function install(type,x,y,a,road,name){const d=G.BY[type]||Codex3000?.preset(type);if(!d)return false;const p={id:'P'+String(pois.length).padStart(4,'0'),type,x,y,a,w:d.w,h:d.h,name:name||d.name,levels:d.levels,codex:d.codex,road:road.id,generation};const service=G.global(p,p.w/2,p.h/2+5),lot={x:service.x,y:service.y,w:p.w+26,h:p.h+48,a};const b=G.bounds(lot),limit=outerBuilding?size:8192;
+function install(type,x,y,a,road,name){const d=G.BY[type]||Codex3000?.preset(type)||Context160?.preset(type);if(!d)return false;const isContext=d.layout==='codex160';if(isContext&&pois.length>=10000)return false;const p={id:'P'+String(pois.length).padStart(4,'0'),type,x,y,a,w:d.w,h:d.h,name:name||d.name,levels:d.levels,codex:d.codex,road:road.id,generation:isContext?10:generation};const service=G.global(p,p.w/2,p.h/2+5),lot={x:service.x,y:service.y,w:p.w+26,h:p.h+48,a};const b=G.bounds(lot),limit=outerBuilding?size:8192;
  if(b.l<40||b.t<40||b.r>limit-40||b.b>limit-40||G.overlap(b,{l:home.minX-16,r:home.maxX+16,t:home.minY-16,b:home.maxY+16}))return false;const nearby=requestedGeneration>=7?[...placementParcels(b)]:pois;if(nearby.some(q=>G.overlap(b,q.reserve,1))||annexReservations.some(q=>G.overlap(b,q,2)))return false;
  // Any public road through a prospective built/service envelope vetoes this parcel.
  const prohibited={x:-10,y:-17,w:p.w+20,h:p.h+32};for(const r of placementRoads(b)){const pad=requestedGeneration>=7?r.width/2:0,box=pad?{x:prohibited.x-pad,y:prohibited.y-pad,w:prohibited.w+pad*2,h:prohibited.h+pad*2}:prohibited;if(G.segmentRect(G.local(p,r.a.x,r.a.y),G.local(p,r.b.x,r.b.y),box))return false;}
@@ -44,7 +44,7 @@ function install(type,x,y,a,road,name){const d=G.BY[type]||Codex3000?.preset(typ
   const d=p.drive,corridor={l:Math.min(d.a.x,d.b.x),r:Math.max(d.a.x,d.b.x),t:Math.min(d.a.y,d.b.y),b:Math.max(d.a.y,d.b.y)},approaches=placementParcels(corridor,d.width/2+1);
   if([...approaches].some(q=>corridorHits(p.drive,q.reserve))||nearby.some(q=>corridorHits(q.drive,b))||annexReservations.some(q=>corridorHits(p.drive,q)))return false;
  }
- p.parking=G.parking(p);p.outdoor=G.outdoor(p);pois.push(p);if(requestedGeneration>=7)indexPlacementParcel(p);return p;
+ p.parking=isContext?[]:G.parking(p);p.outdoor=isContext?[]:G.outdoor(p);pois.push(p);if(requestedGeneration>=7)indexPlacementParcel(p);return p;
 }
 if(!isG6){const east=roads.find(r=>r.a.x===4160&&r.a.y===4096);if(east){install('house',4248,4142,0,east,'La Maison du chemin est');install('grocer',4390,4156,0,east,'L’Épicerie des retours');install('fuel',4530,3990,Math.PI,east,'Les Pompes des Verrières');}
 for(const r of [...roads]){const len=Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y),angle=Math.atan2(r.b.y-r.a.y,r.b.x-r.a.x);for(let at=40+random()*40;at<len-40;at+=65+random()*90){const x=r.a.x+(r.b.x-r.a.x)*at/len,y=r.a.y+(r.b.y-r.a.y)*at/len,urban=Math.max(...TOWNS.map(t=>Math.max(0,1-Math.hypot(x-t.x,y-t.y)/t.r)));if(random()>(urban>.1?.82:.21))continue;
@@ -75,8 +75,11 @@ if(requestedGeneration>=7){
   const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);
   if(!Codex3000||Codex3000.summary().legacyCount!==3000)throw Error('Codex 3000 runtime incomplet');
   codexCoverage=Codex3000.populateRegion({seed,roads,install,biomes:Biomes,
-   towns:settlementData.towns,sectors:settlementData.sectors,spawn:Spawn,home,generation:requestedGeneration});
+   towns:settlementData.towns,sectors:settlementData.sectors,spawn:Spawn,home,generation:baseGeneration});
  }
+ // Complete the historical G9 pass first. G10 appends its own types without
+ // changing compatibility, IDs, parcel coordinates or plans of that prefix.
+ if(requestedGeneration===10){const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);contextCoverage160=Geometry160.populate({seed,roads,install,contracts:Context160,biomes:Biomes,sectors:settlementData.sectors,spawn:Spawn,home});}
  placementRoadBins.clear();placementParcelBins.clear();
 }else if(isG6)populateG6();
 for(const r of roads)for(let y=Math.floor(Math.min(r.a.y,r.b.y)/256);y<=Math.floor(Math.max(r.a.y,r.b.y)/256);y++)for(let x=Math.floor(Math.min(r.a.x,r.b.x)/256);x<=Math.floor(Math.max(r.a.x,r.b.x)/256);x++){
@@ -164,6 +167,14 @@ function drivewayAt(x,y,margin=0){
   if(seen.has(d))continue;seen.add(d);
   if(G.nearest({x,y},d.a,d.b).d<d.width/2+margin)return{a:{...d.a},b:{...d.b},width:d.width};
  }
+ if(Geometry160)for(const p of contextSites160(x,y,margin+1)){
+  const q=G.local(p,x,y);
+  for(const o of plan(p,0).terrain160||[]){
+   if(!['road','bridge','quay'].includes(o.kind)||o.allowVehicle===false||q.x<o.x-margin||q.y<o.y-margin||q.x>o.x+o.w+margin||q.y>o.y+o.h+margin)continue;
+   const horizontal=o.w>o.h,a=G.global(p,horizontal?o.x:o.x+o.w/2,horizontal?o.y+o.h/2:o.y),b=G.global(p,horizontal?o.x+o.w:o.x+o.w/2,horizontal?o.y+o.h/2:o.y+o.h);
+   return{a,b,width:horizontal?o.h:o.w,context160:p.id};
+  }
+ }
  return null;
 }
 function chunk(cx,cy){if(!Number.isInteger(cx)||!Number.isInteger(cy)||cx<0||cy<0||cx>=size/256||cy>=size/256)return{cx,cy,trees:[],rocks:[]};const id=cx+','+cy;if(chunks.has(id)){const c=chunks.get(id);chunks.delete(id);chunks.set(id,c);return c;}if(isG6){
@@ -175,7 +186,7 @@ function chunk(cx,cy){if(!Number.isInteger(cx)||!Number.isInteger(cy)||cx<0||cy<
   const n=nearestRoad({x,y});return n.d>n.road.width/2+pad+1&&!approaches.some(d=>G.nearest({x,y},d.a,d.b).d<d.width/2+pad+1);
  };
  const clear=clearFor(ps,drives),historicalClear=requestedGeneration>=8?clearFor(ps.filter(p=>p.generation<8),drives.filter(d=>!programmeDrives.has(d))):clear;
- const c=Biomes.scatter(seed,cx,cy,{clear:historicalClear,home,generation:requestedGeneration});
+ const c=Biomes.scatter(seed,cx,cy,{clear:historicalClear,home,generation:baseGeneration});
  if(requestedGeneration>=8){
   // First reproduce G7 resources exactly, then clear only the new reservations.
   // These finite tombstones validate old harvests without granting new loot.
@@ -184,6 +195,7 @@ function chunk(cx,cy){if(!Number.isInteger(cx)||!Number.isInteger(cy)||cx<0||cy<
   c.decor=c.decor.filter(o=>clear(o.x,o.y,.4));
   if(cleared.length)c.cleared=cleared;
  }
+ if(Geometry160)c.contexts160=ps.filter(p=>p.programme160).map(p=>p.id);
  chunks.set(id,c);if(chunks.size>RULES.chunkCache)chunks.delete(chunks.keys().next().value);return c;
 }const rnd=G.rng(G.hash(seed,cx,cy,'patches1')),trees=[],rocks=[],historic=!!historicRoadTree&&cx<8192/256&&cy<8192/256,ps=(bins.get(id)||[]).filter(p=>!historic||p.generation<5),terrainRoadTree=historic?historicRoadTree:roadTree;
 for(let i=0;i<1100;i++){const x=cx*256+rnd()*256,y=cy*256+rnd()*256;if(x>4010&&x<4182&&y>4010&&y<4182)continue;const density=G.noise(seed^7931,x,y,310)*.7+G.noise(seed^9981,x,y,74)*.3,nr=nearestRoad({x,y},terrainRoadTree);if(nr.d<nr.road.width/2+5||ps.some(p=>x>p.reserve.l&&x<p.reserve.r&&y>p.reserve.t&&y<p.reserve.b))continue;if(rnd()>Math.max(0,density-.3)*1.25)continue;const tree={id:'T'+cx+'_'+cy+'_'+i,x,y,r:.2+rnd()*.28,canopy:2.6+rnd()*2.6,a:rnd()*Math.PI*2,kind:'tree',resource:'wood',amount:7+Math.floor(rnd()*17)};if(trees.some(q=>Math.hypot(q.x-x,q.y-y)<2.4))continue;trees.push(tree);}
@@ -197,9 +209,10 @@ const paved=[...localRoads];for(const items of [trees,rocks])for(let i=items.len
 const c={cx,cy,trees,rocks,...(cleared.length?{cleared}:{})};chunks.set(id,c);if(chunks.size>RULES.chunkCache)chunks.delete(chunks.keys().next().value);return c;}
 function prefetch(x,y,budget=1){const cx=Math.floor(x/256),cy=Math.floor(y/256),order=[[0,0],[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];let loaded=0;for(const [dx,dy]of order){const a=cx+dx,b=cy+dy;if(a<0||b<0||a>=size/256||b>=size/256||chunks.has(a+','+b))continue;chunk(a,b);if(++loaded>=budget)break;}return loaded;}
 function around(x,y,r=100){const out=[];for(let cy=Math.floor((y-r)/256);cy<=Math.floor((y+r)/256);cy++)for(let cx=Math.floor((x-r)/256);cx<=Math.floor((x+r)/256);cx++)out.push(chunk(cx,cy));return out;}
-function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
+function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme160?{...Geometry160.plan(p,seed,z),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
 function sceneryRadius(t){const depleted=(effects.resourceTaken?.(t.id)||0)>=t.amount-.001;return depleted?(t.kind==='rock'?0:Math.min(t.r,.18)):t.r;}
 function detailAt(p,z=0){
+ if(p?.programme160)return{interior:[],outdoor:[],variant:p.context160?.archetype||null,programme3000:p.programme160,programmeState:Codex3000?.get(p.programme160)?.state||null,context160:plan(p,z)};
  if(requestedGeneration<7||!Detail157||!p||!p.levels?.includes(z))return{interior:[],outdoor:[],variant:null};
  const key=p.id+':'+z;if(detailCache.has(key)){const val=detailCache.get(key);detailCache.delete(key);detailCache.set(key,val);return val;}
  const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
@@ -213,23 +226,24 @@ function detailAt(p,z=0){
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);
  return val;
 }
-function blocked(x,y,r=.32,z=0,inside=null,ignore=null){if(!Number.isFinite(x)||!Number.isFinite(y)||x<r||y<r||x>size-r||y>size-r)return true;
+function blocked(x,y,r=.32,z=0,inside=null,ignore=null,optical=false){if(!Number.isFinite(x)||!Number.isFinite(y)||x<r||y<r||x>size-r||y>size-r)return true;
 if(z!==0){const p=pois.find(p=>p.id===inside);if(!p||!p.levels.includes(z))return true;const q=G.local(p,x,y);if(q.x<r||q.y<r||q.x>p.w-r||q.y>p.h-r)return true;}
-for(const p of nearPOI(x,y,r+3)){const destroyed=!!effects.structureDestroyed?.(p.id);if(z!==0&&p.id!==inside)continue;if(!p.levels.includes(z))continue;const q=G.local(p,x,y);if(q.x>-r&&q.y>-r&&q.x<p.w+r&&q.y<p.h+r){const pl=plan(p,z);if(!destroyed&&pl.walls.some(b=>G.circleRect(q.x,q.y,r,b)))return true;if(pl.objects.some(b=>b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;if(detailAt(p,z).interior.some(b=>b.solid&&b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;}
+for(const p of nearPOI(x,y,r+3)){const destroyed=!!effects.structureDestroyed?.(p.id);if(z!==0&&p.id!==inside)continue;if(!p.levels.includes(z))continue;const q=G.local(p,x,y);if(p.programme160){const pl=plan(p,z);if((optical?Geometry160.optical(p,pl,q.x,q.y,r,effects):Geometry160.terrainMovement(p,pl,q.x,q.y,r,false,effects)))return true;}if(q.x>-r&&q.y>-r&&q.x<p.w+r&&q.y<p.h+r){const pl=plan(p,z);if(!destroyed&&pl.walls.some(b=>G.circleRect(q.x,q.y,r,b)))return true;if(pl.objects.some(b=>b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;if(detailAt(p,z).interior.some(b=>b.solid&&b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;}
 if(z===0){for(const b of p.outdoor||[])if(b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;for(const b of detailAt(p,0).outdoor)if(b.solid&&b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;}
 if(z===0)for(const car of p.parking){if(car.id===ignore)continue;const v=G.local(car,x,y);if(G.circleRect(v.x,v.y,r,{x:0,y:0,w:car.w,h:car.h}))return true;}}
 if(z===0)for(const c of around(x,y,r+4))for(const t of [...c.trees,...c.rocks])if(t.id!==ignore&&sceneryRadius(t)>0&&Math.hypot(t.x-x,t.y-y)<sceneryRadius(t)+r)return true;return false;}
 // Sweep the same collision disc against real geometry. Sampling blocked() every
 // 18 cm multiplied every crowd sight ray into hundreds of repeated chunk scans.
-function line(a,b,z=0,inside=null,ignore=null,r=.05){
+function line(a,b,z=0,inside=null,ignore=null,r=.05,purpose='optical'){
  if(!Number.isFinite(a.x+a.y+b.x+b.y+r)||r<0||[a,b].some(p=>p.x<r||p.y<r||p.x>size-r||p.y>size-r))return false;
- const dx=b.x-a.x,dy=b.y-a.y,len2=dx*dx+dy*dy;if(len2<1e-12)return!blocked(b.x,b.y,r,z,inside,ignore);
+ const dx=b.x-a.x,dy=b.y-a.y,len2=dx*dx+dy*dy;if(len2<1e-12)return!blocked(b.x,b.y,r,z,inside,ignore,purpose==='optical');
  const circle=(p,radius,u=a,v=b)=>{const vx=v.x-u.x,vy=v.y-u.y,length=vx*vx+vy*vy,t=Math.max(0,Math.min(1,((p.x-u.x)*vx+(p.y-u.y)*vy)/length));return(p.x-u.x-vx*t)**2+(p.y-u.y-vy*t)**2<radius*radius-1e-9;};
  const rect=(u,v,o)=>G.segmentRect(u,v,{x:o.x-r,y:o.y,w:o.w+2*r,h:o.h})||G.segmentRect(u,v,{x:o.x,y:o.y-r,w:o.w,h:o.h+2*r})||r>0&&[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].some(([x,y])=>circle({x,y},r,u,v));
  if(z!==0){const p=pois.find(p=>p.id===inside);if(!p||!p.levels.includes(z))return false;for(const point of[a,b]){const q=G.local(p,point.x,point.y);if(q.x<r||q.y<r||q.x>p.w-r||q.y>p.h-r)return false;}}
  const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,reach=Math.sqrt(len2)/2+r+4;
  for(const p of nearPOI(mx,my,reach)){
   if(z!==0&&p.id!==inside||!p.levels.includes(z))continue;const u=G.local(p,a.x,a.y),v=G.local(p,b.x,b.y);
+  if(p.programme160&&Geometry160.rects(plan(p,z),effects,{optical:purpose==='optical'}).some(o=>o.id!==ignore&&rect(u,v,o)))return false;
   if(G.segmentRect(u,v,{x:-r,y:-r,w:p.w+2*r,h:p.h+2*r})){const pl=plan(p,z);if(!effects.structureDestroyed?.(p.id)&&pl.walls.some(o=>rect(u,v,o)))return false;if(pl.objects.some(o=>o.id!==ignore&&rect(u,v,o)))return false;if(detailAt(p,z).interior.some(o=>o.solid&&o.id!==ignore&&rect(u,v,o)))return false;}
   if(z===0){if((p.outdoor||[]).some(o=>o.id!==ignore&&rect(u,v,o)))return false;if(detailAt(p,0).outdoor.some(o=>o.solid&&o.id!==ignore&&rect(u,v,o)))return false;for(const car of p.parking){if(car.id===ignore)continue;const ca=G.local(car,a.x,a.y),cb=G.local(car,b.x,b.y);if(rect(ca,cb,{x:0,y:0,w:car.w,h:car.h}))return false;}}
  }
@@ -237,8 +251,10 @@ function line(a,b,z=0,inside=null,ignore=null,r=.05){
  return true;
 }
 function containers(x,y,r=3,z=0,inside=null){const out=[];for(const p of nearPOI(x,y,r+8)){if(z!==0&&p.id!==inside||!p.levels.includes(z))continue;for(const b of plan(p,z).objects){const point=G.global(p,b.x+b.w/2,b.y+b.h/2),reach=Math.hypot(b.w,b.h)/2+r;if(Math.hypot(point.x-x,point.y-y)<reach)out.push({...b,...point,worldAngle:p.a,poi:p.id,z});}if(z===0)for(const b of p.outdoor||[]){const point=G.global(p,b.x+b.w/2,b.y+b.h/2);if(Math.hypot(point.x-x,point.y-y)<r+Math.hypot(b.w,b.h)/2)out.push({...b,...point,worldAngle:p.a,poi:p.id,z:0});}if(z===0)for(const b of p.parking)if(Math.hypot(x-b.x,y-b.y)<r+2.4)out.push({...b,poi:p.id,z:0});}if(z===0)for(const c of around(x,y,r+5))for(const t of [...c.trees,...c.rocks])if(Math.hypot(x-t.x,y-t.y)<r+t.r)out.push({...t,z:0});return out;}
-function vehicleClear(x,y,a,w=4.8,h=2.03){const car={x,y,w,h,a},pad=Math.max(w,h)/2+.5;if(x<pad||y<pad||x>size-pad||y>size-pad)return false;for(const p of nearPOI(x,y,9)){const pl=plan(p,0),destroyed=!!effects.structureDestroyed?.(p.id);for(const o of [...(destroyed?[]:pl.walls),...pl.objects,...(p.outdoor||[]),...detailAt(p,0).interior.filter(o=>o.solid),...detailAt(p,0).outdoor.filter(o=>o.solid)]){const center=G.global(p,o.x+o.w/2,o.y+o.h/2);if(G.obb(car,{...center,w:o.w,h:o.h,a:p.a}))return false;}for(const v of p.parking)if(G.obb(car,v))return false;}for(const c of around(x,y,7))for(const t of [...c.trees,...c.rocks]){const q=G.local(car,t.x,t.y);const radius=sceneryRadius(t);if(radius>0&&G.circleRect(q.x,q.y,radius,{x:0,y:0,w:car.w,h:car.h}))return false;}return true;}
-return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:requestedGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
+function vehicleClear(x,y,a,w=4.8,h=2.03){const car={x,y,w,h,a},pad=Math.max(w,h)/2+.5;if(x<pad||y<pad||x>size-pad||y>size-pad)return false;for(const p of nearPOI(x,y,9)){const pl=plan(p,0),destroyed=!!effects.structureDestroyed?.(p.id);if(p.programme160){const q=G.local(p,x,y),localCar={x:q.x,y:q.y,a:a-p.a,w,h};if(Geometry160.terrainMovement(p,pl,q.x,q.y,0,localCar,effects))return false;}for(const o of [...(destroyed?[]:pl.walls),...pl.objects,...(p.outdoor||[]),...detailAt(p,0).interior.filter(o=>o.solid),...detailAt(p,0).outdoor.filter(o=>o.solid)]){const center=G.global(p,o.x+o.w/2,o.y+o.h/2);if(G.obb(car,{...center,w:o.w,h:o.h,a:p.a}))return false;}for(const v of p.parking)if(G.obb(car,v))return false;}for(const c of around(x,y,7))for(const t of [...c.trees,...c.rocks]){const q=G.local(car,t.x,t.y);const radius=sceneryRadius(t);if(radius>0&&G.circleRect(q.x,q.y,radius,{x:0,y:0,w:car.w,h:car.h}))return false;}return true;}
+const contextSites160=(x,y,r=100)=>Number.isFinite(x)&&Number.isFinite(y)?nearPOI(x,y,r).filter(p=>p.programme160):pois.filter(p=>p.programme160);
+function terrainAt160(x,y,z=0){if(z!==0||!Geometry160)return null;for(const p of contextSites160(x,y,1)){const q=G.local(p,x,y);for(const o of [...(plan(p,0).terrain160||[])].reverse())if(q.x>=o.x&&q.y>=o.y&&q.x<=o.x+o.w&&q.y<=o.y+o.h)return{...o,poi:p.id,completed:o.completedKey?effects.contextCompleted160?.(o.completedKey)===true:false};}return null;}
+return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:baseGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,contextCoverage160,contextSites160,contextPlan160:plan,terrainAt160,contextCompleted160:key=>effects.contextCompleted160?.(key)===true,opticalBlocked:(x,y,r=.05,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore,true),movementLine:(a,b,z=0,inside=null,ignore=null,r=.32)=>line(a,b,z,inside,ignore,r,'movement'),streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
 }
 const api={RULES,TOWNS,LINES,create,sizeForGeneration,threatCount};root.DeadwallFrontierWorld=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

@@ -135,7 +135,7 @@
       <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — classique</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
       <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Nouvelle carte aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="randomMapSeedButton" aria-describedby="seedHint">TIRER UNE GRAINE</button><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
       <p class="seed-hint" id="seedHint">Champ vide : nouvelle graine à chaque départ. Un nombre de 0 à 4 294 967 295 reproduit le terrain, les biomes et la position de D-17 dans cette version du générateur. L’aperçu prépare uniquement le prochain départ.</p>
-      <footer><span>VERSION 1.59.0 · SPRITES ET ACTIONS</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
+      <footer><span>VERSION 1.60.0 · SPRITES ET ACTIONS</span><span>UNE CRÉATION DARKNIGTHMARE</span><span>SAUVEGARDE AUTOMATIQUE</span></footer>
     </main>
     <div class="menu-scene-caption" aria-hidden="true"><span>ARCHIVES DU SECTEUR D-17</span><strong>CHAQUE ENCEINTE<br>EST UNE SECONDE CHANCE.</strong><small>Reconstruire. Tenir. Recommencer.</small></div>
   </div>
@@ -217,6 +217,9 @@
 <script src="src/codex3000-runtime.js"></script>
 <script src="src/region-roadkit.js"></script>
 <script src="src/region-settlements.js"></script>
+<script src="src/codex-context160-data.js"></script>
+<script src="src/codex-context160.js"></script>
+<script src="src/codex-geometry160.js"></script>
 <script src="src/frontier-world.js"></script>
 <script src="src/frontier-state.js"></script>
 <script src="src/frontier-logistics.js"></script>
@@ -249,6 +252,7 @@
   <script src="src/nature-art153.js"></script>
 <script src="src/world-props-art153.js"></script>
 <script src="src/interior-art153.js"></script>
+<script src="src/context-art160.js"></script>
 <script src="src/art.js"></script>
   <script src="src/world-content.js"></script>
   <script src="src/salvage.js"></script>
@@ -331,6 +335,7 @@
 <script src="src/exploration-pack131.js"></script>
 <script src="src/player-pack131.js"></script>
 <script src="src/world-pack131.js"></script>
+<script src="src/context-operations160.js"></script>
 <script src="src/chronicles131-data.js"></script>
 <script src="src/chronicles131.js"></script>
 <script src="src/chronicles131-ui.js"></script>
