@@ -97,6 +97,12 @@
   // Resolve at use time: the browser loads the furniture owner before the Codex runtime.
   const codex=root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),preset=codex?.preset?.(kind);
   if(!preset)return null;const card=codex.get?.(preset.codex),parent=codex.parentFor?.(card),detail=codex.detailFamily?.(preset.family);
+  // Independent programmes carry an authored roof. Validate against actual
+  // sprites before caching it; archived programmes retain their old heuristics.
+  const authored=card?.extension===158?card.details?.architecture?.roofFamily:null;
+  if(typeof authored==='string'&&Object.hasOwn(ROOFS,authored)){
+   const result=Object.freeze({family:authored,cabin:false});programmeRoofs.set(kind,result);return result;
+  }
   const name=[preset.name,parent?.[0]].filter(Boolean).join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   let family=CODEX_ROOFS[detail]||null;
   if(detail==='ruines')family='ruin';

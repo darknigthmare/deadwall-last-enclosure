@@ -32,6 +32,7 @@ function buildSourceFiles(){
   // Build-time source dependencies are uploaded to Vercel, not copied to dist.
   // The compiler reads the authored envelopes from these 1,000 parent records.
   return ['scripts/compile-codex3000.mjs','codex-3000/INDEX_3000.json',
+    'codex-3000/addendum-1.58/validation.mjs','codex-3000/addendum-1.58/reader.mjs',...['A','B','C','D'].map(lot=>'codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json'),
     'codex-3000/source/CONTEXTES.json','codex-3000/source/ETATS.json','codex-3000/source/MODULES.json',
     ...catalogues.flatMap(source=>[source.file,...JSON.parse(fs.readFileSync(path.join(root,source.file),'utf8')).fiches.map(parent=>source.directory+'/'+parent.id+'.md')])];
 }
@@ -113,6 +114,21 @@ test('distribution: vrai build public sans node_modules ni installation',t=>{
   assert.deepEqual(built,files);
   const standalone=fs.readFileSync(path.join(directory,'DEADWALL_Standalone.html'),'utf8');
   assert.doesNotMatch(standalone,/<script[^>]+src=|<link[^>]+stylesheet|serviceWorker\.register/);
+  const variantScripts=[...standalone.matchAll(/<script>\n([\s\S]*?)\n<\/script>/g)]
+    .map(match=>match[1]).filter(script=>script.includes('root.DeadwallWorldVariants158=api'));
+  assert.equal(variantScripts.length,1,'le vrai module de variantes est embarqué exactement une fois');
+  const context={};vm.runInNewContext(variantScripts[0],context,{timeout:5000});
+  const original=require('../src/world-variants158.js').ASSETS,embedded=context.DeadwallWorldVariants158.ASSETS;
+  assert.deepEqual(Object.keys(embedded).sort(),Object.keys(original).sort());
+  assert.equal(Object.keys(embedded).length,10);
+  assert.ok(Object.isFrozen(embedded));
+  for(const [key,definition] of Object.entries(original)){
+    const actual=embedded[key];assert.ok(Object.isFrozen(actual),key);
+    assert.match(actual.url,/^data:image\/png;base64,/,key+' doit se charger sans fichier voisin');
+    assert.deepEqual(Buffer.from(actual.url.slice('data:image/png;base64,'.length),'base64'),
+      fs.readFileSync(path.join(directory,definition.url)),key+' conserve exactement les octets PNG');
+    for(const field of ['width','height','matte'])assert.equal(actual[field],definition[field],key+' '+field);
+  }
 });
 
 test('distribution: PWA et protocole PC couvrent tout le contrat public actuel',()=>{

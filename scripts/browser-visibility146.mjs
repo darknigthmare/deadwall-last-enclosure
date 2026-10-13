@@ -222,20 +222,36 @@ try {
       await screenshot('fixture-observer-away');
 
       profile.fixtures.push(await restoreFixture(page, 'regional-members-and-risen', (g, d) => {
-        const w = g.frontier.world(), h = DeadwallAtlasProjection.home(g); let p;
+        const w = g.frontier.world(), h = DeadwallAtlasProjection.home(g), G = DeadwallFrontierGeometry; let p, axis, corridorRoad;
+        const outsideParcels = point => w.nearPOI(point.x, point.y, 2).every(place => {
+          const local = G.local(place, point.x, point.y);
+          return local.x <= 0 || local.y <= 0 || local.x >= place.w || local.y >= place.h;
+        });
         for (const road of w.roads) {
-          const q = { x: (road.a.x + road.b.x) / 2, y: (road.a.y + road.b.y) / 2 };
-          if (Math.hypot(q.x - h.x, q.y - h.y) < 300 || w.nearPOI(q.x, q.y, 90).length) continue;
-          if ([0, 6, 9, 50].some(dx => w.blocked(q.x + dx, q.y, .4, 0, null)) || !w.line(q, { x: q.x + 50, y: q.y }, 0, null, null, .015)) continue;
-          p = q; break;
+          const length = Math.hypot(road.b.x - road.a.x, road.b.y - road.a.y);
+          if (length < 60) continue;
+          const direction = { x: (road.b.x - road.a.x) / length, y: (road.b.y - road.a.y) / length };
+          // G8 adds buildings beside existing roads. An empty 90 m neighbourhood
+          // is unnecessary: this encounter needs an unobstructed exterior lane.
+          for (const fraction of [.5, .2, .35, .65, .8]) {
+            if (fraction * length + 50 > length - 2) continue;
+            const q = { x: road.a.x + direction.x * length * fraction, y: road.a.y + direction.y * length * fraction };
+            if (Math.hypot(q.x - h.x, q.y - h.y) < 300) continue;
+            const points = [0, 6, 9, 50].map(distance => ({ x: q.x + direction.x * distance, y: q.y + direction.y * distance }));
+            if (points.some(point => w.blocked(point.x, point.y, .4, 0, null) || !outsideParcels(point)) ||
+                !w.line(q, points[3], 0, null, null, .4)) continue;
+            p = q; axis = direction; corridorRoad = road.id; break;
+          }
+          if (p) break;
         }
         if (!p) throw Error('Free regional road required');
         Object.assign(d.frontier, { active: true, anchor: { x: d.player.x, y: d.player.y }, ...p, z: 0, inside: null, car: null }); d.worldEvolution.companions = [];
-        const contact = dx => ({ x: p.x + dx, y: p.y, z: 0, a: 0, mode: 'idle', ttl: 0, gx: p.x + dx, gy: p.y, cool: 0 });
-        d.worldEvolution.serial = 1; d.worldEvolution.groups = [{ id: 'W0000', kind: 'resting', count: 80, lost: 0, wound: 0, x: p.x + 6, y: p.y, a: 0, seen: true, fallen: [], injuries: {}, contacts: { 0: contact(6), 1: contact(50) } }];
+        const contact = distance => ({ x: p.x + axis.x * distance, y: p.y + axis.y * distance, z: 0, a: 0, mode: 'idle', ttl: 0, gx: p.x + axis.x * distance, gy: p.y + axis.y * distance, cool: 0 });
+        const first = contact(6), risen = contact(9);
+        d.worldEvolution.serial = 1; d.worldEvolution.groups = [{ id: 'W0000', kind: 'resting', count: 80, lost: 0, wound: 0, x: first.x, y: first.y, a: 0, seen: true, fallen: [], injuries: {}, contacts: { 0: first, 1: contact(50) } }];
         d.succession133.serial = 2; d.succession133.current.number = 2;
-        d.succession133.remains = [{ id: 1, profile: 'commander', point: { domain: 'region', x: p.x + 9, y: p.y, z: 0, inside: null, angle: 0 }, bag: DeadwallCore.makeBag(), magazine: Object.fromEntries(Object.keys(DeadwallCore.WEAPONS).map(k => [k, 0])), weapons: [], gear: DeadwallPlayerPack131.initial(), kits: { light: 0, aid: 0, brace: 0, decoy: 0 }, body: { phase: 'risen', left: 0, roll: 0, x: p.x + 9, y: p.y, health: DeadwallCore.SuccessionRules.health, zombieId: null }, time: d.elapsed }];
-        return { player: p, groupCount: 80, savedMemberPositions: [contact(6), contact(50)], risen: { x: p.x + 9, y: p.y, z: 0 }, changed: ['frontier pose/domain', 'worldEvolution.companions(remove UI fixture roster)', 'worldEvolution one group/two saved contacts', 'succession133 one empty risen body/serial/current.number'] };
+        d.succession133.remains = [{ id: 1, profile: 'commander', point: { domain: 'region', x: risen.x, y: risen.y, z: 0, inside: null, angle: 0 }, bag: DeadwallCore.makeBag(), magazine: Object.fromEntries(Object.keys(DeadwallCore.WEAPONS).map(k => [k, 0])), weapons: [], gear: DeadwallPlayerPack131.initial(), kits: { light: 0, aid: 0, brace: 0, decoy: 0 }, body: { phase: 'risen', left: 0, roll: 0, x: risen.x, y: risen.y, health: DeadwallCore.SuccessionRules.health, zombieId: null }, time: d.elapsed }];
+        return { player: p, corridor: { road: corridorRoad, axis, distances: [0, 6, 9, 50], outsideParcels: true, sweptClearance: .4 }, groupCount: 80, savedMemberPositions: [contact(6), contact(50)], risen: { x: risen.x, y: risen.y, z: 0 }, changed: ['frontier pose/domain', 'worldEvolution.companions(remove UI fixture roster)', 'worldEvolution one group/two saved contacts', 'succession133 one empty risen body/serial/current.number'] };
       }));
       await openCommand(page, viewport.touch, 'field'); await activate(page, '#reconTab', viewport.touch);
       await page.locator('#frontierMap').waitFor({ state: 'visible' }); await activate(page, '#atlasHome', viewport.touch); await page.locator('#frontierMap').focus(); await page.keyboard.press('3');

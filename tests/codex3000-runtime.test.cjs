@@ -6,10 +6,10 @@ const G=require('../src/frontier-geometry.js');
 const R=require('../src/codex3000-runtime.js');
 const W=require('../src/frontier-world.js');
 const Codex=require('../src/world-codex.js');
-test('Codex 3000 canonical compilation: 1,000 parents + 2,000 contextual variants, linked and unique',()=>{
- assert.equal(data.version,1);assert.equal(data.count,3000);
- assert.equal(data.programmes.length,3000);assert.equal(Object.keys(data.parents).length,1000);
- assert.equal(R.records.length,3000);assert.equal(new Set(R.records.map(x=>x.id)).size,3000);
+test('Codex canonical compilation: 3,000 archived cards + 1,000 independent new parents, linked and unique',()=>{
+ assert.equal(data.version,1);assert.equal(data.count,4000);assert.equal(data.legacyCount,3000);
+ assert.equal(data.programmes.length,4000);assert.equal(Object.keys(data.parents).length,2000);
+ assert.equal(R.records.length,4000);assert.equal(new Set(R.records.map(x=>x.id)).size,4000);
  assert.ok(R.summary().families>=30);assert.ok(R.summary().modules>=59);assert.equal(R.summary().states,8);
  for(let i=0;i<3000;i++){
   const r=R.records[i];assert.equal(r.id,'DW-'+String(i+1).padStart(4,'0'));
@@ -33,9 +33,9 @@ test('Codex 3000 preserves original metric plot bounds and authored floor progra
   assert.ok(authored.levels.every(z=>Number.isInteger(z)&&z>=-1&&z<=2),id);
  }
 });
-test('All 3,000 programme cards are queryable and never disguised as already placed POIs',()=>{
+test('All 4,000 programme cards are queryable and never disguised as already placed POIs',()=>{
  const entries=Codex.entries.filter(e=>e.id.startsWith('programme-DW-'));
- assert.equal(entries.length,3000);
+ assert.equal(entries.length,4000);
  assert.ok(entries.every(e=>e.status==='programme'));
  assert.ok(Codex.query({text:'DW-3000',status:'programme'}).some(e=>e.id==='programme-DW-3000'));
  assert.equal(Codex.query({status:'terrain'}).some(e=>e.id==='programme-DW-1001'),false);

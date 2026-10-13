@@ -1,3 +1,19 @@
+# DEADWALL 1.58.0 — 1 000 programmes et variantes natives
+
+Le Codex ajoute 1 000 programmes indépendants, DW-3001 à DW-4000, avec leurs pièces, équipements, accès et ressources finies : 4 000 fiches pour 2 000 programmes parents au total. Depuis le dépôt de D-17, l’extension G9 se choisit après G8 ; les anciennes cartes et les stocks prélevés sont conservés. Les variantes graphiques complètent les acteurs, véhicules, mécanismes et petits décors.
+
+Guide : [docs/LIVRAISON_1_58.md](docs/LIVRAISON_1_58.md). Audit et limites : [docs/AUDIT_1_58.md](docs/AUDIT_1_58.md). Lecteur auteur hors ligne : [1 000 nouveaux programmes](codex-3000/addendum-1.58/LIRE_1000_NOUVEAUX.html). Les tests et la publication disposent de preuves distinctes ; la cible Standard de **6 à 10 heures** attend encore des campagnes humaines complètes.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser
+```
+
+## Historique conservé — 1.57.2
+
+
 # DEADWALL 1.57.2 — Arrivée à D-17
 
 Une nouvelle campagne commence au dépôt de D-17, un refuge à construire, puis permet d'explorer la région G8 au-delà de ses limites. Les arbres et les rochers locaux emploient maintenant les espèces de cette région. Après une perte de focus pendant l'introduction, **Prendre mon quart** ou **Passer l'introduction** lance directement la partie lorsque la fenêtre est active ; les pauses volontaires restent respectées.

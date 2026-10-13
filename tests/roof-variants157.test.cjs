@@ -71,7 +71,7 @@ test('157 every added roof stays clipped to its owner rectangle at four rotation
 });
 
 test('157 all 2700 renderable Codex presets use compatible roofs without changing legacy or special architecture',()=>{
- let count=0;const families=new Set();for(const card of Codex.records){const type='codex3000-'+card.id.slice(3),preset=Codex.preset(type);if(!preset){assert.equal(A.roofFamily(type),null);continue;}
+ let count=0;const families=new Set();for(const card of Codex.records.filter(card=>Number(card.id.slice(3))<=3000)){const type='codex3000-'+card.id.slice(3),preset=Codex.preset(type);if(!preset){assert.equal(A.roofFamily(type),null);continue;}
   count++;families.add(preset.family);const item={...preset,type,id:'programme:'+card.id},saved=JSON.stringify(item),choices=A.roofChoices(item);
   assert.ok(A.ROOF_FAMILIES.includes(A.roofFamily(item)),type);assert.ok(choices.length>=2,type);
   const frame=withoutRandom(()=>A.spriteForRoof(item,{seed:17117}));assert.ok(choices.includes(frame));assert.equal(JSON.stringify(item),saved);

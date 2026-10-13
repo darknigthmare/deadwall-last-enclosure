@@ -7,6 +7,7 @@
  const Props=typeof require==='function'?require('./world-props-art153.js'):null;
  const Nature=typeof require==='function'?require('./nature-art153.js'):null;
  const Interior=typeof require==='function'?require('./interior-art153.js'):null;
+ const Variants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
  const route=(owner,family)=>Object.freeze({owner,family});
  const PRESENTATIONS=Object.freeze({
   pool:route('props','pool157'),greenhouse:route('props','greenhouse157'),bench:route('props','bench157'),playset:route('props','playset157'),
@@ -29,6 +30,7 @@
   return(h>>>0)%count;
  }
  function paintImage(c,o,art,seed){
+  if(Variants158?.drawDetail(c,art,o,{seed}))return true;
   const spec=presentationFor(o.kind),x=o.x+o.w/2,y=o.y+o.h/2;
   const p=root.DeadwallWorldPropsArt153||Props,n=root.DeadwallNatureArt153||Nature,i=root.DeadwallInteriorArt153||Interior;
   if(spec.owner==='props')return !!p?.drawSprite(c,art,spec.family,o.id,x,y,o.w,o.h,{seed});

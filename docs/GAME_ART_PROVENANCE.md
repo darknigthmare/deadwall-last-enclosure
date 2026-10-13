@@ -1,5 +1,9 @@
 # DEADWALL — assets de jeu OpenAI
 
+## Variantes du monde — 1.58
+
+Dix PNG originaux dans `assets/art158/` complètent les acteurs, véhicules, montages mécaniques et petits décors. Le registre utilise 137 dessins : 88 poses pour onze familles, neuf véhicules, douze montages, vingt-six détails et deux sacs du commandant. Les seize poses A/B difficiles à isoler et les deux silhouettes lourdes trop courtes restent exclues ; des atlas distincts les remplacent. Les PNG conservent leurs octets générés, sans retouche de pixels. Les rectangles runtime et les choix stables par seed/identité ne changent pas les capacités des propriétaires. Originaux, dimensions, empreintes et exclusions : [PROVENANCE.json](../assets/art158/PROVENANCE.json). Les descriptions des briefs dans [PROMPTS.md](../assets/art158/PROMPTS.md) sont normalisées, sans prétendre transcrire chaque appel verbatim. Résultats de qualification : [AUDIT_1_58.md](AUDIT_1_58.md).
+
 ## Compléments des services et véhicules — 1.52
 
 Cinq PNG transparents originaux dans `assets/art152/` complètent 28 silhouettes de services, logistique, énergie et éclairage, et cinq véhicules légers. Les images générées sont conservées sans retouche ; les découpes sont mesurées dans les marges alpha. Le chargeur commun embarque les mêmes fichiers dans le web, la PWA et le HTML autonome. Les états de charge, alimentation, contrôle territorial, dégâts et récupération restent issus des contrôleurs existants. Provenance : `assets/art152/PROVENANCE.json`, `PROVENANCE_VEHICLES.json` et `PROMPTS.md`.

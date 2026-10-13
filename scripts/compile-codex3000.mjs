@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {LOTS,validateAll} from '../codex-3000/addendum-1.58/validation.mjs';
+import {makeIndex,renderReader} from '../codex-3000/addendum-1.58/reader.mjs';
 /* Reproducible compiler; never modifies the original 3,000 source records. */
 const root=fileURLToPath(new URL('..',import.meta.url));
 const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
@@ -65,15 +67,35 @@ const rows=index.entries.map((x,i)=>{
   if(i>=1000){assert(contexts[p[1]]?.includes(x.module),'contexte invalide '+id);assert(states.some(s=>s.id===x.state),'état invalide '+id);}
   return [i+1,str(x.name??p[0]),p[1],Number(parent.slice(3)),x.module||'',x.state||''];
 });
-const data={version:1,count:3000,
+// The historical archive is immutable. Each additional card is a new parent,
+// not a third contextual copy of an existing design.
+const extension=validateAll(LOTS.map(file=>read('codex-3000/addendum-1.58/'+file)),
+  rows.map(row=>row[1]));
+for(const p of extension){
+ const a=p.architecture,rooms=p.spaces.map(s=>[s.name,s.resource,s.z]);
+ const most=Math.max(...a.levels.map(z=>p.spaces.filter(s=>s.z===z).length));
+ const lobby=a.layout==='gallery'?3.2:2.2,cross=a.layout==='cross'?3.2:0;
+ const dim=[a.width,Math.max(a.height,Math.ceil(Math.ceil(most/2)*6.7+lobby*2+cross+.8))];
+ assert(dim[1]<=75,'nouveau programme trop haut '+p.id);
+ const envelope={sourceMin:[a.width,a.height],sourceMax:[a.width,a.height],
+  sourceLevels:a.levels,levels:a.levels};
+ source.set(p.id,[p.name,p.family,dim,rooms,envelope,p]);
+ const n=Number(p.id.slice(3));rows.push([n,p.name,p.family,n,'','']);
+}
+const data={version:1,count:4000,legacyCount:3000,extensionVersion:'1.58.0',
  parents:Object.fromEntries([...source].map(([id,row])=>[Number(id.slice(3)),row])),
  programmes:rows,
  modules:Object.fromEntries(modules.map(x=>[x.id,[str(x.title),x.status]])),
  states:Object.fromEntries(states.map(x=>[x.id,[str(x.name),str(x.cause)]]))};
-assert(rows.length===3000&&new Set(rows.map(x=>x[0])).size===3000,'couverture non exhaustive');
+assert(rows.length===4000&&source.size===2000&&new Set(rows.map(x=>x[0])).size===4000,'couverture non exhaustive');
 const dest=path.join(root,'src/codex3000-live-data.js');
-const text='/* Generated from original Codex 3000. Do not hand-edit. */\n(function(root){const data='+
+const text='/* Generated from preserved Codex 3000 + independent addendum 1.58. Do not hand-edit. */\n(function(root){const data='+
  JSON.stringify(data).replace(/</g,'\\u003c')+
  ';root.DeadwallCodex3000Data=data;if(typeof module==="object"&&module.exports)module.exports=data;})(typeof globalThis!=="undefined"?globalThis:this);\n';
 if(!fs.existsSync(dest)||fs.readFileSync(dest,'utf8')!==text)fs.writeFileSync(dest,text);
+for(const [file,content]of [['INDEX_1000.json',JSON.stringify(makeIndex(extension),null,2)+'\n'],
+ ['LIRE_1000_NOUVEAUX.html',renderReader(extension)]]){
+ const output=path.join(root,'codex-3000/addendum-1.58',file);
+ if(!fs.existsSync(output)||fs.readFileSync(output,'utf8')!==content)fs.writeFileSync(output,content);
+}
 console.log('Codex live : '+rows.length+' fiches, '+source.size+' parents, '+modules.length+' modules, 8 états ; '+Buffer.byteLength(text)+' octets');

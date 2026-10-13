@@ -1,5 +1,5 @@
-/* All 3,000 preserved programmes: lookup, compatibility and executable spatial grammar.
- * The catalogue is compiled from the canonical Codex at build time.
+/* 3,000 preserved cards + 1,000 independent programmes: lookup, compatibility
+ * and executable spatial grammar, compiled from canonical author sources.
  */
 (function(root,factory){'use strict';
  const data=root.DeadwallCodex3000Data||(typeof require==='function'?require('./codex3000-live-data.js'):null);
@@ -7,10 +7,13 @@
  const api=factory(data,G);root.DeadwallCodex3000Runtime=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(DATA,G){'use strict';
- const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map();
+ const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map(),legacyByFamily=new Map();
+ const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;};
  for(const r of rows){const p=Object.freeze({id:'DW-'+String(r[0]).padStart(4,'0'),name:r[1],family:r[2],
-   parent:'DW-'+String(r[3]).padStart(4,'0'),module:r[4],state:r[5],original:r[0]<=1000});
-  byId.set(p.id,p);if(!byFamily.has(p.family))byFamily.set(p.family,[]);byFamily.get(p.family).push(p);}
+   parent:'DW-'+String(r[3]).padStart(4,'0'),module:r[4],state:r[5],original:r[0]<=1000,
+   ...(r[0]>3000?{independent:true,extension:158,details:freeze(parents[r[3]]?.[5])}:{})});
+  byId.set(p.id,p);if(!byFamily.has(p.family))byFamily.set(p.family,[]);byFamily.get(p.family).push(p);
+  if(r[0]<=3000){if(!legacyByFamily.has(p.family))legacyByFamily.set(p.family,[]);legacyByFamily.get(p.family).push(p);}}
  const NOT_RENDERABLE=new Set(['Routes et ouvrages','Ports et activités nautiques','Eau et réseaux',
   'Ferroviaire et transports collectifs','Quartiers et agglomérations']);
  const NEEDS_TERRAIN=new Set(['port','plage','lac','riviere','montagne','terre-aride','camp-hostile','camp-allie',
@@ -43,6 +46,12 @@
  function enabled(record,context={}){
   if(!record||!parentFor(record))return false;
   if(NOT_RENDERABLE.has(record.family))return false;
+  if(record.extension===158){const p=record.details?.placement;if(!p)return false;
+   if(context.biome&&!p.biomes.includes(context.biome))return false;
+   if(p.mode==='town'&&(!context.townKind||!p.townKinds.includes(context.townKind)))return false;
+   if(p.mode==='rural'&&context.townKind)return false;
+   return true;
+  }
   if(!record.module)return true;
   const biome=context.biome||'',town=String(context.townKind||'');
   if(NEEDS_TERRAIN.has(record.module))return false; // No invented rivers, bridges, mine shafts or factions.
@@ -55,7 +64,8 @@
  function mappedFamily(p){const code=p?.codex;if(!code)return null;return get(code)?.family||null;}
  function forParcel(seed,p,context={}){
   const family=mappedFamily(p);if(!family)return null;
-  const pool=byFamily.get(family)||[];
+  // Adding a catalogue must not reshuffle decoration selections in saved G1–G8.
+  const pool=(p.generation>=9?byFamily:legacyByFamily).get(family)||[];
   if(!pool.length)return null;
   const start=G.hash('codex3000-158',seed,p.id,p.type)%pool.length;
   for(let i=0;i<pool.length;i++){const q=pool[(start+i)%pool.length];if(enabled(q,{...context,biome:context.biome||p.biome}))return q;}
@@ -76,11 +86,13 @@
   const plan={id:programme.id,name:programme.name,family,parent:programme.parent,module:programme.module,
    state:programme.state,siteId,w:width,h:height,levels,rooms:normalized,seed,
    reference:{min:source?.sourceMin||[width,height],max:source?.sourceMax||[width,height],levels:sourceLevels},
-   adaptedFootprint,adaptedLevels,adapted:adaptedFootprint||adaptedLevels};
+   adaptedFootprint,adaptedLevels,adapted:adaptedFootprint||adaptedLevels,
+   ...(programme.extension===158?{architecture:programme.details.architecture,spaces:programme.details.spaces,access:programme.details.access}: {})};
   return Object.freeze(plan);
  }
  function floor(programme,seed,z=0,siteId='P0000'){
   const blueprint=template(programme,seed,siteId);if(!blueprint.levels.includes(z))throw Error('Niveau indisponible');
+  if(blueprint.architecture)return floor158(blueprint,z);
   const w=blueprint.w,h=blueprint.h,t=.24,mid=w/2,lo=mid-1.7,hi=mid+1.7,walls=[],rooms=[],objects=[],stairs=[];
   const target=blueprint.rooms.filter(r=>r.z===z);if(!target.length)target.push({name:'Accueil',resource:'scrap',z},{name:'Réserve',resource:'wood',z});
   const cellCount=Math.max(1,Math.ceil(target.length/2));
@@ -133,6 +145,51 @@
    entry:{x:w/2,y:-1},exit:{x:w/2,y:height+1},style:'codex3000',programme:blueprint.id};
   return wsh;
  }
+ // New authored programmes use four actual distributions. Legacy floor()
+ // remains byte-for-byte in its geometry, object serials and finite amounts.
+ function floor158(blueprint,z){
+  const {w,h,seed,siteId,id:programme}=blueprint,layout=blueprint.architecture.layout,t=.24,
+   lobby=layout==='gallery'?3.2:2.2,hall=layout==='gallery'?5.2:3.4,
+   mid=layout==='offset'?w*.38:w/2,lo=mid-hall/2,hi=mid+hall/2,
+   targets=blueprint.spaces.filter(s=>s.z===z),count=Math.ceil(targets.length/2),
+   cross=layout==='cross'?3.2:0,cut=Math.ceil(count/2),rh=(h-lobby*2-cross)/count,
+   walls=[],rooms=[],objects=[],stairs=[];
+  const wall=(x,y,a,b)=>{if(a>.08&&b>.08)walls.push({x,y,w:a,h:b});};
+  const horizontal=(x,y,len,center,opening=2.6)=>{wall(x,y,center-opening/2-x,t);wall(center+opening/2,y,x+len-center-opening/2,t);};
+  const vertical=(x,y,len,center)=>{wall(x,y,t,center-y-1.1);wall(x,center+1.1,t,y+len-center-1.1);};
+  horizontal(0,0,w,w/2,Math.max(2.6,blueprint.access.width_m));horizontal(0,h-t,w,w/2,2.6);wall(0,0,t,h);wall(w-t,0,t,h);
+  for(let i=0;i<count;i++){
+   const y=lobby+i*rh+(i>=cut?cross:0);
+   wall(.24,y,lo-.24,t);wall(hi,y,w-hi-.24,t);
+   // The cross aisle remains open between both wings and the centre spine.
+   if(i===count-1||cross&&i===cut-1){wall(.24,y+rh,lo-.24,t);wall(hi,y+rh,w-hi-.24,t);}
+   vertical(lo,y,rh,y+rh/2);vertical(hi,y,rh,y+rh/2);
+   for(let side=0;side<2;side++){
+    const spec=targets[i*2+side];if(!spec)continue;
+    rooms.push({id:spec.id,name:spec.name,x:side?hi+.35:.35,y:y+.3,
+     w:side?w-hi-.7:lo-.7,h:rh-.6,resource:spec.resource,usage:spec.usage,props:spec.props});
+   }
+  }
+  if(blueprint.levels.length>1)stairs.push({id:siteId+':stairs',x:mid-1.05,y:h-lobby-2.9,w:2.1,h:2.9,levels:blueprint.levels});
+  const area=o=>({l:o.x,r:o.x+o.w,t:o.y,b:o.y+o.h});
+  let serial=0;for(const room of rooms)for(let i=0;i<room.props.length;i++){
+   const spec=room.props[i],[ow,oh]=G.SHAPES[spec.kind],positions=i?
+    [[room.x+room.w-ow-.55,room.y+room.h-oh-.55],[room.x+.55,room.y+room.h-oh-.55]]:
+    [[room.x+.55,room.y+.55],[room.x+room.w-ow-.55,room.y+.55]];
+   // Container IDs reserve the author slot even when a physical fit is refused.
+   const objectId=siteId+':'+z+':'+serial++,amount=3+G.hash(seed,programme,siteId,z,serial)%10;
+   for(const [x,y]of positions){const o={id:objectId,kind:spec.kind,x,y,w:ow,h:oh,a:0,resource:spec.resource,amount,room:room.name};
+    if(x<room.x+.3||y<room.y+.3||x+ow>room.x+room.w-.3||y+oh>room.y+room.h-.3)continue;
+    if(walls.some(v=>G.overlap(area(o),area(v),.18))||stairs.some(v=>G.overlap(area(o),area(v),.22))||objects.some(v=>G.overlap(area(o),area(v),.16)))continue;
+    // Protect the whole approach from each room door to the spine.
+    if(y<room.y+room.h/2+.55&&y+oh>room.y+room.h/2-.55&&x<hi+1&&x+ow>lo-1)continue;
+    objects.push(o);break;
+   }
+  }
+  return{walls,rooms:rooms.map(({props,...room})=>room),objects,stairs,
+   floor:{x:.24,y:.24,w:w-.48,h:h-.48},entry:{x:w/2,y:-1},exit:{x:w/2,y:h+1},
+   style:'codex3000',programme,layout158:layout};
+ }
  const presets=new Map();
  function preset(type){
   if(!/^codex3000-\d{4}$/.test(type))return null;
@@ -144,13 +201,14 @@
     codex:id,layout:'codex3000',family:card.family});
   presets.set(type,d);return d;
  }
- function populateRegion({seed,roads,install,biomes,towns,sectors,spawn,home}){
-  if(!DATA||typeof install!=='function')return{eligible:0,placed:0,unsupported:rows.length};
+ function populateRegion({seed,roads,install,biomes,towns,sectors,spawn,home,generation=8}){
+  const candidates=[...byId.values()].filter(card=>generation>=9||number(card.id)<=3000);
+  if(!DATA||typeof install!=='function')return{eligible:0,placed:0,unsupported:candidates.length};
   const viable=roads.filter(r=>r.roadClass!=='approach'
     &&Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y)>=55);
-  if(!viable.length)return{eligible:0,placed:0,unsupported:rows.length};
+  if(!viable.length)return{eligible:0,placed:0,unsupported:candidates.length};
   const bySector=new Map(sectors.map(s=>[s.id,s]));let eligible=0,placed=0,rejected=0,unsupported=0;
-  for(const card of byId.values()){
+  for(const card of candidates){
    if(NOT_RENDERABLE.has(card.family)){unsupported++;continue;}
    let accepted=false,qualified=false;const d=preset('codex3000-'+card.id.slice(3));
    const start=G.hash(seed,card.id,'road158')%viable.length;
@@ -168,7 +226,7 @@
     const p=install(d.id,x,y,angle+(side<0?Math.PI:0),r);
     if(!p)continue;
     const distance=Math.hypot(p.x-home.x,p.y-home.y),occupancy=spawn.roll({seed,id:p.id,biome:biome.def.spawnBiome,distance});
-    Object.assign(p,{generation:8,programme3000:card.id,biome:biome.id,
+    Object.assign(p,{generation:card.extension===158?9:8,programme3000:card.id,biome:biome.id,
       occupation:occupancy.kind,distanceBand:occupancy.band,
       zone:town?'centre':'activite',sector:'S'+Math.floor(p.x/1024)+'_'+Math.floor(p.y/1024),
       frontier131:{role:occupancy.kind==='allied'?'relay':occupancy.kind==='infected'?'contested':'waypoint'}});
@@ -180,7 +238,7 @@
    if(qualified)eligible++;if(!accepted)rejected++;
   }
   for(const town of towns)if(town.program141)town.program141.parcels=town.parcels;
-  return Object.freeze({eligible,placed,rejected,unsupported,programmeCount:rows.length});
+  return Object.freeze({eligible,placed,rejected,unsupported,programmeCount:candidates.length});
  }
 
  function detailFamily(family){
@@ -202,7 +260,7 @@
   return 'magasins';
  }
  function programmeProps(state){return STATE_FEATURES[state]||[];}
- function summary(){return Object.freeze({count:rows.length,parents:Object.keys(parents).length,
+ function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
   records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily});

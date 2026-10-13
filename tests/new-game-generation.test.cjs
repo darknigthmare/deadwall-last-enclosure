@@ -20,7 +20,11 @@ function currentRegion(env, seed) {
   assert.equal(world.generation, 8);
   assert.equal(g.world.seed, seed);
   assert.equal(world.seed, seed);
-  assert.equal(globalThis.DeadwallCodex3000Runtime.summary().count, 3000);
+  const catalogue = globalThis.DeadwallCodex3000Runtime.summary();
+  assert.equal(catalogue.count, 4000);
+  assert.equal(catalogue.legacyCount, 3000);
+  assert.equal(catalogue.extensionCount, 1000);
+  assert.equal(world.pois.some(p => p.generation === 9), false, 'The additional programmes require deliberate G9 activation');
   assert.ok(world.pois.some(p => p.generation === 8 && p.programme3000), 'Current Codex programme parcels must actually exist');
   assert.equal(g.worldOps131.actions().some(a => a.id === 'expandCodex3000'), false, 'New campaigns require no manual Codex activation');
   const saved = globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY));

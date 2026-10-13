@@ -1,4 +1,4 @@
-/* All 3,000 original and derived programme cards in the in-game atlas.
+/* All archived and independently authored programme cards in the in-game atlas.
  * Status deliberately differs from 'pilote': a template is not a world POI.
  */
 (function(root){'use strict';
@@ -6,6 +6,18 @@
  const entries=(R?.records||[]).map(p=>{
   const parent=R.parentFor(p),parts=parent?.[3]||[],context=p.module||'programme historique',state=p.state||'état initial';
   const supported=R.enabled(p,{townKind:'grande-ville',biome:'meadow'});
+  if(p.extension===158){const d=p.details,a=d.architecture,plan=R.template(p.id),levels=a.levels.join(', ');
+   return Object.freeze({id:'programme-'+p.id,title:p.id+' · '+p.name,family:'programmes',status:'programme',
+    summary:d.purpose+' Programme indépendant ; '+d.spaces.length+' espaces, famille '+p.family+'.',
+    layout:a.width+' × '+a.height+' m auteur ; '+plan.w+' × '+plan.h+' m pour le plan métrique, niveaux '+levels+
+      '. Distribution '+a.layout+'. '+a.material+' Espaces : '+d.spaces.map(s=>s.name+' (niveau '+s.z+') — '+s.usage).join(' ; ')+'.',
+    access:d.access.public+' '+d.access.service+' '+d.access.return+' Largeur de référence '+d.access.width_m+' m. Les couloirs et ouvertures du plan restent réservés.',
+    supplies:d.supplies+' Contenants : '+d.spaces.flatMap(s=>s.props.map(o=>o.kind+' / '+o.resource)).join(', ')+'. Les quantités restent finies et persistantes.',
+    risks:d.risks.join(' ')+' Les risques décrits comme traces ne créent pas de mécanisme absent.',
+    night:d.night,variants:d.variants.join(' '),interactions:d.interactions.join(' '),qa:d.qa.join(' '),
+    source:'Programme indépendant DW-3001–4000, addendum 1.58. '+d.story+
+      ' G9 : candidat à une implantation après contrôle du terrain, des accès et des réservations. La fiche ne découvre aucun lieu ni ressource.'});
+  }
   return Object.freeze({
    id:'programme-'+p.id,title:p.id+' · '+p.name,
    family:'programmes',status:'programme',

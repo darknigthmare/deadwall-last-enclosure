@@ -7,7 +7,7 @@ const threatCount=(seed,p)=>p.generation>=5&&['allied','empty'].includes(p.occup
 const RULES=Object.freeze({size:8192,chunk:256,chunkCache:25,planCache:48,metreUnits:32,footRadius:.32,carRadius:2.5,walk:3.5,run:5.0,roadSpeed:18,offroadSpeed:7.2,fuelPerMetre:.004,lootRate:3,maxEnemy:48,baseMin:4032,baseMax:4160,discover:65,lootReach:1.6});
 const TOWNS=[{id:'t0',name:'Les Verrières',x:4700,y:4070,r:500,a:.06},{id:'t1',name:'Val-des-Ormes',x:2550,y:2600,r:600,a:-.12},{id:'t2',name:'Saint-Roch',x:6300,y:2250,r:600,a:.1},{id:'t3',name:'La Briqueterie',x:2600,y:6250,r:600,a:.03},{id:'t4',name:'Moulin-Neuf',x:5900,y:6300,r:620,a:-.1},{id:'t5',name:'Bois-Mort',x:1200,y:4100,r:430,a:.15}];
 const LINES=[[[32,4096],[1200,4100],[2650,4096],[4032,4096],[4160,4096],[4700,4070],[6500,4190],[8160,4170]],[[4096,32],[3910,1500],[4096,2700],[4096,4032],[4096,4160],[4000,5500],[4160,7000],[4096,8160]],[[1200,4100],[1700,3250],[2550,2600],[4096,2700],[5150,2350],[6300,2250],[7400,2650]],[[1200,4100],[1500,5100],[2600,6250],[4000,5500],[4950,5900],[5900,6300],[7300,6050],[7650,4850],[6500,4190]],[[6300,2250],[6500,3300],[6500,4190]],[[2550,2600],[2100,1350],[3200,900],[3910,1500]],[[2600,6250],[2650,7350],[4160,7000],[5900,6300]]];
-function create(seed,requestedGeneration=3,effects={}){const isG6=requestedGeneration>=6,generation=isG6?requestedGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7,8].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let codexCoverage=null,settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,requestedGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,requestedGeneration):[];let geography=null;
+function create(seed,requestedGeneration=3,effects={}){const isG6=requestedGeneration>=6,generation=isG6?requestedGeneration:Math.min(requestedGeneration,4),size=sizeForGeneration(requestedGeneration);if(![1,2,3,4,5,6,7,8,9].includes(requestedGeneration))throw Error("Version du monde inconnue");if(!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Graine régionale invalide');const random=G.rng(G.hash(seed,'region1')),roads=[],pois=[],chunks=new Map(),plans=new Map(),bins=new Map(),roadBins=new Map();let codexCoverage=null,settlementData=null,outerBuilding=false,roadIndexReady=false,nearestChecks=0,roadTree=null,historicRoads=null,historicRoadTree=null,extensionRoadTree=null;const roadOrder=new Map(),driveBins=new Map(),detailCache=new Map();const Geo=root.DeadwallGeography135||(typeof require==='function'?require('./geography135.js'):null),Biomes=isG6?(root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null)):null,home=Geo?Geo.home(seed,requestedGeneration):{x:4096,y:4096,minX:4032,minY:4032,maxX:4160,maxY:4160,size:128};const annexReservations=isG6?Geo.reservations(seed,requestedGeneration):[];let geography=null;
 const addRoad=(a,b,width=7)=>{const r={id:'r'+roads.length,a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]},width};roads.push(r);return r;};
 const placementRoadBins=new Map();let placementRoadPad=0;
 // Construction-only broad phase: a parcel includes its reserved lot and paved
@@ -71,11 +71,11 @@ if(requestedGeneration>=5){
 }
 if(requestedGeneration>=7){
  populateG7();
- if(requestedGeneration===8){
+ if(requestedGeneration>=8){
   const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);
-  if(!Codex3000||Codex3000.summary().count!==3000)throw Error('Codex 3000 runtime incomplet');
+  if(!Codex3000||Codex3000.summary().legacyCount!==3000)throw Error('Codex 3000 runtime incomplet');
   codexCoverage=Codex3000.populateRegion({seed,roads,install,biomes:Biomes,
-   towns:settlementData.towns,sectors:settlementData.sectors,spawn:Spawn,home});
+   towns:settlementData.towns,sectors:settlementData.sectors,spawn:Spawn,home,generation:requestedGeneration});
  }
  placementRoadBins.clear();placementParcelBins.clear();
 }else if(isG6)populateG6();
@@ -89,7 +89,7 @@ roadIndexReady=true;
 for(const p of pois){for(let cy=Math.floor(p.reserve.t/256);cy<=Math.floor(p.reserve.b/256);cy++)for(let cx=Math.floor(p.reserve.l/256);cx<=Math.floor(p.reserve.r/256);cx++){const key=cx+','+cy;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(p);}}
 // Driveways can extend beyond a building reserve. Index their entire paved
 // approach so vegetation cannot grow between the public road and the front door.
-const programmeDrives=new Set(pois.filter(p=>p.generation===8).map(p=>p.drive));
+const programmeDrives=new Set(pois.filter(p=>p.generation>=8).map(p=>p.drive));
 for(const p of pois){const d=p.drive,pad=d.width/2+7;for(let cy=Math.floor((Math.min(d.a.y,d.b.y)-pad)/256);cy<=Math.floor((Math.max(d.a.y,d.b.y)+pad)/256);cy++)for(let cx=Math.floor((Math.min(d.a.x,d.b.x)-pad)/256);cx<=Math.floor((Math.max(d.a.x,d.b.x)+pad)/256);cx++){const key=cx+','+cy;if(!driveBins.has(key))driveBins.set(key,[]);driveBins.get(key).push(d);}}
 function populateG6(){
  const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null),towns=settlementData.towns,sectors=new Map(settlementData.sectors.map(s=>[s.id,s])),placed=new Map(),compatibleRoads=new Map();
@@ -174,9 +174,9 @@ function chunk(cx,cy){if(!Number.isInteger(cx)||!Number.isInteger(cy)||cx<0||cy<
   if(parcels.some(p=>x>p.reserve.l-pad&&x<p.reserve.r+pad&&y>p.reserve.t-pad&&y<p.reserve.b+pad))return false;
   const n=nearestRoad({x,y});return n.d>n.road.width/2+pad+1&&!approaches.some(d=>G.nearest({x,y},d.a,d.b).d<d.width/2+pad+1);
  };
- const clear=clearFor(ps,drives),historicalClear=requestedGeneration===8?clearFor(ps.filter(p=>p.generation!==8),drives.filter(d=>!programmeDrives.has(d))):clear;
+ const clear=clearFor(ps,drives),historicalClear=requestedGeneration>=8?clearFor(ps.filter(p=>p.generation<8),drives.filter(d=>!programmeDrives.has(d))):clear;
  const c=Biomes.scatter(seed,cx,cy,{clear:historicalClear,home,generation:requestedGeneration});
- if(requestedGeneration===8){
+ if(requestedGeneration>=8){
   // First reproduce G7 resources exactly, then clear only the new reservations.
   // These finite tombstones validate old harvests without granting new loot.
   const cleared=[];
@@ -207,7 +207,7 @@ function detailAt(p,z=0){
  const detail=Detail157.make(seed,p,z,plan(p,z),{story:Codex3000?.programmeProps(programme?.state)||[],family:Codex3000?.detailFamily(programme?.family)});
  // Legacy G7 saves keep their collision graph. New campaigns opt in explicitly;
  // programme-native G8 sites have physical details from their creation.
- const layer=p.generation===8||effects.detailVersion===1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
+ const layer=p.generation>=8||effects.detailVersion===1?detail:{...detail,interior:Object.freeze(detail.interior.map(o=>Object.freeze({...o,solid:false}))),outdoor:Object.freeze(detail.outdoor.map(o=>Object.freeze({...o,solid:false})))};
  const val=Object.freeze({...layer,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);

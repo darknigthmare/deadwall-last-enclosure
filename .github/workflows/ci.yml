@@ -54,6 +54,9 @@ jobs:
         run: npm run test:standalone
       - name: Archives web et autonome
         run: npm run package:web
+      - name: Résumer les échecs QA en annotations lisibles
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
       - name: Conserver les preuves et livrables
         if: always()
         uses: actions/upload-artifact@v4
@@ -84,6 +87,9 @@ jobs:
           if (-not $package) { throw 'Archive Windows introuvable.' }
           npm run test:desktop -- --archive $package.FullName --output artifacts/qa/windows
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Résumer les échecs Windows en annotations lisibles
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa/windows
       - name: Conserver le portable et ses preuves
         if: always()
         uses: actions/upload-artifact@v4

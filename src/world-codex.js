@@ -8,7 +8,7 @@
   else{root.DeadwallWorldCodex=api;if(root.DEADWALL&&root.document)api.install(root.DEADWALL,root.document);}
 })(typeof globalThis!=='undefined'?globalThis:this,function(packs){'use strict';
   const entries=Object.freeze(['nature','habitat','activites','systemes','equipment134','biomes135','seed157','programmes'].flatMap(k=>packs[k]||[]));
-  const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité',programmes:'Codex 3 000'});
+  const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité',programmes:'Codex 4 000'});
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
@@ -32,7 +32,7 @@
     const status=el('select');status.id='worldCodexStatus';const statusLabel=el('label','COUVERTURE');statusLabel.setAttribute('for',status.id);statusLabel.appendChild(status);
     function option(select,value,label){const n=el('option',label);n.value=value;select.appendChild(n);}
     option(family,'all','Toutes les familles');for(const[k,v]of Object.entries(families))option(family,k,v);
-    option(status,'terrain','Contenu présent');option(status,'all','Présent et projets');option(status,'programme','Les 3 000 programmes');for(const[k,v]of Object.entries(statuses))option(status,k,v);
+    option(status,'terrain','Contenu présent');option(status,'all','Présent et projets');option(status,'programme','Les 4 000 programmes');for(const[k,v]of Object.entries(statuses))option(status,k,v);
     family.value='all';status.value='terrain';append(controls,searchLabel,familyLabel,statusLabel);
     const count=el('p','','world-codex-count');count.setAttribute('role','status');count.setAttribute('aria-live','polite');count.setAttribute('aria-atomic','true');
     const list=el('div',undefined,'world-codex-list');list.id='worldCodexResults';

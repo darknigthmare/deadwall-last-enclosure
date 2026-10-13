@@ -15,6 +15,7 @@
   const WorldPropsArt153=root.DeadwallWorldPropsArt153||(typeof require==='function'?require('./world-props-art153.js'):null);
   const InteriorArt153=root.DeadwallInteriorArt153||(typeof require==='function'?require('./interior-art153.js'):null);
   const RenderCache153=root.DeadwallRenderCache153||(typeof require==='function'?require('./render-cache153.js'):null);
+  const WorldVariants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -31,6 +32,7 @@
     ...(NatureArt153?.ASSETS||{}),
     ...(WorldPropsArt153?.ASSETS||{}),
     ...(InteriorArt153?.ASSETS||{}),
+    ...(WorldVariants158?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
@@ -505,8 +507,10 @@
     }
     drawActor(ctx, entity, kind, time, reducedMotion, compact) {
       entity = this.presentation?.(entity, kind) || entity;
+      const visualSeed=root.DEADWALL?.world?.seed??0;
       const atlas=entity.weapon==='pistol'&&this.images.commanderPistol?'commanderPistol':'commander';
-      const spec = ACTORS[actorVariant(kind,entity.id)]; if (!spec || (!this.images[spec[0]] && !(kind==='player'&&(this.images[atlas]||this.images.commanderRig&&canArticulate(entity)||this.actionFrames133[heroActionPose133(entity,reducedMotion)?.atlas]||entity.visualUnarmed||entity.visualEquipmentCategory)))) return false;
+      const alternative=WorldVariants158?.actorFrame(kind,entity.id,0,{seed:visualSeed});
+      const spec = ACTORS[actorVariant(kind,entity.id)]; if (!spec || (!this.images[spec[0]] && !this.images[alternative?.atlas] && !(kind==='player'&&(this.images[atlas]||this.images.commanderRig&&canArticulate(entity)||this.actionFrames133[heroActionPose133(entity,reducedMotion)?.atlas]||entity.visualUnarmed||entity.visualEquipmentCategory)))) return false;
       const motions=entity.visualIdentity?this.namedMotion:this.motion,key=entity.visualIdentity||entity;
       let previous = motions.get(key);
       if (!previous || entity.visualMotionReset || time < previous.time) { previous = { x: entity.x, y: entity.y, time, moving: false, until: -1 }; motions.set(key, previous); }
@@ -517,28 +521,31 @@
       const inferredMoving=dt===0&&distance<1e-8?previous.moving:dt>0&&dt<=.25&&distance>1e-5&&distance<100;
       const moving=typeof entity.visualMoving==='boolean'?entity.visualMoving:inferredMoving;
       previous.x = entity.x; previous.y = entity.y; previous.time=time; previous.moving=moving; previous.until=moving?time:-1;
-      const frame = reducedMotion || previous.until < time || kind==='charger'&&entity.charge?.stage==='windup' ? 0 : Math.floor(time * (kind === 'runner'||kind==='charger'&&entity.charge?.stage==='rush' ? 13 : 9) + (entity.id || 0)) % 8;
+      // Regional owners use text IDs. Adding them to time would concatenate and
+      // turn the frame into NaN; a stable cosmetic hash preserves their cycle.
+      const phase = Number.isFinite(entity.id) ? entity.id : typeof entity.id==='string' ? (WorldVariants158?.hash(0,entity.id,'actor-phase')??0)%8 : 0;
+      const frame = reducedMotion || previous.until < time || kind==='charger'&&entity.charge?.stage==='windup' ? 0 : Math.floor(time * (kind === 'runner'||kind==='charger'&&entity.charge?.stage==='rush' ? 13 : 9) + phase) % 8;
       const size = (kind === 'player' ? 57 : ['armored','breacher','bloated','shielded'].includes(kind) ? 62 : kind === 'crawler' ? 49 : 55) * (compact ? 1.1 : 1);
       ctx.save(); ctx.translate(entity.x, entity.y);
       if (kind === 'player') { ctx.strokeStyle = '#ddba69'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0, 3, 16, 12, 0, 0, Math.PI * 2); ctx.stroke(); }
       if (kind === 'player' && entity.invulnerable > 0 && Math.floor(entity.invulnerable * 10) % 2 === 0) ctx.globalAlpha = .5;
-      if(kind==='player'&&this.drawHeroAction133(ctx,entity,reducedMotion,compact)){ctx.restore();return true;}
-      if(kind==='player'&&this.drawHandheld136(ctx,entity,reducedMotion,compact)){ctx.restore();return true;}
-      if(kind==='player'&&this.drawUnarmed133(ctx,entity,reducedMotion,compact)){ctx.restore();return true;}
-      if(kind==='player'&&this.drawLowFirearm137(ctx,entity,reducedMotion,compact)){ctx.restore();return true;}
-      if(kind==='player'&&this.drawCommanderRig(ctx,entity,reducedMotion,compact)){ctx.restore();return true;}
+      if(kind==='player'&&this.drawHeroAction133(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
+      if(kind==='player'&&this.drawHandheld136(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
+      if(kind==='player'&&this.drawUnarmed133(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
+      if(kind==='player'&&this.drawLowFirearm137(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
+      if(kind==='player'&&this.drawCommanderRig(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
       if(entity.visualUpright){if(Math.cos(entity.facing||0)<0)ctx.scale(-1,1);}
       else ctx.rotate(entity.facing || 0);
       if(kind==='player'&&this.images[atlas]){
         const pose=heroPose(entity,time,reducedMotion,previous.until>=time),rect=HERO_FRAMES[atlas][pose.row][pose.frame];
         const scale=.27*(compact?1.1:1),pivotX=128+pose.frame*256-rect[0],pivotY=HERO_PIVOT_Y[pose.row]-rect[1];
         this.blit(ctx,atlas,rect,-pivotX*scale,-pivotY*scale,rect[2]*scale,rect[3]*scale);
-      }else {
+      }else if(!WorldVariants158?.drawActor(ctx,this,kind,entity.id,frame,size,{seed:visualSeed})) {
         const nominal=frameRect(spec[0],spec[1],frame),rect=actorFrameRect(spec[0],spec[1],frame);
         this.blit(ctx,spec[0],rect,(rect[0]-nominal[0])*size/nominal[2]-size/2,
           (rect[1]-nominal[1])*size/nominal[3]-size/2,rect[2]*size/nominal[2],rect[3]*size/nominal[3]);
       }
-      ctx.restore(); this.drawInfectedEquipment(ctx,entity,kind,compact); return true;
+      ctx.restore();if(kind==='player')WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});this.drawInfectedEquipment(ctx,entity,kind,compact); return true;
     }
     drawInfectedEquipment(ctx,entity,kind,compact){
       if(kind!=='shielded'&&kind!=='charger')return;

@@ -1,6 +1,7 @@
 /* Shared visual catalogue. Images are loaded once by Art; equipment identity stays in Arsenal. */
 (function(root,factory){'use strict';const api=factory(root);root.DeadwallAssets136=api;if(typeof module==='object'&&module.exports)module.exports=api;})(globalThis,function(root){
 'use strict';
+const Variants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
 const FILES=Object.freeze({
  Oak:'assets/art136/oak.png',Pine:'assets/art136/pine.png',Willow:'assets/art136/willow.png',Limestone:'assets/art136/limestone.png',
  Beech:'assets/art136/beech.png',Birch:'assets/art136/birch.png',Fir:'assets/art136/fir.png',Poplar:'assets/art136/poplar.png',Alder:'assets/art136/alder.png',Fruit:'assets/art136/fruit.png',Granite:'assets/art136/granite.png',Schist:'assets/art136/schist.png',Scree:'assets/art136/scree.png',
@@ -33,10 +34,13 @@ function vehicleSize139(profile,domain='region'){
  const scale=domain==='local'?2*22/4.6:1;
  return{w:profile.w*scale,h:profile.h*scale,scale};
 }
-function drawVehicle139(c,art,type,w,h,{hp=1,opened=false,dismantled=false,exhausted=false,active=false}={}){
+function drawVehicle139(c,art,type,w,h,{hp=1,opened=false,dismantled=false,exhausted=false,active=false,identity,seed=0,variant}={}){
  const key=VEHICLE_SPRITES139[type]||VEHICLE_SPRITES140[type];if(!key||!c||![w,h].every(Number.isFinite)||w<=0||h<=0)return false;
  const image=art?.images?.[key],spec=ASSETS139[key]||ASSETS140[key];
- if(image&&spec){
+ const alternative=Variants158?.measureVehicle(type,identity,w,h,{seed,variant});
+ if(alternative&&art?.images?.[alternative.sprite.atlas]){
+  c.save();if(hp<=0)c.globalAlpha*=.7;Variants158.paint(c,art,alternative);c.restore();
+ }else if(image&&spec){
   const r=art.rects?.[key+':sprite']||[0,0,image.width||spec.width,image.height||spec.height],scale=Math.min(w/r[2],h/r[3]);
   c.save();if(hp<=0)c.globalAlpha*=.7;
   if(art.blit)art.blit(c,key,r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);else c.drawImage(image,...r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);c.restore();

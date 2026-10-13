@@ -1,3 +1,15 @@
+# DEADWALL — Codex étendu, édition 1.58
+
+L’[addendum 1.58](addendum-1.58/CONTRACT.md) ajoute exactement **1 000 programmes indépendants**, DW-3001 à DW-4000. Les quatre lots auteur sont compilés avec les sources historiques : **4 000 fiches, 2 000 parents**, dont les 2 000 compositions contextuelles historiques restent distinguées des programmes indépendants. Aucun état d’abandon, matériau ou simple changement de nom ne compte comme nouveau programme.
+
+Ouvrir [LIRE_1000_NOUVEAUX.html](addendum-1.58/LIRE_1000_NOUVEAUX.html) pour rechercher les fiches nouvelles hors ligne et lire tous leurs champs. [INDEX_1000.json](addendum-1.58/INDEX_1000.json) et les lots PROGRAMMES_A/B/C/D.json en conservent les identités. Le guide du jeu permet aussi de consulter les 4 000 fiches.
+
+Les nouveaux plans disposent de quatre distributions réelles, de pièces fonctionnelles, de mobilier natif et de contenants finis. Au maximum trois niveaux jouables **au total, souterrain compris**. La présence dans la région dépend des parcelles compatibles ; une fiche ne prouve pas sa présence sur une seed. Les anciennes activités, réseaux et risques narratifs ne deviennent pas des simulations supplémentaires. Depuis le dépôt, activer G8 puis G9 ouvre les implantations sans changer les anciens sites. Voir [livraison 1.58](../docs/LIVRAISON_1_58.md).
+
+## Archive documentaire — édition 1.26
+
+Les informations ci-dessous décrivent le périmètre de cette archive lors de sa rédaction. Les intégrations ultérieures sont documentées dans la livraison courante.
+
 # DEADWALL — Codex 3 000, édition 1.26
 
 Ouvrir **LIRE_CODEX_3000.html** directement dans un navigateur. Le lecteur fonctionne hors ligne, sans serveur ni téléchargement. Il propose recherche, famille, type de fiche et pagination de 24 résultats. Chaque composition affiche son programme parent complet dans son détail.

@@ -1,9 +1,10 @@
 /* Native civilian silhouettes, fitted to the caller's real vehicle rectangle. */
 (function(root,factory){
- 'use strict';const api=factory();root.DeadwallVehicleArt152=api;
+ 'use strict';const api=factory(root);root.DeadwallVehicleArt152=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(){
+})(typeof globalThis!=='undefined'?globalThis:this,function(root){
  'use strict';
+ const Variants=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
  const ASSETS=Object.freeze({d17Vehicles152:Object.freeze({url:'assets/art152/vehicles-atlas.png',width:1536,height:1024,matte:'none'})});
  const cuts={compact:[13,189,476,294],break:[503,181,600,313],motorcycle:[1104,197,422,274],skate:[14,688,486,167],bike:[514,644,594,245]};
  const SPRITES=Object.freeze(Object.fromEntries(Object.entries(cuts).map(([id,rect])=>[id,Object.freeze({atlas:'d17Vehicles152',rect:Object.freeze(rect)})])));
@@ -30,8 +31,10 @@
    else{c.fillRect(w*.47,-h*.35,w*.023,h*.11);c.fillRect(w*.47,h*.24,w*.023,h*.11);}
   }
  }
- function drawVehicle(c,art,type,w,h,{hp=1,opened=false,dismantled=false,exhausted=false,active=false}={}){
-  const frame=measure(type,w,h);if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
+ function drawVehicle(c,art,type,w,h,{hp=1,opened=false,dismantled=false,exhausted=false,active=false,identity,seed=0,variant}={}){
+  if(!Object.hasOwn(SPRITES,type))return false;
+  const alternative=Variants?.measureVehicle(type,identity,w,h,{seed,variant}),frame=alternative&&art?.images?.[alternative.sprite.atlas]?{atlas:alternative.sprite.atlas,source:alternative.source,destination:alternative.destination}:measure(type,w,h);
+  if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
   c.save();if(hp<=0)c.globalAlpha*=.7;
   const painted=art.blit?art.blit(c,frame.atlas,frame.source,...frame.destination):(c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination),true);
   c.restore();if(!painted)return false;
