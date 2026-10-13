@@ -202,7 +202,10 @@ function prepareArtFixture160(request){
   const g=DEADWALL,w=g.frontier.world(),G=DeadwallFrontierGeometry,A=DeadwallContextArt160;let chosen;
   for(const p of w.contextSites160()){if(request.mode&&p.context160.mode!==request.mode)continue;const plan=w.plan(p,0);
     for(const o of request.roof?plan.volumes160:plan.visuals160){if(request.kind&&o.kind!==request.kind||!request.roof&&!A.select(o.kind,o.id,{seed:w.seed,variant:o.variant}))continue;
-      const target=G.global(p,o.x+o.w/2,o.y+o.h/2);let point;
+      const frame=request.roof?null:A.measure(o.kind,o,{seed:w.seed,variant:o.variant});
+      if(!request.roof&&!frame)continue;
+      const destination=request.roof?[o.x,o.y,o.w,o.h]:frame.destination;
+      const target=G.global(p,destination[0]+destination[2]/2,destination[1]+destination[3]/2);let point;
       const choices=request.roof?[[o.x+o.w/2,o.y-1],[o.x+o.w/2,o.y+o.h+1],[o.x-1,o.y+o.h/2],[o.x+o.w+1,o.y+o.h/2]].map(([x,y])=>G.global(p,x,y)):
         [1,2,3,5,7].flatMap(radius=>Array.from({length:16},(_,i)=>({x:target.x+Math.cos(i*Math.PI/8)*radius,y:target.y+Math.sin(i*Math.PI/8)*radius})));
       for(const q of choices)if(!point&&!w.blocked(q.x,q.y,.32,0,null))point=q;
