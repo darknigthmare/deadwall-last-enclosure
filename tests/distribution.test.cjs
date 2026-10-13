@@ -129,6 +129,20 @@ test('distribution: vrai build public sans node_modules ni installation',t=>{
       fs.readFileSync(path.join(directory,definition.url)),key+' conserve exactement les octets PNG');
     for(const field of ['width','height','matte'])assert.equal(actual[field],definition[field],key+' '+field);
   }
+  const extensions=[['trap-art159','DeadwallTrapArt159'],['equipment-art159','DeadwallEquipmentArt159'],['actor-actions159','DeadwallActorActions159'],['post-art159','DeadwallPostArt159'],['expedition-sprites159','DeadwallExpeditionSprites159'],['structure-art159','DeadwallStructureArt159']];
+  const inlineScripts=[...standalone.matchAll(/<script>\n([\s\S]*?)\n<\/script>/g)].map(match=>match[1]);
+  for(const [file,globalName] of extensions){
+    const scripts=inlineScripts.filter(script=>script.includes('root.'+globalName+'=api'));
+    assert.equal(scripts.length,1,file+' embarqué une fois');
+    const sandbox={};vm.runInNewContext(scripts[0],sandbox,{timeout:5000});
+    const expected=require('../src/'+file+'.js').ASSETS,actual=sandbox[globalName].ASSETS;
+    assert.ok(Object.isFrozen(actual));assert.deepEqual(Object.keys(actual).sort(),Object.keys(expected).sort());
+    for(const [key,definition]of Object.entries(expected)){
+      assert.ok(Object.isFrozen(actual[key]),key);assert.match(actual[key].url,/^data:image\/png;base64,/);
+      assert.deepEqual(Buffer.from(actual[key].url.slice('data:image/png;base64,'.length),'base64'),fs.readFileSync(path.join(directory,definition.url)),key+' original brut embarqué');
+      for(const field of ['width','height','matte'])assert.equal(actual[key][field],definition[field],key+' '+field);
+    }
+  }
 });
 
 test('distribution: PWA et protocole PC couvrent tout le contrat public actuel',()=>{

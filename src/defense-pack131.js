@@ -27,12 +27,31 @@ function normalize(raw,full){
 function install(g){
  if(!g||g.defense131)return g?.defense131;
  if(!g.expansions?.register)throw Error('Centre des extensions absent.');
- let state=initial(),byId=new Map(),message='',workerPass=false,inspection=0;
+ let state=initial(),byId=new Map(),message='',workerPass=false,inspection=0,visualClock=0;
+ const visualEvents=new Map(),servicePulseSeconds=.6;
  const wired=new WeakSet();
  const wrap=(name,fn)=>{const old=g[name]?.bind(g);if(old)g[name]=(...a)=>fn(old,...a);};
  const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay;
  const acting=()=>g.expansions.canAct()&&!g.frontier?.active?.()&&!g.expeditions?.driving?.();
  const building=id=>{const b=g.world.buildings.get(id);return live(b)?b:null;};
+ function servicePulse(b,kind){
+  const key=b.id+':'+kind,previous=visualEvents.get(key);
+  if(previous?.owner===b&&visualClock-previous.at<servicePulseSeconds)return;
+  visualEvents.delete(key);if(visualEvents.size>=R.maxPosts)visualEvents.delete(visualEvents.keys().next().value);
+  visualEvents.set(key,{owner:b,at:visualClock});
+ }
+ function servicePresentation(b,kind){
+  const event=visualEvents.get(b.id+':'+kind),active=!!(event&&event.owner===b&&building(b.id)===b&&visualClock-event.at<servicePulseSeconds);
+  const progress=active?Math.max(0,Math.min(1,(visualClock-event.at)/servicePulseSeconds)):0;
+  return{active,phase:active?'service':'idle',progress,motion:active?Math.sin(progress*Math.PI):0};
+ }
+ function presentation(value){
+  const b=typeof value==='object'?value:building(value),p=b&&byId.get(b.id);
+  if(!b||building(b.id)!==b||!p)return null;
+  return{ownerId:b.id,gate:p.gate?{enabled:p.gate.enabled,delay:p.gate.delay,manual:p.gate.manualPhase!==null}:null,
+   maintenance:p.maintenance?{remaining:{...p.maintenance},...servicePresentation(b,'maintenance')}:null,
+   work:p.work>0?{remaining:p.work,...servicePresentation(b,'work')}:null,arc:p.arc};
+ }
  const target=()=>building(g.selectedBuilding?.id);
  const touch=b=>!!b&&g.workerCanWorkAt(g.player,b,R.reach);
  const secure=b=>!g.zombies.some(z=>live(z)&&Math.hypot(z.x-b.x,z.y-b.y)<R.dangerRange&&g.hostileLineClear(z,b));
@@ -91,12 +110,14 @@ function install(g){
  function wire(){for(const p of state.posts){const b=building(p.id);if(!b||!p.work||wired.has(b))continue;const old=b.work;b.work=function(amount){
    const post=byId.get(b.id),extra=workerPass&&running()&&!b.completed&&post?.work>0&&finite(amount,Number.MIN_VALUE,R.maxWorkInput)?Math.min(post.work,amount*R.workBonus):0;
    const before=b.progress,result=old.call(b,amount+extra);
-   if(extra&&b.progress>before)post.work=Math.max(0,post.work-Math.min(extra,(b.progress-before)*Math.max(1,b.def.buildTime)));
+   if(extra&&b.progress>before){post.work=Math.max(0,post.work-Math.min(extra,(b.progress-before)*Math.max(1,b.def.buildTime)));servicePulse(b,'work');}
    return result;
   };wired.add(b);}}
  function actors(){return[...(!g.frontier?.active?.()?[g.player]:[]),...g.units,...g.zombies,g.expeditions?.entity?.(),...(g.territories?.truckEntities?.()||[])].filter(v=>v&&live(v));}
  function step(dt){
   if(!running()||!finite(dt,Number.MIN_VALUE,R.maxStep))return;
+  visualClock+=dt;
+  for(const[key,event]of visualEvents)if(visualClock-event.at>=servicePulseSeconds||building(event.owner.id)!==event.owner)visualEvents.delete(key);
   inspection-=dt;if(inspection<=0){inspection=R.inspectionSeconds;reconcile();wire();}
   for(const p of state.posts){const a=p.gate,b=building(p.id);if(!a?.enabled||!b?.completed)continue;
    if(a.manualPhase!==null){if(a.manualPhase===g.phase)continue;a.manualPhase=null;a.delay=0;}
@@ -120,7 +141,7 @@ function install(g){
   point=point||g.workerBuildExit(u,b,'repair');if(!point||!g.workerCanWorkAt(u,point,C.NPC_RULES.repairRange))return 0;
   const rates=g.engineerRepairRates(b);let amount=Math.max(0,Math.min(b.maxHealth*R.maintenanceTarget-b.health,dt*C.NPC_RULES.repairPerSecond));
   for(const[k,rate]of Object.entries(rates))if(rate>0)amount=Math.min(amount,m[k]/rate);
-  if(amount>0){for(const[k,rate]of Object.entries(rates))if(rate>0)m[k]=Math.max(0,m[k]-amount*rate);b.health+=amount;}return amount;
+  if(amount>0){for(const[k,rate]of Object.entries(rates))if(rate>0)m[k]=Math.max(0,m[k]-amount*rate);b.health+=amount;servicePulse(b,'maintenance');}return amount;
  });
  wrap('updateUnits',(old,dt)=>{wire();workerPass=running()&&finite(dt,Number.MIN_VALUE,R.maxStep);try{return old(dt);}finally{workerPass=false;}});
  wrap('update',(old,dt)=>{const r=old(dt);step(dt);return r;});
@@ -143,6 +164,7 @@ function install(g){
  }
  wrap('drawGround',(old,ctx,view,...args)=>{const r=old(ctx,view,...args);drawGround(ctx,view);return r;});
  wrap('drawBuilding',(old,ctx,b,...args)=>{const r=old(ctx,b,...args),p=byId.get(b.id);if(!p||!live(b))return r;ctx.save();
+  root.DeadwallTrapArt159?.drawPreparation?.(ctx,g.art,b,{seed:g.world?.seed??0,reducedMotion:!!g.settings?.reducedMotion,presentation:presentation(b)});
   const badges=[[!!p.gate,p.gate?.enabled?'#9fbea2':'#756d64'],[!!p.maintenance,'#6f9baf'],[p.work>0,'#c5a773'],[p.arc!==null,'#bed29c']];
   badges.forEach(([on,color],i)=>{if(on){ctx.fillStyle='#252d28';ctx.fillRect(b.left+4+i*10,b.bottom-14,9,10);ctx.fillStyle=color;ctx.fillRect(b.left+6+i*10,b.bottom-12,5,6);}});ctx.restore();return r;
  });
@@ -167,9 +189,9 @@ function install(g){
   if(p?.arc!==null&&p?.arc!==undefined)result.push({id:'arc-off',label:'Rétablir la couverture à 360°',disabled:!acting()||!touch(target()),run:()=>setArc(id,null)});
   return result;
  }
- const api={version:'1.31.0',overview,actions,check,configureGate,startMaintenance,recoverMaintenance,equipWorksite,setArc,step,drawGround,snapshot:()=>{reconcile();return copy(state);},busy:()=>false};
+ const api={version:'1.31.0',overview,actions,check,configureGate,startMaintenance,recoverMaintenance,equipWorksite,setArc,step,drawGround,presentation,snapshot:()=>{reconcile();return copy(state);},busy:()=>false};
  g.defense131=api;
- g.expansions.register({id:'defense131',title:'Préparer D-17',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);index();wire();inspection=0;message='';},reset:()=>{state=initial();index();inspection=0;message='';}});
+ g.expansions.register({id:'defense131',title:'Préparer D-17',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);index();wire();inspection=0;message='';visualClock=0;visualEvents.clear();},reset:()=>{state=initial();index();inspection=0;message='';visualClock=0;visualEvents.clear();}});
  return api;
 }
 const API={install,normalize,initial};root.DeadwallDefense131=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;if(root.DEADWALL?.expansions)install(root.DEADWALL);

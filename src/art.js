@@ -16,6 +16,12 @@
   const InteriorArt153=root.DeadwallInteriorArt153||(typeof require==='function'?require('./interior-art153.js'):null);
   const RenderCache153=root.DeadwallRenderCache153||(typeof require==='function'?require('./render-cache153.js'):null);
   const WorldVariants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
+  const StructureArt159=root.DeadwallStructureArt159||(typeof require==='function'?require('./structure-art159.js'):null);
+  const TrapArt159=root.DeadwallTrapArt159||(typeof require==='function'?require('./trap-art159.js'):null);
+  const EquipmentArt159=root.DeadwallEquipmentArt159||(typeof require==='function'?require('./equipment-art159.js'):null);
+  const ActorActions159=root.DeadwallActorActions159||(typeof require==='function'?require('./actor-actions159.js'):null);
+  const PostArt159=root.DeadwallPostArt159||(typeof require==='function'?require('./post-art159.js'):null);
+  const ExpeditionSprites159=root.DeadwallExpeditionSprites159||(typeof require==='function'?require('./expedition-sprites159.js'):null);
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(Artwork136?.ASSETS||{}),
@@ -33,6 +39,12 @@
     ...(WorldPropsArt153?.ASSETS||{}),
     ...(InteriorArt153?.ASSETS||{}),
     ...(WorldVariants158?.ASSETS||{}),
+    ...(TrapArt159?.ASSETS||{}),
+    ...(StructureArt159?.ASSETS||{}),
+    ...(EquipmentArt159?.ASSETS||{}),
+    ...(ActorActions159?.ASSETS||{}),
+    ...(PostArt159?.ASSETS||{}),
+    ...(ExpeditionSprites159?.ASSETS||{}),
     buildings: { url: 'assets/buildings-atlas.webp', width: 1254, height: 1254, matte: 'neutral' },
     props: { url: 'assets/props-atlas.webp', width: 1254, height: 1254, matte: 'magenta' },
     survivors: { url: 'assets/survivors-atlas.webp', width: 1774, height: 887, matte: 'magenta' },
@@ -325,6 +337,8 @@
       ctx.restore(); return true;
     }
     drawBuilding(ctx, b, world) {
+      const g=root.DEADWALL;
+      if(b.type==='spikes'&&TrapArt159?.drawSpikes(ctx,this,b,{seed:world?.seed??0,reducedMotion:!!g?.settings?.reducedMotion,presentation:g?.fortificationPack?.presentation(b)?.spikes}))return true;
       if(BuildingVariants157?.drawBuilding(ctx,this,b,world))return true;
       const seed=world?.seed??0;
       if(D17Art152?.drawBuilding(ctx,this,b,{seed})||D17Art150?.drawBuilding(ctx,this,b,{seed})||D17Art150?.drawFallback(ctx,this,b))return true;
@@ -440,6 +454,16 @@
         if(upper){const s=.225*(compact?1.1:1),h=Math.min(upper.image.height,upper.pivot[1]+43);ctx.drawImage(upper.image,0,0,upper.image.width,h,-upper.pivot[0]*s,-upper.pivot[1]*s,upper.image.width*s,h*s);}
         else this.drawUnarmedTorso133(ctx);
         ctx.restore();
+      }else if(entity.visualEquipmentCategory==='firearm'&&this.images[EquipmentArt159?.weaponSprite(entity.visualEquipmentId,{held:true,seed:root.DEADWALL?.world?.seed??0,identity:entity.id})?.atlas]){
+        const reload=reloadPose137(entity),rotation=entity.visualUpperFacing+(reload&&!reducedMotion?-.12*reload.reach:0);
+        ctx.save();ctx.rotate(rotation);
+        const upper=this.actionFrames133.heroHarvest133?.[24];
+        if(upper){const s=.225*(compact?1.1:1),h=Math.min(upper.image.height,upper.pivot[1]+43);ctx.drawImage(upper.image,0,0,upper.image.width,h,-upper.pivot[0]*s,-upper.pivot[1]*s,upper.image.width*s,h*s);}
+        else this.drawUnarmedTorso133(ctx);
+        if(compact)ctx.scale(1.1,1.1);
+        EquipmentArt159.drawHeld(ctx,this,entity.visualEquipmentId,12-(entity.visualRecoil&&!reducedMotion?1.8:0),5,0,{seed:root.DEADWALL?.world?.seed??0,identity:entity.id});
+        if(reload)this.drawReload137(ctx,entity,reducedMotion);
+        ctx.restore();
       }else {
         const reload=reloadPose137(entity),rotation=entity.visualUpperFacing+(reload&&!reducedMotion?-.12*reload.reach:0);
         part(HERO_RIG.upper[reload?(entity.weapon==='pistol'?1:0):pose.upper],rotation,scale);
@@ -464,7 +488,9 @@
       ctx.save();ctx.rotate(entity.visualUpperFacing??entity.facing??0);if(compact)ctx.scale(1.1,1.1);
       const pistol=entity.weapon==='pistol',shotgun=entity.weapon==='shotgun',recoil=!reducedMotion&&entity.visualRecoil?-1.8:0;
       ctx.translate(recoil,3);
-      if(this.images.commanderRig){
+      if(entity.visualEquipmentCategory==='firearm'&&EquipmentArt159?.drawHeld(ctx,this,entity.visualEquipmentId,13,0,0,{seed:root.DEADWALL?.world?.seed??0,identity:entity.id})){
+        // The native low body contains no weapon; the model owns its silhouette.
+      }else if(this.images.commanderRig){
         // Reuse the measured weapon-only area, without copying a second torso.
         if(pistol)this.blit(ctx,'commanderRig',[798,239,96,32],13,-2,13,13/3);
         else this.blit(ctx,'commanderRig',[269,230,217,92],11,-5,27,27*92/217);
@@ -497,7 +523,7 @@
       const low=HERO_LOW137[entity.visualPosture];
       if(low&&this.images[low.atlas]&&!entity.dead)ctx.translate(7,-4);
       else if(entity.dead||entity.visualPosture==='prone')ctx.scale(1.25,.7);else if(entity.visualPosture==='crouch')ctx.scale(.92,.9);
-      Artwork136.drawHeld(ctx,entity.visualEquipmentId);ctx.restore();return true;
+      Artwork136.drawHeld(ctx,entity.visualEquipmentId,this,{seed:root.DEADWALL?.world?.seed??0,identity:entity.id});ctx.restore();return true;
     }
     drawHeroAction133(ctx,entity,reducedMotion,compact){
       const pose=heroActionPose133(entity,reducedMotion),frame=pose&&this.actionFrames133[pose.atlas]?.[pose.row*8+pose.frame];if(!frame)return false;
@@ -508,6 +534,7 @@
     drawActor(ctx, entity, kind, time, reducedMotion, compact) {
       entity = this.presentation?.(entity, kind) || entity;
       const visualSeed=root.DEADWALL?.world?.seed??0;
+      const upright=kind==='player'?!!entity.visualUpright:(ActorActions159?.uprightAppearance?.(kind,entity.id,{seed:visualSeed,images:this.images})??!!entity.visualUpright);
       const atlas=entity.weapon==='pistol'&&this.images.commanderPistol?'commanderPistol':'commander';
       const alternative=WorldVariants158?.actorFrame(kind,entity.id,0,{seed:visualSeed});
       const spec = ACTORS[actorVariant(kind,entity.id)]; if (!spec || (!this.images[spec[0]] && !this.images[alternative?.atlas] && !(kind==='player'&&(this.images[atlas]||this.images.commanderRig&&canArticulate(entity)||this.actionFrames133[heroActionPose133(entity,reducedMotion)?.atlas]||entity.visualUnarmed||entity.visualEquipmentCategory)))) return false;
@@ -534,7 +561,9 @@
       if(kind==='player'&&this.drawUnarmed133(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
       if(kind==='player'&&this.drawLowFirearm137(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
       if(kind==='player'&&this.drawCommanderRig(ctx,entity,reducedMotion,compact)){ctx.restore();WorldVariants158?.drawPlayerGear(ctx,this,entity,{seed:visualSeed,compact});return true;}
-      if(entity.visualUpright){if(Math.cos(entity.facing||0)<0)ctx.scale(-1,1);}
+      const actionPresentation=kind!=='player'?root.DEADWALL?.actorActionPresentation159?.(entity):null;
+      if(kind!=='player'&&ActorActions159?.draw(ctx,this,entity,{kind,time,size,reducedMotion,moving,upright,presentation:actionPresentation})){ctx.restore();this.drawInfectedEquipment(ctx,{...entity,facing:actionPresentation?.facing??entity.facing},kind,compact);return true;}
+      if(upright){if(Math.cos(entity.facing||0)<0)ctx.scale(-1,1);}
       else ctx.rotate(entity.facing || 0);
       if(kind==='player'&&this.images[atlas]){
         const pose=heroPose(entity,time,reducedMotion,previous.until>=time),rect=HERO_FRAMES[atlas][pose.row][pose.frame];

@@ -55,7 +55,7 @@ function stepContacts(dt,f){
    Survey.step(w,e,f,dt,T,budget,blocked);
    if(!g.frontier.active()){h.contacts[i]=Survey.record(e);continue;}
    const target=f.car?.driving?Survey.edge(e,{...f.car,w:vehicleProfile().w,h:vehicleProfile().h}):f;
-   if(Math.hypot(e.x-target.x,e.y-target.y)<K.attackReach&&e.cool===0&&w.line(e,target,0,f.inside,null,.015)){g.frontier.damage?.(R.attack);e.cool=K.attackInterval;}h.contacts[i]=Survey.record(e);
+   if(Math.hypot(e.x-target.x,e.y-target.y)<K.attackReach&&e.cool===0&&w.line(e,target,0,f.inside,null,.015)){const applied=g.frontier.damage?.(R.attack);e.cool=K.attackInterval;if(applied)g.recordActorAction159?.({id:e.id,visualActionOwner159:'region:'+e.id,kind:e.kind||'walker',facing:e.a},'attack',K.attackInterval,{facing:e.a});}h.contacts[i]=Survey.record(e);
   }
  }
  const active=new Set(contacts.map(e=>e.id));for(const id of contactRuntime.keys())if(!active.has(id))contactRuntime.delete(id);
@@ -135,9 +135,9 @@ function companionStep(dt,f){
   p.a=Math.atan2(f.y-p.y,f.x-p.x);const distance=Math.hypot(f.x-p.x,f.y-p.y),near=distance<=rules.healRange&&clear(p,f);
   if(c.id==='lea'&&f.z===0)for(const h of state.groups)if(Math.hypot(h.x-p.x,h.y-p.y)<rules.scoutRange*(control.scoutMultiplier||1))h.seen=true;
   const working=!!(g.fieldSupplies?.busy()||g.essentials?.busy()||g.expansions?.busy());
-  if(!working&&c.id==='samir'&&near&&!g.player.dead){const hp=Math.max(0,g.player.maxHealth-g.player.health),n=Math.min(hp,rules.healPerSecond*(control.healMultiplier||1)*dt,g.player.carry.medicine/rules.medicinePerHealth);if(n>0){g.player.carry.medicine=Math.max(0,g.player.carry.medicine-n*rules.medicinePerHealth);g.player.health+=n;}}
-  if(!working&&c.id==='ines'&&f.z===0&&f.car){const car=g.expeditions.car(),profile=vehicleProfile(),edge=Survey.edge(p,{...f.car,w:profile.w,h:profile.h});if(car&&car.health>0&&Math.hypot(edge.x-p.x,edge.y-p.y)<=rules.repairRange&&w.line(p,edge,0,null,null,.05)){const n=Math.min(profile.health-car.health,rules.repairPerSecond*(control.repairMultiplier||1)*dt,g.player.carry.scrap/rules.scrapPerHealth);if(n>0){g.player.carry.scrap=Math.max(0,g.player.carry.scrap-n*rules.scrapPerHealth);car.health+=n;}}}
-  if(!working&&control.fire!==false&&c.id==='malik'&&p.cool===0&&g.player.carry.ammo>=rules.shotAmmo&&g.frontier.companionShot?.(p,control.shotRange||rules.shotRange,rules.shotDamage*(control.damageMultiplier||1))){g.player.carry.ammo-=rules.shotAmmo;p.cool=rules.shotInterval;g.audio.shot('pistol');}
+  if(!working&&c.id==='samir'&&near&&!g.player.dead){const hp=Math.max(0,g.player.maxHealth-g.player.health),n=Math.min(hp,rules.healPerSecond*(control.healMultiplier||1)*dt,g.player.carry.medicine/rules.medicinePerHealth);if(n>0){g.player.carry.medicine=Math.max(0,g.player.carry.medicine-n*rules.medicinePerHealth);g.player.health+=n;g.recordActorAction159?.({id:1,visualActionOwner159:'companion:'+c.id,kind:'medic',facing:p.a},'heal',1.2,{facing:p.a,continuous:true});}}
+  if(!working&&c.id==='ines'&&f.z===0&&f.car){const car=g.expeditions.car(),profile=vehicleProfile(),edge=Survey.edge(p,{...f.car,w:profile.w,h:profile.h});if(car&&car.health>0&&Math.hypot(edge.x-p.x,edge.y-p.y)<=rules.repairRange&&w.line(p,edge,0,null,null,.05)){const n=Math.min(profile.health-car.health,rules.repairPerSecond*(control.repairMultiplier||1)*dt,g.player.carry.scrap/rules.scrapPerHealth);if(n>0){g.player.carry.scrap=Math.max(0,g.player.carry.scrap-n*rules.scrapPerHealth);car.health+=n;g.recordActorAction159?.({id:2,visualActionOwner159:'companion:'+c.id,kind:'engineer',facing:p.a},'repair',1.2,{facing:Math.atan2(edge.y-p.y,edge.x-p.x),continuous:true});}}}
+  if(!working&&control.fire!==false&&c.id==='malik'&&p.cool===0&&g.player.carry.ammo>=rules.shotAmmo&&g.frontier.companionShot?.(p,control.shotRange||rules.shotRange,rules.shotDamage*(control.damageMultiplier||1),{actor:{id:3,visualActionOwner159:'companion:'+c.id,kind:'soldier',facing:p.a},seconds:rules.shotInterval})){g.player.carry.ammo-=rules.shotAmmo;p.cool=rules.shotInterval;g.audio.shot('pistol');}
   g.companionsPack?.record(c.id,p);
  }
 }

@@ -46,6 +46,10 @@ jobs:
         run: npm run test:preparations
       - name: D17 defenses and crafting
         run: npm run test:defenses
+      - name: Composants et actions des sprites sur trois formats
+        run: npm run test:sprites
+      - name: Codex, lieux connus et choix réels de D-17
+        run: npm run test:codex
       - name: D-17 du refuge aux onze âges
         run: npm run test:d17
       - name: Catalogue, constructions et préparatifs de chaque âge

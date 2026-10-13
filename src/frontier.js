@@ -135,8 +135,8 @@ function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p
  }
 }
 for(const[id,e]of enemies)if(e.z!==state.z||Math.hypot(e.x-state.x,e.y-state.y)>180){if(e.hp<65)state.enemies[id]=e.hp;state.tracks[id]=Survey.record(e);enemies.delete(id);}}
-function hurt(amount){if(g.player.invulnerable>0)return;const v=car();if(state.car?.driving&&v){g.expeditions.damage(amount);if(v.health<=0){disembark();state.car.driving=false;message='Véhicule détruit : carburant et coffre perdus.';}return;}
-amount=g.playerOps131?.absorbDamage(amount)??amount;g.player.health=Math.max(0,g.player.health-amount);if(amount>0)g.survivalPack?.damageReceived?.();g.player.invulnerable=.4;g.damageFlash=.3;if(g.player.health===0){const point={domain:'region',x:state.x,y:state.y,z:state.z,inside:state.inside,angle:state.a||0};g.succession133?.captureDeathPoint?.(point);g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);state.active=false;state.z=0;state.inside=null;state.anchor=null;if(state.car)state.car.driving=false;g.player.regionAbsent=false;g.player.dead=true;g.player.downTimer=8;enemies.clear();bullets=[];g.releaseInputs();syncUI();if(g.succession133)g.succession133.captureDeath();else g.notify('Commandant à terre : retour sanitaire vers D-17.','danger');}}
+function hurt(amount){if(g.player.invulnerable>0)return false;const v=car();if(state.car?.driving&&v){const before=v.health;g.expeditions.damage(amount);if(v.health<=0){disembark();state.car.driving=false;message='Véhicule détruit : carburant et coffre perdus.';}return v.health<before;}
+amount=g.playerOps131?.absorbDamage(amount)??amount;const before=g.player.health;g.player.health=Math.max(0,g.player.health-amount);if(amount>0)g.survivalPack?.damageReceived?.();g.player.invulnerable=.4;g.damageFlash=.3;if(g.player.health===0){const point={domain:'region',x:state.x,y:state.y,z:state.z,inside:state.inside,angle:state.a||0};g.succession133?.captureDeathPoint?.(point);g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);state.active=false;state.z=0;state.inside=null;state.anchor=null;if(state.car)state.car.driving=false;g.player.regionAbsent=false;g.player.dead=true;g.player.downTimer=8;enemies.clear();bullets=[];g.releaseInputs();syncUI();if(g.succession133)g.succession133.captureDeath();else g.notify('Commandant à terre : retour sanitaire vers D-17.','danger');}return g.player.health<before;}
 function shoot(){if(!g.arsenal134&&g.succession133&&!g.succession133.ownsWeapon(g.player.weapon))return false;if(g.fieldSupplies?.busy()||g.essentials?.busy())return false;if(!can()||!state.active||state.car?.driving||g.player.reload>0||g.player.shootCooldown>0)return false;if(g.arsenal134&&!g.arsenal134.beforeShot())return false;const p=g.player,w=g.arsenal134?.weaponSpec()||C.WEAPONS[p.weapon];if(p.magazine[p.weapon]<=0){g.startReload();return false;}p.magazine[p.weapon]--;g.arsenal134?.afterShot();p.shootCooldown=1/w.fireRate;g.stats.shots++;emitNoise(T.shotNoise[p.weapon]||42,'Tir');g.audio.shot(p.weapon);for(let i=0;i<w.pellets;i++){const spread=(G.hash(world().seed,state.shots++,i)/4294967296-.5)*2*w.spread;bullets.push({x:state.x,y:state.y,dx:Math.cos(state.a+spread),dy:Math.sin(state.a+spread),left:w.range/32,damage:w.damage});}return true;}
 // Damage live regional contacts through the same persistent health ledger as projectiles.
 function hitEnemy(id,damage){
@@ -146,12 +146,13 @@ function hitEnemy(id,damage){
  if(e.hp===0){enemies.delete(e.id);delete state.tracks[e.id];state.kills++;}
  return true;
 }
-function companionShot(origin,range,damage){
+function companionShot(origin,range,damage,actionOwner=null){
  if(!can()||!state.active||state.car?.driving||origin.z!==state.z)return false;
  const target=[...enemies.values(),...(g.worldEvolution?.groupMembers?.()||[]),...(g.succession133?.contacts?.()||[])].filter(e=>e.z===state.z&&(state.z===0||e.poi===state.inside)&&Math.hypot(e.x-origin.x,e.y-origin.y)<=range&&world().line(origin,e,state.z,state.inside,null,.015)).sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y))[0];
  if(!target)return false;
  if(target.fallen)g.succession133.hit(target.x,target.y,damage,target.z,target.poi,target.id);else if(target.group)g.worldEvolution.hitContact(target.x,target.y,damage,target.id);else{target.hp=Math.max(0,target.hp-damage);state.enemies[target.id]=target.hp;
  if(target.hp===0){enemies.delete(target.id);delete state.tracks[target.id];state.kills++;}}
+ if(actionOwner)g.recordActorAction159?.(actionOwner.actor,'shoot',actionOwner.seconds,{facing:Math.atan2(target.y-origin.y,target.x-origin.x)});
  Survey.hear(world(),enemies.values(),origin,T.shotNoise.pistol||42,T);g.worldEvolution?.hear(origin,T.shotNoise.pistol||42);return true;
 }
 function syncTracks(){for(const e of enemies.values())if(e.hp>0)state.tracks[e.id]=Survey.record(e);for(const id of Object.keys(state.tracks))if(state.enemies[id]===0)delete state.tracks[id];}
@@ -164,7 +165,7 @@ function enemyBlocked(e,x,y){if(world().blocked(x,y,T.enemyRadius,e.z,e.z?e.poi:
 function enemyTurn(dt){const budget={left:T.pathBudget};for(const e of enemies.values()){
  Survey.step(world(),e,state,dt,e.biomeProfile?{...T,enemySpeed:e.biomeProfile.speed}:T,budget,(x,y)=>enemyBlocked(e,x,y));
  const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},target=state.car?.driving?Survey.edge(e,{...state.car,w:vp.w,h:vp.h}):state,reach=state.car?.driving ? .8 : .9;
- if(Math.hypot(target.x-e.x,target.y-e.y)<reach&&e.cool===0&&world().line(e,target,e.z,e.z?e.poi:null,null,.015)){hurt(e.biomeProfile?.damage??8);e.cool=e.biomeProfile?.interval??1.15;}
+ if(Math.hypot(target.x-e.x,target.y-e.y)<reach&&e.cool===0&&world().line(e,target,e.z,e.z?e.poi:null,null,.015)){const applied=hurt(e.biomeProfile?.damage??8);e.cool=e.biomeProfile?.interval??1.15;if(applied)g.recordActorAction159?.({id:e.id,visualActionOwner159:'region:'+e.id,kind:e.kind||'walker',facing:e.a},'attack',e.cool,{facing:e.a});}
 }}
 function fight(dt){enemyTurn(dt);
 for(let i=bullets.length-1;i>=0;i--){const b=bullets[i],length=Math.min(b.left,30*dt),n=Math.max(1,Math.ceil(length/.18));let done=false;for(let k=0;k<n;k++){b.x+=b.dx*length/n;b.y+=b.dy*length/n;b.left-=length/n;if(world().blocked(b.x,b.y,.005,state.z,state.inside)){g.barricades134?.hitProjectile?.('region',b.x,b.y,b.damage,state.z,state.inside);done=true;break;}if(g.succession133?.hit(b.x,b.y,b.damage,state.z,state.inside)){done=true;break;}if(state.z===0&&g.worldEvolution?.hitContact(b.x,b.y,b.damage)){done=true;break;}const e=[...enemies.values()].find(e=>Math.hypot(e.x-b.x,e.y-b.y)<.4);if(e){e.hp=Math.max(0,e.hp-b.damage);state.enemies[e.id]=e.hp;if(e.hp===0){enemies.delete(e.id);delete state.tracks[e.id];state.kills++;}done=true;break;}}if(done||b.left<=0)bullets.splice(i,1);}}

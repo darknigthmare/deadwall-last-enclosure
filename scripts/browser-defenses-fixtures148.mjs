@@ -162,3 +162,38 @@ export function defenseHeldContactDepartureFixture() {
   return { type: 'prepared-held-contact-departure', moves, assignedFields: moves.map(z => 'zombies[' + z.id + '].x/y'),
     note: 'Only the existing synthetic held contact position is relocated to genuinely free ground at least400 game units away. Health, saved hold, recovery timer, identity, mount/charge count, material and RNG stay intact. Ordinary RAF must expire the real hold before the scene may retire its contact.' };
 }
+
+/** Observe the exact ordinary frame, before browser input latency elapses the
+ * finite hold. This wrapper calls the original once and never advances it. */
+export function defenseObserveMechanismTrigger({ supportId, ids }) {
+  const g=globalThis.DEADWALL,previous=globalThis.__DEFENSE148_OBSERVER__;
+  if(!g.paused||!Number.isInteger(supportId)||!Array.isArray(ids)||!ids.length)throw Error('Paused paid-mount observer and actual contact IDs required');
+  const support=g.world.buildings.get(supportId),mount=g.fortificationPack.snapshot().fittings.find(f=>f.id===supportId);
+  if(!support||support.type!=='spikes'||!support.completed||support.dead||!(support.health>0)||!mount?.mechanism)throw Error('Live paid physical mount required before observing its trigger');
+  if(previous&&g.updateZombies===previous.wrapped)g.updateZombies=previous.original;
+  const original=g.updateZombies;globalThis.__DEFENSE148_TRIGGERS__=[];
+  const wrapped=function(...args){
+    const before=g.fortificationPack.snapshot().fittings.find(f=>f.id===supportId)?.mechanism;
+    const health=new Map(g.zombies.filter(z=>ids.includes(z.id)).map(z=>[z.id,z.health]));
+    const result=original.apply(this,args),after=g.fortificationPack.snapshot().fittings.find(f=>f.id===supportId)?.mechanism;
+    if(before&&after&&after.charges<before.charges){
+      const affected=ids.map(id=>g.zombies.find(z=>z.id===id)).find(z=>z&&health.has(z.id)&&z.health<health.get(z.id));
+      globalThis.__DEFENSE148_TRIGGERS__.push({support:supportId,kind:after.kind,elapsed:g.elapsed,dt:args[0],beforeCharges:before.charges,afterCharges:after.charges,
+        mechanism:after,actor:affected?{id:affected.id,healthBefore:health.get(affected.id),health:affected.health,stagger:affected.stagger,attackCooldown:affected.attackCooldown,charge:affected.charge?{...affected.charge}:null}:null});
+    }
+    if(before&&!after)globalThis.__DEFENSE148_TRIGGERS__.push({support:supportId,elapsed:g.elapsed,dt:args[0],supportLost:true,beforeCharges:before.charges});
+    return result;
+  };
+  g.updateZombies=wrapped;globalThis.__DEFENSE148_OBSERVER__={original,wrapped};
+  return{type:'read-only-first-frame-mechanism-observer',support:supportId,ids:[...ids],assignedFields:['updateZombies[observation wrapper]','__DEFENSE148_TRIGGERS__[transient]'],
+    note:'The actual owner runs once per ordinary RAF. Only saved-state copies and actor scalars are observed; no simulation step, time, movement, health, trap charge, resource or RNG value is assigned.'};
+}
+
+/** A missing paid support is a failed fixture assertion, never an empty success. */
+export function defenseMechanismState({ id=globalThis.__DEFENSE148_CAMP__?.spikes, charges=null, heldEmpty=false }={}) {
+ const g=globalThis.DEADWALL,b=g.world.buildings.get(id),state=g.fortificationPack.snapshot(),f=state.fittings.find(q=>q.id===id);
+ if(!b||b.type!=='spikes'||!b.completed||b.dead||!(b.health>0)||!f?.mechanism)
+  throw Error('Paid trap support or mount lost: '+JSON.stringify({id,present:!!b,type:b?.type,health:b?.health,dead:b?.dead,fitting:!!f,debris:state.debris.filter(d=>d.id===id)}));
+ const observed={support:{id:b.id,type:b.type,health:b.health},mechanism:f.mechanism,elapsed:g.elapsed};
+ return(charges!==null&&f.mechanism.charges!==charges||heldEmpty&&f.mechanism.caught.length)?false:observed;
+}

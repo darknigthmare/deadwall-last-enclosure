@@ -1,3 +1,21 @@
+# DEADWALL 1.59.0 — Sprites, gestes et Codex utilisable
+
+Les pièges utilisent désormais des bases et pièces mobiles séparées. Les gestes des acteurs, le recul des postes, les filets et les caisses suivent une action effective de la simulation ; une usine à l’arrêt ne fume plus. Les silhouettes propres aux équipements, les dépouilles, les escaliers, les cloisons et les sites d’expédition complètent le rendu. Les graines, prélèvements, coûts et générations de carte restent ceux des campagnes existantes.
+
+Livraison : [docs/LIVRAISON_1_59.md](docs/LIVRAISON_1_59.md). Audit : [docs/AUDIT_1_59.md](docs/AUDIT_1_59.md).
+
+Le guide conserve ses 4 000 programmes et ajoute les 180 choix réels de D-17. Il relie les lieux déjà repérés à la carte et au repère ; les programmes qui exigent un contexte encore absent le signalent. Aucun lieu inconnu n’est révélé par le guide. La cible Standard de 6 à 10 heures reste à mesurer avec des campagnes humaines complètes.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:sprites
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:codex
+```
+
+## Historique conservé — 1.58.0
+
 # DEADWALL 1.58.0 — 1 000 programmes et variantes natives
 
 Le Codex ajoute 1 000 programmes indépendants, DW-3001 à DW-4000, avec leurs pièces, équipements, accès et ressources finies : 4 000 fiches pour 2 000 programmes parents au total. Depuis le dépôt de D-17, l’extension G9 se choisit après G8 ; les anciennes cartes et les stocks prélevés sont conservés. Les variantes graphiques complètent les acteurs, véhicules, mécanismes et petits décors.

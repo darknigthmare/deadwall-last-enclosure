@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "version": "1.59.0",
+  "recordedAt": "2026-10-13T13:45:57.181Z",
+  "generator": "OpenAI ImageGen",
+  "scope": "Four original transparent PNGs, independently rendered fixed bases and mobile pieces. Two true source forms per montage/support. Source PNG bytes are copied verbatim; alpha rectangles were measured without pixel editing.",
+  "runtimeRegistry": "src/trap-art159.js",
+  "sourceFileCount": 4,
+  "sourceCropEntryCount": 60,
+  "excludedCropEntryCount": 0,
+  "usedDrawingCount": 60,
+  "usedDrawings": {
+    "montageFamilies": 6,
+    "montageForms": 12,
+    "montageComponents": 36,
+    "supplyFamilies": 6,
+    "supplyForms": 12,
+    "supplyComponents": 24
+  },
+  "sourcePixelEdits": false,
+  "simulation": "No simulation or save changes in renderer. Only owner presentation phases, motion and finite remaining reserves are read. No draw-time clock, RNG, autonomous idle cycle, damage, cost or resource grant.",
+  "qualificationRecord": "tests/trap-art159.test.cjs",
+  "images": [
+    {
+      "assetKey": "trap159MechanismsA",
+      "file": "assets/art159/traps-mechanisms-a.png",
+      "generatedOriginal": "/workspace/generated_images/exec-3b258248-50ec-4d0a-8a51-8858c98e3e77.png",
+      "promptVerbatim": "Create ONE original FULLY TRANSPARENT background sprite sheet of DETACHED MECHANICAL COMPONENTS, LANDSCAPE1536x1024. STRICT SIX COLUMNS and THREE ROWS,18 drawings. Each cell256x341, each sole component centered and contained inside210x210 pixels, maintain at least30px COMPLETELY transparent gutter on EVERY side. No text, labels, ground, cast shadows outside silhouette, no backdrop. NO components touching neighbours. Direct overhead game sprite view, horizontal long axis. Sober hand-repaired apocalypse brown timber and rusty red steel style, serious semi-realistic painting. Draw all parts separately, NEVER assembled on each other. Row1 col1 fixed ankle trap EMPTY two-pivot wood base WITHOUT jaw; col2 separate hooked hinged left iron jaw; col3 separate matching right iron jaw; col4 fixed rectangular metal blade trap base with bare axle NO blades; col5 separate long sharpened rusty blade pointing RIGHT with circle hinge at LEFT; col6 separate shorter counterblade pointing RIGHT with circle hinge at LEFT. Row2 col1 fixed pair horizontal guide tracks NO carriage; col2 separate hooked sliding transverse bar; col3 separate short toothed sliding carriage; col4 fixed spring ratchet frame EMPTY hinge NO lever; col5 separate toothed rusty ratchet lever pointing right with hinge at left; col6 separate compact coil-spring locking-hook assembly. Row3 col1 fixed clamp EMPTY steel-braced timber frame with side hinges NO jaws; col2 separate large serrated clamp LEFT jaw hinge at left; col3 separate matching RIGHT jaw hinge at right; col4 fixed counterweight low timber and steel fulcrum base NO lever; col5 separate long rusted metal weighted swinging beam pointing right with hinge hole at left; col6 separate iron suspended square weight with short chain. Complete parts each wholly independent with very roomy true alpha gutters especially around row3 clamp and chain. Every component remains within its own cell. Purpose: independent real-game articulation, not a static assembled trap illustration.",
+      "width": 1536,
+      "height": 1024,
+      "components": 18,
+      "sha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+      "originalSha256": "c693c8d2c6056fc900a673b2f8ad789e5c36e0660340d07302610c2a8e645f78",
+      "bytes": 2007623
+    },
+    {
+      "assetKey": "trap159MechanismsB",
+      "file": "assets/art159/traps-mechanisms-b.png",
+      "generatedOriginal": "/workspace/generated_images/exec-04aa9f37-71e3-49a9-9adb-539908c4fa32.png",
+      "promptVerbatim": "Create ONE original realistic 2D game SPRITE ATLAS for DEADWALL with fully transparent background, NO terrain, NO backdrop, NO text, NO labels, NO extra props. LANDSCAPE canvas 1536 x 1024, STRICT THREE columns SIX rows: EIGHTEEN isolated detached parts in equal 512 x 170 cells with ample pure transparent margins. Strict directly overhead orthographic view, NO perspective/isometric. This is visual variant TWO of improvised spring zombie traps, using blackened steel with faded olive-grey paint, salvage riveted plates, pale repaired timber, visibly different construction from rusty timber version. Each ROW is one trap, THREE columns: left is ONLY fixed low base/frame with EMPTY hinges, middle is ONLY first detached mobile part, right is ONLY second detached mobile part. Row1 ankle restraint: riveted two-pivot base, left hooked spring jaw, matching opposite hooked jaw. Row2 blades: polygon riveted base empty axle, separate curved long machete-like industrial blade pointing right, separate straight short shear arm pointing right. Row3 guide rails: two flat weathered narrow tracks, separate hooked transverse sliding bar, separate square toothed sliding sled. Row4 ratchet: dark steel fixed open bracket, separate toothed ratchet lever pointing right, separate spring and locking hook. Row5 clamp: pale timber steel braced fixed chassis, separate thick dark steel left serrated jaw, matching opposite serrated jaw. Row6 counterweight: low riveted steel fixed fulcrum base, separate long timber iron weighted lever horizontal right, separate iron weight and short chain. NOTHING already assembled. Middle/right mobile components must remain individually isolated with true alpha gutters. Serious grounded survival game palette and readable top-down silhouettes suitable to animate on a 64-by-32-unit footprint. Detailed game sprite painting, no fantasy/neon.",
+      "width": 1536,
+      "height": 1024,
+      "components": 18,
+      "sha256": "e2be4fb25b76ce721352c3925bf0f41efed0879449d8dc7279c4d0e9eb1a5bbc",
+      "originalSha256": "e2be4fb25b76ce721352c3925bf0f41efed0879449d8dc7279c4d0e9eb1a5bbc",
+      "bytes": 2266919
+    },
+    {
+      "assetKey": "trap159SuppliesA",
+      "file": "assets/art159/traps-supplies-a.png",
+      "generatedOriginal": "/workspace/generated_images/exec-55d6477f-2165-46e5-ab81-8af23befc7a0.png",
+      "promptVerbatim": "Create one original TRANSPARENT BACKGROUND top-down game sprite sheet. STRICT grid of FOUR COLUMNS and THREE ROWS: twelve completely separate component drawings. Landscape canvas1536x1024, each cell384x341. Place EACH sprite centered in its cell, width no more than300px and height no more than210px. Maintain at least40 pixels COMPLETELY EMPTY TRANSPARENT gutters between ALL individual drawings. No text, no terrain, no cast shadow outside objects, no labels. Direct orthographic from above, no perspective. Sober rusty brown timber/oxidized steel apocalypse style. Row1col1 FIXED long horizontal X-braced iron obstacle rail WITHOUT spikes; row1col2 DETACHED horizontal hinged beam with sharp spikes WITHOUT feet; row1col3 EMPTY rectangular timber frame with hooks and empty central hole; row1col4 DETACHED rectangle of knotted coarse rope net WITHOUT frame. Row2col1 OPEN olive/timber ammo case containing brass cartridge rows WITHOUT lid; row2col2 DETACHED matching rectangular ammo LID with handle; row2col3 OPEN timber repair-parts crate containing scrap metal and timber WITHOUT lid; row2col4 DETACHED grey reinforced rectangular repair crate LID. Row3col1 OPEN canvas-and-wood tool case with hammers/clamps WITHOUT lid; row3col2 DETACHED horizontal iron hinged tool retaining bracket; row3col3 small square gate-control casing with round EMPTY dial axle WITHOUT dial; row3col4 DETACHED round black/brass control dial and projecting lever WITHOUT casing. ALL twelve drawings independent, no assembled pairs, no duplicate objects in cells. Serious semi-realistic painted survival sprites. ALL horizontal long axes. Huge true-alpha gutters especially vertically: never touch or overlap.",
+      "width": 1536,
+      "height": 1024,
+      "components": 12,
+      "sha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+      "originalSha256": "f6f6695c2d10182302736ed16171b87574e3400cc97b69a4f5ffd3116dfb830a",
+      "bytes": 2199589
+    },
+    {
+      "assetKey": "trap159SuppliesB",
+      "file": "assets/art159/traps-supplies-b.png",
+      "generatedOriginal": "/workspace/generated_images/exec-fe17fe1d-1c36-4a86-b6fb-664d19eb6279.png",
+      "promptVerbatim": "One TRANSPARENT game sprite atlas, EXACT strict FOUR columns THREE rows, twelve components,1536x1024 landscape. Each cell384x341 with its sole drawing centered width<=300px height<=210px, at least40px clear fully transparent gutters to every neighbouring object. NO text, ground, backdrop, shadow outside silhouette. Orthographic directly overhead, NO perspective/isometric. SECOND visual variant: patched pale timber, riveted blackened metal, faded blue-grey canvas, strong realistic weathered readable silhouettes. Row1 cells:1 EMPTY long horizontal timber spike-obstacle footrail and low braced feet NO spikes;2 SEPARATE welded horizontal steel spike beam and six sharp spikes NO feet;3 EMPTY rectangular welded metal net frame and tension bolts, no net;4 SEPARATE rectangular dirty rope net mesh panel no frame. Row2cells:1 OPEN olive ammunition cassette containing loose dull brass cartridges NO lid;2 SEPARATE faded-blue metal ammo box lid with handle;3 OPEN pale timber repair reserve with scrap plates and wood offcuts NO lid;4 SEPARATE dark timber metal-reinforced repair crate lid. Row3cells:1 OPEN steel/canvas toolkit showing hammer and wrench held in slots NO lid;2 SEPARATE long thin salvaged metal tool-retaining lever;3 square small riveted grey gate-control casing EMPTY round axle NO dial;4 SEPARATE brass round mechanical dial and short projecting handle NO casing. Every component individually completely isolated with generous transparency. No fantasy/neon. Strong details coherent serious 2D zombie survival game assets suitable for independent articulated animation. Do not enlarge objects beyond their cell or stack touching objects.",
+      "width": 1536,
+      "height": 1024,
+      "components": 12,
+      "sha256": "13ee52ef8804eaac1fb1340be6bbd9ad4fa8430fe4fdb0c4b8877069e6bfb3fa",
+      "originalSha256": "13ee52ef8804eaac1fb1340be6bbd9ad4fa8430fe4fdb0c4b8877069e6bfb3fa",
+      "bytes": 2287631
+    }
+  ],
+  "rejectedOriginals": [
+    {
+      "original": "/workspace/generated_images/exec-0dcfb31d-328e-42dc-bd53-743cac6c27fb.png",
+      "reason": "Bounding rectangles of right clamp jaw and the counterweight chain contain neighbouring ink. Replaced by spaced six-column sheet.",
+      "distributed": false,
+      "sha256": "ad9b4549997b580b2847b5b331cb8610316a8a3165f02f7b888f53e10b24377e"
+    },
+    {
+      "original": "/workspace/generated_images/exec-cfae1716-3b53-4e17-a4c3-3071742fa0b3.png",
+      "reason": "Tool box and regulator source regions too close for reliable isolated rectangles. Replaced by four-column sheet.",
+      "distributed": false,
+      "sha256": "d2ab99dff74ee91d77cde7f3d8dad8018e75552d1ea74d45fd9e20c6c71108b7"
+    },
+    {
+      "original": "/workspace/generated_images/exec-ee21a8a6-e931-42c9-a40e-5780090bea21.png",
+      "reason": "Neighbouring supply crates and control casing touch in source. Replaced by four-column sheet.",
+      "distributed": false,
+      "sha256": "2722c714a568063ddf81cce7cd6b99f52d575e091795763d1ae8da6f6ddba8ad"
+    }
+  ],
+  "runtimeRegistrySha256": "d84472b701550affe5c0828903eb28abf4cf33ae58e2d2cb6339a0ee6cb72312",
+  "nativeFootprintQualification": {
+    "spikes": [
+      32,
+      32
+    ],
+    "source": "DeadwallCore.BUILDINGS.spikes.size × TILE",
+    "note": "Variant A ankle jaws use .55 of the owner height to keep the complete pieces inside the real support through all rotations and sampled phases. Variant B remains .75. Original PNG bytes and crop rectangles are unchanged."
+  }
+}

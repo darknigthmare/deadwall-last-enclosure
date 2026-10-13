@@ -94,3 +94,33 @@ test('banc défenses148 : vrai contact sans chevauchement acquis par l’IA pend
   assert.ok(g.player.health > 0 && g.player.health < health, 'Actual danger remains; no fixture healing or invulnerability extension');
   assert.equal(z.health, C.ENEMIES.shielded.health);
 });
+
+test('banc défenses148 : observer la vraie frame de déclenchement conserve sa durée malgré le délai de capture',async()=>{
+ const {defenseCampFixture,defenseServiceFixture,defenseContactFixture,defenseObserveMechanismTrigger}=await import('../scripts/browser-defenses-fixtures148.mjs');
+ const {g}=bootDocument134();g.startNew('standard','903148');g.campaignIntro132.skip();g.togglePause(true);defenseCampFixture();
+ defenseServiceFixture({type:'spikes',bag:C.FortificationPackRules.mechanisms.ankle.cost});g.showCommand(true);assert.equal(g.fortificationPack.startMechanism('ankle',globalThis.__DEFENSE148_CAMP__.spikes).ok,true);
+ g.showCommand(false);g.togglePause(false);for(let i=0;i<81;i++)g.fortificationPack.step(.1);g.togglePause(true);const contact=defenseContactFixture({kind:'charger',trap:true});
+ const stable=()=>{const {timestamp,...data}=g.serialize();return structuredClone(data);};const before=stable();
+ defenseObserveMechanismTrigger({supportId:contact.support,ids:contact.ids});assert.deepEqual(stable(),before,'Installing the read-only observer changes no saved field');
+ g.showCommand(false);g.togglePause(false);g.updateZombies(.04);g.togglePause(true);const trigger=globalThis.__DEFENSE148_TRIGGERS__[0],hold=trigger.mechanism.caught.find(c=>c.id===contact.ids[0]);
+ assert.equal(trigger.beforeCharges,6);assert.equal(trigger.afterCharges,5);assert.equal(trigger.actor.charge.stage,'recover');assert.ok(Math.abs(hold.left-(2.5-.04))<1e-7);assert.equal(trigger.actor.stagger,hold.left);assert.ok(trigger.actor.attackCooldown>=hold.left);
+ g.togglePause(false);for(let i=0;i<21;i++)g.updateZombies(.04);g.togglePause(true);const delayed=g.fortificationPack.snapshot().fittings.find(f=>f.id===contact.support).mechanism;
+ assert.ok(delayed.caught[0].left<2);assert.equal(globalThis.__DEFENSE148_TRIGGERS__.length,1);assert.equal(trigger.mechanism.caught[0].left,hold.left,'Original frame observation is an isolated snapshot');
+});
+
+test('banc défenses148 : épuiser les charges par des contacts successifs préserve le support réel sans soins de fixture',async()=>{
+ const {defenseCampFixture,defenseServiceFixture,defenseContactFixture,defenseHeldContactDepartureFixture,defenseMechanismState}=await import('../scripts/browser-defenses-fixtures148.mjs');
+ const {g}=bootDocument134();g.startNew('standard','903148');g.campaignIntro132.skip();g.togglePause(true);defenseCampFixture();
+ defenseServiceFixture({type:'spikes',bag:C.FortificationPackRules.mechanisms.ankle.cost});g.showCommand(true);assert.equal(g.fortificationPack.startMechanism('ankle',globalThis.__DEFENSE148_CAMP__.spikes).ok,true);
+ g.showCommand(false);g.togglePause(false);for(let i=0;i<81;i++)g.fortificationPack.step(.1);g.togglePause(true);
+ const initial=defenseMechanismState(),stock={...g.resources};assert.equal(initial.mechanism.charges,6);
+ for(let expected=5;expected>=0;expected--){
+  defenseServiceFixture({type:'core'});const contact=defenseContactFixture({kind:'armored',trap:true,count:1}),health=g.zombies[0].health,before=defenseMechanismState();
+  assert.equal(health,C.ENEMIES.armored.health);g.togglePause(false);g.updateZombies(.04);g.togglePause(true);const hit=defenseMechanismState({charges:expected});assert.ok(hit);assert.equal(hit.support.id,initial.support.id);assert.ok(hit.support.health<=before.support.health&&hit.support.health>0);
+  assert.equal(hit.mechanism.caught[0].id,contact.ids[0]);assert.equal(g.zombies[0].health,health-C.FortificationPackRules.mechanisms.ankle.damage);
+  assert.equal(defenseMechanismState({heldEmpty:true}),false);defenseHeldContactDepartureFixture();g.togglePause(false);for(let i=0;i<66;i++)g.updateZombies(.04);g.togglePause(true);
+  const expired=defenseMechanismState({charges:expected,heldEmpty:true});assert.ok(expired);assert.equal(expired.support.id,initial.support.id);assert.ok(expired.support.health<=hit.support.health);assert.deepEqual(g.resources,stock);
+ }
+ const exhausted=defenseMechanismState();assert.equal(exhausted.mechanism.charges,0);assert.equal(exhausted.mechanism.caught.length,0);
+ const b=g.world.buildings.get(initial.support.id);g.damageBuilding(b,b.health+1);assert.throws(()=>defenseMechanismState(),/Paid trap support or mount lost/,'Destruction is a real failed renewal precondition, never an empty success');
+});

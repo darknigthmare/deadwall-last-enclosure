@@ -1,0 +1,76 @@
+{
+  "version": "1.59.0",
+  "scope": "Four actual existing deployable posts, independent fixed base / movable weapon / supply / wreck parts with two appearances; twelve fixtures for six families of existing finite expedition sites.",
+  "drawing_count": 44,
+  "post_cosmetic_variants": 8,
+  "post_independent_parts": 32,
+  "expedition_family_variants": 12,
+  "files": [
+    {
+      "file": "assets/art159/posts-a.png",
+      "generated_source": "/workspace/generated_images/exec-15e18b50-e429-4676-ab1f-de68a727ca2a.png",
+      "sha256": "ad7c638f81d2eee2d24bf8cfdff66cf729562e7b2067330fe2458906dd907d33",
+      "width": 1536,
+      "height": 1024,
+      "drawings": 16,
+      "families": [
+        "tripod",
+        "heavyNest"
+      ],
+      "generator": "OpenAI image_gen.imagegen",
+      "transformations": "None; original PNG copied byte for byte. Canvas draws measured source rectangles without editing pixels.",
+      "background": "Transparent. Nonzero RGB beneath zero alpha is kept unchanged."
+    },
+    {
+      "file": "assets/art159/posts-b.png",
+      "generated_source": "/workspace/generated_images/exec-6f262161-9eb5-4518-a4f8-fbfc8c0e4fd1.png",
+      "sha256": "a087f855980d869c6507b8ad2f0a4e2283336150282a20aeb3a98f92e1ba5925",
+      "width": 1536,
+      "height": 1024,
+      "drawings": 16,
+      "families": [
+        "boltNest",
+        "spikeFrame"
+      ],
+      "generator": "OpenAI image_gen.imagegen",
+      "transformations": "None; original PNG copied byte for byte. Canvas draws measured source rectangles without editing pixels.",
+      "background": "Transparent. Nonzero RGB beneath zero alpha is kept unchanged."
+    },
+    {
+      "file": "assets/art159/expedition-sites.png",
+      "generated_source": "/workspace/generated_images/exec-c7c557a7-ec95-4d9f-8164-8d835fa3db79.png",
+      "sha256": "b2fd813c84d240f050e3873ff859ba1a2d1307bca8927da48684fd7a8a86df8d",
+      "width": 1536,
+      "height": 1024,
+      "drawings": 12,
+      "families": [
+        "fuel",
+        "garage",
+        "supply",
+        "archives",
+        "medical",
+        "ammo"
+      ],
+      "generator": "OpenAI image_gen.imagegen",
+      "transformations": "None; original PNG copied byte for byte. Canvas draws measured source rectangles without editing pixels.",
+      "background": "Transparent. Nonzero RGB beneath zero alpha is kept unchanged."
+    }
+  ],
+  "rejected_generations": [
+    {
+      "source": "/workspace/generated_images/exec-6ea3e5a6-3dd9-4bff-accc-cff66ed89088.png",
+      "reason": "Several weapon components depicted a side silhouette instead of their requested overhead top surface."
+    },
+    {
+      "source": "/workspace/generated_images/exec-2c1a26b1-410b-475c-b5f2-67ccb13c8bef.png",
+      "reason": "Top border has 17 opaque alpha>8 pixels; base silhouettes reach the source canvas edge."
+    }
+  ],
+  "prompt_policy": "Normalized briefs below describe the content; they are not claimed as a verbatim generation transcript.",
+  "briefs": {
+    "posts-a": "Orthographic overhead plan atlas, 16 isolated parts: light tripod / heavy nest, two physically distinct support and weapon models, magazines or ammunition boxes and separately broken receivers. Guns face east. Wide outside margins and source alpha gutters. Realistic weathered steel, wood and sandbags.",
+    "posts-b": "Orthographic overhead plan atlas, 16 isolated parts: bolt launcher / spring spike-frame, two appearances. Fixed ground supports, separate rail/bow or moving spike carriage, bolt/string or return spring, wrecked moving parts. East-facing physical mechanism.",
+    "expedition-sites": "Orthographic overhead atlas of twelve complete recoverable fixtures: two original physical compositions for fuel, garage, supply, archive, medical and ammunition. No invented active production, free stock or supernatural equipment."
+  },
+  "integration": "DeadwallPostArt159 and DeadwallExpeditionSprites159; actual Arsenal134 strike observations are transient and pause-safe. No additional charge, ammo, damage, cooldown or save field."
+}

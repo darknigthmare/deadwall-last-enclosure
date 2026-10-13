@@ -2,6 +2,7 @@
 (function(root,factory){'use strict';const api=factory(root);root.DeadwallAssets136=api;if(typeof module==='object'&&module.exports)module.exports=api;})(globalThis,function(root){
 'use strict';
 const Variants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
+const Equipment159=root.DeadwallEquipmentArt159||(typeof require==='function'?require('./equipment-art159.js'):null);
 const FILES=Object.freeze({
  Oak:'assets/art136/oak.png',Pine:'assets/art136/pine.png',Willow:'assets/art136/willow.png',Limestone:'assets/art136/limestone.png',
  Beech:'assets/art136/beech.png',Birch:'assets/art136/birch.png',Fir:'assets/art136/fir.png',Poplar:'assets/art136/poplar.png',Alder:'assets/art136/alder.png',Fruit:'assets/art136/fruit.png',Granite:'assets/art136/granite.png',Schist:'assets/art136/schist.png',Scree:'assets/art136/scree.png',
@@ -119,6 +120,7 @@ function path(id,category){return PATHS[id]||PATHS[category]||PATHS.firearm;}
 function bitmap(id){return ASSETS[BITMAPS[id]]||null;}
 function icon(doc,id,{category='',className='',art=root.DEADWALL?.art}={}){
  const box=doc.createElement('span');box.className=className;box.setAttribute('aria-hidden','true');box.dataset.equipment=id;
+ if(Equipment159?.weaponSprite(id)&&art){const canvas=doc.createElement('canvas');canvas.width=96;canvas.height=64;canvas.style.width='100%';canvas.style.height='100%';canvas.style.objectFit='contain';if(Equipment159.drawIcon(canvas.getContext('2d'),art,id,4,4,88,56,{variant:0})){box.style.backgroundImage='none';box.appendChild(canvas);return box;}}
  if(['ammo','fuel'].includes(id)&&art?.images?.[id==='ammo'?'operations':'props']){const canvas=doc.createElement('canvas');canvas.width=96;canvas.height=64;canvas.style.width='100%';canvas.style.height='100%';canvas.style.objectFit='contain';const c=canvas.getContext('2d'),atlas=id==='ammo'?'operations':'props',r=id==='ammo'?[503,616,263,284]:art.rects?.['props:fuel']||[627,313,313,314],s=Math.min(88/r[2],60/r[3]);art.blit(c,atlas,r,(96-r[2]*s)/2,(64-r[3]*s)/2,r[2]*s,r[3]*s);box.style.backgroundImage='none';box.appendChild(canvas);return box;}
  const spec=bitmap(id);
  if(spec&&art?.images?.[BITMAPS[id]]){const img=doc.createElement('img');img.src=spec.url;img.alt='';img.decoding='async';img.style.width='100%';img.style.height='100%';img.style.objectFit='contain';box.style.backgroundImage='none';box.appendChild(img);return box;}
@@ -131,9 +133,10 @@ function drawSprite(ctx,art,key,x,y,width,height=width,{alpha=1,angle=0}={}){
  ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.globalAlpha*=alpha;
  if(art.blit)art.blit(ctx,key,r,-w/2,-h/2,w,h);else ctx.drawImage(image,...r,-w/2,-h/2,w,h);ctx.restore();return true;
 }
-// These compact overhead tools are intentional vector counterparts to inventory illustrations.
-// No firearm bitmap is painted behind a melee weapon, including low postures and attacks.
-function drawHeld(ctx,id){
+// Native tool parts use the same established hand pivot and swing. The compact
+// vector counterpart remains available until the new sheet has loaded.
+function drawHeld(ctx,id,art=root.DEADWALL?.art,opts={}){
+ if(Equipment159?.drawHeld(ctx,art,id,9,8,0,opts))return true;
  ctx.save();ctx.translate(9,8);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=3;ctx.strokeStyle=['pipe','crowbar','riotBaton'].includes(id)?'#a4aaa1':'#a58b60';ctx.fillStyle='#b5b8a9';
  const long=['spear','longSpear'].includes(id),len=long?42:id==='hatchet'?16:id==='hammer'?13:id==='assemblyHammer'?22:id==='wreckingBar'?34:id==='knife'?13:id==='machete'?23:28;
  ctx.beginPath();ctx.moveTo(-5,0);ctx.lineTo(len,0);ctx.stroke();
@@ -146,7 +149,7 @@ function drawHeld(ctx,id){
  else if(id==='shovel'){ctx.beginPath();ctx.ellipse(len+4,0,9,5,0,0,Math.PI*2);ctx.fill();}
  else if(id==='riotBaton'){ctx.beginPath();ctx.moveTo(7,0);ctx.lineTo(7,-9);ctx.stroke();}
  else if(['bat','plank','bottleClub'].includes(id)){ctx.lineWidth=id==='plank'?7:6;ctx.beginPath();ctx.moveTo(8,0);ctx.lineTo(len+2,0);ctx.stroke();}
- ctx.restore();
+ ctx.restore();return true;
 }
 return Object.freeze({ASSETS,ASSETS138,ASSETS139,ASSETS140,ASSETS141,VEHICLE_SPRITES139,VEHICLE_SPRITES140,vehicleSize139,drawVehicle139,INDUSTRIAL138,surfaceFor138,drawSurface138,FILES,TREE_SPRITES,ROCK_SPRITES,BITMAPS,LEGACY,PATHS,bitmap,icon,path,drawSprite,drawHeld});
 });

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, holdInput, visibleInPanel } from './browser-qa-common144.mjs';
-import { defenseCampFixture, defenseServiceFixture, defensePlanSiteFixture, defenseContactFixture, defenseHeldContactDepartureFixture } from './browser-defenses-fixtures148.mjs';
+import { defenseCampFixture, defenseServiceFixture, defensePlanSiteFixture, defenseContactFixture, defenseHeldContactDepartureFixture, defenseObserveMechanismTrigger, defenseMechanismState } from './browser-defenses-fixtures148.mjs';
 
 const views = [{ name: 'desktop', width: 1366, height: 768 }, { name: 'mobile', width: 390, height: 844, touch: true }, { name: 'mobile-landscape', width: 844, height: 390, touch: true }];
 const selected = process.env.DEADWALL_QA_PROFILES?.split(',');
@@ -12,7 +12,9 @@ const material = page => page.evaluate(() => { const { timestamp, ...s } = DEADW
 const economics = page => page.evaluate(() => ({ wood: DEADWALL.resources.wood, scrap: DEADWALL.resources.scrap, ammo: DEADWALL.resources.ammo,
   bag: { ...DEADWALL.player.carry }, armory: DEADWALL.arsenal134.snapshot(), fitting: DEADWALL.fortificationPack.snapshot(),
   job: DEADWALL.fortificationPack.job ? { kind: DEADWALL.fortificationPack.job.kind, elapsed: DEADWALL.fortificationPack.job.elapsed, seconds: DEADWALL.fortificationPack.job.seconds } : null,
-  task: DEADWALL.arsenal134.view().task, elapsed: DEADWALL.elapsed }));
+  task: DEADWALL.arsenal134.view().task, elapsed: DEADWALL.elapsed,
+  supports:Object.entries(globalThis.__DEFENSE148_CAMP__||{}).map(([type,id])=>{const b=DEADWALL.world.buildings.get(id);return{type,id,present:!!b,health:b?.health,dead:b?.dead,completed:b?.completed};}),
+  observedTriggers:globalThis.__DEFENSE148_TRIGGERS__||[] }));
 
 async function command(page, touch, tab) {
   if (await page.locator('#commandModal').isVisible()) await activate(page, '#commandTab-' + tab, touch);
@@ -111,11 +113,12 @@ async function planPreview(page, touch, id, site) {
 }
 
 async function expireHeldContacts(page, touch, profile, check) {
-  const before = await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism);
+  const beforeState=await page.evaluate(defenseMechanismState),before=beforeState.mechanism;
   if (!before.caught.length) return;
   profile.fixtures.push(await page.evaluate(defenseHeldContactDepartureFixture));
-  await activate(page, '#resumeButton', touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.every(f => !f.mechanism?.caught.length)); await activate(page, '#pauseButton', touch);
-  check('Actual RAF expires the saved hold after physical contact departure without charging another trigger', await page.evaluate(before => { const m = DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism; return m.caught.length === 0 && m.charges === before.charges; }, before));
+  await activate(page, '#resumeButton', touch); await page.waitForFunction(defenseMechanismState,{id:beforeState.support.id,heldEmpty:true});await activate(page, '#pauseButton', touch);
+  const after=await page.evaluate(defenseMechanismState);
+  check('Actual RAF expires the saved hold after physical contact departure without charging another trigger',after.support.id===beforeState.support.id&&after.mechanism.caught.length===0&&after.mechanism.charges===before.charges);
 }
 
 try {
@@ -235,26 +238,39 @@ try {
         await page.locator(selector).scrollIntoViewIfNeeded(); await rec.screenshot('paid-' + kind); await activate(page, '#commandReturn129', viewport.touch);
         profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: kind === 'ankle' ? 'charger' : 'shielded', trap: true }));
         const contact = profile.fixtures.at(-1), healthBefore = await page.evaluate(id => DEADWALL.zombies.find(z => z.id === id).health, contact.ids[0]);
+        profile.fixtures.push(await page.evaluate(defenseObserveMechanismTrigger,{supportId:contact.support,ids:contact.ids}));
         await activate(page, '#resumeButton', viewport.touch);
         await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.some(f => f.mechanism?.charges === 5)); await activate(page, '#pauseButton', viewport.touch);
-        const effect = await page.evaluate(id => { const z = DEADWALL.zombies.find(z => z.id === id), m = DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism;
-          return { health: z.health, stagger: z.stagger, charge: z.charge, mechanism: m }; }, contact.ids[0]);
-        (profile.mechanismEffects ||= []).push({ kind, healthBefore, effect, contact });
+        const paidState=await page.evaluate(defenseMechanismState),effect={...await page.evaluate(id => {const z=DEADWALL.zombies.find(z=>z.id===id);if(!z)throw Error('Expected living special contact is absent: '+id);return{health:z.health,stagger:z.stagger,charge:z.charge};},contact.ids[0]),mechanism:paidState.mechanism,support:paidState.support};
+        const triggers=await page.evaluate(()=>globalThis.__DEFENSE148_TRIGGERS__);(profile.mechanismEffects ||= []).push({ kind, healthBefore, effect, contact,triggers });
         advanced(kind + ': real contact consumes one charge and damages the special infected with normal trap damage', effect.mechanism.charges === 5 && healthBefore - effect.health >= recipe.damage && healthBefore - effect.health < recipe.damage + 8);
-        if (kind === 'ankle') advanced('Actual ankle contact interrupts a charger and holds finite saved stagger/attack delay', effect.charge.stage === 'recover' && effect.stagger > 2 && effect.mechanism.caught.some(c => c.id === contact.ids[0]));
+        if (kind === 'ankle') {const trigger=triggers.find(t=>t.actor?.id===contact.ids[0]),held=trigger?.mechanism.caught.find(c=>c.id===contact.ids[0]);
+          advanced('Actual ankle contact interrupts a charger and holds finite saved stagger/attack delay', trigger?.beforeCharges===6&&trigger.afterCharges===5&&trigger.actor.charge.stage==='recover'&&held&&Math.abs(held.left-(recipe.holdSeconds-trigger.dt))<1e-7&&
+            Math.abs(trigger.actor.stagger-held.left)<1e-7&&trigger.actor.attackCooldown>=held.left&&effect.charge.stage==='recover'&&effect.mechanism.caught.some(c=>c.id===contact.ids[0]));
+        }
         profile.checkpoints.push(await saveContinue(page, viewport.touch)); advanced(kind + ': Continue preserves charge, caught hold, special facing/state and all saved fields exactly', profile.checkpoints.at(-1).pass);
         // Retain the fixture identities as evidence; only actual saved supports are selected.
         await page.evaluate(camp => { globalThis.__DEFENSE148_CAMP__ = Object.fromEntries(camp.added.map(b => [b.type, b.id])); }, campFixture);
         if (kind === 'ankle') {
           await expireHeldContacts(page, viewport.touch, profile, advanced);
-          profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'core' })); profile.fixtures.push(await page.evaluate(defenseContactFixture, { kind: 'armored', trap: true, count: 6 }));
-          await activate(page, '#resumeButton', viewport.touch); await page.waitForFunction(() => DEADWALL.fortificationPack.snapshot().fittings.some(f => f.mechanism?.charges === 0), null, { timeout: 18000 }); await activate(page, '#pauseButton', viewport.touch);
-          advanced('Remaining finite ankle charges actually exhaust against ordinary-health physical contacts', await page.evaluate(() => DEADWALL.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism.charges === 0));
-          await expireHeldContacts(page, viewport.touch, profile, advanced);
+          const beforeExhaustion=await page.evaluate(defenseMechanismState);profile.exhaustion={before:beforeExhaustion,contacts:[]};
+          // Exhaustion and destruction are separate goals. Each ordinary-health
+          // contact actually fires the paid mount, then leaves before the next
+          // scene. Six overlapping attackers could destroy its unprotected
+          // 280-PV support during the final hold and invalidate a renewal test.
+          for(let remaining=beforeExhaustion.mechanism.charges-1;remaining>=0;remaining--){
+            profile.fixtures.push(await page.evaluate(defenseServiceFixture,{type:'core'}));const contact=await page.evaluate(defenseContactFixture,{kind:'armored',trap:true,count:1});profile.fixtures.push(contact);
+            const before=await page.evaluate(defenseMechanismState);await activate(page,'#resumeButton',viewport.touch);await page.waitForFunction(defenseMechanismState,{id:before.support.id,charges:remaining});await activate(page,'#pauseButton',viewport.touch);
+            const after=await page.evaluate(defenseMechanismState);profile.exhaustion.contacts.push({contact,before,after});
+            advanced('Finite ankle contact '+(profile.exhaustion.contacts.length)+': one real trigger preserves its actual paid support',before.mechanism.charges-after.mechanism.charges===1&&after.mechanism.charges===remaining&&after.support.id===before.support.id&&after.support.health<=before.support.health&&after.support.health>0);
+            await expireHeldContacts(page,viewport.touch,profile,advanced);
+          }
+          const exhausted=await page.evaluate(defenseMechanismState);profile.exhaustion.after=exhausted;
+          advanced('Remaining finite ankle charges actually exhaust against ordinary-health physical contacts',exhausted.mechanism.charges===0&&exhausted.mechanism.caught.length===0&&exhausted.support.id===beforeExhaustion.support.id&&profile.exhaustion.contacts.length===beforeExhaustion.mechanism.charges);
           profile.fixtures.push(await page.evaluate(defenseServiceFixture, { type: 'spikes', bag: recipe.cost })); await fortifications(page, viewport.touch);
           advanced('An exhausted mount can be renewed only with another real bag cost and no held contact', await page.locator(selector).isEnabled());
           await activate(page, selector, viewport.touch); await unpause(page, viewport.touch); await page.waitForFunction(() => !DEADWALL.fortificationPack.busy(), null, { timeout: 15000 }); await activate(page, '#pauseButton', viewport.touch);
-          advanced('Paid renewal restores the fixed cap6 and consumes its entire second bag', await page.evaluate(() => { const g = DEADWALL, m = g.fortificationPack.snapshot().fittings.find(f => f.id === globalThis.__DEFENSE148_CAMP__.spikes).mechanism; return m.charges === 6 && DeadwallCore.bagTotal(g.player.carry) === 0; }));
+          const renewed=await page.evaluate(defenseMechanismState);advanced('Paid renewal restores the fixed cap6 and consumes its entire second bag',renewed.mechanism.charges===6&&renewed.support.id===exhausted.support.id&&await page.evaluate(()=>DeadwallCore.bagTotal(DEADWALL.player.carry)===0));
         }
       }
 

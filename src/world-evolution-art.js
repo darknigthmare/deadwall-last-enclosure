@@ -36,7 +36,7 @@ function presentation(g,p){
  const moving=!!(active&&same&&(dt===0&&distance<1e-8?before.moving:
   dt>0&&dt<=.25&&distance>1e-5&&distance<=speed*dt+1e-6));
  entry.sample={x:p.x,y:p.y,z:p.z,inside:p.inside??null,riding:!!p.riding,time,moving};
- Object.assign(entry.proxy,{x:p.x*32,y:p.y*32,facing:Number.isFinite(p.a)?p.a:0,health:p.health,
+ Object.assign(entry.proxy,{visualActionOwner159:'companion:'+p.id,x:p.x*32,y:p.y*32,facing:Number.isFinite(p.a)?p.a:0,health:p.health,
   visualMoving:moving,visualMotionReset:!moving});
  return entry.proxy;
 }
@@ -72,7 +72,7 @@ function enemyPresentation(g,e){
  const previous=old.sample,time=g.elapsed||0,dt=previous?time-previous.time:0,d=previous?Math.hypot(e.x-previous.x,e.y-previous.y):0;
  const active=g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay,same=previous&&previous.z===e.z;
  const moving=!!(active&&same&&(dt===0&&d<1e-8?previous.moving:dt>0&&dt<=.25&&d>1e-5&&d<=3*dt+.001));
- old.sample={x:e.x,y:e.y,z:e.z,time,moving};Object.assign(old.proxy,{x:e.x*32,y:e.y*32,facing:e.a||0,health:e.hp??60,maxHealth:e.maxHealth??60,type:enemyKind(e),kind:enemyKind(e),visualUpright:true,visualMoving:moving,visualMotionReset:!moving});return old.proxy;
+ old.sample={x:e.x,y:e.y,z:e.z,time,moving};Object.assign(old.proxy,{visualActionOwner159:'region:'+e.id,x:e.x*32,y:e.y*32,facing:e.a||0,health:e.hp??60,maxHealth:e.maxHealth??60,type:enemyKind(e),kind:enemyKind(e),visualUpright:true,visualMoving:moving,visualMotionReset:!moving});return old.proxy;
 }
 function drawInfected(c,g,v,view,members){
  const margin=root.DeadwallCore?.RegionContactRules?.visibleMargin||1.4;

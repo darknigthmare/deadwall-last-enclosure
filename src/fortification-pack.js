@@ -56,7 +56,10 @@ function normalize(raw,full){
 function install(g){
  if(!g||g.fortificationPack)return g?.fortificationPack;
  if(!g.expansions?.register)throw Error('Centre des extensions absent.');
- let state=initial(),job=null,message='',guarded=[],mechanismPass=0;
+ let state=initial(),job=null,message='',guarded=[],mechanismPass=0,visualClock=0;
+ // Contact pulses are presentation only. Mechanics continue to own their saved
+ // charges, cooldowns and held targets; drawing never advances these clocks.
+ const visualEvents=new Map(),visualDurations=Object.freeze({spikes:.24,net:.65});
  const maxEnemyRadius=Math.max(...Object.values(C.ENEMIES).map(d=>d.radius));
  const wrap=(name,fn)=>{const old=g[name]?.bind(g);if(old)g[name]=(...args)=>fn(old,...args);};
  const home=()=>!g.frontier?.active?.();
@@ -67,6 +70,46 @@ function install(g){
  const secure=p=>!g.zombies.some(z=>live(z)&&Math.hypot(z.x-p.x,z.y-p.y)<R.dangerRange&&g.hostileLineClear(z,p));
  const building=id=>{const b=g.world.buildings.get(id);return live(b)&&b.completed?b:null;};
  const fitting=id=>state.fittings.find(f=>f.id===id);
+ const clamp01=n=>Math.max(0,Math.min(1,n));
+ function visualOwner(value){const b=typeof value==='object'?value:building(value);return b&&building(b.id)===b?b:null;}
+ function contactPulse(b,kind){
+  if(!simulationRunning()||building(b?.id)!==b)return;
+  const key=b.id+':'+kind,previous=visualEvents.get(key),duration=visualDurations[kind];
+  if(previous?.owner===b&&visualClock-previous.at<duration)return;
+  visualEvents.delete(key);if(visualEvents.size>=R.maxFittings)visualEvents.delete(visualEvents.keys().next().value);
+  visualEvents.set(key,{owner:b,at:visualClock,duration});
+ }
+ function advanceVisuals(dt){
+  visualClock+=dt;
+  for(const[key,event]of visualEvents)if(visualClock-event.at>=event.duration||building(event.owner.id)!==event.owner)visualEvents.delete(key);
+ }
+ function pulsePresentation(b,kind){
+  const event=visualEvents.get(b.id+':'+kind);
+  if(!event||event.owner!==b||building(b.id)!==b||visualClock-event.at>=event.duration)return null;
+  const progress=clamp01((visualClock-event.at)/event.duration),actionEnd=kind==='net'?.42:.28;
+  return{phase:progress<actionEnd?'action':'return',progress,motion:progress<actionEnd?Math.sin(progress/actionEnd*Math.PI/2):Math.cos((progress-actionEnd)/(1-actionEnd)*Math.PI/2)};
+ }
+ function mechanismPresentation(m){
+  const recipe=R.mechanisms[m.kind],held=m.caught.length,left=Math.max(0,...m.caught.map(c=>c.left)),cycle=clamp01(1-m.cooldown/recipe.cooldown);
+  let phase,progress=0,motion=0;
+  if(m.cooldown>0&&cycle<.18){phase='trigger';progress=cycle/.18;motion=progress;}
+  else if(m.cooldown>0&&cycle<.55){phase='action';progress=(cycle-.18)/.37;motion=1;}
+  else if(held){
+   const releaseSeconds=Math.min(.28,recipe.holdSeconds*.12);
+   if(left<releaseSeconds){phase='return';progress=clamp01(1-left/releaseSeconds);motion=1-progress;}
+   else{phase='held';progress=clamp01(1-left/recipe.holdSeconds);motion=1;}
+  }else if(m.cooldown>0){phase='return';progress=(cycle-.55)/.45;motion=1-progress;}
+  else phase=m.charges>0?'armed':'exhausted';
+  return{kind:m.kind,phase,progress:clamp01(progress),motion:clamp01(motion),charges:m.charges,capacity:recipe.charges,cooldown:m.cooldown,held};
+ }
+ function presentationFor(b,f){
+  const netPulse=pulsePresentation(b,'net'),spikePulse=b.type==='spikes'?pulsePresentation(b,'spikes'):null;
+  return{ownerId:b.id,spikes:b.type==='spikes'?(spikePulse||{phase:'idle',progress:0,motion:0}):null,
+   mechanism:f?.mechanism?mechanismPresentation(f.mechanism):null,
+   net:f?.net>0||netPulse?{remaining:f?.net||0,...(netPulse||{phase:'armed',progress:0,motion:0})}:null,
+   ammo:f?.ammo||0,repair:f?.repair||0,regulator:!!f?.regulator};
+ }
+ function presentation(value){const b=visualOwner(value);return b?presentationFor(b,fitting(b.id)):null;}
  function releaseHeld(m,zombies){
   for(const c of m.caught){const z=zombies.get(c.id);if(!z)continue;
    for(const key of ['stagger','attackCooldown'])if(Math.abs(z[key]-c.left)<1e-6||mechanismPass>0&&Math.abs(z[key]-c.left-mechanismPass)<1e-6)z[key]=0;
@@ -177,7 +220,7 @@ function install(g){
   if(g.tier.id<C.BUILDINGS.spikes.unlockTier)return fail('Palier requis : '+C.CITY_TIERS[C.BUILDINGS.spikes.unlockTier].name+'.');
   g.selectBuild('spikes');return done('Plan Hérisson sélectionné. Choisissez un sol libre et financez le chantier ordinaire.',false);
  }
- function equip(kind,id){reconcile();const q=eligibility(kind,id===undefined?target():building(id));if(!q.ok)return fail(q.reason);C.spend(g.resources,q.cost);let f=fitting(q.b.id);if(!f){f={id:q.b.id,ammo:0,repair:0,net:0,regulator:false};state.fittings.push(f);}const slot=q.option.target;if(slot==='regulator')f.regulator=true;else f[slot]=q.option.capacity;g.audio.build?.();return done(q.option.name?q.option.name+' installé : '+q.option.capacity+(slot==='ammo'?' cartouches à ce poste.':' unités de corps avant saturation.'):({ammo:'Caisson chargé : '+R.ammoCapacity+' cartouches à ce poste.',repair:'Cassette installée : '+R.repairCapacity+' points de réparation manuelle.',net:'Filet installé : '+R.netCapacity+' unités de corps avant saturation.',regulator:'Régulateur installé : '+R.inputReserve+' unités de chaque intrant seront préservées.'})[kind]);}
+ function equip(kind,id){reconcile();const q=eligibility(kind,id===undefined?target():building(id));if(!q.ok)return fail(q.reason);C.spend(g.resources,q.cost);let f=fitting(q.b.id);if(!f){f={id:q.b.id,ammo:0,repair:0,net:0,regulator:false};state.fittings.push(f);}const slot=q.option.target;if(slot==='regulator')f.regulator=true;else f[slot]=q.option.capacity;if(slot==='net')visualEvents.delete(q.b.id+':net');g.audio.build?.();return done(q.option.name?q.option.name+' installé : '+q.option.capacity+(slot==='ammo'?' cartouches à ce poste.':' unités de corps avant saturation.'):({ammo:'Caisson chargé : '+R.ammoCapacity+' cartouches à ce poste.',repair:'Cassette installée : '+R.repairCapacity+' points de réparation manuelle.',net:'Filet installé : '+R.netCapacity+' unités de corps avant saturation.',regulator:'Régulateur installé : '+R.inputReserve+' unités de chaque intrant seront préservées.'})[kind]);}
  function recoverAmmo(id){const b=building(id),f=fitting(id);if(!acting()||job||g.expansions.busy('fortification')||!b||!touch(b)||!secure(g.player)||!(f?.ammo>0))return fail('Approchez du caisson en sécurité, les mains libres.');const moved=Math.min(f.ammo,Math.max(0,g.storage-g.resources.ammo));if(!(moved>0))return fail('Le stock de munitions est plein.');g.resources.ammo+=moved;f.ammo-=moved;return done(moved+' cartouches remises en réserve commune.');}
  function startRepair(id){if(job||g.expansions.busy('fortification'))return fail('Un travail est déjà en cours.');const b=building(id),f=fitting(id);if(!acting()||!b||!touch(b)||!secure(g.player)||g.phase==='assault'||!(f?.repair>0)||b.health>=b.maxHealth)return fail('Cassette, support endommagé et accès sûr requis.');job={kind:'repair',building:id,health:g.player.health};g.releaseInputs?.();return done('Réparation manuelle en cours. Restez auprès du support.',false);}
  function startRecovery(id){if(job||g.expansions.busy('fortification'))return fail('Un travail est déjà en cours.');const d=state.debris.find(d=>d.id===id);if(!acting()||!d||!touchDebris(d)||!secure(g.player))return fail('Approchez des débris par un accès libre et sûr.');if(C.bagTotal(g.player.carry)>=g.player.carryCapacity)return fail('Votre sac est plein.');job={kind:'debris',id,health:g.player.health};g.releaseInputs?.();return done('Tri des débris en cours. Les matériaux entrent dans votre sac.',false);}
@@ -274,8 +317,9 @@ function install(g){
  wrap('update',(old,dt)=>{if(job&&!live(g.player))stop();const r=old(dt);if(job&&(!home()||!live(g.player)||g.gameOver||g.expeditions?.driving?.()))stop();step(dt);return r;});
  wrap('updateZombies',(old,dt)=>{
   mechanismPass=simulationRunning()&&num(dt,Number.MIN_VALUE,R.maxStep)?dt:0;
-  try{mechanismStep(dt);return old(dt);}finally{mechanismPass=0;}
+  try{if(mechanismPass>0)advanceVisuals(dt);mechanismStep(dt);return old(dt);}finally{mechanismPass=0;}
  });
+ wrap('damageZombieBuilding',(old,z,b,amount,...args)=>{const result=old(z,b,amount,...args);if(result&&mechanismPass>0&&b?.type==='spikes'&&num(amount,Number.MIN_VALUE))contactPulse(b,'spikes');return result;});
  wrap('updateBuildings',(old,dt)=>{
   const r=old(dt);if(!simulationRunning()||!num(dt,Number.MIN_VALUE,R.maxStep))return r;
   const mounted=g.fieldcraft?.context?.().mounted;
@@ -302,9 +346,10 @@ function install(g){
    const fraction=C.productionFraction(available,b.def.production,b.def.consumes,g.storage,seconds);if(!(fraction>0))continue;
    for(const [k,rate]of Object.entries(b.def.consumes))g.resources[k]-=rate*seconds*fraction;
    for(const [k,rate]of Object.entries(b.def.production))g.resources[k]=Math.min(g.storage,g.resources[k]+rate*seconds*fraction);
+   const activity=g.productionActivity159||(g.productionActivity159=new WeakMap());activity.set(b,{at:g.elapsed,duration:Math.max(.25,dt),seconds:seconds*fraction});
   }guarded=[];return result;
  });
- wrap('killZombie',(old,z,...args)=>{const b=z&&!z.dead?g.nearestWall(z.x,z.y,52,true):null,f=b&&fitting(b.id),before=b?.corpseLoad||0,r=old(z,...args);if(f?.net>0&&b&&b.corpseLoad>before){const n=Math.min(f.net,b.corpseLoad-before);b.corpseLoad-=n;f.net-=n;}return r;});
+ wrap('killZombie',(old,z,...args)=>{const b=z&&!z.dead?g.nearestWall(z.x,z.y,52,true):null,f=b&&fitting(b.id),before=b?.corpseLoad||0,r=old(z,...args);if(f?.net>0&&b&&b.corpseLoad>before){const n=Math.min(f.net,b.corpseLoad-before);b.corpseLoad-=n;f.net-=n;if(n>0)contactPulse(b,'net');}return r;});
  wrap('destroyBuilding',(old,b,...args)=>{
   const record=b&&!b.dead&&b.completed&&b.type!=='core'&&g.world.buildings.get(b.id)===b&&state.debris.length<R.maxDebris?{id:b.id,type:b.type,x:b.x,y:b.y,w:b.w*C.TILE,h:b.h*C.TILE,remaining:Object.fromEntries(R.debrisResources.map(k=>[k,Math.floor((b.def.cost[k]||0)*R.debrisFactor)]))}:null;
   const result=old(b,...args);reconcile();if(record&&state.debris.length<R.maxDebris&&!g.world.buildings.has(record.id)&&C.bagTotal(record.remaining)>0&&!state.debris.some(d=>d.id===record.id))state.debris.push(record);return result;
@@ -316,17 +361,17 @@ function install(g){
   return quote;
  });
  wrap('demolishSelected',(old,...args)=>{const r=old(...args);reconcile();return r;});
- wrap('drawBuilding',(old,ctx,b,...args)=>{const r=old(ctx,b,...args),f=fitting(b.id);if(!f||!b.completed||b.dead)return r;ctx.save();
-  if(f.mechanism){const m=f.mechanism,recipe=R.mechanisms[m.kind],pitch=Math.min(4,(b.right-b.left-6)/recipe.charges);root.DeadwallWorldVariants158?.drawMechanism(ctx,g.art,b,m,{seed:g.world?.seed??0});ctx.fillStyle=m.charges>0?'#bcb797':'#555d51';ctx.strokeStyle=recipe.holdSeconds?'#a8bf99':'#d2b79c';ctx.lineWidth=2;ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);for(let i=0;i<recipe.charges;i++){ctx.fillStyle=i<m.charges?'#dfc692':'#485047';ctx.fillRect(b.left+3+i*pitch,b.bottom-7,Math.min(3,pitch-0.5),4);}if(b.flash>0){ctx.strokeStyle='#ffe3a3';ctx.strokeRect(b.left-2,b.top-2,b.right-b.left+4,b.bottom-b.top+4);}}
-  if(f.net>0){ctx.strokeStyle='#99a8a1';ctx.lineWidth=1;for(let x=b.left+4;x<b.right;x+=9){ctx.beginPath();ctx.moveTo(x,b.top+3);ctx.lineTo(Math.min(b.right,x+12),b.bottom-3);ctx.stroke();}ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);}
-  if(f.ammo>0&&!g.operationsArt?.draw(ctx,'ammo',b.left+11,b.bottom-4,23)){ctx.fillStyle='#526149';ctx.fillRect(b.left+4,b.bottom-14,15,10);ctx.fillStyle='#d5c58b';ctx.fillRect(b.left+7,b.bottom-12,9,2);}
-  if(f.repair>0&&!g.operationsArt?.draw(ctx,'support',b.right-12,b.bottom-4,21)){ctx.fillStyle='#916d4b';ctx.fillRect(b.right-20,b.bottom-14,16,10);ctx.strokeStyle='#d5b87a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.right-18,b.bottom-9);ctx.lineTo(b.right-6,b.bottom-9);ctx.stroke();}
-  if(f.regulator){ctx.fillStyle='#98b9ad';ctx.fillRect(b.left+4,b.top+4,9,9);ctx.fillStyle='#273b34';ctx.fillRect(b.left+7,b.top+6,2,5);}ctx.restore();return r;
+ wrap('drawBuilding',(old,ctx,b,...args)=>{const r=old(ctx,b,...args),f=fitting(b.id);if(!b.completed||b.dead||!f&&!visualEvents.has(b.id+':net'))return r;const view=presentationFor(b,f),options={seed:g.world?.seed??0,reducedMotion:!!g.settings?.reducedMotion};if(!f&&!view.net)return r;ctx.save();const preparationDrawn=root.DeadwallTrapArt159?.drawPreparation?.(ctx,g.art,b,{...options,presentation:view});
+  if(f?.mechanism){const m=f.mechanism,recipe=R.mechanisms[m.kind],pitch=Math.min(4,(b.right-b.left-6)/recipe.charges);if(!root.DeadwallTrapArt159?.drawMechanism?.(ctx,g.art,b,m,{...options,presentation:view.mechanism}))root.DeadwallWorldVariants158?.drawMechanism(ctx,g.art,b,m,options);ctx.fillStyle=m.charges>0?'#bcb797':'#555d51';ctx.strokeStyle=recipe.holdSeconds?'#a8bf99':'#d2b79c';ctx.lineWidth=2;ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);for(let i=0;i<recipe.charges;i++){ctx.fillStyle=i<m.charges?'#dfc692':'#485047';ctx.fillRect(b.left+3+i*pitch,b.bottom-7,Math.min(3,pitch-0.5),4);}if(b.flash>0){ctx.strokeStyle='#ffe3a3';ctx.strokeRect(b.left-2,b.top-2,b.right-b.left+4,b.bottom-b.top+4);}}
+  if(view.net&&!root.DeadwallTrapArt159?.drawNet?.(ctx,g.art,b,{...options,presentation:view.net})&&f?.net>0){ctx.strokeStyle='#99a8a1';ctx.lineWidth=1;for(let x=b.left+4;x<b.right;x+=9){ctx.beginPath();ctx.moveTo(x,b.top+3);ctx.lineTo(Math.min(b.right,x+12),b.bottom-3);ctx.stroke();}ctx.strokeRect(b.left+2,b.top+2,b.right-b.left-4,b.bottom-b.top-4);}
+  if(!preparationDrawn&&f?.ammo>0&&!g.operationsArt?.draw(ctx,'ammo',b.left+11,b.bottom-4,23)){ctx.fillStyle='#526149';ctx.fillRect(b.left+4,b.bottom-14,15,10);ctx.fillStyle='#d5c58b';ctx.fillRect(b.left+7,b.bottom-12,9,2);}
+  if(!preparationDrawn&&f?.repair>0&&!g.operationsArt?.draw(ctx,'support',b.right-12,b.bottom-4,21)){ctx.fillStyle='#916d4b';ctx.fillRect(b.right-20,b.bottom-14,16,10);ctx.strokeStyle='#d5b87a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.right-18,b.bottom-9);ctx.lineTo(b.right-6,b.bottom-9);ctx.stroke();}
+  if(!preparationDrawn&&f?.regulator){ctx.fillStyle='#98b9ad';ctx.fillRect(b.left+4,b.top+4,9,9);ctx.fillStyle='#273b34';ctx.fillRect(b.left+7,b.top+6,2,5);}ctx.restore();return r;
  });
  wrap('drawGround',(old,ctx,...args)=>{const r=old(ctx,...args);if(!home()&&!args[0]?.homeProjection)return r;ctx.save();for(const d of state.debris){const v=args[0];if(v&&(d.x+d.w/2<v.left||d.x-d.w/2>v.right||d.y+d.h/2<v.top||d.y-d.h/2>v.bottom))continue;ctx.fillStyle='#887661';ctx.fillRect(d.x-d.w/2+3,d.y+d.h/2+4,16,5);ctx.fillStyle='#a7a295';ctx.fillRect(d.x-d.w/2+11,d.y+d.h/2+1,10,6);}ctx.restore();return r;});
- const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
+ const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},presentation,inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
  g.fortificationPack=api;
- g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);job=null;message='';},reset:()=>{state=initial();job=null;message='';}});
+ g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);job=null;message='';visualClock=0;visualEvents.clear();},reset:()=>{state=initial();job=null;message='';visualClock=0;visualEvents.clear();}});
  return api;
 }
 const API={install,initial,normalize};root.DeadwallFortificationPack=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;if(root.DEADWALL&&root.DEADWALL.expansions)install(root.DEADWALL);

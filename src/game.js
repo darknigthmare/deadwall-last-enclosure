@@ -1307,7 +1307,7 @@
       p.meleeCooldown = .65; let hit = false;
       for (const z of this.nearbyZombies(p.x, p.y, 55)) {
         const a = Math.atan2(z.y - p.y, z.x - p.x), delta = Math.atan2(Math.sin(a - p.facing), Math.cos(a - p.facing));
-        if (z.dead || Math.abs(delta) >= 1.15 || !this.hostileLineClear(p, z)) continue;
+        if (z.dead || Math.abs(delta) >= 1.15 || !this.hostileLineClear(p, z,false)) continue;
         z.health -= this.succession133?.meleeDamage?.() ?? 36; z.stagger = .35; hit = true;
         // Preserve the 20px shove, stopping each short step before a physical obstacle.
         for (let step = 0; step < 5; step++) {
@@ -1402,10 +1402,10 @@
             if(!b||b.completed||b.dead){u.state='idle';u.think=0;}
             else if(T.overlapsBuilding(b,u)){const point=this.workerBuildExit(u,b);if(point)this.moveWorkerToJob(u,point,dt,point.key);}
             else if(!this.workerCanWorkAt(u,b,62))this.moveWorkerToJob(u,b,dt,`build:${b.id}`);
-            else if(b.work(dt*(this.hasResearch('logistics')?1.22:1.05)))this.completeBuilding(b);
+            else{const before=b.progress,completed=b.work(dt*(this.hasResearch('logistics')?1.22:1.05));if(b.progress>before)this.recordActorAction159(u,'build',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});if(completed)this.completeBuilding(b);}
           }
           else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
-          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange))this.clearCorpsesWithWorker(u,b,dt);else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
+          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt);if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
           else if(u.state==='return'){const storage=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&(b.type==='core'||b.type==='warehouse'||b.def.storageDepot)&&this.workerJobAvailable(u,`return:${b.id}`)).sort((a,b)=>distSq(u,a)-distSq(u,b))[0];if(storage)this.depositWorker(u,storage,dt);}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
         } else if(C.SURVIVORS[u.kind]?.specialist){
@@ -1415,8 +1415,8 @@
           const target=this.nightwatch?this.nightwatch.target(u.x,u.y,rules.range):this.nearestZombie(u.x,u.y,rules.range);
           if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
             if(d>rules.advanceRange){if(!retreat){if(this.citadel?.isHolding(u)){const post=this.squadFormationTarget(u,group);if(post&&dist(u,post)>rules.rallyRadius)this.moveUnitToward(u,post,dt);}else this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}}
-            else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');}
-            else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;if(target.health<=0)this.killZombie(target,false);}
+            else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');this.recordActorAction159(u,'shoot',rules.fireCooldown);}
+            else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target,false)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;this.recordActorAction159(u,'melee',rules.meleeCooldown);if(target.health<=0)this.killZombie(target,false);}
           }
           // Being within range across a wreck or wall is not a physical arrival.
           if(retreat){u.state='flee';const destination=this.squadRetreatTarget(group);if(destination&&!this.workerCanWorkAt(u,destination,rules.retreatRadius))this.moveUnitToward(u,destination,dt);}
@@ -1748,6 +1748,11 @@
       if(!this.hostileLineClear(z,target,false,building))return false;
       this.damageBuilding(building,amount*(ENEMIES[z.kind].structureDamage||1));return true;
     }
+    strikeZombieBuilding159(z,building,amount){
+      if(!this.damageZombieBuilding(z,building,amount))return false;
+      const x=clamp(z.x,building.left,building.right),y=clamp(z.y,building.top,building.bottom);
+      this.recordActorAction159(z,'attack',1/ENEMIES[z.kind].attackRate,{facing:Math.atan2(y-z.y,x-z.x)});return true;
+    }
 
     zombieBulletDamage(z,damage,from){
       if(z.kind!=='shielded')return damage;
@@ -1787,7 +1792,7 @@
         const x=clamp(z.x+dx,3,WORLD_SIZE-3),y=clamp(z.y+dy,3,WORLD_SIZE-3);
         if(!this.hostilePositionClear(z,x,y)){
           const blocker=this.hostileBuildingAt(z,x,y);
-          if(blocker&&z.attackCooldown<=0&&this.damageZombieBuilding(z,blocker,ENEMIES[z.kind].damage*this.difficulty.enemyDamage))z.attackCooldown=1/ENEMIES[z.kind].attackRate;
+          if(blocker&&z.attackCooldown<=0&&this.strikeZombieBuilding159(z,blocker,ENEMIES[z.kind].damage*this.difficulty.enemyDamage))z.attackCooldown=1/ENEMIES[z.kind].attackRate;
           return false;
         }
         z.x=x;z.y=y;
@@ -1811,18 +1816,18 @@
         }
         if(z.kind==='charger'){const charge=this.updateZombieCharge(z,dir,dt,staggered);dir=charge.dir;speed*=charge.speed;z.facing=Math.atan2(dir.y,dir.x);}
         if(this.fieldcraft&&(z.kind!=='charger'||z.charge.stage!=='rush'))dir=this.fieldcraft.steerZombie(z,dir,speed*dt);
-        let victim=null,best=34*34;if(!this.player.dead&&!this.player.regionAbsent){const d=distSq(z,this.player);if(d<best&&this.hostileLineClear(z,this.player)){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best&&this.hostileLineClear(z,u)){best=d;victim=u;}}
-        if(victim){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(victim.y-z.y,victim.x-z.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);}continue;}
+        let victim=null,best=34*34;if(!this.player.dead&&!this.player.regionAbsent){const d=distSq(z,this.player);if(d<best&&this.hostileLineClear(z,this.player,false)){best=d;victim=this.player;}}for(const u of this.units){if(u.dead)continue;const d=distSq(z,u);if(d<best&&this.hostileLineClear(z,u,false)){best=d;victim=u;}}
+        if(victim){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(victim.y-z.y,victim.x-z.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;const health=victim.health;if(victim===this.player)this.damagePlayer(def.damage*this.difficulty.enemyDamage);else this.damageUnit(victim,def.damage*this.difficulty.enemyDamage);if(victim.health<health)this.recordActorAction159(z,'attack',1/def.attackRate,{facing:Math.atan2(victim.y-z.y,victim.x-z.x)});}continue;}
         let blocker=this.world.at(z.x+dir.x*look,z.y+dir.y*look);if(T.openGate(blocker))blocker=null;
         if(blocker&&!blocker.dead&&blocker.type!=='core'){
-          if(blocker.type==='spikes'){z.health-=blocker.def.trapDamage*dt;this.damageZombieBuilding(z,blocker,def.damage*dt*.13);if(z.health<=0){this.killZombie(z,false);continue;}}
+          if(blocker.type==='spikes'&&this.damageZombieBuilding(z,blocker,def.damage*dt*.13)){z.health-=blocker.def.trapDamage*dt;if(z.health<=0){this.killZombie(z,false);continue;}}
           const ramp=this.zombieCanClimb(z,blocker);
-          if(!ramp){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
-        }else if(blocker&&blocker.type==='core'){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
+          if(!ramp){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.strikeZombieBuilding159(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
+        }else if(blocker&&blocker.type==='core'){this.endZombieCharge(z);if(z.kind==='shielded')z.facing=Math.atan2(dir.y,dir.x);if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.strikeZombieBuilding159(z,blocker,def.damage*this.difficulty.enemyDamage);}continue;}
         z.facing=Math.atan2(dir.y,dir.x);if(z.kind==='charger')this.moveChargingZombie(z,dir,speed*dt);else this.moveOrdinaryZombie(z,dir,speed*dt);
         if(this.random.chance(dt*.45)){const nearby=this.nearbyZombies(z.x,z.y,22);for(const o of nearby){if(o===z)continue;const dx=z.x-o.x,dy=z.y-o.y,l=Math.hypot(dx,dy)||1,x=z.x+dx/l*.15,y=z.y+dy/l*.15;if(this.hostilePositionClear(z,x,y)){z.x=x;z.y=y;}break;}}
         const moved=Math.hypot(z.x-z.lastX,z.y-z.lastY);if(moved<.2)z.stuck+=dt;else z.stuck=Math.max(0,z.stuck-dt);z.lastX=z.x;z.lastY=z.y;
-        if(z.stuck>2.5){const near=this.world.at(z.x+dir.x*30,z.y+dir.y*30)||this.nearestBuilding(z.x,z.y,48);if(near&&!T.openGate(near)&&z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.damageZombieBuilding(z,near,def.damage*this.difficulty.enemyDamage);}}
+        if(z.stuck>2.5){const near=this.world.at(z.x+dir.x*30,z.y+dir.y*30)||this.nearestBuilding(z.x,z.y,48);if(near&&!T.openGate(near)&&z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;this.strikeZombieBuilding159(z,near,def.damage*this.difficulty.enemyDamage);}}
       }
       this.zombies=this.zombies.filter(z=>!z.dead);
     }
@@ -1906,12 +1911,15 @@
     economyTick(dt){let foodUse=this.population*.0065*dt;this.resources.food=Math.max(0,this.resources.food-foodUse);if(this.resources.food<=.01)this.morale=Math.max(0,this.morale-dt*.7);else this.morale=Math.min(100,this.morale+dt*.08);
       for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&!b.siegeOffline&&!b.territoryOffline&&(b.type==='generator'||b.def.generatorFuel)&&this.resources.fuel>0)this.resources.fuel=Math.max(0,this.resources.fuel-dt*(b.def.generatorFuel||.018)*(this.hasResearch('grid')?.75:1));
       for(const b of this.world.buildings.values()){
+        const activity=this.productionActivity159||(this.productionActivity159=new WeakMap());
+        activity.delete(b);
         if(b.dead||!b.completed||(b.gridOffline&&!this.powerGrid?.hasProduction(b.id))||b.territoryOffline||b.siegeOffline||b.dayOffline||!b.def.production)continue;
         const crisisFactor=b.def.powerUse&&this.activeCrisis?.id==='blackout'&&this.activeCrisis.status==='resolved'&&this.activeCrisis.choice==='B'?.5:1;
         const powerFactor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;
         if(powerFactor<=.05&&!this.powerGrid?.hasProduction(b.id))continue;
         const seconds=this.powerGrid?this.powerGrid.productionSeconds(b,dt,powerFactor,crisisFactor):dt*powerFactor*crisisFactor,fraction=productionFraction(this.resources,b.def.production,b.def.consumes,this.storage,seconds);
         if(fraction<=0)continue;
+        activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:seconds*fraction});
         for(const [key,rate]of Object.entries(b.def.consumes||{}))this.resources[key]-=rate*seconds*fraction;
         for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
       }
@@ -2232,9 +2240,36 @@
 
     drawNode(ctx,node){if(this.art?.drawNode(ctx,node,this))return;ctx.save();ctx.translate(node.x,node.y);ctx.scale(node.flash>0?1.08:1,node.flash>0?1.08:1);ctx.globalAlpha=clamp(node.amount/node.maxAmount,.35,1);ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(5,8,node.radius*1.05,node.radius*.48,0,0,Math.PI*2);ctx.fill();if(node.type==='wood'){ctx.fillStyle='#4c3927';ctx.fillRect(-4,-3,8,node.radius+8);const colors=['#344631','#3d5036','#46593c'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2;ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.arc(Math.cos(a)*node.radius*.45,Math.sin(a)*node.radius*.28-node.radius*.52,node.radius*.52,0,Math.PI*2);ctx.fill();}}else if(node.type==='scrap'){const colors=['#626967','#77766c','#4f5859','#805f48'];for(let i=0;i<7;i++){ctx.save();ctx.rotate((i*1.7+node.variant)*.45);ctx.fillStyle=colors[(i+node.variant)%4];ctx.fillRect(-node.radius*.65+i*2,-8+(i%3)*5,node.radius*.8,7);ctx.restore();}ctx.strokeStyle='#383d3c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(5,1,node.radius*.38,0,Math.PI*2);ctx.stroke();}else if(node.type==='stone'){const colors=['#67665f','#7a786e','#565750'];for(let i=0;i<5;i++){const a=i/5*Math.PI*2,r=node.radius*(i? .45:.15);ctx.fillStyle=colors[(i+node.variant)%3];ctx.beginPath();ctx.moveTo(Math.cos(a)*r-8,Math.sin(a)*r+5);ctx.lineTo(Math.cos(a)*r+9,Math.sin(a)*r+3);ctx.lineTo(Math.cos(a)*r+4,Math.sin(a)*r-13);ctx.lineTo(Math.cos(a)*r-9,Math.sin(a)*r-7);ctx.closePath();ctx.fill();}}else if(node.type==='food'){ctx.fillStyle='#3f5035';ctx.fillRect(-node.radius,-node.radius*.55,node.radius*2,node.radius*1.1);ctx.strokeStyle='#718153';ctx.lineWidth=2;for(let i=-3;i<=3;i++){ctx.beginPath();ctx.moveTo(i*5,9);ctx.lineTo(i*6+Math.sin(i+this.elapsed)*2,-12);ctx.stroke();}ctx.fillStyle='#7f6b43';ctx.fillRect(-8,-2,16,12);}else{for(let i=-1;i<=1;i++){ctx.fillStyle='#444c49';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,18);ctx.fillStyle='#9a723c';ctx.fillRect(i*12-5,-8+Math.abs(i)*3,10,4);}}ctx.restore();}
 
+    recordActorAction159(actor,action,seconds,{facing,continuous=false}={}){
+      if(!actor||actor.id==null||!Number.isFinite(seconds)||seconds<=0||!Number.isFinite(this.elapsed))return false;
+      let state=this.actorActivity159;
+      if(!state||state.world!==this.world||this.elapsed<state.last){state={world:this.world,last:this.elapsed,events:new Map()};this.actorActivity159=state;}
+      state.last=this.elapsed;
+      const owner=actor.visualActionOwner159??actor.id,key=typeof owner+':'+owner,previous=state.events.get(key);
+      const start=continuous&&previous?.continuous&&previous.action===action&&this.elapsed-previous.at<=.25?previous.start:this.elapsed;
+      state.events.delete(key);state.events.set(key,{ownerId:actor.id,action,at:this.elapsed,start,duration:seconds,continuous,facing:Number.isFinite(facing)?facing:actor.facing});
+      if(state.events.size>2048)state.events.delete(state.events.keys().next().value);
+      return true;
+    }
+    actorActionPresentation159(actor){
+      const state=this.actorActivity159;
+      if(!state||state.world!==this.world||this.elapsed<state.last||actor?.id==null||actor.dead)return null;
+      const owner=actor.visualActionOwner159??actor.id,event=state.events.get(typeof owner+':'+owner),age=this.elapsed-(event?.at??Infinity);
+      if(!event||age<0||age>(event.continuous?.25:event.duration))return null;
+      const progress=event.continuous?((this.elapsed-event.start)%event.duration)/event.duration:age/event.duration;
+      return {ownerId:actor.id,action:event.action,active:true,progress,facing:event.facing};
+    }
+    productionPresentation159(b){
+      const a=this.productionActivity159?.get(b),age=this.elapsed-(a?.at??Infinity);
+      const active=!!(a&&a.seconds>0&&age>=0&&age<=a.duration&&!b.dead&&b.completed&&!b.territoryOffline&&!b.siegeOffline&&!b.dayOffline);
+      // Vegetation and cold-work sites have no combustion exhaust. Activity is
+      // recorded by the economy after real intrants/storage/power allocation.
+      const smoke=active&&['refinery','ammoFactory','rationPlant','fuelWorks','cityArsenal','cementWorks','recyclingPlant'].includes(b.type);
+      return {active,smoke};
+    }
     drawBuilding(ctx,b){const d=b.def,l=b.left,t=b.top,w=b.w*TILE,h=b.h*TILE;ctx.save();if(!b.completed){ctx.fillStyle='rgba(210,168,74,.07)';ctx.strokeStyle='rgba(232,203,126,.8)';ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.fillRect(l+2,t+2,w-4,h-4);ctx.strokeRect(l+2,t+2,w-4,h-4);ctx.setLineDash([]);ctx.strokeStyle='rgba(232,203,126,.3)';ctx.beginPath();ctx.moveTo(l,t);ctx.lineTo(l+w,t+h);ctx.moveTo(l+w,t);ctx.lineTo(l,t+h);ctx.stroke();ctx.fillStyle='#7a6040';for(let i=0;i<Math.floor(b.progress*6);i++)ctx.fillRect(l+7+(i%3)*14,t+h-12-Math.floor(i/3)*10,11,8);ctx.fillStyle='#d2a84a';ctx.fillRect(l,t+h+4,w*b.progress,3);ctx.restore();return;}
       if(this.art?.drawBuilding(ctx,b,this.world)){
-        if(b.def.production&&b.powered&&!this.settings.reducedMotion)this.art.drawEffect(ctx,'smoke',b.x+w*.25,t-6,28,((this.elapsed*.55+b.id)%1),.35);
+        if(this.productionPresentation159(b).smoke&&!this.settings.reducedMotion)this.art.drawEffect(ctx,'smoke',b.x+w*.25,t-6,28,((this.elapsed*.55+b.id)%1),.35);
       }
       else if(d.gate&&b.gateMode==='open'){
         ctx.save();ctx.translate(b.x,b.y);if(b.rotation%2)ctx.rotate(Math.PI/2);
@@ -2255,7 +2290,7 @@
       }
       else if(d.id==='spikes'){ctx.fillStyle='rgba(0,0,0,.25)';ctx.fillRect(l+3,t+10,w-2,h-6);ctx.strokeStyle='#85877f';ctx.lineWidth=3;for(let i=3;i<w;i+=8){ctx.beginPath();ctx.moveTo(l+i,t+h-4);ctx.lineTo(l+i+6,t+5);ctx.moveTo(l+i+7,t+h-4);ctx.lineTo(l+i+1,t+5);ctx.stroke();}}
       else if(d.wall){ctx.fillStyle='rgba(0,0,0,.32)';ctx.fillRect(l+5,t+7,w,h);ctx.fillStyle=d.color;ctx.fillRect(l+1,t+3,w-2,h-4);ctx.fillStyle=d.roof;ctx.fillRect(l+2,t+2,w-4,Math.max(6,h*.28));ctx.strokeStyle='rgba(0,0,0,.32)';ctx.lineWidth=1;for(let i=1;i<Math.max(1,b.w*2);i++){const x=l+i/(b.w*2)*w;ctx.beginPath();ctx.moveTo(x,t+3);ctx.lineTo(x,t+h-2);ctx.stroke();}if(d.gate){ctx.fillStyle='#242b29';ctx.fillRect(l+w*.22,t+h*.25,w*.56,h*.72);ctx.strokeStyle='#9b8b64';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(l+w/2,t+h*.28);ctx.lineTo(l+w/2,t+h-2);ctx.stroke();}if(b.corpseLoad>4){ctx.fillStyle='rgba(63,45,39,.8)';const piles=Math.min(8,Math.floor(b.corpseLoad/3));for(let i=0;i<piles;i++){ctx.beginPath();ctx.ellipse(l+5+(i/Math.max(1,piles-1))*(w-10),t+h+2,8,4+i*.35,0,0,Math.PI*2);ctx.fill();}}}
-      else{ctx.fillStyle='rgba(0,0,0,.34)';ctx.fillRect(l+7,t+9,w,h);ctx.fillStyle=d.color;ctx.fillRect(l+1,t+7,w-2,h-8);ctx.fillStyle=d.roof;ctx.fillRect(l+3,t+2,w-6,h*.68);ctx.strokeStyle='rgba(255,255,255,.11)';ctx.strokeRect(l+3,t+2,w-6,h*.68);ctx.fillStyle='rgba(15,20,18,.55)';for(let x=l+10;x<l+w-8;x+=19)ctx.fillRect(x,t+h*.76,9,6);ctx.fillStyle='rgba(235,221,165,.8)';ctx.font=`bold ${Math.max(11,Math.min(18,w*.22))}px Bahnschrift,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(d.symbol||'',l+w/2,t+h*.38);if(d.production){ctx.strokeStyle='rgba(20,23,20,.55)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(l+w*.75,t+4);ctx.lineTo(l+w*.75,t-11);ctx.stroke();ctx.fillStyle='rgba(90,96,89,.38)';ctx.beginPath();ctx.arc(l+w*.75,t-16,7+Math.sin(this.elapsed*1.2+b.id)*2,0,Math.PI*2);ctx.fill();}}
+      else{ctx.fillStyle='rgba(0,0,0,.34)';ctx.fillRect(l+7,t+9,w,h);ctx.fillStyle=d.color;ctx.fillRect(l+1,t+7,w-2,h-8);ctx.fillStyle=d.roof;ctx.fillRect(l+3,t+2,w-6,h*.68);ctx.strokeStyle='rgba(255,255,255,.11)';ctx.strokeRect(l+3,t+2,w-6,h*.68);ctx.fillStyle='rgba(15,20,18,.55)';for(let x=l+10;x<l+w-8;x+=19)ctx.fillRect(x,t+h*.76,9,6);ctx.fillStyle='rgba(235,221,165,.8)';ctx.font=`bold ${Math.max(11,Math.min(18,w*.22))}px Bahnschrift,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(d.symbol||'',l+w/2,t+h*.38);if(this.productionPresentation159(b).smoke){ctx.strokeStyle='rgba(20,23,20,.55)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(l+w*.75,t+4);ctx.lineTo(l+w*.75,t-11);ctx.stroke();ctx.fillStyle='rgba(90,96,89,.38)';ctx.beginPath();ctx.arc(l+w*.75,t-16,7+(this.settings.reducedMotion?0:Math.sin(this.elapsed*1.2+b.id)*2),0,Math.PI*2);ctx.fill();}}
       if(d.range&&!this.art?.drawTurret(ctx,b)){ctx.save();ctx.translate(b.x,b.y-3);ctx.rotate(b.turretAngle);ctx.fillStyle='#232a2a';ctx.fillRect(-6,-6,d.id==='heavyTurret'?30:23,12);ctx.fillStyle='#7d8581';ctx.fillRect(7,-2,d.id==='heavyTurret'?27:20,4);if(b.flash>0){ctx.fillStyle='#ffd06f';ctx.beginPath();ctx.moveTo(33,0);ctx.lineTo(45,-6);ctx.lineTo(42,0);ctx.lineTo(45,6);ctx.closePath();ctx.fill();}ctx.restore();}
       if(b.selected){ctx.strokeStyle='#e3be60';ctx.lineWidth=2;ctx.setLineDash([8,5]);ctx.strokeRect(l-4,t-4,w+8,h+8);ctx.setLineDash([]);}if(b.health<b.maxHealth||b.underAttack>0||b.selected){const ratio=b.health/b.maxHealth;ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillRect(l,t-9,w,5);ctx.fillStyle=ratio<.35?'#b94d43':ratio<.7?'#c49b4b':'#76966a';ctx.fillRect(l+1,t-8,(w-2)*ratio,3);}if(d.powerUse&&!b.powered){ctx.fillStyle='rgba(20,22,20,.7)';ctx.fillRect(l,t,w,h);ctx.fillStyle='#c8944a';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('⚡',b.x,b.y);}
       const integrity=b.health/b.maxHealth;if(integrity<.72){ctx.strokeStyle=integrity<.35?'rgba(201,82,69,.72)':'rgba(20,24,21,.58)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(l+w*.2,t+h*.24);ctx.lineTo(l+w*.32,t+h*.39);ctx.lineTo(l+w*.25,t+h*.56);ctx.moveTo(l+w*.78,t+h*.34);ctx.lineTo(l+w*.66,t+h*.47);ctx.lineTo(l+w*.73,t+h*.62);ctx.stroke();}
@@ -2338,7 +2373,7 @@
     }
     drawProjectile(ctx,p){const speed=Math.hypot(p.vx,p.vy)||1,nx=p.vx/speed,ny=p.vy/speed;ctx.strokeStyle=p.color;ctx.lineWidth=p.radius;ctx.globalAlpha=.78;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-nx*18,p.y-ny*18);ctx.stroke();ctx.globalAlpha=1;}
     drawParticle(ctx,p){const ratio=clamp(p.life/p.maxLife,0,1);if(this.art?.drawEffect(ctx,p.kind,p.x,p.y,Math.max(15,p.size*9),1-ratio,ratio,p.rotation))return;ctx.save();ctx.globalAlpha=ratio;ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.fillStyle=p.color;if(p.kind==='dust'||p.kind==='smoke'){ctx.beginPath();ctx.arc(0,0,p.size*(1.4-ratio*.35),0,Math.PI*2);ctx.fill();}else if(p.kind==='spark'||p.kind==='muzzle')ctx.fillRect(-p.size*1.8,-p.size*.25,p.size*3.6,p.size*.5);else ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.7);ctx.restore();}
-    drawCorpse(ctx,c){ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+    drawCorpse(ctx,c){if(globalThis.DeadwallEquipmentArt159?.drawCorpse(ctx,this.art,c,{seed:this.world.seed}))return;ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
     drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+(this.settings.reducedMotion?0:Math.sin(this.elapsed*2)*3),0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
