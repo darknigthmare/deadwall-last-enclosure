@@ -306,13 +306,67 @@ function prepareLostStorage149() {
 
 async function inspectArtStage149(page, age, check) {
   const art = await page.evaluate(() => {
-    const g = DEADWALL; g.render();
-    const sprite = g.d17Art149?.coreSprite(g.tier.id), registry = DeadwallD17Art149;
-    return { age: g.tier.id, coreSprite: sprite, atlas: sprite && registry.SPRITES[sprite]?.atlas,
+    const g = DEADWALL, core = g.core(), registry = DeadwallD17Art149;
+    const sprite = g.d17Art149?.coreSprite(g.tier.id), seed = g.world.seed;
+    // The production provider selects one exact historical or 157 appearance
+    // for this live core identity and world seed, using available decoded images.
+    const identity = core?.id ?? [core?.gx, core?.gy, core?.type].join(':');
+    const alternate = core && !core.dead && core.completed !== false
+      ? DeadwallBuildingVariants157.alternateFor(sprite, identity, seed, g.art.images) : null;
+    const selected = alternate ?? registry.SPRITES[sprite];
+    const expected = registry.measure(sprite, core, { sprite: selected, rise: 56 });
+    const atlas = expected?.atlas, sourceImage = g.art.images[atlas], context = g.ctx;
+    const drawBuilding = g.art.drawBuilding, drawImage = context.drawImage;
+    const ownDrawImage = Object.getOwnPropertyDescriptor(context, 'drawImage');
+    const observed = [], same = (a, b) => a.length === b.length && a.every((n, i) => Number.isFinite(n) && Math.abs(n - b[i]) < 1e-9);
+    let paintingCore = false, coreRendererReturned = false;
+    g.art.drawBuilding = function(c, b, ...args) {
+      const previous = paintingCore; paintingCore = c === context && b === core;
+      try {
+        const result = drawBuilding.call(this, c, b, ...args);
+        if (paintingCore) coreRendererReturned = result === true;
+        return result;
+      } finally { paintingCore = previous; }
+    };
+    context.drawImage = function(image, ...args) {
+      // Observe the real main-canvas draw, including a warm native raster cache.
+      // Atlas-global counters alone cannot prove this core's selected cut drew.
+      if (paintingCore) {
+        let matchedSource = false, sampling = 'unresolved';
+        if (expected && sourceImage && args.length === 8) {
+          if (image === sourceImage) {
+            sampling = 'decoded-atlas'; matchedSource = same(args.slice(0, 4), expected.source);
+          } else {
+            const prefix = atlas + ':' + expected.source.join(',') + ':';
+            const cached = [...(g.art.renderCache153?.items?.entries() ?? [])].find(([key, item]) =>
+              key === prefix + item.level && item.image === image && item.source === sourceImage);
+            if (cached) {
+              sampling = 'native-raster-cache';
+              matchedSource = same(args.slice(0, 4), [0, 0, cached[1].width, cached[1].height]);
+            }
+          }
+        }
+        const destination = args.slice(4), matrix = this.getTransform();
+        observed.push({ ownerId: core.id, sampling, source: args.slice(0, 4), destination,
+          transform: [matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f],
+          matched: matchedSource && same(destination, expected.destination) });
+      }
+      return drawImage.call(this, image, ...args);
+    };
+    try { g.render(); }
+    finally {
+      g.art.drawBuilding = drawBuilding;
+      if (ownDrawImage) Object.defineProperty(context, 'drawImage', ownDrawImage);
+      else delete context.drawImage;
+    }
+    return { age: g.tier.id, coreId: core?.id, seed, coreSprite: sprite, alternate: !!alternate,
+      atlas, source: expected?.source, destination: expected?.destination, coreRendererReturned, observed,
       ready: [...g.art.diagnostics.ready].sort(), failed: [...g.art.diagnostics.failed],
       declared: Object.keys(DeadwallArt.ASSETS).sort(), draws: { ...g.art.diagnostics.draws } };
   });
-  check('Age' + age + ': current D17 centre sprite belongs to the decoded registry and is physically drawn', art.age === age && !!art.atlas && art.ready.includes(art.atlas) && art.draws[art.atlas] > 0);
+  check('Age' + age + ': current D17 centre sprite belongs to the decoded registry and is physically drawn',
+    art.age === age && !!art.atlas && art.declared.includes(art.atlas) && art.ready.includes(art.atlas) &&
+    art.coreRendererReturned && art.observed.some(draw => draw.ownerId === art.coreId && draw.matched));
   check('Age' + age + ': every current declared texture decodes without a failed resource', art.failed.length === 0 && JSON.stringify(art.ready) === JSON.stringify(art.declared));
   return art;
 }
