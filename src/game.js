@@ -27,7 +27,7 @@
       this.underAttack = 0; this.corpseLoad = 0;
       this.health = Math.max(40, this.def.health * (progress >= 1 ? 1 : 0.12 + progress * 0.65));
     }
-    get def() { return BUILDINGS[this.type]; }
+    get def() { const base=BUILDINGS[this.type]; return globalThis.DEADWALL?.verticalCitadel175?.definition(this,base) || base; }
     get size() { return rotateSize(this.def, this.rotation); }
     get w() { return this.size[0]; }
     get h() { return this.size[1]; }

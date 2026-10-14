@@ -2211,3 +2211,50 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   }});
  C.ContextGeometryRules160=freeze({attemptLimit:96,frontSetback:26,roadWidth:8,walkWidth:3.2,bridgeWidth:10,wallThickness:.28,contextBandWidth:8,gateWidth:3.2,terrainClearance:1,clusterBlockWidth:18,clusterBlockHeight:14,clusterGap:12});
 })(globalThis);
+
+/* Citadelle verticale 175: canonical balance. No age, stock or wave is granted. */
+(function(root){
+ 'use strict';
+ const C=root.DeadwallCore;
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const supports={
+  bastion12:{name:'Bastion habitable · 12 m',tier:3,size:[8,6],height:12,step:6,health:3200,seconds:90,capacity:180,floorCapacity:70,cost:{stone:260,scrap:140,wood:60},score:8,wall:true},
+  rampart24:{name:'Grande enceinte · 24 m',tier:5,size:[10,8],height:24,step:6,health:6200,seconds:150,capacity:320,floorCapacity:85,cost:{stone:580,scrap:300,wood:90},score:14,wall:true},
+  rampart40:{name:'Rempart de métropole · 40 m',tier:7,size:[12,10],height:40,step:8,health:10200,seconds:240,capacity:460,floorCapacity:100,cost:{stone:1100,scrap:620,wood:150},score:20,wall:true},
+  rampart60:{name:'Ultime enceinte · 60 m',tier:9,size:[16,12],height:60,step:10,health:14800,seconds:330,capacity:650,floorCapacity:120,cost:{stone:1850,scrap:1100,wood:240},score:28,wall:true},
+  citadelGate24:{name:'Porte de citadelle · 24 m',tier:5,size:[10,8],height:24,step:6,health:4300,seconds:150,capacity:240,floorCapacity:70,cost:{stone:420,scrap:390,wood:80},score:12,wall:true,gate:true},
+  cityFoundation:{name:'Fondation de quartier à étages',tier:3,size:[12,12],height:6,step:6,health:4500,seconds:120,capacity:380,floorCapacity:80,cost:{stone:320,scrap:200,wood:100},score:10,foundation:true}
+ };
+ const modules={
+  dormitory:{name:'Dortoir de plateforme',tier:3,mass:12,seconds:24,cost:{wood:55,scrap:25},housing:8,powerUse:1,color:'#81745c'},
+  store:{name:'Réserve d’étage',tier:3,mass:16,seconds:22,cost:{wood:40,scrap:35},storage:300,color:'#63766c'},
+  greenhouse:{name:'Serre suspendue',tier:5,mass:18,seconds:35,cost:{wood:70,scrap:55,stone:30},production:{food:.16},powerUse:2,color:'#688465'},
+  ammoWorkshop:{name:'Atelier de ravitaillement haut',tier:6,mass:22,seconds:45,cost:{scrap:120,stone:55},production:{ammo:.35},consumes:{scrap:.06},powerUse:3,color:'#837057'},
+  gun:{name:'Affût de rempart',tier:3,mass:16,seconds:30,cost:{scrap:110,stone:45},powerUse:3,range:80,damage:38,fireRate:4.5,ammoCapacity:120,heatPerShot:.08,color:'#868d88'},
+  heavyGun:{name:'Batterie lourde de crête',tier:5,mass:30,seconds:50,cost:{scrap:210,stone:80,fuel:10},powerUse:7,range:110,damage:62,fireRate:5.5,ammoCapacity:200,heatPerShot:.1,color:'#8b8e87'},
+  searchlight:{name:'Projecteur de crête',tier:3,mass:4,seconds:18,cost:{scrap:40,fuel:5},powerUse:2,light:700,color:'#d0ba78'}
+ };
+ C.VerticalRules175=freeze({version:1,unitsPerMetre:C.TILE,supports,modules,maxSupports:128,slots:4,maxFloors:10,maxStep:.25,
+  reach:2.2,workMoveTolerance:.35,danger:12,stairsSpeed:1.2,liftSpeed:3,liftBoardSeconds:2,
+  raiseSeconds:60,raiseCost:{stone:180,scrap:120,wood:50},liftCost:{scrap:120,stone:35,fuel:10},liftSeconds:40,liftPower:4,
+  foundationLimits:[{tier:3,levels:2},{tier:5,levels:3},{tier:7,levels:5},{tier:9,levels:8}],
+  minRaiseIntegrity:.7,loadHealthFloor:.35,stressSeconds:8,fallDamagePerMetre:10,corpseUnitsPerMetre:12,
+  reloadSeconds:3,gunCooling:.16,overheat:1,resetHeat:.4,scanSeconds:.3,maxScansPerStep:8,maxShotsPerStep:24,
+  eyeHeight:1.65,railHeight:.9,slabThickness:.28,wallThickness:.35,bodyHeight:1.8,
+  yawSpeed:1.5,pitchSpeed:1.1,minPitch:-1.22,maxPitch:.4,fov:1.22,near:.12,far:180,maxSceneBoxes:5000});
+ for(const [id,r]of Object.entries(supports))C.BUILDINGS[id]={id,name:r.name,category:'defense',icon:r.foundation?'▤':'▥',symbol:r.foundation?'ÉT':'RE',description:r.name+' : galeries, escalier intérieur et plateformes équipables. Financer les équipements séparément.',cost:r.cost,health:r.health,buildTime:r.seconds,size:r.size,unlockTier:r.tier,score:r.score,color:'#616964',roof:'#969b90',defense:true,wall:!!r.wall,gate:!!r.gate,powerUse:1,vertical175:true};
+ C.VerticalContent175=Object.freeze({BUILDINGS:Object.freeze(Object.fromEntries(Object.keys(supports).map(id=>[id,C.BUILDINGS[id]])))});
+})(globalThis);
+
+/* Rare original siege mutations. They replace ordinary slots, never create a
+ * second enemy population outside the authoritative wave budget. */
+(function(root){
+ 'use strict';const C=root.DeadwallCore;
+ const profiles={
+  colossusBreaker:{id:'colossusBreaker',name:'Fractureur hypertrophié',height:5,tier:5,unlockWave:18,health:760,speed:28,damage:45,attackRate:.45,radius:22,color:'#726957',structureDamage:2.5,corpseLoad:9,description:'Mutation lourde expérimentale : marche lente et pression localisée sur les ouvrages.',weakness:'Faible cadence, large silhouette. Croiser les tirs et maintenir les accès libres.'},
+  colossusRam:{id:'colossusRam',name:'Bélier pathologique',height:9,tier:7,unlockWave:30,health:1480,speed:22,damage:70,attackRate:.3,radius:34,color:'#74664f',structureDamage:3.2,corpseLoad:18,description:'Morphologie de siège qui écrase les fondations par des impacts lourds.',weakness:'Très lent : l’arrêter avant les supports endommagés et conserver une deuxième enceinte.'},
+  colossusSiege:{id:'colossusSiege',name:'Colosse de siège',height:15,tier:9,unlockWave:48,health:2680,speed:16,damage:100,attackRate:.22,radius:48,color:'#625b4d',structureDamage:4,corpseLoad:30,description:'Hypertrophie terminale rare, capable de menacer les plateformes basses depuis l’extérieur.',weakness:'Batteries hautes, tirs croisés et repli des plateformes basses. Aucun multiplicateur de santé infini.'}
+ };
+ C.VerticalColossi175=Object.freeze(Object.fromEntries(Object.entries(profiles).map(([id,d])=>[id,Object.freeze(d)])));
+ for(const[id,d]of Object.entries(profiles))C.ENEMIES[id]={...d,giant175:true};
+})(globalThis);

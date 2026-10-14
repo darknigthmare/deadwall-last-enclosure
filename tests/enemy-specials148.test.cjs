@@ -20,7 +20,7 @@ function bullet(g,z,angle,owner='friendly',head=false){
 }
 
 test('infectés148 : les huit anciens profils et 72 plans avant vague9 restent identiques aux octets147',()=>{
- assert.deepEqual(Object.keys(C.ENEMIES),allKinds);
+ assert.deepEqual(Object.keys(C.ENEMIES),[...allKinds,...Object.keys(C.VerticalColossi175)]);
  assert.equal(hash(Object.fromEntries(oldKinds.map(k=>[k,C.ENEMIES[k]]))),'2fd246366a6b87ddcd930b016d0132dc72e39f9d40102ae136a81e431ea4b8e5');
  const plans=[];for(const difficulty of Object.values(C.DIFFICULTIES))for(const signature of[0,360,1000])for(let wave=1;wave<=8;wave++){
   const p=C.wavePlan(wave,difficulty,signature);for(const k of additions)assert.equal(p.composition[k],0);

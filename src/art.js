@@ -87,6 +87,8 @@
     runner: ['infected', 0], armored: ['infected', 1], crawler: ['infected', 2], howler: ['infected', 3],
     breacher: ['infectedExpansion', 0], stalker: ['infectedExpansion', 1], bloated: ['infectedExpansion', 2], walkerAlt: ['infectedExpansion', 3],
     shielded: ['infected', 1], charger: ['infected', 0],
+    // Legacy galleries use this existing original atlas; in-game giants have their dedicated procedural painter.
+    colossusBreaker: ['infectedExpansion', 2], colossusRam: ['infectedExpansion', 2], colossusSiege: ['infectedExpansion', 2],
     medic: ['specialists', 0], engineer: ['specialists', 1], workerAlt: ['specialists', 2], soldierAlt: ['specialists', 3]
   });
   const DISTRICT_PROPS = Object.freeze({...Object.fromEntries([
@@ -646,6 +648,7 @@
   // These buildings use the dedicated Canvas painters installed by the extension runtimes.
   // They have no atlas rectangle; the integration suite renders each painter in Chromium.
   const PROCEDURAL_BUILDINGS = Object.freeze({
+    ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.VerticalContent175?.BUILDINGS||{}).map(id=>[id,'VerticalContent175'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.CityContent150?.BUILDINGS||{}).map(id=>[id,'CityContent150'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.Expeditions?.BUILDINGS||{}).map(id=>[id,'Expeditions'])),
     ...Object.fromEntries(Object.keys((typeof module!=='undefined'&&module.exports?require('./core.js'):globalThis.DeadwallCore)?.PowerGrid?.BUILDINGS||{}).map(id=>[id,'PowerGrid'])),

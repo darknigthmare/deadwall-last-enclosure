@@ -799,3 +799,8 @@ npm run test:browser
 Sous cmd.exe, utiliser `set DEADWALL_SOAK=1` avant `npm run check`. Les serveurs locaux sont lancés par les scripts de test. Les scènes avancées sont préparées et leur temps est piloté, pas jouées par quatre humains. Safari/iPhone physique, Firefox, Electron et campagnes de plusieurs heures ne sont pas certifiés.
 
 Rapport : `reports/RAPPORT_1.22.html`. Audit : `docs/AUDIT_1.22.md`. Codex de 500 lieux : paquet compagnon externe, conservé avec un nouveau guide des services.
+
+
+## Branche expérimentale — Citadelles / villes hautes (175)
+
+La première tranche de construction verticale ajoute six ouvrages, sept installations de palier, une prise de contrôle de batterie avec projection FPS et trois profils de géants tardifs. **Prototype intégré en validation, pas extension complète finalisée** : lire [le dossier de conception, les fonctions raccordées et les limites](docs/CITADELLE_VERTICALE_175.md). Les 11 âges, l’économie et le plafond de 720 infectés actifs restent ceux du jeu. La progression et les archives de campagne ne sont pas remplacées.
