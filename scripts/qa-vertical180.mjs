@@ -55,7 +55,7 @@ try{
  const upper=await page.evaluate(()=>advance180('upper'));assert.equal(upper.pose.z,18);assert.equal(upper.count,spawned.count);assert.equal(upper.id,spawned.id);
  await page.setViewportSize({width:1440,height:900});await page.locator('#vertical175view').click();
  const before=await page.evaluate(()=>{const g=DEADWALL,V=g.vertical175,q=V.moduleRef(fixture180.gun),a=DeadwallVertical175State.lookAt(V.muzzle(q),V.aimPoint(enemy180()));V.aim(a.yaw,a.pitch);g.resize();g.render();const gl=document.getElementById('vertical175canvas').getContext('webgl');return{ammo:q.m.ammo,health:enemy180().health,view:V.presentation().view,glError:gl?.getError()};});assert.equal(before.view,'fps');assert.equal(before.glError,0);
- await page.locator('#vertical175fire').focus();await page.keyboard.press('Space');await page.evaluate(()=>DEADWALL.render());
+ await page.locator('#vertical175fire').focus();await page.keyboard.down('Space');await page.evaluate(()=>{DEADWALL.vertical175.step(.05);DEADWALL.render();});await page.keyboard.up('Space');
  const after=await page.evaluate(()=>({ammo:DEADWALL.vertical175.moduleRef(fixture180.gun).m.ammo,enemy:read180()}));assert.equal(after.ammo,before.ammo-1);assert.ok(after.enemy.health<before.health);assert.equal(after.enemy.id,spawned.id);report.checks.push({sameNativeEnemyAt18m:upper,sharedFPSShot:{before,after},mobileOverflow:false});await page.screenshot({path:out+'/04-upper-floor-network-invader-fps.png'});
  assert.deepEqual(report.errors,[]);report.status='passed';
 }catch(e){report.status='failed';report.failure=String(e.stack||e);process.exitCode=1;}
