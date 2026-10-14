@@ -1,0 +1,54 @@
+name: DEADWALL metric follow-up
+on:
+  push:
+    branches: [fix/metric-scale-road-access-174]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: metric175-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Preserve tracked text inputs with provenance
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, subprocess, zipfile
+          root = pathlib.Path.cwd()
+          out = root / 'artifacts' / 'metric175-source'
+          out.mkdir(parents=True, exist_ok=True)
+          revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          records = []
+          names = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          with zipfile.ZipFile(out / 'text-inputs.zip', 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+              for name in sorted(filter(None, names)):
+                  relative = pathlib.PurePosixPath(name)
+                  source = root / name
+                  if relative.is_absolute() or '..' in relative.parts or source.is_symlink():
+                      raise ValueError('Unsafe tracked path')
+                  if any(part.startswith('.env') for part in relative.parts):
+                      continue
+                  if relative.suffix.lower() not in {'.js', '.mjs', '.cjs', '.json', '.md', '.txt', '.html', '.css', '.yml', '.yaml', '.svg'} and name not in {'.vercelignore', '.gitignore'}:
+                      continue
+                  data = source.read_bytes()
+                  try:
+                      data.decode('utf-8')
+                  except UnicodeDecodeError:
+                      continue
+                  archive.writestr(name, data)
+                  records.append({'path': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
+              archive.writestr('SOURCE-MANIFEST175.json', json.dumps({'revision': revision, 'scope': 'Tracked text only; image assets unchanged from main are not duplicated.', 'files': records}, indent=2))
+          print(json.dumps({'revision': revision, 'files': len(records)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-metric175-inputs
+          path: artifacts/metric175-source/
+          retention-days: 7
+          if-no-files-found: error
