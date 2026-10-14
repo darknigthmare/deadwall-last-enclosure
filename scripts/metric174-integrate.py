@@ -1,82 +1,69 @@
-"""One-time, hash-guarded source application. No main, reset, dependency or asset writes."""
+"""Resume the verified metric payload. Publish tested game source, never main or workflows."""
 import gzip, hashlib, json, os, pathlib, subprocess, sys
 ROOT = pathlib.Path.cwd()
 BRANCH = 'fix/metric174-scale-frontage'
-EXPECTED = 'f40f70f3046e79fc5cf88d5097f1962f3bf9434f721af1ddf680d59a93a6cc10'
-compressed = b''.join((ROOT / ('scripts/metric174-payload.' + str(i) + '.gzpart')).read_bytes() for i in range(5))
-raw = gzip.decompress(compressed)
-if len(raw) > 250000 or hashlib.sha256(raw).hexdigest() != EXPECTED:
+sha = lambda data: hashlib.sha256(data).hexdigest()
+raw = gzip.decompress(b''.join((ROOT / f'scripts/metric174-payload.{i}.gzpart').read_bytes() for i in range(5)))
+if len(raw) > 250000 or sha(raw) != 'f40f70f3046e79fc5cf88d5097f1962f3bf9434f721af1ddf680d59a93a6cc10':
     raise SystemExit('Payload fingerprint mismatch')
 payload = json.loads(raw)
-
-# The first real browser run revealed normal simulation advancement after the
-# depot modal closes. Observe a fresh native pause/save checkpoint for Continue.
-QA_FIX = {'path': 'scripts/browser-metric174.mjs', 'before': 'e626aeda6f6bc874d6175e1d200dfebf8a1f60c9b48226c8130986234d438178', 'after': '24960d37d26aa648e871537debf4ebcfd5f3f9150593c5cff96cc1be5cc8c4cc', 'old': "   await page.reload({waitUntil:'networkidle'});await ready(page);\n", 'new': "   // Closing the depot action resumes the real simulation. Save a new native\n   // paused checkpoint after the read-only probes, not the earlier action time.\n   if(!await page.locator('#pauseMenu').isVisible())await activate(page,'#pauseButton',view.touch);\n   await activate(page,'#saveButton',view.touch);\n   const checkpoint=await page.evaluate(()=>{const d=DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY));delete d.timestamp;return d;});\n   check('The native paused checkpoint retains the calibrated vehicle',checkpoint.expeditions.vehicle.metric174===1);\n   await page.reload({waitUntil:'networkidle'});await ready(page);\n", 'oldDiff': 'diff(transaction.stored,restored)', 'newDiff': 'diff(checkpoint,restored)'}
+mode = sys.argv[1]
+if mode not in ('apply', 'publish'):
+    raise SystemExit('Expected apply or publish')
+# First capture the checkpoint written through native Pause/Save. Then detach
+# the synchronous Continue observation from mutable owner records such as stats.
 for row in payload['files']:
-    if row['path'] == QA_FIX['path']:
-        if row['before'] is not None or len(row['edits']) != 1 or row['after'] != QA_FIX['before']:
-            raise SystemExit('Unexpected browser source before checkpoint correction')
-        original = row['edits'][0][2]
-        if original.count(QA_FIX['old']) != 1 or original.count(QA_FIX['oldDiff']) != 1:
-            raise SystemExit('Browser checkpoint anchor mismatch')
-        changed = original.replace(QA_FIX['old'], QA_FIX['new']).replace(QA_FIX['oldDiff'], QA_FIX['newDiff'])
-        if hashlib.sha256(changed.encode()).hexdigest() != QA_FIX['after']:
-            raise SystemExit('Browser checkpoint result mismatch')
-        row['edits'][0][2] = changed
-        row['after'] = QA_FIX['after']
-# Keep the observation detached from live stats: serialize intentionally returns
-# some owner records by reference. A later RAF must not mutate the saved probe.
+    if row['path'] != 'scripts/browser-metric174.mjs':
+        continue
+    if row['before'] is not None or len(row['edits']) != 1:
+        raise SystemExit('Unexpected browser patch structure')
+    text = row['edits'][0][2]
+    replacements = [
+        ("   await page.reload({waitUntil:'networkidle'});await ready(page);\n", "   // The menu closes into a live simulation; use a fresh native saved checkpoint.\n   if(!await page.locator('#pauseMenu').isVisible())await activate(page,'#pauseButton',view.touch);\n   await activate(page,'#saveButton',view.touch);\n   const checkpoint=await page.evaluate(()=>{const d=DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY));delete d.timestamp;return d;});\n   check('The native paused checkpoint retains the calibrated vehicle',checkpoint.expeditions.vehicle.metric174===1);\n   await page.reload({waitUntil:'networkidle'});await ready(page);\n"),
+        ('diff(transaction.stored,restored)', 'diff(checkpoint,restored)'),
+        ('const d=g.serialize();delete d.timestamp;globalThis.__metricContinue174=d;', 'const d=JSON.parse(JSON.stringify(g.serialize()));delete d.timestamp;globalThis.__metricContinue174=d;')
+    ]
+    for before, after in replacements:
+        if text.count(before) != 1:
+            raise SystemExit('Browser observation anchor mismatch')
+        text = text.replace(before, after)
+    row['edits'][0][2] = text
+    row['after'] = sha(text.encode())
+paths, prepared = [], []
 for row in payload['files']:
-    if row['path'] == 'scripts/browser-metric174.mjs':
-        old = 'const d=g.serialize();delete d.timestamp;globalThis.__metricContinue174=d;'
-        new = 'const d=JSON.parse(JSON.stringify(g.serialize()));delete d.timestamp;globalThis.__metricContinue174=d;'
-        text = row['edits'][0][2]
-        if text.count(old) != 1:
-            raise SystemExit('Continue observation anchor mismatch')
-        text = text.replace(old, new)
-        row['edits'][0][2] = text
-        row['after'] = hashlib.sha256(text.encode()).hexdigest()
-    elif row['path'] == '.github/workflows/metric174.yml':
-        text = row['edits'][0][2]
-        text = text.replace('path: artifacts/qa/metric174-browser/', 'path: artifacts/qa/metric174-browser-*')
-        row['edits'][0][2] = text
-        row['after'] = hashlib.sha256(text.encode()).hexdigest()
-paths = []
-prepared = []
-for row in payload['files']:
-    name = row['path']; p = pathlib.PurePosixPath(name)
-    if p.is_absolute() or '..' in p.parts or name in paths or name.startswith(('assets/', '.env', 'package')):
+    name = row['path']; relative = pathlib.PurePosixPath(name)
+    if relative.is_absolute() or '..' in relative.parts or name in paths or name.startswith(('assets/', '.env', 'package')):
         raise SystemExit('Unsafe or unrelated path: ' + name)
-    if p.parts[0] not in {'src', 'scripts', 'tests', 'docs', '.github', 'index.html', 'sw.js'}:
+    if relative.parts[0] not in {'src', 'scripts', 'tests', 'docs', '.github', 'index.html', 'sw.js'}:
         raise SystemExit('Path outside declared source scope')
     paths.append(name)
     target = ROOT / name
-    if any(parent.is_symlink() for parent in [target, *target.parents] if parent != ROOT.parent):
+    if any(p.is_symlink() for p in [target, *target.parents]):
         raise SystemExit('Symlink refused')
     data = target.read_bytes() if target.exists() else None
-    required = row['after'] if sys.argv[1] == 'publish' else row['before']
-    actual = hashlib.sha256(data).hexdigest() if data is not None else None
-    if actual != required:
+    expected = row['after'] if mode == 'publish' else row['before']
+    if (sha(data) if data is not None else None) != expected:
         raise SystemExit('Concurrent source change: ' + name)
-    if sys.argv[1] == 'apply':
-        text = data.decode('utf-8') if data is not None else ''
-        last = len(text) + 1
+    if mode == 'apply':
+        text = data.decode() if data is not None else ''
+        limit = len(text) + 1
         for start, end, replacement in reversed(row['edits']):
-            if not isinstance(start, int) or not isinstance(end, int) or not 0 <= start <= end < last:
+            if not isinstance(start, int) or not isinstance(end, int) or not 0 <= start <= end < limit:
                 raise SystemExit('Overlapping edit')
-            text = text[:start] + replacement + text[end:]; last = start
-        result = text.encode('utf-8')
-        if hashlib.sha256(result).hexdigest() != row['after']:
+            text = text[:start] + replacement + text[end:]
+            limit = start
+        result = text.encode()
+        if sha(result) != row['after']:
             raise SystemExit('Result fingerprint mismatch: ' + name)
         prepared.append((target, result))
-if sys.argv[1] == 'apply':
+if mode == 'apply':
     for target, result in prepared:
         target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(result)
-    evidence = ROOT / 'artifacts/qa/metric174'
-    evidence.mkdir(parents=True, exist_ok=True)
-    (evidence / 'applied-source.json').write_text(json.dumps({'base': payload['base'], 'files': [{k: row[k] for k in ['path', 'before', 'after']} for row in payload['files']]}, indent=2))
+    output = ROOT / 'artifacts/qa/metric174'
+    output.mkdir(parents=True, exist_ok=True)
+    (output / 'applied-source.json').write_text(json.dumps({'base': payload['base'], 'files': [{k: row[k] for k in ('path', 'before', 'after')} for row in payload['files']]}, indent=2))
     print(json.dumps({'applied': len(prepared), 'base': payload['base'], 'fingerprints': 'all verified'}))
-elif sys.argv[1] == 'publish':
+else:
     if os.environ.get('GITHUB_REF') != 'refs/heads/' + BRANCH:
         raise SystemExit('Wrong publication branch')
     expected = os.environ['GITHUB_SHA']
@@ -86,12 +73,8 @@ elif sys.argv[1] == 'publish':
         raise SystemExit('Branch advanced; preserve concurrent work')
     subprocess.run(['git', 'config', 'user.name', 'DEADWALL verification'], check=True)
     subprocess.run(['git', 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com'], check=True)
-    # Workflow publication remains a separate connector operation. The bot only
-    # commits tested game sources; no extra workflow-writing permission is needed.
-    source_paths = [name for name in paths if not name.startswith('.github/')]
-    subprocess.run(['git', 'add', '--', *source_paths], check=True)
+    # No workflow writing permission is requested from the Actions bot.
+    subprocess.run(['git', 'add', '--', *[p for p in paths if not p.startswith('.github/')]], check=True)
     subprocess.run(['git', 'commit', '-m', 'fix(metrics): calibrate owned vehicles and share non-crossing frontage across world, GPS and navigation'], check=True)
     subprocess.run(['git', 'push', 'origin', 'HEAD:refs/heads/' + BRANCH], check=True)
     print('Published validated source-only commit: ' + subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
-else:
-    raise SystemExit('Expected apply or publish')
