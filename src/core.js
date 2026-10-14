@@ -2354,3 +2354,11 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  materials:Object.freeze(['wood','scrap','stone']),moveCostFraction:.08,moveSeconds:8,moveSecondsPerMass:.12,refundEpsilon:1e-9,
  cancelSeconds:8,deckDismantleSeconds:20,liftDismantleSeconds:18,deckRepairSeconds:12,deckRepairHealth:300
 });})(globalThis);
+
+/* 179: one connection/transport budget per acquired city age. Metres and active seconds. */
+(function(root){'use strict';const C=root.DeadwallCore;
+ const names=['Platelage de récupération','Passerelle de charpente','Passerelle d’acier','Liaison de redoute','Coursive urbaine','Galerie logistique','Liaison métropolitaine','Galerie renforcée','Passerelle de mégaville','Galerie de grande portée','Liaison monumentale'];
+ const spans=[3,6,10,14,18,22,26,30,34,38,42],payloads=[10,18,26,36,50,60,75,90,105,125,150];
+ const links=names.map((name,tier)=>Object.freeze({id:'link'+tier,name,tier,maxSpan:spans[tier],payload:payloads[tier],width:Math.min(3.6,1.8+tier*.18),health:260+tier*650,massPerMetre:.6+tier*.22,secondsPerMetre:2+tier*.15,costPerMetre:Object.freeze(tier<2?{wood:12+tier*4,scrap:3+tier*2}:{scrap:8+tier*3,stone:2+tier*2})}));
+ C.VerticalNetwork179=Object.freeze({links:Object.freeze(links),maxLinks:64,maxCrates:32,maxSpan:42,minSpan:.25,landing:.75,margin:.06,deckThickness:.3,railHeight:1,railThickness:.08,treeHeight:4,buildBaseSeconds:8,repairSeconds:10,repairHealth:500,removeSeconds:12,salvageFraction:.35,packSeconds:6,unpackSeconds:5,handleSecondsPerMass:.06,packingMassPerWood:12,packingMassPerScrap:24,carrySpeed:.65,crateSize:.65,fallHealthPerMetre:5,giantDamageFraction:.5,reach:70,routeNodeLimit:896,menuDestinations:8});
+})(globalThis);

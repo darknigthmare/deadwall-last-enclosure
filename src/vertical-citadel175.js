@@ -2,23 +2,27 @@
 (function(root){'use strict';
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.VerticalCitadel175,A=C.VerticalAges177;
  const S=root.DeadwallVertical175State||(typeof require==='function'?require('./vertical-citadel175-state.js'):null);
+ const N=root.DeadwallVerticalNetwork179||(typeof require==='function'?require('./vertical-network179.js'):null);
  const Siege=root.DeadwallVerticalSiege176||(typeof require==='function'?require('./vertical-siege176.js'):null);
  const copy=o=>JSON.parse(JSON.stringify(o)),live=o=>o&&!o.dead&&o.health>0,dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
  const angle=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=C.clamp;
  function install(g){
   if(g.vertical175)return g.vertical175;if(!g.expansions)return null;S.register();
+  let network=null;
   let state=S.initial(),job=null,travel=null,controlled=null,view='classic',notice='',scanClock=0,personalShot=false,moduleGroup=A.defaultGroup,dismantleReview=null,catalogueAge=null,engineeringReview178=null;
   const autoTargets=new Map(),wired=new WeakSet(),traces=[],wrap=(key,fn)=>{if(typeof g[key]==='function'){const old=g[key].bind(g);g[key]=(...args)=>fn(old,...args);}};
   const site=id=>state.sites.find(s=>s.id===id),building=id=>g.world?.buildings.get(id),base=b=>b&&R.bases[b.type];
   const structural=b=>live(b)&&b.completed&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline;
   const operational=q=>q&&structural(q.b)&&(!(q.def.powerUse>0)||online(q.b));
   const online=b=>live(b)&&b.completed&&!b.siegeOffline&&!b.territoryOffline&&!b.gridOffline&&!b.dayOffline&&(!b.def.powerUse||b.powered);
-  const can=()=>g.expansions.canAct()&&!g.frontier?.active()&&!g.expeditions?.driving()&&!g.expansions.busy('vertical175')&&!g.fieldcraft?.context().mounted;
-  const busy=()=>!!job||!!travel||controlled!==null;
+  const supportMass=s=>S.mass(s)+(network?.load(s.id)||0);
+  const can=(allowCargo=false)=>g.expansions.canAct()&&!g.frontier?.active()&&!g.expeditions?.driving()&&!g.expansions.busy('vertical175')&&!g.fieldcraft?.context().mounted&&(allowCargo||!network?.carrying());
+  const nativeBusy=()=>!!job||!!travel||controlled!==null;
+  const busy=()=>nativeBusy()||!!network?.busy();
   const no=reason=>({ok:false,reason}),say=q=>{notice=q.reason||'';g.notify?.(notice,q.ok?'good':'danger');return q;};
   const ok=reason=>({ok:true,reason});
   function release(){controlled=null;view='classic';g.releaseInputs?.();g.vertical175UI?.release?.();}
-  function stop(reason='Travail interrompu ; l’avancement financé est conservé.'){dismantleReview=null;engineeringReview178=null;job=null;travel=null;release();notice=reason;return ok(reason);}
+  function stop(reason='Travail interrompu ; l’avancement financé est conservé.'){network?.stop();dismantleReview=null;engineeringReview178=null;job=null;travel=null;release();notice=reason;return ok(reason);}
   function moduleRef(id){for(const s of state.sites)for(let level=0;level<s.decks.length;level++){const m=s.decks[level].modules.find(m=>m.id===id);if(m)return{s,b:building(s.id),level,m,def:R.modules[m.kind]};}return null;}
   function wire(b){if(!base(b)||wired.has(b))return;wired.add(b);
    Object.defineProperty(b,'def',{configurable:true,get(){const d=C.BUILDINGS[this.type],s=site(this.id);if(!s||!R.bases[this.type])return d;const n=S.totals(s);return{...d,housing:(d.housing||0)+n.housing,storage:(d.storage||0)+n.storage,powerUse:n.powerUse,score:d.score+n.score,light:n.light,production:n.production,consumes:n.consumes};}});
@@ -35,7 +39,7 @@
   function surfaceAt(x,y,z){for(const s of state.sites){const b=building(s.id);if(!live(b)||!b.completed)continue;const q=S.bounds(b);
    if(x<q.x*R.tile||x>=(q.x+q.w)*R.tile||y<q.y*R.tile||y>=(q.y+q.h)*R.tile)continue;
    const level=s.decks.findIndex((d,i)=>d.progress===1&&Math.abs(S.height(s,i,base(b))-z)<.001);if(level>=0)return{s,b,level};
-  }return null;}
+  }return network?.surfaceAt(x,y,z)||null;}
   function clearAt(x,y,z,r=g.player.radius*.78){
    if(![x,y,z,r].every(Number.isFinite)||r<0)return false;
    for(const [dx,dy]of [[0,0],[-r,0],[r,0],[0,-r],[0,r],[-r*.71,-r*.71],[r*.71,r*.71],[-r*.71,r*.71],[r*.71,-r*.71]])if(!surfaceAt(x+dx,y+dy,z))return false;
@@ -44,7 +48,7 @@
    }return true;
   }
   function accessQuote(id,level=0,kind='stairs'){
-   const b=building(id),s=site(id);if(!can()||busy()||g.player.reload>0)return no('Libérez vos mains et terminez le rechargement.');
+   const b=building(id),s=site(id);if(!can(true)||busy()||g.player.reload>0)return no('Libérez vos mains et terminez le rechargement.');
    if(!live(b)||!b.completed||!s||!Number.isInteger(level)||level<-1||level>=s.decks.length||level>=0&&s.decks[level].progress!==1||!['stairs','lift'].includes(kind))return no('Palier inexistant ou chantier inachevé.');
    if(state.actor&&state.actor.site!==id)return no('Rejoignez la cage intérieure de ce support.');
    if(!state.actor&&level<0||state.actor?.level===level)return no('Vous êtes déjà sur ce palier.');
@@ -71,7 +75,7 @@
   }
   function productionPlans(b){
    const s=site(b.id);if(!s)return null;
-   return s.decks.filter(d=>d.progress===1).flatMap(d=>d.modules.filter(m=>m.progress===1&&m.health>0&&R.modules[m.kind].production&&!(job?.kind==='engineering178'&&job.object===m)).map(m=>R.modules[m.kind]));
+   return s.decks.filter(d=>d.progress===1).flatMap(d=>d.modules.filter(m=>m.progress===1&&m.health>0&&R.modules[m.kind].production&&!(job?.kind==='engineering178'&&job.object===m)&&!network?.moduleSuspended(m.id)).map(m=>R.modules[m.kind]));
   }
   function maintenanceQuote(id,kind){
    const q=moduleRef(id);
@@ -143,10 +147,12 @@
    const actorBox=(e,r)=>({x:(e.x-r)/R.tile,y:(e.y-r)/R.tile,w:2*r/R.tile,h:2*r/R.tile});
    if(Math.abs(pose().z-footprint.z)<.1&&overlaps(actorBox(g.player,g.player.radius*.78)))return no('Écartez-vous de la destination avant les travaux.');
    for(const z of g.zombies)if(live(z)&&Math.abs(siege.enemyPose(z).z-footprint.z)<.1&&overlaps(actorBox(z,z.radius)))return no('Destination occupée par un infecté : sécurisez le palier.');
+   if(network?.reserveConflict(b,level,footprint))return no('Gardez les accès des passerelles et les caisses libres.');
    return ok('Emprise libre.');
   }
   function engineeringQuote178(kind,id,slot){
    const E=C.VerticalMaintenance178;
+   if(network?.protectedStructure(kind,id))return no('Déposez les liaisons et récupérez les caisses de cette dalle avant son retrait.');
    if(!can()||busy()||g.player.reload>0)return no('Libérez vos mains avant l’intervention.');
    let q,object,level,seconds,cost={},refund={},amount=0;
    if(kind==='relocate'||kind==='cancelModule'){
@@ -233,8 +239,8 @@
    const bounds=S.bounds(q.b);if(footprint.x<bounds.x||footprint.y<bounds.y||footprint.x+footprint.w>bounds.x+bounds.w||footprint.y+footprint.h>bounds.y+bounds.h)return no('Équipement trop large pour ce support.');
    if(g.zombies.some(z=>live(z)&&siege.enemyPose(z).site===id&&Math.abs(siege.enemyPose(z).z-footprint.z)<.1&&z.x+z.radius>footprint.x*R.tile&&z.x-z.radius<(footprint.x+footprint.w)*R.tile&&z.y+z.radius>footprint.y*R.tile&&z.y-z.radius<(footprint.y+footprint.h)*R.tile))return no('Emplacement occupé par un infecté : sécurisez le palier.');
    if(q.s.decks[q.level].modules.some(m=>m.slot===slot))return no('Cet emplacement est déjà occupé.');
-   if(state.sites.reduce((n,s)=>n+s.decks.reduce((v,d)=>v+d.modules.length,0),0)>=R.maxModules||state.nextId>=Number.MAX_SAFE_INTEGER)return no('Limite de construction atteinte.');
-   if(S.mass(q.s)+d.mass>base(q.b).capacity)return no('Charge portante dépassée : utilisez une fondation plus profonde.');
+   if(state.sites.reduce((n,s)=>n+s.decks.reduce((v,d)=>v+d.modules.length,0),0)+state.network.crates.length+Number(!!state.network.cargo)>=R.maxModules||state.nextId>=Number.MAX_SAFE_INTEGER)return no('Limite de construction atteinte.');
+   if(supportMass(q.s)+d.mass>base(q.b).capacity)return no('Charge portante dépassée : utilisez une fondation plus profonde.');
    if(!C.canAfford(g.resources,d.cost))return no('Matériaux manquants au dépôt : '+C.resourceText(d.cost));return{...q,kind,slot,def:d,cost:d.cost};
   }
   function launchJob(q,kind,object,seconds){job={kind,object,id:q.b.id,level:q.level,seconds,x:g.player.x,y:g.player.y,health:g.player.health,world:g.world,elapsed:0};g.releaseInputs();notice='Travaux en cours : restez au palier central.';g.refreshMetrics(true);return ok(notice);}
@@ -245,7 +251,7 @@
    if(base(q.b).wall)return no('Les remparts portent leur chemin de ronde ; les quartiers superposés nécessitent des fondations.');
    if(q.level!==n-1||q.s.decks.some(d=>d.progress<1))return no('Rejoignez la dernière dalle achevée.');
    if(S.height(q.s,n,base(q.b))>A.ages[g.tier.id].height)return no('Hauteur de chantier autorisée à cet âge : '+A.ages[g.tier.id].height+' m. Les anciens paliers restent accessibles.');
-   if(n>=(base(q.b).maxDecks??R.maxDecks)||S.height(q.s,n,base(q.b))>R.maxHeight||S.mass(q.s)+R.deckMass>base(q.b).capacity)return no('Limite de hauteur ou de charge portante atteinte.');
+   if(n>=(base(q.b).maxDecks??R.maxDecks)||S.height(q.s,n,base(q.b))>R.maxHeight||supportMass(q.s)+R.deckMass>base(q.b).capacity)return no('Limite de hauteur ou de charge portante atteinte.');
    if(!C.canAfford(g.resources,R.deck.cost))return no('Matériaux requis : '+C.resourceText(R.deck.cost));return q;
   }
   function buildDeck(id=state.actor?.site){const q=deckQuote(id);if(!q.ok)return say(q);const d={progress:0,health:R.deck.health,modules:[]};C.spend(g.resources,R.deck.cost);q.s.decks.push(d);return launchJob(q,'deck',d,R.deck.seconds);}
@@ -282,7 +288,7 @@
     if(s)for(let i=0;i<s.decks.length;i++){const d=s.decks[i],z=S.height(s,i,v);if(i&&d.progress===1)boxes.push({...q,z:z-.4,d:.4,owner:b.id,type:'deck'});
      for(const m of d.modules)boxes.push({...S.moduleBox(b,m,z),owner:b.id,module:m.id,type:'module'});
     }
-   }return boxes;
+   }boxes.push(...(network?.geometry()||[]));return boxes;
   }
   function groundObstruction(from,to){if(!state.sites.length)return null;const distance=Math.hypot(to.x-from.x,to.y-from.y)/R.tile;if(!distance)return null;
    const origin={x:from.x/R.tile,y:from.y/R.tile,z:C.VerticalSiege176.groundShotHeight},direction={x:(to.x-from.x)/R.tile/distance,y:(to.y-from.y)/R.tile/distance,z:0};let nearest=Infinity;
@@ -322,6 +328,10 @@
    traces.push({from:origin,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();g.audio?.shoot?.('rifle');return true;
   }
   function fire(){const q=moduleRef(controlled);return !!q&&can()&&!g.paused&&!g.activeOverlay&&nearModule(q)&&shoot(q);}
+  function fallActor179(height){release();state.actor=null;travel=null;job=null;let point={x:g.player.x,y:g.player.y};
+   if(!groundClear(g.player,point.x,point.y)){let found=false;for(let r=R.tile;r<R.tile*12&&!found;r+=R.tile)for(let i=0;i<16;i++){const p={x:point.x+Math.cos(i*Math.PI/8)*r,y:point.y+Math.sin(i*Math.PI/8)*r};if(groundClear(g.player,p.x,p.y)){point=p;found=true;break;}}}
+   g.player.x=point.x;g.player.y=point.y;g.damagePlayer(height*R.fallDamagePerMetre);
+  }
   function dropSite(id,height){siege.removeSupport(id);autoTargets.clear();state.sites=state.sites.filter(s=>s.id!==id);if(job?.id===id)job=null;if(travel?.b.id===id)travel=null;
    if(state.actor?.site!==id)return;release();state.actor=null;let point={x:g.player.x,y:g.player.y};
    if(!groundClear(g.player,point.x,point.y)){let found=false;for(let r=R.tile;r<R.tile*12&&!found;r+=R.tile)for(let i=0;i<16;i++){const p={x:point.x+Math.cos(i*Math.PI/8)*r,y:point.y+Math.sin(i*Math.PI/8)*r};if(groundClear(g.player,p.x,p.y)){point=p;found=true;break;}}}
@@ -346,7 +356,7 @@
    for(let i=0;i<4;i++){const p=points[(i+g.wave)%4],probe={...p,radius:d.radius*R.tile,kind:'walker'};if(g.hostilePositionClear(probe,p.x,p.y)&&!g.visible(p.x,p.y,120,g.viewBounds())){state.giants.push({id:state.nextId++,kind,...p,health:d.health,cooldown:R.siege.interval,windup:0,target:null,yaw:0});notice=d.name+' repéré sur le front extérieur.';break;}}
   }
   function giantStep(dt){spawnSiege();for(const e of [...state.giants]){const d=R.siege.kinds[e.kind];let target=building(e.target);e.cooldown=Math.max(0,e.cooldown-dt);
-   if(e.windup>0){e.windup=Math.max(0,e.windup-dt);if(e.windup===0&&live(target)){const near=Math.hypot(e.x-clamp(e.x,target.left,target.right),e.y-clamp(e.y,target.top,target.bottom))/R.tile;if(near<=d.reach+d.radius){g.damageBuilding(target,d.damage*g.difficulty.enemyDamage);if(dist(g.player,e)<(d.radius+R.siege.damageRadius)*R.tile&&pose().z<=d.height)g.damagePlayer(d.damage*.3);}}continue;}
+   if(e.windup>0){e.windup=Math.max(0,e.windup-dt);if(e.windup===0&&live(target)){const near=Math.hypot(e.x-clamp(e.x,target.left,target.right),e.y-clamp(e.y,target.top,target.bottom))/R.tile;if(near<=d.reach+d.radius){g.damageBuilding(target,d.damage*g.difficulty.enemyDamage);network?.giantImpact(e,d);if(dist(g.player,e)<(d.radius+R.siege.damageRadius)*R.tile&&pose().z<=d.height)g.damagePlayer(d.damage*.3);}}continue;}
    if(!live(target)){target=state.sites.map(s=>building(s.id)).filter(b=>live(b)&&b.completed).sort((a,b)=>dist(e,a)-dist(e,b))[0]||g.core();e.target=target?.id??null;}if(!live(target))continue;
    const dx=target.x-e.x,dy=target.y-e.y,len=Math.hypot(dx,dy)||1;e.yaw=Math.atan2(dy,dx);
    const reach=Math.hypot(e.x-clamp(e.x,target.left,target.right),e.y-clamp(e.y,target.top,target.bottom))/R.tile;
@@ -356,10 +366,10 @@
    if(g.hostilePositionClear({x:e.x,y:e.y,radius:d.radius*R.tile,kind:'walker'},nx,ny)){e.x=nx;e.y=ny;}
   }}
   function step(dt){if(!Number.isFinite(dt)||dt<=0||g.paused||g.activeOverlay||g.state!=='playing'||g.gameOver)return;
-   const delta=Math.min(dt,R.step);ensure();if(!live(g.player)){state.actor=null;stop('');}
+   const delta=Math.min(dt,R.step);ensure();network?.step(delta);if(!live(g.player)){state.actor=null;stop('');}
    for(const s of [...state.sites])if(!live(building(s.id)))dropSite(s.id,pose().z);
    travelStep(delta);workStep(delta);scanClock-=delta;let boxes=null;
-   for(const s of state.sites){const b=building(s.id);if(!live(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules){const def=R.modules[m.kind];if(!def.range||m.progress!==1)continue;
+   for(const s of state.sites){const b=building(s.id);if(!live(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules){const def=R.modules[m.kind];if(!def.range||m.progress!==1||network?.moduleSuspended(m.id))continue;
     m.cooldown=Math.max(0,m.cooldown-delta);m.heat=Math.max(0,m.heat-R.heatRecovery*delta);if(m.overheated&&m.heat<=R.heatResume)m.overheated=false;
     const q={b,s,level,m,def};if(m.id===controlled){if(!nearModule(q)){release();continue;}if(view==='classic'){const p=muzzle(q),to=screenAim(p),a=S.lookAt(p,to);aim(a.yaw,a.pitch);}if(g.input.mouseDown||g.input.touchFire)fire();}
     else if(!(job?.kind==='engineering178'&&job.object===m)&&!def.manualOnly&&operational(q)&&m.ammo>=def.ammoPerShot){boxes??=geometry();const origin=muzzle(q);let enemy=autoTargets.get(m.id);
@@ -377,42 +387,46 @@
   }
   const groundClear=g.friendlyPositionClear.bind(g);
   const siege=Siege.create(g,{state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
+  network=N.create(g,{S,state:()=>state,can,nativeBusy,pose,surfaceAt,moduleRef,clearFootprint:engineeringClear178,groundLine:g.hostileLineClear.bind(g),fallActor:fallActor179});
+  wrap('damagePlayer',(old,...args)=>{const result=old(...args);if(!live(g.player)){if(network.carrying())network.dropCargo(true);state.actor=null;stop('');}return result;});
   wrap('killZombie',(old,z,...args)=>{siege.forget(z.id);return old(z,...args);});
   wrap('friendlyPositionClear',(old,e,x,y)=>e===g.player&&state.actor?clearAt(x,y,pose().z,e.radius*.78):old(e,x,y));
-  wrap('moveFriendly',(old,e,dx,dy)=>{if(e!==g.player||!state.actor)return old(e,dx,dy);if(travel||controlled!==null)return;const z=pose().z,n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/(e.radius*.5)));for(let i=0;i<n;i++){if(clearAt(e.x+dx/n,e.y,z))e.x+=dx/n;if(clearAt(e.x,e.y+dy/n,z))e.y+=dy/n;}const s=surfaceAt(e.x,e.y,z);if(s)state.actor={site:s.s.id,level:s.level};});
+  wrap('moveFriendly',(old,e,dx,dy)=>{if(e===g.player&&network.carrying()){dx*=C.VerticalNetwork179.carrySpeed;dy*=C.VerticalNetwork179.carrySpeed;}if(e!==g.player||!state.actor)return old(e,dx,dy);if(travel||controlled!==null)return;const z=pose().z,n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/(e.radius*.5)));for(let i=0;i<n;i++){if(clearAt(e.x+dx/n,e.y,z))e.x+=dx/n;if(clearAt(e.x,e.y+dy/n,z))e.y+=dy/n;}const s=surfaceAt(e.x,e.y,z);if(s)state.actor={site:s.s.id,level:s.level};});
   wrap('workerCanWorkAt',(old,e,t,...args)=>e===g.player&&state.actor?false:old(e,t,...args));
   wrap('hostileLineClear',(old,a,b,...args)=>{if(siege.enemyPose(a).z||siege.enemyPose(b).z||(a===g.player||b===g.player)&&pose().z>0)return siege.canMelee(a,b);return old(a,b,...args);});
   wrap('zombieCanClimb',(old,e,b)=>base(b)?false:old(e,b));
-  wrap('selectBuild',(old,...args)=>state.actor?say(no('Redescendez au sol pour placer une nouvelle fondation.')):old(...args));
-  wrap('placeOne',(old,type,...args)=>{if(base({type})&&state.sites.length>=R.maxSites)return false;const result=old(type,...args);if(result&&R.bases[type]){ensure();g.refreshMetrics(true);}return result;});
+  wrap('selectBuild',(old,...args)=>state.actor||network.carrying()?say(no('Redescendez au sol, les mains libres, pour placer une fondation.')):old(...args));
+  wrap('placeOne',(old,type,...args)=>{if(network.carrying()||network.blocksConstruction(type,...args))return false;if(base({type})&&state.sites.length>=R.maxSites)return false;const result=old(type,...args);if(result&&R.bases[type]){ensure();g.refreshMetrics(true);}return result;});
   wrap('updateInteraction',(old,dt)=>{if(!state.actor&&!travel)return old(dt);g.interactionText=notice||'CITÉ VERTICALE — E : accès intérieur · Préparatifs : équipements et dalles';if(g.input.pressed.has('KeyE')&&!busy()){const b=target();if(b)access(b.id,state.actor?.level>0?state.actor.level-1:-1);}});
   wrap('updatePlayer',(old,dt)=>{if(travel||controlled!==null){g.player.shootCooldown=Math.max(0,g.player.shootCooldown-dt);g.player.meleeCooldown=Math.max(0,g.player.meleeCooldown-dt);g.player.invulnerable=Math.max(0,g.player.invulnerable-dt);g.player.vx=g.player.vy=0;
     if(g.input.pressed.has('KeyI'))release();if(controlled!==null&&g.input.pressed.has('KeyV'))g.vertical175UI?.toggleView?.();if(!live(g.player)){state.actor=null;stop('');return old(dt);}return;}
    return old(dt);
   });
-  wrap('shootPlayer',(old,...args)=>{personalShot=!!state.actor;try{return old(...args);}finally{personalShot=false;}});
+  for(const action of ['melee','startReload'])wrap(action,(old,...args)=>network.carrying()?false:old(...args));
+  wrap('shootPlayer',(old,...args)=>{if(network.carrying())return false;personalShot=!!state.actor;try{return old(...args);}finally{personalShot=false;}});
   wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to=screenAim(p),a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
   wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
-  wrap('destroyBuilding',(old,b,...args)=>{const z=state.actor?.site===b.id?pose().z:0,result=old(b,...args);if(base(b)&&b.dead){dropSite(b.id,z);g.refreshMetrics(true);}return result;});
-  wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
+  wrap('destroyBuilding',(old,b,...args)=>{const z=state.actor?.site===b.id?pose().z:0,result=old(b,...args);if(base(b)&&b.dead){dropSite(b.id,z);network.prune();g.refreshMetrics(true);}return result;});
+  wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&network.load(b.id)>0&&['demolish','upgrade'].includes(action))return no('Retirez les passerelles avant de modifier leur support.');if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
   wrap('update',(old,dt)=>{const result=old(dt);step(dt);return result;});
   wrap('returnToMenu',(old,...args)=>{stop('');return old(...args);});
   wrap('onEscape',(old,...args)=>{if(busy()){stop();return;}return old(...args);});
   function overview(){const b=target(),s=b&&site(b.id),p=pose(),c=catalogue(catalogueAge??g.tier.id);return{summary:A.ages[g.tier.id].theme+' · ouvrages reliés aux stocks et à l’électricité de D-17.',message:notice,
-   rows:[{label:'Catalogue consulté',value:c.name+' · '+c.height+' m'},{label:'Nouveaux ouvrages',value:c.supports.map(b=>b.name).join(' ; ')},{label:'Nouveaux équipements',value:c.modules.map(m=>m.name).join(' ; ')},{label:'Âge',value:C.CITY_TIERS[g.tier.id].name},{label:'Plafond des nouveaux étages',value:A.ages[g.tier.id].height+' m'},{label:'Dossier',value:moduleGroup},{label:'Altitude',value:p.z.toFixed(1)+' m'},{label:'Support',value:b?.def.name||'Approchez une entrée ou sélectionnez une fondation'},{label:'Charge',value:s?S.mass(s)+' / '+base(b).capacity:'—'},{label:'Paliers',value:s?s.decks.filter(d=>d.progress===1).length:'—'},{label:'Grimpeurs',value:state.climbers.length+' / '+C.VerticalSiege176.maxClimbers},{label:'Accès',value:s?.lift===1?'Escalier + ascenseur alimenté selon le réseau':'Escalier intérieur'},{label:'Travail',value:job?job.kind:travel?travel.kind:controlled!==null?'Affût manuel':'Aucun'}]};}
+   rows:[network.overview(),{label:'Catalogue consulté',value:c.name+' · '+c.height+' m'},{label:'Nouveaux ouvrages',value:c.supports.map(b=>b.name).join(' ; ')},{label:'Nouveaux équipements',value:c.modules.map(m=>m.name).join(' ; ')},{label:'Âge',value:C.CITY_TIERS[g.tier.id].name},{label:'Plafond des nouveaux étages',value:A.ages[g.tier.id].height+' m'},{label:'Dossier',value:moduleGroup},{label:'Altitude',value:p.z.toFixed(1)+' m'},{label:'Support',value:b?.def.name||'Approchez une entrée ou sélectionnez une fondation'},{label:'Charge',value:s?supportMass(s).toFixed(1)+' / '+base(b).capacity:'—'},{label:'Paliers',value:s?s.decks.filter(d=>d.progress===1).length:'—'},{label:'Grimpeurs',value:state.climbers.length+' / '+C.VerticalSiege176.maxClimbers},{label:'Accès',value:s?.lift===1?'Escalier + ascenseur alimenté selon le réseau':'Escalier intérieur'},{label:'Travail',value:job?job.kind:travel?travel.kind:controlled!==null?'Affût manuel':'Aucun'}]};}
   function actions(){const b=target(),s=b&&site(b.id),result=[],age=catalogueAge??g.tier.id;
    for(const [dir,label]of [[-1,'Catalogue : âge précédent'],[1,'Catalogue : âge suivant']])if(age+dir>=0&&age+dir<C.CITY_TIERS.length)result.push({id:'catalogue-'+dir,label,close:false,run:()=>{catalogueAge=age+dir;return ok('Consultation uniquement ; aucun âge débloqué et aucune ressource dépensée.');}});
-   if(!s)return result;
+   if(!s){result.push(...network.actions());return result;}
    const add=(id,label,run,description='')=>result.push({id,label,run,description,close:true});
-   if(!state.actor)add('up','Monter par l’escalier intérieur',()=>access(b.id,0));
+   if(!state.actor){add('up','Monter par l’escalier intérieur',()=>access(b.id,0));result.push(...network.actions());}
    else{
     add('down','Descendre au palier inférieur',()=>access(b.id,state.actor.level>0?state.actor.level-1:-1));
     if(s.decks[state.actor.level+1]?.progress===1)add('next','Monter au palier supérieur',()=>access(b.id,state.actor.level+1));
     if(s.lift===1){add('lift-ground','Ascenseur : rez-de-chaussée',()=>access(b.id,-1,'lift'));if(s.decks[state.actor.level+1]?.progress===1)add('lift-up','Ascenseur : palier supérieur',()=>access(b.id,state.actor.level+1,'lift'));}
     add('deck','Financer une dalle supplémentaire (+6 m)',()=>buildDeck(b.id),C.resourceText(R.deck.cost));add('lift','Installer l’ascenseur',()=>buildLift(b.id),C.resourceText(R.lift.cost));add('resume','Reprendre le chantier financé',()=>resume(b.id));
-    for(const [group,label]of [['defense','Défenses et éclairage'],['civil','Vie et production'],['service','Entretien et soins']])result.push({id:'group-'+group,label,close:false,run:()=>{moduleGroup=group;dismantleReview=null;return ok(label);}});
+    for(const [group,label]of [['defense','Défenses et éclairage'],['civil','Vie et production'],['service','Entretien et soins'],['network','Liaisons et transport']])result.push({id:'group-'+group,label,close:false,run:()=>{moduleGroup=group;dismantleReview=null;return ok(label);}});
     const deck=s.decks[state.actor.level],free=[0,1,2,3].find(slot=>!deck.modules.some(m=>m.slot===slot));
-    if(free!==undefined&&moduleGroup!=='service')for(const [kind,d]of Object.entries(R.modules).filter(([,d])=>d.tier<=g.tier.id&&(moduleGroup==='defense'?d.range||d.light:!d.range&&!d.light)))add('build-'+kind,'Installer : '+d.name,()=>buildModule(kind,free,b.id),C.resourceText(d.cost)+(d.manualOnly?' · manuel, sans courant':'')+' · '+d.mass+' charge · emplacement '+(free+1));
+    if(moduleGroup==='network')result.push(...network.actions());
+    if(free!==undefined&&moduleGroup!=='service'&&moduleGroup!=='network')for(const [kind,d]of Object.entries(R.modules).filter(([,d])=>d.tier<=g.tier.id&&(moduleGroup==='defense'?d.range||d.light:!d.range&&!d.light)))add('build-'+kind,'Installer : '+d.name,()=>buildModule(kind,free,b.id),C.resourceText(d.cost)+(d.manualOnly?' · manuel, sans courant':'')+' · '+d.mass+' charge · emplacement '+(free+1));
     if(moduleGroup==='service'){
      if(state.actor.level>0&&deck.health<R.deck.health)add('repair-deck','Réparer la dalle actuelle',()=>engineering178('repairDeck',b.id),'Paiement final ; aucune construction supplémentaire.');
      const structureAction=(operation,id,label,description)=>result.push({id,label:engineeringReview178?.kind===operation&&engineeringReview178.id===b.id?'CONFIRMER : '+label:label,close:true,run:()=>engineering178(operation,b.id,undefined,engineeringReview178?.kind===operation&&engineeringReview178.id===b.id),description});
@@ -432,10 +446,10 @@
    }
    if(busy())add('cancel','Interrompre / rendre le contrôle',()=>stop());return result;
   }
-  const api={engineeringQuote178,relocateModule:(id,slot)=>engineering178('relocate',id,slot),dismantleTopDeck:(id=state.actor?.site,confirm=false)=>engineering178('removeDeck',id,undefined,confirm),dismantleLift:(id=state.actor?.site,confirm=false)=>engineering178('removeLift',id,undefined,confirm),repairDeck:(id=state.actor?.site)=>engineering178('repairDeck',id),cancelModuleProject:(id,confirm=false)=>engineering178('cancelModule',id,undefined,confirm),catalogue,productionPlans,maintenanceQuote,repairModule,useMedical,dismantleModule,groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
-   prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>copy(state),presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:null,notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
-  g.expansions.register({id:'vertical175',title:'Citadelle verticale',validate:S.normalize,snapshot:api.snapshot,overview,actions,busy,
-   restore:raw=>{state=S.normalize(raw);siege.reset();autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{catalogueAge=null;moduleGroup=A.defaultGroup;state=S.initial();siege.reset();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
+  const api={network,engineeringQuote178,relocateModule:(id,slot)=>engineering178('relocate',id,slot),dismantleTopDeck:(id=state.actor?.site,confirm=false)=>engineering178('removeDeck',id,undefined,confirm),dismantleLift:(id=state.actor?.site,confirm=false)=>engineering178('removeLift',id,undefined,confirm),repairDeck:(id=state.actor?.site)=>engineering178('repairDeck',id),cancelModuleProject:(id,confirm=false)=>engineering178('cancelModule',id,undefined,confirm),catalogue,productionPlans,maintenanceQuote,repairModule,useMedical,dismantleModule,groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
+   prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>copy(state),presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:network.jobState(),notice:network.presentation().notice||notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
+  g.expansions.register({id:'vertical175',title:'Citadelle verticale',validate:S.normalize,snapshot:api.snapshot,overview,actions,busy:()=>busy()||network.carrying(),
+   restore:raw=>{state=S.normalize(raw);network.reset();siege.reset();autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{catalogueAge=null;moduleGroup=A.defaultGroup;state=S.initial();network.reset();siege.reset();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
   wrap('restoreSave',(old,raw)=>{const p=raw?.player?{x:raw.player.x,y:raw.player.y}:null,result=old(raw);if(result!==false&&state.actor&&p){g.player.x=p.x;g.player.y=p.y;}return result;});
   ensure();return api;
  }

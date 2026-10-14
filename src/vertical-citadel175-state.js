@@ -1,9 +1,10 @@
 /* Persistent state and shared metric geometry for both citadel cameras. */
 (function(root){'use strict';
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.VerticalCitadel175;
+ const N=root.DeadwallVerticalNetwork179||(typeof require==='function'?require('./vertical-network179.js'):null);
  const copy=x=>JSON.parse(JSON.stringify(x)),finite=(x,a=0,b=Number.MAX_SAFE_INTEGER)=>Number.isFinite(x)&&x>=a&&x<=b;
  const integer=(x,a=0,b=Number.MAX_SAFE_INTEGER)=>Number.isSafeInteger(x)&&x>=a&&x<=b;
- const initial=()=>({version:2,sites:[],actor:null,giants:[],lastSiegeWave:0,nextId:1,climbers:[]});
+ const initial=()=>({version:3,sites:[],actor:null,giants:[],lastSiegeWave:0,nextId:1,climbers:[],network:N.initial()});
  function register(){for(const [id,d]of Object.entries(R.bases)){if(C.BUILDINGS[id]&&!C.BUILDINGS[id].vertical175)throw Error('Construction verticale en conflit : '+id);C.BUILDINGS[id]={...d};}}
  register();
  const height=(site,level,base)=>base.height+level*R.deckRise;
@@ -17,7 +18,8 @@
   const bad=why=>{throw Error('Cité verticale invalide : '+why);};
   const fields=(o,keys)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&Object.keys(o).every(k=>keys.includes(k));
   if(raw?.version===1){if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId']))bad('ancien format');raw={...raw,version:2,climbers:[]};}
-  if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers'])||raw.version!==2||!Array.isArray(raw.sites)||raw.sites.length>R.maxSites||!integer(raw.nextId,1)||!integer(raw.lastSiegeWave))bad('format');
+  if(raw?.version===2){if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers']))bad('ancien réseau');raw={...raw,version:3,network:N.initial()};}
+  if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers','network'])||raw.version!==3||!Array.isArray(raw.sites)||raw.sites.length>R.maxSites||!integer(raw.nextId,1)||!integer(raw.lastSiegeWave))bad('format');
   if(!Array.isArray(raw.climbers)||raw.climbers.length>C.VerticalSiege176.maxClimbers)bad('grimpeurs');
   const native=new Map((full?.buildings||[]).map(b=>[b.id,b])),ids=new Set(),moduleIds=new Set();let count=0;
   for(const s of raw.sites){
@@ -39,10 +41,11 @@
   }
   if(count>R.maxModules)bad('capacité du registre');
   if(full&&[...native.values()].filter(b=>R.bases[b.type]).some(b=>!ids.has(b.id)))bad('support non enregistré');
+  const network=N.normalize(raw.network,full,raw);
   if(raw.actor!==null){const a=raw.actor,s=raw.sites.find(v=>v.id===a.site);
    if(!fields(a,['site','level'])||!s||!integer(a.level,0,s.decks.length-1)||s.decks[a.level].progress!==1)bad('palier du joueur');
    if(full){const b=native.get(a.site),q=bounds(b),p=full.player,x=p.x/R.tile,y=p.y/R.tile,r=.26;
-    if(full.frontier?.active||p.dead||x<q.x+r||x>q.x+q.w-r||y<q.y+r||y>q.y+q.h-r)bad('position du joueur');
+    if(full.frontier?.active||p.dead||((x<q.x+r||x>q.x+q.w-r||y<q.y+r||y>q.y+q.h-r)&&!N.onBridge(network,a,p,native,raw.sites,r)))bad('position du joueur');
     for(const m of s.decks[a.level].modules){const box=moduleBox(b,m,0);if(x+r>box.x&&x-r<box.x+box.w&&y+r>box.y&&y-r<box.y+box.h)bad('joueur dans un équipement');}
    }
   }
@@ -64,7 +67,7 @@
     else{const p=climbPoint(b,c);if(Math.hypot(z.x/R.tile-p.x,z.y/R.tile-p.y)>Q.positionTolerance)bad('position du grimpeur');}
    }
   }
-  return copy(raw);
+  return copy({...raw,network});
  }
  /* Ray/box intersection, distances in metres. Origins inside a solid are blocked. */
  function rayBox(origin,direction,box,max=Infinity){

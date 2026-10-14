@@ -13,7 +13,7 @@ function normalize(raw,full,validators=known){
  const a=modules.campaign?.active;
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),cargo=C?.CampaignPackRules?.definitions[a?.kind]?.cargo;
  const campaignLoad=!!a&&((cargo==='outbound'||a.kind==='aid')&&a.stage==='field'||(cargo==='inbound'||['salvage','evacuation'].includes(a.kind))&&a.stage==='return');
- const loads=Number(campaignLoad)+Number(!!modules.exploration?.cargo?.some(c=>c.stage==='held'))+Number(Object.values(full?.essentials?.jobs||{}).some(j=>j.stage==='player'));
+ const loads=Number(campaignLoad)+Number(!!modules.exploration?.cargo?.some(c=>c.stage==='held'))+Number(Object.values(full?.essentials?.jobs||{}).some(j=>j.stage==='player'))+Number(!!modules.vertical175?.network?.cargo);
  if(loads>1)throw Error('Un seul chargement peut être porté par le commandant.');
  return{version:1,modules};
 }
