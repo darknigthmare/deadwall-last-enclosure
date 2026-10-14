@@ -2,45 +2,69 @@ name: Vertical Citadel 175
 on:
   push:
     branches: [feat/vertical-citadel-175]
+concurrency:
+  group: vertical175-reviewed-integration
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
-  source-and-tests:
+  reviewed-integration:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - name: Preserve exact tracked source and provenance
+          node-version: 24
+      - name: Materialize only the hash-reviewed integration
         run: |
-          mkdir -p /tmp/vertical175 /tmp/vertical175-art
-          git rev-parse HEAD > /tmp/vertical175/HEAD.txt
-          git ls-tree -r HEAD > /tmp/vertical175/TREE.txt
-          python3 - <<'PY'
-          import subprocess, tarfile
-          paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
-          with tarfile.open('/tmp/vertical175/source.tar.gz','w:gz') as archive, tarfile.open('/tmp/vertical175-art/assets.tar.gz','w:gz') as art:
-            for path in paths:
-              if path.startswith('assets/'):
-                art.add(path, arcname=path, recursive=False)
-              elif path and not path.startswith('reports/'):
-                archive.add(path, arcname=path, recursive=False)
-          PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vertical175-source-${{ github.sha }}
-          path: /tmp/vertical175/
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vertical175-tracked-art-${{ github.sha }}
-          path: /tmp/vertical175-art/
-          compression-level: 0
-          retention-days: 7
-      - name: Verify extension tests when present
+          mkdir -p /tmp/vertical175-qa
+          node scripts/integrate-vertical175.cjs | tee /tmp/vertical175-qa/integration.json
+          node --test tests/vertical-citadel175.test.cjs | tee /tmp/vertical175-qa/targeted-tests.log
+          npm run build | tee /tmp/vertical175-qa/build.log
+      - name: Commit exact integration to this feature branch only
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
         run: |
-          if test -f tests/vertical-citadel175.test.cjs; then node --test tests/vertical-citadel175.test.cjs; fi
-      - name: Existing project checks
-        run: npm run check
+          set -euo pipefail
+          git add -- desktop/policy.cjs index.html scripts/build.mjs scripts/server.mjs src/core.js src/expansion-kit.js src/expansion-ui.js src/fieldcraft.js src/game.js sw.js
+          if ! git diff --cached --quiet; then
+            actual=$(git ls-remote origin refs/heads/feat/vertical-citadel-175 | cut -f1)
+            test "$actual" = "$EXPECTED_HEAD"
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'feat(citadel): connect hash-reviewed vertical runtime to native game'
+            git push origin HEAD:refs/heads/feat/vertical-citadel-175
+          fi
+          git rev-parse HEAD | tee /tmp/vertical175-qa/TESTED_HEAD.txt
+      - name: Install locked test prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Install browser for actual WebGL qualification
+        run: npx playwright install --with-deps chromium
+      - name: Browser integration and FPS qualification
+        run: node scripts/qa-vertical175.mjs
+      - name: Preserve targeted and browser results before full checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical175-browser-${{ github.sha }}
+          path: /tmp/vertical175-qa/
+          retention-days: 14
+      - name: Complete existing project checks
+        if: ${{ !cancelled() }}
+        run: npm run check 2>&1 | tee /tmp/vertical175-qa/full-check.log
+      - name: Preserve exact test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical175-validation-${{ github.sha }}
+          path: /tmp/vertical175-qa/
+          retention-days: 14
