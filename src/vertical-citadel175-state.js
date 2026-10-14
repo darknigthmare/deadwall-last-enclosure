@@ -23,7 +23,8 @@
   for(const s of raw.sites){
    if(!fields(s,['id','lift','decks'])||!integer(s.id,1)||ids.has(s.id)||!finite(s.lift,0,1)||!Array.isArray(s.decks)||s.decks.length<1||s.decks.length>R.maxDecks)bad('support');ids.add(s.id);
    const b=native.get(s.id),base=b&&R.bases[b.type];if(full&&(!base||b.health<=0))bad('support absent');
-   if(base&&(height(s,s.decks.length-1,base)>R.maxHeight||base.wall&&s.decks.length>1))bad('hauteur');
+   if(base&&(height(s,s.decks.length-1,base)>R.maxHeight||s.decks.length>(base.maxDecks??(base.wall?1:R.maxDecks))))bad('hauteur');
+   if(base&&base.liftTier===null&&s.lift!==0)bad('ascenseur incompatible');
    s.decks.forEach((d,i)=>{
     if(!fields(d,['progress','health','modules'])||!finite(d.progress,0,1)||i===0&&d.progress!==1||!finite(d.health,Number.EPSILON,R.deck.health)||!Array.isArray(d.modules)||d.modules.length>4||i>0&&s.decks[i-1].progress!==1)bad('dalle');
     const used=new Set();

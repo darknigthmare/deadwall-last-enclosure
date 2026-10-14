@@ -2265,3 +2265,86 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  maxClimbers:24,meleeReach:1.1,groundShotHeight:1.65,fallDamagePerMetre:8,
  aimPickPixels:18,roofStep:.18,roofSpeed:1.4,positionTolerance:.03,pressureSteps:6
 });})(globalThis);
+
+/* 177: all eleven city ages have paid, physically usable vertical choices. */
+(function(root){
+ 'use strict';
+ const C=root.DeadwallCore,P=C.VerticalCitadel175;
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const ages=[
+  {height:2,theme:'Observer et abriter les premières réserves'},
+  {height:3,theme:'Relier les défenses en bois'},
+  {height:6,theme:'Passer aux supports métalliques'},
+  {height:12,theme:'Tenir un premier rempart et soigner les défenseurs'},
+  {height:18,theme:'Élever des quartiers et leurs réserves'},
+  {height:24,theme:'Recycler et défendre les axes à longue distance'},
+  {height:30,theme:'Densifier les quartiers de métropole'},
+  {height:42,theme:'Alimenter les fronts et les cultures supérieures'},
+  {height:48,theme:'Protéger les soins et éclairer plusieurs fronts'},
+  {height:60,theme:'Loger et ravitailler une mégaville verticale'},
+  {height:72,theme:'Défendre les derniers niveaux sans supprimer la logistique'}
+ ];
+ const bases={};
+ function support(id,name,z,size,tier,cost,health,capacity,wall=false,extra={}){
+  const d={...P.bases.rampart12,id,name,height:z,size,unlockTier:tier,cost,health,capacity,wall,
+   category:wall?'defense':'colony',defense:wall,icon:wall?'▥':'▤',symbol:wall?'ENCEINTE':'SOCLE',
+   score:tier<3?1+tier:8+tier*2,buildTime:12+tier*8+z,
+   description:name+' · accès intérieur, réserve de charge '+capacity+' ; aucune capacité avant achèvement.',
+   age177:true,color:tier<2?'#76583c':tier===2?'#4d6065':'#60665e',roof:tier<2?'#a28558':tier===2?'#9caeb2':'#9a9d8a',maxDecks:wall?1:6,liftTier:Math.max(4,tier),...extra};
+  bases[id]=d;return d;
+ }
+ function enclosure(z,tier,material,cost,hp,capacity){
+  const wide=z>=48?16:12,deep=z>=48?8:6,corner=z>=48?8:6;
+  support('rampart'+z+'a177','Rempart '+material+' — '+z+' m',z,[wide,deep],tier,cost,hp,capacity,true);
+  support('gate'+z+'a177','Porte '+material+' — '+z+' m',z,[corner,corner],tier,
+   Object.fromEntries(Object.entries(cost).map(([k,n])=>[k,Math.ceil(n*1.15)])),Math.round(hp*.72),capacity,true,
+   {gate:true,gateClearance:Math.min(5,z-.6)});
+  support('bastion'+z+'a177','Bastion '+material+' — '+z+' m',z,[corner,corner],tier,
+   Object.fromEntries(Object.entries(cost).map(([k,n])=>[k,Math.ceil(n*1.08)])),Math.round(hp*1.12),capacity+20,true);
+ }
+ support('lookout2a177','Plateforme de récupération — 2 m',2,[6,6],0,{wood:55,scrap:15},500,35,false,{maxDecks:1,liftTier:null,color:'#76583c',roof:'#a28558'});
+ enclosure(3,1,'de charpente',{wood:115,scrap:35},1000,65);
+ support('timberDeck3a177','Estrade de camp — 3 m',3,[8,8],1,{wood:110,scrap:40},950,85,false,{maxDecks:1,liftTier:null});
+ enclosure(6,2,'d’acier',{scrap:135,stone:55},2000,120);
+ support('workDeck6a177','Socle d’atelier — 6 m',6,[10,10],2,{wood:65,scrap:160,stone:85},2300,160,false,{maxDecks:2});
+ support('refugeDeck12a177','Socle de redoute — 12 m',12,[12,12],3,{stone:330,scrap:180},3600,240,false,{maxDecks:2});
+ support('freightDeck12a177','Fondation logistique — 12 m',12,[16,12],4,{stone:420,scrap:230},4700,380,false,{maxDecks:4});
+ enclosure(18,5,'de grande ville',{stone:380,scrap:195},5100,195);
+ support('districtDeck12a177','Fondation de quartier — 12 m',12,[16,16],5,{stone:510,scrap:280},5800,450);
+ enclosure(36,7,'de grande métropole',{stone:760,scrap:380},8400,280);
+ support('metroDeck18a177','Fondation de grande métropole — 18 m',18,[16,16],7,{stone:850,scrap:450},8500,600);
+ support('megaDeck24a177','Fondation de mégaville — 24 m',24,[20,20],8,{stone:1150,scrap:630},11000,720);
+ enclosure(60,9,'de mégaville II',{stone:1450,scrap:760},14200,420);
+ support('megaDeck30a177','Fondation de mégaville II — 30 m',30,[20,20],9,{stone:1550,scrap:850},14500,900);
+ enclosure(72,10,'de mégaville III',{stone:1900,scrap:1050},18000,520);
+ support('megaDeck36a177','Fondation de mégaville III — 36 m',36,[24,24],10,{stone:2100,scrap:1150},18500,1120,false,{maxDecks:7});
+ const module=(name,tier,cost,mass,health,size,extra={})=>({name,tier,cost,mass,health,size,seconds:10+tier*3,age177:true,...extra});
+ const manual=(name,tier,cost,mass,range,damage,rate,capacity,ammoPerShot,heat)=>module(name,tier,cost,mass,350+tier*100,[1.4,1.4],{manualOnly:true,powerUse:0,range,damage,rate,capacity,ammoPerShot,heat});
+ const modules={
+  fieldCache177:module('Caisse de récupération',0,{wood:25,scrap:8},6,240,[1.2,1.2],{storage:80,score:1}),
+  handRifle177:manual('Affût de fusil manuel',0,{wood:20,scrap:25},4,45,26,1.2,30,1,7),
+  watchCabin177:module('Abri de guetteurs',1,{wood:65,scrap:25},10,420,[1.6,1.6],{housing:4,score:2}),
+  handMachineGun177:manual('Mitrailleuse sur trépied',1,{wood:30,scrap:65},10,55,26,3.5,75,1,6),
+  steelLocker177:module('Réserve métallique',2,{scrap:70,wood:35},18,620,[1.8,1.8],{storage:220,score:3}),
+  handSupport177:manual('Affût lourd à manivelle',2,{scrap:110,wood:35,stone:25},18,70,70,.5,24,2,15),
+  aidPost177:module('Poste de secours de rempart',3,{wood:55,scrap:75,medicine:8},20,720,[2,2],{powerUse:1,score:5,medical:{heal:16,medicine:1,seconds:5}}),
+  signalLamp177:module('Feu de veille orienté',3,{scrap:35,fuel:3},4,240,[1,1],{powerUse:1,light:260,score:2}),
+  freightReserve177:module('Réserve de palier renforcée',4,{wood:75,scrap:110,stone:35},26,1000,[2.2,2.2],{storage:450,score:5}),
+  terraceGarden177:module('Potager de terrasse',4,{wood:100,scrap:65,stone:40},16,520,[2.5,2.5],{powerUse:1,production:{food:.18},score:5}),
+  recyclingDeck177:module('Atelier de récupération d’étage',5,{scrap:140,stone:65,fuel:12},28,920,[2.5,2.5],{powerUse:3,production:{scrap:.22},consumes:{fuel:.02},score:8}),
+  handPrecision177:manual('Affût de précision manuel',5,{scrap:175,stone:50},18,130,110,.65,48,2,15),
+  metroQuarters177:module('Habitat de métropole',6,{wood:200,scrap:170,stone:140},52,1500,[2.8,2.8],{housing:28,powerUse:4,score:14}),
+  deepReserve177:module('Réserve métropolitaine',6,{wood:150,scrap:160,stone:110},65,1400,[2.8,2.8],{storage:1400,score:12}),
+  hydroponic177:module('Cultures de grande métropole',7,{wood:170,scrap:240,stone:140,fuel:25},46,1100,[2.8,2.8],{powerUse:10,production:{food:.8},consumes:{fuel:.01},score:18}),
+  crossBattery177:module('Batterie de couverture rapprochée',7,{scrap:265,stone:120},40,1100,[2,2],{powerUse:7,range:90,damage:40,rate:8,capacity:320,ammoPerShot:1,heat:4}),
+  armoredAid177:module('Poste de triage blindé',8,{scrap:230,stone:190,medicine:22},48,1400,[2.5,2.5],{powerUse:6,score:18,medical:{heal:40,medicine:2,seconds:8}}),
+  longSearchlight177:module('Projecteur de front',8,{scrap:140,stone:60,fuel:12},16,600,[1.5,1.5],{powerUse:6,light:650,score:8}),
+  megaQuarters177:module('Habitat de mégaville II',9,{wood:380,scrap:350,stone:320},85,2000,[3,3],{housing:60,powerUse:8,score:28}),
+  megaArsenal177:module('Arsenal d’étage de mégaville II',9,{scrap:420,stone:260,fuel:45},70,1600,[3,3],{powerUse:12,production:{ammo:1.2},consumes:{scrap:.23,fuel:.025},score:25}),
+  megaFarm177:module('Complexe nourricier supérieur',10,{wood:380,scrap:440,stone:300,fuel:50},90,1800,[3,3],{powerUse:16,production:{food:1.3},consumes:{fuel:.035},score:30}),
+  siegeBattery177:module('Batterie de siège de mégaville III',10,{scrap:620,stone:360,fuel:35},70,1800,[2.4,2.4],{powerUse:12,range:180,damage:190,rate:.6,capacity:240,ammoPerShot:6,heat:25,splash:4.8})
+ };
+ C.VerticalAges177=freeze({ages,liftTier:4,repairFraction:.4,repairSeconds:8,repairHealth:250,salvageFraction:.35,dismantleSeconds:10,medicalDanger:12,defaultGroup:'defense'});
+ const inherited=Object.fromEntries(Object.entries(P.bases).map(([id,b])=>[id,{...b,maxDecks:b.wall?1:P.maxDecks}]));
+ C.VerticalCitadel175=freeze({...P,maxHeight:72,maxDecks:7,bases:{...inherited,...bases},modules:{...P.modules,...modules}});
+})(globalThis);

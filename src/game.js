@@ -1919,11 +1919,16 @@
         const crisisFactor=b.def.powerUse&&this.activeCrisis?.id==='blackout'&&this.activeCrisis.status==='resolved'&&this.activeCrisis.choice==='B'?.5:1;
         const powerFactor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;
         if(powerFactor<=.05&&!this.powerGrid?.hasProduction(b.id))continue;
-        const seconds=this.powerGrid?this.powerGrid.productionSeconds(b,dt,powerFactor,crisisFactor):dt*powerFactor*crisisFactor,fraction=productionFraction(this.resources,b.def.production,b.def.consumes,this.storage,seconds);
-        if(fraction<=0)continue;
-        activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:seconds*fraction});
-        for(const [key,rate]of Object.entries(b.def.consumes||{}))this.resources[key]-=rate*seconds*fraction;
-        for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+        const seconds=this.powerGrid?this.powerGrid.productionSeconds(b,dt,powerFactor,crisisFactor):dt*powerFactor*crisisFactor;
+        const plans=this.vertical175?.productionPlans(b)||[b.def];let activeSeconds=0;
+        for(const plan of plans){
+          const fraction=productionFraction(this.resources,plan.production,plan.consumes,this.storage,seconds);
+          if(fraction<=0)continue;
+          activeSeconds=Math.max(activeSeconds,seconds*fraction);
+          for(const [key,rate]of Object.entries(plan.consumes||{}))this.resources[key]-=rate*seconds*fraction;
+          for(const [key,rate]of Object.entries(plan.production||{}))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+        }
+        if(activeSeconds>0)activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:activeSeconds});
       }
       for(const unit of this.units)unit.speed=(C.SURVIVORS[unit.kind]?.speed||60)*(this.morale<20?.82:1);
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);

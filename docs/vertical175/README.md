@@ -49,3 +49,7 @@ Le rendu FPS est un vrai rendu perspective WebGL avec profondeur, mais sa géom�
 ## Suite 176 — sièges sur les chemins de ronde
 
 La suite de cette même PR ajoute les portes 12/24/48 m, les bastions, les grimpeurs natifs, les attaques des équipements d'étage et la cohérence de tir en altitude. Le registre de sauvegarde migre en version 2. Les commandes, bornes, contrôles et manquants actualisés sont dans [SIEGES_176.md](SIEGES_176.md). Les limites de la livraison 175 ci-dessus sont historiques : ne pas les utiliser comme liste de réception de la suite 176.
+
+## Suite 177 — couverture des onze âges et maintenance
+
+La suite 177 ajoute 28 supports et 22 équipements, les services de réparation/soins/démontage, le catalogue par âge et la production indépendante des ateliers. Elle conserve les sauvegardes et plafonds historiques des fondations existantes. Voir [AGES_177.md](AGES_177.md) pour les valeurs, commandes, tests et limites actualisés.
