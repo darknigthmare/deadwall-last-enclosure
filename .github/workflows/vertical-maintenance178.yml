@@ -1,47 +1,86 @@
-name: Vertical maintenance 178
+name: Vertical 178 reviewed maintenance integration
 on:
   push:
     branches: [feat/vertical-citadel-175]
-    paths: ['.github/workflows/vertical-maintenance178.yml', 'src/vertical*.js', 'src/core.js', 'tests/vertical*.cjs', 'scripts/qa-vertical178.mjs']
+    paths: ['.delivery/vertical178/**', '.github/workflows/vertical-maintenance178.yml']
 permissions:
   contents: read
 concurrency:
-  group: vertical178-${{ github.ref }}
+  group: vertical178-integration
   cancel-in-progress: true
 jobs:
-  focused:
+  integrate:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 55
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Preserve tracked sources and fixtures
+      - name: Apply exact reviewed sources
+        run: python3 .delivery/vertical178/apply.py
+      - name: Syntax, all vertical tests and native regression
         run: |
-          mkdir -p /tmp/vertical178
-          git rev-parse HEAD > /tmp/vertical178/HEAD.txt
-          git ls-tree -r HEAD > /tmp/vertical178/TREE.txt
+          node scripts/check-syntax134.mjs > /tmp/vertical178-qa/syntax.log 2>&1
+          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical178-qa/vertical-tests.log 2>&1
+          node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs > /tmp/vertical178-qa/regression.log 2>&1
+          npm run build > /tmp/vertical178-qa/build.log 2>&1
+      - name: Commit only the seven verified source files to PR6
+        run: |
           python3 - <<'PY'
-          import subprocess, tarfile
-          paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
-          with tarfile.open('/tmp/vertical178/source.tar.gz','w:gz') as t:
-            for p in paths:
-              if p and not p.startswith('assets/'):
-                t.add(p, arcname=p, recursive=False)
+          import json,os,pathlib,subprocess
+          branch='feat/vertical-citadel-175'
+          current=subprocess.check_output(['git','ls-remote','origin','refs/heads/'+branch]).decode().split()[0]
+          if current!=os.environ['GITHUB_SHA']: raise RuntimeError('Branch moved: refusing overwrite')
+          paths=[i['path'] for i in json.load(open('.delivery/vertical178/manifest.json'))['files']]
+          subprocess.run(['git','add','--',*paths],check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
+            subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+            subprocess.run(['git','commit','-m','feat(maintenance178): reconfigure all-age equipment and safely service floors and lifts'],check=True)
+            subprocess.run(['git','push','origin','HEAD:refs/heads/'+branch],check=True)
+          pathlib.Path('/tmp/vertical178-qa/TESTED_HEAD.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
           PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vertical178-source-${{ github.sha }}
-          path: /tmp/vertical178/
-          retention-days: 7
-      - name: All vertical regression tests
-        run: node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical178/tests.log 2>&1
-      - uses: actions/upload-artifact@v4
+      - name: Locked browser test prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Chromium with WebGL
+        run: npx playwright install --with-deps chromium
+      - name: Browser 175 regression
+        run: node scripts/qa-vertical175.mjs > /tmp/vertical178-qa/browser175.log 2>&1
+      - name: Browser 176 regression
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical176.mjs > /tmp/vertical178-qa/browser176.log 2>&1
+      - name: Browser 177 all ages and maintenance
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical177.mjs > /tmp/vertical178-qa/browser177.log 2>&1
+      - name: Browser 178 reconfiguration and structural maintenance
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical178.mjs > /tmp/vertical178-qa/browser178.log 2>&1
+      - name: Preserve focused evidence before complete checks
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: vertical178-tests-${{ github.sha }}
-          path: /tmp/vertical178/tests.log
+          name: vertical178-focused-${{ github.run_id }}
+          path: |
+            /tmp/vertical178-qa/
+            /tmp/vertical177-qa/
+            /tmp/vertical176-qa/
+            /tmp/vertical175-qa/
+          retention-days: 14
+      - name: Complete project checks
+        if: ${{ !cancelled() }}
+        run: npm run check > /tmp/vertical178-qa/full-check.log 2>&1
+      - name: Preserve complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical178-complete-${{ github.run_id }}
+          path: /tmp/vertical178-qa/
           retention-days: 14
