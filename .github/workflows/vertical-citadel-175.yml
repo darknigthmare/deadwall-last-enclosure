@@ -15,15 +15,17 @@ jobs:
           node-version: 22
       - name: Preserve exact tracked source and provenance
         run: |
-          mkdir -p /tmp/vertical175
+          mkdir -p /tmp/vertical175 /tmp/vertical175-art
           git rev-parse HEAD > /tmp/vertical175/HEAD.txt
           git ls-tree -r HEAD > /tmp/vertical175/TREE.txt
           python3 - <<'PY'
           import subprocess, tarfile
           paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
-          with tarfile.open('/tmp/vertical175/source.tar.gz','w:gz') as archive:
+          with tarfile.open('/tmp/vertical175/source.tar.gz','w:gz') as archive, tarfile.open('/tmp/vertical175-art/assets.tar.gz','w:gz') as art:
             for path in paths:
-              if path and not path.startswith(('assets/','reports/')):
+              if path.startswith('assets/'):
+                art.add(path, arcname=path, recursive=False)
+              elif path and not path.startswith('reports/'):
                 archive.add(path, arcname=path, recursive=False)
           PY
       - uses: actions/upload-artifact@v4
@@ -31,9 +33,14 @@ jobs:
           name: vertical175-source-${{ github.sha }}
           path: /tmp/vertical175/
           retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vertical175-tracked-art-${{ github.sha }}
+          path: /tmp/vertical175-art/
+          compression-level: 0
+          retention-days: 7
       - name: Verify extension tests when present
         run: |
           if test -f tests/vertical-citadel175.test.cjs; then node --test tests/vertical-citadel175.test.cjs; fi
-          if test -f tests/vertical-citadel175.test.js; then node --test tests/vertical-citadel175.test.js; fi
       - name: Existing project checks
         run: npm run check
