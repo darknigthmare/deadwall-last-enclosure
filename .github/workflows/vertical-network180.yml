@@ -1,0 +1,75 @@
+name: Vertical network 180 QA
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['src/vertical*.js', 'src/core.js', 'tests/vertical*.cjs', 'scripts/qa-vertical*.mjs', '.github/workflows/vertical-network180.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical180-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  network180:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Preserve tracked source and exact provenance
+        run: |
+          mkdir -p /tmp/vertical180-source /tmp/vertical180-qa
+          git rev-parse HEAD | tee /tmp/vertical180-source/HEAD.txt > /tmp/vertical180-qa/TESTED_HEAD.txt
+          git ls-tree -r HEAD > /tmp/vertical180-source/TREE.txt
+          python3 - <<'PY'
+          import subprocess, tarfile
+          paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          with tarfile.open('/tmp/vertical180-source/source.tar.gz','w:gz') as out:
+            for p in paths:
+              if p and not p.startswith('assets/'):
+                out.add(p, arcname=p, recursive=False)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vertical180-source-${{ github.sha }}
+          path: /tmp/vertical180-source/
+          retention-days: 7
+      - name: Locked prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: All vertical tests and native regression
+        run: |
+          node scripts/check-syntax134.mjs > /tmp/vertical180-qa/syntax.log 2>&1
+          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical180-qa/vertical-tests.log 2>&1
+          node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical180-qa/regression.log 2>&1
+          npm run build > /tmp/vertical180-qa/build.log 2>&1
+      - name: Chromium and native browser scenarios
+        run: |
+          npx playwright install --with-deps chromium
+          fail=0
+          for rev in 175 176 177 178 179 180; do
+            if test -f scripts/qa-vertical${rev}.mjs; then
+              node scripts/qa-vertical${rev}.mjs > /tmp/vertical180-qa/browser${rev}.log 2>&1 || fail=1
+            fi
+          done
+          exit "$fail"
+      - name: Focused evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical180-focused-${{ github.run_id }}
+          path: /tmp/vertical*-qa/
+          retention-days: 14
+      - name: Complete project checks
+        run: npm run check > /tmp/vertical180-qa/full-check.log 2>&1
+      - name: Complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical180-complete-${{ github.run_id }}
+          path: /tmp/vertical180-qa/
+          retention-days: 14
