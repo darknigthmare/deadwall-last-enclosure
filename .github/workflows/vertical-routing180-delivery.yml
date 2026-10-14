@@ -1,0 +1,91 @@
+name: Vertical routing 180 reviewed integration
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['.delivery/vertical180/**', '.github/workflows/vertical-routing180-delivery.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical180-reviewed-source
+  cancel-in-progress: false
+jobs:
+  integrate180:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Fingerprint-checked source
+        run: python3 .delivery/vertical180/apply.py
+      - name: All vertical and native targeted regressions
+        run: |
+          node scripts/check-syntax134.mjs > /tmp/vertical180-qa/syntax.log 2>&1
+          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical180-qa/vertical-tests.log 2>&1
+          node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical180-qa/regression.log 2>&1
+          npm run build > /tmp/vertical180-qa/build.log 2>&1
+      - name: Publish only reviewed gameplay source to PR6
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, tarfile
+          branch = 'feat/vertical-citadel-175'
+          remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/'+branch]).decode().split()[0]
+          if remote != os.environ['EXPECTED_HEAD']:
+              raise RuntimeError('Branch moved; no concurrent overwrite permitted')
+          m = json.loads(pathlib.Path('.delivery/vertical180/manifest.json').read_text())
+          paths = [i['path'] for i in m['files']]
+          subprocess.run(['git','add','--',*paths],check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
+              subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+              subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+              subprocess.run(['git','commit','-m','feat(routing180): native invaders cross paid bridges and stairs across all ages'],check=True)
+              subprocess.run(['git','push','origin','HEAD:refs/heads/'+branch],check=True)
+          r = pathlib.Path('/tmp/vertical180-qa')
+          (r/'TESTED_HEAD.txt').write_bytes(subprocess.check_output(['git','rev-parse','HEAD']))
+          (r/'TESTED_TREE.txt').write_bytes(subprocess.check_output(['git','ls-tree','-r','HEAD']))
+          base = 'd0fffbc03b4ad4b3baaa7f073bc3f739bb84abc3'
+          cumulative = [p for p in subprocess.check_output(['git','diff','--name-only',base,'HEAD']).decode().splitlines() if not p.startswith('.')]
+          (r/'CUMULATIVE_BASE.txt').write_text(base+'\n')
+          (r/'CUMULATIVE_179_180.patch').write_bytes(subprocess.check_output(['git','diff','--binary',base,'HEAD','--',*cumulative]))
+          with tarfile.open(r/'CUMULATIVE_179_180_sources.tar.gz','w:gz') as out:
+              for p in cumulative:
+                  if pathlib.Path(p).is_file(): out.add(p,arcname=p,recursive=False)
+          PY
+      - name: Install locked browser prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Chromium with WebGL
+        run: npx playwright install --with-deps chromium
+      - name: Six native browser scenarios
+        run: |
+          fail=0
+          for rev in 175 176 177 178 179 180; do
+            node scripts/qa-vertical${rev}.mjs > /tmp/vertical180-qa/browser${rev}.log 2>&1 || fail=1
+          done
+          exit "$fail"
+      - name: Preserve focused evidence and cumulative delta
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical180-focused-${{ github.run_id }}
+          path: /tmp/vertical*-qa/
+          retention-days: 14
+      - name: Complete project checks
+        if: ${{ !cancelled() }}
+        run: npm run check > /tmp/vertical180-qa/full-check.log 2>&1
+      - name: Preserve complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical180-complete-${{ github.run_id }}
+          path: /tmp/vertical180-qa/
+          retention-days: 14
