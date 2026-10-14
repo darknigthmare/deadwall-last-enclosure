@@ -8,6 +8,22 @@ raw = gzip.decompress(compressed)
 if len(raw) > 250000 or hashlib.sha256(raw).hexdigest() != EXPECTED:
     raise SystemExit('Payload fingerprint mismatch')
 payload = json.loads(raw)
+
+# The first real browser run revealed normal simulation advancement after the
+# depot modal closes. Observe a fresh native pause/save checkpoint for Continue.
+QA_FIX = {'path': 'scripts/browser-metric174.mjs', 'before': 'e626aeda6f6bc874d6175e1d200dfebf8a1f60c9b48226c8130986234d438178', 'after': '24960d37d26aa648e871537debf4ebcfd5f3f9150593c5cff96cc1be5cc8c4cc', 'old': "   await page.reload({waitUntil:'networkidle'});await ready(page);\n", 'new': "   // Closing the depot action resumes the real simulation. Save a new native\n   // paused checkpoint after the read-only probes, not the earlier action time.\n   if(!await page.locator('#pauseMenu').isVisible())await activate(page,'#pauseButton',view.touch);\n   await activate(page,'#saveButton',view.touch);\n   const checkpoint=await page.evaluate(()=>{const d=DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY));delete d.timestamp;return d;});\n   check('The native paused checkpoint retains the calibrated vehicle',checkpoint.expeditions.vehicle.metric174===1);\n   await page.reload({waitUntil:'networkidle'});await ready(page);\n", 'oldDiff': 'diff(transaction.stored,restored)', 'newDiff': 'diff(checkpoint,restored)'}
+for row in payload['files']:
+    if row['path'] == QA_FIX['path']:
+        if row['before'] is not None or len(row['edits']) != 1 or row['after'] != QA_FIX['before']:
+            raise SystemExit('Unexpected browser source before checkpoint correction')
+        original = row['edits'][0][2]
+        if original.count(QA_FIX['old']) != 1 or original.count(QA_FIX['oldDiff']) != 1:
+            raise SystemExit('Browser checkpoint anchor mismatch')
+        changed = original.replace(QA_FIX['old'], QA_FIX['new']).replace(QA_FIX['oldDiff'], QA_FIX['newDiff'])
+        if hashlib.sha256(changed.encode()).hexdigest() != QA_FIX['after']:
+            raise SystemExit('Browser checkpoint result mismatch')
+        row['edits'][0][2] = changed
+        row['after'] = QA_FIX['after']
 paths = []
 prepared = []
 for row in payload['files']:
