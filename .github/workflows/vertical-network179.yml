@@ -1,0 +1,93 @@
+name: Vertical network 179 reviewed integration
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['.delivery/vertical179/**', '.github/workflows/vertical-network179.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical179-reviewed-integration
+  cancel-in-progress: false
+jobs:
+  integrate179:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify exact reviewed source delta
+        run: python3 .delivery/vertical179/apply.py
+      - name: Syntax, all vertical tests, native regressions and build
+        run: |
+          node scripts/check-syntax134.mjs > /tmp/vertical179-qa/syntax.log 2>&1
+          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical179-qa/vertical-tests.log 2>&1
+          node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical179-qa/regression.log 2>&1
+          npm run build > /tmp/vertical179-qa/build.log 2>&1
+      - name: Commit only verified gameplay files on PR6 without workflow changes
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess
+          branch = 'feat/vertical-citadel-175'
+          remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
+          if remote != os.environ['EXPECTED_HEAD']:
+            raise RuntimeError('Branch moved; refusing concurrent overwrite')
+          paths = [i['path'] for i in json.load(open('.delivery/vertical179/manifest.json'))['files']]
+          subprocess.run(['git','add','--',*paths], check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
+            subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
+            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
+            subprocess.run(['git','commit','-m','feat(network179): paid all-age bridges, conserved equipment portage and strict network saves'], check=True)
+            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
+          pathlib.Path('/tmp/vertical179-qa/TESTED_HEAD.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
+          PY
+      - name: Install locked browser prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Install actual Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser regression 175
+        run: node scripts/qa-vertical175.mjs > /tmp/vertical179-qa/browser175.log 2>&1
+      - name: Browser regression 176
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical176.mjs > /tmp/vertical179-qa/browser176.log 2>&1
+      - name: Browser regression 177
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical177.mjs > /tmp/vertical179-qa/browser177.log 2>&1
+      - name: Browser regression 178
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical178.mjs > /tmp/vertical179-qa/browser178.log 2>&1
+      - name: Actual bridge, portage, mobile and FPS journey
+        if: ${{ !cancelled() }}
+        run: node scripts/qa-vertical179.mjs > /tmp/vertical179-qa/browser179.log 2>&1
+      - name: Preserve focused receipts before full checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical179-focused-${{ github.run_id }}
+          path: |
+            /tmp/vertical179-qa/
+            /tmp/vertical178-qa/
+            /tmp/vertical177-qa/
+            /tmp/vertical176-qa/
+            /tmp/vertical175-qa/
+          retention-days: 14
+      - name: Complete project checks
+        if: ${{ !cancelled() }}
+        run: npm run check > /tmp/vertical179-qa/full-check.log 2>&1
+      - name: Preserve complete receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical179-complete-${{ github.run_id }}
+          path: /tmp/vertical179-qa/
+          retention-days: 14
