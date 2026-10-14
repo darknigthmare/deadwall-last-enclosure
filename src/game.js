@@ -1058,7 +1058,7 @@
     setGateMode(mode, building = this.selectedBuilding) {
       if (!this.canIssueCommand() || !building || this.world.buildings.get(building.id) !== building) return false;
       if (!T.GATE_MODES.includes(mode) || !T.isGate(building) || !T.operational(building)) return false;
-      const actors = [this.player, ...this.units, ...this.zombies];
+      const actors = [this.player, ...this.units, ...this.zombies].filter(e=>!this.vertical175?.aboveGate?.(e,building));
       if (!T.gateChangeAllowed(building, mode, actors)) { this.notify('Passage occupé : éloignez les unités avant de fermer la porte.', 'danger'); return false; }
       if (T.gateMode(building) === mode) return true;
       building.gateMode = mode; this.world.navigationVersion++; this.world.flowDirty = true; this.flowTimer = 0;
@@ -1801,9 +1801,11 @@
     }
 
     updateZombies(dt) {
+      this.vertical175?.prepareSiege?.(dt);
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
       const stalkClaims=this.stalkerScanClaims(dt);let stalkCandidates=null;
       for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
+        if(this.vertical175?.updateClimber?.(z,dt))continue;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
         let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1);const look=z.radius+13;
         if(z.kind==='stalker'){
@@ -1867,14 +1869,14 @@
         else if (fullDy < 0) fraction = Math.min(fraction, -p.y / fullDy);
         const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
         const endpoint = {x:p.x+dx,y:p.y+dy};
-        const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius)].filter(Boolean);
+        const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius),this.vertical175?.groundObstruction?.(p,endpoint)].filter(Boolean);
         const obstruction = obstructions.sort((a,b)=>a.fraction-b.fraction)[0] || null;
         const barrierImpact = obstruction?.fraction ?? Infinity;
         let target = null, impact = barrierImpact;
         // Generated buildings and opening reinforcements stop shots at their first surface.
         // The established low fortification firing rules remain separate.
         for (const z of this.nearbyZombies(p.x + dx / 2, p.y + dy / 2, length / 2 + maxRadius + p.radius + 3)) {
-          if (z.dead) continue;
+          if (z.dead || this.vertical175?.enemyPose?.(z)?.z > C.VerticalSiege176.groundShotHeight) continue;
           const ox = p.x - z.x, oy = p.y - z.y, radius = z.radius + p.radius + 3, c = ox * ox + oy * oy - radius * radius;
           let time = 0;
           if (c > 0) {

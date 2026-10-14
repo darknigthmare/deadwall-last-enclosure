@@ -25,12 +25,15 @@
     else{ctx.fillStyle='#d1c49d';ctx.font='10px sans-serif';ctx.fillText(d.name.split(' ')[0].toUpperCase(),x+mw/2,yy+mh/2);}
     if(m.progress<1){ctx.fillStyle='#e1bb63';ctx.fillRect(x,yy+mh+4,mw*m.progress,3);}ctx.globalAlpha=1;
    }
+   if(def.gate){const gh=def.gateClearance*R.projectedHeight;ctx.fillStyle=b.gateMode==='open'?'#18231b':'#75796b';ctx.fillRect(left+7,b.bottom-gh,w-14,gh);ctx.strokeStyle='#c3af78';ctx.lineWidth=3;ctx.strokeRect(left+7,b.bottom-gh,w-14,gh);ctx.fillStyle='#ecd395';ctx.fillText(b.gateMode==='open'?'PASSAGE OUVERT':'PORTE '+(b.gateMode==='closed'?'VERROUILLÉE':'AUTOMATIQUE'),b.x,b.bottom+16);}
    const next=s.decks[top+1];if(next&&next.progress<1){ctx.strokeStyle='#d5b567';ctx.setLineDash([9,6]);ctx.lineWidth=3;ctx.strokeRect(left+9,y-R.deckRise*R.projectedHeight+9,w-18,h-18);ctx.setLineDash([]);ctx.fillStyle='#e2c779';ctx.fillText('DALLE EN CHANTIER '+Math.round(next.progress*100)+' %',b.x,y-R.deckRise*R.projectedHeight-7);}
    ctx.restore();return true;
   }
   const draw=g.drawBuilding.bind(g);g.drawBuilding=(ctx,b,...a)=>R.bases[b.type]&&structure(ctx,b)?undefined:draw(ctx,b,...a);
   const player=g.drawPlayer.bind(g);g.drawPlayer=(ctx,...a)=>{const p=V.pose();if(p.z){ctx.save();ctx.translate(0,-p.z*R.projectedHeight);player(ctx,...a);ctx.restore();}else player(ctx,...a);};
+  const zombie=g.drawZombie.bind(g);g.drawZombie=(ctx,e,...args)=>{const p=V.enemyPose(e);ctx.save();ctx.translate(0,-p.z*R.projectedHeight);zombie(ctx,e,...args);ctx.restore();};
   const depth=g.depthEntries.bind(g);g.depthEntries=v=>{const entries=depth(v),p=V.pose();if(p.site){const b=g.world.buildings.get(p.site),entry=entries.find(e=>e.entity===g.player);if(b&&entry)entry.depth=b.bottom+.1;}
+   for(const entry of entries)if(entry.entity&&entry.kind===3){const q=V.enemyPose(entry.entity),b=q.site&&g.world.buildings.get(q.site);if(b&&q.z>0)entry.depth=b.bottom+.05;}
    for(const e of V.presentation().giants){if(!g.visible(e.x,e.y,250,v))continue;entries.push({depth:e.y,id:e.id,kind:9,draw:ctx=>{const d=R.siege.kinds[e.kind],H=d.height*R.projectedHeight,w=d.radius*R.tile;ctx.save();ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.ellipse(e.x,e.y,w*1.3,w*.45,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=e.windup?'#996b4b':'#665f4a';ctx.fillRect(e.x-w/2,e.y-H,w,H*.65);ctx.fillStyle='#918373';ctx.fillRect(e.x-w*.3,e.y-H-w*.4,w*.6,w*.5);ctx.fillStyle='#434b3c';ctx.fillRect(e.x-w/2,e.y-H*.4,w*.38,H*.4);ctx.fillRect(e.x+w*.12,e.y-H*.4,w*.38,H*.4);if(e.windup){ctx.strokeStyle='#e6b16b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(e.x,e.y,(d.reach+d.radius)*R.tile,0,Math.PI*2);ctx.stroke();}ctx.fillStyle='#dfc38b';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(d.name,e.x,e.y-H-w*.6);ctx.restore();}});}
    entries.sort((a,b)=>a.depth-b.depth||a.kind-b.kind||a.id-b.id);return entries;};
   const render=g.render.bind(g);g.render=(...a)=>{render(...a);const state=V.presentation();if(!state.traces.length||g.frontier?.active())return;const ctx=g.ctx;ctx.save();ctx.setTransform(g.dpr,0,0,g.dpr,0,0);ctx.translate(g.width/2,g.height/2);ctx.scale(g.camera.zoom,g.camera.zoom);ctx.translate(-g.camera.x,-g.camera.y);ctx.strokeStyle='#f1d09a';ctx.lineWidth=2;for(const t of state.traces){ctx.beginPath();ctx.moveTo(t.from.x*R.tile,t.from.y*R.tile-t.from.z*R.projectedHeight);ctx.lineTo(t.to.x*R.tile,t.to.y*R.tile-t.to.z*R.projectedHeight);ctx.stroke();}ctx.restore();};
@@ -43,15 +46,15 @@
   const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){const log=gl.getShaderInfoLog(s);gl.deleteShader(s);throw Error(log);}return s;};
   let program,vertex,fragment;try{program=gl.createProgram();vertex=shader(gl.VERTEX_SHADER,vs);fragment=shader(gl.FRAGMENT_SHADER,fs);gl.attachShader(program,vertex);gl.attachShader(program,fragment);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));}catch(e){if(program)gl.deleteProgram(program);return null;}finally{if(vertex)gl.deleteShader(vertex);if(fragment)gl.deleteShader(fragment);}
   const buffer=gl.createBuffer(),position=gl.getAttribLocation(program,'position'),color=gl.getAttribLocation(program,'color'),eye=gl.getUniformLocation(program,'eye'),angles=gl.getUniformLocation(program,'angles'),aspect=gl.getUniformLocation(program,'aspect'),light=gl.getUniformLocation(program,'light');let lost=false;
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;});
+  const onLost=e=>{e.preventDefault();lost=true;};canvas.addEventListener('webglcontextlost',onLost);
   function cube(out,box,tint){const {x,y,z,w,h,d}=box,pts=[[x,y,z],[x+w,y,z],[x+w,y+h,z],[x,y+h,z],[x,y,z+d],[x+w,y,z+d],[x+w,y+h,z+d],[x,y+h,z+d]],faces=[[0,3,2,1],[4,5,6,7],[0,1,5,4],[3,7,6,2],[0,4,7,3],[1,2,6,5]];
    faces.forEach((face,i)=>{const shade=[.5,1,.68,.83,.6,.75][i];for(const k of [0,1,2,0,2,3])out.push(...pts[face[k]],...tint.map(c=>c*shade));});
   }
-  function humanoid(out,x,y,H,r,yaw,time,telegraph=false){const skin=telegraph?[.56,.30,.20]:[.39,.42,.31],stride=Math.sin(time*3+x)*r*.3;
-   cube(out,{x:x-r*.65,y:y-r*.45,z:H*.35,w:r*1.3,h:r*.9,d:H*.45},skin);
-   cube(out,{x:x-r*.42,y:y-r*.42,z:H*.82,w:r*.84,h:r*.84,d:H*.18},[.60,.56,.43]);
-   cube(out,{x:x-r*.6,y:y-r*.25+stride,z:0,w:r*.43,h:r*.5,d:H*.38},[.22,.27,.21]);cube(out,{x:x+r*.17,y:y-r*.25-stride,z:0,w:r*.43,h:r*.5,d:H*.38},[.22,.27,.21]);
-   for(const s of [-1,1])cube(out,{x:x+s*r*.85-r*.16,y:y-r*.2,z:telegraph?H*.7:H*.38,w:r*.32,h:r*.4,d:H*.4},skin);
+  function humanoid(out,x,y,H,r,yaw,time,telegraph=false,floor=0){const skin=telegraph?[.56,.30,.20]:[.39,.42,.31],stride=Math.sin(time*3+x)*r*.3;
+   cube(out,{x:x-r*.65,y:y-r*.45,z:floor+H*.35,w:r*1.3,h:r*.9,d:H*.45},skin);
+   cube(out,{x:x-r*.42,y:y-r*.42,z:floor+H*.82,w:r*.84,h:r*.84,d:H*.18},[.60,.56,.43]);
+   cube(out,{x:x-r*.6,y:y-r*.25+stride,z:floor,w:r*.43,h:r*.5,d:H*.38},[.22,.27,.21]);cube(out,{x:x+r*.17,y:y-r*.25-stride,z:floor,w:r*.43,h:r*.5,d:H*.38},[.22,.27,.21]);
+   for(const s of [-1,1])cube(out,{x:x+s*r*.85-r*.16,y:y-r*.2,z:floor+(telegraph?H*.7:H*.38),w:r*.32,h:r*.4,d:H*.4},skin);
   }
   function draw(g){if(lost)return false;const V=g.vertical175,state=V.presentation(),q=V.moduleRef(state.controlled);if(!q)return false;
    const rect=canvas.getBoundingClientRect(),scale=Math.min(root.devicePixelRatio||1,1.5),w=Math.max(1,Math.round(rect.width*scale)),h=Math.max(1,Math.round(rect.height*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
@@ -64,14 +67,17 @@
      cube(out,{x:box.x,y:box.y,z:z+.8,w:.12,h:box.h,d:.15},[.68,.64,.47]);cube(out,{x:box.x+box.w-.12,y:box.y,z:z+.8,w:.12,h:box.h,d:.15},[.68,.64,.47]);
      for(let k=0;k<=box.w;k+=2){cube(out,{x:box.x+k-.05,y:box.y,z,w:.1,h:.1,d:.9},[.47,.48,.37]);cube(out,{x:box.x+k-.05,y:box.y+box.h-.1,z,w:.1,h:.1,d:.9},[.47,.48,.37]);}
     }}
+   for(const pile of V.pressure()){if(pile.height<.3)continue;const b=g.world.buildings.get(pile.site);if(!alive(b))continue;const box=S.bounds(b),N=C.VerticalSiege176.pressureSteps,apron=C.VerticalSiege176.apron;
+    for(let i=0;i<N;i++){const size=apron*(N-i)/N,vertical=pile.height/N,z=i*vertical,side=pile.side;const shape=side===0?{x:box.x,y:box.y-size,w:box.w,h:size}:side===1?{x:box.x+box.w,y:box.y,w:size,h:box.h}:side===2?{x:box.x,y:box.y+box.h,w:box.w,h:size}:{x:box.x-size,y:box.y,w:size,h:box.h};cube(out,{...shape,z,d:vertical},[.32,.29,.23]);}
+   }
    const visible=V.sightQuery(camera,q.def.range,q.m.id);
-   for(const e of g.zombies)if(visible(e))humanoid(out,e.x/R.tile,e.y/R.tile,e.kind==='crawler'?.6:1.8,e.radius/R.tile,e.facing||0,g.elapsed);
+   for(const e of g.zombies)if(visible(e))humanoid(out,e.x/R.tile,e.y/R.tile,e.kind==='crawler'?.6:1.8,e.radius/R.tile,e.facing||0,g.elapsed,false,V.enemyPose(e).z);
    for(const e of state.giants){if(!visible(e))continue;const d=R.siege.kinds[e.kind];humanoid(out,e.x/R.tile,e.y/R.tile,d.height,d.radius,e.yaw,g.elapsed,e.windup>0);}
    for(const u of g.units)if(alive(u))humanoid(out,u.x/R.tile,u.y/R.tile,1.8,.28,0,0);
    for(const n of g.world.nodes)if(!n.depleted&&n.amount>0){const x=n.x/R.tile,y=n.y/R.tile;if(n.type==='wood'){cube(out,{x:x-.12,y:y-.12,z:0,w:.24,h:.24,d:2.5},[.35,.27,.17]);cube(out,{x:x-.8,y:y-.8,z:1.8,w:1.6,h:1.6,d:2.2},[.18,.28,.16]);}else cube(out,{x:x-.5,y:y-.5,z:0,w:1,h:1,d:.7},[.40,.42,.34]);}
    gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(out),gl.DYNAMIC_DRAW);gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,3,gl.FLOAT,false,24,0);gl.enableVertexAttribArray(color);gl.vertexAttribPointer(color,3,gl.FLOAT,false,24,12);gl.drawArrays(gl.TRIANGLES,0,out.length/6);return !gl.isContextLost();
   }
-  return{draw,dispose(){gl.deleteBuffer(buffer);gl.deleteProgram(program);},get lost(){return lost;}};
+  return{draw,dispose(){canvas.removeEventListener('webglcontextlost',onLost);if(!lost){gl.deleteBuffer(buffer);gl.deleteProgram(program);}},get lost(){return lost;}};
  }
  const api={install,createFPS};root.DeadwallVertical175Render=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

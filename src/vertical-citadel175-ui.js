@@ -18,13 +18,18 @@
   canvas.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const q=V.moduleRef(V.presentation().controlled);if(!q)return;V.aim(q.m.yaw+(e.clientX-drag.x)*.004,q.m.pitch-(e.clientY-drag.y)*.004);drag.x=e.clientX;drag.y=e.clientY;});
   const end=()=>{drag=null;g.input.mouseDown=false;};for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,end);
   fire.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();fire.setPointerCapture?.(e.pointerId);g.input.touchFire=true;});for(const event of ['pointerup','pointercancel','lostpointercapture'])fire.addEventListener(event,()=>{g.input.touchFire=false;});
-  root.addEventListener('blur',end);
+  const halt=()=>{end();g.input.touchFire=false;};root.addEventListener('blur',halt);
+  doc.addEventListener('visibilitychange',()=>{if(doc.hidden)halt();});
+  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();halt();V.setView('classic');release();});
+  canvas.addEventListener('webglcontextrestored',()=>{renderer?.dispose();renderer=null;halt();g.notify('Rendu 3D rétabli : VUE FPS est de nouveau disponible.','good');});
+  fire.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();if(V.presentation().view==='fps')g.input.touchFire=true;}});
+  fire.addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();halt();}});fire.addEventListener('blur',halt);
   const render=g.render.bind(g);g.render=(...args)=>{const result=render(...args),state=V.presentation(),b=V.target(),shown=g.state==='playing'&&!g.paused&&!g.activeOverlay&&!g.gameOver&&!g.frontier?.active()&&g.player&&!g.player.dead;
    bar.hidden=!shown||!b&&state.controlled===null;const p=V.pose();label.textContent=p.site?p.z.toFixed(0)+' m · PALIER '+(p.level+1):'ACCÈS INTÉRIEUR';access.textContent=p.site?'DESCENDRE':'MONTER';access.hidden=state.controlled!==null;view.hidden=leave.hidden=state.controlled===null;view.textContent=state.view==='fps'?'VUE CLASSIQUE':'VUE FPS';
-   active=shown&&state.controlled!==null&&state.view==='fps';panel.hidden=!active;bar.classList.toggle('is-fps',active);
+   const wasActive=active;active=shown&&state.controlled!==null&&state.view==='fps';panel.hidden=!active;bar.classList.toggle('is-fps',active);
    if(active){if(!renderer?.draw(g)){V.setView('classic');release();g.notify('Contexte 3D perdu : retour à la vue classique.','danger');return result;}
     const q=V.moduleRef(state.controlled),text=q.def.name+' · '+q.m.ammo+'/'+q.def.capacity+' cartouches · '+Math.round(q.m.heat)+' % chaleur'+(q.m.overheated?' · REFROIDISSEMENT':'')+' · '+p.z.toFixed(0)+' m';if(text!==lastText){status.textContent=text;lastText=text;}
-   }else if(drag)end();return result;
+   }else if(wasActive||drag)halt();return result;
   };
   g.vertical175UI={toggleView,release,open};
  }

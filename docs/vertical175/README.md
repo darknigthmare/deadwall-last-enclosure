@@ -45,3 +45,7 @@ Le rendu FPS est un vrai rendu perspective WebGL avec profondeur, mais sa géom�
 `npm ci`, `node --test tests/vertical-citadel175.test.cjs`, `npm run check`, puis `npm start`. Pour le navigateur : `npx playwright install chromium` puis `node scripts/qa-vertical175.mjs`.
 
 `scripts/integrate-vertical175.cjs` matérialise dix modifications relues avec empreintes SHA256 avant/après, contrôle aussi six sources nouvelles, et refuse toute divergence. Il est idempotent ; il ne génère aucun code nouveau. Le workflow est limité à cette branche et effectue un push normal, jamais forcé ni vers main. Aucun asset tiers nouveau n'est importé ; les primitives graphiques sont originales et provisoires.
+
+## Suite 176 — sièges sur les chemins de ronde
+
+La suite de cette même PR ajoute les portes 12/24/48 m, les bastions, les grimpeurs natifs, les attaques des équipements d'étage et la cohérence de tir en altitude. Le registre de sauvegarde migre en version 2. Les commandes, bornes, contrôles et manquants actualisés sont dans [SIEGES_176.md](SIEGES_176.md). Les limites de la livraison 175 ci-dessus sont historiques : ne pas les utiliser comme liste de réception de la suite 176.

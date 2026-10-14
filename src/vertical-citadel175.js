@@ -2,6 +2,7 @@
 (function(root){'use strict';
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.VerticalCitadel175;
  const S=root.DeadwallVertical175State||(typeof require==='function'?require('./vertical-citadel175-state.js'):null);
+ const Siege=root.DeadwallVerticalSiege176||(typeof require==='function'?require('./vertical-siege176.js'):null);
  const copy=o=>JSON.parse(JSON.stringify(o)),live=o=>o&&!o.dead&&o.health>0,dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
  const angle=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=C.clamp;
  function install(g){
@@ -35,7 +36,7 @@
   }return null;}
   function clearAt(x,y,z,r=g.player.radius*.78){
    if(![x,y,z,r].every(Number.isFinite)||r<0)return false;
-   for(const [dx,dy]of [[0,0],[-r,0],[r,0],[0,-r],[0,r],[-r*.71,-r*.71],[r*.71,r*.71]])if(!surfaceAt(x+dx,y+dy,z))return false;
+   for(const [dx,dy]of [[0,0],[-r,0],[r,0],[0,-r],[0,r],[-r*.71,-r*.71],[r*.71,r*.71],[-r*.71,r*.71],[r*.71,-r*.71]])if(!surfaceAt(x+dx,y+dy,z))return false;
    for(const s of state.sites){const b=building(s.id);if(!live(b))continue;const i=s.decks.findIndex((d,k)=>d.progress===1&&Math.abs(S.height(s,k,base(b))-z)<.001);if(i<0)continue;
     for(const m of s.decks[i].modules){const box=S.moduleBox(b,m,z);if(x+r>box.x*R.tile&&x-r<(box.x+box.w)*R.tile&&y+r>box.y*R.tile&&y-r<(box.y+box.h)*R.tile)return false;}
    }return true;
@@ -62,6 +63,8 @@
   function moduleQuote(kind,slot,id=state.actor?.site){const q=currentWorkSite(id),d=R.modules[kind];if(!q.ok)return q;
    if(!d||!Number.isInteger(slot)||slot<0||slot>3)return no('Équipement ou emplacement inconnu.');
    if(g.tier.id<d.tier)return no('Âge requis : '+C.CITY_TIERS[d.tier].name+'.');
+   const footprint=S.moduleBox(q.b,{kind,slot},S.height(q.s,q.level,base(q.b)));
+   if(g.zombies.some(z=>live(z)&&siege.enemyPose(z).site===id&&Math.abs(siege.enemyPose(z).z-footprint.z)<.1&&z.x+z.radius>footprint.x*R.tile&&z.x-z.radius<(footprint.x+footprint.w)*R.tile&&z.y+z.radius>footprint.y*R.tile&&z.y-z.radius<(footprint.y+footprint.h)*R.tile))return no('Emplacement occupé par un infecté : sécurisez le palier.');
    if(q.s.decks[q.level].modules.some(m=>m.slot===slot))return no('Cet emplacement est déjà occupé.');
    if(state.sites.reduce((n,s)=>n+s.decks.reduce((v,d)=>v+d.modules.length,0),0)>=R.maxModules||state.nextId>=Number.MAX_SAFE_INTEGER)return no('Limite de construction atteinte.');
    if(S.mass(q.s)+d.mass>base(q.b).capacity)return no('Charge portante dépassée : utilisez une fondation plus profonde.');
@@ -97,18 +100,29 @@
   }
   function setView(next){if(controlled===null||!['classic','fps'].includes(next))return false;view=next;g.input.mouseDown=false;g.input.touchFire=false;return true;}
   function aim(yaw,pitch){const q=moduleRef(controlled);if(!q||![yaw,pitch].every(Number.isFinite))return false;q.m.yaw=angle(yaw);q.m.pitch=clamp(pitch,-1.45,1.1);return true;}
+  function screenAim(origin){const x=g.input.mouseWorldX,y=g.input.mouseWorldY,visible=sightQuery(origin,R.maxShotRange);let picked=null,best=C.VerticalSiege176.aimPickPixels;
+   for(const e of [...g.zombies,...state.giants]){if(!live(e)||!visible(e))continue;const z=siege.enemyPose(e).z,d=R.siege.kinds[e.kind],height=d?.height||(e.kind==='crawler'?.6:1.8),r=(d?.radius||e.radius/R.tile)*R.tile,top=e.y-(z+height)*R.projectedHeight,bottom=e.y-z*R.projectedHeight;
+    const delta=Math.hypot(x-C.clamp(x,e.x-r,e.x+r),y-C.clamp(y,top,bottom));if(delta<best){best=delta;picked={x:e.x/R.tile,y:e.y/R.tile,z:C.clamp((e.y-y)/R.projectedHeight,z+.1,z+height-.1)};}
+   }return picked||{x:x/R.tile,y:y/R.tile,z:.9};
+  }
   function muzzle(q){const p=S.slots(q.b)[q.m.slot],z=S.height(q.s,q.level,base(q.b))+R.muzzleHeight;return{x:p.x,y:p.y,z};}
   function geometry(){const boxes=[];
    for(const b of g.world.buildings.values())if(live(b)&&b.completed){const q=S.bounds(b),s=site(b.id),v=base(b),h=v?.height||(b.def.wall?3:R.structureHeight);
-    if(b.def.gate&&b.gateMode==='open')continue;
-    boxes.push({...q,z:0,d:h,owner:b.id,type:'structure'});
+    const open=b.def.gate&&b.gateMode==='open';if(open&&!v)continue;
+    const sill=open?v.gateClearance||0:0;
+    boxes.push({...q,z:sill,d:h-sill,owner:b.id,type:'structure'});
     if(s)for(let i=0;i<s.decks.length;i++){const d=s.decks[i],z=S.height(s,i,v);if(i&&d.progress===1)boxes.push({...q,z:z-.4,d:.4,owner:b.id,type:'deck'});
      for(const m of d.modules)boxes.push({...S.moduleBox(b,m,z),owner:b.id,module:m.id,type:'module'});
     }
    }return boxes;
   }
+  function groundObstruction(from,to){if(!state.sites.length)return null;const distance=Math.hypot(to.x-from.x,to.y-from.y)/R.tile;if(!distance)return null;
+   const origin={x:from.x/R.tile,y:from.y/R.tile,z:C.VerticalSiege176.groundShotHeight},direction={x:(to.x-from.x)/R.tile/distance,y:(to.y-from.y)/R.tile/distance,z:0};let nearest=Infinity;
+   for(const s of state.sites){const b=building(s.id),d=b&&base(b);if(!live(b)||!b.completed||d.gate&&b.gateMode==='open')continue;const q=S.bounds(b),hit=S.rayBox(origin,direction,{...q,z:0,d:d.height},distance);if(hit!==null)nearest=Math.min(nearest,hit);}
+   return nearest<=distance?{fraction:nearest/distance,vertical176:true}:null;
+  }
   function giantBox(e){const d=R.siege.kinds[e.kind];return{x:e.x/R.tile-d.radius,y:e.y/R.tile-d.radius,z:0,w:d.radius*2,h:d.radius*2,d:d.height};}
-  function aimPoint(e){return{x:e.x/R.tile,y:e.y/R.tile,z:R.siege.kinds[e.kind]?R.siege.kinds[e.kind].height*.86:e.kind==='crawler'?.3:.9};}
+  function aimPoint(e){return{x:e.x/R.tile,y:e.y/R.tile,z:R.siege.kinds[e.kind]?R.siege.kinds[e.kind].height*.86:((e.kind==='crawler'?.3:.9)+siege.enemyPose(e).z)};}
   function sightQuery(origin,range,ignoreModule=null,boxes=geometry()){
    const blackout=g.nightwatch?.isBlackout?.(),day=blackout?0:clamp(g.daylight?.()??1,0,1),lights=[];
    const clear=(from,to,ignoredOwner=null,ignoredModule=ignoreModule)=>{const a=S.lookAt(from,to),direction=S.direction(a.yaw,a.pitch),distance=Math.hypot(to.x-from.x,to.y-from.y,to.z-from.z);return boxes.every(box=>box.owner===ignoredOwner||box.module===ignoredModule||S.rayBox(from,direction,box,Math.max(0,distance-.02))===null);};
@@ -125,7 +139,7 @@
    const dir=S.direction(yaw,pitch);let best={distance:range,type:'miss',entity:null};
    if(dir.z<0){const d=-origin.z/dir.z;if(d>=0&&d<best.distance)best={distance:d,type:'ground',entity:null};}
    for(const box of boxes){if(box.module===ignoreModule)continue;const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:box.type,entity:box};}
-   for(const e of g.zombies){if(!live(e))continue;const h=e.kind==='crawler'?.6:1.8,r=e.radius/R.tile,box={x:e.x/R.tile-r,y:e.y/R.tile-r,z:0,w:2*r,h:2*r,d:h};const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'zombie',entity:e};}
+   for(const e of g.zombies){if(!live(e))continue;const h=e.kind==='crawler'?.6:1.8,r=e.radius/R.tile,box={x:e.x/R.tile-r,y:e.y/R.tile-r,z:siege.enemyPose(e).z,w:2*r,h:2*r,d:h};const d=S.rayBox(origin,dir,box,best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'zombie',entity:e};}
    for(const e of state.giants){const d=S.rayBox(origin,dir,giantBox(e),best.distance);if(d!==null&&d<best.distance)best={distance:d,type:'giant',entity:e};}
    return{...best,origin,point:{x:origin.x+dir.x*best.distance,y:origin.y+dir.y*best.distance,z:origin.z+dir.z*best.distance}};
   }
@@ -140,7 +154,7 @@
    traces.push({from:origin,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();g.audio?.shoot?.('rifle');return true;
   }
   function fire(){const q=moduleRef(controlled);return !!q&&can()&&!g.paused&&!g.activeOverlay&&nearModule(q)&&shoot(q);}
-  function dropSite(id,height){autoTargets.clear();state.sites=state.sites.filter(s=>s.id!==id);if(job?.id===id)job=null;if(travel?.b.id===id)travel=null;
+  function dropSite(id,height){siege.removeSupport(id);autoTargets.clear();state.sites=state.sites.filter(s=>s.id!==id);if(job?.id===id)job=null;if(travel?.b.id===id)travel=null;
    if(state.actor?.site!==id)return;release();state.actor=null;let point={x:g.player.x,y:g.player.y};
    if(!groundClear(g.player,point.x,point.y)){let found=false;for(let r=R.tile;r<R.tile*12&&!found;r+=R.tile)for(let i=0;i<16;i++){const p={x:point.x+Math.cos(i*Math.PI/8)*r,y:point.y+Math.sin(i*Math.PI/8)*r};if(groundClear(g.player,p.x,p.y)){point=p;found=true;break;}}}
    g.player.x=point.x;g.player.y=point.y;g.damagePlayer(height*R.fallDamagePerMetre);notice='Support perdu : effondrement des étages et perte de leurs équipements.';
@@ -177,7 +191,7 @@
    travelStep(delta);workStep(delta);scanClock-=delta;let boxes=null;
    for(const s of state.sites){const b=building(s.id);if(!live(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules){const def=R.modules[m.kind];if(!def.range||m.progress!==1)continue;
     m.cooldown=Math.max(0,m.cooldown-delta);m.heat=Math.max(0,m.heat-R.heatRecovery*delta);if(m.overheated&&m.heat<=R.heatResume)m.overheated=false;
-    const q={b,s,level,m,def};if(m.id===controlled){if(!nearModule(q)){release();continue;}if(view==='classic'){const p=muzzle(q),to={x:g.input.mouseWorldX/R.tile,y:g.input.mouseWorldY/R.tile,z:.9},a=S.lookAt(p,to);aim(a.yaw,a.pitch);}if(g.input.mouseDown||g.input.touchFire)fire();}
+    const q={b,s,level,m,def};if(m.id===controlled){if(!nearModule(q)){release();continue;}if(view==='classic'){const p=muzzle(q),to=screenAim(p),a=S.lookAt(p,to);aim(a.yaw,a.pitch);}if(g.input.mouseDown||g.input.touchFire)fire();}
     else if(online(b)&&m.ammo>=def.ammoPerShot){boxes??=geometry();const origin=muzzle(q);let enemy=autoTargets.get(m.id);
      if(scanClock<=0){const visible=sightQuery(origin,def.range,m.id,boxes),candidates=[];
       for(const e of [...g.zombies,...state.giants]){if(!live(e))continue;const p=aimPoint(e),distance=Math.hypot(p.x-origin.x,p.y-origin.y,p.z-origin.z);if(distance>def.range)continue;let index=candidates.findIndex(v=>v.distance>distance);if(index<0)index=candidates.length;if(index>=R.targetCandidates)continue;candidates.splice(index,0,{e,distance});if(candidates.length>R.targetCandidates)candidates.pop();}
@@ -188,12 +202,17 @@
    }}
    if(scanClock<=0)scanClock=R.scanInterval;for(let i=traces.length-1;i>=0;i--){traces[i].life-=delta;if(traces[i].life<=0)traces.splice(i,1);}giantStep(delta);
   }
+  function damageModule(id,amount){if(!(amount>0)||!Number.isFinite(amount))return false;const q=moduleRef(id);if(!q)return false;
+   q.m.health-=amount;if(q.m.health<=0){q.s.decks[q.level].modules=q.s.decks[q.level].modules.filter(m=>m.id!==id);if(controlled===id)release();if(job?.object===q.m)job=null;autoTargets.delete(id);g.refreshMetrics(true);notice='Équipement d’étage détruit : '+q.def.name;}return true;
+  }
   const groundClear=g.friendlyPositionClear.bind(g);
+  const siege=Siege.create(g,{state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
+  wrap('killZombie',(old,z,...args)=>{siege.forget(z.id);return old(z,...args);});
   wrap('friendlyPositionClear',(old,e,x,y)=>e===g.player&&state.actor?clearAt(x,y,pose().z,e.radius*.78):old(e,x,y));
   wrap('moveFriendly',(old,e,dx,dy)=>{if(e!==g.player||!state.actor)return old(e,dx,dy);if(travel||controlled!==null)return;const z=pose().z,n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/(e.radius*.5)));for(let i=0;i<n;i++){if(clearAt(e.x+dx/n,e.y,z))e.x+=dx/n;if(clearAt(e.x,e.y+dy/n,z))e.y+=dy/n;}const s=surfaceAt(e.x,e.y,z);if(s)state.actor={site:s.s.id,level:s.level};});
   wrap('workerCanWorkAt',(old,e,t,...args)=>e===g.player&&state.actor?false:old(e,t,...args));
-  wrap('hostileLineClear',(old,a,b,...args)=>{if((a===g.player||b===g.player)&&pose().z>2)return false;return old(a,b,...args);});
-  wrap('zombieCanClimb',(old,e,b)=>base(b)?(b.corpseLoad>base(b).height*R.climbLoadPerMetre&&old(e,b)):old(e,b));
+  wrap('hostileLineClear',(old,a,b,...args)=>{if(siege.enemyPose(a).z||siege.enemyPose(b).z||(a===g.player||b===g.player)&&pose().z>2)return siege.canMelee(a,b);return old(a,b,...args);});
+  wrap('zombieCanClimb',(old,e,b)=>base(b)?false:old(e,b));
   wrap('selectBuild',(old,...args)=>state.actor?say(no('Redescendez au sol pour placer une nouvelle fondation.')):old(...args));
   wrap('placeOne',(old,type,...args)=>{if(base({type})&&state.sites.length>=R.maxSites)return false;const result=old(type,...args);if(result&&R.bases[type]){ensure();g.refreshMetrics(true);}return result;});
   wrap('updateInteraction',(old,dt)=>{if(!state.actor&&!travel)return old(dt);g.interactionText=notice||'CITÉ VERTICALE — E : accès intérieur · Préparatifs : équipements et dalles';if(g.input.pressed.has('KeyE')&&!busy()){const b=target();if(b)access(b.id,state.actor?.level>0?state.actor.level-1:-1);}});
@@ -202,7 +221,7 @@
    return old(dt);
   });
   wrap('shootPlayer',(old,...args)=>{personalShot=!!state.actor;try{return old(...args);}finally{personalShot=false;}});
-  wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to={x:g.input.mouseWorldX/R.tile,y:g.input.mouseWorldY/R.tile,z:.9},a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
+  wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to=screenAim(p),a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
   wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
   wrap('destroyBuilding',(old,b,...args)=>{const z=state.actor?.site===b.id?pose().z:0,result=old(b,...args);if(base(b)&&b.dead){dropSite(b.id,z);g.refreshMetrics(true);}return result;});
   wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
@@ -210,7 +229,7 @@
   wrap('returnToMenu',(old,...args)=>{stop('');return old(...args);});
   wrap('onEscape',(old,...args)=>{if(busy()){stop();return;}return old(...args);});
   function overview(){const b=target(),s=b&&site(b.id),p=pose();return{summary:'Remparts, fondations et équipements reliés aux stocks et à l’électricité de D-17.',message:notice,
-   rows:[{label:'Altitude',value:p.z.toFixed(1)+' m'},{label:'Support',value:b?.def.name||'Approchez une entrée ou sélectionnez une fondation'},{label:'Charge',value:s?S.mass(s)+' / '+base(b).capacity:'—'},{label:'Paliers',value:s?s.decks.filter(d=>d.progress===1).length:'—'},{label:'Accès',value:s?.lift===1?'Escalier + ascenseur alimenté selon le réseau':'Escalier intérieur'},{label:'Travail',value:job?job.kind:travel?travel.kind:controlled!==null?'Affût manuel':'Aucun'}]};}
+   rows:[{label:'Altitude',value:p.z.toFixed(1)+' m'},{label:'Support',value:b?.def.name||'Approchez une entrée ou sélectionnez une fondation'},{label:'Charge',value:s?S.mass(s)+' / '+base(b).capacity:'—'},{label:'Paliers',value:s?s.decks.filter(d=>d.progress===1).length:'—'},{label:'Grimpeurs',value:state.climbers.length+' / '+C.VerticalSiege176.maxClimbers},{label:'Accès',value:s?.lift===1?'Escalier + ascenseur alimenté selon le réseau':'Escalier intérieur'},{label:'Travail',value:job?job.kind:travel?travel.kind:controlled!==null?'Affût manuel':'Aucun'}]};}
   function actions(){const b=target(),s=b&&site(b.id),result=[];if(!s)return result;
    const add=(id,label,run,description='')=>result.push({id,label,run,description,close:true});
    if(!state.actor)add('up','Monter par l’escalier intérieur',()=>access(b.id,0));
@@ -225,10 +244,10 @@
    }
    if(busy())add('cancel','Interrompre / rendre le contrôle',()=>stop());return result;
   }
-  const api={pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
-   hasActiveSiege:()=>state.giants.length>0,snapshot:()=>copy(state),presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:null,notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
+  const api={groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
+   prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>copy(state),presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:null,notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
   g.expansions.register({id:'vertical175',title:'Citadelle verticale',validate:S.normalize,snapshot:api.snapshot,overview,actions,busy,
-   restore:raw=>{state=S.normalize(raw);autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{state=S.initial();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
+   restore:raw=>{state=S.normalize(raw);siege.reset();autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{state=S.initial();siege.reset();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
   wrap('restoreSave',(old,raw)=>{const p=raw?.player?{x:raw.player.x,y:raw.player.y}:null,result=old(raw);if(result!==false&&state.actor&&p){g.player.x=p.x;g.player.y=p.y;}return result;});
   ensure();return api;
  }

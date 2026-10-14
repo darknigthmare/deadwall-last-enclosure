@@ -2228,6 +2228,12 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
    rampart12:base('rampart12','Rempart de veille — 12 m',12,[12,6],3,{stone:220,scrap:100},3600,160,true),
    rampart24:base('rampart24','Grande enceinte — 24 m',24,[12,6],6,{stone:500,scrap:240},6200,220,true),
    rampart48:base('rampart48','Muraille ultime — 48 m',48,[16,8],8,{stone:1000,scrap:500},10500,320,true),
+   citadelGate12:{...base('citadelGate12','Porte de citadelle — 12 m',12,[6,6],3,{stone:260,scrap:160},2800,160,true),gate:true,gateClearance:4},
+   citadelGate24:{...base('citadelGate24','Grande porte de citadelle — 24 m',24,[6,6],6,{stone:560,scrap:320},5000,220,true),gate:true,gateClearance:4},
+   citadelGate48:{...base('citadelGate48','Porte de mégaville — 48 m',48,[8,8],8,{stone:1100,scrap:650},8500,320,true),gate:true,gateClearance:5},
+   cornerBastion12:base('cornerBastion12','Bastion d’angle — 12 m',12,[6,6],3,{stone:240,scrap:110},4200,180,true),
+   cornerBastion24:base('cornerBastion24','Grand bastion d’angle — 24 m',24,[6,6],6,{stone:540,scrap:260},7000,240,true),
+   cornerBastion48:base('cornerBastion48','Bastion de mégaville — 48 m',48,[8,8],8,{stone:1080,scrap:560},12000,340,true),
    verticalFoundation6:base('verticalFoundation6','Fondation habitée — 6 m',6,[12,12],4,{stone:280,scrap:140},4000,300),
    verticalFoundation12:base('verticalFoundation12','Fondation profonde — 12 m',12,[16,16],6,{stone:600,scrap:260},6500,480)
   },
@@ -2251,3 +2257,11 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   }
  });
 })(globalThis);
+
+/* Bounded native-enemy climb controller; values are gameplay tuning, not engineering units. */
+(function(root){'use strict';root.DeadwallCore.VerticalSiege176=Object.freeze({
+ scanSeconds:.3,apron:3,loadPerMetre:16,livingWeight:.8,corpseFaceShare:.25,
+ reach:.8,margin:.8,clearance:.45,mantleStart:.85,climbSpeed:1.4,fallSpeed:10,
+ maxClimbers:24,meleeReach:1.1,groundShotHeight:1.65,fallDamagePerMetre:8,
+ aimPickPixels:18,roofStep:.18,roofSpeed:1.4,positionTolerance:.03,pressureSteps:6
+});})(globalThis);
