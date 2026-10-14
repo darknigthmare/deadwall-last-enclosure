@@ -53,3 +53,7 @@ La suite de cette même PR ajoute les portes 12/24/48 m, les bastions, les grimp
 ## Suite 177 — couverture des onze âges et maintenance
 
 La suite 177 ajoute 28 supports et 22 équipements, les services de réparation/soins/démontage, le catalogue par âge et la production indépendante des ateliers. Elle conserve les sauvegardes et plafonds historiques des fondations existantes. Voir [AGES_177.md](AGES_177.md) pour les valeurs, commandes, tests et limites actualisés.
+
+## Suite 178 — reconfiguration et entretien structurel
+
+Les équipements achevés peuvent être déplacés entre emplacements d'un même palier contre matériaux et temps, sans recréer leurs stocks. Les chantiers inachevés, dernières dalles vides et ascenseurs disposent d'une dépose confirmée avec récupération bornée ; les dalles additionnelles endommagées sont réparables. Les onze âges, limites de charge et escaliers restent préservés. [MAINTENANCE_178.md](MAINTENANCE_178.md) détaille les commandes, garanties, tests et chantiers encore ouverts.

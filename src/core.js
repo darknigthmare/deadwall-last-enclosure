@@ -2348,3 +2348,9 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  const inherited=Object.fromEntries(Object.entries(P.bases).map(([id,b])=>[id,{...b,maxDecks:b.wall?1:P.maxDecks}]));
  C.VerticalCitadel175=freeze({...P,maxHeight:72,maxDecks:7,bases:{...inherited,...bases},modules:{...P.modules,...modules}});
 })(globalThis);
+
+/* 178: local reconfiguration and reversible floor/lift works, shared by every city age. */
+(function(root){'use strict';root.DeadwallCore.VerticalMaintenance178=Object.freeze({
+ materials:Object.freeze(['wood','scrap','stone']),moveCostFraction:.08,moveSeconds:8,moveSecondsPerMass:.12,
+ cancelSeconds:8,deckDismantleSeconds:20,liftDismantleSeconds:18,deckRepairSeconds:12,deckRepairHealth:300
+});})(globalThis);

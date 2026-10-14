@@ -7,7 +7,7 @@
  const angle=a=>Math.atan2(Math.sin(a),Math.cos(a)),clamp=C.clamp;
  function install(g){
   if(g.vertical175)return g.vertical175;if(!g.expansions)return null;S.register();
-  let state=S.initial(),job=null,travel=null,controlled=null,view='classic',notice='',scanClock=0,personalShot=false,moduleGroup=A.defaultGroup,dismantleReview=null,catalogueAge=null;
+  let state=S.initial(),job=null,travel=null,controlled=null,view='classic',notice='',scanClock=0,personalShot=false,moduleGroup=A.defaultGroup,dismantleReview=null,catalogueAge=null,engineeringReview178=null;
   const autoTargets=new Map(),wired=new WeakSet(),traces=[],wrap=(key,fn)=>{if(typeof g[key]==='function'){const old=g[key].bind(g);g[key]=(...args)=>fn(old,...args);}};
   const site=id=>state.sites.find(s=>s.id===id),building=id=>g.world?.buildings.get(id),base=b=>b&&R.bases[b.type];
   const structural=b=>live(b)&&b.completed&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline;
@@ -18,7 +18,7 @@
   const no=reason=>({ok:false,reason}),say=q=>{notice=q.reason||'';g.notify?.(notice,q.ok?'good':'danger');return q;};
   const ok=reason=>({ok:true,reason});
   function release(){controlled=null;view='classic';g.releaseInputs?.();g.vertical175UI?.release?.();}
-  function stop(reason='Travail interrompu ; l’avancement financé est conservé.'){dismantleReview=null;job=null;travel=null;release();notice=reason;return ok(reason);}
+  function stop(reason='Travail interrompu ; l’avancement financé est conservé.'){dismantleReview=null;engineeringReview178=null;job=null;travel=null;release();notice=reason;return ok(reason);}
   function moduleRef(id){for(const s of state.sites)for(let level=0;level<s.decks.length;level++){const m=s.decks[level].modules.find(m=>m.id===id);if(m)return{s,b:building(s.id),level,m,def:R.modules[m.kind]};}return null;}
   function wire(b){if(!base(b)||wired.has(b))return;wired.add(b);
    Object.defineProperty(b,'def',{configurable:true,get(){const d=C.BUILDINGS[this.type],s=site(this.id);if(!s||!R.bases[this.type])return d;const n=S.totals(s);return{...d,housing:(d.housing||0)+n.housing,storage:(d.storage||0)+n.storage,powerUse:n.powerUse,score:d.score+n.score,light:n.light,production:n.production,consumes:n.consumes};}});
@@ -71,7 +71,7 @@
   }
   function productionPlans(b){
    const s=site(b.id);if(!s)return null;
-   return s.decks.filter(d=>d.progress===1).flatMap(d=>d.modules.filter(m=>m.progress===1&&m.health>0&&R.modules[m.kind].production).map(m=>R.modules[m.kind]));
+   return s.decks.filter(d=>d.progress===1).flatMap(d=>d.modules.filter(m=>m.progress===1&&m.health>0&&R.modules[m.kind].production&&!(job?.kind==='engineering178'&&job.object===m)).map(m=>R.modules[m.kind]));
   }
   function maintenanceQuote(id,kind){
    const q=moduleRef(id);
@@ -133,9 +133,100 @@
    }
    job=null;notice=j.kind==='dismantle'?'Équipement démonté ; emplacement libéré.':j.kind==='repair'?'Réparation effectuée ; matériaux débités une seule fois.':'Soins terminés ; médicaments prélevés dans le sac.';g.audio?.build?.();g.refreshMetrics(true);
   }
+  function engineeringClear178(b,level,kind,slot,ignoreId=null){
+   const footprint=S.moduleBox(b,{kind,slot},S.height(site(b.id),level,base(b))),bounds=S.bounds(b);
+   if(footprint.x<bounds.x||footprint.y<bounds.y||footprint.x+footprint.w>bounds.x+bounds.w||footprint.y+footprint.h>bounds.y+bounds.h)return no('Équipement trop large pour ce support.');
+   const overlaps=box=>footprint.x<box.x+box.w&&footprint.x+footprint.w>box.x&&footprint.y<box.y+box.h&&footprint.y+footprint.h>box.y;
+   for(const m of site(b.id).decks[level].modules)if(m.id!==ignoreId&&(m.slot===slot||overlaps(S.moduleBox(b,m,footprint.z))))return no('Emplacement ou emprise déjà occupé.');
+   const actorBox=(e,r)=>({x:(e.x-r)/R.tile,y:(e.y-r)/R.tile,w:2*r/R.tile,h:2*r/R.tile});
+   if(Math.abs(pose().z-footprint.z)<.1&&overlaps(actorBox(g.player,g.player.radius*.78)))return no('Écartez-vous de la destination avant les travaux.');
+   for(const z of g.zombies)if(live(z)&&Math.abs(siege.enemyPose(z).z-footprint.z)<.1&&overlaps(actorBox(z,z.radius)))return no('Destination occupée par un infecté : sécurisez le palier.');
+   return ok('Emprise libre.');
+  }
+  function engineeringQuote178(kind,id,slot){
+   const E=C.VerticalMaintenance178;
+   if(!can()||busy()||g.player.reload>0)return no('Libérez vos mains avant l’intervention.');
+   let q,object,level,seconds,cost={},refund={},amount=0;
+   if(kind==='relocate'||kind==='cancelModule'){
+    q=moduleRef(id);
+    if(!q||!structural(q.b)||!state.actor||state.actor.site!==q.s.id||state.actor.level!==q.level)return no('Rejoignez l’équipement sur son palier.');
+    const p=S.slots(q.b)[q.m.slot];
+    if(Math.hypot(g.player.x-p.x*R.tile,g.player.y-p.y*R.tile)>R.workReach)return no('Approchez l’équipement à reconfigurer.');
+    object=q.m;level=q.level;
+    if(kind==='relocate'){
+     if(q.m.progress!==1||!Number.isInteger(slot)||slot<0||slot>3||slot===q.m.slot)return no('Choisissez un autre emplacement pour un équipement achevé.');
+     const clear=engineeringClear178(q.b,level,q.m.kind,slot,q.m.id);if(!clear.ok)return clear;
+     cost=Object.fromEntries(Object.entries(q.def.cost).filter(([k])=>E.materials.includes(k)).map(([k,n])=>[k,Math.ceil(n*E.moveCostFraction)]));
+     seconds=E.moveSeconds+q.def.mass*E.moveSecondsPerMass;
+    }else{
+     if(q.m.progress===1)return no('Équipement achevé : utilisez son démontage ordinaire.');
+     seconds=E.cancelSeconds;
+     refund=Object.fromEntries(Object.entries(q.def.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*q.m.progress*q.m.health/q.def.health)]));
+    }
+   }else{
+    q=currentWorkSite(id);if(!q.ok)return q;
+    if(!structural(q.b))return no('Support indisponible pour les travaux.');
+    level=q.level;
+    if(kind==='removeDeck'){
+     const top=q.s.decks.length-1;
+     if(top<=0||base(q.b).wall)return no('La dalle de base et les chemins de ronde sont indissociables du support.');
+     if(level!==top-1)return no('Redescendez sur le palier immédiatement inférieur pour déposer la dalle supérieure.');
+     object=q.s.decks[top];
+     if(object.modules.length)return no('Videz tous les équipements et chantiers de la dalle supérieure.');
+     const z=S.height(q.s,top,base(q.b));
+     if(g.zombies.some(e=>live(e)&&siege.enemyPose(e).site===id&&Math.abs(siege.enemyPose(e).z-z)<.1))return no('Un infecté occupe encore la dalle.');
+     seconds=E.deckDismantleSeconds;
+     refund=Object.fromEntries(Object.entries(R.deck.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*object.progress*object.health/R.deck.health)]));
+    }else if(kind==='removeLift'){
+     if(q.s.lift<=0)return no('Aucun ascenseur ni chantier à déposer.');
+     object=q.s;seconds=E.liftDismantleSeconds;
+     refund=Object.fromEntries(Object.entries(R.lift.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*q.s.lift)]));
+    }else if(kind==='repairDeck'){
+     if(level<=0)return no('Réparez le support au sol pour entretenir sa dalle de base.');
+     object=q.s.decks[level];amount=Math.min(E.deckRepairHealth,R.deck.health-object.health);
+     if(object.progress!==1||amount<=0)return no('Dalle inachevée ou intégrité complète.');
+     cost=Object.fromEntries(Object.entries(R.deck.cost).map(([k,n])=>[k,Math.ceil(n*A.repairFraction*amount/R.deck.health)]));
+     seconds=E.deckRepairSeconds;
+    }else return no('Opération de reconfiguration inconnue.');
+   }
+   if(!C.canAfford(g.resources,cost))return no('Matériaux manquants au dépôt : '+C.resourceText(cost));
+   // Capacity is unchanged: no occupied deck, completed warehouse or habitat is removed here.
+   refund=Object.fromEntries(Object.entries(refund).map(([k,n])=>[k,Math.min(n,Math.max(0,g.storage-(g.resources[k]||0)))]));
+   return {...q,ok:true,kind,object,level,slot,seconds,cost,refund,amount};
+  }
+  function engineering178(kind,id,slot,confirm=false){
+   const q=engineeringQuote178(kind,id,slot);if(!q.ok){engineeringReview178=null;return say(q);}
+   if(['removeDeck','removeLift','cancelModule'].includes(kind)){
+    const fingerprint=JSON.stringify([kind,id,slot,q.object,q.b.health,q.s.decks.length,g.resources]);
+    if(!confirm||engineeringReview178?.fingerprint!==fingerprint||engineeringReview178.world!==g.world){
+     engineeringReview178={kind,id,fingerprint,world:g.world};notice='Confirmer la dépose ? Les accès restants sont conservés. Récupération plafonnée : '+C.resourceText(q.refund)+'.';
+     return {ok:false,confirmation:true,reason:notice};
+    }
+   }
+   engineeringReview178=null;dismantleReview=null;
+   job={kind:'engineering178',operation:kind,requestedId:id,slot,object:q.object,id:q.s.id,level:q.level,seconds:q.seconds,elapsed:0,
+    x:g.player.x,y:g.player.y,health:g.player.health,targetHealth:q.object.health??q.b.health,supportHealth:q.b.health,world:g.world};
+   g.releaseInputs();notice='Reconfiguration en cours ; restez sur ce palier. Aucun paiement avant achèvement.';return ok(notice);
+  }
+  function engineeringStep178(j,dt){
+   job=null;let q;try{q=engineeringQuote178(j.operation,j.requestedId,j.slot);}finally{job=j;}
+   if(!q.ok||q.object!==j.object||(q.object.health??q.b.health)<j.targetHealth||q.b.health<j.supportHealth){job=null;notice=q.ok?'Travaux interrompus par des dégâts ; rien n’a été déplacé ni débité.':q.reason;return;}
+   j.elapsed+=dt;if(j.elapsed+1e-8<j.seconds)return;
+   C.spend(g.resources,q.cost);
+   if(j.operation==='relocate'){q.m.slot=j.slot;autoTargets.delete(q.m.id);}
+   else if(j.operation==='removeDeck')q.s.decks.pop();
+   else if(j.operation==='removeLift')q.s.lift=0;
+   else if(j.operation==='repairDeck')q.object.health=Math.min(R.deck.health,q.object.health+q.amount);
+   else if(j.operation==='cancelModule')q.s.decks[q.level].modules=q.s.decks[q.level].modules.filter(m=>m!==q.m);
+   job=null;g.refreshMetrics(true);
+   for(const [k,n]of Object.entries(q.refund))g.resources[k]+=Math.min(n,Math.max(0,g.storage-g.resources[k]));
+   notice=j.operation==='relocate'?'Équipement déplacé ; identité, intégrité et munitions conservées.':j.operation==='repairDeck'?'Dalle réparée ; matériaux débités.':'Dépose achevée ; matériaux récupérés dans la limite du stockage.';
+   g.audio?.build?.();
+  }
   function moduleQuote(kind,slot,id=state.actor?.site){const q=currentWorkSite(id),d=R.modules[kind];if(!q.ok)return q;
    if(!d||!Number.isInteger(slot)||slot<0||slot>3)return no('Équipement ou emplacement inconnu.');
    if(g.tier.id<d.tier)return no('Âge requis : '+C.CITY_TIERS[d.tier].name+'.');
+   const clearance178=engineeringClear178(q.b,q.level,kind,slot);if(!clearance178.ok)return clearance178;
    const footprint=S.moduleBox(q.b,{kind,slot},S.height(q.s,q.level,base(q.b)));
    const bounds=S.bounds(q.b);if(footprint.x<bounds.x||footprint.y<bounds.y||footprint.x+footprint.w>bounds.x+bounds.w||footprint.y+footprint.h>bounds.y+bounds.h)return no('Équipement trop large pour ce support.');
    if(g.zombies.some(z=>live(z)&&siege.enemyPose(z).site===id&&Math.abs(siege.enemyPose(z).z-footprint.z)<.1&&z.x+z.radius>footprint.x*R.tile&&z.x-z.radius<(footprint.x+footprint.w)*R.tile&&z.y+z.radius>footprint.y*R.tile&&z.y-z.radius<(footprint.y+footprint.h)*R.tile))return no('Emplacement occupé par un infecté : sécurisez le palier.');
@@ -235,6 +326,7 @@
    g.player.x=point.x;g.player.y=point.y;g.damagePlayer(height*R.fallDamagePerMetre);notice='Support perdu : effondrement des étages et perte de leurs équipements.';
   }
   function workStep(dt){if(!job)return;const j=job,b=building(j.id);if(!live(b)||g.world!==j.world||g.player.health<j.health||g.player.reload>0||dist(g.player,j)>R.workMoveTolerance||!state.actor||state.actor.site!==j.id||state.actor.level!==j.level||g.frontier?.active()||g.input.mouseDown||g.input.touchFire){job=null;notice='Travail interrompu ; chantier conservé.';return;}
+   if(j.kind==='engineering178'){engineeringStep178(j,dt);return;}
    if(['repair','medical','dismantle'].includes(j.kind)){serviceStep(j,dt);return;}
    if(j.kind==='reload'){const q=moduleRef(j.object.id);if(!nearModule(q)||g.player.carry!==j.bag){job=null;return;}j.elapsed+=dt;if(j.elapsed>=j.seconds){const n=Math.min(j.amount,Math.floor(j.bag.ammo||0),q.def.capacity-q.m.ammo);j.bag.ammo-=n;q.m.ammo+=n;job=null;notice='Ravitaillement terminé : '+n+' cartouches transférées.';}return;}
    j.elapsed+=dt;const key=j.kind==='lift'?'lift':'progress';j.object[key]=Math.min(1,j.object[key]+dt/j.seconds);if(j.object[key]===1){job=null;g.refreshMetrics(true);notice='Chantier achevé : '+(j.kind==='module'?R.modules[j.object.kind].name:j.kind==='deck'?R.deck.name:R.lift.name);}
@@ -268,7 +360,7 @@
    for(const s of state.sites){const b=building(s.id);if(!live(b))continue;for(let level=0;level<s.decks.length;level++)for(const m of s.decks[level].modules){const def=R.modules[m.kind];if(!def.range||m.progress!==1)continue;
     m.cooldown=Math.max(0,m.cooldown-delta);m.heat=Math.max(0,m.heat-R.heatRecovery*delta);if(m.overheated&&m.heat<=R.heatResume)m.overheated=false;
     const q={b,s,level,m,def};if(m.id===controlled){if(!nearModule(q)){release();continue;}if(view==='classic'){const p=muzzle(q),to=screenAim(p),a=S.lookAt(p,to);aim(a.yaw,a.pitch);}if(g.input.mouseDown||g.input.touchFire)fire();}
-    else if(!def.manualOnly&&operational(q)&&m.ammo>=def.ammoPerShot){boxes??=geometry();const origin=muzzle(q);let enemy=autoTargets.get(m.id);
+    else if(!(job?.kind==='engineering178'&&job.object===m)&&!def.manualOnly&&operational(q)&&m.ammo>=def.ammoPerShot){boxes??=geometry();const origin=muzzle(q);let enemy=autoTargets.get(m.id);
      if(scanClock<=0){const visible=sightQuery(origin,def.range,m.id,boxes),candidates=[];
       for(const e of [...g.zombies,...state.giants]){if(!live(e))continue;const p=aimPoint(e),distance=Math.hypot(p.x-origin.x,p.y-origin.y,p.z-origin.z);if(distance>def.range)continue;let index=candidates.findIndex(v=>v.distance>distance);if(index<0)index=candidates.length;if(index>=R.targetCandidates)continue;candidates.splice(index,0,{e,distance});if(candidates.length>R.targetCandidates)candidates.pop();}
       enemy=candidates.find(v=>visible(v.e))?.e;autoTargets.set(m.id,enemy);
@@ -319,6 +411,16 @@
     for(const [group,label]of [['defense','Défenses et éclairage'],['civil','Vie et production'],['service','Entretien et soins']])result.push({id:'group-'+group,label,close:false,run:()=>{moduleGroup=group;dismantleReview=null;return ok(label);}});
     const deck=s.decks[state.actor.level],free=[0,1,2,3].find(slot=>!deck.modules.some(m=>m.slot===slot));
     if(free!==undefined&&moduleGroup!=='service')for(const [kind,d]of Object.entries(R.modules).filter(([,d])=>d.tier<=g.tier.id&&(moduleGroup==='defense'?d.range||d.light:!d.range&&!d.light)))add('build-'+kind,'Installer : '+d.name,()=>buildModule(kind,free,b.id),C.resourceText(d.cost)+(d.manualOnly?' · manuel, sans courant':'')+' · '+d.mass+' charge · emplacement '+(free+1));
+    if(moduleGroup==='service'){
+     if(state.actor.level>0&&deck.health<R.deck.health)add('repair-deck','Réparer la dalle actuelle',()=>engineering178('repairDeck',b.id),'Paiement final ; aucune construction supplémentaire.');
+     const structureAction=(operation,id,label,description)=>result.push({id,label:engineeringReview178?.kind===operation&&engineeringReview178.id===b.id?'CONFIRMER : '+label:label,close:true,run:()=>engineering178(operation,b.id,undefined,engineeringReview178?.kind===operation&&engineeringReview178.id===b.id),description});
+     if(s.decks.length>1)structureAction('removeDeck','remove-top-deck','Déposer la dalle supérieure','Dalle vide uniquement ; opérer depuis le palier inférieur.');
+     if(s.lift>0)structureAction('removeLift','remove-lift','Déposer l’ascenseur','Les escaliers et tous les paliers restent utilisables.');
+     for(const m of deck.modules){
+      if(m.progress===1){for(let slot=0;slot<4;slot++)if(slot!==m.slot&&!deck.modules.some(other=>other.slot===slot))add('move-'+m.id+'-'+slot,'Déplacer : '+R.modules[m.kind].name+' → emplacement '+(slot+1),()=>engineering178('relocate',m.id,slot),'Même palier ; intégrité et stocks conservés ; matériaux payés à la fin.');}
+      else result.push({id:'cancel-project-'+m.id,label:engineeringReview178?.kind==='cancelModule'&&engineeringReview178.id===m.id?'CONFIRMER : déposer le chantier':'Déposer le chantier : '+R.modules[m.kind].name,close:true,run:()=>engineering178('cancelModule',m.id,undefined,engineeringReview178?.kind==='cancelModule'&&engineeringReview178.id===m.id),description:'Aucune capacité acquise ; récupération selon l’avancement réel.'});
+     }
+    }
     if(moduleGroup==='service')for(const m of deck.modules)if(m.progress===1){
      const d=R.modules[m.kind];if(m.health<d.health)add('repair-'+m.id,'Réparer : '+d.name,()=>repairModule(m.id),'Intervention sur place ; paiement final au dépôt.');
      if(d.medical)add('medical-'+m.id,'Se soigner : '+d.name,()=>useMedical(m.id),d.medical.medicine+' médicament(s) du sac ; absence de menace.');
@@ -328,7 +430,7 @@
    }
    if(busy())add('cancel','Interrompre / rendre le contrôle',()=>stop());return result;
   }
-  const api={catalogue,productionPlans,maintenanceQuote,repairModule,useMedical,dismantleModule,groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
+  const api={engineeringQuote178,relocateModule:(id,slot)=>engineering178('relocate',id,slot),dismantleTopDeck:(id=state.actor?.site,confirm=false)=>engineering178('removeDeck',id,undefined,confirm),dismantleLift:(id=state.actor?.site,confirm=false)=>engineering178('removeLift',id,undefined,confirm),repairDeck:(id=state.actor?.site)=>engineering178('repairDeck',id),cancelModuleProject:(id,confirm=false)=>engineering178('cancelModule',id,undefined,confirm),catalogue,productionPlans,maintenanceQuote,repairModule,useMedical,dismantleModule,groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
    prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>copy(state),presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:null,notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
   g.expansions.register({id:'vertical175',title:'Citadelle verticale',validate:S.normalize,snapshot:api.snapshot,overview,actions,busy,
    restore:raw=>{state=S.normalize(raw);siege.reset();autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{catalogueAge=null;moduleGroup=A.defaultGroup;state=S.initial();siege.reset();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
