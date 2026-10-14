@@ -54,7 +54,10 @@ try{
  await action('network-unload-1');await tick(12);
  const unpacked=await page.evaluate(()=>{const q=DEADWALL.vertical175.moduleRef(fixture179.gun);return{id:q.m.id,site:q.s.id,level:q.level,ammo:q.m.ammo,health:q.m.health};});assert.equal(unpacked.site,fixture.b);assert.equal(unpacked.id,gun);assert.equal(unpacked.ammo,7);assert.equal(unpacked.health,350);report.checks.push({sameEquipmentUnpacked:unpacked,mobileOverflow:false});
  await page.setViewportSize({width:1440,height:900});await page.evaluate(()=>{const V=DEADWALL.vertical175,q=V.moduleRef(fixture179.gun),p=DeadwallVertical175State.slots(q.b)[q.m.slot];DEADWALL.resize();move179((p.x-.7)*32-13,p.y*32);});
- await dossier();await action('control-'+gun);await page.locator('#vertical175view').click();await page.evaluate(()=>{DEADWALL.vertical175.aim(Math.PI,-.13);DEADWALL.render();});
+ await dossier();await action('control-'+gun);
+ // RAF is frozen by this fixture: render the genuine control result before looking for its newly visible button.
+ const controlled=await page.evaluate(()=>{DEADWALL.render();return DEADWALL.vertical175.presentation().controlled;});assert.equal(controlled,gun,'real dossier control acquired the transported gun');
+ await page.locator('#vertical175view').click();await page.evaluate(()=>{DEADWALL.vertical175.aim(Math.PI,-.13);DEADWALL.render();});
  const fps=await page.evaluate(()=>{const gl=document.getElementById('vertical175canvas').getContext('webgl');return{view:DEADWALL.vertical175.presentation().view,webgl:!!gl,error:gl?.getError(),bridges:DEADWALL.vertical175.geometry().filter(b=>b.type==='bridge').length};});assert.equal(fps.view,'fps');assert.equal(fps.webgl,true);assert.equal(fps.error,0);assert.equal(fps.bridges,1);report.checks.push({sharedBridgeGeometryFPS:fps});await page.screenshot({path:out+'/04-bridge-from-relocated-fps.png'});
  await page.locator('#vertical175leave').click();await page.evaluate(()=>{const b=DEADWALL.world.buildings.get(fixture179.b);move179(b.x,b.y);});await dossier();await action('deck');await tick(40);
  await page.evaluate(()=>{const V=DEADWALL.vertical175,q=V.moduleRef(fixture179.gun),p=DeadwallVertical175State.slots(q.b)[q.m.slot];move179((p.x-.7)*32-13,p.y*32);});await dossier();await action('group-network');await action('network-pack-'+gun);await tick(12);

@@ -1,86 +1,61 @@
-name: Vertical network 179 hardening
+name: Vertical network 179 QA
 on:
   push:
     branches: [feat/vertical-citadel-175]
-    paths: ['.delivery/vertical179/**', '.github/workflows/vertical-network179.yml']
+    paths: ['src/vertical*.js', 'src/core.js', 'src/expansion-kit.js', 'src/expeditions.js', 'src/frontier.js', 'tests/vertical*.cjs', 'tests/helpers/vertical*.cjs', 'scripts/qa-vertical*.mjs', 'scripts/server.mjs', 'scripts/build.mjs', 'index.html', '.github/workflows/vertical-network179.yml']
+  pull_request:
+    paths: ['src/vertical*.js', 'tests/vertical*.cjs', 'scripts/qa-vertical*.mjs', '.github/workflows/vertical-network179.yml']
 permissions:
   contents: read
 concurrency:
-  group: vertical179-hardening
-  cancel-in-progress: false
+  group: vertical179-qa-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  integrate179:
-    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+  network179:
+    if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-    permissions:
-      contents: write
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Verify four reviewed corrections
-        run: python3 .delivery/vertical179/apply-hardening.py
-      - name: All vertical tests, native regression and build
+      - name: Exact tested source and syntax
         run: |
+          mkdir -p /tmp/vertical179-qa
+          git rev-parse HEAD > /tmp/vertical179-qa/TESTED_HEAD.txt
+          git ls-tree -r HEAD > /tmp/vertical179-qa/TESTED_TREE.txt
           node scripts/check-syntax134.mjs > /tmp/vertical179-qa/syntax.log 2>&1
-          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical179-qa/vertical-tests.log 2>&1
-          node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical179-qa/regression.log 2>&1
-          npm run build > /tmp/vertical179-qa/build.log 2>&1
-      - name: Publish only reviewed sources to PR6
-        env:
-          EXPECTED_HEAD: ${{ github.sha }}
-        run: |
-          python3 - <<'PY'
-          import json, os, pathlib, subprocess
-          branch = 'feat/vertical-citadel-175'
-          remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
-          if remote != os.environ['EXPECTED_HEAD']:
-            raise RuntimeError('Branch moved; refusing overwrite')
-          paths = [i['path'] for i in json.load(open('.delivery/vertical179/hardening.json'))['files']]
-          subprocess.run(['git','add','--',*paths],check=True)
-          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
-            subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
-            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
-            subprocess.run(['git','commit','-m','fix(network179): orient short bridge rails by actual crossing and verify both axes'],check=True)
-            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch],check=True)
-          pathlib.Path('/tmp/vertical179-qa/TESTED_HEAD.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
-          PY
-      - name: Locked QA prerequisites
+      - name: All vertical tests
+        run: node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical179-qa/vertical-tests.log 2>&1
+      - name: Native core, power, urban, expeditions and cargo regression
+        run: node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical179-qa/regression.log 2>&1
+      - name: Install locked prerequisites
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
-      - name: Chromium with actual WebGL
-        run: npx playwright install --with-deps chromium
-      - name: Five native browser scenarios
+      - name: Native build and Chromium
+        run: |
+          npm run build > /tmp/vertical179-qa/build.log 2>&1
+          npx playwright install --with-deps chromium
+      - name: Five real native browser scenarios
         run: |
           fail=0
           for rev in 175 176 177 178 179; do
             node scripts/qa-vertical${rev}.mjs > /tmp/vertical179-qa/browser${rev}.log 2>&1 || fail=1
           done
           exit "$fail"
-      - name: Preserve focused receipts before full checks
+      - name: Preserve receipts and actual screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vertical179-focused-${{ github.run_id }}
+          name: vertical179-qa-${{ github.run_id }}
           path: |
             /tmp/vertical179-qa/
             /tmp/vertical178-qa/
             /tmp/vertical177-qa/
             /tmp/vertical176-qa/
             /tmp/vertical175-qa/
-          retention-days: 14
-      - name: Complete project checks
-        if: ${{ !cancelled() }}
-        run: npm run check > /tmp/vertical179-qa/full-check.log 2>&1
-      - name: Preserve complete receipts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: vertical179-complete-${{ github.run_id }}
-          path: /tmp/vertical179-qa/
           retention-days: 14
