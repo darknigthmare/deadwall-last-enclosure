@@ -24,6 +24,23 @@ for row in payload['files']:
             raise SystemExit('Browser checkpoint result mismatch')
         row['edits'][0][2] = changed
         row['after'] = QA_FIX['after']
+# Keep the observation detached from live stats: serialize intentionally returns
+# some owner records by reference. A later RAF must not mutate the saved probe.
+for row in payload['files']:
+    if row['path'] == 'scripts/browser-metric174.mjs':
+        old = 'const d=g.serialize();delete d.timestamp;globalThis.__metricContinue174=d;'
+        new = 'const d=JSON.parse(JSON.stringify(g.serialize()));delete d.timestamp;globalThis.__metricContinue174=d;'
+        text = row['edits'][0][2]
+        if text.count(old) != 1:
+            raise SystemExit('Continue observation anchor mismatch')
+        text = text.replace(old, new)
+        row['edits'][0][2] = text
+        row['after'] = hashlib.sha256(text.encode()).hexdigest()
+    elif row['path'] == '.github/workflows/metric174.yml':
+        text = row['edits'][0][2]
+        text = text.replace('path: artifacts/qa/metric174-browser/', 'path: artifacts/qa/metric174-browser-*')
+        row['edits'][0][2] = text
+        row['after'] = hashlib.sha256(text.encode()).hexdigest()
 paths = []
 prepared = []
 for row in payload['files']:
@@ -55,6 +72,9 @@ for row in payload['files']:
 if sys.argv[1] == 'apply':
     for target, result in prepared:
         target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(result)
+    evidence = ROOT / 'artifacts/qa/metric174'
+    evidence.mkdir(parents=True, exist_ok=True)
+    (evidence / 'applied-source.json').write_text(json.dumps({'base': payload['base'], 'files': [{k: row[k] for k in ['path', 'before', 'after']} for row in payload['files']]}, indent=2))
     print(json.dumps({'applied': len(prepared), 'base': payload['base'], 'fingerprints': 'all verified'}))
 elif sys.argv[1] == 'publish':
     if os.environ.get('GITHUB_REF') != 'refs/heads/' + BRANCH:
@@ -66,7 +86,10 @@ elif sys.argv[1] == 'publish':
         raise SystemExit('Branch advanced; preserve concurrent work')
     subprocess.run(['git', 'config', 'user.name', 'DEADWALL verification'], check=True)
     subprocess.run(['git', 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com'], check=True)
-    subprocess.run(['git', 'add', '--', *paths], check=True)
+    # Workflow publication remains a separate connector operation. The bot only
+    # commits tested game sources; no extra workflow-writing permission is needed.
+    source_paths = [name for name in paths if not name.startswith('.github/')]
+    subprocess.run(['git', 'add', '--', *source_paths], check=True)
     subprocess.run(['git', 'commit', '-m', 'fix(metrics): calibrate owned vehicles and share non-crossing frontage across world, GPS and navigation'], check=True)
     subprocess.run(['git', 'push', 'origin', 'HEAD:refs/heads/' + BRANCH], check=True)
     print('Published validated source-only commit: ' + subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
