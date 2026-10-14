@@ -1,0 +1,47 @@
+name: Vertical maintenance 178
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['.github/workflows/vertical-maintenance178.yml', 'src/vertical*.js', 'src/core.js', 'tests/vertical*.cjs', 'scripts/qa-vertical178.mjs']
+permissions:
+  contents: read
+concurrency:
+  group: vertical178-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Preserve tracked sources and fixtures
+        run: |
+          mkdir -p /tmp/vertical178
+          git rev-parse HEAD > /tmp/vertical178/HEAD.txt
+          git ls-tree -r HEAD > /tmp/vertical178/TREE.txt
+          python3 - <<'PY'
+          import subprocess, tarfile
+          paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          with tarfile.open('/tmp/vertical178/source.tar.gz','w:gz') as t:
+            for p in paths:
+              if p and not p.startswith('assets/'):
+                t.add(p, arcname=p, recursive=False)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vertical178-source-${{ github.sha }}
+          path: /tmp/vertical178/
+          retention-days: 7
+      - name: All vertical regression tests
+        run: node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical178/tests.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: vertical178-tests-${{ github.sha }}
+          path: /tmp/vertical178/tests.log
+          retention-days: 14
