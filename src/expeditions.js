@@ -6,7 +6,7 @@
   // the foot body from the player factory without allocating an entity ID.
   const normalRadius=g.makePlayer(0).radius;let state=E.initial(),world=g.world,pending=null,notice='',speed=0,phase=g.phase;
   const wrap=(n,fn)=>{const old=g[n].bind(g);g[n]=(...a)=>fn(old,...a);};
-  const profile=()=>g.worldEvolution?.vehicleProfile()||{name:'Break',speed:R.speed/32,fuel:R.fuelPerUnit*32,tank:R.tank,cargo:R.cargo,w:4.6,h:1.85,health:R.carHealth,cost:R.buildCar};const vehicleRadius=(p=profile())=>Math.max(12,Number((Math.max(p.w,p.h)*(22/4.6)).toFixed(6)));
+  const profile=()=>g.worldEvolution?.vehicleProfile()||{name:'Break',speed:R.speed/32,fuel:R.fuelPerUnit*32,tank:R.tank,cargo:R.cargo,w:4.6,h:1.85,health:R.carHealth,cost:R.buildCar};const vehicleRadius=(p=profile(),metric=state.vehicle?.metric174===1)=>metric?Math.hypot(p.w,p.h)*C.Frontier.RULES.metreUnits/2:Math.max(12,Number((Math.max(p.w,p.h)*(22/4.6)).toFixed(6)));
   function ensure(){if(world!==g.world){world=g.world;state=E.normalize(pending||undefined);pending=null;speed=0;phase=g.phase;notice='';const placement=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{const q=placement(def,x,y,rotation,ignore),v=state.vehicle;if(!q.valid||!live(v)||v.regionAway)return q;const w=def.size[rotation%2?1:0]*32,h=def.size[rotation%2?0:1]*32,r=vehicleRadius();return v.x+r>x*32&&v.x-r<x*32+w&&v.y+r>y*32&&v.y-r<y*32+h?{valid:false,reason:'Véhicule à déplacer'}:q;};}return state;}
   function reconcile(){ensure();const a=state.analyst;if(a){const u=g.units.find(u=>u.id===a.id),p=g.world.buildings.get(a.post);if(!live(u))state.analyst=null;else if(!live(p)||!p.completed||g.phase!=='calm'||g.workerOrder==='retreat')a.returning=true;}
    if(state.vehicle?.driving){g.player.radius=vehicleRadius();g.player.x=state.vehicle.x;g.player.y=state.vehicle.y;}
@@ -15,8 +15,8 @@
   const materialReady=()=>g.player.reload<=0&&!state.vehicle?.driving&&!g.expansions?.busy();
   const command=()=>g.canIssueCommand()&&!g.player.regionAbsent&&live(g.player),running=()=>g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay;
   const operational=t=>[...g.world.buildings.values()].filter(b=>live(b)&&b.completed&&b.type===t);
-  const home=p=>g.core()&&dist(p,g.core())<=R.homeRange&&g.hostileLineClear(p,g.core());
-  const nearCar=()=>live(state.vehicle)&&!state.vehicle.regionAway&&dist(g.player,state.vehicle)<=70&&g.hostileLineClear(g.player,state.vehicle);
+  const home=p=>g.core()&&dist(p,g.core())<=R.homeRange+(p===state.vehicle&&p.metric174===1?vehicleRadius():0)&&g.hostileLineClear(p,g.core());
+  const nearCar=()=>live(state.vehicle)&&!state.vehicle.regionAway&&dist(g.player,state.vehicle)<=70+(state.vehicle.metric174===1?vehicleRadius():0)&&g.hostileLineClear(g.player,state.vehicle);
   const safe=p=>!g.zombies.some(z=>live(z)&&dist(z,p)<R.danger&&g.hostileLineClear(z,p));
   const report=(text,ok=true)=>{notice=text;return{ok,reason:text};};
   function save(text){if(text)g.notify(text);g.save(false);return report(text||'Ordre enregistré.');}
@@ -30,12 +30,12 @@
    if(!g.workerCanWorkAt(u,post,90)){u.state='move';g.moveWorkerToJob(u,post,dt,'exp-intel:'+a.post);return true;}u.state='idle';if(g.fieldAtlas?.researchStep(u,post,dt))return true;if(!post.powered||post.siegeOffline||post.territoryOffline||state.intel>=R.maxIntel||g.resources.food<R.researchFood)return true;
    a.progress=Math.min(R.researchSeconds,a.progress+dt);if(a.progress>=R.researchSeconds){g.resources.food-=R.researchFood;state.intel++;a.progress=0;reconcile();g.notify('Renseignement établi : '+state.intel+' dossier(s) exploitable(s).');}return true;
   }
-  function carClear(x,y,p=profile()){const rr=vehicleRadius(p);
+  function carClear(x,y,p=profile(),metric=state.vehicle?.metric174===1){const rr=vehicleRadius(p,metric);
    // Every local vehicle keeps the historical save inset, including small profiles.
    if(x<26||y<26||x>C.WORLD_SIZE-26||y>C.WORLD_SIZE-26)return false;
    if(g.fieldcraft)return g.friendlyPositionClear({radius:rr/0.9},x,y);if(x<rr+4||y<rr+4||x>C.WORLD_SIZE-rr-4||y>C.WORLD_SIZE-rr-4)return false;for(let i=0;i<8;i++)if(g.world.solidForFriendly(x+Math.cos(i*Math.PI/4)*rr,y+Math.sin(i*Math.PI/4)*rr))return false;return !g.world.solidForFriendly(x,y);}
   function buildCar(){reconcile();const vp=g.worldEvolution?.overview().fleet.selectedProfile||profile(),cost=vp.cost||R.buildCar;if(!command()||g.phase!=='calm'||!home(g.player)||!operational('expeditionGarage').length||live(state.vehicle)||!C.canAfford(g.resources,cost))return report('Garage disponible, présence au centre et coût du véhicule sélectionné requis.',false);
-   const core=g.core();let point=null;for(let radius=70;radius<=135&&!point;radius+=20)for(let i=0;i<12;i++){const x=core.x+Math.cos(i*Math.PI/6)*radius,y=core.y+Math.sin(i*Math.PI/6)*radius;if(carClear(x,y,vp)&&!g.units.some(u=>live(u)&&dist(u,{x,y})<Math.max(40,vehicleRadius(vp)+(u.radius||12)))){point={x,y};break;}}
+   const core=g.core();let point=null;for(let radius=70;radius<=135&&!point;radius+=20)for(let i=0;i<12;i++){const x=core.x+Math.cos(i*Math.PI/6)*radius,y=core.y+Math.sin(i*Math.PI/6)*radius;if(carClear(x,y,vp,false)&&!g.units.some(u=>live(u)&&dist(u,{x,y})<Math.max(40,vehicleRadius(vp,false)+(u.radius||12)))){point={x,y};break;}}
    if(!point)return report('Libérez une aire accessible près du centre.',false);C.spend(g.resources,cost);g.worldEvolution?.activateSelected();state.vehicle={id:g.nextId++,...point,health:vp.health,fuel:0,angle:0,driving:false,cargo:C.makeBag()};state.stats.built++;state.active=null;return save(vp.name+' mis en service. Réservoir et coffre vides.');}
   function board(){reconcile();const v=state.vehicle;if(!command()||!nearCar()||!safe(g.player)&&!v.driving)return report('Rejoignez le break et écartez les menaces immédiates.',false);
    if(v.driving){let point=null;for(let i=0;i<16;i++){const p={x:v.x+Math.cos(i*Math.PI/8)*(vehicleRadius()+normalRadius+8),y:v.y+Math.sin(i*Math.PI/8)*(vehicleRadius()+normalRadius+8)};if(g.friendlyPositionClear({radius:normalRadius},p.x,p.y)&&(g.nightGear?.localLineClear(v,p)??g.hostileLineClear(v,p,false))&&p.x>normalRadius+4&&p.y>normalRadius+4&&p.x<C.WORLD_SIZE-normalRadius-4&&p.y<C.WORLD_SIZE-normalRadius-4){point=p;break;}}
@@ -66,11 +66,34 @@
   }
   function tick(dt){reconcile();if(!running()||!Number.isFinite(dt)||dt<=0)return;if(g.phase==='calm'){for(const s of state.sites)if(!s.known&&dist(g.player,E.BY_ID[s.id])<115&&g.hostileLineClear(g.player,E.BY_ID[s.id])){s.known=true;g.notify('Nouvelle expédition repérée : '+E.BY_ID[s.id].name);}}
    if(phase==='calm'&&g.phase!=='calm'&&state.active)g.notify('Crépuscule : fouilles suspendues. Rentrez avec le carburant restant.','danger');phase=g.phase;
-   const v=state.vehicle;if(live(v)&&!v.driving&&!v.regionAway){const attackers=g.zombies.filter(z=>live(z)&&dist(z,v)<45&&g.hostileLineClear(z,v)).length;if(attackers)damage(Math.min(4,attackers)*3*Math.min(dt,.25));}
+   const v=state.vehicle;if(live(v)&&!v.driving&&!v.regionAway){const attackers=g.zombies.filter(z=>live(z)&&dist(z,v)<45+(v.metric174===1?vehicleRadius():0)&&g.hostileLineClear(z,v)).length;if(attackers)damage(Math.min(4,attackers)*3*Math.min(dt,.25));}
    if(v?.driving&&g.player.dead){v.driving=false;g.player.radius=normalRadius;speed=0;}
   }
   function overview(){reconcile();const v=state.vehicle;return{sites:state.sites.filter(s=>s.known).map(s=>({...s,...E.BY_ID[s.id],distance:dist(g.player,E.BY_ID[s.id]),minimumFuel:(()=>{const units=dist(v||g.player,E.BY_ID[s.id])+dist(E.BY_ID[s.id],g.core()),ratio=profile().fuel/(C.WorldEvolution?.RULES.vehicles.break.fuel??C.Frontier.RULES.fuelPerMetre),rate=R.fuelPerUnit*ratio;return g.travel131?.fuelCost(units/C.Frontier.RULES.metreUnits,rate*C.Frontier.RULES.metreUnits,v?.id??null)??units*rate;})()})),intel:state.intel,analyst:state.analyst?{...state.analyst}:null,vehicle:v?{...v,cargo:{...v.cargo}}:null,active:state.active?{...state.active}:null,tradeRemaining:state.trade.wave===g.wave?state.trade.remaining:R.tradeStock,stats:{...state.stats},notice,nearCar:nearCar(),atHome:home(g.player),day:g.phase==='calm'};}
-  const api={overview,snapshot:()=>{reconcile();return E.normalize(state);},isAssigned,updateAssignedUnit,assign,recall,buildCar,board,refuel,transfer,unload,buyFuel,repair,select,abandon,work,drive,damage,carClear,entity:()=>{ensure();return live(state.vehicle)&&!state.vehicle.regionAway?{...state.vehicle,radius:vehicleRadius()}:null;},driving:()=>{ensure();return Boolean(state.vehicle?.driving);},car:()=>{ensure();return state.vehicle;}};g.expeditions=Object.freeze(api);
+  function metricScaleStatus174(){
+   ensure();const v=state.vehicle;
+   if(!command()||!materialReady()||v?.driving||v?.regionAway||!home(g.player))return {ok:false,reason:'Rejoignez à pied le dépôt de D-17, sans action en cours.'};
+   if(!live(v))return {ok:false,reason:'Un véhicule vivant est requis ; aucun véhicule offert.'};
+   if(v.metric174===1)return {ok:false,reason:'Ce véhicule utilise déjà son gabarit métrique.'};
+   const rr=vehicleRadius(profile(),true);
+   if(dist(v,g.core())>R.homeRange+rr)return {ok:false,reason:'Ramenez le véhicule dans une aire libre proche du dépôt.'};
+   if(!carClear(v.x,v.y,profile(),true))return {ok:false,reason:'Le gabarit réel recouvrirait un obstacle. Déplacez le véhicule vers une aire plus grande.'};
+   if([g.player,...g.units,...g.zombies].some(a=>live(a)&&!a.regionAbsent&&dist(a,v)<rr+(a.radius||0)))return {ok:false,reason:'Un personnage occupe le futur gabarit. Libérez cette aire avant activation.'};
+   return {ok:true,metres:{length:profile().w,width:profile().h},localRadius:rr};
+  }
+  function activateMetricScale174(){
+   const ready=metricScaleStatus174();if(!ready.ok)return report(ready.reason,false);
+   const data=g.serialize(),v=data.expeditions.vehicle,rr=ready.localRadius;let occupied=false;
+   const visit=(x,inLocal=false,depth=0)=>{if(!x||typeof x!=='object'||depth>18)return;const local=x.domain==='region'?false:x.domain==='local'||inLocal;
+    if(local&&Number.isFinite(x.x)&&Number.isFinite(x.y)&&(x.z??0)===0&&x.location!=='belt'&&Math.hypot(x.x-v.x,x.y-v.y)<rr+C.MetricRules174.localVehicleClearance)occupied=true;
+    for(const child of Object.values(x))if(child&&typeof child==='object')visit(child,local,depth+1);
+   };visit(data);
+   if(occupied)return report('Un équipement, corps ou camp sauvegardé occupe la nouvelle emprise.',false);
+   data.expeditions.vehicle.metric174=1;
+   try{if(g.restoreSave(data)!==true)return report('La restauration a refusé le nouveau gabarit.',false);}catch(error){return report(error.message,false);}
+   return save('Gabarit métrique activé : dessin, collision et retours utilisent les mêmes dimensions. Position, carburant et coffre conservés.');
+  }
+  const api={metricScaleStatus174,activateMetricScale174,vehicleRadius174:()=>vehicleRadius(),overview,snapshot:()=>{reconcile();return E.normalize(state);},isAssigned,updateAssignedUnit,assign,recall,buildCar,board,refuel,transfer,unload,buyFuel,repair,select,abandon,work,drive,damage,carClear,entity:()=>{ensure();return live(state.vehicle)&&!state.vehicle.regionAway?{...state.vehicle,radius:vehicleRadius()}:null;},driving:()=>{ensure();return Boolean(state.vehicle?.driving);},car:()=>{ensure();return state.vehicle;}};g.expeditions=Object.freeze(api);
   wrap('serialize',(old,...a)=>({...old(...a),expeditions:api.snapshot()}));
   wrap('restoreSave',(old,input)=>{const data=root.DeadwallSave.validate(input),before=g.world;pending=data.expeditions;try{return old(data);}finally{if(g.world!==before){ensure();reconcile();if(state.vehicle?.driving){g.player.radius=vehicleRadius();g.player.x=state.vehicle.x;g.player.y=state.vehicle.y;}}pending=null;}});
   wrap('startNew',(old,...a)=>{pending=null;const r=old(...a);ensure();reconcile();return r;});

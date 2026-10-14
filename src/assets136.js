@@ -1,6 +1,7 @@
 /* Shared visual catalogue. Images are loaded once by Art; equipment identity stays in Arsenal. */
 (function(root,factory){'use strict';const api=factory(root);root.DeadwallAssets136=api;if(typeof module==='object'&&module.exports)module.exports=api;})(globalThis,function(root){
 'use strict';
+const Metric174=root.DeadwallMetric174||(typeof require==='function'?require('./metric-contract174.js'):null);
 const Variants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
 const Equipment159=root.DeadwallEquipmentArt159||(typeof require==='function'?require('./equipment-art159.js'):null);
 const FILES=Object.freeze({
@@ -31,20 +32,19 @@ const ASSETS141=Object.freeze({art141Reeds:Object.freeze({url:'assets/art141/ree
 const VEHICLE_SPRITES140=Object.freeze({van:'art140Van',buggy:'art140Buggy'});
 // D-17's established driving footprint uses this compact conversion, while the
 // regional rectangle is in metres. Presentation must follow each real support.
-function vehicleSize139(profile,domain='region'){
- const scale=domain==='local'?2*22/4.6:1;
- return{w:profile.w*scale,h:profile.h*scale,scale};
-}
+const VEHICLE_CUTS174=Object.freeze({"art139Bus":[52,160,1884,467],"art139Truck":[90,16,1974,668],"art140Van":[153,88,1709,590],"art140Buggy":[272,119,1228,645]});
+function vehicleSize139(profile,domain='region',metric=false){const v=Metric174.vehicle(profile,{domain,metric});return{w:v.w,h:v.h,scale:v.scale};}
+
 function drawVehicle139(c,art,type,w,h,{hp=1,opened=false,dismantled=false,exhausted=false,active=false,identity,seed=0,variant}={}){
  const key=VEHICLE_SPRITES139[type]||VEHICLE_SPRITES140[type];if(!key||!c||![w,h].every(Number.isFinite)||w<=0||h<=0)return false;
  const image=art?.images?.[key],spec=ASSETS139[key]||ASSETS140[key];
- const alternative=Variants158?.measureVehicle(type,identity,w,h,{seed,variant});
+ const alternative=Variants158?.measureVehicle(type,identity,w,h,{seed,variant,groundFootprint:true});
  if(alternative&&art?.images?.[alternative.sprite.atlas]){
   c.save();if(hp<=0)c.globalAlpha*=.7;Variants158.paint(c,art,alternative);c.restore();
  }else if(image&&spec){
-  const r=art.rects?.[key+':sprite']||[0,0,image.width||spec.width,image.height||spec.height],scale=Math.min(w/r[2],h/r[3]);
+  const r=art.rects?.[key+':sprite']||VEHICLE_CUTS174[key],frame=Metric174.footprintFrame(r,w,h);if(!frame)return false;
   c.save();if(hp<=0)c.globalAlpha*=.7;
-  if(art.blit)art.blit(c,key,r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);else c.drawImage(image,...r,-r[2]*scale/2,-r[3]*scale/2,r[2]*scale,r[3]*scale);c.restore();
+  if(art.blit)art.blit(c,key,frame.source,...frame.destination);else c.drawImage(image,...frame.source,...frame.destination);c.restore();
  }else{
   // Failed/slow images keep the correct closed van or open buggy silhouette.
   c.fillStyle=hp>0?'#a79b70':'#55574d';c.fillRect(-w/2,-h*(type==='buggy'?.27:.43),w,h*(type==='buggy'?.54:.86));
@@ -151,5 +151,5 @@ function drawHeld(ctx,id,art=root.DEADWALL?.art,opts={}){
  else if(['bat','plank','bottleClub'].includes(id)){ctx.lineWidth=id==='plank'?7:6;ctx.beginPath();ctx.moveTo(8,0);ctx.lineTo(len+2,0);ctx.stroke();}
  ctx.restore();return true;
 }
-return Object.freeze({ASSETS,ASSETS138,ASSETS139,ASSETS140,ASSETS141,VEHICLE_SPRITES139,VEHICLE_SPRITES140,vehicleSize139,drawVehicle139,INDUSTRIAL138,surfaceFor138,drawSurface138,FILES,TREE_SPRITES,ROCK_SPRITES,BITMAPS,LEGACY,PATHS,bitmap,icon,path,drawSprite,drawHeld});
+return Object.freeze({ASSETS,ASSETS138,ASSETS139,ASSETS140,ASSETS141,VEHICLE_SPRITES139,VEHICLE_SPRITES140,VEHICLE_CUTS174,vehicleSize139,drawVehicle139,INDUSTRIAL138,surfaceFor138,drawSurface138,FILES,TREE_SPRITES,ROCK_SPRITES,BITMAPS,LEGACY,PATHS,bitmap,icon,path,drawSprite,drawHeld});
 });

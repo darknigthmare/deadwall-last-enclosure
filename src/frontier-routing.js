@@ -6,7 +6,7 @@ const exteriors=new WeakMap();
 function outsideWorld(world,H=world.home){
  if(exteriors.has(world))return exteriors.get(world);const roads=[];
  for(const road of world.roads){const dx=road.b.x-road.a.x,dy=road.b.y-road.a.y;let lo=0,hi=1,hit=true;for(const[p,q]of [[-dx,road.a.x-H.minX],[dx,H.maxX-road.a.x],[-dy,road.a.y-H.minY],[dy,H.maxY-road.a.y]]){if(Math.abs(p)<1e-10){if(q<0){hit=false;break;}}else{const t=q/p;if(p<0)lo=Math.max(lo,t);else hi=Math.min(hi,t);if(lo>=hi){hit=false;break;}}}const point=t=>({x:road.a.x+dx*t,y:road.a.y+dy*t}),mid=point((lo+hi)/2);if(!(mid.x>H.minX&&mid.x<H.maxX&&mid.y>H.minY&&mid.y<H.maxY))hit=false;const ranges=hit?[[0,lo],[hi,1]]:[[0,1]];for(const[a,b]of ranges)if(b-a>1e-8)roads.push({...road,id:road.id+':outside:'+a,a:point(a),b:point(b)});}
- const result={roads,home:H,sourceGeneration:world.generation??world.sourceGeneration,nearestRoad(p){let best=null;for(const road of roads){const q=G.nearest(p,road.a,road.b);if(!best||q.d<best.d)best={...q,road};}return best;}};exteriors.set(world,result);return result;
+ const result={roads,home:H,...(world.connectionFor?{connectionFor:world.connectionFor}:{}),sourceGeneration:world.generation??world.sourceGeneration,nearestRoad(p){let best=null;for(const road of roads){const q=G.nearest(p,road.a,road.b);if(!best||q.d<best.d)best={...q,road};}return best;}};exteriors.set(world,result);return result;
 }
 
 function boundsTree(boxes){
@@ -48,6 +48,7 @@ function search(g,near,index){
  const value={dist,parent};cache.set(key,value);if(cache.size>SOURCE_CACHE_LIMIT)cache.delete(cache.keys().next().value);return value;
 }
 function route(world,from,poi){
+ if(world?.connectionFor){const drive=world.connectionFor(poi);if(!drive)return null;poi={...poi,drive};}
  if(!from||!Number.isFinite(from.x)||!Number.isFinite(from.y)||!world?.roads?.length||!poi?.drive||![poi.drive.a,poi.drive.b].every(p=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y)))return null;
  let homeBarrier=null,homeOrigin=null;
  if((world.generation>=7||world.sourceGeneration>=7)&&world.home){homeBarrier=world.home;const inside=p=>p.x>homeBarrier.minX&&p.x<homeBarrier.maxX&&p.y>homeBarrier.minY&&p.y<homeBarrier.maxY;if(inside(poi.drive.a)||inside(poi.drive.b))return null;world=world.sourceGeneration>=7?world:outsideWorld(world,homeBarrier);if(inside(from)){const portal=world.nearestRoad(from);if(!portal)return null;homeOrigin={...from};from={x:portal.x,y:portal.y};}}
