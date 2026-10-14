@@ -43,6 +43,7 @@
    const network=V.network.presentation();
    for(const {link,shape:q}of network.links){if(!q)continue;const a=g.world.buildings.get(link.a.site),b=g.world.buildings.get(link.b.site),d=Math.max(a.bottom,b.bottom)+.04;entries.push({depth:d,id:link.id,kind:8,draw:ctx=>bridge(ctx,q)});
     const entry=entries.find(e=>e.entity===g.player);if(entry&&Math.abs(p.z-q.z)<.01&&g.player.x>=q.x*R.tile&&g.player.x<=(q.x+q.w)*R.tile&&g.player.y>=q.y*R.tile&&g.player.y<=(q.y+q.h)*R.tile)entry.depth=Math.max(entry.depth,d+.1);
+    for(const e of entries)if(e.entity&&e.kind===3&&V.enemyPose(e.entity).bridge===link.id)e.depth=Math.max(e.depth,d+.06);
    }
    for(const c of network.crates){const b=g.world.buildings.get(c.site);entries.push({depth:b?b.bottom+.09:c.y,id:c.module.id,kind:8,draw:ctx=>crate(ctx,c.x,c.y,c.z)});}
    entries.sort((a,b)=>a.depth-b.depth||a.kind-b.kind||a.id-b.id);return entries;};

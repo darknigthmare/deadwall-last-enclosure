@@ -152,6 +152,7 @@
   }
   function engineeringQuote178(kind,id,slot){
    const E=C.VerticalMaintenance178;
+   if(kind==='removeDeck'&&siege.occupiesDeck(id,(site(id)?.decks.length||1)-1))return no('Un infecté utilise encore cette dalle ou son escalier.');
    if(network?.protectedStructure(kind,id))return no('Déposez les liaisons et récupérez les caisses de cette dalle avant son retrait.');
    if(!can()||busy()||g.player.reload>0)return no('Libérez vos mains avant l’intervention.');
    let q,object,level,seconds,cost={},refund={},amount=0;
@@ -386,8 +387,8 @@
    q.m.health-=amount;if(q.m.health<=0){q.s.decks[q.level].modules=q.s.decks[q.level].modules.filter(m=>m.id!==id);if(controlled===id)release();if(job?.object===q.m)job=null;autoTargets.delete(id);g.refreshMetrics(true);notice='Équipement d’étage détruit : '+q.def.name;}return true;
   }
   const groundClear=g.friendlyPositionClear.bind(g);
-  const siege=Siege.create(g,{state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
-  network=N.create(g,{S,state:()=>state,can,nativeBusy,pose,surfaceAt,moduleRef,clearFootprint:engineeringClear178,groundLine:g.hostileLineClear.bind(g),fallActor:fallActor179});
+  const siege=Siege.create(g,{navigationGraph:()=>network.navigationGraph(),state:()=>state,building,surfaceAt,clearAt,pose,geometry,damageModule,groundLine:g.hostileLineClear.bind(g),notice:message=>{notice=message;}});
+  network=N.create(g,{bridgeHasInvader:siege.bridgeOccupied,reconcileInvaders:siege.reconcile,S,state:()=>state,can,nativeBusy,pose,surfaceAt,moduleRef,clearFootprint:engineeringClear178,groundLine:g.hostileLineClear.bind(g),fallActor:fallActor179});
   wrap('damagePlayer',(old,...args)=>{const result=old(...args);if(!live(g.player)){if(network.carrying())network.dropCargo(true);state.actor=null;stop('');}return result;});
   wrap('killZombie',(old,z,...args)=>{siege.forget(z.id);return old(z,...args);});
   wrap('friendlyPositionClear',(old,e,x,y)=>e===g.player&&state.actor?clearAt(x,y,pose().z,e.radius*.78):old(e,x,y));
@@ -407,7 +408,7 @@
   wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to=screenAim(p),a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
   wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
   wrap('destroyBuilding',(old,b,...args)=>{const z=state.actor?.site===b.id?pose().z:0,result=old(b,...args);if(base(b)&&b.dead){dropSite(b.id,z);network.prune();g.refreshMetrics(true);}return result;});
-  wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&network.load(b.id)>0&&['demolish','upgrade'].includes(action))return no('Retirez les passerelles avant de modifier leur support.');if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
+  wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&state.climbers.some(c=>c.site===b.id)&&['demolish','upgrade'].includes(action))return no('Un infecté occupe ce support : sécurisez les paliers.');if(base(b)&&network.load(b.id)>0&&['demolish','upgrade'].includes(action))return no('Retirez les passerelles avant de modifier leur support.');if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
   wrap('update',(old,dt)=>{const result=old(dt);step(dt);return result;});
   wrap('returnToMenu',(old,...args)=>{stop('');return old(...args);});
   wrap('onEscape',(old,...args)=>{if(busy()){stop();return;}return old(...args);});

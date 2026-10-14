@@ -2362,3 +2362,13 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  const links=names.map((name,tier)=>Object.freeze({id:'link'+tier,name,tier,maxSpan:spans[tier],payload:payloads[tier],width:Math.min(3.6,1.8+tier*.18),health:260+tier*650,massPerMetre:.6+tier*.22,secondsPerMetre:2+tier*.15,costPerMetre:Object.freeze(tier<2?{wood:12+tier*4,scrap:3+tier*2}:{scrap:8+tier*3,stone:2+tier*2})}));
  C.VerticalNetwork179=Object.freeze({links:Object.freeze(links),maxLinks:64,maxCrates:32,maxSpan:42,minSpan:.25,landing:.75,margin:.06,deckThickness:.3,railHeight:1,railThickness:.08,treeHeight:4,buildBaseSeconds:8,repairSeconds:10,repairHealth:500,removeSeconds:12,salvageFraction:.35,packSeconds:6,unpackSeconds:5,handleSecondsPerMass:.06,packingMassPerWood:12,packingMassPerScrap:24,carrySpeed:.65,crateSize:.65,fallHealthPerMetre:5,giantDamageFraction:.5,reach:70,routeNodeLimit:896,menuDestinations:8});
 })(globalThis);
+
+/* 180: bounded hostile navigation on the same paid floors and bridges as the player. */
+(function(root){'use strict';
+ root.DeadwallCore.VerticalRouting180=Object.freeze({
+  replanSeconds:.65,arrivalMetres:.08,stairSpeed:.9,stairTolerance:.12,
+  maxLocalVertices:32,maxLocalChecks:1600,segmentStep:.18,
+  bodyRadiusFactor:.78,bodyHeight:.8,landingSearchMetres:4,landingStepMetres:.5,
+  nightAwarenessMetres:5,dayAwarenessMetres:55,routeMemoryNodes:896
+ });
+})(globalThis);

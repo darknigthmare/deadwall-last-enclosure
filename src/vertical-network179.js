@@ -122,7 +122,7 @@
   function startJob(operation,q){job={operation,object:q.object||q.candidate,elapsed:0,seconds:q.seconds,x:g.player.x,y:g.player.y,z:h.pose().z,health:g.player.health,world:g.world,slot:q.slot,site:q.site,level:q.level,stamp:q.stamp,cost:q.cost||{}};review=null;g.releaseInputs();return tell(ok('Travaux : '+operation+'. Restez sur place ; une pause suspend le travail.'));}
   function buildLink(toSite,toLevel,kind){const q=linkQuote(toSite,toLevel,kind);if(!q.ok)return tell(q);C.spend(g.resources,q.cost);net().links.push(q.candidate);net().nextId++;return startJob('bridge',q);}
   function nearEnd(l){const p=h.pose(),q=linkShape(l);return q&&[0,1].some(i=>key(l[i?'b':'a'])===key(p)&&Math.hypot(g.player.x/V.tile-q.ports[i].x,g.player.y/V.tile-q.ports[i].y)<=R.reach/V.tile)&&!!floor();}
-  function bridgeOccupied(l){const q=linkShape(l);if(!q)return false;return Math.abs(h.pose().z-q.z)<EPS&&!floor()&&contains(q,g.player.x/V.tile,g.player.y/V.tile)||net().crates.some(c=>Math.abs(c.z-q.z)<EPS&&contains(q,c.x/V.tile,c.y/V.tile));}
+  function bridgeOccupied(l){const q=linkShape(l);if(!q)return false;return h.bridgeHasInvader?.(l.id)||Math.abs(h.pose().z-q.z)<EPS&&!floor()&&contains(q,g.player.x/V.tile,g.player.y/V.tile)||net().crates.some(c=>Math.abs(c.z-q.z)<EPS&&contains(q,c.x/V.tile,c.y/V.tile));}
   function bridgeServiceQuote(id,operation){
    const l=link(id);if(!available()||!l||!nearEnd(l))return no('Rejoignez un ancrage, les mains libres.');
    const q=linkShape(l),cost=materialCost(q);
@@ -196,6 +196,7 @@
   }
   function prune(){
    const before=net().links.length;net().links=net().links.filter(l=>!!linkShape(l));
+   h.reconcileInvaders?.();
    if(before!==net().links.length)notice='Ancrage perdu : liaison effondrée, sans remboursement.';
    const p=h.pose();if(p.site&&!p.travel&&!h.surfaceAt(g.player.x,g.player.y,p.z)){h.fallActor(p.z);notice='Passerelle perdue : chute vers le sol.';}
    for(const c of [...net().crates])if(c.site!==null&&!insideFloor(c,c,buildings(),sites(),.05)&&!onBridge({...net(),cargo:null},c,c,buildings(),sites(),.05)){
@@ -229,18 +230,37 @@
    }
    return out;
   }
+  // Shared, read-only topology. Cargo limits are explicit, never inferred for another actor.
+  function navigationGraph(payload=null){
+   const nodes=new Map(),edges=new Map();
+   for(const s of sites()){
+    const b=buildings().get(s.id);if(!b?.completed||b.dead||b.health<=0)continue;
+    for(let i=0;i<s.decks.length;i++)if(s.decks[i].progress===1){
+     const a={site:s.id,level:i};nodes.set(key(a),a);edges.set(key(a),[]);
+    }
+   }
+   if(nodes.size>R.routeNodeLimit)return{nodes:new Map(),edges:new Map()};
+   function connect(a,b,kind,id=null){
+    if(!nodes.has(key(a))||!nodes.has(key(b)))return;
+    edges.get(key(a)).push({from:{...a},to:{...b},kind,id});
+    edges.get(key(b)).push({from:{...b},to:{...a},kind,id});
+   }
+   for(const s of sites())for(let i=1;i<s.decks.length;i++)connect({site:s.id,level:i-1},{site:s.id,level:i},'stairs');
+   for(const l of net().links)if(l.progress===1&&l.health>0&&linkShape(l)&&(payload===null||payload<=definition(l).payload))connect(l.a,l.b,'bridge',l.id);
+   return{nodes,edges};
+  }
   function route(toSite,toLevel=0){
    const p=h.pose();if(!p.site||!integer(toSite,1)||!integer(toLevel,0,V.maxDecks-1))return no('Choisissez deux paliers construits.');
-   const nodes=new Map();for(const s of sites()){const b=buildings().get(s.id);if(!b?.completed||b.dead)continue;for(let i=0;i<s.decks.length;i++)if(s.decks[i].progress===1){const a={site:s.id,level:i};nodes.set(key(a),a);}}
-   if(nodes.size>R.routeNodeLimit||!nodes.has(key(p))||!nodes.has(key({site:toSite,level:toLevel})))return no('Destination sans palier accessible.');
-   const edges=new Map([...nodes.keys()].map(k=>[k,[]]));
-   const connect=(a,b,kind,id=null)=>{if(!nodes.has(key(a))||!nodes.has(key(b)))return;edges.get(key(a)).push({to:key(b),kind,id});edges.get(key(b)).push({to:key(a),kind,id});};
-   for(const s of sites())for(let i=1;i<s.decks.length;i++)connect({site:s.id,level:i-1},{site:s.id,level:i},'stairs');
-   for(const l of net().links)if(l.progress===1&&linkShape(l)&&(!carrying()||V.modules[net().cargo.kind].mass<=definition(l).payload))connect(l.a,l.b,'bridge',l.id);
-   const start=key(p),goal=key({site:toSite,level:toLevel}),queue=[start],prev=new Map([[start,null]]);
-   for(let i=0;i<queue.length&&queue.length<=R.routeNodeLimit;i++){const n=queue[i];if(n===goal)break;for(const edge of edges.get(n))if(!prev.has(edge.to)){prev.set(edge.to,{from:n,edge});queue.push(edge.to);}}
+   const {nodes,edges}=navigationGraph(carrying()?V.modules[net().cargo.kind].mass:null);
+   const start=key(p),goal=key({site:toSite,level:toLevel});
+   if(!nodes.has(start)||!nodes.has(goal))return no('Destination sans palier accessible.');
+   const queue=[start],prev=new Map([[start,null]]);
+   for(let i=0;i<queue.length&&queue.length<=R.routeNodeLimit;i++){
+    const n=queue[i];if(n===goal)break;
+    for(const edge of edges.get(n))if(!prev.has(key(edge.to))){prev.set(key(edge.to),{from:n,edge});queue.push(key(edge.to));}
+   }
    if(!prev.has(goal))return no('Aucun itinéraire financé ; reliez ces paliers avant le transport.');
-   const steps=[];for(let k=goal;k!==start;){const p=prev.get(k);steps.unshift({...p.edge,...nodes.get(k)});k=p.from;}
+   const steps=[];for(let k=goal;k!==start;){const v=prev.get(k);steps.unshift({kind:v.edge.kind,id:v.edge.id,...nodes.get(k)});k=v.from;}
    return{ok:true,steps,reason:steps.length?steps.map(s=>s.kind==='stairs'?'Escalier → palier '+(s.level+1):'Passerelle '+s.id+' → support '+s.site).join(' ; '):'Vous êtes à destination.'};
   }
   function actions(){const result=[],f=floor(),add=(id,label,run,description='',close=true)=>result.push({id:'network-'+id,label,run,description,close});
@@ -266,7 +286,7 @@
    if(f)for(const s of sites().filter(s=>s.id!==f.s.id).slice(0,R.menuDestinations))add('route-'+s.id,'Itinéraire vers le support '+s.id,()=>tell(route(s.id,0)),'Lecture du graphe ; aucun déplacement ni déblocage automatique.',false);
    return result;
   }
-  const api={railGeometry,hasNearbyCrate:()=>net().crates.some(c=>Math.hypot(c.x-g.player.x,c.y-g.player.y)<=R.reach*2),initial,linkQuote,buildLink,serviceBridge,packQuote,packModule,unloadQuote,unloadModule,pickup,dropCargo,route,damage,giantImpact,prune,surfaceAt,geometry,load:weight,reserveConflict,protectedStructure,blocksConstruction,carrying,busy,actions,
+  const api={navigationGraph,railGeometry,hasNearbyCrate:()=>net().crates.some(c=>Math.hypot(c.x-g.player.x,c.y-g.player.y)<=R.reach*2),initial,linkQuote,buildLink,serviceBridge,packQuote,packModule,unloadQuote,unloadModule,pickup,dropCargo,route,damage,giantImpact,prune,surfaceAt,geometry,load:weight,reserveConflict,protectedStructure,blocksConstruction,carrying,busy,actions,
    stop(){job=null;review=null;},reset(){job=null;review=null;notice='';},moduleSuspended:id=>job?.operation==='pack'&&job.object.id===id,
    step(dt){prune();if(g.player.dead||g.player.health<=0){if(carrying())dropCargo(true);job=null;return;}jobStep(dt);},
    jobState:()=>job?{kind:job.operation,seconds:job.seconds,elapsed:job.operation==='bridge'?job.object.progress*job.seconds:job.elapsed}:null,

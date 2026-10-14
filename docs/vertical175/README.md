@@ -57,3 +57,7 @@ La suite 177 ajoute 28 supports et 22 équipements, les services de réparation/
 ## Suite 178 — reconfiguration et entretien structurel
 
 Les équipements achevés peuvent être déplacés entre emplacements d'un même palier contre matériaux et temps, sans recréer leurs stocks. Les chantiers inachevés, dernières dalles vides et ascenseurs disposent d'une dépose confirmée avec récupération bornée ; les dalles additionnelles endommagées sont réparables. Les onze âges, limites de charge et escaliers restent préservés. [MAINTENANCE_178.md](MAINTENANCE_178.md) détaille les commandes, garanties, tests et chantiers encore ouverts.
+
+## Réseau hostile 180
+
+Voir `NETWORK_180.md` : traversée native des passerelles, escaliers entre paliers, reprise en chemin et déposes sécurisées. `CHANTIERS_VERTICAUX.md` distingue tous les travaux intégrés des limites restantes. La révision 179 des passerelles et du portage est conservée, pas refaite en parallèle.

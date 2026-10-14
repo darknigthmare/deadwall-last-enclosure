@@ -4,7 +4,7 @@
  const N=root.DeadwallVerticalNetwork179||(typeof require==='function'?require('./vertical-network179.js'):null);
  const copy=x=>JSON.parse(JSON.stringify(x)),finite=(x,a=0,b=Number.MAX_SAFE_INTEGER)=>Number.isFinite(x)&&x>=a&&x<=b;
  const integer=(x,a=0,b=Number.MAX_SAFE_INTEGER)=>Number.isSafeInteger(x)&&x>=a&&x<=b;
- const initial=()=>({version:3,sites:[],actor:null,giants:[],lastSiegeWave:0,nextId:1,climbers:[],network:N.initial()});
+ const initial=()=>({version:4,sites:[],actor:null,giants:[],lastSiegeWave:0,nextId:1,climbers:[],network:N.initial()});
  function register(){for(const [id,d]of Object.entries(R.bases)){if(C.BUILDINGS[id]&&!C.BUILDINGS[id].vertical175)throw Error('Construction verticale en conflit : '+id);C.BUILDINGS[id]={...d};}}
  register();
  const height=(site,level,base)=>base.height+level*R.deckRise;
@@ -19,7 +19,13 @@
   const fields=(o,keys)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&Object.keys(o).every(k=>keys.includes(k));
   if(raw?.version===1){if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId']))bad('ancien format');raw={...raw,version:2,climbers:[]};}
   if(raw?.version===2){if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers']))bad('ancien réseau');raw={...raw,version:3,network:N.initial()};}
-  if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers','network'])||raw.version!==3||!Array.isArray(raw.sites)||raw.sites.length>R.maxSites||!integer(raw.nextId,1)||!integer(raw.lastSiegeWave))bad('format');
+  if(raw?.version===3){
+   if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers','network'])||!Array.isArray(raw.climbers))bad('ancien réseau hostile');
+   const keys=['id','site','side','lane','start','progress','stage','fallHeight'];
+   if(raw.climbers.some(c=>!fields(c,keys)))bad('ancien grimpeur');
+   raw={...raw,version:4,climbers:raw.climbers.map(c=>({...c,level:0,bridge:null,stair:null}))};
+  }
+  if(!fields(raw,['version','sites','actor','giants','lastSiegeWave','nextId','climbers','network'])||raw.version!==4||!Array.isArray(raw.sites)||raw.sites.length>R.maxSites||!integer(raw.nextId,1)||!integer(raw.lastSiegeWave))bad('format');
   if(!Array.isArray(raw.climbers)||raw.climbers.length>C.VerticalSiege176.maxClimbers)bad('grimpeurs');
   const native=new Map((full?.buildings||[]).map(b=>[b.id,b])),ids=new Set(),moduleIds=new Set();let count=0;
   for(const s of raw.sites){
@@ -55,16 +61,38 @@
   }
   const enemies=new Map((full?.zombies||[]).map(z=>[z.id,z])),climberIds=new Set(),Q=C.VerticalSiege176;
   for(const c of raw.climbers){
-   if(!fields(c,['id','site','side','lane','start','progress','stage','fallHeight'])||!finite(c.fallHeight,0,R.maxHeight)||!integer(c.id,1)||climberIds.has(c.id)||!ids.has(c.site)||!integer(c.side,0,3)||!finite(c.lane,Q.margin,C.WORLD_TILES)||!finite(c.start,0,Q.apron)||!finite(c.progress,0,1)||!['climb','roof','fall'].includes(c.stage)||c.stage==='roof'&&c.progress!==1)bad('grimpeur');
+   if(!fields(c,['id','site','side','lane','start','progress','stage','fallHeight','level','bridge','stair'])||!finite(c.fallHeight,0,R.maxHeight)||!integer(c.id,1)||climberIds.has(c.id)||!ids.has(c.site)||!integer(c.side,0,3)||!finite(c.lane,Q.margin,C.WORLD_TILES)||!finite(c.start,0,Q.apron)||!finite(c.progress,0,1)||!['climb','roof','fall','stairs'].includes(c.stage)||!integer(c.level,0,R.maxDecks-1)||(c.bridge!==null&&!integer(c.bridge,1)))bad('grimpeur');
+   if(['roof','stairs'].includes(c.stage)&&c.progress!==1)bad('progression de palier');
+   if(['climb','fall'].includes(c.stage)&&(c.level!==0||c.bridge!==null||c.stair!==null))bad('ascension hors façade');
+   if(c.stage==='stairs'){
+    if(!fields(c.stair,['from','to','progress'])||!integer(c.stair.from,0,R.maxDecks-1)||!integer(c.stair.to,0,R.maxDecks-1)||Math.abs(c.stair.to-c.stair.from)!==1||c.level!==c.stair.from||!finite(c.stair.progress,0,1)||c.bridge!==null)bad('escalier de l’infecté');
+   }else if(c.stair!==null)bad('trajet d’escalier parasite');
+   if(c.bridge!==null&&c.stage!=='roof')bad('passerelle de l’infecté');
    climberIds.add(c.id);
-   if(full){const z=enemies.get(c.id),b=native.get(c.site),def=b&&R.bases[b.type];
-    if(!z||z.health<=0||!['runner','crawler'].includes(z.kind)||!def?.wall||b.progress!==1)bad('infecté ou support du grimpeur absent');
-    const q=bounds(b),span=c.side%2?q.h:q.w;if(c.lane>span-Q.margin)bad('voie du grimpeur');
-    if(c.stage==='roof'){const x=z.x/R.tile,y=z.y/R.tile,r=C.ENEMIES[z.kind].radius*.78/R.tile;
-     if(x-r<q.x||x+r>q.x+q.w||y-r<q.y||y+r>q.y+q.h)bad('infecté hors du chemin de ronde');
-     const s=raw.sites.find(s=>s.id===c.site);for(const m of s.decks[0].modules){const box=moduleBox(b,m,0);if(x+r>box.x&&x-r<box.x+box.w&&y+r>box.y&&y-r<box.y+box.h)bad('infecté dans un équipement');}
+   if(full){
+    const z=enemies.get(c.id),b=native.get(c.site),def=b&&R.bases[b.type],s=raw.sites.find(s=>s.id===c.site);
+    if(!z||z.health<=0||!['runner','crawler'].includes(z.kind)||!def||b.progress!==1||s.decks[c.level]?.progress!==1)bad('infecté ou support du grimpeur absent');
+    const q=bounds(b),span=c.side%2?q.h:q.w;
+    if(c.lane>span-Q.margin||['climb','fall'].includes(c.stage)&&!def.wall)bad('voie du grimpeur');
+    if(c.stage==='roof'){
+     const x=z.x/R.tile,y=z.y/R.tile,r=C.ENEMIES[z.kind].radius*C.VerticalRouting180.bodyRadiusFactor/R.tile;
+     const endpoints=[{site:c.site,level:c.level}];let bridge=null;
+     if(c.bridge!==null){
+      bridge=network.links.find(l=>l.id===c.bridge&&l.progress===1&&[l.a,l.b].some(p=>p.site===c.site&&p.level===c.level));
+      if(!bridge||!N.shape(bridge,native,raw.sites))bad('passerelle absente de l’infecté');
+      endpoints.push(...[bridge.a,bridge.b].filter(p=>p.site!==c.site));
+     }
+     const ownFloor=N.insideFloor(c,z,native,raw.sites,r);
+     const onBridge=bridge&&N.onBridge({...network,cargo:null,links:[bridge]},c,z,native,raw.sites,r);
+     if(!ownFloor&&!onBridge)bad('infecté hors du chemin de ronde');
+     for(const p of endpoints){const base=native.get(p.site),site=raw.sites.find(s=>s.id===p.site);
+      for(const m of site.decks[p.level].modules){const box=moduleBox(base,m,0);if(x+r>box.x&&x-r<box.x+box.w&&y+r>box.y&&y-r<box.y+box.h)bad('infecté dans un équipement');}
+     }
+    }else if(c.stage==='stairs'){
+     if(s.decks[c.stair.to]?.progress!==1||Math.hypot(z.x/R.tile-(q.x+q.w/2),z.y/R.tile-(q.y+q.h/2))>C.VerticalRouting180.stairTolerance)bad('position de l’infecté dans l’escalier');
+    }else{
+     const p=climbPoint(b,c);if(Math.hypot(z.x/R.tile-p.x,z.y/R.tile-p.y)>Q.positionTolerance)bad('position du grimpeur');
     }
-    else{const p=climbPoint(b,c);if(Math.hypot(z.x/R.tile-p.x,z.y/R.tile-p.y)>Q.positionTolerance)bad('position du grimpeur');}
    }
   }
   return copy({...raw,network});
