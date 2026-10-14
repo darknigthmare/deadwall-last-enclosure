@@ -1,4 +1,4 @@
-name: Vertical network 179 reviewed integration
+name: Vertical network 179 hardening
 on:
   push:
     branches: [feat/vertical-citadel-175]
@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: vertical179-reviewed-integration
+  group: vertical179-hardening
   cancel-in-progress: false
 jobs:
   integrate179:
@@ -22,15 +22,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Verify exact reviewed source delta
-        run: python3 .delivery/vertical179/apply.py
-      - name: Syntax, all vertical tests, native regressions and build
+      - name: Verify four reviewed corrections
+        run: python3 .delivery/vertical179/apply-hardening.py
+      - name: All vertical tests, native regression and build
         run: |
           node scripts/check-syntax134.mjs > /tmp/vertical179-qa/syntax.log 2>&1
           node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical179-qa/vertical-tests.log 2>&1
           node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical179-qa/regression.log 2>&1
           npm run build > /tmp/vertical179-qa/build.log 2>&1
-      - name: Commit only verified gameplay files on PR6 without workflow changes
+      - name: Publish only reviewed sources to PR6
         env:
           EXPECTED_HEAD: ${{ github.sha }}
         run: |
@@ -39,36 +39,29 @@ jobs:
           branch = 'feat/vertical-citadel-175'
           remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
           if remote != os.environ['EXPECTED_HEAD']:
-            raise RuntimeError('Branch moved; refusing concurrent overwrite')
-          paths = [i['path'] for i in json.load(open('.delivery/vertical179/manifest.json'))['files']]
-          subprocess.run(['git','add','--',*paths], check=True)
+            raise RuntimeError('Branch moved; refusing overwrite')
+          paths = [i['path'] for i in json.load(open('.delivery/vertical179/hardening.json'))['files']]
+          subprocess.run(['git','add','--',*paths],check=True)
           if subprocess.run(['git','diff','--cached','--quiet']).returncode:
-            subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
-            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
-            subprocess.run(['git','commit','-m','feat(network179): paid all-age bridges, conserved equipment portage and strict network saves'], check=True)
-            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
+            subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+            subprocess.run(['git','commit','-m','fix(network179): orient short bridge rails by actual crossing and verify both axes'],check=True)
+            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch],check=True)
           pathlib.Path('/tmp/vertical179-qa/TESTED_HEAD.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
           PY
-      - name: Install locked browser prerequisites
+      - name: Locked QA prerequisites
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
-      - name: Install actual Chromium
+      - name: Chromium with actual WebGL
         run: npx playwright install --with-deps chromium
-      - name: Browser regression 175
-        run: node scripts/qa-vertical175.mjs > /tmp/vertical179-qa/browser175.log 2>&1
-      - name: Browser regression 176
-        if: ${{ !cancelled() }}
-        run: node scripts/qa-vertical176.mjs > /tmp/vertical179-qa/browser176.log 2>&1
-      - name: Browser regression 177
-        if: ${{ !cancelled() }}
-        run: node scripts/qa-vertical177.mjs > /tmp/vertical179-qa/browser177.log 2>&1
-      - name: Browser regression 178
-        if: ${{ !cancelled() }}
-        run: node scripts/qa-vertical178.mjs > /tmp/vertical179-qa/browser178.log 2>&1
-      - name: Actual bridge, portage, mobile and FPS journey
-        if: ${{ !cancelled() }}
-        run: node scripts/qa-vertical179.mjs > /tmp/vertical179-qa/browser179.log 2>&1
+      - name: Five native browser scenarios
+        run: |
+          fail=0
+          for rev in 175 176 177 178 179; do
+            node scripts/qa-vertical${rev}.mjs > /tmp/vertical179-qa/browser${rev}.log 2>&1 || fail=1
+          done
+          exit "$fail"
       - name: Preserve focused receipts before full checks
         if: always()
         uses: actions/upload-artifact@v4
