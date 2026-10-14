@@ -209,7 +209,7 @@
    return net().links.some(l=>[l.a,l.b].some(p=>p.site===id&&p.level===level))||net().crates.some(c=>c.site===id&&c.level===level);
   }
   function blocksConstruction(type,gx,gy,rotation=0){const d=V.bases[type]||C.BUILDINGS[type];if(!d)return false;const b={type,gx,gy,rotation},box=bounds(b),height=d.height||(d.wall?3:V.structureHeight);return net().links.some(l=>{const q=linkShape(l);return q&&q.z-R.deckThickness<height&&overlap(q,box);});}
-  function geometry(){const boxes=[];for(const l of net().links){const q=linkShape(l);if(!q||l.progress!==1)continue;const box={x:q.x,y:q.y,w:q.w,h:q.h,z:q.z-R.deckThickness,d:R.deckThickness,type:'bridge',link:l.id};boxes.push(box);const horizontal=q.w>q.h;
+  function geometry(){const boxes=[];for(const l of net().links){const q=linkShape(l);if(!q||l.progress!==1)continue;const box={x:q.x,y:q.y,w:q.w,h:q.h,z:q.z-R.deckThickness,d:R.deckThickness,type:'bridge',link:l.id};boxes.push(box);const horizontal=q.ports[0].y===q.ports[1].y;
     for(const side of [0,1])boxes.push(horizontal?{x:q.x,y:q.y+side*(q.h-R.railThickness),w:q.w,h:R.railThickness,z:q.z+R.railHeight-R.railThickness,d:R.railThickness,type:'bridgeRail',link:l.id}:{x:q.x+side*(q.w-R.railThickness),y:q.y,w:R.railThickness,h:q.h,z:q.z+R.railHeight-R.railThickness,d:R.railThickness,type:'bridgeRail',link:l.id});
    }return boxes;}
   // Render the parapet from the same docking corridors as movement: no invisible doorway through a railing.

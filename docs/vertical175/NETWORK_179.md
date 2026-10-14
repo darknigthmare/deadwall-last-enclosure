@@ -60,7 +60,7 @@ Le chargement vérifie formes exactes, nombres finis, références aux supports/
 
 ```
 node --test --test-concurrency=2 tests/vertical-*.test.cjs
-node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansions127.test.cjs
+node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs
 npm run check
 npm run build
 node scripts/qa-vertical179.mjs

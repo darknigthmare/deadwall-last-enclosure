@@ -141,3 +141,9 @@ test('179 visible parapets leave the paid docking corridor open on both anchors'
   const x=rail.x+rail.w/2,y=rail.y+rail.h/2;assert.ok(!(x>q.x&&x<q.x+q.w&&y>q.y&&y<q.y+q.h),'no rail bar across a bridge doorway');
  }
 });
+for(const axis of ['x','y'])test('179 short wide '+axis+' bridges keep rails parallel to the actual crossing',()=>{
+ const f=pair(10,'lookout2a177',2,axis),q=bridge(f),rails=f.n.geometry().filter(b=>b.type==='bridgeRail');
+ assert.equal(rails.length,2);assert.ok(q.definition.width>q.gap+2*B.landing,'fixture is wider than long');
+ for(const rail of rails){if(axis==='x'){assert.equal(rail.w,q.w);assert.equal(rail.h,B.railThickness);}else{assert.equal(rail.h,q.h);assert.equal(rail.w,B.railThickness);}}
+ moveTo(f,f.b.x,f.b.y);assert.equal(f.v.pose().site,f.b.id);assert.ok(f.g.restoreSave(f.g.serialize()));
+});
