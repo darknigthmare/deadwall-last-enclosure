@@ -92,6 +92,8 @@ roadIndexReady=true;
 for(const p of pois){for(let cy=Math.floor(p.reserve.t/256);cy<=Math.floor(p.reserve.b/256);cy++)for(let cx=Math.floor(p.reserve.l/256);cx<=Math.floor(p.reserve.r/256);cx++){const key=cx+','+cy;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(p);}}
 // Driveways can extend beyond a building reserve. Index their entire paved
 // approach so vegetation cannot grow between the public road and the front door.
+const frontage174=(root.DeadwallFrontage174||(typeof require==='function'?require('./frontage174.js'):null)).createIndex(roads,pois);
+const driveOwners174=new Map(pois.map(p=>[p.drive,p]));
 const programmeDrives=new Set(pois.filter(p=>p.generation>=8).map(p=>p.drive));
 for(const p of pois){const d=p.drive,pad=d.width/2+7;for(let cy=Math.floor((Math.min(d.a.y,d.b.y)-pad)/256);cy<=Math.floor((Math.max(d.a.y,d.b.y)+pad)/256);cy++)for(let cx=Math.floor((Math.min(d.a.x,d.b.x)-pad)/256);cx<=Math.floor((Math.max(d.a.x,d.b.x)+pad)/256);cx++){const key=cx+','+cy;if(!driveBins.has(key))driveBins.set(key,[]);driveBins.get(key).push(d);}}
 function populateG6(){
@@ -165,7 +167,8 @@ function drivewayAt(x,y,margin=0){
  const seen=new Set(),last=size/256-1;
  for(let cy=Math.max(0,Math.floor((y-margin)/256));cy<=Math.min(last,Math.floor((y+margin)/256));cy++)for(let cx=Math.max(0,Math.floor((x-margin)/256));cx<=Math.min(last,Math.floor((x+margin)/256));cx++)for(const d of driveBins.get(cx+','+cy)||[]){
   if(seen.has(d))continue;seen.add(d);
-  if(G.nearest({x,y},d.a,d.b).d<d.width/2+margin)return{a:{...d.a},b:{...d.b},width:d.width};
+  const actual=frontage174.surface(driveOwners174.get(d));
+  if(actual&&G.nearest({x,y},actual.a,actual.b).d<actual.width/2+margin)return{a:{...actual.a},b:{...actual.b},width:actual.width};
  }
  if(Geometry160)for(const p of contextSites160(x,y,margin+1)){
   const q=G.local(p,x,y);
@@ -254,7 +257,7 @@ function containers(x,y,r=3,z=0,inside=null){const out=[];for(const p of nearPOI
 function vehicleClear(x,y,a,w=4.8,h=2.03){const car={x,y,w,h,a},pad=Math.max(w,h)/2+.5;if(x<pad||y<pad||x>size-pad||y>size-pad)return false;for(const p of nearPOI(x,y,9)){const pl=plan(p,0),destroyed=!!effects.structureDestroyed?.(p.id);if(p.programme160){const q=G.local(p,x,y),localCar={x:q.x,y:q.y,a:a-p.a,w,h};if(Geometry160.terrainMovement(p,pl,q.x,q.y,0,localCar,effects))return false;}for(const o of [...(destroyed?[]:pl.walls),...pl.objects,...(p.outdoor||[]),...detailAt(p,0).interior.filter(o=>o.solid),...detailAt(p,0).outdoor.filter(o=>o.solid)]){const center=G.global(p,o.x+o.w/2,o.y+o.h/2);if(G.obb(car,{...center,w:o.w,h:o.h,a:p.a}))return false;}for(const v of p.parking)if(G.obb(car,v))return false;}for(const c of around(x,y,7))for(const t of [...c.trees,...c.rocks]){const q=G.local(car,t.x,t.y);const radius=sceneryRadius(t);if(radius>0&&G.circleRect(q.x,q.y,radius,{x:0,y:0,w:car.w,h:car.h}))return false;}return true;}
 const contextSites160=(x,y,r=100)=>Number.isFinite(x)&&Number.isFinite(y)?nearPOI(x,y,r).filter(p=>p.programme160):pois.filter(p=>p.programme160);
 function terrainAt160(x,y,z=0){if(z!==0||!Geometry160)return null;for(const p of contextSites160(x,y,1)){const q=G.local(p,x,y);for(const o of [...(plan(p,0).terrain160||[])].reverse())if(q.x>=o.x&&q.y>=o.y&&q.x<=o.x+o.w&&q.y<=o.y+o.h)return{...o,poi:p.id,completed:o.completedKey?effects.contextCompleted160?.(o.completedKey)===true:false};}return null;}
-return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:baseGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,contextCoverage160,contextSites160,contextPlan160:plan,terrainAt160,contextCompleted160:key=>effects.contextCompleted160?.(key)===true,opticalBlocked:(x,y,r=.05,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore,true),movementLine:(a,b,z=0,inside=null,ignore=null,r=.32)=>line(a,b,z,inside,ignore,r,'movement'),streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
+return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:baseGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,contextCoverage160,contextSites160,contextPlan160:plan,terrainAt160,contextCompleted160:key=>effects.contextCompleted160?.(key)===true,opticalBlocked:(x,y,r=.05,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore,true),movementLine:(a,b,z=0,inside=null,ignore=null,r=.32)=>line(a,b,z,inside,ignore,r,'movement'),streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,frontageFor:frontage174.forSite,driveFor:frontage174.surface,connectionFor:frontage174.connection,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
 }
 const api={RULES,TOWNS,LINES,create,sizeForGeneration,threatCount};root.DeadwallFrontierWorld=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
