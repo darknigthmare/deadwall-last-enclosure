@@ -103,3 +103,9 @@ test('177 final-age deep foundation reaches 72 m while historical foundation lim
  for(let i=1;i<=6;i++){assert.ok(g.vertical175.buildDeck().ok);tick(g,36);ascend(g,b,i);}
  assert.equal(g.vertical175.pose().z,72);assert.equal(g.vertical175.buildDeck().ok,false);assert.equal(R.bases.verticalFoundation6.maxDecks,6);assert.ok(g.restoreSave(g.serialize()));assert.equal(g.vertical175.pose().z,72);
 });
+
+test('177 impossible saved equipment footprint is refused transactionally',()=>{
+ const g=boot(),b=build(g,'citadelGate12');ascend(g,b);const valid=g.serialize(),before=snapshot(g),bad=clone(valid),v=bad.expansions127.modules.vertical175;
+ v.nextId=2;v.sites[0].decks[0].modules=[{id:1,kind:'megaQuarters177',slot:0,progress:1,health:R.modules.megaQuarters177.health,ammo:0,yaw:0,pitch:0,heat:0,cooldown:0,overheated:false}];
+ assert.throws(()=>g.restoreSave(bad),/hors support/);assert.deepEqual(snapshot(g),before);assert.ok(g.restoreSave(valid));
+});

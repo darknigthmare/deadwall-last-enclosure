@@ -31,6 +31,7 @@
     for(const m of d.modules){
      const def=R.modules[m.kind];count++;
      if(!fields(m,['id','kind','slot','progress','health','ammo','yaw','pitch','heat','cooldown','overheated'])||!def||!integer(m.id,1,raw.nextId-1)||moduleIds.has(m.id)||!integer(m.slot,0,3)||used.has(m.slot)||!finite(m.progress,0,1)||!finite(m.health,Number.EPSILON,def.health)||!integer(m.ammo,0,def.capacity||0)||!finite(m.yaw,-Math.PI,Math.PI)||!finite(m.pitch,-1.45,1.1)||!finite(m.heat,0,R.heatLimit)||!finite(m.cooldown,0,10)||typeof m.overheated!=='boolean'||d.progress!==1)bad('équipement');
+     if(base&&def.age177){const box=moduleBox(b,m,0),q=bounds(b);if(box.x<q.x||box.y<q.y||box.x+box.w>q.x+q.w||box.y+box.h>q.y+q.h)bad('équipement hors support');}
      moduleIds.add(m.id);used.add(m.slot);
     }
    });

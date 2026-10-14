@@ -11,13 +11,17 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));
  await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
  await page.goto('http://127.0.0.1:'+server.address().port,{waitUntil:'load',timeout:120000});await page.waitForFunction(()=>window.DEADWALL?.vertical175UI);
+ await page.evaluate(()=>DEADWALL.startNew('standard','17117'));
+ await page.locator('#campaignIntro132Skip').click();
+ assert.equal(await page.evaluate(()=>DEADWALL.campaignIntro132.isOpen()),false);
+ report.checks.push({arrivalClosedThroughActualButton:true});
  const setup=await page.evaluate(()=>{
-  const g=DEADWALL,C=DeadwallCore,V=g.vertical175;g.startNew('standard','17117');g.paused=false;g.activeOverlay=null;g.state='playing';g.gameOver=false;for(const el of document.querySelectorAll('.overlay'))el.hidden=true;
+  const g=DEADWALL,C=DeadwallCore,V=g.vertical175;g.paused=false;g.activeOverlay=null;g.state='playing';g.gameOver=false;for(const el of document.querySelectorAll('.overlay'))el.hidden=true;
   let b;for(let x=38;x<85&&!b;x+=2)for(let y=38;y<85&&!b;y+=2)if(g.world.placement(C.BUILDINGS.lookout2a177,x,y,0).valid&&g.placeOne('lookout2a177',x,y)){b=g.world.atCell(x,y);b.progress=1;b.health=b.maxHealth;}
   if(!b)throw Error('No legal early support');g.refreshMetrics(true);Object.assign(g.player,V.entrance(b));g.camera.x=b.x;g.camera.y=b.y;g.camera.zoom=1;g.render();window.fixture177={base:b.id};
   window.tick177=seconds=>{for(let x=0;x<seconds-1e-8;x+=.1)V.step(Math.min(.1,seconds-x));g.render();};
-  return{age:g.tier.id,entry:V.accessQuote(b.id).ok,stock:{...g.resources}};
- });assert.equal(setup.age,0);assert.equal(setup.entry,true);report.checks.push({earlySetup:setup});
+  return{age:g.tier.id,entry:V.accessQuote(b.id).ok,reason:V.accessQuote(b.id).reason,stock:{...g.resources}};
+ });report.checks.push({earlySetup:setup});assert.equal(setup.age,0);assert.equal(setup.entry,true,setup.reason);
  await page.locator('#vertical175access').click();await page.evaluate(()=>tick177(4));assert.equal(await page.evaluate(()=>DEADWALL.vertical175.pose().z),2);
  await page.locator('#vertical175dossier').click();await page.evaluate(()=>DEADWALL.render());
  await page.locator('#expansionAction-vertical175-build-handRifle177').click();await page.evaluate(()=>tick177(11));
