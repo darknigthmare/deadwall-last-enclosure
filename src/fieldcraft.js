@@ -101,7 +101,7 @@ function attach(g){
  function proposal(b,x,y,rotation,kind='move'){
   const no=reason=>({ok:false,reason});
   if(!allowed()||!b||!live(b)||!b.completed||!workAt(g.player,b,rules.range))return no('Approchez une structure achevée et accessible.');
-  if(['core','sectorPost'].includes(b.type))return no('Le centre et les postes territoriaux restent ancrés.');
+  if(['core','sectorPost'].includes(b.type)||b.def.vertical175)return no('Le centre, les postes et les supports verticaux restent ancrés.');
   if(g.phase!=='calm'||b.underAttack>0||b.siegeOffline||mounted===b.id)return no('Réimplantation au calme, sans feu ni attaque.');
   if(!Number.isInteger(x)||!Number.isInteger(y)||!Number.isInteger(rotation)||rotation<0||rotation>3)return no('Coordonnées invalides.');
   if(x===b.gx&&y===b.gy&&rotation===b.rotation)return no('Emplacement inchangé.');

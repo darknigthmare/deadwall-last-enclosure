@@ -2211,3 +2211,43 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   }});
  C.ContextGeometryRules160=freeze({attemptLimit:96,frontSetback:26,roadWidth:8,walkWidth:3.2,bridgeWidth:10,wallThickness:.28,contextBandWidth:8,gateWidth:3.2,terrainClearance:1,clusterBlockWidth:18,clusterBlockHeight:14,clusterGap:12});
 })(globalThis);
+
+/* Vertical citadel: optional, additive campaign content; authoritative gameplay values. */
+(function(root){'use strict';
+ const C=root.DeadwallCore,freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const base=(id,name,height,size,tier,cost,health,capacity,wall=false)=>({id,name,height,size,unlockTier:tier,cost,health,capacity,wall,
+  category:wall?'defense':'colony',icon:wall?'▥':'▤',symbol:wall?'ENCEINTE':'SOCLE',description:height+' m · accès intérieur, cheminement supérieur et emplacements équipables.',
+  buildTime:height*3+30,score:wall?height/3:16,defense:wall,color:'#60665e',roof:'#9a9d8a',vertical175:true});
+ C.VerticalCitadel175=freeze({version:1,tile:32,maxSites:128,maxModules:768,maxDecks:6,maxHeight:48,deckRise:6,deckMass:30,
+  workReach:70,workMoveTolerance:12,step:.1,stairSpeed:2,liftSpeed:5,landingSeconds:1.5,liftPower:5,eyeHeight:1.65,
+  maxShotRange:180,fallDamagePerMetre:3,projectedHeight:6,climbLoadPerMetre:16,heatRecovery:18,heatLimit:100,heatResume:35,
+  muzzleHeight:1.5,structureHeight:4,playerSpeed:136,scanInterval:.3,targetCandidates:12,nightSight:12,traceLife:.12,maxTraces:96,reloadSeconds:4,
+  deck:{name:'Dalle porteuse +6 m',seconds:35,cost:{stone:180,scrap:90},health:1800},
+  lift:{name:'Ascenseur intérieur',seconds:25,cost:{scrap:160,stone:50,fuel:12}},
+  bases:{
+   rampart12:base('rampart12','Rempart de veille — 12 m',12,[12,6],3,{stone:220,scrap:100},3600,160,true),
+   rampart24:base('rampart24','Grande enceinte — 24 m',24,[12,6],6,{stone:500,scrap:240},6200,220,true),
+   rampart48:base('rampart48','Muraille ultime — 48 m',48,[16,8],8,{stone:1000,scrap:500},10500,320,true),
+   verticalFoundation6:base('verticalFoundation6','Fondation habitée — 6 m',6,[12,12],4,{stone:280,scrap:140},4000,300),
+   verticalFoundation12:base('verticalFoundation12','Fondation profonde — 12 m',12,[16,16],6,{stone:600,scrap:260},6500,480)
+  },
+  modules:{
+   sentry:{name:'Affût de mitrailleuse',tier:3,seconds:18,cost:{scrap:85,stone:20},mass:12,health:450,size:[1.4,1.4],powerUse:2,range:70,damage:32,rate:5,capacity:160,ammoPerShot:1,heat:4},
+   heavy:{name:'Mitrailleuse de rempart',tier:4,seconds:25,cost:{scrap:150,stone:40},mass:24,health:700,size:[1.8,1.8],powerUse:4,range:100,damage:52,rate:4,capacity:220,ammoPerShot:1,heat:7},
+   precision:{name:'Affût de précision anti-colosse',tier:6,seconds:30,cost:{scrap:210,stone:65},mass:30,health:620,size:[1.8,1.8],powerUse:3,range:160,damage:150,rate:.7,capacity:60,ammoPerShot:3,heat:16},
+   cannon:{name:'Canon de barrage',tier:7,seconds:40,cost:{scrap:300,stone:120},mass:42,health:950,size:[2,2],powerUse:8,range:130,damage:100,rate:1.2,capacity:160,ammoPerShot:5,heat:20,splash:3.2},
+   quarters:{name:'Logements suspendus',tier:4,seconds:26,cost:{wood:120,scrap:75,stone:45},mass:26,health:800,size:[2.5,2.5],housing:12,powerUse:1,score:6},
+   storage:{name:'Réserve d’étage',tier:4,seconds:20,cost:{wood:85,scrap:65},mass:30,health:700,size:[2.5,2.5],storage:600,score:5},
+   greenhouse:{name:'Serre suspendue',tier:5,seconds:30,cost:{wood:100,scrap:120,stone:50},mass:22,health:500,size:[2.5,2.5],powerUse:4,production:{food:.32},score:8},
+   ammunition:{name:'Atelier de munitions d’étage',tier:6,seconds:35,cost:{scrap:180,stone:70},mass:34,health:750,size:[2.5,2.5],powerUse:6,production:{ammo:.55},consumes:{scrap:.10},score:10},
+   spotlight:{name:'Projecteur de rempart',tier:3,seconds:14,cost:{scrap:45,fuel:4},mass:5,health:260,size:[1,1],powerUse:2,light:360,score:2}
+  },
+  siege:{maxGiants:3,telegraph:2.4,interval:6,damageRadius:2.8,spawnDistance:34,spawnWaveInterval:5,firstWave:25,maxClimbers:24,climbSpeed:1.4,
+   kinds:{
+    breaker:{name:'Porte-faille',height:6,radius:1.2,health:700,speed:1.1,reach:3,damage:150,tier:6,weakDamage:2.2},
+    carrier:{name:'Porte-charniers',height:12,radius:1.8,health:1000,speed:.8,reach:4,damage:200,tier:8,weakDamage:2.5},
+    colossus:{name:'Colosse de siège',height:20,radius:2.6,health:1500,speed:.6,reach:6,damage:300,tier:10,weakDamage:3}
+   }
+  }
+ });
+})(globalThis);

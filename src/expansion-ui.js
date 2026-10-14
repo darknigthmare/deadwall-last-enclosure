@@ -10,10 +10,10 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const ORDER = ['arsenal134','interventions134','barricades134','defense131','fortification','exploration131','exploration','player131','survival','companions','world131','context160','campaign','lore131'];
-  const GROUPS=[{id:'defense',name:'D-17',ids:['defense131','fortification','barricades134']},{id:'exploration',name:'EXPÉDITIONS',ids:['exploration131','exploration']},{id:'player',name:'ÉQUIPEMENT',ids:['arsenal134','player131','survival','companions']},{id:'world',name:'RÉGION',ids:['interventions134','world131','context160','campaign']},{id:'lore',name:'ARCHIVES',ids:['lore131']}];
-  const API_NAMES={arsenal134:'arsenal134',interventions134:'interventions134',barricades134:'barricades134',defense131:'defense131',exploration131:'travel131',player131:'playerOps131',world131:'worldOps131',context160:'contextOperations160',lore131:'chronicles131'};
-  const LABELS = { arsenal134:'Armurerie',interventions134:'Interventions',barricades134:'Ouvertures', exploration: 'Exploration', survival: 'Survie', fortification: 'Fortifications', companions: 'Équipe', campaign: 'Missions', defense131:'Préparatifs',exploration131:'Longs trajets',player131:'Commandant',world131:'Relais lointains',context160:'Ouvrages & services',lore131:'Chroniques' };
+  const ORDER = ['arsenal134','interventions134','barricades134','defense131','vertical175','fortification','exploration131','exploration','player131','survival','companions','world131','context160','campaign','lore131'];
+  const GROUPS=[{id:'defense',name:'D-17',ids:['defense131','vertical175','fortification','barricades134']},{id:'exploration',name:'EXPÉDITIONS',ids:['exploration131','exploration']},{id:'player',name:'ÉQUIPEMENT',ids:['arsenal134','player131','survival','companions']},{id:'world',name:'RÉGION',ids:['interventions134','world131','context160','campaign']},{id:'lore',name:'ARCHIVES',ids:['lore131']}];
+  const API_NAMES={vertical175:'vertical175',arsenal134:'arsenal134',interventions134:'interventions134',barricades134:'barricades134',defense131:'defense131',exploration131:'travel131',player131:'playerOps131',world131:'worldOps131',context160:'contextOperations160',lore131:'chronicles131'};
+  const LABELS = { vertical175:"Citadelle verticale", arsenal134:'Armurerie',interventions134:'Interventions',barricades134:'Ouvertures', exploration: 'Exploration', survival: 'Survie', fortification: 'Fortifications', companions: 'Équipe', campaign: 'Missions', defense131:'Préparatifs',exploration131:'Longs trajets',player131:'Commandant',world131:'Relais lointains',context160:'Ouvrages & services',lore131:'Chroniques' };
   function install(g, doc) {
     if (!g?.expansions || !doc || g.expansionUI) return false;
     const field = doc.getElementById('commandPanel-field'), modal = g.ui.commandModal;
