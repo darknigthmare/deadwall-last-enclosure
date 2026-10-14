@@ -1,4 +1,4 @@
-name: Vertical Citadel 175 integration
+name: Vertical Citadel 175 reviewed follow-up
 on:
   push:
     branches: [feat/vertical-citadel-175-integration]
@@ -6,12 +6,12 @@ permissions:
   contents: write
 concurrency:
   group: vertical175-integrated-feature-delivery
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   integrate-and-verify:
     if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175-integration'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,56 +19,50 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Apply exact reviewed source with before and after guards
-        run: python3 .delivery/vertical175/apply.py
-      - name: Syntax and native build
+      - name: Verify and apply the eleven reviewed follow-up files
+        run: python3 .delivery/vertical175/apply-final.py
+      - name: Syntax and targeted simulation
         run: |
           node scripts/check-syntax134.mjs > /tmp/vertical175/syntax.log 2>&1
-          npm run build > /tmp/vertical175/build.log 2>&1
-      - name: Targeted vertical integration tests
-        run: node --test tests/vertical-citadel175.test.cjs > /tmp/vertical175/tests.log 2>&1
-      - name: Commit verified source only on the dedicated integration branch
+          node --test tests/vertical-citadel175.test.cjs > /tmp/vertical175/tests.log 2>&1
+      - name: Catalogue and projectile regression
+        run: node --test --test-concurrency=2 tests/codex-actions159.test.cjs tests/coordination.test.cjs tests/expeditions.test.cjs tests/hostile-collision154.test.cjs tests/enemies-content.test.cjs tests/physical-interactions.test.cjs > /tmp/vertical175/regression.log 2>&1
+      - name: Publish verified source, remove transport files and restore read-only CI
         run: |
           python3 - <<'PY'
-          import json, os, subprocess
+          import json, os, pathlib, subprocess
           branch = 'feat/vertical-citadel-175-integration'
           remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
           if remote != os.environ['GITHUB_SHA']:
-            raise RuntimeError('Integration branch moved; refusing concurrent overwrite')
-          paths = [i['path'] for i in json.load(open('.delivery/vertical175/manifest.json'))['files']]
-          subprocess.run(['git','add','--',*paths], check=True)
-          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
-            subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
-            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
-            subprocess.run(['git','commit','-m','feat(vertical175): integrate reviewed citadel simulation, content, tests and design'], check=True)
-            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
-          with open('/tmp/vertical175/verified-head.txt','w') as f:
-            f.write(subprocess.check_output(['git','rev-parse','HEAD']).decode())
+            raise RuntimeError('Branch moved; refusing concurrent overwrite')
+          folder = pathlib.Path('.delivery/vertical175')
+          paths = [i['path'] for i in json.loads((folder / 'final-manifest.json').read_text())['files']]
+          workflow = pathlib.Path('.github/workflows/vertical-citadel-175.yml')
+          workflow.write_bytes((folder / 'validate.yml').read_bytes())
+          subprocess.run(['git','add','--',*paths,str(workflow)], check=True)
+          subprocess.run(['git','rm','-r','--','.delivery/vertical175'], check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
+          subprocess.run(['git','commit','-m','fix(vertical175): preserve native collision budgets and clear station FPS HUD; retain read-only QA'], check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
+          pathlib.Path('/tmp/vertical175/verified-head.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
           PY
       - name: Install locked QA dependencies
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci > /tmp/vertical175/install.log 2>&1
-      - name: Install browser
-        run: npx playwright install --with-deps chromium > /tmp/vertical175/browser-install.log 2>&1
+      - name: Build and install browser
+        run: |
+          npm run build > /tmp/vertical175/build.log 2>&1
+          npx playwright install --with-deps chromium > /tmp/vertical175/browser-install.log 2>&1
       - name: Actual browser campaign and prepared siege fixture
         env:
           DEADWALL_QA_OUTPUT: /tmp/vertical175/browser
         run: node scripts/browser-vertical175.mjs > /tmp/vertical175/browser.log 2>&1
-      - name: Preserve focused evidence before extended checks
+      - name: Preserve complete focused evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vertical175-focused-${{ github.run_id }}
-          path: /tmp/vertical175/
-          retention-days: 14
-      - name: Existing project checks
-        if: always()
-        run: npm run check > /tmp/vertical175/full-check.log 2>&1
-      - name: Preserve complete validation evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: vertical175-validation-${{ github.run_id }}
+          name: vertical175-final-${{ github.run_id }}
           path: /tmp/vertical175/
           retention-days: 14

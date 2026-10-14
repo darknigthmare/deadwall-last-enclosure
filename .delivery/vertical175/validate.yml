@@ -1,0 +1,47 @@
+name: Vertical Citadel 175 validation
+on:
+  push:
+    branches: [feat/vertical-citadel-175-integration]
+  pull_request:
+    paths: ['src/vertical*.js', 'tests/vertical*.cjs', 'scripts/browser-vertical175.mjs', '.github/workflows/vertical-citadel-175.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical175-validation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  targeted-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Provenance and targeted simulation
+        run: |
+          mkdir -p /tmp/vertical175
+          git rev-parse HEAD > /tmp/vertical175/verified-head.txt
+          node scripts/check-syntax134.mjs > /tmp/vertical175/syntax.log 2>&1
+          node --test tests/vertical-citadel175.test.cjs > /tmp/vertical175/tests.log 2>&1
+      - name: Catalogue and projectile regression
+        run: node --test --test-concurrency=2 tests/codex-actions159.test.cjs tests/coordination.test.cjs tests/expeditions.test.cjs tests/hostile-collision154.test.cjs tests/enemies-content.test.cjs tests/physical-interactions.test.cjs > /tmp/vertical175/regression.log 2>&1
+      - name: Install locked dependencies
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci > /tmp/vertical175/install.log 2>&1
+      - name: Native build and browser
+        run: |
+          npm run build > /tmp/vertical175/build.log 2>&1
+          npx playwright install --with-deps chromium > /tmp/vertical175/browser-install.log 2>&1
+      - name: Real browser smoke test, explicit late-age fixture
+        env:
+          DEADWALL_QA_OUTPUT: /tmp/vertical175/browser
+        run: node scripts/browser-vertical175.mjs > /tmp/vertical175/browser.log 2>&1
+      - name: Preserve receipts and actual screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical175-validation-${{ github.run_id }}
+          path: /tmp/vertical175/
+          retention-days: 14
