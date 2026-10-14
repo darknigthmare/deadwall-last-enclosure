@@ -112,3 +112,9 @@ test('178 views and service lists are read-only, and maintenance UI exposes all 
  const g=boot(),b=build(g);ascend(g,b);addFloor(g,b);assert.ok(g.vertical175.buildLift().ok);tick(g,26);const m=equip(g,b,'handRifle177');g.vertical175.actions().find(a=>a.id==='group-service').run();const before=snapshot(g),ids=g.vertical175.actions().map(a=>a.id);
  assert.ok(ids.includes('remove-top-deck'));assert.ok(ids.includes('remove-lift'));assert.ok(ids.includes('move-'+m.id+'-1'));g.vertical175.overview();g.vertical175.catalogue(10);assert.deepEqual(snapshot(g),before);
 });
+
+test('178 completed deck refunds exactly 63 stone and 31 scrap, without floating-point loss',()=>{
+ const g=boot(4),b=build(g);ascend(g,b);addFloor(g,b);lowStock(g);
+ const q=g.vertical175.engineeringQuote178('removeDeck',b.id);assert.equal(q.ok,true);assert.deepEqual(q.refund,{stone:63,scrap:31});
+ confirm(g,'dismantleTopDeck',b.id);tick(g,21);assert.equal(g.resources.stone,83);assert.equal(g.resources.scrap,51);
+});

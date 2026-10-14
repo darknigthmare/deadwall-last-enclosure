@@ -48,7 +48,7 @@ node scripts/qa-vertical177.mjs
 node scripts/qa-vertical178.mjs
 ```
 
-La suite 178 ajoute **29 tests**, dont un scénario de déplacement payé pour chacun des onze âges. Le total vertical local est de **104 tests réussis**, sans échec ni test ignoré ; les 75 tests 175–177 sont inclus, pas additionnés à nouveau. La régression ciblée séparée du moteur, de l'urbanisation et de l'électricité passe ses **75 tests**. Ces scénarios ne constituent pas une campagne humaine complète.
+La suite 178 ajoute **30 tests**, dont un scénario de déplacement payé pour chacun des onze âges. Le total vertical local est de **105 tests réussis**, sans échec ni test ignoré ; les 75 tests 175–177 sont inclus, pas additionnés à nouveau. La régression ciblée séparée du moteur, de l'urbanisation et de l'électricité passe ses **75 tests**. Ces scénarios ne constituent pas une campagne humaine complète.
 
 Le test navigateur 178 manipule les vrais boutons du dossier, puis vérifie déplacement, paiement final, pause, onze pages de catalogue consultatives, dépose d'une dalle depuis le dessous, dépose d'ascenseur, maintien des escaliers et sauvegarde. Il prépare explicitement les âges avancés, l'achèvement du support de départ et les stocks, puis avance les contrôleurs natifs. Les équipements et services sont financés par leurs vraies commandes. La vue 390 × 844 est une émulation de viewport, pas un téléphone physique.
 
@@ -57,3 +57,7 @@ Le navigateur local a refusé la navigation sur le serveur par politique d'admin
 ## Encore ouvert
 
 Restent les escaliers et cabines librement parcourables, le déplacement entre étages et supports distincts, les passerelles suspendues, la navigation générale verticale des PNJ et du fret, le placement arbitraire des bâtiments historiques sur dalles, les effondrements progressifs par piliers, les corps individuels et grandes foules avec niveaux de détail, ainsi que les modèles, textures, animations et sons finaux. Les limites de 720 infectés natifs et 24 occupants/grimpeurs détaillés ne changent pas. Les fonctions d'entretien ci-dessus ne doivent pas être présentées comme l'achèvement de ces chantiers.
+
+### Correctif révélé par le navigateur
+
+Le premier passage 178 a correctement déplacé l’affût et parcouru les onze âges, mais a révélé un arrondi binaire défavorable sur le remboursement de la dalle : `180 × 0,35` était évalué juste sous 63 puis arrondi à 62. Le calcul corrige uniquement cette imprécision avec une tolérance numérique de `10^-9`, avant l’arrondi inférieur et le plafonnement de stockage. Un test indépendant exige explicitement **63 pierres et 31 ferrailles** pour une dalle intégralement achevée et intacte. Les pourcentages et règles de récupération ne changent pas.

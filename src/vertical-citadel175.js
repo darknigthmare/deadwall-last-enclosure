@@ -95,7 +95,7 @@
    if(kind==='dismantle'){
     const capacity=Math.max(100,g.storage-(q.def.storage||0));
     if(C.RESOURCE_KEYS.some(k=>g.resources[k]>capacity+.000001))return no('Réduisez les stocks avant de retirer cette réserve : capacité restante '+capacity+'.');
-    const wanted=Object.fromEntries(Object.entries(q.def.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*q.m.health/q.def.health)]));
+    const wanted=Object.fromEntries(Object.entries(q.def.cost).map(([k,n])=>[k,wholeRefund178(n*A.salvageFraction*q.m.health/q.def.health)]));
     wanted.ammo=(wanted.ammo||0)+q.m.ammo;
     const refund=Object.fromEntries(Object.entries(wanted).map(([k,n])=>[k,Math.min(n,Math.max(0,capacity-(g.resources[k]||0)))]));
     return {...q,ok:true,kind,capacity,refund,seconds:A.dismantleSeconds};
@@ -133,6 +133,8 @@
    }
    job=null;notice=j.kind==='dismantle'?'Équipement démonté ; emplacement libéré.':j.kind==='repair'?'Réparation effectuée ; matériaux débités une seule fois.':'Soins terminés ; médicaments prélevés dans le sac.';g.audio?.build?.();g.refreshMetrics(true);
   }
+  // Keep whole material counts at decimal boundaries (180 * .35 is not exact in binary).
+  const wholeRefund178=amount=>Math.floor(amount+C.VerticalMaintenance178.refundEpsilon);
   function engineeringClear178(b,level,kind,slot,ignoreId=null){
    const footprint=S.moduleBox(b,{kind,slot},S.height(site(b.id),level,base(b))),bounds=S.bounds(b);
    if(footprint.x<bounds.x||footprint.y<bounds.y||footprint.x+footprint.w>bounds.x+bounds.w||footprint.y+footprint.h>bounds.y+bounds.h)return no('Équipement trop large pour ce support.');
@@ -161,7 +163,7 @@
     }else{
      if(q.m.progress===1)return no('Équipement achevé : utilisez son démontage ordinaire.');
      seconds=E.cancelSeconds;
-     refund=Object.fromEntries(Object.entries(q.def.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*q.m.progress*q.m.health/q.def.health)]));
+     refund=Object.fromEntries(Object.entries(q.def.cost).map(([k,n])=>[k,wholeRefund178(n*A.salvageFraction*q.m.progress*q.m.health/q.def.health)]));
     }
    }else{
     q=currentWorkSite(id);if(!q.ok)return q;
@@ -176,11 +178,11 @@
      const z=S.height(q.s,top,base(q.b));
      if(g.zombies.some(e=>live(e)&&siege.enemyPose(e).site===id&&Math.abs(siege.enemyPose(e).z-z)<.1))return no('Un infecté occupe encore la dalle.');
      seconds=E.deckDismantleSeconds;
-     refund=Object.fromEntries(Object.entries(R.deck.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*object.progress*object.health/R.deck.health)]));
+     refund=Object.fromEntries(Object.entries(R.deck.cost).map(([k,n])=>[k,wholeRefund178(n*A.salvageFraction*object.progress*object.health/R.deck.health)]));
     }else if(kind==='removeLift'){
      if(q.s.lift<=0)return no('Aucun ascenseur ni chantier à déposer.');
      object=q.s;seconds=E.liftDismantleSeconds;
-     refund=Object.fromEntries(Object.entries(R.lift.cost).map(([k,n])=>[k,Math.floor(n*A.salvageFraction*q.s.lift)]));
+     refund=Object.fromEntries(Object.entries(R.lift.cost).map(([k,n])=>[k,wholeRefund178(n*A.salvageFraction*q.s.lift)]));
     }else if(kind==='repairDeck'){
      if(level<=0)return no('Réparez le support au sol pour entretenir sa dalle de base.');
      object=q.s.decks[level];amount=Math.min(E.deckRepairHealth,R.deck.health-object.health);
