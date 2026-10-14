@@ -1,81 +1,52 @@
-name: Citadel 176 reviewed integration
+name: Citadel 176 QA
 on:
   push:
     branches: [feat/vertical-citadel-175]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 concurrency:
-  group: vertical176-reviewed-integration
+  group: vertical176-qa-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  reviewed-integration:
-    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+  targeted-and-browser:
+    if: github.event_name != 'pull_request' || github.head_ref == 'feat/vertical-citadel-175'
     runs-on: ubuntu-latest
-    timeout-minutes: 50
-    permissions:
-      contents: write
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Verify reviewed source
+      - name: Exact source and focused tests
         run: |
           mkdir -p /tmp/vertical176-qa
-          if test -f .delivery/vertical176/apply.py; then python3 .delivery/vertical176/apply.py; fi
-      - name: Syntax, focused tests and native build
-        run: |
+          git rev-parse HEAD > /tmp/vertical176-qa/TESTED_HEAD.txt
           node scripts/check-syntax134.mjs > /tmp/vertical176-qa/syntax.log 2>&1
           node --test --test-concurrency=2 tests/vertical-citadel175.test.cjs tests/vertical-siege176.test.cjs > /tmp/vertical176-qa/tests.log 2>&1
-          npm run build > /tmp/vertical176-qa/build.log 2>&1
-      - name: Publish only reviewed gameplay sources without modifying workflow permissions
-        env:
-          EXPECTED_HEAD: ${{ github.sha }}
-        run: |
-          python3 - <<'PY' > /tmp/vertical176-qa/publish.log 2>&1
-          import json, os, pathlib, subprocess
-          branch = 'feat/vertical-citadel-175'
-          folder = pathlib.Path('.delivery/vertical176')
-          if folder.exists():
-            remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
-            if remote != os.environ['EXPECTED_HEAD']:
-              raise RuntimeError('Feature branch moved; refusing overwrite')
-            paths = [i['path'] for i in json.loads((folder / 'manifest.json').read_text())['files']]
-            subprocess.run(['git','add','--',*paths],check=True)
-            subprocess.run(['git','rm','-r','--',str(folder)],check=True)
-            subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
-            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
-            subprocess.run(['git','commit','-m','feat(siege176): integrate native climbers, gate decks, bastions and altitude-safe combat'],check=True)
-            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch],check=True)
-          pathlib.Path('/tmp/vertical176-qa/TESTED_HEAD.txt').write_text(subprocess.check_output(['git','rev-parse','HEAD']).decode())
-          PY
-      - name: Locked QA prerequisites
+      - name: Locked dependencies
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
-      - name: Chromium for actual WebGL qualification
-        run: npx playwright install --with-deps chromium
-      - name: Previous browser regression
-        run: node scripts/qa-vertical175.mjs > /tmp/vertical176-qa/browser175.log 2>&1
-      - name: Native climb, roof combat, keyboard and WebGL recovery
-        run: node scripts/qa-vertical176.mjs > /tmp/vertical176-qa/browser176.log 2>&1
-      - name: Preserve focused receipts
+      - name: Native build and Chromium
+        run: |
+          npm run build > /tmp/vertical176-qa/build.log 2>&1
+          npx playwright install --with-deps chromium
+      - name: Actual UI, classic and WebGL regression
+        run: |
+          node scripts/qa-vertical175.mjs > /tmp/vertical176-qa/browser175.log 2>&1
+          node scripts/qa-vertical176.mjs > /tmp/vertical176-qa/browser176.log 2>&1
+      - name: Preserve exact receipts and screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vertical176-focused-${{ github.run_id }}
+          name: vertical176-qa-${{ github.run_id }}
           path: |
             /tmp/vertical176-qa/
             /tmp/vertical175-qa/
           retention-days: 14
-      - name: Complete project checks
-        run: npm run check > /tmp/vertical176-qa/full-check.log 2>&1
-      - name: Preserve complete receipts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: vertical176-complete-${{ github.run_id }}
-          path: /tmp/vertical176-qa/
-          retention-days: 14
+# The existing DEADWALL CI remains responsible for npm run check and native builds.
+# This workflow never writes source files, commits, refs or workflow permissions.
