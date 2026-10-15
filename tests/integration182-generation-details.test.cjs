@@ -43,15 +43,20 @@ test('182 depot detail upgrade preserves G10 completed works in its actual candi
  data.expansions127.modules.context160={version:1,completed:[key]};
  assert.equal(g.restoreSave(data),true);standAt(g,g.player,g.core());
  const snapshot=()=>{const s=copy(g.serialize());delete s.timestamp;return s;};
- const before=snapshot(),create=W.create,candidates=[];
+ const before=snapshot(),create=W.create,restore=g.restoreSave,candidates=[];
+ let preparing=true;
  W.create=function(seed,generation,effects){
   const world=create(seed,generation,effects);
-  if(generation===10&&effects?.detailVersion===10&&typeof effects.contextCompleted160==='function')candidates.push(world);
+  if(preparing&&generation===10&&effects?.detailVersion===10)candidates.push(world);
   return world;
  };
+ // Only worlds prepared before restoreSave are upgrade candidates. Validation
+ // may also construct separate reference worlds for saved identifiers.
+ g.restoreSave=function(...args){preparing=false;return restore.apply(this,args);};
  try{const result=g.worldOps131.upgradeDetails159(10);assert.equal(result.ok,true,result.reason);}
- finally{W.create=create;}
- assert.equal(candidates.length,1);assert.equal(candidates[0].contextCompleted160(key),true);
+ finally{W.create=create;g.restoreSave=restore;}
+ assert.ok(candidates.length>=1,'the upgrade creates its real target world');
+ for(const candidate of candidates)assert.equal(candidate.contextCompleted160(key),true,'completed works survive in every prepared candidate');
  const after=snapshot();assert.equal(after.frontier.generation,10);assert.equal(after.frontier.detailVersion,10);
  assert.equal(g.frontier.world().contextCompleted160(key),true);
  after.frontier.detailVersion=before.frontier.detailVersion;assert.deepEqual(after,before);
