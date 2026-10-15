@@ -218,7 +218,8 @@ try{
    rec.check('Actual guide explains 626 G10 contracts and seed-dependent physical placement',totals.summary.includes('626')&&totals.summary.includes('G10')&&totals.summary.includes('graine'));
    await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-4000');const last='#worldCodexResults [data-codex-id="programme-DW-4000"]';
    await press(page,last+' > details:last-child > summary',viewport.touch);
-   const authored=await page.locator(last).evaluate(n=>({id:n.dataset.codexId,text:n.textContent,fields:n.querySelectorAll('details:last-child > p').length,open:n.lastElementChild.open}));
+   await page.waitForFunction(()=>{const n=document.querySelector('[data-codex-source159="programme-DW-4000"]');return n?.open&&n.dataset.recipeLoaded==='true';});
+   const authored=profile.authored=await page.locator(last).evaluate(n=>{const source=n.querySelector('[data-codex-source159]');return{id:n.dataset.codexId,text:n.textContent,fields:[...source.querySelectorAll(':scope > p')].filter(p=>p.firstElementChild?.tagName==='STRONG').length,open:source.open};});
    rec.check('The genuine DW-4000 card exposes all9 authored fields and explicit G9 availability',authored.id==='programme-DW-4000'&&authored.fields===9&&authored.open&&authored.text.includes('G9'));
    await page.locator('#worldCodexAvailability159').selectOption('supported');await page.locator('#worldCodexSearch').fill('');
    rec.check('The genuine compatible filter contains all4000 software-supported programmes',/^4000 fiche/.test(await page.locator('#field-world-codex .world-codex-count').innerText()));

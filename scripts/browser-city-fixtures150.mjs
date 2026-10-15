@@ -46,7 +46,8 @@ export function prepareAge150(targetAge) {
   }
   while (score() < threshold) {
     const remaining = threshold - score();
-    const choices = Object.values(C.BUILDINGS).filter(d => d.id !== 'core' && !C.CityContent150?.BUILDINGS[d.id] && !d.wall && d.unlockTier < targetAge && (d.score || 0) <= remaining + 1e-7 && (!d.requires || g.world.has(d.requires)));
+    // Historical score fillers are ground buildings; vertical supports require their separate native owner.
+    const choices = Object.values(C.BUILDINGS).filter(d => d.id !== 'core' && !d.vertical175 && !C.CityContent150?.BUILDINGS[d.id] && !d.wall && d.unlockTier < targetAge && (d.score || 0) <= remaining + 1e-7 && (!d.requires || g.world.has(d.requires)));
     choices.sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
     if (!choices.length || added.length > 250) throw Error('Cannot prepare exact score ' + threshold + ': ' + score());
     put(choices[0].id);
