@@ -94,7 +94,8 @@ test('All city choice types navigate the true age catalogue without firing its a
  assert.equal(A.openChoice(game,'fake:waterNetwork'),false);game.player.dead=true;assert.equal(A.openChoice(game,A.catalogue.items[0].key),false);
 });
 test('Guide usage filters distinguish626 G10 contracts from actual known sites without creating new cards',()=>{
- const {game}=fixture();assert.equal(Guide.entries.length,4615);assert.equal(Guide.query({availability:'city'},game).length,180);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
+ const {game}=fixture();assert.equal(Guide.entries.length,4620);assert.equal(Guide.query({availability:'city'},game).length,180);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
+ assert.deepEqual(Guide.entries.filter(e=>e.id.startsWith('biome164-')||e.id==='ecology164-coherence').map(e=>e.id).sort(),['biome164-alluvialTerrace','biome164-agriculturalPlateau','biome164-sandyPine','biome164-peatland','ecology164-coherence'].sort());
  assert.deepEqual(Guide.query({availability:'context160'},game).map(e=>e.id.replace('programme-','')),X.ids);
  assert.deepEqual(Guide.query({availability:'known'},game).map(e=>e.id),['programme-DW-3001']);assert.equal(Guide.query({availability:'known',text:'DW-3002'},game).length,0);
 });

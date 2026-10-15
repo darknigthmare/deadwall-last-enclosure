@@ -6,7 +6,13 @@ const Ops=require('../src/world-pack131.js'),ContextOps=require('../src/context-
 const {boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const copy=value=>JSON.parse(JSON.stringify(value)),checkpoint=g=>{const d=copy(g.serialize());delete d.timestamp;return d;};
 const models=new Map();
-function model(revision){if(!models.has(revision))models.set(revision,W.create(17117,10,{detailVersion:revision}));return models.get(revision);}
+function model(revision,ecologyVersion=0){const key=ecologyVersion+':'+revision;if(!models.has(key))models.set(key,W.create(17117,10,{detailVersion:revision,ecologyVersion}));return models.get(key);}
+function references(g){
+ const f=g.frontier.position(),old=model(11,f.ecologyVersion),next=model(12,f.ecologyVersion),live=g.frontier.world();
+ assert.equal(f.generation,10);assert.equal(f.detailVersion,11);assert.equal(old.ecologyVersion,live.ecologyVersion);
+ assert.ok(JSON.stringify(old.pois)===JSON.stringify(live.pois),'The fixture must use the actual campaign parcels and identities');
+ return{old,next};
+}
 function campaign(){
  const {game:g}=boot127();Ops.install(g);ContextOps.install(g);g.startNew('standard','17117');
  standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
@@ -19,25 +25,32 @@ function refuse(g,pattern){
  assert.equal(result.ok,false);assert.match(result.reason,pattern);assert.equal(g.world,home);
  assert.equal(g.frontier.world(),region,'A refusal cannot replace the live regional model');assert.deepEqual(checkpoint(g),before);
 }
-function furnishingPoint(programme,radius){
- const old=model(11),next=model(12),p=next.contextSites160().find(p=>p.programme160===programme);assert.ok(p,programme);
- for(const o of next.detailAt(p,0).interior.filter(o=>o.density163&&o.solid))
-  for(const dx of [0,-radius,radius])for(const dy of [0,-radius,radius]){
-   const q=G.global(p,o.x+o.w/2+dx,o.y+o.h/2+dy);
-   if(!old.blocked(q.x,q.y,radius,0,p.id)&&next.blocked(q.x,q.y,radius,0,p.id))return {...q,z:0,inside:p.id,p,object:o};
+function furnishingPoint(g,programme,radius,{groundEnemy=false}={}){
+ const{old,next}=references(g),sites=next.contextSites160(),preferred=sites.find(p=>p.programme160===programme);assert.ok(preferred,programme);
+ // A different ecological parcel can legitimately fit a different furnishing
+ // set. Search bounded real sites while retaining the physical collision oracle.
+ const candidates=[preferred,...sites.filter(p=>p!==preferred)].slice(0,128);
+ for(const p of candidates){
+  const prior=old.pois.find(q=>q.id===p.id),levels=prior.legacyLevels160||prior.levels;
+  if(groundEnemy&&(!old.threatCount(prior)||levels[G.hash(prior.id,0)%levels.length]!==0))continue;
+  for(const o of next.detailAt(p,0).interior.filter(o=>o.density163&&o.solid))
+   for(const dx of [0,-radius,radius])for(const dy of [0,-radius,radius]){
+    const q=G.global(p,o.x+o.w/2+dx,o.y+o.h/2+dy);
+    if(!old.blocked(q.x,q.y,radius,0,p.id)&&next.blocked(q.x,q.y,radius,0,p.id))return {...q,z:0,inside:p.id,p,object:o};
+   }
   }
- assert.fail(programme+' must offer a genuinely new solid within previously free floor space');
+ assert.fail('A real context must offer a genuinely new solid within previously free floor space');
 }
-function pierFixture(profile){
- const old=model(11),next=model(12),p=next.contextSites160().find(p=>p.programme160==='DW-0269');assert.ok(p);
+function pierFixture(g,profile){
+ const{old,next}=references(g),p=next.contextSites160().find(p=>p.programme160==='DW-0269');assert.ok(p);
  for(const o of (next.plan(p,0).movement160||[]).filter(o=>o.id?.includes(':163:pier:'))){
   const q=G.global(p,o.x+o.w/2,o.y+o.h/2);
   for(const a of [p.a,p.a+Math.PI/2,0])if(old.vehicleClear(q.x,q.y,a,profile.w,profile.h)&&!next.vehicleClear(q.x,q.y,a,profile.w,profile.h))return {...q,a,p,object:o};
  }
  assert.fail('A new exchange pier must occupy genuinely clear parking ground at revision11');
 }
-function campPier(){
- const old=model(11),next=model(12),p=next.contextSites160().find(p=>p.programme160==='DW-0269'),r=C.SurvivalPackRules.campRadius;
+function campPier(g){
+ const{old,next}=references(g),p=next.contextSites160().find(p=>p.programme160==='DW-0269'),r=C.SurvivalPackRules.campRadius;
  for(const o of (next.plan(p,0).movement160||[]).filter(o=>o.id?.includes(':163:pier:'))){
   const q=G.global(p,o.x+o.w/2,o.y+o.h/2);
   if(!old.blocked(q.x,q.y,r,0,null)&&next.blocked(q.x,q.y,r,0,null))return q;
@@ -46,7 +59,7 @@ function campPier(){
 }
 
 test('163 depot upgrade and Continue preserve paid work, finite loot, damage, ground tracks and every campaign budget',()=>{
- const g=campaign(),w=model(11),site=w.contextSites160().find(p=>p.context160.operations.some(o=>o.kind==='pumpBasin'));
+ const g=campaign(),w=references(g).old,site=w.contextSites160().find(p=>p.context160.operations.some(o=>o.kind==='pumpBasin'));
  const op=site.context160.operations.find(o=>o.kind==='pumpBasin'),key=site.id+':160:'+op.key;
  const hostile=w.contextSites160().find(p=>A.supports(p.context160)&&w.threatCount(p)>0);assert.ok(hostile);
  const sourceObjects=copy(w.plan(site,0).objects),container=sourceObjects.find(o=>o.amount>0);assert.ok(container);
@@ -75,19 +88,22 @@ test('163 unavailable commander and rejected restore leave the whole upgrade ato
 });
 
 test('163 a ground-level character track on new furnishing refuses activation without moving or healing it',()=>{
- const g=campaign(),point=furnishingPoint('DW-1223',.4),enemy=point.p.id+':e0';assert.ok(model(11).threatCount(point.p)>0);
+ const g=campaign(),point=furnishingPoint(g,'DW-1223',.4,{groundEnemy:true}),enemy=point.p.id+':e0',old=model(11,g.frontier.position().ecologyVersion);assert.ok(old.threatCount(point.p)>0);
+ const prior=old.pois.find(p=>p.id===point.p.id),levels=prior.legacyLevels160||prior.levels;
+ assert.equal(levels[G.hash(prior.id,0)%levels.length],0);
+ assert.ok(old.biomes.enemyProfile(old.seed,prior.x,prior.y,enemy,{generation:old.generation}).health>=13,'The wounded contact must belong to a real enemy profile');
  install(g,d=>{d.frontier.enemies[enemy]=13;d.frontier.tracks[enemy]={x:point.x,y:point.y,z:0,a:0,mode:'search',ttl:4,gx:point.x,gy:point.y,cool:.1};});
  refuse(g,/personnage ou équipement régional/);assert.equal(g.frontier.enemyHealth(enemy),13);
 });
 
 test('163 a saved outdoor bivouac on a new pier refuses activation atomically',()=>{
- const g=campaign(),point=campPier();
+ const g=campaign(),point=campPier(g);
  install(g,d=>{d.expansions127.modules.survival.serial=2;d.expansions127.modules.survival.camps=[{id:1,domain:'region',x:point.x,y:point.y,z:0,inside:null,left:123,cover:0}];});
  refuse(g,/bivouac/);
 });
 
 test('163 a placed lamp retains its charge when new furniture would cover it',()=>{
- const g=campaign(),point=furnishingPoint('DW-1223',.4);
+ const g=campaign(),point=furnishingPoint(g,'DW-1223',.4);
  install(g,d=>{d.nightGear={version:1,serial:2,devices:[{id:1,kind:'lantern',location:'placed',left:17,on:false,used:true,domain:'region',x:point.x,y:point.y,z:0,inside:point.inside,angle:0}]};});
  refuse(g,/équipement régional/);assert.equal(g.nightGear.snapshot().devices[0].left,17);
 });
@@ -96,7 +112,7 @@ test('163 a paid parked car on a new pier keeps identity, cargo, fuel and damage
  const g=campaign(),core=g.core();let garage;
  for(let x=67;x<82&&!garage;x++)for(let y=59;y<77&&!garage;y++)if(g.world.placement(C.BUILDINGS.expeditionGarage,x,y,0).valid){garage=new(core.constructor)(g.nextId++,'expeditionGarage',x,y,0,1);g.world.add(garage);}
  assert.ok(garage);g.refreshMetrics(true);standAt(g,g.player,g.core());assert.equal(g.expeditions.buildCar().ok,true);
- const point=pierFixture(g.worldEvolution.vehicleProfile());
+ const point=pierFixture(g,g.worldEvolution.vehicleProfile());
  install(g,d=>{d.expeditions.vehicle.fuel=3;d.expeditions.vehicle.cargo.scrap=4;d.expeditions.vehicle.health=123;d.frontier.car={id:d.expeditions.vehicle.id,x:point.x,y:point.y,a:point.a,driving:false};});
  refuse(g,/véhicule régional/);
 });

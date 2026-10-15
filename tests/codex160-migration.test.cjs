@@ -6,15 +6,23 @@ const {boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./help
 const copy=value=>JSON.parse(JSON.stringify(value));
 const checkpoint=g=>{const data=copy(g.serialize());delete data.timestamp;return data;};
 const models=new Map();
-function model(generation){if(!models.has(generation))models.set(generation,W.create(17117,generation,{detailVersion:1}));return models.get(generation);}
+function model(g,generation){
+ const pose=g.frontier.position(),seed=g.world.seed,key=[seed,generation,pose.detailVersion,pose.ecologyVersion].join(':');
+ if(!models.has(key))models.set(key,W.create(seed,generation,{detailVersion:pose.detailVersion,ecologyVersion:pose.ecologyVersion}));
+ return models.get(key);
+}
 function campaign(generation=8){
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
- assert.equal(g.frontier.position().generation,8);
+ assert.equal(g.frontier.position().generation,8);assert.equal(g.frontier.position().ecologyVersion,1);
  if(generation===9){const action=g.worldOps131.actions().find(a=>a.id==='expandCodex4000');assert.equal(action.run().ok,true);}
+ const reference=model(g,generation),actual=g.frontier.world();
+ assert.equal(reference.ecologyVersion,actual.ecologyVersion);
+ assert.deepEqual(reference.pois,actual.pois,'Fixture IDs, dimensions and coordinates must describe the actual campaign');
+ assert.deepEqual(reference.roads,actual.roads,'Fixture access roads must describe the actual campaign');
  return g;
 }
-function newContextPoint(generation,radius=.32,clearInBoth=false,predicate=()=>true){
- const old=model(generation),next=model(10);
+function newContextPoint(g,generation,radius=.32,clearInBoth=false,predicate=()=>true){
+ const old=model(g,generation),next=model(g,10);
  for(const p of next.pois.filter(p=>p.generation>generation)){
   const r=p.reserve;for(let y=r.t+radius+1;y<r.b-radius-1;y+=4)for(let x=r.l+radius+1;x<r.r-radius-1;x+=4){
    const point={x,y,z:0,inside:null,poi:p.id};if(!old.blocked(x,y,radius,0,null)&&(!clearInBoth||!next.blocked(x,y,radius,0,null))&&predicate(point,old,next))return point;
@@ -49,7 +57,7 @@ test('G10: activation never silently releases a manual post or an unfinished rel
 });
 
 for(const generation of [8,9])test('G10: additive activation from G'+generation+' preserves finite ledgers, paid surveys and a v20 reload',()=>{
- const g=campaign(generation),old=model(generation),next=model(10),sector=old.sectors.find(s=>s.sites.length&&next.sectors.find(n=>n.id===s.id).sites.length>s.sites.length);
+ const g=campaign(generation),old=model(g,generation),next=model(g,10),sector=old.sectors.find(s=>s.sites.length&&next.sectors.find(n=>n.id===s.id).sites.length>s.sites.length);
  assert.ok(sector,'A paid existing survey gains appended sites only in its own sector');
  const before=installRaw(g,data=>{data.frontier.seen=sector.sites.slice();data.expansions127.modules.world131.surveyed=[sector.id];const tree=old.chunk(48,48).trees[0];assert.ok(tree);data.frontier.taken[tree.id]=Math.min(1,tree.amount);});
  assert.equal(g.worldOps131.activateTerritories160().ok,true);const after=checkpoint(g);assert.equal(after.version,20);assert.equal(after.frontier.generation,10);
@@ -63,33 +71,33 @@ for(const generation of [8,9])test('G10: additive activation from G'+generation+
 });
 
 test('G10: a camp on a new walkable context prevents activation without requiring a new wall',()=>{
- const g=campaign(9),point=newContextPoint(9,C.SurvivalPackRules.campRadius,true);assert.equal(model(10).blocked(point.x,point.y,C.SurvivalPackRules.campRadius),false);
+ const g=campaign(9),point=newContextPoint(g,9,C.SurvivalPackRules.campRadius,true);assert.equal(model(g,10).blocked(point.x,point.y,C.SurvivalPackRules.campRadius),false);
  installRaw(g,data=>{data.expansions127.modules.survival.serial=2;data.expansions127.modules.survival.camps=[{id:1,domain:'region',x:point.x,y:point.y,z:0,inside:null,left:300,cover:0}];});
  refusedWithoutMutation(g,/bivouac/i);
 });
 
 test('G10: an existing placed light remains finite and cannot be overlaid by a new context',()=>{
- const g=campaign(9),point=newContextPoint(9,.28);
+ const g=campaign(9),point=newContextPoint(g,9,.28);
  installRaw(g,data=>{data.nightGear={version:1,serial:2,devices:[{id:1,kind:'lantern',location:'placed',left:17,on:false,used:true,domain:'region',x:point.x,y:point.y,z:0,inside:null,angle:0}]};});
  refusedWithoutMutation(g,/éclairage/i);assert.equal(g.nightGear.snapshot().devices[0].left,17);
 });
 
 test('G10: essential effects and dropped cargo are protected even away from the camera',()=>{
  for(const kind of ['effect','cargo']){
-  const g=campaign(9),point=newContextPoint(9,.32),target=g.essentials.targets().find(t=>t.family==='light');assert.ok(target);
+  const g=campaign(9),point=newContextPoint(g,9,.32),target=g.essentials.targets().find(t=>t.family==='light');assert.ok(target);
   installRaw(g,data=>{data.frontier.seen=[target.poi];if(kind==='effect'){data.essentials.jobs[target.id]={stage:'delivered'};data.essentials.serial=2;data.essentials.effects=[{id:1,kind:'light',domain:'region',x:point.x,y:point.y,z:0,inside:null,left:8,pulse:0}];}else data.essentials.jobs[target.id]={stage:'ground',point:{domain:'region',x:point.x,y:point.y,z:0,inside:null}};});
   refusedWithoutMutation(g,kind==='effect'?/dispositif/i:/colis/i);
  }
 });
 
 test('G10: the inactive commander regional return position cannot be silently displaced',()=>{
- const g=campaign(9),point=newContextPoint(9,.32);installRaw(g,data=>{Object.assign(data.frontier,{x:point.x,y:point.y,z:0,inside:null});});
+ const g=campaign(9),point=newContextPoint(g,9,.32);installRaw(g,data=>{Object.assign(data.frontier,{x:point.x,y:point.y,z:0,inside:null});});
  refusedWithoutMutation(g,/dernière position/i);
 });
 
 test('G10: a real regional death preserves the body and bag and blocks an overlapping extension',()=>{
  const g=campaign(9);require('../src/player-pack131.js').install(g);require('../src/succession133.js').install(g);
- const point=newContextPoint(9,.32);installRaw(g,data=>{Object.assign(data.frontier,{active:true,x:point.x,y:point.y,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y}});data.player.carry.food=8;});
+ const point=newContextPoint(g,9,.32);installRaw(g,data=>{Object.assign(data.frontier,{active:true,x:point.x,y:point.y,z:0,inside:null,anchor:{x:g.player.x,y:g.player.y}});data.player.carry.food=8;});
  g.player.invulnerable=0;g.frontier.damage(1000);const remains=g.succession133.remains();assert.equal(remains.length,1);assert.equal(remains[0].point.domain,'region');assert.equal(remains[0].bag.food,8);
  assert.equal(g.succession133.select('builder'),true);standAt(g,g.player,g.core());refusedWithoutMutation(g,/corps ou un sac/i);assert.deepEqual(g.succession133.remains(),remains);
 });
@@ -98,7 +106,7 @@ test('G10: a paid parked vehicle keeps fuel, cargo and its identity when migrati
  const g=campaign(9),core=g.core();let garage;
  for(let x=67;x<82&&!garage;x++)for(let y=59;y<77&&!garage;y++)if(g.world.placement(C.BUILDINGS.expeditionGarage,x,y,0).valid){garage=new(core.constructor)(g.nextId++,'expeditionGarage',x,y,0,1);g.world.add(garage);}
  assert.ok(garage);g.refreshMetrics(true);standAt(g,g.player,g.core());assert.equal(g.expeditions.buildCar().ok,true);
- const profile=g.worldEvolution.vehicleProfile(),point=newContextPoint(9,3,false,(q,old)=>old.vehicleClear(q.x,q.y,0,profile.w,profile.h));assert.equal(model(9).vehicleClear(point.x,point.y,0,profile.w,profile.h),true);
+ const profile=g.worldEvolution.vehicleProfile(),point=newContextPoint(g,9,3,false,(q,old)=>old.vehicleClear(q.x,q.y,0,profile.w,profile.h));assert.equal(model(g,9).vehicleClear(point.x,point.y,0,profile.w,profile.h),true);
  installRaw(g,data=>{data.expeditions.vehicle.fuel=3;data.expeditions.vehicle.cargo.scrap=4;data.frontier.car={id:data.expeditions.vehicle.id,x:point.x,y:point.y,a:0,driving:false};});
  refusedWithoutMutation(g,/voiture/i);
 });

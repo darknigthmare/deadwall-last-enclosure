@@ -27,7 +27,8 @@ test('162 depot furnishing: occupied hands and failed restore preserve all state
 test('162 depot furnishing: a saved lamp in a newly proposed solid refuses migration atomically',()=>{
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
  assert.equal(g.worldOps131.activateTerritories160().ok,true);
- const old=W.create(17117,10,{detailVersion:10}),next=W.create(17117,10,{detailVersion:11});let point;
+ const ecologyVersion=g.frontier.position().ecologyVersion;
+ const old=W.create(17117,10,{detailVersion:10,ecologyVersion}),next=W.create(17117,10,{detailVersion:11,ecologyVersion});let point;
  for(const p of next.contextSites160().filter(p=>!p.context160.profile)){
   for(const o of next.detailAt(p,0).interior.filter(o=>o.solid)){
    const q=G.global(p,o.x+o.w/2,o.y+o.h/2);
@@ -37,6 +38,8 @@ test('162 depot furnishing: a saved lamp in a newly proposed solid refuses migra
  assert.ok(point,'The saved fixture must occupy a genuinely new collider');
  const data=copy(g.serialize());data.frontier.detailVersion=10;data.nightGear={version:1,serial:2,devices:[{id:1,kind:'lantern',location:'placed',left:60,on:false,used:true,domain:'region',...point,z:0,angle:0}]};
  assert.equal(g.restoreSave(data),true);const before=copy(g.serialize());delete before.timestamp;
+ assert.equal(g.frontier.position().detailVersion,10);assert.equal(g.frontier.world().ecologyVersion,old.ecologyVersion);
+ assert.equal(g.frontier.world().blocked(point.x,point.y,.4,0,point.inside),false,'The saved lamp must occupy genuinely clear campaign floor');
  const result=g.worldOps131.upgradeDetails159(11);assert.equal(result.ok,false);assert.match(result.reason,/équipement régional/);
  const after=copy(g.serialize());delete after.timestamp;assert.deepEqual(after,before);
 });
