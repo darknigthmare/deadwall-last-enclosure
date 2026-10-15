@@ -47,14 +47,22 @@ function nearestRoad(point,tree=roadTree){
  return result;
 }
 function install(type,x,y,a,road,name){const d=G.BY[type]||Codex3000?.preset(type)||Context160?.preset(type);if(!d)return false;const isContext=d.layout==='codex160';if(isContext&&pois.length>=10000)return false;const p={id:'P'+String(pois.length).padStart(4,'0'),type,x,y,a,w:d.w,h:d.h,name:name||d.name,levels:d.levels,codex:d.codex,road:road.id,generation:isContext?10:generation};const service=G.global(p,p.w/2,p.h/2+5),lot={x:service.x,y:service.y,w:p.w+26,h:p.h+48,a};const b=G.bounds(lot),limit=outerBuilding?size:8192;
- if(b.l<40||b.t<40||b.r>limit-40||b.b>limit-40||G.overlap(b,{l:home.minX-16,r:home.maxX+16,t:home.minY-16,b:home.maxY+16}))return false;if(hydrology&&hydrology.intersects({x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t}))return false;const nearby=requestedGeneration>=7?[...placementParcels(b)]:pois;if(nearby.some(q=>G.overlap(b,q.reserve,1))||annexReservations.some(q=>G.overlap(b,q,2)))return false;
+ if(b.l<40||b.t<40||b.r>limit-40||b.b>limit-40||G.overlap(b,{l:home.minX-16,r:home.maxX+16,t:home.minY-16,b:home.maxY+16}))return false;const nearby=requestedGeneration>=7?[...placementParcels(b)]:pois;if(nearby.some(q=>G.overlap(b,q.reserve,1))||annexReservations.some(q=>G.overlap(b,q,2)))return false;
  // Any public road through a prospective built/service envelope vetoes this parcel.
  const prohibited={x:-10,y:-17,w:p.w+20,h:p.h+32};for(const r of placementRoads(b)){const pad=requestedGeneration>=7?r.width/2:0,box=pad?{x:prohibited.x-pad,y:prohibited.y-pad,w:prohibited.w+pad*2,h:prohibited.h+pad*2}:prohibited;if(G.segmentRect(G.local(p,r.a.x,r.a.y),G.local(p,r.b.x,r.b.y),box))return false;}
- const front=G.global(p,p.w/2,-19),near=G.nearest(front,road.a,road.b);p.drive={a:{x:near.x,y:near.y},b:G.global(p,p.w/2,0),width:4};p.reserve=b;if(hydrology&&hydrology.lineBlocked(p.drive.a,p.drive.b,p.drive.width/2))return false;
+ const front=G.global(p,p.w/2,-19),near=G.nearest(front,road.a,road.b);p.drive={a:{x:near.x,y:near.y},b:G.global(p,p.w/2,0),width:4};p.reserve=b;
  if(requestedGeneration>=7){
   const corridorHits=(drive,box)=>G.segmentRect(drive.a,drive.b,{x:box.l-drive.width/2,y:box.t-drive.width/2,w:box.r-box.l+drive.width,h:box.b-box.t+drive.width});
   const d=p.drive,corridor={l:Math.min(d.a.x,d.b.x),r:Math.max(d.a.x,d.b.x),t:Math.min(d.a.y,d.b.y),b:Math.max(d.a.y,d.b.y)},approaches=placementParcels(corridor,d.width/2+1);
   if([...approaches].some(q=>corridorHits(p.drive,q.reserve))||nearby.some(q=>corridorHits(q.drive,b))||annexReservations.some(q=>corridorHits(p.drive,q)))return false;
+ }
+ // Pure water vetoes run after the cheaper parcel, road and corridor refusals.
+ if(hydrology){
+  if(hydrology.intersects({x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t}))return false;
+  const r=p.drive.width/2,pad=r+1e-6,driveBox={x:Math.min(p.drive.a.x,p.drive.b.x)-pad,y:Math.min(p.drive.a.y,p.drive.b.y)-pad,w:Math.abs(p.drive.b.x-p.drive.a.x)+pad*2,h:Math.abs(p.drive.b.y-p.drive.a.y)+pad*2};
+  // An empty in-world broad phase proves this whole driveway dry. Outside it,
+  // retain the coastal half-plane semantics and the original physical radius.
+  if(driveBox.x<0||driveBox.y<0||driveBox.x+driveBox.w>size||driveBox.y+driveBox.h>size||hydrology.featuresIn(driveBox).length){if(hydrology.lineBlocked(p.drive.a,p.drive.b,r))return false;}
  }
  p.parking=isContext?[]:G.parking(p);p.outdoor=isContext?[]:G.outdoor(p);pois.push(p);if(requestedGeneration>=7)indexPlacementParcel(p);return p;
 }
