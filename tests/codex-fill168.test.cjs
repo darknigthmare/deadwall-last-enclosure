@@ -40,7 +40,7 @@ test('168 seats: preserve prior wall service fronts and composed-seat access zon
 test('168 source models: actual missing counts decrease without changing historical floors, stocks or exterior objects',()=>{
  let before=0,after=0,added=0,models=0;const kinds=new Set();
  for(const id of ['DW-0001','DW-0003','DW-0061','DW-0069','DW-0123','DW-0142','DW-0161','DW-0201','DW-0221','DW-0241','DW-0501'])for(const z of R.template(id).levels){
-  const a=P.inspect(id,17117,z,5),b=P.inspect(id,17117,z,6);assert.deepEqual(a.p,b.p);assert.deepEqual(a.plan,b.plan);assert.deepEqual(a.details.outdoor,b.details.outdoor);assert.deepEqual(b.details.interior.filter(o=>!o.fill168),a.details.interior);
+  const a=P.inspect(id,17117,z,5,8),b=P.inspect(id,17117,z,6,8);assert.deepEqual(a.p,b.p);assert.deepEqual(a.plan,b.plan);assert.deepEqual(a.details.outdoor,b.details.outdoor);assert.deepEqual(b.details.interior.filter(o=>!o.fill168),a.details.interior);
   const x=Coverage.compare(a),y=Coverage.compare(b);assert.ok(y.totals.furnitureBelowMinimum<=x.totals.furnitureBelowMinimum,id);before+=x.totals.furnitureBelowMinimum;after+=y.totals.furnitureBelowMinimum;added+=b.details.fill168.added;models++;
   for(const o of b.details.interior.filter(o=>o.fill168))kinds.add(o.kind);
  }

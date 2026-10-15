@@ -4,7 +4,7 @@ const {createAuditScope}=require('./codex-audit-scope162.cjs'),audit=createAudit
 const seed=17117,output=path.resolve(process.env.DEADWALL_QA_OUTPUT||'artifacts/qa/gardens171-audit');fs.mkdirSync(output,{recursive:true});const file=fs.openSync(path.join(output,'models.jsonl'),'w');
 const out={scope:'Isolated Codex recipes; garden kits, not extra authored furniture minima or unique architectures.',seed,programmes:0,compatible:0,floors:0,added:0,groups:0,completeKits:0,missingKitParts:0,newLoot:0,kinds:{},profiles:{},refusals:{},examples:[]};
 try{for(const rec of audit.records){out.programmes++;if(!audit.visit(rec))continue;out.compatible++;
- for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const a=P.inspect(rec.id,seed,z,8),stamp=JSON.stringify([a.p,a.plan,a.details]);const b=R.gardens({seed,p:a.p,z,plan:a.plan,detail:a.details,programme:rec.id});
+ for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const a=P.inspect(rec.id,seed,z,8,rec.independent?9:8),stamp=JSON.stringify([a.p,a.plan,a.details]);const b=R.gardens({seed,p:a.p,z,plan:a.plan,detail:a.details,programme:rec.id});
   assert.equal(JSON.stringify([a.p,a.plan,a.details]),stamp);assert.deepEqual(b.interior,a.details.interior);assert.deepEqual(b.outdoor.filter(o=>!o.garden171),a.details.outdoor);
   const layer=b.gardens171;out.floors++;out.added+=layer.added;out.groups+=layer.groups.length;
   for(const o of b.outdoor.filter(o=>o.garden171)){out.kinds[o.kind]=(out.kinds[o.kind]||0)+1;assert.equal(o.amount,undefined);assert.equal(o.resource,undefined);assert.equal(o.functional171,false);}

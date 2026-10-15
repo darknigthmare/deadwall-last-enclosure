@@ -59,7 +59,7 @@ test('164 quantities: opt-in revision leaves G8 sites, roads, old details and so
  const native=new Set(G.PRESETS.map(p=>p.id)),selected=new Map();for(const p of next.pois)if(native.has(p.type)&&!selected.has(p.type))selected.set(p.type,p);
  const programmes=next.pois.filter(p=>p.generation===8);const samples=[...selected.values(),...Array.from({length:16},(_,i)=>programmes[Math.floor(i*programmes.length/16)])];
  for(const p of samples){const prior=old.pois.find(x=>x.id===p.id);for(const z of p.levels){const a=old.detailAt(prior,z),b=next.detailAt(p,z);assert.deepEqual(next.plan(p,z),old.plan(prior,z));assert.deepEqual(b.interior.filter(o=>!o.quantity164),a.interior);assert.deepEqual(b.outdoor,a.outdoor);for(const o of b.interior.filter(o=>o.quantity164)){added++;const q=G.global(p,o.x+o.w/2,o.y+o.h/2);assert.equal(next.blocked(q.x,q.y,.05,z,p.id),true);}}}
- assert.ok(added>0);assert.equal(S.normalize({...S.initial(),generation:8,detailVersion:4}).detailVersion,4);assert.throws(()=>S.normalize({...S.initial(),detailVersion:11}));console.log('WORLD_QUANTITIES164 '+JSON.stringify({sampled:samples.length,added}));
+ assert.ok(added>0);assert.equal(S.normalize({...S.initial(),generation:8,detailVersion:4}).detailVersion,4);assert.throws(()=>S.normalize({...S.initial(),detailVersion:12}));console.log('WORLD_QUANTITIES164 '+JSON.stringify({sampled:samples.length,added}));
 });
 test('164 quantities: depot activation changes only the revision and refuses failed restoration, repeat and occupied hands',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
@@ -68,5 +68,5 @@ test('164 quantities: depot activation changes only the revision and refuses fai
  assert.ok(g.worldOps131.actions().some(a=>a.id==='quantityDetails164'&&!a.disabled));g.restoreSave=()=>false;try{assert.equal(g.worldOps131.upgradeDetails159(4).ok,false);assert.deepEqual(snapshot(),before);}finally{g.restoreSave=restore;}
  g.player.reload=1;assert.equal(g.worldOps131.upgradeDetails159(4).ok,false);g.player.reload=0;
  const result=g.worldOps131.upgradeDetails159(4);assert.ok(result.ok,result.reason);const after=snapshot();assert.equal(after.frontier.detailVersion,4);after.frontier.detailVersion=before.frontier.detailVersion;assert.deepEqual(after,before);
- assert.equal(g.worldOps131.upgradeDetails159(4).ok,false);assert.equal(g.worldOps131.upgradeDetails159(11).ok,false);
+ assert.equal(g.worldOps131.upgradeDetails159(4).ok,false);assert.equal(g.worldOps131.upgradeDetails159(12).ok,false);
 });

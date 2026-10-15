@@ -64,8 +64,8 @@ test('169 legacy revision five stays byte-identical to the pristine downloaded s
 test('169 all programme references in native families keep old geometry and append only with strict physical clearance',()=>{
  let added=0,levels=0,yards=0;const kinds=new Set();
  const ids=[...new Set(G.PRESETS.map(p=>p.codex))];
- for(const seed of [42,17117])for(const id of ids){const old=P.inspect(id,seed,0,6);if(!old.supported)continue;
-  for(const z of old.levels){const previous=z?P.inspect(id,seed,z,6):old,next=P.inspect(id,seed,z,7);levels++;
+ for(const seed of [42,17117])for(const id of ids){const old=P.inspect(id,seed,0,6,8);if(!old.supported)continue;
+  for(const z of old.levels){const previous=z?P.inspect(id,seed,z,6,8):old,next=P.inspect(id,seed,z,7,8);levels++;
    assert.deepEqual(next.p,previous.p);assert.deepEqual(next.plan,previous.plan);assert.deepEqual(next.details.interior.filter(o=>!o.infill169),previous.details.interior);assert.deepEqual(next.details.outdoor.filter(o=>!o.infill169),previous.details.outdoor);
    const list=[...next.details.interior,...next.details.outdoor],solids=[...next.plan.walls,...next.plan.objects,...next.p.outdoor,...list.filter(o=>o.solid)];
    assert.equal(new Set(list.map(o=>o.id)).size,list.length);assert.ok(next.details.infill169.added<=I.RULES.maxAdded);
@@ -104,7 +104,7 @@ test('169 save acceptance is explicit and migration changes no other field or pl
  assert.equal(g.worldOps131.upgradeDetails159(7).ok,false);const stored=g.serialize();assert.equal(g.restoreSave(stored),true);assert.equal(g.frontier.snapshot().detailVersion,7);
 });
 test('169 report separates real outdoor placements from unsolved historical shell architecture',()=>{
- const previous=P.inspect('DW-0002',42,0,6),next=P.inspect('DW-0002',42,0,7),report=C.compare(next),prior=C.compare(previous);
+ const previous=P.inspect('DW-0002',42,0,6,8),next=P.inspect('DW-0002',42,0,7,8),report=C.compare(next),prior=C.compare(previous);
  assert.ok(report.complements169.outdoor>0);assert.ok(report.totals.exteriorSimplifications>0);assert.ok(report.totals.furnitureBelowMinimum<=prior.totals.furnitureBelowMinimum);
  assert.equal(report.totals.newLootRecords,0);assert.equal(C.source('DW-0004').sourceGaps.unmappedKinds.includes('cabinet'),false);
 });

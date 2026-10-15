@@ -3,7 +3,7 @@ const P=require('../src/codex-plan165.js'),R=require('../src/codex3000-runtime.j
 const hit=(a,b,m=0)=>a.x<b.x+b.w+m&&a.x+a.w>b.x-m&&a.y<b.y+b.h+m&&a.y+a.h>b.y-m;
 test('173 packing: actual recipes preserve all old objects, budgets, obstacles and service access',()=>{
  let added=0;for(const seed of [42,17117])for(const id of ['DW-0001','DW-0020','DW-0123','DW-0221','DW-0501','DW-1001']){
-  const a=P.inspect(id,seed,0,9),b=P.inspect(id,seed,0,10);assert.deepEqual(a.plan,b.plan);assert.deepEqual(a.p,b.p);assert.deepEqual(a.details.outdoor,b.details.outdoor);assert.deepEqual(a.details.interior,b.details.interior.filter(o=>!o.packing173));
+  const a=P.inspect(id,seed,0,9,8),b=P.inspect(id,seed,0,10,8);assert.deepEqual(a.plan,b.plan);assert.deepEqual(a.p,b.p);assert.deepEqual(a.details.outdoor,b.details.outdoor);assert.deepEqual(a.details.interior,b.details.interior.filter(o=>!o.packing173));
   const fresh=b.details.interior.filter(o=>o.packing173),old=[...a.plan.walls,...a.plan.stairs,...a.plan.objects,...a.details.interior.filter(o=>!o.dressing160)];
   const before=Q.accessGrid(a.p,0,a.plan,a.details),after=Q.accessGrid(b.p,0,b.plan,b.details);if(before?.baseline)assert.ok(Q.anchorCells(a.p,0,a.plan,before).every(i=>after.reachable[i]));
   for(const o of fresh){added++;assert.equal(o.resource,undefined);assert.equal(o.amount,undefined);assert.ok([...old,...fresh.filter(x=>x!==o)].every(x=>!hit(o,x,.02)));assert.ok(old.flatMap(Pack.fronts).every(f=>!hit(o,f,.02)));assert.ok(Pack.fronts(o).every(f=>Pack.samples(f).every(([x,y])=>after.reachable[after.at(x,y)])));}

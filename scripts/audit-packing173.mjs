@@ -4,7 +4,7 @@ const {createAuditScope}=require('./codex-audit-scope162.cjs'),audit=createAudit
 const output=path.resolve(process.env.DEADWALL_QA_OUTPUT||'artifacts/qa/packing173-audit');fs.mkdirSync(output,{recursive:true});const file=fs.openSync(path.join(output,'models.jsonl'),'w');
 const out={scope:'Seed 17117; isolated recipes, not distinct native buildings or naturally explored sites.',seed:17117,programmes:0,compatible:0,floors:0,added:0,interior:0,outdoor:0,before:0,after:0,newLoot:0,kinds:{},refusals:{}};
 try{for(const rec of audit.records){out.programmes++;if(!audit.visit(rec))continue;out.compatible++;
- for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const a=P.inspect(rec.id,17117,z,9),b=P.inspect(rec.id,17117,z,10),layer=b.details.packing173;
+ for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const a=P.inspect(rec.id,17117,z,9,rec.independent?9:8),b=P.inspect(rec.id,17117,z,10,rec.independent?9:8),layer=b.details.packing173;
   assert.deepEqual(a.p,b.p);assert.deepEqual(a.plan,b.plan);assert.deepEqual(b.details.interior.filter(o=>!o.packing173),a.details.interior);assert.deepEqual(b.details.outdoor.filter(o=>!o.packing173),a.details.outdoor);
   const before=C.compare(a).totals,after=C.compare(b).totals;assert.equal(after.newLootRecords,0);assert.equal(before.unmaterialized,after.unmaterialized);assert.equal(before.exteriorSimplifications,after.exteriorSimplifications);assert.ok(after.furnitureBelowMinimum<=before.furnitureBelowMinimum);
   out.floors++;out.added+=layer.added;out.before+=before.furnitureBelowMinimum;out.after+=after.furnitureBelowMinimum;

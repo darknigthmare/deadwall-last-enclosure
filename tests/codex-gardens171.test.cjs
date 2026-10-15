@@ -52,7 +52,7 @@ test('171 vehicles and previous service fronts remain free, including rotated pa
 test('171 actual recipes preserve all previous layers, source minima and budgets while fitting new garden kits',()=>{
  const C=require('../src/codex-coverage167.js');let added=0,groups=0;const kinds=new Set();
  for(const seed of [42,17117])for(const id of ['DW-0001','DW-0002','DW-0006','DW-0018','DW-0040','DW-0101','DW-0401','DW-0501','DW-1001']){
-  const old=P.inspect(id,seed,0,8),next=P.inspect(id,seed,0,9);assert.deepEqual(next.p,old.p);assert.deepEqual(next.plan,old.plan);assert.deepEqual(next.details.interior,old.details.interior);assert.deepEqual(next.details.outdoor.filter(o=>!o.garden171),old.details.outdoor);
+  const old=P.inspect(id,seed,0,8,8),next=P.inspect(id,seed,0,9,8);assert.deepEqual(next.p,old.p);assert.deepEqual(next.plan,old.plan);assert.deepEqual(next.details.interior,old.details.interior);assert.deepEqual(next.details.outdoor.filter(o=>!o.garden171),old.details.outdoor);
   const before=C.compare(old).totals,after=C.compare(next).totals;assert.equal(after.furnitureBelowMinimum,before.furnitureBelowMinimum);assert.equal(after.unmaterialized,before.unmaterialized);assert.equal(after.exteriorSimplifications,before.exteriorSimplifications);assert.equal(after.newLootRecords,0);
   const base=Q.accessGrid(old.p,0,old.plan,old.details),grid=Q.accessGrid(next.p,0,next.plan,next.details);if(base.baseline)assert.ok(Q.anchorCells(old.p,0,old.plan,base).every(i=>grid.reachable[i]));
   added+=next.details.gardens171.added;groups+=next.details.gardens171.groups.length;next.details.outdoor.filter(o=>o.garden171).forEach(o=>kinds.add(o.kind));

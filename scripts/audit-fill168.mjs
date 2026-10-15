@@ -10,7 +10,7 @@ const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const report={scope:'Isolated authored recipe comparison, one seed, selected compatible native model floors; G10 contextual furnishings belong to revision11. Counts include inherited variants; not independent architecture or sprite counts.',seed:17117,fromRevision:5,toRevision:6,programmes:0,compatible:0,floors:0,added:0,missingBefore:0,missingAfter:0,unmaterialized:0,exteriorSimplifications:0,newLootRecords:0,types:{},families:{}};
 const out=fs.openSync(path.join(output,'comparisons.jsonl'),'w');
 try{for(const rec of audit.records){report.programmes++;if(!audit.visit(rec))continue;report.compatible++;
- for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const before=P.inspect(rec.id,17117,z,5),after=P.inspect(rec.id,17117,z,6);
+ for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const before=P.inspect(rec.id,17117,z,5,rec.independent?9:8),after=P.inspect(rec.id,17117,z,6,rec.independent?9:8);
   assert.equal(hash(after.p),hash(before.p),rec.id+' parcel changed');assert.equal(hash(after.plan),hash(before.plan),rec.id+' source floor changed');
   assert.equal(hash(after.details.outdoor),hash(before.details.outdoor),rec.id+' old exterior changed');
   assert.equal(hash(after.details.interior.filter(o=>!o.fill168)),hash(before.details.interior),rec.id+' old furniture changed');

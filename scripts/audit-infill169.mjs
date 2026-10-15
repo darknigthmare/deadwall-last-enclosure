@@ -9,7 +9,7 @@ const records=fs.openSync(path.join(output,'models.jsonl'),'w');
 const summary={scope:'Isolated recipes, seed 17117, revisions 6 and 7. Counts include inherited variants, not independent assets or real-world site population.',seed:17117,programmes:0,compatible:0,floors:0,added:0,interior:0,outdoor:0,zones:0,unplaced:0,sourceMinimumBefore:0,sourceMinimumAfter:0,exteriorShellBefore:0,exteriorShellAfter:0,newLoot:0,kinds:{},families:{},refusals:{}};
 try{
  for(const rec of audit.records){summary.programmes++;if(!audit.visit(rec))continue;summary.compatible++;
-  for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const before=P.inspect(rec.id,17117,z,6),after=P.inspect(rec.id,17117,z,7),layer=after.details.infill169;
+  for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const before=P.inspect(rec.id,17117,z,6,rec.independent?9:8),after=P.inspect(rec.id,17117,z,7,rec.independent?9:8),layer=after.details.infill169;
    assert.deepEqual(after.p,before.p);assert.deepEqual(after.plan,before.plan);assert.deepEqual(after.details.interior.filter(o=>!o.infill169),before.details.interior);assert.deepEqual(after.details.outdoor.filter(o=>!o.infill169),before.details.outdoor);
    const old=C.compare(before),now=C.compare(after);assert.equal(now.totals.newLootRecords,0);assert.ok(now.totals.furnitureBelowMinimum<=old.totals.furnitureBelowMinimum);
    summary.floors++;summary.added+=layer.added;summary.zones+=layer.zones.length;summary.unplaced+=layer.requests.reduce((n,r)=>n+r.unplaced,0);summary.sourceMinimumBefore+=old.totals.furnitureBelowMinimum;summary.sourceMinimumAfter+=now.totals.furnitureBelowMinimum;summary.exteriorShellBefore+=old.totals.exteriorSimplifications;summary.exteriorShellAfter+=now.totals.exteriorSimplifications;

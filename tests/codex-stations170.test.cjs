@@ -36,7 +36,7 @@ test('170 yards: only attributed service zones; never garden or unverified parke
 });
 test('170 recipe audit: base geometries unchanged, source shortfalls never worsen on 250 parent examples',()=>{
  let models=0,added=0,resolved=0;const kinds={};
- for(const rec of R.records.filter(r=>r.original).slice(0,250)){if(!C.source(rec.id).contextCompatible)continue;const old=P.inspect(rec.id,17117,0,7),next=P.inspect(rec.id,17117,0,8);assert.deepEqual(next.p,old.p);assert.deepEqual(next.plan,old.plan);assert.deepEqual(next.details.interior.filter(o=>!o.station170),old.details.interior);assert.deepEqual(next.details.outdoor.filter(o=>!o.station170),old.details.outdoor);
+ for(const rec of R.records.filter(r=>r.original).slice(0,250)){if(!C.source(rec.id).contextCompatible)continue;const old=P.inspect(rec.id,17117,0,7,8),next=P.inspect(rec.id,17117,0,8,8);assert.deepEqual(next.p,old.p);assert.deepEqual(next.plan,old.plan);assert.deepEqual(next.details.interior.filter(o=>!o.station170),old.details.interior);assert.deepEqual(next.details.outdoor.filter(o=>!o.station170),old.details.outdoor);
   const before=C.compare(old),after=C.compare(next);assert.equal(after.totals.newLootRecords,0);assert.ok(after.totals.furnitureBelowMinimum<=before.totals.furnitureBelowMinimum);resolved+=before.totals.furnitureBelowMinimum-after.totals.furnitureBelowMinimum;
   for(const o of [...next.details.interior,...next.details.outdoor].filter(o=>o.station170)){added++;kinds[o.kind]=(kinds[o.kind]||0)+1;assert.ok(o.solid);assert.equal(o.amount,undefined);assert.equal(o.resource,undefined);}models++;
  }

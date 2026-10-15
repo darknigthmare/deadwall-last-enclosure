@@ -33,3 +33,10 @@ test('162 dimensional evidence: wrong-sized surplus never satisfies an exact foo
   assert.deepEqual(spec.actualFootprints,[{w:1,h:.5,count:1},{w:2,h:.5,count:2}]);
  }finally{globalThis.DeadwallCodex3000Runtime=previous;C.clear();}
 });
+
+test('162 inspection: an explicit historical generation preserves the native recipe scope without inventing specialized buildings',()=>{
+ const current=P.inspect('DW-0300',42,0,10);assert.equal(current.supported,true);assert.equal(current.p.generation,10);
+ const historical=P.inspect('DW-0300',42,0,10,8);assert.equal(historical.supported,false);assert.equal(historical.plan,undefined);
+ const native=P.inspect('DW-0001',42,0,10,8);assert.equal(native.p.generation,8);
+ for(const generation of [7,11,'8',null,NaN])assert.throws(()=>P.inspect('DW-0001',42,0,10,generation));
+});
