@@ -11,9 +11,10 @@ function begin(generation){
   // exploration, retaining the actual G6/G7 geometry and save checks.
   const d=g.serialize(),h=globalThis.DeadwallGeography135.home(g.world.seed,generation);
   assert.equal(d.frontier.active,false);assert.deepEqual(d.frontier.seen,[]);assert.deepEqual(d.frontier.taken,{});assert.deepEqual(d.frontier.enemies,{});
+  delete d.frontier.ecologyVersion;
   Object.assign(d.frontier,{generation,x:h.maxX+2,y:h.y,z:0,inside:null,anchor:null,car:null});assert.equal(g.restoreSave(d),true);
  }
- assert.equal(g.frontier.position().generation,generation);
+ assert.equal(g.frontier.position().generation,generation);assert.equal(g.frontier.position().ecologyVersion,generation<8?0:1,'Historical fixtures stay on ecology zero; real new G8 remains on ecology one');
 }
 function bus(){
  const c=g.core();let garage=null;

@@ -7,8 +7,8 @@ function start(generation=6,seed='17117'){
  g.startNew('standard',seed);g.campaignIntro132.skip();g.phaseTime=999;
  // The 137 fixtures describe G6 places. New campaigns now use G7, whose IDs
  // intentionally describe a different population; pin only this untouched save.
- if(g.frontier.position().generation!==generation){const d=g.serialize(),h=globalThis.DeadwallGeography135.home(g.world.seed,generation);assert.equal(d.frontier.active,false);assert.deepEqual(d.frontier.seen,[]);assert.deepEqual(d.frontier.taken,{});Object.assign(d.frontier,{generation,x:h.maxX+2,y:h.y,z:0,inside:null,anchor:null,car:null});assert.equal(g.restoreSave(d),true);}
- assert.equal(g.frontier.position().generation,generation);
+ if(g.frontier.position().generation!==generation){const d=g.serialize(),h=globalThis.DeadwallGeography135.home(g.world.seed,generation);assert.equal(d.frontier.active,false);assert.deepEqual(d.frontier.seen,[]);assert.deepEqual(d.frontier.taken,{});if(generation<8)delete d.frontier.ecologyVersion;Object.assign(d.frontier,{generation,x:h.maxX+2,y:h.y,z:0,inside:null,anchor:null,car:null});assert.equal(g.restoreSave(d),true);}
+ assert.equal(g.frontier.position().generation,generation);assert.equal(g.frontier.position().ecologyVersion,generation<8?0:1,'Historical fixtures stay on ecology zero; real new G8 remains on ecology one');
 }
 function visit(p,q,z=0){const d=g.serialize(),w=g.frontier.world();Object.assign(d.frontier,{active:true,x:q.x,y:q.y,z,inside:p.id,anchor:{x:g.player.x,y:g.player.y},car:null});if(!d.frontier.seen.includes(p.id))d.frontier.seen.push(p.id);for(const site of w.nearPOI(q.x,q.y,220))for(let i=0;i<w.threatCount(site);i++){d.frontier.enemies[site.id+':e'+i]=0;delete d.frontier.tracks[site.id+':e'+i];}d.frontier.kills=Object.values(d.frontier.enemies).filter(v=>v===0).length;g.restoreSave(d);}
 function approach(w,p,o){for(let d=.4;d<3;d+=.2)for(let i=0;i<32;i++){const q={x:o.x+Math.cos(i*Math.PI/16)*d,y:o.y+Math.sin(i*Math.PI/16)*d,z:o.z,inside:p.id};if(!w.blocked(q.x,q.y,.32,o.z,p.id)&&S.targets(w,q,{},C.InterventionRules134.reach).some(t=>t.id===o.id))return q;}throw Error('Objet sans accès physique '+o.id);}

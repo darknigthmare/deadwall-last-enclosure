@@ -35,7 +35,7 @@ test('campaign identity: every initial autosave uses one ID, and replaying the s
   assert.deepEqual(archiveIds(g), [first]);
   assert.equal(g.profile.get().summary.retainedRuns, 1);
   assert.equal(g.exploration125.generation, 4); assert.equal(g.exploration125.layoutRevision, 3);
-  assert.equal(g.frontier.position().generation, 8);
+  assert.equal(g.frontier.position().generation, 8); assert.equal(g.frontier.position().ecologyVersion, 1);
   click(g.campaignIntro132.element.querySelector('#campaignIntro132Skip'));
   for (let i = 0; i < 3; i++) assert.equal(g.save(false), true);
   g.returnToMenu(); click(g.ui.continueButton);
@@ -49,7 +49,7 @@ test('campaign identity: every initial autosave uses one ID, and replaying the s
   assert.deepEqual(archiveIds(g), [first, second].sort());
   assert.equal(g.profile.get().recentRuns.find(run => run.runId === first).ended, true);
   assert.equal(g.profile.get().summary.retainedRuns, 2);
-  assert.equal(g.frontier.position().generation, 8);
+  assert.equal(g.frontier.position().generation, 8); assert.equal(g.frontier.position().ecologyVersion, 1);
   click(g.campaignIntro132.element.querySelector('#campaignIntro132Skip')); g.returnToMenu();
 
   const previousConfirm = Object.getOwnPropertyDescriptor(globalThis, 'confirm');
@@ -71,6 +71,8 @@ test('campaign identity: historical marked G4 and G8 saves keep their IDs and ex
   for (const generation of [4, 8]) {
     const marked = 'run:historical-' + generation + ':g4', unmarked = marked.slice(0, -3), saved = copy(raw);
     saved.runId = marked; saved.frontier.generation = generation;
+    // These archived saves predate the explicit ecological revision.
+    delete saved.frontier.ecologyVersion;
     if (generation === 4) { saved.frontier.x = 4162; saved.frontier.y = 4096; }
     const ids = generation === 8 ? [unmarked, marked] : [marked];
     const historical = globalThis.DeadwallProfile.validate({ ...profile, recentRuns: ids.map(runId => ({ ...row, runId })) });
@@ -81,12 +83,15 @@ test('campaign identity: historical marked G4 and G8 saves keep their IDs and ex
     const g = env.g;
     click(g.ui.continueButton);
     assert.equal(g.runId, marked); assert.equal(g.frontier.position().generation, generation);
+    assert.equal(g.frontier.position().ecologyVersion, 0, 'An absent historical flag must remain ecology zero');
     assert.equal(g.exploration125.generation, 4); assert.equal(g.exploration125.layoutRevision, 3);
     assert.equal(g.save(false), true);
     assert.deepEqual(archiveIds(g), ids.sort(), 'Loading cannot rename or merge historical campaign identities');
-    assert.equal(globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY)).runId, marked);
+    const persisted = globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY));
+    assert.equal(persisted.runId, marked); assert.equal(persisted.frontier.ecologyVersion, 0);
     const previousRows = g.profile.get().recentRuns;
     g.startNew('standard', '17117');
+    assert.equal(g.frontier.position().ecologyVersion, 1, 'The subsequent real new G8 campaign selects the current ecology');
     assert.deepEqual(archiveIds(g), [...ids, g.runId].sort());
     assert.deepEqual(g.profile.get().recentRuns.filter(run => ids.includes(run.runId)), previousRows,
       'A new game preserves existing records, including historical duplicate-looking IDs');

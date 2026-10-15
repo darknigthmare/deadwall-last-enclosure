@@ -11,8 +11,8 @@ put('expeditionOffice');put('expeditionGarage');legacyAge(g,1850);
 g.resources.wood=300;g.resources.scrap=500;g.resources.food=300;
 const base=g.serialize();g.frontier.world();
 const sides={east:{axis:'x',sign:1,key:'KeyD'},west:{axis:'x',sign:-1,key:'KeyA'},north:{axis:'y',sign:-1,key:'KeyW'},south:{axis:'y',sign:1,key:'KeyS'}};
-function paid(id,generation=8){g.restoreSave(structuredClone(base));if(generation!==g.frontier.position().generation){const raw=g.serialize();Object.assign(raw.frontier,{generation,x:4162,y:4096});raw.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(raw);}
- assert.equal(g.frontier.position().generation,generation);
+function paid(id,generation=8){g.restoreSave(structuredClone(base));if(generation!==g.frontier.position().generation){const raw=g.serialize();if(generation<8)delete raw.frontier.ecologyVersion;Object.assign(raw.frontier,{generation,x:4162,y:4096});raw.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(raw);}
+ assert.equal(g.frontier.position().generation,generation);assert.equal(g.frontier.position().ecologyVersion,generation<8?0:1,'Historical fixtures stay on ecology zero; real new G8 remains on ecology one');
  standAt(g,g.player,g.core());assert.equal(g.worldEvolution.selectVehicle(id),true);const before={...g.resources},profile=C.WorldEvolution.RULES.vehicles[id];assert.equal(g.expeditions.buildCar().ok,true);
  for(const key of C.RESOURCE_KEYS)assert.equal(g.resources[key],before[key]-(profile.cost[key]||0),'Native vehicle cost '+id+' '+key);
  const v=g.expeditions.car();Object.assign(g.player,{x:v.x,y:v.y});g.resources.food-=2;g.player.carry.food=2;assert.equal(g.expeditions.transfer().ok,true);assert.equal(v.cargo.food,2);

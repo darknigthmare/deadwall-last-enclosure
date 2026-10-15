@@ -3,7 +3,7 @@ const path=require('node:path'),fs=require('node:fs');
 const project=path.resolve(process.argv[2]||path.join(__dirname,'..'));
 const {g}=require(path.join(project,'scripts/qa-startup134.cjs')).bootDocument134();
 g.startNew('standard','17117');g.campaignIntro132.skip();
-if(process.argv[4]){const s=g.serialize(),generation=Number(process.argv[4]),home=globalThis.DeadwallGeography135.home(s.worldSeed,generation);Object.assign(s.frontier,{generation,x:home.maxX+2,y:home.y});g.restoreSave(s);}
+if(process.argv[4]){const s=g.serialize(),generation=Number(process.argv[4]),home=globalThis.DeadwallGeography135.home(s.worldSeed,generation);if(generation<8)delete s.frontier.ecologyVersion;Object.assign(s.frontier,{generation,x:home.maxX+2,y:home.y});g.restoreSave(s);}
 const w=g.frontier.world(),P=globalThis.DeadwallAtlasProjection,gate=P.gatesFor(g).find(p=>p.id==='east');
 const routeRoad=w.roads.find(r=>Math.hypot(r.a.x-gate.x,r.a.y-gate.y)>300&&Math.hypot(r.a.x-gate.x,r.a.y-gate.y)<1500);
 if(!routeRoad)throw Error('No regional road fixture near the current D-17.');
