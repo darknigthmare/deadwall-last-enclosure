@@ -64,10 +64,10 @@ test('180 corrupt bridge/stair saves reject transactionally rather than silently
  const orphan=clone(good);orphan.expansions127.modules.vertical175.network.links=[];assert.throws(()=>f.g.restoreSave(orphan),/vertical|passerelle/);assert.deepEqual(snapshot(f.g),before);
 });
 test('180 v3 migration preserves existing rooftop enemy health and supplies, grants no connections',()=>{
- const f=pair(1,'rampart3a177'),z=roofInvader(f),d=clone(f.g.serialize()),raw=d.expansions127.modules.vertical175;raw.version=3;
+ const f=pair(1,'rampart3a177'),z=roofInvader(f),d=clone(f.g.serialize()),raw=d.expansions127.modules.vertical175;raw.version=3;delete raw.population;
  for(const c of raw.climbers){delete c.level;delete c.bridge;delete c.stair;}
  // Use a wall in the separate old format fixture; v3 roof provenance is unchanged.
- const stock={...d.resources};assert.ok(f.g.restoreSave(d));assert.equal(f.v.snapshot().version,4);assert.equal(f.v.enemyPose(f.g.zombies.find(e=>e.id===z.id)).level,0);assert.deepEqual(f.g.resources,stock);assert.equal(f.n.presentation().links.length,0);
+ const stock={...d.resources};assert.ok(f.g.restoreSave(d));assert.equal(f.v.snapshot().version,5);assert.equal(f.v.enemyPose(f.g.zombies.find(e=>e.id===z.id)).level,0);assert.deepEqual(f.g.resources,stock);assert.equal(f.n.presentation().links.length,0);
 });
 function stairsFixture(){
  const g=boot(4),a=build(g,'verticalFoundation6');ascend(g,a);assert.ok(g.vertical175.buildDeck().ok);tick(g,40);g.player.x=a.x;g.player.y=a.y;ascend(g,a,1);

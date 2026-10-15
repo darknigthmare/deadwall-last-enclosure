@@ -1,4 +1,4 @@
-# État des chantiers verticaux — après le code 180
+# État des chantiers verticaux — après le code 181
 
 Ce tableau distingue des fonctions intégrées des travaux non livrés. Les onze âges disposent de choix, mais cette couverture ne signifie pas que toute l'extension massive est terminée. La PR #6 reste en développement ; aucune fusion automatique dans main.
 
@@ -11,11 +11,11 @@ Ce tableau distingue des fonctions intégrées des travaux non livrés. Les onze
 | Maintenance | Réparation, annulation/dépose de module, dernière dalle vide, retrait d'ascenseur sans perte d'escalier | Ouvriers autonomes d'entretien, diagnostics de réseaux par quartier |
 | Accès intérieurs | Trajets contraints du joueur, porteur et intrus entre paliers | Intérieurs libres, cabines animées, monte-charge, files d'attente, portes coupe-feu |
 | Circulation hostile | Ascension native, déplacement sur ponts, inspection des paliers par escalier, dégâts aux vrais équipements | Retour hostile au rez-de-chaussée par les cages, congestion, parcours généraux dans les intérieurs historiques |
-| Population alliée | Unités/compagnons et économie natives préservées ; capacités des étages actives | Navigation de tous les civils/ouvriers/gardes sur le réseau, postes de relève et fret automatisé |
-| Intégrité | Charge d'ancrage, perte de pont/support, chutes et caisses ; dépose interdite sur intrus | Piliers endommageables, propagation des ruptures, débris physiques |
+| Population alliée | Personnel natif affectable : ouvriers livreurs, gardes, ingénieurs et secouristes ; trajets sol/ponts/escaliers, sacs et retours physiques | Vie de tous les habitants, relèves, fret de caisses/modules par PNJ, stocks par quartier |
+| Intégrité | Charge d'ancrage, perte de pont/support, chutes et caisses ; dépose interdite sur intrus et personnel affecté | Piliers endommageables, propagation des ruptures, débris physiques |
 | Siège massif | Pression agrégée des amas, 24 occupants élevés, géants 6/12/20 m | Corps individuels empilés, grandes foules distantes/LOD, qualification de performances |
 | Double vue | État partagé, WebGL réel, tir clavier, panne/restauration du contexte, ponts et cibles en altitude | Modèles, textures, animations, sons et éclairages finaux ; HUD général encore chargé |
-| Sauvegarde | Registre v4, migrations additives, trajectoires natives et inventaires conservatifs | Campagnes de longue durée, tests de charge des plus grands réseaux |
+| Sauvegarde | Registre v5, migrations additives, trajectoires natives et inventaires conservatifs | Campagnes de longue durée, tests de charge des plus grands réseaux |
 | Livraison | Sources et tests sur branche dédiée, pipelines de QA, patchs et reçus | Revue de fusion, déploiement de production et qualification sur appareils physiques |
 
 Ne pas réunir automatiquement la variante PR #7 avec ce code : ses données, chiffres et rendu diffèrent.

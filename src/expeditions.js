@@ -21,7 +21,7 @@
   const report=(text,ok=true)=>{notice=text;return{ok,reason:text};};
   function save(text){if(text)g.notify(text);g.save(false);return report(text||'Ordre enregistré.');}
   function isAssigned(id){ensure();return state.analyst?.id===id;}
-  function busy(id){const t=g.territories.snapshot();return isAssigned(id)||t.withdrawing.includes(id)||Object.values(t.sectors).some(s=>s.workerId===id)||g.siege.isAssigned(id)||g.infrastructure.isAssigned(id)||g.citadel.isEscort(id)||g.salvage.isAssigned(id);}
+  function busy(id){const t=g.territories.snapshot();return isAssigned(id)||g.vertical175?.population?.isAssigned(id)||t.withdrawing.includes(id)||Object.values(t.sectors).some(s=>s.workerId===id)||g.siege.isAssigned(id)||g.infrastructure.isAssigned(id)||g.citadel.isEscort(id)||g.salvage.isAssigned(id);}
   function assign(){reconcile();const post=operational('expeditionOffice').find(b=>b.powered&&!b.siegeOffline&&!b.territoryOffline),u=g.units.find(u=>live(u)&&u.kind==='worker'&&!busy(u.id));if(!command()||g.phase!=='calm'||g.workerOrder==='retreat'||!post||!post.powered||state.analyst||!u||!C.canAfford(g.resources,R.analystCost))return report('Bureau alimenté, calme, ouvrier libre et deux rations requis.',false);
    C.spend(g.resources,R.analystCost);state.analyst={id:u.id,post:post.id,progress:0,returning:false};u.state=u.carry>0?'return':'move';u.navigation=null;u.targetNode=u.targetBuilding=-1;return save('Ouvrier #'+u.id+' affecté au renseignement. Il rejoint son bureau.');}
   function recall(){ensure();if(!command()||!state.analyst)return false;state.analyst.returning=true;g.save(false);return true;}

@@ -2372,3 +2372,19 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   nightAwarenessMetres:5,dayAwarenessMetres:55,routeMemoryNodes:896
  });
 })(globalThis);
+
+/* 181: native personnel use their existing bags; physical deliveries never create supplies. */
+(function(root){'use strict';
+ const C=root.DeadwallCore,roles={
+  worker:{label:'Ouvrier de ravitaillement',resource:'ammo',capacity:C.WORKER_RULES.carryCapacity},
+  soldier:{label:'Garde de palier',resource:'ammo',capacity:C.WORKER_RULES.carryCapacity},
+  engineer:{label:'Ingénieur de maintenance',resource:'scrap',capacity:C.WORKER_RULES.carryCapacity},
+  medic:{label:'Secouriste de palier',resource:'medicine',capacity:2}
+ };
+ C.VerticalPopulation181=Object.freeze({roles:Object.freeze(Object.fromEntries(Object.entries(roles).map(([k,v])=>[k,Object.freeze(v)]))),
+  slots:Object.freeze([1,2,3,4,6,8,10,12,16,20,24]),maxMembers:24,loadedSpeed:.75,stairSpeed:1.2,
+  entryTolerance:.10,saveTolerance:.015,separationZ:.75,epsilon:1e-8,depotReach:90,
+  serviceReach:1.4,deliverySeconds:3,waitOffset:1.1,dangerReach:4,medicalSearch:12,
+  guardRange:24,repairRate:10,repairScrapPerHealth:1/30,landingSearch:6,landingStep:.5
+ });
+})(globalThis);

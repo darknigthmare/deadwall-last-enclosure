@@ -1367,7 +1367,9 @@
       const unitCount=this.units.length,firstUnit=(this.unitUpdateOffset||0)%Math.max(1,unitCount);
       // Rotate the first claimant so unreachable jobs cannot starve later workers or soldiers of A*.
       this.unitUpdateOffset=(firstUnit+STRATEGY_RULES.pathQueriesPerUpdate)%Math.max(1,unitCount);
-      for(let turn=0;turn<unitCount;turn++){const u=this.units[(firstUnit+turn)%unitCount];if(u.dead)continue;u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
+      for(let turn=0;turn<unitCount;turn++){const u=this.units[(firstUnit+turn)%unitCount];if(u.dead)continue;
+        if(this.vertical175?.population?.updateAssignedUnit(u,dt))continue;
+        u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
         if(this.expeditions?.updateAssignedUnit(u,dt))continue;
         if(this.salvage?.updateAssignedUnit(u,dt))continue;
         if(this.infrastructure?.updateAssignedUnit(u,dt))continue;
@@ -2862,7 +2864,7 @@
  function assign(id){
    if(g.workerOrder==='retreat')return notify({ok:false,reason:'Le repli général est actif. Rétablissez un ordre de travail avant de détacher une équipe.'});
    reconcile();const b=post(id),used=new Set([...Object.values(engine.state.sectors).map(s=>s.workerId),...engine.state.withdrawing]);
-   const worker=g.units.filter(u=>live(u)&&u.kind==='worker'&&!used.has(u.id)&&!g.siege?.isAssigned(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)).sort((a,c)=>distance(a,b||g.player)-distance(c,b||g.player)||a.id-c.id)[0];
+   const worker=g.units.filter(u=>live(u)&&u.kind==='worker'&&!used.has(u.id)&&!g.siege?.isAssigned(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)&&!g.vertical175?.population?.isAssigned(u.id)).sort((a,c)=>distance(a,b||g.player)-distance(c,b||g.player)||a.id-c.id)[0];
    const r=engine.assign(id,worker?.id,{canCommand:g.canIssueCommand(),workerAvailable:Boolean(worker)});notify(r);if(r.ok){worker.navigation=null;g.save(false);}refresh();return r;
  }
  function evacuate(id,confirmed=false){
@@ -3133,7 +3135,7 @@
   }
   function assign(){
     reconcile();if(!g.canIssueCommand()||g.workerOrder==='retreat')return{ok:false,reason:announce('Reprenez le travail des équipes avant une affectation.')};
-    const u=g.units.filter(u=>live(u)&&u.kind==='worker'&&!engine.member(u.id)&&!isDetached(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)).sort((a,b)=>a.id-b.id)[0];
+    const u=g.units.filter(u=>live(u)&&u.kind==='worker'&&!engine.member(u.id)&&!isDetached(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)&&!g.vertical175?.population?.isAssigned(u.id)).sort((a,b)=>a.id-b.id)[0];
     const ok=engine.assign(u?.id,{canCommand:true,available:Boolean(u),slots:freeSlots()});
     if(ok){u.navigation=null;g.save(false);g.audio?.ui();}
     return {ok,reason:announce(ok?'Ouvrier affecté : la collecte ordinaire cède la place aux secours.':'Ouvrier libre et poste de secours alimenté requis (deux places par poste).')};
@@ -3752,7 +3754,7 @@
   function isAssigned(id){ensure();return engine.state.crew.some(u=>u.id===id);}
   function unavailable(id){
     const t=g.territories?.snapshot();
-    return isAssigned(id)||Boolean(t?.withdrawing?.includes(id)||Object.values(t?.sectors||{}).some(s=>s.workerId===id)||g.siege?.isAssigned(id)||g.citadel?.isEscort(id)||g.salvage?.isAssigned(id)||g.expeditions?.isAssigned(id));
+    return isAssigned(id)||g.vertical175?.population?.isAssigned(id)||Boolean(t?.withdrawing?.includes(id)||Object.values(t?.sectors||{}).some(s=>s.workerId===id)||g.siege?.isAssigned(id)||g.citadel?.isEscort(id)||g.salvage?.isAssigned(id)||g.expeditions?.isAssigned(id));
   }
   function reconcile(){ensure();engine.state.crew=engine.state.crew.filter(c=>live(g.units.find(u=>u.id===c.id)));
     let active=0;const cap=slots();for(const c of engine.state.crew)if(!c.returning&&(g.phase!=='calm'||g.workerOrder==='retreat'||++active>cap))c.returning=true;

@@ -10,7 +10,7 @@
   function isAssigned(id){ensure();return state.crews.some(c=>c.id===id);}
   const structures=()=>[...g.world.buildings.values()].filter(b=>live(b)&&b.completed);
   function slots(){return Math.min(R.maxCrews,structures().filter(b=>b.type==='warehouse').length*R.perWarehouse);}
-  function busy(id){const t=g.territories.snapshot();return isAssigned(id)||g.expeditions?.isAssigned(id)||t.withdrawing.includes(id)||Object.values(t.sectors).some(s=>s.workerId===id)||g.siege.isAssigned(id)||g.infrastructure.isAssigned(id)||g.citadel.isEscort(id);}
+  function busy(id){const t=g.territories.snapshot();return isAssigned(id)||g.vertical175?.population?.isAssigned(id)||g.expeditions?.isAssigned(id)||t.withdrawing.includes(id)||Object.values(t.sectors).some(s=>s.workerId===id)||g.siege.isAssigned(id)||g.infrastructure.isAssigned(id)||g.citadel.isEscort(id);}
   function site(id){return g.dayworks.snapshot().sites.find(s=>s.id===id);}
   function reconcile(){ensure();for(const c of [...state.crews]){const u=g.units.find(u=>u.id===c.id);if(!live(u)){state.crews.splice(state.crews.indexOf(c),1);state.stats.lost++;jobs.delete(c.id);continue;}}
    let n=0;for(const c of state.crews)if(!c.returning&&(g.phase!=='calm'||g.workerOrder==='retreat'||!g.world.has('planningOffice')||++n>slots()))c.returning=true;

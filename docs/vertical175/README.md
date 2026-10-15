@@ -61,3 +61,7 @@ Les équipements achevés peuvent être déplacés entre emplacements d'un même
 ## Réseau hostile 180
 
 Voir `NETWORK_180.md` : traversée native des passerelles, escaliers entre paliers, reprise en chemin et déposes sécurisées. `CHANTIERS_VERTICAUX.md` distingue tous les travaux intégrés des limites restantes. La révision 179 des passerelles et du portage est conservée, pas refaite en parallèle.
+
+## Personnel vertical — 181
+
+Les survivants natifs peuvent être affectés aux paliers : livraison d’ammunition, garde, réparation de modules et soins sur place, avec sacs finis et retour physique. Voir `PERSONNEL_181.md`. L’affectation ne recrute personne, et cette passe ne simule pas encore toute la vie civile ni le fret de modules par PNJ.

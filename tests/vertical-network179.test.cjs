@@ -20,8 +20,8 @@ function bridge(f,kind){const q=geometry(f,kind);assert.ok(q);moveTo(f,q.ports[0
 function packGun(f){moveTo(f,f.a.x,f.a.y);const m=equip(f.g,f.a,'handRifle177');m.ammo=7;const quote=f.n.packQuote(m.id);assert.ok(quote.ok,quote.reason);assert.ok(f.n.packModule(m.id).ok);tick(f.g,quote.seconds+.1);assert.equal(f.n.presentation().cargo?.id,m.id);return m;}
 
 test('179 v2 save migrates additively and repeated restore cannot grant bridges or resources',()=>{
- const g=boot(),d=g.serialize(),v=d.expansions127.modules.vertical175;v.version=2;delete v.network;const stock=clone(d.resources);
- assert.ok(g.restoreSave(d));assert.equal(g.vertical175.snapshot().version,4);assert.deepEqual(g.vertical175.snapshot().network,N.initial());assert.deepEqual(g.resources,stock);assert.ok(g.restoreSave(g.serialize()));assert.deepEqual(g.resources,stock);
+ const g=boot(),d=g.serialize(),v=d.expansions127.modules.vertical175;v.version=2;delete v.population;delete v.network;const stock=clone(d.resources);
+ assert.ok(g.restoreSave(d));assert.equal(g.vertical175.snapshot().version,5);assert.deepEqual(g.vertical175.snapshot().network,N.initial());assert.deepEqual(g.resources,stock);assert.ok(g.restoreSave(g.serialize()));assert.deepEqual(g.resources,stock);
 });
 for(let age=0;age<11;age++)test('179 acquired age '+age+' builds a paid compatible connection',()=>{
  const f=pair(age),before={...f.g.resources},q=bridge(f),l=f.n.presentation().links[0].link;

@@ -91,16 +91,17 @@
    }
    return null;
   }
-  function walk(z,c,goals,stamp,dt){
+  function walk(z,c,goals,stamp,dt,speed=Q.roofSpeed,accept=null){
    const context=location(c),r=z.radius*T.bodyRadiusFactor/R.tile,start={x:z.x/R.tile,y:z.y/R.tile};
    let plan=plans.get(z.id);
    if(!plan||plan.stamp!==stamp||plan.remaining<=0){plan={stamp,remaining:T.replanSeconds,points:localPath(context,start,goals,r)};plans.set(z.id,plan);}
    plan.remaining-=dt;if(!plan.points?.length)return false;
-   let distance=Q.roofSpeed*dt*(z.stagger>0?.35:1);
+   let distance=speed*dt*(z.stagger>0?.35:1);
    while(distance>1e-7&&plan.points.length){
     const goal=plan.points[0],a={x:z.x/R.tile,y:z.y/R.tile},dx=goal.x-a.x,dy=goal.y-a.y,d=Math.hypot(dx,dy);
     if(d<T.arrivalMetres){plan.points.shift();continue;}
     const amount=Math.min(distance,d,T.segmentStep),next={x:a.x+dx/d*amount,y:a.y+dy/d*amount};
+    if(accept&&!accept(next))return false;
     if(!segmentClear(context,a,next,r)){plans.delete(z.id);return false;}
     z.x=next.x*R.tile;z.y=next.y*R.tile;z.facing=Math.atan2(dy,dx);distance-=amount;
    }
@@ -177,6 +178,8 @@
    if(live(g.player)&&p.site===c.site&&p.level===c.level&&!p.travel&&Math.hypot(g.player.x/R.tile-origin.x,g.player.y/R.tile-origin.y)<=range&&line(origin,{x:g.player.x/R.tile,y:g.player.y/R.tile,z:p.z+T.bodyHeight})){
     return{x:g.player.x/R.tile,y:g.player.y/R.tile,kind:'player',goals:[{x:g.player.x/R.tile,y:g.player.y/R.tile}]};
    }
+   const ally=(h.alliesAt?.(c.site,c.level)||[]).filter(live).filter(u=>Math.hypot(u.x/R.tile-origin.x,u.y/R.tile-origin.y)<=range&&line(origin,{x:u.x/R.tile,y:u.y/R.tile,z:origin.z})).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)||a.id-b.id)[0];
+   if(ally)return{x:ally.x/R.tile,y:ally.y/R.tile,kind:'unit',id:ally.id,goals:[{x:ally.x/R.tile,y:ally.y/R.tile}]};
    let target=null,best=Infinity;const b=h.building(c.site),s=siteRecord(c.site),r=z.radius*T.bodyRadiusFactor/R.tile;
    for(const m of s.decks[c.level].modules){
     const q=S.moduleBox(b,m,floorZ(b,c.level)),x=C.clamp(origin.x,q.x,q.x+q.w),y=C.clamp(origin.y,q.y,q.y+q.h),d=Math.hypot(x-origin.x,y-origin.y);
@@ -196,7 +199,7 @@
    const dx=target.x-z.x/R.tile,dy=target.y-z.y/R.tile,d=Math.hypot(dx,dy),def=C.ENEMIES[z.kind];z.facing=Math.atan2(dy,dx);
    if(d<=Q.meleeReach+z.radius/R.tile){
     if(z.attackCooldown<=0){z.attackCooldown=1/def.attackRate;const amount=def.damage*g.difficulty.enemyDamage;
-     if(target.kind==='player')g.damagePlayer(amount);else h.damageModule(target.id,amount*(def.structureDamage||1));
+     if(target.kind==='player')g.damagePlayer(amount);else if(target.kind==='unit')g.damageUnit(g.units.find(u=>u.id===target.id),amount);else h.damageModule(target.id,amount*(def.structureDamage||1));
      g.recordActorAction159?.(z,'attack',z.attackCooldown,{facing:z.facing});
     }
     return;
@@ -223,10 +226,11 @@
    return true;
   }
   function reset(){piles=[];claims.clear();plans.clear();patrols.clear();visited.clear();clock=0;}
-  function canMelee(a,b){const az=a===g.player?h.pose().z:enemyPose(a).z,bz=b===g.player?h.pose().z:enemyPose(b).z;if(Math.abs(az-bz)>Q.meleeReach)return false;
+  function canMelee(a,b){const az=a===g.player?h.pose().z:(h.unitPose?.(a)?.z||enemyPose(a).z),bz=b===g.player?h.pose().z:(h.unitPose?.(b)?.z||enemyPose(b).z);if(Math.abs(az-bz)>Q.meleeReach)return false;
    return line({x:a.x/R.tile,y:a.y/R.tile,z:az+.8},{x:b.x/R.tile,y:b.y/R.tile,z:bz+.8});
   }
-  return Object.freeze({reconcile,bridgeOccupied,occupiesDeck,prepare,update,enemyPose,forget,removeSupport,reset,canMelee,pressure:()=>piles.map(p=>({...p}))});
+  const navigation=Object.freeze({walk,line,walkable:(c,x,y,r)=>walkClear(location(c),x,y,r),forget:id=>plans.delete(id)});
+  return Object.freeze({navigation,reconcile,bridgeOccupied,occupiesDeck,prepare,update,enemyPose,forget,removeSupport,reset,canMelee,pressure:()=>piles.map(p=>({...p}))});
  }
  const api={create};root.DeadwallVerticalSiege176=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
