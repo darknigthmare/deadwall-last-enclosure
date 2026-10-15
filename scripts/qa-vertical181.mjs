@@ -55,7 +55,7 @@ try {
  // The courier remains at its genuine delivery location while the commander returns to inspect it in FPS.
  await page.evaluate(()=>{const g=DEADWALL,entry=g.vertical175.entrance(g.world.buildings.get(fixture181.a));ground181(entry.x,entry.y);});
  await page.locator('#vertical175access').click();await tick(4);
- await page.evaluate(()=>{const q=DEADWALL.vertical175.moduleRef(fixture181.gun),p=DeadwallVertical175State.slots(q.b)[q.m.slot];move181((p.x-.7)*32-13,p.y*32);});
+ await page.evaluate(()=>{const q=DEADWALL.vertical175.moduleRef(fixture181.gun),p=DeadwallVertical175State.slots(q.b)[q.m.slot];move181((p.x+.7)*32+13,p.y*32);});
  await dossier();await action('control-'+await page.evaluate(()=>fixture181.gun));
  await page.evaluate(()=>DEADWALL.render());await page.locator('#vertical175view').click();
  const fps=await page.evaluate(()=>{const g=DEADWALL,V=g.vertical175,u=g.units.find(u=>u.id===fixture181.worker),a=DeadwallVertical175State.lookAt(V.muzzle(V.moduleRef(fixture181.gun)),{x:u.x/32,y:u.y/32,z:V.population.pose(u).z+1.2});V.aim(a.yaw,a.pitch);g.render();const gl=document.getElementById('vertical175canvas').getContext('webgl');return{view:V.presentation().view,worker:u.id,altitude:V.population.pose(u).z,ammo:V.moduleRef(fixture181.gun).m.ammo,webgl:!!gl,error:gl?.getError()};});
