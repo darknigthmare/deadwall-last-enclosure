@@ -15,8 +15,12 @@ function resource(w){
  assert.fail('The actual ecological world must provide a finite nearby resource');
 }
 function parking(w){
- for(let dx=10;dx<=120;dx+=10)for(let dy=-60;dy<=60;dy+=10){const p={x:w.home.maxX+dx,y:w.home.y+dy};
-  if(w.vehicleClear(p.x,p.y,0,4.6,1.85)&&!w.nearPOI(p.x,p.y,50).length)return p;
+ // Water and new parcels may occupy the former east-only fixture. Find an
+ // actual outside position, keeping the car and its campfire physically free.
+ for(let radius=90;radius<=600;radius+=10)for(let i=0;i<24;i++){
+  const angle=i*Math.PI/12,p={x:w.home.x+Math.cos(angle)*radius,y:w.home.y+Math.sin(angle)*radius};
+  if(p.x>w.home.minX-10&&p.x<w.home.maxX+10&&p.y>w.home.minY-10&&p.y<w.home.maxY+10)continue;
+  if(w.vehicleClear(p.x,p.y,0,4.6,1.85)&&!w.blocked(p.x+6,p.y,.32)&&!w.nearPOI(p.x,p.y,50).length)return p;
  }
  assert.fail('The prepared vehicle and camp require real clear outside ground');
 }
