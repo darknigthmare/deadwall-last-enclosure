@@ -19,7 +19,7 @@ test('167 inspected and unsupported render states preserve their separate eviden
  C.render(doc,host,report);assert.equal(axes(host),10);assert.equal(host.dataset.scope,'isolated-recipe-not-live-world');
  assert.ok(content(host).includes('Modèle inspecté · '+preview.plan.rooms.length));
  assert.match(content(host),/meubles sous le minimum source/);assert.doesNotMatch(content(host),/undefined|NaN/);
- const unsupported=C.compare(P.inspect('DW-0300',42));C.render(doc,host,unsupported);
+ const unsupported=C.compare({id:'DW-0300',supported:false});C.render(doc,host,unsupported);
  assert.equal(axes(host),10);assert.equal(host.dataset.scope,'unsupported');assert.match(content(host),/Aucun plan de substitution/);assert.doesNotMatch(content(host),/Modèle inspecté|undefined|NaN/);
 });
 test('167 malformed model rendering is rejected before mutating existing DOM',()=>{

@@ -1,3 +1,118 @@
+/* Opt-in revision 11. Existing independent source slots keep their identities,
+ * loot and positions. Complements are inferred uses, not authored minima. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexFurnishing162=api;
+ if(typeof module==='object'&&module.exports)module.exports=api;
+})(globalThis,function(root){'use strict';
+ const norm=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){Object.values(v).forEach(freeze);Object.freeze(v);}return v;};
+ const hit=(a,b,gap=0)=>a.x<b.x+b.w+gap&&a.x+a.w>b.x-gap&&a.y<b.y+b.h+gap&&a.y+a.h>b.y-gap;
+ const within=(a,r,m=0)=>a.x>=r.x+m&&a.y>=r.y+m&&a.x+a.w<=r.x+r.w-m&&a.y+a.h<=r.y+r.h-m;
+ const owns=(r,o)=>o.x+o.w/2>=r.x&&o.y+o.h/2>=r.y&&o.x+o.w/2<r.x+r.w&&o.y+o.h/2<r.y+r.h;
+ const overlapArea=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
+ const fronts=o=>o.service173||o.service171||o.service170||o.fronts169||[o.front160,o.access165].filter(Boolean);
+ const samples=f=>[[f.x+f.w/2,f.y+f.h/2],...(f.w>=f.h?[[f.x+f.w*.25,f.y+f.h/2],[f.x+f.w*.75,f.y+f.h/2]]:[[f.x+f.w/2,f.y+f.h*.25],[f.x+f.w/2,f.y+f.h*.75]])];
+
+ // Room-kit substring matches are deliberately insufficient: a vestibule may
+ // mention a séjour, and an industrial test room may mention a cooking module.
+ function usage(source){
+  const name=norm(source?.name),kinds=new Set((source?.sourceProps158||[]).map(o=>o.kind));
+  if(kinds.has('bed')&&/^(couchage|chambre|dortoir|repos des|logement)/.test(name)&&!/prototype|essai|module|lot|fermeture|composant/.test(name))return 'sleeping';
+  if(kinds.has('shelf')&&/archive|classement|documentation|bibliothe|reserve|stock|conservation/.test(name))return 'archives';
+  if((kinds.has('wardrobe')||kinds.has('fridge'))&&/^vestiaire/.test(name)&&!/outils|pieces|materiaux|module|prototype/.test(name))return 'changing';
+  if(kinds.has('desk')&&/^(vestibule|reception|accueil|entree|guichet)/.test(name))return 'reception';
+  if(kinds.has('medical')&&/soins|consultation|infirmerie|clinique/.test(name)&&!/prototype|module|materiau/.test(name))return 'medical';
+  if((kinds.has('fridge')||kinds.has('sink')||kinds.has('oven'))&&/^(cuisine|plonge|refectoire)|preparation alimentaire|repas des residents/.test(name))return 'kitchen';
+  if(kinds.has('washer')&&/linge|buanderie|lavage textile/.test(name))return 'laundry';
+  if([...kinds].some(k=>['workbench','sawBench','clampRack'].includes(k)))return 'workshop';
+  if(kinds.has('desk'))return 'office';
+  return null;
+ }
+ function floorBudget(p,z,r){
+  const levels=[...new Set(p.levels)].sort((a,b)=>a-b),i=levels.indexOf(z);
+  return Math.min(r.maxPerFloor,Math.floor(r.maxPerSite/levels.length)+(i<r.maxPerSite%levels.length?1:0));
+ }
+ function target(spec,room,source,z){
+  const area=room.w*room.h;
+  if(area<spec.minArea||spec.groundOnly&&z!==0||spec.collective&&!/residents|dortoir|couchages|couchage des|collectif/.test(norm(source.name)))return 0;
+  return spec.areaPerTarget?Math.max(1,Math.min(spec.target,Math.floor(area/spec.areaPerTarget))):spec.target;
+ }
+ function equivalent(kind,o){return kind==='shelf'?['shelf','bookshelf','shelfEnd'].includes(o.kind):kind===o.kind;}
+ function fractions(s,room,width,obstacles,r){
+  const vertical=s.side==='west'||s.side==='east',wall=s.wall;
+  const lo=Math.max(vertical?room.y:room.x,vertical?wall.y:wall.x)+.16;
+  const hi=Math.min(vertical?room.y+room.h:room.x+room.w,vertical?wall.y+wall.h:wall.x+wall.w)-.16-width;
+  if(hi<lo)return [];
+  if(hi===lo)return [0];
+  const positions=[lo,hi,(lo+hi)/2];
+  for(const o of obstacles){const a=vertical?o.y:o.x,b=vertical?o.y+o.h:o.x+o.w;positions.push(a-r.gap-width,b+r.gap);}
+  for(let i=0;i<r.wallSamples;i++)positions.push(lo+(hi-lo)*i/(r.wallSamples-1));
+  return [...new Set(positions.filter(v=>v>=lo&&v<=hi).map(v=>Math.round((v-lo)/(hi-lo)*1e7)/1e7))];
+ }
+ function enrich({seed,p,z=0,plan,detail,description,geometry:G,recipes:Q}){
+  if(!/^DW-\d{4}$/.test(description?.id||'')||Number(description.id.slice(3))<=3000||Number(description.id.slice(3))>4000)return detail;
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),r=C?.CodexFurnishingRules162;
+  const A=root.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null);
+  const D=root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null);
+  if(!r||!A||!D||!G||!Q||!Number.isInteger(seed)||seed<0||seed>4294967295||!p?.id||!p.levels?.includes(z)||!['rooms','walls','stairs','objects'].every(k=>Array.isArray(plan?.[k]))||!Array.isArray(detail?.interior)||!Array.isArray(detail.outdoor)||!Array.isArray(description.rooms))throw Error('Contrat de complément d’usage invalide.');
+  if(detail.furnishing162?.revision===r.revision)return detail;
+  const previous=[...plan.objects,...detail.interior.filter(o=>o.solid&&!o.dressing160)],obstacles=[...plan.walls,...plan.stairs,...previous];
+  const base=Q.accessGrid(p,z,plan,detail),keep=Q.anchorCells(p,z,plan,base),oldFronts=[...plan.objects,...detail.interior,...(z===0?[...(p.outdoor||[]),...detail.outdoor]:[])].flatMap(fronts);
+  for(const f of oldFronts)for(const [x,y]of samples(f)){const i=base?.at(x,y);if(i>=0&&base.reachable[i])keep.push(i);}
+  const added=[],requests=[],jobs=[],budget=floorBudget(p,z,r),sources=new Map();
+  for(const source of description.rooms){const k=norm(source.name);sources.set(k,sources.has(k)?null:source);}
+  for(const [ri,room]of plan.rooms.entries()){
+   const source=sources.get(norm(room.name)),profile=source&&!source.exterior&&(!source.levels||source.levels.includes(z))?usage(source):null;
+   if(!profile){requests.push({room:ri,name:room.name,usage:null,unplaced:0,reason:source?'usage-unresolved-or-wrong-level':'source-room-unresolved'});continue;}
+   const freeArea=Math.max(0,room.w*room.h-obstacles.reduce((n,o)=>n+overlapArea(room,o),0));
+   const maxRoom=Math.min(r.maxPerRoom,Math.max(1,Math.floor(freeArea/r.areaPerSupplement)));
+   if(freeArea<r.minRoomArea){requests.push({room:ri,name:room.name,usage:profile,unplaced:0,reason:'room-too-small'});continue;}
+   for(const spec of r.profiles[profile]){
+    const desired=target(spec,room,source,z);if(!desired)continue;
+    const existing=previous.filter(o=>owns(room,o)&&equivalent(spec.kind,o)).length;
+    const request={room:ri,name:room.name,usage:profile,kind:spec.kind,existing,derivedTarget:desired,sourceMinimum:null,added:0,unplaced:Math.max(0,desired-existing),reason:desired>existing?'space-or-access':'already-present'};requests.push(request);
+    if(request.unplaced)jobs.push({ri,room,source,spec,request,maxRoom});
+   }
+  }
+  if(!base?.baseline)return finish(false,'baseline-inaccessible');
+  for(let pass=0;pass<r.maxPasses&&added.length<budget;pass++){
+   let progress=false;const visited=new Set();
+   for(const job of jobs){
+    const {ri,room,spec,request,maxRoom}=job;if(visited.has(ri)||job.exhausted||request.unplaced===0||added.length>=budget)continue;
+    if(added.filter(o=>o.room162===ri).length>=maxRoom){request.reason='room-capacity';continue;}
+    const shape=G.SHAPES[spec.kind]||D.objects[spec.kind];if(!shape){request.reason='unsupported-rendered-kind';job.exhausted=true;continue;}
+    const [width,depth]=shape,clearance=Math.max(r.minimumClearance,Math.min(r.maxClearance,r.clearance));
+    const supports=A.supportedWalls(room,plan.walls),start=supports.length?G.hash(seed,p.id,z,ri,spec.kind,'furnishing162')%supports.length:0;
+    let chosen=null,attempts=0;
+    for(let wi=0;wi<supports.length&&!chosen&&attempts<r.maxCandidates;wi++){
+     const support=supports[(wi+start)%supports.length];
+     for(const fraction of fractions(support,room,width,[...obstacles,...added],r)){
+      if(++attempts>r.maxCandidates)break;const pose=A.pose(support,room,width,depth,fraction,clearance);
+      // Room labels inset their rectangles from the real walls. Keep the
+      // centre assigned to that room; the actual wall remains the hard limit.
+      if(!pose||!owns(room,pose)||!within(pose,room,-r.roomEnvelopeTolerance)||!within(pose.front160,room,r.roomMargin))continue;
+      if([...obstacles,...added].some(o=>hit(pose,o,r.collisionGap)||hit(pose.front160,o,r.collisionGap)))continue;
+      if([...oldFronts,...added.map(o=>o.front160)].some(f=>hit(pose,f,r.collisionGap)))continue;
+      const item={...pose,id:p.id+':furnishing162:'+z+':'+ri+':'+spec.kind+':'+request.added,kind:spec.kind,z,solid:true,surface:false,decor157:true,anchored160:true,furnishing162:true,room162:ri,room:room.name,usage162:request.usage,quantitySource162:'derived-capacity-not-author-minimum',utilityConnected162:false};
+      const proposed=[...added,item],audit=Q.accessGrid(p,z,plan,detail,proposed);
+      if(!audit?.baseline||keep.some(i=>!audit.reachable[i]))continue;
+      if(proposed.some(o=>samples(o.front160).some(([x,y])=>{const i=audit.at(x,y);return i<0||!audit.reachable[i];})))continue;
+      chosen=freeze(item);break;
+     }
+    }
+    if(chosen){added.push(chosen);request.added++;request.unplaced--;request.reason=request.unplaced?'capacity-target-partial':'derived-target-present';visited.add(ri);progress=true;}
+    else{request.reason=supports.length?'space-or-access':'no-real-wall-support';job.exhausted=true;}
+   }
+   if(!progress)break;
+  }
+  if(added.length>=budget)for(const request of requests)if(request.unplaced&&request.reason==='space-or-access')request.reason='site-or-floor-capacity';
+  const audit=Q.accessGrid(p,z,plan,detail,added),navigationChecked=!!audit?.baseline&&keep.every(i=>audit.reachable[i])&&added.every(o=>samples(o.front160).every(([x,y])=>{const i=audit.at(x,y);return i>=0&&audit.reachable[i];}));
+  if(!navigationChecked)throw Error('Circulation du complément d’usage invalidée.');
+  return finish(true,null);
+  function finish(navigationChecked,reason){return Object.freeze({...detail,interior:Object.freeze([...detail.interior,...added]),furnishing162:freeze({revision:r.revision,added:added.length,navigationChecked,requests,floorBudget:budget,reason,scope:'derived-usage-not-authored-minima'})});}
+ }
+ return Object.freeze({usage,floorBudget,fronts,samples,enrich});
+});
+
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.DeadwallPower173=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
 
@@ -1040,20 +1155,25 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
  const deps=()=>({R:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),
   G:root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),
   D:root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),
-  Q:root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null)});
+  Q:root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null),
+  X:root.DeadwallCodexContext160||(typeof require==='function'?require('./codex-context160.js'):null),
+  A:root.DeadwallCodexActions159||(typeof require==='function'?require('./world-codex-actions159.js'):null)});
  const cache=new Map();
  function source(id){
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   if(cache.has(id)){const v=cache.get(id);cache.delete(id);cache.set(id,v);return v;}
-  const {R,G,D,Q}=deps(),record=R?.get(id);if(!record)throw Error('Programme absent du Codex.');
-  const d=R.describe(id),t=R.template(id),recipe=!!R.preset('codex3000-'+id.slice(3));
+  const {R,G,D,Q,X,A}=deps(),record=R?.get(id);if(!record)throw Error('Programme absent du Codex.');
+  const d=R.describe(id),historical=R.template(id),contract=X?.get(id),capability=A?.capability(id);
+  const t=contract?{...historical,w:contract.w,h:contract.h,levels:contract.levels,
+   adapted:contract.implementation160?.fullyImplementedReference===false||!contract.profile&&historical.adapted}:historical;
+  const recipe=contract?!!X.preset(X.typeFor(id)):!!R.preset('codex3000-'+id.slice(3));
   const extra=root.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);
   const shapes={...G.SHAPES,...D.objects,...Q.EXTRA_SHAPES,...extra?.SHAPES},specs=d.rooms.flatMap(r=>r.authoredProps);
   const invalid=specs.filter(s=>!quantity(s.quantite_par_espace)||!dimensions(s.gabarit_m));
   const unknown=[...new Set(specs.filter(s=>!Object.hasOwn(shapes,s.asset)).map(s=>s.asset||s.nom||'non identifié'))].sort();
-  const compatible=recipe&&R.enabled(record,{townKind:'grande-ville'}),graph=d.access||[],names=new Set(d.rooms.flatMap(r=>[r.id,r.name]));
+  const compatible=recipe&&(contract?true:capability?.historicalEligible??R.enabled(record,{townKind:'grande-ville'})),graph=d.access||[],names=new Set(d.rooms.flatMap(r=>[r.id,r.name]));
   const axes=[
-   ['programme',compatible?'recipe':'specialized',1,compatible?'La recette doit encore trouver un terrain compatible.':'Terrain, réseau ou architecture spécialisée non matérialisé.'],
+   ['programme',compatible?'recipe':'specialized',1,compatible?(contract?'Plan territorial G10 disponible ; l’implantation exige un terrain et des accès compatibles.':'La recette doit encore trouver un terrain compatible.'):'Terrain, réseau ou architecture spécialisée non matérialisé.'],
    ['plot',t.adapted?'adapted':'described',t.levels.length,'Emprise et niveaux du modèle comparés aux limites auteur.'],
    ['rooms',d.rooms.length?'described':'missing',d.rooms.length,d.rooms.filter(r=>r.exterior).length+' espaces extérieurs source, distincts des pièces couvertes.'],
    ['furniture',invalid.length||unknown.length?'partial':specs.length?'described':'kit',specs.length,invalid.length+' prescriptions incomplètes ; '+unknown.length+' types sans gabarit physique connu.'],
@@ -1065,7 +1185,9 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
    ['representation','uninspected',0,'Choisir une graine et un étage pour examiner les objets réellement produits.']
   ].map(([key,status,count,note])=>({key,label:LABELS[key],status,count,note}));
   const out=freeze({revision:167,id,parent:record.parent,name:record.name,family:record.family,module:record.module||null,state:record.state||null,
-   recipeAvailable:recipe,contextCompatible:compatible,scope:'source-not-live-world',axes,reference:copy(t.reference),
+   recipeAvailable:recipe,contextCompatible:compatible,generation:contract?10:record.extension===158?9:8,
+   historicalRecipeAvailable:!!R.preset('codex3000-'+id.slice(3)),historicalContextCompatible:capability?.historicalEligible??R.enabled(record,{townKind:'grande-ville'}),
+   context160:contract?.context160||null,implementation160:copy(contract?.implementation160),scope:'source-not-live-world',axes,reference:copy(t.reference),
    model:{w:t.w,h:t.h,levels:[...t.levels],adapted:t.adapted},
    sourceGaps:{invalidFurniture:invalid.map(s=>s.nom||s.asset),unmappedKinds:unknown,
     externalOrUnresolvedAccess:[...new Set(graph.flatMap(a=>[a.de,a.vers]).filter(x=>!names.has(x)))]},
@@ -1099,19 +1221,23 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
    }
    const props=specs.map((s,i)=>{
     const req=quantity(s.quantite_par_espace),items=allocations.get(i)||[],minimum=req&&!r.exterior?req[0]*indices.length:null;
-    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.spriteWidth170||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.spriteHeight170||o.h)-s.gabarit_m?.largeur)<.001).length;
+    const footprint=o=>[o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.spriteWidth170||o.w,o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.spriteHeight170||o.h];
+    const exact=items.filter(o=>{const [w,h]=footprint(o);return Math.abs(w-s.gabarit_m?.longueur)<.001&&Math.abs(h-s.gabarit_m?.largeur)<.001;}).length;
     const below=minimum===null?null:Math.max(0,minimum-items.length);
+    const belowExact=minimum===null?null:Math.max(0,minimum-exact),footprints=new Map();
+    for(const o of items){const [w,h]=footprint(o),key=w+'×'+h;if(!footprints.has(key))footprints.set(key,{w,h,count:0});footprints.get(key).count++;}
     if(below>0)issues.push({kind:'furniture',name:r.name+' — '+(s.nom||s.asset),reason:'below-source-minimum',missing:below});
     if(items.length>exact)issues.push({kind:'dimensions',name:r.name+' — '+(s.nom||s.asset),reason:'footprint-differs',count:items.length-exact});
     return {name:s.nom||s.asset,kind:s.asset,sourceRange:copy(req),dimensions:copy(s.gabarit_m),clearance:s.degagement_min_m??null,
      represented:items.length,minimumForModelRooms:minimum,belowMinimum:below,exactFootprintMatches:exact,objectIds:items.map(o=>o.id),
+     actualFootprints:[...footprints.values()],belowExactFootprintMinimum:belowExact,
      unassignedYardCandidates:r.exterior&&z===0?[...(p.outdoor||[]),...detail.outdoor].filter(o=>!o.dressing160&&o.kind===s.asset).map(o=>o.id):[],
      status:r.exterior?'exterior-zone-not-attributed':!indices.length?'room-not-materialized':!req?'quantity-not-specified':below?'below-source-minimum':'count-represented'};
    });
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171','packing173','furnishing162'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
   const complements169=detail.infill169?{
    revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
@@ -1121,10 +1247,12 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
   const gardens171=detail.gardens171?copy(detail.gardens171):null;
-  return freeze({gardens171,stations170,complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  return freeze({gardens171,stations170,complements169,furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
+    furnitureBelowExactFootprintMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowExactFootprintMinimum||0),0),
+    footprintMismatches:rooms.flatMap(r=>r.props).reduce((n,q)=>n+q.represented-q.exactFootprintMatches,0),
     sourceObjects:plan.objects.length,decorativeObjects:detail.interior.length+detail.outdoor.length,
     newLootRecords:[...detail.interior,...detail.outdoor].filter(o=>o.amount!==undefined||o.resource!==undefined).length}});
  }
@@ -1155,11 +1283,14 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
    list.appendChild(el('dt',a.label));list.appendChild(el('dd',(modelAxis?'Modèle inspecté':STATUS[a.status])+' · '+count+' · '+note));
   }host.appendChild(list);
   host.appendChild(el('p','Les occurrences héritées ne sont pas des architectures indépendantes. Un objet du bon type ne prouve ni sa fonction, ni sa hauteur, ni sa présence sur votre carte.'));
-  if(inspected){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source.'));
+  if(inspected){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source. '+t.furnitureBelowExactFootprintMinimum+' minima sans emprise conforme ; '+t.footprintMismatches+' objets aux dimensions adaptées. Les quantités et les dimensions sont contrôlées séparément.'));
    const issues=el('ul'),labels={'not-materialized-on-floor':'espace non matérialisé à cet étage','exterior-simplified-inside-shell':'extérieur encore représenté dans la coque','level-differs-from-source':'niveau différent de la prescription','ambiguous-room-name':'nom ambigu : attribution refusée','below-source-minimum':'quantité sous le minimum auteur','footprint-differs':'dimensions au sol différentes de la source'};
    for(const i of report.issues.slice(0,RULES.displayIssues))issues.appendChild(el('li',i.name+' — '+(labels[i.reason]||i.reason)+(i.missing?' : '+i.missing+' manquant(s)':'')));
    if(report.issues.length>RULES.displayIssues)issues.appendChild(el('li',(report.issues.length-RULES.displayIssues)+' écarts supplémentaires dans le rapport exporté.'));host.appendChild(issues);
+   const measured=report.rooms.flatMap(r=>r.props.filter(p=>p.represented>p.exactFootprintMatches&&p.dimensions).map(p=>({room:r.name,...p}))).slice(0,8);
+   for(const p of measured)host.appendChild(el('p',p.room+' — '+p.name+' : emprise source '+p.dimensions.longueur+' × '+p.dimensions.largeur+' m ; mesurée '+p.actualFootprints.map(f=>f.w+' × '+f.h+' m ('+f.count+')').join(' ; ')+'.'));
   }
+  if(inspected&&report.furnishing162){const f=report.furnishing162;host.appendChild(el('h6','MOBILIER D’USAGE — RÉVISION 11'));host.appendChild(el('p',f.added+' compléments posés selon les usages des pièces et les passages disponibles. Ces compositions ne sont pas des quantités auteur et ne créent ni population, ni stock, ni appareil alimenté.'));}
   if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));
    host.appendChild(el('p',f.interior+' nouveaux objets intérieurs · '+f.outdoor+' nouveaux objets de cour · '+f.zones.length+' zones réservées au sol · '+f.remaining+' compléments non posés. '+f.note));
    const names={'complete':'objectif de placement atteint','already-present':'déjà présent','space-or-access':'place ou accès insuffisants','layer-cap':'limite du plan','baseline-inaccessible':'accès de départ indisponible','requires-building-support':'support technique non matérialisé','unsupported-source-dimensions':'gabarit source non pris en charge','unsupported-source-clearance':'dégagement source non pris en charge','invalid-source-range':'quantité source invalide','duplicate-prescription':'prescription dupliquée','clean-storage-conflict':'réserve propre incompatible'};
@@ -1312,29 +1443,41 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   runtime:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),
   geometry:root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),
   detail:root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),
-  dressing:root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null)
+  dressing:root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null),
+  context:root.DeadwallCodexContext160||(typeof require==='function'?require('./codex-context160.js'):null),
+  contextGeometry:root.DeadwallCodexGeometry160||(typeof require==='function'?require('./codex-geometry160.js'):null)
  };}
+ function modelTemplate(id,seed=0){
+  const {runtime:R,context:X}=dependencies(),historical=R.template(id,seed,'preview-'+id),contract=X?.get(id);
+  return contract?{...historical,w:contract.w,h:contract.h,levels:[...contract.levels],
+   adapted:contract.implementation160?.fullyImplementedReference===false||!contract.profile&&historical.adapted}:historical;
+ }
  function validateSeed(value){
   if(typeof value==='string'&&!/^\d{1,10}$/.test(value.trim()))throw Error('Graine entière requise, entre 0 et 4 294 967 295.');
   if(!['string','number'].includes(typeof value))throw Error('Graine entière requise.');
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5){
-  if(![5,6,7,8,9,10].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9,10,11].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
-  const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S}=dependencies();
+  const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S,context:X,contextGeometry:CG}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
-  const template=R.template(id,seed,'preview-'+id);
+  const contract=X?.get(id),template=modelTemplate(id,seed);
   if(!Number.isInteger(z)||!template.levels.includes(z))throw Error('Niveau absent du programme.');
   // Do not draw an office-shaped surrogate for a port, tunnel or full district.
-  const preset=R.preset('codex3000-'+id.slice(3));
+  const preset=contract?X.preset(X.typeFor(id)):R.preset('codex3000-'+id.slice(3));
   if(!preset)return Object.freeze({id,seed,z,levels:[...template.levels],supported:false,
    reason:'Aucun gabarit de bâtiment disponible pour cet aperçu. Les ouvrages et terrains spécialisés restent à développer.'});
   const p={id:'preview-'+id,type:preset.id,codex:id,programme3000:id,name:programme.name,
-   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:8};
+   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:contract?10:programme.extension===158?9:8,
+   ...(contract?{programme160:id,context160:contract}:{})};
   p.outdoor=G.outdoor(p);p.parking=G.parking(p);
-  const plan=R.floor(id,seed,z,p.id);
-  let details=D.make(seed,p,z,plan,{family:R.detailFamily(programme.family),story:R.programmeProps(programme.state)});
+  if(contract)CG.decorate(p,seed);
+  const plan=contract?CG.plan(p,seed,z):R.floor(id,seed,z,p.id);
+  let details;
+  if(contract)details=CG.details(p,seed,z,detailVersion,plan);
+  else{
+  details=D.make(seed,p,z,plan,{family:R.detailFamily(programme.family),story:R.programmeProps(programme.state)});
   details=R.enrich({seed,p,z,plan,detail:details,programme:id,shapes:D.objects});
   details=R.dress({seed,p,z,plan,detail:details});
   details=R.anchored({seed,p,z,plan,detail:details,programme:id});
@@ -1345,6 +1488,8 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   if(detailVersion>=8)details=R.stations({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=10)details=R.packing({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=11&&programme.extension===158)details=R.furnish({seed,p,z,plan,detail:details,programme:id});
+  }
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
@@ -1353,9 +1498,9 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
     solidDetails:details.interior.filter(o=>o.solid).length,anchoredContents:contents,
     composedGroups:details.ensembles165?.groups?.length||0,composedSeats:(details.ensembles165?.groups||[]).reduce((n,g)=>n+g.seats,0),
     groupUnplaced:(details.ensembles165?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0),
-    exteriorSpacesSimplified:approximated,adapted:template.adapted===true,
+    exteriorSpacesSimplified:approximated,adapted:template.adapted===true,context160:contract?.context160||null,
     quantityUnplaced:(details.quantities164?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0)}),
-   reference:template.reference};
+   reference:template.reference,implementation160:p.context160?.implementation160||null};
  }
  function render(canvas,preview){
   const art=root.DeadwallFrontierArt;
@@ -1385,16 +1530,17 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   const stationLabel=el('label','Compléter ateliers et stockages (révision 8, inclut 6–7)'),stationToggle=el('input');stationToggle.type='checkbox';stationToggle.dataset.stations170='revision';stationToggle.style.width='24px';stationLabel.append(stationToggle);
   const gardenLabel=el('label','Composer les jardins et cours (révision 9, inclut 6–8)'),gardenToggle=el('input');gardenToggle.type='checkbox';gardenToggle.dataset.gardens171='revision';gardenToggle.style.width='24px';gardenLabel.append(gardenToggle);
   const packLabel=el('label','Compléter les travées intérieures (révision 10)'),packToggle=el('input');packToggle.type='checkbox';packToggle.dataset.packing173='revision';packToggle.style.width='24px';packLabel.append(packToggle);
+  const contextLabel=el('label','Compléter les intérieurs et leur mobilier d’usage (révision 11)'),contextToggle=el('input');contextToggle.type='checkbox';contextToggle.dataset.furnishing162='revision';contextToggle.style.width='24px';contextLabel.append(contextToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
-  try{for(const z of dependencies().runtime.template(id,0,'preview-'+id).levels){const option=el('option',z===0?'Rez-de-chaussée':z<0?'Sous-sol '+Math.abs(z):'Étage '+z);option.value=String(z);floor.append(option);}floor.value='0';}
+  try{for(const z of modelTemplate(id).levels){const option=el('option',z===0?'Rez-de-chaussée':z<0?'Sous-sol '+Math.abs(z):'Étage '+z);option.value=String(z);floor.append(option);}floor.value='0';}
   catch(e){show.disabled=true;status.textContent=e.message;}
   const coverage=el('div');coverage.className='codex-coverage167';
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
-    const preview=inspect(id,seed.value,Number(floor.value),packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
+    const preview=inspect(id,seed.value,Number(floor.value),contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
     if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
     if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
     canvas.width=RULES.width;canvas.height=RULES.height;
@@ -1407,6 +1553,8 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
      +(preview.details.infill169?' '+preview.details.infill169.added+' compléments de pièces et cours ; '+preview.details.infill169.zones.length+' zones de placement extérieures. Aucun jardin natif complet garanti.':'')
      +(preview.details.stations170?' '+preview.details.stations170.added+' machines, palettes ou caisses placées ; zones de service libres, appareils non alimentés.':'')
      +(preview.details.gardens171?' '+preview.details.gardens171.added+' équipements de jardin placés ; composition par zones et chemins préservés, sans nouveau butin.':'')
+     +(preview.details.furnishing162?' '+preview.details.furnishing162.added+' compléments de mobilier selon l’usage des pièces ; ce sont des choix de composition, pas des minima auteur.':'')
+     +(preview.implementation160?.text?' '+preview.implementation160.text:'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
      +(s.exteriorSpacesSimplified.length?' Extérieurs source encore simplifiés : '+s.exteriorSpacesSimplified.join(', ')+'.':'');
     canvas.hidden=false;visible=true;show.textContent='ACTUALISER LE PLAN';
@@ -1415,9 +1563,9 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
-  const syncRevisions=()=>{gardenToggle.disabled=packToggle.checked;stationToggle.disabled=packToggle.checked||gardenToggle.checked;yardToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked;fillToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
-  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);packToggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  const syncRevisions=()=>{packToggle.disabled=contextToggle.checked;gardenToggle.disabled=contextToggle.checked||packToggle.checked;stationToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked;yardToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked||stationToggle.checked;fillToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
+  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);packToggle.addEventListener('change',syncRevisions);contextToggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

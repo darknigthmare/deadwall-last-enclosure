@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const MAX_FILES = 2048;
 const MAX_REPORT_BYTES = 1024 * 1024;
 const MAX_FAILURES = 24;
+const MAX_NATIVE_LOG_BYTES = 2 * 1024 * 1024;
 
 /** CI annotations contain diagnostic text only, never report bodies or signed URLs. */
 export function safeDiagnosticText(value, limit = 480) {
@@ -69,7 +70,46 @@ export function reportFailures(report, source = 'report.json') {
   return failures.slice(0, MAX_FAILURES);
 }
 
-/** Read only bounded JSON reports inside the QA directory; do not follow links. */
+const nativeText = (value, limit = 260) => safeDiagnosticText(value, limit * 2)
+  .replace(/(^|[\s(])(?:[A-Za-z]:[\\/]|\/)[^\s)]+/g, '$1[path removed]')
+  .slice(0, limit);
+
+/** Diagnostic only: extract real spec/TAP failures, never infer test success. */
+export function nativeLogFailures(value, source = 'ci-native160.log') {
+  const text = String(value ?? '').slice(-MAX_NATIVE_LOG_BYTES).replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, '');
+  const records = []; let current = null, pendingLocation = '';
+  for (const line of text.split(/\r?\n/)) {
+    if (/^test at /.test(line)) {
+      pendingLocation = sourceFrame({failure:line}); current = null; continue;
+    }
+    const failure = /^\s*✖\s+(.+?)\s+\(\d+(?:\.\d+)?(?:ms|s)\)\s*$/.exec(line)
+      || /^\s*not ok \d+(?:\s+-\s+(.+))?\s*$/.exec(line);
+    if (failure) {
+      const name = nativeText(failure[1] || 'Unnamed native test failed');
+      current = records.find(record => record.name === name && (!pendingLocation || !record.location || record.location === pendingLocation));
+      if (!current && records.length < MAX_FAILURES) { current = {name, location:''}; records.push(current); }
+      if (current && pendingLocation) current.location ||= pendingLocation;
+      pendingLocation = ''; continue;
+    }
+    if (/^\s*(?:✔|ℹ|ok \d+\b|# Subtest:)/.test(line)) current = null;
+    if (current && !current.location && /(?:scripts|tests|desktop)[\\/]/.test(line)) {
+      current.location = sourceFrame({failure:line.replace(/["']\s*$/, '')});
+    }
+  }
+  return records.map(record => ({source:nativeText(source,160), profile:'native tests',
+    message:safeDiagnosticText('Failed native test: '+record.name+(record.location?' — at '+record.location:''))}));
+}
+
+function boundedNativeLog(filename, size) {
+  const start = Math.max(0, size - MAX_NATIVE_LOG_BYTES), buffer = Buffer.alloc(Math.min(size, MAX_NATIVE_LOG_BYTES));
+  const descriptor = fs.openSync(filename,'r'); let used = 0;
+  try { while (used < buffer.length) { const read = fs.readSync(descriptor,buffer,used,buffer.length-used,start+used); if (!read) break; used += read; } }
+  finally { fs.closeSync(descriptor); }
+  const text = buffer.subarray(0,used).toString('utf8');
+  return start ? text.slice(text.indexOf('\n') + 1) : text;
+}
+
+/** Read bounded JSON and the exact native CI log inside QA; do not follow links. */
 export function collectFailureSummaries(directory) {
   const root = path.resolve(directory), failures = [], warnings = [];
   let inspected = 0;
@@ -80,8 +120,17 @@ export function collectFailureSummaries(directory) {
       const filename = path.join(current, item.name);
       if (item.isSymbolicLink()) continue;
       if (item.isDirectory()) { visit(filename); continue; }
-      if (!item.isFile() || !/(?:^|[-_])(?:report|summary|failure)\.json$/.test(item.name)) continue;
+      if (!item.isFile()) continue;
       const relative = path.relative(root, filename);
+      if (item.name === 'ci-native160.log') {
+        try {
+          const size = fs.statSync(filename).size;
+          if (size > MAX_NATIVE_LOG_BYTES) warnings.push('Native failure diagnostics read only the last '+MAX_NATIVE_LOG_BYTES+' bytes: '+nativeText(relative,160));
+          failures.push(...nativeLogFailures(boundedNativeLog(filename,size),relative).slice(0,MAX_FAILURES-failures.length));
+        } catch { warnings.push('Unreadable native QA log: '+nativeText(relative,160)); }
+        continue;
+      }
+      if (!/(?:^|[-_])(?:report|summary|failure)\.json$/.test(item.name)) continue;
       if (fs.statSync(filename).size > MAX_REPORT_BYTES) {
         warnings.push('Skipped oversized QA report: ' + safeDiagnosticText(relative, 160));
         continue;

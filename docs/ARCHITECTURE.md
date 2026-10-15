@@ -1,5 +1,11 @@
 # Architecture technique
 
+## Mobilier et inspection des plans — 1.62
+
+La révision optionnelle `frontier.detailVersion=11` conserve les révisions 0–10. `codex-geometry160.details` partage la génération des détails des 326 intérieurs G10 entre le monde et l’inspecteur ; les 300 terrains spécialisés gardent leur géométrie propre. Les réserves de placement protègent les obstacles et points de service du contexte sans modifier le plan ou ses contenants.
+
+`codex-furnishing162.js` compose du mobilier d’usage pour les programmes indépendants, après les couches existantes. Le compilateur l’intègre au même paquet de données ; ses règles bornées sont dans `core.js`. `world-pack131` conserve la transaction d’activation au dépôt et ses vérifications des possessions. `codex-coverage167` utilise les capacités G10 réelles et sépare quantités par type et emprises conformes. Voir [LIVRAISON_1_62.md](LIVRAISON_1_62.md).
+
 ## Contextes physiques et services — 1.60
 
 `codex-3000/addendum-1.60/CONTRATS.json` conserve les 626 identifiants exclus en 1.59, leurs parents et les limites de leurs adaptations. `compile-codex-context160.mjs` produit `codex-context160-data.js` ; `codex-context160.js` fournit des lectures pures des contrats. Les 300 programmes sans preset reprennent l'emprise minimale auteur ; les 326 plans intérieurs existants gardent leurs dimensions et niveaux. `codex-geometry160.js` ajoute leurs sols, volumes, passages, obstacles et points de travail en utilisant les règles de `core.js`.

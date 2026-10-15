@@ -43,8 +43,9 @@ try{
    await canvas.scrollIntoViewIfNeeded();await screenshot('recipe-plan');check('No horizontal document overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    check('All inspection controls leave the persisted campaign and RNG untouched',before===await stamp(page));
    await page.locator('#worldCodexSearch').fill('DW-0300');const unsupported=page.locator('[data-codex-id="programme-DW-0300"]');await unsupported.getByText('Accès, ressources et précautions',{exact:true}).click();const unavailable=unsupported.locator('[data-codex-plan165]');await unavailable.waitFor();await unavailable.getByRole('button').click();
-   check('Specialized unsupported sites never receive an invented building',!await unavailable.locator('canvas').isVisible()&&/spécialisés/.test(await unavailable.innerText()));
-   check('Unsupported inspection also preserves the campaign',before===await stamp(page));
+   await unavailable.locator('canvas').waitFor({state:'visible'});
+   check('The specialized G10 programme shows its real railway plan',await page.evaluate(()=>{const p=DeadwallCodexPlan165.inspect('DW-0300',42);return p.supported&&p.p.programme160==='DW-0300'&&p.p.context160.mode==='open'&&p.plan.terrain160.some(t=>t.kind==='rail');}));
+   check('G10 inspection also preserves the campaign',before===await stamp(page));
    check('No browser or asset errors',errors()===0);result.pass=true;
   }catch(error){result.pass=false;result.failure=error.stack;await screenshot('failure').catch(()=>{});}
   finally{await context.close();console.log(JSON.stringify({viewport,pass:result.pass,checks:result.checks.length,failure:result.failure?.split('\n')[0]}));}

@@ -1,4 +1,6 @@
-# DEADWALL 1.61.0 — Codex détaillé et citadelle verticale
+# DEADWALL 1.62.0 — Codex, mobilier et cohérence des plans
+
+Cette version ajoute la révision de mobilier 11, les vrais aperçus G10 et les contrôles de dimensions. Activation et limites : [LIVRAISON_1_62.md](docs/LIVRAISON_1_62.md).
 
 Cette version réunit les prescriptions du Codex, leurs compléments de mobilier et jardins, la calibration des véhicules et les fortifications verticales avec passerelles, équipements et personnel. Les 4 000 programmes, les territoires G10 et leurs services restent disponibles. Les compléments de détail sont activables au dépôt de D-17 ; ils conservent les découvertes et les ressources déjà prélevées.
 

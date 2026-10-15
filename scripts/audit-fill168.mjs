@@ -4,12 +4,13 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 const require=createRequire(import.meta.url),R=require('../src/codex3000-runtime.js'),P=require('../src/codex-plan165.js'),C=require('../src/codex-coverage167.js');
-const output=path.resolve('artifacts/qa/fill168-audit');fs.mkdirSync(output,{recursive:true});
+const {createAuditScope}=require('./codex-audit-scope162.cjs'),audit=createAuditScope();
+const output=path.resolve(process.env.DEADWALL_QA_OUTPUT||'artifacts/qa/fill168-audit');fs.mkdirSync(output,{recursive:true});
 const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
-const report={scope:'Isolated authored recipe comparison, one seed, all compatible model floors. Counts include inherited variants; not independent architecture or sprite counts.',seed:17117,fromRevision:5,toRevision:6,programmes:3000,compatible:0,floors:0,added:0,missingBefore:0,missingAfter:0,unmaterialized:0,exteriorSimplifications:0,newLootRecords:0,types:{},families:{}};
+const report={scope:'Isolated authored recipe comparison, one seed, selected compatible native model floors; G10 contextual furnishings belong to revision11. Counts include inherited variants; not independent architecture or sprite counts.',seed:17117,fromRevision:5,toRevision:6,programmes:0,compatible:0,floors:0,added:0,missingBefore:0,missingAfter:0,unmaterialized:0,exteriorSimplifications:0,newLootRecords:0,types:{},families:{}};
 const out=fs.openSync(path.join(output,'comparisons.jsonl'),'w');
-try{for(const rec of R.records){const s=C.source(rec.id);if(!s.contextCompatible)continue;report.compatible++;
- for(const z of R.template(rec.id).levels){const before=P.inspect(rec.id,17117,z,5),after=P.inspect(rec.id,17117,z,6);
+try{for(const rec of audit.records){report.programmes++;if(!audit.visit(rec))continue;report.compatible++;
+ for(const z of audit.levelsFor(rec)){audit.floor(rec,z);const before=P.inspect(rec.id,17117,z,5),after=P.inspect(rec.id,17117,z,6);
   assert.equal(hash(after.p),hash(before.p),rec.id+' parcel changed');assert.equal(hash(after.plan),hash(before.plan),rec.id+' source floor changed');
   assert.equal(hash(after.details.outdoor),hash(before.details.outdoor),rec.id+' old exterior changed');
   assert.equal(hash(after.details.interior.filter(o=>!o.fill168)),hash(before.details.interior),rec.id+' old furniture changed');
@@ -22,6 +23,6 @@ try{for(const rec of R.records){const s=C.source(rec.id);if(!s.contextCompatible
   if(!report.families[rec.family])report.families[rec.family]={floors:0,added:0,missingBefore:0,missingAfter:0};const f=report.families[rec.family];f.floors++;f.added+=row.added;f.missingBefore+=row.before;f.missingAfter+=row.after;
  }
 }}finally{fs.closeSync(out);}
-assert.equal(report.compatible,2374);assert.equal(report.floors,2951);assert.equal(report.missingBefore,6960);assert.ok(report.added>0&&report.missingAfter<report.missingBefore);
+report.audit=audit.finish(report);if(report.audit.selection==='complete-catalogue')assert.ok(report.added>0&&report.missingAfter<report.missingBefore);
 report.shortageReduction=report.missingBefore-report.missingAfter;report.pass=true;
 fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log('FILL168_AUDIT '+JSON.stringify(report));

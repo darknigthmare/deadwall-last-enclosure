@@ -9,29 +9,41 @@
   runtime:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),
   geometry:root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),
   detail:root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),
-  dressing:root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null)
+  dressing:root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null),
+  context:root.DeadwallCodexContext160||(typeof require==='function'?require('./codex-context160.js'):null),
+  contextGeometry:root.DeadwallCodexGeometry160||(typeof require==='function'?require('./codex-geometry160.js'):null)
  };}
+ function modelTemplate(id,seed=0){
+  const {runtime:R,context:X}=dependencies(),historical=R.template(id,seed,'preview-'+id),contract=X?.get(id);
+  return contract?{...historical,w:contract.w,h:contract.h,levels:[...contract.levels],
+   adapted:contract.implementation160?.fullyImplementedReference===false||!contract.profile&&historical.adapted}:historical;
+ }
  function validateSeed(value){
   if(typeof value==='string'&&!/^\d{1,10}$/.test(value.trim()))throw Error('Graine entière requise, entre 0 et 4 294 967 295.');
   if(!['string','number'].includes(typeof value))throw Error('Graine entière requise.');
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5){
-  if(![5,6,7,8,9,10].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9,10,11].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
-  const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S}=dependencies();
+  const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S,context:X,contextGeometry:CG}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
-  const template=R.template(id,seed,'preview-'+id);
+  const contract=X?.get(id),template=modelTemplate(id,seed);
   if(!Number.isInteger(z)||!template.levels.includes(z))throw Error('Niveau absent du programme.');
   // Do not draw an office-shaped surrogate for a port, tunnel or full district.
-  const preset=R.preset('codex3000-'+id.slice(3));
+  const preset=contract?X.preset(X.typeFor(id)):R.preset('codex3000-'+id.slice(3));
   if(!preset)return Object.freeze({id,seed,z,levels:[...template.levels],supported:false,
    reason:'Aucun gabarit de bâtiment disponible pour cet aperçu. Les ouvrages et terrains spécialisés restent à développer.'});
   const p={id:'preview-'+id,type:preset.id,codex:id,programme3000:id,name:programme.name,
-   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:8};
+   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:contract?10:programme.extension===158?9:8,
+   ...(contract?{programme160:id,context160:contract}:{})};
   p.outdoor=G.outdoor(p);p.parking=G.parking(p);
-  const plan=R.floor(id,seed,z,p.id);
-  let details=D.make(seed,p,z,plan,{family:R.detailFamily(programme.family),story:R.programmeProps(programme.state)});
+  if(contract)CG.decorate(p,seed);
+  const plan=contract?CG.plan(p,seed,z):R.floor(id,seed,z,p.id);
+  let details;
+  if(contract)details=CG.details(p,seed,z,detailVersion,plan);
+  else{
+  details=D.make(seed,p,z,plan,{family:R.detailFamily(programme.family),story:R.programmeProps(programme.state)});
   details=R.enrich({seed,p,z,plan,detail:details,programme:id,shapes:D.objects});
   details=R.dress({seed,p,z,plan,detail:details});
   details=R.anchored({seed,p,z,plan,detail:details,programme:id});
@@ -42,6 +54,8 @@
   if(detailVersion>=8)details=R.stations({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=10)details=R.packing({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=11&&programme.extension===158)details=R.furnish({seed,p,z,plan,detail:details,programme:id});
+  }
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
@@ -50,9 +64,9 @@
     solidDetails:details.interior.filter(o=>o.solid).length,anchoredContents:contents,
     composedGroups:details.ensembles165?.groups?.length||0,composedSeats:(details.ensembles165?.groups||[]).reduce((n,g)=>n+g.seats,0),
     groupUnplaced:(details.ensembles165?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0),
-    exteriorSpacesSimplified:approximated,adapted:template.adapted===true,
+    exteriorSpacesSimplified:approximated,adapted:template.adapted===true,context160:contract?.context160||null,
     quantityUnplaced:(details.quantities164?.requests||[]).reduce((n,r)=>n+(r.unplaced||0),0)}),
-   reference:template.reference};
+   reference:template.reference,implementation160:p.context160?.implementation160||null};
  }
  function render(canvas,preview){
   const art=root.DeadwallFrontierArt;
@@ -82,16 +96,17 @@
   const stationLabel=el('label','Compléter ateliers et stockages (révision 8, inclut 6–7)'),stationToggle=el('input');stationToggle.type='checkbox';stationToggle.dataset.stations170='revision';stationToggle.style.width='24px';stationLabel.append(stationToggle);
   const gardenLabel=el('label','Composer les jardins et cours (révision 9, inclut 6–8)'),gardenToggle=el('input');gardenToggle.type='checkbox';gardenToggle.dataset.gardens171='revision';gardenToggle.style.width='24px';gardenLabel.append(gardenToggle);
   const packLabel=el('label','Compléter les travées intérieures (révision 10)'),packToggle=el('input');packToggle.type='checkbox';packToggle.dataset.packing173='revision';packToggle.style.width='24px';packLabel.append(packToggle);
+  const contextLabel=el('label','Compléter les intérieurs et leur mobilier d’usage (révision 11)'),contextToggle=el('input');contextToggle.type='checkbox';contextToggle.dataset.furnishing162='revision';contextToggle.style.width='24px';contextLabel.append(contextToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
-  try{for(const z of dependencies().runtime.template(id,0,'preview-'+id).levels){const option=el('option',z===0?'Rez-de-chaussée':z<0?'Sous-sol '+Math.abs(z):'Étage '+z);option.value=String(z);floor.append(option);}floor.value='0';}
+  try{for(const z of modelTemplate(id).levels){const option=el('option',z===0?'Rez-de-chaussée':z<0?'Sous-sol '+Math.abs(z):'Étage '+z);option.value=String(z);floor.append(option);}floor.value='0';}
   catch(e){show.disabled=true;status.textContent=e.message;}
   const coverage=el('div');coverage.className='codex-coverage167';
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
-    const preview=inspect(id,seed.value,Number(floor.value),packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
+    const preview=inspect(id,seed.value,Number(floor.value),contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
     if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
     if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
     canvas.width=RULES.width;canvas.height=RULES.height;
@@ -104,6 +119,8 @@
      +(preview.details.infill169?' '+preview.details.infill169.added+' compléments de pièces et cours ; '+preview.details.infill169.zones.length+' zones de placement extérieures. Aucun jardin natif complet garanti.':'')
      +(preview.details.stations170?' '+preview.details.stations170.added+' machines, palettes ou caisses placées ; zones de service libres, appareils non alimentés.':'')
      +(preview.details.gardens171?' '+preview.details.gardens171.added+' équipements de jardin placés ; composition par zones et chemins préservés, sans nouveau butin.':'')
+     +(preview.details.furnishing162?' '+preview.details.furnishing162.added+' compléments de mobilier selon l’usage des pièces ; ce sont des choix de composition, pas des minima auteur.':'')
+     +(preview.implementation160?.text?' '+preview.implementation160.text:'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
      +(s.exteriorSpacesSimplified.length?' Extérieurs source encore simplifiés : '+s.exteriorSpacesSimplified.join(', ')+'.':'');
     canvas.hidden=false;visible=true;show.textContent='ACTUALISER LE PLAN';
@@ -112,9 +129,9 @@
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
-  const syncRevisions=()=>{gardenToggle.disabled=packToggle.checked;stationToggle.disabled=packToggle.checked||gardenToggle.checked;yardToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked;fillToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
-  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);packToggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  const syncRevisions=()=>{packToggle.disabled=contextToggle.checked;gardenToggle.disabled=contextToggle.checked||packToggle.checked;stationToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked;yardToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked||stationToggle.checked;fillToggle.disabled=contextToggle.checked||packToggle.checked||gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
+  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);packToggle.addEventListener('change',syncRevisions);contextToggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

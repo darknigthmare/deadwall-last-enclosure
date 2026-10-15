@@ -315,10 +315,37 @@
   }
   return result;
  }
+ // Revision11 adds only non-loot furnishing to the326 preserved interiors.
+ // Terrain and work faces constrain placement without becoming real plan walls.
+ function details(p,seed,z=0,detailVersion=0,sourcePlan=plan(p,seed,z)){
+  const card=contractFor(p),programme=R.get(p.programme160||p.codex);
+  const empty={interior:[],outdoor:[],variant:p.context160?.archetype||null,programme3000:p.programme160,
+   programmeState:programme?.state||null,context160:sourcePlan};
+  if(detailVersion<11||card?.profile)return empty;
+  const D=root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null);
+  if(!D||!programme)throw Error('Programme ou mobilier160 absent');
+  const reserved=rects(sourcePlan).map(o=>({...o}));
+  for(const operation of sourcePlan.operations160||[]){
+   const anchor=operation.anchor,support=[...sourcePlan.objects,...sourcePlan.visuals160,...sourcePlan.movement160,...sourcePlan.gates160].find(o=>o.id===operation.supportId);
+   const target=support?{x:support.x+support.w/2,y:support.y+support.h/2}:anchor,pad=rules().terrainClearance;
+   reserved.push({x:Math.min(anchor.x,target.x)-pad,y:Math.min(anchor.y,target.y)-pad,
+    w:Math.abs(anchor.x-target.x)+2*pad,h:Math.abs(anchor.y-target.y)+2*pad});
+  }
+  const barriers=reserved.map((o,index)=>({...o,id:p.id+':reserved-furnishing162:'+index,kind:'reserved-context162',solid:true,placementOnly162:true}));
+  const placementPlan={...sourcePlan,walls:[...sourcePlan.walls,...barriers]},args={seed,p,z,plan:sourcePlan,programme:programme.id,shapes:D.objects};
+  let value=D.make(seed,p,z,placementPlan,{story:R.programmeProps(programme.state),family:R.detailFamily(programme.family)});
+  // Keep synthetic barriers out of wall support selection and cosmetic painting.
+  value={...value,interior:[...value.interior,...barriers],outdoor:value.outdoor.filter(o=>!reserved.some(barrier=>hit(o,barrier)))};
+  value=R.enrich({...args,detail:value});value=R.dress({...args,detail:value});
+  for(const layer of ['anchored','quantities','ensembles','fill','infill','stations','gardens','packing'])value=R[layer]({...args,detail:value});
+  const interior=Object.freeze(value.interior.filter(o=>!o.placementOnly162)),outdoor=Object.freeze(value.outdoor.filter(o=>!o.placementOnly162));
+  const colliders160=Object.freeze({interior:Object.freeze(interior.filter(o=>o.solid)),outdoor:Object.freeze(outdoor.filter(o=>o.solid))});
+  return Object.freeze({...value,interior,outdoor,colliders160,programme3000:programme.id,programmeState:programme.state||null,context160:sourcePlan});
+ }
  function decorate(p,seed){
   const contract=contractFor(p),ground=plan(p,seed,0);
   p.context160={...contract,operations:ground.operations160,service:ground.service160||null,
-   implementation160:ground.adaptation160||contract.implementation160||{scope:'physical-ground-context-and-finite-parent-budget',fullyImplementedReference:false}};
+   implementation160:{...(contract.implementation160||{scope:'physical-ground-context-and-finite-parent-budget',fullyImplementedReference:false}),...(ground.adaptation160||{})}};
   return p;
  }
  function populate({seed,roads,install,contracts,biomes,sectors,spawn,home}){
@@ -345,5 +372,5 @@
   }
   return Object.freeze({generation:10,eligible:contracts.records.length,placed,rejected,unsupported:0,programmeCount:626,missing:Object.freeze(missing)});
  }
- return Object.freeze({plan,decorate,populate,terrainMovement,optical,rects,rules});
+ return Object.freeze({plan,details,decorate,populate,terrainMovement,optical,rects,rules});
 });

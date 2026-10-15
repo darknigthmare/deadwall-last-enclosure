@@ -10,6 +10,7 @@
  const Recipes159=globalThis.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null);
  const Anchors160=globalThis.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null);
  const search160=new Map();
+ let furnishing162=null;
  const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map(),legacyByFamily=new Map();
  const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;};
  for(const r of rows){const p=Object.freeze({id:'DW-'+String(r[0]).padStart(4,'0'),name:r[1],family:r[2],
@@ -290,8 +291,9 @@
  function gardens(options){const api=globalThis.DeadwallCodexGardens171||(typeof require==='function'?require('./codex-gardens171.js'):null),D=globalThis.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),description=describe(options.programme||options.p.codex);if(!api||!D)throw Error('Jardins composés non chargés');return api.enrich({...options,description,geometry:G,recipes:Recipes159,shapes:{...D.objects,...Recipes159.EXTRA_SHAPES},family:detailFamily(description.family)});}
  function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function packing(options){const api=globalThis.DeadwallCodexPacking173||(typeof require==='function'?require('./codex-packing173.js'):null);if(!api)throw Error('Travées intérieures non chargées');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function furnish(options){const api=globalThis.DeadwallCodexFurnishing162||(furnishing162||(furnishing162=typeof require==='function'?require('./codex-furnishing162.js'):null));if(!api)throw Error('Compléments d’usage non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
- return Object.freeze({packing,get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
+ return Object.freeze({packing,furnish,get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
   records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,infill,stations,gardens,searchDocument});
 });

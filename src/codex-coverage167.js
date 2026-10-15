@@ -14,20 +14,25 @@
  const deps=()=>({R:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),
   G:root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),
   D:root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),
-  Q:root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null)});
+  Q:root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null),
+  X:root.DeadwallCodexContext160||(typeof require==='function'?require('./codex-context160.js'):null),
+  A:root.DeadwallCodexActions159||(typeof require==='function'?require('./world-codex-actions159.js'):null)});
  const cache=new Map();
  function source(id){
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   if(cache.has(id)){const v=cache.get(id);cache.delete(id);cache.set(id,v);return v;}
-  const {R,G,D,Q}=deps(),record=R?.get(id);if(!record)throw Error('Programme absent du Codex.');
-  const d=R.describe(id),t=R.template(id),recipe=!!R.preset('codex3000-'+id.slice(3));
+  const {R,G,D,Q,X,A}=deps(),record=R?.get(id);if(!record)throw Error('Programme absent du Codex.');
+  const d=R.describe(id),historical=R.template(id),contract=X?.get(id),capability=A?.capability(id);
+  const t=contract?{...historical,w:contract.w,h:contract.h,levels:contract.levels,
+   adapted:contract.implementation160?.fullyImplementedReference===false||!contract.profile&&historical.adapted}:historical;
+  const recipe=contract?!!X.preset(X.typeFor(id)):!!R.preset('codex3000-'+id.slice(3));
   const extra=root.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);
   const shapes={...G.SHAPES,...D.objects,...Q.EXTRA_SHAPES,...extra?.SHAPES},specs=d.rooms.flatMap(r=>r.authoredProps);
   const invalid=specs.filter(s=>!quantity(s.quantite_par_espace)||!dimensions(s.gabarit_m));
   const unknown=[...new Set(specs.filter(s=>!Object.hasOwn(shapes,s.asset)).map(s=>s.asset||s.nom||'non identifié'))].sort();
-  const compatible=recipe&&R.enabled(record,{townKind:'grande-ville'}),graph=d.access||[],names=new Set(d.rooms.flatMap(r=>[r.id,r.name]));
+  const compatible=recipe&&(contract?true:capability?.historicalEligible??R.enabled(record,{townKind:'grande-ville'})),graph=d.access||[],names=new Set(d.rooms.flatMap(r=>[r.id,r.name]));
   const axes=[
-   ['programme',compatible?'recipe':'specialized',1,compatible?'La recette doit encore trouver un terrain compatible.':'Terrain, réseau ou architecture spécialisée non matérialisé.'],
+   ['programme',compatible?'recipe':'specialized',1,compatible?(contract?'Plan territorial G10 disponible ; l’implantation exige un terrain et des accès compatibles.':'La recette doit encore trouver un terrain compatible.'):'Terrain, réseau ou architecture spécialisée non matérialisé.'],
    ['plot',t.adapted?'adapted':'described',t.levels.length,'Emprise et niveaux du modèle comparés aux limites auteur.'],
    ['rooms',d.rooms.length?'described':'missing',d.rooms.length,d.rooms.filter(r=>r.exterior).length+' espaces extérieurs source, distincts des pièces couvertes.'],
    ['furniture',invalid.length||unknown.length?'partial':specs.length?'described':'kit',specs.length,invalid.length+' prescriptions incomplètes ; '+unknown.length+' types sans gabarit physique connu.'],
@@ -39,7 +44,9 @@
    ['representation','uninspected',0,'Choisir une graine et un étage pour examiner les objets réellement produits.']
   ].map(([key,status,count,note])=>({key,label:LABELS[key],status,count,note}));
   const out=freeze({revision:167,id,parent:record.parent,name:record.name,family:record.family,module:record.module||null,state:record.state||null,
-   recipeAvailable:recipe,contextCompatible:compatible,scope:'source-not-live-world',axes,reference:copy(t.reference),
+   recipeAvailable:recipe,contextCompatible:compatible,generation:contract?10:record.extension===158?9:8,
+   historicalRecipeAvailable:!!R.preset('codex3000-'+id.slice(3)),historicalContextCompatible:capability?.historicalEligible??R.enabled(record,{townKind:'grande-ville'}),
+   context160:contract?.context160||null,implementation160:copy(contract?.implementation160),scope:'source-not-live-world',axes,reference:copy(t.reference),
    model:{w:t.w,h:t.h,levels:[...t.levels],adapted:t.adapted},
    sourceGaps:{invalidFurniture:invalid.map(s=>s.nom||s.asset),unmappedKinds:unknown,
     externalOrUnresolvedAccess:[...new Set(graph.flatMap(a=>[a.de,a.vers]).filter(x=>!names.has(x)))]},
@@ -73,19 +80,23 @@
    }
    const props=specs.map((s,i)=>{
     const req=quantity(s.quantite_par_espace),items=allocations.get(i)||[],minimum=req&&!r.exterior?req[0]*indices.length:null;
-    const exact=items.filter(o=>Math.abs((o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.spriteWidth170||o.w)-s.gabarit_m?.longueur)<.001&&Math.abs((o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.spriteHeight170||o.h)-s.gabarit_m?.largeur)<.001).length;
+    const footprint=o=>[o.spriteWidth160||o.spriteWidth165||o.spriteWidth169||o.spriteWidth170||o.w,o.spriteHeight160||o.spriteHeight165||o.spriteHeight169||o.spriteHeight170||o.h];
+    const exact=items.filter(o=>{const [w,h]=footprint(o);return Math.abs(w-s.gabarit_m?.longueur)<.001&&Math.abs(h-s.gabarit_m?.largeur)<.001;}).length;
     const below=minimum===null?null:Math.max(0,minimum-items.length);
+    const belowExact=minimum===null?null:Math.max(0,minimum-exact),footprints=new Map();
+    for(const o of items){const [w,h]=footprint(o),key=w+'×'+h;if(!footprints.has(key))footprints.set(key,{w,h,count:0});footprints.get(key).count++;}
     if(below>0)issues.push({kind:'furniture',name:r.name+' — '+(s.nom||s.asset),reason:'below-source-minimum',missing:below});
     if(items.length>exact)issues.push({kind:'dimensions',name:r.name+' — '+(s.nom||s.asset),reason:'footprint-differs',count:items.length-exact});
     return {name:s.nom||s.asset,kind:s.asset,sourceRange:copy(req),dimensions:copy(s.gabarit_m),clearance:s.degagement_min_m??null,
      represented:items.length,minimumForModelRooms:minimum,belowMinimum:below,exactFootprintMatches:exact,objectIds:items.map(o=>o.id),
+     actualFootprints:[...footprints.values()],belowExactFootprintMinimum:belowExact,
      unassignedYardCandidates:r.exterior&&z===0?[...(p.outdoor||[]),...detail.outdoor].filter(o=>!o.dressing160&&o.kind===s.asset).map(o=>o.id):[],
      status:r.exterior?'exterior-zone-not-attributed':!indices.length?'room-not-materialized':!req?'quantity-not-specified':below?'below-source-minimum':'count-represented'};
    });
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171','packing173','furnishing162'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
   const complements169=detail.infill169?{
    revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
@@ -95,10 +106,12 @@
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
   const gardens171=detail.gardens171?copy(detail.gardens171):null;
-  return freeze({gardens171,stations170,complements169,source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  return freeze({gardens171,stations170,complements169,furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
+    furnitureBelowExactFootprintMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowExactFootprintMinimum||0),0),
+    footprintMismatches:rooms.flatMap(r=>r.props).reduce((n,q)=>n+q.represented-q.exactFootprintMatches,0),
     sourceObjects:plan.objects.length,decorativeObjects:detail.interior.length+detail.outdoor.length,
     newLootRecords:[...detail.interior,...detail.outdoor].filter(o=>o.amount!==undefined||o.resource!==undefined).length}});
  }
@@ -129,11 +142,14 @@
    list.appendChild(el('dt',a.label));list.appendChild(el('dd',(modelAxis?'Modèle inspecté':STATUS[a.status])+' · '+count+' · '+note));
   }host.appendChild(list);
   host.appendChild(el('p','Les occurrences héritées ne sont pas des architectures indépendantes. Un objet du bon type ne prouve ni sa fonction, ni sa hauteur, ni sa présence sur votre carte.'));
-  if(inspected){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source.'));
+  if(inspected){const t=report.totals;host.appendChild(el('p',t.representedRooms+' espaces source rapprochés du plan · '+t.unmaterialized+' absents de cet étage · '+t.exteriorSimplifications+' extérieurs encore simplifiés dans la coque · '+t.furnitureBelowMinimum+' meubles sous le minimum source. '+t.furnitureBelowExactFootprintMinimum+' minima sans emprise conforme ; '+t.footprintMismatches+' objets aux dimensions adaptées. Les quantités et les dimensions sont contrôlées séparément.'));
    const issues=el('ul'),labels={'not-materialized-on-floor':'espace non matérialisé à cet étage','exterior-simplified-inside-shell':'extérieur encore représenté dans la coque','level-differs-from-source':'niveau différent de la prescription','ambiguous-room-name':'nom ambigu : attribution refusée','below-source-minimum':'quantité sous le minimum auteur','footprint-differs':'dimensions au sol différentes de la source'};
    for(const i of report.issues.slice(0,RULES.displayIssues))issues.appendChild(el('li',i.name+' — '+(labels[i.reason]||i.reason)+(i.missing?' : '+i.missing+' manquant(s)':'')));
    if(report.issues.length>RULES.displayIssues)issues.appendChild(el('li',(report.issues.length-RULES.displayIssues)+' écarts supplémentaires dans le rapport exporté.'));host.appendChild(issues);
+   const measured=report.rooms.flatMap(r=>r.props.filter(p=>p.represented>p.exactFootprintMatches&&p.dimensions).map(p=>({room:r.name,...p}))).slice(0,8);
+   for(const p of measured)host.appendChild(el('p',p.room+' — '+p.name+' : emprise source '+p.dimensions.longueur+' × '+p.dimensions.largeur+' m ; mesurée '+p.actualFootprints.map(f=>f.w+' × '+f.h+' m ('+f.count+')').join(' ; ')+'.'));
   }
+  if(inspected&&report.furnishing162){const f=report.furnishing162;host.appendChild(el('h6','MOBILIER D’USAGE — RÉVISION 11'));host.appendChild(el('p',f.added+' compléments posés selon les usages des pièces et les passages disponibles. Ces compositions ne sont pas des quantités auteur et ne créent ni population, ni stock, ni appareil alimenté.'));}
   if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));
    host.appendChild(el('p',f.interior+' nouveaux objets intérieurs · '+f.outdoor+' nouveaux objets de cour · '+f.zones.length+' zones réservées au sol · '+f.remaining+' compléments non posés. '+f.note));
    const names={'complete':'objectif de placement atteint','already-present':'déjà présent','space-or-access':'place ou accès insuffisants','layer-cap':'limite du plan','baseline-inaccessible':'accès de départ indisponible','requires-building-support':'support technique non matérialisé','unsupported-source-dimensions':'gabarit source non pris en charge','unsupported-source-clearance':'dégagement source non pris en charge','invalid-source-range':'quantité source invalide','duplicate-prescription':'prescription dupliquée','clean-storage-conflict':'réserve propre incompatible'};

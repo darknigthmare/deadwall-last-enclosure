@@ -74,7 +74,7 @@ test('171 depot activation preserves every persisted field, rejects failed resto
  g.restoreSave=()=>false;try{assert.equal(g.worldOps131.upgradeDetails159(9).ok,false);assert.deepEqual(snapshot(),before);}finally{g.restoreSave=restore;}
  g.player.reload=1;assert.equal(g.worldOps131.upgradeDetails159(9).ok,false);g.player.reload=0;
  const action=g.worldOps131.actions().find(a=>a.id==='gardens171');assert.ok(action&&!action.disabled);assert.equal(action.run().ok,true);const after=snapshot();assert.equal(after.frontier.detailVersion,9);after.frontier.detailVersion=before.frontier.detailVersion;assert.deepEqual(after,before);
- assert.equal(g.worldOps131.upgradeDetails159(9).ok,false);for(let v=0;v<=9;v++)assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);for(const v of [11,-1,1.5,'9',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
+ assert.equal(g.worldOps131.upgradeDetails159(9).ok,false);for(let v=0;v<=9;v++)assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);for(const v of [12,-1,1.5,'9',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
 });
 test('171 migration protects a placed lamp even when the new garden surface is traversable',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');

@@ -1,5 +1,9 @@
 # Équilibrage de référence
 
+## Composition des pièces — 1.62
+
+`CodexFurnishingRules162` borne les ajouts de mobilier par usage, surface disponible, pièce, étage et lieu. Ce sont des choix de composition, pas des minima auteur déduits. Les dimensions physiques restent celles du catalogue. La révision 11 ne change ni coût, ni rendement, ni stock, ni population, ni seuil des onze âges ; aucun appareil n’est alimenté par sa seule présence. Les anciennes révisions de détails gardent leurs collisions.
+
 ## Travaux de terrain — 1.60
 
 `ContextRules160` et `ContextGeometryRules160` dans `core.js` font autorité. L'activation G10 ne coûte ni matériau ni temps et n'offre pas de stock. Chaque lieu conserve un budget hérité fini, réparti une seule fois entre ses contenants.

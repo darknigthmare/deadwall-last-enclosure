@@ -169,6 +169,33 @@ function populateG7(){
 function nearPOI(x,y,r=80){const set=new Set();for(let cy=Math.floor((y-r)/256);cy<=Math.floor((y+r)/256);cy++)for(let cx=Math.floor((x-r)/256);cx<=Math.floor((x+r)/256);cx++)for(const p of bins.get(cx+','+cy)||[])set.add(p);return [...set];}
 // Read the existing paved approaches, including the part outside a parcel.
 // Return copied coordinates so a surface/guide lookup cannot move generation geometry.
+// A road shoulder follows the real ellipse, including the inner edge of a ring.
+// Signed distance avoids replacing either curved boundary with its bounding box.
+function ellipseDistance160(x,y,rx,ry){
+ let a=rx,b=ry,u=Math.abs(x),v=Math.abs(y);
+ if(a<b){[a,b]=[b,a];[u,v]=[v,u];}
+ const inside=(u/a)**2+(v/b)**2<=1;
+ if(Math.abs(a-b)<1e-10)return Math.hypot(u,v)-a;
+ let px,py;
+ if(v===0){const n=a*u,d=a*a-b*b;if(n<d){px=a*n/d;py=b*Math.sqrt(Math.max(0,1-(n/d)**2));}else{px=a;py=0;}}
+ else{
+  let lo=inside?-b*b:0,hi=inside?0:Math.max(a*a,b*b)*(Math.hypot(u/a,v/b)+1);
+  for(let i=0;i<40;i++){const t=(lo+hi)/2,value=(a*u/(t+a*a))**2+(b*v/(t+b*b))**2;if(value>1)lo=t;else hi=t;}
+  const t=(lo+hi)/2;px=a*a*u/(t+a*a);py=b*b*v/(t+b*b);
+ }
+ const distance=Math.hypot(u-px,v-py);return inside?-distance:distance;
+}
+function terrainContains160(o,x,y,margin=0){
+ if(x<o.x-margin||y<o.y-margin||x>o.x+o.w+margin||y>o.y+o.h+margin)return false;
+ if(o.shape!=='ellipse'&&o.shape!=='annulus')return true;
+ const dx=x-o.x-o.w/2,dy=y-o.y-o.h/2,rx=o.w/2,ry=o.h/2;
+ if(rx<=0||ry<=0)return false;
+ const ellipse=(a,b)=>margin===0?(dx/a)**2+(dy/b)**2<=1:ellipseDistance160(dx,dy,a,b)<=margin;
+ if(!ellipse(rx,ry))return false;
+ if(o.shape!=='annulus')return true;
+ if(!(o.innerRx>0&&o.innerRy>0&&o.innerRx<rx&&o.innerRy<ry))return false;
+ return margin===0?(dx/o.innerRx)**2+(dy/o.innerRy)**2>=1:ellipseDistance160(dx,dy,o.innerRx,o.innerRy)>=-margin;
+}
 function drivewayAt(x,y,margin=0){
  if(!Number.isFinite(x)||!Number.isFinite(y)||!Number.isFinite(margin)||margin<0||x<0||y<0||x>size||y>size)return null;
  const seen=new Set(),last=size/256-1;
@@ -180,7 +207,7 @@ function drivewayAt(x,y,margin=0){
  if(Geometry160)for(const p of contextSites160(x,y,margin+1)){
   const q=G.local(p,x,y);
   for(const o of plan(p,0).terrain160||[]){
-   if(!['road','bridge','quay'].includes(o.kind)||o.allowVehicle===false||q.x<o.x-margin||q.y<o.y-margin||q.x>o.x+o.w+margin||q.y>o.y+o.h+margin)continue;
+   if(!['road','bridge','quay'].includes(o.kind)||o.allowVehicle===false||!terrainContains160(o,q.x,q.y,margin))continue;
    const horizontal=o.w>o.h,a=G.global(p,horizontal?o.x:o.x+o.w/2,horizontal?o.y+o.h/2:o.y),b=G.global(p,horizontal?o.x+o.w:o.x+o.w/2,horizontal?o.y+o.h/2:o.y+o.h);
    return{a,b,width:horizontal?o.h:o.w,context160:p.id};
   }
@@ -222,7 +249,12 @@ function around(x,y,r=100){const out=[];for(let cy=Math.floor((y-r)/256);cy<=Mat
 function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme160?{...Geometry160.plan(p,seed,z),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
 function sceneryRadius(t){const depleted=(effects.resourceTaken?.(t.id)||0)>=t.amount-.001;return depleted?(t.kind==='rock'?0:Math.min(t.r,.18)):t.r;}
 function detailAt(p,z=0){
- if(p?.programme160)return{interior:[],outdoor:[],variant:p.context160?.archetype||null,programme3000:p.programme160,programmeState:Codex3000?.get(p.programme160)?.state||null,context160:plan(p,z)};
+ if(p?.programme160){
+  if(effects.detailVersion<11||effects.detailVersion===undefined||p.context160?.profile)return Geometry160.details(p,seed,z,effects.detailVersion??0,plan(p,z));
+  const key=p.id+':'+z;if(detailCache.has(key)){const value=detailCache.get(key);detailCache.delete(key);detailCache.set(key,value);return value;}
+  const value=Geometry160.details(p,seed,z,effects.detailVersion,plan(p,z));detailCache.set(key,value);
+  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);return value;
+ }
  if(requestedGeneration<7||!Detail157||!p||!p.levels?.includes(z))return{interior:[],outdoor:[],variant:null};
  const key=p.id+':'+z;if(detailCache.has(key)){const val=detailCache.get(key);detailCache.delete(key);detailCache.set(key,val);return val;}
  const programme=p.programme3000?Codex3000?.get(p.programme3000):Codex3000?.forParcel(seed,p,{
@@ -241,6 +273,7 @@ function detailAt(p,z=0){
  if(effects.detailVersion>=8&&programme)dressed=Codex3000.stations({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=9&&programme)dressed=Codex3000.gardens({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=10&&programme)dressed=Codex3000.packing({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
+ if(effects.detailVersion>=11&&programme?.extension===158)dressed=Codex3000.furnish({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  const colliders160=Object.freeze({interior:Object.freeze(dressed.interior.filter(o=>o.solid)),outdoor:Object.freeze(dressed.outdoor.filter(o=>o.solid))});
  const val=Object.freeze({...dressed,colliders160,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);
@@ -275,7 +308,7 @@ function line(a,b,z=0,inside=null,ignore=null,r=.05,purpose='optical'){
 function containers(x,y,r=3,z=0,inside=null){const out=[];for(const p of nearPOI(x,y,r+8)){if(z!==0&&p.id!==inside||!p.levels.includes(z))continue;for(const b of plan(p,z).objects){const point=G.global(p,b.x+b.w/2,b.y+b.h/2),reach=Math.hypot(b.w,b.h)/2+r;if(Math.hypot(point.x-x,point.y-y)<reach)out.push({...b,...point,worldAngle:p.a,poi:p.id,z});}if(z===0)for(const b of p.outdoor||[]){const point=G.global(p,b.x+b.w/2,b.y+b.h/2);if(Math.hypot(point.x-x,point.y-y)<r+Math.hypot(b.w,b.h)/2)out.push({...b,...point,worldAngle:p.a,poi:p.id,z:0});}if(z===0)for(const b of p.parking)if(Math.hypot(x-b.x,y-b.y)<r+2.4)out.push({...b,poi:p.id,z:0});}if(z===0)for(const c of around(x,y,r+5))for(const t of [...c.trees,...c.rocks])if(Math.hypot(x-t.x,y-t.y)<r+t.r)out.push({...t,z:0});return out;}
 function vehicleClear(x,y,a,w=4.8,h=2.03){const car={x,y,w,h,a},pad=Math.max(w,h)/2+.5;if(x<pad||y<pad||x>size-pad||y>size-pad)return false;for(const p of nearPOI(x,y,9)){const pl=plan(p,0),destroyed=!!effects.structureDestroyed?.(p.id);if(p.programme160){const q=G.local(p,x,y),localCar={x:q.x,y:q.y,a:a-p.a,w,h};if(Geometry160.terrainMovement(p,pl,q.x,q.y,0,localCar,effects))return false;}for(const o of [...(destroyed?[]:pl.walls),...pl.objects,...(p.outdoor||[]),...detailSolids(p,0,'interior'),...detailSolids(p,0,'outdoor')]){const center=G.global(p,o.x+o.w/2,o.y+o.h/2);if(G.obb(car,{...center,w:o.w,h:o.h,a:p.a}))return false;}for(const v of p.parking)if(G.obb(car,v))return false;}for(const c of around(x,y,7))for(const t of [...c.trees,...c.rocks]){const q=G.local(car,t.x,t.y);const radius=sceneryRadius(t);if(radius>0&&G.circleRect(q.x,q.y,radius,{x:0,y:0,w:car.w,h:car.h}))return false;}return true;}
 const contextSites160=(x,y,r=100)=>Number.isFinite(x)&&Number.isFinite(y)?nearPOI(x,y,r).filter(p=>p.programme160):pois.filter(p=>p.programme160);
-function terrainAt160(x,y,z=0){if(z!==0||!Geometry160)return null;for(const p of contextSites160(x,y,1)){const q=G.local(p,x,y);for(const o of [...(plan(p,0).terrain160||[])].reverse())if(q.x>=o.x&&q.y>=o.y&&q.x<=o.x+o.w&&q.y<=o.y+o.h)return{...o,poi:p.id,completed:o.completedKey?effects.contextCompleted160?.(o.completedKey)===true:false};}return null;}
+function terrainAt160(x,y,z=0){if(z!==0||!Geometry160||!Number.isFinite(x)||!Number.isFinite(y))return null;for(const p of contextSites160(x,y,1)){const q=G.local(p,x,y);for(const o of [...(plan(p,0).terrain160||[])].reverse())if(terrainContains160(o,q.x,q.y))return{...o,poi:p.id,completed:o.completedKey?effects.contextCompleted160?.(o.completedKey)===true:false};}return null;}
 return{seed,generation:requestedGeneration,size,home,geography,biomeAt:(x,y)=>isG6?Biomes.sample(seed,x,y,true,{generation:baseGeneration}):null,bounds:{x:0,y:0,w:size,h:size},sectors:settlementData?.sectors||[],codexCoverage,contextCoverage160,contextSites160,contextPlan160:plan,terrainAt160,contextCompleted160:key=>effects.contextCompleted160?.(key)===true,opticalBlocked:(x,y,r=.05,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore,true),movementLine:(a,b,z=0,inside=null,ignore=null,r=.32)=>line(a,b,z,inside,ignore,r,'movement'),streamStats:()=>({chunks:chunks.size,plans:plans.size,roadBins:roadBins.size,nearestChecks}),roads,pois,towns:settlementData?.towns||TOWNS,junctions:settlementData?.junctions||null,nearestRoad,drivewayAt,frontageFor:frontage174.forSite,driveFor:frontage174.surface,connectionFor:frontage174.connection,nearPOI,plan,detailAt,chunk,prefetch,around,threatCount:p=>threatCount(seed,p),blocked,vehicleClear,line,containers,cacheSize:()=>chunks.size,planCacheSize:()=>plans.size};
 }
 const api={RULES,TOWNS,LINES,create,sizeForGeneration,threatCount};root.DeadwallFrontierWorld=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;

@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),crypto=require('node:crypto');
-const P=require('../src/codex-plan165.js'),R=require('../src/codex3000-runtime.js'),G=require('../src/frontier-geometry.js'),W=require('../src/frontier-world.js');
+const P=require('../src/codex-plan165.js'),R=require('../src/codex3000-runtime.js'),G=require('../src/frontier-geometry.js'),W=require('../src/frontier-world.js'),X=require('../src/codex-context160.js'),CG=require('../src/codex-geometry160.js');
 const digest=v=>crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
 test('165 inspector: uint32 seeds, exact IDs and authored levels reject malformed input',()=>{
  for(const value of [0,42,4294967295,'0',' 17117 ','4294967295'])assert.equal(P.validateSeed(value),Number(value));
@@ -8,18 +8,23 @@ test('165 inspector: uint32 seeds, exact IDs and authored levels reject malforme
  for(const id of ['DW-9999','DW-0000','DW-1','../DW-0001',null])assert.throws(()=>P.inspect(id,42));
  for(const z of [99,'0',.5,NaN])assert.throws(()=>P.inspect('DW-0501',42,z));
 });
-test('165 inspector: all 4000 programmes are classified without inventing a generic port, tunnel or district',()=>{
- let enabled=0,unsupported=0;const families=new Set();
+test('165 inspector: all 4000 programmes have their actual recipe, including the 626 G10 contracts',()=>{
+ let contextual=0,historical=0;const families=new Set();
  for(const record of R.records){
-  const preset=R.preset('codex3000-'+record.id.slice(3));
-  if(preset){enabled++;families.add(record.family);}
-  else{unsupported++;const p=P.inspect(record.id,42);assert.equal(p.supported,false);assert.equal(p.plan,undefined);assert.equal(p.p,undefined);assert.match(p.reason,/spécialisés/);}
+  const contract=X.get(record.id),preset=contract?X.preset(X.typeFor(record.id)):R.preset('codex3000-'+record.id.slice(3));
+  assert.ok(preset,record.id);families.add(record.family);if(contract)contextual++;else historical++;
  }
- assert.equal(enabled+unsupported,4000);assert.ok(enabled>1000&&unsupported>0);assert.ok(families.size>15);
- console.log('PREVIEW165 '+JSON.stringify({programmes:4000,recipeCompatible:enabled,unsupported,families:families.size}));
+ assert.equal(contextual,626);assert.equal(historical,3374);assert.equal(families.size,33);
+ for(const id of ['DW-0266','DW-0268','DW-0294','DW-0300','DW-1204']){
+  const contract=X.get(id);for(const z of contract.levels){
+   const p=P.inspect(id,42,z,10);assert.equal(p.supported,true);assert.equal(p.p.generation,10);
+   assert.deepEqual([p.p.w,p.p.h],[contract.w,contract.h]);assert.deepEqual(p.plan,CG.plan(p.p,42,z));
+   assert.equal(p.details.interior.length,0);assert.equal(p.details.outdoor.length,0);
+  }
+ }
 });
 test('165 inspector: every supported source family and authored floor remains deterministic and disconnected from saves',()=>{
- const subjects=new Map();for(const r of R.records)if(R.preset('codex3000-'+r.id.slice(3))&&!subjects.has(r.family))subjects.set(r.family,r.id);
+ const subjects=new Map();for(const r of R.records)if(!X.has(r.id)&&R.preset('codex3000-'+r.id.slice(3))&&!subjects.has(r.family))subjects.set(r.family,r.id);
  const before=digest(R.records);let floors=0,contents=0,shortfalls=0;
  for(const id of subjects.values())for(const z of R.template(id).levels){
   const p=P.inspect(id,17117,z),a=digest(p),again=P.inspect(id,17117,z);
@@ -44,7 +49,7 @@ test('165 renderer: delegates to existing lot painter with disposable data and r
  globalThis.DeadwallFrontierArt={lot(ctx,site,view){called++;last=view;assert.strictEqual(ctx,c);assert.strictEqual(site,p.p);assert.strictEqual(view.world.plan(),p.plan);assert.strictEqual(view.world.detailAt(),p.details);assert.equal(view.inside,p.p.id);}};
  try{
   assert.equal(P.render(canvas,p),true);assert.equal(called,1);assert.equal(depth,0);assert.equal(last.world.seed,42);assert.equal(digest(p),before);
-  assert.equal(P.render(canvas,P.inspect('DW-0300',42)),false);assert.equal(called,1);
+  assert.equal(P.render(canvas,{id:'DW-0300',supported:false}),false);assert.equal(called,1);
   globalThis.DeadwallFrontierArt={lot(){throw Error('draw failure');}};assert.throws(()=>P.render(canvas,p),/draw failure/);assert.equal(depth,0);
  }finally{if(saved===undefined)delete globalThis.DeadwallFrontierArt;else globalThis.DeadwallFrontierArt=saved;}
 });

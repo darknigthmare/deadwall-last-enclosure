@@ -100,7 +100,12 @@
     const issues=groupConflicts(result,p,[...near]);if(issues.length)result=Object.freeze({ok:false,site:p.id,reason:'blocked-group-access',conflicts:issues});}
    if(!result.ok&&typeof options.clearAlternative==='function'){
     const radius=Math.hypot(d.a.x-d.b.x,d.a.y-d.b.y)+rules.frontageExtraLength,near=new Set();
-    for(let y=Math.floor((d.b.y-radius)/size);y<=Math.floor((d.b.y+radius)/size);y++)for(let x=Math.floor((d.b.x-radius)/size);x<=Math.floor((d.b.x+radius)/size);x++)for(const q of parcelBins.get(x+','+y)||[])near.add(q);
+    const roadClearance=(root.DeadwallCore||(typeof require==='function'?require('./core.js'):null)).MetricRules174.roadClearance;
+    const roadReach=radius+maxRadius+d.width/2+roadClearance,parcelReach=radius+d.width/2;
+    // Alternatives can turn away from the historical drive. Include both the
+    // reachable joins and foreign capsules touching their full-width corridor.
+    for(let y=Math.floor((d.b.y-roadReach)/size);y<=Math.floor((d.b.y+roadReach)/size);y++)for(let x=Math.floor((d.b.x-roadReach)/size);x<=Math.floor((d.b.x+roadReach)/size);x++)for(const r of bins.get(x+','+y)||[])found.add(r);
+    for(let y=Math.floor((d.b.y-parcelReach)/size);y<=Math.floor((d.b.y+parcelReach)/size);y++)for(let x=Math.floor((d.b.x-parcelReach)/size);x<=Math.floor((d.b.x+parcelReach)/size);x++)for(const q of parcelBins.get(x+','+y)||[])near.add(q);
     result=alternative(p,[...found],[...near],options.clearAlternative)||result;
    }
    cache.set(p.id,result);return result;

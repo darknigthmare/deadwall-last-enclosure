@@ -2407,3 +2407,24 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
 
 /* Metric vehicles: bounded rigid-body collision, expressed in local units. */
 (function(root){'use strict';root.DeadwallCore.MetricRules175=Object.freeze({version:1,sweepStep:2,maxSweepSteps:512,worldMargin:3,frontageOffsets:Object.freeze([0,2,-2,4,-4,8,-8,16,-16]),frontageCandidates:24,frontageExtraLength:48});})(globalThis);
+
+/* Revision 11 furnishing derives bounded uses, never author quantities or stocks. */
+(function(root){'use strict';
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ root.DeadwallCore.CodexFurnishingRules162=freeze({
+  revision:11,maxPerSite:32,maxPerFloor:16,maxPerRoom:4,maxPasses:4,
+  minRoomArea:6,areaPerSupplement:20,maxCandidates:96,wallSamples:16,
+  gap:.06,collisionGap:.025,roomMargin:.08,roomEnvelopeTolerance:.4,clearance:1,minimumClearance:.8,maxClearance:1.4,
+  profiles:{
+   sleeping:[{kind:'wardrobe',target:1,minArea:6},{kind:'smallCabinet',target:1,minArea:8},{kind:'bed',target:3,minArea:24,areaPerTarget:32,collective:true}],
+   archives:[{kind:'shelf',target:4,minArea:12,areaPerTarget:32},{kind:'smallCabinet',target:1,minArea:12}],
+   changing:[{kind:'wardrobe',target:3,minArea:8,areaPerTarget:30},{kind:'bench',target:1,minArea:10}],
+   reception:[{kind:'bench',target:1,minArea:10},{kind:'smallCabinet',target:1,minArea:8}],
+   office:[{kind:'smallCabinet',target:2,minArea:8,areaPerTarget:40},{kind:'shelf',target:1,minArea:16}],
+   workshop:[{kind:'smallCabinet',target:1,minArea:10},{kind:'workbench',target:2,minArea:48,areaPerTarget:64,groundOnly:true}],
+   kitchen:[{kind:'sink',target:1,minArea:8},{kind:'counter',target:1,minArea:10},{kind:'fridge',target:1,minArea:12}],
+   medical:[{kind:'sink',target:1,minArea:8},{kind:'smallCabinet',target:1,minArea:10}],
+   laundry:[{kind:'wardrobe',target:1,minArea:10},{kind:'bench',target:1,minArea:12}]
+  }
+ });
+})(globalThis);

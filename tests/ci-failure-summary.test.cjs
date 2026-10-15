@@ -136,3 +136,42 @@ test('CI stack context rejects unknown and traversal paths while keeping diagnos
   assert.ok(!failures[0].message.includes('private'));assert.ok(!failures[0].message.includes('never-publish'));
   assert.ok(failures[0].message.length<=480);assert.ok(annotationLines({failures,warnings:[]})[0].length<900);
 });
+
+test('Native failure diagnostics: spec failure and summary identify one case with a safe source line', async () => {
+ const {nativeLogFailures,annotationLines}=await helper;
+ const text=['✔ passing case (1.1ms)','\u001b[31m✖ authentic finite stock assertion (3.1ms)\u001b[39m','ℹ tests 4519','ℹ fail 1','✖ failing tests:',
+  'test at /private/runner/project/tests/ci-failure-summary.test.cjs:29:1','✖ authentic finite stock assertion (3.1ms)',
+  '  AssertionError: token=private-value https://storage.example/private?sig=secret','    at TestContext.<anonymous> (/private/runner/project/tests/ci-failure-summary.test.cjs:31:7)'].join('\n');
+ const failures=nativeLogFailures(text,'native/ci-native160.log');assert.equal(failures.length,1);
+ assert.equal(failures[0].message,'Failed native test: authentic finite stock assertion — at tests/ci-failure-summary.test.cjs:29:1');
+ const annotation=annotationLines({failures,warnings:[]}).join('\n');
+ for(const secret of ['/private/','runner/project','private-value','storage.example','sig=secret','https://'])assert.ok(!annotation.includes(secret),secret);
+});
+
+test('Native failure diagnostics: TAP comments and successes cannot become failed tests; real stack locations remain', async () => {
+ const {nativeLogFailures}=await helper;
+ const text=['TAP version 13','# not ok 89 - diagnostic prose','# ✖ quoted failure (1ms)','ok 1 - real passing case',
+ 'not ok 2 - narrow vehicle corridor preserves finite fuel','  ---',
+ "  location: '/private/root/tests/ci-failure-summary.test.cjs:57:1'",'  stack: |-',
+ '    at TestContext.<anonymous> (/private/root/scripts/ci-failure-summary.mjs:44:7)','  ...'].join('\n');
+ const failures=nativeLogFailures(text);assert.equal(failures.length,1);
+ assert.equal(failures[0].message,'Failed native test: narrow vehicle corridor preserves finite fuel — at tests/ci-failure-summary.test.cjs:57:1');
+ assert.deepEqual(nativeLogFailures('✔ all real tests passed (1ms)\nℹ fail 0\n# not ok 1 - quoted'),[]);
+});
+
+test('Native failure diagnostics: exact log traversal is bounded and ignores other names, links and credential text', async () => {
+ const {collectFailureSummaries,nativeLogFailures,annotationLines}=await helper;
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-native-log-')),outside=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-native-log-outside-'));
+ try {
+  fs.mkdirSync(path.join(root,'native'));
+  fs.writeFileSync(path.join(root,'ignored.log'),'✖ ignored case (2ms)\n');
+  fs.writeFileSync(path.join(root,'native','ci-native160.log'),'x'.repeat(2*1024*1024+20)+'\n✖ bounded final case token=never-publish /private/hidden (2ms)\ntest at /private/root/tests/ci-failure-summary.test.cjs:72:1\n✖ bounded final case token=never-publish /private/hidden (2ms)\n');
+  fs.writeFileSync(path.join(outside,'ci-native160.log'),'✖ external linked case (2ms)\n');
+  try { fs.symlinkSync(outside,path.join(root,'linked'),'junction'); } catch(error) { if(!['EPERM','EACCES'].includes(error.code))throw error; }
+  const result=collectFailureSummaries(root);assert.equal(result.failures.length,1);assert.equal(result.warnings.length,1);assert.match(result.warnings[0],/last 2097152 bytes/);
+  assert.match(result.failures[0].message,/at tests\/ci-failure-summary.test\.cjs:72:1/);
+  const annotation=annotationLines(result).join('\n');for(const privateText of ['never-publish','/private/','external linked','ignored case'])assert.ok(!annotation.includes(privateText),privateText);
+  assert.ok(annotation.length<1500);
+  const capped=nativeLogFailures(Array.from({length:80},(_,i)=>'✖ failed native case '+i+' (1ms)').join('\n'));assert.equal(capped.length,24);
+ } finally { fs.rmSync(root,{recursive:true,force:true});fs.rmSync(outside,{recursive:true,force:true}); }
+});
