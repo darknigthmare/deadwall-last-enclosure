@@ -65,7 +65,7 @@ test('168 real world: opt-in objects belong to the existing collision/visibility
  assert.ok(added>0);const p=b.pois.find(p=>p.generation===8),expected=hash(b.detailAt(p,0));for(const q of b.pois.slice(0,80))b.detailAt(q,0);assert.equal(hash(b.detailAt(p,0)),expected);console.log('FILL168_WORLD '+JSON.stringify({sites,added}));
 });
 test('168 activation: strict version, failed restore, occupied hands and repeat preserve the campaign',()=>{
- assert.equal(S.normalize({...S.initial(),detailVersion:6}).detailVersion,6);for(const v of [12,-1,1.5,'6',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
+ assert.equal(S.normalize({...S.initial(),detailVersion:6}).detailVersion,6);for(const v of [13,-1,1.5,'6',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
  const snap=()=>{const s=g.serialize();delete s.timestamp;return s;},before=snap(),restore=g.restoreSave;

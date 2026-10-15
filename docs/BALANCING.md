@@ -259,3 +259,10 @@ Porte-bouclier : health90/speed29/damage15/rate.7/radius12/unlock9/structure1/co
 Recettes : assemblyHammer wood4/scrap12/7s/2.1kg, tier2+atelier, barricade×1.45/usure de travail.18point/s ; wreckingBar wood3/scrap18/8s/3.7kg, tier2+atelier, dismantle×1.5/usure de travail.22point/s ; singleShot wood6/scrap18/7s/2.4kg, tier1, damage68/rate.6/range28m/magazine1/reload1.9/spread.025/wear.35. Coût et usure centralisés dans `Arsenal134Rules.catalog` ; durées dérivées de craftSeconds4+ceil(kg). Aucun remboursement accru ni munition offerte. L’ancien catalogue et les autres opérations conservent leurs valeurs.
 
 Ces valeurs créent des contreparties testables, pas une preuve d’équilibrage humain ou de cadence sur tout appareil. Les cas avancés préparés et les parcours natifs ont des preuves distinctes dans les rapports courants.
+
+
+## 1.63 — Mobilier de composition
+
+`CodexDensity163Rules` borne les ajouts par lieu144, étage72, pièce24 et type12. Une pièce de24m² ou moins reçoit au plus2 ajouts ; une chambre privée reste limitée à6 objets de composition au total. Les plafonds d’occupation physique par usage vont de8 à16% : ce sont des seuils d’arrêt, pas des quotas à remplir. Une réserve et une archive emploient des compositions distinctes ; les usages ambigus ne sont pas inventés. Le contrôle des accès reste prioritaire, avec au plus512 audits de grille et128 candidats par demande.
+
+`ContextArchitectureRules163` définit les parcours d’inspection : largeur3,2m, escalier2,1×2,9m, rayon piéton0,32m, dégagement0,16m, garde0,16m ; espacement des supports16m,8 supports et96 essais de placement au maximum. Ces ouvrages ne créent ni loot ni ennemis à l’étage et ne changent ni la pression de horde ni les coûts des âges. La cible de campagne Standard6–10h reste à mesurer par jeu humain complet.

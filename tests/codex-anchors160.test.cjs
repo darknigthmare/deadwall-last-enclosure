@@ -56,7 +56,7 @@ test('160 save revision: anchored details append only, without changing POIs, fl
  for(const p of next.pois.slice(0,12)){const o=old.pois.find(q=>q.id===p.id);for(const z of p.levels){
   const a=old.detailAt(o,z),b=next.detailAt(p,z);assert.deepEqual(next.plan(p,z),old.plan(o,z));assert.deepEqual(b.outdoor,a.outdoor);assert.deepEqual(b.interior.filter(i=>!i.anchored160),a.interior);count+=b.anchors160.added;
  }}assert.ok(count>0);
- const s=S.initial();s.generation=8;s.detailVersion=3;assert.equal(S.normalize(s).detailVersion,3);assert.throws(()=>S.normalize({...s,detailVersion:12}));
+ const s=S.initial();s.generation=8;s.detailVersion=3;assert.equal(S.normalize(s).detailVersion,3);assert.throws(()=>S.normalize({...s,detailVersion:13}));
 });
 test('160 activation: depot opt-in updates only revision and is not applied twice',()=>{
  const g=campaign(),before=checkpoint(g),action=g.worldOps131.actions().find(a=>a.id==='anchoredDetails160');assert.ok(action&&!action.disabled,action?.reason);

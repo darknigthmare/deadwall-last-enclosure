@@ -1,3 +1,16 @@
+# DEADWALL 1.63.0 — Composition des pièces et inspection des ouvrages
+
+La révision facultative 12 complète le mobilier selon l’usage et la surface, ajuste les emprises auteur attribuables et ouvre des parcours d’inspection à pied dans 18 références d’ouvrages. Les arbres physiques utilisent leurs silhouettes botaniques. Activation et limites : [LIVRAISON_1_63.md](docs/LIVRAISON_1_63.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+node scripts/browser-codex163.mjs
+```
+
+## Historique conservé — 1.62.0
+
 # DEADWALL 1.62.0 — Codex, mobilier et cohérence des plans
 
 Cette version ajoute la révision de mobilier 11, les vrais aperçus G10 et les contrôles de dimensions. Activation et limites : [LIVRAISON_1_62.md](docs/LIVRAISON_1_62.md).

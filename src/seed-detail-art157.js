@@ -116,6 +116,19 @@
   }
   return true;
  }
+ function signFootprint163(c,o,seed){
+  // The upright road atlas cannot fit a thin overhead board: its pole would
+  // shrink the whole image to a dot. Detail12 uses the actual board footprint.
+  const v=variantFor(o,seed,4),{x,y,w,h}=o,panel=['#7d8a7f','#9b8870','#586e63','#a49d80'][v];
+  c.fillStyle='#35483e';c.fillRect(x,y,w,h);
+  c.fillStyle=panel;c.fillRect(x+w*.025,y+h*.12,w*.95,h*.76);
+  c.fillStyle='#c2b994';c.fillRect(x+w*.04,y+h*.15,w*.92,h*.09);
+  c.fillStyle='#5d5745';
+  for(let i=0;i<4;i++)c.fillRect(x+w*(.13+i*.23),y+h*(i%2?.62:.28),w*(v%2?.07:.04),h*.17);
+  c.fillStyle=v===2?'#d0c5a4':'#9b9d87';
+  for(const edge of [.045,.925])c.fillRect(x+w*edge,y+h*.32,w*.03,h*.36);
+  return true;
+ }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
   if(o?.garden171){
    const {spriteWidth171:w,spriteHeight171:h,angle171:a}=o;if(!c||![o.x,o.y,o.w,o.h,w,h,a].every(Number.isFinite)||w<=0||h<=0||o.w<=0||o.h<=0)return false;
@@ -162,6 +175,7 @@
    // Parcel rotation and current floor belong to the caller. Uniform source
    // scaling plus this clip preserves the physical blocker and open entrances.
    if(typeof c.rect==='function'&&typeof c.clip==='function'){c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();}
+   if(o.kind==='sign'&&(o.size163?.revision===12||o.density163===true))return signFootprint163(c,o,seed);
    return paintImage(c,o,art,seed)||fallback(c,o,seed);
   }finally{c.restore();}
  }

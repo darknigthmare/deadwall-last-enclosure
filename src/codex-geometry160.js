@@ -298,7 +298,7 @@
   }
   return plan;
  }
- function plan(p,seed,z=0){
+ function sourcePlan(p,seed,z=0){
   const card=contractFor(p);if(!card||!p.levels?.includes(z))throw Error('Programme ou niveau160 absent');
   if(card.mode!=='building')return spatialOpen(p,seed,z,card);
   const base=R.floor(card.id,seed,z,p.id),template=R.template(card.id),sx=card.profile?p.w/template.w:1,sy=card.profile?p.h/(base.floor.h+.48):1,
@@ -315,9 +315,18 @@
   }
   return result;
  }
+ function architecture163(){
+  const A=root.DeadwallCodexArchitecture163||(typeof require==='function'?require('./codex-architecture163.js'):null);
+  if(!A)throw Error('Architecture physique163 absente.');return A;
+ }
+ function plan(p,seed,z=0,detailVersion=0){
+  const contract=contractFor(p);
+  if(detailVersion>=12&&architecture163().supports(contract))return architecture163().plan({p,seed,z,ground:sourcePlan({...p,levels:contract.levels},seed,0),contract});
+  return sourcePlan(p,seed,z);
+ }
  // Revision11 adds only non-loot furnishing to the326 preserved interiors.
  // Terrain and work faces constrain placement without becoming real plan walls.
- function details(p,seed,z=0,detailVersion=0,sourcePlan=plan(p,seed,z)){
+ function details(p,seed,z=0,detailVersion=0,sourcePlan=plan(p,seed,z,detailVersion)){
   const card=contractFor(p),programme=R.get(p.programme160||p.codex);
   const empty={interior:[],outdoor:[],variant:p.context160?.archetype||null,programme3000:p.programme160,
    programmeState:programme?.state||null,context160:sourcePlan};
@@ -338,17 +347,22 @@
   value={...value,interior:[...value.interior,...barriers],outdoor:value.outdoor.filter(o=>!reserved.some(barrier=>hit(o,barrier)))};
   value=R.enrich({...args,detail:value});value=R.dress({...args,detail:value});
   for(const layer of ['anchored','quantities','ensembles','fill','infill','stations','gardens','packing'])value=R[layer]({...args,detail:value});
+  if(detailVersion>=12)value=R.complete({...args,detail:value});
   const interior=Object.freeze(value.interior.filter(o=>!o.placementOnly162)),outdoor=Object.freeze(value.outdoor.filter(o=>!o.placementOnly162));
   const colliders160=Object.freeze({interior:Object.freeze(interior.filter(o=>o.solid)),outdoor:Object.freeze(outdoor.filter(o=>o.solid))});
   return Object.freeze({...value,interior,outdoor,colliders160,programme3000:programme.id,programmeState:programme.state||null,context160:sourcePlan});
  }
- function decorate(p,seed){
-  const contract=contractFor(p),ground=plan(p,seed,0);
+ function decorate(p,seed,detailVersion=0){
+  const contract=contractFor(p);
+  if(detailVersion>=12&&architecture163().supports(contract)){
+   p.legacyLevels160=[...contract.levels];p.levels=architecture163().levels(contract);p.architecture163=architecture163().describe(contract);
+  }
+  const ground=plan(p,seed,0,detailVersion);
   p.context160={...contract,operations:ground.operations160,service:ground.service160||null,
    implementation160:{...(contract.implementation160||{scope:'physical-ground-context-and-finite-parent-budget',fullyImplementedReference:false}),...(ground.adaptation160||{})}};
   return p;
  }
- function populate({seed,roads,install,contracts,biomes,sectors,spawn,home}){
+ function populate({seed,roads,install,contracts,biomes,sectors,spawn,home,detailVersion=0}){
   if(!contracts||contracts.ids.length!==626)throw Error('Contrats160 incomplets');
   const viable=roads.filter(r=>r.roadClass!=='approach'&&Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y)>=55),bySector=new Map(sectors.map(s=>[s.id,s]));
   let placed=0,rejected=0;const missing=[];
@@ -366,7 +380,7 @@
      occupation:occupancy.kind,distanceBand:occupancy.band,zone:'activite',
      sector:'S'+Math.floor(p.x/1024)+'_'+Math.floor(p.y/1024),
      frontier131:{role:occupancy.kind==='allied'?'relay':occupancy.kind==='infected'?'contested':'waypoint'}});
-    decorate(p,seed);bySector.get(p.sector)?.sites.push(p.id);placed++;accepted=true;break;
+    decorate(p,seed,detailVersion);bySector.get(p.sector)?.sites.push(p.id);placed++;accepted=true;break;
    }
    if(!accepted){rejected++;missing.push(card.id);}
   }

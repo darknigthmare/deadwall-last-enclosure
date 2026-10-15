@@ -2428,3 +2428,54 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   }
  });
 })(globalThis);
+
+/* Revision 12 composes rooms by reliable use and usable area; no stocks or author minima. */
+(function(root){'use strict';
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ root.DeadwallCore.CodexDensity163Rules=freeze({
+  revision:12,
+  maxPerSite:144,
+  maxPerFloor:72,
+  maxPerRoom:24,
+  maxPerKind:12,
+  maxPasses:24,
+  minRoomArea:8,
+  areaPerAddition:12,
+  smallRoomArea:24,
+  smallRoomMax:2,
+  maxCandidates:128,
+  maxGridAudits:512,
+  wallSamples:12,
+  islandSteps:8,
+  collisionGap:0.04,
+  gap:0.08,
+  roomMargin:0.12,
+  roomEnvelopeTolerance:0.4,
+  clearance:1.2,
+  minimumClearance:0.8,
+  maxClearance:1.8,
+  profiles:{
+   sleeping:{"kinds":["wardrobe","smallCabinet","bench"],"areaPerItem":14,"targetCoverage":0.12,"maxItems":6,"islands":false},
+   dormitory:{"kinds":["bed","wardrobe","bench","smallCabinet"],"areaPerItem":14,"targetCoverage":0.16,"maxItems":24,"islands":true},
+   archives:{"kinds":["shelf","bookshelf","smallCabinet","desk"],"areaPerItem":16,"targetCoverage":0.16,"maxItems":24,"islands":true},
+   storage:{"kinds":["shelf","crateStack","pallet"],"areaPerItem":16,"targetCoverage":0.16,"maxItems":24,"islands":true},
+   changing:{"kinds":["wardrobe","bench","smallCabinet"],"areaPerItem":14,"targetCoverage":0.14,"maxItems":18,"islands":true},
+   reception:{"kinds":["bench","smallCabinet","counter"],"areaPerItem":20,"targetCoverage":0.1,"maxItems":10,"islands":false},
+   office:{"kinds":["desk","smallCabinet","shelf"],"areaPerItem":16,"targetCoverage":0.12,"maxItems":18,"islands":true},
+   workshop:{"kinds":["workbench","worktable","smallCabinet","shelf"],"areaPerItem":20,"targetCoverage":0.14,"maxItems":20,"islands":true},
+   kitchen:{"kinds":["counter","sink","fridge"],"areaPerItem":14,"targetCoverage":0.16,"maxItems":8,"islands":false},
+   medical:{"kinds":["medical","sink","smallCabinet"],"areaPerItem":18,"targetCoverage":0.12,"maxItems":8,"islands":false},
+   laundry:{"kinds":["washer","wardrobe","bench"],"areaPerItem":16,"targetCoverage":0.14,"maxItems":8,"islands":false},
+   living:{"kinds":["sofa","table","smallCabinet","bookshelf"],"areaPerItem":20,"targetCoverage":0.16,"maxItems":10,"islands":true},
+   dining:{"kinds":["table","bench","counter"],"areaPerItem":18,"targetCoverage":0.14,"maxItems":18,"islands":true},
+   classroom:{"kinds":["desk","table","shelf"],"areaPerItem":16,"targetCoverage":0.14,"maxItems":24,"islands":true},
+   technical:{"kinds":["electricalRack","workbench","smallCabinet"],"areaPerItem":24,"targetCoverage":0.12,"maxItems":10,"islands":false},
+   retail:{"kinds":["shelf","display","counter"],"areaPerItem":16,"targetCoverage":0.14,"maxItems":24,"islands":true},
+   bathroom:{"kinds":["sink","smallCabinet"],"areaPerItem":12,"targetCoverage":0.14,"maxItems":3,"islands":false},
+   sport:{"kinds":["bench","smallCabinet"],"areaPerItem":40,"targetCoverage":0.08,"maxItems":6,"islands":false}
+  }
+ });
+})(globalThis);
+
+/* Pedestrian inspection levels are explicit revision12 additions, not vehicle decks. */
+(function(root){'use strict';root.DeadwallCore.ContextArchitectureRules163=Object.freeze({revision:12,walkWidth:3.2,stairWidth:2.1,stairDepth:2.9,footRadius:.32,clearance:.16,railThickness:.16,pierSpacing:16,maxPiers:8,placementLimit:96});})(globalThis);

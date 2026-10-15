@@ -11,8 +11,8 @@ test('173 packing: actual recipes preserve all old objects, budgets, obstacles a
  }assert.ok(added>0);console.log('PACKING173_SAMPLE '+JSON.stringify({recipes:12,added}));
 });
 test('173 packing: all implemented revisions including ten survive normalization; wrong types and future revisions fail',()=>{
- for(let v=0;v<=11;v++)assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);
- for(const v of [12,-1,1.5,NaN,Infinity,null,true,'10',{},[]])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
+ for(let v=0;v<=12;v++)assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);
+ for(const v of [13,-1,1.5,NaN,Infinity,null,true,'10',{},[]])assert.throws(()=>S.normalize({...S.initial(),detailVersion:v}));
 });
 test('173 packing: real world coordinates use new colliders and LOS without introducing loot or replacing source plans',()=>{
  const W=require('../src/frontier-world.js'),old=W.create(17117,8,{detailVersion:9}),next=W.create(17117,8,{detailVersion:10});assert.deepEqual(old.pois,next.pois);assert.deepEqual(old.roads,next.roads);let added=0;

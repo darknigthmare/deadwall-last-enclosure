@@ -292,8 +292,14 @@
  function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function packing(options){const api=globalThis.DeadwallCodexPacking173||(typeof require==='function'?require('./codex-packing173.js'):null);if(!api)throw Error('Travées intérieures non chargées');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function furnish(options){const api=globalThis.DeadwallCodexFurnishing162||(furnishing162||(furnishing162=typeof require==='function'?require('./codex-furnishing162.js'):null));if(!api)throw Error('Compléments d’usage non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function complete(options){
+  const Size=globalThis.DeadwallCodexSize163||(typeof require==='function'?require('./codex-size163.js'):null),Density=globalThis.DeadwallCodexDensity163||(typeof require==='function'?require('./codex-density163.js'):null);
+  if(!Size||!Density)throw Error('Composition et emprises du codex non chargées');
+  const args={...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159};
+  return Density.enrich({...args,detail:Size.enrich(args),shapeFor:Size.shapeFor});
+ }
  function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
- return Object.freeze({packing,furnish,get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
+ return Object.freeze({packing,furnish,complete,get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
   records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,infill,stations,gardens,searchDocument});
 });

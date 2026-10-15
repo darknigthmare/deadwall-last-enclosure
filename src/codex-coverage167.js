@@ -96,7 +96,7 @@
    return {sourceIndex,id:r.id,name:r.name,kit:r.kit.id,exterior:r.exterior,levelExpected:expected,status,modelRoomIndices:indices,
     sourceRepeat:copy(r.repeat),sourceArea:copy(r.area),modelArea:indices.reduce((n,i)=>n+plan.rooms[i].w*plan.rooms[i].h,0),props};
   });
-  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171','packing173','furnishing162'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
+  const layers=['recipe159','anchors160','quantities164','ensembles165','fill168','infill169','stations170','gardens171','packing173','furnishing162','size163','density163'].flatMap(k=>detail[k]?[{id:k,navigationChecked:detail[k].navigationChecked===true,added:detail[k].added||0,
    refused:Array.isArray(detail[k].requests)?detail[k].requests.reduce((n,r)=>n+(r.unplaced||0),0):Array.isArray(detail[k].rejected)?detail[k].rejected.length:0}]:[]);
   const complements169=detail.infill169?{
    revision:7,interior:detail.interior.filter(o=>o.infill169).length,outdoor:detail.outdoor.filter(o=>o.infill169).length,
@@ -106,7 +106,7 @@
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
   const gardens171=detail.gardens171?copy(detail.gardens171):null;
-  return freeze({gardens171,stations170,complements169,furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  return freeze({gardens171,stations170,complements169,size163:copy(detail.size163),density163:copy(detail.density163),furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -149,6 +149,8 @@
    const measured=report.rooms.flatMap(r=>r.props.filter(p=>p.represented>p.exactFootprintMatches&&p.dimensions).map(p=>({room:r.name,...p}))).slice(0,8);
    for(const p of measured)host.appendChild(el('p',p.room+' — '+p.name+' : emprise source '+p.dimensions.longueur+' × '+p.dimensions.largeur+' m ; mesurée '+p.actualFootprints.map(f=>f.w+' × '+f.h+' m ('+f.count+')').join(' ; ')+'.'));
   }
+  if(inspected&&report.density163){const f=report.density163;host.appendChild(el('h6','COMPOSITION DES PIÈCES — RÉVISION 12'));host.appendChild(el('p',f.added+' compléments posés selon les usages et la surface disponible. Les limites de circulation et les faces de service priment sur la densité.'));}
+  if(inspected&&report.size163)host.appendChild(el('p',report.size163.adjusted+' emprises corrigées lorsque la source auteur permet une attribution sans ambiguïté.'));
   if(inspected&&report.furnishing162){const f=report.furnishing162;host.appendChild(el('h6','MOBILIER D’USAGE — RÉVISION 11'));host.appendChild(el('p',f.added+' compléments posés selon les usages des pièces et les passages disponibles. Ces compositions ne sont pas des quantités auteur et ne créent ni population, ni stock, ni appareil alimenté.'));}
   if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));
    host.appendChild(el('p',f.interior+' nouveaux objets intérieurs · '+f.outdoor+' nouveaux objets de cour · '+f.zones.length+' zones réservées au sol · '+f.remaining+' compléments non posés. '+f.note));

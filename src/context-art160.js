@@ -45,14 +45,34 @@
  }finally{c.restore();}}
  const forestSelections=new WeakMap();
  function forestKind(o,p,world,seed,index,x,y){
-  let state=forestSelections.get(o);const key=[seed,p.x,p.y,p.a||0,p.w,p.h].join(':');
+  let state=forestSelections.get(o);const key=[seed,world?.generation,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h].join(':');
   if(!state||state.world!==world||state.key!==key){state={world,key,kinds:[]};forestSelections.set(o,state);}
   if(state.kinds[index])return state.kinds[index];const point=globalPoint(p,x,y);
   const botanical=root.DeadwallBiomes135?.pickTree?.(seed,point.x,point.y,o.id+':'+index,{generation:world?.generation??10}),biome=botanical?null:world?.biomeAt?.(point.x,point.y),species=Object.keys(biome?.def?.trees||{oak:1});
   const kind=botanical?.species||species[hash(seed,o.id,index)%species.length]||'oak';state.kinds[index]=Nature?.TREES?.includes(kind)?kind:'oak';return state.kinds[index];
  }
+ const physicalTrees=new WeakMap();
+ function physicalTree(o,p,world,seed){
+  const key=[seed,world?.generation,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h,o.species].join(':');let cached=physicalTrees.get(o);
+  if(cached?.world===world&&cached.key===key)return cached.tree;
+  const x=o.x+o.w/2,y=o.y+o.h/2,species=Nature?.TREES?.includes(o.species)?o.species:forestKind(o,p,world,seed,0,x,y),def=root.DeadwallBiomes135?.TREES?.[species],range=def?.canopy;
+  const canopy=Array.isArray(range)&&range.length===2&&range.every(n=>Number.isFinite(n)&&n>0)?range[0]+hash(seed,o.id,'canopy')/4294967296*(range[1]-range[0]):3;
+  const tree={id:o.id,species,x,y,r:Math.min(o.w,o.h)/2,canopy,a:hash(seed,o.id,'tree-angle')/4294967296*Math.PI*2,point:globalPoint(p,x,y),bark:def?.bark||'#715d41',crown:def?.crown||'#51653e'};
+  physicalTrees.set(o,{world,key,tree});return tree;
+ }
+ function treeFallback(c,t,seed,alpha){
+  c.save();try{c.translate(t.x,t.y);c.rotate(t.a);c.globalAlpha*=alpha;c.fillStyle=t.bark;c.beginPath();c.arc(0,0,t.r,0,Math.PI*2);c.fill();c.strokeStyle=t.bark;c.lineWidth=Math.max(.04,t.r*.5);
+   for(let i=0;i<5;i++){const a=i*Math.PI*2/5;c.beginPath();c.moveTo(0,0);c.lineTo(Math.cos(a)*t.canopy*.65,Math.sin(a)*t.canopy*.65);c.stroke();}
+   c.fillStyle=t.crown;
+   if(['pine','fir'].includes(t.species)){c.beginPath();for(let i=0;i<24;i++){const a=i*Math.PI/12,r=t.canopy*(i%2?.5:.8+hash(seed,t.id,i)/4294967296*.2),x=Math.cos(a)*r,y=Math.sin(a)*r*.88;i?c.lineTo(x,y):c.moveTo(x,y);}c.closePath();c.fill();}
+   else{const narrow=t.species==='poplar',drooping=t.species==='willow';for(let i=0;i<7;i++){const a=i*Math.PI/3,r=t.canopy*(.34+hash(seed,t.id,i)/4294967296*.08),x=i===6?0:Math.cos(a)*r,y=i===6?0:Math.sin(a)*r;c.beginPath();c.ellipse(x*(narrow?.6:1),y,t.canopy*(narrow?.3:.52),t.canopy*(drooping?.59:.48),0,0,Math.PI*2);c.fill();}}
+   return true;
+  }finally{c.restore();}
+ }
  function drawVisual(c,g,p,plan,o,options={}){
   if(!valid(o))return false;const art=g?.art,seed=options.world?.seed??g?.world?.seed??0,state=pose(g,p,plan,o,options);
+  // The small native footprint is the trunk collider, not the size of its crown.
+  if(o.kind==='tree'){const t=physicalTree(o,p,options.world??g?.world,seed),v=options.v,alpha=v&&Math.hypot(v.x-t.point.x,v.y-t.point.y)<t.canopy?.32:.97;return Nature?.drawTree?.(c,art,t,{seed,alpha})||treeFallback(c,t,seed,alpha);}
   if(o.kind==='bridgePier'&&o.h>o.w*5){c.save();try{c.fillStyle='#7b8071';c.fillRect(o.x,o.y,o.w,o.h);const n=Math.min(64,Math.ceil(o.h/Math.max(.7,o.w*3)));for(let i=0;i<n;i++){const part={...o,id:o.id+':'+i,y:o.y+i*o.h/n,h:o.h/n};drawSprite(c,art,part,{seed,variant:select(o.kind,o.id,{seed,variant:o.variant})?.variant});}}finally{c.restore();}return true;}
   if(o.kind==='shelter'){const done=Props?.drawSprite?.(c,art,'tent',o.id,o.x+o.w/2,o.y+o.h/2,o.w,o.h,{seed});return done||fallback(c,o,seed);}
   if(state.complete&&o.completedKey&&['lockGate','railSignal'].includes(o.kind)){
@@ -98,7 +118,7 @@
  }
  function depthEntries(g,p,plan,options={}){
   if(!p?.context160||!plan)return[];const result=[],floor=options.v?.z??plan.z??0;
-  for(const o of plan.visuals160||[]){if(!valid(o)||(o.z??0)!==floor)continue;const rise=RISE[o.kind]||0,visual={...o,y:o.y-rise,h:o.h+rise};if(!inView(p,visual,options.view))continue;
+  for(const o of plan.visuals160||[]){if(!valid(o)||(o.z??0)!==floor)continue;const rise=RISE[o.kind]||0;let visual={...o,y:o.y-rise,h:o.h+rise};if(o.kind==='tree'){const t=physicalTree(o,p,options.world??g?.world,options.world?.seed??g?.world?.seed??0),r=t.canopy*(Math.abs(Math.cos(t.a))+Math.abs(Math.sin(t.a)));visual={x:t.x-r,y:t.y-r,w:r*2,h:r*2};}if(!inView(p,visual,options.view))continue;
    result.push({kind:'context-visual160',id:o.id,depth:bounds(p,o).b,draw(c){c.save();try{transform(c,p);drawVisual(c,g,p,plan,o,options);}finally{c.restore();}}});
   }
   for(const volume of plan.volumes160||[])if(valid(volume)&&(volume.z??0)===floor&&inView(p,volume,options.view)&&!viewerInside(options.v,p,volume))result.push(roofEntry(g,p,volume,options));

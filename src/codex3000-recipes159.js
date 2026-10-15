@@ -113,8 +113,12 @@
  const hit=(a,b,m=0)=>a.x<b.x+b.w+m&&a.x+a.w>b.x-m&&a.y<b.y+b.h+m&&a.y+a.h>b.y-m;
  /* Raster audit uses a conservative foot clearance. Existing reachable interaction
     anchors must remain reachable; an unavailable baseline is never called validated. */
- function accessGrid(p,z,plan,details,extra=[]){
+ function gridLayout(p,z){
   const cell=RULES.grid,pad=z===0?12:0,left=-pad,top=z===0?-16:0,right=p.w+pad,bottom=p.h+(z===0?25:0),cols=Math.ceil((right-left)/cell),rows=Math.ceil((bottom-top)/cell),size=rows*cols;
+  return {cell,left,top,right,bottom,cols,rows,size};
+ }
+ function accessGrid(p,z,plan,details,extra=[]){
+  const {cell,left,top,cols,rows,size}=gridLayout(p,z);
   if(size>RULES.maxGridCells)return null;
   const blocked=new Uint8Array(size),radius=RULES.radius,solids=[...plan.walls,...plan.objects,...details.interior.filter(o=>o.solid),...extra.filter(o=>o.solid)];
   if(z===0)solids.push(...(p.outdoor||[]),...details.outdoor.filter(o=>o.solid));
@@ -190,5 +194,5 @@
   const indoor=extras.filter(o=>!o.id.includes(':y')),outdoor=extras.filter(o=>o.id.includes(':y'));
   return freeze({...detail,interior:[...detail.interior,...indoor],outdoor:[...detail.outdoor,...outdoor],recipe159:{version:2,programme:description.id,added:extras.length,rejected:rejected.length,navigationRejected:dropped,anchors:anchors.length,navigationChecked:!!base?.baseline&&!!current?.baseline,kitCount:KITS?Object.keys(KITS).length:0}});
  }
- return freeze({KITS,GARDENS,YARDS,EXTRA_SHAPES,RULES,kitFor,compile,compact,describe,enrich,accessGrid,anchorCells});
+ return freeze({KITS,GARDENS,YARDS,EXTRA_SHAPES,RULES,kitFor,compile,compact,describe,enrich,gridLayout,accessGrid,anchorCells});
 });

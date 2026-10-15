@@ -79,7 +79,7 @@ if(requestedGeneration>=7){
  }
  // Complete the historical G9 pass first. G10 appends its own types without
  // changing compatibility, IDs, parcel coordinates or plans of that prefix.
- if(requestedGeneration===10){const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);contextCoverage160=Geometry160.populate({seed,roads,install,contracts:Context160,biomes:Biomes,sectors:settlementData.sectors,spawn:Spawn,home});}
+ if(requestedGeneration===10){const Spawn=root.DeadwallWorldSpawns131||(typeof require==='function'?require('./world-spawns131.js'):null);contextCoverage160=Geometry160.populate({seed,roads,install,contracts:Context160,biomes:Biomes,sectors:settlementData.sectors,spawn:Spawn,home,detailVersion:effects.detailVersion??0});}
  placementRoadBins.clear();placementParcelBins.clear();
 }else if(isG6)populateG6();
 for(const r of roads)for(let y=Math.floor(Math.min(r.a.y,r.b.y)/256);y<=Math.floor(Math.max(r.a.y,r.b.y)/256);y++)for(let x=Math.floor(Math.min(r.a.x,r.b.x)/256);x<=Math.floor(Math.max(r.a.x,r.b.x)/256);x++){
@@ -246,7 +246,7 @@ const paved=[...localRoads];for(const items of [trees,rocks])for(let i=items.len
 const c={cx,cy,trees,rocks,...(cleared.length?{cleared}:{})};chunks.set(id,c);if(chunks.size>RULES.chunkCache)chunks.delete(chunks.keys().next().value);return c;}
 function prefetch(x,y,budget=1){const cx=Math.floor(x/256),cy=Math.floor(y/256),order=[[0,0],[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];let loaded=0;for(const [dx,dy]of order){const a=cx+dx,b=cy+dy;if(a<0||b<0||a>=size/256||b>=size/256||chunks.has(a+','+b))continue;chunk(a,b);if(++loaded>=budget)break;}return loaded;}
 function around(x,y,r=100){const out=[];for(let cy=Math.floor((y-r)/256);cy<=Math.floor((y+r)/256);cy++)for(let cx=Math.floor((x-r)/256);cx<=Math.floor((x+r)/256);cx++)out.push(chunk(cx,cy));return out;}
-function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme160?{...Geometry160.plan(p,seed,z),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
+function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.programme160?{...Geometry160.plan(p,seed,z,effects.detailVersion??0),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
 function sceneryRadius(t){const depleted=(effects.resourceTaken?.(t.id)||0)>=t.amount-.001;return depleted?(t.kind==='rock'?0:Math.min(t.r,.18)):t.r;}
 function detailAt(p,z=0){
  if(p?.programme160){
@@ -274,6 +274,7 @@ function detailAt(p,z=0){
  if(effects.detailVersion>=9&&programme)dressed=Codex3000.gardens({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=10&&programme)dressed=Codex3000.packing({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=11&&programme?.extension===158)dressed=Codex3000.furnish({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
+ if(effects.detailVersion>=12&&programme)dressed=Codex3000.complete({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  const colliders160=Object.freeze({interior:Object.freeze(dressed.interior.filter(o=>o.solid)),outdoor:Object.freeze(dressed.outdoor.filter(o=>o.solid))});
  const val=Object.freeze({...dressed,colliders160,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);

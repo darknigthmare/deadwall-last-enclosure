@@ -128,7 +128,7 @@ function spawnPoint(w,p,index,z,firstGround){
  return candidates.find(q=>!w.blocked(q.x,q.y,T.enemyRadius,z,z?p.id:null)&&!([...enemies.values()].some(e=>e.z===z&&Math.hypot(e.x-q.x,e.y-q.y)<T.enemyRadius*2)));
 }
 function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p of near){if(Math.hypot(p.x-state.x,p.y-state.y)>80+Math.hypot(p.w,p.h)/2)continue;if(Math.hypot(p.x-state.x,p.y-state.y)<R.discover&&!state.seen.includes(p.id)){state.seen.push(p.id);message='Découverte : '+p.name;}
- const count=w.threatCount(p),levels=Array.from({length:count},(_,i)=>p.levels[G.hash(p.id,i)%p.levels.length]),firstGround=levels.indexOf(0);
+ const count=w.threatCount(p),sourceLevels=p.legacyLevels160||p.levels,levels=Array.from({length:count},(_,i)=>sourceLevels[G.hash(p.id,i)%sourceLevels.length]),firstGround=levels.indexOf(0);
  for(let i=0;i<count&&enemies.size<R.maxEnemy;i++){
   const id=p.id+':e'+i,z=levels[i];if(state.enemies[id]===0||enemies.has(id)||z!==state.z||z!==0&&p.id!==state.inside)continue;
   const saved=state.tracks[id],validSaved=saved&&!w.blocked(saved.x,saved.y,T.enemyRadius,z,z?p.id:null)?saved:null;

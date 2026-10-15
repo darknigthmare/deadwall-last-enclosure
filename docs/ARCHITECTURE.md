@@ -367,3 +367,12 @@ Le catalogue d’arsenal reçoit deux outils à `workBonuses/workWear/requires` 
 `d17-art149.js` est chargé après assets136 et avant art.js. Il fournit six images au chargeur commun (59 entrées) ; urban-art installe ses raccords après création du jeu. Dix-sept rectangles mesurés couvrent les centres, six hauteurs de logements, les familles industrielles, les services et les chantiers. Le choix du centre lit le palier déjà calculé ; les peintres ne consultent aucun snapshot de simulation. La texture de cour utilise un motif mis en cache par contexte. Éclairage, désactivation, profondeurs, emprises et fractions exactes de chantier restent ceux du moteur, avec repli si l’image manque.
 
 Les nouvelles vérifications séparent les transactions réelles en G7, les parcours de début natifs et les colonies tardives explicitement préparées. Les durées de chantier isolé ne sont pas des temps de campagne humaine. Voir LIVRAISON_1_49.md et les reçus d’audit distincts.
+
+
+## 1.63 — Composition et inspection facultatives
+
+La révision de détails12 est indépendante de la générationG10. `CodexUsage163` classe les pièces par indices fiables, `CodexSize163` corrige seulement les détails non récupérables dont l’emprise auteur est non ambiguë et contenue dans l’ancienne, puis `CodexDensity163` compose selon l’espace libre et l’usage. Les grilles, points de travail, zones de service et circulations limitent le placement ; aucun stock, contenant source ou réseau alimenté n’est créé. Les quatre modules purs163 sont compilés dans le script de données déjà distribué.
+
+`CodexArchitecture163` ajoute à18 références une paire d’escaliers et un parcours piéton d’inspection. Les niveaux historiques de population sont conservés dans `legacyLevels160` : les anciens ennemis ne sont pas redistribués aux nouveaux étages. Le plan historique au sol reste la base des contenants et opérations. La collision interdit le vide hors passerelle, les gardes et supports physiques utilisent les peintres d’ouvrages. Les domaines de circulation automobile et les architectures auteur complètes restent partiels et signalés.
+
+L’activation `completeCodex163` prépare un monde candidat, vérifie les possessions et positions, puis restaure la sauvegarde atomiquement. L’aperçu pur utilise la même révision et actualise ses niveaux disponibles. Les révisions0–11 gardent leurs générateurs ; le correctif de silhouette des arbres est visuel.

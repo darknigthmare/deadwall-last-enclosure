@@ -54,5 +54,5 @@ test('159: detail version 2 preserves G8 floor plans, real container amounts, ro
  assert.equal(hash(before.pois),hash(after.pois));assert.equal(hash(before.roads),hash(after.roads));let changes=0;
  for(const p of after.pois.slice(0,20)){const old=before.pois.find(q=>q.id===p.id);for(const z of p.levels){assert.deepEqual(after.plan(p,z),before.plan(old,z));const next=after.detailAt(p,z);assert.equal(next.recipe159.version,2);changes+=next.recipe159.added;}}
  assert.ok(changes>0);const p=after.pois[0],expected=after.detailAt(p,0);for(const q of after.pois.slice(1,75))after.detailAt(q,0);assert.deepEqual(after.detailAt(p,0),expected,'LRU must not reroll');
- const state=S.initial();state.generation=8;state.detailVersion=2;assert.equal(S.normalize(state).detailVersion,2);for(let v=0;v<=11;v++)assert.equal(S.normalize({...state,detailVersion:v}).detailVersion,v);for(const v of [12,-1,1.5,'6',true,null,NaN,Infinity])assert.throws(()=>S.normalize({...state,detailVersion:v}));
+ const state=S.initial();state.generation=8;state.detailVersion=2;assert.equal(S.normalize(state).detailVersion,2);for(let v=0;v<=12;v++)assert.equal(S.normalize({...state,detailVersion:v}).detailVersion,v);for(const v of [13,-1,1.5,'6',true,null,NaN,Infinity])assert.throws(()=>S.normalize({...state,detailVersion:v}));
 });

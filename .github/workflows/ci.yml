@@ -105,7 +105,7 @@ jobs:
           - group: touch-layout
             scripts: 'scripts/browser-touch-layout162.mjs'
           - group: metrics
-            scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs scripts/browser-codex162.mjs'
+            scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs scripts/browser-codex162.mjs scripts/browser-codex163.mjs'
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       DEADWALL_REQUIRE_WEBGL: '1'
