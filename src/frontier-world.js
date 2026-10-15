@@ -233,6 +233,7 @@ function detailAt(p,z=0){
  if(effects.detailVersion>=7&&programme)dressed=Codex3000.infill({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=8&&programme)dressed=Codex3000.stations({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  if(effects.detailVersion>=9&&programme)dressed=Codex3000.gardens({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
+ if(effects.detailVersion>=10&&programme)dressed=Codex3000.packing({seed,p,z,plan:plan(p,z),detail:dressed,programme:programme.id});
  const colliders160=Object.freeze({interior:Object.freeze(dressed.interior.filter(o=>o.solid)),outdoor:Object.freeze(dressed.outdoor.filter(o=>o.solid))});
  const val=Object.freeze({...dressed,colliders160,programme3000:programme?.id||null,programmeState:programme?.state||null});
  detailCache.set(key,val);

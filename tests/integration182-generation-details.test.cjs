@@ -1,10 +1,11 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');
+require('../src/codex-context160.js');
 const copy=value=>JSON.parse(JSON.stringify(value));
 
 test('182 regional generation and optional detail revision remain independent save axes',()=>{
- for(let generation=1;generation<=10;generation++)for(let detailVersion=0;detailVersion<=9;detailVersion++){
+ for(let generation=1;generation<=10;generation++)for(let detailVersion=0;detailVersion<=10;detailVersion++){
   const saved={...S.initial(),generation,detailVersion};
   const normalized=S.normalize(saved);
   assert.equal(normalized.generation,generation);assert.equal(normalized.detailVersion,detailVersion);
@@ -33,7 +34,7 @@ test('182 depot detail upgrade preserves G10 completed works in its actual candi
  const {boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
  const {game:g}=boot127();Ops.install(g);ContextOps.install(g);g.startNew('standard','17117');
  standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
- assert.equal(g.worldOps131.activateTerritories160().ok,true);
+ const activation=g.worldOps131.activateTerritories160();assert.equal(activation.ok,true,activation.reason);
  const site=g.frontier.world().contextSites160().find(p=>p.context160.operations.some(o=>o.kind==='pumpBasin'));
  assert.ok(site);const operation=site.context160.operations.find(o=>o.kind==='pumpBasin'),key=site.id+':160:'+operation.key;
  // Explicit late-state fixture: a valid saved, discovered and completed work.
@@ -45,13 +46,13 @@ test('182 depot detail upgrade preserves G10 completed works in its actual candi
  const before=snapshot(),create=W.create,candidates=[];
  W.create=function(seed,generation,effects){
   const world=create(seed,generation,effects);
-  if(generation===10&&effects?.detailVersion===9&&typeof effects.contextCompleted160==='function')candidates.push(world);
+  if(generation===10&&effects?.detailVersion===10&&typeof effects.contextCompleted160==='function')candidates.push(world);
   return world;
  };
- try{const result=g.worldOps131.upgradeDetails159(9);assert.equal(result.ok,true,result.reason);}
+ try{const result=g.worldOps131.upgradeDetails159(10);assert.equal(result.ok,true,result.reason);}
  finally{W.create=create;}
  assert.equal(candidates.length,1);assert.equal(candidates[0].contextCompleted160(key),true);
- const after=snapshot();assert.equal(after.frontier.generation,10);assert.equal(after.frontier.detailVersion,9);
+ const after=snapshot();assert.equal(after.frontier.generation,10);assert.equal(after.frontier.detailVersion,10);
  assert.equal(g.frontier.world().contextCompleted160(key),true);
  after.frontier.detailVersion=before.frontier.detailVersion;assert.deepEqual(after,before);
  assert.equal(g.restoreSave(copy(g.serialize())),true);assert.equal(g.frontier.world().contextCompleted160(key),true);

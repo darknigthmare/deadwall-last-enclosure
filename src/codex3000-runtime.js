@@ -289,8 +289,9 @@
  function stations(options){const api=globalThis.DeadwallCodexStations170||(typeof require==='function'?require('./codex-stations170.js'):null);if(!api)throw Error('Postes et stocks au sol non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function gardens(options){const api=globalThis.DeadwallCodexGardens171||(typeof require==='function'?require('./codex-gardens171.js'):null),D=globalThis.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),description=describe(options.programme||options.p.codex);if(!api||!D)throw Error('Jardins composés non chargés');return api.enrich({...options,description,geometry:G,recipes:Recipes159,shapes:{...D.objects,...Recipes159.EXTRA_SHAPES},family:detailFamily(description.family)});}
  function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
+ function packing(options){const api=globalThis.DeadwallCodexPacking173||(typeof require==='function'?require('./codex-packing173.js'):null);if(!api)throw Error('Travées intérieures non chargées');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
  function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
- return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
+ return Object.freeze({packing,get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
   records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,infill,stations,gardens,searchDocument});
 });

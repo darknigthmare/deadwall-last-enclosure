@@ -2395,3 +2395,12 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   guardRange:24,repairRate:10,repairScrapPerHealth:1/30,landingSearch:6,landingStep:.5
  });
 })(globalThis);
+
+/* Revision 10 keeps old placement budgets; geometric search is exhaustive and bounded. */
+(function(root){'use strict';root.DeadwallCore.CodexPacking173Rules=Object.freeze({revision:10,maxAdded:24,maxPerRoom:6,maxPerSpec:6,maxCandidates:196,gridSteps:7});})(globalThis);
+
+/* Laboratory metrics; no new campaign construction or production balance. */
+(function(root){'use strict';root.DeadwallCore.CodexNative173Rules=Object.freeze({minLevel:-2,maxLevel:8,maxSpaces:512,defaultRoomArea:24,defaultYardArea:100,minimumRoomSide:4.5,wall:.24,door:1.8,corridor:3.6,stairWidth:2.1,stairLength:3.6,yardLane:2,furnitureOccupancy:.5,gardenAttempts:72});})(globalThis);
+
+/* Explicit laboratory source; no automatic fuel in a campaign. */
+(function(root){'use strict';root.DeadwallCore.CodexInfrastructure173Rules=Object.freeze({generatorW:3000,floorW:1000,tank:20,fuelPerKWh:.3,idleFuel:.15,lampW:18,maxStep:60,maxSpeed:40});})(globalThis);
