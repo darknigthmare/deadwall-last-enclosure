@@ -101,7 +101,13 @@ function install(g,doc=root.document){
  wrap('onEscape',(old,...args)=>opened?finish(true):old(...args));
  for(const name of ['showHelp','showSettings','showCommand'])wrap(name,(old,show,...args)=>opened&&show?false:old(show,...args));
  wrap('suspendForFocusLoss',(old,...args)=>{if(opened&&g.state==='playing')focusLost=true;const result=old(...args);if(opened)sync();return result;});
+ // Record history only after every new-campaign initializer has finished.
+ // Initial identities and existing archives remain unchanged.
+ let startDepth161=0,pendingRecord161=null;
+ wrap('recordCampaign',(old,...args)=>{if(startDepth161){pendingRecord161=args;return;}return old(...args);});
  wrap('startNew',(old,...args)=>{
+  startDepth161++;let completed161=false;
+  try{
   if(opened){
    // Invalid setup must leave the current story and campaign intact. A valid new
    // world needs ordinary command permissions for its own generation migration.
@@ -117,7 +123,11 @@ function install(g,doc=root.document){
    // The existing saved tutorial is primed before the cinematic pauses the world.
    g.chronicles131.startPrologue();open(false);guide();
   }
+  completed161=result!==false;
   return result;
+  }finally{
+   if(--startDepth161===0){const pending=pendingRecord161;pendingRecord161=null;if(completed161&&pending)g.recordCampaign(...pending);}
+  }
  });
  wrap('restoreSave',(old,...args)=>{
   const result=old(...args);if(result!==false&&opened){cleanup();returnFocus=null;g.paused=false;g.syncOverlayFocus();g.updateUI();}return result;
@@ -145,3 +155,4 @@ function install(g,doc=root.document){
 const api=Object.freeze({install,SHOTS});root.DeadwallCampaignIntro132=api;
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else if(root.DEADWALL&&root.document)install(root.DEADWALL,root.document);
 })(globalThis);
+

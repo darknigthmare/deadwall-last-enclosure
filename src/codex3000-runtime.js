@@ -7,6 +7,9 @@
  const api=factory(data,G);root.DeadwallCodex3000Runtime=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(DATA,G){'use strict';
+ const Recipes159=globalThis.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null);
+ const Anchors160=globalThis.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null);
+ const search160=new Map();
  const rows=DATA?.programmes||[],parents=DATA?.parents||{},byId=new Map(),byFamily=new Map(),legacyByFamily=new Map();
  const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const child of Object.values(value))freeze(child);Object.freeze(value);}return value;};
  for(const r of rows){const p=Object.freeze({id:'DW-'+String(r[0]).padStart(4,'0'),name:r[1],family:r[2],
@@ -260,8 +263,34 @@
   return 'magasins';
  }
  function programmeProps(state){return STATE_FEATURES[state]||[];}
+ function describe(id){
+  const record=get(id);if(!record)throw Error('Programme inconnu : '+id);
+  if(record.extension!==158)return Recipes159.describe(id,DATA,{get,parentFor,detailFamily});
+  const source=record.details;
+  // The independent addendum has authored space/prop slots, not the older
+  // quantified furniture prescriptions. Keep that distinction visible.
+  return freeze({id:record.id,parent:record.parent,name:record.name,family:record.family,module:record.module,state:record.state,
+   rooms:source.spaces.map(space=>({id:space.id,name:space.name,exterior:false,classificationSource:'authored',
+    levels:[space.z],area:null,repeat:[1,1],resource:space.resource,props:[],authoredProps:[],sourceProps158:space.props,
+    kit:Recipes159.kitFor(space.name),required:[],optional:[],placement:space.usage||'',furnishingSource:'independent-authored-slots'})),
+   exteriorOptions:[],gardenOptions:[],access:[],sourceAccess158:source.access,
+   plot:{enveloppe_min_m:[source.architecture.width,source.architecture.height],enveloppe_max_m:[source.architecture.width,source.architecture.height]},
+   loot:source.loot||null,exterior:source.exterior||null,causal:null,postFall:source.story||null,source158:source,
+   implementation:'Programme indépendant 1.58 : espaces et contenants propres conservés. Les accessoires sont des emplacements auteur, sans quantités ou hauteurs de mobilier ajoutées.'});
+ }
+ function dress(options){const api=globalThis.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);return api?api.enrich(options):options.detail;}
+ function searchTerms(id){const entry=get(id);return entry?DATA.details159?.search160?.[entry.parent]||'':'';}
+ function enrich(options){if(get(options.programme||options.p.codex)?.extension===158)return options.detail;return Recipes159.enrich({...options,data:DATA,runtime:{get,parentFor,detailFamily},geometry:G});}
+ function anchored(options){return Anchors160.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function quantities(options){const q=globalThis.DeadwallCodexQuantities164||(typeof require==='function'?require('./codex-quantities164.js'):null);if(!q)throw Error('Séries de mobilier non chargées');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
+ function ensembles(options){const q=globalThis.DeadwallCodexEnsembles165||(typeof require==='function'?require('./codex-ensembles165.js'):null);if(!q)throw Error('Ensembles de mobilier non chargés');return q.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function fill(options){const api=globalThis.DeadwallCodexFill168||(typeof require==='function'?require('./codex-fill168.js'):null);if(!api)throw Error('Complément mobilier non chargé');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
+ function infill(options){const api=globalThis.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);if(!api)throw Error('Compléments de cour non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159,anchors:Anchors160});}
+ function stations(options){const api=globalThis.DeadwallCodexStations170||(typeof require==='function'?require('./codex-stations170.js'):null);if(!api)throw Error('Postes et stocks au sol non chargés');return api.enrich({...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159});}
+ function gardens(options){const api=globalThis.DeadwallCodexGardens171||(typeof require==='function'?require('./codex-gardens171.js'):null),D=globalThis.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),description=describe(options.programme||options.p.codex);if(!api||!D)throw Error('Jardins composés non chargés');return api.enrich({...options,description,geometry:G,recipes:Recipes159,shapes:{...D.objects,...Recipes159.EXTRA_SHAPES},family:detailFamily(description.family)});}
+ function searchDocument(id){const r=get(id);if(!r)return '';if(!search160.has(r.parent))search160.set(r.parent,Anchors160.searchText(describe(r.parent)));return search160.get(r.parent);}
  function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}
  return Object.freeze({get,parentFor,template,floor,enabled,mappedFamily,forParcel,programmeProps,summary,
-  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily});
+  records:Object.freeze([...byId.values()]),byFamily,preset,populateRegion,detailFamily,describe,enrich,dress,searchTerms,anchored,quantities,ensembles,fill,infill,stations,gardens,searchDocument});
 });

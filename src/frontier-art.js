@@ -53,8 +53,8 @@ function wornPad141(c,x,y,w,h,seed,color){
  c.fillStyle=color;c.beginPath();c.moveTo(x+edge*jitter(1),y+edge*jitter(2));c.lineTo(x+w-edge*jitter(3),y+edge*jitter(4));c.lineTo(x+w-edge*jitter(5),y+h-edge*jitter(6));c.lineTo(x+edge*jitter(7),y+h-edge*jitter(8));c.closePath();c.fill();
  c.globalAlpha*=.34;c.fillStyle='#bbb18e';for(let i=0;i<12;i++){c.beginPath();c.ellipse(x+w*jitter(i+31),y+h*jitter(i+55),.08+jitter(i+74)*.16,.035+jitter(i+92)*.07,jitter(i+108)*Math.PI,0,Math.PI*2);c.fill();}c.globalAlpha/=.34;
 }
-function lotGround141(c,p){
- const natural=NATURAL_LOTS141.has(p.type),seed=G.hash(p.id,p.x,p.y),pad=natural?.65:1.5;
+function lotGround141(c,p,profile=null){
+ const natural=profile?.natural??NATURAL_LOTS141.has(p.type),seed=G.hash(p.id,p.x,p.y),pad=natural?.65:1.5;
  if(!natural)wornPad141(c,-11,-17,p.w+22,16,seed,'#707a68');
  wornPad141(c,-pad,-pad,p.w+pad*2,p.h+pad*2,seed^351,natural?'#898d70':'#a2a38a');
  // Existing drive, parking and objects decide the service surfaces; vegetation stays visible between rural supports.
@@ -68,12 +68,12 @@ function lotGround141(c,p){
  else for(const o of p.outdoor||[])if(['generator','electricalRack','machine','workbench'].includes(o.kind))wornPad141(c,o.x-.3,o.y-.3,o.w+.6,o.h+.6,G.hash(seed,o.id),'#9a9d84');
 }
 function contextualOpen160(p){return !!p.context160&&(p.context160.mode!=='building'||!!p.context160.profile);}
-function lotGround(c,p,v,g=root.DEADWALL){if(v.z!==0)return;if(contextualOpen160(p))return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){lotGround141(c,p);for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
+function lotGround(c,p,v,g=root.DEADWALL){if(v.z!==0)return;if(contextualOpen160(p))return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){const site=root.DeadwallCodexSites162?.forWorld?.(v.world,p);lotGround141(c,p,site?.profile);if(site)root.DeadwallCodexSites162.draw(c,site);for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
 // Floors are painted before the shared queue; their furniture, walls and roofs
 // participate in the same world-space depth ordering as actors and equipment.
 function inLot(c,p,draw){c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);draw();c.restore();}
 function openLot(g,p,v){return contextualOpen160(p)||v.inside===p.id||p.type==='ruin'||!!g?.worldEvolution?.structureDestroyed(p.id);}
-function rectDepth(p,o){return Math.max(...[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].map(([x,y])=>G.global(p,x,y).y));}
+function rectDepth(p,o){if(o.dressing160&&o.supportBounds)return rectDepth(p,o.supportBounds)+.0001;return Math.max(...[[o.x,o.y],[o.x+o.w,o.y],[o.x,o.y+o.h],[o.x+o.w,o.y+o.h]].map(([x,y])=>G.global(p,x,y).y));}
 function vehicleDepth(v){return v.y+Math.abs(Math.sin(v.a||0))*(v.w||4.6)/2+Math.abs(Math.cos(v.a||0))*(v.h||1.85)/2;}
 function visiblePoint(g,p,v){
  if((p.z??0)!==v.z||v.z!==0&&p.inside!==v.inside)return false;
@@ -104,7 +104,7 @@ c.strokeStyle='#c6bea1';c.lineWidth=.15;c.strokeRect(.13,.13,p.w-.26,p.h-.26);
 function lotEntries(g,p,v){const entries=[],add=(kind,id,depth,draw)=>entries.push({kind,id,depth,draw}),pl=v.world.plan(p,v.inside===p.id?v.z:0),destroyed=!!g?.worldEvolution?.structureDestroyed(p.id);
  if(openLot(g,p,v)){
   for(const o of pl.objects)add('furniture',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:v.inside===p.id?v.z:0})));
-  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface)add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));
+  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface&&!(destroyed&&o.dressing160&&o.plane==='wall'))add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));
   for(const [i,b]of (destroyed?[]:pl.walls).entries())add('wall',p.id+':wall:'+i,rectDepth(p,b),c=>inLot(c,p,()=>{const shade=localShadow(p.a,.12,.16);fill(c,b.x+shade.x,b.y+shade.y,b.w,b.h,'rgba(0,0,0,.23)');if(!root.DeadwallStructureArt159?.drawPartition?.(c,g?.art,b,{seed:v.world.seed??g?.world?.seed??0,poiId:p.id,floor:v.inside===p.id?v.z:0})){fill(c,b.x,b.y,b.w,b.h,'#506652');fill(c,b.x,b.y,b.w,Math.min(.075,b.h),'#b7c09e');}}));
  }else add('roof',p.id,rectDepth(p,{x:0,y:0,w:p.w,h:p.h}),c=>lotRoof(c,p,v,g));
  if(v.z===0){for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}

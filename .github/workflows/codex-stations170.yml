@@ -1,0 +1,98 @@
+name: DEADWALL source machines and ground storage
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/codex-stations170.yml'
+      - 'src/codex*'
+      - 'src/frontier*'
+      - 'src/seed-detail*'
+      - 'src/world-pack131.js'
+      - 'src/campaign-intro132.js'
+      - 'scripts/audit-stations170.mjs'
+      - 'scripts/browser-stations170.mjs'
+      - 'scripts/browser-arrival158.mjs'
+      - 'scripts/compile-codex3000.mjs'
+      - 'scripts/qa-transaction167.mjs'
+      - 'tests/codex-stations170*'
+      - 'tests/distribution.test.cjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: source-stations170-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  source-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked tools without Electron binary
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Build and verify source, collision, persistence and distribution
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/stations170-contracts
+          npm run build
+          node --test --test-concurrency=1 tests/codex-stations170.test.cjs tests/distribution.test.cjs tests/campaign-records161.test.cjs tests/campaign-identity.test.cjs tests/new-game-generation.test.cjs 2>&1 | tee artifacts/qa/stations170-contracts/contracts.log
+      - name: Compare every compatible recipe and floor
+        if: ${{ !cancelled() }}
+        run: node scripts/audit-stations170.mjs
+      - name: Record source revision and check reproducible generation
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/stations170-contracts
+          git rev-parse HEAD > artifacts/qa/stations170-contracts/revision.txt
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-stations170-audit
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked browser tools and build
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: |
+          npm ci
+          npm run build
+          npx playwright install --with-deps chromium
+      - name: Actual opt-in and Continue on three viewports
+        run: node scripts/browser-stations170.mjs
+      - name: Preserve corrected D-17 arrival and campaign identity
+        if: ${{ !cancelled() }}
+        run: npm run test:arrival
+      - name: Record tested revision
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/stations170-browser
+          git rev-parse HEAD > artifacts/qa/stations170-browser/revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-stations170-browser
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

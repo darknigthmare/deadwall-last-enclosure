@@ -149,3 +149,6 @@ Guide `docs/LIVRAISON_1_48.md` et nouvelle QA `test:defenses`. Les preuves coura
 ## Continuation 1.49 — audit du développement D-17
 
 Base : commit 67bcb1f2f3adf90a4f76669e676cfb03cec90e73 créé puis poussé sur main le 3 octobre 2026, contenant les sources cumulatives 1.48 validées. Les ZIP fabriqués avant ce commit gardent leur provenance historique et leurs empreintes. Cette passe conserve les seuils, coûts, géographie et registres existants ; elle ajoute les diagnostics de capacité, les contrôles des onze âges et les images originales de D-17. Les pixels générés sont documentés dans assets/art149/, sans asset tiers importé. Guide docs/LIVRAISON_1_49.md ; preuves sous /workspace/deadwall-cloud/d17-audit-20261003/. Les scènes préparées et les budgets de chantier ne sont pas des campagnes humaines complètes.
+
+## Passe 169 — fusion des compléments source
+Les cinq silhouettes procédurales locales (bac, casier, armoire, brancard, bidon) de la passe 168 sont reprises dans `codex-infill169-art.js`, sans acquisition d'assets ni changement de licence. La révision 7 est cumulative après la révision 6 publiée `codex-fill168.js`. Les zones extérieures sont des enveloppes de placement dans la réserve existante, pas de nouvelles architectures finies. Les données source restent distinctes des compétences, ressources ou réseaux effectivement simulés.

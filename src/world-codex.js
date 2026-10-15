@@ -13,20 +13,44 @@
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});
   const normalize=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+  const runtime160=globalThis.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null);
   const index=new Map(entries.map(e=>[e.id,normalize(Object.values(e).join(' '))]));
   function query(filters={},game=null){
     const words=normalize(filters.text).split(' ').filter(Boolean),family=filters.family||'all',status=filters.status||'all';
     const availability=filters.availability||'all',known=availability==='known'?new Set(actions159?.knownProgrammes(game)||[]):null;
-    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word))&&
+    return entries.filter(e=>(family==='all'||e.family===family)&&(status==='all'||status==='terrain'&&['jouable','pilote'].includes(e.status)||e.status===status)&&words.every(word=>index.get(e.id).includes(word)||(e.id.startsWith('programme-DW-')&&runtime160?.searchDocument(e.id.slice(10)).includes(word)))&&
       (availability==='all'||availability==='city'&&!!e.choice159||availability==='known'&&known.has(e.id.replace(/^programme-/,''))||
        availability==='context160'&&e.status==='programme'&&!!actions159?.capability(e.id)?.context160||
        ['supported','unavailable'].includes(availability)&&e.status==='programme'&&actions159?.capability(e.id)?.eligible===(availability==='supported')));
   }
+  const sourceNumber161=value=>Number.isFinite(value)?String(value).replace('.',','):'non renseigné';
+  function sourceRange161(value){return Array.isArray(value)&&value.length===2&&value.every(Number.isFinite)?(value[0]===value[1]?sourceNumber161(value[0]):value.map(sourceNumber161).join(' à ')):'non renseignée';}
+  function sourcePropRows161(prop={}){
+    const size=prop.gabarit_m||{},rows=[['Quantité par espace',sourceRange161(prop.quantite_par_espace)],
+      ['Gabarit source (L × l × h)',[size.longueur,size.largeur,size.hauteur].map(sourceNumber161).join(' × ')+' m']];
+    if(Number.isFinite(prop.degagement_min_m))rows.push(['Dégagement minimum proposé',sourceNumber161(prop.degagement_min_m)+' m']);
+    for(const [key,label]of [['ancrage','Ancrage et support'],['rotation','Orientation'],['collider','Collision prescrite']])if(typeof prop[key]==='string'&&prop[key])rows.push([label,prop[key]]);
+    if(typeof prop.loot_eligible==='boolean')rows.push(['Butin dans le programme source',prop.loot_eligible?'Éligible au budget fini du lieu, pas un stock supplémentaire':'Non éligible']);
+    return rows;
+  }
+  const MODULE_LABELS161=Object.freeze({flowerbed:'massifs fleuris',planter:'bacs plantés',bench:'bancs',cropbed:'planches potagères',compost:'composteur',waterButt:'récupérateur d’eau',patio:'terrasse',barbecue:'barbecue',playset:'jeux de jardin',toy:'jouets',tree:'arbres',pool:'piscine',greenhouse:'serre',shed:'abri',worktable:'établi',toolbox:'outillage',clothesline:'étendoir',laundryBasket:'panier à linge',hedge:'haie',bikeRack:'range-vélos',canopy:'abri toilé'});
+  function accessRows161(recipe={}){
+    if(recipe.sourceAccess158){const access=recipe.sourceAccess158,labels={public:'Accès public',service:'Accès de service',return:'Retour'};
+      return Object.entries(labels).filter(([key])=>typeof access[key]==='string').map(([key,label])=>[label,access[key]+(Number.isFinite(access.width_m)?' · '+sourceNumber161(access.width_m)+' m de largeur prescrite':'')]);}
+    const names=new Map((recipe.rooms||[]).map(room=>[room.id,room.name]));
+    const place=id=>names.get(id)||String(id??'accès').replaceAll('_',' ');
+    return (recipe.access||[]).map(link=>[place(link.de)+' → '+place(link.vers),
+      [Number.isFinite(link.largeur_min_m)?sourceNumber161(link.largeur_min_m)+' m minimum proposé':null,typeof link.contrainte==='string'?link.contrainte:null].filter(Boolean).join(' · ')||'Largeur non renseignée']);
+  }
+
   function install(game,document){
     if(!game||!document||game.worldCodex)return false;
     const panel=document.getElementById('commandPanel-field'),nav=panel?.querySelector('.field-nav');if(!panel||!nav)return false;
     const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.classList.add(...cls.split(' '));return n;};
     const append=(parent,...nodes)=>{for(const n of nodes)parent.appendChild(n);return parent;};
+    function specifications161(parent,rows){const list=el('dl',undefined,'codex-specifications161');for(const [label,value]of rows){append(list,el('dt',label),el('dd',value));}parent.appendChild(list);return list;}
+    function furniture161(parent,room){for(const prop of room.authoredProps||[]){const box=el('div',undefined,'codex-source-prop161');box.dataset.asset=prop.asset||'';box.appendChild(el('h6',prop.nom||'Mobilier source'));specifications161(box,sourcePropRows161(prop));parent.appendChild(box);}}
+
     const section=el('section',undefined,'world-codex hidden');section.id='field-world-codex';
     const button=el('button','ATLAS & GUIDE');button.type='button';button.dataset.fieldView='world-codex';button.setAttribute('aria-controls',section.id);button.setAttribute('aria-pressed','false');
     const heading=el('h3','LIEUX, SURVIE ET NUITS'),intro=el('p','Retrouvez les usages des lieux, les ressources à chercher et les précautions à prendre. Les fiches « Projet de contenu » décrivent des extensions possibles. Elles ne signalent pas des lieux déjà présents sur votre carte.','command-note');
@@ -84,6 +108,38 @@
           let activation=null;if(actions159.capability(entry.id)?.context160){activation=actionButton('VOIR L’ACTIVATION AU DÉPÔT',entry,()=>actions159.openTerritories160(game,entry.id));activation.dataset.codexTerritories160=entry.id;card.appendChild(activation);}
           liveNodes.set(entry,{status:state,known,sites:siteList,activation,signature:''});}
         if(entry.choice159&&actions159){const state=el('p',undefined,'world-codex-boundary'),conditions=el('p'),open=actionButton('OUVRIR CE CHOIX DANS PRÉPARATIFS',entry,()=>actions159.openChoice(game,entry.choice159,document));append(card,state,conditions,open);liveNodes.set(entry,{status:state,conditions,button:open});}
+        if(entry.id.startsWith('programme-DW-'))details.addEventListener('toggle',()=>{
+          if(!details.open||details.dataset.recipeLoaded)return;
+          const recipe=globalThis.DeadwallCodex3000Runtime?.describe(entry.id.slice('programme-'.length));if(!recipe)return;
+          details.dataset.recipeLoaded='true';details.appendChild(el('h5','PROGRAMME COMPLET : PIÈCES, COURS ET MOBILIER'));
+          details.appendChild(el('h5','SÉRIES DE MOBILIER — ACTIVATION OPTIONNELLE'));
+          details.appendChild(el('p','Révision 7 — COMPLÉTER LES PIÈCES ET LES COURS au dépôt : les minima de la révision 6 sont conservés, puis casiers, armoires, brancards, bidons, bacs, bancs et panneaux complètent les emplacements libres. Zones de placement de cour, sans nouvelle géométrie de jardin ni réseau alimenté. Les refus sont conservés.'));
+          details.appendChild(el('p','Au dépôt D-17, « COMPLÉTER LES SÉRIES DE MOBILIER » active la révision 4 : répétitions de meubles compatibles d’après les quantités auteur, selon les emplacements libres. Jusqu’à 24 compléments par étage et 6 par pièce ; aucun remplacement des meubles présents ni nouveau butin. Les dimensions, faces de service et passages restent prioritaires. Une quantité source reste un objectif, pas une garantie de pose. Les équipements sans quantité ou support exploitable restent des prescriptions.'));
+
+          for(const room of recipe.rooms){const section=el('section');
+            section.appendChild(el('h5',room.name+' · '+(room.exterior?'Extérieur':'Intérieur')));
+            section.appendChild(el('p','Équipement : '+room.kit.inventory.join(', ')+'. Dégagement proposé : '+room.kit.clearance+' m.'));
+            if(room.sourceProps158?.length)section.appendChild(el('p','Contenants prévus dans cet espace : '+room.sourceProps158.map(prop=>prop.kind).join(', ')+'. Leur budget de fouille reste celui du lieu.'));
+            if(room.area)section.appendChild(el('p','Surface source : '+room.area.join('–')+' m². Les maxima ne se cumulent pas sur une parcelle minimale.'));
+            if(room.classificationSource==='inference')section.appendChild(el('p','Intérieur/extérieur déduit du nom : prescription à vérifier avant nouvelle architecture.'));
+            section.appendChild(el('p','Niveaux prescrits : '+(room.levels||[]).map(z=>z===0?'rez-de-chaussée':z<0?'sous-sol '+Math.abs(z):'étage '+z).join(', ')+' · Répétitions : '+sourceRange161(room.repeat)+'.'));
+            if(room.placement)section.appendChild(el('p',room.placement));
+            furniture161(section,room);
+            details.appendChild(section);
+          }
+          if(recipe.gardenOptions.length)details.appendChild(el('p','Jardins possibles : '+recipe.gardenOptions.map(v=>v.name+' (au moins '+v.minArea+' m² libres)').join(' ; ')+'.'));
+          const prescribed=el('div',undefined,'codex-prescription161');prescribed.appendChild(el('h5','ACCÈS ET AMÉNAGEMENTS PRESCRITS'));
+          const access=accessRows161(recipe);if(access.length)specifications161(prescribed,access);else prescribed.appendChild(el('p','Accès détaillés non renseignés dans cette source : à définir avant une architecture native.','world-codex-boundary'));
+          if(recipe.plot){const plot=recipe.plot;prescribed.appendChild(el('p','Parcelle source : '+(plot.enveloppe_min_m||[]).map(sourceNumber161).join(' × ')+' à '+(plot.enveloppe_max_m||[]).map(sourceNumber161).join(' × ')+' m · Stationnements : '+sourceRange161(plot.places_stationnement)+'.'));
+            if(plot.implantation)prescribed.appendChild(el('p',plot.implantation));if(plot.attention)prescribed.appendChild(el('p',plot.attention,'world-codex-boundary'));}
+          if(recipe.gardenOptions.length)specifications161(prescribed,recipe.gardenOptions.map(garden=>[garden.name,(garden.modules||[]).map(id=>MODULE_LABELS161[id]||id).join(', ')+' · '+sourceNumber161(garden.minArea)+' m² libres minimum proposés'+(garden.unique?' · Sans duplication de '+(MODULE_LABELS161[garden.unique]||garden.unique):'')]));
+          const site=globalThis.DeadwallCodexSites162?.describe(recipe.id);if(site){prescribed.appendChild(el('h5','EXTÉRIEURS ET CHEMINEMENTS'));prescribed.appendChild(el('p',site.name+' — '+site.purpose+'. Sol : '+globalThis.DeadwallCodexSites162.MATERIALS[site.material].name+'. Les tracés suivent uniquement les passages libres des lieux réellement implantés ; ils ne créent ni route, ni accès forcé, ni bonus de vitesse.'));}
+          if(recipe.causal){prescribed.appendChild(el('h5','ÉTAT DU LIEU : '+recipe.causal.name));for(const [key,label]of [['cause','Cause'],['access','Accès'],['loot','Ressources'],['light','Éclairage']])if(recipe.causal[key])prescribed.appendChild(el('p',label+' : '+recipe.causal[key]));}
+          if(recipe.loot?.persistance)prescribed.appendChild(el('p',recipe.loot.persistance));
+          prescribed.appendChild(el('p',(recipe.implementation||'Programme de conception.')+' Les dimensions et l’éligibilité source ne prouvent ni une présence sur la carte ni une interaction déjà jouable.','world-codex-boundary'));
+          details.appendChild(prescribed);
+          details.appendChild(el('p','Enrichissement physique optionnel au dépôt. Aucun objet de décor ne fournit de butin supplémentaire.'));
+        });
         card.appendChild(details);list.appendChild(card);
       }
       if(found.length>visible){const more=el('button','AFFICHER '+Math.min(36,found.length-visible)+' FICHES SUPPLÉMENTAIRES');more.type='button';more.addEventListener('click',()=>{visible+=36;refresh(false);});list.appendChild(more);}
@@ -101,5 +157,6 @@
     if(typeof game.updateUI==='function'){const previous=game.updateUI.bind(game);game.updateUI=(...args)=>{const result=previous(...args);updateLive();return result;};}
     game.worldCodex=Object.freeze({entries,query:filters=>query(filters,game),open(){game.showCommand?.(true,'field');choose();search.focus({preventScroll:true});},refresh,updateLive});refresh();return true;
   }
-  return Object.freeze({entries,families,statuses,fields,normalize,query,install});
+  return Object.freeze({entries,families,statuses,fields,normalize,query,install,sourcePropRows161,accessRows161});
 });
+

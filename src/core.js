@@ -2211,3 +2211,9 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   }});
  C.ContextGeometryRules160=freeze({attemptLimit:96,frontSetback:26,roadWidth:8,walkWidth:3.2,bridgeWidth:10,wallThickness:.28,contextBandWidth:8,gateWidth:3.2,terrainClearance:1,clusterBlockWidth:18,clusterBlockHeight:14,clusterGap:12});
 })(globalThis);
+
+/* Source furnishing capacity: optional revision 7 follows the unchanged revision 6. */
+(function(root){'use strict';root.DeadwallCore.CodexInfill169Rules=Object.freeze({
+ revision:7,maxAdded:24,maxPerSpace:6,maxPerSpec:3,maxYardZones:2,attempts:28,
+ minClearance:.8,maxClearance:1.8,maxWidth:3.5,maxDepth:2.5,maxHeight:2.5
+});})(globalThis);

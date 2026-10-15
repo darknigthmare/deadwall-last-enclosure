@@ -1,0 +1,102 @@
+name: DEADWALL Codex source-model coverage
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/codex-coverage167.yml'
+      - 'src/codex*'
+      - 'scripts/compile-codex*'
+      - 'scripts/audit-codex167.mjs'
+      - 'scripts/qa-transaction167.mjs'
+      - 'scripts/browser-coverage167.mjs'
+      - 'scripts/browser-quantities164.mjs'
+      - 'tests/codex-coverage*.test.cjs'
+      - 'tests/qa-transaction167.test.cjs'
+      - 'tests/distribution.test.cjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codex-coverage-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Rebuild from authored sources without installed dependencies
+        run: npm run build
+      - name: Exact source coverage, report rendering, allocation and dependency-free distribution tests
+        run: node --test --test-concurrency=1 tests/codex-coverage*.test.cjs tests/qa-transaction167.test.cjs tests/distribution.test.cjs
+      - name: Audit all source programmes and inspect each compatible model floor
+        if: ${{ !cancelled() }}
+        run: node scripts/audit-codex167.mjs --all-models
+      - name: Stamp the exact inspected revision
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/codex-coverage167
+          git rev-parse HEAD > artifacts/qa/codex-coverage167/revision.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-codex167-coverage
+          path: artifacts/qa/codex-coverage167/
+          retention-days: 14
+          if-no-files-found: error
+
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked browser tools
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Build and install Chromium
+        run: |
+          npm run build
+          npx playwright install --with-deps chromium
+      - name: Actual source-model inspector, reopening and read-only controls
+        run: node scripts/browser-coverage167.mjs
+      - name: Observe the real furnishing transaction and exact persisted fields
+        if: ${{ !cancelled() }}
+        run: node scripts/browser-quantities164.mjs
+      - name: Print completed report diagnostics and stamp source revision
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/coverage167
+          git rev-parse HEAD > artifacts/qa/coverage167/revision.txt
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const root='artifacts/qa';
+          for(const name of fs.readdirSync(root).filter(n=>/^(coverage167|quantities164)-/.test(n))){
+            const file=root+'/'+name+'/report.json';if(!fs.existsSync(file))continue;
+            const report=JSON.parse(fs.readFileSync(file,'utf8'));
+            for(const p of report.profiles||[])console.log('REPORT167 '+JSON.stringify({suite:name,viewport:p.viewport,pass:p.pass,failure:p.failure,transaction:p.transaction,pageErrors:p.pageErrors,consoleErrors:p.consoleErrors,httpErrors:p.httpErrors,requestFailures:p.requestFailures}));
+          }
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-codex167-browser
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

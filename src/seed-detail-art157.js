@@ -10,6 +10,9 @@
  const Variants158=root.DeadwallWorldVariants158||(typeof require==='function'?require('./world-variants158.js'):null);
  const route=(owner,family)=>Object.freeze({owner,family});
  const PRESENTATIONS=Object.freeze({
+  machine:route('furniture','machine'),crate:route('furniture','crate'),
+  table:route('furniture','table'),
+  bed:route('furniture','bed'),sofa:route('furniture','sofa'),shelf:route('furniture','shelf'),fridge:route('furniture','fridge'),desk:route('furniture','desk'),workbench:route('furniture','workbench'),counter:route('furniture','counter'),medical:route('furniture','medical'),oven:route('furniture','oven'),washer:route('furniture','washer'),electricalRack:route('furniture','electricalRack'),hoseRack:route('furniture','hoseRack'),
   pool:route('props','pool157'),greenhouse:route('props','greenhouse157'),bench:route('props','bench157'),playset:route('props','playset157'),
   barbecue:route('props','barbecue157'),clothesline:route('props','clothesline157'),laundryLine:route('props','clothesline157'),bikeRack:route('props','bikeRack157'),compost:route('props','compost157'),
   chair:route('props','chair157'),tv:route('props','tv157'),rug:route('props','rug157'),smallCabinet:route('props','wardrobe157'),shelfEnd:route('props','bookshelf157'),
@@ -33,9 +36,16 @@
   if(Variants158?.drawDetail(c,art,o,{seed}))return true;
   const spec=presentationFor(o.kind),x=o.x+o.w/2,y=o.y+o.h/2;
   const p=root.DeadwallWorldPropsArt153||Props,n=root.DeadwallNatureArt153||Nature,i=root.DeadwallInteriorArt153||Interior;
-  if(spec.owner==='props')return !!p?.drawSprite(c,art,spec.family,o.id,x,y,o.w,o.h,{seed});
+  if(spec.owner==='props')return !!p?.drawSprite(c,art,spec.family,o.id,x,y,o.w,o.h,{seed,...(o.profile165&&o.kind==='chair'?{variant:['office','reception'].includes(o.profile165)?1:0}:{})});
   if(spec.owner==='nature')return !!n?.drawSprite(c,art,o.kind==='tree'&&n.TREES.includes(o.species)?o.species:spec.family,o.id,x,y,o.w,o.h,{seed});
-  if(spec.owner==='furniture'){const forms=i?.FURNITURE?.[spec.family],sprite=forms?.[variantFor(o,seed,forms.length)];return !!sprite&&!!i.paint(c,art,sprite,o,{fit:true});}
+  if(spec.owner==='furniture'){
+   // The historical first table image already includes chairs. New groups use
+   // the bare second table, or the real workbench for an assembly station.
+   const family=o.kind==='table'&&o.profile165==='workshop'?'workbench':spec.family;
+   const forms=i?.FURNITURE?.[family];
+   const index=o.kind==='table'&&o.profile165&&family==='table'?1:variantFor(o,seed,forms?.length||1);
+   const sprite=forms?.[index];return !!sprite&&!!i.paint(c,art,sprite,o,{fit:true});
+  }
   return false;
  }
  // Fallbacks use named, readable physical shapes. Small surface marks can stay
@@ -74,7 +84,7 @@
    case 'patio':fill(.02,.04,.96,.92,v?'#918e78':'#aca58e');for(let k=1;k<5;k++)line([[k/5,.05],[k/5,.95]],'#767e6c',.025);for(let k=1;k<3;k++)line([[.03,k/3],[.96,k/3]],'#7b8270',.03);break;
    case 'rug':fill(.03,.05,.94,.90,v?'#657766':'#9b7a63');box(.12,.15,.76,.70,'#b4a37c',.075);line(v?[[.18,.28],[.80,.76]]:[[.18,.5],[.8,.5]],'#d3bb93',.065);break;
    case 'palletMark':box(.05,.05,.90,.90,'#aea48c',.05);for(const a of[.1,.82])line([[a,.12],[a+.07,.26],[a,.44],[a+.07,.63],[a,.86]],'#9c9780',.05);break;
-   case 'bench':case 'worktable':case 'officeDesk':case 'countertop':fill(.07,.14,.86,.70,wood);for(let k=0;k<4;k++)fill(.1,.21+k*.16,.80,.035,'#4d5845');box(.04,.09,.92,.80,metal,.045);break;
+   case 'table':case 'bench':case 'worktable':case 'officeDesk':case 'countertop':fill(.07,.14,.86,.70,wood);for(let k=0;k<4;k++)fill(.1,.21+k*.16,.80,.035,'#4d5845');box(.04,.09,.92,.80,metal,.045);break;
    case 'chair':fill(.16,.11,.68,.78,wood);fill(.22,.38,.56,.40,v?'#6b826b':'#baac82');box(.14,.11,.72,.78,metal,.07);line([[.24,.19],[.76,.19]],'#dcc4a0',.08);break;
    case 'smallCabinet':case 'wardrobe':fill(.04,.07,.92,.85,wood);box(.04,.07,.92,.85,metal,.035);line([[.5,.10],[.5,.89]],'#4b5245');fill(.42,.42,.04,.16,metal);fill(.55,.42,.04,.16,metal);break;
    case 'shelfEnd':case 'bookshelf':case 'display':fill(.04,.06,.92,.90,wood);for(let k=0;k<3;k++){fill(.10,.10+k*.28,.80,.05,metal);for(let j=0;j<4;j++)fill(.12+j*.2,.16+k*.25,.13,.14,['#8c8c6f','#637f72','#a99678'][(j+k+v)%3]);}break;
@@ -84,7 +94,7 @@
    case 'waterButt':case 'barrel':oval(.50,.50,.43,.46,v?'#73887a':'#91876c');oval(.5,.44,.34,.30,kind==='waterButt'?'#597e82':'#59695c');box(.40,.32,.2,.2,metal,.06);break;
    case 'basket':case 'laundryBasket':if(v)oval(.50,.51,.43,.40,wood);else fill(.07,.16,.85,.76,wood);box(.10,.15,.80,.69,'#c0b692',.075);for(let k=1;k<5;k++)line([[.13,.2+k*.10],[.86,.2+k*.10]],'#5a614c');if(kind==='laundryBasket'){oval(.36,.30,.20,.13,'#aab9ac');oval(.64,.33,.18,.15,'#d0c4a2');}break;
    case 'tire':oval(.5,.5,.46,.45,'#404c42');oval(.5,.5,.25,.25,'#9a9f83');box(.2,.18,.6,.63,'#555e51',.035);break;
-   case 'pallet':case 'crateStack':case 'fallenStock':case 'scrapHeap':for(let k=0;k<3;k++){fill(.05+k*.09,.08+k*.20,.83-k*.05,.20,kind==='scrapHeap'?metal:wood);box(.06+k*.09,.09+k*.20,.81-k*.05,.17,'#bac1a4',.03);}break;
+   case 'crate':case 'pallet':case 'crateStack':case 'fallenStock':case 'scrapHeap':for(let k=0;k<3;k++){fill(.05+k*.09,.08+k*.20,.83-k*.05,.20,kind==='scrapHeap'?metal:wood);box(.06+k*.09,.09+k*.20,.81-k*.05,.17,'#bac1a4',.03);}break;
    case 'lamp':oval(.5,.5,.34,.40,'#66786c');oval(.5,.5,.20,.24,'#c0b78d');line([[.25,.50],[.73,.50]],metal,.06);break;
    case 'bikeRack':for(let k=0;k<4;k++)box(.08+k*.23,.15,.17,.70,metal,.075);line([[.03,.88],[.96,.88]],'#536b5c',.055);break;
    case 'clothesline':case 'laundryLine':line([[.03,.25],[.97,.25]],'#b1b397',.045);for(let k=0;k<4;k++){fill(.10+k*.22,.26,.15,.60,['#d0c5a8','#8faaa0','#8d9273'][(k+v)%3]);line([[.13+k*.22,.14],[.13+k*.22,.31]],wood);}break;
@@ -100,12 +110,54 @@
    case 'toolbox':fill(.08,.28,.84,.61,'#56726a');box(.31,.10,.38,.19,metal,.065);fill(.10,.29,.8,.10,metal);box(.08,.28,.84,.61,'#a8ad95',.06);fill(.43,.41,.13,.17,'#c2b08a');break;
    case 'sink':fill(.04,.04,.92,.92,metal);oval(.5,.52,.34,.34,'#4e665c');oval(.5,.52,.23,.24,'#bac7b6');line([[.50,.14],[.50,.32],[.63,.32]],'#d0d1bd',.06);break;
    case 'shower':fill(.04,.04,.92,.92,'#bec2ac');box(.06,.05,.89,.90,metal,.07);oval(.76,.22,.07,.075,'#687f73');line([[.76,.21],[.76,.54]],metal,.06);oval(.30,.72,.04,.045,'#556b5e');break;
+   case 'machine':fill(.04,.07,.92,.86,'#53675e');box(.06,.09,.88,.81,metal,.05);fill(.12,.2,.30,.60,'#8a9a8c');fill(.47,.24,.42,.52,'#293f35');for(let k=0;k<4;k++)fill(.52+k*.08,.25,.03,.5,metal);oval(.28,.49,.10,.18,'#334e42');fill(.14,.13,.20,.05,'#b6a574');break;
+   case 'bed':case 'sofa':case 'shelf':case 'fridge':case 'desk':case 'workbench':case 'counter':case 'medical':case 'oven':case 'washer':case 'electricalRack':case 'hoseRack':fill(.04,.06,.92,.88,wood);box(.04,.06,.92,.88,metal,.05);fill(.12,.17,.76,.16,metal);break;
    default:return false;
   }
   return true;
  }
  function draw(c,o,{art=root.DEADWALL?.art,seed=root.DEADWALL?.world?.seed??0}={}){
+  if(o?.garden171){
+   const {spriteWidth171:w,spriteHeight171:h,angle171:a}=o;if(!c||![o.x,o.y,o.w,o.h,w,h,a].every(Number.isFinite)||w<=0||h<=0||o.w<=0||o.h<=0)return false;
+   c.save();try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(a);return draw(c,{...o,garden171:false,x:-w/2,y:-h/2,w,h},{art,seed});}finally{c.restore();}
+  }
+  if(o?.infill169){
+   const painter=root.DeadwallCodexInfill169Art||(typeof require==='function'?require('./codex-infill169-art.js'):null);
+   if(!c||![o.x,o.y,o.w,o.h,o.angle169,o.spriteWidth169,o.spriteHeight169].every(Number.isFinite)||o.w<=0||o.h<=0||o.spriteWidth169<=0||o.spriteHeight169<=0)return false;
+   c.save();try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.angle169);
+    const local={...o,infill169:false,x:-o.spriteWidth169/2,y:-o.spriteHeight169/2,w:o.spriteWidth169,h:o.spriteHeight169};
+    return painter?.draw(c,local)||draw(c,local,{art,seed});
+   }finally{c.restore();}
+  }
+  if(o?.station170){
+   const {spriteWidth170:w,spriteHeight170:h,angle170:a}=o;if(!c||![o.x,o.y,o.w,o.h,w,h,a].every(Number.isFinite)||w<=0||h<=0)return false;
+   c.save();try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(a);return draw(c,{...o,station170:false,x:-w/2,y:-h/2,w,h},{art,seed});}finally{c.restore();}
+  }
+  if(o?.dressing160){const painter=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);
+   if(c&&Number.isFinite(o.surfaceAngle165)){const sw=o.surfaceWidth165,sh=o.surfaceHeight165;if(!Number.isFinite(sw+sh)||sw<=0||sh<=0)return false;
+    c.save();try{c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.surfaceAngle165);return painter?.draw(c,{...o,x:-sw/2,y:-sh/2,w:sw,h:sh})||false;}finally{c.restore();}
+   }return painter?.draw(c,o)||false;
+  }
   if(!c||!valid(o))return false;c.save();
+  if(o.ensemble165&&Number.isFinite(o.angle165)){
+   const sw=o.spriteWidth165,sh=o.spriteHeight165;if(!Number.isFinite(sw+sh)||sw<=0||sh<=0){c.restore();return false;}
+   try{c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(o.x+o.w/2,o.y+o.h/2);c.rotate(o.angle165);
+    return draw(c,{...o,ensemble165:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+   }finally{c.restore();}
+  }
+  if(o.anchored160){
+   const a=o.angle160,sw=o.spriteWidth160,sh=o.spriteHeight160;
+   if(!Number.isFinite(a+sw+sh)||sw<=0||sh<=0){c.restore();return false;}
+   try{const cx=o.x+o.w/2,cy=o.y+o.h/2;
+    c.beginPath();c.rect(o.x,o.y,o.w,o.h);c.clip();c.translate(cx,cy);c.rotate(a);
+    const painted=draw(c,{...o,anchored160:false,x:-sw/2,y:-sh/2,w:sw,h:sh},{art,seed});
+    // Contents share the real furniture transform and clip, including quarter turns.
+    // Rendering must not append colliders or turn source prescriptions into loot.
+    const contents=root.DeadwallCodexDressing160||(typeof require==='function'?require('./codex-dressing160.js'):null);
+    if(painted&&contents?.surfaceItems165)for(const child of contents.surfaceItems165(o,seed))contents.draw(c,child);
+    return painted;
+   }finally{c.restore();}
+  }
   try{
    // Parcel rotation and current floor belong to the caller. Uniform source
    // scaling plus this clip preserves the physical blocker and open entrances.
