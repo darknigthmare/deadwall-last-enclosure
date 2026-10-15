@@ -171,7 +171,7 @@ async function readEconomy(page) {
 
 async function chooseSite(page, type) {
   return page.evaluate(type => {
-    const game = DEADWALL, core = game.core(), def = DeadwallCore.BUILDINGS[type], safe = game.hud135.safeFrame(), candidates = [];
+    const game = DEADWALL, core = game.core(), def = DeadwallCore.BUILDINGS[type], safe = game.hud135.measure(), candidates = [];
     for (let gy = core.gy - 9; gy <= core.gy + core.h + 9; gy++) for (let gx = core.gx - 9; gx <= core.gx + core.w + 9; gx++) {
       if (!game.world.placement(def, gx, gy, 0).valid) continue;
       const left = gx * 32, top = gy * 32, right = (gx + def.size[0]) * 32, bottom = (gy + def.size[1]) * 32;
@@ -187,12 +187,42 @@ async function chooseSite(page, type) {
   }, type);
 }
 
+async function exposeConstructionSite(page, touch, type) {
+  const viewControls = { zoom: [], initialFailure: null };
+  let failure;
+  for (let attempt = 0; attempt <= 12; attempt++) {
+    try { return { ...await chooseSite(page, type), viewControls }; }
+    catch (error) {
+      if (!error.message.includes('No valid visible unoccupied placement for ' + type)) throw error;
+      failure = error;
+      viewControls.initialFailure ||= error.message;
+    }
+    if (attempt === 12) break;
+    const before = await page.evaluate(() => DEADWALL.camera.zoom);
+    if (before <= .52) break;
+    // A crowded mobile view can hide every legal footprint. Use the player's
+    // ordinary view controls; collisions, occupants and payment stay unchanged.
+    if (touch) {
+      if (!await page.locator('#touchCommandDrawer').evaluate(node => node.open)) await activate(page, '#touchCommandDrawer > summary', true);
+      await activate(page, '#touchCommandDrawer [data-game-command="zoomOut"]', true);
+      await activate(page, '#touchCommandDrawer > summary', true);
+    } else {
+      const safe = await page.evaluate(() => DEADWALL.hud135.measure());
+      await page.mouse.move((safe.left + safe.right) / 2, (safe.top + safe.bottom) / 2);
+      await page.mouse.wheel(0, 160);
+    }
+    await page.waitForFunction(before => DEADWALL.camera.zoom < before, before, { timeout: 3000 });
+    viewControls.zoom.push({ before, after: await page.evaluate(() => DEADWALL.camera.zoom) });
+  }
+  throw Error('No valid visible unoccupied placement for ' + type + ' after ordinary zoom controls: ' + JSON.stringify(viewControls) + '; ' + failure.message);
+}
+
 async function placeBuilding(page, touch, type, category) {
   if (await page.evaluate(() => DEADWALL.buildCollapsed)) await activate(page, '#toggleBuild', touch);
   await activate(page, '#buildCategories [data-category="' + category + '"]', touch);
   await activate(page, '#buildList [data-build-id="' + type + '"]', touch);
   await page.waitForFunction(type => DEADWALL.selectedBuild === type, type);
-  const site = await chooseSite(page, type), before = await readEconomy(page);
+  const site = await exposeConstructionSite(page, touch, type), before = await readEconomy(page);
   if (touch) await page.touchscreen.tap(site.screen.x, site.screen.y);
   else await page.mouse.click(site.screen.x, site.screen.y);
   await page.waitForFunction(site => [...DEADWALL.world.buildings.values()].some(building => building.type === site.type && building.gx === site.gx && building.gy === site.gy), { ...site, type });
@@ -205,7 +235,7 @@ async function placeBuilding(page, touch, type, category) {
   assert.equal(building.completed, false, 'Placement creates an unfinished worksite');
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !DEADWALL.selectedBuild);
-  return { ...building, cost: site.cost, before, after };
+  return { ...building, cost: site.cost, viewControls: site.viewControls, before, after };
 }
 
 async function workManually(page, context, touch, id) {
