@@ -6,6 +6,7 @@ on:
       - '.github/workflows/metric175-stage.yml'
       - 'scripts/metric175-stage.*.b64'
       - 'scripts/apply-metric175-stage.cjs'
+      - 'scripts/metric175-browser-followup.txt'
 permissions:
   contents: write
 concurrency:
@@ -61,7 +62,7 @@ jobs:
           current="$(git ls-remote origin "refs/heads/$branch" | cut -f1)"
           test "$current" = "$GITHUB_SHA"
           node -e "const p=require('./artifacts/qa/metric175-stage/paths.json');require('child_process').execFileSync('git',['add','--',...p],{stdio:'inherit'})"
-          git rm -- .github/workflows/metric175-stage.yml scripts/metric175-stage.0.b64 scripts/metric175-stage.1.b64 scripts/apply-metric175-stage.cjs
+          git rm -- .github/workflows/metric175-stage.yml scripts/metric175-stage.0.b64 scripts/metric175-stage.1.b64 scripts/apply-metric175-stage.cjs scripts/metric175-browser-followup.txt
           git diff --cached --check
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

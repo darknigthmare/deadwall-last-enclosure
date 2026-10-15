@@ -9,6 +9,13 @@ if(sha(raw)!==expected)throw Error('Transport checksum mismatch');
 const payload=JSON.parse(raw),branch='fix/metric-scale-road-access-174',root=process.cwd();
 if(payload.base!=='0288c7ad0b0c9f531723d19e463eb0d264141477'||payload.branch!==branch||payload.files.length!==18)throw Error('Wrong transport target');
 const mode=process.argv[2],allowed=new Set(['.github/workflows/metric175.yml','src/barricades134.js','src/core.js','src/expeditions.js','src/exploration-125.js','src/fieldcraft.js','src/frontage174.js','src/frontier-world.js','src/frontier.js','src/metric-contract174.js','src/tactics.js','sw.js','docs/METRIC_RIGID_175.md','scripts/metric175-fixtures.cjs','scripts/browser-metric175.mjs','tests/metric-body175.test.cjs','tests/metric-corridor175.test.cjs','tests/frontage-followup175.test.cjs']);
+// Replace only the browser harness after its first native execution exposed an
+// invalid paused refuel attempt. Gameplay payload and its hash stay unchanged.
+const browserFile='scripts/browser-metric175.mjs',browserSource=fs.readFileSync('scripts/metric175-browser-followup.txt');
+if(sha(browserSource)!=='fe8c62fd70e49e7e06f4da87fa84d1dfacb1696224c7af2f2727a57a2027f21c')throw Error('Browser follow-up checksum mismatch');
+const browserRow=payload.files.find(f=>f.path===browserFile);
+if(browserRow.before!==null||browserRow.edits.length!==1||browserRow.edits[0].start!==0||browserRow.edits[0].end!==0)throw Error('Unexpected browser transport shape');
+browserRow.edits[0].insert=browserSource.toString('utf8');browserRow.after=sha(browserSource);
 const files=[];
 for(const row of payload.files){
  if(!allowed.delete(row.path))throw Error('Unexpected or duplicate path');
