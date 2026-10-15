@@ -1,3 +1,228 @@
+/* Optional ecology revision 1. All providers own their immutable geographic context. */
+(function(root,factory){'use strict';const api=factory(()=>typeof module==='object'&&module.exports?require('./core.js'):root.DeadwallCore);root.DeadwallBiomes164=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(getCore){'use strict';
+ const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
+ const smooth=(n,range)=>{const t=clamp((n-range[0])/(range[1]-range[0]));return t*t*(3-2*t);};
+ const channels=['base','secondary','soil','accent','rock','grass','water'];
+ function lattice(seed,x,y){let h=(seed^Math.imul(x,0x27d4eb2d)^Math.imul(y,0x165667b1))>>>0;h=Math.imul(h^h>>>16,0x7feb352d);h=Math.imul(h^h>>>15,0x846ca68b);return((h^h>>>16)>>>0)/4294967296;}
+ function valid(seed,x=0,y=0){if(!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(x)||!Number.isFinite(y))throw Error('Coordonnées ou graine écologique164 invalides.');}
+ function create({base,seed,settlements=[]}={}){
+  const C=getCore(),R=C?.EcologyRules164;if(!R)throw Error('Règles écologiques164 absentes.');
+  valid(seed);if(!base?.sample||!base?.climate||!base?.noise||!base?.habitat||!base?.weighted)throw Error('Biomes historiques requis pour l’écologie164.');
+  if(!Array.isArray(settlements)||settlements.length>R.settlements.limit)throw Error('Communautés géographiques164 invalides.');
+  const towns=Object.freeze(settlements.map((t,index)=>{const radius=t?.radius??t?.r;
+   if(!t||![t.x,t.y,radius].every(Number.isFinite)||t.x<0||t.y<0||t.x>C.GeographyRules135.size||t.y>C.GeographyRules135.size||radius<=0||radius>R.settlements.maximumRadius)throw Error('Emprise de communauté164 invalide.');
+   return Object.freeze({id:String(t.id??index),x:t.x,y:t.y,radius,kind:String(t.kind||'village')});
+  }));
+  const defs=Object.freeze([...base.defs,...R.defs]),BY=Object.freeze(Object.fromEntries(defs.map(d=>[d.id,d]))),legacyIds=base.defs.map(d=>d.id);
+  const indices=Object.fromEntries(defs.map((d,i)=>[d.id,i])),aliases=Object.freeze(Object.fromEntries(defs.map(d=>[d.id,Object.freeze([d.id,...(d.aliases||[])])])));
+  const colors=defs.map(d=>channels.map(k=>[1,3,5].map(i=>parseInt(d.palette[k].slice(i,i+2),16))));
+  const townBins=new Map(),sk=R.settlements;
+  for(const t of towns){const reach=t.radius+sk.influenceReach;for(let y=Math.floor((t.y-reach)/sk.binSize);y<=Math.floor((t.y+reach)/sk.binSize);y++)for(let x=Math.floor((t.x-reach)/sk.binSize);x<=Math.floor((t.x+reach)/sk.binSize);x++){const key=x+':'+y;if(!townBins.has(key))townBins.set(key,[]);townBins.get(key).push(t);}}
+  function aliasesFor(id){const list=aliases[typeof id==='string'?id:id?.id];if(!list)throw Error('Biome écologique164 inconnu : '+String(id));return list;}
+  function settlementInfluence(sampleSeed,x,y){if(sampleSeed!==seed)return 0;let value=0;
+   for(const t of townBins.get(Math.floor(x/sk.binSize)+':'+Math.floor(y/sk.binSize))||[]){const d=Math.hypot(x-t.x,y-t.y),outer=1-smooth(d,[t.radius*sk.edgeFraction,t.radius+sk.influenceReach]),ring=smooth(d,[t.radius*sk.innerFraction,t.radius*sk.ringFraction]);
+    value=Math.max(value,outer*(sk.centreInfluence+(1-sk.centreInfluence)*ring)*(sk.kindWeights[t.kind]??sk.kindWeights.village));}
+   return clamp(value);
+  }
+  function climate(sampleSeed,x,y){valid(sampleSeed,x,y);const c=base.climate(sampleSeed,x,y),k=R.climate;
+   // The valley-shaped field describes soil moisture; it never creates water or elevation geometry.
+   const valley=1-Math.abs(2*(base.noise(sampleSeed^164017,x,y,k.drainageScale)*(1-k.drainageDetailWeight)+base.noise(sampleSeed^164021,x,y,k.drainageDetailScale)*k.drainageDetailWeight)-1),
+    drainage=smooth(valley,k.drainageThreshold)*(1-smooth(c.elevation,k.drainageElevation)),
+    substrate=clamp(base.noise(sampleSeed^164101,x,y,k.substrateScale)*(1-k.substrateDetailWeight)+base.noise(sampleSeed^164107,x,y,k.substrateDetailScale)*k.substrateDetailWeight);
+   return{...c,drainage,substrate,settlementInfluence:settlementInfluence(sampleSeed,x,y)};
+  }
+  function palette(values){const result={};for(let k=0;k<channels.length;k++){const rgb=[0,0,0];for(let i=0;i<defs.length;i++)for(let j=0;j<3;j++)rgb[j]+=colors[i][k][j]*values[i];result[channels[k]]='#'+rgb.map(n=>Math.round(n).toString(16).padStart(2,'0')).join('');}return result;}
+  function projected(weights){const out={};for(const id of legacyIds)out[id]=0;for(const d of defs){const share=weights[d.id]/(d.aliases?.length||1);for(const id of d.aliases||[d.id])out[id]+=share;}return out;}
+  function sample(sampleSeed,x,y,withPalette=true,options={}){
+   const c=climate(sampleSeed,x,y),k=R.composition,raw=new Array(defs.length);let naturalPeak=0;
+   for(let i=0;i<defs.length;i++){const d=defs[i],dt=(c.temperature-d.climate[0])/d.spread[0],dm=(c.moisture-d.climate[1])/d.spread[1],de=(c.elevation-d.climate[2])/d.spread[2];raw[i]=Math.exp(-(dt*dt+dm*dm+de*de)/(R.climate.blendSoftness/2));if(d.id!=='brownfield')naturalPeak=Math.max(naturalPeak,raw[i]);}
+   raw[indices.brownfield]=naturalPeak*c.settlementInfluence*sk.brownfieldStrength;
+   raw[indices.alluvialTerrace]*=k.newBiomeStrength*smooth(c.drainage,k.alluvialDrainage)*(1-smooth(c.substrate,k.alluvialMineral));
+   raw[indices.agriculturalPlateau]*=k.newBiomeStrength*smooth(c.elevation,k.plateauElevation)*(1-smooth(c.drainage,k.plateauDrainage));
+   raw[indices.sandyPine]*=k.newBiomeStrength*smooth(c.substrate,k.sandySubstrate)*(1-smooth(c.moisture,k.sandyMoisture));
+   raw[indices.peatland]*=k.newBiomeStrength*smooth(c.drainage,k.peatDrainage)*smooth(c.substrate,k.peatSubstrate);
+   let total=0;for(const value of raw)total+=value;const values=raw,weights={};for(let i=0;i<defs.length;i++){values[i]/=total;weights[defs[i].id]=values[i];}
+   let first=0,second=1;for(let i=1;i<defs.length;i++)if(values[i]>values[first]){second=first;first=i;}else if(i!==first&&(second===first||values[i]>values[second]))second=i;
+   const def=defs[first],legacyWeights=projected(weights),h=base.habitat(sampleSeed,x,y,{weights:legacyWeights}),p=withPalette?palette(values):null;
+   let treeChance=0,rockChance=0,decorChance=0;for(let i=0;i<defs.length;i++){treeChance+=defs[i].treeChance*values[i];rockChance+=defs[i].rockChance*values[i];decorChance+=defs[i].decorChance*values[i];}
+   const aliases=aliasesFor(def.id),ecology164={revision:1,drainage:c.drainage,substrate:c.substrate,settlementInfluence:c.settlementInfluence,aliases};
+   return{id:def.id,name:def.name,primary:def.id,secondary:defs[second].id,blend:values[second]/(values[first]+values[second]),weights,legacyWeights,def,palette:p,ground:p,surface:def.surface,
+    ...c,climate:{temperature:c.temperature,moisture:c.moisture,elevation:c.elevation},fertility:clamp(c.moisture*(1-c.elevation*.55)),urban:weights.brownfield,
+    treeChance:clamp(treeChance*h.treeFactor),rockChance:clamp(rockChance*h.rockFactor),decorChance:clamp(decorChance*h.decorFactor),habitat:h,aliases,ecology164};
+  }
+  function definition(id){const d=typeof id==='string'?BY[id]:id?.def||BY[id?.id];if(!d)throw Error('Biome écologique164 inconnu : '+String(id));return d;}
+  function buildingPool(id){return definition(id).buildings;}
+  function ecologicalDef(sampleSeed,x,y,key,s=sample(sampleSeed,x,y,false)){
+   const floor=R.composition.speciesWeightFloor,pool=Object.fromEntries(Object.entries(s.weights).filter(([,weight])=>weight>=floor));if(!Object.keys(pool).length)pool[s.id]=1;return BY[base.weighted(pool,sampleSeed,'ecotone164',key)];
+  }
+  function patchAt(sampleSeed,x,y){const k=R.composition,scale=k.speciesPatchScale,ix=Math.floor(x/scale),iy=Math.floor(y/scale);let result=null,best=Infinity;
+   for(let yy=iy-1;yy<=iy+1;yy++)for(let xx=ix-1;xx<=ix+1;xx++){const px=(xx+.5+(lattice(sampleSeed^164211,xx,yy)-.5)*k.speciesPatchJitter)*scale,py=(yy+.5+(lattice(sampleSeed^164227,xx,yy)-.5)*k.speciesPatchJitter)*scale,d=(px-x)**2+(py-y)**2;if(d<best){best=d;result=xx+':'+yy;}}
+   return result;
+  }
+  function roll(sampleSeed,key,channel){return base.hash(sampleSeed,key,channel)/4294967296;}
+  function species(sampleSeed,x,y,key,s,field){const patch=patchAt(sampleSeed,x,y),d=ecologicalDef(sampleSeed,x,y,patch,s),pool={...d[field]};
+   if(field==='rocks'){const affinity=R.composition.substrateAffinity;
+    for(const kind of Object.keys(pool))pool[kind]*=1+affinity*(kind==='limestone'?1-s.substrate:kind==='granite'?s.substrate:kind==='schist'?1-Math.abs(s.substrate-.5)*2:.5);}
+   const grouped=roll(sampleSeed,key,'affinity164')<R.composition.speciesAffinity,chosen=base.weighted(pool,sampleSeed,grouped?patch:key,field,'species164');return{species:chosen,biome:d.id};
+  }
+  function pickTree(sampleSeed,x,y,key='tree',options={}){const s=sample(sampleSeed,x,y,false,options),v=species(sampleSeed,x,y,key,s,'trees');return{...base.TREES[v.species],id:v.species,species:v.species,biome:v.biome};}
+  function pickRock(sampleSeed,x,y,key='rock',options={}){const s=sample(sampleSeed,x,y,false,options),v=species(sampleSeed,x,y,key,s,'rocks');return{...base.ROCKS[v.species],id:v.species,species:v.species,biome:v.biome};}
+  function pickBuilding(sampleSeed,x,y,key='site',options={}){return base.weighted(ecologicalDef(sampleSeed,x,y,key,sample(sampleSeed,x,y,false,options)).buildings,sampleSeed,'building164',key);}
+  function enemyProfile(sampleSeed,x,y,key='contact',options={}){const d=ecologicalDef(sampleSeed,x,y,key,sample(sampleSeed,x,y,false,options)),kind=base.weighted(d.enemies,sampleSeed,'enemy164',key);return{...base.RULES.enemies[kind],kind,biome:d.id};}
+  function surface(sampleSeed,x,y,options={}){return sample(sampleSeed,x,y,false,options).surface;}
+  function scatter(sampleSeed,cx,cy,options={}){
+   if(!Number.isInteger(cx)||!Number.isInteger(cy)||cx<0||cy<0)return{cx,cy,trees:[],rocks:[],decor:[]};valid(sampleSeed,cx,cy);
+   const k=base.RULES.scatter,edge=base.RULES.chunk,clear=options.clear||(()=>true),home=options.home,trees=[],rocks=[],decor=[];
+   const free=(x,y,pad)=>!(home&&Math.abs(x-home.x)<(home.half??64)+k.ecologicalClearance+pad&&Math.abs(y-home.y)<(home.half??64)+k.ecologicalClearance+pad)&&clear(x,y,pad);
+   // Jittered global cells and local priorities preserve spacing across streamed chunk boundaries.
+   const point=(ix,iy,n,salt)=>{const step=edge/n,gx=cx*n+ix,gy=cy*n+iy;return{x:(gx+.5+(lattice(sampleSeed^salt,gx,gy)-.5)*.88)*step,y:(gy+.5+(lattice(sampleSeed^(salt+311),gx,gy)-.5)*.88)*step,gx,gy};};
+   const thin=(p,n,salt,spacing)=>{const step=edge/n,priority=lattice(sampleSeed^(salt+733),p.gx,p.gy);for(let yy=-1;yy<=1;yy++)for(let xx=-1;xx<=1;xx++){if(!xx&&!yy)continue;const gx=p.gx+xx,gy=p.gy+yy;if(lattice(sampleSeed^(salt+733),gx,gy)>=priority)continue;const x=(gx+.5+(lattice(sampleSeed^salt,gx,gy)-.5)*.88)*step,y=(gy+.5+(lattice(sampleSeed^(salt+311),gx,gy)-.5)*.88)*step;if(Math.hypot(p.x-x,p.y-y)<spacing)return false;}return true;};
+   const treeGrid=Math.floor(Math.sqrt(k.treeCandidates));
+   for(let iy=0;iy<treeGrid;iy++)for(let ix=0;ix<treeGrid;ix++){
+    const i=iy*treeGrid+ix,key='T'+cx+'_'+cy+'_'+i,p=point(ix,iy,treeGrid,77519),s=sample(sampleSeed,p.x,p.y,false,options);
+    if(roll(sampleSeed,key,'presence')>s.treeChance||!thin(p,treeGrid,77519,k.treeSpacing))continue;
+    const v=species(sampleSeed,p.x,p.y,key,s,'trees'),d=base.TREES[v.species],r=d.radius[0]+roll(sampleSeed,key,'radius')*(d.radius[1]-d.radius[0]),canopy=d.canopy[0]+roll(sampleSeed,key,'canopy')*(d.canopy[1]-d.canopy[0]);
+    if(free(p.x,p.y,canopy+.6))trees.push({id:key,x:p.x,y:p.y,r,canopy,a:roll(sampleSeed,key,'angle')*Math.PI*2,kind:'tree',species:v.species,biome:v.biome,resource:'wood',amount:d.wood[0]+Math.floor(roll(sampleSeed,key,'amount')*(d.wood[1]-d.wood[0]+1)),label:d.name,habitat:s.habitat.id});
+   }
+   const rockGrid=Math.floor(Math.sqrt(k.rockCandidates));
+   for(let iy=0;iy<rockGrid;iy++)for(let ix=0;ix<rockGrid;ix++){
+    const i=iy*rockGrid+ix,key='R'+cx+'_'+cy+'_'+i,p=point(ix,iy,rockGrid,84233),s=sample(sampleSeed,p.x,p.y,false,options);
+    if(roll(sampleSeed,key,'presence')>s.rockChance)continue;
+    const v=species(sampleSeed,p.x,p.y,key,s,'rocks'),d=base.ROCKS[v.species],r=d.radius[0]+roll(sampleSeed,key,'radius')*(d.radius[1]-d.radius[0]);
+    if(free(p.x,p.y,r+.6)&&!trees.some(t=>Math.hypot(t.x-p.x,t.y-p.y)<t.r+r+k.rockSpacing))rocks.push({id:key,x:p.x,y:p.y,r,a:roll(sampleSeed,key,'angle')*Math.PI*2,kind:'rock',species:v.species,biome:v.biome,resource:'stone',amount:d.stone[0]+Math.floor(roll(sampleSeed,key,'amount')*(d.stone[1]-d.stone[0]+1)),label:d.name,habitat:s.habitat.id});
+   }
+   const decorGrid=Math.floor(Math.sqrt(k.decorCandidates));
+   for(let iy=0;iy<decorGrid;iy++)for(let ix=0;ix<decorGrid;ix++){
+    const i=iy*decorGrid+ix,key='D135_'+cx+'_'+cy+'_'+i,p=point(ix,iy,decorGrid,49591),s=sample(sampleSeed,p.x,p.y,true,options);
+    if(roll(sampleSeed,key,'presence')>s.decorChance||!free(p.x,p.y,.4))continue;
+    // Union is deliberate: a habitat may add reeds/flowers absent from its primary biome's pool.
+    const pool={};for(const d of defs)for(const[kind,weight]of Object.entries(d.decor))pool[kind]=(pool[kind]||0)+weight*s.weights[d.id];
+    for(const[kind,weight]of Object.entries(s.habitat.decorPool))pool[kind]=(pool[kind]||0)+weight*R.composition.habitatDecorWeight;
+    const kind=base.weighted(pool,sampleSeed,key,'decor164'),r=.2+roll(sampleSeed,key,'radius')*.65;
+    decor.push({id:key,x:p.x,y:p.y,a:roll(sampleSeed,key,'angle')*Math.PI*2,r,kind,biome:s.id,habitat:s.habitat.id,color:kind==='pebbles'||kind==='rubble'?s.palette.rock:kind==='fallenBranch'||kind==='leaves'?s.palette.soil:s.palette.grass});
+   }
+   return{cx,cy,trees,rocks,decor};
+  }
+  return Object.freeze({...base,ecologyVersion:1,seed,settlements:towns,ECOLOGY_RULES:R,defs,BY,aliasesFor,compatibleIds:aliasesFor,climate,sample,biomeAt:sample,habitat:(sampleSeed,x,y)=>sample(sampleSeed,x,y,false).habitat,buildingPool,pickBuilding,pickTree,pickRock,enemyProfile,surface,scatter});
+ }
+ return Object.freeze({get RULES(){return getCore()?.EcologyRules164;},create});
+});
+
+/* Optional detail13: actual washrooms and explicitly owned care supports.
+ * Fixtures add no loot, plumbing, medicine or service; those owners stay intact. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexFixtures164=api;
+ if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(root){'use strict';
+ const REVISION=13;
+ const normal=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const rect=o=>o&&[o.x,o.y,o.w,o.h].every(Number.isFinite)&&o.w>0&&o.h>0;
+ const hit=(a,b,gap=0)=>a.x<b.x+b.w+gap&&a.x+a.w>b.x-gap&&a.y<b.y+b.h+gap&&a.y+a.h>b.y-gap;
+ const owns=(room,o)=>rect(o)&&o.x+o.w/2>=room.x&&o.y+o.h/2>=room.y&&o.x+o.w/2<room.x+room.w&&o.y+o.h/2<room.y+room.h;
+ const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
+ function careStyle(kind){return kind==='bed'?'careBed':kind==='shelf'||kind==='medical'?'medicalShelf':kind==='bench'?'firstAidRoll':'treatmentTray';}
+ function servicePoints(o){
+  const f=o?.front160;if(!rect(f))return [];
+  // Sample across the fixture's facing width, never down the clearance strip:
+  // a narrow WC has more clearance depth than seat width.
+  return [0.25,0.5,0.75].map(t=>Math.round((o.angle160||0)/(Math.PI/2))%2? [f.x+f.w/2,f.y+f.h*t]:[f.x+f.w*t,f.y+f.h/2]);
+ }
+ function annotatePlan({plan,detailVersion=0}){
+  if(detailVersion<REVISION||plan?.fixtures164?.revision===REVISION)return plan;
+  if(!Array.isArray(plan?.objects))throw Error('Plan de supports164 invalide.');
+  const supports=new Map((plan.operations160||[]).filter(op=>op.kind==='medicalCare'&&typeof op.supportId==='string').map(op=>[op.supportId,op.key]));
+  const objects=plan.objects.map(o=>supports.has(o.id)?Object.freeze({...o,fixture164:Object.freeze({revision:REVISION,kind:careStyle(o.kind),operationKey:supports.get(o.id),scope:'presentation-of-existing-paid-care-support'})}):o);
+  return Object.freeze({...plan,objects:Object.freeze(objects),fixtures164:Object.freeze({revision:REVISION,careSupports:objects.filter(o=>o.fixture164).length})});
+ }
+ function requestedKind(source,existing,z){
+  if(!source||source.exterior||source.levels&&!source.levels.includes(z))return null;
+  const name=normal(source.name),excluded=/\b(outils|modules?|cartons?|coffrets?|lots?|emballages|appareils|preparation|inspection|demontes|deposes|reconditionnement|prototype\w*|essais?|simulation)\b/;
+  if(excluded.test(name)||!(/\b(wc|toilettes?|latrines?|sanitaires?)\b/.test(name)||/\bsalle de bain\b/.test(name)))return null;
+  const U=root.DeadwallCodexUsage163||(typeof require==='function'?require('./codex-usage163.js'):null);
+  const authored=U.kinds(source),physical=existing.filter(o=>['sink','shower','toilet','latrine'].includes(o.kind));
+  if(/\blatrines?\b/.test(name)&&authored.includes('latrine'))return 'latrine';
+  if(U.classify({...source,props:[...(source.props||[]),...physical.map(o=>({kind:o.kind}))]})?.id!=='bathroom')return null;
+  return /\blatrines?\b/.test(name)?'latrine':'toilet';
+ }
+ function enrich({seed,p,z=0,plan,detail,description,geometry:G,recipes:Q,detailVersion=0,rules:givenRules}){
+  if(detailVersion<REVISION||detail?.fixtures164?.revision===REVISION)return detail;
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=givenRules||C?.CodexFixtures164Rules;
+  const A=root.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null),D=root.DeadwallCodexDensity163||(typeof require==='function'?require('./codex-density163.js'):null),Art=root.DeadwallSeedDetailArt157||(typeof require==='function'?require('./seed-detail-art157.js'):null);
+  if(rules?.revision!==REVISION||!G||!Q||!A||!D||!Art?.presentationFor||!Number.isInteger(seed)||seed<0||seed>4294967295||!p?.id||!Number.isFinite(p.w+p.h)||p.w<=0||p.h<=0||!p.levels?.includes(z)||!Array.isArray(description?.rooms)||!['rooms','walls','stairs','objects'].every(k=>Array.isArray(plan?.[k]))||!Array.isArray(detail?.interior)||!Array.isArray(detail.outdoor))throw Error('Contrat de sanitaires164 invalide.');
+  const budgets=['maxPerSite','maxPerFloor','maxPerRoom','maxCandidates','maxGridAudits'];
+  if(budgets.some(k=>!Number.isSafeInteger(rules[k])||rules[k]<1)||rules.maxGridAudits<2||![rules.clearance,rules.collisionGap,rules.roomTolerance,rules.minRoomArea].every(v=>Number.isFinite(v)&&v>=0))throw Error('Budgets de sanitaires164 invalides.');
+  const safe=D.reservations(plan,C?.ContextGeometryRules160?.terrainClearance||rules.clearance),nav={...plan,walls:[...plan.walls,...safe]};
+  const previous=[...plan.objects,...detail.interior],structure=[...plan.walls,...plan.stairs,...safe],solids=[...structure,...previous.filter(o=>o.solid!==false&&!o.dressing160)];
+  const oldFronts=previous.flatMap(D.fronts),added=[],requests=[],budget=D.floorBudget(p,z,rules);
+  let gridAudits=0,candidateChecks=0;
+  const audit=()=>{gridAudits++;return Q.accessGrid(p,z,nav,detail,added);};
+  const base=audit(),keep=Q.anchorCells(p,z,nav,base);
+  for(const front of oldFronts)for(const[x,y]of D.samples(front)){const i=base?.at(x,y);if(i>=0&&base.reachable[i])keep.push(i);}
+  if(!base?.baseline)return finish(false,'baseline-inaccessible');
+  for(const[index,room]of plan.rooms.entries()){
+   const existing=previous.filter(o=>owns(room,o)),sources=description.rooms.filter(source=>normal(source.name)===normal(room.name)&&!source.exterior&&(!source.levels||source.levels.includes(z))),kinds=sources.map(source=>requestedKind(source,existing,z));
+   const kind=kinds.length&&kinds.every(k=>k===kinds[0])?kinds[0]:null;if(!kind)continue;
+   const request={room:index,name:room.name,kind,added:0,reason:'space-or-access',sourceMinimum:null};requests.push(request);
+   if(!Art.presentationFor(kind)){request.reason='unrendered-fixture';continue;}
+   if(existing.some(o=>['toilet','latrine'].includes(o.kind))){request.reason='already-present';continue;}
+   if(room.w*room.h<rules.minRoomArea){request.reason='room-too-small';continue;}
+   if(added.length>=budget){request.reason='site-or-floor-capacity';continue;}
+   const shape=rules.shapes?.[kind];if(!Array.isArray(shape)||!shape.every(v=>Number.isFinite(v)&&v>0)||shape.length!==2)throw Error('Emprise de sanitaire164 invalide.');
+   const walls=A.supportedWalls(room,plan.walls),offset=walls.length?G.hash(seed,p.id,z,index,'fixtures164')%walls.length:0;
+   let chosen=null,attempts=0;
+   search:for(let n=0;n<rules.maxCandidates&&!chosen;n++)for(let wi=0;wi<walls.length&&!chosen;wi++){
+    if(++attempts>rules.maxCandidates)break search;candidateChecks++;
+    const fraction=(G.hash(seed,p.id,z,index,n,'fixtures164-slot')%1001)/1000,pose=A.pose(walls[(wi+offset)%walls.length],room,shape[0],shape[1],fraction,rules.clearance);
+    if(!pose)continue;
+    if(pose.x<room.x-rules.roomTolerance||pose.y<room.y-rules.roomTolerance||pose.x+pose.w>room.x+room.w+rules.roomTolerance||pose.y+pose.h>room.y+room.h+rules.roomTolerance)continue;
+    if([...solids,...added].some(o=>hit(pose,o,rules.collisionGap)||hit(pose.front160,o,rules.collisionGap))||[...oldFronts,...added.flatMap(D.fronts)].some(o=>hit(pose,o,rules.collisionGap)))continue;
+    if(gridAudits>=rules.maxGridAudits-1){request.reason='navigation-budget';break search;}
+    const item=freeze({...pose,id:p.id+':fixture164:'+z+':'+index+':'+kind,kind,z,solid:true,surface:false,decor157:true,anchored160:true,room:room.name,room164:index,fixture164:{revision:REVISION,kind,scope:'derived-personal-washroom-fixture'},utilityConnected164:false,quantitySource164:'derived-use-not-author-minimum'});
+    added.push(item);const next=audit();
+    if(next?.baseline&&keep.every(i=>next.reachable[i])&&added.every(o=>servicePoints(o).every(([x,y])=>{const i=next.at(x,y);return i>=0&&next.reachable[i];}))){chosen=item;request.added++;request.reason='fixture-present';}
+    else added.pop();
+   }
+  }
+  const final=audit(),checked=!!final?.baseline&&keep.every(i=>final.reachable[i])&&added.every(o=>servicePoints(o).every(([x,y])=>{const i=final.at(x,y);return i>=0&&final.reachable[i];}));
+  if(!checked)throw Error('Circulation de sanitaires164 invalidée.');return finish(true,null);
+  function finish(navigationChecked,reason){
+   const interior=Object.freeze([...detail.interior,...added]);
+   return Object.freeze({...detail,interior,...(detail.colliders160?{colliders160:Object.freeze({...detail.colliders160,interior:Object.freeze(interior.filter(o=>o.solid))})}:{}),fixtures164:freeze({revision:REVISION,added:added.length,navigationChecked,requests,budget,candidateChecks,gridAudits,maxGridAudits:rules.maxGridAudits,reason})});
+  }
+ }
+ return Object.freeze({REVISION,careStyle,servicePoints,annotatePlan,requestedKind,enrich});
+});
+
+/* Guide fields are read after Core is ready; this helper is bundled before Core. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallEcologyCodex164=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(root){'use strict';
+ let previousRules=null,previousEntries=null;
+ function entries(){
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=C?.EcologyRules164;
+  if(!rules?.defs)throw Error('Règles du guide écologique164 absentes.');
+  if(rules===previousRules)return previousEntries;
+  const B=C.BiomeRules135,G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
+  const common={status:'jouable',family:'nature',night:'Les troncs et l’obscurité limitent la vue. Ces milieux ne produisent aucune lumière ; préparer une lampe.',
+   access:'Les routes, dessertes et entrées gardent leur dégagement physique. Ce milieu ne révèle aucun lieu inconnu sur la carte.',
+   qa:'La même graine et la même écologie reproduisent les sols, essences et identifiants. Les caches de terrain ne renouvellent pas les stocks.',
+   source:'Extension 1.64 : nouvelle écologie des campagnes créées avec cette version. Les campagnes sauvegardées gardent leur terrain historique.'};
+  const list=rules.defs.map(d=>Object.freeze({...common,id:'biome164-'+d.id,title:d.name+' · biome',summary:d.description,
+   layout:d.places.join(' · ')+'. Le sol, les arbres et les roches lisent les mêmes champs de température, humidité, drainage et substrat.',
+   supplies:'Arbres : '+Object.keys(d.trees).map(id=>B.trees[id].name).join(' · ')+'. Roches : '+Object.keys(d.rocks).map(id=>B.rocks[id].name).join(' · ')+'. Bois et pierre restent des réserves finies.',
+   risks:d.risk,variants:'Lieux compatibles : '+Object.keys(d.buildings).map(id=>G?.BY[id]?.name||id).join(' · ')+'. Les accès et l’espace disponible décident des implantations ; aucun type n’est garanti partout.',
+   interactions:'Choix d’itinéraire, collecte, couvert physique, vitesse et bruit du sol, types de lieux et contacts régionaux. Les statistiques des infectés gardent leurs valeurs existantes.'}));
+  list.push(Object.freeze({...common,id:'ecology164-coherence',family:'systemes',title:'Lire les régions et leur contenu',
+   summary:'Les seize milieux forment des régions continues. Les friches suivent les bourgs et villes ; les clairières et bosquets modulent localement la végétation.',
+   layout:'Les transitions mêlent les palettes et les essences. Les fonds humides partagent un indice de drainage ; les roches et pinèdes dépendent aussi du substrat.',
+   supplies:'Les sols décoratifs ne distribuent aucune ressource. Récolter les vrais troncs et blocs, puis fouiller les contenants identifiés.',
+   risks:'Les indices écologiques ne créent ni rivière franchissable, ni falaise, ni météo saisonnière. Les plans d’eau physiques gardent leurs propres collisions et accès.',
+   variants:'Une nouvelle graine change les régions. Une graine conservée reproduit la carte de sa version ; Continuer ne redistribue pas les anciennes ressources.',
+   interactions:'La nouvelle écologie accompagne les extensions de campagne. Les contextes forestiers, agricoles et d’extraction refusent les implantations incompatibles ; les emprises indisponibles peuvent empêcher un lieu de trouver sa place.'}));
+  previousRules=rules;previousEntries=Object.freeze(list);return previousEntries;
+ }
+ return Object.freeze({entries});
+});
+
 /* Source-room roles for additive revision 12. Classification grants no service,
  * stock or equipment: the density owner still validates placement and access. */
 (function(root,factory){'use strict';const api=factory();root.DeadwallCodexUsage163=api;
@@ -1748,7 +1973,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
   const gardens171=detail.gardens171?copy(detail.gardens171):null;
-  return freeze({gardens171,stations170,complements169,size163:copy(detail.size163),density163:copy(detail.density163),furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  return freeze({gardens171,stations170,complements169,fixtures164:copy(detail.fixtures164),careSupports164:plan.fixtures164?.careSupports||0,size163:copy(detail.size163),density163:copy(detail.density163),furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -1792,6 +2017,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
    for(const p of measured)host.appendChild(el('p',p.room+' — '+p.name+' : emprise source '+p.dimensions.longueur+' × '+p.dimensions.largeur+' m ; mesurée '+p.actualFootprints.map(f=>f.w+' × '+f.h+' m ('+f.count+')').join(' ; ')+'.'));
   }
   if(inspected&&report.density163){const f=report.density163;host.appendChild(el('h6','COMPOSITION DES PIÈCES — RÉVISION 12'));host.appendChild(el('p',f.added+' compléments posés selon les usages et la surface disponible. Les limites de circulation et les faces de service priment sur la densité.'));}
+  if(inspected&&report.fixtures164){const f=report.fixtures164;host.appendChild(el('h6','SANITAIRES ET POSTES DE SOINS'));host.appendChild(el('p',f.added+' sanitaires effectivement posés ; '+report.careSupports164+' supports de soins existants identifiés. Les passages restent vérifiés ; aucun réseau ni stock supplémentaire n’est créé.'));}
   if(inspected&&report.size163)host.appendChild(el('p',report.size163.adjusted+' emprises corrigées lorsque la source auteur permet une attribution sans ambiguïté.'));
   if(inspected&&report.furnishing162){const f=report.furnishing162;host.appendChild(el('h6','MOBILIER D’USAGE — RÉVISION 11'));host.appendChild(el('p',f.added+' compléments posés selon les usages des pièces et les passages disponibles. Ces compositions ne sont pas des quantités auteur et ne créent ni population, ni stock, ni appareil alimenté.'));}
   if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));
@@ -1962,7 +2188,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5,generation){
-  if(![5,6,7,8,9,10,11,12].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9,10,11,12,13].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(generation!==undefined&&![8,9,10].includes(generation))throw Error('Génération d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S,context:X,contextGeometry:CG}=dependencies();
@@ -1995,7 +2221,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=10)details=R.packing({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=11&&programme.extension===158)details=R.furnish({seed,p,z,plan,detail:details,programme:id});
-  if(detailVersion>=12)details=R.complete({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=12)details=R.complete({seed,p,z,plan,detail:details,programme:id,detailVersion});
   }
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
@@ -2039,6 +2265,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   const packLabel=el('label','Compléter les travées intérieures (révision 10)'),packToggle=el('input');packToggle.type='checkbox';packToggle.dataset.packing173='revision';packToggle.style.width='24px';packLabel.append(packToggle);
   const contextLabel=el('label','Compléter les intérieurs et leur mobilier d’usage (révision 11)'),contextToggle=el('input');contextToggle.type='checkbox';contextToggle.dataset.furnishing162='revision';contextToggle.style.width='24px';contextLabel.append(contextToggle);
   const densityLabel=el('label','Composer le mobilier et ouvrir les parcours d’inspection (révision 12)'),densityToggle=el('input');densityToggle.type='checkbox';densityToggle.dataset.density163='revision';densityToggle.style.width='24px';densityLabel.append(densityToggle);
+  const fixtureLabel=el('label','Compléter les sanitaires et identifier les postes de soins (révision 13)'),fixtureToggle=el('input');fixtureToggle.type='checkbox';fixtureToggle.dataset.fixtures164='revision';fixtureToggle.style.width='24px';fixtureLabel.append(fixtureToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
@@ -2046,7 +2273,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   catch(e){show.disabled=true;status.textContent=e.message;}
   const coverage=el('div');coverage.className='codex-coverage167';
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
-  const revision=()=>densityToggle.checked?12:contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5;
+  const revision=()=>fixtureToggle.checked?13:densityToggle.checked?12:contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5;
   const syncFloors=()=>{
    const levels=modelTemplate(id,0,10,revision()).levels,key=levels.join(',');
    if(floor.dataset.levels163===key)return;
@@ -2071,6 +2298,8 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
      +(preview.details.gardens171?' '+preview.details.gardens171.added+' équipements de jardin placés ; composition par zones et chemins préservés, sans nouveau butin.':'')
      +(preview.details.furnishing162?' '+preview.details.furnishing162.added+' compléments de mobilier selon l’usage des pièces ; ce sont des choix de composition, pas des minima auteur.':'')
      +(preview.details.density163?' '+preview.details.density163.added+' compléments selon la surface et l’usage ; passages et faces de service vérifiés.':'')
+     +(preview.details.fixtures164?' '+preview.details.fixtures164.added+' sanitaires ajoutés dans les pièces personnelles identifiées, sans réseau raccordé ni stock supplémentaire.':'')
+     +(preview.plan.fixtures164?.careSupports?' '+preview.plan.fixtures164.careSupports+' supports de soins existants identifiés visuellement ; leur service reste payé.':'')
      +(preview.details.size163?' '+preview.details.size163.adjusted+' emprises ajustées aux dimensions auteur connues.':'')
      +(preview.implementation160?.text?' '+preview.implementation160.text:'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
@@ -2082,12 +2311,12 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
   const syncRevisions=()=>{
-   const toggles=[densityToggle,contextToggle,packToggle,gardenToggle,stationToggle,yardToggle,fillToggle];let higher=false;
+   const toggles=[fixtureToggle,densityToggle,contextToggle,packToggle,gardenToggle,stationToggle,yardToggle,fillToggle];let higher=false;
    for(const toggle of toggles){toggle.disabled=higher;higher=higher||toggle.checked;}
    syncFloors();if(visible)generate();
   };
-  for(const toggle of [yardToggle,stationToggle,gardenToggle,packToggle,contextToggle,densityToggle])toggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,densityLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  for(const toggle of [yardToggle,stationToggle,gardenToggle,packToggle,contextToggle,densityToggle,fixtureToggle])toggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,densityLabel,fixtureLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

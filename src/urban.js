@@ -40,7 +40,7 @@
    const region=g.frontier?.snapshot();if(region){result.generation=region.generation;const totals=new Map();
     for(const [id,n]of Object.entries(region.taken)){const match=/^(P\d{4}):/.exec(id);if(match)totals.set(match[1],(totals.get(match[1])||0)+n);}
     const harvested=[...totals].filter(([,n])=>n+1e-7>=D.RULES.poiHarvest).map(([id])=>id);result.pois=harvested.length;
-    if(harvested.length&&region.generation>=6){const world=g.frontier.world(),byId=new Map(world.pois.map(p=>[p.id,p])),B=root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null);
+    if(harvested.length&&region.generation>=6){const world=g.frontier.world(),byId=new Map(world.pois.map(p=>[p.id,p])),B=world.biomes||root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null);
      result.biomes=new Set(harvested.map(id=>byId.get(id)).filter(Boolean).map(p=>B.sample(g.world.seed,p.x,p.y,false,{generation:region.generation}).id)).size;
     }
    }

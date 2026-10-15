@@ -86,7 +86,7 @@ test('166 ensembles: actual G8 revision 5 keeps G7/G8 plans and stocks and expos
  }
  assert.ok(count>0);console.log('PHYSICAL166 '+JSON.stringify({sites:sites.length,newSolidObjects:count}));
  const p=b.pois[0],before=digest(b.detailAt(p,0));for(const q of b.pois.slice(1,80))b.detailAt(q,0);assert.equal(digest(b.detailAt(p,0)),before);
- for(const v of [0,1,2,3,4,5])assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);assert.throws(()=>S.normalize({...S.initial(),detailVersion:13}));
+ for(const v of [0,1,2,3,4,5])assert.equal(S.normalize({...S.initial(),detailVersion:v}).detailVersion,v);assert.throws(()=>S.normalize({...S.initial(),detailVersion:14}));
 });
 test('166 ensembles: revision-five activation is transactional, explicit and refuses repeat, reload and failed restore',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');

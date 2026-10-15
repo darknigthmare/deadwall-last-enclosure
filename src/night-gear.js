@@ -5,9 +5,9 @@ const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):nul
 const kinds=Object.keys(R.types),copy=v=>JSON.parse(JSON.stringify(v));
 const initial=()=>({version:1,serial:1,devices:[]});
 const validationWorlds=new Map();
-function validationWorld(W,seed,generation){
- const key=seed+':'+generation;let world=validationWorlds.get(key);
- if(world)validationWorlds.delete(key);else world=W.create(seed,generation);
+function validationWorld(W,seed,generation,frontier={}){
+ const key=seed+':'+generation+':'+(frontier.ecologyVersion??0)+':'+(frontier.detailVersion??0);let world=validationWorlds.get(key);
+ if(world)validationWorlds.delete(key);else world=W.create(seed,generation,{detailVersion:frontier.detailVersion??0,ecologyVersion:frontier.ecologyVersion??0});
  validationWorlds.set(key,world);
  if(validationWorlds.size>3)validationWorlds.delete(validationWorlds.keys().next().value);
  return world;
@@ -31,7 +31,7 @@ function normalize(raw,data){
    Object.assign(item,{domain:d.domain,x:number(d.x,0,d.domain==='local'?4096:regionSize),y:number(d.y,0,d.domain==='local'?4096:regionSize),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
    if(item.inside!==null&&!/^P\d{4}$/.test(item.inside)||item.domain==='local'&&(item.z!==0||item.inside!==null))bad();
    if(data&&item.domain==='region'&&(item.z!==0||item.inside!==null)){
-    const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation)),p=w.pois.find(p=>p.id===item.inside);
+    const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation,data.frontier)),p=w.pois.find(p=>p.id===item.inside);
     if(!p||!p.levels.includes(item.z))bad();const q=G.local(p,item.x,item.y);if(q.x<0||q.y<0||q.x>p.w||q.y>p.h)bad();
    }
   }

@@ -50,8 +50,9 @@
  function enabled(record,context={}){
   if(!record||!parentFor(record))return false;
   if(NOT_RENDERABLE.has(record.family))return false;
+  const biomeIds=Array.isArray(context.biomeAliases)&&context.biomeAliases.length?context.biomeAliases:[context.biome];
   if(record.extension===158){const p=record.details?.placement;if(!p)return false;
-   if(context.biome&&!p.biomes.includes(context.biome))return false;
+   if(context.biome&&!biomeIds.some(id=>p.biomes.includes(id)))return false;
    if(p.mode==='town'&&(!context.townKind||!p.townKinds.includes(context.townKind)))return false;
    if(p.mode==='rural'&&context.townKind)return false;
    return true;
@@ -59,7 +60,7 @@
   if(!record.module)return true;
   const biome=context.biome||'',town=String(context.townKind||'');
   if(NEEDS_TERRAIN.has(record.module))return false; // No invented rivers, bridges, mine shafts or factions.
-  if(BIOMES[record.module]&&biome&&!BIOMES[record.module].includes(biome))return false;
+  if(BIOMES[record.module]&&biome&&!biomeIds.some(id=>BIOMES[record.module].includes(id)))return false;
   if(['ville','village','metropole','centre-historique','quartier-collectif','ecole-civique'].includes(record.module)
       &&!town)return false;
   if(record.module==='metropole'&&town!=='grande-ville')return false;
@@ -72,7 +73,7 @@
   const pool=(p.generation>=9?byFamily:legacyByFamily).get(family)||[];
   if(!pool.length)return null;
   const start=G.hash('codex3000-158',seed,p.id,p.type)%pool.length;
-  for(let i=0;i<pool.length;i++){const q=pool[(start+i)%pool.length];if(enabled(q,{...context,biome:context.biome||p.biome}))return q;}
+  for(let i=0;i<pool.length;i++){const q=pool[(start+i)%pool.length];if(enabled(q,{...context,biome:context.biome||p.biome,biomeAliases:context.biomeAliases||p.biomeAliases}))return q;}
   return get(p.codex);
  }
  // An executable, metric plan. It is not installed on G1-G7 geometry:
@@ -225,12 +226,12 @@
       y=r.a.y+(r.b.y-r.a.y)*f+Math.cos(angle)*off*side;
     const biome=biomes.sample(seed,x,y,false,{generation:7});
     const town=towns.find(t=>Math.hypot(x-t.x,y-t.y)<t.radius+55);
-    if(!enabled(card,{biome:biome.id,townKind:town?.kind})){continue;}
+    if(!enabled(card,{biome:biome.id,...(biomes.ecologyVersion===1?{biomeAliases:biomes.compatibleIds(biome.id)}:{}),townKind:town?.kind})){continue;}
     qualified=true;
     const p=install(d.id,x,y,angle+(side<0?Math.PI:0),r);
     if(!p)continue;
     const distance=Math.hypot(p.x-home.x,p.y-home.y),occupancy=spawn.roll({seed,id:p.id,biome:biome.def.spawnBiome,distance});
-    Object.assign(p,{generation:card.extension===158?9:8,programme3000:card.id,biome:biome.id,
+    Object.assign(p,{generation:card.extension===158?9:8,programme3000:card.id,biome:biome.id,...(biomes.ecologyVersion===1?{biomeAliases:biomes.compatibleIds(biome.id)}:{}),
       occupation:occupancy.kind,distanceBand:occupancy.band,
       zone:town?'centre':'activite',sector:'S'+Math.floor(p.x/1024)+'_'+Math.floor(p.y/1024),
       frontier131:{role:occupancy.kind==='allied'?'relay':occupancy.kind==='infected'?'contested':'waypoint'}});
@@ -295,8 +296,12 @@
  function complete(options){
   const Size=globalThis.DeadwallCodexSize163||(typeof require==='function'?require('./codex-size163.js'):null),Density=globalThis.DeadwallCodexDensity163||(typeof require==='function'?require('./codex-density163.js'):null);
   if(!Size||!Density)throw Error('Composition et emprises du codex non chargées');
-  const args={...options,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159};
-  return Density.enrich({...args,detail:Size.enrich(args),shapeFor:Size.shapeFor});
+  const args={...options,detailVersion:options.detailVersion??12,description:describe(options.programme||options.p.codex),geometry:G,recipes:Recipes159};
+  const detail=Density.enrich({...args,detail:Size.enrich(args),shapeFor:Size.shapeFor});
+  if(args.detailVersion<13)return detail;
+  const Fixtures=globalThis.DeadwallCodexFixtures164||(typeof require==='function'?require('./codex-fixtures164.js'):null);
+  if(!Fixtures)throw Error('Sanitaires et supports de soins non chargés');
+  return Fixtures.enrich({...args,detail});
  }
  function summary(){return Object.freeze({count:rows.length,legacyCount:Math.min(rows.length,3000),extensionCount:Math.max(0,rows.length-3000),parents:Object.keys(parents).length,
   families:byFamily.size,modules:Object.keys(DATA?.modules||{}).length,states:Object.keys(DATA?.states||{}).length});}

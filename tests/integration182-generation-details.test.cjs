@@ -5,14 +5,14 @@ require('../src/codex-context160.js');
 const copy=value=>JSON.parse(JSON.stringify(value));
 
 test('182 regional generation and optional detail revision remain independent save axes',()=>{
- for(let generation=1;generation<=10;generation++)for(let detailVersion=0;detailVersion<=12;detailVersion++){
+ for(let generation=1;generation<=10;generation++)for(let detailVersion=0;detailVersion<=13;detailVersion++){
   const saved={...S.initial(),generation,detailVersion};
   const normalized=S.normalize(saved);
   assert.equal(normalized.generation,generation);assert.equal(normalized.detailVersion,detailVersion);
   assert.deepEqual(saved,{...S.initial(),generation,detailVersion});
  }
  for(const generation of [0,11,1.5,'10',null])assert.throws(()=>S.normalize({...S.initial(),generation}));
- for(const detailVersion of [-1,13,1.5,'9',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion}));
+ for(const detailVersion of [-1,14,1.5,'9',null,true])assert.throws(()=>S.normalize({...S.initial(),detailVersion}));
  assert.equal(S.normalize({...S.initial(),generation:10,detailVersion:undefined}).detailVersion,0);
 });
 

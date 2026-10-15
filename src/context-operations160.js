@@ -17,9 +17,9 @@
   });
   if(full&&state.completed.length){
    if(full.frontier?.generation!==10)bad();
-   const cacheKey=full.worldSeed+':'+(full.frontier.detailVersion??0);
+   const cacheKey=full.worldSeed+':10:'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0);
    let world=references.get(cacheKey);
-   if(!world){world=W.create(full.worldSeed,10,{detailVersion:full.frontier.detailVersion??0});references.set(cacheKey,world);if(references.size>3)references.delete(references.keys().next().value);}
+   if(!world){world=W.create(full.worldSeed,10,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0});references.set(cacheKey,world);if(references.size>3)references.delete(references.keys().next().value);}
    const by=new Map(world.pois.map(p=>[p.id,p]));
    for(const key of state.completed){const[site,,name]=key.split(':'),p=by.get(site),op=operation(p,name),rule=op&&R.operations[op.kind];
     if(!p||p.generation!==10||!op||!rule||rule.repeat||!full.frontier.seen.includes(site))bad();

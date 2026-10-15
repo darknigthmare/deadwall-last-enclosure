@@ -31,7 +31,7 @@ function normalize(raw,full){
  if(!Array.isArray(raw.history)||raw.history.length>R.history)invalid();
  for(const h of raw.history){if(!h||!own(D,h.kind)||!integer(h.wave,1,R.maxCount)||h.wave>s.lastStarted[h.kind]||!['complete','lost','abandoned'].includes(h.result)||Object.keys(h).some(k=>!['kind','wave','result'].includes(k)))invalid();s.history.push({...h});}
  if(full&&Object.values(s.usedSites).some(a=>a.length)){
-  const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),key=full.worldSeed+':'+full.frontier.generation;let w=worldCache.get(key);if(!w){w=W.create(full.worldSeed,full.frontier.generation);worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
+  const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),key=full.worldSeed+':'+full.frontier.generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0);let w=worldCache.get(key);if(!w){w=W.create(full.worldSeed,full.frontier.generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0});worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
   const seen=new Set(full.frontier.seen),pois=new Map(w.pois.map(p=>[p.id,p]));
   for(const kind of Object.keys(s.usedSites))for(const id of s.usedSites[kind]){const p=pois.get(id);if(!p||!seen.has(id)||D[kind].types&&!D[kind].types.includes(p.type))invalid();}
  }

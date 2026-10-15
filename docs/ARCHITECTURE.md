@@ -376,3 +376,12 @@ La révision de détails12 est indépendante de la générationG10. `CodexUsage1
 `CodexArchitecture163` ajoute à18 références une paire d’escaliers et un parcours piéton d’inspection. Les niveaux historiques de population sont conservés dans `legacyLevels160` : les anciens ennemis ne sont pas redistribués aux nouveaux étages. Le plan historique au sol reste la base des contenants et opérations. La collision interdit le vide hors passerelle, les gardes et supports physiques utilisent les peintres d’ouvrages. Les domaines de circulation automobile et les architectures auteur complètes restent partiels et signalés.
 
 L’activation `completeCodex163` prépare un monde candidat, vérifie les possessions et positions, puis restaure la sauvegarde atomiquement. L’aperçu pur utilise la même révision et actualise ses niveaux disponibles. Les révisions0–11 gardent leurs générateurs ; le correctif de silhouette des arbres est visuel.
+
+
+## 1.64 — Écologie versionnée et équipements de pièces
+
+`frontier.ecologyVersion` accepte0/1, absent→0 ;1 est explicitement choisi pour une nouvelle campagneG8 et conservé jusqu’àG10. `biomes164.create({base,seed,settlements})` fournit une façade pure, sans ancre globale mutable. La géographie choisit d’abord ses localités sur le climat naturel ; la façade finale inclut ensuite leurs empreintes pour les friches. `world.biomes` fait autorité pour sol, dispersion, espèces, ennemis, survie et progression. Les nouveaux milieux ont des alias de compatibilité explicites pour les programmes historiques. Les anciens appels sans opt-in gardent le sampler et les sorties d’origine.
+
+Les reconstructions des validateurs incluent écologie et détail dans leurs effets et clés de cache. Les régions, rasters et choix d’espèces suivent aussi l’identité du monde/fournisseur ; les caches restent transitoires et bornés. Les trois helpers164 sont compilés dans le module de données déjà distribué. Leurs initialisations restent paresseuses car le bundle est chargé avantCore dans le HTML.
+
+`CodexFixtures164` ajoute uniquement des sanitaires d’usage attribuable après Size/Density163 et annote les supports `medicalCare` des vrais plans. La révision13 s’active après12 par la transaction existante. Les peintres ne créent ni service ni stock ; les opérations et quantités restent dans leurs propriétaires. Les quatre nouvelles fiches de biome et la fiche d’écologie partagée sont lues depuis les règles effectives. Voir les documents1.64 pour mesures et limites.

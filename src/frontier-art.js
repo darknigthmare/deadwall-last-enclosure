@@ -44,6 +44,7 @@ else if(o.kind==='pump'){fill(c,x,y,w,h,'#a69c73');fill(c,x+.1,y+.08,w-.2,h*.3,'
 else if(o.kind==='bench'||o.kind==='counter'){fill(c,x+.08,y+.09,w-.16,h-.18,'#b5a078');for(let yy=y+.17;yy<y+h;yy+=.22)fill(c,x+.1,yy,w-.2,.035,'#715b42');}
 else if(o.kind==='fuel'){fill(c,x+.12,y+.06,w-.24,.12,'#2c4c3c');}
 else{c.beginPath();c.moveTo(x+.08,y+.08);c.lineTo(x+w-.08,y+h-.08);c.stroke();}}
+if(o.fixture164)root.DeadwallSeedDetailArt157?.paintFixture164?.(c,o,{seed});
 // Opening and cache indicators follow the owner's live finite state, above either picture or fallback.
 if(taken>.001&&['crate','wardrobe','fridge','shelf','medical','desk','fuel'].includes(o.kind)){c.strokeStyle='#ead7a2';c.lineWidth=.06;c.beginPath();c.moveTo(x,y);c.lineTo(x+w*.6,y-.35);c.stroke();}
 const cache=game?.fieldSupplies?.cacheSummary(o.id);if(cache){c.globalAlpha=1;c.strokeStyle='#d8c78a';c.lineWidth=.075;c.strokeRect(x-.08,y-.08,w+.16,h+.16);fill(c,x,y+h+.04,w,.1,'#3c5648');fill(c,x,y+h+.04,w*cache.amount/cache.capacity,.1,'#d8c78a');c.fillStyle='#f0e7c1';c.font='.28px sans-serif';c.textAlign='center';c.fillText('R',x+w/2,y+h/2+.1);}c.restore();}

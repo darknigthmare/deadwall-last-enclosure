@@ -44,21 +44,22 @@
   else c.fillRect(o.x,o.y,o.w,o.h);return true;
  }finally{c.restore();}}
  const forestSelections=new WeakMap();
+ function ecology(world){return world?.ecologyVersion===1?world.biomes:root.DeadwallBiomes135;}
  function forestKind(o,p,world,seed,index,x,y){
-  let state=forestSelections.get(o);const key=[seed,world?.generation,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h].join(':');
-  if(!state||state.world!==world||state.key!==key){state={world,key,kinds:[]};forestSelections.set(o,state);}
+  const provider=ecology(world);let state=forestSelections.get(o);const key=[seed,world?.generation,world?.ecologyVersion||0,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h].join(':');
+  if(!state||state.world!==world||state.provider!==provider||state.key!==key){state={world,provider,key,kinds:[]};forestSelections.set(o,state);}
   if(state.kinds[index])return state.kinds[index];const point=globalPoint(p,x,y);
-  const botanical=root.DeadwallBiomes135?.pickTree?.(seed,point.x,point.y,o.id+':'+index,{generation:world?.generation??10}),biome=botanical?null:world?.biomeAt?.(point.x,point.y),species=Object.keys(biome?.def?.trees||{oak:1});
+  const botanical=provider?.pickTree?.(seed,point.x,point.y,o.id+':'+index,{generation:world?.generation??10}),biome=botanical?null:world?.biomeAt?.(point.x,point.y),species=Object.keys(biome?.def?.trees||{oak:1});
   const kind=botanical?.species||species[hash(seed,o.id,index)%species.length]||'oak';state.kinds[index]=Nature?.TREES?.includes(kind)?kind:'oak';return state.kinds[index];
  }
  const physicalTrees=new WeakMap();
  function physicalTree(o,p,world,seed){
-  const key=[seed,world?.generation,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h,o.species].join(':');let cached=physicalTrees.get(o);
-  if(cached?.world===world&&cached.key===key)return cached.tree;
-  const x=o.x+o.w/2,y=o.y+o.h/2,species=Nature?.TREES?.includes(o.species)?o.species:forestKind(o,p,world,seed,0,x,y),def=root.DeadwallBiomes135?.TREES?.[species],range=def?.canopy;
+  const provider=ecology(world),key=[seed,world?.generation,world?.ecologyVersion||0,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h,o.species].join(':');let cached=physicalTrees.get(o);
+  if(cached?.world===world&&cached.provider===provider&&cached.key===key)return cached.tree;
+  const x=o.x+o.w/2,y=o.y+o.h/2,species=Nature?.TREES?.includes(o.species)?o.species:forestKind(o,p,world,seed,0,x,y),def=provider?.TREES?.[species],range=def?.canopy;
   const canopy=Array.isArray(range)&&range.length===2&&range.every(n=>Number.isFinite(n)&&n>0)?range[0]+hash(seed,o.id,'canopy')/4294967296*(range[1]-range[0]):3;
   const tree={id:o.id,species,x,y,r:Math.min(o.w,o.h)/2,canopy,a:hash(seed,o.id,'tree-angle')/4294967296*Math.PI*2,point:globalPoint(p,x,y),bark:def?.bark||'#715d41',crown:def?.crown||'#51653e'};
-  physicalTrees.set(o,{world,key,tree});return tree;
+  physicalTrees.set(o,{world,provider,key,tree});return tree;
  }
  function treeFallback(c,t,seed,alpha){
   c.save();try{c.translate(t.x,t.y);c.rotate(t.a);c.globalAlpha*=alpha;c.fillStyle=t.bark;c.beginPath();c.arc(0,0,t.r,0,Math.PI*2);c.fill();c.strokeStyle=t.bark;c.lineWidth=Math.max(.04,t.r*.5);

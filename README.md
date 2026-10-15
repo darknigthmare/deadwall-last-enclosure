@@ -1,3 +1,16 @@
+# DEADWALL 1.64.0 — Biomes et lieux cohérents
+
+Les nouvelles campagnes partagent une écologie déterministe pour le terrain et son contenu : quatre nouveaux milieux tempérés, transitions continues et implantations naturelles vérifiées. Les anciennes campagnes conservent leur carte. La révision facultative13 complète les vrais sanitaires et distingue les supports de soins. Activation et limites : [LIVRAISON_1_64.md](docs/LIVRAISON_1_64.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+node scripts/browser-ecology164.mjs
+```
+
+## Historique conservé — 1.63.0
+
 # DEADWALL 1.63.0 — Composition des pièces et inspection des ouvrages
 
 La révision facultative 12 complète le mobilier selon l’usage et la surface, ajuste les emprises auteur attribuables et ouvre des parcours d’inspection à pied dans 18 références d’ouvrages. Les arbres physiques utilisent leurs silhouettes botaniques. Activation et limites : [LIVRAISON_1_63.md](docs/LIVRAISON_1_63.md).

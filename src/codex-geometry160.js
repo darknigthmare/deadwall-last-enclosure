@@ -321,8 +321,11 @@
  }
  function plan(p,seed,z=0,detailVersion=0){
   const contract=contractFor(p);
-  if(detailVersion>=12&&architecture163().supports(contract))return architecture163().plan({p,seed,z,ground:sourcePlan({...p,levels:contract.levels},seed,0),contract});
-  return sourcePlan(p,seed,z);
+  const value=detailVersion>=12&&architecture163().supports(contract)?architecture163().plan({p,seed,z,ground:sourcePlan({...p,levels:contract.levels},seed,0),contract}):sourcePlan(p,seed,z);
+  if(detailVersion<13)return value;
+  const fixtures=root.DeadwallCodexFixtures164||(typeof require==='function'?require('./codex-fixtures164.js'):null);
+  if(!fixtures)throw Error('Équipements sanitaires164 absents.');
+  return fixtures.annotatePlan({plan:value,detailVersion});
  }
  // Revision11 adds only non-loot furnishing to the326 preserved interiors.
  // Terrain and work faces constrain placement without becoming real plan walls.
@@ -347,7 +350,7 @@
   value={...value,interior:[...value.interior,...barriers],outdoor:value.outdoor.filter(o=>!reserved.some(barrier=>hit(o,barrier)))};
   value=R.enrich({...args,detail:value});value=R.dress({...args,detail:value});
   for(const layer of ['anchored','quantities','ensembles','fill','infill','stations','gardens','packing'])value=R[layer]({...args,detail:value});
-  if(detailVersion>=12)value=R.complete({...args,detail:value});
+  if(detailVersion>=12)value=R.complete({...args,detail:value,detailVersion});
   const interior=Object.freeze(value.interior.filter(o=>!o.placementOnly162)),outdoor=Object.freeze(value.outdoor.filter(o=>!o.placementOnly162));
   const colliders160=Object.freeze({interior:Object.freeze(interior.filter(o=>o.solid)),outdoor:Object.freeze(outdoor.filter(o=>o.solid))});
   return Object.freeze({...value,interior,outdoor,colliders160,programme3000:programme.id,programmeState:programme.state||null,context160:sourcePlan});
@@ -362,29 +365,75 @@
    implementation160:{...(contract.implementation160||{scope:'physical-ground-context-and-finite-parent-budget',fullyImplementedReference:false}),...(ground.adaptation160||{})}};
   return p;
  }
+ const FOREST_ARCHETYPES164=new Set(['forest-rest-stop','working-forest-track','forest-working-village','compact-forest-water-capture']);
+ const AGRICULTURAL_ARCHETYPES164=new Set(['agricultural-parcel-road','dispersed-farming-village','farm-well-head','field-edge-irrigation-station']);
+ const RELIEF_ARCHETYPES164=new Set(['road-tunnel-tube','rail-tunnel-gallery','hilltop-stepped-village','mountain-slope-hamlet']);
+ function naturalRequirements164(card){
+  const required=[];
+  if(card.context160==='foret-profonde'||card.family==='Forêts et filière bois'||FOREST_ARCHETYPES164.has(card.archetype))required.push('forest');
+  if(card.family==='Agriculture'||AGRICULTURAL_ARCHETYPES164.has(card.archetype))required.push('agriculture');
+  if(card.family==='Mines et matériaux')required.push('mineral');
+  if(card.context160==='montagne'||RELIEF_ARCHETYPES164.has(card.archetype))required.push('relief');
+  if(card.context160==='terre-aride')required.push('dry');
+  if(card.archetype==='compact-forest-water-capture')required.push('wet');
+  return Object.freeze(required);
+ }
+ // Only the new ecological facade opts in. Historical G10 placement, including
+ // its order of IDs and physical installation attempts, stays byte-for-byte.
+ function ecologyAdmission164(card,biome,biomes){
+  const requirements=naturalRequirements164(card);
+  if(biomes?.ecologyVersion!==1||!requirements.length)return Object.freeze({allowed:true,requirements,reasons:Object.freeze([])});
+  const aliases=new Set([biome?.id,...(biomes.aliasesFor?.(biome?.id)||biomes.compatibleIds?.(biome?.id)||[])]),
+   any=ids=>ids.some(id=>aliases.has(id)),pool=biome?.def?.buildings||{},
+   conditions={forest:any(['deciduous','mixed','conifer','riparian'])||biome?.def?.spawnBiome==='forest',
+    agriculture:pool.farmhouse>0||pool.marketgarden>0,
+    mineral:pool.mine>0||pool.quarry>0,
+    relief:any(['conifer','limestone','rockyHighland']),
+    dry:any(['heath','limestone','agriculturalPlateau']),
+    wet:any(['riparian','wetland'])};
+  const reasons=Object.freeze(requirements.filter(requirement=>!conditions[requirement]));
+  return Object.freeze({allowed:!reasons.length,requirements,reasons});
+ }
  function populate({seed,roads,install,contracts,biomes,sectors,spawn,home,detailVersion=0}){
   if(!contracts||contracts.ids.length!==626)throw Error('Contrats160 incomplets');
   const viable=roads.filter(r=>r.roadClass!=='approach'&&Math.hypot(r.b.x-r.a.x,r.b.y-r.a.y)>=55),bySector=new Map(sectors.map(s=>[s.id,s]));
-  let placed=0,rejected=0;const missing=[];
+  const ecological=biomes?.ecologyVersion===1,refusals={},omissions=[];
+  let placed=0,rejected=0,screenedProgrammes=0,rejectedCandidates=0;const missing=[];
   for(const card of contracts.records){
-   const d=contracts.preset('codex160-'+card.id.slice(3));let accepted=false;
+   const d=contracts.preset('codex160-'+card.id.slice(3)),requirements=ecological?naturalRequirements164(card):null;
+   let accepted=false,ecologicalRejects=0,placementRejects=0,compatibleCandidates=0;
+   if(requirements?.length)screenedProgrammes++;
    const start=G.hash(seed,card.id,'context-road160')%viable.length;
    for(let attempt=0;attempt<rules().attemptLimit&&viable.length;attempt++){
     const r=viable[(start+attempt*83)%viable.length],a=Math.atan2(r.b.y-r.a.y,r.b.x-r.a.x),side=G.hash(seed,card.id,attempt,'side160')%2?1:-1,
      f=.12+.76*G.hash(seed,card.id,attempt,'frontage160')/4294967296,
      off=r.width/2+rules().frontSetback+d.h/2+Math.floor(attempt/24)*Math.max(45,d.h*.4),
      x=r.a.x+(r.b.x-r.a.x)*f-Math.sin(a)*off*side,y=r.a.y+(r.b.y-r.a.y)*f+Math.cos(a)*off*side;
-    const p=install(d.id,x,y,a+(side<0?Math.PI:0),r);if(!p)continue;
-    const biome=biomes.sample(seed,x,y,false,{generation:9}),distance=Math.hypot(x-home.x,y-home.y),occupancy=spawn.roll({seed,id:p.id,biome:biome.def.spawnBiome,distance});
+    let biome;
+    if(requirements?.length){
+     biome=biomes.sample(seed,x,y,false,{generation:9});
+     const admission=ecologyAdmission164(card,biome,biomes);
+     if(!admission.allowed){ecologicalRejects++;rejectedCandidates++;for(const reason of admission.reasons)refusals[reason]=(refusals[reason]||0)+1;continue;}
+    }
+    compatibleCandidates++;
+    const p=install(d.id,x,y,a+(side<0?Math.PI:0),r);if(!p){placementRejects++;continue;}
+    biome=biome||biomes.sample(seed,x,y,false,{generation:9});
+    const distance=Math.hypot(x-home.x,y-home.y),occupancy=spawn.roll({seed,id:p.id,biome:biome.def.spawnBiome,distance});
     Object.assign(p,{generation:10,programme160:card.id,context160:card,biome:biome.id,
      occupation:occupancy.kind,distanceBand:occupancy.band,zone:'activite',
      sector:'S'+Math.floor(p.x/1024)+'_'+Math.floor(p.y/1024),
      frontier131:{role:occupancy.kind==='allied'?'relay':occupancy.kind==='infected'?'contested':'waypoint'}});
     decorate(p,seed,detailVersion);bySector.get(p.sector)?.sites.push(p.id);placed++;accepted=true;break;
    }
-   if(!accepted){rejected++;missing.push(card.id);}
+   if(!accepted){
+    rejected++;missing.push(card.id);
+    if(ecological)omissions.push(Object.freeze({id:card.id,requirements,ecologicalRejects,placementRejects,compatibleCandidates,
+     reason:!viable.length?'no-road-candidate':requirements.length&&!compatibleCandidates?'no-compatible-environment':'placement-unavailable'}));
+   }
   }
-  return Object.freeze({generation:10,eligible:contracts.records.length,placed,rejected,unsupported:0,programmeCount:626,missing:Object.freeze(missing)});
+  return Object.freeze({generation:10,eligible:contracts.records.length,placed,rejected,unsupported:0,programmeCount:626,missing:Object.freeze(missing),
+   ...(ecological?{ecology164:Object.freeze({version:1,screenedProgrammes,rejectedCandidates,refusals:Object.freeze(refusals),
+    ecologicalOmissions:omissions.filter(row=>row.reason==='no-compatible-environment').length,omissions:Object.freeze(omissions)})}:{})});
  }
- return Object.freeze({plan,details,decorate,populate,terrainMovement,optical,rects,rules});
+ return Object.freeze({plan,details,decorate,populate,terrainMovement,optical,rects,rules,naturalRequirements164,ecologyAdmission164});
 });

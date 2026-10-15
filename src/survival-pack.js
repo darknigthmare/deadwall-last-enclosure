@@ -113,15 +113,15 @@ function install(g){
  }
  function rainProtection(device,p){const q=device.location==='belt'?p:device;if(!q||q.z!==0||q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
  function depthEntries(v,view){return state.camps.filter(c=>c.domain==='region'&&v.z===0&&c.x>=view.l-3&&c.x<=view.r+3&&c.y>=view.t-3&&c.y<=view.b+3&&(root.DeadwallFrontierArt?.visiblePoint?.(g,c,v)??true)).map(c=>({kind:'camp',id:'camp:'+c.id,depth:c.y+R.campRadius,draw:ctx=>draw(ctx,'region',c)}));}
- let terrainWorld=null,terrainKey='',terrainRows=[];
+ let terrainWorld=null,terrainRegion=null,terrainProvider=null,terrainKey='',terrainRows=[];
  function surroundings(){
-  const f=frontierPosition(),key=[f.active,f.generation,f.x,f.y,f.z,f.inside,g.player.x,g.player.y,g.weather,g.exploration125?.generation].join(':');
-  if(terrainWorld===g.world&&terrainKey===key)return terrainRows;
-  terrainWorld=g.world;terrainKey=key;terrainRows=[];
+  const f=frontierPosition(),regional=f.active?g.frontier.world():null,key=[f.active,f.generation,f.detailVersion??0,f.ecologyVersion??0,f.x,f.y,f.z,f.inside,g.player.x,g.player.y,g.weather,g.exploration125?.generation].join(':');
+  if(terrainWorld===g.world&&terrainRegion===regional&&terrainProvider===regional?.biomes&&terrainKey===key)return terrainRows;
+  terrainWorld=g.world;terrainRegion=regional;terrainProvider=regional?.biomes;terrainKey=key;terrainRows=[];
   if(f.active){
-   const biome=f.generation>=6?root.DeadwallBiomes135?.sample(g.world.seed,f.x,f.y,false,{generation:f.generation}):null;
+   const biome=f.generation>=6?(regional.biomes||root.DeadwallBiomes135)?.sample(regional.seed,f.x,f.y,false,{generation:f.generation}):null;
    terrainRows.push({label:'Carte & milieu',value:'Graine '+g.world.seed+(biome?' · '+biome.name:' · région G'+f.generation)});
-   const ground=g.worldEvolution?.surface(f);if(ground)terrainRows.push({label:'Sol parcouru',value:ground.name+' · à pied : vitesse '+Math.round(ground.speed*100)+' % · bruit '+Math.round(ground.noise*100)+' %'});
+   const ground=g.worldEvolution?.surface({...f,world:regional});if(ground)terrainRows.push({label:'Sol parcouru',value:ground.name+' · à pied : vitesse '+Math.round(ground.speed*100)+' % · bruit '+Math.round(ground.noise*100)+' %'});
   }else{
    terrainRows.push({label:'Carte & milieu',value:'Graine '+g.world.seed+' · D-17'});
    const ground=g.exploration125?.generation===4?root.DeadwallExploration125?.surfaceAt(g.exploration125.plan,g.player.x,g.player.y,g.weather||0):null;

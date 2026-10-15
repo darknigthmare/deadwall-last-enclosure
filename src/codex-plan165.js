@@ -25,7 +25,7 @@
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5,generation){
-  if(![5,6,7,8,9,10,11,12].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9,10,11,12,13].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(generation!==undefined&&![8,9,10].includes(generation))throw Error('Génération d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S,context:X,contextGeometry:CG}=dependencies();
@@ -58,7 +58,7 @@
   if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=10)details=R.packing({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=11&&programme.extension===158)details=R.furnish({seed,p,z,plan,detail:details,programme:id});
-  if(detailVersion>=12)details=R.complete({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=12)details=R.complete({seed,p,z,plan,detail:details,programme:id,detailVersion});
   }
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
@@ -102,6 +102,7 @@
   const packLabel=el('label','Compléter les travées intérieures (révision 10)'),packToggle=el('input');packToggle.type='checkbox';packToggle.dataset.packing173='revision';packToggle.style.width='24px';packLabel.append(packToggle);
   const contextLabel=el('label','Compléter les intérieurs et leur mobilier d’usage (révision 11)'),contextToggle=el('input');contextToggle.type='checkbox';contextToggle.dataset.furnishing162='revision';contextToggle.style.width='24px';contextLabel.append(contextToggle);
   const densityLabel=el('label','Composer le mobilier et ouvrir les parcours d’inspection (révision 12)'),densityToggle=el('input');densityToggle.type='checkbox';densityToggle.dataset.density163='revision';densityToggle.style.width='24px';densityLabel.append(densityToggle);
+  const fixtureLabel=el('label','Compléter les sanitaires et identifier les postes de soins (révision 13)'),fixtureToggle=el('input');fixtureToggle.type='checkbox';fixtureToggle.dataset.fixtures164='revision';fixtureToggle.style.width='24px';fixtureLabel.append(fixtureToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
@@ -109,7 +110,7 @@
   catch(e){show.disabled=true;status.textContent=e.message;}
   const coverage=el('div');coverage.className='codex-coverage167';
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
-  const revision=()=>densityToggle.checked?12:contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5;
+  const revision=()=>fixtureToggle.checked?13:densityToggle.checked?12:contextToggle.checked?11:packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5;
   const syncFloors=()=>{
    const levels=modelTemplate(id,0,10,revision()).levels,key=levels.join(',');
    if(floor.dataset.levels163===key)return;
@@ -134,6 +135,8 @@
      +(preview.details.gardens171?' '+preview.details.gardens171.added+' équipements de jardin placés ; composition par zones et chemins préservés, sans nouveau butin.':'')
      +(preview.details.furnishing162?' '+preview.details.furnishing162.added+' compléments de mobilier selon l’usage des pièces ; ce sont des choix de composition, pas des minima auteur.':'')
      +(preview.details.density163?' '+preview.details.density163.added+' compléments selon la surface et l’usage ; passages et faces de service vérifiés.':'')
+     +(preview.details.fixtures164?' '+preview.details.fixtures164.added+' sanitaires ajoutés dans les pièces personnelles identifiées, sans réseau raccordé ni stock supplémentaire.':'')
+     +(preview.plan.fixtures164?.careSupports?' '+preview.plan.fixtures164.careSupports+' supports de soins existants identifiés visuellement ; leur service reste payé.':'')
      +(preview.details.size163?' '+preview.details.size163.adjusted+' emprises ajustées aux dimensions auteur connues.':'')
      +(preview.implementation160?.text?' '+preview.implementation160.text:'')
      +(s.adapted?' Dimensions adaptées au gabarit simplifié.':'')
@@ -145,12 +148,12 @@
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
   const syncRevisions=()=>{
-   const toggles=[densityToggle,contextToggle,packToggle,gardenToggle,stationToggle,yardToggle,fillToggle];let higher=false;
+   const toggles=[fixtureToggle,densityToggle,contextToggle,packToggle,gardenToggle,stationToggle,yardToggle,fillToggle];let higher=false;
    for(const toggle of toggles){toggle.disabled=higher;higher=higher||toggle.checked;}
    syncFloors();if(visible)generate();
   };
-  for(const toggle of [yardToggle,stationToggle,gardenToggle,packToggle,contextToggle,densityToggle])toggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,densityLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  for(const toggle of [yardToggle,stationToggle,gardenToggle,packToggle,contextToggle,densityToggle,fixtureToggle])toggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,contextLabel,densityLabel,fixtureLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }

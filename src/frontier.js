@@ -1,17 +1,17 @@
 /* Regional travel. The historical defending city keeps updating while its commander is elsewhere. */
 (function(root){'use strict';const C=root.DeadwallCore,G=root.DeadwallFrontierGeometry,W=root.DeadwallFrontierWorld,R=W.RULES,Survey=root.DeadwallFrontierSurvey||(typeof require==='function'?require('./frontier-survey.js'):null),T=C.FrontierTacticsRules,P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null);
-function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
+function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,regionEcologyVersion=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
 const wrap=(n,fn)=>{const f=g[n].bind(g);g[n]=(...a)=>fn(f,...a);};const can=()=>g.state==='playing'&&!g.gameOver&&!g.player.dead&&(!g.paused||g.activeOverlay===g.ui.commandModal);const car=()=>g.expeditions.car();
 function ensure(){if(home!==g.world){const next=C.Frontier.normalize(pending||undefined);
 // Geometry and its bounded read caches are independent of loot, actors and damage.
 // Keep this same game's model across a compatible restore; destruction is read live.
-if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion)region=null;
+if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion||regionEcologyVersion!==next.ecologyVersion)region=null;
 home=g.world;state=next;takenCount=Object.keys(state.taken).length;pending=null;near=[];enemies.clear();bullets=[];action=null;locked=null;focus=null;candidates=[];sound={kind:'Silence',radius:0,time:0};pulse=0;}const v=car();if(state.car&&(!v||v.id!==state.car.id))state.car=null;if(v)v.regionAway=!!state.car;g.player.regionAbsent=state.active;return state;}
 // Frequent pose readers do not need geometry or a validated copy of the expedition history.
-function position(){ensure();return{active:state.active,generation:state.generation,x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
+function position(){ensure();return{active:state.active,generation:state.generation,detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
 const world=()=>{ensure();if(!region){
- regionDetailVersion=state.detailVersion;
- region=W.create(g.world.seed,state.generation,{detailVersion:state.detailVersion,structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0,contextCompleted160:key=>g.contextOperations160?.isComplete(key)===true});
+ regionDetailVersion=state.detailVersion;regionEcologyVersion=state.ecologyVersion;
+ region=W.create(g.world.seed,state.generation,{detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0,contextCompleted160:key=>g.contextOperations160?.isComplete(key)===true});
  // Annex foundations already occupy physical space. Give all regional readers
  // the same live obstacles, without changing generated plans or saved records.
  const blocked=region.blocked,optical=region.opticalBlocked||blocked,line=region.line,movement=region.movementLine||line,vehicle=region.vehicleClear;
@@ -133,7 +133,7 @@ function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p
   const id=p.id+':e'+i,z=levels[i];if(state.enemies[id]===0||enemies.has(id)||z!==state.z||z!==0&&p.id!==state.inside)continue;
   const saved=state.tracks[id],validSaved=saved&&!w.blocked(saved.x,saved.y,T.enemyRadius,z,z?p.id:null)?saved:null;
   const pos=validSaved||spawnPoint(w,p,i,z,firstGround);if(!pos)continue;
-  const profile=state.generation>=6?root.DeadwallBiomes135?.enemyProfile(w.seed,p.x,p.y,id,{generation:state.generation}):null;
+  const profile=state.generation>=6?(w.biomes||root.DeadwallBiomes135)?.enemyProfile(w.seed,p.x,p.y,id,{generation:state.generation}):null;
   enemies.set(id,{...(profile?{kind:profile.kind,maxHealth:profile.health,biomeProfile:profile}:{}),id,poi:p.id,z,x:pos.x,y:pos.y,a:validSaved?.a??G.hash(id,'facing')/4294967296*Math.PI*2,hp:state.enemies[id]??profile?.health??65,cool:0,mode:'idle',ttl:0,gx:pos.x,gy:pos.y,...(validSaved||{}),path:null,repath:0});
  }
 }

@@ -2479,3 +2479,41 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
 
 /* Pedestrian inspection levels are explicit revision12 additions, not vehicle decks. */
 (function(root){'use strict';root.DeadwallCore.ContextArchitectureRules163=Object.freeze({revision:12,walkWidth:3.2,stairWidth:2.1,stairDepth:2.9,footRadius:.32,clearance:.16,railThickness:.16,pierSpacing:16,maxPiers:8,placementLimit:96});})(globalThis);
+
+// Existing washrooms gain physical fixtures; stocks and paid care remain with their owners.
+(function(root){'use strict';
+ const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
+ root.DeadwallCore.CodexFixtures164Rules=freeze({revision:13,maxPerSite:8,maxPerFloor:4,maxPerRoom:1,maxCandidates:72,maxGridAudits:48,minRoomArea:3,clearance:.9,collisionGap:.04,roomTolerance:.5,shapes:{toilet:[.70,.78],latrine:[.75,.85]}});
+})(globalThis);
+
+/* Ecology164 is an explicit campaign revision. Historic climate/scatter rules above are immutable. */
+(function(root){'use strict';
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ root.DeadwallCore.EcologyRules164=freeze({revision:1,
+  climate:{blendSoftness:.38,drainageScale:5800,drainageDetailScale:1900,drainageDetailWeight:.12,drainageThreshold:[.48,.92],drainageElevation:[.48,.88],substrateScale:5100,substrateDetailScale:1750,substrateDetailWeight:.2},
+  composition:{newBiomeStrength:2.8,alluvialDrainage:[.22,.72],alluvialMineral:[.58,.88],plateauElevation:[.35,.65],plateauDrainage:[.22,.72],sandySubstrate:[.43,.72],sandyMoisture:[.32,.65],peatDrainage:[.28,.72],peatSubstrate:[.38,.68],speciesWeightFloor:.08,speciesAffinity:.82,speciesPatchScale:120,speciesPatchJitter:.72,substrateAffinity:1.8,habitatDecorWeight:1},
+  settlements:{limit:128,binSize:2048,influenceReach:900,maximumRadius:1500,innerFraction:.2,ringFraction:.75,edgeFraction:.85,centreInfluence:.35,brownfieldStrength:4,kindWeights:{hameau:.35,village:.5,bourg:.75,ville:1,'grande-ville':1}},
+  defs:[
+   {id:'alluvialTerrace',name:'Terrasses alluviales',aliases:['riparian','bocage'],climate:[.55,.69,.2],spread:[.35,.32,.28],spawnBiome:'rural',surface:'grass',treeChance:.19,rockChance:.11,decorChance:.96,
+    palette:{base:'#738054',secondary:'#899061',soil:'#837550',accent:'#a1a171',rock:'#a39f89',grass:'#8c9b65',water:'#63796a'},
+    trees:{willow:5,poplar:5,alder:3,oak:1},rocks:{scree:8,limestone:2},decor:{grass:9,reeds:3,flowers:3,fallenBranch:2},
+    buildings:{farmhouse:7,marketgarden:7,familyHouse:3,inn:2,grocer:2,veterinary:1},enemies:{walker:72,runner:10,crawler:10,stalker:8},
+    places:['Prairies des fonds de vallée','Bandes de saules et de peupliers','Fermes et cultures des terrasses'],description:'Terrasses fertiles et fonds herbeux suivant le même indice continu de drainage que les bois humides. Saules, peupliers et galets dominent ; cet indice ne crée ni rivière ni profondeur d’eau.',risk:'Les bosquets coupent la vue. Les bandes alluviales restent du terrain au sol ; seules les eaux des contextes physiques bloquent le passage.'},
+   {id:'agriculturalPlateau',name:'Plateaux agricoles',aliases:['meadow','orchard'],climate:[.65,.43,.61],spread:[.35,.31,.25],spawnBiome:'rural',surface:'grass',treeChance:.055,rockChance:.27,decorChance:.91,
+    palette:{base:'#878151',secondary:'#a29560',soil:'#998358',accent:'#b5a372',rock:'#aaa18b',grass:'#929762',water:'#6a7c6d'},
+    trees:{oak:5,fruit:3,birch:1},rocks:{limestone:6,scree:4},decor:{dryGrass:8,grass:7,flowers:2,pebbles:2},
+    buildings:{farmhouse:9,marketgarden:6,inn:2,chapel:2,smallWorkshop:2,fuel:1},enemies:{walker:74,runner:13,crawler:7,stalker:6},
+    places:['Jachères de plateau','Fermes et dépendances','Bordures minérales et arbres isolés'],description:'Grandes étendues agricoles sur les positions écologiques élevées et bien drainées. Les arbres se regroupent en bordure des clairières plutôt que de former une forêt uniforme.',risk:'Peu de couvert pour rejoindre un véhicule. L’altitude écologique ne représente pas une falaise franchissable en trois dimensions.'},
+   {id:'sandyPine',name:'Pinèdes sur sols sableux',aliases:['conifer','heath'],climate:[.51,.29,.35],spread:[.37,.3,.31],spawnBiome:'forest',surface:'forest',treeChance:.47,rockChance:.16,decorChance:.91,
+    palette:{base:'#77774e',secondary:'#8a8656',soil:'#a18b60',accent:'#b1a16e',rock:'#a29b85',grass:'#8a9460',water:'#667968'},
+    trees:{pine:12,birch:3,oak:1},rocks:{scree:7,granite:3},decor:{dryGrass:7,fallenBranch:5,leaves:3,pebbles:2},
+    buildings:{cabin:9,sawmill:5,ruin:4,joinery:3,motel:2,fuel:1},enemies:{walker:67,runner:10,crawler:11,stalker:12},
+    places:['Peuplements de pins sur substrat pauvre','Clairières sèches','Dessertes et petits ateliers forestiers'],description:'Pins et bouleaux se partagent de grands secteurs secs d’un substrat sableux. Les clairières, branches et blocs suivent le même sol régional ; aucune dune ou côte marine n’est inventée.',risk:'Les troncs restent physiques, les aiguilles et herbes sèches sont passables. Ce milieu ne provoque pas automatiquement un incendie.'},
+   {id:'peatland',name:'Fonds tourbeux et bois clairs',aliases:['wetland','riparian'],climate:[.31,.83,.23],spread:[.32,.3,.29],spawnBiome:'forest',surface:'mud',treeChance:.16,rockChance:.08,decorChance:.98,
+    palette:{base:'#59644b',secondary:'#6c7955',soil:'#665d48',accent:'#8a9463',rock:'#8c9280',grass:'#788b5e',water:'#526d62'},
+    trees:{alder:7,birch:5,willow:3,pine:1},rocks:{scree:7,schist:3},decor:{reeds:12,grass:5,fallenBranch:4,leaves:2},
+    buildings:{cabin:7,ruin:5,smallWorkshop:1},enemies:{walker:70,runner:7,crawler:14,stalker:9},
+    places:['Roselières tourbeuses','Aulnes et bouleaux espacés','Refuges et ruines sur accès aménagés'],description:'Fonds frais et humides sur substrat acide, prolongés par des aulnaies claires et des roselières. Le drainage et le substrat délimitent ensemble ces nappes ; leur boue reste un sol, pas un plan d’eau invisible.',risk:'La boue reprend la vitesse et le bruit existants. La végétation ne crée ni noyade, ni ressource renouvelable, ni poisson caché.'}
+  ]
+ });
+})(globalThis);

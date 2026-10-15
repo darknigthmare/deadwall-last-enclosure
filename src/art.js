@@ -23,6 +23,16 @@
   const PostArt159=root.DeadwallPostArt159||(typeof require==='function'?require('./post-art159.js'):null);
   const ExpeditionSprites159=root.DeadwallExpeditionSprites159||(typeof require==='function'?require('./expedition-sprites159.js'):null);
   const ContextArt160=root.DeadwallContextArt160||(typeof require==='function'?require('./context-art160.js'):null);
+  const localEcology164=new WeakMap();
+  function nodeEcology(game,pose){
+    if(pose?.ecologyVersion!==1){localEcology164.delete(game);return root.DeadwallBiomes135;}
+    let saved=localEcology164.get(game);
+    if(!saved||saved.world!==game.world||saved.seed!==game.world.seed||saved.generation!==pose.generation||saved.frontier!==game.frontier){
+      const regional=game.frontier?.world?.();
+      saved={world:game.world,seed:game.world.seed,generation:pose.generation,frontier:game.frontier,regional};localEcology164.set(game,saved);
+    }
+    return saved.regional?.ecologyVersion===1?saved.regional.biomes:null;
+  }
   // Original OpenAI atlases. Matte decoding is performed once at upload, never per frame.
   const ASSETS = Object.freeze({
     ...(ContextArt160?.ASSETS||{}),
@@ -445,17 +455,17 @@
       const variant = Math.abs(node.variant || 0) % 4;
       // Local G7/G8 botanical appearance shares the region's ecology. This is a
       // painter only: collision radius, finite amount and saved IDs are untouched.
-      const generation=game?.frontier?.position?.().generation;
+      const pose=game?.frontier?.position?.(),generation=pose?.generation,ecologyVersion=pose?.ecologyVersion||0;
       if(generation>=7&&(node.type==='stone'||node.type==='wood'&&variant!==2)){
-        const B=root.DeadwallBiomes135,P=root.DeadwallAtlasProjection;
+        const B=nodeEcology(game,pose),P=root.DeadwallAtlasProjection;
         if(B&&P&&Artwork136){
           const q=P.toRegion(node.x,node.y,game),seed=game.world.seed,cache=this.nodeSpecies||(this.nodeSpecies=new WeakMap());
           let saved=cache.get(node);
           // Only the pure species choice is cached, one record per live node.
           // Resolved regional coordinates cover custom homes and worldSeed origins.
-          if(!saved||saved.world!==game.world||saved.seed!==seed||saved.generation!==generation||saved.id!==node.id||saved.type!==node.type||saved.variant!==variant||saved.x!==node.x||saved.y!==node.y||saved.qx!==q.x||saved.qy!==q.y||saved.biomes!==B||saved.projection!==P){
+          if(!saved||saved.world!==game.world||saved.seed!==seed||saved.generation!==generation||saved.ecologyVersion!==ecologyVersion||saved.id!==node.id||saved.type!==node.type||saved.variant!==variant||saved.x!==node.x||saved.y!==node.y||saved.qx!==q.x||saved.qy!==q.y||saved.biomes!==B||saved.projection!==P){
             const species=(node.type==='wood'?B.pickTree(seed,q.x,q.y,'local:'+node.id,{generation}):B.pickRock(seed,q.x,q.y,'local:'+node.id,{generation})).species;
-            saved={world:game.world,seed,generation,id:node.id,type:node.type,variant,x:node.x,y:node.y,qx:q.x,qy:q.y,biomes:B,projection:P,species};cache.set(node,saved);
+            saved={world:game.world,seed,generation,ecologyVersion,id:node.id,type:node.type,variant,x:node.x,y:node.y,qx:q.x,qy:q.y,biomes:B,projection:P,species};cache.set(node,saved);
           }
           const key=(node.type==='wood'?Artwork136.TREE_SPRITES:Artwork136.ROCK_SPRITES)[saved.species],size=node.radius*(node.type==='wood'?3.5:2.65);
           const alpha=clamp(node.amount/node.maxAmount,.45,1);

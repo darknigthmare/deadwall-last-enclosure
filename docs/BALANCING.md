@@ -266,3 +266,10 @@ Ces valeurs créent des contreparties testables, pas une preuve d’équilibrage
 `CodexDensity163Rules` borne les ajouts par lieu144, étage72, pièce24 et type12. Une pièce de24m² ou moins reçoit au plus2 ajouts ; une chambre privée reste limitée à6 objets de composition au total. Les plafonds d’occupation physique par usage vont de8 à16% : ce sont des seuils d’arrêt, pas des quotas à remplir. Une réserve et une archive emploient des compositions distinctes ; les usages ambigus ne sont pas inventés. Le contrôle des accès reste prioritaire, avec au plus512 audits de grille et128 candidats par demande.
 
 `ContextArchitectureRules163` définit les parcours d’inspection : largeur3,2m, escalier2,1×2,9m, rayon piéton0,32m, dégagement0,16m, garde0,16m ; espacement des supports16m,8 supports et96 essais de placement au maximum. Ces ouvrages ne créent ni loot ni ennemis à l’étage et ne changent ni la pression de horde ni les coûts des âges. La cible de campagne Standard6–10h reste à mesurer par jeu humain complet.
+
+
+## 1.64 — Répartition écologique et sanitaires
+
+`EcologyRules164` centralise les quatre milieux, champs de drainage/substrat, influences des localités, affinités et palettes. Les définitions d’essences, roches et infectés historiques gardent leurs rendements et statistiques ; seule leur répartition des nouvelles campagnes change. Les routes, emprises et accès restent prioritaires. Aucun quota ne garantit chaque milieu ou lieu dans chaque secteur.
+
+`CodexFixtures164Rules` borne les sanitaires à8par lieu,4par étage,1par pièce,72candidats et48audits de grille. Surface minimale3m², dégagement0,9m ; WC0,70×0,78m et latrine0,75×0,85m. Ces compléments ne sont ni du butin ni des appareils raccordés. Les55supports médicaux conservent le paiement et les effets des soins existants. Aucun seuil des onze âges, coût d’armement, durée de horde ou stock initial n’est modifié.

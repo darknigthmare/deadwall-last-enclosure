@@ -106,7 +106,7 @@
   }:null;
   const stations170=detail.stations170?copy(detail.stations170):null;
   const gardens171=detail.gardens171?copy(detail.gardens171):null;
-  return freeze({gardens171,stations170,complements169,size163:copy(detail.size163),density163:copy(detail.density163),furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
+  return freeze({gardens171,stations170,complements169,fixtures164:copy(detail.fixtures164),careSupports164:plan.fixtures164?.careSupports||0,size163:copy(detail.size163),density163:copy(detail.density163),furnishing162:copy(detail.furnishing162),source:ref,scope:'isolated-recipe-not-live-world',seed,floor:z,detailVersion:preview.detailVersion??5,rooms,issues,layers,
    unmatchedModelRooms:plan.rooms.flatMap((r,i)=>assignedRooms.has(i)?[]:[{index:i,name:r.name}]),
    totals:{representedRooms:rooms.filter(r=>r.modelRoomIndices.length).length,unmaterialized:rooms.filter(r=>r.status==='not-materialized-on-floor').length,
     exteriorSimplifications:rooms.filter(r=>r.status==='exterior-simplified-inside-shell').length,furnitureBelowMinimum:rooms.flatMap(r=>r.props).reduce((n,q)=>n+(q.belowMinimum||0),0),
@@ -150,6 +150,7 @@
    for(const p of measured)host.appendChild(el('p',p.room+' — '+p.name+' : emprise source '+p.dimensions.longueur+' × '+p.dimensions.largeur+' m ; mesurée '+p.actualFootprints.map(f=>f.w+' × '+f.h+' m ('+f.count+')').join(' ; ')+'.'));
   }
   if(inspected&&report.density163){const f=report.density163;host.appendChild(el('h6','COMPOSITION DES PIÈCES — RÉVISION 12'));host.appendChild(el('p',f.added+' compléments posés selon les usages et la surface disponible. Les limites de circulation et les faces de service priment sur la densité.'));}
+  if(inspected&&report.fixtures164){const f=report.fixtures164;host.appendChild(el('h6','SANITAIRES ET POSTES DE SOINS'));host.appendChild(el('p',f.added+' sanitaires effectivement posés ; '+report.careSupports164+' supports de soins existants identifiés. Les passages restent vérifiés ; aucun réseau ni stock supplémentaire n’est créé.'));}
   if(inspected&&report.size163)host.appendChild(el('p',report.size163.adjusted+' emprises corrigées lorsque la source auteur permet une attribution sans ambiguïté.'));
   if(inspected&&report.furnishing162){const f=report.furnishing162;host.appendChild(el('h6','MOBILIER D’USAGE — RÉVISION 11'));host.appendChild(el('p',f.added+' compléments posés selon les usages des pièces et les passages disponibles. Ces compositions ne sont pas des quantités auteur et ne créent ni population, ni stock, ni appareil alimenté.'));}
   if(inspected&&report.complements169){const f=report.complements169;host.appendChild(el('h6','COMPLÉMENTS SOURCE — RÉVISION 7'));

@@ -36,8 +36,8 @@ function validate(raw,data){
   if(indoor.length){
    const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);
    const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
-   const key=data.worldSeed+':'+data.frontier.generation;let w=worldCache.get(key);
-   if(!w){w=W.create(data.worldSeed,data.frontier.generation);worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
+   const key=data.worldSeed+':'+data.frontier.generation+':'+(data.frontier.ecologyVersion??0)+':'+(data.frontier.detailVersion??0);let w=worldCache.get(key);
+   if(!w){w=W.create(data.worldSeed,data.frontier.generation,{detailVersion:data.frontier.detailVersion??0,ecologyVersion:data.frontier.ecologyVersion??0});worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
    for(const p of indoor){
     const place=w.pois.find(x=>x.id===p.inside);if(!place||!place.levels.includes(p.z))fail();
     if(p.z!==0){
