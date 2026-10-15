@@ -1,23 +1,57 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs'),{prepareMetricVehicle174}=require('../scripts/metric174-fixtures.cjs');
+const {prepareMetricCorridor175}=require('../scripts/metric175-fixtures.cjs');
 const {g}=bootDocument134(),C=globalThis.DeadwallCore,M=globalThis.DeadwallMetric174;
 function snapshot(){const s=g.serialize();delete s.timestamp;return s;}
-function corridor(){
+function parking(fractionY,{walls=true}={}){
  g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
- const car=g.expeditions.car();car.angle=0;
- // A completed pair of real walls is a declared test fixture. The world layout,
- // resources, neighbouring props and existing buildings are never removed.
- const gy=Math.floor(car.y/32),top=gy-4,bottom=gy+3,xx=Math.floor(car.x/32);
- const rows=[];for(const y of [top,bottom])for(let x=xx-5;x<=xx+5;x++){
-  const can=g.world.placement(C.BUILDINGS.woodWall,x,y);if(!can.valid||[g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle({x:x*32+16,y:y*32+16,w:32,h:32,a:0},u,(u.radius||12)+1)))continue;
-  const b=new(g.core().constructor)(g.nextId++,'woodWall',x,y,0,1);g.world.add(b);rows.push(b);
+ const car=g.expeditions.car(),origin={x:car.x,y:car.y,angle:car.angle},tileY=Math.floor(car.y/32),
+  offsets=[0,...Array.from({length:8},(_,i)=>[i+1,-i-1]).flat()],actors=[g.player,...g.units,...g.zombies].filter(u=>!u.dead),
+  maxBoost=Math.max(1,...Object.values(C.Infrastructure.SURFACES).map(s=>s.truckSpeed)),
+  forward=C.Expeditions.RULES.acceleration*.05*.05*(1+2+3+4)*maxBoost;
+ let selected=null;
+ // Time-seeded workers change the first native parking pose. Choose an explicit
+ // free test pose in both dimensions, preserving the requested fractional Y.
+ // Only this purchased vehicle is positioned; no actor, obstacle or clock moves.
+ search:for(const dx of offsets)for(const dy of offsets){
+  const x=origin.x+dx*32,y=(tileY+dy)*32+(fractionY??origin.y%32),body=g.expeditions.vehicleBody175(x,y,0),
+   foot={x,y:y+body.h/2+21},side={x,y:y+body.h/2+15};
+  Object.assign(car,{x,y,angle:0});
+  if(!g.expeditions.bodyClear175(body)||actors.some(u=>M.bodyCircle(body,u,u.radius||12))||
+   ![foot,side].every(p=>g.friendlyPositionClear(g.player,p.x,p.y)&&g.hostileLineClear(p,car))||
+   !(g.nightGear?.localLineClear(car,foot)??g.hostileLineClear(car,foot,false)))continue;
+  // refuel must transfer exactly the declared bag, without a depot top-up.
+  if(Math.hypot(foot.x-g.core().x,foot.y-g.core().y)<=C.Expeditions.RULES.homeRange)continue;
+  const planned=[];
+  if(walls){
+   for(const gy of [Math.floor(y/32)-4,Math.ceil(y/32)+3])for(let gx=Math.floor(x/32)-5;gx<=Math.floor(x/32)+5;gx++){
+    const b={x:gx*32+16,y:gy*32+16,w:32,h:32,a:0};
+    if(g.world.placement(C.BUILDINGS.woodWall,gx,gy).valid&&!actors.some(u=>M.bodyCircle(b,u,(u.radius||12)+1)))planned.push(b);
+   }
+   if(planned.length<12||!planned.some(b=>M.bodyOverlap({...body,a:Math.PI/2},b))||
+    !planned.some(b=>M.bodyCircle(b,body,Math.hypot(body.w,body.h)/2))||
+    planned.some(b=>[foot,side].some(p=>M.bodyCircle(b,p,g.player.radius))))continue;
+  }
+  // Reserve all four real KeyD steps, including the sweep's conservative pad,
+  // before constructing walls. A free starting rectangle alone is insufficient.
+  const clear=(p,pad)=>{
+   const q={...p,w:p.w+2*pad,h:p.h+2*pad};
+   return g.expeditions.bodyClear175(p,pad)&&!planned.some(b=>M.bodyOverlap(q,b))&&!actors.some(u=>M.bodyCircle(q,u,u.radius||12));
+  };
+  if(!M.sweepBody(body,{...body,x:x+forward},clear,{step:C.MetricRules175.sweepStep,maxSteps:C.MetricRules175.maxSweepSteps}))continue;
+  selected={car,foot,side,forward};break search;
  }
- g.refreshMetrics(true);
+ if(!selected)Object.assign(car,origin);
+ assert.ok(selected,'a bounded native clear parking pose, two free feet, real corridor walls and forward sweep');
+ return selected;
+}
+function corridor(fractionY){
+ const {car}=parking(fractionY),fixture=prepareMetricCorridor175(g),rows=fixture.walls.map(id=>g.world.buildings.get(id));
  assert.ok(rows.length>=12,'insufficient real wall fixture');
  assert.equal(g.expeditions.carClear(car.x,car.y),true);
  assert.equal(g.friendlyPositionClear({id:car.id,radius:g.expeditions.vehicleRadius174()/.9},car.x,car.y),false,'old circle would not fit');
- return {car,rows};
+ return {car,rows,fixture};
 }
 test('175 paid metric bus occupies only its oriented rectangle, not the empty corner of its radius',()=>{
  const {car}=corridor();const b=g.expeditions.vehicleBody175();assert.equal(b.w,10.4*32);assert.equal(b.h,2.55*32);
@@ -50,7 +84,7 @@ test('175 native wall completion uses the driving body, not its circumscribed em
  const {car}=corridor(),body=g.expeditions.vehicleBody175();
  Object.assign(g.player,{x:car.x,y:car.y+body.h/2+21});assert.ok(g.expeditions.board().ok);
  g.expeditions.overview();
- const T=globalThis.DeadwallTactics,near={type:'woodWall',gx:Math.floor(car.x/32),gy:Math.floor(car.y/32)+2,rotation:0};
+ const T=globalThis.DeadwallTactics,near={type:'woodWall',gx:Math.floor(car.x/32),gy:Math.ceil((body.y+body.h/2)/32),rotation:0};
  assert.equal(T.overlapsBuilding(near,g.player),false,'empty beside a bus must stay empty');
  const centre={...near,gy:Math.floor(car.y/32)};assert.equal(T.overlapsBuilding(centre,g.player),true);
  assert.equal(M.ownerBody175(g.player).w,body.w);assert.equal(Object.hasOwn(g.serialize().player,'physicalBody175'),false);
@@ -58,25 +92,15 @@ test('175 native wall completion uses the driving body, not its circumscribed em
 });
 
 test('175 shared browser corridor fixture uses finite native fuel transfer and no actor-overlapping walls',()=>{
- g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
- const {prepareMetricCorridor175}=require('../scripts/metric175-fixtures.cjs'),fixture=prepareMetricCorridor175(g);
+ const {fixture}=corridor();
  assert.ok(fixture.walls.length>=12);assert.ok(g.expeditions.car().fuel>=3);assert.equal(g.player.carry.fuel,0);
  const before=snapshot();assert.equal(g.restoreSave(g.serialize()),true);assert.deepEqual(snapshot(),before);
 });
 
-for(const fractionY of [0,16,24,30,31.999])test('175 prepared corridor reserves the native boarding and exit flank at fractional Y '+fractionY,()=>{
- g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
- const car=g.expeditions.car(),tileY=Math.floor(car.y/32),offsets=[0,...Array.from({length:8},(_,i)=>[i+1,-i-1]).flat()];let selected=null;
- // These are explicitly prepared, physically free poses, not removed obstacles.
- // Native worker positions vary between campaigns, and can change the first
- // clear parking angle. A narrow free strip need not contain a snapped Y pose.
- search:for(const dx of offsets)for(const dy of offsets){
-  const x=car.x+dx*32,y=(tileY+dy)*32+fractionY,body=g.expeditions.vehicleBody175(x,y,0),foot={x,y:y+body.h/2+21};
-  if(g.expeditions.carClear(x,y)&&g.friendlyPositionClear(g.player,foot.x,foot.y)&&![g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle(body,u,u.radius||12))){selected={x,y,foot};break search;}
- }
- assert.ok(selected,'a native clear parking pose and boarding point before test walls');Object.assign(car,{x:selected.x,y:selected.y,angle:0});
+for(const fractionY of [0,.001,16,23.199,23.2,23.201,24,28.199,28.2,28.201,30,31.999])test('175 prepared corridor reserves the native boarding and exit flank at fractional Y '+fractionY,()=>{
+ const {car,fixture}=corridor(fractionY);
  assert.ok(Math.abs(car.y%32-fractionY)<1e-9,'the prepared pose retains the requested Y fraction');
- const {prepareMetricCorridor175}=require('../scripts/metric175-fixtures.cjs'),fixture=prepareMetricCorridor175(g),body=g.expeditions.vehicleBody175();
+ const body=g.expeditions.vehicleBody175();
  assert.ok(fixture.walls.length>=12);assert.equal(g.expeditions.bodyClear175(body),true);
  assert.equal(g.expeditions.bodyClear175({...body,a:Math.PI/2}),false,'the complete lower wall still refuses a quarter turn');
  assert.equal(g.friendlyPositionClear({id:car.id,radius:Math.hypot(body.w,body.h)/2/.9},car.x,car.y),false,'the former circular collider still cannot fit');
@@ -91,10 +115,9 @@ for(const fractionY of [0,16,24,30,31.999])test('175 prepared corridor reserves 
 });
 
 test('182 boarding cannot take the commander away from a real active staircase',()=>{
- g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
- const car=g.expeditions.car(),S=globalThis.DeadwallVertical175State,type='lookout2a177';
+ const {car}=parking(undefined,{walls:false}),S=globalThis.DeadwallVertical175State,type='lookout2a177';
  // Native paid support placement, with declared finite materials and completion.
- // Keep terrain, actors and the purchased vehicle in their existing positions.
+ // Keep terrain, actors and the prepared purchased vehicle in their positions.
  g.resources.wood=g.resources.scrap=g.resources.stone=500;let candidate=null;
  for(let y=Math.floor(car.y/32)-15;y<Math.floor(car.y/32)+15&&!candidate;y++)for(let x=Math.floor(car.x/32)-15;x<Math.floor(car.x/32)+15&&!candidate;x++)for(const rotation of [0,1,2,3]){
   const entrance=S.entrance({type,gx:x,gy:y,rotation});
