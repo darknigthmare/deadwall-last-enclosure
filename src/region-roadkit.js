@@ -30,7 +30,7 @@ function markingSpans(r,roads){
  const spans=[];let at=0;for(const[a,b]of mergeIntervals(cuts)){if(a>at+.04)spans.push([at,a]);at=Math.max(at,b);}if(at<len-.04)spans.push([at,len]);return spans;
 }
 function drawNetwork(c,roads,options={}){
- const visible=roads.filter(r=>validRoad(r)&&inView(r,options.view,STYLE.shoulderWidth));
+ const visible=roads.filter(r=>validRoad(r)&&inView(r,options.view,STYLE.shoulderWidth)).sort((a,b)=>(a.roadClass==='frontage'?0:1)-(b.roadClass==='frontage'?0:1));
  if(!visible.length)return{roads:0,spans:0};
  const scale=options.scale||1,minWidth=options.minWidth||0,width=r=>Math.max(r.width,minWidth/scale),shoulder=options.shoulderWidth??STYLE.shoulderWidth;
  c.save();c.lineCap='round';c.lineJoin='round';c.setLineDash([]);

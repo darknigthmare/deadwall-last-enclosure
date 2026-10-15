@@ -1,0 +1,79 @@
+name: DEADWALL metric175 verified integration
+on:
+  push:
+    branches: [fix/metric-scale-road-access-174]
+    paths:
+      - '.github/workflows/metric175-stage.yml'
+      - 'scripts/metric175-stage.*.b64'
+      - 'scripts/apply-metric175-stage.cjs'
+      - 'scripts/metric175-browser-followup.txt'
+permissions:
+  contents: write
+concurrency:
+  group: metric175-stage-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify-and-integrate:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply exact hash-checked source changes
+        run: node scripts/apply-metric175-stage.cjs stage
+      - name: Install locked development tools
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Build public distribution
+        run: npm run build
+      - name: Geometry, migration, source and native regression tests
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=2 tests/metric-body175.test.cjs tests/metric-corridor175.test.cjs tests/frontage-followup175.test.cjs tests/metric174.test.cjs tests/frontage174.test.cjs tests/metric-migration174.test.cjs tests/expeditions.test.cjs tests/vehicle-boundary151.test.cjs tests/tactics.test.cjs tests/fieldcraft.test.cjs tests/fieldcraft-restore146.test.cjs tests/vehicle-art152.test.cjs tests/world-variants158.test.cjs tests/road-network129.test.cjs tests/driveway-surface144.test.cjs tests/distribution.test.cjs | tee artifacts/qa/metric175-stage/contracts.log
+      - name: Full inventory and independent historical fingerprints
+        run: |
+          mkdir -p /tmp/metric175-baseline
+          git archive 5b8f0ade7f7e93d3fc3ea23f762cac93ded43d90 src | tar -x -C /tmp/metric175-baseline
+          node scripts/audit-metric174.mjs --baseline /tmp/metric175-baseline
+      - run: npx playwright install --with-deps chromium
+      - name: Actual campaign controls, exact saved pose and Continue
+        run: node scripts/browser-metric175.mjs
+      - name: Publish only validated sources to the unchanged PR branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/apply-metric175-stage.cjs verify
+          branch='fix/metric-scale-road-access-174'
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git config http.https://github.com/.extraheader "AUTHORIZATION: basic $auth"
+          trap 'git config --unset-all http.https://github.com/.extraheader || true' EXIT
+          current="$(git ls-remote origin "refs/heads/$branch" | cut -f1)"
+          test "$current" = "$GITHUB_SHA"
+          node -e "const p=require('./artifacts/qa/metric175-stage/paths.json');require('child_process').execFileSync('git',['add','--',...p],{stdio:'inherit'})"
+          git rm -- .github/workflows/metric175-stage.yml scripts/metric175-stage.0.b64 scripts/metric175-stage.1.b64 scripts/apply-metric175-stage.cjs scripts/metric175-browser-followup.txt
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix(metrics): oriented vehicle clearance, saved narrow parking and strict alternate frontage'
+          git push origin "HEAD:refs/heads/$branch"
+          git rev-parse HEAD > artifacts/qa/metric175-stage/published-revision.txt
+          git rev-parse HEAD:src > artifacts/qa/metric175-stage/published-src-tree.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-metric175-integration-${{ github.run_id }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

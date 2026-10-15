@@ -95,7 +95,7 @@
   if(typeof art.blit==='function')return !!art.blit(c,frame.sprite.atlas,frame.source,...frame.destination);
   c.drawImage(art.images[frame.sprite.atlas],...frame.source,...frame.destination);return true;
  }
- function measureVehicle(kind,identity,w,h,options={}){return fit(vehicleSprite(kind,identity,options),0,0,w,h);}
+ function measureVehicle(kind,identity,w,h,options={}){const sprite=vehicleSprite(kind,identity,options);if(!options.groundFootprint)return fit(sprite,0,0,w,h);const M=globalThis.DeadwallMetric174||(typeof require==='function'?require('./metric-contract174.js'):null),frame=sprite&&M?.footprintFrame(sprite.rect,w,h);return frame?{sprite,...frame}:null;}
  function drawActor(c,art,kind,identity,frame,size,options={}){
   const chosen=actorFrame(kind,identity,frame,options);if(!chosen||!Number.isFinite(size)||size<=0)return false;
   const spec=ASSETS[chosen.atlas],layout=ACTOR_LAYOUTS[chosen.atlas],cellW=spec.width/layout.columns,cellH=spec.height/layout.rows,scale=size/(kind==='crawler'?cellW:Math.max(cellW,cellH)),r=chosen.rect,index=ACTORS[kind].row*8+frame;

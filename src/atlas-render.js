@@ -37,7 +37,7 @@ function drawRoad(c,rd,s){c.lineCap='round';c.strokeStyle='#777e68';c.lineWidth=
 // discoveries invalidate driveways while the rest of the map stays live.
 const roadRasters=new WeakMap();
 function mapRoads(c,g,v,cam,layers,seen){
- const s=cam.scale,view=cam.bounds(),draw=ctx=>{const roads=[...v.world.roads,...(layers.city?getApproaches(g):[]),...(layers.places&&s>.5?v.world.pois.filter(p=>seen.has(p.id)).map(p=>p.drive).filter(Boolean):[])];if(root.DeadwallRoadKit?.drawNetwork)root.DeadwallRoadKit.drawNetwork(ctx,roads,{view:{l:view.left,r:view.right,t:view.top,b:view.bottom},scale:s,minWidth:1,markings:false,shoulder:'#777e68',surface:'#9f9d80'});else for(const rd of roads)drawRoad(ctx,rd,s);};
+ const s=cam.scale,view=cam.bounds(),draw=ctx=>{const roads=[...v.world.roads,...(layers.city?getApproaches(g):[]),...(layers.places&&s>.5?v.world.pois.filter(p=>seen.has(p.id)).map(p=>v.world.driveFor?v.world.driveFor(p):p.drive).filter(Boolean):[])];if(root.DeadwallRoadKit?.drawNetwork)root.DeadwallRoadKit.drawNetwork(ctx,roads,{view:{l:view.left,r:view.right,t:view.top,b:view.bottom},scale:s,minWidth:1,markings:false,shoulder:'#777e68',surface:'#9f9d80'});else for(const rd of roads)drawRoad(ctx,rd,s);};
  const transform=c.getTransform?.(),dpr=transform&&Math.hypot(transform.a,transform.b)/s;
  if(!c.canvas||!Number.isFinite(dpr)||dpr<=0||typeof c.drawImage!=='function'){draw(c);return;}
  const key=[cam.x,cam.y,s,cam.width,cam.height,dpr,!!layers.city,layers.places&&s>.5?v.seen.join('|'):''].join(':');

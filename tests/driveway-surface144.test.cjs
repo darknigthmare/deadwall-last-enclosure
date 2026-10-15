@@ -57,14 +57,15 @@ test('driveways144: nearby woodland keeps its physical movement/noise and no res
  g.input.keys.add('KeyD');g.updatePlayer(.04);g.input.keys.clear();const after=g.frontier.position();
  assert.ok(Math.abs(after.x-before.x-W.RULES.walk*C.WorldEvolution.RULES.surfaces.forest.speed*.04)<1e-9);assert.equal(g.frontier.overview().sound.radius,C.FrontierTacticsRules.walkNoise*C.WorldEvolution.RULES.surfaces.forest.noise);assert.deepEqual(g.resources,stocks);
 });
-test('driveways144: the bounded driveway index matches physical capsules across chunk boundaries',()=>{
+test('driveways144: the bounded driveway index matches resolved physical capsules across chunk boundaries',()=>{
  for(const seed of[0,17117,4294967295]){
   const w=W.create(seed,7);let crossings=0;
   for(const p of w.pois){const d=p.drive,dx=d.b.x-d.a.x,dy=d.b.y-d.a.y,len=Math.hypot(dx,dy);if(!len)continue;
    const ts=[.15,.5,.85];for(const axis of['x','y']){const delta=d.b[axis]-d.a[axis];if(!delta)continue;for(let line=Math.ceil(Math.min(d.a[axis],d.b[axis])/256)*256;line<Math.max(d.a[axis],d.b[axis]);line+=256){const t=(line-d.a[axis])/delta;if(t>0&&t<1){ts.push(t-1e-6,t+1e-6);crossings++;}}}
    for(const t of ts)for(const offset of[0,d.width/2+.999,d.width/2+1.001]){
     const x=d.a.x+dx*t-dy/len*offset,y=d.a.y+dy*t+dx/len*offset;
-    const expected=w.pois.some(q=>G.nearest({x,y},q.drive.a,q.drive.b).d<q.drive.width/2+1),actual=w.drivewayAt(x,y,1);
+    // Source drives keep old IDs/scatter; the shared derived surface owns movement.
+    const expected=w.pois.some(q=>{const drive=w.driveFor(q);return drive&&G.nearest({x,y},drive.a,drive.b).d<drive.width/2+1;}),actual=w.drivewayAt(x,y,1);
     assert.equal(Boolean(actual),expected,seed+' '+p.id+' '+t+' offset '+offset);
    }
   }
