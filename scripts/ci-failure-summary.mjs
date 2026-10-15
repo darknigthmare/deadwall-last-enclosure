@@ -23,10 +23,29 @@ function firstLine(value) {
   return String(value ?? '').split(/\r?\n/, 1)[0];
 }
 
+function boundedStack(item) {
+  return [item.failure, item.error?.stack, item.cleanupFailure, ...(Array.isArray(item.error?.details) ? item.error.details : [])]
+    .filter(value => typeof value === 'string').join('\n').slice(0, 16384);
+}
+
+function browserProfile(profile) {
+  if (profile?.viewport?.name || profile?.stage) return profile.viewport?.name || profile.stage;
+  const view = profile?.view;
+  const dimension = value => Number.isSafeInteger(value) && value >= 1 && value <= 16384;
+  if (!view || !dimension(view.width) || !dimension(view.height) || view.touch !== undefined && typeof view.touch !== 'boolean') return 'browser profile';
+  return 'browser ' + view.width + 'x' + view.height + (view.touch ? ' touch' : ' mouse');
+}
+
+// Accept only a complete literal CSS ID line, never locator text or its arguments.
+function locatorTarget(item) {
+  const stack = boundedStack(item), header = /^Call log:[ \t]*\r?$/m.exec(stack);
+  if (!header) return '';
+  return /^[ \t]*(?:-[ \t]*)?waiting for locator\((['"])(#[A-Za-z_][A-Za-z0-9_-]{0,63})\1\)[ \t]*\r?$/m.exec(stack.slice(header.index + header[0].length))?.[2] || '';
+}
+
 // Publish one repository-relative source frame, never a raw stack or its host path.
 function sourceFrame(item) {
-  const stack = [item.failure, item.error?.stack, item.cleanupFailure, ...(Array.isArray(item.error?.details) ? item.error.details : [])]
-    .filter(value => typeof value === 'string').join('\n').slice(0, 16384).replace(/\\/g, '/');
+  const stack = boundedStack(item).replace(/\\/g, '/');
   const root = fileURLToPath(new URL('../', import.meta.url));
   const frames = /(?:^|[\s/(])((?:scripts|tests|desktop)\/(?:[A-Za-z0-9_.-]+\/)*[A-Za-z0-9_.-]+\.[cm]?js):([1-9]\d{0,7}):([1-9]\d{0,7})(?=$|[\s)])/gm;
   for (const match of stack.matchAll(frames)) {
@@ -55,16 +74,18 @@ export function reportFailures(report, source = 'report.json') {
       ? firstLine(item.error.message || 'Native launch failed') + ' — ' + firstLine(childDetail)
       : firstLine(item.failure || item.error?.message || item.cleanupFailure || 'Verification failed without a structured assertion.');
     const location = sourceFrame(item);
+    const target = locatorTarget(item);
     const lastPassed = !failedCheck && Array.isArray(item.checks) ? item.checks.findLast(check => check?.pass === true && typeof check.name === 'string')?.name : null;
-    const context = [location ? 'at ' + location : '', lastPassed ? 'Last passed: ' + safeDiagnosticText(lastPassed, 80) : ''].filter(Boolean);
+    const context = [location ? 'at ' + location : '', target ? 'Target: ' + target : '', lastPassed ? 'Last passed: ' + safeDiagnosticText(lastPassed, 80) : ''].filter(Boolean);
+    const contextText = context.join(' — '), messageLimit = Math.min(220, 480 - contextText.length - 3);
     failures.push({
       source: safeDiagnosticText(source, 160),
       profile: safeDiagnosticText(label || item.stage || 'verification', 80),
-      message: safeDiagnosticText(context.length ? [safeDiagnosticText(message, 220), ...context].join(' — ') : message)
+      message: safeDiagnosticText(context.length ? safeDiagnosticText(message, messageLimit) + ' — ' + contextText : message)
     });
   };
   if (Array.isArray(report.profiles)) {
-    for (const profile of report.profiles) append(profile, profile?.viewport?.name || profile?.stage || 'browser profile');
+    for (const profile of report.profiles) append(profile, browserProfile(profile));
   }
   if (!failures.length || report.cleanupFailure) append(report, report.stage || 'verification');
   return failures.slice(0, MAX_FAILURES);

@@ -105,10 +105,18 @@ test('CI browser timeout includes the first verified source line and last passed
   const summary={failures:reportFailures({pass:false,profiles:[{viewport:{name:'desktop'},pass:false,
     checks:[{name:'Menu and genuine seed loaded',pass:true},{name:'Finite house construction complete',pass:true}],
     failure:'page.waitForFunction: Timeout 30000ms exceeded.\n    at Frame.waitForFunction (/private/runner/hidden/node_modules/playwright/lib/client/frame.js:901:7)\n    at finishConstruction (/private/runner/hidden/project/scripts/browser-city-content150.mjs:419:23)\n    at async /private/runner/hidden/project/scripts/browser-city-content150.mjs:750:9\n    token=private-token https://storage.example/private?sig=secret'
+  },{view:{width:390,height:844,touch:true},pass:false,checks:[],
+    failure:"locator.tap: Timeout 60000ms exceeded.\nCall log:\n  - waiting for locator('#pauseCommandButton')\n    at activate (/private/runner/hidden/project/scripts/browser-qa-common144.mjs:8:28)\n    at /private/runner/hidden/project/scripts/browser-metric175.mjs:19:10"
   }]},'city/report.json'),warnings:[]};
   assert.match(summary.failures[0].message,/page\.waitForFunction: Timeout 30000ms exceeded/);
   assert.match(summary.failures[0].message,/at scripts\/browser-city-content150\.mjs:419:23/);
   assert.match(summary.failures[0].message,/Last passed: Finite house construction complete/);
+  assert.equal(summary.failures[1].profile,'browser 390x844 touch');
+  assert.match(summary.failures[1].message,/^locator\.tap: Timeout 60000ms exceeded/);
+  assert.match(summary.failures[1].message,/at scripts\/browser-qa-common144\.mjs:8:28/);
+  assert.match(summary.failures[1].message,/Target: #pauseCommandButton/);
+  assert.ok(!summary.failures[1].message.includes('Last passed:'),'A timeout before the first assertion still identifies its control');
+  assert.ok(!summary.failures[1].message.includes('19:10'),'Only the first verified source frame is retained');
   const annotation=annotationLines(summary).join('\n');
   for(const privateText of ['/private/','runner/hidden','node_modules','private-token','storage.example','sig=secret','https://'])assert.ok(!annotation.includes(privateText),privateText);
   assert.ok(!annotation.includes('750:9'),'Only the first verified source location is published');
@@ -128,13 +136,24 @@ test('CI stack context preserves a failed assertion as the primary diagnostic', 
 
 test('CI stack context rejects unknown and traversal paths while keeping diagnostics bounded and sanitized', async () => {
   const {reportFailures,annotationLines}=await helper;
-  const failures=reportFailures({pass:false,profiles:[{viewport:{name:'desktop'},pass:false,
+  const failures=reportFailures({pass:false,profiles:[{view:{width:844,height:390,touch:true},pass:false,
     checks:[{name:'Last check token=never-publish '+ 'x'.repeat(1000),pass:true}],
-    failure:'page.waitForFunction: Timeout\n    at /private/project/scripts/../desktop/../private.cjs:4:2\n    at /private/project/scripts/no-such-ci-source.mjs:5:3'
+    failure:'page.waitForFunction: Timeout\n    at /private/project/scripts/../desktop/../private.cjs:4:2\n    at /private/project/scripts/no-such-ci-source.mjs:5:3\nCall log:\n  - waiting for locator(\'#safe\').getByText(\'private-label\')\n  - waiting for locator(\'[value="private-value"]\')\n  - waiting for locator(\'#safe\') https://storage.example/?sig=signed\n  - waiting for locator(\'#token=private-token\')\n  - waiting for locator(\'getByText("private-text")\')'
   }]});
+  assert.equal(failures[0].profile,'browser 844x390 touch');
   assert.ok(!failures[0].message.includes('at scripts/'));assert.ok(!failures[0].message.includes('at desktop/'));
   assert.ok(!failures[0].message.includes('private'));assert.ok(!failures[0].message.includes('never-publish'));
+  assert.ok(!failures[0].message.includes('Target:'),'A decorated or non-ID locator is never published');
   assert.ok(failures[0].message.length<=480);assert.ok(annotationLines({failures,warnings:[]})[0].length<900);
+  const annotation=annotationLines({failures,warnings:[]}).join('\n');
+  for(const text of ['private-label','private-value','private-token','private-text','storage.example','sig=signed','https://'])assert.ok(!annotation.includes(text),text);
+  for(const failure of ["Timeout\n  - waiting for locator('#safe')",'Timeout\nCall log:\n  - waiting for locator(\'#'+ 'a'.repeat(65) +'\')','Timeout\n'+ 'x'.repeat(16384) +"\nCall log:\n  - waiting for locator('#safe')"]){
+    assert.ok(!reportFailures({profiles:[{pass:false,failure}]})[0].message.includes('Target:'),'Locator context respects its header, ID length and stack scan bounds');
+  }
+  for(const view of [{width:0,height:844},{width:16385,height:844},{width:390.5,height:844},{width:'390',height:844},{width:390,height:NaN},{width:390,height:844,touch:'secret-value'}]){
+    assert.equal(reportFailures({profiles:[{view,pass:false,failure:'Timeout'}]})[0].profile,'browser profile');
+  }
+  assert.equal(reportFailures({profiles:[{view:{width:1440,height:900,touch:false},pass:false,failure:'Timeout'}]})[0].profile,'browser 1440x900 mouse');
 });
 
 test('Native failure diagnostics: spec failure and summary identify one case with a safe source line', async () => {

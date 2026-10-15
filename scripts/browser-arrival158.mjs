@@ -22,12 +22,18 @@ async function state(page) {
     overlay: DEADWALL.activeOverlay?.id || null, intro: DEADWALL.campaignIntro132.isOpen(),
     pauseVisible: !DEADWALL.ui.pauseMenu.classList.contains('hidden'),
     runId: DEADWALL.runId, seed: DEADWALL.world.seed,
-    generation: DEADWALL.frontier.position().generation, regional: DEADWALL.frontier.active(),
+    generation: DEADWALL.frontier.position().generation, ecologyVersion: DEADWALL.frontier.position().ecologyVersion, regional: DEADWALL.frontier.active(),
     focus: document.activeElement?.id, hidden: document.hidden, elapsed: DEADWALL.elapsed }));
 }
 
 function isPlaying(snapshot) {
   return snapshot.state === 'playing' && !snapshot.paused && !snapshot.overlay && !snapshot.intro && !snapshot.pauseVisible;
+}
+
+function matchesCurrentRegionalEcology(node) {
+  return node.generation === 8 && node.ecologyVersion === 1 && node.regionalGeneration === node.generation &&
+    node.regionalEcologyVersion === node.ecologyVersion && node.providerEcologyVersion === node.ecologyVersion &&
+    node.providerMatchesPaint && node.cachedSpecies === node.expected && node.painted.includes(node.expected);
 }
 
 async function geometry(page) {
@@ -80,9 +86,13 @@ async function observeLocalPainting(page) {
       if (context === game.ctx && !game.frontier.active() && eligible && onCanvas) {
         let entry = observed.nodes.get(node.id);
         if (!entry) {
-          const position = DeadwallAtlasProjection.toRegion(node.x, node.y, game), generation = game.frontier.position().generation;
-          const pick = node.type === 'wood' ? DeadwallBiomes135.pickTree : DeadwallBiomes135.pickRock;
-          entry = { id: node.id, type: node.type, x: node.x, y: node.y, generation,
+          const position = DeadwallAtlasProjection.toRegion(node.x, node.y, game), pose = game.frontier.position(),
+            generation = pose.generation, regional = game.frontier.world(), provider = regional.biomes;
+          if (!provider || regional.seed !== game.world.seed) throw Error('Actual regional ecology provider missing or on another seed');
+          const pick = node.type === 'wood' ? provider.pickTree : provider.pickRock;
+          entry = { id: node.id, type: node.type, x: node.x, y: node.y, generation, ecologyVersion: pose.ecologyVersion,
+            regionalGeneration: regional.generation, regionalEcologyVersion: regional.ecologyVersion,
+            providerEcologyVersion: provider.ecologyVersion ?? 0,
             expected: pick(game.world.seed, position.x, position.y, 'local:' + node.id, { generation }).species,
             painted: new Set() };
           observed.nodes.set(node.id, entry);
@@ -127,7 +137,11 @@ async function localPainting(page) {
     }
     return { groundPasses: observed.groundPasses, featureEntries: observed.featureEntries,
       pixels: { samples, opaque, colors: colors.size },
-      nodes: [...observed.nodes.values()].map(node => ({ ...node, painted: [...node.painted] })) };
+      nodes: [...observed.nodes.values()].map(node => {
+        const source = DEADWALL.world.nodes.find(source => source.id === node.id), selected = source && DEADWALL.art.nodeSpecies?.get(source);
+        return { ...node, painted: [...node.painted], providerMatchesPaint: selected?.biomes === DEADWALL.frontier.world().biomes,
+          cachedSpecies: selected?.species };
+      }) };
   });
 }
 
@@ -170,7 +184,7 @@ try {
       await chooseCampaign(page, '17117');
       profile.arrival = await state(page);
       check('New Game opens the introduction without a Pause menu underneath', profile.arrival.intro && profile.arrival.overlay === 'campaignIntro132' && profile.arrival.paused && !profile.arrival.pauseVisible);
-      check('Fresh campaign starts at local D-17 in the current generation', profile.arrival.seed === 17117 && profile.arrival.generation === 8 && !profile.arrival.regional);
+      check('Fresh campaign starts at local D-17 in the current generation', profile.arrival.seed === 17117 && profile.arrival.generation === 8 && profile.arrival.ecologyVersion === 1 && !profile.arrival.regional);
       profile.arrivalHistory = await campaignHistory(page);
       check('All startup autosaves produce exactly one persisted campaign archive', historyMatches(profile.arrivalHistory, [profile.arrival.runId]));
       profile.geometry = await geometry(page);
@@ -188,7 +202,7 @@ try {
       await page.waitForFunction(() => __DEADWALL_ARRIVAL158__.nodes.size >= 2 && __DEADWALL_ARRIVAL158__.featureEntries > 0);
       profile.painting = await localPainting(page);
       check('The visible canvas contains painted D-17 terrain and local structures', profile.painting.groundPasses > 0 && profile.painting.featureEntries > 0 && profile.painting.pixels.opaque / profile.painting.pixels.samples > .99 && profile.painting.pixels.colors > 25);
-      check('Visible trees and rocks use the current regional ecology in actual sprite draws', ['wood', 'stone'].every(type => profile.painting.nodes.some(node => node.type === type)) && profile.painting.nodes.every(node => node.generation === 8 && node.painted.includes(node.expected)));
+      check('Visible trees and rocks use the current regional ecology in actual sprite draws', ['wood', 'stone'].every(type => profile.painting.nodes.some(node => node.type === type)) && profile.painting.nodes.every(matchesCurrentRegionalEcology));
       await screenshot('current-local-world');
       await activate(page, '#pauseButton', viewport.touch);
       check('A deliberate Pause opens the real Pause menu', (await state(page)).overlay === 'pauseMenu');
@@ -198,7 +212,7 @@ try {
       check('Resume preserves the exact new local world and canvas', isPlaying(profile.resumed) && profile.resumed.runId === profile.arrival.runId && await page.evaluate(() => DEADWALL.world === __DEADWALL_ARRIVAL158__.world && DEADWALL.canvas === __DEADWALL_ARRIVAL158__.canvas) && await geometry(page) === profile.geometry);
       await page.waitForFunction(() => __DEADWALL_ARRIVAL158__.groundPasses > 0 && __DEADWALL_ARRIVAL158__.nodes.size >= 2);
       profile.resumePainting = await localPainting(page);
-      check('Resume continues to render the current ecological sprites', profile.resumePainting.nodes.every(node => node.generation === 8 && node.painted.includes(node.expected)));
+      check('Resume continues to render the current ecological sprites', profile.resumePainting.nodes.every(matchesCurrentRegionalEcology));
       await activate(page, '#pauseButton', viewport.touch);
       await activate(page, '#replayIntro132', viewport.touch);
       await dispatchIntroBlur(page);
@@ -210,7 +224,7 @@ try {
       await activate(page, '#commandClose', viewport.touch);
       await activate(page, '#continueButton', viewport.touch);
       profile.continued = await state(page);
-      check('Continue restores this campaign without introduction or stale geometry', isPlaying(profile.continued) && profile.continued.runId === profile.arrival.runId && profile.continued.generation === 8 && await geometry(page) === profile.geometry);
+      check('Continue restores this campaign without introduction or stale geometry', isPlaying(profile.continued) && profile.continued.runId === profile.arrival.runId && profile.continued.generation === 8 && profile.continued.ecologyVersion === 1 && await geometry(page) === profile.geometry);
       profile.continuedHistory = await campaignHistory(page);
       check('Continue keeps one campaign archive with the original identity', historyMatches(profile.continuedHistory, [profile.arrival.runId]));
       await activate(page, '#pauseButton', viewport.touch);
@@ -232,7 +246,7 @@ try {
       profile.blurBeforeSkip = await dispatchIntroBlur(page);
       await activate(page, '#campaignIntro132Skip', viewport.touch);
       profile.skipped = await state(page);
-      check('Skipping a new introduction after focus loss starts directly', isPlaying(profile.skipped) && profile.skipped.runId === profile.replacement.runId && profile.skipped.generation === 8);
+      check('Skipping a new introduction after focus loss starts directly', isPlaying(profile.skipped) && profile.skipped.runId === profile.replacement.runId && profile.skipped.generation === 8 && profile.skipped.ecologyVersion === 1);
       check('Replacement with the same seed preserves generated geometry', await geometry(page) === profile.geometry);
       profile.replacementHistory = await campaignHistory(page);
       check('Two actual games on the same seed produce exactly two distinct archives', historyMatches(profile.replacementHistory, [profile.arrival.runId, profile.replacement.runId]));

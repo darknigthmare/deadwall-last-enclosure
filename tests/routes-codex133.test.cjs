@@ -29,7 +29,11 @@ test('routes 1.33 : guide raccordé, recherche sans accents et projets masqués 
   const cityEntries=require('../src/world-codex-actions159.js').entries,cityIds=new Set(cityEntries.map(e=>e.id));
   assert.equal(cityEntries.length,180);assert.equal(cityIds.size,180);
   for(const entry of cityEntries)assert.equal(C.entries.find(e=>e.id===entry.id),entry);
-  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id));
+  const ecologyOwner=globalThis.DeadwallEcologyCodex164||require('../src/biomes-codex164.js'),ecologyEntries=ecologyOwner.entries(),ecologyIds=new Set(ecologyEntries.map(e=>e.id));
+  assert.equal(ecologyEntries.length,5);
+  assert.deepEqual([...ecologyIds].sort(),['biome164-alluvialTerrace','biome164-agriculturalPlateau','biome164-sandyPine','biome164-peatland','ecology164-coherence'].sort());
+  for(const entry of ecologyEntries)assert.equal(C.entries.find(e=>e.id===entry.id),entry);
+  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)&&!ecologyIds.has(e.id));
   assert.equal(historicalAndCity.length,215+cityEntries.length);
   assert.equal(historicalAndCity.filter(e=>!cityIds.has(e.id)).length,215);assert.equal(C.query({text:'routes',status:'terrain'}).filter(e=>e.id.startsWith('road133-')).length,3);
   for(const word of['autoroute','tunnel','échangeur','giratoire','chemin'])assert.ok(C.query({text:'routes '+word,status:'plan'}).length,word);
