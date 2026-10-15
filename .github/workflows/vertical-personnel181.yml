@@ -1,30 +1,42 @@
-name: Vertical personnel 181 reviewed integration
+name: Vertical personnel 181 QA
 on:
   push:
     branches: [feat/vertical-citadel-175]
-    paths: ['.delivery/vertical181/**', '.github/workflows/vertical-personnel181.yml']
+    paths: ['src/vertical*.js', 'src/core.js', 'src/game.js', 'src/expeditions.js', 'src/salvage.js', 'tests/vertical*.cjs', 'tests/helpers/vertical*.cjs', 'scripts/qa-vertical*.mjs', 'scripts/build.mjs', 'scripts/server.mjs', 'index.html', 'sw.js', '.github/workflows/vertical-personnel181.yml']
+  pull_request:
+    paths: ['src/vertical*.js', 'tests/vertical*.cjs', 'scripts/qa-vertical*.mjs', '.github/workflows/vertical-personnel181.yml']
 permissions:
   contents: read
 concurrency:
-  group: vertical181-reviewed-integration
-  cancel-in-progress: false
+  group: vertical181-readonly-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  integrate181:
-    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+  personnel181:
+    if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
     runs-on: ubuntu-latest
     timeout-minutes: 55
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Apply fingerprint-checked gameplay sources
-        run: python3 .delivery/vertical181/apply.py
-      - name: Install locked prerequisites
+      - name: Exact provenance and source delta
+        run: |
+          mkdir -p /tmp/vertical181-qa
+          git rev-parse HEAD > /tmp/vertical181-qa/TESTED_HEAD.txt
+          git ls-tree -r HEAD > /tmp/vertical181-qa/TESTED_TREE.txt
+          git diff --binary --full-index d874f8c5dc3777645306dedbb49d11e2b504b417 HEAD -- src tests scripts docs index.html sw.js > /tmp/vertical181-qa/PERSONNEL_181.patch
+          python3 - <<'PY'
+          import subprocess, tarfile
+          base = 'd874f8c5dc3777645306dedbb49d11e2b504b417'
+          paths = subprocess.check_output(['git','diff','--name-only','--diff-filter=AM',base,'HEAD','--','src','tests','scripts','docs','index.html','sw.js']).decode().splitlines()
+          with tarfile.open('/tmp/vertical181-qa/PERSONNEL_181_sources.tar.gz','w:gz') as archive:
+            for path in paths: archive.add(path, arcname=path, recursive=False)
+          PY
+      - name: Locked prerequisites
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci > /tmp/vertical181-qa/install.log 2>&1
@@ -34,35 +46,10 @@ jobs:
           node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical181-qa/vertical-tests.log 2>&1
       - name: Native core, power, urban, expeditions and cargo regression
         run: node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical181-qa/regression.log 2>&1
-      - name: Native build
-        run: npm run build > /tmp/vertical181-qa/build.log 2>&1
-      - name: Publish only reviewed gameplay sources to PR6
-        env:
-          EXPECTED_HEAD: ${{ github.sha }}
+      - name: Build and Chromium
         run: |
-          python3 - <<'PY'
-          import json, os, pathlib, subprocess, tarfile
-          branch = 'feat/vertical-citadel-175'
-          remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
-          if remote != os.environ['EXPECTED_HEAD']:
-            raise RuntimeError('Feature branch moved; refusing concurrent overwrite')
-          manifest = json.load(open('.delivery/vertical181/manifest.json'))
-          paths = [i['path'] for i in manifest['files']]
-          subprocess.run(['git','add','--',*paths], check=True)
-          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
-            subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
-            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
-            subprocess.run(['git','commit','-m','feat(population181): native allied couriers, guards, engineers and medics on vertical network'], check=True)
-            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
-          out = pathlib.Path('/tmp/vertical181-qa')
-          (out/'TESTED_HEAD.txt').write_bytes(subprocess.check_output(['git','rev-parse','HEAD']))
-          (out/'TESTED_TREE.txt').write_bytes(subprocess.check_output(['git','ls-tree','-r','HEAD']))
-          (out/'PERSONNEL_181.patch').write_bytes(subprocess.check_output(['git','diff','--binary','--full-index',manifest['base'],'HEAD','--',*paths]))
-          with tarfile.open(out/'PERSONNEL_181_sources.tar.gz','w:gz') as archive:
-            for p in paths: archive.add(p, arcname=p, recursive=False)
-          PY
-      - name: Chromium with actual WebGL
-        run: npx playwright install --with-deps chromium > /tmp/vertical181-qa/browser-install.log 2>&1
+          npm run build > /tmp/vertical181-qa/build.log 2>&1
+          npx playwright install --with-deps chromium > /tmp/vertical181-qa/browser-install.log 2>&1
       - name: Seven native browser scenarios
         env:
           DEADWALL_REQUIRE_WEBGL: '1'
@@ -72,11 +59,11 @@ jobs:
             node scripts/qa-vertical${rev}.mjs > /tmp/vertical181-qa/browser${rev}.log 2>&1 || fail=1
           done
           exit "$fail"
-      - name: Preserve focused evidence before complete checks
+      - name: Preserve focused evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: vertical181-focused-${{ github.run_id }}
+          name: vertical181-qa-${{ github.run_id }}
           path: |
             /tmp/vertical181-qa/
             /tmp/vertical180-qa/
