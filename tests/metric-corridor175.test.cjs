@@ -64,6 +64,29 @@ test('175 shared browser corridor fixture uses finite native fuel transfer and n
  const before=snapshot();assert.equal(g.restoreSave(g.serialize()),true);assert.deepEqual(snapshot(),before);
 });
 
+for(const fractionY of [0,16,24,30,31.999])test('175 prepared corridor reserves the native boarding and exit flank at fractional Y '+fractionY,()=>{
+ g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
+ const car=g.expeditions.car(),tileY=Math.floor(car.y/32);let selected=null;
+ // These are explicitly prepared, physically free poses, not removed obstacles.
+ for(const offset of [0,1,-1,2,-2,3,-3]){
+  const y=(tileY+offset)*32+fractionY,body=g.expeditions.vehicleBody175(car.x,y,0),foot={x:car.x,y:y+body.h/2+21};
+  if(g.expeditions.carClear(car.x,y)&&g.friendlyPositionClear(g.player,foot.x,foot.y)&&![g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle(body,u,u.radius||12))){selected={y,foot};break;}
+ }
+ assert.ok(selected,'a native clear parking pose and boarding point before test walls');car.y=selected.y;car.angle=0;
+ const {prepareMetricCorridor175}=require('../scripts/metric175-fixtures.cjs'),fixture=prepareMetricCorridor175(g),body=g.expeditions.vehicleBody175();
+ assert.ok(fixture.walls.length>=12);assert.equal(g.expeditions.bodyClear175(body),true);
+ assert.equal(g.expeditions.bodyClear175({...body,a:Math.PI/2}),false,'the complete lower wall still refuses a quarter turn');
+ assert.equal(g.friendlyPositionClear({id:car.id,radius:Math.hypot(body.w,body.h)/2/.9},car.x,car.y),false,'the former circular collider still cannot fit');
+ assert.equal(g.friendlyPositionClear(g.player,fixture.foot.x,fixture.foot.y),true);
+ assert.equal(g.friendlyPositionClear(g.player,car.x,car.y+body.h/2+15),true);
+ const lower=fixture.walls.map(id=>g.world.buildings.get(id)).filter(b=>b.gy>car.y/32);
+ assert.ok(lower.length>0);assert.ok(Math.min(...lower.map(b=>b.gy*32-fixture.foot.y))>g.player.radius,'the actual foot circle has a full margin from the lower wall');
+ const before=snapshot();assert.equal(g.restoreSave(g.serialize()),true);assert.deepEqual(snapshot(),before);
+ assert.ok(g.expeditions.board().ok,'native boarding accepts the prepared flank');assert.ok(g.expeditions.board().ok,'native side exit succeeds');
+ assert.equal(g.expeditions.driving(),false);assert.equal(g.friendlyPositionClear(g.player,g.player.x,g.player.y),true);
+ assert.ok(M.bodyDistance(g.expeditions.vehicleBody175(),g.player)>g.player.radius);assert.ok(Math.abs(g.player.x-g.expeditions.car().x)<1e-6);
+});
+
 test('182 boarding cannot take the commander away from a real active staircase',()=>{
  g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
  const car=g.expeditions.car(),S=globalThis.DeadwallVertical175State,type='lookout2a177';

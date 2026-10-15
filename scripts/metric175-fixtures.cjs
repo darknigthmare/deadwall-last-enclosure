@@ -6,7 +6,9 @@ function prepareMetricCorridor175(g){
  const C=globalThis.DeadwallCore,M=globalThis.DeadwallMetric174,car=g.expeditions.car();
  if(!car||car.metric174!==1||g.worldEvolution.vehicleProfile().w!==10.4)throw Error('Calibrated, purchased bus required');
  car.angle=0;const gy=Math.floor(car.y/32),xx=Math.floor(car.x/32),rows=[];
- for(const y of [gy-4,gy+3])for(let x=xx-5;x<=xx+5;x++){
+ // Round the lower wall outwards: floor(y/32)+3 can leave only 2.2 units
+ // beyond the future boarding foot at the end of a tile. Keep both rows whole.
+ for(const y of [gy-4,Math.ceil(car.y/32)+3])for(let x=xx-5;x<=xx+5;x++){
   if(!g.world.placement(C.BUILDINGS.woodWall,x,y).valid)continue;
   if([g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle({x:x*32+16,y:y*32+16,w:32,h:32,a:0},u,(u.radius||12)+1)))continue;
   const b=new(g.core().constructor)(g.nextId++,'woodWall',x,y,0,1);g.world.add(b);rows.push(b.id);

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, visibleInPanel, saveReloadContinue } from './browser-qa-common144.mjs';
 import { maximumObservedAssaultFixture, restoreObservedContactPositions } from './browser-assault-fixtures147.mjs';
+import { unobservedEchelonTerms } from './assault144-oracle.cjs';
 
-const harness = await createHarness('assault', 'EXPLICIT SYNTHETIC FIXTURE: a fresh seed-54831 G8 campaign is put at warning wave 8 with 24 contacts, three of each of the eight profiles, and four announced directions. First, real unobserved north contacts must reveal no occupied direction. A declared maximum-layout fixture then repositions five existing contacts, adds four legally placed operational observation posts, zeroes common ammo to prevent defence fire, and updates urban history for those posts. The player position, contact health and arrival budget remain intact; actual visibility146 and LOS determine observed contacts. After the layout assertions, the five contacts return to their recorded natural arrival positions before timing further echelons, with no healing or other state changes. Real DOM controls and ordinary RAF perform spawning, six-second echelon delays, pause, preparations and save/reload/continue. Modern bounded buffers preserve every validated field and draw order exactly; oversized historical buffers alone may use their declared migration. This is integration/layout evidence, not organically reached wave 8, balancing or physical-device certification.');
+const harness = await createHarness('assault', 'EXPLICIT SYNTHETIC FIXTURE: a fresh seed-54831 G8 campaign is put at warning wave 8 with 24 contacts, three of each of the eight profiles, and four announced directions. First, real unobserved first-echelon contacts must reveal no occupied direction. Their current sectors are checked independently from their actual positions, separately from the north arrival edge. A declared maximum-layout fixture then repositions five existing contacts, adds four legally placed operational observation posts, zeroes common ammo to prevent defence fire, and updates urban history for those posts. The player position, contact health and arrival budget remain intact; actual visibility146 and LOS determine observed contacts. After the layout assertions, the five contacts return to their recorded natural arrival positions before timing further echelons, with no healing or other state changes. Real DOM controls and ordinary RAF perform spawning, six-second echelon delays, pause, preparations and save/reload/continue. Modern bounded buffers preserve every validated field and draw order exactly; oversized historical buffers alone may use their declared migration. This is integration/layout evidence, not organically reached wave 8, balancing or physical-device certification.');
 const { browser, base, report, output } = harness;
 report.profiles = [];
 report.normalizedFields = [];
@@ -19,7 +20,7 @@ async function snapshot(page) {
       counts[Math.abs(dx) > Math.abs(dy) ? dx >= 0 ? 'east' : 'west' : dy >= 0 ? 'south' : 'north']++;
     }
     const observed = g.battlefieldUI.snapshot();
-    return { elapsed: g.elapsed, phase: g.phase, paused: g.paused, overlay: g.activeOverlay?.id || null,
+    return { elapsed: g.elapsed, phase: g.phase, paused: g.paused, overlay: g.activeOverlay?.id || null, core: { x: g.core().x, y: g.core().y },
       player: { dead: g.player.dead, health: g.player.health, x: g.player.x, y: g.player.y },
       wave: g.wave, incoming: g.spawnQueue.length + Object.values(g.pendingSpawns).reduce((a, b) => a + b, 0),
       present: live.length, fronts: counts, night: n, spawnTimer: g.spawnTimer, remaining: g.remainingAssault, pending: { ...g.pendingSpawns },
@@ -69,9 +70,10 @@ try {
       const first = profile.firstPause;
       check('RAF emits the first eight contacts and preserves sixteen incoming contacts', first.phase === 'assault' && first.night.emitted === 8 && first.present === 8 && first.incoming === 16 && first.remaining === 24);
       check('Real Dayworks adds its six-second echelon pause', first.night.pauses === 1 && first.spawnTimer > 5 && first.spawnTimer <= 6.5);
-      check('Unobserved north contacts reveal no occupied front while announced east remains explicit', first.fronts.north === 8 && first.observed === 0 &&
-        Object.values(first.observedFronts).every(n => n === 0) && first.detail.includes('Aucun contact actuellement observé.') &&
-        !first.detail.includes('NORD') && first.detail.includes('Arrivées annoncées : EST.'));
+      profile.firstPauseTerms = unobservedEchelonTerms(first);
+      const failedTerms = Object.keys(profile.firstPauseTerms).filter(key => !profile.firstPauseTerms[key]);
+      check('Unobserved first-echelon contacts reveal no occupied front while announced east remains explicit' +
+        (failedTerms.length ? ' [failed: ' + failedTerms.join(', ') + ']' : ''), failedTerms.length === 0);
       check('The pause is explicitly a pause in arrivals during a live assault', first.detail.includes('reprise des arrivées') && first.detail.includes('assaut toujours actif') && first.detail.includes('Échelon 2/3'));
       await screenshot('unobserved-first-echelon');
       profile.fixtures.push(await page.evaluate(maximumObservedAssaultFixture));
