@@ -22,6 +22,23 @@ function firstLine(value) {
   return String(value ?? '').split(/\r?\n/, 1)[0];
 }
 
+// Publish one repository-relative source frame, never a raw stack or its host path.
+function sourceFrame(item) {
+  const stack = [item.failure, item.error?.stack, item.cleanupFailure, ...(Array.isArray(item.error?.details) ? item.error.details : [])]
+    .filter(value => typeof value === 'string').join('\n').slice(0, 16384).replace(/\\/g, '/');
+  const root = fileURLToPath(new URL('../', import.meta.url));
+  const frames = /(?:^|[\s/(])((?:scripts|tests|desktop)\/(?:[A-Za-z0-9_.-]+\/)*[A-Za-z0-9_.-]+\.[cm]?js):([1-9]\d{0,7}):([1-9]\d{0,7})(?=$|[\s)])/gm;
+  for (const match of stack.matchAll(frames)) {
+    const relative = match[1];
+    if (relative.length > 160 || relative.split('/').some(part => part === '.' || part === '..')) continue;
+    try {
+      const stat = fs.lstatSync(path.join(root, relative));
+      if (stat.isFile() && !stat.isSymbolicLink()) return relative + ':' + match[2] + ':' + match[3];
+    } catch { /* An unknown source frame is not useful evidence. */ }
+  }
+  return '';
+}
+
 export function reportFailures(report, source = 'report.json') {
   if (!report || typeof report !== 'object' || Array.isArray(report)) return [];
   const failures = [];
@@ -36,10 +53,13 @@ export function reportFailures(report, source = 'report.json') {
       : childDetail
       ? firstLine(item.error.message || 'Native launch failed') + ' — ' + firstLine(childDetail)
       : firstLine(item.failure || item.error?.message || item.cleanupFailure || 'Verification failed without a structured assertion.');
+    const location = sourceFrame(item);
+    const lastPassed = !failedCheck && Array.isArray(item.checks) ? item.checks.findLast(check => check?.pass === true && typeof check.name === 'string')?.name : null;
+    const context = [location ? 'at ' + location : '', lastPassed ? 'Last passed: ' + safeDiagnosticText(lastPassed, 80) : ''].filter(Boolean);
     failures.push({
       source: safeDiagnosticText(source, 160),
       profile: safeDiagnosticText(label || item.stage || 'verification', 80),
-      message: safeDiagnosticText(message)
+      message: safeDiagnosticText(context.length ? [safeDiagnosticText(message, 220), ...context].join(' — ') : message)
     });
   };
   if (Array.isArray(report.profiles)) {

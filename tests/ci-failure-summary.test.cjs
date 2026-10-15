@@ -99,3 +99,40 @@ test('CI report summary bounds the number of published failures', async () => {
   const rows=Array.from({length:100},(_,i)=>({viewport:{name:'viewport-'+i},pass:false,failure:'Error: failed'}));
   assert.equal(reportFailures({pass:false,profiles:rows}).length,24);
 });
+
+test('CI browser timeout includes the first verified source line and last passed check without leaking private paths', async () => {
+  const {reportFailures,annotationLines}=await helper;
+  const summary={failures:reportFailures({pass:false,profiles:[{viewport:{name:'desktop'},pass:false,
+    checks:[{name:'Menu and genuine seed loaded',pass:true},{name:'Finite house construction complete',pass:true}],
+    failure:'page.waitForFunction: Timeout 30000ms exceeded.\n    at Frame.waitForFunction (/private/runner/hidden/node_modules/playwright/lib/client/frame.js:901:7)\n    at finishConstruction (/private/runner/hidden/project/scripts/browser-city-content150.mjs:419:23)\n    at async /private/runner/hidden/project/scripts/browser-city-content150.mjs:750:9\n    token=private-token https://storage.example/private?sig=secret'
+  }]},'city/report.json'),warnings:[]};
+  assert.match(summary.failures[0].message,/page\.waitForFunction: Timeout 30000ms exceeded/);
+  assert.match(summary.failures[0].message,/at scripts\/browser-city-content150\.mjs:419:23/);
+  assert.match(summary.failures[0].message,/Last passed: Finite house construction complete/);
+  const annotation=annotationLines(summary).join('\n');
+  for(const privateText of ['/private/','runner/hidden','node_modules','private-token','storage.example','sig=secret','https://'])assert.ok(!annotation.includes(privateText),privateText);
+  assert.ok(!annotation.includes('750:9'),'Only the first verified source location is published');
+});
+
+test('CI stack context preserves a failed assertion as the primary diagnostic', async () => {
+  const {reportFailures}=await helper;
+  const result=reportFailures({pass:false,profiles:[{viewport:{name:'mobile'},pass:false,
+    checks:[{name:'Earlier native deposit',pass:true},{name:'Finite stock survives Continue',pass:false}],
+    failure:'AssertionError: stocks differ\n    at saveContinue (C:\\private\\project\\tests\\ci-failure-summary.test.cjs:27:11)'
+  }]});
+  assert.match(result[0].message,/^Failed check: Finite stock survives Continue/);
+  assert.match(result[0].message,/at tests\/ci-failure-summary\.test\.cjs:27:11/);
+  assert.ok(!result[0].message.includes('C:'));assert.ok(!result[0].message.includes('private'));
+  assert.ok(!result[0].message.includes('Last passed:'),'A failed check remains the useful assertion, not the earlier success');
+});
+
+test('CI stack context rejects unknown and traversal paths while keeping diagnostics bounded and sanitized', async () => {
+  const {reportFailures,annotationLines}=await helper;
+  const failures=reportFailures({pass:false,profiles:[{viewport:{name:'desktop'},pass:false,
+    checks:[{name:'Last check token=never-publish '+ 'x'.repeat(1000),pass:true}],
+    failure:'page.waitForFunction: Timeout\n    at /private/project/scripts/../desktop/../private.cjs:4:2\n    at /private/project/scripts/no-such-ci-source.mjs:5:3'
+  }]});
+  assert.ok(!failures[0].message.includes('at scripts/'));assert.ok(!failures[0].message.includes('at desktop/'));
+  assert.ok(!failures[0].message.includes('private'));assert.ok(!failures[0].message.includes('never-publish'));
+  assert.ok(failures[0].message.length<=480);assert.ok(annotationLines({failures,warnings:[]})[0].length<900);
+});

@@ -28,6 +28,8 @@ Le siège vertical ajoute grimpeurs, pression sur les accès et trois profils de
 
 Guides détaillés : [citadelle](vertical175/README.md), [âges](vertical175/AGES_177.md), [maintenance](vertical175/MAINTENANCE_178.md), [réseau](vertical175/NETWORK_180.md) et [personnel](vertical175/PERSONNEL_181.md). Les comptes rendus de ces branches sont historiques ; leurs nombres de tests et fichiers publics ne décrivent pas automatiquement la version réunie.
 
+Audit des corrections et limites : [AUDIT_1_61.md](AUDIT_1_61.md).
+
 ## Vérifications de la version réunie
 
 ```sh
