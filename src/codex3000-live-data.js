@@ -411,7 +411,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
 /* In-game inspection of separate native layouts and network traversal.
  * No live campaign controller, stock, RNG, autosave or elapsed-time subscription.
  */
-(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexLab173=api;if(typeof module==='object'&&module.exports)module.exports=api;if(root.document)api.install(root.document);})(globalThis,function(root){'use strict';
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexLab173=api;if(typeof module==='object'&&module.exports)module.exports=api;if(typeof root.document?.addEventListener==='function')api.install(root.document);})(globalThis,function(root){'use strict';
  function mount(doc,owner,id){
   if(owner.querySelector('[data-native-lab173]'))return;
   const el=(t,text)=>{const n=doc.createElement(t);if(text!==undefined)n.textContent=text;return n;},host=el('section');host.dataset.nativeLab173=id;host.className='codex-plan165';
@@ -484,7 +484,7 @@ return Object.freeze({ compile, route, tunnel, interchange, port });
   owner.addEventListener('toggle',()=>{if(!owner.open){canvas.width=canvas.height=1;canvas.hidden=true;model=electric=electricState=lastPower=net=traveler=saved=null;}});
   host.append(controls,actions,stateText,canvas);owner.append(host);
  }
- const docs=new WeakSet();function install(doc){if(docs.has(doc))return;docs.add(doc);doc.addEventListener('toggle',e=>{const d=e.target;if(d?.tagName!=='DETAILS'||!d.open)return;const card=d.parentElement;if(card?.tagName!=='ARTICLE')return;const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(id&&d.dataset?.codexSource159===card.dataset.codexId)queueMicrotask(()=>{if(d.isConnected&&d.open)mount(doc,d,id);});},true);}
+ const docs=new WeakSet();function install(doc){if(typeof doc?.addEventListener!=='function'||docs.has(doc))return false;docs.add(doc);doc.addEventListener('toggle',e=>{const d=e.target;if(d?.tagName!=='DETAILS'||!d.open)return;const card=d.parentElement;if(card?.tagName!=='ARTICLE')return;const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(id&&d.dataset?.codexSource159===card.dataset.codexId)queueMicrotask(()=>{if(d.isConnected&&d.open)mount(doc,d,id);});},true);return true;}
  return Object.freeze({mount,install});
 });
 

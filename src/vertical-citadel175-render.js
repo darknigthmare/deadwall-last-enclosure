@@ -39,7 +39,10 @@
   const unit=g.drawUnit.bind(g);g.drawUnit=(ctx,u,...args)=>{const p=V.population.pose(u);ctx.save();ctx.translate(0,-p.z*R.projectedHeight);unit(ctx,u,...args);ctx.restore();};
   const zombie=g.drawZombie.bind(g);g.drawZombie=(ctx,e,...args)=>{const p=V.enemyPose(e);ctx.save();ctx.translate(0,-p.z*R.projectedHeight);zombie(ctx,e,...args);ctx.restore();};
   function projectedVisible(entry,v){
-   const e=entry.entity;if(!e)return true;
+   const e=entry.entity;if(!e||typeof entry.draw==='function')return true;
+   // Other painters own their visibility and may use synthetic building records without sizes or coordinates.
+   if(entry.kind===1&&g.world.buildings.get(e.id)!==e)return true;
+   if(!Number.isFinite(e.x)||!Number.isFinite(e.y))return true;
    if(entry.kind===1&&R.bases[e.type]){
     const site=V.presentation().sites.find(s=>s.id===e.id),height=R.bases[e.type].height+Math.max(0,(site?.decks.length||1)-1)*R.deckRise,H=height*R.projectedHeight;
     return e.right+H*.4+20>=v.left&&e.left-20<=v.right&&e.bottom+30>=v.top&&e.top-H-30<=v.bottom;

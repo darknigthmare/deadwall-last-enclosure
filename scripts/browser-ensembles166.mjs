@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createHarness,recorder,ready,chooseCampaign,openCommand,activate} from './browser-qa-common144.mjs';
+import {armTransaction,readTransaction} from './qa-transaction167.mjs';
 const h=await createHarness('ensembles166','Real revision-five depot activation, finite saves and prepared real-world table/seat scenes; not an organic exploration run. Existing stock, actors and geometry unchanged. Mobile views are emulated.');
 h.report.profiles=[];
 try{
@@ -13,10 +14,10 @@ try{
    profile.fixture=await page.evaluate(()=>{const g=DEADWALL,point=g.fieldcraft.service(g.player,g.core());if(!point)throw Error('No actual depot service point');const before={x:g.player.x,y:g.player.y};g.player.x=point.x;g.player.y=point.y;g.player.navigation=null;if(!g.friendlyPositionClear(g.player,point.x,point.y))throw Error('Depot fixture collides');return{before,point,assignedFields:['player.x','player.y','player.navigation']};});
    await openCommand(page,viewport.touch);await activate(page,'#expansionFieldTab',viewport.touch);await activate(page,'#expansionGroup-world',viewport.touch);await activate(page,'#expansionTab-world131',viewport.touch);
    const action='#expansionAction-world131-ensembleDetails165';await page.locator(action).scrollIntoViewIfNeeded();check('Table-and-seat composition upgrade is available through the real depot action',await page.locator(action).isEnabled());
-   await page.evaluate(()=>{const g=DEADWALL,original=g.restoreSave,clean=()=>{const s=g.serialize();delete s.timestamp;return s;};globalThis.__ENSEMBLE166_BEFORE=clean();globalThis.__ENSEMBLE166_RESTORE=original;g.restoreSave=function(...args){const result=original.apply(this,args);globalThis.__ENSEMBLE166_AFTER={ok:result,save:clean()};return result;};});
+   await armTransaction(page,action);
    await activate(page,action,viewport.touch);
-   const change=await page.evaluate(()=>{const g=DEADWALL;g.restoreSave=globalThis.__ENSEMBLE166_RESTORE;const before=globalThis.__ENSEMBLE166_BEFORE,after=globalThis.__ENSEMBLE166_AFTER;if(!after)return{ok:false};const revision=after.save.frontier.detailVersion;after.save.frontier.detailVersion=before.frontier.detailVersion;return{ok:after.ok===true,revision,onlyRevision:JSON.stringify(before)===JSON.stringify(after.save),savedRevision:DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY)).frontier.detailVersion};});
-   check('Activation changes only the detail revision, with no added stocks or moved saved objects',change.ok&&change.revision===5&&change.onlyRevision);check('The real action persists revision five',change.savedRevision===5);
+   const change=await readTransaction(page,5);profile.transaction=change;
+   check('One trusted activation changes only the detail revision, with no added stocks or moved saved objects',change.ok&&change.revision===5&&change.onlyRevision);check('The real action persists revision five and every other field',change.savedRevision===5&&change.storedOnlyRevision);
    await page.evaluate(()=>DEADWALL.worldCodex.open());await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');const card=page.locator('[data-codex-id="programme-DW-0001"]');await card.getByText('Accès, ressources et précautions',{exact:true}).click();
    await card.getByText('SÉRIES DE MOBILIER — ACTIVATION OPTIONNELLE',{exact:true}).waitFor();check('Programme explains optional series without claiming extra loot',/ni nouveau butin/i.test(await card.innerText()));check('Recipe discloses optional table-and-seat compositions',/COMPOSER TABLES ET ASSISES/.test(await card.innerText()));await screenshot('source-prescription');
    const scenes=await page.evaluate(()=>{const w=DeadwallFrontierWorld.create(17117,8,{detailVersion:5}),subjects=[],types=new Set();for(const p of w.pois){if(types.has(p.type))continue;types.add(p.type);if(w.detailAt(p,0).ensembles165.groups.length>0)subjects.push(p);if(subjects.length===2)break;}

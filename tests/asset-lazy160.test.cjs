@@ -89,6 +89,13 @@ async function fixture(run,{matteCanvas=false}={}){
 
 test('160 lazy metadata: importing and reading 146 definitions allocates no Image or canvas',options,async()=>{
  await fixture(async f=>{
+  // Art imports the compiled Codex modules; their UI registration must tolerate
+  // a partial document without allocating elements or images.
+  assert.equal(globalThis.DeadwallCodexLab173.install(globalThis.document),false);
+  const registrations=[],documentWithEvents={addEventListener(...args){registrations.push(args);}};
+  assert.equal(globalThis.DeadwallCodexLab173.install(documentWithEvents),true);
+  assert.equal(globalThis.DeadwallCodexLab173.install(documentWithEvents),false);
+  assert.equal(registrations.length,1);assert.equal(registrations[0][0],'toggle');assert.equal(registrations[0][2],true);
   const entries=Object.entries(f.Art.ASSETS);
   assert.equal(entries.length,146);
   assert.deepEqual(entries.filter(([,spec])=>spec.lazy===true).map(([key])=>key).sort(),[...LAZY_KEYS].sort());
