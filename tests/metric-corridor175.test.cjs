@@ -66,13 +66,16 @@ test('175 shared browser corridor fixture uses finite native fuel transfer and n
 
 for(const fractionY of [0,16,24,30,31.999])test('175 prepared corridor reserves the native boarding and exit flank at fractional Y '+fractionY,()=>{
  g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
- const car=g.expeditions.car(),tileY=Math.floor(car.y/32);let selected=null;
+ const car=g.expeditions.car(),tileY=Math.floor(car.y/32),offsets=[0,...Array.from({length:8},(_,i)=>[i+1,-i-1]).flat()];let selected=null;
  // These are explicitly prepared, physically free poses, not removed obstacles.
- for(const offset of [0,1,-1,2,-2,3,-3]){
-  const y=(tileY+offset)*32+fractionY,body=g.expeditions.vehicleBody175(car.x,y,0),foot={x:car.x,y:y+body.h/2+21};
-  if(g.expeditions.carClear(car.x,y)&&g.friendlyPositionClear(g.player,foot.x,foot.y)&&![g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle(body,u,u.radius||12))){selected={y,foot};break;}
+ // Native worker positions vary between campaigns, and can change the first
+ // clear parking angle. A narrow free strip need not contain a snapped Y pose.
+ search:for(const dx of offsets)for(const dy of offsets){
+  const x=car.x+dx*32,y=(tileY+dy)*32+fractionY,body=g.expeditions.vehicleBody175(x,y,0),foot={x,y:y+body.h/2+21};
+  if(g.expeditions.carClear(x,y)&&g.friendlyPositionClear(g.player,foot.x,foot.y)&&![g.player,...g.units,...g.zombies].some(u=>!u.dead&&M.bodyCircle(body,u,u.radius||12))){selected={x,y,foot};break search;}
  }
- assert.ok(selected,'a native clear parking pose and boarding point before test walls');car.y=selected.y;car.angle=0;
+ assert.ok(selected,'a native clear parking pose and boarding point before test walls');Object.assign(car,{x:selected.x,y:selected.y,angle:0});
+ assert.ok(Math.abs(car.y%32-fractionY)<1e-9,'the prepared pose retains the requested Y fraction');
  const {prepareMetricCorridor175}=require('../scripts/metric175-fixtures.cjs'),fixture=prepareMetricCorridor175(g),body=g.expeditions.vehicleBody175();
  assert.ok(fixture.walls.length>=12);assert.equal(g.expeditions.bodyClear175(body),true);
  assert.equal(g.expeditions.bodyClear175({...body,a:Math.PI/2}),false,'the complete lower wall still refuses a quarter turn');
