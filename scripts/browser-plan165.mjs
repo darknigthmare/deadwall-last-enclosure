@@ -30,7 +30,9 @@ try{
    // disclosure must not regenerate a plan until the user requests it again.
    const lastValid=await canvas.evaluate(c=>c.toDataURL());
    await card.getByText('Accès, ressources et précautions',{exact:true}).click();
-   await page.waitForFunction(()=>{const c=document.querySelector('[data-codex-id="programme-DW-0501"] canvas');return c?.hidden&&c.width===1&&c.height===1;});
+   // The laboratory has its own dormant canvas; wait for the recipe owner's
+   // asynchronous toggle cleanup before asserting its actual buffer size.
+   await page.waitForFunction(()=>{const c=document.querySelector('[data-codex-plan165="DW-0501"] > canvas');return c?.hidden&&c.width===1&&c.height===1;},null,{timeout:5000});
    check('Closing releases the hidden drawing buffer',await canvas.evaluate(c=>c.hidden&&c.width===1&&c.height===1));
    await card.getByText('Accès, ressources et précautions',{exact:true}).click();await host.waitFor();
    check('Reopening never duplicates the inspector',await card.locator('[data-codex-plan165]').count()===1);
