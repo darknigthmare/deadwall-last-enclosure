@@ -13,7 +13,7 @@ function normalize(raw,full,validators=known){
  const a=modules.campaign?.active;
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),cargo=C?.CampaignPackRules?.definitions[a?.kind]?.cargo;
  const campaignLoad=!!a&&((cargo==='outbound'||a.kind==='aid')&&a.stage==='field'||(cargo==='inbound'||['salvage','evacuation'].includes(a.kind))&&a.stage==='return');
- const loads=Number(campaignLoad)+Number(!!modules.exploration?.cargo?.some(c=>c.stage==='held'))+Number(Object.values(full?.essentials?.jobs||{}).some(j=>j.stage==='player'));
+ const loads=Number(campaignLoad)+Number(!!modules.exploration?.cargo?.some(c=>c.stage==='held'))+Number(Object.values(full?.essentials?.jobs||{}).some(j=>j.stage==='player'))+Number(!!modules.vertical175?.network?.cargo);
  if(loads>1)throw Error('Un seul chargement peut être porté par le commandant.');
  return{version:1,modules};
 }
@@ -23,7 +23,7 @@ function install(g){
  const ownValidators=()=>new Map([...registry].map(([id,d])=>[id,d.validate]));
  const canAct=()=>g.state==='playing'&&!g.gameOver&&!!g.player&&!g.player.dead&&g.player.health>0&&g.canIssueCommand()&&(!g.activeOverlay||g.activeOverlay===g.ui.commandModal);
  function register(d){
-  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
+  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160','vertical175'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
   d.validate(undefined);registry.set(d.id,Object.freeze({...d}));known.set(d.id,d.validate);return true;
  }
  function snapshot(){const modules={};for(const [id,d]of registry)modules[id]=copy(d.snapshot());return{version:1,modules};}

@@ -7,7 +7,7 @@
   function ensure(){if(world!==g.world){world=g.world;state=C.Urban.normalize(pending||undefined);pending=null;}return state;}
   function facts(includePending=false){
    const buildings=[...g.world.buildings.values()].map(b=>includePending&&live(b)&&!b.completed?{id:b.id,type:b.type,health:b.health,completed:true,priority:b.priority}:b).filter(D.done);
-   const def=b=>C.BUILDINGS[b.type],online=b=>!b.siegeOffline&&!b.territoryOffline,enabled=b=>!def(b).powerUse||C.PowerGrid.enabled(g.powerGrid?.circuitMode(b.id)||'on',g.phase);
+   const def=b=>b.def||C.BUILDINGS[b.type],online=b=>!b.siegeOffline&&!b.territoryOffline,enabled=b=>!def(b).powerUse||C.PowerGrid.enabled(g.powerGrid?.circuitMode(b.id)||'on',g.phase);
    const units=g.units.filter(live),outputs=C.makeBag(),annex=g.worldEvolution?.districtEffects()||{housing:0,storage:0,power:0};let consumption=C.makeBag(),thermalPower=0,thermalFuel=0;
    const result={score:D.developmentScore(buildings),population:(live(g.player)?1:0)+units.length,waves:g.stats.wavesSurvived||0,
     workers:units.filter(u=>u.kind==='worker').length,soldiers:units.filter(u=>u.kind==='soldier').length,specialists:units.filter(u=>u.kind==='medic'||u.kind==='engineer').length,

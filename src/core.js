@@ -2219,3 +2219,179 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
 });})(globalThis);
 /* Presentation and access rules, separate from weapon/economy balance. */
 (function(root){'use strict';root.DeadwallCore.MetricRules174=Object.freeze({version:1,roadClearance:.15,minimumJoinSine:.5,localVehicleClearance:4,assemblyEpsilon:1e-7});})(globalThis);
+/* Vertical citadel: optional, additive campaign content; authoritative gameplay values. */
+(function(root){'use strict';
+ const C=root.DeadwallCore,freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const base=(id,name,height,size,tier,cost,health,capacity,wall=false)=>({id,name,height,size,unlockTier:tier,cost,health,capacity,wall,
+  category:wall?'defense':'colony',icon:wall?'▥':'▤',symbol:wall?'ENCEINTE':'SOCLE',description:height+' m · accès intérieur, cheminement supérieur et emplacements équipables.',
+  buildTime:height*3+30,score:wall?height/3:16,defense:wall,color:'#60665e',roof:'#9a9d8a',vertical175:true});
+ C.VerticalCitadel175=freeze({version:1,tile:32,maxSites:128,maxModules:768,maxDecks:6,maxHeight:48,deckRise:6,deckMass:30,
+  workReach:70,workMoveTolerance:12,step:.1,stairSpeed:2,liftSpeed:5,landingSeconds:1.5,liftPower:5,eyeHeight:1.65,
+  maxShotRange:180,fallDamagePerMetre:3,projectedHeight:6,climbLoadPerMetre:16,heatRecovery:18,heatLimit:100,heatResume:35,
+  muzzleHeight:1.5,structureHeight:4,playerSpeed:136,scanInterval:.3,targetCandidates:12,nightSight:12,traceLife:.12,maxTraces:96,reloadSeconds:4,
+  deck:{name:'Dalle porteuse +6 m',seconds:35,cost:{stone:180,scrap:90},health:1800},
+  lift:{name:'Ascenseur intérieur',seconds:25,cost:{scrap:160,stone:50,fuel:12}},
+  bases:{
+   rampart12:base('rampart12','Rempart de veille — 12 m',12,[12,6],3,{stone:220,scrap:100},3600,160,true),
+   rampart24:base('rampart24','Grande enceinte — 24 m',24,[12,6],6,{stone:500,scrap:240},6200,220,true),
+   rampart48:base('rampart48','Muraille ultime — 48 m',48,[16,8],8,{stone:1000,scrap:500},10500,320,true),
+   citadelGate12:{...base('citadelGate12','Porte de citadelle — 12 m',12,[6,6],3,{stone:260,scrap:160},2800,160,true),gate:true,gateClearance:4},
+   citadelGate24:{...base('citadelGate24','Grande porte de citadelle — 24 m',24,[6,6],6,{stone:560,scrap:320},5000,220,true),gate:true,gateClearance:4},
+   citadelGate48:{...base('citadelGate48','Porte de mégaville — 48 m',48,[8,8],8,{stone:1100,scrap:650},8500,320,true),gate:true,gateClearance:5},
+   cornerBastion12:base('cornerBastion12','Bastion d’angle — 12 m',12,[6,6],3,{stone:240,scrap:110},4200,180,true),
+   cornerBastion24:base('cornerBastion24','Grand bastion d’angle — 24 m',24,[6,6],6,{stone:540,scrap:260},7000,240,true),
+   cornerBastion48:base('cornerBastion48','Bastion de mégaville — 48 m',48,[8,8],8,{stone:1080,scrap:560},12000,340,true),
+   verticalFoundation6:base('verticalFoundation6','Fondation habitée — 6 m',6,[12,12],4,{stone:280,scrap:140},4000,300),
+   verticalFoundation12:base('verticalFoundation12','Fondation profonde — 12 m',12,[16,16],6,{stone:600,scrap:260},6500,480)
+  },
+  modules:{
+   sentry:{name:'Affût de mitrailleuse',tier:3,seconds:18,cost:{scrap:85,stone:20},mass:12,health:450,size:[1.4,1.4],powerUse:2,range:70,damage:32,rate:5,capacity:160,ammoPerShot:1,heat:4},
+   heavy:{name:'Mitrailleuse de rempart',tier:4,seconds:25,cost:{scrap:150,stone:40},mass:24,health:700,size:[1.8,1.8],powerUse:4,range:100,damage:52,rate:4,capacity:220,ammoPerShot:1,heat:7},
+   precision:{name:'Affût de précision anti-colosse',tier:6,seconds:30,cost:{scrap:210,stone:65},mass:30,health:620,size:[1.8,1.8],powerUse:3,range:160,damage:150,rate:.7,capacity:60,ammoPerShot:3,heat:16},
+   cannon:{name:'Canon de barrage',tier:7,seconds:40,cost:{scrap:300,stone:120},mass:42,health:950,size:[2,2],powerUse:8,range:130,damage:100,rate:1.2,capacity:160,ammoPerShot:5,heat:20,splash:3.2},
+   quarters:{name:'Logements suspendus',tier:4,seconds:26,cost:{wood:120,scrap:75,stone:45},mass:26,health:800,size:[2.5,2.5],housing:12,powerUse:1,score:6},
+   storage:{name:'Réserve d’étage',tier:4,seconds:20,cost:{wood:85,scrap:65},mass:30,health:700,size:[2.5,2.5],storage:600,score:5},
+   greenhouse:{name:'Serre suspendue',tier:5,seconds:30,cost:{wood:100,scrap:120,stone:50},mass:22,health:500,size:[2.5,2.5],powerUse:4,production:{food:.32},score:8},
+   ammunition:{name:'Atelier de munitions d’étage',tier:6,seconds:35,cost:{scrap:180,stone:70},mass:34,health:750,size:[2.5,2.5],powerUse:6,production:{ammo:.55},consumes:{scrap:.10},score:10},
+   spotlight:{name:'Projecteur de rempart',tier:3,seconds:14,cost:{scrap:45,fuel:4},mass:5,health:260,size:[1,1],powerUse:2,light:360,score:2}
+  },
+  siege:{maxGiants:3,telegraph:2.4,interval:6,damageRadius:2.8,spawnDistance:34,spawnWaveInterval:5,firstWave:25,maxClimbers:24,climbSpeed:1.4,
+   kinds:{
+    breaker:{name:'Porte-faille',height:6,radius:1.2,health:700,speed:1.1,reach:3,damage:150,tier:6,weakDamage:2.2},
+    carrier:{name:'Porte-charniers',height:12,radius:1.8,health:1000,speed:.8,reach:4,damage:200,tier:8,weakDamage:2.5},
+    colossus:{name:'Colosse de siège',height:20,radius:2.6,health:1500,speed:.6,reach:6,damage:300,tier:10,weakDamage:3}
+   }
+  }
+ });
+})(globalThis);
+
+/* Bounded native-enemy climb controller; values are gameplay tuning, not engineering units. */
+(function(root){'use strict';root.DeadwallCore.VerticalSiege176=Object.freeze({
+ scanSeconds:.3,apron:3,loadPerMetre:16,livingWeight:.8,corpseFaceShare:.25,
+ reach:.8,margin:.8,clearance:.45,mantleStart:.85,climbSpeed:1.4,fallSpeed:10,
+ maxClimbers:24,meleeReach:1.1,groundShotHeight:1.65,fallDamagePerMetre:8,
+ aimPickPixels:18,roofStep:.18,roofSpeed:1.4,positionTolerance:.03,pressureSteps:6
+});})(globalThis);
+
+/* 177: all eleven city ages have paid, physically usable vertical choices. */
+(function(root){
+ 'use strict';
+ const C=root.DeadwallCore,P=C.VerticalCitadel175;
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ const ages=[
+  {height:2,theme:'Observer et abriter les premières réserves'},
+  {height:3,theme:'Relier les défenses en bois'},
+  {height:6,theme:'Passer aux supports métalliques'},
+  {height:12,theme:'Tenir un premier rempart et soigner les défenseurs'},
+  {height:18,theme:'Élever des quartiers et leurs réserves'},
+  {height:24,theme:'Recycler et défendre les axes à longue distance'},
+  {height:30,theme:'Densifier les quartiers de métropole'},
+  {height:42,theme:'Alimenter les fronts et les cultures supérieures'},
+  {height:48,theme:'Protéger les soins et éclairer plusieurs fronts'},
+  {height:60,theme:'Loger et ravitailler une mégaville verticale'},
+  {height:72,theme:'Défendre les derniers niveaux sans supprimer la logistique'}
+ ];
+ const bases={};
+ function support(id,name,z,size,tier,cost,health,capacity,wall=false,extra={}){
+  const d={...P.bases.rampart12,id,name,height:z,size,unlockTier:tier,cost,health,capacity,wall,
+   category:wall?'defense':'colony',defense:wall,icon:wall?'▥':'▤',symbol:wall?'ENCEINTE':'SOCLE',
+   score:tier<3?1+tier:8+tier*2,buildTime:12+tier*8+z,
+   description:name+' · accès intérieur, réserve de charge '+capacity+' ; aucune capacité avant achèvement.',
+   age177:true,color:tier<2?'#76583c':tier===2?'#4d6065':'#60665e',roof:tier<2?'#a28558':tier===2?'#9caeb2':'#9a9d8a',maxDecks:wall?1:6,liftTier:Math.max(4,tier),...extra};
+  bases[id]=d;return d;
+ }
+ function enclosure(z,tier,material,cost,hp,capacity){
+  const wide=z>=48?16:12,deep=z>=48?8:6,corner=z>=48?8:6;
+  support('rampart'+z+'a177','Rempart '+material+' — '+z+' m',z,[wide,deep],tier,cost,hp,capacity,true);
+  support('gate'+z+'a177','Porte '+material+' — '+z+' m',z,[corner,corner],tier,
+   Object.fromEntries(Object.entries(cost).map(([k,n])=>[k,Math.ceil(n*1.15)])),Math.round(hp*.72),capacity,true,
+   {gate:true,gateClearance:Math.min(5,z-.6)});
+  support('bastion'+z+'a177','Bastion '+material+' — '+z+' m',z,[corner,corner],tier,
+   Object.fromEntries(Object.entries(cost).map(([k,n])=>[k,Math.ceil(n*1.08)])),Math.round(hp*1.12),capacity+20,true);
+ }
+ support('lookout2a177','Plateforme de récupération — 2 m',2,[6,6],0,{wood:55,scrap:15},500,35,false,{maxDecks:1,liftTier:null,color:'#76583c',roof:'#a28558'});
+ enclosure(3,1,'de charpente',{wood:115,scrap:35},1000,65);
+ support('timberDeck3a177','Estrade de camp — 3 m',3,[8,8],1,{wood:110,scrap:40},950,85,false,{maxDecks:1,liftTier:null});
+ enclosure(6,2,'d’acier',{scrap:135,stone:55},2000,120);
+ support('workDeck6a177','Socle d’atelier — 6 m',6,[10,10],2,{wood:65,scrap:160,stone:85},2300,160,false,{maxDecks:2});
+ support('refugeDeck12a177','Socle de redoute — 12 m',12,[12,12],3,{stone:330,scrap:180},3600,240,false,{maxDecks:2});
+ support('freightDeck12a177','Fondation logistique — 12 m',12,[16,12],4,{stone:420,scrap:230},4700,380,false,{maxDecks:4});
+ enclosure(18,5,'de grande ville',{stone:380,scrap:195},5100,195);
+ support('districtDeck12a177','Fondation de quartier — 12 m',12,[16,16],5,{stone:510,scrap:280},5800,450);
+ enclosure(36,7,'de grande métropole',{stone:760,scrap:380},8400,280);
+ support('metroDeck18a177','Fondation de grande métropole — 18 m',18,[16,16],7,{stone:850,scrap:450},8500,600);
+ support('megaDeck24a177','Fondation de mégaville — 24 m',24,[20,20],8,{stone:1150,scrap:630},11000,720);
+ enclosure(60,9,'de mégaville II',{stone:1450,scrap:760},14200,420);
+ support('megaDeck30a177','Fondation de mégaville II — 30 m',30,[20,20],9,{stone:1550,scrap:850},14500,900);
+ enclosure(72,10,'de mégaville III',{stone:1900,scrap:1050},18000,520);
+ support('megaDeck36a177','Fondation de mégaville III — 36 m',36,[24,24],10,{stone:2100,scrap:1150},18500,1120,false,{maxDecks:7});
+ const module=(name,tier,cost,mass,health,size,extra={})=>({name,tier,cost,mass,health,size,seconds:10+tier*3,age177:true,...extra});
+ const manual=(name,tier,cost,mass,range,damage,rate,capacity,ammoPerShot,heat)=>module(name,tier,cost,mass,350+tier*100,[1.4,1.4],{manualOnly:true,powerUse:0,range,damage,rate,capacity,ammoPerShot,heat});
+ const modules={
+  fieldCache177:module('Caisse de récupération',0,{wood:25,scrap:8},6,240,[1.2,1.2],{storage:80,score:1}),
+  handRifle177:manual('Affût de fusil manuel',0,{wood:20,scrap:25},4,45,26,1.2,30,1,7),
+  watchCabin177:module('Abri de guetteurs',1,{wood:65,scrap:25},10,420,[1.6,1.6],{housing:4,score:2}),
+  handMachineGun177:manual('Mitrailleuse sur trépied',1,{wood:30,scrap:65},10,55,26,3.5,75,1,6),
+  steelLocker177:module('Réserve métallique',2,{scrap:70,wood:35},18,620,[1.8,1.8],{storage:220,score:3}),
+  handSupport177:manual('Affût lourd à manivelle',2,{scrap:110,wood:35,stone:25},18,70,70,.5,24,2,15),
+  aidPost177:module('Poste de secours de rempart',3,{wood:55,scrap:75,medicine:8},20,720,[2,2],{powerUse:1,score:5,medical:{heal:16,medicine:1,seconds:5}}),
+  signalLamp177:module('Feu de veille orienté',3,{scrap:35,fuel:3},4,240,[1,1],{powerUse:1,light:260,score:2}),
+  freightReserve177:module('Réserve de palier renforcée',4,{wood:75,scrap:110,stone:35},26,1000,[2.2,2.2],{storage:450,score:5}),
+  terraceGarden177:module('Potager de terrasse',4,{wood:100,scrap:65,stone:40},16,520,[2.5,2.5],{powerUse:1,production:{food:.18},score:5}),
+  recyclingDeck177:module('Atelier de récupération d’étage',5,{scrap:140,stone:65,fuel:12},28,920,[2.5,2.5],{powerUse:3,production:{scrap:.22},consumes:{fuel:.02},score:8}),
+  handPrecision177:manual('Affût de précision manuel',5,{scrap:175,stone:50},18,130,110,.65,48,2,15),
+  metroQuarters177:module('Habitat de métropole',6,{wood:200,scrap:170,stone:140},52,1500,[2.8,2.8],{housing:28,powerUse:4,score:14}),
+  deepReserve177:module('Réserve métropolitaine',6,{wood:150,scrap:160,stone:110},65,1400,[2.8,2.8],{storage:1400,score:12}),
+  hydroponic177:module('Cultures de grande métropole',7,{wood:170,scrap:240,stone:140,fuel:25},46,1100,[2.8,2.8],{powerUse:10,production:{food:.8},consumes:{fuel:.01},score:18}),
+  crossBattery177:module('Batterie de couverture rapprochée',7,{scrap:265,stone:120},40,1100,[2,2],{powerUse:7,range:90,damage:40,rate:8,capacity:320,ammoPerShot:1,heat:4}),
+  armoredAid177:module('Poste de triage blindé',8,{scrap:230,stone:190,medicine:22},48,1400,[2.5,2.5],{powerUse:6,score:18,medical:{heal:40,medicine:2,seconds:8}}),
+  longSearchlight177:module('Projecteur de front',8,{scrap:140,stone:60,fuel:12},16,600,[1.5,1.5],{powerUse:6,light:650,score:8}),
+  megaQuarters177:module('Habitat de mégaville II',9,{wood:380,scrap:350,stone:320},85,2000,[3,3],{housing:60,powerUse:8,score:28}),
+  megaArsenal177:module('Arsenal d’étage de mégaville II',9,{scrap:420,stone:260,fuel:45},70,1600,[3,3],{powerUse:12,production:{ammo:1.2},consumes:{scrap:.23,fuel:.025},score:25}),
+  megaFarm177:module('Complexe nourricier supérieur',10,{wood:380,scrap:440,stone:300,fuel:50},90,1800,[3,3],{powerUse:16,production:{food:1.3},consumes:{fuel:.035},score:30}),
+  siegeBattery177:module('Batterie de siège de mégaville III',10,{scrap:620,stone:360,fuel:35},70,1800,[2.4,2.4],{powerUse:12,range:180,damage:190,rate:.6,capacity:240,ammoPerShot:6,heat:25,splash:4.8})
+ };
+ C.VerticalAges177=freeze({ages,liftTier:4,repairFraction:.4,repairSeconds:8,repairHealth:250,salvageFraction:.35,dismantleSeconds:10,medicalDanger:12,defaultGroup:'defense'});
+ const inherited=Object.fromEntries(Object.entries(P.bases).map(([id,b])=>[id,{...b,maxDecks:b.wall?1:P.maxDecks}]));
+ C.VerticalCitadel175=freeze({...P,maxHeight:72,maxDecks:7,bases:{...inherited,...bases},modules:{...P.modules,...modules}});
+})(globalThis);
+
+/* 178: local reconfiguration and reversible floor/lift works, shared by every city age. */
+(function(root){'use strict';root.DeadwallCore.VerticalMaintenance178=Object.freeze({
+ materials:Object.freeze(['wood','scrap','stone']),moveCostFraction:.08,moveSeconds:8,moveSecondsPerMass:.12,refundEpsilon:1e-9,
+ cancelSeconds:8,deckDismantleSeconds:20,liftDismantleSeconds:18,deckRepairSeconds:12,deckRepairHealth:300
+});})(globalThis);
+
+/* 179: one connection/transport budget per acquired city age. Metres and active seconds. */
+(function(root){'use strict';const C=root.DeadwallCore;
+ const names=['Platelage de récupération','Passerelle de charpente','Passerelle d’acier','Liaison de redoute','Coursive urbaine','Galerie logistique','Liaison métropolitaine','Galerie renforcée','Passerelle de mégaville','Galerie de grande portée','Liaison monumentale'];
+ const spans=[3,6,10,14,18,22,26,30,34,38,42],payloads=[10,18,26,36,50,60,75,90,105,125,150];
+ const links=names.map((name,tier)=>Object.freeze({id:'link'+tier,name,tier,maxSpan:spans[tier],payload:payloads[tier],width:Math.min(3.6,1.8+tier*.18),health:260+tier*650,massPerMetre:.6+tier*.22,secondsPerMetre:2+tier*.15,costPerMetre:Object.freeze(tier<2?{wood:12+tier*4,scrap:3+tier*2}:{scrap:8+tier*3,stone:2+tier*2})}));
+ C.VerticalNetwork179=Object.freeze({links:Object.freeze(links),maxLinks:64,maxCrates:32,maxSpan:42,minSpan:.25,landing:.75,margin:.06,deckThickness:.3,railHeight:1,railThickness:.08,treeHeight:4,buildBaseSeconds:8,repairSeconds:10,repairHealth:500,removeSeconds:12,salvageFraction:.35,packSeconds:6,unpackSeconds:5,handleSecondsPerMass:.06,packingMassPerWood:12,packingMassPerScrap:24,carrySpeed:.65,crateSize:.65,fallHealthPerMetre:5,giantDamageFraction:.5,reach:70,routeNodeLimit:896,menuDestinations:8});
+})(globalThis);
+
+/* 180: bounded hostile navigation on the same paid floors and bridges as the player. */
+(function(root){'use strict';
+ root.DeadwallCore.VerticalRouting180=Object.freeze({
+  replanSeconds:.65,arrivalMetres:.08,stairSpeed:.9,stairTolerance:.12,
+  maxLocalVertices:32,maxLocalChecks:1600,segmentStep:.18,
+  bodyRadiusFactor:.78,bodyHeight:.8,landingSearchMetres:4,landingStepMetres:.5,
+  nightAwarenessMetres:5,dayAwarenessMetres:55,routeMemoryNodes:896
+ });
+})(globalThis);
+
+/* 181: native personnel use their existing bags; physical deliveries never create supplies. */
+(function(root){'use strict';
+ const C=root.DeadwallCore,roles={
+  worker:{label:'Ouvrier de ravitaillement',resource:'ammo',capacity:C.WORKER_RULES.carryCapacity},
+  soldier:{label:'Garde de palier',resource:'ammo',capacity:C.WORKER_RULES.carryCapacity},
+  engineer:{label:'Ingénieur de maintenance',resource:'scrap',capacity:C.WORKER_RULES.carryCapacity},
+  medic:{label:'Secouriste de palier',resource:'medicine',capacity:2}
+ };
+ C.VerticalPopulation181=Object.freeze({roles:Object.freeze(Object.fromEntries(Object.entries(roles).map(([k,v])=>[k,Object.freeze(v)]))),
+  slots:Object.freeze([1,2,3,4,6,8,10,12,16,20,24]),maxMembers:24,loadedSpeed:.75,stairSpeed:1.2,
+  entryTolerance:.10,saveTolerance:.015,separationZ:.75,epsilon:1e-8,depotReach:90,
+  serviceReach:1.4,deliverySeconds:3,waitOffset:1.1,dangerReach:4,medicalSearch:12,
+  guardRange:24,repairRate:10,repairScrapPerHealth:1/30,landingSearch:6,landingStep:.5
+ });
+})(globalThis);

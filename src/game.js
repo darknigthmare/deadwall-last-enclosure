@@ -1058,7 +1058,7 @@
     setGateMode(mode, building = this.selectedBuilding) {
       if (!this.canIssueCommand() || !building || this.world.buildings.get(building.id) !== building) return false;
       if (!T.GATE_MODES.includes(mode) || !T.isGate(building) || !T.operational(building)) return false;
-      const actors = [this.player, ...this.units, ...this.zombies];
+      const actors = [this.player, ...this.units, ...this.zombies].filter(e=>!this.vertical175?.aboveGate?.(e,building));
       if (!T.gateChangeAllowed(building, mode, actors)) { this.notify('Passage occupé : éloignez les unités avant de fermer la porte.', 'danger'); return false; }
       if (T.gateMode(building) === mode) return true;
       building.gateMode = mode; this.world.navigationVersion++; this.world.flowDirty = true; this.flowTimer = 0;
@@ -1367,7 +1367,9 @@
       const unitCount=this.units.length,firstUnit=(this.unitUpdateOffset||0)%Math.max(1,unitCount);
       // Rotate the first claimant so unreachable jobs cannot starve later workers or soldiers of A*.
       this.unitUpdateOffset=(firstUnit+STRATEGY_RULES.pathQueriesPerUpdate)%Math.max(1,unitCount);
-      for(let turn=0;turn<unitCount;turn++){const u=this.units[(firstUnit+turn)%unitCount];if(u.dead)continue;u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
+      for(let turn=0;turn<unitCount;turn++){const u=this.units[(firstUnit+turn)%unitCount];if(u.dead)continue;
+        if(this.vertical175?.population?.updateAssignedUnit(u,dt))continue;
+        u.fireCooldown=Math.max(0,u.fireCooldown-dt);u.think-=dt;
         if(this.expeditions?.updateAssignedUnit(u,dt))continue;
         if(this.salvage?.updateAssignedUnit(u,dt))continue;
         if(this.infrastructure?.updateAssignedUnit(u,dt))continue;
@@ -1605,7 +1607,7 @@
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
         while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
-        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
+        if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)&&!this.vertical175?.hasActiveSiege()){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
       }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
@@ -1801,9 +1803,11 @@
     }
 
     updateZombies(dt) {
+      this.vertical175?.prepareSiege?.(dt);
       const core=this.core();if(!core)return;const night=1+(1-this.daylight())*.1;
       const stalkClaims=this.stalkerScanClaims(dt);let stalkCandidates=null;
       for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
+        if(this.vertical175?.updateClimber?.(z,dt))continue;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
         let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1);const look=z.radius+13;
         if(z.kind==='stalker'){
@@ -1867,14 +1871,14 @@
         else if (fullDy < 0) fraction = Math.min(fraction, -p.y / fullDy);
         const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
         const endpoint = {x:p.x+dx,y:p.y+dy};
-        const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius)].filter(Boolean);
+        const obstructions = [this.exploration125?.firstObstruction?.(p,endpoint,p.radius,true),this.barricades134?.firstObstruction?.(p,endpoint,p.radius),this.vertical175?.groundObstruction?.(p,endpoint)].filter(Boolean);
         const obstruction = obstructions.sort((a,b)=>a.fraction-b.fraction)[0] || null;
         const barrierImpact = obstruction?.fraction ?? Infinity;
         let target = null, impact = barrierImpact;
         // Generated buildings and opening reinforcements stop shots at their first surface.
         // The established low fortification firing rules remain separate.
         for (const z of this.nearbyZombies(p.x + dx / 2, p.y + dy / 2, length / 2 + maxRadius + p.radius + 3)) {
-          if (z.dead) continue;
+          if (z.dead || this.vertical175?.enemyPose?.(z)?.z > C.VerticalSiege176.groundShotHeight) continue;
           const ox = p.x - z.x, oy = p.y - z.y, radius = z.radius + p.radius + 3, c = ox * ox + oy * oy - radius * radius;
           let time = 0;
           if (c > 0) {
@@ -1917,11 +1921,16 @@
         const crisisFactor=b.def.powerUse&&this.activeCrisis?.id==='blackout'&&this.activeCrisis.status==='resolved'&&this.activeCrisis.choice==='B'?.5:1;
         const powerFactor=b.def.powerUse?(b.powered?1:b.powerShare*(this.hasResearch('grid')?.7:.35)):1;
         if(powerFactor<=.05&&!this.powerGrid?.hasProduction(b.id))continue;
-        const seconds=this.powerGrid?this.powerGrid.productionSeconds(b,dt,powerFactor,crisisFactor):dt*powerFactor*crisisFactor,fraction=productionFraction(this.resources,b.def.production,b.def.consumes,this.storage,seconds);
-        if(fraction<=0)continue;
-        activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:seconds*fraction});
-        for(const [key,rate]of Object.entries(b.def.consumes||{}))this.resources[key]-=rate*seconds*fraction;
-        for(const [key,rate]of Object.entries(b.def.production))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+        const seconds=this.powerGrid?this.powerGrid.productionSeconds(b,dt,powerFactor,crisisFactor):dt*powerFactor*crisisFactor;
+        const plans=this.vertical175?.productionPlans(b)||[b.def];let activeSeconds=0;
+        for(const plan of plans){
+          const fraction=productionFraction(this.resources,plan.production,plan.consumes,this.storage,seconds);
+          if(fraction<=0)continue;
+          activeSeconds=Math.max(activeSeconds,seconds*fraction);
+          for(const [key,rate]of Object.entries(plan.consumes||{}))this.resources[key]-=rate*seconds*fraction;
+          for(const [key,rate]of Object.entries(plan.production||{}))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+        }
+        if(activeSeconds>0)activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:activeSeconds});
       }
       for(const unit of this.units)unit.speed=(C.SURVIVORS[unit.kind]?.speed||60)*(this.morale<20?.82:1);
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);
@@ -2855,7 +2864,7 @@
  function assign(id){
    if(g.workerOrder==='retreat')return notify({ok:false,reason:'Le repli général est actif. Rétablissez un ordre de travail avant de détacher une équipe.'});
    reconcile();const b=post(id),used=new Set([...Object.values(engine.state.sectors).map(s=>s.workerId),...engine.state.withdrawing]);
-   const worker=g.units.filter(u=>live(u)&&u.kind==='worker'&&!used.has(u.id)&&!g.siege?.isAssigned(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)).sort((a,c)=>distance(a,b||g.player)-distance(c,b||g.player)||a.id-c.id)[0];
+   const worker=g.units.filter(u=>live(u)&&u.kind==='worker'&&!used.has(u.id)&&!g.siege?.isAssigned(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)&&!g.vertical175?.population?.isAssigned(u.id)).sort((a,c)=>distance(a,b||g.player)-distance(c,b||g.player)||a.id-c.id)[0];
    const r=engine.assign(id,worker?.id,{canCommand:g.canIssueCommand(),workerAvailable:Boolean(worker)});notify(r);if(r.ok){worker.navigation=null;g.save(false);}refresh();return r;
  }
  function evacuate(id,confirmed=false){
@@ -3126,7 +3135,7 @@
   }
   function assign(){
     reconcile();if(!g.canIssueCommand()||g.workerOrder==='retreat')return{ok:false,reason:announce('Reprenez le travail des équipes avant une affectation.')};
-    const u=g.units.filter(u=>live(u)&&u.kind==='worker'&&!engine.member(u.id)&&!isDetached(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)).sort((a,b)=>a.id-b.id)[0];
+    const u=g.units.filter(u=>live(u)&&u.kind==='worker'&&!engine.member(u.id)&&!isDetached(u.id)&&!g.citadel?.isEscort(u.id)&&!g.infrastructure?.isAssigned(u.id)&&!g.salvage?.isAssigned(u.id)&&!g.expeditions?.isAssigned(u.id)&&!g.vertical175?.population?.isAssigned(u.id)).sort((a,b)=>a.id-b.id)[0];
     const ok=engine.assign(u?.id,{canCommand:true,available:Boolean(u),slots:freeSlots()});
     if(ok){u.navigation=null;g.save(false);g.audio?.ui();}
     return {ok,reason:announce(ok?'Ouvrier affecté : la collecte ordinaire cède la place aux secours.':'Ouvrier libre et poste de secours alimenté requis (deux places par poste).')};
@@ -3745,7 +3754,7 @@
   function isAssigned(id){ensure();return engine.state.crew.some(u=>u.id===id);}
   function unavailable(id){
     const t=g.territories?.snapshot();
-    return isAssigned(id)||Boolean(t?.withdrawing?.includes(id)||Object.values(t?.sectors||{}).some(s=>s.workerId===id)||g.siege?.isAssigned(id)||g.citadel?.isEscort(id)||g.salvage?.isAssigned(id)||g.expeditions?.isAssigned(id));
+    return isAssigned(id)||g.vertical175?.population?.isAssigned(id)||Boolean(t?.withdrawing?.includes(id)||Object.values(t?.sectors||{}).some(s=>s.workerId===id)||g.siege?.isAssigned(id)||g.citadel?.isEscort(id)||g.salvage?.isAssigned(id)||g.expeditions?.isAssigned(id));
   }
   function reconcile(){ensure();engine.state.crew=engine.state.crew.filter(c=>live(g.units.find(u=>u.id===c.id)));
     let active=0;const cap=slots();for(const c of engine.state.crew)if(!c.returning&&(g.phase!=='calm'||g.workerOrder==='retreat'||++active>cap))c.returning=true;

@@ -1,0 +1,61 @@
+name: Vertical network 179 QA
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['src/vertical*.js', 'src/core.js', 'src/expansion-kit.js', 'src/expeditions.js', 'src/frontier.js', 'tests/vertical*.cjs', 'tests/helpers/vertical*.cjs', 'scripts/qa-vertical*.mjs', 'scripts/server.mjs', 'scripts/build.mjs', 'index.html', '.github/workflows/vertical-network179.yml']
+  pull_request:
+    paths: ['src/vertical*.js', 'tests/vertical*.cjs', 'scripts/qa-vertical*.mjs', '.github/workflows/vertical-network179.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical179-qa-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  network179:
+    if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Exact tested source and syntax
+        run: |
+          mkdir -p /tmp/vertical179-qa
+          git rev-parse HEAD > /tmp/vertical179-qa/TESTED_HEAD.txt
+          git ls-tree -r HEAD > /tmp/vertical179-qa/TESTED_TREE.txt
+          node scripts/check-syntax134.mjs > /tmp/vertical179-qa/syntax.log 2>&1
+      - name: All vertical tests
+        run: node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical179-qa/vertical-tests.log 2>&1
+      - name: Native core, power, urban, expeditions and cargo regression
+        run: node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical179-qa/regression.log 2>&1
+      - name: Install locked prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Native build and Chromium
+        run: |
+          npm run build > /tmp/vertical179-qa/build.log 2>&1
+          npx playwright install --with-deps chromium
+      - name: Five real native browser scenarios
+        run: |
+          fail=0
+          for rev in 175 176 177 178 179; do
+            node scripts/qa-vertical${rev}.mjs > /tmp/vertical179-qa/browser${rev}.log 2>&1 || fail=1
+          done
+          exit "$fail"
+      - name: Preserve receipts and actual screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical179-qa-${{ github.run_id }}
+          path: |
+            /tmp/vertical179-qa/
+            /tmp/vertical178-qa/
+            /tmp/vertical177-qa/
+            /tmp/vertical176-qa/
+            /tmp/vertical175-qa/
+          retention-days: 14
