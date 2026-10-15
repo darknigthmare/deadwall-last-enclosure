@@ -94,6 +94,7 @@ jobs:
               scripts/qa-vertical178.mjs
           - group: interface
             suites: 'test:browser test:arrival test:codex test:standalone package:web'
+            scripts: 'scripts/browser-hydrology165.mjs'
           - group: campaign
             suites: 'test:campaign test:tactics test:reconstruction'
           - group: exploration

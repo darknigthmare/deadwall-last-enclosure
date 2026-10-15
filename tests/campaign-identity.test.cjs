@@ -72,7 +72,7 @@ test('campaign identity: historical marked G4 and G8 saves keep their IDs and ex
     const marked = 'run:historical-' + generation + ':g4', unmarked = marked.slice(0, -3), saved = copy(raw);
     saved.runId = marked; saved.frontier.generation = generation;
     // These archived saves predate the explicit ecological revision.
-    delete saved.frontier.ecologyVersion;
+    delete saved.frontier.ecologyVersion;delete saved.frontier.hydrologyVersion;
     if (generation === 4) { saved.frontier.x = 4162; saved.frontier.y = 4096; }
     const ids = generation === 8 ? [unmarked, marked] : [marked];
     const historical = globalThis.DeadwallProfile.validate({ ...profile, recentRuns: ids.map(runId => ({ ...row, runId })) });

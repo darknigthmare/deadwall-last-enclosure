@@ -2,7 +2,8 @@
 (function(root){'use strict';
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),R=C.WorldOpsRules131,copy=v=>JSON.parse(JSON.stringify(v)),worlds=new Map();
 const initial=()=>({version:1,relays:{},secured:[],opened:[],surveyed:[]});
-function reference(full){if(!full)return null;const key=full.worldSeed+':'+full.frontier?.generation+':'+(full.frontier?.detailVersion??0)+':'+(full.frontier?.ecologyVersion??0);if(!worlds.has(key)){worlds.set(key,W.create(full.worldSeed,full.frontier?.generation||3,{detailVersion:full.frontier?.detailVersion??0,ecologyVersion:full.frontier?.ecologyVersion??0}));if(worlds.size>3)worlds.delete(worlds.keys().next().value);}return worlds.get(key);}
+function liveWildlife165(full,world){const records=Object.entries(full.frontier?.wildlife165||{}).filter(([,animal])=>animal.hp>0);if(!records.length)return[];const P=root.DeadwallBiomePopulation165||(typeof require==='function'?require('./biome-population165.js'):null);return records.map(([id,point])=>{const candidate=P.candidate(world,id);if(!candidate)throw Error('Animal régional sans territoire conservé');return{...point,z:0,inside:null,radius:candidate.radius};});}
+function reference(full){if(!full)return null;const key=full.worldSeed+':'+full.frontier?.generation+':'+(full.frontier?.detailVersion??0)+':'+(full.frontier?.hydrologyVersion??0)+':'+(full.frontier?.ecologyVersion??0);if(!worlds.has(key)){worlds.set(key,W.create(full.worldSeed,full.frontier?.generation||3,{detailVersion:full.frontier?.detailVersion??0,ecologyVersion:full.frontier?.ecologyVersion??0,hydrologyVersion:full.frontier?.hydrologyVersion??0}));if(worlds.size>3)worlds.delete(worlds.keys().next().value);}return worlds.get(key);}
 function normalize(raw,full){if(raw===undefined)return initial();const bad=()=>{throw Error('Registre des régions lointaines invalide.');};if(!raw||raw.version!==1||Object.keys(raw).some(k=>!['version','relays','secured','opened','surveyed'].includes(k)))bad();const s=initial(),w=reference(full),by=w?new Map(w.pois.map(p=>[p.id,p])):null;
  for(const key of ['secured','opened','surveyed']){if(!Array.isArray(raw[key])||raw[key].length>R.maxRecords||new Set(raw[key]).size!==raw[key].length)bad();s[key]=raw[key].map(id=>{if(typeof id!=='string'||!(key==='surveyed'?/^S\d+_\d+$/:/^P\d{4}$/).test(id))bad();if(w&&(key==='surveyed'?!w.sectors.some(t=>t.id===id):!by.has(id)))bad();return id;});}
  if(!raw.relays||typeof raw.relays!=='object'||Array.isArray(raw.relays)||Object.keys(raw.relays).length>R.maxRecords)bad();
@@ -59,7 +60,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  }
  function expandCodex3000(targetGeneration=8){
   const ready=codexExpansionStatus(targetGeneration);if(!ready.ok)return fail(ready.reason);
-  const data=g.serialize(),effects={detailVersion:data.frontier.detailVersion??0,ecologyVersion:data.frontier.ecologyVersion??0,
+  const data=g.serialize(),effects={detailVersion:data.frontier.detailVersion??0,ecologyVersion:data.frontier.ecologyVersion??0,hydrologyVersion:data.frontier.hydrologyVersion??0,
    structureDestroyed:id=>(data.worldEvolution?.structures?.[id]??1)<=.001,
    resourceTaken:id=>data.frontier.taken[id]||0};
   const next=W.create(data.worldSeed,targetGeneration,effects),current=world(),added=next.pois.filter(p=>p.generation===targetGeneration);
@@ -69,6 +70,8 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
     &&(builtOver(camp,C.SurvivalPackRules.campRadius)||newlyBlocked(camp,C.SurvivalPackRules.campRadius)))return fail('Un nouveau site recouvrirait un bivouac. Démontez cette halte sur place avant d’étendre les relevés.');
   for(const device of data.nightGear?.devices||[])if(device.location==='placed'&&device.domain==='region'&&device.z===0
     &&(builtOver(device,.28)||newlyBlocked(device,.28)))return fail('Un nouveau site recouvrirait un éclairage posé. Reprenez ou démontez cet appareil sur place avant l’extension.');
+  for(const[id,point]of Object.entries(data.frontier.tracks||{})){const pose={...point,inside:id.startsWith('N165_')?null:id.split(':')[0]};if(newlyBlocked(pose,C.FrontierTacticsRules.enemyRadius))return fail('Un nouveau site bloquerait un contact régional conservé. Éloignez ce contact avant l’extension.');}
+  for(const animal of liveWildlife165(data,current))if(newlyBlocked(animal,animal.radius))return fail('Un nouveau site bloquerait un animal vivant. Éloignez-le avant l’extension.');
   const parked=data.frontier.car,profile=g.worldEvolution?.vehicleProfile()||C.WorldEvolution.RULES.vehicles.break;
   if(parked&&!next.vehicleClear(parked.x,parked.y,parked.a,profile.w,profile.h)
     &&current.vehicleClear(parked.x,parked.y,parked.a,profile.w,profile.h))return fail('Un nouveau site bloquerait la voiture régionale. Déplacez-la vers un accès dégagé avant l’extension.');
@@ -84,10 +87,10 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  // never serializes the game, streams enemies or synchronizes their tracks.
  function territorialRecord160(){return{worldSeed:g.world.seed,frontier:g.frontier.expansionRecord160(),worldEvolution:g.worldEvolution?.snapshot(),nightGear:g.nightGear?.snapshot(),essentials:g.essentials?.snapshot(),succession133:{remains:g.succession133?.remains()||[]},expansions127:{modules:{survival:g.survivalPack?.snapshot(),world131:copy(state)}}};}
  function prepareTerritories160(data){
-  const f=data.frontier,key=data.worldSeed+':'+f.generation+':'+f.detailVersion+':'+(f.ecologyVersion??0);
+  const f=data.frontier,key=data.worldSeed+':'+f.generation+':'+f.detailVersion+':'+(f.ecologyVersion??0)+':'+(f.hydrologyVersion??0);
   if(!territories160||territories160.home!==g.world||territories160.key!==key){
    const entry={home:g.world,key,data,next:null};
-   entry.next=W.create(data.worldSeed,10,{detailVersion:f.detailVersion,ecologyVersion:f.ecologyVersion??0,
+   entry.next=W.create(data.worldSeed,10,{detailVersion:f.detailVersion,ecologyVersion:f.ecologyVersion??0,hydrologyVersion:f.hydrologyVersion??0,
     structureDestroyed:id=>(entry.data.worldEvolution?.structures?.[id]??1)<=.001,
     resourceTaken:id=>entry.data.frontier.taken[id]||0,contextCompleted160:()=>false});
    territories160=entry;
@@ -107,7 +110,8 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
   for(const job of Object.values(data.essentials?.jobs||{}))if(job.stage==='ground'&&regionPoint(job.point,.32))return'Un nouveau territoire recouvrirait un colis au sol. Récupérez ce chargement avant l’activation.';
   for(const remain of data.succession133?.remains||[])if(regionPoint(remain.point,.32)||regionPoint({...remain.point,x:remain.body.x,y:remain.body.y},.32))return'Un nouveau territoire recouvrirait un corps ou un sac conservé. Ces restes ne peuvent pas être déplacés par l’activation.';
   if(pointConflict(f,W.RULES.footRadius))return'Un nouveau territoire recouvrirait la dernière position régionale du commandant. Rejoignez un accès régional dégagé puis revenez au dépôt.';
-  for(const[id,track]of Object.entries(f.tracks||{}))if(pointConflict({...track,inside:id.split(':')[0]},C.FrontierTacticsRules.enemyRadius))return'Un nouveau territoire recouvrirait un contact régional conservé. Éloignez ou neutralisez ce contact avant l’activation.';
+  for(const[id,track]of Object.entries(f.tracks||{}))if(pointConflict({...track,inside:id.startsWith('N165_')?null:id.split(':')[0]},C.FrontierTacticsRules.enemyRadius))return'Un nouveau territoire recouvrirait un contact régional conservé. Éloignez ou neutralisez ce contact avant l’activation.';
+  for(const animal of liveWildlife165(data,current))if(next.blocked(animal.x,animal.y,animal.radius,0,null)&&!current.blocked(animal.x,animal.y,animal.radius,0,null))return'Un nouveau territoire bloquerait un animal vivant. Éloignez-le avant l’activation.';
   for(const group of data.worldEvolution?.groups||[]){
    if(group.count>group.lost&&pointConflict({...group,z:0,inside:null},.32))return'Un nouveau territoire recouvrirait une horde sauvage conservée. Attendez son déplacement ou neutralisez-la avant l’activation.';
    for(const contact of Object.values(group.contacts||{}))if(pointConflict({...contact,inside:null},C.FrontierTacticsRules.enemyRadius))return'Un nouveau territoire recouvrirait un contact de horde conservé. Éloignez ou neutralisez ce contact avant l’activation.';
@@ -150,7 +154,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  }
  function upgradeDetails159(target=2){
   const ready=detailUpgradeStatus159(target);if(!ready.ok)return fail(ready.reason);
-  const data=g.serialize(),current=world(),next=W.create(data.worldSeed,data.frontier.generation,{detailVersion:target,ecologyVersion:data.frontier.ecologyVersion??0,
+  const data=g.serialize(),current=world(),next=W.create(data.worldSeed,data.frontier.generation,{detailVersion:target,ecologyVersion:data.frontier.ecologyVersion??0,hydrologyVersion:data.frontier.hydrologyVersion??0,
    structureDestroyed:id=>(data.worldEvolution?.structures?.[id]??1)<=.001,resourceTaken:id=>data.frontier.taken[id]||0,
    contextCompleted160:key=>(data.expansions127?.modules.context160?.completed||[]).includes(key)});
   // A traversable garden surface may still cover a saved lamp, camp or body.
@@ -170,7 +174,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
    if(own&&Number.isFinite(value.x)&&Number.isFinite(value.y))points.push(value);
    for(const [key,child] of Object.entries(value))if(child&&typeof child==='object'&&key!=='frontier')visit(child,own,depth+1);
   };
-  visit(data);for(const track of Object.values(data.frontier.tracks||{}))points.push(track);
+  visit(data);for(const track of Object.values(data.frontier.tracks||{}))points.push(track);for(const animal of liveWildlife165(data,current))if(unsafe(animal,animal.radius))return fail('Un aménagement gênerait un animal vivant. Éloignez-le avant activation.');
   if(points.some(p=>unsafe(p)))return fail('Un personnage ou équipement régional occupe un nouvel emplacement. Libérez cet emplacement avant activation.');
   data.frontier.detailVersion=target;
   try{if(g.restoreSave(data)!==true)return fail("La sauvegarde a refusé cette activation ; aucun aménagement appliqué.");}catch(error){return fail(error.message);}
@@ -194,6 +198,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
    // campaign still keeps its recorded generation and optional G7 upgrade.
    data.frontier.generation=root.DeadwallGeography135?8:5;
    data.frontier.ecologyVersion=data.frontier.generation>=7?1:0;
+   data.frontier.hydrologyVersion=data.frontier.generation>=8?1:0;
    if(data.frontier.generation>=6){
     const home=root.DeadwallGeography135.home(data.worldSeed,data.frontier.generation);
     data.frontier.x=home.maxX+2;data.frontier.y=home.y;

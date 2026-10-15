@@ -42,5 +42,5 @@ test('exploration 1.41 : tournée écologique et découvertes survivent à la re
  g.startNew('standard','84329');g.campaignIntro132.skip();assert.deepEqual(g.fieldAtlas.biomeChoices(),[]);assert.deepEqual(g.fieldAtlas.snapshot(),globalThis.DeadwallCore.FieldAtlas.initial());
 });
 test('exploration 1.41 : les générations historiques sans biomes ne reçoivent pas une fausse écologie',()=>{
- const g=fresh(),s=g.serialize();Object.assign(s.frontier,{generation:3,ecologyVersion:0,x:4162,y:4096});g.restoreSave(s);const w=g.frontier.world();know(g,w.pois.slice(0,6));const before=stable(g);assert.deepEqual(g.fieldAtlas.biomeChoices(),[]);assert.equal(g.fieldAtlas.prepareBiome('meadow').ok,false);assert.deepEqual(stable(g),before);g.fieldAtlas.add(w.pois[0].id);assert.ok(g.fieldAtlas.planning().legs.length);
+ const g=fresh(),s=g.serialize();Object.assign(s.frontier,{generation:3,ecologyVersion:0,hydrologyVersion:0,x:4162,y:4096});g.restoreSave(s);const w=g.frontier.world();know(g,w.pois.slice(0,6));const before=stable(g);assert.deepEqual(g.fieldAtlas.biomeChoices(),[]);assert.equal(g.fieldAtlas.prepareBiome('meadow').ok,false);assert.deepEqual(stable(g),before);g.fieldAtlas.add(w.pois[0].id);assert.ok(g.fieldAtlas.planning().legs.length);
 });

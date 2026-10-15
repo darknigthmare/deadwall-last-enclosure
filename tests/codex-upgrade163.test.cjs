@@ -6,9 +6,9 @@ const Ops=require('../src/world-pack131.js'),ContextOps=require('../src/context-
 const {boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
 const copy=value=>JSON.parse(JSON.stringify(value)),checkpoint=g=>{const d=copy(g.serialize());delete d.timestamp;return d;};
 const models=new Map();
-function model(revision,ecologyVersion=0){const key=ecologyVersion+':'+revision;if(!models.has(key))models.set(key,W.create(17117,10,{detailVersion:revision,ecologyVersion}));return models.get(key);}
+function model(revision,ecologyVersion=0,hydrologyVersion=0){const key=ecologyVersion+':'+revision+':'+hydrologyVersion;if(!models.has(key))models.set(key,W.create(17117,10,{detailVersion:revision,ecologyVersion,hydrologyVersion}));return models.get(key);}
 function references(g){
- const f=g.frontier.position(),old=model(11,f.ecologyVersion),next=model(12,f.ecologyVersion),live=g.frontier.world();
+ const f=g.frontier.position(),old=model(11,f.ecologyVersion,f.hydrologyVersion),next=model(12,f.ecologyVersion,f.hydrologyVersion),live=g.frontier.world();
  assert.equal(f.generation,10);assert.equal(f.detailVersion,11);assert.equal(old.ecologyVersion,live.ecologyVersion);
  assert.ok(JSON.stringify(old.pois)===JSON.stringify(live.pois),'The fixture must use the actual campaign parcels and identities');
  return{old,next};
@@ -88,7 +88,7 @@ test('163 unavailable commander and rejected restore leave the whole upgrade ato
 });
 
 test('163 a ground-level character track on new furnishing refuses activation without moving or healing it',()=>{
- const g=campaign(),point=furnishingPoint(g,'DW-1223',.4,{groundEnemy:true}),enemy=point.p.id+':e0',old=model(11,g.frontier.position().ecologyVersion);assert.ok(old.threatCount(point.p)>0);
+ const g=campaign(),point=furnishingPoint(g,'DW-1223',.4,{groundEnemy:true}),enemy=point.p.id+':e0',old=model(11,g.frontier.position().ecologyVersion,g.frontier.position().hydrologyVersion);assert.ok(old.threatCount(point.p)>0);
  const prior=old.pois.find(p=>p.id===point.p.id),levels=prior.legacyLevels160||prior.levels;
  assert.equal(levels[G.hash(prior.id,0)%levels.length],0);
  assert.ok(old.biomes.enemyProfile(old.seed,prior.x,prior.y,enemy,{generation:old.generation}).health>=13,'The wounded contact must belong to a real enemy profile');

@@ -1,3 +1,16 @@
+# DEADWALL 1.65.0 — Eaux et biomes vivants
+
+Les nouvelles campagnes ajoutent lacs, étangs, mares, ruisseaux, rivières et une frange de mer côtière et d’océan. Les affluents rejoignent un réseau orienté vers la côte ; les chaussées franchissent les eaux douces par des ponts physiques. La végétation des berges, six espèces animales et les contacts infectés naturels suivent leur milieu. Les anciennes sauvegardes conservent leur géographie. Portée, activation et limites : [LIVRAISON_1_65.md](docs/LIVRAISON_1_65.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+node scripts/browser-hydrology165.mjs
+```
+
+## Historique conservé — 1.64.0
+
 # DEADWALL 1.64.0 — Biomes et lieux cohérents
 
 Les nouvelles campagnes partagent une écologie déterministe pour le terrain et son contenu : quatre nouveaux milieux tempérés, transitions continues et implantations naturelles vérifiées. Les anciennes campagnes conservent leur carte. La révision facultative13 complète les vrais sanitaires et distingue les supports de soins. Activation et limites : [LIVRAISON_1_64.md](docs/LIVRAISON_1_64.md).

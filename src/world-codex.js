@@ -9,7 +9,8 @@
   else{root.DeadwallWorldCodex=api;if(root.DEADWALL&&root.document)api.install(root.DEADWALL,root.document);}
 })(typeof globalThis!=='undefined'?globalThis:this,function(packs,actions159){'use strict';
   const ecology164=globalThis.DeadwallEcologyCodex164||(typeof require==='function'?require('./biomes-codex164.js'):null);
-  const entries=Object.freeze([...['nature','habitat','activites','systemes','equipment134','biomes135','seed157','programmes'].flatMap(k=>packs[k]||[]),...(ecology164?.entries()||[]),...(actions159?.entries||[])]);
+  const hydrology165=globalThis.DeadwallHydrologyCodex165||(typeof require==='function'?require('./hydrology-codex165.js'):null);
+  const entries=Object.freeze([...['nature','habitat','activites','systemes','equipment134','biomes135','seed157','programmes'].flatMap(k=>packs[k]||[]),...(ecology164?.entries()||[]),...(hydrology165?.entries()||[]),...(actions159?.entries||[])]);
   const families=Object.freeze({nature:'Milieux naturels',habitat:'Villes et quartiers',camps:'Camps et refuges',activites:'Activités et services',systemes:'Survie et cité',programmes:'Codex 4 000'});
   const statuses=Object.freeze({jouable:'Disponible en jeu',pilote:'Présent en partie',plan:'Projet de contenu',programme:'Programme procédural'});
   const fields=Object.freeze({layout:'Organisation du lieu',access:'Accès et déplacement',supplies:'Ressources et usage',risks:'Risques et limites',night:'De nuit',variants:'Variantes',interactions:'Liens avec la survie',qa:'Contrôle de cohérence',source:'Portée et référence'});

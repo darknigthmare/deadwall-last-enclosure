@@ -2486,6 +2486,45 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
  root.DeadwallCore.CodexFixtures164Rules=freeze({revision:13,maxPerSite:8,maxPerFloor:4,maxPerRoom:1,maxCandidates:72,maxGridAudits:48,minRoomArea:3,clearance:.9,collisionGap:.04,roomTolerance:.5,shapes:{toilet:[.70,.78],latrine:[.75,.85]}});
 })(globalThis);
 
+/* 1.65 — Metric, seed-local surface waters. No regeneration of historical campaigns. */
+(function(root){'use strict';const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};root.DeadwallCore.Hydrology165Rules=freeze({
+ version:1,requiredGeneration:8,requiredEcology:1,
+ coast:{minimum:400,range:450,knotStep:192,scale:6200,shelf:360,shore:18,nearDepth:2.2,offshoreDepth:18},
+ ecology:{bankReach:90,moisture:.8,drainage:.9,bankWeight:3,coastWeight:2},
+ network:{rivers:5,tributaries:2,step:128,sourceMargin:192,edgeMargin:180,meander:390,meanderScale:3100,sourceLevel:120,tributaryLength:4200,tributarySpread:940,bankClearance:8},
+ protection:{homeRadius:240,settlementMargin:35,chordPadding:132},
+ basins:{lake:{radius:[75,155],ratio:.63,depth:4,bankWidth:5,chance:.8},pond:{radius:[13,29],ratio:.75,depth:1.3,bankWidth:2,chance:.24,moisture:.56},pool:{radius:[2.5,5.8],ratio:.8,depth:.42,bankWidth:1,chance:.45,moisture:.6},grid:20,vertices:32,separation:18,roadClearance:4},
+ kinds:{
+  lake:{name:'Lac',salinity:'fresh',width:[150,310],depth:4,bankWidth:5,flowing:false},
+  pond:{name:'Étang',salinity:'fresh',width:[26,58],depth:1.3,bankWidth:2,flowing:false},
+  pool:{name:'Mare',salinity:'fresh',width:[5,11.6],depth:.42,bankWidth:1,flowing:false},
+  stream:{name:'Ruisseau',salinity:'fresh',width:[1.5,2.9],depth:.38,bankWidth:1.1,flowing:true},
+  river:{name:'Rivière',salinity:'fresh',width:[7,13],depth:1.7,bankWidth:3,flowing:true},
+  sea:{name:'Mer côtière',salinity:'salt',width:[360,360],depth:2.2,bankWidth:18,flowing:false},
+  ocean:{name:'Océan',salinity:'salt',width:[40,490],depth:18,bankWidth:0,flowing:false}
+ },
+ crossings:{bankLength:4,maxSpan:180,edgeClearance:.18,mergeGap:4,probeStep:1},
+ spatial:{bin:256,treeLeaf:8,maxFeatures:256,maxRoads:30000,maxLineLength:36000,maxQueryCells:10000}
+});})(globalThis);
+
+/* Natural regional contacts and wildlife. No renewable loot or extra D17 wave budget. */
+(function(root){'use strict';
+ const freeze=o=>{for(const value of Object.values(o))if(value&&typeof value==='object')freeze(value);return Object.freeze(o);};
+ root.DeadwallCore.BiomePopulation165Rules=freeze({version:1,chunk:256,animalCandidates:2,contactCandidates:1,animalChance:.74,contactChance:.42,
+  streamRange:145,contactBudget:20,animalBudget:28,homeExclusion:280,parcelClearance:8,roadClearance:2,
+  animalWander:22,animalDrift:40,contactDrift:180,animalAlarm:5,animalFleeRange:16,animalThreatRange:11,
+  animalNearRange:3.2,animalWanderSpeed:.32,animalWanderSeconds:7,maxStep:.1,candidateCache:1024,maxContactRecords:15000,maxWildlifeRecords:24000,maxStride:6.283185307179586,
+  species:{
+   roeDeer:{id:'roeDeer',name:'Chevreuil',health:40,speed:5.2,length:1.25,width:.42,radius:.28,water:'land',biomes:{meadow:6,orchard:6,deciduous:9,mixed:8,conifer:5,heath:2,riparian:6,wetland:2,bocage:4,limestone:1,rockyHighland:1,brownfield:0,alluvialTerrace:7,agriculturalPlateau:5,sandyPine:6,peatland:3}},
+   boar:{id:'boar',name:'Sanglier',health:55,speed:4.1,length:1.3,width:.55,radius:.32,water:'land',biomes:{meadow:2,orchard:4,deciduous:9,mixed:8,conifer:5,heath:2,riparian:6,wetland:5,bocage:4,limestone:1,rockyHighland:1,brownfield:0,alluvialTerrace:7,agriculturalPlateau:3,sandyPine:4,peatland:6}},
+   hare:{id:'hare',name:'Lièvre',health:15,speed:5.8,length:.55,width:.22,radius:.16,water:'land',biomes:{meadow:10,orchard:8,deciduous:2,mixed:3,conifer:1,heath:8,riparian:2,wetland:1,bocage:7,limestone:4,rockyHighland:2,brownfield:0,alluvialTerrace:6,agriculturalPlateau:10,sandyPine:4,peatland:1}},
+   duck:{id:'duck',name:'Canard colvert',health:12,speed:1.7,length:.55,width:.26,radius:.16,water:'fresh',bankRange:30,weight:12},
+   heron:{id:'heron',name:'Héron cendré',health:18,speed:2.2,length:.9,width:.3,radius:.18,water:'fresh',bankRange:40,weight:5},
+   gull:{id:'gull',name:'Goéland',health:14,speed:2.1,length:.6,width:.24,radius:.17,water:'salt',bankRange:65,weight:14}
+  }
+ });
+})(globalThis);
+
 /* Ecology164 is an explicit campaign revision. Historic climate/scatter rules above are immutable. */
 (function(root){'use strict';
  const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};

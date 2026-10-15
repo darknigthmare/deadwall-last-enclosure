@@ -190,6 +190,7 @@ const historicCityChoices=Object.freeze([
  "vehicle:van"
 ]);
 const ecology164GuideIds=Object.freeze(['biome164-alluvialTerrace','biome164-agriculturalPlateau','biome164-sandyPine','biome164-peatland','ecology164-coherence']);
+const hydrology165GuideIds=Object.freeze(['lake','pond','pool','stream','river','sea','ocean','banks','wildlife','infected'].map(id=>'hydrology165-'+id));
 const material=page=>page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();return JSON.stringify(s);});
 async function guide(page,touch){if(await page.locator('#commandModal').isVisible())await activate(page,'#commandTab-field',touch);else await openCommand(page,touch,'field');await activate(page,'#commandPanel-field [data-field-view="world-codex"]',touch);await page.locator('#field-world-codex').waitFor({state:'visible'});}
 async function press(page,selector,touch){await page.locator(selector).scrollIntoViewIfNeeded();if(touch)await activate(page,selector,true);else{await page.locator(selector).focus();await page.keyboard.press('Enter');}}
@@ -201,24 +202,27 @@ try{
    context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:!!viewport.touch,isMobile:!!viewport.touch,serviceWorkers:'block'});page=await context.newPage();page.setDefaultTimeout(30000);const rec=recorder(page,profile,output,viewport.name+'-');
    await page.goto(base,{waitUntil:'networkidle'});await ready(page);await chooseCampaign(page,'903159');await activate(page,'#campaignIntro132Skip',viewport.touch);await guide(page,viewport.touch);
    const beforeRead=await material(page),totals=await page.evaluate(()=>({summary:document.getElementById('worldCodexCoverage159').textContent,entries:DEADWALL.worldCodex.entries.length,choices:DeadwallCodexActions159.entries.length,programmes:DeadwallCodex3000Runtime.records.length,known:DEADWALL.frontier.discoveries()}));
-   profile.catalogueAudit=await page.evaluate(({historic,ecologyIds})=>{
+   profile.catalogueAudit=await page.evaluate(({historic,ecologyIds,waterIds})=>{
     const vertical=Object.keys(DeadwallCore.VerticalCitadel175.bases).map(id=>'building:'+id).sort(),expected=[...historic,...vertical].sort();
     const choices=DeadwallCodexActions159.entries.map(e=>e.choice159).sort(),guide=DEADWALL.worldCodex.entries.filter(e=>e.choice159).map(e=>e.choice159).sort();
     const programmeIds=DeadwallCodex3000Runtime.records.map(r=>r.id).sort(),expectedProgrammes=Array.from({length:4000},(_,i)=>'DW-'+String(i+1).padStart(4,'0'));
     const ecology=DEADWALL.worldCodex.entries.filter(e=>e.id.startsWith('biome164-')||e.id.startsWith('ecology164-')).map(e=>e.id).sort();
+    const water=DEADWALL.worldCodex.entries.filter(e=>e.id.startsWith('hydrology165-')).map(e=>e.id).sort();
     const missing=(wanted,actual)=>wanted.filter(id=>!actual.includes(id)),duplicates=rows=>rows.filter((id,i)=>rows.indexOf(id)!==i);
-    return{historic,vertical,expectedChoices:expected,actualChoices:choices,guideChoices:guide,expectedEcologyIds:ecologyIds,guideEcology:ecology,expectedGuideEntries:4435+expected.length+ecologyIds.length,
+    return{historic,vertical,expectedChoices:expected,actualChoices:choices,guideChoices:guide,expectedEcologyIds:ecologyIds,guideEcology:ecology,expectedWaterIds:waterIds,guideWater:water,expectedGuideEntries:4435+expected.length+ecologyIds.length+waterIds.length,
+     missingWater:missing(waterIds,water),unexpectedWater:missing(water,waterIds),duplicateWater:duplicates(water),
      missingEcology:missing(ecologyIds,ecology),unexpectedEcology:missing(ecology,ecologyIds),duplicateEcology:duplicates(ecology),
      missingHistoric:missing(historic,choices),missingVertical:missing(vertical,choices),unexpectedChoices:missing(choices,expected),
      guideMissingChoices:missing(expected,guide),guideUnexpectedChoices:missing(guide,expected),duplicateChoices:duplicates(choices),duplicateGuideChoices:duplicates(guide),
      missingProgrammes:missing(expectedProgrammes,programmeIds),unexpectedProgrammes:missing(programmeIds,expectedProgrammes),duplicateProgrammes:duplicates(programmeIds)};
-   },{historic:historicCityChoices,ecologyIds:ecology164GuideIds});
+   },{historic:historicCityChoices,ecologyIds:ecology164GuideIds,waterIds:hydrology165GuideIds});
    const audit=profile.catalogueAudit;
    rec.check('Actual guide preserves exactly all4000 original programme identities',totals.programmes===4000&&!audit.missingProgrammes.length&&!audit.unexpectedProgrammes.length&&!audit.duplicateProgrammes.length);
    rec.check('Actual guide preserves every one of the exact180 historical city choices',audit.historic.length===180&&!audit.missingHistoric.length&&!audit.duplicateChoices.length);
    rec.check('Actual guide derives exactly all registered vertical supports with no missing or unexpected city choice',audit.vertical.length>0&&!audit.missingVertical.length&&!audit.unexpectedChoices.length&&totals.choices===audit.expectedChoices.length);
    rec.check('Every expected city choice has one guide card and the complete guide count matches its exact expansion',!audit.guideMissingChoices.length&&!audit.guideUnexpectedChoices.length&&!audit.duplicateGuideChoices.length&&audit.guideChoices.length===audit.expectedChoices.length&&totals.entries===audit.expectedGuideEntries);
    rec.check('Actual guide contains exactly the four new biome identities and their coherence card',audit.expectedEcologyIds.length===5&&!audit.missingEcology.length&&!audit.unexpectedEcology.length&&!audit.duplicateEcology.length&&audit.guideEcology.length===5);
+   rec.check('Actual guide contains the exact ten water and biome population cards',audit.expectedWaterIds.length===10&&!audit.missingWater.length&&!audit.unexpectedWater.length&&!audit.duplicateWater.length&&audit.guideWater.length===10);
    rec.check('Actual guide explains 626 G10 contracts and seed-dependent physical placement',totals.summary.includes('626')&&totals.summary.includes('G10')&&totals.summary.includes('graine'));
    await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-4000');const last='#worldCodexResults [data-codex-id="programme-DW-4000"]';
    await press(page,last+' > details:last-child > summary',viewport.touch);

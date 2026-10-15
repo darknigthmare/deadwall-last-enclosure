@@ -273,3 +273,10 @@ Ces valeurs créent des contreparties testables, pas une preuve d’équilibrage
 `EcologyRules164` centralise les quatre milieux, champs de drainage/substrat, influences des localités, affinités et palettes. Les définitions d’essences, roches et infectés historiques gardent leurs rendements et statistiques ; seule leur répartition des nouvelles campagnes change. Les routes, emprises et accès restent prioritaires. Aucun quota ne garantit chaque milieu ou lieu dans chaque secteur.
 
 `CodexFixtures164Rules` borne les sanitaires à8par lieu,4par étage,1par pièce,72candidats et48audits de grille. Surface minimale3m², dégagement0,9m ; WC0,70×0,78m et latrine0,75×0,85m. Ces compléments ne sont ni du butin ni des appareils raccordés. Les55supports médicaux conservent le paiement et les effets des soins existants. Aucun seuil des onze âges, coût d’armement, durée de horde ou stock initial n’est modifié.
+
+
+## Eaux et rencontres naturelles — 1.65
+
+`Hydrology165Rules` centralise les largeurs, profondeurs nominales, berges, champs côtiers, bassins, dégagements et budgets de géométrie. Les ruisseaux mesurent 1,5 à 2,9m de large, les rivières7 à13m. Les eaux douces nécessitent un franchissement routier réel pour passer ; aucune nage ou navigation n'est accordée. Mer et océan désignent la frange représentée dans cette région, pas une carte planétaire. Les indices de niveau et de débit donnent une cohérence de réseau ; il ne s'agit pas d'une simulation hydrodynamique.
+
+`BiomePopulation165Rules` centralise six espèces, leurs gabarits, santé, fuite, salinité et affinités. Au maximum28animaux et20contacts naturels sont actifs à proximité ; les infectés naturels partagent aussi le plafond régional historique48 et ses statistiques42–65PV. Les compagnons ne ciblent pas automatiquement la faune. Blesser ou tuer un animal ne produit aucun stock renouvelable ni récompense de horde. Les seuils des onze âges, les réserves initiales et les effectifs des hordes D17 restent inchangés. La cible6–10h demeure une cible de campagne humaine à mesurer.

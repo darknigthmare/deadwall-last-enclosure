@@ -26,7 +26,7 @@ test('135 : carte, sorties, retour, reprise et campagnes successives partagent l
   doc.getElementById('atlasGate-east').dispatch('click');
   assert.equal(g.frontierUI.atlas.position().x,east.x);assert.equal(g.frontierUI.atlas.position().y,east.y);
   const records=g.serialize();g.restoreSave(records);assert.deepEqual(P.home(g),second.home);assert.equal(g.frontier.world().seed,84329);
-  const historical=g.serialize();historical.frontier.generation=5;historical.frontier.ecologyVersion=0;historical.frontier.x=4162;historical.frontier.y=4096;
+  const historical=g.serialize();historical.frontier.generation=5;historical.frontier.ecologyVersion=0;historical.frontier.hydrologyVersion=0;historical.frontier.x=4162;historical.frontier.y=4096;
   g.restoreSave(historical);assert.equal(g.frontier.world().generation,5);assert.equal(P.home(g).x,4096);assert.equal(P.home(g).y,4096);
   assert.equal(g.save(false),true);assert.equal(g.load(),true);assert.equal(g.frontier.world().generation,5,'Une reprise ne reconstruit pas une ancienne campagne en G6');
   g.frontierUI.atlas.draw(g.frontier.overview());g.frontierUI.atlas.city();assert.equal(g.frontierUI.atlas.position().x,4096);assert.equal(g.frontierUI.atlas.position().y,4096);

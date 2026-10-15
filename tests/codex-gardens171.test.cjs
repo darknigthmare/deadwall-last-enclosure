@@ -79,8 +79,8 @@ test('171 depot activation preserves every persisted field, rejects failed resto
 test('171 migration protects a placed lamp even when the new garden surface is traversable',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
- const ecologyVersion=g.frontier.snapshot().ecologyVersion??0;
- const old=W.create(17117,8,{detailVersion:8,ecologyVersion}),next=W.create(17117,8,{detailVersion:9,ecologyVersion});let point;
+ const{ecologyVersion,hydrologyVersion}=g.frontier.snapshot();
+ const old=W.create(17117,8,{detailVersion:8,ecologyVersion,hydrologyVersion}),next=W.create(17117,8,{detailVersion:9,ecologyVersion,hydrologyVersion});let point;
  for(const p of next.pois){for(const o of next.detailAt(p,0).outdoor.filter(o=>o.garden171&&!o.solid)){
   const q=G.global(p,o.x+o.w/2,o.y+o.h/2);if(!old.blocked(q.x,q.y,.4,0,null)&&!next.blocked(q.x,q.y,.4,0,null)){point=q;break;}
  }if(point)break;}

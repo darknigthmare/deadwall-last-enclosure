@@ -85,7 +85,7 @@ function install(g){
   if(contact&&i.condition<=0){message='Équipement brisé : réparation nécessaire.';return true;}if(g.player.stamina<d.stamina){message='Reprenez votre souffle.';return true;}
   const p=region?g.frontier.position():g.player,scale=region?1:32,facing=region?p.a:p.facing,reach=d.range*scale;
   if(region)g.frontier.signalAt({...p,z:p.z},4);
-  const all=region?[...g.frontier.contacts(),...(g.worldEvolution?.groupMembers()||[]),...(g.succession133?.contacts()||[])]:g.nearbyZombies(p.x,p.y,reach);
+  const all=region?[...g.frontier.contacts(),...(g.frontier.wildlife165?.()||[]),...(g.worldEvolution?.groupMembers()||[]),...(g.succession133?.contacts()||[])]:g.nearbyZombies(p.x,p.y,reach);
   const targets=all.filter(e=>{if(e.dead||(e.hp??e.health)<=0||region&&(e.z!==p.z||p.z!==0&&e.poi!==p.inside))return false;const a=Math.atan2(e.y-p.y,e.x-p.x),delta=Math.atan2(Math.sin(a-facing),Math.cos(a-facing));return Math.hypot(e.x-p.x,e.y-p.y)<=reach&&Math.abs(delta)<=d.arc&&(region?g.frontier.world().line(p,e,p.z,p.inside,null,.015):g.hostileLineClear(p,e,false));}).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,d.targets);
   g.player.stamina-=d.stamina;g.player.meleeCooldown=1/d.fireRate;g.player.shootCooldown=Math.max(g.player.shootCooldown,1/d.fireRate);if(contact)i.condition=Math.max(0,i.condition-d.wear);
   for(const e of targets){if(region){if(e.fallen)g.succession133.hit(e.x,e.y,d.damage,e.z,e.poi,e.id);else if(e.group)g.worldEvolution.hitContact(e.x,e.y,d.damage,e.id);else g.frontier.hitEnemy(e.id,d.damage);}else{e.health-=d.damage;e.stagger=R.meleeStagger;if(e.health<=0)g.killZombie(e,false);}}

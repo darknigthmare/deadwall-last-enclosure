@@ -385,3 +385,14 @@ L’activation `completeCodex163` prépare un monde candidat, vérifie les posse
 Les reconstructions des validateurs incluent écologie et détail dans leurs effets et clés de cache. Les régions, rasters et choix d’espèces suivent aussi l’identité du monde/fournisseur ; les caches restent transitoires et bornés. Les trois helpers164 sont compilés dans le module de données déjà distribué. Leurs initialisations restent paresseuses car le bundle est chargé avantCore dans le HTML.
 
 `CodexFixtures164` ajoute uniquement des sanitaires d’usage attribuable après Size/Density163 et annote les supports `medicalCare` des vrais plans. La révision13 s’active après12 par la transaction existante. Les peintres ne créent ni service ni stock ; les opérations et quantités restent dans leurs propriétaires. Les quatre nouvelles fiches de biome et la fiche d’écologie partagée sont lues depuis les règles effectives. Voir les documents1.64 pour mesures et limites.
+
+
+## Eaux et population naturelle — 1.65
+
+`frontier.hydrologyVersion` est un axe indépendant 0/1 ; son absence conserve 0. Les nouvelles campagnes G8 avec écologie1 choisissent 1, transmis sans modification aux extensions G9/G10 et aux compléments de détail. Les validateurs et caches incluent cet axe. Une consultation du Guide ne crée aucun acteur ou état sauvegardé.
+
+`hydrology165.js` construit une géométrie métrique immuable, indexée spatialement : côte de bordure, cours orientés vers leurs exutoires, lacs connectés, étangs et mares admis selon l'humidité. Le monde coupe ses routes à la côte et matérialise les franchissements des eaux douces. Les emprises et dessertes des lieux ainsi que le scatter refusent l'eau avant allocation des identifiants. Mouvement, véhicules, vue et rendu lisent les mêmes étendues ; l'eau naturelle est infranchissable et transparente à la vision. L'écologie164 reçoit cette hydrologie uniquement sur la nouvelle révision pour adapter les berges.
+
+`biome-population165.js` fournit des origines d'acteurs déterministes indépendantes de la collecte et des extensions de lieux. L'admission au monde courant vérifie les emprises et collisions. Les contacts naturels réemploient le combat, le bruit, la navigation et les registres `frontier.enemies/tracks`. Le registre strict `frontier.wildlife165` conserve les animaux rencontrés, leurs blessures, morts, positions et phase. Les budgets actifs restent bornés ; ni le rendu ni les caches ne renouvellent les individus.
+
+`water-art165.js` et `wildlife-art165.js` dessinent les géométries et silhouettes procédurales originales. Les six espèces ont chacune quatre variantes ; leurs poses suivent les mouvements réellement exécutés et respectent la visibilité alliée. Tous les nouveaux helpers sont intégrés au paquet de données existant avant Core et résolvent leurs dépendances tardivement. Ils sont ainsi distribués dans le web, le HTML autonome, la PWA et le PC sans nouveaux atlas images.

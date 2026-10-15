@@ -6,9 +6,10 @@
  const channels=['base','secondary','soil','accent','rock','grass','water'];
  function lattice(seed,x,y){let h=(seed^Math.imul(x,0x27d4eb2d)^Math.imul(y,0x165667b1))>>>0;h=Math.imul(h^h>>>16,0x7feb352d);h=Math.imul(h^h>>>15,0x846ca68b);return((h^h>>>16)>>>0)/4294967296;}
  function valid(seed,x=0,y=0){if(!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(x)||!Number.isFinite(y))throw Error('Coordonnées ou graine écologique164 invalides.');}
- function create({base,seed,settlements=[]}={}){
+ function create({base,seed,settlements=[],hydrology=null}={}){
   const C=getCore(),R=C?.EcologyRules164;if(!R)throw Error('Règles écologiques164 absentes.');
   valid(seed);if(!base?.sample||!base?.climate||!base?.noise||!base?.habitat||!base?.weighted)throw Error('Biomes historiques requis pour l’écologie164.');
+  if(hydrology&&(hydrology.version!==1||hydrology.seed!==seed||typeof hydrology.sample!=='function'))throw Error('Hydrologie écologique165 invalide.');
   if(!Array.isArray(settlements)||settlements.length>R.settlements.limit)throw Error('Communautés géographiques164 invalides.');
   const towns=Object.freeze(settlements.map((t,index)=>{const radius=t?.radius??t?.r;
    if(!t||![t.x,t.y,radius].every(Number.isFinite)||t.x<0||t.y<0||t.x>C.GeographyRules135.size||t.y>C.GeographyRules135.size||radius<=0||radius>R.settlements.maximumRadius)throw Error('Emprise de communauté164 invalide.');
@@ -30,6 +31,10 @@
    const valley=1-Math.abs(2*(base.noise(sampleSeed^164017,x,y,k.drainageScale)*(1-k.drainageDetailWeight)+base.noise(sampleSeed^164021,x,y,k.drainageDetailScale)*k.drainageDetailWeight)-1),
     drainage=smooth(valley,k.drainageThreshold)*(1-smooth(c.elevation,k.drainageElevation)),
     substrate=clamp(base.noise(sampleSeed^164101,x,y,k.substrateScale)*(1-k.substrateDetailWeight)+base.noise(sampleSeed^164107,x,y,k.substrateDetailScale)*k.substrateDetailWeight);
+   if(hydrology&&sampleSeed===seed){
+    const water=hydrology.sample(x,y),e=C.Hydrology165Rules.ecology,bank=1-smooth(water.distanceToWater,[0,e.bankReach]),fresh=water.salinity==='fresh'||water.salinity===0;
+    return{...c,moisture:c.moisture+(e.moisture-c.moisture)*bank,drainage:drainage+(e.drainage-drainage)*bank,substrate,settlementInfluence:settlementInfluence(sampleSeed,x,y),hydrology165:{bank,fresh,kind:water.kind,bodyId:water.bodyId}};
+   }
    return{...c,drainage,substrate,settlementInfluence:settlementInfluence(sampleSeed,x,y)};
   }
   function palette(values){const result={};for(let k=0;k<channels.length;k++){const rgb=[0,0,0];for(let i=0;i<defs.length;i++)for(let j=0;j<3;j++)rgb[j]+=colors[i][k][j]*values[i];result[channels[k]]='#'+rgb.map(n=>Math.round(n).toString(16).padStart(2,'0')).join('');}return result;}
@@ -42,6 +47,10 @@
    raw[indices.agriculturalPlateau]*=k.newBiomeStrength*smooth(c.elevation,k.plateauElevation)*(1-smooth(c.drainage,k.plateauDrainage));
    raw[indices.sandyPine]*=k.newBiomeStrength*smooth(c.substrate,k.sandySubstrate)*(1-smooth(c.moisture,k.sandyMoisture));
    raw[indices.peatland]*=k.newBiomeStrength*smooth(c.drainage,k.peatDrainage)*smooth(c.substrate,k.peatSubstrate);
+   if(c.hydrology165){const h=c.hydrology165,e=C.Hydrology165Rules.ecology;
+    if(h.fresh){for(const id of ['riparian','wetland','alluvialTerrace','peatland'])raw[indices[id]]*=1+h.bank*e.bankWeight;}
+    else for(const id of ['sandyPine','heath'])raw[indices[id]]*=1+h.bank*e.coastWeight;
+   }
    let total=0;for(const value of raw)total+=value;const values=raw,weights={};for(let i=0;i<defs.length;i++){values[i]/=total;weights[defs[i].id]=values[i];}
    let first=0,second=1;for(let i=1;i<defs.length;i++)if(values[i]>values[first]){second=first;first=i;}else if(i!==first&&(second===first||values[i]>values[second]))second=i;
    const def=defs[first],legacyWeights=projected(weights),h=base.habitat(sampleSeed,x,y,{weights:legacyWeights}),p=withPalette?palette(values):null;

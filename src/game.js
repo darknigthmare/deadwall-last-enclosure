@@ -2221,10 +2221,10 @@
       if(biomeGround){
         const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(WORLD_SIZE,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(WORLD_SIZE,v.bottom)/32};
         let ground=this.groundEcology164;
-        if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.frontier!==this.frontier){
-          ground={owner:this.world,seed:this.world.seed,generation:pose.generation,ecologyVersion:pose.ecologyVersion||0,frontier:this.frontier,world:pose.ecologyVersion===1?this.frontier.world():{seed:this.world.seed,generation:pose.generation}};this.groundEcology164=ground;
+        if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.frontier!==this.frontier){
+          ground={owner:this.world,seed:this.world.seed,generation:pose.generation,ecologyVersion:pose.ecologyVersion||0,hydrologyVersion:pose.hydrologyVersion||0,frontier:this.frontier,world:pose.ecologyVersion===1?this.frontier.world():{seed:this.world.seed,generation:pose.generation}};this.groundEcology164=ground;
         }
-        ctx.save();ctx.scale(32,32);ctx.translate(-h.minX,-h.minY);biomeGround.draw(ctx,ground.world,regionView,{scale:this.camera.zoom*32});ctx.restore();
+        ctx.save();ctx.scale(32,32);ctx.translate(-h.minX,-h.minY);biomeGround.draw(ctx,ground.world,regionView,{scale:this.camera.zoom*32,time:this.elapsed,reducedMotion:!!this.settings.reducedMotion});ctx.restore();
       }else{
       const tile=96,minX=Math.max(0,Math.floor(v.left/tile)),maxX=Math.min(Math.ceil(WORLD_SIZE/tile),Math.ceil(v.right/tile)),minY=Math.max(0,Math.floor(v.top/tile)),maxY=Math.min(Math.ceil(WORLD_SIZE/tile),Math.ceil(v.bottom/tile));
       for(let y=minY;y<=maxY;y++)for(let x=minX;x<=maxX;x++){

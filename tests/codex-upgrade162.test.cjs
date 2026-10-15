@@ -27,8 +27,8 @@ test('162 depot furnishing: occupied hands and failed restore preserve all state
 test('162 depot furnishing: a saved lamp in a newly proposed solid refuses migration atomically',()=>{
  const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
  assert.equal(g.worldOps131.activateTerritories160().ok,true);
- const ecologyVersion=g.frontier.position().ecologyVersion;
- const old=W.create(17117,10,{detailVersion:10,ecologyVersion}),next=W.create(17117,10,{detailVersion:11,ecologyVersion});let point;
+ const{ecologyVersion,hydrologyVersion}=g.frontier.position();
+ const old=W.create(17117,10,{detailVersion:10,ecologyVersion,hydrologyVersion}),next=W.create(17117,10,{detailVersion:11,ecologyVersion,hydrologyVersion});let point;
  for(const p of next.contextSites160().filter(p=>!p.context160.profile)){
   for(const o of next.detailAt(p,0).interior.filter(o=>o.solid)){
    const q=G.global(p,o.x+o.w/2,o.y+o.h/2);

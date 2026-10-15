@@ -6,8 +6,8 @@ const {standAt}=require('./helpers/physical-fixtures.cjs');
 const checkpoint=g=>{const d=g.serialize();delete d.timestamp;return d;};
 const models=new Map();
 function worlds(frontier){
- const{detailVersion,ecologyVersion}=frontier,key=ecologyVersion+':'+detailVersion;
- if(!models.has(key))models.set(key,{old:W.create(17117,8,{detailVersion,ecologyVersion}),next:W.create(17117,9,{detailVersion,ecologyVersion})});
+ const{detailVersion,ecologyVersion,hydrologyVersion}=frontier,key=ecologyVersion+':'+detailVersion+':'+hydrologyVersion;
+ if(!models.has(key))models.set(key,{old:W.create(17117,8,{detailVersion,ecologyVersion,hydrologyVersion}),next:W.create(17117,9,{detailVersion,ecologyVersion,hydrologyVersion})});
  return models.get(key);
 }
 function campaign(){const{game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();assert.equal(g.frontier.position().generation,8);

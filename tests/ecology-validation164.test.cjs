@@ -57,8 +57,8 @@ for(const[file,method,fixture]of scenarios)test('164 '+file+' validates and cach
  for(const effects of revisions){const w=reference(effects.ecologyVersion,effects.detailVersion),data=context(w,effects),raw=fixture(api,w);
   assert.doesNotThrow(()=>api[method](copy(raw),copy(data)));
   assert.doesNotThrow(()=>api[method](copy(raw),copy(data)),'A repeat must use the matching bounded cache');
-  if(effects.ecologyVersion===0){const historical=copy(data);delete historical.frontier.ecologyVersion;delete historical.frontier.detailVersion;
+  if(effects.ecologyVersion===0){const historical=copy(data);delete historical.frontier.ecologyVersion;delete historical.frontier.hydrologyVersion;delete historical.frontier.detailVersion;
    assert.doesNotThrow(()=>api[method](copy(raw),historical),'An absent revision means the exact historical world');}
  }
- assert.deepEqual(calls,revisions.map(effects=>({seed:17117,generation:10,...effects})));
+ assert.deepEqual(calls,revisions.map(effects=>({seed:17117,generation:10,...effects,hydrologyVersion:0})));
 });

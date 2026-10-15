@@ -1,3 +1,374 @@
+/* Seed-local surface-water geometry. Water and crossings share one metric contract. */
+(function(root,factory){'use strict';const api=factory(()=>typeof module==='object'&&module.exports?require('./core.js'):root.DeadwallCore,()=>root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null));root.DeadwallHydrology165=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(getCore,getBiomes){'use strict';
+ const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object'&&!Object.isFrozen(v))freeze(v);return Object.freeze(o);};
+ function hash(seed,...values){let h=seed^2166136261;for(const value of values){for(const c of String(value))h=Math.imul(h^c.charCodeAt(0),16777619);h=Math.imul(h^255,16777619);}h=Math.imul(h^h>>>16,0x7feb352d);h=Math.imul(h^h>>>15,0x846ca68b);return((h^h>>>16)>>>0)/4294967296;}
+ function noise(seed,x,scale){const t=x/scale,i=Math.floor(t),f=t-i,s=f*f*(3-2*f);return hash(seed,i)*(1-s)+hash(seed,i+1)*s;}
+ function nearest(x,y,a,b){const dx=b.x-a.x,dy=b.y-a.y,n=dx*dx+dy*dy,t=n?clamp(((x-a.x)*dx+(y-a.y)*dy)/n,0,1):0,px=a.x+dx*t,py=a.y+dy*t;return{x:px,y:py,t,d:Math.hypot(x-px,y-py)};}
+ const bounds=(points,pad=0)=>{const xs=points.map(p=>p.x),ys=points.map(p=>p.y),x=Math.min(...xs)-pad,y=Math.min(...ys)-pad;return{x,y,w:Math.max(...xs)+pad-x,h:Math.max(...ys)+pad-y};};
+ const overlap=(a,b,pad=0)=>a.x-pad<=b.x+b.w&&a.x+a.w+pad>=b.x&&a.y-pad<=b.y+b.h&&a.y+a.h+pad>=b.y;
+ function inside(points,x,y){let value=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)value=!value;}return value;}
+ function crossing(a,b,c,d){const x=b.x-a.x,y=b.y-a.y,u=d.x-c.x,v=d.y-c.y,den=x*v-y*u;if(Math.abs(den)<1e-10)return null;const t=((c.x-a.x)*v-(c.y-a.y)*u)/den,s=((c.x-a.x)*y-(c.y-a.y)*x)/den;return t>=0&&t<=1&&s>=0&&s<=1?{x:a.x+x*t,y:a.y+y*t,t,s}:null;}
+ function validPoint(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))throw Error('Coordonnées hydrologiques invalides.');}
+ function validBox(box){if(!box||![box.x,box.y,box.w,box.h].every(Number.isFinite)||box.w<0||box.h<0)throw Error('Emprise hydrologique invalide.');}
+ function create({seed,size=getCore()?.GeographyRules135?.size,home,settlements=[],roads=[],biomes=null}={}){
+  const R=getCore()?.Hydrology165Rules;if(!R)throw Error('Règles hydrologiques165 absentes.');
+  if(!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(size)||size<4096||size>32768||!home||![home.x,home.y].every(Number.isFinite)||!Array.isArray(settlements)||settlements.length>128)throw Error('Contexte hydrologique invalide.');
+  const side=['west','east','north','south'][Math.floor(hash(seed,'coast-side165')*4)],local=(x,y)=>side==='west'?{u:x,v:y}:side==='east'?{u:size-x,v:y}:side==='north'?{u:y,v:x}:{u:size-y,v:x},world=(u,v)=>side==='west'?{x:u,y:v}:side==='east'?{x:size-u,y:v}:side==='north'?{x:v,y:u}:{x:v,y:size-u};
+  const coastPoints=[];for(let v=0;v<size;v+=R.coast.knotStep)coastPoints.push({v,u:R.coast.minimum+R.coast.range*noise(seed^165023,v,R.coast.scale)});coastPoints.push({v:size,u:R.coast.minimum+R.coast.range*noise(seed^165023,size,R.coast.scale)});
+  function inlandAt(v){const q=clamp(v,0,size),i=Math.min(coastPoints.length-2,Math.floor(q/R.coast.knotStep)),a=coastPoints[i],b=coastPoints[i+1];return a.u+(b.u-a.u)*(q-a.v)/(b.v-a.v);}
+  const coast=Object.freeze({side,points:freeze(coastPoints.map(p=>world(p.u,p.v))),shelf:R.coast.shelf,inlandAt,toLocal:local,toWorld:world,containsLand:(x,y,pad=0)=>{validPoint(x,y);const p=local(x,y);return p.u>inlandAt(p.v)+pad;}});
+  const protectedCircles=[{...local(home.x,home.y),r:R.protection.homeRadius,id:'D17'}];for(const t of settlements){const radius=t?.radius??t?.r;if(!t||![t.x,t.y,radius].every(Number.isFinite)||radius<=0)throw Error('Communauté hydrologique invalide.');protectedCircles.push({...local(t.x,t.y),r:radius+R.protection.settlementMargin,id:String(t.id)});}
+  const features=[],byId=new Map(),featureBins=new Map(),primitives=[];
+  function add(f){if(features.length>=R.spatial.maxFeatures)throw Error('Budget hydrologique dépassé.');const k=R.kinds[f.kind];f={salinity:k.salinity,depth:k.depth,bankWidth:k.bankWidth,flowing:k.flowing,outletId:null,width:0,...f};f.bounds=bounds(f.points,f.shape==='line'?f.width/2:0);features.push(f);byId.set(f.id,f);return f;}
+  const offshore=coastPoints.map(p=>world(p.u-R.coast.shelf,p.v));
+  add({id:'H165:ocean',kind:'ocean',shape:'polygon',closed:true,points:[world(0,0),...offshore,world(0,size)],outletId:'outside-region'});
+  add({id:'H165:sea',kind:'sea',shape:'polygon',closed:true,points:[...coastPoints.map(p=>world(p.u,p.v)),...offshore.slice().reverse()],outletId:'H165:ocean'});
+  function avoid(u,v,pad){let result=clamp(v,R.network.edgeMargin,size-R.network.edgeMargin);for(let pass=0;pass<protectedCircles.length+1;pass++){let moved=false;for(const c of protectedCircles){const r=c.r+pad+R.protection.chordPadding,du=u-c.u;if(Math.abs(du)>=r)continue;const half=Math.sqrt(r*r-du*du);if(result>c.v-half&&result<c.v+half){result=c.v+(v<c.v?-1:1)*half;result=clamp(result,R.network.edgeMargin,size-R.network.edgeMargin);moved=true;}}if(!moved)break;}return result;}
+  function safeLine(points,pad){for(let i=1;i<points.length;i++)for(const c of protectedCircles){const q=world(c.u,c.v);if(nearest(q.x,q.y,points[i-1],points[i]).d<c.r+pad)return false;}return true;}
+  function path(from,to,nominal,pad){const count=Math.max(1,Math.ceil((from-to)/R.network.step)),result=[];for(let i=0;i<=count;i++){const u=from+(to-from)*i/count,v=avoid(u,nominal(u),pad),p=world(u,v);result.push({...p,level:R.network.sourceLevel*u/size});}return result;}
+  const main=[];
+  for(let i=0;i<R.network.rivers;i++){
+   const id='H165:river:'+i,width=R.kinds.river.width[0]+hash(seed,id,'width')*(R.kinds.river.width[1]-R.kinds.river.width[0]),baseline=size*(i+1)/(R.network.rivers+1);let points=null;
+   for(const shift of [0,1,-1,2,-2]){const nominal=u=>baseline+shift*R.network.meander+(noise(seed^((i+1)*165037),u,R.network.meanderScale)-.5)*R.network.meander*2,rough=path(size-R.network.sourceMargin,R.coast.minimum-1,nominal,width/2+R.network.bankClearance),entry=rough.findIndex(p=>!coast.containsLand(p.x,p.y));if(entry>0){rough.splice(entry+1);const a=rough[entry-1],b=rough[entry];let lo=0,hi=1;for(let n=0;n<36;n++){const t=(lo+hi)/2;if(coast.containsLand(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t))lo=t;else hi=t;}const t=Math.min(1,hi+1/Math.hypot(b.x-a.x,b.y-a.y));b.x=a.x+(b.x-a.x)*t;b.y=a.y+(b.y-a.y)*t;b.level=0;}if(safeLine(rough,width/2)){points=rough;break;}}
+   if(!points)continue;const river=add({id,kind:'river',shape:'line',points,width,outletId:'H165:sea'});main.push(river);
+  }
+  for(const river of main){
+   for(let j=0;j<R.network.tributaries;j++){
+    const id=river.id+':stream:'+j,index=Math.floor(river.points.length*(.25+.42*hash(seed,id,'join'))),join=river.points[index],q=local(join.x,join.y),from=Math.min(size-R.network.sourceMargin,q.u+R.network.tributaryLength),sign=j%2?-1:1,width=R.kinds.stream.width[0]+hash(seed,id,'width')*(R.kinds.stream.width[1]-R.kinds.stream.width[0]),points=path(from,q.u,u=>q.v+sign*R.network.tributarySpread*Math.sin(clamp((u-q.u)/(from-q.u),0,1)*Math.PI/2),width/2+R.network.bankClearance);points[points.length-1]={...join};
+    if(safeLine(points,width/2))add({id,kind:'stream',shape:'line',points,width,outletId:river.id});
+   }
+  }
+  function basin(kind,x,y,rx,ry,a,id,outletId=null,level=0){const points=[];for(let i=0;i<R.basins.vertices;i++){const angle=i/R.basins.vertices*Math.PI*2,c=Math.cos(angle),s=Math.sin(angle),r=.94+.06*noise(seed^165187,angle*1000+hash(seed,id)*8000,800),u=rx*c*r,v=ry*s*r;points.push({x:x+u*Math.cos(a)-v*Math.sin(a),y:y+u*Math.sin(a)+v*Math.cos(a),level});}return add({id,kind,shape:'polygon',closed:true,points,ellipse:{cx:x,cy:y,rx,ry,a},outletId,level});}
+  function nearRoad(x,y,r){return roads.some(road=>nearest(x,y,road.a,road.b).d<r+road.width/2+R.basins.roadClearance);}
+  for(const river of main){const k=R.basins.lake,id=river.id+':lake';if(hash(seed,id,'presence')>k.chance)continue;const index=Math.floor(river.points.length*(.30+.34*hash(seed,id,'site'))),p=river.points[index],radius=k.radius[0]+hash(seed,id,'radius')*(k.radius[1]-k.radius[0]),q=local(p.x,p.y);if(protectedCircles.some(c=>Math.hypot(q.u-c.u,q.v-c.v)<c.r+radius)||nearRoad(p.x,p.y,radius))continue;const angle=Math.atan2(river.points[index+1].y-river.points[index-1].y,river.points[index+1].x-river.points[index-1].x),lake=basin('lake',p.x,p.y,radius,radius*k.ratio,angle,id,river.id,p.level);lake.inletId=river.id;lake.connected=true;
+   // A flat lake surface joins a descending channel at its inlet and outlet.
+   for(const point of river.points)if(Math.abs(local(point.x,point.y).u-q.u)<=radius)point.level=p.level;
+  }
+  // Tributaries were drawn before lake surfaces flattened their receiver. Match
+  // the final junction level and keep their approach free of an uphill step.
+  for(const stream of features.filter(f=>f.kind==='stream')){const end=stream.points.at(-1),receiver=byId.get(stream.outletId),join=receiver.points.find(p=>p.x===end.x&&p.y===end.y);end.level=join.level;for(let i=stream.points.length-2;i>=0;i--)stream.points[i].level=Math.max(stream.points[i].level,stream.points[i+1].level);}
+  function indexFeature(f){const b=f.bounds;for(let y=Math.floor(b.y/R.spatial.bin);y<=Math.floor((b.y+b.h)/R.spatial.bin);y++)for(let x=Math.floor(b.x/R.spatial.bin);x<=Math.floor((b.x+b.w)/R.spatial.bin);x++){const key=x+':'+y;if(!featureBins.has(key))featureBins.set(key,[]);featureBins.get(key).push(f);}}
+  function naturalDistance(x,y){let distance=Math.max(0,local(x,y).u-inlandAt(local(x,y).v));for(const f of features)if(f.salinity==='fresh'){if(f.shape==='polygon'&&inside(f.points,x,y))return 0;const pad=f.width/2,end=f.shape==='polygon'?f.points.length:f.points.length-1;for(let i=0;i<end;i++)distance=Math.min(distance,Math.max(0,nearest(x,y,f.points[i],f.points[(i+1)%f.points.length]).d-pad));}return distance;}
+  const B=biomes||getBiomes();if(!B?.climate)throw Error('Climat requis pour les petites eaux165.');
+  for(let y=0;y<R.basins.grid;y++)for(let x=0;x<R.basins.grid;x++)for(const kind of ['pond','pool']){
+   const id='H165:'+kind+':'+x+':'+y,k=R.basins[kind];if(hash(seed,id,'presence')>k.chance)continue;const px=(x+.18+hash(seed,id,'x')*.64)*size/R.basins.grid,py=(y+.18+hash(seed,id,'y')*.64)*size/R.basins.grid,c=B.climate(seed,px,py),q=local(px,py),r=k.radius[0]+hash(seed,id,'radius')*(k.radius[1]-k.radius[0]);
+   if(c.moisture<k.moisture||q.u<inlandAt(q.v)+r+R.basins.separation||protectedCircles.some(p=>Math.hypot(q.u-p.u,q.v-p.v)<p.r+r)||nearRoad(px,py,r)||naturalDistance(px,py)<r+R.basins.separation)continue;
+   const f=basin(kind,px,py,r,r*k.ratio,hash(seed,id,'angle')*Math.PI,id);f.moisture=c.moisture;f.closedBasin=true;
+  }
+  for(const f of features){indexFeature(f);const end=f.shape==='polygon'?f.points.length: f.points.length-1;for(let i=0;i<end;i++){const a=f.points[i],b=f.points[(i+1)%f.points.length],radius=f.shape==='line'?f.width/2:0;primitives.push({a,b,radius,feature:f,bounds:bounds([a,b],radius)});}freeze(f);}
+  freeze(features);
+  function tree(items){const box=bounds(items.flatMap(p=>[{x:p.bounds.x,y:p.bounds.y},{x:p.bounds.x+p.bounds.w,y:p.bounds.y+p.bounds.h}]));if(items.length<=R.spatial.treeLeaf)return{box,items};const axis=box.w>box.h?'x':'y',sorted=items.slice().sort((a,b)=>a.bounds[axis]-b.bounds[axis]),mid=sorted.length>>1;return{box,left:tree(sorted.slice(0,mid)),right:tree(sorted.slice(mid))};}
+  const primitiveTree=tree(primitives),boxDistance=(x,y,b)=>Math.hypot(Math.max(b.x-x,0,x-b.x-b.w),Math.max(b.y-y,0,y-b.y-b.h));
+  function nearestWater(x,y){let best={d:Infinity,primitive:null},stack=[primitiveTree];while(stack.length){const node=stack.pop();if(boxDistance(x,y,node.box)>best.d)continue;if(node.items){for(const p of node.items){const q=nearest(x,y,p.a,p.b),d=Math.max(0,q.d-p.radius);if(d<best.d){best={d,primitive:p,q};}}}else{const a=boxDistance(x,y,node.left.box),b=boxDistance(x,y,node.right.box);if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}}return best;}
+  function candidates(x,y){return featureBins.get(Math.floor(x/R.spatial.bin)+':'+Math.floor(y/R.spatial.bin))||[];}
+  function waterAt(x,y){const q=local(x,y),salt=q.u<=inlandAt(q.v);if(salt)return byId.get(q.u<inlandAt(q.v)-R.coast.shelf?'H165:ocean':'H165:sea');let result=null;for(const f of candidates(x,y)){if(f.salinity!=='fresh')continue;if(f.shape==='polygon'){if(inside(f.points,x,y))return f;}else if(!result)for(let i=1;i<f.points.length;i++)if(nearest(x,y,f.points[i-1],f.points[i]).d<=f.width/2){result=f;break;}}return result;}
+  function featuresIn(box){validBox(box);const count=(Math.ceil(box.w/R.spatial.bin)+2)*(Math.ceil(box.h/R.spatial.bin)+2);if(count>R.spatial.maxQueryCells)return features.filter(f=>overlap(f.bounds,box));const found=new Set();for(let y=Math.floor(box.y/R.spatial.bin);y<=Math.floor((box.y+box.h)/R.spatial.bin);y++)for(let x=Math.floor(box.x/R.spatial.bin);x<=Math.floor((box.x+box.w)/R.spatial.bin);x++)for(const f of featureBins.get(x+':'+y)||[])if(overlap(f.bounds,box))found.add(f);return [...found].sort((a,b)=>features.indexOf(a)-features.indexOf(b));}
+  function clipRoad(road,pad=0){if(!road?.a||!road?.b||![road.a.x,road.a.y,road.b.x,road.b.y].every(Number.isFinite)||!Number.isFinite(pad)||pad<0)throw Error('Route côtière invalide.');const length=Math.hypot(road.b.x-road.a.x,road.b.y-road.a.y),count=Math.max(1,Math.ceil(length/R.coast.knotStep)),points=[];for(let i=0;i<=count;i++)points.push({x:road.a.x+(road.b.x-road.a.x)*i/count,y:road.a.y+(road.b.y-road.a.y)*i/count,t:i/count});const intervals=[];let start=null;
+   const cut=(a,b)=>{let lo=a.t,hi=b.t;const state=coast.containsLand(a.x,a.y,pad);for(let j=0;j<36;j++){const t=(lo+hi)/2,x=road.a.x+(road.b.x-road.a.x)*t,y=road.a.y+(road.b.y-road.a.y)*t;if(coast.containsLand(x,y,pad)===state)lo=t;else hi=t;}return(lo+hi)/2;};
+   for(let i=0;i<points.length;i++){const p=points[i],land=coast.containsLand(p.x,p.y,pad);if(land&&start===null)start=i?cut(points[i-1],p):0;if(!land&&start!==null){intervals.push([start,cut(points[i-1],p)]);start=null;}}if(start!==null)intervals.push([start,1]);return intervals.filter(([a,b])=>(b-a)*length>.05).map(([a,b],i)=>({...road,...(intervals.length>1?{id:road.id+':coast'+i}:{}),a:{x:road.a.x+(road.b.x-road.a.x)*a,y:road.a.y+(road.b.y-road.a.y)*a},b:{x:road.a.x+(road.b.x-road.a.x)*b,y:road.a.y+(road.b.y-road.a.y)*b},...(a>0||b<1?{coastalTerminus165:true}:{})}));
+  }
+  function capsuleIntervals(origin,dx,dy,length,a,b,radius){
+   const sx=b.x-a.x,sy=b.y-a.y,span=Math.hypot(sx,sy),result=[];
+   function circle(p){const x=origin.x-p.x,y=origin.y-p.y,v=x*dx+y*dy,d=v*v-x*x-y*y+radius*radius;if(d<0)return;const root=Math.sqrt(Math.max(0,d)),lo=Math.max(0,-v-root),hi=Math.min(length,-v+root);if(lo<=hi)result.push([lo,hi]);}
+   circle(a);circle(b);if(span<1e-10)return result;
+   const ux=sx/span,uy=sy/span,x=origin.x-a.x,y=origin.y-a.y,axes=[[x*ux+y*uy,dx*ux+dy*uy,0,span],[-x*uy+y*ux,-dx*uy+dy*ux,-radius,radius]];let lo=0,hi=length;
+   for(const [value,speed,min,max]of axes){if(Math.abs(speed)<1e-10){if(value<min||value>max)return result;}else{const p=(min-value)/speed,q=(max-value)/speed;lo=Math.max(lo,Math.min(p,q));hi=Math.min(hi,Math.max(p,q));if(lo>hi)return result;}}
+   result.push([lo,hi]);return result;
+  }
+  function crossingsFor(input){if(!Array.isArray(input)||input.length>R.spatial.maxRoads)throw Error('Réseau de franchissement invalide.');const result=[];
+   for(const road of input){if(!road?.a||!road?.b||![road.a.x,road.a.y,road.b.x,road.b.y,road.width].every(Number.isFinite)||road.width<=0)throw Error('Chaussée de franchissement invalide.');const length=Math.hypot(road.b.x-road.a.x,road.b.y-road.a.y);if(length<.01)continue;const dx=(road.b.x-road.a.x)/length,dy=(road.b.y-road.a.y)/length,box=bounds([road.a,road.b],road.width/2),intervals=[];
+    for(const f of featuresIn(box)){if(f.salinity!=='fresh')continue;if(f.shape==='line'){for(let i=1;i<f.points.length;i++){const a=f.points[i-1],b=f.points[i];if(!overlap(bounds([a,b],f.width/2),box))continue;for(const [start,end]of capsuleIntervals(road.a,dx,dy,length,a,b,f.width/2))intervals.push({start:start-R.crossings.bankLength,end:end+R.crossings.bankLength,waterId:f.id});}}
+     else{const edges=[];if(inside(f.points,road.a.x,road.a.y))edges.push(0);if(inside(f.points,road.b.x,road.b.y))edges.push(length);for(let i=0;i<f.points.length;i++){const hit=crossing(road.a,road.b,f.points[i],f.points[(i+1)%f.points.length]);if(hit)edges.push(hit.t*length);}edges.sort((a,b)=>a-b);const unique=edges.filter((n,i)=>!i||Math.abs(n-edges[i-1])>1e-7);for(let i=1;i<unique.length;i+=2)intervals.push({start:unique[i-1]-R.crossings.bankLength,end:unique[i]+R.crossings.bankLength,waterId:f.id});}
+    }
+    intervals.sort((a,b)=>a.start-b.start);const merged=[];for(const hit of intervals){const last=merged.at(-1);if(last&&hit.start<=last.end+R.crossings.mergeGap)last.end=Math.max(last.end,hit.end);else merged.push({...hit});}
+    for(const hit of merged){const span=hit.end-hit.start;if(span>R.crossings.maxSpan)continue;const at=(hit.start+hit.end)/2,a=Math.atan2(dy,dx),x=road.a.x+dx*at,y=road.a.y+dy*at,w=road.width;result.push(freeze({id:'H165:crossing:'+road.id+':'+result.length,roadId:road.id,x,y,a,width:w,length:span,waterId:hit.waterId,bounds:bounds([{x:x-dx*span/2,y:y-dy*span/2},{x:x+dx*span/2,y:y+dy*span/2}],w/2)}));}
+   }return freeze(result);
+  }
+  function facade(crossings){const bridgeBins=new Map();for(const c of crossings){const b=bounds([{x:c.x-Math.cos(c.a)*c.length/2,y:c.y-Math.sin(c.a)*c.length/2},{x:c.x+Math.cos(c.a)*c.length/2,y:c.y+Math.sin(c.a)*c.length/2}],c.width/2);for(let y=Math.floor(b.y/R.spatial.bin);y<=Math.floor((b.y+b.h)/R.spatial.bin);y++)for(let x=Math.floor(b.x/R.spatial.bin);x<=Math.floor((b.x+b.w)/R.spatial.bin);x++){const key=x+':'+y;if(!bridgeBins.has(key))bridgeBins.set(key,[]);bridgeBins.get(key).push(c);}}
+   function bridgeAt(x,y,r=0){for(const c of bridgeBins.get(Math.floor(x/R.spatial.bin)+':'+Math.floor(y/R.spatial.bin))||[]){const dx=x-c.x,dy=y-c.y,along=dx*Math.cos(c.a)+dy*Math.sin(c.a),across=-dx*Math.sin(c.a)+dy*Math.cos(c.a);if(Math.abs(along)+r<=c.length/2&&Math.abs(across)+r<=c.width/2-R.crossings.edgeClearance)return c;}return null;}
+   function sample(x,y){validPoint(x,y);const f=waterAt(x,y),n=nearestWater(x,y),water=!!f,near=f||n.primitive?.feature,c=bridgeAt(x,y),shoreDistance=water?(f.shape==='polygon'?Math.min(...f.points.map((a,i)=>nearest(x,y,a,f.points[(i+1)%f.points.length]).d)):Math.max(0,f.width/2-Math.min(...f.points.slice(1).map((b,i)=>nearest(x,y,f.points[i],b).d)))):n.d;let flow={x:0,y:0},level=f?.level??0;if(f?.flowing){let best=null;for(let i=1;i<f.points.length;i++){const q=nearest(x,y,f.points[i-1],f.points[i]);if(!best||q.d<best.d)best={...q,a:f.points[i-1],b:f.points[i]};}const len=Math.hypot(best.b.x-best.a.x,best.b.y-best.a.y);flow={x:(best.b.x-best.a.x)/len,y:(best.b.y-best.a.y)/len};level=best.a.level+(best.b.level-best.a.level)*best.t;}return{version:1,kind:f?.kind||(near&&n.d<=near.bankWidth?'shore':'land'),water,bodyId:f?.id??null,nearestKind:near?.kind??null,nearestBodyId:near?.id??null,salinity:near?.salinity??'fresh',depth:f?.depth??0,level,distanceToWater:water?0:n.d,distanceToShore:shoreDistance,shore:!water&&near&&n.d<=near.bankWidth,flow,movementBlocked:water&&!c,opaque:false,crossing:c?.id??null};}
+   function blockedCircle(x,y,r=0){validPoint(x,y);if(!Number.isFinite(r)||r<0||r>64)throw Error('Rayon hydrologique invalide.');if(bridgeAt(x,y,r))return false;return !!waterAt(x,y)||nearestWater(x,y).d<=r;}
+   function lineBlocked(a,b,r=.32){if(!a||!b)throw Error('Segment hydrologique invalide.');validPoint(a.x,a.y);validPoint(b.x,b.y);const length=Math.hypot(b.x-a.x,b.y-a.y);if(length>R.spatial.maxLineLength)throw Error('Segment hydrologique trop long.');const count=Math.max(1,Math.ceil(length/Math.min(R.crossings.probeStep,Math.max(.25,r))));for(let i=0;i<=count;i++)if(blockedCircle(a.x+(b.x-a.x)*i/count,a.y+(b.y-a.y)*i/count,r))return true;return false;}
+   function intersects(box,pad=0){validBox(box);if(!Number.isFinite(pad)||pad<0)throw Error('Marge hydrologique invalide.');const b={x:box.x-pad,y:box.y-pad,w:box.w+pad*2,h:box.h+pad*2},corners=[{x:b.x,y:b.y},{x:b.x+b.w,y:b.y},{x:b.x+b.w,y:b.y+b.h},{x:b.x,y:b.y+b.h}];if(corners.some(p=>!!waterAt(p.x,p.y)))return true;for(const f of featuresIn(b)){if(f.points.some(p=>p.x>=b.x&&p.x<=b.x+b.w&&p.y>=b.y&&p.y<=b.y+b.h))return true;const end=f.shape==='polygon'?f.points.length:f.points.length-1;for(let i=0;i<end;i++){const a=f.points[i],c=f.points[(i+1)%f.points.length],radius=f.shape==='line'?f.width/2:0,expanded={x:b.x-radius,y:b.y-radius,w:b.w+radius*2,h:b.h+radius*2},cs=[{x:expanded.x,y:expanded.y},{x:expanded.x+expanded.w,y:expanded.y},{x:expanded.x+expanded.w,y:expanded.y+expanded.h},{x:expanded.x,y:expanded.y+expanded.h}];if(cs.some((p,j)=>crossing(a,c,p,cs[(j+1)%4])))return true;}}return false;}
+   return Object.freeze({version:1,seed,size,coast,features,crossings,protectedCircles:freeze(protectedCircles.map(c=>({...world(c.u,c.v),r:c.r,id:c.id}))),sample,sampleAt:sample,featuresIn,shapesIn:featuresIn,intersects,blockedCircle,lineBlocked,canCross:(x,y,r=.32)=>!blockedCircle(x,y,r),clipRoad,crossingsFor,withRoads:input=>facade(crossingsFor(input)),stats:()=>({features:features.length,segments:primitives.length,bins:featureBins.size,crossings:crossings.length,kinds:Object.fromEntries(Object.keys(R.kinds).map(k=>[k,features.filter(f=>f.kind===k).length]))})});
+  }
+  return facade(crossingsFor(roads));
+ }
+ return Object.freeze({get RULES(){return getCore()?.Hydrology165Rules;},create});
+});
+
+/* Stable natural encounters. Merely sampling a landscape never creates saved actors. */
+(function(root){'use strict';
+ const geometry=()=>root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),worlds=new WeakMap();
+ const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=()=>{const r=core()?.BiomePopulation165Rules;if(!r)throw Error('Règles de population naturelle absentes.');return r;};
+ const unit=(w,id,key)=>geometry().hash(w.seed,id,key)/4294967296;
+ function context(w,id,cx,cy,index,kind){
+  const R=rules();if(w?.hydrologyVersion!==1||!w.hydrology||!Number.isInteger(cx)||!Number.isInteger(cy)||!Number.isInteger(index)||cx<0||cy<0||cx>=Math.ceil(w.size/R.chunk)||cy>=Math.ceil(w.size/R.chunk)||index<0||index>=(kind==='animal'?R.animalCandidates:R.contactCandidates))return null;
+  if(unit(w,id,'presence')>=(kind==='animal'?R.animalChance:R.contactChance))return null;
+  const x=(cx+.08+unit(w,id,'x')*.84)*R.chunk,y=(cy+.08+unit(w,id,'y')*.84)*R.chunk;
+  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||x<2||y<2||x>w.size-2||y>w.size-2)return null;
+  const water=w.hydrology.sample(x,y);if(water.water||water.movementBlocked)return null;
+  const road=w.nearestRoad({x,y});if(road&&road.d<road.road.width/2+R.roadClearance)return null;
+  return{id,x,y,z:0,poi:null,cx,cy,index,water,biome:w.biomeAt(x,y)};
+ }
+ function memo(w,id,build){let cache=worlds.get(w);if(!cache){cache=new Map();worlds.set(w,cache);}if(cache.has(id)){const value=cache.get(id);cache.delete(id);cache.set(id,value);return value;}const value=build();cache.set(id,value);if(cache.size>rules().candidateCache)cache.delete(cache.keys().next().value);return value;}
+ function animal(w,cx,cy,index=0){
+  const id='A165_'+cx+'_'+cy+'_'+index;return memo(w,id,()=>{const q=context(w,id,cx,cy,index,'animal');if(!q)return null;const R=rules(),pool=[];
+   for(const d of Object.values(R.species)){
+    const fresh=q.water.salinity===0||q.water.salinity==='fresh',salt=typeof q.water.salinity==='number'?q.water.salinity>0:q.water.salinity==='salt';
+    const weight=d.water==='land'?(d.biomes[q.biome.id]||0):d.water==='fresh'&&fresh&&q.water.distanceToWater<=d.bankRange||d.water==='salt'&&salt&&q.water.distanceToWater<=d.bankRange?d.weight:0;
+    if(weight>0)pool.push([d,weight]);
+   }
+   const total=pool.reduce((n,row)=>n+row[1],0);if(!total)return null;let draw=unit(w,id,'species')*total,d=pool[pool.length-1][0];for(const row of pool){draw-=row[1];if(draw<0){d=row[0];break;}}
+   const descriptor={id,x:q.x,y:q.y,z:0,poi:null,species:d.id,variant:geometry().hash(w.seed,id,'appearance')%4,radius:d.radius,length:d.length,width:d.width,profile:d,biome:q.biome.id};return Object.freeze(descriptor);
+  });
+ }
+ function contact(w,cx,cy,index=0){
+  const id='N165_'+cx+'_'+cy+'_'+index;return memo(w,id,()=>{const q=context(w,id,cx,cy,index,'contact');if(!q)return null;
+   const profile=w.biomes.enemyProfile(w.seed,q.x,q.y,id,{generation:w.generation}),bank=q.water.distanceToWater<50;
+   return Object.freeze({id,x:q.x,y:q.y,z:0,poi:null,radius:core().FrontierTacticsRules.enemyRadius,biome:q.biome.id,bank,profile:Object.freeze({...profile,name:bank&&profile.kind==='walker'?'Errant des berges':profile.name})});
+  });
+ }
+ function candidate(w,id){const match=/^([AN])165_(\d+)_(\d+)_(\d+)$/.exec(id);return match?(match[1]==='A'?animal:contact)(w,Number(match[2]),Number(match[3]),Number(match[4])):null;}
+ function admitted(w,q){if(!q||w.blocked(q.x,q.y,q.radius??core().FrontierTacticsRules.enemyRadius,0,null))return false;const margin=rules().parcelClearance;
+  for(const p of w.nearPOI(q.x,q.y,60)){const box=p.reserve;if(box&&q.x>box.l-margin&&q.x<box.r+margin&&q.y>box.t-margin&&q.y<box.b+margin)return false;}return true;
+ }
+ function around(w,x,y,range=rules().streamRange){const R=rules(),animals=[],contacts=[];if(w.hydrologyVersion!==1)return{animals,contacts};
+  const max=Math.ceil(w.size/R.chunk)-1;for(let cy=Math.max(0,Math.floor((y-range)/R.chunk));cy<=Math.min(max,Math.floor((y+range)/R.chunk));cy++)for(let cx=Math.max(0,Math.floor((x-range)/R.chunk));cx<=Math.min(max,Math.floor((x+range)/R.chunk));cx++){
+   for(let i=0;i<R.animalCandidates;i++){const q=animal(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)animals.push(q);}
+   for(let i=0;i<R.contactCandidates;i++){const q=contact(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)contacts.push(q);}
+  }
+  const order=(a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y)||a.id.localeCompare(b.id);animals.sort(order);contacts.sort(order);return{animals,contacts};
+ }
+ const api=Object.freeze({animal,contact,candidate,admitted,around,cacheSize:w=>worlds.get(w)?.size||0,get RULES(){return rules();}});root.DeadwallBiomePopulation165=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(globalThis);
+
+/* Metric water geometry shared by the landscape, GPS and regional atlas. */
+(function(root,factory){'use strict';const api=factory();root.DeadwallWaterArt165=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(globalThis,function(){'use strict';
+ const TAU=Math.PI*2,NAMES=Object.freeze({land:'Terrain sec',shore:'Berge',pool:'Mare',pond:'Étang',lake:'Lac',stream:'Ruisseau',river:'Cours d’eau',sea:'Mer',ocean:'Océan'});
+ const STYLE=Object.freeze({pond:{water:'#526f62',deep:'#415d54',bank:'#858364'},pool:{water:'#647a66',deep:'#506751',bank:'#929174'},lake:{water:'#527b7b',deep:'#3d646c',bank:'#969174'},stream:{water:'#78918a',deep:'#5f7f7c',bank:'#938a6b'},river:{water:'#5f8380',deep:'#436a71',bank:'#958a6b'},sea:{water:'#4d7b83',deep:'#345d71',bank:'#b2a184'},ocean:{water:'#355d77',deep:'#274a65',bank:'#a5967a'}});
+ const finite=p=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y);
+ const bounds=v=>({l:v?.l??v?.left??v?.x,r:v?.r??v?.right??(v?.x+v?.w),t:v?.t??v?.top??v?.y,b:v?.b??v?.bottom??(v?.y+v?.h)});
+ function validView(v){return v&&[v.l,v.r,v.t,v.b].every(Number.isFinite)&&v.r>v.l&&v.b>v.t;}
+ function enabled(w){return w?.hydrologyVersion===1&&typeof w.hydrology?.featuresIn==='function';}
+ function ellipse(f){const e=f.ellipse;if(!e)return null;const cx=e.cx??e.x,cy=e.cy??e.y;return[cx,cy,e.rx,e.ry,e.a??0].every(Number.isFinite)&&e.rx>0&&e.ry>0?{cx,cy,rx:e.rx,ry:e.ry,a:e.a??0}:null;}
+ function shape(c,f,pad=0){
+  c.beginPath();
+  const points=f.points;if(!Array.isArray(points)||points.length<2||!points.every(finite))return null;
+  for(let i=0;i<points.length;i++)i?c.lineTo(points[i].x,points[i].y):c.moveTo(points[i].x,points[i].y);
+  if(f.shape==='polygon'||f.closed||f.polygon||['sea','ocean'].includes(f.kind)){c.closePath();return'fill';}
+  if(!Number.isFinite(f.width)||f.width<=0)return null;
+  c.lineWidth=f.width+pad*2;c.lineCap='round';c.lineJoin='round';return'stroke';
+ }
+ function paint(c,f,color,pad=0){const mode=shape(c,f,pad);if(!mode)return false;c.fillStyle=c.strokeStyle=color;c[mode]();if(mode==='fill'&&pad>0){c.lineWidth=pad*2;c.lineJoin='round';c.stroke();}return true;}
+ function features(w,v){return w.hydrology.featuresIn({x:v.l,y:v.t,w:v.r-v.l,h:v.b-v.t})||[];}
+ function flowMarks(c,f,v,time,scale){
+  const points=f.points;if(!f.flowing||!Array.isArray(points)||points.length<2)return 0;
+  let total=0,drawn=0;const spacing=Math.max(4,3/scale),offset=((time*.65)%spacing+spacing)%spacing;
+  c.strokeStyle='rgba(208,224,208,.29)';c.lineWidth=Math.max(.035,.7/scale);c.lineCap='round';
+  for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy);if(!len)continue;
+   for(let s=spacing-Math.abs(total-offset)%spacing;s<len;s+=spacing){const x=a.x+dx*s/len,y=a.y+dy*s/len;if(x<v.l-2||x>v.r+2||y<v.t-2||y>v.b+2)continue;
+    const wing=Math.min((f.width||1)*.22,.42),tail=Math.min(1.15,(f.width||1)*.6),ux=dx/len,uy=dy/len;c.beginPath();c.moveTo(x-ux*tail-uy*wing,y-uy*tail+ux*wing);c.lineTo(x,y);c.lineTo(x-ux*tail+uy*wing,y-uy*tail-ux*wing);c.stroke();if(++drawn>=160)return drawn;
+   }total+=len;
+  }return drawn;
+ }
+ function stillMarks(c,f,v,time,scale){
+  const e=ellipse(f);if(!e)return 0;const step=Math.max(2.8,10/scale),extent=Math.max(e.rx,e.ry),left=Math.max(v.l,e.cx-extent),right=Math.min(v.r,e.cx+extent),top=Math.max(v.t,e.cy-extent),bottom=Math.min(v.b,e.cy+extent),cos=Math.cos(e.a),sin=Math.sin(e.a);let count=0;
+  c.strokeStyle='rgba(209,225,211,.21)';c.lineWidth=Math.max(.025,.55/scale);
+  for(let row=Math.floor(top/step);row<=Math.ceil(bottom/step);row++)for(let col=Math.floor(left/step);col<=Math.ceil(right/step);col++){
+   const x=(col+.5)*step,y=(row+.5)*step,dx=x-e.cx,dy=y-e.cy,lx=cos*dx+sin*dy,ly=-sin*dx+cos*dy;
+   if(lx*lx/(e.rx*e.rx)+ly*ly/(e.ry*e.ry)>.78)continue;
+   const phase=Math.sin(time*.55+col*1.73+row*.91)*.09,width=Math.min(.6,step*.13);c.beginPath();c.moveTo(x-width,y+phase);c.quadraticCurveTo(x,y-.08+phase,x+width,y+phase);c.stroke();if(++count>=144)return count;
+  }return count;
+ }
+ function coastalMarks(c,f,v,time,scale){
+  if(!['sea','ocean'].includes(f.kind))return;const step=Math.max(3.5,10/scale);let count=0;
+  c.save();try{shape(c,f);c.clip();c.strokeStyle='rgba(205,222,214,.19)';c.lineWidth=Math.max(.035,.6/scale);
+   for(let y=Math.floor(v.t/step)*step;y<v.b;y+=step)for(let x=Math.floor(v.l/step)*step;x<v.r;x+=step){const phase=Math.sin(time*.6+x*.3+y*.4)*.10,dx=Math.sin(x*.7+y*.3)*step*.16;c.beginPath();c.moveTo(x+dx,y+phase);c.quadraticCurveTo(x+dx+.7,y+phase-.12,x+dx+1.4,y+phase);c.stroke();if(++count>=196)return;}
+  }finally{c.restore();}
+ }
+ function draw(c,w,rawView,{scale=32,map=false,time=0,reducedMotion=false}={}){
+  if(!enabled(w)||!Number.isFinite(scale)||scale<=0)return false;const v=bounds(rawView);if(!validView(v))return false;
+  const list=features(w,{l:v.l-20,r:v.r+20,t:v.t-20,b:v.b+20});if(!Array.isArray(list))return false;
+  c.save();try{c.beginPath();c.rect(v.l,v.t,v.r-v.l,v.b-v.t);c.clip();
+   // Every bank precedes every body: a tributary never paints earth over its receiving water.
+   for(const f of list){const s=Object.hasOwn(STYLE,f.kind)&&STYLE[f.kind];if(s)paint(c,f,s.bank,Math.max(0,f.bankWidth||0));}
+   for(const f of list){const s=Object.hasOwn(STYLE,f.kind)&&STYLE[f.kind];if(s)paint(c,f,s.water);}
+   if(!map&&scale>=2){const clock=reducedMotion?0:Number.isFinite(time)?Math.max(0,time):0;
+    for(const f of list){const s=Object.hasOwn(STYLE,f.kind)&&STYLE[f.kind];if(!s)continue;c.save();
+     if(shape(c,f)==='fill')c.clip();
+     // Interior depth remains within the same authoritative footprint.
+     const e=ellipse(f);if(e&&Math.min(e.rx,e.ry)>1){c.save();shape(c,f);c.clip();c.fillStyle=s.deep;c.globalAlpha*=.28;c.beginPath();c.ellipse(e.cx,e.cy,e.rx*.78,e.ry*.78,e.a,0,TAU);c.fill();c.restore();}
+     flowMarks(c,f,v,clock,scale);stillMarks(c,f,v,clock,scale);coastalMarks(c,f,v,clock,scale);c.restore();
+    }
+   }
+  }finally{c.restore();}return true;
+ }
+ function drawCrossings(c,w,rawView,{scale=32,map=false}={}){
+  if(!enabled(w)||!Number.isFinite(scale)||scale<=0)return 0;const v=bounds(rawView);if(!validView(v))return 0;let count=0;
+  c.save();try{for(const q of w.hydrology.crossings||[]){if(!finite(q)||![q.a,q.width,q.length].every(Number.isFinite)||q.width<=0||q.length<=0)continue;const pad=Math.hypot(q.width,q.length)/2;if(q.x+pad<v.l||q.x-pad>v.r||q.y+pad<v.t||q.y-pad>v.b)continue;
+    c.save();c.translate(q.x,q.y);c.rotate(q.a);c.fillStyle='#333f3b';c.fillRect(-q.length/2,-q.width/2,q.length,q.width);c.fillStyle='#737b70';c.fillRect(-q.length/2,-q.width/2,q.length,q.width);
+    c.strokeStyle='#b5b5a1';c.lineWidth=Math.max(.12,(map?.7:.8)/scale);c.lineCap='butt';c.beginPath();c.moveTo(-q.length/2,-q.width/2);c.lineTo(q.length/2,-q.width/2);c.moveTo(-q.length/2,q.width/2);c.lineTo(q.length/2,q.width/2);c.stroke();
+    if(!map&&scale>=3){c.strokeStyle='#414f47';c.lineWidth=.08;c.beginPath();for(const x of[-q.length/2,q.length/2]){c.moveTo(x,-q.width/2);c.lineTo(x,q.width/2);}c.stroke();}
+    c.restore();count++;
+   }}finally{c.restore();}return count;
+ }
+ function describe(sample){if(!sample||!Object.hasOwn(NAMES,sample.kind))return'';const name=NAMES[sample.kind];return name+(sample.water?' · eau '+(sample.salinity==='salt'?'salée':'douce'):'')+(sample.crossing?' · franchissement routier':'');}
+ return Object.freeze({STYLE,NAMES,describe,draw,drawCrossings});
+});
+
+/* Original top-down animal silhouettes. Gait phase comes from real travel, never wall-clock time. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallWildlifeArt165=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(globalThis,function(root){'use strict';
+ const TAU=Math.PI*2,SPECIES=Object.freeze(['duck','heron','roeDeer','boar','hare','gull']);
+ const COLOURS=Object.freeze({duck:['#655d43','#6b7352','#84735b','#5c6456'],heron:['#919b97','#7d8c8b','#a8ada1','#8b9692'],roeDeer:['#93714c','#aa8359','#806047','#9d7951'],boar:['#554d41','#655b48','#49463f','#736653'],hare:['#8e8066','#a19375','#776e5b','#a0957c'],gull:['#c4c6b7','#b3bcb2','#cfd0bf','#bfc4b8']});
+ const finite=p=>p&&Number.isFinite(p.x)&&Number.isFinite(p.y);
+ function oval(c,x,y,rx,ry,color,a=0){c.fillStyle=color;c.beginPath();c.ellipse(x,y,Math.max(.0001,rx),Math.max(.0001,ry),a,0,TAU);c.fill();}
+ function line(c,points,color,width){c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.lineJoin='round';c.beginPath();for(let i=0;i<points.length;i++)i?c.lineTo(...points[i]):c.moveTo(...points[i]);c.stroke();}
+ function polygon(c,points,color){c.fillStyle=color;c.beginPath();for(let i=0;i<points.length;i++)i?c.lineTo(...points[i]):c.moveTo(...points[i]);c.closePath();c.fill();}
+ function quadruped(c,s,l,w,v,phase){
+  const fur=COLOURS[s][v],hoof=s==='hare'?'#69634f':'#3c3b33',step=Math.sin(phase)*l*(s==='hare'?.075:.045),thickness=w*(s==='boar'?.19:.125);
+  for(const front of[-1,1])for(const side of[-1,1]){const dx=step*front*side,xx=front*l*.22,yy=side*w*.34;line(c,[[xx,yy*.65],[xx+dx,yy]],hoof,thickness);}
+  const body=s==='boar'?[.32,.36]:s==='hare'?[.29,.30]:[.30,.29];oval(c,-l*.06,0,l*body[0],w*body[1],fur);
+  oval(c,-l*.09,-w*.045,l*.25,w*.18,v%2?'rgba(220,201,159,.17)':'rgba(31,34,27,.14)');
+  if(s==='roeDeer'){
+   oval(c,l*.19,0,l*.13,w*.19,fur);oval(c,l*.34,0,l*.13,w*.17,fur);oval(c,l*.435,0,l*.035,w*.095,'#3b4036');
+   for(const side of[-1,1])oval(c,l*(v===1?.25:.29),side*w*(v===2?.24:.20),l*(v===3?.09:.075),w*.085,fur,side*(v===2?.75:.42));
+   oval(c,-l*.35,0,l*.045,w*.15,'#c4b798');
+   if(v===1||v===3)for(const side of[-1,1]){const y=side*w*.15;line(c,[[l*.32,y],[l*.24,side*w*.36],[l*.13,side*w*.40]],'#72694f',w*.035);if(v===3)line(c,[[l*.24,side*w*.35],[l*.25,side*w*.46]],'#72694f',w*.028);}
+  }else if(s==='boar'){
+   oval(c,l*.19,0,l*.19,w*.27,fur);polygon(c,[[l*.26,-w*.19],[l*.47,-w*.10],[l*.48,w*.10],[l*.26,w*.19]],fur);oval(c,l*.45,0,l*.045,w*.12,'#a18e74');
+   for(const side of[-1,1])polygon(c,[[l*.16,side*w*.13],[l*(v===2?.06:.12),side*w*(v===1?.39:.30)],[l*.29,side*w*.21]],fur);
+   line(c,[[-l*.29,0],[-l*.37,(v-1.5)*w*.09],[-l*.44,w*.08]],fur,w*.045);
+   if(v!==0)for(const side of[-1,1])line(c,[[l*.37,side*w*.11],[l*.41,side*w*(v===3?.22:.17)]],'#c3bda1',w*.035);
+   for(let n=0;n<3+v;n++){const x=-l*.23+n*l*.07;line(c,[[x,-w*.09],[x-l*.04,-w*(.17+v*.015)]],'#423f35',w*.025);}
+  }else{
+   oval(c,-l*.16,0,l*.22,w*.34,fur);oval(c,l*.24,0,l*.16,w*.22,fur);oval(c,l*.38,0,l*.045,w*.09,'#5a5c4c');
+   for(const side of[-1,1]){const a=side*(v===0?.24:v===1?.50:v===2?.72:.35),earX=l*(v===2?.14:.11),earY=side*w*(v===3?.27:.21);oval(c,earX,earY,l*(v===3?.16:.20),w*.065,fur,a);oval(c,earX,earY,l*.13,w*.026,'#bdad8e',a);}
+   oval(c,-l*.37,0,l*(v===1?.07:.05),w*.12,'#beb79e');
+  }
+  for(const side of[-1,1])oval(c,l*(s==='boar'?.31:.34),side*w*.11,l*.012,w*.024,'#202b24');
+ }
+ function bird(c,s,l,w,v,phase){
+  const feather=COLOURS[s][v],step=Math.sin(phase)*l*.045;
+  if(s==='heron'){
+   for(const side of[-1,1])line(c,[[-l*.02,side*w*.12],[-l*.21+step*side,side*w*.36],[-l*.32+step*side,side*w*(v===2?.43:.34)]],'#454f46',w*.045);
+   oval(c,-l*.06,0,l*.23,w*.30,feather);for(const side of[-1,1])oval(c,-l*.09,side*w*.105,l*.20,w*.11,'#657b7b',side*.10);
+   const bend=(v-1.5)*w*.085;line(c,[[l*.08,0],[l*.20,bend],[l*.32,0]],feather,w*.17);oval(c,l*.34,0,l*.07,w*.12,'#bac0ae');polygon(c,[[l*.38,-w*.035],[l*.50,0],[l*.38,w*.035]],'#b6a171');
+   line(c,[[l*.29,-w*.08],[l*(v===1?.17:.22),-w*(v===3?.23:.13)]],'#374c49',w*.04);
+  }else{
+   const gull=s==='gull';for(const side of[-1,1])line(c,[[l*.02,side*w*.18],[-l*.05+step*side,side*w*.31],[-l*.12+step*side,side*w*.33]],gull?'#a38e66':'#ab9061',w*.07);
+   oval(c,-l*.045,0,l*.30,w*(v===1?.31:v===3?.40:.34),feather);polygon(c,[[-l*.25,-w*.15],[-l*(v===2?.48:.42),0],[-l*.25,w*.15]],gull?'#586b69':feather);
+   for(const side of[-1,1]){const y=side*w*(v===2?.12:.105);oval(c,-l*(v===3?.10:.04),y,l*(v===1?.20:.24),w*.13,gull?'#929f9c':v===0?'#4d6254':'#575e4d',side*(v===3?.20:.10));if(gull)polygon(c,[[-l*.16,y],[-l*.31,side*w*.19],[-l*.27,side*w*.04]],'#3c5151');}
+   oval(c,l*.26,0,l*.14,w*.22,gull?'#d9d8c2':v===0?'#425f4b':feather);polygon(c,[[l*.35,-w*.065],[l*(v===3?.50:.48),0],[l*.35,w*.065]],gull?'#b2a16c':'#c0a46b');
+   if(!gull&&v===0)line(c,[[l*.15,-w*.16],[l*.15,w*.16]],'#c7c4a0',w*.045);
+  }
+  oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
+ }
+ function drawAnimal(c,a,{reducedMotion=false}={}){
+  if(!a||!SPECIES.includes(a.species)||!finite(a)||(a.hp??a.health??0)<=0)return false;
+  const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
+  if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;
+  const v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,phase=a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0;
+  c.save();try{c.translate(a.x,a.y);c.rotate(a.a||0);oval(c,-l*.035,w*.065,l*.40,w*.31,'rgba(18,30,23,.20)');
+   if(['roeDeer','boar','hare'].includes(a.species))quadruped(c,a.species,l,w,v,phase);else bird(c,a.species,l,w,v,phase);
+  }finally{c.restore();}return true;
+ }
+ function contacts(g){const list=g?.frontier?.wildlife165?.();return Array.isArray(list)?list:[];}
+ function observed(g,v,vision){return v?.z===0?contacts(g).filter(a=>finite(a)&&(a.hp??a.health??0)>0&&(a.z??0)===0&&vision?.canSeeRegional(a)):[];}
+ function depthEntries(g,v,view){const vision=g.visibility?.frame?.(),l=view.l??view.left,r=view.r??view.right,t=view.t??view.top,b=view.b??view.bottom;
+  return observed(g,v,vision).filter(a=>a.x+(a.length||2)>=l&&a.x-(a.length||2)<=r&&a.y+(a.length||2)>=t&&a.y-(a.length||2)<=b).map(a=>({kind:'wildlife165',id:a.id,depth:a.y,draw:c=>drawAnimal(c,a,{reducedMotion:!!g.settings?.reducedMotion})}));
+ }
+ function map(c,g,v,cam,vision){let count=0;c.save();try{for(const a of observed(g,v,vision)){const q=cam.screen(a.x,a.y);if(q.x<-4||q.y<-4||q.x>cam.width+4||q.y>cam.height+4)continue;c.fillStyle='#c2b895';c.beginPath();c.moveTo(q.x,q.y-2.5);c.lineTo(q.x+2.5,q.y);c.lineTo(q.x,q.y+2.5);c.lineTo(q.x-2.5,q.y);c.closePath();c.fill();count++;}}finally{c.restore();}return count;}
+ return Object.freeze({SPECIES,COLOURS,drawAnimal,depthEntries,observed,map});
+});
+
+/* Loaded with the data bundle before Core; entries are resolved after Core is ready. */
+(function(root,factory){'use strict';
+ const api=factory(root);root.DeadwallHydrologyCodex165=api;
+ if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(root){'use strict';
+ let previousWater=null,previousPopulation=null,previousBiomes=null,previousEntries=null;
+ const number=value=>String(Number(value.toFixed(3))).replace('.',','),range=values=>values[0]===values[1]?number(values[0]):values.map(number).join(' à ');
+ const waterText=Object.freeze({
+  lake:{summary:'Une étendue d’eau douce organise les trajets de rive. Les lacs traversés appartiennent au réseau d’écoulement et possèdent un exutoire.',
+   placement:'Bassin retenu sur un cours principal, avec arrivée et sortie du réseau. Les réservations de D-17, des localités et des lieux terrestres restent prioritaires.',
+   variants:'Contours déterministes et rives irrégulières. La présence d’un lac ne crée ni base nautique, ni ponton, ni camping équipé.'},
+  pond:{summary:'Un bassin d’eau douce fermé occupe un sol assez humide, à une échelle inférieure au lac.',
+   placement:'Le placement dépend de l’humidité du terrain. Le bassin conserve une séparation des autres eaux et refuse les emprises protégées ; aucun ruisseau invisible n’est inventé pour le raccorder.',
+   variants:'Contours, orientation et implantation varient avec la graine. Étang naturel en jeu ; pisciculture et entretien d’une retenue ne sont pas simulés.'},
+  pool:{summary:'Une petite mare occupe une poche humide et se contourne depuis sa berge ; elle ne remplace pas un cours d’eau.',
+   placement:'Bassin fermé sélectionné dans les sols humides, avec contrôle des réservations et de la séparation entre étendues.',
+   variants:'Petites formes orientées selon leur identité. Une mare n’offre ni eau potable, ni élevage, ni terrain constructible sur sa surface.'},
+  stream:{summary:'Un petit affluent rejoint un cours receveur déclaré. Sa largeur et son dessin restent continus au passage des secteurs techniques.',
+   placement:'Tracé orienté du réseau vers un cours principal. Les détours respectent les réservations ; un changement de secteur ne tire pas un nouvel exutoire.',
+   variants:'Méandres et directions changent avec la graine. La faible profondeur nominale ne crée pas un gué automatique.'},
+  river:{summary:'Un cours principal relie l’intérieur de la région à la côte. Il reçoit les affluents et organise les franchissements.',
+   placement:'Le réseau est orienté vers la côte de la campagne. Les lacs traversés conservent un exutoire ; les villes et D-17 disposent de leurs réservations.',
+   variants:'Tracés et confluences déterministes. Le courant décrit l’orientation du réseau ; il ne pousse pas physiquement les acteurs et ne simule pas une crue.'},
+  sea:{summary:'La mer côtière borde le continent et rejoint directement l’océan. Elle ne forme pas de poche salée au milieu des terres.',
+   placement:'Bande littorale attachée à une bordure réelle de la région, entre la terre et les eaux du large.',
+   variants:'La bordure et les courbes du rivage dépendent de la graine. Plage aménagée, port, marée et navigation restent des systèmes distincts.'},
+  ocean:{summary:'Les eaux du large prolongent la mer côtière jusqu’à la limite de la région. Le monde conserve ses dimensions finies.',
+   placement:'Frange au large de la même étendue salée, au-delà de la mer côtière. Aucun bassin d’océan isolé n’est semé à l’intérieur du continent.',
+   variants:'La largeur représentée change avec le trait de côte. Il s’agit de la frange d’océan incluse dans la carte, sans monde maritime infini ni navigation jouable.'}
+ });
+ function measurements(id,definition,rules){
+  const dimensions=['lake','pond','pool'].includes(id)?'Grand axe nominal '+range(definition.width)+' m ; petit axe ×'+number(rules.basins[id].ratio):
+   id==='ocean'?'Frange représentée dans la région : '+range(definition.width)+' m':
+   id==='sea'?'Bande côtière : '+range(definition.width)+' m':'Largeur nominale '+range(definition.width)+' m';
+  return dimensions+'. Eau '+(definition.salinity==='salt'?'salée':'douce')+' ; profondeur nominale de classe '+number(definition.depth)+' m ; bande de berge '+number(definition.bankWidth)+' m. Ces mesures décrivent le terrain, sans simulation hydraulique ni nage.';
+ }
+ function entries(){
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),H=C?.Hydrology165Rules,P=C?.BiomePopulation165Rules,B=C?.BiomeRules135;
+  if(!H?.kinds||!P?.species||!B?.enemies)throw Error('Règles du guide hydrographique165 absentes.');
+  if(H===previousWater&&P===previousPopulation&&B===previousBiomes)return previousEntries;
+  const common={status:'jouable',family:'nature',
+   access:'L’eau bloque les déplacements au sol. Longer une rive ou rejoindre un franchissement réellement présent ; la faible profondeur ne suffit pas à créer un gué. Aucune nage, plongée ou embarcation jouable.',
+   supplies:'L’eau et ses décors n’offrent aucun stock. Les arbres, roches et contenants identifiés conservent leurs réserves finies ; ni pêche ni eau potable automatique.',
+   risks:'Le détour peut allonger le retour. Une route dessinée ne transforme pas l’eau en terre ; vérifier le tablier et ses accès. La profondeur nominale ne constitue pas une simulation de noyade.',
+   night:'Les eaux et berges ne produisent aucune lumière. Préparer une source réelle ; la nuit et les obstacles gardent les règles de visibilité existantes.',
+   interactions:'Itinéraire, obstacles, accès aux lieux et véhicules, choix des berges et peuplement. La consultation ne révèle aucun lieu ni contact inconnu.',
+   qa:'Même graine et même hydrologie : mêmes eaux, berges et franchissements après rechargement des secteurs. Le Guide ne modifie ni la campagne ni le hasard de simulation.',
+   source:'Extension 1.65 · nouvelles campagnes hydrologyVersion='+H.version+', génération G'+H.requiredGeneration+' ou ultérieure et écologie '+H.requiredEcology+'. Les sauvegardes historiques gardent leur terrain. Source : DeadwallCore.Hydrology165Rules et BiomePopulation165Rules.'};
+  const list=Object.entries(H.kinds).map(([id,definition])=>{
+   const text=waterText[id];if(!text)throw Error('Famille d’eau sans fiche165 : '+id);
+   return Object.freeze({...common,id:'hydrology165-'+id,title:definition.name+' · hydrographie',summary:text.summary,
+    layout:measurements(id,definition,H)+' '+text.placement,variants:text.variants});
+  });
+  list.push(Object.freeze({...common,id:'hydrology165-banks',title:'Berges et franchissements · hydrographie',family:'systemes',
+   summary:'Le même réseau décrit la limite de l’eau, sa rive et les traversées retenues. La chaussée passe sur un ouvrage physique lorsqu’elle franchit une eau.',
+   layout:'Réserve du refuge : '+number(H.protection.homeRadius)+' m de rayon. Marges de localité : '+number(H.protection.settlementMargin)+' m. Un franchissement prolonge ses accès de '+number(H.crossings.bankLength)+' m sur les berges ; portée maximale retenue '+number(H.crossings.maxSpan)+' m.',
+   access:'Le tablier et ses accès gardent leur propre géométrie. Les collisions vérifient la position et le rayon réel de l’acteur ; une rive proche ne vaut pas passage. Les véhicules doivent tenir sur le franchissement.',
+   variants:'Les cours contournent les réservations. Les ouvrages dépendent des routes réellement croisées ; aucun pont supplémentaire n’est accordé par la consultation du Guide.',
+   interactions:'Cohérence entre carte, terrain, collision, approche à pied et conduite. Les implantations terrestres refusent les emprises en eau ; les palissades, pontons et ports complets gardent leurs règles propres.'}));
+  const species=Object.values(P.species),speciesNames=species.map(d=>d.name).join(' · '),dimensions=species.map(d=>d.name+' : '+number(d.length)+' × '+number(d.width)+' m, rayon '+number(d.radius)+' m, vitesse de fuite '+number(d.speed)+' m/s').join(' ; ');
+  const bankNames=kind=>species.filter(d=>d.water===kind).map(d=>d.name+' à '+number(d.bankRange)+' m au plus d’une berge').join(' · ');
+  list.push(Object.freeze({...common,id:'hydrology165-wildlife',title:'Animaux des biomes et des berges',
+   summary:speciesNames+'. Les espèces terrestres sont pondérées par le biome ; les oiseaux de berge dépendent aussi du type d’eau.',
+   layout:dimensions+'. Eau douce : '+bankNames('fresh')+'. Eau salée : '+bankNames('salt')+'.',
+   access:'Les animaux marchent sur le sol sec et respectent les obstacles. Les oiseaux restent au sol : aucun vol ni nage n’est simulé. Ils errent puis fuient une menace observée ou un bruit.',
+   supplies:'Aucune viande, plume ou ressource automatique. Pas d’élevage, de capture ni d’économie de chasse. Une mort ne transforme pas l’animal en contenant de butin.',
+   risks:'La présence est probabiliste. Les animaux n’attaquent pas et ne constituent pas une escorte. Les voies, parcelles et '+number(P.homeExclusion)+' m autour de D-17 excluent les apparitions naturelles.',
+   variants:'Quatre variantes visuelles par espèce, sans modifier vitesse, santé ou stock. Au plus '+number(P.animalBudget)+' animaux actifs dans le voisinage chargé ; ce plafond ne décrit pas une population mondiale.',
+   interactions:'Biomes, eau douce ou salée, déplacement, bruit, visibilité et persistance. Les blessures et les morts gardent leur identité ; quitter un secteur ou continuer la partie ne les réinitialise pas.'}));
+  const profiles=Object.values(B.enemies).map(d=>d.name+' : '+number(d.health)+' PV, '+number(d.speed)+' m/s, '+number(d.damage)+' dégâts par contact toutes les '+number(d.interval)+' s').join(' ; ');
+  list.push(Object.freeze({...common,id:'hydrology165-infected',title:'Infectés naturels et milieux régionaux',family:'systemes',
+   summary:'Les espaces naturels accueillent des contacts régionaux pondérés par le biome. Ils reprennent les six profils existants, avec leurs collisions, poursuites et statistiques régionales.',
+   layout:profiles+'. Au plus '+number(P.contactBudget)+' contacts naturels actifs dans le voisinage chargé ; aucun quota ne garantit un ennemi dans chaque secteur.',
+   access:'Les apparitions recherchent un sol sec et refusent les emprises réservées. Les contacts suivent les obstacles, les berges et les franchissements ; aucune nage ou traversée directe de l’eau.',
+   supplies:'Aucune récompense de ressource automatique. Prévoir les munitions, les soins et un trajet de retour ; aucun budget de horde supplémentaire n’est ajouté à D-17.',
+   risks:'Le bruit et une rencontre sur une berge peuvent compliquer la retraite. Les nouveaux placements ne donnent ni pouvoir aquatique, ni santé de boss, ni attaque animale.',
+   variants:'Les proportions suivent les profils du milieu. La même identité conserve les blessures et la mort dans le registre régional existant.',
+   interactions:'Exploration, bruit, poursuite, combat et sauvegarde. Sur la carte, seuls les individus réellement observés par un allié sont montrés ; consulter cette fiche ne localise personne.'}));
+  previousWater=H;previousPopulation=P;previousBiomes=B;previousEntries=Object.freeze(list);return previousEntries;
+ }
+ return Object.freeze({entries});
+});
+
 /* Optional ecology revision 1. All providers own their immutable geographic context. */
 (function(root,factory){'use strict';const api=factory(()=>typeof module==='object'&&module.exports?require('./core.js'):root.DeadwallCore);root.DeadwallBiomes164=api;if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(getCore){'use strict';
@@ -6,9 +377,10 @@
  const channels=['base','secondary','soil','accent','rock','grass','water'];
  function lattice(seed,x,y){let h=(seed^Math.imul(x,0x27d4eb2d)^Math.imul(y,0x165667b1))>>>0;h=Math.imul(h^h>>>16,0x7feb352d);h=Math.imul(h^h>>>15,0x846ca68b);return((h^h>>>16)>>>0)/4294967296;}
  function valid(seed,x=0,y=0){if(!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(x)||!Number.isFinite(y))throw Error('Coordonnées ou graine écologique164 invalides.');}
- function create({base,seed,settlements=[]}={}){
+ function create({base,seed,settlements=[],hydrology=null}={}){
   const C=getCore(),R=C?.EcologyRules164;if(!R)throw Error('Règles écologiques164 absentes.');
   valid(seed);if(!base?.sample||!base?.climate||!base?.noise||!base?.habitat||!base?.weighted)throw Error('Biomes historiques requis pour l’écologie164.');
+  if(hydrology&&(hydrology.version!==1||hydrology.seed!==seed||typeof hydrology.sample!=='function'))throw Error('Hydrologie écologique165 invalide.');
   if(!Array.isArray(settlements)||settlements.length>R.settlements.limit)throw Error('Communautés géographiques164 invalides.');
   const towns=Object.freeze(settlements.map((t,index)=>{const radius=t?.radius??t?.r;
    if(!t||![t.x,t.y,radius].every(Number.isFinite)||t.x<0||t.y<0||t.x>C.GeographyRules135.size||t.y>C.GeographyRules135.size||radius<=0||radius>R.settlements.maximumRadius)throw Error('Emprise de communauté164 invalide.');
@@ -30,6 +402,10 @@
    const valley=1-Math.abs(2*(base.noise(sampleSeed^164017,x,y,k.drainageScale)*(1-k.drainageDetailWeight)+base.noise(sampleSeed^164021,x,y,k.drainageDetailScale)*k.drainageDetailWeight)-1),
     drainage=smooth(valley,k.drainageThreshold)*(1-smooth(c.elevation,k.drainageElevation)),
     substrate=clamp(base.noise(sampleSeed^164101,x,y,k.substrateScale)*(1-k.substrateDetailWeight)+base.noise(sampleSeed^164107,x,y,k.substrateDetailScale)*k.substrateDetailWeight);
+   if(hydrology&&sampleSeed===seed){
+    const water=hydrology.sample(x,y),e=C.Hydrology165Rules.ecology,bank=1-smooth(water.distanceToWater,[0,e.bankReach]),fresh=water.salinity==='fresh'||water.salinity===0;
+    return{...c,moisture:c.moisture+(e.moisture-c.moisture)*bank,drainage:drainage+(e.drainage-drainage)*bank,substrate,settlementInfluence:settlementInfluence(sampleSeed,x,y),hydrology165:{bank,fresh,kind:water.kind,bodyId:water.bodyId}};
+   }
    return{...c,drainage,substrate,settlementInfluence:settlementInfluence(sampleSeed,x,y)};
   }
   function palette(values){const result={};for(let k=0;k<channels.length;k++){const rgb=[0,0,0];for(let i=0;i<defs.length;i++)for(let j=0;j<3;j++)rgb[j]+=colors[i][k][j]*values[i];result[channels[k]]='#'+rgb.map(n=>Math.round(n).toString(16).padStart(2,'0')).join('');}return result;}
@@ -42,6 +418,10 @@
    raw[indices.agriculturalPlateau]*=k.newBiomeStrength*smooth(c.elevation,k.plateauElevation)*(1-smooth(c.drainage,k.plateauDrainage));
    raw[indices.sandyPine]*=k.newBiomeStrength*smooth(c.substrate,k.sandySubstrate)*(1-smooth(c.moisture,k.sandyMoisture));
    raw[indices.peatland]*=k.newBiomeStrength*smooth(c.drainage,k.peatDrainage)*smooth(c.substrate,k.peatSubstrate);
+   if(c.hydrology165){const h=c.hydrology165,e=C.Hydrology165Rules.ecology;
+    if(h.fresh){for(const id of ['riparian','wetland','alluvialTerrace','peatland'])raw[indices[id]]*=1+h.bank*e.bankWeight;}
+    else for(const id of ['sandyPine','heath'])raw[indices[id]]*=1+h.bank*e.coastWeight;
+   }
    let total=0;for(const value of raw)total+=value;const values=raw,weights={};for(let i=0;i<defs.length;i++){values[i]/=total;weights[defs[i].id]=values[i];}
    let first=0,second=1;for(let i=1;i<defs.length;i++)if(values[i]>values[first]){second=first;first=i;}else if(i!==first&&(second===first||values[i]>values[second]))second=i;
    const def=defs[first],legacyWeights=projected(weights),h=base.habitat(sampleSeed,x,y,{weights:legacyWeights}),p=withPalette?palette(values):null;

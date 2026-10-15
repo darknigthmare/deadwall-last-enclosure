@@ -7,8 +7,8 @@ const copy=value=>JSON.parse(JSON.stringify(value));
 const checkpoint=g=>{const data=copy(g.serialize());delete data.timestamp;return data;};
 const models=new Map();
 function model(g,generation){
- const pose=g.frontier.position(),seed=g.world.seed,key=[seed,generation,pose.detailVersion,pose.ecologyVersion].join(':');
- if(!models.has(key))models.set(key,W.create(seed,generation,{detailVersion:pose.detailVersion,ecologyVersion:pose.ecologyVersion}));
+ const pose=g.frontier.position(),seed=g.world.seed,key=[seed,generation,pose.detailVersion,pose.ecologyVersion,pose.hydrologyVersion].join(':');
+ if(!models.has(key))models.set(key,W.create(seed,generation,{detailVersion:pose.detailVersion,ecologyVersion:pose.ecologyVersion,hydrologyVersion:pose.hydrologyVersion}));
  return models.get(key);
 }
 function campaign(generation=8){

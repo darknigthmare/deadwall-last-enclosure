@@ -17,7 +17,7 @@ function rejectAtomically(env,raw,label){const {g,storage}=env,input=clone(raw),
 test('QA07 migration : G4 explorée, butins partiels et morts persistent vers G5 puis deux reprises',()=>{
  const {g}=fresh(),raw=g.serialize(),old=W.create(raw.worldSeed,4),p=old.pois.find(p=>p.parking.length&&old.threatCount(p)>1),v=p.parking[0],obj=old.plan(p,0).objects[0];
  for(const id of ['defense131','exploration131','player131','world131','lore131'])delete raw.expansions127.modules[id];
- Object.assign(raw.frontier,{generation:4,ecologyVersion:0,seen:[p.id],notes:{[p.id]:'visited'},pin:p.id,enemies:{[p.id+':e0']:0,[p.id+':e1']:13},kills:1,taken:{[v.id]:v.amount,[obj.id]:Math.min(1.25,obj.amount)}});raw.nodes[0][1]=0;raw.resources.ammo=37;raw.player.health=71;raw.player.magazine.pistol=3;
+ Object.assign(raw.frontier,{generation:4,ecologyVersion:0,hydrologyVersion:0,seen:[p.id],notes:{[p.id]:'visited'},pin:p.id,enemies:{[p.id+':e0']:0,[p.id+':e1']:13},kills:1,taken:{[v.id]:v.amount,[obj.id]:Math.min(1.25,obj.amount)}});raw.nodes[0][1]=0;raw.resources.ammo=37;raw.player.health=71;raw.player.magazine.pistol=3;
  g.restoreSave(raw);assert.equal(g.frontier.position().generation,4);assert.equal(g.chronicles131.snapshot().prologue.status,'skipped');
  const before=g.serialize();g.player.x=100;g.player.y=100;assert.equal(g.worldOps131.expand().ok,false);standAt(g,g.player,g.core());
  assert.ok(g.worldOps131.expand().ok);assert.equal(g.frontier.position().generation,5);assert.equal(g.worldOps131.expand().ok,false);

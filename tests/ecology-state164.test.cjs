@@ -47,7 +47,7 @@ test('164 fresh G8 campaigns select ecology one while Continue of an empty histo
  const g=campaign();assert.equal(g.frontier.position().generation,8);assert.equal(g.frontier.position().ecologyVersion,1);
  assert.equal(g.frontier.world().ecologyVersion,1);assert.equal(g.frontier.snapshot().ecologyVersion,1);
  const current=checkpoint(g);assert.equal(g.restoreSave(copy(g.serialize())),true);assert.deepEqual(checkpoint(g),current);
- const historical=copy(g.serialize());historical.frontier.generation=7;delete historical.frontier.ecologyVersion;
+ const historical=copy(g.serialize());historical.frontier.generation=7;delete historical.frontier.ecologyVersion;delete historical.frontier.hydrologyVersion;
  const home=globalThis.DeadwallGeography135.home(historical.worldSeed,7);historical.frontier.x=home.maxX+2;historical.frontier.y=home.y;
  if(historical.expansions127.modules.lore131)historical.expansions127.modules.lore131.siteGeneration=7;
  assert.equal(g.restoreSave(historical),true);assert.equal(g.frontier.position().ecologyVersion,0);

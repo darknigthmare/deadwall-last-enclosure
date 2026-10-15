@@ -163,12 +163,13 @@ function depthEntries(g,v,view,places=v.world.nearPOI(v.x,v.y,Math.max(view.r-vi
  entries.push(...(g.barricades134?.depthEntries?.('region',v,view)||[]));
  entries.push(...(g.interventions134?.depthEntries?.('region',v,view)||[]));
  entries.push(...(g.arsenal134?.depthEntries?.('region',v,view)||[]));
+ entries.push(...(root.DeadwallWildlifeArt165?.depthEntries?.(g,v,view)||[]));
  if(!v.car?.driving&&!g.player.dead)add('player','player',v.y,c=>{person(c,g,v,'player');root.DeadwallEssentialArt?.carried(c,g,v.x,v.y,1);g.nightGear?.drawCarried?.(c,'region',v);g.campaignPack?.draw(c,'region',v,{ground:false});});
  return sortEntries(entries);
 }
 function render(g,v){const c=g.ctx,s=v.scale,r=Math.max(g.width,g.height)/s/2+30,view={l:v.x-g.width/s/2-8,r:v.x+g.width/s/2+8,t:v.y-g.height/s/2-8,b:v.y+g.height/s/2+8};c.setTransform(g.dpr,0,0,g.dpr,0,0);fill(c,0,0,g.width,g.height,'#1e3023');c.save();c.translate(g.width/2,g.height/2);c.scale(s,s);c.translate(-v.x,-v.y);
  const places=v.z===0?v.world.nearPOI(v.x,v.y,r):v.world.pois.filter(p=>p.id===v.inside);
- if(v.z===0){if(!root.DeadwallGround135?.draw(c,v.world,view,{scale:s})){fill(c,view.l,view.t,view.r-view.l,view.b-view.t,'#65754f');for(let y=Math.floor(view.t/3)*3;y<view.b;y+=3)for(let x=Math.floor(view.l/3)*3;x<view.r;x+=3){const n=G.noise(v.world.seed,x,y,38);fill(c,x,y,3.04,3.04,'rgba(29,67,41,'+(n*.34)+')');}}if(v.world.generation>=6)for(const chunk of v.world.around(v.x,v.y,r))for(const d of chunk.decor||[])if(d.x>=view.l-2&&d.x<=view.r+2&&d.y>=view.t-2&&d.y<=view.b+2)root.DeadwallGround135?.drawDecor(c,d);for(const p of places)lotGround(c,p,v);const roads=[...v.world.roads,...places.map(p=>v.world.driveFor?v.world.driveFor(p):p.drive),...(root.DeadwallAtlasRender.getApproaches?.(g)||[])];root.DeadwallRoadKit.drawNetwork(c,roads,{view});root.DeadwallSeedDetail157?.drawRoads?.(c,v.world.roads,view,v.world.seed);}
+ if(v.z===0){if(!root.DeadwallGround135?.draw(c,v.world,view,{scale:s,time:g.elapsed,reducedMotion:!!g.settings?.reducedMotion})){fill(c,view.l,view.t,view.r-view.l,view.b-view.t,'#65754f');for(let y=Math.floor(view.t/3)*3;y<view.b;y+=3)for(let x=Math.floor(view.l/3)*3;x<view.r;x+=3){const n=G.noise(v.world.seed,x,y,38);fill(c,x,y,3.04,3.04,'rgba(29,67,41,'+(n*.34)+')');}}if(v.world.generation>=6)for(const chunk of v.world.around(v.x,v.y,r))for(const d of chunk.decor||[])if(d.x>=view.l-2&&d.x<=view.r+2&&d.y>=view.t-2&&d.y<=view.b+2)root.DeadwallGround135?.drawDecor(c,d);for(const p of places)lotGround(c,p,v);const roads=[...v.world.roads,...places.map(p=>v.world.driveFor?v.world.driveFor(p):p.drive),...(root.DeadwallAtlasRender.getApproaches?.(g)||[])];root.DeadwallRoadKit.drawNetwork(c,roads,{view});root.DeadwallSeedDetail157?.drawRoads?.(c,v.world.roads,view,v.world.seed);root.DeadwallWaterArt165?.drawCrossings?.(c,v.world,view,{scale:s});}
  for(const p of places)lotFloor(c,p,v,g);
  const evolution=g.worldEvolution?.overview();
  if(v.z===0){root.DeadwallAtlasRender.drawHome(c,g,{world:true,scale:s,view:{left:view.l,right:view.r,top:view.t,bottom:view.b}});root.DeadwallWorldEvolutionArt?.drawGround?.(c,g,v,view,evolution);}
@@ -182,14 +183,16 @@ function minimap(g,v){
  // The outdoor GPS and the current floor have distinct, physical plans.
  if(!indoor){
  // Use the regional ground noise and live roads, not a second random map.
- if(!root.DeadwallGround135?.draw(c,v.world,view,{scale:s}))for(let y=Math.floor(view.t/16)*16;y<view.b;y+=16)for(let x=Math.floor(view.l/16)*16;x<view.r;x+=16)fill(c,x,y,16.04,16.04,'rgba(29,67,41,'+(G.noise(v.world.seed,x,y,38)*.34)+')');
+ if(!root.DeadwallGround135?.draw(c,v.world,view,{scale:s,map:true}))for(let y=Math.floor(view.t/16)*16;y<view.b;y+=16)for(let x=Math.floor(view.l/16)*16;x<view.r;x+=16)fill(c,x,y,16.04,16.04,'rgba(29,67,41,'+(G.noise(v.world.seed,x,y,38)*.34)+')');
  root.DeadwallRoadKit.drawNetwork(c,[...v.world.roads,...places.filter(p=>seen.has(p.id)).map(p=>v.world.driveFor?v.world.driveFor(p):p.drive),...(root.DeadwallAtlasRender.getApproaches?.(g)||[])],{view,markings:false,scale:s,minWidth:1.2,surface:'#a9ad86',shoulder:'#626e55',shoulderWidth:.65});
+ root.DeadwallWaterArt165?.drawCrossings?.(c,v.world,view,{scale:s,map:true});
  root.DeadwallAtlasRender.drawHome(c,g,{scale:s,resources:true,units:true,view:{left:view.l,right:view.r,top:view.t,bottom:view.b}});
  for(const p of places)if(seen.has(p.id)){c.save();c.translate(p.x,p.y);c.rotate(p.a);c.fillStyle='#d9c28c';c.fillRect(-p.w/2,-p.h/2,p.w,p.h);c.strokeStyle='#655f42';c.lineWidth=.7/s;c.strokeRect(-p.w/2,-p.h/2,p.w,p.h);c.restore();}
  }
  if(indoor){const p=v.poi,plan=v.world.plan(p,v.z);c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);fill(c,0,0,p.w,p.h,'#536453');for(const a of plan.objects)fill(c,a.x,a.y,a.w,a.h,'#93a08b');for(const a of plan.walls)fill(c,a.x,a.y,a.w,a.h,'#dfd9bf');for(const a of plan.stairs)fill(c,a.x,a.y,a.w,a.h,'#e5bd70');c.restore();}
  if(!indoor&&guide?.path?.length){c.strokeStyle='#f5d278';c.lineWidth=2/s;c.setLineDash([5/s,3/s]);c.beginPath();guide.path.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.stroke();c.setLineDash([]);}
  const field={w:g.width/v.scale,h:g.height/v.scale};c.strokeStyle='rgba(244,231,190,.58)';c.lineWidth=.8/s;c.setLineDash([3/s,3/s]);c.strokeRect(v.x-field.w/2,v.y-field.h/2,field.w,field.h);c.setLineDash([]);
+ if(!indoor)for(const a of root.DeadwallWildlifeArt165?.observed?.(g,v,vision)||[]){c.fillStyle='#c2b895';c.beginPath();c.moveTo(a.x,a.y-2/s);c.lineTo(a.x+2/s,a.y);c.lineTo(a.x,a.y+2/s);c.lineTo(a.x-2/s,a.y);c.closePath();c.fill();}
  const marked=new Set();
  for(const e of [...(v.enemies||[]),...(g.worldEvolution?.groupMembers?.()||[]),...(g.succession133?.contacts?.()||[])])if(!marked.has(e.id)&&e.z===v.z&&vision?.canSeeRegional(e)){marked.add(e.id);c.fillStyle='#cb8270';c.beginPath();c.arc(e.x,e.y,1.7/s,0,Math.PI*2);c.fill();}
  if(!indoor)for(const e of g.zombies||[])if(vision?.canSeeLocal(e)){const q=root.DeadwallAtlasProjection.toRegion(e.x,e.y,g);c.fillStyle='#cb8270';c.beginPath();c.arc(q.x,q.y,1.7/s,0,Math.PI*2);c.fill();}

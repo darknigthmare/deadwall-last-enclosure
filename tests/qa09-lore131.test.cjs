@@ -144,7 +144,7 @@ test('QA09 G5 : parcours des 24 traces, approches physiques, lecture en pause, d
 });
 
 test('QA09 G4→G5 : lieux déjà annoncés, lectures et choix restent ancrés après extension et rechargement', () => {
-  const { g } = fresh(); const legacy = g.serialize(); legacy.frontier.generation = 4; legacy.frontier.ecologyVersion = 0;
+  const { g } = fresh(); const legacy = g.serialize(); legacy.frontier.generation = 4; legacy.frontier.ecologyVersion=0;legacy.frontier.hydrologyVersion=0;
   delete legacy.expansions127.modules.lore131.siteGeneration; g.restoreSave(legacy);
   const places = g.chronicles131.placements();
   collect(g, 'doors-0');

@@ -10,7 +10,7 @@ test.before(() => { ({ g } = bootDocument134()); C = globalThis.DeadwallCore; G 
 function fresh(generation = 8, seed = '17117') {
   g.startNew('standard', seed); g.campaignIntro132.skip(); g.phaseTime = 999;
   if (generation !== g.frontier.position().generation) {
-    const raw = g.serialize(); if (generation < 8) delete raw.frontier.ecologyVersion; Object.assign(raw.frontier, { generation, x: 4096, y: 4096, z: 0, inside: null });
+    const raw = g.serialize(); if (generation < 8) { delete raw.frontier.ecologyVersion; delete raw.frontier.hydrologyVersion; } Object.assign(raw.frontier, { generation, x: 4096, y: 4096, z: 0, inside: null });
     g.restoreSave(raw);
   }
   assert.equal(g.frontier.position().generation, generation);

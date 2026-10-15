@@ -44,7 +44,7 @@ function tinted(world,x,y){
 function colorAt(world,x,y,spacing=4){const a=Math.floor(x/spacing)*spacing,b=Math.floor(y/spacing)*spacing,fx=(x-a)/spacing,fy=(y-b)/spacing,p=tinted(world,a,b),q=tinted(world,a+spacing,b),r=tinted(world,a,b+spacing),s=tinted(world,a+spacing,b+spacing),n=(noise(world.seed,x,y,1.8,52)-.5)*11+(noise(world.seed,x,y,.24,82)-.5)*6;return[0,1,2].map(i=>Math.round(clamp(mix(mix(p[i],q[i],fx),mix(r[i],s[i],fx),fy)+n,0,255)));}
 function canvas(w,h){let out;if(typeof root.OffscreenCanvas==='function')out=new root.OffscreenCanvas(w,h);else out=root.document?.createElement?.('canvas');if(!out)return null;out.width=w;out.height=h;return out;}
 function chooseLOD(scale,map){if(map||scale<.15)return{span:4096,res:64,spacing:512,detail:false};if(scale<1.25)return{span:512,res:128,spacing:32,detail:false};if(scale<6)return{span:128,res:192,spacing:8,detail:true};return{span:32,res:256,spacing:4,detail:true};}
-function tile(world,tx,ty,lod){const key=[identity(world),identity(world.biomeAt),identity(provider(world)),world.seed,world.generation,world.ecologyVersion||0,lod.span,tx,ty,texturesReady136()].join(':');if(cache.has(key)){const out=cache.get(key);cache.delete(key);cache.set(key,out);return out;}
+function tile(world,tx,ty,lod){const key=[identity(world),identity(world.biomeAt),identity(provider(world)),identity(world.hydrology),world.seed,world.generation,world.ecologyVersion||0,world.hydrologyVersion||0,lod.span,tx,ty,texturesReady136()].join(':');if(cache.has(key)){const out=cache.get(key);cache.delete(key);cache.set(key,out);return out;}
  const mpp=lod.span/lod.res,edge=lod.res+2,c=canvas(edge,edge),ctx=c?.getContext?.('2d');if(!ctx||typeof ctx.createImageData!=='function')return null;
  const data=ctx.createImageData(edge,edge);if(!data?.data||data.data.length!==edge*edge*4)return null;const buf=data.data,startX=tx*lod.span,startY=ty*lod.span,spacing=lod.spacing,cols=new Map();
  const at=(x,y)=>{const k=x+':'+y;let p=cols.get(k);if(!p){p=tinted(world,x,y);cols.set(k,p);}return p;};
@@ -88,10 +88,10 @@ function detail(c,world,view){const step=MATERIAL141.detailStep,pad=1.1,seed=wor
  }
 }
 function bounds(v){return{l:v.l??v.left,r:v.r??v.right,t:v.t??v.top,b:v.b??v.bottom};}
-function draw(c,world,rawView,{scale=32,map=false}={}){if(!world||world.generation<6)return false;const v=bounds(rawView);if(!Object.values(v).every(Number.isFinite))return false;const lod=chooseLOD(scale,map);c.save();c.beginPath();c.rect(v.l,v.t,v.r-v.l,v.b-v.t);c.clip();c.imageSmoothingEnabled=true;
+function draw(c,world,rawView,{scale=32,map=false,time=0,reducedMotion=false}={}){if(!world||world.generation<6)return false;const v=bounds(rawView);if(!Object.values(v).every(Number.isFinite))return false;const lod=chooseLOD(scale,map);c.save();c.beginPath();c.rect(v.l,v.t,v.r-v.l,v.b-v.t);c.clip();c.imageSmoothingEnabled=true;
  for(let ty=Math.floor(v.t/lod.span);ty<Math.ceil(v.b/lod.span);ty++)for(let tx=Math.floor(v.l/lod.span);tx<Math.ceil(v.r/lod.span);tx++){
   const t=tile(world,tx,ty,lod);if(t)c.drawImage(t.canvas,tx*t.span-t.mpp,ty*t.span-t.mpp,t.span+t.mpp*2,t.span+t.mpp*2);else{c.fillStyle=biome(world,tx*lod.span,ty*lod.span).palette?.base||FALLBACK.base;c.fillRect(tx*lod.span,ty*lod.span,lod.span,lod.span);}
- }c.restore();return true;}
+ }root.DeadwallWaterArt165?.draw(c,world,v,{scale,map,time,reducedMotion});c.restore();return true;}
 function identifier(s){let h=0;for(const a of String(s))h=(Math.imul(h,31)+a.charCodeAt(0))>>>0;return h;}
 function polygon(c,points){c.beginPath();points.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();}
 function drawRock(c,t,seed,used=false,world){if(root.DeadwallNatureArt153?.drawRock(c,artwork(),t,{seed,used}))return;const key=root.DeadwallAssets136?.ROCK_SPRITES[t.species];if(key&&root.DeadwallAssets136.drawSprite(c,artwork(),key,t.x,t.y,(t.r||.8)*2,(t.r||.8)*2,{angle:t.a||0}))return;const r=t.r||.8,limestone=['limestone','chalk'].includes(t.species),slate=['schist','slate','scree'].includes(t.species),base=provider(world)?.ROCKS?.[t.species]?.color||(limestone?'#b8b39d':slate?'#777f7b':'#96988b');

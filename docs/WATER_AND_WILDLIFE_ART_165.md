@@ -1,0 +1,13 @@
+# Eaux et faune — provenance et raccords du rendu 1.65
+
+Les deux peintres `src/water-art165.js` et `src/wildlife-art165.js` sont des dessins Canvas originaux du projet. Ils ne chargent aucune image, police, bibliothèque graphique ou ressource externe supplémentaire. Les atlas et leurs provenances antérieures restent conservés.
+
+Le terrain, le GPS et l’atlas lisent les mêmes polygones et axes de `world.hydrology`. Les points polygonaux font autorité ; les ellipses descriptives des bassins servent seulement aux nuances de profondeur et aux petites rides, toutes découpées dans le vrai polygone. Les cours d’eau suivent leur largeur physique. Toutes les berges précèdent toutes les surfaces aquatiques afin de conserver les confluences. Les franchissements sont dessinés après les routes, à leur largeur, longueur et orientation effectives.
+
+Les eaux douces et salées ont sept familles de matière : mare, étang, lac, ruisseau, cours d’eau, mer et océan. Les marques de courant suivent les points amont vers aval. Les ondulations lisent uniquement le temps actif du jeu ; les cartes restent statiques et le réglage Réduire les animations conserve une surface stable. Ces motifs représentent la surface ; ils ne simulent ni vagues physiques, ni marées, ni propagation de crue.
+
+Les six espèces de faune disposent chacune de quatre silhouettes : canard colvert, héron cendré, chevreuil, sanglier, lièvre et goéland. Oreilles, bois, museaux, queues, cou, ailes repliées et proportions distinguent réellement leurs masques. Les dimensions viennent des acteurs et des règles du catalogue. Les variations de plumage ou de pelage complètent ces différences. Les silhouettes restent au sol ; elles ne prétendent pas représenter un vol ou une nage simulés.
+
+La phase des pattes est calculée par la simulation à partir du déplacement réellement accompli. Le peintre lit cette phase sans la modifier, sans tirage aléatoire et sans mettre à jour l’animal. Les animaux partagent la file de profondeur des acteurs, équipements et bâtiments. La scène, le GPS et l’atlas filtrent leur présence par la visibilité physique des alliés, sans conserver de marqueur lorsqu’ils ne sont plus observés. Le losange beige les distingue des contacts infectés.
+
+Les tests `tests/hydrology-presentation165.test.cjs` vérifient les emprises, la priorité des points sur l’ellipse, le confinement des motifs, les sept familles, les franchissements, les 24 masques distincts, les phases de marche, les animations réduites, la visibilité et l’absence de mutation ou de consommation de RNG. Les planches procédurales de contrôle sont des scènes QA ; elles ne constituent pas une preuve de trajet naturel, de fluidité sur téléphone physique ou de campagne humaine complète.
