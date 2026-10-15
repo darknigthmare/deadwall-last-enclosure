@@ -86,7 +86,24 @@ async function planRoute(page, request) {
   }, request);
 }
 
+/** Read the real construction owner and the current safe, reachable exterior pose. */
+function reachedConstructionWorkPoint150({ id, range }) {
+  const g = DEADWALL, p = g.player, b = g.world.buildings.get(id);
+  const clearance = b ? g.fieldcraft.distance(p, b) : null;
+  const ready = !!b && !b.dead && b.health > 0 && !b.completed && !p.dead && p.health > 0 &&
+    clearance >= p.radius + 4 && g.workerCanWorkAt(p, b, range);
+  return { ready, clearance, player: { x: p.x, y: p.y, radius: p.radius },
+    target: b && { id: b.id, x: b.x, y: b.y, type: b.type } };
+}
+
 async function navigate(page, context, touch, request, deadline = null) {
+  if (request.construction) {
+    // A prepared exterior point may already be a genuine work goal. Do not walk
+    // past it toward a cosmetic grid waypoint and into an unrelated obstacle.
+    await page.waitForFunction(() => DEADWALL.input.keys.size === 0);
+    const reached = await page.evaluate(reachedConstructionWorkPoint150, request);
+    if (reached.ready) return { target: reached.target, segments: [], reachedConstructionWorkPoint: reached };
+  }
   const route = await planRoute(page, request);
   const keys = { up: 'w', down: 's', left: 'a', right: 'd' };
   for (const segment of route.segments) {
@@ -306,7 +323,7 @@ function inspectConstructionWork150(id) {
 }
 
 async function workManually(page, context, touch, id) {
-  const route = await navigate(page, context, touch, { kind: 'building', id, range: 78 });
+  const route = await navigate(page, context, touch, { kind: 'building', id, range: 78, construction: true });
   const observeWorkPoint = () => page.evaluate(id => {
     const g = DEADWALL, p = g.player, b = g.world.buildings.get(id);
     const closest = { x: Math.max(b.left, Math.min(b.right, p.x)), y: Math.max(b.top, Math.min(b.bottom, p.y)) };

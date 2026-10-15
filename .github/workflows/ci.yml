@@ -62,27 +62,10 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-          - group: interface
-            suites: 'test:browser test:arrival test:codex test:standalone package:web'
-          - group: campaign
-            suites: 'test:campaign test:tactics test:reconstruction'
-          - group: exploration
-            suites: 'test:terrain test:journey test:visibility'
-          - group: siege
-            suites: 'test:assault test:preparations test:defenses test:sprites'
           - group: d17
             suites: 'test:d17'
           - group: city
             suites: 'test:city'
-          - group: contexts
-            suites: 'test:contexts'
-          - group: codex-details
-            scripts: >-
-              scripts/browser-prescriptions161.mjs
-              scripts/browser-sites162.mjs
-              scripts/browser-quantities164.mjs
-              scripts/browser-plan165.mjs
-              scripts/browser-ensembles166.mjs
           - group: codex-completion
             scripts: >-
               scripts/browser-coverage167.mjs
@@ -91,21 +74,38 @@ jobs:
               scripts/browser-stations170.mjs
               scripts/browser-gardens171.mjs
               scripts/browser-parallel173.mjs
-          - group: touch-layout
-            scripts: 'scripts/browser-touch-layout162.mjs'
-          - group: metrics
-            scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs'
+          - group: codex-details
+            scripts: >-
+              scripts/browser-prescriptions161.mjs
+              scripts/browser-sites162.mjs
+              scripts/browser-quantities164.mjs
+              scripts/browser-plan165.mjs
+              scripts/browser-ensembles166.mjs
+          - group: vertical-network
+            scripts: >-
+              scripts/qa-vertical179.mjs
+              scripts/qa-vertical180.mjs
+              scripts/qa-vertical181.mjs
           - group: vertical-early
             scripts: >-
               scripts/qa-vertical175.mjs
               scripts/qa-vertical176.mjs
               scripts/qa-vertical177.mjs
               scripts/qa-vertical178.mjs
-          - group: vertical-network
-            scripts: >-
-              scripts/qa-vertical179.mjs
-              scripts/qa-vertical180.mjs
-              scripts/qa-vertical181.mjs
+          - group: interface
+            suites: 'test:browser test:arrival test:codex test:standalone package:web'
+          - group: campaign
+            suites: 'test:campaign test:tactics test:reconstruction'
+          - group: exploration
+            suites: 'test:terrain test:journey test:visibility'
+          - group: siege
+            suites: 'test:assault test:preparations test:defenses test:sprites'
+          - group: contexts
+            suites: 'test:contexts'
+          - group: touch-layout
+            scripts: 'scripts/browser-touch-layout162.mjs'
+          - group: metrics
+            scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs'
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       DEADWALL_REQUIRE_WEBGL: '1'
