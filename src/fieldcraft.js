@@ -32,7 +32,11 @@ function attach(g){
   for(const p of props(x,y,r))if(p!==ignore&&collides(p,x,y,r))return p;
   return null;
  }
- function positionFree(u,x,y){return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<C.WORLD_SIZE-u.radius-3&&y<C.WORLD_SIZE-u.radius-3&&!blocked(x,y,u.radius*.9);}
+ function occupantHits175(u,b){
+  const car=g.expeditions.car();if(car?.metric174===1&&(u.id===car.id||u===g.player&&car.driving))return g.expeditions.overlapsVehicle175(b,car);
+  return collides({def:true,left:b.x,top:b.y,right:b.x+b.w,bottom:b.y+b.h},u.x,u.y,u.radius||12);
+ }
+ function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<C.WORLD_SIZE-u.radius-3&&y<C.WORLD_SIZE-u.radius-3&&!blocked(x,y,u.radius*.9);}
  function segment(u,a,b){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/7));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
  function service(u,e){
   if(!e)return null;
@@ -68,8 +72,9 @@ function attach(g){
   // Repacking on Continue would move that saved vehicle without player action.
   if(!preserveLayout)pack();index();
   if(!world._fieldcraft){world._fieldcraft=true;world.solidForFriendly=(x,y)=>blocked(x,y);const cost=world.movementCost.bind(world);world.movementCost=(x,y)=>[...props(x*32+16,y*32+16,12)].some(p=>collides(p,x*32+16,y*32+16,12))?Infinity:cost(x,y);const place=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{const q=place(def,x,y,rotation,ignore);if(!q.valid)return q;const a={l:x*32,t:y*32,r:(x+def.size[rotation%2?1:0])*32,b:(y+def.size[rotation%2?0:1])*32};for(const p of objects())if(overlap(a,rect(p)))return{valid:false,reason:'Décor ou station dans l’emprise.'};return q;};}
-  for(const u of [g.player,...g.units])recoverActor(u);
-  const v=g.expeditions.car();if(v&&v.health>0){const p={x:v.x,y:v.y,radius:g.expeditions.entity()?.radius||C.Expeditions.RULES.carRadius,health:1};recoverActor(p);v.x=p.x;v.y=p.y;if(v.driving){g.player.x=v.x;g.player.y=v.y;}}
+  const v=g.expeditions.car(),metricDriving=v?.metric174===1&&v.driving;
+  for(const u of [g.player,...g.units])if(!(metricDriving&&u===g.player))recoverActor(u);
+  if(v&&v.health>0&&!(v.metric174===1&&g.expeditions.carClear(v.x,v.y))){const p={x:v.x,y:v.y,radius:g.expeditions.entity()?.radius||C.Expeditions.RULES.carRadius,health:1};recoverActor(p);v.x=p.x;v.y=p.y;if(v.driving){g.player.x=v.x;g.player.y=v.y;}}
   for(const truck of g.territories?.truckEntities()||[]){const probe={x:truck.x,y:truck.y,radius:C.Territories.RULES.truckRadius,health:1};recoverActor(probe);truck.x=probe.x;truck.y=probe.y;}
   for(const z of g.zombies)if(live(z)&&[...props(z.x,z.y,z.radius)].some(p=>collides(p,z.x,z.y,z.radius*.7)))recoverActor(z);
   world.navigationVersion++;world.flowDirty=true;
@@ -82,7 +87,7 @@ function attach(g){
  wrap('recruit',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  wrap('updateDirector',(old,...a)=>{const ids=new Set(g.units.map(u=>u.id)),r=old(...a);for(const u of g.units)if(!ids.has(u.id))recoverActor(u);return r;});
  const arrival=g.coreArrivalPosition.bind(g);g.coreArrivalPosition=(u,p)=>{const q={...u,...arrival(u,p),health:1,dead:false};recoverActor(q);return{x:q.x,y:q.y};};
- wrap('completeBuilding',(old,b)=>{const actors=[g.player,...g.units,...g.zombies,g.expeditions.entity(),...g.territories.truckEntities()].filter(Boolean);if(b&&b.type!=='spikes'&&actors.some(u=>live(u)&&collides(b,u.x,u.y,u.radius||12)&&(!b.def.gate||T.gateMode(b)==='closed'||T.gateMode(b)==='auto'&&g.zombies.includes(u)))){const d=Math.max(0,b.progress-.999);b.health=Math.max(.001,b.health-d*b.maxHealth*.88);b.progress=Math.min(b.progress,.999);b.completionBlocked=true;if(collides(b,g.player.x,g.player.y,g.player.radius))g.interactionText='Emprise occupée : sortez du chantier pour l’achever.';return false;}return old(b);});
+ wrap('completeBuilding',(old,b)=>{const actors=[g.player,...g.units,...g.zombies,g.expeditions.entity(),...g.territories.truckEntities()].filter(Boolean);if(b&&b.type!=='spikes'&&actors.some(u=>live(u)&&occupantHits175(u,{x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})&&(!b.def.gate||T.gateMode(b)==='closed'||T.gateMode(b)==='auto'&&g.zombies.includes(u)))){const d=Math.max(0,b.progress-.999);b.health=Math.max(.001,b.health-d*b.maxHealth*.88);b.progress=Math.min(b.progress,.999);b.completionBlocked=true;if(collides(b,g.player.x,g.player.y,g.player.radius))g.interactionText='Emprise occupée : sortez du chantier pour l’achever.';return false;}return old(b);});
  // Hostile paths keep the existing flow costs, but cannot cut diagonally through a prop corner.
  function propSegment(z,to){const n=Math.max(1,Math.ceil(Math.hypot(to.x-z.x,to.y-z.y)/4));for(let i=1;i<=n;i++){const x=z.x+(to.x-z.x)*i/n,y=z.y+(to.y-z.y)*i/n;if([...props(x,y,z.radius)].some(p=>collides(p,x,y,z.radius*.7)))return false;}return true;}
  function steerZombie(z,dir,step){
@@ -107,7 +112,7 @@ function attach(g){
   if(x===b.gx&&y===b.gy&&rotation===b.rotation)return no('Emplacement inchangé.');
   const place=world.placement(b.def,x,y,rotation,b.id);if(!place.valid)return no(place.reason);
   const a={l:x*32,t:y*32,r:(x+b.def.size[rotation%2?1:0])*32,b:(y+b.def.size[rotation%2?0:1])*32};
-  for(const u of [g.player,...g.units,...g.zombies,g.expeditions.entity(),...g.territories.truckEntities()].filter(Boolean))if(live(u)){const r=u.radius||12;if(u.x+r>a.l&&u.x-r<a.r&&u.y+r>a.t&&u.y-r<a.b)return no('Un personnage ou véhicule occupe la nouvelle emprise.');}
+  for(const u of [g.player,...g.units,...g.zombies,g.expeditions.entity(),...g.territories.truckEntities()].filter(Boolean))if(live(u)){const r=u.radius||12;if(occupantHits175(u,{x:a.l,y:a.t,w:a.r-a.l,h:a.b-a.t}))return no('Un personnage ou véhicule occupe la nouvelle emprise.');}
   const cost=price(b,kind==='rotate'?rules.rotateRate:rules.moveRate);
   return{ok:C.canAfford(g.resources,cost),reason:'Coût : '+C.resourceText(cost),id:b.id,x,y,rotation,kind,cost,origin:[b.gx,b.gy,b.rotation,b.health,b.progress]};
  }

@@ -92,7 +92,14 @@ roadIndexReady=true;
 for(const p of pois){for(let cy=Math.floor(p.reserve.t/256);cy<=Math.floor(p.reserve.b/256);cy++)for(let cx=Math.floor(p.reserve.l/256);cx<=Math.floor(p.reserve.r/256);cx++){const key=cx+','+cy;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(p);}}
 // Driveways can extend beyond a building reserve. Index their entire paved
 // approach so vegetation cannot grow between the public road and the front door.
-const frontage174=(root.DeadwallFrontage174||(typeof require==='function'?require('./frontage174.js'):null)).createIndex(roads,pois);
+const frontage174=(root.DeadwallFrontage174||(typeof require==='function'?require('./frontage174.js'):null)).createIndex(roads,pois,{clearAlternative(result){
+ const d=result.surface,length=Math.hypot(d.b.x-d.a.x,d.b.y-d.a.y),steps=Math.max(1,Math.ceil(length)),angle=Math.atan2(d.b.y-d.a.y,d.b.x-d.a.x);
+ for(let i=0;i<steps;i++){
+  const t=(i+.5)/steps,x=d.a.x+(d.b.x-d.a.x)*t,y=d.a.y+(d.b.y-d.a.y)*t;
+  if(!vehicleClear(x,y,angle,length/steps,d.width))return false;
+ }
+ return true;
+}});
 const driveOwners174=new Map(pois.map(p=>[p.drive,p]));
 const programmeDrives=new Set(pois.filter(p=>p.generation>=8).map(p=>p.drive));
 for(const p of pois){const d=p.drive,pad=d.width/2+7;for(let cy=Math.floor((Math.min(d.a.y,d.b.y)-pad)/256);cy<=Math.floor((Math.max(d.a.y,d.b.y)+pad)/256);cy++)for(let cx=Math.floor((Math.min(d.a.x,d.b.x)-pad)/256);cx<=Math.floor((Math.max(d.a.x,d.b.x)+pad)/256);cx++){const key=cx+','+cy;if(!driveBins.has(key))driveBins.set(key,[]);driveBins.get(key).push(d);}}

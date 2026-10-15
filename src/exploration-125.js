@@ -1198,6 +1198,7 @@
     const baseHostile = game.hostilePositionClear.bind(game);
     const extensionClear = (entity, x, y) => {
       if(!isGeneration4(game))return true;
+      if(entity===game.player&&game.expeditions?.driving()&&game.expeditions.car()?.metric174===1)return game.expeditions.carClear(x,y);
       const radius = Math.max(5, (entity.radius || 10) * .78);
       return querySpatialIndexCircle(planSpatial(plan).solidIndex,x,y,radius).length===0;
     };

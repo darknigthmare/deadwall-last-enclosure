@@ -28,6 +28,8 @@
     if (!entity || entity.dead || !Number.isFinite(entity.x) || !Number.isFinite(entity.y)) return false;
     const cells = footprint(building); if (!cells) return false;
     const left = cells.x * tileSize, top = cells.y * tileSize, right = left + cells.width * tileSize, bottom = top + cells.height * tileSize;
+    const metrics=global.DeadwallMetric174,body=metrics?.ownerBody175?.(entity);
+    if(body)return metrics.bodyOverlap(body,{x:(left+right)/2,y:(top+bottom)/2,w:right-left,h:bottom-top,a:0});
     const dx = entity.x - Math.max(left, Math.min(right, entity.x));
     const dy = entity.y - Math.max(top, Math.min(bottom, entity.y));
     const radius = Number.isFinite(entity.radius) ? Math.max(0, entity.radius) : 0;

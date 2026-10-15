@@ -63,7 +63,28 @@
   for(const q of neighbours){if(q.id===p.id||!q.reserve)continue;const b=q.reserve;if(G.obb(swept,{x:(b.l+b.r)/2,y:(b.t+b.b)/2,w:b.r-b.l,h:b.b-b.t,a:0}))issues.push({id:q.id,reason:'foreign-parcel-reserve'});}
   return issues;
  }
- function createIndex(roads,pois){
+
+ function alternative(p,roads,neighbours=[],clear=null){
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=C.MetricRules175;
+  if(!p||!valid(p.drive)||typeof clear!=='function')return null;
+  const original=p.drive,oldLength=Math.hypot(original.a.x-original.b.x,original.a.y-original.b.y),maxLength=oldLength+rules.frontageExtraLength;
+  const candidates=roads.filter(r=>valid(r)&&level(r)===level(original)).map(road=>({road,q:G.nearest(original.b,road.a,road.b)}))
+   .filter(c=>c.q.d<=maxLength).sort((a,b)=>a.q.d-b.q.d||String(a.road.id).localeCompare(String(b.road.id))).slice(0,rules.frontageCandidates);
+  for(const {road,q}of candidates){
+   const roadLength=Math.hypot(road.b.x-road.a.x,road.b.y-road.a.y),used=new Set();
+   for(const shift of rules.frontageOffsets){
+    const t=Math.max(0,Math.min(1,q.t+shift/roadLength));if(used.has(t))continue;used.add(t);
+    const join={x:road.a.x+(road.b.x-road.a.x)*t,y:road.a.y+(road.b.y-road.a.y)*t};
+    if(Math.hypot(join.x-original.b.x,join.y-original.b.y)>maxLength)continue;
+    const proxy={...p,drive:{...original,a:join}},result=resolve(proxy,roads);
+    if(!result.ok||groupConflicts(result,p,neighbours).length||clear(result,p)!==true)continue;
+    return Object.freeze({...result,reason:'alternative-clear-frontage',corrected:true,alternative175:true,
+     removedLength:Math.max(0,oldLength-Math.hypot(result.connection.a.x-original.b.x,result.connection.a.y-original.b.y)),
+     sourceConnection:Object.freeze({...original.a})});
+   }
+  }return null;
+ }
+ function createIndex(roads,pois,options={}){
   const bins=new Map(),parcelBins=new Map(),cache=new Map(),sites=new Map(pois.map(p=>[p.id,p])),size=256;let maxRadius=0;
   for(const road of roads){if(!valid(road))continue;maxRadius=Math.max(maxRadius,road.width/2);for(let y=Math.floor(Math.min(road.a.y,road.b.y)/size);y<=Math.floor(Math.max(road.a.y,road.b.y)/size);y++)for(let x=Math.floor(Math.min(road.a.x,road.b.x)/size);x<=Math.floor(Math.max(road.a.x,road.b.x)/size);x++){const key=x+','+y;if(!bins.has(key))bins.set(key,[]);bins.get(key).push(road);}}
   for(const p of pois){const b=p.reserve;if(!b)continue;for(let y=Math.floor(b.t/size);y<=Math.floor(b.b/size);y++)for(let x=Math.floor(b.l/size);x<=Math.floor(b.r/size);x++){const key=x+','+y;if(!parcelBins.has(key))parcelBins.set(key,[]);parcelBins.get(key).push(p);}}
@@ -71,15 +92,21 @@
    const p=sites.get(candidate?.id);if(!p)return null;
    if(cache.has(p.id))return cache.get(p.id);
    const d=p.drive;if(!valid(d))return resolve(p,[]);
-   const pad=maxRadius+d.width/2+1,found=new Set();
+   const rules=root.DeadwallCore?.MetricRules175||(typeof require==='function'?require('./core.js').MetricRules175:null);
+   const pad=maxRadius+d.width/2+1+rules.frontageExtraLength,found=new Set();
    for(let y=Math.floor((Math.min(d.a.y,d.b.y)-pad)/size);y<=Math.floor((Math.max(d.a.y,d.b.y)+pad)/size);y++)for(let x=Math.floor((Math.min(d.a.x,d.b.x)-pad)/size);x<=Math.floor((Math.max(d.a.x,d.b.x)+pad)/size);x++)for(const r of bins.get(x+','+y)||[])found.add(r);
    let result=resolve(p,[...found]);
    if(result.ok){const box=G.bounds(body(result.surface)),near=new Set();for(let y=Math.floor(box.t/size);y<=Math.floor(box.b/size);y++)for(let x=Math.floor(box.l/size);x<=Math.floor(box.r/size);x++)for(const q of parcelBins.get(x+','+y)||[])near.add(q);
     const issues=groupConflicts(result,p,[...near]);if(issues.length)result=Object.freeze({ok:false,site:p.id,reason:'blocked-group-access',conflicts:issues});}
+   if(!result.ok&&typeof options.clearAlternative==='function'){
+    const radius=Math.hypot(d.a.x-d.b.x,d.a.y-d.b.y)+rules.frontageExtraLength,near=new Set();
+    for(let y=Math.floor((d.b.y-radius)/size);y<=Math.floor((d.b.y+radius)/size);y++)for(let x=Math.floor((d.b.x-radius)/size);x<=Math.floor((d.b.x+radius)/size);x++)for(const q of parcelBins.get(x+','+y)||[])near.add(q);
+    result=alternative(p,[...found],[...near],options.clearAlternative)||result;
+   }
    cache.set(p.id,result);return result;
   }
   return Object.freeze({forSite,surface:p=>forSite(p)?.surface||null,connection:p=>sites.has(p?.id)?forSite(p)?.connection||null:p?.drive||null,
    stats:()=>({sites:sites.size,resolved:cache.size,roadBins:bins.size}),audit:()=>pois.map(p=>forSite(p))});
  }
- return Object.freeze({valid,intersection,segmentDistance,capsuleHitsBox,body,sameCarriageway,resolve,groupConflicts,createIndex});
+ return Object.freeze({valid,intersection,segmentDistance,capsuleHitsBox,body,sameCarriageway,resolve,groupConflicts,alternative,createIndex});
 });

@@ -1,54 +1,83 @@
-name: DEADWALL metric follow-up
+name: DEADWALL rigid bodies and strict frontage
 on:
   push:
     branches: [fix/metric-scale-road-access-174]
+  pull_request:
+    paths:
+      - 'src/*174.js'
+      - 'src/core.js'
+      - 'src/tactics.js'
+      - 'src/expeditions.js'
+      - 'src/exploration-125.js'
+      - 'src/fieldcraft.js'
+      - 'src/barricades134.js'
+      - 'src/frontier*'
+      - 'scripts/*175*'
+      - 'tests/*175*'
+      - '.github/workflows/metric175.yml'
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: metric175-${{ github.ref }}
+  group: metric175-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 jobs:
-  sources:
+  contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - run: npm run build
+      - name: Record provenance and exact ownership contracts
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/metric175
+          git rev-parse HEAD > artifacts/qa/metric175/tested-revision.txt
+          git rev-parse HEAD:src > artifacts/qa/metric175/tested-src-tree.txt
+          node --test --test-concurrency=2 tests/metric-body175.test.cjs tests/metric-corridor175.test.cjs tests/frontage-followup175.test.cjs tests/metric174.test.cjs tests/frontage174.test.cjs tests/metric-migration174.test.cjs tests/expeditions.test.cjs tests/vehicle-boundary151.test.cjs tests/tactics.test.cjs tests/fieldcraft.test.cjs tests/fieldcraft-restore146.test.cjs tests/distribution.test.cjs | tee artifacts/qa/metric175/contracts.log
+      - name: Inventory and independent historical fingerprints
+        run: |
+          mkdir -p /tmp/metric175-main
+          git archive 5b8f0ade7f7e93d3fc3ea23f762cac93ded43d90 src | tar -x -C /tmp/metric175-main
+          node scripts/audit-metric174.mjs --baseline /tmp/metric175-main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-metric175-contracts
+          path: artifacts/qa/
+          retention-days: 14
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Preserve tracked text inputs with provenance
-        run: |
-          python3 - <<'PY'
-          import hashlib, json, pathlib, subprocess, zipfile
-          root = pathlib.Path.cwd()
-          out = root / 'artifacts' / 'metric175-source'
-          out.mkdir(parents=True, exist_ok=True)
-          revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
-          records = []
-          names = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
-          with zipfile.ZipFile(out / 'text-inputs.zip', 'w', compression=zipfile.ZIP_DEFLATED) as archive:
-              for name in sorted(filter(None, names)):
-                  relative = pathlib.PurePosixPath(name)
-                  source = root / name
-                  if relative.is_absolute() or '..' in relative.parts or source.is_symlink():
-                      raise ValueError('Unsafe tracked path')
-                  if any(part.startswith('.env') for part in relative.parts):
-                      continue
-                  if relative.suffix.lower() not in {'.js', '.mjs', '.cjs', '.json', '.md', '.txt', '.html', '.css', '.yml', '.yaml', '.svg'} and name not in {'.vercelignore', '.gitignore'}:
-                      continue
-                  data = source.read_bytes()
-                  try:
-                      data.decode('utf-8')
-                  except UnicodeDecodeError:
-                      continue
-                  archive.writestr(name, data)
-                  records.append({'path': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
-              archive.writestr('SOURCE-MANIFEST175.json', json.dumps({'revision': revision, 'scope': 'Tracked text only; image assets unchanged from main are not duplicated.', 'files': records}, indent=2))
-          print(json.dumps({'revision': revision, 'files': len(records)}))
-          PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: deadwall-metric175-inputs
-          path: artifacts/metric175-source/
-          retention-days: 7
-          if-no-files-found: error
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Real controls and exact saved parking recovery
+        run: node scripts/browser-metric175.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-metric175-browser
+          path: artifacts/qa/
+          retention-days: 14

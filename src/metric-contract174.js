@@ -41,5 +41,59 @@
   }
   return {id:group.id,members:group.members.length,issues,ok:issues.length===0};
  }
- return Object.freeze({rectangle,footprintFrame,vehicle,diagnose,assembly});
+
+ // World bodies use a centre and an angle; catalogue bounds use a top-left.
+ // These helpers never inspect pixels, move an owner or allocate an entity ID.
+ // Transient actor bindings are not serialized. A driving commander borrows
+ // the authoritative vehicle body; dismounting restores the ordinary foot disc.
+ const bodyOwners175=new WeakMap();
+ function bindBody175(owner,provider){
+  if(!owner||typeof owner!=='object'||typeof provider!=='function')throw Error('Propriétaire physique invalide.');
+  bodyOwners175.set(owner,provider);
+ }
+ function ownerBody175(owner){
+  const provider=owner&&typeof owner==='object'?bodyOwners175.get(owner):null;
+  if(!provider)return null;
+  const body=provider();return bodyValid(body)?{...body}:null;
+ }
+ function bodyValid(b){return !!b&&['x','y','w','h','a'].every(k=>finite(b[k]))&&b.w>0&&b.h>0;}
+ function bodyCorners(b){
+  if(!bodyValid(b))throw Error('Corps orienté invalide.');
+  const c=Math.cos(b.a),s=Math.sin(b.a);
+  return [[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,y])=>({x:b.x+x*b.w*c/2-y*b.h*s/2,y:b.y+x*b.w*s/2+y*b.h*c/2}));
+ }
+ function bodyBounds(b){const points=bodyCorners(b),xs=points.map(p=>p.x),ys=points.map(p=>p.y);return{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)};}
+ function bodyDistance(b,p){
+  if(!bodyValid(b)||!p||!finite(p.x)||!finite(p.y))return Infinity;
+  const c=Math.cos(b.a),s=Math.sin(b.a),x=(p.x-b.x)*c+(p.y-b.y)*s,y=-(p.x-b.x)*s+(p.y-b.y)*c;
+  return Math.hypot(Math.max(0,Math.abs(x)-b.w/2),Math.max(0,Math.abs(y)-b.h/2));
+ }
+ function bodyCircle(b,p,r=0){
+  if(!bodyValid(b)||!p||!finite(p.x)||!finite(p.y)||!finite(r)||r<0)return true;
+  const d=bodyDistance(b,p);return r===0?d===0:d<r-1e-7;
+ }
+ function bodyOverlap(a,b,clearance=0){
+  if(!bodyValid(a)||!bodyValid(b)||!finite(clearance)||clearance<0)return true;
+  const axes=o=>[{x:Math.cos(o.a),y:Math.sin(o.a)},{x:-Math.sin(o.a),y:Math.cos(o.a)}],aa=axes(a),bb=axes(b);
+  for(const n of [...aa,...bb]){
+   const radius=(o,axes)=>Math.abs(n.x*axes[0].x+n.y*axes[0].y)*(o.w/2+clearance/2)+Math.abs(n.x*axes[1].x+n.y*axes[1].y)*(o.h/2+clearance/2);
+   if(Math.abs((b.x-a.x)*n.x+(b.y-a.y)*n.y)>=radius(a,aa)+radius(b,bb)-1e-7)return false;
+  }return true;
+ }
+ function boxBody(b){
+  if(b?.oriented){const o=b.oriented;return{x:o.x,y:o.y,w:o.w,h:o.h,a:o.angle??o.a??0};}
+  return{x:b?.x+b?.w/2,y:b?.y+b?.h/2,w:b?.w,h:b?.h,a:0};
+ }
+ // Interpolate the complete rigid body, including a rotation in place. At each
+ // sample, inflate it by the maximum travel of any corner before the next one.
+ // This conservative swept bound catches a thin wall between two valid poses.
+ function sweepBody(from,to,clear,{step=2,maxSteps=512}={}){
+  if(!bodyValid(from)||!bodyValid(to)||from.w!==to.w||from.h!==to.h||typeof clear!=='function'||!finite(step)||step<=0||!Number.isSafeInteger(maxSteps)||maxSteps<1)return false;
+  const angle=Math.atan2(Math.sin(to.a-from.a),Math.cos(to.a-from.a)),distance=Math.hypot(to.x-from.x,to.y-from.y),radius=Math.hypot(from.w,from.h)/2;
+  const travel=distance+Math.abs(angle)*radius,steps=Math.max(1,Math.ceil(travel/step));if(steps>maxSteps)return false;
+  const pad=travel/(2*steps);
+  for(let i=0;i<=steps;i++){const t=i/steps,pose={x:from.x+(to.x-from.x)*t,y:from.y+(to.y-from.y)*t,a:from.a+angle*t,w:from.w,h:from.h};if(!clear(pose,pad))return false;}
+  return true;
+ }
+ return Object.freeze({rectangle,footprintFrame,vehicle,diagnose,assembly,bodyValid,bodyCorners,bodyBounds,bodyDistance,bodyCircle,bodyOverlap,boxBody,sweepBody,bindBody175,ownerBody175});
 });

@@ -2404,3 +2404,6 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
 
 /* Explicit laboratory source; no automatic fuel in a campaign. */
 (function(root){'use strict';root.DeadwallCore.CodexInfrastructure173Rules=Object.freeze({generatorW:3000,floorW:1000,tank:20,fuelPerKWh:.3,idleFuel:.15,lampW:18,maxStep:60,maxSpeed:40});})(globalThis);
+
+/* Metric vehicles: bounded rigid-body collision, expressed in local units. */
+(function(root){'use strict';root.DeadwallCore.MetricRules175=Object.freeze({version:1,sweepStep:2,maxSweepSteps:512,worldMargin:3,frontageOffsets:Object.freeze([0,2,-2,4,-4,8,-8,16,-16]),frontageCandidates:24,frontageExtraLength:48});})(globalThis);
