@@ -1,3 +1,17 @@
+# DEADWALL 1.61.0 — Codex détaillé et citadelle verticale
+
+Cette version réunit les prescriptions du Codex, leurs compléments de mobilier et jardins, la calibration des véhicules et les fortifications verticales avec passerelles, équipements et personnel. Les 4 000 programmes, les territoires G10 et leurs services restent disponibles. Les compléments de détail sont activables au dépôt de D-17 ; ils conservent les découvertes et les ressources déjà prélevées.
+
+Guide et limites : [docs/LIVRAISON_1_61.md](docs/LIVRAISON_1_61.md). Le laboratoire d'architecture est une scène d'essai séparée de la campagne. La cible Standard de 6 à 10 heures attend encore des campagnes humaines complètes ; les résultats de validation de cette intégration sont documentés séparément.
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+```
+
+## Historique conservé — 1.60.0
+
 # DEADWALL 1.60.0 — Ouvrages, territoires et services de terrain
 
 Les 626 programmes exclus en 1.59 disposent désormais de contrats et de plans G10 : ouvrages routiers, rail, eau, ports, quartiers et contextes des bâtiments existants. Au dépôt de D-17, ouvrez **Monde & relais** puis **ACTIVER LES 626 PROGRAMMES TERRITORIAUX** depuis une campagne G8 ou G9. La génération ajoute les lieux qui trouvent une emprise et des accès compatibles avec la graine ; elle conserve les sites et prélèvements antérieurs. Activer 626 programmes éligibles ne garantit pas 626 nouvelles implantations dans chaque région.

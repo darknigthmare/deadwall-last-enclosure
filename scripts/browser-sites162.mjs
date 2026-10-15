@@ -4,7 +4,7 @@ import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
 const output='artifacts/qa/sites162';fs.mkdirSync(output,{recursive:true});
 const server=createGameServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const profiles=[],errors=[];
 try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
@@ -16,9 +16,9 @@ try{
   await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');
   const card=page.locator('[data-codex-id="programme-DW-0001"]');await card.waitFor();
   const before=await page.evaluate(()=>{const d=DEADWALL.serialize();delete d.timestamp;return JSON.stringify(d);});
-  await card.locator('summary').click();await card.getByText('EXTÉRIEURS ET CHEMINEMENTS',{exact:true}).waitFor();
+  await card.getByText('Accès, ressources et précautions',{exact:true}).click();await card.getByText('EXTÉRIEURS ET CHEMINEMENTS',{exact:true}).waitFor();
   const text=await card.innerText();assert.match(text,/Gravier stabilisé/);assert.match(text,/ni bonus de vitesse/);
-  await card.locator('summary').click();await card.locator('summary').click();assert.equal(await card.getByText('EXTÉRIEURS ET CHEMINEMENTS',{exact:true}).count(),1);
+  await card.getByText('Accès, ressources et précautions',{exact:true}).click();await card.getByText('Accès, ressources et précautions',{exact:true}).click();assert.equal(await card.getByText('EXTÉRIEURS ET CHEMINEMENTS',{exact:true}).count(),1);
   const after=await page.evaluate(()=>{const d=DEADWALL.serialize();delete d.timestamp;return JSON.stringify(d);});assert.equal(before,after);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   await page.screenshot({path:output+'/atlas-'+viewport.width+'.png'});

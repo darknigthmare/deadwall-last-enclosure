@@ -19,7 +19,7 @@ try{for(const viewport of [{width:1440,height:900},{width:390,height:844,touch:t
   const snapshot=()=>page.evaluate(()=>{const d=DEADWALL.serialize();delete d.timestamp;return JSON.stringify(d);});const before=await snapshot();
   const example=await page.evaluate(()=>{for(const id of ['DW-0001','DW-0002','DW-0024','DW-0046']){const p=DeadwallCodexPlan165.inspect(id,17117,0,9);if(p.details?.gardens171?.added>0)return{id,added:p.details.gardens171.added};}return null;});
   check('Chosen recipe actually contains newly placed equipment',!!example&&example.added>0);profile.example=example;
-  await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill(example.id);const card=page.locator('[data-codex-id="programme-'+example.id+'"]');await card.locator(':scope > details > summary').click();
+  await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill(example.id);const card=page.locator('[data-codex-id="programme-'+example.id+'"]');await card.getByText('Accès, ressources et précautions',{exact:true}).click();
   const inspector=card.locator('[data-codex-plan165]');await inspector.waitFor();await inspector.locator('input[type=number]').fill('17117');await inspector.getByRole('button',{name:'AFFICHER LE PLAN',exact:true}).click();
   const canvas=inspector.locator('canvas');await canvas.waitFor({state:'visible'});await inspector.locator('input[data-stations170]').check();const original=await canvas.evaluate(c=>c.toDataURL());
   check('Garden composition starts unchecked',!await inspector.locator('input[data-gardens171]').isChecked());

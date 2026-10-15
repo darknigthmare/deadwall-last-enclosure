@@ -38,9 +38,21 @@
   const player=g.drawPlayer.bind(g);g.drawPlayer=(ctx,...a)=>{const p=V.pose();if(p.z){ctx.save();ctx.translate(0,-p.z*R.projectedHeight);player(ctx,...a);ctx.restore();}else player(ctx,...a);if(V.network.carrying())crate(ctx,g.player.x+12,g.player.y-3,p.z);};
   const unit=g.drawUnit.bind(g);g.drawUnit=(ctx,u,...args)=>{const p=V.population.pose(u);ctx.save();ctx.translate(0,-p.z*R.projectedHeight);unit(ctx,u,...args);ctx.restore();};
   const zombie=g.drawZombie.bind(g);g.drawZombie=(ctx,e,...args)=>{const p=V.enemyPose(e);ctx.save();ctx.translate(0,-p.z*R.projectedHeight);zombie(ctx,e,...args);ctx.restore();};
-  const depth=g.depthEntries.bind(g);g.depthEntries=v=>{const entries=depth(v),p=V.pose();if(p.site){const b=g.world.buildings.get(p.site),entry=entries.find(e=>e.entity===g.player);if(b&&entry)entry.depth=b.bottom+.1;}
+  function projectedVisible(entry,v){
+   const e=entry.entity;if(!e)return true;
+   if(entry.kind===1&&R.bases[e.type]){
+    const site=V.presentation().sites.find(s=>s.id===e.id),height=R.bases[e.type].height+Math.max(0,(site?.decks.length||1)-1)*R.deckRise,H=height*R.projectedHeight;
+    return e.right+H*.4+20>=v.left&&e.left-20<=v.right&&e.bottom+30>=v.top&&e.top-H-30<=v.bottom;
+   }
+   const pose=entry.kind===4?V.pose():entry.kind===3?V.enemyPose(e):entry.kind===2?V.population.pose(e):null;
+   const radius=entry.kind===0?Math.max((e.radius||0)+20,(e.renderSize||0)/2+10):entry.kind===1?Math.max(e.w,e.h)*R.tile+40:entry.kind===5?38:entry.kind===6?40:28;
+   return entry.kind>6||g.visible(e.x,e.y-(pose?.z||0)*R.projectedHeight,radius,v);
+  }
+  // The queue's ground-space culling must include the displaced upper silhouette.
+  // Filter it again in projected space so low objects do not inherit that wider view.
+  const depth=g.depthEntries.bind(g);g.depthEntries=v=>{const entries=depth({...v,bottom:v.bottom+R.maxHeight*R.projectedHeight+40}).filter(e=>projectedVisible(e,v)),p=V.pose();if(p.site){const b=g.world.buildings.get(p.site),entry=entries.find(e=>e.entity===g.player);if(b&&entry)entry.depth=b.bottom+.1;}
    for(const entry of entries)if(entry.entity&&(entry.kind===3||entry.kind===2)){const q=entry.kind===3?V.enemyPose(entry.entity):V.population.pose(entry.entity),b=q.site&&g.world.buildings.get(q.site);if(b&&q.z>0)entry.depth=b.bottom+.05;}
-   for(const e of V.presentation().giants){if(!g.visible(e.x,e.y,250,v))continue;entries.push({depth:e.y,id:e.id,kind:9,draw:ctx=>{const d=R.siege.kinds[e.kind],H=d.height*R.projectedHeight,w=d.radius*R.tile;ctx.save();ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.ellipse(e.x,e.y,w*1.3,w*.45,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=e.windup?'#996b4b':'#665f4a';ctx.fillRect(e.x-w/2,e.y-H,w,H*.65);ctx.fillStyle='#918373';ctx.fillRect(e.x-w*.3,e.y-H-w*.4,w*.6,w*.5);ctx.fillStyle='#434b3c';ctx.fillRect(e.x-w/2,e.y-H*.4,w*.38,H*.4);ctx.fillRect(e.x+w*.12,e.y-H*.4,w*.38,H*.4);if(e.windup){ctx.strokeStyle='#e6b16b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(e.x,e.y,(d.reach+d.radius)*R.tile,0,Math.PI*2);ctx.stroke();}ctx.fillStyle='#dfc38b';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(d.name,e.x,e.y-H-w*.6);ctx.restore();}});}
+   for(const e of V.presentation().giants){const definition=R.siege.kinds[e.kind],height=definition.height*R.projectedHeight,radius=definition.radius*R.tile*1.3;if(!g.visible(e.x,e.y-height/2,Math.max(radius,height/2+radius),v))continue;entries.push({depth:e.y,id:e.id,kind:9,draw:ctx=>{const d=R.siege.kinds[e.kind],H=d.height*R.projectedHeight,w=d.radius*R.tile;ctx.save();ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.ellipse(e.x,e.y,w*1.3,w*.45,0,0,Math.PI*2);ctx.fill();ctx.fillStyle=e.windup?'#996b4b':'#665f4a';ctx.fillRect(e.x-w/2,e.y-H,w,H*.65);ctx.fillStyle='#918373';ctx.fillRect(e.x-w*.3,e.y-H-w*.4,w*.6,w*.5);ctx.fillStyle='#434b3c';ctx.fillRect(e.x-w/2,e.y-H*.4,w*.38,H*.4);ctx.fillRect(e.x+w*.12,e.y-H*.4,w*.38,H*.4);if(e.windup){ctx.strokeStyle='#e6b16b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(e.x,e.y,(d.reach+d.radius)*R.tile,0,Math.PI*2);ctx.stroke();}ctx.fillStyle='#dfc38b';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(d.name,e.x,e.y-H-w*.6);ctx.restore();}});}
    const network=V.network.presentation();
    for(const {link,shape:q}of network.links){if(!q)continue;const a=g.world.buildings.get(link.a.site),b=g.world.buildings.get(link.b.site),d=Math.max(a.bottom,b.bottom)+.04;entries.push({depth:d,id:link.id,kind:8,draw:ctx=>bridge(ctx,q)});
     const entry=entries.find(e=>e.entity===g.player);if(entry&&Math.abs(p.z-q.z)<.01&&g.player.x>=q.x*R.tile&&g.player.x<=(q.x+q.w)*R.tile&&g.player.y>=q.y*R.tile&&g.player.y<=(q.y+q.h)*R.tile)entry.depth=Math.max(entry.depth,d+.1);

@@ -9,7 +9,7 @@ try{
    await page.goto(h.base,{waitUntil:'networkidle'});await ready(page);await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);await openCommand(page,viewport.touch,'field');await activate(page,'[data-field-view="world-codex"]',viewport.touch);
    await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');
    const card=page.locator('[data-codex-id="programme-DW-0001"]'),saved=()=>page.evaluate(()=>{const d=DEADWALL.serialize();delete d.timestamp;return JSON.stringify(d);}),before=await saved();
-   await card.locator(':scope > details > summary').click();const plan=card.locator('[data-codex-plan165]'),coverage=card.locator('[data-coverage167]');await coverage.waitFor();
+   await card.getByText('Accès, ressources et précautions',{exact:true}).click();const plan=card.locator('[data-codex-plan165]'),coverage=card.locator('[data-coverage167]');await coverage.waitFor();
    check('Exactly ten evidence axes accompany the original recipe inspector',await coverage.locator('dt').count()===10&&await plan.count()===1);
    check('Opening source prescriptions does not allocate a drawing buffer',await plan.locator('canvas').evaluate(c=>c.width===1&&c.height===1));
    await plan.getByRole('button',{name:'AFFICHER LE PLAN',exact:true}).click();await plan.locator('canvas').waitFor({state:'visible'});
@@ -19,9 +19,9 @@ try{
    profile.comparison=await page.evaluate(()=>DeadwallCodexCoverage167.compare(DeadwallCodexPlan165.inspect('DW-0001',42,0)).totals);
    await screenshot('source-model');
    for(let pass=0;pass<3;pass++){
-    await card.locator(':scope > details > summary').click();await page.waitForFunction(()=>!document.querySelector('[data-codex-id="programme-DW-0001"] > details').open);await page.evaluate(()=>new Promise(requestAnimationFrame));
+    await card.getByText('Accès, ressources et précautions',{exact:true}).click();await page.waitForFunction(()=>!document.querySelector('[data-codex-id="programme-DW-0001"] > details:last-of-type').open);await page.evaluate(()=>new Promise(requestAnimationFrame));
     check('Close '+(pass+1)+' releases the canvas buffer',await plan.locator('canvas').evaluate(c=>c.width===1&&c.height===1));
-    await card.locator(':scope > details > summary').click();await coverage.waitFor();
+    await card.getByText('Accès, ressources et précautions',{exact:true}).click();await coverage.waitFor();
     check('Reopen '+(pass+1)+' keeps one inspector and ten axes',await plan.count()===1&&await coverage.count()===1&&await coverage.locator('dt').count()===10);
    }
    check('All inspection operations preserve every saved field',await saved()===before);

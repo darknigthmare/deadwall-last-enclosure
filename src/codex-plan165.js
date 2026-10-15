@@ -124,7 +124,7 @@
   doc.addEventListener('toggle',event=>{
    const details=event.target;if(details?.tagName!=='DETAILS'||!details.open)return;
    const card=details.parentElement;if(card?.tagName!=='ARTICLE')return;
-   const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(!id)return;
+   const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(!id||details.dataset?.codexSource159!==card.dataset.codexId)return;
    // Let the owning Atlas handler finish its source fields before adding the inspector.
    queueMicrotask(()=>{if(details.isConnected&&details.open)mount(doc,details,id);});
   },true);return true;

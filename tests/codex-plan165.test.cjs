@@ -8,15 +8,15 @@ test('165 inspector: uint32 seeds, exact IDs and authored levels reject malforme
  for(const id of ['DW-9999','DW-0000','DW-1','../DW-0001',null])assert.throws(()=>P.inspect(id,42));
  for(const z of [99,'0',.5,NaN])assert.throws(()=>P.inspect('DW-0501',42,z));
 });
-test('165 inspector: 3000 programmes are classified without inventing a generic port, tunnel or district',()=>{
+test('165 inspector: all 4000 programmes are classified without inventing a generic port, tunnel or district',()=>{
  let enabled=0,unsupported=0;const families=new Set();
  for(const record of R.records){
   const preset=R.preset('codex3000-'+record.id.slice(3));
   if(preset){enabled++;families.add(record.family);}
   else{unsupported++;const p=P.inspect(record.id,42);assert.equal(p.supported,false);assert.equal(p.plan,undefined);assert.equal(p.p,undefined);assert.match(p.reason,/spécialisés/);}
  }
- assert.equal(enabled+unsupported,3000);assert.ok(enabled>1000&&unsupported>0);assert.ok(families.size>15);
- console.log('PREVIEW165 '+JSON.stringify({programmes:3000,recipeCompatible:enabled,unsupported,families:families.size}));
+ assert.equal(enabled+unsupported,4000);assert.ok(enabled>1000&&unsupported>0);assert.ok(families.size>15);
+ console.log('PREVIEW165 '+JSON.stringify({programmes:4000,recipeCompatible:enabled,unsupported,families:families.size}));
 });
 test('165 inspector: every supported source family and authored floor remains deterministic and disconnected from saves',()=>{
  const subjects=new Map();for(const r of R.records)if(R.preset('codex3000-'+r.id.slice(3))&&!subjects.has(r.family))subjects.set(r.family,r.id);

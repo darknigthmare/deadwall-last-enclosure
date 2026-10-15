@@ -16,9 +16,10 @@ function checkPaths(site,p,detail){
  assert.ok(site.connected.every(id=>!site.unreachable.includes(id)));
  assert.ok(Object.isFrozen(site)&&Object.isFrozen(site.paths));
 }
-test('162: all 3000 programmes / 33 source families have explicit exterior materials, without changing eligibility',()=>{
- const families=new Set(),profiles=new Set();
- for(const r of R.records){const before=hash(r),d=S.describe(r.id);assert.ok(d,r.id);families.add(r.family);profiles.add(d.id);assert.ok(S.MATERIALS[d.material]);assert.equal(hash(r),before);}
+test('162: all 4000 programmes retain historical exterior materials and independent source identity',()=>{
+ const families=new Set(),legacyFamilies=new Set(),profiles=new Set();let legacy=0,independent=0;
+ for(const r of R.records){const before=hash(r),d=S.describe(r.id);assert.ok(d,r.id);families.add(r.family);profiles.add(d.id);assert.ok(S.MATERIALS[d.material]);assert.equal(hash(r),before);if(r.independent)independent++;else{legacy++;legacyFamilies.add(r.family);}}
+ assert.equal(legacy,3000);assert.equal(independent,1000);assert.equal(legacyFamilies.size,33);
  assert.equal(families.size,33);assert.equal(profiles.size,18);assert.equal(S.describe('DW-9999'),null);
  assert.equal(S.profileFor({programme3000:'DW-0001',type:'codex3000-0001'}).natural,true);
  assert.equal(S.profileFor(parcel('marketgarden')).material,'earth');
@@ -75,7 +76,10 @@ test('162: the actual ground painter draws only within the local site bounds and
 });
 test('162: G8 extension rejects a false restore instead of publishing a success message',()=>{
  const Ops=require('../src/world-pack131.js'),{boot127}=require('./helpers/expansions127.cjs'),{standAt}=require('./helpers/physical-fixtures.cjs');
- const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
+ const {game:g}=boot127();Ops.install(g);g.startNew('standard','17117');
+ require('./helpers/generation141.cjs').legacy(g,7);
+ assert.equal(g.frontier.position().generation,7,'This migration starts from an explicitly preserved G7 campaign');
+ standAt(g,g.player,g.core());g.input.keys.clear();g.input.pressed.clear();
  const state=()=>{const s=g.serialize();delete s.timestamp;return s;},before=state(),restore=g.restoreSave;g.restoreSave=()=>false;
  try{const action=g.worldOps131.actions().find(a=>a.id==='expandCodex3000');assert.ok(action&&!action.disabled);assert.equal(action.run().ok,false);assert.deepEqual(state(),before);}finally{g.restoreSave=restore;}
 });

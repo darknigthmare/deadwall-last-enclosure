@@ -76,8 +76,46 @@ jobs:
             suites: 'test:city'
           - group: contexts
             suites: 'test:contexts'
+          - group: codex-details
+            scripts: >-
+              scripts/browser-prescriptions161.mjs
+              scripts/browser-sites162.mjs
+              scripts/browser-quantities164.mjs
+              scripts/browser-plan165.mjs
+              scripts/browser-ensembles166.mjs
+          - group: codex-completion
+            scripts: >-
+              scripts/browser-coverage167.mjs
+              scripts/browser-fill168.mjs
+              scripts/browser-infill169.mjs
+              scripts/browser-stations170.mjs
+              scripts/browser-gardens171.mjs
+              scripts/browser-parallel173.mjs
+          - group: touch-layout
+            scripts: 'scripts/browser-touch-layout162.mjs'
+          - group: metrics
+            scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs'
+          - group: vertical-early
+            scripts: >-
+              scripts/qa-vertical175.mjs
+              scripts/qa-vertical176.mjs
+              scripts/qa-vertical177.mjs
+              scripts/qa-vertical178.mjs
+          - group: vertical-network
+            scripts: >-
+              scripts/qa-vertical179.mjs
+              scripts/qa-vertical180.mjs
+              scripts/qa-vertical181.mjs
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_REQUIRE_WEBGL: '1'
+      VERTICAL175_QA_OUT: artifacts/qa/vertical175
+      VERTICAL176_QA_OUT: artifacts/qa/vertical176
+      VERTICAL177_QA_OUT: artifacts/qa/vertical177
+      VERTICAL178_QA_OUT: artifacts/qa/vertical178
+      VERTICAL179_QA_OUT: artifacts/qa/vertical179
+      VERTICAL180_QA_OUT: artifacts/qa/vertical180
+      VERTICAL181_QA_OUT: artifacts/qa/vertical181
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -94,6 +132,7 @@ jobs:
         shell: bash
         env:
           DEADWALL_CI_SUITES: ${{ matrix.suites }}
+          DEADWALL_CI_SCRIPTS: ${{ matrix.scripts }}
         run: |
           mkdir -p artifacts/qa
           job_status=0
@@ -106,6 +145,16 @@ jobs:
               job_status=1
             fi
             printf '%s\t%s\n' "$suite" "$suite_status" >> artifacts/qa/ci-results.tsv
+          done
+          for script in $DEADWALL_CI_SCRIPTS; do
+            suite_status=0
+            if node "$script"; then
+              suite_status=0
+            else
+              suite_status=$?
+              job_status=1
+            fi
+            printf '%s\t%s\n' "$script" "$suite_status" >> artifacts/qa/ci-results.tsv
           done
           exit "$job_status"
       - name: Résumer les échecs QA en annotations lisibles

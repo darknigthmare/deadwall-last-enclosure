@@ -113,18 +113,21 @@ test('serveur: seules les ressources publiques sont accessibles, sans traversée
   });
 });
 
-test('serveur: tous les scripts déclarés par le HTML courant sont servis avec leurs octets et leur MIME', async t => {
+test('serveur: scripts et feuilles de style du HTML courant sont servis avec leurs octets et leur MIME', async t => {
   const { createGameServer } = await import('../scripts/server.mjs');
   const server = createGameServer({ rootDirectory: root });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(() => new Promise(resolve => server.close(resolve)));
   const html = readFileSync(path.join(root, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script\s+src="([^"]+)"/g)].map(match => match[1]);
+  const styles = [...html.matchAll(/<link\s+rel="stylesheet"\s+href="([^"]+)"/g)].map(match => match[1]);
   assert.ok(scripts.includes('src/visibility146.js'));
-  for (const name of scripts) {
+  assert.ok(scripts.includes('src/vertical-citadel175.js'));
+  assert.ok(styles.includes('vertical-citadel175.css'));
+  for (const name of [...scripts, ...styles]) {
     const result = await request(server, '/' + name);
     assert.equal(result.status, 200, name);
-    assert.match(result.headers['content-type'], /javascript/, name);
+    assert.match(result.headers['content-type'], name.endsWith('.css') ? /text\/css/ : /javascript/, name);
     assert.equal(result.body, readFileSync(path.join(root, name), 'utf8'), name);
   }
 });

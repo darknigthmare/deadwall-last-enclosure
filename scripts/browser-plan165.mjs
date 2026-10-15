@@ -12,7 +12,7 @@ try{
    await page.locator('#worldCodexSearch').fill('DW-0501');
    const card=page.locator('[data-codex-id="programme-DW-0501"]');await card.waitFor();const before=await stamp(page);
    check('No inspection canvas is created for a closed card',await card.locator('[data-codex-plan165]').count()===0);
-   await card.locator('summary').click();const host=card.locator('[data-codex-plan165]');await host.waitFor();
+   await card.getByText('Accès, ressources et précautions',{exact:true}).click();const host=card.locator('[data-codex-plan165]');await host.waitFor();
    check('Opening source fields adds one read-only inspector',await host.count()===1&&(await host.innerText()).includes('Lecture seule'));
    check('Opening a card alone does not generate or display a plan',!await host.locator('canvas').isVisible());
    await host.locator('input[type=number]').fill('42');await host.getByRole('button').click();await host.locator('canvas').waitFor({state:'visible'});
@@ -29,10 +29,10 @@ try{
    // Closing intentionally releases the canvas buffer. Reopening the source
    // disclosure must not regenerate a plan until the user requests it again.
    const lastValid=await canvas.evaluate(c=>c.toDataURL());
-   await card.locator(':scope > details > summary').click();
+   await card.getByText('Accès, ressources et précautions',{exact:true}).click();
    await page.waitForFunction(()=>{const c=document.querySelector('[data-codex-id="programme-DW-0501"] canvas');return c?.hidden&&c.width===1&&c.height===1;});
    check('Closing releases the hidden drawing buffer',await canvas.evaluate(c=>c.hidden&&c.width===1&&c.height===1));
-   await card.locator(':scope > details > summary').click();await host.waitFor();
+   await card.getByText('Accès, ressources et précautions',{exact:true}).click();await host.waitFor();
    check('Reopening never duplicates the inspector',await card.locator('[data-codex-plan165]').count()===1);
    check('Reopening source fields leaves the plan dormant',!await canvas.isVisible()&&await canvas.evaluate(c=>c.width===1&&c.height===1));
    await host.getByRole('button',{name:'AFFICHER LE PLAN',exact:true}).click();
@@ -40,7 +40,7 @@ try{
    check('Explicit regeneration after reopening reproduces the exact plan',lastValid===await canvas.evaluate(c=>c.toDataURL()));
    await canvas.scrollIntoViewIfNeeded();await screenshot('recipe-plan');check('No horizontal document overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    check('All inspection controls leave the persisted campaign and RNG untouched',before===await stamp(page));
-   await page.locator('#worldCodexSearch').fill('DW-0300');const unsupported=page.locator('[data-codex-id="programme-DW-0300"]');await unsupported.locator('summary').click();const unavailable=unsupported.locator('[data-codex-plan165]');await unavailable.waitFor();await unavailable.getByRole('button').click();
+   await page.locator('#worldCodexSearch').fill('DW-0300');const unsupported=page.locator('[data-codex-id="programme-DW-0300"]');await unsupported.getByText('Accès, ressources et précautions',{exact:true}).click();const unavailable=unsupported.locator('[data-codex-plan165]');await unavailable.waitFor();await unavailable.getByRole('button').click();
    check('Specialized unsupported sites never receive an invented building',!await unavailable.locator('canvas').isVisible()&&/spécialisés/.test(await unavailable.innerText()));
    check('Unsupported inspection also preserves the campaign',before===await stamp(page));
    check('No browser or asset errors',errors()===0);result.pass=true;

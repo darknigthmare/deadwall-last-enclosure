@@ -3,9 +3,9 @@ const test=require('node:test'),assert=require('node:assert/strict'),crypto=requ
 const N=require('../src/codex-native173.js'),R=require('../src/codex3000-runtime.js'),G=require('../src/frontier-geometry.js');
 const hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
 const hit=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
-test('173 native: all 3000 records preserve source identities, requested levels and repetitions, exteriors outside the shell',()=>{
+test('173 native: all 3000 historical records preserve source identities, requested levels and repetitions, exteriors outside the shell',()=>{
  let supported=0,rooms=0,yards=0,levels=0,stairs=0;const before=hash(R.records);
- for(const rec of R.records){const m=N.build(rec.id,17117);if(!m.supported)continue;supported++;const d=R.describe(rec.id),all=[...m.floors.flatMap(f=>f.rooms),...m.yards];
+ for(const rec of R.records.filter(record=>!record.independent)){const m=N.build(rec.id,17117);if(!m.supported)continue;supported++;const d=R.describe(rec.id),all=[...m.floors.flatMap(f=>f.rooms),...m.yards];
   assert.equal(new Set(all.map(s=>s.id)).size,all.length);
   for(const s of d.rooms){const instances=all.filter(i=>i.source===s.id);assert.ok(instances.length>=s.repeat[0]&&instances.length<=s.repeat[1]);for(const i of instances){assert.equal(i.exterior,s.exterior===true);if(s.levels?.length)assert.ok(s.levels.includes(i.z));}}
   assert.ok(d.rooms.flatMap(s=>s.levels||[]).every(z=>m.p.levels.includes(z)));

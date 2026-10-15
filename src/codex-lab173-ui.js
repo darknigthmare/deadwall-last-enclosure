@@ -74,6 +74,6 @@
   owner.addEventListener('toggle',()=>{if(!owner.open){canvas.width=canvas.height=1;canvas.hidden=true;model=electric=electricState=lastPower=net=traveler=saved=null;}});
   host.append(controls,actions,stateText,canvas);owner.append(host);
  }
- const docs=new WeakSet();function install(doc){if(docs.has(doc))return;docs.add(doc);doc.addEventListener('toggle',e=>{const d=e.target;if(d?.tagName!=='DETAILS'||!d.open)return;const id=/^programme-(DW-\d{4})$/.exec(d.parentElement?.dataset?.codexId||'')?.[1];if(id)queueMicrotask(()=>{if(d.isConnected&&d.open)mount(doc,d,id);});},true);}
+ const docs=new WeakSet();function install(doc){if(docs.has(doc))return;docs.add(doc);doc.addEventListener('toggle',e=>{const d=e.target;if(d?.tagName!=='DETAILS'||!d.open)return;const card=d.parentElement;if(card?.tagName!=='ARTICLE')return;const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(id&&d.dataset?.codexSource159===card.dataset.codexId)queueMicrotask(()=>{if(d.isConnected&&d.open)mount(doc,d,id);});},true);}
  return Object.freeze({mount,install});
 });

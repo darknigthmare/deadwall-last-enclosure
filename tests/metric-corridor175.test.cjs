@@ -63,3 +63,33 @@ test('175 shared browser corridor fixture uses finite native fuel transfer and n
  assert.ok(fixture.walls.length>=12);assert.ok(g.expeditions.car().fuel>=3);assert.equal(g.player.carry.fuel,0);
  const before=snapshot();assert.equal(g.restoreSave(g.serialize()),true);assert.deepEqual(snapshot(),before);
 });
+
+test('182 boarding cannot take the commander away from a real active staircase',()=>{
+ g.startNew('standard','17117');g.campaignIntro132.skip();prepareMetricVehicle174(g,'bus');assert.ok(g.expeditions.activateMetricScale174().ok);
+ const car=g.expeditions.car(),S=globalThis.DeadwallVertical175State,type='lookout2a177';
+ // Native paid support placement, with declared finite materials and completion.
+ // Keep terrain, actors and the purchased vehicle in their existing positions.
+ g.resources.wood=g.resources.scrap=g.resources.stone=500;let candidate=null;
+ for(let y=Math.floor(car.y/32)-15;y<Math.floor(car.y/32)+15&&!candidate;y++)for(let x=Math.floor(car.x/32)-15;x<Math.floor(car.x/32)+15&&!candidate;x++)for(const rotation of [0,1,2,3]){
+  const entrance=S.entrance({type,gx:x,gy:y,rotation});
+  if(!g.world.placement(C.BUILDINGS[type],x,y,rotation).valid||!g.friendlyPositionClear(g.player,entrance.x,entrance.y)||Math.hypot(entrance.x-car.x,entrance.y-car.y)>230||!g.hostileLineClear(entrance,car))continue;
+  candidate={x,y,rotation,entrance};break;
+ }
+ assert.ok(candidate,'a real staircase entrance within boarding range');
+ assert.equal(g.placeOne(type,candidate.x,candidate.y,candidate.rotation),true);
+ const support=g.world.atCell(candidate.x,candidate.y);support.progress=1;support.health=support.maxHealth;g.refreshMetrics(true);Object.assign(g.player,candidate.entrance);
+ assert.equal(g.expeditions.overview().nearCar,true);assert.ok(g.vertical175.access(support.id).ok);
+ for(const advance of [0,.1]){
+  if(advance)g.vertical175.step(advance);
+  assert.ok(g.vertical175.pose().travel);const before=snapshot();
+  assert.equal(g.expeditions.board().ok,false,'stairs retain the commander even at their ground landing');
+  assert.equal(g.expeditions.driving(),false);assert.deepEqual(snapshot(),before,'no vehicle, inventory, ID or persistent position changes');
+ }
+ for(let i=0;i<40;i++)g.vertical175.step(.1);
+ assert.equal(g.vertical175.pose().site,support.id);assert.equal(g.vertical175.pose().z,2);
+ const upstairs=snapshot();assert.equal(g.expeditions.board().ok,false);assert.deepEqual(snapshot(),upstairs);
+ assert.ok(g.vertical175.access(support.id,-1).ok);
+ for(let i=0;i<40;i++)g.vertical175.step(.1);
+ assert.equal(g.vertical175.pose().site,null);assert.equal(g.vertical175.pose().travel,null);
+ assert.ok(g.expeditions.board().ok,'boarding works again after the real descent');
+});

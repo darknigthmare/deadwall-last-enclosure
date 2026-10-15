@@ -43,7 +43,7 @@ try{
    check('No new scale activation or duplicate vehicle appears after Continue',await page.evaluate(()=>DEADWALL.expeditions.car().metric174===1&&!DEADWALL.expeditions.activateMetricScale174().ok));
    check('Viewport has no document-wide horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    await screenshot('after-side-exit');check('No JavaScript or network error',errors()===0);profile.pass=true;
-  }catch(error){profile.pass=false;profile.failure=error.stack;await screenshot('failure').catch(()=>{});}finally{await context.close();console.log(JSON.stringify({view,pass:profile.pass,checks:profile.checks.length,failure:profile.failure?.split('\n')[0]}));}
+  }catch(error){profile.pass=false;profile.failure=error.stack;profile.failureState=await page.evaluate(()=>{const g=globalThis.DEADWALL;if(!g)return null;const c=g.expeditions?.car(),b=c&&g.expeditions.vehicleBody175(),foot=b&&{x:c.x,y:c.y+b.h/2+21};return {player:{x:g.player.x,y:g.player.y,radius:g.player.radius},car:c,body:b,foot,footClear:foot&&g.friendlyPositionClear(g.player,foot.x,foot.y),pose:g.vertical175?.pose(),binding:globalThis.DeadwallMetric174?.ownerBody175(g.player),overlay:g.activeOverlay?.id,paused:g.paused};}).catch(()=>null);await screenshot('failure').catch(()=>{});}finally{await context.close();console.log(JSON.stringify({view,pass:profile.pass,checks:profile.checks.length,failure:profile.failure?.split('\n')[0]}));}
  }
 }finally{h.report.pass=h.report.profiles.length===3&&h.report.profiles.every(p=>p.pass);await h.close();await h.finish();}
 if(!h.report.pass)process.exitCode=1;

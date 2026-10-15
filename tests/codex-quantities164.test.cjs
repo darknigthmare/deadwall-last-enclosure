@@ -29,13 +29,17 @@ test('164 quantities: existing over-cap counts, exterior spaces, closed entry an
  const c=synthetic();c.description.rooms[0].authoredProps[0].degagement_min_m=3;assert.equal(F.enrich(c).quantities164.requests[0].reason,'unsupported-clearance');
  const d=synthetic();d.description.rooms[0].authoredProps[0].quantite_par_espace=[0,0];d.detail.interior=[{id:'historic',kind:'shelf',x:1,y:1,w:2.4,h:.7,solid:true}];const kept=F.enrich(d);assert.deepEqual(kept.interior,d.detail.interior);assert.equal(kept.quantities164.requests[0].reason,'already-present');
 });
-test('164 quantities: catalogue coverage retains every one of the 3000 recipes without inventing missing authored furniture',()=>{
- let eligible=0,rows=0,without=0;
+test('164 quantities: all 4000 recipes preserve the historical prescriptions without inventing independent furniture minima',()=>{
+ let eligible=0,rows=0,without=0,legacy=0,legacyEligible=0,legacyWithout=0,independent=0;
  for(const record of R.records){const desc=R.describe(record.id);let n=0;
   for(const room of desc.rooms)for(const prop of room.authoredProps)if(F.TYPES.includes(prop.asset)){n++;rows++;assert.notEqual(F.requestedCount(prop.quantite_par_espace,0),null,record.id);}
+  if(record.independent){independent++;assert.equal(n,0,record.id+' has prop slots, not quantified prescriptions');}
+  else{legacy++;if(n)legacyEligible++;else legacyWithout++;}
   if(n)eligible++;else without++;
  }
- assert.equal(eligible+without,3000);assert.ok(eligible>1000&&without>0);console.log('CATALOGUE164 '+JSON.stringify({programmes:3000,eligible,withoutAuthoredRepeatableFurniture:without,authoredOccurrences:rows}));
+ assert.equal(eligible+without,4000);assert.equal(legacy,3000);assert.equal(independent,1000);
+ assert.equal(legacyEligible+legacyWithout,3000);assert.ok(legacyEligible>1000&&legacyWithout>0);assert.equal(eligible,legacyEligible);
+ console.log('CATALOGUE164 '+JSON.stringify({programmes:4000,legacy,independent,eligible,withoutAuthoredRepeatableFurniture:without,authoredOccurrences:rows}));
 });
 test('164 quantities: all 62 native types and floors on two seeds keep source amounts, geometry and reachable anchors',()=>{
  let added=0,levels=0,places=0;const types=new Set();

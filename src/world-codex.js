@@ -102,7 +102,7 @@
         append(card,el('small',families[entry.family]+' · '+statuses[entry.status],'world-codex-status status-'+entry.status),el('h4',entry.title),el('p',entry.summary));
         if(entry.status==='plan')card.appendChild(el('p','Conception : ce programme n’est pas annoncé comme jouable.','world-codex-boundary'));
         if(entry.status==='pilote')card.appendChild(el('p','Une partie du lieu existe. Les variantes et extensions décrites ne sont pas toutes intégrées.','world-codex-boundary'));
-        const details=el('details'),summary=el('summary','Accès, ressources et précautions');details.appendChild(summary);
+        const details=el('details'),summary=el('summary','Accès, ressources et précautions');details.dataset.codexSource159=entry.id;details.appendChild(summary);
         for(const[key,label]of Object.entries(fields)){if(!entry[key])continue;const p=el('p');append(p,el('strong',label+' — '),el('span',entry[key]));details.appendChild(p);}
         if(entry.status==='programme'&&actions159){const state=el('p',undefined,'world-codex-boundary'),known=el('p'),sites=el('details'),siteHeading=el('summary','Lieux de cette fiche déjà repérés'),siteList=el('div');append(sites,siteHeading,siteList);append(card,state,known,sites);
           let activation=null;if(actions159.capability(entry.id)?.context160){activation=actionButton('VOIR L’ACTIVATION AU DÉPÔT',entry,()=>actions159.openTerritories160(game,entry.id));activation.dataset.codexTerritories160=entry.id;card.appendChild(activation);}

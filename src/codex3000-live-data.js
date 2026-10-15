@@ -1,3 +1,562 @@
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.DeadwallPower173=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+
+/**
+ * Finite radial electricity model for native Codex sites.
+ * No mutation, background tick, global world, save ownership or automatic fuel.
+ * This model is NOT wired into the historical G8 campaign by loading the module.
+ */
+const LIMITS = Object.freeze({ nodes: 1024, edges: 1023, dt: 60, fuel: 10000 });
+const TYPES = new Set(['source', 'junction', 'breaker', 'load']);
+const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+function number(v, name, min = 0, max = Number.MAX_SAFE_INTEGER) {
+  if (typeof v !== 'number' || !Number.isFinite(v) || v < min || v > max) throw Error(name + ' invalide');
+  return v;
+}
+function ident(v) {
+  if (typeof v !== 'string' || !/^[A-Za-z][A-Za-z0-9:_-]{0,95}$/.test(v) || ['constructor', 'prototype', '__proto__'].includes(v)) throw Error('Identifiant invalide');
+  return v;
+}
+function freeze(v) { if (v && typeof v === 'object' && !Object.isFrozen(v)) { Object.values(v).forEach(freeze); Object.freeze(v); } return v; }
+function compile(spec) {
+  if (!spec || !Array.isArray(spec.nodes) || !spec.nodes.length || spec.nodes.length > LIMITS.nodes || !Array.isArray(spec.edges) || spec.edges.length > LIMITS.edges) throw Error('Circuit absent ou trop grand');
+  const ids = new Set(), nodes = spec.nodes.map(n => {
+    ident(n.id); if (ids.has(n.id) || !TYPES.has(n.kind)) throw Error('Nœud invalide ou répété'); ids.add(n.id);
+    const o = { id: n.id, kind: n.kind, level: n.level ?? 0 };
+    if (!Number.isSafeInteger(o.level) || Math.abs(o.level) > 32) throw Error('Niveau invalide');
+    if (n.kind === 'source') {
+      o.capacityW = number(n.capacityW, 'Puissance', 1, 1000000);
+      o.fuelPerKWh = number(n.fuelPerKWh, 'Consommation', .001, 1000);
+      o.idleFuelPerHour = number(n.idleFuelPerHour ?? 0, 'Consommation à vide', 0, 1000);
+      o.tankCapacity = number(n.tankCapacity, 'Réservoir', .001, LIMITS.fuel);
+    }
+    if (n.kind === 'load') { o.demandW = number(n.demandW, 'Demande', 1, 1000000); o.priority = number(n.priority ?? 0, 'Priorité', 0, 100); }
+    return o;
+  }).sort((a, b) => a.id.localeCompare(b.id));
+  const byId = new Map(nodes.map(n => [n.id, n])), incoming = new Map(), edgeIds = new Set();
+  const edges = spec.edges.map(e => {
+    ident(e.id); if (edgeIds.has(e.id)) throw Error('Câble répété'); edgeIds.add(e.id);
+    const a = byId.get(e.from), b = byId.get(e.to);
+    if (!a || !b || a.id === b.id || a.kind === 'load' || b.kind === 'source' || incoming.has(b.id)) throw Error('Réseau non radial ou borne inconnue');
+    if (a.level !== b.level && e.riser !== true) throw Error('Liaison verticale non déclarée');
+    const o = { id: e.id, from: a.id, to: b.id, capacityW: number(e.capacityW, 'Capacité du câble', 1, 1000000), riser: e.riser === true };
+    incoming.set(b.id, o); return o;
+  }).sort((a, b) => a.id.localeCompare(b.id));
+  const paths = {};
+  for (const n of nodes) {
+    const visited = new Set(), route = [], cables = []; let at = n;
+    while (at && at.kind !== 'source') {
+      if (visited.has(at.id)) throw Error('Boucle électrique interdite'); visited.add(at.id); route.push(at.id);
+      const e = incoming.get(at.id); if (!e) break; cables.push(e.id); at = byId.get(e.from);
+    }
+    if (n.kind === 'load') paths[n.id] = at?.kind === 'source' ? { source: at.id, nodes: route, edges: cables } : null;
+  }
+  return freeze({ version: 1, id: ident(spec.id), nodes, edges, paths, topology:JSON.stringify([nodes,edges]) });
+}
+function initial(net) {
+  const switches = {}, fuel = {}, intact = {};
+  for (const n of net.nodes) { if (n.kind !== 'junction') switches[n.id] = false; if (n.kind === 'source') fuel[n.id] = 0; }
+  for (const e of net.edges) intact[e.id] = true;
+  return { version: 1, network: net.id, topology:net.topology, switches, fuel, intact };
+}
+function normalize(net, raw) {
+  if (raw === undefined) return initial(net);
+  if (!raw || Object.keys(raw).some(k=>!['version','network','topology','switches','fuel','intact'].includes(k)) || raw.version !== 1 || raw.network !== net.id || raw.topology !== net.topology) throw Error('Registre électrique incompatible');
+  const out = initial(net);
+  for (const key of ['switches', 'fuel', 'intact']) {
+    if (!raw[key] || typeof raw[key] !== 'object' || Array.isArray(raw[key]) || Object.keys(raw[key]).length !== Object.keys(out[key]).length || Object.keys(raw[key]).some(k => !own(out[key], k))) throw Error('Registre incomplet ou étranger');
+    for (const id of Object.keys(out[key])) {
+      if (key === 'fuel') out.fuel[id] = number(raw.fuel[id], 'Carburant', 0, net.nodes.find(n => n.id === id).tankCapacity);
+      else { if (typeof raw[key][id] !== 'boolean') throw Error('État non booléen'); out[key][id] = raw[key][id]; }
+    }
+  }
+  return out;
+}
+function switchNode(net, raw, id, enabled) {
+  const out = normalize(net, raw); if (!own(out.switches, id) || typeof enabled !== 'boolean') throw Error('Commande électrique invalide');
+  out.switches[id] = enabled; return out;
+}
+function cableState(net, raw, id, intact) {
+  const out = normalize(net, raw); if (!own(out.intact, id) || typeof intact !== 'boolean') throw Error('Câble inconnu');
+  out.intact[id] = intact; return out;
+}
+function transferFuel(net, raw, inventory, sourceId, request) {
+  const state = normalize(net, raw), source = net.nodes.find(n => n.id === sourceId && n.kind === 'source');
+  if (!source || !inventory || typeof inventory !== 'object' || Array.isArray(inventory)) throw Error('Source de carburant absente');
+  const reserve = number(inventory.fuel, 'Réserve transportée', 0), requested = number(request, 'Quantité', 0);
+  if (state.switches[sourceId]) throw Error('Éteindre le groupe avant ravitaillement');
+  const moved = Math.min(requested, reserve, Math.max(0, source.tankCapacity - state.fuel[sourceId]));
+  state.fuel[sourceId] += moved;
+  return { state, inventory: { ...inventory, fuel: reserve - moved }, moved };
+}
+function step(net, raw, dt, options = {}) {
+  number(dt, 'Pas électrique', 0, LIMITS.dt); const state = normalize(net, raw);
+  const edges = new Map(net.edges.map(e => [e.id, e])), usage = {}, sourceUsage = {}, remaining = {}, consumed = {}, loads = {};
+  for (const e of net.edges) usage[e.id] = 0;
+  for (const n of net.nodes.filter(n => n.kind === 'source')) { sourceUsage[n.id] = 0; consumed[n.id] = 0; remaining[n.id] = 0; }
+  // Pausing must neither consume energy nor claim a new delivered amount.
+  if (options.paused === true || dt === 0) return { state, loads, usage, sourceUsage, consumed, energyWh: 0, paused: options.paused === true };
+  for (const n of net.nodes.filter(n => n.kind === 'source')) {
+    if (!state.switches[n.id]) continue;
+    const idle = Math.min(state.fuel[n.id], n.idleFuelPerHour * dt / 3600);
+    state.fuel[n.id] -= idle; consumed[n.id] += idle;
+    remaining[n.id] = Math.min(n.capacityW, state.fuel[n.id] * 3600000 / (n.fuelPerKWh * dt));
+  }
+  for (const load of net.nodes.filter(n => n.kind === 'load').sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id))) {
+    const path = net.paths[load.id]; let reason = null;
+    if (!state.switches[load.id]) reason = 'load-off';
+    else if (!path) reason = 'no-source';
+    else if (!state.switches[path.source]) reason = 'source-off';
+    else if (path.nodes.some(id => own(state.switches, id) && !state.switches[id])) reason = 'breaker-open';
+    else if (path.edges.some(id => !state.intact[id])) reason = 'cable-broken';
+    else if (load.demandW > remaining[path.source] + 1e-9) reason = 'source-capacity-or-fuel';
+    else if (path.edges.some(id => usage[id] + load.demandW > edges.get(id).capacityW + 1e-9)) reason = 'cable-capacity';
+    const powered = reason === null; loads[load.id] = { powered, watts: powered ? load.demandW : 0, reason };
+    if (!powered) continue;
+    remaining[path.source] = Math.max(0, remaining[path.source] - load.demandW); sourceUsage[path.source] += load.demandW;
+    for (const id of path.edges) usage[id] += load.demandW;
+  }
+  let energyWh = 0;
+  for (const n of net.nodes.filter(n => n.kind === 'source')) {
+    const wh = sourceUsage[n.id] * dt / 3600, debit = wh * n.fuelPerKWh / 1000;
+    if (debit > state.fuel[n.id] + 1e-8) throw Error('Bilan énergétique incohérent');
+    state.fuel[n.id] = Math.max(0, state.fuel[n.id] - debit); consumed[n.id] += debit; energyWh += wh;
+  }
+  return { state, loads, usage, sourceUsage, consumed, energyWh, paused: false };
+}
+return Object.freeze({ LIMITS, compile, initial, normalize, switchNode, cableState, transferFuel, step });
+
+});
+
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.DeadwallTransit173=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+
+/** Explicit multi-level transit graph. Crossed strokes never create a junction. */
+const MODES = new Set(['foot', 'vehicle', 'boat']);
+const KINDS = new Set(['road', 'ramp', 'stairs', 'portal', 'water', 'walkway']);
+const LEVEL_LINKS = new Set(['ramp', 'stairs', 'portal']);
+function finite(v) { return typeof v === 'number' && Number.isFinite(v); }
+function id(v) { if (typeof v !== 'string' || !/^[A-Za-z][A-Za-z0-9:_-]{0,95}$/.test(v)) throw Error('Identifiant invalide'); return v; }
+function freeze(v) { if (v && typeof v === 'object' && !Object.isFrozen(v)) { Object.values(v).forEach(freeze); Object.freeze(v); } return v; }
+function compile(spec) {
+  if (!spec || !Array.isArray(spec.nodes) || !spec.nodes.length || spec.nodes.length > 512 || !Array.isArray(spec.edges) || spec.edges.length > 2048) throw Error('Réseau invalide');
+  const ids = new Set(), nodes = spec.nodes.map(n => { id(n.id); if (ids.has(n.id) || ![n.x, n.y].every(finite) || !Number.isInteger(n.level) || Math.abs(n.level) > 32) throw Error('Nœud invalide'); ids.add(n.id); return { id: n.id, x: n.x, y: n.y, level: n.level }; });
+  const byId = new Map(nodes.map(n => [n.id, n])), edgeIds = new Set();
+  const edges = spec.edges.map(e => {
+    id(e.id); if (!KINDS.has(e.kind || 'road') || (e.riseM !== undefined && (!finite(e.riseM) || e.riseM < 0))) throw Error('Type de liaison ou dénivelé invalide'); const a = byId.get(e.from), b = byId.get(e.to);
+    if (edgeIds.has(e.id) || !a || !b || a.id === b.id || !Array.isArray(e.modes) || !e.modes.length || e.modes.some(m => !MODES.has(m))) throw Error('Liaison invalide'); edgeIds.add(e.id);
+    if (a.level !== b.level && !LEVEL_LINKS.has(e.kind)) throw Error('Changement de niveau non explicite');
+    if (e.kind === 'stairs' && e.modes.some(m => m !== 'foot')) throw Error('Escalier non carrossable');
+    if (e.kind === 'water' && e.modes.some(m => m !== 'boat')) throw Error('Voie d’eau non carrossable');
+    if(e.kind!=='water'&&e.modes.includes('boat'))throw Error('Un bateau exige une voie d’eau.');
+    const width=e.width??(e.modes.includes('vehicle')?7:e.modes.includes('boat')?6:2);if(!finite(width)||width<=0||width>100)throw Error('Largeur invalide');
+    const points = e.points ? e.points.map(p => { if (!Array.isArray(p) || p.length !== 2 || !p.every(finite)) throw Error('Tracé invalide'); return p.slice(); }) : [[a.x, a.y], [b.x, b.y]];
+    if (points.length < 2 || points.length > 128 || Math.hypot(points[0][0] - a.x, points[0][1] - a.y) > 1e-6 || Math.hypot(points.at(-1)[0] - b.x, points.at(-1)[1] - b.y) > 1e-6) throw Error('Extrémités du tracé incohérentes');
+    const length = points.slice(1).reduce((s, p, i) => s + Math.hypot(p[0] - points[i][0], p[1] - points[i][1]), 0);
+    if (length <= 0) throw Error('Liaison sans distance physique');
+    if (e.kind === 'ramp' && (!finite(e.riseM) || e.riseM <= 0 || e.riseM / length > .10)) throw Error('Pente de rampe non prise en charge');
+    return { id: e.id, from: a.id, to: b.id, modes: [...new Set(e.modes)].sort(), kind: e.kind || 'road', points, length, bidirectional: e.bidirectional !== false, riseM: e.riseM ?? 0, width };
+  });
+  return freeze({ version: 1, id: id(spec.id), nodes, edges, topology:JSON.stringify([nodes,edges]) });
+}
+function route(net, from, to, mode = 'foot', closed = []) {
+  if (!MODES.has(mode) || !net.nodes.some(n => n.id === from) || !net.nodes.some(n => n.id === to) || !Array.isArray(closed) || closed.some(e => !net.edges.some(x => x.id === e))) throw Error('Demande de trajet invalide');
+  const banned = new Set(closed), adjacency = new Map(net.nodes.map(n => [n.id, []]));
+  for (const e of net.edges) if (!banned.has(e.id) && e.modes.includes(mode)) { adjacency.get(e.from).push({ to: e.to, edge: e, reverse: false }); if (e.bidirectional) adjacency.get(e.to).push({ to: e.from, edge: e, reverse: true }); }
+  const distance = new Map([[from, 0]]), prev = new Map(), settled = new Set();
+  for (let count = 0; count < net.nodes.length; count++) {
+    const next = [...distance].filter(([n]) => !settled.has(n)).sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0]))[0];
+    if (!next) break; const [at, d] = next; settled.add(at); if (at === to) break;
+    for (const step of adjacency.get(at).sort((a, b) => a.edge.id.localeCompare(b.edge.id))) { const nd = d + step.edge.length; if (nd < (distance.get(step.to) ?? Infinity) - 1e-9) { distance.set(step.to, nd); prev.set(step.to, { from: at, ...step }); } }
+  }
+  if (!settled.has(to)) return null;
+  const steps = []; let at = to;
+  while (at !== from) { const p = prev.get(at); if (!p || steps.length >= net.nodes.length) throw Error('Chaîne de trajet incohérente'); steps.push({ edge: p.edge.id, from: p.from, to: at, kind: p.edge.kind, points: (p.reverse ? p.edge.points.slice().reverse() : p.edge.points).map(p => p.slice()) }); at = p.from; }
+  steps.reverse(); return { from, to, mode, length: distance.get(to), steps };
+}
+function tunnel() {
+  return compile({ id: 'tunnel', nodes: [
+    { id: 'west', x: -180, y: 0, level: 0 }, { id: 'entry', x: -90, y: 0, level: -1 },
+    { id: 'exit', x: 90, y: 0, level: -1 }, { id: 'east', x: 180, y: 0, level: 0 },
+    { id: 'refuge', x: 0, y: 8, level: -1 }, { id: 'middle', x: 0, y: 0, level: -1 },
+    { id: 'surfaceNorth', x: 0, y: -180, level: 0 }, { id: 'surfaceSouth', x: 0, y: 180, level: 0 }
+  ], edges: [
+    { id: 'descent', from: 'west', to: 'entry', kind: 'ramp', riseM: 6, modes: ['foot', 'vehicle'] },
+    { id: 'galleryWest', from: 'entry', to: 'middle', modes: ['foot', 'vehicle'] },
+    { id: 'galleryEast', from: 'middle', to: 'exit', modes: ['foot', 'vehicle'] },
+    { id: 'ascent', from: 'exit', to: 'east', kind: 'ramp', riseM: 6, modes: ['foot', 'vehicle'] },
+    { id: 'shelterAccess', from: 'middle', to: 'refuge', modes: ['foot'] },
+    { id: 'unconnectedSurfaceRoad', from: 'surfaceNorth', to: 'surfaceSouth', modes: ['foot', 'vehicle'] }
+  ] });
+}
+function interchange() {
+  const modes = ['vehicle'];
+  return compile({ id: 'interchange', nodes: [
+    { id: 'west', x: -220, y: 0, level: 0 }, { id: 'westJunction', x: -140, y: 0, level: 0 },
+    { id: 'eastJunction', x: 140, y: 0, level: 0 }, { id: 'east', x: 220, y: 0, level: 0 },
+    { id: 'north', x: 0, y: -220, level: 1 }, { id: 'northJunction', x: 0, y: -140, level: 1 },
+    { id: 'southJunction', x: 0, y: 140, level: 1 }, { id: 'south', x: 0, y: 220, level: 1 }
+  ], edges: [
+    { id: 'westAccess', from: 'west', to: 'westJunction', modes }, { id: 'lowerDeck', from: 'westJunction', to: 'eastJunction', modes }, { id: 'eastAccess', from: 'eastJunction', to: 'east', modes },
+    { id: 'northAccess', from: 'north', to: 'northJunction', modes }, { id: 'upperDeck', from: 'northJunction', to: 'southJunction', modes }, { id: 'southAccess', from: 'southJunction', to: 'south', modes },
+    ...[['wn', 'westJunction', 'northJunction', [-140, 0], [-140, -140], [0, -140]], ['ws', 'westJunction', 'southJunction', [-140, 0], [-140, 140], [0, 140]], ['en', 'eastJunction', 'northJunction', [140, 0], [140, -140], [0, -140]], ['es', 'eastJunction', 'southJunction', [140, 0], [140, 140], [0, 140]]].map(([key, from, to, a, c, b]) => ({ id: 'ramp-' + key, from, to, points: [a, c, b], kind: 'ramp', riseM: 6, modes }))
+  ] });
+}
+function port(coast) {
+  if (!coast || !Array.isArray(coast.a) || !Array.isArray(coast.b) || coast.a.length !== 2 || coast.b.length !== 2 || ![...coast.a, ...coast.b].every(finite) || !['left', 'right'].includes(coast.waterSide)) throw Error('Côte réelle et côté eau requis');
+  const dx = coast.b[0] - coast.a[0], dy = coast.b[1] - coast.a[1], length = Math.hypot(dx, dy); if (length < 200) throw Error('Segment de côte insuffisant');
+  const ux = dx / length, uy = dy / length, sign = coast.waterSide === 'left' ? 1 : -1, nx = -uy * sign, ny = ux * sign;
+  const pos = (along, depth) => [coast.a[0] + along * ux + depth * nx, coast.a[1] + along * uy + depth * ny];
+  const defs = [['gate', 100, -55], ['yard', 100, -25], ['quayWest', 35, -5], ['quayEast', 165, -5], ['waterWest', 35, 35], ['waterEast', 165, 35]];
+  const nodes = defs.map(([key, along, depth]) => { const [x, y] = pos(along, depth); return { id: key, x, y, level: 0 }; });
+  const graph = compile({ id: 'port', nodes, edges: [
+    { id: 'yardAccess', from: 'gate', to: 'yard', modes: ['foot', 'vehicle'] },
+    { id: 'westQuayAccess', from: 'yard', to: 'quayWest', modes: ['foot', 'vehicle'] },
+    { id: 'eastQuayAccess', from: 'yard', to: 'quayEast', modes: ['foot', 'vehicle'] },
+    { id: 'watersideChannel', from: 'waterWest', to: 'waterEast', modes: ['boat'], kind: 'water' }
+  ] });
+  return freeze({ graph, coastline: { a: coast.a.slice(), b: coast.b.slice(), waterSide: coast.waterSide },
+    scope: 'isolated-topology-requires-approved-terrain-and-road-attachment',
+    requirements: ['terrain-footprint-validation', 'actual-road-connection', 'quay-and-water-colliders', 'loading-interaction'],
+    // Cargo transfer is an interaction, not a free pedestrian edge across water.
+    loadingPairs: [{ land: 'quayWest', water: 'waterWest' }, { land: 'quayEast', water: 'waterEast' }] });
+}
+return Object.freeze({ compile, route, tunnel, interchange, port });
+
+});
+
+/* Separate native-layout laboratory. G1–G8 plans and saved site IDs never change here. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexNative173=api;if(typeof module==='object'&&module.exports)module.exports=api;})(globalThis,function(root){'use strict';
+ const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){Object.values(v).forEach(freeze);Object.freeze(v);}return v;};
+ const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const deps=()=>({C:root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R:root.DeadwallCodex3000Runtime||(typeof require==='function'?require('./codex3000-runtime.js'):null),G:root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null)});
+ function build(id,seed=17117){
+  const {C,R,G}=deps(),r=C.CodexNative173Rules;
+  if(typeof id!=='string'||!/^DW-\d{4}$/.test(id)||!R.get(id)||!Number.isInteger(seed)||seed<0||seed>4294967295)throw Error('Programme ou graine native invalide.');
+  const card=R.get(id),reference=R.template(id),description=R.describe(id);
+  if(!R.preset('codex3000-'+id.slice(3))||!R.enabled(card,{townKind:'grande-ville'}))return freeze({id,seed,supported:false,scope:'native-layout-laboratory',reason:'specialized-terrain-required',reference:reference.reference});
+  const requested=new Set([0,...reference.reference.levels,...description.rooms.flatMap(s=>s.levels||[])]);
+  if([...requested].some(z=>!Number.isInteger(z)||z<r.minLevel||z>r.maxLevel))return freeze({id,seed,supported:false,reason:'unsupported-source-level',scope:'native-layout-laboratory'});
+  const levels=Array.from({length:Math.max(...requested)-Math.min(...requested)+1},(_,i)=>i+Math.min(...requested));
+  const spaces=[],issues=[];let count=0;
+  for(const [si,s]of description.rooms.entries()){
+   const q=s.repeat,valid=Array.isArray(q)&&q.length===2&&q.every(Number.isSafeInteger)&&q[0]>=0&&q[1]>=q[0];
+   if(!valid){issues.push({source:s.id,reason:'invalid-repeat-range'});continue;}
+   const repetitions=q[0]+G.hash(seed,id,s.id,'repetitions173')%(q[1]-q[0]+1);
+   let choices=s.levels;
+   if(!Array.isArray(choices)||!choices.length){
+    const n=norm(s.name),upper=levels.find(z=>z>0),lower=levels.find(z=>z<0);
+    choices=[upper!==undefined&&/chambre|dortoir|etage/.test(n)?upper:lower!==undefined&&/cave|sous.sol/.test(n)?lower:0];
+    issues.push({source:s.id,reason:'level-inferred',levels:choices.slice()});
+   }
+   for(let n=0;n<repetitions;n++){
+    if(++count>r.maxSpaces)throw Error('Capacité du laboratoire dépassée ; aucun espace supprimé silencieusement.');
+    const z=choices[n%choices.length];
+    const specified=Array.isArray(s.area)&&s.area.length===2&&s.area.every(Number.isFinite)&&s.area[0]>0&&s.area[1]>=s.area[0];
+    const furnitureArea=s.authoredProps.reduce((sum,p)=>sum+(p.quantite_par_espace?.[0]||0)*((p.gabarit_m?.longueur||0)+(p.degagement_min_m||0))*((p.gabarit_m?.largeur||0)+(p.degagement_min_m||0)),0);
+    const desired=Math.max(s.exterior?r.defaultYardArea:r.defaultRoomArea,furnitureArea/r.furnitureOccupancy);
+    const area=specified?Math.min(s.area[1],Math.max(s.area[0],desired)):desired;
+    const w=Math.max(r.minimumRoomSide,Math.sqrt(area)),h=Math.max(r.minimumRoomSide,area/w);
+    spaces.push({id:id+':native:'+si+':'+n,source:s.id,sourceIndex:si,occurrence:n,name:s.name,z,exterior:s.exterior===true,w,h,sourceArea:specified?s.area.slice():null,sourceRepeat:q.slice(),areaInferred:!specified});
+    if(specified&&w*h>s.area[1]+1e-8)issues.push({source:s.id,reason:'minimum-door-clearance-exceeds-area-range'});
+   }
+  }
+  const indoor=spaces.filter(s=>!s.exterior),columns=[r.minimumRoomSide,r.minimumRoomSide];
+  for(const z of levels)indoor.filter(s=>s.z===z).forEach((s,i)=>columns[i%2]=Math.max(columns[i%2],s.w));
+  columns[0]=columns[1]=Math.max(...columns);
+  const w=columns[0]+columns[1]+r.corridor+4*r.wall,mid=columns[0]+2*r.wall+r.corridor/2;
+  const floors=[],allDoors=[],transitions=[];let largestH=r.stairLength+4;
+  for(const z of levels){
+   const rooms=indoor.filter(s=>s.z===z),walls=[],doors=[];let y=r.wall+1;
+   const wall=(x,y,w,h)=>{if(w>1e-8&&h>1e-8)walls.push({x,y,w,h});};
+   for(let i=0;i<rooms.length;i+=2){
+    const pair=rooms.slice(i,i+2),rowH=Math.max(...pair.map(s=>s.h));
+    for(let side=0;side<pair.length;side++){
+     const s=pair[side];s.x=side?mid+r.corridor/2+r.wall:mid-r.corridor/2-r.wall-s.w;s.y=y;
+     wall(s.x-r.wall,y-r.wall,s.w+2*r.wall,r.wall);wall(s.x-r.wall,y+s.h,s.w+2*r.wall,r.wall);
+     const outerX=side?s.x+s.w:s.x-r.wall,doorX=side?s.x-r.wall:s.x+s.w,doorY=y+s.h/2;
+     wall(outerX,y,r.wall,s.h);wall(doorX,y,r.wall,s.h/2-r.door/2);wall(doorX,doorY+r.door/2,r.wall,s.h/2-r.door/2);
+     doors.push({id:s.id+':door',source:s.source,room:s.id,z,x:side?s.x:s.x+s.w,y:doorY,width:r.door,axis:'y',corridor:{x:mid,y:doorY},inside:{x:side?s.x+.8:s.x+s.w-.8,y:doorY}});
+    }y+=rowH+2*r.wall;
+   }
+   const h=y+r.stairLength+2*r.wall;largestH=Math.max(largestH,h);
+   const stairs=levels.length>1?[{id:id+':stairs:'+z,x:mid-r.stairWidth/2,y:y+.5,w:r.stairWidth,h:r.stairLength,levels:levels.slice()}]:[];
+   floors.push({z,rooms,walls,doors,objects:[],stairs,floor:{x:0,y:0,w,h},entry:{x:mid,y:-1},exit:{x:mid,y:h+1},style:'native173',programme:id,connectorOnly:rooms.length===0});
+   allDoors.push(...doors);
+  }
+  // Align the shared shaft on every level; different floor populations cannot move a landing.
+  for(const f of floors){f.floor.h=largestH;f.exit.y=largestH+1;if(f.stairs[0])f.stairs[0].y=largestH-r.stairLength-.5;
+   f.walls.push({x:0,y:0,w:mid-r.door/2,h:r.wall},{x:mid+r.door/2,y:0,w:w-mid-r.door/2,h:r.wall},{x:0,y:largestH-r.wall,w:mid-r.door/2,h:r.wall},{x:mid+r.door/2,y:largestH-r.wall,w:w-mid-r.door/2,h:r.wall},{x:0,y:0,w:r.wall,h:largestH},{x:w-r.wall,y:0,w:r.wall,h:largestH});
+  }
+  for(let i=1;i<levels.length;i++)transitions.push({id:id+':stairs-link:'+i,from:levels[i-1],to:levels[i],x:mid,y:largestH-r.stairLength/2-.5,mode:'foot',kind:'stairs',bidirectional:true});
+  const yards=[],yardPaths=[];const ends=new Map(levels.map(z=>[z,1]));
+  for(const s of spaces.filter(s=>s.exterior)){
+   s.x=w+r.yardLane*2;s.y=ends.get(s.z);ends.set(s.z,s.y+s.h+r.yardLane);
+   const zone={...s,support:s.z===0?'ground':'requires-structural-validation',boundary:'zone-reservation',roofed:false};yards.push(zone);
+   yardPaths.push({id:s.id+':path',z:s.z,source:s.source,width:r.yardLane,points:[{x:mid,y:largestH+1},{x:w+r.yardLane,y:largestH+1},{x:w+r.yardLane,y:s.y+s.h/2},{x:s.x,y:s.y+s.h/2}],requiresStructure:s.z!==0});
+  }
+  const plot={x:0,y:0,w:Math.max(w,...yards.map(s=>s.x+s.w))+r.yardLane,h:Math.max(largestH+3,...yards.map(s=>s.y+s.h))+r.yardLane};
+  const max=reference.reference.max;
+  if(plot.w>max[0]||plot.h>max[1])issues.push({reason:'plot-exceeds-source-envelope',required:[plot.w,plot.h],sourceMax:max.slice()});
+  return freeze({id,name:card.name,seed,supported:true,scope:'native-layout-laboratory-not-campaign',p:{id:'native-'+id,type:'codex3000-'+id.slice(3),codex:id,w,h:largestH,x:w/2,y:largestH/2,a:0,levels,outdoor:[],parking:[]},plot,floors,yards,yardPaths,doors:allDoors,transitions,issues,reference:reference.reference,sourceAccess:description.access,
+   summary:{sourceSpaces:description.rooms.length,instances:spaces.length,indoor:indoor.length,outdoor:yards.length,levels:levels.length,doors:allDoors.length,stairs:transitions.length,sourceMinRepeats:description.rooms.reduce((n,s)=>n+(s.repeat?.[0]||0),0)}});
+ }
+
+ const detailCache=new WeakMap();
+ function details(model,z=0){
+  const f=floor(model,z);if(!detailCache.has(model))detailCache.set(model,new Map());const cache=detailCache.get(model);if(cache.has(z))return cache.get(z);
+  const {C,R,G}=deps(),desc=R.describe(model.id),Q=root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null),A=root.DeadwallCodexAnchors160||(typeof require==='function'?require('./codex-anchors160.js'):null),I=root.DeadwallCodexInfill169||(typeof require==='function'?require('./codex-infill169.js'):null);
+  const reserved=f.doors.map(door=>{const room=f.rooms.find(r=>r.id===door.room),x=Math.min(door.corridor.x,room.x+room.w/2),right=Math.max(door.corridor.x,room.x+room.w/2),b={x:x-.1,y:door.y-C.CodexNative173Rules.door/2,w:right-x+.2,h:C.CodexNative173Rules.door};return{...b,id:door.id+':reserved-way',kind:'reserved-native-way',solid:false,surface:false,reserved173:true,front160:{...b}};});
+  const args={seed:model.seed,p:model.p,z,plan:f,programme:model.id};let value={interior:reserved,outdoor:[]};
+  value=R.anchored({...args,detail:value});value=R.quantities({...args,detail:value});value=R.ensembles({...args,detail:value});value=R.fill({...args,detail:value});
+  value=I.enrich({...args,detail:value,description:{...desc,rooms:desc.rooms.filter(s=>!s.exterior)},geometry:G,recipes:Q,anchors:A});
+  value=R.stations({...args,detail:value});value=R.packing({...args,detail:value});
+  const gardens=z===0?gardenDetails(model,desc):[];
+  const out=freeze({...value,interior:value.interior.filter(o=>!o.reserved173),outdoor:gardens,scope:'native-laboratory-no-loot'});cache.set(z,out);return out;
+ }
+ function gardenDetails(model,desc){
+  const {C,R,G}=deps(),r=C.CodexNative173Rules,Q=root.DeadwallCodexRecipes159||(typeof require==='function'?require('./codex3000-recipes159.js'):null),D=root.DeadwallSeedDetail157||(typeof require==='function'?require('./seed-detail157.js'):null),J=root.DeadwallCodexGardens171||(typeof require==='function'?require('./codex-gardens171.js'):null),out=[];
+  const intersects=(a,b,m=0)=>a.x<b.x+b.w+m&&a.x+a.w>b.x-m&&a.y<b.y+b.h+m&&a.y+a.h>b.y-m;
+  for(const zone of model.yards.filter(s=>s.z===0&&/jardin|potager|verger|terrasse|cour commune|cour familiale/.test(norm(s.name)))){
+   const gate=zone.y+zone.h/2,parts=[{x:zone.x,y:zone.y,w:zone.w,h:.15},{x:zone.x,y:zone.y+zone.h-.15,w:zone.w,h:.15},{x:zone.x+zone.w-.15,y:zone.y,w:.15,h:zone.h},{x:zone.x,y:zone.y,w:.15,h:zone.h/2-r.door/2},{x:zone.x,y:gate+r.door/2,w:.15,h:zone.h/2-r.door/2}];
+   const fences=parts.map((p,i)=>({...p,id:zone.id+':fence:'+i,kind:'fence',z:0,solid:true,decor157:true,source173:zone.source,room:zone.name}));out.push(...fences);
+   const options=desc.gardenOptions.filter(k=>k.minArea<=zone.w*zone.h&&(R.detailFamily(desc.family)==='residence'||!['pool','playset'].includes(k.unique)));
+   if(!options.length)continue;const choice=options[G.hash(model.seed,zone.id,'native-garden173')%options.length];
+   const lane={x:zone.x,y:gate-r.door/2,w:zone.w*.55,h:r.door};
+   for(const [index,kind]of choice.modules.entries()){
+    const shape=D.objects[kind]||Q.EXTRA_SHAPES[kind];if(!shape)continue;
+    for(let trial=0;trial<r.gardenAttempts;trial++){
+     const n=(trial+G.hash(model.seed,zone.id,kind))%36,cx=zone.x+zone.w*(.1+(n%6)*.16),cy=zone.y+zone.h*(.1+Math.floor(n/6)*.16),pose=J.pose(cx,cy,shape[0],shape[1],trial%4,.8,kind);
+     const box=pose,inside=b=>b.x>zone.x+.3&&b.y>zone.y+.3&&b.x+b.w<zone.x+zone.w-.3&&b.y+b.h<zone.y+zone.h-.3;
+     if(!inside(box)||pose.service171.some(f=>!inside(f))||intersects(box,lane,.1)||out.some(o=>intersects(box,o,.1)||(o.service171||[]).some(f=>intersects(box,f,.05)))||pose.service171.some(f=>out.some(o=>intersects(f,o,.05))))continue;
+     out.push({...pose,id:zone.id+':garden:'+index,kind,z:0,solid:shape[2]===true,surface:shape[2]!==true,decor157:true,garden171:true,source173:zone.source,gardenProfile173:choice.id,room:zone.name});break;
+    }
+   }
+  }return out;
+ }
+
+ function floor(model,z=0){const value=model?.floors?.find(f=>f.z===z);if(!value)throw Error('Étage natif absent.');return value;}
+ function blocked(model,x,y,z=0,radius=.32){
+  if(![x,y,radius].every(Number.isFinite)||radius<0)return true;const {G}=deps(),f=floor(model,z);
+  const bounds=z===0?model.plot:model.p;if(x<radius||y<radius||x>bounds.w-radius||y>bounds.h-radius)return true;
+  const d=details(model,z);return [...f.walls,...d.interior.filter(o=>o.solid),...d.outdoor.filter(o=>o.solid)].some(b=>G.circleRect(x,y,radius,b));
+ }
+ function moveLevel(model,state,direction){
+  if(!state||![state.x,state.y].every(Number.isFinite)||!model.p.levels.includes(state.z)||![-1,1].includes(direction))throw Error('Transition native invalide.');
+  if(state.mode&&state.mode!=='foot')return{ok:false,state:{...state},reason:'stairs-foot-only'};
+  const to=state.z+direction,edge=model.transitions.find(t=>(t.from===state.z&&t.to===to)||(t.to===state.z&&t.from===to));
+  if(!edge||Math.hypot(state.x-edge.x,state.y-edge.y)>1.2||blocked(model,edge.x,edge.y,to))return{ok:false,state:{...state},reason:'landing-unavailable'};
+  return{ok:true,state:{...state,x:edge.x,y:edge.y,z:to}};
+ }
+ return Object.freeze({build,floor,details,blocked,moveLevel});
+});
+
+/* Pure bindings between native rooms, powered light fixtures and explicit transit edges.
+ * These states belong to the laboratory until a campaign-site adapter is validated.
+ */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallSiteInfrastructure173=api;if(typeof module==='object'&&module.exports)module.exports=api;})(globalThis,function(root){'use strict';
+ const deps=()=>({C:root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),P:root.DeadwallPower173||(typeof require==='function'?require('./power-network173.js'):null),T:root.DeadwallTransit173||(typeof require==='function'?require('./transit-network173.js'):null)});
+ function electrical(model){
+  if(!model?.supported||!Array.isArray(model.floors))throw Error('Architecture native requise.');
+  const {C,P}=deps(),r=C.CodexInfrastructure173Rules,id='native:'+model.id+':'+model.seed,nodes=[{id:'generator',kind:'source',level:0,capacityW:r.generatorW,tankCapacity:r.tank,fuelPerKWh:r.fuelPerKWh,idleFuelPerHour:r.idleFuel}],edges=[],fixtures=[];
+  for(const f of model.floors){const breaker='breaker:'+f.z;nodes.push({id:breaker,kind:'breaker',level:f.z});edges.push({id:'riser:'+f.z,from:'generator',to:breaker,riser:f.z!==0,capacityW:r.floorW});
+   for(const room of f.rooms){const load='light:'+room.sourceIndex+':'+room.occurrence;nodes.push({id:load,kind:'load',level:f.z,demandW:r.lampW,priority:/soin|secours|urgence/.test(room.name)?2:1});edges.push({id:'wire:'+load,from:breaker,to:load,capacityW:r.lampW});fixtures.push({id:load,room:room.id,z:f.z,x:room.x+room.w/2,y:room.y+room.h/2,kind:'light',mount:'ceiling'});}
+  }
+  return {network:P.compile({id,nodes,edges}),fixtures,source:{x:model.p.w/2,y:model.p.h+2,z:0,kind:'generator'},scope:'native-laboratory-only'};
+ }
+ function beginTransit(net,node,mode='foot',width=.64){
+  const {T}=deps();T.route(net,node,node,mode);
+  if(!Number.isFinite(width)||width<=0||width>20)throw Error('Gabarit invalide.');
+  return {version:1,network:net.id,topology:net.topology,node,mode,width,edge:null,from:null,to:null,distance:0};
+ }
+ function transitState(net,raw){
+  if(!raw||raw.version!==1||raw.network!==net.id||raw.topology!==net.topology||!Number.isFinite(raw.distance)||raw.distance<0)throw Error('Sauvegarde de trajet incompatible.');
+  const s=beginTransit(net,raw.node,raw.mode,raw.width);
+  if(raw.edge===null){if(raw.from!==null||raw.to!==null||raw.distance!==0)throw Error('Position de borne invalide.');return s;}
+  const e=net.edges.find(e=>e.id===raw.edge);if(!e||!e.modes.includes(raw.mode)||e.width<raw.width||raw.distance>=e.length||raw.from!==raw.node||!((e.from===raw.from&&e.to===raw.to)||(e.bidirectional&&e.to===raw.from&&e.from===raw.to)))throw Error('Position de liaison invalide.');
+  return {...s,edge:e.id,from:raw.from,to:raw.to,distance:raw.distance};
+ }
+ function position(net,raw){
+  const s=transitState(net,raw),node=net.nodes.find(n=>n.id===s.node);if(!s.edge)return{x:node.x,y:node.y,level:node.level,atNode:true};
+  const edge=net.edges.find(e=>e.id===s.edge),to=net.nodes.find(n=>n.id===s.to),points=edge.from===s.from?edge.points:edge.points.slice().reverse();let left=s.distance;
+  for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],len=Math.hypot(b[0]-a[0],b[1]-a[1]);if(left<=len&&len>0){const t=left/len;return{x:a[0]+(b[0]-a[0])*t,y:a[1]+(b[1]-a[1])*t,level:node.level+(to.level-node.level)*s.distance/edge.length,atNode:false};}left-=len;}
+  throw Error('Distance hors tracé.');
+ }
+ function advance(net,raw,destination,dt,speed,closed=[]){
+  const {T,C}=deps(),r=C.CodexInfrastructure173Rules;
+  if(!Number.isFinite(dt)||dt<0||dt>r.maxStep||!Number.isFinite(speed)||speed<0||speed>r.maxSpeed)throw Error('Pas de déplacement invalide.');
+  let state=transitState(net,raw),left=dt*speed,moved=0,reason=null;T.route(net,state.node,destination,state.mode,closed);
+  // Wide vehicles reroute rather than entering a narrow link and clipping its walls.
+  const banned=[...new Set([...closed,...net.edges.filter(e=>e.width<state.width).map(e=>e.id)])];
+  for(let i=0;i<=net.edges.length*2+1&&left>1e-9;i++){
+   if(state.edge){
+    if(banned.includes(state.edge)){reason='edge-closed';break;}
+    const e=net.edges.find(e=>e.id===state.edge),remaining=e.length-state.distance,step=Math.min(left,remaining);state.distance+=step;left-=step;moved+=step;
+    if(state.distance>=e.length-1e-9)state={...state,node:state.to,edge:null,from:null,to:null,distance:0};else break;
+   }else{
+    if(state.node===destination)break;const route=T.route(net,state.node,destination,state.mode,banned);if(!route){reason='no-compatible-route';break;}
+    const step=route.steps[0];state={...state,edge:step.edge,from:step.from,to:step.to,distance:0};
+   }
+  }
+  return{state,position:position(net,state),moved,remainingDistance:left,arrived:state.edge===null&&state.node===destination,reason};
+ }
+ function checkpoint(model,electric,inventory){
+  const {P}=deps();if(!inventory||!Number.isFinite(inventory.fuel)||inventory.fuel<0)throw Error('Inventaire de laboratoire invalide.');
+  const {network}=electrical(model);return{version:1,scope:'native-laboratory-only',programme:model.id,seed:model.seed,electric:P.normalize(network,electric),inventory:JSON.parse(JSON.stringify(inventory))};
+ }
+ function restore(model,raw){if(!raw||raw.version!==1||raw.scope!=='native-laboratory-only'||raw.programme!==model.id||raw.seed!==model.seed)throw Error('Scénario natif incompatible.');return checkpoint(model,raw.electric,raw.inventory);}
+ return Object.freeze({electrical,beginTransit,transitState,position,advance,checkpoint,restore});
+});
+
+/* In-game inspection of separate native layouts and network traversal.
+ * No live campaign controller, stock, RNG, autosave or elapsed-time subscription.
+ */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexLab173=api;if(typeof module==='object'&&module.exports)module.exports=api;if(root.document)api.install(root.document);})(globalThis,function(root){'use strict';
+ function mount(doc,owner,id){
+  if(owner.querySelector('[data-native-lab173]'))return;
+  const el=(t,text)=>{const n=doc.createElement(t);if(text!==undefined)n.textContent=text;return n;},host=el('section');host.dataset.nativeLab173=id;host.className='codex-plan165';
+  host.append(el('h5','ARCHITECTURE NATIVE ET RÉSEAUX — LABORATOIRE'),el('p','Plans séparés de G8 : les pièces, répétitions, niveaux et jardins sont reconstruits. Les ouvrages utilisent un terrain d’essai explicite. Aucun nouveau lieu sur la carte, aucun carburant de campagne et aucune sauvegarde de partie modifiée.'));
+  const controls=el('div');controls.className='codex-plan165-controls';
+  function field(label,n){const l=el('label',label);l.append(n);controls.append(l);return n;}
+  function option(n,value,label){const o=el('option',label);o.value=String(value);n.append(o);}
+  const seed=field('Graine du laboratoire',el('input'));seed.type='number';seed.min=0;seed.max=4294967295;seed.value=17117;seed.dataset.native173='seed';
+  const scene=field('Scène',el('select'));scene.dataset.native173='scene';for(const [v,t]of [['native','Pièces et jardin natifs'],['tunnel','Tunnel — traversée physique du tracé'],['interchange','Échangeur — quatre bretelles'],['port','Port — côte d’essai terre/eau']])option(scene,v,t);
+  const level=field('Étage',el('select'));level.dataset.native173='level';option(level,0,'Rez-de-chaussée');
+  const mode=field('Déplacement',el('select'));mode.dataset.native173='mode';for(const [v,t]of [['foot','À pied'],['vehicle','Véhicule'],['boat','Bateau']])option(mode,v,t);
+  const build=el('button','CONSTRUIRE LA SCÈNE');build.type='button';build.dataset.native173='build';controls.append(build);
+  const canvas=el('canvas');canvas.width=canvas.height=1;canvas.hidden=true;canvas.dataset.native173='canvas';canvas.setAttribute('role','img');
+  const stateText=el('p');stateText.setAttribute('role','status');stateText.dataset.native173='status';
+  const actions=el('div');actions.className='codex-plan165-controls';
+  function button(name,tag,run){const b=el('button',name);b.type='button';b.dataset.native173=tag;b.addEventListener('click',()=>{try{run();render();}catch(e){stateText.textContent=e.message;}});actions.append(b);return b;}
+  let model=null,electric=null,electricState=null,lastPower=null,inventory={fuel:3},net=null,traveler=null,closed=[],destination=null,saved=null;
+  const P=root.DeadwallPower173,T=root.DeadwallTransit173,N=root.DeadwallCodexNative173,I=root.DeadwallSiteInfrastructure173;
+  const fuel=button('VERSER 1 UNITÉ DU BANC','fuel',()=>{if(!electric)throw Error('Construisez une scène native.');const r=P.transferFuel(electric.network,electricState,inventory,'generator',1);electricState=r.state;inventory=r.inventory;});
+  const toggle=button('BASCULER GROUPE ET ÉCLAIRAGE','power',()=>{if(!electric)throw Error('Circuit natif absent.');const on=!electricState.switches.generator;for(const node of electric.network.nodes)if(node.kind!=='junction')electricState=P.switchNode(electric.network,electricState,node.id,on);lastPower=null;});
+  const step=button('SIMULER 10 SECONDES','step',()=>{if(electric){lastPower=P.step(electric.network,electricState,10);electricState=lastPower.state;}if(net){const r=I.advance(net,traveler,destination,10,mode.value==='vehicle'?14:mode.value==='boat'?6:3.5,closed);traveler=r.state;}});
+  const block=button('FERMER / OUVRIR LES LIAISONS','block',()=>{if(!net)throw Error('Choisissez un ouvrage.');closed=closed.length?[]:net.edges.filter(e=>scene.value==='interchange'?e.kind==='ramp':scene.value==='tunnel'?e.id==='galleryWest':e.id==='yardAccess'||e.kind==='water').map(e=>e.id);});
+  const save=button('MÉMORISER LE BANC','save',()=>{saved=electric?JSON.stringify(I.checkpoint(model,electricState,inventory)):JSON.stringify({scope:'transit-laboratory',state:traveler,closed,destination,topology:net.topology});});
+  const restore=button('REPRENDRE LE BANC','restore',()=>{if(!saved)throw Error('Aucun état du banc mémorisé.');const raw=JSON.parse(saved);if(electric){const s=I.restore(model,raw);electricState=s.electric;inventory=s.inventory;lastPower=null;}else{if(raw.scope!=='transit-laboratory'||raw.topology!==net.topology)throw Error('Ouvrage différent.');traveler=I.transitState(net,raw.state);T.route(net,traveler.node,raw.destination,traveler.mode,raw.closed);closed=raw.closed;destination=raw.destination;}});
+  function generate(){
+   try{
+    const n=Number(seed.value);if(!/^\d{1,10}$/.test(seed.value)||!Number.isInteger(n)||n<0||n>4294967295)throw Error('Graine entière requise.');
+    saved=null;model=null;electric=null;electricState=null;lastPower=null;net=null;traveler=null;closed=[];inventory={fuel:3};
+    if(scene.value==='native'){
+     model=N.build(id,n);if(!model.supported){canvas.width=canvas.height=1;canvas.hidden=true;stateText.textContent='Architecture non créée : '+model.reason+'. Utilisez le scénario d’ouvrage pour examiner sa topologie, pas pour le déclarer implanté.';return;}
+     electric=I.electrical(model);electricState=P.initial(electric.network);level.replaceChildren();for(const z of model.p.levels)option(level,z,z===0?'Rez-de-chaussée':'Niveau '+z);level.value='0';
+    }else{
+     net=scene.value==='tunnel'?T.tunnel():scene.value==='interchange'?T.interchange():T.port({a:[-150,0],b:[150,0],waterSide:'left'}).graph;
+     const m=mode.value,start=scene.value==='port'?(m==='boat'?'waterWest':'gate'):'west';destination=scene.value==='port'?(m==='boat'?'waterEast':'quayEast'):scene.value==='tunnel'?'east':'south';traveler=I.beginTransit(net,start,m,m==='vehicle'?2.2:.64);
+    }
+    canvas.width=900;canvas.height=720;canvas.hidden=false;render();
+   }catch(e){canvas.hidden=true;stateText.textContent=e.message;}
+  }
+  function render(){
+   fuel.disabled=toggle.disabled=!electric;block.disabled=!net;mode.disabled=scene.value==='native';level.disabled=!electric;
+   step.disabled=save.disabled=!(electric||net);restore.disabled=!saved;
+   if(canvas.hidden)return;const c=canvas.getContext('2d');c.clearRect(0,0,900,720);c.fillStyle='#17271e';c.fillRect(0,0,900,720);
+   const art=root.DEADWALL?.art;
+   if(model){
+    const z=Number(level.value),f=N.floor(model,z),d=N.details(model,z),scale=Math.min(850/model.plot.w,655/model.plot.h);
+    c.save();c.translate(25,25);c.scale(scale,scale);c.fillStyle='#63715b';c.fillRect(0,0,model.plot.w,model.plot.h);
+    for(const y of model.yards.filter(y=>y.z===z)){c.fillStyle=y.support==='ground'?'#718158':'#8b7959';c.fillRect(y.x,y.y,y.w,y.h);c.strokeStyle='#ccbb89';c.lineWidth=.12;c.strokeRect(y.x,y.y,y.w,y.h);}
+    c.strokeStyle='#b8aa86';c.lineWidth=2;for(const p of model.yardPaths.filter(p=>p.z===z)){c.beginPath();p.points.forEach((v,i)=>i?c.lineTo(v.x,v.y):c.moveTo(v.x,v.y));c.stroke();}
+    c.fillStyle='#999584';c.fillRect(f.floor.x,f.floor.y,f.floor.w,f.floor.h);
+    for(const room of f.rooms){c.fillStyle='#b1ac92';c.fillRect(room.x,room.y,room.w,room.h);}
+    c.fillStyle='#36463c';for(const b of f.walls)c.fillRect(b.x,b.y,b.w,b.h);
+    for(const o of [...d.interior,...d.outdoor])root.DeadwallSeedDetailArt157.draw(c,o,{art,seed:model.seed});
+    for(const s of f.stairs){c.fillStyle='#8a9b93';c.fillRect(s.x,s.y,s.w,s.h);c.strokeStyle='#394d43';c.lineWidth=.08;for(let i=1;i<8;i++){c.beginPath();c.moveTo(s.x,s.y+s.h*i/8);c.lineTo(s.x+s.w,s.y+s.h*i/8);c.stroke();}}
+    for(const light of electric.fixtures.filter(l=>l.z===z)){const powered=!!lastPower?.loads[light.id]?.powered;c.fillStyle=powered?'rgba(247,221,151,.30)':'#495a48';c.beginPath();c.arc(light.x,light.y,powered?2.2:.22,0,Math.PI*2);c.fill();}
+    c.restore();c.font='13px sans-serif';c.fillStyle='#f1e4bf';
+    for(const [i,room]of f.rooms.entries())c.fillText((i+1)+'. '+room.name,25+(room.x+.3)*scale,25+(room.y+.8)*scale,Math.max(30,room.w*scale-4));
+    const lit=Object.values(lastPower?.loads||{}).filter(l=>l.powered).length;stateText.textContent=model.summary.indoor+' pièces, '+model.summary.outdoor+' extérieurs hors coque, '+model.summary.levels+' niveaux et '+model.summary.stairs+' liaisons d’escalier. '+d.interior.length+' équipements sur cet étage. Éclairage : '+lit+'/'+electric.fixtures.length+'. Carburant groupe : '+electricState.fuel.generator.toFixed(5)+' ; réserve du banc : '+inventory.fuel+'. '+model.issues.map(i=>i.reason==='plot-exceeds-source-envelope'?'Emprise supérieure à la parcelle source : implantation refusée tant que le terrain ne convient pas.':i.reason==='level-inferred'?'Un niveau est déduit pour une source non renseignée.':'').filter(Boolean).slice(0,3).join(' ');
+   }else if(net){
+    const points=net.edges.flatMap(e=>e.points),minX=Math.min(...points.map(p=>p[0]))-20,maxX=Math.max(...points.map(p=>p[0]))+20,minY=Math.min(...points.map(p=>p[1]))-30,maxY=Math.max(...points.map(p=>p[1]))+30,scale=Math.min(850/(maxX-minX),650/(maxY-minY));
+    c.save();c.translate(25,25);c.scale(scale,scale);c.translate(-minX,-minY);
+    for(const e of net.edges){c.strokeStyle=closed.includes(e.id)?'#b76d59':e.kind==='water'?'#6498a1':e.kind==='ramp'?'#c0aa70':'#8c9989';c.lineWidth=e.width;c.beginPath();e.points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));c.stroke();}
+    for(const n of net.nodes){c.fillStyle='#e7d1a2';c.beginPath();c.arc(n.x,n.y,2,0,Math.PI*2);c.fill();}
+    const pos=I.position(net,traveler);c.fillStyle='#f5e5b9';c.beginPath();c.arc(pos.x,pos.y,4,0,Math.PI*2);c.fill();c.restore();
+    stateText.textContent='Ouvrage d’essai '+scene.value+' · '+traveler.mode+' · niveau continu '+pos.level.toFixed(2)+' · destination '+destination+' · '+(closed.length?'liaisons fermées':'liaisons ouvertes')+'. Un croisement sans borne commune ne crée aucun raccord. Le port utilise une côte d’essai, pas une côte de la campagne.';
+   }
+   canvas.setAttribute('aria-label',stateText.textContent);
+  }
+  build.addEventListener('click',generate);level.addEventListener('change',()=>{try{render();}catch(e){stateText.textContent=e.message;}});scene.addEventListener('change',generate);mode.addEventListener('change',generate);
+  host.addEventListener('keydown',e=>{if(!['Escape','Tab'].includes(e.key))e.stopPropagation();});
+  owner.addEventListener('toggle',()=>{if(!owner.open){canvas.width=canvas.height=1;canvas.hidden=true;model=electric=electricState=lastPower=net=traveler=saved=null;}});
+  host.append(controls,actions,stateText,canvas);owner.append(host);
+ }
+ const docs=new WeakSet();function install(doc){if(docs.has(doc))return;docs.add(doc);doc.addEventListener('toggle',e=>{const d=e.target;if(d?.tagName!=='DETAILS'||!d.open)return;const card=d.parentElement;if(card?.tagName!=='ARTICLE')return;const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(id&&d.dataset?.codexSource159===card.dataset.codexId)queueMicrotask(()=>{if(d.isConnected&&d.open)mount(doc,d,id);});},true);}
+ return Object.freeze({mount,install});
+});
+
+/* Opt-in revision 10: fill free-standing source minima without moving any old object. */
+(function(root,factory){'use strict';const api=factory(root);root.DeadwallCodexPacking173=api;
+ if(typeof module==='object'&&module.exports)module.exports=api;
+})(globalThis,function(root){'use strict';
+ const TYPES=Object.freeze(['shelf','counter','table','pallet','crate','stretcher','machine','fuel_can']);
+ const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){Object.values(v).forEach(freeze);Object.freeze(v);}return v;};
+ const range=v=>Array.isArray(v)&&v.length===2&&v.every(Number.isSafeInteger)&&v[0]>=0&&v[1]>=v[0]?v:null;
+ const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+ const hit=(a,b,m=0)=>a.x<b.x+b.w+m&&a.x+a.w>b.x-m&&a.y<b.y+b.h+m&&a.y+a.h>b.y-m;
+ const within=(a,b,m=0)=>a.x>=b.x+m&&a.y>=b.y+m&&a.x+a.w<=b.x+b.w-m&&a.y+a.h<=b.y+b.h-m;
+ const owns=(r,o)=>o.x+o.w/2>=r.x&&o.y+o.h/2>=r.y&&o.x+o.w/2<r.x+r.w&&o.y+o.h/2<r.y+r.h;
+ const fronts=o=>o.service173||o.service171||o.service170||o.fronts169||[o.front160,o.access165].filter(Boolean);
+ const samples=f=>[[f.x+f.w/2,f.y+f.h/2],...(f.w>f.h?[[f.x+f.w*.25,f.y+f.h/2],[f.x+f.w*.75,f.y+f.h/2]]:[[f.x+f.w/2,f.y+f.h*.25],[f.x+f.w/2,f.y+f.h*.75]])];
+ function enrich({seed,p,z=0,plan,detail,description,geometry:G,recipes:Q}){
+  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),r=C.CodexPacking173Rules,limits=C.CodexInfill169Rules;
+  const station=root.DeadwallCodexStations170||(typeof require==='function'?require('./codex-stations170.js'):null);
+  if(!r||!Number.isInteger(seed)||seed<0||seed>4294967295||!p?.id||!p.levels?.includes(z)||!['rooms','walls','stairs','objects'].every(k=>Array.isArray(plan?.[k]))||!Array.isArray(detail?.interior)||!Array.isArray(detail.outdoor)||!description?.rooms||!G||!Q)throw Error('Contrat de travées intérieures invalide.');
+  if(detail.packing173?.revision===r.revision)return detail;
+  const previous=[...plan.objects,...detail.interior],surroundings=[...previous,...(z===0?[...(p.outdoor||[]),...detail.outdoor]:[])];
+  const obstacles=[...plan.walls,...plan.stairs,...previous.filter(o=>!o.dressing160)];
+  const oldFronts=surroundings.flatMap(fronts),base=Q.accessGrid(p,z,plan,detail),keep=Q.anchorCells(p,z,plan,base),added=[],requests=[],claimed=new Set();
+  for(const f of oldFronts)for(const [x,y]of samples(f)){const i=base?.at(x,y);if(i>=0&&base.reachable[i])keep.push(i);}
+  const sources=new Map();for(const s of description.rooms){const k=norm(s.name);sources.set(k,sources.has(k)?null:s);}
+  const work=[];
+  for(const [ri,room]of plan.rooms.entries()){
+   const source=sources.get(norm(room.name));if(!source||source.exterior||source.levels&&!source.levels.includes(z))continue;
+   for(const [si,spec]of source.authoredProps.entries()){
+    if(!TYPES.includes(spec.asset))continue;const q=range(spec.quantite_par_espace),pool=previous.filter(o=>o.kind===spec.asset&&!claimed.has(o.id)&&owns(room,o));
+    const existing=q?Math.min(q[0],pool.length):0;pool.slice(0,existing).forEach(o=>claimed.add(o.id));
+    const missing=q?Math.max(0,q[0]-existing):null,report={room:ri,spec:si,name:room.name,kind:spec.asset,minimum:q?.[0]??null,existing,added:0,unplaced:missing,reason:null};requests.push(report);
+    if(!q){report.reason='invalid-source-range';continue;}if(!missing){report.reason='minimum-present';continue;}
+    if(/paroi|au mur|cloison|suspend|rail|sur le mur/i.test(spec.ancrage||'')){report.reason='fixed-support-required';continue;}
+    if(spec.asset==='machine'&&(z!==0||/bedroom|living|medical|pharmacy|classroom|dining|library/.test(source.kit.id))){report.reason='structural-or-use-restriction';continue;}
+    const w=spec.gabarit_m?.longueur,h=spec.gabarit_m?.largeur,height=spec.gabarit_m?.hauteur,clear=spec.degagement_min_m;
+    if(![w,h,height].every(v=>Number.isFinite(v)&&v>0)||w>limits.maxWidth||h>limits.maxDepth||height>limits.maxHeight){report.reason='unsupported-dimensions';continue;}
+    if(!Number.isFinite(clear)||clear<0||clear>limits.maxClearance){report.reason='unsupported-clearance';continue;}
+    if(!base?.baseline){report.reason='baseline-inaccessible';continue;}
+    report.reason='space-or-access';work.push({source,room,ri,si,spec,w,h,height,clear:Math.max(clear,limits.minClearance),report});
+   }
+  }
+  for(let round=0;round<r.maxPerSpec&&added.length<r.maxAdded;round++){
+   let progress=false;
+   for(const job of work){const {source,room,ri,si,spec,w,h,height,clear,report}=job;
+    if(job.exhausted||report.unplaced<=0||added.length>=r.maxAdded)continue;
+    if(added.filter(o=>o.room173===ri).length>=r.maxPerRoom){report.reason='room-capacity';job.exhausted=true;continue;}
+    const fractions=Array.from({length:r.gridSteps},(_,i)=>(i+1)/(r.gridSteps+1)),roll=G.hash(seed,p.id,z,ri,si,'packing173');let chosen=null;
+    // Enumerate all cells/orientations instead of repeatedly sampling the same few positions.
+    for(let k=0;k<r.maxCandidates&&!chosen;k++){
+     const i=(k+roll)%(r.gridSteps*r.gridSteps*4),turn=Math.floor(i/(r.gridSteps*r.gridSteps)),n=i%(r.gridSteps*r.gridSteps);
+     const cx=room.x+room.w*fractions[n%r.gridSteps],cy=room.y+room.h*fractions[Math.floor(n/r.gridSteps)];
+     const pose=station.pose(cx,cy,w,h,turn,clear,['table','machine'].includes(spec.asset));
+     if(['shelf','stretcher'].includes(spec.asset))pose.service170=[...pose.service170,...station.pose(cx,cy,w,h,(turn+2)%4,clear,false).service170];
+     if(!within(pose,room,.1)||pose.service170.some(f=>!within(f,room,.08)))continue;
+     if([...obstacles,...added].some(o=>hit(pose,o,.06))||[...oldFronts,...added.flatMap(fronts)].some(f=>hit(pose,f,.04)))continue;
+     if(pose.service170.some(f=>[...obstacles,...added].some(o=>(o.solid!==false||o.surface)&&hit(f,o,.03))))continue;
+     const item={...pose,id:p.id+':packing173:'+z+':'+ri+':'+si+':'+report.added,kind:spec.asset,z,solid:true,surface:false,decor157:true,packing173:true,station170:true,room173:ri,source173:sourceId(source),sourceSpec173:si,room:room.name,label:spec.nom||spec.asset,sourceHeight173:height,utilityConnected173:false,...(spec.asset==='table'?{profile165:'dining'}:{})};
+     const proposal=[...added,item],audit=Q.accessGrid(p,z,plan,detail,proposal);
+     if(!audit?.baseline||keep.some(i=>!audit.reachable[i])||proposal.flatMap(fronts).some(f=>samples(f).some(([x,y])=>{const i=audit.at(x,y);return i<0||!audit.reachable[i];})))continue;
+     chosen=item;
+    }
+    if(chosen){added.push(chosen);report.added++;report.unplaced--;report.reason=report.unplaced?'space-or-capacity':'minimum-completed';progress=true;}else job.exhausted=true;
+   }if(!progress)break;
+  }
+  return freeze({...detail,interior:[...detail.interior,...added],packing173:{revision:r.revision,added:added.length,requests,navigationChecked:!!base?.baseline,scope:'append-only-authored-minima'}});
+ }
+ function sourceId(s){return s.id||s.name;}
+ return Object.freeze({TYPES,fronts,samples,enrich});
+});
+
 /* Optional revision 9: compose the Codex's garden kits inside attributed ground zones.
  * Existing gardens, plots, doors, roads and finite stocks are never moved or replaced.
  * A kit's modules are not authored furniture minima and are reported separately.
@@ -761,7 +1320,7 @@
   const seed=Number(value);if(!Number.isSafeInteger(seed)||seed<RULES.minSeed||seed>RULES.maxSeed)throw Error('Graine entière requise, entre 0 et 4 294 967 295.');return seed;
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5){
-  if(![5,6,7,8,9].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
+  if(![5,6,7,8,9,10].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
@@ -785,6 +1344,7 @@
   if(detailVersion>=7)details=R.infill({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=8)details=R.stations({seed,p,z,plan,detail:details,programme:id});
   if(detailVersion>=9)details=R.gardens({seed,p,z,plan,detail:details,programme:id});
+  if(detailVersion>=10)details=R.packing({seed,p,z,plan,detail:details,programme:id});
   const contents=details.interior.filter(o=>o.anchored160).reduce((n,o)=>n+(S?.surfaceItems165?.(o,seed).length||0),0);
   const source=R.describe(id),exteriorNames=new Set(source.rooms.filter(r=>r.exterior).map(r=>r.name));
   const approximated=plan.rooms.filter(r=>exteriorNames.has(r.name)).map(r=>r.name);
@@ -824,6 +1384,7 @@
   const yardLabel=el('label','Compléter pièces et cours (révision 7, inclut la 6)'),yardToggle=el('input');yardToggle.type='checkbox';yardToggle.dataset.infill169='revision';yardToggle.style.width='24px';yardLabel.append(yardToggle);
   const stationLabel=el('label','Compléter ateliers et stockages (révision 8, inclut 6–7)'),stationToggle=el('input');stationToggle.type='checkbox';stationToggle.dataset.stations170='revision';stationToggle.style.width='24px';stationLabel.append(stationToggle);
   const gardenLabel=el('label','Composer les jardins et cours (révision 9, inclut 6–8)'),gardenToggle=el('input');gardenToggle.type='checkbox';gardenToggle.dataset.gardens171='revision';gardenToggle.style.width='24px';gardenLabel.append(gardenToggle);
+  const packLabel=el('label','Compléter les travées intérieures (révision 10)'),packToggle=el('input');packToggle.type='checkbox';packToggle.dataset.packing173='revision';packToggle.style.width='24px';packLabel.append(packToggle);
   const show=el('button','AFFICHER LE PLAN');show.type='button';
   const status=el('p');status.className='codex-plan165-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
   const canvas=el('canvas');canvas.width=1;canvas.height=1;canvas.hidden=true;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','Plan simplifié du programme '+id);
@@ -833,7 +1394,7 @@
   if(Coverage)Coverage.render(doc,coverage,Coverage.source(id));
   let visible=false;
   const generate=()=>{try{
-    const preview=inspect(id,seed.value,Number(floor.value),gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
+    const preview=inspect(id,seed.value,Number(floor.value),packToggle.checked?10:gardenToggle.checked?9:stationToggle.checked?8:yardToggle.checked?7:fillToggle.checked?6:5);
     if(Coverage)Coverage.render(doc,coverage,Coverage.compare(preview));
     if(!preview.supported){canvas.hidden=true;canvas.width=canvas.height=1;status.textContent=preview.reason;return;}
     canvas.width=RULES.width;canvas.height=RULES.height;
@@ -841,6 +1402,7 @@
     const s=preview.summary;
     status.textContent=s.rooms+' pièces · '+s.sourceObjects+' objets du plan · '+s.solidDetails+' détails solides · '+s.anchoredContents+' petits ensembles décoratifs sur les meubles ajoutés. '+s.quantityUnplaced+' compléments demandés non posés faute de capacité, d’espace ou d’accès.'
      +' '+s.composedGroups+' ensembles table-assises · '+s.composedSeats+' sièges composés · '+s.groupUnplaced+' ensembles non posés. Aperçu de la révision '+preview.detailVersion+', activation volontaire au dépôt.'
+     +(preview.details.packing173?' '+preview.details.packing173.added+' compléments de travées réellement posés, sans nouveau butin.':'')
      +(preview.details.fill168?' '+preview.details.fill168.added+' équipements manquants effectivement ajoutés ; aucun stock ni branchement supplémentaire.':'')
      +(preview.details.infill169?' '+preview.details.infill169.added+' compléments de pièces et cours ; '+preview.details.infill169.zones.length+' zones de placement extérieures. Aucun jardin natif complet garanti.':'')
      +(preview.details.stations170?' '+preview.details.stations170.added+' machines, palettes ou caisses placées ; zones de service libres, appareils non alimentés.':'')
@@ -853,9 +1415,9 @@
   floor.addEventListener('change',()=>{if(visible)generate();});
   host.addEventListener('keydown',e=>{if(e.code!=='Escape'&&e.code!=='Tab')e.stopPropagation();});
   fillToggle.addEventListener('change',()=>{if(visible)generate();});
-  const syncRevisions=()=>{stationToggle.disabled=gardenToggle.checked;yardToggle.disabled=gardenToggle.checked||stationToggle.checked;fillToggle.disabled=gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
-  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);
-  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
+  const syncRevisions=()=>{gardenToggle.disabled=packToggle.checked;stationToggle.disabled=packToggle.checked||gardenToggle.checked;yardToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked;fillToggle.disabled=packToggle.checked||gardenToggle.checked||stationToggle.checked||yardToggle.checked;if(visible)generate();};
+  yardToggle.addEventListener('change',syncRevisions);stationToggle.addEventListener('change',syncRevisions);gardenToggle.addEventListener('change',syncRevisions);packToggle.addEventListener('change',syncRevisions);
+  controls.append(seedLabel,floorLabel,fillLabel,yardLabel,stationLabel,gardenLabel,packLabel,show);host.append(controls,status,canvas,coverage);details.append(host);
   details.addEventListener('toggle',()=>{if(!details.open){canvas.width=canvas.height=1;canvas.hidden=true;visible=false;show.textContent='AFFICHER LE PLAN';}});
   if(!doc.getElementById('codex-plan165-style')){const style=el('style',CSS);style.id='codex-plan165-style';(doc.head||doc.documentElement).append(style);}
  }
@@ -865,7 +1427,7 @@
   doc.addEventListener('toggle',event=>{
    const details=event.target;if(details?.tagName!=='DETAILS'||!details.open)return;
    const card=details.parentElement;if(card?.tagName!=='ARTICLE')return;
-   const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(!id)return;
+   const id=/^programme-(DW-\d{4})$/.exec(card.dataset?.codexId||'')?.[1];if(!id||details.dataset?.codexSource159!==card.dataset.codexId)return;
    // Let the owning Atlas handler finish its source fields before adding the inspector.
    queueMicrotask(()=>{if(details.isConnected&&details.open)mount(doc,details,id);});
   },true);return true;

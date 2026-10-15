@@ -7,13 +7,21 @@ const supplement=JSON.parse(fs.readFileSync('codex-3000/originaux/DEADWALL_CODEX
 const bySource=new Map([...original,...supplement].map(p=>[p.id,p]));
 const hash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
 test('159: all 3,000 detailed programmes retain every authored room, exterior and prop without truncation',()=>{
- let rooms=0,props=0;for(const record of R.records){const d=R.describe(record.id),p=bySource.get(record.parent),source=p.espaces||p.zones;
+ let rooms=0,props=0;for(const record of R.records.filter(record=>record.extension!==158)){const d=R.describe(record.id),p=bySource.get(record.parent),source=p.espaces||p.zones;
  assert.equal(d.rooms.length,source.length,record.id);assert.equal(d.parent,record.parent);assert.equal(d.name,record.name);
  for(let i=0;i<source.length;i++){const s=source[i],r=d.rooms[i];assert.equal(r.name,s.nom??s.zone);assert.deepEqual(r.authoredProps,s.props||[],record.id+' exact props');if(s.exterieur!==undefined)assert.equal(r.exterior,s.exterieur);assert.ok(r.kit.id&&r.kit.inventory.length>=4);rooms++;props+=r.authoredProps.length;}
  assert.deepEqual(d.access,p.graphe_acces||[]);assert.deepEqual(d.loot,p.loot||null);
  if(record.state)assert.ok(d.causal&&typeof d.causal.cause==='string');
  }
  assert.equal(rooms,13680);assert.equal(props,18117);assert.equal(Object.keys(Q.KITS).length,27);assert.equal(Q.GARDENS.length,12);
+});
+test('182: all 1,000 independent sources retain their own space, access and prop slots without invented quantified furniture',()=>{
+ const independent=new Map(['A','B','C','D'].flatMap(lot=>JSON.parse(fs.readFileSync('codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json')).fiches).map(record=>[record.id,record]));
+ const records=R.records.filter(record=>record.extension===158);assert.equal(records.length,1000);assert.equal(independent.size,1000);
+ for(const record of records){const source=independent.get(record.id),d=R.describe(record.id);assert.ok(source,record.id);assert.equal(d.name,source.name);assert.equal(d.rooms.length,source.spaces.length);
+  assert.deepEqual(d.sourceAccess158,source.access);assert.deepEqual(d.plot.enveloppe_min_m,[source.architecture.width,source.architecture.height]);
+  for(let i=0;i<source.spaces.length;i++){const room=source.spaces[i],actual=d.rooms[i];assert.equal(actual.id,room.id);assert.equal(actual.name,room.name);assert.deepEqual(actual.levels,[room.z]);assert.equal(actual.resource,room.resource);assert.deepEqual(actual.sourceProps158,room.props);assert.deepEqual(actual.authoredProps,[]);assert.deepEqual(actual.repeat,[1,1]);}
+ }
 });
 test('159: deduplicated instructions are lossless and original source files remain unchanged',()=>{
  const states=JSON.parse(fs.readFileSync('codex-3000/source/ETATS.json'));
@@ -46,5 +54,5 @@ test('159: detail version 2 preserves G8 floor plans, real container amounts, ro
  assert.equal(hash(before.pois),hash(after.pois));assert.equal(hash(before.roads),hash(after.roads));let changes=0;
  for(const p of after.pois.slice(0,20)){const old=before.pois.find(q=>q.id===p.id);for(const z of p.levels){assert.deepEqual(after.plan(p,z),before.plan(old,z));const next=after.detailAt(p,z);assert.equal(next.recipe159.version,2);changes+=next.recipe159.added;}}
  assert.ok(changes>0);const p=after.pois[0],expected=after.detailAt(p,0);for(const q of after.pois.slice(1,75))after.detailAt(q,0);assert.deepEqual(after.detailAt(p,0),expected,'LRU must not reroll');
- const state=S.initial();state.generation=8;state.detailVersion=2;assert.equal(S.normalize(state).detailVersion,2);for(const v of [0,1,2,3,4,5,6])assert.equal(S.normalize({...state,detailVersion:v}).detailVersion,v);for(const v of [11,-1,1.5,'6',true,null,NaN,Infinity])assert.throws(()=>S.normalize({...state,detailVersion:v}));
+ const state=S.initial();state.generation=8;state.detailVersion=2;assert.equal(S.normalize(state).detailVersion,2);for(let v=0;v<=10;v++)assert.equal(S.normalize({...state,detailVersion:v}).detailVersion,v);for(const v of [11,-1,1.5,'6',true,null,NaN,Infinity])assert.throws(()=>S.normalize({...state,detailVersion:v}));
 });

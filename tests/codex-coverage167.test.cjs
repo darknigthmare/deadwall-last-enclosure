@@ -2,22 +2,23 @@
 const test=require('node:test'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const R=require('../src/codex3000-runtime.js'),P=require('../src/codex-plan165.js'),C=require('../src/codex-coverage167.js');
 const hash=v=>crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
-test('167 coverage: all 3000 programmes expose ten independent evidence axes and exact source counts',()=>{
- const before=hash(R.records);let rooms=0,props=0;
+test('167 coverage: all 4000 programmes expose ten independent evidence axes and exact source counts',()=>{
+ const before=hash(R.records);let rooms=0,props=0,legacyRooms=0,independentRooms=0;
  for(const rec of R.records){const s=C.source(rec.id),d=R.describe(rec.id);
   assert.equal(s.axes.length,10);assert.equal(new Set(s.axes.map(a=>a.key)).size,10);assert.ok(s.axes.every(a=>C.LABELS[a.key]&&C.STATUS[a.status]));
   assert.equal(s.id,rec.id);assert.equal(s.parent,rec.parent);assert.equal(s.totals.rooms,d.rooms.length);assert.equal(s.totals.furniture,d.rooms.reduce((n,r)=>n+r.authoredProps.length,0));
   assert.equal(s.contextCompatible,s.recipeAvailable&&R.enabled(rec,{townKind:'grande-ville'}));
   assert.equal(s.axes.find(a=>a.key==='representation').status,'uninspected');
-  assert.ok(Object.isFrozen(s)&&Object.isFrozen(s.sourceGaps));rooms+=s.totals.rooms;props+=s.totals.furniture;
+  assert.ok(Object.isFrozen(s)&&Object.isFrozen(s.sourceGaps));rooms+=s.totals.rooms;props+=s.totals.furniture;if(rec.independent)independentRooms+=s.totals.rooms;else legacyRooms+=s.totals.rooms;
  }
- assert.equal(rooms,13680);assert.equal(props,18117);assert.equal(hash(R.records),before);assert.ok(C.cacheSize()<=64);
+ assert.equal(rooms,21180);assert.equal(legacyRooms,13680);assert.equal(independentRooms,7500);assert.equal(props,18117);assert.equal(hash(R.records),before);assert.ok(C.cacheSize()<=64);
 });
 test('167 coverage: inherited variants are never counted as independent parent architecture',()=>{
- const c=C.catalogue();assert.equal(c.programmes,3000);assert.equal(c.parents,1000);assert.equal(c.families.length,33);
- assert.equal(c.distinctParentSourceRooms,4560);assert.equal(c.distinctParentFurnitureReferences,6039);
- assert.equal(c.inspectable+c.requiresSystem,3000);assert.equal(c.recipeTemplates,2700);assert.equal(c.inspectable,2374);
- assert.equal(c.families.reduce((n,f)=>n+f.programmes,0),3000);assert.equal(c.families.reduce((n,f)=>n+f.parents,0),1000);
+ const c=C.catalogue();assert.equal(c.programmes,4000);assert.equal(c.parents,2000);assert.equal(c.families.length,33);
+ assert.equal(c.distinctParentSourceRooms,12060);assert.equal(c.distinctParentFurnitureReferences,6039);
+ const independentCompatible=R.records.filter(record=>record.independent&&R.enabled(record,{townKind:'grande-ville'})).length;
+ assert.equal(c.inspectable+c.requiresSystem,4000);assert.equal(c.recipeTemplates,3700);assert.equal(c.inspectable,2374+independentCompatible);
+ assert.equal(c.families.reduce((n,f)=>n+f.programmes,0),4000);assert.equal(c.families.reduce((n,f)=>n+f.parents,0),2000);
  console.log('COVERAGE167 '+JSON.stringify({programmes:c.programmes,parents:c.parents,families:c.families.length,inspectable:c.inspectable,requiresSystem:c.requiresSystem}));
 });
 test('167 comparison: every supported source family and level preserves recipe, stocks and deterministic results',()=>{
