@@ -1,0 +1,98 @@
+name: Vertical personnel 181 reviewed integration
+on:
+  push:
+    branches: [feat/vertical-citadel-175]
+    paths: ['.delivery/vertical181/**', '.github/workflows/vertical-personnel181.yml']
+permissions:
+  contents: read
+concurrency:
+  group: vertical181-reviewed-integration
+  cancel-in-progress: false
+jobs:
+  integrate181:
+    if: github.repository == 'darknigthmare/deadwall-last-enclosure' && github.ref == 'refs/heads/feat/vertical-citadel-175'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Apply fingerprint-checked gameplay sources
+        run: python3 .delivery/vertical181/apply.py
+      - name: Install locked prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci > /tmp/vertical181-qa/install.log 2>&1
+      - name: Syntax and all vertical tests
+        run: |
+          node scripts/check-syntax134.mjs > /tmp/vertical181-qa/syntax.log 2>&1
+          node --test --test-concurrency=2 tests/vertical-*.test.cjs > /tmp/vertical181-qa/vertical-tests.log 2>&1
+      - name: Native core, power, urban, expeditions and cargo regression
+        run: node --test --test-concurrency=2 tests/core.test.cjs tests/urban-night.test.cjs tests/power-grid.test.cjs tests/expeditions.test.cjs tests/expansion-kit.test.cjs > /tmp/vertical181-qa/regression.log 2>&1
+      - name: Native build
+        run: npm run build > /tmp/vertical181-qa/build.log 2>&1
+      - name: Publish only reviewed gameplay sources to PR6
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, tarfile
+          branch = 'feat/vertical-citadel-175'
+          remote = subprocess.check_output(['git','ls-remote','origin','refs/heads/' + branch]).decode().split()[0]
+          if remote != os.environ['EXPECTED_HEAD']:
+            raise RuntimeError('Feature branch moved; refusing concurrent overwrite')
+          manifest = json.load(open('.delivery/vertical181/manifest.json'))
+          paths = [i['path'] for i in manifest['files']]
+          subprocess.run(['git','add','--',*paths], check=True)
+          if subprocess.run(['git','diff','--cached','--quiet']).returncode:
+            subprocess.run(['git','config','user.name','github-actions[bot]'], check=True)
+            subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'], check=True)
+            subprocess.run(['git','commit','-m','feat(population181): native allied couriers, guards, engineers and medics on vertical network'], check=True)
+            subprocess.run(['git','push','origin','HEAD:refs/heads/' + branch], check=True)
+          out = pathlib.Path('/tmp/vertical181-qa')
+          (out/'TESTED_HEAD.txt').write_bytes(subprocess.check_output(['git','rev-parse','HEAD']))
+          (out/'TESTED_TREE.txt').write_bytes(subprocess.check_output(['git','ls-tree','-r','HEAD']))
+          (out/'PERSONNEL_181.patch').write_bytes(subprocess.check_output(['git','diff','--binary','--full-index',manifest['base'],'HEAD','--',*paths]))
+          with tarfile.open(out/'PERSONNEL_181_sources.tar.gz','w:gz') as archive:
+            for p in paths: archive.add(p, arcname=p, recursive=False)
+          PY
+      - name: Chromium with actual WebGL
+        run: npx playwright install --with-deps chromium > /tmp/vertical181-qa/browser-install.log 2>&1
+      - name: Seven native browser scenarios
+        env:
+          DEADWALL_REQUIRE_WEBGL: '1'
+        run: |
+          fail=0
+          for rev in 175 176 177 178 179 180 181; do
+            node scripts/qa-vertical${rev}.mjs > /tmp/vertical181-qa/browser${rev}.log 2>&1 || fail=1
+          done
+          exit "$fail"
+      - name: Preserve focused evidence before complete checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical181-focused-${{ github.run_id }}
+          path: |
+            /tmp/vertical181-qa/
+            /tmp/vertical180-qa/
+            /tmp/vertical179-qa/
+            /tmp/vertical178-qa/
+            /tmp/vertical177-qa/
+            /tmp/vertical176-qa/
+            /tmp/vertical175-qa/
+          retention-days: 14
+      - name: Complete project checks
+        if: ${{ !cancelled() }}
+        run: npm run check > /tmp/vertical181-qa/full-check.log 2>&1
+      - name: Preserve complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical181-complete-${{ github.run_id }}
+          path: /tmp/vertical181-qa/
+          retention-days: 14
