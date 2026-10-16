@@ -1,5 +1,23 @@
 (function (root) {
   'use strict';
+  // Transport budgets, not simulation or save limits. Coop remains presence
+  // and regional pings; no construction, inventory or combat is authoritative here.
+  const LIMITS = Object.freeze({ messageChars: 8192, bufferedBytes: 65536, peers: 64, pings: 64, peerMs: 5000, pingMs: 8000, relayClients: 128, burst: 60, perSecond: 30 });
+  const record = value => value && typeof value === 'object' && !Array.isArray(value);
+  const coordinate = value => Number.isFinite(value) && Math.abs(value) <= 1e6;
+  const label = (value, fallback) => typeof value === 'string' ? value.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 24) || fallback : fallback;
+  const peerId = value => typeof value === 'string' && /^[A-Za-z0-9:_-]{1,80}$/.test(value);
+  function normalizeState(value) {
+    if (!record(value) || !coordinate(value.x) || !coordinate(value.y)) return null;
+    if (value.active !== undefined && typeof value.active !== 'boolean') return null;
+    if (value.z !== undefined && !coordinate(value.z) || value.a !== undefined && !coordinate(value.a)) return null;
+    return { active: value.active === true, x: value.x, y: value.y, z: value.z ?? 0, a: value.a ?? 0,
+      posture: ['stand', 'crouch', 'prone'].includes(value.posture) ? value.posture : 'stand' };
+  }
+  function parseMessage(text) {
+    if (typeof text !== 'string' || text.length > LIMITS.messageChars) return null;
+    try { const message = JSON.parse(text); return record(message) ? message : null; } catch { return null; }
+  }
   function install(game) {
     if (game.coop) return game.coop;
     let socket = null, room = '', name = '', timer = 0, notice = '', pings = [];
@@ -11,6 +29,21 @@
       peers.clear();
       pings = [];
       notice = 'Coop déconnectée.';
+    }
+    function send(connection, message) {
+      if (socket !== connection || connection?.readyState !== 1) return false;
+      // Position samples are replaceable: never accumulate obsolete movement
+      // behind a blocked connection and never let a network error stop Game.update.
+      if (connection.bufferedAmount > LIMITS.bufferedBytes) return false;
+      try { connection.send(JSON.stringify(message)); return true; }
+      catch {
+        if (socket === connection) { disconnect(); notice = 'Relais coop inaccessible.'; }
+        return false;
+      }
+    }
+    function prune(time) {
+      for (const [id, peer] of peers) if (time - peer.time >= LIMITS.peerMs) peers.delete(id);
+      pings = pings.filter(ping => time < ping.expires);
     }
     function connect(url, roomId, display) {
       disconnect();
@@ -27,26 +60,28 @@
       }
       socket = connection;
       room = roomId;
-      name = String(display || 'Survivant').slice(0, 24);
+      name = label(display, 'Survivant');
       timer = 0;
       notice = 'Connexion au relais coop…';
       connection.addEventListener('open', () => {
         if (socket !== connection) return;
-        connection.send(JSON.stringify({ type: 'join', room, name }));
-        notice = 'Relais coop connecté.';
+        if (send(connection, { type: 'join', room, name })) notice = 'Relais coop connecté.';
+        else if (socket === connection) { disconnect(); notice = 'Relais coop inaccessible.'; }
       });
       connection.addEventListener('message', event => {
         if (socket !== connection) return;
-        let message;
-        try { message = JSON.parse(event.data); } catch { return; }
-        if (!message || typeof message !== 'object' || Array.isArray(message)) return;
-        if (message.type === 'peer' && message.id && message.state && typeof message.state === 'object'
-          && !Array.isArray(message.state) && Number.isFinite(message.state.x) && Number.isFinite(message.state.y)) {
-          peers.set(message.id, { ...message.state, name: message.name || 'Allié', time: performance.now() });
+        const message = parseMessage(event.data);
+        if (!message) return;
+        const time = performance.now(); prune(time);
+        if (message.type === 'peer' && peerId(message.id)) {
+          const state = normalizeState(message.state);
+          if (state && (peers.has(message.id) || peers.size < LIMITS.peers))
+            peers.set(message.id, { ...state, name: label(message.name, 'Allié'), time });
         }
-        if (message.type === 'leave') peers.delete(message.id);
-        if (message.type === 'ping' && Number.isFinite(message.x) && Number.isFinite(message.y)) {
-          pings.push({ x: message.x, y: message.y, name: message.name || 'Allié', left: 8 });
+        if (message.type === 'leave' && peerId(message.id)) peers.delete(message.id);
+        if (message.type === 'ping' && coordinate(message.x) && coordinate(message.y)) {
+          if (pings.length >= LIMITS.pings) pings.shift();
+          pings.push({ x: message.x, y: message.y, name: label(message.name, 'Allié'), expires: time + LIMITS.pingMs });
         }
       });
       connection.addEventListener('close', () => {
@@ -65,27 +100,27 @@
     function ping() {
       if (!socket || socket.readyState !== 1 || !game.frontier.active()) return false;
       const position = game.frontier.overview();
-      socket.send(JSON.stringify({ type: 'ping', room, x: position.x, y: position.y }));
-      return true;
+      if (!coordinate(position.x) || !coordinate(position.y)) return false;
+      return send(socket, { type: 'ping', room, x: position.x, y: position.y });
     }
     function update(dt) {
-      for (const ping of pings) ping.left -= dt;
-      pings = pings.filter(ping => ping.left > 0);
+      prune(performance.now());
       if (!socket || socket.readyState !== 1) return;
-      timer -= dt;
+      timer -= Number.isFinite(dt) ? Math.max(0, dt) : 0;
       if (timer > 0) return;
       timer = .2;
       const position = game.frontier.overview();
-      socket.send(JSON.stringify({ type: 'state', room, state: {
-        active: position.active, x: position.x, y: position.y, z: position.z, a: position.a,
-        posture: game.worldEvolution?.posture().key || 'stand'
-      } }));
-      for (const [id, peer] of peers) if (performance.now() - peer.time > 5000) peers.delete(id);
+      const state = normalizeState({ active: position.active, x: position.x, y: position.y, z: position.z, a: position.a,
+        posture: game.worldEvolution?.posture().key || 'stand' });
+      if (state) send(socket, { type: 'state', room, state });
     }
-    const api = { connect, disconnect, ping, update, overview: () => ({
-      connected: socket?.readyState === 1, connecting: socket?.readyState === 0, room, name, notice,
-      peers: [...peers.entries()].map(([id, peer]) => ({ id, ...peer })), pings: [...pings]
-    }) };
+    function overview() {
+      const time = performance.now();
+      return { connected: socket?.readyState === 1, connecting: socket?.readyState === 0, room, name, notice,
+        peers: [...peers.entries()].filter(([, peer]) => time - peer.time < LIMITS.peerMs).map(([id, peer]) => ({ id, ...peer })),
+        pings: pings.filter(ping => time < ping.expires).map(({expires, ...ping}) => ({ ...ping, left: (expires - time) / 1000 })) };
+    }
+    const api = { connect, disconnect, ping, update, overview };
     game.coop = Object.freeze(api);
     const previousUpdate = game.update.bind(game);
     game.update = dt => {
@@ -95,6 +130,6 @@
     };
     return api;
   }
-  root.DeadwallCoop = { install };
+  root.DeadwallCoop = Object.freeze({ install, LIMITS, normalizeState, parseMessage, coordinate, label });
   if (typeof module !== 'undefined' && module.exports) module.exports = root.DeadwallCoop;
 })(globalThis);

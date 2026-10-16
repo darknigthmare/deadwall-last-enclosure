@@ -120,19 +120,39 @@
    previous=values;mesh.reset();for(const {box,tint}of boxes)cube(mesh,box,tint);return true;
   }};
  }
- function createFPS(canvas){const gl=canvas.getContext('webgl',{alpha:false,antialias:true,preserveDrawingBuffer:false});if(!gl)return null;
+ function createFPS(canvas){
+  let gl;try{gl=canvas.getContext('webgl',{alpha:false,antialias:true,preserveDrawingBuffer:false});}catch{return null;}
+  if(!gl||gl.isContextLost())return null;
   const vs=`attribute vec3 position; attribute vec3 color; uniform vec3 eye; uniform vec2 angles; uniform float aspect; varying vec3 tint; varying float distance;
   void main(){float y=angles.x,p=angles.y;vec3 right=vec3(-sin(y),cos(y),0.);vec3 forward=vec3(cos(y)*cos(p),sin(y)*cos(p),sin(p));vec3 up=cross(right,forward)*-1.;vec3 v=position-eye;float z=dot(v,forward);gl_Position=vec4(dot(v,right)*1.3/aspect,dot(v,up)*1.3,z*1.0005-.20005,z);tint=color;distance=length(v);}`;
   const fs=`precision mediump float; varying vec3 tint; varying float distance; uniform float light; void main(){vec3 fog=mix(vec3(.065,.08,.067),vec3(.31,.36,.31),light);gl_FragColor=vec4(mix(tint*(.28+light*.72),fog,clamp(distance/190.,0.,.9)),1.);}`;
-  const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){const log=gl.getShaderInfoLog(s);gl.deleteShader(s);throw Error(log);}return s;};
-  let program,vertex,fragment;try{program=gl.createProgram();vertex=shader(gl.VERTEX_SHADER,vs);fragment=shader(gl.FRAGMENT_SHADER,fs);gl.attachShader(program,vertex);gl.attachShader(program,fragment);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));}catch(e){if(program)gl.deleteProgram(program);return null;}finally{if(vertex)gl.deleteShader(vertex);if(fragment)gl.deleteShader(fragment);}
-  const buffer=gl.createBuffer(),staticBuffer=gl.createBuffer(),dynamic=new VertexBuffer(),staticMesh=createStaticMesh(),motion=createMotionSampler();let dynamicCapacity=0,staticCapacity=0,staticUploads=0;
-  const position=gl.getAttribLocation(program,'position'),color=gl.getAttribLocation(program,'color'),eye=gl.getUniformLocation(program,'eye'),angles=gl.getUniformLocation(program,'angles'),aspect=gl.getUniformLocation(program,'aspect'),light=gl.getUniformLocation(program,'light');let lost=false;
+  let program=null,buffer=null,staticBuffer=null,position,color,eye,angles,aspect,light,lost=false,disposed=false;
+  const shaders=[];
+  const remove=(method,object)=>{if(object)try{gl[method](object);}catch{/* Context teardown must not interrupt the classic fallback. */}};
+  function free(){remove('deleteBuffer',buffer);remove('deleteBuffer',staticBuffer);remove('deleteProgram',program);buffer=staticBuffer=program=null;}
+  function shader(type,source){
+   const value=gl.createShader(type);if(!value)throw Error('Allocation shader refusée.');shaders.push(value);
+   gl.shaderSource(value,source);gl.compileShader(value);
+   if(!gl.getShaderParameter(value,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(value)||'Compilation shader refusée.');return value;
+  }
+  // GPU resources are acquired transactionally. A partial allocation must not
+  // leave a live renderer or leak the successfully allocated half of its mesh.
+  try{
+   program=gl.createProgram();if(!program)throw Error('Allocation programme refusée.');
+   gl.attachShader(program,shader(gl.VERTEX_SHADER,vs));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);
+   if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program)||'Liaison shader refusée.');
+   buffer=gl.createBuffer();if(!buffer)throw Error('Allocation géométrie refusée.');
+   staticBuffer=gl.createBuffer();if(!staticBuffer)throw Error('Allocation décor refusée.');
+   position=gl.getAttribLocation(program,'position');color=gl.getAttribLocation(program,'color');
+   eye=gl.getUniformLocation(program,'eye');angles=gl.getUniformLocation(program,'angles');aspect=gl.getUniformLocation(program,'aspect');light=gl.getUniformLocation(program,'light');
+   if(position<0||color<0||[eye,angles,aspect,light].some(value=>value===null)||gl.isContextLost())throw Error('Contrat shader indisponible.');
+  }catch{free();return null;}finally{for(const value of shaders)remove('deleteShader',value);}
+  const dynamic=new VertexBuffer(),staticMesh=createStaticMesh(),motion=createMotionSampler();let dynamicCapacity=0,staticCapacity=0,staticUploads=0;
   const onLost=e=>{e.preventDefault();lost=true;};canvas.addEventListener('webglcontextlost',onLost);
-  function draw(g){if(lost)return false;const V=g.vertical175,state=V.presentation(),q=V.moduleRef(state.controlled);if(!q)return false;
+  function draw(g){if(disposed||lost)return false;if(gl.isContextLost()){lost=true;return false;}const V=g.vertical175,state=V.presentation(),q=V.moduleRef(state.controlled);if(!q)return false;
    const rect=canvas.getBoundingClientRect(),scale=Math.min(root.devicePixelRatio||1,1.5),w=Math.max(1,Math.round(rect.width*scale)),h=Math.max(1,Math.round(rect.height*scale));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
    gl.viewport(0,0,w,h);const day=g.nightwatch?.isBlackout?.()?0:(g.daylight?.()??.6);gl.clearColor(.16*day+.04,.20*day+.04,.18*day+.04,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.useProgram(program);
-   const camera=V.muzzle(q),out=dynamic,geometry=V.geometry(),staticBoxes=[];out.reset();gl.uniform3f(eye,camera.x,camera.y,camera.z+.15);gl.uniform2f(angles,q.m.yaw,q.m.pitch);gl.uniform1f(aspect,w/h);gl.uniform1f(light,day);
+   const camera=V.muzzle(q),out=dynamic,geometry=V.geometry(),staticBoxes=[];out.reset();gl.uniform3f(eye,camera.x,camera.y,camera.z);gl.uniform2f(angles,q.m.yaw,q.m.pitch);gl.uniform1f(aspect,w/h);gl.uniform1f(light,day);
    const fixed=(box,tint)=>staticBoxes.push({box,tint});
    fixed({x:0,y:0,z:-.2,w:C.WORLD_SIZE/R.tile,h:C.WORLD_SIZE/R.tile,d:.2},[.27,.31,.23]);
    for(const b of geometry){if(b.module===q.m.id)continue;const def=R.bases[g.world.buildings.get(b.owner)?.type];let tint=b.type==='deck'?[.60,.59,.48]:b.type==='module'?[.35,.42,.34]:[.50,.52,.43];if(def?.age177&&b.type==='structure')tint=[1,3,5].map(i=>parseInt(def.color.slice(i,i+2),16)/255);fixed(b,tint);}
@@ -161,7 +181,7 @@
    if(changed){staticCapacity=upload(staticBuffer,staticMesh.mesh,staticCapacity);staticUploads++;}
    dynamicCapacity=upload(buffer,out,dynamicCapacity);paint(staticBuffer,staticMesh.mesh);paint(buffer,out);return !gl.isContextLost();
   }
-  return{draw,diagnostics:()=>({staticUploads,staticVertices:staticMesh.mesh.length/6,dynamicVertices:dynamic.length/6,staticCapacity,dynamicCapacity}),dispose(){canvas.removeEventListener('webglcontextlost',onLost);if(!lost){gl.deleteBuffer(buffer);gl.deleteBuffer(staticBuffer);gl.deleteProgram(program);}},get lost(){return lost;}};
+  return{draw,diagnostics:()=>({staticUploads,staticVertices:staticMesh.mesh.length/6,dynamicVertices:dynamic.length/6,staticCapacity,dynamicCapacity}),dispose(){if(disposed)return;disposed=true;canvas.removeEventListener('webglcontextlost',onLost);if(!lost&&!gl.isContextLost())free();},get lost(){return lost||gl.isContextLost();}};
  }
  const api={install,createFPS,VertexBuffer,cube,humanoid,createMotionSampler,createStaticMesh};root.DeadwallVertical175Render=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

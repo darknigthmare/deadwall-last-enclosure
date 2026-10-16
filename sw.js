@@ -11,18 +11,25 @@ self.addEventListener('fetch', event => {
   const cacheURL = url.href;
   if (event.request.method !== 'GET' || !assetURLs.has(cacheURL)) return;
   event.respondWith((async () => {
-    const cache = await caches.open(CACHE);
-    const hit = await cache.match(cacheURL);
-    if (hit) return hit;
-    if (event.request.mode === 'navigate') {
-      const index = await cache.match(new URL('index.html', self.registration.scope).href);
-      if (index) return index;
+    let cache = null;
+    try {
+      cache = await caches.open(CACHE);
+      const hit = await cache.match(cacheURL);
+      if (hit) return hit;
+      if (event.request.mode === 'navigate') {
+        const index = await cache.match(new URL('index.html', self.registration.scope).href);
+        if (index) return index;
+      }
+    } catch {
+      // Storage can be denied or evicted independently of connectivity. Do not
+      // turn a cache-read error into a failed online request or repair it piecemeal.
+      cache = null;
     }
     // Keep installed files unchanged until a replacement worker finishes its
     // precache. A failed update cannot replace only the installed index.
     try {
       const response = await fetch(event.request);
-      if (response.ok && !response.redirected) {
+      if (cache && response.ok && !response.redirected) {
         try { await cache.put(cacheURL, response.clone()); } catch {}
       }
       return response;

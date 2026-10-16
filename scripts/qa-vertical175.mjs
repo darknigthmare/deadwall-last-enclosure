@@ -34,6 +34,10 @@ try{
  const fps=await page.evaluate(()=>{const c=document.getElementById('vertical175canvas'),gl=c.getContext('webgl');return{view:DEADWALL.vertical175.presentation().view,visible:!document.getElementById('vertical175fps').hidden,webgl:!!gl,width:c.width,height:c.height,error:gl?.getError(),vendor:gl?.getParameter(gl.VENDOR),renderer:gl?.getParameter(gl.RENDERER)};});report.checks.push({fps});
  await page.screenshot({path:out+(fps.view==='fps'?'/03-native-fps.png':'/03-classic-fallback.png')});
  assert.equal(fps.webgl,true,'WebGL unavailable: FPS visual qualification not achieved');assert.equal(fps.view,'fps');assert.equal(fps.visible,true);assert.equal(fps.error,0);
+ const sightAlignment=await page.evaluate(()=>{
+  const g=DEADWALL,V=g.vertical175,c=document.getElementById('vertical175canvas'),gl=c.getContext('webgl'),program=gl.getParameter(gl.CURRENT_PROGRAM),origin=V.muzzle(V.moduleRef(__verticalFixture.gun));
+  return{origin,eye:[...gl.getUniform(program,gl.getUniformLocation(program,'eye'))]};
+ });assert.ok(sightAlignment.eye.every((value,i)=>Math.abs(value-[sightAlignment.origin.x,sightAlignment.origin.y,sightAlignment.origin.z][i])<1e-5),'GPU eye must be the actual firing origin');report.checks.push({sightAlignment});
  const cache=await page.evaluate(()=>{
   const g=DEADWALL,before=g.vertical175UI.diagnostics();for(let i=0;i<20;i++)g.render();const after=g.vertical175UI.diagnostics();
   return{before,after};
@@ -52,6 +56,18 @@ try{
  await page.locator('#vertical175fire').focus();await page.keyboard.down('Space');await page.keyboard.down('Enter');await page.keyboard.up('Space');
  assert.equal(await page.evaluate(()=>DEADWALL.input.touchFire),true);await page.keyboard.up('Enter');assert.equal(await page.evaluate(()=>DEADWALL.input.touchFire),false);
  report.checks.push({nativeTriggerChords:true,nativeIndependentKeys:true,simulationStepsInjectedForTheseChecks:0});
+ // Lose and restore the real GPU context without simulating time or gifts.
+ const beforeContextLoss=await page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();const gl=document.getElementById('vertical175canvas').getContext('webgl');window.__audit185Loss=gl.getExtension('WEBGL_lose_context');if(!__audit185Loss)throw Error('GPU loss extension unavailable: recovery not qualified');return JSON.stringify(s);});
+ await page.evaluate(()=>__audit185Loss.loseContext());
+ await page.waitForFunction(()=>DEADWALL.vertical175.presentation().view==='classic',null,{polling:50});await page.evaluate(()=>DEADWALL.render());
+ const afterContextLoss=await page.evaluate(()=>({mouse:DEADWALL.input.mouseDown,touch:DEADWALL.input.touchFire,view:DEADWALL.vertical175.presentation().view}));assert.equal(afterContextLoss.mouse,false);assert.equal(afterContextLoss.touch,false);
+ await page.evaluate(()=>{window.__audit185Restored=false;document.getElementById('vertical175canvas').addEventListener('webglcontextrestored',()=>window.__audit185Restored=true,{once:true});__audit185Loss.restoreContext();});
+ await page.waitForFunction(()=>window.__audit185Restored,null,{polling:50});
+ await page.locator('#vertical175view').click();await page.evaluate(()=>DEADWALL.render());
+ const restoredContext=await page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();return{view:DEADWALL.vertical175.presentation().view,saved:JSON.stringify(s),gpuError:document.getElementById('vertical175canvas').getContext('webgl').getError()};});
+ assert.equal(restoredContext.view,'fps');assert.equal(restoredContext.gpuError,0);assert.equal(restoredContext.saved,beforeContextLoss);delete restoredContext.saved;
+ report.checks.push({realGPURecovery:restoredContext,inputAfterLoss:afterContextLoss,savedOwnersUnchanged:true});
+ await page.screenshot({path:out+'/05-restored-fps.png'});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{DEADWALL.resize();DEADWALL.render();});
  const mobile=await page.evaluate(()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,view:DEADWALL.vertical175.presentation().view,visible:!document.getElementById('vertical175fps').hidden}));assert.equal(mobile.overflow,false);assert.equal(mobile.view,'fps');report.checks.push({mobile});await page.screenshot({path:out+'/04-native-mobile-fps.png'});
  await page.locator('#vertical175view').click();await page.evaluate(()=>DEADWALL.render());

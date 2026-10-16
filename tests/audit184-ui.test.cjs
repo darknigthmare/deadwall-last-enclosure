@@ -22,3 +22,10 @@ test('184 successful FPS paint skips hidden classic painting and keeps field UI 
 for(const failure of ['fail','throw'])test('184 '+failure+' redraws classic immediately, moves its bar and clears all owners',()=>{const f=setup();f.g.vertical175UI.toggleView();f.g.render();f.fire.dispatch('pointerdown',{pointerId:3});key(f.fire,'keydown','Space',' ');f[failure]();const before=f.counts();assert.equal(f.g.render(),'classic');assert.equal(f.state.view,'classic');assert.equal(f.g.input.touchFire,false);assert.equal(f.g.input.mouseDown,false);assert.equal(f.counts().classic,before.classic+1);assert.equal(f.doc.body.querySelectorAll('#vertical175bar')[0].parentNode,f.context);assert.equal(f.doc.body.querySelectorAll('#vertical175fps')[0].hidden,true);});
 test('184 hidden document and regional travel reject FPS entry and fire',()=>{const {g,doc,fire,state}=setup();for(const apply of [()=>doc.hidden=true,()=>g.frontier.active=()=>true,()=>g.gameOver=true]){doc.hidden=false;g.frontier.active=()=>false;g.gameOver=false;state.view='fps';apply();fire.dispatch('pointerdown',{pointerId:1});key(fire,'keydown','Enter','Enter');assert.equal(g.input.touchFire,false);}doc.hidden=true;state.view='classic';assert.equal(g.vertical175UI.toggleView(),false);});
 test('184 unavailable renderer returns a safe refusal without changing view',()=>{const {g,state}=setup();globalThis.DeadwallVertical175Render.createFPS=()=>{throw Error('allocation denied');};assert.equal(g.vertical175UI.toggleView(),false);assert.equal(state.view,'classic');});
+
+for(const failure of ['fail','throw'])test('185 '+failure+' renderer is disposed once and FPS can be reopened with a fresh renderer',()=>{
+ const f=setup();let disposed=0;f.renderer.dispose=()=>{disposed++;};
+ assert.equal(f.g.vertical175UI.toggleView(),true);f.g.render();f[failure]();assert.equal(f.g.render(),'classic');assert.equal(disposed,1);
+ let painted=0;globalThis.DeadwallVertical175Render.createFPS=()=>({draw(){painted++;return true;},dispose(){}});
+ assert.equal(f.g.vertical175UI.toggleView(),true);f.g.render();assert.equal(painted,1);assert.equal(f.state.view,'fps');assert.equal(disposed,1);
+});
