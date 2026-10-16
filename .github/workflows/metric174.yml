@@ -17,6 +17,7 @@ on:
       - 'src/world-variants158.js'
       - 'src/world-pack131.js'
       - 'scripts/*174*'
+      - 'scripts/metric-compat185.cjs'
       - 'tests/*174*'
       - '.github/workflows/metric174.yml'
   workflow_dispatch:
@@ -54,9 +55,10 @@ jobs:
           node --test --test-concurrency=2 tests/metric174.test.cjs tests/frontage174.test.cjs tests/metric-migration174.test.cjs tests/expeditions.test.cjs tests/vehicle-boundary151.test.cjs tests/vehicle-art152.test.cjs tests/world-variants158.test.cjs tests/road-network129.test.cjs tests/driveway-surface144.test.cjs tests/distribution.test.cjs | tee artifacts/qa/metric174/contracts.log
       - name: Inventory every programme and compare historical world ownership
         run: |
-          mkdir -p /tmp/deadwall-metric174-base
+          mkdir -p /tmp/deadwall-metric174-base /tmp/deadwall-metric174-current
           git archive 5b8f0ade7f7e93d3fc3ea23f762cac93ded43d90 src | tar -x -C /tmp/deadwall-metric174-base
-          node scripts/audit-metric174.mjs --baseline /tmp/deadwall-metric174-base
+          git archive 1314e2c1d67f23c05cdd4bd53943fe97c6f56d9a src | tar -x -C /tmp/deadwall-metric174-current
+          node scripts/audit-metric174.mjs --baseline /tmp/deadwall-metric174-base --strict-baseline /tmp/deadwall-metric174-current --legacy-visual-additions
       - uses: actions/upload-artifact@v4
         if: always()
         with:
