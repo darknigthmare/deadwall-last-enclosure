@@ -1,0 +1,25 @@
+name: Audit workspace 185
+on:
+  push:
+    branches: ['codex/audit-fixes-2026-10-16']
+    paths: ['.github/workflows/audit-workspace185.yml']
+permissions:
+  contents: read
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive tracked sources without assets or credentials
+        run: |
+          mkdir -p /tmp/deadwall-audit185
+          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/deadwall-audit185/sources.tar.gz
+          git rev-parse HEAD > /tmp/deadwall-audit185/source-commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit185-sources
+          path: /tmp/deadwall-audit185/
+          retention-days: 3
