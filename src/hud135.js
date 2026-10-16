@@ -37,13 +37,14 @@ function install(g,doc=globalThis.document){
  for(const n of [get('notifications'),get('departureWarning130'),g.chronicles131UI?.element])move(alerts,n);
  for(const n of [get('interventions134Dock'),get('activeReload14'),get('interactionHint'),get('expansionWork'),get('localActions14'),get('expHUD'),get('fieldDock')])move(context,n);
  const localActions=get('localActions14'),localDrawer=drawer('hud135LocalActions','ACTIONS À PROXIMITÉ','hud135-local-actions');
- if(localActions){localDrawer.open=true;move(context,localDrawer);move(localDrawer,localActions);localDrawer.addEventListener('toggle',refresh);}
+ if(localActions){localDrawer.open=true;move(context,localDrawer);move(localDrawer,localActions);localDrawer.addEventListener('toggle',()=>{if(hud.dataset.short==='true'&&localDrawer.open)closeOther(localDrawer);refresh();});}
  // Old regional controls have real actions absent from the newer regional dock.
  const dock=get('fieldDock'),regional=drawer('hud135RegionTools','VÉHICULE & TRAJET','hud135-region-tools');
  if(dock){for(const id of ['frontierCargo','frontierFuel','returnHud'])move(regional,get(id));const old=get('frontierHud');for(const n of [...(old?.children||[])])if(n.classList.contains('supplies-progress'))move(regional,n);dock.appendChild(regional);}
  // Touch controls remain in the footer, with a dedicated column instead of floating over prompts.
  move(footer,get('touchControls'));move(auxiliary,touchCommands);
- const closeOther=opened=>{for(const n of drawers)if(n!==opened)n.open=false;};
+ const modalDrawers=()=>hud.dataset.short==='true'?[...drawers,localDrawer]:drawers;
+ const closeOther=opened=>{for(const n of modalDrawers())if(n!==opened)n.open=false;};
  // Native details toggles are queued. Restoring a drawer after a modal must
  // not cancel a new movement key pressed before that queued event arrives.
  for(const d of [...drawers,localDrawer])d.querySelector('summary')?.addEventListener('click',()=>{if(!hud.inert&&!d.closest('[inert]'))g.releaseInputs?.();});
@@ -91,8 +92,8 @@ function install(g,doc=globalThis.document){
   }
   hud.dataset.blocked=String(!!blocked);hud.dataset.region=String(!!g.frontier?.active?.());hud.dataset.build=String(!g.buildCollapsed);
   if(blocked){
-   if(!wasBlocked)restoreDrawers={world:g.world,open:drawers.filter(n=>n.open),focus:hudFocus};
-   for(const n of drawers)n.open=false;
+   if(!wasBlocked)restoreDrawers={world:g.world,open:modalDrawers().filter(n=>n.open),focus:hudFocus};
+   for(const n of modalDrawers())n.open=false;
    if(g.state!=='playing'||g.gameOver||g.player?.dead)restoreDrawers=null;
   }else if(wasBlocked&&restoreDrawers){
    if(restoreDrawers.world===g.world){
@@ -123,7 +124,7 @@ function install(g,doc=globalThis.document){
   const old=g.onEscape.bind(g);
   g.onEscape=(...args)=>{
    if(g.activeOverlay||g.interventionsUI134?.isOpen?.())return old(...args);
-   const focused=doc.activeElement?.closest?.('details'),open=focused?.open&&hud.contains(focused)?focused:drawers.find(n=>n.open);
+   const focused=doc.activeElement?.closest?.('details'),open=focused?.open&&hud.contains(focused)?focused:modalDrawers().find(n=>n.open);
    if(!open)return old(...args);
    if(!open.contains(doc.activeElement)){
     const field=g.fieldcraft?.context(),plan=g.dayworks?.overview(),roads=g.infrastructure?.overview();

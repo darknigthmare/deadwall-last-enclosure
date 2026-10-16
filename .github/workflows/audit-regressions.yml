@@ -26,20 +26,22 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node --test tests/audit183-manifest.test.cjs tests/audit183-render.test.cjs tests/audit183-ui.test.cjs
+      - run: node --test tests/audit18[34]-*.test.cjs
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - name: Native new game, save and responsive HUD from dist
         run: node scripts/browser-audit183.mjs
       - name: Citadel FPS, input ownership and geometry cache from dist
         run: node scripts/qa-vertical175.mjs
+      - name: Real service worker update, failed installation and offline restart
+        run: node scripts/browser-pwa184.mjs
       - name: Retain exact build identity and test evidence
         if: always()
         shell: bash
         run: |
           mkdir -p artifacts/qa
           git rev-parse HEAD > artifacts/qa/audit183-commit.txt
-          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/src/vertical-citadel175-render.js dist/src/codex3000-live-data.js > artifacts/qa/audit183-build.sha256; fi
+          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/sw.js dist/src/vertical-citadel175-ui.js dist/src/vertical-citadel175-render.js dist/src/codex3000-live-data.js > artifacts/qa/audit183-build.sha256; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:

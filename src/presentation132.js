@@ -45,6 +45,17 @@
     svg.setAttribute('stroke-linecap', 'square'); svg.setAttribute('stroke-linejoin', 'miter');
     svg.classList.add('dw-glyph132'); path.setAttribute('d', GLYPHS[kind] || GLYPHS.dossier); svg.appendChild(path); return svg;
   }
+  function campaignIdentity(seed, position) {
+    if (!Number.isInteger(seed) || !position || !Number.isInteger(position.generation)) return null;
+    const detail = position.detailVersion ?? 0, ecology = position.ecologyVersion ?? 0, water = position.hydrologyVersion ?? 0;
+    return {
+      summary: 'Graine ' + seed + ' · Région G' + position.generation + ' · Détails ' + detail + ' · Écologie ' + ecology + ' · Eau ' + water,
+      advice: water === 1
+        ? 'Cette campagne contient le réseau naturel d’eau. Continuer conserve la géographie, les découvertes et les prélèvements enregistrés.'
+        : 'Cette carte conserve son terrain historique. Le réseau naturel d’eau et sa faune demandent une nouvelle campagne ; Continuer ne régénère pas le monde.',
+      upgrades: 'Les compléments compatibles se consultent au dépôt, dans Monde & relais. Lire ce dossier ne modifie pas la campagne.'
+    };
+  }
   function install(g, doc) {
     if (!g || !doc?.body || g.presentation132) return false;
     const get = id => doc.getElementById(id), menu = get('mainMenu'), card = menu?.querySelector('.menu-card');
@@ -99,6 +110,26 @@
       replay.setAttribute('aria-haspopup', 'dialog'); replay.setAttribute('aria-controls', 'campaignIntro132');
       replay.addEventListener('click', () => { if (!replay.disabled && !replay.closest('[inert]')) g.campaignIntro132?.replay(); });
       pauseCard.insertBefore(replay, get('quitButton')); adorn(replay, 'book');
+      const summary = el('p'), advice = el('p'), upgrades = el('p');
+      const dossier = disclose('campaignIdentity184', 'CARTE DE CETTE CAMPAGNE', summary, advice, upgrades);
+      dossier.classList.add('campaign-identity184'); dossier.hidden = true;
+      pauseCard.insertBefore(dossier, get('quitButton'));
+      let lastIdentity = '';
+      const refreshIdentity = () => {
+        const description = g.state === 'playing' ? campaignIdentity(g.world?.seed, g.frontier?.position?.()) : null;
+        dossier.hidden = !description;
+        if (!description) { dossier.open = false; lastIdentity = ''; return; }
+        const key = description.summary;
+        if (key !== lastIdentity) {
+          summary.textContent = description.summary; advice.textContent = description.advice; upgrades.textContent = description.upgrades;
+          lastIdentity = key;
+        }
+      };
+      for (const name of ['togglePause', 'returnToMenu', 'updateUI']) if (typeof g[name] === 'function') {
+        const original = g[name].bind(g);
+        g[name] = (...args) => { const result = original(...args); refreshIdentity(); return result; };
+      }
+      refreshIdentity();
     }
     const scenarioSelect = get('startScenario'), mapInput = get('mapSeed');
     let lastSeed = mapInput?.value || '';
@@ -137,5 +168,5 @@
     g.presentation132 = Object.freeze({ refreshScenario, icon: kind => icon(doc, kind), menu: card });
     return true;
   }
-  return Object.freeze({ install, icon, GLYPHS, SCENES });
+  return Object.freeze({ install, icon, GLYPHS, SCENES, campaignIdentity });
 });

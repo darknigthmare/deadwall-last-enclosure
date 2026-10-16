@@ -30,7 +30,16 @@ try{
    profile.saved=await saveReloadContinue(page,!!viewport.touch);rec.check('Save/menu/reload/Continue preserves persistent state',profile.saved.pass);
    const layout=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,objective:document.getElementById('objectiveTitle').checkVisibility(),short:document.getElementById('hud').dataset.short}));
    rec.check('Objective remains available without horizontal overflow',layout.objective&&!layout.overflow);
-   await rec.screenshot('continue');rec.check('No browser or network errors',rec.errors()===0);
+   await rec.screenshot('continue');
+   await activate(page,'#pauseButton',viewport.touch);
+   const pausedMaterial=await page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();return JSON.stringify(s);});
+   await activate(page,'#campaignIdentity184 > summary',viewport.touch);
+   const identity=await page.locator('#campaignIdentity184').evaluate(n=>({open:n.open,text:n.textContent,visible:n.checkVisibility(),box:n.getBoundingClientRect().toJSON()}));
+   rec.check('Pause dossier reports actual seed, generation, detail, ecology and water',identity.open&&identity.visible&&/Graine 17117.*Région G8.*Écologie 1.*Eau 1/.test(identity.text));
+   const afterReading=await page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();return JSON.stringify(s);});
+   rec.check('Reading campaign identity never changes saved owners',afterReading===pausedMaterial);
+   await rec.screenshot('campaign-identity');profile.identity=identity;
+   rec.check('No browser or network errors',rec.errors()===0);
   }finally{await context.close();}
  }
  report.pass=true;

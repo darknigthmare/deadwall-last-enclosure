@@ -39,7 +39,7 @@ jobs:
                   item = {'path': name, 'gitBlob': blob, 'mode': mode, 'included': False}
                   p = root / name
                   parts = pathlib.PurePosixPath(name).parts
-                  selected = len(parts) == 1 or parts[0] in ('src', 'scripts', 'tests', 'desktop', 'codex-3000', '.github', 'docs')
+                  selected = name == 'reports/1.35.0/legacy-g5-start-save.json' or len(parts) == 1 or parts[0] in ('src', 'scripts', 'tests', 'desktop', 'codex-3000', '.github', 'docs')
                   if selected and mode in ('100644', '100755') and p.is_file() and not name.endswith(('.zip', '.rar', '.7z')) and p.stat().st_size < 30000000:
                       data = p.read_bytes()
                       actual = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()

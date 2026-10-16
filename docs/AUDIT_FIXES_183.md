@@ -2,6 +2,10 @@
 
 Base de travail : `1314e2c1d67f23c05cdd4bd53943fe97c6f56d9a`. Cette passe ne change ni les règles de coût, ni les âges, ni les cartes, ni le format de sauvegarde. Le suffixe technique 183 ne désigne pas une version commerciale 1.83.
 
+## Suite de la maintenance
+
+La passe suivante ajoute l’identité PWA liée aux octets du build, évite le rendu 2D masqué par la vue FPS, corrige les touches de tir simultanées et complète le HUD. Détails et limites : [AUDIT_FIXES_184.md](AUDIT_FIXES_184.md). Les preuves 183 ne sont pas réattribuées à cette suite.
+
 ## Corrections
 
 La représentation FPS applique désormais l'orientation autour du centre de chaque humanoïde. La marche suit les déplacements effectivement observés, reste immobile à l'arrêt et respecte la réduction des animations. Les répétitions de rendu à temps identique sont stables. Le suivi est transitoire, par identité d'objet ; une restauration ou une interruption d'observation ne transporte pas une ancienne démarche dans la nouvelle scène.

@@ -37,12 +37,21 @@ try{
  const cache=await page.evaluate(()=>{
   const g=DEADWALL,before=g.vertical175UI.diagnostics();for(let i=0;i<20;i++)g.render();const after=g.vertical175UI.diagnostics();
   return{before,after};
- });assert.equal(cache.after.staticUploads,cache.before.staticUploads);assert.equal(cache.after.staticCapacity,cache.before.staticCapacity);report.checks.push({staticGeometryCache:cache});
+ });assert.equal(cache.after.classicPaints,cache.before.classicPaints,'No hidden full 2D redraw behind successful FPS');assert.equal(cache.after.fpsPaints-cache.before.fpsPaints,20);assert.equal(cache.after.staticUploads,cache.before.staticUploads);assert.equal(cache.after.staticCapacity,cache.before.staticCapacity);report.checks.push({staticGeometryCache:cache});
  const aim=await page.locator('#vertical175canvas').boundingBox();await page.mouse.move(aim.x+aim.width/2,aim.y+aim.height/2);await page.mouse.down({button:'right'});
  const rightClick=await page.evaluate(()=>{const g=DEADWALL;g.vertical175.step(.04);return{pressed:g.input.mouseDown,ammo:g.vertical175.moduleRef(__verticalFixture.gun).m.ammo};});
  await page.mouse.up({button:'right'});assert.equal(rightClick.pressed,false);assert.equal(rightClick.ammo,gun.ammo);report.checks.push({rightClickDoesNotFire:rightClick});
  const fire=await page.locator('#vertical175fire').boundingBox();assert.ok(fire);await page.mouse.move(fire.x+fire.width/2,fire.y+fire.height/2);await page.mouse.down();
  const shot=await page.evaluate(()=>{const g=DEADWALL;g.vertical175.step(.04);g.render();return{ammo:g.vertical175.moduleRef(__verticalFixture.gun).m.ammo,health:g.zombies.find(z=>z.id===__verticalFixture.enemy).health};});await page.mouse.up();assert.equal(shot.ammo,gun.ammo-1);assert.equal(shot.health,gun.health-32);report.checks.push({nativeFpsShot:shot});
+ // Native mouse chording: PointerEvents use button-mask changes, not another pointerup.
+ await page.mouse.move(fire.x+fire.width/2,fire.y+fire.height/2);
+ await page.mouse.down({button:'left'});await page.mouse.down({button:'right'});await page.mouse.up({button:'left'});
+ const releasedPrimary=await page.evaluate(()=>DEADWALL.input.touchFire);assert.equal(releasedPrimary,false,'Primary release must stop the trigger even while right is held');
+ await page.mouse.down({button:'left'});assert.equal(await page.evaluate(()=>DEADWALL.input.touchFire),true);
+ await page.mouse.up({button:'left'});await page.mouse.up({button:'right'});
+ await page.locator('#vertical175fire').focus();await page.keyboard.down('Space');await page.keyboard.down('Enter');await page.keyboard.up('Space');
+ assert.equal(await page.evaluate(()=>DEADWALL.input.touchFire),true);await page.keyboard.up('Enter');assert.equal(await page.evaluate(()=>DEADWALL.input.touchFire),false);
+ report.checks.push({nativeTriggerChords:true,nativeIndependentKeys:true,simulationStepsInjectedForTheseChecks:0});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{DEADWALL.resize();DEADWALL.render();});
  const mobile=await page.evaluate(()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,view:DEADWALL.vertical175.presentation().view,visible:!document.getElementById('vertical175fps').hidden}));assert.equal(mobile.overflow,false);assert.equal(mobile.view,'fps');report.checks.push({mobile});await page.screenshot({path:out+'/04-native-mobile-fps.png'});
  await page.locator('#vertical175view').click();await page.evaluate(()=>DEADWALL.render());

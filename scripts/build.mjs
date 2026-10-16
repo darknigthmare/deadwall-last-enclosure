@@ -13,6 +13,7 @@ if(compileContexts.status!==0)throw Error('Compilation source des contextes G10 
 const require = createRequire(import.meta.url);
 const { ASSETS } = require('../src/art.js');
 const {createImageInliner}=require('./standalone-inline162.cjs');
+const {stampWorker}=require('./pwa-build184.cjs');
 const {readPublicEntries,verifyBundle}=require('./public-manifest183.cjs');
 verifyBundle(root);
 const {scripts,styles}=readPublicEntries(root);
@@ -26,6 +27,11 @@ for (const name of publicFiles) {
   fs.mkdirSync(path.dirname(path.join(dist, name)), { recursive: true });
   fs.copyFileSync(path.join(root, name), path.join(dist, name));
 }
+
+// A source patch must produce a different worker even when package.version is unchanged.
+const worker=stampWorker(root,publicFiles);
+fs.writeFileSync(path.join(dist,'sw.js'),worker.source);
+console.log('PWA payload: '+worker.fingerprint);
 
 const imageTypes = { '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 const dataURLs = Object.fromEntries(images.map(name => {
