@@ -21,6 +21,8 @@ jobs:
       VERTICAL175_QA_OUT: ${{ github.workspace }}/artifacts/qa/audit183-vertical
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24

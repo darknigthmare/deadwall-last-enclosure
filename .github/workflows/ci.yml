@@ -76,6 +76,7 @@ jobs:
         if: always()
         with:
           name: deadwall-native186-aggregate
+          overwrite: true
           path: artifacts/qa/native186/
           if-no-files-found: error
 
@@ -148,6 +149,8 @@ jobs:
       VERTICAL181_QA_OUT: artifacts/qa/vertical181
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -205,6 +208,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24

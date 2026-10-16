@@ -98,3 +98,14 @@ test('186 CI keeps the native/test gate names and cannot turn skipped or failed 
  const vertical=fs.readFileSync(path.join(root,'.github/workflows/vertical-personnel181.yml'),'utf8');
  assert.match(vertical,/DEADWALL CI \/ native/);assert.match(vertical,/github\.event_name != 'pull_request'/);assert.match(vertical,/npm run check/);
 });
+
+test('186 source evidence uses NUL-separated UTF-8 names and read-only checkouts never retain credentials',()=>{
+ const y=fs.readFileSync(path.join(root,'.github/workflows/vertical-personnel181.yml'),'utf8');
+ assert.match(y,/'--name-only','-z','--diff-filter=AM'/);assert.match(y,/decode\('utf-8'\)\.rstrip\('\\0'\)\.split\('\\0'\)/);
+ const c=fs.readFileSync(path.join(root,'.github/workflows/ci.yml'),'utf8');assert.match(c,/name: deadwall-native186-aggregate\n\s+overwrite: true/);
+ for(const name of ['audit-regressions.yml','ci.yml','source-receipt184.yml']){
+  const text=fs.readFileSync(path.join(root,'.github/workflows',name),'utf8');
+  const steps=[...text.matchAll(/- uses: actions\/checkout@v4\n([\s\S]*?)(?=\n      -|$)/g)];assert.ok(steps.length>0);
+  for(const s of steps)assert.match(s[1],/persist-credentials: false/);
+ }
+});

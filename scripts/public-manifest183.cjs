@@ -36,20 +36,43 @@ const BUNDLED_MODULES=Object.freeze([
   "src/codex3000-recipes159.js"
 ]);
 function attributes(tag){
- const attrs=new Map();for(const match of tag.matchAll(/([\w-]+)\s*=\s*(["'])(.*?)\2/g)){
-  const key=match[1].toLowerCase();if(attrs.has(key))throw Error('Duplicate HTML attribute: '+key);attrs.set(key,match[3]);
- }return attrs;
+ const attrs=new Map(),quoted=new Set(),body=tag.replace(/^<[\w:-]+/, '').replace(/\/?\s*>$/, '');
+ const tokens=/\s*([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/gy;
+ let cursor=0;
+ while(body.slice(cursor).trim()){
+  tokens.lastIndex=cursor;const match=tokens.exec(body);
+  if(!match)throw Error('Invalid public HTML attribute');
+  const key=match[1].toLowerCase();if(attrs.has(key))throw Error('Duplicate HTML attribute: '+key);
+  attrs.set(key,match[2]??match[3]??match[4]??'');
+  if(match[2]!==undefined||match[3]!==undefined)quoted.add(key);cursor=tokens.lastIndex;
+ }
+ return {attrs,quoted};
+}
+function* openingTags(html){
+ // Scan complete tags, not fragments ending at a quoted angle bracket. Raw
+ // text bodies and attributes can contain examples which browsers do not load.
+ const tags=/<!--[\s\S]*?(?:-->|$)|<([a-z][a-z0-9:-]*)(?=[\s/>])(?:[^"'<>]|"[^"]*"|'[^']*')*>/gi;
+ let match;
+ while((match=tags.exec(html))){
+  if(!match[1])continue;
+  const type=match[1].toLowerCase();yield {tag:match[0],type};
+  if(['script','style','textarea','title'].includes(type)){
+   const closing=new RegExp('</'+type+'(?=[\\s/>])[^>]*>','gi');closing.lastIndex=tags.lastIndex;
+   const end=closing.exec(html);tags.lastIndex=end?closing.lastIndex:html.length;
+  }
+ }
 }
 function readPublicEntries(rootDirectory){
- const html=fs.readFileSync(path.join(rootDirectory,'index.html'),'utf8').replace(/<!--[\s\S]*?-->/g,''),scripts=[],styles=[],seen=new Set();
+ const html=fs.readFileSync(path.join(rootDirectory,'index.html'),'utf8'),scripts=[],styles=[],seen=new Set();
  function add(name,kind){
   const valid=kind==='script'?/^src\/[a-zA-Z0-9][a-zA-Z0-9._-]*\.js$/:/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.css$/;
   if(!valid.test(name)||name.includes('..'))throw Error('Invalid public '+kind+': '+name);
   if(seen.has(name))throw Error('Duplicate public entry: '+name);seen.add(name);(kind==='script'?scripts:styles).push(name);
  }
- for(const match of html.matchAll(/<(script|link)\b[^>]*>/gi)){
-  const attrs=attributes(match[0]),type=match[1].toLowerCase();
-  if(type==='script'&&/\bsrc\s*=/i.test(match[0])&&!attrs.has('src'))throw Error('Public script src must be quoted');
+ for(const {tag,type} of openingTags(html)){
+  if(type!=='script'&&type!=='link')continue;
+  const {attrs,quoted}=attributes(tag);
+  if(type==='script'&&attrs.has('src')&&!quoted.has('src'))throw Error('Public script src must be quoted');
   if(type==='script'&&attrs.has('src'))add(attrs.get('src'),'script');
   if(type==='link'&&(attrs.get('rel')||'').toLowerCase().split(/\s+/).includes('stylesheet'))add(attrs.get('href')||'','style');
  }

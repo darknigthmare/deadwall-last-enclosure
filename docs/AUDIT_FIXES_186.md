@@ -1,6 +1,6 @@
 # PR #8 — Qualification avant fusion (186)
 
-Cette passe part de `3a9a2b1ac8448b61584239765ca07682e1cc3ef5`. Elle ne modifie aucun fichier du jeu, aucune géographie, aucun coût et aucune sauvegarde. « 186 » désigne la passe technique, pas une version commerciale.
+Cette passe part de `3a9a2b1ac8448b61584239765ca07682e1cc3ef5`. La réorganisation initiale des tests ne modifiait aucun fichier du jeu. Les correctifs de revue décrits plus bas touchent aussi le manifeste et le HUD, sans modifier géographie, coûts ou sauvegardes. « 186 » désigne la passe technique, pas une version commerciale.
 
 ## Une suite exhaustive, six partitions vérifiées
 
@@ -29,3 +29,18 @@ Ces tests vérifient la fiabilité de la qualification ; leurs cas synthétiques
 ## Conditions de revue et de fusion
 
 Les grands ajouts de contenu non terminés de l'audit restent hors de cette PR de stabilisation. La mise en revue n'est pas une autorisation de fusion tant que les contrôles nécessaires restent rouges ou en attente. Avant fusion : vérifier la tête actuelle, l'absence de conflit avec `main`, le résultat final `test`, les contrôles spécialisés et les retours de revue. Après fusion, la validation de production reste un contrôle distinct.
+
+## Retours de revue et blocage d'archivage traités
+
+La première revue externe a relevé deux défauts, vérifiés dans les sources puis corrigés :
+
+- Le manifeste lit désormais les balises complètes, y compris un `>` ou un saut de ligne dans un attribut cité avant `src` ou `href`. Les exemples de balises contenus dans les attributs, scripts et zones de texte ne créent pas d'entrées publiques. Les chemins invalides, doubles chargements et URL de script non citées restent refusés.
+- Le tiroir d'actions se ferme dès que ses actions disparaissent, par classe ou attribut `hidden`. Échap ignore les tiroirs invisibles, y compris un ancien élément focalisé ; la reprise d'une modale ne les rouvre pas.
+
+Le job du personnel vertical échouait aussi avant ses tests à cause du nom accentué `APERÇUS_ET_CONTENUS_165.md` échappé par Git. L'archivage lit maintenant les chemins UTF-8 séparés par NUL, sans exclure ce fichier. Le script Python réel du workflow a été exécuté dans un dépôt temporaire contenant accents, espaces, guillemets et saut de ligne dans les noms ; noms et octets de l'archive sont conservés exactement. Ce scénario est une vérification d'archivage, pas une campagne du jeu.
+
+Les checkouts en lecture seule des workflows modifiés ne conservent plus leurs identifiants après récupération. L'artefact d'agrégation peut être remplacé lors d'une nouvelle tentative sur le même run ; ses empreintes et résultats sont toujours revérifiés.
+
+Les résultats des exécutions précédentes restent attachés à leurs révisions. Le lancement local monolithique sur 8c8cda7 a été interrompu avant ces modifications afin de ne pas mélanger les sources pendant les tests ; il n'est pas annoncé comme réussi. Les nouveaux contrôles spécifiques et les suites CI complètes doivent être relus sur la tête corrigée de la PR.
+
+Validation locale après revue : **138/138** contrôles spécifiques 183–186 réussis, aucun ignoré, dont **48** tests du qualificateur et de son raccord CI ; syntaxe de **351 fichiers** vérifiée ; build réussi avec **346 fichiers publics**. Les comptes se recouvrent. Le dernier build intègre bien la correction HUD ; ses nouvelles empreintes ne sont pas confondues avec celles du commit initial.

@@ -26,3 +26,17 @@ test('183 a stale embedded source is rejected rather than silently packaged',t=>
  fs.writeFileSync(path.join(p,'src/codex3000-live-data.js'),M.bundledPrefix(p)+'/* Generated from original Codex 3000. */');assert.equal(M.verifyBundle(p),true);
  fs.appendFileSync(path.join(p,M.BUNDLED_MODULES[0]),' changed');assert.throws(()=>M.verifyBundle(p),/absent, stale or reordered/);
 });
+
+for(const quote of ['"',"'"])test('186 quoted angle brackets and multiline notes never hide a later public path: '+quote,t=>{
+ const note=quote+'a > b\n and c < d'+quote;
+ const p=fixture(t,style+'<script src="src/core.js"></script><script data-note='+note+' src='+quote+'src/new.js'+quote+'></script><link data-note='+note+' rel="stylesheet" href="extra.css">');
+ assert.deepEqual(M.readPublicEntries(p),{scripts:['src/core.js','src/new.js'],styles:['styles.css','extra.css']});
+});
+test('186 raw text and quoted attribute examples cannot invent public entries',t=>{
+ const p=fixture(t,style+`<div data-note="<script src='src/fake.js'>"></div><script>const example='<link rel="stylesheet" href="fake.css">';</script><textarea><script src="src/fake2.js"></script></textarea><script src="src/core.js"></script>`);
+ assert.deepEqual(M.readPublicEntries(p),{scripts:['src/core.js'],styles:['styles.css']});
+});
+test('186 an unquoted src is rejected even after a quoted greater-than note',t=>{
+ const p=fixture(t,style+'<script src="src/core.js"></script><script data-note="a > b" src=src/new.js></script>');
+ assert.throws(()=>M.readPublicEntries(p),/must be quoted/);
+});
