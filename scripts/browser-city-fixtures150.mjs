@@ -151,7 +151,14 @@ export function prepareConstruction150(request) {
     const gx = g.core().gx + dx, gy = g.core().gy + dy;
     if (!g.world.placement(def, gx, gy, 0).valid) continue;
     const candidate = new Building(g.nextId, type, gx, gy, 0, 0);
-    if ([g.player, ...g.units].some(a => a.x + a.radius > candidate.left && a.x - a.radius < candidate.right && a.y + a.radius > candidate.top && a.y - a.radius < candidate.bottom)) continue;
+    // The browser's actual placement/recovery contract reserves five units
+    // plus a one-cell movement buffer. A body-only check selected sites already
+    // inside that protected margin and could wait forever for a valid idle
+    // worker to leave its nearby gathering/retreat location. Select another
+    // legal EMPTY fixture, never move/heal a worker or relax the payment guard.
+    const margin = 5 + 32;
+    const marginFor = actor => actor === g.player ? 0 : margin;
+    if ([g.player, ...g.units].some(a => a.x + a.radius + marginFor(a) > candidate.left && a.x - a.radius - marginFor(a) < candidate.right && a.y + a.radius + marginFor(a) > candidate.top && a.y - a.radius - marginFor(a) < candidate.bottom)) continue;
     // A paid autonomous defence protects the actual later training position.
     // Keep a margin for an attacker at melee distance; retain all wild hordes,
     // their schedule, ordinary ammunition and the player's current health.
@@ -166,7 +173,7 @@ export function prepareConstruction150(request) {
   raw.player.x = point.x; raw.player.y = point.y; raw.phase = 'calm'; raw.phaseTime = 300;
   g.restoreSave(DeadwallSave.validate(raw)); g.togglePause(true);
   if (g.random.state !== rng || g.world.buildings.size !== buildings) throw Error('Construction viewpoint changed RNG or buildings');
-  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, rngPreserved: true,
+  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, actorSafetyMargin: 37, rngPreserved: true,
     assignedFields: ['player.x', 'player.y', 'phase', 'phaseTime'],
     limitation: 'The advanced actor starts at a free exterior position beside an empty legally buildable footprint. An optional defended core point is derived from real range and line of sight. No foundation, stock, progress, terrain clearance, wild-horde schedule or RNG is granted. Payment, placement and work use ordinary real controls.' };
 }

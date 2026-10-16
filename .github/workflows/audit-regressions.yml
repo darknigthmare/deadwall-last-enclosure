@@ -37,6 +37,8 @@ jobs:
         run: node scripts/qa-vertical175.mjs
       - name: Real service worker update, failed installation and offline restart
         run: node scripts/browser-pwa184.mjs
+      - name: Complete native city construction and service regression from dist
+        run: npm run test:city
       - name: Retain exact build identity and test evidence
         if: always()
         shell: bash
