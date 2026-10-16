@@ -1,0 +1,60 @@
+name: Auditable source receipt
+
+on:
+  push:
+    branches: [main, codex/audit-fixes-2026-10-16]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-receipt-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive tracked sources and their exact Git identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, pathlib, subprocess, tarfile
+          root = pathlib.Path.cwd()
+          output = root / 'artifacts/source-receipt'
+          output.mkdir(parents=True, exist_ok=True)
+          commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          files = []
+          with tarfile.open(output / 'sources.tar.gz', 'w:gz') as archive:
+              for row in subprocess.check_output(['git', 'ls-files', '-s', '-z']).decode().split('\0'):
+                  if not row:
+                      continue
+                  meta, name = row.split('\t', 1)
+                  mode, blob, stage = meta.split()
+                  item = {'path': name, 'gitBlob': blob, 'mode': mode, 'included': False}
+                  p = root / name
+                  parts = pathlib.PurePosixPath(name).parts
+                  selected = len(parts) == 1 or parts[0] in ('src', 'scripts', 'tests', 'desktop', 'codex-3000', '.github', 'docs')
+                  if selected and mode in ('100644', '100755') and p.is_file() and not name.endswith(('.zip', '.rar', '.7z')) and p.stat().st_size < 30000000:
+                      data = p.read_bytes()
+                      actual = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+                      if actual != blob:
+                          raise RuntimeError('Tracked source differs from commit: ' + name)
+                      archive.add(p, arcname=name, recursive=False)
+                      item.update(included=True, bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+                  files.append(item)
+          receipt = {'commit': commit, 'scope': 'Tracked source capsule only; assets are represented by Git blob IDs, not duplicated. This receipt is not a test pass or a release.', 'files': files, 'archiveSHA256': hashlib.sha256((output / 'sources.tar.gz').read_bytes()).hexdigest()}
+          (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
+          print(commit, sum(f['included'] for f in files), 'source files')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sources-${{ github.sha }}
+          path: artifacts/source-receipt/
+          retention-days: 7
+          if-no-files-found: error
