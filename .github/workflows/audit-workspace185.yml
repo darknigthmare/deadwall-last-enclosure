@@ -13,13 +13,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Archive tracked sources without assets or credentials
+          fetch-depth: 0
+      - name: Archive immutable comparison sources without credentials
         run: |
+          set -euo pipefail
           mkdir -p /tmp/deadwall-audit185
-          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/deadwall-audit185/sources.tar.gz
+          git archive --format=tar 5b8f0ade7f7e93d3fc3ea23f762cac93ded43d90 src | gzip > /tmp/deadwall-audit185/historical-src.tar.gz
+          git archive --format=tar 1314e2c1d67f23c05cdd4bd53943fe97c6f56d9a src | gzip > /tmp/deadwall-audit185/base-src.tar.gz
           git rev-parse HEAD > /tmp/deadwall-audit185/source-commit.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: audit185-sources
+          name: audit185-baselines
           path: /tmp/deadwall-audit185/
           retention-days: 3
