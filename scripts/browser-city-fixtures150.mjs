@@ -146,9 +146,16 @@ export function prepareConstruction150(request) {
   const protectedPoint = protectCore ? g.fieldcraft.service(g.player, g.core()) : null;
   if (protectCore && (!protectedPoint || !g.friendlyPositionClear(g.player, protectedPoint.x, protectedPoint.y) || !def.range)) throw Error('No physical core work point to defend');
   const Building = g.core().constructor; let point, site;
-  for (let ring = 6; ring < 110 && !point; ring += 2) for (let dy = -ring; dy <= ring && !point; dy += 2) for (let dx = -ring; dx <= ring && !point; dx += 2) {
+  // Check every cell, including the inner rings. A two-cell stride can miss
+  // all remaining legal firing positions once workers reserve their safety
+  // margin; six cells is not a gameplay setback rule. Native placement, actor
+  // clearance, range, line of sight and exterior access still decide legality.
+  for (let ring = 1; ring < C.WORLD_TILES && !point; ring++) for (let dy = -ring; dy <= ring && !point; dy++) for (let dx = -ring; dx <= ring && !point; dx++) {
     if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
     const gx = g.core().gx + dx, gy = g.core().gy + dy;
+    if (gx < 0 || gy < 0 || gx + def.size[0] > C.WORLD_TILES || gy + def.size[1] > C.WORLD_TILES) continue;
+    // A cheap range bound precedes the expensive authoritative placement query.
+    if (protectedPoint && Math.hypot((gx + def.size[0] / 2) * C.TILE - protectedPoint.x, (gy + def.size[1] / 2) * C.TILE - protectedPoint.y) > def.range - 80) continue;
     if (!g.world.placement(def, gx, gy, 0).valid) continue;
     const candidate = new Building(g.nextId, type, gx, gy, 0, 0);
     // The browser's actual placement/recovery contract reserves five units
