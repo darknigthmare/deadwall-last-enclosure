@@ -4,9 +4,11 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
+import {fileURLToPath} from 'node:url';
+const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));
 const out=resolve(process.env.VERTICAL181_QA_OUT||'/tmp/vertical181-qa');await mkdir(out,{recursive:true});
-const report={scope:'Prepared resources, cleared terrain and two completed Refuge supports. The initial native workforce is preserved. Paid bridge/gun and assignment/recall use actual dossier buttons. The worker is never repositioned after new-game creation: ground path, stairs, bridge, delivery and return use production controllers. Explicit RAF suspension and time steps; not a natural campaign or physical-device benchmark.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:rootDirectory,scope:'Prepared resources, cleared terrain and two completed Refuge supports. The initial native workforce is preserved. Paid bridge/gun and assignment/recall use actual dossier buttons. The worker is never repositioned after new-game creation: ground path, stairs, bridge, delivery and return use production controllers. Explicit RAF suspension and time steps; not a natural campaign or physical-device benchmark.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try {
  browser=await chromium.launch({headless:true,...(process.env.DEADWALL_BROWSER_EXECUTABLE?{executablePath:process.env.DEADWALL_BROWSER_EXECUTABLE}:{}),args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));

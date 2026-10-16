@@ -44,3 +44,14 @@ Les checkouts en lecture seule des workflows modifiés ne conservent plus leurs 
 Les résultats des exécutions précédentes restent attachés à leurs révisions. Le lancement local monolithique sur 8c8cda7 a été interrompu avant ces modifications afin de ne pas mélanger les sources pendant les tests ; il n'est pas annoncé comme réussi. Les nouveaux contrôles spécifiques et les suites CI complètes doivent être relus sur la tête corrigée de la PR.
 
 Validation locale après revue : **138/138** contrôles spécifiques 183–186 réussis, aucun ignoré, dont **48** tests du qualificateur et de son raccord CI ; syntaxe de **351 fichiers** vérifiée ; build réussi avec **346 fichiers publics**. Les comptes se recouvrent. Le dernier build intègre bien la correction HUD ; ses nouvelles empreintes ne sont pas confondues avec celles du commit initial.
+
+## Seconde revue : distribution verticale et admission coopérative
+
+Deux autres constats du relecteur indépendant ont été reproduits et traités après `b75ccf9` :
+
+- Les scénarios `qa-vertical176.mjs` à `qa-vertical181.mjs` transmettent désormais explicitement `DEADWALL_QA_ROOT` au serveur, comme le scénario 175. Ils enregistrent la racine réellement sélectionnée dans le rapport. Sans variable, le comportement historique sur les sources reste disponible. La matrice principale choisit `dist` ; une omission de packaging ne peut plus être masquée par un retour implicite aux sources pour ces six scénarios.
+- Le relais coupe les connexions qui n'envoient aucun `join` valide dans les **10 secondes** suivant leur admission. Un message invalide ne repousse pas ce délai ; une adhésion valide ou une fermeture nettoie le minuteur. Les paramètres de test du délai sont bornés. Le test d'intégration ouvre **128 vrais WebSockets**, constate l'expiration et la libération des places, puis fait communiquer deux nouveaux clients. Les clients ayant rejoint leur salon restent utilisables au-delà du délai. Ce mécanisme borne les admissions incomplètes ; il ne constitue pas une protection universelle contre toutes les attaques de saturation.
+
+Validation locale finale : **143/143 contrôles ciblés 183–186**, zéro échec, annulation ou test ignoré. Le groupe indépendant comprenant relais historique, relais borné et contrôleur CI réussit **61/61** ; ces comptes se recouvrent. Syntaxe : **351 fichiers**. Build : **346 fichiers publics**, données du Codex inchangées. Les essais interrompus par le plafond de durée de l'outil restent marqués incomplets ; le journal final de 143 cas est distinct. La première observation de fermeture des sockets ne synchronisait que le côté client ; le test final attend aussi les événements de fermeture serveur avant de vérifier la libération des places.
+
+La CI complète est relancée sur le nouveau commit. Les succès distants de `b75ccf9`, y compris le personnel vertical et les parcours FPS, restent des preuves de cette révision antérieure, pas une substitution à la qualification finale.

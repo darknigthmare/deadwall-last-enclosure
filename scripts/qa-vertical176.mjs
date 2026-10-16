@@ -3,9 +3,11 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
+import {fileURLToPath} from 'node:url';
+const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));
 const out=resolve(process.env.VERTICAL176_QA_OUT||'/tmp/vertical176-qa');await mkdir(out,{recursive:true});
-const report={scope:'Native server and real UI. Declared age-10 fixture, paid support with instant base completion, explicit production time steps and prepared corpse pressure. Not a naturally progressed campaign, physical-device benchmark, or final art validation.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:rootDirectory,scope:'Native server and real UI. Declared age-10 fixture, paid support with instant base completion, explicit production time steps and prepared corpse pressure. Not a naturally progressed campaign, physical-device benchmark, or final art validation.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try{
  browser=await chromium.launch({headless:true,...(process.env.DEADWALL_BROWSER_EXECUTABLE?{executablePath:process.env.DEADWALL_BROWSER_EXECUTABLE}:{}),args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));

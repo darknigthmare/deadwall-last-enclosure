@@ -4,9 +4,11 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
+import {fileURLToPath} from 'node:url';
+const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));
 const out=resolve(process.env.VERTICAL179_QA_OUT||'/tmp/vertical179-qa');await mkdir(out,{recursive:true});
-const report={scope:'Native server and real dossier/access controls. Declared age 4, harvested nodes, starting supplies and only support completion are prepared. Bridge, equipment, reload, packing, stairs and unloading use production commands and active time. Swept native movement, not teleportation, is used after initial entry placement. No natural campaign, NPC freight or physical-device claim.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:rootDirectory,scope:'Native server and real dossier/access controls. Declared age 4, harvested nodes, starting supplies and only support completion are prepared. Bridge, equipment, reload, packing, stairs and unloading use production commands and active time. Swept native movement, not teleportation, is used after initial entry placement. No natural campaign, NPC freight or physical-device claim.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try{
  browser=await chromium.launch({headless:true,args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));

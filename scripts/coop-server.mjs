@@ -5,7 +5,9 @@ const {LIMITS,normalizeState,parseMessage,coordinate,label}=Coop;
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export function createCoopRelay({ port = 4290, host } = {}) {
+export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {}) {
+  if (!Number.isSafeInteger(joinTimeoutMs) || joinTimeoutMs < 1 || joinTimeoutMs > 30000)
+    throw new RangeError('joinTimeoutMs doit être un entier entre 1 et 30000.');
   const relay = new WebSocketServer({ port, maxPayload: LIMITS.messageChars * 4, ...(host ? { host } : {}) });
   const clients = new Map();
   const send = (socket, message) => {
@@ -25,6 +27,12 @@ export function createCoopRelay({ port = 4290, host } = {}) {
     if (clients.size >= LIMITS.relayClients) { socket.close(1013, 'Relais complet'); return; }
     const id = randomUUID();
     clients.set(socket, { id, room: null, name: 'Survivant', tokens: LIMITS.burst, sampledAt: performance.now() });
+    // Admission has a fixed deadline. Invalid messages must not keep a global
+    // slot alive, and terminate avoids an additional unbounded close handshake.
+    const joinDeadline = setTimeout(() => {
+      if (!clients.get(socket)?.room) socket.terminate();
+    }, joinTimeoutMs);
+    joinDeadline.unref();
     socket.on('message', (data, isBinary) => {
       const client = clients.get(socket); if (!client || socket.readyState !== 1) return;
       const now = performance.now();
@@ -37,6 +45,7 @@ export function createCoopRelay({ port = 4290, host } = {}) {
         if (client.room && client.room !== message.room) {
           broadcast(client.room, { type: 'leave', id: client.id }, socket);
         }
+        clearTimeout(joinDeadline);
         client.room = message.room;
         client.name = label(message.name, 'Survivant');
         send(socket, { type: 'joined', id });
@@ -52,6 +61,7 @@ export function createCoopRelay({ port = 4290, host } = {}) {
       }
     });
     socket.on('close', () => {
+      clearTimeout(joinDeadline);
       const client = clients.get(socket);
       if (client?.room) broadcast(client.room, { type: 'leave', id: client.id }, socket);
       clients.delete(socket);

@@ -4,9 +4,11 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
+import {fileURLToPath} from 'node:url';
+const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));
 const out=resolve(process.env.VERTICAL180_QA_OUT||'/tmp/vertical180-qa');await mkdir(out,{recursive:true});
-const report={scope:'Prepared age 4, supplies, cleared resources, completed support footprints and corpse pressure. Connections, added deck, manual gun and supply use real dossier actions. One native infecté climbs, walks and uses stairs through updateZombies; no position injection after its initial ground spawn. RAF/time stepping are explicit. Not a natural campaign, device benchmark or rigid-body crowd claim.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:rootDirectory,scope:'Prepared age 4, supplies, cleared resources, completed support footprints and corpse pressure. Connections, added deck, manual gun and supply use real dossier actions. One native infecté climbs, walks and uses stairs through updateZombies; no position injection after its initial ground spawn. RAF/time stepping are explicit. Not a natural campaign, device benchmark or rigid-body crowd claim.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try{
  browser=await chromium.launch({headless:true,args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));

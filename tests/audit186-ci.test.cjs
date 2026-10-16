@@ -109,3 +109,14 @@ test('186 source evidence uses NUL-separated UTF-8 names and read-only checkouts
   for(const s of steps)assert.match(s[1],/persist-credentials: false/);
  }
 });
+
+
+test('186 every vertical QA scenario serves and records the selected built distribution',()=>{
+ for(let revision=176;revision<=181;revision++){
+  const source=fs.readFileSync(path.join(root,'scripts','qa-vertical'+revision+'.mjs'),'utf8');
+  assert.ok(source.includes("const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));"),'explicit root '+revision);
+  assert.ok(source.includes('createGameServer({rootDirectory})'),'server root '+revision);
+  assert.ok(source.includes('const report={root:rootDirectory,'),'evidence root '+revision);
+  assert.ok(!source.includes('createGameServer()'),'no silent source fallback '+revision);
+ }
+});
