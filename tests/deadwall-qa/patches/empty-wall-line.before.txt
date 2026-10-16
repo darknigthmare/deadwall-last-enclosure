@@ -1,2 +1,0 @@
-    placeWallLine(type, cells) {
-      const candidate = BUILDINGS[type];

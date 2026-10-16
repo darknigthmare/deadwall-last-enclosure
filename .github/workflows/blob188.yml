@@ -1,0 +1,61 @@
+name: Assemble reviewed browser blob 188
+on:
+  push:
+    branches: [codex/blob188-assembly]
+permissions:
+  contents: write
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 99e35b343fa0f0a7547479fba16039f8dbdb1c01
+          persist-credentials: false
+      - name: Apply two reviewed replacements and create one content-addressed blob
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, urllib.request
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/blob188-assembly'
+          p=pathlib.Path('scripts/browser-city-content150.mjs')
+          original=p.read_bytes()
+          assert hashlib.sha256(original).hexdigest()=='8511785a6b3816defa42fc19178e5aa2c7f2aa2c0ec15cd6c49f5a5ae70542a6'
+          text=original.decode()
+          before="type === 'casemate150' ? { type, protectCore: true } : type"
+          after="type === 'casemate150' ? { type, protectCore: true } : { type, preserveProtection: profile.protection }"
+          assert text.count(before)==1
+          text=text.replace(before,after)
+          before="        profile.transactions.push(transaction); await rec.screenshot('actually-built-' + type);"
+          after="""        transaction.preservedCoreWork = await page.evaluate(({ id, point }) => {
+                    const g = DEADWALL, b = g.world.buildings.get(id);
+                    return { id, point, supportAlive: !!b && b.completed && !b.dead && b.health > 0,
+                      clear: g.friendlyPositionClear(g.player, point.x, point.y),
+                      reachableWork: g.workerCanWorkAt({ ...g.player, ...point }, g.core(), 100),
+                      defended: !!b && Math.hypot(b.x - point.x, b.y - point.y) <= b.def.range - 80 && g.hostileLineClear(b, point) };
+                  }, profile.protection);
+                  advanced(type + ': the paid core defence, free training position and work access survive subsequent construction',
+                    transaction.preservedCoreWork.supportAlive && transaction.preservedCoreWork.clear && transaction.preservedCoreWork.reachableWork && transaction.preservedCoreWork.defended);
+                  profile.transactions.push(transaction); await rec.screenshot('actually-built-' + type);"""
+          assert text.count(before)==1
+          text=text.replace(before,after)
+          data=text.encode()
+          expected='946259dcb78093bbc888fd50cc6cf9697839d808'
+          assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==expected
+          assert hashlib.sha256(data).hexdigest()=='15005a37c1b01da3f73439bc929d4bfa79ac34bc270b785657bfdcb1c1d18c01'
+          request=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs',data=json.dumps({'content':base64.b64encode(data).decode(),'encoding':'base64'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'})
+          with urllib.request.urlopen(request,timeout=60) as response: result=json.load(response)
+          assert result['sha']==expected
+          out=pathlib.Path('artifacts/blob188');out.mkdir(parents=True)
+          (out/'receipt.json').write_text(json.dumps({'blob':expected,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'base':'99e35b343fa0f0a7547479fba16039f8dbdb1c01','scope':'Single reviewed blob only. No commit, ref update, PR merge or deployment performed by this job.'},indent=2)+'\n')
+          print(expected)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blob188-receipt
+          path: artifacts/blob188/
+          retention-days: 3
+          if-no-files-found: error

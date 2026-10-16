@@ -1,2 +1,0 @@
-  // Use the same pointer ownership and focus-loss cleanup as movement and fire.
-  game.bindHeldControl(get('touchSprint'), 'ShiftLeft');
