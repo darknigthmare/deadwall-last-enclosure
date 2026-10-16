@@ -1,0 +1,81 @@
+name: Audit regressions
+
+on:
+  push:
+    branches: ['codex/audit-fixes-2026-10-16']
+  pull_request:
+    paths:
+      - 'src/vertical-citadel175-render.js'
+      - 'src/vertical-citadel175-ui.js'
+      - 'scripts/public-manifest*.cjs'
+      - 'scripts/browser-audit*.mjs'
+      - 'tests/audit*.test.cjs'
+      - '.github/workflows/audit-regressions.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-regressions-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Targeted regressions when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          tests=(tests/audit*.test.cjs)
+          if (( ${#tests[@]} )); then node --test "${tests[@]}"; fi
+      - name: Reproducible audit capsule
+        if: github.event_name == 'push' && github.event.head_commit.message == 'Prepare reproducible audit workspace and targeted regression checks'
+        shell: bash
+        run: |
+          mkdir -p audit-capsule
+          git rev-parse HEAD > audit-capsule/source-commit.txt
+          python3 - <<'PY'
+          import subprocess, tarfile, pathlib
+          paths = subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          selected = [p for p in paths if p and (len(pathlib.PurePosixPath(p).parts)==1 or p.startswith(('src/','scripts/','tests/','desktop/','codex-3000/','.github/','docs/'))) and not p.endswith(('.zip','.rar','.7z')) and pathlib.Path(p).stat().st_size < 30000000]
+          with tarfile.open('audit-capsule/sources.tar.gz','w:gz') as archive:
+              for p in selected: archive.add(p,recursive=False)
+          with tarfile.open('audit-capsule/assets.tar.gz','w:gz') as archive:
+              for p in paths:
+                  if p.startswith('assets/') and pathlib.Path(p).is_file(): archive.add(p,recursive=False)
+          with tarfile.open('audit-capsule/tools.tar.gz','w:gz') as archive:
+              archive.add('node_modules',arcname='node_modules')
+          print('Capsule sizes:', [(p.name,p.stat().st_size) for p in pathlib.Path('audit-capsule').iterdir()])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.event.head_commit.message == 'Prepare reproducible audit workspace and targeted regression checks'
+        with:
+          name: audit-workspace-sources
+          path: |
+            audit-capsule/sources.tar.gz
+            audit-capsule/source-commit.txt
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.event.head_commit.message == 'Prepare reproducible audit workspace and targeted regression checks'
+        with:
+          name: audit-workspace-assets
+          path: audit-capsule/assets.tar.gz
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.event.head_commit.message == 'Prepare reproducible audit workspace and targeted regression checks'
+        with:
+          name: audit-workspace-tools
+          path: audit-capsule/tools.tar.gz
+          retention-days: 3
