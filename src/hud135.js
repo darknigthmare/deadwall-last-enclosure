@@ -111,6 +111,8 @@ function install(g,doc=globalThis.document){
   // One location for bag quantity; region supplies posture/surface instead of the D-17 label.
   tools.dataset.active=String(trayDrawers.some(n=>n.open));
   const working=get('interventions134Dock');hud.dataset.intervention=String(!!working&&!working.classList.contains('hidden'));
+  const visibleTask=id=>{const n=get(id);return !!n&&!n.hidden&&!n.classList.contains('hidden');};
+  hud.dataset.fieldTask=visibleTask('interventions134Dock')?'intervention':visibleTask('activeReload14')?'reload':visibleTask('expansionWork')?'work':'none';
   if(g.buildCollapsed===false&&g.isCompactViewport?.()){intel.open=false;map.open=false;}
   const key=[g.width,g.height,blocked,hud.dataset.region,hud.dataset.build,...drawers.map(n=>n.open),...[...context.children].map(n=>n.classList.contains('hidden')),...[...alerts.children].map(n=>n.classList.contains('hidden'))].join(':');
   if(!blocked&&key!==measuredKey){measuredKey=key;measure();}

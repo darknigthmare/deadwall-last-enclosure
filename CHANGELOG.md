@@ -1,3 +1,13 @@
+# 1.65.0 — Maintenance après audit (PR)
+
+- Rendu FPS : orientation des acteurs, marche liée au déplacement réel, buffers réutilisés et géométrie statique invalidée par ses données.
+- Entrées : clic droit sans tir, propriétaires des pointeurs et neutralisation de sécurité ; accès verticaux dans le HUD classique.
+- Livraison : manifeste public partagé et ordre explicite des 32 modules intégrés au Codex, sans double chargement ni changement de carte.
+- Validation : parcours sur `dist`, nouvelles régressions, suites de qualité dans la matrice et marge de durée native sans retirer l'endurance.
+- Portée et limites : [docs/AUDIT_FIXES_183.md](docs/AUDIT_FIXES_183.md). Les résultats de la PR ne sont pas ceux des anciens rapports.
+
+## Historique conservé
+
 # 1.60.0 — Ouvrages, territoires et services de terrain
 
 - G10 : contrats des 626 programmes auparavant exclus, dont 300 sans plan natif et 326 sans contexte territorial ; implantation conditionnée par la graine, l'emprise et les accès, avec 96 essais au maximum par candidat.

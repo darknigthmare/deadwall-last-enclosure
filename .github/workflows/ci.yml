@@ -4,10 +4,14 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: deadwall-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   native:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -105,11 +109,14 @@ jobs:
             suites: 'test:contexts'
           - group: touch-layout
             scripts: 'scripts/browser-touch-layout162.mjs'
+          - group: quality-regressions
+            suites: 'test:balance test:quality test:world-art'
           - group: metrics
             scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs scripts/browser-codex162.mjs scripts/browser-codex163.mjs scripts/browser-ecology164.mjs'
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       DEADWALL_REQUIRE_WEBGL: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
       VERTICAL175_QA_OUT: artifacts/qa/vertical175
       VERTICAL176_QA_OUT: artifacts/qa/vertical176
       VERTICAL177_QA_OUT: artifacts/qa/vertical177

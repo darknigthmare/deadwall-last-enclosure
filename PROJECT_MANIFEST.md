@@ -1,4 +1,10 @@
-# Livraison courante — DEADWALL 1.50.0
+# État courant — DEADWALL 1.65.0
+
+Le package et le README font référence à Eaux et biomes vivants. Guide courant : `docs/LIVRAISON_1_65.md`. Maintenance issue de l'audit : `docs/AUDIT_FIXES_183.md`. Les signatures des builds et les résultats sont associés au commit de chaque exécution ; aucune mise en production n'est déduite de ce manifeste.
+
+Les livraisons ci-dessous sont historiques et ne constituent pas une certification de cette PR.
+
+# Livraison historique — DEADWALL 1.50.0
 
 Base cumulative : commit `3a42ec0c20b536e6210273a3557cf63306d1ffb2` (1.49). Extension des onze âges : 20 modèles, six évolutions, trois routes avancées, quatre montages de Hérisson, quatre formations de compagnons et quatre cours tardives. Catalogue et conditions dérivés des données du moteur ; quatre atlas originaux pour les 20 nouveaux modèles. Guide : `docs/LIVRAISON_1_50.md`. Sauvegarde générale v20, terrain et contenu historique conservés. Les résultats courants et les archives exactes sont attestés séparément après exécution ; aucun résultat historique n'est réattribué à cette passe. La fabrication locale n'atteste pas une publication Vercel.
 

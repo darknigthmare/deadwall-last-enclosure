@@ -28,7 +28,7 @@ test('D17 1.36 : absence facultative du RoadKit conserve un rendu valide sans su
  const previous=globalThis.DeadwallRoadKit;delete globalThis.DeadwallRoadKit;try{const {ctx,calls}=recording();E.drawRoadNetwork(ctx,E.createFeaturePlan(17117,4096,3),view);assert.ok(calls.some(c=>c[0]==='fillRect'));assert.ok(calls.some(c=>c[0]==='stroke'));}finally{globalThis.DeadwallRoadKit=previous;}
 });
 test('D17 1.36 : HTML et build chargent le peintre partagé avant son usage local',()=>{
- const root=path.resolve(__dirname,'..');for(const file of['index.html','scripts/build.mjs']){const s=fs.readFileSync(path.join(root,file),'utf8');assert.ok(s.indexOf('src/region-roadkit.js')<s.indexOf('src/exploration-125.js'));}
+ const root=path.resolve(__dirname,'..'),{readPublicEntries}=require('../scripts/public-manifest183.cjs'),scripts=readPublicEntries(root).scripts;assert.ok(scripts.indexOf('src/region-roadkit.js')>=0);assert.ok(scripts.indexOf('src/region-roadkit.js')<scripts.indexOf('src/exploration-125.js'));
 });
 test('D17 1.36 : Game.drawGround branche réellement le réseau partagé dans l’ordre HTML livré',{skip:!native},()=>{
  const {g,doc}=require('../scripts/qa-startup134.cjs').bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();

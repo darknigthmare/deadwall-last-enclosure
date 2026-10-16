@@ -4,10 +4,10 @@ import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
 const out=resolve(process.env.VERTICAL175_QA_OUT||'/tmp/vertical175-qa');await mkdir(out,{recursive:true});
-const report={scope:'Declared advanced save, native paid foundation placement with instant base completion. Production controllers advance by explicit time steps; RAF is disabled only in this test fixture. Native contextual access, camera and firing buttons are exercised. This is not a full human campaign or physical-device benchmark.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:resolve(process.env.DEADWALL_QA_ROOT||'.'),scope:'Declared advanced save, native paid foundation placement with instant base completion. Production controllers advance by explicit time steps; RAF is disabled only in this test fixture. Native contextual access, camera and firing buttons are exercised. This is not a full human campaign or physical-device benchmark.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory:process.env.DEADWALL_QA_ROOT});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try{
- browser=await chromium.launch({headless:true,args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
+ browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}),args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});
  page.on('pageerror',e=>report.errors.push(String(e)));
  await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
@@ -34,10 +34,27 @@ try{
  const fps=await page.evaluate(()=>{const c=document.getElementById('vertical175canvas'),gl=c.getContext('webgl');return{view:DEADWALL.vertical175.presentation().view,visible:!document.getElementById('vertical175fps').hidden,webgl:!!gl,width:c.width,height:c.height,error:gl?.getError(),vendor:gl?.getParameter(gl.VENDOR),renderer:gl?.getParameter(gl.RENDERER)};});report.checks.push({fps});
  await page.screenshot({path:out+(fps.view==='fps'?'/03-native-fps.png':'/03-classic-fallback.png')});
  assert.equal(fps.webgl,true,'WebGL unavailable: FPS visual qualification not achieved');assert.equal(fps.view,'fps');assert.equal(fps.visible,true);assert.equal(fps.error,0);
+ const cache=await page.evaluate(()=>{
+  const g=DEADWALL,before=g.vertical175UI.diagnostics();for(let i=0;i<20;i++)g.render();const after=g.vertical175UI.diagnostics();
+  return{before,after};
+ });assert.equal(cache.after.staticUploads,cache.before.staticUploads);assert.equal(cache.after.staticCapacity,cache.before.staticCapacity);report.checks.push({staticGeometryCache:cache});
+ const aim=await page.locator('#vertical175canvas').boundingBox();await page.mouse.move(aim.x+aim.width/2,aim.y+aim.height/2);await page.mouse.down({button:'right'});
+ const rightClick=await page.evaluate(()=>{const g=DEADWALL;g.vertical175.step(.04);return{pressed:g.input.mouseDown,ammo:g.vertical175.moduleRef(__verticalFixture.gun).m.ammo};});
+ await page.mouse.up({button:'right'});assert.equal(rightClick.pressed,false);assert.equal(rightClick.ammo,gun.ammo);report.checks.push({rightClickDoesNotFire:rightClick});
  const fire=await page.locator('#vertical175fire').boundingBox();assert.ok(fire);await page.mouse.move(fire.x+fire.width/2,fire.y+fire.height/2);await page.mouse.down();
  const shot=await page.evaluate(()=>{const g=DEADWALL;g.vertical175.step(.04);g.render();return{ammo:g.vertical175.moduleRef(__verticalFixture.gun).m.ammo,health:g.zombies.find(z=>z.id===__verticalFixture.enemy).health};});await page.mouse.up();assert.equal(shot.ammo,gun.ammo-1);assert.equal(shot.health,gun.health-32);report.checks.push({nativeFpsShot:shot});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{DEADWALL.resize();DEADWALL.render();});
  const mobile=await page.evaluate(()=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,view:DEADWALL.vertical175.presentation().view,visible:!document.getElementById('vertical175fps').hidden}));assert.equal(mobile.overflow,false);assert.equal(mobile.view,'fps');report.checks.push({mobile});await page.screenshot({path:out+'/04-native-mobile-fps.png'});
+ await page.locator('#vertical175view').click();await page.evaluate(()=>DEADWALL.render());
+ for(const viewport of [{width:390,height:844},{width:844,height:390}]){
+  await page.setViewportSize(viewport);await page.evaluate(()=>{DEADWALL.resize();DEADWALL.render();});
+  const layout=await page.evaluate(()=>{
+   const bar=document.getElementById('vertical175bar'),r=bar.getBoundingClientRect(),buttons=[...bar.querySelectorAll('button')].filter(n=>!n.hidden);
+   return{host:bar.parentNode.id,visible:bar.checkVisibility(),left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:innerWidth,height:innerHeight,
+    buttons:buttons.map(n=>{const q=n.getBoundingClientRect(),hit=document.elementFromPoint(q.x+q.width/2,q.y+q.height/2);return{id:n.id,hit:hit===n||n.contains(hit)};})};
+  });assert.equal(layout.host,'hud135Context');assert.equal(layout.visible,true);assert.ok(layout.left>=0&&layout.right<=layout.width+1&&layout.top>=0&&layout.bottom<=layout.height+1);assert.ok(layout.buttons.every(b=>b.hit));report.checks.push({classicBarLayout:layout});
+  await page.screenshot({path:out+'/classic-bar-'+viewport.width+'.png'});
+ }
  const saved=await page.evaluate(()=>{const g=DEADWALL,d=g.serialize(),ammo=g.vertical175.moduleRef(__verticalFixture.gun).m.ammo;g.restoreSave(d);g.paused=false;g.render();return{height:g.vertical175.pose().z,controlled:g.vertical175.presentation().controlled,before:ammo,after:g.vertical175.moduleRef(__verticalFixture.gun).m.ammo};});assert.equal(saved.height,6);assert.equal(saved.controlled,null);assert.equal(saved.before,saved.after);report.checks.push({saved});assert.deepEqual(report.errors,[]);report.status='passed';
 }catch(error){report.status='failed';report.failure=String(error.stack||error);process.exitCode=1;}
 finally{await writeFile(out+'/browser-result.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));await browser?.close();await new Promise(r=>server.close(r));}
