@@ -14,7 +14,7 @@ jobs:
   personnel181:
     if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,8 +73,11 @@ jobs:
             /tmp/vertical176-qa/
             /tmp/vertical175-qa/
           retention-days: 14
-      - name: Complete project checks
-        if: ${{ !cancelled() }}
+      # PRs have the complete native inventory plus endurance in DEADWALL CI / native.
+      # Do not repeat that entire suite inside the focused personnel job's timeout.
+      # Direct feature-branch pushes still run their historical complete check here.
+      - name: Complete project checks on direct feature-branch pushes
+        if: ${{ !cancelled() && github.event_name != 'pull_request' }}
         run: npm run check > /tmp/vertical181-qa/full-check.log 2>&1
       - name: Preserve complete evidence
         if: always()

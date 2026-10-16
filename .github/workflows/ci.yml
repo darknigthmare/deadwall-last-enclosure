@@ -2,60 +2,82 @@ name: DEADWALL CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: deadwall-ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  native:
+  native-shard:
+    name: native shard / ${{ matrix.shard }}
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-      - name: Installer les dépendances de développement
+      - name: Installer les dépendances verrouillées
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
-      - name: Vérification complète avec endurance
+      - name: Syntaxe, build et partition native exhaustive avec endurance
         env:
           DEADWALL_SOAK: '1'
-        shell: bash
-        run: |
-          set -o pipefail
-          mkdir -p artifacts/qa/native
-          node scripts/ci-native-receipt160.mjs start --label ci-native160 --directory artifacts/qa/native
-          if npm run check 2>&1 | tee artifacts/qa/native/ci-native160.log; then
-            native_pipeline=("${PIPESTATUS[@]}")
-          else
-            native_pipeline=("${PIPESTATUS[@]}")
-          fi
-          check_status="${native_pipeline[0]}"
-          tee_status="${native_pipeline[1]}"
-          receipt_status=0
-          if node scripts/ci-native-receipt160.mjs finish --label ci-native160 --directory artifacts/qa/native --exit-code "$check_status" --tee-exit-code "$tee_status"; then
-            receipt_status=0
-          else
-            receipt_status=$?
-          fi
-          if [ "$check_status" -ne 0 ]; then exit "$check_status"; fi
-          if [ "$tee_status" -ne 0 ]; then exit "$tee_status"; fi
-          exit "$receipt_status"
+        run: node scripts/ci-native186.mjs run ${{ matrix.shard }} artifacts/qa/native186
       - name: Résumer les échecs natifs
         if: failure()
         run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
-      - name: Conserver le journal natif
+      - name: Conserver les journaux et empreintes de la partition
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: deadwall-native-qa-attempt-${{ github.run_attempt }}
-          path: artifacts/qa/
-          if-no-files-found: warn
+          name: deadwall-native186-shard-${{ matrix.shard }}
+          path: artifacts/qa/native186/
+          if-no-files-found: error
+          overwrite: true
+
+  native:
+    needs: [native-shard]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Refuser une partition absente, ignorée ou échouée
+        env:
+          SHARD_RESULT: ${{ needs['native-shard'].result }}
+        run: node -e 'if(process.env.SHARD_RESULT !== "success") process.exit(1)'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: deadwall-native186-shard-*
+          path: artifacts/native186-input
+      - name: Vérifier chaque journal et la couverture exacte de tous les fichiers
+        run: node scripts/ci-native186.mjs aggregate artifacts/native186-input artifacts/qa/native186/aggregate.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-native186-aggregate
+          path: artifacts/qa/native186/
+          if-no-files-found: error
 
   browser:
     name: browser / ${{ matrix.group }}
