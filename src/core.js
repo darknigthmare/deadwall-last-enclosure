@@ -1945,6 +1945,7 @@ post('tripod','Affût automatique léger',2,34,3.2,19,60,8,{wood:12,scrap:65},16
 post('heavyNest','Nid de tir lourd',3,66,1.8,28,48,12,{wood:20,scrap:95,stone:15},250,.22,2);
 post('boltNest','Lance-traits de défense',1,65,.48,12,20,6,{wood:28,scrap:30},140,.35,1);
 post('spikeFrame','Chevalet à pointes',0,50,.65,1.4,0,5,{wood:18,scrap:9},115,1.5,0);
+for(const item of list)if(['knife','machete'].includes(item.id))item.workBonuses={...(item.workBonuses||{}),butcher:1.2};
 C.Arsenal134Rules=Object.freeze({version:1,carryKg:22,maxItems:512,maxPosts:32,homeReach:105,danger:135,deployDistance:62,postRadius:17,maxStep:.1,repairFraction:.42,craftSeconds:4,repairSeconds:3,postReach:100,meleeStagger:.3,buttRange:1.72,buttArc:1.15,buttCooldown:.65,toolWear:.12,toolBonuses:{wood:{id:'hatchet',factor:1.25},stone:{id:'pickaxe',factor:1.25},scrap:{id:'crowbar',factor:1.2},barricade:{id:'hammer',factor:1.25},dismantle:{id:'crowbar',factor:1.2},lock:{id:'crowbar',factor:1.2},repair:{id:'hammer',factor:1.25}},legacy:['pistol','rifle','shotgun'],catalog:Object.freeze(Object.fromEntries(list.map(w=>[w.id,Object.freeze(w)])))});
 })(globalThis);
 
@@ -3247,4 +3248,28 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
     }
   }
 });
+})(globalThis);
+
+/* Finite hunting and bank fishing. Abstract food units, not kilograms of meat. */
+(function(root){'use strict';const C=root.DeadwallCore||(typeof require==='function'?module.exports:null);
+C.WildlifeHarvest190Rules=Object.freeze({version:1,reach:2.2,castReach:7,moveTolerance:.35,dangerRange:8,maxStep:.1,
+  baseSeconds:4,secondsPerUnit:.65,fishSeconds:10,portion:4,maxRecords:24000,noise:6,noiseInterval:2,
+  fishingCost:Object.freeze({wood:1,scrap:1,food:.5}),knives:Object.freeze(['knife','machete']),
+  yields:Object.freeze({roeDeer:16,boar:14,hare:3,duck:2,heron:0,gull:0,fox:0,badger:0,rabbit:2,squirrel:1,hedgehog:0,chamois:12,mouflon:12,redDeer:22,crow:0,pigeon:1,pheasant:2,partridge:1,owl:0,bat:0,otter:0,beaver:0,frog:0,trout:3,carp:4,mullet:3})});
+})(globalThis);
+
+/* Regional husbandry: game-time units and local stocks, no remote depot rewards. */
+(function(root){'use strict';const C=root.DeadwallCore||(typeof require==='function'?module.exports:null);
+C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,penCapacity:4,stockCapacity:40,
+ reach:2.2,captureReach:2.2,capturePenReach:5,placementDistance:3.4,spacing:4,maxStep:.1,health:100,
+ penCost:Object.freeze({wood:10,scrap:6}),captureCost:Object.freeze({scrap:1,food:1}),feedPortion:4,waterPortion:6,
+ buildSeconds:8,captureSeconds:6,waterSeconds:6,slaughterSeconds:9,cookSeconds:8,tanSeconds:12,
+ foodPerSecond:.002,waterPerSecond:.004,starveDamage:.05,matureSeconds:900,breedSeconds:900,
+ birthFood:2,birthWater:4,cookPortion:4,cookFuel:.5,tanFuel:.5,tanWater:2,hideLife:1800,meatLife:900,
+ moveTolerance:.35,dangerRange:8,noise:6,noiseInterval:2,penContactDamage:3,attackReach:1.15,attackDamage:4,
+ predatorRange:10,predatorSpeed:2.5,predatorCooldown:1.5,boarReach:1.3,boarDamage:5,boarCooldown:2.5,
+ soundInterval:5,soundRange:28,soundVolume:.015,
+ captive:Object.freeze({rabbit:Object.freeze({breed:true,meat:2,hides:1}),duck:Object.freeze({breed:true,meat:2,hides:0}),
+ hare:Object.freeze({breed:false,meat:3,hides:1}),pheasant:Object.freeze({breed:false,meat:2,hides:0}),partridge:Object.freeze({breed:false,meat:1,hides:0})}),
+ prey:Object.freeze({fox:Object.freeze(['rabbit','hare','squirrel']),owl:Object.freeze(['rabbit','squirrel'])})});
 })(globalThis);

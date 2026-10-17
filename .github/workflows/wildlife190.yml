@@ -1,0 +1,51 @@
+name: Finite hunting and shore fishing 190
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'sw.js'
+      - 'scripts/*190*'
+      - 'tests/*190*'
+      - 'tests/helpers/wildlife190.cjs'
+      - '.github/workflows/wildlife190.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: wildlife190-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Finite transactions, native projectiles and historical Guide
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/wildlife190
+          git rev-parse HEAD > artifacts/qa/wildlife190/commit.txt
+          node --test --test-concurrency=2 tests/audit190-*.test.cjs tests/world-codex.test.cjs tests/routes-codex133.test.cjs tests/codex-actions159.test.cjs tests/arsenal134.test.cjs tests/visibility146.test.cjs 2>&1 | tee artifacts/qa/wildlife190/contracts.log
+      - run: npx playwright install --with-deps chromium
+      - name: Actual desktop and touch controls on dist
+        run: node scripts/browser-wildlife190.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wildlife190-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

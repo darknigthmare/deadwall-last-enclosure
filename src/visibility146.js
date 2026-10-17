@@ -193,9 +193,9 @@
         }
         return false;
       }
-      function seen(enemy, domain) {
+      function seen(enemy, domain, requireAlive = true) {
         metrics.queries++;
-        if (capturedRevision !== revision || capturedElapsed !== g.elapsed || world !== g.world || player !== g.player || !finite(enemy) || !alive(enemy)) return false;
+        if (capturedRevision !== revision || capturedElapsed !== g.elapsed || world !== g.world || player !== g.player || !finite(enemy) || requireAlive && !alive(enemy)) return false;
         const q = domain === 'local' ? regionalPoint(enemy) : enemy;
         const floorAltitude = domain === 'local' ? altitude(enemy) : 0;
         const targetEye = domain === 'local' && vertical?.aimPoint ? vertical.aimPoint(enemy).z - floorAltitude : .9;
@@ -219,7 +219,7 @@
       }
       const snapshot = () => ({ ...metrics, ambient, blackout, rememberedContacts: 0 });
       last = snapshot;
-      return Object.freeze({ canSeeLocal: enemy => seen(enemy, 'local'), canSeeRegional: enemy => seen(enemy, 'region'), snapshot });
+      return Object.freeze({ canSeeLocal: enemy => seen(enemy, 'local'), canSeeRegional: enemy => seen(enemy, 'region'), canSeeRegionalPoint: point => seen(point, 'region', false), snapshot });
     }
 
     const api = Object.freeze({ frame, canSeeLocal: enemy => frame().canSeeLocal(enemy), canSeeRegional: enemy => frame().canSeeRegional(enemy),

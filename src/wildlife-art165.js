@@ -46,21 +46,36 @@
   }
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
- function drawAnimal(c,a,{reducedMotion=false}={}){
-  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion})||false;
-  if(!a||!SPECIES.includes(a.species)||!finite(a)||(a.hp??a.health??0)<=0)return false;
+ function drawAnimal(c,a,{reducedMotion=false,corpse=false}={}){
+  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
+  if(!a||!SPECIES.includes(a.species)||!finite(a)||!corpse&&(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;
-  const v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,phase=a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0;
-  c.save();try{c.translate(a.x,a.y);c.rotate(a.a||0);oval(c,-l*.035,w*.065,l*.40,w*.31,'rgba(18,30,23,.20)');
+  const v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,phase=!corpse&&a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0;
+  c.save();try{if(corpse)c.globalAlpha*=.62;c.translate(a.x,a.y);c.rotate(a.a||0);oval(c,-l*.035,w*.065,l*.40,w*.31,'rgba(18,30,23,.20)');
    if(['roeDeer','boar','hare'].includes(a.species))quadruped(c,a.species,l,w,v,phase);else bird(c,a.species,l,w,v,phase);
   }finally{c.restore();}return true;
  }
  function contacts(g){const list=g?.frontier?.wildlife165?.();return Array.isArray(list)?list:[];}
  function observed(g,v,vision){return v?.z===0?contacts(g).filter(a=>finite(a)&&(a.hp??a.health??0)>0&&(a.z??0)===0&&vision?.canSeeRegional(a)):[];}
+ function drawHarvest(c,work){
+  if(work?.kind!=='fish'||!finite(work)||!finite(work.target))return false;
+  const dx=work.target.x-work.x,dy=work.target.y-work.y,d=Math.hypot(dx,dy);if(d<.001||d>8)return false;
+  const end={x:work.x+dx/d*.7,y:work.y+dy/d*.7};
+  c.save();try{
+   line(c,[[work.x,work.y],[end.x,end.y]],'#a88d59',.075);
+   c.strokeStyle='#d3d7bc';c.lineWidth=.025;c.beginPath();c.moveTo(end.x,end.y);
+   c.quadraticCurveTo((end.x+work.target.x)/2,(end.y+work.target.y)/2+.18,work.target.x,work.target.y);c.stroke();
+   oval(c,work.target.x,work.target.y,.075,.075,'#be7050');
+  }finally{c.restore();}return true;
+ }
  function depthEntries(g,v,view){const vision=g.visibility?.frame?.(),l=view.l??view.left,r=view.r??view.right,t=view.t??view.top,b=view.b??view.bottom;
-  return observed(g,v,vision).filter(a=>a.x+(a.length||2)>=l&&a.x-(a.length||2)<=r&&a.y+(a.length||2)>=t&&a.y-(a.length||2)<=b).map(a=>({kind:'wildlife165',id:a.id,depth:a.y,draw:c=>drawAnimal(c,a,{reducedMotion:!!g.settings?.reducedMotion})}));
+  const remains=v?.z===0?(g.wildHarvest190?.remains?.(145)||[]).filter(a=>vision?.canSeeRegionalPoint?.(a)):[];
+  const entries=[...observed(g,v,vision),...remains].filter(a=>a.x+(a.length||2)>=l&&a.x-(a.length||2)<=r&&a.y+(a.length||2)>=t&&a.y-(a.length||2)<=b).map(a=>({kind:'wildlife165',id:a.id,depth:a.y,draw:c=>drawAnimal(c,a,{reducedMotion:!!g.settings?.reducedMotion,corpse:a.hp===0})}));
+  const work=g.wildHarvest190?.presentation?.();
+  if(v?.z===0&&work&&vision?.canSeeRegionalPoint?.(work.target))entries.push({kind:'wildlife190-line',id:work.id,depth:Math.max(work.y,work.target.y)+.01,draw:c=>drawHarvest(c,work)});
+  return entries;
  }
  function map(c,g,v,cam,vision){let count=0;c.save();try{for(const a of observed(g,v,vision)){const q=cam.screen(a.x,a.y);if(q.x<-4||q.y<-4||q.x>cam.width+4||q.y>cam.height+4)continue;c.fillStyle='#c2b895';c.beginPath();c.moveTo(q.x,q.y-2.5);c.lineTo(q.x+2.5,q.y);c.lineTo(q.x,q.y+2.5);c.lineTo(q.x-2.5,q.y);c.closePath();c.fill();count++;}}finally{c.restore();}return count;}
- return Object.freeze({SPECIES,COLOURS,drawAnimal,depthEntries,observed,map});
+ return Object.freeze({SPECIES,COLOURS,drawAnimal,drawHarvest,depthEntries,observed,map});
 });

@@ -36,7 +36,9 @@ test('routes 1.33 : guide raccordé, recherche sans accents et projets masqués 
   const waterEntries=require('../src/hydrology-codex165.js').entries(),waterIds=new Set(waterEntries.map(e=>e.id));
   assert.deepEqual([...waterIds].sort(),['lake','pond','pool','stream','river','sea','ocean','banks','wildlife','infected'].map(id=>'hydrology165-'+id).sort());
   for(const entry of waterEntries)assert.deepEqual(C.entries.find(e=>e.id===entry.id),entry);
-  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)&&!ecologyIds.has(e.id)&&!waterIds.has(e.id));
+  const faunaEntries=require('../src/ecology-codex189.js').entries(),faunaIds=new Set(faunaEntries.map(e=>e.id));
+  assert.equal(faunaIds.size,43);for(const e of faunaEntries)assert.deepEqual(C.entries.find(x=>x.id===e.id),e);
+  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)&&!ecologyIds.has(e.id)&&!waterIds.has(e.id)&&!faunaIds.has(e.id));
   assert.equal(historicalAndCity.length,215+cityEntries.length);
   assert.equal(historicalAndCity.filter(e=>!cityIds.has(e.id)).length,215);assert.equal(C.query({text:'routes',status:'terrain'}).filter(e=>e.id.startsWith('road133-')).length,3);
   for(const word of['autoroute','tunnel','échangeur','giratoire','chemin'])assert.ok(C.query({text:'routes '+word,status:'plan'}).length,word);

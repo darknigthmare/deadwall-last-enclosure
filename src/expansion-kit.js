@@ -23,7 +23,7 @@ function install(g){
  const ownValidators=()=>new Map([...registry].map(([id,d])=>[id,d.validate]));
  const canAct=()=>g.state==='playing'&&!g.gameOver&&!!g.player&&!g.player.dead&&g.player.health>0&&g.canIssueCommand()&&(!g.activeOverlay||g.activeOverlay===g.ui.commandModal);
  function register(d){
-  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160','vertical175'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
+  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160','vertical175','wildlife190','husbandry191'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
   d.validate(undefined);registry.set(d.id,Object.freeze({...d}));known.set(d.id,d.validate);return true;
  }
  function snapshot(){const modules={};for(const [id,d]of registry)modules[id]=copy(d.snapshot());return{version:1,modules};}

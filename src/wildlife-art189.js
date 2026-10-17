@@ -2,13 +2,13 @@
 (function(root){'use strict';
  const oval=(c,x,y,rx,ry,color)=>{c.fillStyle=color;c.beginPath();c.ellipse(x,y,Math.max(.001,rx),Math.max(.001,ry),0,0,Math.PI*2);c.fill();};
  const path=(c,points,color,width=0)=>{c.beginPath();points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));if(width){c.strokeStyle=color;c.lineWidth=width;c.stroke();}else{c.closePath();c.fillStyle=color;c.fill();}};
- function draw(c,a,{reducedMotion=false}={}){
+ function draw(c,a,{reducedMotion=false,corpse=false}={}){
   const R=root.DeadwallCore?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
-  if(!d||!a.id?.startsWith('A189_')||![a.x,a.y,a.a??0].every(Number.isFinite)||(a.hp??0)<=0)return false;
+  if(!d||!(a.id?.startsWith('A189_')||/^B191_[1-9]\d*$/.test(a.id||''))||![a.x,a.y,a.a??0].every(Number.isFinite)||!corpse&&(a.hp??0)<=0)return false;
   const l=d.length,w=d.width,v=(a.variant||0)%4,colors=d.colors||root.DeadwallWildlifeArt165?.COLOURS[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
-  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=d.mode==='air'&&a.moving;
+  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=!corpse&&a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=!corpse&&d.mode==='air'&&a.moving;
   c.save();try{
-   c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
+   if(corpse)c.globalAlpha*=.62;c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
    if(d.shape==='fish'){
     oval(c,0,0,l*.36,w*.45,fur);path(c,[[-l*.26,0],[-l*.5,-w*(.5+s*.14)],[-l*.5,w*(.5-s*.14)]],dark);
     path(c,[[0,0],[-l*.09,-w*.75],[l*.1,-w*.21]],fur);oval(c,l*.24,-w*.12,l*.025,w*.04,dark);

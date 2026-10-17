@@ -1,0 +1,51 @@
+name: Physical husbandry and products 191
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'sw.js'
+      - 'scripts/*191*'
+      - 'tests/*191*'
+      - 'tests/helpers/*19*.cjs'
+      - '.github/workflows/husbandry191.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: husbandry191-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  husbandry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Native custody, finite production and behavior contracts
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/husbandry191
+          git rev-parse HEAD > artifacts/qa/husbandry191/commit.txt
+          node --test --test-concurrency=2 tests/audit191-*.test.cjs tests/audit190-contracts.test.cjs 2>&1 | tee artifacts/qa/husbandry191/contracts.log
+      - run: npx playwright install --with-deps chromium
+      - name: Actual operation controls on dist with declared deterministic fixture timing
+        run: node scripts/browser-husbandry191.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: husbandry191-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

@@ -102,13 +102,13 @@
 (function(root){'use strict';
  const oval=(c,x,y,rx,ry,color)=>{c.fillStyle=color;c.beginPath();c.ellipse(x,y,Math.max(.001,rx),Math.max(.001,ry),0,0,Math.PI*2);c.fill();};
  const path=(c,points,color,width=0)=>{c.beginPath();points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));if(width){c.strokeStyle=color;c.lineWidth=width;c.stroke();}else{c.closePath();c.fillStyle=color;c.fill();}};
- function draw(c,a,{reducedMotion=false}={}){
+ function draw(c,a,{reducedMotion=false,corpse=false}={}){
   const R=root.DeadwallCore?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
-  if(!d||!a.id?.startsWith('A189_')||![a.x,a.y,a.a??0].every(Number.isFinite)||(a.hp??0)<=0)return false;
+  if(!d||!(a.id?.startsWith('A189_')||/^B191_[1-9]\d*$/.test(a.id||''))||![a.x,a.y,a.a??0].every(Number.isFinite)||!corpse&&(a.hp??0)<=0)return false;
   const l=d.length,w=d.width,v=(a.variant||0)%4,colors=d.colors||root.DeadwallWildlifeArt165?.COLOURS[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
-  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=d.mode==='air'&&a.moving;
+  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=!corpse&&a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=!corpse&&d.mode==='air'&&a.moving;
   c.save();try{
-   c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
+   if(corpse)c.globalAlpha*=.62;c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
    if(d.shape==='fish'){
     oval(c,0,0,l*.36,w*.45,fur);path(c,[[-l*.26,0],[-l*.5,-w*(.5+s*.14)],[-l*.5,w*(.5-s*.14)]],dark);
     path(c,[[0,0],[-l*.09,-w*.75],[l*.1,-w*.21]],fur);oval(c,l*.24,-w*.12,l*.025,w*.04,dark);
@@ -143,13 +143,13 @@
  const api=Object.freeze({draw});root.DeadwallWildlifeArt189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
 
-/* Live field guide, explicitly separating implemented wildlife from future hunting. */
+/* Live field guide, explicitly separating implemented harvests from future capture and breeding. */
 (function(root){'use strict';
  function entries(){const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),R=C.Landscape189Rules,all=W.species();
   const modes={land:'Déplacement terrestre ; obstacles et berges bloquantes.',air:'Vol bas animé ; traverse les eaux naturelles mais conserve les obstacles solides. Pas de navigation 3D au-dessus des toitures.',swim:'Nage limitée aux eaux naturelles compatibles. Aucun franchissement de terre ou de pont.',amphibious:'Nage et déplacement sur la berge proche, en eau douce uniquement.'};
   const cycle={day:'diurne',night:'nocturne',crepuscular:'crépusculaire'};
-  const common={family:'nature',status:'jouable',source:'Profils de nouvelles cartes189. DeadwallCore.Landscape189Rules ; portraits procéduraux originaux.',supplies:'Aucune ressource automatique : chasse, pêche, dépeçage, capture et élevage ne sont pas encore raccordés.',night:'La visibilité reste celle des alliés, des lampes et des obstacles. Le cycle change l’activité, pas les apparitions déjà enregistrées.',qa:'Même graine et même profil : mêmes origines, espèces et groupes. Blessures et morts persistent après reprise.',risks:'Faune non agressive dans cette passe. Elle fuit les menaces perçues et le bruit. Pas de bonus de horde ou de ravitaillement.'};
-  const list=Object.values(all).map(d=>({...common,id:'fauna189-'+d.id,title:d.name+' · faune régionale',summary:'Activité '+cycle[d.activity]+'. Groupes de '+d.group+' individus au maximum, admis selon les obstacles ; aucun quota garanti.',layout:'Gabarit de jeu '+d.length+' × '+d.width+' m. Vitesse de fuite '+d.speed+' m/s. '+modes[d.mode],access:d.water==='land'?'Répartition pondérée dans les biomes compatibles.':'Eau '+(d.water==='salt'?'salée':'douce')+' et habitat vérifiés sur la géométrie réelle.',variants:'Quatre robes ou plumages. Repos, déplacement et fuite ; animation réduite respectée.',interactions:'Milieux, heure, bruit, obstacles, observation et persistance.'}));
+  const common={family:'nature',status:'jouable',source:'Profils de nouvelles cartes189. DeadwallCore.Landscape189Rules ; portraits procéduraux originaux.',supplies:'Récoltes sauvages : gibier mort préparé au couteau, poissons capturés à la ligne depuis une berge. Nourriture portée, finie et à déposer ; capture vivante et élevage non raccordés.',night:'La visibilité reste celle des alliés, des lampes et des obstacles. Le cycle change l’activité, pas les apparitions déjà enregistrées.',qa:'Même graine et même profil : mêmes origines, espèces et groupes. Blessures et morts persistent après reprise.',interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac limité et persistance des récoltes.',risks:'Faune non agressive. Préparer une prise immobilise le commandant ; mouvement, blessure ou menace interrompent le travail. Le matériel de pêche engagé reste consommé. Aucun bonus de horde.'};
+  const list=Object.values(all).map(d=>({...common,id:'fauna189-'+d.id,title:d.name+' · faune régionale',summary:'Activité '+cycle[d.activity]+'. Groupes de '+d.group+' individus au maximum, admis selon les obstacles ; aucun quota garanti.',layout:'Gabarit de jeu '+d.length+' × '+d.width+' m. Vitesse de fuite '+d.speed+' m/s. '+modes[d.mode],access:d.water==='land'?'Répartition pondérée dans les biomes compatibles.':'Eau '+(d.water==='salt'?'salée':'douce')+' et habitat vérifiés sur la géométrie réelle.',variants:'Quatre robes ou plumages. Repos, déplacement et fuite ; animation réduite respectée.',supplies:(C.WildlifeHarvest190Rules?.yields[d.id]||0)>0?'Récolte finie de '+C.WildlifeHarvest190Rules.yields[d.id]+' provisions au maximum. '+(d.mode==='swim'?'Pêche de fortune depuis une berge, avec matériel et appât transportés.':'Dépouille préparée avec un couteau ou une machette équipé. Aucune peau ou viande brute distincte.'):'Observation seulement : aucune provision récoltable pour cette espèce.',interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac et persistance.'}));
   for(const [id,guild]of Object.entries(R.guilds)){const name=[...C.BiomeRules135.defs,...C.EcologyRules164.defs].find(d=>d.id===id)?.name||id;list.push({...common,id:'fauna189-biome-'+id,title:name+' · peuplement',summary:Object.keys(guild).map(k=>all[k].name).join(' · '),layout:'Les groupes dépendent de la graine ; voies et parcelles sont exclues. La faune aquatique dépend en plus des eaux réellement présentes.',access:'Nouveaux profils Régions naturelles, Grands biomes ou Mosaïque naturelle. Les anciennes campagnes conservent leurs six espèces et leur terrain.',variants:'Alternance d’activité, de groupes et de petites zones de repos, sans renouvellement des morts.'});}
   list.push({...common,id:'landscape189-profiles',family:'systemes',title:'Graine, grands biomes et mosaïque naturelle',summary:'Une graine numérique et un profil définissent ensemble le monde. Laisser la graine vide en tire une nouvelle ; conserver les deux permet de rejouer le même terrain.',layout:'Température, humidité et relief écologique continus à plusieurs échelles, déformés et orientés selon la graine. Les transitions ne suivent pas la grille de chargement.',access:'Choix dans Nouvelle partie. Continuer conserve le profil enregistré. Les anciennes cartes ne sont jamais converties automatiquement.',variants:'Régions naturelles · Grands biomes · Mosaïque naturelle · Paysage historique.',risks:'Inspiration de principes de génération, pas copie du moteur Minecraft. Région finie et relief écologique, pas terrain voxel ou montagne 3D.'});
   return Object.freeze(list.map(Object.freeze));
@@ -430,23 +430,38 @@
   }
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
- function drawAnimal(c,a,{reducedMotion=false}={}){
-  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion})||false;
-  if(!a||!SPECIES.includes(a.species)||!finite(a)||(a.hp??a.health??0)<=0)return false;
+ function drawAnimal(c,a,{reducedMotion=false,corpse=false}={}){
+  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion,corpse})||false;
+  if(!a||!SPECIES.includes(a.species)||!finite(a)||!corpse&&(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;
-  const v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,phase=a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0;
-  c.save();try{c.translate(a.x,a.y);c.rotate(a.a||0);oval(c,-l*.035,w*.065,l*.40,w*.31,'rgba(18,30,23,.20)');
+  const v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,phase=!corpse&&a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0;
+  c.save();try{if(corpse)c.globalAlpha*=.62;c.translate(a.x,a.y);c.rotate(a.a||0);oval(c,-l*.035,w*.065,l*.40,w*.31,'rgba(18,30,23,.20)');
    if(['roeDeer','boar','hare'].includes(a.species))quadruped(c,a.species,l,w,v,phase);else bird(c,a.species,l,w,v,phase);
   }finally{c.restore();}return true;
  }
  function contacts(g){const list=g?.frontier?.wildlife165?.();return Array.isArray(list)?list:[];}
  function observed(g,v,vision){return v?.z===0?contacts(g).filter(a=>finite(a)&&(a.hp??a.health??0)>0&&(a.z??0)===0&&vision?.canSeeRegional(a)):[];}
+ function drawHarvest(c,work){
+  if(work?.kind!=='fish'||!finite(work)||!finite(work.target))return false;
+  const dx=work.target.x-work.x,dy=work.target.y-work.y,d=Math.hypot(dx,dy);if(d<.001||d>8)return false;
+  const end={x:work.x+dx/d*.7,y:work.y+dy/d*.7};
+  c.save();try{
+   line(c,[[work.x,work.y],[end.x,end.y]],'#a88d59',.075);
+   c.strokeStyle='#d3d7bc';c.lineWidth=.025;c.beginPath();c.moveTo(end.x,end.y);
+   c.quadraticCurveTo((end.x+work.target.x)/2,(end.y+work.target.y)/2+.18,work.target.x,work.target.y);c.stroke();
+   oval(c,work.target.x,work.target.y,.075,.075,'#be7050');
+  }finally{c.restore();}return true;
+ }
  function depthEntries(g,v,view){const vision=g.visibility?.frame?.(),l=view.l??view.left,r=view.r??view.right,t=view.t??view.top,b=view.b??view.bottom;
-  return observed(g,v,vision).filter(a=>a.x+(a.length||2)>=l&&a.x-(a.length||2)<=r&&a.y+(a.length||2)>=t&&a.y-(a.length||2)<=b).map(a=>({kind:'wildlife165',id:a.id,depth:a.y,draw:c=>drawAnimal(c,a,{reducedMotion:!!g.settings?.reducedMotion})}));
+  const remains=v?.z===0?(g.wildHarvest190?.remains?.(145)||[]).filter(a=>vision?.canSeeRegionalPoint?.(a)):[];
+  const entries=[...observed(g,v,vision),...remains].filter(a=>a.x+(a.length||2)>=l&&a.x-(a.length||2)<=r&&a.y+(a.length||2)>=t&&a.y-(a.length||2)<=b).map(a=>({kind:'wildlife165',id:a.id,depth:a.y,draw:c=>drawAnimal(c,a,{reducedMotion:!!g.settings?.reducedMotion,corpse:a.hp===0})}));
+  const work=g.wildHarvest190?.presentation?.();
+  if(v?.z===0&&work&&vision?.canSeeRegionalPoint?.(work.target))entries.push({kind:'wildlife190-line',id:work.id,depth:Math.max(work.y,work.target.y)+.01,draw:c=>drawHarvest(c,work)});
+  return entries;
  }
  function map(c,g,v,cam,vision){let count=0;c.save();try{for(const a of observed(g,v,vision)){const q=cam.screen(a.x,a.y);if(q.x<-4||q.y<-4||q.x>cam.width+4||q.y>cam.height+4)continue;c.fillStyle='#c2b895';c.beginPath();c.moveTo(q.x,q.y-2.5);c.lineTo(q.x+2.5,q.y);c.lineTo(q.x,q.y+2.5);c.lineTo(q.x-2.5,q.y);c.closePath();c.fill();count++;}}finally{c.restore();}return count;}
- return Object.freeze({SPECIES,COLOURS,drawAnimal,depthEntries,observed,map});
+ return Object.freeze({SPECIES,COLOURS,drawAnimal,drawHarvest,depthEntries,observed,map});
 });
 
 /* Loaded with the data bundle before Core; entries are resolved after Core is ready. */
