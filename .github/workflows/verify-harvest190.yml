@@ -1,0 +1,98 @@
+name: Verify exact wildlife harvest 190 candidate
+on:
+  push:
+    branches: [codex/verify-harvest190-20261017]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 72cf384b61f27da6c926415931eec8467abc043e
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Apply only checksum-verified reviewed source changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/verify-harvest190-20261017'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='72cf384b61f27da6c926415931eec8467abc043e'
+          def blob(b): return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          ids='a7f986f38d5549cd052ab8d3c2240f76d31c69dc e91637faf27a56bd201cc0c6276ca4b141e88bae 9988c5d9996db7c658e2592da415574aab36af35 7b3ac3c41324da7e9af72cd1503e8b58b2f7ecdb 2fd149067534e46334080eb2476c6fb93072ed68 f5410d2a62a5e1f3f1703f2fb7348f6b484e33a9 38f2faa05c0d4fd08788ebb15873658c18bb07f9 8e4962134b35904fb333995675a1df61a8a45b53 575d36ec8ac5262d27e1513548bec1031666b81e'.split()
+          parts=[]
+          for sha in ids:
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs/'+sha,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req,timeout=45) as response: row=json.load(response)
+              data=base64.b64decode(row['content']);assert blob(data)==sha;parts.append(data)
+          payload=zlib.decompress(base64.b64decode(b''.join(parts),validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='7334892bf1580341d6c6a949780fbcafb8265c3cd39049fa55444af266f8ef55'
+          delta=json.loads(payload);names=[]
+          for row in delta['files']:
+              name=row['path'];p=pathlib.Path(name)
+              assert not p.is_absolute() and '..' not in p.parts and name not in names
+              source=p.read_bytes() if p.exists() else b''
+              if row['before'] is None: assert not p.exists()
+              else: assert blob(source)==row['before'],name
+              for a,b,text in reversed(row['edits']):
+                  assert 0<=a<=b<=len(source)
+                  source=source[:a]+text.encode()+source[b:]
+              assert blob(source)==row['after'],name
+              p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(source);names.append(name)
+          subprocess.run(['node','scripts/compile-codex3000.mjs'],check=True)
+          assert blob(pathlib.Path('src/codex3000-live-data.js').read_bytes())==delta['bundle']
+          names.append('src/codex3000-live-data.js')
+          subprocess.run(['git','add','--',*names],check=True)
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          tree=subprocess.check_output(['git','write-tree'],text=True).strip()
+          assert tree=='7b84b4ae88a41a50d5fe9b5574505cda19885662',tree
+          out=pathlib.Path('artifacts/qa/harvest190');out.mkdir(parents=True,exist_ok=True)
+          (out/'source-receipt.json').write_text(json.dumps({'base':'72cf384b61f27da6c926415931eec8467abc043e','tree':tree,'files':names},indent=2))
+          print('Reviewed tree verified:',tree)
+          PY
+      - run: npm ci
+      - run: npm run build
+      - name: Finite transactions, Guide and manifest regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-syntax134.mjs | tee artifacts/qa/harvest190/syntax.log
+          node --test --test-concurrency=2 tests/audit190-*.test.cjs tests/world-codex.test.cjs tests/codex-actions159.test.cjs tests/routes-codex133.test.cjs tests/audit183-manifest.test.cjs 2>&1 | tee artifacts/qa/harvest190/contracts.log
+      - run: npx playwright install --with-deps chromium
+      - name: Actual native controls, wildlife simulation and saves on dist
+        run: node scripts/browser-harvest190.mjs
+      - name: Export verified Git blobs without moving any branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,urllib.request
+          root=pathlib.Path('artifacts/qa/harvest190');receipt=json.loads((root/'source-receipt.json').read_text());entries=[]
+          for name in receipt['files']:
+              data=pathlib.Path(name).read_bytes();sha=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs',data=json.dumps({'content':data.decode(),'encoding':'utf-8'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'},method='POST')
+              with urllib.request.urlopen(req,timeout=45) as response: result=json.load(response)
+              assert result['sha']==sha
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':sha})
+          assert subprocess.check_output(['git','write-tree'],text=True).strip()==receipt['tree']
+          (root/'git-blobs.json').write_text(json.dumps(entries,indent=2));print(json.dumps({'tree':receipt['tree'],'files':entries}))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: harvest190-candidate-proof
+          path: artifacts/qa/
+          retention-days: 7
+          if-no-files-found: error
