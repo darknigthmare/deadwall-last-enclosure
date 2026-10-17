@@ -1,0 +1,86 @@
+name: Verify exact ecology 189 source tree
+on:
+  push:
+    branches: [codex/transfer-ecology189-20261017]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 03b72fa1b95f7f11e57d5ee3348ae1ae21cbee5b
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify every byte and create only unreferenced Git objects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          assert os.environ['GITHUB_REPOSITORY'] == 'darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF'] == 'refs/heads/codex/transfer-ecology189-20261017'
+          root = pathlib.Path.cwd()
+          base = '03b72fa1b95f7f11e57d5ee3348ae1ae21cbee5b'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() == base
+          def git_blob(data): return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def api(path, data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+              body=None if data is None else json.dumps(data).encode()
+              if body is not None: headers['Content-Type']='application/json'
+              request=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=body,headers=headers,method='GET' if body is None else 'POST')
+              with urllib.request.urlopen(request,timeout=45) as response: return json.load(response)
+          ids='d1ec4f55feb530b1f029c20d56ccff22619d8d8d 60ad0a3d66e26440a181397d5b456e12418d1b1a 733e13028e7de0aa10185ac02e4c66d7aec0acb0 a6e873a5dfccf02eb59a796f70da5e82439b1469 7d6ab731c27fd1dc5e9f114a9f2231a7236f7716 ae528e9cd79ed5cc2de4fd422aa596510e6cb8b1 9f766dbb8c7f3e01dcc77d72fc0d68f874e326bd eec182cf65f2bf773d2a72b29b6e7b163bdde8f7 4b5553ddb41fae222dfeea9ec5311823e9d0e013 8642cea17bae4c352ea70c51c3912bc544e44e09 2099205298f4c583f37d5d657f0417e943abd365 f4c05df8c96c0d73c3746649f596584659019627 bb3dc128cb9cd87df545455a0f9ae42a49d794c8 94e6d21626c074cbb2c85ea30b472f60fdfedff5 8c036472d9ad5693d7db915a3b0bcbc97ae6dc2c 4c7f226d091fa20b1c388389a74d222aa2401d59 930931530e6ac708c686608d5e0c21fa0e6b39b4 bca6d50b535caa15cdc9d8bbe8cc55dee9095049 884b4ef30493f82f5029d9f2c3da3b793935f869 9411abb42942939b5ff444554135f0c119128106 03eaee4c4660d07195827ab5e5bc73544bf43fa5 b149b17ac45660527042e5a7273b26a4df587980 ae114c5d0f4b90b0af1a4127c11fcb5a6478ddec 06a16ab9fae1eef5fd16da6ad0009a99fa491a37 e284c07852ef1df80e454efed79ebb15f1724698 c1be72224fd12c1d4273787ee666263c24c6d5d7 536eda8b9b1cbd07d525bf95d3ae1bda6c1a1908 98396ec23aacb03a1885dae176afbf62cc7b558e 49de6fb2c3d455d3be9b6a247938add366a0fc34 ea1309230a0b1b1dc5f43f221dc64d38cab417a3 442dc7f3dfcf50b0fcf2cc874b6fb59733a6a996'.split()
+          pieces=[]
+          for sha in ids:
+              row=api('/git/blobs/'+sha)
+              assert row['encoding']=='base64'
+              data=base64.b64decode(row['content'])
+              assert git_blob(data)==sha
+              pieces.append(data)
+          payload=zlib.decompress(base64.b64decode(b''.join(pieces),validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='72c09b9b43c2e0e2e94ccf492f9eb8f178ad655a374dc40e49305a2caef3ed09'
+          delta=json.loads(payload)
+          paths=set()
+          for entry in delta['files']:
+              name=entry['path']; p=root/name
+              assert name not in paths and not pathlib.PurePosixPath(name).is_absolute() and '..' not in pathlib.PurePosixPath(name).parts
+              paths.add(name)
+              source=p.read_bytes() if p.exists() else b''
+              if entry['before'] is None: assert not p.exists()
+              else: assert git_blob(source)==entry['before'], name
+              for start,end,insert in reversed(entry['edits']):
+                  assert 0<=start<=end<=len(source)
+                  source=source[:start]+insert.encode()+source[end:]
+              assert git_blob(source)==entry['after'], name
+              p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(source)
+          subprocess.run(['node','scripts/compile-codex3000.mjs'],check=True)
+          bundle=root/'src/codex3000-live-data.js'
+          assert git_blob(bundle.read_bytes())==delta['bundle']
+          paths.add('src/codex3000-live-data.js')
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          assert set(changed)<=paths
+          subprocess.run(['git','diff','--check'],check=True)
+          elements=[]
+          for name in sorted(paths):
+              data=(root/name).read_bytes();sha=git_blob(data)
+              created=api('/git/blobs',{'content':data.decode(),'encoding':'utf-8'})
+              assert created['sha']==sha
+              elements.append({'path':name,'mode':'100644','type':'blob','sha':sha})
+          tree=api('/git/trees',{'base_tree':'ad0f024e0de15c18426b562434f39ae851bebe7c','tree':elements})
+          output=root/'artifacts/transfer189';output.mkdir(parents=True,exist_ok=True)
+          receipt={'base':base,'baseTree':'ad0f024e0de15c18426b562434f39ae851bebe7c','tree':tree['sha'],'files':elements,'scope':'Verified local source transfer only; no ref update, merge, deployment or claim of test success.'}
+          (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ecology189-verified-tree
+          path: artifacts/transfer189/
+          retention-days: 7
+          if-no-files-found: error
