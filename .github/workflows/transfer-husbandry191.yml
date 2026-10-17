@@ -1,0 +1,127 @@
+name: Verify husbandry 191 source transfer
+on:
+  push:
+    branches: [codex/transfer-husbandry191-20261017]
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 667de8bcf8a9d6252483aa82f6f13ce42f136458
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Restore only the individually verified source delta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          assert os.environ['GITHUB_REPOSITORY'] == 'darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF'] == 'refs/heads/codex/transfer-husbandry191-20261017'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip() == '667de8bcf8a9d6252483aa82f6f13ce42f136458'
+          def blob(data): return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def read(sha):
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs/'+sha,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              with urllib.request.urlopen(req,timeout=45) as response: row=json.load(response)
+              assert row['encoding']=='base64'
+              data=base64.b64decode(row['content']); assert blob(data)==sha
+              return data
+          pieces=[
+              ('9240b2c204b206358950058e39e70fac5d126dec',None,[]),
+              ('70e2a92fb038bdb0acb3c9b7fa7f59f78aeaa770',None,[]),
+              ('336002810493f5de36e76c424704a782a7fb39f0',None,[]),
+              ('5eea021d15c42c7800dffb3e2d6c3a4847d52048','bf1cf3a3dc02e342b53969a7a98b7e3fa3882f4f',[(b'wIPRGJJ1+1',b'wIPRGJ1+1')]),
+              ('97a2fd18c9105b0920f5baf8b2f3fc96bf6246b7',None,[]),
+              ('78cb7570e4b6ad7f323523214cec2202a8c60d6e','10c3aac78890f6dc566f731c1f9c2c90554c2f6e',[(b'V5yvN8cSUP',b'V5yvN8SUP')]),
+              ('4452f94e4bf9c67307ca648d5ee744eb89606e0a','e29a82989def78dccf3079408ceb9233810a9b5e',[(b'GPMYKP93',b'GPMKP93'),(b'vz1O/7nzG/',b'vz1O/7nG/')]),
+              ('f42a394b2e93b655923cb5fd66e888350f531512',None,[]),
+              ('6aebf47b5d993bb4737d3047c89615eb0cb4fa4a',None,[]),
+              ('e88a9e75d55245f561460f355949c4d22f0ac6e1',None,[])
+          ]
+          encoded=[]
+          for sha,expected,repairs in pieces:
+              data=read(sha)
+              for old,new in repairs:
+                  assert data.count(old)==1
+                  data=data.replace(old,new)
+              assert blob(data)==(expected or sha)
+              encoded.append(b''.join(data.split()))
+          compressed=base64.b64decode(b''.join(encoded),validate=True)
+          assert hashlib.sha256(compressed).hexdigest()=='42fc758bb50ef550881b403f98f7bd8de9845b4916e1506c278595b98d01b6f3'
+          payload=zlib.decompress(compressed)
+          assert hashlib.sha256(payload).hexdigest()=='a7a360061fcaaab24e194b5c489f4307e391b0dc61b0aacfff653c3855eb5e62'
+          delta=json.loads(payload); assert len(delta['files'])==31
+          root=pathlib.Path.cwd(); seen=set()
+          for entry in delta['files']:
+              name=entry['path']; relative=pathlib.PurePosixPath(name)
+              assert not relative.is_absolute() and '..' not in relative.parts and name not in seen
+              assert relative.parts[0] in ['src','scripts','tests','docs','.github','index.html','sw.js']
+              seen.add(name); p=root/name
+              assert not p.is_symlink()
+              if entry['before'] is None: assert not p.exists()
+              source=p.read_bytes() if p.exists() else b''
+              if entry['before'] is not None: assert blob(source)==entry['before'],name
+              for start,end,insert in reversed(entry['edits']):
+                  assert 0<=start<=end<=len(source)
+                  source=source[:start]+insert.encode()+source[end:]
+              assert blob(source)==entry['after'],name
+              p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(source)
+          # Preserve historical counts while including each of the two added entrypoints once.
+          p=root/'tests/audit183-manifest.test.cjs'; text=p.read_text()
+          replacements=[('assert.equal(scripts.length,166)','assert.equal(scripts.length,168)'),('assert.equal(new Set([...scripts,...styles]).size,190)','assert.equal(new Set([...scripts,...styles]).size,192)'),("const harvest=['src/wildlife-harvest190.js','src/wildlife-harvest190-ui.js'];","const harvest=['src/wildlife-harvest190.js','src/wildlife-harvest190-ui.js','src/husbandry191.js','src/husbandry191-art.js'];")]
+          for old,new in replacements:
+              assert text.count(old)==1
+              text=text.replace(old,new)
+          p.write_text(text); assert blob(p.read_bytes())=='b75d622a1479acb6700752c63398f4e9cc87cb91'
+          seen.add('src/codex3000-live-data.js')
+          pathlib.Path('/tmp/husbandry191-paths.json').write_text(json.dumps(sorted(seen)))
+          print('31 source files restored; every source delta verified.')
+          PY
+      - name: Rebuild and verify the exact final source tree without credentials
+        shell: bash
+        run: |
+          node scripts/compile-codex3000.mjs
+          node scripts/check-syntax134.mjs
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          data=pathlib.Path('src/codex3000-live-data.js').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()=='b1dd958508ad23f00cbeb79bfd8683bd6e8449a5'
+          paths=json.loads(pathlib.Path('/tmp/husbandry191-paths.json').read_text())
+          subprocess.run(['git','add','--',*paths],check=True)
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          tree=subprocess.check_output(['git','write-tree'],text=True).strip()
+          assert tree=='f79f899b40776c8ecbdf8d929e9bb4788577e0ca',tree
+          print('Verified cumulative source tree:',tree)
+          PY
+      - name: Publish unreferenced file objects only, never update a branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,urllib.request
+          paths=json.loads(pathlib.Path('/tmp/husbandry191-paths.json').read_text()); entries=[]
+          for name in paths:
+              data=pathlib.Path(name).read_bytes()
+              sha=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs',data=json.dumps({'content':data.decode(),'encoding':'utf-8'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'},method='POST')
+              with urllib.request.urlopen(req,timeout=90) as response: row=json.load(response)
+              assert row['sha']==sha,name
+              entries.append({'path':name,'mode':'100644','type':'blob','sha':sha})
+          out=pathlib.Path('artifacts/transfer191');out.mkdir(parents=True,exist_ok=True)
+          receipt={'base':'667de8bcf8a9d6252483aa82f6f13ce42f136458','baseTree':'b0381a3d8e751fae7e19209f95e5482838c14beb','tree':'f79f899b40776c8ecbdf8d929e9bb4788577e0ca','files':entries,'scope':'Exact byte transfer, not a test or merge approval. No branch modified.'}
+          (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: husbandry191-source-receipt
+          path: artifacts/transfer191/
+          retention-days: 3
+          if-no-files-found: error
