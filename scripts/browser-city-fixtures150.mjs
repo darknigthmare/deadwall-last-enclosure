@@ -143,7 +143,7 @@ export function prepareConstruction150(request) {
   const { type, protectCore = false, preserveProtection = null } = typeof request === 'string' ? { type: request } : request;
   const g = DEADWALL, C = DeadwallCore, def = C.CityContent150.BUILDINGS[type];
   if (!g.paused || !def) throw Error('Paused new-model construction viewpoint required');
-  const protectedPoint = protectCore ? g.fieldcraft.service(g.player, g.core()) : null;
+  let protectedPoint = protectCore ? g.fieldcraft.service(g.player, g.core()) : null;
   if (protectCore && (!protectedPoint || !g.friendlyPositionClear(g.player, protectedPoint.x, protectedPoint.y) || !def.range)) throw Error('No physical core work point to defend');
   // Later paid construction must not occupy the work point selected for the
   // earlier casemate. This is a fixture reservation, never a game-world override.
@@ -170,43 +170,78 @@ export function prepareConstruction150(request) {
     }
     return true;
   }
-  const Building = g.core().constructor; let point, site;
-  // Check every cell, including the inner rings. A two-cell stride can miss
-  // all remaining legal firing positions once workers reserve their safety
-  // margin; six cells is not a gameplay setback rule. Native placement, actor
-  // clearance, range, line of sight and exterior access still decide legality.
-  for (let ring = 1; ring < C.WORLD_TILES && !point; ring++) for (let dy = -ring; dy <= ring && !point; dy++) for (let dx = -ring; dx <= ring && !point; dx++) {
-    if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
-    const gx = g.core().gx + dx, gy = g.core().gy + dy;
-    if (gx < 0 || gy < 0 || gx + def.size[0] > C.WORLD_TILES || gy + def.size[1] > C.WORLD_TILES) continue;
-    // A cheap range bound precedes the expensive authoritative placement query.
-    if (protectedPoint && Math.hypot((gx + def.size[0] / 2) * C.TILE - protectedPoint.x, (gy + def.size[1] / 2) * C.TILE - protectedPoint.y) > def.range - 80) continue;
-    if (!g.world.placement(def, gx, gy, 0).valid) continue;
-    const candidate = new Building(g.nextId, type, gx, gy, 0, 0);
-    if (reservation && (crossesReservation(candidate, reservation.point, coreFace, g.player.radius + 1) || crossesReservation(candidate, defender, reservation.point))) continue;
-    // The browser's actual placement/recovery contract reserves five units
-    // plus a one-cell movement buffer. A body-only check selected sites already
-    // inside that protected margin and could wait forever for a valid idle
-    // worker to leave its nearby gathering/retreat location. Select another
-    // legal EMPTY fixture, never move/heal a worker or relax the payment guard.
-    const margin = 5 + 32;
-    const marginFor = actor => actor === g.player ? 0 : margin;
-    if ([g.player, ...g.units].some(a => a.x + a.radius + marginFor(a) > candidate.left && a.x - a.radius - marginFor(a) < candidate.right && a.y + a.radius + marginFor(a) > candidate.top && a.y - a.radius - marginFor(a) < candidate.bottom)) continue;
-    // A paid autonomous defence protects the actual later training position.
-    // Keep a margin for an attacker at melee distance; retain all wild hordes,
-    // their schedule, ordinary ammunition and the player's current health.
-    if (protectedPoint && (Math.hypot(candidate.x - protectedPoint.x, candidate.y - protectedPoint.y) > def.range - 80 || !g.hostileLineClear(candidate, protectedPoint))) continue;
-    if (protectedPoint && protectedPoint.x + g.player.radius > candidate.left && protectedPoint.x - g.player.radius < candidate.right && protectedPoint.y + g.player.radius > candidate.top && protectedPoint.y - g.player.radius < candidate.bottom) continue;
-    const service = g.fieldcraft.service(g.player, candidate);
-    if (!service || !g.friendlyPositionClear(g.player, service.x, service.y)) continue;
-    point = service; site = { gx, gy, type };
+  const Building = g.core().constructor, initialProtectedPoint = protectedPoint && { ...protectedPoint }, constructionSearch = [];
+  let point, site;
+  function search(servicePoint) {
+    const observation = { protectedPoint: servicePoint && { ...servicePoint }, rejected: {}, examples: [] };
+    constructionSearch.push(observation);
+    const reject = (reason, gx, gy, detail = null) => {
+      observation.rejected[reason] = (observation.rejected[reason] || 0) + 1;
+      if (!observation.examples.some(item => item.reason === reason)) observation.examples.push({ reason, gx, gy, detail });
+    };
+    // Check every cell, including the inner rings. A two-cell stride can miss
+    // all remaining legal firing positions once workers reserve their safety
+    // margin; six cells is not a gameplay setback rule. Native placement, actor
+    // clearance, range, line of sight and exterior access still decide legality.
+    for (let ring = 1; ring < C.WORLD_TILES && !point; ring++) for (let dy = -ring; dy <= ring && !point; dy++) for (let dx = -ring; dx <= ring && !point; dx++) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
+      const gx = g.core().gx + dx, gy = g.core().gy + dy;
+      if (gx < 0 || gy < 0 || gx + def.size[0] > C.WORLD_TILES || gy + def.size[1] > C.WORLD_TILES) { reject('bounds', gx, gy); continue; }
+      // A cheap range bound precedes the expensive authoritative placement query.
+      if (servicePoint && Math.hypot((gx + def.size[0] / 2) * C.TILE - servicePoint.x, (gy + def.size[1] / 2) * C.TILE - servicePoint.y) > def.range - 80) { reject('range', gx, gy); continue; }
+      const placement = g.world.placement(def, gx, gy, 0);
+      if (!placement.valid) { reject('placement', gx, gy, placement.reason); continue; }
+      const candidate = new Building(g.nextId, type, gx, gy, 0, 0);
+      if (reservation && (crossesReservation(candidate, reservation.point, coreFace, g.player.radius + 1) || crossesReservation(candidate, defender, reservation.point))) { reject('reservation', gx, gy); continue; }
+      // The browser's actual placement/recovery contract reserves five units
+      // plus a one-cell movement buffer. A body-only check selected sites already
+      // inside that protected margin and could wait forever for a valid idle
+      // worker to leave its nearby gathering/retreat location. Select another
+      // legal EMPTY fixture, never move/heal a worker or relax the payment guard.
+      const margin = 5 + 32;
+      const marginFor = actor => actor === g.player ? 0 : margin;
+      const occupants = [g.player, ...g.units].filter(a => a.x + a.radius + marginFor(a) > candidate.left && a.x - a.radius - marginFor(a) < candidate.right && a.y + a.radius + marginFor(a) > candidate.top && a.y - a.radius - marginFor(a) < candidate.bottom);
+      if (occupants.length) { reject('actors', gx, gy, occupants.map(a => ({ id: a.id, x: a.x, y: a.y, radius: a.radius }))); continue; }
+      // A paid autonomous defence protects the actual later training position.
+      // Keep a margin for an attacker at melee distance; retain all wild hordes,
+      // their schedule, ordinary ammunition and the player's current health.
+      if (servicePoint && (Math.hypot(candidate.x - servicePoint.x, candidate.y - servicePoint.y) > def.range - 80 || !g.hostileLineClear(candidate, servicePoint))) { reject('lineOfSight', gx, gy); continue; }
+      if (servicePoint && servicePoint.x + g.player.radius > candidate.left && servicePoint.x - g.player.radius < candidate.right && servicePoint.y + g.player.radius > candidate.top && servicePoint.y - g.player.radius < candidate.bottom) { reject('protectedPointOverlap', gx, gy); continue; }
+      const service = g.fieldcraft.service(g.player, candidate);
+      if (!service || !g.friendlyPositionClear(g.player, service.x, service.y)) { reject('service', gx, gy); continue; }
+      point = service; site = { gx, gy, type }; observation.selected = { ...site };
+    }
   }
-  if (!point) throw Error('No legal empty physical site for ' + type);
+  search(protectedPoint);
+  if (!point && protectCore) {
+    // The nearest service face depends on the preceding real input trajectory.
+    // Keep it when usable; otherwise ask the same native owner for the other
+    // faces. No actor is moved while finding a legal defence/service pair.
+    const core = g.core(), seen = new Set([protectedPoint.x + ':' + protectedPoint.y]);
+    const tryService = (x, y) => {
+      if (point) return;
+      const next = g.fieldcraft.service({ ...g.player, x, y }, core);
+      if (!next || seen.has(next.x + ':' + next.y)) return;
+      seen.add(next.x + ':' + next.y);
+      if (!g.friendlyPositionClear(g.player, next.x, next.y) || !g.workerCanWorkAt({ ...g.player, ...next }, core, 100)) return;
+      search(next); if (point) protectedPoint = next;
+    };
+    for (let x = core.left - C.TILE; x <= core.right + C.TILE && !point; x += C.TILE) {
+      tryService(x, core.top - (core.bottom - core.top)); tryService(x, core.bottom + (core.bottom - core.top));
+    }
+    for (let y = core.top - C.TILE; y <= core.bottom + C.TILE && !point; y += C.TILE) {
+      tryService(core.left - (core.right - core.left), y); tryService(core.right + (core.right - core.left), y);
+    }
+  }
+  if (!point) {
+    const error = Error('No legal empty physical site for ' + type + ': ' + JSON.stringify({ initialProtectedPoint, attempts: constructionSearch }));
+    error.deadwallConstruction150 = { initialProtectedPoint, attempts: constructionSearch }; throw error;
+  }
   const raw = g.serialize(), rng = raw.randomState, buildings = raw.buildings.length;
   raw.player.x = point.x; raw.player.y = point.y; raw.phase = 'calm'; raw.phaseTime = 300;
   g.restoreSave(DeadwallSave.validate(raw)); g.togglePause(true);
   if (g.random.state !== rng || g.world.buildings.size !== buildings) throw Error('Construction viewpoint changed RNG or buildings');
-  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, preservedProtection: reservation, actorSafetyMargin: 37, rngPreserved: true,
+  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, initialProtectedPoint, constructionSearch, preservedProtection: reservation, actorSafetyMargin: 37, rngPreserved: true,
     assignedFields: ['player.x', 'player.y', 'phase', 'phaseTime'],
     limitation: 'The advanced actor starts at a free exterior position beside an empty legally buildable footprint. An optional defended core point is derived from real range and line of sight. No foundation, stock, progress, terrain clearance, wild-horde schedule or RNG is granted. Payment, placement and work use ordinary real controls.' };
 }
