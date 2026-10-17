@@ -2556,3 +2556,695 @@ C.FortificationPackRules=Object.freeze({...C.FortificationPackRules,
   ]
  });
 })(globalThis);
+
+/* Landscape189: opt-in geographic profiles and regional wildlife. Legacy rules above stay immutable. */
+(function(root){'use strict';
+ const freeze=o=>{for(const v of Object.values(o))if(v&&typeof v==='object')freeze(v);return Object.freeze(o);};
+ root.DeadwallCore.Landscape189Rules=freeze({
+  "version": 1,
+  "defaultPreset": "balanced",
+  "presets": {
+    "classic": {
+      "name": "Paysage historique",
+      "scale": 1
+    },
+    "balanced": {
+      "name": "Régions naturelles",
+      "scale": 1
+    },
+    "large": {
+      "name": "Grands biomes",
+      "scale": 1.85
+    },
+    "patchwork": {
+      "name": "Mosaïque naturelle",
+      "scale": 0.56
+    }
+  },
+  "climate": {
+    "scale": 2400,
+    "warpScale": 3900,
+    "warpAmplitude": 980,
+    "octaves": 4,
+    "persistence": 0.5,
+    "contrast": 2.8,
+    "seedScaleRange": [
+      0.86,
+      1.18
+    ]
+  },
+  "population": {
+    "groups": 2,
+    "members": 4,
+    "chance": 0.85,
+    "groupSpread": 5,
+    "aquaticSearchRadius": 54,
+    "aquaticAttempts": 9,
+    "restFraction": 0.35,
+    "dayStart": 0.22,
+    "dayEnd": 0.78,
+    "twilightWidth": 0.12,
+    "wanderSpeed": 0.32,
+    "flightHeight": 1.4
+  },
+  "guilds": {
+    "meadow": {
+      "hare": 10,
+      "rabbit": 8,
+      "roeDeer": 5,
+      "fox": 3,
+      "partridge": 5,
+      "pheasant": 3,
+      "crow": 2,
+      "hedgehog": 2
+    },
+    "orchard": {
+      "rabbit": 8,
+      "roeDeer": 5,
+      "boar": 3,
+      "fox": 3,
+      "hedgehog": 4,
+      "pigeon": 5,
+      "owl": 2,
+      "bat": 3
+    },
+    "deciduous": {
+      "roeDeer": 9,
+      "boar": 7,
+      "redDeer": 5,
+      "badger": 4,
+      "squirrel": 8,
+      "fox": 4,
+      "owl": 3,
+      "pigeon": 3
+    },
+    "mixed": {
+      "roeDeer": 8,
+      "boar": 6,
+      "redDeer": 6,
+      "badger": 4,
+      "squirrel": 7,
+      "fox": 3,
+      "owl": 3,
+      "bat": 2
+    },
+    "conifer": {
+      "redDeer": 7,
+      "roeDeer": 4,
+      "boar": 3,
+      "squirrel": 8,
+      "fox": 4,
+      "owl": 3,
+      "crow": 2,
+      "hare": 3
+    },
+    "heath": {
+      "hare": 8,
+      "rabbit": 8,
+      "fox": 3,
+      "partridge": 6,
+      "mouflon": 3,
+      "crow": 3,
+      "hedgehog": 2
+    },
+    "riparian": {
+      "roeDeer": 5,
+      "boar": 4,
+      "fox": 2,
+      "badger": 2,
+      "pigeon": 4,
+      "bat": 5,
+      "owl": 2
+    },
+    "wetland": {
+      "boar": 4,
+      "roeDeer": 2,
+      "bat": 6,
+      "crow": 3,
+      "fox": 2,
+      "owl": 2
+    },
+    "bocage": {
+      "rabbit": 7,
+      "hare": 7,
+      "roeDeer": 5,
+      "badger": 4,
+      "hedgehog": 5,
+      "pheasant": 4,
+      "partridge": 4,
+      "owl": 2
+    },
+    "limestone": {
+      "chamois": 5,
+      "mouflon": 7,
+      "hare": 3,
+      "fox": 3,
+      "partridge": 4,
+      "crow": 3,
+      "bat": 2
+    },
+    "rockyHighland": {
+      "chamois": 10,
+      "mouflon": 6,
+      "redDeer": 2,
+      "hare": 2,
+      "fox": 3,
+      "crow": 3
+    },
+    "brownfield": {
+      "fox": 6,
+      "rabbit": 4,
+      "hedgehog": 5,
+      "crow": 9,
+      "pigeon": 9,
+      "bat": 4,
+      "owl": 2
+    },
+    "alluvialTerrace": {
+      "roeDeer": 7,
+      "boar": 4,
+      "hare": 5,
+      "pheasant": 5,
+      "badger": 3,
+      "pigeon": 4,
+      "bat": 3
+    },
+    "agriculturalPlateau": {
+      "hare": 10,
+      "rabbit": 6,
+      "partridge": 8,
+      "pheasant": 6,
+      "roeDeer": 3,
+      "fox": 3,
+      "crow": 4
+    },
+    "sandyPine": {
+      "squirrel": 9,
+      "rabbit": 6,
+      "roeDeer": 6,
+      "boar": 3,
+      "fox": 4,
+      "owl": 4,
+      "hare": 4
+    },
+    "peatland": {
+      "boar": 4,
+      "roeDeer": 3,
+      "bat": 6,
+      "owl": 3,
+      "crow": 3,
+      "fox": 2
+    }
+  },
+  "waterGuilds": {
+    "fresh": {
+      "duck": 10,
+      "heron": 4,
+      "otter": 3,
+      "beaver": 3,
+      "frog": 8,
+      "trout": 8,
+      "carp": 8
+    },
+    "salt": {
+      "gull": 12,
+      "mullet": 12
+    }
+  },
+  "species": {
+    "fox": {
+      "id": "fox",
+      "name": "Renard roux",
+      "shape": "fox",
+      "mode": "land",
+      "health": 32,
+      "speed": 4.8,
+      "length": 1.05,
+      "width": 0.29,
+      "radius": 0.174,
+      "activity": "crepuscular",
+      "group": 1,
+      "colors": [
+        "#99572f",
+        "#ad693c",
+        "#854e32",
+        "#b67b51"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "badger": {
+      "id": "badger",
+      "name": "Blaireau",
+      "shape": "badger",
+      "mode": "land",
+      "health": 38,
+      "speed": 2.8,
+      "length": 0.82,
+      "width": 0.34,
+      "radius": 0.204,
+      "activity": "night",
+      "group": 2,
+      "colors": [
+        "#65665b",
+        "#74746a",
+        "#53574f",
+        "#858478"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "rabbit": {
+      "id": "rabbit",
+      "name": "Lapin de garenne",
+      "shape": "hare",
+      "mode": "land",
+      "health": 12,
+      "speed": 4.8,
+      "length": 0.42,
+      "width": 0.19,
+      "radius": 0.114,
+      "activity": "crepuscular",
+      "group": 4,
+      "colors": [
+        "#907f62",
+        "#a89472",
+        "#776d58",
+        "#b2a184"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "squirrel": {
+      "id": "squirrel",
+      "name": "Écureuil roux",
+      "shape": "squirrel",
+      "mode": "land",
+      "health": 9,
+      "speed": 3.2,
+      "length": 0.38,
+      "width": 0.15,
+      "radius": 0.09,
+      "activity": "day",
+      "group": 2,
+      "colors": [
+        "#95532f",
+        "#ab6538",
+        "#794b31",
+        "#b37d52"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "hedgehog": {
+      "id": "hedgehog",
+      "name": "Hérisson",
+      "shape": "hedgehog",
+      "mode": "land",
+      "health": 10,
+      "speed": 1.1,
+      "length": 0.28,
+      "width": 0.18,
+      "radius": 0.108,
+      "activity": "night",
+      "group": 1,
+      "colors": [
+        "#766c52",
+        "#87765b",
+        "#665d48",
+        "#95846a"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "chamois": {
+      "id": "chamois",
+      "name": "Chamois",
+      "shape": "horned",
+      "mode": "land",
+      "health": 42,
+      "speed": 4.9,
+      "length": 1.1,
+      "width": 0.36,
+      "radius": 0.216,
+      "activity": "day",
+      "group": 3,
+      "colors": [
+        "#766b4b",
+        "#897853",
+        "#605b42",
+        "#9b8763"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "mouflon": {
+      "id": "mouflon",
+      "name": "Mouflon",
+      "shape": "horned",
+      "mode": "land",
+      "health": 50,
+      "speed": 4.1,
+      "length": 1.25,
+      "width": 0.46,
+      "radius": 0.276,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#7e6447",
+        "#927651",
+        "#69583f",
+        "#a08662"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "redDeer": {
+      "id": "redDeer",
+      "name": "Cerf élaphe",
+      "shape": "antlered",
+      "mode": "land",
+      "health": 65,
+      "speed": 5.1,
+      "length": 1.9,
+      "width": 0.55,
+      "radius": 0.32,
+      "activity": "crepuscular",
+      "group": 3,
+      "colors": [
+        "#8f6846",
+        "#a77a50",
+        "#775a41",
+        "#b48c62"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "crow": {
+      "id": "crow",
+      "name": "Corneille",
+      "shape": "bird",
+      "mode": "air",
+      "health": 10,
+      "speed": 5.4,
+      "length": 0.47,
+      "width": 0.2,
+      "radius": 0.12,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#343a36",
+        "#454a41",
+        "#292f2d",
+        "#52564b"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "pigeon": {
+      "id": "pigeon",
+      "name": "Pigeon ramier",
+      "shape": "bird",
+      "mode": "air",
+      "health": 9,
+      "speed": 4.8,
+      "length": 0.4,
+      "width": 0.2,
+      "radius": 0.12,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#7d8782",
+        "#909792",
+        "#6a7772",
+        "#a3aaa0"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "pheasant": {
+      "id": "pheasant",
+      "name": "Faisan",
+      "shape": "pheasant",
+      "mode": "land",
+      "health": 14,
+      "speed": 2.9,
+      "length": 0.8,
+      "width": 0.24,
+      "radius": 0.144,
+      "activity": "day",
+      "group": 3,
+      "colors": [
+        "#91703e",
+        "#a48249",
+        "#77623d",
+        "#b19762"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "partridge": {
+      "id": "partridge",
+      "name": "Perdrix",
+      "shape": "bird",
+      "mode": "land",
+      "health": 10,
+      "speed": 2.6,
+      "length": 0.34,
+      "width": 0.22,
+      "radius": 0.132,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#8d8164",
+        "#a09170",
+        "#776e58",
+        "#b0a084"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "owl": {
+      "id": "owl",
+      "name": "Chouette",
+      "shape": "owl",
+      "mode": "air",
+      "health": 12,
+      "speed": 4.2,
+      "length": 0.38,
+      "width": 0.23,
+      "radius": 0.138,
+      "activity": "night",
+      "group": 1,
+      "colors": [
+        "#917c5e",
+        "#a58d6b",
+        "#756751",
+        "#b5a184"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "bat": {
+      "id": "bat",
+      "name": "Chauve-souris",
+      "shape": "bat",
+      "mode": "air",
+      "health": 5,
+      "speed": 3.8,
+      "length": 0.23,
+      "width": 0.28,
+      "radius": 0.168,
+      "activity": "night",
+      "group": 4,
+      "colors": [
+        "#615849",
+        "#746351",
+        "#4d493e",
+        "#82715e"
+      ],
+      "water": "land",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0
+    },
+    "otter": {
+      "id": "otter",
+      "name": "Loutre",
+      "shape": "otter",
+      "mode": "amphibious",
+      "health": 24,
+      "speed": 3.1,
+      "length": 1.05,
+      "width": 0.25,
+      "radius": 0.15,
+      "activity": "crepuscular",
+      "group": 2,
+      "colors": [
+        "#61513b",
+        "#776247",
+        "#534733",
+        "#88704e"
+      ],
+      "water": "fresh",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 28
+    },
+    "beaver": {
+      "id": "beaver",
+      "name": "Castor",
+      "shape": "beaver",
+      "mode": "amphibious",
+      "health": 32,
+      "speed": 2.2,
+      "length": 1.0,
+      "width": 0.4,
+      "radius": 0.24,
+      "activity": "night",
+      "group": 3,
+      "colors": [
+        "#705437",
+        "#816342",
+        "#5c482f",
+        "#94704a"
+      ],
+      "water": "fresh",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 28
+    },
+    "frog": {
+      "id": "frog",
+      "name": "Grenouille",
+      "shape": "frog",
+      "mode": "amphibious",
+      "health": 4,
+      "speed": 1.2,
+      "length": 0.14,
+      "width": 0.1,
+      "radius": 0.06,
+      "activity": "crepuscular",
+      "group": 4,
+      "colors": [
+        "#61704b",
+        "#788255",
+        "#4e6140",
+        "#8c9361"
+      ],
+      "water": "fresh",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 14
+    },
+    "trout": {
+      "id": "trout",
+      "name": "Truite",
+      "shape": "fish",
+      "mode": "swim",
+      "health": 8,
+      "speed": 2.6,
+      "length": 0.36,
+      "width": 0.1,
+      "radius": 0.06,
+      "activity": "day",
+      "group": 3,
+      "colors": [
+        "#809088",
+        "#8c9b91",
+        "#6c827c",
+        "#a1aea0"
+      ],
+      "water": "fresh",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0,
+      "kinds": [
+        "river",
+        "stream",
+        "lake"
+      ]
+    },
+    "carp": {
+      "id": "carp",
+      "name": "Carpe",
+      "shape": "fish",
+      "mode": "swim",
+      "health": 12,
+      "speed": 1.6,
+      "length": 0.5,
+      "width": 0.17,
+      "radius": 0.102,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#8b805b",
+        "#9c9065",
+        "#797153",
+        "#b1a17a"
+      ],
+      "water": "fresh",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0,
+      "kinds": [
+        "lake",
+        "pond"
+      ]
+    },
+    "mullet": {
+      "id": "mullet",
+      "name": "Mulet côtier",
+      "shape": "fish",
+      "mode": "swim",
+      "health": 10,
+      "speed": 2.2,
+      "length": 0.42,
+      "width": 0.12,
+      "radius": 0.072,
+      "activity": "day",
+      "group": 4,
+      "colors": [
+        "#8d9c9a",
+        "#9eaca6",
+        "#7c8b89",
+        "#b3bdb1"
+      ],
+      "water": "salt",
+      "fleeRange": 16,
+      "wanderSpeed": 0.32,
+      "bankRange": 0,
+      "kinds": [
+        "sea",
+        "ocean"
+      ]
+    }
+  }
+});
+})(globalThis);

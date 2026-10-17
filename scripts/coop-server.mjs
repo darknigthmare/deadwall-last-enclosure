@@ -1,12 +1,20 @@
 import { WebSocketServer } from 'ws';
+import { randomUUID } from 'node:crypto';
+import Coop from '../src/coop.js';
+const {LIMITS,normalizeState,parseMessage,coordinate,label}=Coop;
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-export function createCoopRelay({ port = 4290, host } = {}) {
-  const relay = new WebSocketServer({ port, ...(host ? { host } : {}) });
+export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {}) {
+  if (!Number.isSafeInteger(joinTimeoutMs) || joinTimeoutMs < 1 || joinTimeoutMs > 30000)
+    throw new RangeError('joinTimeoutMs doit être un entier entre 1 et 30000.');
+  const relay = new WebSocketServer({ port, maxPayload: LIMITS.messageChars * 4, ...(host ? { host } : {}) });
   const clients = new Map();
   const send = (socket, message) => {
-    if (socket.readyState === 1) socket.send(JSON.stringify(message));
+    if (socket.readyState !== 1) return;
+    if (socket.bufferedAmount > LIMITS.bufferedBytes) { socket.terminate(); return; }
+    try { socket.send(JSON.stringify(message), error => { if (error) socket.terminate(); }); }
+    catch { socket.terminate(); }
   };
   const broadcast = (room, message, skip) => {
     for (const [socket, client] of clients) {
@@ -15,34 +23,45 @@ export function createCoopRelay({ port = 4290, host } = {}) {
   };
 
   relay.on('connection', socket => {
-    const id = Math.random().toString(36).slice(2, 10);
-    clients.set(socket, { id, room: null, name: 'Survivant' });
-    socket.on('message', data => {
-      let message;
-      try { message = JSON.parse(String(data)); } catch { return; }
-      if (!message || typeof message !== 'object' || Array.isArray(message)) return;
-      const client = clients.get(socket);
-      if (!client) return;
+    socket.on('error', () => {});
+    if (clients.size >= LIMITS.relayClients) { socket.close(1013, 'Relais complet'); return; }
+    const id = randomUUID();
+    clients.set(socket, { id, room: null, name: 'Survivant', tokens: LIMITS.burst, sampledAt: performance.now() });
+    // Admission has a fixed deadline. Invalid messages must not keep a global
+    // slot alive, and terminate avoids an additional unbounded close handshake.
+    const joinDeadline = setTimeout(() => {
+      if (!clients.get(socket)?.room) socket.terminate();
+    }, joinTimeoutMs);
+    joinDeadline.unref();
+    socket.on('message', (data, isBinary) => {
+      const client = clients.get(socket); if (!client || socket.readyState !== 1) return;
+      const now = performance.now();
+      client.tokens = Math.min(LIMITS.burst, client.tokens + Math.max(0, now-client.sampledAt)*LIMITS.perSecond/1000);client.sampledAt=now;
+      if (client.tokens < 1) { socket.close(1008, 'Cadence de messages excessive'); return; }
+      client.tokens--;
+      if (isBinary) return;
+      const message = parseMessage(String(data)); if (!message) return;
       if (message.type === 'join' && typeof message.room === 'string' && /^[A-Za-z0-9_-]{2,24}$/.test(message.room)) {
         if (client.room && client.room !== message.room) {
           broadcast(client.room, { type: 'leave', id: client.id }, socket);
         }
+        clearTimeout(joinDeadline);
         client.room = message.room;
-        client.name = String(message.name || 'Survivant').slice(0, 24);
+        client.name = label(message.name, 'Survivant');
         send(socket, { type: 'joined', id });
         return;
       }
       if (!client.room || message.room !== client.room) return;
-      if (message.type === 'state' && message.state && typeof message.state === 'object' && !Array.isArray(message.state)
-        && Number.isFinite(message.state.x) && Number.isFinite(message.state.y)) {
-        broadcast(client.room, { type: 'peer', id: client.id, name: client.name, state: message.state }, socket);
+      if (message.type === 'state') {
+        const state=normalizeState(message.state);
+        if (state) broadcast(client.room, { type: 'peer', id: client.id, name: client.name, state }, socket);
       }
-      if (message.type === 'ping' && Number.isFinite(message.x) && Number.isFinite(message.y)) {
+      if (message.type === 'ping' && coordinate(message.x) && coordinate(message.y)) {
         broadcast(client.room, { type: 'ping', id: client.id, name: client.name, x: message.x, y: message.y }, socket);
       }
     });
-    socket.on('error', () => {});
     socket.on('close', () => {
+      clearTimeout(joinDeadline);
       const client = clients.get(socket);
       if (client?.room) broadcast(client.room, { type: 'leave', id: client.id }, socket);
       clients.delete(socket);

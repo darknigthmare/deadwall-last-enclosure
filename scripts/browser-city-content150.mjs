@@ -759,7 +759,7 @@ try {
       });
       advanced('All twenty new model costs, physical support prerequisites and attained tiers agree with authoritative definitions', profile.contentRegistry.models.length === 20 && profile.contentRegistry.modelConditionsAgree);
       for (const type of systemsDevelopment ? [] : ['casemate150', 'gateStore150', 'electricCannery150', 'continuityArsenal150']) {
-        const fixture = await page.evaluate(prepareConstruction150, type === 'casemate150' ? { type, protectCore: true } : type);
+        const fixture = await page.evaluate(prepareConstruction150, type === 'casemate150' ? { type, protectCore: true } : { type, preserveProtection: profile.protection });
         profile.fixtures.push(fixture);
         await resume(page, viewport.touch);
         await page.waitForFunction(() => Math.hypot(DEADWALL.camera.x - DEADWALL.player.x, DEADWALL.camera.y - DEADWALL.player.y) < 10);
@@ -768,6 +768,14 @@ try {
         advanced(type + ': real canvas pays the declared cost exactly once, without RNG', transaction.payment.rng === transaction.payment.afterRNG);
         advanced(type + ': paid foundation does not grant completed benefits', await page.evaluate(({ id, capacity }) => !DEADWALL.world.buildings.get(id).completed && DEADWALL.storage === capacity, { id: transaction.id, capacity }));
         transaction.work = await workManually(page, context, viewport.touch, transaction.id);
+        if (profile.protection) {
+          const preserved = await page.evaluate(({ id, point }) => {
+            const g = DEADWALL, b = g.world.buildings.get(id);
+            return g.friendlyPositionClear(g.player, point.x, point.y) && g.workerCanWorkAt({ ...g.player, ...point }, g.core(), 100) &&
+              b?.completed && !b.dead && b.health > 0 && Math.hypot(b.x - point.x, b.y - point.y) <= b.def.range - 80 && g.hostileLineClear(b, point);
+          }, profile.protection);
+          advanced(type + ': later paid construction preserves the defended core work point and its service access', preserved);
+        }
         advanced(type + ': held manual work completes the genuine paid foundation', await page.evaluate(id => DEADWALL.world.buildings.get(id).completed, transaction.id));
         if (type === 'casemate150') {
           transaction.protection = await page.evaluate(({ id, point }) => { const g = DEADWALL, b = g.world.buildings.get(id); return { id, point, distance: Math.hypot(b.x - point.x, b.y - point.y), range: b.def.range, observerRange: b.def.observerRange150, clear: g.hostileLineClear(b, point), completed: b.completed, autonomous: !b.def.powerUse, ammoPerShot: b.def.ammoPerShot }; }, { id: transaction.id, point: fixture.protectedPoint });

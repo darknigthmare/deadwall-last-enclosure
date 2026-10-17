@@ -43,9 +43,26 @@ async function depletedScene(){
  const fixtures=await import('../scripts/browser-defenses-fixtures148.mjs');const {g}=bootDocument134();g.startNew('standard','903148');g.campaignIntro132.skip();g.togglePause(true);
  fixtures.defenseCampFixture();fixtures.defenseServiceFixture({type:'spikes',bag:C.FortificationPackRules.mechanisms.ankle.cost});g.showCommand(true);const id=globalThis.__DEFENSE148_CAMP__.spikes;
  assert.ok(g.fortificationPack.startMechanism('ankle',id).ok);g.showCommand(false);g.togglePause(false);for(let i=0;i<81;i++)g.fortificationPack.step(.1);
- g.togglePause(true);fixtures.defenseServiceFixture({type:'core'});const contact=fixtures.defenseContactFixture({kind:'armored',trap:true,count:6});
- g.togglePause(false);for(let i=0;i<400;i++){g.updateZombies(.04);g.rebuildBuckets();const m=g.fortificationPack.snapshot().fittings.find(f=>f.id===id)?.mechanism;assert.ok(m,'paid support survives depletion');if(m.charges===0)break;}
- g.togglePause(true);const mechanism=g.fortificationPack.snapshot().fittings.find(f=>f.id===id)?.mechanism;assert.equal(mechanism.charges,0);assert.ok(mechanism.caught.length>0&&mechanism.caught.length<contact.ids.length,'the group contains both held and free contacts');
+ g.togglePause(true);
+ // Spend the first five paid charges with separated real contacts. A six-body
+ // crowd left attacking for hundreds of ticks can legitimately destroy this
+ // support; that random preparation failure says nothing about group departure.
+ const state=()=>g.fortificationPack.snapshot().fittings.find(f=>f.id===id)?.mechanism;
+ const stocks={...g.resources};let health=g.world.buildings.get(id).health;
+ for(let expected=5;expected>=1;expected--){
+  fixtures.defenseServiceFixture({type:'core'});const hit=fixtures.defenseContactFixture({kind:'armored',trap:true,count:1});
+  g.togglePause(false);g.updateZombies(.04);g.rebuildBuckets();g.togglePause(true);
+  assert.equal(state().charges,expected);assert.equal(state().caught[0].id,hit.ids[0]);
+  fixtures.defenseHeldContactDepartureFixture();
+  g.togglePause(false);for(let i=0;i<66;i++){g.updateZombies(.04);g.rebuildBuckets();}g.togglePause(true);
+  const support=g.world.buildings.get(id);assert.ok(support&&support.health>0&&support.health<=health,'paid support is never restored or healed');health=support.health;
+  assert.deepEqual(state().caught,[]);assert.deepEqual(g.resources,stocks);
+ }
+ fixtures.defenseServiceFixture({type:'core'});const contact=fixtures.defenseContactFixture({kind:'armored',trap:true,count:6});
+ g.togglePause(false);g.updateZombies(.04);g.rebuildBuckets();g.togglePause(true);
+ const mechanism=state();assert.ok(mechanism,'paid support survives the actual final trigger');assert.equal(mechanism.charges,0);
+ assert.ok(mechanism.caught.length>0&&mechanism.caught.length<contact.ids.length,'the group contains both held and free contacts');
+ assert.deepEqual(g.resources,stocks);
  return {g,fixtures,contact,id};
 }
 

@@ -4,7 +4,7 @@
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.SuccessionRules;
 const copy=o=>JSON.parse(JSON.stringify(o)),weapons=Object.keys(C.WEAPONS),kitKeys=['light','aid','brace','decoy'];
 const geometryCache=new Map();
-function saveWorld(full){const key=full.worldSeed+':'+full.frontier.generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.hydrologyVersion??0);if(!geometryCache.has(key)){geometryCache.set(key,root.DeadwallFrontierWorld.create(full.worldSeed,full.frontier.generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0}));if(geometryCache.size>2)geometryCache.delete(geometryCache.keys().next().value);}return geometryCache.get(key);}
+function saveWorld(full){const key=full.worldSeed+':'+full.frontier.generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.landscape189||'classic')+':'+(full.frontier.hydrologyVersion??0);if(!geometryCache.has(key)){geometryCache.set(key,root.DeadwallFrontierWorld.create(full.worldSeed,full.frontier.generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})}));if(geometryCache.size>2)geometryCache.delete(geometryCache.keys().next().value);}return geometryCache.get(key);}
 const emptyKits=()=>Object.fromEntries(kitKeys.map(k=>[k,0]));
 const initial=()=>({version:1,serial:1,current:{number:1,profile:'commander',weapons:[...weapons]},pending:false,remains:[]});
 function validate(raw,full){

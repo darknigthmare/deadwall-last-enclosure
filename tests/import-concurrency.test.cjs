@@ -140,3 +140,15 @@ test('import concurrent : fermer une lecture permet de resélectionner immédiat
   env.get('settingsImportConfirm').click();
   assert.equal(env.game.wave, 9);
 });
+
+
+test('185 import refusal keeps the current campaign, its pause and the reviewed file available for retry',async()=>{
+ const env=bootImports();await env.read({size:100,text:async()=>env.payload(9)});
+ const world=env.game.world,restore=env.game.restoreSave,notifications=[];env.game.notify=text=>notifications.push(text);
+ env.game.restoreSave=()=>false;env.get('settingsImportConfirm').click();
+ assert.equal(env.game.world,world);assert.equal(env.game.wave,1);assert.equal(env.game.paused,true);
+ assert.equal(env.get('settingsImportReview').classList.contains('hidden'),false);
+ assert.ok(!notifications.some(text=>/Partie importée/.test(text)));assert.match(env.get('settingsStatus').textContent,/restauration.*refusée/i);
+ env.game.restoreSave=restore;env.get('settingsImportConfirm').click();assert.equal(env.game.wave,9);
+ assert.equal(JSON.parse(env.storage.get(C.SAVE_KEY)).wave,9);assert.equal(env.get('settingsImportReview').classList.contains('hidden'),true);
+});

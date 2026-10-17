@@ -23,3 +23,10 @@
 @media (pointer: coarse), (max-width: 720px) { .touch-command-drawer { display: block; } .settings-card { padding: 22px 16px; } }
 @media (max-height: 560px) and (pointer: coarse) { .touch-command-grid { grid-template-columns: repeat(4, 1fr); width: min(370px, calc(100vw - 24px)); } }
 .reduced-motion *, .reduced-motion *::before, .reduced-motion *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+
+/* Read-only identity of the loaded campaign; collapsed to preserve short-screen controls. */
+#pauseMenu .campaign-identity184{min-width:0;text-align:left;border:1px solid #687557;margin:7px 0;padding:0 10px;background:#17251c}
+#pauseMenu .campaign-identity184>summary{min-height:36px;padding:8px 0;font-size:11px;line-height:1.5;cursor:pointer;list-style-position:inside;color:#e9d9af}
+#pauseMenu .campaign-identity184>summary:focus-visible{outline:2px solid #ffe1a1;outline-offset:2px}
+#pauseMenu .campaign-identity184>p{font-size:11px;line-height:1.5;margin:5px 0 10px;overflow-wrap:anywhere;color:#d0d8c5}
+#pauseMenu .campaign-identity184[hidden]{display:none!important}

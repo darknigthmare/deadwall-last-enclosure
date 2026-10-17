@@ -35,10 +35,20 @@ for(const seed of [0,42,17117]){const w=W.create(seed,10);let corrected=0,accept
  frontages.push({seed,sites:w.pois.length,accepted,corrected,refused});
 }
 fs.writeFileSync(path.join(output,'frontages.json'),JSON.stringify(frontages,null,2)+'\n');
-const probe=directory=>{const p=spawnSync(process.execPath,['scripts/metric174-world-probe.cjs',directory],{encoding:'utf8',maxBuffer:4e6});if(p.status!==0)throw Error(p.stderr);return JSON.parse(p.stdout);};
-const current=probe('.'),baselineIndex=process.argv.indexOf('--baseline'),baseline=baselineIndex<0?null:probe(process.argv[baselineIndex+1]);
-if(baseline)assert.deepEqual(current,baseline,'Historical geometry, detail, finite containers or scatter changed');
-fs.writeFileSync(path.join(output,'historical-fingerprints.json'),JSON.stringify({baselineVerified:!!baseline,current,baseline},null,2)+'\n');
+const probe=(directory,compat=false)=>{const p=spawnSync(process.execPath,['scripts/metric174-world-probe.cjs',directory,...(compat?['--legacy-visual-additions']:[])],{encoding:'utf8',maxBuffer:4e6});if(p.status!==0)throw Error(p.stderr);return JSON.parse(p.stdout);};
+const argument=name=>{const i=process.argv.indexOf(name);if(i<0)return null;assert.ok(process.argv[i+1]&&!process.argv[i+1].startsWith('--'),name+' requires a directory');return process.argv[i+1];};
+const baselineDirectory=argument('--baseline'),strictDirectory=argument('--strict-baseline'),allowVisual=process.argv.includes('--legacy-visual-additions');
+assert.ok(!allowVisual||baselineDirectory&&strictDirectory,'A visual compatibility check also requires an independent strict current baseline');
+const current=probe('.'),baseline=baselineDirectory?probe(baselineDirectory):null,strictBaseline=strictDirectory?probe(strictDirectory):null;
+const historicalReceipt={baselineDirectory,strictDirectory,rawCurrent:current,rawHistorical:baseline,strictBaseline,allowedVisualAdditions:allowVisual,pass:false};
+// Preserve the raw evidence even when a later comparison rejects the candidate.
+const receipt=()=>fs.writeFileSync(path.join(output,'historical-fingerprints.json'),JSON.stringify(historicalReceipt,null,2)+'\n');receipt();
+if(strictBaseline)assert.deepEqual(current,strictBaseline,'Current-baseline geometry, details or finite resources changed');
+if(baseline){
+ if(allowVisual){historicalReceipt.compatibleCurrent=probe('.',true);historicalReceipt.compatibleHistorical=probe(baselineDirectory,true);receipt();assert.deepEqual(historicalReceipt.compatibleCurrent,historicalReceipt.compatibleHistorical,'Historical geometry, source details or finite resources changed beyond reviewed visual additions');}
+ else assert.deepEqual(current,baseline,'Historical geometry, detail, finite containers or scatter changed');
+}
+historicalReceipt.pass=true;receipt();
 const summary={programmes:R.records.length,definitionRecords:definitions.length,floors:totalFloors,objectOccurrences:totalProps,vehicleProfiles:9,nativeTypes:G.PRESETS.length,constructionTypes:Object.keys(C.BUILDINGS).length,
  frontageSeeds:frontages.length,sites:frontages.reduce((n,r)=>n+r.sites,0),connected:frontages.reduce((n,r)=>n+r.accepted,0),corrected:frontages.reduce((n,r)=>n+r.corrected,0),refused:frontages.reduce((n,r)=>n+r.refused.length,0),baselineVerified:!!baseline,
  scope:'Definition footprint inventory + actual source immutability + frontage geometry. Upright sprites and height/visual overlap remain separate artistic review.'};

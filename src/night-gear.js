@@ -6,8 +6,8 @@ const kinds=Object.keys(R.types),copy=v=>JSON.parse(JSON.stringify(v));
 const initial=()=>({version:1,serial:1,devices:[]});
 const validationWorlds=new Map();
 function validationWorld(W,seed,generation,frontier={}){
- const key=seed+':'+generation+':'+(frontier.ecologyVersion??0)+':'+(frontier.detailVersion??0)+':'+(frontier.hydrologyVersion??0);let world=validationWorlds.get(key);
- if(world)validationWorlds.delete(key);else world=W.create(seed,generation,{detailVersion:frontier.detailVersion??0,ecologyVersion:frontier.ecologyVersion??0,hydrologyVersion:frontier.hydrologyVersion??0});
+ const key=seed+':'+generation+':'+(frontier.ecologyVersion??0)+':'+(frontier.detailVersion??0)+':'+(frontier.landscape189||'classic')+':'+(frontier.hydrologyVersion??0);let world=validationWorlds.get(key);
+ if(world)validationWorlds.delete(key);else world=W.create(seed,generation,{detailVersion:frontier.detailVersion??0,ecologyVersion:frontier.ecologyVersion??0,hydrologyVersion:frontier.hydrologyVersion??0,...(frontier.landscape189?{landscape189:frontier.landscape189}:{})});
  validationWorlds.set(key,world);
  if(validationWorlds.size>3)validationWorlds.delete(validationWorlds.keys().next().value);
  return world;

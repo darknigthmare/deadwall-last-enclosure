@@ -221,3 +221,8 @@
  #hud.hud135[data-short=true] #touchControls #touchAction{grid-column:5;grid-row:1}
  #hud.hud135[data-short=true] #touchControls #touchFire{grid-column:5;grid-row:2}
 }
+
+/* A timed action already explains the held input; suppress only the duplicate hint. */
+#hud.hud135[data-field-task=intervention] #interactionHint,
+#hud.hud135[data-field-task=reload] #interactionHint,
+#hud.hud135[data-field-task=work] #interactionHint{display:none!important}

@@ -59,8 +59,8 @@
    interactions:'Cohérence entre carte, terrain, collision, approche à pied et conduite. Les implantations terrestres refusent les emprises en eau ; les palissades, pontons et ports complets gardent leurs règles propres.'}));
   const species=Object.values(P.species),speciesNames=species.map(d=>d.name).join(' · '),dimensions=species.map(d=>d.name+' : '+number(d.length)+' × '+number(d.width)+' m, rayon '+number(d.radius)+' m, vitesse de fuite '+number(d.speed)+' m/s').join(' ; ');
   const bankNames=kind=>species.filter(d=>d.water===kind).map(d=>d.name+' à '+number(d.bankRange)+' m au plus d’une berge').join(' · ');
-  list.push(Object.freeze({...common,id:'hydrology165-wildlife',title:'Animaux des biomes et des berges',
-   summary:speciesNames+'. Les espèces terrestres sont pondérées par le biome ; les oiseaux de berge dépendent aussi du type d’eau.',
+  list.push(Object.freeze({...common,id:'hydrology165-wildlife',title:'Animaux historiques des biomes et des berges',
+   summary:'Profil Paysage historique, conservé pour les anciennes campagnes. Les profils naturels189 utilisent les fiches de faune étendue. '+speciesNames+'. Les espèces terrestres sont pondérées par le biome ; les oiseaux de berge dépendent aussi du type d’eau.',
    layout:dimensions+'. Eau douce : '+bankNames('fresh')+'. Eau salée : '+bankNames('salt')+'.',
    access:'Les animaux marchent sur le sol sec et respectent les obstacles. Les oiseaux restent au sol : aucun vol ni nage n’est simulé. Ils errent puis fuient une menace observée ou un bruit.',
    supplies:'Aucune viande, plume ou ressource automatique. Pas d’élevage, de capture ni d’économie de chasse. Une mort ne transforme pas l’animal en contenant de butin.',

@@ -3,9 +3,11 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
+import {fileURLToPath} from 'node:url';
+const rootDirectory=resolve(process.env.DEADWALL_QA_ROOT||fileURLToPath(new URL('..',import.meta.url)));
 const out=resolve(process.env.VERTICAL177_QA_OUT||'/tmp/vertical177-qa');await mkdir(out,{recursive:true});
-const report={scope:'Native server and UI. Explicit support completion and advanced-age fixtures; native traversal, costs, construction, maintenance and firing. No full human campaign or physical-device benchmark.',checks:[],errors:[]};
-const server=createGameServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
+const report={root:rootDirectory,scope:'Native server and UI. Explicit support completion and advanced-age fixtures; native traversal, costs, construction, maintenance and firing. No full human campaign or physical-device benchmark.',checks:[],errors:[]};
+const server=createGameServer({rootDirectory});await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
 try{
  browser=await chromium.launch({headless:true,...(process.env.DEADWALL_BROWSER_EXECUTABLE?{executablePath:process.env.DEADWALL_BROWSER_EXECUTABLE}:{}),args:['--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  const page=await browser.newPage({viewport:{width:1440,height:900},hasTouch:true});page.on('pageerror',e=>report.errors.push(String(e)));

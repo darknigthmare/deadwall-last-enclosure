@@ -504,8 +504,8 @@
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId)); click('gameOverMenuButton', () => this.returnToMenu());
-      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId));
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, this.frontier?.position().landscape189||'classic')); click('gameOverMenuButton', () => this.returnToMenu());
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic'));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
       click('demolitionCancel', () => this.cancelDemolition(true)); click('demolitionConfirm', () => this.confirmDemolition());
@@ -639,7 +639,7 @@
         const accepted=globalThis.confirm?.('Remplacer la campagne active ? Ses dernières actions seront remplacées. Exportez une copie depuis les paramètres pour la conserver. Annuler ne change rien.');
         if(accepted!==true)return false;
       }
-      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic')!==false;
+      return this.startNew(this.selectedDifficulty(),document.getElementById('mapSeed')?.value||'',document.getElementById('startScenario')?.value||'classic',document.getElementById('worldLandscape189')?.value||'classic')!==false;
     }
 
     freshMapSeed() {
@@ -648,7 +648,8 @@
       return seed;
     }
 
-    startNew(id = 'standard', seedText = '', scenarioId = 'classic') {
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic') {
+      if(typeof landscape189!=='string'||!Object.hasOwn(C.Landscape189Rules.presets,landscape189)){this.notify('Profil de paysage invalide.', 'danger');return false;}
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
@@ -2221,8 +2222,8 @@
       if(biomeGround){
         const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(WORLD_SIZE,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(WORLD_SIZE,v.bottom)/32};
         let ground=this.groundEcology164;
-        if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.frontier!==this.frontier){
-          ground={owner:this.world,seed:this.world.seed,generation:pose.generation,ecologyVersion:pose.ecologyVersion||0,hydrologyVersion:pose.hydrologyVersion||0,frontier:this.frontier,world:pose.ecologyVersion===1?this.frontier.world():{seed:this.world.seed,generation:pose.generation}};this.groundEcology164=ground;
+        if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.landscape189!==(pose.landscape189||'classic')||ground.frontier!==this.frontier){
+          ground={landscape189:pose.landscape189||'classic',owner:this.world,seed:this.world.seed,generation:pose.generation,ecologyVersion:pose.ecologyVersion||0,hydrologyVersion:pose.hydrologyVersion||0,frontier:this.frontier,world:pose.ecologyVersion===1?this.frontier.world():{seed:this.world.seed,generation:pose.generation}};this.groundEcology164=ground;
         }
         ctx.save();ctx.scale(32,32);ctx.translate(-h.minX,-h.minY);biomeGround.draw(ctx,ground.world,regionView,{scale:this.camera.zoom*32,time:this.elapsed,reducedMotion:!!this.settings.reducedMotion});ctx.restore();
       }else{

@@ -92,7 +92,7 @@
           pendingUnstoredImport={revision:importRevision,fingerprint};get('settingsImportSummary').textContent=importSummary+' Copie locale de secours indisponible : vérifiez que votre fichier exporté est conservé avant le remplacement.';get('settingsImportConfirm').textContent='REMPLACER SANS COPIE LOCALE DE SECOURS';status('Copie locale de secours indisponible. Vérifiez votre copie exportée, puis confirmez de nouveau pour remplacer la partie. Conservez aussi le fichier à importer.');get('settingsImportConfirm').scrollIntoView?.({block:'nearest'});return;
         }
       }
-      game.restoreSave(pendingImport);previousPause=null;clearImport(true);const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');
+      if(game.restoreSave(pendingImport)===false)throw new Error('Restauration refusée. La partie actuelle reste active ; le fichier peut être réessayé ou annulé.');previousPause=null;clearImport(true);const stored=game.save(false);game.notify(stored?'Partie importée et sauvegardée.':'Partie importée en mémoire. Stockage indisponible : conservez le fichier source.',stored?'good':'danger');
     }
     catch(error){status(error.message);}
   });

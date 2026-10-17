@@ -1,5 +1,7 @@
 # DEADWALL 1.65.0 — Eaux et biomes vivants
 
+Maintenance après audit : [corrections, tests et limites](docs/AUDIT_FIXES_183.md).
+
 Les nouvelles campagnes ajoutent lacs, étangs, mares, ruisseaux, rivières et une frange de mer côtière et d’océan. Les affluents rejoignent un réseau orienté vers la côte ; les chaussées franchissent les eaux douces par des ponts physiques. La végétation des berges, six espèces animales et les contacts infectés naturels suivent leur milieu. Les anciennes sauvegardes conservent leur géographie. Portée, activation et limites : [LIVRAISON_1_65.md](docs/LIVRAISON_1_65.md).
 
 ```sh

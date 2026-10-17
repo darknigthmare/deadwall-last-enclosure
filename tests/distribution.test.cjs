@@ -31,7 +31,7 @@ function buildSourceFiles(){
   ];
   // Build-time source dependencies are uploaded to Vercel, not copied to dist.
   // The compiler reads the authored envelopes from these 1,000 parent records.
-  return ['src/hydrology165.js','src/biome-population165.js','src/water-art165.js','src/wildlife-art165.js','src/hydrology-codex165.js',
+  return [...require('../scripts/public-manifest183.cjs').BUNDLED_MODULES,'scripts/pwa-build184.cjs','scripts/public-manifest183.cjs','src/hydrology165.js','src/biome-population165.js','src/water-art165.js','src/wildlife-art165.js','src/hydrology-codex165.js',
     'src/biomes164.js','src/codex-fixtures164.js','src/biomes-codex164.js','src/codex-usage163.js','src/codex-size163.js','src/codex-density163.js','src/codex-architecture163.js','src/codex-furnishing162.js','src/power-network173.js','src/transit-network173.js','src/codex-native173.js','src/site-infrastructure173.js','src/codex-lab173-ui.js','src/codex-packing173.js','src/codex-gardens171.js','src/codex-stations170.js','src/codex-infill169.js','src/codex-infill169-art.js','src/codex-fill168.js','src/codex-coverage167.js','src/codex-ensembles165.js','src/codex-plan165.js','src/codex-quantities164.js','scripts/standalone-inline162.cjs','src/codex-sites162.js','src/codex-anchors160.js','src/codex-dressing160.js','src/codex3000-recipes159.js','scripts/compile-codex3000.mjs','scripts/compile-codex-context160.mjs','codex-3000/addendum-1.60/CONTRATS.json','codex-3000/INDEX_3000.json',
     'codex-3000/addendum-1.58/validation.mjs','codex-3000/addendum-1.58/reader.mjs',...['A','B','C','D'].map(lot=>'codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json'),
     'codex-3000/source/CONTEXTES.json','codex-3000/source/ETATS.json','codex-3000/source/MODULES.json',
@@ -113,6 +113,8 @@ test('distribution: vrai build public sans node_modules ni installation',t=>{
   for(const file of generated)assert.ok(fs.readFileSync(path.join(directory,file)).equals(fs.readFileSync(path.join(root,file))),file+' : le vrai compilateur doit reconstruire les mêmes octets depuis les sources auteur ; régénérer les données avant qualification');
   const built=fs.readdirSync(path.join(directory,'dist'),{recursive:true}).filter(file=>fs.statSync(path.join(directory,'dist',file)).isFile()).map(file=>file.replaceAll('\\','/')).sort();
   assert.deepEqual(built,files);
+  const stamped=require('../scripts/pwa-build184.cjs').stampWorker(directory,files);
+  assert.equal(fs.readFileSync(path.join(directory,'dist/sw.js'),'utf8'),stamped.source,'PWA build is bound to the exact public bytes');
   const standalone=fs.readFileSync(path.join(directory,'DEADWALL_Standalone.html'),'utf8');
   assert.doesNotMatch(standalone,/<script[^>]+src=|<link[^>]+stylesheet|serviceWorker\.register/);
   const variantScripts=[...standalone.matchAll(/<script>\n([\s\S]*?)\n<\/script>/g)]

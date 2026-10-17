@@ -37,13 +37,15 @@ function install(g,doc=globalThis.document){
  for(const n of [get('notifications'),get('departureWarning130'),g.chronicles131UI?.element])move(alerts,n);
  for(const n of [get('interventions134Dock'),get('activeReload14'),get('interactionHint'),get('expansionWork'),get('localActions14'),get('expHUD'),get('fieldDock')])move(context,n);
  const localActions=get('localActions14'),localDrawer=drawer('hud135LocalActions','ACTIONS À PROXIMITÉ','hud135-local-actions');
- if(localActions){localDrawer.open=true;move(context,localDrawer);move(localDrawer,localActions);localDrawer.addEventListener('toggle',refresh);}
+ if(localActions){localDrawer.open=true;move(context,localDrawer);move(localDrawer,localActions);localDrawer.addEventListener('toggle',()=>{if(hud.dataset.short==='true'&&localDrawer.open)closeOther(localDrawer);refresh();});}
  // Old regional controls have real actions absent from the newer regional dock.
  const dock=get('fieldDock'),regional=drawer('hud135RegionTools','VÉHICULE & TRAJET','hud135-region-tools');
  if(dock){for(const id of ['frontierCargo','frontierFuel','returnHud'])move(regional,get(id));const old=get('frontierHud');for(const n of [...(old?.children||[])])if(n.classList.contains('supplies-progress'))move(regional,n);dock.appendChild(regional);}
  // Touch controls remain in the footer, with a dedicated column instead of floating over prompts.
  move(footer,get('touchControls'));move(auxiliary,touchCommands);
- const closeOther=opened=>{for(const n of drawers)if(n!==opened)n.open=false;};
+ const drawerAvailable=node=>{if(!node||!hud.contains(node))return false;for(let n=node;n&&n!==hud;n=n.parentNode)if(n.hidden||n.classList?.contains('hidden'))return false;return true;};
+ const modalDrawers=()=>hud.dataset.short==='true'?[...drawers,localDrawer]:drawers;
+ const closeOther=opened=>{for(const n of modalDrawers())if(n!==opened)n.open=false;};
  // Native details toggles are queued. Restoring a drawer after a modal must
  // not cancel a new movement key pressed before that queued event arrives.
  for(const d of [...drawers,localDrawer])d.querySelector('summary')?.addEventListener('click',()=>{if(!hud.inert&&!d.closest('[inert]'))g.releaseInputs?.();});
@@ -85,20 +87,21 @@ function install(g,doc=globalThis.document){
   if(innerAlert){innerAlert.dataset.summary=innerAlert.textContent.replace('CONTACTS PROCHES DU CENTRE · ','CENTRE · ');if(reading)innerAlert.setAttribute('aria-label',innerAlert.textContent);else innerAlert.removeAttribute('aria-label');}
   if(short!==lastShort){localDrawer.open=objectiveInstructions.open=!short;lastShort=short;}
   if(localActions){
-   localDrawer.classList.toggle('hidden',localActions.classList.contains('hidden'));
+   const unavailable=localActions.hidden||localActions.classList.contains('hidden');
+   localDrawer.classList.toggle('hidden',!!unavailable);if(unavailable)localDrawer.open=false;
    localDrawer.querySelector('summary').textContent=(localActions.querySelector('strong')?.textContent||'À proximité')+' · ACTIONS';
    move(short?auxiliary:context,localDrawer);
   }
   hud.dataset.blocked=String(!!blocked);hud.dataset.region=String(!!g.frontier?.active?.());hud.dataset.build=String(!g.buildCollapsed);
   if(blocked){
-   if(!wasBlocked)restoreDrawers={world:g.world,open:drawers.filter(n=>n.open),focus:hudFocus};
-   for(const n of drawers)n.open=false;
+   if(!wasBlocked)restoreDrawers={world:g.world,open:modalDrawers().filter(n=>n.open&&drawerAvailable(n)),focus:hudFocus};
+   for(const n of modalDrawers())n.open=false;
    if(g.state!=='playing'||g.gameOver||g.player?.dead)restoreDrawers=null;
   }else if(wasBlocked&&restoreDrawers){
    if(restoreDrawers.world===g.world){
-    for(const n of restoreDrawers.open)n.open=true;
+    for(const n of restoreDrawers.open)if(drawerAvailable(n))n.open=true;
     const target=restoreDrawers.focus;
-    if(target&&hud.contains(target)&&!target.closest?.('[inert], .hidden'))target.focus?.({preventScroll:true});
+    if(drawerAvailable(target)&&!target.closest?.('[inert], .hidden'))target.focus?.({preventScroll:true});
    }
    restoreDrawers=null;
   }
@@ -111,6 +114,8 @@ function install(g,doc=globalThis.document){
   // One location for bag quantity; region supplies posture/surface instead of the D-17 label.
   tools.dataset.active=String(trayDrawers.some(n=>n.open));
   const working=get('interventions134Dock');hud.dataset.intervention=String(!!working&&!working.classList.contains('hidden'));
+  const visibleTask=id=>{const n=get(id);return !!n&&!n.hidden&&!n.classList.contains('hidden');};
+  hud.dataset.fieldTask=visibleTask('interventions134Dock')?'intervention':visibleTask('activeReload14')?'reload':visibleTask('expansionWork')?'work':'none';
   if(g.buildCollapsed===false&&g.isCompactViewport?.()){intel.open=false;map.open=false;}
   const key=[g.width,g.height,blocked,hud.dataset.region,hud.dataset.build,...drawers.map(n=>n.open),...[...context.children].map(n=>n.classList.contains('hidden')),...[...alerts.children].map(n=>n.classList.contains('hidden'))].join(':');
   if(!blocked&&key!==measuredKey){measuredKey=key;measure();}
@@ -121,7 +126,7 @@ function install(g,doc=globalThis.document){
   const old=g.onEscape.bind(g);
   g.onEscape=(...args)=>{
    if(g.activeOverlay||g.interventionsUI134?.isOpen?.())return old(...args);
-   const focused=doc.activeElement?.closest?.('details'),open=focused?.open&&hud.contains(focused)?focused:drawers.find(n=>n.open);
+   const focused=doc.activeElement?.closest?.('details'),open=focused?.open&&drawerAvailable(focused)?focused:modalDrawers().find(n=>n.open&&drawerAvailable(n));
    if(!open)return old(...args);
    if(!open.contains(doc.activeElement)){
     const field=g.fieldcraft?.context(),plan=g.dayworks?.overview(),roads=g.infrastructure?.overview();
