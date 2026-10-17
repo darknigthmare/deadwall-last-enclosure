@@ -1,0 +1,56 @@
+name: Stage exact city regression 188
+on:
+  push:
+    branches: [codex/audit-fixes-2026-10-16]
+    paths: [.github/workflows/stage-city188.yml]
+permissions:
+  contents: write
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 99e35b343fa0f0a7547479fba16039f8dbdb1c01
+          persist-credentials: false
+      - name: Create only the exact reviewed source blob, without moving any branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, urllib.request
+          assert os.environ['GITHUB_REPOSITORY'] == 'darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF'] == 'refs/heads/codex/audit-fixes-2026-10-16'
+          p = pathlib.Path('scripts/browser-city-content150.mjs')
+          def blob(data): return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          source = p.read_bytes()
+          assert blob(source) == 'a4fa242dab1fecc0b30eb1b706526b4f5acd6d55'
+          text = source.decode()
+          old = "const fixture = await page.evaluate(prepareConstruction150, type === 'casemate150' ? { type, protectCore: true } : type);"
+          new = "const fixture = await page.evaluate(prepareConstruction150, type === 'casemate150' ? { type, protectCore: true } : { type, preserveProtection: profile.protection });"
+          assert text.count(old) == 1
+          text = text.replace(old, new)
+          old = '        transaction.work = await workManually(page, context, viewport.touch, transaction.id);\n'
+          extra = '''        if (profile.protection) {
+                    const preserved = await page.evaluate(({ id, point }) => {
+                      const g = DEADWALL, b = g.world.buildings.get(id);
+                      return g.friendlyPositionClear(g.player, point.x, point.y) && g.workerCanWorkAt({ ...g.player, ...point }, g.core(), 100) &&
+                        b?.completed && !b.dead && b.health > 0 && Math.hypot(b.x - point.x, b.y - point.y) <= b.def.range - 80 && g.hostileLineClear(b, point);
+                    }, profile.protection);
+                    advanced(type + ': later paid construction preserves the defended core work point and its service access', preserved);
+                  }
+          '''
+          # YAML strips ten indentation spaces; preserve the source's own indentation.
+          lines = extra.splitlines()
+          extra = lines[0] + '\n' + '\n'.join(line[10:] if line.startswith('          ') else line for line in lines[1:])
+          if not extra.endswith('\n'): extra += '\n'
+          assert text.count(old) == 1
+          text = text.replace(old, old + extra)
+          result = text.encode()
+          assert blob(result) == '031e0e8caa402bd69b7502fe13b567497de4ffc6', blob(result)
+          request = urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs', data=json.dumps({'content':text,'encoding':'utf-8'}).encode(), headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'}, method='POST')
+          with urllib.request.urlopen(request, timeout=45) as response: created = json.load(response)
+          assert created['sha'] == blob(result)
+          print(json.dumps({'path':str(p),'sha':created['sha'],'scope':'blob only; no commit, ref, merge or deployment'}))
+          PY
