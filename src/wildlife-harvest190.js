@@ -132,6 +132,7 @@ function install(g){
  function taskView(){if(!task)return null;const {world,...view}=task;return {...copy(view),progress:Math.min(1,task.elapsed/task.seconds)};}
  function overview(){
   return {summary:message||'Chassez avec vos armes, préparez le gibier mort au couteau et pêchez les poissons visibles depuis une berge. Récoltes finies ; retour au dépôt nécessaire.',rows:[
+   {label:'Portée de pêche',value:R.castReach+' m. Ouvrez Terrain & trajet avant l’approche ; le poisson peut fuir tant que la ligne n’est pas engagée.'},
    {label:'Matériel de pêche par prise',value:fishingCostText()+' ; perdu à l’interruption'},
    {label:'Préparation du gibier',value:'Couteau ou machette équipé ; usure et bruit'},
    {label:'Sac',value:C.bagTotal(g.player.carry).toFixed(1)+' / '+g.player.carryCapacity},

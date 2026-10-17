@@ -63,7 +63,9 @@ test('190 visibility distinguishes a dead observed point from a live enemy and i
 test('190 native HUD entry and operation buttons preserve modal exclusivity and allow real work',()=>{
  const {g,doc}=ready(),q=dead(g);g.updateUI();assert.ok(g.wildHarvestUI190);const button=g.wildHarvestUI190.button,terrain=doc.getElementById('fieldDockTerrain');assert.equal(doc.body.contains(button),true);assert.equal(button.hidden,false);
  assert.equal(terrain.contains(button),true,'the shortcut belongs to the current regional drawer');assert.equal(doc.getElementById('frontierHud').contains(button),false,'the retired HUD remains hidden');terrain.open=true;button.click();assert.equal(terrain.open,false);
- assert.equal(doc.querySelector('.field-dock-actions').children.length,5,'the contextual shortcut preserves the bounded five-button action shelf');
+ const shelf=doc.getElementById('fieldDockMap').parentNode;assert.ok(shelf&&doc.body.contains(shelf));assert.equal(shelf.classList.contains('field-dock-actions'),true);
+ assert.equal(shelf.children.length,5,'the contextual shortcut preserves the bounded five-button action shelf');
+ assert.deepEqual(Array.from(shelf.children,node=>node.id),['fieldDockMap','fieldDockBag','fieldDockGear','fieldDockVehicle','fieldDockPosture'],'all five original action buttons keep the same shelf');
  assert.equal(g.activeOverlay,g.ui.commandModal);assert.ok(doc.getElementById('expansionTab-wildlife190'));
  const action=doc.getElementById('expansionAction-wildlife190-harvest:'+q.id);assert.equal(doc.body.contains(action),true);assert.equal(action.disabled,false);action.click();assert.equal(g.activeOverlay,null);assert.equal(g.paused,false);assert.equal(g.wildHarvest190.busy(),true);
  finish(g);assert.ok(g.wildHarvest190.taken(q.id)>0);
