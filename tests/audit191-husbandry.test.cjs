@@ -34,3 +34,50 @@ test('191 invalid source, duplicate custody and overlapping pens are refused bef
   const bad=copy(raw);change(bad);assert.throws(()=>g.restoreSave(bad));assert.equal(g.world,identity);
  }
 });
+test('191 rebuilding a real generated enclosure preserves finite processed products and survives a full save round trip',()=>{
+ const {g,q,pen}=captured(),a=g.husbandry191.view().animals[0];assert.ok(g.husbandry191.begin('slaughter',pen.id,a.id).ok);finish(g);
+ const raw=g.serialize(),record=raw.expansions127.modules.husbandry191;record.pens[0].health=0;assert.equal(g.restoreSave(raw),true);g.paused=false;g.activeOverlay=null;supplies(g);
+ const before=g.husbandry191.view(),bag={...g.player.carry};assert.ok(g.husbandry191.begin('rebuild',pen.id).ok);finish(g);
+ const after=g.husbandry191.view();assert.equal(after.next,before.next);assert.equal(after.pens.length,1);assert.deepEqual(after.animals,before.animals);
+ for(const key of ['id','x','y','food','water','meat','hides','leather'])assert.equal(after.pens[0][key],before.pens[0][key],key);
+ assert.equal(after.pens[0].health,DeadwallCore.Husbandry191Rules.health);assert.equal(g.player.carry.wood,bag.wood-10);assert.equal(g.player.carry.scrap,bag.scrap-6);
+ assert.equal(g.frontier.wildlifeStatus165(q.a.id).hp,0);assert.equal(g.wildHarvest190.quote('harvest',q.a.id).ok,false);
+ const saved=g.serialize();assert.doesNotThrow(()=>DeadwallSave.validate(saved));assert.equal(g.restoreSave(saved),true);assert.deepEqual(g.husbandry191.view(),after);
+ const invalid=copy(saved);invalid.expansions127.modules.husbandry191.pens[0].health=0;invalid.expansions127.modules.husbandry191.animals[0].status='held';invalid.expansions127.modules.husbandry191.animals[0].health=100;
+ const identity=g.world;assert.throws(()=>g.restoreSave(invalid));assert.equal(g.world,identity);assert.deepEqual(g.husbandry191.view(),after);
+});
+test('191 a real regional injury cancels the paid intervention before same-frame healing and ignores an invulnerable hit',()=>{
+ const {g,pen,q}=build();assert.ok(g.husbandry191.begin('capture',pen.id,q.a.id).ok);
+ g.player.invulnerable=1;assert.equal(g.frontier.damage(1),false);assert.ok(g.husbandry191.busy());
+ g.player.invulnerable=0;const health=g.player.health;assert.equal(g.frontier.damage(1),true);g.player.health=health;
+ assert.equal(g.husbandry191.busy(),false);assert.equal(g.husbandry191.view().animals.length,0);assert.equal(g.husbandry191.view().pens.length,1);
+});
+test('191 stranded originals round-trip through full saves and a paid reconstruction never rejuvenates them',()=>{
+ const {g,pen}=captured(),raw=g.serialize(),record=raw.expansions127.modules.husbandry191;
+ record.pens[0].health=0;record.pens[0].food=10;record.pens[0].water=10;record.animals[0].status='stranded';record.animals[0].health=72;
+ assert.doesNotThrow(()=>DeadwallSave.validate(raw));assert.equal(g.restoreSave(raw),true);g.paused=false;g.activeOverlay=null;supplies(g);
+ const before=g.husbandry191.view();assert.equal(g.frontier.wildlife165().some(a=>a.id===before.animals[0].source),false);assert.ok(g.husbandry191.begin('rebuild',pen.id).ok);finish(g);
+ const after=g.husbandry191.view();assert.equal(after.animals[0].status,'held');assert.equal(after.animals[0].health,72);assert.ok(after.animals[0].age>before.animals[0].age);assert.equal(after.animals[0].source,before.animals[0].source);
+ const saved=g.serialize();assert.doesNotThrow(()=>DeadwallSave.validate(saved));assert.equal(g.restoreSave(saved),true);assert.deepEqual(g.husbandry191.view(),after);
+ const impossible=copy(saved);impossible.expansions127.modules.husbandry191.animals[0].status='stranded';const identity=g.world;assert.throws(()=>g.restoreSave(impossible));assert.equal(g.world,identity);
+});
+test('191 an actual second enclosure blocks release at the saved origin until its fence is removed, without duplicating custody',()=>{
+ const {g,pen,q}=captured(),origin=g.frontier.wildlifeStatus165(q.a.id),w=g.frontier.world(),R=DeadwallCore.Husbandry191Rules;
+ let obstacle=null;
+ for(let i=0;i<64&&!obstacle;i++)for(const radius of [1.2,1.4]){
+  const a=i*Math.PI/32,p={x:origin.x+Math.cos(a)*radius,y:origin.y+Math.sin(a)*radius};if(Math.hypot(p.x-pen.x,p.y-pen.y)<R.spacing)continue;
+  const road=w.nearestRoad(p);if(road&&road.d<road.road.width/2+R.penSize)continue;
+  if([-1.5,-1,-.5,0,.5,1,1.5].some(dx=>[-1.5,-1,-.5,0,.5,1,1.5].some(dy=>w.blocked(p.x+dx,p.y+dy,.35,0,null)||w.hydrology.sample(p.x+dx,p.y+dy).water)))continue;
+  obstacle=p;break;
+ }
+ assert.ok(obstacle,'bounded fixture needs a second physically dry enclosure covering the retained origin');
+ const raw=g.serialize(),book=raw.expansions127.modules.husbandry191,obstacleId=book.next++;
+ book.pens.push({...book.pens[0],...obstacle,id:obstacleId,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0});
+ Object.assign(raw.frontier,g.husbandry191.access(pen));assert.equal(g.restoreSave(raw),true);g.paused=false;g.activeOverlay=null;
+ assert.equal(g.frontier.world().blocked(origin.x,origin.y,origin.radius,0,null),true);const before=g.husbandry191.view(),bag=copy(g.player.carry);
+ assert.equal(g.husbandry191.begin('release',pen.id,before.animals[0].id).ok,false);assert.deepEqual(g.husbandry191.view(),before);assert.deepEqual(g.player.carry,bag);assert.equal(g.frontier.wildlife165().some(a=>a.id===q.a.id),false);
+ const cleared=g.serialize();cleared.expansions127.modules.husbandry191.pens.find(p=>p.id===obstacleId).health=0;assert.equal(g.restoreSave(cleared),true);g.paused=false;g.activeOverlay=null;
+ assert.ok(g.husbandry191.begin('release',pen.id,before.animals[0].id).ok);g.update(.01);
+ assert.equal(g.husbandry191.claimed(q.a.id),false);assert.equal(g.husbandry191.view().animals.filter(a=>a.source===q.a.id).length,1);assert.equal(g.frontier.wildlife165().filter(a=>a.id===q.a.id).length,1);assert.deepEqual(g.player.carry,bag);
+ assert.doesNotThrow(()=>DeadwallSave.validate(g.serialize()));
+});

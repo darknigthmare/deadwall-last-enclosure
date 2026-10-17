@@ -53,7 +53,25 @@
   if(d.mode==='swim')for(const [dx,dy]of [[-q.radius,0],[q.radius,0],[0,-q.radius],[0,q.radius]])if(!habitat(d,w.hydrology.sample(x+dx,y+dy)))return false;
   return true;
  }
- function line(w,q,a,b){return q.profile.mode==='land'?w.movementLine(a,b,0,null,null,q.radius):w.wildlifeWaterLine(a,b,q.radius);}
+ function line(w,q,a,b){
+  if(q.profile.mode==='land')return w.movementLine(a,b,0,null,null,q.radius);
+  if(![a?.x,a?.y,b?.x,b?.y,q.radius].every(Number.isFinite)||q.radius<=0)return false;
+  const C=core(),length=Math.hypot(b.x-a.x,b.y-a.y);
+  if(length>C.Hydrology165Rules.spatial.maxLineLength||!w.wildlifeWaterLine(a,b,q.radius))return false;
+  // Ignoring natural water removes only the solid-water veto. A bridge corner
+  // or an incompatible habitat between two legal endpoints is still a veto.
+  const box={x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(b.x-a.x),h:Math.abs(b.y-a.y)};
+  for(const bridge of w.hydrology.crossings||[]){
+   const bounds=bridge.bounds;
+   if(bounds&&(box.x>bounds.x+bounds.w||box.x+box.w<bounds.x||box.y>bounds.y+bounds.h||box.y+box.h<bounds.y))continue;
+   const c=Math.cos(bridge.a),s=Math.sin(bridge.a),local=p=>({x:(p.x-bridge.x)*c+(p.y-bridge.y)*s,y:-(p.x-bridge.x)*s+(p.y-bridge.y)*c}),halfWidth=bridge.width/2-C.Hydrology165Rules.crossings.edgeClearance;
+   if(geo().segmentRect(local(a),local(b),{x:-bridge.length/2,y:-halfWidth,w:bridge.length,h:halfWidth*2}))return false;
+  }
+  let count=Math.max(2,Math.ceil(length/Math.min(q.radius,C.BiomePopulation165Rules.maxStep)));
+  if(count%2)count++; // Always inspect the midpoint, including sub-step moves.
+  for(let i=0;i<=count;i++)if(!habitat(q.profile,w.hydrology.sample(a.x+(b.x-a.x)*i/count,a.y+(b.y-a.y)*i/count)))return false;
+  return true;
+ }
  function pool(biome,water){const R=core().Landscape189Rules,result={},all=species();
   for(const[id,weight]of Object.entries(R.guilds[biome.id]||{}))if(habitat(all[id],water))result[id]=weight;
   const key=water.salinity==='salt'||typeof water.salinity==='number'&&water.salinity>0?'salt':'fresh';
@@ -100,13 +118,15 @@
 
 /* Original procedural silhouettes for the expanded roster, in world metres. */
 (function(root){'use strict';
+ const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
+ const legacyColors=()=>root.DeadwallWildlifeArt165?.COLOURS||(typeof require==='function'?require('./wildlife-art165.js').COLOURS:null);
  const oval=(c,x,y,rx,ry,color)=>{c.fillStyle=color;c.beginPath();c.ellipse(x,y,Math.max(.001,rx),Math.max(.001,ry),0,0,Math.PI*2);c.fill();};
  const path=(c,points,color,width=0)=>{c.beginPath();points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));if(width){c.strokeStyle=color;c.lineWidth=width;c.stroke();}else{c.closePath();c.fillStyle=color;c.fill();}};
  function draw(c,a,{reducedMotion=false,corpse=false}={}){
-  const R=root.DeadwallCore?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
+  const R=core()?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
   if(!d||!(a.id?.startsWith('A189_')||/^B191_[1-9]\d*$/.test(a.id||''))||![a.x,a.y,a.a??0].every(Number.isFinite)||!corpse&&(a.hp??0)<=0)return false;
-  const l=d.length,w=d.width,v=(a.variant||0)%4,colors=d.colors||root.DeadwallWildlifeArt165?.COLOURS[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
-  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=!corpse&&a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=!corpse&&d.mode==='air'&&a.moving;
+  const l=d.length,w=d.width,v=Number.isInteger(a.variant)?((a.variant%4)+4)%4:0,colors=d.colors||legacyColors()?.[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
+  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=!corpse&&a.moving&&!reducedMotion&&Number.isFinite(a.stride165)?a.stride165:0,s=Math.sin(phase),flying=!corpse&&d.mode==='air'&&a.moving;
   c.save();try{
    if(corpse)c.globalAlpha*=.62;c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
    if(d.shape==='fish'){
@@ -115,10 +135,24 @@
    }else if(d.shape==='frog'){
     for(const side of [-1,1])path(c,[[-l*.05,side*w*.22],[-l*.42,side*w*(.7+s*.14)],[-l*.44,side*w*.12]],fur,w*.14);
     oval(c,0,0,l*.3,w*.3,fur);oval(c,l*.26,0,l*.2,w*.28,fur);for(const side of[-1,1])oval(c,l*.3,side*w*.2,l*.04,w*.055,dark);
-   }else if(['bird','duck','heron','gull','owl','bat','pheasant'].includes(d.shape)){
+   }else if(d.shape==='bat'){
+    // Membrane wings and ears keep the mammal distinct from a beaked bird.
+    for(const side of[-1,1]){
+     const span=flying?w*(.78+Math.abs(s)*.38):w*.35;
+     path(c,[[l*.12,side*w*.08],[-l*.06,side*span],[-l*.30,side*span*.62],[-l*.18,side*w*.08]],fur);
+     if(flying)path(c,[[l*.1,side*w*.08],[-l*.06,side*span],[-l*.15,side*span*.49]],light,w*.022);
+     oval(c,l*.2,side*w*.12,l*.09,w*.075,fur);
+    }
+    oval(c,-l*.08,0,l*.30,w*.15,fur);oval(c,l*.24,0,l*.16,w*.13,fur);
+    for(const side of[-1,1])oval(c,l*.3,side*w*.06,l*.018,w*.025,dark);
+   }else if(['bird','duck','heron','gull','owl','pheasant'].includes(d.shape)){
     if(flying){const wing=l*(d.shape==='bat'?1.4:1.0)*(1+Math.abs(s)*.35);
      for(const side of[-1,1])path(c,[[l*.1,side*w*.12],[-l*.12,side*wing],[-l*.42,side*wing*.7],[-l*.2,side*w*.05]],fur);
-    }else if(d.mode!=='amphibious')for(const side of[-1,1])path(c,[[0,side*w*.14],[-l*.09+s*side*l*.03,side*w*.42]],dark,w*.06);
+    }else for(const side of[-1,1]){
+     const footX=-l*.09+s*side*l*(d.shape==='duck'?.08:.03),footY=side*w*.42;
+     path(c,[[0,side*w*.14],[footX,footY]],dark,w*.06);
+     if(d.shape==='duck')path(c,[[footX,footY],[footX+l*.06,footY+side*w*.1],[footX-l*.04,footY+side*w*.1]],'#a58b59');
+    }
     oval(c,-l*.07,0,l*.30,w*.36,fur);oval(c,l*.26,0,l*(d.shape==='owl'?.2:.13),w*.24,d.shape==='owl'?light:fur);
     path(c,[[l*.35,-w*.04],[l*(d.shape==='heron'?.65:.47),0],[l*.35,w*.04]],'#ab9870');
     const tail=d.shape==='pheasant'?l*.72:l*.46;path(c,[[-l*.25,-w*.12],[-tail,0],[-l*.25,w*.12]],dark);
@@ -135,7 +169,6 @@
     if(d.shape==='badger')for(const side of[-1,1])path(c,[[l*.15,side*w*.1],[l*.41,side*w*.06]],light,w*.10);
     if(d.shape==='hedgehog')for(let i=0;i<9;i++){const x=-l*.32+i*l*.065;path(c,[[x,-w*.12],[x-l*.07,-w*.37]],dark,w*.035);}
     if(['horned','antlered'].includes(d.shape))for(const side of[-1,1]){path(c,[[l*.27,side*w*.14],[l*.14,side*w*.49],[l*.06,side*w*.39]],light,w*.055);if(d.shape==='antlered')path(c,[[l*.15,side*w*.43],[l*.23,side*w*.58]],light,w*.035);}
-    if(d.mode==='amphibious'){c.globalAlpha=.45;for(const side of[-1,1])path(c,[[-l*.10,side*w*.5],[-l*.5,side*w*.75]],'#b2c7bf',w*.035);}
     oval(c,l*.32,-w*.12,l*.02,w*.028,dark);
    }
   }finally{c.restore();}return true;
@@ -143,13 +176,24 @@
  const api=Object.freeze({draw});root.DeadwallWildlifeArt189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
 
-/* Live field guide, explicitly separating implemented harvests from future capture and breeding. */
+/* Live field guide derived from the implemented wildlife, harvest and husbandry rules. */
 (function(root){'use strict';
  function entries(){const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),R=C.Landscape189Rules,all=W.species();
   const modes={land:'Déplacement terrestre ; obstacles et berges bloquantes.',air:'Vol bas animé ; traverse les eaux naturelles mais conserve les obstacles solides. Pas de navigation 3D au-dessus des toitures.',swim:'Nage limitée aux eaux naturelles compatibles. Aucun franchissement de terre ou de pont.',amphibious:'Nage et déplacement sur la berge proche, en eau douce uniquement.'};
-  const cycle={day:'diurne',night:'nocturne',crepuscular:'crépusculaire'};
-  const common={family:'nature',status:'jouable',source:'Profils de nouvelles cartes189. DeadwallCore.Landscape189Rules ; portraits procéduraux originaux.',supplies:'Récoltes sauvages : gibier mort préparé au couteau, poissons capturés à la ligne depuis une berge. Nourriture portée, finie et à déposer ; capture vivante et élevage non raccordés.',night:'La visibilité reste celle des alliés, des lampes et des obstacles. Le cycle change l’activité, pas les apparitions déjà enregistrées.',qa:'Même graine et même profil : mêmes origines, espèces et groupes. Blessures et morts persistent après reprise.',interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac limité et persistance des récoltes.',risks:'Faune non agressive. Préparer une prise immobilise le commandant ; mouvement, blessure ou menace interrompent le travail. Le matériel de pêche engagé reste consommé. Aucun bonus de horde.'};
-  const list=Object.values(all).map(d=>({...common,id:'fauna189-'+d.id,title:d.name+' · faune régionale',summary:'Activité '+cycle[d.activity]+'. Groupes de '+d.group+' individus au maximum, admis selon les obstacles ; aucun quota garanti.',layout:'Gabarit de jeu '+d.length+' × '+d.width+' m. Vitesse de fuite '+d.speed+' m/s. '+modes[d.mode],access:d.water==='land'?'Répartition pondérée dans les biomes compatibles.':'Eau '+(d.water==='salt'?'salée':'douce')+' et habitat vérifiés sur la géométrie réelle.',variants:'Quatre robes ou plumages. Repos, déplacement et fuite ; animation réduite respectée.',supplies:(C.WildlifeHarvest190Rules?.yields[d.id]||0)>0?'Récolte finie de '+C.WildlifeHarvest190Rules.yields[d.id]+' provisions au maximum. '+(d.mode==='swim'?'Pêche de fortune depuis une berge, avec matériel et appât transportés.':'Dépouille préparée avec un couteau ou une machette équipé. Aucune peau ou viande brute distincte.'):'Observation seulement : aucune provision récoltable pour cette espèce.',interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac et persistance.'}));
+  const cycle={day:'diurne',night:'nocturne',crepuscular:'crépusculaire'},H=C.Husbandry191Rules,harvest=C.WildlifeHarvest190Rules,captive=H?.captive||{},names=ids=>ids.map(id=>all[id].name).join(' · ');
+  const husbandry='Capture vivante au filet près d’un enclos : '+names(Object.keys(captive))+'. Rations transportées et eau douce puisée sur place ; viande brute, peaux selon l’espèce et cuir sont stockés au site. La cuisson fournit des provisions dans le sac. Seuls '+names(Object.keys(captive).filter(id=>captive[id].breed))+' se reproduisent en enclos.';
+  const behavior='Comportements naturels désactivés au départ, avec activation volontaire dans Opérations → Expéditions → Enclos & transformation : '+names(Object.keys(H?.prey||{}))+' chassent certaines petites proies actives ; un sanglier blessé et alarmé peut riposter au contact. Ni migration longue ni chasse dans les secteurs déchargés.';
+  function supplies(d){
+   const yieldAmount=harvest?.yields[d.id]||0,held=captive[d.id],parts=[];
+   parts.push(yieldAmount>0?'Récolte sauvage finie de '+yieldAmount+' provisions au maximum. '+(d.mode==='swim'?'Pêche de fortune depuis une berge, avec matériel et appât transportés.':'Dépouille préparée avec un couteau ou une machette équipé. Cette préparation sauvage ne fournit ni peau ni viande brute distincte.'):'Aucune provision récoltable sur la dépouille sauvage de cette espèce.');
+   if(held){
+    parts.push('Capture vivante locale au filet près d’un enclos de la même espèce. Transformation d’un adulte captif : '+held.meat+' unités de viande brute et '+(held.hides?held.hides+' peau(s) brute(s)':'aucune peau')+' dans le stock du site. La cuisson fournit des provisions dans le sac.'+(held.hides?' Les peaux peuvent être tannées sur place.':''));
+    parts.push(held.breed?'Reproduction possible entre adultes de sexes différents, en bon état et entretenus, après '+H.breedSeconds+' secondes simulées éligibles. Maturité des jeunes : '+H.matureSeconds+' secondes simulées.':'Reproduction indisponible pour cette espèce.');
+   }else parts.push('Capture vivante et élevage indisponibles pour cette espèce ; aucun produit d’enclos.');
+   return parts.join(' ');
+  }
+  const common={family:'nature',status:'jouable',source:'Profils de nouvelles cartes189. DeadwallCore.Landscape189Rules, WildlifeHarvest190Rules et Husbandry191Rules ; portraits procéduraux originaux.',supplies:'Récoltes sauvages : gibier mort préparé au couteau, poissons capturés à la ligne depuis une berge. Provisions portées, finies et à déposer. '+husbandry,night:'La visibilité reste celle des alliés, des lampes et des obstacles. Le cycle change l’activité, pas les apparitions déjà enregistrées.',qa:'Même graine et même profil : mêmes origines, espèces et groupes. Blessures, morts et garde des captifs persistent après reprise.',interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac limité, enclos entretenus et persistance des récoltes.',risks:behavior+' Préparer une prise immobilise le commandant ; mouvement, blessure ou menace interrompent le travail. Les fournitures engagées restent consommées. Aucun bonus de horde.'};
+  const list=Object.values(all).map(d=>({...common,id:'fauna189-'+d.id,title:d.name+' · faune régionale',summary:'Activité '+cycle[d.activity]+'. Groupes de '+d.group+' individus au maximum, admis selon les obstacles ; aucun quota garanti.',layout:'Gabarit de jeu '+d.length+' × '+d.width+' m. Vitesse de fuite '+d.speed+' m/s. '+modes[d.mode],access:d.water==='land'?'Répartition pondérée dans les biomes compatibles.':'Eau '+(d.water==='salt'?'salée':'douce')+' et habitat vérifiés sur la géométrie réelle.',variants:'Quatre robes ou plumages. Repos, déplacement et fuite ; animation réduite respectée.',supplies:supplies(d),interactions:'Milieux, heure, bruit, obstacles, observation, armurerie, sac, garde des captifs compatibles et persistance.'}));
   for(const [id,guild]of Object.entries(R.guilds)){const name=[...C.BiomeRules135.defs,...C.EcologyRules164.defs].find(d=>d.id===id)?.name||id;list.push({...common,id:'fauna189-biome-'+id,title:name+' · peuplement',summary:Object.keys(guild).map(k=>all[k].name).join(' · '),layout:'Les groupes dépendent de la graine ; voies et parcelles sont exclues. La faune aquatique dépend en plus des eaux réellement présentes.',access:'Nouveaux profils Régions naturelles, Grands biomes ou Mosaïque naturelle. Les anciennes campagnes conservent leurs six espèces et leur terrain.',variants:'Alternance d’activité, de groupes et de petites zones de repos, sans renouvellement des morts.'});}
   list.push({...common,id:'landscape189-profiles',family:'systemes',title:'Graine, grands biomes et mosaïque naturelle',summary:'Une graine numérique et un profil définissent ensemble le monde. Laisser la graine vide en tire une nouvelle ; conserver les deux permet de rejouer le même terrain.',layout:'Température, humidité et relief écologique continus à plusieurs échelles, déformés et orientés selon la graine. Les transitions ne suivent pas la grille de chargement.',access:'Choix dans Nouvelle partie. Continuer conserve le profil enregistré. Les anciennes cartes ne sont jamais converties automatiquement.',variants:'Régions naturelles · Grands biomes · Mosaïque naturelle · Paysage historique.',risks:'Inspiration de principes de génération, pas copie du moteur Minecraft. Région finie et relief écologique, pas terrain voxel ou montagne 3D.'});
   return Object.freeze(list.map(Object.freeze));

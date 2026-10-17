@@ -1,3 +1,20 @@
+# DEADWALL 1.66.0 — Faune et survie
+
+La chasse et la pêche utilisent des prises finies, du matériel transporté et le retour au dépôt. Les enclos régionaux ajoutent capture, entretien, reproduction de certaines espèces, cuisson et tannage. Les comportements de prédation restent activables volontairement. Les parcours aquatiques, collisions des véhicules et interruptions après blessure ont été corrigés ; les outils et chantiers d’enclos ont des animations distinctes.
+
+Les nouvelles campagnes proposent les profils Régions naturelles, Grands biomes et Mosaïque naturelle, avec 26 espèces au total. Même graine et même profil donnent le même monde. Continuer conserve le profil et la géographie enregistrés. Fonctionnement et limites : [livraison 1.66](docs/LIVRAISON_1_66.md), [élevage et transformation](docs/EXTENSION_SURVIE_191.md).
+
+```sh
+npm ci
+npm start
+DEADWALL_SOAK=1 npm run check
+node scripts/browser-ecology189.mjs
+node scripts/browser-wildlife190.mjs
+node scripts/browser-husbandry191.mjs
+```
+
+## Historique conservé — 1.65.0
+
 # DEADWALL 1.65.0 — Eaux et biomes vivants
 
 Maintenance après audit : [corrections, tests et limites](docs/AUDIT_FIXES_183.md).

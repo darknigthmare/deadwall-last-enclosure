@@ -20,7 +20,7 @@ La simulation de captivité avance avec le jeu, également quand le joueur est r
 
 Les lapins et canards adultes de sexes différents, en bon état et disposant de réserves, peuvent avoir un jeune après 900 secondes simulées. La naissance consomme des intrants supplémentaires ; l’entretien continue pendant l’attente. Les jeunes prennent 900 secondes pour devenir adultes et ne sont pas transformables avant. Les autres espèces capturables ne sont pas annoncées comme reproductibles. Aucun animal n’est créé au simple chargement ou à la consultation du dossier.
 
-Des infectés réellement au contact peuvent détériorer un enclos. Une clôture détruite libère ses animaux d’origine ; ses descendants sont enregistrés comme dispersés hors de la simulation détaillée, pas comme un nouveau troupeau sauvage. Le routage des hordes vers des élevages distants reste distinct.
+Des infectés réellement au contact peuvent détériorer un enclos. Une clôture détruite libère ses animaux d’origine si leur position sauvage conservée est libre ; ses descendants sont enregistrés comme dispersés hors de la simulation détaillée, pas comme un nouveau troupeau sauvage. Une origine devenue obstruée garde son sujet sous votre responsabilité dans la ruine, avec entretien, âge et santé actifs. Dégagez cette origine pour le libérer, ou reconstruisez sur place en payant les matériaux ; l’historique et les produits ne sont pas réinitialisés. Le routage des hordes vers des élevages distants reste distinct.
 
 ## Viande, peaux, cuir et cuisine sur place
 

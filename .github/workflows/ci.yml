@@ -134,6 +134,11 @@ jobs:
             scripts: 'scripts/browser-touch-layout162.mjs'
           - group: quality-regressions
             suites: 'test:balance test:quality test:world-art'
+          - group: wildlife
+            scripts: >-
+              scripts/browser-ecology189.mjs
+              scripts/browser-wildlife190.mjs
+              scripts/browser-husbandry191.mjs
           - group: metrics
             scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs scripts/browser-codex162.mjs scripts/browser-codex163.mjs scripts/browser-ecology164.mjs'
     env:

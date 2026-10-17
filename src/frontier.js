@@ -24,7 +24,7 @@ const world=()=>{ensure();if(!region){
  region.opticalBlocked=(x,y,r=.32,z=0,inside=null,ignore=null)=>optical(x,y,r,z,inside,ignore)||z===0&&!!g.worldEvolution?.districtBlocked(x,y,r,null,ignore);
  region.line=(a,b,z=0,inside=null,ignore=null,r=.05)=>line(a,b,z,inside,ignore,r)&&(z!==0||g.worldEvolution?.districtLineClear(a,b,r,ignore)!==false);
  region.movementLine=(a,b,z=0,inside=null,ignore=null,r=.05)=>movement(a,b,z,inside,ignore,r)&&(z!==0||(g.husbandry191?.lineClear(a,b,r)!==false&&g.worldEvolution?.districtLineClear(a,b,r,ignore)!==false));
- region.vehicleClear=(x,y,a,w=4.8,h=2.03)=>vehicle(x,y,a,w,h)&&!g.husbandry191?.solid(x,y,Math.hypot(w,h)/2)&&!g.worldEvolution?.districtBlocked(x,y,0,{a,w,h});
+ region.vehicleClear=(x,y,a,w=4.8,h=2.03)=>vehicle(x,y,a,w,h)&&!g.husbandry191?.vehicleBlocked(x,y,a,w,h)&&!g.worldEvolution?.districtBlocked(x,y,0,{a,w,h});
 }return region;};
 const tell=t=>{message=t;g.notify(t);return false;};
 // Local driving reserves the full profile radius (see expeditions.carClear).
@@ -175,7 +175,16 @@ function animalStep165(dt){if(state.hydrologyVersion!==1||!state.active)return;r
   const distance=Math.hypot(e.x-start.x,e.y-start.y);e.moving=distance>1e-6;e.stride165=(e.stride165+distance/(e.length*.72)*Math.PI*2)%K.maxStride;state.wildlife165[e.id]=animalRecord165(e);
  }
 }
-function releaseCaptive191(id){ensure();if(!g.husbandry191?.owns(id)||!state.wildlife165[id]||state.wildlife165[id].hp<=0)return false;const q=Population165.candidate(world(),id);if(!q)return false;const hp=Math.min(state.wildlife165[id].hp,q.profile.health*g.husbandry191.healthFraction(id));if(hp<=0)return false;state.wildlife165[id]={...state.wildlife165[id],hp};const live=animals165.get(id);if(live)live.hp=hp;return true;}
+function releaseCaptive191(id){
+ ensure();if(!g.husbandry191?.owns(id)||!state.wildlife165[id]||state.wildlife165[id].hp<=0)return false;
+ const w=world(),q=Population165.candidate(w,id),pose=state.wildlife165[id];if(!q)return false;
+ // Captivity reserves identity and health, not an empty patch of terrain.
+ // Another enclosure or a parked vehicle may now occupy the original pose.
+ if(id.startsWith('A189_')?!Wildlife189.clear(w,q,pose.x,pose.y):w.blocked(pose.x,pose.y,q.radius,0,null))return false;
+ if(state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},local=G.local({...state.car,w:vp.w,h:vp.h},pose.x,pose.y);if(G.circleRect(local.x,local.y,q.radius,{x:0,y:0,w:vp.w,h:vp.h}))return false;}
+ const hp=Math.min(pose.hp,q.profile.health*g.husbandry191.healthFraction(id));if(hp<=0)return false;
+ state.wildlife165[id]={...pose,hp};const live=animals165.get(id);if(live)live.hp=hp;return true;
+}
 function retireWildlife191(id){ensure();if(!g.husbandry191?.owns(id)||!state.wildlife165[id]||state.wildlife165[id].hp<=0)return false;state.wildlife165[id]={...state.wildlife165[id],hp:0,alarm:0};animals165.delete(id);return true;}
 function hitWildlife165(id,damage){ensure();resumeAnimals165();const e=animals165.get(id);if(!e||g.husbandry191?.claimed(id)||!Number.isFinite(damage)||damage<=0||!can()||!state.active||state.z!==0)return false;e.hp=Math.max(0,e.hp-damage);e.alarm=C.BiomePopulation165Rules.animalAlarm;state.wildlife165[id]=animalRecord165(e);if(e.hp===0)animals165.delete(id);return true;}
 function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p of near){if(Math.hypot(p.x-state.x,p.y-state.y)>80+Math.hypot(p.w,p.h)/2)continue;if(Math.hypot(p.x-state.x,p.y-state.y)<R.discover&&!state.seen.includes(p.id)){state.seen.push(p.id);message='Découverte : '+p.name;}
@@ -191,7 +200,9 @@ function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p
 populate165(w);
 for(const[id,e]of enemies)if(e.z!==state.z||Math.hypot(e.x-state.x,e.y-state.y)>180){if(e.hp<65)state.enemies[id]=e.hp;state.tracks[id]=Survey.record(e);enemies.delete(id);}}
 function hurt(amount){if(g.player.invulnerable>0)return false;const v=car();if(state.car?.driving&&v){const before=v.health;g.expeditions.damage(amount);if(v.health<=0){disembark();state.car.driving=false;message='Véhicule détruit : carburant et coffre perdus.';}return v.health<before;}
-amount=g.playerOps131?.absorbDamage(amount)??amount;const before=g.player.health;g.player.health=Math.max(0,g.player.health-amount);if(amount>0)g.survivalPack?.damageReceived?.();g.player.invulnerable=.4;g.damageFlash=.3;if(g.player.health===0){const point={domain:'region',x:state.x,y:state.y,z:state.z,inside:state.inside,angle:state.a||0};g.succession133?.captureDeathPoint?.(point);g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);state.active=false;state.z=0;state.inside=null;state.anchor=null;if(state.car)state.car.driving=false;g.player.regionAbsent=false;g.player.dead=true;g.player.downTimer=8;enemies.clear();bullets=[];g.releaseInputs();syncUI();if(g.succession133)g.succession133.captureDeath();else g.notify('Commandant à terre : retour sanitaire vers D-17.','danger');}return g.player.health<before;}
+amount=g.playerOps131?.absorbDamage(amount)??amount;const before=g.player.health;g.player.health=Math.max(0,g.player.health-amount);
+if(g.player.health<before){g.wildHarvest190?.cancel('Blessure reçue : récolte interrompue, matériel engagé consommé.');g.husbandry191?.cancel('Blessure reçue : intervention interrompue, matériaux engagés consommés.');}
+if(amount>0)g.survivalPack?.damageReceived?.();g.player.invulnerable=.4;g.damageFlash=.3;if(g.player.health===0){const point={domain:'region',x:state.x,y:state.y,z:state.z,inside:state.inside,angle:state.a||0};g.succession133?.captureDeathPoint?.(point);g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);state.active=false;state.z=0;state.inside=null;state.anchor=null;if(state.car)state.car.driving=false;g.player.regionAbsent=false;g.player.dead=true;g.player.downTimer=8;enemies.clear();bullets=[];g.releaseInputs();syncUI();if(g.succession133)g.succession133.captureDeath();else g.notify('Commandant à terre : retour sanitaire vers D-17.','danger');}return g.player.health<before;}
 function shoot(){g.contextOperations160?.cancel('Intervention interrompue pour le tir ; aucun matériau dépensé.');if(!g.arsenal134&&g.succession133&&!g.succession133.ownsWeapon(g.player.weapon))return false;if(g.fieldSupplies?.busy()||g.essentials?.busy())return false;if(!can()||!state.active||state.car?.driving||g.player.reload>0||g.player.shootCooldown>0)return false;if(g.arsenal134&&!g.arsenal134.beforeShot())return false;const p=g.player,w=g.arsenal134?.weaponSpec()||C.WEAPONS[p.weapon];if(p.magazine[p.weapon]<=0){g.startReload();return false;}p.magazine[p.weapon]--;g.arsenal134?.afterShot();p.shootCooldown=1/w.fireRate;g.stats.shots++;emitNoise(T.shotNoise[p.weapon]||42,'Tir');g.audio.shot(p.weapon);for(let i=0;i<w.pellets;i++){const spread=(G.hash(world().seed,state.shots++,i)/4294967296-.5)*2*w.spread;bullets.push({x:state.x,y:state.y,dx:Math.cos(state.a+spread),dy:Math.sin(state.a+spread),left:w.range/32,damage:w.damage});}return true;}
 // Damage live regional contacts through the same persistent health ledger as projectiles.
 function hitEnemy(id,damage){

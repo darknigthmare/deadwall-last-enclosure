@@ -29,7 +29,25 @@
   if(d.mode==='swim')for(const [dx,dy]of [[-q.radius,0],[q.radius,0],[0,-q.radius],[0,q.radius]])if(!habitat(d,w.hydrology.sample(x+dx,y+dy)))return false;
   return true;
  }
- function line(w,q,a,b){return q.profile.mode==='land'?w.movementLine(a,b,0,null,null,q.radius):w.wildlifeWaterLine(a,b,q.radius);}
+ function line(w,q,a,b){
+  if(q.profile.mode==='land')return w.movementLine(a,b,0,null,null,q.radius);
+  if(![a?.x,a?.y,b?.x,b?.y,q.radius].every(Number.isFinite)||q.radius<=0)return false;
+  const C=core(),length=Math.hypot(b.x-a.x,b.y-a.y);
+  if(length>C.Hydrology165Rules.spatial.maxLineLength||!w.wildlifeWaterLine(a,b,q.radius))return false;
+  // Ignoring natural water removes only the solid-water veto. A bridge corner
+  // or an incompatible habitat between two legal endpoints is still a veto.
+  const box={x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(b.x-a.x),h:Math.abs(b.y-a.y)};
+  for(const bridge of w.hydrology.crossings||[]){
+   const bounds=bridge.bounds;
+   if(bounds&&(box.x>bounds.x+bounds.w||box.x+box.w<bounds.x||box.y>bounds.y+bounds.h||box.y+box.h<bounds.y))continue;
+   const c=Math.cos(bridge.a),s=Math.sin(bridge.a),local=p=>({x:(p.x-bridge.x)*c+(p.y-bridge.y)*s,y:-(p.x-bridge.x)*s+(p.y-bridge.y)*c}),halfWidth=bridge.width/2-C.Hydrology165Rules.crossings.edgeClearance;
+   if(geo().segmentRect(local(a),local(b),{x:-bridge.length/2,y:-halfWidth,w:bridge.length,h:halfWidth*2}))return false;
+  }
+  let count=Math.max(2,Math.ceil(length/Math.min(q.radius,C.BiomePopulation165Rules.maxStep)));
+  if(count%2)count++; // Always inspect the midpoint, including sub-step moves.
+  for(let i=0;i<=count;i++)if(!habitat(q.profile,w.hydrology.sample(a.x+(b.x-a.x)*i/count,a.y+(b.y-a.y)*i/count)))return false;
+  return true;
+ }
  function pool(biome,water){const R=core().Landscape189Rules,result={},all=species();
   for(const[id,weight]of Object.entries(R.guilds[biome.id]||{}))if(habitat(all[id],water))result[id]=weight;
   const key=water.salinity==='salt'||typeof water.salinity==='number'&&water.salinity>0?'salt':'fresh';

@@ -14,6 +14,12 @@ test('189 different seeds and sizes change biomes while retaining broad neighbou
  for(let y=300;y<24000;y+=600)for(let x=300;x<24000;x+=600){const id=a.sample(42,x,y,false).id;biomes.add(id);changed+=id!==b.sample(17117,x,y,false).id;sizeChanged+=id!==large.sample(42,x,y,false).id;neighbours+=id===a.sample(42,x+10,y,false).id;total++;}
  assert.ok(changed/total>.4);assert.ok(sizeChanged/total>.4);assert.ok(neighbours/total>.9);assert.ok(biomes.size>=13);
 });
+test('189 the same seed and profile reproduce towns and roads, while another profile can change them',()=>{
+ const Geo=require('../src/geography135.js'),seed=17117;
+ function geography(preset){const roads=[],g=Geo.generate(seed,{generation:8,biomes:profile(seed,preset),addRoad:(a,b,width)=>{const r={a,b,width};roads.push(r);return r;}});return{towns:g.towns.map(t=>({id:t.id,x:t.x,y:t.y})),roads};}
+ const first=geography('balanced'),large=geography('large'),again=geography('balanced');
+ assert.deepEqual(again,first);assert.notDeepEqual(large.towns,first.towns);assert.notDeepEqual(large.roads,first.roads);
+});
 test('189 invalid profiles/seeds fail instead of silently regenerating a historical world',()=>{
  for(const preset of [null,'',true,1,{},'infinite'])assert.throws(()=>L.normalize(preset));for(const seed of [-1,2**32,.5,'42'])assert.throws(()=>L.create({base:B,seed,preset:'balanced'}));
  const old={...S.initial(),generation:8,ecologyVersion:1,hydrologyVersion:1};assert.equal(S.normalize(old).landscape189,undefined);
