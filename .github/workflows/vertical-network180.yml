@@ -11,7 +11,8 @@ concurrency:
   group: vertical180-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  network180:
+  focused:
+    name: vertical routing scenarios 180
     if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
     runs-on: ubuntu-latest
     timeout-minutes: 55
@@ -67,9 +68,6 @@ jobs:
           name: vertical180-qa-${{ github.run_id }}
           path: /tmp/vertical*-qa/
           retention-days: 14
-      - name: Complete project checks
-        if: ${{ !cancelled() }}
-        run: npm run check > /tmp/vertical180-qa/full-check.log 2>&1
       - name: Complete evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -77,3 +75,79 @@ jobs:
           name: vertical180-complete-${{ github.run_id }}
           path: /tmp/vertical180-qa/
           retention-days: 14
+
+  native-shard:
+    name: vertical native shard / ${{ matrix.shard }}
+    if: github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked prerequisites
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Exhaustive native partition with syntax, build and endurance
+        env:
+          DEADWALL_SOAK: '1'
+        run: node scripts/ci-native186.mjs run ${{ matrix.shard }} artifacts/qa/native186
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-native186-shard-${{ matrix.shard }}
+          path: artifacts/qa/native186/
+          if-no-files-found: error
+          overwrite: true
+
+  native:
+    name: vertical complete native qualification
+    needs: [native-shard]
+    if: ${{ always() && (github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Reject missing, failed, skipped or cancelled partitions
+        env:
+          SHARD_RESULT: ${{ needs['native-shard'].result }}
+        run: node -e 'if(process.env.SHARD_RESULT !== "success") process.exit(1)'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: deadwall-native186-shard-*
+          path: artifacts/native186-input
+      - name: Verify all original logs and the exact complete source inventory
+        run: node scripts/ci-native186.mjs aggregate artifacts/native186-input artifacts/qa/native186/aggregate.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: vertical180-native186-aggregate
+          path: artifacts/qa/native186/
+          if-no-files-found: error
+          overwrite: true
+
+  network180:
+    needs: [focused, native]
+    if: ${{ always() && (github.event_name != 'pull_request' || github.head_ref != 'feat/vertical-citadel-175') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require both real vertical scenarios and exhaustive current-source tests
+        env:
+          REQUIRED_JOB_RESULTS: ${{ toJSON(needs) }}
+        run: |
+          node -e 'const results = JSON.parse(process.env.REQUIRED_JOB_RESULTS); const expected = ["focused", "native"]; const failed = expected.filter(name => results[name]?.result !== "success"); for (const name of expected) console.log(name + ": " + (results[name]?.result || "missing")); if (failed.length) process.exit(1);'

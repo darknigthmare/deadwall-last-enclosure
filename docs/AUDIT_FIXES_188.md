@@ -29,3 +29,11 @@ Les quatre nouveaux tests sont inclus dans le groupe de douze ; ces comptes ne s
 Le groupe permanent d'audit inclut maintenant la suite 188. Le parcours complet de ville, son entraînement de 90 secondes, ses deux profils ordinateur/tactile, les reprises exactes et tous ses contrôles précédents sont conservés. Aucun filtre de test, mode court, bonus, `continue-on-error` ou nouvelle tolérance de succès n'est ajouté. Le résultat de la CI globale et des suites spécialisées doit être lu sur le commit final ; les succès d'un parent ne constituent pas une exécution sur le nouveau commit.
 
 La préparation temporaire d'un objet Git ne fait pas partie des fichiers finaux. Aucune fusion ou publication en production n'est effectuée par cette passe. Le rendu artistique, les intérieurs libres et la campagne humaine complète restent des qualifications distinctes.
+
+## Contrôle vertical interrompu à 55 minutes
+
+Le run `38955869829` a réussi les contrats verticaux, les régressions natives ciblées et les six parcours navigateur 175–180. Son `npm run check` monolithique a ensuite été interrompu à la limite du job (19:36–20:31 UTC le 16 octobre), pas validé.
+
+Le workflow vertical utilise maintenant le même partitionnement exhaustif `ci-native186.mjs` que la CI principale : six groupes indépendants exécutent syntaxe, build, préparation et la totalité de l'inventaire de tests, avec l'endurance activée. L'agrégateur revalide les sources avant/après, les commandes, les journaux, les comptes et la couverture exacte de tous les fichiers. Le contrôle final historique `network180` exige simultanément les scénarios ciblés et cet agrégat. Échec, annulation, groupe ignoré ou manquant restent bloquants.
+
+Aucun test n'est retiré au profit d'une simple lecture d'état d'un ancien run. Ces six groupes sont réellement exécutés dans ce workflow sur son propre commit. Ce n'est plus une invocation monolithique de `npm run check`, mais sa qualification exhaustive distribuée avec preuves, plus l'endurance. Les trois nouveaux tests `audit188-vertical-ci.test.cjs` passent et vérifient la conservation des scénarios, le même exécuteur exhaustif et les refus du contrôle final. Le délai n'est pas présenté comme un gain de performance du jeu.
