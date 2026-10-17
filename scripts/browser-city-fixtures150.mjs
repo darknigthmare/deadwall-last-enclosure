@@ -105,7 +105,7 @@ export function prepareService150({ type = 'core', bag = null, point: requestedP
   if (!g.paused) throw Error('Paused physical service scene required');
   const b = type === 'core' ? g.core() : [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead && g.fieldcraft.service(g.player, b));
   const point = requestedPoint || b && g.fieldcraft.service(g.player, b);
-  if (!point || !g.friendlyPositionClear(g.player, point.x, point.y)) throw Error('No legal exterior service point for ' + type);
+  if (!b || !point || !Number.isFinite(point.x) || !Number.isFinite(point.y) || !g.friendlyPositionClear(g.player, point.x, point.y) || !g.workerCanWorkAt({ ...g.player, x: point.x, y: point.y }, b, 100)) throw Error('No legal exterior service point for ' + type);
   const raw = g.serialize(), rng = raw.randomState;
   raw.player.x = point.x; raw.player.y = point.y; raw.phase = 'calm'; raw.phaseTime = 300;
   if (bag) raw.player.carry = { ...Object.fromEntries(C.RESOURCE_KEYS.map(k => [k, 0])), ...bag };
@@ -140,11 +140,36 @@ export function prepareRoad150() {
 
 /** A legal empty construction site and exterior actor position; no foundation. */
 export function prepareConstruction150(request) {
-  const { type, protectCore = false } = typeof request === 'string' ? { type: request } : request;
+  const { type, protectCore = false, preserveProtection = null } = typeof request === 'string' ? { type: request } : request;
   const g = DEADWALL, C = DeadwallCore, def = C.CityContent150.BUILDINGS[type];
   if (!g.paused || !def) throw Error('Paused new-model construction viewpoint required');
   const protectedPoint = protectCore ? g.fieldcraft.service(g.player, g.core()) : null;
   if (protectCore && (!protectedPoint || !g.friendlyPositionClear(g.player, protectedPoint.x, protectedPoint.y) || !def.range)) throw Error('No physical core work point to defend');
+  // Later paid construction must not occupy the work point selected for the
+  // earlier casemate. This is a fixture reservation, never a game-world override.
+  const reservation = preserveProtection && { id: preserveProtection.id, point: { ...preserveProtection.point } };
+  let defender = null, coreFace = null;
+  if (reservation) {
+    defender = g.world.buildings.get(reservation.id);
+    const p = reservation.point, core = g.core();
+    if (!defender || defender.dead || defender.health <= 0 || !defender.completed || !defender.def.range ||
+      !Number.isFinite(p.x) || !Number.isFinite(p.y) || !g.workerCanWorkAt({ ...g.player, x: p.x, y: p.y }, core, 100) ||
+      Math.hypot(defender.x - p.x, defender.y - p.y) > defender.def.range - 80 || !g.hostileLineClear(defender, p)) throw Error('Protected core work point is no longer usable');
+    coreFace = { x: Math.max(core.left, Math.min(core.right, p.x)), y: Math.max(core.top, Math.min(core.bottom, p.y)) };
+  }
+  function crossesReservation(box, a, b, padding = 0) {
+    // Closed segment against an expanded rectangle, including thin crossings
+    // and endpoint contact. Read-only: no temporary building or terrain edits.
+    let start = 0, end = 1;
+    for (const [axis, low, high] of [['x', box.left - padding, box.right + padding], ['y', box.top - padding, box.bottom + padding]]) {
+      const delta = b[axis] - a[axis];
+      if (delta === 0) { if (a[axis] < low || a[axis] > high) return false; continue; }
+      const near = (low - a[axis]) / delta, far = (high - a[axis]) / delta;
+      start = Math.max(start, Math.min(near, far)); end = Math.min(end, Math.max(near, far));
+      if (start > end) return false;
+    }
+    return true;
+  }
   const Building = g.core().constructor; let point, site;
   // Check every cell, including the inner rings. A two-cell stride can miss
   // all remaining legal firing positions once workers reserve their safety
@@ -158,6 +183,7 @@ export function prepareConstruction150(request) {
     if (protectedPoint && Math.hypot((gx + def.size[0] / 2) * C.TILE - protectedPoint.x, (gy + def.size[1] / 2) * C.TILE - protectedPoint.y) > def.range - 80) continue;
     if (!g.world.placement(def, gx, gy, 0).valid) continue;
     const candidate = new Building(g.nextId, type, gx, gy, 0, 0);
+    if (reservation && (crossesReservation(candidate, reservation.point, coreFace, g.player.radius + 1) || crossesReservation(candidate, defender, reservation.point))) continue;
     // The browser's actual placement/recovery contract reserves five units
     // plus a one-cell movement buffer. A body-only check selected sites already
     // inside that protected margin and could wait forever for a valid idle
@@ -180,7 +206,7 @@ export function prepareConstruction150(request) {
   raw.player.x = point.x; raw.player.y = point.y; raw.phase = 'calm'; raw.phaseTime = 300;
   g.restoreSave(DeadwallSave.validate(raw)); g.togglePause(true);
   if (g.random.state !== rng || g.world.buildings.size !== buildings) throw Error('Construction viewpoint changed RNG or buildings');
-  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, actorSafetyMargin: 37, rngPreserved: true,
+  return { kind: 'explicit-empty-construction-site-viewpoint', point, site, protectedPoint, preservedProtection: reservation, actorSafetyMargin: 37, rngPreserved: true,
     assignedFields: ['player.x', 'player.y', 'phase', 'phaseTime'],
     limitation: 'The advanced actor starts at a free exterior position beside an empty legally buildable footprint. An optional defended core point is derived from real range and line of sight. No foundation, stock, progress, terrain clearance, wild-horde schedule or RNG is granted. Payment, placement and work use ordinary real controls.' };
 }

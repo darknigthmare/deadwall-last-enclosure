@@ -28,7 +28,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: node --test tests/audit18[34567]-*.test.cjs
+      - run: node --test tests/audit18[345678]-*.test.cjs
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - name: Native new game, save and responsive HUD from dist
