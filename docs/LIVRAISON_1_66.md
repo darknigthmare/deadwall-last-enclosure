@@ -1,4 +1,4 @@
-# DEADWALL 1.66.0 — Faune et survie
+# DEADWALL 1.66 — Faune et survie
 
 ## Contenu jouable
 
