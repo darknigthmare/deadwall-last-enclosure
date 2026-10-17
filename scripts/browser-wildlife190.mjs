@@ -1,6 +1,6 @@
 import path from 'node:path';
 import {createHarness,recorder,ready,chooseCampaign} from './browser-qa-common142.mjs';
-import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
+import {activate,saveReloadContinue,visibleInPanel} from './browser-qa-common144.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
 const h=await createHarness('wildlife190','Native operation controls on the built distribution, finite backpack transactions and save/menu/Continue. Equipment is crafted against actual depot stocks with explicit simulated preparation time. Regional positions are declared generated checkpoints. The carcass is prepared by a declared damage call, not a claim of human hunting. Harvest and fishing run on ordinary RAF time.');
@@ -41,7 +41,13 @@ try{
      if(kind==='land'&&!g.frontier.hitWildlife165(selected.id,animal.profile.health))throw Error('Declared corpse preparation refused');
      g.updateUI();g.render();return {...selected,preparedCheckpoint:true,preparedDamage:kind==='land',bag:{...g.player.carry},stocks:{...g.resources},taken:g.wildHarvest190.taken(selected.id)};
     },kind);
-    await activate(page,'#wildHarvest190Open',viewport.touch);
+    if(!await page.locator('#fieldDockTerrain').evaluate(n=>n.open))await activate(page,'#fieldDockTerrainToggle',viewport.touch);
+    r.check('Harvest shortcut belongs to the visible regional terrain drawer',await page.locator('#fieldDockTerrain #wildHarvest190Open').isVisible());
+    const shortcut=page.locator('#wildHarvest190Open');await shortcut.scrollIntoViewIfNeeded({timeout:10000});
+    const shortcutGeometry=await visibleInPanel(page,'#wildHarvest190Open','#fieldDockTerrain .field-dock-terrain-body');
+    (profile.shortcutGeometry??=[]).push({kind,...shortcutGeometry});
+    r.check('Harvest shortcut is inside its drawer and viewport with an unobstructed pointer target',shortcutGeometry.pass);
+    if(viewport.touch)await shortcut.tap({timeout:10000});else await shortcut.click({timeout:10000});
     const actionId='expansionAction-wildlife190-'+(kind==='fish'?'fish:':'harvest:')+encounter.id;
     const action=page.locator('[id="'+actionId+'"]');await action.scrollIntoViewIfNeeded();r.check(kind+' operation is reachable and enabled',await action.isVisible()&&await action.isEnabled());
     await r.screenshot(kind+'-offer');await activate(page,'[id="'+actionId+'"]',viewport.touch);

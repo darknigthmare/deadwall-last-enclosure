@@ -182,6 +182,7 @@
 #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer{min-height:0;max-height:44px}
 #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools>summary,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer>summary{height:44px;min-height:44px;box-sizing:border-box;font-size:10px;padding:7px 5px}
 #hud.hud135[data-region=true] #fieldDockTerrain[open]>.field-dock-terrain-body{position:absolute;bottom:calc(100% + 4px);left:0;right:0;max-height:min(45dvh,180px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#132019fa;border:1px solid #8d9a70;padding:8px;z-index:5}
+#hud.hud135[data-region=true] #fieldDock[data-short=false] #fieldDockTerrain[open]>.field-dock-terrain-body{position:static;inset:auto}
 #hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>.hud135-tools[open]>.hud135-utility-host,#hud.hud135[data-region=true] .hud135-auxiliary[data-region-dock=true]>#touchCommandDrawer[open]>.touch-command-grid{position:absolute;bottom:calc(100% + 4px);left:0;right:0;max-height:min(45dvh,180px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;background:#132019fa;border:1px solid #8d9a70;padding:8px;z-index:5}
 #hud.hud135[data-region=true] .field-dock-terrain-body .field-dock-context{gap:6px}
 #hud.hud135[data-region=true] .field-dock-terrain-body button{min-height:44px}

@@ -63,17 +63,23 @@ test('191 stranded originals round-trip through full saves and a paid reconstruc
 });
 test('191 an actual second enclosure blocks release at the saved origin until its fence is removed, without duplicating custody',()=>{
  const {g,pen,q}=captured(),origin=g.frontier.wildlifeStatus165(q.a.id),w=g.frontier.world(),R=DeadwallCore.Husbandry191Rules;
+ const raw=g.serialize(),book=raw.expansions127.modules.husbandry191,obstacleId=book.next;
+ Object.assign(raw.frontier,g.husbandry191.access(pen));
  let obstacle=null;
  for(let i=0;i<64&&!obstacle;i++)for(const radius of [1.2,1.4]){
   const a=i*Math.PI/32,p={x:origin.x+Math.cos(a)*radius,y:origin.y+Math.sin(a)*radius};if(Math.hypot(p.x-pen.x,p.y-pen.y)<R.spacing)continue;
   const road=w.nearestRoad(p);if(road&&road.d<road.road.width/2+R.penSize)continue;
   if([-1.5,-1,-.5,0,.5,1,1.5].some(dx=>[-1.5,-1,-.5,0,.5,1,1.5].some(dy=>w.blocked(p.x+dx,p.y+dy,.35,0,null)||w.hydrology.sample(p.x+dx,p.y+dy).water)))continue;
+  const proposed={...book,next:book.next+1,pens:[...book.pens,{...book.pens[0],...p,id:obstacleId,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0}]};
+  // The prepared save also places the commander at the first enclosure's access.
+  // Dry terrain alone does not prevent a second fence from overlapping that pose.
+  try{DeadwallHusbandry191.validate(proposed,raw);}catch{continue;}
   obstacle=p;break;
  }
  assert.ok(obstacle,'bounded fixture needs a second physically dry enclosure covering the retained origin');
- const raw=g.serialize(),book=raw.expansions127.modules.husbandry191,obstacleId=book.next++;
+ book.next++;
  book.pens.push({...book.pens[0],...obstacle,id:obstacleId,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0});
- Object.assign(raw.frontier,g.husbandry191.access(pen));assert.equal(g.restoreSave(raw),true);g.paused=false;g.activeOverlay=null;
+ assert.equal(g.restoreSave(raw),true);g.paused=false;g.activeOverlay=null;
  assert.equal(g.frontier.world().blocked(origin.x,origin.y,origin.radius,0,null),true);const before=g.husbandry191.view(),bag=copy(g.player.carry);
  assert.equal(g.husbandry191.begin('release',pen.id,before.animals[0].id).ok,false);assert.deepEqual(g.husbandry191.view(),before);assert.deepEqual(g.player.carry,bag);assert.equal(g.frontier.wildlife165().some(a=>a.id===q.a.id),false);
  const cleared=g.serialize();cleared.expansions127.modules.husbandry191.pens.find(p=>p.id===obstacleId).health=0;assert.equal(g.restoreSave(cleared),true);g.paused=false;g.activeOverlay=null;

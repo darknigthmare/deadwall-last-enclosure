@@ -18,6 +18,7 @@ Les profils de nouvelle campagne « Régions naturelles », « Grands biomes » 
 - Un enclos détruit peut être reconstruit avec paiement, sans effacer son identité, ses produits ou son historique. Les périssables continuent de vieillir dans une ruine. La remise en liberté refuse une origine devenue occupée.
 - Le canard possède un pas animé ; la chauve-souris garde une silhouette de mammifère. Filet, couteau, cuisine, tannage, construction et puisage ont des gestes distincts attachés aux mains. Un chantier montre sa progression avant la création de l’enclos physique.
 - Le Guide décrit les capacités actuelles et distingue espèces capturables, reproductibles et comportements facultatifs. Le cache PWA porte une nouvelle identité de version.
+- Le raccourci **Faune & récoltes** se trouve dans le volet régional **Terrain & trajet**, accessible sur ordinateur et tactile ; il n’est plus attaché à l’ancien HUD masqué.
 
 ## Vérification et limites
 
