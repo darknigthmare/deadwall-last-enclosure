@@ -1,3 +1,162 @@
+/* Continuous, seed-keyed fields. No chunk RNG, global provider mutation or save writes. */
+(function(root){'use strict';
+ const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
+ function normalize(value){const key=value===undefined?'classic':value;if(typeof key!=='string'||!Object.hasOwn(core().Landscape189Rules.presets,key))throw Error('Profil de paysage189 invalide.');return key;}
+ function create({base,seed,preset='balanced'}={}){
+  preset=normalize(preset);if(!base?.noise||!base?.hash||!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw Error('Graine ou fournisseur de paysage189 invalide.');
+  if(preset==='classic')return base;
+  const R=core().Landscape189Rules,k=R.climate,unit=(...key)=>base.hash(seed,'landscape189',...key)/4294967296;
+  const scale=R.presets[preset].scale*(k.seedScaleRange[0]+unit('size')*(k.seedScaleRange[1]-k.seedScaleRange[0]));
+  const angle=unit('rotation')*Math.PI*2,cos=Math.cos(angle),sin=Math.sin(angle),offsetX=unit('offset-x')*32000,offsetY=unit('offset-y')*32000;
+  function field(salt,x,y){let value=0,total=0,weight=1;for(let i=0;i<k.octaves;i++){value+=base.noise(seed^salt^(i*1013),x,y,k.scale*scale/2**i)*weight;total+=weight;weight*=k.persistence;}return value/total;}
+  function climate(sampleSeed,x,y){
+   if(sampleSeed!==seed||!Number.isFinite(x)||!Number.isFinite(y))throw Error('Coordonnées ou graine du paysage189 incompatibles.');
+   const px=x*cos-y*sin+offsetX,py=x*sin+y*cos+offsetY;
+   const wx=px+(base.noise(seed^189017,px,py,k.warpScale*scale)-.5)*k.warpAmplitude*scale;
+   const wy=py+(base.noise(seed^189037,px,py,k.warpScale*scale)-.5)*k.warpAmplitude*scale;
+   const channel=salt=>Math.max(0,Math.min(1,.5+(field(salt,wx,wy)-.5)*k.contrast));
+   return{temperature:channel(189101),moisture:channel(189107),elevation:channel(189121)};
+  }
+  return Object.freeze({...base,climate,landscape189:preset,landscapeScale189:scale});
+ }
+ const api=Object.freeze({normalize,create});root.DeadwallLandscape189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(globalThis);
+
+/* Versioned encounter descriptors and physical habitat rules; no saved owner here. */
+(function(root){'use strict';
+ const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
+ const geo=()=>root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
+ let previous=null,catalogue=null;
+ function species(){const C=core(),R=C.Landscape189Rules;if(previous===R)return catalogue;
+  const legacy=C.BiomePopulation165Rules.species,overrides={roeDeer:['antlered','land','crepuscular',3],boar:['boar','land','crepuscular',4],hare:['hare','land','crepuscular',2],duck:['duck','amphibious','day',4],heron:['heron','air','day',1],gull:['gull','air','day',4]};
+  const all={};for(const [id,d]of Object.entries(legacy)){const [shape,mode,activity,group]=overrides[id];all[id]=Object.freeze({...d,shape,mode,activity,group,bankRange:d.bankRange||0,fleeRange:16,wanderSpeed:.32});}
+  for(const [id,d]of Object.entries(R.species))all[id]=d;
+  previous=R;catalogue=Object.freeze(all);return catalogue;
+ }
+ const enabled=w=>!!w&&['balanced','large','patchwork'].includes(w.landscape189);
+ function habitat(d,water){
+  if(!water||water.crossing)return false;
+  const fresh=water.salinity===0||water.salinity==='fresh',salt=water.salinity==='salt'||typeof water.salinity==='number'&&water.salinity>0;
+  if(d.water==='fresh'&&!fresh||d.water==='salt'&&!salt)return false;
+  if(d.mode==='swim')return water.water&&water.distanceToShore>d.radius&&(!d.kinds||d.kinds.includes(water.kind));
+  if(d.mode==='amphibious')return water.water||water.distanceToWater<=d.bankRange;
+  if(d.water!=='land'&&water.distanceToWater>d.bankRange)return false;
+  return d.mode==='air'||!water.water&&!water.movementBlocked;
+ }
+ function clear(w,q,x=q?.x,y=q?.y){
+  if(!enabled(w)||!q?.profile||![x,y].every(Number.isFinite))return false;
+  const d=q.profile,r=Math.max(.32,q.radius),water=w.hydrology.sample(x,y);
+  if(x<=r||y<=r||x>=w.size-r||y>=w.size-r||!habitat(d,water))return false;
+  // Aquatic/low aerial animals waive only NATURAL water, never walls or furniture.
+  if(d.mode==='land')return !w.blocked(x,y,q.radius,0,null);
+  if(!w.wildlifeWaterClear?.(x,y,q.radius))return false;
+  if(d.mode==='swim')for(const [dx,dy]of [[-q.radius,0],[q.radius,0],[0,-q.radius],[0,q.radius]])if(!habitat(d,w.hydrology.sample(x+dx,y+dy)))return false;
+  return true;
+ }
+ function line(w,q,a,b){return q.profile.mode==='land'?w.movementLine(a,b,0,null,null,q.radius):w.wildlifeWaterLine(a,b,q.radius);}
+ function pool(biome,water){const R=core().Landscape189Rules,result={},all=species();
+  for(const[id,weight]of Object.entries(R.guilds[biome.id]||{}))if(habitat(all[id],water))result[id]=weight;
+  const key=water.salinity==='salt'||typeof water.salinity==='number'&&water.salinity>0?'salt':'fresh';
+  for(const[id,weight]of Object.entries(R.waterGuilds[key]))if(habitat(all[id],water))result[id]=weight;
+  return result;
+ }
+ function animal(w,cx,cy,index=0){
+  if(!enabled(w))return null;
+  const C=core(),K=C.Landscape189Rules.population,R=C.BiomePopulation165Rules,limit=Math.ceil(w.size/R.chunk);
+  if(!enabled(w)||w.hydrologyVersion!==1||![cx,cy,index].every(Number.isInteger)||cx<0||cy<0||cx>=limit||cy>=limit||index<0||index>=K.groups*K.members)return null;
+  const group=Math.floor(index/K.members),member=index%K.members,gid='A189_'+cx+'_'+cy+'_'+group* K.members,id='A189_'+cx+'_'+cy+'_'+index,hash=(key)=>geo().hash(w.seed,gid,key)/4294967296;
+  if(hash('presence')>=K.chance)return null;
+  let x=(cx+.15+hash('x')*.7)*R.chunk,y=(cy+.15+hash('y')*.7)*R.chunk;
+  // A second, bounded search favours banks/water, rather than requiring a random
+  // sub-metre stream hit. Never search outside this descriptor's owning chunk.
+  if(group===1){
+   const candidates=[],box={x:cx*R.chunk,y:cy*R.chunk,w:R.chunk,h:R.chunk};
+   const accept=p=>{if(candidates.length<K.aquaticAttempts&&p.x>box.x+1&&p.x<box.x+box.w-1&&p.y>box.y+1&&p.y<box.y+box.h-1&&w.hydrology.sample(p.x,p.y).water)candidates.push(p);};
+   for(const f of w.hydrology.featuresIn(box)){
+    if(f.shape==='line')for(let i=1;i<f.points.length;i++){const a=f.points[i-1],b=f.points[i],v=geo().nearest({x,y},a,b);accept({x:a.x+(b.x-a.x)*v.t,y:a.y+(b.y-a.y)*v.t});}
+    else {const centre=f.points.reduce((q,p)=>({x:q.x+p.x/f.points.length,y:q.y+p.y/f.points.length}),{x:0,y:0});accept(centre);}
+    if(candidates.length>=K.aquaticAttempts)break;
+   }
+   if(candidates.length)({x,y}=candidates[Math.floor(hash('water-anchor')*candidates.length)]);
+  }
+  const water=w.hydrology.sample(x,y),biome=w.biomeAt(x,y),choices=Object.entries(pool(biome,water));if(!choices.length)return null;
+  let draw=hash('species')*choices.reduce((n,row)=>n+row[1],0),chosen=choices.at(-1)[0];for(const[id,weight]of choices){draw-=weight;if(draw<0){chosen=id;break;}}
+  const d=species()[chosen];if(member>=d.group)return null;
+  if(member){const a=geo().hash(w.seed,id,'group-angle')/4294967296*Math.PI*2,rr=(.4+.6*hash('spacing'))*K.groupSpread*member/K.members;x+=Math.cos(a)*rr;y+=Math.sin(a)*rr;}
+  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||x<1||y<1||x>w.size-1||y>w.size-1||!habitat(d,w.hydrology.sample(x,y)))return null;
+  const road=w.nearestRoad({x,y});if(road&&road.d<road.road.width/2+R.roadClearance)return null;
+  return Object.freeze({id,x,y,z:0,poi:null,species:d.id,variant:geo().hash(w.seed,id,'appearance')%4,radius:d.radius,length:d.length,width:d.width,profile:d,biome:biome.id,group189:gid,landscape189:w.landscape189});
+ }
+ function awake(d,dayClock){const K=core().Landscape189Rules.population,t=((dayClock%1)+1)%1,day=t>=K.dayStart&&t<=K.dayEnd;
+  return d.activity==='night'?!day:d.activity==='crepuscular'?Math.abs(t-K.dayStart)<=K.twilightWidth||Math.abs(t-K.dayEnd)<=K.twilightWidth:day;
+ }
+ function speed(w,e,elapsed,dayClock){if(e.alarm>0)return e.profile.speed;
+  const K=core().Landscape189Rules.population;if(!awake(e.profile,dayClock))return 0;
+  const epoch=Math.floor(elapsed/core().BiomePopulation165Rules.animalWanderSeconds),roll=geo().hash(w.seed,e.group189||e.id,epoch,'rest189')/4294967296;
+  return roll<K.restFraction?0:e.profile.mode==='air'?e.profile.speed*.45:e.profile.wanderSpeed;
+ }
+ const api=Object.freeze({species,enabled,habitat,clear,line,pool,animal,awake,speed});root.DeadwallWildlife189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(globalThis);
+
+/* Original procedural silhouettes for the expanded roster, in world metres. */
+(function(root){'use strict';
+ const oval=(c,x,y,rx,ry,color)=>{c.fillStyle=color;c.beginPath();c.ellipse(x,y,Math.max(.001,rx),Math.max(.001,ry),0,0,Math.PI*2);c.fill();};
+ const path=(c,points,color,width=0)=>{c.beginPath();points.forEach((p,i)=>i?c.lineTo(...p):c.moveTo(...p));if(width){c.strokeStyle=color;c.lineWidth=width;c.stroke();}else{c.closePath();c.fillStyle=color;c.fill();}};
+ function draw(c,a,{reducedMotion=false}={}){
+  const R=root.DeadwallCore?.Landscape189Rules,W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),d=W?.species()[a?.species];
+  if(!d||!a.id?.startsWith('A189_')||![a.x,a.y,a.a??0].every(Number.isFinite)||(a.hp??0)<=0)return false;
+  const l=d.length,w=d.width,v=(a.variant||0)%4,colors=d.colors||root.DeadwallWildlifeArt165?.COLOURS[a.species]||['#826c4d','#96805e','#6e5f48','#ab9470'];
+  const fur=colors[v],dark='#343e34',light='#c5bb9c',phase=a.moving&&!reducedMotion?(a.stride165||0):0,s=Math.sin(phase),flying=d.mode==='air'&&a.moving;
+  c.save();try{
+   c.translate(a.x,a.y);oval(c,0,w*.1,l*.4,w*.4,'rgba(15,24,18,.2)');if(flying)c.translate(0,-R.population.flightHeight);c.rotate(a.a||0);
+   if(d.shape==='fish'){
+    oval(c,0,0,l*.36,w*.45,fur);path(c,[[-l*.26,0],[-l*.5,-w*(.5+s*.14)],[-l*.5,w*(.5-s*.14)]],dark);
+    path(c,[[0,0],[-l*.09,-w*.75],[l*.1,-w*.21]],fur);oval(c,l*.24,-w*.12,l*.025,w*.04,dark);
+   }else if(d.shape==='frog'){
+    for(const side of [-1,1])path(c,[[-l*.05,side*w*.22],[-l*.42,side*w*(.7+s*.14)],[-l*.44,side*w*.12]],fur,w*.14);
+    oval(c,0,0,l*.3,w*.3,fur);oval(c,l*.26,0,l*.2,w*.28,fur);for(const side of[-1,1])oval(c,l*.3,side*w*.2,l*.04,w*.055,dark);
+   }else if(['bird','duck','heron','gull','owl','bat','pheasant'].includes(d.shape)){
+    if(flying){const wing=l*(d.shape==='bat'?1.4:1.0)*(1+Math.abs(s)*.35);
+     for(const side of[-1,1])path(c,[[l*.1,side*w*.12],[-l*.12,side*wing],[-l*.42,side*wing*.7],[-l*.2,side*w*.05]],fur);
+    }else if(d.mode!=='amphibious')for(const side of[-1,1])path(c,[[0,side*w*.14],[-l*.09+s*side*l*.03,side*w*.42]],dark,w*.06);
+    oval(c,-l*.07,0,l*.30,w*.36,fur);oval(c,l*.26,0,l*(d.shape==='owl'?.2:.13),w*.24,d.shape==='owl'?light:fur);
+    path(c,[[l*.35,-w*.04],[l*(d.shape==='heron'?.65:.47),0],[l*.35,w*.04]],'#ab9870');
+    const tail=d.shape==='pheasant'?l*.72:l*.46;path(c,[[-l*.25,-w*.12],[-tail,0],[-l*.25,w*.12]],dark);
+    if(d.shape==='owl')for(const side of[-1,1])oval(c,l*.29,side*w*.10,l*.045,w*.05,dark);else oval(c,l*.30,-w*.12,l*.024,w*.03,dark);
+   }else{
+    for(const front of[-1,1])for(const side of[-1,1])path(c,[[front*l*.20,side*w*.17],[front*l*.20+s*front*side*l*.035,side*w*.48]],dark,w*.105);
+    oval(c,-l*.07,0,l*.32,w*.35,fur);oval(c,l*.28,0,l*.17,w*.23,fur);oval(c,l*.43,0,l*.045,w*.08,dark);
+    for(const side of[-1,1])oval(c,l*.22,side*w*.25,d.shape==='hare'?l*.15:l*.06,w*.085,fur);
+    if(['fox','squirrel','otter','beaver'].includes(d.shape)){
+     const thick=d.shape==='beaver'?.23:d.shape==='squirrel'?.24:.14;
+     path(c,[[-l*.26,0],[-l*.49,w*.13],[-l*.72,w*(.2+s*.12)]],d.shape==='beaver'?dark:fur,l*thick);
+     if(d.shape==='fox')oval(c,-l*.72,w*(.2+s*.12),l*.065,w*.14,light);
+    }
+    if(d.shape==='badger')for(const side of[-1,1])path(c,[[l*.15,side*w*.1],[l*.41,side*w*.06]],light,w*.10);
+    if(d.shape==='hedgehog')for(let i=0;i<9;i++){const x=-l*.32+i*l*.065;path(c,[[x,-w*.12],[x-l*.07,-w*.37]],dark,w*.035);}
+    if(['horned','antlered'].includes(d.shape))for(const side of[-1,1]){path(c,[[l*.27,side*w*.14],[l*.14,side*w*.49],[l*.06,side*w*.39]],light,w*.055);if(d.shape==='antlered')path(c,[[l*.15,side*w*.43],[l*.23,side*w*.58]],light,w*.035);}
+    if(d.mode==='amphibious'){c.globalAlpha=.45;for(const side of[-1,1])path(c,[[-l*.10,side*w*.5],[-l*.5,side*w*.75]],'#b2c7bf',w*.035);}
+    oval(c,l*.32,-w*.12,l*.02,w*.028,dark);
+   }
+  }finally{c.restore();}return true;
+ }
+ const api=Object.freeze({draw});root.DeadwallWildlifeArt189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(globalThis);
+
+/* Live field guide, explicitly separating implemented wildlife from future hunting. */
+(function(root){'use strict';
+ function entries(){const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),W=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null),R=C.Landscape189Rules,all=W.species();
+  const modes={land:'Déplacement terrestre ; obstacles et berges bloquantes.',air:'Vol bas animé ; traverse les eaux naturelles mais conserve les obstacles solides. Pas de navigation 3D au-dessus des toitures.',swim:'Nage limitée aux eaux naturelles compatibles. Aucun franchissement de terre ou de pont.',amphibious:'Nage et déplacement sur la berge proche, en eau douce uniquement.'};
+  const cycle={day:'diurne',night:'nocturne',crepuscular:'crépusculaire'};
+  const common={family:'nature',status:'jouable',source:'Profils de nouvelles cartes189. DeadwallCore.Landscape189Rules ; portraits procéduraux originaux.',supplies:'Aucune ressource automatique : chasse, pêche, dépeçage, capture et élevage ne sont pas encore raccordés.',night:'La visibilité reste celle des alliés, des lampes et des obstacles. Le cycle change l’activité, pas les apparitions déjà enregistrées.',qa:'Même graine et même profil : mêmes origines, espèces et groupes. Blessures et morts persistent après reprise.',risks:'Faune non agressive dans cette passe. Elle fuit les menaces perçues et le bruit. Pas de bonus de horde ou de ravitaillement.'};
+  const list=Object.values(all).map(d=>({...common,id:'fauna189-'+d.id,title:d.name+' · faune régionale',summary:'Activité '+cycle[d.activity]+'. Groupes de '+d.group+' individus au maximum, admis selon les obstacles ; aucun quota garanti.',layout:'Gabarit de jeu '+d.length+' × '+d.width+' m. Vitesse de fuite '+d.speed+' m/s. '+modes[d.mode],access:d.water==='land'?'Répartition pondérée dans les biomes compatibles.':'Eau '+(d.water==='salt'?'salée':'douce')+' et habitat vérifiés sur la géométrie réelle.',variants:'Quatre robes ou plumages. Repos, déplacement et fuite ; animation réduite respectée.',interactions:'Milieux, heure, bruit, obstacles, observation et persistance.'}));
+  for(const [id,guild]of Object.entries(R.guilds)){const name=[...C.BiomeRules135.defs,...C.EcologyRules164.defs].find(d=>d.id===id)?.name||id;list.push({...common,id:'fauna189-biome-'+id,title:name+' · peuplement',summary:Object.keys(guild).map(k=>all[k].name).join(' · '),layout:'Les groupes dépendent de la graine ; voies et parcelles sont exclues. La faune aquatique dépend en plus des eaux réellement présentes.',access:'Nouveaux profils Régions naturelles, Grands biomes ou Mosaïque naturelle. Les anciennes campagnes conservent leurs six espèces et leur terrain.',variants:'Alternance d’activité, de groupes et de petites zones de repos, sans renouvellement des morts.'});}
+  list.push({...common,id:'landscape189-profiles',family:'systemes',title:'Graine, grands biomes et mosaïque naturelle',summary:'Une graine numérique et un profil définissent ensemble le monde. Laisser la graine vide en tire une nouvelle ; conserver les deux permet de rejouer le même terrain.',layout:'Température, humidité et relief écologique continus à plusieurs échelles, déformés et orientés selon la graine. Les transitions ne suivent pas la grille de chargement.',access:'Choix dans Nouvelle partie. Continuer conserve le profil enregistré. Les anciennes cartes ne sont jamais converties automatiquement.',variants:'Régions naturelles · Grands biomes · Mosaïque naturelle · Paysage historique.',risks:'Inspiration de principes de génération, pas copie du moteur Minecraft. Région finie et relief écologique, pas terrain voxel ou montagne 3D.'});
+  return Object.freeze(list.map(Object.freeze));
+ }
+ const api=Object.freeze({entries});root.DeadwallEcologyCodex189=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(globalThis);
+
 /* Seed-local surface-water geometry. Water and crossings share one metric contract. */
 (function(root,factory){'use strict';const api=factory(()=>typeof module==='object'&&module.exports?require('./core.js'):root.DeadwallCore,()=>root.DeadwallBiomes135||(typeof require==='function'?require('./biomes135.js'):null));root.DeadwallHydrology165=api;if(typeof module==='object'&&module.exports)module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(getCore,getBiomes){'use strict';
@@ -102,6 +261,8 @@
 /* Stable natural encounters. Merely sampling a landscape never creates saved actors. */
 (function(root){'use strict';
  const geometry=()=>root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),worlds=new WeakMap();
+ const expanded=w=>!!w&&typeof w.landscape189==='string'&&w.landscape189!=='classic';
+ const wildlife=()=>root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null);
  const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=()=>{const r=core()?.BiomePopulation165Rules;if(!r)throw Error('Règles de population naturelle absentes.');return r;};
  const unit=(w,id,key)=>geometry().hash(w.seed,id,key)/4294967296;
  function context(w,id,cx,cy,index,kind){
@@ -115,6 +276,7 @@
  }
  function memo(w,id,build){let cache=worlds.get(w);if(!cache){cache=new Map();worlds.set(w,cache);}if(cache.has(id)){const value=cache.get(id);cache.delete(id);cache.set(id,value);return value;}const value=build();cache.set(id,value);if(cache.size>rules().candidateCache)cache.delete(cache.keys().next().value);return value;}
  function animal(w,cx,cy,index=0){
+  if(expanded(w))return memo(w,'A189_'+cx+'_'+cy+'_'+index,()=>wildlife().animal(w,cx,cy,index));
   const id='A165_'+cx+'_'+cy+'_'+index;return memo(w,id,()=>{const q=context(w,id,cx,cy,index,'animal');if(!q)return null;const R=rules(),pool=[];
    for(const d of Object.values(R.species)){
     const fresh=q.water.salinity===0||q.water.salinity==='fresh',salt=typeof q.water.salinity==='number'?q.water.salinity>0:q.water.salinity==='salt';
@@ -131,18 +293,18 @@
    return Object.freeze({id,x:q.x,y:q.y,z:0,poi:null,radius:core().FrontierTacticsRules.enemyRadius,biome:q.biome.id,bank,profile:Object.freeze({...profile,name:bank&&profile.kind==='walker'?'Errant des berges':profile.name})});
   });
  }
- function candidate(w,id){const match=/^([AN])165_(\d+)_(\d+)_(\d+)$/.exec(id);return match?(match[1]==='A'?animal:contact)(w,Number(match[2]),Number(match[3]),Number(match[4])):null;}
- function admitted(w,q){if(!q||w.blocked(q.x,q.y,q.radius??core().FrontierTacticsRules.enemyRadius,0,null))return false;const margin=rules().parcelClearance;
+ function candidate(w,id){if(typeof id!=='string')return null;const v=/^A189_(\d+)_(\d+)_(\d+)$/.exec(id);if(v)return expanded(w)?animal(w,...v.slice(1).map(Number)):null;const match=/^([AN])165_(\d+)_(\d+)_(\d+)$/.exec(id);return match&&!(match[1]==='A'&&expanded(w))?(match[1]==='A'?animal:contact)(w,Number(match[2]),Number(match[3]),Number(match[4])):null;}
+ function admitted(w,q){if(!q||(q.id.startsWith('A189_')?!wildlife().clear(w,q):w.blocked(q.x,q.y,q.radius??core().FrontierTacticsRules.enemyRadius,0,null)))return false;const margin=rules().parcelClearance;
   for(const p of w.nearPOI(q.x,q.y,60)){const box=p.reserve;if(box&&q.x>box.l-margin&&q.x<box.r+margin&&q.y>box.t-margin&&q.y<box.b+margin)return false;}return true;
  }
  function around(w,x,y,range=rules().streamRange){const R=rules(),animals=[],contacts=[];if(w.hydrologyVersion!==1)return{animals,contacts};
   const max=Math.ceil(w.size/R.chunk)-1;for(let cy=Math.max(0,Math.floor((y-range)/R.chunk));cy<=Math.min(max,Math.floor((y+range)/R.chunk));cy++)for(let cx=Math.max(0,Math.floor((x-range)/R.chunk));cx<=Math.min(max,Math.floor((x+range)/R.chunk));cx++){
-   for(let i=0;i<R.animalCandidates;i++){const q=animal(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)animals.push(q);}
+   for(let i=0;i<(expanded(w)?core().Landscape189Rules.population.groups*core().Landscape189Rules.population.members:R.animalCandidates);i++){const q=animal(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)animals.push(q);}
    for(let i=0;i<R.contactCandidates;i++){const q=contact(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)contacts.push(q);}
   }
   const order=(a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y)||a.id.localeCompare(b.id);animals.sort(order);contacts.sort(order);return{animals,contacts};
  }
- const api=Object.freeze({animal,contact,candidate,admitted,around,cacheSize:w=>worlds.get(w)?.size||0,get RULES(){return rules();}});root.DeadwallBiomePopulation165=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+ const api=Object.freeze({clear189:(w,q,x,y)=>wildlife().clear(w,q,x,y),animal,contact,candidate,admitted,around,cacheSize:w=>worlds.get(w)?.size||0,get RULES(){return rules();}});root.DeadwallBiomePopulation165=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
 
 /* Metric water geometry shared by the landscape, GPS and regional atlas. */
@@ -269,6 +431,7 @@
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
  function drawAnimal(c,a,{reducedMotion=false}={}){
+  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion})||false;
   if(!a||!SPECIES.includes(a.species)||!finite(a)||(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;
@@ -347,8 +510,8 @@
    interactions:'Cohérence entre carte, terrain, collision, approche à pied et conduite. Les implantations terrestres refusent les emprises en eau ; les palissades, pontons et ports complets gardent leurs règles propres.'}));
   const species=Object.values(P.species),speciesNames=species.map(d=>d.name).join(' · '),dimensions=species.map(d=>d.name+' : '+number(d.length)+' × '+number(d.width)+' m, rayon '+number(d.radius)+' m, vitesse de fuite '+number(d.speed)+' m/s').join(' ; ');
   const bankNames=kind=>species.filter(d=>d.water===kind).map(d=>d.name+' à '+number(d.bankRange)+' m au plus d’une berge').join(' · ');
-  list.push(Object.freeze({...common,id:'hydrology165-wildlife',title:'Animaux des biomes et des berges',
-   summary:speciesNames+'. Les espèces terrestres sont pondérées par le biome ; les oiseaux de berge dépendent aussi du type d’eau.',
+  list.push(Object.freeze({...common,id:'hydrology165-wildlife',title:'Animaux historiques des biomes et des berges',
+   summary:'Profil Paysage historique, conservé pour les anciennes campagnes. Les profils naturels189 utilisent les fiches de faune étendue. '+speciesNames+'. Les espèces terrestres sont pondérées par le biome ; les oiseaux de berge dépendent aussi du type d’eau.',
    layout:dimensions+'. Eau douce : '+bankNames('fresh')+'. Eau salée : '+bankNames('salt')+'.',
    access:'Les animaux marchent sur le sol sec et respectent les obstacles. Les oiseaux restent au sol : aucun vol ni nage n’est simulé. Ils errent puis fuient une menace observée ou un bruit.',
    supplies:'Aucune viande, plume ou ressource automatique. Pas d’élevage, de capture ni d’économie de chasse. Une mort ne transforme pas l’animal en contenant de butin.',

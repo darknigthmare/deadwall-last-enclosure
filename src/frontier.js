@@ -1,20 +1,24 @@
 /* Regional travel. The historical defending city keeps updating while its commander is elsewhere. */
 (function(root){'use strict';const C=root.DeadwallCore,G=root.DeadwallFrontierGeometry,W=root.DeadwallFrontierWorld,R=W.RULES,Survey=root.DeadwallFrontierSurvey||(typeof require==='function'?require('./frontier-survey.js'):null),T=C.FrontierTacticsRules,P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null);
-function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,regionEcologyVersion=null,regionHydrologyVersion=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
+function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,regionEcologyVersion=null,regionHydrologyVersion=null,regionLandscape189=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
 const wrap=(n,fn)=>{const f=g[n].bind(g);g[n]=(...a)=>fn(f,...a);};const can=()=>g.state==='playing'&&!g.gameOver&&!g.player.dead&&(!g.paused||g.activeOverlay===g.ui.commandModal);const car=()=>g.expeditions.car();
+const Wildlife189=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null);
 const Population165=root.DeadwallBiomePopulation165||(typeof require==='function'?require('./biome-population165.js'):null),animals165=new Map();let animalState165=null,animalRecords165=0,contactState165=null,contactIds165=new Set();
 function ensure(){if(home!==g.world){const next=C.Frontier.normalize(pending||undefined);
 // Geometry and its bounded read caches are independent of loot, actors and damage.
 // Keep this same game's model across a compatible restore; destruction is read live.
-if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion||regionEcologyVersion!==next.ecologyVersion||regionHydrologyVersion!==next.hydrologyVersion)region=null;
+if(!pending||region?.seed!==g.world.seed||region?.generation!==next.generation||regionDetailVersion!==next.detailVersion||regionEcologyVersion!==next.ecologyVersion||regionHydrologyVersion!==next.hydrologyVersion||regionLandscape189!==(next.landscape189||'classic'))region=null;
 home=g.world;state=next;takenCount=Object.keys(state.taken).length;pending=null;near=[];enemies.clear();bullets=[];action=null;locked=null;focus=null;candidates=[];sound={kind:'Silence',radius:0,time:0};pulse=0;}const v=car();if(state.car&&(!v||v.id!==state.car.id))state.car=null;if(v)v.regionAway=!!state.car;g.player.regionAbsent=state.active;return state;}
 // Frequent pose readers do not need geometry or a validated copy of the expedition history.
-function position(){ensure();return{active:state.active,generation:state.generation,detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,hydrologyVersion:state.hydrologyVersion,x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
+function position(){ensure();return{active:state.active,generation:state.generation,detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,hydrologyVersion:state.hydrologyVersion,...(state.landscape189?{landscape189:state.landscape189}:{}),x:state.x,y:state.y,z:state.z,inside:state.inside,a:state.a,car:state.car?{...state.car}:null};}
 const world=()=>{ensure();if(!region){
- regionDetailVersion=state.detailVersion;regionEcologyVersion=state.ecologyVersion;regionHydrologyVersion=state.hydrologyVersion;
- region=W.create(g.world.seed,state.generation,{detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,hydrologyVersion:state.hydrologyVersion,structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0,contextCompleted160:key=>g.contextOperations160?.isComplete(key)===true});
+ regionDetailVersion=state.detailVersion;regionEcologyVersion=state.ecologyVersion;regionHydrologyVersion=state.hydrologyVersion;regionLandscape189=state.landscape189||'classic';
+ region=W.create(g.world.seed,state.generation,{detailVersion:state.detailVersion,ecologyVersion:state.ecologyVersion,hydrologyVersion:state.hydrologyVersion,...(state.landscape189?{landscape189:state.landscape189}:{}),structureDestroyed:id=>!!g.worldEvolution?.structureDestroyed(id),resourceTaken:id=>state.taken[id]||0,contextCompleted160:key=>g.contextOperations160?.isComplete(key)===true});
  // Annex foundations already occupy physical space. Give all regional readers
  // the same live obstacles, without changing generated plans or saved records.
+ const animalClear=region.wildlifeWaterClear,animalLine=region.wildlifeWaterLine;
+ region.wildlifeWaterClear=(x,y,r)=>animalClear(x,y,r)&&!g.worldEvolution?.districtBlocked(x,y,r,null,null);
+ region.wildlifeWaterLine=(a,b,r)=>animalLine(a,b,r)&&g.worldEvolution?.districtLineClear(a,b,r)!==false;
  const blocked=region.blocked,optical=region.opticalBlocked||blocked,line=region.line,movement=region.movementLine||line,vehicle=region.vehicleClear;
  region.blocked=(x,y,r=.32,z=0,inside=null,ignore=null)=>blocked(x,y,r,z,inside,ignore)||z===0&&!!g.worldEvolution?.districtBlocked(x,y,r,null,ignore);
  region.opticalBlocked=(x,y,r=.32,z=0,inside=null,ignore=null)=>optical(x,y,r,z,inside,ignore)||z===0&&!!g.worldEvolution?.districtBlocked(x,y,r,null,ignore);
@@ -139,12 +143,12 @@ function reserveContact165(id){if(contactState165!==state){contactState165=state
 function populate165(w){resumeAnimals165();if(w.hydrologyVersion!==1||state.z!==0)return;const K=C.BiomePopulation165Rules,rows=Population165.around(w,state.x,state.y,K.streamRange+K.animalDrift);
  for(const[id,e]of animals165)if(Math.hypot(e.x-state.x,e.y-state.y)>K.streamRange||e.hp<=0)animals165.delete(id);
  for(const q of rows.animals){if(animals165.size>=K.animalBudget)break;if(animals165.has(q.id)||state.wildlife165[q.id]?.hp===0)continue;const saved=state.wildlife165[q.id],pose=saved||q;
-  if(Math.hypot(pose.x-state.x,pose.y-state.y)>K.streamRange||!saved&&animalRecords165>=K.maxWildlifeRecords||(saved?w.blocked(pose.x,pose.y,q.radius,0,null):!Population165.admitted(w,q)))continue;
+  if(Math.hypot(pose.x-state.x,pose.y-state.y)>K.streamRange||!saved&&animalRecords165>=K.maxWildlifeRecords||(saved?(q.id.startsWith('A189_')?!Wildlife189.clear(w,q,pose.x,pose.y):w.blocked(pose.x,pose.y,q.radius,0,null)):!Population165.admitted(w,q)))continue;
   const e=animalActor165(q,saved);animals165.set(q.id,e);if(!saved){animalRecords165++;state.wildlife165[q.id]=animalRecord165(e);}
  }
  let natural=[...enemies.values()].filter(e=>e.natural165).length;
  for(const q of rows.contacts){if(natural>=K.contactBudget||enemies.size>=R.maxEnemy)break;if(state.enemies[q.id]===0||enemies.has(q.id))continue;const saved=state.tracks[q.id],pose=saved||q;
-  if(Math.hypot(pose.x-state.x,pose.y-state.y)>K.streamRange||(saved?w.blocked(pose.x,pose.y,q.radius,0,null):!Population165.admitted(w,q))||!reserveContact165(q.id))continue;
+  if(Math.hypot(pose.x-state.x,pose.y-state.y)>K.streamRange||(saved?(q.id.startsWith('A189_')?!Wildlife189.clear(w,q,pose.x,pose.y):w.blocked(pose.x,pose.y,q.radius,0,null)):!Population165.admitted(w,q))||!reserveContact165(q.id))continue;
   const profile=q.profile;enemies.set(q.id,{id:q.id,poi:null,z:0,x:pose.x,y:pose.y,a:saved?.a??G.hash(q.id,'facing')/4294967296*Math.PI*2,hp:state.enemies[q.id]??profile.health,maxHealth:profile.health,kind:profile.kind,biomeProfile:profile,natural165:q,mode:'idle',ttl:0,gx:pose.x,gy:pose.y,cool:0,...(saved||{}),path:null,repath:0});natural++;
  }
 }
@@ -156,12 +160,12 @@ function animalStep165(dt){if(state.hydrologyVersion!==1||!state.active)return;r
   const origin=Population165.candidate(w,e.id);if(!origin)continue;e.moving=false;e.alarm=Math.max(0,e.alarm-dt);let threat=null,best=Infinity;
   for(const p of threats){if((p.hp??1)<=0||p.z!==0)continue;const distance=Math.hypot(p.x-e.x,p.y-e.y),range=p===state?(state.quiet?K.animalFleeRange*.55:K.animalFleeRange):K.animalThreatRange;if(distance>=range||distance>=best||!w.line(e,p,0,null,null,.015))continue;threat=p;best=distance;}
   if(threat){e.alarm=K.animalAlarm;e.a=Math.atan2(e.y-threat.y,e.x-threat.x);}
-  const fleeing=e.alarm>0,speed=fleeing?e.profile.speed:K.animalWanderSpeed,epoch=Math.floor(g.elapsed/K.animalWanderSeconds),wander=G.hash(w.seed,e.id,epoch)/4294967296*Math.PI*2;
+  const fleeing=e.alarm>0,speed=e.id.startsWith('A189_')?Wildlife189.speed(w,e,g.elapsed,g.dayClock):(fleeing?e.profile.speed:K.animalWanderSpeed),epoch=Math.floor(g.elapsed/K.animalWanderSeconds),wander=G.hash(w.seed,e.id,epoch)/4294967296*Math.PI*2;
   if(!fleeing)e.a=Math.hypot(e.x-origin.x,e.y-origin.y)>K.animalWander?Math.atan2(origin.y-e.y,origin.x-e.x):wander;
   const amount=speed*dt,parts=Math.max(1,Math.ceil(amount/K.maxStep)),start={x:e.x,y:e.y};
   const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},inset=Math.max(R.footRadius,e.radius);
-  const clear=(x,y)=>{if(Math.hypot(x-origin.x,y-origin.y)>K.animalDrift||x<=inset||y<=inset||x>=w.size-inset||y>=w.size-inset||w.blocked(x,y,e.radius,0,null))return false;if(state.car){const q=G.local({...state.car,w:vp.w,h:vp.h},x,y);if(G.circleRect(q.x,q.y,e.radius,{x:0,y:0,w:vp.w,h:vp.h}))return false;}return true;};
-  for(let i=0;i<parts;i++){let moved=false;for(const turn of[0,.65,-.65,1.25,-1.25]){const a=e.a+turn,x=e.x+Math.cos(a)*amount/parts,y=e.y+Math.sin(a)*amount/parts;if(!clear(x,y)||!w.movementLine(e,{x,y},0,null,null,e.radius))continue;e.x=x;e.y=y;e.a=a;moved=true;break;}if(!moved)break;}
+  const clear=(x,y)=>{if(Math.hypot(x-origin.x,y-origin.y)>K.animalDrift||x<=inset||y<=inset||x>=w.size-inset||y>=w.size-inset||(e.id.startsWith('A189_')?!Wildlife189.clear(w,e,x,y):w.blocked(x,y,e.radius,0,null)))return false;if(state.car){const q=G.local({...state.car,w:vp.w,h:vp.h},x,y);if(G.circleRect(q.x,q.y,e.radius,{x:0,y:0,w:vp.w,h:vp.h}))return false;}return true;};
+  for(let i=0;i<parts;i++){let moved=false;for(const turn of[0,.65,-.65,1.25,-1.25]){const a=e.a+turn,x=e.x+Math.cos(a)*amount/parts,y=e.y+Math.sin(a)*amount/parts;if(!clear(x,y)||!(e.id.startsWith('A189_')?Wildlife189.line(w,e,e,{x,y}):w.movementLine(e,{x,y},0,null,null,e.radius)))continue;e.x=x;e.y=y;e.a=a;moved=true;break;}if(!moved)break;}
   const distance=Math.hypot(e.x-start.x,e.y-start.y);e.moving=distance>1e-6;e.stride165=(e.stride165+distance/(e.length*.72)*Math.PI*2)%K.maxStride;state.wildlife165[e.id]=animalRecord165(e);
  }
 }
@@ -183,7 +187,7 @@ amount=g.playerOps131?.absorbDamage(amount)??amount;const before=g.player.health
 function shoot(){g.contextOperations160?.cancel('Intervention interrompue pour le tir ; aucun matériau dépensé.');if(!g.arsenal134&&g.succession133&&!g.succession133.ownsWeapon(g.player.weapon))return false;if(g.fieldSupplies?.busy()||g.essentials?.busy())return false;if(!can()||!state.active||state.car?.driving||g.player.reload>0||g.player.shootCooldown>0)return false;if(g.arsenal134&&!g.arsenal134.beforeShot())return false;const p=g.player,w=g.arsenal134?.weaponSpec()||C.WEAPONS[p.weapon];if(p.magazine[p.weapon]<=0){g.startReload();return false;}p.magazine[p.weapon]--;g.arsenal134?.afterShot();p.shootCooldown=1/w.fireRate;g.stats.shots++;emitNoise(T.shotNoise[p.weapon]||42,'Tir');g.audio.shot(p.weapon);for(let i=0;i<w.pellets;i++){const spread=(G.hash(world().seed,state.shots++,i)/4294967296-.5)*2*w.spread;bullets.push({x:state.x,y:state.y,dx:Math.cos(state.a+spread),dy:Math.sin(state.a+spread),left:w.range/32,damage:w.damage});}return true;}
 // Damage live regional contacts through the same persistent health ledger as projectiles.
 function hitEnemy(id,damage){
- if(typeof id==='string'&&id.startsWith('A165_'))return hitWildlife165(id,damage);
+ if(typeof id==='string'&&(id.startsWith('A165_')||id.startsWith('A189_')))return hitWildlife165(id,damage);
  ensure();const e=enemies.get(id);
  if(!e||!Number.isFinite(damage)||damage<=0||!can()||!state.active||e.z!==state.z||e.z!==0&&e.poi!==state.inside)return false;
  e.hp=Math.max(0,e.hp-damage);state.enemies[e.id]=e.hp;

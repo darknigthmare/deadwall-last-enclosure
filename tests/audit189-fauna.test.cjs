@@ -1,0 +1,27 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),C=require('../src/core.js'),F=require('../src/wildlife189.js'),R=C.Landscape189Rules;
+const water=(kind='land',salinity='fresh')=>({water:kind!=='land',kind,salinity,depth:2,distanceToWater:kind==='land'?100:0,distanceToShore:10,movementBlocked:kind!=='land',crossing:null});
+test('189 all sixteen biomes have distinct explicit guilds and the full 26-species roster',()=>{
+ const ids=[...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>d.id);assert.deepEqual(Object.keys(R.guilds).sort(),ids.sort());assert.equal(Object.keys(F.species()).length,26);
+ for(const guild of Object.values(R.guilds)){assert.ok(Object.keys(guild).length>=6);for(const[id,n]of Object.entries(guild)){assert.ok(F.species()[id]);assert.ok(n>0);}}
+ for(const d of Object.values(F.species())){assert.ok(d.health<=80&&d.health>0);assert.ok(d.length>0&&d.width>0&&d.radius>0);assert.ok(d.group>=1&&d.group<=4);}
+ assert.ok(F.pool({id:'brownfield'},water()).crow);assert.equal(F.pool({id:'rockyHighland'},water()).pigeon,undefined);
+});
+test('189 freshwater fish, coastal fish and shore animals use real water and salinity',()=>{
+ const s=F.species();assert.equal(F.habitat(s.trout,water('river')),true);assert.equal(F.habitat(s.trout,water('sea','salt')),false);assert.equal(F.habitat(s.trout,water()),false);
+ assert.equal(F.habitat(s.carp,water('pond')),true);assert.equal(F.habitat(s.carp,water('stream')),false);assert.equal(F.habitat(s.mullet,water('sea','salt')),true);assert.equal(F.habitat(s.mullet,water('lake')),false);
+ assert.equal(F.habitat(s.duck,water('lake')),true);assert.equal(F.habitat(s.duck,water('sea','salt')),false);assert.equal(F.habitat(s.duck,{...water(),distanceToWater:10}),true);
+ for(const d of Object.values(s))assert.equal(F.habitat(d,{...water('river'),crossing:'bridge'}),false);
+});
+test('189 swimmer clearance never confuses transparent water with permission to enter solids',()=>{
+ const q={x:100,y:100,radius:.1,profile:F.species().trout},w={landscape189:'balanced',size:1000,hydrology:{sample:()=>water('river')},wildlifeWaterClear:()=>true};assert.equal(F.clear(w,q),true);
+ w.wildlifeWaterClear=()=>false;assert.equal(F.clear(w,q),false);w.wildlifeWaterClear=()=>true;w.hydrology.sample=(x)=>x>100?water():water('river');assert.equal(F.clear(w,q),false,'whole collision disc must remain in water');
+});
+test('189 rest/day/night rhythms do not ignore an alarm and use no random state',()=>{
+ const s=F.species(),w={seed:42};assert.equal(F.awake(s.owl,.5),false);assert.equal(F.awake(s.owl,.02),true);assert.equal(F.awake(s.pigeon,.5),true);assert.equal(F.awake(s.pigeon,.02),false);
+ assert.equal(F.speed(w,{id:'a',profile:s.owl,alarm:0},123,.5),0);assert.equal(F.speed(w,{id:'a',profile:s.owl,alarm:1},123,.5),s.owl.speed);
+});
+test('189 original silhouettes render all species without changing actors or context balance',()=>{
+ globalThis.DeadwallCore=C;require('../src/wildlife-art165.js');const A=require('../src/wildlife-art189.js');let depth=0,draws=0;const ctx=new Proxy({save(){depth++;},restore(){depth--;}},{get(o,k){return k in o?o[k]:(...a)=>{assert.ok(a.every(v=>typeof v!=='number'||Number.isFinite(v)));draws++;};},set(o,k,v){o[k]=v;return true;}});
+ for(const d of Object.values(F.species()))for(let variant=0;variant<4;variant++){const a={id:'A189_1_1_0',species:d.id,x:100,y:100,a:1,variant,hp:d.health,moving:true,stride165:1},before=JSON.stringify(a);assert.equal(A.draw(ctx,a),true);assert.equal(A.draw(ctx,a,{reducedMotion:true}),true);assert.equal(JSON.stringify(a),before);assert.equal(depth,0);}assert.ok(draws>1000);
+});

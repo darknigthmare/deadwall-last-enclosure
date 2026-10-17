@@ -46,7 +46,7 @@
  const forestSelections=new WeakMap();
  function ecology(world){return world?.ecologyVersion===1?world.biomes:root.DeadwallBiomes135;}
  function forestKind(o,p,world,seed,index,x,y){
-  const provider=ecology(world);let state=forestSelections.get(o);const key=[seed,world?.generation,world?.ecologyVersion||0,world?.hydrologyVersion||0,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h].join(':');
+  const provider=ecology(world);let state=forestSelections.get(o);const key=[seed,world?.generation,world?.ecologyVersion||0,world?.hydrologyVersion||0,world?.landscape189||'classic',p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h].join(':');
   if(!state||state.world!==world||state.provider!==provider||state.key!==key){state={world,provider,key,kinds:[]};forestSelections.set(o,state);}
   if(state.kinds[index])return state.kinds[index];const point=globalPoint(p,x,y);
   const botanical=provider?.pickTree?.(seed,point.x,point.y,o.id+':'+index,{generation:world?.generation??10}),biome=botanical?null:world?.biomeAt?.(point.x,point.y),species=Object.keys(biome?.def?.trees||{oak:1});
@@ -54,7 +54,7 @@
  }
  const physicalTrees=new WeakMap();
  function physicalTree(o,p,world,seed){
-  const provider=ecology(world),key=[seed,world?.generation,world?.ecologyVersion||0,world?.hydrologyVersion||0,p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h,o.species].join(':');let cached=physicalTrees.get(o);
+  const provider=ecology(world),key=[seed,world?.generation,world?.ecologyVersion||0,world?.hydrologyVersion||0,world?.landscape189||'classic',p.x,p.y,p.a||0,p.w,p.h,o.id,o.x,o.y,o.w,o.h,o.species].join(':');let cached=physicalTrees.get(o);
   if(cached?.world===world&&cached.provider===provider&&cached.key===key)return cached.tree;
   const x=o.x+o.w/2,y=o.y+o.h/2,species=Nature?.TREES?.includes(o.species)?o.species:forestKind(o,p,world,seed,0,x,y),def=provider?.TREES?.[species],range=def?.canopy;
   const canopy=Array.isArray(range)&&range.length===2&&range.every(n=>Number.isFinite(n)&&n>0)?range[0]+hash(seed,o.id,'canopy')/4294967296*(range[1]-range[0]):3;

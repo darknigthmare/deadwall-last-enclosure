@@ -47,6 +47,7 @@
   oval(c,l*(s==='heron'?.35:.29),-w*.09,l*.012,w*.023,'#24352d');
  }
  function drawAnimal(c,a,{reducedMotion=false}={}){
+  if(a?.id?.startsWith('A189_'))return (root.DeadwallWildlifeArt189||(typeof require==='function'?require('./wildlife-art189.js'):null))?.draw(c,a,{reducedMotion})||false;
   if(!a||!SPECIES.includes(a.species)||!finite(a)||(a.hp??a.health??0)<=0)return false;
   const rule=root.DeadwallCore?.BiomePopulation165Rules?.species?.[a.species],l=a.length??rule?.length,w=a.width??rule?.width;
   if(![l,w,a.a??0].every(Number.isFinite)||l<=0||w<=0)return false;

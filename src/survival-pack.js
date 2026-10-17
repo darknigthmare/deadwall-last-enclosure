@@ -115,7 +115,7 @@ function install(g){
  function depthEntries(v,view){return state.camps.filter(c=>c.domain==='region'&&v.z===0&&c.x>=view.l-3&&c.x<=view.r+3&&c.y>=view.t-3&&c.y<=view.b+3&&(root.DeadwallFrontierArt?.visiblePoint?.(g,c,v)??true)).map(c=>({kind:'camp',id:'camp:'+c.id,depth:c.y+R.campRadius,draw:ctx=>draw(ctx,'region',c)}));}
  let terrainWorld=null,terrainRegion=null,terrainProvider=null,terrainKey='',terrainRows=[];
  function surroundings(){
-  const f=frontierPosition(),regional=f.active?g.frontier.world():null,key=[f.active,f.generation,f.detailVersion??0,f.ecologyVersion??0,f.hydrologyVersion??0,f.x,f.y,f.z,f.inside,g.player.x,g.player.y,g.weather,g.exploration125?.generation].join(':');
+  const f=frontierPosition(),regional=f.active?g.frontier.world():null,key=[f.active,f.generation,f.detailVersion??0,f.ecologyVersion??0,f.hydrologyVersion??0,f.landscape189||'classic',f.x,f.y,f.z,f.inside,g.player.x,g.player.y,g.weather,g.exploration125?.generation].join(':');
   if(terrainWorld===g.world&&terrainRegion===regional&&terrainProvider===regional?.biomes&&terrainKey===key)return terrainRows;
   terrainWorld=g.world;terrainRegion=regional;terrainProvider=regional?.biomes;terrainKey=key;terrainRows=[];
   if(f.active){

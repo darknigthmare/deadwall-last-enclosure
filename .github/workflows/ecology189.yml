@@ -1,0 +1,53 @@
+name: Seeded biomes and wildlife 189
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'presentation132.css'
+      - 'scripts/*189*'
+      - 'scripts/public-manifest183.cjs'
+      - 'tests/*189*'
+      - '.github/workflows/ecology189.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ecology189-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: New contracts and historical ecology compatibility
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/ecology189
+          git rev-parse HEAD > artifacts/qa/ecology189/commit.txt
+          node --test --test-concurrency=2 tests/audit189-*.test.cjs tests/biome-population*.test.cjs tests/ecology-*.test.cjs tests/hydrology-state165.test.cjs tests/hydrology-validation165.test.cjs tests/biomes164.test.cjs 2>&1 | tee artifacts/qa/ecology189/contracts.log
+      - name: Physical descriptor census across three biome presets
+        run: node scripts/audit-ecology189.mjs
+      - run: npx playwright install --with-deps chromium
+      - name: Native menu and regional wildlife on the built distribution
+        run: node scripts/browser-ecology189.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ecology189-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

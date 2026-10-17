@@ -48,6 +48,9 @@ test('présentation 132 : les contrôles du titre sont déplacés sans duplicati
   assert.equal(q('campaignSaveNote').closest('details').id,'campaignStorage132');
   assert.equal(q('startScenarioFacts').closest('details').id,'scenarioSupply132');
   assert.equal(q('mapSeed').closest('details').id,'campaignMap132');
+  assert.equal(q('worldLandscape189').closest('details').id,'campaignMap132');
+  assert.equal(q('landscapeHint189').closest('details').id,'campaignMap132');
+  assert.equal(menu.querySelectorAll('#worldLandscape189').length,1);
   let starts = 0; g.requestNewGame = () => { starts++; return true; };
   q('newGameButton').click(); assert.equal(starts,1);
   const pause=q('pauseButton');

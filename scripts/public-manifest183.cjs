@@ -2,6 +2,10 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 const BUNDLED_MODULES=Object.freeze([
+  "src/landscape189.js",
+  "src/wildlife189.js",
+  "src/wildlife-art189.js",
+  "src/ecology-codex189.js",
   "src/hydrology165.js",
   "src/biome-population165.js",
   "src/water-art165.js",

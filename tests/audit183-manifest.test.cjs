@@ -5,7 +5,8 @@ function fixture(t,body){const p=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-
 const style='<link rel="stylesheet" href="styles.css">';
 test('183 public manifest preserves actual entry order and bundled modules execute once',()=>{
  const {scripts,styles}=M.readPublicEntries(root);assert.equal(scripts.length,164);assert.equal(styles.length,24);
- assert.equal(new Set([...scripts,...styles]).size,188);assert.equal(M.BUNDLED_MODULES.length,32);
+ assert.equal(new Set([...scripts,...styles]).size,188);assert.equal(M.BUNDLED_MODULES.length,36);
+ for(const file of ['src/landscape189.js','src/wildlife189.js','src/wildlife-art189.js','src/ecology-codex189.js'])assert.equal(M.BUNDLED_MODULES.filter(p=>p===file).length,1,file);
  assert.ok(M.BUNDLED_MODULES.includes('src/hydrology165.js'));assert.ok(M.BUNDLED_MODULES.includes('src/biomes164.js'));
  assert.ok(scripts.indexOf('src/codex3000-live-data.js')<scripts.indexOf('src/core.js'));assert.equal(M.verifyBundle(root),true);
 });

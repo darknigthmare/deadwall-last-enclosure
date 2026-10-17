@@ -49,7 +49,7 @@
     if (!Number.isInteger(seed) || !position || !Number.isInteger(position.generation)) return null;
     const detail = position.detailVersion ?? 0, ecology = position.ecologyVersion ?? 0, water = position.hydrologyVersion ?? 0;
     return {
-      summary: 'Graine ' + seed + ' · Région G' + position.generation + ' · Détails ' + detail + ' · Écologie ' + ecology + ' · Eau ' + water,
+      summary: 'Graine ' + seed + ' · Région G' + position.generation + ' · Détails ' + detail + ' · Écologie ' + ecology + ' · Eau ' + water + (position.landscape189?' · Paysage '+({balanced:'Régions naturelles',large:'Grands biomes',patchwork:'Mosaïque naturelle'}[position.landscape189]||position.landscape189):''),
       advice: water === 1
         ? 'Cette campagne contient le réseau naturel d’eau. Continuer conserve la géographie, les découvertes et les prélèvements enregistrés.'
         : 'Cette carte conserve son terrain historique. Le réseau naturel d’eau et sa faune demandent une nouvelle campagne ; Continuer ne régénère pas le monde.',
@@ -89,8 +89,9 @@
     const facts = get('startScenarioFacts');
     if (scenario?.parentNode && facts?.parentNode) scenario.appendChild(disclose('scenarioSupply132', 'Personnel et ravitaillement initial', facts));
     append(brief, scenario, difficulty);
-    const seed = card.querySelector('.seed-controls'), hint = get('seedHint'), saveNote = get('campaignSaveNote');
-    if (seed?.parentNode) append(brief, disclose('campaignMap132', 'Carte personnalisée et bilans', seed, hint));
+    const seed = get('mapSeed')?.closest('.seed-controls') || card.querySelector('.seed-controls'), hint = get('seedHint'), saveNote = get('campaignSaveNote');
+    const landscape = get('worldLandscape189')?.closest('.seed-controls'), landscapeHint = get('landscapeHint189');
+    if (seed?.parentNode) append(brief, disclose('campaignMap132', 'Carte personnalisée et bilans', landscape!==seed?landscape:null, landscapeHint, seed, hint));
     if (saveNote?.parentNode) append(brief, disclose('campaignStorage132', 'Sauvegarde locale · une campagne active', saveNote));
     append(card, identity, brief, footer);
     const caption = menu.querySelector('.menu-scene-caption'); if (caption?.parentNode) caption.hidden = true;
