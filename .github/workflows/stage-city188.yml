@@ -32,19 +32,17 @@ jobs:
           assert text.count(old) == 1
           text = text.replace(old, new)
           old = '        transaction.work = await workManually(page, context, viewport.touch, transaction.id);\n'
-          extra = '''        if (profile.protection) {
-                    const preserved = await page.evaluate(({ id, point }) => {
-                      const g = DEADWALL, b = g.world.buildings.get(id);
-                      return g.friendlyPositionClear(g.player, point.x, point.y) && g.workerCanWorkAt({ ...g.player, ...point }, g.core(), 100) &&
-                        b?.completed && !b.dead && b.health > 0 && Math.hypot(b.x - point.x, b.y - point.y) <= b.def.range - 80 && g.hostileLineClear(b, point);
-                    }, profile.protection);
-                    advanced(type + ': later paid construction preserves the defended core work point and its service access', preserved);
-                  }
-          '''
-          # YAML strips ten indentation spaces; preserve the source's own indentation.
-          lines = extra.splitlines()
-          extra = lines[0] + '\n' + '\n'.join(line[10:] if line.startswith('          ') else line for line in lines[1:])
-          if not extra.endswith('\n'): extra += '\n'
+          extra = '\n'.join([
+              '        if (profile.protection) {',
+              '          const preserved = await page.evaluate(({ id, point }) => {',
+              '            const g = DEADWALL, b = g.world.buildings.get(id);',
+              '            return g.friendlyPositionClear(g.player, point.x, point.y) && g.workerCanWorkAt({ ...g.player, ...point }, g.core(), 100) &&',
+              '              b?.completed && !b.dead && b.health > 0 && Math.hypot(b.x - point.x, b.y - point.y) <= b.def.range - 80 && g.hostileLineClear(b, point);',
+              '          }, profile.protection);',
+              "          advanced(type + ': later paid construction preserves the defended core work point and its service access', preserved);",
+              '        }',
+              ''
+          ])
           assert text.count(old) == 1
           text = text.replace(old, old + extra)
           result = text.encode()
