@@ -239,13 +239,15 @@ async function stairsFixture(page) {
     for (const p of w.nearPOI(scene.point.x, scene.point.y, 150)) for (let i = 0; i < w.threatCount(p); i++) s.frontier.enemies[p.id + ':e' + i] = 0;
     s.frontier.kills = Object.values(s.frontier.enemies).filter(n => n === 0).length;
     const a = Math.atan2(scene.road.b.y - scene.road.a.y, scene.road.b.x - scene.road.a.x);
-    Object.assign(s.worldEvolution, { serial: 1, clock: 10, nextHorde: 11.5, groups: [{ id: 'W0000', kind: 'migrating', count: 80, lost: 0, wound: 0, ...scene.center, a, seen: false, contacts: { 0: { ...scene.center, z: 0, a, mode: 'idle', ttl: 0, gx: scene.center.x, gy: scene.center.y, cool: 0 } } }] });
+    // Leave time for native Resume, touch Terrain expansion and the stair tap before observing the future event.
+    const clock = 10, eventLeadSeconds = 5, nextHorde = clock + eventLeadSeconds;
+    Object.assign(s.worldEvolution, { serial: 1, clock, nextHorde, groups: [{ id: 'W0000', kind: 'migrating', count: 80, lost: 0, wound: 0, ...scene.center, a, seen: false, contacts: { 0: { ...scene.center, z: 0, a, mode: 'idle', ttl: 0, gx: scene.center.x, gy: scene.center.y, cool: 0 } } }] });
     g.restoreSave(DeadwallSave.validate(s)); g.togglePause(false);
     let up;
     try { up = g.frontier.stairsStatus(1); }
     finally { g.togglePause(true); }
     if (!up.ok) throw Error('Native upward stair unavailable: ' + up.reason);
-    return { poi: { id: scene.place.id, type: scene.place.type, levels: scene.place.levels }, point: scene.point, center: scene.center, changed: ['regional physical stair pose', 'phaseTime=999', 'seen stair POI', 'cleared bounded resident ledger', 'one migrating exterior group', 'exterior event due at clock=11.5'], stockAdded: 0, validatedSave: true };
+    return { poi: { id: scene.place.id, type: scene.place.type, levels: scene.place.levels }, point: scene.point, center: scene.center, exteriorEvent: { clock, nextHorde, leadSeconds: eventLeadSeconds }, changed: ['regional physical stair pose', 'phaseTime=999', 'seen stair POI', 'cleared bounded resident ledger', 'one migrating exterior group', 'exterior event due after five seconds for native controls'], stockAdded: 0, validatedSave: true };
   });
 }
 
@@ -318,6 +320,7 @@ try {
       if (view.touch) await touchStairs(page, 1); else { await page.locator('#game').focus(); await page.keyboard.press('PageUp'); }
       await page.waitForFunction(() => DEADWALL.frontier.position().z === 1, null, { timeout: 5000 });
       const before = await floorReadout(page);
+      profile.nativeAscent = { position: before.position, clock: before.evolution.clock, nextHorde: before.evolution.nextHorde, groups: before.evolution.groups.length, serial: before.evolution.serial };
       check('Prepared exterior event is still pending after the native ascent', before.evolution.groups.length === 1 && before.evolution.clock < before.evolution.nextHorde);
       await page.waitForFunction(target => DEADWALL.worldEvolution.snapshot().clock >= target, Math.max(before.evolution.nextHorde + .15, before.evolution.clock + .6), { timeout: 10000 });
       await pause(page, !!view.touch); const upstairs = await floorReadout(page); profile.upstairs = { before, after: upstairs };

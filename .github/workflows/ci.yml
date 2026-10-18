@@ -86,7 +86,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 6
       matrix:
         include:
           - group: d17
@@ -145,6 +145,7 @@ jobs:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       DEADWALL_REQUIRE_WEBGL: '1'
       DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+      DEADWALL_QA_OUTPUT: ${{ github.workspace }}/artifacts/qa
       VERTICAL175_QA_OUT: artifacts/qa/vertical175
       VERTICAL176_QA_OUT: artifacts/qa/vertical176
       VERTICAL177_QA_OUT: artifacts/qa/vertical177

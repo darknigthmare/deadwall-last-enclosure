@@ -53,7 +53,7 @@ test('CI report traversal accepts nested evidence and refuses linked or oversize
     fs.mkdirSync(path.join(root,'browser'));
     fs.writeFileSync(path.join(root,'browser','report.json'),JSON.stringify({pass:false,profiles:[{viewport:{name:'laptop'},pass:false,failure:'page.waitForFunction: Timeout exceeded'}]}));
     fs.writeFileSync(path.join(root,'ignored.txt'),JSON.stringify({ok:false,failure:'Should not be scanned'}));
-    fs.writeFileSync(path.join(root,'oversized-report.json'),' '.repeat(1024*1024+1));
+    fs.writeFileSync(path.join(root,'oversized-report.json'),' '.repeat(2*1024*1024+1));
     fs.writeFileSync(path.join(outside,'report.json'),JSON.stringify({ok:false,failure:'Outside report must not appear'}));
     try {fs.symlinkSync(outside,path.join(root,'linked'),'junction');} catch (error) {if(!['EPERM','EACCES'].includes(error.code))throw error;}
     const result=collectFailureSummaries(root);
@@ -62,6 +62,27 @@ test('CI report traversal accepts nested evidence and refuses linked or oversize
     assert.equal(result.warnings.length,1);
     assert.ok(result.warnings[0].includes('oversized-report.json'));
   } finally {fs.rmSync(root,{recursive:true,force:true});fs.rmSync(outside,{recursive:true,force:true});}
+});
+
+test('CI preserves a full visual report above one MiB without publishing its atlas body', async () => {
+  const {collectFailureSummaries,annotationLines} = await helper;
+  const root = fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-ci-visual-report-'));
+  try {
+    // The complete world153 report measured 1,056,606 bytes. Its failing check
+    // must remain readable alongside full atlas evidence, not disappear.
+    const report = {pass:false,profiles:[{viewport:{name:'mobile'},pass:false,
+      checks:[{name:'Prepared exterior event is still pending after the native ascent',pass:false}],
+      atlasEvidence:'x'.repeat(1056606)}]};
+    fs.writeFileSync(path.join(root,'report.json'),JSON.stringify(report));
+    const result = collectFailureSummaries(root);
+    assert.deepEqual(result.warnings,[]);
+    assert.equal(result.failures.length,1);
+    assert.equal(result.failures[0].profile,'mobile');
+    assert.equal(result.failures[0].message,'Failed check: Prepared exterior event is still pending after the native ascent');
+    const lines=annotationLines(result);
+    assert.equal(lines.length,1);assert.ok(lines[0].length<900);
+    assert.ok(!lines[0].includes('xxxxxxxx'));
+  } finally {fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('Missing evidence stays explicit and does not change the existing QA exit code', async () => {

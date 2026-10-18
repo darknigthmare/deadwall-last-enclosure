@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const MAX_FILES = 2048;
-const MAX_REPORT_BYTES = 1024 * 1024;
+const MAX_REPORT_BYTES = 2 * 1024 * 1024;
 const MAX_FAILURES = 24;
 const MAX_NATIVE_LOG_BYTES = 2 * 1024 * 1024;
 
