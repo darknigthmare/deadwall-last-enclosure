@@ -10,7 +10,18 @@
   trap159SuppliesA:Object.freeze({url:'assets/art159/traps-supplies-a.png',width:1536,height:1024,matte:'none'}),
   trap159SuppliesB:Object.freeze({url:'assets/art159/traps-supplies-b.png',width:1536,height:1024,matte:'none'})
  });
- const MECHANISM_TYPES=Object.freeze(['ankle','blades','guideRail','ratchet','clamp','counterweight']);
+ const SOURCE_MECHANISMS=Object.freeze(['ankle','blades','guideRail','ratchet','clamp','counterweight']);
+ // New paid profiles assemble the same original pieces, with distinct
+ // additional hardware. They add no atlas pixels or independent animation.
+ const PROFILES193=Object.freeze({
+  runnerCable193:Object.freeze({family:'guideRail',color:'#a5aa91',hardware:'hooks'}),
+  breachClamp193:Object.freeze({family:'clamp',color:'#968a70',hardware:'dampers'}),
+  enduranceRack193:Object.freeze({family:'ratchet',color:'#b0a18a',hardware:'rack'}),
+  shieldTongs193:Object.freeze({family:'clamp',color:'#7f908b',hardware:'tongs'}),
+  quickCable193:Object.freeze({family:'guideRail',color:'#b9b199',hardware:'reels'}),
+  siegeBrake193:Object.freeze({family:'counterweight',color:'#8b8d7d',hardware:'chain'})
+ });
+ const MECHANISM_TYPES=Object.freeze([...SOURCE_MECHANISMS,...Object.keys(PROFILES193)]);
  const SUPPLY_TYPES=Object.freeze(['spikes','net','ammo','repair','work','regulator']);
  const PHASES=Object.freeze(['armed','trigger','action','held','return','exhausted']);
  const freezeCuts=rows=>Object.freeze(rows.map(Object.freeze));
@@ -25,8 +36,8 @@
  function hash(seed,id,family){let value=(Number.isFinite(seed)?seed>>>0:0)^2166136261;const text=String(id??'')+':'+family;for(let i=0;i<text.length;i++)value=Math.imul(value^text.charCodeAt(i),16777619);value=Math.imul(value^(value>>>16),0x7feb352d);value=Math.imul(value^(value>>>15),0x846ca68b);return(value^(value>>>16))>>>0;}
  function variantFor(seed,id,family,variant){return Number.isInteger(variant)?((variant%2)+2)%2:hash(seed,id,family)%2;}
  function partsFor(kind,id,{seed=0,variant}={}){
-  let types,keys,count;if(MECHANISM_TYPES.includes(kind)){types=MECHANISM_TYPES;keys=['trap159MechanismsA','trap159MechanismsB'];count=3;}else if(SUPPLY_TYPES.includes(kind)){types=SUPPLY_TYPES;keys=['trap159SuppliesA','trap159SuppliesB'];count=2;}else return null;
-  const form=variantFor(seed,id,'trap:'+kind,variant),atlas=keys[form],row=types.indexOf(kind);
+  let types,keys,count;if(MECHANISM_TYPES.includes(kind)){types=SOURCE_MECHANISMS;keys=['trap159MechanismsA','trap159MechanismsB'];count=3;}else if(SUPPLY_TYPES.includes(kind)){types=SUPPLY_TYPES;keys=['trap159SuppliesA','trap159SuppliesB'];count=2;}else return null;
+  const form=variantFor(seed,id,'trap:'+kind,variant),atlas=keys[form],row=types.indexOf(PROFILES193[kind]?.family||kind);
   return Object.freeze({kind,variant:form,atlas,parts:Object.freeze(Array.from({length:count},(_,n)=>Object.freeze({atlas,rect:CUTS[atlas][row*count+n],role:n===0?'base':'mobile'+n}))) });
  }
  const clamp01=value=>Number.isFinite(value)?Math.max(0,Math.min(1,value)):0;
@@ -44,17 +55,34 @@
   try{if(art.blit)return !!art.blit(c,p.atlas,r,-dw*pivot[0],-dh*pivot[1],dw,dh);c.drawImage(art.images[p.atlas],...r,-dw*pivot[0],-dh*pivot[1],dw,dh);return true;}finally{c.restore();}
  }
  function onOwner(c,frame,draw){c.save();c.translate(frame.x,frame.y);c.rotate(frame.angle);c.beginPath();c.rect(-frame.w/2,-frame.h/2,frame.w,frame.h);c.clip();try{return draw(frame.w,frame.h);}finally{c.restore();}}
+ function hardware193(c,profile,w,h,motion){
+  const x=w*.34,y=h*.30;c.strokeStyle=profile.color;c.fillStyle=profile.color;c.lineWidth=Math.max(.8,w*.035);
+  if(profile.hardware==='hooks'){
+   c.beginPath();for(const side of[-1,1]){c.moveTo(side*x,-y);c.lineTo(side*x,y);c.lineTo(side*x-side*w*.12,y-h*.10);}c.moveTo(-x,(-.12+motion*.24)*h);c.lineTo(x,(-.12+motion*.24)*h);c.stroke();
+  }else if(profile.hardware==='dampers'){
+   for(const side of[-1,1]){c.fillRect(side*x-w*.06,-y,w*.12,h*.18);c.fillRect(side*x-w*.06,y-h*.18,w*.12,h*.18);}c.beginPath();c.moveTo(-x,-y);c.lineTo(x,y);c.moveTo(-x,y);c.lineTo(x,-y);c.stroke();
+  }else if(profile.hardware==='rack'){
+   for(let i=0;i<4;i++)c.fillRect(-w*.31+i*w*.17,-h*.32,w*.08,h*.18);c.strokeRect(-w*.36,-h*.36,w*.72,h*.27);
+  }else if(profile.hardware==='tongs'){
+   c.lineWidth=Math.max(1.2,w*.065);c.beginPath();c.moveTo(-x,y);c.lineTo((- .2+motion*.10)*w,-y);c.moveTo(x,y);c.lineTo((.2-motion*.10)*w,-y);c.stroke();
+  }else if(profile.hardware==='reels'){
+   c.beginPath();for(const side of[-1,1]){c.moveTo(side*x+w*.10,0);c.arc(side*x,0,w*.10,0,Math.PI*2);}c.moveTo(-x,h*(.15-motion*.3));c.lineTo(x,h*(.15-motion*.3));c.stroke();
+  }else{
+   c.fillRect(-w*.36,-h*.30,w*.19,h*.22);c.beginPath();for(let i=0;i<4;i++){c.moveTo((- .12+i*.11)*w,h*.18);c.lineTo((- .07+i*.11)*w,h*.28);c.lineTo((- .02+i*.11)*w,h*.18);}c.stroke();
+  }
+ }
  function drawMechanism(c,art,b,m,options={}){
   if(!m||!MECHANISM_TYPES.includes(m.kind))return false;const f=ownerFrame(b),set=partsFor(m.kind,b?.id,options);if(!f||!available(c,art,[set]))return false;
   const view=options.presentation,motion=mechanismMotion(view,!!options.reducedMotion),exhausted=view?.phase==='exhausted'||!view&&m.charges<=0;
   return onOwner(c,f,(w,h)=>{
-   if(exhausted)c.globalAlpha*=.43;const [base,one,two]=set.parts;paint(c,art,base,0,0,w,h);
-   if(m.kind==='ankle'){const a=set.variant===0,height=h*(a?.55:.75);paint(c,art,one,-w*.25,0,w*.54,height,-.48+motion*(a?1.2:.72),a?[.2,.89]:[.1,.6]);paint(c,art,two,w*.25,0,w*.54,height,.48-motion*(a?1.2:.72),a?[.8,.89]:[.9,.6]);}
-   else if(m.kind==='blades'){paint(c,art,one,0,0,w*.52,h*.55,-.13+motion*Math.PI*.8,[.08,.5]);paint(c,art,two,0,0,w*.38,h*.46,Math.PI+.13-motion*Math.PI*.58,[.08,.5]);}
-   else if(m.kind==='guideRail'){paint(c,art,one,-w*.21+motion*w*.39,0,w*.43,h*.64,Math.PI/2);paint(c,art,two,w*.2-motion*w*.3,0,w*.27,h*.65);}
-   else if(m.kind==='ratchet'){paint(c,art,one,-w*.27,0,w*.53,h*.55,-.24+motion*.72,[.1,.5]);paint(c,art,two,w*.22-motion*w*.08,0,w*.35*(1-motion*.24),h*.7);}
-   else if(m.kind==='clamp'){const a=set.variant===0;paint(c,art,one,-w*.25,0,w*.54,h*.67,-.46+motion*.7,a?[.16,.58]:[.1,.6]);paint(c,art,two,w*.25,0,w*.54,h*.67,.46-motion*.7,a?[.84,.58]:[.9,.6]);}
+   if(exhausted)c.globalAlpha*=.43;const [base,one,two]=set.parts,profile=PROFILES193[m.kind],family=profile?.family||m.kind;paint(c,art,base,0,0,w,h);
+   if(family==='ankle'){const a=set.variant===0,height=h*(a?.55:.75);paint(c,art,one,-w*.25,0,w*.54,height,-.48+motion*(a?1.2:.72),a?[.2,.89]:[.1,.6]);paint(c,art,two,w*.25,0,w*.54,height,.48-motion*(a?1.2:.72),a?[.8,.89]:[.9,.6]);}
+   else if(family==='blades'){paint(c,art,one,0,0,w*.52,h*.55,-.13+motion*Math.PI*.8,[.08,.5]);paint(c,art,two,0,0,w*.38,h*.46,Math.PI+.13-motion*Math.PI*.58,[.08,.5]);}
+   else if(family==='guideRail'){paint(c,art,one,-w*.21+motion*w*.39,0,w*.43,h*.64,Math.PI/2);paint(c,art,two,w*.2-motion*w*.3,0,w*.27,h*.65);}
+   else if(family==='ratchet'){paint(c,art,one,-w*.27,0,w*.53,h*.55,-.24+motion*.72,[.1,.5]);paint(c,art,two,w*.22-motion*w*.08,0,w*.35*(1-motion*.24),h*.7);}
+   else if(family==='clamp'){const a=set.variant===0;paint(c,art,one,-w*.25,0,w*.54,h*.67,-.46+motion*.7,a?[.16,.58]:[.1,.6]);paint(c,art,two,w*.25,0,w*.54,h*.67,.46-motion*.7,a?[.84,.58]:[.9,.6]);}
    else{paint(c,art,one,-w*.15,0,w*.6,h*.58,-.2+motion*.55,[.06,.5]);paint(c,art,two,w*.3-motion*w*.16,-h*.17+motion*h*.34,w*.25,h*.55);}
+   if(profile)hardware193(c,profile,w,h,motion);
    return true;
   });
  }
@@ -92,5 +120,5 @@
    });return true;
   });
  }
- return Object.freeze({ASSETS,CUTS,MECHANISM_TYPES,SUPPLY_TYPES,PHASES,hash,variantFor,partsFor,ownerFrame,mechanismMotion,contactMotion,preparationSlots,drawMechanism,drawSpikes,drawNet,drawPreparation});
+ return Object.freeze({ASSETS,CUTS,MECHANISM_TYPES,PROFILES193,SUPPLY_TYPES,PHASES,hash,variantFor,partsFor,ownerFrame,mechanismMotion,contactMotion,preparationSlots,drawMechanism,drawSpikes,drawNet,drawPreparation});
 });

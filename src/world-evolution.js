@@ -61,7 +61,37 @@ function stepContacts(dt,f){
  const active=new Set(contacts.map(e=>e.id));for(const id of contactRuntime.keys())if(!active.has(id))contactRuntime.delete(id);
 }
 function structureIntegrity(id){return state.structures[id]??1;}function structureDestroyed(id){return structureIntegrity(id)<=.001;}
-function stepGroups(dt){spawnInitial();const w=world(),f=g.frontier.position();state.clock+=dt;if(state.clock>=state.nextHorde){spawnLater();state.nextHorde=state.clock+R.eventMin+G.hash(w.seed,state.serial,'next')%(R.eventMax-R.eventMin+1);}hitCd=Math.max(0,hitCd-dt);for(const h of state.groups){if(!alive(h))continue;const dist=Math.hypot(h.x-f.x,h.y-f.y);if(dist<550)h.seen=true;const rule=R.behaviours[h.kind];if(rule.speed){const nr=w.nearestRoad(h),ra=Math.atan2(nr.road.b.y-nr.road.a.y,nr.road.b.x-nr.road.a.x),blend=h.kind==='migrating'?.86:.45;h.a=Math.atan2(Math.sin(h.a)*(1-blend)+Math.sin(ra)*blend,Math.cos(h.a)*(1-blend)+Math.cos(ra)*blend);if(h.kind==='frenzied')h.a+=(G.hash(h.id,Math.floor(state.clock))%2001-1000)/9000;let nx=h.x+Math.cos(h.a)*rule.speed*dt,ny=h.y+Math.sin(h.a)*rule.speed*dt;if(Math.hypot(nx-(w.home?.x??4096),ny-(w.home?.y??4096))<R.homeExclusion){h.a=Math.atan2(h.y-(w.home?.y??4096),h.x-(w.home?.x??4096));nx=h.x+Math.cos(h.a)*rule.speed*dt;ny=h.y+Math.sin(h.a)*rule.speed*dt;}if(nx<45||nx>w.size-45||ny<45||ny>w.size-45)h.a+=Math.PI;else{const dx=nx-h.x,dy=ny-h.y;for(const p of Object.values(h.contacts)){if(p.mode==='pursuit'||p.mode==='investigate')continue;const tx=p.x+dx,ty=p.y+dy;if(!w.blocked(tx,ty,C.FrontierTacticsRules.enemyRadius,0,null)){p.x=tx;p.y=ty;p.gx+=dx;p.gy+=dy;}}h.x=nx;h.y=ny;}}if(alive(h)>30){const p=w.nearPOI(h.x,h.y,16).find(p=>h.x>p.reserve.l&&h.x<p.reserve.r&&h.y>p.reserve.t&&h.y<p.reserve.b);if(p){const old=state.structures[p.id]??1,rate=(h.kind==='frenzied'?2:h.kind==='migrating'?1:.35)*alive(h)*.00003;state.structures[p.id]=Math.max(0,old-rate*dt);}}}}
+function groupMovementClear(w,a,b){
+ const radius=C.FrontierTacticsRules.enemyRadius;
+ return !w.blocked(b.x,b.y,radius,0,null)&&(w.hydrologyVersion!==1||w.movementLine(a,b,0,null,null,radius));
+}
+function stepGroups(dt){
+ spawnInitial();const w=world(),f=g.frontier.position();state.clock+=dt;
+ if(state.clock>=state.nextHorde){spawnLater();state.nextHorde=state.clock+R.eventMin+G.hash(w.seed,state.serial,'next')%(R.eventMax-R.eventMin+1);}
+ hitCd=Math.max(0,hitCd-dt);
+ for(const h of state.groups){
+  if(!alive(h))continue;const dist=Math.hypot(h.x-f.x,h.y-f.y);if(dist<550)h.seen=true;const rule=R.behaviours[h.kind];
+  if(rule.speed){
+   const nr=w.nearestRoad(h),ra=Math.atan2(nr.road.b.y-nr.road.a.y,nr.road.b.x-nr.road.a.x),blend=h.kind==='migrating'?.86:.45;
+   h.a=Math.atan2(Math.sin(h.a)*(1-blend)+Math.sin(ra)*blend,Math.cos(h.a)*(1-blend)+Math.cos(ra)*blend);
+   if(h.kind==='frenzied')h.a+=(G.hash(h.id,Math.floor(state.clock))%2001-1000)/9000;
+   let nx=h.x+Math.cos(h.a)*rule.speed*dt,ny=h.y+Math.sin(h.a)*rule.speed*dt;
+   if(Math.hypot(nx-(w.home?.x??4096),ny-(w.home?.y??4096))<R.homeExclusion){h.a=Math.atan2(h.y-(w.home?.y??4096),h.x-(w.home?.x??4096));nx=h.x+Math.cos(h.a)*rule.speed*dt;ny=h.y+Math.sin(h.a)*rule.speed*dt;}
+   if(nx<45||nx>w.size-45||ny<45||ny>w.size-45)h.a+=Math.PI;
+   // Historical macro centres keep their old migration. Surface-water regions
+   // share the individual contact's collision disc and physical segment.
+   else if(w.hydrologyVersion!==1||groupMovementClear(w,h,{x:nx,y:ny})){
+    const dx=nx-h.x,dy=ny-h.y;
+    for(const p of Object.values(h.contacts)){
+     if(p.mode==='pursuit'||p.mode==='investigate')continue;const tx=p.x+dx,ty=p.y+dy;
+     if(groupMovementClear(w,p,{x:tx,y:ty})){p.x=tx;p.y=ty;p.gx+=dx;p.gy+=dy;}
+    }
+    h.x=nx;h.y=ny;
+   }
+  }
+  if(alive(h)>30){const p=w.nearPOI(h.x,h.y,16).find(p=>h.x>p.reserve.l&&h.x<p.reserve.r&&h.y>p.reserve.t&&h.y<p.reserve.b);if(p){const old=state.structures[p.id]??1,rate=(h.kind==='frenzied'?2:h.kind==='migrating'?1:.35)*alive(h)*.00003;state.structures[p.id]=Math.max(0,old-rate*dt);}}
+ }
+}
 const DPOS={east:{x:4270,y:4096,a:0},west:{x:3922,y:4096,a:Math.PI},north:{x:4096,y:3922,a:-Math.PI/2},south:{x:4096,y:4270,a:Math.PI/2},outer:{x:4235,y:4235,a:.75}};
 let districtGeometry=null;
 function districts(){const home=root.DeadwallAtlasProjection.home(g),poses=g.frontier.position().generation>=6?root.DeadwallGeography135.annexes(g.world.seed,g.frontier.position().generation):null;return Object.entries(state.districts).map(([id,d])=>({id,...d,pos:poses?poses.find(p=>p.id===id):{...DPOS[id],x:DPOS[id].x-4096+home.x,y:DPOS[id].y-4096+home.y},complete:d.buildings.filter(b=>b.progress>=1).length}));}

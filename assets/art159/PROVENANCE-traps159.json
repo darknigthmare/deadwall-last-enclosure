@@ -90,7 +90,7 @@
       "sha256": "2722c714a568063ddf81cce7cd6b99f52d575e091795763d1ae8da6f6ddba8ad"
     }
   ],
-  "runtimeRegistrySha256": "d84472b701550affe5c0828903eb28abf4cf33ae58e2d2cb6339a0ee6cb72312",
+  "runtimeRegistrySha256": "30f23d3b7a9005cd7599380e2f95f699232faea4aeab8cfef4451e21f7189866",
   "nativeFootprintQualification": {
     "spikes": [
       32,
@@ -98,5 +98,18 @@
     ],
     "source": "DeadwallCore.BUILDINGS.spikes.size × TILE",
     "note": "Variant A ankle jaws use .55 of the owner height to keep the complete pieces inside the real support through all rotations and sampled phases. Variant B remains .75. Original PNG bytes and crop rectangles are unchanged."
+  },
+  "derivedProfiles193": {
+    "sourcePixelsChanged": false,
+    "addedSourceImages": 0,
+    "profiles": [
+      "runnerCable193",
+      "breachClamp193",
+      "enduranceRack193",
+      "shieldTongs193",
+      "quickCable193",
+      "siegeBrake193"
+    ],
+    "method": "Existing independently cropped parts are assembled with original bounded Canvas hardware; six new silhouettes, two source forms each. Gameplay comes from FortificationPackRules and presentation only."
   }
 }

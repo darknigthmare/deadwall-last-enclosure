@@ -396,3 +396,12 @@ Les reconstructions des validateurs incluent écologie et détail dans leurs eff
 `biome-population165.js` fournit des origines d'acteurs déterministes indépendantes de la collecte et des extensions de lieux. L'admission au monde courant vérifie les emprises et collisions. Les contacts naturels réemploient le combat, le bruit, la navigation et les registres `frontier.enemies/tracks`. Le registre strict `frontier.wildlife165` conserve les animaux rencontrés, leurs blessures, morts, positions et phase. Les budgets actifs restent bornés ; ni le rendu ni les caches ne renouvellent les individus.
 
 `water-art165.js` et `wildlife-art165.js` dessinent les géométries et silhouettes procédurales originales. Les six espèces ont chacune quatre variantes ; leurs poses suivent les mouvements réellement exécutés et respectent la visibilité alliée. Tous les nouveaux helpers sont intégrés au paquet de données existant avant Core et résolvent leurs dépendances tardivement. Ils sont ainsi distribués dans le web, le HTML autonome, la PWA et le PC sans nouveaux atlas images.
+
+
+## Sorties et défense — 1.67
+
+`weather193` et `forage193` rejoignent les opérations versionnées. Leur absence garde les anciennes campagnes inactives ; les nouvelles parties activent les systèmes compatibles. La météo conserve le scalaire historique `weather`, et `weatherTarget` devient une donnée additive validée. Les fronts sont dérivés de la graine et du temps sans consommer le hasard de simulation.
+
+`biome-forage193` sépare l’identité déterministe des prises et l’admission physique courante ; une extension de lieux peut masquer une prise sans effacer son prélèvement historique. Les caches bornés ne mémorisent ni quantités disponibles ni autorisations de transaction. Le sac reste seul propriétaire des gains et le registre ne conserve que les identifiants épuisés. Les descriptions du Guide proviennent des règles effectives ; les nouveaux mécanismes utilisent leurs cartes opérationnelles existantes.
+
+La restauration des opérations expose une fenêtre bornée `expansions.restoring()` afin que le réseau électrique conserve ses circuits validés jusqu’à la restitution des équipements verticaux. Le validateur utilise le registre strict et la consommation des modules achevés, puis le contrôle complet des références demeure obligatoire. Aucun stock, coût ou circuit invalide n’est accepté pour contourner l’ordre de restauration.

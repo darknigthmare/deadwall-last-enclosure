@@ -165,6 +165,7 @@ function depthEntries(g,v,view,places=v.world.nearPOI(v.x,v.y,Math.max(view.r-vi
  entries.push(...(g.arsenal134?.depthEntries?.('region',v,view)||[]));
  entries.push(...(root.DeadwallWildlifeArt165?.depthEntries?.(g,v,view)||[]));
  entries.push(...(root.DeadwallHusbandryArt191?.depthEntries?.(g,v,view)||[]));
+ entries.push(...(root.DeadwallForageArt193?.depthEntries?.(g,v,view)||[]));
  if(!v.car?.driving&&!g.player.dead)add('player','player',v.y,c=>{person(c,g,v,'player');root.DeadwallEssentialArt?.carried(c,g,v.x,v.y,1);g.nightGear?.drawCarried?.(c,'region',v);g.campaignPack?.draw(c,'region',v,{ground:false});});
  return sortEntries(entries);
 }

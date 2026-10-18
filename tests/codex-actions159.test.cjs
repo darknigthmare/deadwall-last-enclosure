@@ -21,17 +21,17 @@ test('The shipped HTML loads the operational guide after its catalogue owner and
  assert.ok(scripts.indexOf('src/world-codex-actions159.js')<scripts.indexOf('src/world-codex.js'));
 });
 test('Codex derives every actual city choice, exact costs, prerequisites and all eleven ages',()=>{
- const expected=City.create(C);assert.equal(A.entries.length,expected.items.length);assert.equal(A.entries.length,180);assert.equal(new Set(A.entries.map(e=>e.id)).size,A.entries.length);
+ const expected=City.create(C);assert.equal(A.entries.length,expected.items.length);assert.equal(A.entries.length,186);assert.equal(new Set(A.entries.map(e=>e.id)).size,A.entries.length);
  for(const item of expected.items){const entry=A.entries.find(e=>e.choice159===item.key);assert.ok(entry,item.key);assert.equal(entry.status,'jouable');assert.match(entry.summary,new RegExp('âge '+(item.tier+1)+' :'));assert.ok(entry.supplies.includes(C.resourceText(item.cost))||!Object.keys(item.cost).length,item.key);
   for(const condition of item.conditions)assert.ok(entry.access.includes(condition.text),item.key+' '+condition.kind);
   for(const fact of item.facts)assert.ok(entry.layout.includes(fact),item.key);
   for(const tradeoff of item.tradeoffs)assert.ok(entry.risks.includes(tradeoff),item.key);
  }
  assert.equal(new Set(expected.items.map(e=>e.tier)).size,11);
- assert.equal(Guide.entries.filter(e=>e.status==='programme').length,4000);assert.equal(Guide.entries.filter(e=>e.choice159).length,180);
+ assert.equal(Guide.entries.filter(e=>e.status==='programme').length,4000);assert.equal(Guide.entries.filter(e=>e.choice159).length,186);
 });
 test('Capability exposes626 exact G10 contracts while preserving the300 and326 historical generation gates',()=>{
- const records=R.records,before=JSON.stringify(records),summary=A.availabilitySummary();assert.deepEqual(summary,{programmes:4000,choices:180,missingPlan:0,unsupported:0,contextual160:626,historicalMissingPlan:300,historicalUnsupported:626});
+ const records=R.records,before=JSON.stringify(records),summary=A.availabilitySummary();assert.deepEqual(summary,{programmes:4000,choices:186,missingPlan:0,unsupported:0,contextual160:626,historicalMissingPlan:300,historicalUnsupported:626});
  for(const id of X.ids){const c=A.capability(id);assert.equal(c.hasPlan,true);assert.equal(c.eligible,true);assert.equal(c.generation,10);assert.equal(c.context160,X.get(id).context160);assert.deepEqual(c.supportedGenerations,[10]);assert.match(c.text,/activer volontairement au dépôt/);assert.match(c.text,/ne garantit pas un emplacement/);assert.equal(c.historicalEligible,false);}
  assert.equal(A.capability('programme-DW-0300').historicalHasPlan,false);assert.equal(A.capability('DW-1241').historicalHasPlan,true);
  for(const card of records.filter(p=>p.extension===158)){assert.equal(A.capability(card.id).hasPlan,true);assert.equal(A.capability(card.id).eligible,true);assert.equal(A.capability(card.id).generation,9);}
@@ -98,8 +98,11 @@ test('Guide usage filters distinguish626 G10 contracts from actual known sites w
  assert.equal(faunaIds.size,43);for(const e of faunaEntries)assert.deepEqual(Guide.entries.find(x=>x.id===e.id),e);
  const waterIds=['lake','pond','pool','stream','river','sea','ocean','banks','wildlife','infected'].map(id=>'hydrology165-'+id),waterSet=new Set(waterIds);
  assert.deepEqual(Guide.entries.filter(e=>e.id.startsWith('hydrology165-')).map(e=>e.id).sort(),[...waterIds].sort());
- assert.equal(Guide.entries.filter(e=>!waterSet.has(e.id)&&!faunaIds.has(e.id)).length,4620,'all historical Guide entries are retained');
- const {game}=fixture();assert.equal(Guide.entries.length,4620+waterIds.length+faunaIds.size);assert.equal(Guide.query({availability:'city'},game).length,180);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
+ const mechanisms193=['runnerCable193','breachClamp193','enduranceRack193','shieldTongs193','quickCable193','siegeBrake193'];
+ const additions193=new Set([...require('../src/content-codex193.js').entries().map(e=>e.id),...mechanisms193.map(id=>'city159-mechanism:'+id)]);
+ assert.equal(additions193.size,36);assert.equal(Guide.entries.filter(e=>additions193.has(e.id)).length,36);
+ assert.equal(Guide.entries.filter(e=>!waterSet.has(e.id)&&!faunaIds.has(e.id)&&!additions193.has(e.id)).length,4620,'all historical Guide entries are retained');
+ const {game}=fixture();assert.equal(Guide.entries.length,4620+36+waterIds.length+faunaIds.size);assert.equal(Guide.query({availability:'city'},game).length,186);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
  assert.deepEqual(Guide.entries.filter(e=>e.id.startsWith('biome164-')||e.id==='ecology164-coherence').map(e=>e.id).sort(),['biome164-alluvialTerrace','biome164-agriculturalPlateau','biome164-sandyPine','biome164-peatland','ecology164-coherence'].sort());
  assert.deepEqual(Guide.query({availability:'context160'},game).map(e=>e.id.replace('programme-','')),X.ids);
  assert.deepEqual(Guide.query({availability:'known'},game).map(e=>e.id),['programme-DW-3001']);assert.equal(Guide.query({availability:'known',text:'DW-3002'},game).length,0);

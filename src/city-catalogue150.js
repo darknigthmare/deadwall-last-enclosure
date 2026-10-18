@@ -44,7 +44,18 @@
    add('building',d.id,d.unlockTier,d,{conditions,facts,tradeoffs,category:d.category,upgradeFrom,upgradeCost:upgradeFrom.length?upgradeCost:null,upgradeOnly:d.id==='armoredGate',new150:!!C.CityContent150?.BUILDINGS[d.id],...(d.id==='armoredGate'?{cost:upgradeCost}:{})});
   }
   for(const [id,d]of Object.entries(C.Infrastructure?.SURFACES||{}))add('road',id,d.unlockTier,d,{conditions:[prerequisite(d.requires),...(d.workshop?[prerequisite('workshop')]:[])],facts:['Par cellule : '+d.workSeconds+' unités de travail · alliés ×'+d.friendlySpeed+' · fourgons ×'+d.truckSpeed+'.'],tradeoffs:['Les infectés accélèrent également : ×'+d.hostileSpeed+'.','L’ancien revêtement reste actif jusqu’à l’achèvement d’une amélioration payée.'],new150:id!=='gravel'});
-  for(const [id,d]of Object.entries(C.FortificationPackRules?.mechanisms||{}))add('mechanism',id,d.tier,d,{conditions:[prerequisite('spikes'),...(d.requires?[prerequisite(d.requires)]:[])],facts:[d.charges+' déclenchement(s) · '+d.damage+' dégâts · '+d.holdSeconds+' s d’entrave · '+d.seconds+' s de travail.'],tradeoffs:['Charges finies, contact physique et délai de réarmement de '+d.cooldown+' s ; matériaux du sac payés à l’achèvement.'],new150:!!d.strictTier});
+  for(const [id,d]of Object.entries(C.FortificationPackRules?.mechanisms||{})){
+   const rules=C.FortificationPackRules,oneCost=Object.fromEntries(Object.entries(d.cost).map(([key,n])=>[key,Math.ceil(n*rules.mechanismRearmCostFactor/d.charges)]));
+   const targets=d.targetKinds?d.targetKinds.map(kind=>C.ENEMIES[kind].name).join(' · '):'Tous les profils d’infectés au contact.';
+   add('mechanism',id,d.tier,d,{conditions:[prerequisite('spikes'),...(d.requires?[prerequisite(d.requires)]:[])],
+    facts:[d.charges+' déclenchement(s) · '+d.damage+' dégâts · '+d.holdSeconds+' s d’entrave · '+d.seconds+' s de travail.',
+     'Cibles : '+targets,
+     'Réarmer une charge : '+C.resourceText(oneCost)+' dans le sac · durée de travail de réarmement '+number(d.seconds*rules.mechanismRearmTimeFactor/d.charges)+' s sur place.'],
+    tradeoffs:['Charges finies, contact physique et intervalle entre prises de '+number(d.cooldown)+' s ; matériaux du sac payés à l’achèvement.',
+     'Réarmement partiel : chaque ressource coûte l’arrondi supérieur du coût initial × '+number(rules.mechanismRearmCostFactor)+' × charges manquantes / capacité. La durée de travail de réarmement vaut le travail initial × '+number(rules.mechanismRearmTimeFactor)+' × charges manquantes / capacité ; le bouton annonce le devis réel.',
+     'Attendre la libération de toute cible retenue et rejoindre le support en sécurité, les mains libres. Paiement unique à l’achèvement ; cycle et autres réserves conservés, aucun remboursement.'],
+    new150:!!d.strictTier});
+  }
   for(const [id,d]of Object.entries(C.FortificationPackRules?.variants||{}))add('fitting',id,d.tier,d,{conditions:[{kind:'support',text:d.target==='ammo'?'Poste de tir achevé et accessible requis.':'Mur ou porte achevés et accessibles requis.'},...(d.requires?[prerequisite(d.requires)]:[])],facts:[d.capacity+' '+(d.target==='ammo'?'cartouches prélevées au dépôt.':'points de capture finis.')],tradeoffs:['Une réserve finie sur un support réel ; installation payée et manipulation hors danger.']});
   for(const [id,d]of Object.entries(C.CompanionPackRules?.exercises||{})){
    const tier=d.tier??0;if(d.tier===undefined)continue;

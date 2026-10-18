@@ -19,18 +19,18 @@ function normalize(raw,full,validators=known){
 }
 function install(g){
  if(g.expansions)return g.expansions;
- const registry=new Map(),S=root.DeadwallSave;
+ const registry=new Map(),S=root.DeadwallSave;let restoring=false;
  const ownValidators=()=>new Map([...registry].map(([id,d])=>[id,d.validate]));
  const canAct=()=>g.state==='playing'&&!g.gameOver&&!!g.player&&!g.player.dead&&g.player.health>0&&g.canIssueCommand()&&(!g.activeOverlay||g.activeOverlay===g.ui.commandModal);
  function register(d){
-  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160','vertical175','wildlife190','husbandry191'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
+  if(!d||!['exploration','survival','fortification','companions','campaign','defense131','exploration131','player131','world131','lore131','arsenal134','interventions134','barricades134','context160','vertical175','wildlife190','husbandry191','forage193','weather193'].includes(d.id)||registry.has(d.id)||typeof d.title!=='string'||['overview','actions','validate','snapshot','restore','reset'].some(k=>typeof d[k]!=='function'))throw Error('Module d’opérations invalide ou dupliqué.');
   d.validate(undefined);registry.set(d.id,Object.freeze({...d}));known.set(d.id,d.validate);return true;
  }
  function snapshot(){const modules={};for(const [id,d]of registry)modules[id]=copy(d.snapshot());return{version:1,modules};}
  function busy(except){
   return [...registry].some(([id,d])=>id!==except&&Boolean(d.busy?.()||(g[id+'Pack']||g[id==='fortification'?'defensePack':'_'])?.busy?.()))||['essentials','fieldSupplies','nightGear'].some(id=>id!==except&&Boolean(g[id]?.busy?.()));
  }
- const api=Object.freeze({register,entries:()=>[...registry.values()],get:id=>registry.get(id),canAct,busy,snapshot});g.expansions=api;
+ const api=Object.freeze({register,entries:()=>[...registry.values()],get:id=>registry.get(id),canAct,busy,snapshot,restoring:()=>restoring});g.expansions=api;
  if(S&&!S.__expansionKit127){
   const old=S.validate.bind(S);S.validate=raw=>{const data=old(raw);data.expansions127=normalize(raw?.expansions127,data);return data;};
   S.__expansionKit127=true;
@@ -39,13 +39,19 @@ function install(g){
  const restore=g.restoreSave.bind(g);g.restoreSave=raw=>{
   // No module restore/reset and no world mutation happens until all validators pass.
   const data=S.validate(raw),next=normalize(raw?.expansions127,data,ownValidators());
-  const result=restore(data);if(result===false)return false;for(const [id,d]of registry)d.restore(copy(next.modules[id]));
-  g.expansionUI?.refresh?.(true);return result;
+  // Consumers supplied by expansion equipment do not exist until every owner
+  // has restored. Keep validated circuit choices during that bounded window.
+  const previous=restoring;let result;restoring=true;
+  try{result=restore(data);if(result===false)return false;for(const [id,d]of registry)d.restore(copy(next.modules[id]));}
+  finally{restoring=previous;}
+  g.refreshMetrics(true);g.expansionUI?.refresh?.(true);return result;
  };
  const start=g.startNew.bind(g);g.startNew=(...a)=>{
   // Preserve the active run if the seed or scenario is rejected by the base UI.
-  try{root.DeadwallProfile?.normalizeSeed(a[1]??'');}catch(error){const input=root.document?.getElementById('mapSeed');input?.setCustomValidity?.(error.message);input?.reportValidity?.();return false;}
-  try{root.DeadwallScenarios?.initialState(a[2]??'classic',typeof a[0]==='string'&&Object.hasOwn(root.DeadwallCore.DIFFICULTIES,a[0])?a[0]:'standard');}catch(error){g.notify?.(error.message,'danger');return false;}
+  try{root.DeadwallProfile?.normalizeSeed(a[1]===undefined?'':a[1]);}catch(error){const input=root.document?.getElementById('mapSeed');input?.setCustomValidity?.(error.message);input?.reportValidity?.();return false;}
+  try{root.DeadwallScenarios?.initialState(a[2]===undefined?'classic':a[2],typeof a[0]==='string'&&Object.hasOwn(root.DeadwallCore.DIFFICULTIES,a[0])?a[0]:'standard');}catch(error){g.notify?.(error.message,'danger');return false;}
+  const landscape=a[3]===undefined?'classic':a[3];
+  if(typeof landscape!=='string'||!Object.hasOwn(root.DeadwallCore.Landscape189Rules.presets,landscape)){g.notify?.('Profil de paysage invalide.','danger');return false;}
   for(const d of registry.values())d.reset();return start(...a);
  };
  return api;

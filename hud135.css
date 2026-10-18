@@ -7,6 +7,18 @@
    first cells and push brand/resources into unbounded implicit columns. */
 #hud.hud135 #topbar>.brand-mini{grid-column:1;grid-row:1;min-width:0}
 #hud.hud135 #topbar>#resources{grid-column:2;grid-row:1;min-width:0}
+/* A clipped stock number reads like a different quantity. Size complete cards
+   from the strip's own width, then keep the existing native horizontal pan. */
+#hud.hud135 #resources{container:resource-stock135 / inline-size;scroll-snap-type:x mandatory}
+#hud.hud135 #resources>.resource-item{--resource-visible135:1;flex:0 0 calc(100% / var(--resource-visible135));min-width:0;box-sizing:border-box;scroll-snap-align:start}
+#hud.hud135 #resources>.resource-item:last-child{scroll-snap-align:end}
+@container resource-stock135 (min-width:208px){#hud.hud135 #resources>.resource-item{--resource-visible135:2}}
+@container resource-stock135 (min-width:312px){#hud.hud135 #resources>.resource-item{--resource-visible135:3}}
+@container resource-stock135 (min-width:416px){#hud.hud135 #resources>.resource-item{--resource-visible135:4}}
+@container resource-stock135 (min-width:520px){#hud.hud135 #resources>.resource-item{--resource-visible135:5}}
+@container resource-stock135 (min-width:624px){#hud.hud135 #resources>.resource-item{--resource-visible135:6}}
+@container resource-stock135 (min-width:728px){#hud.hud135 #resources>.resource-item{--resource-visible135:7}}
+@container resource-stock135 (max-width:727.99px){#hud.hud135 #resources>.resource-item:first-child small::after{content:'↔';margin-inline-start:auto;color:#e9d9af;font-size:11px}}
 #hud.hud135 #topbar>.status-strip{grid-column:3;grid-row:1}
 #hud.hud135 #topbar>#hudSettings14{grid-column:4}
 #hud.hud135 #topbar>#pauseButton{grid-column:5}

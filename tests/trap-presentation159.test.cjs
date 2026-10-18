@@ -11,7 +11,7 @@ function work(g,seconds){for(let left=seconds;left>1e-8;left-=R.maxStep)g.fortif
 function battle(g,seconds){for(let left=seconds;left>1e-8;left-=.04){g.updateZombies(Math.min(left,.04));g.rebuildBuckets();}}
 function install(g,kind){const recipe=R.mechanisms[kind];standAt(g,g.player,g.core());for(const[key,n]of Object.entries(recipe.cost)){const r=g.loadout.transfer('depot','sac',key,n);assert.equal(r.ok,true,r.reason);assert.equal(r.amount,n);}if(recipe.requires)add(g,recipe.requires,82,72);const b=add(g);assert.equal(g.fortificationPack.startMechanism(kind,b.id).ok,true);work(g,recipe.seconds);standAt(g,g.player,g.core());return b;}
 function contactSpot(g,z,b){return[[b.right+z.radius+.5,b.y],[b.left-z.radius-.5,b.y],[b.x,b.bottom+z.radius+.5],[b.x,b.top-z.radius-.5]].find(([x,y])=>{const d=g.flow.direction(x,y,z.bias,g.elapsed),point={x:Math.max(b.left,Math.min(b.right,x)),y:Math.max(b.top,Math.min(b.bottom,y))};return g.world.at(x+d.x*(z.radius+13),y+d.y*(z.radius+13))===b&&g.hostilePositionClear(z,x,y)&&g.hostileLineClear({x,y},point,false,b);});}
-function enemy(g,b,atContact=false){assert.equal(g.spawnZombie('walker'),true);const z=g.zombies.at(-1),point=atContact?contactSpot(g,z,b):[b.right+z.radius+R.mechanismContactReach-1,b.y];assert.ok(point,'Le contact doit aborder une face physiquement libre');Object.assign(z,{x:point[0],y:point[1]});g.rebuildBuckets();return z;}
+function enemy(g,b,atContact=false,kind='walker'){assert.equal(g.spawnZombie(kind),true);const z=g.zombies.at(-1),point=atContact?contactSpot(g,z,b):[b.right+z.radius+R.mechanismContactReach-1,b.y];assert.ok(point,'Le contact doit aborder une face physiquement libre');Object.assign(z,{x:point[0],y:point[1]});g.rebuildBuckets();return z;}
 function stable(g){const raw=copy(g.serialize());delete raw.timestamp;return raw;}
 const visual=(g,b)=>g.fortificationPack.presentation(b)?.mechanism;
 function moveAway(g,z,b){z.x=b.x+600;z.y=b.y;g.rebuildBuckets();}
@@ -20,7 +20,7 @@ for(const kind of Object.keys(R.mechanisms))test('159 '+kind+' : phases suivent 
  const g=fresh(),b=install(g,kind),recipe=R.mechanisms[kind],stocks={...g.resources},carry={...g.player.carry};
  assert.equal(visual(g,b).phase,'armed');assert.equal(visual(g,b).motion,0);assert.equal(visual(g,b).charges,recipe.charges);
  battle(g,.12);assert.equal(visual(g,b).phase,'armed','Aucun mouvement sans contact');
- const z=enemy(g,b),hp=z.health;g.updateZombies(.04);assert.equal(hp-z.health,recipe.damage);assert.equal(visual(g,b).phase,'trigger');assert.equal(visual(g,b).charges,recipe.charges-1);
+ const z=enemy(g,b,false,recipe.targetKinds?.[0]||'walker'),hp=z.health;g.updateZombies(.04);assert.equal(hp-z.health,recipe.damage);assert.equal(visual(g,b).phase,'trigger');assert.equal(visual(g,b).charges,recipe.charges-1);
  moveAway(g,z,b);battle(g,recipe.cooldown*.3);assert.equal(visual(g,b).phase,'action');assert.equal(visual(g,b).motion,1);
  battle(g,recipe.cooldown*.4);assert.equal(visual(g,b).phase,recipe.holdSeconds?'held':'return');
  if(recipe.holdSeconds){assert.equal(visual(g,b).motion,1);battle(g,recipe.holdSeconds-.04-recipe.cooldown*.7-.1);assert.equal(visual(g,b).phase,'return');assert.ok(visual(g,b).motion>0&&visual(g,b).motion<1);}

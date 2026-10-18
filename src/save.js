@@ -98,7 +98,7 @@
       squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');const id=integer(row[0],undefined,0,1e9,'gisement ID');if(nodeIds.has(id))fail('gisement dupliqué');nodeIds.add(id);return[id,number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
-      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
+      elapsed:number(data.elapsed,0,0,1e12,'temps'),dayClock:number(data.dayClock,.2,0,1,'heure'),weather:number(data.weather,0,0,1,'météo'),weatherTarget:number(data.weatherTarget,data.weather??0,0,1,'cible météo'),morale:number(data.morale,100,0,100,'moral'),rally:data.rally?position(data.rally):{x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2},stats,objectiveIndex,objectiveProgress:objectiveReady?C.OBJECTIVES[objectiveIndex].target:objectiveProgress,objectiveReady,nextId,research,activeCrisis:C.normalizeCrisis?C.normalizeCrisis(data.activeCrisis):null,depositedResources:number(data.depositedResources,0,0,1e12,'dépôts') };
   }
   function parse(text) {
     if (typeof text !== 'string' || text.length > MAX_FILE_BYTES) fail('fichier trop volumineux');
@@ -297,7 +297,19 @@
  'use strict';const C=root.DeadwallCore,S=root.DeadwallSave;if(S.powerGridVersion)return;const old=S.validate;
  function validate(input){const modern=input?.version===11;if(modern&&input.powerGrid===undefined)throw Error('Sauvegarde v11 sans réserve électrique.');const state=C.PowerGrid.normalize(modern?input.powerGrid:undefined),base=old(modern?{...input,version:10}:input),map=new Map(base.buildings.map(b=>[b.id,b]));
   for(const b of state.batteries){const host=map.get(b.id),def=host&&C.BUILDINGS[host.type];if(!host||host.progress!==1||!def.battery||b.charge>def.battery.capacity)throw Error('Batterie absente, inachevée ou surchargée.');}
-  for(const c of state.circuits){const host=map.get(c.id);if(!host||host.progress!==1||!C.BUILDINGS[host.type].powerUse)throw Error('Circuit sans consommateur achevé.');}
+  // Vertical fittings aggregate their real electrical demand onto a support.
+  // Validate their own record before using it to authorize a circuit; the final
+  // expansion validation still checks its complete world and actor references.
+  let verticalConsumers=null;
+  for(const c of state.circuits){
+   const host=map.get(c.id);let consumption=host&&C.BUILDINGS[host.type]?.powerUse||0;
+   if(host&&host.progress===1&&C.VerticalCitadel175?.bases[host.type]&&input?.expansions127?.modules?.vertical175!==undefined){
+    const V=root.DeadwallVertical175State||(typeof require==='function'?require('./vertical-citadel175-state.js'):null);
+    if(!verticalConsumers){const vertical=V.normalize(input.expansions127.modules.vertical175);verticalConsumers=new Map(vertical.sites.map(site=>[site.id,V.totals(site).powerUse]));}
+    consumption=verticalConsumers.get(host.id)||0;
+   }
+   if(!host||host.progress!==1||!(consumption>0))throw Error('Circuit sans consommateur achevé.');
+  }
   for(const b of base.buildings)if(b.progress===1&&C.BUILDINGS[b.type].battery&&!state.batteries.some(v=>v.id===b.id)){if(modern)throw Error('Charge électrique manquante.');state.batteries.push({id:b.id,charge:0,mode:'night'});}
   return{...base,version:11,powerGrid:state};
  }

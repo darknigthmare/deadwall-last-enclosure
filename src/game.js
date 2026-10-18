@@ -703,7 +703,7 @@
           ...(z.kind==='stalker'?{huntThink:Math.max(0,z.huntThink),preyId:z.prey&&!z.prey.dead&&!z.prey.regionAbsent?(z.prey===this.player?0:preyUnits.has(z.prey)?z.prey.id:null):null}:{}),
           ...(z.kind==='shielded'||z.kind==='charger'?{facing:z.facing}:{}),...(z.kind==='charger'?{charge:{...z.charge}}:{}) })),
         nodes: this.world.nodes.map(n => [n.id, n.amount]), wave:this.wave, phase:this.phase, phaseTime:this.phaseTime, spawnQueue:this.spawnQueue, pendingSpawns:this.pendingSpawns, fronts:this.fronts, wavePlan:this.wavePlan, spawnTimer:this.spawnTimer,
-        elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
+        elapsed:this.elapsed, dayClock:this.dayClock, weather:this.weather, weatherTarget:this.weatherTarget, morale:this.morale, rally:this.rally, stats:this.stats, objectiveIndex:this.objectiveIndex, objectiveProgress:this.objectiveProgress, objectiveReady:this.objectiveReady, nextId:this.nextId,
         randomState:this.random.state, research:this.research, activeCrisis:this.activeCrisis, depositedResources:this.depositedResources
       };
     }
@@ -761,7 +761,7 @@
       const buffered=data.spawnQueue.length<=STRATEGY_RULES.spawnBatch?data.spawnQueue.slice():null,pending=C.normalizeSpawnCounts?C.normalizeSpawnCounts(data.pendingSpawns,buffered?[]:data.spawnQueue):null;
       const rebuiltPlan=data.wavePlan||wavePlan(data.wave,difficulty,0);
       // Commit only after the complete candidate world, entities and navigation have been constructed.
-      Object.assign(this,{difficulty,nextId:data.nextId,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?(buffered||[]):data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weather,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,objectiveReady:data.objectiveReady,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
+      Object.assign(this,{difficulty,nextId:data.nextId,random:new Random(data.randomState),world:nextWorld,flow:nextFlow,resources:data.resources,player:nextPlayer,units:nextUnits,zombies:nextZombies,projectiles:[],particles:[],corpses:[],floaters:[],wave:data.wave,phase:data.phase,phaseTime:data.phaseTime,spawnQueue:pending?(buffered||[]):data.spawnQueue,pendingSpawns:pending||{},fronts:data.fronts,wavePlan:rebuiltPlan,spawnTimer:data.spawnTimer,elapsed:data.elapsed,dayClock:data.dayClock,weather:data.weather,weatherTarget:data.weatherTarget,morale:data.morale,rally:data.rally,stats:data.stats,objectiveIndex:data.objectiveIndex,objectiveProgress:data.objectiveProgress,objectiveReady:data.objectiveReady,research:data.research,activeCrisis:data.activeCrisis,depositedResources:data.depositedResources,gameOver:false,paused:false,saveTimer:0,helpWasPaused:null});
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
@@ -1125,8 +1125,9 @@
       if (this.gameOver) return;
       this.elapsed += dt; this.stats.playSeconds += dt; this.dayClock = (this.dayClock + dt / 260) % 1;
       this.updateCrisis(dt);
+      if(this.weather193?.active())this.weatherTarget=this.weather193.target();
       this.weather = lerp(this.weather, this.weatherTarget, clamp(dt * .04, 0, 1)); this.damageFlash = Math.max(0, this.damageFlash - dt * 2.8); this.camera.shake = Math.max(0, this.camera.shake - dt * 22);
-      if (Math.floor(this.elapsed) > 0 && Math.floor(this.elapsed) % 95 === 0 && Math.floor(this.elapsed - dt) % 95 !== 0) this.weatherTarget = this.random.chance(.42) ? this.random.range(.35, 1) : 0;
+      if (!this.weather193?.active() && Math.floor(this.elapsed) > 0 && Math.floor(this.elapsed) % 95 === 0 && Math.floor(this.elapsed - dt) % 95 !== 0) this.weatherTarget = this.random.chance(.42) ? this.random.range(.35, 1) : 0;
       this.handlePressed();
       // A contextual command can open a paused dossier while processing this step.
       // Stop here so its saved state cannot be followed by combat or upkeep.
@@ -1609,7 +1610,7 @@
         while((this.spawnQueue.length||spawnCount(this.pendingSpawns))&&this.spawnTimer<=0&&this.zombies.length<PERFORMANCE_LIMITS.zombies){this.refillSpawnQueue();this.spawnZombie(this.spawnQueue.pop());this.spawnTimer+=this.wavePlan?.spawnInterval||.3;}
         if(this.zombies.length>=PERFORMANCE_LIMITS.zombies)this.spawnTimer=Math.max(0,this.spawnTimer);
         if(!this.spawnQueue.length&&!spawnCount(this.pendingSpawns)&&!this.zombies.some(z=>!z.dead)&&!this.vertical175?.hasActiveSiege()){this.phase='aftermath';this.phaseTime=8;this.stats.wavesSurvived++;this.research.insight=Math.min(C.RESEARCH_INSIGHT_MAX,this.research.insight+1+(this.wave%5===0?1:0));this.notify(`Vague ${this.wave} repoussée. Sécurisation du périmètre.`,'good');this.save(false);}
-      }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
+      }else if(this.phase==='aftermath'&&this.phaseTime<=0){const completed=this.wave;this.wave++;this.phase='calm';this.phaseTime=Math.max(38,84-this.wave*1.15)*this.difficulty.calmTime;add(this.resources,{food:10+completed*1.5,ammo:12+completed*2,scrap:5+completed},this.storage);if(completed%2===0&&this.population<this.housing){const core=this.core();this.units.push(new Unit(this.nextId++,'worker',core.x+this.random.range(-40,40),core.y+this.random.range(-40,40)));this.notify('Des survivants ont rejoint la cité.','good');}if(!this.weather193?.active()&&this.random.chance(.35))this.weatherTarget=this.random.range(.3,1);this.refreshMetrics(true);}
     }
 
     prepareWave() {
@@ -1842,7 +1843,15 @@
     damageUnit(unit,amount){if(!unit||unit.dead||!(amount>0))return;unit.health=Math.max(0,unit.health-amount);if(unit.health<=0){unit.dead=true;unit.supportActive=false;this.stats.unitsLost++;this.notify(`Un ${(C.SURVIVORS[unit.kind]?.name||'survivant').toLowerCase()} a été perdu.`,'danger');for(let i=0;i<8;i++)this.particles.push(new Particle(unit.x,unit.y,this.random.range(-30,30),this.random.range(-35,15),.7,3,'#6f302e','blood'));}}
     damageBuilding(b,amount){if(b.dead)return;if(b.def.wall&&this.hasResearch('fortification'))amount*=.88;b.health-=amount;b.underAttack=.5;if(b.health<=0)this.destroyBuilding(b);}
     destroyBuilding(b){if(b.dead)return;b.dead=true;const def=b.def;this.world.remove(b);this.stats.buildingsLost++;this.camera.shake=Math.max(this.camera.shake,def.explosive?18:10);for(let i=0;i<(def.explosive?45:20);i++)this.particles.push(new Particle(b.x+this.random.range(-b.w*TILE/2,b.w*TILE/2),b.y+this.random.range(-b.h*TILE/2,b.h*TILE/2),this.random.range(-90,90),this.random.range(-100,60),this.random.range(.6,1.4),this.random.range(2,7),i%3?'#5c5a51':'#b87948',i%3?'debris':'spark'));
-      if(def.explosive){for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){z.health-=120*(1-dist(z,b)/def.explosive);if(z.health<=0)this.killZombie(z,false);}for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));}
+      if(def.explosive){
+        for(const z of this.nearbyZombies(b.x,b.y,def.explosive)){
+          const height=(this.vertical175?.enemyPose(z)?.z||0)*TILE;
+          const distance=Math.hypot(z.x-b.x,z.y-b.y,height);
+          if(distance>=def.explosive)continue;
+          z.health-=120*(1-distance/def.explosive);if(z.health<=0)this.killZombie(z,false);
+        }
+        for(const other of [...this.world.buildings.values()])if(other!==b&&dist(other,b)<def.explosive)this.damageBuilding(other,45*(1-dist(other,b)/def.explosive));
+      }
       if(b===this.selectedBuilding)this.selectBuilding(null);if(def.id==='core'){this.triggerGameOver();return;}this.notify(`${def.name} détruit — le secteur est ouvert !`,'danger');this.refreshMetrics(true);}
 
     triggerGameOver(){
@@ -2396,7 +2405,18 @@
 
     drawNight(ctx){const darkness=clamp(1-this.daylight(),0,1)*.72;if(darkness<=.02)return;ctx.save();ctx.fillStyle=`rgba(4,8,12,${darkness})`;ctx.fillRect(0,0,this.width,this.height);ctx.globalCompositeOperation='screen';const lights=[{x:this.player.x,y:this.player.y,r:145,s:.2}];for(const b of this.world.buildings.values()){if(!b.completed||b.dead||!b.powered||!b.def.light||lights.length>=PERFORMANCE_LIMITS.lights)continue;lights.push({x:b.x,y:b.y,r:b.def.light,s:.18});}for(const l of lights){const sx=(l.x-this.camera.x)*this.camera.zoom+this.width/2,sy=(l.y-this.camera.y)*this.camera.zoom+this.height/2,r=l.r*this.camera.zoom;if(sx+r<0||sx-r>this.width||sy+r<0||sy-r>this.height)continue;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,r);g.addColorStop(0,`rgba(255,218,143,${l.s})`);g.addColorStop(.5,`rgba(186,164,112,${l.s*.5})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fill();}ctx.restore();}
 
-    drawRain(ctx){if(this.weather<.02)return;ctx.save();ctx.strokeStyle=`rgba(180,195,196,${.08+this.weather*.12})`;ctx.lineWidth=1;const count=Math.floor(45+this.weather*90);for(let i=0;i<count;i++){const x=(seededHash(i,Math.floor(this.elapsed*3),22)*(this.width+200)-100+this.elapsed*110)%(this.width+200)-100,y=(seededHash(i,5,31)*this.height+this.elapsed*(260+i%70))%this.height;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-7,y+17);ctx.stroke();}ctx.restore();}
+    drawRain(ctx){
+      if(this.weather<.02)return;
+      const wind=this.weather193?.active()?this.weather193.current().wind:110,at=this.settings.reducedMotion?0:this.elapsed,span=this.width+200;
+      ctx.save();ctx.strokeStyle=`rgba(180,195,196,${.08+this.weather*.12})`;ctx.lineWidth=1;
+      const count=Math.floor(45+this.weather*90);
+      for(let i=0;i<count;i++){
+        const x=((seededHash(i,Math.floor(at*3),22)*span-100+at*wind)%span+span)%span-100;
+        const y=(seededHash(i,5,31)*this.height+at*(260+i%70))%this.height;
+        ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-wind*.064,y+17);ctx.stroke();
+      }
+      ctx.restore();
+    }
 
     drawThreatArrows(ctx){
       if(!this.zombies.length)return;const vision=this.visibility?.frame?.(),sectors=[0,0,0,0],step=Math.max(1,Math.floor(this.zombies.length/300));for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(!vision?.canSeeLocal(z))continue;const dx=z.x-this.camera.x,dy=z.y-this.camera.y;if(Math.abs(dx)<this.width/this.camera.zoom/2&&Math.abs(dy)<this.height/this.camera.zoom/2)continue;if(Math.abs(dx)>Math.abs(dy))sectors[dx>0?1:3]++;else sectors[dy>0?2:0]++;}

@@ -34,7 +34,7 @@ export function planShards(inventory, count = SHARDS) {
 }
 
 export function inventoryAt(directory) {
-  // Identical boundary to the existing `node --test tests/*.test.cjs` command.
+  // Identical complete test-file boundary to npm test; concurrency does not filter cases.
   return fs.readdirSync(path.join(directory, 'tests')).filter(name => name.endsWith('.test.cjs')).sort().map(name => {
     const filename = path.join(directory, 'tests', name), stat = fs.lstatSync(filename);
     assert.ok(stat.isFile() && !stat.isSymbolicLink(), 'Tests must be ordinary files');

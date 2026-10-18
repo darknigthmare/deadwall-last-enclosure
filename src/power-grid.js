@@ -5,7 +5,7 @@
  function install(g){if(g.powerGrid)return g.powerGrid;let state=D.empty(),world=g.world,pending=null,last=null,notice='',computing=false,productionWindow=0,work=new Map();
   const wrap=(name,fn)=>{const old=g[name].bind(g);g[name]=(...a)=>fn(old,...a);};
   function ensure(){if(world!==g.world){world=g.world;state=D.normalize(pending||undefined);pending=null;last=null;notice='';productionWindow=0;work.clear();}return state;}
-  function reconcile(){ensure();const map=g.world.buildings;state.batteries=state.batteries.filter(b=>done(map.get(b.id))&&map.get(b.id).def.battery);state.circuits=state.circuits.filter(c=>done(map.get(c.id))&&map.get(c.id).def.powerUse);
+  function reconcile(){ensure();const map=g.world.buildings;state.batteries=state.batteries.filter(b=>done(map.get(b.id))&&map.get(b.id).def.battery);state.circuits=state.circuits.filter(c=>g.expansions?.restoring?.()||done(map.get(c.id))&&map.get(c.id).def.powerUse);
    for(const b of map.values())if(done(b)&&b.def.battery&&!state.batteries.some(s=>s.id===b.id)&&state.batteries.length<R.maxBatteries)state.batteries.push({id:b.id,charge:0,mode:'night'});
   }
   function circuitMode(id){ensure();return state.circuits.find(c=>c.id===id)?.mode||'on';}

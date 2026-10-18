@@ -139,6 +139,11 @@ jobs:
               scripts/browser-ecology189.mjs
               scripts/browser-wildlife190.mjs
               scripts/browser-husbandry191.mjs
+          - group: field-extension193
+            scripts: >-
+              scripts/browser-weather193.mjs
+              scripts/browser-forage193.mjs
+              scripts/browser-defense193.mjs
           - group: metrics
             scripts: 'scripts/browser-metric174.mjs scripts/browser-metric175.mjs scripts/browser-codex162.mjs scripts/browser-codex163.mjs scripts/browser-ecology164.mjs'
     env:

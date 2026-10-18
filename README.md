@@ -1,3 +1,21 @@
+# DEADWALL 1.67.0 — Sorties, cueillette et défenses spécialisées
+
+Seize cueillettes et ramassages finis suivent les biomes et possèdent quatre variantes visuelles. Six fronts météo rendent la préparation des sorties lisible. Huit opérations supplémentaires relient les lieux découverts au dépôt ; six mécanismes de défense proposent des cibles et des réserves distinctes, avec réarmement payé sur place. Le Guide décrit les capacités réelles sans dupliquer les cartes de pièges.
+
+Les corrections portent sur la météo à la reprise, les circuits électriques des ouvrages verticaux, les explosions selon l’altitude, les hordes aux berges, les blessures pendant les missions, les mains occupées avant conduite et les campagnes refusées. Le ruban de ressources tactile affiche des cartes complètes. Les mondes et prises des anciennes sauvegardes restent conservés.
+
+Guide : [livraison 1.67](docs/LIVRAISON_1_67.md). Audit et limites : [audit 1.67](docs/AUDIT_1_67.md). Les résultats de qualification doivent rester liés au commit livré ; ni ces scénarios ni les audits assistés par agents ne constituent une campagne humaine complète de 6 à 10 heures.
+
+```sh
+npm ci
+DEADWALL_SOAK=1 npm run check
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium node scripts/browser-weather193.mjs
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium node scripts/browser-forage193.mjs
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium node scripts/browser-defense193.mjs
+```
+
+## Historique conservé — 1.66.0
+
 # DEADWALL 1.66.0 — Faune et survie
 
 La chasse et la pêche utilisent des prises finies, du matériel transporté et le retour au dépôt. Les enclos régionaux ajoutent capture, entretien, reproduction de certaines espèces, cuisson et tannage. Les comportements de prédation restent activables volontairement. Les parcours aquatiques, collisions des véhicules et interruptions après blessure ont été corrigés ; les outils et chantiers d’enclos ont des animations distinctes.

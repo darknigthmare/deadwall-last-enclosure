@@ -37,7 +37,7 @@ test('186 the actual inventory is exactly the historical npm-test glob, not a su
  assert.ok(list.length>=447);assert.equal(plan.count,SHARDS);
  assert.deepEqual(list.map(r=>r.path),fs.readdirSync(path.join(root,'tests')).filter(n=>n.endsWith('.test.cjs')).sort().map(n=>'tests/'+n));
  for(const row of list)assert.equal(row.sha256,hash(fs.readFileSync(path.join(root,row.path))));
- const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json')));assert.equal(pkg.scripts.test,'node --test tests/*.test.cjs');assert.equal(pkg.scripts.check,'node scripts/check-syntax134.mjs && npm run build && npm test');
+ const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json')));assert.equal(pkg.scripts.test,'node --test --test-concurrency=2 tests/*.test.cjs');assert.equal(pkg.scripts.check,'node scripts/check-syntax134.mjs && npm run build && npm test');
 });
 for(const mutate of [rows=>rows.push(rows[0]),rows=>rows[0].path='../outside.test.cjs',rows=>rows[0].path='tests/nested/x.test.cjs',rows=>rows[0].bytes=0,rows=>rows[0].sha256='not-a-hash'])test('186 malformed or duplicated inventory fails closed: '+mutate,async()=>{
  const {planShards}=await api,list=inventory(12);mutate(list);assert.throws(()=>planShards(list));

@@ -208,6 +208,27 @@ function install(g){
   job={kind:'mechanism',slot:kind,building:q.b.id,support:q.b,type:q.b.type,gx:q.b.gx,gy:q.b.gy,rotation:q.b.rotation,cost:q.cost,seconds:q.seconds,elapsed:0,x:g.player.x,y:g.player.y,health:g.player.health};
   g.releaseInputs?.();return done(q.recipe.name+' en cours. Restez près du Hérisson ; paiement dans le sac à l’achèvement.',false);
  }
+ function mechanismRearmQuote(b,continuing=null){
+  const refuse=reason=>({ok:false,reason}),reason=fieldWorkReason(continuing);if(reason)return refuse(reason);
+  if(!b||b.type!=='spikes'||continuing&&(b!==continuing.support||b.gx!==continuing.gx||b.gy!==continuing.gy||b.rotation!==continuing.rotation))return refuse('Le Hérisson prévu est absent, déplacé ou remplacé.');
+  if(!touch(b)||!secure(g.player))return refuse('Rejoignez le montage par un accès libre et sûr.');
+  const m=fitting(b.id)?.mechanism,recipe=m&&R.mechanisms[m.kind];
+  if(!m||!recipe)return refuse('Installez d’abord un montage mécanique.');
+  if(continuing&&(m!==continuing.mechanism||m.kind!==continuing.slot||m.charges!==continuing.initialCharges))return refuse('Le montage ou ses charges ont changé ; préparez un nouveau réarmement.');
+  if(m.caught.length)return refuse('Attendez la libération des cibles retenues avant de réarmer.');
+  if(g.tier.id<recipe.tier||recipe.requires&&!g.world.has(recipe.requires))return refuse('Âge acquis et atelier achevé requis pour ce montage.');
+  const amount=recipe.charges-m.charges;if(amount<=0)return refuse('Ce montage possède déjà toutes ses charges.');
+  const cost=Object.fromEntries(Object.entries(recipe.cost).map(([key,n])=>[key,Math.ceil(n*R.mechanismRearmCostFactor*amount/recipe.charges)]));
+  if(!C.canAfford(g.player.carry,cost))return refuse('Pièces à transporter dans le sac : '+C.resourceText(cost)+'.');
+  return{ok:true,b,m,recipe,amount,cost,seconds:recipe.seconds*R.mechanismRearmTimeFactor*amount/recipe.charges};
+ }
+ function previewMechanismRearm(id){reconcile();return mechanismRearmQuote(id===undefined?target():building(id));}
+ function startMechanismRearm(id){
+  const q=previewMechanismRearm(id);if(!q.ok)return fail(q.reason);
+  job={kind:'rearm',slot:q.m.kind,mechanism:q.m,initialCharges:q.m.charges,amount:q.amount,building:q.b.id,support:q.b,gx:q.b.gx,gy:q.b.gy,rotation:q.b.rotation,
+   seconds:q.seconds,elapsed:0,x:g.player.x,y:g.player.y,health:g.player.health};
+  g.releaseInputs?.();return done('Réarmement : '+q.amount+' charge'+(q.amount>1?'s':'')+' · '+C.resourceText(q.cost)+' dans le sac à l’achèvement. Le cycle du montage reste conservé.',false);
+ }
  function removeMechanism(id){
   reconcile();const b=building(id),f=b&&fitting(id),reason=fieldWorkReason();
   if(reason)return fail(reason);
@@ -229,14 +250,16 @@ function install(g){
  function step(dt){
   if(!running()||!num(dt,Number.MIN_VALUE,R.maxStep)||!job)return;
   if(g.expansions.busy('fortification')||manualPost()||g.player.health<job.health||!secure(g.player)||g.input.mouseDown||g.input.touchFire||g.player.reload>0||g.selectedBuild){stop();return;}
-  if(job.kind==='supply'||job.kind==='mechanism'){
-   const t=job,q=t.kind==='supply'?fieldSupplyQuote(t.slot,building(t.building),t):mechanismQuote(t.slot,building(t.building),t);
+  if(job.kind==='supply'||job.kind==='mechanism'||job.kind==='rearm'){
+   const t=job,q=t.kind==='supply'?fieldSupplyQuote(t.slot,building(t.building),t):t.kind==='rearm'?mechanismRearmQuote(building(t.building),t):mechanismQuote(t.slot,building(t.building),t);
    if(!q.ok||Math.hypot(g.player.x-t.x,g.player.y-t.y)>R.fieldSupplyMoveTolerance){stop();if(!q.ok)message=q.reason;return;}
    t.elapsed+=dt;g.player.action='build';
    if(t.elapsed>=t.seconds){
     if(!C.spend(g.player.carry,q.cost)){stop();return;}
     let f=fitting(t.building);if(!f){f={id:t.building,ammo:0,repair:0,net:0,regulator:false};state.fittings.push(f);}
-    if(t.kind==='mechanism'){
+    if(t.kind==='rearm'){
+     q.m.charges+=q.amount;job=null;g.audio.build?.();done(q.recipe.name+' réarmé : '+q.amount+' charge'+(q.amount>1?'s payées.':' payée.')+' Refroidissement et autres réserves conservés.');
+    }else if(t.kind==='mechanism'){
      f.mechanism={kind:t.slot,charges:q.recipe.charges,cooldown:0,caught:[]};job=null;g.audio.build?.();done(q.recipe.name+' prêt : '+q.recipe.charges+' déclenchements finis. Matériaux consommés une seule fois dans le sac.');
     }else{
      f[t.slot]+=t.amount;job=null;g.audio.build?.();done('Appoint livré : '+t.amount+' '+(t.slot==='ammo'?'cartouches au poste.':'points dans la cassette. Réparez ensuite le support avec sa réserve.'));
@@ -282,6 +305,7 @@ function install(g){
    const range=Math.hypot(b.w*C.TILE/2,b.h*C.TILE/2)+R.mechanismContactReach+maxEnemyRadius;
    let target=null,distance=Infinity;
    for(const z of g.nearbyZombies(b.x,b.y,range)){
+    if(recipe.targetKinds&&!recipe.targetKinds.includes(z.kind))continue;
     if(!live(z)||recipe.holdSeconds&&(z.stagger>0||m.caught.some(c=>c.id===z.id)))continue;
     const point={x:Math.max(b.left,Math.min(b.right,z.x)),y:Math.max(b.top,Math.min(b.bottom,z.y))},near=Math.hypot(z.x-point.x,z.y-point.y);
     if(near>z.radius+R.mechanismContactReach||near>=distance||!mechanismLineClear(z,point,b))continue;
@@ -297,7 +321,7 @@ function install(g){
    if(g.visible(b.x,b.y,range,g.viewBounds())&&(!g.visibility||g.visibility.canSeeLocal(target)))g.audio.hit?.();
   }
  }
- function overview(){reconcile();const b=target(),f=b&&fitting(b.id),work=job?.kind==='mechanism'?R.mechanisms[job.slot].name+' · '+Math.floor(Math.min(1,job.elapsed/job.seconds)*100)+' %':job?.kind==='supply'?R.fieldSupply[job.slot].name+' · '+Math.floor(Math.min(1,job.elapsed/job.seconds)*100)+' % · '+job.amount+' '+(job.slot==='ammo'?'cartouches':'points'):job?(job.kind==='repair'?'Réparation manuelle':'Tri des débris'):'Aucun';return{summary:message||'Préparez les postes sur place ; toutes les réserves sont finies et perdues si leur support tombe.',rows:[{label:'Support',value:b?b.def.name:'Approchez ou sélectionnez une structure'},{label:'Caisson local',value:(f?.ammo||0).toFixed(0)+' cartouches'},{label:'Cassette',value:(f?.repair||0).toFixed(0)+' points'},{label:'Filet',value:(f?.net||0).toFixed(1)+' unités restantes'},{label:'Montage mécanique',value:f?.mechanism?R.mechanisms[f.mechanism.kind].name+' · '+f.mechanism.charges+' / '+R.mechanisms[f.mechanism.kind].charges+' déclenchements'+(f.mechanism.charges===0?' · ÉPUISÉ':''):'Absent · Hérisson requis'},{label:'Régulateur',value:f?.regulator?'Seuil : 25 unités par intrant':'Absent'},{label:'Débris récupérables',value:String(state.debris.length)},{label:'Travail',value:work}]};}
+ function overview(){reconcile();const b=target(),f=b&&fitting(b.id),work=job?.kind==='rearm'?'Réarmement · '+R.mechanisms[job.slot].name+' · '+job.amount+' charges · '+Math.floor(Math.min(1,job.elapsed/job.seconds)*100)+' %':job?.kind==='mechanism'?R.mechanisms[job.slot].name+' · '+Math.floor(Math.min(1,job.elapsed/job.seconds)*100)+' %':job?.kind==='supply'?R.fieldSupply[job.slot].name+' · '+Math.floor(Math.min(1,job.elapsed/job.seconds)*100)+' % · '+job.amount+' '+(job.slot==='ammo'?'cartouches':'points'):job?(job.kind==='repair'?'Réparation manuelle':'Tri des débris'):'Aucun';return{summary:message||'Préparez les postes sur place ; toutes les réserves sont finies et perdues si leur support tombe.',rows:[{label:'Support',value:b?b.def.name:'Approchez ou sélectionnez une structure'},{label:'Caisson local',value:(f?.ammo||0).toFixed(0)+' cartouches'},{label:'Cassette',value:(f?.repair||0).toFixed(0)+' points'},{label:'Filet',value:(f?.net||0).toFixed(1)+' unités restantes'},{label:'Montage mécanique',value:f?.mechanism?R.mechanisms[f.mechanism.kind].name+' · '+f.mechanism.charges+' / '+R.mechanisms[f.mechanism.kind].charges+' déclenchements'+(f.mechanism.charges===0?' · ÉPUISÉ':''):'Absent · Hérisson requis'},{label:'Régulateur',value:f?.regulator?'Seuil : 25 unités par intrant':'Absent'},{label:'Débris récupérables',value:String(state.debris.length)},{label:'Travail',value:work}]};}
  function actions(){
   reconcile();const b=target(),f=b&&fitting(b.id),result=[];
   for(const [kind,label]of [['ammo','Installer le caisson · 24 munitions, 4 bois, 3 ferraille'],['repair','Installer la cassette · 10 ferraille, 4 bois'],['net','Tendre un filet · 12 bois, 6 ferraille'],['regulator','Installer le régulateur · 6 ferraille']]){const q=eligibility(kind,b);result.push({id:kind,label,disabled:!q.ok,reason:q.reason||'',run:()=>equip(kind,b?.id)});}
@@ -306,7 +330,12 @@ function install(g){
   const planReason=fieldWorkReason()||(g.tier.id<C.BUILDINGS.spikes.unlockTier?'Palier requis : '+C.CITY_TIERS[C.BUILDINGS.spikes.unlockTier].name+'.':'');
   result.push({id:'build-spikes',label:'Placer un Hérisson anti-horde',description:C.resourceText(C.BUILDINGS.spikes.cost)+' au dépôt pour le chantier ordinaire. Financement, placement libre et construction restent nécessaires avant le montage.',describeDetails:true,disabled:!!planReason,reason:planReason,run:planSpikes,close:true});
   for(const[kind,r]of Object.entries(R.mechanisms||{})){const q=mechanismQuote(kind,b);result.push({id:'mechanism-'+kind,label:r.name+' · '+r.charges+' déclenchements',description:C.resourceText(r.cost)+' dans le sac · '+r.seconds+' s sur place. '+r.description+' Un seul montage par Hérisson ; perdu si le support tombe.',describeDetails:true,disabled:!q.ok,reason:q.reason||'',run:()=>startMechanism(kind,b?.id),close:true});}
-  if(f?.mechanism){const reason=fieldWorkReason()||(!touch(b)||!secure(g.player)?'Rejoignez le montage par un accès libre et sûr.':f.mechanism.caught.length?'Attendez la fin de l’entrave.':'');result.push({id:'remove-mechanism',label:'Retirer le montage · aucun remboursement',description:'Les charges et matériaux du montage sont perdus ; les autres réserves restent en place.',disabled:!!reason,reason,run:()=>removeMechanism(b.id)});}
+  if(f?.mechanism){const q=mechanismRearmQuote(b),recipe=R.mechanisms[f.mechanism.kind];
+   const amount=q.ok?q.amount:recipe.charges-f.mechanism.charges;
+   result.push({id:'rearm-mechanism',label:'Réarmer '+recipe.name+' · '+amount+' charge'+(amount>1?'s':''),
+    description:q.ok?C.resourceText(q.cost)+' dans le sac · '+q.seconds.toFixed(1)+' s sur place. Pièces arrondies au prorata des charges manquantes ; cycle et réserves conservés.':'Réarmement partiel payé sur place, après libération des cibles retenues. Aucun remboursement ni remise à zéro du cycle.',
+    describeDetails:true,disabled:!q.ok,reason:q.reason||'',run:()=>startMechanismRearm(b.id),close:true});
+   const reason=fieldWorkReason()||(!touch(b)||!secure(g.player)?'Rejoignez le montage par un accès libre et sûr.':f.mechanism.caught.length?'Attendez la fin de l’entrave.':'');result.push({id:'remove-mechanism',label:'Retirer le montage · aucun remboursement',description:'Les charges et matériaux du montage sont perdus ; les autres réserves restent en place.',disabled:!!reason,reason,run:()=>removeMechanism(b.id)});}
   if(f?.ammo>0)result.push({id:'recover-ammo',label:'Récupérer les cartouches restantes',disabled:!acting()||!!job||g.expansions.busy('fortification')||!touch(b)||!secure(g.player),run:()=>recoverAmmo(b.id)});
   if(f?.repair>0)result.push({id:'start-repair',label:'Réparer avec la cassette · 8 points/s',disabled:!acting()||!!job||g.expansions.busy('fortification')||!touch(b)||!secure(g.player)||g.phase==='assault'||b.health>=b.maxHealth,reason:job||g.expansions.busy('fortification')?'Terminez ou interrompez le travail en cours.':'',run:()=>startRepair(b.id),close:true});
   if(f?.regulator)result.push({id:'regulator-off',label:'Retirer le régulateur',disabled:!acting()||!!job||g.expansions.busy('fortification')||!touch(b)||!secure(g.player),run:()=>toggleRegulator(b.id)});
@@ -369,7 +398,7 @@ function install(g){
   if(!preparationDrawn&&f?.regulator){ctx.fillStyle='#98b9ad';ctx.fillRect(b.left+4,b.top+4,9,9);ctx.fillStyle='#273b34';ctx.fillRect(b.left+7,b.top+6,2,5);}ctx.restore();return r;
  });
  wrap('drawGround',(old,ctx,...args)=>{const r=old(ctx,...args);if(!home()&&!args[0]?.homeProjection)return r;ctx.save();for(const d of state.debris){const v=args[0];if(v&&(d.x+d.w/2<v.left||d.x-d.w/2>v.right||d.y+d.h/2<v.top||d.y-d.h/2>v.bottom))continue;ctx.fillStyle='#887661';ctx.fillRect(d.x-d.w/2+3,d.y+d.h/2+4,16,5);ctx.fillStyle='#a7a295';ctx.fillRect(d.x-d.w/2+11,d.y+d.h/2+1,10,6);}ctx.restore();return r;});
- const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},presentation,inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
+ const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},presentation,inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,previewMechanismRearm,startMechanismRearm,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
  g.fortificationPack=api;
  g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);job=null;message='';visualClock=0;visualEvents.clear();},reset:()=>{state=initial();job=null;message='';visualClock=0;visualEvents.clear();}});
  return api;
