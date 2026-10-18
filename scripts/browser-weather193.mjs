@@ -23,7 +23,11 @@ try{
    r.check('Reading forecasts keeps the complete paused save and RNG unchanged',p.reads.paused&&before===p.reads.after);delete p.reads.after;
    r.check('Bulletin exposes the actual next front inside its short lead',p.reads.front.next!==null&&text.includes(p.reads.front.next.name));
    p.layout=await page.locator('#expansionTab-weather193').evaluate(n=>{const b=n.getBoundingClientRect();return{left:b.left,right:b.right,height:b.height,screen:innerWidth};});r.check('Weather tab fits and retains a touch-sized target',p.layout.left>=-1&&p.layout.right<=p.layout.screen+1&&p.layout.height>=44);
-   await r.screenshot('weather-bulletin');
+   for(const [label,name]of [['Pluie observée','observed-rain'],['Front en cours','current-front'],['Prochaine tendance','next-front']]){
+    const metric=page.locator('#expansionDetail .expansion-metrics > div').filter({hasText:label});await metric.scrollIntoViewIfNeeded();
+    const visible=await metric.evaluate(n=>{const b=n.getBoundingClientRect(),host=n.closest('.command-body').getBoundingClientRect(),value=n.querySelector('dd'),v=value.getBoundingClientRect();return{label:n.querySelector('dt').textContent,value:value.textContent,pass:b.left>=host.left&&b.right<=host.right&&v.top>=host.top&&v.bottom<=host.bottom&&v.top>=0&&v.bottom<=innerHeight};});
+    r.check('Weather value '+label+' is actually visible inside the scroll panel',visible.pass&&visible.value.trim().length>0);(p.visibleMetrics??=[]).push(visible);await r.screenshot('weather-'+name);
+   }
    await resumeCommand(page,!!view.touch);p.recovery=await saveReloadContinue(page,!!view.touch);r.check('Native Save/Continue preserves all owners including exact weather target',p.recovery.pass);
    r.check('Continue retains the weather mode',await page.evaluate(()=>DEADWALL.weather193.active()));
    r.check('No page, console, HTTP or request failure',r.errors()===0);

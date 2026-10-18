@@ -42,9 +42,9 @@
     {label:'Pluie observée',value:percentage(rain)+(delta>.03?' · en renforcement':delta<-.03?' · en diminution':' · stable')},
     {label:'Front en cours',value:active()?f.name+' · '+Math.ceil(f.left)+' s avant la relève':'Météo historique'},
     {label:'Prochaine tendance',value:active()?(f.next?f.next.name+' · pluie visée '+percentage(f.next.rain):'Bulletin disponible '+R.forecastLead+' s avant la relève'):'Non prévue par le modèle historique'},
-    {label:'Éclairage découvert',value:'Les flammes suivent la pluie réelle ; bâche, lanterne et éclairages étanches restent des choix distincts.'},
-    {label:'Sol de D-17',value:rain>.62?'Pluie suffisante pour la boue sur le terrain naturel ; les routes gardent leur surface.':'Le bulletin ne crée ni crue ni passage dans l’eau.'},
-    {label:'Région',value:'Les berges et ponts gardent leur géométrie. Aucune visibilité ennemie supplémentaire n’est accordée.'}
+    {label:'Éclairage découvert',value:'Les flammes exposées s’usent sous la pluie. Préparez un éclairage protégé avant la sortie.'},
+    {label:'Sol de D-17',value:rain>.62?'Terrain naturel et chemins de terre ralentis par la pluie ; privilégiez les accès empierrés ou revêtus.':'Pluie faible : repérez vos chemins avant de vous éloigner du refuge.'},
+    {label:'Région',value:'Repérez un pont pour franchir un cours d’eau et gardez une route de retour vers D-17.'}
    ]};
   }
   function actions(){if(active())return[];const q=activationQuote();return[{id:'activate',label:'Activer les fronts météo pour cette campagne',description:'Conserve le monde et les stocks. La météo future devient liée à la graine et au temps actif. Activation durable, sans retour au modèle historique.',disabled:!q.ok,reason:q.reason||'Aucun matériau consommé ; la météo ne crée aucun stock.',run:activate}];}
