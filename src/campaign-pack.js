@@ -95,11 +95,11 @@ function install(g){
  function carrying(){const a=state.active;return!!a&&(cargoKind(a.kind)==='outbound'&&a.stage==='field'||cargoKind(a.kind)==='inbound'&&a.stage==='return');}
  function movementFactor(){return carrying()?D[state.active.kind].cargoSpeed??(isRescue(state.active.kind)?R.rescueSpeed:R.cargoSpeed):1;}
  function damageReceived(amount){
-  if(!Number.isFinite(amount)||amount<=0)return;damageTotal+=amount;const a=state.active;if(!a)return;
+  if(g.gameOver||!Number.isFinite(amount)||amount<=0)return;damageTotal+=amount;const a=state.active;if(!a)return;
   if(task)cancel();if(g.player.dead||g.player.health<=0){conclude('lost','Opération perdue avec le commandant.');return;}
   if(carrying()){const factor=D[a.kind].cargoDamage??(isRescue(a.kind)?R.rescueDamage:R.cargoDamage);a.integrity=Math.max(0,a.integrity-amount*factor);if(a.integrity<=0)conclude('lost',isRescue(a.kind)?'Le blessé n’a pas survécu au transport.':'Le colis de campagne est inutilisable.');}
  }
- function coreDamaged(core){const a=state.active;if(!a||!isDefense(a.kind)||a.stage!=='defending')return;a.minimumCore=Math.min(a.minimumCore,Math.max(0,core.health)/(core.maxHealth||1));if(a.minimumCore<minimumCore(a.kind))conclude('lost','Engagement perdu : le centre est passé sous '+Math.round(minimumCore(a.kind)*100)+' % d’intégrité.');}
+ function coreDamaged(core){const a=state.active;if(g.gameOver||!a||!isDefense(a.kind)||a.stage!=='defending')return;a.minimumCore=Math.min(a.minimumCore,Math.max(0,core.health)/(core.maxHealth||1));if(a.minimumCore<minimumCore(a.kind))conclude('lost','Engagement perdu : le centre est passé sous '+Math.round(minimumCore(a.kind)*100)+' % d’intégrité.');}
  function tick(dt,beforeHealth,reportedDamage=0){
   const a=state.active;if(!a)return;if(g.player.dead||g.player.health<=0){conclude('lost','Opération perdue avec le commandant.');return;}
   if(expired(a)){conclude('lost','Délai dépassé. Le budget engagé et cette opportunité sont perdus.');return;}

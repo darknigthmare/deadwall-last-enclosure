@@ -21,12 +21,14 @@ Le Guide ajoute **30 fiches de cueillette, météo et missions**, et les **six c
 - Une blessure réelle interrompt les gestes et endommage immédiatement le colis de mission, même si un soin suit avant la mise à jour suivante.
 - Monter dans le véhicule refuse une recharge ou une intervention en cours, sans supprimer leur coût ou leur progression.
 - Refuser un profil de nouvelle carte conserve le monde et les opérations payées de la campagne active.
+- Les ouvriers terminent leur approche physique du point de service, même lorsque les deux derniers pixels sont nécessaires pour entrer dans la portée de récolte.
+- Les notifications de dégâts conservent le contrat figé dès la défaite ; les blessures et seuils non fatals restent pris en compte immédiatement.
 - Le ruban tactile de ressources affiche des cartes entières et un indice de balayage ; un nombre coupé ne se présente plus comme une quantité différente.
 
 Les raccourcis du tiroir régional **Terrain & trajet** ouvrent directement météo, cueillette et missions dans le commandement existant. Ils ne créent pas de modale ou de simulation parallèle.
 
 ## Vérification et portée
 
-La commande complète reste `DEADWALL_SOAK=1 npm run check`. Les tests natifs locaux utilisent deux processus simultanés, comme les partitions CI, pour garder le poste disponible. Tous les fichiers restent exécutés. Le nouveau groupe navigateur vérifie météo, cueillette et mécanismes avec les vrais contrôles ; les autres groupes, Windows, le service worker et le HTML autonome restent nécessaires.
+La commande complète reste `DEADWALL_SOAK=1 npm run check`. Les tests natifs locaux utilisent quatre processus simultanés sur le cloud à quatre cœurs ; chaque partition CI conserve ses deux processus. Tous les fichiers restent exécutés. Le nouveau groupe navigateur vérifie météo, cueillette et mécanismes avec les vrais contrôles ; les autres groupes, Windows, le service worker et le HTML autonome restent nécessaires.
 
 L’[audit 1.67](AUDIT_1_67.md) décrit les observations, les négatifs et les hypothèses écartées. Les parcours avancés déclarent leurs préparations de matériel, de position ou d’horloge. Les résultats de qualification doivent être associés au commit et aux rapports de leur propre exécution. Plusieurs agents et sessions Chromium ne constituent pas des participants humains indépendants, une certification sur téléphone physique ou une campagne de 6 à 10 heures. Cette durée reste une cible à mesurer par jeu humain complet.

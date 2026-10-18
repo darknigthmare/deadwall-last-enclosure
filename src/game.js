@@ -1214,7 +1214,7 @@
     }
 
     moveUnitToward(unit, target, dt, speed = unit.speed) {
-      if (dist(unit, target) < 2) return true;
+      if (dist(unit, target) < 1e-6) return true;
       const goalX = grid(target.x), goalY = grid(target.y), version = this.world.navigationVersion;
       let route = unit.navigation;
       if (!route || route.goalX !== goalX || route.goalY !== goalY || route.version !== version || (route.retryAt && this.elapsed >= route.retryAt)) {

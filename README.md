@@ -2,7 +2,7 @@
 
 Seize cueillettes et ramassages finis suivent les biomes et possèdent quatre variantes visuelles. Six fronts météo rendent la préparation des sorties lisible. Huit opérations supplémentaires relient les lieux découverts au dépôt ; six mécanismes de défense proposent des cibles et des réserves distinctes, avec réarmement payé sur place. Le Guide décrit les capacités réelles sans dupliquer les cartes de pièges.
 
-Les corrections portent sur la météo à la reprise, les circuits électriques des ouvrages verticaux, les explosions selon l’altitude, les hordes aux berges, les blessures pendant les missions, les mains occupées avant conduite et les campagnes refusées. Le ruban de ressources tactile affiche des cartes complètes. Les mondes et prises des anciennes sauvegardes restent conservés.
+Les corrections portent sur la météo à la reprise, les circuits électriques des ouvrages verticaux, les explosions selon l’altitude, les hordes aux berges, les blessures pendant les missions, les mains occupées avant conduite et les campagnes refusées. Les ouvriers terminent leur approche du point de récolte et les contrats restent figés après la défaite. Le ruban de ressources tactile affiche des cartes complètes. Les mondes et prises des anciennes sauvegardes restent conservés.
 
 Guide : [livraison 1.67](docs/LIVRAISON_1_67.md). Audit et limites : [audit 1.67](docs/AUDIT_1_67.md). Les résultats de qualification doivent rester liés au commit livré ; ni ces scénarios ni les audits assistés par agents ne constituent une campagne humaine complète de 6 à 10 heures.
 
