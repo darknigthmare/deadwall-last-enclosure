@@ -1,0 +1,28 @@
+name: Menu 197 source snapshot
+on:
+  push:
+    branches: [codex/menu197-source-20261019]
+    paths: [.github/workflows/menu197-source.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5632f1b70f8ed748f009726648d16b81941720f0
+          persist-credentials: false
+      - name: Archive tracked source and exact tree only
+        run: |
+          mkdir -p /tmp/menu197-source
+          git archive --format=tar HEAD -- . ':!assets' ':!artifacts' ':!reports' | gzip > /tmp/menu197-source/sources.tar.gz
+          git ls-tree -r -z HEAD > /tmp/menu197-source/tree.bin
+          git rev-parse HEAD > /tmp/menu197-source/commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu197-source-5632f1b
+          path: /tmp/menu197-source/
+          retention-days: 3
+          if-no-files-found: error
