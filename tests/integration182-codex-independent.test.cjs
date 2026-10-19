@@ -55,7 +55,8 @@ test('182 native laboratory: independent layouts remain disposable, specialized 
 });
 
 test('182 source disclosures: shipped plan and native laboratory controls mount only in the authored programme disclosure',async()=>{
- const {bootDocument134}=require('../scripts/qa-startup134.cjs'),{g,doc,dispatchDocument}=bootDocument134();
+ // Source inspectors belong to the explicit author surface, never the player Guide.
+ const {bootDocument134}=require('../scripts/qa-startup134.cjs'),{g,doc,dispatchDocument}=bootDocument134({search:'?tools=1&fixture=legacy'});
  // Supply the standard DOM properties/selectors omitted by the lightweight
  // fixture. The actual shipped HTML, owners and toggle listeners remain in use.
  const proto=Object.getPrototypeOf(doc.body),matches=proto.matches;

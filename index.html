@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="hud135.css">
 <link rel="stylesheet" href="city-catalogue150.css">
   <link rel="stylesheet" href="vertical-citadel175.css">
+  <link rel="stylesheet" href="player-menus194.css">
 </head>
 <body data-phase="menu">
   <canvas id="game" aria-label="Zone de jeu DEADWALL"></canvas>
@@ -122,7 +123,7 @@
       <div class="eyebrow"><span class="eyebrow-signal"></span> PROTOCOLE DE RECONSTRUCTION // SECTEUR D-17</div>
       <h1 id="deadwallTitle">DEAD<span>WALL</span></h1><p class="subtitle">LA DERNIÈRE ENCEINTE</p>
       <p class="pitch">Récoltez. Fortifiez. Automatisez. Transformez un dépôt abandonné en mégacité avant que la région entière converge vers vos lumières.</p>
-      <div class="menu-status" aria-label="Caractéristiques de la campagne"><span>CAMPAGNE INFINIE</span><span>SAUVEGARDE LOCALE</span><span>JOUABLE HORS LIGNE</span></div>
+      <div class="menu-status" aria-label="Caractéristiques de la campagne"><span>SURVIE SANS LIMITE DE VAGUES</span><span>SAUVEGARDE LOCALE</span><span>JOUABLE HORS LIGNE</span></div>
       <div class="menu-actions"><button id="newGameButton" class="primary">NOUVELLE PARTIE</button><button id="continueButton" disabled>CONTINUER</button><button id="howToButton">MANUEL DE TERRAIN</button><button id="menuSettingsButton">PARAMÈTRES</button></div>
       <p class="campaign-save-note" id="campaignSaveNote">Une seule campagne active sur cet appareil, sans cloud ni emplacements multiples. Exportez une copie JSON dans Paramètres pour la conserver. La destruction du centre termine la campagne et efface sa sauvegarde active ; vos fichiers exportés restent intacts.</p>
       <div class="difficulty-row">
@@ -133,7 +134,7 @@
           <label class="difficulty-option"><input type="radio" name="difficulty" value="brutal"><span><strong>BRUTAL</strong><small>Fronts agressifs · Erreurs coûteuses</small></span></label>
         </div>
       </div>
-      <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — classique</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
+      <section class="scenario-picker" aria-labelledby="scenarioHeading"><h2 id="scenarioHeading">CONDITIONS DE DÉPART</h2><label for="startScenario">Choisissez votre situation initiale<select id="startScenario" aria-describedby="startScenarioDescription startScenarioFacts"><option value="classic">Le dépôt — départ recommandé</option><option value="convoy">Convoi de civils</option><option value="reconstruction">Dépôt à reconstruire</option><option value="rearguard">Arrière-garde</option></select></label><p id="startScenarioDescription"></p><p id="startScenarioFacts" class="scenario-facts"></p><small>Les hordes et objectifs restent communs. Records séparés par départ et difficulté.</small></section>
       <div class="seed-controls"><label for="worldLandscape189">GÉNÉRATION DES BIOMES<select id="worldLandscape189" aria-describedby="landscapeHint189"><option value="balanced" selected>Régions naturelles</option><option value="large">Grands biomes</option><option value="patchwork">Mosaïque naturelle</option><option value="classic">Paysage historique</option></select></label></div><p id="landscapeHint189" class="hint">Même graine + même profil = même monde. Continuer préserve le paysage enregistré. Les profils naturels ajoutent la faune étendue.</p>
       <div class="seed-controls"><label for="mapSeed">GRAINE DE CARTE · FACULTATIVE<input id="mapSeed" type="text" inputmode="numeric" maxlength="10" placeholder="Nouvelle carte aléatoire" aria-describedby="seedHint" autocomplete="off"></label><button id="randomMapSeedButton" aria-describedby="seedHint">TIRER UNE GRAINE</button><button id="menuRecordsButton" aria-haspopup="dialog" aria-controls="commandModal">ARCHIVES</button></div>
       <p class="seed-hint" id="seedHint">Champ vide : nouvelle graine à chaque départ. Un nombre de 0 à 4 294 967 295 reproduit le terrain, les biomes et la position de D-17 dans cette version du générateur. L’aperçu prépare uniquement le prochain départ.</p>
@@ -202,6 +203,7 @@
   <div id="gameOver" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle"><main class="modal-card gameover-card"><small>TRANSMISSION INTERROMPUE</small><h2 id="gameOverTitle">LA CITÉ EST TOMBÉE</h2><p id="debriefCampaign" class="debrief-campaign"></p><p id="debriefDuration"></p><p id="gameOverStats" class="debrief-legacy"></p><div id="debriefMetrics" class="debrief-metrics"></div><h3>POUR LA PROCHAINE CITÉ</h3><ul id="debriefLessons" class="debrief-lessons"></ul><p class="command-note">Les records restent dans vos archives. Rejouer crée une nouvelle campagne sans bonus permanent ; la cité perdue n'est pas restaurée.</p><button id="restartButton" class="primary">REJOUER CETTE CARTE</button><button id="gameOverNewMapButton">NOUVELLE CARTE · MÊME DÉPART</button><button id="gameOverMenuButton">RETOUR AU MENU</button></main></div>
 
   <noscript>JavaScript doit être activé.</noscript>
+  <script src="src/player-menus194.js"></script>
   <script src="src/frontier-specialists.js"></script>
 <script src="src/frontier-places.js"></script>
 <script src="src/settlement-plans.js"></script>

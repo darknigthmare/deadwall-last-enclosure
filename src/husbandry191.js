@@ -48,6 +48,35 @@ function validate(raw,full){
  }
  return clone(raw);
 }
+// Read-only logistics estimates for already owned pens. No world generation,
+// clock advancement, inferred journey, resource transfer or new save fields.
+function penReports(state){
+ return state.pens.map(p=>{
+  const all=state.animals.filter(a=>a.pen===p.id),live=all.filter(a=>['held','stranded'].includes(a.status)),young=live.filter(a=>a.age<R.matureSeconds).length;
+  const eligible=live.filter(a=>a.status==='held'&&a.age>=R.matureSeconds&&a.health>=75&&R.captive[a.species]?.breed);
+  const pair=eligible.some(a=>eligible.some(b=>b.species===a.species&&b.sex!==a.sex));
+  const alerts=[];if(p.health<=0)alerts.push('ruined');
+  if(live.length&&p.food<=0)alerts.push('no-food');if(live.length&&p.water<=0)alerts.push('no-water');
+  if(live.some(a=>a.health<100))alerts.push('injured');if(live.some(a=>a.status==='stranded'))alerts.push('stranded');
+  const products={meat:p.meat,hides:p.hides,leather:p.leather,meatSeconds:p.meat>0?Math.max(0,R.meatLife-p.meatAge):null,hideSeconds:p.hides>0?Math.max(0,R.hideLife-p.hideAge):null};
+  return {id:p.id,x:p.x,y:p.y,health:p.health,living:live.length,adults:live.length-young,young,stranded:live.filter(a=>a.status==='stranded').length,dead:all.filter(a=>a.status==='dead').length,
+   food:p.food,water:p.water,species:[...new Set(live.map(a=>a.species))],alerts,products,
+   autonomySeconds:live.length?Math.min(p.food/(live.length*R.foodPerSecond),p.water/(live.length*R.waterPerSecond)):null,
+   birthSeconds:p.health>0&&p.breed>0&&pair&&live.length<R.penCapacity&&state.animals.length<R.maxAnimals?Math.max(0,R.breedSeconds-p.breed):null};
+ }).sort((a,b)=>a.id-b.id);
+}
+function reportRows(state){
+ const time=seconds=>seconds===null?'sans besoin actuel':seconds<60?Math.floor(seconds)+' s':Math.floor(seconds/60)+' min';
+ const warnings={'ruined':'clôture détruite','no-food':'rations épuisées','no-water':'eau épuisée','injured':'animaux affaiblis','stranded':'origine de libération obstruée'};
+ return penReports(state).map(r=>({label:'Registre · enclos '+r.id+' — '+(r.species.map(id=>Wild.species()[id]?.name||id).join(', ')||'vide'),
+  value:r.adults+' adulte(s), '+r.young+' jeune(s) · intégrité '+Math.floor(r.health)+' % · rations/eau '+r.food.toFixed(1)+' / '+r.water.toFixed(1)+' · autonomie estimée '+time(r.autonomySeconds)+' aux besoins actuels (hors naissance). '+
+   (r.alerts.length?r.alerts.map(code=>warnings[code]).join(' ; ')+'. ':'')+
+   (r.products.meat?'Viande '+r.products.meat+' : péremption dans '+time(r.products.meatSeconds)+'. ':'')+
+   (r.products.hides?'Peaux '+r.products.hides+' : péremption dans '+time(r.products.hideSeconds)+'. ':'')+
+   (r.products.leather?'Cuir '+r.products.leather+'. ':'')+
+   (r.birthSeconds!==null?'Reproduction : '+time(r.birthSeconds)+' restantes, entretien et intrants requis. ':'')+
+   'Coordonnées régionales '+r.x.toFixed(1)+' / '+r.y.toFixed(1)+' m. Entretien sur place uniquement.'}));
+}
 function install(g){
  if(g.husbandry191)return g.husbandry191;if(!g.expansions||!g.wildHarvest190)return null;
  let s=initial(),task=null,message='',cooldowns=new Map(),soundLeft=0;
@@ -176,7 +205,7 @@ function install(g){
  function view(){const point=task?.kind==='build'?task.point:task?.kind==='rebuild'?pen(task.id):null;return{...clone(s),task:task?{kind:task.kind,id:task.id,target:task.target,point:point?{x:point.x,y:point.y}:null,progress:Math.min(1,task.elapsed/task.seconds)}:null};}
  function overview(){const p=s.pens.find(near);return{summary:message||'Enclos régionaux fixes : capture locale au filet, entretien, naissances et transformation. Les stocks bruts restent sur place.',
    rows:[{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Eau douce à portée de l’accès sud ; pas de puisage distant'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
-  ...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
+  ...reportRows(s),...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
  function actions(){if(task)return[{id:'cancel',label:'Interrompre',description:'Les intrants engagés restent consommés.',close:false,run:()=>({ok:cancel()})}];
   const offered=[['build',null,null,'Construire un enclos au nord de soi (10 bois, 6 ferraille)']];if(!s.behaviors)offered.push(['behaviors',null,null,'Activer la prédation locale et la défense du sanglier']);
   const p=s.pens.find(near);if(p){if(p.health<=0)offered.push(['rebuild',p.id,null,'Reconstruire cet enclos (10 bois, 6 ferraille)']);
@@ -186,7 +215,7 @@ function install(g){
   }
   return offered.map(([kind,id,target,label])=>{const q=quote(kind,id,target);return{id:kind+':'+id+':'+target,label,description:q.reason||'Travail sur place. Les jeunes et les animaux non compatibles sont protégés.',disabled:!q.ok,reason:q.reason||'',close:!!q.seconds,run:()=>begin(kind,id,target)};});
  }
- const api=Object.freeze({begin,cancel,quote,step,view,overview,actions,busy:()=>!!task,claimed,owns,solid,vehicleBlocked,lineClear,naturalIntent,access,
+ const api=Object.freeze({begin,cancel,quote,step,view,reports:()=>penReports(s),overview,actions,busy:()=>!!task,claimed,owns,solid,vehicleBlocked,lineClear,naturalIntent,access,
   healthFraction:id=>(s.animals.find(a=>a.source===id&&['held','stranded'].includes(a.status))?.health??0)/100,
   restrained:id=>task?.kind==='capture'&&task.target===id,snapshot:()=>validate(s)});g.husbandry191=api;
  g.expansions.register({id:'husbandry191',title:'Enclos & transformation',validate,snapshot:api.snapshot,overview,actions,busy:()=>!!task,restore:raw=>{s=validate(raw);task=null;message='';cooldowns.clear();soundLeft=R.soundInterval;},reset:()=>{s=initial();task=null;message='';cooldowns.clear();soundLeft=R.soundInterval;}});
@@ -195,5 +224,5 @@ function install(g){
  const start=g.startNew?.bind(g);if(start)g.startNew=(...args)=>{const previous={state:s,task,message,world:g.world};try{return start(...args);}finally{if(g.world===previous.world){s=previous.state;task=previous.task;message=previous.message;}}};
  const menu=g.returnToMenu.bind(g);g.returnToMenu=(...a)=>{cancel();return menu(...a);};return api;
 }
-const api=Object.freeze({initial,validate,install});root.DeadwallHusbandry191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
+const api=Object.freeze({initial,validate,install,penReports});root.DeadwallHusbandry191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

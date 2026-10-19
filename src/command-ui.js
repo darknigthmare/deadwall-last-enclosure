@@ -25,7 +25,7 @@
   for(const [id,title,description] of orders){
     const button=element('button',undefined,'order-card');button.type='button';button.dataset.workerOrder=id;
     button.appendChild(element('strong',title));button.appendChild(element('span',description));
-    button.addEventListener('click',()=>{if(game.setWorkerOrder(id)){message('Ordre transmis : '+title.toLowerCase()+'. La simulation reprend à la fermeture du poste.');refresh();}});
+    button.addEventListener('click',()=>{if(game.setWorkerOrder(id)){message('Ordre transmis : '+title.toLowerCase()+'. '+(game.ui.pauseMenu.classList.contains('hidden')?'Fermez le carnet pour reprendre sur le terrain.':'Retournez à la pause puis choisissez REPRENDRE pour exécuter cet ordre.'));refresh();}});
     get('workerOrders').appendChild(button);workerCards.set(id,button);
   }
   for(const item of C.RESEARCH){
@@ -63,6 +63,7 @@
   function chooseTab(id,focus=false){
     if(!tabs.includes(id))return;
     if((game.state!=='playing'||game.gameOver)&&!['records','field','journal'].includes(id))id='records';
+    if(id!=='field')game.playerMenus194?.leaveMaintenance?.();
     tab=id;
     for(const name of tabs){
       const button=get('commandTab-'+name),selected=name===id;
@@ -81,7 +82,7 @@
     get('commandTab-'+id).addEventListener('keydown',event=>{
       if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.code))return;
       event.preventDefault();
-      const enabled=tabs.filter(name=>!get('commandTab-'+name).disabled),index=enabled.indexOf(tab);
+      const enabled=tabs.filter(name=>!get('commandTab-'+name).disabled&&!get('commandTab-'+name).hidden),index=enabled.indexOf(tab);
       chooseTab(event.code==='Home'?enabled[0]:event.code==='End'?enabled.at(-1):enabled[(index+(['ArrowRight','ArrowDown'].includes(event.code)?1:-1)+enabled.length)%enabled.length],true);
     });
   }
@@ -151,12 +152,13 @@
     }
     refreshCrisis();
     if(tab==='records')refreshRecords();
-    if(tab==='field')game.contentUI?.refresh();
+    if(tab==='field'){game.contentUI?.refresh();game.expansionUI?.refresh?.(presentationForce===true);}
     if(tab==='journal')game.narrativeUI?.refresh();
     if(tab==='workers')game.squadUI?.refresh();
     if(tab==='enclosure')game.battlefieldUI?.refresh(true);
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
     game.commandPresentation?.refresh(presentationForce===true);
+    game.playerMenus194?.refresh?.();
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
     const visible=!modal.classList.contains('hidden');

@@ -1,10 +1,10 @@
 'use strict';
-// Explicit legacy campaign fixture. Fresh campaigns are G8; historical G6/G7
+// Explicit legacy campaign fixture. Native current campaigns are G10; four-argument fixtures remain G8; historical G6/G7
 // compatibility stories must exercise their requested geometry and finite stock.
 function legacy(g,generation=6){
  const data=g.serialize();if(data.frontier.generation===generation)return;
  if(data.frontier.active||data.frontier.seen.length||Object.keys(data.frontier.taken).length)throw Error('Legacy fixture requires a fresh campaign');
- data.frontier.generation=generation;data.frontier.ecologyVersion=0;data.frontier.hydrologyVersion=0;
+ data.frontier.generation=generation;delete data.frontier.landscape189;data.frontier.detailVersion=1;data.frontier.ecologyVersion=0;data.frontier.hydrologyVersion=0;
  const h=globalThis.DeadwallGeography135.home(data.worldSeed,generation);
  data.frontier.x=h.maxX+2;data.frontier.y=h.y;
  if(data.expansions127?.modules?.lore131)data.expansions127.modules.lore131.siteGeneration=generation;

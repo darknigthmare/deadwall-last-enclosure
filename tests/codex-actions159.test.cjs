@@ -117,15 +117,15 @@ test('Shipped guide opens a specific real age and card with visible native butto
   assert.deepEqual(clean(g),before);assert.equal(g.random.state,rng);assert.equal(g.selectedBuild,null);
  }finally{g.random.next=next;}
 });
-test('Guide live diagnostics update readable limits without replacing focused native controls',()=>{
- const {g,doc}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='city';use.dispatch('change');search.value='counterweight';search.dispatch('input');
+test('Author tools: Guide live diagnostics update readable limits without replacing focused native controls',()=>{
+ const {g,doc}=bootDocument134({search:'?tools=1&fixture=legacy'});g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='city';use.dispatch('change');search.value='counterweight';search.dispatch('input');
  const card=doc.getElementById('worldCodexResults').querySelectorAll('article').find(n=>n.dataset.codexId==='city159-mechanism:counterweight');assert.ok(card);const button=card.querySelectorAll('button')[0];button.focus();const before=clean(g);g.worldCodex.updateLive(true);assert.equal(doc.activeElement,button);assert.deepEqual(clean(g),before);
  assert.match(doc.getElementById('worldCodexCoverage159').textContent,/626 contrats territoriaux G10/);assert.match(doc.getElementById('worldCodexCoverage159').textContent,/dépend de la graine/);
  use.value='context160';search.value='DW-0300';use.dispatch('change');assert.equal(doc.getElementById('worldCodexStatus').value,'programme');assert.match(textTree(doc.getElementById('worldCodexResults')),/compatible avec G10/);
  assert.ok(doc.getElementById('worldCodexResults').querySelectorAll('button').some(b=>b.dataset.codexTerritories160==='programme-DW-0300'));
 });
-test('The shipped G10 card button is keyboard-focusable and requests controller navigation without activation or notebook changes',()=>{
- const {g,doc}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();
+test('Author tools: The shipped G10 card button is keyboard-focusable and requests controller navigation without activation or notebook changes',()=>{
+ const {g,doc}=bootDocument134({search:'?tools=1&fixture=legacy'});g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();
  const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='context160';search.value='DW-0300';use.dispatch('change');
  const card=doc.getElementById('worldCodexResults').querySelectorAll('article').find(n=>n.dataset.codexId==='programme-DW-0300');assert.ok(card);
  const button=card.querySelectorAll('button').find(n=>n.dataset.codexTerritories160==='programme-DW-0300');assert.ok(button);assert.equal(button.type,'button');assert.equal(button.disabled,false);assert.match(button.getAttribute('aria-label'),/Voie verte/);

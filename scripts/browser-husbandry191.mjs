@@ -52,7 +52,12 @@ try{
    const captive=await page.evaluate(id=>({state:DEADWALL.husbandry191.view(),bag:{...DEADWALL.player.carry},free:DEADWALL.frontier.wildlife165().some(a=>a.id===id),hp:DEADWALL.frontier.wildlifeStatus165(id).hp}),fixture.id);
    r.check('Original remains alive but cannot duplicate as a wild target',!captive.free&&captive.hp>0&&captive.state.animals.length===1&&captive.state.animals[0].source===fixture.id);
    r.check('Capture spends its real backpack inputs',captive.bag.food===built.bag.food-1&&captive.bag.scrap===built.bag.scrap-1);
-   await r.screenshot('live-captive');await action('feed',built.pen.id);
+   await r.screenshot('live-captive');
+   await page.evaluate(()=>DEADWALL.expansionUI.open('husbandry191'));
+   const registry=await page.evaluate(()=>{const g=DEADWALL,before=g.serialize(),rows=g.husbandry191.reports(),after=g.serialize();delete before.timestamp;delete after.timestamp;return{rows,unchanged:JSON.stringify(before)===JSON.stringify(after)};});
+   r.check('Owned enclosure registry reads actual custody without advancing needs or granting stocks',registry.rows.length===1&&registry.rows[0].living===1&&registry.rows[0].id===built.pen.id&&registry.unchanged);
+   r.check('The player dossier displays the registered enclosure',await page.getByText('Registre · enclos '+built.pen.id,{exact:false}).isVisible());await r.screenshot('owned-registry');
+   await action('feed',built.pen.id);
    const fed=await page.evaluate(()=>({pen:DEADWALL.husbandry191.view().pens[0],bag:{...DEADWALL.player.carry}}));
    r.check('Feed enters the local trough from the bag',fed.pen.food===4&&fed.bag.food===captive.bag.food-4);
    await action('slaughter',built.pen.id,captive.state.animals[0].id);

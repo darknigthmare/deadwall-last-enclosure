@@ -52,6 +52,8 @@ function install(g){
   try{root.DeadwallScenarios?.initialState(a[2]===undefined?'classic':a[2],typeof a[0]==='string'&&Object.hasOwn(root.DeadwallCore.DIFFICULTIES,a[0])?a[0]:'standard');}catch(error){g.notify?.(error.message,'danger');return false;}
   const landscape=a[3]===undefined?'classic':a[3];
   if(typeof landscape!=='string'||!Object.hasOwn(root.DeadwallCore.Landscape189Rules.presets,landscape)){g.notify?.('Profil de paysage invalide.','danger');return false;}
+  // Validate the native current-content choice before resetting any save owner.
+  if(a[4]!==undefined&&typeof a[4]!=='boolean'){g.notify?.('Paramètres de départ invalides.','danger');return false;}
   for(const d of registry.values())d.reset();return start(...a);
  };
  return api;

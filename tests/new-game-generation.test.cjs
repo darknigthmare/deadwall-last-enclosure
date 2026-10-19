@@ -16,19 +16,22 @@ function click(g, button) {
 function currentRegion(env, seed) {
   const g = env.g, world = g.frontier.world();
   assert.equal(g.state, 'playing');
-  assert.equal(g.frontier.position().generation, 8);
-  assert.equal(world.generation, 8);
+  assert.equal(g.frontier.position().generation, 10);
+  assert.equal(g.frontier.position().detailVersion, 13);
+  assert.equal(world.generation, 10);
   assert.equal(g.world.seed, seed);
   assert.equal(world.seed, seed);
   const catalogue = globalThis.DeadwallCodex3000Runtime.summary();
   assert.equal(catalogue.count, 4000);
   assert.equal(catalogue.legacyCount, 3000);
   assert.equal(catalogue.extensionCount, 1000);
-  assert.equal(world.pois.some(p => p.generation === 9), false, 'The additional programmes require deliberate G9 activation');
+  assert.ok(world.pois.some(p => p.generation === 9), 'The additional programmes are present without manual activation');
+  assert.ok(world.pois.some(p => p.generation === 10), 'Territory programmes are present from the native new-game button');
   assert.ok(world.pois.some(p => p.generation === 8 && p.programme3000), 'Current Codex programme parcels must actually exist');
   assert.equal(g.worldOps131.actions().some(a => a.id === 'expandCodex3000'), false, 'New campaigns require no manual Codex activation');
   const saved = globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY));
-  assert.equal(saved.frontier.generation, 8, 'The first automatic save must already use G8');
+  assert.equal(saved.frontier.generation, 10, 'The first automatic save must already use G10');
+  assert.equal(saved.frontier.detailVersion, 13);
   assert.equal(saved.worldSeed, seed);
   assert.equal(saved.runId, g.runId);
   return world;
@@ -89,7 +92,7 @@ function harvestContainer(g, generation) {
   return item;
 }
 
-test('Nouvelle partie: the shipped document starts current G8, and a different seed changes its map', t => {
+test('Nouvelle partie: the shipped document starts current G10, and a different seed changes its map', t => {
   const env = bootDocument133(), g = env.g;
   const messages = confirmReplacement(t, true);
   assert.equal(g.startupReady, false);
@@ -120,7 +123,7 @@ test('Nouvelle partie: the shipped document starts current G8, and a different s
   currentRegion(env, g.world.seed);
 });
 
-test('Nouvelle partie: finishing the introduction after focus loss keeps the same G8 campaign through Pause and Reprendre', () => {
+test('Nouvelle partie: finishing the introduction after focus loss keeps the same G10 campaign through Pause and Reprendre', () => {
   const env = bootDocument133(); env.ready();
   const g = env.g;
   document.getElementById('mapSeed').value = '84329'; click(g, g.ui.newGameButton);
@@ -144,10 +147,10 @@ test('Nouvelle partie: finishing the introduction after focus loss keeps the sam
   assert.deepEqual(geometry(g.frontier.world()), map);
   assert.equal(g.save(false), true);
   const saved = globalThis.DeadwallSave.parse(env.storage.get(globalThis.DeadwallCore.SAVE_KEY));
-  assert.equal(saved.runId, expected.runId); assert.equal(saved.worldSeed, 84329); assert.equal(saved.frontier.generation, 8);
+  assert.equal(saved.runId, expected.runId); assert.equal(saved.worldSeed, 84329); assert.equal(saved.frontier.generation, 10);
 });
 
-test('Continuer: current G8 keeps its seed, actual programme container depletion and carried loot after restarting the document', () => {
+test('Continuer: current G10 keeps its seed, actual programme container depletion and carried loot after restarting the document', () => {
   const original = bootDocument133(); original.ready();
   const g = original.g;
   document.getElementById('mapSeed').value = '17117'; click(g, g.ui.newGameButton);
@@ -165,7 +168,7 @@ test('Continuer: current G8 keeps its seed, actual programme container depletion
   assert.ok(focus); assert.equal(focus.left, 0, 'A restored empty container does not refill');
 });
 
-test('G7 compatibility: Continuer and cancelled replacement preserve the old campaign; confirmed Nouvelle partie uses G8', t => {
+test('G7 compatibility: Continuer and cancelled replacement preserve the old campaign; confirmed Nouvelle partie uses G10', t => {
   const original = bootDocument133(); original.ready();
   const old = original.g;
   document.getElementById('mapSeed').value = '17117'; click(old, old.ui.newGameButton); old.campaignIntro132.skip();

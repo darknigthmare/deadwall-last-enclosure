@@ -8,7 +8,7 @@ const browser=await chromium.launch({headless:true,args:['--no-sandbox']});const
 try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
   const context=await browser.newContext({viewport,reducedMotion:'reduce',serviceWorkers:'block'}),page=await context.newPage();
-  page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:'+server.address().port,{waitUntil:'networkidle'});
+  page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:'+server.address().port+'/?tools=1&fixture=legacy',{waitUntil:'networkidle'});
   await page.waitForFunction(()=>!!globalThis.DEADWALL?.worldCodex);
   await page.evaluate(()=>{const g=DEADWALL;g.startNew('standard','17117');g.campaignIntro132.skip();g.worldCodex.open();});
   const stamp=()=>page.evaluate(()=>{const d=DEADWALL.serialize();delete d.timestamp;return JSON.stringify(d);});

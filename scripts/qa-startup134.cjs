@@ -3,8 +3,8 @@
 // No CSS layout, GPU frame-rate, or human-playthrough claim.
 const fs=require('node:fs'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
-function bootDocument134(){
-const env=require('../tests/helpers/browser.cjs').installFakeBrowser({readyState:'loading',currentScript:{tagName:'SCRIPT'}});
+function bootDocument134({search = ''} = {}){
+const env=require('../tests/helpers/browser.cjs').installFakeBrowser({readyState:'loading',currentScript:{tagName:'SCRIPT'},search});
 const doc=globalThis.document,proto=Object.getPrototypeOf(doc.body);
 Object.defineProperty(proto,'lastChild',{configurable:true,get(){return this.children.at(-1)||null;}});
 Object.defineProperty(proto,'className',{configurable:true,set(v){this.classList.values=new Set(String(v).split(/\s+/).filter(Boolean));},get(){return [...this.classList.values].join(' ');}});

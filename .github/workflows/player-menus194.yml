@@ -1,0 +1,47 @@
+name: Current campaign and player notebook 194
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: player-menus194-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  player-menu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Native start, legacy preservation and original menu ownership
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/player-menus194
+          git rev-parse HEAD > artifacts/qa/player-menus194/commit.txt
+          node --test --test-concurrency=2 tests/player-menus194.test.cjs tests/audit183-manifest.test.cjs tests/distribution.test.cjs tests/import-concurrency.test.cjs 2>&1 | tee artifacts/qa/player-menus194/contracts.log
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Untouched native title and player dossiers on dist, desktop and touch
+        run: node scripts/browser-player-menus194.mjs
+      - name: Record shipped bytes
+        if: always()
+        run: |
+          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/sw.js dist/src/game.js dist/src/player-menus194.js dist/player-menus194.css > artifacts/qa/player-menus194/build.sha256; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: player-menus194-proof-${{ github.run_attempt }}
+          path: artifacts/qa/player-menus194/
+          retention-days: 14
+          if-no-files-found: error
