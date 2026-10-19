@@ -30,10 +30,10 @@ jobs:
               if body is not None:headers['Content-Type']='application/json'
               req=urllib.request.Request('https://api.github.com/repos/'+repo+path,data=body,headers=headers,method='GET' if body is None else 'POST')
               with urllib.request.urlopen(req,timeout=45) as res:return json.load(res)
-          encoded=base64.b64decode(api('/git/blobs/adcb9bda6e26be1b586c10241a51de1abfa3801b')['content'])
-          assert blob(encoded)=='adcb9bda6e26be1b586c10241a51de1abfa3801b'
+          encoded=base64.b64decode(api('/git/blobs/7567c91a87d3fcfeaff4a42f283497ffe4f4449d')['content'])
+          assert blob(encoded)=='7567c91a87d3fcfeaff4a42f283497ffe4f4449d'
           payload=zlib.decompress(base64.b64decode(encoded,validate=True))
-          assert hashlib.sha256(payload).hexdigest()=='86b511a5c90033b79a11e4b63266f3bda81e0d2afedf850d1691a54c89701365'
+          assert hashlib.sha256(payload).hexdigest()=='9fcda075484db5a3ebfa32c2bd6a113cb61a8c41e4d8276a4eb1dfe43ed481ca'
           delta=json.loads(payload);assert delta['base']==base and len(delta['files'])==4
           entries=[];seen=set()
           for row in delta['files']:
