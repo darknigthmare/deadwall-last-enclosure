@@ -1,0 +1,42 @@
+name: Immutable quality 199 source snapshot
+on:
+  push:
+    branches: [codex/source-quality199-20261019]
+    paths: [.github/workflows/quality199-source.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5fccf78b553300fc7fc1411ee339d68a6f381be3
+          persist-credentials: false
+      - name: Archive exact source inputs and small asset metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/deadwall-quality199
+          python3 - <<'PY'
+          import pathlib,subprocess,tarfile,hashlib,json
+          root=pathlib.Path.cwd();dest=pathlib.Path('/tmp/deadwall-quality199')
+          entries=[]
+          with tarfile.open(dest/'sources.tar.gz','w:gz') as archive:
+              for row in subprocess.check_output(['git','ls-tree','-rz','HEAD']).decode().split('\0'):
+                  if not row:continue
+                  meta,name=row.split('\t',1);mode,kind,sha=meta.split();p=root/name
+                  selected=kind=='blob' and p.is_file() and (not name.startswith(('assets/','reports/')) or p.suffix in ('.json','.md','.txt'))
+                  entries.append({'path':name,'sha':sha,'mode':mode,'included':selected})
+                  if selected:
+                      data=p.read_bytes();assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==sha
+                      archive.add(p,arcname=name,recursive=False)
+          (dest/'manifest.json').write_text(json.dumps({'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'files':entries,'sha256':hashlib.sha256((dest/'sources.tar.gz').read_bytes()).hexdigest()},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quality199-sources-5fccf78
+          path: /tmp/deadwall-quality199/
+          retention-days: 3
+          if-no-files-found: error
