@@ -1,27 +1,90 @@
-name: Menu input snapshot 198
+name: Compact notebook 198 candidate validation
 on:
   push:
     branches: [codex/menu196-source-20261019]
     paths: [.github/workflows/menu198-source.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  source:
+  candidate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+      MENU194_QA_OUT: ${{ github.workspace }}/artifacts/menu198/browser
     steps:
       - uses: actions/checkout@v4
         with:
           ref: 5fccf78b553300fc7fc1411ee339d68a6f381be3
           persist-credentials: false
-      - run: |
-          mkdir -p /tmp/menu198
-          git archive HEAD -- . ':!assets' ':!reports' | gzip > /tmp/menu198/sources.tar.gz
-          git ls-tree -r -z HEAD > /tmp/menu198/tree.bin
-          git rev-parse HEAD > /tmp/menu198/commit.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: menu198-sources-5fccf78
-          path: /tmp/menu198/
-          retention-days: 3
+          node-version: 24
+          cache: npm
+      - name: Verify exact patch and create unreferenced source objects only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess,urllib.request,zlib
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/menu196-source-20261019'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='5fccf78b553300fc7fc1411ee339d68a6f381be3'
+          def blob(b): return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          def api(path,data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'}
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=None if data is None else json.dumps(data).encode(),headers=headers,method='GET' if data is None else 'POST')
+              with urllib.request.urlopen(req,timeout=45) as response:return json.load(response)
+          chunks=[]
+          for sha in ['407f9575b9903e9e3eedac01ddb90689bedb2427','6cfe3eb520e570d4caa9d96eb7022eedd5f7dc45','32ab8857ef40054743a818796aa442742d1c1468']:
+              row=api('/git/blobs/'+sha);assert row['encoding']=='base64';part=base64.b64decode(row['content']);assert blob(part)==sha;chunks.append(part)
+          packed=base64.b64decode(b''.join(chunks),validate=True);assert blob(packed)=='afd0f53cf00ed0230cde3561f3ffad68c0c4bced'
+          payload=zlib.decompress(packed);assert hashlib.sha256(payload).hexdigest()=='948c27e9f58c0f17c77b854e159db8e72e3b658d2b7ecd166cadfd213d436c67'
+          entries=json.loads(payload);paths={e['path'] for e in entries}
+          assert len(entries)==5 and paths=={'src/player-menus194.js','player-menus194.css','tests/player-menus194.test.cjs','scripts/browser-player-menus194.mjs','docs/PLAYER_MENUS_198.md'}
+          tree_entries=[]
+          for e in entries:
+              p=pathlib.Path(e['path']);original=p.read_bytes() if p.exists() else b''
+              if e['before'] is None:assert not p.exists()
+              else:assert blob(original)==e['before'],e['path']
+              data=original;last=len(original)
+              for start,end,text in reversed(e['edits']):
+                  assert 0<=start<=end<=last;data=data[:start]+text.encode()+data[end:];last=start
+              assert blob(data)==e['after'],e['path'];p.write_bytes(data)
+              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==e['after']
+              tree_entries.append({'path':e['path'],'mode':'100644','type':'blob','sha':e['after']})
+          subprocess.run(['git','add','--',*sorted(paths)],check=True)
+          subprocess.run(['git','diff','--cached','--check'],check=True)
+          expected='633af1fa7b994bd4da3d3c5fecf6d637582b7ced'
+          assert subprocess.check_output(['git','write-tree'],text=True).strip()==expected
+          tree=api('/git/trees',{'base_tree':'673d180b3f41cd474eb21184ecd58e4abdad2867','tree':tree_entries});assert tree['sha']==expected
+          out=pathlib.Path('artifacts/menu198');out.mkdir(parents=True,exist_ok=True)
+          receipt={'base':'5fccf78b553300fc7fc1411ee339d68a6f381be3','testedTree':expected,'files':tree_entries,'scope':'Pinned base plus exact verified five-file patch. No ref update, merge or deployment. Test results follow separately.'}
+          (out/'source.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          (out/'candidate.patch').write_bytes(subprocess.check_output(['git','diff','--cached','--binary','HEAD']))
+          print(json.dumps(receipt))
+          PY
+      - run: npm ci
+      - name: Native menu and original control regressions
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=2 tests/player-menus194.test.cjs tests/command.test.cjs tests/audit183-manifest.test.cjs tests/distribution.test.cjs tests/import-concurrency.test.cjs 2>&1 | tee artifacts/menu198/contracts.log
+      - name: Syntax and shipped build
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/check-syntax134.mjs 2>&1 | tee artifacts/menu198/syntax.log
+          npm run build 2>&1 | tee artifacts/menu198/build.log
+      - run: npx playwright install --with-deps chromium
+      - name: Untouched New Game and readable notebook on desktop and touch
+        run: node scripts/browser-player-menus194.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: menu198-candidate-proof
+          path: artifacts/menu198/
+          retention-days: 14
           if-no-files-found: error
