@@ -1,0 +1,56 @@
+name: Verify notebook first-entry correction
+on:
+  push:
+    branches: [codex/menu196-source-20261019]
+    paths: [.github/workflows/menu196-source.yml]
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5632f1b70f8ed748f009726648d16b81941720f0
+          persist-credentials: false
+      - name: Verify exact sources and create unreferenced Git objects only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess,urllib.request,zlib
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/menu196-source-20261019'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='5632f1b70f8ed748f009726648d16b81941720f0'
+          def blob(b):return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          def api(path,data):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'}
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=json.dumps(data).encode(),headers=headers,method='POST')
+              with urllib.request.urlopen(req,timeout=45) as response:return json.load(response)
+          encoded='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'
+          payload=zlib.decompress(base64.b64decode(encoded,validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='c8433c1b6e985ed5474039d95d7eb603484698fed8d428cc6871a70b0c32bd77'
+          entries=json.loads(payload);assert {e['path']for e in entries}=={'src/command-ui.js','src/player-menus194.js','tests/player-menus194.test.cjs','docs/PLAYER_MENUS_196.md'}
+          elements=[]
+          for e in entries:
+              p=pathlib.Path(e['path']);original=p.read_bytes();assert blob(original)==e['before'];data=original
+              for start,end,text in reversed(e['edits']):
+                  assert 0<=start<=end<=len(original);data=data[:start]+text.encode()+data[end:]
+              assert blob(data)==e['after'];p.write_bytes(data)
+              if p.suffix in ('.js','.cjs','.mjs'):subprocess.run(['node','--check',str(p)],check=True)
+              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==e['after']
+              elements.append({'path':e['path'],'mode':'100644','type':'blob','sha':e['after']})
+          subprocess.run(['git','diff','--check'],check=True)
+          tree=api('/git/trees',{'base_tree':'c07c43016e77e087a984b14aeb6d941f8f97bcdc','tree':elements});assert tree['sha']=='f8bebe78ed910484c80da5e827dd8d7f51833dbf'
+          out=pathlib.Path('artifacts/menu196-first-entry');out.mkdir(parents=True,exist_ok=True)
+          receipt={'base':'5632f1b70f8ed748f009726648d16b81941720f0','tree':tree['sha'],'files':elements,'scope':'Exact source objects only; no ref update, merge, deployment or claim of gameplay validation.'}
+          (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu196-first-entry-tree
+          path: artifacts/menu196-first-entry/
+          retention-days: 3
+          if-no-files-found: error
