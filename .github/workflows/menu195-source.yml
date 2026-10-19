@@ -1,0 +1,27 @@
+name: Menu source inspection 195
+on:
+  push:
+    branches: [audit/menu195-source-20261019]
+    paths: [.github/workflows/menu195-source.yml]
+permissions:
+  contents: read
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 08d8082b070d270dd34862e69b2e0d688574eb4b
+          persist-credentials: false
+      - name: Preserve immutable tracked sources and inventory
+        run: |
+          mkdir -p /tmp/menu195-source
+          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/menu195-source/sources.tar.gz
+          git rev-parse HEAD > /tmp/menu195-source/commit.txt
+          git ls-tree -r HEAD > /tmp/menu195-source/tree.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu195-sources
+          path: /tmp/menu195-source/
+          retention-days: 3
