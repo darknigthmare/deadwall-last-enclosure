@@ -151,7 +151,7 @@ test('196 only the latest pending notebook mount retains its document and world'
  const env={console,URLSearchParams,Symbol,setTimeout:fn=>{timers.set(++next,fn);return next;},clearTimeout:id=>timers.delete(id),location:{search:''}};
  vm.createContext(env);
  for(let i=0;i<40;i++){
-  env.document={readyState:'complete',body:{}};
+  env.document={readyState:'complete',body:{},getElementById:()=>null};
   env.DEADWALL={get ui(){installed++;return {};}};
   vm.runInContext(source,env);assert.equal(timers.size,1,'obsolete callbacks are cancelled, not merely made harmless');
  }
@@ -161,8 +161,8 @@ test('196 only the latest pending notebook mount retains its document and world'
 });
 test('196 stale notebook callback cannot clear or install a newer pending request',()=>{
  const vm=require('node:vm'),source=require('node:fs').readFileSync('src/player-menus194.js','utf8'),timers=new Map();let next=0,installed=0;
- const env={URLSearchParams,Symbol,setTimeout:fn=>{timers.set(++next,fn);return next;},clearTimeout:id=>timers.delete(id),location:{search:''},document:{readyState:'complete',body:{}},DEADWALL:{get ui(){installed++;return {};}}};vm.createContext(env);
- vm.runInContext(source,env);const stale=[...timers.values()][0];env.document={readyState:'complete',body:{}};vm.runInContext(source,env);
+ const env={URLSearchParams,Symbol,setTimeout:fn=>{timers.set(++next,fn);return next;},clearTimeout:id=>timers.delete(id),location:{search:''},document:{readyState:'complete',body:{},getElementById:()=>null},DEADWALL:{get ui(){installed++;return {};}}};vm.createContext(env);
+ vm.runInContext(source,env);const stale=[...timers.values()][0];env.document={readyState:'complete',body:{},getElementById:()=>null};vm.runInContext(source,env);
  const key=Symbol.for('deadwall.playerMenus194.pendingMount'),current=env[key];stale();assert.equal(installed,0);assert.equal(env[key],current);
  [...timers.values()][0]();assert.equal(installed,1);assert.equal(env[key],undefined);
 });
