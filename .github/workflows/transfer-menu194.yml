@@ -1,0 +1,85 @@
+name: Verify player menu 194 source transfer
+on:
+  push:
+    branches: [codex/transfer-menu194-20261019]
+    paths: [.github/workflows/transfer-menu194.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ea77f11adde80b55a947a0c9119857670e0b9793
+          persist-credentials: false
+      - name: Check every source byte and create unreferenced blobs only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          repo='darknigthmare/deadwall-last-enclosure'
+          base='ea77f11adde80b55a947a0c9119857670e0b9793'
+          assert os.environ['GITHUB_REPOSITORY']==repo
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/transfer-menu194-20261019'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
+          def blob(data):
+              return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def api(path,data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+              body=None if data is None else json.dumps(data).encode()
+              if body is not None: headers['Content-Type']='application/json'
+              req=urllib.request.Request('https://api.github.com/repos/'+repo+path,data=body,headers=headers,method='GET' if body is None else 'POST')
+              with urllib.request.urlopen(req,timeout=45) as response:return json.load(response)
+          parts='1ec50996936913f353949be32a1bfe9219764bf0 170ce337a96bfa942c5268a852fdadc5ee4935fa ae3a2bdbd8ee7407d78dcfb04f036e207c117c25 fc26abce3bc64b9a478ff10daa9a044c7c8eea80 a483c2e899a895c41ae12b4e5cc2b3452457868e a3f64626f6dfbedf2fd9b7027f62f168d13de034 ac32bab90667c4f72c8ccb96fd8f28ea3aae334d ca604dac1babd906df26cfc756c09e3fe9d8fe4f b6ebeea0e1f0fc73d88fbd4d858e05e29e1f107d 575d2261eb5b41b2e0baf1883ba514223d145e34 963d18cc070e9bca05280087f1346153ef4a855d'.split()
+          pieces=[]
+          for sha in parts:
+              row=api('/git/blobs/'+sha)
+              assert row['encoding']=='base64'
+              data=base64.b64decode(row['content'])
+              assert blob(data)==sha
+              pieces.append(data)
+          payload=zlib.decompress(base64.b64decode(b''.join(pieces),validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='f19165668035626f76c14994ff8ddcdeb81fe3f1c3e414e07b86d1a6ed83e922'
+          delta=json.loads(payload)
+          assert delta['base']==base and len(delta['files'])==25
+          paths=set(); prepared=[]
+          for item in delta['files']:
+              name=item['path'];path=pathlib.Path(name)
+              assert name not in paths and not path.is_absolute() and '..' not in path.parts and '.git' not in path.parts
+              paths.add(name)
+              if item['before'] is None:
+                  assert not path.exists(),name
+                  text=''
+              else:
+                  assert path.is_file() and blob(path.read_bytes())==item['before'],name
+                  text=path.read_text(encoding='utf-8')
+              last=len(text)
+              for start,end,insert in reversed(item['edits']):
+                  assert 0<=start<=end<=last,name
+                  text=text[:start]+insert+text[end:];last=start
+              data=text.encode('utf-8')
+              assert blob(data)==item['after'],name
+              prepared.append((path,data,item['after']))
+          for path,data,sha in prepared:
+              path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
+          subprocess.run(['git','diff','--check'],check=True)
+          entries=[]
+          for path,data,sha in prepared:
+              result=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()})
+              assert result['sha']==sha,str(path)
+              entries.append({'path':path.as_posix(),'mode':'100644','type':'blob','sha':sha})
+          output=pathlib.Path('artifacts/transfer-menu194');output.mkdir(parents=True,exist_ok=True)
+          receipt={'base':base,'baseTree':'a436e8be62a1cc626cc265e412767b6f9c86ff8a','files':entries,'scope':'Exact source transfer only; no branch update, merge or gameplay qualification.'}
+          (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu194-source-receipt
+          path: artifacts/transfer-menu194/
+          retention-days: 3
+          if-no-files-found: error
