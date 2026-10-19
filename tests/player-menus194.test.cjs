@@ -8,7 +8,7 @@ const actions=doc=>doc.getElementById('field-expansions').querySelectorAll('.exp
 const sections=doc=>[...doc.getElementById('commandPanel-field').children].filter(n=>n.tagName==='SECTION'&&!n.classList.contains('hidden')).map(n=>n.id);
 
 test('194 default native request uses G10/detail13 with water and natural fauna, without visiting settings',async()=>{
- const {g,doc}=await fixture({start:false});g.startupReady=true;assert.equal(g.playerMenus194.mode,'player');
+ const {g,doc}=await fixture({start:false});g.startupReady=true;assert.equal(g.playerMenus194.mode,'player');assert.equal(doc.getElementById('newGameButton').getAttribute('aria-describedby'),'newCampaignContent194');assert.equal([...doc.getElementById('startScenario').children].find(n=>n.value==='classic').textContent,'Le dépôt — départ recommandé');
  // This DOM harness does not model <option selected>; an empty selector must
  // still use the current balanced profile. Browser proof covers the real select.
  assert.equal(g.requestNewGame(),true);const f=g.frontier.position();assert.equal(f.generation,10);assert.equal(f.detailVersion,13);assert.equal(f.ecologyVersion,1);assert.equal(f.hydrologyVersion,1);assert.equal(f.landscape189,'balanced');
@@ -72,4 +72,11 @@ test('194 system records are outside the default tactical tab sequence and remai
 });
 test('194 objective panel reads the active gameplay objective without granting progression',async()=>{
  const {g,doc}=await fixture();g.showCommand(true);const before=stable(g);g.playerMenus194.refresh();assert.equal(doc.getElementById('playerObjectiveTitle194').textContent,g.ui.objectiveTitle.textContent);assert.equal(doc.getElementById('playerObjectiveText194').textContent,g.ui.objectiveText.textContent);assert.equal(stable(g),before);
+});
+
+
+test('194 even G4/G7 extension commands stay in compatibility, not the player orders',()=>{
+ for(const id of ['expand131','expandCodex3000','expandCodex4000','expandTerritories160','metricVehicle174'])assert.equal(Policy.isMaintenance('world131',id),true,id);
+ for(const id of ['relay','secure','reserve','survey','rest','store','take','cancel'])assert.equal(Policy.isMaintenance('world131',id),false,id);
+ assert.equal(Policy.isMaintenance('another-pack','expand131'),false);
 });

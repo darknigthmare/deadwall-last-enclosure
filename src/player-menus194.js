@@ -5,7 +5,7 @@
  else if(root.document){const mount=()=>queueMicrotask(()=>api.install(root.DEADWALL,root.document));if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();}
 })(globalThis,function(root){
  'use strict';
- const MAINTENANCE=new Set(['expandTerritories160','expandCodex4000','sanitationMedical164','completeCodex163','furnishing162','packing173','gardens171','stations170','sourceComplements169','fillDetails168','ensembleDetails165','quantityDetails164','anchoredDetails160','richDetails159','expand','metricVehicle174']);
+ const MAINTENANCE=new Set(['expand131','expandCodex3000','expandTerritories160','expandCodex4000','sanitationMedical164','completeCodex163','furnishing162','packing173','gardens171','stations170','sourceComplements169','fillDetails168','ensembleDetails165','quantityDetails164','anchoredDetails160','richDetails159','expand','metricVehicle174']);
  const DOMAINS=[['terrain','SUR LE TERRAIN'],['city','DANS LA CITÉ'],['reference','GUIDE DE SURVIE']];
  const ROUTES={expansions:['terrain','field-expansions'],operations:['terrain','field-operations'],recon:['terrain','reconPanel'],sectors:['terrain','field-sectors'],coordination:['city','coordinationPanel'],crew:['city','field-crew'],logistics:['city','field-logistics'],territories:['city','field-territories'],siege:['city','field-siege'],dayworks:['city','dayworksPanel'],citadel:['city','citadelPanel'],infrastructure:['city','infrastructurePanel'],linecare:['city','linecarePanel'],infected:['reference','field-infected'],'world-codex':['reference','field-world-codex']};
  function toolsEnabled(){try{return new URLSearchParams(root.location?.search||'').get('tools')==='1';}catch{return false;}}
@@ -24,6 +24,7 @@
    g.playerMenus194=Object.freeze({mode:'author',maintenanceOpen:false,arrangeActions(){}});return true;
   }
   doc.body.classList.add('player-menus194');modal.classList.add('field-notebook194');
+  const defaultScenario=[...(get('startScenario')?.children||[])].find(n=>n.value==='classic');if(defaultScenario)defaultScenario.textContent='Le dépôt — départ recommandé';
   let domain='terrain',selectedField='field-expansions',maintenance=false,openingMaintenance=false;
   const header=modal.querySelector('.command-heading');write(get('commandTitle'),'CARNET DU COMMANDANT');
   for(const id of ['pauseCommandButton','cityCommandButton']){const b=get(id);if(b){b.textContent='CARNET DU COMMANDANT';b.setAttribute('aria-label','Ouvrir le carnet du commandant');}}

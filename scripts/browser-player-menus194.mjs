@@ -28,6 +28,7 @@ try{
    await page.goto(base,{waitUntil:'networkidle',timeout:120000});await ready(page);await page.waitForFunction(()=>DEADWALL.playerMenus194?.mode==='player');
    check('The untouched native title has no fixture or author URL',new URL(page.url()).search==='');
    check('Current-content promise is associated with New game',await page.locator('#newGameButton').getAttribute('aria-describedby')==='newCampaignContent194');
+   check('The recommended depot label survives native scenario installation',await page.locator('#startScenario option[value="classic"]').textContent()==='Le dépôt — départ recommandé');
    check('Advanced map choices stay folded before first start',!await page.locator('#campaignMap132').evaluate(n=>n.open));await shot('title');
    // Intentionally do not change any selector or even open its settings.
    await click('#newGameButton');await page.waitForFunction(()=>DEADWALL.campaignIntro132?.isOpen());
