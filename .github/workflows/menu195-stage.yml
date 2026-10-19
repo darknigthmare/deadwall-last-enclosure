@@ -1,0 +1,46 @@
+name: Verify menu lifecycle patch 195
+on:
+  push:
+    branches: [audit/menu195-source-20261019]
+    paths: [.github/workflows/menu195-stage.yml]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 08d8082b070d270dd34862e69b2e0d688574eb4b
+          persist-credentials: false
+      - name: Validate before and after hashes, create unreferenced blobs only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,hashlib,pathlib,os,urllib.request,subprocess
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='08d8082b070d270dd34862e69b2e0d688574eb4b'
+          rows=json.loads(r'''[{"path":"src/player-menus194.js","before":"f2ef9927afb6746d57d8694ae789b7e89a21abb9","after":"8f864713adbd1dee48161e1655f87c4cb87056a1","edits":[[281,281,"\n  // A browser performs microtask checkpoints between DOMContentLoaded listeners.\n  // A microtask here can run before the legacy presenters replace their panels.\n  // Publish policy immediately, but mount the notebook in the next task, after\n  // every synchronous presenter has kept/reparented its original controls.\n  "],[297,305,""],[307,307,"o"],[308,309,"."],[310,311,"etTimeout"],[356,356,",0"],[358,358,"\n  "],[480,480,"\n "]]},{"path":"tests/player-menus194.test.cjs","before":"93fe61c9ac1f201393e73272dda16117173e3cbd","after":"c92f38a450bf0eb81bd1ee2895cb95acf2a7e464","edits":[[452,454,"Ti"],[456,459,"ou"],[460,461,""],[463,463,",0"]]},{"path":".github/workflows/player-menus194.yml","before":"1897422aab45709cbcbd7bf034c5a2239ece8995","after":"60b957dfce81b1f5016572e6f8779b49cb9239ba","edits":[[950,950,"player-menus195.test.cjs tests/"]]},{"path":"player-menus194.css","before":"b7fa427b2e5428afe1f806d9e41504ed3551484d","after":"30571d7fc456aa18b95ef82953c0a81bc225e9ed","edits":[[9459,9459,"\n/* Keep the short descriptions readable on the photographic mission links. */\n.player-menus194 #commandModal .command-body .command-mission129 small{color:#e3e5d4;text-shadow:0 1px 2px #000}\n"]]}]''')
+          def blob(b):return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          receipt=[]
+          for row in rows:
+              p=pathlib.Path(row['path']);b=p.read_bytes();assert blob(b)==row['before'],str(p)
+              for start,end,text in reversed(row['edits']):
+                  assert 0<=start<=end<=len(b)
+                  b=b[:start]+text.encode()+b[end:]
+              assert blob(b)==row['after'],str(p)
+              request=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/blobs',data=json.dumps({'content':b.decode(),'encoding':'utf-8'}).encode(),headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Content-Type':'application/json','Accept':'application/vnd.github+json'},method='POST')
+              with urllib.request.urlopen(request,timeout=30) as r:created=json.load(r)
+              assert created['sha']==row['after']
+              receipt.append({'path':str(p),'sha':created['sha']})
+          out=pathlib.Path('/tmp/menu195-patch');out.mkdir();(out/'receipt.json').write_text(json.dumps(receipt,indent=2))
+          print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu195-patch-objects
+          path: /tmp/menu195-patch/
+          retention-days: 3
