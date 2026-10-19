@@ -166,3 +166,21 @@ test('196 stale notebook callback cannot clear or install a newer pending reques
  const key=Symbol.for('deadwall.playerMenus194.pendingMount'),current=env[key];stale();assert.equal(installed,0);assert.equal(env[key],current);
  [...timers.values()][0]();assert.equal(installed,1);assert.equal(env[key],undefined);
 });
+
+
+test('196 first native Dossiers tab fills its operation index while paused, without an API shortcut or simulation tick',async()=>{
+ const {g,doc}=await fixture({current:true});g.togglePause(true);g.showCommand(true,'enclosure');const before=stable(g),picker=doc.getElementById('playerOperationSelect196');
+ assert.equal(picker.querySelectorAll('option').length,0,'no previous operation shortcut prepopulates this first visit');
+ doc.getElementById('commandTab-field').click();
+ const options=picker.querySelectorAll('option');assert.equal(options.length,g.expansions.entries().length);assert.ok(options.some(n=>n.value==='world131'));
+ assert.ok(doc.getElementById('operationPackTitle196').textContent);assert.equal(g.paused,true);assert.equal(g.activeOverlay,g.ui.commandModal);assert.equal(stable(g),before);
+});
+test('196 native top tabs exit system presentation and maintenance without changing the paused campaign',async()=>{
+ const {g,doc}=await fixture({current:true});g.togglePause(true);g.showCommand(true,'records');const before=stable(g);
+ assert.equal(doc.getElementById('commandTitle').textContent,'ARCHIVES DE CAMPAGNE');doc.getElementById('commandTab-enclosure').click();
+ assert.equal(doc.getElementById('commandTitle').textContent,'CARNET DU COMMANDANT');assert.equal(doc.getElementById('commandTab-records').hidden,true);
+ g.showCommand(false);g.showSettings(true);g.playerMenus194.openMaintenance();assert.equal(g.playerMenus194.maintenanceOpen,true);
+ doc.getElementById('commandTab-workers').click();assert.equal(g.playerMenus194.maintenanceOpen,false);assert.equal(doc.getElementById('commandTitle').textContent,'CARNET DU COMMANDANT');
+ doc.getElementById('commandTab-field').click();assert.equal(doc.getElementById('playerOperationSelect196').parentNode.parentNode.hidden,false);
+ assert.equal(g.paused,true);assert.equal(stable(g),before);
+});

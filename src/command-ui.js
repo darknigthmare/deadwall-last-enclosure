@@ -63,6 +63,7 @@
   function chooseTab(id,focus=false){
     if(!tabs.includes(id))return;
     if((game.state!=='playing'||game.gameOver)&&!['records','field','journal'].includes(id))id='records';
+    if(id!=='field')game.playerMenus194?.leaveMaintenance?.();
     tab=id;
     for(const name of tabs){
       const button=get('commandTab-'+name),selected=name===id;
@@ -151,12 +152,13 @@
     }
     refreshCrisis();
     if(tab==='records')refreshRecords();
-    if(tab==='field')game.contentUI?.refresh();
+    if(tab==='field'){game.contentUI?.refresh();game.expansionUI?.refresh?.(presentationForce===true);}
     if(tab==='journal')game.narrativeUI?.refresh();
     if(tab==='workers')game.squadUI?.refresh();
     if(tab==='enclosure')game.battlefieldUI?.refresh(true);
     get('profileStatus').textContent=game.profileStatus?.error?.message||'Records conservés sur cet appareil. Les maxima de chaque catégorie peuvent provenir de campagnes différentes.';
     game.commandPresentation?.refresh(presentationForce===true);
+    game.playerMenus194?.refresh?.();
   }
   game.showCommand=(show,requestedTab='enclosure')=>{
     const visible=!modal.classList.contains('hidden');

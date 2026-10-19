@@ -97,6 +97,7 @@
   function refresh(){
    const active=g.state==='playing'&&!g.gameOver;goal.hidden=!active;maintenanceButton.disabled=!active||g.player?.dead;
    const recordsOpen=!modal.classList.contains('hidden')&&!get('commandPanel-records').classList.contains('hidden');
+   records.hidden=!recordsOpen;
    modal.classList.toggle('system-page196',maintenance||recordsOpen);
    write(get('commandTitle'),maintenance?'COMPATIBILITÉ DES SAUVEGARDES':recordsOpen?'ARCHIVES DE CAMPAGNE':'CARNET DU COMMANDANT');
    write(headingSmall,maintenance?'SYSTÈME / CONVERSIONS VOLONTAIRES':recordsOpen?'SYSTÈME / BILANS SUR CET APPAREIL':'D-17 / ORDRES ET NOTES DE TERRAIN');

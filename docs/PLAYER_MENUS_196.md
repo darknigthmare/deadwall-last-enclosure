@@ -36,3 +36,10 @@ Les différences sont consignées par chemin dans le rapport ; aucun groupe de d
 Les résultats finaux sont associés au SHA exact dans la conversation de PR et dans l'archive de livraison. Les tests locaux de la continuation couvrent le sélecteur, les raccourcis, les pages système, les ordres, les imports, la distribution et les anciennes commandes. Le navigateur local refuse la navigation avec `ERR_BLOCKED_BY_ADMINISTRATOR` : aucune validation visuelle locale ni contournement n'est revendiqué. Les vrais parcours Chromium sont exécutés dans GitHub Actions sur `dist` et sur le standalone.
 
 Les échecs antérieurs restent des échecs. En particulier, le contrôle contextuel historique qui attend le rechargement natif après une préparation régionale et la CI exhaustive doivent être lus séparément ; ils ne sont pas déclarés réussis sur la seule base du carnet. Tous les contrôles de la tête actuelle, y compris Windows et les suites natives avec endurance, restent nécessaires avant fusion.
+
+
+## Premier accès natif, corrigé après observation navigateur
+
+La première qualification de5632f1b a exposé un défaut réel dans les trois formats : cliquer sur l’onglet Dossiers depuis Situation montrait le nouveau sélecteur vide. Les anciens tests ouvraient directement l’API Opérations, ce qui le remplissait. Le sélecteur était donc correctement construit, mais le propriétaire des onglets ne rafraîchissait pas son contenu lors de ce premier accès en pause.
+
+Le propriétaire natif des onglets rafraîchit désormais le dossier effectivement affiché, sans faire avancer la simulation. Les titres et le masquage de l’onglet Archives suivent également la page sélectionnée ; quitter la compatibilité par un onglet normal ferme son mode système. Deux contrats reproduisent les défauts avant correction, puis vérifient le premier clic natif sans raccourci API ni pas de simulation, le retour aux titres du carnet et l’égalité intégrale de la sauvegarde. Les trois profils navigateur conservent leur sélecteur natif et toutes leurs assertions.
