@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const Policy=require('../src/player-menus194.js');
 const stable=g=>{const {timestamp,...s}=g.serialize();return require('node:crypto').createHash('sha256').update(JSON.stringify(s)).digest('hex');};
-async function fixture({start=true,current=false}={}){const e=bootDocument134();await new Promise(r=>setImmediate(r));if(start){e.g.startNew('standard','17117','classic','balanced',current);e.g.campaignIntro132.skip();}return e;}
+async function fixture({start=true,current=false}={}){const e=bootDocument134();await new Promise(r=>setTimeout(r,0));if(start){e.g.startNew('standard','17117','classic','balanced',current);e.g.campaignIntro132.skip();}return e;}
 const actions=doc=>doc.getElementById('field-expansions').querySelectorAll('.expansion-action').map(c=>c.querySelector('button').id);
 const sections=doc=>[...doc.getElementById('commandPanel-field').children].filter(n=>n.tagName==='SECTION'&&!n.classList.contains('hidden')).map(n=>n.id);
 
@@ -79,4 +79,15 @@ test('194 even G4/G7 extension commands stay in compatibility, not the player or
  for(const id of ['expand131','expandCodex3000','expandCodex4000','expandTerritories160','metricVehicle174'])assert.equal(Policy.isMaintenance('world131',id),true,id);
  for(const id of ['relay','secure','reserve','survey','rest','store','take','cancel'])assert.equal(Policy.isMaintenance('world131',id),false,id);
  assert.equal(Policy.isMaintenance('another-pack','expand131'),false);
+});
+
+
+test('194 notebook presentation mounts after the original command presenters have placed their controls',async()=>{
+ const {g,doc}=await fixture();const goal=doc.getElementById('playerObjective194');
+ assert.equal(goal.parentNode,doc.getElementById('commandPanel-enclosure'));
+ assert.ok(!doc.getElementById('commandDefense129').contains(goal),'the primary goal is not hidden in the closed defence disclosure');
+ assert.equal(doc.getElementById('commandTitle').textContent,'CARNET DU COMMANDANT');
+ assert.equal(doc.getElementById('commandTab-field').querySelector('strong').textContent,'Dossiers');
+ assert.equal(doc.getElementById('commandTab-workers').querySelector('strong').textContent,'Équipes');
+ g.showCommand(true);assert.equal(g.activeOverlay,g.ui.commandModal);
 });

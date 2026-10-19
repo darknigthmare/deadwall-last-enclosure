@@ -2,7 +2,12 @@
 (function(root,factory){
  'use strict';const api=factory(root);root.DeadwallPlayerMenus194=api;
  if(typeof module==='object'&&module.exports)module.exports=api;
- else if(root.document){const mount=()=>queueMicrotask(()=>api.install(root.DEADWALL,root.document));if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();}
+ else if(root.document){
+  // Browsers flush microtasks between DOMContentLoaded listeners. Run after the
+  // event dispatch, once the original presenters have finished moving controls.
+  const mount=()=>{const game=root.DEADWALL,doc=root.document;setTimeout(()=>{if(root.DEADWALL===game&&root.document===doc)api.install(game,doc);},0);};
+  if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+ }
 })(globalThis,function(root){
  'use strict';
  const MAINTENANCE=new Set(['expand131','expandCodex3000','expandTerritories160','expandCodex4000','sanitationMedical164','completeCodex163','furnishing162','packing173','gardens171','stations170','sourceComplements169','fillDetails168','ensembleDetails165','quantityDetails164','anchoredDetails160','richDetails159','expand','metricVehicle174']);

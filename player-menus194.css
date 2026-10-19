@@ -80,3 +80,5 @@
 .player-menus194 #commandModal .field-nav button{min-width:0}
 @media(max-width:700px){.player-menus194 #commandModal .command-post{height:100dvh}}
 @media(max-height:500px){.player-menus194 #commandModal .command-post{height:100dvh}.player-menus194 #commandModal .command-ribbon129{display:none}}
+
+.player-menus194 #commandModal .command-body .command-mission129 :is(strong,small){color:#f2eedb}
