@@ -1,0 +1,58 @@
+name: Verify player menu 194 follow-up
+on:
+  push:
+    branches: [codex/transfer-menu194-20261019]
+    paths: [.github/workflows/transfer-menu194.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 6c5a53744ed23b9e3fd2c97a1ec1472e490c6e98
+          persist-credentials: false
+      - name: Verify exact four-file delta and emit blobs only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import os,json,hashlib,base64,zlib,pathlib,subprocess,urllib.request
+          repo='darknigthmare/deadwall-last-enclosure';base='6c5a53744ed23b9e3fd2c97a1ec1472e490c6e98'
+          assert os.environ['GITHUB_REPOSITORY']==repo and os.environ['GITHUB_REF']=='refs/heads/codex/transfer-menu194-20261019'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
+          def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def api(path,data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+              body=None if data is None else json.dumps(data).encode()
+              if body is not None:headers['Content-Type']='application/json'
+              req=urllib.request.Request('https://api.github.com/repos/'+repo+path,data=body,headers=headers,method='GET' if body is None else 'POST')
+              with urllib.request.urlopen(req,timeout=45) as res:return json.load(res)
+          encoded=base64.b64decode(api('/git/blobs/adcb9bda6e26be1b586c10241a51de1abfa3801b')['content'])
+          assert blob(encoded)=='adcb9bda6e26be1b586c10241a51de1abfa3801b'
+          payload=zlib.decompress(base64.b64decode(encoded,validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='86b511a5c90033b79a11e4b63266f3bda81e0d2afedf850d1691a54c89701365'
+          delta=json.loads(payload);assert delta['base']==base and len(delta['files'])==4
+          entries=[];seen=set()
+          for row in delta['files']:
+              p=pathlib.Path(row['path']);assert not p.is_absolute() and '..' not in p.parts and '.git' not in p.parts and p not in seen;seen.add(p)
+              text=p.read_text();assert blob(text.encode())==row['before']
+              last=len(text)
+              for start,end,value in reversed(row['edits']):
+                  assert 0<=start<=end<=last
+                  text=text[:start]+value+text[end:];last=start
+              data=text.encode();assert blob(data)==row['after'];p.write_bytes(data)
+              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==row['after']
+              entries.append({'path':str(p),'mode':'100644','type':'blob','sha':created['sha']})
+          subprocess.run(['git','diff','--check'],check=True)
+          out=pathlib.Path('artifacts/menu194-followup');out.mkdir(parents=True,exist_ok=True)
+          (out/'receipt.json').write_text(json.dumps({'base':base,'files':entries},indent=2)+'\n')
+          print(json.dumps(entries))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu194-followup-receipt
+          path: artifacts/menu194-followup/
+          retention-days: 3
