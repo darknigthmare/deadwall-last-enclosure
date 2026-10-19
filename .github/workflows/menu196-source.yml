@@ -1,10 +1,10 @@
-name: Menu 196 immutable source receipt
+name: Menu 196 verified source transfer
 on:
   push:
     branches: [codex/menu196-source-20261019]
     paths: [.github/workflows/menu196-source.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
   source:
     runs-on: ubuntu-latest
@@ -14,18 +14,65 @@ jobs:
         with:
           ref: 76450f62348688689d219eb89a3b248b7fe5ca41
           persist-credentials: false
-      - name: Archive exact tracked inputs without credentials
+      - name: Verify exact inputs and create unreferenced Git objects only
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          set -euo pipefail
-          mkdir -p /tmp/menu196-source
-          git archive --format=tar HEAD -- . ':!assets' ':!artifacts' ':!reports' | gzip > /tmp/menu196-source/sources.tar.gz
-          git ls-tree -r -z HEAD > /tmp/menu196-source/tree.bin
-          git rev-parse HEAD > /tmp/menu196-source/commit.txt
-          sha256sum /tmp/menu196-source/sources.tar.gz > /tmp/menu196-source/sha256.txt
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          assert os.environ['GITHUB_REPOSITORY'] == 'darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF'] == 'refs/heads/codex/menu196-source-20261019'
+          root=pathlib.Path.cwd()
+          base='76450f62348688689d219eb89a3b248b7fe5ca41'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
+          def blob(data): return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def api(path,data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+              body=None if data is None else json.dumps(data).encode()
+              if body is not None: headers['Content-Type']='application/json'
+              request=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=body,headers=headers,method='GET' if data is None else 'POST')
+              with urllib.request.urlopen(request,timeout=45) as response: return json.load(response)
+          ids=['d9d53b33fdd884b2a1255e3ef7b41b09abb2633f','07231064a43f077e9eec686be012fad9c6e4e681','cdb64e9b1adc5abef88d21096fad5e850230397e']
+          pieces=[]
+          for sha in ids:
+              row=api('/git/blobs/'+sha); assert row['encoding']=='base64'
+              data=base64.b64decode(row['content']); assert blob(data)==sha
+              pieces.append(data)
+          # Restore one identified character corrupted during text transport;
+          # then require the exact intended chunk and complete payload hashes.
+          pieces[0]=pieces[0].replace(b'F_ic04m',b'F/ic04m',1)
+          assert blob(pieces[0])=='d37ba187dd717f2fdec3f18cd46b3eb876d7a4df'
+          payload=zlib.decompress(base64.b64decode(b''.join(pieces),validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='ba2a712529775ddef38f7fc6a5e259462a62572d173d628da600830afc05642a'
+          delta=json.loads(payload); assert delta['base']==base
+          allowed={'src/expansion-ui.js','src/player-menus194.js','src/command-ui.js','player-menus194.css','scripts/browser-player-menus194.mjs','scripts/browser-standalone142.mjs','tests/player-menus194.test.cjs','tests/city-content150.test.cjs','tests/integration182-codex-independent.test.cjs','docs/PLAYER_MENUS_196.md'}
+          paths=set();elements=[]
+          for entry in delta['files']:
+              name=entry['path']; assert name in allowed and name not in paths; paths.add(name)
+              p=root/name; original=p.read_bytes() if p.exists() else b''
+              if entry['before'] is None: assert not p.exists()
+              else: assert blob(original)==entry['before'],name
+              data=original
+              for start,end,insert in reversed(entry['edits']):
+                  assert 0<=start<=end<=len(original)
+                  data=data[:start]+insert.encode()+data[end:]
+              assert blob(data)==entry['after'],name
+              p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+              if name.endswith(('.js','.mjs','.cjs')):subprocess.run(['node','--check',name],check=True)
+              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()}); assert created['sha']==entry['after']
+              elements.append({'path':name,'mode':'100644','type':'blob','sha':entry['after']})
+          assert paths==allowed
+          subprocess.run(['git','diff','--check'],check=True)
+          tree=api('/git/trees',{'base_tree':'73223e83d763d043d0d1dae862694429a8c36b6b','tree':elements})
+          assert tree['sha']=='df2d15033eacba6cf2058b2d89a9169c49992c6f'
+          output=root/'artifacts/menu196-transfer';output.mkdir(parents=True,exist_ok=True)
+          receipt={'base':base,'tree':tree['sha'],'files':elements,'scope':'Exact source transfer verified; no ref update, merge, deployment or test-pass claim.'}
+          (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: menu196-source-76450f6
-          path: /tmp/menu196-source/
+          name: menu196-verified-tree
+          path: artifacts/menu196-transfer/
           retention-days: 3
           if-no-files-found: error
