@@ -1,4 +1,4 @@
-name: Verify player menu 194 mount ordering
+name: Verify player menu 194 guide navigation
 on:
   push:
     branches: [codex/transfer-menu194-20261019]
@@ -12,15 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 08d8082b070d270dd34862e69b2e0d688574eb4b
+          ref: 3c4b0fee6e0551254c26bc1b893b8a86b41ac173
           persist-credentials: false
-      - name: Verify exact three-file delta and emit unreferenced blobs only
+      - name: Verify exact five-file delta and emit unreferenced blobs only
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 - <<'PY'
           import os,json,hashlib,base64,zlib,pathlib,subprocess,urllib.request
-          repo='darknigthmare/deadwall-last-enclosure';base='08d8082b070d270dd34862e69b2e0d688574eb4b'
+          repo='darknigthmare/deadwall-last-enclosure';base='3c4b0fee6e0551254c26bc1b893b8a86b41ac173'
           assert os.environ['GITHUB_REPOSITORY']==repo and os.environ['GITHUB_REF']=='refs/heads/codex/transfer-menu194-20261019'
           assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
           def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
@@ -30,12 +30,12 @@ jobs:
               if body is not None:headers['Content-Type']='application/json'
               req=urllib.request.Request('https://api.github.com/repos/'+repo+path,data=body,headers=headers,method='GET' if body is None else 'POST')
               with urllib.request.urlopen(req,timeout=45) as res:return json.load(res)
-          encoded=base64.b64decode(api('/git/blobs/eb9a8d45763717a85d9bdda195ee733a89813cf4')['content'])
-          assert blob(encoded)=='eb9a8d45763717a85d9bdda195ee733a89813cf4'
+          encoded=base64.b64decode(api('/git/blobs/e649ec0e219b6362e99dd78441075ccadb938150')['content'])
+          assert blob(encoded)=='e649ec0e219b6362e99dd78441075ccadb938150'
           payload=zlib.decompress(base64.b64decode(encoded,validate=True))
-          assert hashlib.sha256(payload).hexdigest()=='87107b695ea8ccd36e44d3efd83d564963acf341b70705d40894d567bc4d4b15'
-          delta=json.loads(payload);assert delta['base']==base and len(delta['files'])==3
-          entries=[];seen=set()
+          assert hashlib.sha256(payload).hexdigest()=='310126687f5e5d96f96370e3948f01f376e0d91599caf2f374db0d210e5eb8da'
+          delta=json.loads(payload);assert delta['base']==base and len(delta['files'])==5
+          prepared=[];seen=set()
           for row in delta['files']:
               p=pathlib.Path(row['path']);assert not p.is_absolute() and '..' not in p.parts and '.git' not in p.parts and p not in seen;seen.add(p)
               text=p.read_text();assert blob(text.encode())==row['before']
@@ -43,16 +43,19 @@ jobs:
               for start,end,value in reversed(row['edits']):
                   assert 0<=start<=end<=last
                   text=text[:start]+value+text[end:];last=start
-              data=text.encode();assert blob(data)==row['after'];p.write_bytes(data)
-              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==row['after']
+              data=text.encode();assert blob(data)==row['after'];prepared.append((p,data,row['after']))
+          entries=[]
+          for p,data,sha in prepared:
+              p.write_bytes(data)
+              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==sha
               entries.append({'path':str(p),'mode':'100644','type':'blob','sha':created['sha']})
           subprocess.run(['git','diff','--check'],check=True)
-          out=pathlib.Path('artifacts/menu194-mount');out.mkdir(parents=True,exist_ok=True)
+          out=pathlib.Path('artifacts/menu194-guide');out.mkdir(parents=True,exist_ok=True)
           (out/'receipt.json').write_text(json.dumps({'base':base,'files':entries},indent=2)+'\n')
           print(json.dumps(entries))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: menu194-mount-receipt
-          path: artifacts/menu194-mount/
+          name: menu194-guide-receipt
+          path: artifacts/menu194-guide/
           retention-days: 3
