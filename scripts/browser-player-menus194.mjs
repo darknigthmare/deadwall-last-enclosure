@@ -41,6 +41,7 @@ try{
    check('Situation and notebook return controls are reachable',await within('#playerObjectiveReturn194'));await page.locator('.command-body').evaluate(n=>n.scrollTop=0);await shot('situation');
    await click('#commandTab-field');check('Field opens exactly one dossier',JSON.stringify(await panels(page))===JSON.stringify(['field-expansions']));
    await page.locator('#expansionGroup-world').click();
+   await page.locator('#expansionTab-world131').click();
    const cards=await page.locator('#field-expansions .expansion-action button').evaluateAll(ns=>ns.map(n=>n.id));
    check('Player operations exclude compatibility conversions',cards.length>0&&cards.every(id=>!/(metricVehicle174|expandTerritories160|sanitationMedical164|packing173|expandCodex4000)$/.test(id)));
    const disclosure=page.locator('#unavailableActions194');check('Unavailable actions are grouped, not lost',await disclosure.count()===1&&await disclosure.locator('button').count()>0&&await disclosure.locator('button').evaluateAll(ns=>ns.every(n=>n.disabled)));
@@ -50,6 +51,7 @@ try{
    }
    await click('#notebookDomain-reference');await click('.field-nav [data-field-view="world-codex"]');
    check('Player Guide exposes neither author programmes nor recipe labs',await page.evaluate(()=>!document.querySelector('#worldCodexStatus option[value="programme"]')&&!document.querySelector('#worldCodexFamily option[value="programmes"]')&&![...document.querySelectorAll('#worldCodexResults details')].some(n=>n.dataset.codexSource159)));
+   await page.locator('#worldCodexAvailability159').selectOption('city');check('Player city filter uses an existing option and actual playable choice cards',await page.locator('#worldCodexResults article').count()>0);
    const guideDetails=page.locator('#worldCodexResults details').first();if(await guideDetails.count()){await guideDetails.locator('summary').click();check('Opening a player guide entry does not mount an author inspector',await guideDetails.locator('.codex-plan165,.codex-lab173').count()===0);}
    await page.locator('.command-body').evaluate(n=>n.scrollTop=0);await shot('survival-guide');
    await click('#commandTab-workers');const oldOrder=await page.evaluate(()=>DEADWALL.workerOrder);await click('[data-worker-order="harvest"]');check('Existing paid/simulation owner receives a real worker order',await page.evaluate(()=>DEADWALL.workerOrder)==='harvest');await click('[data-worker-order="'+oldOrder+'"]');
@@ -66,11 +68,11 @@ try{
    check('Continue keeps G10/detail13 without a second introduction',await page.evaluate(()=>DEADWALL.frontier.position().generation===10&&DEADWALL.frontier.position().detailVersion===13&&!DEADWALL.campaignIntro132.isOpen()));
    await click('#pauseButton');await click('#quitButton');const menuSnapshot=await snapshot(page);page.once('dialog',d=>d.dismiss());await click('#newGameButton');check('Cancelling replacement preserves the current campaign',await snapshot(page)===menuSnapshot);
    await shot('returned-title');
-  }catch(e){await shot('failure').catch(()=>{});throw e;}finally{await context.close();}
+  }catch(e){profile.failure=String(e.stack||e);await shot('failure').catch(()=>{});}finally{await context.close();}
  }
  // A separate, explicit source-tool session, not a loophole in the player checks.
  const author=await browser.newPage({viewport:{width:1366,height:900}});errors(author);await author.goto(base+'?tools=1&fixture=legacy',{waitUntil:'networkidle',timeout:120000});await ready(author);await author.waitForFunction(()=>DEADWALL.playerMenus194?.mode==='author');
  assert.ok(await author.locator('#authorMode194').isVisible());assert.equal(await author.evaluate(()=>DeadwallPlayerMenus194.currentStart()),false);report.checks.push({label:'Author mode is explicitly labelled; historical fixtures are a separate opt-in',pass:true});await author.screenshot({path:path.join(output,'author-explicit.png')});await author.close();
- assert.deepEqual(report.errors,[]);report.pass=true;
+ assert.deepEqual(report.errors,[]);assert.ok(report.profiles.every(p=>!p.failure&&p.checks.every(c=>c.pass)),'Every player profile and check must pass; see individual failure receipts');report.pass=true;
 }catch(e){report.failure=String(e.stack||e);process.exitCode=1;}
 finally{await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2));await browser?.close();await new Promise(r=>server.close(r));console.log(JSON.stringify({pass:report.pass,output,failure:report.failure}));}

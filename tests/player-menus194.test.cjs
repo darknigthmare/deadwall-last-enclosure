@@ -91,3 +91,18 @@ test('194 notebook presentation mounts after the original command presenters hav
  assert.equal(doc.getElementById('commandTab-workers').querySelector('strong').textContent,'Équipes');
  g.showCommand(true);assert.equal(g.activeOverlay,g.ui.commandModal);
 });
+
+
+test('194 player Guide filters retain real city choices and discovered map links without author controls',async()=>{
+ const {g,doc}=await fixture();g.worldCodex.open();
+ const status=doc.getElementById('worldCodexStatus'),use=doc.getElementById('worldCodexAvailability159');
+ assert.ok([...status.children].some(n=>n.value==='all'&&n.textContent==='Toutes les fiches utiles'));
+ assert.deepEqual([...use.children].map(n=>n.value),['all','known','city']);
+ use.value='city';use.dispatch('change');assert.ok(doc.getElementById('worldCodexResults').querySelectorAll('article').length>0);
+ const place=g.frontier.world().pois.find(p=>p.programme3000);g.frontier.revealSites([place.id]);const before=stable(g);
+ use.value='known';doc.getElementById('worldCodexSearch').value=place.programme3000;use.dispatch('change');
+ const cards=doc.getElementById('worldCodexResults').querySelectorAll('article');assert.equal(cards.length,1);
+ const card=cards[0];assert.equal(card.querySelector('h4').textContent,place.name);
+ assert.ok(card.querySelectorAll('button').every(b=>b.dataset.codexPlace159===place.id&&!b.dataset.codexTerritories160));
+ assert.ok(card.querySelectorAll('details').every(d=>!d.dataset.codexSource159));assert.equal(stable(g),before);
+});

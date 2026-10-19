@@ -69,8 +69,8 @@
     option(availability,'all','Tous les usages');option(availability,'known','Lieux de cette fiche déjà repérés');option(availability,'city','Choix réels de D-17');option(availability,'supported','Programmes compatibles');option(availability,'context160','Territoires G10');option(availability,'unavailable','Programmes sans plan');
     if(playerGuide){
       for(const n of [...family.children])if(n.value==='programmes')n.remove();
-      for(const n of [...status.children])if(!['terrain','jouable','pilote'].includes(n.value))n.remove();
-      for(const n of [...availability.children])if(!['all','city'].includes(n.value))n.remove();
+      for(const n of [...status.children])if(!['terrain','all','jouable','pilote'].includes(n.value))n.remove();else if(n.value==='all')n.textContent='Toutes les fiches utiles';
+      for(const n of [...availability.children])if(!['all','city','known'].includes(n.value))n.remove();
       heading.textContent='GUIDE DE TERRAIN';intro.textContent='Lieux, ressources et dangers : les moyens utilisables dans la campagne. Les repères de votre carte proviennent de vos découvertes.';
     }
     family.value='all';status.value='terrain';availability.value='all';append(controls,searchLabel,familyLabel,statusLabel,availabilityLabel);
@@ -96,7 +96,7 @@
       territories.textContent=generation===10?'TERRITOIRES G10 ACTIVÉS':'VOIR L’ACTIVATION DES TERRITOIRES G10';
       for(const [entry,view]of liveNodes){
         if(entry.choice159){const state=actions159?.choiceStatus(game,entry.choice159,context);view.status.textContent=state?.text||'Catalogue de D-17 indisponible.';view.conditions.textContent=state?.conditions.join(' ')||'';view.button.disabled=!canNavigate||!game.cityCatalogueUI150;continue;}
-        const places=actions159?.knownPlaces(game,entry.id)||[];view.status.textContent=actions159?.programmeStatus(game,entry.id)?.text||'';
+        const places=actions159?.knownPlaces(game,entry.id)||[];view.status.textContent=playerGuide?'Lieux déjà repérés : consultez la carte ou choisissez votre prochain repère.':actions159?.programmeStatus(game,entry.id)?.text||'';
         if(view.activation)view.activation.disabled=!actions159.canOpenTerritories160(game,entry.id);
         view.known.textContent=places.length?places.length+' lieu(x) de cette fiche déjà repéré(s) dans le carnet.':'Aucun lieu de cette fiche dans votre carnet. La consultation ne révèle pas les lieux inconnus.';
         const placeSignature=JSON.stringify([places,canNavigate,!!game.frontierUI]);if(view.signature===placeSignature)continue;view.signature=placeSignature;view.sites.replaceChildren();
@@ -105,16 +105,17 @@
       }
       return true;
     }
-    function refresh(reset=true){if(reset!==false)visible=36;const found=query({text:search.value,family:family.value,status:status.value,availability:availability.value},game).filter(e=>!playerGuide||['jouable','pilote'].includes(e.status));list.replaceChildren();liveNodes.clear();lastSignature='';count.textContent=found.length+' fiche'+(found.length===1?'':'s')+' trouvée(s) · '+entries.length+' dans le guide';
-      if(!found.length){list.appendChild(el('p','Aucune fiche pour ces filtres. Essayez un terme plus court ou « Présent et projets ».','world-codex-empty'));return;}
-      for(const entry of found.slice(0,visible)){const card=el('article',undefined,'world-codex-card');card.dataset.codexId=entry.id;
-        append(card,el('small',families[entry.family]+' · '+statuses[entry.status],'world-codex-status status-'+entry.status),el('h4',entry.title),el('p',entry.summary));
+    function refresh(reset=true){if(reset!==false)visible=36;const found=query({text:search.value,family:family.value,status:status.value,availability:availability.value},game).filter(e=>!playerGuide||['jouable','pilote'].includes(e.status)||availability.value==='known'&&e.status==='programme'&&(actions159?.knownPlaces(game,e.id)||[]).length>0);list.replaceChildren();liveNodes.clear();lastSignature='';count.textContent=found.length+' fiche'+(found.length===1?'':'s')+' trouvée(s)'+(playerGuide?' dans votre guide':' · '+entries.length+' dans le guide');
+      if(!found.length){list.appendChild(el('p',playerGuide?'Aucune fiche pour ces filtres. Essayez un terme plus court ou « Tous les usages ».':'Aucune fiche pour ces filtres. Essayez un terme plus court ou « Présent et projets ».','world-codex-empty'));return;}
+      for(const entry of found.slice(0,visible)){const card=el('article',undefined,'world-codex-card'),knownCard=playerGuide&&entry.status==='programme';card.dataset.codexId=entry.id;
+        if(knownCard)append(card,el('small','CARNET DES LIEUX','world-codex-status'),el('h4',(actions159.knownPlaces(game,entry.id)||[]).map(p=>p.name).join(' · ')),el('p','Ces repères proviennent uniquement de vos découvertes.'));
+        else append(card,el('small',families[entry.family]+' · '+statuses[entry.status],'world-codex-status status-'+entry.status),el('h4',entry.title),el('p',entry.summary));
         if(entry.status==='plan')card.appendChild(el('p','Conception : ce programme n’est pas annoncé comme jouable.','world-codex-boundary'));
         if(entry.status==='pilote')card.appendChild(el('p','Une partie du lieu existe. Les variantes et extensions décrites ne sont pas toutes intégrées.','world-codex-boundary'));
         const details=el('details'),summary=el('summary','Accès, ressources et précautions');if(!playerGuide)details.dataset.codexSource159=entry.id;details.appendChild(summary);
-        for(const[key,label]of Object.entries(fields)){if(!entry[key]||playerGuide&&['qa','source'].includes(key))continue;const p=el('p');append(p,el('strong',label+' — '),el('span',entry[key]));details.appendChild(p);}
+        for(const[key,label]of Object.entries(fields)){if(knownCard||!entry[key]||playerGuide&&['qa','source'].includes(key))continue;const p=el('p');append(p,el('strong',label+' — '),el('span',entry[key]));details.appendChild(p);}
         if(entry.status==='programme'&&actions159){const state=el('p',undefined,'world-codex-boundary'),known=el('p'),sites=el('details'),siteHeading=el('summary','Lieux de cette fiche déjà repérés'),siteList=el('div');append(sites,siteHeading,siteList);append(card,state,known,sites);
-          let activation=null;if(actions159.capability(entry.id)?.context160){activation=actionButton('VOIR L’ACTIVATION AU DÉPÔT',entry,()=>actions159.openTerritories160(game,entry.id));activation.dataset.codexTerritories160=entry.id;card.appendChild(activation);}
+          let activation=null;if(!playerGuide&&actions159.capability(entry.id)?.context160){activation=actionButton('VOIR L’ACTIVATION AU DÉPÔT',entry,()=>actions159.openTerritories160(game,entry.id));activation.dataset.codexTerritories160=entry.id;card.appendChild(activation);}
           liveNodes.set(entry,{status:state,known,sites:siteList,activation,signature:''});}
         if(entry.choice159&&actions159){const state=el('p',undefined,'world-codex-boundary'),conditions=el('p'),open=actionButton('OUVRIR CE CHOIX DANS PRÉPARATIFS',entry,()=>actions159.openChoice(game,entry.choice159,document));append(card,state,conditions,open);liveNodes.set(entry,{status:state,conditions,button:open});}
         if(!playerGuide&&entry.id.startsWith('programme-DW-'))details.addEventListener('toggle',()=>{
@@ -149,12 +150,12 @@
           details.appendChild(prescribed);
           details.appendChild(el('p','Enrichissement physique optionnel au dépôt. Aucun objet de décor ne fournit de butin supplémentaire.'));
         });
-        card.appendChild(details);list.appendChild(card);
+        if(!knownCard)card.appendChild(details);list.appendChild(card);
       }
       if(found.length>visible){const more=el('button','AFFICHER '+Math.min(36,found.length-visible)+' FICHES SUPPLÉMENTAIRES');more.type='button';more.addEventListener('click',()=>{visible+=36;refresh(false);});list.appendChild(more);}
       updateLive(true);
     }
-    for(const control of[search,family,status,availability]){control.addEventListener(control===search?'input':'change',()=>{if(control===availability){if(['known','supported','context160','unavailable'].includes(availability.value)){status.value='programme';family.value='programmes';}else if(availability.value==='city'){status.value='all';family.value='systemes';}}refresh();});control.addEventListener('keydown',event=>{if(event.code!=='Escape'&&event.code!=='Tab')event.stopPropagation();});}
+    for(const control of[search,family,status,availability]){control.addEventListener(control===search?'input':'change',()=>{if(control===availability){if(playerGuide&&availability.value==='known'){status.value='all';family.value='all';}else if(['known','supported','context160','unavailable'].includes(availability.value)){status.value='programme';family.value='programmes';}else if(availability.value==='city'){status.value='all';family.value='systemes';}}refresh();});control.addEventListener('keydown',event=>{if(event.code!=='Escape'&&event.code!=='Tab')event.stopPropagation();});}
     const actions=el('div',undefined,'world-codex-actions');
     const map=el('button','CARTE'),bag=el('button','ÉQUIPEMENT');map.type=bag.type='button';
     map.addEventListener('click',()=>game.exploration125?.openMap?.());bag.addEventListener('click',()=>game.exploration125?.openInventory?.());append(actions,map,bag);
