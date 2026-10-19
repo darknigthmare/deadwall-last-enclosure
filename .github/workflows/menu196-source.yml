@@ -1,0 +1,31 @@
+name: Menu 196 immutable source receipt
+on:
+  push:
+    branches: [codex/menu196-source-20261019]
+    paths: [.github/workflows/menu196-source.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 76450f62348688689d219eb89a3b248b7fe5ca41
+          persist-credentials: false
+      - name: Archive exact tracked inputs without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/menu196-source
+          git archive --format=tar HEAD -- . ':!assets' ':!artifacts' ':!reports' | gzip > /tmp/menu196-source/sources.tar.gz
+          git ls-tree -r -z HEAD > /tmp/menu196-source/tree.bin
+          git rev-parse HEAD > /tmp/menu196-source/commit.txt
+          sha256sum /tmp/menu196-source/sources.tar.gz > /tmp/menu196-source/sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu196-source-76450f6
+          path: /tmp/menu196-source/
+          retention-days: 3
+          if-no-files-found: error
