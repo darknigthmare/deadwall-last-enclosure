@@ -1,0 +1,27 @@
+name: Menu input snapshot 198
+on:
+  push:
+    branches: [codex/menu196-source-20261019]
+    paths: [.github/workflows/menu198-source.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5fccf78b553300fc7fc1411ee339d68a6f381be3
+          persist-credentials: false
+      - run: |
+          mkdir -p /tmp/menu198
+          git archive HEAD -- . ':!assets' ':!reports' | gzip > /tmp/menu198/sources.tar.gz
+          git ls-tree -r -z HEAD > /tmp/menu198/tree.bin
+          git rev-parse HEAD > /tmp/menu198/commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: menu198-sources-5fccf78
+          path: /tmp/menu198/
+          retention-days: 3
+          if-no-files-found: error
