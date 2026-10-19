@@ -1,10 +1,10 @@
-name: Menu 197 source snapshot
+name: Verify menu 197 source patch
 on:
   push:
     branches: [codex/menu197-source-20261019]
     paths: [.github/workflows/menu197-source.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
   source:
     runs-on: ubuntu-latest
@@ -14,15 +14,43 @@ jobs:
         with:
           ref: 5632f1b70f8ed748f009726648d16b81941720f0
           persist-credentials: false
-      - name: Archive tracked source and exact tree only
+      - name: Check source bytes and stage only three unreferenced Git blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p /tmp/menu197-source
-          git archive --format=tar HEAD -- . ':!assets' ':!artifacts' ':!reports' | gzip > /tmp/menu197-source/sources.tar.gz
-          git ls-tree -r -z HEAD > /tmp/menu197-source/tree.bin
-          git rev-parse HEAD > /tmp/menu197-source/commit.txt
+          python3 - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, urllib.request, zlib
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/menu197-source-20261019'
+          base='5632f1b70f8ed748f009726648d16b81941720f0'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
+          def api(path,data=None):
+              request=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','Content-Type':'application/json'},data=None if data is None else json.dumps(data).encode(),method='GET' if data is None else 'POST')
+              with urllib.request.urlopen(request,timeout=45) as response:return json.load(response)
+          def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          before={'src/command-ui.js':'24f7523013cea4107b90f79a1639f520336eadea','src/expansion-ui.js':'34aa937334c3196689d31c9d27acdbb5eb87631a','scripts/browser-player-menus194.mjs':'d704d7c284d83ac7c425f87776b509407c476967'}
+          after={'src/command-ui.js':'3f461a9c6a3e8b8cfda77f8a041d44d0f3607eba','src/expansion-ui.js':'1f2f9152898727c18f854ee7020b95a9aeffc27d','scripts/browser-player-menus194.mjs':'b21003e22642963a8309bf94b7aa7542eaa90fc9'}
+          for name,sha in before.items():assert blob(pathlib.Path(name).read_bytes())==sha,name
+          raw=api('/git/blobs/98f0f4e1b267e76aeb004eea4d787f9a845c5745')
+          encoded=base64.b64decode(raw['content']);assert blob(encoded)=='98f0f4e1b267e76aeb004eea4d787f9a845c5745'
+          patch=zlib.decompress(base64.b64decode(encoded,validate=True));assert hashlib.sha256(patch).hexdigest()=='6d6f5358f25c063e263af77e4d253eceef166c7eaf006c06b72b96b842650705'
+          subprocess.run(['git','apply','--check','-'],input=patch,check=True)
+          subprocess.run(['git','apply','-'],input=patch,check=True)
+          assert set(subprocess.check_output(['git','diff','--name-only'],text=True).splitlines())==set(after)
+          subprocess.run(['git','diff','--check'],check=True)
+          entries=[]
+          for name,sha in after.items():
+              data=pathlib.Path(name).read_bytes();assert blob(data)==sha,name
+              subprocess.run(['node','--check',name],check=True)
+              row=api('/git/blobs',{'content':data.decode(),'encoding':'utf-8'});assert row['sha']==sha
+              entries.append({'path':name,'type':'blob','mode':'100644','sha':sha})
+          out=pathlib.Path('/tmp/menu197-verified');out.mkdir(parents=True,exist_ok=True)
+          (out/'receipt.json').write_text(json.dumps({'base':base,'entries':entries,'scope':'Exact source transfer only. No ref update, commit, merge, deployment or claim of gameplay validation.'},indent=2)+'\n')
+          print('Three exact source blobs verified and staged; no branch reference updated.')
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: menu197-source-5632f1b
-          path: /tmp/menu197-source/
+          name: menu197-verified-source
+          path: /tmp/menu197-verified/
           retention-days: 3
           if-no-files-found: error
