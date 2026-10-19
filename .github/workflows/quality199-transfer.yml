@@ -1,0 +1,68 @@
+name: Verify exact quality 199 source objects
+on:
+  push:
+    branches: [codex/source-quality199-20261019]
+    paths: [.github/workflows/quality199-transfer.yml]
+permissions:
+  contents: write
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5fccf78b553300fc7fc1411ee339d68a6f381be3
+          persist-credentials: false
+      - name: Verify preimages, exact edits and syntax; create unreferenced objects only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,json,os,pathlib,subprocess,urllib.request,zlib
+          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
+          assert os.environ['GITHUB_REF']=='refs/heads/codex/source-quality199-20261019'
+          base='5fccf78b553300fc7fc1411ee339d68a6f381be3'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==base
+          def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          def api(path,data=None):
+              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+              body=None if data is None else json.dumps(data).encode()
+              if body is not None:headers['Content-Type']='application/json'
+              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=body,headers=headers,method='GET' if data is None else 'POST')
+              with urllib.request.urlopen(req,timeout=45) as response:return json.load(response)
+          chunks=[]
+          for sha in ['d1228d883bc6947fb8a3f4ad546c749363e8dfda','6a88892d3797d4ff219d454ada1c729e454820b5','1d5a7d79a9854487e65152fba053e3a423994eae','a68f5e524e5314c85177b72c8595051d879b1da8']:
+              row=api('/git/blobs/'+sha);assert row['encoding']=='base64'
+              data=base64.b64decode(row['content']);assert blob(data)==sha;chunks.append(data)
+          payload=zlib.decompress(base64.b64decode(b''.join(chunks),validate=True))
+          assert hashlib.sha256(payload).hexdigest()=='8cf558c7bb815d1910484adec3595a8f1444f7bdc83eb779938068a0a5c1ee91'
+          plan=json.loads(payload);assert plan['base']==base and plan['baseTree']=='673d180b3f41cd474eb21184ecd58e4abdad2867'
+          expected={'.github/workflows/quality199.yml','docs/QUALITY_199.md','scripts/browser-husbandry191.mjs','scripts/browser-quality199.mjs','src/core.js','src/game.js','src/husbandry191.js','src/survival-pack.js','tests/quality199-audio.test.cjs','tests/quality199-husbandry.test.cjs','tests/quality199-persistence.test.cjs','tests/quality199-survival.test.cjs'}
+          assert {entry['path'] for entry in plan['files']}==expected and len(plan['files'])==len(expected)
+          elements=[]
+          for entry in plan['files']:
+              p=pathlib.Path(entry['path']);assert entry['mode']=='100644'
+              if entry['before'] is None:assert not p.exists();before=b''
+              else:before=p.read_bytes();assert blob(before)==entry['before']
+              data=before;last=-1
+              for start,end,text in entry['edits']:
+                  assert 0<=start<=end<=len(before) and start>=last;last=end
+              for start,end,text in reversed(entry['edits']):data=data[:start]+text.encode()+data[end:]
+              assert blob(data)==entry['after'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+              if p.suffix in ('.js','.mjs','.cjs'):subprocess.run(['node','--check',str(p)],check=True)
+              result=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert result['sha']==entry['after']
+              elements.append({'path':entry['path'],'mode':entry['mode'],'type':'blob','sha':entry['after']})
+          subprocess.run(['git','diff','--check'],check=True)
+          tree=api('/git/trees',{'base_tree':plan['baseTree'],'tree':elements});assert tree['sha']==plan['tree']=='15cb51111faab72d76b1012f4b0e6489ed24593b'
+          out=pathlib.Path('artifacts/quality199-transfer');out.mkdir(parents=True,exist_ok=True)
+          receipt={'base':base,'tree':tree['sha'],'files':elements,'scope':'Exact source verification only; no ref update, merge, deployment or gameplay-test claim.'}
+          (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quality199-source-tree
+          path: artifacts/quality199-transfer/
+          retention-days: 3
+          if-no-files-found: error
