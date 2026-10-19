@@ -3245,6 +3245,14 @@
       vulnerable:bs.filter(b=>operational(b)&&b.def.wall&&(b.health/b.maxHealth<.35||b.corpseLoad>15)).length};}
   function assaultPattern(){ensure();const profile=engine.state.lastWave;return profile?.wave===g.wave?F.PROFILE_BY_ID[profile.id]?.frontPattern:undefined;}
   g.siege=Object.freeze({version:'1.3.0-candidate.1',playerDown:()=>{ensure();engine.playerDown();tool=false;},snapshot:()=>{reconcile();return engine.snapshot();},overview,assaultPattern,assign,release,toggleTool,selectBuilding,updateAssignedUnit,
+    carriedWater199:()=>ensure().state.playerWater,
+    transferFieldWater199:(direction,amount)=>{
+      const p=g.frontier?.position?.();
+      // The field activity owns the source/destination geometry and rechecks it
+      // before this synchronous debit. The bucket owner guards its lifecycle.
+      return ensure().fieldWater(direction,amount,{running:running(),dead:!live(g.player),
+        accessible:!!p?.active&&p.z===0&&!p.car?.driving,secure:!g.gameOver});
+    },
     presentationWaterRatio:b=>b?.type==='fireCistern'?(engine.tank(b.id)?.water||0)/R.waterCapacity:0,
     isAssigned:id=>Boolean(engine.member(id)),toolActive:()=>tool,pumpFuelPerMinute,drawFire,markOffline:mark,service,
     open:()=>{g.showCommand?.(true,'field');g.siegeUI?.open();}});

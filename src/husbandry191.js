@@ -20,7 +20,8 @@ function validate(raw,full){
  const num=(v,min,max,int=false)=>{if(!Number.isFinite(v)||v<min||v>max||int&&!Number.isInteger(v))bad();return v;};
  fields(raw,['version','next','behaviors','pens','animals']);if(raw.version!==1||typeof raw.behaviors!=='boolean'||!Array.isArray(raw.pens)||raw.pens.length>R.maxPens||!Array.isArray(raw.animals)||raw.animals.length>R.maxAnimals)bad();
  num(raw.next,1,1000000,true);const ids=new Set(),sources=new Set(),id=n=>{num(n,1,raw.next-1,true);if(ids.has(n))bad();ids.add(n);};
- for(const p of raw.pens){fields(p,['id','x','y','health','food','water','meat','hides','leather','breed','meatAge','hideAge']);id(p.id);
+ for(const p of raw.pens){fields(p,['id','x','y','health','food','water','meat','hides','leather','breed','meatAge','hideAge',...(p&&Object.hasOwn(p,'breeding199')?['breeding199']:[])]);id(p.id);
+  if(Object.hasOwn(p,'breeding199')&&(typeof p.breeding199!=='boolean'||!p.breeding199&&p.breed!==0))bad();
   num(p.x,R.penSize,W.sizeForGeneration(10)-R.penSize);num(p.y,R.penSize,W.sizeForGeneration(10)-R.penSize);num(p.health,0,R.health);
   for(const k of ['food','water','meat','hides','leather'])num(p[k],0,R.stockCapacity);
   num(p.breed,0,R.breedSeconds);num(p.meatAge,0,R.meatLife);num(p.hideAge,0,R.hideLife);
@@ -28,7 +29,7 @@ function validate(raw,full){
  }
  const pens=new Map(raw.pens.map(p=>[p.id,p]));
  for(const a of raw.animals){fields(a,['id','source','species','pen','sex','age','health','status','parents']);id(a.id);
-  if(!R.captive[a.species]||!pens.has(a.pen)||!['female','male'].includes(a.sex)||!['held','stranded','released','dead','processed'].includes(a.status)||!Array.isArray(a.parents))bad();
+  if(typeof a.species!=='string'||!Object.hasOwn(R.captive,a.species)||!pens.has(a.pen)||!['female','male'].includes(a.sex)||!['held','stranded','released','dead','processed'].includes(a.status)||!Array.isArray(a.parents))bad();
   num(a.age,0,1e9);num(a.health,0,100);if((a.status==='dead'||a.status==='processed')!==(a.health===0))bad();
   if(a.source!==null){if(typeof a.source!=='string'||!/^A189_(0|[1-9]\d{0,2})_(0|[1-9]\d{0,2})_[0-7]$/.test(a.source)||sources.has(a.source)||a.parents.length)bad();sources.add(a.source);}
   else {if(a.status==='stranded'||a.parents.length!==2||a.parents[0]===a.parents[1]||!R.captive[a.species].breed)bad();for(const parentId of a.parents){const parent=raw.animals.find(p=>p.id===parentId);if(!parent||parent.id>=a.id||parent.species!==a.species)bad();}const [mother,father]=a.parents.map(i=>raw.animals.find(p=>p.id===i));if(mother.sex===father.sex)bad();}
@@ -65,7 +66,7 @@ function install(g){
  const bad=reason=>({ok:false,reason});
  function base(continuing=false){if(!conscious()||!g.expansions.canAct())return 'Commandant indisponible.';const p=pos();
   if(!p.active||p.z!==0||!p.landscape189||p.hydrologyVersion!==1)return 'À pied au sol dans un paysage naturel régional.';
-  if(p.car?.driving||g.expeditions?.driving()||g.player.reload>0||g.selectedBuild||!continuing&&task||g.expansions.busy('husbandry191'))return 'Libérez vos mains et terminez les autres interventions.';
+  if(p.car?.driving||g.expeditions?.driving()||g.player.reload>0||g.selectedBuild||g.fieldcraft?.context?.().mounted||g.siege?.toolActive?.()||!continuing&&task||g.expansions.busy('husbandry191'))return 'Libérez vos mains et terminez les autres interventions.';
   if(danger())return 'Éloignez les infectés avant le travail.';return '';
  }
  function placement(){const p=pos();return{x:p.x,y:p.y-R.placementDistance};}
@@ -80,10 +81,20 @@ function install(g){
   for(const dx of[-1.5,-1,-.5,0,.5,1,1.5])for(const dy of[-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(q.x+dx,q.y+dy,.35,0,null)||w.hydrology.sample(q.x+dx,q.y+dy).water)return 'Choisissez trois mètres de sol sec et libre.';
   if(!w.movementLine(pos(),access(q),0,pos().inside,null,.32))return 'L’accès sud doit rester libre.';return '';
  }
- function freshWater(p){const w=world(),from=access(p);for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach,y:from.y+Math.sin(a)*R.reach};const h=w.hydrology.sample(q.x,q.y);if(h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&w.wildlifeWaterLine(from,q,.05))return q;}return null;}
+ function freshWaterFrom(from){const w=world();for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach,y:from.y+Math.sin(a)*R.reach};const h=w.hydrology.sample(q.x,q.y);if(h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&w.wildlifeWaterLine(from,q,.05))return q;}return null;}
+ const freshWater=p=>freshWaterFrom(access(p));
+ const bucket=()=>g.siege?.carriedWater199?.()??0;
+ const waterTransfer=(direction,amount)=>g.siege?.transferFieldWater199?.(direction,amount)??0;
  function quote(kind,id=null,target=null,continuing=false){const why=base(continuing);if(why)return bad(why);let cost={},seconds=0,site=pen(id),q=null,tool=null;
   if(kind==='build'){q=task&&continuing?task.point:placement();const no=placeReason(q);if(no)return bad(no);cost=R.penCost;seconds=R.buildSeconds;}
   else if(kind==='behaviors'){if(s.behaviors)return bad('Comportements naturels déjà actifs.');}
+  else if(kind==='behaviors-off'){if(!s.behaviors)return bad('Comportements naturels déjà suspendus.');}
+  else if(kind==='fill-bucket'){
+   const w=world(),p=pos();
+   if(!g.siege?.transferFieldWater199||bucket()>=C.Siege.RULES.bucketCapacity)return bad('Seau de service indisponible ou plein.');
+   if(w.blocked(p.x,p.y,W.RULES?.footRadius??.32,0,p.inside)||w.hydrology.sample(p.x,p.y).water||!freshWaterFrom(p))return bad('Rejoignez une berge libre d’eau douce, sans entrer dans l’eau.');
+   seconds=R.waterSeconds;
+  }
   else {
    if(!site||!near(site))return bad('Rejoignez l’accès sud de l’enclos.');
    if(kind==='rebuild'){
@@ -96,6 +107,15 @@ function install(g){
     if(held(id).length>=R.penCapacity||held(id).some(a=>a.species!==q.species))return bad('Enclos plein ou espèce incompatible.');
     if(distance(pos(),q)>R.captureReach||distance(site,q)>R.capturePenReach||!visible(q)||!world().movementLine(pos(),q,0,pos().inside,null,.05))return bad('Approchez l’animal depuis l’accès de l’enclos, sans obstacle.');
     cost=R.captureCost;seconds=R.captureSeconds;
+   }else if(kind==='water-carried'){
+    if(!g.siege?.transferFieldWater199||bucket()<=0||site.water>=R.stockCapacity)return bad('Apportez de l’eau dans le seau de service ; l’abreuvoir doit avoir de la place.');
+    seconds=R.pourSeconds;
+   }else if(kind==='repair'){
+    if(site.health>=R.health)return bad('Clôture déjà intacte.');cost=R.repairCost;seconds=R.repairSeconds;
+   }else if(kind==='breeding-off'){
+    if(site.breeding199===false)return bad('Naissances déjà suspendues.');
+   }else if(kind==='breeding-on'){
+    if(site.breeding199!==false)return bad('Naissances déjà autorisées.');
    }else if(kind==='feed'){if(site.food>=R.stockCapacity)return bad('Mangeoire pleine.');cost={food:Math.min(R.feedPortion,R.stockCapacity-site.food)};}
    else if(kind==='water'){if(site.water>=R.stockCapacity||!freshWater(site))return bad('Eau douce réelle à portée de l’accès requise, abreuvoir non plein.');seconds=R.waterSeconds;}
    else if(kind==='release'||kind==='slaughter'){
@@ -116,6 +136,18 @@ function install(g){
   if(t.kind==='build')s.pens.push({id:s.next++,...t.point,health:R.health,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0});
   if(t.kind==='rebuild'){p.health=R.health;p.breed=0;for(const a of held(p.id))if(a.status==='stranded')a.status='held';}
   if(t.kind==='behaviors')s.behaviors=true;
+  if(t.kind==='behaviors-off')s.behaviors=false; // Keep attack cooldowns across off/on.
+  if(t.kind==='breeding-off'||t.kind==='breeding-on'){p.breeding199=t.kind==='breeding-on';p.breed=0;}
+  if(t.kind==='repair')p.health=Math.min(R.health,p.health+R.repairHealth);
+  if(t.kind==='fill-bucket'){
+   const n=Math.min(R.waterPortion,C.Siege.RULES.bucketCapacity-bucket());
+   if(!(waterTransfer('fill',n)>0))return bad('Puisage interrompu : aucune eau ajoutée.');
+  }
+  if(t.kind==='water-carried'){
+   const n=Math.min(R.waterPortion,R.stockCapacity-p.water,bucket());
+   if(!(n>0)||waterTransfer('pour',n)!==n)return bad('Transfert interrompu : aucune eau ajoutée à l’abreuvoir.');
+   p.water+=n;
+  }
   if(t.kind==='feed')p.food+=t.cost.food;
   if(t.kind==='water')p.water=Math.min(R.stockCapacity,p.water+R.waterPortion);
   if(t.kind==='capture'){const q=g.frontier.wildlifeStatus165(t.target),old=s.animals.find(a=>a.source===t.target);
@@ -126,7 +158,7 @@ function install(g){
   if(t.kind==='cook'){const n=Math.min(R.cookPortion,p.meat,g.player.carryCapacity-C.bagTotal(g.player.carry));p.meat-=n;g.player.carry.food+=n;if(!p.meat)p.meatAge=0;}
   if(t.kind==='tan'){p.hides--;p.water-=R.tanWater;p.leather++;if(!p.hides)p.hideAge=0;}
   if(t.kind==='lining'){p.leather-=2;p.health=Math.min(R.health,p.health+25);}
-  notify(t.kind==='cook'?'Provisions cuites dans le sac : rapportez-les au dépôt.':t.kind==='capture'?'Animal placé vivant dans l’enclos. Nourrissez et abreuvez-le.':'Intervention terminée ; stocks et captivité sauvegardés.');return{ok:true};
+  notify(t.kind==='cook'?'Provisions cuites dans le sac : rapportez-les au dépôt.':t.kind==='capture'?'Animal placé vivant dans l’enclos. Nourrissez et abreuvez-le.':'Intervention terminée ; stocks et captivité mis à jour.');return{ok:true};
  }
  function begin(kind,id,target){const q=quote(kind,id,target);if(!q.ok){message=q.reason;return q;}if(!C.spend(g.player.carry,q.cost))return bad('Fournitures indisponibles.');
   if(!q.seconds)return commit(q);task={...q,elapsed:0,origin:{...pos()},health:g.player.health,world:g.world};g.frontier.signalAt(pos(),R.noise);g.save(false);return{ok:true};
@@ -137,12 +169,12 @@ function install(g){
    if(p.meat){p.meatAge=Math.min(R.meatLife,p.meatAge+dt);if(p.meatAge>=R.meatLife){p.meat=0;p.meatAge=0;}}
    if(p.hides){p.hideAge=Math.min(R.hideLife,p.hideAge+dt);if(p.hideAge>=R.hideLife){p.hides=0;p.hideAge=0;}}
    const animals=held(p.id),needFood=animals.length*R.foodPerSecond*dt,needWater=animals.length*R.waterPerSecond*dt;
-   const fed=p.food+1e-9>=needFood&&p.water+1e-9>=needWater;p.food=Math.max(0,p.food-needFood);p.water=Math.max(0,p.water-needWater);
-   for(const a of animals){a.age=Math.min(1e9,a.age+dt);if(!fed)a.health=Math.max(0,a.health-R.starveDamage*dt);if(!a.health){if(a.source)g.frontier.retireWildlife191(a.source);a.status='dead';p.breed=0;}}
+   const fed=p.food+1e-9>=needFood&&p.water+1e-9>=needWater,shortage=1-Math.min(1,needFood?p.food/needFood:1,needWater?p.water/needWater:1);p.food=Math.max(0,p.food-needFood);p.water=Math.max(0,p.water-needWater);
+   for(const a of animals){a.age=Math.min(1e9,a.age+dt);if(!fed)a.health=Math.max(0,a.health-R.starveDamage*dt*shortage);if(!a.health){if(a.source)g.frontier.retireWildlife191(a.source);a.status='dead';p.breed=0;}}
    if(!p.health){p.breed=0;continue;}
    if(pos().active&&pos().z===0){const pressure=hostiles().filter(e=>Math.max(Math.abs(e.x-p.x),Math.abs(e.y-p.y))<R.penSize/2+.75&&world().line(e,p,0,null,null,.05)).length;p.health=Math.max(0,p.health-pressure*R.penContactDamage*dt);if(!p.health){for(const a of animals)if(a.status==='held')a.status=a.source&&!g.frontier.releaseCaptive191(a.source)?'stranded':'released';p.breed=0;message=animals.some(a=>a.status==='stranded')?'Clôture détruite : une origine sauvage est obstruée. Le sujet reste sous votre garde ; dégagez son origine pour le libérer ou reconstruisez. Son entretien continue.':'Clôture détruite : animaux dispersés, jeunes sortis de la simulation détaillée.';continue;}}
    const eligible=animals.filter(a=>a.status==='held'&&a.age>=R.matureSeconds&&a.health>=75&&R.captive[a.species].breed),mother=eligible.find(a=>a.sex==='female'),father=eligible.find(a=>a.sex==='male');
-   if(!fed||!mother||!father||animals.length>=R.penCapacity||s.animals.length>=R.maxAnimals){p.breed=0;continue;}
+   if(p.breeding199===false||!fed||!mother||!father||animals.length>=R.penCapacity||s.animals.length>=R.maxAnimals){p.breed=0;continue;}
    p.breed=Math.min(R.breedSeconds,p.breed+dt);if(p.breed+1e-7>=R.breedSeconds&&p.food>=R.birthFood&&p.water>=R.birthWater&&s.next<1000000){const id=s.next++;p.food-=R.birthFood;p.water-=R.birthWater;p.breed=0;
     s.animals.push({id,source:null,species:mother.species,pen:p.id,sex:G.hash(g.world.seed,p.id,id,'birth191')%2?'female':'male',age:0,health:100,status:'held',parents:[mother.id,father.id]});message='Naissance dans l’enclos '+p.id+' ; entretien supplémentaire nécessaire.';}
   }
@@ -150,7 +182,7 @@ function install(g){
  function step(dt){if(!conscious()){cancel();return;}if(g.paused||g.activeOverlay)return;if(!Number.isFinite(dt)||dt<=0)return;dt=Math.min(R.maxStep,dt);upkeep(dt);
   if(task){const t=task,q=quote(t.kind,t.id,t.target,true);if(!q.ok||t.world!==g.world||g.player.health<t.health||distance(pos(),t.origin)>R.moveTolerance||q.tool!==t.tool){cancel(q.reason);return;}
    t.elapsed+=dt;if(t.tool)g.arsenal134.wearTool('butcher',dt);g.interactionText='Enclos · '+t.kind+' · '+Math.floor(t.elapsed/t.seconds*100)+' %';
-   if(t.elapsed+1e-7>=t.seconds){const final=quote(t.kind,t.id,t.target,true);if(!final.ok||final.tool!==t.tool){cancel(final.reason);return;}task=null;commit(t);}
+   if(t.elapsed+1e-7>=t.seconds){const final=quote(t.kind,t.id,t.target,true);if(!final.ok||final.tool!==t.tool){cancel(final.reason);return;}task=null;const result=commit(t);if(!result.ok)message=result.reason;}
   }
   soundLeft-=dt;if(soundLeft<=0){soundLeft=R.soundInterval;sound();}
  }
@@ -158,7 +190,7 @@ function install(g){
  function vehicleBlocked(x,y,a,w,h){return s.pens.some(p=>p.health>0&&vehicleHitsPen(p,{x,y,a,w,h}));}
  function lineClear(a,b,r=.05){const steps=Math.ceil(distance(a,b)/.2);for(let i=0;i<=steps;i++)if(solid(a.x+(b.x-a.x)*i/Math.max(1,steps),a.y+(b.y-a.y)*i/Math.max(1,steps),r))return false;return true;}
  function naturalIntent(e){if(cooldowns.size>R.maxAnimals)for(const[id,time]of cooldowns)if(time<g.elapsed)cooldowns.delete(id);if(!s.behaviors||!e.id.startsWith('A189_')||task?.target===e.id||claimed(e.id))return null;
-  const p=pos(),w=world(),now=g.elapsed,prey=R.prey[e.species];
+  const p=pos(),w=world(),now=g.elapsed,prey=Object.hasOwn(R.prey,e.species)?R.prey[e.species]:null;
   if(e.species==='boar'&&e.hp<e.profile.health&&e.alarm>0&&distance(e,p)<=R.boarReach&&w.movementLine(e,p,0,null,null,.1)){
    if((cooldowns.get(e.id)||0)<=now){g.frontier.damage(R.boarDamage);cooldowns.set(e.id,now+R.boarCooldown);}return null;
   }
@@ -175,16 +207,17 @@ function install(g){
  }
  function view(){const point=task?.kind==='build'?task.point:task?.kind==='rebuild'?pen(task.id):null;return{...clone(s),task:task?{kind:task.kind,id:task.id,target:task.target,point:point?{x:point.x,y:point.y}:null,progress:Math.min(1,task.elapsed/task.seconds)}:null};}
  function overview(){const p=s.pens.find(near);return{summary:message||'Enclos régionaux fixes : capture locale au filet, entretien, naissances et transformation. Les stocks bruts restent sur place.',
-   rows:[{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Eau douce à portée de l’accès sud ; pas de puisage distant'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
-  ...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
+   rows:[{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Puisage à une berge proche ou transport avec le seau de service ; aucune eau potable produite'},{label:'Eau transportée',value:bucket().toFixed(1)+' / '+C.Siege.RULES.bucketCapacity+' · même réserve que les secours incendie'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
+  ...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Naissances',value:p.breeding199===false?'Suspendues ; entretien maintenu':'Autorisées si les besoins et la place sont satisfaits'},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
  function actions(){if(task)return[{id:'cancel',label:'Interrompre',description:'Les intrants engagés restent consommés.',close:false,run:()=>({ok:cancel()})}];
-  const offered=[['build',null,null,'Construire un enclos au nord de soi (10 bois, 6 ferraille)']];if(!s.behaviors)offered.push(['behaviors',null,null,'Activer la prédation locale et la défense du sanglier']);
+  const offered=[['build',null,null,'Construire un enclos au nord de soi (10 bois, 6 ferraille)'],['fill-bucket',null,null,'Remplir le seau de service à la berge']];
+  offered.push(s.behaviors?['behaviors-off',null,null,'Suspendre les comportements naturels']:['behaviors',null,null,'Activer la prédation locale et la défense du sanglier']);
   const p=s.pens.find(near);if(p){if(p.health<=0)offered.push(['rebuild',p.id,null,'Reconstruire cet enclos (10 bois, 6 ferraille)']);
-   for(const[k,label]of[['feed','Ajouter des rations'],['water','Puiser de l’eau douce à portée'],['cook','Cuire la viande (0,5 carburant)'],['tan','Tanner une peau (eau + 0,5 carburant)'],['lining','Réparer la clôture (2 cuirs)']])offered.push([k,p.id,null,label]);
+   for(const[k,label]of[['feed','Ajouter des rations'],['water','Puiser de l’eau douce à portée'],['water-carried','Verser l’eau transportée dans l’abreuvoir'],['repair','Réparer la clôture ('+R.repairCost.wood+' bois, '+R.repairCost.scrap+' ferraille)'],[p.breeding199===false?'breeding-on':'breeding-off',p.breeding199===false?'Autoriser les naissances':'Suspendre les naissances'],['cook','Cuire la viande (0,5 carburant)'],['tan','Tanner une peau (eau + 0,5 carburant)'],['lining','Réparer la clôture (2 cuirs)']])offered.push([k,p.id,null,label]);
    for(const a of g.frontier.wildlife165().filter(a=>R.captive[a.species]&&distance(pos(),a)<R.captureReach+1).slice(0,4))offered.push(['capture',p.id,a.id,'Capturer : '+a.profile.name]);
    for(const a of held(p.id)){offered.push(['release',p.id,a.id,'Libérer '+Wild.species()[a.species].name+' #'+a.id]);offered.push(['slaughter',p.id,a.id,'Transformer '+Wild.species()[a.species].name+' #'+a.id]);}
   }
-  return offered.map(([kind,id,target,label])=>{const q=quote(kind,id,target);return{id:kind+':'+id+':'+target,label,description:q.reason||'Travail sur place. Les jeunes et les animaux non compatibles sont protégés.',disabled:!q.ok,reason:q.reason||'',close:!!q.seconds,run:()=>begin(kind,id,target)};});
+  return offered.map(([kind,id,target,label])=>{const q=quote(kind,id,target);return{id:kind+':'+id+':'+target,label,description:q.reason||(kind==='fill-bucket'||kind==='water-carried'?'Eau de service non potable, seau commun de '+C.Siege.RULES.bucketCapacity+' unités ; la réserve est perdue à la mort du commandant.':kind.startsWith('breeding-')?'Le changement annule l’attente de naissance ; alimentation et soins restent nécessaires.':'Travail sur place. Les jeunes et les animaux non compatibles sont protégés.'),disabled:!q.ok,reason:q.reason||'',close:!!q.seconds,run:()=>begin(kind,id,target)};});
  }
  const api=Object.freeze({begin,cancel,quote,step,view,overview,actions,busy:()=>!!task,claimed,owns,solid,vehicleBlocked,lineClear,naturalIntent,access,
   healthFraction:id=>(s.animals.find(a=>a.source===id&&['held','stranded'].includes(a.status))?.health??0)/100,

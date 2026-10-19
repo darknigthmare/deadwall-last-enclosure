@@ -38,7 +38,7 @@ function drawConstruction(c,task){
   c.fillStyle='#d0c59e';c.font='.22px sans-serif';c.textAlign='center';c.fillText((task.kind==='rebuild'?'RECONSTRUCTION ':'CHANTIER ')+Math.floor(progress*100)+' %',x,y-k-.28);
  }finally{c.restore();}return true;
 }
-function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['slaughter','harvest','capture','cook','tan','build','rebuild','water'].includes(work.kind)||!Number.isFinite(work.progress)||work.progress<0||work.progress>1||!Number.isFinite(work.a??0))return false;const phase=reducedMotion?0:Math.sin(work.progress*Math.PI*18)*.09;
+function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['slaughter','harvest','capture','cook','tan','build','rebuild','water','repair','fill-bucket','water-carried'].includes(work.kind)||!Number.isFinite(work.progress)||work.progress<0||work.progress>1||!Number.isFinite(work.a??0))return false;const phase=reducedMotion?0:Math.sin(work.progress*Math.PI*18)*.09;
  c.save();try{c.translate(work.x,work.y);c.rotate(work.a||0);
  // Forearms attached to fixed shoulder anchors, tool held at the moving right hand.
  stroke(c,[[0,-.22],[.18,-.22],[.44+phase,-.08]],'#899279',.12);stroke(c,[[0,.22],[.21,.21],[.40+phase,.12]],'#899279',.12);
@@ -50,8 +50,8 @@ function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['sla
   c.beginPath();c.ellipse(0,0,.23,.27,0,0,Math.PI*2);c.clip();for(let j=-2;j<=2;j++){stroke(c,[[j*.1,-.3],[j*.1,.3]],'#b4aa85',.012);stroke(c,[[-.3,j*.1],[.3,j*.1]],'#b4aa85',.012);}c.restore();
  }else if(work.kind==='cook'){c.fillStyle='#303b33';c.beginPath();c.arc(.7,0,.22,0,Math.PI*2);c.fill();stroke(c,[[.55,-.02],[.85,-.02]],'#c38347',.08);stroke(c,[[.4+phase,.12],[.7+phase*.6,-.03]],'#a99b74',.035);
  }else if(work.kind==='tan'){c.fillStyle='#977b53';c.fillRect(.5,-.18,.35,.36);stroke(c,[[.4+phase,.12],[.65+phase,0]],'#c3c7ac',.045);
- }else if(work.kind==='build'||work.kind==='rebuild'){stroke(c,[[.4+phase,.12],[.64+phase,-.02]],'#aa8c59',.045);stroke(c,[[.57+phase,-.10],[.71+phase,.05]],'#87948b',.09);
- }else if(work.kind==='water'){stroke(c,[[.4+phase,.12],[.60+phase,.08]],'#b6bdab',.025);c.fillStyle='#697e74';c.fillRect(.51+phase,.08,.22,.24);stroke(c,[[.53+phase,.12],[.71+phase,.12]],'#a1beb1',.025);}
+ }else if(work.kind==='build'||work.kind==='rebuild'||work.kind==='repair'){stroke(c,[[.4+phase,.12],[.64+phase,-.02]],'#aa8c59',.045);stroke(c,[[.57+phase,-.10],[.71+phase,.05]],'#87948b',.09);
+ }else if(['water','fill-bucket','water-carried'].includes(work.kind)){stroke(c,[[.4+phase,.12],[.60+phase,.08]],'#b6bdab',.025);c.fillStyle='#697e74';c.fillRect(.51+phase,.08,.22,.24);stroke(c,[[.53+phase,.12],[.71+phase,.12]],'#a1beb1',.025);}
 }finally{c.restore();}return true;}
 function depthEntries(g,v,view){if(v?.z!==0||!g.husbandry191)return[];const state=g.husbandry191.view(),vision=g.visibility?.frame?.(),entries=[];
  const l=view.l??view.left,r=view.r??view.right,t=view.t??view.top,b=view.b??view.bottom,onscreen=p=>p.x+3>=l&&p.x-3<=r&&p.y+3>=t&&p.y-3<=b;

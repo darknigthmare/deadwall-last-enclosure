@@ -1,0 +1,56 @@
+name: Field maintenance and interrupted-state contracts 199
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/undercovered199*.test.cjs'
+      - 'tests/helpers/husbandry199.cjs'
+      - 'scripts/browser-undercovered199.mjs'
+      - '.github/workflows/undercovered199.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: field-maintenance199-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: New finite-water and historical field-care contracts
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/undercovered199
+          git rev-parse HEAD > artifacts/qa/undercovered199/commit.txt
+          git rev-parse HEAD^{tree} > artifacts/qa/undercovered199/tree.txt
+          node --test --test-concurrency=2 tests/undercovered199*.test.cjs tests/audit191-*.test.cjs tests/audit192-harvest-safety.test.cjs tests/deadwall-siege.test.cjs tests/forage193-runtime.test.cjs tests/player-menus194.test.cjs 2>&1 | tee artifacts/qa/undercovered199/contracts.log
+      - run: npx playwright install --with-deps chromium
+      - name: Real player maintenance controls on built distribution
+        run: node scripts/browser-undercovered199.mjs
+      - name: Record exact shipped files
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/qa/undercovered199
+          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/src/core.js dist/src/game.js dist/src/husbandry191.js dist/src/husbandry191-art.js dist/src/forage193.js > artifacts/qa/undercovered199/build.sha256; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: undercovered199-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

@@ -1138,6 +1138,18 @@
       if(f.heat<1e-8){this.state.fires.splice(this.state.fires.indexOf(f),1);if(this.state.wet.length>=RULES.maxFires*4)this.state.wet.shift();this.state.wet.push({id:f.id,seconds:RULES.wetSeconds});this.addStat('extinguished',1);this.log('extinguished',f.id,ctx.at||0);}
       return n;
     }
+    // Shared physical bucket. Field collection/animal care and fire response
+    // must never create a second water balance that survives death separately.
+    fieldWater(direction,amount,ctx){
+      if(!['fill','pour'].includes(direction)||!finite(amount,Number.MIN_VALUE,RULES.bucketCapacity)||!ctx?.running||!ctx.accessible||!ctx.secure||ctx.dead)return 0;
+      const water=this.state.playerWater;
+      if(direction==='fill'){
+        const n=Math.min(amount,RULES.bucketCapacity-water);if(n<=0)return 0;
+        this.state.playerWater+=n;this.addStat('waterProduced',n);return n;
+      }
+      if(water<amount)return 0;
+      this.state.playerWater-=amount;this.addStat('waterUsed',amount);return amount;
+    }
     assign(id,ctx){if(!ctx.canCommand||!ctx.available||!int(id)||this.member(id)||this.state.crew.length>=Math.min(RULES.maxCrew,ctx.slots||0))return false;this.state.crew.push({id,water:0,release:false});this.log('assigned',id);return true;}
     release(id){const c=this.member(id);if(!c)return false;c.release=true;return true;}
     arriveHome(id){const c=this.member(id);if(!c||!c.release)return false;this.addStat('waterLost',c.water);this.state.crew.splice(this.state.crew.indexOf(c),1);this.log('released',id);return true;}
@@ -3264,6 +3276,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  reach:2.2,captureReach:2.2,capturePenReach:5,placementDistance:3.4,spacing:4,maxStep:.1,health:100,
  penCost:Object.freeze({wood:10,scrap:6}),captureCost:Object.freeze({scrap:1,food:1}),feedPortion:4,waterPortion:6,
  buildSeconds:8,captureSeconds:6,waterSeconds:6,slaughterSeconds:9,cookSeconds:8,tanSeconds:12,
+ repairCost:Object.freeze({wood:3,scrap:2}),repairSeconds:6,repairHealth:25,pourSeconds:3,
  foodPerSecond:.002,waterPerSecond:.004,starveDamage:.05,matureSeconds:900,breedSeconds:900,
  birthFood:2,birthWater:4,cookPortion:4,cookFuel:.5,tanFuel:.5,tanWater:2,hideLife:1800,meatLife:900,
  moveTolerance:.35,dangerRange:8,noise:6,noiseInterval:2,penContactDamage:3,attackReach:1.15,attackDamage:4,
