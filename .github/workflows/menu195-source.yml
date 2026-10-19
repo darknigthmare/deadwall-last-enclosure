@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 08d8082b070d270dd34862e69b2e0d688574eb4b
+          ref: 76450f62348688689d219eb89a3b248b7fe5ca41
           persist-credentials: false
       - name: Preserve immutable tracked sources and inventory
         run: |
