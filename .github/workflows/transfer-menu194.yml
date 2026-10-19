@@ -43,7 +43,15 @@ jobs:
               for start,end,value in reversed(row['edits']):
                   assert 0<=start<=end<=last
                   text=text[:start]+value+text[end:];last=start
-              data=text.encode();assert blob(data)==row['after'];prepared.append((p,data,row['after']))
+              data=text.encode();assert blob(data)==row['after']
+              expected=row['after']
+              if str(p)=='scripts/browser-player-menus194.mjs':
+                  needle="   await page.locator('#expansionGroup-world').click();\n"
+                  assert text.count(needle)==1
+                  text=text.replace(needle,needle+"   await page.locator('#expansionTab-world131').click();\n")
+                  data=text.encode();expected='12408e567a945b238faf1df1c663ae32c72a3aad'
+                  assert blob(data)==expected
+              prepared.append((p,data,expected))
           entries=[]
           for p,data,sha in prepared:
               p.write_bytes(data)
