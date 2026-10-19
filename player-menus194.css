@@ -1,0 +1,82 @@
+/* A field notebook, with game controls preserved underneath the presentation. */
+.player-menus194 .title-current194{max-width:46ch;margin:14px 0 0;padding-left:12px;border-left:2px solid #c4b37d;color:#d5d5c4;font-size:13px;line-height:1.6}
+.author-note194{border:2px solid #cb9651;padding:12px;background:#251f18;color:#ffe1ae;font:13px monospace}
+.player-menus194 #commandModal [hidden]{display:none!important}
+.player-menus194 #commandModal .command-post{width:min(1180px,96vw);max-height:94dvh;border:1px solid #8d8669;background:#242b25;box-shadow:0 22px 80px #000b;overflow:hidden}
+.player-menus194 #commandModal .command-heading{background:linear-gradient(90deg,#18211deb,#18211d8c),url('assets/command-room132.webp') center 42%/cover;padding:24px 66px 20px 28px;border-bottom:3px solid #b1a278}
+.player-menus194 #commandTitle{font:700 clamp(19px,2.5vw,28px)/1.2 Georgia,serif;letter-spacing:.08em}
+.player-menus194 #commandModal .command-tabs{display:flex;gap:5px;background:#30382e;padding:8px 12px 0;overflow-x:auto;min-height:0}
+.player-menus194 #commandModal .command-tabs button{flex:1 0 auto;min-height:48px;max-width:none;padding:10px 16px;border:1px solid #6c7057;border-bottom:0;background:#353e32;color:#e1dfc8;white-space:nowrap}
+.player-menus194 #commandModal .command-tabs button[aria-selected=true]{background:#e4ddc3;color:#26332c;border-color:#cec4a7}
+.player-menus194 #commandModal .command-tabs .command-art129,.player-menus194 #commandModal .command-tabs small{display:none}
+.player-menus194 #commandModal .command-tabs strong{font-size:14px;letter-spacing:.04em}
+.player-menus194 #commandModal .command-body{background:linear-gradient(90deg,#d4ccb4 0 3px,transparent 3px 22px,#b69d8250 22px 23px,transparent 23px),#e5dec9;color:#29352f;padding:24px 30px;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-color:#777e62 #ddd5bc}
+.player-menus194 #commandModal .command-body h2,.player-menus194 #commandModal .command-body h3,.player-menus194 #commandModal .command-body h4,.player-menus194 #commandModal .command-body strong{color:#273a2e}
+.player-menus194 #commandModal .command-body p,.player-menus194 #commandModal .command-body small,.player-menus194 #commandModal .command-body dd,.player-menus194 #commandModal .command-body dt{color:#3e493b}
+.player-menus194 #commandModal .command-body button{background:#344639;color:#f4f0db;border:1px solid #69735b;min-height:44px;line-height:1.35;white-space:normal}
+.player-menus194 #commandModal .command-body button:disabled{background:#d7d1bd;color:#596251;border-color:#a7aa93;opacity:1}
+.player-menus194 #commandModal .command-body input,.player-menus194 #commandModal .command-body select{color:#293d30;background:#faf4df;border-color:#868c72}
+.player-menus194 #commandModal .command-body :is(.expansion-action,.field-card,.world-codex-card,.order-card,.doctrine-card,.command-city129,.command-mission129){background:#f1ead5;border-color:#aeb099;color:#304034;box-shadow:none}
+.player-menus194 #commandModal .command-body .command-mission129 strong{color:#f2eedb}
+.player-menus194 .next-step194{background:#f8f0d6;border:1px solid #b4aa87;border-left:5px solid #747f50;padding:18px 20px;margin-bottom:12px;box-shadow:0 3px 0 #cec5aa}
+.player-menus194 .next-step194 h3{font:700 23px/1.25 Georgia,serif;margin:8px 0}
+.player-menus194 .next-step194 p{font-size:15px;line-height:1.55;max-width:70ch}
+.player-menus194 .next-step194>small{letter-spacing:.15em;font-weight:700;font-size:11px}
+.player-menus194 .notebook-note194{font-size:13px;line-height:1.5;margin:12px 0 22px}
+.player-menus194 .notebook-domains194{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.player-menus194 #commandModal .notebook-domains194 button{flex:1;min-width:130px;border:0;border-bottom:3px solid transparent;background:#c6ccb5;color:#293a2d;font-weight:bold}
+.player-menus194 #commandModal .notebook-domains194 button[aria-pressed=true]{border-bottom-color:#4c633f;background:#b9c5a6}
+.player-menus194 #commandModal .field-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;max-height:none;overflow:visible;position:static}
+.player-menus194 #commandModal .field-nav button{flex:1 1 150px;max-width:none;white-space:normal}
+.player-menus194 #commandModal .field-nav button[aria-pressed=true]{background:#657446;color:#fff9df}
+.player-menus194 #commandModal .expansion-groups{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.player-menus194 #commandModal .expansion-groups button{flex:1 1 105px}
+.player-menus194 #commandModal .expansion-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.player-menus194 .unavailable-actions194{grid-column:1/-1;width:100%;border-top:1px solid #a3a98e;padding-top:12px;margin-top:10px}
+.player-menus194 .unavailable-actions194 summary{padding:12px;min-height:44px;box-sizing:border-box;cursor:pointer;font-weight:700;color:#394b37;background:#d8dcc7}
+.player-menus194 .unavailable-actions194 .expansion-action{margin-top:10px}
+.player-menus194 .maintenance194{padding:12px 0;border-top:1px solid #737b62;margin-top:20px}
+.player-menus194 .maintenance194 summary{cursor:pointer;padding:10px 0;min-height:44px;box-sizing:border-box}
+.player-menus194 .maintenance194 p{font-size:13px;line-height:1.5}
+.player-menus194 .maintenance-banner194{padding:14px;border:2px solid #aa8148;background:#f8e9c9;font-weight:700}
+.player-menus194 #commandModal .command-footer129{background:#202d25;padding:12px 20px;color:#e8e1cb}
+.player-menus194 #commandModal :focus-visible{outline:3px solid #b56a20;outline-offset:3px}
+@media(max-width:700px){
+ .player-menus194 #commandModal .command-post{width:100%;height:100dvh;max-height:100dvh;border:0}
+ .player-menus194 #commandModal .command-heading{padding:18px 64px 15px 18px}
+ .player-menus194 #commandModal .command-body{padding:16px 16px 20px 23px}
+ .player-menus194 #commandModal .command-tabs{gap:4px;padding:6px 6px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}
+ .player-menus194 #commandModal .command-tabs button{padding:8px 5px;min-width:0;min-height:44px;white-space:normal}
+ .player-menus194 #commandModal .command-tabs strong{font-size:12px}
+ .player-menus194 #commandModal .command-tabs .dw-glyph132{display:none}
+ .player-menus194 .next-step194{padding:14px}.player-menus194 .next-step194 h3{font-size:21px}
+ .player-menus194 .notebook-domains194{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+ .player-menus194 #commandModal .notebook-domains194 button{min-width:0;padding:8px 4px;font-size:10px}
+ .player-menus194 #commandModal .command-footer129>span{max-width:48%;font-size:10px}
+}
+@media(max-height:500px) and (min-width:701px){.player-menus194 #commandModal .command-post{max-height:100dvh}.player-menus194 #commandModal .command-heading{padding:10px 60px 8px 22px}.player-menus194 #commandModal .command-ribbon129{display:none}.player-menus194 #commandModal .command-body{padding:14px 24px}.player-menus194 #commandModal .command-footer129{padding:6px 18px}}
+/* Override the old left rail as well as its colours: one readable page at every size. */
+.player-menus194 #commandModal .command-post{display:grid;grid-template:auto auto minmax(0,1fr) auto auto/minmax(0,1fr);height:min(94dvh,940px)}
+.player-menus194 #commandModal .command-heading{grid-area:1/1}
+.player-menus194 #commandModal .command-tabs{grid-area:2/1;flex-direction:row;border-right:0}
+.player-menus194 #commandModal .command-body{grid-area:3/1;--text:#29352f;--muted:#586550;--line:#a4ac94;--accent-bright:#485d3b}
+.player-menus194 #commandModal .command-status{grid-area:4/1}
+.player-menus194 #commandModal .command-footer129{grid-area:5/1}
+.player-menus194 #commandModal .command-ribbon129{position:static;background:none;border:0;padding:8px 0 0;gap:16px}
+.player-menus194 #commandModal .command-body :is([class*="-card"],[class*="-panel"],[class*="-row"],.expansion-metrics>div,.command-defense129){background:#f1ead5;color:#304034;border-color:#aeb099}
+.player-menus194 #commandModal .command-body :is(label,span,li){color:inherit}
+.player-menus194 #commandModal .command-body button :is(strong,small,span){color:inherit}
+.player-menus194 #commandModal .command-body :is(.order-card,.command-mission129){color:#304034}
+.player-menus194 #commandModal .command-body .order-card[aria-pressed=true]{background:#c6d1b1;border-color:#586d42;outline:2px solid #77885c}
+.player-menus194 #commandModal .command-body :is(summary,.expansion-help){color:#354a35}
+.player-menus194 #commandModal .expansion-heading{background:#cdd2ba;min-height:0;padding:16px;border:1px solid #99a386}
+.player-menus194 #commandModal .expansion-heading:after{display:none}
+.player-menus194 #commandModal .expansion-heading h2{font:700 24px/1.3 Georgia,serif;color:#30402c;text-shadow:none;max-width:100%}
+.player-menus194 #commandModal .expansion-groups{background:#c8ceb6;border-color:#98a080}
+.player-menus194 #commandModal .expansion-tabs button[aria-selected=true]{background:#687d49;color:#fff8df}
+.player-menus194 #commandModal .expansion-onboarding span{color:#405238}
+.player-menus194 #commandModal .expansion-hub{color:#304034}
+.player-menus194 #commandModal .command-defense129>summary{color:#354a35}
+.player-menus194 #commandModal .field-nav button{min-width:0}
+@media(max-width:700px){.player-menus194 #commandModal .command-post{height:100dvh}}
+@media(max-height:500px){.player-menus194 #commandModal .command-post{height:100dvh}.player-menus194 #commandModal .command-ribbon129{display:none}}

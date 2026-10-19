@@ -10,7 +10,7 @@ try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
   const context=await browser.newContext({viewport,deviceScaleFactor:1,reducedMotion:'reduce'});const page=await context.newPage();
   page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:'+server.address().port,{waitUntil:'networkidle'});
+  await page.goto('http://127.0.0.1:'+server.address().port+'/?tools=1&fixture=legacy',{waitUntil:'networkidle'});
   await page.waitForFunction(()=>!!window.DEADWALL?.worldCodex&&!!window.DeadwallCodex3000Runtime?.describe);
   const summary=await page.evaluate(()=>{const g=window.DEADWALL;g.startNew('standard','17117');g.campaignIntro132?.skip();g.worldCodex.open();return {count:DeadwallCodex3000Runtime.records.length,recipes:DeadwallCodex3000Runtime.describe('DW-1001').rooms.length};});
   assert.equal(summary.count,3000);assert.equal(summary.recipes,5);

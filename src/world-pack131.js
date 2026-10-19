@@ -195,9 +195,10 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
   const previousWorld=g.world,r=start(...a);
   if(g.world!==previousWorld&&r!==false&&g.state==='playing'&&pos().generation===4){
    const data=g.serialize();
-   // Fresh campaigns use the shipped Codex world immediately. Loading a saved
-   // campaign still keeps its recorded generation and optional G7 upgrade.
-   data.frontier.generation=root.DeadwallGeography135?8:5;
+   // Native new games request all shipped content (G10 / details 13).
+   // Four-argument historical fixtures and loading keep their recorded owners.
+   data.frontier.generation=root.DeadwallGeography135?(a[4]===true?10:8):5;
+   if(a[4]===true&&data.frontier.generation===10)data.frontier.detailVersion=13;
    data.frontier.ecologyVersion=data.frontier.generation>=7?1:0;
    data.frontier.hydrologyVersion=data.frontier.generation>=8?1:0;
    const landscape189=a[3]??'classic';

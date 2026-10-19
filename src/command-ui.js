@@ -81,7 +81,7 @@
     get('commandTab-'+id).addEventListener('keydown',event=>{
       if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.code))return;
       event.preventDefault();
-      const enabled=tabs.filter(name=>!get('commandTab-'+name).disabled),index=enabled.indexOf(tab);
+      const enabled=tabs.filter(name=>!get('commandTab-'+name).disabled&&!get('commandTab-'+name).hidden),index=enabled.indexOf(tab);
       chooseTab(event.code==='Home'?enabled[0]:event.code==='End'?enabled.at(-1):enabled[(index+(['ArrowRight','ArrowDown'].includes(event.code)?1:-1)+enabled.length)%enabled.length],true);
     });
   }

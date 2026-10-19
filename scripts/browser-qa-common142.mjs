@@ -26,8 +26,8 @@ export async function createHarness(kind, scope) {
     });
     base = 'http://127.0.0.1:' + server.address().port;
   }
-  base = new URL(base).href;
-  const report = { started: new Date().toISOString(), version, base, output, scope };
+  const fixtureURL=new URL(base);fixtureURL.searchParams.set('tools','1');fixtureURL.searchParams.set('fixture','legacy');base=fixtureURL.href;
+  const report = { surface:'Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.', started: new Date().toISOString(), version, base, output, scope };
   let browser;
   const close = async () => {
     try {

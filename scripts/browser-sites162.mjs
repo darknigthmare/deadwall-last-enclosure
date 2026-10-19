@@ -10,7 +10,7 @@ try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
   const context=await browser.newContext({viewport,deviceScaleFactor:1,reducedMotion:'reduce',serviceWorkers:'block'}),page=await context.newPage();
   page.setDefaultTimeout(30000);page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://127.0.0.1:'+server.address().port,{waitUntil:'networkidle'});
+  await page.goto('http://127.0.0.1:'+server.address().port+'/?tools=1&fixture=legacy',{waitUntil:'networkidle'});
   await page.waitForFunction(()=>!!globalThis.DEADWALL?.worldCodex&&!!globalThis.DeadwallCodexSites162);
   await page.evaluate(()=>{DEADWALL.startNew('standard','17117');DEADWALL.campaignIntro132.skip();DEADWALL.worldCodex.open();});
   await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');

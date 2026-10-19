@@ -4,14 +4,15 @@ const M=require('../scripts/public-manifest183.cjs'),root=path.join(__dirname,'.
 function fixture(t,body){const p=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-manifest-'));t.after(()=>fs.rmSync(p,{recursive:true,force:true}));fs.writeFileSync(path.join(p,'index.html'),body);return p;}
 const style='<link rel="stylesheet" href="styles.css">';
 test('183 public manifest preserves actual entry order and bundled modules execute once',()=>{
- const {scripts,styles}=M.readPublicEntries(root);assert.equal(scripts.length,174);assert.equal(styles.length,24);
- assert.equal(new Set([...scripts,...styles]).size,198);assert.equal(M.BUNDLED_MODULES.length,36);
+ const {scripts,styles}=M.readPublicEntries(root);assert.equal(scripts.length,175);assert.equal(styles.length,25);
+ assert.equal(new Set([...scripts,...styles]).size,200);assert.equal(M.BUNDLED_MODULES.length,36);
  for(const file of ['src/landscape189.js','src/wildlife189.js','src/wildlife-art189.js','src/ecology-codex189.js'])assert.equal(M.BUNDLED_MODULES.filter(p=>p===file).length,1,file);
  const harvest=['src/wildlife-harvest190.js','src/wildlife-harvest190-ui.js','src/husbandry191.js','src/husbandry191-art.js'];
  for(const file of harvest)assert.equal(scripts.filter(p=>p===file).length,1,file);
  const field193=['src/content-codex193.js','src/weather193.js','src/biome-forage193.js','src/forage193.js','src/forage-art193.js','src/field-content193-ui.js'];
  for(const file of field193)assert.equal(scripts.filter(p=>p===file).length,1,file);
- assert.equal(scripts.filter(p=>!harvest.includes(p)&&!field193.includes(p)).length,164,'historical public entries retained');
+ assert.equal(scripts.filter(p=>!harvest.includes(p)&&!field193.includes(p)&&p!=='src/player-menus194.js').length,164,'historical public entries retained');
+ assert.equal(scripts.filter(p=>p==='src/player-menus194.js').length,1);assert.equal(styles.filter(p=>p==='player-menus194.css').length,1);
  assert.ok(scripts.indexOf('src/content-codex193.js')<scripts.indexOf('src/world-codex.js'));
  assert.ok(scripts.indexOf('src/expansion-kit.js')<scripts.indexOf('src/weather193.js'));
  assert.ok(scripts.indexOf('src/biome-forage193.js')<scripts.indexOf('src/forage193.js'));

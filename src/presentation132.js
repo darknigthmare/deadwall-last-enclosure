@@ -53,7 +53,7 @@
       advice: water === 1
         ? 'Cette campagne contient le réseau naturel d’eau. Continuer conserve la géographie, les découvertes et les prélèvements enregistrés.'
         : 'Cette carte conserve son terrain historique. Le réseau naturel d’eau et sa faune demandent une nouvelle campagne ; Continuer ne régénère pas le monde.',
-      upgrades: 'Les compléments compatibles se consultent au dépôt, dans Monde & relais. Lire ce dossier ne modifie pas la campagne.'
+      upgrades: globalThis.DeadwallPlayerMenus194&&!globalThis.DeadwallPlayerMenus194.toolsEnabled()?'Les options de compatibilité sont rangées dans Paramètres et sauvegardes. Lire ce dossier ne modifie pas la campagne.':'Les compléments compatibles se consultent au dépôt, dans Monde & relais. Lire ce dossier ne modifie pas la campagne.'
     };
   }
   function install(g, doc) {
@@ -75,6 +75,8 @@
     const actions = card.querySelector('.menu-actions'), footer = card.querySelector('footer');
     for (const selector of ['.eyebrow', 'h1', '.subtitle', '.pitch', '.menu-status']) append(identity, card.querySelector(selector));
     append(identity, actions);
+    const currentBrief=el('p','Nouvelle campagne : monde complet, biomes, eau et faune de cette version. Continuer conserve votre sauvegarde.', 'title-current194');currentBrief.id='newCampaignContent194';append(identity,currentBrief);
+    get('newGameButton')?.setAttribute('aria-describedby',currentBrief.id);
     const originalPitch = identity.querySelector('.pitch');
     if (originalPitch?.parentNode) originalPitch.textContent = 'Un dépôt. Quelques survivants. La nuit approche. Faites de ce refuge une cité capable de tenir.';
     const dispatch = el('div', undefined, 'title-transmission132');

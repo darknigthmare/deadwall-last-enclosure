@@ -144,10 +144,11 @@
       for (let i = 0; i < rows.length; i++) write(rowNodes[i], rows[i].value);
       metrics.hidden = !rows.length;
     }
+    function allowedAction(action){const policy=globalThis.DeadwallPlayerMenus194;if(!policy||policy.toolsEnabled())return true;const technical=policy.isMaintenance(current,action.id);return g.playerMenus194?.maintenanceOpen===true?technical:!technical;}
     function invoke(id) {
       if (!isOpen() || !canAct()) { write(notice, 'Cet ordre nécessite une campagne active et un commandant debout.'); refresh(true); return; }
       const d = entries().find(item => item.id === current), action = d?.actions().find(item => item.id === id);
-      if (!action || action.disabled || typeof action.run !== 'function') { write(notice, action?.reason || 'Cette action n’est plus disponible ici.'); refresh(true); return; }
+      if (!action || !allowedAction(action) || action.disabled || typeof action.run !== 'function') { write(notice, action?.reason || 'Cette action n’est plus disponible ici.'); refresh(true); return; }
       const result = action.run(), ok = result === true || result?.ok === true;
       write(notice, result?.message || result?.reason || (ok ? 'Ordre transmis. ' + action.label : 'L’action n’a pas été engagée. Vérifiez les conditions sur place.'));
       refresh(true);
@@ -155,7 +156,7 @@
     }
     function paintActions(items) {
       const unique = [], ids = new Set();
-      for (const item of items) if (item && typeof item.id === 'string' && !ids.has(item.id)) { ids.add(item.id); unique.push(item); }
+      for (const item of items) if (item && typeof item.id === 'string' && allowedAction(item) && !ids.has(item.id)) { ids.add(item.id); unique.push(item); }
       const key = current + ':' + unique.map(a => a.id).join('|');
       if (key !== actionKey) {
         const focused = actions.contains(doc.activeElement) ? doc.activeElement.id : null;
@@ -200,6 +201,7 @@
       write(lightLink, pauseBehind ? 'ÉCLAIRAGE · REPRENEZ LA PARTIE' : 'ÉCLAIRAGE · RETOUR AU TERRAIN');
       suppliesLink.disabled = !g.essentialUI;
       teamLink.hidden = current !== 'companions'; teamLink.disabled = !g.worldEvolutionUI;
+      g.playerMenus194?.arrangeActions(actions);
     }
     function openLighting() {
       const panel = doc.getElementById('nightGearQuick');
