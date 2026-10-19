@@ -1,0 +1,31 @@
+name: Undercovered 199 source inputs
+on:
+  push:
+    branches: [feat/undercovered-systems-199]
+    paths: [.github/workflows/source199.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 5fccf78b553300fc7fc1411ee339d68a6f381be3
+          persist-credentials: false
+      - name: Archive tracked source and identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/source199
+          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/source199/sources.tar.gz
+          git ls-tree -r -z HEAD > /tmp/source199/tree.bin
+          git rev-parse HEAD > /tmp/source199/commit.txt
+          git archive --format=tar HEAD -- 'assets/*.json' 'assets/**/*.json' | gzip > /tmp/source199/asset-metadata.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source199-5fccf78
+          path: /tmp/source199/
+          retention-days: 3
+          if-no-files-found: error
