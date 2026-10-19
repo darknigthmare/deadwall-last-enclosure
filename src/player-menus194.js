@@ -5,7 +5,17 @@
  else if(root.document){
   // Browsers flush microtasks between DOMContentLoaded listeners. Run after the
   // event dispatch, once the original presenters have finished moving controls.
-  const mount=()=>{const game=root.DEADWALL,doc=root.document;setTimeout(()=>{if(root.DEADWALL===game&&root.document===doc)api.install(game,doc);},0);};
+  const pendingKey=Symbol.for('deadwall.playerMenus194.pendingMount');
+  const mount=()=>{
+   // Re-loading an HTML fixture or replacing the document before its load turn
+   // must not retain every obsolete world through a pending presentation timer.
+   const previous=root[pendingKey];if(previous)clearTimeout(previous.timer);
+   const request={game:root.DEADWALL,doc:root.document};root[pendingKey]=request;
+   request.timer=setTimeout(()=>{
+    if(root[pendingKey]!==request)return;delete root[pendingKey];
+    if(root.DEADWALL===request.game&&root.document===request.doc)api.install(request.game,request.doc);
+   },0);
+  };
   if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
  }
 })(globalThis,function(root){
@@ -86,6 +96,11 @@
   }
   function refresh(){
    const active=g.state==='playing'&&!g.gameOver;goal.hidden=!active;maintenanceButton.disabled=!active||g.player?.dead;
+   const recordsOpen=!modal.classList.contains('hidden')&&!get('commandPanel-records').classList.contains('hidden');
+   modal.classList.toggle('system-page196',maintenance||recordsOpen);
+   write(get('commandTitle'),maintenance?'COMPATIBILITÉ DES SAUVEGARDES':recordsOpen?'ARCHIVES DE CAMPAGNE':'CARNET DU COMMANDANT');
+   write(headingSmall,maintenance?'SYSTÈME / CONVERSIONS VOLONTAIRES':recordsOpen?'SYSTÈME / BILANS SUR CET APPAREIL':'D-17 / ORDRES ET NOTES DE TERRAIN');
+
    if(active){write(goalTitle,g.ui.objectiveTitle.textContent||'Établir le refuge');write(goalText,g.ui.objectiveText.textContent||'Récoltez, rapportez vos matériaux au dépôt, puis financez une première défense.');write(resume,g.ui.pauseMenu.classList.contains('hidden')?'RETOUR AU TERRAIN':'RETOUR À LA PAUSE');}
   }
   const oldCommand=g.showCommand.bind(g);

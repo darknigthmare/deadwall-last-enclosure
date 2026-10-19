@@ -25,7 +25,7 @@ const output = path.join(path.resolve(process.env.DEADWALL_QA_OUTPUT || path.joi
 await fs.mkdir(output, { recursive: true });
 const report = { started: new Date().toISOString(), version, file, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'),
   transport, fileSchemeVerified: false,
-  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh G8, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
+  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh current G10/detail13, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
 let browser, checks, server;
 try {
   let documentURL = pathToFileURL(file).href;
@@ -57,16 +57,18 @@ try {
   await page.locator('#campaignIntro132Skip').click();
   await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
   report.world = await worldSnapshot(page);
-  checks.check('Fresh requested G8 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 8 && report.world.size === 24576 && report.world.towns === 34);
+  report.content = await page.evaluate(() => { const f=DEADWALL.frontier.position(); return {generation:f.generation,detailVersion:f.detailVersion,ecologyVersion:f.ecologyVersion,hydrologyVersion:f.hydrologyVersion,landscape189:f.landscape189}; });
+  const currentContent = {generation:10,detailVersion:13,ecologyVersion:1,hydrologyVersion:1,landscape189:'balanced'};
+  checks.check('Fresh current G10/detail13 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 10 && report.world.size === 24576 && report.world.towns === 34 && JSON.stringify(report.content) === JSON.stringify(currentContent));
   checks.check('Embedded generation installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(report.world));
   await checks.screenshot('game');
   await page.locator('#pauseButton').click();
   await page.locator('#saveButton').click();
   const checkpoint = await page.evaluate(() => {
     const data = DeadwallSave.parse(localStorage.getItem(DeadwallCore.SAVE_KEY));
-    return { ok: DEADWALL.lastSaveStatus.ok, version: data.version, runId: data.runId, seed: data.worldSeed, generation: data.frontier.generation };
+    return { ok: DEADWALL.lastSaveStatus.ok, version: data.version, runId: data.runId, seed: data.worldSeed, generation: data.frontier.generation, detailVersion: data.frontier.detailVersion, ecologyVersion: data.frontier.ecologyVersion, hydrologyVersion: data.frontier.hydrologyVersion, landscape189: data.frontier.landscape189 };
   });
-  checks.check('Real save control writes a validated v20 G8 snapshot', checkpoint.ok && checkpoint.version === 20 && checkpoint.generation === 8 && checkpoint.seed === 17117);
+  checks.check('Real save control writes a validated current-content snapshot', checkpoint.ok && checkpoint.version === 20 && checkpoint.seed === 17117 && Object.entries(currentContent).every(([key,value])=>checkpoint[key]===value));
   await page.locator('#pauseSettingsButton').click();
   const downloadEvent = page.waitForEvent('download');
   await page.locator('#settingsExport').click();
@@ -76,10 +78,10 @@ try {
   const exported = await fs.readFile(exportedFile, 'utf8');
   const imported = await page.evaluate(text => {
     const data = DeadwallSave.parse(text);
-    return { version: data.version, runId: data.runId, seed: data.worldSeed, generation: data.frontier.generation, maxBytes: DeadwallSave.MAX_FILE_BYTES };
+    return { version: data.version, runId: data.runId, seed: data.worldSeed, generation: data.frontier.generation, detailVersion: data.frontier.detailVersion, ecologyVersion: data.frontier.ecologyVersion, hydrologyVersion: data.frontier.hydrologyVersion, landscape189: data.frontier.landscape189, maxBytes: DeadwallSave.MAX_FILE_BYTES };
   }, exported);
   report.export = { bytes: Buffer.byteLength(exported), sha256: createHash('sha256').update(exported).digest('hex') };
-  checks.check('Completed portable download is importable and keeps campaign identity', imported.version === 20 && imported.runId === checkpoint.runId && imported.seed === checkpoint.seed && imported.generation === checkpoint.generation && report.export.bytes <= imported.maxBytes);
+  checks.check('Completed portable download is importable and keeps campaign identity', imported.version === 20 && imported.runId === checkpoint.runId && imported.seed === checkpoint.seed && Object.entries(currentContent).every(([key,value])=>imported[key]===value) && report.export.bytes <= imported.maxBytes);
   checks.check('No external network dependency requested from standalone', report.externalRequests.length === 0);
   checks.check('No runtime, console or loading errors', checks.errors() === 0);
   report.pass = true;

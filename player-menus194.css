@@ -82,3 +82,14 @@
 @media(max-height:500px){.player-menus194 #commandModal .command-post{height:100dvh}.player-menus194 #commandModal .command-ribbon129{display:none}}
 
 .player-menus194 #commandModal .command-body .command-mission129 :is(strong,small){color:#f2eedb}
+
+/* One operation selector replaces the two nested author navigation bars. */
+.player-menus194 #commandModal .compact-operations196{display:flex;align-items:center;gap:20px;padding:12px 16px;background:#dedbc5;border:1px solid #a3ac91}
+.player-menus194 #commandModal .operation-picker196{flex:1;display:grid;gap:7px;min-width:0;font-size:11px;font-weight:700;letter-spacing:.08em}
+.player-menus194 #commandModal .operation-picker196 select{width:100%;max-width:100%;min-height:44px;padding:8px 12px;font:600 15px/1.35 system-ui,sans-serif;letter-spacing:normal}
+.player-menus194 #commandModal .operation-picker196 small{font-size:12px;font-weight:400;line-height:1.5;letter-spacing:normal}
+.player-menus194 #commandModal .compact-operations196 .expansion-context{flex:0 1 190px;font-size:11px;line-height:1.6;margin:0;color:#41503b}
+.player-menus194 #commandModal.system-page196 .command-heading{border-bottom-color:#ccae68}
+.player-menus194 #commandModal.system-page196 #commandTitle{font-family:system-ui,sans-serif;letter-spacing:.04em}
+.player-menus194 #commandModal #commandStatus{color:#f1ead5;line-height:1.45}
+@media(max-width:700px){.player-menus194 #commandModal .compact-operations196{display:block;padding:12px}.player-menus194 #commandModal .compact-operations196 .expansion-context{margin-top:8px}}

@@ -25,7 +25,7 @@
   for(const [id,title,description] of orders){
     const button=element('button',undefined,'order-card');button.type='button';button.dataset.workerOrder=id;
     button.appendChild(element('strong',title));button.appendChild(element('span',description));
-    button.addEventListener('click',()=>{if(game.setWorkerOrder(id)){message('Ordre transmis : '+title.toLowerCase()+'. La simulation reprend à la fermeture du poste.');refresh();}});
+    button.addEventListener('click',()=>{if(game.setWorkerOrder(id)){message('Ordre transmis : '+title.toLowerCase()+'. '+(game.ui.pauseMenu.classList.contains('hidden')?'Fermez le carnet pour reprendre sur le terrain.':'Retournez à la pause puis choisissez REPRENDRE pour exécuter cet ordre.'));refresh();}});
     get('workerOrders').appendChild(button);workerCards.set(id,button);
   }
   for(const item of C.RESEARCH){

@@ -106,3 +106,63 @@ test('194 player Guide filters retain real city choices and discovered map links
  assert.ok(card.querySelectorAll('button').every(b=>b.dataset.codexPlace159===place.id&&!b.dataset.codexTerritories160));
  assert.ok(card.querySelectorAll('details').every(d=>!d.dataset.codexSource159));assert.equal(stable(g),before);
 });
+
+// Follow-up 196: player navigation without stacked author tabs, and correct pause feedback.
+test('196 the player action index covers every registered pack once and all selections are read-only',async()=>{
+ const {g,doc}=await fixture({current:true});g.expansionUI.open();const picker=doc.getElementById('playerOperationSelect196'),hub=g.expansionUI.section,before=stable(g);
+ const values=picker.querySelectorAll('option').map(n=>n.value),expected=g.expansions.entries().map(n=>n.id).sort();
+ assert.deepEqual([...values].sort(),expected);assert.equal(new Set(values).size,values.length);
+ assert.equal(picker.getAttribute('aria-controls'),'expansionDetail');assert.equal(picker.parentNode.htmlFor,picker.id);
+ assert.equal(hub.querySelector('.expansion-groups').hidden,true);assert.equal(hub.querySelector('.expansion-tabs').hidden,true);
+ for(const id of values){picker.value=id;picker.dispatch('change');assert.equal(picker.value,id);assert.equal(stable(g),before,id);assert.deepEqual(sections(doc),['field-expansions']);}
+ g.expansionUI.open('arsenal134');assert.equal(picker.value,'arsenal134');assert.equal(doc.activeElement,picker);assert.equal(stable(g),before);
+});
+test('196 compatibility and campaign archives show their system purpose, then return to the notebook',async()=>{
+ const {g,doc}=await fixture({current:true});g.togglePause(true);g.showCommand(true);const before=stable(g);
+ g.showCommand(false);g.showSettings(true);assert.equal(g.playerMenus194.openMaintenance(),true);
+ assert.equal(doc.getElementById('commandTitle').textContent,'COMPATIBILITÉ DES SAUVEGARDES');
+ assert.equal(g.expansionUI.section.querySelector('.expansion-heading').hidden,true);
+ assert.equal(doc.activeElement,doc.getElementById('maintenanceReturn194'));
+ doc.getElementById('maintenanceReturn194').click();g.showSettings(false);g.showCommand(true,'records');
+ assert.equal(doc.getElementById('commandTitle').textContent,'ARCHIVES DE CAMPAGNE');
+ g.showCommand(false);g.showCommand(true,'enclosure');assert.equal(doc.getElementById('commandTitle').textContent,'CARNET DU COMMANDANT');assert.equal(stable(g),before);
+});
+test('196 real worker orders legitimately replace a running plan, not resources or elapsed time',async()=>{
+ const {g,doc}=await fixture({current:true});for(let i=0;i<40;i++)g.update(.04);g.togglePause(true);g.showCommand(true,'workers');
+ const snapshot=()=>{const {timestamp,...s}=JSON.parse(JSON.stringify(g.serialize()));return s;};const before=snapshot();
+ const workerButtons=doc.getElementById('workerOrders').querySelectorAll('button');
+ const choose=order=>workerButtons.find(b=>b.dataset.workerOrder===order).dispatch('click');
+ choose('harvest');assert.equal(g.workerOrder,'harvest');assert.match(doc.getElementById('commandStatus').textContent,/pause.*REPRENDRE/);
+ choose('auto');const after=snapshot(),expected=structuredClone(before);
+ for(const u of expected.units)if(u.kind==='worker'){u.state=u.carry>0?'return':'idle';u.targetNode=u.targetBuilding=u.targetUnit=-1;}
+ assert.deepEqual(after,expected);assert.notDeepEqual(after.units,before.units,'a prior moving/assigned plan is not restored by changing the order back');
+ g.showCommand(false);assert.equal(g.paused,true);g.togglePause(false);g.showCommand(true,'workers');choose('harvest');assert.match(doc.getElementById('commandStatus').textContent,/Fermez le carnet/);g.showCommand(false);assert.equal(g.paused,false);
+});
+test('196 an explicit author session retains its original group and family controls',async()=>{
+ const {g,doc}=bootDocument134({search:'?tools=1&fixture=legacy'});await new Promise(r=>setTimeout(r,0));g.startNew('standard','17117');g.campaignIntro132.skip();g.expansionUI.open('world131');
+ assert.equal(g.playerMenus194.mode,'author');assert.ok(!g.expansionUI.section.querySelector('.expansion-groups').hidden);assert.ok(!g.expansionUI.section.querySelector('.expansion-tabs').hidden);
+ assert.equal(doc.body.querySelectorAll('#playerOperationSelect196').length,0);
+});
+
+// Run the actual browser branch with explicit timers. Replacing a document is
+// observed, not a new fixture-only implementation of the scheduling policy.
+test('196 only the latest pending notebook mount retains its document and world',()=>{
+ const vm=require('node:vm'),source=require('node:fs').readFileSync('src/player-menus194.js','utf8'),timers=new Map();let next=0,installed=0;
+ const env={console,URLSearchParams,Symbol,setTimeout:fn=>{timers.set(++next,fn);return next;},clearTimeout:id=>timers.delete(id),location:{search:''}};
+ vm.createContext(env);
+ for(let i=0;i<40;i++){
+  env.document={readyState:'complete',body:{}};
+  env.DEADWALL={get ui(){installed++;return {};}};
+  vm.runInContext(source,env);assert.equal(timers.size,1,'obsolete callbacks are cancelled, not merely made harmless');
+ }
+ assert.equal(installed,0,'mount still waits for the post-DOM turn');
+ const callback=[...timers.values()][0];timers.clear();callback();assert.equal(installed,1);
+ assert.equal(env[Symbol.for('deadwall.playerMenus194.pendingMount')],undefined);
+});
+test('196 stale notebook callback cannot clear or install a newer pending request',()=>{
+ const vm=require('node:vm'),source=require('node:fs').readFileSync('src/player-menus194.js','utf8'),timers=new Map();let next=0,installed=0;
+ const env={URLSearchParams,Symbol,setTimeout:fn=>{timers.set(++next,fn);return next;},clearTimeout:id=>timers.delete(id),location:{search:''},document:{readyState:'complete',body:{}},DEADWALL:{get ui(){installed++;return {};}}};vm.createContext(env);
+ vm.runInContext(source,env);const stale=[...timers.values()][0];env.document={readyState:'complete',body:{}};vm.runInContext(source,env);
+ const key=Symbol.for('deadwall.playerMenus194.pendingMount'),current=env[key];stale();assert.equal(installed,0);assert.equal(env[key],current);
+ [...timers.values()][0]();assert.equal(installed,1);assert.equal(env[key],undefined);
+});

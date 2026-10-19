@@ -62,6 +62,19 @@
     const help=el('details',undefined,'expansion-help');add(help,el('summary','Préparer une intervention'),el('p','Choisissez un ordre en pause. Une intervention chronométrée reprend sur le terrain ; rejoignez le lieu indiqué avec les fournitures nécessaires.'));
     add(section, head, groups, subnav, detail, notice, tools,help);
     const hideHub = () => { section.classList.add('hidden'); tab.setAttribute('aria-pressed', 'false'); };
+    // The player notebook needs one labelled selector, not two additional tab
+    // bars inside its dossier navigation. Author tools retain their original UI.
+    const playerNavigation = !!globalThis.DeadwallPlayerMenus194 && !globalThis.DeadwallPlayerMenus194.toolsEnabled();
+    const pickerLabel = el('label', 'FICHE D’ACTION', 'operation-picker196'); pickerLabel.htmlFor = 'playerOperationSelect196';
+    const picker = el('select'); picker.id = 'playerOperationSelect196'; picker.setAttribute('aria-controls', detail.id);
+    const pickerHint = el('small', 'Choisissez une fiche, puis un ordre. Le travail se déroule sur le terrain.'); pickerHint.id = 'playerOperationHint196';
+    picker.setAttribute('aria-describedby', pickerHint.id); add(pickerLabel, picker, pickerHint);
+    if (playerNavigation) {
+      head.classList.add('compact-operations196'); head.replaceChildren(pickerLabel, location);
+      packTitle.id = 'operationPackTitle196'; section.setAttribute('aria-labelledby', packTitle.id); detail.setAttribute('role', 'region');
+      groups.hidden = subnav.hidden = true;
+    }
+    picker.addEventListener('change', () => { if (isOpen() && g.activeOverlay === modal && !g.playerMenus194?.maintenanceOpen) select(picker.value); });
     const oldButtons = [...nav.querySelectorAll('button')];
     for (const b of oldButtons) b.addEventListener('click', hideHub);
     // Early dossiers captured their sibling list before this section existed.
@@ -73,7 +86,7 @@
     for (const id of ['specialistCommandButton', 'fieldOperationsButton']) doc.getElementById(id)?.addEventListener('click', hideHub);
     nav.prepend(tab); field.appendChild(section);
     nav.classList.add('expansion-field-nav');
-    let current = 'exploration', last = -Infinity, tabKey = '', actionKey = '', rowKey = '', returnFocus = null;
+    let current = 'exploration', last = -Infinity, tabKey = '', pickerKey = '', actionKey = '', rowKey = '', returnFocus = null;
     let descriptors = [], rowNodes = [], actionNodes = new Map(), tabNodes = new Map();
     const now = () => globalThis.performance?.now?.() ?? Date.now();
     function entries() {
@@ -96,7 +109,7 @@
       if (modal.classList.contains('hidden') || g.activeOverlay !== modal) return false;
       for (const drawer of drawers) drawer.open = false;
       if (id && entries().some(d => d.id === id)) current = id;
-      chooseField(); tabNodes.get(current)?.focus({ preventScroll: true });
+      chooseField(); selectionFocus()?.focus({ preventScroll: true });
       return true;
     }
     function close() {
@@ -114,7 +127,7 @@
     function select(id, focus = false) {
       if (!entries().some(d => d.id === id)) return false;
       if (id !== current) { current = id; actionKey = rowKey = ''; write(notice, ''); }
-      refresh(true); if (focus) tabNodes.get(current)?.focus({ preventScroll: true }); return true;
+      refresh(true); if (focus) selectionFocus()?.focus({ preventScroll: true }); return true;
     }
     function chooseByKey(event) {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.code)) return;
@@ -123,7 +136,30 @@
       const id = event.code === 'Home' ? ids[0] : event.code === 'End' ? ids.at(-1) : ids[(i + (event.code === 'ArrowRight' ? 1 : -1) + ids.length) % ids.length];
       if (id) select(id, true);
     }
+    function selectionFocus() {
+      return playerNavigation ? (g.playerMenus194?.maintenanceOpen ? doc.getElementById('maintenanceReturn194') : picker) : tabNodes.get(current);
+    }
+    function refreshPicker() {
+      if (!playerNavigation) return;
+      const key = descriptors.map(d => d.id + ':' + d.title).join('|');
+      if (key !== pickerKey) {
+        pickerKey = key; picker.replaceChildren();
+        const assigned = new Set();
+        for (const group of GROUPS) {
+          const options = descriptors.filter(d => group.ids.includes(d.id)); if (!options.length) continue;
+          const optgroup = el('optgroup'); optgroup.label = group.name;
+          for (const d of options) { const option = el('option', LABELS[d.id] || d.title); option.value = d.id; optgroup.appendChild(option); assigned.add(d.id); }
+          picker.appendChild(optgroup);
+        }
+        // A future registered pack must stay reachable even without a group.
+        for (const d of descriptors) if (!assigned.has(d.id)) { const option = el('option', d.title); option.value = d.id; picker.appendChild(option); }
+      }
+      picker.value = current; picker.disabled = !descriptors.length;
+      head.hidden = g.playerMenus194?.maintenanceOpen === true;
+      groups.hidden = subnav.hidden = true;
+    }
     function rebuildTabs() {
+      refreshPicker();
       const group=GROUPS.find(group=>group.ids.includes(current)),visible=descriptors.filter(d=>!group||group.ids.includes(d.id));
       for(const item of GROUPS){const b=groupNodes.get(item.id);b.hidden=!descriptors.some(d=>item.ids.includes(d.id));b.setAttribute('aria-pressed',String(item===group));}
       section.dataset.domain=group?.id||'exploration';
@@ -168,7 +204,7 @@
           add(card, button, description, reason); actions.appendChild(card); actionNodes.set(action.id, { card, button, description, reason });
         }
         if (!unique.length) actions.appendChild(el('p', 'Aucune intervention disponible dans cette situation.', 'expansion-empty'));
-        if (focused) (Array.from(actionNodes.values()).find(n => n.button.id === focused)?.button || tabNodes.get(current))?.focus({ preventScroll: true });
+        if (focused) (Array.from(actionNodes.values()).find(n => n.button.id === focused)?.button || selectionFocus())?.focus({ preventScroll: true });
         if (scrollHost && scroll !== undefined) scrollHost.scrollTop = scroll;
       }
       for (const action of unique) {
@@ -179,7 +215,7 @@
         n.button.setAttribute('aria-describedby', action.describeDetails ? n.description.id + ' ' + n.reason.id : n.reason.id);
         write(n.reason, !allowed ? 'Lancez ou reprenez une campagne avec un commandant debout.' : action.reason || (disabled ? 'Action indisponible dans cette situation.' : action.close ? 'Démarre sur le terrain et ferme le commandement.' : 'Ordre appliqué pendant la préparation.'));
         n.card.dataset.available = String(!disabled);
-        if (losesFocus) tabNodes.get(current)?.focus({ preventScroll: true });
+        if (losesFocus) selectionFocus()?.focus({ preventScroll: true });
       }
     }
     function refresh(force = false) {
@@ -189,7 +225,7 @@
       descriptors = entries(); if (!descriptors.some(d => d.id === current)) current = descriptors[0]?.id || '';
       rebuildTabs();
       for (const [id, b] of tabNodes) { b.setAttribute('aria-selected', String(id === current)); b.tabIndex = id === current ? 0 : -1; }
-      detail.setAttribute('aria-labelledby', 'expansionTab-' + current);
+      detail.setAttribute('aria-labelledby', playerNavigation ? packTitle.id : 'expansionTab-' + current);
       const d = descriptors.find(item => item.id === current), data = d?.overview?.() || {};
       write(packTitle, d?.title || 'Aucune opération'); write(summary, data.summary || 'Les opérations seront visibles au chargement des modules.');
       write(location, (g.frontier?.active?.() ? 'RÉGION' : 'D-17') + ' · VAGUE ' + (g.wave || 0) + ' · TEMPS SUSPENDU');
