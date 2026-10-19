@@ -1,0 +1,61 @@
+name: Cross-system reliability 199
+on:
+  pull_request:
+    paths:
+      - 'src/core.js'
+      - 'src/game.js'
+      - 'src/survival-pack.js'
+      - 'src/husbandry191.js'
+      - 'tests/quality199-*.test.cjs'
+      - 'scripts/browser-quality199.mjs'
+      - 'scripts/browser-husbandry191.mjs'
+      - '.github/workflows/quality199.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: quality199-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  boundaries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Native faults, current enclosures and historical survival
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/quality199
+          node --test --test-concurrency=2 tests/quality199-*.test.cjs tests/portable-save-recovery.test.cjs tests/survival-*.test.cjs tests/survival140.test.cjs tests/audit191-*.test.cjs tests/audit192-harvest-safety.test.cjs 2>&1 | tee artifacts/qa/quality199/native.log
+      - run: npx playwright install --with-deps chromium
+      - name: Untouched player entry, injected faults and native recovery
+        run: node scripts/browser-quality199.mjs
+      - name: Read actual captive reports using the existing declared husbandry fixture
+        run: node scripts/browser-husbandry191.mjs
+      - name: Record tested bytes
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/qa/quality199
+          git rev-parse HEAD > artifacts/qa/quality199/tested-commit.txt
+          git rev-parse HEAD^{tree} > artifacts/qa/quality199/tested-tree.txt
+          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/sw.js dist/src/core.js dist/src/game.js dist/src/survival-pack.js dist/src/husbandry191.js > artifacts/qa/quality199/build.sha256; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality199-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error
