@@ -42,7 +42,7 @@ test('202 rotated and world-resolved physical definitions veto the edge, not onl
 });
 
 test('202 historical vertical supports retain their natural-road contract while paid roads and metric supports stay reserved',()=>{
- const C=require('../src/core.js'),support=C.BUILDINGS.megaDeck36a177,ordinary=C.BUILDINGS.house;
+ const C=require('../src/core.js'),support=C.VerticalCitadel175.bases.megaDeck36a177,ordinary=C.BUILDINGS.house;
  assert.equal(support.vertical175,true);assert.deepEqual(support.size,[24,24]);
  function quote(def,geometry,paid=false){
   const p=plan([{axis:'v',x:180,length:1000,width:112}]),g={state:'playing',exploration125:{generation:4},infrastructure:{roadFootprint202:()=>paid},
