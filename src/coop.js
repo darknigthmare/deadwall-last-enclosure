@@ -7,6 +7,18 @@
   const coordinate = value => Number.isFinite(value) && Math.abs(value) <= 1e6;
   const label = (value, fallback) => typeof value === 'string' ? value.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 24) || fallback : fallback;
   const peerId = value => typeof value === 'string' && /^[A-Za-z0-9:_-]{1,80}$/.test(value);
+  // A presence namespace is not a shared world or an authentication claim.
+  // Exact map revisions, scene, storey and interior must agree before exposure.
+  function normalizeSpace(value) {
+    const keys=['seed','generation','detail','ecology','hydrology','landscape','region','z','inside'];
+    if(!record(value)||Object.keys(value).length!==keys.length||!keys.every(k=>Object.hasOwn(value,k)))return null;
+    const integer=(n,min,max)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
+    if(!integer(value.seed,0,0xffffffff)||!integer(value.generation,1,255)||!integer(value.detail,0,255)||!integer(value.ecology,0,255)||!integer(value.hydrology,0,255))return null;
+    if(typeof value.landscape!=='string'||! /^[a-zA-Z0-9_-]{1,32}$/.test(value.landscape)||typeof value.region!=='boolean'||!coordinate(value.z))return null;
+    if(value.inside!==null&&(typeof value.inside!=='string'||! /^[A-Za-z0-9:_-]{1,100}$/.test(value.inside)))return null;
+    return Object.fromEntries(keys.map(k=>[k,value[k]]));
+  }
+  const spaceKey=value=>{const space=normalizeSpace(value);return space?JSON.stringify(space):null;};
   function normalizeState(value) {
     if (!record(value) || !coordinate(value.x) || !coordinate(value.y)) return null;
     if (value.active !== undefined && typeof value.active !== 'boolean') return null;
@@ -22,9 +34,25 @@
     if (game.coop) return game.coop;
     let socket = null, room = '', name = '', timer = 0, notice = '', pings = [];
     const peers = new Map();
+    const scoped=typeof game.frontier?.position==='function';
+    let joinedKey=undefined,verified=false;
+    function localSpace(){
+      if(!scoped)return null; // Compatibility for legacy embedders, isolated by the relay.
+      const p=game.frontier.position();
+      return normalizeSpace({seed:game.world?.seed,generation:p.generation,detail:p.detailVersion??0,ecology:p.ecologyVersion??0,hydrology:p.hydrologyVersion??0,landscape:p.landscape189||'classic',region:p.active,z:p.z,inside:p.inside??null});
+    }
+    const matches=message=>!scoped?message.space===undefined:!!localSpace()&&spaceKey(message.space)===spaceKey(localSpace());
+    function joinScope(connection){
+      const space=localSpace();if(scoped&&!space){verified=false;peers.clear();pings=[];notice='Carte indisponible : présence suspendue.';return false;}
+      const key=spaceKey(space);if(joinedKey===key)return verified;
+      peers.clear();pings=[];verified=false;
+      if(!send(connection,{type:'join',room,name,...(scoped?{protocol:200,space}: {})}))return false;
+      joinedKey=key;verified=!scoped;notice=scoped?'Relais coop connecté ; vérification de la carte…':'Relais coop connecté.';
+      return verified;
+    }
     function disconnect() {
       const previous = socket;
-      socket = null;
+      socket = null;joinedKey=undefined;verified=false;
       if (previous) try { previous.close(); } catch {}
       peers.clear();
       pings = [];
@@ -65,17 +93,23 @@
       notice = 'Connexion au relais coop…';
       connection.addEventListener('open', () => {
         if (socket !== connection) return;
-        if (send(connection, { type: 'join', room, name })) notice = 'Relais coop connecté.';
-        else if (socket === connection) { disconnect(); notice = 'Relais coop inaccessible.'; }
+        joinScope(connection);
       });
       connection.addEventListener('message', event => {
         if (socket !== connection) return;
         const message = parseMessage(event.data);
         if (!message) return;
         const time = performance.now(); prune(time);
+        if(message.type==='joined'&&scoped){
+          if(message.protocol!==200){verified=false;notice='Relais ancien : mettez à jour le relais pour vérifier les cartes.';return;}
+          if(matches(message)&&spaceKey(message.space)===joinedKey){verified=true;notice='Relais coop connecté ; même carte et même étage uniquement.';}
+          return;
+        }
+        if(message.type==='leave'&&peerId(message.id)){peers.delete(message.id);return;}
+        if(!verified||!matches(message)||scoped&&spaceKey(localSpace())!==joinedKey)return;
         if (message.type === 'peer' && peerId(message.id)) {
           const state = normalizeState(message.state);
-          if (state && (peers.has(message.id) || peers.size < LIMITS.peers))
+          if (state && (!scoped||state.z===localSpace().z&&state.active===localSpace().region) && (peers.has(message.id) || peers.size < LIMITS.peers))
             peers.set(message.id, { ...state, name: label(message.name, 'Allié'), time });
         }
         if (message.type === 'leave' && peerId(message.id)) peers.delete(message.id);
@@ -99,9 +133,10 @@
     }
     function ping() {
       if (!socket || socket.readyState !== 1 || !game.frontier.active()) return false;
-      const position = game.frontier.overview();
+      if(!joinScope(socket))return false;
+      const position = scoped?game.frontier.position():game.frontier.overview();
       if (!coordinate(position.x) || !coordinate(position.y)) return false;
-      return send(socket, { type: 'ping', room, x: position.x, y: position.y });
+      return send(socket, { type: 'ping', room, x: position.x, y: position.y, ...(scoped?{space:localSpace()}: {}) });
     }
     function update(dt) {
       prune(performance.now());
@@ -109,16 +144,17 @@
       timer -= Number.isFinite(dt) ? Math.max(0, dt) : 0;
       if (timer > 0) return;
       timer = .2;
-      const position = game.frontier.overview();
+      if(!joinScope(socket))return;
+      const position = scoped?game.frontier.position():game.frontier.overview();
       const state = normalizeState({ active: position.active, x: position.x, y: position.y, z: position.z, a: position.a,
         posture: game.worldEvolution?.posture().key || 'stand' });
-      if (state) send(socket, { type: 'state', room, state });
+      if (state) send(socket, { type: 'state', room, state, ...(scoped?{space:localSpace()}: {}) });
     }
     function overview() {
-      const time = performance.now();
-      return { connected: socket?.readyState === 1, connecting: socket?.readyState === 0, room, name, notice,
-        peers: [...peers.entries()].filter(([, peer]) => time - peer.time < LIMITS.peerMs).map(([id, peer]) => ({ id, ...peer })),
-        pings: pings.filter(ping => time < ping.expires).map(({expires, ...ping}) => ({ ...ping, left: (expires - time) / 1000 })) };
+      const time = performance.now(),compatible=verified&&(!scoped||!!localSpace()&&spaceKey(localSpace())===joinedKey);
+      return { compatible, scoped, connected: socket?.readyState === 1, connecting: socket?.readyState === 0, room, name, notice,
+        peers: (compatible?[...peers.entries()]:[]).filter(([, peer]) => time - peer.time < LIMITS.peerMs).map(([id, peer]) => ({ id, ...peer })),
+        pings: (compatible?pings:[]).filter(ping => time < ping.expires).map(({expires, ...ping}) => ({ ...ping, left: (expires - time) / 1000 })) };
     }
     const api = { connect, disconnect, ping, update, overview };
     game.coop = Object.freeze(api);
@@ -130,6 +166,6 @@
     };
     return api;
   }
-  root.DeadwallCoop = Object.freeze({ install, LIMITS, normalizeState, parseMessage, coordinate, label });
+  root.DeadwallCoop = Object.freeze({ install, LIMITS, normalizeState, normalizeSpace, spaceKey, parseMessage, coordinate, label });
   if (typeof module !== 'undefined' && module.exports) module.exports = root.DeadwallCoop;
 })(globalThis);

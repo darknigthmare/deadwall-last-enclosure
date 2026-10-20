@@ -38,13 +38,14 @@ function drawConstruction(c,task){
   c.fillStyle='#d0c59e';c.font='.22px sans-serif';c.textAlign='center';c.fillText((task.kind==='rebuild'?'RECONSTRUCTION ':'CHANTIER ')+Math.floor(progress*100)+' %',x,y-k-.28);
  }finally{c.restore();}return true;
 }
-function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['slaughter','harvest','capture','cook','tan','build','rebuild','water','repair','fill-bucket','water-carried'].includes(work.kind)||!Number.isFinite(work.progress)||work.progress<0||work.progress>1||!Number.isFinite(work.a??0))return false;const phase=reducedMotion?0:Math.sin(work.progress*Math.PI*18)*.09;
+function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['slaughter','harvest','capture','cook','tan','build','rebuild','water','repair','fill-bucket','water-carried','care'].includes(work.kind)||!Number.isFinite(work.progress)||work.progress<0||work.progress>1||!Number.isFinite(work.a??0))return false;const phase=reducedMotion?0:Math.sin(work.progress*Math.PI*18)*.09;
  c.save();try{c.translate(work.x,work.y);c.rotate(work.a||0);
  // Forearms attached to fixed shoulder anchors, tool held at the moving right hand.
  stroke(c,[[0,-.22],[.18,-.22],[.44+phase,-.08]],'#899279',.12);stroke(c,[[0,.22],[.21,.21],[.40+phase,.12]],'#899279',.12);
  for(const[x,y]of[[.44+phase,-.08],[.40+phase,.12]]){c.fillStyle='#b7a182';c.beginPath();c.arc(x,y,.047,0,Math.PI*2);c.fill();}
  if(['slaughter','harvest'].includes(work.kind))stroke(c,[[.4+phase,.12],[.67+phase,.15]],'#c2c8bb',.04);
- else if(work.kind==='capture'){
+ else if(work.kind==='care'){c.fillStyle='#dad4bd';c.fillRect(.46+phase,-.1,.22,.2);stroke(c,[[.51+phase,0],[.63+phase,0]],'#79947e',.035);stroke(c,[[.57+phase,-.06],[.57+phase,.06]],'#79947e',.035);
+ }else if(work.kind==='capture'){
   stroke(c,[[.4+phase,.12],[.77+phase,.02]],'#9f8958',.04);c.save();c.translate(.95+phase,-.03);
   c.strokeStyle='#c2b486';c.lineWidth=.028;c.beginPath();c.ellipse(0,0,.23,.27,0,0,Math.PI*2);c.stroke();
   c.beginPath();c.ellipse(0,0,.23,.27,0,0,Math.PI*2);c.clip();for(let j=-2;j<=2;j++){stroke(c,[[j*.1,-.3],[j*.1,.3]],'#b4aa85',.012);stroke(c,[[-.3,j*.1],[.3,j*.1]],'#b4aa85',.012);}c.restore();

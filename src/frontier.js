@@ -182,7 +182,8 @@ function releaseCaptive191(id){
  // Another enclosure or a parked vehicle may now occupy the original pose.
  if(id.startsWith('A189_')?!Wildlife189.clear(w,q,pose.x,pose.y):w.blocked(pose.x,pose.y,q.radius,0,null))return false;
  if(state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},local=G.local({...state.car,w:vp.w,h:vp.h},pose.x,pose.y);if(G.circleRect(local.x,local.y,q.radius,{x:0,y:0,w:vp.w,h:vp.h}))return false;}
- const hp=Math.min(pose.hp,q.profile.health*g.husbandry191.healthFraction(id));if(hp<=0)return false;
+ // Custody owns current health, including paid care; releasing is not a second heal.
+ const hp=Math.min(q.profile.health,q.profile.health*g.husbandry191.healthFraction(id));if(hp<=0)return false;
  state.wildlife165[id]={...pose,hp};const live=animals165.get(id);if(live)live.hp=hp;return true;
 }
 function retireWildlife191(id){ensure();if(!g.husbandry191?.owns(id)||!state.wildlife165[id]||state.wildlife165[id].hp<=0)return false;state.wildlife165[id]={...state.wildlife165[id],hp:0,alarm:0};animals165.delete(id);return true;}

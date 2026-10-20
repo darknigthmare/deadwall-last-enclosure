@@ -124,20 +124,48 @@
     }
     setMuted(muted) { this.muted = Boolean(muted); if (this.master) this.master.gain.value = this.muted ? 0 : 0.15 * this.volume; }
     setVolume(value) { this.volume=clamp(Number(value)||0,0,1);this.setMuted(this.muted); }
+    voice(build) {
+      const limits=C.Audio199Rules;
+      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.ctx.state==='closed' || this.voices>=limits.maxVoices) return false;
+      const nodes=[];let source=null,counted=false,released=false;
+      const own=node=>{if(!node)throw new Error('Ressource audio indisponible.');nodes.push(node);return node;};
+      const release=()=>{
+        if(released)return;released=true;
+        if(counted){this.voices=Math.max(0,this.voices-1);counted=false;}
+        for(const node of nodes)try{node.disconnect();}catch{}
+      };
+      try {
+        const plan=build(own);source=plan.source;source.onended=release;
+        this.voices++;counted=true;plan.start();return true;
+      } catch {
+        // Sound is optional: a failed device must never interrupt a paid action
+        // or strand the voice budget after a partial allocation/start.
+        release();if(source)try{source.stop();}catch{}return false;
+      }
+    }
     tone(freq, duration, type = 'square', volume = 0.08, slide = 0) {
-      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.voices>=48) return;
-      const t = this.ctx.currentTime, o = this.ctx.createOscillator(), g = this.ctx.createGain();
-      o.type = type; o.frequency.setValueAtTime(freq, t); if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(20, freq + slide), t + duration);
-      g.gain.setValueAtTime(volume, t); g.gain.exponentialRampToValueAtTime(0.0001, t + duration);
-      o.connect(g); g.connect(this.master);this.voices++;o.onended=()=>{this.voices=Math.max(0,this.voices-1);o.disconnect();g.disconnect();}; o.start(t); o.stop(t + duration);
+      if(![freq,duration,volume,slide].every(Number.isFinite)||freq<=0||duration<=0||volume<=0||!['sine','square','sawtooth','triangle'].includes(type))return false;
+      duration=Math.min(duration,C.Audio199Rules.maxToneSeconds);
+      return this.voice(own=>{
+        const t=this.ctx.currentTime,o=own(this.ctx.createOscillator()),gain=own(this.ctx.createGain());
+        o.type=type;o.frequency.setValueAtTime(freq,t);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(20,freq+slide),t+duration);
+        gain.gain.setValueAtTime(volume,t);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+        o.connect(gain);gain.connect(this.master);
+        return {source:o,start:()=>{o.start(t);o.stop(t+duration);}};
+      });
     }
     noise(duration = 0.08, volume = 0.12, lowpass = 1800) {
-      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.voices>=48) return;
-      const length = Math.max(1, Math.floor(this.ctx.sampleRate * duration));
-      let buffer=this.noiseBuffers.get(length);if(!buffer){buffer=this.ctx.createBuffer(1,length,this.ctx.sampleRate);const data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);if(this.noiseBuffers.size<12)this.noiseBuffers.set(length,buffer);}
-      const source = this.ctx.createBufferSource(), filter = this.ctx.createBiquadFilter(), gain = this.ctx.createGain();
-      filter.type = 'lowpass'; filter.frequency.value = lowpass; gain.gain.value = volume;
-      source.buffer = buffer; source.connect(filter); filter.connect(gain); gain.connect(this.master);this.voices++;source.onended=()=>{this.voices=Math.max(0,this.voices-1);source.disconnect();filter.disconnect();gain.disconnect();}; source.start();
+      if(![duration,volume,lowpass].every(Number.isFinite)||duration<=0||volume<=0||lowpass<=0)return false;
+      duration=Math.min(duration,C.Audio199Rules.maxNoiseSeconds);
+      return this.voice(own=>{
+        const length=Math.max(1,Math.floor(this.ctx.sampleRate*duration));
+        let buffer=this.noiseBuffers.get(length);
+        if(!buffer){buffer=this.ctx.createBuffer(1,length,this.ctx.sampleRate);const data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);if(this.noiseBuffers.size<12)this.noiseBuffers.set(length,buffer);}
+        const source=own(this.ctx.createBufferSource()),filter=own(this.ctx.createBiquadFilter()),gain=own(this.ctx.createGain());
+        filter.type='lowpass';filter.frequency.value=lowpass;gain.gain.value=volume;
+        source.buffer=buffer;source.connect(filter);filter.connect(gain);gain.connect(this.master);
+        return {source,start:()=>source.start()};
+      });
     }
     shot(weapon) {
       if (weapon === 'shotgun') { this.noise(.18, .25, 900); this.tone(70, .14, 'sawtooth', .11, -35); }
@@ -711,13 +739,14 @@
 
     save(manual = false) {
       if (this.state !== 'playing' || this.gameOver) return false;
+      const previousStatus=this.lastSaveStatus;
       let payload;
       try {
         payload = JSON.stringify(this.serialize()); globalThis.DeadwallSave.parse(payload);
       } catch (error) {
         this.lastSaveStatus={ok:false,code:'invalid-state',time:Date.now(),message:'Sauvegarde refusée : état de campagne incohérent. La dernière copie valide est conservée.'};
         console.error('DEADWALL — validation de sauvegarde', error);
-        if(manual)this.notify(this.lastSaveStatus.message,'danger');
+        if(manual||previousStatus?.ok!==false||previousStatus?.code!==this.lastSaveStatus.code)this.notify(this.lastSaveStatus.message,'danger');
         return false;
       }
       try {
@@ -734,10 +763,11 @@
         this.recordCampaign(false); this.refreshContinue();
         if(manual)this.notify(backupOk===false?this.lastSaveStatus.message:'Partie sauvegardée.',backupOk===false?'danger':'good');
         else if(backupOk===false&&!backupFailedBefore)this.notify(this.lastSaveStatus.message,'danger');
+        else if(previousStatus?.ok===false&&backupOk!==false)this.notify('Sauvegarde locale rétablie. La progression en mémoire a été enregistrée.','good');
         return true;
       } catch (error) {
         this.lastSaveStatus={ok:false,code:error.code==='write-unconfirmed'?'write-unconfirmed':'storage-unavailable',time:Date.now(),message:error.code==='write-unconfirmed'?'L’écriture locale n’a pas pu être vérifiée. Exportez une copie depuis les paramètres.':'Stockage indisponible. Exportez une copie depuis les paramètres.'};
-        console.error(error); if(manual)this.notify(this.lastSaveStatus.message,'danger'); return false;
+        console.error(error); if(manual||previousStatus?.ok!==false||previousStatus?.code!==this.lastSaveStatus.code)this.notify(this.lastSaveStatus.message,'danger'); return false;
       }
     }
 
@@ -1113,7 +1143,9 @@
         // Consume only this frame, with bounded physical steps and one key press delivery.
         // Discard long stalls instead of building an unbounded catch-up backlog.
         for(let step=0;step<steps&&active();step++){this.update(dt);if(step===0)this.input.pressed.clear();}
-      }else if(!active()||milliseconds>rules.maxFrameSeconds*1000)this.input.pressed.clear();
+      }else if(!active())this.input.pressed.clear();
+      // A long foreground frame drops elapsed time, not an unconsumed command.
+      // The next bounded step consumes it once; pause/blur/scene exits still clear it.
       this.render();
       if (this.settings.quality === 'auto') this.displayQuality153?.observe(milliseconds, {
         active: active(),

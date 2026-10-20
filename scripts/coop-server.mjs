@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import { randomUUID } from 'node:crypto';
 import Coop from '../src/coop.js';
-const {LIMITS,normalizeState,parseMessage,coordinate,label}=Coop;
+const {LIMITS,normalizeState,normalizeSpace,spaceKey,parseMessage,coordinate,label}=Coop;
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -16,9 +16,9 @@ export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {
     try { socket.send(JSON.stringify(message), error => { if (error) socket.terminate(); }); }
     catch { socket.terminate(); }
   };
-  const broadcast = (room, message, skip) => {
+  const broadcast = (room, key, message, skip) => {
     for (const [socket, client] of clients) {
-      if (socket !== skip && client.room === room) send(socket, message);
+      if (socket !== skip && client.room === room && client.spaceKey === key) send(socket, message);
     }
   };
 
@@ -26,7 +26,7 @@ export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {
     socket.on('error', () => {});
     if (clients.size >= LIMITS.relayClients) { socket.close(1013, 'Relais complet'); return; }
     const id = randomUUID();
-    clients.set(socket, { id, room: null, name: 'Survivant', tokens: LIMITS.burst, sampledAt: performance.now() });
+    clients.set(socket, { id, room: null, spaceKey:null, space:null, name: 'Survivant', tokens: LIMITS.burst, sampledAt: performance.now() });
     // Admission has a fixed deadline. Invalid messages must not keep a global
     // slot alive, and terminate avoids an additional unbounded close handshake.
     const joinDeadline = setTimeout(() => {
@@ -42,28 +42,33 @@ export function createCoopRelay({ port = 4290, host, joinTimeoutMs = 10000 } = {
       if (isBinary) return;
       const message = parseMessage(String(data)); if (!message) return;
       if (message.type === 'join' && typeof message.room === 'string' && /^[A-Za-z0-9_-]{2,24}$/.test(message.room)) {
-        if (client.room && client.room !== message.room) {
-          broadcast(client.room, { type: 'leave', id: client.id }, socket);
+        const scoped=Object.hasOwn(message,'space'),space=scoped?normalizeSpace(message.space):null;
+        if(scoped&&(!space||message.protocol!==200))return;
+        const key=spaceKey(space);
+        if (client.room && (client.room !== message.room||client.spaceKey!==key)) {
+          broadcast(client.room, client.spaceKey, { type: 'leave', id: client.id }, socket);
         }
         clearTimeout(joinDeadline);
-        client.room = message.room;
+        client.room = message.room;client.spaceKey=key;client.space=space;
         client.name = label(message.name, 'Survivant');
-        send(socket, { type: 'joined', id });
+        send(socket, { type: 'joined', id, ...(space?{protocol:200,space}: {}) });
         return;
       }
       if (!client.room || message.room !== client.room) return;
+      if(client.space?spaceKey(message.space)!==client.spaceKey:Object.hasOwn(message,'space'))return;
+      const namespace=client.space?{space:client.space}:{};
       if (message.type === 'state') {
         const state=normalizeState(message.state);
-        if (state) broadcast(client.room, { type: 'peer', id: client.id, name: client.name, state }, socket);
+        if (state&&(!client.space||state.active===client.space.region&&state.z===client.space.z)) broadcast(client.room, client.spaceKey, { type: 'peer', id: client.id, name: client.name, state, ...namespace }, socket);
       }
-      if (message.type === 'ping' && coordinate(message.x) && coordinate(message.y)) {
-        broadcast(client.room, { type: 'ping', id: client.id, name: client.name, x: message.x, y: message.y }, socket);
+      if (message.type === 'ping' && coordinate(message.x) && coordinate(message.y)&&(!client.space||client.space.region)) {
+        broadcast(client.room, client.spaceKey, { type: 'ping', id: client.id, name: client.name, x: message.x, y: message.y, ...namespace }, socket);
       }
     });
     socket.on('close', () => {
       clearTimeout(joinDeadline);
       const client = clients.get(socket);
-      if (client?.room) broadcast(client.room, { type: 'leave', id: client.id }, socket);
+      if (client?.room) broadcast(client.room, client.spaceKey, { type: 'leave', id: client.id }, socket);
       clients.delete(socket);
     });
   });

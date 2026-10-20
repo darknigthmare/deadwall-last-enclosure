@@ -29,7 +29,7 @@ function install(g){
   if(task||g.expansions.busy('survival')||g.essentials?.busy()||g.fieldSupplies?.busy()||g.nightGear?.busy?.())return 'Terminez l’intervention en cours avant de manipuler le bivouac.';
   return handsReason();
  }
- const position=()=>{const f=frontierPosition();return f.active?{domain:'region',x:f.x,y:f.y,z:f.z,inside:f.inside,angle:f.a||0}:{domain:'local',x:g.player.x,y:g.player.y,z:0,inside:null,angle:g.player.facing||0};};
+ const position=()=>{const f=frontierPosition(),v=g.vertical175?.pose?.();return f.active?{domain:'region',x:f.x,y:f.y,z:f.z,inside:f.inside,angle:f.a||0}:{domain:'local',x:g.player.x,y:g.player.y,z:v?.z??0,inside:v?.z?v.site:null,angle:g.player.facing||0};};
  const scale=p=>p.domain==='local'?32:1;
  const line=(a,b)=>a.domain==='local'?(g.nightGear?.localLineClear?.(a,b)??g.hostileLineClear(a,b)):g.frontier.world().line(a,b,a.z,a.inside,null,.05);
  const same=(a,b)=>a.domain===b.domain&&a.z===b.z&&(a.z===0||a.inside===b.inside);
@@ -38,7 +38,7 @@ function install(g){
  const fail=reason=>{message=reason;return{ok:false,reason};};
  const save=()=>{g.audio.ui?.();g.save(false);return{ok:true};};
  function danger(p){
-  if(p.domain==='local')return g.nearbyZombies(p.x,p.y,R.safeRadius*32).some(z=>!z.dead&&z.health>0&&Math.hypot(z.x-p.x,z.y-p.y)<R.safeRadius*32);
+  if(p.domain==='local')return g.nearbyZombies(p.x,p.y,R.safeRadius*32).some(z=>!z.dead&&z.health>0&&(g.vertical175?.enemyPose?.(z)?.z??0)===p.z&&Math.hypot(z.x-p.x,z.y-p.y)<R.safeRadius*32);
   const contacts=[...g.frontier.contacts(),...(g.worldEvolution?.groupMembers?.()||[]),...(g.succession133?.contacts?.()||[])];
   return contacts.some(e=>e.hp>0&&e.z===p.z&&(p.z===0||e.poi===p.inside)&&Math.hypot(e.x-p.x,e.y-p.y)<R.safeRadius&&g.frontier.visibleEnemy(e));
  }
@@ -64,6 +64,7 @@ function install(g){
   if(!C.canAfford(g.player.carry,R[kind].cost))return{ok:false,reason:'Fournitures manquantes dans le sac : '+Object.entries(R[kind].cost).filter(([k,n])=>(g.player.carry[k]||0)<n).map(([k])=>C.RESOURCE_META[k].label.toLowerCase()).join(', ')+'.'};
   let target=null;
   if(kind==='camp'){
+   if(p.z!==0)return{ok:false,reason:'Redescendez au sol pour installer une halte ; aucun bivouac au travers des étages.'};
    if(state.camps.length>=R.maxCamps||state.serial>=R.maxSerial)return{ok:false,reason:'Quatre bivouacs maximum ; démontez une ancienne halte.'};
    target=placement||campPosition(p);if(!clearCamp(target)||!line(p,target))return{ok:false,reason:'Un sol extérieur dégagé est requis devant vous.'};
   }
@@ -104,14 +105,14 @@ function install(g){
   for(const c of state.camps){c.left=Math.max(0,c.left-dt);c.cover=Math.max(0,c.cover-dt);}state.camps=state.camps.filter(c=>c.left>0);
   state.meal.left=Math.max(0,state.meal.left-dt);if(!state.meal.left)state.meal.budget=0;
   if(g.player.dead||g.player.health<=0||g.player.health<lastHealth-1e-7)damageReceived();
-  else if(state.dressing.left>0){const n=Math.min(state.dressing.remaining,R.dressing.heal/R.dressing.duration*dt,Math.max(0,g.player.maxHealth-g.player.health));g.player.health+=n;state.dressing.remaining-=n;state.dressing.left=Math.max(0,state.dressing.left-dt);if(!state.dressing.left||!state.dressing.remaining||g.player.health>=g.player.maxHealth)state.dressing={left:0,remaining:0};}
+  else if(state.dressing.left>0){const n=Math.min(state.dressing.remaining,R.dressing.heal/R.dressing.duration*Math.min(dt,state.dressing.left),Math.max(0,g.player.maxHealth-g.player.health));g.player.health+=n;state.dressing.remaining-=n;state.dressing.left=Math.max(0,state.dressing.left-dt);if(!state.dressing.left||!state.dressing.remaining||g.player.health>=g.player.maxHealth)state.dressing={left:0,remaining:0};}
   if(task){const t=task,p=position();task=null;const q=preview(t.kind,t.id,t.kind==='camp'?t.target:undefined,Math.max(0,t.seconds-t.elapsed-dt));task=t;
    if(!q.ok||!same(p,t.p)||Math.hypot(p.x-t.p.x,p.y-t.p.y)>R.moveTolerance*scale(p)||g.player.health<t.health||g.player.reload>0)cancel(q.reason||undefined);
    else{t.elapsed+=dt;if(t.elapsed+1e-7>=t.seconds)finish(t,q);}
   }
   lastHealth=g.player.health;
  }
- function rainProtection(device,p){const q=device.location==='belt'?p:device;if(!q||q.z!==0||q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
+ function rainProtection(device,p){const q=device.location==='belt'&&p?.domain==='local'?{...p,z:g.vertical175?.pose?.()?.z??p.z}:device.location==='belt'?p:device;if(!q||q.z!==0||q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
  function depthEntries(v,view){return state.camps.filter(c=>c.domain==='region'&&v.z===0&&c.x>=view.l-3&&c.x<=view.r+3&&c.y>=view.t-3&&c.y<=view.b+3&&(root.DeadwallFrontierArt?.visiblePoint?.(g,c,v)??true)).map(c=>({kind:'camp',id:'camp:'+c.id,depth:c.y+R.campRadius,draw:ctx=>draw(ctx,'region',c)}));}
  let terrainWorld=null,terrainRegion=null,terrainProvider=null,terrainKey='',terrainRows=[];
  function surroundings(){
