@@ -18,6 +18,8 @@ L’acceptation est recalculée depuis ces données, jamais depuis un booléen `
 
 Chaque tentative utilise un répertoire distinct `artifacts/qa/fullcheck201/RUN-ATTEMPT/`. Le journal de démarrage, le journal complet, les refus et le reçu final sont archivés avec `if: always()`. Un job interrompu peut conserver seulement son démarrage et son journal partiel ; l’absence de reçu final positif signifie que la qualification n’est pas acquise.
 
+Après écriture du reçu final, GitHub reçoit aussi une annotation structurée avec le SHA, l’arbre, les compteurs réels, les sorties, les tailles d’inventaire et l’empreinte du reçu. Un refus est une erreur, jamais une notice de succès. Ce résumé reste consultable dans les checks lorsque le téléchargement des journaux n’est pas disponible ; il ne remplace pas le journal brut.
+
 ## Parcours Chromium séparé
 
 `scripts/browser-continuation201.mjs` sert le build réel et ouvre l’entrée joueur sans les paramètres d’outillage historique. Il prévoit trois écrans : 1366 × 768, 390 × 844 tactile et 844 × 390 tactile. Chaque profil conserve captures, contrôles de visibilité et erreurs JavaScript/console/HTTP/requêtes.

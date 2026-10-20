@@ -22,6 +22,7 @@ Les six fiches se raccordent aux choix réels du catalogue. Les quinze anciens e
 - La recherche d’eau douce examine les berges physiques : une rivière accessible à 2,19 m ne peut plus être manquée entre deux rayons. Portée, obstacles, ponts, salinité et annulation en cours de travail restent vérifiés. Voir [la collecte aux berges](BANK_WATER201.md).
 - La présence coopérative lit l’étage réel et le support de D-17 ; changer de surface masque les contacts précédents. Voir [la présence en hauteur](COOP_FLOOR_201.md).
 - Les corps des infectés en hauteur suivent leur surface et ne remplissent plus les tas de cadavres du sol. Voir [les cadavres en altitude](CORPSE_ALTITUDE_201.md).
+- Le cache hors ligne source porte le même numéro 1.68 que le jeu et les paquets, y compris avant construction du site.
 
 ## Améliorations reprises des PR
 

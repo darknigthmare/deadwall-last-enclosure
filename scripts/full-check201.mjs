@@ -141,10 +141,17 @@ function main(argv) {
     const result = qualifyFullCheck201(record, bytes); record.accepted = result.accepted;
   } catch (error) { record.failure = error.message; }
   writeNew(receiptFile, record);
-  const notice = {accepted: record.accepted, gitHead: record.expectedHead, sourceTree: record.sourceBefore?.tree, counts: record.counts,
+  const notice = {accepted: record.accepted, gitHead: record.expectedHead, sourceTree: record.sourceBefore?.tree, counts: record.counts ?? null,
     actualExitCode: record.actualExitCode, teeExitCode: record.teeExitCode, failure: record.failure,
-    receiptSha256: hash(fs.readFileSync(receiptFile))};
+    sourceFiles: record.sourceBefore?.files ? Object.keys(record.sourceBefore.files).length : null,
+    testFiles: record.sourceBefore?.testFiles?.length ?? null, receiptSha256: hash(fs.readFileSync(receiptFile))};
   console.log(JSON.stringify(notice));
+  // Publish only the final source-bound summary, after the actual receipt exists.
+  // Workflow command escaping prevents a refusal message from injecting commands.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const encoded = JSON.stringify(notice).replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.log('::' + (record.accepted ? 'notice' : 'error') + ' title=DEADWALL_FULLCHECK201::' + encoded);
+  }
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
     'Literal full check: **' + (record.accepted ? 'PASS' : 'FAIL') + '**\n\n`' + FULL_CHECK_COMMAND201 + '` on `' + record.expectedHead + '`; npm exit ' + record.actualExitCode + ', tee exit ' + record.teeExitCode + '.\n\nSeven native counters: `' + JSON.stringify(record.counts ?? {}) + '`.\n');
   if (!record.accepted) process.exitCode = 1;
