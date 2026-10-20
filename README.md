@@ -1,3 +1,11 @@
+# DEADWALL 1.69.0 — D-17 à échelle humaine
+
+Les nouvelles campagnes utilisent des bâtiments et des décors dimensionnés en mètres : maison de 10 × 8 m, entrepôt de 12 × 10 m, portes de 1 m, véhicules selon leur catégorie. L’emprise affichée sert aussi au placement, aux collisions, aux aperçus, aux reconstructions et aux sauvegardes. Les chaussées existantes et les voies déjà financées restent libres des constructions ordinaires ; les portes défensives, murs et pièges peuvent les traverser.
+
+Le nouveau quartier local réserve de vraies parcelles et adapte les 21 ensembles de chantier aux dimensions des bâtiments, avec des allées de service. Les anciennes campagnes conservent leurs bâtiments, leurs positions, leurs possessions et leur géographie ; le nouveau gabarit de quartier s’applique en commençant une nouvelle campagne. Voir [la livraison 1.69](docs/LIVRAISON_1_69.md).
+
+## Historique conservé — 1.68.0
+
 # DEADWALL 1.68.0 — Chantiers et expéditions
 
 Six ensembles de construction relient logistique, entretien, défense, énergie, médecine et ravitaillement de siège. Leur financement utilise les fondations, prérequis et consommations réels ; leurs fiches rejoignent le Codex. La collecte d’eau aux berges, la présence coopérative sur les étages et les cadavres des assaillants en hauteur sont corrigés.

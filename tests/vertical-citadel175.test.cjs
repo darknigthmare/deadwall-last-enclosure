@@ -7,7 +7,14 @@ const step=(g,t)=>{for(let n=0;n<t-.000001;n+=.1)g.vertical175.step(Math.min(.1,
 const saved=g=>{const data=clone(g.serialize());delete data.timestamp;return data;};
 function boot(advanced=true){const {game:g}=boot127();V.install(g);g.startNew('standard','17117');if(advanced){const d=g.serialize();d.urban.peakScore=2200;d.urban.progression151={version:1,age:10};d.resources={wood:3000,scrap:3000,stone:3000,food:3000,fuel:2000,ammo:3000,medicine:50};assert.equal(g.restoreSave(d),true);}return g;}
 function support(g,type='verticalFoundation6'){
- for(let x=38;x<85;x+=2)for(let y=38;y<85;y+=2)if(g.world.placement(C.BUILDINGS[type],x,y,0).valid){assert.equal(g.placeOne(type,x,y),true);const b=g.world.atCell(x,y);assert.equal(b.type,type);
+ const def=g.world.definition?.(type)||C.BUILDINGS[type],historical=[],remaining=[],centre=C.WORLD_TILES/2;
+ for(let x=38;x<85;x+=2)for(let y=38;y<85;y+=2)historical.push({x,y});
+ // Preserve the historical route first, then search real terrain near the
+ // district centre. No obstacle, road or controller is removed for the fixture.
+ for(let x=0;x<=C.WORLD_TILES-def.size[0];x++)for(let y=0;y<=C.WORLD_TILES-def.size[1];y++)remaining.push({x,y});
+ const distance=q=>(q.x+def.size[0]/2-centre)**2+(q.y+def.size[1]/2-centre)**2;
+ remaining.sort((a,b)=>distance(a)-distance(b)||a.x-b.x||a.y-b.y);
+ for(const{x,y}of[...historical,...remaining])if(g.world.placement(def,x,y,0).valid){assert.equal(g.placeOne(type,x,y),true);const b=g.world.atCell(x,y);assert.equal(b.type,type);
   // Declared fixture: native paid placement, followed by instant base completion.
   // Upper construction, travel, ammo and damage use unmodified production controllers.
   b.progress=1;b.health=b.maxHealth;g.refreshMetrics(true);const p=g.vertical175.entrance(b);g.player.x=p.x;g.player.y=p.y;assert.equal(g.friendlyPositionClear(g.player,p.x,p.y),true);return b;

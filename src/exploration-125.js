@@ -244,6 +244,7 @@
 
   function createFeaturePlan(seed, worldSize = 4096, layoutRevision = 1) {
     if (!Number.isFinite(worldSize) || worldSize < 1200) throw new RangeError('Taille de monde insuffisante.');
+    if (layoutRevision === 4) return createMetricFeaturePlan202(seed, worldSize);
     if (layoutRevision === 3) return createSeededFeaturePlan(seed, worldSize);
     const random = mulberry32((Number(seed) || 0) ^ 0xD1725A11);
     const c = worldSize / 2, margin = Math.max(220, worldSize * .07), coreReserveRadius = Math.min(690, worldSize * .17);
@@ -450,12 +451,115 @@
     return plan;
   }
 
+  // Revision 4 is an explicit metric campaign profile. One tile remains one
+  // metre; the old revisions above are deliberately not rescaled or repacked.
+  function createMetricStation202(index,x,y,facing,random) {
+    const rules=C.CityGeometry202.localParcels,p=C.CityGeometry202.presentation,u=C.TILE||32;
+    const [w,h]=rules.stationMetres.map(n=>n*u),wall=p.wallThicknessMetres*u,door=rules.stationDoorMetres*u;
+    const l=x-w/2,t=y-h/2,doorX=x+(random()-.5)*u,front=facing==='south'?t+h-wall:t,back=facing==='south'?t:t+h-wall;
+    const solids=[rect(l,back,w,wall,'station-wall',{station:index}),rect(l,t,wall,h,'station-wall',{station:index}),rect(l+w-wall,t,wall,h,'station-wall',{station:index}),rect(l,front,doorX-door/2-l,wall,'station-wall',{station:index}),rect(doorX+door/2,front,l+w-doorX-door/2,wall,'station-wall',{station:index})];
+    const station={id:`station-${index}`,x,y,w,h,facing,horizontal:true,metric202:1,archetype:['miniMarket','garage','rural','service'][index-1],archetypeLabel:['Mini-market','Garage-service','Station rurale','Aire-service'][index-1],door:{x:doorX,y:front+wall/2,width:door},solids};
+    // The same window breach is used by motion, sight and painting. Its sill is
+    // low enough for the existing crouch/prone traversal, without a trigger.
+    const east=l+w-wall,center=y+h*.2,width=rules.stationWindowMetres*u;
+    station.solids=solids.flatMap(box=>box.x!==east||box.h!==h?[box]:[{...box,h:center-width/2-t},{...box,y:center+width/2,h:t+h-center-width/2}]);
+    station.windows=[{id:'broken-east',x:east+wall/2,y:center,width,horizontal:false,facing:'east',broken:true}];
+    return station;
+  }
+
+  function createMetricBackyard202(index,x,houseY,random) {
+    const rules=C.CityGeometry202.localParcels,p=C.CityGeometry202.presentation,u=C.TILE||32;
+    const [w,h]=rules.yardMetres.map(n=>n*u),[houseW,houseH]=rules.houseMetres.map(n=>n*u),fence=p.wallThicknessMetres*u;
+    const top=houseY+houseH/2-fence/2,left=x-w/2,y=top+h/2,opening=rules.gateWidthMetres*u,gateX=x+(random()-.5)*u;
+    const kind=['bungalow','twoStorey','rowHouse','farmhouse'][index-1],house={id:`yard-house-${index}`,kind,x,y:houseY,w:houseW,h:houseH,rearDoorX:x+(random()-.5)*u,metric202:1};
+    const hl=x-houseW/2,hr=x+houseW/2;
+    const solids=[rect(left,top,hl-left,fence,'palisade',{backyard:index}),rect(hr,top,left+w-hr,fence,'palisade',{backyard:index}),rect(left,top,fence,h,'palisade',{backyard:index}),rect(left+w-fence,top,fence,h,'palisade',{backyard:index}),rect(left,top+h-fence,gateX-opening/2-left,fence,'palisade',{backyard:index}),rect(gateX+opening/2,top+h-fence,left+w-gateX-opening/2,fence,'palisade',{backyard:index}),rect(hl,houseY-houseH/2,houseW,houseH,'house',{backyard:index,house:house.id})];
+    const props=[{id:`yard-${index}-shed`,kind:'shed',x:left+u*2,y:top+u*2,size:u*3},{id:`yard-${index}-supplies`,kind:random()<.5?'barrel':'woodpile',x:left+w-u*2,y:top+u*3,size:25},{id:`yard-${index}-mailbox`,kind:'mailbox',x:gateX+opening/2+16,y:top+h-17,size:18}];
+    return {id:`backyard-${index}`,x,y,w,h,opening,gate:{x:gateX,y:top+h,width:opening},house,solids,props,metric202:1};
+  }
+
+  function metricBuildingReserve202(building,kind='settlement-reserve') {
+    const q=buildingProjection134(building),u=C.TILE||32,p=C.CityGeometry202.presentation,margin=C.CityGeometry202.localParcels.clearanceMetres*u+p.roofOverhangMetres*u;
+    return rect(q.l-margin,q.roofTop-margin,building.w+margin*2,q.b-q.roofTop+margin*2,kind,{building:building.id});
+  }
+
+  function createMetricFeaturePlan202(seed,worldSize) {
+    if(worldSize<4096)throw new RangeError('Le quartier métrique exige un secteur d’au moins 128 mètres.');
+    const rules=C.CityGeometry202.localParcels,u=C.TILE||32,random=mulberry32((Number(seed)||0)^0x202D1704),c=worldSize/2,s=worldSize/4096;
+    const at=n=>n*s,jitter=()=>Math.round((random()-.5)*u),roads=[],intersections=[],stations=[],backyards=[],settlements=[],wrecks=[],roadEvents=[],roadProps=[],stationLoot=[];
+    const line=(id,x1,y1,x2,y2,width,className='access',surface='gravel')=>({id,axis:'line',x1,y1,x2,y2,width,lanes:className==='arterial'?2:1,className,surface});
+    const inset=rules.perimeterInsetMetres*u+Math.round(random()*u/2),far=worldSize-inset,south=worldSize-rules.southPerimeterInsetMetres*u-Math.round(random()*u/2),service=rules.serviceRoadMetres*u,arterial=rules.arterialRoadMetres*u,apron=rules.depotApronMetres*u;
+    for(const [id,x1,y1,x2,y2]of [['north',inset,inset,far,inset],['south',inset,south,far,south],['west',inset,inset,inset,south],['east',far,inset,far,south]])roads.push(line(`collector-ring-${id}`,x1,y1,x2,y2,service,'collector','asphalt'));
+    for(const [id,x1,y1,x2,y2]of [['west',0,c,c-apron,c],['east',c+apron,c,worldSize,c],['north',c,0,c,c-apron],['south',c,c+apron,c,worldSize]])roads.push(line(`main-${id}`,x1,y1,x2,y2,arterial,'arterial','asphalt'));
+    for(const [id,x1,y1,x2,y2]of [['north',c-apron,c-apron,c+apron,c-apron],['south',c-apron,c+apron,c+apron,c+apron],['west',c-apron,c-apron,c-apron,c+apron],['east',c+apron,c-apron,c+apron,c+apron]])roads.push(line(`depot-ring-${id}`,x1,y1,x2,y2,rules.settlementStreetMetres*u,'service','asphalt'));
+    for(const [id,x,y]of [['nw',inset,inset],['ne',far,inset],['sw',inset,south],['se',far,south],['north',c,inset],['south',c,south],['west',inset,c],['east',far,c]])intersections.push({id:`junction-${id}`,x,y,radius:service*.65,kind:'cross'});
+    // Four finite shops retain the historical twelve loot identities and amount
+    // ranges. Enlarging their premises never creates an additional deposit.
+    for(let i=0;i<4;i++){
+      const north=i<2,x=at(i%2?3196:900)+jitter(),y=north?192:worldSize-192,facing=north?'south':'north',station=createMetricStation202(i+1,x,y,facing,random);
+      stations.push(station);const edge=y+(north?1:-1)*station.h/2;
+      roads.push(line(`station-access-${i+1}`,station.door.x,edge,station.door.x,north?inset:south,station.w-50,'access','concrete'));
+      for(const [slot,type]of ['fuel','food','medicine'].entries()){
+        const offsets=[[-station.w*.18,station.h*.22],[station.w*.18,station.h*.22],[0,0]],amount=type==='fuel'?12+Math.round(random()*10):type==='food'?10+Math.round(random()*9):2+Math.round(random()*4);
+        stationLoot.push({id:900000000+(i+1)*10+slot,stationId:station.id,type,x:x+offsets[slot][0],y:y+offsets[slot][1],amount,radius:type==='medicine'?13:17,kind:'station-loot'});
+      }
+    }
+    for(const site of C.Expeditions?.sitesFor?.({cityGeometry202:1})||[])if(site.metric202===1)roads.push(line(`expedition-access-${site.id}`,far,at(site.y),at(site.x),at(site.y),rules.accessMetres*u,'access','gravel'));
+    const yardPositions=[[768,1152],[1400,1472],[768,2512],[3328,2512]];
+    for(const [index,pos]of yardPositions.entries()){
+      const yard=createMetricBackyard202(index+1,at(pos[0])+jitter(),at(pos[1])+jitter(),random);backyards.push(yard);
+      const gate=yard.gate,width=rules.accessMetres*u;
+      if(index===1)roads.push(line(`yard-access-${index+1}`,gate.x,gate.y,gate.x,c,width,'access','dirt'));
+      else {const bend=gate.y+u*2;roads.push(line(`yard-access-${index+1}-gate`,gate.x,gate.y,gate.x,bend,width,'access','dirt'));roads.push(line(`yard-access-${index+1}`,gate.x,bend,index===3?far:inset,bend,width,'access','dirt'));}
+    }
+    const names=['Hameau des Pins Gris','Lotissement des Trois Citernes','Bourg de la Rocade Sud'],positions=[[1280,1712,784,1100],[1280,1712,3072,3372],[2368,2784,3072,3372]],types=[['houseSmall','shop'],['houseWide','workshop'],['clinic','diner']];
+    for(let i=0;i<3;i++){
+      const [a,b,by,sy]=positions[i],[w,h]=rules.houseMetres.map(n=>n*u),streetY=at(sy)+jitter(),buildings=[a,b].map((bx,slot)=>({id:`settlement-${i+1}-building-${slot+1}`,type:types[i][slot],x:at(bx)+jitter(),y:at(by)+jitter(),w,h,residential:types[i][slot].startsWith('house'),metric202:1}));
+      const west=i<2,first=west?at(1056):c,last=west?at(1900):at(3008),street=line(`settlement-${i+1}-street`,first,streetY,last,streetY,rules.settlementStreetMetres*u,'residential','gravel');
+      const connector=line(`settlement-${i+1}-connector`,west?last:first,streetY,c,streetY,rules.settlementStreetMetres*u,'access','gravel');
+      settlements.push({id:`settlement-${i+1}`,name:names[i],x:(first+last)/2,y:streetY,radius:at(470),buildings,street,connector,metric202:1});
+    }
+    const plan=assembleFeaturePlan({seed:Number(seed)||0,worldSize,coreReserveRadius:690,roads,intersections,stations,backyards,settlements,wrecks,roadEvents,roadProps,stationLoot,layoutRevision:4,layoutTurns:0,metric202:1});
+    const clearance=rules.clearanceMetres*u;
+    plan.buildExclusions=[...stations.map(st=>rect(st.x-st.w/2-clearance,st.y-st.h/2-clearance,st.w+clearance*2,st.h+clearance*2,'station-reserve',{station:st.id})),...backyards.map(yard=>{const q=metricBuildingReserve202(yard.house,'yard-reserve'),left=Math.min(q.x,yard.x-yard.w/2-clearance),right=Math.max(q.x+q.w,yard.x+yard.w/2+clearance);return rect(left,q.y,right-left,yard.gate.y+clearance-q.y,'yard-reserve',{backyard:yard.id});}),...settlements.flatMap(st=>st.buildings.map(b=>metricBuildingReserve202(b)))];
+    plan.parcelBounds=plan.buildExclusions.map(b=>({l:b.x,r:b.x+b.w,t:b.y,b:b.y+b.h}));
+    plan.buildableDistricts202=[rect(at(2176),at(576),at(1376),at(1152),'city-expansion')];
+    // Keep one complete projected high-rise plot clear of permanent props. Its
+    // narrow lower edge extends beyond the ordinary district; harvestable
+    // deposits may still need clearing before construction. Rendering owns the
+    // bounds, including the facade and roof, so no second height formula drifts.
+    const highrise=projectedBuildingBounds202(C.CityGeometry202.definition('megaTower',1),74,47);
+    plan.highriseReserve202=rect(highrise.x,highrise.y,highrise.w,highrise.h,'highrise-reserve');
+    const serviceReserve=projectedBuildingBounds202(C.CityGeometry202.definition('megaReserve',1),33,70);
+    plan.largeServiceReserve202=rect(serviceReserve.x,serviceReserve.y,serviceReserve.w,serviceReserve.h,'large-service-reserve');
+    const collector=roads.filter(r=>r.className==='collector');
+    for(let attempt=0;attempt<300&&wrecks.length<12;attempt++){
+      const r=collector[attempt%collector.length],horizontal=r.y1===r.y2,kind=attempt%5===0?'van':'car',[w,h]=(kind==='van'?rules.vanMetres:rules.sedanMetres).map(n=>n*u),along=.08+random()*.84,side=random()<.5?-1:1;
+      const x=r.x1+(r.x2-r.x1)*along+(horizontal?0:side*(r.width/2+h/2+u/2)),y=r.y1+(r.y2-r.y1)*along+(horizontal?side*(r.width/2+h/2+u/2):0),angle=horizontal?0:Math.PI/2,body=orientedSolid134(x,y,w,h,angle);
+      if(intersections.some(j=>Math.hypot(x-j.x,y-j.y)<u*5)||wrecks.some(v=>Math.hypot(x-v.x,y-v.y)<u*6)||[...plan.buildExclusions,...plan.buildableDistricts202,plan.highriseReserve202,plan.largeServiceReserve202].some(b=>rectsOverlap(body,b))||roadFootprint202(plan,body,u/4)||x-body.w/2<32||y-body.h/2<32||x+body.w/2>worldSize-32||y+body.h/2>worldSize-32)continue;
+      const wreck={id:`road-wreck-${wrecks.length+1}`,x,y,angle,kind,looted:random()>.55,size:w,body202:{w,h}};wrecks.push(wreck);plan.solids.push({...body,kind:'wreck',wreck:wreck.id});
+    }
+    // Existing prop art is already measured in local units (one-metre pallets,
+    // half-metre cones). Keep that authored scale beside the larger vehicles.
+    const families=[['maintenance','toolbox','pallet','roadSign'],['abandon','luggage','tarp','debris'],['checkpoint','cone','bollard','roadSign']];
+    for(let attempt=0;attempt<300&&roadEvents.length<18;attempt++){
+      const road=collector[attempt%collector.length],horizontal=road.y1===road.y2,along=.05+random()*.9,side=random()<.5?-1:1,x=road.x1+(road.x2-road.x1)*along+(horizontal?0:side*(road.width/2+64)),y=road.y1+(road.y2-road.y1)*along+(horizontal?side*(road.width/2+64):0);
+      if(intersections.some(j=>Math.hypot(x-j.x,y-j.y)<140)||[...plan.buildExclusions,...plan.buildableDistricts202,plan.highriseReserve202,plan.largeServiceReserve202].some(b=>circleIntersectsRect(x,y,60,b))||roadFootprint202(plan,{x:x-50,y:y-50,w:100,h:100})||wrecks.some(v=>Math.hypot(x-v.x,y-v.y)<160)||roadEvents.some(e=>Math.hypot(e.x-x,e.y-y)<190))continue;
+      const family=families[roadEvents.length%families.length],event={id:`road-event-${roadEvents.length+1}`,kind:family[0],x,y,horizontal};roadEvents.push(event);
+      for(let slot=0;slot<3;slot++){const prop={id:`road-prop-${roadProps.length+1}`,eventId:event.id,family:event.kind,kind:family[slot+1],x:x+(horizontal?(slot-1)*27:0),y:y+(horizontal?0:(slot-1)*27),angle:horizontal?0:Math.PI/2,size:18+slot*3};roadProps.push(prop);if(prop.kind==='pallet')plan.solids.push({...orientedSolid134(prop.x,prop.y,26,18,prop.angle),kind:'road-prop',prop:prop.id});}
+    }
+    plan.decor=makeTerrainDecor133(plan,random);
+    for(const prop of plan.decor.filter(p=>p.kind==='bench')){prop.angle=0;const box=rect(prop.x-22,prop.y-7,44,20,'terrain-prop',{prop:prop.id});plan.solids.push(box);plan.buildExclusions.push(box);}
+    return plan;
+  }
+
   function makeTerrainDecor133(plan,random) {
     const kinds=['drain','manhole','crack','litter','grass','stump','marker','bench'], out=[], count=C?.TerrainRules133?.decorCount??70;
     for(let attempt=0;attempt<1200&&out.length<count;attempt++){
       const kind=kinds[out.length%kinds.length], x=80+random()*(plan.worldSize-160),y=80+random()*(plan.worldSize-160),r=kind==='bench'?22:14;
       const onRoad=[...plan.roads,...plan.settlements.flatMap(s=>[s.street,s.connector].filter(Boolean))].some(road=>roadContains(road,x,y,r));
       if(['manhole','crack','drain'].includes(kind)?!onRoad:onRoad)continue;
+      if(plan.layoutRevision===4&&['bench','marker','stump'].includes(kind)&&[...plan.buildableDistricts202,plan.highriseReserve202,plan.largeServiceReserve202].some(b=>circleIntersectsRect(x,y,r+16,b)))continue;
       if(Math.hypot(x-plan.worldSize/2,y-plan.worldSize/2)<270||plan.solids.some(box=>circleIntersectsRect(x,y,r+16,box))||out.some(p=>Math.hypot(x-p.x,y-p.y)<70))continue;
       out.push({id:`decor133-${out.length+1}`,kind,x,y,size:r,angle:random()*Math.PI*2});
     }
@@ -506,7 +610,7 @@
     const dimensions={barrier:[36,8],tirePile:[26,22],shoppingCart:[26,22],pallet:[26,18]};
     return (plan.solids||[]).map(box=>{
       const wreck=box.kind==='wreck'&&wrecks.get(box.wreck);
-      if(wreck)return orientedSolid134(wreck.x,wreck.y,wreck.size*.92,wreck.size*.48*.84,wreck.angle||0,box);
+      if(wreck)return orientedSolid134(wreck.x,wreck.y,wreck.body202?.w??wreck.size*.92,wreck.body202?.h??wreck.size*.48*.84,wreck.angle||0,box);
       const prop=box.kind==='road-prop'&&props.get(box.prop),size=prop&&dimensions[prop.kind];
       return size?orientedSolid134(prop.x,prop.y,size[0],size[1],prop.angle||0,box):box;
     });
@@ -691,7 +795,7 @@
 
   function drawRoadNetwork(ctx, plan, view) {
     const kit=globalThis.DeadwallRoadKit;
-    if(plan.layoutRevision===3&&kit?.drawNetwork&&kit?.markingSpans){
+    if([3,4].includes(plan.layoutRevision)&&kit?.drawNetwork&&kit?.markingSpans){
       const paint=roadPaint136(plan,kit);
       ctx.save();ctx.scale(32,32);
       kit.drawNetwork(ctx,paint.segments,{view:{l:view.left/32,r:view.right/32,t:view.top/32,b:view.bottom/32},shoulderWidth:.35,spans:paint.spans});
@@ -716,7 +820,7 @@
     }
     for (const j of plan.intersections) {
       if (j.x + 120 < view.left || j.x - 120 > view.right || j.y + 120 < view.top || j.y - 120 > view.bottom) continue;
-      if(plan.layoutRevision===3){
+      if([3,4].includes(plan.layoutRevision)){
         ctx.strokeStyle='rgba(225,221,193,.30)';ctx.lineWidth=3;
         if(Math.abs(j.x-plan.worldSize/2)<1){for(const side of [-1,1]){ctx.beginPath();ctx.moveTo(j.x+side*108,j.y-34);ctx.lineTo(j.x+side*108,j.y+34);ctx.stroke();}}
         else {for(const side of [-1,1]){ctx.beginPath();ctx.moveTo(j.x-34,j.y+side*82);ctx.lineTo(j.x+34,j.y+side*82);ctx.stroke();}}
@@ -828,6 +932,7 @@
   // projected north on screen; rotating a parcel must never rotate gravity.
   function buildingProjection134(building) {
     const l=building.x-building.w/2,t=building.y-building.h/2;
+    if(building.metric202===1){const p=C.CityGeometry202.presentation,u=C.TILE||32,height=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre*(building.kind==='twoStorey'?2:1);return {l,t,r:l+building.w,b:t+building.h,height,roofTop:t-height,roofBottom:t+building.h-height,doorWidth:p.doorWidthMetres*u,doorHeight:p.doorHeightMetres*p.projectedHeightUnitsPerMetre,roofOverhang:p.roofOverhangMetres*u};}
     const height=building.kind==='twoStorey'?28:building.type==='workshop'?17:21;
     return {l,t,r:l+building.w,b:t+building.h,height,roofTop:t-height,roofBottom:t+building.h-height};
   }
@@ -841,6 +946,7 @@
   }
 
   function drawBuildingShell134(ctx, building, residential) {
+    if(building.metric202===1)return drawMetricBuildingShell202(ctx,building,residential);
     const q=buildingProjection134(building),{l,t,r,b,height,roofTop,roofBottom}=q,w=building.w,h=building.h;
     const type=building.kind||building.type;
     const walls={bungalow:'#807966',twoStorey:'#817565',rowHouse:'#707972',farmhouse:'#82735c',houseSmall:'#797568',houseWide:'#807a69',shop:'#758078',workshop:'#73685b',clinic:'#7e8c80',diner:'#897664'};
@@ -884,6 +990,23 @@
     ctx.restore();
   }
 
+  function drawMetricBuildingShell202(ctx,building,residential) {
+    const q=buildingProjection134(building),{l,r,b,height,roofTop,roofBottom,doorWidth,doorHeight,roofOverhang:o}=q,w=building.w,h=building.h,type=building.kind||building.type,p=C.CityGeometry202.presentation;
+    const floorHeight=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,storeys=Math.round(height/floorHeight),doorX=clamp(building.rearDoorX??building.x,l+doorWidth,r-doorWidth),walls={bungalow:'#807966',twoStorey:'#817565',rowHouse:'#707972',farmhouse:'#82735c',houseSmall:'#797568',houseWide:'#807a69',shop:'#758078',workshop:'#73685b',clinic:'#7e8c80',diner:'#897664'},roofs={bungalow:'#5a5145',twoStorey:'#535955',rowHouse:'#62605a',farmhouse:'#71604c',houseSmall:'#63594c',houseWide:'#515c59',shop:'#555c58',workshop:'#646960',clinic:'#666e63',diner:'#675a4c'};
+    ctx.save();ctx.fillStyle='rgba(0,0,0,.27)';ctx.fillRect(l+5,q.t+3,w+5,h+5);
+    ctx.fillStyle=walls[type]||'#7d7867';ctx.fillRect(l,roofTop,w,h+height);ctx.fillStyle='rgba(31,33,28,.32)';ctx.fillRect(l,roofBottom,w,height);
+    ctx.fillStyle='#343831';ctx.fillRect(doorX-doorWidth/2,b-doorHeight,doorWidth,doorHeight);ctx.fillStyle='#b4a071';ctx.fillRect(doorX+doorWidth*.29,b-doorHeight*.43,2,2);
+    for(let floor=0;floor<storeys;floor++)for(let x=l+24;x+38<r-18;x+=76){if(floor===0&&Math.abs(x+19-doorX)<doorWidth/2+24)continue;const y=b-floor*floorHeight-34;ctx.fillStyle='#2d3a37';ctx.fillRect(x,y,38,19);ctx.fillStyle='#87978b';ctx.fillRect(x,y,38,2);ctx.fillRect(x+18,y,2,19);ctx.fillStyle='rgba(183,176,145,.4)';ctx.fillRect(x-3,y+20,44,3);}
+    if(!residential){ctx.fillStyle='#b7b398';ctx.fillRect(l+24,roofBottom+4,w-48,9);ctx.fillStyle=type==='clinic'?'#8d544b':'#53625a';ctx.fillRect(l+28,roofBottom+6,w-56,5);}
+    ctx.fillStyle=roofs[type]||'#5d6055';ctx.fillRect(l-o,roofTop-o,w+o*2,h+o*2);
+    const roofPainted=globalThis.DeadwallInteriorArt153?.drawLocalRoof(ctx,globalThis.DEADWALL?.art,building,{x:l-o,y:roofTop-o,w:w+o*2,h:h+o*2},{seed:globalThis.DEADWALL?.world?.seed||0});
+    const material=globalThis.DeadwallAssets136?.surfaceFor138(type,'roof',{domain:'local'});
+    if(!roofPainted&&material&&!residential)globalThis.DeadwallAssets136.drawSurface138(ctx,globalThis.DEADWALL?.art,material,l-o,roofTop-o,w+o*2,h+o*2,{tile:256,alpha:.72});
+    if(!roofPainted){ctx.fillStyle='rgba(188,173,137,.14)';ctx.fillRect(l-o,roofTop-o,w+o*2,h*.48+o);ctx.strokeStyle='rgba(23,29,26,.38)';ctx.lineWidth=1;for(let y=roofTop+9;y<roofBottom;y+=9){ctx.beginPath();ctx.moveTo(l-o,y);ctx.lineTo(r+o,y);ctx.stroke();}for(let x=l+18;x<r;x+=18){ctx.beginPath();ctx.moveTo(x,roofTop);ctx.lineTo(x,roofBottom);ctx.stroke();}ctx.strokeStyle='#a08e6d';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(l-o,roofTop+h*.48);ctx.lineTo(r+o,roofTop+h*.48);ctx.stroke();ctx.fillStyle='#373b34';ctx.fillRect(r-48,roofTop+22,20,25);ctx.fillStyle='#8d8270';ctx.fillRect(r-50,roofTop+19,24,8);}
+    for(const mark of roofWeather134(building)){ctx.fillStyle=mark.light?'rgba(197,188,150,.15)':'rgba(22,29,23,.12)';ctx.fillRect(l+8+mark.x*(w-16),roofTop+8+mark.y*(h-16),mark.w,mark.h);}
+    ctx.strokeStyle='#303a31';ctx.lineWidth=2;ctx.strokeRect(l-o,roofTop-o,w+o*2,h+o*2);ctx.fillStyle='#28322b';ctx.fillRect(l-o,roofBottom+o-2,w+o*2,3);ctx.restore();
+  }
+
   // Cache only a stable projected shell. Moving cameras keep the native path
   // until its physical pixel phase repeats; a hit is copied without resampling.
   // Grouped compositing changes RGB rounding by at most three levels in the
@@ -900,7 +1023,7 @@
       const q=buildingProjection134(building),left=Math.floor((q.l-7)*m.a+m.e),top=Math.floor((q.roofTop-6)*m.d+m.f),right=Math.ceil((q.r+10)*m.a+m.e),bottom=Math.ceil((q.b+10)*m.d+m.f);
       const width=right-left,height=bottom-top,size=width*height*4;
       if(width<1||height<1||width>2048||height>2048||size>Math.min(bytes,1024*1024)||entries<1){draw();return false;}
-      const dash=ctx.getLineDash?.()||[],key=[building.id,building.variant,building.x,building.y,building.w,building.h,building.kind,building.type,building.rearDoorX,building.visualRotation,m.a,m.d,m.e-left,m.f-top,width,height,...states.map(name=>ctx[name]),dash.join(','),...revision];
+      const dash=ctx.getLineDash?.()||[],key=[building.id,building.variant,building.x,building.y,building.w,building.h,building.kind,building.type,building.rearDoorX,building.visualRotation,building.metric202,m.a,m.d,m.e-left,m.f-top,width,height,...states.map(name=>ctx[name]),dash.join(','),...revision];
       let saved=items.get(building);
       if(saved&&!equal(saved.key,key)){remove(building);saved=null;}
       if(!saved){
@@ -936,6 +1059,7 @@
   function drawWreck(ctx, wreck, looted = wreck.looted) {
     ctx.save(); ctx.translate(wreck.x, wreck.y); ctx.rotate(wreck.angle || 0);
     const w = wreck.size || 58, h = w * .48;
+    if(wreck.body202)ctx.scale(wreck.body202.w/(w*.92),wreck.body202.h/(h*.84));
     ctx.fillStyle = 'rgba(0,0,0,.30)'; ctx.beginPath(); ctx.ellipse(4, h * .45, w * .5, h * .42, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = wreck.kind === 'van' ? '#555b58' : '#5d5b52'; ctx.fillRect(-w * .46, -h * .42, w * .92, h * .84);
     ctx.fillStyle = '#262d2d'; ctx.fillRect(-w * .2, -h * .34, w * .42, h * .68);
@@ -968,7 +1092,7 @@
     ctx.restore();
   }
 
-  function sceneryDepth(node) { return node.y + Math.max(8, (node.renderSize || node.radius * 2) * .22); }
+  function sceneryDepth(node) { return node.metric202===1&&node.body202?node.y+node.body202.h/2:node.y + Math.max(8, (node.renderSize || node.radius * 2) * .22); }
   function isVehicleNode(node) { return Boolean(node && node.sceneryKind && VEHICLE_KINDS.has(node.sceneryKind)); }
 
 
@@ -987,7 +1111,7 @@
 
   function clearNaturalRoadResources(game, plan, protectedBoxes) {
     const roads=[...(plan.roads||[]),...(plan.settlements||[]).flatMap(s=>[s.street,s.connector].filter(Boolean))];
-    const field=game.fieldcraft,fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead),...(C?.Expeditions?.SITES||[]).map(p=>({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>({...p,renderSize:50})),...(game.world.sites||[]).map(p=>({...p,renderSize:96}))];
+    const field=game.fieldcraft,fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead),...(game.expeditions?.sites?.()||C?.Expeditions?.SITES||[]).map(p=>({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>({...p,renderSize:50})),...(game.world.sites||[]).map(p=>({...p,renderSize:96}))];
     const forecourts=plan.stations.map(s=>{
       const depth=128,margin=24;
       if(s.facing==='north')return rect(s.x-s.w/2-margin,s.door.y-depth,s.w+margin*2,depth,'forecourt');
@@ -1005,6 +1129,7 @@
       for(let ring=1;ring<=24&&!target;ring++)for(let direction=0;direction<24;direction++){
         const a=(direction+(node.id%24)/24)*Math.PI/12,x=Math.round((origin.x+Math.cos(a)*ring*32)*100)/100,y=Math.round((origin.y+Math.sin(a)*ring*32)*100)/100;
         if(x<38+radius||y<38+radius||x>plan.worldSize-38-radius||y>plan.worldSize-38-radius||Math.hypot(x-plan.worldSize/2,y-plan.worldSize/2)<270||onAccess(x,y,radius))continue;
+        if(plan.layoutRevision===4&&plan.buildableDistricts202.some(box=>circleIntersectsRect(x,y,radius,box)))continue;
         if(protectedBoxes.some(box=>circleIntersectsRect(x,y,radius,box)))continue;
         const box=(field?.reserveRect||field?.rect)?.({...node,x,y});
         if(box?[...game.world.nodes,...fixtures].some(other=>other!==node&&field.overlap(box,(field.reserveRect||field.rect)(other),3)):game.world.nodes.some(other=>other!==node&&Math.hypot(x-other.x,y-other.y)<(node.radius+other.radius)*2))continue;
@@ -1014,8 +1139,38 @@
     }
   }
 
+  function packMetricScenery202(game,plan,savedAmounts) {
+    if(plan.layoutRevision!==4)return;
+    const u=C.TILE||32,profiles=C.WorldEvolution?.RULES?.vehicles||{};
+    for(const node of game.world.nodes){
+      const variant=Math.abs(node.variant||0)%4,vehicle=!node.sceneryKind&&(node.type==='scrap'?({1:'break',2:'van',3:'truck'})[variant]:node.type==='fuel'&&variant%2?'break':null),profile=vehicle&&profiles[vehicle],size=C.CityGeometry202.sceneryMetres[node.sceneryKind]||(profile?[profile.w,profile.h]:null);
+      if(!size)continue;node.metric202=1;node.body202={w:size[0]*u,h:size[1]*u};node.renderSize=Math.max(node.body202.w,node.body202.h);
+    }
+    if(game.world.__terrain133Prepared||savedAmounts instanceof Map)return;
+    const field=game.fieldcraft,placed=[],bounds=node=>{const b=field?.reserveRect?.(node);if(b)return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};const size=node.renderSize||node.radius*2.65;return {x:node.x-size/2,y:node.y-size/2,w:size,h:size};};
+    const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...plan.buildExclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
+    const reserve=node=>{const b=bounds(node);if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(node.sceneryKind))return b;const p=C.CityGeometry202.presentation,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,o=p.roofOverhangMetres*u;return {x:b.x-o,y:b.y-h-o,w:b.w+o*2,h:b.h+h+o*2};};
+    const fits=(node,x,y)=>{const b=reserve({...node,x,y}),margin=C.CityGeometry202.localParcels.clearanceMetres*u,padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
+    // Reserve an undeveloped district for actual city construction. Move finite
+    // scenery deposits during creation, retaining every ID and every quantity;
+    // saved fieldcraft coordinates remain authoritative on all later loads.
+    const scenery=game.world.nodes.filter(n=>n.sceneryKind).sort((a,b)=>{const aa=reserve(a),bb=reserve(b);return bb.w*bb.h-aa.w*aa.h||a.id-b.id;});
+    for(const node of scenery){
+      if(!fits(node,node.x,node.y)){
+        const origin={x:node.x,y:node.y};let found=false;
+        for(let ring=1;ring<=120&&!found;ring++)for(let direction=0;direction<32;direction++){
+          const a=(direction+(node.id%17)/17)*Math.PI/16,x=Math.round((origin.x+Math.cos(a)*ring*32)*100)/100,y=Math.round((origin.y+Math.sin(a)*ring*32)*100)/100;
+          if(!fits(node,x,y))continue;node.x=x;node.y=y;found=true;break;
+        }
+        if(!found)for(let y=48;y<plan.worldSize-48&&!found;y+=16)for(let x=48;x<plan.worldSize-48;x+=16){if(!fits(node,x,y))continue;node.x=x;node.y=y;found=true;break;}
+        if(!found)throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
+      }
+      placed.push(reserve(node));
+    }
+  }
+
   function spaceTerrainResources133(game,plan,protectedBoxes,savedAmounts) {
-    if(plan.layoutRevision!==3||game.world.__terrain133Prepared)return;
+    if(![3,4].includes(plan.layoutRevision)||game.world.__terrain133Prepared)return;
     // Saved fieldcraft coordinates are authoritative. Repacking against buildings
     // erected since departure would move exhausted IDs and then their neighbours.
     if(savedAmounts instanceof Map){game.world.__terrain133Prepared=true;return;}
@@ -1032,23 +1187,29 @@
       if(mulberry32((plan.seed^Math.imul(node.id,0x45d9f3b)^0x1335EAED)>>>0)()>retained){node.amount=0;node.depleted=true;node.__terrain133Thinned=true;delete node.__exploration125RoadRelocated;}
     }
     const field=game.fieldcraft, roads=[...plan.roads,...plan.settlements.flatMap(s=>[s.street,s.connector].filter(Boolean))],placed=[];
-    const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead),...(C?.Expeditions?.SITES||[]).map(p=>({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>({...p,renderSize:50})),...(game.world.sites||[]).map(p=>({...p,renderSize:96})),...game.world.nodes.filter(n=>n.sceneryKind||n.__exploration125Loot)];
+    const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead),...(game.expeditions?.sites?.()||C?.Expeditions?.SITES||[]).map(p=>({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>({...p,renderSize:50})),...(game.world.sites||[]).map(p=>({...p,renderSize:96})),...game.world.nodes.filter(n=>n.sceneryKind||n.__exploration125Loot)];
     const fits=(n,x,y)=>{
       const r=n.radius*1.86+(rules.roadCanopyMargin??12), starter=starters.has(n.id), distance=Math.hypot(x-center,y-center);
       if(x<r+40||y<r+40||x>plan.worldSize-r-40||y>plan.worldSize-r-40||distance<270||(!starter&&distance<inner)||roads.some(road=>roadContains(road,x,y,r)))return false;
       if(protectedBoxes.some(box=>circleIntersectsRect(x,y,r,box))||plan.buildExclusions.some(box=>circleIntersectsRect(x,y,r,box)))return false;
+      if(plan.layoutRevision===4&&plan.buildableDistricts202.some(box=>circleIntersectsRect(x,y,r,box)))return false;
       if(placed.some(other=>Math.hypot(x-other.x,y-other.y)<Math.max(spacing,n.radius+other.radius+24)))return false;
-      const box=(field?.reserveRect||field?.rect)?.({...n,x,y});if(box&&placed.some(other=>field.overlap(box,(field.reserveRect||field.rect)(other),12)))return false;return !fixtures.some(other=>box?field.overlap(box,(field.reserveRect||field.rect)(other),12):Math.hypot(x-other.x,y-other.y)<r+(other.radius||40));
+      const box=(field?.reserveRect||field?.rect)?.({...n,x,y});if(plan.layoutRevision===4&&box){const metric={x:box.l,y:box.t,w:box.r-box.l,h:box.b-box.t};if(roadFootprint202(plan,metric,12)||[...protectedBoxes,...plan.buildExclusions,...plan.buildableDistricts202].some(a=>rectsOverlap(metric,a)))return false;}if(box&&placed.some(other=>field.overlap(box,(field.reserveRect||field.rect)(other),12)))return false;return !fixtures.some(other=>box?field.overlap(box,(field.reserveRect||field.rect)(other),12):Math.hypot(x-other.x,y-other.y)<r+(other.radius||40));
     };
-    // Treat every ID, including exhausted deposits, in the same order. A reload
-    // cannot move neighbouring deposits because one of them has been harvested.
-    for(const node of [...natural].sort((a,b)=>Number(starters.has(b.id))-Number(starters.has(a.id))||a.id-b.id)){
+    // Historical revisions pack every identity. In a metric fresh campaign,
+    // deposits removed by the existing density rule have no physical body and
+    // cannot consume a second, invisible parcel. Their IDs/zero amounts and
+    // coordinates remain saved, and Continue never repacks either population.
+    const packingOrder=natural.filter(n=>plan.layoutRevision!==4||!n.depleted).sort((a,b)=>{const starter=Number(starters.has(b.id))-Number(starters.has(a.id));if(starter||plan.layoutRevision!==4)return starter||a.id-b.id;const aa=(field?.reserveRect||field?.rect)?.(a),bb=(field?.reserveRect||field?.rect)?.(b);return (bb?(bb.r-bb.l)*(bb.b-bb.t):0)-(aa?(aa.r-aa.l)*(aa.b-aa.t):0)||a.id-b.id;});
+    for(const node of packingOrder){
       if(!fits(node,node.x,node.y)){
         const origin={x:node.x,y:node.y};let found=false;
         for(let ring=1;ring<=90&&!found;ring++)for(let direction=0;direction<32;direction++){
           const a=(direction+(node.id%17)/17)*Math.PI/16,x=Math.round((origin.x+Math.cos(a)*ring*32)*100)/100,y=Math.round((origin.y+Math.sin(a)*ring*32)*100)/100;
           if(!fits(node,x,y))continue;if(!node.depleted&&roads.some(road=>roadContains(road,node.x,node.y,node.radius*1.86)))node.__exploration125RoadRelocated=true;node.x=x;node.y=y;found=true;break;
         }
+        if(plan.layoutRevision===4&&!found)for(let y=64;y<plan.worldSize-64&&!found;y+=16)for(let x=64;x<plan.worldSize-64;x+=16){if(!fits(node,x,y))continue;node.x=x;node.y=y;found=true;break;}
+        if(plan.layoutRevision===4&&!found)throw Error(`Dépôt métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.type} · ${node.body202?.w??node.radius*2}×${node.body202?.h??node.radius*2}`);
       }
       placed.push(node);
     }
@@ -1079,12 +1240,13 @@
 
   function ensureRuntimeLoot(game, plan, savedAmounts = null) {
     if (!game?.world?.nodes) return;
+    const amounts=savedAmounts instanceof Map?savedAmounts:new Map(game.world.nodes.filter(node=>node.__exploration125Loot).map(node=>[node.id,node.amount]));
     removeRuntimeLoot(game);
     if (!isGeneration4(game)) return;
-    const amounts=savedAmounts instanceof Map?savedAmounts:new Map();
     for(const spec of plan.stationLoot||[]){const amount=amounts.has(spec.id)?amounts.get(spec.id):spec.amount;game.world.nodes.push(runtimeLootNode(spec,amount));}
     const protectedBoxes=[...(plan.solids||[])].filter(box=>['settlement-building','house','station-wall','station-furniture','terrain-prop'].includes(box.kind));
     for(const station of plan.stations)protectedBoxes.push(rect(station.x-station.w/2-12,station.y-station.h/2-12,station.w+24,station.h+24,'station-floor'));
+    packMetricScenery202(game,plan,savedAmounts);
     spaceTerrainResources133(game,plan,protectedBoxes,savedAmounts);
     clearNaturalRoadResources(game,plan,protectedBoxes);
     for(const node of game.world.nodes){if(node.__exploration125Loot||node.depleted)continue;if(protectedBoxes.some(box=>circleIntersectsRect(node.x,node.y,Math.max(5,node.radius*.5),box))){node.amount=0;node.depleted=true;node.__exploration125Covered=true;}}
@@ -1102,6 +1264,10 @@
   function postureMultiplier(posture){return posture==='prone'?.38:posture==='crouch'?.68:1;}
 
   function drawLootedNode(game, ctx, node) {
+    if(node.metric202===1&&node.body202){
+      if(game.art?.drawMetricScenery202?.(ctx,node,game.world.seed,game.fieldcraft?.rect(node)))return;
+      return drawWreck(ctx,{id:node.id,x:node.x,y:node.y,angle:0,size:node.body202.w,body202:node.body202,kind:node.sceneryKind==='bus'||node.sceneryKind==='utilityTruck'?'van':'car'},true);
+    }
     const angle = (node.id % 7 - 3) * .045, size = node.renderSize || 96;
     ctx.save(); ctx.translate(node.x, node.y); ctx.rotate(angle);
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(5, size * .18, size * .46, size * .18, 0, 0, Math.PI * 2); ctx.fill();
@@ -1130,6 +1296,48 @@
     ctx.restore();
   }
 
+  const ROAD_PLACEMENT_CACHE202 = new WeakMap();
+  // Only the immutable road geometry is cached. Neither a placement preview nor
+  // this query reads a reconciled simulation snapshot or changes a saved owner.
+  function roadFootprint202(plan, footprint, clearance = 0) {
+    if (!plan || !Array.isArray(plan.roads) || !footprint ||
+        !['x','y','w','h'].every(key=>Number.isFinite(footprint[key])) || footprint.w<=0 || footprint.h<=0 ||
+        !Number.isFinite(clearance) || clearance<0) throw new RangeError('Emprise ou plan routier invalide.');
+    let cached=ROAD_PLACEMENT_CACHE202.get(plan);
+    if (!cached || cached.roads!==plan.roads || cached.settlements!==plan.settlements ||
+        cached.roadCount!==plan.roads.length || cached.settlementCount!==(plan.settlements||[]).length) {
+      const sources=[...plan.roads,...(plan.settlements||[]).flatMap(s=>[s.street,s.connector].filter(Boolean))], boxes=[];
+      for (const road of sources) {
+        const a=road.axis==='h'?{x:0,y:road.y}:road.axis==='v'?{x:road.x,y:0}:{x:road.x1,y:road.y1};
+        const b=road.axis==='h'?{x:road.length,y:road.y}:road.axis==='v'?{x:road.x,y:road.length}:{x:road.x2,y:road.y2};
+        if (![a.x,a.y,b.x,b.y,road.width].every(Number.isFinite) || road.width<=0) throw new RangeError('Chaussée locale invalide.');
+        const length=Math.hypot(b.x-a.x,b.y-a.y);
+        if (length>0) boxes.push(orientedSolid134((a.x+b.x)/2,(a.y+b.y)/2,length,road.width,Math.atan2(b.y-a.y,b.x-a.x)));
+      }
+      cached={roads:plan.roads,settlements:plan.settlements,roadCount:plan.roads.length,settlementCount:(plan.settlements||[]).length,index:createSpatialIndex(boxes)};
+      ROAD_PLACEMENT_CACHE202.set(plan,cached);
+    }
+    const area={x:footprint.x-clearance,y:footprint.y-clearance,w:footprint.w+clearance*2,h:footprint.h+clearance*2};
+    return querySpatialIndexRect(cached.index,area).length>0;
+  }
+
+  function projectedBuildingBounds202(def,gx,gy,rotation=0,tile=C?.TILE||32) {
+    const body=buildingFootprint(def,gx,gy,rotation,tile);
+    // The pure frame measures authored geometry without loading an atlas or
+    // painting. Reuse that owner so a future roof change cannot escape the veto.
+    const frames=globalThis.DeadwallBuildingVariants157||(typeof require==='function'?require('./building-variants157.js'):null);
+    if(typeof frames?.metricFrame202!=='function')throw Error('Projection métrique des bâtiments absente.');
+    const frame=frames.metricFrame202({type:def.id,def,gx,gy,rotation,geometryVersion202:1,
+      x:body.x+body.w/2,y:body.y+body.h/2,w:body.w/tile,h:body.h/tile});
+    if(!frame)throw new RangeError('Projection métrique du bâtiment invalide.');
+    return {...frame.bounds};
+  }
+
+  function obstacleFootprint202(plan,footprint) {
+    if(!plan||!footprint||!['x','y','w','h'].every(key=>Number.isFinite(footprint[key]))||footprint.w<=0||footprint.h<=0)throw new RangeError('Emprise de décor invalide.');
+    return querySpatialIndexRect(planSpatial(plan).blockerIndex,footprint).length>0;
+  }
+
   function patchWorldPlacement(game, plan) {
     const world = game.world;
     if (!world || world.__exploration125PlacementInstalled) return;
@@ -1138,8 +1346,15 @@
     world.placement = function placement125(def, gx, gy, rotation = 0, ignoreId = 0) {
       const result = basePlacement(def, gx, gy, rotation, ignoreId);
       if (!result.valid || !isGeneration4(game)) return result;
-      const footprint = buildingFootprint(def, gx, gy, rotation, tile);
-      const overlaps = querySpatialIndexRect(planSpatial(plan).blockerIndex, footprint).length > 0;
+      const physicalDef=world.definition?.(def.id)||def,footprint = buildingFootprint(physicalDef, gx, gy, rotation, tile);
+      const rules=C.CityRoadRules202;
+      if (rules && !rules.allowedProperties.some(key=>Boolean(physicalDef[key]))) {
+        const roadOverlap=(area,clearance)=>(Array.isArray(plan.roads)&&roadFootprint202(plan,area,clearance))||game.infrastructure?.roadFootprint202?.(area,clearance);
+        if(roadOverlap(footprint,rules.clearance) || world.cityGeometry202===1&&roadOverlap(projectedBuildingBounds202(physicalDef,gx,gy,rotation,tile),0)) {
+          return {valid:false,reason:'Chaussée ou voie financée à préserver'};
+        }
+      }
+      const overlaps = obstacleFootprint202(plan,footprint);
       return overlaps ? { valid: false, reason: 'Décor, habitation ou accès à préserver' } : result;
     };
     if(baseSolid)world.solidForFriendly=function solidForFriendly125(x,y){
@@ -1156,16 +1371,26 @@
   }
 
   function installPlanSync(game, plan) {
+    // Internal generation migrations restore a just-created campaign before its
+    // first parcel packing. They are not Continue: preserving those provisional
+    // coordinates would let auto-cover destroy finite deposits. Keep this marker
+    // private to the initializer; later migrations of the same run can preserve
+    // its already packed coordinates without running the density rule twice.
+    let metricPreparedRun202=null;
     const sync = (savedAmounts=null) => {
       const seed = Number(game.world?.seed) || 0;
-      const revision=[2,3].includes(game.exploration125?.layoutRevision)?game.exploration125.layoutRevision:1;
+      const revision=[2,3,4].includes(game.exploration125?.layoutRevision)?game.exploration125.layoutRevision:1;
+      if(revision===4&&game.world?.cityGeometry202!==1)throw Error('Le plan métrique D-17 exige des emprises urbaines métriques.');
       if (plan.seed !== seed || plan.layoutRevision !== revision) {
         const fresh = createFeaturePlan(seed, plan.worldSize, revision);
         for(const key of Object.keys(plan))if(!(key in fresh))delete plan[key];
         Object.assign(plan, fresh);
       }
       patchWorldPlacement(game, plan);
-      ensureRuntimeLoot(game,plan,savedAmounts);
+      const startingMetric=revision===4&&globalThis.DeadwallCampaignStart202?.isStarting?.(game)===true;
+      const preparedRun=metricPreparedRun202?.id===game.runId&&metricPreparedRun202?.seed===seed;
+      ensureRuntimeLoot(game,plan,startingMetric&&savedAmounts instanceof Map&&!preparedRun?null:savedAmounts);
+      if(startingMetric&&game.world.__terrain133Prepared)metricPreparedRun202={id:game.runId,seed};
       game.exploration125?.refreshCodex?.();
       if(game.world&&isGeneration4(game)){game.world.flowDirty=true;game.world.navigationVersion=(game.world.navigationVersion||0)+1;if(Number.isFinite(game.flowTimer))game.flowTimer=0;}
       return plan;
@@ -1176,11 +1401,13 @@
       if(typeof game.startNew==='function'){
         const baseStart=game.startNew.bind(game);
         game.startNew=function startNew125(...args){const result=baseStart(...args);if(result===false)return result;if(this.state==='playing'){
-          this.exploration125.layoutRevision=3;
+          this.exploration125.layoutRevision=this.world.cityGeometry202===1?4:3;
           if(!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
           // The first autosave already recorded this campaign ID. Generation now
           // lives in its explicit register; keep :g4 as a legacy read hint only.
-          this.exploration125.generation=4;this.exploration125.layoutRevision=3;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;delete this.world.__terrain133Prepared;sync();this.save?.(false);
+          this.exploration125.generation=4;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;
+          if(this.exploration125.layoutRevision!==4||metricPreparedRun202?.id!==this.runId||metricPreparedRun202?.seed!==this.world.seed)delete this.world.__terrain133Prepared;
+          sync();this.save?.(false);
         }return result;};
       }
       if(typeof game.restoreSave==='function'){
@@ -1251,7 +1478,7 @@
       }
       for (const settlement of plan.settlements||[]) for (const building of settlement.buildings)
         add(building.x,building.y,Math.max(building.w,building.h),building.y+building.h/2,ctx=>drawSettlementBuilding(ctx,building));
-      for (const wreck of plan.wrecks) {const box=orientedSolid134(wreck.x,wreck.y,wreck.size*.92,wreck.size*.48*.84,wreck.angle||0);add(wreck.x,wreck.y,wreck.size,box.y+box.h,ctx=>drawWreck(ctx,wreck));}
+      for (const wreck of plan.wrecks) {const box=orientedSolid134(wreck.x,wreck.y,wreck.body202?.w??wreck.size*.92,wreck.body202?.h??wreck.size*.48*.84,wreck.angle||0);add(wreck.x,wreck.y,wreck.size,box.y+box.h,ctx=>drawWreck(ctx,wreck));}
       for (const prop of plan.roadProps) add(prop.x,prop.y,36,prop.y+10,ctx=>drawRoadProp(ctx,prop));
       for (const prop of plan.decor||[])if(['bench','marker','stump'].includes(prop.kind))add(prop.x,prop.y,30,prop.y+(prop.kind==='bench'?13:8),ctx=>drawTerrainDecor133(ctx,prop));
       for (const node of this.world.nodes) if (node.depleted && isVehicleNode(node))
@@ -1351,8 +1578,8 @@
     if(live){drawMapBuildings(ctx,game,sx,sy,true);ctx.save();ctx.scale(sx,sy);game.infrastructure?.drawRoads(ctx,{left:0,top:0,right:plan.worldSize,bottom:plan.worldSize});ctx.restore();}
     ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
     if(active){
-      for (const [i, j] of plan.intersections.entries()) { ctx.fillStyle = j.kind==='angled'?'#8b7048':'#575c55'; ctx.beginPath(); ctx.arc(j.x * sx, j.y * sy, j.kind==='angled'?7:5, 0, Math.PI * 2); ctx.fill(); if (i === 4 && plan.layoutRevision!==3) { ctx.fillStyle = '#373b35'; ctx.fillText('D-17', j.x * sx, j.y * sy - 10); } }
-      if(plan.layoutRevision===3){ctx.fillStyle='#373b35';ctx.fillText('D-17',w/2,h/2-10);}
+      for (const [i, j] of plan.intersections.entries()) { ctx.fillStyle = j.kind==='angled'?'#8b7048':'#575c55'; ctx.beginPath(); ctx.arc(j.x * sx, j.y * sy, j.kind==='angled'?7:5, 0, Math.PI * 2); ctx.fill(); if (i === 4 && ![3,4].includes(plan.layoutRevision)) { ctx.fillStyle = '#373b35'; ctx.fillText('D-17', j.x * sx, j.y * sy - 10); } }
+      if([3,4].includes(plan.layoutRevision)){ctx.fillStyle='#373b35';ctx.fillText('D-17',w/2,h/2-10);}
       ctx.strokeStyle='rgba(77,84,73,.55)';ctx.lineWidth=3;for(const settlement of plan.settlements||[])for(const local of [settlement.street,settlement.connector].filter(Boolean)){ctx.beginPath();ctx.moveTo(local.x1*sx,local.y1*sy);ctx.lineTo(local.x2*sx,local.y2*sy);ctx.stroke();}
       for (const station of plan.stations) { const x = station.x * sx, y = station.y * sy; ctx.fillStyle = '#9a6d43'; ctx.fillRect(x - 6, y - 6, 12, 12); ctx.fillStyle = '#4b4438'; ctx.fillText('ESSENCE', x, y - 11); }
       ctx.fillStyle='#4f654f';for(const settlement of plan.settlements||[]){ctx.beginPath();ctx.arc(settlement.x*sx,settlement.y*sy,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3f473e';ctx.fillText(settlement.name.toUpperCase(),settlement.x*sx,settlement.y*sy-13);ctx.fillStyle='#4f654f';}
@@ -1467,9 +1694,9 @@
   function normalizeExplorationSave(raw){
     const source=raw&&typeof raw==='object'&&!Array.isArray(raw)?raw:{};
     const finite=(value,fallback,min,max)=>typeof value==='number'&&Number.isFinite(value)&&value>=min&&value<=max?value:fallback;
-    if(source.layoutRevision!==undefined&&![1,2,3].includes(source.layoutRevision))throw new RangeError('Révision du plan D-17 invalide.');
+    if(source.layoutRevision!==undefined&&![1,2,3,4].includes(source.layoutRevision))throw new RangeError('Révision du plan D-17 invalide.');
     const generation=source.generation===4?4:3,region=source.regionOffset&&typeof source.regionOffset==='object'?source.regionOffset:{};
-    return {generation,...([2,3].includes(source.layoutRevision)?{layoutRevision:source.layoutRevision}:{}),regionOffset:{x:Math.trunc(finite(region.x,0,-1000000,1000000)),y:Math.trunc(finite(region.y,0,-1000000,1000000))},posture:['stand','crouch','prone'].includes(source.posture)?source.posture:'stand',wildNext:finite(source.wildNext,0,0,1e12),wildHordes:Math.trunc(finite(source.wildHordes,0,0,1e9))};
+    return {generation,...([2,3,4].includes(source.layoutRevision)?{layoutRevision:source.layoutRevision}:{}),regionOffset:{x:Math.trunc(finite(region.x,0,-1000000,1000000)),y:Math.trunc(finite(region.y,0,-1000000,1000000))},posture:['stand','crouch','prone'].includes(source.posture)?source.posture:'stand',wildNext:finite(source.wildNext,0,0,1e12),wildHordes:Math.trunc(finite(source.wildHordes,0,0,1e9))};
   }
 
   function applyExplorationState(game, raw) {
@@ -1477,7 +1704,7 @@
     game.exploration125=game.exploration125||{};
     const marked=typeof game.runId==='string'&&game.runId.includes(GENERATION_MARKER);
     game.exploration125.generation=extra.generation===4||marked||game.frontier?.snapshot?.().generation>=4?4:3;
-    game.exploration125.layoutRevision=[2,3].includes(extra.layoutRevision)?extra.layoutRevision:1;
+    game.exploration125.layoutRevision=[2,3,4].includes(extra.layoutRevision)?extra.layoutRevision:1;
     game.d17RegionOffset={...extra.regionOffset};
     if(game.player)game.player.posture=extra.posture;
     game.exploration125.wildNext=extra.wildNext;
@@ -1490,10 +1717,10 @@
     const Save=globalThis.DeadwallSave;
     if(Save&&!Save.__exploration125Installed){
       Save.__exploration125Installed=true;const baseValidate=Save.validate.bind(Save);
-      Save.validate=function validate125(input){const data=baseValidate(input);data.exploration125=normalizeExplorationSave(input?.exploration125);return data;};
+      Save.validate=function validate125(input){const data=baseValidate(input);data.exploration125=normalizeExplorationSave(input?.exploration125);if(data.exploration125.layoutRevision===4&&data.cityGeometry202!==1)throw new RangeError('Le plan métrique D-17 exige des emprises urbaines métriques.');return data;};
     }
     const baseSerialize=game.serialize.bind(game);
-    game.serialize=function serialize125(){const data=baseSerialize();data.exploration125={generation:isGeneration4(this)?4:3,...([2,3].includes(this.exploration125?.layoutRevision)?{layoutRevision:this.exploration125.layoutRevision}:{}),regionOffset:{x:this.d17RegionOffset?.x||0,y:this.d17RegionOffset?.y||0},posture:this.player?.posture||'stand',wildNext:this.exploration125?.wildNext||0,wildHordes:this.exploration125?.wildHordes||0};return data;};
+    game.serialize=function serialize125(){const data=baseSerialize();data.exploration125={generation:isGeneration4(this)?4:3,...([2,3,4].includes(this.exploration125?.layoutRevision)?{layoutRevision:this.exploration125.layoutRevision}:{}),regionOffset:{x:this.d17RegionOffset?.x||0,y:this.d17RegionOffset?.y||0},posture:this.player?.posture||'stand',wildNext:this.exploration125?.wildNext||0,wildHordes:this.exploration125?.wildHordes||0};return data;};
   }
 
   function installMobility(game, plan, document){
@@ -1613,5 +1840,5 @@
     return true;
   }
 
-  return Object.freeze({ createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
+  return Object.freeze({ obstacleFootprint202, projectedBuildingBounds202, roadFootprint202, createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
 });

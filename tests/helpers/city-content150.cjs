@@ -54,6 +54,14 @@ function build(g,type){
 }
 function planPosition(g,id){
  for(let y=10;y<104;y+=2)for(let x=10;x<104;x+=2){const q=g.dayworks.planStatus(id,x,y);if(q.ok)return{x,y,q};}
+ // Protected roads can invalidate every old even anchor without exhausting the
+ // district. Keep historical fixture positions first, then ask the same native
+ // validator about all remaining legal anchors; never clear or bypass terrain.
+ const C=globalThis.DeadwallCore;
+ for(let y=1;y<C.WORLD_TILES-1;y++)for(let x=1;x<C.WORLD_TILES-1;x++){
+  if(x>=10&&x<104&&x%2===0&&y>=10&&y<104&&y%2===0)continue;
+  const q=g.dayworks.planStatus(id,x,y);if(q.ok)return{x,y,q};
+ }
  throw Error('Fixture sans terrain libre pour le plan '+id);
 }
 module.exports={fresh,freeCell,prepare,advanced,stable,continueExactly,build,planPosition,standAt};

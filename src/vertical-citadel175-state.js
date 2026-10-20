@@ -10,7 +10,7 @@
  register();
  const height=(site,level,base)=>base.height+level*R.deckRise;
  const siteInitial=id=>({id,lift:0,decks:[{progress:1,health:R.deck.health,modules:[]}]});
- function bounds(b){const d=R.bases[b.type]||C.BUILDINGS[b.type],swap=(b.rotation||0)%2,w=d.size[swap?1:0],h=d.size[swap?0:1];return{x:b.gx,y:b.gy,w,h};}
+ function bounds(b){const d=R.bases[b.type]||b.def||C.CityGeometry202.definition(b.type,b.geometryVersion202??0),swap=(b.rotation||0)%2,w=d.size[swap?1:0],h=d.size[swap?0:1];return{x:b.gx,y:b.gy,w,h};}
  function entrance(b){const q=bounds(b),r=(b.rotation||0)%4,offset=1.1;
   const p=r===0?{x:q.x+q.w/2,y:q.y+q.h+offset}:r===1?{x:q.x-offset,y:q.y+q.h/2}:r===2?{x:q.x+q.w/2,y:q.y-offset}:{x:q.x+q.w+offset,y:q.y+q.h/2};return{x:p.x*R.tile,y:p.y*R.tile};
  }

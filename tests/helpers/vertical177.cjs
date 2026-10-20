@@ -8,7 +8,12 @@ function boot(age=10){const {game:g}=boot127();V.install(g);g.startNew('standard
 function build(g,type='verticalFoundation6'){
  // Large late-age foundations need a cleared site; this fixture harvests native nodes without crediting loot.
  const large=C.BUILDINGS[type].size.some(n=>n>=20);if(large)for(const node of g.world.nodes)node.harvest(node.amount);
- for(let x=large?4:38;x<(large?120:85);x+=2)for(let y=large?4:38;y<(large?120:85);y+=2)if(g.world.placement(C.BUILDINGS[type],x,y,0).valid&&g.placeOne(type,x,y)){
+ function* candidates(){
+  for(let x=large?4:38;x<(large?120:85);x+=2)for(let y=large?4:38;y<(large?120:85);y+=2)yield[x,y];
+  // Road clearance can leave lawful plots outside the old central even-cell scan.
+  for(let y=1;y<C.WORLD_TILES;y++)for(let x=1;x<C.WORLD_TILES;x++)yield[x,y];
+ }
+ for(const[x,y]of candidates())if(g.world.placement(C.BUILDINGS[type],x,y,0).valid&&g.placeOne(type,x,y)){
   const b=g.world.atCell(x,y);assert.equal(b.type,type);
   // Explicit late-age fixture: only the native paid support is completed here.
   b.progress=1;b.health=b.maxHealth;g.refreshMetrics(true);Object.assign(g.player,g.vertical175.entrance(b));return b;

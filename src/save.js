@@ -22,11 +22,12 @@
   function validate(input) {
     const source = object(input, 'document');
     const data = C.migrateSaveData(source); if (!data) fail('version incompatible');
+    const cityGeometry202=C.CityGeometry202.version(data.cityGeometry202===undefined?0:data.cityGeometry202);
     const scenarioId = S.normalize(data.scenarioId);
     const ids = new Set(), nodeIds = new Set(), occupied = new Set(); let maximumId = 0, cores = 0;
     const entityId = raw => { const id = integer(raw.id, undefined, 1, MAX_ENTITY_ID, 'identifiant'); if (ids.has(id)) fail('identifiant dupliqué'); ids.add(id); maximumId = Math.max(maximumId, id); return id; };
     const buildings = list(data.buildings, [], C.WORLD_TILES ** 2, 'structures').map(value => {
-      const raw = object(value, 'structure');if(!owns(C.BUILDINGS,raw.type))fail('type de structure');const def=C.BUILDINGS[raw.type];
+      const raw = object(value, 'structure');if(!owns(C.BUILDINGS,raw.type))fail('type de structure');const def=C.CityGeometry202.definition(raw.type,cityGeometry202);
       const id = entityId(raw), rotation = integer(raw.rotation, 0, 0, 3, 'rotation');
       const [width, height] = rotation % 2 ? [def.size[1], def.size[0]] : def.size;
       const gx = integer(raw.gx, undefined, 0, C.WORLD_TILES-width, 'cellule X'), gy = integer(raw.gy, undefined, 0, C.WORLD_TILES-height, 'cellule Y');
@@ -57,7 +58,7 @@
         }
       }
       if(raw.kind==='shielded'||raw.kind==='charger'){
-        const core=buildings.find(b=>b.type==='core'),size=C.BUILDINGS.core.size;
+        const core=buildings.find(b=>b.type==='core'),size=C.CityGeometry202.definition('core',cityGeometry202).size;
         const facing=Math.atan2((core.gy+size[1]/2)*C.TILE-out.y,(core.gx+size[0]/2)*C.TILE-out.x);
         out.facing=number(raw.facing,facing,-Math.PI,Math.PI,'orientation infecté');
       }
@@ -95,6 +96,7 @@
     if(typeof objectiveReady!=='boolean'||objectiveReady&&(objectiveIndex>=C.OBJECTIVES.length||objectiveProgress<C.OBJECTIVES[objectiveIndex].target))fail('récompense d’objectif');
     return { version:C.SAVE_VERSION,timestamp:number(data.timestamp,Date.now(),0,1e15,'date'),difficulty:owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard',worldSeed:integer(data.worldSeed,17117,0,0xffffffff,'graine'),workerOrder:['auto','harvest','build','clear','retreat'].includes(data.workerOrder)?data.workerOrder:'auto',runId:typeof data.runId==='string'&&/^[a-zA-Z0-9:_-]{1,120}$/.test(data.runId)?data.runId:'legacy:'+(owns(C.DIFFICULTIES,data.difficulty)?data.difficulty:'standard')+':'+(data.worldSeed??17117)+(scenarioId==='classic'?'':':'+scenarioId),randomState:integer(data.randomState,data.worldSeed||17117,0,0xffffffff,'aléatoire'),resources:bag(data.resources),player,buildings,units,zombies,
       scenarioId,
+      ...(cityGeometry202?{cityGeometry202}:{}),
       squads,
       narrative,nodes:list(data.nodes,[],50000,'gisements').map(row=>{if(!Array.isArray(row)||row.length!==2)fail('gisement');const id=integer(row[0],undefined,0,1e9,'gisement ID');if(nodeIds.has(id))fail('gisement dupliqué');nodeIds.add(id);return[id,number(row[1],0,0,1e12,'gisement quantité')];}),
       wave,phase,phaseTime:number(data.phaseTime,20,-1e12,1e12,'chronomètre'),spawnQueue:legacy.slice(),pendingSpawns:{...pending},spawnTimer:number(data.spawnTimer,0,-1e12,1e12,'cadence migration'),fronts:list(data.fronts,[],4,'fronts').filter(front=>['north','east','south','west'].includes(front)),wavePlan:plan,
@@ -259,7 +261,7 @@
   const units=new Map(base.units.map(u=>[u.id,u])),structures=new Map(base.buildings.map(b=>[b.id,b]));
   const taken=new Set([...(base.territories?.withdrawing||[]),...Object.values(base.territories?.sectors||{}).map(s=>s.workerId),...(base.siege?.crew||[]).map(c=>c.id),...(base.citadel?.calls||[]).map(c=>c.unitId)]);
   for(const member of state.crew){const u=units.get(member.id);if(!u||u.kind!=='worker'||u.dead||u.health<=0||taken.has(member.id))throw Error('Ouvrier de voirie absent ou déjà affecté.');}
-  for(const b of state.ruins){const d=Object.hasOwn(C.BUILDINGS,b.type)&&C.BUILDINGS[b.type];if(!d||structures.has(b.id)||units.has(b.id)||(Number.isSafeInteger(base.nextId)&&b.id>=base.nextId))throw Error('Empreinte inconnue ou structure pas détruite.');
+  for(const b of state.ruins){const d=Object.hasOwn(C.BUILDINGS,b.type)&&C.CityGeometry202.definition(b.type,base.cityGeometry202||0);if(!d||structures.has(b.id)||units.has(b.id)||(Number.isSafeInteger(base.nextId)&&b.id>=base.nextId))throw Error('Empreinte inconnue ou structure pas détruite.');
     const [w,h]=b.rotation%2?[d.size[1],d.size[0]]:d.size;
     if(b.gx+w>=127||b.gy+h>=127||b.at>(base.elapsed??0))throw Error('Empreinte hors carte ou datée du futur.');
     if(base.buildings.some(s=>s.type===b.type&&s.gx===b.gx&&s.gy===b.gy&&(s.rotation||0)===b.rotation))throw Error('Empreinte déjà reconstruite.');

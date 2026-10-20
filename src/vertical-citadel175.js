@@ -287,7 +287,7 @@
   }
   function muzzle(q){const p=S.slots(q.b)[q.m.slot],z=S.height(q.s,q.level,base(q.b))+R.muzzleHeight;return{x:p.x,y:p.y,z};}
   function geometry(){const boxes=[];
-   for(const b of g.world.buildings.values())if(live(b)&&b.completed){const q=S.bounds(b),s=site(b.id),v=base(b),h=v?.height||(b.def.wall?3:R.structureHeight);
+   for(const b of g.world.buildings.values())if(live(b)&&b.completed){const q=S.bounds(b),s=site(b.id),v=base(b),h=C.CityGeometry202.structureHeight(b.def,b.geometryVersion202??0);
     const open=b.def.gate&&b.gateMode==='open';if(open&&!v)continue;
     const sill=open?v.gateClearance||0:0;
     boxes.push({...q,z:sill,d:h-sill,owner:b.id,type:'structure'});

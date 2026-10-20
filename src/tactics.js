@@ -4,7 +4,7 @@
   if (!C) throw new Error('DeadwallCore introuvable pour les tactiques.');
   const GATE_MODES = Object.freeze(['auto', 'open', 'closed']);
 
-  function definition(building) { return building?.def || C.BUILDINGS[building?.type] || null; }
+  function definition(building) { return building?.def || C.CityGeometry202.definition(building?.type, building?.geometryVersion202 ?? 0); }
   function gateMode(building) { return GATE_MODES.includes(building?.gateMode) ? building.gateMode : 'auto'; }
   function operational(building) {
     return Boolean(building && !building.dead && building.health > 0 && (building.completed === undefined ? building.progress >= 1 : building.completed));
