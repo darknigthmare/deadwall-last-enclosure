@@ -1,0 +1,242 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createHarness, recorder, ready, chooseCampaign} from './browser-qa-common142.mjs';
+import {activate, openCommand, resumeCommand, saveReloadContinue} from './browser-qa-common144.mjs';
+import {captureSource201, assertSource201, sourceStable201} from './full-check201.mjs';
+
+const repository = fileURLToPath(new URL('..', import.meta.url));
+process.env.DEADWALL_QA_ROOT = path.resolve(process.env.DEADWALL_QA_ROOT || 'dist');
+const ids = ['returnService201', 'craftCourt201', 'staggeredLines201', 'powerCourt201', 'medicalRecovery201', 'siegeSupply201'];
+const expectedHead = process.env.DEADWALL_EXPECTED_HEAD;
+const fallbackOutput = path.join(repository, 'artifacts', 'qa', 'continuation201-start-' + new Date().toISOString().replace(/[^0-9A-Za-z_-]/g, '_'));
+fs.mkdirSync(fallbackOutput, {recursive: true});
+const scope = 'Built player entry without tools/fixture flags, actual mouse/touch notebook controls and canvas anchoring at three viewports. Advanced age, old completed prerequisite infrastructure and supplies are explicitly prepared; six free previews and one paid native ensemble are then exercised. One separate prepared native 12 m rooftop death is photographed on desktop. RAF is stopped after native startup; this is an automated functional/visual inspection, not a human campaign, elapsed progression, animation benchmark or production qualification.';
+let h, report = {scope, expectedHead, root: process.env.DEADWALL_QA_ROOT, profiles: [], pass: false, started: new Date().toISOString()};
+
+// Timestamp describes serialization itself. Every persistent gameplay field,
+// including the random state, remains part of each read-only comparison.
+const material = page => page.evaluate(() => {const {timestamp, ...saved} = DEADWALL.serialize(); return JSON.stringify(saved);});
+
+async function reachable(page, selector) {
+  await page.locator(selector).scrollIntoViewIfNeeded();
+  return page.locator(selector).evaluate(node => {
+    const r = node.getBoundingClientRect(), hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+    return node.checkVisibility() && r.width > 0 && r.height >= 43 && r.left >= -1 && r.right <= innerWidth + 1 &&
+      r.top >= -1 && r.bottom <= innerHeight + 1 && !!hit && (hit === node || node.contains(hit));
+  });
+}
+
+async function plansNotebook(page, touch) {
+  if (!await page.locator('#commandModal').isVisible()) await openCommand(page, touch, 'field');
+  else await activate(page, '#commandTab-field', touch);
+  for (const selector of ['#notebookDomain-city', '#dayworksTab']) {
+    await page.locator(selector).scrollIntoViewIfNeeded(); await activate(page, selector, touch);
+  }
+  await page.locator('#dayworksPanel').waitFor({state: 'visible'});
+}
+
+function advancedFixture(planIds) {
+  const g = DEADWALL, C = DeadwallCore, added = [];
+  const raw = g.serialize(); raw.urban.peakScore = 2200; raw.urban.progression151 = {version: 1, age: 10};
+  if (!g.restoreSave(raw)) throw Error('Advanced knowledge fixture refused');
+  function prepare(type) {
+    if (g.world.has(type)) return;
+    const def = C.BUILDINGS[type]; if (!def) throw Error('Unknown prerequisite ' + type);
+    if (def.requires) prepare(def.requires);
+    const core = g.core(); let at;
+    for (let ring = 6; ring < 60 && !at; ring++) for (let y = -ring; y <= ring && !at; y++) {
+      for (const x of Math.abs(y) === ring ? Array.from({length: 2 * ring + 1}, (_, i) => i - ring) : [-ring, ring]) {
+        const gx = core.gx + x, gy = core.gy + y, l = gx * C.TILE, t = gy * C.TILE, r = l + def.size[0] * C.TILE, b = t + def.size[1] * C.TILE;
+        const occupied = [g.player, ...g.units, ...g.zombies].some(a => !a.dead && Math.hypot(a.x - Math.max(l, Math.min(r, a.x)), a.y - Math.max(t, Math.min(b, a.y))) < (a.radius || 13) + 2);
+        if (!occupied && g.world.placement(def, gx, gy, 0).valid) {at = {gx, gy}; break;}
+      }
+    }
+    if (!at) throw Error('No legal physical prerequisite footprint: ' + type);
+    const b = new (g.core().constructor)(g.nextId++, type, at.gx, at.gy, 0, 1);
+    g.world.add(b); added.push({id: b.id, type, ...at}); g.refreshMetrics(true);
+  }
+  prepare('megaReserve'); prepare('planningOffice');
+  for (const id of planIds) for (const item of C.Dayworks.footprint(id, 0, 0)) if (C.BUILDINGS[item.type].requires) prepare(C.BUILDINGS[item.type].requires);
+  g.refreshMetrics(true);
+  for (const key of C.RESOURCE_KEYS) g.resources[key] = Math.min(5000, g.storage);
+  // Materialize the normal calm-phase plan before exact save comparisons.
+  g.prepareWave(); g.refreshMetrics(true); g.updateUI(); g.render();
+  return {kind: 'prepared-late-age-city-not-natural-progression', age: g.tier.id + 1, added,
+    completedInfrastructure: 'Declared fixture via normal physical building constructors; these older structures are not claimed paid or manually built.',
+    grantedSupplies: {...g.resources}, storage: g.storage, rng: g.random.state,
+    assignedFields: ['urban.peakScore=2200', 'urban.progression151.age=10', 'completed legal prerequisite structures', 'nextId', 'resources capped by prepared native storage'],
+    nativeNewEnsemble: 'Only the new Relais de service below uses real UI financing and remains unfinished.'};
+}
+
+async function validAnchor(page, id) {
+  return page.evaluate(id => {
+    for (let gy = 10; gy < 104; gy += 2) for (let gx = 10; gx < 104; gx += 2) {
+      const q = DEADWALL.dayworks.planStatus(id, gx, gy);
+      if (q.ok) return {gx, gy, cost: q.cost, items: q.items};
+    }
+    throw Error('No valid native ensemble anchor: ' + id);
+  }, id);
+}
+
+async function anchorByInput(page, id, at, touch) {
+  const selector = '#plan-' + id;
+  assert.ok(await reachable(page, selector), 'Plan preview button is reachable: ' + id);
+  await activate(page, selector, touch);
+  await page.waitForFunction(id => DEADWALL.dayworks.overview().placing === id && !DEADWALL.paused && !DEADWALL.activeOverlay, id);
+  const target = await page.evaluate(({gx, gy}) => {
+    const g = DEADWALL, canvas = g.canvas, rect = canvas.getBoundingClientRect();
+    // Camera framing is a declared presentation fixture. The anchor itself is
+    // chosen by a real canvas mouse/touch event and the shipped input listener.
+    for (const fy of [.45, .55, .35, .65, .25]) for (const fx of [.5, .4, .6, .3, .7]) {
+      const x = rect.width * fx, y = rect.height * fy, clientX = rect.left + x, clientY = rect.top + y;
+      if (document.elementFromPoint(clientX, clientY) !== canvas) continue;
+      g.camera.zoom = .75;
+      g.camera.x = (gx + .5) * DeadwallCore.TILE - (x * g.width / rect.width - g.width / 2) / g.camera.zoom;
+      g.camera.y = (gy + .5) * DeadwallCore.TILE - (y * g.height / rect.height - g.height / 2) / g.camera.zoom;
+      g.render(); return {x, y, clientX, clientY, camera: {...g.camera}};
+    }
+    throw Error('No unobstructed canvas point for actual native anchoring');
+  }, at);
+  if (touch) await page.touchscreen.tap(target.clientX, target.clientY);
+  else await page.locator('#game').click({position: {x: target.x, y: target.y}});
+  await page.waitForFunction(({id, gx, gy}) => {
+    const p = DEADWALL.dayworks.overview().preview;
+    return p?.id === id && p.gx === gx && p.gy === gy && DEADWALL.activeOverlay === DEADWALL.ui.commandModal;
+  }, {id, ...at});
+  return {kind: touch ? 'native-touch-canvas-anchor' : 'native-mouse-canvas-anchor', cell: {gx: at.gx, gy: at.gy}, framing: target.camera};
+}
+
+function roofFixture() {
+  const g = DEADWALL, C = DeadwallCore, R = C.VerticalCitadel175, Q = C.VerticalSiege176;
+  // Separate isolated native scene, after the ensemble recovery checks.
+  g.startNew('standard', '17117'); g.campaignIntro132.skip();
+  const raw = g.serialize(); raw.urban.peakScore = 2200; raw.urban.progression151 = {version: 1, age: 10};
+  raw.resources = {wood: 3000, scrap: 3000, stone: 3000, food: 3000, fuel: 2000, ammo: 3000, medicine: 50};
+  if (!g.restoreSave(raw)) throw Error('Roof scene fixture refused');
+  g.showCommand(false); g.togglePause(false);
+  let b;
+  for (let x = 38; x < 85 && !b; x += 2) for (let y = 38; y < 85 && !b; y += 2) {
+    if (!g.world.placement(C.BUILDINGS.rampart12, x, y, 0).valid) continue;
+    if (!g.placeOne('rampart12', x, y)) throw Error('Native paid roof support refused');
+    b = g.world.atCell(x, y); b.progress = 1; b.health = b.maxHealth; g.refreshMetrics(true);
+  }
+  if (!b) throw Error('No legal native roof support footprint');
+  g.spawnZombie('runner'); const z = g.zombies.at(-1);
+  z.x = b.x; z.y = b.top - R.tile; z.lastX = z.x; z.lastY = z.y; g.rebuildBuckets();
+  b.corpseLoad = R.bases[b.type].height * Q.loadPerMetre / Q.corpseFaceShare + 100;
+  for (let n = 0; n < 100; n++) {g.updateZombies(.1); g.rebuildBuckets();}
+  const pose = g.vertical175.enemyPose(z), load = b.corpseLoad, kills = g.stats.kills;
+  if (pose.stage !== 'roof' || pose.z !== 12 || z.dead) throw Error('Native runner did not reach the 12 m roof');
+  g.killZombie(z, false); const corpse = g.corpses.at(-1);
+  g.camera.x = b.x; g.camera.y = b.y - 12 * R.projectedHeight / 2; g.camera.zoom = 1;
+  g.dayClock = .4; g.updateUI(); g.render();
+  return {kind: 'separate-prepared-roof-scene', support: b.id, supportPaidNatively: true, supportCompletion: 'explicit fixture',
+    suppliedResources: raw.resources, corpsePressure: 'explicit fixture sufficient for the ordinary native runner climb',
+    timeInjected: '100 ordinary updateZombies(.1) calls and bucket rebuilds', before: {pose, load, kills},
+    after: {corpse: {...corpse}, load: b.corpseLoad, kills: g.stats.kills, climbers: g.vertical175.snapshot().climbers.length,
+      projectedEntry: g.depthEntries(g.viewBounds()).some(entry => entry.entity === corpse), depth: g.vertical175.corpseDepth(corpse)},
+    presentation: 'Camera frames the roof; dayClock=.4 is a declared lighting fixture. No displacement, loot or ground-pressure grant is attributed to viewing.'};
+}
+
+try {
+  report.sourceBefore = captureSource201(repository); assertSource201(report.sourceBefore, expectedHead);
+  h = await createHarness('continuation201', scope);
+  Object.assign(h.report, report); report = h.report;
+  const playerURL = new URL(h.base); playerURL.search = ''; const base = playerURL.href;
+  report.base = base; report.surface = 'Current player notebook; URL has no author tools or historical fixture flags.';
+  for (const viewport of [{name: 'desktop', width: 1366, height: 768, touch: false}, {name: 'portrait', width: 390, height: 844, touch: true}, {name: 'landscape', width: 844, height: 390, touch: true}]) {
+    const profile = {viewport, pass: false}; report.profiles.push(profile);
+    const context = await h.browser.newContext({viewport: {width: viewport.width, height: viewport.height}, hasTouch: viewport.touch, isMobile: viewport.touch, serviceWorkers: 'block'});
+    const page = await context.newPage(); page.setDefaultTimeout(120000);
+    const r = recorder(page, profile, h.output, viewport.name + '-');
+    try {
+      await page.goto(base, {waitUntil: 'networkidle', timeout: 120000}); await ready(page);
+      await page.waitForFunction(() => DEADWALL.playerMenus194?.mode === 'player');
+      profile.entryURL = page.url();
+      r.check('Normal player entry without author or historical URL flags', new URL(page.url()).search === '');
+      await r.screenshot('player-title');
+      await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', viewport.touch);
+      await page.evaluate(() => {window.requestAnimationFrame = () => 0;}); await page.waitForTimeout(150);
+      profile.framePolicy = 'RAF explicitly stopped after native campaign startup; no animation-rate claim.';
+      await openCommand(page, viewport.touch, 'enclosure');
+      const beforeFirstRead = await material(page);
+      r.check('Native notebook title and current objective are visible', await page.locator('#commandTitle').textContent() === 'CARNET DU COMMANDANT' && await page.locator('#playerObjectiveTitle194').isVisible());
+      await page.locator('.command-body').evaluate(node => {node.scrollTop = 0;}); await r.screenshot('native-notebook');
+      await plansNotebook(page, viewport.touch);
+      r.check('All six new ensemble cards are present in the player notebook', await page.evaluate(ids => ids.every(id => !!document.getElementById('plan-' + id)), ids));
+      r.check('Reading the native notebook preserves all persistent owners and RNG', await material(page) === beforeFirstRead);
+      await resumeCommand(page, viewport.touch);
+      profile.fixture = await page.evaluate(advancedFixture, ids);
+      r.check('Late-age fixture has real storage, completed office and sufficient native stock', profile.fixture.age === 11 && profile.fixture.storage >= 5000 && Object.values(profile.fixture.grantedSupplies).every(n => n === 5000));
+      await plansNotebook(page, viewport.touch);
+      const beforePreviews = await material(page); profile.plans = [];
+      for (const id of ids) {
+        const at = await validAnchor(page, id), entry = {id, quote: at}; profile.plans.push(entry);
+        r.check(id + ': preview control is visible, enabled and hit-testable', await reachable(page, '#plan-' + id) && await page.locator('#plan-' + id).isEnabled());
+        await r.screenshot(id + '-card'); entry.input = await anchorByInput(page, id, at, viewport.touch);
+        r.check(id + ': canvas anchoring grants no material, RNG, progress or persistent data', await material(page) === beforePreviews);
+        r.check(id + ': explicit financing control is reachable and enabled', await reachable(page, '#dayworksCommit') && await page.locator('#dayworksCommit').isEnabled());
+        r.check(id + ': canvas touch does not accidentally finance its new preview', await page.evaluate(() => DEADWALL.dayworks.overview().preview !== null));
+        await r.screenshot(id + '-unpaid-preview');
+        await page.locator('#dayworksCancel').scrollIntoViewIfNeeded(); await activate(page, '#dayworksCancel', viewport.touch);
+        r.check(id + ': cancelling leaves every persistent owner unchanged', await material(page) === beforePreviews);
+      }
+      r.check('Notebook fits the viewport without horizontal document overflow', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1 && document.getElementById('commandModal').getBoundingClientRect().right <= innerWidth + 1));
+      const id = ids[0], at = await validAnchor(page, id); await anchorByInput(page, id, at, viewport.touch);
+      const before = await page.evaluate(() => {const g = DEADWALL; return {stock: {...g.resources}, ids: [...g.world.buildings.keys()], rng: g.random.state, stats: g.dayworks.snapshot().stats,
+        capacity: {storage: g.storage, housing: g.housing, score: g.cityScore, power: g.powerGenerated}, health: g.player.health, units: g.units.length};});
+      await page.locator('#dayworksCommit').scrollIntoViewIfNeeded(); await activate(page, '#dayworksCommit', viewport.touch);
+      const after = await page.evaluate(oldIds => {const g = DEADWALL, old = new Set(oldIds); return {stock: {...g.resources}, rng: g.random.state, stats: g.dayworks.snapshot().stats,
+        jobs: [...g.world.buildings.values()].filter(b => !old.has(b.id)).map(b => ({id: b.id, type: b.type, gx: b.gx, gy: b.gy, rotation: b.rotation, progress: b.progress, completed: b.completed})),
+        capacity: {storage: g.storage, housing: g.housing, score: g.cityScore, power: g.powerGenerated}, health: g.player.health, units: g.units.length,
+        preview: g.dayworks.overview().preview, saved: g.lastSaveStatus.ok};}, before.ids);
+      profile.funding = {id, quote: at, before, after};
+      r.check('Real funding pays exactly the quoted native foundation costs', Object.keys(before.stock).every(key => after.stock[key] === before.stock[key] - (at.cost[key] || 0)));
+      r.check('Real funding creates exactly four unfinished foundations at their quoted geometry', after.jobs.length === 4 && after.jobs.every(b => b.progress === 0 && b.completed === false) &&
+        JSON.stringify(after.jobs.map(({type, gx, gy, rotation}) => ({type, gx, gy, rotation}))) === JSON.stringify(at.items.map(({type, gx, gy, rotation}) => ({type, gx, gy, rotation}))));
+      r.check('Funding gives no completed capacity, health, units or RNG and records one plan', JSON.stringify(before.capacity) === JSON.stringify(after.capacity) && before.health === after.health && before.units === after.units && before.rng === after.rng && after.stats.plans === before.stats.plans + 1 && after.preview === null && after.saved);
+      await page.locator('#dayworksStatus').scrollIntoViewIfNeeded(); await r.screenshot('native-funding-receipt');
+      await resumeCommand(page, viewport.touch);
+      profile.funding.presentation = await page.evaluate(({id, gx, gy}) => {
+        const g = DEADWALL, p = DeadwallCore.Dayworks.PLANS.find(p => p.id === id);
+        g.camera.x = (gx + p.w / 2) * DeadwallCore.TILE; g.camera.y = (gy + p.h / 2) * DeadwallCore.TILE;
+        g.camera.zoom = Math.max(.52, Math.min(.75, (g.width - 60) / (p.w * DeadwallCore.TILE + 60), (g.height - 90) / (p.h * DeadwallCore.TILE + 60)));
+        g.render(); return {kind: 'declared-camera-framing-only', camera: {...g.camera}};
+      }, {id, ...at});
+      await r.screenshot('paid-unfinished-foundations');
+      profile.recovery = await saveReloadContinue(page, viewport.touch);
+      r.check('Native save/menu/reload/Continue preserves all persistent owners including paid foundations', profile.recovery.pass);
+      r.check('Continue retains the four actual foundation identities', await page.evaluate(ids => ids.every(id => DEADWALL.world.buildings.has(id)), after.jobs.map(b => b.id)));
+      if (!viewport.touch) {
+        await page.evaluate(() => {window.requestAnimationFrame = () => 0;}); await page.waitForTimeout(150);
+        profile.roof = await page.evaluate(roofFixture); const {before: roofBefore, after: roofAfter} = profile.roof;
+        r.check('Native roof death retains the true 12 m pose and leaves ground corpse pressure unchanged', roofAfter.corpse.altitude === 12 && roofAfter.corpse.site === profile.roof.support && roofAfter.corpse.level === 0 && roofAfter.corpse.bridge === null && roofAfter.load === roofBefore.load);
+        r.check('The elevated body enters the actual projected depth queue once after a single native kill', roofAfter.projectedEntry && Number.isFinite(roofAfter.depth) && roofAfter.kills === roofBefore.kills + 1 && roofAfter.climbers === 0);
+        await r.screenshot('native-rooftop-corpse-12m');
+      }
+      r.check('No collected JavaScript, console, HTTP or request failure', r.errors() === 0); profile.pass = true;
+    } catch (error) {
+      profile.failure = String(error.stack || error); await r.screenshot('failure').catch(() => {});
+      if (/ERR_BLOCKED_BY_ADMINISTRATOR/.test(profile.failure)) throw error;
+    } finally {await context.close();}
+  }
+  assert.ok(report.profiles.length === 3 && report.profiles.every(profile => profile.pass), 'Every viewport must pass; inspect retained individual failures');
+  report.pass = true;
+} catch (error) {report.failure = String(error.stack || error); report.pass = false; process.exitCode = 1;}
+finally {
+  try {
+    report.sourceAfter = captureSource201(repository);
+    report.sourceStable = sourceStable201(report.sourceBefore, report.sourceAfter, expectedHead);
+  } catch (error) {report.sourceFailure = String(error.stack || error); report.sourceStable = false; report.pass = false; process.exitCode = 1;}
+  if (h) {
+    try {await h.close();}
+    catch (error) {report.cleanupFailure = String(error.stack || error); report.pass = false; process.exitCode = 1;}
+  }
+  report.completed = new Date().toISOString();
+  // Retain a negative source-bound receipt even when Chromium fails to launch.
+  fs.writeFileSync(path.join(fallbackOutput, 'attempt.json'), JSON.stringify(report, null, 2) + '\n', {flag: 'wx'});
+  if (h) await h.finish();
+  console.log(JSON.stringify({pass: report.pass, output: h?.output || fallbackOutput, fallbackOutput, sourceStable: report.sourceStable, failure: report.failure, sourceFailure: report.sourceFailure}));
+}

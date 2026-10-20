@@ -1628,7 +1628,7 @@
       if(unit.dead||wall.dead||!wall.completed||!wall.def.wall||!this.workerCanWorkAt(unit,point,C.WORKER_RULES.cleanupRange))return 0;
       const before=wall.corpseLoad,amount=Math.min(before,dt*C.WORKER_RULES.cleanupPerSecond);wall.corpseLoad=Math.max(0,before-amount);
       let removed=Math.ceil(before)-Math.ceil(wall.corpseLoad);
-      for(let i=this.corpses.length-1;i>=0&&removed>0;i--)if(distanceToBuildingSquared(this.corpses[i],wall)<=52*52){this.corpses.splice(i,1);removed--;}
+      for(let i=this.corpses.length-1;i>=0&&removed>0;i--)if(!(this.corpses[i].altitude>0)&&distanceToBuildingSquared(this.corpses[i],wall)<=52*52){this.corpses.splice(i,1);removed--;}
       return amount;
     }
 
@@ -1950,7 +1950,18 @@
       this.projectiles = this.projectiles.filter(p => !p.dead);
     }
 
-    killZombie(z,headshot){if(z.dead)return;z.dead=true;this.stats.kills++;this.corpses.push({x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)});if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();const wall=this.nearestWall(z.x,z.y,52,true);if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);}
+    killZombie(z,headshot){
+      if(z.dead)return;
+      const pose=this.vertical175?.corpsePose?.(z),altitude=Number.isFinite(pose?.z)?Math.max(0,pose.z):0;
+      z.dead=true;this.stats.kills++;
+      const corpse={x:z.x,y:z.y,kind:z.kind,age:0,rotation:this.random.range(0,Math.PI*2),scale:this.random.range(.8,1.2)};
+      // A body on a roof or link cannot instantly join a ground-level pile.
+      if(altitude>0)Object.assign(corpse,{altitude,site:pose.site,level:pose.level,bridge:pose.bridge});
+      this.corpses.push(corpse);if(this.corpses.length>PERFORMANCE_LIMITS.corpses)this.corpses.shift();
+      const wall=altitude===0?this.nearestWall(z.x,z.y,52,true):null;
+      if(wall)wall.corpseLoad+=this.hasResearch('sanitation')?C.ENEMY_RULES.sanitizedCorpseLoad:ENEMIES[z.kind].corpseLoad;
+      const drop=this.random.next();if(drop<.06)this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);else if(drop<.075)this.resources.medicine=Math.min(this.storage,this.resources.medicine+.5);if(z.kind==='armored')this.resources.scrap=Math.min(this.storage,this.resources.scrap+.7);if(z.kind==='howler')this.resources.medicine=Math.min(this.storage,this.resources.medicine+.35);if(headshot&&this.random.chance(.35))this.resources.ammo=Math.min(this.storage,this.resources.ammo+1);
+    }
     nearestWall(x,y,range,fromSurface=false){let result=null,best=range*range;for(const b of this.world.buildings.values())if(!b.dead&&b.completed&&b.def.wall){const d=fromSurface?distanceToBuildingSquared({x,y},b):(b.x-x)**2+(b.y-y)**2;if(d<best){best=d;result=b;}}return result;}
 
     updateEffects(dt){for(const node of this.world.nodes)node.flash=Math.max(0,node.flash-dt);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.08,dt);p.vy+=p.kind==='debris'||p.kind==='blood'?65*dt:-4*dt;p.rotation+=dt*4;}this.particles=this.particles.filter(p=>p.life>0);if(this.particles.length>PERFORMANCE_LIMITS.particles)this.particles.splice(0,this.particles.length-PERFORMANCE_LIMITS.particles);for(const c of this.corpses)c.age+=dt;this.corpses=this.corpses.filter(c=>c.age<100);for(const f of this.floaters){f.life-=dt;f.y-=dt*18;}this.floaters=this.floaters.filter(f=>f.life>0);}
@@ -2218,6 +2229,10 @@
       push(4, this.player, 28);
       for (const truck of this.territories?.truckEntities() || []) push(5, truck, 38);
       if(this.expeditions?.car()&&!this.expeditions.car().regionAway)push(6,this.expeditions.car(),40);
+      for(const corpse of this.corpses)if(corpse.altitude>0){
+        const depth=this.vertical175?.corpseDepth?.(corpse),height=corpse.altitude*C.VerticalCitadel175.projectedHeight;
+        if(Number.isFinite(depth)&&this.visible(corpse.x,corpse.y-height,25,view))entries.push({kind:7,entity:corpse,depth,id:0,order:entries.length,draw:ctx=>this.drawCorpse(ctx,corpse)});
+      }
       entries.sort((a, b) => a.depth - b.depth || a.kind - b.kind || a.id - b.id || a.order - b.order);
       return entries;
     }
@@ -2232,7 +2247,7 @@
       const view = this.viewBounds();
       this.crowdDetail = this.width > 720 && this.camera.zoom > .72 && this.zombies.length < 320;
       this.drawGround(ctx, view); this.contentUI?.drawMarker(ctx, view);
-      for (const corpse of this.corpses) if (this.visible(corpse.x, corpse.y, 25, view)) this.drawCorpse(ctx, corpse);
+      for (const corpse of this.corpses) if (!(corpse.altitude>0)&&this.visible(corpse.x, corpse.y, 25, view)) this.drawCorpse(ctx, corpse);
       // One common ground-depth queue: no faction is always painted on top.
       for (const entry of this.depthEntries(view)) {
         if (typeof entry.draw === 'function') entry.draw(ctx);
@@ -2429,7 +2444,11 @@
     }
     drawProjectile(ctx,p){const speed=Math.hypot(p.vx,p.vy)||1,nx=p.vx/speed,ny=p.vy/speed;ctx.strokeStyle=p.color;ctx.lineWidth=p.radius;ctx.globalAlpha=.78;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-nx*18,p.y-ny*18);ctx.stroke();ctx.globalAlpha=1;}
     drawParticle(ctx,p){const ratio=clamp(p.life/p.maxLife,0,1);if(this.art?.drawEffect(ctx,p.kind,p.x,p.y,Math.max(15,p.size*9),1-ratio,ratio,p.rotation))return;ctx.save();ctx.globalAlpha=ratio;ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.fillStyle=p.color;if(p.kind==='dust'||p.kind==='smoke'){ctx.beginPath();ctx.arc(0,0,p.size*(1.4-ratio*.35),0,Math.PI*2);ctx.fill();}else if(p.kind==='spark'||p.kind==='muzzle')ctx.fillRect(-p.size*1.8,-p.size*.25,p.size*3.6,p.size*.5);else ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.7);ctx.restore();}
-    drawCorpse(ctx,c){if(globalThis.DeadwallEquipmentArt159?.drawCorpse(ctx,this.art,c,{seed:this.world.seed}))return;ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+    drawCorpse(ctx,c){
+      const raised=c.altitude>0;if(raised){ctx.save();ctx.translate(0,-c.altitude*C.VerticalCitadel175.projectedHeight);}
+      try{if(globalThis.DeadwallEquipmentArt159?.drawCorpse(ctx,this.art,c,{seed:this.world.seed}))return;ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rotation);ctx.scale(c.scale,c.scale);ctx.globalAlpha=clamp(1-Math.max(0,c.age-70)/25,0,.65);ctx.fillStyle='#3f3630';ctx.beginPath();ctx.ellipse(0,0,13,6,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#512f2b';ctx.beginPath();ctx.ellipse(4,3,11,4,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+      finally{if(raised)ctx.restore();}
+    }
     drawFloater(ctx,f){ctx.save();ctx.globalAlpha=clamp(f.life/f.maxLife,0,1);ctx.font='bold 13px Bahnschrift,sans-serif';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,.75)';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);ctx.restore();}
 
     drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+(this.settings.reducedMotion?0:Math.sin(this.elapsed*2)*3),0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}

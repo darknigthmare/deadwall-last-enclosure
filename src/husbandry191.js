@@ -112,7 +112,40 @@ function install(g){
   for(const dx of[-1.5,-1,-.5,0,.5,1,1.5])for(const dy of[-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(q.x+dx,q.y+dy,.35,0,null)||w.hydrology.sample(q.x+dx,q.y+dy).water)return 'Choisissez trois mètres de sol sec et libre.';
   if(!w.movementLine(pos(),access(q),0,pos().inside,null,.32))return 'L’accès sud doit rester libre.';return '';
  }
- function freshWaterFrom(from){const w=world();for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach,y:from.y+Math.sin(a)*R.reach};const h=w.hydrology.sample(q.x,q.y);if(h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&w.wildlifeWaterLine(from,q,.05))return q;}return null;}
+ function freshWaterFrom(from){
+  const w=world(),hydrology=w.hydrology;
+  const usable=q=>{
+   if(!Number.isFinite(q.x)||!Number.isFinite(q.y)||distance(from,q)>R.reach)return false;
+   const h=hydrology.sample(q.x,q.y);
+   return h.water&&!h.crossing&&(h.salinity===0||h.salinity==='fresh')&&w.wildlifeWaterLine(from,q,.05);
+  };
+  // A bank can lie between the old radial probes. Query the existing water
+  // surfaces and project onto their edges instead of increasing service reach.
+  const nearby=hydrology.featuresIn?.({x:from.x-R.reach,y:from.y-R.reach,w:R.reach*2,h:R.reach*2})||[];
+  for(const f of nearby){
+   if(f.salinity!=='fresh'&&f.salinity!==0)continue;
+   const count=f.shape==='line'?f.points.length-1:f.points.length;
+   for(let i=0;i<count;i++){
+    const a=f.points[i],b=f.points[(i+1)%f.points.length],length=Math.hypot(b.x-a.x,b.y-a.y);
+    if(length<=1e-9)continue;const nearest=G.nearest(from,a,b);
+    if(f.shape==='line'){
+     const offset=Math.min(f.width/2,nearest.d),ux=nearest.d?(from.x-nearest.x)/nearest.d:0,uy=nearest.d?(from.y-nearest.y)/nearest.d:0;
+     const edge={x:nearest.x+ux*offset,y:nearest.y+uy*offset};if(usable(edge))return edge;
+     // Move only into the water to avoid an ambiguous floating-point boundary;
+     // the same unextended reach is checked again for this candidate.
+     const inset=Math.max(0,offset-1e-5),q={x:nearest.x+ux*inset,y:nearest.y+uy*inset};if(usable(q))return q;
+    }else{
+     if(usable(nearest))return nearest;
+     for(const sign of[-1,1]){const q={x:nearest.x-(b.y-a.y)/length*sign*1e-5,y:nearest.y+(b.x-a.x)/length*sign*1e-5};if(usable(q))return q;}
+     if(f.ellipse){const dx=f.ellipse.cx-nearest.x,dy=f.ellipse.cy-nearest.y,d=Math.hypot(dx,dy);if(d){const q={x:nearest.x+dx/d*1e-5,y:nearest.y+dy/d*1e-5};if(usable(q))return q;}}
+    }
+   }
+  }
+  // Keep the historical directional probes for providers without surface data
+  // and for another physically clear approach around a local obstruction.
+  for(let i=0;i<24;i++){const a=i*Math.PI/12,q={x:from.x+Math.cos(a)*R.reach,y:from.y+Math.sin(a)*R.reach};if(usable(q))return q;}
+  return null;
+ }
  const freshWater=p=>freshWaterFrom(access(p));
  const bucket=()=>g.siege?.carriedWater199?.()??0;
  const waterTransfer=(direction,amount)=>g.siege?.transferFieldWater199?.(direction,amount)??0;

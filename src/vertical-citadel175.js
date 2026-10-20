@@ -10,7 +10,7 @@
   if(g.vertical175)return g.vertical175;if(!g.expansions)return null;S.register();
   let network=null,population=null;
   let state=S.initial(),job=null,travel=null,controlled=null,view='classic',notice='',scanClock=0,personalShot=false,moduleGroup=A.defaultGroup,dismantleReview=null,catalogueAge=null,engineeringReview178=null;
-  const autoTargets=new Map(),wired=new WeakSet(),traces=[],wrap=(key,fn)=>{if(typeof g[key]==='function'){const old=g[key].bind(g);g[key]=(...args)=>fn(old,...args);}};
+  const autoTargets=new Map(),wired=new WeakSet(),deathPoses=new WeakMap(),traces=[],wrap=(key,fn)=>{if(typeof g[key]==='function'){const old=g[key].bind(g);g[key]=(...args)=>fn(old,...args);}};
   const site=id=>state.sites.find(s=>s.id===id),building=id=>g.world?.buildings.get(id),base=b=>b&&R.bases[b.type];
   const structural=b=>live(b)&&b.completed&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline;
   const operational=q=>q&&structural(q.b)&&(!(q.def.powerUse>0)||online(q.b));
@@ -33,6 +33,12 @@
    return{x:g.player?.x||0,y:g.player?.y||0,z:visibleZ,site:a?.site??null,level:a?.level??-1,travel:travel?{kind:travel.kind,progress:travel.elapsed/travel.seconds}:null};
   }
   function entrance(b){return S.entrance(b);}
+  const corpsePose=e=>deathPoses.get(e)||siege.enemyPose(e);
+  function corpseDepth(c){
+   const b=building(c.site),s=site(c.site);if(!live(b)||!s?.decks[c.level]||s.decks[c.level].progress!==1)return null;
+   if(c.bridge!=null){const link=state.network.links.find(l=>l.id===c.bridge&&l.progress===1&&l.health>0),a=link&&building(link.a.site),other=link&&building(link.b.site);if(!live(a)||!live(other))return null;return Math.max(a.bottom,other.bottom)+.045;}
+   return b.bottom+.025;
+  }
   const target=()=>state.actor?building(state.actor.site):base(g.selectedBuilding)?g.selectedBuilding:[...g.world.buildings.values()].filter(b=>base(b)&&live(b)&&dist(g.player,entrance(b))<R.workReach).sort((a,b)=>dist(g.player,a)-dist(g.player,b))[0]||null;
   function surfaceAt(x,y,z){for(const s of state.sites){const b=building(s.id);if(!live(b)||!b.completed)continue;const q=S.bounds(b);
    if(x<q.x*R.tile||x>=(q.x+q.w)*R.tile||y<q.y*R.tile||y>=(q.y+q.h)*R.tile)continue;
@@ -393,7 +399,7 @@
    trace:(from,to)=>{traces.push({from,to,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();},suspended:id=>network.moduleSuspended(id)||job?.object?.id===id});
   wrap('damageUnit',(old,u,...args)=>{const result=old(u,...args);if(!live(u))population.reconcile();return result;});
   wrap('damagePlayer',(old,...args)=>{const result=old(...args);if(!live(g.player)){if(network.carrying())network.dropCargo(true);state.actor=null;stop('');}return result;});
-  wrap('killZombie',(old,z,...args)=>{siege.forget(z.id);return old(z,...args);});
+  wrap('killZombie',(old,z,...args)=>{try{return old(z,...args);}finally{siege.forget(z.id);}});
   wrap('friendlyPositionClear',(old,e,x,y)=>e===g.player&&state.actor?clearAt(x,y,pose().z,e.radius*.78):population.isAssigned(e?.id)&&population.pose(e).z>0?clearAt(x,y,population.pose(e).z,e.radius*.78):old(e,x,y));
   wrap('moveFriendly',(old,e,dx,dy)=>{if(e===g.player&&network.carrying()){dx*=C.VerticalNetwork179.carrySpeed;dy*=C.VerticalNetwork179.carrySpeed;}if(e!==g.player||!state.actor)return old(e,dx,dy);if(travel||controlled!==null)return;const z=pose().z,n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/(e.radius*.5)));for(let i=0;i<n;i++){if(clearAt(e.x+dx/n,e.y,z))e.x+=dx/n;if(clearAt(e.x,e.y+dy/n,z))e.y+=dy/n;}const s=surfaceAt(e.x,e.y,z);if(s)state.actor={site:s.s.id,level:s.level};});
   wrap('workerCanWorkAt',(old,e,t,...args)=>(e===g.player&&state.actor)||population.pose(e).z>0||population.pose(t).z>0?false:old(e,t,...args));
@@ -410,7 +416,14 @@
   wrap('shootPlayer',(old,...args)=>{if(network.carrying())return false;personalShot=!!state.actor;try{return old(...args);}finally{personalShot=false;}});
   wrap('fireFriendly',(old,x,y,yaw,damage,range,...args)=>{if(!personalShot)return old(x,y,yaw,damage,range,...args);const p={x:g.player.x/R.tile,y:g.player.y/R.tile,z:pose().z+R.eyeHeight},to=screenAim(p),a=S.lookAt(p,to),result=raycast(p,a.yaw,a.pitch,range/R.tile);hit(result,damage);traces.push({from:p,to:result.point,life:R.traceLife});if(traces.length>R.maxTraces)traces.shift();});
   wrap('updateProjectiles',(old,dt)=>{if(state.giants.length)for(const p of g.projectiles){if(p.dead||p.owner!=='friendly')continue;const speed=Math.hypot(p.vx,p.vy),origin={x:p.x/R.tile,y:p.y/R.tile,z:R.eyeHeight},result=raycast(origin,Math.atan2(p.vy,p.vx),0,speed*dt/R.tile);if(result.type==='giant'){hit(result,p.damage);p.dead=true;}}return old(dt);});
-  wrap('destroyBuilding',(old,b,...args)=>{const z=state.actor?.site===b.id?pose().z:0,heights=new Map(g.units.filter(u=>population.isAssigned(u.id)).map(u=>[u.id,population.pose(u).z])),result=old(b,...args);if(base(b)&&b.dead){population.reconcile(heights);dropSite(b.id,z);network.prune();g.refreshMetrics(true);}return result;});
+  wrap('destroyBuilding',(old,b,...args)=>{
+   const z=state.actor?.site===b.id?pose().z:0,heights=new Map(g.units.filter(u=>population.isAssigned(u.id)).map(u=>[u.id,population.pose(u).z])),captured=[];
+   // The native destruction removes the building before its occupants die.
+   // Preserve only their death pose through this synchronous call chain.
+   if(base(b))for(const c of state.climbers)if(c.site===b.id){const e=g.zombies.find(e=>e.id===c.id);if(e&&!deathPoses.has(e)){deathPoses.set(e,siege.enemyPose(e));captured.push(e);}}
+   try{const result=old(b,...args);if(base(b)&&b.dead){population.reconcile(heights);dropSite(b.id,z);network.prune();g.refreshMetrics(true);}return result;}
+   finally{for(const e of captured)deathPoses.delete(e);}
+  });
   wrap('structureActionStatus',(old,action,b,...args)=>{if(base(b)&&(state.climbers.some(c=>c.site===b.id)||state.population.members.some(m=>m.site===b.id))&&['demolish','upgrade'].includes(action))return no('Un acteur occupe ce support : évacuez les paliers.');if(base(b)&&network.load(b.id)>0&&['demolish','upgrade'].includes(action))return no('Retirez les passerelles avant de modifier leur support.');if(base(b)&&site(b.id)&&(site(b.id).decks.length>1||site(b.id).decks.some(d=>d.modules.length)||site(b.id).lift||state.actor?.site===b.id)&&['demolish','upgrade'].includes(action))return no('Support occupé : ses étages ne peuvent pas être démontés par l’outil au sol.');return old(action,b,...args);});
   wrap('update',(old,dt)=>{const result=old(dt);step(dt);return result;});
   wrap('returnToMenu',(old,...args)=>{stop('');return old(...args);});
@@ -452,7 +465,7 @@
    if(busy())add('cancel','Interrompre / rendre le contrôle',()=>stop());return result;
   }
   const api={population,network,engineeringQuote178,relocateModule:(id,slot)=>engineering178('relocate',id,slot),dismantleTopDeck:(id=state.actor?.site,confirm=false)=>engineering178('removeDeck',id,undefined,confirm),dismantleLift:(id=state.actor?.site,confirm=false)=>engineering178('removeLift',id,undefined,confirm),repairDeck:(id=state.actor?.site)=>engineering178('repairDeck',id),cancelModuleProject:(id,confirm=false)=>engineering178('cancelModule',id,undefined,confirm),catalogue,productionPlans,maintenanceQuote,repairModule,useMedical,dismantleModule,groundObstruction,screenAim,pose,entrance,target,surfaceAt,clearAt,accessQuote,access,moduleQuote,buildModule,deckQuote,buildDeck,buildLift,resume,reload,possess,release,setView,aim,fire,raycast,geometry,giantBox,step,overview,actions,busy,stop,sightQuery,aimPoint,
-   prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:population.isAssigned(e?.id)?population.pose(e).z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>{population.reconcile();return copy(state);},presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:network.jobState(),notice:network.presentation().notice||notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
+   prepareSiege:siege.prepare,updateClimber:siege.update,enemyPose:siege.enemyPose,corpsePose,corpseDepth,pressure:siege.pressure,damageModule,aboveGate:(e,b)=>(e===g.player?pose().z:population.isAssigned(e?.id)?population.pose(e).z:siege.enemyPose(e).z)>=(base(b)?.gateClearance||Infinity),hasActiveSiege:()=>state.giants.length>0,snapshot:()=>{population.reconcile();return copy(state);},presentation:()=>({sites:state.sites,giants:state.giants,traces,controlled,view,job:job?{kind:job.kind,seconds:job.seconds,elapsed:job.elapsed}:network.jobState(),notice:network.presentation().notice||notice}),moduleRef,muzzle};g.vertical175=Object.freeze(api);
   g.expansions.register({id:'vertical175',title:'Citadelle verticale',validate:S.normalize,snapshot:api.snapshot,overview,actions,busy:()=>busy()||network.carrying(),
    restore:raw=>{state=S.normalize(raw);network.reset();siege.reset();population.reset();autoTargets.clear();stop('');ensure();g.refreshMetrics(true);},reset:()=>{catalogueAge=null;moduleGroup=A.defaultGroup;state=S.initial();network.reset();siege.reset();population.reset();stop('');traces.length=0;autoTargets.clear();scanClock=0;}});
   wrap('restoreSave',(old,raw)=>{const p=raw?.player?{x:raw.player.x,y:raw.player.y}:null,positions=new Map((raw?.units||[]).map(u=>[u.id,{x:u.x,y:u.y}])),result=old(raw);

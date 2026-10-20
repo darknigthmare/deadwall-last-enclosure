@@ -28,10 +28,12 @@ test('routes 1.33 : refus des identités, variantes, géométries et promesses c
 test('routes 1.33 : guide raccordé, recherche sans accents et projets masqués dans le terrain',()=>{
   const cityEntries=require('../src/world-codex-actions159.js').entries,cityIds=new Set(cityEntries.map(e=>e.id));
   const mechanismIds=new Set(['runnerCable193','breachClamp193','enduranceRack193','shieldTongs193','quickCable193','siegeBrake193'].map(id=>'city159-mechanism:'+id));
-  const historicalCity=cityEntries.filter(e=>!mechanismIds.has(e.id));
+  const programmeIds=new Set(['returnService201','craftCourt201','staggeredLines201','powerCourt201','medicalRecovery201','siegeSupply201'].map(id=>'city159-plan:'+id));
+  const historicalCity=cityEntries.filter(e=>!mechanismIds.has(e.id)&&!programmeIds.has(e.id));
   assert.equal(historicalCity.length,180);assert.equal(new Set(historicalCity.map(e=>e.id)).size,180);
   assert.deepEqual(cityEntries.filter(e=>mechanismIds.has(e.id)).map(e=>e.id).sort(),[...mechanismIds].sort());
-  assert.equal(cityEntries.length,186);assert.equal(cityIds.size,186);
+  assert.deepEqual(cityEntries.filter(e=>programmeIds.has(e.id)).map(e=>e.id).sort(),[...programmeIds].sort());
+  assert.equal(cityEntries.length,192);assert.equal(cityIds.size,192);
   for(const entry of cityEntries)assert.equal(C.entries.find(e=>e.id===entry.id),entry);
   const ecologyOwner=globalThis.DeadwallEcologyCodex164||require('../src/biomes-codex164.js'),ecologyEntries=ecologyOwner.entries(),ecologyIds=new Set(ecologyEntries.map(e=>e.id));
   assert.equal(ecologyEntries.length,5);

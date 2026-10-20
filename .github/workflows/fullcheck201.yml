@@ -1,0 +1,87 @@
+name: DEADWALL literal full check 201
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deadwall-fullcheck201-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-check:
+    name: literal full check / exact head
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DEADWALL_SOAK: '1'
+      DEADWALL_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      DEADWALL_FULLCHECK_OUTPUT: artifacts/qa/fullcheck201/${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Installer strictement le verrou npm
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - name: Exécuter réellement la commande complète et conserver les deux sorties
+        shell: bash
+        run: |
+          node scripts/full-check201.mjs start "$DEADWALL_FULLCHECK_OUTPUT"
+          set +e
+          DEADWALL_SOAK=1 npm run check 2>&1 | tee "$DEADWALL_FULLCHECK_OUTPUT/native.log"
+          check_status=("${PIPESTATUS[@]}")
+          set -e
+          node scripts/full-check201.mjs finish "$DEADWALL_FULLCHECK_OUTPUT" "${check_status[0]}" "${check_status[1]}"
+      - name: Conserver aussi les essais négatifs ou interrompus
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-fullcheck201-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/qa/fullcheck201/
+          if-no-files-found: error
+          retention-days: 14
+
+  continuation-browser:
+    name: continuation 201 / actual Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DEADWALL_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Installer strictement le verrou npm
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+        run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Carnet, six aperçus gratuits et un financement natif déclaré
+        run: node scripts/browser-continuation201.mjs
+      - name: Conserver captures, erreurs et empreintes même en échec
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-continuation201-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/qa/continuation201*/
+          if-no-files-found: error
+          retention-days: 14

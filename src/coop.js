@@ -36,14 +36,23 @@
     const peers = new Map();
     const scoped=typeof game.frontier?.position==='function';
     let joinedKey=undefined,verified=false;
+    function position(){
+      const p=scoped?game.frontier.position():game.frontier.overview();
+      if(!p||p.active||typeof game.vertical175?.pose!=='function')return p;
+      // Regional coordinates stay parked while D-17's own stair controller moves
+      // the commander. Presence must describe that current local surface instead.
+      const deck=game.vertical175.pose();
+      return{...p,x:game.player.x,y:game.player.y,a:game.player.facing,
+        z:deck.z,inside:deck.site==null?null:'D17:'+deck.site};
+    }
     function localSpace(){
       if(!scoped)return null; // Compatibility for legacy embedders, isolated by the relay.
-      const p=game.frontier.position();
+      const p=position();if(!p)return null;
       return normalizeSpace({seed:game.world?.seed,generation:p.generation,detail:p.detailVersion??0,ecology:p.ecologyVersion??0,hydrology:p.hydrologyVersion??0,landscape:p.landscape189||'classic',region:p.active,z:p.z,inside:p.inside??null});
     }
     const matches=message=>!scoped?message.space===undefined:!!localSpace()&&spaceKey(message.space)===spaceKey(localSpace());
     function joinScope(connection){
-      const space=localSpace();if(scoped&&!space){verified=false;peers.clear();pings=[];notice='Carte indisponible : présence suspendue.';return false;}
+      const space=localSpace();if(scoped&&!space){joinedKey=undefined;verified=false;peers.clear();pings=[];notice='Carte indisponible : présence suspendue.';return false;}
       const key=spaceKey(space);if(joinedKey===key)return verified;
       peers.clear();pings=[];verified=false;
       if(!send(connection,{type:'join',room,name,...(scoped?{protocol:200,space}: {})}))return false;
@@ -134,9 +143,9 @@
     function ping() {
       if (!socket || socket.readyState !== 1 || !game.frontier.active()) return false;
       if(!joinScope(socket))return false;
-      const position = scoped?game.frontier.position():game.frontier.overview();
-      if (!coordinate(position.x) || !coordinate(position.y)) return false;
-      return send(socket, { type: 'ping', room, x: position.x, y: position.y, ...(scoped?{space:localSpace()}: {}) });
+      const point = position();
+      if (!coordinate(point.x) || !coordinate(point.y)) return false;
+      return send(socket, { type: 'ping', room, x: point.x, y: point.y, ...(scoped?{space:localSpace()}: {}) });
     }
     function update(dt) {
       prune(performance.now());
@@ -145,8 +154,8 @@
       if (timer > 0) return;
       timer = .2;
       if(!joinScope(socket))return;
-      const position = scoped?game.frontier.position():game.frontier.overview();
-      const state = normalizeState({ active: position.active, x: position.x, y: position.y, z: position.z, a: position.a,
+      const point = position();
+      const state = normalizeState({ active: point.active, x: point.x, y: point.y, z: point.z, a: point.a,
         posture: game.worldEvolution?.posture().key || 'stand' });
       if (state) send(socket, { type: 'state', room, state, ...(scoped?{space:localSpace()}: {}) });
     }
