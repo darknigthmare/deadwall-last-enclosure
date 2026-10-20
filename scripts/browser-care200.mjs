@@ -4,14 +4,16 @@ import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
 const h=await createHarness('care200','Built distribution with actual desktop/touch operation buttons, generated rabbit, paid enclosure/capture, interrupted treatment, paid care, custody and health persistence and native save/menu/reload/Continue. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
-const {browser,report,output}=h;const playerURL=new URL(h.base);playerURL.search='';const base=playerURL.href;report.root=process.env.DEADWALL_QA_ROOT;report.profiles=[];report.pass=false;
+const {browser,report,output}=h;const playerURL=new URL(h.base);playerURL.search='';const base=playerURL.href;report.root=process.env.DEADWALL_QA_ROOT;report.base=base;report.surface='Player notebook without author or historical URL flags; seed and regional fixture are explicit.';report.profiles=[];report.pass=false;
 try{
  for(const viewport of [{width:1366,height:768,touch:false},{width:390,height:844,touch:true},{width:844,height:390,touch:true}]){
   const profile={viewport};report.profiles.push(profile);
   const context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:viewport.touch,isMobile:viewport.touch,serviceWorkers:'block'});
   const page=await context.newPage();page.setDefaultTimeout(120000);const r=recorder(page,profile,output,viewport.width+'-');
   try{
-   await page.goto(base,{waitUntil:'networkidle',timeout:120000});await ready(page);await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);
+   await page.goto(base,{waitUntil:'networkidle',timeout:120000});await ready(page);
+   profile.entryURL=page.url();r.check('Normal player URL and notebook mode, without author or historical flags',await page.evaluate(()=>location.search===''&&DEADWALL.playerMenus194?.mode==='player'));
+   await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);
    // Allow the already queued frame to finish; no re-scheduling after this boundary.
    await page.evaluate(()=>{window.requestAnimationFrame=()=>0;});await page.waitForTimeout(150);
    const fixture=await page.evaluate(()=>{
