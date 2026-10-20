@@ -1138,6 +1138,18 @@
       if(f.heat<1e-8){this.state.fires.splice(this.state.fires.indexOf(f),1);if(this.state.wet.length>=RULES.maxFires*4)this.state.wet.shift();this.state.wet.push({id:f.id,seconds:RULES.wetSeconds});this.addStat('extinguished',1);this.log('extinguished',f.id,ctx.at||0);}
       return n;
     }
+    // Shared physical bucket. Field collection/animal care and fire response
+    // must never create a second water balance that survives death separately.
+    fieldWater(direction,amount,ctx){
+      if(!['fill','pour'].includes(direction)||!finite(amount,Number.MIN_VALUE,RULES.bucketCapacity)||!ctx?.running||!ctx.accessible||!ctx.secure||ctx.dead)return 0;
+      const water=this.state.playerWater;
+      if(direction==='fill'){
+        const n=Math.min(amount,RULES.bucketCapacity-water);if(n<=0)return 0;
+        this.state.playerWater+=n;this.addStat('waterProduced',n);return n;
+      }
+      if(water<amount)return 0;
+      this.state.playerWater-=amount;this.addStat('waterUsed',amount);return amount;
+    }
     assign(id,ctx){if(!ctx.canCommand||!ctx.available||!int(id)||this.member(id)||this.state.crew.length>=Math.min(RULES.maxCrew,ctx.slots||0))return false;this.state.crew.push({id,water:0,release:false});this.log('assigned',id);return true;}
     release(id){const c=this.member(id);if(!c)return false;c.release=true;return true;}
     arriveHome(id){const c=this.member(id);if(!c||!c.release)return false;this.addStat('waterLost',c.water);this.state.crew.splice(this.state.crew.indexOf(c),1);this.log('released',id);return true;}
@@ -1208,7 +1220,25 @@
   {id:'observationRelay',name:'Relais de veille',w:11,h:8,unlock:null,description:'Deux miradors, un entrepôt et une halte avec un axe central libre. La veille dépend des postes achevés et des lignes de vue ; les tirs consomment vos munitions. Aucune enceinte incluse.',layout:[['watchtower',0,0],['watchtower',9,0],['warehouse',0,4],['restShelter',8,5]]},
   {id:'careCourt',name:'Cour de soins',w:12,h:9,unlock:null,description:'Une clinique, un générateur, un entrepôt et une halte séparés par des passages. Les soins demandent de l’énergie, des médicaments et du travail réel ; aucune fortification incluse.',layout:[['clinic',0,0],['generator',9,0],['warehouse',0,6],['restShelter',9,6]]},
   {id:'spikedApproach',name:'Avant-porte hérissée',w:12,h:8,unlock:null,description:'Quatre hérissons, une ligne de dix palissades avec porte et deux miradors en retrait. Les côtés restent ouverts : ce plan prépare un accès, sans fermer une enceinte. Aucun montage ni munition supplémentaire.',layout:[...[1,3,8,10].map(x=>['spikes',x,0]),...Array.from({length:12},(_,x)=>x===5||x===6?null:['woodWall',x,2]).filter(Boolean),['gate',5,2],['watchtower',1,4],['watchtower',9,4]]},
-  {id:'maintenanceRedoubt',name:'Redoute de maintenance',w:12,h:12,unlock:null,description:'Deux lignes de dix murs d’acier avec portes décalées, deux miradors, un générateur, un atelier et un entrepôt. Côtés ouverts ; financement et construction de chaque fondation, puis énergie, munitions et entretien ordinaires.',layout:[...Array.from({length:12},(_,x)=>x===5||x===6?null:['steelWall',x,1]).filter(Boolean),['gate',5,1],...Array.from({length:12},(_,x)=>x===7||x===8?null:['steelWall',x,6]).filter(Boolean),['gate',7,6],['watchtower',1,3],['watchtower',9,3],['generator',0,9],['workshop',3,9],['warehouse',8,9]]}
+  {id:'maintenanceRedoubt',name:'Redoute de maintenance',w:12,h:12,unlock:null,description:'Deux lignes de dix murs d’acier avec portes décalées, deux miradors, un générateur, un atelier et un entrepôt. Côtés ouverts ; financement et construction de chaque fondation, puis énergie, munitions et entretien ordinaires.',layout:[...Array.from({length:12},(_,x)=>x===5||x===6?null:['steelWall',x,1]).filter(Boolean),['gate',5,1],...Array.from({length:12},(_,x)=>x===7||x===8?null:['steelWall',x,6]).filter(Boolean),['gate',7,6],['watchtower',1,3],['watchtower',9,3],['generator',0,9],['workshop',3,9],['warehouse',8,9]]},
+  {id:'returnService201',name:'Relais de service',w:10,h:8,unlock:null,tier150:1,
+   description:'Entrepôt, halte, citerne incendie et éclairage autour d’une allée libre. Chaque chantier est payé ; eau, courant et rations restent à fournir après construction. Aucun soin ni réserve offert.',
+   layout:[['warehouse',0,0],['fireCistern',8,0,1],['restShelter',0,5],['streetlight',9,6]]},
+  {id:'craftCourt201',name:'Cour d’entretien',w:12,h:10,unlock:null,tier150:2,
+   description:'Atelier, générateur, entrepôt et citerne séparés par une liaison ouverte. Les recettes demandent encore leurs matériaux, le générateur son carburant et la citerne son eau. Aucune réparation automatique fournie.',
+   layout:[['workshop',0,0],['generator',9,0],['warehouse',0,6],['fireCistern',9,6,1]]},
+  {id:'staggeredLines201',name:'Lignes de repli décalées',w:14,h:13,unlock:null,tier150:3,
+   description:'Deux lignes de douze murs béton avec portes décalées, deux Hérissons, un poste de secours, un entrepôt et un lampadaire. Liaison transversale et côtés ouverts pour raccorder vos enceintes ; ni verrouillage, montage de piège ou munitions offert.',
+   layout:[...Array.from({length:14},(_,x)=>x===4||x===5?null:['concreteWall',x,0]).filter(Boolean),['gate',4,0],...Array.from({length:14},(_,x)=>x===9||x===10?null:['concreteWall',x,5]).filter(Boolean),['gate',9,5],['spikes',2,2],['spikes',11,2],['aidStation150',0,9,1],['warehouse',10,9],['streetlight',5,10]]},
+  {id:'powerCourt201',name:'Cour électrique',w:16,h:12,unlock:null,tier150:5,
+   description:'Centrale, parc solaire, citerne incendie, entrepôt et lampadaire autour d’un passage ouvert. Générateur et atelier achevés requis ; le solaire reste diurne, la centrale consomme son carburant et aucun accumulateur n’est fourni.',
+   layout:[['powerPlant',0,0],['solarPark150',10,0],['fireCistern',0,8,1],['warehouse',11,8],['streetlight',5,10]]},
+  {id:'medicalRecovery201',name:'Cour de médecine et secours',w:14,h:11,unlock:null,tier150:9,
+   description:'Pôle de triage, station de stérilisation, caserne incendie, générateur et entrepôt avec des accès séparés. Clinique et atelier achevés requis ; médicaments, intrants de production, carburant et eau restent consommés par leurs services ordinaires.',
+   layout:[['medicalComplex150',0,0],['sterilizationLab150',9,0],['fireStation',0,7],['generator',10,8],['warehouse',10,4]]},
+  {id:'siegeSupply201',name:'Cour de ravitaillement de siège',w:17,h:15,unlock:null,tier150:10,
+   description:'Arsenal de continuité, accumulateur, parc solaire, caserne incendie et dépôt de rempart autour d’une allée libre. Batterie initialement vide ; charge issue du surplus réel, production de cartouches contre intrants et courant. Aucune réserve, unité ou enceinte offerte.',
+   layout:[['continuityArsenal150',0,0],['solarPark150',11,0],['frontBattery150',0,8],['wallStore150',11,8],['fireStation',3,12]]}
 
  ]);
  const clone=x=>JSON.parse(JSON.stringify(x));
@@ -3264,6 +3294,8 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  reach:2.2,captureReach:2.2,capturePenReach:5,placementDistance:3.4,spacing:4,maxStep:.1,health:100,
  penCost:Object.freeze({wood:10,scrap:6}),captureCost:Object.freeze({scrap:1,food:1}),feedPortion:4,waterPortion:6,
  buildSeconds:8,captureSeconds:6,waterSeconds:6,slaughterSeconds:9,cookSeconds:8,tanSeconds:12,
+ repairCost:Object.freeze({wood:3,scrap:2}),repairSeconds:6,repairHealth:25,pourSeconds:3,
+ careCost:Object.freeze({medicine:1}),careSeconds:6,careHealth:25,
  foodPerSecond:.002,waterPerSecond:.004,starveDamage:.05,matureSeconds:900,breedSeconds:900,
  birthFood:2,birthWater:4,cookPortion:4,cookFuel:.5,tanFuel:.5,tanWater:2,hideLife:1800,meatLife:900,
  moveTolerance:.35,dangerRange:8,noise:6,noiseInterval:2,penContactDamage:3,attackReach:1.15,attackDamage:4,

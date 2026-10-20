@@ -88,7 +88,7 @@ function install(g){
  const update=g.update.bind(g);g.update=dt=>{if(task&&!g.paused&&!g.activeOverlay&&(g.input.mouseDown||g.input.touchFire||[...g.input.keys,...g.input.pressed].some(k=>/^Key[WAZQSDERFGV]$|^Arrow|^Page|^Space$/.test(k))))cancel();const result=update(dt);step(dt);return result;};
  const damage=g.damagePlayer?.bind(g);if(damage)g.damagePlayer=(...args)=>{const health=g.player.health,result=damage(...args);if(g.player.health<health)damageReceived();return result;};
  const menu=g.returnToMenu.bind(g);g.returnToMenu=(...args)=>{cancel();return menu(...args);};
- const start=g.startNew.bind(g);g.startNew=(...args)=>{const old={world:g.world,state,spent,task,message,displayCache},result=start(...args);if(g.world===old.world){state=old.state;spent=old.spent;task=old.task;message=old.message;displayCache=old.displayCache;}return result;};
+ const start=g.startNew.bind(g);g.startNew=(...args)=>{const old={world:g.world,state,spent,task,message,displayCache};try{return start(...args);}finally{if(g.world===old.world){state=old.state;spent=old.spent;task=old.task;message=old.message;displayCache=old.displayCache;}}};
  return api;
 }
 const api=Object.freeze({initial,validate,install});root.DeadwallForage193=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;

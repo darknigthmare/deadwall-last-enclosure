@@ -36,8 +36,9 @@
   }
   function pile(id,side){return piles.find(p=>p.site===id&&p.side===side);}
   function forget(id){h.state().climbers=records().filter(c=>c.id!==id);claims.delete(id);plans.delete(id);patrols.delete(id);visited.delete(id);clock=0;}
-  function removeSupport(id){const ids=records().filter(c=>c.site===id).map(c=>c.id);h.state().climbers=records().filter(c=>c.site!==id);
-   for(const n of ids){plans.delete(n);patrols.delete(n);visited.delete(n);const z=g.zombies.find(e=>e.id===n);if(live(z))g.killZombie(z,false);}clock=0;
+  function removeSupport(id){const ids=records().filter(c=>c.site===id).map(c=>c.id);
+   // Death observes the last supported altitude before references are removed.
+   for(const n of ids){plans.delete(n);patrols.delete(n);visited.delete(n);const z=g.zombies.find(e=>e.id===n);if(live(z))g.killZombie(z,false);}h.state().climbers=records().filter(c=>c.site!==id);clock=0;
   }
   function canStand(b,x,y,r){const surface=h.surfaceAt(x,y,R.bases[b.type].height);return surface?.b.id===b.id&&h.clearAt(x,y,R.bases[b.type].height,r);}
   function line(from,to,ignoredModule=null){const a=S.lookAt(from,to),direction=S.direction(a.yaw,a.pitch),distance=Math.hypot(to.x-from.x,to.y-from.y,to.z-from.z);

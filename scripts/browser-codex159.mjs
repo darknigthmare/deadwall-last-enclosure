@@ -197,6 +197,7 @@ const fauna189GuideIds=Object.freeze([
  'landscape189-profiles'
 ]);
 const mechanism193Choices=Object.freeze(["mechanism:runnerCable193", "mechanism:breachClamp193", "mechanism:enduranceRack193", "mechanism:shieldTongs193", "mechanism:quickCable193", "mechanism:siegeBrake193"]);
+const programme201Choices=Object.freeze(['returnService201','craftCourt201','staggeredLines201','powerCourt201','medicalRecovery201','siegeSupply201'].map(id=>'plan:'+id));
 const content193GuideIds=Object.freeze(["forage193-blackberry", "forage193-blackthorn", "forage193-rosehip", "forage193-hazelnut", "forage193-walnut", "forage193-chestnut", "forage193-apple", "forage193-pear", "forage193-plum", "forage193-raspberry", "forage193-blueberry", "forage193-wildStrawberry", "forage193-chanterelle", "forage193-bolete", "forage193-fallenBranch", "forage193-flint", "weather193-dry", "weather193-drizzle", "weather193-showers", "weather193-rain", "weather193-downpour", "weather193-clearing", "campaign193-ruralSurvey", "campaign193-farmSupply", "campaign193-fuelRecovery", "campaign193-archiveRescue", "campaign193-agroRecovery", "campaign193-triageSearch", "campaign193-engineeringRecovery", "campaign193-watchDuty"]);
 const material=page=>page.evaluate(()=>{const {timestamp,...s}=DEADWALL.serialize();return JSON.stringify(s);});
 async function guide(page,touch){if(await page.locator('#commandModal').isVisible())await activate(page,'#commandTab-field',touch);else await openCommand(page,touch,'field');await activate(page,'#commandPanel-field [data-field-view="world-codex"]',touch);await page.locator('#field-world-codex').waitFor({state:'visible'});}
@@ -209,8 +210,8 @@ try{
    context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height},hasTouch:!!viewport.touch,isMobile:!!viewport.touch,serviceWorkers:'block'});page=await context.newPage();page.setDefaultTimeout(30000);const rec=recorder(page,profile,output,viewport.name+'-');
    await page.goto(base,{waitUntil:'networkidle'});await ready(page);await chooseCampaign(page,'903159');await activate(page,'#campaignIntro132Skip',viewport.touch);await guide(page,viewport.touch);
    const beforeRead=await material(page),totals=await page.evaluate(()=>({summary:document.getElementById('worldCodexCoverage159').textContent,entries:DEADWALL.worldCodex.entries.length,choices:DeadwallCodexActions159.entries.length,programmes:DeadwallCodex3000Runtime.records.length,known:DEADWALL.frontier.discoveries()}));
-   profile.catalogueAudit=await page.evaluate(({historic,ecologyIds,waterIds,faunaIds,mechanismIds,contentIds})=>{
-    const vertical=Object.keys(DeadwallCore.VerticalCitadel175.bases).map(id=>'building:'+id).sort(),expected=[...historic,...vertical,...mechanismIds].sort();
+   profile.catalogueAudit=await page.evaluate(({historic,ecologyIds,waterIds,faunaIds,mechanismIds,planIds,contentIds})=>{
+    const vertical=Object.keys(DeadwallCore.VerticalCitadel175.bases).map(id=>'building:'+id).sort(),expected=[...historic,...vertical,...mechanismIds,...planIds].sort();
     const choices=DeadwallCodexActions159.entries.map(e=>e.choice159).sort(),guide=DEADWALL.worldCodex.entries.filter(e=>e.choice159).map(e=>e.choice159).sort();
     const programmeIds=DeadwallCodex3000Runtime.records.map(r=>r.id).sort(),expectedProgrammes=Array.from({length:4000},(_,i)=>'DW-'+String(i+1).padStart(4,'0'));
     const ecology=DEADWALL.worldCodex.entries.filter(e=>e.id.startsWith('biome164-')||e.id.startsWith('ecology164-')).map(e=>e.id).sort();
@@ -219,17 +220,18 @@ try{
     const content=DEADWALL.worldCodex.entries.filter(e=>/^(forage|weather|campaign)193-/.test(e.id)).map(e=>e.id).sort();
     const missing=(wanted,actual)=>wanted.filter(id=>!actual.includes(id)),duplicates=rows=>rows.filter((id,i)=>rows.indexOf(id)!==i);
     return{historic,vertical,expectedChoices:expected,actualChoices:choices,guideChoices:guide,expectedEcologyIds:ecologyIds,guideEcology:ecology,expectedWaterIds:waterIds,guideWater:water,expectedFaunaIds:faunaIds,guideFauna:fauna,expectedGuideEntries:4435+expected.length+ecologyIds.length+waterIds.length+faunaIds.length+contentIds.length,expectedContentIds:contentIds,guideContent:content,
-     missingContent:missing(contentIds,content),unexpectedContent:missing(content,contentIds),duplicateContent:duplicates(content),missingMechanisms:missing(mechanismIds,choices),
+     missingContent:missing(contentIds,content),unexpectedContent:missing(content,contentIds),duplicateContent:duplicates(content),missingMechanisms:missing(mechanismIds,choices),expectedProgrammeIds:planIds,missingProgrammeChoices:missing(planIds,choices),
      missingFauna:missing(faunaIds,fauna),unexpectedFauna:missing(fauna,faunaIds),duplicateFauna:duplicates(fauna),
      missingWater:missing(waterIds,water),unexpectedWater:missing(water,waterIds),duplicateWater:duplicates(water),
      missingEcology:missing(ecologyIds,ecology),unexpectedEcology:missing(ecology,ecologyIds),duplicateEcology:duplicates(ecology),
      missingHistoric:missing(historic,choices),missingVertical:missing(vertical,choices),unexpectedChoices:missing(choices,expected),
      guideMissingChoices:missing(expected,guide),guideUnexpectedChoices:missing(guide,expected),duplicateChoices:duplicates(choices),duplicateGuideChoices:duplicates(guide),
      missingProgrammes:missing(expectedProgrammes,programmeIds),unexpectedProgrammes:missing(programmeIds,expectedProgrammes),duplicateProgrammes:duplicates(programmeIds)};
-   },{historic:historicCityChoices,ecologyIds:ecology164GuideIds,waterIds:hydrology165GuideIds,faunaIds:fauna189GuideIds,mechanismIds:mechanism193Choices,contentIds:content193GuideIds});
+   },{historic:historicCityChoices,ecologyIds:ecology164GuideIds,waterIds:hydrology165GuideIds,faunaIds:fauna189GuideIds,mechanismIds:mechanism193Choices,planIds:programme201Choices,contentIds:content193GuideIds});
    const audit=profile.catalogueAudit;
    rec.check('Actual guide preserves exactly all4000 original programme identities',totals.programmes===4000&&!audit.missingProgrammes.length&&!audit.unexpectedProgrammes.length&&!audit.duplicateProgrammes.length);
    rec.check('Actual guide preserves every one of the exact180 historical city choices',audit.historic.length===180&&!audit.missingHistoric.length&&!audit.duplicateChoices.length);
+   rec.check('Actual guide includes all six exact201 construction programmes',audit.expectedProgrammeIds.length===6&&!audit.missingProgrammeChoices.length);
    rec.check('Actual guide derives exactly all registered vertical supports with no missing or unexpected city choice',audit.vertical.length>0&&!audit.missingVertical.length&&!audit.unexpectedChoices.length&&totals.choices===audit.expectedChoices.length);
    rec.check('Actual guide contains exactly30 new forage, weather and mission cards and all six specialized mechanisms',audit.expectedContentIds.length===30&&audit.guideContent.length===30&&!audit.missingContent.length&&!audit.unexpectedContent.length&&!audit.duplicateContent.length&&!audit.missingMechanisms.length);
    rec.check('Actual guide contains exactly26 regional species,16 biome populations and their landscape profile card',audit.expectedFaunaIds.length===43&&!audit.missingFauna.length&&!audit.unexpectedFauna.length&&!audit.duplicateFauna.length&&audit.guideFauna.length===43);

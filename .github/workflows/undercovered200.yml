@@ -1,0 +1,56 @@
+name: Captive care and map-isolated presence 200
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'scripts/coop-server.mjs'
+      - 'scripts/browser-care200.mjs'
+      - 'tests/undercovered200*.test.cjs'
+      - '.github/workflows/undercovered200.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: care-presence200-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  care-presence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Care, real relay isolation, stalled input and historical regressions
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/qa/undercovered200
+          git rev-parse HEAD > artifacts/qa/undercovered200/commit.txt
+          git rev-parse HEAD^{tree} > artifacts/qa/undercovered200/tree.txt
+          node --test --test-concurrency=2 tests/undercovered200*.test.cjs tests/undercovered199*.test.cjs tests/quality199*.test.cjs tests/coop-relay154.test.cjs tests/coop-ui154.test.cjs tests/audit185-coop*.test.cjs tests/simulation-clock154.test.cjs tests/audit191*.test.cjs tests/audit192-harvest-safety.test.cjs 2>&1 | tee artifacts/qa/undercovered200/contracts.log
+      - run: npx playwright install --with-deps chromium
+      - name: Real player care controls and save recovery on dist
+        run: node scripts/browser-care200.mjs
+      - name: Record exact build bytes
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/qa/undercovered200
+          if [ -f dist/index.html ]; then sha256sum dist/index.html dist/src/core.js dist/src/game.js dist/src/frontier.js dist/src/coop.js dist/src/husbandry191.js dist/src/husbandry191-art.js > artifacts/qa/undercovered200/build.sha256; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: undercovered200-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

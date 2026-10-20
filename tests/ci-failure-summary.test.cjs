@@ -215,3 +215,148 @@ test('Native failure diagnostics: exact log traversal is bounded and ignores oth
   const capped=nativeLogFailures(Array.from({length:80},(_,i)=>'✖ failed native case '+i+' (1ms)').join('\n'));assert.equal(capped.length,24);
  } finally { fs.rmSync(root,{recursive:true,force:true});fs.rmSync(outside,{recursive:true,force:true}); }
 });
+
+// Declared native-shard186 evidence. These fixtures exercise the diagnostic
+// reader; they do not represent a successful or failed real CI execution.
+const shard186Footer = '# tests 3\n# suites 0\n# pass 2\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n';
+const shard186Receipt = () => ({version:1,kind:'native-shard186',index:1,count:6,accepted:false,
+  failure:'Failed or interrupted tests',counts:{tests:999999,suites:9,pass:999999,fail:0,cancelled:0,skipped:0,todo:0}});
+function shard186Tap(footer = shard186Footer) {
+  return ['TAP version 13','ok 1 - first declared passing case',
+    'not ok 2 - finite stock survives Continue','  ---','  duration_ms: 3.21',"  type: 'test'",
+    "  location: '/private/runner/project/tests/ci-failure-summary.test.cjs:211:1'",
+    "  failureType: 'testCodeFailure'",'  error: |-',
+    '    Expected values to be strictly equal:',"  code: 'ERR_ASSERTION'",'  stack: |-',
+    '    TestContext.<anonymous> (/private/runner/project/tests/ci-failure-summary.test.cjs:244:13)',
+    '    Test.runInAsyncScope (node:async_hooks:227:14)',
+    '  ...','ok 3 - last declared passing case','1..3',footer].join('\n');
+}
+function withShard186Directory(run) {
+  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-summary186-'));
+  try {return run(directory);} finally {fs.rmSync(directory,{recursive:true,force:true});}
+}
+
+test('Native186 exact evidence names expose the Node24 TAP assertion, its source frame and all observed counters', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  withShard186Directory(directory=>{
+    const shard=path.join(directory,'native186','shard-1');fs.mkdirSync(shard,{recursive:true});
+    const log=path.join(shard,'native.log'),receipt=path.join(shard,'receipt.json');
+    fs.writeFileSync(log,shard186Tap());fs.writeFileSync(receipt,JSON.stringify(shard186Receipt()));
+    const originalLog=fs.readFileSync(log),originalReceipt=fs.readFileSync(receipt);
+    const summary=collectFailureSummaries(directory);
+    assert.equal(summary.failures.length,2,'The actual native log and failed receipt both remain visible');
+    const failure=summary.failures.find(row=>row.source.endsWith('native.log'));
+    assert.equal(failure.profile,'native tests');
+    assert.equal(failure.message,'Failed native test: finite stock survives Continue — Expected values to be strictly equal: — at tests/ci-failure-summary.test.cjs:244:13');
+    assert.ok(!failure.message.includes('211:1'),'Node24 assertion stack takes precedence over the case declaration');
+    const reason=summary.failures.find(row=>row.source.endsWith('receipt.json'));
+    assert.equal(reason.profile,'native shard 1');assert.equal(reason.message,'Failed or interrupted tests');
+    assert.equal(summary.warnings.length,1);
+    assert.match(summary.warnings[0],/tests=3, suites=0, pass=2, fail=1, cancelled=0, skipped=0, todo=0/);
+    assert.match(summary.warnings[0],/Diagnostic only; original result unchanged/);
+    const annotation=annotationLines(summary).join('\n');
+    assert.match(annotation,/native186[/\\]shard-1[/\\]native\.log/);
+    for(const forbidden of ['999999','/private/','runner/project','::notice::'])assert.ok(!annotation.includes(forbidden),forbidden);
+    const child=spawnSync(process.execPath,[helperPath,'--directory',directory],{encoding:'utf8'});
+    assert.equal(child.status,0,'Publishing diagnostic text preserves the existing helper exit behaviour');
+    assert.match(child.stdout,/Failed native test: finite stock survives Continue/);
+    assert.deepEqual(fs.readFileSync(log),originalLog);assert.deepEqual(fs.readFileSync(receipt),originalReceipt);
+  });
+});
+
+test('Native186 spec diagnostics retain the first assertion and source while suppressing private and injected text', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  withShard186Directory(directory=>{
+    const text=['test at /private/runner/project/tests/ci-failure-summary.test.cjs:211:1',
+      '✖ paid action refuses a hidden target token=fixture-private-value (2.5ms)',
+      '  AssertionError [ERR_ASSERTION]: expected a blocked service https://signed.example/private?sig=fixture-signed-value',
+      '    at TestContext.<anonymous> (/private/runner/project/tests/ci-failure-summary.test.cjs:244:13)',
+      '    at nextFrame (/private/runner/project/scripts/browser-metric175.mjs:75:3)',
+      '::notice::untrusted',...shard186Footer.trimEnd().split('\n').map(line=>line.replace(/^# /,'ℹ '))].join('\r\n');
+    fs.writeFileSync(path.join(directory,'native.log'),text);
+    const summary=collectFailureSummaries(directory),annotation=annotationLines(summary).join('\n');
+    assert.equal(summary.failures.length,1);
+    assert.match(summary.failures[0].message,/AssertionError \[ERR_ASSERTION\]: expected a blocked service/);
+    assert.match(summary.failures[0].message,/at tests\/ci-failure-summary\.test\.cjs:244:13/);
+    assert.match(annotation,/tests=3, suites=0, pass=2, fail=1, cancelled=0, skipped=0, todo=0/);
+    for(const forbidden of ['fixture-private-value','signed.example','fixture-signed-value','/private/','runner/project','75:3','::notice::'])assert.ok(!annotation.includes(forbidden),forbidden);
+    assert.ok(annotation.length<1500);
+  });
+});
+
+test('Native186 incomplete and unsafe footers never inherit counters claimed by a receipt', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  const lines=shard186Footer.trimEnd().split('\n');
+  const incomplete=lines.map((_,missing)=>lines.filter((_,index)=>index!==missing).join('\n')+'\n');
+  const unsafe=[shard186Footer.replace('# tests 3','# tests 9007199254740992'),
+    shard186Footer.replace('# pass 2','# pass 2\n# pass 2'),
+    shard186Footer+'# tests 3\n# fail 1\n'];
+  withShard186Directory(directory=>{
+    fs.writeFileSync(path.join(directory,'receipt.json'),JSON.stringify(shard186Receipt()));
+    for(const footer of [...incomplete,...unsafe,'']){
+      fs.writeFileSync(path.join(directory,'native.log'),shard186Tap(footer));
+      const summary=collectFailureSummaries(directory),annotation=annotationLines(summary).join('\n');
+      assert.equal(summary.failures.length,2);
+      assert.equal(summary.warnings.length,1);assert.match(summary.warnings[0],/footer is incomplete/);
+      assert.match(summary.warnings[0],/Counters are not inferred; original result unchanged/);
+      assert.ok(!annotation.includes('tests='),'No complete footer means no reported test totals');
+      assert.ok(!annotation.includes('999999'),'Receipt-declared totals are not observed log totals');
+      assert.match(annotation,/finite stock survives Continue/);assert.match(annotation,/Failed or interrupted tests/);
+    }
+  });
+});
+
+test('Native186 receipt alone retains a failed phase without fabricating test totals', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  withShard186Directory(directory=>{
+    fs.writeFileSync(path.join(directory,'receipt.json'),JSON.stringify(shard186Receipt()));
+    const summary=collectFailureSummaries(directory),annotation=annotationLines(summary).join('\n');
+    assert.deepEqual(summary.failures,[{source:'receipt.json',profile:'native shard 1',message:'Failed or interrupted tests'}]);
+    assert.deepEqual(summary.warnings,[]);assert.match(annotation,/::error title=DEADWALL native shard 1/);
+    assert.ok(!annotation.includes('tests='));assert.ok(!annotation.includes('999999'));
+  });
+});
+
+test('Native186 receipt recognition requires an explicit failed native shard contract', async () => {
+  const {collectFailureSummaries}=await helper;
+  withShard186Directory(directory=>{
+    const file=path.join(directory,'receipt.json'),record=shard186Receipt();
+    for(const invalid of [null,[],{...record,version:2},{...record,kind:'unrelated'},
+      {...record,accepted:true},{...record,accepted:undefined},{...record,failure:undefined},{...record,failure:{message:'not a text reason'}}]){
+      fs.writeFileSync(file,JSON.stringify(invalid));assert.deepEqual(collectFailureSummaries(directory).failures,[]);
+    }
+    fs.writeFileSync(file,JSON.stringify(record));assert.equal(collectFailureSummaries(directory).failures.length,1);
+  });
+});
+
+test('Native186 new log names retain truncation, link and report-size safeguards', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  withShard186Directory(directory=>withShard186Directory(outside=>{
+    fs.writeFileSync(path.join(directory,'native.log'),'x'.repeat(2*1024*1024+20)+'\n'+shard186Tap());
+    fs.writeFileSync(path.join(directory,'ignored.log'),'not ok 7 - ignored arbitrary log\n');
+    fs.writeFileSync(path.join(directory,'receipt.json'),'x'.repeat(2*1024*1024+1));
+    fs.writeFileSync(path.join(outside,'native.log'),'not ok 9 - external linked native log\n');
+    try {fs.symlinkSync(outside,path.join(directory,'linked'),'junction');} catch(error) {if(!['EPERM','EACCES'].includes(error.code))throw error;}
+    const summary=collectFailureSummaries(directory),annotation=annotationLines(summary).join('\n');
+    assert.equal(summary.failures.length,1);assert.equal(summary.warnings.length,3);
+    assert.ok(summary.warnings.some(line=>/last 2097152 bytes/.test(line)));
+    assert.ok(summary.warnings.some(line=>/oversized QA report: receipt\.json/.test(line)));
+    assert.ok(summary.warnings.some(line=>/tests=3, suites=0, pass=2, fail=1, cancelled=0, skipped=0, todo=0/.test(line)));
+    assert.ok(!annotation.includes('ignored arbitrary log'));assert.ok(!annotation.includes('external linked native log'));
+    assert.match(annotation,/finite stock survives Continue/);
+  }));
+});
+
+test('Native186 a complete zero-failure footer remains diagnostic and cannot qualify an otherwise failed step', async () => {
+  const {collectFailureSummaries,annotationLines}=await helper;
+  withShard186Directory(directory=>{
+    fs.writeFileSync(path.join(directory,'native.log'),shard186Footer.replace('# pass 2','# pass 3').replace('# fail 1','# fail 0'));
+    const summary=collectFailureSummaries(directory),lines=annotationLines(summary),annotation=lines.join('\n');
+    assert.deepEqual(summary.failures,[]);assert.equal(lines.length,2);
+    assert.match(annotation,/tests=3, suites=0, pass=3, fail=0, cancelled=0, skipped=0, todo=0/);
+    assert.match(annotation,/Diagnostic only; original result unchanged/);
+    assert.match(annotation,/original failure remains unchanged/);
+    assert.ok(lines.every(line=>line.startsWith('::warning::')));
+    assert.ok(!annotation.includes('accepted'));assert.ok(!annotation.includes('qualified'));
+  });
+});

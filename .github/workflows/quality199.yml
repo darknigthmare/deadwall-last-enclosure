@@ -22,7 +22,6 @@ jobs:
     timeout-minutes: 25
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
-      DEADWALL_QA_ROOT: dist
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,8 +40,12 @@ jobs:
           node --test --test-concurrency=2 tests/quality199-*.test.cjs tests/portable-save-recovery.test.cjs tests/survival-*.test.cjs tests/survival140.test.cjs tests/audit191-*.test.cjs tests/audit192-harvest-safety.test.cjs 2>&1 | tee artifacts/qa/quality199/native.log
       - run: npx playwright install --with-deps chromium
       - name: Untouched player entry, injected faults and native recovery
+        env:
+          DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
         run: node scripts/browser-quality199.mjs
       - name: Read actual captive reports using the existing declared husbandry fixture
+        env:
+          DEADWALL_QA_ROOT: ${{ github.workspace }}/dist
         run: node scripts/browser-husbandry191.mjs
       - name: Record tested bytes
         if: always()

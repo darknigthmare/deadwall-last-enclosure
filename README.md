@@ -1,3 +1,17 @@
+# DEADWALL 1.68.0 — Chantiers et expéditions
+
+Six ensembles de construction relient logistique, entretien, défense, énergie, médecine et ravitaillement de siège. Leur financement utilise les fondations, prérequis et consommations réels ; leurs fiches rejoignent le Codex. La collecte d’eau aux berges, la présence coopérative sur les étages et les cadavres des assaillants en hauteur sont corrigés.
+
+Cette version reprend aussi le Carnet joueur, les soins et le seau partagé, les corrections d’autosauvegarde et d’audio, et l’isolation des cartes coopératives des PR 10 à 12. Fonctionnement et limites : [livraison 1.68](docs/LIVRAISON_1_68.md). Les contrôles et audits assistés ne constituent pas une campagne humaine complète de 6 à 10 heures.
+
+```sh
+npm ci
+DEADWALL_SOAK=1 npm run check
+npm start
+```
+
+## Historique conservé — 1.67.0
+
 # DEADWALL 1.67.0 — Sorties, cueillette et défenses spécialisées
 
 Seize cueillettes et ramassages finis suivent les biomes et possèdent quatre variantes visuelles. Six fronts météo rendent la préparation des sorties lisible. Huit opérations supplémentaires relient les lieux découverts au dépôt ; six mécanismes de défense proposent des cibles et des réserves distinctes, avec réarmement payé sur place. Le Guide décrit les capacités réelles sans dupliquer les cartes de pièges.
