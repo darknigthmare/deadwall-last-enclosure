@@ -1,0 +1,32 @@
+name: Immutable source inputs 201
+on:
+  push:
+    branches: [codex/source201-20261020]
+    paths: [.github/workflows/source201.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 1429320f72bf9258520b478beef5c29a09803faa
+          persist-credentials: false
+      - name: Archive tracked source and exact identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/source201
+          git archive --format=tar HEAD -- . ':!assets' ':!artifacts' | gzip > /tmp/source201/sources.tar.gz
+          git archive --format=tar HEAD -- 'assets/*.json' 'assets/**/*.json' | gzip > /tmp/source201/asset-metadata.tar.gz
+          git ls-tree -r -z HEAD > /tmp/source201/tree.bin
+          git rev-parse HEAD > /tmp/source201/commit.txt
+          sha256sum /tmp/source201/*.tar.gz > /tmp/source201/sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source201-1429320
+          path: /tmp/source201/
+          retention-days: 3
+          if-no-files-found: error
