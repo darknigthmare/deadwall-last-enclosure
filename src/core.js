@@ -3405,7 +3405,7 @@ siegeBrake193:Object.freeze({name:'Frein à chaîne de siège',seconds:32,cost:O
  const sitesFor=options=>version(options?.cityGeometry202??0)?metricSites:expeditions.SITES;
  const siteFor=(id,options)=>version(options?.cityGeometry202??0)?metricSitesById[id]:expeditions.BY_ID[id];
  C.Expeditions=Object.freeze({...expeditions,sitesFor,siteFor});
- C.CityRoadRules202=Object.freeze({clearance:8,allowedProperties:Object.freeze(['wall','gate','trapDamage'])});
+ C.CityRoadRules202=Object.freeze({clearance:8,allowedProperties:Object.freeze(['wall','gate','trapDamage']),legacyNaturalRoadProperties:Object.freeze(['vertical175'])});
 })(globalThis);
 
 /* Metric ensembles are recomposed from actual bodies; old plans remain verbatim. */

@@ -41,6 +41,21 @@ test('202 rotated and world-resolved physical definitions veto the edge, not onl
  assert.equal(g.world.placement(C.BUILDINGS.house,2,2,1).valid,true,'a quarter turn moves the complete footprint clear');
 });
 
+test('202 historical vertical supports retain their natural-road contract while paid roads and metric supports stay reserved',()=>{
+ const C=require('../src/core.js'),support=C.BUILDINGS.megaDeck36a177,ordinary=C.BUILDINGS.house;
+ assert.equal(support.vertical175,true);assert.deepEqual(support.size,[24,24]);
+ function quote(def,geometry,paid=false){
+  const p=plan([{axis:'v',x:180,length:1000,width:112}]),g={state:'playing',exploration125:{generation:4},infrastructure:{roadFootprint202:()=>paid},
+   world:{cityGeometry202:geometry,placement:()=>({valid:true,reason:''}),definition:()=>def}};
+  E.patchWorldPlacement(g,p);return g.world.placement(def,2,2,0);
+ }
+ assert.equal(quote(support,0).valid,true,'old district keeps its native foundation progression');
+ assert.equal(quote(support,undefined).valid,true,'an absent save flag is historical');
+ assert.equal(quote(support,0,true).valid,false,'funded roads are always reserved');
+ assert.equal(quote(support,1).valid,false,'the metric district applies the complete road rule');
+ assert.equal(quote(ordinary,0).valid,false,'ordinary historical houses cannot use this compatibility rule');
+});
+
 test('202 projected bounds reuse the pure metric frame through the CommonJS fallback without image loading',()=>{
  const C=require('../src/core.js'),d=C.CityGeometry202.definition('house',1),saved=globalThis.DeadwallBuildingVariants157;delete globalThis.DeadwallBuildingVariants157;
  try{

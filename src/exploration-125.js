@@ -1058,12 +1058,22 @@
 
   function drawWreck(ctx, wreck, looted = wreck.looted) {
     ctx.save(); ctx.translate(wreck.x, wreck.y); ctx.rotate(wreck.angle || 0);
+    let painted202=false;
+    if(wreck.body202){
+      const owner=globalThis.DEADWALL,art=owner?.art,seed=owner?.world?.seed||0;
+      // This painter already owns world position and heading. Art receives the
+      // unchanged physical body in local space, never a second world rotation.
+      const view={id:wreck.id,x:0,y:0,type:'scrap',variant:wreck.kind==='van'?2:1,metric202:1,body202:wreck.body202,amount:1,maxAmount:1,flash:0};
+      painted202=typeof art?.drawMetricScenery202==='function'?art.drawMetricScenery202(ctx,view,seed):!!globalThis.DeadwallArt?.drawMetricScenery202?.(ctx,art,view,{seed});
+    }
     const w = wreck.size || 58, h = w * .48;
     if(wreck.body202)ctx.scale(wreck.body202.w/(w*.92),wreck.body202.h/(h*.84));
+    if(!painted202){
     ctx.fillStyle = 'rgba(0,0,0,.30)'; ctx.beginPath(); ctx.ellipse(4, h * .45, w * .5, h * .42, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = wreck.kind === 'van' ? '#555b58' : '#5d5b52'; ctx.fillRect(-w * .46, -h * .42, w * .92, h * .84);
     ctx.fillStyle = '#262d2d'; ctx.fillRect(-w * .2, -h * .34, w * .42, h * .68);
     ctx.fillStyle = '#181d1c'; ctx.fillRect(-w * .5, -h * .34, w * .1, h * .22); ctx.fillRect(-w * .5, h * .12, w * .1, h * .22); ctx.fillRect(w * .4, -h * .34, w * .1, h * .22); ctx.fillRect(w * .4, h * .12, w * .1, h * .22);
+    }
     if (looted) {
       ctx.fillStyle = '#171d1a'; ctx.fillRect(-w * .43, -h * .28, w * .19, h * .56);
       ctx.strokeStyle = '#8b8269'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(-w * .43, -h * .32); ctx.lineTo(-w * .62, -h * .62); ctx.lineTo(-w * .31, -h * .56); ctx.stroke();
@@ -1349,7 +1359,11 @@
       const physicalDef=world.definition?.(def.id)||def,footprint = buildingFootprint(physicalDef, gx, gy, rotation, tile);
       const rules=C.CityRoadRules202;
       if (rules && !rules.allowedProperties.some(key=>Boolean(physicalDef[key]))) {
-        const roadOverlap=(area,clearance)=>(Array.isArray(plan.roads)&&roadFootprint202(plan,area,clearance))||game.infrastructure?.roadFootprint202?.(area,clearance);
+        // Historical districts have no road-clear plot for their largest native
+        // vertical foundations. Keep that existing construction contract only;
+        // paid roads and all metric-campaign supports still reserve their ground.
+        const legacySupport=world.cityGeometry202!==1&&rules.legacyNaturalRoadProperties.some(key=>Boolean(physicalDef[key]));
+        const roadOverlap=(area,clearance)=>(!legacySupport&&Array.isArray(plan.roads)&&roadFootprint202(plan,area,clearance))||game.infrastructure?.roadFootprint202?.(area,clearance);
         if(roadOverlap(footprint,rules.clearance) || world.cityGeometry202===1&&roadOverlap(projectedBuildingBounds202(physicalDef,gx,gy,rotation,tile),0)) {
           return {valid:false,reason:'Chaussée ou voie financée à préserver'};
         }
