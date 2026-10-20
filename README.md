@@ -6,8 +6,8 @@ Cette version reprend aussi le Carnet joueur, les soins et le seau partagé, les
 
 ```sh
 npm ci
-npm start
 DEADWALL_SOAK=1 npm run check
+npm start
 ```
 
 ## Historique conservé — 1.67.0
