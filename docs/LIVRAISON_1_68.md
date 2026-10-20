@@ -27,6 +27,8 @@ Les six fiches se raccordent aux choix réels du catalogue. Les quinze anciens e
 
 Le Carnet joueur propose les opérations et les systèmes dans le menu de campagne. Les erreurs de création audio libèrent leurs ressources ; un échec d’autosauvegarde évite les alertes répétées. Les services d’élevage rendent leurs estimations sans travail ni réserve offerte, et les camps du sol ne desservent pas un commandant en hauteur.
 
+Les cartes et devis des ensembles de chantiers adoptent les surfaces claires du Carnet : leurs textes sombres étaient presque illisibles sur les anciennes surfaces vert foncé. Le parcours navigateur contrôle désormais aussi le contraste calculé des noms, descriptions, dimensions et devis sur les trois formats, en plus du placement et du financement.
+
 Le seau porté partage les mêmes stocks entre remplissage, arrosage, extinction et autres opérations compatibles. Soin, réparation, abreuvement et reproduction utilisent leurs coûts, leur durée, leur portée et leur reprise sauvegardée. Les gestes des bras accompagnent les opérations concernées. Les entrées après un long affichage et les débuts de campagne refusés conservent leur état correctement. Le relais coopératif sépare les cartes et surfaces et attend son accusé de réception avant d’afficher la présence.
 
 ## Qualification

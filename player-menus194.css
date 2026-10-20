@@ -92,4 +92,10 @@
 .player-menus194 #commandModal.system-page196 .command-heading{border-bottom-color:#ccae68}
 .player-menus194 #commandModal.system-page196 #commandTitle{font-family:system-ui,sans-serif;letter-spacing:.04em}
 .player-menus194 #commandModal #commandStatus{color:#f1ead5;line-height:1.45}
+/* Dayworks keeps its historical dark theme in author mode. Inside the paper
+   notebook, every card must share the foreground's light surface. */
+.player-menus194 #commandModal .command-body .dw14{--ink:#29352f;--muted:#586550;--edge:#a4ac94;color:var(--ink)}
+.player-menus194 #commandModal .command-body .dw14 .dw14-hero{background:#cdd2ba;border-color:#99a386}
+.player-menus194 #commandModal .command-body .dw14 :is(.dw14-box,.dw14-plan,.dw14-site){background:#f1ead5;border-color:#aeb099}
+.player-menus194 #commandModal .command-body .dw14 .dw14-preview{background:#eee5c1;border-color:#9d8c55}
 @media(max-width:700px){.player-menus194 #commandModal .compact-operations196{display:block;padding:12px}.player-menus194 #commandModal .compact-operations196 .expansion-context{margin-top:8px}}

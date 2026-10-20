@@ -19,6 +19,50 @@ let h, report = {scope, expectedHead, root: process.env.DEADWALL_QA_ROOT, profil
 // including the random state, remains part of each read-only comparison.
 const material = page => page.evaluate(() => {const {timestamp, ...saved} = DEADWALL.serialize(); return JSON.stringify(saved);});
 
+/** WCAG contrast from the actual rendered solid surfaces, never from theme constants. */
+export function textContrasts201(selector) {
+  const parse = value => {
+    const m = /^rgba?\(([^)]+)\)$/.exec(value);
+    if (!m) throw Error('Unsupported computed CSS colour: ' + value);
+    const parts = m[1].replace(' / ', ',').split(/[ ,]+/).filter(Boolean).map(Number);
+    if (parts.length < 3 || parts.some(n => !Number.isFinite(n))) throw Error('Invalid computed CSS colour: ' + value);
+    return [parts[0] / 255, parts[1] / 255, parts[2] / 255, parts[3] ?? 1];
+  };
+  const over = (front, back) => {
+    const a = front[3] + back[3] * (1 - front[3]);
+    return [...[0, 1, 2].map(i => a ? (front[i] * front[3] + back[i] * back[3] * (1 - front[3])) / a : 0), a];
+  };
+  const luminance = rgba => rgba.slice(0, 3).map(n => n <= .04045 ? n / 12.92 : ((n + .055) / 1.055) ** 2.4)
+    .reduce((sum, n, i) => sum + n * [.2126, .7152, .0722][i], 0);
+  return [...document.querySelectorAll(selector)].map((node, index) => {
+    const result = {selector, index, text: node.textContent.trim(), tag: node.tagName.toLowerCase(), pass: false};
+    try {
+      if (!node.checkVisibility() || !result.text) throw Error('Expected rendered text is absent');
+      const style = getComputedStyle(node); result.computedForeground = style.color;
+      let background = [0, 0, 0, 0]; result.backgroundLayers = [];
+      for (let parent = node; parent; parent = parent.parentElement) {
+        const css = getComputedStyle(parent);
+        // A gradient, image, opacity group or filter needs pixel sampling instead
+        // of a fabricated solid-colour estimate. Refuse to qualify that case.
+        if (css.backgroundImage !== 'none') throw Error('Non-solid text backing requires pixel inspection');
+        const layer = {tag: parent.tagName.toLowerCase(), id: parent.id, className: parent.className, color: css.backgroundColor};
+        result.backgroundLayers.push(layer); background = over(background, parse(css.backgroundColor));
+        if (background[3] >= 1) {result.nearestOpaqueSurface = layer; break;}
+      }
+      if (background[3] < 1) throw Error('No computed opaque backing was found');
+      for (let parent = node; parent; parent = parent.parentElement) {
+        const css = getComputedStyle(parent);
+        if (Number(css.opacity) !== 1 || css.filter !== 'none' || css.mixBlendMode !== 'normal') throw Error('Opacity/filter/blend group requires pixel inspection');
+      }
+      const foreground = over(parse(style.color), background), a = luminance(foreground), b = luminance(background);
+      result.effectiveForegroundRGBA = foreground; result.effectiveBackgroundRGBA = background;
+      result.ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05); result.minimum = 4.5;
+      result.pass = result.ratio >= result.minimum;
+    } catch (error) {result.failure = error.message;}
+    return result;
+  });
+}
+
 async function reachable(page, selector) {
   await page.locator(selector).scrollIntoViewIfNeeded();
   return page.locator(selector).evaluate(node => {
@@ -175,10 +219,15 @@ try {
       for (const id of ids) {
         const at = await validAnchor(page, id), entry = {id, quote: at}; profile.plans.push(entry);
         r.check(id + ': preview control is visible, enabled and hit-testable', await reachable(page, '#plan-' + id) && await page.locator('#plan-' + id).isEnabled());
+        // The preview button identifies its native card; inspect the text siblings.
+        entry.cardContrast = await page.evaluate(textContrasts201, '.dw14-plan:has(#plan-' + id + ') :is(p,strong,small)');
+        r.check(id + ': every actual card paragraph, title and caption has at least 4.5:1 contrast', entry.cardContrast.length === 3 && entry.cardContrast.every(row => row.pass));
         await r.screenshot(id + '-card'); entry.input = await anchorByInput(page, id, at, viewport.touch);
         r.check(id + ': canvas anchoring grants no material, RNG, progress or persistent data', await material(page) === beforePreviews);
         r.check(id + ': explicit financing control is reachable and enabled', await reachable(page, '#dayworksCommit') && await page.locator('#dayworksCommit').isEnabled());
         r.check(id + ': canvas touch does not accidentally finance its new preview', await page.evaluate(() => DEADWALL.dayworks.overview().preview !== null));
+        entry.previewContrast = await page.evaluate(textContrasts201, '.dw14-preview:not(.hidden) p');
+        r.check(id + ': the visible native quote has at least 4.5:1 contrast', entry.previewContrast.length > 0 && entry.previewContrast.every(row => row.pass));
         await r.screenshot(id + '-unpaid-preview');
         await page.locator('#dayworksCancel').scrollIntoViewIfNeeded(); await activate(page, '#dayworksCancel', viewport.touch);
         r.check(id + ': cancelling leaves every persistent owner unchanged', await material(page) === beforePreviews);

@@ -24,6 +24,8 @@ Chaque tentative utilise un répertoire distinct `artifacts/qa/fullcheck201/RUN-
 
 Le parcours consulte le Carnet et les six plans `returnService201`, `craftCourt201`, `staggeredLines201`, `powerCourt201`, `medicalRecovery201` et `siegeSupply201`. Une cité avancée est **explicitement préparée** : âge, infrastructures prérequises achevées sur des emplacements légaux et stocks plafonnés par son stockage. Cette préparation ne représente pas une progression naturelle jouée.
 
+Les noms, descriptions et dimensions de chacun des six plans, puis le texte du devis, doivent atteindre un contraste calculé d’au moins 4,5:1 sur chaque format. Le rapport conserve les couleurs effectives et leur composition ; cette vérification ciblée ne constitue pas une certification d’accessibilité de l’ensemble du jeu.
+
 Les boutons natifs puis les événements réels souris/tactile ancrent chaque aperçu sur une cellule vérifiée par le devis natif. La caméra est préparée pour cadrer cette cellule. Consultation, aperçu et annulation doivent préserver tous les propriétaires persistants et le RNG, à l’exception du timestamp de sérialisation. Le financement d’un seul Relais de service utilise ensuite le vrai bouton de paiement : coûts exacts, quatre fondations non achevées, aucun gain anticipé de capacité, santé ou unités. Une sauvegarde/menu/rechargement/Continuer vérifie leur conservation.
 
 Sur écran bureau, une scène isolée déclare aussi ses ressources, support achevé et pression de corps préparés. Un infecté récent monte au toit de 12 m avec le moteur natif, puis sa mort native doit conserver cette altitude et entrer dans la vraie file de profondeur sans charger la pression au sol. Cette scène n’est pas un relevé d’une campagne naturelle.
