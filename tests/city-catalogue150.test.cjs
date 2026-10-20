@@ -39,7 +39,9 @@ test('plan prices and unlock ages are derived from paid foundations and discover
   assert.deepEqual(row.cost,cost);assert.ok(row.tier>=C.BUILDINGS.planningOffice.unlockTier);for(const part of parts)assert.ok(row.tier>=C.BUILDINGS[part.type].unlockTier);
   if(def.unlock)assert.ok(row.conditions.some(c=>c.kind==='survey'));
  }
- assert.equal(catalogue.items.filter(v=>v.kind==='plan'&&v.new150).length,4);
+ const historical150=['forwardCare150','electricFoodCourt150','watchedBastion150','continuitySector150'];
+ const additions201=['returnService201','craftCourt201','staggeredLines201','powerCourt201','medicalRecovery201','siegeSupply201'];
+ assert.deepEqual(catalogue.items.filter(v=>v.kind==='plan'&&v.new150).map(v=>v.id).sort(),[...historical150,...additions201].sort());
 });
 
 test('a mechanical preparation reads the finite bag, while city costs read the depot and storage',()=>{

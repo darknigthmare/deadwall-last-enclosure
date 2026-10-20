@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseNativeCounts } from './ci-native-receipt160.mjs';
 
 const MAX_FILES = 2048;
 const MAX_REPORT_BYTES = 2 * 1024 * 1024;
@@ -96,7 +97,7 @@ const nativeText = (value, limit = 260) => safeDiagnosticText(value, limit * 2)
   .slice(0, limit);
 
 /** Diagnostic only: extract real spec/TAP failures, never infer test success. */
-export function nativeLogFailures(value, source = 'ci-native160.log') {
+export function nativeLogFailures(value, source = 'ci-native160.log', { details = false } = {}) {
   const text = String(value ?? '').slice(-MAX_NATIVE_LOG_BYTES).replace(/\u001b\[[0-?]*[ -/]*[@-~]/g, '');
   const records = []; let current = null, pendingLocation = '';
   for (const line of text.split(/\r?\n/)) {
@@ -106,19 +107,34 @@ export function nativeLogFailures(value, source = 'ci-native160.log') {
     const failure = /^\s*✖\s+(.+?)\s+\(\d+(?:\.\d+)?(?:ms|s)\)\s*$/.exec(line)
       || /^\s*not ok \d+(?:\s+-\s+(.+))?\s*$/.exec(line);
     if (failure) {
-      const name = nativeText(failure[1] || 'Unnamed native test failed');
+      const name = nativeText(failure[1] || 'Unnamed native test failed', details ? 120 : 260);
       current = records.find(record => record.name === name && (!pendingLocation || !record.location || record.location === pendingLocation));
       if (!current && records.length < MAX_FAILURES) { current = {name, location:''}; records.push(current); }
       if (current && pendingLocation) current.location ||= pendingLocation;
       pendingLocation = ''; continue;
     }
     if (/^\s*(?:✔|ℹ|ok \d+\b|# Subtest:)/.test(line)) current = null;
+    if (current && details && !current.diagnostic) {
+      const error = /^\s*(?:error:\s*|([A-Za-z]*Error(?:\s*\[[A-Z_]+\])?:\s*))(.*)$/.exec(line);
+      if (error) {
+        const message = ((error[1] || '') + error[2]).replace(/^(['"])(.*)\1$/, '$2');
+        if (/^\|[-+]?\s*$/.test(message)) current.errorBlock = true;
+        else current.diagnostic = nativeText(message, 140);
+      } else if (current.errorBlock && /^\s{4,}\S/.test(line)) {
+        current.diagnostic = nativeText(line, 140);
+      }
+    }
+    if (current && details && /^\s*stack:\s*\|[-+]?\s*$/.test(line)) current.inStack = true;
+    if (current && details && !current.assertionFrame && (current.inStack || /^\s*at\s/.test(line))) {
+      const frame = sourceFrame({failure:line});
+      if (frame) { current.location = frame; current.assertionFrame = true; }
+    }
     if (current && !current.location && /(?:scripts|tests|desktop)[\\/]/.test(line)) {
       current.location = sourceFrame({failure:line.replace(/["']\s*$/, '')});
     }
   }
   return records.map(record => ({source:nativeText(source,160), profile:'native tests',
-    message:safeDiagnosticText('Failed native test: '+record.name+(record.location?' — at '+record.location:''))}));
+    message:safeDiagnosticText('Failed native test: '+record.name+(record.diagnostic?' — '+record.diagnostic:'')+(record.location?' — at '+record.location:''))}));
 }
 
 function boundedNativeLog(filename, size) {
@@ -143,21 +159,34 @@ export function collectFailureSummaries(directory) {
       if (item.isDirectory()) { visit(filename); continue; }
       if (!item.isFile()) continue;
       const relative = path.relative(root, filename);
-      if (item.name === 'ci-native160.log') {
+      if (item.name === 'ci-native160.log' || item.name === 'native.log') {
         try {
           const size = fs.statSync(filename).size;
           if (size > MAX_NATIVE_LOG_BYTES) warnings.push('Native failure diagnostics read only the last '+MAX_NATIVE_LOG_BYTES+' bytes: '+nativeText(relative,160));
-          failures.push(...nativeLogFailures(boundedNativeLog(filename,size),relative).slice(0,MAX_FAILURES-failures.length));
+          const text = boundedNativeLog(filename,size), details = item.name === 'native.log';
+          failures.push(...nativeLogFailures(text,relative,{details}).slice(0,MAX_FAILURES-failures.length));
+          if (details) {
+            const parsed = parseNativeCounts(text);
+            warnings.push(parsed.complete
+              ? 'Observed native log footer '+nativeText(relative,160)+': '+Object.entries(parsed.counts).map(([key,n])=>key+'='+n).join(', ')+'. Diagnostic only; original result unchanged.'
+              : 'Native log footer is incomplete: '+nativeText(relative,160)+'. Counters are not inferred; original result unchanged.');
+          }
         } catch { warnings.push('Unreadable native QA log: '+nativeText(relative,160)); }
         continue;
       }
-      if (!/(?:^|[-_])(?:report|summary|failure)\.json$/.test(item.name)) continue;
+      if (item.name !== 'receipt.json' && !/(?:^|[-_])(?:report|summary|failure)\.json$/.test(item.name)) continue;
       if (fs.statSync(filename).size > MAX_REPORT_BYTES) {
         warnings.push('Skipped oversized QA report: ' + safeDiagnosticText(relative, 160));
         continue;
       }
       try {
-        failures.push(...reportFailures(JSON.parse(fs.readFileSync(filename, 'utf8')), relative).slice(0, MAX_FAILURES - failures.length));
+        let report = JSON.parse(fs.readFileSync(filename, 'utf8'));
+        if (item.name === 'receipt.json') {
+          if (report?.version !== 1 || report.kind !== 'native-shard186' || report.accepted !== false || typeof report.failure !== 'string') continue;
+          const index = Number.isSafeInteger(report.index) && report.index >= 1 && report.index <= 32 ? report.index : '?';
+          report = {pass:false,stage:'native shard '+index,failure:report.failure};
+        }
+        failures.push(...reportFailures(report, relative).slice(0, MAX_FAILURES - failures.length));
       } catch {
         warnings.push('Unreadable QA report: ' + safeDiagnosticText(relative, 160));
       }

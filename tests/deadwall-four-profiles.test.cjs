@@ -13,7 +13,7 @@ function building(options = {}) {
 function node(amount = 10) { return Object.assign(new Case(), { amount, depleted: false, flash: 0 }); }
 function scene() {
   return Object.assign(new Case(), {
-    world: { nodes: [], buildings: new Map() }, units: [], zombies: [],
+    world: { nodes: [], buildings: new Map() }, units: [], zombies: [], corpses: [],
     player: { id: 0, x: 100, y: 100, dead: false },
     visible(x, y, radius, view) { return x + radius >= view.left && x - radius <= view.right && y + radius >= view.top && y - radius <= view.bottom; }
   });

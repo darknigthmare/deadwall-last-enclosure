@@ -39,3 +39,9 @@ Le contrôle enregistre aussi les mêmes empreintes source avant/après et refus
 `tests/full-check201.test.cjs` contient 39 cas : reçu complet, chacun des sept compteurs manquants, zéro cas, régression du total, échecs/ignorés/annulés/à faire masqués, sorties npm/tee non nulles, signal, endurance absente, filtre, mauvais SHA, source sale ou mutée, permissions changées, inventaire incomplet, faux compteurs, journal altéré et contrat du workflow. Un cas sur de vrais fichiers contrôle les octets, les permissions et le refus d’une substitution par lien symbolique.
 
 Ces tests d’infrastructure et un contrôle de syntaxe peuvent être exécutés sans build. Ils ne remplacent pas le job complet ni le parcours Chromium. Seuls les reçus du HEAD effectivement lancé permettent d’affirmer leurs résultats ; l’ajout du workflow ne constitue pas une exécution réussie.
+
+## Diagnostics des partitions natives
+
+Le résumeur CI lit les noms réellement produits par `ci-native186` : `native.log` et `receipt.json`. Une erreur native expose le nom du cas et une frame source relative vérifiée, sans publier une pile hôte ou une URL signée. Les sept compteurs sont ceux du footer complet du journal ; un footer absent, incomplet ou invalide ne fournit aucun total. Un reçu déclaré réussi ne sert jamais à déduire un succès.
+
+Ces annotations restent des diagnostics : elles ne changent ni le résultat du job, ni les règles de qualification, ni les journaux et reçus originaux. Les contrôles du résumeur incluent les noms186, TAP Node24, CRLF, la suppression des informations privées, les limites de taille et les liens. Les fixtures de ces contrôles sont déclarées et ne représentent pas des parties jouées.
