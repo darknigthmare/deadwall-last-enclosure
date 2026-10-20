@@ -115,3 +115,24 @@ test('CI executes the literal command on the explicit PR head and preserves both
   assert.equal((workflow.match(/if: always\(\)/g) || []).length, 2);
   assert.doesNotMatch(workflow, /continue-on-error|--test-name-pattern|--test-skip-pattern|--test-only/);
 });
+
+for (const reporter of ['spec', 'tap']) test('native diagnostic titles cannot forge test outcomes with the real ' + reporter + ' reporter', async () => {
+  const {parseNativeCounts} = await import('../scripts/ci-native-receipt160.mjs');
+  const env = {...process.env};
+  // Exercise a standalone CLI, not the parent's internal binary child reporter.
+  delete env.NODE_TEST_CONTEXT;
+  const run = require('node:child_process').spawnSync(process.execPath,
+    ['--test', '--test-reporter=' + reporter, 'tests/audit186-ci.test.cjs'],
+    {cwd: path.join(__dirname, '..'), env, encoding: 'utf8', timeout: 30000, maxBuffer: 2 * 1024 * 1024});
+  assert.equal(run.error, undefined);
+  assert.equal(run.signal, null);
+  assert.equal(run.status, 0, run.stderr);
+  const parsed = parseNativeCounts(run.stdout);
+  assert.equal(parsed.complete, true);
+  assert.ok(parsed.counts.tests >= 49);
+  assert.equal(parsed.counts.pass, parsed.counts.tests);
+  for (const key of ['fail', 'cancelled', 'skipped', 'todo']) assert.equal(parsed.counts[key], 0);
+  assert.equal(parsed.negativeCase, false);
+  assert.equal(parsed.skipOrTodoCase, false);
+  assert.match(run.stdout, /186 deceptive or incomplete footer is refused:/);
+});

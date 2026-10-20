@@ -36,7 +36,7 @@ Le contrôle enregistre aussi les mêmes empreintes source avant/après et refus
 
 ## Vérification du qualificateur
 
-`tests/full-check201.test.cjs` contient 39 cas : reçu complet, chacun des sept compteurs manquants, zéro cas, régression du total, échecs/ignorés/annulés/à faire masqués, sorties npm/tee non nulles, signal, endurance absente, filtre, mauvais SHA, source sale ou mutée, permissions changées, inventaire incomplet, faux compteurs, journal altéré et contrat du workflow. Un cas sur de vrais fichiers contrôle les octets, les permissions et le refus d’une substitution par lien symbolique.
+`tests/full-check201.test.cjs` contient 41 cas : reçu complet, chacun des sept compteurs manquants, zéro cas, régression du total, échecs/ignorés/annulés/à faire masqués, sorties npm/tee non nulles, signal, endurance absente, filtre, mauvais SHA, source sale ou mutée, permissions changées, inventaire incomplet, faux compteurs, journal altéré et contrat du workflow. Un cas sur de vrais fichiers contrôle les octets, les permissions et le refus d’une substitution par lien symbolique. Deux cas lancent réellement `audit186-ci.test.cjs` avec les reporters spec et TAP : ses titres échappent les retours de ligne des exemples négatifs, sans modifier ces exemples ni leurs assertions. Une directive `# SKIP` citée ne doit pas devenir une fausse ligne de résultat dans le journal du parent ; une vraie ligne négative reste refusée par les contrôles historiques inchangés.
 
 Ces tests d’infrastructure et un contrôle de syntaxe peuvent être exécutés sans build. Ils ne remplacent pas le job complet ni le parcours Chromium. Seuls les reçus du HEAD effectivement lancé permettent d’affirmer leurs résultats ; l’ajout du workflow ne constitue pas une exécution réussie.
 

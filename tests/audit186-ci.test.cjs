@@ -75,7 +75,7 @@ for(const [name,alter]of [
  for(const item of evidence){alter(item.receipt.counts);item.logs.tests=logFor(item.receipt.counts);item.receipt.results.tests.sha256=hash(item.logs.tests);}
  assert.throws(()=>qualifyAll(evidence,plan,source,'sample-run'));
 });
-for(const text of ['TAP version 13\nok 1 - truncated\n','# tests 800\n# tests 800\n# pass 800\n',logFor(counts)+'not ok 801 - failure after a positive footer\n',logFor(counts)+'ok 802 - filtered # SKIP\n'])test('186 deceptive or incomplete footer is refused: '+text.slice(-40),async()=>{
+for(const text of ['TAP version 13\nok 1 - truncated\n','# tests 800\n# tests 800\n# pass 800\n',logFor(counts)+'not ok 801 - failure after a positive footer\n',logFor(counts)+'ok 802 - filtered # SKIP\n'])test('186 deceptive or incomplete footer is refused: '+text.slice(-40).replaceAll('\r','\\r').replaceAll('\n','\\n'),async()=>{
  const {qualifyAll}=await api,{plan,source,evidence}=await fixture();evidence[0].logs.tests=text;evidence[0].receipt.results.tests.sha256=hash(text);assert.throws(()=>qualifyAll(evidence,plan,source,'sample-run'));
 });
 test('186 the CLI plan works without running tests or requiring mutable credentials',async()=>{
