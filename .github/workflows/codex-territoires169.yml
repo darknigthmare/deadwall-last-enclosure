@@ -1,0 +1,50 @@
+name: DEADWALL territorial codex 169
+on:
+  push:
+    branches: [feat/codex-territoires-suivi-169]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codex-territoires169-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Validate extension when available
+        run: |
+          if test -f scripts/codex-territoires169.mjs; then node scripts/codex-territoires169.mjs --validate; fi
+      - name: Archive exact source inputs
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, subprocess, zipfile
+          root=pathlib.Path.cwd(); out=root/'artifacts'/'codex-territoires169'; out.mkdir(parents=True,exist_ok=True)
+          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          allowed={'src','tests','scripts','docs','codex-3000','.github'}
+          records=[]
+          with zipfile.ZipFile(out/'source-inputs.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for name in sorted(filter(None,subprocess.check_output(['git','ls-files','-z']).decode().split('\0'))):
+                  p=pathlib.PurePosixPath(name); f=root/name
+                  if p.is_absolute() or '..' in p.parts or f.is_symlink(): continue
+                  if len(p.parts)>1 and p.parts[0] not in allowed: continue
+                  if any(t.startswith('.env') for t in p.parts) or p.suffix.lower() in {'.pem','.key','.p12','.ttf','.otf','.woff','.woff2'}: continue
+                  if p.suffix.lower() not in {'.js','.mjs','.cjs','.json','.md','.txt','.html','.css','.yaml','.yml','.csv','.xlsx'} and name not in {'.gitignore','.vercelignore'}: continue
+                  data=f.read_bytes(); z.writestr(name,data)
+                  records.append({'path':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+              z.writestr('SOURCE-MANIFEST169.json',json.dumps({'revision':sha,'files':records},indent=2))
+          print(json.dumps({'revision':sha,'files':len(records)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-territoires169-inputs
+          path: artifacts/codex-territoires169/
+          retention-days: 30
+          if-no-files-found: error
