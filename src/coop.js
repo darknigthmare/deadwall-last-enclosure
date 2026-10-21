@@ -2,7 +2,7 @@
   'use strict';
   // Transport budgets, not simulation or save limits. Coop remains presence
   // and regional pings; no construction, inventory or combat is authoritative here.
-  const LIMITS = Object.freeze({ messageChars: 8192, bufferedBytes: 65536, peers: 64, pings: 64, peerMs: 5000, pingMs: 8000, relayClients: 128, burst: 60, perSecond: 30 });
+  const LIMITS = Object.freeze({ messageChars: 8192, bufferedBytes: 65536, peers: 64, pings: 64, peerMs: 5000, pingMs: 8000, relayClients: 128, burst: 60, perSecond: 30, joinMs: 10000 });
   const record = value => value && typeof value === 'object' && !Array.isArray(value);
   const coordinate = value => Number.isFinite(value) && Math.abs(value) <= 1e6;
   const label = (value, fallback) => typeof value === 'string' ? value.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 24) || fallback : fallback;
@@ -36,6 +36,39 @@
     const peers = new Map();
     const scoped=typeof game.frontier?.position==='function';
     let joinedKey=undefined,verified=false;
+    let admission=null,admissionTimer=null;
+    function clearAdmission(){
+      admission=null;
+      if(admissionTimer!==null)root.clearTimeout?.(admissionTimer);
+      admissionTimer=null;
+    }
+    function expireAdmission(time=performance.now()){
+      const pending=admission;
+      if(!pending||socket!==pending.connection||joinedKey!==pending.key||verified||time<pending.deadline)return false;
+      disconnect();
+      notice='Délai de confirmation de la carte dépassé : reconnectez-vous à un relais compatible.';
+      return true;
+    }
+    function armAdmission(connection,key){
+      clearAdmission();
+      const pending={connection,key,deadline:performance.now()+LIMITS.joinMs};
+      admission=pending;
+      // Network admission follows wall time, even while gameplay is paused.
+      // Legacy embedders without timers still expire on their next update/reply.
+      if(typeof root.setTimeout==='function'){
+        const check=()=>{
+          if(admission!==pending)return;
+          // Timer clocks can be rounded: an early callback must not leave a
+          // paused game with an admission that will never be checked again.
+          if(!expireAdmission()){
+            admissionTimer=root.setTimeout(check,Math.max(1,Math.ceil(pending.deadline-performance.now())));
+            admissionTimer?.unref?.();
+          }
+        };
+        admissionTimer=root.setTimeout(check,LIMITS.joinMs);
+        admissionTimer?.unref?.();
+      }
+    }
     function position(){
       const p=scoped?game.frontier.position():game.frontier.overview();
       if(!p||p.active||typeof game.vertical175?.pose!=='function')return p;
@@ -52,14 +85,17 @@
     }
     const matches=message=>!scoped?message.space===undefined:!!localSpace()&&spaceKey(message.space)===spaceKey(localSpace());
     function joinScope(connection){
-      const space=localSpace();if(scoped&&!space){joinedKey=undefined;verified=false;peers.clear();pings=[];notice='Carte indisponible : présence suspendue.';return false;}
+      if(expireAdmission())return false;
+      const space=localSpace();if(scoped&&!space){clearAdmission();joinedKey=undefined;verified=false;peers.clear();pings=[];notice='Carte indisponible : présence suspendue.';return false;}
       const key=spaceKey(space);if(joinedKey===key)return verified;
-      peers.clear();pings=[];verified=false;
+      clearAdmission();peers.clear();pings=[];verified=false;joinedKey=undefined;
+      // A failed send must not leave the previous map looking already joined.
       if(!send(connection,{type:'join',room,name,...(scoped?{protocol:200,space}: {})}))return false;
-      joinedKey=key;verified=!scoped;notice=scoped?'Relais coop connecté ; vérification de la carte…':'Relais coop connecté.';
+      joinedKey=key;verified=!scoped;if(scoped)armAdmission(connection,key);notice=scoped?'Relais coop connecté ; vérification de la carte…':'Relais coop connecté.';
       return verified;
     }
     function disconnect() {
+      clearAdmission();
       const previous = socket;
       socket = null;joinedKey=undefined;verified=false;
       if (previous) try { previous.close(); } catch {}
@@ -108,10 +144,10 @@
         if (socket !== connection) return;
         const message = parseMessage(event.data);
         if (!message) return;
-        const time = performance.now(); prune(time);
+        const time = performance.now(); if(expireAdmission(time))return;prune(time);
         if(message.type==='joined'&&scoped){
           if(message.protocol!==200){verified=false;notice='Relais ancien : mettez à jour le relais pour vérifier les cartes.';return;}
-          if(matches(message)&&spaceKey(message.space)===joinedKey){verified=true;notice='Relais coop connecté ; même carte et même étage uniquement.';}
+          if(matches(message)&&spaceKey(message.space)===joinedKey){clearAdmission();verified=true;notice='Relais coop connecté ; même carte et même étage uniquement.';}
           return;
         }
         if(message.type==='leave'&&peerId(message.id)){peers.delete(message.id);return;}
@@ -130,7 +166,7 @@
       connection.addEventListener('close', () => {
         // A previous connection can finish closing after its replacement opens.
         if (socket !== connection) return;
-        socket = null;
+        clearAdmission();socket = null;joinedKey=undefined;verified=false;
         peers.clear();
         pings = [];
         if (notice !== 'Relais coop inaccessible.') notice = 'Relais coop fermé.';
@@ -148,7 +184,7 @@
       return send(socket, { type: 'ping', room, x: point.x, y: point.y, ...(scoped?{space:localSpace()}: {}) });
     }
     function update(dt) {
-      prune(performance.now());
+      const time=performance.now();prune(time);if(expireAdmission(time))return;
       if (!socket || socket.readyState !== 1) return;
       timer -= Number.isFinite(dt) ? Math.max(0, dt) : 0;
       if (timer > 0) return;
@@ -160,7 +196,7 @@
       if (state) send(socket, { type: 'state', room, state, ...(scoped?{space:localSpace()}: {}) });
     }
     function overview() {
-      const time = performance.now(),compatible=verified&&(!scoped||!!localSpace()&&spaceKey(localSpace())===joinedKey);
+      const time = performance.now(),compatible=socket?.readyState===1&&verified&&(!scoped||!!localSpace()&&spaceKey(localSpace())===joinedKey);
       return { compatible, scoped, connected: socket?.readyState === 1, connecting: socket?.readyState === 0, room, name, notice,
         peers: (compatible?[...peers.entries()]:[]).filter(([, peer]) => time - peer.time < LIMITS.peerMs).map(([id, peer]) => ({ id, ...peer })),
         pings: (compatible?pings:[]).filter(ping => time < ping.expires).map(({expires, ...ping}) => ({ ...ping, left: (expires - time) / 1000 })) };

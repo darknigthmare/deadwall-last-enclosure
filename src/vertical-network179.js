@@ -96,7 +96,7 @@
   const no=reason=>({ok:false,reason}),ok=reason=>({ok:true,reason}),tell=q=>{notice=q.reason;g.notify?.(notice,q.ok?'good':'danger');return q;};
   const carrying=()=>!!net().cargo,busy=()=>!!job;
   const can=()=>h.can(true)&&!h.nativeBusy()&&!job&&g.player.reload<=0;
-  const otherCarrying=()=>!!(g.essentials?.carrying?.()||g.campaignPack?.carrying?.()||g.explorationPack?.carrying?.());
+  const otherCarrying=()=>!!(g.essentials?.carrying?.()||g.campaignPack?.carrying?.()||g.explorationPack?.carrying?.()||g.husbandry191?.carryingProducts?.());
   const available=()=>can()&&!carrying()&&!otherCarrying();
   const floor=()=>{const p=h.pose(),s=sites().find(s=>s.id===p.site),b=buildings().get(p.site);return p.site&&ready(b,s,p)&&contains(bounds(b),g.player.x/V.tile,g.player.y/V.tile,g.player.radius/V.tile)?{p,s,b}:null;};
   const linkShape=l=>shape(l,buildings(),sites());

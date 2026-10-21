@@ -1,0 +1,55 @@
+name: Regional raw product transport 203
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/products203*.test.cjs'
+      - 'scripts/browser-products203.mjs'
+      - '.github/workflows/products203.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: products203-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  products:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Finite products and existing lifecycle contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/qa/products203
+          node --test --test-concurrency=1 tests/products203*.test.cjs tests/continuation202-*.test.cjs tests/husbandry191*.test.cjs tests/undercovered199*.test.cjs tests/undercovered200*.test.cjs tests/expansion*.test.cjs tests/essential*.test.cjs tests/exploration-pack.test.cjs tests/campaign-pack.test.cjs | tee artifacts/qa/products203/contracts.log
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Native notebook operations on built distribution
+        env:
+          DEADWALL_QA_ROOT: dist
+        run: node scripts/browser-products203.mjs
+      - name: Exact source identity
+        if: always()
+        run: |
+          mkdir -p artifacts/qa/products203
+          git rev-parse HEAD > artifacts/qa/products203/commit.txt
+          git rev-parse HEAD^{tree} > artifacts/qa/products203/tree.txt
+          sha256sum src/husbandry191.js src/frontier.js src/coop.js src/succession133.js > artifacts/qa/products203/source.sha256
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: products203-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error
