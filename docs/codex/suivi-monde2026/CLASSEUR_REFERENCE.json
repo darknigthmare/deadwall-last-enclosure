@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-21",
+  "baseSha": "6c6fbb6cf563bea6c89ade99c65f18c438481532",
+  "pullRequest": 16,
+  "workbookCommitted": false,
+  "publicationStatus": "Drive backup verified; GitHub contains references only, not the XLSX binary",
+  "workbook": {
+    "name": "DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+    "bytes": 507082,
+    "sha256": "6db31acc3cf64f0bd9093419203438374a2f80e43a990acd7f2904c2cdeef153",
+    "driveFileId": "1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X",
+    "readbackIdentical": true,
+    "sheets": 10,
+    "formulas": 192,
+    "formulaErrors": 0,
+    "uncachedFormulaResults": 0
+  },
+  "backupArchive": {
+    "name": "DEADWALL_CODEX_MONDE_SOURCES_ET_PREUVES_2026-10-21.zip",
+    "bytes": 1870239,
+    "sha256": "0ba71b172e4b031d451c61b0df8940a65828fcc01bbcd4dd108b5c3045c8bc61",
+    "driveFileId": "1lpY89GcB03NoiE-Lol6QeDN4nlIL8Ht7",
+    "readbackIdentical": true
+  },
+  "driveFolderId": "1U6uAvZuUeOaMQAt0aH8qiUMo3OhfX1sm",
+  "localTrackingTests": {"passed": 12, "failed": 0, "skipped": 0},
+  "scope": "Documentation and tracking only; no new gameplay implementation or qualification",
+  "content": {"existingProgrammes": 4000, "typologyTargets": 80, "variantTargets": 4000, "extensionTasks": 800, "newPlayableVariants": 0}
+}
