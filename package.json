@@ -1,15 +1,15 @@
 {
   "name": "deadwall-last-enclosure",
-  "version": "1.68.0",
+  "version": "1.69.0",
   "private": true,
   "main": "desktop/main.cjs",
   "description": "Explorez, bâtissez et ravitaillez une cité fortifiée à défendre contre les hordes de la nuit.",
   "scripts": {
-    "prestart": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs",
+    "prestart": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs && node scripts/compile-codex-inspection2026.cjs",
     "start": "node scripts/server.mjs",
-    "predev": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs",
+    "predev": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs && node scripts/compile-codex-inspection2026.cjs",
     "dev": "node scripts/server.mjs",
-    "pretest": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs",
+    "pretest": "node scripts/compile-codex3000.mjs && node scripts/compile-codex-context160.mjs && node scripts/compile-codex-inspection2026.cjs",
     "test": "node --test --test-concurrency=4 tests/*.test.cjs",
     "check": "node scripts/check-syntax134.mjs && npm run build && npm test",
     "build": "node scripts/build.mjs",
@@ -41,7 +41,10 @@
     "test:world-art": "node scripts/browser-world153.mjs",
     "test:sprites": "node scripts/browser-sprites159.mjs",
     "test:codex": "node scripts/browser-codex159.mjs",
-    "test:contexts": "node scripts/browser-contexts160.mjs"
+    "test:contexts": "node scripts/browser-contexts160.mjs",
+    "codex:tracker": "node scripts/build-codex-tracker2026.cjs",
+    "codex:inspection": "node scripts/audit-codex-inspection2026.cjs",
+    "test:inspection": "node scripts/browser-codex-inspection2026.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -3,13 +3,13 @@
 'use strict';
 const C=root.DeadwallCore,T=root.DeadwallTactics;
 const rules=C.Fieldcraft.RULES;
-function reserveRect(e){if(e.def)return{l:e.left,t:e.top,r:e.right,b:e.bottom};const size=(e.renderSize||e.radius*(e.type==='wood'?3.5:2.65)||48)*1.06;return{l:e.x-size/2,t:e.y-size/2,r:e.x+size/2,b:e.y+size/2};}
+function reserveRect(e){if(e.def)return{l:e.left,t:e.top,r:e.right,b:e.bottom};if(e.metric202===1&&e.body202){const {w,h}=e.body202;return{l:e.x-w/2,t:e.y-h/2,r:e.x+w/2,b:e.y+h/2};}const size=(e.renderSize||e.radius*(e.type==='wood'?3.5:2.65)||48)*1.06;return{l:e.x-size/2,t:e.y-size/2,r:e.x+size/2,b:e.y+size/2};}
 // Opaque vehicle proportions measured from the shipped, matte-decoded atlases.
 // Stable metadata keeps collision independent of image load timing. Packing keeps
 // the former reserve, so correcting an oversized collider never relocates a save.
 const vehicleImageSize134=Object.freeze({sedan:[136,284],pickup:[150,302],van:[150,303],truck:[158,314],ambulance:[257,232],bus:[276,232],utilityTruck:[286,236],tanker:[261,233]});
 function rect(e){
- const fallback=reserveRect(e);if(e.def)return fallback;
+ const fallback=reserveRect(e);if(e.def||e.metric202===1&&e.body202)return fallback;
  const variant=Math.abs(e.variant||0)%4,key=e.sceneryKind||(e.type==='scrap'?['scrap','sedan','van','truck'][variant]:e.type==='fuel'&&variant%2?'pickup':null),image=vehicleImageSize134[key];
  if(!image)return fallback;
  const size=e.renderSize||e.radius*2.65,scale=size/Math.max(...image),w=image[0]*scale,h=image[1]*scale;
@@ -24,7 +24,7 @@ function attach(g){
  if(g.fieldcraft)return g.fieldcraft;
  let world=null,solids=[],spatialIndex=new Map(),moving=null,quote=null,mounted=null,attempt=false,outcome='',opacity=null,action=null,indexWorld=null,indexNodes=null,indexVersion=-1,feedbackUntil=0;
  const wrap=(name,fn)=>{const old=g[name].bind(g);g[name]=(...a)=>fn(old,...a);};
- function objects(){return g.world.nodes.filter(n=>!n.depleted).concat(C.Expeditions.SITES.map(s=>({id:'exp:'+s.id,x:s.x,y:s.y,renderSize:86,fixture:true})));}
+ function objects(){return g.world.nodes.filter(n=>!n.depleted).concat((g.expeditions.sites?.()||C.Expeditions.SITES).map(s=>({id:'exp:'+s.id,x:s.x,y:s.y,renderSize:86,fixture:true})));}
  function index(){indexWorld=g.world;indexNodes=g.world.nodes;indexVersion=g.world.navigationVersion;solids=objects();spatialIndex=new Map();for(const e of solids){const b=rect(e);for(let y=Math.floor(b.t/128);y<=Math.floor(b.b/128);y++)for(let x=Math.floor(b.l/128);x<=Math.floor(b.r/128);x++){const k=x+':'+y;if(!spatialIndex.has(k))spatialIndex.set(k,[]);spatialIndex.get(k).push(e);}}}
  function props(x,y,r=0){if(indexWorld!==g.world||indexNodes!==g.world.nodes||indexVersion!==g.world.navigationVersion)index();const found=new Set();for(let yy=Math.floor((y-r)/128);yy<=Math.floor((y+r)/128);yy++)for(let xx=Math.floor((x-r)/128);xx<=Math.floor((x+r)/128);xx++)for(const p of spatialIndex.get(xx+':'+yy)||[])if(!p.depleted)found.add(p);return found;}
  function blocked(x,y,r=0,ignore=null){
@@ -55,7 +55,7 @@ function attach(g){
  function workAt(u,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(u.x-e.x,u.y-e.y)<=r&&segment(u,u,e);if(distance(u,e)>r||!g.friendlyPositionClear(u,u.x,u.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,u.x)),y:Math.max(b.t,Math.min(b.b,u.y))},d=Math.hypot(u.x-p.x,u.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,u,{x:p.x+(u.x-p.x)/d*(u.radius+1),y:p.y+(u.y-p.y)/d*(u.radius+1)});}
  function pack(){
   const placed=[...g.world.buildings.values()].filter(live).map(reserveRect);
-  for(const p of C.Expeditions.SITES)placed.push(reserveRect({...p,renderSize:90}));
+  for(const p of g.expeditions.sites?.()||C.Expeditions.SITES)placed.push(reserveRect({...p,renderSize:90}));
   for(const p of g.dayworks.snapshot().sites)placed.push(reserveRect({...p,renderSize:50}));
   for(const p of g.world.sites||[])placed.push(reserveRect({...p,renderSize:96}));
   const bins=new Map(),keys=b=>{const a=[];for(let y=Math.floor(b.t/128);y<=Math.floor(b.b/128);y++)for(let x=Math.floor(b.l/128);x<=Math.floor(b.r/128);x++)a.push(x+':'+y);return a;};
@@ -71,7 +71,7 @@ function attach(g){
   // outside a vehicle's collider but inside its older packing reserve.
   // Repacking on Continue would move that saved vehicle without player action.
   if(!preserveLayout)pack();index();
-  if(!world._fieldcraft){world._fieldcraft=true;world.solidForFriendly=(x,y)=>blocked(x,y);const cost=world.movementCost.bind(world);world.movementCost=(x,y)=>[...props(x*32+16,y*32+16,12)].some(p=>collides(p,x*32+16,y*32+16,12))?Infinity:cost(x,y);const place=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{const q=place(def,x,y,rotation,ignore);if(!q.valid)return q;const a={l:x*32,t:y*32,r:(x+def.size[rotation%2?1:0])*32,b:(y+def.size[rotation%2?0:1])*32};for(const p of objects())if(overlap(a,rect(p)))return{valid:false,reason:'Décor ou station dans l’emprise.'};return q;};}
+  if(!world._fieldcraft){world._fieldcraft=true;world.solidForFriendly=(x,y)=>blocked(x,y);const cost=world.movementCost.bind(world);world.movementCost=(x,y)=>[...props(x*32+16,y*32+16,12)].some(p=>collides(p,x*32+16,y*32+16,12))?Infinity:cost(x,y);const place=world.placement.bind(world);world.placement=(def,x,y,rotation=0,ignore=0)=>{if(def?.id&&world.definition)def=world.definition(def.id)||def;const q=place(def,x,y,rotation,ignore);if(!q.valid)return q;const a={l:x*32,t:y*32,r:(x+def.size[rotation%2?1:0])*32,b:(y+def.size[rotation%2?0:1])*32};for(const p of objects())if(overlap(a,rect(p)))return{valid:false,reason:'Décor ou station dans l’emprise.'};return q;};}
   const v=g.expeditions.car(),metricDriving=v?.metric174===1&&v.driving;
   for(const u of [g.player,...g.units])if(!(metricDriving&&u===g.player))recoverActor(u);
   if(v&&v.health>0&&!(v.metric174===1&&g.expeditions.carClear(v.x,v.y))){const p={x:v.x,y:v.y,radius:g.expeditions.entity()?.radius||C.Expeditions.RULES.carRadius,health:1};recoverActor(p);v.x=p.x;v.y=p.y;if(v.driving){g.player.x=v.x;g.player.y=v.y;}}

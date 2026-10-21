@@ -4,8 +4,15 @@ const H=require('./vertical177.cjs');const {C,S,R,V,clone,tick,boot,build,ascend
 const N=require('../../src/vertical-network179.js'),B=C.VerticalNetwork179;
 function pair(age=4,type='lookout2a177',gap=2,axis='x'){
  const g=boot(age);for(const n of g.world.nodes)n.harvest(n.amount);
- let a,b;const def=C.BUILDINGS[type];for(const [k,n]of Object.entries(def.cost||{}))g.resources[k]=Math.max(g.resources[k],n*2+1000);
- for(let x=8;x<100&&!a;x+=2)for(let y=8;y<100&&!a;y+=2){
+ let a,b;const def=g.world.definition?.(type)||C.BUILDINGS[type];for(const [k,n]of Object.entries(def.cost||{}))g.resources[k]=Math.max(g.resources[k],n*2+1000);
+ function* candidates(){
+  for(let x=8;x<100;x+=2)for(let y=8;y<100;y+=2)yield[x,y];
+  // Protected roads can leave only odd or perimeter anchors. Keep the actual
+  // requested span and ask the native validator about every remaining anchor.
+  for(let y=1;y<C.WORLD_TILES;y++)for(let x=1;x<C.WORLD_TILES;x++)yield[x,y];
+ }
+ for(const[x,y]of candidates()){
+  if(a)break;
   const bx=axis==='x'?x+def.size[0]+gap:x,by=axis==='y'?y+def.size[1]+gap:y;
   if(!g.world.placement(def,x,y,0).valid||!g.world.placement(def,bx,by,0).valid)continue;
   if(!g.placeOne(type,x,y))continue;a=g.world.atCell(x,y);a.progress=1;a.health=a.maxHealth;

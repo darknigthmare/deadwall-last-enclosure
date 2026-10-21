@@ -288,6 +288,153 @@
     }
     return minX > maxX ? rect : [minX, minY, maxX - minX + 1, maxY - minY + 1];
   }
+  const metricVehicles202=new Set(['sedan','pickup','van','truck','ambulance','bus','utilityTruck','tanker']);
+  const metricRuins202=new Set(['ruinedHouse','ruinedShop','warehouseShell']);
+  const metricProps202=new Set(['container','tent','guardBooth','waterTank','powerPylon','concreteBarricade','streetLamp','rubble']);
+  function metricSceneryFrame202(node,{seed=0,rect=null}={}) {
+    if(node?.metric202!==1||!node.body202||![node.x,node.y,node.body202.w,node.body202.h].every(Number.isFinite)||node.body202.w<=0||node.body202.h<=0)return null;
+    const variant=Math.abs(node.variant||0)%4,kind=node.sceneryKind||(node.type==='scrap'?['scrap','sedan','van','truck'][variant]:node.type==='fuel'&&variant%2?'pickup':null);
+    if(!metricVehicles202.has(kind)&&!metricRuins202.has(kind)&&!metricProps202.has(kind))return null;
+    const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),p=C?.CityGeometry202?.presentation,u=C?.TILE;
+    if(!p||!Number.isFinite(u)||u<=0)return null;
+    const w=node.body202.w,h=node.body202.h,body={l:node.x-w/2,t:node.y-h/2,r:node.x+w/2,b:node.y+h/2};
+    if(rect&&(!['l','t','r','b'].every(k=>Number.isFinite(rect[k]))||Object.keys(body).some(k=>Math.abs(body[k]-rect[k])>1e-6)))return null;
+    const identity=node.id??[kind,node.x,node.y].join(':'),style=InteriorArt153.hash(seed,identity,kind)%4,storey=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre;
+    const rise=metricRuins202.has(kind)||kind==='guardBooth'?storey:kind==='powerPylon'?storey*2:kind==='streetLamp'?storey*1.5:kind==='concreteBarricade'?storey/3:0;
+    return{kind,body,w,h,units:u,rise,identity,style,wall:p.wallThicknessMetres*u,doorWidth:p.doorWidthMetres*u,doorHeight:p.doorHeightMetres*p.projectedHeightUnitsPerMetre,bounds:{x:body.l,y:body.t-rise,w,h:h+rise}};
+  }
+  // Source cuts isolate paintings only. The node's body202 remains the sole
+  // physical footprint; no alpha measurement participates in placement or size.
+  const METRIC_PLAN_SKINS202=Object.freeze(Object.fromEntries(Object.entries({
+    sedan:{atlas:'props',source:[91,654,136,284],turn:Math.PI/2},
+    pickup:{atlas:'props',source:[393,650,150,302],turn:Math.PI/2},
+    van:{atlas:'props',source:[690,654,150,303],turn:-Math.PI/2},
+    truck:{atlas:'props',source:[997,647,158,314],turn:Math.PI/2},
+    bus:{atlas:'art139Bus',source:[52,160,1884,467],turn:0},
+    utilityTruck:{atlas:'art139Truck',source:[90,16,1974,668],turn:0},
+    ambulance:{atlas:'art140Van',source:[153,88,1709,590],turn:0},
+    tanker:{atlas:'art139Truck',source:[90,16,1974,668],turn:0}
+  }).map(([kind,s])=>[kind,Object.freeze({...s,source:Object.freeze(s.source),projection:'orthographic-owner-plan202'})])));
+  function metricVehicleSkin202(f,art) {
+    const original=METRIC_PLAN_SKINS202[f?.kind];if(!original)return null;
+    const model={sedan:'break',van:'van',truck:'truck',bus:'bus',utilityTruck:'truck',ambulance:'van',tanker:'truck'}[f.kind],sprite=model&&WorldVariants158?.VEHICLES?.[model];
+    const alternative=sprite?{atlas:sprite.atlas,source:sprite.rect,turn:0,projection:'orthographic-owner-plan202'}:null;
+    return(f.style%2?[alternative,original]:[original,alternative]).find(s=>s&&art?.images?.[s.atlas])||null;
+  }
+  function metricSource202(c,art,atlas,source,destination,alpha=1) {
+    if(!art?.images?.[atlas])return false;c.save();try{c.globalAlpha*=alpha;
+      return typeof art.blit==='function'?art.blit(c,atlas,source,...destination)!==false:(c.drawImage(art.images[atlas],...source,...destination),true);
+    }finally{c.restore();}
+  }
+  function metricVehicle202(c,art,f) {
+    const skin=metricVehicleSkin202(f,art);if(!skin)return metricVehicleFallback202(c,f);
+    const{l:x,t:y}=f.body,{w,h}=f;c.save();c.translate(x+w/2,y+h/2);if(skin.turn)c.rotate(skin.turn);
+    // Reviewed overhead plans use explicit XY normalization, just as the
+    // regional vehicle contract174 does. Rotate a vertical source, never its body.
+    metricSource202(c,art,skin.atlas,skin.source,skin.turn?[-h/2,-w/2,h,w]:[-w/2,-h/2,w,h]);c.restore();
+    if(f.kind==='ambulance'){
+      const roof={x:x+w*.07,y:y+h*.13,w:w*.58,h:h*.74};c.fillStyle='#b6b5a1';c.fillRect(roof.x,roof.y,roof.w,roof.h);
+      metricSource202(c,art,'worldPropsScenery153',[92,791,155,38],[roof.x,roof.y,roof.w,roof.h]);
+      const cross=h*.17;c.fillStyle='#9e4138';c.fillRect(x+w*.34-cross*.32,y+h*.5-cross,cross*.64,cross*2);c.fillRect(x+w*.34-cross,y+h*.5-cross*.32,cross*2,cross*.64);
+      c.strokeStyle='#ded2b3';c.lineWidth=Math.max(1,f.units*.035);c.strokeRect(roof.x,roof.y,roof.w,roof.h);
+      c.fillStyle='#8f3938';c.fillRect(x+w*.67,y+h*.16,f.units*.09,h*.22);c.fillStyle='#3b6476';c.fillRect(x+w*.67,y+h*.62,f.units*.09,h*.22);
+    }else if(f.kind==='tanker'){
+      const cx=x+w*.35,cy=y+h/2,rx=w*.30,ry=h*.39;c.save();c.beginPath();c.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);c.clip();c.fillStyle='#989e8c';c.fillRect(cx-rx,cy-ry,rx*2,ry*2);
+      if(!metricSource202(c,art,'worldPropsResources153',[55,804,177,58],[cx-rx,cy-ry,rx*2,ry*2]))metricSource202(c,art,'art138RoofMetal',[0,0,1254,1254],[cx-rx,cy-ry,rx*2,ry*2]);
+      const light=c.createLinearGradient(0,cy-ry,0,cy+ry);light.addColorStop(0,'rgba(18,29,25,.48)');light.addColorStop(.4,'rgba(240,235,207,.10)');light.addColorStop(1,'rgba(17,27,23,.44)');c.fillStyle=light;c.fillRect(cx-rx,cy-ry,rx*2,ry*2);c.restore();
+      c.strokeStyle='#bbc0a8';c.lineWidth=Math.max(1,f.units*.045);c.beginPath();c.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);c.stroke();
+      for(const xx of[.18,.36,.54]){c.strokeStyle='rgba(49,63,50,.75)';c.lineWidth=f.units*.07;c.beginPath();c.moveTo(x+w*xx,y+h*.19);c.lineTo(x+w*xx,y+h*.81);c.stroke();}
+      c.fillStyle='#576854';c.beginPath();c.ellipse(cx,cy-h*.06,h*.10,h*.08,0,0,Math.PI*2);c.fill();c.strokeStyle='#b2b797';c.stroke();
+    }
+    // Small identity-bound scratches retain all four cosmetic states without
+    // replacing the painted body by a flat coloured panel.
+    const px=x+w*(.22+f.style*.11),py=y+h*.36;c.strokeStyle='rgba(224,195,145,.58)';c.lineWidth=Math.max(.6,f.units*.02);c.beginPath();c.moveTo(px,py);c.lineTo(px+w*.045,py+h*.12);c.lineTo(px+w*.025,py+h*.26);c.stroke();
+    return true;
+  }
+  function metricVehicleFallback202(c,f) {
+    const {l:x,t:y}=f.body,{w,h,kind,style}=f,paint=['#657366','#8b7762','#657480','#867569'][style];
+    c.fillStyle='#232d29';for(const xx of[x+w*.15,x+w*.74])for(const yy of[y,y+h*.84])c.fillRect(xx,yy,w*.12,h*.16);
+    c.fillStyle=kind==='ambulance'?'#b9b9a6':paint;c.fillRect(x,y+h*.16,w,h*.68);c.fillRect(x+w*.025,y+h*.07,w*.95,h*.86);
+    c.strokeStyle='#b1b5a0';c.lineWidth=Math.max(1,f.units*.035);c.strokeRect(x+w*.025,y+h*.07,w*.95,h*.86);
+    const heavy=['truck','utilityTruck','tanker','ambulance'].includes(kind),cab=heavy?.25:.43,cabX=x+w*(heavy?.72:.30),cabW=w*cab;
+    c.fillStyle='#293f40';c.fillRect(cabX,y+h*.13,cabW,h*.74);c.fillStyle=paint;c.fillRect(cabX+cabW*.16,y+h*.20,cabW*.56,h*.60);
+    if(kind==='bus'){
+      c.fillStyle=paint;c.fillRect(x+w*.07,y+h*.19,w*.86,h*.62);c.fillStyle='#293f40';
+      for(let i=0;i<9;i++){c.fillRect(x+w*(.09+i*.088),y+h*.075,w*.057,h*.15);c.fillRect(x+w*(.09+i*.088),y+h*.775,w*.057,h*.15);}
+      for(const xx of[.24,.49,.74]){c.fillStyle='#9a9e8c';c.fillRect(x+w*xx,y+h*.38,w*.07,h*.24);}
+    }else if(['truck','utilityTruck','pickup'].includes(kind)){
+      const bed=kind==='pickup'?.40:.64;c.fillStyle='#414b40';c.fillRect(x+w*.06,y+h*.18,w*bed,h*.64);c.strokeStyle='#a09d83';c.strokeRect(x+w*.08,y+h*.22,w*(bed-.04),h*.56);
+      for(let xx=x+w*.12;xx<x+w*(bed+.04);xx+=f.units*.5){c.beginPath();c.moveTo(xx,y+h*.25);c.lineTo(xx,y+h*.75);c.stroke();}
+    }else if(kind==='tanker'){
+      c.fillStyle='#a1a493';c.beginPath();c.ellipse(x+w*.36,y+h/2,w*.29,h*.40,0,0,Math.PI*2);c.fill();c.strokeStyle='#687362';c.lineWidth=f.units*.08;
+      for(const xx of[.20,.37,.54]){c.beginPath();c.moveTo(x+w*xx,y+h*.16);c.lineTo(x+w*xx,y+h*.84);c.stroke();}
+    }else if(kind==='ambulance'){
+      c.fillStyle='#c8c6b3';c.fillRect(x+w*.06,y+h*.12,w*.61,h*.76);c.fillStyle='#a25348';const cross=h*.19;c.fillRect(x+w*.34-cross*.35,y+h*.5-cross,cross*.7,cross*2);c.fillRect(x+w*.34-cross,y+h*.5-cross*.35,cross*2,cross*.7);
+      c.fillStyle='#8f4e46';c.fillRect(x+w*.67,y+h*.12,f.units*.1,h*.76);
+    }else if(kind==='van'){
+      c.fillStyle=paint;c.fillRect(x+w*.08,y+h*.15,w*.54,h*.70);c.strokeStyle='#aaa993';c.strokeRect(x+w*.13,y+h*.24,w*.43,h*.52);
+    }
+    // Small damaged panels vary by saved identity; they never roll while painting.
+    c.fillStyle='rgba(56,43,31,.48)';c.fillRect(x+w*(.13+style*.13),y+h*.29,w*.08,h*.18);
+    c.fillStyle='#c1b38b';c.fillRect(x+w*.975,y+h*.18,w*.025,h*.12);c.fillRect(x+w*.975,y+h*.70,w*.025,h*.12);
+  }
+  function metricRuin202(c,art,node,f,seed) {
+    const {l,t,r,b}=f.body,{w,h,wall,units:u}=f,type=f.kind==='ruinedHouse'?'house':f.kind==='ruinedShop'?'grocer':'warehouse';
+    c.fillStyle=f.kind==='ruinedHouse'?'#74694e':'#777869';c.fillRect(l,t,w,h);
+    c.save();c.globalAlpha*=.32;InteriorArt153.drawFloor(c,art,{id:f.identity,type},{x:l+wall,y:t+wall,w:w-wall*2,h:h-wall*2},{seed,tile:u*3});c.restore();
+    c.strokeStyle='rgba(39,46,35,.38)';c.lineWidth=1;for(let x=l+u;x<r;x+=u){c.beginPath();c.moveTo(x,t);c.lineTo(x,b);c.stroke();}for(let y=t+u;y<b;y+=u){c.beginPath();c.moveTo(l,y);c.lineTo(r,y);c.stroke();}
+    const masonry=(x,y,bw,height)=>{c.fillStyle='#686e60';c.fillRect(x,y-height,bw,height+wall);c.fillStyle='#a3a18a';c.fillRect(x,y-height,bw,Math.max(1,wall*.35));c.strokeStyle='#434e40';c.lineWidth=1;c.strokeRect(x,y-height,bw,height+wall);c.strokeStyle='rgba(49,56,44,.45)';for(let yy=y-height+u*.18;yy<y;yy+=u*.18){c.beginPath();c.moveTo(x,yy);c.lineTo(x+bw,yy);c.stroke();}};
+    const count=Math.ceil(w/(u*.8)),pitch=w/count;
+    for(let i=0;i<count;i++){const n=InteriorArt153.hash(seed,f.identity,'wall',i)%5;if(n!==f.style)masonry(l+i*pitch,t,pitch-wall*.15,f.rise*(.35+n*.14));}
+    masonry(l,t+h*.36,wall,f.rise*.7);masonry(r-wall,t+h*.73,wall,f.rise*.8);
+    const doorX=node.x-f.doorWidth/2;masonry(l,b,doorX-l,f.rise*.65);masonry(doorX+f.doorWidth,b,r-doorX-f.doorWidth,f.rise*.55);
+    c.fillStyle='#29392f';c.fillRect(doorX,b-f.doorHeight,f.doorWidth,f.doorHeight);c.strokeStyle='#aaa68c';c.lineWidth=Math.max(1,wall*.2);c.strokeRect(doorX,b-f.doorHeight,f.doorWidth,f.doorHeight);
+    const roof={x:l,y:t-f.rise,w,h},patches=[[l,t-f.rise,w*.40,h*.29],[r-w*.33,t-f.rise+h*.61,w*.33,h*.28]];
+    for(const[x,y,pw,ph]of patches){c.save();c.beginPath();c.moveTo(x,y);c.lineTo(x+pw,y+wall);c.lineTo(x+pw*.86,y+ph);c.lineTo(x+pw*.36,y+ph-wall);c.lineTo(x,y+ph*.67);c.closePath();c.clip();c.fillStyle='#786d54';c.fillRect(x,y,pw,ph);InteriorArt153.drawRoof(c,art,{id:'ruin-roof:'+f.identity,type},roof,{seed});c.restore();}
+    c.save();c.beginPath();c.rect(l+wall,t+wall,w-wall*2,h-wall*2);c.clip();c.globalAlpha*=.75;
+    // Crop loose masonry inside the isolated source. A complete perspective
+    // ruin would read as a second miniature house standing on this floor.
+    const choices=InteriorArt153.RUINS[f.kind],source=choices?.[InteriorArt153.variantFor(node,{seed},'ruin:'+f.kind,choices.length)];
+    if(source&&art?.images?.[source.atlas]){const[sx,sy,sw,sh]=source.rect,size=Math.min(u*3,w*.36,h*.42),cut=[sx+sw*.28,sy+sh*.36,sw*.34,sh*.31],scale=Math.min(size/cut[2],size/cut[3]),destination=[l+w*.56,t+h*.38,cut[2]*scale,cut[3]*scale];
+      if(typeof art.blit==='function')art.blit(c,source.atlas,cut,...destination);else c.drawImage(art.images[source.atlas],...cut,...destination);}
+    c.restore();
+    c.fillStyle='#9d957c';for(let i=0;i<18;i++){const n=InteriorArt153.hash(seed,f.identity,'debris',i),x=l+wall+(n%997)/997*(w-wall*3),y=t+wall+((n>>>10)%991)/991*(h-wall*3);c.fillRect(x,y,u*(.10+(n%4)*.045),u*(.08+(n%3)*.05));}
+  }
+  function metricProp202(c,art,node,f,seed) {
+    const{l:x,t:y}=f.body,{w,h,kind,units:u}=f;
+    if(kind==='guardBooth'){
+      c.fillStyle='#7c8574';c.fillRect(x,y+h-f.rise,w,f.rise);c.fillStyle='#9a9d89';c.fillRect(x,y-f.rise,w,h);c.strokeStyle='#4a5948';c.lineWidth=Math.max(1,u*.04);c.strokeRect(x+1,y-f.rise+1,w-2,h-2);
+      metricSource202(c,art,'art138InteriorConcrete',[120,150,460,460],[x+1,y-f.rise+1,w-2,h-2],.68);
+      const dx=x+w-f.doorWidth-u*.12,dy=y+h-f.doorHeight;c.fillStyle='#2c3d32';c.fillRect(dx,dy,f.doorWidth,f.doorHeight);c.strokeStyle='#b3ad8d';c.strokeRect(dx,dy,f.doorWidth,f.doorHeight);
+      c.fillStyle='#314843';c.fillRect(x+u*.12,y+h-f.rise+u*.2,u*.6,u*.38);c.fillStyle='#737e6b';c.fillRect(node.x-u*.2,node.y-f.rise-u*.2,u*.4,u*.4);return;
+    }
+    if(kind==='rubble'){
+      c.fillStyle='rgba(99,96,77,.45)';c.fillRect(x,y,w,h);for(let i=0;i<30;i++){const n=InteriorArt153.hash(seed,f.identity,i),xx=x+(n%991)/991*(w-u*.32),yy=y+((n>>>10)%997)/997*(h-u*.28);c.fillStyle=['#777a67','#9a9077','#626d59'][i%3];c.fillRect(xx,yy,u*.32,u*.28);}return;
+    }
+    if(kind==='streetLamp'||kind==='powerPylon'){
+      c.fillStyle='#737966';c.fillRect(x,y,w,h);c.strokeStyle='#8e9582';c.lineWidth=Math.max(2,u*.07);c.beginPath();
+      if(kind==='streetLamp'){c.moveTo(node.x,node.y);c.lineTo(node.x,node.y-f.rise);c.lineTo(node.x+w*.35,node.y-f.rise);}
+      else{c.moveTo(x,y+h);c.lineTo(node.x,node.y-f.rise);c.lineTo(x+w,y+h);for(let i=0;i<4;i++){const yy=node.y-f.rise*(i+1)/5;c.moveTo(x+w*.15,yy);c.lineTo(x+w*.85,yy);}}
+      c.stroke();c.fillStyle='#a4aa94';c.fillRect(node.x-w*.25,node.y-f.rise,w*.5,Math.max(2,u*.08));return;
+    }
+    if(kind==='waterTank'){c.save();c.beginPath();c.ellipse(node.x,node.y,w/2,h/2,0,0,Math.PI*2);c.clip();c.fillStyle='#909b89';c.fillRect(x,y,w,h);metricSource202(c,art,'worldPropsScenery153',[146,306,91,45],[x,y,w,h]);
+      const shade=c.createLinearGradient(x,y,x+w,y+h);shade.addColorStop(0,'rgba(244,236,206,.18)');shade.addColorStop(1,'rgba(19,33,27,.4)');c.fillStyle=shade;c.fillRect(x,y,w,h);c.restore();c.strokeStyle='#535f51';c.lineWidth=u*.1;c.beginPath();c.ellipse(node.x,node.y,w/2,h/2,0,0,Math.PI*2);c.stroke();c.fillStyle='#5e6e5b';c.beginPath();c.arc(node.x+w*.15,node.y-h*.12,Math.min(w,h)*.10,0,Math.PI*2);c.fill();return;}
+    c.fillStyle=kind==='tent'?'#738065':kind==='concreteBarricade'?'#969c88':['#737c70','#8b7d66','#6b7c80','#807b6b'][f.style];c.fillRect(x,y-f.rise,w,h+f.rise);
+    c.strokeStyle='#3c493b';c.lineWidth=Math.max(1,u*.05);c.strokeRect(x+1,y-f.rise+1,w-2,h+f.rise-2);
+    if(kind==='tent'){metricSource202(c,art,'worldPropsScenery153',[149,111,73,53],[x+1,y+1,w-2,h-2],.9);c.beginPath();c.moveTo(x,y+h/2);c.lineTo(x+w/2,y+h*.08);c.lineTo(x+w,y+h/2);c.moveTo(x+w/2,y+h*.08);c.lineTo(x+w/2,y+h*.92);c.stroke();c.fillStyle='#2a3c2e';c.fillRect(node.x-f.doorWidth/2,y+h*.78,f.doorWidth,h*.22);}
+    else if(kind==='container'){metricSource202(c,art,'art138RoofMetal',[32,48,610,1050],[x+1,y+1,w-2,h-2]);for(let xx=x+u*.22;xx<x+w;xx+=u*.32){c.beginPath();c.moveTo(xx,y+u*.12);c.lineTo(xx,y+h-u*.12);c.stroke();}c.lineWidth=u*.08;c.strokeRect(x+w-u*.22,y+u*.18,u*.12,h-u*.36);}
+    else{c.fillStyle='#777f6d';c.fillRect(x,y+h-f.rise,w,f.rise);c.strokeStyle='#abb199';c.beginPath();c.moveTo(x,y-f.rise);c.lineTo(x+w,y-f.rise);c.stroke();}
+  }
+  function drawMetricScenery202(ctx,art,node,{seed=0,rect=null}={}) {
+    const f=metricSceneryFrame202(node,{seed,rect});if(!f||!ctx?.fillRect)return false;
+    ctx.save();try{
+      const ratio=Number.isFinite(node.amount)&&node.maxAmount>0?clamp(node.amount/node.maxAmount,node.sceneryKind ? .5 : .45,1):1;ctx.globalAlpha*=ratio;
+      ctx.beginPath();ctx.rect(f.bounds.x,f.bounds.y,f.bounds.w,f.bounds.h);ctx.clip();
+      if(metricVehicles202.has(f.kind))metricVehicle202(ctx,art,f);else if(metricRuins202.has(f.kind))metricRuin202(ctx,art,node,f,seed);else metricProp202(ctx,art,node,f,seed);
+      if(node.flash>0){const q=f.body;ctx.strokeStyle='rgba(231,205,143,.8)';ctx.lineWidth=Math.min(2,f.wall/2);ctx.strokeRect(q.l+1,q.t+1,f.w-2,f.h-2);}
+      return true;
+    }finally{ctx.restore();}
+  }
   class Art {
     constructor() {
       this.images = {}; this.rects = {}; this.actionFrames133 = {}; this.motion = new WeakMap(); this.namedMotion = new Map(); this.nodeSpecies = new WeakMap();
@@ -427,6 +574,7 @@
       return true;
     }
     drawWorldNode153(ctx, node, seed, rect) {
+      if(node.sceneryKind&&this.drawMetricScenery202(ctx,node,seed,rect))return true;
       ctx.save();
       if(node.flash>0){ctx.translate(node.x,node.y);ctx.scale(1.03,1.03);ctx.translate(-node.x,-node.y);}
       let painted=NatureArt153?.drawSceneryNode(ctx,this,node,{seed})||WorldPropsArt153?.drawSceneryNode(ctx,this,node,{seed,rect});
@@ -443,6 +591,7 @@
       ctx.restore();return !!painted;
     }
     drawNode(ctx, node, game) {
+      if(!node.sceneryKind&&this.drawMetricScenery202(ctx,node,game?.world?.seed||0,game?.fieldcraft?.rect(node)))return true;
       if(node.sceneryKind){
         this.nodeSpecies?.delete(node);
         if(this.drawWorldNode153(ctx,node,game?.world?.seed||0,game?.fieldcraft?.rect(node)))return true;
@@ -484,6 +633,7 @@
       if (node.flash > 0) ctx.scale(1.04, 1.04);
       this.blit(ctx, 'props', rect, -w / 2, -h / 2, w, h); ctx.restore(); return true;
     }
+    drawMetricScenery202(ctx,node,seed=0,rect=null) { return drawMetricScenery202(ctx,this,node,{seed,rect}); }
     drawCommanderRig(ctx,entity,reducedMotion,compact){
       if(!this.images.commanderRig||!canArticulate(entity))return false;
       const pose=heroRigPose(entity,reducedMotion),scale=HERO_RIG.scale*(compact?1.1:1);
@@ -666,5 +816,5 @@
     planningOffice:'Dayworks', restShelter:'Dayworks', dayGreenhouse:'Dayworks', prefabYard:'Dayworks',
     receptionHall:'Citadel', radioRelay:'Citadel', roadDepot:'Infrastructure'
   });
-  return { ASSETS, BUILDINGS, PROPS, DEFENSES, DISTRICT_PROPS, PROCEDURAL_BUILDINGS, ACTORS, HERO_STATES, HERO_FRAMES, HERO_PIVOT_Y, HERO_RIG, HERO_LOW137, HERO_ACTIONS133, HERO_ACTION_PIVOTS133, heroActionPose133, isolateHeroFrames133, heroRigPose, heroPose, reloadPose137, actorVariant, ACTOR_FRAME_CUTS154, actorFrameRect, frameRect, decodeMatte, tightRect, create: () => new Art() };
+  return { ASSETS, BUILDINGS, PROPS, DEFENSES, DISTRICT_PROPS, PROCEDURAL_BUILDINGS, ACTORS, HERO_STATES, HERO_FRAMES, HERO_PIVOT_Y, HERO_RIG, HERO_LOW137, HERO_ACTIONS133, HERO_ACTION_PIVOTS133, heroActionPose133, isolateHeroFrames133, heroRigPose, heroPose, reloadPose137, actorVariant, ACTOR_FRAME_CUTS154, actorFrameRect, frameRect, decodeMatte, tightRect, metricSceneryFrame202,metricVehicleSkin202,drawMetricScenery202,create: () => new Art() };
 });

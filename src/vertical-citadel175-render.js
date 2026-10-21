@@ -47,8 +47,15 @@
     const site=V.presentation().sites.find(s=>s.id===e.id),height=R.bases[e.type].height+Math.max(0,(site?.decks.length||1)-1)*R.deckRise,H=height*R.projectedHeight;
     return e.right+H*.4+20>=v.left&&e.left-20<=v.right&&e.bottom+30>=v.top&&e.top-H-30<=v.bottom;
    }
+   if(entry.kind===1&&e.geometryVersion202===1){
+    // The ordinary city painter owns these projected roofs. A tall roof may
+    // remain on screen after its entire ground footprint has left the view.
+    const q=root.DeadwallBuildingVariants157?.metricFrame202(e)?.bounds;
+    if(q)return q.x+q.w>=v.left&&q.x<=v.right&&q.y+q.h>=v.top&&q.y<=v.bottom;
+   }
    const pose=entry.kind===4?V.pose():entry.kind===3?V.enemyPose(e):entry.kind===2?V.population.pose(e):null;
-   const radius=entry.kind===0?Math.max((e.radius||0)+20,(e.renderSize||0)/2+10):entry.kind===1?Math.max(e.w,e.h)*R.tile+40:entry.kind===5?38:entry.kind===6?40:28;
+   const vehicleBody=entry.kind===6&&e.metric174===1?g.expeditions?.vehicleBody175?.(e.x,e.y,e.angle):null;
+   const radius=entry.kind===0?Math.max((e.radius||0)+20,(e.renderSize||0)/2+10):entry.kind===1?Math.max(e.w,e.h)*R.tile+40:entry.kind===5?38:entry.kind===6?(vehicleBody?Math.hypot(vehicleBody.w,vehicleBody.h)/2+10:40):28;
    return entry.kind>6||g.visible(e.x,e.y-(pose?.z||0)*R.projectedHeight,radius,v);
   }
   // The queue's ground-space culling must include the displaced upper silhouette.

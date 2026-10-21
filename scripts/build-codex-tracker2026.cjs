@@ -2,8 +2,8 @@
 /* Rebuild generated tracking data without editing any source, save or workbook. */
 const fs=require('node:fs'),path=require('node:path');
 const {exportCatalogue}=require('./export-codex-tracker2026.cjs'),Targets=require('./codex-tracker-targets2026.cjs');
-const Foundation=require('./codex-progress2026.cjs'),Maritime=require('./codex-maritime-progress2026.cjs'),V=require('./validate-codex-tracker2026.cjs');
-function currentData(root){return {catalogue:exportCatalogue(root),...Maritime.patch(Foundation.patch(Targets.generate()).data).data};}
+const Foundation=require('./codex-progress2026.cjs'),Maritime=require('./codex-maritime-progress2026.cjs'),Inspection=require('./codex-inspection-progress2026.cjs'),V=require('./validate-codex-tracker2026.cjs');
+function currentData(root=path.resolve(__dirname,'..')){return {catalogue:exportCatalogue(root),...Inspection.patch(Maritime.patch(Foundation.patch(Targets.generate()).data).data,root).data};}
 function write(root,out){
  const data=currentData(root),summary=V.validate(data);fs.mkdirSync(out,{recursive:true});
  const pairs=[['catalogue','catalogue-existant.json'],['typologies','typologies-cibles.json'],['variants','variantes-a-concevoir.json'],['tasks','chantiers.json']];

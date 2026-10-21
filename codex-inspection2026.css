@@ -1,0 +1,14 @@
+.codex-inspection2026{margin:18px 0;border:1px solid #607064;border-radius:6px;background:#17221e;color:#e3dfcd;overflow:hidden}
+.codex-inspection2026>summary{padding:16px 18px;font-weight:750;letter-spacing:.08em;cursor:pointer;background:#23382e;color:#efdcb0}
+.inspection2026-content{padding:18px}.inspection2026-intro,.inspection2026-help{max-width:84ch;line-height:1.55;color:#c1c9bb}
+.inspection2026-controls,.inspection2026-walk{display:flex;align-items:end;flex-wrap:wrap;gap:10px;margin:14px 0}
+.inspection2026-controls label{display:grid;gap:6px;font-size:12px;letter-spacing:.04em;min-width:140px;max-width:100%}
+.inspection2026-controls label:first-child{flex:1 1 260px}
+.inspection2026-content select,.inspection2026-content button{font:inherit;min-height:42px;border:1px solid #758175;border-radius:3px;padding:8px 10px;background:#26392f;color:#efe5c7;max-width:100%}
+.inspection2026-content button{font-size:11px;letter-spacing:.04em;cursor:pointer}.inspection2026-content button:hover:not(:disabled){background:#3d5443}
+.inspection2026-content button:disabled{opacity:.45;cursor:default}.inspection2026-content :focus-visible{outline:3px solid #e3be71;outline-offset:3px}
+.inspection2026-status{font:12px/1.6 ui-monospace,monospace;padding:12px;border-left:3px solid #b89757;background:#21322a;min-height:44px}
+.inspection2026-content canvas{display:block;width:100%;height:auto;aspect-ratio:1100/680;border:1px solid #65766a;border-radius:4px;touch-action:manipulation}
+.inspection2026-info{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}.inspection2026-info section{background:#202f27;padding:14px;border:1px solid #465e4e;border-radius:3px;min-width:0}
+.inspection2026-info section:last-child{grid-column:1/-1}.inspection2026-info h5{margin:0 0 10px;color:#e7ce92;font-size:12px;letter-spacing:.06em}.inspection2026-info p,.inspection2026-info li{font-size:12px;line-height:1.55;overflow-wrap:anywhere}.inspection2026-info a{color:#c2dabd;text-decoration:underline}
+@media(max-width:650px){.inspection2026-content{padding:10px}.inspection2026-controls label{flex:1 1 140px;min-width:0}.inspection2026-info{grid-template-columns:1fr}.inspection2026-info section:last-child{grid-column:auto}.inspection2026-walk button{flex:1 1 40%}.inspection2026-walk select{flex:1 1 100%}}

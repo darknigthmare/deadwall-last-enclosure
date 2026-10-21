@@ -61,7 +61,7 @@ function install(g){
   const z=g.zombies.find(z=>z.id===r.body.zombieId);if(z&&!z.dead&&z.health>0){r.body.x=z.x;r.body.y=z.y;r.body.health=Math.min(R.health,z.health);}else{if(z){r.body.x=z.x;r.body.y=z.y;}r.body.phase='neutralized';r.body.health=0;r.body.zombieId=null;}
  }}
  function cleanup(point){
-  g.releaseInputs();g.cancelPlacement();g.fieldcraft?.cancel?.();g.fieldSupplies?.cancel?.();g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);
+  g.releaseInputs();g.cancelPlacement();g.fieldcraft?.cancel?.();g.fieldSupplies?.cancel?.();g.nightGear?.dropOnDeath?.(point);g.essentials?.dropOnDeath?.(point);g.husbandry191?.dropProductsOnDeath?.(point);
   for(const id of ['playerOps131','travel131','worldOps131','chronicles131','survivalPack','explorationPack','campaignPack','defensePack','companionsPack','interventions134','barricades134'])g[id]?.cancel?.();
   const explore=g.explorationPack?.snapshot();if(explore){for(const c of explore.cargo)if(c.stage==='held'){c.stage='ground';c.x=g.player.x;c.y=g.player.y;}g.expansions.get('exploration').restore(explore);}
   const campaign=g.campaignPack?.snapshot();if(campaign?.active){campaign.history.push({kind:campaign.active.kind,wave:campaign.active.wave,result:'lost'});campaign.history=campaign.history.slice(-C.CampaignPackRules.history);campaign.active=null;g.expansions.get('campaign').restore(campaign);}

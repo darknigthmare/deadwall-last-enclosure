@@ -9,7 +9,7 @@
  const initial=()=>({version:1,nextId:1,links:[],cargo:null,crates:[]});
  const key=p=>p.site+':'+p.level;
  const definition=l=>R.links.find(d=>d.id===l?.kind);
- function bounds(b){const d=V.bases[b.type]||C.BUILDINGS[b.type],swap=(b.rotation||0)%2;return{x:b.gx,y:b.gy,w:d.size[swap?1:0],h:d.size[swap?0:1]};}
+ function bounds(b){const d=V.bases[b.type]||b.def||C.CityGeometry202.definition(b.type,b.geometryVersion202??0),swap=(b.rotation||0)%2;return{x:b.gx,y:b.gy,w:d.size[swap?1:0],h:d.size[swap?0:1]};}
  function moduleBox(b,m,z){const q=bounds(b),d=V.modules[m.kind],xs=[.23,.77,.23,.77],ys=[.23,.23,.77,.77];return{x:q.x+q.w*xs[m.slot]-d.size[0]/2,y:q.y+q.h*ys[m.slot]-d.size[1]/2,z,w:d.size[0],h:d.size[1],d:d.range?1.5:2.6};}
  const overlap=(a,b)=>a.x<b.x+b.w-EPS&&a.x+a.w>b.x+EPS&&a.y<b.y+b.h-EPS&&a.y+a.h>b.y+EPS;
  const contains=(q,x,y,r=0)=>x-r>=q.x-EPS&&x+r<=q.x+q.w+EPS&&y-r>=q.y-EPS&&y+r<=q.y+q.h+EPS;
@@ -46,9 +46,9 @@
  function structuralCollision(q,l,buildings,sites,nodes=[]){
   for(const b of buildings.values()){
    if(b.dead||!(b.health>0))continue;
-   const def=V.bases[b.type]||C.BUILDINGS[b.type];if(!def)continue;
+   const def=V.bases[b.type]||b.def||C.CityGeometry202.definition(b.type,b.geometryVersion202??0);if(!def)continue;
    const box=bounds(b),end=b.id===l.a.site||b.id===l.b.site;
-   if(!end&&overlap(q,box)&&(def.height|| (def.wall?3:V.structureHeight))>q.z-R.deckThickness+EPS)return true;
+   if(!end&&overlap(q,box)&&C.CityGeometry202.structureHeight(def,b.geometryVersion202??0)>q.z-R.deckThickness+EPS)return true;
    const s=sites.find(s=>s.id===b.id);if(!s)continue;
    for(let i=0;i<s.decks.length;i++){
     const z=V.bases[b.type].height+i*V.deckRise;
@@ -63,7 +63,7 @@
   raw=raw===undefined?initial():raw;
   const bad=why=>{throw Error('Réseau vertical invalide : '+why);};
   if(!fields(raw,['version','nextId','links','cargo','crates'])||raw.version!==1||!integer(raw.nextId,1)||!Array.isArray(raw.links)||raw.links.length>R.maxLinks||!Array.isArray(raw.crates)||raw.crates.length>R.maxCrates)bad('format');
-  const ids=new Set(),pairs=new Set(),moduleIds=new Set(),buildings=new Map((full?.buildings||[]).map(b=>[b.id,b])),sites=vertical?.sites||[];
+  const ids=new Set(),pairs=new Set(),moduleIds=new Set(),buildings=new Map((full?.buildings||[]).map(b=>[b.id,{...b,geometryVersion202:full?.cityGeometry202??0}])),sites=vertical?.sites||[];
   for(const s of sites)for(const d of s.decks)for(const m of d.modules)moduleIds.add(m.id);
   for(const e of vertical?.giants||[])moduleIds.add(e.id);
   const endpoint=p=>fields(p,['site','level'])&&integer(p.site,1)&&integer(p.level,0,V.maxDecks-1);
@@ -96,7 +96,7 @@
   const no=reason=>({ok:false,reason}),ok=reason=>({ok:true,reason}),tell=q=>{notice=q.reason;g.notify?.(notice,q.ok?'good':'danger');return q;};
   const carrying=()=>!!net().cargo,busy=()=>!!job;
   const can=()=>h.can(true)&&!h.nativeBusy()&&!job&&g.player.reload<=0;
-  const otherCarrying=()=>!!(g.essentials?.carrying?.()||g.campaignPack?.carrying?.()||g.explorationPack?.carrying?.());
+  const otherCarrying=()=>!!(g.essentials?.carrying?.()||g.campaignPack?.carrying?.()||g.explorationPack?.carrying?.()||g.husbandry191?.carryingProducts?.());
   const available=()=>can()&&!carrying()&&!otherCarrying();
   const floor=()=>{const p=h.pose(),s=sites().find(s=>s.id===p.site),b=buildings().get(p.site);return p.site&&ready(b,s,p)&&contains(bounds(b),g.player.x/V.tile,g.player.y/V.tile,g.player.radius/V.tile)?{p,s,b}:null;};
   const linkShape=l=>shape(l,buildings(),sites());
@@ -209,7 +209,7 @@
    if(operation!=='removeDeck')return false;const s=sites().find(s=>s.id===id);if(!s)return false;const level=s.decks.length-1;
    return net().links.some(l=>[l.a,l.b].some(p=>p.site===id&&p.level===level))||net().crates.some(c=>c.site===id&&c.level===level);
   }
-  function blocksConstruction(type,gx,gy,rotation=0){const d=V.bases[type]||C.BUILDINGS[type];if(!d)return false;const b={type,gx,gy,rotation},box=bounds(b),height=d.height||(d.wall?3:V.structureHeight);return net().links.some(l=>{const q=linkShape(l);return q&&q.z-R.deckThickness<height&&overlap(q,box);});}
+  function blocksConstruction(type,gx,gy,rotation=0){const d=V.bases[type]||g.world.definition?.(type)||C.BUILDINGS[type];if(!d)return false;const b={type,gx,gy,rotation,def:d},box=bounds(b),height=C.CityGeometry202.structureHeight(d,g.world.cityGeometry202??0);return net().links.some(l=>{const q=linkShape(l);return q&&q.z-R.deckThickness<height&&overlap(q,box);});}
   function geometry(){const boxes=[];for(const l of net().links){const q=linkShape(l);if(!q||l.progress!==1)continue;const box={x:q.x,y:q.y,w:q.w,h:q.h,z:q.z-R.deckThickness,d:R.deckThickness,type:'bridge',link:l.id};boxes.push(box);const horizontal=q.ports[0].y===q.ports[1].y;
     for(const side of [0,1])boxes.push(horizontal?{x:q.x,y:q.y+side*(q.h-R.railThickness),w:q.w,h:R.railThickness,z:q.z+R.railHeight-R.railThickness,d:R.railThickness,type:'bridgeRail',link:l.id}:{x:q.x+side*(q.w-R.railThickness),y:q.y,w:R.railThickness,h:q.h,z:q.z+R.railHeight-R.railThickness,d:R.railThickness,type:'bridgeRail',link:l.id});
    }return boxes;}

@@ -8,6 +8,13 @@ const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./f
 const clone=v=>JSON.parse(JSON.stringify(v)),distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const vehicleHitsPen=(p,car)=>G.obb(car,{x:p.x,y:p.y,a:0,w:R.penSize,h:R.penSize});
 const initial=()=>({version:1,next:1,behaviors:false,pens:[],animals:[]});
+// One regional, shoulder-carried package uses the existing large-load slot.
+// Old saves omit cargo203 entirely; source stocks remain the only producer.
+const Products203=Object.freeze({capacity:6,cost:Object.freeze({wood:2,scrap:1}),packSeconds:4,unpackSeconds:3,pickupSeconds:2,speed:.72});
+const productKinds=Object.freeze(['meat','hides','leather']);
+const productName=kind=>({meat:'viande crue',hides:'peaux brutes',leather:'cuir'})[kind];
+const productLife=kind=>kind==='meat'?R.meatLife:kind==='hides'?R.hideLife:Infinity;
+const productAgeKey=kind=>kind==='meat'?'meatAge':kind==='hides'?'hideAge':null;
 const worlds=new Map();
 function worldFor(full){const f=full.frontier,key=[full.worldSeed,f.generation,f.detailVersion,f.ecologyVersion,f.hydrologyVersion,f.landscape189||'classic'].join(':');
  if(!worlds.has(key)){const row={full,world:null};row.world=W.create(full.worldSeed,f.generation,{detailVersion:f.detailVersion,ecologyVersion:f.ecologyVersion,hydrologyVersion:f.hydrologyVersion,...(f.landscape189?{landscape189:f.landscape189}:{}),resourceTaken:id=>row.full.frontier.taken?.[id]||0,structureDestroyed:id=>(row.full.worldEvolution?.structures?.[id]??1)<=.001});worlds.set(key,row);if(worlds.size>2)worlds.delete(worlds.keys().next().value);}
@@ -18,7 +25,7 @@ function validate(raw,full){
  const bad=()=>{throw Error('Registre des enclos et productions invalide.');};
  const fields=(o,keys)=>{if(!o||typeof o!=='object'||Array.isArray(o)||Object.keys(o).sort().join('|')!==keys.slice().sort().join('|'))bad();};
  const num=(v,min,max,int=false)=>{if(!Number.isFinite(v)||v<min||v>max||int&&!Number.isInteger(v))bad();return v;};
- fields(raw,['version','next','behaviors','pens','animals']);if(raw.version!==1||typeof raw.behaviors!=='boolean'||!Array.isArray(raw.pens)||raw.pens.length>R.maxPens||!Array.isArray(raw.animals)||raw.animals.length>R.maxAnimals)bad();
+ fields(raw,['version','next','behaviors','pens','animals',...(Object.hasOwn(raw||{},'cargo203')?['cargo203']:[])]);if(raw.version!==1||typeof raw.behaviors!=='boolean'||!Array.isArray(raw.pens)||raw.pens.length>R.maxPens||!Array.isArray(raw.animals)||raw.animals.length>R.maxAnimals)bad();
  num(raw.next,1,1000000,true);const ids=new Set(),sources=new Set(),id=n=>{num(n,1,raw.next-1,true);if(ids.has(n))bad();ids.add(n);};
  for(const p of raw.pens){fields(p,['id','x','y','health','food','water','meat','hides','leather','breed','meatAge','hideAge',...(p&&Object.hasOwn(p,'breeding199')?['breeding199']:[])]);id(p.id);
   if(Object.hasOwn(p,'breeding199')&&(typeof p.breeding199!=='boolean'||!p.breeding199&&p.breed!==0))bad();
@@ -26,6 +33,14 @@ function validate(raw,full){
   for(const k of ['food','water','meat','hides','leather'])num(p[k],0,R.stockCapacity);
   num(p.breed,0,R.breedSeconds);num(p.meatAge,0,R.meatLife);num(p.hideAge,0,R.hideLife);
   if(raw.pens.some(q=>q!==p&&distance(q,p)<R.spacing))bad();
+ }
+ if(Object.hasOwn(raw,'cargo203')){
+  const c=raw.cargo203;fields(c,['sourcePen','kind','amount','age','stage','point']);
+  num(c.sourcePen,1,raw.next-1,true);if(!raw.pens.some(p=>p.id===c.sourcePen)||!productKinds.includes(c.kind)||!['held','ground'].includes(c.stage))bad();
+  num(c.amount,Number.MIN_VALUE,Products203.capacity);num(c.age,0,productLife(c.kind));
+  if(c.kind==='leather'?c.age!==0:c.age>=productLife(c.kind))bad();
+  if(c.stage==='held'){if(c.point!==null)bad();if(full&&(!full.frontier?.active||full.frontier.z!==0||full.frontier.car?.driving||full.player?.dead||full.player?.health<=0))bad();}
+  else{fields(c.point,['x','y']);const size=W.sizeForGeneration(full?.frontier?.generation??10);num(c.point.x,0,size);num(c.point.y,0,size);}
  }
  const pens=new Map(raw.pens.map(p=>[p.id,p]));
  for(const a of raw.animals){fields(a,['id','source','species','pen','sex','age','health','status','parents']);id(a.id);
@@ -86,6 +101,12 @@ function install(g){
  const pos=()=>g.frontier.position(),world=()=>g.frontier.world();
  const pen=id=>s.pens.find(p=>p.id===id),held=id=>s.animals.filter(a=>a.pen===id&&['held','stranded'].includes(a.status));
  const claimed=id=>s.animals.some(a=>a.source===id&&a.status!=='released');
+ const carryingProducts=()=>s.cargo203?.stage==='held';
+ const otherLoad=()=>!!(g.essentials?.carrying?.()||g.explorationPack?.carrying?.()||g.campaignPack?.carrying?.()||g.vertical175?.network?.carrying?.());
+ function dropProductsOnDeath(point){
+  if(!carryingProducts()||point?.domain!=='region'||point.z!==0||!Number.isFinite(point.x)||!Number.isFinite(point.y))return false;
+  s.cargo203.stage='ground';s.cargo203.point={x:point.x,y:point.y};cancel();return true;
+ }
  const conscious=()=>g.state==='playing'&&!g.gameOver&&!g.player.dead&&g.player.health>0;
  const owns=id=>s.animals.some(a=>a.source===id&&['held','stranded'].includes(a.status));
  const access=p=>({x:p.x,y:p.y+R.penSize/2+.7});
@@ -106,7 +127,7 @@ function install(g){
   if(s.pens.some(p=>p.id!==rebuilding&&distance(q,p)<R.spacing))return 'Éloignez les enclos les uns des autres.';
   const road=w.nearestRoad(q);if(road&&road.d<road.road.width/2+R.penSize)return 'Préservez la chaussée et ses abords.';
   const companions=(g.worldEvolution?.overview?.()?.companions||[]).filter(a=>a.health>0&&!a.riding&&Number.isFinite(a.x)&&Number.isFinite(a.y));
-  const occupants=[pos(),...hostiles(),...g.frontier.wildlife165(),...companions];
+  const occupants=[pos(),...hostiles(),...g.frontier.wildlife165(),...companions,...(s.cargo203?.stage==='ground'?[{...s.cargo203.point,z:0,radius:.4}]:[])];
   if(occupants.some(a=>(a.z??0)===0&&Math.abs(a.x-q.x)<R.penSize/2+(a.radius||.4)+.25&&Math.abs(a.y-q.y)<R.penSize/2+(a.radius||.4)+.25))return 'Un occupant se trouve dans cette emprise.';
   const car=pos().car;if(car){const profile=g.worldEvolution?.vehicleProfile?.()||{w:4.6,h:1.85};if(vehicleHitsPen(q,{...car,w:profile.w,h:profile.h}))return 'Déplacez le véhicule garé hors de cette emprise.';}
   for(const dx of[-1.5,-1,-.5,0,.5,1,1.5])for(const dy of[-1.5,-1,-.5,0,.5,1,1.5])if(w.blocked(q.x+dx,q.y+dy,.35,0,null)||w.hydrology.sample(q.x+dx,q.y+dy).water)return 'Choisissez trois mètres de sol sec et libre.';
@@ -149,10 +170,18 @@ function install(g){
  const freshWater=p=>freshWaterFrom(access(p));
  const bucket=()=>g.siege?.carriedWater199?.()??0;
  const waterTransfer=(direction,amount)=>g.siege?.transferFieldWater199?.(direction,amount)??0;
- function quote(kind,id=null,target=null,continuing=false){const why=base(continuing);if(why)return bad(why);let cost={},seconds=0,site=pen(id),q=null,tool=null;
+ function quote(kind,id=null,target=null,continuing=false){if(typeof kind!=='string')return bad('Intervention inconnue.');const why=base(continuing);if(why)return bad(why);let cost={},seconds=0,site=pen(id),q=null,tool=null;
   if(kind==='build'){q=task&&continuing?task.point:placement();const no=placeReason(q);if(no)return bad(no);cost=R.penCost;seconds=R.buildSeconds;}
   else if(kind==='behaviors'){if(s.behaviors)return bad('Comportements naturels déjà actifs.');}
   else if(kind==='behaviors-off'){if(!s.behaviors)return bad('Comportements naturels déjà suspendus.');}
+  else if(kind==='drop-products'){
+   if(!carryingProducts())return bad('Aucun colis de produits porté.');
+  }
+  else if(kind==='pickup-products'){
+   const c=s.cargo203,p=pos();
+   if(c?.stage!=='ground'||otherLoad()||distance(p,c.point)>R.reach||!world().movementLine(p,c.point,0,p.inside,null,.1))return bad('Rejoignez le colis à pied, avec le porte-module libre et un accès dégagé.');
+   seconds=Products203.pickupSeconds;
+  }
   else if(kind==='fill-bucket'){
    const w=world(),p=pos();
    if(!g.siege?.transferFieldWater199||bucket()>=C.Siege.RULES.bucketCapacity)return bad('Seau de service indisponible ou plein.');
@@ -182,6 +211,16 @@ function install(g){
     if(site.breeding199!==false)return bad('Naissances déjà autorisées.');
    }else if(kind==='feed'){if(site.food>=R.stockCapacity)return bad('Mangeoire pleine.');cost={food:Math.min(R.feedPortion,R.stockCapacity-site.food)};}
    else if(kind==='water'){if(site.water>=R.stockCapacity||!freshWater(site))return bad('Eau douce réelle à portée de l’accès requise, abreuvoir non plein.');seconds=R.waterSeconds;}
+   else if(kind.startsWith('pack-')&&productKinds.includes(kind.slice(5))){
+    const product=kind.slice(5);
+    if(s.cargo203||otherLoad())return bad('Déposez ou livrez le colis existant et libérez le porte-module.');
+    if(!(site[product]>0))return bad('Aucun stock de '+productName(product)+' à emballer.');
+    cost=Products203.cost;seconds=Products203.packSeconds;
+   }else if(kind==='unpack-products'){
+    const c=s.cargo203;
+    if(!carryingProducts()||site[c.kind]>=R.stockCapacity)return bad('Colis porté et place dans le stock de destination requis.');
+    seconds=Products203.unpackSeconds;
+   }
    else if(kind==='care'){
     q=held(id).find(a=>a.id===target);
     if(!q||q.status!=='held'||q.health<=0)return bad('Animal vivant sous votre garde requis.');
@@ -218,6 +257,20 @@ function install(g){
    if(!(n>0)||waterTransfer('pour',n)!==n)return bad('Transfert interrompu : aucune eau ajoutée à l’abreuvoir.');
    p.water+=n;
   }
+  if(t.kind.startsWith('pack-')&&productKinds.includes(t.kind.slice(5))){
+   const kind=t.kind.slice(5),amount=Math.min(Products203.capacity,p[kind]),ageKey=productAgeKey(kind);
+   if(!(amount>0)||s.cargo203||otherLoad())return bad('Emballage interrompu : stock ou porte-module indisponible.');
+   s.cargo203={sourcePen:p.id,kind,amount,age:ageKey?p[ageKey]:0,stage:'held',point:null};
+   p[kind]-=amount;if(ageKey&&!p[kind])p[ageKey]=0;
+  }
+  if(t.kind==='unpack-products'){
+   const c=s.cargo203;if(!carryingProducts())return bad('Colis absent.');const n=Math.min(c.amount,R.stockCapacity-p[c.kind]),ageKey=productAgeKey(c.kind);
+   if(!(n>0))return bad('Stock de destination plein.');
+   if(ageKey)p[ageKey]=p[c.kind]>0?Math.max(p[ageKey],c.age):c.age;
+   p[c.kind]+=n;c.amount-=n;if(c.amount<=0)delete s.cargo203;
+  }
+  if(t.kind==='drop-products'){s.cargo203.stage='ground';s.cargo203.point={x:pos().x,y:pos().y};}
+  if(t.kind==='pickup-products'){s.cargo203.stage='held';s.cargo203.point=null;}
   if(t.kind==='feed')p.food+=t.cost.food;
   if(t.kind==='water')p.water=Math.min(R.stockCapacity,p.water+R.waterPortion);
   if(t.kind==='capture'){const q=g.frontier.wildlifeStatus165(t.target),old=s.animals.find(a=>a.source===t.target);
@@ -234,6 +287,11 @@ function install(g){
   if(!q.seconds)return commit(q);task={...q,elapsed:0,origin:{...pos()},health:g.player.health,world:g.world};g.frontier.signalAt(pos(),R.noise);g.save(false);return{ok:true};
  }
  function upkeep(dt){
+  const parcel=s.cargo203;
+  if(parcel&&parcel.kind!=='leather'){
+   parcel.age+=dt;
+   if(parcel.age>=productLife(parcel.kind)){delete s.cargo203;message='Colis périmé : les produits ne sont plus récupérables.';}
+  }
   for(const p of s.pens){
    // Ruins must not freeze perishable products until the fence is rebuilt.
    if(p.meat){p.meatAge=Math.min(R.meatLife,p.meatAge+dt);if(p.meatAge>=R.meatLife){p.meat=0;p.meatAge=0;}}
@@ -251,7 +309,7 @@ function install(g){
  }
  function step(dt){if(!conscious()){cancel();return;}if(g.paused||g.activeOverlay)return;if(!Number.isFinite(dt)||dt<=0)return;dt=Math.min(R.maxStep,dt);upkeep(dt);
   if(task){const t=task,q=quote(t.kind,t.id,t.target,true);if(!q.ok||t.world!==g.world||g.player.health<t.health||distance(pos(),t.origin)>R.moveTolerance||q.tool!==t.tool){cancel(q.reason);return;}
-   t.elapsed+=dt;if(t.tool)g.arsenal134.wearTool('butcher',dt);g.interactionText='Enclos · '+t.kind+' · '+Math.floor(t.elapsed/t.seconds*100)+' %';
+   t.elapsed+=dt;if(t.tool)g.arsenal134.wearTool('butcher',dt);g.interactionText='Enclos · '+(t.kind.startsWith('pack-')?'Emballage':({build:'Construction',rebuild:'Reconstruction',capture:'Capture',water:'Abreuvement',care:'Soins',slaughter:'Préparation',cook:'Cuisson',tan:'Tannage',repair:'Réparation','fill-bucket':'Puisage','water-carried':'Versement','unpack-products':'Déchargement','pickup-products':'Reprise du colis'})[t.kind]||'Travail')+' · '+Math.floor(t.elapsed/t.seconds*100)+' %';
    if(t.elapsed+1e-7>=t.seconds){const final=quote(t.kind,t.id,t.target,true);if(!final.ok||final.tool!==t.tool){cancel(final.reason);return;}task=null;const result=commit(t);if(!result.ok)message=result.reason;}
   }
   soundLeft-=dt;if(soundLeft<=0){soundLeft=R.soundInterval;sound();}
@@ -276,27 +334,38 @@ function install(g){
   try{g.audio.tone(180+signature%1200,.08+(signature%5)*.035,'sine',v,40+signature%120);if(a.profile.mode==='air')g.audio.tone(300+signature%1500,.12,'triangle',v*.5,-70);}catch{}
  }
  function view(){const point=task?.kind==='build'?task.point:task?.kind==='rebuild'?pen(task.id):null;return{...clone(s),task:task?{kind:task.kind,id:task.id,target:task.target,point:point?{x:point.x,y:point.y}:null,progress:Math.min(1,task.elapsed/task.seconds)}:null};}
- function overview(){const p=s.pens.find(near);return{summary:message||'Enclos régionaux fixes : capture locale au filet, entretien, naissances et transformation. Les stocks bruts restent sur place.',
-   rows:[{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Puisage à une berge proche ou transport avec le seau de service ; aucune eau potable produite'},{label:'Eau transportée',value:bucket().toFixed(1)+' / '+C.Siege.RULES.bucketCapacity+' · même réserve que les secours incendie'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
+ function overview(){const p=s.pens.find(near);return{summary:message||'Enclos régionaux fixes : capture locale au filet, entretien, naissances et transformation. Les produits peuvent être transportés entre enclos, en colis limités à pied.',
+   rows:[...(s.cargo203?[{label:'Colis de produits',value:s.cargo203.amount.toFixed(1)+' '+productName(s.cargo203.kind)+' · '+(carryingProducts()?'porté, marche ralentie':'au sol '+s.cargo203.point.x.toFixed(1)+' / '+s.cargo203.point.y.toFixed(1)+' m')+(s.cargo203.kind==='leather'?'':', péremption dans '+Math.max(0,Math.floor(productLife(s.cargo203.kind)-s.cargo203.age))+' s')+'. Livrez à un enclos, ou posez le colis avant D-17, un véhicule ou un étage.'}]:[]),{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Puisage à une berge proche ou transport avec le seau de service ; aucune eau potable produite'},{label:'Eau transportée',value:bucket().toFixed(1)+' / '+C.Siege.RULES.bucketCapacity+' · même réserve que les secours incendie'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
   ...reportRows(s),...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Naissances',value:p.breeding199===false?'Suspendues ; entretien maintenu':'Autorisées si les besoins et la place sont satisfaits'},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
  function actions(){if(task)return[{id:'cancel',label:'Interrompre',description:'Les intrants engagés restent consommés.',close:false,run:()=>({ok:cancel()})}];
   const offered=[['build',null,null,'Construire un enclos au nord de soi (10 bois, 6 ferraille)'],['fill-bucket',null,null,'Remplir le seau de service à la berge']];
+  if(s.cargo203)offered.push(carryingProducts()?['drop-products',null,null,'Poser le colis de produits']:['pickup-products',null,null,'Reprendre le colis de produits au sol']);
   offered.push(s.behaviors?['behaviors-off',null,null,'Suspendre les comportements naturels']:['behaviors',null,null,'Activer la prédation locale et la défense du sanglier']);
   const p=s.pens.find(near);if(p){if(p.health<=0)offered.push(['rebuild',p.id,null,'Reconstruire cet enclos (10 bois, 6 ferraille)']);
    for(const[k,label]of[['feed','Ajouter des rations'],['water','Puiser de l’eau douce à portée'],['water-carried','Verser l’eau transportée dans l’abreuvoir'],['repair','Réparer la clôture ('+R.repairCost.wood+' bois, '+R.repairCost.scrap+' ferraille)'],[p.breeding199===false?'breeding-on':'breeding-off',p.breeding199===false?'Autoriser les naissances':'Suspendre les naissances'],['cook','Cuire la viande (0,5 carburant)'],['tan','Tanner une peau (eau + 0,5 carburant)'],['lining','Réparer la clôture (2 cuirs)']])offered.push([k,p.id,null,label]);
+   for(const kind of productKinds)offered.push(['pack-'+kind,p.id,null,'Emballer : '+productName(kind)+' (2 bois, 1 ferraille)']);
+   if(carryingProducts())offered.push(['unpack-products',p.id,null,'Livrer les produits à cet enclos']);
    for(const a of g.frontier.wildlife165().filter(a=>R.captive[a.species]&&distance(pos(),a)<R.captureReach+1).slice(0,4))offered.push(['capture',p.id,a.id,'Capturer : '+a.profile.name]);
    for(const a of held(p.id)){offered.push(['care',p.id,a.id,'Soigner '+Wild.species()[a.species].name+' #'+a.id+' ('+R.careCost.medicine+' médicament)']);offered.push(['release',p.id,a.id,'Libérer '+Wild.species()[a.species].name+' #'+a.id]);offered.push(['slaughter',p.id,a.id,'Transformer '+Wild.species()[a.species].name+' #'+a.id]);}
   }
-  return offered.map(([kind,id,target,label])=>{const q=quote(kind,id,target);return{id:kind+':'+id+':'+target,label,description:q.reason||(kind==='care'?'Soins sur place pendant '+R.careSeconds+' s, jusqu’à '+R.careHealth+' points. Médicament engagé au début, sans remboursement en cas d’interruption ; aucun soin des animaux morts.':kind==='fill-bucket'||kind==='water-carried'?'Eau de service non potable, seau commun de '+C.Siege.RULES.bucketCapacity+' unités ; la réserve est perdue à la mort du commandant.':kind.startsWith('breeding-')?'Le changement annule l’attente de naissance ; alimentation et soins restent nécessaires.':'Travail sur place. Les jeunes et les animaux non compatibles sont protégés.'),disabled:!q.ok,reason:q.reason||'',close:!!q.seconds,run:()=>begin(kind,id,target)};});
+  return offered.map(([kind,id,target,label])=>{const q=quote(kind,id,target);return{id:kind+':'+id+':'+target,label,description:q.reason||(kind.startsWith('pack-')||['pickup-products','drop-products','unpack-products'].includes(kind)?'Un colis de 6 unités maximum, à pied au rez-de-chaussée régional, porte-module unique. Péremption conservée ; emballage payé au début, produits débités à la fin ; déchargement partiel possible. Posez le colis avant de quitter la région ou de conduire.':kind==='care'?'Soins sur place pendant '+R.careSeconds+' s, jusqu’à '+R.careHealth+' points. Médicament engagé au début, sans remboursement en cas d’interruption ; aucun soin des animaux morts.':kind==='fill-bucket'||kind==='water-carried'?'Eau de service non potable, seau commun de '+C.Siege.RULES.bucketCapacity+' unités ; la réserve est perdue à la mort du commandant.':kind.startsWith('breeding-')?'Le changement annule l’attente de naissance ; alimentation et soins restent nécessaires.':'Travail sur place. Les jeunes et les animaux non compatibles sont protégés.'),disabled:!q.ok,reason:q.reason||'',close:!!q.seconds,run:()=>begin(kind,id,target)};});
  }
- const api=Object.freeze({begin,cancel,quote,step,view,reports:()=>penReports(s),overview,actions,busy:()=>!!task,claimed,owns,solid,vehicleBlocked,lineClear,naturalIntent,access,
+ const api=Object.freeze({begin,cancel,quote,step,carryingProducts,dropProductsOnDeath,movementFactor203:()=>carryingProducts()?Products203.speed:1,view,reports:()=>penReports(s),overview,actions,busy:()=>!!task,claimed,owns,solid,vehicleBlocked,lineClear,naturalIntent,access,
   healthFraction:id=>(s.animals.find(a=>a.source===id&&['held','stranded'].includes(a.status))?.health??0)/100,
   restrained:id=>task?.kind==='capture'&&task.target===id,snapshot:()=>validate(s)});g.husbandry191=api;
- g.expansions.register({id:'husbandry191',title:'Enclos & transformation',validate,snapshot:api.snapshot,overview,actions,busy:()=>!!task,restore:raw=>{s=validate(raw);task=null;message='';cooldowns.clear();soundLeft=R.soundInterval;},reset:()=>{s=initial();task=null;message='';cooldowns.clear();soundLeft=R.soundInterval;}});
+ g.expansions.register({id:'husbandry191',title:'Enclos & transformation',validate,snapshot:api.snapshot,overview,actions,busy:()=>!!task,restore:raw=>{s=validate(raw);task=null;message='';cooldowns=new Map();soundLeft=R.soundInterval;},reset:()=>{s=initial();task=null;message='';cooldowns=new Map();soundLeft=R.soundInterval;}});
  const update=g.update.bind(g);g.update=dt=>{if(task&&!g.paused&&!g.activeOverlay&&(g.input.mouseDown||g.input.touchFire||[...g.input.keys,...g.input.pressed].some(k=>/^Key[WAZQSDERF]$|^Arrow|^Page/.test(k))))cancel();const result=update(dt);step(dt);return result;};
  const damage=g.damagePlayer?.bind(g);if(damage)g.damagePlayer=(...args)=>{const health=g.player.health,result=damage(...args);if(g.player.health<health)cancel('Blessure : travail interrompu. Les fournitures engagées restent consommées.');return result;};
- const start=g.startNew?.bind(g);if(start)g.startNew=(...args)=>{const previous={state:s,task,message,world:g.world};try{return start(...args);}finally{if(g.world===previous.world){s=previous.state;task=previous.task;message=previous.message;}}};
+ const start=g.startNew?.bind(g);if(start)g.startNew=(...args)=>{
+  const previous={state:s,task,message,world:g.world,cooldowns,soundLeft};
+  try{return start(...args);}
+  finally{
+   // Reset allocates a new cooldown map so an aborted creation can retain the
+   // old world's attack cadence without a free attack or an audio restart.
+   if(g.world===previous.world){s=previous.state;task=previous.task;message=previous.message;cooldowns=previous.cooldowns;soundLeft=previous.soundLeft;}
+  }
+ };
  const menu=g.returnToMenu.bind(g);g.returnToMenu=(...a)=>{cancel();return menu(...a);};return api;
 }
-const api=Object.freeze({initial,validate,install,penReports});root.DeadwallHusbandry191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
+const api=Object.freeze({initial,validate,install,penReports,Products203});root.DeadwallHusbandry191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

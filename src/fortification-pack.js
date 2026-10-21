@@ -27,7 +27,7 @@ function normalizeMechanism(raw,full){
  });
  return{kind:raw.kind,charges:raw.charges,cooldown:raw.cooldown,caught};
 }
-function normalize(raw,full){
+function normalize(raw,full,geometryVersion202=full?.cityGeometry202??0){
  if(raw===undefined)return initial();
  const fail=m=>{throw Error('Fortifications : '+m+'.');};
  if(!raw||raw.version!==1||!Array.isArray(raw.fittings)||raw.fittings.length>R.maxFittings||!Array.isArray(raw.debris)||raw.debris.length>R.maxDebris)fail('registre invalide');
@@ -46,7 +46,7 @@ function normalize(raw,full){
  ids.clear();
  const debris=raw.debris.map(d=>{
   if(!d||!int(d.id)||ids.has(d.id)||!C.BUILDINGS[d.type]||d.type==='core'||!num(d.x,0,C.WORLD_SIZE)||!num(d.y,0,C.WORLD_SIZE)||!num(d.w,1,C.WORLD_SIZE)||!num(d.h,1,C.WORLD_SIZE)||!d.remaining||typeof d.remaining!=='object'||Object.keys(d.remaining).some(k=>!R.debrisResources.includes(k)))fail('débris invalides');
-  const def=C.BUILDINGS[d.type];if(buildings?.has(d.id))fail('structure encore présente');if(full&&d.id>=full.nextId)fail('identifiant de ruine futur');
+  const def=C.CityGeometry202.definition(d.type,geometryVersion202);if(buildings?.has(d.id))fail('structure encore présente');if(full&&d.id>=full.nextId)fail('identifiant de ruine futur');
   const remaining={};for(const k of R.debrisResources){const amount=d.remaining[k]===undefined?0:d.remaining[k];if(!num(amount,0,Math.floor((def.cost[k]||0)*R.debrisFactor)))fail('réserve de débris');remaining[k]=amount;}
   if(!((d.w===def.size[0]*C.TILE&&d.h===def.size[1]*C.TILE)||(d.w===def.size[1]*C.TILE&&d.h===def.size[0]*C.TILE)))fail('empreinte de débris');
   ids.add(d.id);return{id:d.id,type:d.type,x:d.x,y:d.y,w:d.w,h:d.h,remaining};
@@ -132,7 +132,7 @@ function install(g){
   const p=g.fieldcraft?.service(g.player,b)||g.workerBuildExit?.(g.player,b,'repair');
   return !!p&&Math.hypot(g.player.x-p.x,g.player.y-p.y)<=R.reach&&g.workerCanWorkAt(g.player,p,R.reach);
  }
- function debrisPoint(d){return g.fieldcraft?.service(g.player,{...d,def:C.BUILDINGS[d.type],left:d.x-d.w/2,right:d.x+d.w/2,top:d.y-d.h/2,bottom:d.y+d.h/2});}
+ function debrisPoint(d){return g.fieldcraft?.service(g.player,{...d,def:g.world.definition?.(d.type)||C.BUILDINGS[d.type],left:d.x-d.w/2,right:d.x+d.w/2,top:d.y-d.h/2,bottom:d.y+d.h/2});}
  function touchDebris(d){if(!d||Math.hypot(g.player.x-Math.max(d.x-d.w/2,Math.min(d.x+d.w/2,g.player.x)),g.player.y-Math.max(d.y-d.h/2,Math.min(d.y+d.h/2,g.player.y)))>R.reach+g.player.radius+14)return false;const p=debrisPoint(d);return !!p&&Math.hypot(g.player.x-p.x,g.player.y-p.y)<=R.reach&&g.workerCanWorkAt(g.player,p,R.reach);}
  const target=()=>{const selected=building(g.selectedBuilding?.id);if(selected)return selected;return [...g.world.buildings.values()].filter(b=>live(b)&&b.completed&&touch(b)).sort((a,b)=>Math.hypot(a.x-g.player.x,a.y-g.player.y)-Math.hypot(b.x-g.player.x,b.y-g.player.y))[0];};
  function eligibility(kind,b=target()){
@@ -400,7 +400,7 @@ function install(g){
  wrap('drawGround',(old,ctx,...args)=>{const r=old(ctx,...args);if(!home()&&!args[0]?.homeProjection)return r;ctx.save();for(const d of state.debris){const v=args[0];if(v&&(d.x+d.w/2<v.left||d.x-d.w/2>v.right||d.y+d.h/2<v.top||d.y-d.h/2>v.bottom))continue;ctx.fillStyle='#887661';ctx.fillRect(d.x-d.w/2+3,d.y+d.h/2+4,16,5);ctx.fillStyle='#a7a295';ctx.fillRect(d.x-d.w/2+11,d.y+d.h/2+1,10,6);}ctx.restore();return r;});
  const api={version:'1.27.0',snapshot:()=>{reconcile();return clone(state);},presentation,inputReserve:id=>fitting(id)?.regulator?R.inputReserve:0,overview,actions,busy:()=>Boolean(job),equip,recoverAmmo,startRepair,startRecovery,previewFieldSupply,startFieldSupply,previewMechanism,startMechanism,previewMechanismRearm,startMechanismRearm,removeMechanism,planSpikes,toggleRegulator,stop,step,eligibility,get job(){return job;}};
  g.fortificationPack=api;
- g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw);job=null;message='';visualClock=0;visualEvents.clear();},reset:()=>{state=initial();job=null;message='';visualClock=0;visualEvents.clear();}});
+ g.expansions.register({id:'fortification',title:'Défenses & ateliers',overview,actions,validate:normalize,snapshot:api.snapshot,restore:raw=>{state=normalize(raw,undefined,g.world.cityGeometry202??0);job=null;message='';visualClock=0;visualEvents.clear();},reset:()=>{state=initial();job=null;message='';visualClock=0;visualEvents.clear();}});
  return api;
 }
 const API={install,initial,normalize};root.DeadwallFortificationPack=API;if(typeof module!=='undefined'&&module.exports)module.exports=API;if(root.DEADWALL&&root.DEADWALL.expansions)install(root.DEADWALL);

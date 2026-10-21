@@ -160,6 +160,7 @@
     const map=el('button','CARTE'),bag=el('button','ÉQUIPEMENT');map.type=bag.type='button';
     map.addEventListener('click',()=>game.exploration125?.openMap?.());bag.addEventListener('click',()=>game.exploration125?.openInventory?.());append(actions,map,bag);
     append(section,heading,intro,controls,count,coverage,territories,actions,list);
+    if(!playerGuide)globalThis.DeadwallCodexInspectionUI2026?.mount(document,section);
     const siblings=[...panel.children].filter(n=>n.tagName==='SECTION');const oldButtons=[...nav.querySelectorAll('button')];
     for(const old of oldButtons)old.addEventListener('click',()=>{section.classList.add('hidden');button.setAttribute('aria-pressed','false');});
     const choose=()=>{for(const node of siblings)node.classList.add('hidden');for(const old of oldButtons)old.setAttribute('aria-pressed','false');section.classList.remove('hidden');button.setAttribute('aria-pressed','true');refresh();};

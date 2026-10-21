@@ -52,6 +52,7 @@ function install(g){
   const p=position();
   if(!p.active||p.z!==0||p.hydrologyVersion!==1)return 'À pied, dans la région avec faune, au niveau du sol.';
   if(p.car?.driving||g.expeditions?.driving())return 'Descendez du véhicule avant de récolter.';
+  if(g.fieldcraft?.context?.()?.mounted||g.siege?.toolActive?.())return 'Libérez vos mains : quittez l’affût ou rangez l’équipement de secours avant la récolte.';
   if(g.player.reload>0||g.expansions.busy('wildlife190')||task&&task!==continuing||g.selectedBuild)return 'Terminez l’action en cours et libérez vos mains.';
   if(g.frontier.world().blocked(p.x,p.y,W.RULES.footRadius,0,p.inside))return 'Rejoignez une berge ou un sol praticable.';
   if(danger())return 'Écartez les infectés avant de préparer une prise.';
@@ -157,7 +158,15 @@ function install(g){
   }
   const result=oldUpdate(dt);step(dt);return result;
  };
- const oldStart=g.startNew.bind(g);g.startNew=(...args)=>{const previous={world:g.world,state,task,message},result=oldStart(...args);if(g.world===previous.world){state=previous.state;task=previous.task;message=previous.message;}return result;};
+ const oldStart=g.startNew.bind(g);g.startNew=(...args)=>{
+  const previous={world:g.world,state,task,message,lastMenuTime,cachedChoices};
+  try{return oldStart(...args);}
+  finally{
+   // A reset followed by rejection/throw must not erase finite harvest shares
+   // while the original world is still active. Never roll back a replaced world.
+   if(g.world===previous.world){state=previous.state;task=previous.task;message=previous.message;lastMenuTime=previous.lastMenuTime;cachedChoices=previous.cachedChoices;}
+  }
+ };
  const menu=g.returnToMenu.bind(g);g.returnToMenu=(...args)=>{cancel();return menu(...args);};
  return api;
 }

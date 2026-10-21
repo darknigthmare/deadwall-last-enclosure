@@ -24,6 +24,7 @@ function validate(data){
   byType.get(v.typologyId).add(v.number);
   if(v.playable===true&&(!v.evidence||!v.architecture||!v.dimensions_m))FAIL('jouabilité sans preuve');
   if(v.status==='À concevoir'&&(v.playable!==false||v.architecture!==null||v.dimensions_m!==null||v.spawnWeight!==null))FAIL('objectif déclaré réalisé sans conception');
+  if(v.status==='Inspection physique'&&(!v.inspection||v.inspection.scope!=='inspection-only'||v.inspection.version!==1||!v.inspection.report||!v.evidence||v.playable!==false||v.spawnWeight!==null||v.architecture!==null))FAIL('inspection confondue avec une architecture complète ou une variante jouable');
  }
  if([...byType.values()].some(v=>v.size!==50))FAIL('chaque type exige 50 cibles');
  if(tasks.length!==800)FAIL('tâches incomplètes');unique(tasks,'tâche');
@@ -31,9 +32,9 @@ function validate(data){
  for(const t of tasks){if(!types.has(t.typologyId)||!allowed.has(t.status))FAIL('statut ou type tâche invalide');if(t.status==='Validé'&&!t.evidence?.trim())FAIL('validation sans preuve');}
  for(const type of types){const group=tasks.filter(t=>t.typologyId===type);if(group.length!==10||new Set(group.map(t=>t.stage)).size!==10)FAIL('étapes de production incomplètes');}
  return {programmes:programmes.size,parents:parents.size,spaces:rooms.size,objectReferences:catalogue.props.length,typologies:types.size,
-  variantTargets:variants.length,variantsDesigned:variants.filter(v=>v.architecture!==null).length,tasks:tasks.length,validatedTasks:tasks.filter(t=>t.status==='Validé').length,
+  variantTargets:variants.length,variantsDesigned:variants.filter(v=>v.architecture!==null).length,variantsInspectable:variants.filter(v=>v.status==='Inspection physique').length,variantsPlayable:variants.filter(v=>v.playable===true).length,tasks:tasks.length,validatedTasks:tasks.filter(t=>t.status==='Validé').length,
   scope:'contrats de suivi ; pas une validation de jeu',published:false};
 }
 function load(root){const p=path.join(root,'docs/codex/suivi-monde2026'),read=n=>JSON.parse(fs.readFileSync(path.join(p,n),'utf8'));return {catalogue:read('catalogue-existant.json'),typologies:read('typologies-cibles.json'),variants:read('variantes-a-concevoir.json'),tasks:read('chantiers.json')};}
-if(require.main===module){console.log(JSON.stringify(validate(load(path.resolve(process.argv[2]||'.'))),null,2));}
 module.exports={validate,load};
+if(require.main===module){const data=process.argv[2]?load(path.resolve(process.argv[2])):require('./build-codex-tracker2026.cjs').currentData();console.log(JSON.stringify(validate(data),null,2));}
