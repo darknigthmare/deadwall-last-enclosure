@@ -1,0 +1,74 @@
+name: Field rollback and presence lifecycle 202
+
+on:
+  push:
+    branches: [fix/lifecycle-202]
+  pull_request:
+    paths:
+      - 'src/coop.js'
+      - 'src/husbandry191.js'
+      - 'src/wildlife-harvest190.js'
+      - 'tests/continuation202-*.test.cjs'
+      - 'scripts/browser-lifecycle202.mjs'
+      - '.github/workflows/lifecycle202.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lifecycle202-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lifecycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Field and transport lifecycle contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/qa/lifecycle202
+          git rev-parse HEAD > artifacts/qa/lifecycle202/commit.txt
+          node --test --test-concurrency=1 \
+            tests/continuation202-*.test.cjs \
+            tests/audit185-coop*.test.cjs \
+            tests/coop-relay154.test.cjs \
+            tests/undercovered200-coop.test.cjs \
+            tests/undercovered200-relay.test.cjs \
+            tests/undercovered200-care.test.cjs \
+            tests/undercovered199.test.cjs \
+            tests/undercovered199-forage.test.cjs \
+            | tee artifacts/qa/lifecycle202/contracts.log
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Built client with real transports and a paused-game fixture
+        env:
+          COOP_QA_ROOT: dist
+          LIFECYCLE202_QA_OUT: artifacts/qa/lifecycle202/browser
+        run: node scripts/browser-lifecycle202.mjs
+      - name: Retain exact source identities
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/qa/lifecycle202
+          sha256sum src/coop.js src/husbandry191.js src/wildlife-harvest190.js > artifacts/qa/lifecycle202/sources.sha256
+          if [ -f dist/src/coop.js ]; then sha256sum dist/src/coop.js > artifacts/qa/lifecycle202/built-client.sha256; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lifecycle202-proof-${{ github.run_attempt }}
+          path: artifacts/qa/lifecycle202/
+          retention-days: 14
+          if-no-files-found: error
