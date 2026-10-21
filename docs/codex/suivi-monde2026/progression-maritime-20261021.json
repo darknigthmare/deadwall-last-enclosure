@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "previousHead": "2a246d6f13933e6f8246b3694df9f47a947f8314",
+  "baseCommit": "6c6fbb6cf563bea6c89ade99c65f18c438481532",
+  "scope": "author-maritime-layout-not-live-world",
+  "taskCounts": {"Validé":3,"En cours":13,"À faire":784},
+  "newCompletedFullTasks": 0,
+  "preservedCompletedTasks": ["EXT-MONDE-T060/dimensions","EXT-MONDE-T065/dimensions","EXT-MONDE-T066/dimensions"],
+  "newArchitectureInProgress": ["EXT-MONDE-T005","EXT-MONDE-T006","EXT-MONDE-T007","EXT-MONDE-T008","EXT-MONDE-T011"],
+  "variants": {"targets":4000,"metricLayouts":150,"maritimeDrafts":250,"toDesign":3600,"newPlayable":0},
+  "maritimeAudit": {"variants":250,"compartmentOccurrences":8280,"referenceTotalHeightKnown":false},
+  "localTests": {"passed":44,"failed":0,"skipped":0,"cancelled":0,"todo":0},
+  "generalCheck": {"syntaxFiles":387,"buildPublicFiles":358,"exitCode":124,"status":"TIMEOUT_150_SECONDS_NOT_QUALIFIED"},
+  "gameSources": {"checked":212,"changed":0},
+  "proof":"MARITIME_AUTEUR_2026.md",
+  "excelBinaryCommitted":false
+}
