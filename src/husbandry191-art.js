@@ -54,12 +54,20 @@ function drawWork(c,work,{reducedMotion=false}={}){if(!finitePoint(work)||!['sla
  }else if(work.kind==='build'||work.kind==='rebuild'||work.kind==='repair'){stroke(c,[[.4+phase,.12],[.64+phase,-.02]],'#aa8c59',.045);stroke(c,[[.57+phase,-.10],[.71+phase,.05]],'#87948b',.09);
  }else if(['water','fill-bucket','water-carried'].includes(work.kind)){stroke(c,[[.4+phase,.12],[.60+phase,.08]],'#b6bdab',.025);c.fillStyle='#697e74';c.fillRect(.51+phase,.08,.22,.24);stroke(c,[[.53+phase,.12],[.71+phase,.12]],'#a1beb1',.025);}
 }finally{c.restore();}return true;}
+function drawProducts203(c,parcel,point){
+ if(!finitePoint(point)||!parcel||!['meat','hides','leather'].includes(parcel.kind)||!(parcel.amount>0))return false;
+ c.save();try{c.translate(point.x,point.y);c.fillStyle='#746345';c.fillRect(-.28,-.2,.56,.4);c.strokeStyle='#cfb888';c.lineWidth=.04;c.strokeRect(-.28,-.2,.56,.4);c.beginPath();c.moveTo(-.25,-.17);c.lineTo(.25,.17);c.moveTo(-.25,.17);c.lineTo(.25,-.17);c.stroke();c.fillStyle=parcel.kind==='meat'?'#b56e58':parcel.kind==='hides'?'#938264':'#c59960';c.fillRect(-.09,-.12,.18,.24);}finally{c.restore();}return true;
+}
 function depthEntries(g,v,view){if(v?.z!==0||!g.husbandry191)return[];const state=g.husbandry191.view(),vision=g.visibility?.frame?.(),entries=[];
  const l=view.l??view.left,r=view.r??view.right,t=view.t??view.top,b=view.b??view.bottom,onscreen=p=>p.x+3>=l&&p.x-3<=r&&p.y+3>=t&&p.y-3<=b;
  for(const p of state.pens)if(onscreen(p)&&vision?.canSeeRegionalPoint?.(p))entries.push({kind:'husbandry191',id:'pen191:'+p.id,depth:p.y+1.5,draw:c=>drawPen(c,p,state.animals.filter(a=>a.pen===p.id&&['held','stranded'].includes(a.status)),{reducedMotion:!!g.settings?.reducedMotion,worldSeed:g.world?.seed??0})});
+ const parcel=state.cargo203;
+ if(parcel){const p=parcel.stage==='held'?g.frontier.position():parcel.point;
+  if(finitePoint(p)&&onscreen(p)&&vision?.canSeeRegionalPoint?.(p))entries.push({kind:'husbandry203-products',id:'products203',depth:p.y+.03,draw:c=>drawProducts203(c,parcel,parcel.stage==='held'?{x:p.x-.38,y:p.y+.16}:p)});
+ }
  const task=state.task||g.wildHarvest190?.overview().task;
  if(['build','rebuild'].includes(task?.kind)&&finitePoint(task.point)&&onscreen(task.point)&&vision?.canSeeRegionalPoint?.(task.point))entries.push({kind:'husbandry191-construction',id:'construction191',depth:task.point.y+1.51,draw:c=>drawConstruction(c,task)});
  if(task&&task.kind!=='fish'){const p=g.frontier.position();entries.push({kind:'husbandry191-work',id:'work191',depth:p.y+.02,draw:c=>drawWork(c,{...task,x:p.x,y:p.y,a:p.a},{reducedMotion:!!g.settings?.reducedMotion})});}return entries;
 }
-const api=Object.freeze({drawPen,drawConstruction,drawWork,depthEntries});root.DeadwallHusbandryArt191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+const api=Object.freeze({drawPen,drawConstruction,drawWork,drawProducts203,depthEntries});root.DeadwallHusbandryArt191=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);
