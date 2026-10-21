@@ -5,6 +5,7 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(root){
  'use strict';
  const V157=root.DeadwallD17ExtendedVariants157||(typeof require==='function'?require('./d17-extended-variants157.js'):null);
+ const Geometry202=root.DeadwallBuildingVariants157||(typeof require==='function'?require('./building-variants157.js'):null);
  const ASSETS=Object.freeze({
   d17Services152:Object.freeze({url:'assets/art152/services-atlas.png',width:1536,height:1024,matte:'none'}),
   d17Logistics152:Object.freeze({url:'assets/art152/logistics-atlas.png',width:1536,height:1024,matte:'none'}),
@@ -26,6 +27,7 @@
  function measure(b,{seed=0,art}={}){
   const historical=spriteFor(b);if(!historical)return null;
   const sprite=V157?.choose(b,historical,{seed,art})||historical;if(![b.x,b.y,b.w,b.h].every(Number.isFinite)||b.w<=0||b.h<=0)return null;
+  if(b.geometryVersion202===1)return Geometry202?.metricFrame202(b,{seed,sprite})||null;
   const inset=3,rise=riseFor(b),scale=Math.min(Math.max(1,b.w*32-inset*2)/sprite.rect[2],Math.max(1,b.h*32+rise-inset*2)/sprite.rect[3]);
   const w=sprite.rect[2]*scale,h=sprite.rect[3]*scale;
   return{atlas:sprite.atlas,source:sprite.rect,destination:[b.x-w/2,b.y+b.h*16-inset-h,w,h],rise,sprite};
@@ -69,10 +71,10 @@
  }
  function drawBuilding(c,art,b,{charge=0,sectorState=null,waterRatio=0,seed=0}={}){
   if(!operational(b))return false;const frame=measure(b,{seed,art});
-  if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
+  if(!frame||!c?.drawImage||(b.geometryVersion202!==1&&!art?.images?.[frame.atlas]))return false;
   c.save();
   if(b.def?.powerUse&&offline(b)&&'filter' in c)c.filter='brightness(.50) saturate(.55)';
-  const painted=art.blit?art.blit(c,frame.atlas,frame.source,...frame.destination):(c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination),true);
+  const painted=b.geometryVersion202===1?Geometry202.drawMetricBuilding202(c,art,b,{seed,frame}):art.blit?art.blit(c,frame.atlas,frame.source,...frame.destination):(c.drawImage(art.images[frame.atlas],...frame.source,...frame.destination),true);
   c.restore();if(!painted)return false;
   c.save();drawCharge(c,b,charge);drawLightState(c,b,frame);drawTerritoryState(c,b,sectorState,frame);drawWater(c,b,waterRatio,frame);c.restore();return true;
  }
@@ -81,7 +83,7 @@
   const previous=g.art.drawBuilding.bind(g.art);
   g.art.drawBuilding=(c,b,...args)=>{
    // Charge is read once from its owner; no snapshot, inventory or RNG during paint.
-   const seed=g.world?.seed??0,frame=measure(b,{seed,art:g.art}),ready=frame&&operational(b)&&g.art.images?.[frame.atlas];
+   const seed=g.world?.seed??0,frame=measure(b,{seed,art:g.art}),ready=frame&&operational(b)&&(b.geometryVersion202===1||g.art.images?.[frame.atlas]);
    const charge=ready&&b.def?.battery?g.powerGrid?.charge?.(b.id)||0:0;
    const sectorState=ready&&b.type==='sectorPost'?g.territories?.presentationStatus?.(b)||null:null;
    const waterRatio=ready&&b.type==='fireCistern'?g.siege?.presentationWaterRatio?.(b)||0:0;

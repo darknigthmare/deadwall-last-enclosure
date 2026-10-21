@@ -10,23 +10,40 @@ export function prepareAge150(targetAge) {
   const before = g.serialize(), rng = g.random.state, added = [], Building = g.core().constructor;
   const threshold = C.CITY_TIERS[targetAge].requiredScore;
   const score = () => C.Urban.score(g.world.buildings.values());
-  function put(type) {
-    const def = C.BUILDINGS[type]; let found;
+  function put(type, optional = false) {
+    const def = g.world.definition(type); let found;
+    const candidate = (gx, gy, rotation) => {
+      if (!g.world.placement(def, gx, gy, rotation).valid) return null;
+      const b = new Building(g.nextId, type, gx, gy, rotation, 1, g.world.cityGeometry202 || 0);
+      if ([g.player, ...g.units].some(a => a.x + a.radius > b.left && a.x - a.radius < b.right && a.y + a.radius > b.top && a.y - a.radius < b.bottom)) return null;
+      if (type === 'spikes' && !g.fieldcraft.service(g.player, b)) return null;
+      return b;
+    };
     // A ring scan keeps the prepared city near D-17 while preserving occupied
     // and inaccessible geographical cells and the actual entity identities.
     for (let ring = 8; ring < 110 && !found; ring += 2) {
       for (let dy = -ring; dy <= ring && !found; dy += 2) for (let dx = -ring; dx <= ring && !found; dx += 2) {
         if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
         const gx = g.core().gx + dx, gy = g.core().gy + dy;
-        if (!g.world.placement(def, gx, gy, 0).valid) continue;
-        const b = new Building(g.nextId, type, gx, gy, 0, 1);
-        if ([g.player, ...g.units].some(a => a.x + a.radius > b.left && a.x - a.radius < b.right && a.y + a.radius > b.top && a.y - a.radius < b.bottom)) continue;
-        if (type === 'spikes' && !g.fieldcraft.service(g.player, b)) continue;
-    g.world.add(b); found = b;
+        found = candidate(gx, gy, 0);
       }
     }
-    if (!found) throw Error('No legal fixture site for ' + type);
-    g.nextId++; added.push({ id: found.id, type, gx: found.gx, gy: found.gy, score: def.score }); return found;
+    // The historical two-cell stride is only a preferred ordering. It must not
+    // reject remaining odd-grid plots or a legal rotated body as city space fills.
+    for (let ring = 1; ring < C.WORLD_TILES && !found; ring++) for (let dy = -ring; dy <= ring && !found; dy++) {
+      const columns = Math.abs(dy) === ring ? Array.from({length: ring * 2 + 1}, (_, i) => i - ring) : [-ring, ring];
+      for (const dx of columns) {
+        const gx = g.core().gx + dx, gy = g.core().gy + dy;
+        for (const rotation of [0, 1, 2, 3]) {
+          const [w, h] = rotation % 2 ? [def.size[1], def.size[0]] : def.size;
+          if (gx < 1 || gy < 1 || gx + w >= C.WORLD_TILES - 1 || gy + h >= C.WORLD_TILES - 1) continue;
+          found = candidate(gx, gy, rotation); if (found) break;
+        }
+        if (found) break;
+      }
+    }
+    if (!found) {if (optional) return null; throw Error('No legal fixture site for ' + type);}
+    g.world.add(found); g.nextId++; added.push({ id: found.id, type, gx: found.gx, gy: found.gy, rotation: found.rotation, score: def.score }); return found;
   }
   // At each stage expose at least one actual model of every previously known
   // urban role. Dependencies are physical structures, not a registry grant.
@@ -50,7 +67,9 @@ export function prepareAge150(targetAge) {
     const choices = Object.values(C.BUILDINGS).filter(d => d.id !== 'core' && !d.vertical175 && !C.CityContent150?.BUILDINGS[d.id] && !d.wall && d.unlockTier < targetAge && (d.score || 0) <= remaining + 1e-7 && (!d.requires || g.world.has(d.requires)));
     choices.sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
     if (!choices.length || added.length > 250) throw Error('Cannot prepare exact score ' + threshold + ': ' + score());
-    put(choices[0].id);
+    // A score filler has no prescribed identity. Try another real model when
+    // the highest-score body's last legal plot has already been occupied.
+    if (!choices.some(d => put(d.id, true))) throw Error('Cannot prepare exact score ' + threshold + ': no remaining legal filler for ' + score());
   }
   const raw = g.serialize();
   raw.urban.peakScore = Math.max(before.urban.peakScore, score());
@@ -72,20 +91,35 @@ export function prepareSupports150({ allModels = false } = {}) {
   const before = g.serialize(), rng = g.random.state, added = [], Building = g.core().constructor;
   function put(type) {
     if (g.world.has(type)) { const existing = [...g.world.buildings.values()].find(b => b.type === type && b.completed && !b.dead && (type !== 'spikes' || g.fieldcraft.service(g.player, b))); if (existing) return existing; }
-    const def = C.BUILDINGS[type]; if (!def) throw Error('Unknown legal support ' + type);
+    const def = g.world.definition(type); if (!def) throw Error('Unknown legal support ' + type);
     if (def.requires) put(def.requires);
     let found;
     for (let ring = 8; ring < 110 && !found; ring += 2) for (let dy = -ring; dy <= ring && !found; dy += 2) for (let dx = -ring; dx <= ring && !found; dx += 2) {
       if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
       const gx = g.core().gx + dx, gy = g.core().gy + dy;
       if (!g.world.placement(def, gx, gy, 0).valid) continue;
-      const b = new Building(g.nextId, type, gx, gy, 0, 1);
+      const b = new Building(g.nextId, type, gx, gy, 0, 1, g.world.cityGeometry202 || 0);
       if ([g.player, ...g.units].some(a => a.x + a.radius > b.left && a.x - a.radius < b.right && a.y + a.radius > b.top && a.y - a.radius < b.bottom)) continue;
       if (type === 'spikes' && !g.fieldcraft.service(g.player, b)) continue;
     g.world.add(b); found = b;
     }
+    for (let ring = 1; ring < C.WORLD_TILES && !found; ring++) for (let dy = -ring; dy <= ring && !found; dy++) {
+      const columns = Math.abs(dy) === ring ? Array.from({length: ring * 2 + 1}, (_, i) => i - ring) : [-ring, ring];
+      for (const dx of columns) {
+        const gx = g.core().gx + dx, gy = g.core().gy + dy;
+        for (const rotation of [0, 1, 2, 3]) {
+          const [w, h] = rotation % 2 ? [def.size[1], def.size[0]] : def.size;
+          if (gx < 1 || gy < 1 || gx + w >= C.WORLD_TILES - 1 || gy + h >= C.WORLD_TILES - 1 || !g.world.placement(def, gx, gy, rotation).valid) continue;
+          const b = new Building(g.nextId, type, gx, gy, rotation, 1, g.world.cityGeometry202 || 0);
+          if ([g.player, ...g.units].some(a => a.x + a.radius > b.left && a.x - a.radius < b.right && a.y + a.radius > b.top && a.y - a.radius < b.bottom)) continue;
+          if (type === 'spikes' && !g.fieldcraft.service(g.player, b)) continue;
+          g.world.add(b); found = b; break;
+        }
+        if (found) break;
+      }
+    }
     if (!found) throw Error('No legal support for ' + type);
-    g.nextId++; added.push({ id: found.id, type, gx: found.gx, gy: found.gy }); return found;
+    g.nextId++; added.push({ id: found.id, type, gx: found.gx, gy: found.gy, rotation: found.rotation }); return found;
   }
   for (const type of ['barracks', 'clinic', 'farm', 'ammoFactory', 'planningOffice', 'roadDepot', 'workshop', 'spikes', 'megaReserve', 'megaPower']) put(type);
   if (allModels) for (const type of Object.keys(C.CityContent150.BUILDINGS)) put(type);

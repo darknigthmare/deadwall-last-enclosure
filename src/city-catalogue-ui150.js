@@ -14,7 +14,17 @@
   // accumulator keeps its own silhouette and reads the real stored charge.
   globalThis.DeadwallD17Art150?.install?.(g);
   globalThis.DeadwallD17Art152?.install?.(g);
-  const catalogue=model.create(C),el=(tag,value,cls)=>{const n=doc.createElement(tag);if(value!==undefined)n.textContent=value;if(cls)n.className=cls;return n;};
+  function createCatalogue(){
+   const options={cityGeometry202:g.world?.cityGeometry202||0};if(!options.cityGeometry202)return model.create(C);
+   const buildings=Object.fromEntries(Object.keys(C.BUILDINGS).map(type=>[type,g.world.definition(type)])),dayworks={...C.Dayworks,PLANS:C.Dayworks.plansFor(options),footprint:(id,gx,gy)=>C.Dayworks.footprint(id,gx,gy,options)};
+   const base=model.create({...C,BUILDINGS:buildings,Dayworks:dayworks});
+   // Add factual physical bodies in this campaign's view, leaving the shared
+   // historical catalogue and its original immutable definitions untouched.
+   const adapt=item=>item.kind==='building'?Object.freeze({...item,facts:Object.freeze([...item.facts,'Emprise au sol : '+buildings[item.id].size.join(' × ')+' m.'])}):item.kind==='plan'?Object.freeze({...item,facts:Object.freeze(item.facts.map(fact=>fact.replace(' cellules.',' m.')))}):item;
+   const items=Object.freeze(base.items.map(adapt)),byKey=new Map(items.map(item=>[item.key,item])),ages=Object.freeze(base.ages.map(row=>Object.freeze({...row,items:Object.freeze(row.items.map(item=>byKey.get(item.key)))})));
+   return Object.freeze({...base,items,ages,forAge:age=>ages[age]?.items||Object.freeze([])});
+  }
+  let catalogue=createCatalogue();const el=(tag,value,cls)=>{const n=doc.createElement(tag);if(value!==undefined)n.textContent=value;if(cls)n.className=cls;return n;};
   const write=(n,v)=>{if(n.textContent!==String(v))n.textContent=String(v);};
   const block=el('fieldset',undefined,'city-catalogue150');block.id='cityCatalogue150';
   const legend=el('legend','Les choix de chaque âge'),intro=el('p','Choisissez un âge pour voir les constructions, évolutions et préparatifs qu’il ouvre. Les options déjà acquises restent disponibles aux âges suivants.','city-catalogue-note150');
@@ -78,7 +88,7 @@
   function refresh(force=false){
    if(!visible())return false;
    if(!force&&now()-last<500)return false;last=now();
-   if(world!==g.world){world=g.world;selected=g.tier?.id??0;rendered=-1;select.value=String(selected);}
+   if(world!==g.world){world=g.world;catalogue=createCatalogue();selected=g.tier?.id??0;rendered=-1;select.value=String(selected);}
    render();const context=model.context(g),row=catalogue.ages[selected],buildings=row.items.filter(d=>d.kind==='building').length,other=row.items.length-buildings;
    write(summary,row.age.name+' · '+(selected<=context.age?'Âge connu':'À atteindre : '+row.age.requiredScore+' points construits')+' · '+buildings+' modèle(s) de construction et '+other+' autre(s) choix à ce palier.');
    const key=JSON.stringify([context,canNavigate()]);if(key===lastContext&&!force)return true;lastContext=key;
@@ -99,7 +109,7 @@
   const previous=g.updateUI.bind(g);g.updateUI=(...args)=>{const result=previous(...args);refresh();return result;};
   const oldCoordination=g.coordinationUI;if(oldCoordination)g.coordinationUI=Object.freeze({...oldCoordination,open:(...args)=>{const result=oldCoordination.open(...args);refresh(true);return result;}});
   for(const id of ['coordinationTab','preparationButton'])doc.getElementById(id)?.addEventListener('click',()=>refresh(true));
-  g.cityCatalogueUI150=Object.freeze({refresh,selectAge,open:()=>{const ok=g.coordinationUI?.open?.();if(ok===false)return false;refresh(true);select.focus({preventScroll:true});block.scrollIntoView?.({block:'start',inline:'nearest'});return true;},catalogue,element:block,selectedAge:()=>selected});
+  g.cityCatalogueUI150=Object.freeze({refresh,selectAge,open:()=>{const ok=g.coordinationUI?.open?.();if(ok===false)return false;refresh(true);select.focus({preventScroll:true});block.scrollIntoView?.({block:'start',inline:'nearest'});return true;},get catalogue(){return catalogue;},element:block,selectedAge:()=>selected});
   return true;
  }
  return Object.freeze({install});

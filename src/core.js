@@ -3361,3 +3361,103 @@ siegeBrake193:Object.freeze({name:'Frein à chaîne de siège',seconds:32,cost:O
 
 /* Audio budgets only; successful existing effects keep their authored timing. */
 (function(root){'use strict';root.DeadwallCore.Audio199Rules=Object.freeze({maxVoices:48,maxToneSeconds:10,maxNoiseSeconds:5});})(globalThis);
+
+/* Metric city footprints are opt-in per campaign; historical layouts keep their bodies. */
+(function(root){
+ 'use strict';const C=root.DeadwallCore;
+ const sizes={
+  core:[10,10],house:[10,8],warehouse:[12,10],barracks:[12,10],clinic:[10,8],
+  farm:[12,10],generator:[4,3],lumber:[10,8],scrapyard:[12,10],quarry:[12,12],refinery:[12,10],workshop:[10,8],ammoFactory:[10,8],
+  woodWall:[1,1],steelWall:[1,1],concreteWall:[1,1],gate:[4,1],armoredGate:[4,1],spikes:[1,1],watchtower:[3,3],turret:[2,2],heavyTurret:[3,3],
+  fieldKitchen:[6,4],dressingWorkshop:[8,6],recoveryBench:[8,6],perimeterLight:[1,1],sectorPost:[4,4],logisticsGarage:[12,8],fallbackRedoubt:[8,6],
+  fireCistern:[6,4],fireStation:[12,10],fireScreen:[1,1],alarmTower:[3,3],planningOffice:[8,6],restShelter:[6,4],dayGreenhouse:[12,8],prefabYard:[12,10],receptionHall:[12,10],radioRelay:[3,3],roadDepot:[10,8],
+  beacon:[1,1],streetlight:[1,1],searchlight:[2,2],rowHomes:[12,8],solarCourt:[10,8],apartment:[12,10],centralStore:[14,12],hospital:[14,12],marketHall:[14,12],
+  logisticsCenter:[14,12],powerPlant:[14,12],recyclingPlant:[14,12],rationPlant:[14,12],residentialTower:[12,10],cementWorks:[14,12],cityArsenal:[14,12],
+  logisticsHub:[18,14],housingComplex:[14,12],regionalHospital:[18,14],megaHousing:[16,14],fuelWorks:[16,14],districtSearchlight:[2,2],megaTower:[16,14],agroComplex:[20,16],megaPower:[20,16],megaReserve:[20,16],
+  batteryCabinet:[2,2],batteryStation:[6,4],batteryComplex:[8,6],expeditionOffice:[8,6],expeditionGarage:[12,8],
+  casemate150:[6,4],aidStation150:[8,6],courtyardGarden150:[8,8],gateStore150:[8,6],sterilizationLab150:[12,10],solarPark150:[14,12],biofuelYard150:[14,12],garrisonQuarters150:[14,12],electricCannery150:[14,12],twinGun150:[3,4],
+  triageStation150:[8,6],reinforcedCasemate150:[6,4],electricGreenhouse150:[14,12],wallStore150:[8,6],dualRecovery150:[8,6],concreteWatch150:[3,3],medicalComplex150:[12,10],continuityArsenal150:[14,12],equippedShelter150:[14,12],frontBattery150:[8,6]
+ };
+ for(const size of Object.values(sizes))Object.freeze(size);Object.freeze(sizes);
+ const presentation=Object.freeze({storeyHeightMetres:3,wallHeightMetres:3,projectedHeightUnitsPerMetre:16,doorWidthMetres:1,doorHeightMetres:2.1,wallThicknessMetres:.2,roofOverhangMetres:.15});
+ const localParcels=Object.freeze({houseMetres:Object.freeze([10,8]),stationMetres:Object.freeze([12,8]),yardMetres:Object.freeze([15,10]),clearanceMetres:1,serviceRoadMetres:4,arterialRoadMetres:5.5,settlementStreetMetres:3,accessMetres:1.5,depotApronMetres:8,perimeterInsetMetres:14,southPerimeterInsetMetres:17,gateWidthMetres:2,stationDoorMetres:1.2,stationWindowMetres:1.5,sedanMetres:Object.freeze([4.6,1.85]),vanMetres:Object.freeze([5.4,2])});
+ const sceneryMetres=Object.freeze(Object.fromEntries(Object.entries({ruinedHouse:[10,8],ruinedShop:[12,8],warehouseShell:[12,10],ambulance:[5.8,2.05],bus:[12,2.5],utilityTruck:[6.5,2.3],tanker:[8,2.5],container:[6.06,2.44],tent:[3,2.5],guardBooth:[2.2,2],waterTank:[3,3],powerPylon:[2,2],concreteBarricade:[2.4,.6],streetLamp:[.5,.5],rubble:[3,2.5]}).map(([id,size])=>[id,Object.freeze(size)])));
+ const cache=new Map();
+ function version(value=0){if(value!==0&&value!==1)throw Error('Révision des emprises urbaines invalide.');return value;}
+ function definition(type,revision=0){
+  version(revision);if(!Object.hasOwn(C.BUILDINGS,type))return null;const base=C.BUILDINGS[type];if(revision===0)return base;
+  const size=sizes[type]||(base.vertical175?base.size:null);if(!size)throw Error('Gabarit métrique manquant : '+type);
+  const cached=cache.get(type);if(cached?.base===base)return cached.def;
+  const def=Object.freeze({...base,size,geometryVersion202:1,legacySize202:base.size});cache.set(type,{base,def});return def;
+ }
+ function structureHeight(def,revision=def?.geometryVersion202??0){
+  version(revision);if(!def)return 0;
+  if(Number.isFinite(def.height)&&def.height>0)return def.height;
+  if(def.wall)return presentation.wallHeightMetres;
+  if(revision===0)return C.VerticalCitadel175.structureHeight;
+  const floors=Number.isSafeInteger(def.floors)&&def.floors>0?def.floors:1;
+  return floors*presentation.storeyHeightMetres;
+ }
+ C.CityGeometry202=Object.freeze({version,definition,structureHeight,sizes,presentation,localParcels,sceneryMetres,defaultZoom:.75,minZoom:.3,initialPlayerClearance:70,initialCrewClearance:Object.freeze([40,90]),initialRallyClearance:120});
+ const expeditions=C.Expeditions,expeditionPositions=Object.freeze({clinique:Object.freeze([3904,1152]),poste:Object.freeze([3904,2784])});
+ const metricSites=Object.freeze(expeditions.SITES.map(site=>{const p=expeditionPositions[site.id];return p?Object.freeze({...site,x:p[0],y:p[1],metric202:1}):site;}));
+ const metricSitesById=Object.freeze(Object.fromEntries(metricSites.map(site=>[site.id,site])));
+ const sitesFor=options=>version(options?.cityGeometry202??0)?metricSites:expeditions.SITES;
+ const siteFor=(id,options)=>version(options?.cityGeometry202??0)?metricSitesById[id]:expeditions.BY_ID[id];
+ C.Expeditions=Object.freeze({...expeditions,sitesFor,siteFor});
+ C.CityRoadRules202=Object.freeze({clearance:8,allowedProperties:Object.freeze(['wall','gate','trapDamage']),legacyNaturalRoadProperties:Object.freeze(['vertical175'])});
+})(globalThis);
+
+/* Metric ensembles are recomposed from actual bodies; old plans remain verbatim. */
+(function(root){
+ 'use strict';const C=root.DeadwallCore,D=C.Dayworks;
+ const rules=Object.freeze({revision:1,serviceGap:2,maxWidth:44,maxHeight:36});let metricPlans=null;
+ const revision=options=>C.CityGeometry202.version(options?.cityGeometry202??0);
+ const size=tuple=>{const d=C.CityGeometry202.definition(tuple[0],1);if(!d)throw Error('Pièce de chantier inconnue.');return tuple[3]%2?[d.size[1],d.size[0]]:d.size;};
+ function court(parts,columns=2){
+  const widths=Array(columns).fill(0),heights=Array(Math.ceil(parts.length/columns)).fill(0);
+  for(let i=0;i<parts.length;i++){const[w,h]=size(parts[i]);widths[i%columns]=Math.max(widths[i%columns],w);heights[Math.floor(i/columns)]=Math.max(heights[Math.floor(i/columns)],h);}
+  const offset=(values,index)=>values.slice(0,index).reduce((sum,n)=>sum+n+rules.serviceGap,0);
+  return parts.map((p,i)=>[p[0],offset(widths,i%columns),offset(heights,Math.floor(i/columns)),p[3]||0]);
+ }
+ function line(layout,type,y,width,gateX,offset=0){const gateWidth=size(['gate',0,0,0])[0];for(let x=0;x<width;x++)if(x<gateX||x>=gateX+gateWidth)layout.push([type,x+offset,y,0]);layout.push(['gate',gateX+offset,y,0]);}
+ function enclosure(width,height,twoDoors=false){
+  const layout=[],gateWidth=size(['gate',0,0,0])[0],gateX=Math.floor((width-gateWidth)/2);
+  for(let x=0;x<width;x++)for(const y of[0,height-1])if((y===height-1||twoDoors)&&x>=gateX&&x<gateX+gateWidth)continue;else layout.push(['woodWall',x,y,0]);
+  for(let y=1;y<height-1;y++)for(const x of[0,width-1])layout.push(['woodWall',x,y,0]);
+  layout.push(['gate',gateX,height-1,0]);if(twoDoors)layout.push(['gate',gateX,0,0]);return layout;
+ }
+ function compose(plan){
+  let layout,description=plan.description;const parts=D.footprint(plan.id,0,0).map(p=>[p.type,p.gx,p.gy,p.rotation]);
+  if(plan.id==='courtyard'||plan.id==='airlock'){
+   layout=enclosure(plan.w,plan.h,plan.id==='airlock');description=plan.id==='airlock'?'Sas à deux portes de quatre mètres, avec parois jointives ; chaque section reste à financer et construire.':'Cour fermée à porte de quatre mètres ; chaque section du périmètre est financée et construite séparément.';
+  }else if(plan.id==='camp'){
+   const[ww,wh]=size(['warehouse',0,0,0]),[sw,sh]=size(['restShelter',0,0,0]),width=Math.max(ww,sw)+2,height=wh+rules.serviceGap+sh+2;
+   layout=enclosure(width,height);layout.push(['warehouse',1,1,0],['restShelter',1,1+wh+rules.serviceGap,2]);description='Camp fermé avec entrepôt, halte tournée vers l’allée de service de deux mètres. Le périmètre réel et sa porte de quatre mètres sont intégralement payés.';
+  }else if(plan.id==='entryBastion'){
+   const[tw,th]=size(['watchtower',0,0,0]),width=tw*2+rules.serviceGap+2,height=th+rules.serviceGap*2+1;layout=[];line(layout,'woodWall',0,width,Math.floor((width-4)/2));
+   for(let y=1;y<height;y++)for(const x of[0,width-1])layout.push(['woodWall',x,y,0]);layout.push(['watchtower',1,3,0],['watchtower',width-tw-1,3,0]);description='Entrée ouverte à l’arrière, deux postes de guet et porte de quatre mètres ; les deux flancs ont un vrai mur continu.';
+  }else if(plan.id==='spikedApproach'){
+   layout=[['spikes',1,0,0],['spikes',3,0,0],['spikes',10,0,0],['spikes',12,0,0]];line(layout,'woodWall',3,14,5);layout.push(['watchtower',1,6,0],['watchtower',10,6,0]);description='Quatre pièges de pieux devant une ligne payée et sa porte de quatre mètres. Deux tours gardent les approches ; les côtés restent ouverts.';
+  }else if(plan.id==='maintenanceRedoubt'){
+   const services=court([['generator',0,0,0],['workshop',0,0,0],['warehouse',0,0,0]],3),width=Math.max(16,...services.map(p=>p[1]+size(p)[0])),shift=Math.floor((width-16)/2);layout=[];
+   line(layout,'steelWall',0,16,4,shift);line(layout,'steelWall',8,16,8,shift);layout.push(['watchtower',1+shift,3,0],['watchtower',12+shift,3,0],...services.map(p=>[p[0],p[1],p[2]+11,p[3]]));description='Deux lignes d’acier et portes de quatre mètres décalées, puis générateur, atelier et entrepôt desservis par des allées de deux mètres. Les flancs restent ouverts.';
+  }else if(plan.id==='staggeredLines201'){
+   const services=court([['aidStation150',0,0,1],['warehouse',0,0,0],['streetlight',0,0,0]],3),width=Math.max(16,...services.map(p=>p[1]+size(p)[0])),shift=Math.floor((width-16)/2);layout=[];
+   line(layout,'concreteWall',0,16,4,shift);line(layout,'concreteWall',6,16,9,shift);layout.push(['spikes',2+shift,3,0],['spikes',11+shift,3,0],...services.map(p=>[p[0],p[1],p[2]+9,p[3]]));description='Deux lignes de béton à portes de quatre mètres décalées, deux pièges, poste de secours, entrepôt et éclairage. Allées de service de deux mètres ; flancs ouverts.';
+  }else{
+   layout=court(parts);description=plan.description+' Implantation aux dimensions réelles, avec allées de service de deux mètres.';
+  }
+  const w=Math.max(...layout.map(p=>p[1]+size(p)[0])),h=Math.max(...layout.map(p=>p[2]+size(p)[1]));
+  if(w>rules.maxWidth||h>rules.maxHeight||layout.length>D.RULES.maxPlanCells)throw Error('Ensemble métrique trop grand : '+plan.id);
+  return Object.freeze({...plan,w,h,description,geometryVersion202:1,layout:Object.freeze(layout.map(p=>Object.freeze(p)))});
+ }
+ function plansFor(options){if(!revision(options))return D.PLANS;if(!metricPlans)metricPlans=Object.freeze(D.PLANS.map(compose));return metricPlans;}
+ function planFor(id,options){return plansFor(options).find(p=>p.id===id)||null;}
+ function footprint(id,gx,gy,options){
+  if(!revision(options))return D.footprint(id,gx,gy);
+  const p=planFor(id,options);if(!p||!Number.isInteger(gx)||!Number.isInteger(gy)||Math.abs(gx)>128||Math.abs(gy)>128)throw Error('Plan ou position invalide.');
+  return p.layout.map(([type,x,y,rotation])=>({type,gx:gx+x,gy:gy+y,rotation}));
+ }
+ C.Dayworks=Object.freeze({...D,MetricRules202:rules,plansFor,planFor,footprint});root.DeadwallDayworks=C.Dayworks;
+})(globalThis);

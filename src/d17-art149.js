@@ -45,9 +45,10 @@
     return Object.hasOwn(URBAN,def.urbanKind)?URBAN[def.urbanKind]:null;
   }
   function constructionSprite(progress) { return progress<.34?'foundation':progress<.72?'frame':'scaffold'; }
-  function measure(type,b,{rise=0,inset=3,sprite=null}={}) {
+  function measure(type,b,{rise=0,inset=3,sprite=null,seed=0}={}) {
     const spec=sprite||(Object.hasOwn(SPRITES,type)?SPRITES[type]:null);
     if(!spec||!b||![b.x,b.y,b.w,b.h,rise,inset].every(Number.isFinite)||b.w<=0||b.h<=0||rise<0||inset<0)return null;
+    if(b.geometryVersion202===1)return Variants157?.metricFrame202(b,{seed,model:type,sprite:spec})||null;
     const w=b.w*32,h=b.h*32,scale=Math.min(Math.max(1,w-inset*2)/spec.rect[2],Math.max(1,h+rise-inset*2)/spec.rect[3]);
     const width=spec.rect[2]*scale,height=spec.rect[3]*scale;
     return {atlas:spec.atlas,source:spec.rect,destination:[b.x-width/2,b.y+h/2-inset-height,width,height]};
@@ -56,6 +57,7 @@
     const seed=options?.seed??worldSeeds.get(art)?.()??0;
     const identity=b?.id??[b?.gx,b?.gy,b?.type].join(':');
     const sprite=b&&!b.dead&&b.completed!==false?Variants157?.alternateFor(type,identity,seed,art?.images):null;
+    if(b?.geometryVersion202===1)return Variants157?.drawMetricBuilding202(c,art,b,{seed,model:type})||false;
     const frame=measure(type,b,{...options,sprite});
     if(!frame||!c?.drawImage||!art?.images?.[frame.atlas])return false;
     if(typeof art.blit==='function')return art.blit(c,frame.atlas,frame.source,...frame.destination);
@@ -76,10 +78,10 @@
   function eligibleSite(b) { return !!(b&&!b.dead&&b.completed===false&&Number.isFinite(b.progress)&&b.progress>=0&&b.progress<1&&!b.def?.wall&&b.type!=='spikes'&&b.def?.urbanKind!=='lamp'); }
   function drawConstruction(c,art,b,{suspended=false}={}) {
     if(!eligibleSite(b))return false;
-    const type=constructionSprite(b.progress);if(!art?.images?.d17Construction149)return false;
+    const type=constructionSprite(b.progress);if(b.geometryVersion202!==1&&!art?.images?.d17Construction149)return false;
     c.save();
     if(suspended)c.globalAlpha*=.65;
-    const painted=drawSprite(c,art,type,b,{rise:type==='scaffold'?20:0,inset:4});
+    const painted=b.geometryVersion202===1?Variants157?.drawMetricConstruction202(c,b,{seed:worldSeeds.get(art)?.()??0}):drawSprite(c,art,type,b,{rise:type==='scaffold'?20:0,inset:4});
     // The exact existing work fraction remains visible over the generated site.
     c.fillStyle=suspended?'#819083':'#d2a84a';c.fillRect(b.left,b.bottom+4,b.w*32*clamp(b.progress,0,1),3);
     c.restore();return painted;

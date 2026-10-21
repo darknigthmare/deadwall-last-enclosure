@@ -2,14 +2,24 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {C,S,R,V,clone,tick,boot,build,ascend,equip,approach,lowStock,snapshot}=require('./helpers/vertical177.cjs');
 const N=require('../src/vertical-network179.js'),B=C.VerticalNetwork179;
-function pair(age=4,type='lookout2a177',gap=2,axis='x'){
+function pair(age=4,type='lookout2a177',gap=2,axis='x',allowGapSearch=false){
  const g=boot(age);for(const n of g.world.nodes)n.harvest(n.amount);
  let a,b;const def=C.BUILDINGS[type];for(const [k,n]of Object.entries(def.cost||{}))g.resources[k]=Math.max(g.resources[k],n*2+1000);
- for(let x=8;x<100&&!a;x+=2)for(let y=8;y<100&&!a;y+=2){
-  const bx=axis==='x'?x+def.size[0]+gap:x,by=axis==='y'?y+def.size[1]+gap:y;
-  if(!g.world.placement(def,x,y,0).valid||!g.world.placement(def,bx,by,0).valid)continue;
-  if(!g.placeOne(type,x,y))continue;a=g.world.atCell(x,y);a.progress=1;a.health=a.maxHealth;
-  if(!g.placeOne(type,bx,by))throw Error('Second support unexpectedly unavailable');b=g.world.atCell(bx,by);b.progress=1;b.health=b.maxHealth;
+ function* candidates(){for(let x=8;x<100;x+=2)for(let y=8;y<100;y+=2)yield[x,y];for(let y=1;y<C.WORLD_TILES;y++)for(let x=1;x<C.WORLD_TILES;x++)yield[x,y];}
+ const gaps=allowGapSearch?Array.from({length:B.links[age].maxSpan-gap+1},(_,i)=>gap+i):[gap];
+ for(const spacing of gaps){
+  for(const rotation of def.size[0]===def.size[1]?[0]:[0,1]){
+   const[w,h]=rotation%2?[def.size[1],def.size[0]]:def.size;
+   for(const[x,y]of candidates()){
+    if(a)break;
+    const bx=axis==='x'?x+w+spacing:x,by=axis==='y'?y+h+spacing:y;
+    if(!g.world.placement(def,x,y,rotation).valid||!g.world.placement(def,bx,by,rotation).valid)continue;
+    if(!g.placeOne(type,x,y,rotation))continue;a=g.world.atCell(x,y);a.progress=1;a.health=a.maxHealth;
+    if(!g.placeOne(type,bx,by,rotation))throw Error('Second support unexpectedly unavailable');b=g.world.atCell(bx,by);b.progress=1;b.health=b.maxHealth;
+   }
+   if(a)break;
+  }
+  if(a)break;
  }
  assert.ok(a&&b,'two legally paid supports');g.refreshMetrics(true);Object.assign(g.player,g.vertical175.entrance(a));ascend(g,a);
  return{g,a,b,v:g.vertical175,n:g.vertical175.network};
@@ -105,7 +115,9 @@ for(const scenario of ['duplicate-link','missing-anchor','bad-progress','extra-k
 
 for(let age=0;age<11;age++)test('179 age '+age+' bridge works at its actual highest unlocked support',()=>{
  const type=Object.entries(R.bases).filter(([,b])=>b.unlockTier===age).sort((a,b)=>b[1].height-a[1].height)[0][0];
- const f=pair(age,type),q=bridge(f);assert.equal(q.z,R.bases[type].height);moveTo(f,(q.x+q.w/2)*32,(q.y+q.h/2)*32);
+ // The larger supports can stand on opposite sides of a road. Search only the
+ // spans permitted by the acquired age; the native quote pays its actual length.
+ const f=pair(age,type,2,'x',true),q=bridge(f);assert.equal(q.z,R.bases[type].height);assert.ok(q.gap>=2&&q.gap<=B.links[age].maxSpan);moveTo(f,(q.x+q.w/2)*32,(q.y+q.h/2)*32);
  assert.equal(f.v.pose().z,R.bases[type].height);assert.ok(f.g.restoreSave(f.g.serialize()));moveTo(f,f.b.x,f.b.y);assert.equal(f.v.pose().site,f.b.id);
 });
 test('179 other native freight owners block packing before resource mutation',()=>{

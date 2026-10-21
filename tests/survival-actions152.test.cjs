@@ -76,7 +76,13 @@ test('152 shared hands: the local deposit cannot advance beside an active paid c
 });
 
 test('152 shared hands: a real paid fortification job blocks E construction through every local wrapper until cancelled',()=>{
- const g=fresh(),C=globalThis.DeadwallCore,core=g.core(),gx=core.gx+7,gy=core.gy;
+ const g=fresh(),C=globalThis.DeadwallCore,core=g.core();
+ // Keep both paid sites and the shared working position outside native roads
+ // and scenery. The test concerns ownership of E, not a fixed map coordinate.
+ function* anchors(){yield[core.gx+7,core.gy];for(let y=1;y<C.WORLD_TILES-2;y++)for(let x=1;x<C.WORLD_TILES-5;x++)yield[x,y];}
+ const site=[...anchors()].find(([x,y])=>g.world.placement(g.world.definition('woodWall'),x,y,0).valid&&
+  g.world.placement(g.world.definition('house'),x+2,y,0).valid&&g.friendlyPositionClear(g.player,(x+1)*C.TILE+16,y*C.TILE+C.TILE/2));
+ assert.ok(site,'Both paid foundations need a legal shared service position');const[gx,gy]=site;
  const recipe=C.FortificationPackRules.fieldSupply.repair;
  for(const[key,n]of Object.entries(recipe.cost))assert.equal(g.loadout.transfer('depot','sac',key,n).ok,true);
  // Both foundations are financed through the shipped placement controller.

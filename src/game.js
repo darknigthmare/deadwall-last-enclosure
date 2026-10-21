@@ -20,14 +20,15 @@
   const distanceToBuildingSquared = (p, b) => (p.x - clamp(p.x, b.left, b.right)) ** 2 + (p.y - clamp(p.y, b.top, b.bottom)) ** 2;
 
   class Building {
-    constructor(id, type, gx, gy, rotation = 0, progress = 0) {
+    constructor(id, type, gx, gy, rotation = 0, progress = 0, geometryVersion202 = 0) {
       this.id = id; this.type = type; this.gx = gx; this.gy = gy; this.rotation = rotation;
+      this.geometryVersion202 = C.CityGeometry202.version(geometryVersion202);
       this.progress = progress; this.dead = false; this.fireCooldown = 0; this.turretAngle = -Math.PI / 2;
       this.flash = 0; this.powered = true; this.powerShare = 1; this.priority = 2; this.gateMode = 'auto';
       this.underAttack = 0; this.corpseLoad = 0;
       this.health = Math.max(40, this.def.health * (progress >= 1 ? 1 : 0.12 + progress * 0.65));
     }
-    get def() { return BUILDINGS[this.type]; }
+    get def() { return C.CityGeometry202.definition(this.type, this.geometryVersion202); }
     get size() { return rotateSize(this.def, this.rotation); }
     get w() { return this.size[0]; }
     get h() { return this.size[1]; }
@@ -179,20 +180,23 @@
   }
 
   class WorldMap {
-    constructor(seed = 17117) {
+    constructor(seed = 17117, cityGeometry202 = 0) {
       this.seed = seed; this.occupancy = new Int32Array(WORLD_TILES * WORLD_TILES);
+      this.cityGeometry202 = C.CityGeometry202.version(cityGeometry202);
       this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
       this.generateNodes();
       const content=globalThis.DeadwallWorldContent?.generate(this.seed);
       this.sites=content?.sites||[];
       for(const prop of content?.props||[])this.nodes.push(Object.assign(new ResourceNode(this.nodeId++,prop.type,prop.x,prop.y,prop.amount,prop.radius,0),{sceneryKind:prop.sceneryKind,siteId:prop.siteId,renderSize:prop.renderSize}));
     }
+    definition(type) { return C.CityGeometry202.definition(type, this.cityGeometry202); }
     cells(building) {
       const out = [];
       for (let y = 0; y < building.h; y++) for (let x = 0; x < building.w; x++) out.push({ x: building.gx + x, y: building.gy + y });
       return out;
     }
     add(building) {
+      if (building instanceof Building) building.geometryVersion202 = this.cityGeometry202;
       this.navigationVersion++;
       this.buildings.set(building.id, building);
       for (const cell of this.cells(building)) this.occupancy[index(cell.x, cell.y)] = building.id;
@@ -216,6 +220,7 @@
     }
     at(x, y) { return this.atCell(grid(x), grid(y)); }
     placement(def, gx, gy, rotation = 0, ignoreId = 0) {
+      if (def?.id && Object.hasOwn(BUILDINGS, def.id)) def = this.definition(def.id);
       const [w, h] = rotateSize(def, rotation);
       if (gx < 1 || gy < 1 || gx + w >= WORLD_TILES - 1 || gy + h >= WORLD_TILES - 1) return { valid: false, reason: 'Hors de la zone' };
       for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
@@ -467,7 +472,7 @@
         } else if (event.button === 2) {
           event.preventDefault();
           if (this.selectedBuild || this.rallyPlacement) this.cancelPlacement();
-          else this.selectBuilding(this.world.at(this.input.mouseWorldX, this.input.mouseWorldY));
+          else this.selectBuilding(this.buildingAtVisual(this.input.mouseWorldX, this.input.mouseWorldY));
         }
       });
       this.canvas.addEventListener('mouseup', event => {
@@ -498,7 +503,7 @@
         else if (this.selectedBuild) {
           if (this.isLineWall(BUILDINGS[this.selectedBuild])) { this.wallStart = { x: grid(this.input.mouseWorldX), y: grid(this.input.mouseWorldY) }; this.updateWallPreview(); }
           else this.placeOne(this.selectedBuild, grid(this.input.mouseWorldX), grid(this.input.mouseWorldY), this.buildRotation);
-        } else this.selectBuilding(this.world.at(this.input.mouseWorldX, this.input.mouseWorldY));
+        } else this.selectBuilding(this.buildingAtVisual(this.input.mouseWorldX, this.input.mouseWorldY));
       });
       this.canvas.addEventListener('pointermove', event => {
         if (event.pointerId !== this.canvasPointerId) return;
@@ -689,27 +694,30 @@
       catch (error) { this.notify(error.message, 'danger'); return false; }
       this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
-      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed()); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
+      if(this.exploration125)this.exploration125.layoutRevision=currentContent194?4:3;
+      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), currentContent194 ? 1 : 0); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
       if (scenario.id !== 'classic') this.resources = scenario.resources;
-      this.player = this.makePlayer(); const center = WORLD_TILES / 2; const core = new Building(this.nextId++, 'core', center - 2, center - 2, 0, 1); core.health = core.maxHealth; this.world.add(core);
+      this.player = this.makePlayer(); const center = WORLD_TILES / 2, coreSize=this.world.definition('core').size;
+      const core = new Building(this.nextId++, 'core', center - coreSize[0]/2, center - coreSize[1]/2, 0, 1, this.world.cityGeometry202); core.health = core.maxHealth; this.world.add(core);
       if (scenario.id !== 'classic') core.health = scenario.coreHealth;
-      this.player.x = core.x + 135; this.player.y = core.y + 20;
+      this.player.x = this.world.cityGeometry202 ? core.x + 20 : core.x + 135; this.player.y = this.world.cityGeometry202 ? core.bottom + C.CityGeometry202.initialPlayerClearance : core.y + 20;
+      const crewPosition = () => this.world.cityGeometry202 ? [core.x + this.random.range(-50, 50), core.bottom + this.random.range(...C.CityGeometry202.initialCrewClearance)] : [core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)];
       if (scenario.id === 'classic') {
-        for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+        for (let i = 0; i < 3; i++) this.units.push(new Unit(this.nextId++, 'worker', ...crewPosition()));
       } else {
-        for (const kind of scenario.roster) this.units.push(new Unit(this.nextId++, kind, core.x + this.random.range(-50, 50), core.y + this.random.range(-50, 50)));
+        for (const kind of scenario.roster) this.units.push(new Unit(this.nextId++, kind, ...crewPosition()));
       }
       this.wave = 1; this.phase = 'calm'; this.phaseTime = 82 * this.difficulty.calmTime; this.spawnQueue = []; this.pendingSpawns = normalizeSpawnCounts(); this.spawnTimer = 0; this.fronts = []; this.wavePlan = null;
       if (scenario.id !== 'classic') this.phaseTime = scenario.calmSeconds;
       this.elapsed = 0; this.dayClock = .24; this.weather = 0; this.weatherTarget = 0; this.morale = 100; this.damageFlash = 0; this.stats = createStats();
       this.research = normalizeResearch(); this.activeCrisis = null; this.depositedResources = 0;
-      this.objectiveIndex = 0; this.objectiveProgress = 0; this.objectiveReady = false; this.rally = { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
+      this.objectiveIndex = 0; this.objectiveProgress = 0; this.objectiveReady = false; this.rally = this.world.cityGeometry202 ? { x: core.x, y: core.bottom + C.CityGeometry202.initialRallyClearance } : { x: core.x + 120, y: core.y }; this.gameOver = false; this.paused = false;
       this.squads = globalThis.DeadwallSquads.create(this.rally);
       this.ensureSquads();
-      this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = 1;
+      this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = this.world.cityGeometry202 ? C.CityGeometry202.defaultZoom : 1;
       this.ui.commandModal?.classList.add('hidden'); this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus();
       this.notify(`Protocole lancé — difficulté ${this.difficulty.label}.`, 'good'); this.notify('Récoltez puis rapportez les matériaux au centre.'); this.refreshBuildMenu(true); this.updateUI(); this.save(false);
       if (scenario.id !== 'classic') this.notify(globalThis.DeadwallScenarios.get(scenario.id).name + ' — ' + globalThis.DeadwallScenarios.get(scenario.id).tradeoff);
@@ -720,6 +728,7 @@
       const livingUnits=this.units.filter(unit=>!unit.dead),preyUnits=new Set(livingUnits);
       return {
         version: SAVE_VERSION, timestamp: Date.now(), difficulty: this.difficulty.id, worldSeed: this.world.seed,
+        ...(this.world.cityGeometry202 ? {cityGeometry202: this.world.cityGeometry202} : {}),
         scenarioId: this.scenarioId, squads: this.squads,
         workerOrder: this.workerOrder, runId: this.runId, narrative:this.narrative,
         resources: this.resources, player: { x: this.player.x, y: this.player.y, health: this.player.health, weapon: this.player.weapon, magazine: this.player.magazine, carry: this.player.carry,
@@ -772,7 +781,7 @@
     }
 
     restoreSave(input) {
-      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed), nextFlow=new FlowField();
+      const data=globalThis.DeadwallSave.validate(input), difficulty=DIFFICULTIES[data.difficulty], nextWorld=new WorldMap(data.worldSeed, data.cityGeometry202 || 0), nextFlow=new FlowField();
       const savedPositions=new Map((data.fieldcraft?.nodes||[]).map(p=>[p[0],p]));for(const node of nextWorld.nodes){const p=savedPositions.get(node.id);if(p){node.x=p[1];node.y=p[2];}}
       const amounts=new Map(data.nodes);for(const node of nextWorld.nodes)if(amounts.has(node.id)){node.amount=amounts.get(node.id);node.depleted=node.amount<=.01;}
       for(const raw of data.buildings){const b=new Building(raw.id,raw.type,raw.gx,raw.gy,raw.rotation,raw.progress);Object.assign(b,{health:raw.health,corpseLoad:raw.corpseLoad,priority:raw.priority,gateMode:raw.gateMode});nextWorld.add(b);}
@@ -855,10 +864,21 @@
     }
     cancelPlacement() { this.selectedBuild = null; this.wallStart = null; this.wallPreview = []; this.rallyPlacement = false; this.buildRotation = 0; this.refreshBuildMenu(true); }
     selectBuild(id) { this.audio.ui(); this.rallyPlacement = false; this.selectedBuild = this.selectedBuild === id ? null : id; this.wallStart = null; this.wallPreview = []; this.selectBuilding(null); this.refreshBuildMenu(true); if(this.isCompactViewport()&&this.selectedBuild)this.setBuildCollapsed(true); }
+    buildingAtVisual(x,y) {
+      let found=this.world.at(x,y);
+      for(const b of this.world.buildings.values()) {
+        if(b.dead||!b.completed||b.geometryVersion202!==1)continue;
+        const frame=globalThis.DeadwallBuildingVariants157?.metricFrame202(b);if(!frame)continue;
+        const box=frame.bounds;
+        if(x<box.x||x>box.x+box.w||y<box.y||y>box.y+box.h)continue;
+        if(!found||b.bottom>found.bottom||b.bottom===found.bottom&&b.id>found.id)found=b;
+      }
+      return found;
+    }
     selectBuilding(building) { this.cancelDemolition(); if (this.selectedBuilding) this.selectedBuilding.selected = false; this.selectedBuilding = building && !building.dead ? building : null; if (this.selectedBuilding) this.selectedBuilding.selected = true; }
 
     placeOne(type, gx, gy, rotation = 0) {
-      const def = BUILDINGS[type], check = this.world.placement(def, gx, gy, rotation);
+      const def = this.world.definition(type), check = this.world.placement(def, gx, gy, rotation);
       if (!check.valid) { this.notify(check.reason, 'danger'); return false; }
       if (!canAfford(this.resources, def.cost)) { this.notify('Ressources insuffisantes.', 'danger'); return false; }
       if (def.unlockTier > this.tier.id || (def.requires && !this.world.has(def.requires))) { this.notify('Technologie non disponible.', 'danger'); return false; }
@@ -1179,7 +1199,8 @@
       this.uiTimer -= dt; if (this.uiTimer <= 0) { this.updateUI(); this.uiTimer = .09; }
       this.minimapTimer -= dt; if (this.minimapTimer <= 0) { this.renderMinimap(); this.minimapTimer = .22; }
       this.camera.x = lerp(this.camera.x, this.player.x, clamp(dt * 5.2, 0, 1)); this.camera.y = lerp(this.camera.y, this.player.y, clamp(dt * 5.2, 0, 1));
-      this.camera.x = clamp(this.camera.x, this.width / this.camera.zoom / 2, WORLD_SIZE - this.width / this.camera.zoom / 2); this.camera.y = clamp(this.camera.y, this.height / this.camera.zoom / 2, WORLD_SIZE - this.height / this.camera.zoom / 2);
+      const halfWidth=this.world.cityGeometry202?Math.min(WORLD_SIZE/2,this.width/this.camera.zoom/2):this.width/this.camera.zoom/2,halfHeight=this.world.cityGeometry202?Math.min(WORLD_SIZE/2,this.height/this.camera.zoom/2):this.height/this.camera.zoom/2;
+      this.camera.x = clamp(this.camera.x, halfWidth, WORLD_SIZE - halfWidth); this.camera.y = clamp(this.camera.y, halfHeight, WORLD_SIZE - halfHeight);
       const time = now(); this.notifications = this.notifications.filter(n => n.expires > time); for (const child of [...this.ui.notifications.children]) if (!this.notifications.some(n => String(n.id) === child.dataset.id)) child.remove();
     }
 
@@ -2222,13 +2243,20 @@
         if (entity.dead || !this.visible(entity.x, entity.y, radius, view)) return;
         entries.push({ kind, entity, depth, id: entity.id || 0, order: entries.length });
       };
-      for (const node of this.world.nodes) if (!node.depleted) push(0, node, Math.max(node.radius + 20, (node.renderSize || 0) / 2 + 10));
-      for (const building of this.world.buildings.values()) push(1, building, Math.max(building.w, building.h) * TILE + 40, building.bottom);
+      for (const node of this.world.nodes) if (!node.depleted) push(0, node, Math.max(node.radius + 20, (node.renderSize || 0) / 2 + 10), node.y + (node.metric202===1&&node.body202 ? node.body202.h/2 : 0));
+      for (const building of this.world.buildings.values()) {
+        const frame = globalThis.DeadwallBuildingVariants157?.metricFrame202(building);
+        if (!frame) { push(1, building, Math.max(building.w, building.h) * TILE + 40, building.bottom); continue; }
+        const box = frame.bounds;
+        if (!building.dead && box.x <= view.right && box.x + box.w >= view.left && box.y <= view.bottom && box.y + box.h >= view.top)
+          entries.push({ kind: 1, entity: building, depth: building.bottom, id: building.id || 0, order: entries.length });
+      }
       for (const unit of this.units) push(2, unit, 28);
       for (const zombie of this.zombies) push(3, zombie, 28);
       push(4, this.player, 28);
       for (const truck of this.territories?.truckEntities() || []) push(5, truck, 38);
-      if(this.expeditions?.car()&&!this.expeditions.car().regionAway)push(6,this.expeditions.car(),40);
+      const car=this.expeditions?.car();
+      if(car&&!car.regionAway){const body=car.metric174===1?this.expeditions.vehicleBody175?.():null;push(6,car,body?Math.hypot(body.w,body.h)/2+10:40);}
       for(const corpse of this.corpses)if(corpse.altitude>0){
         const depth=this.vertical175?.corpseDepth?.(corpse),height=corpse.altitude*C.VerticalCitadel175.projectedHeight;
         if(Number.isFinite(depth)&&this.visible(corpse.x,corpse.y-height,25,view))entries.push({kind:7,entity:corpse,depth,id:0,order:entries.length,draw:ctx=>this.drawCorpse(ctx,corpse)});
@@ -2269,7 +2297,7 @@
     zoomView(factor){
       if(!Number.isFinite(factor)||factor<=0)return;
       if(this.frontier?.active())this.frontier.scale(this.frontier.scale()*factor);
-      else this.camera.zoom=clamp(this.camera.zoom*factor,.52,1.65);
+      else this.camera.zoom=clamp(this.camera.zoom*factor,this.world.cityGeometry202?C.CityGeometry202.minZoom:.52,1.65);
     }
     viewBounds(){const hw=this.width/this.camera.zoom/2+120,hh=this.height/this.camera.zoom/2+120;return{left:this.camera.x-hw,right:this.camera.x+hw,top:this.camera.y-hh,bottom:this.camera.y+hh};}
     visible(x,y,r,v){return x+r>=v.left&&x-r<=v.right&&y+r>=v.top&&y-r<=v.bottom;}
@@ -2292,7 +2320,7 @@
       this.art?.drawGround(ctx,v,WORLD_SIZE);
       }
       const c=WORLD_SIZE/2;
-      if(this.exploration125?.layoutRevision!==3){
+      if(![3,4].includes(this.exploration125?.layoutRevision)){
       ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,WORLD_SIZE,132);ctx.fillRect(c-66,0,132,WORLD_SIZE);
       ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,WORLD_SIZE,4);ctx.fillRect(0,c+66,WORLD_SIZE,4);ctx.fillRect(c-70,0,4,WORLD_SIZE);ctx.fillRect(c+66,0,4,WORLD_SIZE);
       }
@@ -2301,7 +2329,7 @@
         for(let i=0;i<18;i++){const a=seededHash(i,this.world.seed,71)*Math.PI*2,rad=90+seededHash(i,12,this.world.seed)*410,x=c+Math.cos(a)*rad,y=c+Math.sin(a)*rad*.72,w=34+seededHash(i,22,9)*82,h=15+seededHash(i,41,3)*34;ctx.save();ctx.translate(x,y);ctx.rotate((seededHash(i,7,13)-.5)*.55);ctx.fillStyle=`rgba(112,117,108,${.018+seededHash(i,44,2)*.035})`;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();}
         ctx.strokeStyle='rgba(216,190,112,.055)';ctx.lineWidth=2;for(const radius of [225,355,490]){ctx.beginPath();ctx.ellipse(c,c,radius,radius*.72,0,0,Math.PI*2);ctx.stroke();}
       }
-      if(this.exploration125?.layoutRevision!==3){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(WORLD_SIZE,c);ctx.moveTo(c,0);ctx.lineTo(c,WORLD_SIZE);ctx.stroke();ctx.setLineDash([]);}
+      if(![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(WORLD_SIZE,c);ctx.moveTo(c,0);ctx.lineTo(c,WORLD_SIZE);ctx.stroke();ctx.setLineDash([]);}
       ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,WORLD_SIZE-6,WORLD_SIZE-6);
       this.infrastructure?.drawRoads(ctx,v);
       if(this.selectedBuild||this.rallyPlacement){const minGX=Math.max(0,Math.floor(v.left/TILE)),maxGX=Math.min(WORLD_TILES,Math.ceil(v.right/TILE)),minGY=Math.max(0,Math.floor(v.top/TILE)),maxGY=Math.min(WORLD_TILES,Math.ceil(v.bottom/TILE));ctx.strokeStyle='rgba(210,220,210,.055)';ctx.lineWidth=1/this.camera.zoom;ctx.beginPath();for(let x=minGX;x<=maxGX;x++){ctx.moveTo(x*TILE,minGY*TILE);ctx.lineTo(x*TILE,maxGY*TILE);}for(let y=minGY;y<=maxGY;y++){ctx.moveTo(minGX*TILE,y*TILE);ctx.lineTo(maxGX*TILE,y*TILE);}ctx.stroke();}
@@ -2453,7 +2481,7 @@
 
     drawRally(ctx){ctx.save();ctx.translate(this.rally.x,this.rally.y);ctx.strokeStyle='rgba(125,169,113,.7)';ctx.fillStyle='rgba(125,169,113,.08)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,34+(this.settings.reducedMotion?0:Math.sin(this.elapsed*2)*3),0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(8,0);ctx.moveTo(0,-8);ctx.lineTo(0,8);ctx.stroke();ctx.restore();this.squadUI?.drawMarkers(ctx,this.viewBounds());}
 
-    drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=BUILDINGS[this.selectedBuild],cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
+    drawPlacement(ctx){if(this.rallyPlacement){ctx.save();ctx.translate(this.input.mouseWorldX,this.input.mouseWorldY);ctx.strokeStyle='#8db57f';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.stroke();ctx.restore();return;}if(!this.selectedBuild)return;const d=this.world.definition(this.selectedBuild),cells=this.isLineWall(d)?(this.wallPreview.length?this.wallPreview:[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}]):[{x:grid(this.input.mouseWorldX),y:grid(this.input.mouseWorldY)}];ctx.save();ctx.globalAlpha=.58;for(const cell of cells){const valid=this.world.placement(d,cell.x,cell.y,this.buildRotation).valid&&canAfford(this.resources,d.cost),size=rotateSize(d,this.buildRotation);ctx.fillStyle=valid?'rgba(111,164,102,.55)':'rgba(183,71,62,.55)';ctx.fillRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.strokeRect(cell.x*TILE+2,cell.y*TILE+2,size[0]*TILE-4,size[1]*TILE-4);}ctx.restore();}
 
     drawNight(ctx){const darkness=clamp(1-this.daylight(),0,1)*.72;if(darkness<=.02)return;ctx.save();ctx.fillStyle=`rgba(4,8,12,${darkness})`;ctx.fillRect(0,0,this.width,this.height);ctx.globalCompositeOperation='screen';const lights=[{x:this.player.x,y:this.player.y,r:145,s:.2}];for(const b of this.world.buildings.values()){if(!b.completed||b.dead||!b.powered||!b.def.light||lights.length>=PERFORMANCE_LIMITS.lights)continue;lights.push({x:b.x,y:b.y,r:b.def.light,s:.18});}for(const l of lights){const sx=(l.x-this.camera.x)*this.camera.zoom+this.width/2,sy=(l.y-this.camera.y)*this.camera.zoom+this.height/2,r=l.r*this.camera.zoom;if(sx+r<0||sx-r>this.width||sy+r<0||sy-r>this.height)continue;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,r);g.addColorStop(0,`rgba(255,218,143,${l.s})`);g.addColorStop(.5,`rgba(186,164,112,${l.s*.5})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fill();}ctx.restore();}
 
@@ -2998,7 +3026,7 @@
  wrap('placeOne',(original,type,gx,gy,rotation=0)=>{
    if(type==='sectorPost'){
      if(!g.canIssueCommand()||![gx,gy,rotation].every(Number.isInteger))return false;
-     const d=C.BUILDINGS[type],w=rotation%2?d.size[1]:d.size[0],h=rotation%2?d.size[0]:d.size[1],point={x:(gx+w/2)*32,y:(gy+h/2)*32},target=nearSite(point);
+     const d=g.world.definition(type),w=rotation%2?d.size[1]:d.size[0],h=rotation%2?d.size[0]:d.size[1],point={x:(gx+w/2)*32,y:(gy+h/2)*32},target=nearSite(point);
      reconcile();
      if(!target){g.notify('Placez le poste à moins de '+R.buildRadius+' unités du centre d’un site de récupération.','danger');return false;}
      if([...g.world.buildings.values()].some(b=>live(b)&&b.type==='sectorPost'&&nearSite(b)?.theme===target.theme)){g.notify('Un poste ou un chantier dessert déjà ce quartier.','danger');return false;}
@@ -3393,6 +3421,8 @@
  let engine=new D.Engine(),worldRef=null,pending=null,tool='none',selectedSite=null,notice='',preview=null,placing=null,braceHit=null,committing=false,passiveWork=false,yards=[],anchorClick=null;
  const wrappedWork=new WeakSet(),wrappedWorld=new WeakSet();
  const live=b=>Boolean(b&&!b.dead&&b.health>0),op=b=>live(b)&&(b.completed===true||b.progress>=1),list=()=>[...g.world.buildings.values()];
+ const planOptions=()=>({cityGeometry202:g.world.cityGeometry202||0}),plans=()=>D.plansFor(planOptions());
+ const definition=type=>g.world.definition(type),planParts=(id,gx,gy)=>D.footprint(id,gx,gy,planOptions());
  const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay;
  const day=()=>g.phase==='calm',distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y),clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
  const canSpend=cost=>Object.entries(cost).every(([k,n])=>(g.resources[k]||0)>=n),atCore=()=>live(g.player)&&g.core()&&g.workerCanWorkAt(g.player,g.core(),180);
@@ -3409,6 +3439,7 @@
  function reconcile(){ensure();engine.state.braces=engine.state.braces.filter(b=>op(g.world.buildings.get(b.id))&&g.world.buildings.get(b.id).def.gate&&b.wave===g.wave);if(engine.state.night?.wave!==g.wave)engine.state.night=null;}
  function installPlacement(){if(wrappedWorld.has(g.world))return;const world=g.world,original=world.placement;if(typeof original!=='function')throw new Error('Validation de placement absente.');
   world.placement=function(def,gx,gy,rotation=0,...args){const result=original.call(world,def,gx,gy,rotation,...args);if(!result.valid)return result;
+   def=world.definition(def.id);
    const w=rotation%2?def.size[1]:def.size[0],h=rotation%2?def.size[0]:def.size[1];
    const blocked=engine.state.sites.find(s=>(s.survey<R.surveySeconds||s.remaining>.001)&&s.x+18>gx*32&&s.x-18<(gx+w)*32&&s.y+18>gy*32&&s.y-18<(gy+h)*32);
    return blocked?{valid:false,reason:'Point de terrain à relever et récupérer avant construction.'}:result;
@@ -3439,20 +3470,21 @@
   if(!confirm)return {ok:false,confirm:true,reason:'Déclencher le crépuscule maintenant ? Aucun chantier ni trajet ne sera terminé à votre place'+(concerns.length?' ; '+concerns.join(', '):'')+'.'};
   g.phaseTime=0;g.save(false);tell('Préparation close : l’alerte débutera à la reprise de la simulation.');return {ok:true};
  }
- function planStatus(id,gx,gy){const p=D.PLANS.find(p=>p.id===id);if(!p)return{ok:false,reason:'Plan inconnu.',cost:{}};
+ function planStatus(id,gx,gy){const p=plans().find(p=>p.id===id);if(!p)return{ok:false,reason:'Plan inconnu.',cost:{}};
   if(!day()||!g.canIssueCommand())return{ok:false,reason:'Planification réservée au calme diurne.',cost:{}};
   if(!list().some(b=>op(b)&&b.type==='planningOffice'))return{ok:false,reason:'Bureau de chantier achevé requis.',cost:{}};
   if(p.unlock&&!engine.unlocked(p.unlock))return{ok:false,reason:'Croquis de terrain à découvrir.',cost:{}};
-  let items;try{items=D.footprint(id,gx,gy);}catch{return{ok:false,reason:'Position invalide.',cost:{}};}
-  const result=D.quote(items,C.BUILDINGS,(...args)=>g.world.placement(...args),g.tier.id,type=>g.world.has(type));
+  let items;try{items=planParts(id,gx,gy);}catch{return{ok:false,reason:'Position invalide.',cost:{}};}
+  const catalogue=Object.fromEntries(items.map(p=>[p.type,definition(p.type)]));
+  const result=D.quote(items,catalogue,(...args)=>g.world.placement(...args),g.tier.id,type=>g.world.has(type));
   if(result.ok&&!canSpend(result.cost))return{...result,ok:false,items,reason:'Matériaux insuffisants pour financer tout l’ensemble.'};return{...result,items};
  }
- function beginPlan(id){anchorClick=null;const p=D.PLANS.find(p=>p.id===id);if(!p||!g.canIssueCommand()||!day())return false;
+ function beginPlan(id){anchorClick=null;const p=plans().find(p=>p.id===id);if(!p||!g.canIssueCommand()||!day())return false;
   if(!list().some(b=>op(b)&&b.type==='planningOffice')){tell('Bureau de chantier achevé requis.');return false;}
   if(p.unlock&&!engine.unlocked(p.unlock)){tell('Croquis de terrain à découvrir.');return false;}
   g.cancelPlacement?.();tool='none';placing=id;preview=null;g.showCommand?.(false);if(g.paused)g.togglePause?.(false);g.releaseInputs?.();tell('Cliquez au sol pour poser uniquement l’aperçu ; confirmez ensuite le financement dans le carnet. Échap annule.');return true;
  }
- function anchorPlan(id,gx,gy){if(!D.PLANS.some(p=>p.id===id)||!g.canIssueCommand()||!day())return false;anchorClick=null;preview={id,gx,gy};placing=null;const q=planStatus(id,gx,gy);tell(q.ok?'Aperçu valide. Le financement reste à confirmer.':q.reason);return q;}
+ function anchorPlan(id,gx,gy){if(!plans().some(p=>p.id===id)||!g.canIssueCommand()||!day())return false;anchorClick=null;preview={id,gx,gy};placing=null;const q=planStatus(id,gx,gy);tell(q.ok?'Aperçu valide. Le financement reste à confirmer.':q.reason);return q;}
  function commitPlan(){if(!preview||committing)return false;const q=planStatus(preview.id,preview.gx,preview.gy);if(!q.ok){tell(q.reason);return false;}
   const resources={...g.resources},ids=new Set(g.world.buildings.keys()),stats=structuredClone(g.stats),nextId=g.nextId,nodeStates=(g.world.nodes||[]).map(n=>[n,n.amount,n.depleted]);
   const counts={floaters:g.floaters?.length,particles:g.particles?.length};committing=true;let ok=false;
@@ -3516,7 +3548,7 @@
    ctx.save();ctx.translate(s.x,s.y);ctx.fillStyle=found?'#8e9f74':'#b9ab7b';ctx.fillRect(-12,-9,24,18);ctx.strokeStyle='#343e34';ctx.lineWidth=2;ctx.strokeRect(-12,-9,24,18);ctx.beginPath();ctx.moveTo(-8,-9);ctx.lineTo(-8,9);ctx.moveTo(8,-9);ctx.lineTo(8,9);ctx.stroke();
    ctx.strokeStyle=selectedSite===s.id?'#ffe3a1':'rgba(210,212,175,.5)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.font='bold 10px sans-serif';ctx.fillStyle='#f1e6bb';ctx.textAlign='center';ctx.fillText(found?C.RESOURCE_META[D.BY_ID[s.id].resource].label:'RELEVÉ',0,-34);ctx.restore();
   }}
- function drawPlan(ctx){const p=preview||(placing?{id:placing,gx:Math.floor(g.input.mouseWorldX/32),gy:Math.floor(g.input.mouseWorldY/32)}:null);if(!p)return;let items;try{items=D.footprint(p.id,p.gx,p.gy);}catch{return;}ctx.save();for(const i of items){const d=C.BUILDINGS[i.type];if(!d)continue;ctx.fillStyle=i.type==='gate'?'rgba(122,192,183,.4)':'rgba(218,190,111,.25)';ctx.strokeStyle='#d8c18a';ctx.lineWidth=1;ctx.fillRect(i.gx*32,i.gy*32,d.size[0]*32,d.size[1]*32);ctx.strokeRect(i.gx*32,i.gy*32,d.size[0]*32,d.size[1]*32);}ctx.restore();}
+ function drawPlan(ctx){const p=preview||(placing?{id:placing,gx:Math.floor(g.input.mouseWorldX/32),gy:Math.floor(g.input.mouseWorldY/32)}:null);if(!p)return;let items;try{items=planParts(p.id,p.gx,p.gy);}catch{return;}ctx.save();for(const i of items){const d=definition(i.type);if(!d)continue;const[w,h]=i.rotation%2?[d.size[1],d.size[0]]:d.size;ctx.fillStyle=i.type==='gate'?'rgba(122,192,183,.4)':'rgba(218,190,111,.25)';ctx.strokeStyle='#d8c18a';ctx.lineWidth=1;ctx.fillRect(i.gx*32,i.gy*32,w*32,h*32);ctx.strokeRect(i.gx*32,i.gy*32,w*32,h*32);}ctx.restore();}
  if(typeof g.drawGround==='function')wrap('drawGround',(original,ctx,...args)=>{const result=original(ctx,...args);drawSites(ctx);drawPlan(ctx);return result;});
  if(typeof g.drawBuilding==='function')wrap('drawBuilding',(original,ctx,b,...args)=>{const result=original(ctx,b,...args),brace=engine.state.braces.find(r=>r.id===b.id&&r.hp>0);if(brace){ctx.save();ctx.strokeStyle='#d5b775';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(b.x-20,b.y-12);ctx.lineTo(b.x+20,b.y+12);ctx.moveTo(b.x+20,b.y-12);ctx.lineTo(b.x-20,b.y+12);ctx.stroke();ctx.restore();}return result;});
  if(g.art?.drawBuilding){const prior=g.art.drawBuilding.bind(g.art);g.art.drawBuilding=(ctx,b,world)=>{if(!D.BUILDINGS[b.type])return prior(ctx,b,world);const w=b.def.size[0]*32,h=b.def.size[1]*32;ctx.save();ctx.translate(b.x,b.y);ctx.rotate((b.rotation||0)*Math.PI/2);ctx.fillStyle='rgba(0,0,0,.3)';ctx.fillRect(-w/2+5,-h/2+6,w,h);
@@ -3526,7 +3558,7 @@
    else{ctx.fillStyle='#78806b';ctx.fillRect(-w/2,-h/2,w,h);ctx.fillStyle='#c4be9c';ctx.fillRect(-w/2+10,-h/2+10,w-20,h-20);ctx.strokeStyle='#4e6660';ctx.lineWidth=1;for(let i=0;i<4;i++)ctx.strokeRect(-w/2+16+i*15,-h/2+15,12,h-30);}
    ctx.restore();return true;};}
  if(typeof g.drawThreatArrows==='function')wrap('drawThreatArrows',(original,...args)=>{const result=original(...args),s=engine.state.sites.find(s=>s.id===selectedSite&&s.seen);if(!s||!live(g.player)||distance(g.player,s)<100)return result;const ctx=g.ctx,dx=(s.x-g.camera.x)*g.camera.zoom,dy=(s.y-g.camera.y)*g.camera.zoom,halfW=Math.max(1,g.width/2-70),halfH=Math.max(1,g.height/2-100),scale=Math.min(1,halfW/Math.max(1,Math.abs(dx)),halfH/Math.max(1,Math.abs(dy)));if(scale===1)return result;const x=g.width/2+dx*scale,y=g.height/2+dy*scale;ctx.save();ctx.setTransform(g.dpr||1,0,0,g.dpr||1,0,0);ctx.translate(x,y);ctx.rotate(Math.atan2(dy,dx));ctx.fillStyle='#e1c57d';ctx.beginPath();ctx.moveTo(14,0);ctx.lineTo(-8,-7);ctx.lineTo(-8,7);ctx.closePath();ctx.fill();ctx.rotate(-Math.atan2(dy,dx));ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText('RELEVÉ · '+Math.round(distance(g.player,s)),0,23);ctx.restore();return result;});
- function overview(){reconcile();return {day:day(),phase:g.phase,remaining:g.phaseTime,duration:engine.state.day.duration,sites:engine.state.sites.filter(s=>s.seen).map(s=>({...s,...D.BY_ID[s.id],distance:distance(g.player,s)})),known:engine.state.sites.filter(s=>s.seen).length,total:18,tool,preview:preview?{...preview,quote:planStatus(preview.id,preview.gx,preview.gy)}:null,placing,braces:engine.state.braces.map(b=>({...b,name:g.world.buildings.get(b.id)?.def.name})),night:engine.state.night,stats:{...engine.state.stats},notice,unlocked:D.PLANS.filter(p=>!p.unlock||engine.unlocked(p.unlock)).map(p=>p.id)};}
+ function overview(){reconcile();return {day:day(),phase:g.phase,remaining:g.phaseTime,duration:engine.state.day.duration,sites:engine.state.sites.filter(s=>s.seen).map(s=>({...s,...D.BY_ID[s.id],distance:distance(g.player,s)})),known:engine.state.sites.filter(s=>s.seen).length,total:18,tool,preview:preview?{...preview,quote:planStatus(preview.id,preview.gx,preview.gy)}:null,placing,braces:engine.state.braces.map(b=>({...b,name:g.world.buildings.get(b.id)?.def.name})),night:engine.state.night,stats:{...engine.state.stats},notice,unlocked:plans().filter(p=>!p.unlock||engine.unlocked(p.unlock)).map(p=>p.id)};}
  function recoverForWorker(u,id,dt){
   ensure();const s=engine.state.sites.find(s=>s.id===id),spec=D.BY_ID[id];
   if(!s||!spec||s.survey!==R.surveySeconds||!s.seen||!running()||!day()||!live(u)||u.kind!=='worker'||!g.units.includes(u)||!g.salvage?.snapshot().crews.some(c=>c.id===u.id&&c.site===id&&!c.returning)||!Number.isFinite(u.carry)||!Number.isFinite(dt)||dt<=0||dt>C.Salvage.RULES.maxStep)return 0;
@@ -3534,7 +3566,7 @@
   const n=Math.min(s.remaining,Math.max(0,u.maxCarry-u.carry),dt*C.Salvage.RULES.rate);if(!(n>0))return 0;
   s.remaining=Math.max(0,s.remaining-n);u.carry+=n;u.carryType=spec.resource;engine.state.stats.salvaged+=n;return n;
  }
- g.dayworks=Object.freeze({version:'1.4.0-candidate.1',snapshot:()=>{reconcile();return engine.snapshot();},recoverForWorker,overview,workContext:()=>({tool,placing:Boolean(placing),preview:Boolean(preview)}),setTool,focusSite,beginPlan,anchorPlan,planStatus,commitPlan,cancelPlan:()=>{anchorClick=null;preview=null;placing=null;tell('Projet annulé sans dépense.');},finishDay,open:()=>{g.showCommand?.(true,'field');g.dayworksUI?.open();},drawSites,drawPlan});
+ g.dayworks=Object.freeze({version:'1.4.0-candidate.1',plans,snapshot:()=>{reconcile();return engine.snapshot();},recoverForWorker,overview,workContext:()=>({tool,placing:Boolean(placing),preview:Boolean(preview)}),setTool,focusSite,beginPlan,anchorPlan,planStatus,commitPlan,cancelPlan:()=>{anchorClick=null;preview=null;placing=null;tell('Projet annulé sans dépense.');},finishDay,open:()=>{g.showCommand?.(true,'field');g.dayworksUI?.open();},drawSites,drawPlan});
  const canvas=g.canvas||g.ctx?.canvas;
  const doc=canvas?.ownerDocument||root.document;
  if(doc){
@@ -3578,7 +3610,7 @@
   const finish=button('PRÉPARER LE CRÉPUSCULE',()=>{const r=g.dayworks.finishDay();text(status,r.reason);confirm.classList.toggle('hidden',!r.confirm);},'dayworksFinish');
   const confirm=button('CONFIRMER · METTRE FIN AU CALME',()=>{const r=g.dayworks.finishDay(true);text(status,r.reason||'Crépuscule engagé. Fermez le commandement pour reprendre.');confirm.classList.add('hidden');refresh();},'dayworksFinishConfirm');confirm.className='hidden dw14-confirm';schedule.append(finish,confirm);
   const project=el('article',undefined,'dw14-box dw14-wide');project.append(el('small','BUREAU DE CHANTIER'),el('h3','Préparer une nouvelle ligne'),el('p','L’aperçu ne prélève rien. La validation contrôle chaque cellule, tous les coûts et les prérequis avant de financer les chantiers. Les enceintes ne sont jamais construites d’un clic.'));
-  const plans=el('div',undefined,'dw14-plans'),planButtons=new Map();for(const p of D.PLANS){const card=el('div',undefined,'dw14-plan');card.append(el('small',p.w+' × '+p.h+' CELLULES'),el('strong',p.name),el('p',p.description));const b=button('PLACER UN APERÇU',()=>g.dayworks.beginPlan(p.id),'plan-'+p.id);card.appendChild(b);plans.appendChild(card);planButtons.set(p.id,b);}project.appendChild(plans);
+  const plans=el('div',undefined,'dw14-plans'),planButtons=new Map(),planViews=new Map();for(const p of D.PLANS){const card=el('div',undefined,'dw14-plan'),size=el('small'),description=el('p');card.append(size,el('strong',p.name),description);const b=button('PLACER UN APERÇU',()=>g.dayworks.beginPlan(p.id),'plan-'+p.id);card.appendChild(b);plans.appendChild(card);planButtons.set(p.id,b);planViews.set(p.id,{size,description});}project.appendChild(plans);
   const preview=el('div',undefined,'dw14-preview hidden'),previewText=el('p'),buy=button('FINANCER TOUS LES CHANTIERS',()=>g.dayworks.commitPlan(),'dayworksCommit'),cancel=button('ANNULER L’APERÇU',()=>g.dayworks.cancelPlan(),'dayworksCancel');preview.append(previewText,buy,cancel);project.appendChild(preview);grid.appendChild(project);
   const briefing=el('details',undefined,'dw14-wide');briefing.append(el('summary','Ce que les quatre bâtiments ajoutent à la journée'),el('p','Bureau de chantier : ensembles à financer. Halte : soins lents sur place contre nourriture, et récupération d’endurance hors danger. Serre : production au calme, arrêt à l’alerte et la nuit. Aire de préfabrication : +25 % sur le travail manuel ou ouvrier des chantiers proches, contre ferraille et carburant ; aucun bonus sur la progression passive. La serre et l’aire demandent leurs relevés de terrain.'));grid.appendChild(briefing);
   const night=el('article',undefined,'dw14-box dw14-wide');night.append(el('small','TENIR APRÈS LE CRÉPUSCULE'),el('h3','Étais et échelons nocturnes'));const nightText=el('p'),braceList=el('div');night.append(nightText,el('p','Une porte étayée pendant le jour absorbe 20 % des coups d’infectés, jusqu’à 120 dégâts pour cette nuit. Huit secondes de travail et 12 bois + 8 ferraille sont requis. Ni les incendies ni les explosions ne sont absorbés. Les étais expirent à la prochaine aube.'),braceList);grid.appendChild(night);
@@ -3590,9 +3622,10 @@
   function refresh(){const v=g.dayworks.overview(),playing=g.state==='playing'&&!g.gameOver,can=g.canIssueCommand();hud.classList.toggle('hidden',!playing);
    text(hudTitle,v.day?'JOUR · '+C.formatTime(v.remaining):v.phase==='warning'?'CRÉPUSCULE':'NUIT · TENIR LES LIGNES');text(hudInfo,v.known+'/18 traces · '+v.braces.filter(b=>b.hp>0).length+' portes étayées');
    if(panel.classList.contains('hidden'))return;panel.dataset.night=String(!v.day);text(title,v.day?'Bâtir avant la nuit':'Tenir jusqu’à l’aube');text(timer,v.day?C.formatTime(v.remaining):'—');text(found,v.known+'/18');fill.style.width=(v.day?clamp(v.remaining/Math.max(1,v.duration)*100):0)+'%';text(status,v.notice||'Le calme ne dure pas indéfiniment. Ramenez les équipes avant le soir.');
+   const currentPlans=g.dayworks.plans();for(const p of currentPlans){const view=planViews.get(p.id);text(view.size,p.w+' × '+p.h+(p.geometryVersion202?' MÈTRES':' CELLULES'));text(view.description,p.description);}
    survey.disabled=brace.disabled=stow.disabled=!playing||g.player.dead;survey.setAttribute('aria-pressed',String(v.tool==='survey'));brace.setAttribute('aria-pressed',String(v.tool==='brace'));text(toolNotice,v.tool==='survey'?'CARNET : ACTION / E relève et récupère sur place.':v.tool==='brace'?'ÉTAIS : sélectionnez une porte achevée, rejoignez sa face accessible et maintenez ACTION.':'Les armes et actions habituelles sont disponibles.');finish.disabled=!can||!v.day;confirm.disabled=!can||!v.day;
    for(const [id,b]of planButtons){b.disabled=!can||!v.day||!v.unlocked.includes(id);text(b,v.unlocked.includes(id)?'PLACER UN APERÇU':'CROQUIS À DÉCOUVRIR');}
-   preview.classList.toggle('hidden',!v.preview);if(v.preview){const q=v.preview.quote;text(previewText,D.PLANS.find(p=>p.id===v.preview.id).name+' · '+(q.items?.length||0)+' chantiers · '+C.resourceText(q.cost)+(q.ok?' — prêt à financer.':' — '+q.reason));buy.disabled=!q.ok||!can;cancel.disabled=!can;}
+   preview.classList.toggle('hidden',!v.preview);if(v.preview){const q=v.preview.quote;text(previewText,currentPlans.find(p=>p.id===v.preview.id).name+' · '+(q.items?.length||0)+' chantiers · '+C.resourceText(q.cost)+(q.ok?' — prêt à financer.':' — '+q.reason));buy.disabled=!q.ok||!can;cancel.disabled=!can;}
    const n=v.night;text(nightText,n?'Échelon '+Math.min(3,Math.floor(n.emitted*3/n.total)+1)+'/3 · '+n.emitted+'/'+n.total+' arrivées. Les infectés déjà présents restent actifs pendant les six secondes entre échelons.':'À partir de la vague 4, les arrivées se distribuent en trois échelons utilisant les fronts annoncés. Six secondes séparent leurs départs ; le total, les points de vie et le plafond des hordes restent inchangés.');
    const bk=JSON.stringify(v.braces.map(b=>[b.id,Math.ceil(b.hp),Math.ceil(b.work)]));if(bk!==bracesKey){bracesKey=bk;braceList.replaceChildren();for(const b of v.braces){const r=el('div',undefined,'dw14-row');r.append(el('strong',b.name+' #'+b.id),el('span',b.work<8?'Montage '+b.work.toFixed(1)+'/8 s':Math.ceil(b.hp)+'/120 absorption'));braceList.appendChild(r);}}
    const key=v.sites.map(s=>s.id).join(',');if(key!==members){members=key;sites.replaceChildren();siteRows.clear();if(!v.sites.length)sites.appendChild(el('p','Aucun lieu repéré. Explorez les abords des quartiers ; aucun déplacement instantané n’est proposé.'));
@@ -3849,7 +3882,32 @@
   function blocked(x,y){
     const b=typeof g.world.atCell==='function'?g.world.atCell(x,y):buildings().find(b=>x>=b.gx&&y>=b.gy&&x<b.gx+b.w&&y<b.gy+b.h);
     if(live(b)&&!b.def.gate)return true;
-    return(g.world.nodes||[]).some(n=>!n.depleted&&n.amount>0&&n.x+(n.radius||0)>x*32&&n.x-(n.radius||0)<(x+1)*32&&n.y+(n.radius||0)>y*32&&n.y-(n.radius||0)<(y+1)*32);
+    if((g.world.nodes||[]).some(n=>!n.depleted&&n.amount>0&&n.x+(n.radius||0)>x*32&&n.x-(n.radius||0)<(x+1)*32&&n.y+(n.radius||0)>y*32&&n.y-(n.radius||0)<(y+1)*32))return true;
+    // Existing funded cells keep their former work/renovation rights. The new
+    // symmetric reservations only reject an unfunded road under an owner.
+    if(engine.road(x,y))return false;
+    const content=root.DeadwallExploration125||(typeof require==='function'?require('./exploration-125.js'):null),area={x:x*C.TILE,y:y*C.TILE,w:C.TILE,h:C.TILE},plan=g.exploration125?.plan;
+    if(plan&&plan.seed===g.world.seed&&content?.obstacleFootprint202?.(plan,area))return true;
+    if(g.world.cityGeometry202===1&&content?.projectedBuildingBounds202){
+      const allowed=C.CityRoadRules202.allowedProperties;
+      if(buildings().some(owner=>live(owner)&&!allowed.some(key=>Boolean(owner.def[key]))&&content.rectsOverlap(area,content.projectedBuildingBounds202(owner.def,owner.gx,owner.gy,owner.rotation))))return true;
+      if((g.world.nodes||[]).some(node=>{
+        if(node.depleted||node.amount<=0||node.metric202!==1||!node.body202)return false;
+        const box=g.fieldcraft?.reserveRect?.(node);return box&&content.rectsOverlap(area,{x:box.l,y:box.t,w:box.r-box.l,h:box.b-box.t});
+      }))return true;
+    }
+    return false;
+  }
+  function roadFootprint202(footprint,clearance=0){
+    if(!footprint||!['x','y','w','h'].every(k=>Number.isFinite(footprint[k]))||footprint.w<=0||footprint.h<=0||!Number.isFinite(clearance)||clearance<0)throw Error('Emprise de voirie invalide.');
+    if(worldRef!==g.world)return false;
+    // A pure indexed read includes paid unfinished cells. Planning an ordinary
+    // building cannot erase a funded route or reconcile worker assignments.
+    const tile=C.TILE,left=footprint.x-clearance,top=footprint.y-clearance,right=footprint.x+footprint.w+clearance,bottom=footprint.y+footprint.h+clearance;
+    for(let y=Math.max(0,Math.floor(top/tile));y<=Math.min(C.WORLD_TILES-1,Math.floor(bottom/tile));y++)for(let x=Math.max(0,Math.floor(left/tile));x<=Math.min(C.WORLD_TILES-1,Math.floor(right/tile));x++){
+      if(x*tile<right&&(x+1)*tile>left&&y*tile<bottom&&(y+1)*tile>top&&engine.road(x,y))return true;
+    }
+    return false;
   }
   function clearOtherTools(){const t=g.dayworks?.overview()?.tool;if(t&&t!=='none')g.dayworks.setTool(t);if(g.siege?.toolActive())g.siege.toggleTool();g.releaseInputs?.();if(g.player)g.player.reload=0;}
   function available(){return g.canIssueCommand()&&live(g.player)&&g.phase==='calm';}
@@ -3907,7 +3965,7 @@
     else if(engine.work(p.x,p.y,dt*R.workerWork))changed();return true;
   }
   function changed(){g.world.navigationVersion=(g.world.navigationVersion||0)+1;g.audio?.build();}
-  function reconstructionStatus(id){ensure();const r=engine.state.ruins.find(b=>b.id===id),def=r&&C.BUILDINGS[r.type];
+  function reconstructionStatus(id){ensure();const r=engine.state.ruins.find(b=>b.id===id),def=r&&(g.world.definition?.(r.type)||C.BUILDINGS[r.type]);
     if(!r||!def||r.type==='core')return{ok:false,reason:'Empreinte absente.'};
     const cost={...def.cost},refuse=reason=>({ok:false,cost,reason});
     if(!g.canIssueCommand()||!live(g.player))return refuse('Reprenez la campagne avec un commandant debout.');
@@ -3971,7 +4029,7 @@
   }
   function drawGuide(ctx){if(preview){ctx.save();for(const p of preview){ctx.fillStyle=blocked(p.x,p.y)?'rgba(214,96,73,.45)':'rgba(145,202,143,.28)';ctx.fillRect(p.x*32+1,p.y*32+1,30,30);}ctx.restore();}
     if(anchor){ctx.save();ctx.strokeStyle='#d2c78c';ctx.lineWidth=2;ctx.strokeRect(anchor.x*32,anchor.y*32,32,32);ctx.restore();}
-    const r=engine.state.ruins.find(r=>r.id===marked);if(!r)return;const d=C.BUILDINGS[r.type],w=(r.rotation%2?d.size[1]:d.size[0])*32,h=(r.rotation%2?d.size[0]:d.size[1])*32;
+    const r=engine.state.ruins.find(r=>r.id===marked);if(!r)return;const d=g.world.definition?.(r.type)||C.BUILDINGS[r.type],w=(r.rotation%2?d.size[1]:d.size[0])*32,h=(r.rotation%2?d.size[0]:d.size[1])*32;
     ctx.save();ctx.strokeStyle='#e6b28a';ctx.setLineDash([7,5]);ctx.lineWidth=2;ctx.strokeRect(r.gx*32,r.gy*32,w,h);ctx.setLineDash([]);ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillStyle='#f0c398';ctx.fillText('À RECONSTRUIRE · '+d.name,r.gx*32+w/2,r.gy*32-12);ctx.restore();
   }
   function overview(){reconcile();return{phase:g.phase,notice,tool,selectedSurface,roadMode,surfaces:Object.values(D.SURFACES).map(s=>({...s,status:D.surfaceStatus(s.id,g.tier.id,type=>g.world.has(type))})),preview:preview?D.quote(engine.state,preview,g.resources,blocked,roadOptions()):null,rebuildPreview:rebuildPreview?{...rebuildPreview.quote,check:reconstructionStatus(rebuildPreview.id)}:null,
@@ -4019,7 +4077,7 @@
     g.canvas.addEventListener('mousedown',e=>{if(tool==='trace'||preview){e.preventDefault();e.stopImmediatePropagation();}},true);
     g.canvas.addEventListener('contextmenu',e=>{if(tool==='trace'||preview){e.preventDefault();e.stopImmediatePropagation();cancel();}},true);
   }
-  g.infrastructure=Object.freeze({version:D.VERSION,snapshot:()=>{reconcile();return engine.snapshot();},overview,chooseSurface,beginTrace,plan,commit,cancel,equip,isAssigned,assign,recall,updateAssignedUnit,
+  g.infrastructure=Object.freeze({version:D.VERSION,snapshot:()=>{reconcile();return engine.snapshot();},overview,chooseSurface,beginTrace,plan,commit,cancel,equip,isAssigned,assign,recall,updateAssignedUnit,roadFootprint202,
     speed:(x,y,kind)=>{ensure();const boost=engine.multiplier(x,y,kind);if(boost===1)return 1;const gx=Math.floor(x/32),gy=Math.floor(y/32),b=g.world.atCell?.(gx,gy);return live(b)&&!b.def.gate?1:boost;},
     findPath,reconstructionStatus,rebuild,confirmRebuild,cancelRebuild,forget,mark,removeRoad,drawRoads,drawGuide,toolActive:activeTool,
     open:()=>{g.showCommand?.(true,'field');g.infrastructureUI?.open();}});
@@ -4055,7 +4113,7 @@
   const coords=el('div',undefined,'infra16-coords'),inputs={};for(const [id,label,n]of [['x1','Départ X',65],['y1','Départ Y',58],['x2','Arrivée X',74],['y2','Arrivée Y',58]]){const box=el('div'),l=el('label',label),input=el('input');input.type='number';input.min=1;input.max=126;input.step=1;input.value=n;input.id='infra-'+id;l.htmlFor=input.id;box.append(l,input);coords.appendChild(box);inputs[id]=input;input.addEventListener('input',()=>{if(g.infrastructure.overview().preview)g.infrastructure.cancel();if(pending?.type==='road'){pending=null;review.classList.add('hidden');}});}instructions.appendChild(coords);
   const actions=el('div',undefined,'infra16-actions'),preview=button('PRÉVISUALISER','infraPreview',()=>{for(const input of Object.values(inputs))if(!input.reportValidity())return;g.infrastructure.plan({x:Number(inputs.x1.value),y:Number(inputs.y1.value)},{x:Number(inputs.x2.value),y:Number(inputs.y2.value)});}),draw=button('TRACER AU SOL','infraTrace',()=>g.infrastructure.beginTrace()),equip=button('OUTILS DE VOIRIE','infraEquip',()=>g.infrastructure.equip());actions.append(preview,draw,equip);instructions.appendChild(actions);
   const quoteBox=el('div',undefined,'infra16-preview hidden'),quoteText=el('p'),confirm=button('FINANCER LES TRAVAUX','infraCommit',()=>g.infrastructure.commit()),cancel=button('ANNULER L’APERÇU','infraCancel',()=>g.infrastructure.cancel());quoteBox.append(quoteText,confirm,cancel);instructions.appendChild(quoteBox);
-  instructions.append(el('p','Améliorer paie uniquement la différence de matériaux et de travail entre les deux revêtements. L’ancien bonus reste actif pendant la rénovation ; le nouveau arrive à l’achèvement.'),el('p','Les infectés profitent eux aussi des voies rapides. Le revêtement ne remplace pas les remparts. Les bâtiments qui le recouvrent neutralisent son bonus ; une porte peut le traverser. Aucune ressource naturelle ni surface régionale n’est changée.','infra16-note'));
+  instructions.append(el('p','Améliorer paie uniquement la différence de matériaux et de travail entre les deux revêtements. L’ancien bonus reste actif pendant la rénovation ; le nouveau arrive à l’achèvement.'),el('p','Les infectés profitent eux aussi des voies rapides. Le revêtement ne remplace pas les remparts. Les constructions ordinaires gardent libres les chaussées et les voies financées ; portes, murs et pièges peuvent les traverser.','infra16-note'));
   const mapBox=el('article',undefined,'infra16-card'),map=el('canvas');map.id='infraMap';map.width=512;map.height=512;map.className='infra16-map';map.setAttribute('role','img');map.setAttribute('aria-label','Carte schématique des structures, pistes financées, emplacements détruits et du commandant.');mapBox.append(el('h3','Le réseau et ses coupures'),map,el('p','Gris : voies achevées, selon leur revêtement. Ocre : nouvelle trace en travaux ; orange : rénovation. Rouge : emplacements perdus. Clair : structures. Bleu : commandant. Cette carte ne valide pas une enceinte fermée.'));
   roadGrid.append(instructions,mapBox);sections.roads.appendChild(roadGrid);
   const crews=el('article',undefined,'infra16-card'),crewRows=el('div'),crewNote=el('p'),assign=button('DÉTACHER UN OUVRIER','infraAssign',()=>g.infrastructure.assign());crews.append(el('h3','Une équipe de voirie, pas des ouvriers gratuits'),el('p','L’atelier alimenté accueille deux ouvriers existants, jusqu’à huit au total. Ils déposent leur sac, rejoignent les cellules financées et travaillent sur place. Les équipes de secours et des quartiers ne sont pas détournées.'),crewNote,assign,crewRows);sections.roads.appendChild(crews);
@@ -4135,4 +4193,44 @@
 /* Browser installation follows the physical exploration and lighting extensions. */
 (function installVisibility146Host(root){
  if(typeof module!=='undefined'&&module.exports)require('./visibility146.js').install(root.DEADWALL);
+})(globalThis);
+
+/* A campaign is persisted only after every synchronous initializer has returned. */
+(function installCampaignStart202Host(root){
+ 'use strict';const installed=new WeakSet(),starting=new WeakSet();
+ function install(game){
+  if(!game||installed.has(game)||typeof game.startNew!=='function'||typeof game.save!=='function')return false;
+  const descriptor=Object.getOwnPropertyDescriptor(game,'startNew');if(descriptor?.configurable===false)return false;
+  let depth=0,failed=false,blockedWorld=null;
+  const save=game.save;
+  game.save=function saveAfterCampaignStart202(...args){
+   if(depth>0)return false;
+   if(game.world===blockedWorld){if(args[0])game.notify?.(game.lastSaveStatus.message,'danger');return false;}
+   return save.apply(game,args);
+  };
+  const decorate=start=>function startCampaignTransaction202(...args){
+   const outer=depth===0,previousWorld=game.world;if(outer){failed=false;starting.add(game);}depth++;
+   let result,completed=false;
+   try{result=start.apply(game,args);completed=true;if(result===false)failed=true;return result;}
+   catch(error){failed=true;throw error;}
+   finally{
+    depth--;if(outer)starting.delete(game);
+    if(outer&&game.world!==previousWorld){
+     if(completed&&!failed&&result!==false&&game.state==='playing'){
+      blockedWorld=null;game.save(false);
+     }else{
+      // The following RAF autosave must not replace the old campaign either.
+      blockedWorld=game.world;game.lastSaveStatus={ok:false,code:'campaign-start-failed',time:Date.now(),message:'Initialisation interrompue. La dernière sauvegarde est conservée ; reprenez-la ou lancez une nouvelle partie.'};
+     }
+    }
+   }
+  };
+  let current=decorate(game.startNew);
+  // Later DOM-ready UI installers also wrap startNew. Keep their final wrapper
+  // inside the same transaction, without timers or an alternative save owner.
+  Object.defineProperty(game,'startNew',{configurable:descriptor?.configurable??true,enumerable:descriptor?.enumerable??true,get:()=>current,set:value=>{current=typeof value==='function'?decorate(value):value;}});
+  installed.add(game);return true;
+ }
+ root.DeadwallCampaignStart202=Object.freeze({install,isStarting:game=>starting.has(game)});
+ if(root.document?.readyState==='loading')root.document.addEventListener('DOMContentLoaded',()=>install(root.DEADWALL),{once:true});else if(root.document)install(root.DEADWALL);
 })(globalThis);
