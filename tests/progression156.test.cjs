@@ -88,7 +88,8 @@ test('156 clinique : les unités gardent leur débit, les médicaments partagés
 });
 
 test('156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région',()=>{
- const {g,clinic}=fresh(),core=g.core(),hospital=new(core.constructor)(g.nextId++,'hospital',core.gx+5,core.gy+4,0,1);
+ const {g,clinic}=fresh(),core=g.core(),hospital=new(core.constructor)(g.nextId++,'hospital',core.gx+4,core.gy+4,0,1);
+ // The prepared hospital stays west of the protected road; its native placement is checked below.
  // Prepared old hospital and a prepared real regional pose isolate presence;
  // they do not claim construction, travel, earned age or a human playthrough.
  assert.equal(g.world.placement(hospital.def,hospital.gx,hospital.gy).valid,true);g.world.add(hospital);g.refreshMetrics(true);

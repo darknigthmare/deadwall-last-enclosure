@@ -30,11 +30,11 @@ test('campaign identity: every initial autosave uses one ID, and replaying the s
   try { click(g.ui.newGameButton); }
   finally { store.setItem = setItem; }
   const first = g.runId;
-  assert.ok(writes.length > 1, 'The integrated campaign has multiple initialization saves');
+  assert.equal(writes.length, 1, 'The integrated campaign persists once after every initializer has completed');
   assert.deepEqual([...new Set(writes)], [first], 'World activation must not rename a campaign after its first autosave');
   assert.deepEqual(archiveIds(g), [first]);
   assert.equal(g.profile.get().summary.retainedRuns, 1);
-  assert.equal(g.exploration125.generation, 4); assert.equal(g.exploration125.layoutRevision, 3);
+  assert.equal(g.exploration125.generation, 4); assert.equal(g.exploration125.layoutRevision, 4);
   assert.equal(g.frontier.position().generation, 10); assert.equal(g.frontier.position().detailVersion, 13); assert.equal(g.frontier.position().ecologyVersion, 1);
   click(g.campaignIntro132.element.querySelector('#campaignIntro132Skip'));
   for (let i = 0; i < 3; i++) assert.equal(g.save(false), true);

@@ -21,7 +21,8 @@ if(scenario==='harvest'){
  assert.ok(g.player.reload>0);assert.deepEqual(after,before,'E ne contourne pas le verrou du dépôt pendant la recharge.');finishReload();const total=C.bagTotal(g.player.carry);action();assert.equal(g.player.carry.wood,0);assert.equal(g.resources.wood,before.stock+3.125);assert.equal(g.depositedResources,before.deposited+total);persist();
 }else if(scenario==='build'){
  const core=g.core();let b;
- for(let r=10;r<22&&!b;r++)for(const[dx,dy]of[[r,0],[-r,0],[0,r],[0,-r]]){const gx=core.gx+dx,gy=core.gy+dy;if(!g.world.placement(C.BUILDINGS.house,gx,gy,0).valid)continue;const placed=new(core.constructor)(g.nextId++,'house',gx,gy,0,.2);g.world.add(placed);if(g.fieldcraft.service(g.player,placed)){b=placed;break;}g.world.remove(placed);}
+ // Main 1.69 protects the four axial roads; also search off-road corners.
+ for(let r=10;r<22&&!b;r++)for(const[dx,dy]of[[r,0],[-r,0],[0,r],[0,-r],[r,r],[r,-r],[-r,r],[-r,-r]]){const gx=core.gx+dx,gy=core.gy+dy;if(!g.world.placement(C.BUILDINGS.house,gx,gy,0).valid)continue;const placed=new(core.constructor)(g.nextId++,'house',gx,gy,0,.2);g.world.add(placed);if(g.fieldcraft.service(g.player,placed)){b=placed;break;}g.world.remove(placed);}
  assert.ok(b);standAt(g,g.player,b);reload();before={progress:b.progress,health:b.health};action();after={progress:b.progress,health:b.health};
  assert.ok(g.player.reload>0);assert.deepEqual(after,before,'Le chantier manuel attend ; les ouvriers ne sont pas simulés dans ce pas joueur.');finishReload();action();assert.ok(b.progress>before.progress);const id=b.id,progress=b.progress;persist();assert.equal(g.world.buildings.get(id).progress,progress);
 }else if(scenario==='expedition'){

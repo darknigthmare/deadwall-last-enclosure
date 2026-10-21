@@ -11,7 +11,12 @@ export function defenseCampFixture() {
         if (Math.max(Math.abs(dx), Math.abs(dy)) !== ring) continue;
         const gx = g.core().gx + dx, gy = g.core().gy + dy;
         if (!g.world.placement(C.BUILDINGS[type], gx, gy, 0).valid) continue;
-        const b = new Building(g.nextId, type, gx, gy, 0, 1); g.world.add(b);
+        const b = new Building(g.nextId, type, gx, gy, 0, 1, g.world.cityGeometry202);
+        // Direct fixture insertion also clears the native six-unit node margin.
+        // Keep every deposit intact, including sites that pass placement's narrower margin.
+        if (g.world.nodes.some(n => !n.depleted && n.x + n.radius > b.left - 6 && n.x - n.radius < b.right + 6
+          && n.y + n.radius > b.top - 6 && n.y - n.radius < b.bottom + 6)) continue;
+        g.world.add(b);
         const point = g.fieldcraft.service(g.player, b);
         if (point && g.friendlyPositionClear(g.player, point.x, point.y)) found = b;
         else g.world.remove(b);
