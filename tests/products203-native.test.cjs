@@ -33,3 +33,20 @@ test('203 native import refuses a second large load before replacing the live ca
  const nonRegional=clone(s);nonRegional.frontier.active=false;
  assert.throws(()=>DeadwallSave.validate(nonRegional),/Registre des enclos/);assert.equal(g.world,world);
 });
+
+test('203 native movement applies the loaded walking penalty and prevents sprint without consuming sprint stamina',()=>{
+ const {g,pen}=produced();g.frontier.quiet(false);
+ assert.equal(g.husbandry191.begin('pack-meat',pen.id).ok,true);H.finish(g);const loaded=g.serialize();
+ function travel(held,sprint){
+  const saved=clone(loaded);
+  if(!held){saved.expansions127.modules.husbandry191.cargo203.stage='ground';saved.expansions127.modules.husbandry191.cargo203.point={x:saved.frontier.x,y:saved.frontier.y};}
+  assert.equal(g.restoreSave(saved),true);g.paused=false;g.activeOverlay=null;g.input.keys.clear();g.input.pressed.clear();
+  const from=g.frontier.position(),stamina=g.player.stamina;g.input.keys.add('KeyD');if(sprint)g.input.keys.add('ShiftLeft');
+  g.updatePlayer(.1);g.input.keys.clear();const to=g.frontier.position();
+  return{distance:Math.hypot(to.x-from.x,to.y-from.y),stamina:g.player.stamina-stamina};
+ }
+ const empty=travel(false,false),walk=travel(true,false),shift=travel(true,true);
+ assert.ok(empty.distance>0,'the generated checkpoint admits a real movement');
+ assert.ok(Math.abs(walk.distance-empty.distance*.72)<1e-7);
+ assert.ok(Math.abs(shift.distance-walk.distance)<1e-7);assert.ok(shift.stamina>=0);
+});

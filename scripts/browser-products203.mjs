@@ -1,6 +1,7 @@
 import path from 'node:path';
 import {createHarness,recorder,ready,chooseCampaign} from './browser-qa-common142.mjs';
 import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
+import {prepareProductsTool203} from './products203-fixtures.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
 const h=await createHarness('products203','Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
@@ -16,6 +17,8 @@ try{
    await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);
    // Allow the already queued frame to finish; no re-scheduling after this boundary.
    await page.evaluate(()=>{window.requestAnimationFrame=()=>0;});await page.waitForTimeout(150);
+   profile.toolPreparation=await page.evaluate(prepareProductsTool203);
+   r.check('A real paid knife is carried and equipped before regional preparation',profile.toolPreparation.crafted&&profile.toolPreparation.condition>0);
    const fixture=await page.evaluate(()=>{
     const g=DEADWALL,C=DeadwallCore,P=DeadwallBiomePopulation165,w=g.frontier.world(),R=C.Husbandry191Rules;let chosen=null;
     for(let cy=0;cy<96&&!chosen;cy++)for(let cx=0;cx<96&&!chosen;cx++)for(let i=0;i<8&&!chosen;i++){
@@ -37,7 +40,10 @@ try{
    async function action(kind,id=null,target=null){
     await page.evaluate(()=>DEADWALL.expansionUI.open('husbandry191'));
     const selector='[id="expansionAction-husbandry191-'+kind+':'+id+':'+target+'"]',button=page.locator(selector);
-    await button.scrollIntoViewIfNeeded();r.check(kind+' is reachable and enabled',await button.isVisible()&&await button.isEnabled());
+    await button.scrollIntoViewIfNeeded();
+    const enabled=await button.isVisible()&&await button.isEnabled();
+    if(!enabled){profile.refusedAction=await page.evaluate(({kind,id,target})=>({kind,id,target,quote:DEADWALL.husbandry191.quote(kind,id,target),equipment:DEADWALL.arsenal134.snapshot(),task:DEADWALL.husbandry191.view().task}),{kind,id,target});await r.screenshot(kind+'-refused');}
+    r.check(kind+' is reachable and enabled',enabled);
     await r.screenshot(kind+'-offer');await activate(page,selector,viewport.touch);
     // Real input chose the action. Explicit deterministic production-controller time follows.
     await page.evaluate(()=>{
@@ -81,6 +87,15 @@ try{
    // This is a declared travel checkpoint, not a claim of a naturally walked expedition.
    await checkpoint({x:second.x,y:second.y+2.2});
    const incoming=await page.evaluate(()=>DEADWALL.husbandry191.view().cargo203);
+   // Start a real unload, then put down the load from the still-active dossier.
+   // No controller time is advanced before the interruption, so nothing may be delivered.
+   await page.evaluate(()=>DEADWALL.expansionUI.open('husbandry191'));
+   const unload='[id="expansionAction-husbandry191-unpack-products:'+second.id+':null"]';
+   await page.locator(unload).scrollIntoViewIfNeeded();await activate(page,unload,viewport.touch);
+   r.check('Native unload starts before emergency release',await page.evaluate(()=>DEADWALL.husbandry191.view().task?.kind==='unpack-products'));
+   await action('drop-products');
+   r.check('Emergency release cancels delivery without crediting either site',await page.evaluate(amount=>{const h=DEADWALL.husbandry191,s=h.view();return !h.busy()&&s.cargo203.stage==='ground'&&s.cargo203.amount===amount&&s.pens[1].meat===0;},incoming.amount));
+   await action('pickup-products');
    await action('unpack-products',second.id);
    const delivered=await page.evaluate(()=>({state:DEADWALL.husbandry191.view(),bag:{...DEADWALL.player.carry},depot:{...DEADWALL.resources}}));
    r.check('Delivery credits only the second site and clears the empty parcel',delivered.state.pens[1].meat===parcel.amount&&delivered.state.cargo203===undefined);
