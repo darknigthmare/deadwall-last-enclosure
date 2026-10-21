@@ -1,0 +1,31 @@
+name: PR15 source review receipt
+on:
+  push:
+    branches: [codex/pr15-review-20261021]
+    paths: [.github/workflows/pr15-source-review.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 0e4c83da1adcd5e7dd0ad074c85798620a20edb3
+          persist-credentials: false
+      - name: Archive immutable tracked sources and identities
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pr15-source
+          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/pr15-source/sources.tar.gz
+          git archive --format=tar HEAD -- 'assets/*.json' 'assets/**/*.json' | gzip > /tmp/pr15-source/asset-metadata.tar.gz
+          git ls-tree -r -z HEAD > /tmp/pr15-source/tree.bin
+          git rev-parse HEAD > /tmp/pr15-source/commit.txt
+          sha256sum /tmp/pr15-source/*.tar.gz > /tmp/pr15-source/sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr15-source-0e4c83d
+          path: /tmp/pr15-source/
+          retention-days: 7
+          if-no-files-found: error
