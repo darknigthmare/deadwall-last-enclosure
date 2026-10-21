@@ -23,7 +23,7 @@ Le rapport [inspection-20261021.json](inspection-20261021.json) contient une pre
 ## Utilisation dans le jeu
 
 1. Démarrer la version web avec `npm start`, puis ouvrir son adresse avec `?tools=1`. Le mode auteur est nécessaire ; les menus de l’entrée joueur normale restent inchangés.
-2. Ouvrir Commandement → Terrain → Atlas & Guide, puis « CODEX MONDIAL — INSPECTER LES NOUVEAUX PLANS ».
+2. Ouvrir Commandement → Opérations → Atlas & Guide, puis « CODEX MONDIAL — INSPECTER LES NOUVEAUX PLANS ».
 3. Choisir un lieu et une variante. Les 80 cibles sont affichées ; huit disposent de 50 plans. Les 72 autres indiquent qu’aucun plan n’a été produit.
 4. Utiliser le plan général pour examiner les étages. La vue de déplacement suit le piéton. Les flèches, ZQSD ou WASD déplacent le gabarit ; les boutons offrent les mêmes déplacements sur écran tactile.
 5. À proximité d’un palier, utiliser le bouton de passage ou la touche E. Sélectionner un étage à observer ne déplace pas le piéton.
