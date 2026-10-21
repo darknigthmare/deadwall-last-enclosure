@@ -1,10 +1,10 @@
-name: Verify PR15 correction objects
+name: Merged 1.69 exact source receipt
 on:
   push:
     branches: [codex/pr15-review-20261021]
     paths: [.github/workflows/pr15-source-review.yml]
 permissions:
-  contents: write
+  contents: read
 jobs:
   source:
     runs-on: ubuntu-latest
@@ -12,61 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 0e4c83da1adcd5e7dd0ad074c85798620a20edb3
+          ref: 74a62084e96dd7e78463bd4e15b9ec2897887704
           persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-      - name: Validate immutable inputs and store unreferenced blobs only
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Archive exact tracked source and metadata
         run: |
-          python3 - <<'PY'
-          import base64,hashlib,json,os,pathlib,subprocess,urllib.request,zlib
-          assert os.environ['GITHUB_REPOSITORY']=='darknigthmare/deadwall-last-enclosure'
-          assert os.environ['GITHUB_REF']=='refs/heads/codex/pr15-review-20261021'
-          assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()=='0e4c83da1adcd5e7dd0ad074c85798620a20edb3'
-          def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
-          def api(path,data=None):
-              headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
-              body=None if data is None else json.dumps(data).encode()
-              if body is not None:headers['Content-Type']='application/json'
-              req=urllib.request.Request('https://api.github.com/repos/darknigthmare/deadwall-last-enclosure'+path,data=body,headers=headers,method='GET' if body is None else 'POST')
-              with urllib.request.urlopen(req,timeout=45) as response:return json.load(response)
-          parts=[]
-          for sha in ['3b004ccd37144c57844ca488286410715454b09c','9bb385b0210ed33de88035e4f7044662417ea163','64872c2afd5920f0de769ce16eb7ed0449953a4e','8442fde49cb2f1ab59c6e0a33e41c960f72002dc','0aa0b988bc0b72388bf5e7ecd3004ce978a3af01','7047718242d92ac8df483263f68220455d5adc2b','69719a9cba62d6fff07208e870a409f3dbca7fed']:
-              row=api('/git/blobs/'+sha);assert row['encoding']=='base64'
-              data=base64.b64decode(row['content']);assert blob(data)==sha;parts.append(data)
-          encoded=b''.join(parts);assert len(encoded)==13520
-          raw=zlib.decompress(base64.b64decode(encoded,validate=True))
-          assert hashlib.sha256(raw).hexdigest()=='fa56d6bbeedeff2e9647f0694cc87cd9a2bddac049f45f70d57dcebe7022121b'
-          rows=json.loads(raw)
-          allowed={'.github/workflows/products203.yml','docs/PRODUCT_TRANSPORT_203_REVIEW.md','scripts/browser-products203.mjs','scripts/products203-fixtures.mjs','src/husbandry191.js','tests/products203-emergency.test.cjs','tests/products203-native.test.cjs','tests/products203-qa.test.cjs'}
-          assert len(rows)==len(allowed) and {row['path'] for row in rows}==allowed
-          elements=[]
-          for row in rows:
-              p=pathlib.Path(row['path']);assert not p.is_symlink()
-              if row['before'] is None:assert not p.exists();old=b''
-              else:old=p.read_bytes();assert blob(old)==row['before']
-              data=old;last=len(old)+1
-              for start,end,replacement in reversed(row['edits']):
-                  assert 0<=start<=end<=len(old) and end<last;last=start
-                  data=data[:start]+base64.b64decode(replacement,validate=True)+data[end:]
-              assert blob(data)==row['after'];p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
-              if p.suffix in ('.js','.cjs','.mjs'):subprocess.run(['node','--check',str(p)],check=True)
-              created=api('/git/blobs',{'encoding':'base64','content':base64.b64encode(data).decode()});assert created['sha']==row['after']
-              elements.append({'path':row['path'],'mode':'100644','type':'blob','sha':created['sha']})
-          subprocess.run(['git','add','--',*sorted(allowed)],check=True)
-          subprocess.run(['git','diff','--cached','--check'],check=True)
-          expected='e329ef37aa9ca9360350f620715d98b224662af2'
-          assert subprocess.check_output(['git','write-tree'],text=True).strip()==expected
-          out=pathlib.Path('artifacts/pr15-review');out.mkdir(parents=True,exist_ok=True)
-          receipt={'base':'0e4c83da1adcd5e7dd0ad074c85798620a20edb3','tree':expected,'files':elements,'scope':'Exact source blobs only; no ref changes, merge, deployment or gameplay-validation claim.'}
-          (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt))
-          PY
+          set -euo pipefail
+          mkdir -p /tmp/main169
+          git archive --format=tar HEAD -- . ':!assets' | gzip > /tmp/main169/sources.tar.gz
+          git archive --format=tar HEAD -- 'assets/*.json' 'assets/**/*.json' | gzip > /tmp/main169/asset-metadata.tar.gz
+          git ls-tree -r -z HEAD > /tmp/main169/tree.bin
+          git rev-parse HEAD > /tmp/main169/commit.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: pr15-correction-source-receipt
-          path: artifacts/pr15-review/
+          name: main169-source-74a6208
+          path: /tmp/main169/
           retention-days: 7
           if-no-files-found: error
