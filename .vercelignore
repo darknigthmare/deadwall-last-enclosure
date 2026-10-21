@@ -7,7 +7,15 @@ dist/
 coverage/
 desktop/
 tests/
-docs/
+# Only the two authored JSON inputs below are needed by the inspection compiler.
+# Re-open each parent explicitly, then exclude all of its other children.
+docs/*
+!docs/codex/
+docs/codex/*
+!docs/codex/suivi-monde2026/
+docs/codex/suivi-monde2026/*
+!docs/codex/suivi-monde2026/references-metriques2026.json
+!docs/codex/suivi-monde2026/OBJECTIFS80.json
 .github/
 .env*
 *.log
