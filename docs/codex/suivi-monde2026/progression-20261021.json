@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "6c6fbb6cf563bea6c89ade99c65f18c438481532",
+  "date": "2026-10-21",
+  "scope": "authoring-metric-dimensions-not-playable-content",
+  "closed": [
+    "EXT-MONDE-T060/dimensions",
+    "EXT-MONDE-T065/dimensions",
+    "EXT-MONDE-T066/dimensions"
+  ],
+  "inProgress": [
+    "EXT-MONDE-T005/dimensions",
+    "EXT-MONDE-T006/dimensions",
+    "EXT-MONDE-T007/dimensions",
+    "EXT-MONDE-T008/dimensions",
+    "EXT-MONDE-T011/dimensions",
+    "EXT-MONDE-T060/architecture",
+    "EXT-MONDE-T065/architecture",
+    "EXT-MONDE-T066/architecture"
+  ],
+  "metricVariants": {
+    "types": [
+      "EXT-MONDE-T060",
+      "EXT-MONDE-T065",
+      "EXT-MONDE-T066"
+    ],
+    "perType": 50,
+    "total": 150,
+    "playable": 0
+  },
+  "taskCounts": {
+    "À faire": 789,
+    "En cours": 8,
+    "Validé": 3
+  },
+  "proof": "FONDATIONS_METRIQUES_2026.md",
+  "sourceMetrics": "references-metriques2026.json",
+  "generator": "scripts/codex-world-foundations2026.cjs",
+  "tests": {
+    "command": "node --test tests/codex-world-foundations2026.test.cjs",
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "completeGameCheck": "BLOCKED_MISSING_BINARY_ASSET",
+  "excelBinaryCommitted": false
+}
