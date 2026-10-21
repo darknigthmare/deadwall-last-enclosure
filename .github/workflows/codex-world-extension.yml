@@ -1,0 +1,53 @@
+name: DEADWALL world codex extension
+on:
+  push:
+    branches: [feat/codex-world-extension-20261021]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codex-world-extension-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Preserve tracked source inputs and provenance
+        run: |
+          python3 - <<'PY'
+          import pathlib, subprocess, json, hashlib, zipfile
+          root = pathlib.Path.cwd()
+          out = root / 'artifacts' / 'codex-world-extension'
+          out.mkdir(parents=True, exist_ok=True)
+          revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          entries = []
+          with zipfile.ZipFile(out / 'tracked-text.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              for name in sorted(filter(None, subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0'))):
+                  p = pathlib.PurePosixPath(name)
+                  source = root / name
+                  if p.is_absolute() or '..' in p.parts or source.is_symlink():
+                      raise ValueError('Unsafe tracked path')
+                  if any(part.startswith('.env') for part in p.parts):
+                      continue
+                  if p.suffix.lower() not in {'.js','.cjs','.mjs','.json','.md','.txt','.html','.css','.yml','.yaml','.svg'} and name not in {'.gitignore','.vercelignore'}:
+                      continue
+                  data = source.read_bytes()
+                  try:
+                      data.decode('utf-8')
+                  except UnicodeDecodeError:
+                      continue
+                  archive.writestr(name, data)
+                  entries.append({'path': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
+              archive.writestr('SOURCE-MANIFEST.json', json.dumps({'revision': revision, 'scope': 'Tracked UTF-8 development inputs; no secrets, installed dependencies or image assets.', 'files': entries}, indent=2))
+          print(json.dumps({'revision': revision, 'files': len(entries)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-world-codex-source
+          path: artifacts/codex-world-extension/
+          retention-days: 7
+          if-no-files-found: error
