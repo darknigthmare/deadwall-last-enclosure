@@ -297,7 +297,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
   const expectedNarrative = stage === 'restore' ? JSON.parse(await fs.promises.readFile(path.join(reportRoot, 'expected-narrative.json'), 'utf8')) : null;
   const narrative = await window.webContents.executeJavaScript(`(() => {
     const game=globalThis.DEADWALL,N=globalThis.DeadwallNarrative,C=globalThis.DeadwallCore,get=id=>document.getElementById(id),copy=value=>JSON.parse(JSON.stringify(value));
-    const stage=${JSON.stringify(stage)},expected=${JSON.stringify(expectedNarrative)},origin={x:game.player.x,y:game.player.y};
+    const stage=${JSON.stringify(stage)},expected=${JSON.stringify(expectedNarrative)},origin={x:game.player.x,y:game.player.y},surveyPoints=[];
     if(stage==='create'){
       const before={resources:copy(game.resources),insight:game.research.insight,morale:game.morale};
       // Controlled integration fixture: relocate the commander and advance only
@@ -305,7 +305,10 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
       game.togglePause(false);game.input.keys.add('KeyE');
       for(const [theme,seconds]of [['market',2],['housing',C.NARRATIVE_RULES.surveySeconds]]){
         const site=game.world.sites.find(item=>item.theme===theme);if(!site)throw new Error('Narrative site is missing: '+theme);
-        Object.assign(game.player,{x:site.x,y:site.y});
+        const point=game.narrativeSurveyPoint(theme);
+        if(!point||!game.friendlyPositionClear(game.player,point.x,point.y))throw new Error('Narrative survey point is not physically usable: '+theme);
+        surveyPoints.push({theme,centre:{x:site.x,y:site.y},point,seconds});
+        Object.assign(game.player,point);
         for(let elapsed=0;elapsed<seconds;elapsed+=.25)if(!game.updateNarrativeSurvey(Math.min(.25,seconds-elapsed)))throw new Error('Native survey action did not advance');
       }
       game.input.keys.delete('KeyE');Object.assign(game.player,origin);game.togglePause(true);
@@ -334,7 +337,7 @@ async function verifyWindow({ app, window, serveGame, closeSafely, reportRoot, s
     const settled={resources:copy(game.resources),insight:game.research.insight};
     if(game.resolveNarrative('housing','A')||game.resolveNarrative('housing','B'))throw new Error('A journal decision could be repeated');
     if(JSON.stringify(game.resources)!==JSON.stringify(settled.resources)||game.research.insight!==settled.insight)throw new Error('Repeated journal decision changed the economy');
-    const result={fixture:'Controlled commander relocation and real survey actions; not a full exploration playthrough',commandJournal:true,sectorIds:ids,chapterCards:N.CHAPTERS.length,partialSurvey:game.narrative.sectors.market.survey,choice:game.narrative.sectors.housing.choice,read:true,repeatRejected:true,restored:stage==='restore',state:copy(game.narrative),insight:game.research.insight,wood:game.resources.wood};
+    const result={fixture:'Controlled commander relocation to native survey points and real survey actions; not a full exploration playthrough',surveyPoints,commandJournal:true,sectorIds:ids,chapterCards:N.CHAPTERS.length,partialSurvey:game.narrative.sectors.market.survey,choice:game.narrative.sectors.housing.choice,read:true,repeatRejected:true,restored:stage==='restore',state:copy(game.narrative),insight:game.research.insight,wood:game.resources.wood};
     get('commandClose').click();if(!game.paused)throw new Error('Journal closure lost the original pause');
     return result;
   })()`, true);

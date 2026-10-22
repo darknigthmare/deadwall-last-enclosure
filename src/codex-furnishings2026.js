@@ -1,6 +1,6 @@
 /* Authored-world inspection furniture. Metres, finite placement work and no
  * campaign stock, RNG or save mutation. Existing footprint catalogues remain
- * authoritative; heights and the two new fixtures are labelled author design. */
+ * authoritative; heights and new fixtures are labelled author design. */
 (function (root, factory) {
   'use strict';
   const api = factory(root);
@@ -90,7 +90,37 @@
     growingBench: {name: 'Table de semis', w: 1.6, h: .7, heightM: .85,
       sourceDimensions: 'author-design:growing-bench', lootEligible: false},
     growingBed: {name: 'Bac de culture', w: 1.8, h: .7, heightM: .65,
-      sourceDimensions: 'author-design:growing-bed', lootEligible: false}
+      sourceDimensions: 'author-design:growing-bed', lootEligible: false},
+    conveyor: {name: 'Convoyeur', w: 3.2, h: 1, heightM: 1.1,
+      sourceDimensions: 'author-design:industrial-conveyor', lootEligible: false},
+    dosingUnit: {name: 'Poste de dosage', w: 1.5, h: 1.2, heightM: 2.1,
+      sourceDimensions: 'author-design:industrial-dosingUnit', lootEligible: false},
+    foodMixer: {name: 'Mélangeur alimentaire', w: 1.8, h: 1.6, heightM: 2,
+      sourceDimensions: 'author-design:industrial-foodMixer', lootEligible: false},
+    heatChamber: {name: 'Enceinte thermique', w: 2.2, h: 1.6, heightM: 2.2,
+      sourceDimensions: 'author-design:industrial-heatChamber', lootEligible: false},
+    metalSaw: {name: 'Scie de débit', w: 2.2, h: 1.2, heightM: 1.6,
+      sourceDimensions: 'author-design:industrial-metalSaw', lootEligible: false},
+    lathe: {name: 'Tour mécanique', w: 2.4, h: 1.2, heightM: 1.6,
+      sourceDimensions: 'author-design:industrial-lathe', lootEligible: false},
+    millingMachine: {name: 'Fraiseuse', w: 2.2, h: 1.6, heightM: 2.1,
+      sourceDimensions: 'author-design:industrial-millingMachine', lootEligible: false},
+    assemblyStation: {name: 'Poste assemblage', w: 2.4, h: 1.1, heightM: 1.1,
+      sourceDimensions: 'author-design:industrial-assemblyStation', lootEligible: false},
+    inspectionBench: {name: 'Banc de contrôle', w: 1.8, h: 0.9, heightM: 1.2,
+      sourceDimensions: 'author-design:industrial-inspectionBench', lootEligible: false},
+    loom: {name: 'Métier à tisser', w: 2.8, h: 1.8, heightM: 1.9,
+      sourceDimensions: 'author-design:industrial-loom', lootEligible: false},
+    sewingStation: {name: 'Poste de confection', w: 1.4, h: 0.7, heightM: 1.2,
+      sourceDimensions: 'author-design:industrial-sewingStation', lootEligible: false},
+    cuttingTable: {name: 'Table de coupe', w: 2.4, h: 1.4, heightM: 0.9,
+      sourceDimensions: 'author-design:industrial-cuttingTable', lootEligible: false},
+    materialMixer: {name: 'Malaxeur de matériaux', w: 2.2, h: 1.8, heightM: 2.2,
+      sourceDimensions: 'author-design:industrial-materialMixer', lootEligible: false},
+    formingPress: {name: 'Presse de formage', w: 2.2, h: 1.8, heightM: 2.6,
+      sourceDimensions: 'author-design:industrial-formingPress', lootEligible: false},
+    curingRack: {name: 'Rayonnage de maturation', w: 2.4, h: 1.1, heightM: 2.2,
+      sourceDimensions: 'author-design:industrial-curingRack', lootEligible: false}
   });
 
   const PROFILES = freeze({
@@ -129,12 +159,46 @@
     pressing: ['grapePress', 'steelTable', 'crate'],
     veterinary: ['medical', 'veterinaryTable', 'sink', 'smallCabinet'],
     greenhouse: ['growingBench', 'growingBed', 'pump', 'crate'],
-    coldStores: ['fridge', 'steelTable', 'crate']
+    coldStores: ['fridge', 'steelTable', 'crate'],
+    industrialReceiving: ['conveyor', 'crateStack', 'shelf', 'desk'],
+    foodPreparation: ['steelTable', 'sink', 'crate', 'shelf'],
+    industrialDosing: ['dosingUnit', 'steelTable', 'shelf'],
+    foodMixing: ['foodMixer', 'steelTable', 'sink'],
+    industrialHeating: ['heatChamber', 'steelTable', 'toolbox'],
+    industrialInspection: ['inspectionBench', 'desk', 'smallCabinet', 'chair'],
+    industrialPacking: ['conveyor', 'steelTable', 'crate', 'shelf'],
+    metalCutting: ['metalSaw', 'workbench', 'toolbox', 'crate'],
+    industrialTurning: ['lathe', 'workbench', 'toolbox'],
+    industrialMilling: ['millingMachine', 'workbench', 'toolbox'],
+    industrialAssembly: ['assemblyStation', 'workbench', 'toolbox', 'crate'],
+    textileCutting: ['cuttingTable', 'shelf', 'crate'],
+    industrialWeaving: ['loom', 'workbench', 'toolbox'],
+    industrialSewing: ['sewingStation', 'table', 'chair', 'shelf'],
+    materialMixing: ['materialMixer', 'workbench', 'toolbox'],
+    materialForming: ['formingPress', 'workbench', 'toolbox'],
+    materialCuring: ['curingRack', 'shelf', 'crate']
   });
 
   function classify(name) {
     const n = norm(name);
     if (!n || /circulation|couloir|coursive/.test(n)) return null;
+    if (/^reception (matieres|fibres)/.test(n)) return 'industrialReceiving';
+    if (/preparation alimentaire industrielle/.test(n)) return 'foodPreparation';
+    if (/dosage (alimentaire|materiaux) industriel/.test(n)) return 'industrialDosing';
+    if (/melange alimentaire industriel/.test(n)) return 'foodMixing';
+    if (/traitement thermique alimentaire/.test(n)) return 'industrialHeating';
+    if (/controle (qualite alimentaire|mecanique final|textile industriel|materiaux industriel)|metrologie industrielle/.test(n)) return 'industrialInspection';
+    if (/emballage industriel/.test(n)) return 'industrialPacking';
+    if (/decoupe mecanique industrielle/.test(n)) return 'metalCutting';
+    if (/tournage industriel/.test(n)) return 'industrialTurning';
+    if (/fraisage industriel/.test(n)) return 'industrialMilling';
+    if (/assemblage mecanique industriel/.test(n)) return 'industrialAssembly';
+    if (/(preparation|coupe) textile industrielle/.test(n)) return 'textileCutting';
+    if (/tissage industriel/.test(n)) return 'industrialWeaving';
+    if (/confection textile industrielle/.test(n)) return 'industrialSewing';
+    if (/melange materiaux industriel/.test(n)) return 'materialMixing';
+    if (/formage materiaux industriel/.test(n)) return 'materialForming';
+    if (/maturation materiaux industrielle/.test(n)) return 'materialCuring';
     if (/infirmerie veterinaire|soins veterinaires/.test(n)) return 'veterinary';
     if (/stabulation|velage|bergerie|agnelage|boxes? (?:equestres?|de repos)/.test(n)) return 'livestock';
     if (/poulailler|poussiniere/.test(n)) return 'poultry';

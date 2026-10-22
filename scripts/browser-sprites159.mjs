@@ -83,6 +83,7 @@ try{
    rec.check('The actual body uses its separate construction sheet and changes pixels between normal steps',a.paint.usesActionSheet&&a.paint.first.hash!==a.paint.second.hash);
    rec.check('Worker action picture freezes during Pause and its master paintings preserve every saved field',a.paint.pauseIdentical&&a.paint.first.materialUnchanged&&a.paint.second.materialUnchanged&&a.paint.first.rngUnchanged&&a.paint.second.rngUnchanged);
    profile.contactBody=await page.evaluate(spriteContactBody159);const body=profile.contactBody;
+   rec.check('The declared physical contact isolates the commander and preserves the other living worker',body.contactStates.before.units.length>0&&body.contactStates.before.units.every(u=>u.distanceToContact>60&&body.contactStates.after.units.some(after=>after.id===u.id&&after.health===u.health)));
    rec.check('A visible real contact hurts the live commander before its own attack action exists',body.physicallyVisible&&body.playerAfter<body.playerBefore&&body.firstPose?.action==='attack'&&body.secondPose?.action==='attack');
    rec.check('Actual infected attack uses its dedicated native body sheet and advances pixels through normal simulation',body.paint.usesActionSheet&&body.paint.first.hash!==body.paint.second.hash);
    rec.check('Actual infected body freezes in Pause without changing the saved world or RNG by drawing',body.paint.pauseIdentical&&body.paint.first.materialUnchanged&&body.paint.second.materialUnchanged&&body.paint.first.rngUnchanged&&body.paint.second.rngUnchanged);

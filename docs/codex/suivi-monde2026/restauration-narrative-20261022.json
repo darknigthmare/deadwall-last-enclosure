@@ -1,0 +1,17 @@
+{
+  "kind": "source-restoration-only",
+  "createdAt": "2026-10-22T13:36:27.952401+00:00",
+  "base": "84b1ec2b6de22898e902a7a7a7d7e5929e02de8b",
+  "sources": {
+    "src/core.js": "e08d943744cf3629bae84d77ef6f44f13160ef577bee4c6413f4ba5a91e9e092",
+    "src/game.js": "a3c332af17c169bf7613deb55095169050e0501c75ad809d1801ed240b80634f",
+    "src/fieldcraft.js": "ecd2fac4dd4334bce3b9c3fb1d120a4a2f046fc94884292fd39530764fdaba64",
+    "src/narrative.js": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c",
+    "src/narrative-ui.js": "afac4016e6afc798cdf71f3b479d87e52274a78834837da6d3bfd0eb6d1bea1b",
+    "src/content-ui.js": "af5c1b72243fc53f4a5c148dc1860a400a1c8c5c6119166a88796e7c910d8582",
+    "desktop/smoke.cjs": "54382aa4dd97abe02cd2c3191b93e472f1f2c8c4948effe74223c003c36506eb",
+    "tests/narrative-spatial202.test.cjs": "8ccea58285c057c2938b45f2991d7687b36ab03eabf207b715928993d083b954",
+    "docs/NARRATIVE.md": "fb238d7f5e5e9962c00c12944eb1f6fb1371bc8861b489eb9b60619420a2ebcc"
+  },
+  "validation": "Syntax and git diff whitespace only; previous native/browser logs were lost during maintenance and have not been recreated."
+}

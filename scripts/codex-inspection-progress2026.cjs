@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const Layouts=require('../src/codex-layouts2026.js');
 const {SOURCE_FILES}=require('./audit-codex-inspection2026.cjs');
 const PROOF='docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md';
-const REPORT='docs/codex/suivi-monde2026/inspection-20261021.json';
+const REPORT='docs/codex/suivi-monde2026/inspection-restauration-20261022.json';
 const SCOPE='inspection-only';
 function checkedReport(root){
  const report=JSON.parse(fs.readFileSync(path.join(root,REPORT),'utf8'));

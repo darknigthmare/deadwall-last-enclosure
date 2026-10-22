@@ -223,7 +223,7 @@
     }
   };
   for (const crisis of CRISES) crisis.choices = CRISIS_CHOICES[crisis.id];
-  const NARRATIVE_RULES = Object.freeze({surveySeconds:8,surveyRadius:90,debriefRadius:180,maxStep:.25});
+  const NARRATIVE_RULES = Object.freeze({surveySeconds:8,surveyRadius:90,debriefRadius:180,maxStep:.25,surveyPointSearchRadius:360,surveyPointStep:16,surveyPointClearance:16});
   // Six optional, one-use decisions. No resource spawns or permanent combat modifiers.
   const NARRATIVE_OPERATIONS = Object.freeze({
     housing:{A:{cost:{wood:12,scrap:12},insight:1},B:{cost:{food:8},morale:4}},

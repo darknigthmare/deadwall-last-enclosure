@@ -1,13 +1,13 @@
-# Aménagement des 1 000 avant-projets — 22 octobre 2026
+# Aménagement des 1 200 avant-projets — 22 octobre 2026
 
 ## Résultat et portée
 
-Les 1 000 plans auteur produits disposent maintenant d'une composition de mobilier métrique et d'un contrôle physique des accès. Ils comprennent **30 990 pièces hors circulation**, dont **30 960 reçoivent au moins un objet**, pour **103 450 objets placés**. Les **7 933 prescriptions non placées** restent visibles dans les données : le gabarit du mobilier et les dégagements priment sur le remplissage. Trente pièces de petits volumes restent entièrement vides. Aucun usage de pièce des sources actuelles n'est laissé sans classification.
+Les 1 200 plans auteur produits disposent maintenant d'une composition de mobilier métrique et d'un contrôle physique des accès. Ils comprennent **38 890 pièces hors circulation**, dont **38 860 reçoivent au moins un objet**, pour **132 500 objets placés**. Les **7 933 prescriptions non placées** restent visibles dans les données : le gabarit du mobilier et les dégagements priment sur le remplissage. Trente pièces de petits volumes restent entièrement vides. Aucun usage de pièce des sources actuelles n'est laissé sans classification.
 
-Cette étape prépare et permet l'inspection de ces plans. Elle ne les ajoute pas à la campagne, ne relie aucun embarquement au monde et ne valide pas leur architecture, leurs réseaux, leurs graphismes ou leur gameplay complet. Les réservations de terrains, gradins, réservoirs, cales et ponts de travail gardent le statut défini par les plans auteur. Les vingt typologies disposent de plans explicites ; les soixante autres cibles restent à concevoir.
+Cette étape prépare et permet l'inspection de ces plans. Elle ne les ajoute pas à la campagne, ne relie aucun embarquement au monde et ne valide pas leur architecture, leurs réseaux, leurs graphismes ou leur gameplay complet. Les réservations de terrains, gradins, réservoirs, cales et ponts de travail gardent le statut défini par les plans auteur. Les vingt-quatre typologies disposent de plans explicites ; les cinquante-six autres cibles restent à concevoir.
 
 | Famille | Plans | Pièces | Pièces meublées | Objets placés | Demandes refusées |
-| --- | ---: | ---: | ---: | ---: | ---: |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | T005 — Cargo polyvalent | 50 | 1 680 | 1 652 | 4 141 | 1 817 |
 | T006 — Pétrolier océanique | 50 | 2 800 | 2 800 | 10 015 | 0 |
 | T007 — Croiseur militaire abandonné | 50 | 1 600 | 1 600 | 5 815 | 0 |
@@ -25,12 +25,16 @@ Cette étape prépare et permet l'inspection de ces plans. Elle ne les ajoute pa
 | T046 — Camping caravanes | 50 | 900 | 900 | 2 880 | 420 |
 | T047 — Camp de travailleurs | 50 | 2 560 | 2 560 | 8 168 | 272 |
 | T048 — Parc de caravanes abandonné | 50 | 1 290 | 1 290 | 3 925 | 805 |
+| T053 — Usine agroalimentaire | 50 | 1 900 | 1 900 | 6 850 | 0 |
+| T054 — Usine de mécanique | 50 | 2 000 | 2 000 | 7 500 | 0 |
+| T055 — Usine textile | 50 | 2 000 | 2 000 | 7 350 | 0 |
+| T056 — Usine de matériaux | 50 | 2 000 | 2 000 | 7 350 | 0 |
 | T060 — Champ d’éoliennes | 50 | 600 | 600 | 2 200 | 0 |
 | T065 — Stade municipal | 50 | 2 000 | 2 000 | 7 140 | 110 |
 | T066 — Grand stade couvert | 50 | 2 000 | 2 000 | 7 140 | 110 |
-| **Total** | **1 000** | **30 990** | **30 960** | **103 450** | **7 933** |
+| **Total** | **1 200** | **38 890** | **38 860** | **132 500** | **7 933** |
 
-Les 111 383 prescriptions sont entièrement comptabilisées : chaque identifiant correspond soit à un objet présent, soit à un refus documenté. Un refus n'est pas une autorisation de réduire un meuble ni de déplacer une cloison. Il indique où reprendre ultérieurement le programme ou le plan. La disposition reste une première composition fonctionnelle ; une pièce meublée ne signifie pas que son équipement complet ou sa mise en scène artistique est terminé.
+Les 140 433 prescriptions sont entièrement comptabilisées : chaque identifiant correspond soit à un objet présent, soit à un refus documenté. Un refus n'est pas une autorisation de réduire un meuble ni de déplacer une cloison. Il indique où reprendre ultérieurement le programme ou le plan. La disposition reste une première composition fonctionnelle ; une pièce meublée ne signifie pas que son équipement complet ou sa mise en scène artistique est terminé.
 
 ## Programme et dimensions
 
@@ -52,14 +56,14 @@ La vérification locale agrandit les obstacles du rayon du joueur et recherche l
 
 ## Preuve et reproduction
 
-Le script [audit-codex-inspection2026.cjs](../../../scripts/audit-codex-inspection2026.cjs) appelle la véritable API `CodexInspection2026.create` pour chacune des 1 000 variantes. Il compare chaque plan compilé à son générateur auteur, contrôle les deux audits, les faces accessibles, l'immutabilité et les compteurs de ressources. Son rapport [inspection-20261021.json](inspection-20261021.json) contient un enregistrement par variante, les agrégats par famille, les niveaux, murs et transitions réellement construits, les éventuels échecs et les SHA256 des sources et modules utilisés. Il refuse un compilé périmé et signale toute modification des sources pendant l'audit.
+Le script [audit-codex-inspection2026.cjs](../../../scripts/audit-codex-inspection2026.cjs) appelle la véritable API `CodexInspection2026.create` pour chacune des 1 200 variantes. Il compare chaque plan compilé à son générateur auteur, contrôle les deux audits, les faces accessibles, l'immutabilité et les compteurs de ressources. Son rapport [inspection-restauration-20261022.json](inspection-restauration-20261022.json) contient un enregistrement par variante, les agrégats par famille, les niveaux, murs et transitions réellement construits, les éventuels échecs et les SHA256 des sources et modules utilisés. Il refuse un compilé périmé et signale toute modification des sources pendant l'audit.
 
 ```sh
 npm run codex:inspection
 node --test tests/codex-furnishings2026.test.cjs
 ```
 
-Le premier test de la suite réutilise `auditAll` : il ne maintient pas un second algorithme de validation des 1 000 plans. Pour écrire la preuve pendant cette même passe, lancer :
+Le premier test de la suite réutilise `auditAll` : il ne maintient pas un second algorithme de validation des 1 200 plans. Pour écrire la preuve pendant cette même passe, lancer :
 
 ```sh
 DEADWALL_WRITE_INSPECTION_AUDIT=1 node --test tests/codex-furnishings2026.test.cjs
@@ -67,4 +71,6 @@ DEADWALL_WRITE_INSPECTION_AUDIT=1 node --test tests/codex-furnishings2026.test.c
 
 Les cas complémentaires vérifient la stabilité des résultats, l'absence de hasard, la provenance des dimensions, les niveaux maritimes et l'export navigateur. Les cas négatifs altèrent notamment une emprise, une face de service, un niveau, une porte, une quantité de stock, une connexion, un identifiant, un refus ou les métadonnées d'une pièce : l'audit doit les rejeter. Les contrôles physiques, de sauvegarde d'inspection et de navigateur sont suivis séparément ; aucune qualification globale de la campagne n'est déduite de ce rapport.
 
-La passe mobilier et intégration a exécuté **26 tests, tous réussis**, dont les 1 000 créations de session. Le rapport comptabilise **1 900 niveaux**, **224 885 segments de mur** et **900 transitions verticales** à travers les 1 000 variantes ; ces nombres additionnent des variantes distinctes, pas un seul monde. Aucun échec, test ignoré, annulation ou TODO n'a été signalé. Pour cette exécution, le lanceur explicite `DEADWALL_WRITE_INSPECTION_AUDIT=1 node -e "require('./tests/codex-furnishings2026.test.cjs')"` a affiché les 26 cas individuellement.
+La nouvelle passe après restauration accepte **1 200 plans sur 1 200**, sans échec. Les 1 000 plans précédents conservent leurs plans auteur, empreintes géométriques et compteurs. Les journaux natifs et leur provenance figurent dans [validation-industrie-restauration-20261022.json](validation-industrie-restauration-20261022.json).
+
+Les [plans industriels](INDUSTRIE_2026.md) ajoutent quinze formes de machines, arrêtées et non raccordées, sans recette ni stock actif. Les résultats de la qualification globale sont consignés dans [PUBLICATION.md](PUBLICATION.md).

@@ -47,8 +47,8 @@ test('the compiled browser generator reproduces every authoritative author plan 
 
 test('the catalog distinguishes the produced types from remaining targets and returns independent references', () => {
   assert.equal(L.typologies.length, 80);
-  assert.equal(L.typologies.filter(t => t.available).length, 20);
-  assert.equal(L.typologies.filter(t => !t.available).length, 60);
+  assert.equal(L.typologies.filter(t => t.available).length, 24);
+  assert.equal(L.typologies.filter(t => !t.available).length, 56);
   assert.ok(L.typologies.every(t => t.variants === 50));
   assert.equal(L.scope, 'authoring-not-campaign');
   assert.match(L.sourceHash, /^[0-9a-f]{64}$/);

@@ -3,9 +3,11 @@
 // dimensions/reference stage or a campaign implementation.
 const Agriculture = require('./codex-agriculture2026.cjs');
 const Residential = require('./codex-residential2026.cjs');
+const Industrial = require('./codex-industrial2026.cjs');
 const GROUPS = Object.freeze([
   {api: Agriculture, source: 'scripts/codex-agriculture2026.cjs', proof: 'docs/codex/suivi-monde2026/AGRICULTURE_2026.md'},
-  {api: Residential, source: 'scripts/codex-residential2026.cjs', proof: 'docs/codex/suivi-monde2026/RESIDENTIEL_2026.md'}
+  {api: Residential, source: 'scripts/codex-residential2026.cjs', proof: 'docs/codex/suivi-monde2026/RESIDENTIEL_2026.md'},
+  {api: Industrial, source: 'scripts/codex-industrial2026.cjs', proof: 'docs/codex/suivi-monde2026/INDUSTRIE_2026.md'}
 ]);
 function patch(data) {
   const result = JSON.parse(JSON.stringify(data)), records = new Map();

@@ -18,6 +18,7 @@
   const now = () => performance.now() / 1000;
   const rotateSize = (def, rotation) => Math.abs(rotation) % 2 ? [def.size[1], def.size[0]] : def.size;
   const distanceToBuildingSquared = (p, b) => (p.x - clamp(p.x, b.left, b.right)) ** 2 + (p.y - clamp(p.y, b.top, b.bottom)) ** 2;
+  const narrativeSurveyCaches = new WeakMap();
 
   class Building {
     constructor(id, type, gx, gy, rotation = 0, progress = 0, geometryVersion202 = 0) {
@@ -2052,10 +2053,36 @@
       this.objectiveIndex++; this.objectiveProgress = 0; this.objectiveReady = false; this.audio.build();
     }
 
+    narrativeSurveyPoint(theme) {
+      const sites=this.world.sites||[],site=sites.find(item=>item.theme===theme);
+      if(!site)return null;
+      if(this.world.cityGeometry202!==1)return {x:site.x,y:site.y};
+      const plan=this.exploration125?.plan,E=globalThis.DeadwallExploration125,core=[...this.world.buildings.values()].find(b=>b.type==='core');
+      if(!plan||plan.layoutRevision!==4||plan.seed!==this.world.seed||!E||!core||!this.fieldcraft?.fixtures)return null;
+      const key=sites.map(item=>[item.id,item.theme,item.x,item.y].join(':')).join('/');
+      let cache=narrativeSurveyCaches.get(this.world);
+      if(!cache||cache.plan!==plan||cache.solids!==plan.solids||cache.key!==key){
+        const N=globalThis.DeadwallNarrative,points=new Map();
+        // The depot and fixed stations are owned by fieldcraft, outside plan.solids.
+        // Fresh fixture copies prevent this read-only resolution from mutating them.
+        const fixtures=[core,...this.fieldcraft.fixtures()].map(item=>{const b=this.fieldcraft.rect(item);return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};});
+        const index=E.createSpatialIndex([...E.physicalSolids134(plan),...fixtures]);
+        const approach=N.createSurveyApproach({x:core.x+20,y:core.bottom+C.CityGeometry202.initialPlayerClearance},
+          (candidate,radius)=>E.querySpatialIndexCircle(index,candidate.x,candidate.y,radius).length===0,plan.worldSize);
+        for(const item of sites.slice().sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)){
+          const point=N.resolveSurveyPoint(item,candidate=>approach(candidate)&&
+            [...points.values()].every(other=>!other||distSq(candidate,other)>=(C.NARRATIVE_RULES.surveyRadius*2)**2),plan.worldSize);
+          points.set(item.theme,point);
+        }
+        cache={plan,solids:plan.solids,key,points};narrativeSurveyCaches.set(this.world,cache);
+      }
+      const point=cache.points.get(theme);return point?{...point}:null;
+    }
+
     updateNarrativeSurvey(dt) {
       if(this.state!=='playing'||this.paused||this.gameOver||this.player.dead||this.player.health<=0)return false;
       const N=globalThis.DeadwallNarrative,rules=C.NARRATIVE_RULES;
-      const site=(this.world.sites||[]).find(site=>distSq(this.player,site)<=rules.surveyRadius**2);
+      const site=(this.world.sites||[]).find(site=>{const point=this.narrativeSurveyPoint(site.theme);return point&&distSq(this.player,point)<=rules.surveyRadius**2;});
       if(!site)return false;
       const record=this.narrative.sectors[site.theme];
       // Survey the surrounding area from a standable position, not a fictional object
@@ -2090,7 +2117,7 @@
       if(this.player.dead||this.player.health<=0)return {ok:false,reason:'Le commandant doit être debout.'};
       const record=this.narrative.sectors[theme];
       if(record.choice!==null)return {ok:false,reason:'Décision déjà consignée pour cette campagne.'};
-      if(record.survey<C.NARRATIVE_RULES.surveySeconds)return {ok:false,reason:'Rejoignez le centre du secteur et maintenez ACTION / E pendant huit secondes, hors collecte ou chantier.'};
+      if(record.survey<C.NARRATIVE_RULES.surveySeconds)return {ok:false,reason:this.narrativeSurveyPoint(theme)?'Rejoignez le point de relevé du secteur et maintenez ACTION / E pendant huit secondes, hors collecte ou chantier.':'Aucun point de relevé praticable dans le voisinage de ce secteur.'};
       const core=this.core();
       if(!core||!this.workerCanWorkAt(this.player,core,C.NARRATIVE_RULES.debriefRadius))return {ok:false,reason:'Retournez près du centre de commandement, par un accès ouvert.'};
       if(choice!==undefined&&!['A','B'].includes(choice))return {ok:false,reason:'Décision inconnue.'};

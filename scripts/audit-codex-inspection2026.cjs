@@ -7,7 +7,7 @@ const assert=require('node:assert/strict');
 const Registry=require('./codex-generators2026.cjs');
 const {sourceHash}=require('./compile-codex-inspection2026.cjs');
 const ROOT=path.resolve(__dirname,'..');
-const OUTPUT='docs/codex/suivi-monde2026/inspection-20261021.json';
+const OUTPUT='docs/codex/suivi-monde2026/inspection-restauration-20261022.json';
 const SOURCE_FILES=Object.freeze([
   ...Registry.COMPILATION_SOURCES,
   'src/codex-layouts2026.js',

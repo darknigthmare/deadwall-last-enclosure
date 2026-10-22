@@ -52,6 +52,51 @@
     const {a,b,...text}=def;return {...text,choices};
   });
   const ids=SECTORS.map(item=>item.id),chapterIds=CHAPTERS.map(item=>item.id);
+  const surveyOffsets=[];
+  const surveyRules=C.NARRATIVE_RULES,steps=Math.floor(surveyRules.surveyPointSearchRadius/surveyRules.surveyPointStep);
+  for(let y=-steps;y<=steps;y++)for(let x=-steps;x<=steps;x++){
+    const dx=x*surveyRules.surveyPointStep,dy=y*surveyRules.surveyPointStep,d=dx*dx+dy*dy;
+    if(d<=surveyRules.surveyPointSearchRadius**2)surveyOffsets.push({dx,dy,d});
+  }
+  surveyOffsets.sort((a,b)=>a.d-b.d||a.dy-b.dy||a.dx-b.dx);
+  function createSurveyApproach(origin,clear,worldSize=C.WORLD_SIZE){
+    const width=worldSize/C.TILE,radius=surveyRules.surveyPointClearance,unavailable=()=>false;
+    if(!origin||![origin.x,origin.y,worldSize].every(Number.isFinite)||!Number.isInteger(width)||width<1||width>C.WORLD_TILES||typeof clear!=='function')return unavailable;
+    const inside=p=>p.x>=radius&&p.y>=radius&&p.x<=worldSize-radius&&p.y<=worldSize-radius;
+    const key=p=>C.grid(p.y)*width+C.grid(p.x),point=k=>({x:C.world(k%width),y:C.world(Math.floor(k/width))});
+    const stand=p=>inside(p)&&clear(p,radius);
+    const segment=(a,b)=>{const count=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(C.TILE/8)));for(let i=1;i<count;i++)if(!stand({x:a.x+(b.x-a.x)*i/count,y:a.y+(b.y-a.y)*i/count}))return false;return true;};
+    if(!stand(origin))return unavailable;
+    const start=key(origin),startPoint=point(start);
+    if(!stand(startPoint)||!segment(origin,startPoint))return unavailable;
+    // Exhaust the finite native cardinal grid once. This proves connectivity,
+    // including physical segments; no heuristic path budget can hide an area.
+    const reached=new Uint8Array(width*width),free=new Int8Array(width*width),queue=new Int32Array(width*width);free.fill(-1);
+    let head=0,tail=1;queue[0]=start;reached[start]=1;free[start]=1;
+    while(head<tail){
+      const current=queue[head++],x=current%width,y=Math.floor(current/width),from=point(current);
+      for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1]]){
+        const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=width||ny>=width)continue;
+        const next=ny*width+nx;if(reached[next])continue;
+        const to=point(next);if(free[next]===-1)free[next]=Number(stand(to));
+        if(!free[next]||!segment(from,to))continue;
+        reached[next]=1;queue[tail++]=next;
+      }
+    }
+    return candidate=>Boolean(candidate&&Number.isFinite(candidate.x)&&Number.isFinite(candidate.y)&&stand(candidate)&&reached[key(candidate)]&&segment(point(key(candidate)),candidate));
+  }
+  function resolveSurveyPoint(site,clear,worldSize=C.WORLD_SIZE){
+    if(!site||![site.x,site.y,worldSize].every(Number.isFinite)||worldSize<=0||typeof clear!=='function')return null;
+    const radius=surveyRules.surveyPointClearance;
+    // Resolve against immutable terrain only. Player construction must obstruct
+    // an existing survey area, not make its marker move to the other side.
+    for(const {dx,dy}of surveyOffsets){
+      const point={x:site.x+dx,y:site.y+dy};
+      if(point.x<radius||point.y<radius||point.x>worldSize-radius||point.y>worldSize-radius)continue;
+      if(clear(point,radius))return point;
+    }
+    return null;
+  }
   const fail=()=>{throw new Error('Sauvegarde invalide : registre narratif.');};
   const plain=value=>value&&typeof value==='object'&&!Array.isArray(value);
   const unique=(value,allowed,max)=>{
@@ -86,5 +131,5 @@
     if(status(state).resolved===ids.length&&facts.wavesSurvived>=3)next.push('network');
     return next.filter(id=>!state.chapters.includes(id));
   }
-  return Object.freeze({CHAPTERS,SECTORS,RULES:C.NARRATIVE_RULES,create,normalize,status,chaptersFor});
+  return Object.freeze({CHAPTERS,SECTORS,RULES:C.NARRATIVE_RULES,createSurveyApproach,resolveSurveyPoint,create,normalize,status,chaptersFor});
 });

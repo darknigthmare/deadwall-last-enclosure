@@ -142,7 +142,7 @@ Le démontage demande désormais une confirmation. Son remboursement potentiel g
 
 ### Opérations facultatives
 
-Les six opérations narratives facultatives donnent chacune soit 1 insight contre un coût sectoriel, soit au plus 4 moral contre 8 nourriture et la présence d’un équipier vivant. Un relevé demande 8 secondes actives à moins de 90 unités du centre du secteur ; une décision demande le retour accessible à moins de 180 unités du dépôt. Chaque choix est unique et ne crée aucune ressource. Les règles exactes sont centralisées dans `NARRATIVE_RULES` / `NARRATIVE_OPERATIONS` ; la borne technique d’insight est `RESEARCH_INSIGHT_MAX`. Voir [NARRATIVE.md](NARRATIVE.md).
+Les six opérations narratives facultatives donnent chacune soit 1 insight contre un coût sectoriel, soit au plus 4 moral contre 8 nourriture et la présence d’un équipier vivant. Un relevé demande 8 secondes actives à moins de 90 unités du point de relevé indiqué ; une décision demande le retour accessible à moins de 180 unités du dépôt. Chaque choix est unique et ne crée aucune ressource. Les règles exactes sont centralisées dans `NARRATIVE_RULES` / `NARRATIVE_OPERATIONS` ; la borne technique d’insight est `RESEARCH_INSIGHT_MAX`. Voir [NARRATIVE.md](NARRATIVE.md).
 
 - rendre chaque nouvelle enceinte utile sans la rendre absolue ;
 - augmenter surtout le nombre, les fronts et la durée ;

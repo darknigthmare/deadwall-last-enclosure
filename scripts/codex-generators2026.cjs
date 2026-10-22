@@ -4,7 +4,8 @@ const SPECS = Object.freeze([
   {name: 'Foundation', path: 'scripts/codex-world-foundations2026.cjs'},
   {name: 'Maritime', path: 'scripts/codex-maritime2026.cjs'},
   {name: 'Agriculture', path: 'scripts/codex-agriculture2026.cjs'},
-  {name: 'Residential', path: 'scripts/codex-residential2026.cjs'}
+  {name: 'Residential', path: 'scripts/codex-residential2026.cjs'},
+  {name: 'Industrial', path: 'scripts/codex-industrial2026.cjs'}
 ].map(Object.freeze));
 const REFERENCES = 'docs/codex/suivi-monde2026/references-metriques2026.json';
 const TARGETS = 'docs/codex/suivi-monde2026/OBJECTIFS80.json';

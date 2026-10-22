@@ -2,7 +2,8 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createGameServer} from './server.mjs';
-const output='artifacts/qa/sites162';fs.mkdirSync(output,{recursive:true});
+import {ready} from './browser-qa-common142.mjs';
+const output=process.env.DEADWALL_QA_OUTPUT||'artifacts/qa/sites162';fs.mkdirSync(output,{recursive:true});
 const server=createGameServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({headless:true,args:['--no-sandbox'],...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{})});
 const profiles=[],errors=[];
@@ -11,6 +12,8 @@ try{
   const context=await browser.newContext({viewport,deviceScaleFactor:1,reducedMotion:'reduce',serviceWorkers:'block'}),page=await context.newPage();
   page.setDefaultTimeout(30000);page.on('pageerror',e=>errors.push(e.message));
   await page.goto('http://127.0.0.1:'+server.address().port+'/?tools=1&fixture=legacy',{waitUntil:'networkidle'});
+  // Wait for the real startup contract before invoking the campaign intro.
+  await ready(page);
   await page.waitForFunction(()=>!!globalThis.DEADWALL?.worldCodex&&!!globalThis.DeadwallCodexSites162);
   await page.evaluate(()=>{DEADWALL.startNew('standard','17117');DEADWALL.campaignIntro132.skip();DEADWALL.worldCodex.open();});
   await page.locator('#worldCodexStatus').selectOption('programme');await page.locator('#worldCodexSearch').fill('DW-0001');

@@ -1,9 +1,10 @@
 import path from 'node:path';
 import {createHarness,recorder,ready,chooseCampaign} from './browser-qa-common142.mjs';
 import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
+import {preparePaidKnife191} from './browser-husbandry-fixture191.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
-const h=await createHarness('products203','Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
+const h=await createHarness('products203','Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. A knife is first crafted at its exact native depot cost, withdrawn and equipped through the ordinary armory owners. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
 const {browser,report,output}=h;const playerURL=new URL(h.base);playerURL.search='';const base=playerURL.href;report.root=process.env.DEADWALL_QA_ROOT;report.base=base;report.surface='Player notebook without author or historical URL flags; seed and regional fixture are explicit.';report.profiles=[];report.pass=false;
 try{
  for(const viewport of [{width:1366,height:768,touch:false},{width:390,height:844,touch:true},{width:844,height:390,touch:true}]){
@@ -16,6 +17,7 @@ try{
    await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);
    // Allow the already queued frame to finish; no re-scheduling after this boundary.
    await page.evaluate(()=>{window.requestAnimationFrame=()=>0;});await page.waitForTimeout(150);
+   profile.knife=await page.evaluate(preparePaidKnife191);
    const fixture=await page.evaluate(()=>{
     const g=DEADWALL,C=DeadwallCore,P=DeadwallBiomePopulation165,w=g.frontier.world(),R=C.Husbandry191Rules;let chosen=null;
     for(let cy=0;cy<96&&!chosen;cy++)for(let cx=0;cx<96&&!chosen;cx++)for(let i=0;i<8&&!chosen;i++){

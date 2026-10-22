@@ -9,11 +9,29 @@ function put(type){const d=C.BUILDINGS[type],core=g.core();for(let r=6;r<60;r++)
 // these declared edge poses are not an organic campaign or travel-time claim.
 put('expeditionOffice');put('expeditionGarage');legacyAge(g,1850);
 g.resources.wood=300;g.resources.scrap=500;g.resources.food=300;
+// The world seed does not fix the simulation RNG or recovered starting crew
+// positions. Declare a free assembly area without changing either generator.
+function clearAssemblyArea(){
+ const core=g.core(),resources={...g.resources},rng=g.random.state,nodes=JSON.stringify(g.world.nodes);
+ for(const unit of g.units.filter(u=>!u.dead)){
+  let point;
+  for(let radius=256;radius<=512&&!point;radius+=32)for(let i=0;i<24&&!point;i++){
+   const p={x:core.x+Math.cos(i*Math.PI/12)*radius,y:core.y+Math.sin(i*Math.PI/12)*radius};
+   if(!g.friendlyPositionClear(unit,p.x,p.y)||[g.player,...g.units].some(other=>other!==unit&&!other.dead&&Math.hypot(p.x-other.x,p.y-other.y)<=unit.radius+other.radius+4))continue;
+   point=p;
+  }
+  assert.ok(point,'A living crew member needs a legal unoccupied waiting point');Object.assign(unit,point);unit.navigation=null;
+  assert.equal(g.friendlyPositionClear(unit,unit.x,unit.y),true,'Prepared waiting point remains physically clear');
+ }
+ assert.deepEqual(g.resources,resources);assert.equal(g.random.state,rng);assert.equal(JSON.stringify(g.world.nodes),nodes,'Preparation preserves every resource node');
+}
+clearAssemblyArea();
 const base=g.serialize();g.frontier.world();
 const sides={east:{axis:'x',sign:1,key:'KeyD'},west:{axis:'x',sign:-1,key:'KeyA'},north:{axis:'y',sign:-1,key:'KeyW'},south:{axis:'y',sign:1,key:'KeyS'}};
-function paid(id,generation=8){g.restoreSave(structuredClone(base));if(generation!==g.frontier.position().generation){const raw=g.serialize();if(generation<8){delete raw.frontier.ecologyVersion;delete raw.frontier.hydrologyVersion;}Object.assign(raw.frontier,{generation,x:4162,y:4096});raw.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(raw);}
+function paid(id,generation=8,side='none'){g.restoreSave(structuredClone(base));if(generation!==g.frontier.position().generation){const raw=g.serialize();if(generation<8){delete raw.frontier.ecologyVersion;delete raw.frontier.hydrologyVersion;}Object.assign(raw.frontier,{generation,x:4162,y:4096});raw.expansions127.modules.lore131.siteGeneration=null;g.restoreSave(raw);}
  assert.equal(g.frontier.position().generation,generation);assert.equal(g.frontier.position().ecologyVersion,generation<8?0:1,'Historical fixtures stay on ecology zero; real new G8 remains on ecology one');
- standAt(g,g.player,g.core());assert.equal(g.worldEvolution.selectVehicle(id),true);const before={...g.resources},profile=C.WorldEvolution.RULES.vehicles[id];assert.equal(g.expeditions.buildCar().ok,true);
+ standAt(g,g.player,g.core());assert.equal(g.worldEvolution.selectVehicle(id),true);const before={...g.resources},profile=C.WorldEvolution.RULES.vehicles[id],built=g.expeditions.buildCar();
+ assert.equal(built.ok,true,JSON.stringify({action:'buildCar',profile:id,side,generation,mapSeed:g.world.seed,simulationRandomState:g.random.state,reason:built.reason,player:{x:g.player.x,y:g.player.y},units:g.units.map(u=>({id:u.id,x:u.x,y:u.y,radius:u.radius,health:u.health}))}));
  for(const key of C.RESOURCE_KEYS)assert.equal(g.resources[key],before[key]-(profile.cost[key]||0),'Native vehicle cost '+id+' '+key);
  const v=g.expeditions.car();Object.assign(g.player,{x:v.x,y:v.y});g.resources.food-=2;g.player.carry.food=2;assert.equal(g.expeditions.transfer().ok,true);assert.equal(v.cargo.food,2);
  if(profile.tank>0)assert.equal(g.expeditions.refuel().ok,true);return v;
@@ -28,24 +46,36 @@ function within(v){for(const key of ['x','y'])assert.ok(Number.isFinite(v[key])&
 function continuation(){const vehicle=structuredClone(g.expeditions.snapshot().vehicle),resources={...g.resources},frontier=g.frontier.position();assert.ok(Object.values(resources).every(n=>Number.isFinite(n)&&n>=0));assert.equal(g.save(false),true);g.returnToMenu();assert.equal(g.load(),true);assert.deepEqual(g.expeditions.snapshot().vehicle,vehicle);assert.deepEqual(g.resources,resources);assert.deepEqual(g.frontier.position(),frontier);}
 
 for(const id of ['bike','skate'])for(const side of Object.keys(sides))test('151 vehicles: paid '+id+' native motion at '+side+' remains serializable through Continue',()=>{
- const v=paid(id),start=pose(v,side),stock={...g.resources},cargo={...v.cargo};g.input.keys.add(sides[side].key);for(let i=0;i<20;i++)g.expeditions.drive(.25);g.input.keys.clear();
+ const v=paid(id,8,side),start=pose(v,side),stock={...g.resources},cargo={...v.cargo};g.input.keys.add(sides[side].key);for(let i=0;i<20;i++)g.expeditions.drive(.25);g.input.keys.clear();
  within(v);assert.ok(Math.hypot(v.x-start.x,v.y-start.y)>0);assert.deepEqual(g.resources,stock);assert.deepEqual(v.cargo,cargo);assert.equal(v.fuel,0);assert.ok(g.expeditions.snapshot().stats.distance>0);assert.doesNotThrow(()=>globalThis.DeadwallSave.validate(g.serialize()));continuation();
 });
 
 test('151 vehicles: a native full update at an off-road legacy G1 edge refuses departure and still autosaves',()=>{
- const v=paid('bike',1);pose(v,'east');const previous=g.save;let attempts=0,failures=0;g.save=function(...args){attempts++;const result=previous.apply(g,args);if(!result)failures++;return result;};
+ const v=paid('bike',1,'east');pose(v,'east');const previous=g.save;let attempts=0,failures=0;g.save=function(...args){attempts++;const result=previous.apply(g,args);if(!result)failures++;return result;};
  // A prepared autosave window observes the real save inside the whole wrapped update.
  g.saveTimer=29.6;g.input.keys.add('KeyD');try{for(let i=0;i<25;i++)g.update(.04);}finally{g.input.keys.clear();g.save=previous;}
  assert.equal(g.frontier.active(),false);assert.equal(g.frontier.position().generation,1);assert.ok(Math.abs(v.y-2048)>66);assert.equal(g.frontier.enter(),false);assert.ok(attempts>0);assert.equal(failures,0);within(v);assert.doesNotThrow(()=>globalThis.DeadwallSave.validate(g.serialize()));continuation();
 });
 
 test('151 vehicles: every existing profile can enter every physically clear driving seam',()=>{
- for(const id of Object.keys(C.WorldEvolution.RULES.vehicles))for(const side of Object.keys(sides)){const v=paid(id);pose(v,side);const stock={...g.resources},cargo={...v.cargo},fuel=v.fuel,radius=g.player.radius;assert.equal(radius,g.expeditions.entity().radius,'Native boarding retains the '+id+' footprint');
+ for(const id of Object.keys(C.WorldEvolution.RULES.vehicles))for(const side of Object.keys(sides)){const v=paid(id,8,side);pose(v,side);const stock={...g.resources},cargo={...v.cargo},fuel=v.fuel,radius=g.player.radius;assert.equal(radius,g.expeditions.entity().radius,'Native boarding retains the '+id+' footprint');
   assert.equal(g.frontier.enter(),true,id+' '+side);assert.equal(g.frontier.position().car.driving,true);assert.equal(g.frontier.position().car.id,v.id);assert.deepEqual(g.resources,stock);assert.deepEqual(v.cargo,cargo);assert.equal(v.fuel,fuel);within(v);assert.doesNotThrow(()=>globalThis.DeadwallSave.validate(g.serialize()));
  }
 });
 
 test('151 vehicles: malformed out-of-bounds snapshots still reject before replacing the live world',()=>{
- const v=paid('bike');pose(v,'east');const valid=g.serialize(),world=g.world;
+ const v=paid('bike',8,'east');pose(v,'east');const valid=g.serialize(),world=g.world;
  for(const [key,value]of [['x',25.999],['x',C.WORLD_SIZE-25.999],['y',25.999],['y',C.WORLD_SIZE-25.999],['x',NaN]]){const bad=structuredClone(valid);bad.expeditions.vehicle[key]=value;bad.player[key]=value;assert.throws(()=>g.restoreSave(bad),/Expéditions invalides : véhicule/);assert.equal(g.world,world);}
+});
+
+test('151 vehicles: legal recovered crew positions can block assembly until the declared preparation frees it',()=>{
+ g.restoreSave(structuredClone(base));standAt(g,g.player,g.core());assert.equal(g.worldEvolution.selectVehicle('bus'),true);
+ const core=g.core(),workers=g.units.filter(u=>u.kind==='worker'&&!u.dead),offsets=[[-89,0],[40,-89],[40,89]];assert.equal(workers.length,offsets.length);
+ workers.forEach((u,i)=>{Object.assign(u,{x:core.x+offsets[i][0],y:core.y+offsets[i][1],navigation:null});assert.equal(g.friendlyPositionClear(u,u.x,u.y),true,'Blocking worker position is physically legal');});
+ const before={...g.resources},rng=g.random.state,nodes=JSON.stringify(g.world.nodes),crew=g.units.map(u=>({id:u.id,health:u.health})),refused=g.expeditions.buildCar();
+ assert.equal(refused.ok,false,JSON.stringify({profile:'bus',mapSeed:g.world.seed,simulationRandomState:rng,reason:refused.reason,workers:workers.map(u=>({id:u.id,x:u.x,y:u.y}))}));assert.equal(refused.reason,'Libérez une aire accessible près du centre.');
+ assert.equal(g.expeditions.car(),null);assert.deepEqual(g.resources,before);assert.equal(g.random.state,rng);
+ clearAssemblyArea();const built=g.expeditions.buildCar();assert.equal(built.ok,true,JSON.stringify(built));
+ for(const key of C.RESOURCE_KEYS)assert.equal(g.resources[key],before[key]-(C.WorldEvolution.RULES.vehicles.bus.cost[key]||0),'The released area still pays the full native bus cost '+key);
+ assert.equal(g.random.state,rng);assert.equal(JSON.stringify(g.world.nodes),nodes);assert.deepEqual(g.units.map(u=>({id:u.id,health:u.health})),crew);
 });

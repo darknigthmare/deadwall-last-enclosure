@@ -34,7 +34,7 @@ try{
    await page.locator(host+' > summary').scrollIntoViewIfNeeded();await activate(page,host+' > summary',view.touch);
    await page.waitForFunction(()=>document.querySelector('[data-inspection2026="canvas"]')?.dataset.plan==='EXT-MONDE-T065-V01');
    const before=await material(page);
-   rec.check('All 80 targets remain visible with twenty available types',await page.locator(control('type')).evaluate(n=>n.options.length===80&&[...n.options].filter(o=>o.textContent.includes('50 plans')).length===20));
+   rec.check('All 80 targets remain visible with twenty-four available types',await page.locator(control('type')).evaluate(n=>n.options.length===80&&[...n.options].filter(o=>o.textContent.includes('50 plans')).length===24));
    rec.check('All 50 variant identities are selectable',await page.locator(control('variant')+' option').count()===50);
    await page.locator(control('type')).selectOption('EXT-MONDE-T005');
    const start=await state(page);assert.equal(start.planId,'EXT-MONDE-T005-V01');
@@ -62,9 +62,15 @@ try{
    for(let i=0;i<9;i++)await page.keyboard.press('ArrowUp');
    rec.check('Keyboard walking enters a room through its door',((await state(page)).visitedRooms.length)>start.visitedRooms.length);
    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot('cargo-room');
-   for(const type of ['EXT-MONDE-T006','EXT-MONDE-T007','EXT-MONDE-T008','EXT-MONDE-T011','EXT-MONDE-T060','EXT-MONDE-T065','EXT-MONDE-T066',...Array.from({length:8},(_,i)=>'EXT-MONDE-T'+String(21+i).padStart(3,'0')),...Array.from({length:4},(_,i)=>'EXT-MONDE-T'+String(45+i).padStart(3,'0'))]){
+   for(const type of ['EXT-MONDE-T006','EXT-MONDE-T007','EXT-MONDE-T008','EXT-MONDE-T011','EXT-MONDE-T060','EXT-MONDE-T065','EXT-MONDE-T066',...Array.from({length:8},(_,i)=>'EXT-MONDE-T'+String(21+i).padStart(3,'0')),...Array.from({length:4},(_,i)=>'EXT-MONDE-T'+String(45+i).padStart(3,'0')),...Array.from({length:4},(_,i)=>'EXT-MONDE-T'+String(53+i).padStart(3,'0'))]){
     await page.locator(control('type')).selectOption(type);await page.locator(control('variant')).selectOption('50');
     rec.check(type+' variant50 is built by the visible controls',(await state(page))?.planId===type+'-V50');
+   }
+   for(const type of ['EXT-MONDE-T053','EXT-MONDE-T054','EXT-MONDE-T055','EXT-MONDE-T056']){
+    await page.locator(control('type')).selectOption(type);await page.locator(control('variant')).selectOption('1');await page.locator(control('view')).selectOption('plan');
+    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot(type+'-industry');
+    const layout=await page.evaluate(type=>{const s=DeadwallCodexInspection2026.create(type,1);return{stages:s.author.processFlow.stages.map(n=>n.role),links:s.author.processFlow.links.length,props:s.furnishing.props.length,ok:DeadwallCodexPhysical2026.audit(s.scene).ok,operational:s.author.processFlow.recipesActive};},type);
+    rec.check(type+' has a furnished, physically reachable five-stage author layout',layout.ok&&layout.links===4&&layout.stages.join(',')==='receiving,preparation,production,finishing,dispatch'&&layout.props>100&&layout.operational===false);
    }
    for(const type of ['EXT-MONDE-T021','EXT-MONDE-T027','EXT-MONDE-T045','EXT-MONDE-T048']){
     await page.locator(control('type')).selectOption(type);await page.locator(control('variant')).selectOption('1');await page.locator(control('view')).selectOption('plan');
