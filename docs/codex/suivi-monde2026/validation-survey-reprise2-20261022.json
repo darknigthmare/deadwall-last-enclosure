@@ -1,0 +1,669 @@
+{
+  "schema": "deadwall-targeted-narrative-validation-v1",
+  "recordedAt": "2026-10-22T14:08:09.438641+00:00",
+  "freshAfterMaintenance": true,
+  "result": {
+    "pass": true,
+    "nativeTestsPassed": 7,
+    "nativeTestsTotal": 7,
+    "browserChecksPassed": 16,
+    "browserChecksTotal": 16,
+    "windowsJob": "success",
+    "completeLocalProfiles": 2
+  },
+  "source": {
+    "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "before": {
+      "index.html": "707a09d364abc004e4426d27eb5fed0cfa72d64e0256b0f0bac035400895670c",
+      "src/core.js": "e08d943744cf3629bae84d77ef6f44f13160ef577bee4c6413f4ba5a91e9e092",
+      "src/game.js": "a3c332af17c169bf7613deb55095169050e0501c75ad809d1801ed240b80634f",
+      "src/fieldcraft.js": "ecd2fac4dd4334bce3b9c3fb1d120a4a2f046fc94884292fd39530764fdaba64",
+      "src/narrative.js": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c",
+      "src/narrative-ui.js": "afac4016e6afc798cdf71f3b479d87e52274a78834837da6d3bfd0eb6d1bea1b",
+      "src/content-ui.js": "af5c1b72243fc53f4a5c148dc1860a400a1c8c5c6119166a88796e7c910d8582",
+      "src/fieldcraft-ui.js": "fc90fe17284196f193db9952e47364d0d7ce4b7043bb8b6f86c9828e6f315b8e",
+      "src/exploration-125.js": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+      "src/world-content.js": "f26da9c4c4ccfe70c633babf18d67038099b5b1953f12f28eeb30b7b085d7101",
+      "desktop/smoke.cjs": "54382aa4dd97abe02cd2c3191b93e472f1f2c8c4948effe74223c003c36506eb",
+      "tests/narrative-spatial202.test.cjs": "8ccea58285c057c2938b45f2991d7687b36ab03eabf207b715928993d083b954",
+      "scripts/browser-qa-common142.mjs": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3"
+    },
+    "after": {
+      "index.html": "707a09d364abc004e4426d27eb5fed0cfa72d64e0256b0f0bac035400895670c",
+      "src/core.js": "e08d943744cf3629bae84d77ef6f44f13160ef577bee4c6413f4ba5a91e9e092",
+      "src/game.js": "a3c332af17c169bf7613deb55095169050e0501c75ad809d1801ed240b80634f",
+      "src/fieldcraft.js": "ecd2fac4dd4334bce3b9c3fb1d120a4a2f046fc94884292fd39530764fdaba64",
+      "src/narrative.js": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c",
+      "src/narrative-ui.js": "afac4016e6afc798cdf71f3b479d87e52274a78834837da6d3bfd0eb6d1bea1b",
+      "src/content-ui.js": "af5c1b72243fc53f4a5c148dc1860a400a1c8c5c6119166a88796e7c910d8582",
+      "src/fieldcraft-ui.js": "fc90fe17284196f193db9952e47364d0d7ce4b7043bb8b6f86c9828e6f315b8e",
+      "src/exploration-125.js": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+      "src/world-content.js": "f26da9c4c4ccfe70c633babf18d67038099b5b1953f12f28eeb30b7b085d7101",
+      "desktop/smoke.cjs": "54382aa4dd97abe02cd2c3191b93e472f1f2c8c4948effe74223c003c36506eb",
+      "tests/narrative-spatial202.test.cjs": "8ccea58285c057c2938b45f2991d7687b36ab03eabf207b715928993d083b954",
+      "scripts/browser-qa-common142.mjs": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3"
+    },
+    "runtimeAndServedBuildStable": true,
+    "statusBefore": "",
+    "statusAfter": ""
+  },
+  "native": {
+    "command": "node --test --test-reporter=tap tests/narrative-spatial202.test.cjs",
+    "exitCode": 0,
+    "counts": {
+      "tests": 7,
+      "suites": 0,
+      "pass": 7,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMs": 17295.742497,
+    "log": "validation-survey-reprise2-20261022.native.log.gz"
+  },
+  "browser": {
+    "command": "CHROMIUM_EXECUTABLE_PATH=/tmp/chromium node /tmp/deadwall-narrative-restored-browser-20261022.mjs",
+    "exitCode": 0,
+    "started": "2026-10-22T14:04:01.587Z",
+    "completed": "2026-10-22T14:05:06.296Z",
+    "durationMs": 64709.0,
+    "version": "153.0.8010.0",
+    "platform": "linux",
+    "node": "v24.19.0",
+    "entry": "http://127.0.0.1:45727/",
+    "servedRoot": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+    "serviceWorkers": "block",
+    "profiles": [
+      {
+        "name": "native-walk",
+        "url": "http://127.0.0.1:45727/",
+        "httpOverrides": [],
+        "pass": true,
+        "checks": 10,
+        "passed": 10,
+        "failed": 0,
+        "errors": 0
+      },
+      {
+        "name": "exact-desktop-narrative",
+        "url": "http://127.0.0.1:45727/",
+        "httpOverrides": [],
+        "pass": true,
+        "checks": 6,
+        "passed": 6,
+        "failed": 0,
+        "errors": 0
+      }
+    ],
+    "checks": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0
+    },
+    "sourcesMatchDistBeforeLaunch": true,
+    "dist": {
+      "count": 365,
+      "bytes": 319606868,
+      "manifestSha256": "d7fba1938d578315224db2b4e70ea1e49fe722f065335ccb4d027c5240921d32"
+    },
+    "distAfter": {
+      "count": 365,
+      "bytes": 319606868,
+      "manifestSha256": "d7fba1938d578315224db2b4e70ea1e49fe722f065335ccb4d027c5240921d32"
+    },
+    "runnerSha256": "f2a14208d064af283cabf268f9a7868f897e59cc6e0c36acd94a1533e7f78f8f",
+    "closed": true,
+    "remainingChromiumProcessesObservedAfterExit": 0
+  },
+  "spatialContract": {
+    "theme": "market",
+    "seed": 17117,
+    "siteId": "site-2",
+    "historicalCentre": {
+      "x": 1767.75,
+      "y": 3062.87
+    },
+    "obstructingBuilding": {
+      "x": 1566,
+      "y": 2957,
+      "w": 320,
+      "h": 256,
+      "kind": "settlement-building",
+      "settlement": "settlement-2",
+      "building": "settlement-2-building-2"
+    },
+    "resolvedPoint": {
+      "x": 1767.75,
+      "y": 2934.87
+    },
+    "offset": 128,
+    "surveyRadius": 90,
+    "oldCentrePhysicallyClear": false,
+    "resolvedPointPhysicallyClear": true,
+    "outwardWalk": {
+      "origin": {
+        "x": 2068,
+        "y": 2278
+      },
+      "destination": {
+        "x": 1767.75,
+        "y": 2934.87
+      },
+      "arrival": {
+        "x": 1767.9736745072942,
+        "y": 2934.818255803805
+      },
+      "cells": 29,
+      "ticks": 383,
+      "travel": 978.5750257909859,
+      "minProgress": 0.10366235603942187,
+      "maxStep": 5.712000000000444,
+      "elapsedBefore": 0.5333999999999997,
+      "elapsedAfter": 7.6301280248216,
+      "phaseBefore": 229.86659999999986,
+      "phaseAfter": 222.769871975179,
+      "survey": 0,
+      "physicallyClear": true
+    },
+    "liveSurvey": {
+      "wallMs": 8061,
+      "before": {
+        "elapsed": 7.733428024821602,
+        "survey": 0,
+        "insight": 0
+      },
+      "after": {
+        "elapsed": 15.816428024821503,
+        "survey": 8,
+        "insight": 0,
+        "choice": null,
+        "position": {
+          "x": 1767.9736745072942,
+          "y": 2934.818255803805
+        },
+        "clear": true
+      }
+    },
+    "returnWalk": {
+      "origin": {
+        "x": 1767.9736745072942,
+        "y": 2934.818255803805
+      },
+      "destination": {
+        "x": 1896,
+        "y": 2235
+      },
+      "arrival": {
+        "x": 1895.9233796580659,
+        "y": 2234.769025895665
+      },
+      "cells": 30,
+      "ticks": 447,
+      "travel": 1091.7794501246312,
+      "minProgress": 0.09670952873671013,
+      "maxStep": 5.712000000000444,
+      "elapsedBefore": 16.0331280248215,
+      "elapsedAfter": 24.52547655279928,
+      "phaseBefore": 214.36687197517566,
+      "phaseAfter": 205.87452344719873,
+      "survey": 8,
+      "physicallyClear": true
+    },
+    "decision": {
+      "before": {
+        "resources": {
+          "wood": 215,
+          "scrap": 236.40832259170713,
+          "stone": 70,
+          "food": 164.35328440962746,
+          "fuel": 45,
+          "ammo": 270,
+          "medicine": 12
+        },
+        "insight": 0,
+        "option": {
+          "label": "Étudier la répartition",
+          "outcome": "Vous séparez le registre en deux colonnes : distribué et attendu. La méthode ne remplit pas les étagères, mais elle montre enfin où les réserves disparaissent.",
+          "cost": {
+            "scrap": 16,
+            "food": 8
+          },
+          "reward": {
+            "insight": 1,
+            "morale": 0,
+            "resources": {}
+          }
+        }
+      },
+      "after": {
+        "resources": {
+          "wood": 215,
+          "scrap": 220.40832259170713,
+          "stone": 70,
+          "food": 156.35328440962746,
+          "fuel": 45,
+          "ammo": 270,
+          "medicine": 12
+        },
+        "insight": 1,
+        "choice": "A"
+      }
+    },
+    "continueComparison": {
+      "pass": true,
+      "changedKeys": []
+    }
+  },
+  "exactDesktopBlock": {
+    "source": "desktop/smoke.cjs",
+    "sourceSha256": "54382aa4dd97abe02cd2c3191b93e472f1f2c8c4948effe74223c003c36506eb",
+    "templateSha256": "464048e77bf1d9bb4d82f6cacc6e9c497286b1f45235207ed38da96be16d0ca8",
+    "substitutions": [
+      "stage",
+      "expectedNarrative"
+    ],
+    "unchangedAssertions": true,
+    "windowsElectronReplayed": false,
+    "create": {
+      "fixture": "Controlled commander relocation to native survey points and real survey actions; not a full exploration playthrough",
+      "surveyPoints": [
+        {
+          "theme": "market",
+          "centre": {
+            "x": 1767.75,
+            "y": 3062.87
+          },
+          "point": {
+            "x": 1767.75,
+            "y": 2934.87
+          },
+          "seconds": 2
+        },
+        {
+          "theme": "housing",
+          "centre": {
+            "x": 511.08,
+            "y": 2469.53
+          },
+          "point": {
+            "x": 511.08,
+            "y": 2469.53
+          },
+          "seconds": 8
+        }
+      ],
+      "commandJournal": true,
+      "sectorIds": [
+        "aid",
+        "checkpoint",
+        "housing",
+        "industry",
+        "market",
+        "transit"
+      ],
+      "chapterCards": 4,
+      "partialSurvey": 2,
+      "choice": "A",
+      "read": true,
+      "repeatRejected": true,
+      "restored": false,
+      "state": {
+        "version": 1,
+        "sectors": {
+          "housing": {
+            "survey": 8,
+            "choice": "A"
+          },
+          "market": {
+            "survey": 2,
+            "choice": null
+          },
+          "aid": {
+            "survey": 0,
+            "choice": null
+          },
+          "industry": {
+            "survey": 0,
+            "choice": null
+          },
+          "transit": {
+            "survey": 0,
+            "choice": null
+          },
+          "checkpoint": {
+            "survey": 0,
+            "choice": null
+          }
+        },
+        "chapters": [
+          "departure",
+          "initiative"
+        ],
+        "unread": []
+      },
+      "insight": 1,
+      "wood": 168
+    },
+    "restore": {
+      "fixture": "Controlled commander relocation to native survey points and real survey actions; not a full exploration playthrough",
+      "surveyPoints": [],
+      "commandJournal": true,
+      "sectorIds": [
+        "aid",
+        "checkpoint",
+        "housing",
+        "industry",
+        "market",
+        "transit"
+      ],
+      "chapterCards": 4,
+      "partialSurvey": 2,
+      "choice": "A",
+      "read": true,
+      "repeatRejected": true,
+      "restored": true,
+      "state": {
+        "version": 1,
+        "sectors": {
+          "housing": {
+            "survey": 8,
+            "choice": "A"
+          },
+          "market": {
+            "survey": 2,
+            "choice": null
+          },
+          "aid": {
+            "survey": 0,
+            "choice": null
+          },
+          "industry": {
+            "survey": 0,
+            "choice": null
+          },
+          "transit": {
+            "survey": 0,
+            "choice": null
+          },
+          "checkpoint": {
+            "survey": 0,
+            "choice": null
+          }
+        },
+        "chapters": [
+          "departure",
+          "initiative"
+        ],
+        "unread": []
+      },
+      "insight": 1,
+      "wood": 168
+    },
+    "continueComparison": {
+      "pass": true,
+      "changedKeys": []
+    }
+  },
+  "windowsCI": {
+    "runId": 39789163177,
+    "jobId": 119860247053,
+    "conclusion": "success",
+    "checkout": "f0513f67f234c4ff651ec09f232ae0c9f174a378",
+    "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "sameTreeAsLocalCheckpoint": true,
+    "treeEqualityEvidence": "The coordinating agent verified the two GitHub commit objects; the exact synthetic merge checkout is also present in the archived CI log.",
+    "observedSuccessAt": "2026-10-22T13:48:52.0038174Z",
+    "twoPortableLaunches": true,
+    "narrativePartialSurveyUniqueChoiceReadState": true,
+    "logSha256": "16d26c74c101088bf011d9b2f9f4acac8bceb3b06bcc45947b7a383483c3b03c",
+    "distEquivalenceClaimed": false,
+    "limits": "Native Windows CI is independent of this Chromium Linux probe. Windows PWA bytes differ under CRLF and are not equated with the Linux dist manifest. No Windows artifact download or local Windows replay was performed by this agent."
+  },
+  "excludedAttempt": {
+    "exitCode": 1,
+    "qualifies": false,
+    "reportPass": false,
+    "checksRecorded": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "profiles": [
+      {
+        "name": "native-walk",
+        "pass": false,
+        "checks": 2,
+        "passed": 2,
+        "failed": 0,
+        "errors": 0
+      },
+      {
+        "name": "exact-desktop-narrative",
+        "pass": true,
+        "checks": 6,
+        "passed": 6,
+        "failed": 0,
+        "errors": 0
+      }
+    ],
+    "reason": "Temporary runner selected the hidden HUD Journal button before walking; a real DOM navigation timeout stopped that profile. The complete rerun uses Pause > Command post > Journal and Resume, with unchanged product sources and assertions.",
+    "sourceAndDistStable": true
+  },
+  "limits": [
+    "Previous local 84-test and 16-browser evidence was lost during maintenance and is not counted as this qualification.",
+    "The native walk uses held Arrow inputs and bounded full Game.update calls, with normal collision, phase clock, economy and actors; it is not a human real-time campaign.",
+    "The eight-second KeyE survey runs under the ordinary browser RAF and a real held keyboard event.",
+    "The exact smoke narrative block deliberately relocates the commander and steps native actions, as declared by the existing fixture; it is not a second walking proof.",
+    "Continue comparisons exclude timestamp and wavePlan according to the existing shared harness; all other normalized persisted fields, including RNG, resources and narrative, are checked.",
+    "No complete npm run check result is claimed by this targeted evidence. No full campaign, physical-device performance or game balance certification is claimed.",
+    "Absolute paths in raw reports and runners are execution traces. The archived runner is not a portable user tool."
+  ],
+  "artifacts": [
+    {
+      "role": "final-browser-report",
+      "path": "validation-survey-reprise2-20261022.browser-report.json.gz",
+      "sha256": "985774a9855dd8be7ad061235a53f435e2694fa7f636b873ebe9c1958cf6d439",
+      "bytes": 45135,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.browser-report.json",
+        "sha256": "14467ed2787fb727e1b78287fcd585c0fa6f4cdf56b7e71ea42301c5578fc7e7",
+        "bytes": 160334
+      },
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/report.json",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "final-browser-runner",
+      "path": "validation-survey-reprise2-20261022.browser-runner.mjs.gz",
+      "sha256": "77c8b432175c4a5a659d3cea587c515ba9d0999860158e3d9b25ab1f5ebeaee6",
+      "bytes": 6832,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.browser-runner.mjs",
+        "sha256": "f2a14208d064af283cabf268f9a7868f897e59cc6e0c36acd94a1533e7f78f8f",
+        "bytes": 21566
+      },
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/runner.mjs",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "final-browser-log",
+      "path": "validation-survey-reprise2-20261022.browser.log.gz",
+      "sha256": "cd1003d24661f877ef348854df7053c50c6b4f835cd15474853502f7e0af2669",
+      "bytes": 192,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.browser.log",
+        "sha256": "213ffda4704602e6fff8059aea65f4a3ff63bdeb3972ae246796b1b5f1dbf7bd",
+        "bytes": 311
+      },
+      "executionSource": "/tmp/deadwall-narrative-restored-browser-20261022.log",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "native-evidence",
+      "path": "validation-survey-reprise2-20261022.native.json.gz",
+      "sha256": "d41185573b59438c7ea1b63715135b624c914455709727860261a6e07833e8ab",
+      "bytes": 953,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.native.json",
+        "sha256": "9a9a17bb2255d9b30c7a74d5e12e386c06bc9efa46cd2dc2b0ee02459e1013e5",
+        "bytes": 1674
+      },
+      "executionSource": "/tmp/deadwall-narrative-restored-native-20261022.json",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "native-log",
+      "path": "validation-survey-reprise2-20261022.native.log.gz",
+      "sha256": "2bb1b0f2dc79bcbc961e116bcc61fd47002102d91e437a0e24f1a528a2a2804a",
+      "bytes": 651,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.native.log",
+        "sha256": "c68b51d9a7260107bb9d1920d5db276dbbf4a61076ba056dd235eb72f5ac7f2b",
+        "bytes": 2124
+      },
+      "executionSource": "/tmp/deadwall-narrative-restored-native-20261022.log",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "exact-desktop-narrative-template",
+      "path": "validation-survey-reprise2-20261022.smoke-template.txt.gz",
+      "sha256": "c95cd87731c9c1a0ffca7d0d8acd6147ab2f84517a7f68209e15f5b7dbaf26ba",
+      "bytes": 1829,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.smoke-template.txt",
+        "sha256": "464048e77bf1d9bb4d82f6cacc6e9c497286b1f45235207ed38da96be16d0ca8",
+        "bytes": 5074
+      },
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/smoke-block-template.txt",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "incomplete-attempt-report",
+      "path": "validation-survey-reprise2-20261022.attempt1-report.json.gz",
+      "sha256": "b1c5991b5ad18922828cf587740e4fc558f946eab56f60df47ebb33565356771",
+      "bytes": 44333,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.attempt1-report.json",
+        "sha256": "37d9ef963551530edd2065ae8df8485564177c89a591f051fee1eec0d2aa242e",
+        "bytes": 156074
+      },
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_01_48_155Z/report.json",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "incomplete-attempt-runner",
+      "path": "validation-survey-reprise2-20261022.attempt1-runner.mjs.gz",
+      "sha256": "fd9010bfa0a87db4ac9a8d5b5520693cd45ba7197214da376f09eecb2a4c7417",
+      "bytes": 6797,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.attempt1-runner.mjs",
+        "sha256": "8163cb6d39072922f8ccc368c75af520559e4481529ab658780df12797defc41",
+        "bytes": 21298
+      },
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_01_48_155Z/runner.mjs",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "incomplete-attempt-log",
+      "path": "validation-survey-reprise2-20261022.attempt1.log.gz",
+      "sha256": "c337d09752651fe80e75975e28f76b27cad17e65bab2fcf4355d98ab7d11075a",
+      "bytes": 233,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.attempt1.log",
+        "sha256": "03644aee3e4573312fade3b4629122acae76ec90663562d9373d0e658df5135a",
+        "bytes": 363
+      },
+      "executionSource": "/tmp/deadwall-narrative-restored-browser-attempt1-20261022.log",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "incomplete-attempt-diagnostic",
+      "path": "validation-survey-reprise2-20261022.attempt1-diagnostic.json.gz",
+      "sha256": "372246c8b4039e0c7e6ffb572ebda40c53bb5c5d2c396cf4882f97c70909b469",
+      "bytes": 1095,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.attempt1-diagnostic.json",
+        "sha256": "e9dc2158a0948482d41985f40f5f51f35154b811e8e8b41a63b5ff6c66a88899",
+        "bytes": 2909
+      },
+      "executionSource": "/tmp/deadwall-narrative-restored-browser-attempt1-20261022.json",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "independent-windows-ci-log",
+      "path": "validation-survey-reprise2-20261022.windows-ci.log.gz",
+      "sha256": "22e4a86bc517495fcc50dca123f6eefcdf9880e04a0ea4bce36eaf4821677fe1",
+      "bytes": 8917,
+      "raw": {
+        "name": "validation-survey-reprise2-20261022.windows-ci.log",
+        "sha256": "16d26c74c101088bf011d9b2f9f4acac8bceb3b06bcc45947b7a383483c3b03c",
+        "bytes": 33838
+      },
+      "executionSource": "/tmp/deadwall-ci-restauration-20261022/windows-native.log",
+      "compression": {
+        "format": "gzip",
+        "mtime": 0
+      }
+    },
+    {
+      "role": "native-market-journal-capture",
+      "path": "validation-survey-reprise2-20261022.market-releve.png",
+      "sha256": "f4693b2d573706c4e077d6c93503a5ddd7ee7b0a643196ef5f4c3d4761d58055",
+      "bytes": 630216,
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/native-walk-market-releve.png"
+    },
+    {
+      "role": "native-paid-decision-capture",
+      "path": "validation-survey-reprise2-20261022.decision-paid.png",
+      "sha256": "abd5929d1dce1249b85537adc9e983d89e37a3807fe51850031fa77992886892",
+      "bytes": 591469,
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/native-walk-decision-paid.png"
+    },
+    {
+      "role": "smoke-restored-capture",
+      "path": "validation-survey-reprise2-20261022.smoke-restored.png",
+      "sha256": "5d53b3f2eb9f432e085ecfc2e7e1dd02340b294f59ab436f7a6eccdcccf0f4ef",
+      "bytes": 868059,
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_04_01_581Z/exact-desktop-narrative-smoke-restored.png"
+    },
+    {
+      "role": "incomplete-attempt-capture",
+      "path": "validation-survey-reprise2-20261022.attempt1.png",
+      "sha256": "3ff48d6e06e9f9ce2eb2e86e9cf5bbf142438782a5e359c4371190e21e5db391",
+      "bytes": 798546,
+      "executionSource": "/tmp/deadwall-narrative-reprise2-restored-20261022/narrative-restored-reprise2-20261022-2026-10-22T14_01_48_155Z/native-walk-failure.png"
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "schema": "deadwall-ci-literal-reprise2-20261022-v1",
+  "createdAt": "2026-10-22T14:36:16.753631+00:00",
+  "accepted": true,
+  "scope": "One real integral DEADWALL_SOAK=1 npm run check on immutable a137e2f; independent validation of the original artifact, not a concatenation of shards. Later D17 helper and exploration-125 corrections are excluded. Browser, Windows, FPS and an organic human campaign are not inferred.",
+  "source": {
+    "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "trackedFiles": 4794,
+    "nativeTestFiles": 530,
+    "inventorySha256": "550ea5aaecb5fc80e0c70d0c80220531aade109d23d316b9e8d9df70eb886785",
+    "beforeAfterIdentical": true,
+    "matchesEveryImmutableGitBlob": true
+  },
+  "ci": {
+    "repository": "darknigthmare/deadwall-last-enclosure",
+    "runId": 39789162646,
+    "jobId": 119860245492,
+    "runAttempt": "1",
+    "runURL": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789162646",
+    "jobURL": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789162646/job/119860245492",
+    "artifact": {
+      "id": 12434025626,
+      "name": "deadwall-fullcheck201-39789162646-1",
+      "size_in_bytes": 892616,
+      "url": "https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/actions/artifacts/12434025626",
+      "archive_download_url": "https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/actions/artifacts/12434025626/zip",
+      "expired": false,
+      "created_at": "2026-10-22T14:29:32Z",
+      "expires_at": "2026-11-05T14:29:31Z",
+      "updated_at": "2026-10-22T14:29:32Z",
+      "digest": "sha256:ac7b6e7cf4c22a7f5413566551cf368b899ecabf10de9d2826ce76d1cc86822d",
+      "workflow_run": {
+        "id": 39789162646,
+        "repository_id": 1351110775,
+        "head_repository_id": 1351110775,
+        "head_branch": "feat/codex-world-extension-20261021",
+        "head_sha": "a137e2f714649083e460fcf25b0d84b7ea1bee57"
+      }
+    },
+    "jobEnvelopeObservation": "Connector still returned in_progress/null while every job step including Complete job was completed/success. PASS here is based on independently qualified receipt and raw log, not that envelope."
+  },
+  "command": "DEADWALL_SOAK=1 npm run check",
+  "node": "v24.22.0",
+  "npm": "11.19.1",
+  "soakEnabled": true,
+  "filtersAbsent": true,
+  "result": {
+    "counts": {
+      "tests": 5690,
+      "suites": 4,
+      "pass": 5690,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "npmExitCode": 0,
+    "teeExitCode": 0,
+    "signal": null,
+    "logBytes": 627214,
+    "logSha256": "49b09d599a0ea308d40bfdfec055df6a7669587584322f10d7f61c2e42fcb541",
+    "receiptSha256": "bc909740146ba58cc801bbf6f3263b444e08a6d1a1bff1396a6f5e2f6d58a08e",
+    "validator": "scripts/full-check201.mjs:qualifyFullCheck201",
+    "validatorSha256": "72f65594c9935ff3521381d7ae4c886ddef0f09a807120eeb894563904159b3f",
+    "independentlyAccepted": true
+  },
+  "timing": {
+    "startedAt": "2026-10-22T13:42:29.145Z",
+    "completedAt": "2026-10-22T14:29:30.774Z",
+    "receiptDurationMs": 2821629,
+    "nativeFooterDurationMs": 2805738.271675
+  },
+  "verification": {
+    "verifiedAt": "2026-10-22T14:34:15.404Z",
+    "runId": "39789162646",
+    "jobId": "119860245492",
+    "expectedHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "expectedTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "accepted": true,
+    "receivedClaimedAccepted": true,
+    "receivedFailure": null,
+    "startedAt": "2026-10-22T13:42:29.145Z",
+    "completedAt": "2026-10-22T14:29:30.774Z",
+    "durationMs": 2821629,
+    "receivedCounters": {
+      "tests": 5690,
+      "suites": 4,
+      "pass": 5690,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "npmExitCode": 0,
+    "teeExitCode": 0,
+    "signal": null,
+    "receiptSha256": "bc909740146ba58cc801bbf6f3263b444e08a6d1a1bff1396a6f5e2f6d58a08e",
+    "logSha256": "49b09d599a0ea308d40bfdfec055df6a7669587584322f10d7f61c2e42fcb541",
+    "logBytes": 627214,
+    "validatorSha256": "72f65594c9935ff3521381d7ae4c886ddef0f09a807120eeb894563904159b3f",
+    "provenance": "Independent local qualification of original CI receipt and native.log bytes; no test execution or workflow change.",
+    "gitObjectSourceInventoryMatches": true,
+    "qualification": {
+      "accepted": true,
+      "counts": {
+        "tests": 5690,
+        "suites": 4,
+        "pass": 5690,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "sourceFiles": 4794,
+      "testFiles": 530,
+      "gitHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+      "sourceTree": "172bf1a43d4c7546853415f5d20c5a2592292252"
+    }
+  },
+  "verificationEnvironmentNote": "Initial local verification could not spawn its Git-object reader under sandbox (EPERM). The identical verifier then succeeded with authorized process access. That environmental refusal is preserved separately and was not a test failure.",
+  "evidence": {
+    "archive": "validation-ci-literal-reprise2-20261022.tar.gz",
+    "originalNativeLogGzip": "validation-ci-literal-reprise2-20261022.log.gz",
+    "archiveFiles": {
+      "received/started.json": {
+        "bytes": 991647,
+        "sha256": "b494a3e6b1044c97e66888983b9b44bbedb9ad47c77df582b326f6b15b79cb26"
+      },
+      "received/receipt.json": {
+        "bytes": 1983103,
+        "sha256": "bc909740146ba58cc801bbf6f3263b444e08a6d1a1bff1396a6f5e2f6d58a08e"
+      },
+      "received/native.log": {
+        "bytes": 627214,
+        "sha256": "49b09d599a0ea308d40bfdfec055df6a7669587584322f10d7f61c2e42fcb541"
+      },
+      "independent-qualification.json": {
+        "bytes": 1458,
+        "sha256": "47a23a44caff09d57ff0f40fdfc104304698186d9153610116f3215817bb4e77"
+      },
+      "qualify-received-literal201.mjs": {
+        "bytes": 3656,
+        "sha256": "feaf4c81267534ffaed7f6a3cb3e593ed044d4adb0b03b373f1cf11f35484200"
+      },
+      "source-at-a137.py": {
+        "bytes": 1923,
+        "sha256": "16c75ad94d83a2d0f15a5480b6d0b09742009b18347374ddbdc8c2b444a1d034"
+      },
+      "git-source-a137.json": {
+        "bytes": 753392,
+        "sha256": "8339337214d70cc0c2c487a11c824b7f67dced96f09465c23c2fc18d41ac8ee5"
+      },
+      "fullcheck201-a137.zip": {
+        "bytes": 892616,
+        "sha256": "ac7b6e7cf4c22a7f5413566551cf368b899ecabf10de9d2826ce76d1cc86822d"
+      },
+      "fullcheck201-github-job.log": {
+        "bytes": 817662,
+        "sha256": "7aa9df1e9595dae2f73eb9d2c4502a8bc4ae5040116fd79a268bf18b84a15d53"
+      },
+      "artifacts-complete.json": {
+        "bytes": 1832,
+        "sha256": "f966c50494eff2664e3f715bcdef3d32ee43a59c681c443d8454fdfb4abfbfc3"
+      },
+      "jobs-final.json": {
+        "bytes": 3814,
+        "sha256": "bc239aaa0e05f8aa73a4fd79ba9c1bb54cab2a4759e1b17ec09ddd6423f99156"
+      },
+      "independent-qualification-sandbox-blocked.json": {
+        "bytes": 1547,
+        "sha256": "3fecdfc3e5b4258fd2aa9566d5785f96141434038f83bdfc87ae2b627c915ad2"
+      }
+    }
+  }
+}

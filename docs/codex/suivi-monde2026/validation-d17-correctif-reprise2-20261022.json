@@ -1,0 +1,1530 @@
+{
+  "schema": "deadwall-d17-viewpoint-correction-reprise2-20261022-v1",
+  "createdAt": "2026-10-22T14:44:27.036498+00:00",
+  "accepted": true,
+  "scope": "Corrected D17 QA placement helper on the immutable a137 built distribution. The later exploration-125 runtime delta is not served by these runs. This is not another integral npm check or an exact-new-commit qualification.",
+  "source": {
+    "distributionHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "distributionTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "distManifestSHA256": "b31bd7e0d800fc7ba38c198aaa1aadb645ba3d7bdea98a024ca0f238b5983b0f",
+    "distFiles": 365,
+    "helperSha256": "9ab2bf51dda4f89669b4acb6b078efae60e34fa7b845c0c98ec7eb3b3bce47bf",
+    "testSha256": "856babcbcef0c0b997bcc25c15921615001dff63fd7d515bc2a9ec8796f6f38d",
+    "runnerSha256": "7cea34421b5882f9c8d8cffb7f2e4a50f0a66d311d8d0c98f0ef9bad5404099f",
+    "runtimeAndHarnessUnchanged": true
+  },
+  "observedCIFailure": {
+    "runId": 39789163177,
+    "jobId": 119860247978,
+    "artifactId": 12431877128,
+    "jobURL": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789163177/job/119860247978",
+    "artifactZipBytes": 21174475,
+    "artifactZipSha256": "1711ecfd2ccb26886e73891935101bd50b51e3efa6b82d5fb35657cc62c3f60f",
+    "originalArtifactLocalPath": "/tmp/deadwall-d17-ci-a137-20261022/failure-artifact.zip",
+    "archiveScope": "The original failed report and failure screenshot are included; the full original CI ZIP remains at the separate local path and GitHub artifact URL.",
+    "reportSha256": "adf5164acd3050c163d7e8493fe3e8219882f52aafe9edcf397fedecc8d8baa7",
+    "viewport": {
+      "name": "mobile-landscape",
+      "width": 844,
+      "height": 390,
+      "touch": true
+    },
+    "priorSuccessfulChecks": 128,
+    "failure": "Error: No valid visible unoccupied placement for warehouse: native zoom limit or unchanged control\n    at refuse (file:///home/runner/work/deadwall-last-enclosure/deadwall-last-enclosure/scripts/browser-d17-placement149.mjs:32:19)\n    at choosePlacement149 (file:///home/runner/work/deadwall-last-enclosure/deadwall-last-enclosure/scripts/browser-d17-placement149.mjs:59:33)\n    at async placeBuilding (file:///home/runner/work/deadwall-last-enclosure/deadwall-last-enclosure/scripts/browser-d17-progression149.mjs:94:16)\n    at async file:///home/runner/work/deadwall-last-enclosure/deadwall-last-enclosure/scripts/browser-d17-progression149.mjs:446:26",
+    "trace": {
+      "type": "warehouse",
+      "maximumInspections": 16,
+      "inspections": [
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 1
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        },
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 0.8695652173913044
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        },
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 0.7561436672967865
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        },
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 0.6575162324319883
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        },
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 0.5717532455930334
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        },
+        {
+          "type": "warehouse",
+          "site": null,
+          "scanned": 529,
+          "unoccupied": 60,
+          "visible": 0,
+          "rejected": {
+            "native": 457,
+            "occupied": 12,
+            "outsideSafeFrame": 60,
+            "coveredByUI": 0
+          },
+          "nativeReasons": {
+            "Chaussée ou voie financée à préserver": 295,
+            "Ressource à déblayer": 75,
+            "Emplacement occupé": 75,
+            "Décor ou station dans l’emprise.": 12
+          },
+          "safe": {
+            "left": 76,
+            "right": 592,
+            "top": 122,
+            "bottom": 205
+          },
+          "camera": {
+            "x": 2007.5075040000038,
+            "y": 2134.6602639999987,
+            "zoom": 0.52
+          },
+          "viewport": {
+            "width": 844,
+            "height": 390
+          }
+        }
+      ],
+      "zooms": [
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 1,
+          "after": 0.8695652173913044
+        },
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 0.8695652173913044,
+          "after": 0.7561436672967865
+        },
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 0.7561436672967865,
+          "after": 0.6575162324319883
+        },
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 0.6575162324319883,
+          "after": 0.5717532455930334
+        },
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 0.5717532455930334,
+          "after": 0.52
+        },
+        {
+          "control": "visible-touch-zoomOut",
+          "before": 0.52,
+          "after": 0.52
+        }
+      ],
+      "reason": "native zoom limit or unchanged control"
+    },
+    "establishedCause": "All real zoomOut commands were applied down to the native 0.52 minimum. All 60 legal unoccupied footprints remained outside the landscape safe frame. Further zoom or an additional RAF cannot move southern footprints above a vertical safe-frame boundary at the camera centre. The current helper stopped without attempting ordinary movement to another viewpoint.",
+    "excludedHypothesis": "The supplied trace and synchronous ui.js zoom handler do not support a delayed-RAF zoom-command cause."
+  },
+  "correction": {
+    "files": [
+      "scripts/browser-d17-placement149.mjs",
+      "tests/d17-placement-qa149.test.cjs"
+    ],
+    "behavior": "After zoom cannot change further, read-only bounded collision sampling proposes a walking route to a camera viewpoint outside the future footprint. Held native touch/keyboard commands execute the route, wait for the ordinary camera follow, then redo native placement, actor occupancy, actual safe frame and DOM hit testing. Placement and payment remain in the unchanged real runner.",
+    "bounds": {
+      "maximumInspections": 16,
+      "maximumWalks": 3,
+      "spacingWorldPixels": 16,
+      "maximumCellsPerSearch": 1089,
+      "maximumStepsPerRoute": 32,
+      "movementTimeoutMs": 10000,
+      "cameraFollowTimeoutMs": 5000
+    }
+  },
+  "native": {
+    "counts": {
+      "tests": 4,
+      "suites": 0,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMs": 19727.765628,
+    "command": "node -e \"require('./tests/d17-placement-qa149.test.cjs')\"",
+    "realFooter": true
+  },
+  "forcedLandscape": {
+    "checks": 9,
+    "passed": 9,
+    "browserVersion": "153.0.8010.0",
+    "durationSeconds": 15.260092088999954,
+    "fixture": {
+      "kind": "declared-CI-landscape-geometry-with-explicit-worker-pose",
+      "removed": [],
+      "added": [
+        {
+          "id": 6,
+          "type": "house",
+          "gx": 68,
+          "gy": 65
+        },
+        {
+          "id": 7,
+          "type": "warehouse",
+          "gx": 59,
+          "gy": 65
+        }
+      ],
+      "assignedFields": [
+        "buildings[legal completed house and depot]",
+        "nextId",
+        "player.x/y",
+        "units[0].x/y",
+        "camera.x/y",
+        "derived metrics and HUD refresh"
+      ],
+      "preserved": {
+        "stock": true,
+        "nodes": true,
+        "roads": true,
+        "rng": true,
+        "identity": true,
+        "zoom": true
+      },
+      "player": {
+        "x": 2007.5075040000033,
+        "y": 2134.6602639999996
+      },
+      "worker": {
+        "id": 3,
+        "x": 2096,
+        "y": 2130
+      },
+      "zoom": 0.52,
+      "limitation": "CI lacks exact worker poses. This declared clear pose reproduces absence of northern unoccupied footprints; it is not a save replay or an organically financed scene."
+    },
+    "initial": {
+      "type": "warehouse",
+      "site": null,
+      "scanned": 529,
+      "unoccupied": 52,
+      "visible": 0,
+      "rejected": {
+        "native": 457,
+        "occupied": 20,
+        "outsideSafeFrame": 52,
+        "coveredByUI": 0
+      },
+      "nativeReasons": {
+        "Chaussée ou voie financée à préserver": 295,
+        "Ressource à déblayer": 75,
+        "Emplacement occupé": 75,
+        "Décor ou station dans l’emprise.": 12
+      },
+      "safe": {
+        "left": 76,
+        "right": 592,
+        "top": 122,
+        "bottom": 205
+      },
+      "camera": {
+        "x": 2007.5075040000033,
+        "y": 2134.6602639999996,
+        "zoom": 0.52
+      },
+      "viewport": {
+        "width": 844,
+        "height": 390
+      }
+    },
+    "nativeZooms": [
+      {
+        "before": 1,
+        "after": 0.8695652173913044
+      },
+      {
+        "before": 0.8695652173913044,
+        "after": 0.7561436672967865
+      },
+      {
+        "before": 0.7561436672967865,
+        "after": 0.6575162324319883
+      },
+      {
+        "before": 0.6575162324319883,
+        "after": 0.5717532455930334
+      },
+      {
+        "before": 0.5717532455930334,
+        "after": 0.52
+      },
+      {
+        "before": 0.52,
+        "after": 0.52
+      }
+    ],
+    "walks": [
+      {
+        "control": "held-touch-directions",
+        "route": {
+          "start": {
+            "x": 2007.5075040000033,
+            "y": 2134.6602639999996
+          },
+          "spacing": 16,
+          "radius": 16,
+          "maximumSteps": 32,
+          "maximumCells": 1089,
+          "searchedCells": 7,
+          "target": {
+            "x": 2007.5075040000033,
+            "y": 2182.6602639999996
+          },
+          "proposedSite": {
+            "gx": 66,
+            "gy": 67
+          },
+          "segments": [
+            {
+              "direction": "down",
+              "target": {
+                "x": 2007.5075040000033,
+                "y": 2182.6602639999996
+              }
+            }
+          ]
+        },
+        "completed": true,
+        "after": {
+          "player": {
+            "x": 2007.5075040000033,
+            "y": 2186.797768000002
+          },
+          "camera": {
+            "x": 2007.5075040000033,
+            "y": 2185.8087907176873,
+            "zoom": 0.52,
+            "shake": 0
+          }
+        }
+      }
+    ],
+    "purchase": {
+      "stock": {
+        "wood": 125,
+        "scrap": 75,
+        "stone": 70,
+        "food": 129.88712100000006,
+        "fuel": 45,
+        "ammo": 180,
+        "medicine": 12
+      },
+      "buildings": 4,
+      "building": {
+        "id": 8,
+        "type": "warehouse",
+        "gx": 64,
+        "gy": 67,
+        "progress": 0.00022704545454545576,
+        "completed": false
+      },
+      "cost": {
+        "wood": 55,
+        "scrap": 45
+      },
+      "before": {
+        "stock": {
+          "wood": 180,
+          "scrap": 120,
+          "stone": 70,
+          "food": 129.88712100000006,
+          "fuel": 45,
+          "ammo": 180,
+          "medicine": 12
+        },
+        "buildings": 3,
+        "held": []
+      }
+    },
+    "limitations": "Declared completed house/depot and player/worker poses; worker position absent from the CI report is explicitly chosen. Zoom and subsequent walk/placement/payment use actual touch commands. Not a replay of the entire failed campaign."
+  },
+  "fullD17": {
+    "profiles": [
+      {
+        "name": "desktop",
+        "checks": 143,
+        "passed": 143,
+        "pass": true,
+        "warehouses": [
+          {
+            "id": 77,
+            "gx": 68,
+            "gy": 65,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 68,
+                    "gy": 65,
+                    "screen": {
+                      "x": 737.6297680000184,
+                      "y": 359.34175200000163
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 86.94031300936605
+                  },
+                  "scanned": 529,
+                  "unoccupied": 62,
+                  "visible": 51,
+                  "rejected": {
+                    "native": 449,
+                    "occupied": 18,
+                    "outsideSafeFrame": 11,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 303,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 53,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 300,
+                    "right": 1108,
+                    "top": 98,
+                    "bottom": 665
+                  },
+                  "camera": {
+                    "x": 2137.3702319999816,
+                    "y": 2120.6582479999984,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 1366,
+                    "height": 768
+                  }
+                }
+              ],
+              "zooms": [],
+              "walks": []
+            },
+            "workSeconds": 5.999799999999919,
+            "storageBefore": 500,
+            "storageAfter": 1100
+          },
+          {
+            "id": 78,
+            "gx": 66,
+            "gy": 62,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 66,
+                    "gy": 62,
+                    "screen": {
+                      "x": 658.2149839999724,
+                      "y": 263.34175200000163
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 88.95134025156148
+                  },
+                  "scanned": 529,
+                  "unoccupied": 57,
+                  "visible": 37,
+                  "rejected": {
+                    "native": 458,
+                    "occupied": 14,
+                    "outsideSafeFrame": 20,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 293,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 72,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 300,
+                    "right": 1108,
+                    "top": 134.5,
+                    "bottom": 665
+                  },
+                  "camera": {
+                    "x": 2152.7850160000276,
+                    "y": 2120.6582479999984,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 1366,
+                    "height": 768
+                  }
+                }
+              ],
+              "zooms": [],
+              "walks": []
+            },
+            "workSeconds": 5.916399999999854,
+            "storageBefore": 1100,
+            "storageAfter": 1700
+          }
+        ]
+      },
+      {
+        "name": "mobile",
+        "checks": 143,
+        "passed": 143,
+        "pass": true,
+        "warehouses": [
+          {
+            "id": 77,
+            "gx": 68,
+            "gy": 66,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 68,
+                    "gy": 66,
+                    "screen": {
+                      "x": 253.27375199999642,
+                      "y": 394.80550400000175
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 90.4015661858294
+                  },
+                  "scanned": 529,
+                  "unoccupied": 56,
+                  "visible": 3,
+                  "rejected": {
+                    "native": 447,
+                    "occupied": 26,
+                    "outsideSafeFrame": 53,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 298,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 56,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 363,
+                    "top": 371.796875,
+                    "bottom": 575
+                  },
+                  "camera": {
+                    "x": 2133.7262480000036,
+                    "y": 2155.1944959999983,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 390,
+                    "height": 844
+                  }
+                }
+              ],
+              "zooms": [],
+              "walks": []
+            },
+            "workSeconds": 5.933099999999943,
+            "storageBefore": 500,
+            "storageAfter": 1100
+          },
+          {
+            "id": 78,
+            "gx": 62,
+            "gy": 68,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": null,
+                  "scanned": 529,
+                  "unoccupied": 51,
+                  "visible": 0,
+                  "rejected": {
+                    "native": 456,
+                    "occupied": 22,
+                    "outsideSafeFrame": 51,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 288,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 75,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 363,
+                    "top": 333.796875,
+                    "bottom": 575
+                  },
+                  "camera": {
+                    "x": 2152.494248000003,
+                    "y": 2155.1944959999983,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 390,
+                    "height": 844
+                  }
+                },
+                {
+                  "type": "warehouse",
+                  "site": null,
+                  "scanned": 529,
+                  "unoccupied": 51,
+                  "visible": 0,
+                  "rejected": {
+                    "native": 456,
+                    "occupied": 22,
+                    "outsideSafeFrame": 51,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 288,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 75,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 363,
+                    "top": 333.796875,
+                    "bottom": 575
+                  },
+                  "camera": {
+                    "x": 2152.494248000003,
+                    "y": 2155.1944959999983,
+                    "zoom": 0.8695652173913044
+                  },
+                  "viewport": {
+                    "width": 390,
+                    "height": 844
+                  }
+                },
+                {
+                  "type": "warehouse",
+                  "site": null,
+                  "scanned": 529,
+                  "unoccupied": 51,
+                  "visible": 0,
+                  "rejected": {
+                    "native": 456,
+                    "occupied": 22,
+                    "outsideSafeFrame": 51,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 288,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 75,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 363,
+                    "top": 333.796875,
+                    "bottom": 575
+                  },
+                  "camera": {
+                    "x": 2152.494248000003,
+                    "y": 2155.1944959999983,
+                    "zoom": 0.7561436672967865
+                  },
+                  "viewport": {
+                    "width": 390,
+                    "height": 844
+                  }
+                },
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 62,
+                    "gy": 68,
+                    "screen": {
+                      "x": 94.73255658748866,
+                      "y": 446.20021632284164
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 138.75540054996324
+                  },
+                  "scanned": 529,
+                  "unoccupied": 51,
+                  "visible": 1,
+                  "rejected": {
+                    "native": 456,
+                    "occupied": 22,
+                    "outsideSafeFrame": 50,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 288,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 75,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 363,
+                    "top": 333.796875,
+                    "bottom": 575
+                  },
+                  "camera": {
+                    "x": 2152.494248000003,
+                    "y": 2155.1944959999983,
+                    "zoom": 0.6575162324319883
+                  },
+                  "viewport": {
+                    "width": 390,
+                    "height": 844
+                  }
+                }
+              ],
+              "zooms": [
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 1,
+                  "after": 0.8695652173913044
+                },
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 0.8695652173913044,
+                  "after": 0.7561436672967865
+                },
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 0.7561436672967865,
+                  "after": 0.6575162324319883
+                }
+              ],
+              "walks": []
+            },
+            "workSeconds": 5.933099999999882,
+            "storageBefore": 1100,
+            "storageAfter": 1700
+          }
+        ]
+      },
+      {
+        "name": "mobile-landscape",
+        "checks": 143,
+        "passed": 143,
+        "pass": true,
+        "warehouses": [
+          {
+            "id": 77,
+            "gx": 59,
+            "gy": 65,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 59,
+                    "gy": 65,
+                    "screen": {
+                      "x": 170.47376799999347,
+                      "y": 175.11304000000064
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 219.8601652736628
+                  },
+                  "scanned": 529,
+                  "unoccupied": 63,
+                  "visible": 6,
+                  "rejected": {
+                    "native": 444,
+                    "occupied": 22,
+                    "outsideSafeFrame": 57,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 295,
+                    "Ressource à déblayer": 78,
+                    "Emplacement occupé": 56,
+                    "Décor ou station dans l’emprise.": 15
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 592,
+                    "top": 122,
+                    "bottom": 205
+                  },
+                  "camera": {
+                    "x": 2155.5262320000065,
+                    "y": 2115.8869599999994,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 844,
+                    "height": 390
+                  }
+                }
+              ],
+              "zooms": [],
+              "walks": []
+            },
+            "workSeconds": 5.9497999999999465,
+            "storageBefore": 500,
+            "storageAfter": 1100
+          },
+          {
+            "id": 78,
+            "gx": 64,
+            "gy": 66,
+            "cost": {
+              "wood": 55,
+              "scrap": 45
+            },
+            "placementSearch": {
+              "type": "warehouse",
+              "maximumInspections": 16,
+              "maximumViewWalks": 3,
+              "inspections": [
+                {
+                  "type": "warehouse",
+                  "site": {
+                    "gx": 64,
+                    "gy": 66,
+                    "screen": {
+                      "x": 478.52826399999617,
+                      "y": 188.34504000000152
+                    },
+                    "cost": {
+                      "wood": 55,
+                      "scrap": 45
+                    },
+                    "distance": 92.08487703990676
+                  },
+                  "scanned": 529,
+                  "unoccupied": 56,
+                  "visible": 2,
+                  "rejected": {
+                    "native": 457,
+                    "occupied": 16,
+                    "outsideSafeFrame": 54,
+                    "coveredByUI": 0
+                  },
+                  "nativeReasons": {
+                    "Chaussée ou voie financée à préserver": 295,
+                    "Ressource à déblayer": 75,
+                    "Emplacement occupé": 75,
+                    "Décor ou station dans l’emprise.": 12
+                  },
+                  "safe": {
+                    "left": 76,
+                    "right": 592,
+                    "top": 122,
+                    "bottom": 205
+                  },
+                  "camera": {
+                    "x": 2007.4717360000038,
+                    "y": 2134.6549599999985,
+                    "zoom": 1
+                  },
+                  "viewport": {
+                    "width": 844,
+                    "height": 390
+                  }
+                }
+              ],
+              "zooms": [],
+              "walks": []
+            },
+            "workSeconds": 5.916499999999868,
+            "storageBefore": 1100,
+            "storageAfter": 1700
+          }
+        ]
+      }
+    ],
+    "checks": 429,
+    "passed": 429,
+    "browserVersion": "153.0.8010.0",
+    "durationSeconds": 515.3994165389995,
+    "scope": "NATIVE: fresh standard seed17117 campaign, actual menu, held keyboard/touch movement, personal harvest/deposit, finite paid house foundation and genuine manual construction through RAF. ADVANCED EXPLICIT FIXTURES: completed legally placed urban models and required supports, plus ordinary previously unlocked fillers to derive each exact city threshold24→1850 from real buildings. No forged tier, population, inventory, resource, health, terrain, node or RNG assignment. Growth readouts and all eleven model catalogues are observed through real DOM navigation. Save/reload/Continue compares every saved field synchronously before first update, with no normalized fields. Physical-city overview uses a declared transient camera only. These prepared thresholds do not establish organic campaign feasibility, human time to Mégaville III, balance, endurance or physical-device certification."
+  },
+  "priorProbeFailure": {
+    "checksPassed": 2,
+    "failure": "locator.tap: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#buildCategories [data-category=\"economy\"]')\u001b[22m\n\n    at activate (/workspace/scratch/b8ff726dd748/deadwall/scripts/browser-qa-common144.mjs:8:28)\n    at /tmp/deadwall-d17-ci-a137-20261022/probe-landscape-native-walk.mjs:48:9",
+    "cause": "Temporary probe selected a nonexistent economy category; corrected to the unchanged native colony category. No repository source or helper changed between probes.",
+    "firstProbeSourceReconstruction": "Exact first-probe bytes reconstructed by reverting that one selector, and verified against the SHA256 recorded before the first run."
+  },
+  "evidence": {
+    "archive": "validation-d17-correctif-reprise2-20261022.tar.gz",
+    "archiveFiles": {
+      "diagnostic.md": {
+        "bytes": 4390,
+        "sha256": "0b68953b92ab28dc288371e3f4fb8074f6209953a6067eab38079bc3e995b91e"
+      },
+      "ci-artifact-metadata.json": {
+        "bytes": 897,
+        "sha256": "fe84e86e2a320124fff6ca1db1e3b80b582f98a937dd1bb8db5e2a16b5436a9f"
+      },
+      "report-0.json": {
+        "bytes": 1797805,
+        "sha256": "adf5164acd3050c163d7e8493fe3e8219882f52aafe9edcf397fedecc8d8baa7"
+      },
+      "mobile-landscape-failure.png": {
+        "bytes": 162234,
+        "sha256": "a3774792af759ba8d81b5dc9930deeb78111044196d7d16ce9d9e40751c4f8f2"
+      },
+      "helper-before.mjs": {
+        "bytes": 4507,
+        "sha256": "e649e2047bab0202f7f2a7e72e03f46e15b1c28380826a4b370fc79cd3e30012"
+      },
+      "correction.patch": {
+        "bytes": 16674,
+        "sha256": "e6a0e927d1fcc94504c67119f1ceecb7c8ba714049c3839b1e870c11ed4d416d"
+      },
+      "d17-native-fix-run1.log": {
+        "bytes": 648,
+        "sha256": "81a02d7ebcda29c0588bb03493c2631e0fbfadcf681692573961fa60f97840a9"
+      },
+      "probe-landscape-native-walk.mjs": {
+        "bytes": 7283,
+        "sha256": "7193185048ee46f807c2ead623b12e534de88cd0410cf162a77358866486be3d"
+      },
+      "probe-landscape-before-selector-fix.mjs": {
+        "bytes": 7284,
+        "sha256": "097cc6dbc916ff7677cd9174d4f08665a2ade8a078b0112b0c300f2a8af69488"
+      },
+      "run-browser-proof.py": {
+        "bytes": 3244,
+        "sha256": "677dec088d07980f831be1affa2fe8db6bd2d8252d4798013e90f240d9909893"
+      },
+      "forced-landscape/after.json": {
+        "bytes": 38418,
+        "sha256": "60024465672bf6e30aeef8d1361410e33271d038ada303feafa7e7f238d9ef1c"
+      },
+      "forced-landscape/before.json": {
+        "bytes": 38418,
+        "sha256": "d3214b523a0b536e1a2822eb6b1f7dde1c191c3be904511db7d2e5fb39db3062"
+      },
+      "forced-landscape/browser.log": {
+        "bytes": 200,
+        "sha256": "c8c851dd38b5c14695c472d4edef67341cd724d8612324a6cfb3cbdddeca2df0"
+      },
+      "forced-landscape/d17-landscape-native-walk-2026-10-22T14_32_27_423Z/landscape-failure.png": {
+        "bytes": 172318,
+        "sha256": "80371b3498f5e989a9ba0f209f8f3e21d1b9a38676fefc4c83808fd517234472"
+      },
+      "forced-landscape/d17-landscape-native-walk-2026-10-22T14_32_27_423Z/report.json": {
+        "bytes": 3045,
+        "sha256": "626b9615808b9883bb1021ab28e91225836393e9d2e21388af3030d9d55d84fd"
+      },
+      "forced-landscape/receipt.json": {
+        "bytes": 746,
+        "sha256": "9f860dd48e42378d1b8a3b07051b9a1f8ab18ce1bef41b3bdfe347c0d9a2c450"
+      },
+      "forced-landscape-run2/after.json": {
+        "bytes": 38418,
+        "sha256": "6b7be42df2976ebb322d6cf46e1863856086210f31500970a4f666b96853d084"
+      },
+      "forced-landscape-run2/before.json": {
+        "bytes": 38418,
+        "sha256": "01174f855c910e7600e04358856cfde9cab84e8a251e75b1c0c8b70c95fc3842"
+      },
+      "forced-landscape-run2/browser.log": {
+        "bytes": 153,
+        "sha256": "68aea05f29b89c4be2118604c7a02c4ed53c874c24ae48b91284fd35243b0b0d"
+      },
+      "forced-landscape-run2/d17-landscape-native-walk-2026-10-22T14_33_57_736Z/landscape-before-viewpoint.png": {
+        "bytes": 154444,
+        "sha256": "b2a834c61f8e64109fda50eb04bde91641058e5080cb34a57f71bce7f8e3c427"
+      },
+      "forced-landscape-run2/d17-landscape-native-walk-2026-10-22T14_33_57_736Z/landscape-paid-foundation.png": {
+        "bytes": 145686,
+        "sha256": "93cb5414b95129ec68c471d7ed78c73a15cfc91c637bdae3f9a041683c25ff36"
+      },
+      "forced-landscape-run2/d17-landscape-native-walk-2026-10-22T14_33_57_736Z/report.json": {
+        "bytes": 10382,
+        "sha256": "089706db2532407bf408d03139339d01842eaa168b761cce378320438741f60d"
+      },
+      "forced-landscape-run2/receipt.json": {
+        "bytes": 752,
+        "sha256": "776e94870b58422efe7fc9714c4470ee81962ad275757c7b455c5b61a7a37829"
+      },
+      "full-d17/after.json": {
+        "bytes": 38418,
+        "sha256": "d889d37890fac11eb7dad8fe670691fa3fd0d0e616f788081b6c0801307700ad"
+      },
+      "full-d17/before.json": {
+        "bytes": 38418,
+        "sha256": "434a88d3413fcf76f9f9a0dfc063a30e0975b253ddd7bf2a8a8bb730c2169111"
+      },
+      "full-d17/browser.log": {
+        "bytes": 2296,
+        "sha256": "58940ce23a8819a4ed75269c5e086a87912668d08b6a6e5e99b63f9639598d1a"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-10-megaPower-physical-detail.png": {
+        "bytes": 775679,
+        "sha256": "77af9973d45f6c6f3c5eb7a03407c046947603b03c93fe558105ff9af958e0e7"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-10-megaReserve-physical-detail.png": {
+        "bytes": 684005,
+        "sha256": "9efa57a4e45e910ab843d94cf58a94da803882fae4e76322d21d972ff1d737b6"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-10-megaTower-physical-detail.png": {
+        "bytes": 645198,
+        "sha256": "f246eb88355bae1c093b3939f93af14523ecdba9bc22130ea2698d9e1a87bb74"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-10-physical-city.png": {
+        "bytes": 811498,
+        "sha256": "0e043e21cf8173239c0eae068c035ca393d937f53b1f4e5180a01b7afb0756fc"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-3-physical-city.png": {
+        "bytes": 603645,
+        "sha256": "e6b4880e215028d53b15b0455aab91148d44aa1bf4a1a7b01c788e0b14ad90e0"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-6-physical-city.png": {
+        "bytes": 757647,
+        "sha256": "d358072737d1f2b14ffcae85aa5f3a230a3a8aa2a43ddccc371ef9f74174bbc4"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-age-8-physical-city.png": {
+        "bytes": 906283,
+        "sha256": "f14ff6fc56780df644195b025d8504fb333d80145c136593b55bfdebae115701"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-menu.png": {
+        "bytes": 913509,
+        "sha256": "ac9d725130dae891ef39b6987cd226055bc924846df32fd5588a00dc69727c67"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-native-age-0-growth.png": {
+        "bytes": 345646,
+        "sha256": "284cd3adafe37fdbd3ea1f2ab7ee12ed5663a74dfc84c7439459eec2cec6263a"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-native-age-1-growth.png": {
+        "bytes": 351785,
+        "sha256": "0871ce594de510aa2be6c4659e612fc3f7553aa849ff2511700b3b32ba984143"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-native-built-camp.png": {
+        "bytes": 535724,
+        "sha256": "f4f8fd005b3a7536d82d77582a6750c82bb7648603e232429c2f5116a700f8ec"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-native-paid-foundation.png": {
+        "bytes": 556525,
+        "sha256": "f9d5c33c5199d3453f0756e86b3d145fbd8b7314013489e0d8f788d7f8f37e7e"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-native-refuge.png": {
+        "bytes": 539002,
+        "sha256": "016d4d7bfab55f30990a144e541bb76b68537cdbb3503e508bfd2c8c93dfd02d"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-post-loss-built-depot-1-growth.png": {
+        "bytes": 336773,
+        "sha256": "44332cef140f570e09004fa9c94bb310870252f4088ece11700f615972f71d62"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-post-loss-built-depot-2-growth.png": {
+        "bytes": 336773,
+        "sha256": "44332cef140f570e09004fa9c94bb310870252f4088ece11700f615972f71d62"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-post-loss-paid-depot-1-growth.png": {
+        "bytes": 332679,
+        "sha256": "18cc2819c82f2c2e4724c144163eaf4ecd7ec7803cd5bab990caeae3b71e6331"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-post-loss-paid-depot-2-growth.png": {
+        "bytes": 332928,
+        "sha256": "0bca19039019c8bd8fca46fcf3f4929c06014289ccb9bf805ab08c560af19edd"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-post-loss-real-storage-rebuilt.png": {
+        "bytes": 370286,
+        "sha256": "ab1789828a2cd990dc314667af863c3253c1086a1dffa829a8131f52905fc3c0"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-age-10-growth.png": {
+        "bytes": 336895,
+        "sha256": "8ed8e2f667adb4aeeb93ea1cf8a9fc7b1d4efc72c2b87b99d2d3002e9739b191"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-age-3-growth.png": {
+        "bytes": 353003,
+        "sha256": "3934979bd2992f5cc1514f257cf68d7c22c6930dc191f3a636839e155d5ebd32"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-age-6-growth.png": {
+        "bytes": 352942,
+        "sha256": "79fe2d45c868d3c706f3583ecf29e9238fd9b386533ff71e385ade4c97a435dd"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-age-8-growth.png": {
+        "bytes": 354381,
+        "sha256": "57971d83ea6ccbba6cc0b67583053275c96fa86f89e216090fe69351ee58c73b"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-post-loss-age-10-growth.png": {
+        "bytes": 336773,
+        "sha256": "44332cef140f570e09004fa9c94bb310870252f4088ece11700f615972f71d62"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/desktop-prepared-post-loss-storage-warning.png": {
+        "bytes": 380026,
+        "sha256": "351354884353de7e6f3e12a1a682cf113631e3981ebf6f142392ee071548655b"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-10-megaPower-physical-detail.png": {
+        "bytes": 222107,
+        "sha256": "71f4f2eddd9fa8a175e26a4f45f43486c19557dd9a96c101fb55df75589a0209"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-10-megaReserve-physical-detail.png": {
+        "bytes": 278065,
+        "sha256": "305cee474fee1191d0db73254fa82a467d936ec73a7bb9f44e99956cbcf85cd4"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-10-megaTower-physical-detail.png": {
+        "bytes": 227481,
+        "sha256": "e0480ca197aadd57f46a81a07db00b50a336ca0a91f0bb672343ab3f59fdff91"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-10-physical-city.png": {
+        "bytes": 349587,
+        "sha256": "f8481a0664610ab0dcfa3fa4679ac6706d694789adf33f7db5d88c68b80146aa"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-3-physical-city.png": {
+        "bytes": 248251,
+        "sha256": "7d45112af2ea8e426f4d84ebb95534840330cbe1173819bddb62de884189fdf5"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-6-physical-city.png": {
+        "bytes": 297309,
+        "sha256": "732e33ad98615f065cfb28760b739fbe0b1403babe940e569e16ba836ac54a1e"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-age-8-physical-city.png": {
+        "bytes": 329927,
+        "sha256": "18d9da556626de50ee730bdee7970ac269dd013be1ef71e23e2059fe1a3cf14a"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-10-megaPower-physical-detail.png": {
+        "bytes": 313355,
+        "sha256": "0c26a9bec9008b76018c949f49657d7d20f09c63e3dd7fb86774ffe8989691c7"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-10-megaReserve-physical-detail.png": {
+        "bytes": 372673,
+        "sha256": "3f55fdfb76d3ad5abdd13448615210c1c21c1c63e740efae4fd4df051f68c177"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-10-megaTower-physical-detail.png": {
+        "bytes": 319545,
+        "sha256": "66e5404d4deb2dab06bfc34e56e36388b2e0f96d85447921e79b508331244f5d"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-10-physical-city.png": {
+        "bytes": 337550,
+        "sha256": "f5350495394890b807c9f2a0f8e9be6a4017ab82a0746186809801ca7ca31dfd"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-3-physical-city.png": {
+        "bytes": 212124,
+        "sha256": "e8682c000f0ab765f39f3736ad7874263d73406c7419d4f0e438ab68f234139b"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-6-physical-city.png": {
+        "bytes": 304834,
+        "sha256": "ae1c2760def3fdff05c5d10b383c62abc7c9e26a82ed3b5f5cd3082d23eac0e6"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-age-8-physical-city.png": {
+        "bytes": 333738,
+        "sha256": "ca6e7951b99ead7c6674a5a417b71a0e90626d6dec53dea73ac99045221ce4ac"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-menu.png": {
+        "bytes": 354679,
+        "sha256": "850e9d0bb4ca21974180587ad5433465fc401ddba35887c7485a5de0af70edc8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-native-age-0-growth.png": {
+        "bytes": 140393,
+        "sha256": "58f93fdba2df9be3746fb997e769839a5fb7fbc35570ebc911c6df3476d7ee2f"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-native-age-1-growth.png": {
+        "bytes": 140341,
+        "sha256": "d4488f5bf46136f669dc6d09d28a5f210075fd1586b14b1bd87033922e9cbcb1"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-native-built-camp.png": {
+        "bytes": 178929,
+        "sha256": "28fabaffd9cf288dc5c817d52225854733ea68db862052d755050aa00f349410"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-native-paid-foundation.png": {
+        "bytes": 157045,
+        "sha256": "c64c57bcf0c038a38570d9b1764f81e1b64ab671475775cbd7fb394678e75e7a"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-native-refuge.png": {
+        "bytes": 175618,
+        "sha256": "4ec096888e90cb49e2cb57ea804dc87a1566c7f4815078690a1f1aa930936d3b"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-post-loss-built-depot-1-growth.png": {
+        "bytes": 135513,
+        "sha256": "dc926b60bb5582b6174bc525ae43e26d455d968630607af1185ea8498e0774cb"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-post-loss-built-depot-2-growth.png": {
+        "bytes": 135513,
+        "sha256": "dc926b60bb5582b6174bc525ae43e26d455d968630607af1185ea8498e0774cb"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-post-loss-paid-depot-1-growth.png": {
+        "bytes": 140830,
+        "sha256": "b9860e18b49a4a36df82525e53df987d4ad357d089c35cbfbb86c5baeaf13645"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-post-loss-paid-depot-2-growth.png": {
+        "bytes": 141033,
+        "sha256": "baf2f2222f09cf8c7acb60b6b5f4de431420e360a07b581ecc315de494681427"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-post-loss-real-storage-rebuilt.png": {
+        "bytes": 145385,
+        "sha256": "4a8d31383839e9d62196711816bf18d04e0f9a509b62ade0f82ea47db432a334"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-age-10-growth.png": {
+        "bytes": 135513,
+        "sha256": "dc926b60bb5582b6174bc525ae43e26d455d968630607af1185ea8498e0774cb"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-age-3-growth.png": {
+        "bytes": 140407,
+        "sha256": "965e0c9526810e45cae7571b30db06dcfec269164542fd713a77d8816fe17d9d"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-age-6-growth.png": {
+        "bytes": 142691,
+        "sha256": "ad01efa89c00d135febd7b823f65bac6cb81f716633929ab72e3398af079ba5e"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-age-8-growth.png": {
+        "bytes": 142664,
+        "sha256": "e94e702daf775abb7ee05024739ebb0321a614bcf698ae2f136523d5d2a9cdc0"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-post-loss-age-10-growth.png": {
+        "bytes": 135513,
+        "sha256": "dc926b60bb5582b6174bc525ae43e26d455d968630607af1185ea8498e0774cb"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-landscape-prepared-post-loss-storage-warning.png": {
+        "bytes": 142955,
+        "sha256": "e1aff734d4d1634d5730c33a4f505fe2771140f3b132dc02b7d52dc1058e95ae"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-menu.png": {
+        "bytes": 326996,
+        "sha256": "ea7131a9dbdd3143a21a29a54d6f2a2f1769d73bf28587dbf47c37a1e08d3c37"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-native-age-0-growth.png": {
+        "bytes": 118841,
+        "sha256": "2105c5536f2d797fb3c8ec32cc665b5b14245da6da5c7f1e7d052a8b27bf1533"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-native-age-1-growth.png": {
+        "bytes": 122062,
+        "sha256": "ba45dfcd869197484984bd8ec201d88b7a5a3220147d849fd70f3cb8bf344bee"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-native-built-camp.png": {
+        "bytes": 167619,
+        "sha256": "5ae6d846546c1606f168c91d614fc1682d957edccb941dcadfed2cc523e7831d"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-native-paid-foundation.png": {
+        "bytes": 169852,
+        "sha256": "72a92cfb041f2646f0d0cc0c9068b22b065def80709bd68903ea738623ff5374"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-native-refuge.png": {
+        "bytes": 159087,
+        "sha256": "3dc02af127301365cd419061438a963da7ee8c718ed3053a74bb104cb7a83ff0"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-post-loss-built-depot-1-growth.png": {
+        "bytes": 116978,
+        "sha256": "e777ff14b5f7b9c2e98bb7259bae17aadc4eb4116226f88e7269cba94180e8e8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-post-loss-built-depot-2-growth.png": {
+        "bytes": 116978,
+        "sha256": "e777ff14b5f7b9c2e98bb7259bae17aadc4eb4116226f88e7269cba94180e8e8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-post-loss-paid-depot-1-growth.png": {
+        "bytes": 118860,
+        "sha256": "5c23713ed17edde53f56eb47791f96095148ded9b4b81ff94396d10eacc34ba8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-post-loss-paid-depot-2-growth.png": {
+        "bytes": 119079,
+        "sha256": "35910ea0a034bc7f0970af7cd5e245868fd0d93bd201ed6738ab5bf6efd7f27c"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-post-loss-real-storage-rebuilt.png": {
+        "bytes": 118971,
+        "sha256": "f126d39d16443dcf33794c8a72ed84db408f81134089d5ca76a484819ce4dfa5"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-age-10-growth.png": {
+        "bytes": 116978,
+        "sha256": "e777ff14b5f7b9c2e98bb7259bae17aadc4eb4116226f88e7269cba94180e8e8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-age-3-growth.png": {
+        "bytes": 122098,
+        "sha256": "13a7aa9d66b8710504833128b1ae0a3924e5f59f500087ba678130485ffa78d3"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-age-6-growth.png": {
+        "bytes": 123584,
+        "sha256": "4b931473fb194f6fb3bc5c5e2eb171c8240d56b3a77187675bec10f0749b2f19"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-age-8-growth.png": {
+        "bytes": 123971,
+        "sha256": "19ef0c17f721f60914bd7a633483167669b611eed2d65970c22eec24d3989400"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-post-loss-age-10-growth.png": {
+        "bytes": 116978,
+        "sha256": "e777ff14b5f7b9c2e98bb7259bae17aadc4eb4116226f88e7269cba94180e8e8"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/mobile-prepared-post-loss-storage-warning.png": {
+        "bytes": 117245,
+        "sha256": "195d262fa6d481909dffd876978e2ac3c95f8b1d08135462f104c765d73f0c82"
+      },
+      "full-d17/d17-progression149-2026-10-22T14_34_39_806Z/report.json": {
+        "bytes": 1806192,
+        "sha256": "2ecf0fa303dfc73a12a4ec709368eab5ce96e45722a4a687dfa1a882fdd6920a"
+      },
+      "full-d17/receipt.json": {
+        "bytes": 695,
+        "sha256": "5bfb3b683df245c5c0bff1233b4f1cf199524d3961c87156821a4792e7854440"
+      },
+      "qualified-source/browser-d17-placement149.mjs": {
+        "bytes": 9351,
+        "sha256": "9ab2bf51dda4f89669b4acb6b078efae60e34fa7b845c0c98ec7eb3b3bce47bf"
+      },
+      "qualified-source/d17-placement-qa149.test.cjs": {
+        "bytes": 11053,
+        "sha256": "856babcbcef0c0b997bcc25c15921615001dff63fd7d515bc2a9ec8796f6f38d"
+      }
+    },
+    "receipts": {
+      "full-d17": {
+        "kind": "full-d17",
+        "started": "2026-10-22T14:34:39.355703+00:00",
+        "completed": "2026-10-22T14:43:14.755117+00:00",
+        "durationSeconds": 515.3994165389995,
+        "command": [
+          "node",
+          "scripts/browser-d17-progression149.mjs"
+        ],
+        "nodeExitCode": 0,
+        "runtimeAndHarnessUnchanged": true,
+        "distributionHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+        "scope": "Immutable a137 built distribution plus corrected D17 QA helper. Concurrent unbuilt exploration source changes are not part of the served product. No whole-check or exact-new-commit claim.",
+        "reports": [
+          "/tmp/deadwall-d17-ci-a137-20261022/full-d17/d17-progression149-2026-10-22T14_34_39_806Z/report.json"
+        ]
+      },
+      "forced-landscape-run2": {
+        "kind": "forced-landscape",
+        "started": "2026-10-22T14:33:57.251875+00:00",
+        "completed": "2026-10-22T14:34:12.512039+00:00",
+        "durationSeconds": 15.260092088999954,
+        "command": [
+          "node",
+          "/tmp/deadwall-d17-ci-a137-20261022/probe-landscape-native-walk.mjs"
+        ],
+        "nodeExitCode": 0,
+        "runtimeAndHarnessUnchanged": true,
+        "distributionHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+        "scope": "Immutable a137 built distribution plus corrected D17 QA helper. Concurrent unbuilt exploration source changes are not part of the served product. No whole-check or exact-new-commit claim.",
+        "reports": [
+          "/tmp/deadwall-d17-ci-a137-20261022/forced-landscape-run2/d17-landscape-native-walk-2026-10-22T14_33_57_736Z/report.json"
+        ]
+      },
+      "forced-landscape": {
+        "kind": "forced-landscape",
+        "started": "2026-10-22T14:32:26.946047+00:00",
+        "completed": "2026-10-22T14:33:12.640002+00:00",
+        "durationSeconds": 45.69395416899988,
+        "command": [
+          "node",
+          "/tmp/deadwall-d17-ci-a137-20261022/probe-landscape-native-walk.mjs"
+        ],
+        "nodeExitCode": 1,
+        "runtimeAndHarnessUnchanged": true,
+        "distributionHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+        "scope": "Immutable a137 built distribution plus corrected D17 QA helper. Concurrent unbuilt exploration source changes are not part of the served product. No whole-check or exact-new-commit claim.",
+        "reports": [
+          "/tmp/deadwall-d17-ci-a137-20261022/forced-landscape/d17-landscape-native-walk-2026-10-22T14_32_27_423Z/report.json"
+        ]
+      }
+    }
+  }
+}

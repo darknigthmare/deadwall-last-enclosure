@@ -1149,6 +1149,26 @@
     }
   }
 
+  // A narrow lawful strip can fall entirely between the old sixteen-unit
+  // samples. Try a finite set of obstacle/boundary contacts only after those
+  // searches fail. The footprint is relative to the node, including its roof
+  // and facade; the native predicate still owns roads, oriented solids and gaps.
+  function findMetricSceneryBoundaryPlot202(footprint,worldSize,blockers,margin,accepts) {
+    // Keep saved coordinates at hundredth-unit precision, on the free side of
+    // each contact even when floating-point arithmetic lands just over an edge.
+    const lower=value=>Math.ceil((value+1e-7)*100)/100,upper=value=>Math.floor((value-1e-7)*100)/100;
+    const minX=lower(38-footprint.x),maxX=upper(worldSize-38-footprint.x-footprint.w),minY=lower(38-footprint.y),maxY=upper(worldSize-38-footprint.y-footprint.h);
+    if(minX>maxX||minY>maxY)return null;
+    const xs=new Set([minX,maxX]),ys=new Set([minY,maxY]);
+    for(const b of blockers){
+      xs.add(upper(b.x-margin-footprint.x-footprint.w));xs.add(lower(b.x+b.w+margin-footprint.x));
+      ys.add(upper(b.y-margin-footprint.y-footprint.h));ys.add(lower(b.y+b.h+margin-footprint.y));
+    }
+    const columns=[...xs].filter(x=>x>=minX&&x<=maxX).sort((a,b)=>a-b),rows=[...ys].filter(y=>y>=minY&&y<=maxY).sort((a,b)=>a-b);
+    for(const y of rows)for(const x of columns)if(accepts(x,y))return{x,y};
+    return null;
+  }
+
   function packMetricScenery202(game,plan,savedAmounts) {
     if(plan.layoutRevision!==4)return;
     const u=C.TILE||32,profiles=C.WorldEvolution?.RULES?.vehicles||{};
@@ -1173,6 +1193,10 @@
           if(!fits(node,x,y))continue;node.x=x;node.y=y;found=true;break;
         }
         if(!found)for(let y=48;y<plan.worldSize-48&&!found;y+=16)for(let x=48;x<plan.worldSize-48;x+=16){if(!fits(node,x,y))continue;node.x=x;node.y=y;found=true;break;}
+        if(!found){
+          const point=findMetricSceneryBoundaryPlot202(reserve({...node,x:0,y:0}),plan.worldSize,[...fixtures,...placed,...roadGeometry202(plan).bounds],C.CityGeometry202.localParcels.clearanceMetres*u,(x,y)=>fits(node,x,y));
+          if(point){node.x=point.x;node.y=point.y;found=true;}
+        }
         if(!found)throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
       }
       placed.push(reserve(node));
@@ -1309,10 +1333,7 @@
   const ROAD_PLACEMENT_CACHE202 = new WeakMap();
   // Only the immutable road geometry is cached. Neither a placement preview nor
   // this query reads a reconciled simulation snapshot or changes a saved owner.
-  function roadFootprint202(plan, footprint, clearance = 0) {
-    if (!plan || !Array.isArray(plan.roads) || !footprint ||
-        !['x','y','w','h'].every(key=>Number.isFinite(footprint[key])) || footprint.w<=0 || footprint.h<=0 ||
-        !Number.isFinite(clearance) || clearance<0) throw new RangeError('Emprise ou plan routier invalide.');
+  function roadGeometry202(plan) {
     let cached=ROAD_PLACEMENT_CACHE202.get(plan);
     if (!cached || cached.roads!==plan.roads || cached.settlements!==plan.settlements ||
         cached.roadCount!==plan.roads.length || cached.settlementCount!==(plan.settlements||[]).length) {
@@ -1324,11 +1345,18 @@
         const length=Math.hypot(b.x-a.x,b.y-a.y);
         if (length>0) boxes.push(orientedSolid134((a.x+b.x)/2,(a.y+b.y)/2,length,road.width,Math.atan2(b.y-a.y,b.x-a.x)));
       }
-      cached={roads:plan.roads,settlements:plan.settlements,roadCount:plan.roads.length,settlementCount:(plan.settlements||[]).length,index:createSpatialIndex(boxes)};
+      cached={roads:plan.roads,settlements:plan.settlements,roadCount:plan.roads.length,settlementCount:(plan.settlements||[]).length,bounds:boxes,index:createSpatialIndex(boxes)};
       ROAD_PLACEMENT_CACHE202.set(plan,cached);
     }
+    return cached;
+  }
+
+  function roadFootprint202(plan, footprint, clearance = 0) {
+    if (!plan || !Array.isArray(plan.roads) || !footprint ||
+        !['x','y','w','h'].every(key=>Number.isFinite(footprint[key])) || footprint.w<=0 || footprint.h<=0 ||
+        !Number.isFinite(clearance) || clearance<0) throw new RangeError('Emprise ou plan routier invalide.');
     const area={x:footprint.x-clearance,y:footprint.y-clearance,w:footprint.w+clearance*2,h:footprint.h+clearance*2};
-    return querySpatialIndexRect(cached.index,area).length>0;
+    return querySpatialIndexRect(roadGeometry202(plan).index,area).length>0;
   }
 
   function projectedBuildingBounds202(def,gx,gy,rotation=0,tile=C?.TILE||32) {
@@ -1854,5 +1882,5 @@
     return true;
   }
 
-  return Object.freeze({ obstacleFootprint202, projectedBuildingBounds202, roadFootprint202, createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
+  return Object.freeze({ findMetricSceneryBoundaryPlot202, obstacleFootprint202, projectedBuildingBounds202, roadFootprint202, createBuildingShellCache155, drawCachedBuildingShell155, drawBuildingShell134, drawRoadNetwork, firstObstruction134, physicalSolids134, orientedSolid134, buildingProjection134, VERSION, WORLD_CODEX, INVENTORY_SHAPES, INVENTORY_STACKS, VEHICLE_KINDS, createRoadNetwork, createFeaturePlan, circleIntersectsRect, rectsOverlap, buildingFootprint, createSpatialIndex, querySpatialIndexRect, querySpatialIndexCircle, edgeTransition, packInventory, isVehicleNode, roadContains, surfaceAt, postureMultiplier, stationFurniture, normalizeExplorationSave, applyExplorationState, wildHordeDelay, patchWorldPlacement, installCollision, install });
 });

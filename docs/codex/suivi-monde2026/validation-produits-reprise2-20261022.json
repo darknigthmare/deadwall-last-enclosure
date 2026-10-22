@@ -1,0 +1,334 @@
+{
+  "schema": "deadwall-targeted-browser-validation-v1",
+  "provenance": "New execution after environment recovery on source checkpoint a137e2f. Prior lost runtime receipts were not recreated or treated as evidence.",
+  "groups": [
+    {
+      "name": "products203",
+      "command": [
+        "node",
+        "scripts/browser-products203.mjs"
+      ],
+      "environment": {
+        "DEADWALL_QA_ROOT": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+        "DEADWALL_QA_OUTPUT": "/tmp/deadwall-browser-reprise2-recovered-20261022/products203",
+        "CHROMIUM_EXECUTABLE_PATH": "/tmp/chromium"
+      },
+      "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+      "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+      "started": "2026-10-22T13:45:35.210177+00:00",
+      "finished": "2026-10-22T13:50:19.705537+00:00",
+      "durationSeconds": 284.49536059799993,
+      "exitCode": 0,
+      "pass": true,
+      "browserVersion": "153.0.8010.0",
+      "surface": "Player notebook without author or historical URL flags; seed and regional fixture are explicit.",
+      "scope": "Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. A knife is first crafted at its exact native depot cost, withdrawn and equipped through the ordinary armory owners. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.",
+      "sourceAndDistUnchanged": true,
+      "sourceFiles": 1032,
+      "distFiles": 365,
+      "sourceManifestSHA256": "66a3c8f96e5c611b033436cc800c939f2591141099aeae555745ea26eb090ec0",
+      "distManifestSHA256": "b31bd7e0d800fc7ba38c198aaa1aadb645ba3d7bdea98a024ca0f238b5983b0f",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "reportRelativePath": "products203/products203-2026-10-22T13_45_35_643Z/report.json",
+      "rawReportSHA256": "562e5fb724cd3e69bafb9b44ae70569382f43d1702756e656e33c24a92d8ace6",
+      "profiles": [
+        {
+          "viewport": {
+            "width": 1366,
+            "height": 768,
+            "touch": false
+          },
+          "checks": 24,
+          "passedChecks": 24,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "knife": {
+            "kind": "native-paid-knife-preparation",
+            "item": {
+              "uid": 4,
+              "id": "knife",
+              "condition": 100,
+              "rounds": 0
+            },
+            "cost": {
+              "scrap": 5
+            },
+            "resourcesBefore": {
+              "wood": 180,
+              "scrap": 120,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "resourcesAfter": {
+              "wood": 180,
+              "scrap": 115,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "steps": 50,
+            "dt": 0.1,
+            "rngPreserved": true,
+            "note": "Existing depot materials pay the ordinary craft cost. Native controller work creates one knife in the locker; real transfer and equip owners place it in hand. No possession, condition, stock or random state is assigned. This preparation is not a claim of naturally elapsed campaign time or DOM interaction with the armory."
+          }
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 24,
+          "passedChecks": 24,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "knife": {
+            "kind": "native-paid-knife-preparation",
+            "item": {
+              "uid": 4,
+              "id": "knife",
+              "condition": 100,
+              "rounds": 0
+            },
+            "cost": {
+              "scrap": 5
+            },
+            "resourcesBefore": {
+              "wood": 180,
+              "scrap": 120,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "resourcesAfter": {
+              "wood": 180,
+              "scrap": 115,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "steps": 50,
+            "dt": 0.1,
+            "rngPreserved": true,
+            "note": "Existing depot materials pay the ordinary craft cost. Native controller work creates one knife in the locker; real transfer and equip owners place it in hand. No possession, condition, stock or random state is assigned. This preparation is not a claim of naturally elapsed campaign time or DOM interaction with the armory."
+          }
+        },
+        {
+          "viewport": {
+            "width": 844,
+            "height": 390,
+            "touch": true
+          },
+          "checks": 24,
+          "passedChecks": 24,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "knife": {
+            "kind": "native-paid-knife-preparation",
+            "item": {
+              "uid": 4,
+              "id": "knife",
+              "condition": 100,
+              "rounds": 0
+            },
+            "cost": {
+              "scrap": 5
+            },
+            "resourcesBefore": {
+              "wood": 180,
+              "scrap": 120,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "resourcesAfter": {
+              "wood": 180,
+              "scrap": 115,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "steps": 50,
+            "dt": 0.1,
+            "rngPreserved": true,
+            "note": "Existing depot materials pay the ordinary craft cost. Native controller work creates one knife in the locker; real transfer and equip owners place it in hand. No possession, condition, stock or random state is assigned. This preparation is not a claim of naturally elapsed campaign time or DOM interaction with the armory."
+          }
+        }
+      ]
+    },
+    {
+      "name": "husbandry191",
+      "command": [
+        "node",
+        "scripts/browser-husbandry191.mjs"
+      ],
+      "environment": {
+        "DEADWALL_QA_ROOT": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+        "DEADWALL_QA_OUTPUT": "/tmp/deadwall-browser-reprise2-recovered-20261022/husbandry191",
+        "CHROMIUM_EXECUTABLE_PATH": "/tmp/chromium"
+      },
+      "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+      "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+      "started": "2026-10-22T13:50:43.175757+00:00",
+      "finished": "2026-10-22T13:51:55.633717+00:00",
+      "durationSeconds": 72.4579608539998,
+      "exitCode": 0,
+      "pass": true,
+      "browserVersion": "153.0.8010.0",
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+      "scope": "Built distribution with actual desktop/touch operation buttons, generated rabbit, paid enclosure/capture, slaughter/cooking and native save/menu/reload/Continue. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.",
+      "sourceAndDistUnchanged": true,
+      "sourceFiles": 1032,
+      "distFiles": 365,
+      "sourceManifestSHA256": "66a3c8f96e5c611b033436cc800c939f2591141099aeae555745ea26eb090ec0",
+      "distManifestSHA256": "b31bd7e0d800fc7ba38c198aaa1aadb645ba3d7bdea98a024ca0f238b5983b0f",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "reportRelativePath": "husbandry191/husbandry191-2026-10-22T13_50_43_584Z/report.json",
+      "rawReportSHA256": "9490300c5c55da89b32527afda7f12332d6855409b69ffae8bcb64230c6dd05b",
+      "profiles": [
+        {
+          "viewport": {
+            "width": 1366,
+            "height": 768,
+            "touch": false
+          },
+          "checks": 17,
+          "passedChecks": 17,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "knife": {
+            "kind": "native-paid-knife-preparation",
+            "item": {
+              "uid": 4,
+              "id": "knife",
+              "condition": 100,
+              "rounds": 0
+            },
+            "cost": {
+              "scrap": 5
+            },
+            "resourcesBefore": {
+              "wood": 180,
+              "scrap": 120,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "resourcesAfter": {
+              "wood": 180,
+              "scrap": 115,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "steps": 50,
+            "dt": 0.1,
+            "rngPreserved": true,
+            "note": "Existing depot materials pay the ordinary craft cost. Native controller work creates one knife in the locker; real transfer and equip owners place it in hand. No possession, condition, stock or random state is assigned. This preparation is not a claim of naturally elapsed campaign time or DOM interaction with the armory."
+          }
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 17,
+          "passedChecks": 17,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "knife": {
+            "kind": "native-paid-knife-preparation",
+            "item": {
+              "uid": 4,
+              "id": "knife",
+              "condition": 100,
+              "rounds": 0
+            },
+            "cost": {
+              "scrap": 5
+            },
+            "resourcesBefore": {
+              "wood": 180,
+              "scrap": 120,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "resourcesAfter": {
+              "wood": 180,
+              "scrap": 115,
+              "stone": 70,
+              "food": 130,
+              "fuel": 45,
+              "ammo": 180,
+              "medicine": 12
+            },
+            "steps": 50,
+            "dt": 0.1,
+            "rngPreserved": true,
+            "note": "Existing depot materials pay the ordinary craft cost. Native controller work creates one knife in the locker; real transfer and equip owners place it in hand. No possession, condition, stock or random state is assigned. This preparation is not a claim of naturally elapsed campaign time or DOM interaction with the armory."
+          }
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "profiles": 5,
+    "checks": 106,
+    "passedChecks": 106,
+    "errors": 0
+  },
+  "pass": true,
+  "hashConvention": "SHA256 of sorted compact JSON maps of relative paths to file SHA256; all before/after maps are archived.",
+  "limitations": [
+    "Prepared scenario state is explicitly identified in each raw report; no claim of organically earned advanced campaigns or physically tested mobile hardware.",
+    "The paid knife uses native craft/transfer/equip owners with stepped production time; this does not establish DOM interaction with the armory or human elapsed time.",
+    "No lost pre-recovery native test receipt is included in this browser qualification."
+  ],
+  "archives": {
+    "validation-produits-reprise2-20261022.tar.gz": "b102c873d019a28576107bf8913b182ddf96c8800097359285f083c8045cd735",
+    "validation-produits-reprise2-20261022.log.gz": "9422d1dc6367e92192ffbc05b4136fb06503da5ee24e7957184df49398d23b8d"
+  }
+}

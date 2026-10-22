@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "kind": "restored-targeted-vehicle-and-sprite-validation",
+  "generatedAt": "2026-10-22T14:10:57.078471+00:00",
+  "sourceCommit": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "sourceTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "restoration": {
+    "priorLocalEvidenceLost": true,
+    "newRunsRequired": true,
+    "statement": "Ces journaux proviennent de nouveaux contrôles sur les octets restaurés et publiés dans a137e2f. Aucun journal perdu lors de la maintenance n’a été recréé ni réutilisé."
+  },
+  "result": {
+    "nativeVehicleTests": {
+      "tests": 12,
+      "suites": 0,
+      "pass": 12,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 15030.627503
+    },
+    "browserProfiles": 3,
+    "browserChecks": 159,
+    "browserPassed": 159,
+    "browserErrors": 0,
+    "sourceBytesStable": true,
+    "targetedChecksPassed": true,
+    "globalGameQualified": false
+  },
+  "native": {
+    "kind": "restored-source-native-targeted-check",
+    "startedAt": "2026-10-22T13:44:32.243Z",
+    "sourceCommit": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "statusBefore": "",
+    "node": "v24.19.0",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "--test",
+      "tests/vehicle-boundary151.test.cjs"
+    ],
+    "sourcesBefore": {
+      "tests/vehicle-boundary151.test.cjs": "25fbd059fe478667651849bcfc01757215db09c450f4f71c92fa1a8adbc8a7ce",
+      "scripts/browser-sprites-fixtures159.mjs": "a67cab3c4f6d376801dd16b6128088ab4beb5d3cb2c36d9721653faabf5e34c0",
+      "scripts/browser-sprites159.mjs": "fc8468c0697f1b112aab7d6ac47894da8e24298ffd613ed0554118c2ef43abf3"
+    },
+    "limitations": [
+      "This is a new run on restored source bytes; prior lost logs are not reused.",
+      "This targeted receipt does not qualify the complete game or browser profiles."
+    ],
+    "finishedAt": "2026-10-22T13:44:47.328Z",
+    "elapsedMs": 15070,
+    "exitCode": 0,
+    "signal": null,
+    "error": null,
+    "statusAfter": "",
+    "sourcesAfter": {
+      "tests/vehicle-boundary151.test.cjs": "25fbd059fe478667651849bcfc01757215db09c450f4f71c92fa1a8adbc8a7ce",
+      "scripts/browser-sprites-fixtures159.mjs": "a67cab3c4f6d376801dd16b6128088ab4beb5d3cb2c36d9721653faabf5e34c0",
+      "scripts/browser-sprites159.mjs": "fc8468c0697f1b112aab7d6ac47894da8e24298ffd613ed0554118c2ef43abf3"
+    },
+    "log": {
+      "path": "/tmp/deadwall-vehicle-restauration-20261022/vehicle-native.log",
+      "bytes": 1409,
+      "sha256": "db9dce29ae6b51bff48bab62e485b0a6523dcf882c7fff5ee315fcc02ee48993"
+    },
+    "footer": {
+      "tests": 12,
+      "suites": 0,
+      "pass": 12,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 15030.627503
+    },
+    "receiptVerification": {
+      "checkedAt": "2026-10-22T13:46:00.570Z",
+      "nativeReporter": "spec",
+      "initialWrapperExitCode": 1,
+      "explanation": "The initial receipt parser expected TAP. The native process exited 0; the complete spec-format log was re-read without re-running tests."
+    }
+  },
+  "browser": {
+    "kind": "restored-source-targeted-browser-check",
+    "startedAt": "2026-10-22T14:05:56.050Z",
+    "sourceCommit": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+    "statusBefore": "",
+    "node": "v24.19.0",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "scripts/browser-sprites159.mjs"
+    ],
+    "environment": {
+      "CHROMIUM_EXECUTABLE_PATH": "/tmp/chromium",
+      "DEADWALL_QA_OUTPUT": "/tmp/deadwall-sprites-restauration-20261022",
+      "DEADWALL_QA_PROFILES": "desktop,mobile,mobile-landscape"
+    },
+    "browserBinary": {
+      "path": "/tmp/chromium",
+      "bytes": 209022176,
+      "sha256": "53a15d6c3a3d27dfb54c4ba60278b1683136f70cf1e67e989da7dfbd3d451ef0"
+    },
+    "limitations": [
+      "New run on restored bytes. Previously lost local logs are not reused.",
+      "Desktop and mobile profiles are browser emulations in the declared legacy author fixture, not physical-device or full-game certification."
+    ],
+    "finishedAt": "2026-10-22T14:07:14.900Z",
+    "elapsedMs": 78622,
+    "exitCode": 0,
+    "signal": null,
+    "error": null,
+    "statusAfter": "",
+    "log": {
+      "path": "/tmp/deadwall-sprites-restauration-20261022/sprites-browser.log",
+      "bytes": 246,
+      "sha256": "af5c210bee0401f4e9e56751186efced7546ee9c9b9f55ebccedb441bc531ac7"
+    },
+    "report": {
+      "path": "/tmp/deadwall-sprites-restauration-20261022/sprites159-2026-10-22T14_05_57_044Z/report.json",
+      "bytes": 650886,
+      "sha256": "4218cbc6fa63a51c5cc4e79ce71c4293f7b92ce279b5bda122eaec20c8654746"
+    },
+    "summary": {
+      "pass": true,
+      "browserVersion": "153.0.8010.0",
+      "profiles": [
+        {
+          "name": "desktop",
+          "pass": true,
+          "checks": 53,
+          "passed": 53,
+          "errors": 0,
+          "commanderBefore": 100,
+          "commanderAfter": 84,
+          "unitsBefore": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "unitsAfter": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "sourceBinding": {
+            "observedFiles": 353,
+            "expectedFiles": 353,
+            "mismatch": [],
+            "missing": []
+          }
+        },
+        {
+          "name": "mobile",
+          "pass": true,
+          "checks": 53,
+          "passed": 53,
+          "errors": 0,
+          "commanderBefore": 100,
+          "commanderAfter": 84,
+          "unitsBefore": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "unitsAfter": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "sourceBinding": {
+            "observedFiles": 353,
+            "expectedFiles": 353,
+            "mismatch": [],
+            "missing": []
+          }
+        },
+        {
+          "name": "mobile-landscape",
+          "pass": true,
+          "checks": 53,
+          "passed": 53,
+          "errors": 0,
+          "commanderBefore": 100,
+          "commanderAfter": 84,
+          "unitsBefore": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "unitsAfter": [
+            {
+              "id": 30,
+              "kind": "worker",
+              "x": 2137,
+              "y": 2048,
+              "radius": 11,
+              "health": 85,
+              "state": "flee",
+              "distanceToContact": 176.38348622671532,
+              "lineClear": false
+            }
+          ],
+          "sourceBinding": {
+            "observedFiles": 353,
+            "expectedFiles": 353,
+            "mismatch": [],
+            "missing": []
+          }
+        }
+      ],
+      "changedFiles": [],
+      "runtimeFiles": 353,
+      "qaFiles": 5
+    }
+  },
+  "changes": [
+    {
+      "path": "tests/vehicle-boundary151.test.cjs",
+      "purpose": "Préparer une aire de montage native libre en déplaçant uniquement les équipiers vers des points physiques légaux. Préserver les ressources, le RNG, les gisements, les identités et la santé. Ajouter profil, côté, position et motif natif à l’assertion de construction.",
+      "negativeCase": "Un équipage vivant placé légalement bloque les trois emplacements de montage du bus ; la commande native refuse sans débit. La préparation libère l’aire, puis la construction native réussit au coût exact. Les assertions historiques des frontières restent conservées."
+    },
+    {
+      "path": "scripts/browser-sprites-fixtures159.mjs",
+      "purpose": "Éloigner l’ouvrier vivant vers un accès physique légal et placer le contact à plus de 60 unités de tout autre équipier. Enregistrer état du commandant, contact, équipiers, graines et RNG avant/après, sans modifier santé, dégâts, temporisations ou logique de ciblage."
+    },
+    {
+      "path": "scripts/browser-sprites159.mjs",
+      "purpose": "Conserver l’assertion de blessure du commandant et ajouter la preuve que les autres équipiers restent éloignés et gardent leur santé."
+    }
+  ],
+  "contacts": [
+    {
+      "profile": "desktop",
+      "mapSeed": 903159,
+      "simulationRandomState": 165972973,
+      "commanderBefore": 100,
+      "commanderAfter": 84,
+      "physicallyVisible": true,
+      "unitsBefore": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "unitsAfter": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "attackActionBeforeNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0,
+        "facing": -2.356194490192345
+      },
+      "attackActionAfterNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0.15000000000002345,
+        "facing": -2.356194490192345
+      }
+    },
+    {
+      "profile": "mobile",
+      "mapSeed": 903159,
+      "simulationRandomState": 87792335,
+      "commanderBefore": 100,
+      "commanderAfter": 84,
+      "physicallyVisible": true,
+      "unitsBefore": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "unitsAfter": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "attackActionBeforeNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0,
+        "facing": -2.356194490192345
+      },
+      "attackActionAfterNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0.15000000000002345,
+        "facing": -2.356194490192345
+      }
+    },
+    {
+      "profile": "mobile-landscape",
+      "mapSeed": 903159,
+      "simulationRandomState": 1358211059,
+      "commanderBefore": 100,
+      "commanderAfter": 84,
+      "physicallyVisible": true,
+      "unitsBefore": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "unitsAfter": [
+        {
+          "id": 30,
+          "kind": "worker",
+          "x": 2137,
+          "y": 2048,
+          "radius": 11,
+          "health": 85,
+          "state": "flee",
+          "distanceToContact": 176.38348622671532,
+          "lineClear": false
+        }
+      ],
+      "attackActionBeforeNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0,
+        "facing": -2.356194490192345
+      },
+      "attackActionAfterNextSimulation": {
+        "ownerId": 32,
+        "action": "attack",
+        "active": true,
+        "progress": 0.15000000000002345,
+        "facing": -2.356194490192345
+      }
+    }
+  ],
+  "visualReview": {
+    "reviewedFiles": [
+      "desktop-prepared-actual-world.png",
+      "mobile-prepared-actual-world.png",
+      "mobile-landscape-prepared-actual-world.png",
+      "desktop-prepared-native-owner-gallery.png",
+      "mobile-prepared-native-owner-gallery.png",
+      "mobile-landscape-prepared-native-owner-gallery.png"
+    ],
+    "galleryTilesPerProfile": [
+      25,
+      25,
+      25
+    ],
+    "observation": "Les trois galeries montrent les pièces natives, les actions et les poses répétées. Les captures nommées prepared-actual-world montrent le menu Pause ; elles ne démontrent pas la visibilité du monde dans l’interface."
+  },
+  "historicalIncidents": {
+    "vehicle": {
+      "runId": 39763290836,
+      "jobId": 119772488808,
+      "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "evidence": "validation-ci-literal-20261022.json",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/job/119772488808",
+      "limitation": "Le journal historique n’indique ni profil, ni côté, ni motif natif de buildCar().ok false. Le contre-exemple ajouté démontre un risque de préparation, sans attribuer rétrospectivement la cause de cet incident."
+    },
+    "sprites": {
+      "runId": 39763290956,
+      "jobId": 119772489893,
+      "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "evidence": "validation-20261022.json#siegeCI.sprites",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489893",
+      "failure": "A visible real contact hurts the live commander before its own attack action exists",
+      "limitation": "Ce reçu conserve le nouvel état physique observé et la santé de chaque destinataire potentiel. Les diagnostics locaux antérieurs à la maintenance ne sont pas présentés comme des journaux archivés."
+    }
+  },
+  "artifacts": {
+    "nativeLog": {
+      "file": "validation-vehicules-sprites-restauration-20261022.native.log.gz",
+      "bytes": 510,
+      "sha256": "2ae0738100cdd19e38b82294166420fa295961d1ffa4d368daf369cedc2b26a3",
+      "uncompressedBytes": 1409,
+      "uncompressedSha256": "db9dce29ae6b51bff48bab62e485b0a6523dcf882c7fff5ee315fcc02ee48993"
+    },
+    "browserArchive": {
+      "file": "validation-vehicules-sprites-restauration-20261022.browser.tar.gz",
+      "bytes": 2664120,
+      "sha256": "68adcd10a036f0c9c559c78ca6f4ce043976d755572d7b0f20ed825d03a73b82",
+      "contents": "Rapport brut, captures de trois profils, journal exact, reçu, runners temporaires et provenance native."
+    }
+  },
+  "limitations": [
+    "Contrôles ciblés distincts du contrôle global npm run check et de son reçu littéral.",
+    "Profils mobile et paysage simulés dans Chromium, pas une qualification sur appareils physiques.",
+    "Scènes préparées dans la fixture historique auteur tools=1&fixture=legacy ; aucune affirmation de progression organique, équilibrage, endurance, performances ou déploiement.",
+    "Aucune préexistence d’incident n’est déduite de la seule identité des fichiers avec main.",
+    "Les captures de page prepared-actual-world affichent le menu Pause. La preuve du contact repose sur les états physiques enregistrés ; la preuve des images des propriétaires natifs repose sur les galeries Canvas hors écran, pas sur une vue découverte du monde."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "ci-packaged-windows-after-restoration",
+  "runId": 39789163177,
+  "jobId": 119860247053,
+  "jobName": "windows",
+  "conclusion": "success",
+  "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789163177/job/119860247053",
+  "pullRequestHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "checkoutCommit": "f0513f67f234c4ff651ec09f232ae0c9f174a378",
+  "checkoutTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "parents": [
+    "74a62084e96dd7e78463bd4e15b9ec2897887704",
+    "a137e2f714649083e460fcf25b0d84b7ea1bee57"
+  ],
+  "sameTreeAsPullRequestHead": true,
+  "commands": [
+    "npm run package:desktop",
+    "npm run test:desktop -- --archive <portable ZIP> --output artifacts/qa/windows"
+  ],
+  "observedNativeSuccess": "Two launches; partial narrative survey, unique paid choice, read state, save/import/export, Canvas, sandbox, fullscreen and offline checks passed.",
+  "log": {
+    "file": "validation-windows-restauration-20261022.log.gz",
+    "originalBytes": 33838,
+    "originalSha256": "16d26c74c101088bf011d9b2f9f4acac8bceb3b06bcc45947b7a383483c3b03c"
+  },
+  "artifact": {
+    "id": 12430981448,
+    "name": "deadwall-windows-qa-attempt-1",
+    "bytes": 925509907,
+    "sha256": "4d7e949f4e62840258f0dc5170661728398990254b2c16eede077b0a92c6fe93",
+    "downloadedLocally": false,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789163177/artifacts/12430981448"
+  },
+  "limitations": [
+    "The successful job and its complete original log are retained; the large portable binary artifact was not downloaded locally.",
+    "The checkout is GitHub's synthetic merge, whose tree was independently read and equals the PR source tree.",
+    "Windows line endings produce a different distribution/PWA hash from the Linux browser evidence; no byte equality between those distributions is claimed.",
+    "This packaged smoke test does not qualify an entire human-played campaign."
+  ],
+  "observedAt": "2026-10-22 13:53:59 UTC"
+}

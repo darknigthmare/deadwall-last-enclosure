@@ -1,0 +1,277 @@
+{
+  "schema": "deadwall-scenery-placement-reprise2-evidence-v1",
+  "recordedAt": "2026-10-22T14:34:44.121657+00:00",
+  "result": {
+    "ok": true,
+    "scope": "Targeted native qualification of the local R4 placement correction",
+    "tests": 36,
+    "passed": 36,
+    "failed": 0,
+    "globalCheck": false,
+    "browserRun": false
+  },
+  "source": {
+    "baseHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "correctionPublished": false,
+    "state": "a137e2f plus local delta; this is not a published correction commit",
+    "files": [
+      {
+        "path": "src/exploration-125.js",
+        "sha256": "3833aeb9453fb8e7724bffbe3a99b6b8eaa120f8da5243ae862090bc78d1a714"
+      },
+      {
+        "path": "tests/scenery-placement202.test.cjs",
+        "sha256": "7a1c34e6fb9bb8441a7141efa61dae23f7bb13acd564464b650a81b28b5ba916"
+      }
+    ],
+    "otherLocalChangesAtRecording": [
+      " M scripts/browser-d17-placement149.mjs",
+      " M tests/d17-placement-qa149.test.cjs"
+    ]
+  },
+  "counterexample": {
+    "ciRun": 39789163177,
+    "ciJob": 119860247597,
+    "ciTest": "tests/new-game-generation.test.cjs:95",
+    "seed": 2550352072,
+    "nodeId": 471,
+    "kind": "ruinedHouse",
+    "body": {
+      "w": 320,
+      "h": 256
+    },
+    "error": "Décor métrique sans parcelle libre : 471 · seed 2550352072 · ruinedHouse · 320×256",
+    "originalSourceSha256": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+    "originalHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "localReproduction": {
+      "entry": "unmodified shipped new-game button, explicit exact seed",
+      "started": "2026-10-22T14:20:43.035Z",
+      "completed": "2026-10-22T14:20:45.255Z",
+      "exitCode": 1,
+      "log": "diagnostic-scenery-placement-a137-reprise2-20261022.log.gz"
+    },
+    "ciArtifactMetadataProvidedByParent": {
+      "id": 12431950213,
+      "bytes": 684971,
+      "sha256": "d1619f8341f9847fa12bb3b3c0ad2a6426c466e474e98037727147a0531b25cf",
+      "downloadedByThisDiagnostic": false
+    }
+  },
+  "diagnosis": {
+    "cause": "A valid border strip is missed by the historical radial and fixed sixteen-unit samples; no preceding scenery needs to move.",
+    "fullEnvelope": {
+      "w": 329.6,
+      "h": 313.6,
+      "relativeX": -164.8,
+      "relativeY": -180.8
+    },
+    "worldBorder": 38,
+    "clearance": 32,
+    "northRoad": {
+      "id": "collector-ring-north",
+      "axis": "line",
+      "x1": 451,
+      "y1": 451,
+      "x2": 3645,
+      "y2": 451,
+      "width": 128,
+      "lanes": 1,
+      "className": "collector",
+      "surface": "asphalt"
+    },
+    "selectedStripCentreY": {
+      "minimum": 218.8,
+      "maximum": 222.2
+    },
+    "gridAnalysis": [
+      {
+        "step": 16,
+        "nativePredicateValidCandidates": 0
+      },
+      {
+        "step": 8,
+        "nativePredicateValidCandidates": 0
+      },
+      {
+        "step": 4,
+        "nativePredicateValidCandidates": 43
+      }
+    ],
+    "selectedPoint": {
+      "x": 395.74,
+      "y": 218.81
+    },
+    "selectedEnvelope": {
+      "x": 230.94,
+      "y": 38.010000000000005,
+      "w": 329.6,
+      "h": 313.6
+    },
+    "contact": {
+      "i": 56,
+      "kind": "terrain-prop",
+      "box": {
+        "x": 154.9301595762372,
+        "y": 244.23270876705647,
+        "w": 44,
+        "h": 20,
+        "kind": "terrain-prop",
+        "prop": "decor133-48"
+      },
+      "dx": 0.009840423762796036,
+      "dy": 0
+    },
+    "fallbackChecksInCapturedState": 11
+  },
+  "correction": {
+    "owner": "src/exploration-125.js",
+    "ordering": "Original position, historical rings, historical sixteen-unit grid, then boundary/obstacle candidates only.",
+    "nativeVetoUnchanged": true,
+    "usesSameCachedRoadGeometry": true,
+    "rngDrawsAdded": 0,
+    "maximumCandidateBound": "(2 + 2 × blockerCount)^2",
+    "savedCoordinatesAuthoritative": true,
+    "failureStillExplicit": true
+  },
+  "native": {
+    "exitCode": 0,
+    "command": "node --test --test-concurrency=2 --test-reporter=tap tests/scenery-placement202.test.cjs tests/new-game-generation.test.cjs tests/local-parcels202.test.cjs tests/scenery-stock202.test.cjs tests/city-roads202.test.cjs",
+    "counts": {
+      "tests": 36,
+      "pass": 36,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMs": 270983.304007,
+    "log": "validation-scenery-placement-reprise2-20261022.log.gz",
+    "coverage": [
+      "Exact failed seed through the blank-input preview branch of the shipped button; full G10 start; 48 identities and nominal finite stocks; 12 station loot IDs; real physical service point.",
+      "Partial harvest and exhaustion; actual save/Continue with identical coordinates, quantities and RNG state; subsequent sync; deterministic same-seed restart.",
+      "Three untouched a137 witness map hashes captured before editing, for every node position/quantity and the complete feature plan.",
+      "Four existing new-game/Continue/G7 compatibility scenarios unchanged.",
+      "Existing road/parcels contracts including 512-seed immutable geometry checks.",
+      "Existing forty native starts and five Continue cycles preserve finite scenery.",
+      "Finite unavailable-parcel case still returns null; final native veto cannot be bypassed."
+    ]
+  },
+  "witnessProvenance": {
+    "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+    "sourceSha256": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+    "captureScript": "baseline.cjs",
+    "captureScriptSha256": "e2ab33fad793c4b9455f949349fe84c6cb7d0f9929c5010be20e86ee937c42a4",
+    "capture": "baseline-original.json",
+    "captureSha256": "d73dbb85140b55da466cbbb80e9bc312dd5073ade3c6d03c0e56b2b0cc38646b",
+    "entries": [
+      {
+        "seed": 17117,
+        "nodesSha256": "e61c465aa3e3029c815fce42c73bd38f242241e7863e3e32d70b748aa73c45d9",
+        "planSha256": "be0dcd3b90f3798d8c5fa4b1008fb1cc3788162ffdde99c801480ebae2c770c2"
+      },
+      {
+        "seed": 84329,
+        "nodesSha256": "505ce4549295da26a898cc71f294127d9d7defa40ce1238ccfe5bc3e246e4a74",
+        "planSha256": "eed69ee35da0e2603f1095e63fa35a87e70ba7ba6f448a32b218dc538e15dd2d"
+      },
+      {
+        "seed": 42,
+        "nodesSha256": "ccb81727ea026a834fbb46014392be4cab1a411bddeef2941c916290a06073a7",
+        "planSha256": "120265808cd21b6e4e19719b8ecafd36910ccb3d50d373b66000df12e56c03ec"
+      }
+    ]
+  },
+  "review": {
+    "parent": "Runtime review favorable, no blocking issue reported.",
+    "independentAgent": "codex_audit read the runtime and regression source; no blocking issue, no additional test claimed."
+  },
+  "limits": [
+    "This is a local native delta qualification, not a new complete CI run or a browser qualification.",
+    "The previous a137 CI/browser/industrial evidence remains attached to its own source inputs; this proof does not relabel it.",
+    "The bounded contact candidates are not a proof that every possible configuration of oriented obstacles or every 32-bit seed has a solution.",
+    "The new branch runs only after the old searches would throw; the three successful witness maps are measured evidence of unchanged geometry.",
+    "Execution traces contain absolute local paths and are not a portable user tool."
+  ],
+  "artifacts": [
+    {
+      "path": "validation-scenery-placement-reprise2-20261022.log.gz",
+      "bytes": 2879,
+      "sha256": "1310174ee3426d827c87d47e85d2ee05bfad249e611a42975fa7bc1ebfaeb496",
+      "rawBytes": 11579,
+      "rawSha256": "630ea48c2f6d8927943192e5a870a4c5d4c4fd87aafd83082c31b0fcd3675b91",
+      "gzipMtime": 0
+    },
+    {
+      "path": "diagnostic-scenery-placement-a137-reprise2-20261022.log.gz",
+      "bytes": 552,
+      "sha256": "ac95a0c23348470be9ae37746299e3c551fc94b9ee96ab51712518657d4bce34",
+      "rawBytes": 1123,
+      "rawSha256": "7b583d9e94ba962413d1c15aadcbacb18386c128c14f944e83fc1cee90d19f9b",
+      "gzipMtime": 0
+    },
+    {
+      "path": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz",
+      "bytes": 113566,
+      "sha256": "9e5054efc72d86c835d791a37192d6c545890de47fa25515df8e81324878ecc6",
+      "rawBytes": 1071359,
+      "rawSha256": "7bfa3f14924f7cb9cf295338397de874ca97261efbe260357641a19cbe047562",
+      "gzipMtime": 0
+    }
+  ],
+  "capturedEntries": [
+    {
+      "name": "reproduce.cjs",
+      "bytes": 1475,
+      "sha256": "e16d28d71ba18e63ed8ac9161041a9e5ff7c8ef972df9c928f970d9047ce46b9",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "reproduce-original.json",
+      "bytes": 249457,
+      "sha256": "fb2a6a764925f0ebac4c6af7b36f86a7a7e037bc4af3735d27803303c1ec257d",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "analyze.cjs",
+      "bytes": 3622,
+      "sha256": "3ae9bf262a9dc27712bd6e0b4877162094a4837685b80f4de1388ac8ef41e6bc",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "analysis-original.json",
+      "bytes": 7588,
+      "sha256": "4ba1f007f54edf5641e486ccefdbb59a6246949d5ff7788d11296aa1848d2b09",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "analyze-corrected.cjs",
+      "bytes": 3058,
+      "sha256": "d67b6e48a836e28f1c0bd2a7115a018d0bcb3779bd7e4947593d23fdaf07472c",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "analysis-corrected.json",
+      "bytes": 1256,
+      "sha256": "95cadf6ad0ab63a22bd98b80becb7f190c62963ac1a9de9dace2b1387b22173a",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "baseline.cjs",
+      "bytes": 1073,
+      "sha256": "e2ab33fad793c4b9455f949349fe84c6cb7d0f9929c5010be20e86ee937c42a4",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "baseline-original.json",
+      "bytes": 705794,
+      "sha256": "d73dbb85140b55da466cbbb80e9bc312dd5073ade3c6d03c0e56b2b0cc38646b",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    },
+    {
+      "name": "baseline-original.log",
+      "bytes": 600,
+      "sha256": "9532f7bac51e09148aac72674a3adb515f2bdbe14f4529eb3c355e132c4287b3",
+      "container": "diagnostic-scenery-placement-captures-reprise2-20261022.json.gz"
+    }
+  ]
+}

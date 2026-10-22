@@ -1,0 +1,398 @@
+{
+  "schema": "deadwall-restoration-proof-inventory-v1",
+  "recordedAt": "2026-10-22T14:46:49.948178+00:00",
+  "baseHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "sourceDelta": [
+    {
+      "path": "src/exploration-125.js",
+      "bytes": 166230,
+      "sha256": "3833aeb9453fb8e7724bffbe3a99b6b8eaa120f8da5243ae862090bc78d1a714",
+      "gitBlob": "306363eb12279a10862afabc146cd5f915ec2ce0"
+    },
+    {
+      "path": "tests/scenery-placement202.test.cjs",
+      "bytes": 7648,
+      "sha256": "7a1c34e6fb9bb8441a7141efa61dae23f7bb13acd564464b650a81b28b5ba916",
+      "gitBlob": "eed3a2fd8991b2c0851538469da9f67b33be580d"
+    },
+    {
+      "path": "scripts/browser-d17-placement149.mjs",
+      "bytes": 9351,
+      "sha256": "9ab2bf51dda4f89669b4acb6b078efae60e34fa7b845c0c98ec7eb3b3bce47bf",
+      "gitBlob": "18952c3919e05e824c00ae38e66b415f0b68d6fe"
+    },
+    {
+      "path": "tests/d17-placement-qa149.test.cjs",
+      "bytes": 11053,
+      "sha256": "856babcbcef0c0b997bcc25c15921615001dff63fd7d515bc2a9ec8796f6f38d",
+      "gitBlob": "a66790dc2135c6b9057bce22862b6dee446e9f33"
+    }
+  ],
+  "qualification": "Historical a137 receipts and targeted local deltas are preserved under their original byte provenance. The complete corrected-source qualification is pending at this checkpoint.",
+  "industryInputsUnchanged": {
+    "count": 15,
+    "sourceHash": "b6a4defded6f1bd425c88c4115348358e26a614886816c2ea552b196d5b10640",
+    "report": "inspection-restauration-20261022.json",
+    "reportSha256": "6eab9a45f0e7de3511f1e47cb5199d709f16bc611d142b8212437b3d738e8daf"
+  },
+  "files": [
+    {
+      "path": "docs/codex/suivi-monde2026/diagnostic-scenery-placement-a137-reprise2-20261022.log.gz",
+      "bytes": 552,
+      "sha256": "ac95a0c23348470be9ae37746299e3c551fc94b9ee96ab51712518657d4bce34",
+      "gitBlob": "fc5bc6cdee8109bb8894864b637d5ea8597238ba"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/diagnostic-scenery-placement-captures-reprise2-20261022.json.gz",
+      "bytes": 113566,
+      "sha256": "9e5054efc72d86c835d791a37192d6c545890de47fa25515df8e81324878ecc6",
+      "gitBlob": "e39bf78572e5b3785849a03407979b509d33e5af"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-atlas-restauration-20261022.log.gz",
+      "bytes": 485,
+      "sha256": "db1ea979ea6913b8fe94e546325589b1b685f300247ef7439c6b0b2e0df2f894",
+      "gitBlob": "14d7e0daac18578ea4a3f2330a01a9d9649f738c"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-continuation201-reprise2-20261022.json",
+      "bytes": 2511,
+      "sha256": "22311649201d09ec0c7162467e657fbd02ab037fc10988df060bcce029c5c143",
+      "gitBlob": "a077d626a4ad1870042115a02c33eb7a0b38ebf1"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-continuation201-reprise2-20261022.log.gz",
+      "bytes": 9630,
+      "sha256": "aa0fcfa79784d348f0206fe46318463b906e36a761005842159e1c6e6f15e98e",
+      "gitBlob": "54ef7b9ae53e9c87f610bb466d5467054d977b63"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-continuation201-reprise2-20261022.md",
+      "bytes": 992,
+      "sha256": "2c7ce4e6b18686c41025a94795e6d12dbf5cf413a73a8431471d654af7dfbf68",
+      "gitBlob": "d1b3a90f9ea4a4d521f663310d41ec300f1d74c9"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-continuation201-reprise2-20261022.tar.gz",
+      "bytes": 11220247,
+      "sha256": "952ad06c21de10524338aabc30db01aff8a346577f5a223ed63344924cb9fb15",
+      "gitBlob": "d94304429d8ad75e5750fe5c6aa5e2c4401e4dec"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-echecs-a137-20261022.json",
+      "bytes": 1554,
+      "sha256": "9c66b86c34ad39f0f17d624ec8651c06a84d6cd4fcb63d8c98e437b4697d2d0e",
+      "gitBlob": "8f4898666c8ecba5ebc28a7ae1f90b1b87ab6fb9"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-echecs-a137-d17-landscape-20261022.log.gz",
+      "bytes": 11853,
+      "sha256": "de6b3bc72ff72901c8742ad0e974d3fab16597fcf58a260f5bb5b7e90ae05f1a",
+      "gitBlob": "d5dcd701c80006a9b8e5af8a594a97047294f754"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-echecs-a137-native-shard1-20261022.log.gz",
+      "bytes": 5633,
+      "sha256": "6ca1c14444f711ed79e65087327458a9026b6e9baf65802434482be25395b4fb",
+      "gitBlob": "7f939f45ff83b6757a88c2104a5c5fbd16ab902a"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-literal-reprise2-20261022.json",
+      "bytes": 7103,
+      "sha256": "29eeedde92bb16c12761e8c8a24a0fa7fbdfcff4cb582b827545d16d63ec5f55",
+      "gitBlob": "7426fddaedf33e2692cecb53bb4a2ed09981e4d0"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-literal-reprise2-20261022.log.gz",
+      "bytes": 193356,
+      "sha256": "9585cf0388dfb0f87d205ba60b0e30fae6c5093a7ab35c8337cecfa3384e88cf",
+      "gitBlob": "8d0f7d5a545a8bf32212e2c09d21573915f92d6a"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-literal-reprise2-20261022.md",
+      "bytes": 2150,
+      "sha256": "3c44c3a2e30e0cf92359a2e2f1c102ea050cdbe501f0ede63095bb4808e122a0",
+      "gitBlob": "612062b0315226d3f1b947a81eaaa08e88e18a16"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-ci-literal-reprise2-20261022.tar.gz",
+      "bytes": 2289783,
+      "sha256": "cad54aad7c8fa0c6c3a98d4655c5d0d22de043c2042ccb5e25758d0a103e1eb8",
+      "gitBlob": "446dd83ae7a65df8afa83ef2b96a9d4332fd58ab"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.json",
+      "bytes": 58174,
+      "sha256": "acac769d9d033b94bef5505370ea98e84c0826dff9a4b22d4c1e68ec20710923",
+      "gitBlob": "3a10bab240eab10cd0d4ee9c8255ac480f370df1"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.log.gz",
+      "bytes": 880,
+      "sha256": "bd80203350a3eb52a90d9bb901e8064690268f4d9a52b9b4ae9d4f77b3064501",
+      "gitBlob": "6594d7ab3368d8567da7768fe84139e79ad58d27"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.parts.json",
+      "bytes": 1176,
+      "sha256": "bec5e77e51c76c628686c48a7202f69e88b5397b284193700e879ae0e4069939",
+      "gitBlob": "055f9a49956b801b7b7deb15c54c10996ea572e8"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.tar.gz.part001",
+      "bytes": 7999998,
+      "sha256": "5983ae7cd237c46d078d1eb7924e45f867e9d43f0b6c47426179f8193fccd8a2",
+      "gitBlob": "aa8d349fe0caada7c7fce81cd79f6ed381eee163"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.tar.gz.part002",
+      "bytes": 7999998,
+      "sha256": "223208bd7cfb01aa1e2c97adac877aeaaeab6ecdeb1009256dbcaeed43b31201",
+      "gitBlob": "15e9a71cf9042d525ff2e49ac42753d301a19291"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-correctif-reprise2-20261022.tar.gz.part003",
+      "bytes": 6354329,
+      "sha256": "ed4b33c969a9a2dd897d69252db6dfedb4aac5d21e4a79f3c1845758256b041c",
+      "gitBlob": "86700edc24ebd2054cca79ead43b258b0a681c1c"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.json",
+      "bytes": 13458,
+      "sha256": "95c560ec0f21959549a6c1c6a677bc2b795152b7e9d4ff8113f1cc61c2171d79",
+      "gitBlob": "d2fdfc2d1d65069f8a312d1812924051c7263658"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.log.gz",
+      "bytes": 469,
+      "sha256": "69270da6affc40cb068f005ee634e61edbe211f546443d169aea33c6479f10ab",
+      "gitBlob": "a165026f93ffbefafea3e177f69159ba6b9ad475"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.tar.gz.part01",
+      "bytes": 7999998,
+      "sha256": "224b29d10ad73efb200c7b170af171ba251b8fc45f4fff7557f80e889e0133c6",
+      "gitBlob": "32aadb8071cd8a3f48418efb09e41aa511a8f449"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.tar.gz.part02",
+      "bytes": 7999998,
+      "sha256": "812ec3d539467982a66614bf1c7390014ac432d6fd2b920655ab25af9a811029",
+      "gitBlob": "a8fd2fe884b40bd66050b5e0cfea6f30587a3460"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.tar.gz.part03",
+      "bytes": 5565306,
+      "sha256": "db62eb62be1d6cfa6b6f1aa9c1ad00fd1a4df77764882a8605135ec97ede374f",
+      "gitBlob": "9189233875795a45618ca4c86596e0681bb3126e"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-d17-reprise2-20261022.tar.gz.parts.json",
+      "bytes": 1420,
+      "sha256": "4bc96ceadb39bddc96d4906c4df56bcc4ca8e8314b99d5fba7aea779d381971a",
+      "gitBlob": "cdbc4bb3c92357b89e70696111bd6887cef8c0b9"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-guide-atlas-restauration-20261022.json",
+      "bytes": 4487,
+      "sha256": "b6b372519ec62c347bc1c30ff209d2650d272d674a330459804dcc2e67e028b6",
+      "gitBlob": "bc8677ecda74c3a2fe5e7c951f066491cdffbe8b"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-guide-atlas-restauration-20261022.tar.gz",
+      "bytes": 6463165,
+      "sha256": "c7643fb28aa3bd80a4f5918c5ada1e1ffadddf552f48dd7dc576d3281852ea4e",
+      "gitBlob": "602e8e876e2927fc870a32887213bd4b5ab991f7"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-guide-restauration-20261022.log.gz",
+      "bytes": 172,
+      "sha256": "8c794b4de9fc1da6950360cac407315f0b71683be193cc32e2f0a83375f5fbc0",
+      "gitBlob": "616fd966947c34a768d81b59689c2cf9fd550c06"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-produits-reprise2-20261022.json",
+      "bytes": 12972,
+      "sha256": "39d239d0b3f276618dcbc27240b24f38293eb775a565710860350b210f992e10",
+      "gitBlob": "2409d6953b2968e79ee9de1479bde6d8ee7bfb4c"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-produits-reprise2-20261022.log.gz",
+      "bytes": 255,
+      "sha256": "9422d1dc6367e92192ffbc05b4136fb06503da5ee24e7957184df49398d23b8d",
+      "gitBlob": "ec87f07f62f636055d1071f396de72e8b2ba261a"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-produits-reprise2-20261022.tar.gz",
+      "bytes": 9851951,
+      "sha256": "b102c873d019a28576107bf8913b182ddf96c8800097359285f083c8045cd735",
+      "gitBlob": "129bd5b7dd1cc2ed4be6ff5cc72facbe89c30394"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-reconstruction-reprise2-20261022.json",
+      "bytes": 2572,
+      "sha256": "e64b7eebf971921c7d4edf6fb91edb78b807b7192ca88c5c0d16eded806b2b1c",
+      "gitBlob": "e4ee4824b0d1e7309689e442527c194d8ea7d764"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-reconstruction-reprise2-20261022.log.gz",
+      "bytes": 555,
+      "sha256": "a08d4781fd97acd1e184d63dd5bfc829b6b6446d75179717d1f2a44e6f8bff98",
+      "gitBlob": "27a68ff06e52d58db63978e76e1a886e85d71bc5"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-reconstruction-reprise2-20261022.tar.gz",
+      "bytes": 1444416,
+      "sha256": "a99ac3708f1e68dccd41ee81165926023b9038333efa2754a8009a60b86a3217",
+      "gitBlob": "af209be2272cf9c26f0998ef3cbe6df80f45bf86"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-scenery-placement-reprise2-20261022.json",
+      "bytes": 10451,
+      "sha256": "f7d19664033b877cf9d4a0f0a9590b68864cc0fa1d54847480673454f66242f0",
+      "gitBlob": "ef29a55e5b6b451296362a3e9823527f326b1684"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-scenery-placement-reprise2-20261022.log.gz",
+      "bytes": 2879,
+      "sha256": "1310174ee3426d827c87d47e85d2ee05bfad249e611a42975fa7bc1ebfaeb496",
+      "gitBlob": "f2962a25426c357925c908cf081f53ee1bae32aa"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.attempt1-diagnostic.json.gz",
+      "bytes": 1095,
+      "sha256": "372246c8b4039e0c7e6ffb572ebda40c53bb5c5d2c396cf4882f97c70909b469",
+      "gitBlob": "d95386cc217fd825d43d3a1e7e7b514aa5f51394"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.attempt1-report.json.gz",
+      "bytes": 44333,
+      "sha256": "b1c5991b5ad18922828cf587740e4fc558f946eab56f60df47ebb33565356771",
+      "gitBlob": "c5aff4b43feaa8a5d3f4fc746cbb7cafd5f04376"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.attempt1-runner.mjs.gz",
+      "bytes": 6797,
+      "sha256": "fd9010bfa0a87db4ac9a8d5b5520693cd45ba7197214da376f09eecb2a4c7417",
+      "gitBlob": "ca764bbece449ba1ec2995c07e77ec734e41487e"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.attempt1.log.gz",
+      "bytes": 233,
+      "sha256": "c337d09752651fe80e75975e28f76b27cad17e65bab2fcf4355d98ab7d11075a",
+      "gitBlob": "74cf42a393333f3236e535c6f3eec935be218493"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.attempt1.png",
+      "bytes": 798546,
+      "sha256": "3ff48d6e06e9f9ce2eb2e86e9cf5bbf142438782a5e359c4371190e21e5db391",
+      "gitBlob": "1ac1120793388e493de3fc7864fb999e49d61a81"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.browser-report.json.gz",
+      "bytes": 45135,
+      "sha256": "985774a9855dd8be7ad061235a53f435e2694fa7f636b873ebe9c1958cf6d439",
+      "gitBlob": "8b93d72c4133036772c52bee86217ed65f52bc5d"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.browser-runner.mjs.gz",
+      "bytes": 6832,
+      "sha256": "77c8b432175c4a5a659d3cea587c515ba9d0999860158e3d9b25ab1f5ebeaee6",
+      "gitBlob": "40293656b324ae4ffe17a4ee61ff58d3a6c9d286"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.browser.log.gz",
+      "bytes": 192,
+      "sha256": "cd1003d24661f877ef348854df7053c50c6b4f835cd15474853502f7e0af2669",
+      "gitBlob": "3f0368adfeeaee3d5ae04a5f2a829469c4629e6f"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.decision-paid.png",
+      "bytes": 591469,
+      "sha256": "abd5929d1dce1249b85537adc9e983d89e37a3807fe51850031fa77992886892",
+      "gitBlob": "c047511d98ad274946cace8290b6a2f7521b114e"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.json",
+      "bytes": 23317,
+      "sha256": "f66d0b8e0fa68d681a50ef1dcaef7b041a09806eb3e93ca13700fdf3d132b743",
+      "gitBlob": "11c35b63319faee9b8e00f333a835d703f34824e"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.market-releve.png",
+      "bytes": 630216,
+      "sha256": "f4693b2d573706c4e077d6c93503a5ddd7ee7b0a643196ef5f4c3d4761d58055",
+      "gitBlob": "bb55bba0659c7ed00bde6ddb2fc4ec769b85dfab"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.md",
+      "bytes": 8815,
+      "sha256": "d13172e4a6a838a59a6ebb9f693d1cfafa49ceb4bf50d961cc03a398669f105d",
+      "gitBlob": "bbf7b1813accc764fbeb2d2d1a4121acbf74029b"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.native.json.gz",
+      "bytes": 953,
+      "sha256": "d41185573b59438c7ea1b63715135b624c914455709727860261a6e07833e8ab",
+      "gitBlob": "521dbc3af86100c70cf59260ace48e8cede84944"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.native.log.gz",
+      "bytes": 651,
+      "sha256": "2bb1b0f2dc79bcbc961e116bcc61fd47002102d91e437a0e24f1a528a2a2804a",
+      "gitBlob": "d9f9a7c9b05e1ba81d37b7b7abb528dc0af03a47"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.smoke-restored.png",
+      "bytes": 868059,
+      "sha256": "5d53b3f2eb9f432e085ecfc2e7e1dd02340b294f59ab436f7a6eccdcccf0f4ef",
+      "gitBlob": "99cfee93e125ea47bada1d246bb350fd1d4ab2f7"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.smoke-template.txt.gz",
+      "bytes": 1829,
+      "sha256": "c95cd87731c9c1a0ffca7d0d8acd6147ab2f84517a7f68209e15f5b7dbaf26ba",
+      "gitBlob": "754602929470c367f4424e3e94de4eb55f416b8d"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-survey-reprise2-20261022.windows-ci.log.gz",
+      "bytes": 8917,
+      "sha256": "22e4a86bc517495fcc50dca123f6eefcdf9880e04a0ea4bce36eaf4821677fe1",
+      "gitBlob": "fef370bd0bd955485f2802d0d912dc12fda22adc"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-vehicules-sprites-restauration-20261022.browser.tar.gz",
+      "bytes": 2664120,
+      "sha256": "68adcd10a036f0c9c559c78ca6f4ce043976d755572d7b0f20ed825d03a73b82",
+      "gitBlob": "109ad6d96b032866cca0058e86e91aa2b4102310"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-vehicules-sprites-restauration-20261022.json",
+      "bytes": 16471,
+      "sha256": "9f63b2f0fac527e432115d6288faa7d97a9e7a1b0926d622465ff25b0641ded5",
+      "gitBlob": "06578e216d1387bb1da5ee67661df4bc98cca66c"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-vehicules-sprites-restauration-20261022.native.log.gz",
+      "bytes": 510,
+      "sha256": "2ae0738100cdd19e38b82294166420fa295961d1ffa4d368daf369cedc2b26a3",
+      "gitBlob": "e21516ae41cc9948ebc9f2dea5eea818d6cadd3a"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-windows-restauration-20261022.json",
+      "bytes": 2042,
+      "sha256": "23e71f9af1a918e5103d379207b1e475b1acd4bcaeff0286f7ac4392989ce62f",
+      "gitBlob": "36abe9956c8880f0fd44d93bf8a4ac9893631227"
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-windows-restauration-20261022.log.gz",
+      "bytes": 8917,
+      "sha256": "22e4a86bc517495fcc50dca123f6eefcdf9880e04a0ea4bce36eaf4821677fe1",
+      "gitBlob": "fef370bd0bd955485f2802d0d912dc12fda22adc"
+    }
+  ],
+  "fileCount": 59,
+  "totalBytes": 81377943,
+  "archivePolicy": "The two large D17 archives are stored as raw byte parts with individual reassembly manifests; the original full tar files are not duplicated.",
+  "inventoryScope": "This inventory excludes itself and the publication prose. It does not change the frozen internal receipts."
+}
