@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "kind": "observed-github-actions-literal-fullcheck",
+  "observedAt": "2026-10-22T11:39:51Z",
+  "archivedAt": "2026-10-22T11:47:14Z",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "pullRequest": 16,
+  "workflow": {
+    "runId": 39763290836,
+    "runAttempt": 1,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836",
+    "status": "completed",
+    "conclusion": "failure"
+  },
+  "job": {
+    "id": 119772488808,
+    "name": "literal full check / exact head",
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/job/119772488808",
+    "conclusion": "failure",
+    "failedStep": "Exécuter réellement la commande complète et conserver les deux sorties"
+  },
+  "provenance": {
+    "head": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "sourceBeforeAfterIdentical": true,
+    "sourceCleanBeforeAndAfter": true,
+    "sourceSnapshotSHA256": "a65f06f99568178a23a7d2ce52932ac79bfff2896885a2cbb41e0747c12fc75f",
+    "sourceFiles": 4729,
+    "testFiles": 525,
+    "node": "v24.21.0",
+    "npm": "11.19.0"
+  },
+  "execution": {
+    "command": "DEADWALL_SOAK=1 npm run check",
+    "soakEnabled": true,
+    "filtersAbsent": true,
+    "startedAt": "2026-10-22T10:28:13.776Z",
+    "completedAt": "2026-10-22T11:38:08.390Z",
+    "receiptWallDurationMs": 4194614,
+    "nativeTestDurationMs": 4178059.292067,
+    "actualExitCode": 1,
+    "teeExitCode": 0,
+    "signal": null,
+    "accepted": false,
+    "receiptFailure": "Failed actual actualExitCode\n\n1 !== 0\n",
+    "counts": {
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5662,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "failure": {
+    "test": "151 vehicles: every existing profile can enter every physically clear driving seam",
+    "declaration": "tests/vehicle-boundary151.test.cjs:42:1",
+    "stack": "paid (tests/vehicle-boundary151.test.cjs:16:166)",
+    "caller": "tests/vehicle-boundary151.test.cjs:43:109",
+    "assertion": "assert.equal(g.expeditions.buildCar().ok,true)",
+    "actual": false,
+    "expected": true,
+    "operator": "strictEqual",
+    "nativeLogLine": 5377,
+    "durationMs": 13068.361418,
+    "stage": "Native vehicle construction in paid(), before pose() and frontier.enter() for the failing iteration",
+    "vehicleProfile": null,
+    "side": null,
+    "returnedReasonRecorded": false,
+    "note": "The assertion checks only .ok. Neither the receipt nor native log records the returned reason, the vehicle profile or the side of this failing loop iteration."
+  },
+  "diagnostic": {
+    "status": "cause-unknown",
+    "baseline": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+    "reviewedHead": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "method": "Read-only source and original-artifact inspection; no new test execution or workflow rerun",
+    "directFiles": [
+      {
+        "path": "tests/vehicle-boundary151.test.cjs",
+        "baselineBlob": "257982fb992dc955f60c90b822a1846e8b1e09c8",
+        "headBlob": "257982fb992dc955f60c90b822a1846e8b1e09c8",
+        "identical": true
+      },
+      {
+        "path": "tests/helpers/physical-fixtures.cjs",
+        "baselineBlob": "9c0eed0a0e071e4edad6bf8538d32049b5885e29",
+        "headBlob": "9c0eed0a0e071e4edad6bf8538d32049b5885e29",
+        "identical": true
+      },
+      {
+        "path": "tests/helpers/legacy-city.cjs",
+        "baselineBlob": "13942878a4e32a53d351ee350fbe981351129d14",
+        "headBlob": "13942878a4e32a53d351ee350fbe981351129d14",
+        "identical": true
+      },
+      {
+        "path": "scripts/qa-startup134.cjs",
+        "baselineBlob": "1bcb8ba414213c39a035018fd9a4429686a0fc00",
+        "headBlob": "1bcb8ba414213c39a035018fd9a4429686a0fc00",
+        "identical": true
+      },
+      {
+        "path": "src/expeditions.js",
+        "baselineBlob": "0712129f15b791c4bb4d17801e4b43afcfe80df7",
+        "headBlob": "0712129f15b791c4bb4d17801e4b43afcfe80df7",
+        "identical": true
+      },
+      {
+        "path": "src/world-evolution.js",
+        "baselineBlob": "bc1a566cd45b3fe3043ffe578739f4847271870e",
+        "headBlob": "bc1a566cd45b3fe3043ffe578739f4847271870e",
+        "identical": true
+      },
+      {
+        "path": "src/fieldcraft.js",
+        "baselineBlob": "1a888613df71ba7b53e9d32ac41c2aace61975bc",
+        "headBlob": "1a888613df71ba7b53e9d32ac41c2aace61975bc",
+        "identical": true
+      },
+      {
+        "path": "src/game.js",
+        "baselineBlob": "20d4a396b96e05614c6206c39293d69993b138a0",
+        "headBlob": "20d4a396b96e05614c6206c39293d69993b138a0",
+        "identical": true
+      },
+      {
+        "path": "src/core.js",
+        "baselineBlob": "2edb7f91a518b996c9ce563487816c9db3ed302a",
+        "headBlob": "2edb7f91a518b996c9ce563487816c9db3ed302a",
+        "identical": true
+      }
+    ],
+    "sourceBranches": {
+      "location": "src/expeditions.js:72-75",
+      "initialGuardReason": "Garage disponible, présence au centre et coût du véhicule sélectionné requis.",
+      "noClearSpawnPointReason": "Libérez une aire accessible près du centre.",
+      "resolvedBranch": null
+    },
+    "otherProductChangesInspected": [
+      "index.html: new author codex modules and stylesheet",
+      "src/world-codex.js: inspection UI mount",
+      "src/coordination.js: version 1.68.0 to 1.69.0"
+    ],
+    "conclusion": "The test and directly inspected vehicle construction, access and fixture paths are unchanged between main and the reviewed head. The available failure log does not identify which buildCar guard refused. No causal link to the PR has been established; identical direct files alone do not prove a pre-existing failure, and no baseline reproduction was performed."
+  },
+  "independentSuccessfulExecutions": [
+    {
+      "kind": "local-full-check",
+      "evidence": "validation-20261022.json",
+      "log": "validation-globale-20261022.log.gz",
+      "sourceHead": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "test": "151 vehicles: every existing profile can enter every physically clear driving seam",
+      "testLogLine": 5379,
+      "testLogText": "✔ 151 vehicles: every existing profile can enter every physically clear driving seam (11070.317763ms)",
+      "testDurationMs": 11070.317763,
+      "counts": {
+        "tests": 5663,
+        "pass": 5662,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 1,
+        "todo": 0,
+        "suites": 4
+      },
+      "scope": "Full local check succeeded; the single skipped case was endurance."
+    },
+    {
+      "kind": "github-native-shard",
+      "runId": 39763290956,
+      "shard": 5,
+      "jobId": 119772489414,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489414",
+      "accepted": true,
+      "counts": {
+        "tests": 855,
+        "pass": 855,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0,
+        "suites": 4
+      },
+      "soakEnabled": true,
+      "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+      "evidence": "validation-ci-native-20261022.json",
+      "testFile": "tests/vehicle-boundary151.test.cjs",
+      "planSHA256": "67b9aa21def60e63da877fb925234b4e079a12f2d4da16fbb700d923a98d612c",
+      "fileAssignmentVerified": true,
+      "assignmentMethod": "Recomputed the published size-balanced plan from the literal receipt exact source inventory; its digest equals the accepted aggregate plan. The vehicle file is in shard 5.",
+      "scope": "Accepted aggregate validates all 525 test files exactly once across six shards, all 5663 cases passing with endurance. This is separate from the failed literal fullcheck."
+    }
+  ],
+  "artifact": {
+    "id": 12422392885,
+    "name": "deadwall-fullcheck201-39763290836-1",
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/artifacts/12422392885",
+    "zipBytes": 882585,
+    "zipSha256": "c79923c59daebb464a3b0d43a97215081b2f65ba4bfa0f81991d9a22c76a1009",
+    "digestVerifiedAgainstGitHub": true,
+    "receiptBytes": 1954422,
+    "receiptSha256": "ad09d1c7378377fc6e74abaeec8529bc7b60168859aaa3eeaa6da443340334e7",
+    "logBytes": 626380,
+    "logSha256": "0e05e2e61f1c7c8a74a2498439f2864a76d802ff5811720323ae76d4905bfa64"
+  },
+  "archives": {
+    "nativeLog": {
+      "file": "validation-ci-literal-20261022.log.gz",
+      "bytes": 193298,
+      "sha256": "f8f9e0e4adefbc9947c546e809c12a8e3f33c78a6c8b14bdb7f42b607c29b61b",
+      "uncompressedBytes": 626380,
+      "uncompressedSha256": "0e05e2e61f1c7c8a74a2498439f2864a76d802ff5811720323ae76d4905bfa64",
+      "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+    },
+    "originalReceipt": {
+      "file": "validation-ci-literal-20261022.receipt.json.gz",
+      "bytes": 476577,
+      "sha256": "8bbdf9fa1a9389d2cf408507761b906f7716e71d5a9de265886276e3b81a41a0",
+      "uncompressedBytes": 1954422,
+      "uncompressedSha256": "ad09d1c7378377fc6e74abaeec8529bc7b60168859aaa3eeaa6da443340334e7",
+      "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+    }
+  },
+  "scope": "This complete literal command failed one test despite two independent successful native executions. Its failure remains recorded separately from the all-green sharded aggregate and from subsequent fixture corrections. No browser or Windows qualification is inferred."
+}

@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "kind": "native-survey-targeted-diagnostic",
+  "observedAt": "2026-10-22T10:42:46.358Z",
+  "currentCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "baselineCommit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "environment": {
+    "browser": "153.0.8010.0",
+    "platform": "Linux",
+    "surface": "Chromium localhost; not Electron or Windows"
+  },
+  "conclusion": {
+    "reproduced": true,
+    "guard": "obstructed-position",
+    "preexistingOnComparedBaseline": true,
+    "newInspectionsNecessaryForFailure": false,
+    "windowsCause": "Consistent with this reproduction; the Windows log did not expose guards, so its exact cause is not directly observed.",
+    "productChanged": false,
+    "smokeChanged": false
+  },
+  "profiles": [
+    {
+      "kind": "current-default",
+      "requestedURL": "http://127.0.0.1:41601/",
+      "sourceOverrides": [],
+      "generation": 10,
+      "cityGeometry202": 1,
+      "inspectionModule": "object",
+      "inspectionPanels": 0,
+      "market": {
+        "advanced": false,
+        "firstGuardReasons": [
+          "obstructed-position"
+        ],
+        "finalSurvey": 0
+      },
+      "housing": {
+        "acceptedSteps": 32,
+        "finalSurvey": 8
+      },
+      "pageErrors": 0,
+      "httpErrors": 0,
+      "rewardsUnchanged": true
+    },
+    {
+      "kind": "baseline-default",
+      "requestedURL": "http://127.0.0.1:41601/",
+      "sourceOverrides": [
+        {
+          "file": "index.html",
+          "sha256": "1e3684c7bf4e282a5f79020588ae42da4058b2473db4c72b5a03fb7eaecd6538",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704"
+        },
+        {
+          "file": "src/coordination.js",
+          "sha256": "e05d45d0d3aed397d166f1ec320937f98e518f788e61e2db2445c4dd515a5c22",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704"
+        },
+        {
+          "file": "src/world-codex.js",
+          "sha256": "7dd24b943e89d49b05d112af0071ef9d258e2235e66dc22204b730a13936b74a",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704"
+        }
+      ],
+      "generation": 10,
+      "cityGeometry202": 1,
+      "inspectionModule": "undefined",
+      "inspectionPanels": 0,
+      "market": {
+        "advanced": false,
+        "firstGuardReasons": [
+          "obstructed-position"
+        ],
+        "finalSurvey": 0
+      },
+      "housing": {
+        "acceptedSteps": 32,
+        "finalSurvey": 8
+      },
+      "pageErrors": 0,
+      "httpErrors": 0,
+      "rewardsUnchanged": true
+    },
+    {
+      "kind": "current-legacy",
+      "requestedURL": "http://127.0.0.1:41601/?tools=1&fixture=legacy",
+      "sourceOverrides": [],
+      "generation": 8,
+      "cityGeometry202": 0,
+      "inspectionModule": "object",
+      "inspectionPanels": 1,
+      "market": {
+        "advanced": true,
+        "firstGuardReasons": [],
+        "finalSurvey": 2
+      },
+      "housing": {
+        "acceptedSteps": 32,
+        "finalSurvey": 8
+      },
+      "pageErrors": 0,
+      "httpErrors": 0,
+      "rewardsUnchanged": true
+    }
+  ],
+  "obstruction": {
+    "site": "market",
+    "centre": {
+      "x": 1767.75,
+      "y": 3062.87
+    },
+    "surveyRadius": 90,
+    "solid": {
+      "x": 1566,
+      "y": 2957,
+      "w": 320,
+      "h": 256,
+      "kind": "settlement-building",
+      "settlement": "settlement-2",
+      "building": "settlement-2-building-2"
+    },
+    "coversEntireSurveyDisc": true,
+    "minimumCentreToSolidEdge": 105.87,
+    "origin": {
+      "module": "src/exploration-125.js",
+      "function": "createFeaturePlan",
+      "arguments": [
+        17117,
+        4096,
+        4
+      ],
+      "physicalSolidsFunction": "physicalSolids134"
+    }
+  },
+  "evidence": [
+    {
+      "kind": "full-report",
+      "path": "diagnostic-survey-rapport-20261022.json.gz",
+      "sha256": "c9e6f8c06572e4f7b0939d719a220dd290e36b4b6f097c72343a468e805f3999",
+      "bytes": 5226,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-survey-rapport-20261022.json",
+        "sha256": "93da83293ffe5e5f1d929fcdbb15143030a6d6b8ae3949557840b0650aa2af52",
+        "bytes": 173923
+      },
+      "content": "Exact bytes of the preserved diagnostic file, including its explicitly declared post-execution metadata clarification."
+    },
+    {
+      "kind": "reproduction-script",
+      "path": "diagnostic-survey-script-20261022.mjs.gz",
+      "sha256": "6d18ab6b5d46e8c39db3619fb965f1cf066983e6184d097bb27d73c13b8c5f10",
+      "bytes": 3647,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-survey-script-20261022.mjs",
+        "sha256": "41208aa891a94cbbc0b9c253c9350dd948c9b1fb4de6326de955b616081a53cd",
+        "bytes": 9429
+      },
+      "content": "Exact bytes of the preserved diagnostic file, including its explicitly declared post-execution metadata clarification."
+    }
+  ],
+  "limits": [
+    "Targeted prepared survey fixture and pause/command transitions only.",
+    "No Electron/Windows package run, hardware validation, natural travel or complete campaign.",
+    "No source or test correction; existing Windows failure remains a gate."
+  ],
+  "metadataCorrection": "The original generic harness surface/base labels were clarified after the run; every profile now records its requested URL and observed blob substitutions. The reproduction script received the same metadata correction; its survey and baseline-comparison logic is unchanged.",
+  "documentation": "diagnostic-survey-20261022.md",
+  "comparisonMethod": {
+    "kind": "localhost-http-response-substitution",
+    "baselineCommit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+    "substitutedPublicFiles": [
+      "index.html",
+      "src/coordination.js",
+      "src/world-codex.js"
+    ],
+    "substitutedCount": 3,
+    "otherPublicSourcesAndAssets": "Unchanged in the compared Git diff; served from the current local repository.",
+    "serviceWorkers": "Blocked; the prepared baseline sw.js blob was not requested.",
+    "baselineDistributionRebuilt": false,
+    "baselineElectronExecuted": false,
+    "windowsRerun": false
+  },
+  "archive": {
+    "contents": "Diagnostic evidence only; product, smoke and test code unchanged.",
+    "determinism": "gzip level 9, mtime 0, no original filename in header; decompressed bytes equal the preserved source files.",
+    "scriptPortability": "Execution trace, not a portable user tool. Absolute repository, browser and temporary-output paths are intentionally preserved. Reuse elsewhere requires explicit path/environment adaptation.",
+    "metadataProvenance": "The report and script were clarified after execution only for global surface/base labels, requested profile URLs and observed blob-substitution metadata. Survey logic and observed guard results are unchanged. No new execution is claimed for the metadata edits.",
+    "rawFileReferences": "Only gzip files are stored alongside this summary. uncompressed.suggestedFilename is an extraction name, not an existing uncompressed artifact."
+  }
+}

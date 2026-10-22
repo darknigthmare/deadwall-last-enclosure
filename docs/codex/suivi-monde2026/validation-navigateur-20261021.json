@@ -1,0 +1,3263 @@
+{
+  "version": 1,
+  "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "sourceCommit": "701e928e273d1b3462208aab18e1b715cec760b4",
+  "gameVersion": "1.69.0",
+  "inspectionChecks": 80,
+  "campaignChecks": 49,
+  "scope": "Chromium 153, automated desktop/mobile viewports; author Guide and historical campaign fixture; no physical-device or full campaign balance qualification",
+  "reports": [
+    {
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+      "started": "2026-10-21T14:50:50.730Z",
+      "version": "1.69.0",
+      "scope": "Actual author Guide controls on desktop and mobile: source selection, floor observation, walking, wall collision, adjacent stairs, in-memory checkpoint and source changes. Reads compare every paused campaign field before and after. No campaign position, stock, clock, RNG or inspection pose is assigned by this test. The default player title is also checked for absence of author controls.",
+      "browserVersion": "153.0.8010.0",
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1366,
+            "height": 900
+          },
+          "checks": [
+            {
+              "name": "Default player entry contains no inspection author panel",
+              "pass": true
+            },
+            {
+              "name": "All 80 targets remain visible with eight available types",
+              "pass": true
+            },
+            {
+              "name": "All 50 variant identities are selectable",
+              "pass": true
+            },
+            {
+              "name": "Observing another level does not move the pedestrian",
+              "pass": true
+            },
+            {
+              "name": "The real metric canvas renders rooms, walls and equipment",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Repeated walk input stops before a wall without crossing it",
+              "pass": true
+            },
+            {
+              "name": "reset is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "An adjacent stair is offered at the real entry landing",
+              "pass": true
+            },
+            {
+              "name": "use-transition is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Actual stair control moves to an adjacent physical level",
+              "pass": true
+            },
+            {
+              "name": "remember is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "east is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Actual walk button moves the observer",
+              "pass": true
+            },
+            {
+              "name": "resume is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "The inspection checkpoint restores the exact observer and visits",
+              "pass": true
+            },
+            {
+              "name": "reset is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Keyboard walking enters a room through its door",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T006 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T007 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T008 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T011 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T060 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T065 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T066 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "An undesigned lake does not receive a fabricated fallback",
+              "pass": true
+            },
+            {
+              "name": "Every saved campaign field is unchanged by the inspection controls",
+              "pass": true
+            },
+            {
+              "name": "No horizontal page overflow",
+              "pass": true
+            },
+            {
+              "name": "No browser, console, HTTP or request errors",
+              "pass": true
+            }
+          ],
+          "pageErrors": [],
+          "consoleErrors": [],
+          "httpErrors": [],
+          "requestFailures": [],
+          "screenshots": [
+            {
+              "name": "desktop-cargo-walk.png",
+              "sha256": "fa678810c67cec432ddfd4083c29a6d7c8ee5b995fbe62b3aeff93ecfb179d5f",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-cargo-room.png",
+              "sha256": "84790fb2a5e3e882215c79aa6441fdf466298eedb7d9de62be53615e67c761ab",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-stadium-plan.png",
+              "sha256": "0c73273f9382e5ca92aa8c673fe023324a449977d6a34cc4749a205b9638703d",
+              "archivedInRepository": false
+            }
+          ],
+          "transition": {
+            "id": "EXT-MONDE-T005-V01:link-20",
+            "from": 3,
+            "to": 2
+          },
+          "campaignBeforeSHA256": "8538efdb7f86e12b62595532d0c8bea51fb7a2dda378e9de9e87e507bc6f185c",
+          "campaignAfterSHA256": "8538efdb7f86e12b62595532d0c8bea51fb7a2dda378e9de9e87e507bc6f185c",
+          "pass": true
+        },
+        {
+          "viewport": {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": [
+            {
+              "name": "Default player entry contains no inspection author panel",
+              "pass": true
+            },
+            {
+              "name": "All 80 targets remain visible with eight available types",
+              "pass": true
+            },
+            {
+              "name": "All 50 variant identities are selectable",
+              "pass": true
+            },
+            {
+              "name": "Observing another level does not move the pedestrian",
+              "pass": true
+            },
+            {
+              "name": "The real metric canvas renders rooms, walls and equipment",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "north is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Repeated walk input stops before a wall without crossing it",
+              "pass": true
+            },
+            {
+              "name": "reset is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "An adjacent stair is offered at the real entry landing",
+              "pass": true
+            },
+            {
+              "name": "use-transition is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Actual stair control moves to an adjacent physical level",
+              "pass": true
+            },
+            {
+              "name": "remember is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "east is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Actual walk button moves the observer",
+              "pass": true
+            },
+            {
+              "name": "resume is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "The inspection checkpoint restores the exact observer and visits",
+              "pass": true
+            },
+            {
+              "name": "reset is visible and receives input",
+              "pass": true
+            },
+            {
+              "name": "Keyboard walking enters a room through its door",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T006 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T007 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T008 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T011 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T060 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T065 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "EXT-MONDE-T066 variant50 is built by the visible controls",
+              "pass": true
+            },
+            {
+              "name": "An undesigned lake does not receive a fabricated fallback",
+              "pass": true
+            },
+            {
+              "name": "Every saved campaign field is unchanged by the inspection controls",
+              "pass": true
+            },
+            {
+              "name": "No horizontal page overflow",
+              "pass": true
+            },
+            {
+              "name": "No browser, console, HTTP or request errors",
+              "pass": true
+            }
+          ],
+          "pageErrors": [],
+          "consoleErrors": [],
+          "httpErrors": [],
+          "requestFailures": [],
+          "screenshots": [
+            {
+              "name": "mobile-cargo-walk.png",
+              "sha256": "8b4a27f442926d75e663ef0594f07bc1ea1c296ac0c7db22f5f6eb2db20d5775",
+              "archivedInRepository": false
+            },
+            {
+              "name": "mobile-cargo-room.png",
+              "sha256": "c90dbe15d99f40126a4c58aa4e67f450926e1ad943359c35df3428ff48f983c9",
+              "archivedInRepository": false
+            },
+            {
+              "name": "mobile-stadium-plan.png",
+              "sha256": "9583bd5b3590be8b14bf30aa18a790c269ccb669525b4f41e20af78652d637ee",
+              "archivedInRepository": false
+            }
+          ],
+          "transition": {
+            "id": "EXT-MONDE-T005-V01:link-20",
+            "from": 3,
+            "to": 2
+          },
+          "campaignBeforeSHA256": "b5d7b3cf2c2ac9e86808d8c356a9b081d8cce7b886858f513509319ac25bdafd",
+          "campaignAfterSHA256": "b5d7b3cf2c2ac9e86808d8c356a9b081d8cce7b886858f513509319ac25bdafd",
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "completed": "2026-10-21T14:52:59.941Z"
+    },
+    {
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+      "started": "2026-10-21T14:50:57.848Z",
+      "version": "1.69.0",
+      "scope": "Four fresh Chromium campaigns, seed 17117. Native keyboard or touch input performs personal harvest/deposit, paid placement, manual construction, worker construction, recruitment, gate/squad orders and a natural warning/assault reached through the real finish-day control. No stock, position, actor, timer or simulation fixtures are injected. This is automated input at desktop/mobile viewports, not physical-device or campaign balancing certification.",
+      "browserVersion": "153.0.8010.0",
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1440,
+            "height": 900
+          },
+          "fixtures": [],
+          "steps": [
+            {
+              "name": "personal-harvest",
+              "at": "2026-10-21T14:51:39.366Z"
+            },
+            {
+              "name": "personal-deposit",
+              "at": "2026-10-21T14:51:44.651Z"
+            },
+            {
+              "name": "manual-house-complete",
+              "at": "2026-10-21T14:51:57.486Z"
+            },
+            {
+              "name": "worker-barracks-complete",
+              "at": "2026-10-21T14:52:28.811Z"
+            },
+            {
+              "name": "gate-worker-squad-orders",
+              "at": "2026-10-21T14:52:38.582Z"
+            },
+            {
+              "name": "natural-first-assault",
+              "at": "2026-10-21T14:52:59.233Z"
+            }
+          ],
+          "checks": [
+            {
+              "name": "Fresh campaign starts with the real G8 prologue",
+              "pass": true
+            },
+            {
+              "name": "Real worker retreat command prevents automatic harvest during the personal loop",
+              "pass": true
+            },
+            {
+              "name": "Personal E/ACTION hold transfers finite scrap into the bag",
+              "pass": true
+            },
+            {
+              "name": "Real harvest advances the saved first-gestures objective",
+              "pass": true
+            },
+            {
+              "name": "Personal deposit conserves scrap and counts only accepted materials",
+              "pass": true
+            },
+            {
+              "name": "Accepted personal deposit advances the saved prologue",
+              "pass": true
+            },
+            {
+              "name": "Real catalogue and ground input finance a new unfinished house",
+              "pass": true
+            },
+            {
+              "name": "Growth: actual remaining-points readout is inside the command scroll area",
+              "pass": true
+            },
+            {
+              "name": "Growth: consultation does not change the paused saved campaign",
+              "pass": true
+            },
+            {
+              "name": "Growth: points to the next new age use surviving completed structures",
+              "pass": true
+            },
+            {
+              "name": "Growth: upcoming models are from the actual next age",
+              "pass": true
+            },
+            {
+              "name": "Growth: financed house remains unfinished while its score is only conditional",
+              "pass": true
+            },
+            {
+              "name": "Growth: the paid foundation covers the next threshold without awarding it",
+              "pass": true
+            },
+            {
+              "name": "Personal E/ACTION builds the house without free completion",
+              "pass": true
+            },
+            {
+              "name": "Harvest, deposit and actual construction complete all three saved first gestures",
+              "pass": true
+            },
+            {
+              "name": "Growth: actual remaining-points readout is inside the command scroll area",
+              "pass": true
+            },
+            {
+              "name": "Growth: consultation does not change the paused saved campaign",
+              "pass": true
+            },
+            {
+              "name": "Growth: points to the next new age use surviving completed structures",
+              "pass": true
+            },
+            {
+              "name": "Growth: upcoming models are from the actual next age",
+              "pass": true
+            },
+            {
+              "name": "Growth: physical completion reaches the age and removes the pending foundation",
+              "pass": true
+            },
+            {
+              "name": "Growth: completed house satisfies the next housing model prerequisite",
+              "pass": true
+            },
+            {
+              "name": "A separately paid defensive gate is built manually",
+              "pass": true
+            },
+            {
+              "name": "Real construction order assigns existing workers",
+              "pass": true
+            },
+            {
+              "name": "Actual workers physically reach and work at the paid barracks",
+              "pass": true
+            },
+            {
+              "name": "Workers complete the worksite faster than passive construction could",
+              "pass": true
+            },
+            {
+              "name": "Recruit button pays real scrap, ammunition and rations",
+              "pass": true
+            },
+            {
+              "name": "Occupied gate correctly refuses closed mode",
+              "pass": true
+            },
+            {
+              "name": "Real gate control applies open mode",
+              "pass": true
+            },
+            {
+              "name": "Occupied gate correctly refuses auto mode",
+              "pass": true
+            },
+            {
+              "name": "Real section rally command records the player position",
+              "pass": true
+            },
+            {
+              "name": "Real section retreat command changes the recruited soldier section",
+              "pass": true
+            },
+            {
+              "name": "Tactical commands preserve the paused simulation clock",
+              "pass": true
+            },
+            {
+              "name": "Ending preparation asks for the real second confirmation",
+              "pass": true
+            },
+            {
+              "name": "Finish-day action ends preparation without completing work or advancing simulation",
+              "pass": true
+            },
+            {
+              "name": "Normal simulation transitions to the first real warning",
+              "pass": true
+            },
+            {
+              "name": "Warning intelligence is visible without opening Situation",
+              "pass": true
+            },
+            {
+              "name": "Warning shortcut opens the real prepare dossier",
+              "pass": true
+            },
+            {
+              "name": "Preparation heading is visible in the real viewport",
+              "pass": true
+            },
+            {
+              "name": "Warning dossier keeps the simulation clock frozen",
+              "pass": true
+            },
+            {
+              "name": "Returning from warning dossier resumes real play",
+              "pass": true
+            },
+            {
+              "name": "Warning shortcut opens the real enclosure dossier",
+              "pass": true
+            },
+            {
+              "name": "Warning dossier keeps the simulation clock frozen",
+              "pass": true
+            },
+            {
+              "name": "Returning from warning dossier resumes real play",
+              "pass": true
+            },
+            {
+              "name": "Warning shortcut opens the real workers dossier",
+              "pass": true
+            },
+            {
+              "name": "Warning dossier keeps the simulation clock frozen",
+              "pass": true
+            },
+            {
+              "name": "Returning from warning dossier resumes real play",
+              "pass": true
+            },
+            {
+              "name": "Real first-wave contacts spawn and physically move toward the colony",
+              "pass": true
+            },
+            {
+              "name": "Campaign restores every persisted field and exact pending enemy counts after construction and assault",
+              "pass": true
+            },
+            {
+              "name": "No page, console, HTTP or request errors",
+              "pass": true
+            }
+          ],
+          "pageErrors": [],
+          "consoleErrors": [],
+          "httpErrors": [],
+          "requestFailures": [],
+          "screenshots": [
+            {
+              "name": "desktop-start.png",
+              "sha256": "e99dd703a01cb97e754c6156748fcf56f2a8d8d7d470ae2e0f6b07503a30daa4",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-harvest.png",
+              "sha256": "875f9b167c39d23b2ade5464dba4fbad2d7dfcaf3abfc9e17ca8c68ddbe046e0",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-growth-paid-foundation.png",
+              "sha256": "64efd221eb8e1e1735e9b44771b4436e8b3dc6362c17a74c04cb1ad842edee6b",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-growth-built.png",
+              "sha256": "84df7f1a81d2c6d72d5885a46f9b74840c4af3f01ca3e6b56625476ad63adf42",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-house.png",
+              "sha256": "57029c107cb1562bbe13491e08767253f270ac3aff3fd97cc57aebf7da54a1d8",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-warning.png",
+              "sha256": "63cfa418d79b84356e88c0d0fd595fe9f39c481b7edd34b0b89f27d61abb5e58",
+              "archivedInRepository": false
+            },
+            {
+              "name": "desktop-assault.png",
+              "sha256": "529d38faafe36dc133d21815724bc370f4b10427b1f8eb103373500ef38c6824",
+              "archivedInRepository": false
+            }
+          ],
+          "harvestRoute": {
+            "target": {
+              "id": 156,
+              "x": 2479.28,
+              "y": 2197.92,
+              "type": "scrap",
+              "amount": 71.8394986493513
+            },
+            "segments": [
+              {
+                "direction": "right",
+                "target": {
+                  "x": 2439,
+                  "y": 2068
+                }
+              },
+              {
+                "direction": "down",
+                "target": {
+                  "x": 2439,
+                  "y": 2132
+                }
+              }
+            ]
+          },
+          "harvest": {
+            "before": {
+              "elapsed": 5.6834999999999924,
+              "resources": {
+                "wood": 180,
+                "scrap": 120,
+                "stone": 70,
+                "food": 129.85417900000004,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 0,
+              "deposited": 0,
+              "prologue": {
+                "status": "active",
+                "stage": 0,
+                "gathered": 0,
+                "deposited": 0,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2469.607045999999,
+                "y": 2154.095865333331
+              },
+              "workerOrder": "retreat"
+            },
+            "after": {
+              "elapsed": 8.116699999999986,
+              "resources": {
+                "wood": 180,
+                "scrap": 120,
+                "stone": 70,
+                "food": 129.79070000000004,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 16.665999999999908,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 0,
+              "prologue": {
+                "status": "active",
+                "stage": 1,
+                "gathered": 0,
+                "deposited": 0,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2469.607045999999,
+                "y": 2154.095865333331
+              },
+              "workerOrder": "retreat"
+            }
+          },
+          "depositRoute": {
+            "target": {
+              "id": 2,
+              "x": 2048,
+              "y": 2048,
+              "type": "core"
+            },
+            "segments": [
+              {
+                "direction": "up",
+                "target": {
+                  "x": 2469.607045999999,
+                  "y": 2138.095865333331
+                }
+              },
+              {
+                "direction": "left",
+                "target": {
+                  "x": 2133.607045999999,
+                  "y": 2138.095865333331
+                }
+              }
+            ]
+          },
+          "deposit": {
+            "before": {
+              "elapsed": 12.349899999999973,
+              "resources": {
+                "wood": 180,
+                "scrap": 120,
+                "stone": 70,
+                "food": 129.6806368000001,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 16.665999999999908,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 0,
+              "prologue": {
+                "status": "active",
+                "stage": 1,
+                "gathered": 0,
+                "deposited": 0,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            },
+            "after": {
+              "elapsed": 13.11639999999997,
+              "resources": {
+                "wood": 180,
+                "scrap": 136.6659999999999,
+                "stone": 70,
+                "food": 129.65969466666675,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "active",
+                "stage": 2,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            }
+          },
+          "house": {
+            "id": 6,
+            "type": "house",
+            "gx": 66,
+            "gy": 64,
+            "progress": 0.0010416666666666669,
+            "completed": false,
+            "buildTime": 18,
+            "cost": {
+              "wood": 70,
+              "scrap": 20
+            },
+            "viewControls": {
+              "zoom": [],
+              "initialFailure": null
+            },
+            "before": {
+              "elapsed": 15.433099999999971,
+              "resources": {
+                "wood": 180,
+                "scrap": 136.6659999999999,
+                "stone": 70,
+                "food": 129.6048065000001,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "active",
+                "stage": 2,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            },
+            "after": {
+              "elapsed": 16.082999999999966,
+              "resources": {
+                "wood": 110,
+                "scrap": 116.66599999999991,
+                "stone": 70,
+                "food": 129.5836984000001,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "active",
+                "stage": 2,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            },
+            "workRoute": {
+              "target": {
+                "id": 6,
+                "x": 2160,
+                "y": 2080,
+                "type": "house"
+              },
+              "segments": []
+            }
+          },
+          "growthPaid": {
+            "model": {
+              "version": 1,
+              "peakScore": 8,
+              "skipNightWave": 0,
+              "flashlight": false,
+              "progression151": {
+                "version": 1,
+                "age": 0
+              },
+              "age": {
+                "id": 0,
+                "name": "REFUGE",
+                "requiredScore": 0
+              },
+              "currentScore": 8,
+              "next": {
+                "id": 1,
+                "name": "CAMP FORTIFIÉ",
+                "requiredScore": 10
+              },
+              "available": 7,
+              "pending": [
+                {
+                  "id": 6,
+                  "name": "Dortoir renforcé",
+                  "progress": 0.006249583333333337,
+                  "score": 4
+                }
+              ],
+              "pendingScore": 4,
+              "potentialScore": 12,
+              "potentialAge": {
+                "id": 1,
+                "name": "CAMP FORTIFIÉ",
+                "requiredScore": 10
+              },
+              "developmentScore": 8,
+              "potentialDevelopmentScore": 12,
+              "facts": {
+                "score": 8,
+                "population": 4,
+                "waves": 0,
+                "workers": 3,
+                "soldiers": 0,
+                "specialists": 0,
+                "variety": 0,
+                "housing": 6,
+                "storage": 500,
+                "power": 8,
+                "surveys": 0,
+                "pois": 0,
+                "biomes": 0,
+                "generation": 8,
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "nextRequirements": {
+                "age": 1,
+                "criteria": [
+                  {
+                    "id": "score",
+                    "label": "Développement diversifié",
+                    "current": 8,
+                    "required": 10,
+                    "met": false,
+                    "unit": "pts"
+                  },
+                  {
+                    "id": "population",
+                    "label": "Habitants vivants",
+                    "current": 4,
+                    "required": 1,
+                    "met": true,
+                    "unit": ""
+                  },
+                  {
+                    "id": "variety",
+                    "label": "Modèles achevés distincts",
+                    "current": 0,
+                    "required": 1,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "housing",
+                    "label": "Places de logement",
+                    "current": 6,
+                    "required": 8,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "storage",
+                    "label": "Stockage par ressource",
+                    "current": 500,
+                    "required": 500,
+                    "met": true,
+                    "unit": ""
+                  }
+                ],
+                "missing": [
+                  {
+                    "id": "score",
+                    "label": "Développement diversifié",
+                    "current": 8,
+                    "required": 10,
+                    "met": false,
+                    "unit": "pts"
+                  },
+                  {
+                    "id": "variety",
+                    "label": "Modèles achevés distincts",
+                    "current": 0,
+                    "required": 1,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "housing",
+                    "label": "Places de logement",
+                    "current": 6,
+                    "required": 8,
+                    "met": false,
+                    "unit": ""
+                  }
+                ],
+                "met": false
+              },
+              "remaining": 2,
+              "remainingAfterPending": 0,
+              "currentModels": [
+                {
+                  "id": "house",
+                  "name": "Dortoir renforcé",
+                  "description": "Ajoute huit places de logement. Le repli des équipes doit être ordonné séparément.",
+                  "cost": {
+                    "wood": 70,
+                    "scrap": 20
+                  },
+                  "score": 4,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "warehouse",
+                  "name": "Entrepôt",
+                  "description": "Augmente le stockage et sert de point de dépôt aux équipes de collecte.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 45
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "farm",
+                  "name": "Ferme protégée",
+                  "description": "Produit régulièrement de la nourriture. Sa grande surface doit être défendue.",
+                  "cost": {
+                    "wood": 55,
+                    "stone": 25
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "woodWall",
+                  "name": "Palissade",
+                  "description": "Mur rapide. Cliquez puis tirez pour tracer une ligne.",
+                  "cost": {
+                    "wood": 8
+                  },
+                  "score": 0.25,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 8,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "gate",
+                  "name": "Porte fortifiée",
+                  "description": "Laisse passer les alliés. Les hordes privilégient ce point faible.",
+                  "cost": {
+                    "wood": 25,
+                    "scrap": 25
+                  },
+                  "score": 1.3,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 25,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "beacon",
+                  "name": "Balise de secours",
+                  "description": "Petit éclairage fixe de proximité. Une alimentation complète est nécessaire ; aucun tir.",
+                  "cost": {
+                    "wood": 8,
+                    "scrap": 10
+                  },
+                  "score": 0.5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 10,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "lookout2a177",
+                  "name": "Plateforme de récupération — 2 m",
+                  "description": "Plateforme de récupération — 2 m · accès intérieur, réserve de charge 35 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 15
+                  },
+                  "score": 1,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                }
+              ],
+              "nextModels": [
+                {
+                  "id": "barracks",
+                  "name": "Caserne",
+                  "description": "Permet de recruter des fusiliers et ajoute quatre logements. Leur ralliement reste à vos ordres.",
+                  "cost": {
+                    "wood": 75,
+                    "scrap": 70,
+                    "ammo": 25
+                  },
+                  "score": 9,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 75,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "generator",
+                  "name": "Générateur",
+                  "description": "Fournit de l’énergie aux ateliers, projecteurs et tourelles.",
+                  "cost": {
+                    "scrap": 55,
+                    "fuel": 20
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "lumber",
+                  "name": "Scierie",
+                  "description": "Produit du bois sous alimentation électrique, indépendamment des gisements récoltés à la main.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 35
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 45,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "scrapyard",
+                  "name": "Centre de recyclage",
+                  "description": "Trie les carcasses et produit de la ferraille utilisable.",
+                  "cost": {
+                    "wood": 35,
+                    "scrap": 50
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "spikes",
+                  "name": "Hérisson anti-horde",
+                  "description": "Ralentit et blesse les infectés avant les murs.",
+                  "cost": {
+                    "wood": 10,
+                    "scrap": 6
+                  },
+                  "score": 0.35,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 10,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "watchtower",
+                  "name": "Mirador",
+                  "description": "Position élevée autonome consommant les munitions de la réserve.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 35,
+                    "ammo": 20
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fieldKitchen",
+                  "name": "Cuisine collective",
+                  "description": "Prépare les rations de la cité. Nécessite une ferme, de l’électricité et du carburant ; s’arrête si la nourriture est stockée au plafond.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 70,
+                    "stone": 20
+                  },
+                  "score": 6,
+                  "requires": "farm",
+                  "requirementName": "Ferme protégée",
+                  "requirementMet": false,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "sectorPost",
+                  "name": "Poste de secteur",
+                  "description": "À construire près d’un site de récupération. La prise exige 6 rations dans le sac. Un ouvrier affecté, présent, alimenté et ravitaillé alimente un stock local ; les convois le rapportent.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 45,
+                    "stone": 25
+                  },
+                  "score": 7,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 65,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fireCistern",
+                  "name": "Citerne anti-incendie",
+                  "description": "Pompe et conserve 120 unités d’eau de secours. Pompe électrique consommant du carburant ; collecte lente de la pluie.",
+                  "cost": {
+                    "scrap": 60,
+                    "stone": 40,
+                    "fuel": 8
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 60,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "alarmTower",
+                  "name": "Vigie d’alerte",
+                  "description": "À partir de la vague 3, ajoute sept secondes à une nouvelle alerte si elle est terminée et alimentée. Le bonus ne se cumule pas.",
+                  "cost": {
+                    "wood": 70,
+                    "scrap": 65,
+                    "ammo": 10
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "planningOffice",
+                  "name": "Bureau de chantier",
+                  "description": "Permet de prévisualiser puis financer des ensembles de chantiers. Aucun bâtiment n’est terminé instantanément.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 35
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "restShelter",
+                  "name": "Halte de récupération",
+                  "description": "Le jour, restaure lentement santé et endurance du commandant présent et hors danger. Les soins consomment des rations.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 20,
+                    "food": 10
+                  },
+                  "score": 4,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "receptionHall",
+                  "name": "Maison d’accueil",
+                  "description": "Dix logements. Les personnes escortées occupent leur place dès la prise en charge et rejoignent leurs tâches au retour.",
+                  "cost": {
+                    "wood": 100,
+                    "scrap": 40,
+                    "food": 20
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 100,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "radioRelay",
+                  "name": "Relais radio de quartier",
+                  "description": "Repère les appels dans un rayon de 720 lorsqu’il est alimenté. Ne révèle pas les infectés, ne sécurise pas un trajet et ne recrute personne à distance.",
+                  "cost": {
+                    "wood": 35,
+                    "scrap": 80,
+                    "fuel": 5
+                  },
+                  "score": 5,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 80,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "roadDepot",
+                  "name": "Atelier de voirie",
+                  "description": "Deux ouvriers existants peuvent être détachés aux pistes financées. Travail diurne, accès physique et alimentation électrique requis.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 55,
+                    "stone": 35
+                  },
+                  "score": 6,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "streetlight",
+                  "name": "Lampadaire de cité",
+                  "description": "Éclaire une rue dans les nuits noires. Consomme une unité électrique ; sans courant, le halo disparaît.",
+                  "cost": {
+                    "wood": 12,
+                    "scrap": 22
+                  },
+                  "score": 1,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 22,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "searchlight",
+                  "name": "Projecteur directionnel",
+                  "description": "Faisceau orientable, arrêté par les murs. Trois unités électriques et un générateur construit ; aucun dégât.",
+                  "cost": {
+                    "wood": 25,
+                    "scrap": 60,
+                    "fuel": 6
+                  },
+                  "score": 4,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 60,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "expeditionOffice",
+                  "name": "Bureau des expéditions",
+                  "description": "Un ouvrier attitré rejoint le bureau pour analyser les renseignements au calme. Chaque renseignement exige 45 secondes de travail alimenté et deux rations.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 65
+                  },
+                  "score": 8,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 65,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "expeditionGarage",
+                  "name": "Garage des sorties",
+                  "description": "Permet de remettre un break en service au centre, puis de le réparer. Véhicule payé séparément et réservoir vide ; aucune expédition automatique.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 80
+                  },
+                  "score": 8,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 80,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "rampart3a177",
+                  "name": "Rempart de charpente — 3 m",
+                  "description": "Rempart de charpente — 3 m · accès intérieur, réserve de charge 65 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 115,
+                    "scrap": 35
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 115,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 5
+                  }
+                },
+                {
+                  "id": "gate3a177",
+                  "name": "Porte de charpente — 3 m",
+                  "description": "Porte de charpente — 3 m · accès intérieur, réserve de charge 65 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 133,
+                    "scrap": 41
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 133,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 23
+                  }
+                },
+                {
+                  "id": "bastion3a177",
+                  "name": "Bastion de charpente — 3 m",
+                  "description": "Bastion de charpente — 3 m · accès intérieur, réserve de charge 85 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 125,
+                    "scrap": 38
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 125,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 15
+                  }
+                },
+                {
+                  "id": "timberDeck3a177",
+                  "name": "Estrade de camp — 3 m",
+                  "description": "Estrade de camp — 3 m · accès intérieur, réserve de charge 85 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 110,
+                    "scrap": 40
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 110,
+                  "storageShortfall": 0,
+                  "missing": {}
+                }
+              ]
+            },
+            "remaining": "2.0 points de développement supplémentaires pour CAMP FORTIFIÉ (seuil : 10). 3 condition(s) à remplir.",
+            "potential": "1 chantier(s) financé(s) · +4.0 points de développement à leur achèvement · Développement si tous restent debout : 12.0 · Le potentiel couvre les points de CAMP FORTIFIÉ ; les autres conditions restent à remplir.",
+            "models": [
+              "barracks",
+              "generator",
+              "lumber",
+              "scrapyard",
+              "spikes",
+              "watchtower",
+              "fieldKitchen",
+              "sectorPost",
+              "fireCistern",
+              "alarmTower",
+              "planningOffice",
+              "restShelter",
+              "receptionHall",
+              "radioRelay",
+              "roadDepot",
+              "streetlight",
+              "searchlight",
+              "expeditionOffice",
+              "expeditionGarage",
+              "rampart3a177",
+              "gate3a177",
+              "bastion3a177",
+              "timberDeck3a177"
+            ],
+            "geometry": {
+              "pass": true,
+              "box": {
+                "x": 314,
+                "y": 476.234375,
+                "width": 1016,
+                "height": 20.796875,
+                "bottom": 497.03125,
+                "right": 1330
+              },
+              "panel": {
+                "x": 223,
+                "y": 154,
+                "width": 1198,
+                "height": 666,
+                "bottom": 820,
+                "right": 1421
+              },
+              "hit": "urbanRemaining",
+              "scrollTop": 1102
+            }
+          },
+          "growthBuilt": {
+            "model": {
+              "version": 1,
+              "peakScore": 12,
+              "skipNightWave": 0,
+              "flashlight": false,
+              "progression151": {
+                "version": 1,
+                "age": 1
+              },
+              "age": {
+                "id": 1,
+                "name": "CAMP FORTIFIÉ",
+                "requiredScore": 10
+              },
+              "currentScore": 12,
+              "next": {
+                "id": 2,
+                "name": "AVANT-POSTE",
+                "requiredScore": 24
+              },
+              "available": 30,
+              "pending": [],
+              "pendingScore": 0,
+              "potentialScore": 12,
+              "potentialAge": {
+                "id": 1,
+                "name": "CAMP FORTIFIÉ",
+                "requiredScore": 10
+              },
+              "developmentScore": 12,
+              "potentialDevelopmentScore": 12,
+              "facts": {
+                "score": 12,
+                "population": 4,
+                "waves": 0,
+                "workers": 3,
+                "soldiers": 0,
+                "specialists": 0,
+                "variety": 1,
+                "housing": 14,
+                "storage": 500,
+                "power": 8,
+                "surveys": 0,
+                "pois": 0,
+                "biomes": 0,
+                "generation": 8,
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "nextRequirements": {
+                "age": 2,
+                "criteria": [
+                  {
+                    "id": "score",
+                    "label": "Développement diversifié",
+                    "current": 12,
+                    "required": 24,
+                    "met": false,
+                    "unit": "pts"
+                  },
+                  {
+                    "id": "waves",
+                    "label": "Vagues réellement survécues",
+                    "current": 0,
+                    "required": 2,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "population",
+                    "label": "Habitants vivants",
+                    "current": 4,
+                    "required": 8,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "surveys",
+                    "label": "Relevés de terrain achevés",
+                    "current": 0,
+                    "required": 1,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "variety",
+                    "label": "Modèles achevés distincts",
+                    "current": 1,
+                    "required": 6,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "housing",
+                    "label": "Places de logement",
+                    "current": 14,
+                    "required": 14,
+                    "met": true,
+                    "unit": ""
+                  },
+                  {
+                    "id": "storage",
+                    "label": "Stockage par ressource",
+                    "current": 500,
+                    "required": 1100,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "workers",
+                    "label": "Ouvriers vivants",
+                    "current": 3,
+                    "required": 3,
+                    "met": true,
+                    "unit": ""
+                  },
+                  {
+                    "id": "soldiers",
+                    "label": "Fusiliers vivants",
+                    "current": 0,
+                    "required": 2,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "power",
+                    "label": "Production électrique soutenable",
+                    "current": 8,
+                    "required": 24,
+                    "met": false,
+                    "unit": "unités"
+                  },
+                  {
+                    "id": "wood",
+                    "label": "Production de bois",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  },
+                  {
+                    "id": "scrap",
+                    "label": "Production de ferraille",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  },
+                  {
+                    "id": "food",
+                    "label": "Production de vivres",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  }
+                ],
+                "missing": [
+                  {
+                    "id": "score",
+                    "label": "Développement diversifié",
+                    "current": 12,
+                    "required": 24,
+                    "met": false,
+                    "unit": "pts"
+                  },
+                  {
+                    "id": "waves",
+                    "label": "Vagues réellement survécues",
+                    "current": 0,
+                    "required": 2,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "population",
+                    "label": "Habitants vivants",
+                    "current": 4,
+                    "required": 8,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "surveys",
+                    "label": "Relevés de terrain achevés",
+                    "current": 0,
+                    "required": 1,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "variety",
+                    "label": "Modèles achevés distincts",
+                    "current": 1,
+                    "required": 6,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "storage",
+                    "label": "Stockage par ressource",
+                    "current": 500,
+                    "required": 1100,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "soldiers",
+                    "label": "Fusiliers vivants",
+                    "current": 0,
+                    "required": 2,
+                    "met": false,
+                    "unit": ""
+                  },
+                  {
+                    "id": "power",
+                    "label": "Production électrique soutenable",
+                    "current": 8,
+                    "required": 24,
+                    "met": false,
+                    "unit": "unités"
+                  },
+                  {
+                    "id": "wood",
+                    "label": "Production de bois",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  },
+                  {
+                    "id": "scrap",
+                    "label": "Production de ferraille",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  },
+                  {
+                    "id": "food",
+                    "label": "Production de vivres",
+                    "current": 0,
+                    "required": 0.3,
+                    "met": false,
+                    "unit": "u/s"
+                  }
+                ],
+                "met": false
+              },
+              "remaining": 12,
+              "remainingAfterPending": 12,
+              "currentModels": [
+                {
+                  "id": "barracks",
+                  "name": "Caserne",
+                  "description": "Permet de recruter des fusiliers et ajoute quatre logements. Leur ralliement reste à vos ordres.",
+                  "cost": {
+                    "wood": 75,
+                    "scrap": 70,
+                    "ammo": 25
+                  },
+                  "score": 9,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 75,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "generator",
+                  "name": "Générateur",
+                  "description": "Fournit de l’énergie aux ateliers, projecteurs et tourelles.",
+                  "cost": {
+                    "scrap": 55,
+                    "fuel": 20
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "lumber",
+                  "name": "Scierie",
+                  "description": "Produit du bois sous alimentation électrique, indépendamment des gisements récoltés à la main.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 35
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 45,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "scrapyard",
+                  "name": "Centre de recyclage",
+                  "description": "Trie les carcasses et produit de la ferraille utilisable.",
+                  "cost": {
+                    "wood": 35,
+                    "scrap": 50
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "spikes",
+                  "name": "Hérisson anti-horde",
+                  "description": "Ralentit et blesse les infectés avant les murs.",
+                  "cost": {
+                    "wood": 10,
+                    "scrap": 6
+                  },
+                  "score": 0.35,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 10,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "watchtower",
+                  "name": "Mirador",
+                  "description": "Position élevée autonome consommant les munitions de la réserve.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 35,
+                    "ammo": 20
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fieldKitchen",
+                  "name": "Cuisine collective",
+                  "description": "Prépare les rations de la cité. Nécessite une ferme, de l’électricité et du carburant ; s’arrête si la nourriture est stockée au plafond.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 70,
+                    "stone": 20
+                  },
+                  "score": 6,
+                  "requires": "farm",
+                  "requirementName": "Ferme protégée",
+                  "requirementMet": false,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "sectorPost",
+                  "name": "Poste de secteur",
+                  "description": "À construire près d’un site de récupération. La prise exige 6 rations dans le sac. Un ouvrier affecté, présent, alimenté et ravitaillé alimente un stock local ; les convois le rapportent.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 45,
+                    "stone": 25
+                  },
+                  "score": 7,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 65,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fireCistern",
+                  "name": "Citerne anti-incendie",
+                  "description": "Pompe et conserve 120 unités d’eau de secours. Pompe électrique consommant du carburant ; collecte lente de la pluie.",
+                  "cost": {
+                    "scrap": 60,
+                    "stone": 40,
+                    "fuel": 8
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 60,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "alarmTower",
+                  "name": "Vigie d’alerte",
+                  "description": "À partir de la vague 3, ajoute sept secondes à une nouvelle alerte si elle est terminée et alimentée. Le bonus ne se cumule pas.",
+                  "cost": {
+                    "wood": 70,
+                    "scrap": 65,
+                    "ammo": 10
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "planningOffice",
+                  "name": "Bureau de chantier",
+                  "description": "Permet de prévisualiser puis financer des ensembles de chantiers. Aucun bâtiment n’est terminé instantanément.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 35
+                  },
+                  "score": 5,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "restShelter",
+                  "name": "Halte de récupération",
+                  "description": "Le jour, restaure lentement santé et endurance du commandant présent et hors danger. Les soins consomment des rations.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 20,
+                    "food": 10
+                  },
+                  "score": 4,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 50,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "receptionHall",
+                  "name": "Maison d’accueil",
+                  "description": "Dix logements. Les personnes escortées occupent leur place dès la prise en charge et rejoignent leurs tâches au retour.",
+                  "cost": {
+                    "wood": 100,
+                    "scrap": 40,
+                    "food": 20
+                  },
+                  "score": 6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 100,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "radioRelay",
+                  "name": "Relais radio de quartier",
+                  "description": "Repère les appels dans un rayon de 720 lorsqu’il est alimenté. Ne révèle pas les infectés, ne sécurise pas un trajet et ne recrute personne à distance.",
+                  "cost": {
+                    "wood": 35,
+                    "scrap": 80,
+                    "fuel": 5
+                  },
+                  "score": 5,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 80,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "roadDepot",
+                  "name": "Atelier de voirie",
+                  "description": "Deux ouvriers existants peuvent être détachés aux pistes financées. Travail diurne, accès physique et alimentation électrique requis.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 55,
+                    "stone": 35
+                  },
+                  "score": 6,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "streetlight",
+                  "name": "Lampadaire de cité",
+                  "description": "Éclaire une rue dans les nuits noires. Consomme une unité électrique ; sans courant, le halo disparaît.",
+                  "cost": {
+                    "wood": 12,
+                    "scrap": 22
+                  },
+                  "score": 1,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 22,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "searchlight",
+                  "name": "Projecteur directionnel",
+                  "description": "Faisceau orientable, arrêté par les murs. Trois unités électriques et un générateur construit ; aucun dégât.",
+                  "cost": {
+                    "wood": 25,
+                    "scrap": 60,
+                    "fuel": 6
+                  },
+                  "score": 4,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 60,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "expeditionOffice",
+                  "name": "Bureau des expéditions",
+                  "description": "Un ouvrier attitré rejoint le bureau pour analyser les renseignements au calme. Chaque renseignement exige 45 secondes de travail alimenté et deux rations.",
+                  "cost": {
+                    "wood": 50,
+                    "scrap": 65
+                  },
+                  "score": 8,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 65,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "expeditionGarage",
+                  "name": "Garage des sorties",
+                  "description": "Permet de remettre un break en service au centre, puis de le réparer. Véhicule payé séparément et réservoir vide ; aucune expédition automatique.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 80
+                  },
+                  "score": 8,
+                  "requires": "planningOffice",
+                  "requirementName": "Bureau de chantier",
+                  "requirementMet": false,
+                  "minimumStorage": 80,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "rampart3a177",
+                  "name": "Rempart de charpente — 3 m",
+                  "description": "Rempart de charpente — 3 m · accès intérieur, réserve de charge 65 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 115,
+                    "scrap": 35
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 115,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 5
+                  }
+                },
+                {
+                  "id": "gate3a177",
+                  "name": "Porte de charpente — 3 m",
+                  "description": "Porte de charpente — 3 m · accès intérieur, réserve de charge 65 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 133,
+                    "scrap": 41
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 133,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 23
+                  }
+                },
+                {
+                  "id": "bastion3a177",
+                  "name": "Bastion de charpente — 3 m",
+                  "description": "Bastion de charpente — 3 m · accès intérieur, réserve de charge 85 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 125,
+                    "scrap": 38
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 125,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 15
+                  }
+                },
+                {
+                  "id": "timberDeck3a177",
+                  "name": "Estrade de camp — 3 m",
+                  "description": "Estrade de camp — 3 m · accès intérieur, réserve de charge 85 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 110,
+                    "scrap": 40
+                  },
+                  "score": 2,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 110,
+                  "storageShortfall": 0,
+                  "missing": {}
+                }
+              ],
+              "nextModels": [
+                {
+                  "id": "clinic",
+                  "name": "Clinique",
+                  "description": "Soins de proximité contre médicaments et sous alimentation électrique ; permet de recruter des secouristes. Aucun remède à la contamination.",
+                  "cost": {
+                    "wood": 60,
+                    "scrap": 55,
+                    "medicine": 8
+                  },
+                  "score": 7,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 60,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "quarry",
+                  "name": "Concasseur",
+                  "description": "Produit pierre et agrégats pour les remparts lourds.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 55,
+                    "stone": 20
+                  },
+                  "score": 7,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 55,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "refinery",
+                  "name": "Micro-raffinerie",
+                  "description": "Produit du carburant sous alimentation électrique. Explose lors de sa destruction.",
+                  "cost": {
+                    "scrap": 90,
+                    "stone": 40,
+                    "fuel": 25
+                  },
+                  "score": 9,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 90,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "workshop",
+                  "name": "Atelier militaire",
+                  "description": "Permet de recruter des ingénieurs et de construire les tourelles du palier atteint.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 100,
+                    "stone": 25
+                  },
+                  "score": 10,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 100,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "steelWall",
+                  "name": "Mur d’acier",
+                  "description": "Conteneurs soudés et plaques renforcées.",
+                  "cost": {
+                    "scrap": 10,
+                    "stone": 4
+                  },
+                  "score": 0.45,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 10,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "turret",
+                  "name": "Tourelle automatique",
+                  "description": "Arme automatique précise nécessitant énergie et munitions.",
+                  "cost": {
+                    "scrap": 85,
+                    "ammo": 35,
+                    "fuel": 5
+                  },
+                  "score": 7,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 85,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "dressingWorkshop",
+                  "name": "Atelier de pansements",
+                  "description": "Prépare des fournitures de soin. Nécessite une clinique, de la nourriture, de la ferraille et de l’électricité. Aucun remède à l’infection.",
+                  "cost": {
+                    "wood": 55,
+                    "scrap": 90,
+                    "medicine": 6
+                  },
+                  "score": 8,
+                  "requires": "clinic",
+                  "requirementName": "Clinique",
+                  "requirementMet": false,
+                  "minimumStorage": 90,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "recoveryBench",
+                  "name": "Banc de récupération",
+                  "description": "Trie et remet en état les pièces de récupération. Nécessite un atelier militaire, du carburant et de l’électricité.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 85,
+                    "stone": 30,
+                    "fuel": 10
+                  },
+                  "score": 8,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 85,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "perimeterLight",
+                  "name": "Projecteur de périmètre",
+                  "description": "Éclaire un secteur de nuit quand il est alimenté. Consomme une unité d’énergie prioritaire ; ne tire pas et ne révèle pas une nouvelle carte.",
+                  "cost": {
+                    "scrap": 35,
+                    "fuel": 6
+                  },
+                  "score": 2,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 35,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "logisticsGarage",
+                  "name": "Garage logistique",
+                  "description": "Lance des fourgons non armés vers les postes. Chaque trajet engage 12 rations et 6 carburants ; la cargaison reste physique et peut être perdue.",
+                  "cost": {
+                    "wood": 70,
+                    "scrap": 120,
+                    "stone": 35,
+                    "fuel": 20
+                  },
+                  "score": 10,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 120,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 3.3340000000000884
+                  }
+                },
+                {
+                  "id": "fallbackRedoubt",
+                  "name": "Redoute de repli",
+                  "description": "Position de repli pour les ouvriers détachés et les sections. Tire avec la réserve commune de munitions, ajoute quatre logements et doit être défendue.",
+                  "cost": {
+                    "wood": 85,
+                    "scrap": 100,
+                    "stone": 70,
+                    "ammo": 30
+                  },
+                  "score": 9,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 100,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fireStation",
+                  "name": "Poste de secours incendie",
+                  "description": "Équipe deux ouvriers existants. Ils prennent l’eau en citerne et rejoignent les foyers par les accès libres.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 80,
+                    "stone": 25
+                  },
+                  "score": 8,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 80,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "fireScreen",
+                  "name": "Cloison coupe-feu",
+                  "description": "Paroi incombustible qui interrompt la propagation directe des flammes et bloque le passage. Placez-la sans condamner vos accès.",
+                  "cost": {
+                    "scrap": 12,
+                    "stone": 10
+                  },
+                  "score": 0.6,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 12,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "dayGreenhouse",
+                  "name": "Serre de jour",
+                  "description": "Plan du jardin requis. Produit au calme diurne, avec électricité et carburant ; s’arrête pendant l’alerte et la nuit.",
+                  "cost": {
+                    "wood": 70,
+                    "scrap": 60,
+                    "stone": 25
+                  },
+                  "score": 8,
+                  "requires": "farm",
+                  "requirementName": "Ferme protégée",
+                  "requirementMet": false,
+                  "minimumStorage": 70,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "prefabYard",
+                  "name": "Aire de préfabrication",
+                  "description": "Gabarits d’atelier requis. Accélère de 25 % le travail réel sur les chantiers proches pendant le jour, contre ferraille et carburant.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 85,
+                    "stone": 40
+                  },
+                  "score": 9,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 85,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "rowHomes",
+                  "name": "Maisons en bande",
+                  "description": "Dix-huit logements dans une même emprise. Les habitants restent à recruter et à nourrir.",
+                  "cost": {
+                    "wood": 120,
+                    "scrap": 60,
+                    "stone": 50
+                  },
+                  "score": 13,
+                  "requires": "house",
+                  "requirementName": "Dortoir renforcé",
+                  "requirementMet": true,
+                  "minimumStorage": 120,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "wood": 10
+                  }
+                },
+                {
+                  "id": "solarCourt",
+                  "name": "Cour solaire",
+                  "description": "Produit 18 unités électriques uniquement pendant le calme diurne. Pas de batterie : aucune production pendant l’alerte et la nuit.",
+                  "cost": {
+                    "wood": 80,
+                    "scrap": 150,
+                    "stone": 70
+                  },
+                  "score": 13,
+                  "requires": "workshop",
+                  "requirementName": "Atelier militaire",
+                  "requirementMet": false,
+                  "minimumStorage": 150,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 33.33400000000009
+                  }
+                },
+                {
+                  "id": "batteryCabinet",
+                  "name": "Armoire de secours",
+                  "description": "Réserve de 900 unités-secondes, vide à la construction. Charge sur le surplus, rendement 90 %. Débit maximal 8. Aucun courant créé.",
+                  "cost": {
+                    "wood": 45,
+                    "scrap": 100,
+                    "stone": 50
+                  },
+                  "score": 11,
+                  "requires": "generator",
+                  "requirementName": "Générateur",
+                  "requirementMet": false,
+                  "minimumStorage": 100,
+                  "storageShortfall": 0,
+                  "missing": {}
+                },
+                {
+                  "id": "rampart6a177",
+                  "name": "Rempart d’acier — 6 m",
+                  "description": "Rempart d’acier — 6 m · accès intérieur, réserve de charge 120 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "scrap": 135,
+                    "stone": 55
+                  },
+                  "score": 3,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 135,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 18.33400000000009
+                  }
+                },
+                {
+                  "id": "gate6a177",
+                  "name": "Porte d’acier — 6 m",
+                  "description": "Porte d’acier — 6 m · accès intérieur, réserve de charge 120 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "scrap": 156,
+                    "stone": 64
+                  },
+                  "score": 3,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 156,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 39.33400000000009
+                  }
+                },
+                {
+                  "id": "bastion6a177",
+                  "name": "Bastion d’acier — 6 m",
+                  "description": "Bastion d’acier — 6 m · accès intérieur, réserve de charge 140 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "scrap": 146,
+                    "stone": 60
+                  },
+                  "score": 3,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 146,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 29.33400000000009
+                  }
+                },
+                {
+                  "id": "workDeck6a177",
+                  "name": "Socle d’atelier — 6 m",
+                  "description": "Socle d’atelier — 6 m · accès intérieur, réserve de charge 160 ; aucune capacité avant achèvement.",
+                  "cost": {
+                    "wood": 65,
+                    "scrap": 160,
+                    "stone": 85
+                  },
+                  "score": 3,
+                  "requires": null,
+                  "requirementName": null,
+                  "requirementMet": true,
+                  "minimumStorage": 160,
+                  "storageShortfall": 0,
+                  "missing": {
+                    "scrap": 43.33400000000009,
+                    "stone": 15
+                  }
+                }
+              ]
+            },
+            "remaining": "12.0 points de développement supplémentaires pour AVANT-POSTE (seuil : 24). 11 condition(s) à remplir.",
+            "potential": "Aucun chantier en cours. Le financement seul ne donne aucun point.",
+            "models": [
+              "clinic",
+              "quarry",
+              "refinery",
+              "workshop",
+              "steelWall",
+              "turret",
+              "dressingWorkshop",
+              "recoveryBench",
+              "perimeterLight",
+              "logisticsGarage",
+              "fallbackRedoubt",
+              "fireStation",
+              "fireScreen",
+              "dayGreenhouse",
+              "prefabYard",
+              "rowHomes",
+              "solarCourt",
+              "batteryCabinet",
+              "rampart6a177",
+              "gate6a177",
+              "bastion6a177",
+              "workDeck6a177"
+            ],
+            "geometry": {
+              "pass": true,
+              "box": {
+                "x": 314,
+                "y": 476.234375,
+                "width": 1016,
+                "height": 20.796875,
+                "bottom": 497.03125,
+                "right": 1330
+              },
+              "panel": {
+                "x": 223,
+                "y": 154,
+                "width": 1198,
+                "height": 666,
+                "bottom": 820,
+                "right": 1421
+              },
+              "hit": "urbanRemaining",
+              "scrollTop": 1102
+            }
+          },
+          "gate": {
+            "id": 7,
+            "type": "gate",
+            "gx": 65,
+            "gy": 68,
+            "progress": 0.0012494999999999343,
+            "completed": false,
+            "buildTime": 10,
+            "cost": {
+              "wood": 25,
+              "scrap": 25
+            },
+            "viewControls": {
+              "zoom": [],
+              "initialFailure": null
+            },
+            "before": {
+              "elapsed": 24.94840000000216,
+              "resources": {
+                "wood": 110,
+                "scrap": 116.66599999999991,
+                "stone": 70,
+                "food": 129.35741000000007,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            },
+            "after": {
+              "elapsed": 25.24840000000216,
+              "resources": {
+                "wood": 85,
+                "scrap": 91.66599999999991,
+                "stone": 70,
+                "food": 129.34354160000007,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2137.4048573333307
+              },
+              "workerOrder": "retreat"
+            },
+            "workRoute": {
+              "target": {
+                "id": 7,
+                "x": 2112,
+                "y": 2192,
+                "type": "gate"
+              },
+              "segments": [
+                {
+                  "direction": "down",
+                  "target": {
+                    "x": 2121.1875579999996,
+                    "y": 2153.4048573333307
+                  }
+                }
+              ]
+            },
+            "modeChanges": [
+              {
+                "requested": "closed",
+                "previous": "auto",
+                "allowed": false,
+                "actual": "auto"
+              },
+              {
+                "requested": "open",
+                "previous": "auto",
+                "allowed": true,
+                "actual": "open"
+              },
+              {
+                "requested": "auto",
+                "previous": "open",
+                "allowed": false,
+                "actual": "open"
+              }
+            ]
+          },
+          "barracks": {
+            "id": 8,
+            "type": "barracks",
+            "gx": 67,
+            "gy": 67,
+            "progress": 0.00029174999999999275,
+            "completed": false,
+            "buildTime": 30,
+            "cost": {
+              "wood": 75,
+              "scrap": 70,
+              "ammo": 25
+            },
+            "viewControls": {
+              "zoom": [],
+              "initialFailure": null
+            },
+            "before": {
+              "elapsed": 30.698000000002157,
+              "resources": {
+                "wood": 85,
+                "scrap": 91.66599999999991,
+                "stone": 70,
+                "food": 129.20704940000016,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2179.107353333331
+              },
+              "workerOrder": "retreat"
+            },
+            "after": {
+              "elapsed": 30.93140000000215,
+              "resources": {
+                "wood": 10,
+                "scrap": 21.66599999999991,
+                "stone": 70,
+                "food": 129.2004081333335,
+                "fuel": 45,
+                "ammo": 155,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2179.107353333331
+              },
+              "workerOrder": "retreat"
+            },
+            "automation": {
+              "elapsed": 44.364000000001965,
+              "progress": 1
+            }
+          },
+          "recruit": {
+            "before": {
+              "elapsed": 46.16400000000196,
+              "resources": {
+                "wood": 10,
+                "scrap": 21.66599999999991,
+                "stone": 70,
+                "food": 128.7997360000003,
+                "fuel": 45,
+                "ammo": 155,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2179.107353333331
+              },
+              "workerOrder": "build"
+            },
+            "after": {
+              "elapsed": 46.66400000000196,
+              "resources": {
+                "wood": 10,
+                "scrap": 11.665999999999912,
+                "stone": 70,
+                "food": 113.79280180000032,
+                "fuel": 45,
+                "ammo": 135,
+                "medicine": 12
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "gathered": 16.665999999999908,
+              "deposited": 16.665999999999908,
+              "prologue": {
+                "status": "done",
+                "stage": 3,
+                "gathered": 0,
+                "deposited": 16.665999999999908,
+                "completed": [
+                  2
+                ]
+              },
+              "player": {
+                "x": 2121.1875579999996,
+                "y": 2179.107353333331
+              },
+              "workerOrder": "build"
+            },
+            "payment": {
+              "before": {
+                "wood": 10,
+                "scrap": 21.66599999999991,
+                "stone": 70,
+                "food": 128.79280180000032,
+                "fuel": 45,
+                "ammo": 155,
+                "medicine": 12
+              },
+              "after": {
+                "wood": 10,
+                "scrap": 11.665999999999912,
+                "stone": 70,
+                "food": 113.79280180000032,
+                "fuel": 45,
+                "ammo": 135,
+                "medicine": 12
+              }
+            }
+          },
+          "assault": {
+            "phase": "assault",
+            "wave": 1,
+            "active": 2,
+            "pending": {
+              "walker": 0,
+              "runner": 0,
+              "armored": 0,
+              "crawler": 0,
+              "howler": 0,
+              "breacher": 0,
+              "stalker": 0,
+              "bloated": 0,
+              "shielded": 0,
+              "charger": 0
+            },
+            "wavePlan": {
+              "wave": 1,
+              "total": 19,
+              "fronts": 1,
+              "spawnInterval": 0.508,
+              "composition": {
+                "walker": 19,
+                "runner": 0,
+                "armored": 0,
+                "crawler": 0,
+                "howler": 0,
+                "breacher": 0,
+                "stalker": 0,
+                "bloated": 0,
+                "shielded": 0,
+                "charger": 0
+              }
+            },
+            "coreHealth": 3200
+          },
+          "checkpoint": {
+            "ok": true,
+            "version": 20,
+            "runId": "run:e3de4fb2-f53e-4660-ba76-188f81667c27",
+            "generation": 8,
+            "seed": 17117,
+            "buildings": 4,
+            "resources": {
+              "wood": 10,
+              "scrap": 11.665999999999912,
+              "stone": 70,
+              "food": 113.35236180000014,
+              "fuel": 45,
+              "ammo": 135,
+              "medicine": 12
+            },
+            "player": {
+              "x": 2121.1875579999996,
+              "y": 2129.071865333333,
+              "health": 100,
+              "weapon": "pistol",
+              "magazine": {
+                "pistol": 12,
+                "rifle": 0,
+                "shotgun": 0
+              },
+              "carry": {
+                "wood": 0,
+                "scrap": 0,
+                "stone": 0,
+                "food": 0,
+                "fuel": 0,
+                "ammo": 0,
+                "medicine": 0
+              },
+              "dead": false,
+              "stamina": 100,
+              "downTimer": 0,
+              "invulnerable": 0,
+              "reload": 0,
+              "reloadTotal": 0,
+              "shootCooldown": 0,
+              "meleeCooldown": 0
+            },
+            "materialHash": "c69be913e2ae367f2c79aa7a3323b3215ce3f61f31d91f5feb05232684727e72",
+            "wavePlan": {
+              "wave": 1,
+              "total": 19,
+              "fronts": 1,
+              "spawnInterval": 0.508,
+              "composition": {
+                "walker": 19,
+                "runner": 0,
+                "armored": 0,
+                "crawler": 0,
+                "howler": 0,
+                "breacher": 0,
+                "stalker": 0,
+                "bloated": 0,
+                "shielded": 0,
+                "charger": 0
+              }
+            },
+            "restoreComparison": {
+              "pass": true,
+              "changedKeys": [],
+              "normalizedFields": [],
+              "legacyQueueMigration": false,
+              "expectedQueue": [
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker"
+              ],
+              "restoredQueue": [
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker",
+                "walker"
+              ],
+              "expectedPending": {
+                "walker": 0,
+                "runner": 0,
+                "armored": 0,
+                "crawler": 0,
+                "howler": 0,
+                "breacher": 0,
+                "stalker": 0,
+                "bloated": 0,
+                "shielded": 0,
+                "charger": 0
+              },
+              "restoredPending": {
+                "walker": 0,
+                "runner": 0,
+                "armored": 0,
+                "crawler": 0,
+                "howler": 0,
+                "breacher": 0,
+                "stalker": 0,
+                "bloated": 0,
+                "shielded": 0,
+                "charger": 0
+              },
+              "expectedRemaining": 21,
+              "restoredRemaining": 21,
+              "expectedRNG": 4100361636,
+              "restoredRNG": 4100361636,
+              "wavePlanPreserved": true,
+              "nightPreserved": true
+            }
+          },
+          "pass": true
+        }
+      ],
+      "normalizedFields": [],
+      "pass": true,
+      "completed": "2026-10-21T14:53:40.534Z"
+    }
+  ]
+}

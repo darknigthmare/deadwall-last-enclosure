@@ -1,30 +1,127 @@
 {
-  "schemaVersion": 1,
-  "verifiedAt": "2026-10-21",
-  "baseSha": "6c6fbb6cf563bea6c89ade99c65f18c438481532",
-  "pullRequest": 16,
-  "workbookCommitted": false,
-  "publicationStatus": "Drive backup verified; GitHub contains references only, not the XLSX binary",
+  "schemaVersion": 2,
+  "verifiedAt": "2026-10-22T11:57:29.395707+00:00",
+  "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+  "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "gameVersion": "1.69.0",
+  "pullRequest": {
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/16",
+    "branch": "feat/codex-world-extension-20261021",
+    "qualifiedSourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "draft": true,
+    "state": "open",
+    "title": "feat(codex): 1 000 plans inspectables, agriculture et résidentiel",
+    "deliveryRevision": "La révision contenant ce manifeste livre le classeur, les preuves et la correction ciblée de la fixture atelier/dépôt. qualifiedSourceCommit identifie les sources de la passe globale ; la correction ultérieure possède une vérification distincte."
+  },
+  "publicationStatus": "Classeur livré dans cette révision ; fichier Drive remplacé sur le même identifiant et relu intégralement.",
+  "workbookCommittedToPR": true,
   "workbook": {
     "name": "DEADWALL_CODEX_MONDE_SUIVI.xlsx",
-    "bytes": 507082,
-    "sha256": "6db31acc3cf64f0bd9093419203438374a2f80e43a990acd7f2904c2cdeef153",
-    "driveFileId": "1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X",
-    "readbackIdentical": true,
-    "sheets": 10,
-    "formulas": 192,
+    "repositoryPath": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+    "bytes": 539765,
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "gitBlobSha": "f70fffd56ee45a4deccafc71c78110f394dc7eff",
+    "sheets": 13,
+    "formulas": 1165,
     "formulaErrors": 0,
-    "uncachedFormulaResults": 0
+    "missingFormulaCaches": 0,
+    "verification": "verification-classeur-20261022.json",
+    "historicalWorkbookVerification": "verification-classeur-final.json concerne le fichier antérieur de 529239 octets, pas celui de cette livraison."
   },
-  "backupArchive": {
-    "name": "DEADWALL_CODEX_MONDE_SOURCES_ET_PREUVES_2026-10-21.zip",
-    "bytes": 1870239,
-    "sha256": "0ba71b172e4b031d451c61b0df8940a65828fcc01bbcd4dd108b5c3045c8bc61",
-    "driveFileId": "1lpY89GcB03NoiE-Lol6QeDN4nlIL8Ht7",
-    "readbackIdentical": true
+  "drive": {
+    "id": "1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X",
+    "url": "https://docs.google.com/spreadsheets/d/1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X/edit",
+    "title": "DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+    "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "bytes": 539765,
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "rawBytesEqual": true,
+    "verifiedAt": "2026-10-22 11:57:17 UTC",
+    "modifiedTime": "2026-10-22T11:56:49.172Z",
+    "parents": [
+      "1U6uAvZuUeOaMQAt0aH8qiUMo3OhfX1sm"
+    ],
+    "sameFileId": true,
+    "sameParent": true,
+    "verificationMethod": "Complete raw Drive base64 compared byte-for-byte with the independently SHA-256-verified repository XLSX; no native format conversion.",
+    "before": {
+      "bytes": 515190,
+      "modifiedTime": "2026-10-21T13:57:19.720Z",
+      "rawContentsUnchangedFromEarlierPreflight": true
+    },
+    "replacement": {
+      "metadataChangesRequested": false,
+      "permissionsChangesRequested": false
+    }
   },
-  "driveFolderId": "1U6uAvZuUeOaMQAt0aH8qiUMo3OhfX1sm",
-  "localTrackingTests": {"passed": 12, "failed": 0, "skipped": 0},
-  "scope": "Documentation and tracking only; no new gameplay implementation or qualification",
-  "content": {"existingProgrammes": 4000, "typologyTargets": 80, "variantTargets": 4000, "extensionTasks": 800, "newPlayableVariants": 0}
+  "validation": {
+    "report": "validation-20261022.json",
+    "fullNativeCheckPassed": true,
+    "globalCommand": "npm run check",
+    "globalExitCode": 0,
+    "globalTests": 5663,
+    "globalPassed": 5662,
+    "globalFailed": 0,
+    "globalSkipped": 1,
+    "globalCancelled": 0,
+    "nativeCIReport": "validation-ci-native-20261022.json",
+    "nativeCIPassed": 5663,
+    "nativeCISoakEnabled": true,
+    "literalFullCheckPassed": false,
+    "literalFullCheckReport": "validation-ci-literal-20261022.json",
+    "guideChecks": 112,
+    "campaignChecks": 196,
+    "campaignSurface": "Fixture historique explicite tools=1&fixture=legacy ; quatre formats Chromium simulés.",
+    "windowsPortableQualified": false,
+    "windowsDiagnostic": "diagnostic-survey-20261022.json",
+    "reconstructionBrowserScenarioQualified": false,
+    "reconstructionDiagnostic": "diagnostic-reconstruction-20261022.json",
+    "postGlobalCorrection": {
+      "report": "validation-correction-defenses-20261022.json",
+      "sha256": "520963a839a36ec701a803135c28a5821dee2468c24439678c8d6336902a750f",
+      "result": {
+        "browserDefensesThreeProfilesQualified": true,
+        "existingRemoteWithdrawalAssertionRetained": true,
+        "gameplayRulesChanged": false,
+        "windowsElectronQualified": false,
+        "allGitHubCIQualified": false,
+        "nativeTestsPassed": true,
+        "targetedCorrectionQualified": true
+      },
+      "nativeTests": 10,
+      "nativePassed": 10,
+      "browserChecks": 300,
+      "browserPassedChecks": 300,
+      "browserCompletedProfiles": 3,
+      "browserAttemptedProfiles": 3,
+      "sourceFiles": [
+        {
+          "path": "scripts/browser-defenses-fixtures148.mjs",
+          "bytes": 19846,
+          "sha256": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7"
+        },
+        {
+          "path": "tests/defenses-qa148.test.cjs",
+          "bytes": 16353,
+          "sha256": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7"
+        }
+      ],
+      "scope": "Deux fichiers de préparation et de test modifiés après le contrôle global sur 7ec448a ; ces contrôles ciblés ne sont pas une seconde exécution intégrale."
+    },
+    "allGitHubCIPassed": false
+  },
+  "scope": {
+    "cataloguePrograms": 4000,
+    "targetTypes": 80,
+    "inspectionTypes": 20,
+    "inspectionVariants": 1000,
+    "targetVariants": 4000,
+    "remainingVariantsToDesign": 3000,
+    "validatedTasks": 3,
+    "inProgressTasks": 97,
+    "pendingTasks": 700,
+    "newCampaignPlayableVariants": 0,
+    "metricProvenance": "Les dimensions des 600 nouveaux plans agricoles et résidentiels sont des choix auteur ; leurs références architecturales réelles restent à documenter."
+  }
 }

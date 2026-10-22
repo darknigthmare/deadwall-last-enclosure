@@ -1,5 +1,7 @@
 # Codex mondial — fondations métriques, 21 octobre 2026
 
+> Rapport historique de la première étape métrique. Les compteurs, validations et états de publication ci-dessous décrivent cette étape du 21 octobre. L’état courant des 1 000 inspections et du classeur est consigné dans [PUBLICATION.md](PUBLICATION.md) et [INSPECTION_PHYSIQUE_2026.md](INSPECTION_PHYSIQUE_2026.md).
+
 ## Périmètre
 Cette passe d'**outillage auteur** part de DEADWALL 1.68, main `6c6fbb6cf563bea6c89ade99c65f18c438481532`, PR 16 avant modification `03e189b8435c20a05f4dc052336b1746d68d60b2`.
 Elle ne change aucun fichier de `src`, aucun générateur de campagne, aucune sauvegarde, aucune collision du monde joué, aucun stock et aucune probabilité de rencontre. Un plan métrique n'est ni un lieu implanté ni une architecture jouable validée.

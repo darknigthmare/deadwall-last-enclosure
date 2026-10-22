@@ -44,8 +44,17 @@ export function defenseServiceFixture({ type, bag = null }) {
   if (!g.paused) throw Error('Service fixture requires real pause');
   const b = type === 'core' ? g.core() : g.world.buildings.get(globalThis.__DEFENSE148_CAMP__?.[type]);
   if (!b || !b.completed || b.dead) throw Error('Missing completed service support: ' + type);
-  const point = g.fieldcraft.service(g.player, b);
-  if (!point || !g.friendlyPositionClear(g.player, point.x, point.y)) throw Error('No real free service point: ' + type);
+  let point = g.fieldcraft.service(g.player, b);
+  if (type === 'workshop') {
+    // This scene asserts remote withdrawal is refused. Native service selection
+    // depends on the arrival side; the nearest access can also reach the depot.
+    // Probe the actual footprint corners, then let the game own access and reach.
+    const candidates = [point, ...[[b.left, b.top], [b.right, b.top], [b.left, b.bottom], [b.right, b.bottom]]
+      .map(([x, y]) => g.fieldcraft.service({ ...g.player, x, y }, b))];
+    point = candidates.find(p => p && g.workerCanWorkAt({ ...g.player, ...p }, b, C.Arsenal134Rules.homeReach)
+      && !g.workerCanWorkAt({ ...g.player, ...p }, g.core(), C.Arsenal134Rules.homeReach));
+  }
+  if (!point || !g.friendlyPositionClear(g.player, point.x, point.y)) throw Error('No real free service point outside depot withdrawal when required: ' + type);
   const raw = g.serialize(), rng = raw.randomState;
   raw.phase = 'calm'; raw.phaseTime = 120; raw.zombies = []; raw.spawnQueue = []; raw.pendingSpawns = C.normalizeSpawnCounts();
   raw.dayworks.night = null; raw.citadel.baseline = null;
@@ -54,9 +63,10 @@ export function defenseServiceFixture({ type, bag = null }) {
   g.restoreSave(globalThis.DeadwallSave.validate(raw)); g.togglePause(true); g.selectBuilding(g.world.buildings.get(b.id));
   const restored = g.world.buildings.get(b.id);
   if (g.random.state !== rng || !g.workerCanWorkAt(g.player, restored, C.Arsenal134Rules.homeReach)) throw Error('Invalid restored physical service access');
-  return { type: 'prepared-service-point', support: b.id, supportType: type, player: { x: g.player.x, y: g.player.y }, bag: bag && { ...g.player.carry }, rngPreserved: true,
+  if (type === 'workshop' && g.arsenal134.view().atHome) throw Error('Workshop scene requires native depot withdrawal to be unavailable');
+  return { type: 'prepared-service-point', support: b.id, supportType: type, depotWithdrawalAllowed: g.arsenal134.view().atHome, player: { x: g.player.x, y: g.player.y }, bag: bag && { ...g.player.carry }, rngPreserved: true,
     assignedFields: ['phase', 'phaseTime', 'zombies[previous synthetic contacts only]', 'spawnQueue', 'pendingSpawns', 'dayworks.night', 'citadel.baseline', 'player.x', 'player.y', ...(bag ? ['player.carry'] : [])],
-    note: 'Player relocation to a genuinely reachable exterior access is explicitly prepared. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF.' };
+    note: 'Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF.' };
 }
 
 export function defensePlanSiteFixture(id) {

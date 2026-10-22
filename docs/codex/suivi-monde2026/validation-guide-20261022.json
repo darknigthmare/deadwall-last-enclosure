@@ -1,0 +1,523 @@
+{
+  "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+  "started": "2026-10-22T10:04:37.720Z",
+  "version": "1.69.0",
+  "scope": "Actual author Guide controls on desktop and mobile: source selection, floor observation, walking, wall collision, adjacent stairs, in-memory checkpoint and source changes. Reads compare every paused campaign field before and after. No campaign position, stock, clock, RNG or inspection pose is assigned by this test. The default player title is also checked for absence of author controls.",
+  "browserVersion": "153.0.8010.0",
+  "profiles": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1366,
+        "height": 900
+      },
+      "checks": [
+        {
+          "name": "Default player entry contains no inspection author panel",
+          "pass": true
+        },
+        {
+          "name": "All 80 targets remain visible with twenty available types",
+          "pass": true
+        },
+        {
+          "name": "All 50 variant identities are selectable",
+          "pass": true
+        },
+        {
+          "name": "Observing another level does not move the pedestrian",
+          "pass": true
+        },
+        {
+          "name": "The real metric canvas renders rooms, walls and equipment",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Repeated walk input stops before a wall without crossing it",
+          "pass": true
+        },
+        {
+          "name": "reset is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "An adjacent stair is offered at the real entry landing",
+          "pass": true
+        },
+        {
+          "name": "use-transition is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Actual stair control moves to an adjacent physical level",
+          "pass": true
+        },
+        {
+          "name": "remember is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "east is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Actual walk button moves the observer",
+          "pass": true
+        },
+        {
+          "name": "resume is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "The inspection checkpoint restores the exact observer and visits",
+          "pass": true
+        },
+        {
+          "name": "reset is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Keyboard walking enters a room through its door",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T006 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T007 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T008 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T011 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T060 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T065 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T066 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T021 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T022 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T023 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T024 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T025 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T026 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T027 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T028 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T045 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T046 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T047 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T048 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T021 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T027 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T045 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T048 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "An undesigned lake does not receive a fabricated fallback",
+          "pass": true
+        },
+        {
+          "name": "Every saved campaign field is unchanged by the inspection controls",
+          "pass": true
+        },
+        {
+          "name": "No horizontal page overflow",
+          "pass": true
+        },
+        {
+          "name": "No browser, console, HTTP or request errors",
+          "pass": true
+        }
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "requestFailures": [],
+      "screenshots": [
+        "desktop-cargo-walk.png",
+        "desktop-cargo-room.png",
+        "desktop-EXT-MONDE-T021-outdoors.png",
+        "desktop-EXT-MONDE-T027-outdoors.png",
+        "desktop-EXT-MONDE-T045-outdoors.png",
+        "desktop-EXT-MONDE-T048-outdoors.png",
+        "desktop-stadium-plan.png"
+      ],
+      "transition": {
+        "id": "EXT-MONDE-T005-V01:link-20",
+        "from": 3,
+        "to": 2
+      },
+      "campaignBeforeSHA256": "89e92f40c8377d0106deafc625f02f329dca40f4c6013ae6e80ca31d628cde1d",
+      "campaignAfterSHA256": "89e92f40c8377d0106deafc625f02f329dca40f4c6013ae6e80ca31d628cde1d",
+      "pass": true
+    },
+    {
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "touch": true
+      },
+      "checks": [
+        {
+          "name": "Default player entry contains no inspection author panel",
+          "pass": true
+        },
+        {
+          "name": "All 80 targets remain visible with twenty available types",
+          "pass": true
+        },
+        {
+          "name": "All 50 variant identities are selectable",
+          "pass": true
+        },
+        {
+          "name": "Observing another level does not move the pedestrian",
+          "pass": true
+        },
+        {
+          "name": "The real metric canvas renders rooms, walls and equipment",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "north is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Repeated walk input stops before a wall without crossing it",
+          "pass": true
+        },
+        {
+          "name": "reset is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "An adjacent stair is offered at the real entry landing",
+          "pass": true
+        },
+        {
+          "name": "use-transition is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Actual stair control moves to an adjacent physical level",
+          "pass": true
+        },
+        {
+          "name": "remember is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "east is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Actual walk button moves the observer",
+          "pass": true
+        },
+        {
+          "name": "resume is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "The inspection checkpoint restores the exact observer and visits",
+          "pass": true
+        },
+        {
+          "name": "reset is visible and receives input",
+          "pass": true
+        },
+        {
+          "name": "Keyboard walking enters a room through its door",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T006 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T007 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T008 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T011 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T060 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T065 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T066 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T021 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T022 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T023 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T024 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T025 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T026 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T027 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T028 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T045 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T046 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T047 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T048 variant50 is built by the visible controls",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T021 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T027 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T045 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "EXT-MONDE-T048 gardens and multiple access routes use valid inspection geometry",
+          "pass": true
+        },
+        {
+          "name": "An undesigned lake does not receive a fabricated fallback",
+          "pass": true
+        },
+        {
+          "name": "Every saved campaign field is unchanged by the inspection controls",
+          "pass": true
+        },
+        {
+          "name": "No horizontal page overflow",
+          "pass": true
+        },
+        {
+          "name": "No browser, console, HTTP or request errors",
+          "pass": true
+        }
+      ],
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "requestFailures": [],
+      "screenshots": [
+        "mobile-cargo-walk.png",
+        "mobile-cargo-room.png",
+        "mobile-EXT-MONDE-T021-outdoors.png",
+        "mobile-EXT-MONDE-T027-outdoors.png",
+        "mobile-EXT-MONDE-T045-outdoors.png",
+        "mobile-EXT-MONDE-T048-outdoors.png",
+        "mobile-stadium-plan.png"
+      ],
+      "transition": {
+        "id": "EXT-MONDE-T005-V01:link-20",
+        "from": 3,
+        "to": 2
+      },
+      "campaignBeforeSHA256": "05afbf5d80f69ec76744c4569fc2d194ea608bf859dee54780644d079246cdff",
+      "campaignAfterSHA256": "05afbf5d80f69ec76744c4569fc2d194ea608bf859dee54780644d079246cdff",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "completed": "2026-10-22T10:06:09.919Z",
+  "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+  "provenance": "Executed against these identical application sources in the local worktree; report annotated after the run."
+}

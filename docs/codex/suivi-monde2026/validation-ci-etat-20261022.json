@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "kind": "observed-github-actions-state",
+  "observedAt": "2026-10-22T11:39:51Z",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "pullRequest": 16,
+  "head": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+  "ci": {
+    "runId": 39763290956,
+    "runAttempt": 1,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956",
+    "status": "completed",
+    "conclusion": "failure",
+    "workflowUpdatedAt": "2026-10-22T11:08:02Z",
+    "checkout": "eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a",
+    "checkoutTreeIdenticalToHead": true,
+    "operationalJobs": {
+      "total": 24,
+      "success": 21,
+      "failure": 3
+    },
+    "browsers": {
+      "total": 16,
+      "success": 14,
+      "failure": 2,
+      "successfulGroups": [
+        "city",
+        "codex-completion",
+        "codex-details",
+        "contexts",
+        "d17",
+        "exploration",
+        "field-extension193",
+        "interface",
+        "metrics",
+        "quality-regressions",
+        "touch-layout",
+        "vertical-early",
+        "vertical-network",
+        "wildlife"
+      ]
+    },
+    "native": {
+      "conclusion": "success",
+      "testFiles": 525,
+      "shards": 6,
+      "tests": 5663,
+      "pass": 5663,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "soakEnabled": true,
+      "evidence": "validation-ci-native-20261022.json",
+      "log": "validation-ci-native-20261022.log.gz"
+    },
+    "failedJobs": [
+      {
+        "jobId": 119772489146,
+        "name": "windows",
+        "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489146",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Vérifier deux lancements de l’archive extraite",
+        "errors": [
+          "Electron create failed (1)",
+          "Native survey action did not advance (deadwall://game/index.html:12)"
+        ],
+        "source": "desktop/smoke.cjs:309",
+        "report": "artifacts/qa/windows/run-0x9zBA/verification-failure.json",
+        "artifact": {
+          "id": 12419107824,
+          "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/artifacts/12419107824",
+          "downloaded": false
+        },
+        "diagnosis": "The direct smoke and narrative paths are unchanged from main74a6208. The exact recorded refusal remains part of this failed CI run; baseline reproduction is a separate diagnostic."
+      },
+      {
+        "jobId": 119772489316,
+        "name": "browser / campaign",
+        "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489316",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Exécuter tous les parcours du groupe",
+        "errors": [
+          "page.evaluate: Error: The declared house fixture has no valid footprint: Chaussée ou voie financée à préserver"
+        ],
+        "profiles": [
+          "desktop",
+          "mobile"
+        ],
+        "source": "scripts/browser-reconstruction144.mjs:18",
+        "report": "artifacts/qa/reconstruction-2026-10-22T10_46_48_855Z/report.json",
+        "artifact": {
+          "id": 12419647749,
+          "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/artifacts/12419647749"
+        },
+        "diagnosis": "The declared reconstruction fixture is rejected by the real protected-road placement rule. This file records the original CI failure; baseline diagnostics remain distinct."
+      },
+      {
+        "jobId": 119772489893,
+        "name": "browser / siege",
+        "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489893",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Exécuter tous les parcours du groupe",
+        "failures": [
+          {
+            "scenario": "test:defenses",
+            "error": "AssertionError [ERR_ASSERTION]: A physically completed workshop gives no remote withdrawal from the depot",
+            "source": "scripts/browser-defenses148.mjs:214",
+            "report": "artifacts/qa/defenses-2026-10-22T10_52_47_288Z/report.json",
+            "diagnosis": {
+              "status": "fixture-regression-confirmed-correction-in-preparation",
+              "changedFile": "scripts/browser-defenses-fixtures148.mjs",
+              "unchangedAssertionAndArmory": true,
+              "cause": "The PR added a six-unit resource-node clearance guard. It changed the selected workshop, making the service point reachable from the depot under the existing armory rule; the test still expected remote withdrawal to be refused.",
+              "comparison": {
+                "productHead": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+                "fixtureBaseline": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+                "fixtureCurrent": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+                "seed": 903148,
+                "approach": "from-maintenance-plan-site",
+                "homeReach": 105,
+                "before": {
+                  "workshopGrid": [
+                    58,
+                    68
+                  ],
+                  "servicePoint": [
+                    1864,
+                    2149
+                  ],
+                  "distanceToCore": 125.5746789762968,
+                  "atHome": false,
+                  "nodesPreserved": false
+                },
+                "after": {
+                  "workshopGrid": [
+                    60,
+                    68
+                  ],
+                  "servicePoint": [
+                    1928,
+                    2149
+                  ],
+                  "distanceToCore": 67.11929677819933,
+                  "atHome": true,
+                  "nodesPreserved": true
+                },
+                "scope": "Both exact fixture module versions were compared against the same product head using bootDocument134. This is not a complete replay of main.",
+                "sourceProbe": "/tmp/deadwall-defense148/probe-access.json"
+              },
+              "originalCIResultPreserved": true
+            }
+          },
+          {
+            "scenario": "test:sprites",
+            "error": "AssertionError [ERR_ASSERTION]: A visible real contact hurts the live commander before its own attack action exists",
+            "source": "scripts/browser-sprites159.mjs:86",
+            "report": "artifacts/qa/sprites159-2026-10-22T10_53_48_110Z/report.json",
+            "diagnosis": {
+              "status": "cause-unknown",
+              "sourceAndFixtureUnchangedFromMain": true,
+              "baselineReproduced": false,
+              "note": "Unchanged files do not establish that the failure was pre-existing. No new sprite run was launched for this comparison."
+            }
+          }
+        ],
+        "artifact": {
+          "id": 12420821290,
+          "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/artifacts/12420821290"
+        }
+      }
+    ],
+    "dependentAggregator": {
+      "jobId": 119789070031,
+      "name": "test",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119789070031",
+      "conclusion": "failure",
+      "failedStep": "Vérifier les résultats de tous les jobs requis",
+      "requiredResults": {
+        "native": "success",
+        "browser": "failure",
+        "windows": "failure"
+      },
+      "note": "Dependent gate failure, recorded separately from the three failing operational jobs."
+    }
+  },
+  "literalFullCheck": {
+    "runId": 39763290836,
+    "runAttempt": 1,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836",
+    "head": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "jobId": 119772488808,
+    "status": "completed",
+    "conclusion": "failure",
+    "soakConfigured": true,
+    "command": "DEADWALL_SOAK=1 npm run check",
+    "receipt": {
+      "file": "validation-ci-literal-20261022.receipt.json.gz",
+      "bytes": 476577,
+      "sha256": "8bbdf9fa1a9389d2cf408507761b906f7716e71d5a9de265886276e3b81a41a0",
+      "uncompressedBytes": 1954422,
+      "uncompressedSha256": "ad09d1c7378377fc6e74abaeec8529bc7b60168859aaa3eeaa6da443340334e7",
+      "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+    },
+    "continuation201": {
+      "jobId": 119772489077,
+      "conclusion": "success",
+      "pass": true,
+      "sourceStable": true
+    },
+    "soakEnabled": true,
+    "filtersAbsent": true,
+    "startedAt": "2026-10-22T10:28:13.776Z",
+    "completedAt": "2026-10-22T11:38:08.390Z",
+    "receiptWallDurationMs": 4194614,
+    "nativeTestDurationMs": 4178059.292067,
+    "accepted": false,
+    "actualExitCode": 1,
+    "teeExitCode": 0,
+    "sourceBeforeAfterIdentical": true,
+    "counts": {
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5662,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "failedStep": "Exécuter réellement la commande complète et conserver les deux sorties",
+    "failure": {
+      "test": "151 vehicles: every existing profile can enter every physically clear driving seam",
+      "declaration": "tests/vehicle-boundary151.test.cjs:42:1",
+      "stack": "paid (tests/vehicle-boundary151.test.cjs:16:166)",
+      "caller": "tests/vehicle-boundary151.test.cjs:43:109",
+      "assertion": "assert.equal(g.expeditions.buildCar().ok,true)",
+      "actual": false,
+      "expected": true,
+      "operator": "strictEqual",
+      "nativeLogLine": 5377,
+      "durationMs": 13068.361418,
+      "stage": "Native vehicle construction in paid(), before pose() and frontier.enter() for the failing iteration",
+      "vehicleProfile": null,
+      "side": null,
+      "returnedReasonRecorded": false,
+      "note": "The assertion checks only .ok. Neither the receipt nor native log records the returned reason, the vehicle profile or the side of this failing loop iteration."
+    },
+    "diagnosis": "Cause unknown. The test and directly inspected construction/access paths are unchanged from main; that identity is not proof of a pre-existing failure. The same case passed in the local global check and in accepted native shard 5. No new run was launched.",
+    "evidence": "validation-ci-literal-20261022.json",
+    "log": {
+      "file": "validation-ci-literal-20261022.log.gz",
+      "bytes": 193298,
+      "sha256": "f8f9e0e4adefbc9947c546e809c12a8e3f33c78a6c8b14bdb7f42b607c29b61b",
+      "uncompressedBytes": 626380,
+      "uncompressedSha256": "0e05e2e61f1c7c8a74a2498439f2864a76d802ff5811720323ae76d4905bfa64",
+      "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+    },
+    "artifact": {
+      "id": 12422392885,
+      "name": "deadwall-fullcheck201-39763290836-1",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/artifacts/12422392885",
+      "zipBytes": 882585,
+      "zipSha256": "c79923c59daebb464a3b0d43a97215081b2f65ba4bfa0f81991d9a22c76a1009",
+      "digestVerifiedAgainstGitHub": true,
+      "receiptBytes": 1954422,
+      "receiptSha256": "ad09d1c7378377fc6e74abaeec8529bc7b60168859aaa3eeaa6da443340334e7",
+      "logBytes": 626380,
+      "logSha256": "0e05e2e61f1c7c8a74a2498439f2864a76d802ff5811720323ae76d4905bfa64"
+    }
+  },
+  "collection": "Read-only retrieval of existing jobs, logs and metadata. This state preserves the failures observed for head7ec448a; later corrections and their targeted verification require distinct evidence."
+}
