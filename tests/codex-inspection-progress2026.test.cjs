@@ -1,10 +1,11 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const Targets=require('../scripts/codex-tracker-targets2026.cjs'),Foundation=require('../scripts/codex-progress2026.cjs'),Maritime=require('../scripts/codex-maritime-progress2026.cjs'),Inspection=require('../scripts/codex-inspection-progress2026.cjs');
-const root=path.resolve(__dirname,'..'),base=Maritime.patch(Foundation.patch(Targets.generate()).data).data;
+const Land=require('../scripts/codex-land-progress2026.cjs'),Layouts=require('../src/codex-layouts2026.js');
+const root=path.resolve(__dirname,'..'),base=Land.patch(Maritime.patch(Foundation.patch(Targets.generate()).data).data).data;
 test('le suivi ouvre seulement les chantiers effectivement commencés, sans fermer la campagne',()=>{
  const before=JSON.stringify(base),out=Inspection.patch(base,root);
- assert.equal(JSON.stringify(base),before);assert.equal(out.changes.inProgress.length,32);assert.equal(out.changes.inspectionVariants.length,400);assert.equal(out.changes.closed.length,0);assert.equal(out.changes.playableAdded,0);
+ assert.equal(JSON.stringify(base),before);assert.equal(out.changes.inProgress.length,Layouts.types.length*4);assert.equal(out.changes.inspectionVariants.length,Layouts.count);assert.equal(out.changes.closed.length,0);assert.equal(out.changes.playableAdded,0);
  assert.deepEqual(Inspection.patch(out.data,root).data,out.data);
  for(const v of out.data.variants)if(v.inspection){assert.equal(v.playable,false);assert.equal(v.architecture,null);assert.equal(v.spawnWeight,null);assert.ok(v.inspection.rooms>0);}else assert.deepEqual(v,base.variants.find(o=>o.id===v.id));
  for(const task of out.data.tasks)if(!['architecture','props','sauvegarde','qa'].includes(task.stage))assert.deepEqual(task,base.tasks.find(o=>o.id===task.id));

@@ -25,6 +25,7 @@ const meta = metaPath ? JSON.parse(await fs.readFile(path.resolve(metaPath), 'ut
 const ref = option('ref', /^[0-9a-f]{40}$/i.test(meta.sourceCommit || '') ? meta.sourceCommit : 'feat/codex-world-extension-20261021');
 const req = createRequire(path.join(root, 'package.json'));
 const data = req('./scripts/build-codex-tracker2026.cjs').currentData(root);
+const typesById = new Map(data.typologies.map(t => [t.id, t]));
 const summary = req('./scripts/validate-codex-tracker2026.cjs').validate(data);
 const inspectionModule = req('./scripts/codex-inspection-progress2026.cjs');
 const inspectionReport = inspectionModule.checkedReport(root).report;
@@ -41,12 +42,15 @@ function stableRows(name, key, records, map, width) {
   if (ids.length !== sourceMap.size || new Set(ids).size !== sourceMap.size || ids.some(id => !sourceMap.has(id))) {
     throw Error('Identifiants du classeur différents des sources : ' + name);
   }
-  tab.getRangeByIndexes(5, 0, records.length, width).values = ids.map(id => map(sourceMap.get(id)));
+  const ordered = ids.map(id => sourceMap.get(id));
+  tab.getRangeByIndexes(5, 0, records.length, width).values = ordered.map(map);
+  return ordered;
 }
-function dimensions(d) {
+function dimensions(d, scope = d?.scope) {
   if (!d) return 'À rechercher';
+  const provenance = scope ? ` ; ${scope}` : '';
   if (d.lengthRange && d.widthRange) {
-    return `Emprise ${d.lengthRange.join('–')} × ${d.widthRange.join('–')} m ; hauteur ${(d.maxHeightRange || []).join('–')} m. Cotes source et choix auteur.`;
+    return `Emprise ${d.lengthRange.join('–')} × ${d.widthRange.join('–')} m ; hauteur ${(d.maxHeightRange || []).join('–')} m${provenance}.`;
   }
   const parts = [];
   if (d.length !== undefined) parts.push('L ' + d.length);
@@ -54,7 +58,7 @@ function dimensions(d) {
   if (d.height !== undefined) parts.push('hauteur ' + (d.height === null ? 'inconnue' : d.height));
   if (d.draft !== undefined) parts.push('tirant ' + d.draft);
   if (d.authorAirDraft !== undefined) parts.push('hauteur émergée auteur ' + d.authorAirDraft);
-  return parts.length ? parts.join(' ; ') + ' m' : asText(d);
+  return parts.length ? parts.join(' ; ') + ' m' + provenance : asText(d);
 }
 function architecture(v) {
   if (v.inspection) return `${v.inspection.levels} niveaux ; ${v.inspection.rooms} pièces ; ${v.inspection.walls} segments de mur ; ${v.inspection.transitions} transitions. Inspection physique ; architecture complète encore ouverte.`;
@@ -69,22 +73,37 @@ stableRows('Catalogue existant', 'id', data.catalogue.programmes, p => [
   p.authoredProps + p.authoredSlots, p.qualification, source(p.source),
   `Source min ${p.reference?.min || '?'} m ; max ${p.reference?.max || '?'} m ; modèle ${p.model.w} × ${p.model.h} m ; niveaux ${(p.model.levels || []).join(', ')}. Détails dans catalogue-existant.json.`,
 ], 11);
-stableRows('Extension typologies', 'id', data.typologies, t => [
+const typologyRows = stableRows('Extension typologies', 'id', data.typologies, t => [
   t.id, t.domain, t.name, t.targetVariants, t.status, t.requiredSpaces.join('; '),
   t.requiredNetworks.join('; '), t.placementRule, dimensions(t.dimensions_m),
   t.referencePlan ? source('docs/codex/suivi-monde2026/' + t.referencePlan) : 'À documenter', t.scope,
 ], 11);
-stableRows('Variantes à concevoir', 'id', data.variants, v => [
+const variantRows = stableRows('Variantes à concevoir', 'id', data.variants, v => [
   v.id, v.typologyId, v.domain, v.typology, v.number, v.status, architecture(v),
-  v.dimensions_m ? dimensions(v.dimensions_m) : 'À sourcer',
+  v.dimensions_m ? dimensions(v.dimensions_m, typesById.get(v.typologyId)?.dimensions_m?.scope) : 'À sourcer',
   v.spawnWeight === null ? 'À équilibrer' : v.spawnWeight,
   v.playable ? 'Oui' : 'Non', v.note,
 ], 11);
+// These new plans carry dimensions chosen by the author, not documented real
+// measurements. Keep that provenance readable in the existing narrow columns.
+for (const [name, records] of [['Extension typologies', typologyRows], ['Variantes à concevoir', variantRows]]) {
+  for (const [i, record] of records.entries()) {
+    const scope = typesById.get(record.typologyId || record.id)?.dimensions_m?.scope || '';
+    if (!scope.includes('choix de composition auteur')) continue;
+    const row = sheet(name).getRangeByIndexes(i + 5, 0, 1, 11);
+    row.format.wrapText = true;
+    row.format.rowHeight = 96;
+  }
+}
 sheet('Variantes à concevoir').getRange('F6:F4005').dataValidation = {rule: {type: 'list', values: ['À concevoir', 'Gabarit métrique', 'Avant-projet maritime', 'Inspection physique', 'À vérifier']}};
 const legend = sheet('Légende');
-legend.getRange('A27:B27').copyFrom(legend.getRange('A26:B26'), 'all');
-legend.getRange('A27:B27').values = [['Inspection physique', 'Espaces décrits, murs, accès, niveaux et mobilier contrôlés en mode auteur ; volumes réservés et intégration en campagne encore ouverts.']];
-legend.getRange('A27:B27').format.rowHeight = 60;
+const inspectionLegend = legend.getRange('A27').values[0][0];
+if (inspectionLegend && inspectionLegend !== 'Inspection physique') throw Error('La légende a été modifiée à la ligne 27.');
+if (!inspectionLegend) {
+  legend.getRange('A27:B27').copyFrom(legend.getRange('A26:B26'), 'all');
+  legend.getRange('A27:B27').values = [['Inspection physique', 'Espaces décrits, murs, accès, niveaux et mobilier contrôlés en mode auteur ; volumes réservés et intégration en campagne encore ouverts.']];
+  legend.getRange('A27:B27').format.rowHeight = 60;
+}
 stableRows('Chantiers', 'id', data.tasks, t => [
   t.id, t.typologyId, t.domain, t.name, t.deliverable, t.priority,
   t.status, t.owner, t.acceptance, source(t.evidence),
@@ -115,7 +134,7 @@ if (meta.baseCommit || meta.baseVersion) {
   publication.getRange('B6:E6').values = [[meta.baseCheckedAt || '2026-10-21', 'main', meta.baseCommit || '', 'DEADWALL ' + (meta.baseVersion || '—') + ' conservé']];
 }
 publication.getRange('B7:E7').values = [[meta.sourceCommit || ref, 'PR #16', github + '/pull/16', 'Sources de la reprise']];
-publication.getRange('B9:E9').values = [['Inclus dans ce lot', 'Fichier XLSX', relative, 'Voir le commit de la PR']];
+publication.getRange('B9:E9').values = [[meta.workbookState || 'Préparé localement', 'Fichier XLSX', relative, meta.workbookDetail || 'Publication à vérifier sur la PR']];
 publication.getRange('B10:E10').values = [[meta.targetedTests || 'Voir les journaux du commit', 'Contrôles ciblés', meta.targetedDetail || 'Contrats et suivi vérifiés indépendamment de la campagne', 'Voir les preuves']];
 publication.getRange('B11:E11').values = [[meta.globalCheck || 'À vérifier sur le commit', 'npm run check', meta.globalDetail || 'Le succès global exige un journal complet du commit livré.', meta.globalState || 'Voir les preuves']];
 publication.getRange('B12:E12').values = [[data.variants.filter(v => v.playable).length, 'Architecture / campagne', meta.integration || 'Aucun statut jouable déduit de la présence du catalogue.', 'Qualification explicite']];
@@ -133,9 +152,14 @@ if (Array.isArray(refs)) {
 function outputSheet(name) {
   try { return sheet(name); } catch { return workbook.worksheets.add(name); }
 }
-function styleTable(tab, title, explanation, headers, count, tableName) {
+function styleTable(tab, title, explanation, headers, count, tableName, previousCount = count) {
   const cols = headers.length;
   const last = String.fromCharCode(64 + cols);
+  const existing = tab.tables.items.find(t => t.name === tableName);
+  if (existing && previousCount > count) throw Error('Le nouveau rapport retirerait des typologies inspectées : ' + tableName);
+  // Keep the native table, its name, filters and style while extending its
+  // covered rows. Cell writes alone do not extend the exported Excel table.
+  if (existing && previousCount < count) existing.rows.add(null, Array.from({length: count - previousCount}, () => Array(cols).fill(null)));
   tab.showGridLines = false;
   tab.getRangeByIndexes(0, 0, count + 5, cols).format.font = {name: 'Arial', size: 10, color: '#243E37'};
   tab.getRangeByIndexes(0, 0, count + 5, cols).format.verticalAlignment = 'center';
@@ -156,7 +180,7 @@ function styleTable(tab, title, explanation, headers, count, tableName) {
   tab.getRangeByIndexes(0, 1, count + 5, 1).format.columnWidth = 35;
   tab.freezePanes.freezeRows(5);
   tab.freezePanes.freezeColumns(2);
-  if (!tab.tables.items.some(t => t.name === tableName)) tab.tables.add(`A5:${last}${count + 5}`, true, tableName);
+  if (!existing) tab.tables.add(`A5:${last}${count + 5}`, true, tableName);
 }
 const progress = outputSheet('Avancement par type');
 const stages = ['dimensions', 'architecture', 'seed', 'props', 'loot', 'rencontres', 'services', 'art', 'sauvegarde', 'qa'];
@@ -174,7 +198,7 @@ progress.getRange('A86').values = [['TOTAL DES ÉTAPES VALIDÉES ET RESTANTES']]
 progress.getRange('M86:N86').formulas = [['=SUM(M6:M85)', '=SUM(N6:N85)']];
 progress.getRange('A86:N86').format = {fill: '#DCECE3', font: {name: 'Arial', size: 10, color: '#245544', bold: true}, rowHeight: 30};
 
-// Recompute the eight aggregates from the 400 individual proofs. A stale or
+// Recompute every typology aggregate from its individual proofs. A stale or
 // partially applied progress patch must never produce a presentable workbook.
 const inspected = new Map();
 const variantsById = new Map(data.variants.map(v => [v.id, v]));
@@ -195,35 +219,46 @@ for (const key of ['plans', 'passed', ...inspectionKeys]) {
   if (inspectionRows.reduce((sum, row) => sum + row[key], 0) !== inspectionReport.summary[key]) throw Error('Total du rapport d’inspection incohérent : ' + key);
 }
 if (inspectionReport.summary.lootContainersCreated !== 0 || inspectionReport.summary.connectedServices !== 0) throw Error('Périmètre de campagne incompatible avec le suivi d’inspection.');
-const typesById = new Map(data.typologies.map(t => [t.id, t]));
 const inspection = outputSheet('Inspection');
-styleTable(inspection, 'INSPECTION PHYSIQUE — 400 PLANS', 'Les contrôles portent sur les espaces décrits et le mobilier du mode auteur. Les étapes de campagne restent ouvertes.', ['ID typologie', 'Typologie', 'Plans inspectés', 'Pièces', 'Pièces meublées', 'Objets posés', 'Poses refusées', 'Segments de mur', 'Transitions', 'Niveaux cumulés', 'Contrôles réussis', 'Jouables en campagne'], inspectionRows.length, 'InspectionPhysique2026');
+const previousInspectionCount = inspection.getRange(`A6:A${data.typologies.length + 5}`).values.filter(([value]) => typeof value === 'string' && /^EXT-MONDE-T\d{3}$/.test(value)).length;
+const inspectionLastDataRow = inspectionRows.length + 5;
+const inspectionTotalRow = inspectionLastDataRow + 1;
+const inspectionNotesRow = inspectionTotalRow + 2;
+const inspectionProvenanceRow = inspectionTotalRow + 6;
+const inspectionLastRow = inspectionProvenanceRow + 5;
+const previousInspectionLastRow = previousInspectionCount + 17;
+// Old totals and merged proof notes can occupy rows needed by the extended
+// table. Clear only this derived section before rebuilding it below the data.
+const inspectionBody = inspection.getRange(`A6:L${Math.max(inspectionLastRow, previousInspectionLastRow)}`);
+inspectionBody.unmerge();
+inspectionBody.clear({applyTo: 'all'});
+styleTable(inspection, `INSPECTION PHYSIQUE — ${inspectionReport.records.length.toLocaleString('fr-FR')} PLANS`, 'Les contrôles portent sur les espaces décrits et le mobilier du mode auteur. Les étapes de campagne restent ouvertes.', ['ID typologie', 'Typologie', 'Plans inspectés', 'Pièces', 'Pièces meublées', 'Objets posés', 'Poses refusées', 'Segments de mur', 'Transitions', 'Niveaux cumulés', 'Contrôles réussis', 'Jouables en campagne'], inspectionRows.length, 'InspectionPhysique2026', previousInspectionCount);
 inspection.getRangeByIndexes(5, 0, inspectionRows.length, 12).values = inspectionRows.map(r => [r.id, typesById.get(r.id).name, r.plans, r.rooms, r.furnishedRooms, r.props, r.refused, r.walls, r.transitions, r.levels, r.passed, r.playable]);
-inspection.getRange('C6:L13').setNumberFormat('#,##0');
-inspection.getRange('A14:B14').merge();
-inspection.getRange('A14').values = [['TOTAL DU RAPPORT']];
-inspection.getRange('C14:L14').formulas = [[...Array.from({length: 10}, (_, i) => `=SUM(${String.fromCharCode(67 + i)}6:${String.fromCharCode(67 + i)}13)`)]];
-inspection.getRange('A14:L14').format = {fill: '#DCECE3', font: {name: 'Arial', size: 10, color: '#245544', bold: true}, rowHeight: 30};
-inspection.getRange('C14:L14').setNumberFormat('#,##0');
+inspection.getRange(`C6:L${inspectionLastDataRow}`).setNumberFormat('#,##0');
+inspection.getRange(`A${inspectionTotalRow}:B${inspectionTotalRow}`).merge();
+inspection.getRange(`A${inspectionTotalRow}`).values = [['TOTAL DU RAPPORT']];
+inspection.getRange(`C${inspectionTotalRow}:L${inspectionTotalRow}`).formulas = [[...Array.from({length: 10}, (_, i) => `=SUM(${String.fromCharCode(67 + i)}6:${String.fromCharCode(67 + i)}${inspectionLastDataRow})`)]];
+inspection.getRange(`A${inspectionTotalRow}:L${inspectionTotalRow}`).format = {fill: '#DCECE3', font: {name: 'Arial', size: 10, color: '#245544', bold: true}, rowHeight: 30};
+inspection.getRange(`C${inspectionTotalRow}:L${inspectionTotalRow}`).setNumberFormat('#,##0');
 for (const [range, text] of [
-  ['A16:L16', 'PÉRIMÈTRE ET TRAVAUX RESTANTS'],
-  ['A17:L18', 'Les poses refusées restent visibles dans ce suivi. Les tribunes, volumes de cargo et réservoirs non construits, ainsi que le raccord au monde, le butin, les rencontres et les services de campagne restent à terminer.'],
-  ['A20:B20', 'Rapport détaillé'], ['C20:L20', source(inspectionModule.REPORT)],
-  ['A21:B21', 'Critères et limites'], ['C21:L21', source(inspectionModule.PROOF)],
-  ['A22:B22', 'Empreinte des plans'], ['C22:L22', inspectionReport.sourceHash],
-  ['A23:B23', 'Provenance'], ['C23:L23', `${inspectionReport.sources.length} fichiers contrôlés par taille et SHA-256 avant export.`],
-  ['A24:B24', 'Stocks / services'], ['C24:L24', `Conteneurs de butin créés : ${inspectionReport.summary.lootContainersCreated}. Services de campagne raccordés : ${inspectionReport.summary.connectedServices}.`],
-  ['A25:B25', 'Empreinte du rapport'], ['C25:L25', inspectionReportSha256],
+  [`A${inspectionNotesRow}:L${inspectionNotesRow}`, 'PÉRIMÈTRE ET TRAVAUX RESTANTS'],
+  [`A${inspectionNotesRow + 1}:L${inspectionNotesRow + 2}`, 'Les poses refusées restent visibles dans ce suivi. Les volumes réservés non construits, le raccord au monde, le butin, les rencontres et les services de campagne restent à terminer.'],
+  [`A${inspectionProvenanceRow}:B${inspectionProvenanceRow}`, 'Rapport détaillé'], [`C${inspectionProvenanceRow}:L${inspectionProvenanceRow}`, source(inspectionModule.REPORT)],
+  [`A${inspectionProvenanceRow + 1}:B${inspectionProvenanceRow + 1}`, 'Critères et limites'], [`C${inspectionProvenanceRow + 1}:L${inspectionProvenanceRow + 1}`, source(inspectionModule.PROOF)],
+  [`A${inspectionProvenanceRow + 2}:B${inspectionProvenanceRow + 2}`, 'Empreinte des plans'], [`C${inspectionProvenanceRow + 2}:L${inspectionProvenanceRow + 2}`, inspectionReport.sourceHash],
+  [`A${inspectionProvenanceRow + 3}:B${inspectionProvenanceRow + 3}`, 'Provenance'], [`C${inspectionProvenanceRow + 3}:L${inspectionProvenanceRow + 3}`, `${inspectionReport.sources.length} fichiers contrôlés par taille et SHA-256 avant export.`],
+  [`A${inspectionProvenanceRow + 4}:B${inspectionProvenanceRow + 4}`, 'Stocks / services'], [`C${inspectionProvenanceRow + 4}:L${inspectionProvenanceRow + 4}`, `Conteneurs de butin créés : ${inspectionReport.summary.lootContainersCreated}. Services de campagne raccordés : ${inspectionReport.summary.connectedServices}.`],
+  [`A${inspectionProvenanceRow + 5}:B${inspectionProvenanceRow + 5}`, 'Empreinte du rapport'], [`C${inspectionProvenanceRow + 5}:L${inspectionProvenanceRow + 5}`, inspectionReportSha256],
 ]) {
   inspection.getRange(range).merge();
   inspection.getRange(range.split(':')[0]).values = [[text]];
   inspection.getRange(range).format = {font: {name: 'Arial', size: 10, color: '#243E37'}, wrapText: true, verticalAlignment: 'center'};
 }
-inspection.getRange('A16:L16').format = {fill: '#254E43', font: {name: 'Arial', size: 11, color: '#FFFFFF', bold: true}, rowHeight: 30};
-inspection.getRange('A17:L18').format.fill = '#FFF0CC';
-inspection.getRange('A17:L18').format.rowHeight = 22;
-inspection.getRange('A20:L25').format.rowHeight = 28;
-inspection.getRange('C20:L21').format.font = {name: 'Arial', size: 10, color: '#245544'};
+inspection.getRange(`A${inspectionNotesRow}:L${inspectionNotesRow}`).format = {fill: '#254E43', font: {name: 'Arial', size: 11, color: '#FFFFFF', bold: true}, rowHeight: 30};
+inspection.getRange(`A${inspectionNotesRow + 1}:L${inspectionNotesRow + 2}`).format.fill = '#FFF0CC';
+inspection.getRange(`A${inspectionNotesRow + 1}:L${inspectionNotesRow + 2}`).format.rowHeight = 22;
+inspection.getRange(`A${inspectionProvenanceRow}:L${inspectionLastRow}`).format.rowHeight = 28;
+inspection.getRange(`C${inspectionProvenanceRow}:L${inspectionProvenanceRow + 1}`).format.font = {name: 'Arial', size: 10, color: '#245544'};
 
 // Exercise a real input change, then restore it before the final calculation.
 const taskSheet = sheet('Chantiers');
@@ -263,7 +298,7 @@ await fs.mkdir(proofDir, {recursive: true});
 await fs.writeFile(path.join(proofDir, 'formulas.ndjson'), errors.ndjson || '');
 await fs.writeFile(path.join(proofDir, 'expected.json'), JSON.stringify({summary, expected, ref, missingEvidenceDetected, inspection: inspectionRows, inspectionReportSha256}, null, 2) + '\n');
 if (args.includes('--render')) {
-  for (const [name, range, filename] of [['Accueil', 'A1:L34', 'accueil.png'], ['Extension typologies', 'A6:K13', 'typologies.png'], ['Chantiers', 'A46:J55', 'chantiers.png'], ['Publication', 'A1:E13', 'publication.png'], ['Avancement par type', 'A1:N17', 'avancement.png'], ['Inspection', 'A1:L25', 'inspection.png']]) {
+  for (const [name, range, filename] of [['Accueil', 'A1:L34', 'accueil.png'], ['Extension typologies', 'A6:K13', 'typologies.png'], ['Extension typologies', 'A26:K33', 'typologies-agricoles.png'], ['Extension typologies', 'A50:K53', 'typologies-residentielles.png'], ['Chantiers', 'A46:J55', 'chantiers.png'], ['Publication', 'A1:E13', 'publication.png'], ['Avancement par type', 'A1:N17', 'avancement.png'], ['Inspection', `A1:L${inspectionLastRow}`, 'inspection.png']]) {
     const preview = await workbook.render({sheetName: name, range, scale: 1, format: 'png'});
     await fs.writeFile(path.join(proofDir, filename), new Uint8Array(await preview.arrayBuffer()));
   }

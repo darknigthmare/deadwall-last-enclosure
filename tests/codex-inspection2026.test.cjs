@@ -9,6 +9,7 @@ const H = require('../src/codex-furnishings2026.js');
 const I = require('../src/codex-inspection2026.js');
 const F = require('../scripts/codex-world-foundations2026.cjs');
 const M = require('../scripts/codex-maritime2026.cjs');
+const Registry = require('../scripts/codex-generators2026.cjs');
 const TYPE = 'EXT-MONDE-T008';
 const clone = value => JSON.parse(JSON.stringify(value));
 const source = name => fs.readFileSync(require.resolve('../src/' + name), 'utf8');
@@ -29,25 +30,25 @@ function enterFirstRoom() {
   return { session: result.session, room };
 }
 
-test('the compiled browser generator reproduces all 400 authoritative author plans exactly', () => {
-  const reference = F.refs(), types = [...F.TYPES, ...Object.keys(M.PROFILES)];
+test('the compiled browser generator reproduces every authoritative author plan exactly', () => {
+  const reference = F.refs(), generators = Registry.generators(), types = generators.flatMap(g => g.types);
   assert.deepEqual([...L.types].sort(), [...types].sort());
   let plans = 0;
   for (const type of types) for (let n = 1; n <= 50; n++) {
-    const authoritative = F.TYPES.includes(type) ? F : M;
+    const authoritative = generators.find(g => g.types.includes(type)).api;
     assert.deepEqual(L.build(type, n), authoritative.build(type, n, reference), type + '-V' + n);
     plans++;
   }
-  assert.equal(plans, 400);
+  assert.equal(plans, types.length * Registry.VARIANTS_PER_TYPE);
   assert.equal(L.count, plans);
   // Collision and furnishing qualification have their own exhaustive suite;
   // this pass compares only the compiler with its source algorithms.
 });
 
-test('the catalog distinguishes 8 available types from 72 targets and returns independent references', () => {
+test('the catalog distinguishes the produced types from remaining targets and returns independent references', () => {
   assert.equal(L.typologies.length, 80);
-  assert.equal(L.typologies.filter(t => t.available).length, 8);
-  assert.equal(L.typologies.filter(t => !t.available).length, 72);
+  assert.equal(L.typologies.filter(t => t.available).length, 20);
+  assert.equal(L.typologies.filter(t => !t.available).length, 60);
   assert.ok(L.typologies.every(t => t.variants === 50));
   assert.equal(L.scope, 'authoring-not-campaign');
   assert.match(L.sourceHash, /^[0-9a-f]{64}$/);

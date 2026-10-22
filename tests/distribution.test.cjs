@@ -32,8 +32,7 @@ function buildSourceFiles(){
   // Build-time source dependencies are uploaded to Vercel, not copied to dist.
   // The compiler reads the authored envelopes from these 1,000 parent records.
   return [...require('../scripts/public-manifest183.cjs').BUNDLED_MODULES,'scripts/pwa-build184.cjs','scripts/public-manifest183.cjs',
-    'scripts/compile-codex-inspection2026.cjs','scripts/codex-world-foundations2026.cjs','scripts/codex-maritime2026.cjs',
-    'docs/codex/suivi-monde2026/references-metriques2026.json','docs/codex/suivi-monde2026/OBJECTIFS80.json',
+    'scripts/compile-codex-inspection2026.cjs',...require('../scripts/codex-generators2026.cjs').COMPILATION_SOURCES,
     'src/hydrology165.js','src/biome-population165.js','src/water-art165.js','src/wildlife-art165.js','src/hydrology-codex165.js',
     'src/biomes164.js','src/codex-fixtures164.js','src/biomes-codex164.js','src/codex-usage163.js','src/codex-size163.js','src/codex-density163.js','src/codex-architecture163.js','src/codex-furnishing162.js','src/power-network173.js','src/transit-network173.js','src/codex-native173.js','src/site-infrastructure173.js','src/codex-lab173-ui.js','src/codex-packing173.js','src/codex-gardens171.js','src/codex-stations170.js','src/codex-infill169.js','src/codex-infill169-art.js','src/codex-fill168.js','src/codex-coverage167.js','src/codex-ensembles165.js','src/codex-plan165.js','src/codex-quantities164.js','scripts/standalone-inline162.cjs','src/codex-sites162.js','src/codex-anchors160.js','src/codex-dressing160.js','src/codex3000-recipes159.js','scripts/compile-codex3000.mjs','scripts/compile-codex-context160.mjs','codex-3000/addendum-1.60/CONTRATS.json','codex-3000/INDEX_3000.json',
     'codex-3000/addendum-1.58/validation.mjs','codex-3000/addendum-1.58/reader.mjs',...['A','B','C','D'].map(lot=>'codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json'),

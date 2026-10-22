@@ -102,32 +102,73 @@ function corridorOverlaps(a,b,width,box){
  });
 }
 function audit(p){
- const errors=[];const fail=s=>errors.push(s);const ids=new Set();
- if(!p||!Array.isArray(p.buildings)||!Array.isArray(p.structures)||!Array.isArray(p.reservedAreas)||!Array.isArray(p.network?.nodes)||!Array.isArray(p.network?.edges)||!Array.isArray(p.network?.externalPorts))return {ok:false,errors:['schema']};
- function rect(o){if(!o?.id||ids.has(o.id))fail('duplicate-id');else ids.add(o.id);if(![o.x,o.y,o.w,o.h].every(Number.isFinite)||!positive(o.w)||!positive(o.h))fail('invalid-rectangle');}
+ const errors=[],fail=s=>errors.push(s),ids=new Set();
+ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+ const finite=(...values)=>values.every(Number.isFinite);
+ const identifier=id=>typeof id==='string'&&id.trim().length>0;
+ const rectangle=o=>object(o)&&finite(o.x,o.y,o.w,o.h)&&positive(o.w)&&positive(o.h);
+ const objects=list=>Array.isArray(list)&&Array.from(list).every(object);
+ // Validate the nested containers before traversing them. A malformed author
+ // document is a failed audit, not an exception that aborts a batch of plans.
+ if(!object(p)||!object(p.bounds)||!object(p.network)||
+  ![p.buildings,p.structures,p.reservedAreas,p.network.nodes,p.network.edges,p.network.externalPorts].every(objects)||
+  p.buildings.some(b=>!Array.isArray(b.levels)||!objects(b.rooms)||!objects(b.portals)||!object(b.entry)||
+   b.rooms.some(r=>r.slots!==undefined&&!objects(r.slots))))return {ok:false,errors:['schema']};
+ const result=()=>({ok:errors.length===0,errors:[...new Set(errors)],buildings:p.buildings.length,
+  rooms:p.buildings.reduce((n,b)=>n+b.rooms.length,0),structures:p.structures.length,nodes:p.network.nodes.length});
+ function register(id){if(!identifier(id)||ids.has(id))fail('duplicate-id');else ids.add(id);}
+ function rect(o){register(o.id);if(!rectangle(o))fail('invalid-rectangle');}
  if(p.units!=='m'||p.playable!==false||p.scope!=='author-metric-layout-not-live-world')fail('false-scope');
- if(![p.bounds?.x,p.bounds?.y,p.bounds?.w,p.bounds?.h].every(Number.isFinite)||!positive(p.bounds.w)||!positive(p.bounds.h))fail('bounds');
+ if(!rectangle(p.bounds)){fail('bounds');return result();}
+ if(!positive(p.maxHeightM)||!identifier(p.heightOrigin))fail('site-height');
  const solids=[...p.buildings,...p.structures];
  for(const b of solids){rect(b);if(!contains(p.bounds,b))fail('outside-site');}
  for(let i=0;i<solids.length;i++)for(let j=i+1;j<solids.length;j++)if(overlap(solids[i],solids[j]))fail('overlap-structures');
  for(const a of p.reservedAreas){rect(a);if(!contains(p.bounds,a))fail('outside-site');if(solids.some(b=>overlap(a,b)))fail('blocked-pitch');}
  for(const b of p.buildings){
   const bound={x:0,y:0,w:b.w,h:b.h};if(b.levels.length!==1||b.levels[0]!==0)fail('unbuilt-level');
-  const local=new Set();for(const r of b.rooms){rect(r);local.add(r.id);if(!contains(bound,r)||r.clearHeightM> b.heightM||r.level!==0)fail('invalid-room');for(const s of r.slots||[]){rect(s);if(!contains(r,s)||s.lootAssigned!==false)fail('slot-or-loot');}}
+  const local=new Set();
+  for(const r of b.rooms){
+   rect(r);local.add(r.id);
+   if(!contains(bound,r)||!positive(r.clearHeightM)||r.clearHeightM>b.heightM||r.level!==0)fail('invalid-room');
+   for(const s of r.slots||[]){rect(s);if(!contains(r,s)||s.lootAssigned!==false)fail('slot-or-loot');}
+  }
   for(let i=0;i<b.rooms.length;i++)for(let j=i+1;j<b.rooms.length;j++)if(overlap(b.rooms[i],b.rooms[j]))fail('room-overlap');
-  if(!positive(b.heightM)||b.heightOrigin!=='author-design')fail('building-height');
-  if(!positive(b.entry?.widthM)||b.entry.widthM<.9)fail('entry-too-narrow');
-  if(b.rotationRad!==0||!['north','south'].includes(b.entrySide)||b.entry.x!==b.w/2||b.entry.y!==(b.entrySide==='north'?0:b.h))fail('entry-frame');
+  if(!positive(b.heightM)||b.heightM>p.maxHeightM||b.heightOrigin!=='author-design')fail('building-height');
+  if(!positive(b.entry.widthM)||b.entry.widthM<.9)fail('entry-too-narrow');
+  if(!finite(b.entry.x,b.entry.y)||b.entry.level!==0||b.rotationRad!==0||!['north','south'].includes(b.entrySide)||
+   b.entry.x!==b.w/2||b.entry.y!==(b.entrySide==='north'?0:b.h)||b.entry.x-b.entry.widthM/2<0||b.entry.x+b.entry.widthM/2>b.w)fail('entry-frame');
   if(!p.network.nodes.some(n=>Math.abs(n.x-b.x-b.entry.x)<1e-8&&Math.abs(n.y-b.y-b.entry.y)<1e-8))fail('entry-not-connected');
-  const links=new Set();for(const d of b.portals){if(!local.has(d.from)||!local.has(d.to)||d.widthM<.9||d.axis!=='y')fail('bad-portal');const r=b.rooms.find(r=>r.id===d.to),c=b.rooms[0];if(!r||!c)continue;
+  const corridors=b.rooms.filter(r=>r.kind==='circulation'||r.name==='circulation'),c=corridors[0],links=new Set();
+  if(corridors.length!==1)fail('missing-circulation');
+  for(const d of b.portals){
+   register(d.id);
+   if(!local.has(d.from)||!local.has(d.to)||!c||d.from!==c.id||d.to===c.id||
+    !finite(d.x,d.y,d.widthM,d.wallGapM)||d.widthM<.9||d.wallGapM<0||d.axis!=='y'){fail('bad-portal');continue;}
+   const r=b.rooms.find(r=>r.id===d.to);
    const at=Math.abs(d.x-c.x)<1e-8||Math.abs(d.x-c.x-c.w)<1e-8;
    const gap=Math.min(Math.abs(r.x+r.w-d.x),Math.abs(r.x-d.x));
-   if(!at||Math.abs(gap-d.wallGapM)>1e-8||d.y-d.widthM/2<r.y||d.y+d.widthM/2>r.y+r.h)fail('portal-not-on-face');links.add(d.to);}
-  if(b.rooms.slice(1).some(r=>!links.has(r.id)))fail('disconnected-room');
+   if(!at||Math.abs(gap-d.wallGapM)>1e-8||d.y-d.widthM/2<r.y||d.y+d.widthM/2>r.y+r.h||
+    d.y-d.widthM/2<c.y||d.y+d.widthM/2>c.y+c.h)fail('portal-not-on-face');
+   links.add(d.to);
+  }
+  if(b.rooms.filter(r=>r!==c).some(r=>!links.has(r.id)))fail('disconnected-room');
  }
- const nodes=new Map();for(const n of p.network.nodes){if(nodes.has(n.id)||![n.x,n.y,n.z].every(Number.isFinite)||n.z!==0)fail('invalid-node');nodes.set(n.id,n);}
+ const nodes=new Map();
+ for(const n of p.network.nodes){
+  if(!identifier(n.id)||nodes.has(n.id)||!finite(n.x,n.y,n.z)||n.z!==0)fail('invalid-node');
+  // A gate may lie exactly on the boundary, but no authored path can use a
+  // node beyond the parcel and silently claim that it is internally connected.
+  if(finite(n.x,n.y)&&!contains(p.bounds,{x:n.x,y:n.y,w:0,h:0}))fail('node-outside-site');
+  nodes.set(n.id,n);
+ }
  const links=new Map([...nodes.keys()].map(id=>[id,[]])),edgeIds=new Set();
- for(const e of p.network.edges){if(!e.id||edgeIds.has(e.id))fail('duplicate-edge');edgeIds.add(e.id);const a=nodes.get(e.from),b=nodes.get(e.to);if(!a||!b||a.id===b.id||!positive(e.widthM)||e.level!==0||!['service','pedestrian'].includes(e.mode)){fail('bad-edge');continue;}links.get(a.id).push(b.id);links.get(b.id).push(a.id);
+ for(const e of p.network.edges){
+  if(!identifier(e.id)||edgeIds.has(e.id))fail('duplicate-edge');edgeIds.add(e.id);
+  const a=nodes.get(e.from),b=nodes.get(e.to);
+  if(!a||!b||a.id===b.id||!finite(a.x,a.y,b.x,b.y)||!positive(Math.hypot(b.x-a.x,b.y-a.y))||
+   !positive(e.widthM)||e.level!==0||!['service','pedestrian'].includes(e.mode)){fail('bad-edge');continue;}
+  links.get(a.id).push(b.id);links.get(b.id).push(a.id);
   if(solids.some(box=>corridorOverlaps(a,b,e.widthM,box)))fail('road-crosses-structure');
   if(p.reservedAreas.some(box=>corridorOverlaps(a,b,e.widthM,box)))fail('road-crosses-protected-area');
  }
@@ -135,7 +176,7 @@ function audit(p){
  if(!starts.length||starts.some(s=>!nodes.has(s))||p.network.externalPorts.some(p=>p.connectedToWorld!==false))fail('false-external-link');
  for(let i=0;i<queue.length;i++)for(const n of links.get(queue[i])||[])if(!seen.has(n)){seen.add(n);queue.push(n);}if(seen.size!==nodes.size)fail('disconnected-network');
  for(const t of p.structures.filter(s=>s.kind==='wind-turbine')){if(t.rotorDiameterM!==150||t.maxHeightM!==t.hubHeightM+t.rotorDiameterM/2||t.sweptEnvelopeIsGroundCollider!==false)fail('rotor-height');const box={x:t.x+t.w/2-75,y:t.y+t.h/2-75,w:150,h:150};if(!contains(p.bounds,box))fail('swept-envelope-outside-site');}
- return {ok:errors.length===0,errors:[...new Set(errors)],buildings:p.buildings.length,rooms:p.buildings.reduce((n,b)=>n+b.rooms.length,0),structures:p.structures.length,nodes:nodes.size};
+ return result();
 }
 function auditAll(data=refs()){
  const records=[];for(const type of TYPES)for(let n=1;n<=50;n++){const p=build(type,n,data),q=audit(p);if(!q.ok)throw Error(p.id+': '+q.errors.join(', '));records.push({id:p.id,type,widthM:p.bounds.w,lengthM:p.bounds.h,heightM:p.maxHeightM,heightOrigin:p.heightOrigin,...q});}

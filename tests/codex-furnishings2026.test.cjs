@@ -14,15 +14,36 @@ const Core=require('../src/core.js');
 const clone=value=>JSON.parse(JSON.stringify(value));
 const sample=()=>Foundations.build('EXT-MONDE-T065',1);
 
-test('400 variants have bounded metric furniture, truthful shortages and reachable service fronts',()=>{
+test('all produced variants have bounded metric furniture, truthful shortages and reachable service fronts',()=>{
   const report=InspectionAudit.auditAll({write:process.env.DEADWALL_WRITE_INSPECTION_AUDIT==='1'});
   assert.deepEqual(report.failures,[]);
-  assert.equal(report.summary.types,8);
-  assert.equal(report.summary.plans,400);assert.equal(report.summary.passed,400);
-  assert.equal(report.summary.rooms,12880);assert.equal(report.summary.furnishedRooms,12850);
-  assert.equal(report.summary.props,41723);assert.equal(report.summary.refused,4470);
+  const layouts=require('../src/codex-layouts2026.js');
+  assert.equal(report.summary.types,layouts.types.length);
+  assert.equal(report.summary.plans,layouts.count);assert.equal(report.summary.passed,layouts.count);
+  const historical=new Set([...Foundations.TYPES,...Object.keys(Maritime.PROFILES)]);
+  const sum=key=>report.records.filter(r=>historical.has(r.typologyId)).reduce((n,r)=>n+r[key],0);
+  assert.equal(sum('rooms'),12880);assert.equal(sum('furnishedRooms'),12850);
+  assert.equal(sum('props'),41723);assert.equal(sum('refused'),4470);
   assert.equal(report.summary.campaignPlayable,0);
   assert.ok(report.summary.levels>400);assert.ok(report.summary.walls>400);assert.ok(report.summary.transitions>0);
+});
+
+test('agricultural and residential uses receive their own equipment without granting active production',()=>{
+  const cases=[['chambre parentale','bedroom','bed'],['stabulation bovine','livestock','feedTrough'],
+    ['salle de traite','milking','milkingUnit'],['local du lait','dairy','milkVat'],
+    ['poulailler','poultry','nestBox'],['local œufs','produce','steelTable'],
+    ['chais','winery','wineBarrel'],['cuverie','fermentation','wineVat'],['pressoir','pressing','grapePress'],
+    ['infirmerie vétérinaire','veterinary','veterinaryTable'],['serre culture A','greenhouse','growingBed'],
+    ['stockage réfrigéré fruits','coldStores','fridge']];
+  for(const [name,usage,kind] of cases){
+    const plan=clone(sample());plan.buildings[0].rooms[1].name=name;
+    const result=Furniture.build(plan),roomId=plan.buildings[0].rooms[1].id;
+    assert.equal(result.rooms.find(r=>r.id===roomId).usage,usage,name);
+    assert.ok(result.props.some(p=>p.roomId===roomId&&p.kind===kind),name+' appropriate equipment');
+    assert.equal(Furniture.audit(plan,result).ok,true);
+    assert.equal(result.summary.lootContainersCreated,0);assert.equal(result.summary.connectedServices,0);
+    assert.ok(result.props.every(p=>p.lootAssigned===false&&p.utilityConnected===false));
+  }
 });
 
 test('repeated build is deterministic and does not call simulation randomness',()=>{

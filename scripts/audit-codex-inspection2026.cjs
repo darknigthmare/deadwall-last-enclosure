@@ -4,13 +4,12 @@ const fs=require('node:fs');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const assert=require('node:assert/strict');
+const Registry=require('./codex-generators2026.cjs');
+const {sourceHash}=require('./compile-codex-inspection2026.cjs');
 const ROOT=path.resolve(__dirname,'..');
 const OUTPUT='docs/codex/suivi-monde2026/inspection-20261021.json';
 const SOURCE_FILES=Object.freeze([
-  'scripts/codex-world-foundations2026.cjs',
-  'scripts/codex-maritime2026.cjs',
-  'docs/codex/suivi-monde2026/references-metriques2026.json',
-  'docs/codex/suivi-monde2026/OBJECTIFS80.json',
+  ...Registry.COMPILATION_SOURCES,
   'src/codex-layouts2026.js',
   'src/codex-physical2026.js',
   'src/codex-furnishings2026.js',
@@ -35,16 +34,16 @@ function auditAll({write=false,output=OUTPUT}={}){
   const Service=require('../src/codex-inspection2026.js');
   const Physical=require('../src/codex-physical2026.js');
   const Furniture=require('../src/codex-furnishings2026.js');
-  const Foundation=require('./codex-world-foundations2026.cjs');
-  const Maritime=require('./codex-maritime2026.cjs');
-  const types=[...Foundation.TYPES,...Object.keys(Maritime.PROFILES)],records=[],failures=[];
-  const compiledHash=sha256(SOURCE_FILES.slice(0,4).map(name=>fs.readFileSync(path.join(ROOT,name),'utf8')).join('\n'));
+  const generators=Registry.generators();
+  const types=generators.flatMap(g=>g.types),records=[],failures=[];
+  const compiledHash=sourceHash(ROOT);
   if(Layouts.sourceHash!==compiledHash)failures.push({code:'stale-compiled-layouts',expected:compiledHash,actual:Layouts.sourceHash});
   for(const type of types)for(let number=1;number<=50;number++){
     const record={id:type+'-V'+String(number).padStart(2,'0'),typologyId:type,number,scope:'inspection-only',campaignPlayable:0,pass:false,errors:[]};
     try{
-      const generator=Foundation.TYPES.includes(type)?Foundation:Maritime;
+      const generator=generators.find(g=>g.types.includes(type)).api;
       const source=generator.build(type,number),sourceJson=JSON.stringify(source);
+      assert.equal(generator.audit(source).ok,true,'Author layout rejected by its generator.');
       const session=Service.create(type,number),{author,scene,furnishing}=session;
       record.id=author.id;
       assert.equal(JSON.stringify(author),sourceJson,'Compiled author plan differs from its source generator.');

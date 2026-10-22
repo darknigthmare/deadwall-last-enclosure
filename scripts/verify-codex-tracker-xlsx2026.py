@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import posixpath
 import subprocess
 import xml.etree.ElementTree as ET
 import zipfile
@@ -59,11 +60,30 @@ def read_workbook(file):
                         missing.append(c.attrib["r"])
                 cells[c.attrib["r"]] = value
             pane = tree.find("m:sheetViews/m:sheetView/m:pane", NS)
+            table_details = []
+            table_parts = tree.findall("m:tableParts/m:tablePart", NS)
+            if table_parts:
+                sheet_relations_path = posixpath.join(posixpath.dirname(target), "_rels", posixpath.basename(target) + ".rels")
+                sheet_relations = {r.attrib["Id"]: r.attrib["Target"] for r in ET.fromstring(z.read(sheet_relations_path))}
+                for part in table_parts:
+                    table_target = sheet_relations[part.attrib[REL + "id"]]
+                    table_path = table_target[1:] if table_target.startswith("/") else posixpath.normpath(posixpath.join(posixpath.dirname(target), table_target))
+                    table = ET.fromstring(z.read(table_path))
+                    table_filter = table.find("m:autoFilter", NS)
+                    table_style = table.find("m:tableStyleInfo", NS)
+                    table_details.append({
+                        "name": table.attrib.get("name"), "range": table.attrib.get("ref"),
+                        "filterRange": table_filter.attrib.get("ref") if table_filter is not None else None,
+                        "style": table_style.attrib if table_style is not None else None,
+                        "filterColumns": [ET.tostring(column, encoding="unicode") for column in table.findall("m:autoFilter/m:filterColumn", NS)],
+                    })
             result[s.attrib["name"]] = {
                 "cells": cells, "formulas": formulas, "errors": errors,
                 "missing": missing,
                 "pane": pane.attrib if pane is not None else None,
                 "tables": len(tree.findall("m:tableParts/m:tablePart", NS)),
+                "tableDetails": table_details,
+                "merges": [merge.attrib["ref"] for merge in tree.findall("m:mergeCells/m:mergeCell", NS)],
                 "validations": len(tree.findall("m:dataValidations/m:dataValidation", NS)),
                 "validationRules": [{"range": v.attrib.get("sqref"), "formula": v.findtext("m:formula1", namespaces=NS)} for v in tree.findall("m:dataValidations/m:dataValidation", NS)],
                 "conditionalFormats": len(tree.findall("m:conditionalFormatting", NS)),
@@ -73,12 +93,13 @@ def read_workbook(file):
 
 def repository_data(root):
     command = """const d=require('./scripts/build-codex-tracker2026.cjs').currentData(process.cwd());
+const inspection=require('./scripts/codex-inspection-progress2026.cjs');
 process.stdout.write(JSON.stringify({
 programmes:d.catalogue.programmes.map(p=>({id:p.id,parent:p.parent,name:p.name,origin:p.origin,family:p.family,generation:p.generation,rooms:p.sourceRooms,props:p.authoredProps+p.authoredSlots,qualification:p.qualification,source:p.source})),
 spaces:d.catalogue.rooms.length,props:d.catalogue.props.length,
 typologies:d.typologies,variants:d.variants.map(v=>({id:v.id,typologyId:v.typologyId,typology:v.typology,domain:v.domain,number:v.number,status:v.status,playable:v.playable,inspection:v.inspection})),tasks:d.tasks,
-inspection:require('./scripts/codex-inspection-progress2026.cjs').checkedReport(process.cwd()).report,
-inspectionReportSha256:require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync('docs/codex/suivi-monde2026/inspection-20261021.json')).digest('hex')}));"""
+inspection:inspection.checkedReport(process.cwd()).report,
+inspectionReportSha256:require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(inspection.REPORT)).digest('hex')}));"""
     node = os.environ.get("CODEX_PRIMARY_RUNTIME_NODE", "node")
     run = subprocess.run([node, "-e", command], cwd=root, check=True, capture_output=True, text=True)
     return json.loads(run.stdout)
@@ -100,9 +121,7 @@ def mapped_rows(sheet, count):
 
 
 def verify(book, data, baseline=None):
-    if not all(name in book for name in EXPECTED_SHEETS):
-        raise AssertionError("Onglet requis manquant")
-    assert_equal(list(book)[:11], EXPECTED_SHEETS[:11], "Onglets historiques déplacés ou supprimés")
+    assert_equal(list(book), EXPECTED_SHEETS, "Onglets historiques ajoutés, déplacés ou supprimés")
     for name, tab in book.items():
         assert_equal(tab["errors"], [], name + " erreurs Excel")
         assert_equal(tab["missing"], [], name + " formules sans résultat enregistré")
@@ -126,7 +145,18 @@ def verify(book, data, baseline=None):
         assert_equal(book["Extension typologies"]["cells"].get(address), expected, "Compteur de variantes " + typology["id"])
         if address not in book["Extension typologies"]["formulas"]:
             raise AssertionError("Compteur de typologie figé : " + address)
-    reconcile("Variantes à concevoir", data["variants"], lambda v: {"B": v["typologyId"], "C": v["domain"], "D": v["typology"], "E": v["number"], "F": v["status"], "J": "Oui" if v["playable"] else "Non"})
+    variant_rows = reconcile("Variantes à concevoir", data["variants"], lambda v: {"B": v["typologyId"], "C": v["domain"], "D": v["typology"], "E": v["number"], "F": v["status"], "J": "Oui" if v["playable"] else "Non"})
+    author_scopes = {t["id"]: t["dimensions_m"]["scope"] for t in data["typologies"] if "choix de composition auteur" in (t.get("dimensions_m") or {}).get("scope", "")}
+    for type_id, scope in author_scopes.items():
+        metric_text = book["Extension typologies"]["cells"].get("I" + str(type_rows[type_id])) or ""
+        if scope not in metric_text:
+            raise AssertionError("Provenance auteur absente des dimensions : " + type_id)
+    for variant in data["variants"]:
+        scope = author_scopes.get(variant["typologyId"])
+        if scope:
+            metric_text = book["Variantes à concevoir"]["cells"].get("H" + str(variant_rows[variant["id"]])) or ""
+            if scope not in metric_text:
+                raise AssertionError("Provenance auteur absente des dimensions : " + variant["id"])
     task_rows = reconcile("Chantiers", data["tasks"], lambda t: {"B": t["typologyId"], "C": t["domain"], "D": t["name"], "E": t["deliverable"], "F": t["priority"], "G": t["status"], "H": t["owner"], "I": t["acceptance"]})
     for task in data["tasks"]:
         proof = book["Chantiers"]["cells"].get("J" + str(task_rows[task["id"]])) or ""
@@ -193,7 +223,22 @@ def verify(book, data, baseline=None):
             total[key] += record[key]
     inspection_sheet = book["Inspection"]
     inspection_rows = mapped_rows(inspection_sheet, len(inspected))
+    last_inspection_data_row = len(inspected) + 5
+    inspection_total_row = last_inspection_data_row + 1
+    inspection_provenance_row = inspection_total_row + 6
     assert_equal(set(inspection_rows), set(inspected), "Typologies de la feuille Inspection")
+    inspection_tables = [table for table in inspection_sheet["tableDetails"] if table["name"] == "InspectionPhysique2026"]
+    assert_equal(len(inspection_tables), 1, "Table native d’inspection")
+    assert_equal(inspection_tables[0]["range"], f"A5:L{last_inspection_data_row}", "Emprise de la table native d’inspection")
+    if inspection_tables[0]["filterRange"] is not None:
+        assert_equal(inspection_tables[0]["filterRange"], f"A5:L{last_inspection_data_row}", "Filtre des typologies inspectées")
+    for merge in inspection_sheet["merges"]:
+        bounds = merge.split(":")
+        first, last = bounds[0], bounds[-1]
+        start_row = int("".join(c for c in first if c.isdigit()))
+        end_row = int("".join(c for c in last if c.isdigit()))
+        if start_row <= last_inspection_data_row and end_row >= 6:
+            raise AssertionError("Fusion recouvrant des données d’inspection : " + merge)
     columns = {"C": "plans", "D": "rooms", "E": "furnishedRooms", "F": "props", "G": "refused", "H": "walls", "I": "transitions", "J": "levels", "K": "passed", "L": "playable"}
     names = {t["id"]: t["name"] for t in data["typologies"]}
     for type_id, aggregate in inspected.items():
@@ -203,14 +248,15 @@ def verify(book, data, baseline=None):
             assert_equal(inspection_sheet["cells"].get(column + str(row)), aggregate[key], "Inspection " + type_id + "/" + key)
     for column, key in columns.items():
         expected = sum(t[key] for t in inspected.values())
-        address = column + "14"
+        address = column + str(inspection_total_row)
         assert_equal(inspection_sheet["cells"].get(address), expected, "Total de l’inspection " + key)
         if address not in inspection_sheet["formulas"]:
             raise AssertionError("Total d’inspection figé : " + address)
+        assert_equal(inspection_sheet["formulas"][address], f"SUM({column}6:{column}{last_inspection_data_row})", "Plage du total d’inspection " + key)
         if key != "playable":
             assert_equal(report["summary"][key], expected, "Somme du rapport " + key)
-    assert_equal(inspection_sheet["cells"].get("C22"), report["sourceHash"], "Empreinte des plans inspectés")
-    assert_equal(inspection_sheet["cells"].get("C25"), data["inspectionReportSha256"], "Empreinte du rapport d’inspection")
+    assert_equal(inspection_sheet["cells"].get("C" + str(inspection_provenance_row + 2)), report["sourceHash"], "Empreinte des plans inspectés")
+    assert_equal(inspection_sheet["cells"].get("C" + str(inspection_provenance_row + 5)), data["inspectionReportSha256"], "Empreinte du rapport d’inspection")
     assert_equal(report["summary"]["lootContainersCreated"], 0, "Stock de campagne ajouté")
     assert_equal(report["summary"]["connectedServices"], 0, "Service de campagne ajouté")
     variant_validation = [v["formula"] for v in book["Variantes à concevoir"]["validationRules"] if v["range"] == "F6:F4005"]
@@ -219,13 +265,21 @@ def verify(book, data, baseline=None):
     assert_equal(book["Légende"]["cells"].get("A27"), "Inspection physique", "Légende du nouveau statut")
 
     if baseline:
-        for name in EXPECTED_SHEETS[:11]:
+        for name in EXPECTED_SHEETS:
             for feature in ("pane", "tables", "validations", "conditionalFormats"):
                 assert_equal(book[name][feature], baseline[name][feature], name + " conservation " + feature)
+        for name in EXPECTED_SHEETS[:11]:
+            assert_equal(book[name]["tableDetails"], baseline[name]["tableDetails"], name + " tables et filtres historiques")
+            assert_equal(book[name]["formulas"], baseline[name]["formulas"], name + " formules historiques")
+        old_inspection_tables = [table for table in baseline["Inspection"]["tableDetails"] if table["name"] == "InspectionPhysique2026"]
+        assert_equal(len(old_inspection_tables), 1, "Table d’inspection source")
+        for feature in ("name", "style", "filterColumns"):
+            assert_equal(inspection_tables[0][feature], old_inspection_tables[0][feature], "Inspection conservation " + feature)
+        assert_equal(inspection_tables[0]["filterRange"] is not None, old_inspection_tables[0]["filterRange"] is not None, "Inspection conservation du filtre")
         for name in ("Règles seed", "Familles existantes", "Références", "Légende"):
             old = {k: v for k, v in baseline[name]["cells"].items() if v is not None}
             new = {k: v for k, v in book[name]["cells"].items() if v is not None}
-            if name == "Légende":
+            if name == "Légende" and "A27" not in old:
                 new.pop("A27", None)
                 new.pop("B27", None)
             assert_equal(new, old, name + " contenu historique")
@@ -249,7 +303,7 @@ def main():
         meta = json.loads(Path(args.metadata).read_text())
         cells = {
             "Accueil": {"subtitle": "A3", "summary": "A23", "details": "A26", "remaining": "A29", "metrics": "A32"},
-            "Publication": {"baseCheckedAt": "B6", "baseCommit": "D6", "sourceCommit": "B7", "targetedTests": "B10", "targetedDetail": "D10", "globalCheck": "B11", "globalDetail": "D11", "globalState": "E11", "integration": "D12"},
+            "Publication": {"baseCheckedAt": "B6", "baseCommit": "D6", "sourceCommit": "B7", "workbookState": "B9", "workbookDetail": "E9", "targetedTests": "B10", "targetedDetail": "D10", "globalCheck": "B11", "globalDetail": "D11", "globalState": "E11", "integration": "D12"},
         }
         for name, fields in cells.items():
             for key, address in fields.items():

@@ -87,7 +87,7 @@
     if (!rect(bounds)) throw Error('Emprise physique invalide.');
     const scene = { version: 1, id: author.id, scope: SCOPE, playable: false, units: 'm', sourceScope: author.scope,
       bounds: { x: bounds.x, y: bounds.y, w: bounds.w, h: bounds.h }, levels: [], rooms: [], surfaces: [], walls: [], solids: [],
-      portals: [], transitions: [], reservations: [], nodes: [], edges: [], entry: null, adaptations: [],
+      portals: [], transitions: [], reservations: [], areas: [], nodes: [], edges: [], entry: null, adaptations: [],
       limits: ['Inspection isolée : aucune implantation dans le seed ni modification de campagne.',
         'Butin, rencontres, services et graphismes définitifs restent des chantiers distincts.'] };
     const nodeMap = new Map(), roomMap = new Map();
@@ -203,6 +203,16 @@
       if (!Array.isArray(author.buildings) || !Array.isArray(author.structures) || !Array.isArray(author.reservedAreas) || !Array.isArray(author.network?.nodes) || !Array.isArray(author.network?.edges) || !Array.isArray(author.network?.externalPorts)) throw Error('Schéma de site incomplet.');
       const ground = addLevel('ground', 0, Math.max(2.8, author.maxHeightM || 2.8));
       addSurface(author.id + ':ground', bounds, 0, 'ground');
+      // Outdoor composition is a visible part of the same plot. Ground remains
+      // the physical support; a planted area does not create a resource owner.
+      const areaIds = new Set();
+      if (author.outdoorAreas !== undefined && !Array.isArray(author.outdoorAreas)) throw Error('Espaces extérieurs invalides.');
+      for (const source of [...author.reservedAreas, ...(author.outdoorAreas || [])]) {
+        if (!rect(source) || !contains(bounds, source) || typeof source.id !== 'string' || areaIds.has(source.id) ||
+            typeof source.kind !== 'string' || source.level !== 0) throw Error('Espace extérieur hors emprise ou répété.');
+        areaIds.add(source.id);
+        scene.areas.push({...clone(source), name: source.name || source.kind, level: 0, inspectionOnly: true});
+      }
       for (const structure of author.structures) {
         if (!rect(structure) || !contains(bounds, structure)) throw Error('Structure hors emprise.');
         scene.solids.push({ id: structure.id, x: structure.x, y: structure.y, w: structure.w, h: structure.h, level: 0, kind: structure.kind, solid: true, accessible: false });
@@ -211,9 +221,16 @@
       for (const source of author.network.nodes) {
         if (source.z !== 0) throw Error('Niveau du réseau de site non pris en charge.');
         const structure = author.structures.find(s => s.id === source.id && s.kind === 'wind-turbine');
-        const y = structure && Math.abs(source.y - structure.y) < EPS ? source.y - .5 : source.y;
-        addNode(source.id, source.x, y, 0);
-        if (y !== source.y) scene.adaptations.push({ kind: 'service-stop-clearance', node: source.id, sourcePosition: { x: source.x, y: source.y }, offsetM: .5 });
+        let x = source.x, y = structure && Math.abs(source.y - structure.y) < EPS ? source.y - .5 : source.y;
+        if (author.network.externalPorts.some(port => port.node === source.id)) {
+          if (Math.abs(x - bounds.x) < EPS) x += .5;
+          else if (Math.abs(x - bounds.x - bounds.w) < EPS) x -= .5;
+          if (Math.abs(y - bounds.y) < EPS) y += .5;
+          else if (Math.abs(y - bounds.y - bounds.h) < EPS) y -= .5;
+          if (x !== source.x || y !== source.y) scene.adaptations.push({kind: 'external-port-inside-boundary', node: source.id, sourcePosition: {x: source.x, y: source.y}, offsetM: .5});
+        }
+        addNode(source.id, x, y, 0);
+        if (structure && y !== source.y) scene.adaptations.push({ kind: 'service-stop-clearance', node: source.id, sourcePosition: { x: source.x, y: source.y }, offsetM: .5 });
       }
       for (const source of author.network.edges) {
         if (source.level !== 0) throw Error('Changement de niveau routier implicite.');
@@ -261,7 +278,9 @@
       else if (Math.abs(x - bounds.x - bounds.w) < EPS) x -= .5;
       scene.entry = { x, y, level: 0, node: entryNode.id, kind: 'site-gate', connectedToWorld: false };
       if (x !== entryNode.x || y !== entryNode.y) { entryNode.x = x; entryNode.y = y; scene.adaptations.push({ kind: 'entry-inside-boundary', offsetM: .5 }); }
-      scene.limits.push('Les tribunes et les fûts d’éoliennes sont des volumes fermés ; leurs intérieurs ne sont pas réalisés.', 'Les voies de service sont inspectées à pied ; ce module ne qualifie aucun gabarit de véhicule.');
+      if (author.structures.some(s => ['stand', 'wind-turbine'].includes(s.kind))) scene.limits.push('Les tribunes et les fûts d’éoliennes sont des volumes fermés ; leurs intérieurs ne sont pas réalisés.');
+      if (scene.areas.length && !safe) scene.limits.push('Les jardins, cultures et cours décrivent un aménagement auteur ; aucune récolte ni production n’est créée.');
+      scene.limits.push('Les voies de service sont inspectées à pied ; ce module ne qualifie aucun gabarit de véhicule.');
     }
     for (const room of scene.rooms) if (room.kind !== 'circulation' && !scene.portals.some(p => p.to === room.id)) throw Error('Pièce sans ouverture physique.');
     return freeze(scene);
@@ -330,6 +349,13 @@
       for (const box of [...scene.rooms, ...scene.surfaces, ...scene.walls, ...scene.solids]) {
         if (!rect(box) || !indices.has(box.level) || !contains(scene.bounds, box) || typeof box.id !== 'string' || shapeIds.has(box.id)) reject('invalid-box', box.id);
         shapeIds.add(box.id);
+      }
+      const areaIds = new Set();
+      if (scene.areas !== undefined && !Array.isArray(scene.areas)) reject('invalid-outdoor-areas', scene.id);
+      for (const area of scene.areas || []) {
+        if (!rect(area) || !contains(scene.bounds, area) || !indices.has(area.level) || typeof area.id !== 'string' ||
+            areaIds.has(area.id) || typeof area.kind !== 'string' || area.inspectionOnly !== true) reject('invalid-outdoor-area', area?.id);
+        areaIds.add(area.id);
       }
       for (let i = 0; i < scene.rooms.length; i++) for (let j = i + 1; j < scene.rooms.length; j++) if (scene.rooms[i].level === scene.rooms[j].level && overlaps(scene.rooms[i], scene.rooms[j])) reject('overlapping-rooms', scene.rooms[i].id);
       for (const r of scene.rooms) if (blocked(scene, r.x + r.w / 2, r.y + r.h / 2, r.level, radius)) reject('room-centre-blocked', r.id);

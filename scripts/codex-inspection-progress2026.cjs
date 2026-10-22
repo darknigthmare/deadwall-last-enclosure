@@ -8,7 +8,7 @@ const REPORT='docs/codex/suivi-monde2026/inspection-20261021.json';
 const SCOPE='inspection-only';
 function checkedReport(root){
  const report=JSON.parse(fs.readFileSync(path.join(root,REPORT),'utf8'));
- if(report.version!==1||report.scope!==SCOPE||report.campaignPlayable!==0||report.sourceHash!==Layouts.sourceHash||report.failures.length||report.records.length!==400)throw Error('Preuve d’inspection absente, incomplète ou périmée');
+ if(report.version!==1||report.scope!==SCOPE||report.campaignPlayable!==0||report.sourceHash!==Layouts.sourceHash||!Array.isArray(report.failures)||report.failures.length||!Array.isArray(report.records)||report.records.length!==Layouts.count)throw Error('Preuve d’inspection absente, incomplète ou périmée');
  if(!Array.isArray(report.sources)||JSON.stringify(report.sources.map(s=>s.path).sort())!==JSON.stringify([...SOURCE_FILES].sort()))throw Error('Provenance d’inspection incomplète');
  for(const source of report.sources){
   if(typeof source.path!=='string'||path.isAbsolute(source.path)||source.path.split(/[\\/]/).includes('..'))throw Error('Chemin de preuve invalide');
@@ -36,12 +36,12 @@ function patch(data,root=path.resolve(__dirname,'..')){
   changes.inProgress.push(task.id);
  }
  for(const type of out.typologies)if(types.has(type.id)){
-  if(!['Gabarit métrique','Avant-projet maritime','Inspection physique'].includes(type.status))throw Error('Typologie modifiée ailleurs : '+type.id);
+  if(!['Gabarit métrique','Avant-projet maritime','Avant-projet terrestre','Inspection physique'].includes(type.status))throw Error('Typologie modifiée ailleurs : '+type.id);
   type.status='Inspection physique';type.scope='50 plans inspectables dans le Guide auteur ; géométrie partielle et campagne encore ouvertes.';type.inspectionEvidence=PROOF;
  }
  for(const variant of out.variants){
   const record=records.get(variant.id);if(!record)continue;
-  if(!['Gabarit métrique','Avant-projet maritime','Inspection physique'].includes(variant.status)||variant.playable!==false||variant.spawnWeight!==null)throw Error('Variante modifiée ailleurs : '+variant.id);
+  if(!['Gabarit métrique','Avant-projet maritime','Avant-projet terrestre','Inspection physique'].includes(variant.status)||variant.playable!==false||variant.spawnWeight!==null)throw Error('Variante modifiée ailleurs : '+variant.id);
   variant.status='Inspection physique';variant.evidence=PROOF;
   variant.inspection={version:1,scope:SCOPE,report:REPORT,sourceHash:Layouts.sourceHash,rooms:record.rooms,furnishedRooms:record.furnishedRooms,props:record.props,refused:record.refused,levels:record.levels,walls:record.walls,transitions:record.transitions};
   // A partial physical inspection does not certify the complete architecture.
@@ -49,7 +49,7 @@ function patch(data,root=path.resolve(__dirname,'..')){
   variant.note='Pièces décrites, murs, portes, niveaux et mobilier inspectables à l’échelle. Volumes réservés, raccord au seed, butin, rencontres et services de campagne restent à terminer.';
   changes.inspectionVariants.push(variant.id);
  }
- if(changes.inProgress.length!==32||changes.inspectionVariants.length!==400)throw Error('Cibles d’inspection absentes ou dupliquées');
+ if(changes.inProgress.length!==Layouts.types.length*4||changes.inspectionVariants.length!==Layouts.count)throw Error('Cibles d’inspection absentes ou dupliquées');
  return {data:out,changes};
 }
 module.exports={patch,checkedReport,PROOF,REPORT,SCOPE};

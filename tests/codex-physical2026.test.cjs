@@ -10,7 +10,7 @@ const clone = value => JSON.parse(JSON.stringify(value));
 const ship = (type = 'EXT-MONDE-T006', number = 1) => P.build(M.build(type, number));
 const terrain = (type = 'EXT-MONDE-T065', number = 1) => P.build(F.build(type, number));
 
-test('all 400 authored layouts have physically connected rooms at the player radius', () => {
+test('the 400 historical authored layouts retain physically connected rooms at the player radius', () => {
   let variants = 0, rooms = 0, levels = 0, transitions = 0;
   for (const [lib, types] of [[M, Object.keys(M.PROFILES)], [F, F.TYPES]]) for (const type of types) for (let n = 1; n <= 50; n++) {
     const author = lib.build(type, n), before = JSON.stringify(author), scene = P.build(author), report = P.audit(scene);
@@ -115,6 +115,106 @@ test('wind turbine rotor sweep is not a ground collider and service stops do not
     assert.equal(P.blocked(scene, tower.x + tower.w / 2, tower.y + tower.h / 2, 0), true);
     assert.equal(P.blocked(scene, tower.x + tower.w + 3, tower.y + tower.h / 2, 0), false);
   }
+});
+
+function outdoorFixture(horizontal = false) {
+  const bounds = { x: 10, y: 20, w: 20, h: 16 };
+  return { id: 'physical-outdoor-fixture', units: 'm', playable: false, scope: 'author-metric-layout-not-live-world',
+    bounds, maxHeightM: 2.8, buildings: [], structures: [],
+    reservedAreas: [{ id: 'fixture-garden', kind: 'vegetable-garden', x: 12, y: 23, w: 4, h: 4, level: 0,
+      origin: 'author-design', lootAssigned: false, utilityConnected: false }],
+    outdoorAreas: [{ id: 'fixture-terrace', kind: 'terrace', name: 'Terrasse commune', x: 23, y: 24, w: 4, h: 5,
+      level: 0, walkable: true, origin: 'author-design', lootAssigned: false, utilityConnected: false }],
+    network: {
+      nodes: [
+        { id: 'fixture-entry', x: horizontal ? 10 : 20, y: horizontal ? 28 : 20, z: 0 },
+        { id: 'fixture-centre', x: 20, y: 28, z: 0 },
+        { id: 'fixture-exit', x: horizontal ? 30 : 20, y: horizontal ? 28 : 36, z: 0 }
+      ],
+      edges: [
+        { id: 'fixture-access', from: 'fixture-entry', to: 'fixture-centre', widthM: 1.2, mode: 'pedestrian', level: 0 },
+        { id: 'fixture-service', from: 'fixture-centre', to: 'fixture-exit', widthM: 1.2, mode: 'pedestrian', level: 0 }
+      ],
+      externalPorts: [
+        { node: 'fixture-entry', requires: 'local-road', connectedToWorld: false },
+        { node: 'fixture-exit', requires: 'service-road', connectedToWorld: false }
+      ]
+    }
+  };
+}
+
+for (const horizontal of [false, true]) test('every ' + (horizontal ? 'west/east' : 'north/south') + ' boundary port admits the body without moving author coordinates', () => {
+  const author = outdoorFixture(horizontal), before = JSON.stringify(author), scene = P.build(author), report = P.audit(scene);
+  assert.equal(report.ok, true, JSON.stringify(report.errors));
+  assert.equal(JSON.stringify(author), before);
+  const first = scene.nodes.find(n => n.id === 'fixture-entry'), last = scene.nodes.find(n => n.id === 'fixture-exit');
+  assert.deepEqual([first.x, first.y, last.x, last.y], horizontal ? [10.5, 28, 29.5, 28] : [20, 20.5, 20, 35.5]);
+  for (const source of author.network.externalPorts) {
+    const node = scene.nodes.find(n => n.id === source.node), original = author.network.nodes.find(n => n.id === source.node);
+    assert.equal(P.blocked(scene, node.x, node.y, node.level), false, source.node);
+    const adaptation = scene.adaptations.find(a => a.kind === 'external-port-inside-boundary' && a.node === source.node);
+    assert.ok(adaptation, source.node); assert.equal(adaptation.offsetM, .5);
+    assert.deepEqual(adaptation.sourcePosition, { x: original.x, y: original.y });
+    assert.equal(source.connectedToWorld, false);
+  }
+  assert.deepEqual([scene.entry.x, scene.entry.y], [first.x, first.y]);
+  const moved = P.move(scene, first, last.x - first.x, last.y - first.y);
+  assert.equal(moved.ok, true); assert.equal(moved.blocked, false);
+  assert.ok(Math.hypot(moved.pose.x - last.x, moved.pose.y - last.y) < 1e-8);
+  const returned = P.move(scene, last, first.x - last.x, first.y - last.y);
+  assert.equal(returned.blocked, false); assert.ok(Math.hypot(returned.pose.x - first.x, returned.pose.y - first.y) < 1e-8);
+});
+
+test('reserved gardens and outdoor terraces remain labelled inspection areas without new resources or colliders', () => {
+  const author = outdoorFixture(true), before = JSON.stringify(author), scene = P.build(author), emptyAuthor = clone(author);
+  emptyAuthor.reservedAreas = []; emptyAuthor.outdoorAreas = [];
+  const emptyScene = P.build(emptyAuthor);
+  assert.equal(scene.areas.length, 2); assert.ok(Object.isFrozen(scene.areas) && scene.areas.every(Object.isFrozen));
+  for (const source of [...author.reservedAreas, ...author.outdoorAreas]) {
+    const area = scene.areas.find(a => a.id === source.id);
+    assert.deepEqual(area, { ...source, name: source.name || source.kind, level: 0, inspectionOnly: true });
+    assert.equal(area.lootAssigned, false); assert.equal(area.utilityConnected, false);
+    for (const quantity of ['amount', 'quantity', 'resources', 'inventory']) assert.equal(Object.hasOwn(area, quantity), false);
+  }
+  for (const geometry of ['surfaces', 'walls', 'solids', 'nodes', 'edges']) assert.deepEqual(scene[geometry], emptyScene[geometry]);
+  assert.equal(Object.hasOwn(scene, 'resources'), false); assert.equal(Object.hasOwn(scene, 'inventory'), false);
+  assert.equal(scene.playable, false); assert.equal(P.audit(scene).ok, true);
+  assert.equal(P.segmentClear(scene, { x: 21, y: 28 }, { x: 28, y: 28 }, 0), true, 'a walkable terrace does not create an invisible obstacle');
+  assert.equal(JSON.stringify(author), before);
+});
+
+test('outdoor author rectangles, levels and identifiers are checked across both area collections', () => {
+  for (const [label, mutate] of [
+    ['not an array', a => { a.outdoorAreas = {}; }],
+    ['zero width', a => { a.outdoorAreas[0].w = 0; }],
+    ['non-finite height', a => { a.outdoorAreas[0].h = NaN; }],
+    ['outside the west bound', a => { a.outdoorAreas[0].x = 9.9; }],
+    ['outside the east bound', a => { a.outdoorAreas[0].x = 29.9; }],
+    ['wrong ground level', a => { a.outdoorAreas[0].level = 1; }],
+    ['missing kind', a => { delete a.outdoorAreas[0].kind; }],
+    ['duplicate outdoor ID', a => { a.outdoorAreas.push(clone(a.outdoorAreas[0])); }],
+    ['duplicate ID across reserved and outdoor areas', a => { a.outdoorAreas[0].id = a.reservedAreas[0].id; }],
+    ['malformed reserved area', a => { a.reservedAreas[0].h = -1; }]
+  ]) {
+    const author = outdoorFixture(); mutate(author); const before = JSON.stringify(author);
+    assert.throws(() => P.build(author), undefined, label); assert.equal(JSON.stringify(author), before, label);
+  }
+});
+
+test('corrupt scene areas fail audit when bounds, uniqueness, levels or inspection scope are lost', () => {
+  const good = P.build(outdoorFixture());
+  for (const [label, mutate] of [
+    ['negative area', s => { s.areas[0].w = -1; }],
+    ['outside area', s => { s.areas[0].y = 19; }],
+    ['duplicate area', s => { s.areas.push(clone(s.areas[0])); }],
+    ['unknown level', s => { s.areas[0].level = 9; }],
+    ['lost inspection-only scope', s => { s.areas[0].inspectionOnly = false; }]
+  ]) {
+    const scene = clone(good); mutate(scene); const report = P.audit(scene);
+    assert.equal(report.ok, false, label); assert.ok(report.errors.some(e => e.code === 'invalid-outdoor-area'), label);
+  }
+  const badCollection = clone(good); badCollection.areas = {};
+  assert.equal(P.audit(badCollection).ok, false);
 });
 
 test('support checks catch a one-centimetre unsupported gap between two floors', () => {

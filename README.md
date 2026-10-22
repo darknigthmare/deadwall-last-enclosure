@@ -6,7 +6,7 @@ Le nouveau quartier local réserve de vraies parcelles et adapte les 21 ensemble
 
 ## Production du Codex mondial — reprise 2026
 
-Le Guide auteur (`?tools=1`) permet d’inspecter 400 plans de travail avec murs, portes, niveaux et mobilier à l’échelle : cinq types de navires, un parc éolien et deux stades, avec 50 variantes chacun. Le déplacement du gabarit piéton respecte les obstacles et les paliers. Ces plans ne sont pas encore implantés dans les campagnes. Le [dossier d’inspection](docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) détaille les commandes, les preuves et les parties à terminer ; le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) conserve les 80 typologies, 4 000 objectifs de variantes et 800 tâches.
+Le Guide auteur (`?tools=1`) permet d’inspecter 1 000 plans de travail avec murs, portes, niveaux et mobilier à l’échelle : cinq types de navires, un parc éolien, deux stades, huit activités agricoles et quatre types résidentiels, avec 50 variantes chacun. Les jardins, cours, cultures, clôtures et passages sont visibles dans le même plan. Le déplacement du gabarit piéton respecte les obstacles et les paliers. Ces plans ne sont pas encore implantés dans les campagnes. Le [dossier d’inspection](docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) détaille les commandes, les preuves et les parties à terminer ; le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) conserve les 80 typologies, 4 000 objectifs de variantes et 800 tâches.
 
 ## Historique conservé — 1.68.0
 

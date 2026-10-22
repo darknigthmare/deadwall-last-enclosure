@@ -20,7 +20,7 @@
     return value;
   };
   const norm = value => String(value || '').normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    .replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/œ/g, 'oe').trim();
   const positive = value => Number.isFinite(value) && value > 0;
   const rectangle = value => value && [value.x, value.y, value.w, value.h].every(Number.isFinite) && value.w > 0 && value.h > 0;
   const hit = (a, b, gap = 0) => a.x < b.x + b.w + gap - 1e-8 && a.x + a.w > b.x - gap + 1e-8 &&
@@ -66,11 +66,36 @@
     singleBunk: {name: 'Couchette individuelle', w: 2, h: .75, heightM: 1.7,
       sourceDimensions: 'author-design:single-bunk', lootEligible: false},
     shower: {name: 'Cabine de douche', w: .9, h: .9, heightM: 2,
-      sourceDimensions: 'author-design:shower', lootEligible: false}
+      sourceDimensions: 'author-design:shower', lootEligible: false},
+    feedTrough: {name: 'Mangeoire', w: 2, h: .5, heightM: .65,
+      sourceDimensions: 'author-design:feed-trough', lootEligible: false},
+    waterTrough: {name: 'Abreuvoir', w: 1.2, h: .5, heightM: .6,
+      sourceDimensions: 'author-design:water-trough', lootEligible: false},
+    fodderRack: {name: 'Râtelier à fourrage', w: 1.6, h: .6, heightM: 1.3,
+      sourceDimensions: 'author-design:fodder-rack', lootEligible: false},
+    milkingUnit: {name: 'Poste de traite', w: 1.1, h: .8, heightM: 1.6,
+      sourceDimensions: 'author-design:milking-unit', lootEligible: false},
+    milkVat: {name: 'Cuve à lait', w: 1.5, h: 1.3, heightM: 1.8,
+      sourceDimensions: 'author-design:milk-vat', lootEligible: false},
+    nestBox: {name: 'Pondoir', w: 1.2, h: .5, heightM: .8,
+      sourceDimensions: 'author-design:nest-box', lootEligible: false},
+    wineVat: {name: 'Cuve vinicole', w: 1.6, h: 1.6, heightM: 2.2,
+      sourceDimensions: 'author-design:wine-vat', lootEligible: false},
+    wineBarrel: {name: 'Fût de chai', w: .8, h: .8, heightM: .95,
+      sourceDimensions: 'author-design:wine-barrel', lootEligible: false},
+    grapePress: {name: 'Pressoir', w: 1.4, h: 1.2, heightM: 1.8,
+      sourceDimensions: 'author-design:grape-press', lootEligible: false},
+    veterinaryTable: {name: 'Table de soins vétérinaires', w: 1.3, h: .7, heightM: .85,
+      sourceDimensions: 'author-design:veterinary-table', lootEligible: false},
+    growingBench: {name: 'Table de semis', w: 1.6, h: .7, heightM: .85,
+      sourceDimensions: 'author-design:growing-bench', lootEligible: false},
+    growingBed: {name: 'Bac de culture', w: 1.8, h: .7, heightM: .65,
+      sourceDimensions: 'author-design:growing-bed', lootEligible: false}
   });
 
   const PROFILES = freeze({
     sleeping: ['singleBunk', 'wardrobe', 'smallCabinet'],
+    bedroom: ['bed', 'wardrobe', 'smallCabinet'],
     living: ['sofa', 'table', 'smallCabinet', 'chair'],
     dining: ['table', 'chair', 'chair', 'smallCabinet'],
     kitchen: ['sink', 'steelTable', 'oven', 'fridge', 'dishRack'],
@@ -93,12 +118,37 @@
     pumps: ['pump', 'pump', 'electricalRack', 'toolbox'],
     controls: ['desk', 'electricalRack', 'chair', 'smallCabinet'],
     guard: ['desk', 'wardrobe', 'chair', 'smallCabinet'],
-    sports: ['shelf', 'bench', 'crate']
+    sports: ['shelf', 'bench', 'crate'],
+    livestock: ['feedTrough', 'waterTrough', 'fodderRack'],
+    poultry: ['nestBox', 'nestBox', 'feedTrough', 'waterTrough'],
+    milking: ['milkingUnit', 'milkingUnit', 'sink'],
+    dairy: ['milkVat', 'steelTable', 'sink'],
+    produce: ['steelTable', 'crate', 'shelf', 'sink'],
+    winery: ['wineBarrel', 'wineBarrel', 'shelf'],
+    fermentation: ['wineVat', 'wineVat', 'pump'],
+    pressing: ['grapePress', 'steelTable', 'crate'],
+    veterinary: ['medical', 'veterinaryTable', 'sink', 'smallCabinet'],
+    greenhouse: ['growingBench', 'growingBed', 'pump', 'crate'],
+    coldStores: ['fridge', 'steelTable', 'crate']
   });
 
   function classify(name) {
     const n = norm(name);
     if (!n || /circulation|couloir|coursive/.test(n)) return null;
+    if (/infirmerie veterinaire|soins veterinaires/.test(n)) return 'veterinary';
+    if (/stabulation|velage|bergerie|agnelage|boxes? (?:equestres?|de repos)/.test(n)) return 'livestock';
+    if (/poulailler|poussiniere/.test(n)) return 'poultry';
+    if (/salle de traite/.test(n)) return 'milking';
+    if (/local du lait|laiterie/.test(n)) return 'dairy';
+    if (/local oeufs|conditionnement|tri et calibrage/.test(n)) return 'produce';
+    if (/serre semis|serre culture/.test(n)) return 'greenhouse';
+    if (/stockage refrigere/.test(n)) return 'coldStores';
+    if (/cuverie/.test(n)) return 'fermentation';
+    if (/pressoir/.test(n)) return 'pressing';
+    if (/\bchais?\b/.test(n)) return 'winery';
+    if (/local semences|local grains|reserve fourrage|sellerie|local alimentation/.test(n)) return 'stores';
+    if (/chambre parentale|chambre double/.test(n)) return 'bedroom';
+    if (/chambre/.test(n)) return 'sleeping';
     if (/douches?/.test(n)) return 'showers';
     if (/sanitaires?|\bwc\b/.test(n)) return 'sanitary';
     if (/reserve (seche|alimentaire)/.test(n)) return 'pantry';
@@ -109,7 +159,7 @@
     if (/buanderie|lingerie/.test(n)) return 'laundry';
     if (/vestiaire|rangement individuel/.test(n)) return 'changing';
     if (/cabine|dortoir|repos/.test(n)) return 'sleeping';
-    if (/salon|club-house|vie a bord/.test(n)) return 'living';
+    if (/salon|sejour|club-house|vie a bord/.test(n)) return 'living';
     if (/reception|^accueil$|consignes/.test(n)) return 'reception';
     if (/reunion/.test(n)) return 'meeting';
     if (/archives|cartes/.test(n)) return 'archives';

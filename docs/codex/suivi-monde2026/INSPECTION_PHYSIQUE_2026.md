@@ -2,40 +2,54 @@
 
 ## Périmètre de cette reprise
 
-Les 400 plans auteur déjà amorcés deviennent inspectables dans le Guide auteur de DEADWALL. Le dessin utilise les mêmes murs, ouvertures, sols et emprises de mobilier que les contrôles de collision. Le disque piéton a un rayon de 0,32 m. Les pièces et les objets conservent leurs dimensions déclarées en mètres ; un objet trop grand est refusé et comptabilisé.
+Les 1 000 plans auteur produits deviennent inspectables dans le Guide auteur de DEADWALL. Le dessin utilise les mêmes murs, ouvertures, sols et emprises de mobilier que les contrôles de collision. Le disque piéton a un rayon de 0,32 m. Les pièces et les objets conservent leurs dimensions déclarées en mètres ; un objet trop grand est refusé et comptabilisé.
+
+La reprise du 22 octobre ajoute 600 plans aux 400 précédents : huit activités agricoles (T021–T028) et quatre types résidentiels (T045–T048), avec 50 variantes chacun. Les [plans agricoles](AGRICULTURE_2026.md) décrivent locaux de production, habitation, jardin et parcelles ; les [plans résidentiels](RESIDENTIEL_2026.md) décrivent logements, services, jardins, terrasses et boucles de desserte. Ces cotes originales restent des choix auteur.
 
 Ces scènes constituent un outil de production intégré au Guide. Elles ne sont pas implantées dans le monde de campagne : `playable:false`, aucun poids d’apparition, aucun stock de butin, aucun ennemi ajouté et aucun service raccordé. Le libellé « Inspection physique » du suivi désigne précisément ce périmètre.
 
 | Typologie | Plans | Pièces décrites hors circulations | Équipements placés | Demandes refusées |
 |---|---:|---:|---:|---:|
-| T005 — cargo | 50 | 1 680 | 4 141 | 1 817 |
-| T006 — pétrolier | 50 | 2 800 | 10 015 | 0 |
-| T007 — navire de guerre de surface | 50 | 1 600 | 5 815 | 0 |
-| T008 — sous-marin en surface | 50 | 600 | 848 | 1 255 |
-| T011 — navire de soutien offshore | 50 | 1 600 | 4 424 | 1 178 |
-| T060 — parc éolien | 50 | 600 | 2 200 | 0 |
-| T065 — stade municipal | 50 | 2 000 | 7 140 | 110 |
-| T066 — stade couvert | 50 | 2 000 | 7 140 | 110 |
-| **Total** | **400** | **12 880** | **41 723** | **4 470** |
+| T005 — Cargo polyvalent | 50 | 1 680 | 4 141 | 1 817 |
+| T006 — Pétrolier océanique | 50 | 2 800 | 10 015 | 0 |
+| T007 — Croiseur militaire abandonné | 50 | 1 600 | 5 815 | 0 |
+| T008 — Sous-marin en surface | 50 | 600 | 848 | 1 255 |
+| T011 — Navire de soutien offshore | 50 | 1 600 | 4 424 | 1 178 |
+| T021 — Ferme laitière | 50 | 1 400 | 4 950 | 0 |
+| T022 — Élevage ovin | 50 | 1 400 | 5 100 | 0 |
+| T023 — Ferme avicole | 50 | 1 400 | 5 050 | 0 |
+| T024 — Centre équestre rural | 50 | 1 400 | 5 100 | 0 |
+| T025 — Exploitation céréalière | 50 | 1 300 | 4 850 | 0 |
+| T026 — Domaine viticole | 50 | 1 300 | 4 700 | 0 |
+| T027 — Ferme maraîchère | 50 | 1 400 | 5 200 | 0 |
+| T028 — Verger avec conditionnement | 50 | 1 300 | 4 800 | 0 |
+| T045 — Parc résidentiel de mobil-homes | 50 | 2 460 | 7 004 | 1 966 |
+| T046 — Camping caravanes | 50 | 900 | 2 880 | 420 |
+| T047 — Camp de travailleurs | 50 | 2 560 | 8 168 | 272 |
+| T048 — Parc de caravanes abandonné | 50 | 1 290 | 3 925 | 805 |
+| T060 — Champ d’éoliennes | 50 | 600 | 2 200 | 0 |
+| T065 — Stade municipal | 50 | 2 000 | 7 140 | 110 |
+| T066 — Grand stade couvert | 50 | 2 000 | 7 140 | 110 |
+| **Total** | **1 000** | **30 990** | **103 450** | **7 933** |
 
-Le rapport [inspection-20261021.json](inspection-20261021.json) contient une preuve par variante, les empreintes SHA-256 des sources vérifiées et les résultats de contrôle. Il compte 12 850 pièces meublées, 89 730 segments de mur, 1 300 niveaux ou paliers et 900 transitions. Trente pièces restent sans objet après les contrôles de dimensions et de dégagement. Ces totaux décrivent les variantes de travail ; ils ne représentent pas autant de bâtiments dans une partie.
+Le rapport [inspection-20261021.json](inspection-20261021.json) contient une preuve par variante, les empreintes SHA-256 des sources vérifiées et les résultats de contrôle. La preuve du 22 octobre compte 30 960 pièces meublées, 224 885 segments de mur, 1 900 niveaux ou paliers et 900 transitions. Le nom de fichier historique est conservé ; `generatedAt` et les empreintes identifient la passe courante. Trente pièces restent sans objet après les contrôles de dimensions et de dégagement. Ces totaux décrivent les variantes de travail ; ils ne représentent pas autant de bâtiments dans une partie.
 
 ## Utilisation dans le jeu
 
 1. Démarrer la version web avec `npm start`, puis ouvrir son adresse avec `?tools=1`. Le mode auteur est nécessaire ; les menus de l’entrée joueur normale restent inchangés.
 2. Ouvrir Commandement → Opérations → Atlas & Guide, puis « CODEX MONDIAL — INSPECTER LES NOUVEAUX PLANS ».
-3. Choisir un lieu et une variante. Les 80 cibles sont affichées ; huit disposent de 50 plans. Les 72 autres indiquent qu’aucun plan n’a été produit.
+3. Choisir un lieu et une variante. Les 80 cibles sont affichées ; vingt disposent de 50 plans. Les 60 autres indiquent qu’aucun plan n’a été produit.
 4. Utiliser le plan général pour examiner les étages. La vue de déplacement suit le piéton. Les flèches, ZQSD ou WASD déplacent le gabarit ; les boutons offrent les mêmes déplacements sur écran tactile.
 5. À proximité d’un palier, utiliser le bouton de passage ou la touche E. Sélectionner un étage à observer ne déplace pas le piéton.
 6. « Mémoriser l’inspection » conserve la position et les pièces visitées dans cette consultation. « Reprendre l’inspection » restaure ce point après reconstruction et validation du plan. Changer de variante efface ce point ; recharger la page ne conserve pas une inspection.
 
-Cliquer une pièce affiche ses dimensions et les dimensions au sol de son équipement. Le panneau indique les prescriptions non posées et les limites du plan.
+Cliquer une pièce, un jardin, une cour ou une terrasse affiche ses dimensions et les dimensions au sol de son équipement. Le panneau indique les prescriptions non posées et les limites du plan.
 
 ## Géométrie et mobilier
 
-`src/codex-layouts2026.js` est généré par `scripts/compile-codex-inspection2026.cjs` à partir des deux générateurs auteur, des références métriques et de la liste des objectifs. Les plans sont produits à la demande ; les 400 géométries ne sont pas précalculées à chaque démarrage. La parité avec les sources est testée.
+`src/codex-layouts2026.js` est généré par `scripts/compile-codex-inspection2026.cjs` à partir du registre `scripts/codex-generators2026.cjs` et de ses quatre générateurs auteur, des références métriques et de la liste des objectifs. Les plans sont produits à la demande ; les 1 000 géométries ne sont pas précalculées à chaque démarrage. La parité avec les sources est testée.
 
-`src/codex-physical2026.js` transforme chaque plan en surfaces, cloisons interrompues aux portes, parcours et liaisons de niveaux. La collision vérifie le trajet continu du disque piéton, y compris les murs fins et les trous de sol, et exige un palier libre pour chaque transition.
+`src/codex-physical2026.js` transforme chaque plan en surfaces, cloisons interrompues aux portes, parcours et liaisons de niveaux. La collision vérifie le trajet continu du disque piéton, y compris les murs fins et les trous de sol, et exige un palier libre pour chaque transition. Chaque port extérieur est adapté de 0,5 m à l’intérieur de la limite pour permettre le passage du disque, sans modifier le plan auteur. Les clôtures gardent leurs ouvertures réelles, les bassins restent des obstacles, et les jardins et cultures sont des surfaces nommées, sans production de ressources.
 
 `src/codex-furnishings2026.js` affecte des équipements selon l’usage de la pièce. Les dimensions des objets existants viennent des catalogues du jeu ; les rares formes ajoutées et les hauteurs de composition sont déclarées comme choix auteur. Les portes, le parcours vers le centre et la face d’utilisation des objets restent accessibles. Le module ne distribue ni ressources ni énergie. Voir [AMENAGEMENTS_2026.md](AMENAGEMENTS_2026.md) pour les règles et les refus.
 
@@ -51,11 +65,11 @@ Cliquer une pièce affiche ses dimensions et les dimensions au sol de son équip
 
 ## Réconciliation du suivi et de l’Excel
 
-Le patch `scripts/codex-inspection-progress2026.cjs` s’applique après les étapes métriques et maritimes. Il contrôle les 400 identifiants et les empreintes des sources du rapport avant d’actualiser le suivi. Une source modifiée impose de régénérer la preuve ; une tâche modifiée ailleurs n’est pas écrasée silencieusement.
+Le patch `scripts/codex-inspection-progress2026.cjs` s’applique après les étapes métriques, maritimes et terrestres. Il contrôle les 1 000 identifiants et les empreintes des sources du rapport avant d’actualiser le suivi. Une source modifiée impose de régénérer la preuve ; une tâche modifiée ailleurs n’est pas écrasée silencieusement.
 
-Les 400 variantes prennent le statut « Inspection physique », tandis que `architecture` reste vide pour la réception de l’architecture complète, `spawnWeight` reste vide et `playable` reste faux. Les étapes architecture, objets, sauvegarde et QA des huit typologies sont **en cours**, avec une description de la partie livrée et du reste à faire. Les trois validations métriques précédentes sont conservées.
+Les 1 000 variantes prennent le statut « Inspection physique », tandis que `architecture` reste vide pour la réception de l’architecture complète, `spawnWeight` reste vide et `playable` reste faux. Les étapes architecture, objets, sauvegarde et QA des vingt typologies sont **en cours**, avec une description de la partie livrée et du reste à faire. Les trois validations métriques précédentes sont conservées. Les dimensions des douze nouvelles typologies restent en cours : un contrôle géométrique de cotes auteur ne valide pas des références réelles.
 
-Le total est **3 tâches validées, 37 en cours et 760 à faire**, sur 800. Il reste **3 600 variantes à concevoir** et **zéro nouvelle variante jouable en campagne**. Les 4 000 programmes historiques et leurs identifiants ne sont pas remplacés par ces objectifs.
+Le total est **3 tâches validées, 97 en cours et 700 à faire**, sur 800. Il reste **3 000 variantes à concevoir** et **zéro nouvelle variante jouable en campagne**. Les 4 000 programmes historiques et leurs identifiants ne sont pas remplacés par ces objectifs.
 
 Le classeur conserve les feuilles historiques et ajoute une matrice des dix étapes pour chacune des 80 typologies ainsi qu’une feuille Inspection. L’export calcule les formules, et un lecteur XML indépendant vérifie les valeurs, les identifiants, les états, les validations et la conservation des fonctions du classeur d’origine. Le compteur de validations sans preuve a un test négatif dédié.
 
