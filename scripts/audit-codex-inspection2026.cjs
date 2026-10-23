@@ -18,6 +18,8 @@ const SOURCE_FILES=Object.freeze([
   'src/codex-physical2026.js',
   'src/codex-furnishings2026.js',
   'src/codex-inspection2026.js',
+  'src/codex-plan-art204.js',
+  'src/codex-inspection2026-ui.js',
   'src/frontier-geometry.js',
   'src/seed-detail157.js',
   'src/core.js'

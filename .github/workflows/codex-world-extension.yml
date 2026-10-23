@@ -1,7 +1,7 @@
 name: DEADWALL world codex extension
 on:
   push:
-    branches: [feat/codex-world-extension-20261021]
+    branches: [feat/codex-world-extension-20261021, feat/codex-completion-20261023]
   workflow_dispatch:
 permissions:
   contents: read

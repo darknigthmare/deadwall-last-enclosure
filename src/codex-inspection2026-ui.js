@@ -7,6 +7,33 @@
 })(globalThis, function(root) {
   'use strict';
   const mounted = new WeakMap();
+  function transportEdges(author) {
+    const network = author?.transportNetwork;
+    if (network === undefined) return [];
+    if (!network || network.scope !== 'author-transport-layout-not-operational' || network.operational !== false || network.inspectionAccess !== 'closed' ||
+        !Array.isArray(network.nodes) || !Array.isArray(network.edges)) throw Error('Voies de transport sans statut fermé explicite.');
+    const nodes = new Map(), ids = new Set();
+    for (const n of network.nodes) {
+      if (!n || typeof n.id !== 'string' || !n.id.trim() || nodes.has(n.id) || ![n.x,n.y,n.z].every(Number.isFinite) ||
+          (n.level === null ? n.kind !== 'ramp-point' : !Number.isInteger(n.level) || n.level < 0)) throw Error('Point de voie invalide.');
+      nodes.set(n.id, n);
+    }
+    const result = network.edges.map(e => {
+      if (!e || typeof e !== 'object') throw Error('Tracé de voie invalide.');
+      const a = nodes.get(e.from), b = nodes.get(e.to);
+      const ramp = e.kind === 'ramp' || e.kind === 'approach-ramp';
+      if (!a || !b || a === b || typeof e.id !== 'string' || !e.id.trim() || ids.has(e.id) || !Number.isFinite(e.widthM) || e.widthM <= 0 ||
+          Math.hypot(a.x-b.x,a.y-b.y) <= 1e-8 ||
+          !['road','rail','ramp','runway','taxiway','apron'].includes(e.mode) ||
+          (ramp ? e.level !== null || Math.abs(a.z-b.z) <= 1e-8 ||
+            (e.kind === 'ramp' ? e.mode !== 'ramp' : !['road','rail'].includes(e.mode)) :
+            e.level === null || e.mode === 'ramp' || e.level !== a.level || e.level !== b.level || Math.abs(a.z-b.z)>1e-8)) throw Error('Tracé de voie incohérent.');
+      ids.add(e.id);
+      return {id: e.id, a: {x: a.x,y: a.y,z: a.z}, b: {x: b.x,y: b.y,z: b.z}, widthM: e.widthM,
+        mode: e.mode, kind: e.kind, level: e.level, elevationM: (a.z + b.z) / 2};
+    });
+    return result.sort((a,b) => a.elevationM - b.elevationM || a.id.localeCompare(b.id));
+  }
   function mount(doc, owner) {
     if (!owner || mounted.has(owner)) return mounted.get(owner) || null;
     const el = (tag, text, cls) => {
@@ -43,6 +70,8 @@
     zoom.value = '32';
     const load = el('button', 'OUVRIR LE PLAN'); load.type = 'button'; load.dataset.inspection2026 = 'build'; controls.append(load);
     content.append(controls);
+    const transportInfo = el('p', '', 'inspection2026-help');
+    transportInfo.dataset.inspection2026 = 'transport'; transportInfo.hidden = true; content.append(transportInfo);
     const status = el('p', 'Choisissez un lieu pour commencer.', 'inspection2026-status');
     status.setAttribute('role', 'status'); status.dataset.inspection2026 = 'status';
     const canvas = el('canvas'); canvas.width = 1100; canvas.height = 680;
@@ -72,11 +101,17 @@
     roomInfo.dataset.inspection2026 = 'detail';
     info.append(roomInfo, limitations, refs);
     content.append(status, canvas, walk, el('p', 'Déplacement : flèches, ZQSD ou WASD dans le plan. E : escalier ou échelle à proximité. Le choix d’un étage change uniquement la vue générale. La mémorisation concerne cette inspection.', 'inspection2026-help'), info);
-    let session = null, checkpoint = null, note = '', selected = null, transform = null;
+    let session = null, checkpoint = null, note = '', selected = null, transform = null, closedRoutes = [];
     function generate() {
-      session = null; checkpoint = null; selected = null; note = '';
+      session = null; checkpoint = null; selected = null; note = ''; closedRoutes = [];
+      transportInfo.hidden = true; transportInfo.textContent = '';
       try {
         session = root.DeadwallCodexInspection2026.create(type.value, Number(variant.value));
+        closedRoutes = transportEdges(session.author);
+        if (closedRoutes.length) {
+          transportInfo.hidden = false;
+          transportInfo.textContent = closedRoutes.length + ' tronçons de voies représentés à leur largeur au sol. Ces ouvrages restent fermés : ni conduite, ni trains, ni avions en circulation. Les accès piétons inspectables sont distincts.';
+        }
         floor.replaceChildren();
         for (const l of session.scene.levels) option(floor, l.index, 'Niveau ' + l.index + ' · altitude ' + l.elevationM.toFixed(2) + ' m');
         floor.value = String(session.state.pose.level);
@@ -91,7 +126,7 @@
           a.href = source.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; p.append(a, el('span', ' — ' + source.scope)); refs.append(p);
         }
         refs.append(el('p', 'Les cotes publiées et les compositions créées pour DEADWALL sont distinguées dans les sources. Le diamètre du gabarit piéton est de 0,64 m au sol.'));
-      } catch (e) { note = e.message; }
+      } catch (e) { session = null; closedRoutes = []; note = e.message; }
       render();
     }
     function move(dx, dy) {
@@ -138,9 +173,10 @@
         c.strokeStyle='rgba(36,57,35,.35)';c.lineWidth=.08;
         if(planted)for(let y=area.y+1;y<area.y+area.h;y+=2){c.beginPath();c.moveTo(area.x,y);c.lineTo(area.x+area.w,y);c.stroke();}
       }
-      if(level===0&&session.author.network){
+      if(session.author.network){
         const nodes=new Map(session.author.network.nodes.map(n=>[n.id,n]));
         for(const edge of session.author.network.edges){
+          if(edge.level!==level)continue;
           const a=nodes.get(edge.from),b=nodes.get(edge.to);if(!a||!b)continue;
           c.strokeStyle=edge.mode==='service'?'#9b947e':'#c1b392';c.lineWidth=edge.widthM;c.lineCap='butt';
           c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.stroke();
@@ -149,9 +185,21 @@
       for(const r of s.rooms.filter(o=>o.level===level))box(r,r.kind==='circulation'?'#9c9c83':'#b9b498');
       const closed=s.solids.filter(o=>o.level===level && !o.roomId && o.accessible===false);
       for(const r of closed)box(r,/pool|basin|water|lagoon|clarifier/.test(r.kind)?'#3c707e':/fence|barrier/.test(r.kind)?'#c0b796':'#465652');
+      if(level===0)for(const edge of closedRoutes){
+        c.lineCap='butt';c.setLineDash([]);
+        if(edge.elevationM>0){c.strokeStyle='#25322e';c.lineWidth=edge.widthM+2/scale;c.beginPath();c.moveTo(edge.a.x,edge.a.y);c.lineTo(edge.b.x,edge.b.y);c.stroke();}
+        c.strokeStyle={road:'#b5a789',rail:'#b5bab0',ramp:'#c0b08e',runway:'#879394',taxiway:'#ac9a65',apron:'#9e997f'}[edge.mode];
+        c.lineWidth=edge.widthM;c.beginPath();c.moveTo(edge.a.x,edge.a.y);c.lineTo(edge.b.x,edge.b.y);c.stroke();
+        if(edge.mode==='road'||edge.mode==='ramp'||edge.mode==='runway'){
+          c.strokeStyle=edge.mode==='runway'?'#e9e9d9':'#e5d4a7';c.lineWidth=edge.mode==='runway'?.8:.15;c.setLineDash(edge.mode==='runway'?[20,20]:[3,3]);
+          c.beginPath();c.moveTo(edge.a.x,edge.a.y);c.lineTo(edge.b.x,edge.b.y);c.stroke();c.setLineDash([]);
+        }
+      }
       for(const r of s.walls.filter(o=>o.level===level))box(r,'#202d2a');
       for(const prop of session.furnishing.props.filter(o=>o.level===level)){
-        box(prop,prop.lootEligible?'#9c734a':'#65716c');c.strokeStyle='#27302d';c.lineWidth=Math.max(.035,.7/scale);c.strokeRect(prop.x,prop.y,prop.w,prop.h);
+        if(!root.DeadwallCodexPlanArt204?.drawProp(c,prop,scale)){
+          box(prop,prop.lootEligible?'#9c734a':'#65716c');c.strokeStyle='#27302d';c.lineWidth=Math.max(.035,.7/scale);c.strokeRect(prop.x,prop.y,prop.w,prop.h);
+        }
       }
       for(const door of s.portals.filter(o=>o.level===level)){c.fillStyle='#deb978';c.beginPath();c.arc(door.x,door.y,.12,0,Math.PI*2);c.fill();}
       for(const t of s.transitions)for(const end of [t.a,t.b])if(end.level===level){c.strokeStyle='#5a3440';c.lineWidth=.1;c.strokeRect(end.x-.45,end.y-.45,.9,.9);}
@@ -193,7 +241,7 @@
         if(room.inspectionOnly)roomInfo.append(el('p','Aménagement extérieur auteur. Les ressources et services de campagne restent à intégrer.'));
         const rejected=session.furnishing.unplaced.filter(o=>o.roomId===room.id);if(rejected.length)roomInfo.append(el('p',rejected.length+' prescriptions non posées : espace ou dégagement insuffisant.'));
       }else roomInfo.append(el('p','Cliquez une pièce, un jardin, une cour ou un volume fermé pour examiner ses dimensions et son aménagement.'));
-      status.textContent=session.author.id+' · '+b.w.toFixed(1)+' × '+b.h.toFixed(1)+' m · '+s.levels.length+' niveaux modélisés · '+session.furnishing.props.length+' équipements · '+session.state.visitedRooms.length+' pièces visitées. '+note;
+      status.textContent=session.author.id+' · '+b.w.toFixed(1)+' × '+b.h.toFixed(1)+' m · '+s.levels.length+(s.levels.length===1?' niveau modélisé · ':' niveaux modélisés · ')+session.furnishing.props.length+' équipements · '+session.state.visitedRooms.length+' pièces visitées. '+note;
       canvas.dataset.level=String(p.level);canvas.dataset.plan=session.author.id;
       canvas.setAttribute('aria-label',status.textContent);
     }
@@ -217,5 +265,5 @@
     owner.append(host);
     const api=Object.freeze({host,generate,render,state:()=>session?.state||null});mounted.set(owner,api);return api;
   }
-  return Object.freeze({mount});
+  return Object.freeze({mount,transportEdges});
 });

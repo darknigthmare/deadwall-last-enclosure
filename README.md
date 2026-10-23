@@ -1,6 +1,6 @@
-# DEADWALL 1.70.0 — Rives et réseaux
+# DEADWALL 1.71.0 — Codex mondial et parcours verticaux
 
-750 plans lacustres, littoraux et d’eau/énergie complètent le Guide auteur ; le suivi Excel est réconcilié avec les sources et le transport physique est corrigé. Voir [la livraison 1.70](docs/LIVRAISON_1_70.md).
+Le Guide auteur couvre désormais 80 types et 4 000 plans métriques issus de 13 générateurs, dont 2 050 nouveaux plans. Les sous-sols et étages déclarés se rejoignent par de vrais passages d’inspection ; les voies de transport fermées gardent leurs dimensions. Le mobilier dispose de 58 sortes de pictogrammes originaux, chacune avec trois variantes. Ces ajouts concernent l’inspection auteur : ils n’ajoutent aucun nouveau lieu jouable en campagne. Voir [la livraison 1.71](docs/LIVRAISON_1_71.md).
 
 Les nouvelles campagnes utilisent des bâtiments et des décors dimensionnés en mètres : maison de 10 × 8 m, entrepôt de 12 × 10 m, portes de 1 m, véhicules selon leur catégorie. L’emprise affichée sert aussi au placement, aux collisions, aux aperçus, aux reconstructions et aux sauvegardes. Les chaussées existantes et les voies déjà financées restent libres des constructions ordinaires ; les portes défensives, murs et pièges peuvent les traverser.
 
@@ -8,7 +8,9 @@ Le nouveau quartier local réserve de vraies parcelles et adapte les 21 ensemble
 
 ## Production du Codex mondial — reprise 2026
 
-Le Guide auteur (`?tools=1`) permet d’inspecter 1 950 plans de travail avec murs, portes, niveaux et mobilier à l’échelle : cinq types de navires, un parc éolien, deux stades, huit activités agricoles, quatre types résidentiels, quatre types industriels, quatre sites lacustres, quatre sites littoraux et sept sites d’eau et d’énergie, avec 50 variantes chacun. Les jardins, cours, cultures, clôtures et passages sont visibles dans le même plan. Le déplacement du gabarit piéton respecte les obstacles et les paliers. Ces plans ne sont pas encore implantés dans les campagnes. Le [dossier d’inspection](docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) détaille les commandes, les preuves et les parties à terminer ; le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) conserve les 80 typologies, 4 000 objectifs de variantes et 800 tâches.
+Le Guide auteur (`?tools=1`) permet d’inspecter 4 000 plans de travail, soit 50 variantes pour chacune des 80 typologies, avec murs, portes, niveaux et mobilier à l’échelle. Aux familles déjà présentes s’ajoutent les ports et îles, ponts et échangeurs, HLM et assainissement, parcs et sports, aéroports et sites ferroviaires. Les jardins, cours, cultures, clôtures et passages sont visibles dans le même plan. Le déplacement du gabarit piéton respecte les obstacles, les sols de chaque niveau et les paliers ; afficher un étage ne déplace pas le personnage. Les grandes voies dessinées restent fermées et ne créent aucun train, avion ou trafic.
+
+Les plans auteur ne sont pas encore implantés dans les campagnes. Seed, butin, rencontres, services, graphismes définitifs et persistance de campagne restent à produire ou à qualifier ; les 174 pictogrammes de mobilier servent à l’inspection et ne terminent pas les sprites de campagne. Le [dossier d’inspection](docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) et le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) distinguent les étapes de production des 80 typologies et des 800 tâches. Le rapport exhaustif contrôle 162 460 pièces meublées et 583 708 équipements. Les 2 050 nouveaux plans ne refusent aucun meuble prescrit ; les 4 670 refus des plans précédents restent comptabilisés. La qualification complète est liée au commit final de la PR.
 
 ## Historique conservé — 1.68.0
 

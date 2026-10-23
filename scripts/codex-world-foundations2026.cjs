@@ -116,35 +116,46 @@ function audit(p){
    b.rooms.some(r=>r.slots!==undefined&&!objects(r.slots))))return {ok:false,errors:['schema']};
  const result=()=>({ok:errors.length===0,errors:[...new Set(errors)],buildings:p.buildings.length,
   rooms:p.buildings.reduce((n,b)=>n+b.rooms.length,0),structures:p.structures.length,nodes:p.network.nodes.length});
+ const levels=p.levels===undefined?[{id:'ground',index:0,elevationM:0,clearHeightM:Number.isFinite(p.maxHeightM)?Math.max(2.8,p.maxHeightM):2.8}]:p.levels;
+ if(!objects(levels)||!levels.length||levels.length>64||levels.some((l,i)=>l.index!==i||!identifier(l.id)||!finite(l.elevationM)||!positive(l.clearHeightM))||
+  new Set(levels.map(l=>l.id)).size!==levels.length||new Set(levels.map(l=>l.elevationM)).size!==levels.length||levels[0].id!=='ground'||levels[0].elevationM!==0){fail('invalid-levels');return result();}
+ const nodeLevel=n=>n.level??0;
+ const objectLevels=o=>Array.isArray(o.levels)?o.levels:[o.level??0];
+ const sameLevel=(a,b)=>objectLevels(a).some(level=>objectLevels(b).includes(level));
  function register(id){if(!identifier(id)||ids.has(id))fail('duplicate-id');else ids.add(id);}
  function rect(o){register(o.id);if(!rectangle(o))fail('invalid-rectangle');}
  if(p.units!=='m'||p.playable!==false||p.scope!=='author-metric-layout-not-live-world')fail('false-scope');
  if(!rectangle(p.bounds)){fail('bounds');return result();}
  if(!positive(p.maxHeightM)||!identifier(p.heightOrigin))fail('site-height');
  const solids=[...p.buildings,...p.structures];
- for(const b of solids){rect(b);if(!contains(p.bounds,b))fail('outside-site');}
- for(let i=0;i<solids.length;i++)for(let j=i+1;j<solids.length;j++)if(overlap(solids[i],solids[j]))fail('overlap-structures');
- for(const a of p.reservedAreas){rect(a);if(!contains(p.bounds,a))fail('outside-site');if(solids.some(b=>overlap(a,b)))fail('blocked-pitch');}
+ for(const b of solids){rect(b);if(!contains(p.bounds,b))fail('outside-site');if(!objectLevels(b).length||objectLevels(b).some(i=>!Number.isInteger(i)||!levels[i]))fail('unbuilt-level');}
+ for(let i=0;i<solids.length;i++)for(let j=i+1;j<solids.length;j++)if(sameLevel(solids[i],solids[j])&&overlap(solids[i],solids[j]))fail('overlap-structures');
+ for(const a of p.reservedAreas){rect(a);if(!contains(p.bounds,a))fail('outside-site');if(solids.some(b=>sameLevel(a,b)&&overlap(a,b)))fail('blocked-pitch');}
+ if(p.surfaceAreas!==undefined&&!objects(p.surfaceAreas)){fail('invalid-surface-areas');return result();}
+ for(const a of p.surfaceAreas||[]){rect(a);if(!contains(p.bounds,a)||!levels[a.level]||a.walkable!==true)fail('invalid-surface-area');}
  for(const b of p.buildings){
-  const bound={x:0,y:0,w:b.w,h:b.h};if(b.levels.length!==1||b.levels[0]!==0)fail('unbuilt-level');
+  const bound={x:0,y:0,w:b.w,h:b.h};if(!b.levels.length||new Set(b.levels).size!==b.levels.length||b.levels.some(i=>!Number.isInteger(i)||!levels[i]))fail('unbuilt-level');
   const local=new Set();
   for(const r of b.rooms){
    rect(r);local.add(r.id);
-   if(!contains(bound,r)||!positive(r.clearHeightM)||r.clearHeightM>b.heightM||r.level!==0)fail('invalid-room');
+   if(!contains(bound,r)||!positive(r.clearHeightM)||r.clearHeightM>b.heightM||!b.levels.includes(r.level)||!levels[r.level]||r.clearHeightM>levels[r.level].clearHeightM)fail('invalid-room');
    for(const s of r.slots||[]){rect(s);if(!contains(r,s)||s.lootAssigned!==false)fail('slot-or-loot');}
   }
-  for(let i=0;i<b.rooms.length;i++)for(let j=i+1;j<b.rooms.length;j++)if(overlap(b.rooms[i],b.rooms[j]))fail('room-overlap');
-  if(!positive(b.heightM)||b.heightM>p.maxHeightM||b.heightOrigin!=='author-design')fail('building-height');
+  for(let i=0;i<b.rooms.length;i++)for(let j=i+1;j<b.rooms.length;j++)if(b.rooms[i].level===b.rooms[j].level&&overlap(b.rooms[i],b.rooms[j]))fail('room-overlap');
+  const baseElevation=b.levels.includes(0)?0:Math.min(...b.levels.map(i=>levels[i]?.elevationM??Infinity));
+  if(!positive(b.heightM)||b.heightM>p.maxHeightM||b.heightOrigin!=='author-design'||
+   b.rooms.some(r=>levels[r.level]&&levels[r.level].elevationM+r.clearHeightM>Math.min(baseElevation+b.heightM,p.maxHeightM)+1e-8))fail('building-height');
   if(!positive(b.entry.widthM)||b.entry.widthM<.9)fail('entry-too-narrow');
-  if(!finite(b.entry.x,b.entry.y)||b.entry.level!==0||b.rotationRad!==0||!['north','south'].includes(b.entrySide)||
+  if(!finite(b.entry.x,b.entry.y)||!b.levels.includes(b.entry.level)||b.rotationRad!==0||!['north','south'].includes(b.entrySide)||
    b.entry.x!==b.w/2||b.entry.y!==(b.entrySide==='north'?0:b.h)||b.entry.x-b.entry.widthM/2<0||b.entry.x+b.entry.widthM/2>b.w)fail('entry-frame');
-  if(!p.network.nodes.some(n=>Math.abs(n.x-b.x-b.entry.x)<1e-8&&Math.abs(n.y-b.y-b.entry.y)<1e-8))fail('entry-not-connected');
-  const corridors=b.rooms.filter(r=>r.kind==='circulation'||r.name==='circulation'),c=corridors[0],links=new Set();
-  if(corridors.length!==1)fail('missing-circulation');
+  if(!p.network.nodes.some(n=>nodeLevel(n)===b.entry.level&&Math.abs(n.x-b.x-b.entry.x)<1e-8&&Math.abs(n.y-b.y-b.entry.y)<1e-8))fail('entry-not-connected');
+  const corridors=b.rooms.filter(r=>r.kind==='circulation'||r.name==='circulation'),links=new Set();
+  if(b.levels.some(level=>corridors.filter(r=>r.level===level).length!==1))fail('missing-circulation');
   for(const d of b.portals){
    register(d.id);
+   const c=corridors.find(r=>r.id===d.from),target=b.rooms.find(r=>r.id===d.to);
    if(!local.has(d.from)||!local.has(d.to)||!c||d.from!==c.id||d.to===c.id||
-    !finite(d.x,d.y,d.widthM,d.wallGapM)||d.widthM<.9||d.wallGapM<0||d.axis!=='y'){fail('bad-portal');continue;}
+    !target||target.level!==c.level||!finite(d.x,d.y,d.widthM,d.wallGapM)||d.widthM<.9||d.wallGapM<0||d.axis!=='y'){fail('bad-portal');continue;}
    const r=b.rooms.find(r=>r.id===d.to);
    const at=Math.abs(d.x-c.x)<1e-8||Math.abs(d.x-c.x-c.w)<1e-8;
    const gap=Math.min(Math.abs(r.x+r.w-d.x),Math.abs(r.x-d.x));
@@ -152,11 +163,11 @@ function audit(p){
     d.y-d.widthM/2<c.y||d.y+d.widthM/2>c.y+c.h)fail('portal-not-on-face');
    links.add(d.to);
   }
-  if(b.rooms.filter(r=>r!==c).some(r=>!links.has(r.id)))fail('disconnected-room');
+  if(b.rooms.filter(r=>!corridors.includes(r)).some(r=>!links.has(r.id)))fail('disconnected-room');
  }
  const nodes=new Map();
  for(const n of p.network.nodes){
-  if(!identifier(n.id)||nodes.has(n.id)||!finite(n.x,n.y,n.z)||n.z!==0)fail('invalid-node');
+  if(!identifier(n.id)||nodes.has(n.id)||!finite(n.x,n.y,n.z)||!Number.isInteger(nodeLevel(n))||!levels[nodeLevel(n)]||n.z!==levels[nodeLevel(n)]?.elevationM)fail('invalid-node');
   // A gate may lie exactly on the boundary, but no authored path can use a
   // node beyond the parcel and silently claim that it is internally connected.
   if(finite(n.x,n.y)&&!contains(p.bounds,{x:n.x,y:n.y,w:0,h:0}))fail('node-outside-site');
@@ -167,13 +178,23 @@ function audit(p){
   if(!identifier(e.id)||edgeIds.has(e.id))fail('duplicate-edge');edgeIds.add(e.id);
   const a=nodes.get(e.from),b=nodes.get(e.to);
   if(!a||!b||a.id===b.id||!finite(a.x,a.y,b.x,b.y)||!positive(Math.hypot(b.x-a.x,b.y-a.y))||
-   !positive(e.widthM)||e.level!==0||!['service','pedestrian'].includes(e.mode)){fail('bad-edge');continue;}
+   !positive(e.widthM)||e.level!==nodeLevel(a)||e.level!==nodeLevel(b)||!['service','pedestrian'].includes(e.mode)){fail('bad-edge');continue;}
   links.get(a.id).push(b.id);links.get(b.id).push(a.id);
-  if(solids.some(box=>corridorOverlaps(a,b,e.widthM,box)))fail('road-crosses-structure');
-  if(p.reservedAreas.some(box=>corridorOverlaps(a,b,e.widthM,box)))fail('road-crosses-protected-area');
+  const internal=box=>e.mode==='pedestrian'&&box.rooms?.some(r=>(r.kind==='circulation'||r.name==='circulation')&&r.level===e.level&&
+   e.widthM<=r.w&&contains({x:box.x+r.x,y:box.y+r.y,w:r.w,h:r.h},{x:a.x,y:a.y,w:0,h:0})&&contains({x:box.x+r.x,y:box.y+r.y,w:r.w,h:r.h},{x:b.x,y:b.y,w:0,h:0}));
+  if(solids.some(box=>objectLevels(box).includes(e.level)&&corridorOverlaps(a,b,e.widthM,box)&&!internal(box)))fail('road-crosses-structure');
+  if(p.reservedAreas.some(box=>(box.level??0)===e.level&&corridorOverlaps(a,b,e.widthM,box)))fail('road-crosses-protected-area');
+ }
+ if(p.network.transitions!==undefined&&!objects(p.network.transitions)){fail('invalid-transitions');return result();}
+ for(const t of p.network.transitions||[]){
+  const a=nodes.get(t.from),b=nodes.get(t.to),al=levels[nodeLevel(a||{})],bl=levels[nodeLevel(b||{})];
+  if(!identifier(t.id)||edgeIds.has(t.id)||!a||!b||!al||!bl||nodeLevel(a)===nodeLevel(b)||!['stairs','ladder'].includes(t.kind)||!positive(t.widthM)||t.widthM<.9||
+   Math.abs(a.x-b.x)>1e-8||Math.abs(a.y-b.y)>1e-8||Math.abs(al.elevationM-bl.elevationM)>4.8||
+   levels.some(l=>l.elevationM>Math.min(al.elevationM,bl.elevationM)+1e-8&&l.elevationM<Math.max(al.elevationM,bl.elevationM)-1e-8)){fail('invalid-transition');continue;}
+  edgeIds.add(t.id);links.get(a.id).push(b.id);links.get(b.id).push(a.id);
  }
  const starts=p.network.externalPorts.map(q=>q.node),seen=new Set(starts.filter(s=>nodes.has(s))),queue=[...seen];
- if(!starts.length||starts.some(s=>!nodes.has(s))||p.network.externalPorts.some(p=>p.connectedToWorld!==false))fail('false-external-link');
+ if(!starts.length||starts.some(s=>!nodes.has(s)||nodeLevel(nodes.get(s))!==0)||p.network.externalPorts.some(p=>p.connectedToWorld!==false))fail('false-external-link');
  for(let i=0;i<queue.length;i++)for(const n of links.get(queue[i])||[])if(!seen.has(n)){seen.add(n);queue.push(n);}if(seen.size!==nodes.size)fail('disconnected-network');
  for(const t of p.structures.filter(s=>s.kind==='wind-turbine')){if(t.rotorDiameterM!==150||t.maxHeightM!==t.hubHeightM+t.rotorDiameterM/2||t.sweptEnvelopeIsGroundCollider!==false)fail('rotor-height');const box={x:t.x+t.w/2-75,y:t.y+t.h/2-75,w:150,h:150};if(!contains(p.bounds,box))fail('swept-envelope-outside-site');}
  return result();

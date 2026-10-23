@@ -110,6 +110,7 @@
     }
     function addRoom(room, level, offset = { x: 0, y: 0 }) {
       if (!rect(room) || typeof room.id !== 'string' || roomMap.has(room.id)) throw Error('Pièce physique invalide.');
+      if (room.clearHeightM !== undefined && (!finite(room.clearHeightM) || room.clearHeightM <= 0 || room.clearHeightM > level.clearHeightM)) throw Error('Hauteur libre de pièce invalide.');
       const value = { id: room.id, name: room.name, kind: room.kind || (room.name === 'circulation' ? 'circulation' : 'compartment'),
         x: offset.x + room.x, y: offset.y + room.y, w: room.w, h: room.h,
         level: level.index, sourceLevel: level.id, elevationM: level.elevationM, clearHeightM: room.clearHeightM || level.clearHeightM };
@@ -201,7 +202,14 @@
       scene.limits.push('La coque est une enveloppe auteur. Cales, citernes et ponts réservés restent fermés.', 'Le point d’embarquement ne crée aucun passage sur la mer.');
     } else {
       if (!Array.isArray(author.buildings) || !Array.isArray(author.structures) || !Array.isArray(author.reservedAreas) || !Array.isArray(author.network?.nodes) || !Array.isArray(author.network?.edges) || !Array.isArray(author.network?.externalPorts)) throw Error('Schéma de site incomplet.');
-      const ground = addLevel('ground', 0, Math.max(2.8, author.maxHeightM || 2.8));
+      if (!finite(author.maxHeightM) || author.maxHeightM <= 0) throw Error('Hauteur de site invalide.');
+      const authoredLevels = author.levels === undefined ? [{id: 'ground', index: 0, elevationM: 0, clearHeightM: Math.max(2.8, author.maxHeightM || 2.8)}] : author.levels;
+      if (!Array.isArray(authoredLevels) || !authoredLevels.length || authoredLevels.length > 64 || new Set(authoredLevels.map(l => l?.elevationM)).size !== authoredLevels.length) throw Error('Niveaux de site invalides.');
+      for (const source of authoredLevels) {
+        if (source.index !== scene.levels.length) throw Error('Indices de niveaux non contigus.');
+        addLevel(source.id, source.elevationM, source.clearHeightM);
+      }
+      if (scene.levels[0].id !== 'ground' || scene.levels[0].elevationM !== 0) throw Error('Niveau de surface absent.');
       addSurface(author.id + ':ground', bounds, 0, 'ground');
       // Outdoor composition is a visible part of the same plot. Ground remains
       // the physical support; a planted area does not create a resource owner.
@@ -213,49 +221,97 @@
         areaIds.add(source.id);
         scene.areas.push({...clone(source), name: source.name || source.kind, level: 0, inspectionOnly: true});
       }
+      if (author.surfaceAreas !== undefined && !Array.isArray(author.surfaceAreas)) throw Error('Supports de niveaux invalides.');
+      for (const source of author.surfaceAreas || []) {
+        if (!rect(source) || !contains(bounds, source) || typeof source.id !== 'string' || areaIds.has(source.id) ||
+            typeof source.kind !== 'string' || source.walkable !== true || !scene.levels.some(l => l.index === source.level)) throw Error('Support de niveau invalide.');
+        areaIds.add(source.id);
+        addSurface(source.id + ':floor', source, source.level, source.kind);
+        scene.areas.push({...clone(source), name: source.name || source.kind, inspectionOnly: true});
+      }
       for (const structure of author.structures) {
-        if (!rect(structure) || !contains(bounds, structure)) throw Error('Structure hors emprise.');
+        const level = structure.level ?? 0;
+        if (!rect(structure) || !contains(bounds, structure) || !scene.levels.some(l => l.index === level)) throw Error('Structure hors emprise ou niveau.');
         scene.solids.push({ id: structure.id, name: structure.name || structure.kind, x: structure.x, y: structure.y, w: structure.w, h: structure.h,
-          level: 0, kind: structure.kind, maxHeightM: structure.maxHeightM ?? null, solid: true, accessible: false });
+          level, kind: structure.kind, maxHeightM: structure.maxHeightM ?? null, solid: true, accessible: false });
         scene.reservations.push({ ...clone(structure), walkable: false, connected: false });
       }
       for (const source of author.network.nodes) {
-        if (source.z !== 0) throw Error('Niveau du réseau de site non pris en charge.');
+        const level = source.level ?? 0, floor = scene.levels.find(l => l.index === level);
+        if (!floor || source.z !== floor.elevationM) throw Error('Niveau du réseau de site incohérent.');
         const structure = author.structures.find(s => s.id === source.id && s.kind === 'wind-turbine');
         let x = source.x, y = structure && Math.abs(source.y - structure.y) < EPS ? source.y - .5 : source.y;
         if (author.network.externalPorts.some(port => port.node === source.id)) {
+          if (level !== 0) throw Error('Raccord extérieur hors surface.');
           if (Math.abs(x - bounds.x) < EPS) x += .5;
           else if (Math.abs(x - bounds.x - bounds.w) < EPS) x -= .5;
           if (Math.abs(y - bounds.y) < EPS) y += .5;
           else if (Math.abs(y - bounds.y - bounds.h) < EPS) y -= .5;
           if (x !== source.x || y !== source.y) scene.adaptations.push({kind: 'external-port-inside-boundary', node: source.id, sourcePosition: {x: source.x, y: source.y}, offsetM: .5});
         }
-        addNode(source.id, x, y, 0);
+        addNode(source.id, x, y, level);
         if (structure && y !== source.y) scene.adaptations.push({ kind: 'service-stop-clearance', node: source.id, sourcePosition: { x: source.x, y: source.y }, offsetM: .5 });
       }
       for (const source of author.network.edges) {
-        if (source.level !== 0) throw Error('Changement de niveau routier implicite.');
+        const from = nodeMap.get(source.from), to = nodeMap.get(source.to);
+        if (!from || !to || source.level !== from.level || source.level !== to.level) throw Error('Changement de niveau routier implicite.');
         addEdge(source.id, source.from, source.to, 'walk', source.widthM);
+      }
+      if (author.network.transitions !== undefined && !Array.isArray(author.network.transitions)) throw Error('Passages de site invalides.');
+      for (const source of author.network.transitions || []) {
+        const from = nodeMap.get(source.from), to = nodeMap.get(source.to);
+        if (!from || !to || from.level === to.level || !['stairs', 'ladder'].includes(source.kind) ||
+            Math.abs(from.x - to.x) > EPS || Math.abs(from.y - to.y) > EPS || !finite(source.widthM) || source.widthM < .64) throw Error('Passage vertical de site invalide.');
+        const a = scene.levels[from.level], b = scene.levels[to.level];
+        if (Math.abs(a.elevationM - b.elevationM) > 4.8 || scene.levels.some(l => l.elevationM > Math.min(a.elevationM,b.elevationM) + EPS && l.elevationM < Math.max(a.elevationM,b.elevationM) - EPS)) throw Error('Passage sautant un niveau.');
+        scene.transitions.push({id: source.id, kind: source.kind, from: from.level, to: to.level, widthM: source.widthM,
+          a: {x: from.x, y: from.y, level: from.level}, b: {x: to.x, y: to.y, level: to.level},
+          nodeFrom: from.id, nodeTo: to.id, activationRadiusM: .9, modes: ['pedestrian']});
+        addEdge(source.id, source.from, source.to, source.kind, source.widthM);
       }
       for (const building of author.buildings) {
         if (!rect(building) || building.rotationRad !== 0 || !Array.isArray(building.rooms) || !Array.isArray(building.portals) || !rect({ x: 0, y: 0, w: building.w, h: building.h }) || !contains(bounds, building)) throw Error('Bâtiment auteur invalide.');
-        const rooms = building.rooms.map(r => addRoom(r, ground, building));
+        if (!Array.isArray(building.levels) || !building.levels.length || new Set(building.levels).size !== building.levels.length || building.levels.some(i => !scene.levels.some(l => l.index === i))) throw Error('Niveaux de bâtiment invalides.');
+        const rooms = building.rooms.map(r => {
+          if (!building.levels.includes(r.level)) throw Error('Pièce hors niveau du bâtiment.');
+          return addRoom(r, scene.levels[r.level], building);
+        });
+        const baseElevation = building.levels.includes(0) ? 0 : Math.min(...building.levels.map(i => scene.levels[i].elevationM));
+        if (!finite(building.heightM) || building.heightM <= 0 || rooms.some(r => r.elevationM + r.clearHeightM > Math.min(baseElevation + building.heightM, author.maxHeightM) + EPS)) throw Error('Plafond hors hauteur du bâtiment ou du site.');
         for (const d of building.portals) portal(d, building);
         for (const r of rooms) roomWalls(r, .18, r.kind === 'circulation' ? ['west', 'east'] : undefined);
         const e = building.entry;
-        if (!e || e.level !== 0 || !finite(e.x, e.y, e.widthM) || e.widthM < .64 || !['north', 'south'].includes(building.entrySide) || e.y !== (building.entrySide === 'north' ? 0 : building.h)) throw Error('Entrée du bâtiment invalide.');
-        perimeter(building, 0, [{ face: building.entrySide, at: building.x + e.x, widthM: e.widthM }], .18, building.id + ':outer', undefined, true);
-        const corridor = rooms.find(r => r.kind === 'circulation');
-        if (!corridor) throw Error('Bâtiment sans circulation.');
-        const centre = addNode(corridor.id + ':physical-center', corridor.x + corridor.w / 2, corridor.y + corridor.h / 2, 0);
-        const entry = scene.nodes.find(n => Math.abs(n.x - building.x - e.x) < EPS && Math.abs(n.y - building.y - e.y) < EPS);
+        if (!e || !building.levels.includes(e.level) || !finite(e.x, e.y, e.widthM) || e.widthM < .64 || !['north', 'south'].includes(building.entrySide) || e.y !== (building.entrySide === 'north' ? 0 : building.h)) throw Error('Entrée du bâtiment invalide.');
+        for (const level of building.levels) perimeter(building, level, level === e.level ? [{face: building.entrySide, at: building.x + e.x, widthM: e.widthM}] : [], .18,
+          building.id + ':outer' + (level === e.level ? '' : ':level:' + level), undefined, true);
+        const corridors = rooms.filter(r => r.kind === 'circulation');
+        if (building.levels.some(level => corridors.filter(r => r.level === level).length !== 1)) throw Error('Bâtiment sans circulation par niveau.');
+        const entry = scene.nodes.find(n => n.level === e.level && Math.abs(n.x - building.x - e.x) < EPS && Math.abs(n.y - building.y - e.y) < EPS);
         if (!entry) throw Error('Entrée sans réseau de site.');
-        addEdge(building.id + ':entry-link', entry.id, centre.id, 'walk', e.widthM);
-        for (const d of scene.portals.filter(p => p.from === corridor.id)) {
-          const r = roomMap.get(d.to), approach = addNode(d.id + ':approach', centre.x, d.y, 0), target = addNode(r.id + ':center', r.x + r.w / 2, r.y + r.h / 2, 0);
-          addEdge(d.id + ':corridor-link', centre.id, approach.id, 'walk', corridor.w);
-          addEdge(d.id + ':room-link', approach.id, target.id, 'walk', d.widthM);
+        for (const corridor of corridors) {
+          const centre = addNode(corridor.id + ':physical-center', corridor.x + corridor.w / 2, corridor.y + corridor.h / 2, corridor.level);
+          if (corridor.level === e.level) addEdge(building.id + ':entry-link', entry.id, centre.id, 'walk', e.widthM);
+          for (const d of scene.portals.filter(p => p.from === corridor.id)) {
+            const r = roomMap.get(d.to), approach = addNode(d.id + ':approach', centre.x, d.y, corridor.level), target = addNode(r.id + ':center', r.x + r.w / 2, r.y + r.h / 2, corridor.level);
+            addEdge(d.id + ':corridor-link', centre.id, approach.id, 'walk', corridor.w);
+            if (Math.abs(d.y - target.y) > EPS) {
+              // Cross the opening at its actual height before turning inside.
+              // A diagonal towards the room centre can clip an offset jamb.
+              const turn = addNode(d.id + ':inside-turn', target.x, d.y, corridor.level);
+              addEdge(d.id + ':room-link', approach.id, turn.id, 'walk', d.widthM);
+              addEdge(d.id + ':room-center-link', turn.id, target.id, 'walk', d.widthM);
+            } else addEdge(d.id + ':room-link', approach.id, target.id, 'walk', d.widthM);
+          }
+          for (const source of author.network.nodes.filter(n => n.roomId === corridor.id)) {
+            const landing = nodeMap.get(source.id);
+            if (!landing || landing.level !== corridor.level || !inside(corridor, landing.x, landing.y)) throw Error('Palier hors circulation.');
+            if (landing.id !== centre.id) addEdge(source.id + ':physical-circulation-link', centre.id, landing.id, 'walk', corridor.w);
+          }
         }
+      }
+      for (const source of author.network.nodes) if (source.roomId !== undefined) {
+        const corridor = roomMap.get(source.roomId), landing = nodeMap.get(source.id);
+        if (!corridor || corridor.kind !== 'circulation' || corridor.level !== landing.level || !inside(corridor, landing.x, landing.y)) throw Error('Palier sans circulation valide.');
       }
       // Enter the football field through the genuine gap between two stands.
       const safe = author.reservedAreas.find(a => a.kind === 'clear-pitch'), field = author.reservedAreas.find(a => a.kind === 'field-of-play');

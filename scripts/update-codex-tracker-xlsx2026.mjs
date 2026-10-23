@@ -35,6 +35,9 @@ const metaPath = option('metadata', '');
 const meta = metaPath ? JSON.parse(await fs.readFile(path.resolve(metaPath), 'utf8')) : {};
 const ref = option('ref', /^[0-9a-f]{40}$/i.test(meta.sourceCommit || '') ? meta.sourceCommit : 'feat/codex-world-extension-20261021');
 const req = createRequire(path.join(root, 'package.json'));
+const PublicationMetadata = req('./scripts/codex-workbook-metadata2026.cjs');
+const publicationMeta = PublicationMetadata.resolve(meta);
+const github = PublicationMetadata.GITHUB;
 const Guards = req('./scripts/codex-tracker-xlsx-guards2026.cjs');
 const Registry = req('./scripts/codex-generators2026.cjs');
 const managedProofs = new Set([
@@ -60,7 +63,6 @@ const summary = req('./scripts/validate-codex-tracker2026.cjs').validate(data);
 const inspectionModule = req('./scripts/codex-inspection-progress2026.cjs');
 const inspectionReport = inspectionModule.checkedReport(root).report;
 const inspectionReportSha256 = createHash('sha256').update(await fs.readFile(path.join(root, inspectionModule.REPORT))).digest('hex');
-const github = 'https://github.com/darknigthmare/deadwall-last-enclosure';
 const source = value => !value ? '' : /^https?:\/\//.test(value) ? value : github + '/blob/' + ref + '/' + value;
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(input));
 const sheet = name => workbook.worksheets.getItem(name);
@@ -144,8 +146,8 @@ stableRows('Chantiers', 'id', data.tasks, t => [
 ], 10, (row, task) => Guards.task(row, task, managedProofs));
 
 const home = sheet('Accueil');
-home.getRange('A3').values = [[meta.subtitle || 'Base 1.68 · PR #16 · Suivi actualisé depuis les sources du dépôt']];
-home.getRange('A9').values = [['Suivi de la PR #16. Conception, contrôles et intégration en campagne gardent des statuts distincts.']];
+home.getRange('A3').values = [[meta.subtitle || publicationMeta.subtitle]];
+home.getRange('A9').values = [[publicationMeta.tracking]];
 home.getRange('C13:C14').values = [[data.catalogue.rooms.length], [data.catalogue.props.length]];
 home.getRange('D16').values = [['Critères propres à chaque tâche']];
 home.getRange('G16').values = [['Gabarits / plans documentés']];
@@ -163,16 +165,16 @@ home.getRange('A32').values = [[meta.metrics || 'Cotes publiques, choix de conce
 home.getRange('C17').formulas = [['=SUMPRODUCT((Chantiers!G6:G805="Validé")*(Chantiers!J6:J805=""))']];
 
 const publication = sheet('Publication');
-publication.getRange('A2').values = [['L’archive source initiale de Drive reste un instantané historique. Les contrôles ci-dessous décrivent le lot de reprise de la PR #16.']];
+publication.getRange('A2').values = [[publicationMeta.publication]];
 if (meta.baseCommit || meta.baseVersion) {
   publication.getRange('B6:E6').values = [[meta.baseCheckedAt || '2026-10-21', 'main', meta.baseCommit || '', 'DEADWALL ' + (meta.baseVersion || '—') + ' conservé']];
 }
-publication.getRange('B7:E7').values = [[meta.sourceCommit || ref, 'PR #16', github + '/pull/16', 'Sources de la reprise']];
+publication.getRange('B7:E7').values = [[meta.sourceCommit || ref, publicationMeta.label, publicationMeta.url, 'Sources de la reprise']];
 publication.getRange('B9:E9').values = [[meta.workbookState || 'Préparé localement', 'Fichier XLSX', relative, meta.workbookDetail || 'Publication à vérifier sur la PR']];
 publication.getRange('B10:E10').values = [[meta.targetedTests || 'Voir les journaux du commit', 'Contrôles ciblés', meta.targetedDetail || 'Contrats et suivi vérifiés indépendamment de la campagne', 'Voir les preuves']];
 publication.getRange('B11:E11').values = [[meta.globalCheck || 'À vérifier sur le commit', 'npm run check', meta.globalDetail || 'Le succès global exige un journal complet du commit livré.', meta.globalState || 'Voir les preuves']];
 publication.getRange('B12:E12').values = [[data.variants.filter(v => v.playable).length, 'Architecture / campagne', meta.integration || 'Aucun statut jouable déduit de la présence du catalogue.', 'Qualification explicite']];
-publication.getRange('B13:E13').values = [['Inchangée', 'Fusion / déploiement', 'Travail dans la PR #16. Fusion et déploiement distincts.', 'PR en cours']];
+publication.getRange('B13:E13').values = [[publicationMeta.integrationChange, 'Fusion / déploiement', publicationMeta.integrationDetail, publicationMeta.integrationState]];
 
 const refsPath = path.join(root, 'docs/codex/suivi-monde2026/references-metriques2026.json');
 const refsFile = JSON.parse(await fs.readFile(refsPath, 'utf8'));
