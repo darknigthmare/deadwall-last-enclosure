@@ -5,6 +5,7 @@ on:
       - 'src/**'
       - 'tests/products203*.test.cjs'
       - 'scripts/browser-products203.mjs'
+      - 'scripts/products203-fixtures.mjs'
       - '.github/workflows/products203.yml'
   workflow_dispatch:
 permissions:
@@ -32,7 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts/qa/products203
-          node --test --test-concurrency=1 tests/products203*.test.cjs tests/continuation202-*.test.cjs tests/husbandry191*.test.cjs tests/undercovered199*.test.cjs tests/undercovered200*.test.cjs tests/expansion*.test.cjs tests/essential*.test.cjs tests/exploration-pack.test.cjs tests/campaign-pack.test.cjs | tee artifacts/qa/products203/contracts.log
+          node --test --test-concurrency=1 tests/products203*.test.cjs tests/continuation202-*.test.cjs tests/audit191-*.test.cjs tests/undercovered199*.test.cjs tests/undercovered200*.test.cjs tests/expansion*.test.cjs tests/essential*.test.cjs tests/exploration-pack.test.cjs tests/campaign-pack.test.cjs | tee artifacts/qa/products203/contracts.log
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - name: Native notebook operations on built distribution

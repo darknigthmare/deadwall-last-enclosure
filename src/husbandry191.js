@@ -170,13 +170,21 @@ function install(g){
  const freshWater=p=>freshWaterFrom(access(p));
  const bucket=()=>g.siege?.carriedWater199?.()??0;
  const waterTransfer=(direction,amount)=>g.siege?.transferFieldWater199?.(direction,amount)??0;
- function quote(kind,id=null,target=null,continuing=false){if(typeof kind!=='string')return bad('Intervention inconnue.');const why=base(continuing);if(why)return bad(why);let cost={},seconds=0,site=pen(id),q=null,tool=null;
+ function quote(kind,id=null,target=null,continuing=false){if(typeof kind!=='string')return bad('Intervention inconnue.');
+  // Releasing weight is an emergency action, not a new field intervention.
+  // Keep control/domain ownership, but do not trap the player under an attack,
+  // reloading weapon or another ongoing operation. Pickup still uses base().
+  if(kind==='drop-products'){
+   if(!conscious()||!g.expansions.canAct())return bad('Commandant indisponible.');
+   const p=pos();
+   if(!p.active||p.z!==0||p.car?.driving||g.expeditions?.driving())return bad('Posez le colis à pied au sol dans la région.');
+   if(!carryingProducts())return bad('Aucun colis de produits porté.');
+   return{ok:true,kind,id:null,target:null,cost:{},seconds:0,point:null,tool:null};
+  }
+  const why=base(continuing);if(why)return bad(why);let cost={},seconds=0,site=pen(id),q=null,tool=null;
   if(kind==='build'){q=task&&continuing?task.point:placement();const no=placeReason(q);if(no)return bad(no);cost=R.penCost;seconds=R.buildSeconds;}
   else if(kind==='behaviors'){if(s.behaviors)return bad('Comportements naturels déjà actifs.');}
   else if(kind==='behaviors-off'){if(!s.behaviors)return bad('Comportements naturels déjà suspendus.');}
-  else if(kind==='drop-products'){
-   if(!carryingProducts())return bad('Aucun colis de produits porté.');
-  }
   else if(kind==='pickup-products'){
    const c=s.cargo203,p=pos();
    if(c?.stage!=='ground'||otherLoad()||distance(p,c.point)>R.reach||!world().movementLine(p,c.point,0,p.inside,null,.1))return bad('Rejoignez le colis à pied, avec le porte-module libre et un accès dégagé.');
@@ -269,7 +277,7 @@ function install(g){
    if(ageKey)p[ageKey]=p[c.kind]>0?Math.max(p[ageKey],c.age):c.age;
    p[c.kind]+=n;c.amount-=n;if(c.amount<=0)delete s.cargo203;
   }
-  if(t.kind==='drop-products'){s.cargo203.stage='ground';s.cargo203.point={x:pos().x,y:pos().y};}
+  if(t.kind==='drop-products'){cancel('Colis posé ; intervention interrompue, fournitures engagées non remboursées.');s.cargo203.stage='ground';s.cargo203.point={x:pos().x,y:pos().y};}
   if(t.kind==='pickup-products'){s.cargo203.stage='held';s.cargo203.point=null;}
   if(t.kind==='feed')p.food+=t.cost.food;
   if(t.kind==='water')p.water=Math.min(R.stockCapacity,p.water+R.waterPortion);
@@ -337,7 +345,11 @@ function install(g){
  function overview(){const p=s.pens.find(near);return{summary:message||'Enclos régionaux fixes : capture locale au filet, entretien, naissances et transformation. Les produits peuvent être transportés entre enclos, en colis limités à pied.',
    rows:[...(s.cargo203?[{label:'Colis de produits',value:s.cargo203.amount.toFixed(1)+' '+productName(s.cargo203.kind)+' · '+(carryingProducts()?'porté, marche ralentie':'au sol '+s.cargo203.point.x.toFixed(1)+' / '+s.cargo203.point.y.toFixed(1)+' m')+(s.cargo203.kind==='leather'?'':', péremption dans '+Math.max(0,Math.floor(productLife(s.cargo203.kind)-s.cargo203.age))+' s')+'. Livrez à un enclos, ou posez le colis avant D-17, un véhicule ou un étage.'}]:[]),{label:'Enclos',value:s.pens.length+' / '+R.maxPens},{label:'Animaux captifs',value:s.animals.filter(a=>['held','stranded'].includes(a.status)).length},{label:'Origines obstruées',value:s.animals.filter(a=>a.status==='stranded').length+' sujets gardés en ruine ; entretien maintenu, libération après dégagement ou reconstruction'},{label:'Capture',value:'Lapin, canard, lièvre, faisan, perdrix ; filet local près de l’enclos'},{label:'Reproduction',value:'Lapins / canards adultes, sexes différents, rations et eau ; 15 minutes simulées'},{label:'Abreuvement',value:'Puisage à une berge proche ou transport avec le seau de service ; aucune eau potable produite'},{label:'Eau transportée',value:bucket().toFixed(1)+' / '+C.Siege.RULES.bucketCapacity+' · même réserve que les secours incendie'},{label:'Comportements sauvages',value:s.behaviors?'Prédation locale et défense du sanglier actives':'Inactifs ; activation volontaire'},
   ...reportRows(s),...(p?[{label:'Enclos '+p.id,value:held(p.id).length+' / '+R.penCapacity+' animaux ; intégrité '+p.health.toFixed(0)},{label:'Rations / eau',value:p.food.toFixed(1)+' / '+p.water.toFixed(1)},{label:'Naissances',value:p.breeding199===false?'Suspendues ; entretien maintenu':'Autorisées si les besoins et la place sont satisfaits'},{label:'Viande / peaux / cuir',value:[p.meat,p.hides,p.leather].map(n=>n.toFixed(1)).join(' / ')}]:[])],task:view().task};}
- function actions(){if(task)return[{id:'cancel',label:'Interrompre',description:'Les intrants engagés restent consommés.',close:false,run:()=>({ok:cancel()})}];
+ function actions(){if(task){
+  const actions=[{id:'cancel',label:'Interrompre',description:'Les intrants engagés restent consommés.',close:false,run:()=>({ok:cancel()})}];
+  if(carryingProducts()){const q=quote('drop-products');actions.push({id:'drop-products:null:null',label:'Poser le colis de produits',description:'Pose immédiate ; interrompt le travail sans livrer les produits ni rembourser les fournitures.',disabled:!q.ok,reason:q.reason||'',close:false,run:()=>begin('drop-products')});}
+  return actions;
+ }
   const offered=[['build',null,null,'Construire un enclos au nord de soi (10 bois, 6 ferraille)'],['fill-bucket',null,null,'Remplir le seau de service à la berge']];
   if(s.cargo203)offered.push(carryingProducts()?['drop-products',null,null,'Poser le colis de produits']:['pickup-products',null,null,'Reprendre le colis de produits au sol']);
   offered.push(s.behaviors?['behaviors-off',null,null,'Suspendre les comportements naturels']:['behaviors',null,null,'Activer la prédation locale et la défense du sanglier']);
