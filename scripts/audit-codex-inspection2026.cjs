@@ -10,6 +10,10 @@ const ROOT=path.resolve(__dirname,'..');
 const OUTPUT='docs/codex/suivi-monde2026/inspection-20261023.json';
 const SOURCE_FILES=Object.freeze([
   ...Registry.COMPILATION_SOURCES,
+  'scripts/compile-codex-inspection2026.cjs',
+  'scripts/audit-codex-inspection2026.cjs',
+  'scripts/audit-codex-inspection-parallel2026.cjs',
+  'scripts/audit-codex-inspection-worker2026.cjs',
   'src/codex-layouts2026.js',
   'src/codex-physical2026.js',
   'src/codex-furnishings2026.js',
@@ -28,14 +32,15 @@ function aggregate(records){
   return {plans:records.length,passed:records.filter(r=>r.pass).length,
     ...Object.fromEntries(SUM_FIELDS.map(key=>[key,records.reduce((sum,r)=>sum+(r[key]||0),0)]))};
 }
-function auditAll({write=false,output=OUTPUT}={}){
+function auditSelection({types:selectedTypes,write=false,output=OUTPUT,onRecord}={}){
   const before=sources();
   const Layouts=require('../src/codex-layouts2026.js');
   const Service=require('../src/codex-inspection2026.js');
   const Physical=require('../src/codex-physical2026.js');
   const Furniture=require('../src/codex-furnishings2026.js');
   const generators=Registry.generators();
-  const types=generators.flatMap(g=>g.types),records=[],failures=[];
+  const available=generators.flatMap(g=>g.types),types=selectedTypes===undefined?[...available]:[...selectedTypes],records=[],failures=[];
+  if(!types.length||new Set(types).size!==types.length||types.some(t=>!available.includes(t)))throw Error('Sélection d’audit absente, inconnue ou dupliquée.');
   const compiledHash=sourceHash(ROOT);
   if(Layouts.sourceHash!==compiledHash)failures.push({code:'stale-compiled-layouts',expected:compiledHash,actual:Layouts.sourceHash});
   for(const type of types)for(let number=1;number<=50;number++){
@@ -78,6 +83,7 @@ function auditAll({write=false,output=OUTPUT}={}){
       failures.push({id:record.id,code:'inspection-failed',errors:record.errors});
     }
     records.push(record);
+    if(onRecord)onRecord({record,records,types,sourceHash:Layouts.sourceHash,sources:before});
   }
   const after=sources();
   for(let i=0;i<before.length;i++)if(before[i].sha256!==after[i].sha256)failures.push({code:'source-changed-during-audit',path:before[i].path});
@@ -85,6 +91,7 @@ function auditAll({write=false,output=OUTPUT}={}){
     actorRadiusM:Physical.DEFAULT_RADIUS,sourceHash:Layouts.sourceHash,sources:after,
     summary:{types:types.length,...aggregate(records),campaignPlayable:0},
     types:types.map(type=>({typologyId:type,...aggregate(records.filter(r=>r.typologyId===type))})),records,failures};
+  if(selectedTypes!==undefined)report.partial=true;
   if(write){
     const destination=path.resolve(ROOT,output);
     fs.mkdirSync(path.dirname(destination),{recursive:true});
@@ -92,9 +99,14 @@ function auditAll({write=false,output=OUTPUT}={}){
   }
   return report;
 }
-if(require.main===module){
-  const report=auditAll({write:true});
-  console.log(JSON.stringify({scope:report.scope,...report.summary,failures:report.failures.length,output:OUTPUT}));
-  if(report.failures.length)process.exitCode=1;
+function auditAll({write=false,output=OUTPUT}={}){return auditSelection({write,output});}
+function auditTypes({types,onRecord}={}){
+  if(!Array.isArray(types))throw Error('Une sélection partielle explicite est requise.');
+  return auditSelection({types,onRecord});
 }
-module.exports={auditAll,OUTPUT,SOURCE_FILES};
+module.exports={auditAll,auditTypes,aggregate,sources,SUM_FIELDS,OUTPUT,SOURCE_FILES};
+if(require.main===module){
+  require('./audit-codex-inspection-parallel2026.cjs').runParallel().then(report=>{
+    console.log(JSON.stringify({scope:report.scope,...report.summary,failures:report.failures.length,output:OUTPUT}));
+  }).catch(error=>{console.error(error.stack||error);process.exitCode=1;});
+}
