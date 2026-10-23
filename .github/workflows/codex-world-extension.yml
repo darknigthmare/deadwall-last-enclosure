@@ -51,3 +51,35 @@ jobs:
           path: artifacts/codex-world-extension/
           retention-days: 7
           if-no-files-found: error
+
+  inspection-browser:
+    name: World codex / workbook and actual author controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check every workbook identifier, status, cached formula and inspection count
+        run: python3 scripts/verify-codex-tracker-xlsx2026.py docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx --report artifacts/qa/world-codex-workbook.json
+      - uses: ./.github/actions/setup-chromium
+      - name: Exercise the actual desktop and touch author controls
+        run: node scripts/browser-codex-inspection2026.mjs
+      - name: Ensure generated public sources still match the checkout
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-world-codex-browser
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

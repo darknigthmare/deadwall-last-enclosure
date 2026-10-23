@@ -1,3 +1,5 @@
+> Reprise courante du 23 octobre : [DEADWALL 1.70 — 1 950 plans](REPRISE_20261023.md). Les preuves ci-dessous décrivent le lot précédent sur ses SHA propres.
+
 # DEADWALL — PR #16 : 1 200 plans et correctifs de validation
 
 Cette continuation ajoute **200 plans industriels** aux 1 000 inspections déjà publiées dans la [PR #16](https://github.com/darknigthmare/deadwall-last-enclosure/pull/16). Les quatre nouvelles familles proposent chacune 50 variantes : agroalimentaire, mécanique, textile et matériaux. Elles restent destinées à l’inspection auteur ; leur présence dans le Guide n’accorde aucun nouveau stock, service ou emplacement jouable en campagne.

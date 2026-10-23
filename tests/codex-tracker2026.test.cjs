@@ -13,7 +13,7 @@ test('dimensions négatives refusées, valeurs non renseignées conservées',()=
 test('fourchette de quantité inversée refusée',()=>{const d=clean();d.catalogue.props[0].quantity=[3,1];assert.throws(()=>validate(d),/quantité/);});
 test('numéro de variante répété refusé',()=>{const d=clean();d.variants[1].number=1;assert.throws(()=>validate(d),/numéro variante/);});
 test('une cible de variante ne peut pas être annoncée jouable',()=>{const d=clean();d.variants[0].playable=true;assert.throws(()=>validate(d),/jouabilité sans preuve/);});
-test('une tâche validée doit citer sa preuve',()=>{const d=clean();d.tasks[0].status='Validé';assert.throws(()=>validate(d),/validation sans preuve/);});
+test('une tâche validée doit citer sa preuve',()=>{const d=clean();d.tasks[0].status='Validé';d.tasks[0].evidence='';assert.throws(()=>validate(d),/validation sans preuve/);});
 test('chaque type doit conserver dix étapes distinctes',()=>{const d=clean();d.tasks[1].stage=d.tasks[0].stage;assert.throws(()=>validate(d),/étapes/);});
 test('une source doit avoir une empreinte',()=>{const d=clean();d.catalogue.programmes[0].sourceSha256='inconnue';assert.throws(()=>validate(d),/provenance/);});
 test('une inspection partielle ne certifie ni architecture complète ni implantation',()=>{for(const field of ['architecture','spawnWeight','playable','inspection']){const d=clean(),v=d.variants.find(v=>v.status==='Inspection physique');v[field]=field==='architecture'?{}:field==='spawnWeight'?1:field==='playable'?true:null;assert.throws(()=>validate(d),/inspection|jouabilité/);}});
