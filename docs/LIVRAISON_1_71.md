@@ -32,9 +32,15 @@ Les **58 sortes de mobilier** disposent chacune de **trois variantes cosmétique
 
 Le rendu utilise les coordonnées et dimensions de chaque objet sans modifier sa collision. Il ne charge aucune image externe et ne consomme pas le hasard de campagne. Ces pictogrammes facilitent la lecture des plans : les sprites et animations définitifs de campagne restent à produire et à qualifier.
 
-## Nouvelle partie sur une seed encombrée
+## Placement des décors et reprise des sauvegardes
 
-La seed `628472550` pouvait bloquer la création de campagne : plusieurs placements de proximité occupaient des parcelles nécessaires aux derniers grands décors. Un secours compact se déclenche uniquement après l’échec des recherches existantes. Ses 48 positions restent privées jusqu’à validation de l’ensemble avec les mêmes marges, toitures, routes et obstacles. Les identifiants, dimensions et stocks finis sont conservés, et les positions sauvegardées restent prioritaires à la reprise. Les cartes qui réussissaient déjà gardent leur placement habituel.
+Les seeds `628472550`, `967313470` et `1947648717` pouvaient bloquer la création de campagne lorsque le placement de proximité fragmentait les parcelles restantes. Un secours compact prépare les 48 positions séparément et ne les applique qu’après validation complète. Il conserve les tailles, toitures, routes, identifiants et stocks finis.
+
+Les recherches existantes restent prioritaires. Leur dernier secours distingue la toiture réelle d’une réserve de bâtiment qui contient déjà un mètre de dégagement : ce dégagement est compté une seule fois, sans réduire les bâtiments ou leur toiture. Quatre ordres déterministes bornent cette recherche complémentaire.
+
+Le déplacement tardif d’un arbre pour dégager une route ou un parvis pouvait ensuite réintroduire un contact avec une palissade ou un écart insuffisant. Chaque nouvelle destination conserve désormais les dégagements métriques des décors et obstacles ainsi que les accès libres. Le cas `960071112` couvre cette étape ; un nouveau départ sur la seed `42` corrige aussi un arbre qui chevauchait une palissade.
+
+Les coordonnées et quantités des sauvegardes existantes restent prioritaires au chargement, y compris celles d’une ancienne carte `42`. Ces corrections concernent la génération et ne déplacent pas silencieusement les objets déjà sauvegardés.
 
 ## Portée et qualification
 
@@ -46,6 +52,6 @@ Le rapport exhaustif accepte les **4 000 plans**, avec **162 460 pièces meublé
 
 La validation ciblée du [module de pictogrammes](../src/codex-plan-art204.js) a réussi ses **10 tests natifs Canvas**, sans échec, annulation, test ignoré ou TODO. Elle vérifie le catalogue complet, les différences entre catégories et variantes, la reproductibilité, les rotations, l’absence de pixels hors emprise, les entrées invalides et la restitution de l’état du contexte. La planche de 174 pictogrammes a également été examinée visuellement. Ces résultats qualifient ce module, pas la totalité du jeu.
 
-La correction du placement passe **24 tests natifs ciblés** (5 sur les parcelles et 19 sur l’accueil), un corpus supplémentaire de **six seeds**, et **17 contrôles Chromium** du démarrage réel, de la sauvegarde et de « Continuer » sur ordinateur/mobile simulé. Les 42 contrôles du cache complet ont été rejoués avec succès après reconstruction. Les 29 sources du rapport auteur exhaustif sont inchangées par cette correction.
+La correction du placement passe **27 tests natifs ciblés** (8 sur les parcelles, dont la vraie sauvegarde antérieure, et les 19 tests d’accueil inchangés). Le corpus indépendant de **48 seeds** passe sur les sources intégrées, avec les 48 décors de chaque carte, leurs emprises et marges, leurs accès, identités et stocks ; les 184 entrées runtime sont identiques avant et après l’audit. Les **17 contrôles Chromium** du démarrage visible, de la sauvegarde et de « Continuer » sur ordinateur/mobile simulé passent aussi sur la seed `967313470`. Les **42 contrôles hors ligne** passent après reconstruction. Ce corpus est borné et ne prouve pas l’ensemble des seeds possibles. Les 29 sources du rapport auteur exhaustif sont inchangées par cette correction.
 
 Les parcours Chromium sur la distribution reconstruite passent **414 contrôles du Guide** sur ordinateur/mobile et **42 contrôles hors ligne**. Les quatre formats du parcours général du jeu ont passé 179 contrôles. Le contrôle littéral complet avec endurance est exigé sur le commit final de la PR ; son reçu de CI et la vérification du déploiement restent des preuves distinctes de ces résultats locaux. Les scènes automatisées et les audits assistés ne mesurent ni une campagne humaine complète de 6 à 10 heures, ni la fluidité sur un téléphone physique.
