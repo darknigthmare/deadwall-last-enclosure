@@ -27,21 +27,32 @@ def xml_signature(element, ignore_wrap=False):
     return (element.tag, attributes, element.text or "", tuple(xml_signature(c, ignore_wrap) for c in element))
 
 
-def style_signatures(z, ignore_wrap=False):
+def style_signatures(z, ignore_wrap=False, normalize_defaults=True):
     tree = ET.fromstring(z.read("xl/styles.xml"))
     fonts = list(tree.find("m:fonts", NS))
     fills = list(tree.find("m:fills", NS))
     borders = list(tree.find("m:borders", NS))
     formats = {n.attrib["numFmtId"]: n.attrib["formatCode"] for n in tree.findall("m:numFmts/m:numFmt", NS)}
-    signatures = []
-    for xf in tree.find("m:cellXfs", NS):
-        attributes = tuple(sorted((k, v) for k, v in xf.attrib.items() if k not in ("fontId", "fillId", "borderId", "numFmtId", "xfId")))
-        signatures.append((attributes, xml_signature(fonts[int(xf.attrib.get("fontId", 0))]),
-                           xml_signature(fills[int(xf.attrib.get("fillId", 0))]),
-                           xml_signature(borders[int(xf.attrib.get("borderId", 0))]),
-                           formats.get(xf.attrib.get("numFmtId", "0"), xf.attrib.get("numFmtId", "0")),
-                           tuple(xml_signature(child, ignore_wrap) for child in xf)))
-    return signatures
+    def signature(xf, omit_wrap=False, normalize=False):
+        # Adding wrapText can make existing defaults explicit on export.
+        # Compare their resolved font/fill/border/format below; an explicit
+        # apply*=1 and an empty alignment add no other visual change.
+        attributes = tuple(sorted((k, v) for k, v in xf.attrib.items()
+                                  if k not in ("fontId", "fillId", "borderId", "numFmtId", "xfId")
+                                  and not (normalize and k.startswith("apply") and v == "1")))
+        children = tuple(xml_signature(child, omit_wrap) for child in xf
+                         if not (normalize and child.tag == "{" + NS["m"] + "}alignment"
+                                 and not {k: v for k, v in child.attrib.items() if k != "wrapText"}
+                                 and not len(child) and not child.text))
+        return (attributes, xml_signature(fonts[int(xf.attrib.get("fontId", 0))]),
+                xml_signature(fills[int(xf.attrib.get("fillId", 0))]),
+                xml_signature(borders[int(xf.attrib.get("borderId", 0))]),
+                formats.get(xf.attrib.get("numFmtId", "0"), xf.attrib.get("numFmtId", "0")), children)
+    # Preserve inherited styles too: equal explicit components must not hide
+    # a changed base font, fill, border or alignment behind apply flags.
+    inherited = [signature(xf) for xf in tree.find("m:cellStyleXfs", NS)]
+    return [(signature(xf, ignore_wrap, ignore_wrap and normalize_defaults), inherited[int(xf.attrib.get("xfId", 0))])
+            for xf in tree.find("m:cellXfs", NS)]
 
 
 def read_workbook(file):
@@ -54,6 +65,7 @@ def read_workbook(file):
             strings = ["".join(s.itertext()) for s in ET.fromstring(z.read("xl/sharedStrings.xml"))]
         styles = style_signatures(z)
         styles_without_wrap = style_signatures(z, ignore_wrap=True)
+        styles_without_wrap_raw = style_signatures(z, ignore_wrap=True, normalize_defaults=False)
         relations = {r.attrib["Id"]: r.attrib["Target"] for r in ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))}
         result = {}
         for s in ET.fromstring(z.read("xl/workbook.xml")).find("m:sheets", NS):
@@ -66,10 +78,12 @@ def read_workbook(file):
             missing = []
             cell_styles = {}
             cell_styles_without_wrap = {}
+            cell_styles_without_wrap_raw = {}
             for c in tree.findall("m:sheetData/m:row/m:c", NS):
                 style = int(c.attrib.get("s", 0))
                 cell_styles[c.attrib["r"]] = styles[style]
                 cell_styles_without_wrap[c.attrib["r"]] = styles_without_wrap[style]
+                cell_styles_without_wrap_raw[c.attrib["r"]] = styles_without_wrap_raw[style]
                 typ = c.attrib.get("t")
                 value_tag = c.find("m:v", NS)
                 value = value_tag.text if value_tag is not None else None
@@ -121,6 +135,7 @@ def read_workbook(file):
                 "conditionalFormats": len(tree.findall("m:conditionalFormatting", NS)),
                 "styles": cell_styles,
                 "stylesWithoutWrap": cell_styles_without_wrap,
+                "stylesWithoutWrapRaw": cell_styles_without_wrap_raw,
                 "columns": [xml_signature(c) for c in tree.findall("m:cols/m:col", NS)],
             }
         return result
@@ -156,6 +171,9 @@ def mapped_rows(sheet, count):
 
 
 def verify_historical_styles(book, baseline, data):
+    checked = 0
+    wrap_changes = []
+    normalized = []
     author_types = {t["id"] for t in data["typologies"] if "choix de composition auteur" in (t.get("dimensions_m") or {}).get("scope", "")}
     author_rows = {"Extension typologies": set(), "Variantes à concevoir": set()}
     for name, records in (("Extension typologies", data["typologies"]), ("Variantes à concevoir", data["variants"])):
@@ -164,6 +182,7 @@ def verify_historical_styles(book, baseline, data):
     for name in EXPECTED_SHEETS[:11]:
         assert_equal(book[name]["columns"], baseline[name]["columns"], name + " largeurs de colonnes historiques")
         for address, signature in baseline[name]["styles"].items():
+            checked += 1
             row = int("".join(c for c in address if c.isdigit()))
             column = "".join(c for c in address if c.isalpha())
             # Authored dimensions add line wrapping in A:K, while retaining
@@ -171,8 +190,17 @@ def verify_historical_styles(book, baseline, data):
             if name in author_rows and row in author_rows[name] and len(column) == 1 and column <= "K":
                 key = "stylesWithoutWrap"
                 assert_equal(book[name][key].get(address), baseline[name][key][address], name + " style historique " + address)
+                if book[name]["styles"].get(address) != signature:
+                    wrap_changes.append(name + "!" + address)
+                if book[name]["stylesWithoutWrapRaw"].get(address) != baseline[name]["stylesWithoutWrapRaw"][address]:
+                    normalized.append(name + "!" + address)
             else:
                 assert_equal(book[name]["styles"].get(address), signature, name + " style historique " + address)
+    return {"checkedHistoricalStyleCells": checked, "authorCellsWithWrapStyleChanges": len(wrap_changes),
+            "authorCellsWithEquivalentExplicitDefaults": len(normalized),
+            "equivalentExplicitDefaultsBySheet": {name: sum(cell.startswith(name + "!") for cell in normalized)
+                                                 for name in author_rows},
+            "inheritedStylesPreserved": True}
 
 
 def verify(book, data, baseline=None):
@@ -319,8 +347,9 @@ def verify(book, data, baseline=None):
         raise AssertionError("Le nouveau statut n’est pas proposé dans la liste de validation")
     assert_equal(book["Légende"]["cells"].get("A27"), "Inspection physique", "Légende du nouveau statut")
 
+    style_verification = None
     if baseline:
-        verify_historical_styles(book, baseline, data)
+        style_verification = verify_historical_styles(book, baseline, data)
         for name in EXPECTED_SHEETS:
             for feature in ("pane", "tables", "validations", "conditionalFormats"):
                 assert_equal(book[name][feature], baseline[name][feature], name + " conservation " + feature)
@@ -340,7 +369,7 @@ def verify(book, data, baseline=None):
                 new.pop("B27", None)
             assert_equal(new, old, name + " contenu historique")
             assert_equal(book[name]["formulas"], baseline[name]["formulas"], name + " formules historiques")
-    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "scope": "XLSX source reconciliation; does not certify gameplay"}
+    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "styleVerification": style_verification, "scope": "XLSX source reconciliation; does not certify gameplay"}
 
 
 def main():
