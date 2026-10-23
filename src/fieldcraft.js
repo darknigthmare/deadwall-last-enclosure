@@ -24,7 +24,8 @@ function attach(g){
  if(g.fieldcraft)return g.fieldcraft;
  let world=null,solids=[],spatialIndex=new Map(),moving=null,quote=null,mounted=null,attempt=false,outcome='',opacity=null,action=null,indexWorld=null,indexNodes=null,indexVersion=-1,feedbackUntil=0;
  const wrap=(name,fn)=>{const old=g[name].bind(g);g[name]=(...a)=>fn(old,...a);};
- function objects(){return g.world.nodes.filter(n=>!n.depleted).concat((g.expeditions.sites?.()||C.Expeditions.SITES).map(s=>({id:'exp:'+s.id,x:s.x,y:s.y,renderSize:86,fixture:true})));}
+ function fixtures(){return (g.expeditions.sites?.()||C.Expeditions.SITES).map(s=>({id:'exp:'+s.id,x:s.x,y:s.y,renderSize:86,fixture:true}));}
+ function objects(){return g.world.nodes.filter(n=>!n.depleted).concat(fixtures());}
  function index(){indexWorld=g.world;indexNodes=g.world.nodes;indexVersion=g.world.navigationVersion;solids=objects();spatialIndex=new Map();for(const e of solids){const b=rect(e);for(let y=Math.floor(b.t/128);y<=Math.floor(b.b/128);y++)for(let x=Math.floor(b.l/128);x<=Math.floor(b.r/128);x++){const k=x+':'+y;if(!spatialIndex.has(k))spatialIndex.set(k,[]);spatialIndex.get(k).push(e);}}}
  function props(x,y,r=0){if(indexWorld!==g.world||indexNodes!==g.world.nodes||indexVersion!==g.world.navigationVersion)index();const found=new Set();for(let yy=Math.floor((y-r)/128);yy<=Math.floor((y+r)/128);yy++)for(let xx=Math.floor((x-r)/128);xx<=Math.floor((x+r)/128);xx++)for(const p of spatialIndex.get(xx+':'+yy)||[])if(!p.depleted)found.add(p);return found;}
  function blocked(x,y,r=0,ignore=null){
@@ -242,7 +243,7 @@ function attach(g){
  if(typeof g.showCommand==='function')wrap('showCommand',(old,show,...a)=>{if(!show&&quote)cancel();return old(show,...a);});
  g.canvas.addEventListener('mousedown',pick,true);
  g.canvas.addEventListener('pointerdown',pick,true);
- g.fieldcraft=Object.freeze({setup,rect,reserveRect,distance,overlap,positionFree,workAt,service,props,nearby,proposal,commit,beginMove,plan,rotate,cancel,control,snapshot,steerZombie,context:()=>({moving,quote,mounted,action}),reload:()=>({attempt,outcome,feedback:g.elapsed<feedbackUntil,p:g.player.reloadTotal?1-g.player.reload/g.player.reloadTotal:0}),opacity:target=>opacity===null?target:opacity});
+ g.fieldcraft=Object.freeze({setup,rect,reserveRect,fixtures,distance,overlap,positionFree,workAt,service,props,nearby,proposal,commit,beginMove,plan,rotate,cancel,control,snapshot,steerZombie,context:()=>({moving,quote,mounted,action}),reload:()=>({attempt,outcome,feedback:g.elapsed<feedbackUntil,p:g.player.reloadTotal?1-g.player.reload/g.player.reloadTotal:0}),opacity:target=>opacity===null?target:opacity});
  setup();return g.fieldcraft;
 }
 const api={attach,rect,overlap,collides,distance};root.DeadwallFieldcraft=api;

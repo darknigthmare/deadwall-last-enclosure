@@ -118,7 +118,7 @@ export async function comparePersistentRestore(page, checkpoint) {
   return comparison.pass;
 }
 
-export async function saveReloadContinue(page, touch) {
+export async function saveReloadContinue(page, touch, {polling = 'raf'} = {}) {
   await activate(page, '#pauseButton', touch);
   await activate(page, '#saveButton', touch);
   const checkpoint = await persistedSnapshot(page);
@@ -126,10 +126,10 @@ export async function saveReloadContinue(page, touch) {
   await activate(page, '#quitButton', touch);
   await page.reload({ waitUntil: 'networkidle' });
   const { ready } = await import('./browser-qa-common142.mjs');
-  await ready(page);
+  await ready(page, {polling});
   await observePersistentRestore(page);
   await activate(page, '#continueButton', touch);
-  await page.waitForFunction(() => DEADWALL.state === 'playing');
+  await page.waitForFunction(() => DEADWALL.state === 'playing', null, {polling});
   checkpoint.pass = await comparePersistentRestore(page, checkpoint);
   return checkpoint;
 }

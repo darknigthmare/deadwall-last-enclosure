@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "byte-exact-split-proof-archive",
+  "originalFile": "validation-d17-reprise2-20261022.tar.gz",
+  "originalBytes": 21565302,
+  "originalSha256": "cf141f23f476a8c7b30e8aacca8e6a822f8f9737c371b234f780120221000420",
+  "reason": "The MCP transport rejects request bodies larger than 16 MiB. Parts preserve every byte of the original frozen tar.gz archive.",
+  "parts": [
+    {
+      "file": "validation-d17-reprise2-20261022.tar.gz.part01",
+      "bytes": 7999998,
+      "sha256": "224b29d10ad73efb200c7b170af171ba251b8fc45f4fff7557f80e889e0133c6",
+      "gitBlobSha": "32aadb8071cd8a3f48418efb09e41aa511a8f449"
+    },
+    {
+      "file": "validation-d17-reprise2-20261022.tar.gz.part02",
+      "bytes": 7999998,
+      "sha256": "812ec3d539467982a66614bf1c7390014ac432d6fd2b920655ab25af9a811029",
+      "gitBlobSha": "a8fd2fe884b40bd66050b5e0cfea6f30587a3460"
+    },
+    {
+      "file": "validation-d17-reprise2-20261022.tar.gz.part03",
+      "bytes": 5565306,
+      "sha256": "db62eb62be1d6cfa6b6f1aa9c1ad00fd1a4df77764882a8605135ec97ede374f",
+      "gitBlobSha": "9189233875795a45618ca4c86596e0681bb3126e"
+    }
+  ],
+  "reassembly": "Concatenate the parts in the listed order as binary data. Verify originalBytes and originalSha256 before extracting the resulting gzip/tar archive.",
+  "originalValidation": "validation-d17-reprise2-20261022.json",
+  "originalValidationUnchanged": true
+}

@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-22T13:40:18.828125+00:00",
+  "baseCommit": "84b1ec2b6de22898e902a7a7a7d7e5929e02de8b",
+  "scope": "Fresh execution after workspace restoration. Author inspection only; no campaign installation or active production.",
+  "inspection": {
+    "path": "docs/codex/suivi-monde2026/inspection-restauration-20261022.json",
+    "bytes": 939597,
+    "sha256": "6eab9a45f0e7de3511f1e47cb5199d709f16bc611d142b8212437b3d738e8daf",
+    "sourceHash": "b6a4defded6f1bd425c88c4115348358e26a614886816c2ea552b196d5b10640",
+    "summary": {
+      "types": 24,
+      "plans": 1200,
+      "passed": 1200,
+      "rooms": 38890,
+      "furnishedRooms": 38860,
+      "props": 132500,
+      "requested": 140433,
+      "refused": 7933,
+      "unknownUses": 0,
+      "levels": 2100,
+      "walls": 284885,
+      "transitions": 900,
+      "lootContainersCreated": 0,
+      "connectedServices": 0,
+      "campaignPlayable": 0
+    }
+  },
+  "historicalComparison": {
+    "plansCompared": 1000,
+    "fieldsCompared": [
+      "authorPlanSha256",
+      "rooms",
+      "furnishedRooms",
+      "props",
+      "requested",
+      "refused",
+      "unknownUses",
+      "levels",
+      "walls",
+      "transitions",
+      "lootContainersCreated",
+      "connectedServices",
+      "geometryFingerprint"
+    ],
+    "changedPlans": []
+  },
+  "runs": [
+    {
+      "command": "node --test tests/codex-industrial2026.test.cjs tests/codex-inspection2026.test.cjs",
+      "exitCode": 0,
+      "counts": {
+        "tests": 24,
+        "suites": 0,
+        "pass": 24,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "durationMs": 9929.656481,
+      "logBytes": 2614,
+      "logSHA256": "f9691a349d655c49cb18bd0ccc4ca42d2e1d4b7929439fcc592229a99c7b172f",
+      "archive": "validation-industrie-restauration-20261022-targeted.log.gz",
+      "archiveSHA256": "4076bbd22554f4c717237249966ed1f88e9f6c6a503a23ee1036247f4b22b6b0"
+    },
+    {
+      "command": "DEADWALL_WRITE_INSPECTION_AUDIT=1 node --test tests/codex-furnishings2026.test.cjs",
+      "exitCode": 0,
+      "counts": {
+        "tests": 26,
+        "suites": 0,
+        "pass": 26,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "durationMs": 129273.644774,
+      "logBytes": 1992,
+      "logSHA256": "f0801b46e2fd923d9659ccb80cc994fbfc26ad7914d9c560324727419a3be36e",
+      "archive": "validation-industrie-restauration-20261022-exhaustive.log.gz",
+      "archiveSHA256": "b4aa79d07b0feb8e643e0690ea12e4c3fa6db9ece79bdf45a579dbfd6e01d967"
+    }
+  ]
+}

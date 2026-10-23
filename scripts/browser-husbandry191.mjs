@@ -1,6 +1,7 @@
 import path from 'node:path';
 import {createHarness,recorder,ready,chooseCampaign} from './browser-qa-common142.mjs';
 import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
+import {preparePaidKnife191} from './browser-husbandry-fixture191.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
 const h=await createHarness('husbandry191','Built distribution with actual desktop/touch operation buttons, generated rabbit, paid enclosure/capture, slaughter/cooking and native save/menu/reload/Continue. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
@@ -14,6 +15,7 @@ try{
    await page.goto(base,{waitUntil:'networkidle',timeout:120000});await ready(page);await chooseCampaign(page,'17117');await activate(page,'#campaignIntro132Skip',viewport.touch);
    // Allow the already queued frame to finish; no re-scheduling after this boundary.
    await page.evaluate(()=>{window.requestAnimationFrame=()=>0;});await page.waitForTimeout(150);
+   profile.knife=await page.evaluate(preparePaidKnife191);
    const fixture=await page.evaluate(()=>{
     const g=DEADWALL,C=DeadwallCore,P=DeadwallBiomePopulation165,w=g.frontier.world(),R=C.Husbandry191Rules;let chosen=null;
     for(let cy=0;cy<96&&!chosen;cy++)for(let cx=0;cx<96&&!chosen;cx++)for(let i=0;i<8&&!chosen;i++){
@@ -25,9 +27,6 @@ try{
      chosen={id:a.id,point,species:a.species};
     }
     if(!chosen)throw Error('No actual dry generated rabbit checkpoint');
-    const q=g.arsenal134.begin('craft','knife');if(!q.ok)throw Error(q.reason);for(let i=0;i<200&&g.arsenal134.busy();i++)g.arsenal134.step(.1);
-    const knife=g.arsenal134.snapshot().locker.find(i=>i.id==='knife');if(!knife)throw Error('Paid knife absent');
-    for(const q of[g.arsenal134.transfer(knife.uid,'carried'),g.arsenal134.equip(knife.uid)])if(!q.ok)throw Error(q.reason);
     const saved=g.serialize();saved.player.carry={...saved.player.carry,wood:15,scrap:10,food:10,fuel:4};
     Object.assign(saved.frontier,{active:true,...chosen.point,z:0,inside:null,a:0,quiet:true,anchor:{x:saved.player.x,y:saved.player.y}});
     if(!g.restoreSave(saved))throw Error('Declared setup refused');g.paused=false;g.activeOverlay=null;g.dayClock=.4;g.update(.01);g.updateUI();g.render();

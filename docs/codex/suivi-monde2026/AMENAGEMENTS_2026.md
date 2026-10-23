@@ -1,0 +1,89 @@
+# Aménagement des 1 950 avant-projets — 23 octobre 2026
+
+Les 1 950 plans disposent de 57 990 pièces hors circulation, dont 57 990 meublées, et de 205 763 équipements à leurs dimensions déclarées. Les 4 670 prescriptions refusées restent comptées ; les meubles ne sont pas réduits pour entrer dans une pièce.
+
+Les 30 pièces vides des navires venaient d’un double dégagement imposé à la face d’utilisation. Le rectangle de service doit rester dans la pièce et le disque piéton doit pouvoir le rejoindre ; lui imposer encore une marge complète de rayon excluait des meubles pourtant utilisables. Le correctif conserve gabarits, murs et contrôle continu des passages. Les machines trop grandes restent refusées.
+
+| Typologie | Plans | Pièces hors circulation | Pièces meublées | Équipements | Refus |
+|---|---:|---:|---:|---:|---:|
+| T001 — Base nautique lacustre | 50 | 1 300 | 1 300 | 4 700 | 0 |
+| T002 — Village de pêche lacustre | 50 | 1 950 | 1 950 | 4 350 | 0 |
+| T003 — Station limnologique | 50 | 1 950 | 1 950 | 4 350 | 0 |
+| T004 — Camping de rive | 50 | 1 300 | 1 300 | 4 700 | 0 |
+| T005 — Cargo polyvalent | 50 | 1 680 | 1 680 | 4 467 | 1 491 |
+| T006 — Pétrolier océanique | 50 | 2 800 | 2 800 | 10 015 | 0 |
+| T007 — Croiseur militaire abandonné | 50 | 1 600 | 1 600 | 5 815 | 0 |
+| T008 — Sous-marin en surface | 50 | 600 | 600 | 1 707 | 396 |
+| T011 — Navire de soutien offshore | 50 | 1 600 | 1 600 | 4 638 | 964 |
+| T017 — Phare et logements | 50 | 1 600 | 1 600 | 5 750 | 0 |
+| T018 — Fête foraine portuaire | 50 | 1 600 | 1 600 | 6 000 | 0 |
+| T019 — Chantier naval côtier | 50 | 1 600 | 1 600 | 6 050 | 0 |
+| T020 — Baie avec village côtier | 50 | 1 600 | 1 600 | 6 000 | 0 |
+| T021 — Ferme laitière | 50 | 1 400 | 1 400 | 4 950 | 0 |
+| T022 — Élevage ovin | 50 | 1 400 | 1 400 | 5 100 | 0 |
+| T023 — Ferme avicole | 50 | 1 400 | 1 400 | 5 050 | 0 |
+| T024 — Centre équestre rural | 50 | 1 400 | 1 400 | 5 100 | 0 |
+| T025 — Exploitation céréalière | 50 | 1 300 | 1 300 | 4 850 | 0 |
+| T026 — Domaine viticole | 50 | 1 300 | 1 300 | 4 700 | 0 |
+| T027 — Ferme maraîchère | 50 | 1 400 | 1 400 | 5 200 | 0 |
+| T028 — Verger avec conditionnement | 50 | 1 300 | 1 300 | 4 800 | 0 |
+| T045 — Parc résidentiel de mobil-homes | 50 | 2 460 | 2 460 | 7 803 | 1 167 |
+| T046 — Camping caravanes | 50 | 900 | 900 | 3 100 | 200 |
+| T047 — Camp de travailleurs | 50 | 2 560 | 2 560 | 8 440 | 0 |
+| T048 — Parc de caravanes abandonné | 50 | 1 290 | 1 290 | 4 278 | 452 |
+| T053 — Usine agroalimentaire | 50 | 1 900 | 1 900 | 6 850 | 0 |
+| T054 — Usine de mécanique | 50 | 2 000 | 2 000 | 7 500 | 0 |
+| T055 — Usine textile | 50 | 2 000 | 2 000 | 7 350 | 0 |
+| T056 — Usine de matériaux | 50 | 2 000 | 2 000 | 7 350 | 0 |
+| T057 — Centrale thermique | 50 | 1 100 | 1 100 | 4 000 | 0 |
+| T058 — Centrale hydroélectrique | 50 | 1 100 | 1 100 | 4 000 | 0 |
+| T059 — Poste électrique régional | 50 | 1 100 | 1 100 | 3 950 | 0 |
+| T060 — Champ d’éoliennes | 50 | 600 | 600 | 2 200 | 0 |
+| T061 — Station d’épuration urbaine | 50 | 1 100 | 1 100 | 4 050 | 0 |
+| T062 — Station de lagunage | 50 | 1 100 | 1 100 | 4 000 | 0 |
+| T063 — Traitement des eaux industrielles | 50 | 1 100 | 1 100 | 4 050 | 0 |
+| T064 — Usine de potabilisation | 50 | 1 100 | 1 100 | 4 050 | 0 |
+| T065 — Stade municipal | 50 | 2 000 | 2 000 | 7 250 | 0 |
+| T066 — Grand stade couvert | 50 | 2 000 | 2 000 | 7 250 | 0 |
+| **Total** | **1 950** | **57 990** | **57 990** | **205 763** | **4 670** |
+
+Chaque prescription est soit posée, soit refusée. Aucun usage de pièce n’est inconnu. Une pièce meublée ne signifie pas que son équipement artistique et ses interactions de campagne sont achevés. Le [rapport exhaustif](inspection-20261023.json) conserve sources, empreintes, métriques et limites. Les trente-neuf types sont inspectables ; quarante et un restent à concevoir. Aucun nouveau lieu de campagne ni service actif n’est créé par cette inspection.
+
+## Programme et dimensions
+
+Le module [codex-furnishings2026.js](../../../src/codex-furnishings2026.js) exploite les noms et fonctions déjà présents dans les [fondations métriques](../../../scripts/codex-world-foundations2026.cjs) , les [plans maritimes](../../../scripts/codex-maritime2026.cjs), [agricoles](AGRICULTURE_2026.md) et [résidentiels](RESIDENTIEL_2026.md). Les programmes distinguent notamment couchage, salon, réfectoire, cuisine, réserves, sanitaires, douches, vestiaires, soins, buanderie, atelier, bureaux, accueil, archives, contrôle, électricité et machines. Une cuisine reçoit des équipements de cuisine ; les douches des cabines ; les ateliers des établis et du rangement. Les couloirs et coursives restent libres de mobilier. Les activités agricoles reçoivent leurs équipements dédiés : mangeoires, abreuvoirs, râteliers, traite, laiterie, pondoirs, chai, cuverie, pressoir, soins vétérinaires et semis. Les « boxes de repos » sont des locaux d’élevage ; ils ne reçoivent plus de couchage humain. Les chambres parentales utilisent le lit double du catalogue.
+
+Les emprises existantes sont lues dans [frontier-geometry.js](../../../src/frontier-geometry.js), [seed-detail157.js](../../../src/seed-detail157.js) et le catalogue `CodexFixtures164Rules` de [core.js](../../../src/core.js). Par exemple, l'établi conserve 2 × 0,85 m, la machine 2,6 × 1,6 m, le bureau 1,4 × 0,7 m et la baie électrique 1,5 × 0,6 m. Il s'agit des dimensions du catalogue du jeu, pas de nouvelles mesures de fabricants. La couchette de 2 × 0,75 m et la cabine de douche de 0,9 × 0,9 m restent des formes de composition déclarées. Douze nouvelles formes agricoles portent la même provenance auteur explicite ; aucune mesure de fabricant ni conformité réelle n’est revendiquée. La forme est placée à sa dimension déclarée ou refusée.
+
+Chaque objet porte sa provenance `sourceDimensions`, son emprise d'origine `footprintM`, sa rotation et sa hauteur `heightM`. Les hauteurs ajoutées sont toutes des choix de composition, marqués `author-design-not-manufacturer-dimension`. Elles sont comparées à la hauteur libre de la pièce. Une rotation échange largeur et profondeur ; aucun facteur de réduction n'est utilisé. Les compartiments étroits du sous-marin refusent ainsi les machines de 2,6 × 1,6 m.
+
+Les coordonnées sont locales au site et exprimées en mètres. Pour les navires, `level` est l'indice entier du pont, `sourceLevel` conserve son identifiant auteur et `elevationM` sa cote verticale, éventuellement négative ou fractionnaire. Ni une cote de pont, ni un tirant d'eau, ni une hauteur de meuble ne sert d'indice de niveau. Les coordonnées des annexes terrestres sont converties depuis leur repère de bâtiment sans modifier les plans sources.
+
+## Dégagements contrôlés
+
+Le placement réserve un chemin de 0,8 m de largeur entre chaque porte et le centre de sa pièce. Le joueur utilise un rayon de 0,32 m. Les objets gardent une marge aux murs et aux autres meubles ; leur face de service possède un dégagement de 0,8 m. Un meuble ne recouvre ni un autre objet, ni la face de service d'un autre, ni le trajet protégé de la porte. Tous les essais sont bornés et déterministes, sans appel au hasard de simulation.
+
+La vérification locale agrandit les obstacles du rayon du joueur et recherche les chemins sur une grille de coordonnées issue de leurs arêtes. Chaque segment est vérifié de façon continue : une barrière fine ne disparaît pas entre deux cellules. Elle relie le centre, toutes les entrées et les centres des faces de service. Le contrôle supplémentaire de [codex-physical2026.js](../../../src/codex-physical2026.js) compose les meubles avec les murs, portes, escaliers et échelles de la scène, puis vérifie les parcours depuis l'entrée. Les limites des réservations dangereuses restent fermées.
+
+`lootEligible` décrit seulement la fonction possible d'un conteneur. Tous les objets portent `lootAssigned:false` et `utilityConnected:false`. Aucun champ de quantité ni de ressource n'est généré. Les totaux restent à zéro conteneur de campagne créé et zéro service raccordé. La création d'une session d'inspection ne modifie pas les sauvegardes ou inventaires de campagne.
+
+## Preuve et reproduction
+
+Le script [audit-codex-inspection2026.cjs](../../../scripts/audit-codex-inspection2026.cjs) appelle la véritable API `CodexInspection2026.create` pour chacune des 1 950 variantes. Il compare chaque plan compilé à son générateur auteur, contrôle les deux audits, les faces accessibles, l'immutabilité et les compteurs de ressources. Son rapport [inspection-20261023.json](inspection-20261023.json) contient un enregistrement par variante, les agrégats par famille, les niveaux, murs et transitions réellement construits, les éventuels échecs et les SHA256 des sources et modules utilisés. Il refuse un compilé périmé et signale toute modification des sources pendant l'audit.
+
+```sh
+npm run codex:inspection
+node --test tests/codex-furnishings2026.test.cjs
+```
+
+Le premier test de la suite réutilise `auditAll` : il ne maintient pas un second algorithme de validation des 1 950 plans. Pour écrire la preuve pendant cette même passe, lancer :
+
+```sh
+DEADWALL_WRITE_INSPECTION_AUDIT=1 node --test tests/codex-furnishings2026.test.cjs
+```
+
+Les cas complémentaires vérifient la stabilité des résultats, l'absence de hasard, la provenance des dimensions, les niveaux maritimes et l'export navigateur. Les cas négatifs altèrent notamment une emprise, une face de service, un niveau, une porte, une quantité de stock, une connexion, un identifiant, un refus ou les métadonnées d'une pièce : l'audit doit les rejeter. Les contrôles physiques, de sauvegarde d'inspection et de navigateur sont suivis séparément ; aucune qualification globale de la campagne n'est déduite de ce rapport.
+
+La passe courante accepte **1 950 plans sur 1 950**, sans échec. Les 1 200 plans auteur précédents sont conservés ; la correction des dégagements actualise leurs métriques de mobilier dans le rapport courant. Les journaux de la restauration antérieure et leur provenance figurent dans [validation-industrie-restauration-20261022.json](validation-industrie-restauration-20261022.json).
+
+Les [plans industriels](INDUSTRIE_2026.md) ajoutent quinze formes de machines, arrêtées et non raccordées, sans recette ni stock actif. Les résultats de la qualification globale sont consignés dans [PUBLICATION.md](PUBLICATION.md).

@@ -1,0 +1,164 @@
+{
+  "worktree": "/tmp/deadwall-reprise-final",
+  "baseCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+  "treeWasDirty": true,
+  "command": [
+    "node",
+    "--test",
+    "tests/desktop.test.cjs",
+    "tests/distribution.test.cjs",
+    "tests/distribution126.test.cjs"
+  ],
+  "session": 86914,
+  "exitCode": 0,
+  "summary": {
+    "tests": 17,
+    "suites": 0,
+    "pass": 17,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 22676.985118
+  },
+  "log": {
+    "path": "/tmp/deadwall-distribution169-final-tests.log",
+    "bytes": 1827,
+    "sha256": "cec5a4335dc16e6cbf8b319e0c72b58ca92636fedc07e57a4f1061f5946bc06b"
+  },
+  "patch": {
+    "path": "/tmp/deadwall-distribution169-final.patch",
+    "bytes": 8781,
+    "sha256": "7b60cce1c52ee9b493cc2ed2351bede4d57fbaf3c86bd5ef582b6590e1830cb1"
+  },
+  "files": [
+    {
+      "path": ".vercelignore",
+      "bytes": 898,
+      "sha256": "75e4788813feadb7efc8a1b08e3612b33120d72eaeee056efd9bb8faef05c083"
+    },
+    {
+      "path": "desktop/policy.cjs",
+      "bytes": 3166,
+      "sha256": "6474da2815ec6bb16b241647573358481fa83454eec20113c032a401f4d27d41"
+    },
+    {
+      "path": "tests/distribution.test.cjs",
+      "bytes": 18911,
+      "sha256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14"
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/desktop.test.cjs",
+      "bytes": 4599,
+      "sha256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881"
+    },
+    {
+      "path": "tests/distribution.test.cjs",
+      "bytes": 18911,
+      "sha256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14"
+    },
+    {
+      "path": "tests/distribution126.test.cjs",
+      "bytes": 5438,
+      "sha256": "4cf0b3949beaf7e253eb24cfe4bae1b89690d35da7136359d3179b68cf4ad505"
+    }
+  ],
+  "proof400": {
+    "count": 11,
+    "allReportEqual": true,
+    "sources": [
+      {
+        "path": "scripts/codex-world-foundations2026.cjs",
+        "sha256": "3ce2f1da884e537c2721c93cf67e826154aeb448fe0e4a4e881f9a2b55e1cf8e",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "scripts/codex-maritime2026.cjs",
+        "sha256": "03744cc87c47b16ab279f85b35148d87866913acf2992ca5e3178a90487b0c07",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/references-metriques2026.json",
+        "sha256": "c19617bcd9d91ac958192de9d628ba34c6b9557c76d8e740acdfd03095266af9",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/OBJECTIFS80.json",
+        "sha256": "798e41d95433cee1433e8f1a12da3fff307a6b0f4c7ad4048faed2555da2c8f6",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/codex-layouts2026.js",
+        "sha256": "51fd2f5a3e1c55e35cceb1e95a4b9f804cf894c5e725257e899ca506e097fabe",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/codex-physical2026.js",
+        "sha256": "fc6adb11fb5509bd7eab485eec8b64b2ea7c8edbe7a6702d55403d973097b73d",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/codex-furnishings2026.js",
+        "sha256": "0ae924c3833ce2b150fc1b4358f8887d4e9653a6371b5eb4a2732c0ccf06823a",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/codex-inspection2026.js",
+        "sha256": "6a91fe648b7cd2ae662b9102b47cbc4d58df1baae377107cc8b477300d13f76c",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/frontier-geometry.js",
+        "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/seed-detail157.js",
+        "sha256": "8f5d6b9cee27cc6eec49f62d0233f24ed7491e2440fb0064b85b40c5aefbee4f",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      },
+      {
+        "path": "src/core.js",
+        "sha256": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e",
+        "equalsReport": true,
+        "equalsFrozenInitialWorktree": true
+      }
+    ],
+    "sourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+    "allFrozenInitialWorktreeEqual": true
+  },
+  "diagnostics": [
+    {
+      "path": "/tmp/deadwall-distribution169-baseline-tests.log",
+      "session": 40333,
+      "exitCode": 1,
+      "tests": 17,
+      "pass": 13,
+      "fail": 4,
+      "bytes": 6922,
+      "sha256": "c5b561c4623832854faa113da66e955fd13d2d4539f60dd161b96b254eae394e"
+    },
+    {
+      "path": "/tmp/deadwall-distribution169-fixed-tests.log",
+      "session": 57918,
+      "exitCode": 1,
+      "tests": 17,
+      "pass": 16,
+      "fail": 1,
+      "bytes": 2753,
+      "sha256": "767dfa3ddb7ae5cca03da79f80b79fd51e69ba12976cd289ddd7f54a444d2c51"
+    }
+  ]
+}

@@ -124,3 +124,40 @@ test('banc défenses148 : épuiser les charges par des contacts successifs prés
  const exhausted=defenseMechanismState();assert.equal(exhausted.mechanism.charges,0);assert.equal(exhausted.mechanism.caught.length,0);
  const b=g.world.buildings.get(initial.support.id);g.damageBuilding(b,b.health+1);assert.throws(()=>defenseMechanismState(),/Paid trap support or mount lost/,'Destruction is a real failed renewal precondition, never an empty success');
 });
+
+
+test('banc défenses148 : accès atelier réel hors retrait du dépôt depuis chaque approche, puis retrait payé au dépôt', async () => {
+  const { defenseCampFixture, defenseServiceFixture, defensePlanSiteFixture } = await import('../scripts/browser-defenses-fixtures148.mjs');
+  const { g } = bootDocument134(); g.startNew('standard', '903148'); g.campaignIntro132.skip(); g.togglePause(true);
+  const rng = g.random.state, nodes = g.serialize().nodes, identity = g.runId, arsenal = g.arsenal134.snapshot();
+  defenseCampFixture(); const stock = { ...g.resources };
+  for (const arrival of ['start', 'depot', 'plan']) {
+    if (arrival === 'depot') defenseServiceFixture({ type: 'core' });
+    if (arrival === 'plan') defensePlanSiteFixture('maintenanceRedoubt');
+    const fixture = defenseServiceFixture({ type: 'workshop' }), workshop = g.world.buildings.get(fixture.support);
+    assert.ok(g.friendlyPositionClear(g.player, g.player.x, g.player.y), arrival + ': actual free access');
+    assert.ok(g.workerCanWorkAt(g.player, workshop, C.Arsenal134Rules.homeReach), arrival + ': real workshop access');
+    assert.equal(g.workerCanWorkAt(g.player, g.core(), C.Arsenal134Rules.homeReach), false, arrival + ': outside actual depot access');
+    assert.equal(g.arsenal134.view().atHome, false, arrival + ': native armory refuses remote withdrawal');
+    g.showCommand(true);
+    const quote = g.arsenal134.preview('craft', 'assemblyHammer'); assert.equal(quote.ok, true); assert.equal(quote.station.id, workshop.id);
+    assert.equal(g.random.state, rng); assert.equal(g.runId, identity); assert.deepEqual(g.serialize().nodes, nodes);
+    assert.deepEqual(g.resources, stock); assert.deepEqual(g.arsenal134.snapshot(), arsenal);
+  }
+  const quote = g.arsenal134.preview('craft', 'assemblyHammer');
+  assert.equal(g.arsenal134.begin('craft', 'assemblyHammer').ok, true); assert.deepEqual(g.resources, stock, 'No advance payment');
+  g.showCommand(false); g.togglePause(false);
+  for (let i = 0; i < Math.ceil(quote.seconds / .04) + 1; i++) g.arsenal134.step(.04);
+  assert.equal(g.arsenal134.busy(), false); g.togglePause(true); g.showCommand(true);
+  const paid = g.arsenal134.snapshot(), made = paid.locker.filter(item => !arsenal.locker.some(old => old.uid === item.uid));
+  assert.equal(made.length, 1); assert.equal(made[0].id, 'assemblyHammer');
+  for (const key of C.RESOURCE_KEYS) assert.equal(g.resources[key], stock[key] - (quote.cost[key] || 0), key + ': exact final recipe');
+  const afterPayment = { ...g.resources };
+  assert.equal(g.arsenal134.transfer(made[0].uid, 'carried').ok, false, 'Real paid item cannot leave the depot from the remote workshop');
+  assert.deepEqual(g.arsenal134.snapshot(), paid); assert.deepEqual(g.resources, afterPayment);
+  defenseServiceFixture({ type: 'core' }); g.showCommand(true);
+  assert.equal(g.arsenal134.view().atHome, true); assert.equal(g.arsenal134.transfer(made[0].uid, 'carried').ok, true);
+  assert.ok(g.arsenal134.snapshot().carried.some(item => item.uid === made[0].uid));
+  assert.deepEqual(g.resources, afterPayment); assert.deepEqual(g.serialize().nodes, nodes);
+  assert.equal(g.random.state, rng); assert.equal(g.runId, identity);
+});

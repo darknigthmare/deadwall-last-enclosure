@@ -1,0 +1,12 @@
+{
+  "recovery": "All seven restored source files match the SHA256 recorded before environment pruning. Prior runtime logs were not recovered or recreated.",
+  "files": {
+    "scripts/browser-products203.mjs": "8841809df39ffe04e660a631602172f6034db6f255d359f363c2d69261bb2676",
+    "scripts/browser-husbandry191.mjs": "63f7bf012202d314c43b7bc517cf6d6560e834863a7ea4dc647dfd3ac31ec8a1",
+    "scripts/browser-husbandry-fixture191.mjs": "56e2e94b7b316162fbfe0238783dc4450156283ab3b15c86314e0a35f0987082",
+    "tests/products203-qa.test.cjs": "81c479cf7b57b16a566092ffd802bd0d64e333bfcdbe500e64b842a608f87119",
+    "scripts/browser-d17-progression149.mjs": "7cea34421b5882f9c8d8cffb7f2e4a50f0a66d311d8d0c98f0ef9bad5404099f",
+    "scripts/browser-d17-placement149.mjs": "e649e2047bab0202f7f2a7e72e03f46e15b1c28380826a4b370fc79cd3e30012",
+    "tests/d17-placement-qa149.test.cjs": "0a63ac1b51210dce43a2f7ed66a5d5dde92f058bedbaa49fadfa338d386230cb"
+  }
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "path": "scripts/browser-defenses-fixtures148.mjs",
+    "mode": "100644",
+    "bytes": 18878,
+    "sha": "f73ddd6606db0b30cc699afd577c2fa1802ab3f9",
+    "sha256": "0548ef4761bd699d07795ddab5a007ec487b27e7074622ffaa416a1965a2ff5d"
+  },
+  {
+    "path": "scripts/qa139-interaction.cjs",
+    "mode": "100644",
+    "bytes": 4862,
+    "sha": "6da446f4e6a86cf579446eed66969e53e7edf63e",
+    "sha256": "3caa2f95689281f7ee1be4df40d16a938229334eeb927ff56565abad4cb127d1"
+  },
+  {
+    "path": "src/coordination.js",
+    "mode": "100644",
+    "bytes": 6685,
+    "sha": "fe272924daf54ef5ad7449eab870d2a259ddc49f",
+    "sha256": "a00d95baba896d1688a3b433321c4e183887bf47abefab5aa8bb1f7ed052d6a0"
+  },
+  {
+    "path": "tests/audit193-ground-blast.test.cjs",
+    "mode": "100644",
+    "bytes": 4189,
+    "sha": "c97e9040711a3b703a0c2167b7fbf0a79e71bc73",
+    "sha256": "fd5060de7cbacb2bd507e7567249982d5e1e3cdab76b785787186e1075c730d7"
+  },
+  {
+    "path": "tests/campaign-identity.test.cjs",
+    "mode": "100644",
+    "bytes": 7161,
+    "sha": "0e8a19bb9f350383ef8c7a776f4adda81ea670c1",
+    "sha256": "c80451e51471c30a88e6d777cd0f59456346d4f580711b0f2b82abfd01dd8a58"
+  },
+  {
+    "path": "tests/progression156.test.cjs",
+    "mode": "100644",
+    "bytes": 11877,
+    "sha": "e446814e08d72ecc44c959d3df36c7a6d4df65d0",
+    "sha256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1"
+  },
+  {
+    "path": "tests/squad-retreat-access145.test.cjs",
+    "mode": "100644",
+    "bytes": 5749,
+    "sha": "339e6632ea14f1a7394e14d365b9e493897ef3b2",
+    "sha256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0"
+  },
+  {
+    "path": ".vercelignore",
+    "mode": "100644",
+    "type": "blob",
+    "bytes": 898,
+    "sha256": "75e4788813feadb7efc8a1b08e3612b33120d72eaeee056efd9bb8faef05c083",
+    "sha": "330173c83456b876ba5d343e0919c73a511e9414"
+  },
+  {
+    "path": "desktop/policy.cjs",
+    "mode": "100644",
+    "type": "blob",
+    "bytes": 3166,
+    "sha256": "6474da2815ec6bb16b241647573358481fa83454eec20113c032a401f4d27d41",
+    "sha": "96a42303f09725252585926f6ded5469ccdb6f26"
+  },
+  {
+    "path": "tests/distribution.test.cjs",
+    "mode": "100644",
+    "type": "blob",
+    "bytes": 18911,
+    "sha256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+    "sha": "e4dea0ea1f5ca58f7c16aa678741e6e69ad237cd"
+  },
+  {
+    "path": "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+    "mode": "100644",
+    "type": "blob",
+    "bytes": 8093,
+    "sha256": "90e33dae999148cb1bc0aa6fdaf8390a8f105021413a6a21fd3847d668df7c73",
+    "sha": "5f335c56b3b0bd7dfceb3baf4944101e9ee149ae"
+  }
+]

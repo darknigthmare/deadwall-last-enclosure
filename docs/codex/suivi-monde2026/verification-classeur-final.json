@@ -1,0 +1,116 @@
+{
+  "source": "/tmp/deadwall-recovered-final.xlsx",
+  "path": "/workspace/scratch/84ab74f82991/outputs/deadwall/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+  "bytes": 529239,
+  "sourceSHA256": "535072931b155c9b5392218e3e1a3899a74c95939337a786174472f549eb4a15",
+  "sha256": "74c1e7cc4fe8fe2774424765f9913480c583465f5bc462a2b1520b8056febebc",
+  "sheets": 13,
+  "sheetNames": [
+    "Accueil",
+    "Catalogue existant",
+    "Extension typologies",
+    "Variantes à concevoir",
+    "Chantiers",
+    "Règles seed",
+    "Familles existantes",
+    "Références",
+    "Publication",
+    "Légende",
+    "Références métriques",
+    "Avancement par type",
+    "Inspection"
+  ],
+  "formulas": 1165,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "changedCells": [
+    {
+      "sheet": "Publication",
+      "cell": "B8",
+      "before": "Même fichier XLSX",
+      "after": "Copie antérieure"
+    },
+    {
+      "sheet": "Publication",
+      "cell": "B9",
+      "before": "Inclus dans ce lot",
+      "after": "Prêt à publier"
+    },
+    {
+      "sheet": "Publication",
+      "cell": "D13",
+      "before": "Travail dans la PR #16. Fusion et déploiement distincts.",
+      "after": "Sources préparées pour la PR #16. Publication non confirmée."
+    },
+    {
+      "sheet": "Publication",
+      "cell": "E13",
+      "before": "PR en cours",
+      "after": "PR non mise à jour"
+    },
+    {
+      "sheet": "Publication",
+      "cell": "E8",
+      "before": "Mise à jour du suivi",
+      "after": "Non confirmée"
+    },
+    {
+      "sheet": "Publication",
+      "cell": "E9",
+      "before": "Voir le commit de la PR",
+      "after": "À publier"
+    }
+  ],
+  "allOtherCellValuesAndFormulaCachesUnchanged": true,
+  "allFormulasUnchanged": true,
+  "allWorksheetStructuresAndNativeFeaturesUnchanged": true,
+  "effectiveStylesAndRelationshipsPreserved": true,
+  "relationshipComparison": "Resolved by Type, Target and TargetMode; opaque relationship identifiers may be reassigned",
+  "conditionalFormattingPreservation": "The two original status rules were reapplied identically to retain solid fills lost by the importer",
+  "unusedDifferentialStyleDefinitionsAdded": 2,
+  "packagePartsWithDifferentBytes": [
+    "xl/workbook.xml",
+    "xl/styles.xml",
+    "xl/worksheets/sheet2.xml",
+    "xl/worksheets/sheet3.xml",
+    "xl/worksheets/sheet4.xml",
+    "xl/worksheets/sheet5.xml",
+    "xl/worksheets/sheet6.xml",
+    "xl/worksheets/sheet7.xml",
+    "xl/worksheets/sheet8.xml",
+    "xl/worksheets/sheet9.xml",
+    "xl/worksheets/sheet10.xml",
+    "xl/worksheets/sheet11.xml",
+    "xl/worksheets/sheet12.xml",
+    "xl/worksheets/sheet13.xml",
+    "_rels/.rels",
+    "xl/_rels/workbook.xml.rels",
+    "xl/worksheets/_rels/sheet10.xml.rels",
+    "xl/worksheets/_rels/sheet11.xml.rels",
+    "xl/worksheets/_rels/sheet12.xml.rels",
+    "xl/worksheets/_rels/sheet13.xml.rels",
+    "xl/worksheets/_rels/sheet2.xml.rels",
+    "xl/worksheets/_rels/sheet3.xml.rels",
+    "xl/worksheets/_rels/sheet4.xml.rels",
+    "xl/worksheets/_rels/sheet5.xml.rels",
+    "xl/worksheets/_rels/sheet6.xml.rels",
+    "xl/worksheets/_rels/sheet7.xml.rels",
+    "xl/worksheets/_rels/sheet8.xml.rels",
+    "xl/worksheets/_rels/sheet9.xml.rels"
+  ],
+  "validatedTasks": 3,
+  "inProgressTasks": 37,
+  "pendingTasks": 760,
+  "playableVariants": 0,
+  "inspectionPlans": 400,
+  "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+  "inspectionReportSHA256": "92e46d42188926ae34e0f7ae3579d1ab8b66ddbfe0dbfe9a184a7ca8fec73db1",
+  "externalPublication": "not confirmed; no external write was performed by this correction",
+  "renders": {
+    "before": "/tmp/deadwall-final-status-84ab/publication-preview.png",
+    "after": "/tmp/deadwall-final-status-84ab/publication-edit.png",
+    "visuallyReviewed": true,
+    "changedView": "Publication!A1:E13"
+  },
+  "verificationScope": "Artifact Tool recalculation/export plus independent XML comparison of every worksheet, values, formula caches, formulas, styles, relationships and native controls; no native Microsoft Excel session or new gameplay test was run."
+}

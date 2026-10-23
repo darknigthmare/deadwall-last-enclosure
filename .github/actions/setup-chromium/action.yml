@@ -1,0 +1,37 @@
+name: Install and verify locked Chromium
+description: Bound dependency and browser downloads, cache the locked browser, then verify a real launch.
+runs:
+  using: composite
+  steps:
+    - name: Restore the locked Playwright browser
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-chromium-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+    - name: Install Chromium system libraries with a finite deadline
+      shell: bash
+      run: timeout --kill-after=10s 180s node node_modules/playwright/cli.js install-deps chromium
+    - name: Download the locked Chromium with one bounded retry
+      shell: bash
+      env:
+        PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '15000'
+      run: |
+        for attempt in 1 2; do
+          echo "Chromium installation attempt $attempt/2"
+          if timeout --kill-after=10s 120s node node_modules/playwright/cli.js install chromium; then
+            exit 0
+          fi
+          if [ "$attempt" = 2 ]; then
+            echo '::error::Locked Chromium could not be installed within two bounded attempts.'
+            exit 1
+          fi
+        done
+    - name: Verify the installed browser actually launches
+      shell: bash
+      run: |
+        timeout --kill-after=5s 45s node --input-type=module <<'JS'
+        import {chromium} from 'playwright';
+        const browser = await chromium.launch({headless:true});
+        try { console.log('Verified Chromium ' + browser.version()); }
+        finally { await browser.close(); }
+        JS

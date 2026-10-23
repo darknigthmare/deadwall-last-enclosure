@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "kind": "github-actions-native-qualification",
+  "observedAt": "2026-10-22T11:00:43Z",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "pullRequest": 16,
+  "reviewedHead": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "workflow": {
+    "name": "DEADWALL CI",
+    "runId": 39763290956,
+    "runAttempt": 1,
+    "event": "pull_request",
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956"
+  },
+  "aggregateJob": {
+    "id": 119784092242,
+    "name": "native",
+    "conclusion": "success",
+    "reportedAt": "2026-10-22T10:56:22.0903487Z",
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119784092242"
+  },
+  "provenance": {
+    "checkout": "eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a",
+    "parents": [
+      "74a62084e96dd7e78463bd4e15b9ec2897887704",
+      "7ec448a552c6ad65cc3b167e9e4974d7f8772585"
+    ],
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "reviewedHeadTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "treeIdenticalToReviewedHead": true,
+    "mergeCommitAPI": "https://api.github.com/repos/darknigthmare/deadwall-last-enclosure/git/commits/eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a"
+  },
+  "aggregate": {
+    "version": 1,
+    "kind": "native-aggregate186",
+    "accepted": true,
+    "gitHead": "eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a",
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "sourceSHA256": "070b698993c15bf1a2f3d9fb3dab299c8b5fd4c5977cc092ba28f73bad5debb8",
+    "runId": "39763290956",
+    "soakEnabled": true,
+    "planSHA256": "67b9aa21def60e63da877fb925234b4e079a12f2d4da16fbb700d923a98d612c",
+    "testFiles": 525,
+    "shards": 6,
+    "counts": {
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5663,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "scope": "All native test files, partitioned exactly once, with endurance, syntax, build and pretest on each shard. Not a single monolithic npm run check; browser/Windows remain separate gates."
+  },
+  "shards": [
+    {
+      "index": 1,
+      "jobId": 119772489692,
+      "testFiles": 87,
+      "accepted": true,
+      "counts": {
+        "tests": 1409,
+        "suites": 0,
+        "pass": 1409,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "index": 2,
+      "jobId": 119772489372,
+      "testFiles": 87,
+      "accepted": true,
+      "counts": {
+        "tests": 999,
+        "suites": 0,
+        "pass": 999,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "index": 3,
+      "jobId": 119772489690,
+      "testFiles": 87,
+      "accepted": true,
+      "counts": {
+        "tests": 892,
+        "suites": 0,
+        "pass": 892,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "index": 4,
+      "jobId": 119772489578,
+      "testFiles": 88,
+      "accepted": true,
+      "counts": {
+        "tests": 802,
+        "suites": 0,
+        "pass": 802,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "index": 5,
+      "jobId": 119772489414,
+      "testFiles": 88,
+      "accepted": true,
+      "counts": {
+        "tests": 855,
+        "suites": 4,
+        "pass": 855,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "index": 6,
+      "jobId": 119772489694,
+      "testFiles": 88,
+      "accepted": true,
+      "counts": {
+        "tests": 706,
+        "suites": 0,
+        "pass": 706,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "evidence": {
+    "jobLog": "validation-ci-native-20261022.log.gz",
+    "jobLogEncoding": "UTF-8 with LF-normalized line endings, compressed with deterministic gzip mtime=0",
+    "artifactId": 12419874067,
+    "artifactName": "deadwall-native186-aggregate",
+    "artifactZipSHA256": "79b53b6b5b3ce64d57324d06632d5260ad06d418d9c88be842fe581a8d4fbdfb",
+    "artifactUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/artifacts/12419874067",
+    "artifactBytes": 614,
+    "jobLogUncompressedSHA256": "a63d1bc0d6a15e1350e0c2fca0abe3f59c77f0087206521c1c94ad9349203cc3",
+    "jobLogUncompressedBytes": 24521,
+    "jobLogGzipSHA256": "786e84c71cc2ccbb3b7328da222001f14a948bd0a94d8577d7977265fab6f63c",
+    "jobLogGzipBytes": 6574,
+    "aggregateArtifactVerified": true,
+    "aggregateJSONSHA256": "db593bd803e8cb5c2ed7cdc8402a406edec9da41968de293356f7f3a8c4d1144",
+    "aggregateJSONBytes": 781
+  },
+  "scope": "All 525 native test files covered exactly once by six disjoint shards, with DEADWALL_SOAK=1, syntax, build and pretest. This is the accepted native aggregate, not the separate monolithic npm run check or a browser/Windows qualification.",
+  "collection": "Read-only retrieval of existing GitHub Actions job logs and metadata. No rerun, workflow dispatch, code modification or new test execution."
+}

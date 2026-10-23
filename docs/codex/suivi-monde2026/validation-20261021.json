@@ -1,0 +1,1661 @@
+{
+  "schemaVersion": 2,
+  "verifiedAt": "2026-10-21T16:31:48.848031+00:00",
+  "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+  "gameVersion": "1.69.0",
+  "result": {
+    "status": "initial-full-check-failed-targeted-corrections-passed",
+    "initialGlobalPassed": false,
+    "allInitialFailedTestsResolvedByTargetedReruns": true,
+    "unresolvedFailures": [],
+    "fullCheckRerunAfterCorrections": false,
+    "finalSourceHasSuccessfulFullCheck": false
+  },
+  "sourceChanges": {
+    "path": "validation-corrections-20261021.json",
+    "sha256": "777cce1189cc93c21f3d5847126d409f4d4829bf0c96d38e62976c2ffef42f58",
+    "bytes": 2642,
+    "fromCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+    "toCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+    "changedFiles": 11,
+    "files": [
+      {
+        "path": "scripts/browser-defenses-fixtures148.mjs",
+        "mode": "100644",
+        "bytes": 18878,
+        "sha": "f73ddd6606db0b30cc699afd577c2fa1802ab3f9",
+        "sha256": "0548ef4761bd699d07795ddab5a007ec487b27e7074622ffaa416a1965a2ff5d"
+      },
+      {
+        "path": "scripts/qa139-interaction.cjs",
+        "mode": "100644",
+        "bytes": 4862,
+        "sha": "6da446f4e6a86cf579446eed66969e53e7edf63e",
+        "sha256": "3caa2f95689281f7ee1be4df40d16a938229334eeb927ff56565abad4cb127d1"
+      },
+      {
+        "path": "src/coordination.js",
+        "mode": "100644",
+        "bytes": 6685,
+        "sha": "fe272924daf54ef5ad7449eab870d2a259ddc49f",
+        "sha256": "a00d95baba896d1688a3b433321c4e183887bf47abefab5aa8bb1f7ed052d6a0"
+      },
+      {
+        "path": "tests/audit193-ground-blast.test.cjs",
+        "mode": "100644",
+        "bytes": 4189,
+        "sha": "c97e9040711a3b703a0c2167b7fbf0a79e71bc73",
+        "sha256": "fd5060de7cbacb2bd507e7567249982d5e1e3cdab76b785787186e1075c730d7"
+      },
+      {
+        "path": "tests/campaign-identity.test.cjs",
+        "mode": "100644",
+        "bytes": 7161,
+        "sha": "0e8a19bb9f350383ef8c7a776f4adda81ea670c1",
+        "sha256": "c80451e51471c30a88e6d777cd0f59456346d4f580711b0f2b82abfd01dd8a58"
+      },
+      {
+        "path": "tests/progression156.test.cjs",
+        "mode": "100644",
+        "bytes": 11877,
+        "sha": "e446814e08d72ecc44c959d3df36c7a6d4df65d0",
+        "sha256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1"
+      },
+      {
+        "path": "tests/squad-retreat-access145.test.cjs",
+        "mode": "100644",
+        "bytes": 5749,
+        "sha": "339e6632ea14f1a7394e14d365b9e493897ef3b2",
+        "sha256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0"
+      },
+      {
+        "path": ".vercelignore",
+        "mode": "100644",
+        "type": "blob",
+        "bytes": 898,
+        "sha256": "75e4788813feadb7efc8a1b08e3612b33120d72eaeee056efd9bb8faef05c083",
+        "sha": "330173c83456b876ba5d343e0919c73a511e9414"
+      },
+      {
+        "path": "desktop/policy.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "bytes": 3166,
+        "sha256": "6474da2815ec6bb16b241647573358481fa83454eec20113c032a401f4d27d41",
+        "sha": "96a42303f09725252585926f6ded5469ccdb6f26"
+      },
+      {
+        "path": "tests/distribution.test.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "bytes": 18911,
+        "sha256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+        "sha": "e4dea0ea1f5ca58f7c16aa678741e6e69ad237cd"
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "mode": "100644",
+        "type": "blob",
+        "bytes": 8093,
+        "sha256": "90e33dae999148cb1bc0aa6fdaf8390a8f105021413a6a21fd3847d668df7c73",
+        "sha": "5f335c56b3b0bd7dfceb3baf4944101e9ee149ae"
+      }
+    ],
+    "testedTrackedWorktreeMatchesFinalCommit": true
+  },
+  "finalBuild": {
+    "command": "npm run build",
+    "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+    "executionSession": 76846,
+    "exitCode": 0,
+    "exitCodeProvenance": "Operator-confirmed after process completion.",
+    "status": "passed",
+    "publicFiles": 364,
+    "log": {
+      "path": "validation-build-final-20261021.log.gz",
+      "bytes": 752,
+      "sha256": "f0eda87d3afc59e070bf3abf3175db88626c7ab359791305b336168042e4b43b",
+      "gzipBytes": 547,
+      "gzipSha256": "a80cfbd482c0db7e56c3465781425f35268e78411cf23698efc8481bc32c68bb",
+      "footerLine": 10,
+      "footer": "dist ready: 364 fichiers publics, standalone hors ligne intégré."
+    },
+    "testsExecuted": false,
+    "fullCheck": false,
+    "scope": "Refresh local dist and standalone outputs from the delivered source; no additional test coverage is claimed."
+  },
+  "notes": [
+    "The original complete npm run check belongs to f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3 and remains a failed run. Its actual process exit code must be supplied only after process completion, never inferred from visible failures.",
+    "The official positive targeted runs contain 46 + 4 + 17 = 67 test executions on 12 unique test files. Counts used by the finalizer come from the actual complete footers, not these planning notes.",
+    "The first two positive replays retain source commit 597cd7db91af5e1363bb4417425ce5020f81d74d; the distribution replay is tied to the exact tested bytes of 484dcefa6045711a8e8b02fbe61b7de1db748447. No new complete npm run check has been run after correction."
+  ],
+  "evidencePlan": {
+    "report": "validation-plan-20261021.json",
+    "sha256": "3b9aad17a55df8d4dd8ca1a38aa472089f4e9f07c640f25236433a8dd8c2616c",
+    "suppliedPlanSHA256": "9f23a1e163766224707d63c12306848ae03100b42d731d75228ff92469d2a203",
+    "globalExitCodeSuppliedByCLI": true
+  },
+  "global": {
+    "command": "npm run check",
+    "testCommand": "node --test --test-concurrency=4 tests/*.test.cjs",
+    "sourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+    "status": "failed",
+    "exitCode": 1,
+    "executionSession": 62097,
+    "exitCodeProvenance": "Explicit operator-supplied code after the process completed; not inferred from footer counts.",
+    "syntaxFiles": 399,
+    "buildPublicFiles": 364,
+    "testFiles": 523,
+    "tests": 5616,
+    "suites": 4,
+    "pass": 5600,
+    "fail": 15,
+    "cancelled": 0,
+    "skipped": 1,
+    "todo": 0,
+    "duration_ms": 5053508.234969,
+    "failedTests": [
+      {
+        "name": "193 a ground generator blast cannot damage a native roof contact forty-eight metres above it",
+        "pass": false,
+        "duration_ms": 1991.906676,
+        "logLine": 538
+      },
+      {
+        "name": "193 generator destruction still damages a genuinely nearby ground contact",
+        "pass": false,
+        "duration_ms": 1273.373825,
+        "logLine": 539
+      },
+      {
+        "name": "campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign",
+        "pass": false,
+        "duration_ms": 21824.600599,
+        "logLine": 715
+      },
+      {
+        "name": "coordination: version du jeu distincte du format de sauvegarde conservé",
+        "pass": false,
+        "duration_ms": 5.053919,
+        "logLine": 1482
+      },
+      {
+        "name": "banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert",
+        "pass": false,
+        "duration_ms": 7380.776424,
+        "logLine": 2006
+      },
+      {
+        "name": "desktop QA covers every current module, stylesheet and art dependency",
+        "pass": false,
+        "duration_ms": 902.328051,
+        "logLine": 2063
+      },
+      {
+        "name": "distribution: vrai build public sans node_modules ni installation",
+        "pass": false,
+        "duration_ms": 6700.715831,
+        "logLine": 2079
+      },
+      {
+        "name": "distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC",
+        "pass": false,
+        "duration_ms": 199.476464,
+        "logLine": 2080
+      },
+      {
+        "name": "distribution126 : shell précaché et 143 atlas historiques / 3 optionnels réellement livrés et servis",
+        "pass": false,
+        "duration_ms": 249.100388,
+        "logLine": 2082
+      },
+      {
+        "name": "139 HTML : ACTION attend la recharge — build",
+        "pass": false,
+        "duration_ms": 7690.837774,
+        "logLine": 3618
+      },
+      {
+        "name": "156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région",
+        "pass": false,
+        "duration_ms": 2045.371817,
+        "logLine": 4240
+      },
+      {
+        "name": "release web: version publique et guide livré correspondent au package courant",
+        "pass": false,
+        "duration_ms": 425.026167,
+        "logLine": 4573
+      },
+      {
+        "name": "145 repli : une section à portée contourne réellement une épave avant son arrivée",
+        "pass": false,
+        "duration_ms": 1194.58221,
+        "logLine": 4898
+      },
+      {
+        "name": "145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué",
+        "pass": false,
+        "duration_ms": 1317.086212,
+        "logLine": 4899
+      },
+      {
+        "name": "145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement",
+        "pass": false,
+        "duration_ms": 897.846277,
+        "logLine": 4900
+      }
+    ],
+    "log": {
+      "path": "validation-globale-20261021.log.gz",
+      "bytes": 641345,
+      "sha256": "b77c69f2724721c0e0a12208fc798074c40a4e6eb9afdc55aead24ac0c5ba8ae",
+      "gzipBytes": 195098,
+      "gzipSha256": "ac25b2f7164a2566df4b465f4e1d0b7f6ed60fa1294ee6812631bee15fda0847",
+      "footerLine": 5762,
+      "footer": "ℹ tests 5616\nℹ suites 4\nℹ pass 5600\nℹ fail 15\nℹ cancelled 0\nℹ skipped 1\nℹ todo 0\nℹ duration_ms 5053508.234969"
+    }
+  },
+  "targetedReruns": [
+    {
+      "id": "corrective",
+      "sourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "executionSession": 72926,
+      "command": "node --test --test-concurrency=2 tests/audit193-ground-blast.test.cjs tests/campaign-identity.test.cjs tests/coordination.test.cjs tests/defenses-qa148.test.cjs tests/interaction139.test.cjs tests/progression156.test.cjs tests/qa-contracts163.test.cjs tests/release-web.test.cjs > /tmp/deadwall-corrective-169.log 2>&1",
+      "files": [
+        "tests/audit193-ground-blast.test.cjs",
+        "tests/campaign-identity.test.cjs",
+        "tests/coordination.test.cjs",
+        "tests/defenses-qa148.test.cjs",
+        "tests/interaction139.test.cjs",
+        "tests/progression156.test.cjs",
+        "tests/qa-contracts163.test.cjs",
+        "tests/release-web.test.cjs"
+      ],
+      "exitCode": 0,
+      "tests": 46,
+      "suites": 0,
+      "pass": 46,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 316461.978223,
+      "exitCodeProvenance": "Operator-confirmed after process completion.",
+      "executedAtFinalCommit": false,
+      "filesChangedSinceReplay": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ],
+      "passedTests": [
+        {
+          "name": "193 a ground generator blast cannot damage a native roof contact forty-eight metres above it",
+          "pass": true,
+          "duration_ms": 6394.605486,
+          "logLine": 1,
+          "file": "tests/audit193-ground-blast.test.cjs",
+          "testedFileSHA256": "fd5060de7cbacb2bd507e7567249982d5e1e3cdab76b785787186e1075c730d7",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "193 generator destruction still damages a genuinely nearby ground contact",
+          "pass": true,
+          "duration_ms": 3836.938769,
+          "logLine": 2,
+          "file": "tests/audit193-ground-blast.test.cjs",
+          "testedFileSHA256": "fd5060de7cbacb2bd507e7567249982d5e1e3cdab76b785787186e1075c730d7",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "193 an exposed low climber inside the actual three-dimensional blast radius remains vulnerable",
+          "pass": true,
+          "duration_ms": 3201.706579,
+          "logLine": 3,
+          "file": "tests/audit193-ground-blast.test.cjs",
+          "testedFileSHA256": "fd5060de7cbacb2bd507e7567249982d5e1e3cdab76b785787186e1075c730d7",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign",
+          "pass": true,
+          "duration_ms": 60221.071117,
+          "logLine": 4,
+          "file": "tests/campaign-identity.test.cjs",
+          "testedFileSHA256": "c80451e51471c30a88e6d777cd0f59456346d4f580711b0f2b82abfd01dd8a58",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "campaign identity: historical marked G4 and G8 saves keep their IDs and existing archive rows",
+          "pass": true,
+          "duration_ms": 56757.696721,
+          "logLine": 5,
+          "file": "tests/campaign-identity.test.cjs",
+          "testedFileSHA256": "c80451e51471c30a88e6d777cd0f59456346d4f580711b0f2b82abfd01dd8a58",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "campaign identity: legacy generation markers remain readable without an explicit exploration register",
+          "pass": true,
+          "duration_ms": 12.566066,
+          "logLine": 6,
+          "file": "tests/campaign-identity.test.cjs",
+          "testedFileSHA256": "c80451e51471c30a88e6d777cd0f59456346d4f580711b0f2b82abfd01dd8a58",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: version du jeu distincte du format de sauvegarde conservé",
+          "pass": true,
+          "duration_ms": 4.139273,
+          "logLine": 7,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: recherche insensible aux accents, termes multiples et entrée vide",
+          "pass": true,
+          "duration_ms": 5.009305,
+          "logLine": 8,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: douze aperçus correspondent au départ réellement exécuté",
+          "pass": true,
+          "duration_ms": 2568.257348,
+          "logLine": 9,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: aucune récompense, aucun ordre et aucune modification de sauvegarde à la lecture",
+          "pass": true,
+          "duration_ms": 436.427686,
+          "logLine": 10,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: signale une pénurie réelle sans la corriger",
+          "pass": true,
+          "duration_ms": 169.568657,
+          "logLine": 11,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: des rations suffisantes ne masquent pas une réserve commune vide",
+          "pass": true,
+          "duration_ms": 224.46728,
+          "logLine": 12,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: le seuil protégé et une dépense réelle de fusilier commandent le diagnostic",
+          "pass": true,
+          "duration_ms": 258.709015,
+          "logLine": 13,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: ne présente pas le menu ou la défaite comme une cité active",
+          "pass": true,
+          "duration_ms": 78.844891,
+          "logLine": 14,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: les peintres procéduraux hérités et urbains sont associés à leur vrai catalogue",
+          "pass": true,
+          "duration_ms": 0.988311,
+          "logLine": 15,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: un état incohérent ne prétend pas être une panne du stockage",
+          "pass": true,
+          "duration_ms": 139.868331,
+          "logLine": 16,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "coordination: le refus réel du stockage reste identifié séparément",
+          "pass": true,
+          "duration_ms": 199.694285,
+          "logLine": 17,
+          "file": "tests/coordination.test.cjs",
+          "testedFileSHA256": "c65df3152078b3ef3a29a201be34b2c3da6b64ed1aeab7d3846f1768aa3100d9",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert",
+          "pass": true,
+          "duration_ms": 48130.952001,
+          "logLine": 18,
+          "file": "tests/defenses-qa148.test.cjs",
+          "testedFileSHA256": "30aa1b5faa3959def2bbc5ba36a02c22ec23c070085b365e6db0d2216263f783",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "banc défenses148 : préconditions de scène refusées sans changer la campagne",
+          "pass": true,
+          "duration_ms": 16885.062008,
+          "logLine": 19,
+          "file": "tests/defenses-qa148.test.cjs",
+          "testedFileSHA256": "30aa1b5faa3959def2bbc5ba36a02c22ec23c070085b365e6db0d2216263f783",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "banc défenses148 : vrai contact sans chevauchement acquis par l’IA pendant la recharge payée",
+          "pass": true,
+          "duration_ms": 20282.680542,
+          "logLine": 20,
+          "file": "tests/defenses-qa148.test.cjs",
+          "testedFileSHA256": "30aa1b5faa3959def2bbc5ba36a02c22ec23c070085b365e6db0d2216263f783",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "banc défenses148 : observer la vraie frame de déclenchement conserve sa durée malgré le délai de capture",
+          "pass": true,
+          "duration_ms": 32710.748077,
+          "logLine": 21,
+          "file": "tests/defenses-qa148.test.cjs",
+          "testedFileSHA256": "30aa1b5faa3959def2bbc5ba36a02c22ec23c070085b365e6db0d2216263f783",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "banc défenses148 : épuiser les charges par des contacts successifs préserve le support réel sans soins de fixture",
+          "pass": true,
+          "duration_ms": 53208.46589,
+          "logLine": 22,
+          "file": "tests/defenses-qa148.test.cjs",
+          "testedFileSHA256": "30aa1b5faa3959def2bbc5ba36a02c22ec23c070085b365e6db0d2216263f783",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "139 HTML : ACTION attend la recharge — harvest",
+          "pass": true,
+          "duration_ms": 26502.926547,
+          "logLine": 23,
+          "file": "tests/interaction139.test.cjs",
+          "testedFileSHA256": "d4f8d302580ce8f296cc08a691afda63e331119654c46379c965e1b89519dfbf",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "139 HTML : ACTION attend la recharge — deposit",
+          "pass": true,
+          "duration_ms": 20665.373831,
+          "logLine": 24,
+          "file": "tests/interaction139.test.cjs",
+          "testedFileSHA256": "d4f8d302580ce8f296cc08a691afda63e331119654c46379c965e1b89519dfbf",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "139 HTML : ACTION attend la recharge — build",
+          "pass": true,
+          "duration_ms": 16712.711108,
+          "logLine": 25,
+          "file": "tests/interaction139.test.cjs",
+          "testedFileSHA256": "d4f8d302580ce8f296cc08a691afda63e331119654c46379c965e1b89519dfbf",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "139 HTML : ACTION attend la recharge — expedition",
+          "pass": true,
+          "duration_ms": 23272.360456,
+          "logLine": 26,
+          "file": "tests/interaction139.test.cjs",
+          "testedFileSHA256": "d4f8d302580ce8f296cc08a691afda63e331119654c46379c965e1b89519dfbf",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 armurerie : un impact suivi d’un soin réel ne reprend pas l’assemblage et ne paie aucun matériau",
+          "pass": true,
+          "duration_ms": 17730.168415,
+          "logLine": 27,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 armurerie : la réparation interrompue garde état et chargeur après soin et Continue",
+          "pass": true,
+          "duration_ms": 3929.76594,
+          "logLine": 28,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 armurerie : invulnérabilité et impact nul conservent un travail légitime payé une seule fois",
+          "pass": true,
+          "duration_ms": 3545.651212,
+          "logLine": 29,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 clinique : médicaments absents, panne ou support hors service arrêtent le soin sans dépenses",
+          "pass": true,
+          "duration_ms": 4176.933782,
+          "logLine": 30,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 clinique : paiement proportionnel au soin utile, stock limité et aucun soin aux morts",
+          "pass": true,
+          "duration_ms": 2839.501771,
+          "logLine": 31,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 clinique : les unités gardent leur débit, les médicaments partagés paient chaque PV et un mort reste au sol",
+          "pass": true,
+          "duration_ms": 3028.344768,
+          "logLine": 32,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région",
+          "pass": true,
+          "duration_ms": 14617.076317,
+          "logLine": 33,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 catalogue : la clinique et l’atelier décrivent leurs conditions matérielles réelles sans modifier les prix",
+          "pass": true,
+          "duration_ms": 139.523163,
+          "logLine": 34,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "156 bivouac : le devis refuse une halte trop courte, puis une relève réalisable paie et soigne une seule fois",
+          "pass": true,
+          "duration_ms": 6089.792962,
+          "logLine": 35,
+          "file": "tests/progression156.test.cjs",
+          "testedFileSHA256": "e5c7c865459c16a3567e4e8aefb0d9145974142bcef3bd6b7b0697bf9103bef1",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "163: delivery version is an exact single menu token, never an obsolete range or substring",
+          "pass": true,
+          "duration_ms": 19.601061,
+          "logLine": 36,
+          "file": "tests/qa-contracts163.test.cjs",
+          "testedFileSHA256": "439a9ff3e782c68550a168913a7020f3a0f2e5971d194416fbf96bc36131e897",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "163: exact core probe accepts seeded base/alternate and rejects wrong crop, destination, atlas and unrelated draws",
+          "pass": true,
+          "duration_ms": 20924.43572,
+          "logLine": 37,
+          "file": "tests/qa-contracts163.test.cjs",
+          "testedFileSHA256": "439a9ff3e782c68550a168913a7020f3a0f2e5971d194416fbf96bc36131e897",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "163: full explicit group departure preserves every non-position saved field and lets ordinary holds expire",
+          "pass": true,
+          "duration_ms": 53531.741837,
+          "logLine": 38,
+          "file": "tests/qa-contracts163.test.cjs",
+          "testedFileSHA256": "439a9ff3e782c68550a168913a7020f3a0f2e5971d194416fbf96bc36131e897",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "163: departure rejects incomplete, duplicate, absent or blocked contacts before any position changes",
+          "pass": true,
+          "duration_ms": 33711.87079,
+          "logLine": 39,
+          "file": "tests/qa-contracts163.test.cjs",
+          "testedFileSHA256": "439a9ff3e782c68550a168913a7020f3a0f2e5971d194416fbf96bc36131e897",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: les provenances et prompts des trois catalogues 153 sont livrés avec les historiques",
+          "pass": true,
+          "duration_ms": 15.92837,
+          "logLine": 40,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: CRC-32 compatible ZIP et compression déterministe",
+          "pass": true,
+          "duration_ms": 16.151962,
+          "logLine": 41,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release source: Git courant filtré sans secrets, builds ni perte de fixture historique",
+          "pass": true,
+          "duration_ms": 10.522825,
+          "logLine": 42,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: corruption, fichiers supplémentaires et liens sont refusés",
+          "pass": true,
+          "duration_ms": 9.407433,
+          "logLine": 43,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: versions exactes et outils QA présents dans le lockfile",
+          "pass": true,
+          "duration_ms": 3.951758,
+          "logLine": 44,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: version publique et guide livré correspondent au package courant",
+          "pass": true,
+          "duration_ms": 708.825065,
+          "logLine": 45,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "release web: le contrôle final relit archives et fichiers livrés",
+          "pass": true,
+          "duration_ms": 22.118496,
+          "logLine": 46,
+          "file": "tests/release-web.test.cjs",
+          "testedFileSHA256": "7b0f5d2fbda274a5603c9b7486cff13996515824c39f34635f7c2f9a3733c268",
+          "testFileUnchangedAtFinalCommit": true
+        }
+      ],
+      "log": {
+        "path": "validation-reprise-corrective-20261021.log.gz",
+        "bytes": 5053,
+        "sha256": "8e75a251d94aa5b44fccc0392aa4365f5742bf2a3f5dbc51c97cc10d00b6d42b",
+        "gzipBytes": 2397,
+        "gzipSha256": "abcdf8c71a03ebd305df09dfcafd4d01c5f2dfbc49ce7bfb0cd0c03a6f679512",
+        "footerLine": 47,
+        "footer": "ℹ tests 46\nℹ suites 0\nℹ pass 46\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 316461.978223"
+      },
+      "notes": [],
+      "supplementaryProvenance": null
+    },
+    {
+      "id": "retreat",
+      "sourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "executionSession": 98566,
+      "command": "node --test tests/squad-retreat-access145.test.cjs > /tmp/deadwall-corrective-retreat169.log 2>&1",
+      "files": [
+        "tests/squad-retreat-access145.test.cjs"
+      ],
+      "exitCode": 0,
+      "tests": 4,
+      "suites": 0,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 18156.576071,
+      "exitCodeProvenance": "Operator-confirmed after process completion.",
+      "executedAtFinalCommit": false,
+      "filesChangedSinceReplay": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ],
+      "passedTests": [
+        {
+          "name": "145 repli : une section à portée contourne réellement une épave avant son arrivée",
+          "pass": true,
+          "duration_ms": 5133.670282,
+          "logLine": 1,
+          "file": "tests/squad-retreat-access145.test.cjs",
+          "testedFileSHA256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué",
+          "pass": true,
+          "duration_ms": 4253.615156,
+          "logLine": 2,
+          "file": "tests/squad-retreat-access145.test.cjs",
+          "testedFileSHA256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement",
+          "pass": true,
+          "duration_ms": 2725.539688,
+          "logLine": 3,
+          "file": "tests/squad-retreat-access145.test.cjs",
+          "testedFileSHA256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "145 repli : le centre reste derrière la porte verrouillée puis est rejoint par son accès automatique",
+          "pass": true,
+          "duration_ms": 3940.773512,
+          "logLine": 4,
+          "file": "tests/squad-retreat-access145.test.cjs",
+          "testedFileSHA256": "d329217850b5694b3b648e53e5648b6713b874e538ea25628aeec3be559e92e0",
+          "testFileUnchangedAtFinalCommit": true
+        }
+      ],
+      "log": {
+        "path": "validation-reprise-retreat-20261021.log.gz",
+        "bytes": 571,
+        "sha256": "233a2272d9c9934cc589101155361cd1fcf29d026bd0e7972f47ab1ec6b7fae2",
+        "gzipBytes": 357,
+        "gzipSha256": "610ede01b4a87b07693f357de95d9f51485679f636cef197ace7e342a43b4d1f",
+        "footerLine": 5,
+        "footer": "ℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 18156.576071"
+      },
+      "notes": [],
+      "supplementaryProvenance": null
+    },
+    {
+      "id": "distribution",
+      "sourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "executionSession": 86914,
+      "command": "node --test tests/desktop.test.cjs tests/distribution.test.cjs tests/distribution126.test.cjs",
+      "files": [
+        "tests/desktop.test.cjs",
+        "tests/distribution.test.cjs",
+        "tests/distribution126.test.cjs"
+      ],
+      "exitCode": 0,
+      "tests": 17,
+      "suites": 0,
+      "pass": 17,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 22676.985118,
+      "exitCodeProvenance": "Operator-confirmed after process completion.",
+      "executedAtFinalCommit": false,
+      "filesChangedSinceReplay": [
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md"
+      ],
+      "passedTests": [
+        {
+          "name": "desktop protocol serves only the public game surface",
+          "pass": true,
+          "duration_ms": 8.497007,
+          "logLine": 1,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "desktop QA covers every current module, stylesheet and art dependency",
+          "pass": true,
+          "duration_ms": 1092.640653,
+          "logLine": 2,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "desktop rejects other origins, credentials, ports and malformed URLs",
+          "pass": true,
+          "duration_ms": 0.609589,
+          "logLine": 3,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "desktop removes only service-worker bootstrap and enforces self-contained CSP",
+          "pass": true,
+          "duration_ms": 0.516509,
+          "logLine": 4,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "desktop bounds survive corrupt settings and small or changed displays",
+          "pass": true,
+          "duration_ms": 5.58011,
+          "logLine": 5,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "desktop allows only bounded JSON save exports from its own blob origin",
+          "pass": true,
+          "duration_ms": 1.071945,
+          "logLine": 6,
+          "file": "tests/desktop.test.cjs",
+          "testedFileSHA256": "82fa570de666b05933b1e4b7b2e91daee9b23d1da9bcebcc9c6b1c8c7ea2d881",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: métadonnées runtime stables, sans champs supprimés par Packager",
+          "pass": true,
+          "duration_ms": 2.238674,
+          "logLine": 7,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: empreintes des vrais fichiers ASAR, liste exacte et chemins sûrs",
+          "pass": true,
+          "duration_ms": 3.318191,
+          "logLine": 8,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: Git indisponible ne peut jamais produire sourceDirty false",
+          "pass": true,
+          "duration_ms": 0.508687,
+          "logLine": 9,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: notices Electron/Chromium exigées et empreintes calculées",
+          "pass": true,
+          "duration_ms": 3.036337,
+          "logLine": 10,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: exclusions Vercel ciblées, build et données publiques conservés",
+          "pass": true,
+          "duration_ms": 1457.256589,
+          "logLine": 11,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: vrai build public sans node_modules ni installation",
+          "pass": true,
+          "duration_ms": 20621.058373,
+          "logLine": 12,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC",
+          "pass": true,
+          "duration_ms": 190.700744,
+          "logLine": 13,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution: le vrai worker installe le shell seul puis met en cache un PNG lazy uniquement à sa demande",
+          "pass": true,
+          "duration_ms": 138.108745,
+          "logLine": 14,
+          "file": "tests/distribution.test.cjs",
+          "testedFileSHA256": "b4137bdfe92285ed8f0974d2ed2c27741e6034b46dad185752055f9920972d14",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution126 : shell précaché et 143 atlas historiques / 3 optionnels réellement livrés et servis",
+          "pass": true,
+          "duration_ms": 1788.317056,
+          "logLine": 15,
+          "file": "tests/distribution126.test.cjs",
+          "testedFileSHA256": "4cf0b3949beaf7e253eb24cfe4bae1b89690d35da7136359d3179b68cf4ad505",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution160 : les trois atlas lazy restent intégrés en PNG brut sans déclencher leur décodage dans le standalone",
+          "pass": true,
+          "duration_ms": 6893.577817,
+          "logLine": 16,
+          "file": "tests/distribution126.test.cjs",
+          "testedFileSHA256": "4cf0b3949beaf7e253eb24cfe4bae1b89690d35da7136359d3179b68cf4ad505",
+          "testFileUnchangedAtFinalCommit": true
+        },
+        {
+          "name": "distribution126 : les deux atlas PNG restent intégrés avec le bon MIME dans le standalone",
+          "pass": true,
+          "duration_ms": 4557.141802,
+          "logLine": 17,
+          "file": "tests/distribution126.test.cjs",
+          "testedFileSHA256": "4cf0b3949beaf7e253eb24cfe4bae1b89690d35da7136359d3179b68cf4ad505",
+          "testFileUnchangedAtFinalCommit": true
+        }
+      ],
+      "log": {
+        "path": "validation-reprise-distribution-20261021.log.gz",
+        "bytes": 1827,
+        "sha256": "cec5a4335dc16e6cbf8b319e0c72b58ca92636fedc07e57a4f1061f5946bc06b",
+        "gzipBytes": 958,
+        "gzipSha256": "d390a9dc84d4d6eee77e6b7f510b15e683da9535c01286b60991e31b0e1bca65",
+        "footerLine": 18,
+        "footer": "ℹ tests 17\nℹ suites 0\nℹ pass 17\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 22676.985118"
+      },
+      "notes": [
+        "The isolated tracked worktree used for this replay was subsequently compared byte-for-byte with source commit 484dcefa6045711a8e8b02fbe61b7de1db748447; git diff --exit-code against that commit returned 0. The run was not repeated after assigning the commit.",
+        "The separate diagnostic passes had 4 failures, then 1 failure. They are preserved as diagnostics and are never added to the initial full-run counters or the 67 successful targeted test executions.",
+        "The additional Vercel exclusion defect was discovered only after enriching the distribution fixture: docs/codex/suivi-monde2026/references-metriques2026.json and docs/codex/suivi-monde2026/OBJECTIFS80.json were excluded. The final correction admits these two build inputs. This follow-up diagnostic is not attributed as an extra failure of the initial global run or of main CI; its named test succeeds in this 17-test replay."
+      ],
+      "supplementaryProvenance": {
+        "report": "validation-provenance-distribution-20261021.json",
+        "sha256": "12979a328736cf9b0ee501f0fdf464a41782dc8407680bd1dd02db45739a412c",
+        "bytes": 5095,
+        "actualWorktreeBaseCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+        "worktreeHadUncommittedCorrections": true,
+        "recordedSourceAndTestBytesMatchAttributedCommit": true,
+        "diagnostics": [
+          {
+            "executionSession": 40333,
+            "exitCode": 1,
+            "tests": 17,
+            "suites": 0,
+            "pass": 13,
+            "fail": 4,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0,
+            "duration_ms": 13796.779443,
+            "log": {
+              "path": "validation-diagnostic-distribution-1-20261021.log.gz",
+              "bytes": 6922,
+              "sha256": "c5b561c4623832854faa113da66e955fd13d2d4539f60dd161b96b254eae394e",
+              "gzipBytes": 1980,
+              "gzipSha256": "76634136a284c2dfd8c3d0d340b6fdb433c93af7e9f83b5b4aa04c857242966c",
+              "footerLine": 18,
+              "footer": "ℹ tests 17\nℹ suites 0\nℹ pass 13\nℹ fail 4\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 13796.779443"
+            },
+            "sourceCommit": null,
+            "sourceAttribution": "Intermediate isolated worktree; no exact commit is claimed for this diagnostic.",
+            "contributesToInitialGlobalCounters": false,
+            "contributesToSuccessfulReplayCounters": false,
+            "failedTests": [
+              {
+                "name": "desktop QA covers every current module, stylesheet and art dependency",
+                "pass": false,
+                "duration_ms": 2584.227522,
+                "logLine": 2,
+                "observedInInitialGlobal": true,
+                "resolvedByReplay": "distribution"
+              },
+              {
+                "name": "distribution: vrai build public sans node_modules ni installation",
+                "pass": false,
+                "duration_ms": 8133.683902,
+                "logLine": 12,
+                "observedInInitialGlobal": true,
+                "resolvedByReplay": "distribution"
+              },
+              {
+                "name": "distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC",
+                "pass": false,
+                "duration_ms": 338.075762,
+                "logLine": 13,
+                "observedInInitialGlobal": true,
+                "resolvedByReplay": "distribution"
+              },
+              {
+                "name": "distribution126 : shell précaché et 143 atlas historiques / 3 optionnels réellement livrés et servis",
+                "pass": false,
+                "duration_ms": 479.943223,
+                "logLine": 15,
+                "observedInInitialGlobal": true,
+                "resolvedByReplay": "distribution"
+              }
+            ]
+          },
+          {
+            "executionSession": 57918,
+            "exitCode": 1,
+            "tests": 17,
+            "suites": 0,
+            "pass": 16,
+            "fail": 1,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0,
+            "duration_ms": 30813.351747,
+            "log": {
+              "path": "validation-diagnostic-distribution-2-20261021.log.gz",
+              "bytes": 2753,
+              "sha256": "767dfa3ddb7ae5cca03da79f80b79fd51e69ba12976cd289ddd7f54a444d2c51",
+              "gzipBytes": 1324,
+              "gzipSha256": "ec17ed40d50ec421bed10eaa6bdb900762a074c909771bfa813e2313c743f8d0",
+              "footerLine": 18,
+              "footer": "ℹ tests 17\nℹ suites 0\nℹ pass 16\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 30813.351747"
+            },
+            "sourceCommit": null,
+            "sourceAttribution": "Intermediate isolated worktree; no exact commit is claimed for this diagnostic.",
+            "contributesToInitialGlobalCounters": false,
+            "contributesToSuccessfulReplayCounters": false,
+            "failedTests": [
+              {
+                "name": "distribution: exclusions Vercel ciblées, build et données publiques conservés",
+                "pass": false,
+                "duration_ms": 2753.741464,
+                "logLine": 11,
+                "observedInInitialGlobal": false,
+                "resolvedByReplay": "distribution"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "targetedSummary": {
+    "tests": 67,
+    "pass": 67,
+    "fail": 0,
+    "files": 12,
+    "fileNames": [
+      "tests/audit193-ground-blast.test.cjs",
+      "tests/campaign-identity.test.cjs",
+      "tests/coordination.test.cjs",
+      "tests/defenses-qa148.test.cjs",
+      "tests/desktop.test.cjs",
+      "tests/distribution.test.cjs",
+      "tests/distribution126.test.cjs",
+      "tests/interaction139.test.cjs",
+      "tests/progression156.test.cjs",
+      "tests/qa-contracts163.test.cjs",
+      "tests/release-web.test.cjs",
+      "tests/squad-retreat-access145.test.cjs"
+    ],
+    "uniquePassedTestNames": 67,
+    "resolvedInitialFailures": 15,
+    "fullSuite": false,
+    "allReplaysExecutedAtFinalCommit": false
+  },
+  "failureResolutions": [
+    {
+      "name": "193 a ground generator blast cannot damage a native roof contact forty-eight metres above it",
+      "initialLogLine": 538,
+      "initialDuration_ms": 1991.906676,
+      "replay": "corrective",
+      "successLogLine": 1,
+      "successDuration_ms": 6394.605486,
+      "file": "tests/audit193-ground-blast.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "193 generator destruction still damages a genuinely nearby ground contact",
+      "initialLogLine": 539,
+      "initialDuration_ms": 1273.373825,
+      "replay": "corrective",
+      "successLogLine": 2,
+      "successDuration_ms": 3836.938769,
+      "file": "tests/audit193-ground-blast.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign",
+      "initialLogLine": 715,
+      "initialDuration_ms": 21824.600599,
+      "replay": "corrective",
+      "successLogLine": 4,
+      "successDuration_ms": 60221.071117,
+      "file": "tests/campaign-identity.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "coordination: version du jeu distincte du format de sauvegarde conservé",
+      "initialLogLine": 1482,
+      "initialDuration_ms": 5.053919,
+      "replay": "corrective",
+      "successLogLine": 7,
+      "successDuration_ms": 4.139273,
+      "file": "tests/coordination.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert",
+      "initialLogLine": 2006,
+      "initialDuration_ms": 7380.776424,
+      "replay": "corrective",
+      "successLogLine": 18,
+      "successDuration_ms": 48130.952001,
+      "file": "tests/defenses-qa148.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "desktop QA covers every current module, stylesheet and art dependency",
+      "initialLogLine": 2063,
+      "initialDuration_ms": 902.328051,
+      "replay": "distribution",
+      "successLogLine": 2,
+      "successDuration_ms": 1092.640653,
+      "file": "tests/desktop.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md"
+      ]
+    },
+    {
+      "name": "distribution: vrai build public sans node_modules ni installation",
+      "initialLogLine": 2079,
+      "initialDuration_ms": 6700.715831,
+      "replay": "distribution",
+      "successLogLine": 12,
+      "successDuration_ms": 20621.058373,
+      "file": "tests/distribution.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md"
+      ]
+    },
+    {
+      "name": "distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC",
+      "initialLogLine": 2080,
+      "initialDuration_ms": 199.476464,
+      "replay": "distribution",
+      "successLogLine": 13,
+      "successDuration_ms": 190.700744,
+      "file": "tests/distribution.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md"
+      ]
+    },
+    {
+      "name": "distribution126 : shell précaché et 143 atlas historiques / 3 optionnels réellement livrés et servis",
+      "initialLogLine": 2082,
+      "initialDuration_ms": 249.100388,
+      "replay": "distribution",
+      "successLogLine": 15,
+      "successDuration_ms": 1788.317056,
+      "file": "tests/distribution126.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md"
+      ]
+    },
+    {
+      "name": "139 HTML : ACTION attend la recharge — build",
+      "initialLogLine": 3618,
+      "initialDuration_ms": 7690.837774,
+      "replay": "corrective",
+      "successLogLine": 25,
+      "successDuration_ms": 16712.711108,
+      "file": "tests/interaction139.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région",
+      "initialLogLine": 4240,
+      "initialDuration_ms": 2045.371817,
+      "replay": "corrective",
+      "successLogLine": 33,
+      "successDuration_ms": 14617.076317,
+      "file": "tests/progression156.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "release web: version publique et guide livré correspondent au package courant",
+      "initialLogLine": 4573,
+      "initialDuration_ms": 425.026167,
+      "replay": "corrective",
+      "successLogLine": 45,
+      "successDuration_ms": 708.825065,
+      "file": "tests/release-web.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "145 repli : une section à portée contourne réellement une épave avant son arrivée",
+      "initialLogLine": 4898,
+      "initialDuration_ms": 1194.58221,
+      "replay": "retreat",
+      "successLogLine": 1,
+      "successDuration_ms": 5133.670282,
+      "file": "tests/squad-retreat-access145.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué",
+      "initialLogLine": 4899,
+      "initialDuration_ms": 1317.086212,
+      "replay": "retreat",
+      "successLogLine": 2,
+      "successDuration_ms": 4253.615156,
+      "file": "tests/squad-retreat-access145.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    },
+    {
+      "name": "145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement",
+      "initialLogLine": 4900,
+      "initialDuration_ms": 897.846277,
+      "replay": "retreat",
+      "successLogLine": 3,
+      "successDuration_ms": 2725.539688,
+      "file": "tests/squad-retreat-access145.test.cjs",
+      "initialSourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+      "successfulSourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "successExecutedAtFinalCommit": false,
+      "testFileUnchangedAtFinalCommit": true,
+      "filesChangedBetweenSuccessfulRunAndFinalCommit": [
+        ".vercelignore",
+        "desktop/policy.cjs",
+        "docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md",
+        "tests/distribution.test.cjs"
+      ]
+    }
+  ],
+  "mainBaseline": {
+    "report": "validation-main169-20261021.json",
+    "sha256": "f9363d928afe46d9f827634c7a3db6ca611617c1f79c69bba680e27c4395c226",
+    "bytes": 3809,
+    "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+    "workflowRun": 39616702212,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212",
+    "status": "completed",
+    "conclusion": "failure",
+    "failedTests": [
+      {
+        "name": "coordination: version du jeu distincte du format de sauvegarde conservé",
+        "reportedFailure": "Failed native test: coordination: version du jeu distincte du format de sauvegarde conservé — Expected values to be strictly equal: — at tests/coordination.test.cjs:6:92",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/coordination.test.cjs:6:92",
+        "jobId": 119280472871,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280472871"
+      },
+      {
+        "name": "banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert",
+        "reportedFailure": "Failed native test: banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert — Expected values to be strictly deep-equal: — at tests/defenses-qa148.test.cjs:10:78",
+        "reason": "Expected values to be strictly deep-equal:",
+        "location": "tests/defenses-qa148.test.cjs:10:78",
+        "jobId": 119280472871,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280472871"
+      },
+      {
+        "name": "139 HTML : ACTION attend la recharge — build",
+        "reportedFailure": "Failed native test: 139 HTML : ACTION attend la recharge — build — node:internal/assert/utils:77 — at scripts/qa139-interaction.cjs:25:9",
+        "reason": "node:internal/assert/utils:77",
+        "location": "scripts/qa139-interaction.cjs:25:9",
+        "jobId": 119280472871,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280472871"
+      },
+      {
+        "name": "156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région",
+        "reportedFailure": "Failed native test: 156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région — Expected values to be strictly equal: — at tests/progression156.test.cjs:94:9",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/progression156.test.cjs:94:9",
+        "jobId": 119280473217,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473217"
+      },
+      {
+        "name": "193 a ground generator blast cannot damage a native roof contact forty-eight metres above it",
+        "reportedFailure": "Failed native test: 193 a ground generator blast cannot damage a native roof contact forty-eight metres above it — a real unobstructed generator placement exists — at tests/audit193-ground-blast.test.cjs:15:134",
+        "reason": "a real unobstructed generator placement exists",
+        "location": "tests/audit193-ground-blast.test.cjs:15:134",
+        "jobId": 119280473227,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473227"
+      },
+      {
+        "name": "193 generator destruction still damages a genuinely nearby ground contact",
+        "reportedFailure": "Failed native test: 193 generator destruction still damages a genuinely nearby ground contact — a real unobstructed generator placement exists — at tests/audit193-ground-blast.test.cjs:15:134",
+        "reason": "a real unobstructed generator placement exists",
+        "location": "tests/audit193-ground-blast.test.cjs:15:134",
+        "jobId": 119280473227,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473227"
+      },
+      {
+        "name": "campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign",
+        "reportedFailure": "Failed native test: campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign — The integrated campaign has multiple initialization saves — at tests/campaign-identity.test.cjs:33:10",
+        "reason": "The integrated campaign has multiple initialization saves",
+        "location": "tests/campaign-identity.test.cjs:33:10",
+        "jobId": 119280473239,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239"
+      },
+      {
+        "name": "release web: version publique et guide livré correspondent au package courant",
+        "reportedFailure": "Failed native test: release web: version publique et guide livré correspondent au package courant — Expected values to be strictly equal: — at tests/release-web.test.cjs:109:10",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/release-web.test.cjs:109:10",
+        "jobId": 119280473239,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239"
+      },
+      {
+        "name": "145 repli : une section à portée contourne réellement une épave avant son arrivée",
+        "reportedFailure": "Failed native test: 145 repli : une section à portée contourne réellement une épave avant son arrivée — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/squad-retreat-access145.test.cjs:40:10",
+        "jobId": 119280473239,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239"
+      },
+      {
+        "name": "145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué",
+        "reportedFailure": "Failed native test: 145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/squad-retreat-access145.test.cjs:40:10",
+        "jobId": 119280473239,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239"
+      },
+      {
+        "name": "145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement",
+        "reportedFailure": "Failed native test: 145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10",
+        "reason": "Expected values to be strictly equal:",
+        "location": "tests/squad-retreat-access145.test.cjs:40:10",
+        "jobId": 119280473239,
+        "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239"
+      }
+    ],
+    "sameFailedTestNamesAsInitialGlobal": false,
+    "sharedFailedTestNames": [
+      "139 HTML : ACTION attend la recharge — build",
+      "145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement",
+      "145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué",
+      "145 repli : une section à portée contourne réellement une épave avant son arrivée",
+      "156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région",
+      "193 a ground generator blast cannot damage a native roof contact forty-eight metres above it",
+      "193 generator destruction still damages a genuinely nearby ground contact",
+      "banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert",
+      "campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign",
+      "coordination: version du jeu distincte du format de sauvegarde conservé",
+      "release web: version publique et guide livré correspondent au package courant"
+    ],
+    "additionalLocalFailedTestNames": [
+      "desktop QA covers every current module, stylesheet and art dependency",
+      "distribution126 : shell précaché et 143 atlas historiques / 3 optionnels réellement livrés et servis",
+      "distribution: PWA précache 143 atlas historiques et sert les trois atlas optionnels avec le protocole PC",
+      "distribution: vrai build public sans node_modules ni installation"
+    ],
+    "mainFailedTestNamesAbsentFromLocalRun": [],
+    "provenance": "Operator-collected failure lines from the linked native GitHub Actions jobs; preserved verbatim. This finalizer does not refetch CI."
+  },
+  "inspection": {
+    "report": "inspection-20261021.json",
+    "sha256": "92e46d42188926ae34e0f7ae3579d1ab8b66ddbfe0dbfe9a184a7ca8fec73db1",
+    "bytes": 314557,
+    "generatedAt": "2026-10-21T14:52:13.297Z",
+    "scope": "inspection-only",
+    "sourceHash": "1284a2041eb939f85e4cf427b08d847ebc819e790fef0392973494c5539ac708",
+    "sourceFiles": 11,
+    "sourceHashesVerifiedAtFinalCommit": true,
+    "sourcesUnchangedFromInitialFullRun": true,
+    "sources": [
+      {
+        "path": "scripts/codex-world-foundations2026.cjs",
+        "sha256": "3ce2f1da884e537c2721c93cf67e826154aeb448fe0e4a4e881f9a2b55e1cf8e",
+        "bytes": 15096
+      },
+      {
+        "path": "scripts/codex-maritime2026.cjs",
+        "sha256": "03744cc87c47b16ab279f85b35148d87866913acf2992ca5e3178a90487b0c07",
+        "bytes": 14601
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/references-metriques2026.json",
+        "sha256": "c19617bcd9d91ac958192de9d628ba34c6b9557c76d8e740acdfd03095266af9",
+        "bytes": 6716
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/OBJECTIFS80.json",
+        "sha256": "798e41d95433cee1433e8f1a12da3fff307a6b0f4c7ad4048faed2555da2c8f6",
+        "bytes": 10444
+      },
+      {
+        "path": "src/codex-layouts2026.js",
+        "sha256": "51fd2f5a3e1c55e35cceb1e95a4b9f804cf894c5e725257e899ca506e097fabe",
+        "bytes": 65380
+      },
+      {
+        "path": "src/codex-physical2026.js",
+        "sha256": "fc6adb11fb5509bd7eab485eec8b64b2ea7c8edbe7a6702d55403d973097b73d",
+        "bytes": 30500
+      },
+      {
+        "path": "src/codex-furnishings2026.js",
+        "sha256": "0ae924c3833ce2b150fc1b4358f8887d4e9653a6371b5eb4a2732c0ccf06823a",
+        "bytes": 25337
+      },
+      {
+        "path": "src/codex-inspection2026.js",
+        "sha256": "6a91fe648b7cd2ae662b9102b47cbc4d58df1baae377107cc8b477300d13f76c",
+        "bytes": 5449
+      },
+      {
+        "path": "src/frontier-geometry.js",
+        "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+        "bytes": 14015
+      },
+      {
+        "path": "src/seed-detail157.js",
+        "sha256": "8f5d6b9cee27cc6eec49f62d0233f24ed7491e2440fb0064b85b40c5aefbee4f",
+        "bytes": 17505
+      },
+      {
+        "path": "src/core.js",
+        "sha256": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e",
+        "bytes": 333874
+      }
+    ],
+    "types": 8,
+    "plans": 400,
+    "passed": 400,
+    "rooms": 12880,
+    "furnishedRooms": 12850,
+    "props": 41723,
+    "requested": 46193,
+    "refused": 4470,
+    "unknownUses": 0,
+    "levels": 1300,
+    "walls": 89730,
+    "transitions": 900,
+    "lootContainersCreated": 0,
+    "connectedServices": 0,
+    "campaignPlayable": 0
+  },
+  "browser": {
+    "report": "validation-navigateur-20261021.json",
+    "sha256": "7a14ef8658f4b5ccb0e105f1f0cf1c6be32660e6a1b65421cb0ce265e8309cef",
+    "bytes": 114593,
+    "sourceCommit": "701e928e273d1b3462208aab18e1b715cec760b4",
+    "retestedAfterCorrections": false,
+    "inspectionChecks": 80,
+    "campaignChecks": 49,
+    "inspectionProfiles": [
+      {
+        "viewport": {
+          "name": "desktop",
+          "width": 1366,
+          "height": 900
+        },
+        "checks": 40
+      },
+      {
+        "viewport": {
+          "name": "mobile",
+          "width": 390,
+          "height": 844,
+          "touch": true
+        },
+        "checks": 40
+      }
+    ],
+    "campaignProfiles": [
+      {
+        "viewport": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900
+        },
+        "checks": 49
+      }
+    ],
+    "scope": "Chromium 153, automated desktop/mobile viewports; author Guide and historical campaign fixture; no physical-device or full campaign balance qualification",
+    "limits": [
+      "Inspection: desktop and emulated mobile viewports.",
+      "Campaign: historical fixture on desktop; not the default full player campaign.",
+      "No physical-device, complete campaign balancing or final-commit browser rerun is claimed."
+    ]
+  },
+  "publicationMetadata": {
+    "path": "artifacts/qa/codex-reprise2026/metadata-final.json",
+    "sha256": "b953dd027bd101979c8f5973b9c4b954e993b978c25cf946737cb0e609e0a770",
+    "globalFields": {
+      "globalCheck": "Global : 5600/5616 succès, 15 échecs, 1 ignoré ; code 1",
+      "globalDetail": "15/15 échecs résolus ; 67 succès ciblés sur 12 fichiers. Aucun nouveau passage intégral après correction. Preuve : validation-20261021.json.",
+      "globalState": "Code 1 conservé"
+    }
+  },
+  "limits": [
+    "The original npm run check remains failed with its actual nonzero exit code and all initial failures preserved.",
+    "Targeted successful replays resolve the named failures; there was no new complete npm run check after correction.",
+    "The 400 plans are author inspections only: zero new variant is implanted or qualified playable in campaign.",
+    "Tracker tasks remain 3 validated, 37 in progress and 760 to do; inspection evidence does not close campaign acceptance.",
+    "Every replay retains its own actually tested commit. Later changes are listed; an earlier replay is not relabelled as a new final-commit execution.",
+    "Browser evidence belongs to commit701e928, not the final corrected commit: historical campaign fixture on desktop and emulated mobile inspection.",
+    "No physical-device, Windows, optional endurance-soak or complete human campaign balancing qualification is claimed."
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "verifiedAt": "2026-10-23T03:10:03.718114+00:00",
+  "sourceCommit": "b5bb3652974bc460ae2b08a5dd5a85e2d9a7c4f0",
+  "inspectionReportSha256": "9117b8dd7df783cf8163a733a65f8fdafed927d0348f4dfbfdf8731f9fb4d106",
+  "inspectionSourceHash": "59ae30e960393b51a34e64a5d5b6c4badd5fdd62fb694b26cc0c3a0e2db63e24",
+  "baseline": {
+    "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
+    "bytes": 539765,
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "scope": "Classeur public initial conservé ; 20 types / 1000 plans"
+  },
+  "sourceWorkbookBaseline": {
+    "deliveryCommit": "99ea81bea3fa2654e03cc3f9e34837525110daa4",
+    "sourceCommit": "9db883f27e7039f1376648125d0c3a07916b74f3",
+    "bytes": 547077,
+    "sha256": "ca1082a2940ec487aad2d2737b5bff6bd4f9d77e20d3603ca45ed6693db72b4b",
+    "scope": "Classeur de livraison précédente ; 39 types / 1 950 plans, mêmes données de production"
+  },
+  "sheets": 13,
+  "programmes": 4000,
+  "typologies": 80,
+  "variants": 4000,
+  "tasks": 800,
+  "formulas": 1165,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "validatedTasks": 3,
+  "inProgressTasks": 192,
+  "pendingTasks": 605,
+  "playableVariants": 0,
+  "inspectionPlans": 1950,
+  "inspectionTypes": 39,
+  "inspectionProps": 205763,
+  "inspectionRefused": 4670,
+  "preservedHistoricalFeatures": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 98089,
+    "authorCellsWithWrapStyleChanges": 10241,
+    "authorCellsWithEquivalentExplicitDefaults": 10241,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 121,
+      "Variantes à concevoir": 10120
+    },
+    "inheritedStylesPreserved": true
+  },
+  "scope": "XLSX source reconciliation; does not certify gameplay",
+  "metadataReconciled": true,
+  "sha256": "33258e07966e29cc781e49ae0d816f2f609784e31859a25bacc41fc9f41e4cf8",
+  "bytes": 547093,
+  "previousWorkbookStyleVerification": {
+    "checkedHistoricalStyleCells": 98089,
+    "authorCellsWithWrapStyleChanges": 0,
+    "authorCellsWithEquivalentExplicitDefaults": 0,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 0,
+      "Variantes à concevoir": 0
+    },
+    "inheritedStylesPreserved": true
+  },
+  "inspectionRecordsUnchangedSincePrevious": true
+}

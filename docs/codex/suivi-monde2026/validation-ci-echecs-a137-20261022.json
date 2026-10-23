@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "run": 39789163177,
+  "status": "two reproducible failures; remediation requires new source qualification",
+  "failures": [
+    {
+      "scope": "native-shard1",
+      "job": 119860247597,
+      "artifact": 12431950213,
+      "artifactSha256": "d1619f8341f9847fa12bb3b3c0ad2a6426c466e474e98037727147a0531b25cf",
+      "originalLogBytes": 19573,
+      "originalLogSha256": "8b7b4429721e943a7f49067d3387bfde25316c3f4f5ba46081dcdd8034973bec",
+      "logFile": "validation-ci-echecs-a137-native-shard1-20261022.log.gz",
+      "logSha256": "6ca1c14444f711ed79e65087327458a9026b6e9baf65802434482be25395b4fb"
+    },
+    {
+      "scope": "d17-landscape",
+      "job": 119860247978,
+      "artifact": 12431877128,
+      "artifactSha256": "1711ecfd2ccb26886e73891935101bd50b51e3efa6b82d5fb35657cc62c3f60f",
+      "originalLogBytes": 53833,
+      "originalLogSha256": "a39b77d77f38dc4d0b42701cb4576deb08c4d6bea96011b3fda71238ef4487f6",
+      "logFile": "validation-ci-echecs-a137-d17-landscape-20261022.log.gz",
+      "logSha256": "de6b3bc72ff72901c8742ad0e974d3fab16597fcf58a260f5bb5b7e90ae05f1a"
+    }
+  ],
+  "cascadeOnly": {
+    "job": 119876048339,
+    "reason": "native aggregate rejected failed shard and had no aggregate artifact to upload"
+  },
+  "proofScope": "Original GitHub job logs. Artifact hashes are download integrity receipts verified separately by the diagnosing agents; archives are not duplicated in this capsule."
+}

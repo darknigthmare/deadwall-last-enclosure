@@ -1,0 +1,862 @@
+{
+  "schemaVersion": 2,
+  "verifiedAt": "2026-10-22T11:55:26.866230+00:00",
+  "artifactVerified": true,
+  "sheets": 13,
+  "programmes": 4000,
+  "typologies": 80,
+  "variants": 4000,
+  "tasks": 800,
+  "formulas": 1165,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "validatedTasks": 3,
+  "inProgressTasks": 97,
+  "pendingTasks": 700,
+  "playableVariants": 0,
+  "inspectionPlans": 1000,
+  "inspectionTypes": 20,
+  "inspectionProps": 103450,
+  "inspectionRefused": 7933,
+  "preservedHistoricalFeatures": true,
+  "scope": "XLSX source reconciliation; does not certify gameplay",
+  "metadataReconciled": true,
+  "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+  "bytes": 539765,
+  "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+  "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+  "baseCommit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "baseVersion": "1.69.0",
+  "sourceQualificationScope": "Les données Codex et les exécutions globales décrites portent sur 7ec448a. Le correctif ultérieur de fixture possède une preuve distincte ; aucune qualification globale n’est transférée à cette révision corrigée.",
+  "baseline": {
+    "path": "Classeur historique de la reprise 54dd899",
+    "bytes": 529239,
+    "sha256": "74c1e7cc4fe8fe2774424765f9913480c583465f5bc462a2b1520b8056febebc",
+    "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+    "inspectionPlans": 400,
+    "inspectionTypes": 8,
+    "validatedTasks": 3,
+    "inProgressTasks": 37,
+    "pendingTasks": 760
+  },
+  "sheetNames": [
+    "Accueil",
+    "Catalogue existant",
+    "Extension typologies",
+    "Variantes à concevoir",
+    "Chantiers",
+    "Règles seed",
+    "Familles existantes",
+    "Références",
+    "Publication",
+    "Légende",
+    "Références métriques",
+    "Avancement par type",
+    "Inspection"
+  ],
+  "parents": 2000,
+  "remainingVariantsToDesign": 3000,
+  "sourceReconciliation": {
+    "checker": "scripts/verify-codex-tracker-xlsx2026.py",
+    "method": "Lecture indépendante ZIP/XML ; rapprochement des identifiants, statuts, preuves et valeurs calculées avec currentData et checkedReport du dépôt.",
+    "allProgrammes": 4000,
+    "allTypologies": 80,
+    "allVariants": 4000,
+    "allTasks": 800,
+    "allStageStatusCells": 800,
+    "allTaskEvidencePreserved": true,
+    "noValidatedTaskWithoutEvidence": true,
+    "allSourceInspectionRecords": 1000,
+    "allFormulaCachesPresent": true,
+    "noSavedSpreadsheetErrors": true,
+    "historicalFormulasInFirstElevenSheetsUnchanged": true,
+    "historicalStaticSheetsUnchanged": [
+      "Règles seed",
+      "Familles existantes",
+      "Références",
+      "Légende"
+    ]
+  },
+  "formulaLiveCheck": {
+    "engine": "@oai/artifact-tool",
+    "counter": "Accueil!C17",
+    "temporaryAction": "Une tâche non validée a été temporairement marquée Validé sans preuve ; le compteur est passé à 1 après recalcul.",
+    "missingEvidenceDetected": true,
+    "originalStatusAndProofRestoredBeforeExport": true,
+    "finalSavedCounter": 0,
+    "allFinalCountsReconciledIndependently": true,
+    "unchangedByFinalPublicationTextCorrection": true
+  },
+  "inspection": {
+    "path": "inspection-20261021.json",
+    "bytes": 783225,
+    "sha256": "7c12db78d165c2b6b520ccf9c93eee435b87f2e055485ad1880eb2e4b1b17233",
+    "generatedAt": "2026-10-22T10:04:43.033Z",
+    "sourceHash": "e8de5983bffe19e700329d62128436b1a1277e08df578151f35e299b769e03a9",
+    "types": 20,
+    "plans": 1000,
+    "summary": {
+      "types": 20,
+      "plans": 1000,
+      "passed": 1000,
+      "rooms": 30990,
+      "furnishedRooms": 30960,
+      "props": 103450,
+      "requested": 111383,
+      "refused": 7933,
+      "unknownUses": 0,
+      "levels": 1900,
+      "walls": 224885,
+      "transitions": 900,
+      "lootContainersCreated": 0,
+      "connectedServices": 0,
+      "campaignPlayable": 0
+    },
+    "nativeTable": {
+      "name": "InspectionPhysique2026",
+      "range": "A5:L25",
+      "dataRows": "6:25",
+      "totalRow": 26,
+      "totalFormulas": "SUM(<column>6:<column>25)",
+      "notesRows": "28:30",
+      "provenanceRows": "32:37",
+      "sourceHashCell": "C34",
+      "reportSHA256Cell": "C37",
+      "mergesDoNotCoverData": true,
+      "historicalTableStyleAndFilterSemanticsPreserved": true
+    },
+    "newAuthorDimensions": {
+      "typologies": 12,
+      "variants": 600,
+      "label": "choix de composition auteur ; dimensions réelles à documenter",
+      "presentInEveryRelevantTypologyAndVariant": true
+    },
+    "campaignPlayable": 0
+  },
+  "nativeFeatures": {
+    "allDataValidationRulesPreserved": true,
+    "allEffectiveConditionalFormattingPreserved": true,
+    "allRelationshipsPreserved": true,
+    "allDefinedNamesPreserved": true,
+    "historicalCellStylesPreservedOutsideAuthorRows": true,
+    "inspectionMergesIntentionallyMovedBelowExpandedData": true,
+    "sheets": [
+      {
+        "sheet": "Accueil",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 408,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 14,
+        "nativeTables": [],
+        "freezePanes": {
+          "ySplit": "3",
+          "topLeftCell": "A4",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 1
+      },
+      {
+        "sheet": "Catalogue existant",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 44044,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T1",
+            "range": "A5:K4005",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Extension typologies",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 864,
+        "authorRowsWithIntentionalFormatting": 12,
+        "formulas": 80,
+        "nativeTables": [
+          {
+            "name": "T2",
+            "range": "A5:L85",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Variantes à concevoir",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 37444,
+        "authorRowsWithIntentionalFormatting": 600,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T3",
+            "range": "A5:K4005",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 1,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Chantiers",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 8040,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T4",
+            "range": "A5:J805",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 2,
+        "conditionalFormatCount": 1
+      },
+      {
+        "sheet": "Règles seed",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 170,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T5",
+            "range": "A5:E35",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Familles existantes",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 148,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 99,
+        "nativeTables": [
+          {
+            "name": "T6",
+            "range": "A5:D38",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Références",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 60,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T7",
+            "range": "A5:E13",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Publication",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 60,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T8",
+            "range": "A5:E13",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Légende",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 52,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "T9",
+            "range": "A5:B24",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Références métriques",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 55,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 0,
+        "nativeTables": [
+          {
+            "name": "SourcesMetriques2026",
+            "range": "A5:E12",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "ySplit": "5",
+          "topLeftCell": "A6",
+          "activePane": "bottomLeft",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      },
+      {
+        "sheet": "Avancement par type",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": true,
+        "historicalCellStylesCompared": 0,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 962,
+        "nativeTables": [
+          {
+            "name": "AvancementTypologies2026",
+            "range": "A5:N85",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "xSplit": "2",
+          "ySplit": "5",
+          "topLeftCell": "C6",
+          "activePane": "bottomRight",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 1
+      },
+      {
+        "sheet": "Inspection",
+        "dataValidationsUnchanged": true,
+        "effectiveConditionalFormatsUnchanged": true,
+        "worksheetAutoFilterUnchanged": true,
+        "mergesUnchanged": false,
+        "historicalCellStylesCompared": 0,
+        "authorRowsWithIntentionalFormatting": 0,
+        "formulas": 10,
+        "nativeTables": [
+          {
+            "name": "InspectionPhysique2026",
+            "range": "A5:L25",
+            "filterRange": null,
+            "style": {
+              "name": "TableStyleMedium2",
+              "showFirstColumn": "0",
+              "showLastColumn": "0",
+              "showRowStripes": "1",
+              "showColumnStripes": "0"
+            },
+            "filterColumns": []
+          }
+        ],
+        "freezePanes": {
+          "xSplit": "2",
+          "ySplit": "5",
+          "topLeftCell": "C6",
+          "activePane": "bottomRight",
+          "state": "frozen"
+        },
+        "validationCount": 0,
+        "conditionalFormatCount": 0
+      }
+    ],
+    "nativeTables": 12,
+    "historicalCellStylesCompared": 91345,
+    "intentionalFormattingChanges": {
+      "authorTypologyRows": 12,
+      "authorVariantRows": 600,
+      "reason": "Renvoyer les dimensions et leur provenance auteur à la ligne et porter les lignes concernées à 96 points.",
+      "inspection": "Étendre la table, déplacer le total et placer toutes les notes et preuves après les données."
+    },
+    "relationshipComparison": "Type, Target et TargetMode comparés ; les identifiants opaques ne constituent pas le contrôle.",
+    "differentialStyleComparison": "Styles des formats conditionnels résolus depuis les dxf, puis comparés aux styles effectifs historiques."
+  },
+  "negativeVerifierControls": {
+    "scope": "Contrôles négatifs réels exécutés sur le candidat à 1 000 plans avant la finalisation des métadonnées de publication ; ils vérifient le détecteur, sans modifier le fichier final.",
+    "candidate": {
+      "path": "Candidat temporaire conservé pour la vérification",
+      "bytes": 539605,
+      "sha256": "eb1cd7991b9cf9f858e113f5c00c184a0a07719a50b64b09a86fe57deca073a2"
+    },
+    "cases": [
+      {
+        "case": "table tronquée après huit typologies",
+        "rejected": true,
+        "message": "Emprise de la table native d’inspection: 'A5:L13' != 'A5:L25'"
+      },
+      {
+        "case": "total conservant la plage de huit typologies",
+        "rejected": true,
+        "message": "Plage du total d’inspection plans: 'SUM(C6:C13)' != 'SUM(C6:C25)'"
+      },
+      {
+        "case": "ancienne note fusionnée sur une nouvelle typologie",
+        "rejected": true,
+        "message": "Fusion recouvrant des données d’inspection : A16:L16"
+      },
+      {
+        "case": "origine auteur supprimée d’une variante agricole",
+        "rejected": true,
+        "message": "Provenance auteur absente des dimensions : EXT-MONDE-T021-V01"
+      }
+    ]
+  },
+  "publicationMetadata": {
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "baseCheckedAt": "2026-10-22",
+    "baseCommit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+    "baseVersion": "1.69.0",
+    "subtitle": "Base 1.69 · PR #16 · 1 000 plans en inspection physique, campagne encore ouverte",
+    "summary": "1 000 plans inspectables dans le Guide auteur, dont 400 agricoles et 200 résidentiels ajoutés. Suivi : 3 tâches validées, 97 en cours, 700 à faire. Aucun nouveau lieu n’est déclaré jouable en campagne.",
+    "details": "20 typologies × 50 variantes : 30 990 pièces décrites, 30 960 meublées, 103 450 équipements, 224 885 segments de mur, 1 900 niveaux et 900 transitions. Géométrie et mobilier contrôlés ensemble.",
+    "remaining": "3 000 variantes restent à concevoir. Pour les 1 000 inspections : volumes réservés, implantation, réseaux, butin, rencontres, services, art et persistance de campagne restent ouverts. 7 933 demandes de mobilier sont explicitement refusées.",
+    "metrics": "Cotes publiques et choix auteur distingués. Agriculture et résidentiel : compositions auteur, dimensions réelles à documenter. Mobilier à dimensions déclarées ; gabarit piéton de 0,64 m ; accès et faces de service contrôlés. Aucune réduction artificielle des objets.",
+    "workbookState": "Copie de référence vérifiée",
+    "workbookDetail": "Empreintes et publications GitHub/Drive suivies dans CLASSEUR_REFERENCE.json",
+    "targetedTests": "Contrôles ciblés confirmés",
+    "targetedDetail": "Guide auteur : 112/112 (2 profils, fixture legacy).\nCampagne locale : 196/196 (4 profils, fixture legacy).\nAgriculture 13/13 ; résidentiel 21/21 ; fondations 23/23.\nPhysique 19/19 ; mobilier 26/26 ; suivi/progression 16/16.",
+    "globalCheck": "Local réussi sur 7ec448a",
+    "globalDetail": "Local 7ec448a : 5 662 succès, 0 échec, 1 endurance ignorée.\nCI en 6 shards : 5 663/5 663, endurance active.\nLiteral201 : 1 échec véhicule ; autres limites dans\nvalidation-20261022.json. Correction de fixture séparée :\nvalidation-correction-defenses-20261022.json.",
+    "globalState": "CI en 6 shards : réussi\nLiteral201 / Windows /\nautres CI : réserves",
+    "integration": "Guide auteur seulement (?tools=1), zéro nouvelle variante implantée en campagne. Les changements 1.69 de main sont préservés."
+  },
+  "projectValidationEvidence": {
+    "scope": "Reprise des résultats archivés, sans nouvelle exécution de gameplay lors de la vérification du classeur. Les trois exécutions globales restent distinctes.",
+    "local": {
+      "report": "validation-20261022.json",
+      "command": "npm run check",
+      "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "exitCode": 0,
+      "exitCodeProvenance": "Code réellement retourné par le processus, fourni après sa fin.",
+      "syntaxFiles": 403,
+      "buildPublicFiles": 364,
+      "testFiles": 525,
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5662,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 1,
+      "todo": 0,
+      "duration_ms": 3895315.205975,
+      "failedTests": [],
+      "log": {
+        "path": "validation-globale-20261022.log.gz",
+        "bytes": 192391,
+        "sha256": "1faaf2f91c279c92c3c334d66f5ace453069916abac30b27cf49090e907a1e46",
+        "uncompressedBytes": 623905,
+        "uncompressedSha256": "2a39c9f20174ae5a0669273a6a98c1b70629b2f41ad7ebecd8b86cb887b03bd4"
+      },
+      "endurance": "Un cas ignoré ; réussite locale avec 5 662 succès, 0 échec, 1 ignoré."
+    },
+    "sixNativeShards": {
+      "report": {
+        "path": "validation-ci-native-20261022.json",
+        "bytes": 5140,
+        "sha256": "35a37d26ea103b1aa5c8bc3203adcf860c5001d7108b9bc76e17e897b7cff61d"
+      },
+      "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "checkout": "eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a",
+      "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+      "accepted": true,
+      "testFiles": 525,
+      "shards": 6,
+      "soakEnabled": true,
+      "counts": {
+        "tests": 5663,
+        "suites": 4,
+        "pass": 5663,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "scope": "All 525 native test files covered exactly once by six disjoint shards, with DEADWALL_SOAK=1, syntax, build and pretest. This is the accepted native aggregate, not the separate monolithic npm run check or a browser/Windows qualification."
+    },
+    "separateLiteral201": {
+      "report": {
+        "path": "validation-ci-literal-20261022.json",
+        "bytes": 9557,
+        "sha256": "3e461ba02ffc9dc57c5fb0e8a7fa8e31b0a81950207f7557c7e29fd7dfac76b5"
+      },
+      "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+      "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+      "job": {
+        "id": 119772488808,
+        "name": "literal full check / exact head",
+        "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/job/119772488808",
+        "conclusion": "failure",
+        "failedStep": "Exécuter réellement la commande complète et conserver les deux sorties"
+      },
+      "execution": {
+        "command": "DEADWALL_SOAK=1 npm run check",
+        "soakEnabled": true,
+        "filtersAbsent": true,
+        "startedAt": "2026-10-22T10:28:13.776Z",
+        "completedAt": "2026-10-22T11:38:08.390Z",
+        "receiptWallDurationMs": 4194614,
+        "nativeTestDurationMs": 4178059.292067,
+        "actualExitCode": 1,
+        "teeExitCode": 0,
+        "signal": null,
+        "accepted": false,
+        "receiptFailure": "Failed actual actualExitCode\n\n1 !== 0\n",
+        "counts": {
+          "tests": 5663,
+          "suites": 4,
+          "pass": 5662,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      "failure": {
+        "test": "151 vehicles: every existing profile can enter every physically clear driving seam",
+        "assertion": "assert.equal(g.expeditions.buildCar().ok,true)",
+        "returnedReasonRecorded": false,
+        "cause": "cause-unknown"
+      },
+      "archives": {
+        "nativeLog": {
+          "file": "validation-ci-literal-20261022.log.gz",
+          "bytes": 193298,
+          "sha256": "f8f9e0e4adefbc9947c546e809c12a8e3f33c78a6c8b14bdb7f42b607c29b61b",
+          "uncompressedBytes": 626380,
+          "uncompressedSha256": "0e05e2e61f1c7c8a74a2498439f2864a76d802ff5811720323ae76d4905bfa64",
+          "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+        },
+        "originalReceipt": {
+          "file": "validation-ci-literal-20261022.receipt.json.gz",
+          "bytes": 476577,
+          "sha256": "8bbdf9fa1a9389d2cf408507761b906f7716e71d5a9de265886276e3b81a41a0",
+          "uncompressedBytes": 1954422,
+          "uncompressedSha256": "ad09d1c7378377fc6e74abaeec8529bc7b60168859aaa3eeaa6da443340334e7",
+          "encoding": "Original artifact bytes preserved without newline conversion; deterministic gzip mtime=0"
+        }
+      },
+      "scope": "This complete literal command failed one test despite two independent successful native executions. Its failure remains recorded separately from the all-green sharded aggregate and from subsequent fixture corrections. No browser or Windows qualification is inferred."
+    },
+    "allGitHubCIPassed": false,
+    "otherCIReservations": {
+      "details": "validation-20261022.json",
+      "windows": "Native survey action did not advance ; portable non qualifié.",
+      "reconstruction": "Scénario browser-reconstruction144 non qualifié ; parcours local de 196 contrôles distinct.",
+      "siege": "Correction de fixture atelier suivie séparément ; cause de l’échec sprites non établie."
+    },
+    "fixtureCorrection": {
+      "report": "validation-correction-defenses-20261022.json",
+      "appliedAfterGlobalCheck": true,
+      "globalQualificationTransferred": false,
+      "workbookClaim": "Référence à un contrôle distinct ; les résultats de cette correction ne sont pas attribués à la passe globale 7ec448a.",
+      "reportIdentity": {
+        "path": "validation-correction-defenses-20261022.json",
+        "bytes": 20282,
+        "sha256": "520963a839a36ec701a803135c28a5821dee2468c24439678c8d6336902a750f"
+      },
+      "recordedSeparateTargetedResult": {
+        "native": {
+          "command": "node --test --test-concurrency=2 tests/defenses-qa148.test.cjs tests/qa-contracts163.test.cjs",
+          "exitCode": 0,
+          "tests": 10,
+          "pass": 10,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "browser": {
+          "exitCode": 0,
+          "checks": 300,
+          "passedChecks": 300,
+          "failedCheckCount": 0,
+          "profiles": 3,
+          "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title."
+        },
+        "globalRepeatedAfterCorrection": false,
+        "scope": "Deux fichiers de préparation et de test modifiés après la passe intégrale sur 7ec448a. Les règles de portée et de paiement du jeu, ainsi que les assertions du runner navigateur, sont inchangées. Les contrôles ciblés portent sur les fichiers réels du dépôt avec les empreintes listées ; ils ne sont pas une seconde passe globale."
+      }
+    },
+    "summaryReport": {
+      "path": "validation-20261022.json",
+      "bytes": 12378,
+      "sha256": "cd68cdf87577d646cfbaab3f66335abb35e1813cee552a6335deb717327bca0f"
+    }
+  },
+  "visualReview": {
+    "reviewedViews": [
+      {
+        "path": "/tmp/deadwall-codex-xlsx-b8ff726dd748/final-proof/publication-final.png",
+        "bytes": 186554,
+        "sha256": "e60cfc2af52f2d4419aef84c99de70eadd669f4cd4e51599f935f439037e7dd1",
+        "sheet": "Publication",
+        "range": "A1:E13",
+        "renderedFromSavedFinalXlsx": true,
+        "sourceXlsxSHA256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+        "visuallyReviewed": true,
+        "result": "Lisible : B8 indique Référence de publication ; E8 renvoie à CLASSEUR_REFERENCE.json sur deux lignes. Aucun chevauchement ni texte tronqué observé ; les cinq lignes de qualification restent distinctes."
+      },
+      {
+        "path": "/tmp/deadwall-codex-xlsx-b8ff726dd748/final-proof/accueil.png",
+        "bytes": 192429,
+        "sha256": "ffe36fe7192099814e5d4dfd8208af2fe0c58f14d83a105f90ca78bf46d6f4bc",
+        "sheet": "Accueil",
+        "range": "A1:L34",
+        "renderedFromSavedFinalXlsx": false,
+        "sourceXlsxSHA256": "596625690d5ed718444426994cf48dd2b6aa818f50b79e4ed40afe64a52174a6",
+        "visuallyReviewed": true,
+        "result": "Lisible : compteurs 1 000 inspections et 3 / 97 / 700, contenu auteur et portée campagne explicites.",
+        "renderedFromPreviousVerifiedXlsx": true,
+        "reusedBecauseViewAndAllDependenciesUnchanged": true,
+        "finalXlsxSHA256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b"
+      }
+    ],
+    "visuallyReviewed": true,
+    "unchangedViewReuse": "Accueil est inchangé, ainsi que toutes ses dépendances, après la correction des deux seules cellules de Publication ; son rendu précédemment revu est conservé."
+  },
+  "externalPublication": {
+    "byThisVerification": "Aucune écriture GitHub ou Drive.",
+    "stateSource": "CLASSEUR_REFERENCE.json",
+    "workbookState": "Copie de référence vérifiée",
+    "publicationNotSelfAttestedByWorkbook": true,
+    "driveReferenceLabel": "Référence de publication",
+    "driveStateLocator": "État et empreinte dans CLASSEUR_REFERENCE.json"
+  },
+  "verificationScope": "Import, recalcul, export et rendu avec @oai/artifact-tool, puis vérification indépendante ZIP/XML de toutes les feuilles, statuts, preuves, caches, formules et contrôles natifs. Aucune session Microsoft Excel native ni nouvelle exécution de jeu n’a été effectuée pour cette vérification.",
+  "publicationLabelCorrection": {
+    "passed": true,
+    "sourceSha256": "596625690d5ed718444426994cf48dd2b6aa818f50b79e4ed40afe64a52174a6",
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "bytes": 539765,
+    "changedCells": [
+      {
+        "sheet": "Publication",
+        "cell": "B8",
+        "before": "Copie antérieure",
+        "after": "Référence de publication"
+      },
+      {
+        "sheet": "Publication",
+        "cell": "E8",
+        "before": "Non confirmée",
+        "after": "État et empreinte dans CLASSEUR_REFERENCE.json"
+      }
+    ],
+    "allOtherCellValuesAndFormulaCachesUnchanged": true,
+    "allFormulasUnchanged": true,
+    "allWorksheetStructuresAndNativeFeaturesUnchanged": true,
+    "allEffectiveCellStylesUnchanged": true,
+    "effectiveCellStylesCompared": 99713,
+    "allEffectiveConditionalFormatsUnchanged": true,
+    "allRelationshipsAndDefinedNamesUnchanged": true,
+    "allNativeTableDefinitionsUnchanged": true,
+    "allRowColumnAndSheetSettingsUnchanged": true,
+    "calculationSettingsUnchanged": true,
+    "baselineOriginalUnchanged": true,
+    "reason": "Renvoyer le statut réel et l’empreinte de la publication Drive au manifeste, sans conserver un statut antérieur dans le fichier qui doit être publié.",
+    "sourceBytes": 539744,
+    "unchangedDriveLabelCell": "Publication!A8",
+    "unchangedDriveIdentifierCell": "Publication!D8",
+    "method": "Modification des deux valeurs avec @oai/artifact-tool ; les deux formats conditionnels existants sont réappliqués à l’identique pour préserver leurs remplissages à l’import/export. Tous les styles et contrôles effectifs ont ensuite été comparés au fichier précédemment vérifié.",
+    "gameplayAndNegativeTestsRepeated": false
+  }
+}

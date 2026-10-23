@@ -34,16 +34,18 @@ function tick(game, count = 1) {
 }
 
 // The redoubt placement is valid in the generated plan. The native wreck
-// road-wreck-11 obstructs its south face; no obstacle or route is injected.
+// road-wreck-3 obstructs its northwest approach; no obstacle or route is injected.
 function wreckFixture() {
   const { game, Unit } = fresh();
-  assert.equal(game.world.placement(C.BUILDINGS.fallbackRedoubt, 83, 35, 0).valid, true);
-  const redoubt = add(game, 'fallbackRedoubt', 83, 35);
-  const soldier = new Unit(game.nextId++, 'soldier', 2704, 1252);
+  assert.equal(game.world.placement(C.BUILDINGS.fallbackRedoubt, 28, 42, 0).valid, true);
+  const redoubt = add(game, 'fallbackRedoubt', 28, 42);
+  const reach = C.SQUAD_RULES.retreatRadius, dx = reach / 2;
+  const soldier = new Unit(game.nextId++, 'soldier', redoubt.left - dx, redoubt.top - Math.sqrt(reach * reach - dx * dx));
   soldier.squad = 0; soldier.offset = { x: 0, y: 0 }; game.units.push(soldier);
   assert.equal(game.friendlyPositionClear(soldier, soldier.x, soldier.y), true);
   assert.equal(game.fieldcraft.distance(soldier, redoubt), C.SQUAD_RULES.retreatRadius);
   assert.equal(game.workerCanWorkAt(soldier, redoubt, C.SQUAD_RULES.retreatRadius), false);
+  assert.equal(game.exploration125.firstObstruction(soldier, { x: redoubt.left, y: redoubt.top }, soldier.radius * .9)?.box.wreck, 'road-wreck-3');
   return { game, redoubt, soldier };
 }
 

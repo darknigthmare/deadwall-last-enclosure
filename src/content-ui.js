@@ -51,7 +51,7 @@
     ctx.strokeStyle='#354231';ctx.lineWidth=1;for(let i=0;i<=8;i++){ctx.beginPath();ctx.moveTo(i*60,0);ctx.lineTo(i*60,480);ctx.moveTo(0,i*60);ctx.lineTo(480,i*60);ctx.stroke();}
     ctx.strokeStyle='#586144';for(const r of [650,1100,1600]){ctx.beginPath();ctx.arc(240,240,r*s,0,Math.PI*2);ctx.stroke();}
     ctx.fillStyle='#dec177';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillRect(235,235,10,10);ctx.fillText('DÉPÔT D-17',240,226);
-    for(const [i,site]of sites.entries()){const x=site.x*s,y=site.y*s;ctx.fillStyle=game.fieldMarker===site.id?'#ffe29a':'#a5b798';ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fill();ctx.fillStyle='#132016';ctx.fillText(String(i+1),x,y+4);}
+    for(const [i,site]of sites.entries()){const marked=game.fieldMarker===site.id,point=marked?game.narrativeSurveyPoint(site.theme):site;if(!point)continue;const x=point.x*s,y=point.y*s;ctx.fillStyle=marked?'#ffe29a':'#a5b798';ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fill();ctx.fillStyle='#132016';ctx.fillText(String(i+1),x,y+4);}
     if(game.state==='playing'){ctx.fillStyle='#f2e5be';ctx.beginPath();ctx.arc(game.player.x*s,game.player.y*s,4,0,Math.PI*2);ctx.fill();}
   }
   function refresh(){
@@ -64,23 +64,24 @@
         for(const u of units.slice(0,100)){const row=el('li'),copy=el('div'),hash=Math.floor(C.seededHash(u.id,73,game.world.seed)*1e8);copy.append(el('strong',names[hash%names.length]+' '+String.fromCharCode(65+Math.floor(hash/names.length)%26)+'. · '+C.SURVIVORS[u.kind].name),el('small',u.supportActive?(u.kind==='medic'?'Soins en cours':'Réparation en cours'):(tasks[u.state]||'Disponible')));row.append(copy,el('span',Math.ceil(u.health)+' / '+u.maxHealth+' PV'));roster.appendChild(row);}
         if(units.length>100)roster.appendChild(el('li',(units.length-100)+' autres survivants en service.'));}}
     if(current==='sectors'){
-      const sites=game.world.sites||[],key=[game.world.seed,playing,game.fieldMarker,...sites.map(site=>game.world.nodes.filter(n=>n.siteId===site.id&&!n.depleted).map(n=>n.id+':'+Math.floor(n.amount)).join(','))].join('/');
+      const sites=game.world.sites||[],key=[game.world.seed,game.world.cityGeometry202,game.exploration125?.plan?.seed,game.exploration125?.plan?.layoutRevision,playing,game.fieldMarker,...sites.map(site=>game.world.nodes.filter(n=>n.siteId===site.id&&!n.depleted).map(n=>n.id+':'+Math.floor(n.amount)).join(','))].join('/');
       sectorLegend.textContent='CARTE '+game.world.seed+(playing?' · Campagne en cours.':' · Aperçu de démonstration, distinct de la graine facultative du menu.');drawMap(sites);
       if(key!==sectorKey){sectorKey=key;sectorList.replaceChildren();for(const [i,site]of sites.entries()){
         const nodes=game.world.nodes.filter(n=>n.siteId===site.id&&!n.depleted),stock=C.makeBag();for(const n of nodes)stock[n.type]+=n.amount;
         const card=el('article');card.dataset.siteId=site.id;card.dataset.marked=String(game.fieldMarker===site.id);
         card.append(el('h3',(i+1)+' · '+site.name),el('p',({housing:'Lotissement',market:'Commerces',aid:'Secours',industry:'Industrie',transit:'Transport',checkpoint:'Barrage'})[site.theme]+' · '+Math.floor(site.x/C.TILE)+','+Math.floor(site.y/C.TILE)+' · '+Math.round(Math.hypot(site.x-C.WORLD_SIZE/2,site.y-C.WORLD_SIZE/2))+' unités du dépôt'),el('p',nodes.length?C.resourceText(stock)+' · '+nodes.length+' gisements restants':'Secteur épuisé ou recouvert par la cité.'));
-        const button=el('button',game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER SUR LA CARTE');button.type='button';button.disabled=!playing;button.dataset.markSite=site.id;card.appendChild(button);
-        button.addEventListener('click',()=>{game.fieldMarker=game.fieldMarker===site.id?null:site.id;sectorKey='';get('commandStatus').textContent=game.fieldMarker?'Repère posé : '+site.name+'. Il ne donne aucun ordre de déplacement.':'Repère retiré.';refresh();sectorList.querySelector('[data-mark-site="'+site.id+'"]')?.focus({preventScroll:true});});
+        const point=game.narrativeSurveyPoint(site.theme);card.appendChild(el('p',point?'Point de relevé · cellule '+Math.floor(point.x/C.TILE)+','+Math.floor(point.y/C.TILE):'Point de relevé indisponible sur cette carte.'));
+        const button=el('button',game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER SUR LA CARTE');button.type='button';button.disabled=!playing||!point;button.dataset.markSite=site.id;card.appendChild(button);
+        button.addEventListener('click',()=>{if(button.disabled||!game.narrativeSurveyPoint(site.theme))return;game.fieldMarker=game.fieldMarker===site.id?null:site.id;sectorKey='';get('commandStatus').textContent=game.fieldMarker?'Repère posé : '+site.name+'. Il ne donne aucun ordre de déplacement.':'Repère retiré.';refresh();sectorList.querySelector('[data-mark-site="'+site.id+'"]')?.focus({preventScroll:true});});
         sectorList.appendChild(card);}}
     }
   }
   function drawMarker(ctx,view){
-    const site=(game.world.sites||[]).find(s=>s.id===game.fieldMarker);if(!site||!game.visible(site.x,site.y,100,view))return;
-    ctx.save();ctx.strokeStyle='#ddc17c';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);ctx.beginPath();ctx.arc(site.x,site.y,100,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='#121b14dd';ctx.fillRect(site.x-100,site.y-122,200,22);ctx.fillStyle='#ead59b';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(site.name,site.x,site.y-107,190);ctx.restore();
+    const site=(game.world.sites||[]).find(s=>s.id===game.fieldMarker),point=site&&game.narrativeSurveyPoint(site.theme),radius=C.NARRATIVE_RULES.surveyRadius;if(!point||!game.visible(point.x,point.y,radius,view))return;
+    ctx.save();ctx.strokeStyle='#ddc17c';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);ctx.beginPath();ctx.arc(point.x,point.y,radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#121b14dd';ctx.fillRect(point.x-100,point.y-122,200,22);ctx.fillStyle='#ead59b';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText(site.name,point.x,point.y-107,190);ctx.restore();
   }
-  function drawMinimap(ctx,sx,sy){for(const [i,site]of (game.world.sites||[]).entries()){const marked=game.fieldMarker===site.id;ctx.strokeStyle=marked?'#ffe29a':'#919c79';ctx.lineWidth=marked?2:1;ctx.strokeRect(site.x*sx-3,site.y*sy-3,6,6);if(marked){ctx.fillStyle='#ffe29a';ctx.font='10px sans-serif';ctx.fillText(String(i+1),site.x*sx+5,site.y*sy+3);}}}
+  function drawMinimap(ctx,sx,sy){for(const [i,site]of (game.world.sites||[]).entries()){const marked=game.fieldMarker===site.id,point=marked?game.narrativeSurveyPoint(site.theme):site;if(!point)continue;ctx.strokeStyle=marked?'#ffe29a':'#919c79';ctx.lineWidth=marked?2:1;ctx.strokeRect(point.x*sx-3,point.y*sy-3,6,6);if(marked){ctx.fillStyle='#ffe29a';ctx.font='10px sans-serif';ctx.fillText(String(i+1),point.x*sx+5,point.y*sy+3);}}}
   game.contentUI={refresh,drawMarker,drawMinimap,choose};
   get('specialistCommandButton')?.addEventListener('click',()=>{game.showCommand(true,'field');choose('crew');});
   game.art?.ready.then(drawPortraits);choose('infected');

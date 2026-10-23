@@ -10,6 +10,8 @@ const compile=spawnSync(process.execPath,[path.join(root,'scripts/compile-codex3
 if(compile.status!==0)throw Error('Compilation source Codex 3000 échouée.');
 const compileContexts=spawnSync(process.execPath,[path.join(root,'scripts/compile-codex-context160.mjs')],{cwd:root,stdio:'inherit'});
 if(compileContexts.status!==0)throw Error('Compilation source des contextes G10 échouée.');
+const compileInspection=spawnSync(process.execPath,[path.join(root,'scripts/compile-codex-inspection2026.cjs')],{cwd:root,stdio:'inherit'});
+if(compileInspection.status!==0)throw Error('Compilation des plans du Codex mondial échouée.');
 const require = createRequire(import.meta.url);
 const { ASSETS } = require('../src/art.js');
 const {createImageInliner}=require('./standalone-inline162.cjs');

@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "kind": "reconstruction-placement-targeted-diagnostic",
+  "observedAt": "2026-10-22T10:55:40.039Z",
+  "currentCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "baselineCommit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "ciObservation": {
+    "run": "39763290956",
+    "job": "119772489316",
+    "surface": "browser/campaign",
+    "failedScript": "scripts/browser-reconstruction144.mjs",
+    "failedProfiles": [
+      "desktop",
+      "mobile"
+    ],
+    "failure": "The declared house fixture has no valid footprint: Chaussée ou voie financée à préserver",
+    "checksBeforeFailure": 0,
+    "observedLogSHA256": "f89b72427da2b385765e94c7df07b74451d0dd594f5e883035a03888ca247d5a",
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489316",
+    "logArchiveNote": "The original CI log was read to identify the failure. This evidence bundle preserves the targeted local reproductions and scripts; it does not duplicate the full CI job log."
+  },
+  "environment": {
+    "browser": "153.0.8010.0",
+    "platform": "Linux",
+    "servedRoot": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+    "surface": "Explicit legacy author fixture: tools=1&fixture=legacy; RAF disabled before boot"
+  },
+  "conclusion": {
+    "reproduced": true,
+    "refusingOwner": "world.placement / native road preservation",
+    "preexistingOnComparedBaseline": true,
+    "newInspectionsNecessaryForFailure": false,
+    "fixtureInvalidBeforeReconstruction": true,
+    "reconstructionFlowNotReached": true,
+    "productChanged": false,
+    "testsChanged": false
+  },
+  "fixture": {
+    "file": "scripts/browser-reconstruction144.mjs",
+    "sourceSHA256": "4ba60fdcdd0a1b1f12a4c3a51bdd6076aa69ad39e377fcd87911f1d61b3982eb",
+    "extractedFunctionSHA256": "011e9903a522f151c9b36cd11b59c5711c8ed5fa63fbd8944dc607d52a8f9e69",
+    "extraction": "Exact unchanged reconstructionFixture function evaluated from the repository source; no fixture rewriting."
+  },
+  "sourceComparison": [
+    {
+      "file": "scripts/browser-reconstruction144.mjs",
+      "sourceSHA256": "4ba60fdcdd0a1b1f12a4c3a51bdd6076aa69ad39e377fcd87911f1d61b3982eb",
+      "baselineSHA256": "4ba60fdcdd0a1b1f12a4c3a51bdd6076aa69ad39e377fcd87911f1d61b3982eb",
+      "equalToBaseline": true,
+      "distributionSHA256": null,
+      "distributionEqualsSource": null
+    },
+    {
+      "file": "scripts/browser-qa-common142.mjs",
+      "sourceSHA256": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3",
+      "baselineSHA256": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3",
+      "equalToBaseline": true,
+      "distributionSHA256": null,
+      "distributionEqualsSource": null
+    },
+    {
+      "file": "src/core.js",
+      "sourceSHA256": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e",
+      "baselineSHA256": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e",
+      "equalToBaseline": true,
+      "distributionSHA256": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e",
+      "distributionEqualsSource": true
+    },
+    {
+      "file": "src/game.js",
+      "sourceSHA256": "f8cafd208a57c66d919823bad913dfa9ec6d4d29e2646a6013f0cdc22136e785",
+      "baselineSHA256": "f8cafd208a57c66d919823bad913dfa9ec6d4d29e2646a6013f0cdc22136e785",
+      "equalToBaseline": true,
+      "distributionSHA256": "f8cafd208a57c66d919823bad913dfa9ec6d4d29e2646a6013f0cdc22136e785",
+      "distributionEqualsSource": true
+    },
+    {
+      "file": "src/exploration-125.js",
+      "sourceSHA256": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+      "baselineSHA256": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+      "equalToBaseline": true,
+      "distributionSHA256": "645a20c518510c870f60ad2f4b7714f6cab9c6b4a3c77d7c7c9fbad99a94b8c4",
+      "distributionEqualsSource": true
+    }
+  ],
+  "geometry": {
+    "seed": 17117,
+    "difficulty": "standard",
+    "scenario": "classic",
+    "generation": 8,
+    "cityGeometry202": 0,
+    "layoutRevision": 3,
+    "house": {
+      "type": "house",
+      "gx": 74,
+      "gy": 70,
+      "rotation": 0,
+      "size": [
+        3,
+        2
+      ],
+      "footprint": {
+        "x": 2368,
+        "y": 2240,
+        "w": 96,
+        "h": 64
+      },
+      "clearance": 8
+    },
+    "nativeRoad": {
+      "id": "depot-ring-east",
+      "axis": "line",
+      "x1": 2358,
+      "y1": 1738,
+      "x2": 2358,
+      "y2": 2358,
+      "width": 96,
+      "lanes": 1,
+      "className": "service"
+    },
+    "roadBounds": {
+      "x": 2310,
+      "y": 1738,
+      "w": 96,
+      "h": 620
+    },
+    "intersectionWithoutClearance": {
+      "x": 2368,
+      "y": 2240,
+      "w": 38,
+      "h": 64
+    },
+    "naturalRoadOverlap": true,
+    "naturalRoadOverlapWithoutClearance": true,
+    "financedRoadOverlap": false,
+    "otherObstacleOverlap": false
+  },
+  "profiles": [
+    {
+      "ref": "current",
+      "viewport": "desktop",
+      "requestedURL": "http://127.0.0.1:37737/?tools=1&fixture=legacy",
+      "sourceOverrides": [],
+      "inspectionModule": "object",
+      "inspectionPanels": 1,
+      "fixtureRefused": true,
+      "reason": "Chaussée ou voie financée à préserver",
+      "buildingsBefore": 1,
+      "buildingsAfter": 1,
+      "errors": 0
+    },
+    {
+      "ref": "current",
+      "viewport": "mobile",
+      "requestedURL": "http://127.0.0.1:37737/?tools=1&fixture=legacy",
+      "sourceOverrides": [],
+      "inspectionModule": "object",
+      "inspectionPanels": 1,
+      "fixtureRefused": true,
+      "reason": "Chaussée ou voie financée à préserver",
+      "buildingsBefore": 1,
+      "buildingsAfter": 1,
+      "errors": 0
+    },
+    {
+      "ref": "baseline",
+      "viewport": "desktop",
+      "requestedURL": "http://127.0.0.1:37737/?tools=1&fixture=legacy",
+      "sourceOverrides": [
+        {
+          "file": "index.html",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "1e3684c7bf4e282a5f79020588ae42da4058b2473db4c72b5a03fb7eaecd6538"
+        },
+        {
+          "file": "src/coordination.js",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "e05d45d0d3aed397d166f1ec320937f98e518f788e61e2db2445c4dd515a5c22"
+        },
+        {
+          "file": "src/world-codex.js",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "7dd24b943e89d49b05d112af0071ef9d258e2235e66dc22204b730a13936b74a"
+        }
+      ],
+      "inspectionModule": "undefined",
+      "inspectionPanels": 0,
+      "fixtureRefused": true,
+      "reason": "Chaussée ou voie financée à préserver",
+      "buildingsBefore": 1,
+      "buildingsAfter": 1,
+      "errors": 0
+    },
+    {
+      "ref": "baseline",
+      "viewport": "mobile",
+      "requestedURL": "http://127.0.0.1:37737/?tools=1&fixture=legacy",
+      "sourceOverrides": [
+        {
+          "file": "index.html",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "1e3684c7bf4e282a5f79020588ae42da4058b2473db4c72b5a03fb7eaecd6538"
+        },
+        {
+          "file": "src/coordination.js",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "e05d45d0d3aed397d166f1ec320937f98e518f788e61e2db2445c4dd515a5c22"
+        },
+        {
+          "file": "src/world-codex.js",
+          "commit": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+          "sha256": "7dd24b943e89d49b05d112af0071ef9d258e2235e66dc22204b730a13936b74a"
+        }
+      ],
+      "inspectionModule": "undefined",
+      "inspectionPanels": 0,
+      "fixtureRefused": true,
+      "reason": "Chaussée ou voie financée à préserver",
+      "buildingsBefore": 1,
+      "buildingsAfter": 1,
+      "errors": 0
+    }
+  ],
+  "baselineMethod": "HTTP substitutions of index.html, src/coordination.js and src/world-codex.js with exact main74a blobs. Remaining public sources/assets are unchanged in the compared diff. No baseline package rebuild.",
+  "readiness": {
+    "initialAttempt": "Current desktop reproduced the placement failure; current mobile timed out in the original ready helper before fixture execution, without page/console/HTTP error.",
+    "diagnosticAdaptation": "A first diagnostic attempt reproduced current desktop then timed out in the original RAF-polled ready helper on mobile. This diagnostic waits for the identical startup predicate using timer polling before invoking the unchanged ready helper. Only observation scheduling differs; the fixture, road placement rules and failures are unchanged.",
+    "originalFixtureRewritten": false
+  },
+  "evidence": [
+    {
+      "kind": "completed-report",
+      "path": "diagnostic-reconstruction-rapport-20261022.json.gz",
+      "sha256": "d88849cea7fd443d6051ea8081e80a125b39dd9ac5bc07e987f587d77606e802",
+      "bytes": 2506,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-reconstruction-rapport-20261022.json",
+        "sha256": "8e9acd375fb80bbc79b9ef836ef15c7cfc95423e17ca94a441ae6ac128faae72",
+        "bytes": 15099
+      },
+      "validationRole": "Targeted diagnostic evidence. The native fixture refusal remains a failure, not a passed reconstruction test."
+    },
+    {
+      "kind": "completed-script",
+      "path": "diagnostic-reconstruction-script-20261022.mjs.gz",
+      "sha256": "69234c839e62f4b39bf0d94f9ad370df3fecca4e6c8ef1d9d759c1a2bb8fb08e",
+      "bytes": 3262,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-reconstruction-script-20261022.mjs",
+        "sha256": "a76bad78ac89218bfe46aa369be55c176a6b713083a9b4613236edd8017b420a",
+        "bytes": 7765
+      },
+      "validationRole": "Targeted diagnostic evidence. The native fixture refusal remains a failure, not a passed reconstruction test."
+    },
+    {
+      "kind": "initial-incomplete-report",
+      "path": "diagnostic-reconstruction-initial-rapport-20261022.json.gz",
+      "sha256": "732683c3e2d1359fa9bd3e9cce266e8e155c6fefcb30da3f5ed59022e8f1c12b",
+      "bytes": 2035,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-reconstruction-initial-rapport-20261022.json",
+        "sha256": "20060071cc9ef51c9db5c9762eb0c050ae0c5e0a49d67aac025799b0c12e171c",
+        "bytes": 6406
+      },
+      "validationRole": "Incomplete diagnostic annex; never counted as validation."
+    },
+    {
+      "kind": "initial-script",
+      "path": "diagnostic-reconstruction-initial-script-20261022.mjs.gz",
+      "sha256": "f93d113a9425f17c31ec13fd7930c81bcb50beb103b0c018ccea81629553ae69",
+      "bytes": 3016,
+      "compression": {
+        "format": "gzip",
+        "mtime": 0,
+        "filenameHeader": false,
+        "level": 9
+      },
+      "uncompressed": {
+        "suggestedFilename": "diagnostic-reconstruction-initial-script-20261022.mjs",
+        "sha256": "08f87759e1d4af3f142968c423f32d36cc998452c2937fd7a366953812f830f8",
+        "bytes": 7120
+      },
+      "validationRole": "Incomplete diagnostic annex; never counted as validation."
+    }
+  ],
+  "limits": [
+    "Only placement of the declared house fixture was reproduced.",
+    "No proof of the later reconstruction UI, payment, construction or Save/Continue flow.",
+    "The completed diagnostic uses timer polling of the same readiness predicate before calling the unchanged helper because RAF is explicitly frozen; no placement rule or assertion is bypassed.",
+    "No Electron/Windows execution, full campaign, hardware qualification or product fix."
+  ],
+  "recommendation": "A future fixture correction should choose a genuinely valid house footprint and a free exterior service approach through native owners before adding/destroying the house, preserving the later reconstruction assertions. Do not disable road preservation or force placement.",
+  "documentation": "diagnostic-reconstruction-20261022.md",
+  "baselineComparison": {
+    "method": "HTTP response substitution only",
+    "substitutedPublicFiles": [
+      "index.html",
+      "src/coordination.js",
+      "src/world-codex.js"
+    ],
+    "substitutedCount": 3,
+    "baselineDistributionRebuilt": false,
+    "serviceWorker": "Blocked; prepared baseline sw.js was not requested.",
+    "productOrTestCorrection": false
+  },
+  "archive": {
+    "scope": "Documentary evidence only; the product, original reconstruction test and harness remain unchanged.",
+    "determinism": "gzip level 9, mtime 0, no original filename header; raw/compressed byte lengths and SHA-256 are recorded.",
+    "scriptPortability": "Local execution traces, not portable user tools. Absolute repository, dist, browser and temporary-output paths are intentionally preserved. Reuse elsewhere requires adapting those paths and the environment.",
+    "initialAttempt": "Current desktop refusal was reproduced. Mobile readiness timed out before the fixture, so the run is incomplete and excluded from validation. Its exact report and script are preserved as annexes.",
+    "completedAttempt": "Only the diagnostic readiness observation gained timer polling of the same predicate before the unchanged ready helper. The original fixture function was extracted and executed without rewriting; no placement refusal was bypassed.",
+    "rawFileReferences": "Only gzip files are stored alongside the summary. uncompressed.suggestedFilename denotes an extraction filename, not a separate raw file present in this folder."
+  }
+}

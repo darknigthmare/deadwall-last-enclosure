@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "publicationRoot": "/workspace/scratch/84ab74f82991/deadwall",
+  "testedRoot": "/tmp/deadwall-reprise-final",
+  "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+  "sourceManifest": "/tmp/deadwall-final-corrective-source-manifest.json",
+  "mainBaseline": "/tmp/deadwall-main169-baseline-failures.json",
+  "initialRun": {
+    "sourceCommit": "f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3",
+    "log": "/tmp/deadwall-check-169-authorized.log",
+    "command": "npm run check",
+    "executionSession": 62097,
+    "exitCode": 1
+  },
+  "reruns": [
+    {
+      "id": "corrective",
+      "sourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "log": "/tmp/deadwall-corrective-169.log",
+      "command": "node --test --test-concurrency=2 tests/audit193-ground-blast.test.cjs tests/campaign-identity.test.cjs tests/coordination.test.cjs tests/defenses-qa148.test.cjs tests/interaction139.test.cjs tests/progression156.test.cjs tests/qa-contracts163.test.cjs tests/release-web.test.cjs > /tmp/deadwall-corrective-169.log 2>&1",
+      "executionSession": 72926,
+      "exitCode": 0,
+      "files": [
+        "tests/audit193-ground-blast.test.cjs",
+        "tests/campaign-identity.test.cjs",
+        "tests/coordination.test.cjs",
+        "tests/defenses-qa148.test.cjs",
+        "tests/interaction139.test.cjs",
+        "tests/progression156.test.cjs",
+        "tests/qa-contracts163.test.cjs",
+        "tests/release-web.test.cjs"
+      ]
+    },
+    {
+      "id": "retreat",
+      "sourceCommit": "597cd7db91af5e1363bb4417425ce5020f81d74d",
+      "log": "/tmp/deadwall-corrective-retreat169.log",
+      "command": "node --test tests/squad-retreat-access145.test.cjs > /tmp/deadwall-corrective-retreat169.log 2>&1",
+      "executionSession": 98566,
+      "exitCode": 0,
+      "files": [
+        "tests/squad-retreat-access145.test.cjs"
+      ]
+    },
+    {
+      "id": "distribution",
+      "sourceCommit": "484dcefa6045711a8e8b02fbe61b7de1db748447",
+      "log": "/tmp/deadwall-distribution169-final-tests.log",
+      "command": "node --test tests/desktop.test.cjs tests/distribution.test.cjs tests/distribution126.test.cjs",
+      "executionSession": 86914,
+      "exitCode": 0,
+      "files": [
+        "tests/desktop.test.cjs",
+        "tests/distribution.test.cjs",
+        "tests/distribution126.test.cjs"
+      ],
+      "provenanceReport": "/tmp/deadwall-distribution169-proof.json",
+      "notes": [
+        "The isolated tracked worktree used for this replay was subsequently compared byte-for-byte with source commit 484dcefa6045711a8e8b02fbe61b7de1db748447; git diff --exit-code against that commit returned 0. The run was not repeated after assigning the commit.",
+        "The separate diagnostic passes had 4 failures, then 1 failure. They are preserved as diagnostics and are never added to the initial full-run counters or the 67 successful targeted test executions.",
+        "The additional Vercel exclusion defect was discovered only after enriching the distribution fixture: docs/codex/suivi-monde2026/references-metriques2026.json and docs/codex/suivi-monde2026/OBJECTIFS80.json were excluded. The final correction admits these two build inputs. This follow-up diagnostic is not attributed as an extra failure of the initial global run or of main CI; its named test succeeds in this 17-test replay."
+      ]
+    }
+  ],
+  "notes": [
+    "The original complete npm run check belongs to f67509ac9c98b9fba5bfc277c4ed43bd453c5fb3 and remains a failed run. Its actual process exit code must be supplied only after process completion, never inferred from visible failures.",
+    "The official positive targeted runs contain 46 + 4 + 17 = 67 test executions on 12 unique test files. Counts used by the finalizer come from the actual complete footers, not these planning notes.",
+    "The first two positive replays retain source commit 597cd7db91af5e1363bb4417425ce5020f81d74d; the distribution replay is tied to the exact tested bytes of 484dcefa6045711a8e8b02fbe61b7de1db748447. No new complete npm run check has been run after correction."
+  ],
+  "finalBuild": {
+    "command": "npm run build",
+    "log": "/tmp/deadwall-final-build54.log",
+    "sourceCommit": "54dd899db1658dfccd6f2a6f0defe020153a5b5c",
+    "executionSession": 76846,
+    "exitCode": 0
+  }
+}

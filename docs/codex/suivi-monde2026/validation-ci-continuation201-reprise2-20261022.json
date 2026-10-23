@@ -1,0 +1,70 @@
+{
+  "scope": "Distinct continuation201 browser receipt; not the literal npm check qualification",
+  "runId": 39789162646,
+  "jobId": 119860246056,
+  "artifactId": 12431377389,
+  "artifactBytes": 10706599,
+  "artifactSHA256": "30dbc458468f5b18b7f44c45a9efbb35a2f39356a3b354df4f5f0587042db780",
+  "gitHead": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "sourceTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "sourceFiles": 4794,
+  "testFiles": 530,
+  "sourceInventoriesEqual": true,
+  "pass": true,
+  "profiles": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1366,
+        "height": 768,
+        "touch": false
+      },
+      "checks": 57,
+      "passed": 57,
+      "errors": 0
+    },
+    {
+      "viewport": {
+        "name": "portrait",
+        "width": 390,
+        "height": 844,
+        "touch": true
+      },
+      "checks": 55,
+      "passed": 55,
+      "errors": 0
+    },
+    {
+      "viewport": {
+        "name": "landscape",
+        "width": 844,
+        "height": 390,
+        "touch": true
+      },
+      "checks": 55,
+      "passed": 55,
+      "errors": 0
+    }
+  ],
+  "checks": 167,
+  "started": "2026-10-22T14:00:00.966Z",
+  "completed": "2026-10-22T14:01:30.872Z",
+  "receipt": "continuation201-report-0.json",
+  "zip": "continuation201-a137.zip",
+  "verifiedBy": "sourceStable201 from scripts/full-check201.mjs plus explicit expected head/tree and all profile counters/error collectors",
+  "browserVersion": "151.0.7922.34",
+  "sourceSHA256": "550ea5aaecb5fc80e0c70d0c80220531aade109d23d316b9e8d9df70eb886785",
+  "runURL": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789162646",
+  "jobURL": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39789162646/job/119860246056",
+  "reportSHA256": "b3d82fc9a828cd9e2b5f6a54f23ed8d09922c935cebaed776b5106dea8e38ab6",
+  "decodedJobLogSHA256": "7fc51b194599647f80fd0ee2ec3613678969cb3b9abd6bda6536a9e24db418e4",
+  "durationMs": 89906,
+  "limitations": [
+    "This browser job is separate from literal fullcheck201; its success does not qualify npm run check.",
+    "The original source-bound report retains its explicit prepared scenarios and no physical-device certification is claimed."
+  ],
+  "archives": {
+    "validation-ci-continuation201-reprise2-20261022.tar.gz": "952ad06c21de10524338aabc30db01aff8a346577f5a223ed63344924cb9fb15",
+    "validation-ci-continuation201-reprise2-20261022.log.gz": "aa0fcfa79784d348f0206fe46318463b906e36a761005842159e1c6e6f15e98e"
+  }
+}

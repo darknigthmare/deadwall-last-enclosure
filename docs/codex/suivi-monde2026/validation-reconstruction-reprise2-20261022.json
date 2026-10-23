@@ -1,0 +1,77 @@
+{
+  "schema": "deadwall-targeted-validation-v1",
+  "scope": "New execution after environment recovery; no historical lost logs recreated",
+  "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "browserVersion": "153.0.8010.0",
+  "distRoot": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+  "distManifestSHA256": "b31bd7e0d800fc7ba38c198aaa1aadb645ba3d7bdea98a024ca0f238b5983b0f",
+  "sourceManifestSHA256": "66a3c8f96e5c611b033436cc800c939f2591141099aeae555745ea26eb090ec0",
+  "sourceFiles": 1032,
+  "distFiles": 365,
+  "sourceAndDistUnchanged": true,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "native": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "exitCode": 0,
+    "durationMs": 12913.444872,
+    "sourceProof": "Native test was run before checkpoint publication against the source hashes retained in the archive; it is not attributed to an immutable HEAD at its execution time.",
+    "receipt": "reconstruction-qa144-post-recovery-20261022-run2.json"
+  },
+  "browser": {
+    "started": "2026-10-22T13:44:54.542407+00:00",
+    "finished": "2026-10-22T13:45:21.107968+00:00",
+    "durationSeconds": 26.565559186999963,
+    "exitCode": 0,
+    "pass": true,
+    "profiles": [
+      {
+        "viewport": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900
+        },
+        "pass": true,
+        "checks": 8,
+        "passedChecks": 8,
+        "errors": 0,
+        "site": {
+          "gx": 76,
+          "gy": 70,
+          "examined": 18,
+          "exhaustedNodes": 0
+        }
+      },
+      {
+        "viewport": {
+          "name": "mobile",
+          "width": 390,
+          "height": 844,
+          "touch": true
+        },
+        "pass": true,
+        "checks": 8,
+        "passedChecks": 8,
+        "errors": 0,
+        "site": {
+          "gx": 76,
+          "gy": 70,
+          "examined": 18,
+          "exhaustedNodes": 0
+        }
+      }
+    ]
+  },
+  "limitations": [
+    "Explicit stock, commander position and completed starting-house fixtures; no organically earned campaign claim.",
+    "Subsequent destruction, financing, held ACTION construction and Continue are tested through shipped owners; no physical-device or wall-clock completion certification."
+  ],
+  "archives": {
+    "validation-reconstruction-reprise2-20261022.tar.gz": "a99ac3708f1e68dccd41ee81165926023b9038333efa2754a8009a60b86a3217",
+    "validation-reconstruction-reprise2-20261022.log.gz": "a08d4781fd97acd1e184d63dd5bfc829b6b6446d75179717d1f2a44e6f8bff98"
+  }
+}

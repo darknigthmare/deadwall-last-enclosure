@@ -1,0 +1,85 @@
+name: DEADWALL world codex extension
+on:
+  push:
+    branches: [feat/codex-world-extension-20261021]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: codex-world-extension-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Preserve tracked source inputs and provenance
+        run: |
+          python3 - <<'PY'
+          import pathlib, subprocess, json, hashlib, zipfile
+          root = pathlib.Path.cwd()
+          out = root / 'artifacts' / 'codex-world-extension'
+          out.mkdir(parents=True, exist_ok=True)
+          revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          entries = []
+          with zipfile.ZipFile(out / 'tracked-text.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              for name in sorted(filter(None, subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0'))):
+                  p = pathlib.PurePosixPath(name)
+                  source = root / name
+                  if p.is_absolute() or '..' in p.parts or source.is_symlink():
+                      raise ValueError('Unsafe tracked path')
+                  if any(part.startswith('.env') for part in p.parts):
+                      continue
+                  if p.suffix.lower() not in {'.js','.cjs','.mjs','.py','.json','.md','.txt','.html','.css','.yml','.yaml','.svg'} and name not in {'.gitignore','.vercelignore'}:
+                      continue
+                  data = source.read_bytes()
+                  try:
+                      data.decode('utf-8')
+                  except UnicodeDecodeError:
+                      continue
+                  archive.writestr(name, data)
+                  entries.append({'path': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
+              archive.writestr('SOURCE-MANIFEST.json', json.dumps({'revision': revision, 'scope': 'Tracked UTF-8 development inputs; no secrets, installed dependencies or image assets.', 'files': entries}, indent=2))
+          print(json.dumps({'revision': revision, 'files': len(entries)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deadwall-world-codex-source
+          path: artifacts/codex-world-extension/
+          retention-days: 7
+          if-no-files-found: error
+
+  inspection-browser:
+    name: World codex / workbook and actual author controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check every workbook identifier, status, cached formula and inspection count
+        run: python3 scripts/verify-codex-tracker-xlsx2026.py docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx --report artifacts/qa/world-codex-workbook.json
+      - uses: ./.github/actions/setup-chromium
+      - name: Exercise the actual desktop and touch author controls
+        run: node scripts/browser-codex-inspection2026.mjs
+      - name: Ensure generated public sources still match the checkout
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deadwall-world-codex-browser
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

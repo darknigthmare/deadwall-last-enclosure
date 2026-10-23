@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-22T11:29:45.147436+00:00",
+  "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+  "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "gameVersion": "1.69.0",
+  "workingTreeScope": {
+    "runtimeTestsAndScriptsUnchangedAtEndOfGlobalCheck": true,
+    "trackedDocumentationChangedDuringEvidencePreparation": [
+      "docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
+      "docs/codex/suivi-monde2026/FONDATIONS_METRIQUES_2026.md",
+      "docs/codex/suivi-monde2026/MARITIME_AUTEUR_2026.md",
+      "docs/codex/suivi-monde2026/PUBLICATION.md"
+    ],
+    "note": "Les sources exécutées ont été gelées sur le commit publié. Des preuves, documents et le classeur sont préparés dans le même arbre de travail. Ce rapport local n’est pas le reçu CI strict literal-fullcheck201, qui exige un checkout entièrement propre et l’endurance."
+  },
+  "result": {
+    "fullNativeCheckPassed": true,
+    "windowsPortableQualified": false,
+    "reconstructionBrowserScenarioQualified": false,
+    "allGitHubCIPassed": false,
+    "scope": "Inspection auteur et contrôles listés ; aucune nouvelle implantation de campagne.",
+    "literalFullCheckPassed": false
+  },
+  "global": {
+    "command": "npm run check",
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "exitCode": 0,
+    "exitCodeProvenance": "Code réellement retourné par le processus, fourni après sa fin.",
+    "syntaxFiles": 403,
+    "buildPublicFiles": 364,
+    "testFiles": 525,
+    "tests": 5663,
+    "suites": 4,
+    "pass": 5662,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 1,
+    "todo": 0,
+    "duration_ms": 3895315.205975,
+    "failedTests": [],
+    "log": {
+      "path": "validation-globale-20261022.log.gz",
+      "bytes": 192391,
+      "sha256": "1faaf2f91c279c92c3c334d66f5ace453069916abac30b27cf49090e907a1e46",
+      "uncompressedBytes": 623905,
+      "uncompressedSha256": "2a39c9f20174ae5a0669273a6a98c1b70629b2f41ad7ebecd8b86cb887b03bd4"
+    }
+  },
+  "inspection": {
+    "path": "inspection-20261021.json",
+    "bytes": 783225,
+    "sha256": "7c12db78d165c2b6b520ccf9c93eee435b87f2e055485ad1880eb2e4b1b17233",
+    "generatedAt": "2026-10-22T10:04:43.033Z",
+    "sourceHash": "e8de5983bffe19e700329d62128436b1a1277e08df578151f35e299b769e03a9",
+    "types": 20,
+    "plans": 1000,
+    "passed": 1000,
+    "rooms": 30990,
+    "furnishedRooms": 30960,
+    "props": 103450,
+    "requested": 111383,
+    "refused": 7933,
+    "unknownUses": 0,
+    "levels": 1900,
+    "walls": 224885,
+    "transitions": 900,
+    "lootContainersCreated": 0,
+    "connectedServices": 0,
+    "campaignPlayable": 0,
+    "failures": 0
+  },
+  "browser": {
+    "guide": {
+      "path": "validation-guide-20261022.json",
+      "bytes": 15823,
+      "sha256": "4ff4c8c6fc88626aceb59533831ba73d99e731c2e3c20630b61ace666a266789",
+      "profiles": 2,
+      "checks": 112,
+      "browserVersion": "153.0.8010.0",
+      "pass": true,
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title."
+    },
+    "campaign": {
+      "path": "validation-campagne-20261022.json",
+      "bytes": 350172,
+      "sha256": "c162084a049317f8910f444eff13a648e0f31e4ed46ea14e559e018a6dc3cbe0",
+      "profiles": 4,
+      "checks": 196,
+      "browserVersion": "153.0.8010.0",
+      "pass": true,
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title."
+    }
+  },
+  "nativeCI": {
+    "path": "validation-ci-native-20261022.json",
+    "bytes": 5140,
+    "sha256": "35a37d26ea103b1aa5c8bc3203adcf860c5001d7108b9bc76e17e897b7cff61d",
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "checkout": "eebd5f3d7670977a361c5eaee6d2c8e2e79fc11a",
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "counts": {
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5663,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "testFiles": 525,
+    "soakEnabled": true,
+    "scope": "All 525 native test files covered exactly once by six disjoint shards, with DEADWALL_SOAK=1, syntax, build and pretest. This is the accepted native aggregate, not the separate monolithic npm run check or a browser/Windows qualification."
+  },
+  "githubCIState": {
+    "path": "validation-ci-etat-20261022.json",
+    "bytes": 11855,
+    "sha256": "35968a62a9ea1c8bb8c44ddc4933b8df291bd176d357752027be155c417cc034",
+    "scope": "État des jobs exécutés sur 7ec448a ; échecs originaux conservés, corrections ciblées ultérieures suivies séparément."
+  },
+  "targeted": [
+    {
+      "file": "validation-1000-inspections-20261022.log.gz",
+      "tests": 26,
+      "pass": 26,
+      "exitCode": 0
+    },
+    {
+      "file": "validation-suivi-20261022.log.gz",
+      "tests": 16,
+      "pass": 16,
+      "exitCode": 0
+    }
+  ],
+  "priorAttempt": {
+    "file": "validation-diagnostic-isolation-20261022.log.gz",
+    "status": "interrupted-not-validating",
+    "exitCode": 1,
+    "reason": "Passage isolé arrêté après blocages EPERM des sous-processus Node/IPC et des sockets localhost. Même commande relancée avec les permissions requises, sans changer les tests."
+  },
+  "windowsCI": {
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "runId": 39763290956,
+    "jobId": 119772489146,
+    "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489146",
+    "status": "failed",
+    "message": "Native survey action did not advance",
+    "scope": "Le paquet Windows se construit ; le scénario de lancement Electron échoue sur une reconnaissance narrative. Une reproduction Chromium comparée à main retrouve le disque du secteur market entièrement obstrué sur la graine 17117 dans les deux sources. Ce défaut préexistant est compatible avec le journal CI ; Electron/Windows n’a pas été rejoué et son journal ne donne pas les gardes.",
+    "diagnostic": "diagnostic-survey-20261022.json"
+  },
+  "reconstructionCI": {
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "runId": 39763290956,
+    "jobId": 119772489316,
+    "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489316",
+    "status": "failed",
+    "message": "The declared house fixture has no valid footprint: Chaussée ou voie financée à préserver",
+    "scope": "Le scénario browser-reconstruction144 refuse sa maison fixe avant les étapes de reconstruction. Une reproduction Chromium sur ordinateur et mobile simulé retrouve le même chevauchement avec depot-ring-east dans main et dans la PR. Ce scénario reste non qualifié ; les 196 contrôles de browser-campaign constituent un parcours distinct.",
+    "diagnostic": "diagnostic-reconstruction-20261022.json"
+  },
+  "siegeCI": {
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "runId": 39763290956,
+    "jobId": 119772489893,
+    "jobUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290956/job/119772489893",
+    "status": "failed",
+    "defenses": {
+      "message": "A physically completed workshop gives no remote withdrawal from the depot",
+      "scope": "Régression de préparation du test confirmée : le nouvel accès atelier retenu était dans la portée du dépôt. Les règles du jeu autorisaient légitimement le retrait. Un correctif de fixture est vérifié séparément après cette passe sur 7ec448a."
+    },
+    "sprites": {
+      "message": "A visible real contact hurts the live commander before its own attack action exists",
+      "scope": "Cause non établie. Le script et les chemins de jeu associés sont inchangés par rapport à main, sans reproduction de référence permettant d’attribuer cet échec."
+    }
+  },
+  "historicalEvidence": "validation-20261021.json conserve la passe antérieure échouée et ses reprises ; elle ne décrit pas la passe du 22 octobre.",
+  "postCheckCorrection": {
+    "path": "validation-correction-defenses-20261022.json",
+    "bytes": 20282,
+    "sha256": "520963a839a36ec701a803135c28a5821dee2468c24439678c8d6336902a750f",
+    "sourceBase": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "appliedAfterGlobalCheck": true,
+    "globalRepeatedAfterCorrection": false,
+    "sourceFiles": [
+      {
+        "path": "scripts/browser-defenses-fixtures148.mjs",
+        "sha256": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7"
+      },
+      {
+        "path": "tests/defenses-qa148.test.cjs",
+        "sha256": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7"
+      }
+    ],
+    "result": {
+      "browserDefensesThreeProfilesQualified": true,
+      "existingRemoteWithdrawalAssertionRetained": true,
+      "gameplayRulesChanged": false,
+      "windowsElectronQualified": false,
+      "allGitHubCIQualified": false,
+      "nativeTestsPassed": true,
+      "targetedCorrectionQualified": true
+    },
+    "native": {
+      "command": "node --test --test-concurrency=2 tests/defenses-qa148.test.cjs tests/qa-contracts163.test.cjs",
+      "exitCode": 0,
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "browser": {
+      "exitCode": 0,
+      "checks": 300,
+      "passedChecks": 300,
+      "failedCheckCount": 0
+    },
+    "scope": "Deux fichiers de préparation et de test modifiés après la passe intégrale sur 7ec448a. Les règles de portée et de paiement du jeu, ainsi que les assertions du runner navigateur, sont inchangées. Les contrôles ciblés portent sur les fichiers réels du dépôt avec les empreintes listées ; ils ne sont pas une seconde passe globale."
+  },
+  "literalCI": {
+    "path": "validation-ci-literal-20261022.json",
+    "bytes": 9557,
+    "sha256": "3e461ba02ffc9dc57c5fb0e8a7fa8e31b0a81950207f7557c7e29fd7dfac76b5",
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "sourceTree": "d42e78723ec81d1b12e02c87954c94859925feeb",
+    "workflow": {
+      "runId": 39763290836,
+      "runAttempt": 1,
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    "job": {
+      "id": 119772488808,
+      "name": "literal full check / exact head",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39763290836/job/119772488808",
+      "conclusion": "failure",
+      "failedStep": "Exécuter réellement la commande complète et conserver les deux sorties"
+    },
+    "command": "DEADWALL_SOAK=1 npm run check",
+    "actualExitCode": 1,
+    "accepted": false,
+    "soakEnabled": true,
+    "counts": {
+      "tests": 5663,
+      "suites": 4,
+      "pass": 5662,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "failure": {
+      "test": "151 vehicles: every existing profile can enter every physically clear driving seam",
+      "declaration": "tests/vehicle-boundary151.test.cjs:42:1",
+      "stack": "paid (tests/vehicle-boundary151.test.cjs:16:166)",
+      "caller": "tests/vehicle-boundary151.test.cjs:43:109",
+      "assertion": "assert.equal(g.expeditions.buildCar().ok,true)",
+      "actual": false,
+      "expected": true,
+      "operator": "strictEqual",
+      "nativeLogLine": 5377,
+      "durationMs": 13068.361418,
+      "stage": "Native vehicle construction in paid(), before pose() and frontier.enter() for the failing iteration",
+      "vehicleProfile": null,
+      "side": null,
+      "returnedReasonRecorded": false,
+      "note": "The assertion checks only .ok. Neither the receipt nor native log records the returned reason, the vehicle profile or the side of this failing loop iteration."
+    },
+    "causeEstablished": false,
+    "scope": "Workflow intégral avec endurance sur un checkout propre de 7ec448a. Un refus de construction de véhicule est observé sans motif enregistré. Ce résultat échoué reste distinct du global local réussi et des six partitions CI réussies ; aucune attribution causale à la PR ou à main n’est établie."
+  },
+  "finalizedAt": "2026-10-22T11:48:14.771502+00:00"
+}

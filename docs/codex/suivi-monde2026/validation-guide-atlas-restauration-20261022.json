@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "restored-guide-and-atlas-browser-validation",
+  "sourceCommit": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+  "sourceTree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+  "browserVersion": "Chromium 153.0.8010.0",
+  "groups": {
+    "atlas": {
+      "command": [
+        "node",
+        "scripts/browser-sites162.mjs"
+      ],
+      "started": "2026-10-22T14:09:17.053Z",
+      "finished": "2026-10-22T14:09:40.525Z",
+      "durationSeconds": 23.47079927,
+      "exitCode": 0,
+      "accepted": true,
+      "profiles": [
+        {
+          "name": 1440,
+          "pass": true,
+          "checks": null,
+          "failedChecks": null
+        },
+        {
+          "name": 390,
+          "pass": true,
+          "checks": null,
+          "failedChecks": null
+        }
+      ],
+      "runtimeRoot": "/workspace/scratch/b8ff726dd748/deadwall",
+      "sourceFiles": 4794,
+      "sourceManifestSha256": "550ea5aaecb5fc80e0c70d0c80220531aade109d23d316b9e8d9df70eb886785",
+      "distributionFiles": 365,
+      "distributionManifestSha256": "6084145da6158b6da9b3fd3134a6f0b397798ad3b715ad82a8da65a0e4a33b28",
+      "sourceAndDistributionUnchanged": true,
+      "rawReport": "atlas/report.json",
+      "rawReportSha256": "5739352963babf209046fec69a4cea62801a3dd0a1d05f62790cbe95df10a74d",
+      "scope": "Real Atlas controls and prepared author site rendering, served from source; not a default campaign acquisition or Windows certification."
+    },
+    "guide": {
+      "command": [
+        "node",
+        "scripts/browser-codex-inspection2026.mjs"
+      ],
+      "started": "2026-10-22T14:09:54.205Z",
+      "finished": "2026-10-22T14:11:03.243Z",
+      "durationSeconds": 69.036196974,
+      "exitCode": 0,
+      "accepted": true,
+      "profiles": [
+        {
+          "name": "desktop",
+          "pass": true,
+          "checks": 64,
+          "failedChecks": 0
+        },
+        {
+          "name": "mobile",
+          "pass": true,
+          "checks": 64,
+          "failedChecks": 0
+        }
+      ],
+      "runtimeRoot": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+      "sourceFiles": 4794,
+      "sourceManifestSha256": "550ea5aaecb5fc80e0c70d0c80220531aade109d23d316b9e8d9df70eb886785",
+      "distributionFiles": 365,
+      "distributionManifestSha256": "6084145da6158b6da9b3fd3134a6f0b397798ad3b715ad82a8da65a0e4a33b28",
+      "sourceAndDistributionUnchanged": true,
+      "rawReport": "guide/codex-inspection2026-2026-10-22T14_09_54_593Z/report.json",
+      "rawReportSha256": "5521e5562bfb420e9211ad9c028579a8ed8e26d32ee9460c261d8b8c59706e1c",
+      "scope": "Guide inspection via author controls on the restored distribution, with default-title absence check and unchanged campaign save material; no new campaign placement.",
+      "campaignMaterialUnchanged": true
+    }
+  },
+  "guideChecks": 128,
+  "guidePassedChecks": 128,
+  "atlasProfiles": 2,
+  "allGroupsPassed": true,
+  "visualReview": {
+    "capturedAndViewed": [
+      "desktop-EXT-MONDE-T053-industry.png",
+      "desktop-EXT-MONDE-T054-industry.png",
+      "mobile-EXT-MONDE-T055-industry.png",
+      "mobile-EXT-MONDE-T056-industry.png"
+    ],
+    "observation": "The four industrial families render their nine buildings and circulation in the actual Guide on desktop or mobile. The campus plan fits the viewport; individual equipment at this overview scale is qualified by geometry/controls, not by a claim that every small object is visually legible.",
+    "newImageSynthesis": false
+  },
+  "limitations": [
+    "Guide interactions use the explicit author/historical fixture, with a separate check that the default player title has no author inspection panel.",
+    "Atlas is served from the source checkout; Guide uses dist. Both tracked source and distribution inventories remain unchanged in each run.",
+    "No new campaign placement, resources, operational industrial recipes or physical mobile-device certification is inferred."
+  ],
+  "archives": {
+    "validation-atlas-restauration-20261022.log.gz": {
+      "bytes": 485,
+      "sha256": "db1ea979ea6913b8fe94e546325589b1b685f300247ef7439c6b0b2e0df2f894"
+    },
+    "validation-guide-atlas-restauration-20261022.tar.gz": {
+      "bytes": 6463165,
+      "sha256": "c7643fb28aa3bd80a4f5918c5ada1e1ffadddf552f48dd7dc576d3281852ea4e"
+    },
+    "validation-guide-restauration-20261022.log.gz": {
+      "bytes": 172,
+      "sha256": "8c794b4de9fc1da6950360cac407315f0b71683be193cc32e2f0a83375f5fbc0"
+    }
+  }
+}

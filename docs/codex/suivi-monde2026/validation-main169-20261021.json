@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "baseSha": "74a62084e96dd7e78463bd4e15b9ec2897887704",
+  "workflowRun": 39616702212,
+  "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "id": 119280472871,
+      "name": "native shard / 6",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280472871",
+      "startedAt": "2026-10-21T14:27:35Z",
+      "completedAt": "2026-10-21T14:41:48Z",
+      "reportedFailures": [
+        "Failed native test: coordination: version du jeu distincte du format de sauvegarde conservé — Expected values to be strictly equal: — at tests/coordination.test.cjs:6:92",
+        "Failed native test: banc défenses148 : infrastructures légales et vrais accès, aucun équipement ou RNG offert — Expected values to be strictly deep-equal: — at tests/defenses-qa148.test.cjs:10:78",
+        "Failed native test: 139 HTML : ACTION attend la recharge — build — node:internal/assert/utils:77 — at scripts/qa139-interaction.cjs:25:9"
+      ]
+    },
+    {
+      "id": 119280473217,
+      "name": "native shard / 3",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473217",
+      "startedAt": "2026-10-21T14:27:37Z",
+      "completedAt": "2026-10-21T14:39:53Z",
+      "reportedFailures": [
+        "Failed native test: 156 soins D17 : une position locale sauvegardée ne soigne pas le commandant physiquement parti en région — Expected values to be strictly equal: — at tests/progression156.test.cjs:94:9"
+      ]
+    },
+    {
+      "id": 119280473227,
+      "name": "native shard / 2",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473227",
+      "startedAt": "2026-10-21T14:27:37Z",
+      "completedAt": "2026-10-21T14:37:44Z",
+      "reportedFailures": [
+        "Failed native test: 193 a ground generator blast cannot damage a native roof contact forty-eight metres above it — a real unobstructed generator placement exists — at tests/audit193-ground-blast.test.cjs:15:134",
+        "Failed native test: 193 generator destruction still damages a genuinely nearby ground contact — a real unobstructed generator placement exists — at tests/audit193-ground-blast.test.cjs:15:134"
+      ]
+    },
+    {
+      "id": 119280473239,
+      "name": "native shard / 5",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39616702212/job/119280473239",
+      "startedAt": "2026-10-21T14:27:36Z",
+      "completedAt": "2026-10-21T14:36:55Z",
+      "reportedFailures": [
+        "Failed native test: campaign identity: every initial autosave uses one ID, and replaying the seed adds exactly one campaign — The integrated campaign has multiple initialization saves — at tests/campaign-identity.test.cjs:33:10",
+        "Failed native test: release web: version publique et guide livré correspondent au package courant — Expected values to be strictly equal: — at tests/release-web.test.cjs:109:10",
+        "Failed native test: 145 repli : une section à portée contourne réellement une épave avant son arrivée — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10",
+        "Failed native test: 145 repli : le diagnostic garde un échec de route si la portée masque un accès bloqué — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10",
+        "Failed native test: 145 repli : la reprise retrouve le détour physique sans gains ni déplacement au chargement — Expected values to be strictly equal: — at tests/squad-retreat-access145.test.cjs:40:10"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,397 @@
+{
+  "schema": "deadwall-targeted-browser-validation-v1",
+  "provenance": "New execution after environment recovery on source checkpoint a137e2f. Prior lost runtime receipts were not recreated or treated as evidence.",
+  "groups": [
+    {
+      "name": "d17",
+      "command": [
+        "node",
+        "scripts/browser-d17-progression149.mjs"
+      ],
+      "environment": {
+        "DEADWALL_QA_ROOT": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+        "DEADWALL_QA_OUTPUT": "/tmp/deadwall-browser-reprise2-recovered-20261022/d17",
+        "CHROMIUM_EXECUTABLE_PATH": "/tmp/chromium"
+      },
+      "head": "a137e2f714649083e460fcf25b0d84b7ea1bee57",
+      "tree": "172bf1a43d4c7546853415f5d20c5a2592292252",
+      "started": "2026-10-22T13:52:43.887732+00:00",
+      "finished": "2026-10-22T14:00:56.313151+00:00",
+      "durationSeconds": 492.4254361819999,
+      "exitCode": 0,
+      "pass": true,
+      "browserVersion": "153.0.8010.0",
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+      "scope": "NATIVE: fresh standard seed17117 campaign, actual menu, held keyboard/touch movement, personal harvest/deposit, finite paid house foundation and genuine manual construction through RAF. ADVANCED EXPLICIT FIXTURES: completed legally placed urban models and required supports, plus ordinary previously unlocked fillers to derive each exact city threshold24→1850 from real buildings. No forged tier, population, inventory, resource, health, terrain, node or RNG assignment. Growth readouts and all eleven model catalogues are observed through real DOM navigation. Save/reload/Continue compares every saved field synchronously before first update, with no normalized fields. Physical-city overview uses a declared transient camera only. These prepared thresholds do not establish organic campaign feasibility, human time to Mégaville III, balance, endurance or physical-device certification.",
+      "sourceAndDistUnchanged": true,
+      "sourceFiles": 1032,
+      "distFiles": 365,
+      "sourceManifestSHA256": "66a3c8f96e5c611b033436cc800c939f2591141099aeae555745ea26eb090ec0",
+      "distManifestSHA256": "b31bd7e0d800fc7ba38c198aaa1aadb645ba3d7bdea98a024ca0f238b5983b0f",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "reportRelativePath": "d17/d17-progression149-2026-10-22T13_52_44_300Z/report.json",
+      "rawReportSHA256": "9f9d8245169197b96e42823cee5407fcfaaf78bbf4fc811507b42a7274898f20",
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1366,
+            "height": 768
+          },
+          "checks": 143,
+          "passedChecks": 143,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "reportedPass": true,
+          "paidWarehouses": [
+            {
+              "id": 77,
+              "gx": 65,
+              "gy": 68,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 110,
+                "scrap": 116.333,
+                "stone": 70,
+                "food": 129.5952970000004,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 55,
+                "scrap": 71.333,
+                "stone": 70,
+                "food": 129.5887970000004,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 500,
+              "storageAfter": 1100,
+              "inspections": 1,
+              "maximumInspections": 16,
+              "zooms": [],
+              "firstRejections": {
+                "native": 444,
+                "occupied": 34,
+                "outsideSafeFrame": 7,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 444,
+                "occupied": 34,
+                "outsideSafeFrame": 7,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 6.016499999999954
+            },
+            {
+              "id": 78,
+              "gx": 68,
+              "gy": 66,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 55,
+                "scrap": 71.333,
+                "stone": 70,
+                "food": 129.40171920000049,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 0,
+                "scrap": 26.333,
+                "stone": 70,
+                "food": 129.39478760000048,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 1100,
+              "storageAfter": 1700,
+              "inspections": 1,
+              "maximumInspections": 16,
+              "zooms": [],
+              "firstRejections": {
+                "native": 459,
+                "occupied": 24,
+                "outsideSafeFrame": 18,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 459,
+                "occupied": 24,
+                "outsideSafeFrame": 18,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 5.983099999999915
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 143,
+          "passedChecks": 143,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "reportedPass": true,
+          "paidWarehouses": [
+            {
+              "id": 77,
+              "gx": 68,
+              "gy": 66,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 110,
+                "scrap": 116.499,
+                "stone": 70,
+                "food": 129.6202440000003,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 55,
+                "scrap": 71.499,
+                "stone": 70,
+                "food": 129.61331066666696,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 500,
+              "storageAfter": 1100,
+              "inspections": 1,
+              "maximumInspections": 16,
+              "zooms": [],
+              "firstRejections": {
+                "native": 447,
+                "occupied": 16,
+                "outsideSafeFrame": 63,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 447,
+                "occupied": 16,
+                "outsideSafeFrame": 63,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 5.916399999999948
+            },
+            {
+              "id": 78,
+              "gx": 62,
+              "gy": 68,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 55,
+                "scrap": 71.499,
+                "stone": 70,
+                "food": 129.3980428000005,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 0,
+                "scrap": 26.498999999999995,
+                "stone": 70,
+                "food": 129.3980428000005,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 1100,
+              "storageAfter": 1700,
+              "inspections": 4,
+              "maximumInspections": 16,
+              "zooms": [
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 1,
+                  "after": 0.8695652173913044
+                },
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 0.8695652173913044,
+                  "after": 0.7561436672967865
+                },
+                {
+                  "control": "visible-touch-zoomOut",
+                  "before": 0.7561436672967865,
+                  "after": 0.6575162324319883
+                }
+              ],
+              "firstRejections": {
+                "native": 456,
+                "occupied": 12,
+                "outsideSafeFrame": 61,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 456,
+                "occupied": 12,
+                "outsideSafeFrame": 60,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 5.916399999999861
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "name": "mobile-landscape",
+            "width": 844,
+            "height": 390,
+            "touch": true
+          },
+          "checks": 143,
+          "passedChecks": 143,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "reportedPass": true,
+          "paidWarehouses": [
+            {
+              "id": 77,
+              "gx": 57,
+              "gy": 65,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 110,
+                "scrap": 116.33300000000003,
+                "stone": 70,
+                "food": 129.64190980000026,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 55,
+                "scrap": 71.33300000000003,
+                "stone": 70,
+                "food": 129.64190980000026,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 500,
+              "storageAfter": 1100,
+              "inspections": 1,
+              "maximumInspections": 16,
+              "zooms": [],
+              "firstRejections": {
+                "native": 444,
+                "occupied": 25,
+                "outsideSafeFrame": 58,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 444,
+                "occupied": 25,
+                "outsideSafeFrame": 58,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 5.89979999999991
+            },
+            {
+              "id": 78,
+              "gx": 65,
+              "gy": 66,
+              "cost": {
+                "wood": 55,
+                "scrap": 45
+              },
+              "resourcesBefore": {
+                "wood": 55,
+                "scrap": 71.33300000000003,
+                "stone": 70,
+                "food": 129.40856500000052,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "resourcesAfter": {
+                "wood": 0,
+                "scrap": 26.333000000000027,
+                "stone": 70,
+                "food": 129.40206500000053,
+                "fuel": 45,
+                "ammo": 180,
+                "medicine": 12
+              },
+              "storageBefore": 1100,
+              "storageAfter": 1700,
+              "inspections": 1,
+              "maximumInspections": 16,
+              "zooms": [],
+              "firstRejections": {
+                "native": 453,
+                "occupied": 20,
+                "outsideSafeFrame": 55,
+                "coveredByUI": 0
+              },
+              "lastRejections": {
+                "native": 453,
+                "occupied": 20,
+                "outsideSafeFrame": 55,
+                "coveredByUI": 0
+              },
+              "ordinarySimulationWorkSeconds": 5.883099999999896
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "profiles": 3,
+    "checks": 429,
+    "passedChecks": 429,
+    "errors": 0
+  },
+  "pass": true,
+  "hashConvention": "SHA256 of sorted compact JSON maps of relative paths to file SHA256; all before/after maps are archived.",
+  "limitations": [
+    "Prepared scenario state is explicitly identified in each raw report; no claim of organically earned advanced campaigns or physically tested mobile hardware.",
+    "No lost pre-recovery native test receipt is included in this browser qualification."
+  ],
+  "archives": {
+    "validation-d17-reprise2-20261022.tar.gz": "cf141f23f476a8c7b30e8aacca8e6a822f8f9737c371b234f780120221000420",
+    "validation-d17-reprise2-20261022.log.gz": "69270da6affc40cb068f005ee634e61edbe211f546443d169aea33c6479f10ab"
+  }
+}

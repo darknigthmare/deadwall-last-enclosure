@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, holdInput, visibleInPanel } from './browser-qa-common144.mjs';
 import { loadedAssets } from './browser-qa-common142.mjs';
+import { choosePlacement149 } from './browser-d17-placement149.mjs';
 
 // Collision-sampled routes use read-only engine geometry. All native movement,
 // harvesting, deposit, placement and construction below use real held input.
@@ -85,30 +86,12 @@ async function readEconomy(page) {
     player: { x: DEADWALL.player.x, y: DEADWALL.player.y }, workerOrder: DEADWALL.workerOrder }));
 }
 
-async function chooseSite(page, type) {
-  return page.evaluate(type => {
-    const game = DEADWALL, core = game.core(), def = DeadwallCore.BUILDINGS[type], safe = game.hud135.safeFrame(), candidates = [];
-    for (let gy = core.gy - 9; gy <= core.gy + core.h + 9; gy++) for (let gx = core.gx - 9; gx <= core.gx + core.w + 9; gx++) {
-      if (!game.world.placement(def, gx, gy, 0).valid) continue;
-      const left = gx * 32, top = gy * 32, right = (gx + def.size[0]) * 32, bottom = (gy + def.size[1]) * 32;
-      if ([game.player, ...game.units].some(actor => actor.x + actor.radius + 5 > left && actor.x - actor.radius - 5 < right && actor.y + actor.radius + 5 > top && actor.y - actor.radius - 5 < bottom)) continue;
-      const x = (gx + .5) * 32, y = (gy + .5) * 32;
-      const screen = { x: (x - game.camera.x) * game.camera.zoom + game.width / 2, y: (y - game.camera.y) * game.camera.zoom + game.height / 2 };
-      if (screen.x < safe.left + 10 || screen.x > safe.right - 10 || screen.y < safe.top + 10 || screen.y > safe.bottom - 10) continue;
-      candidates.push({ gx, gy, screen, cost: def.cost, distance: Math.hypot((left + right) / 2 - game.player.x, (top + bottom) / 2 - game.player.y) });
-    }
-    candidates.sort((a, b) => a.distance - b.distance || a.gy - b.gy || a.gx - b.gx);
-    if (!candidates.length) throw Error('No valid visible unoccupied placement for ' + type);
-    return candidates[0];
-  }, type);
-}
-
 async function placeBuilding(page, touch, type, category) {
   if (await page.evaluate(() => DEADWALL.buildCollapsed)) await activate(page, '#toggleBuild', touch);
   await activate(page, '#buildCategories [data-category="' + category + '"]', touch);
   await activate(page, '#buildList [data-build-id="' + type + '"]', touch);
   await page.waitForFunction(type => DEADWALL.selectedBuild === type, type);
-  const site = await chooseSite(page, type), before = await readEconomy(page);
+  const site = await choosePlacement149(page, touch, type), before = await readEconomy(page);
   if (touch) await page.touchscreen.tap(site.screen.x, site.screen.y);
   else await page.mouse.click(site.screen.x, site.screen.y);
   await page.waitForFunction(site => [...DEADWALL.world.buildings.values()].some(building => building.type === site.type && building.gx === site.gx && building.gy === site.gy), { ...site, type });
@@ -121,7 +104,7 @@ async function placeBuilding(page, touch, type, category) {
   assert.equal(building.completed, false, 'Placement creates an unfinished worksite');
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !DEADWALL.selectedBuild);
-  return { ...building, cost: site.cost, before, after };
+  return { ...building, cost: site.cost, before, after, placementSearch: site.placementSearch };
 }
 
 async function workManually(page, context, touch, id) {
@@ -477,7 +460,7 @@ try {
       advanced('Prepared loss: Save/Continue retains historical last age and actually rebuilt storage exactly', profile.checkpoints.at(-1).pass && profile.checkpoints.at(-1).age === 10);
       native('All four runtime error collectors remain empty', rec.errors() === 0); profile.pass = true;
     } catch (error) {
-      profile.pass = false; profile.failure = error.stack; profile.inputFailure = error.deadwallInput || null;
+      profile.pass = false; profile.failure = error.stack; profile.inputFailure = error.deadwallInput || null; profile.placementFailure = error.deadwallPlacement || null;
       profile.failureState = await page?.evaluate(() => DEADWALL ? { phase: DEADWALL.phase, state: DEADWALL.state, age: DEADWALL.tier.id, score: DEADWALL.cityScore, paused: DEADWALL.paused, overlay: DEADWALL.activeOverlay?.id, player: { x: DEADWALL.player.x, y: DEADWALL.player.y }, notifications: DEADWALL.notifications.map(n => n.text) } : null).catch(() => null);
       await rec?.screenshot('failure').catch(() => {});
     } finally { await context?.close(); }

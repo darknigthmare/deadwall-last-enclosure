@@ -1,0 +1,345 @@
+{
+  "date": "2026-10-22",
+  "status": "proposal-browser-validation-incomplete-not-applied",
+  "ci": {
+    "run": 39763290956,
+    "job": 119772489893,
+    "step": "test:defenses",
+    "failure": "A physically completed workshop gives no remote withdrawal from the depot",
+    "assertion": "scripts/browser-defenses148.mjs:214"
+  },
+  "comparisonScope": "Current product 7ec448a in bootDocument134, replacing only the fixture module with exact main74a, current, or proposed temporary module. This is not a complete main product replay.",
+  "cause": "Node preservation margin moves the selected workshop from (58,68) to (60,68); its nearest service point after approaching from the plan site legitimately enters core withdrawal reach. The test scene lacked an explicit remote-access precondition.",
+  "nativeRule": {
+    "owner": "src/arsenal134.js home()",
+    "reachConstant": "C.Arsenal134Rules.homeReach",
+    "reach": 105,
+    "targets": [
+      "core"
+    ],
+    "physicalPredicate": "g.workerCanWorkAt(player, core, homeReach)",
+    "warehouseNote": "Warehouse access belongs to generic material storage, not armory withdrawal; the measured corrected access is also outside warehouse access."
+  },
+  "comparison": [
+    {
+      "fixture": "main",
+      "arrival": "from-start",
+      "workshopGrid": {
+        "gx": 58,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 2011,
+        "y": 2184
+      },
+      "atHome": true,
+      "homeReach": 105,
+      "coreBoundaryDistance": 72,
+      "warehouseBoundaryDistance": 195.04102132628407,
+      "nodesPreserved": false,
+      "rngPreserved": true
+    },
+    {
+      "fixture": "main",
+      "arrival": "from-maintenance-plan-site",
+      "workshopGrid": {
+        "gx": 58,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 1864,
+        "y": 2149
+      },
+      "atHome": false,
+      "homeReach": 105,
+      "coreBoundaryDistance": 125.5746789762968,
+      "warehouseBoundaryDistance": 319.53873004692247,
+      "nodesPreserved": false,
+      "rngPreserved": true
+    },
+    {
+      "fixture": "current",
+      "arrival": "from-start",
+      "workshopGrid": {
+        "gx": 60,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 2040,
+        "y": 2149
+      },
+      "atHome": true,
+      "homeReach": 105,
+      "coreBoundaryDistance": 37,
+      "warehouseBoundaryDistance": 152.50245899656832,
+      "nodesPreserved": true,
+      "rngPreserved": true
+    },
+    {
+      "fixture": "current",
+      "arrival": "from-maintenance-plan-site",
+      "workshopGrid": {
+        "gx": 60,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 1928,
+        "y": 2149
+      },
+      "atHome": true,
+      "homeReach": 105,
+      "coreBoundaryDistance": 67.11929677819933,
+      "warehouseBoundaryDistance": 257.41989045137905,
+      "nodesPreserved": true,
+      "rngPreserved": true
+    },
+    {
+      "fixture": "corrected",
+      "arrival": "from-start",
+      "workshopGrid": {
+        "gx": 60,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 1893,
+        "y": 2184
+      },
+      "atHome": false,
+      "homeReach": 105,
+      "coreBoundaryDistance": 116.03878661895772,
+      "warehouseBoundaryDistance": 301.50456049618884,
+      "nodesPreserved": true,
+      "rngPreserved": true
+    },
+    {
+      "fixture": "corrected",
+      "arrival": "from-maintenance-plan-site",
+      "workshopGrid": {
+        "gx": 60,
+        "gy": 68
+      },
+      "servicePoint": {
+        "x": 1893,
+        "y": 2184
+      },
+      "atHome": false,
+      "homeReach": 105,
+      "coreBoundaryDistance": 116.03878661895772,
+      "warehouseBoundaryDistance": 301.50456049618884,
+      "nodesPreserved": true,
+      "rngPreserved": true
+    }
+  ],
+  "proposedFix": {
+    "patch": "fix.patch",
+    "scope": [
+      "scripts/browser-defenses-fixtures148.mjs",
+      "tests/defenses-qa148.test.cjs"
+    ],
+    "semantics": "Keep camp geometry and finite nodes. For workshop only, use real fieldcraft.service from footprint-corner probes to select a point with actual workshop access and without actual core access. Check arsenal.view().atHome again after restoration. Preserve existing browser assertion and all paid flows.",
+    "productModified": false,
+    "repositoryModified": false
+  },
+  "validation": {
+    "oldFixtureNewRegression": {
+      "status": "expected-fail",
+      "log": "native-current.log",
+      "reason": "start: outside actual depot access; true !== false",
+      "exitCode": 1
+    },
+    "proposedFixtureNative": {
+      "status": "pass",
+      "exitCode": 0,
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "durationMs": 135883.361089,
+      "log": "native-corrected.log"
+    },
+    "browserThreeProfiles": {
+      "status": "incomplete-runtime-crash",
+      "report": "browser/defenses-2026-10-22T11_06_41_004Z/report.json",
+      "log": "browser.log",
+      "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+      "url": "http://127.0.0.1:33397/?tools=1&fixture=legacy",
+      "started": "2026-10-22T11:06:41.015Z",
+      "completed": "2026-10-22T11:13:01.687Z",
+      "browserVersion": "153.0.8010.0",
+      "profiles": [
+        {
+          "name": "desktop",
+          "pass": false,
+          "nativeChecks": 22,
+          "fixtureChecks": 64,
+          "failure": "page.waitForFunction: Target crashed \n    at ready (/workspace/scratch/b8ff726dd748/deadwall/scripts/browser-qa-common142.mjs:93:14)\n    at saveContinue (/tmp/deadwall-defense148/browser-defenses148.mjs:51:102)\n    at async file:///tmp/deadwall-defense148/browser-defenses148.mjs:281:34",
+          "withdrawalAssertion": [
+            {
+              "name": "A physically completed workshop gives no remote withdrawal from the depot",
+              "pass": true
+            }
+          ],
+          "errorCounts": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    "runnerOnlyImportPathsChanged": true,
+    "runnerAssertionsAndProfilesUnchanged": true,
+    "requestedBrowserProfiles": [
+      "desktop",
+      "mobile",
+      "mobile-landscape"
+    ],
+    "browserRerunDeferred": "Further Chromium runs deferred while global npm check consumes shared memory. No unexecuted profile counts as validation.",
+    "nativeExecutionCopiesOnlyImportPathsChanged": true
+  },
+  "provenance": "provenance.json",
+  "limitations": [
+    "Node probe is not browser/UI proof.",
+    "The diagnostic probe craft quote was read under pause overlay and is not a crafting eligibility check; dedicated regression and unchanged browser runner own that check.",
+    "Chromium local direct executable is not Windows/Electron.",
+    "Absolute paths in the temporary runners record this execution environment; they are not portable user tooling."
+  ],
+  "proposedFiles": [
+    {
+      "repositoryPath": "scripts/browser-defenses-fixtures148.mjs",
+      "temporarySource": "fixtures-corrected.mjs",
+      "sha256": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7",
+      "bytes": 19846
+    },
+    {
+      "repositoryPath": "tests/defenses-qa148.test.cjs",
+      "temporarySource": "defenses-qa148.proposed.test.cjs",
+      "sha256": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7",
+      "bytes": 16353
+    }
+  ],
+  "runtimeObservation": "runtime-observation.json",
+  "artifacts": [
+    {
+      "path": "fixtures-main.mjs",
+      "bytes": 18475,
+      "sha256": "50dea843a4c34a54e4d698f51a665cda25d653f4e5f7d297e903cf2db7016eaf"
+    },
+    {
+      "path": "fixtures-current.mjs",
+      "bytes": 18878,
+      "sha256": "0548ef4761bd699d07795ddab5a007ec487b27e7074622ffaa416a1965a2ff5d"
+    },
+    {
+      "path": "fixtures-corrected.mjs",
+      "bytes": 19846,
+      "sha256": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7"
+    },
+    {
+      "path": "browser-defenses148.mjs",
+      "bytes": 41008,
+      "sha256": "311cd668011e88dca765d5ba860fef8e6018634c8e015d744d6fceb6dd5f2bac"
+    },
+    {
+      "path": "defenses-qa148.proposed.test.cjs",
+      "bytes": 16353,
+      "sha256": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7"
+    },
+    {
+      "path": "defenses-qa148.corrected.test.cjs",
+      "bytes": 16453,
+      "sha256": "ecb4151daf1f8cf15093f2b23c7ab19ebcc44d7b694f57519da8e281068684d9"
+    },
+    {
+      "path": "defenses-qa148.current.test.cjs",
+      "bytes": 16441,
+      "sha256": "a745033873198f3a5c10eb5db07cf6d596020c646f10589b6ea04ec3aa123e72"
+    },
+    {
+      "path": "probe-access.mjs",
+      "bytes": 1995,
+      "sha256": "77ff0818e6082021620b4459693f4792e4990cd002671a163401089b8355e8d1"
+    },
+    {
+      "path": "probe-access.json",
+      "bytes": 15939,
+      "sha256": "2d1163e4339999f376c95a814e2a26cbcec5789352b03ce90bc340e5326fc921"
+    },
+    {
+      "path": "probe-corrected.mjs",
+      "bytes": 2010,
+      "sha256": "6071bd14aa4c99c219fe8303e558b418b3e7da324f5f55e3edfc44b02524dbc4"
+    },
+    {
+      "path": "probe-corrected.json",
+      "bytes": 23930,
+      "sha256": "36f77d960956518ceb51bf5fe0409d4df77b4aaa86606448de70fb4d85969e42"
+    },
+    {
+      "path": "fix.patch",
+      "bytes": 7123,
+      "sha256": "b62d99a66fddc1ed0b469df9b127f8199a3cf8586226a8e2472d7154416dd432"
+    },
+    {
+      "path": "native-current.log",
+      "bytes": 986,
+      "sha256": "bf5e6ea6fdba0552a161cee561c370a73b5fdd8cc69c665a38b9285d1283a869"
+    },
+    {
+      "path": "native-corrected.log",
+      "bytes": 861,
+      "sha256": "03f5b29e9c41dfe62d42e31d05ebccc4b97e1508ca53a590fb9082ce92de6c35"
+    },
+    {
+      "path": "browser.log",
+      "bytes": 199,
+      "sha256": "7bb921fe56985b08dfe870e0a1c85a240729e6892572ddf73a9209e4026e6309"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 4360,
+      "sha256": "7088d407d906f2c666e793558a244cbe171eae474c7e4be6f8ce42a5ab0ccb9e"
+    },
+    {
+      "path": "runtime-observation.json",
+      "bytes": 518,
+      "sha256": "20d0810c3eb019451ed2fd91d94234f8e99bc1adebf3709ab9c192afb665353a"
+    },
+    {
+      "path": "process-check.json",
+      "bytes": 450,
+      "sha256": "0013a6e3bedbe35f3823a21529d2018194813e5ffab8b92056aed9f1b53c1bea"
+    },
+    {
+      "path": "resume-commands.md",
+      "bytes": 1966,
+      "sha256": "c90ee46e9bc0856f70a83922a801f44fc46ff3a4fedbc42b9cfd558da5792471"
+    },
+    {
+      "path": "package-evidence.py",
+      "bytes": 7183,
+      "sha256": "7cb258b5e722f441c6f76223749532ad62acb0f8dff9d196854fa4b6d0b20864"
+    },
+    {
+      "path": "browser/defenses-2026-10-22T11_06_41_004Z/report.json",
+      "bytes": 151198,
+      "sha256": "4139e8a3aa8c744b8551f7650ee2af515c8c8c90a959782867b6bcea2d1d9f49"
+    }
+  ],
+  "artifactNotes": [
+    "All paths in artifacts are relative to the deterministic archive root.",
+    "Browser screenshots listed in the raw report remain temporary execution outputs and are not included in this compact archive.",
+    "Absolute paths in diagnostic scripts are execution provenance, not portable tooling.",
+    "No post-execution corrections were made to the raw browser report or the tested sources."
+  ],
+  "archive": {
+    "path": "diagnostic-defenses-artefacts-20261022.tar.gz",
+    "format": "tar+gzip",
+    "deterministicGzipMtime": 0,
+    "deterministicTarMtime": 0,
+    "bytes": 42165,
+    "sha256": "784ad12f6f1c9f29e509263c8a3c2d9859c3b17bf37baeb260d790aaab3a347a",
+    "rawTarBytes": 389120,
+    "rawTarSha256": "434ba5633de3f5c5c0c2135a8aee329c5dbe35d5651932f339aeeb6664dc6ae4"
+  }
+}

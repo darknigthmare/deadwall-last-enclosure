@@ -31,7 +31,9 @@ function buildSourceFiles(){
   ];
   // Build-time source dependencies are uploaded to Vercel, not copied to dist.
   // The compiler reads the authored envelopes from these 1,000 parent records.
-  return [...require('../scripts/public-manifest183.cjs').BUNDLED_MODULES,'scripts/pwa-build184.cjs','scripts/public-manifest183.cjs','src/hydrology165.js','src/biome-population165.js','src/water-art165.js','src/wildlife-art165.js','src/hydrology-codex165.js',
+  return [...require('../scripts/public-manifest183.cjs').BUNDLED_MODULES,'scripts/pwa-build184.cjs','scripts/public-manifest183.cjs',
+    'scripts/compile-codex-inspection2026.cjs',...require('../scripts/codex-generators2026.cjs').COMPILATION_SOURCES,
+    'src/hydrology165.js','src/biome-population165.js','src/water-art165.js','src/wildlife-art165.js','src/hydrology-codex165.js',
     'src/biomes164.js','src/codex-fixtures164.js','src/biomes-codex164.js','src/codex-usage163.js','src/codex-size163.js','src/codex-density163.js','src/codex-architecture163.js','src/codex-furnishing162.js','src/power-network173.js','src/transit-network173.js','src/codex-native173.js','src/site-infrastructure173.js','src/codex-lab173-ui.js','src/codex-packing173.js','src/codex-gardens171.js','src/codex-stations170.js','src/codex-infill169.js','src/codex-infill169-art.js','src/codex-fill168.js','src/codex-coverage167.js','src/codex-ensembles165.js','src/codex-plan165.js','src/codex-quantities164.js','scripts/standalone-inline162.cjs','src/codex-sites162.js','src/codex-anchors160.js','src/codex-dressing160.js','src/codex3000-recipes159.js','scripts/compile-codex3000.mjs','scripts/compile-codex-context160.mjs','codex-3000/addendum-1.60/CONTRATS.json','codex-3000/INDEX_3000.json',
     'codex-3000/addendum-1.58/validation.mjs','codex-3000/addendum-1.58/reader.mjs',...['A','B','C','D'].map(lot=>'codex-3000/addendum-1.58/PROGRAMMES_'+lot+'.json'),
     'codex-3000/source/CONTEXTES.json','codex-3000/source/ETATS.json','codex-3000/source/MODULES.json',
@@ -84,22 +86,35 @@ test('distribution: notices Electron/Chromium exigées et empreintes calculées'
   assert.throws(()=>runtimeNotices(directory),/notice/);
 });
 
-test('distribution: exclusions Vercel ciblées, build et données publiques conservés',()=>{
+test('distribution: exclusions Vercel ciblées, build et données publiques conservés',t=>{
   const config=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
   assert.equal(config.installCommand,'');assert.equal(config.buildCommand,'npm run build');assert.equal(config.outputDirectory,'dist');
-  const patterns=fs.readFileSync(path.join(root,'.vercelignore'),'utf8').split(/\r?\n/).map(line=>line.trim()).filter(line=>line&&!line.startsWith('#'));
-  // Deliberately limited to this file's simple root-relative exclusions; not a
-  // substitute for the Vercel CLI's own upload-manifest validation.
-  const ignored=filename=>patterns.some(pattern=>{
-    const expression=pattern.replace(/\/$/,'').split('*').map(part=>part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('.*');
-    return new RegExp('^'+expression+'(?:/|$)').test(filename);
-  });
-  for(const file of ['artifacts/content-qa/save.json','outputs/screenshot.png','desktop/main.cjs','tests/server.test.cjs','docs/ORIGINAL_BRIEF.txt','release/game.exe','.env','.env.production','build.log'])assert.equal(ignored(file),true,file);
-  for(const file of ['package.json','package-lock.json','vercel.json','scripts/build.mjs',...buildSourceFiles(),...publicFiles()])assert.equal(ignored(file),false,file);
+  const privateFiles=['artifacts/content-qa/save.json','outputs/screenshot.png','desktop/main.cjs','tests/server.test.cjs','docs/ORIGINAL_BRIEF.txt','release/game.exe','.env','.env.production','build.log',
+    'docs/future.xlsx','docs/codex/future.json','docs/codex/suivi-monde2026/future.xlsx',
+    'docs/codex/suivi-monde2026/future-report.json','docs/codex/suivi-monde2026/nested/future.json'];
+  const requiredFiles=['package.json','package-lock.json','vercel.json','scripts/build.mjs',...buildSourceFiles(),...publicFiles()];
+  const documents=fs.readdirSync(path.join(root,'docs'),{recursive:true}).filter(file=>fs.statSync(path.join(root,'docs',file)).isFile()).map(file=>'docs/'+file.replaceAll('\\','/'));
+  const candidates=[...new Set([...privateFiles,...requiredFiles,...documents])],directory=fixture(t);
+  // Exercise real ordered gitignore rules, including excluded parent directories.
+  // This remains an upload-selection check, not a Vercel deployment.
+  const git=(args,input)=>{
+    const result=spawnSync('git',['-c','core.excludesFile=',...args],{cwd:directory,encoding:'utf8',windowsHide:true,input});
+    assert.ifError(result.error);return result;
+  };
+  const initialized=git(['init','--quiet','--template=']);assert.equal(initialized.status,0,initialized.stderr);
+  fs.copyFileSync(path.join(root,'.vercelignore'),path.join(directory,'.gitignore'));
+  for(const file of candidates){const destination=path.join(directory,file);fs.mkdirSync(path.dirname(destination),{recursive:true});fs.writeFileSync(destination,'');}
+  const result=git(['check-ignore','--no-index','--stdin','-z'],candidates.join('\0')+'\0');
+  assert.ok(result.status===0||result.status===1,result.stderr);
+  const ignored=new Set(result.stdout.split('\0').filter(Boolean));
+  for(const file of privateFiles)assert.equal(ignored.has(file),true,file);
+  for(const file of requiredFiles)assert.equal(ignored.has(file),false,file);
+  assert.deepEqual(documents.filter(file=>!ignored.has(file)).sort(),[
+    'docs/codex/suivi-monde2026/OBJECTIFS80.json','docs/codex/suivi-monde2026/references-metriques2026.json']);
 });
 
 test('distribution: vrai build public sans node_modules ni installation',t=>{
-  const directory=fixture(t),files=publicFiles(),generated=['src/codex3000-live-data.js','src/codex-context160-data.js'];
+  const directory=fixture(t),files=publicFiles(),generated=['src/codex3000-live-data.js','src/codex-context160-data.js','src/codex-layouts2026.js'];
   // Require real regeneration: copying a previously compiled module would hide
   // missing source inputs in the dependency-free Vercel build fixture.
   for(const file of [...files.filter(file=>!generated.includes(file)),...buildSourceFiles(),'scripts/build.mjs','package.json']){

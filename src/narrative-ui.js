@@ -36,7 +36,7 @@
     const outcome=el('p','','narrative-outcome');append(body,choices,outcome);get('narrativeOperations').appendChild(card);
     mark.addEventListener('click',()=>{
       if(mark.disabled||mark.closest('[inert]'))return;
-      const site=(game.world.sites||[]).find(item=>item.theme===sector.id);if(!site)return;
+      const site=(game.world.sites||[]).find(item=>item.theme===sector.id);if(!site||!game.narrativeSurveyPoint(sector.id))return;
       game.fieldMarker=game.fieldMarker===site.id?null:site.id;
       write(game.fieldMarker?'Repère posé : '+site.name+'. Aucun ordre de déplacement.':'Repère retiré.');game.contentUI?.refresh();refresh();
     });
@@ -55,15 +55,16 @@
     if(modal.classList.contains('hidden'))return;
     get('narrativeSummary').textContent=counts.observed+'/6 relevés · '+counts.resolved+'/6 décisions · '+unread+' entrée'+(unread>1?'s':'')+' non lue'+(unread>1?'s':'');
     get('narrativeReadAll').disabled=!playing||!unread;
-    get('narrativeContext').textContent=!playing?'Consultation du journal. Lancez ou reprenez une campagne pour intervenir.':'Relevé : maintenir E ou ACTION pendant '+rule.surveySeconds+' secondes à moins de '+rule.surveyRadius+' unités du centre du secteur. Débriefing : commandant vivant, accès libre au dépôt et distance maximale '+rule.debriefRadius+' unités.';
+    get('narrativeContext').textContent=!playing?'Consultation du journal. Lancez ou reprenez une campagne pour intervenir.':'Relevé : maintenir E ou ACTION pendant '+rule.surveySeconds+' secondes à moins de '+rule.surveyRadius+' unités du point de relevé indiqué, sur un sol libre. Débriefing : commandant vivant, accès libre au dépôt et distance maximale '+rule.debriefRadius+' unités.';
     for(const [id,card]of chapters)card.classList.toggle('hidden',!state.chapters.includes(id));
     for(const sector of N.SECTORS){
       const entry=state.sectors[sector.id]||{survey:0,choice:null},nodes=cards.get(sector.id),site=(game.world.sites||[]).find(item=>item.theme===sector.id),observed=entry.survey>=rule.surveySeconds,resolved=Boolean(entry.choice);
       nodes.card.dataset.state=resolved?'resolved':observed?'ready':'survey';nodes.state.textContent=resolved?'Décision consignée':observed?'Trace relevée · retour au dépôt':C.formatNumber(entry.survey)+' / '+rule.surveySeconds+' s de relevé';
-      nodes.location.textContent=site?site.name+' · cellule '+Math.floor(site.x/C.TILE)+','+Math.floor(site.y/C.TILE):'Secteur indisponible sur cette carte.';
-      nodes.mark.disabled=!playing||!site;nodes.mark.textContent=site&&game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER LE SECTEUR';
+      const point=game.narrativeSurveyPoint(sector.id);
+      nodes.location.textContent=site&&point?site.name+' · point de relevé, cellule '+Math.floor(point.x/C.TILE)+','+Math.floor(point.y/C.TILE):'Point de relevé indisponible sur cette carte.';
+      nodes.mark.disabled=!playing||!site||!point;nodes.mark.textContent=site&&game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER LE SECTEUR';
       nodes.progress.value=Math.min(rule.surveySeconds,entry.survey);nodes.progress.classList.toggle('hidden',observed);
-      nodes.prompt.textContent=observed?'Le relevé reste conservé si vous repartez ou sauvegardez.':'Rejoignez le centre indiqué puis maintenez E ou ACTION. Relâcher ou quitter le lieu conserve le relevé partiel. Aucun progrès dans les menus, pendant la pause ou à terre.';
+      nodes.prompt.textContent=observed?'Le relevé reste conservé si vous repartez ou sauvegardez.':'Rejoignez le point de relevé indiqué puis maintenez E ou ACTION sur un sol libre. Relâcher ou quitter le lieu conserve le relevé partiel. Aucun progrès dans les menus, pendant la pause ou à terre.';
       nodes.trace.classList.toggle('hidden',!observed);nodes.choices.classList.toggle('hidden',!observed||resolved);nodes.outcome.classList.toggle('hidden',!resolved);
       nodes.outcome.textContent=resolved?sector.choices[entry.choice].label+' — '+sector.choices[entry.choice].outcome:'';
       const availability=playing?game.narrativeStatus(sector.id):{ok:false,reason:'Disponible pendant une campagne.'};nodes.reason.textContent=resolved?'Décision définitive pour cette campagne. Les hordes continuent.':availability.ok?'Au dépôt : choisissez une orientation ci-dessous. Le coût est prélevé immédiatement.':availability.reason;

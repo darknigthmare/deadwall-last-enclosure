@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "restoredAt": "2026-10-22T13:37:38.559227+00:00",
+  "baseCommit": "84b1ec2b6de22898e902a7a7a7d7e5929e02de8b",
+  "event": "Automatic workspace maintenance removed the uncommitted checkout and temporary evidence. The repository was recloned; no missing logs were recreated.",
+  "recoveredCompiled": {
+    "blob": "d84a19ddc5cfc76ee59859654f91484d3f1e985e",
+    "sha256": "6cccb3a516414b2707568f35dc93545f4e9abc3bce9dedaddb6878052fe95f6c",
+    "bytes": 126746,
+    "archive": "restauration-layouts-premaintenance-20261022.js.gz",
+    "industrialAuthorCoreIdentical": true,
+    "industrialAuthorCoreSHA256": "3607f41d127fb8cbdd579a502913dde2428d84ab5c9576c498ea97f4c7d01dba"
+  },
+  "rebuiltComponents": [
+    "industrial CommonJS wrapper",
+    "industrial furniture envelopes and usage profiles",
+    "industrial tests",
+    "vehicle and sprite fixture revisions",
+    "reconstruction fixture",
+    "publication documentation"
+  ],
+  "qualification": "New runs required on the restored files; historical observations alone are not accepted as current proof."
+}

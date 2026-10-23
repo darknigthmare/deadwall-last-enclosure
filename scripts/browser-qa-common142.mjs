@@ -89,9 +89,9 @@ export function recorder(page, report, output, prefix = '') {
   };
 }
 
-export async function ready(page) {
+export async function ready(page, {polling = 'raf'} = {}) {
   await page.waitForFunction(() => globalThis.DEADWALL?.campaignIntro132 && DEADWALL.frontierUI && DEADWALL.fieldAtlasUI && !document.getElementById('newGameButton').disabled,
-    null, { timeout: 120000 });
+    null, { timeout: 120000, polling });
   await page.evaluate(() => DEADWALL.art.ready);
 }
 

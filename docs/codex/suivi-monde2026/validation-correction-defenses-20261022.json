@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-22T11:47:20.314387+00:00",
+  "baseSourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+  "scope": "Qualification ciblée du delta de fixture après la passe globale complète sur 7ec448a. Le runner et les fichiers exécutés sont les fichiers réels du dépôt, sans copie ni substitution d’import.",
+  "globalCheckBeforeDelta": {
+    "path": "validation-20261022.json",
+    "sourceCommit": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "exitCode": 0,
+    "tests": 5663,
+    "pass": 5662,
+    "fail": 0,
+    "skipped": 1,
+    "scope": "La passe globale précède ce delta de deux fichiers ; son résultat ne couvre pas la nouvelle régression ajoutée ensuite. Référence sans empreinte réciproque afin que le rapport global puisse rattacher cette preuve séparée."
+  },
+  "deltaFiles": [
+    {
+      "path": "scripts/browser-defenses-fixtures148.mjs",
+      "bytes": 19846,
+      "sha256": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7"
+    },
+    {
+      "path": "tests/defenses-qa148.test.cjs",
+      "bytes": 16353,
+      "sha256": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7"
+    }
+  ],
+  "unchangedRunner": {
+    "path": "scripts/browser-defenses148.mjs",
+    "bytes": 40948,
+    "sha256": "41cece1a2987ca99018aec7daf9880a49bc8d895833fd953f7bc2bf09065d0fc"
+  },
+  "sourceHashesBefore": {
+    "scripts/browser-defenses-fixtures148.mjs": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7",
+    "tests/defenses-qa148.test.cjs": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7",
+    "scripts/browser-defenses148.mjs": "41cece1a2987ca99018aec7daf9880a49bc8d895833fd953f7bc2bf09065d0fc",
+    "scripts/browser-qa-common142.mjs": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3",
+    "scripts/browser-qa-common144.mjs": "c187f858d4ab9f3a02d4bb0a52178e68898c762b1ccf61de9156a0a11167b821",
+    "src/arsenal134.js": "d779b6dc938e27e81d50f8357409c521d3ed2840acd51669cf45960a891f0de8",
+    "src/arsenal-ui134.js": "13b446fcb04acc8b8477b342725d84a051cc24ad9daa895c2aaeaefe32c8bb60",
+    "src/fieldcraft.js": "15e2551c5b97512d64f6a8131ac3fe0793ffe88f419a1ea0dcc58c77bffb90dc",
+    "src/core.js": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e"
+  },
+  "sourceHashesAfter": {
+    "scripts/browser-defenses-fixtures148.mjs": "4ff18a94ae6df9daedca437b39e998c980f1d5023d76cf27b7202c4492baa8e7",
+    "tests/defenses-qa148.test.cjs": "0bebd9cdf8fd1a42cb169779b1588fd03ac3391b81eca04c39a026b97c9095b7",
+    "scripts/browser-defenses148.mjs": "41cece1a2987ca99018aec7daf9880a49bc8d895833fd953f7bc2bf09065d0fc",
+    "scripts/browser-qa-common142.mjs": "4d45719e9783ba601f97d632551412025a94e3b73410b163480a350f03736bb3",
+    "scripts/browser-qa-common144.mjs": "c187f858d4ab9f3a02d4bb0a52178e68898c762b1ccf61de9156a0a11167b821",
+    "src/arsenal134.js": "d779b6dc938e27e81d50f8357409c521d3ed2840acd51669cf45960a891f0de8",
+    "src/arsenal-ui134.js": "13b446fcb04acc8b8477b342725d84a051cc24ad9daa895c2aaeaefe32c8bb60",
+    "src/fieldcraft.js": "15e2551c5b97512d64f6a8131ac3fe0793ffe88f419a1ea0dcc58c77bffb90dc",
+    "src/core.js": "7604d3baeeea6467cdf80f0a42b16e64720e57d8527ecfb8686c4674b333601e"
+  },
+  "allSourcesUnchangedDuringRun": true,
+  "runtimeDistributionEquality": {
+    "src/core.js": true,
+    "src/fieldcraft.js": true,
+    "src/arsenal134.js": true,
+    "src/arsenal-ui134.js": true
+  },
+  "execution": {
+    "startedAt": "2026-10-22T11:31:12.169463+00:00",
+    "completedAt": "2026-10-22T11:46:45.073848+00:00",
+    "cwd": "/workspace/scratch/b8ff726dd748/deadwall",
+    "command": [
+      "node",
+      "scripts/browser-defenses148.mjs"
+    ],
+    "environmentOverrides": {
+      "CHROMIUM_EXECUTABLE_PATH": "/tmp/yautja-chromium/chromium",
+      "DEADWALL_QA_ROOT": "/workspace/scratch/b8ff726dd748/deadwall/dist",
+      "DEADWALL_QA_OUTPUT": "/tmp/deadwall-defense148/final",
+      "DEADWALL_QA_PROFILES": "desktop,mobile,mobile-landscape"
+    },
+    "exitCode": 0
+  },
+  "memory": {
+    "before": {
+      "observedAt": "2026-10-22T11:31:12.169481+00:00",
+      "maxBytes": 8589934592,
+      "currentBytes": 3444604928,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 323790,
+        "oom": 3,
+        "oom_kill": 3,
+        "oom_group_kill": 0
+      }
+    },
+    "after": {
+      "observedAt": "2026-10-22T11:46:45.097840+00:00",
+      "maxBytes": 8589934592,
+      "currentBytes": 2509434880,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 323790,
+        "oom": 3,
+        "oom_kill": 3,
+        "oom_group_kill": 0
+      }
+    },
+    "eventDeltas": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "browser": {
+    "version": "153.0.8010.0",
+    "surface": "Explicit author/historical fixture (tools=1&fixture=legacy); not a test of the default player entry. See browser-player-menus194.mjs for the untouched title.",
+    "url": "http://127.0.0.1:37529/?tools=1&fixture=legacy",
+    "started": "2026-10-22T11:31:13.206Z",
+    "completed": "2026-10-22T11:46:43.678Z",
+    "requestedProfiles": [
+      "desktop",
+      "mobile",
+      "mobile-landscape"
+    ],
+    "profiles": [
+      {
+        "name": "desktop",
+        "viewport": {
+          "name": "desktop",
+          "width": 1366,
+          "height": 768
+        },
+        "pass": true,
+        "nativeChecks": 22,
+        "fixtureChecks": 78,
+        "checks": 100,
+        "passedChecks": 100,
+        "failedCheckCount": 0,
+        "failedChecks": [],
+        "withdrawalAssertion": [
+          {
+            "name": "A physically completed workshop gives no remote withdrawal from the depot",
+            "pass": true
+          }
+        ],
+        "workshopServicePoints": [
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          }
+        ],
+        "paidCraftedItems": [
+          "assemblyHammer",
+          "wreckingBar",
+          "singleShot"
+        ],
+        "saveContinueCheckpoints": 9,
+        "saveContinueAllPassed": true,
+        "errorCounts": {
+          "pageErrors": 0,
+          "consoleErrors": 0,
+          "httpErrors": 0,
+          "requestFailures": 0
+        },
+        "failure": null,
+        "cleanupFailure": null
+      },
+      {
+        "name": "mobile",
+        "viewport": {
+          "name": "mobile",
+          "width": 390,
+          "height": 844,
+          "touch": true
+        },
+        "pass": true,
+        "nativeChecks": 22,
+        "fixtureChecks": 78,
+        "checks": 100,
+        "passedChecks": 100,
+        "failedCheckCount": 0,
+        "failedChecks": [],
+        "withdrawalAssertion": [
+          {
+            "name": "A physically completed workshop gives no remote withdrawal from the depot",
+            "pass": true
+          }
+        ],
+        "workshopServicePoints": [
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          }
+        ],
+        "paidCraftedItems": [
+          "assemblyHammer",
+          "wreckingBar",
+          "singleShot"
+        ],
+        "saveContinueCheckpoints": 9,
+        "saveContinueAllPassed": true,
+        "errorCounts": {
+          "pageErrors": 0,
+          "consoleErrors": 0,
+          "httpErrors": 0,
+          "requestFailures": 0
+        },
+        "failure": null,
+        "cleanupFailure": null
+      },
+      {
+        "name": "mobile-landscape",
+        "viewport": {
+          "name": "mobile-landscape",
+          "width": 844,
+          "height": 390,
+          "touch": true
+        },
+        "pass": true,
+        "nativeChecks": 22,
+        "fixtureChecks": 78,
+        "checks": 100,
+        "passedChecks": 100,
+        "failedCheckCount": 0,
+        "failedChecks": [],
+        "withdrawalAssertion": [
+          {
+            "name": "A physically completed workshop gives no remote withdrawal from the depot",
+            "pass": true
+          }
+        ],
+        "workshopServicePoints": [
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          },
+          {
+            "type": "prepared-service-point",
+            "support": 8,
+            "supportType": "workshop",
+            "depotWithdrawalAllowed": false,
+            "player": {
+              "x": 1893,
+              "y": 2184
+            },
+            "bag": null,
+            "rngPreserved": true,
+            "assignedFields": [
+              "phase",
+              "phaseTime",
+              "zombies[previous synthetic contacts only]",
+              "spawnQueue",
+              "pendingSpawns",
+              "dayworks.night",
+              "citadel.baseline",
+              "player.x",
+              "player.y"
+            ],
+            "note": "Player relocation to a genuinely reachable exterior access is explicitly prepared; workshop access must refuse depot withdrawal under the native armory rule. Paid possessions, fitting charges, common materials and RNG are preserved. Subsequent actions and work use actual DOM input and ordinary RAF."
+          }
+        ],
+        "paidCraftedItems": [
+          "assemblyHammer",
+          "wreckingBar",
+          "singleShot"
+        ],
+        "saveContinueCheckpoints": 9,
+        "saveContinueAllPassed": true,
+        "errorCounts": {
+          "pageErrors": 0,
+          "consoleErrors": 0,
+          "httpErrors": 0,
+          "requestFailures": 0
+        },
+        "failure": null,
+        "cleanupFailure": null
+      }
+    ],
+    "reportedPass": true,
+    "exitCode": 0,
+    "fullyQualified": true,
+    "executedProfiles": 3,
+    "completedProfiles": 3,
+    "checks": 300,
+    "passedChecks": 300,
+    "failedCheckCount": 0
+  },
+  "priorAttempt": {
+    "diagnostic": {
+      "path": "diagnostic-defenses-20261022.json",
+      "sha256": "09b25e906cbf2c755aa30b3d98ef049ce540467d88250e7fc05b16084dbf7ac4"
+    },
+    "status": "incomplete",
+    "completedChecks": 86,
+    "completeProfiles": 0,
+    "reason": "Target crashed pendant Save/Continue. Aucun profil complet ni mobile validé par cette tentative. Le diagnostic et ses artefacts conservent cet arrêt."
+  },
+  "result": {
+    "browserDefensesThreeProfilesQualified": true,
+    "existingRemoteWithdrawalAssertionRetained": true,
+    "gameplayRulesChanged": false,
+    "windowsElectronQualified": false,
+    "allGitHubCIQualified": false,
+    "nativeTestsPassed": true,
+    "targetedCorrectionQualified": true
+  },
+  "limits": [
+    "Trois profils Chromium locaux dont deux tactiles simulés ; aucune qualification de périphérique physique, Windows ou Electron.",
+    "Surface de fixture auteur/historique explicite tools=1&fixture=legacy ; aucun parcours d’entrée joueur par défaut revendiqué.",
+    "Cette vérification ciblée ne remplace pas une nouvelle passe globale sur le delta ni un nouveau résultat GitHub CI.",
+    "Le rapport brut est archivé sans modification. Les captures PNG référencées par le rapport restent des sorties temporaires non incluses dans cette preuve compacte."
+  ],
+  "rawReport": {
+    "path": "validation-correction-defenses-rapport-20261022.json.gz",
+    "bytes": 38691,
+    "sha256": "c1e030657888ea287bd9c2bc9a5cb032497c9b363e0b513602da73c8c1eb96ba",
+    "uncompressedBytes": 526860,
+    "uncompressedSha256": "d21c632b12b520a63de2e38db5a7a4d64ec1f39d5623e93f6bf16cca9f27c47b",
+    "gzipMtime": 0
+  },
+  "log": {
+    "path": "validation-correction-defenses-20261022.log.gz",
+    "bytes": 166,
+    "sha256": "01efc007017739a2228313226cd901ffa542b4459b77e6b1856817a878a7b306",
+    "uncompressedBytes": 276,
+    "uncompressedSha256": "2b9def05e17f4079dc0634b814dfe36a9102119518b0337f116c51dea7fbe184",
+    "gzipMtime": 0
+  },
+  "native": {
+    "command": "node --test --test-concurrency=2 tests/defenses-qa148.test.cjs tests/qa-contracts163.test.cjs",
+    "exitCode": 0,
+    "exitCodeProvenance": "Code observé via write_stdin session35286",
+    "sourceBase": "7ec448a552c6ad65cc3b167e9e4974d7f8772585",
+    "verifiedAt": "2026-10-22T11:32:35.361517+00:00",
+    "tests": 10,
+    "suites": 0,
+    "pass": 10,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 84086.855658,
+    "log": {
+      "path": "validation-correction-defenses-native-20261022.log.gz",
+      "bytes": 745,
+      "sha256": "bf7aa9fe42d6b14d0740019b06feaf705ff358de32f408b5c9a711047b93da6e",
+      "uncompressedBytes": 1353,
+      "uncompressedSha256": "ec3d480d911f17e86681528bc62e8db573e323abe599ed28e3745320325dfb16"
+    },
+    "scope": "Deux importeurs exécutés sur les fichiers réels du dépôt après application du delta, distincts de la passe globale 7ec."
+  }
+}

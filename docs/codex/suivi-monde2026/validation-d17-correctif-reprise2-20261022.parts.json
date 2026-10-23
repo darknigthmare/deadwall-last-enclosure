@@ -1,0 +1,31 @@
+{
+  "kind": "byte-exact-split-archive",
+  "originalFilename": "validation-d17-correctif-reprise2-20261022.tar.gz",
+  "bytes": 22354325,
+  "sha256": "0d728773007c6d3dba910c4a34d056f76fbe2fe709f4089586eb07ef7f3992bd",
+  "maximumPartBytes": 7999998,
+  "parts": [
+    {
+      "index": 1,
+      "filename": "validation-d17-correctif-reprise2-20261022.tar.gz.part001",
+      "offset": 0,
+      "bytes": 7999998,
+      "sha256": "5983ae7cd237c46d078d1eb7924e45f867e9d43f0b6c47426179f8193fccd8a2"
+    },
+    {
+      "index": 2,
+      "filename": "validation-d17-correctif-reprise2-20261022.tar.gz.part002",
+      "offset": 7999998,
+      "bytes": 7999998,
+      "sha256": "223208bd7cfb01aa1e2c97adac877aeaaeab6ecdeb1009256dbcaeed43b31201"
+    },
+    {
+      "index": 3,
+      "filename": "validation-d17-correctif-reprise2-20261022.tar.gz.part003",
+      "offset": 15999996,
+      "bytes": 6354329,
+      "sha256": "ed4b33c969a9a2dd897d69252db6dfedb4aac5d21e4a79f3c1845758256b041c"
+    }
+  ],
+  "reassembly": "Concatenate the listed raw byte parts in ascending index order, without decoding, separators or decompression; verify original SHA256 before opening the gzip tar archive."
+}
