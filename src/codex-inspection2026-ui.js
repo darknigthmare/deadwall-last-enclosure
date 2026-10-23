@@ -69,6 +69,7 @@
     const resume = button('REPRENDRE L’INSPECTION', 'resume', () => { if (session && checkpoint) { session = root.DeadwallCodexInspection2026.restore(type.value, Number(variant.value), checkpoint); floor.value = String(session.state.pose.level); note = 'Inspection reprise.'; } });
     const info = el('div', undefined, 'inspection2026-info');
     const roomInfo = el('section'), limitations = el('section'), refs = el('section');
+    roomInfo.dataset.inspection2026 = 'detail';
     info.append(roomInfo, limitations, refs);
     content.append(status, canvas, walk, el('p', 'Déplacement : flèches, ZQSD ou WASD dans le plan. E : escalier ou échelle à proximité. Le choix d’un étage change uniquement la vue générale. La mémorisation concerne cette inspection.', 'inspection2026-help'), info);
     let session = null, checkpoint = null, note = '', selected = null, transform = null;
@@ -146,7 +147,8 @@
         }
       }
       for(const r of s.rooms.filter(o=>o.level===level))box(r,r.kind==='circulation'?'#9c9c83':'#b9b498');
-      for(const r of s.solids.filter(o=>o.level===level && !o.roomId))box(r,/pool|basin|water/.test(r.kind)?'#3c707e':/fence|barrier/.test(r.kind)?'#c0b796':'#465652');
+      const closed=s.solids.filter(o=>o.level===level && !o.roomId && o.accessible===false);
+      for(const r of closed)box(r,/pool|basin|water|lagoon|clarifier/.test(r.kind)?'#3c707e':/fence|barrier/.test(r.kind)?'#c0b796':'#465652');
       for(const r of s.walls.filter(o=>o.level===level))box(r,'#202d2a');
       for(const prop of session.furnishing.props.filter(o=>o.level===level)){
         box(prop,prop.lootEligible?'#9c734a':'#65716c');c.strokeStyle='#27302d';c.lineWidth=Math.max(.035,.7/scale);c.strokeRect(prop.x,prop.y,prop.w,prop.h);
@@ -154,14 +156,16 @@
       for(const door of s.portals.filter(o=>o.level===level)){c.fillStyle='#deb978';c.beginPath();c.arc(door.x,door.y,.12,0,Math.PI*2);c.fill();}
       for(const t of s.transitions)for(const end of [t.a,t.b])if(end.level===level){c.strokeStyle='#5a3440';c.lineWidth=.1;c.strokeRect(end.x-.45,end.y-.45,.9,.9);}
       if(p.level===level){c.fillStyle='#e9c775';c.beginPath();c.arc(p.x,p.y,.32,0,Math.PI*2);c.fill();c.strokeStyle='#202c28';c.lineWidth=.055;c.stroke();}
-      const chosen = selected && [...s.rooms,...(s.areas||[])].find(r=>r.id===selected&&r.level===level);
+      const chosen = selected && [...s.rooms,...(s.areas||[]),...closed].find(r=>r.id===selected&&r.level===level);
       if(chosen){c.strokeStyle='#f2cc7e';c.lineWidth=2/scale;c.strokeRect(chosen.x,chosen.y,chosen.w,chosen.h);}
       c.restore();
       // Draw labels in canvas pixels. Narrow equipment keeps its full name in
       // the room panel instead of squeezing text into an unreadable footprint.
       c.font='11px sans-serif';c.fillStyle='#243c34';
-      for(const r of [...(s.areas||[]),...s.rooms].filter(o=>o.level===level)){
-        const label=r.name||'Circulation';
+      const closedNames={'cargo-hold':'Cale réservée','sealed-cargo-tank':'Citerne fermée','working-deck':'Pont de travail réservé'};
+      const nameOf=r=>r.name||closedNames[r.kind]||r.kind||'Circulation';
+      for(const r of [...(s.areas||[]),...s.rooms,...closed].filter(o=>o.level===level)){
+        const label=nameOf(r);
         if(r.h*scale>30&&c.measureText(label).width<(r.w-.3)*scale)c.fillText(label,tx+(r.x+.15)*scale,ty+r.y*scale+15);
       }
       if(scale>20){c.font='9px sans-serif';c.fillStyle='#e9e2cc';
@@ -180,11 +184,15 @@
       useTransition.disabled=!available.length;
       const currentArea=(s.areas||[]).filter(a=>a.level===p.level&&p.x>=a.x&&p.x<=a.x+a.w&&p.y>=a.y&&p.y<=a.y+a.h).sort((a,b)=>a.w*a.h-b.w*b.h)[0];
       const room=chosen||(level===p.level?(currentRoom()||currentArea):null), props=room?session.furnishing.props.filter(o=>o.roomId===room.id):[];
-      roomInfo.replaceChildren(el('h5',room?.name||'EXTÉRIEUR / CIRCULATION'));
+      roomInfo.replaceChildren(el('h5',room?nameOf(room):'EXTÉRIEUR / CIRCULATION'));
       if(room){roomInfo.append(el('p',room.w.toFixed(2)+' × '+room.h.toFixed(2)+' m · '+(room.w*room.h).toFixed(1)+' m²'),el('p',props.length?props.map(o=>o.name+' ('+o.w.toFixed(2)+' × '+o.h.toFixed(2)+' m)').join(' ; '):'Aucun équipement placé dans cette zone.'));
+        if(room.accessible===false){
+          const water=/pool|basin|water|lagoon|clarifier/.test(room.kind);
+          roomInfo.append(el('p',water?'Eau : volume fermé et infranchissable. La profondeur, les franchissements et la navigation restent à qualifier.':'Volume fermé et infranchissable.'+(Number.isFinite(room.maxHeightM)?' Hauteur auteur : '+room.maxHeightM.toFixed(2)+' m.':'')+' Son intérieur reste à produire.'));
+        }
         if(room.inspectionOnly)roomInfo.append(el('p','Aménagement extérieur auteur. Les ressources et services de campagne restent à intégrer.'));
         const rejected=session.furnishing.unplaced.filter(o=>o.roomId===room.id);if(rejected.length)roomInfo.append(el('p',rejected.length+' prescriptions non posées : espace ou dégagement insuffisant.'));
-      }else roomInfo.append(el('p','Cliquez une pièce, un jardin ou une cour pour examiner ses dimensions et son aménagement.'));
+      }else roomInfo.append(el('p','Cliquez une pièce, un jardin, une cour ou un volume fermé pour examiner ses dimensions et son aménagement.'));
       status.textContent=session.author.id+' · '+b.w.toFixed(1)+' × '+b.h.toFixed(1)+' m · '+s.levels.length+' niveaux modélisés · '+session.furnishing.props.length+' équipements · '+session.state.visitedRooms.length+' pièces visitées. '+note;
       canvas.dataset.level=String(p.level);canvas.dataset.plan=session.author.id;
       canvas.setAttribute('aria-label',status.textContent);
@@ -203,7 +211,7 @@
       canvas.focus({preventScroll:true});if(!session||!transform)return;
       const rect=canvas.getBoundingClientRect(), t=transform,x=((event.clientX-rect.left)*canvas.width/rect.width-t.tx)/t.scale,y=((event.clientY-rect.top)*canvas.height/rect.height-t.ty)/t.scale;
       const at=r=>r.level===t.level&&x>=r.x&&x<=r.x+r.w&&y>=r.y&&y<=r.y+r.h;
-      selected=(session.scene.rooms.find(at)||(session.scene.areas||[]).filter(at).sort((a,b)=>a.w*a.h-b.w*b.h)[0])?.id||null;render();
+      selected=(session.scene.rooms.find(at)||session.scene.solids.filter(s=>!s.roomId&&s.accessible===false&&at(s)).sort((a,b)=>a.w*a.h-b.w*b.h)[0]||(session.scene.areas||[]).filter(at).sort((a,b)=>a.w*a.h-b.w*b.h)[0])?.id||null;render();
     });
     host.addEventListener('toggle',()=>{if(host.open&&!session)generate();});
     owner.append(host);

@@ -1,9 +1,20 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { createHash } from 'node:crypto';
-import { fileURLToPath } from 'node:url';
-import { FileBlob, SpreadsheetFile } from '@oai/artifact-tool';
+import { createHash, randomUUID } from 'node:crypto';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+// The managed runtime already supplies the spreadsheet engine. Resolve it
+// there when this repository has no local dependency; no installation needed.
+let artifactTools;
+try {
+  artifactTools = await import('@oai/artifact-tool');
+} catch (error) {
+  if (error.code !== 'ERR_MODULE_NOT_FOUND' || !process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES) throw error;
+  const runtimeRequire = createRequire(path.join(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES, 'codex-artifact-loader.cjs'));
+  artifactTools = await import(pathToFileURL(runtimeRequire.resolve('@oai/artifact-tool')).href);
+}
+const {FileBlob, SpreadsheetFile} = artifactTools;
 
 // Run with the bundled primary Node runtime from a temporary directory whose
 // node_modules link targets CODEX_PRIMARY_RUNTIME_NODE_MODULES. The committed
@@ -24,6 +35,25 @@ const metaPath = option('metadata', '');
 const meta = metaPath ? JSON.parse(await fs.readFile(path.resolve(metaPath), 'utf8')) : {};
 const ref = option('ref', /^[0-9a-f]{40}$/i.test(meta.sourceCommit || '') ? meta.sourceCommit : 'feat/codex-world-extension-20261021');
 const req = createRequire(path.join(root, 'package.json'));
+const Guards = req('./scripts/codex-tracker-xlsx-guards2026.cjs');
+const Registry = req('./scripts/codex-generators2026.cjs');
+const managedProofs = new Set([
+  req('./scripts/codex-progress2026.cjs').PROOF + '#dimensions-auteur-validees',
+  req('./scripts/codex-progress2026.cjs').PROOF + '#architecture-encore-ouverte',
+  req('./scripts/codex-progress2026.cjs').PROOF + '#navires-cotes-partielles',
+  req('./scripts/codex-maritime-progress2026.cjs').PROOF,
+  req('./scripts/codex-inspection-progress2026.cjs').PROOF,
+  ...Registry.SPECS.map(spec => spec.proof).filter(Boolean),
+]);
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+async function fileHash(file) {
+  try { return digest(await fs.readFile(file)); } catch (error) { if (error.code === 'ENOENT') return null; throw error; }
+}
+const inputHash = await fileHash(input), outputHash = input === output ? inputHash : await fileHash(output);
+if (!inputHash) throw Error('Classeur source absent : ' + input);
+async function unchanged(file, hash, label) {
+  if (await fileHash(file) !== hash) throw Error(label + ' a changé pendant la génération du classeur.');
+}
 const data = req('./scripts/build-codex-tracker2026.cjs').currentData(root);
 const typesById = new Map(data.typologies.map(t => [t.id, t]));
 const summary = req('./scripts/validate-codex-tracker2026.cjs').validate(data);
@@ -35,7 +65,7 @@ const source = value => !value ? '' : /^https?:\/\//.test(value) ? value : githu
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(input));
 const sheet = name => workbook.worksheets.getItem(name);
 const asText = value => value === null || value === undefined ? '' : typeof value === 'string' ? value : JSON.stringify(value);
-function stableRows(name, key, records, map, width) {
+function stableRows(name, key, records, map, width, guard) {
   const tab = sheet(name);
   const ids = tab.getRange(`A6:A${records.length + 5}`).values.map(row => row[0]);
   const sourceMap = new Map(records.map(record => [record[key], record]));
@@ -43,6 +73,10 @@ function stableRows(name, key, records, map, width) {
     throw Error('Identifiants du classeur différents des sources : ' + name);
   }
   const ordered = ids.map(id => sourceMap.get(id));
+  if (guard) {
+    const previous = tab.getRangeByIndexes(5, 0, records.length, width).values;
+    for (const [index, record] of ordered.entries()) guard(previous[index], record);
+  }
   tab.getRangeByIndexes(5, 0, records.length, width).values = ordered.map(map);
   return ordered;
 }
@@ -83,7 +117,7 @@ const variantRows = stableRows('Variantes à concevoir', 'id', data.variants, v 
   v.dimensions_m ? dimensions(v.dimensions_m, typesById.get(v.typologyId)?.dimensions_m?.scope) : 'À sourcer',
   v.spawnWeight === null ? 'À équilibrer' : v.spawnWeight,
   v.playable ? 'Oui' : 'Non', v.note,
-], 11);
+], 11, Guards.variant);
 // These new plans carry dimensions chosen by the author, not documented real
 // measurements. Keep that provenance readable in the existing narrow columns.
 for (const [name, records] of [['Extension typologies', typologyRows], ['Variantes à concevoir', variantRows]]) {
@@ -107,7 +141,7 @@ if (!inspectionLegend) {
 stableRows('Chantiers', 'id', data.tasks, t => [
   t.id, t.typologyId, t.domain, t.name, t.deliverable, t.priority,
   t.status, t.owner, t.acceptance, source(t.evidence),
-], 10);
+], 10, (row, task) => Guards.task(row, task, managedProofs));
 
 const home = sheet('Accueil');
 home.getRange('A3').values = [[meta.subtitle || 'Base 1.68 · PR #16 · Suivi actualisé depuis les sources du dépôt']];
@@ -306,8 +340,21 @@ if (args.includes('--render')) {
 inspectionModule.checkedReport(root);
 const reportAtExport = createHash('sha256').update(await fs.readFile(path.join(root, inspectionModule.REPORT))).digest('hex');
 if (reportAtExport !== inspectionReportSha256) throw Error('Le rapport d’inspection a changé pendant la génération du classeur.');
+await unchanged(input, inputHash, 'Le classeur source');
+await unchanged(output, outputHash, 'Le classeur destination');
 await fs.mkdir(path.dirname(output), {recursive: true});
 const file = await SpreadsheetFile.exportXlsx(workbook);
-await file.save(output);
-try { await fs.rename(output + '.inspect.ndjson', path.join(proofDir, 'export-inspection.ndjson')); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+const temporary = path.join(path.dirname(output), '.' + path.basename(output) + '.' + randomUUID() + '.xlsx');
+try {
+  await file.save(temporary);
+  await unchanged(input, inputHash, 'Le classeur source');
+  await unchanged(output, outputHash, 'Le classeur destination');
+  inspectionModule.checkedReport(root);
+  if (await fileHash(path.join(root, inspectionModule.REPORT)) !== inspectionReportSha256) throw Error('Le rapport d’inspection a changé pendant la génération du classeur.');
+  await fs.rename(temporary, output);
+  try { await fs.rename(temporary + '.inspect.ndjson', path.join(proofDir, 'export-inspection.ndjson')); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+} finally {
+  await fs.rm(temporary, {force: true});
+  await fs.rm(temporary + '.inspect.ndjson', {force: true});
+}
 console.log(JSON.stringify({output, proofDir, ...expected}));

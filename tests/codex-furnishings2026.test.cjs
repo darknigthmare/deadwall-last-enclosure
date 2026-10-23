@@ -8,6 +8,7 @@ const Furniture=require('../src/codex-furnishings2026.js');
 const InspectionAudit=require('../scripts/audit-codex-inspection2026.cjs');
 const Foundations=require('../scripts/codex-world-foundations2026.cjs');
 const Maritime=require('../scripts/codex-maritime2026.cjs');
+const Physical=require('../src/codex-physical2026.js');
 const Geometry=require('../src/frontier-geometry.js');
 const Detail=require('../src/seed-detail157.js');
 const Core=require('../src/core.js');
@@ -22,8 +23,8 @@ test('all produced variants have bounded metric furniture, truthful shortages an
   assert.equal(report.summary.plans,layouts.count);assert.equal(report.summary.passed,layouts.count);
   const historical=new Set([...Foundations.TYPES,...Object.keys(Maritime.PROFILES)]);
   const sum=key=>report.records.filter(r=>historical.has(r.typologyId)).reduce((n,r)=>n+r[key],0);
-  assert.equal(sum('rooms'),12880);assert.equal(sum('furnishedRooms'),12850);
-  assert.equal(sum('props'),41723);assert.equal(sum('refused'),4470);
+  assert.equal(sum('rooms'),12880);assert.equal(sum('furnishedRooms'),12880);
+  assert.equal(sum('props'),43342);assert.equal(sum('refused'),2851);
   assert.equal(report.summary.campaignPlayable,0);
   assert.ok(report.summary.levels>400);assert.ok(report.summary.walls>400);assert.ok(report.summary.transitions>0);
 });
@@ -77,6 +78,55 @@ test('narrow submarine rooms report large furniture without making miniature sub
   assert.ok(missing);assert.equal(missing.requiredFootprintM.w,Geometry.SHAPES.machine[0]);
   assert.equal(missing.reason,'space-or-access');
   assert.ok(result.props.every(p=>p.kind!=='machine'));
+  for(const kind of ['singleBunk','desk','workbench']){
+    const placed=result.props.filter(p=>p.kind===kind);
+    assert.ok(placed.length,kind+' fits with a full service area');
+    for(const p of placed){const s=Furniture.shape(kind);assert.deepEqual(p.footprintM,{w:s.w,h:s.h});}
+  }
+  assert.equal(Physical.audit(Physical.withProps(Physical.build(plan),result.props)).ok,true);
+});
+
+test('the thirty formerly empty maritime rooms retain their envelopes and receive accessible full-size equipment',()=>{
+  const cases=[
+    ['T005',42,['deck-0:room-2-1','deck-1:room-2-1']],
+    ['T005',43,['deck-0:room-2-0','deck-1:room-2-0']],
+    ['T005',44,['deck-0:room-1-1','deck-1:room-1-1']],
+    ['T005',45,['deck-0:room-1-0','deck-1:room-1-0']],
+    ['T005',46,['deck-0:room-0-1','deck-1:room-0-1']],
+    ['T005',47,['deck-0:room-0-0','deck-1:room-0-0']],
+    ['T005',48,['deck-0:room-3-1','deck-1:room-3-1','deck-4:room-3-0','deck-4:room-3-1','deck-5:room-3-0']],
+    ['T005',49,['deck-0:room-3-0','deck-1:room-3-0','deck-2:room-3-1','deck-4:room-3-0','deck-4:room-3-1','deck-5:room-2-1']],
+    ['T005',50,['deck-0:room-1-0','deck-0:room-2-1','deck-1:room-1-0','deck-1:room-2-1','deck-5:room-1-0']],
+    ['T011',47,['deck-0:room-4-0']],['T011',48,['deck-0:room-3-1']]
+  ];
+  let checked=0;
+  for(const [type,number,suffixes] of cases){
+    const plan=Maritime.build('EXT-MONDE-'+type,number),before=JSON.stringify(plan),result=Furniture.build(plan);
+    for(const suffix of suffixes){
+      const id=plan.id+':'+suffix,room=result.rooms.find(r=>r.id===id),source=plan.rooms.find(r=>r.id===id);
+      assert.ok(room,id);assert.equal(room.w,source.w);assert.equal(room.h,source.h);
+      const items=result.props.filter(p=>p.roomId===id);assert.ok(items.length,id+' must have a usable fitting');
+      for(const p of items){const s=Furniture.shape(p.kind);assert.deepEqual(p.footprintM,{w:s.w,h:s.h});}
+      assert.equal(Furniture.accessibility(room,items).ok,true,id);checked++;
+    }
+    assert.equal(Physical.audit(Physical.withProps(Physical.build(plan),result.props)).ok,true,plan.id);
+    assert.equal(JSON.stringify(plan),before,'author walls, rooms and doorways remain unchanged');
+  }
+  assert.equal(checked,30);
+});
+
+test('a service rectangle near a wall keeps its full depth and a reachable actor centre',()=>{
+  const plan=Maritime.build('EXT-MONDE-T005',48),result=Furniture.build(plan);
+  const room=result.rooms.find(r=>r.id===plan.id+':deck-0:room-3-1');
+  const items=result.props.filter(p=>p.roomId===room.id),wardrobe=items.find(p=>p.kind==='wardrobe');
+  assert.ok(wardrobe);assert.equal(wardrobe.w,Geometry.SHAPES.wardrobe[0]);
+  assert.equal(wardrobe.h,Geometry.SHAPES.wardrobe[1]);
+  assert.ok(wardrobe.access.x-room.x<Furniture.RULES.actorRadiusM);
+  assert.equal(wardrobe.access.h,Furniture.RULES.serviceDepthM);
+  assert.equal(Furniture.audit(plan,result).ok,true);
+  assert.equal(Furniture.accessibility(room,items).ok,true);
+  const tooClose={...wardrobe,access:{...wardrobe.access,w:.1}};
+  assert.equal(Furniture.accessibility(room,[tooClose]).ok,false,'actor centre still cannot touch a wall');
 });
 
 test('different functions receive distinct equipment and halls stay empty',()=>{
@@ -89,7 +139,7 @@ test('different functions receive distinct equipment and halls stay empty',()=>{
   assert.ok(!result.props.some(p=>/corridor/.test(p.roomId)));
 });
 
-for(const [label,edit,code] of [
+for(const [label,edit,code,fixture=sample] of [
   ['scaled furniture',r=>r.props[0].w*=.5,'scaled-or-unproven-dimensions'],
   ['a fake service area',r=>r.props[0].access.x+=.12,'false-service-footprint'],
   ['duplicated furniture',r=>r.props.push(clone(r.props[0])),'duplicate-id'],
@@ -100,12 +150,12 @@ for(const [label,edit,code] of [
   ['non-finite coordinate',r=>r.props[0].x=NaN,'shape'],
   ['unsupported furniture',r=>r.props[0].kind='busForLivingRoom','unknown-kind'],
   ['invented completion',r=>r.playable=true,'scope'],
-  ['falsified shortage dimensions',r=>r.unplaced[0].requiredFootprintM.w=.01,'false-unplaced-dimensions'],
+  ['falsified shortage dimensions',r=>r.unplaced[0].requiredFootprintM.w=.01,'false-unplaced-dimensions',()=>Maritime.build('EXT-MONDE-T008',1)],
   ['a request assigned to the wrong furniture',r=>{const id=r.props[0].id;r.props[0].id=r.props[1].id;r.props[1].id=id;},'prop-request-mismatch'],
   ['deleted furniture without shortage',r=>{r.props.pop();r.summary.objects--;},'missing-result'],
   ['false room data',r=>r.rooms[0].w+=1,'false-room-metadata']
 ])test('audit rejects '+label,()=>{
-  const plan=sample(),result=clone(Furniture.build(plan));edit(result);
+  const plan=fixture(),result=clone(Furniture.build(plan));edit(result);
   const audit=Furniture.audit(plan,result);assert.equal(audit.ok,false);assert.ok(audit.errors.includes(code),audit.errors.join(','));
 });
 

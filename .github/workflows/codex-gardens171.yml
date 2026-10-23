@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/codex-gardens171.yml'
+      - '.github/actions/setup-chromium/action.yml'
       - 'src/codex*'
       - 'src/frontier-world.js'
       - 'src/frontier-state.js'
@@ -65,17 +66,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Install locked browser and build
+      - name: Install locked tools and build
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: |
           npm ci
           npm run build
-          npx playwright install --with-deps chromium
+      - name: Install and verify locked Chromium
+        uses: ./.github/actions/setup-chromium
       - name: Trusted opt-in, exact stored save, Continue and real recipe rendering
-        run: |
-          node scripts/browser-gardens171.mjs
-          node scripts/render-gardens171.mjs
+        run: node scripts/browser-gardens171.mjs
+      - name: Render the isolated source recipes
+        run: node scripts/render-gardens171.mjs
+      - name: Summarize the exact failed browser phase
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
       - name: Record tested revision
         if: always()
         run: |

@@ -34,7 +34,7 @@ try{
    await page.locator(host+' > summary').scrollIntoViewIfNeeded();await activate(page,host+' > summary',view.touch);
    await page.waitForFunction(()=>document.querySelector('[data-inspection2026="canvas"]')?.dataset.plan==='EXT-MONDE-T065-V01');
    const before=await material(page);
-   rec.check('All 80 targets remain visible with twenty-four available types',await page.locator(control('type')).evaluate(n=>n.options.length===80&&[...n.options].filter(o=>o.textContent.includes('50 plans')).length===24));
+   rec.check('All 80 targets remain visible with thirty-nine available types',await page.locator(control('type')).evaluate(n=>n.options.length===80&&[...n.options].filter(o=>o.textContent.includes('50 plans')).length===39));
    rec.check('All 50 variant identities are selectable',await page.locator(control('variant')+' option').count()===50);
    await page.locator(control('type')).selectOption('EXT-MONDE-T005');
    const start=await state(page);assert.equal(start.planId,'EXT-MONDE-T005-V01');
@@ -62,7 +62,8 @@ try{
    for(let i=0;i<9;i++)await page.keyboard.press('ArrowUp');
    rec.check('Keyboard walking enters a room through its door',((await state(page)).visitedRooms.length)>start.visitedRooms.length);
    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot('cargo-room');
-   for(const type of ['EXT-MONDE-T006','EXT-MONDE-T007','EXT-MONDE-T008','EXT-MONDE-T011','EXT-MONDE-T060','EXT-MONDE-T065','EXT-MONDE-T066',...Array.from({length:8},(_,i)=>'EXT-MONDE-T'+String(21+i).padStart(3,'0')),...Array.from({length:4},(_,i)=>'EXT-MONDE-T'+String(45+i).padStart(3,'0')),...Array.from({length:4},(_,i)=>'EXT-MONDE-T'+String(53+i).padStart(3,'0'))]){
+   const available=await page.evaluate(()=>[...DeadwallCodexLayouts2026.types]);profile.inspectedTypes=available;
+   for(const type of available){
     await page.locator(control('type')).selectOption(type);await page.locator(control('variant')).selectOption('50');
     rec.check(type+' variant50 is built by the visible controls',(await state(page))?.planId===type+'-V50');
    }
@@ -78,8 +79,22 @@ try{
     const geometry=await page.evaluate(type=>{const s=DeadwallCodexInspection2026.create(type,1);return{areas:s.scene.areas.length,ports:s.author.network.externalPorts.length,ok:DeadwallCodexPhysical2026.audit(s.scene).ok};},type);
     rec.check(type+' gardens and multiple access routes use valid inspection geometry',geometry.ok&&geometry.areas>0&&geometry.ports>=1);
    }
-   await page.locator(control('type')).selectOption('EXT-MONDE-T001');
-   rec.check('An undesigned lake does not receive a fabricated fallback',await state(page)===null&&/PLAN NON PRODUIT/.test(await page.locator(host).innerText()));
+   for(const type of ['EXT-MONDE-T001','EXT-MONDE-T003','EXT-MONDE-T017','EXT-MONDE-T019','EXT-MONDE-T058','EXT-MONDE-T061','EXT-MONDE-T064']){
+    await page.locator(control('type')).selectOption(type);await page.locator(control('variant')).selectOption('1');await page.locator(control('view')).selectOption('plan');
+    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot(type+'-extension');
+    const measured=await page.evaluate(type=>{const s=DeadwallCodexInspection2026.create(type,1);return{ok:DeadwallCodexPhysical2026.audit(s.scene).ok,props:s.furnishing.props.length,unknown:s.furnishing.summary.unknownUses,playable:s.author.playable,services:s.furnishing.summary.connectedServices};},type);
+    rec.check(type+' exposes a furnished author plan with physical access and no active service',measured.ok&&measured.props>0&&measured.unknown===0&&measured.playable===false&&measured.services===0);
+    const closed=await page.locator(control('canvas')).evaluate((canvas,type)=>{
+     const s=DeadwallCodexInspection2026.create(type,1).scene,b=s.bounds,r=s.solids.find(r=>r.accessible===false&&!r.roomId),scale=Math.min((canvas.width-80)/b.w,(canvas.height-80)/b.h),bounds=canvas.getBoundingClientRect();
+     if(!r)throw Error('No closed volume in '+type);
+     return{x:((canvas.width-b.w*scale)/2+(r.x+r.w/2-b.x)*scale)*bounds.width/canvas.width,y:((canvas.height-b.h*scale)/2+(r.y+r.h/2-b.y)*scale)*bounds.height/canvas.height,w:r.w.toFixed(2),h:r.h.toFixed(2)};
+    },type);
+    await page.locator(control('canvas')).click({position:{x:closed.x,y:closed.y}});
+    const details=await page.locator(control('detail')).innerText();
+    rec.check(type+' closed volume is selectable at its actual metric footprint',details.includes(closed.w+' × '+closed.h+' m')&&details.includes('fermé et infranchissable'));
+   }
+   await page.locator(control('type')).selectOption('EXT-MONDE-T009');
+   rec.check('An undesigned offshore platform does not receive a fabricated fallback',await state(page)===null&&/PLAN NON PRODUIT/.test(await page.locator(host).innerText()));
    await page.locator(control('type')).selectOption('EXT-MONDE-T065');await page.locator(control('variant')).selectOption('1');await page.locator(control('view')).selectOption('plan');
    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot('stadium-plan');
    const after=await material(page);profile.campaignBeforeSHA256=sha(before);profile.campaignAfterSHA256=sha(after);

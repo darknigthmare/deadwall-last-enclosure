@@ -14,6 +14,17 @@ test('une modification concurrente de statut est conservée par refus du patch',
  const data=JSON.parse(JSON.stringify(base));data.tasks.find(t=>t.typologyId==='EXT-MONDE-T065'&&t.stage==='props').status='Validé';
  assert.throws(()=>Inspection.patch(data,root),/concurrente/);
 });
+test('une affectation, preuve auteur ou architecture complète concurrente est conservée',()=>{
+ for(const edit of [
+  d=>{d.tasks.find(t=>t.typologyId==='EXT-MONDE-T065'&&t.stage==='architecture').evidence='travail-externe.md';},
+  d=>{d.tasks.find(t=>t.typologyId==='EXT-MONDE-T065'&&t.stage==='qa').owner='Équipe QA';},
+  d=>{d.variants.find(v=>v.typologyId==='EXT-MONDE-T065').architecture={complete:true};}
+ ]){
+  const d=JSON.parse(JSON.stringify(base));edit(d);const before=JSON.stringify(d);
+  assert.throws(()=>Inspection.patch(d,root),/concurrente|modifiée ailleurs/);
+  assert.equal(JSON.stringify(d),before);
+ }
+});
 test('une preuve ancienne ou un identifiant dupliqué est refusé avant de modifier le suivi',()=>{
  const folder=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-inspection-proof-'));
  try{
@@ -22,6 +33,8 @@ test('une preuve ancienne ou un identifiant dupliqué est refusé avant de modif
   const output=path.join(folder,Inspection.REPORT);fs.mkdirSync(path.dirname(output),{recursive:true});
   const bad=JSON.parse(JSON.stringify(original));bad.records[1]=bad.records[0];fs.writeFileSync(output,JSON.stringify(bad));assert.throws(()=>Inspection.checkedReport(folder),/invalide/);
   const incomplete=JSON.parse(JSON.stringify(original));incomplete.sources.pop();fs.writeFileSync(output,JSON.stringify(incomplete));assert.throws(()=>Inspection.checkedReport(folder),/incomplète/);
+  const wrongTotal=JSON.parse(JSON.stringify(original));wrongTotal.summary.props++;fs.writeFileSync(output,JSON.stringify(wrongTotal));assert.throws(()=>Inspection.checkedReport(folder),/Total d’inspection invalide/);
+  const campaign=JSON.parse(JSON.stringify(original));campaign.records[0].connectedServices=1;fs.writeFileSync(output,JSON.stringify(campaign));assert.throws(()=>Inspection.checkedReport(folder),/Périmètre d’inspection invalide/);
   fs.writeFileSync(output,JSON.stringify(original));fs.appendFileSync(path.join(folder,original.sources[0].path),'\n// mutation de contrôle\n');assert.throws(()=>Inspection.checkedReport(folder),/périmée/);
  }finally{fs.rmSync(folder,{recursive:true,force:true});}
 });

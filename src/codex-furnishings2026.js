@@ -393,7 +393,10 @@
             for (const fraction of [...new Set(fractions)]) {
               if (++attempts > RULES.maxCandidates) break;
               const candidate = pose(room,definition,side,fraction);
-              if (!candidate || !within(candidate,room,RULES.wallMarginM) || !within(candidate.access,room,RULES.actorRadiusM)) continue;
+              // The complete service rectangle must fit the room. Its centre
+              // is checked with the actor radius by accessibility below;
+              // insetting the whole rectangle again double-counts that space.
+              if (!candidate || !within(candidate,room,RULES.wallMarginM) || !within(candidate.access,room)) continue;
               if (room.protectedPaths.some(path=>hit(candidate,path,RULES.gapM))) continue;
               if (local.some(o=>hit(candidate,o,RULES.gapM)||hit(candidate,o.access,RULES.gapM)||hit(candidate.access,o,RULES.gapM))) continue;
               const item = {...candidate,id,roomId:room.id,room:room.name,usage:room.usage,kind,
@@ -435,7 +438,7 @@
         if (!rectangle(p) || !rectangle(p.access) || !positive(p.heightM) || !positive(p.clearance)) {fail('shape');continue;}
         if (!room) {fail('orphan-prop');continue;}
         if (p.level!==room.level || p.sourceLevel!==room.sourceLevel || p.elevationM!==room.elevationM) fail('level');
-        if (!within(p,room,RULES.wallMarginM) || !within(p.access,room,RULES.actorRadiusM) || p.heightM>room.clearHeightM) fail('room-envelope');
+        if (!within(p,room,RULES.wallMarginM) || !within(p.access,room) || p.heightM>room.clearHeightM) fail('room-envelope');
         if (room.protectedPaths.some(path=>hit(p,path,RULES.gapM))) fail('blocked-entry-path');
         if (!own(CATALOGUE,p.kind)) {fail('unknown-kind');continue;}
         const definition=shape(p.kind,dependencies), quarter=p.rotationRad/(Math.PI/2);

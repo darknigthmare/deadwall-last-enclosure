@@ -19,6 +19,31 @@ REL = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 EXPECTED_SHEETS = ["Accueil", "Catalogue existant", "Extension typologies", "Variantes à concevoir", "Chantiers", "Règles seed", "Familles existantes", "Références", "Publication", "Légende", "Références métriques", "Avancement par type", "Inspection"]
 
 
+def xml_signature(element, ignore_wrap=False):
+    if element is None:
+        return None
+    attributes = tuple(sorted((k, v) for k, v in element.attrib.items()
+                              if not (ignore_wrap and k == "wrapText")))
+    return (element.tag, attributes, element.text or "", tuple(xml_signature(c, ignore_wrap) for c in element))
+
+
+def style_signatures(z, ignore_wrap=False):
+    tree = ET.fromstring(z.read("xl/styles.xml"))
+    fonts = list(tree.find("m:fonts", NS))
+    fills = list(tree.find("m:fills", NS))
+    borders = list(tree.find("m:borders", NS))
+    formats = {n.attrib["numFmtId"]: n.attrib["formatCode"] for n in tree.findall("m:numFmts/m:numFmt", NS)}
+    signatures = []
+    for xf in tree.find("m:cellXfs", NS):
+        attributes = tuple(sorted((k, v) for k, v in xf.attrib.items() if k not in ("fontId", "fillId", "borderId", "numFmtId", "xfId")))
+        signatures.append((attributes, xml_signature(fonts[int(xf.attrib.get("fontId", 0))]),
+                           xml_signature(fills[int(xf.attrib.get("fillId", 0))]),
+                           xml_signature(borders[int(xf.attrib.get("borderId", 0))]),
+                           formats.get(xf.attrib.get("numFmtId", "0"), xf.attrib.get("numFmtId", "0")),
+                           tuple(xml_signature(child, ignore_wrap) for child in xf)))
+    return signatures
+
+
 def read_workbook(file):
     with zipfile.ZipFile(file) as z:
         corrupt = z.testzip()
@@ -27,6 +52,8 @@ def read_workbook(file):
         strings = []
         if "xl/sharedStrings.xml" in z.namelist():
             strings = ["".join(s.itertext()) for s in ET.fromstring(z.read("xl/sharedStrings.xml"))]
+        styles = style_signatures(z)
+        styles_without_wrap = style_signatures(z, ignore_wrap=True)
         relations = {r.attrib["Id"]: r.attrib["Target"] for r in ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))}
         result = {}
         for s in ET.fromstring(z.read("xl/workbook.xml")).find("m:sheets", NS):
@@ -37,7 +64,12 @@ def read_workbook(file):
             formulas = {}
             errors = []
             missing = []
+            cell_styles = {}
+            cell_styles_without_wrap = {}
             for c in tree.findall("m:sheetData/m:row/m:c", NS):
+                style = int(c.attrib.get("s", 0))
+                cell_styles[c.attrib["r"]] = styles[style]
+                cell_styles_without_wrap[c.attrib["r"]] = styles_without_wrap[style]
                 typ = c.attrib.get("t")
                 value_tag = c.find("m:v", NS)
                 value = value_tag.text if value_tag is not None else None
@@ -87,6 +119,9 @@ def read_workbook(file):
                 "validations": len(tree.findall("m:dataValidations/m:dataValidation", NS)),
                 "validationRules": [{"range": v.attrib.get("sqref"), "formula": v.findtext("m:formula1", namespaces=NS)} for v in tree.findall("m:dataValidations/m:dataValidation", NS)],
                 "conditionalFormats": len(tree.findall("m:conditionalFormatting", NS)),
+                "styles": cell_styles,
+                "stylesWithoutWrap": cell_styles_without_wrap,
+                "columns": [xml_signature(c) for c in tree.findall("m:cols/m:col", NS)],
             }
         return result
 
@@ -118,6 +153,26 @@ def mapped_rows(sheet, count):
             raise AssertionError("Identifiant vide ou dupliqué à la ligne " + str(r))
         rows[key] = r
     return rows
+
+
+def verify_historical_styles(book, baseline, data):
+    author_types = {t["id"] for t in data["typologies"] if "choix de composition auteur" in (t.get("dimensions_m") or {}).get("scope", "")}
+    author_rows = {"Extension typologies": set(), "Variantes à concevoir": set()}
+    for name, records in (("Extension typologies", data["typologies"]), ("Variantes à concevoir", data["variants"])):
+        positions = mapped_rows(book[name], len(records))
+        author_rows[name] = {positions[item["id"]] for item in records if item.get("typologyId", item["id"]) in author_types}
+    for name in EXPECTED_SHEETS[:11]:
+        assert_equal(book[name]["columns"], baseline[name]["columns"], name + " largeurs de colonnes historiques")
+        for address, signature in baseline[name]["styles"].items():
+            row = int("".join(c for c in address if c.isdigit()))
+            column = "".join(c for c in address if c.isalpha())
+            # Authored dimensions add line wrapping in A:K, while retaining
+            # every font, fill, border, number format and other alignment.
+            if name in author_rows and row in author_rows[name] and len(column) == 1 and column <= "K":
+                key = "stylesWithoutWrap"
+                assert_equal(book[name][key].get(address), baseline[name][key][address], name + " style historique " + address)
+            else:
+                assert_equal(book[name]["styles"].get(address), signature, name + " style historique " + address)
 
 
 def verify(book, data, baseline=None):
@@ -265,6 +320,7 @@ def verify(book, data, baseline=None):
     assert_equal(book["Légende"]["cells"].get("A27"), "Inspection physique", "Légende du nouveau statut")
 
     if baseline:
+        verify_historical_styles(book, baseline, data)
         for name in EXPECTED_SHEETS:
             for feature in ("pane", "tables", "validations", "conditionalFormats"):
                 assert_equal(book[name][feature], baseline[name][feature], name + " conservation " + feature)

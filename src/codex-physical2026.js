@@ -215,7 +215,8 @@
       }
       for (const structure of author.structures) {
         if (!rect(structure) || !contains(bounds, structure)) throw Error('Structure hors emprise.');
-        scene.solids.push({ id: structure.id, x: structure.x, y: structure.y, w: structure.w, h: structure.h, level: 0, kind: structure.kind, solid: true, accessible: false });
+        scene.solids.push({ id: structure.id, name: structure.name || structure.kind, x: structure.x, y: structure.y, w: structure.w, h: structure.h,
+          level: 0, kind: structure.kind, maxHeightM: structure.maxHeightM ?? null, solid: true, accessible: false });
         scene.reservations.push({ ...clone(structure), walkable: false, connected: false });
       }
       for (const source of author.network.nodes) {
