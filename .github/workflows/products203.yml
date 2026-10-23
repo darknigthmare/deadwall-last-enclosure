@@ -40,6 +40,9 @@ jobs:
         env:
           DEADWALL_QA_ROOT: dist
         run: node scripts/browser-products203.mjs
+      - name: Publish bounded diagnostics for failed assertions
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
       - name: Exact source identity
         if: always()
         run: |

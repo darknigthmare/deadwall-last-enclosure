@@ -4,7 +4,7 @@ import {activate,saveReloadContinue} from './browser-qa-common144.mjs';
 import {prepareProductsTool203} from './products203-fixtures.mjs';
 
 process.env.DEADWALL_QA_ROOT=path.resolve(process.env.DEADWALL_QA_ROOT||'dist');
-const h=await createHarness('products203','Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. A knife is first crafted at its exact native depot cost, withdrawn and equipped through the ordinary armory owners. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
+const h=await createHarness('products203','Built distribution with actual desktop/touch buttons, a generated rabbit, paid construction/capture/processing, paid packing, physical ground package, finite delivery to a second built enclosure and save/menu/reload/Continue. A knife is first crafted at its exact native depot cost, withdrawn and equipped through the ordinary armory owners. Regional position and backpack supplies are declared fixtures. RAF is explicitly stopped after native new-game startup and disabled before startup of subsequent reloaded documents so advancing work is deterministic; only production-controller time is injected. This is not a naturally played campaign, an endurance measurement or an audiovisual animal-realism certification.');
 const {browser,report,output}=h;const playerURL=new URL(h.base);playerURL.search='';const base=playerURL.href;report.root=process.env.DEADWALL_QA_ROOT;report.base=base;report.surface='Player notebook without author or historical URL flags; seed and regional fixture are explicit.';report.profiles=[];report.pass=false;
 try{
  for(const viewport of [{width:1366,height:768,touch:false},{width:390,height:844,touch:true},{width:844,height:390,touch:true}]){
@@ -79,7 +79,12 @@ try{
    const paused=await page.evaluate(()=>{const g=DEADWALL;g.paused=true;const a=JSON.stringify(g.husbandry191.snapshot());for(let i=0;i<100;i++)g.husbandry191.step(.1);const b=JSON.stringify(g.husbandry191.snapshot());g.paused=false;return a===b;});r.check('Pause does not age the transported products',paused);
    await action('drop-products');const dropped=await page.evaluate(()=>DEADWALL.husbandry191.view().cargo203);r.check('Dropping keeps quantity and the actual regional position',dropped.stage==='ground'&&dropped.amount===parcel.amount&&Math.abs(dropped.point.x-origin.x)<1e-7);
    await r.screenshot('physical-package-ground');
-   const groundRecovery=await saveReloadContinue(page,viewport.touch);r.check('Native save/menu/reload/Continue preserves a ground package exactly',groundRecovery.pass);profile.groundRecovery=groundRecovery;
+   // The native Continue button must not resume the economy between the
+   // synchronous restore observation and the next Playwright command. Keep
+   // the same declared stopped-world fixture across the document boundary.
+   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
+   profile.clockControl={initialDocument:'RAF stopped after native start',reloadedDocuments:'RAF disabled before startup',productionControllerDt:.1};
+   const groundRecovery=await saveReloadContinue(page,viewport.touch,{polling:50});r.check('Native save/menu/reload/Continue preserves a ground package exactly',groundRecovery.pass);profile.groundRecovery=groundRecovery;
    await page.evaluate(()=>{window.requestAnimationFrame=()=>0;});await page.waitForTimeout(150);await page.evaluate(()=>{const g=DEADWALL;if(!g.paused)g.togglePause(true);g.togglePause(false);g.activeOverlay=null;});
    await action('pickup-products');r.check('Picking up restores one load, not two',await page.evaluate(()=>DEADWALL.husbandry191.carryingProducts()));
    r.check('Region/vehicle/storey exits refuse a carried package',await page.evaluate(()=>!DEADWALL.frontier.leave()&&!DEADWALL.frontier.board()&&DEADWALL.frontier.stairsStatus(1).code==='cargo'));
@@ -98,10 +103,11 @@ try{
    await action('pickup-products');
    await action('unpack-products',second.id);
    const delivered=await page.evaluate(()=>({state:DEADWALL.husbandry191.view(),bag:{...DEADWALL.player.carry},depot:{...DEADWALL.resources}}));
+   profile.deliveryBalances={before,incoming,delivered};
    r.check('Delivery credits only the second site and clears the empty parcel',delivered.state.pens[1].meat===parcel.amount&&delivered.state.cargo203===undefined);
    r.check('Delivery retains expiry and cannot create bag/depot provisions',delivered.state.pens[1].meatAge>=incoming.age&&delivered.bag.food===before.bag.food&&JSON.stringify(delivered.depot)===JSON.stringify(before.depot));
    await page.evaluate(()=>DEADWALL.expansionUI.open('husbandry191'));await r.screenshot('delivered-products-register');await page.evaluate(()=>{DEADWALL.showCommand(false);DEADWALL.paused=false;DEADWALL.activeOverlay=null;});
-   const recovery=await saveReloadContinue(page,viewport.touch);r.check('Native recovery preserves both sites and delivered products',recovery.pass);profile.deliveryRecovery=recovery;
+   const recovery=await saveReloadContinue(page,viewport.touch,{polling:50});r.check('Native recovery preserves both sites and delivered products',recovery.pass);profile.deliveryRecovery=recovery;
    r.check('No collected JavaScript, console or network errors',r.errors()===0);
   }finally{await context.close();}
  }
