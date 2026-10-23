@@ -32,6 +32,10 @@ Les **58 sortes de mobilier** disposent chacune de **trois variantes cosmétique
 
 Le rendu utilise les coordonnées et dimensions de chaque objet sans modifier sa collision. Il ne charge aucune image externe et ne consomme pas le hasard de campagne. Ces pictogrammes facilitent la lecture des plans : les sprites et animations définitifs de campagne restent à produire et à qualifier.
 
+## Nouvelle partie sur une seed encombrée
+
+La seed `628472550` pouvait bloquer la création de campagne : plusieurs placements de proximité occupaient des parcelles nécessaires aux derniers grands décors. Un secours compact se déclenche uniquement après l’échec des recherches existantes. Ses 48 positions restent privées jusqu’à validation de l’ensemble avec les mêmes marges, toitures, routes et obstacles. Les identifiants, dimensions et stocks finis sont conservés, et les positions sauvegardées restent prioritaires à la reprise. Les cartes qui réussissaient déjà gardent leur placement habituel.
+
 ## Portée et qualification
 
 Les défauts reproduits et les contrôles de réception sont décrits dans [l’audit 1.71](AUDIT_1_71.md). Le cache hors ligne identifie la nouvelle version et inclut le module de pictogrammes ; une vérification impose la présence de tous les scripts et styles publics dans ce cache.
@@ -41,5 +45,7 @@ Les défauts reproduits et les contrôles de réception sont décrits dans [l’
 Le rapport exhaustif accepte les **4 000 plans**, avec **162 460 pièces meublées, 583 708 équipements et 4 670 prescriptions refusées**. Les **2 050 nouveaux plans ont zéro refus** ; les 1 950 enregistrements antérieurs restent identiques. Le suivi conserve ses 80 typologies, 4 000 objectifs et 800 tâches : **3 validées, 397 en cours, 400 à faire**. La production d’un plan ne valide pas toutes les étapes de sa fiche.
 
 La validation ciblée du [module de pictogrammes](../src/codex-plan-art204.js) a réussi ses **10 tests natifs Canvas**, sans échec, annulation, test ignoré ou TODO. Elle vérifie le catalogue complet, les différences entre catégories et variantes, la reproductibilité, les rotations, l’absence de pixels hors emprise, les entrées invalides et la restitution de l’état du contexte. La planche de 174 pictogrammes a également été examinée visuellement. Ces résultats qualifient ce module, pas la totalité du jeu.
+
+La correction du placement passe **24 tests natifs ciblés** (5 sur les parcelles et 19 sur l’accueil), un corpus supplémentaire de **six seeds**, et **17 contrôles Chromium** du démarrage réel, de la sauvegarde et de « Continuer » sur ordinateur/mobile simulé. Les 42 contrôles du cache complet ont été rejoués avec succès après reconstruction. Les 29 sources du rapport auteur exhaustif sont inchangées par cette correction.
 
 Les parcours Chromium sur la distribution reconstruite passent **414 contrôles du Guide** sur ordinateur/mobile et **42 contrôles hors ligne**. Les quatre formats du parcours général du jeu ont passé 179 contrôles. Le contrôle littéral complet avec endurance est exigé sur le commit final de la PR ; son reçu de CI et la vérification du déploiement restent des preuves distinctes de ces résultats locaux. Les scènes automatisées et les audits assistés ne mesurent ni une campagne humaine complète de 6 à 10 heures, ni la fluidité sur un téléphone physique.

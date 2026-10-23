@@ -1180,7 +1180,7 @@
     const field=game.fieldcraft,placed=[],bounds=node=>{const b=field?.reserveRect?.(node);if(b)return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};const size=node.renderSize||node.radius*2.65;return {x:node.x-size/2,y:node.y-size/2,w:size,h:size};};
     const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...plan.buildExclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
     const reserve=node=>{const b=bounds(node);if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(node.sceneryKind))return b;const p=C.CityGeometry202.presentation,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,o=p.roofOverhangMetres*u;return {x:b.x-o,y:b.y-h-o,w:b.w+o*2,h:b.h+h+o*2};};
-    const fits=(node,x,y)=>{const b=reserve({...node,x,y}),margin=C.CityGeometry202.localParcels.clearanceMetres*u,padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
+    const fits=(node,x,y,occupied=placed)=>{const b=reserve({...node,x,y}),margin=C.CityGeometry202.localParcels.clearanceMetres*u,padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!occupied.some(a=>rectsOverlap(a,padded));};
     // Reserve an undeveloped district for actual city construction. Move finite
     // scenery deposits during creation, retaining every ID and every quantity;
     // saved fieldcraft coordinates remain authoritative on all later loads.
@@ -1197,7 +1197,20 @@
           const point=findMetricSceneryBoundaryPlot202(reserve({...node,x:0,y:0}),plan.worldSize,[...fixtures,...placed,...roadGeometry202(plan).bounds],C.CityGeometry202.localParcels.clearanceMetres*u,(x,y)=>fits(node,x,y));
           if(point){node.x=point.x;node.y=point.y;found=true;}
         }
-        if(!found)throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
+        if(!found){
+          // Individually lawful nearest plots can fragment the remaining space.
+          // Only this failed branch retries a compact boundary layout, with the
+          // same full envelopes, clearance and native road/fixture vetoes. Keep
+          // every candidate private until the entire finite population fits.
+          const occupied=[],layout=[],margin=C.CityGeometry202.localParcels.clearanceMetres*u;
+          for(const entry of scenery){
+            const point=findMetricSceneryBoundaryPlot202(reserve({...entry,x:0,y:0}),plan.worldSize,[...fixtures,...occupied,...roadGeometry202(plan).bounds],margin,(x,y)=>fits(entry,x,y,occupied));
+            if(!point)break;
+            layout.push({node:entry,...point});occupied.push(reserve({...entry,...point}));
+          }
+          if(layout.length===scenery.length){for(const entry of layout){entry.node.x=entry.x;entry.node.y=entry.y;}return;}
+          throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
+        }
       }
       placed.push(reserve(node));
     }

@@ -29,27 +29,26 @@ test('202 scenery: a fully occupied parcel stays unavailable and the final nativ
  assert.equal(E.findMetricSceneryBoundaryPlot202({...footprint,w:5000},size,[],32,()=>{throw Error('oversized envelopes have no candidates');}),null);
 });
 
-test('202 scenery: CI seed2550352072 starts G10 with all finite objects, a real free plot and authoritative Continue',()=>{
- // Actions run39789163177/job119860247597, a137e2f: the unchanged shipped
- // start failed on ruinedHouse471, despite a valid full-footprint border strip.
+for(const [seed,failedId] of [[2550352072,471],[628472550,461]])test(`202 scenery: CI seed${seed} starts G10 with all finite objects, real free plots and authoritative Continue`,()=>{
+ // The first seed exposed an unsampled border strip; the second exposed
+ // fragmented nearest-plot packing (Actions40032832225/job120687773634).
  const {bootDocument133}=require('./helpers/document133.cjs'),env=bootDocument133(),g=env.g;env.ready();
  // Reproduce the CI blank-input branch with its actual generated seed. The
  // native preview owns this seed; the shipped menu still runs every initializer.
- document.getElementById('mapSeed').value='';g.previewMapSeed135=2550352072;
+ document.getElementById('mapSeed').value='';g.previewMapSeed135=seed;
  assert.doesNotThrow(()=>g.ui.newGameButton.click());
- assert.equal(g.world.seed,2550352072);assert.equal(g.world.cityGeometry202,1);assert.equal(g.exploration125.layoutRevision,4);assert.equal(g.frontier.position().generation,10);
+ assert.equal(g.world.seed,seed);assert.equal(g.world.cityGeometry202,1);assert.equal(g.exploration125.layoutRevision,4);assert.equal(g.frontier.position().generation,10);
  assert.equal(g.lastSaveStatus.ok,true);g.campaignIntro132.skip();
  const source=new g.world.constructor(g.world.seed,1),scenery=g.world.nodes.filter(n=>n.sceneryKind),nominal=source.nodes.filter(n=>n.sceneryKind);
  assert.equal(scenery.length,48);assert.equal(new Set(scenery.map(n=>n.id)).size,48);
  assert.deepEqual(scenery.map(n=>[n.id,n.type,n.sceneryKind,n.siteId,n.amount,n.maxAmount]),nominal.map(n=>[n.id,n.type,n.sceneryKind,n.siteId,n.amount,n.amount]));
  assert.ok(scenery.every(n=>!n.depleted));assert.equal(g.world.nodes.filter(n=>n.__exploration125Loot).length,12);
- const node=scenery.find(n=>n.id===471);assert.equal(node.sceneryKind,'ruinedHouse');assert.deepEqual(node.body202,{w:320,h:256});
+ const node=scenery.find(n=>n.id===failedId);assert.equal(node.sceneryKind,'ruinedHouse');assert.deepEqual(node.body202,{w:320,h:256});
  const envelope=n=>{const b=g.fieldcraft.reserveRect(n),q={x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(n.sceneryKind))return q;const p=C.CityGeometry202.presentation,o=p.roofOverhangMetres*C.TILE,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre;return{x:q.x-o,y:q.y-h-o,w:q.w+o*2,h:q.h+h+o*2};};
- const plan=g.exploration125.plan,box=envelope(node),clearance=C.CityGeometry202.localParcels.clearanceMetres*C.TILE;
- assert.equal(within(box,plan.worldSize),true);assert.equal(E.roadFootprint202(plan,box,clearance),false);
+ const plan=g.exploration125.plan,clearance=C.CityGeometry202.localParcels.clearanceMetres*C.TILE;
  const ordinary=n=>{const b=g.fieldcraft.reserveRect(n);return{x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};};
  const fixtures=[...[...g.world.buildings.values()].filter(b=>!b.dead).map(ordinary),...g.expeditions.sites().map(s=>ordinary({...s,renderSize:90})),...g.dayworks.snapshot().sites.map(s=>ordinary({...s,renderSize:50})),...g.world.sites.map(s=>ordinary({...s,renderSize:96})),...plan.buildExclusions,...plan.buildableDistricts202,...E.physicalSolids134(plan)];
- for(const other of [...fixtures,...scenery.filter(n=>n!==node).map(envelope)])assert.equal(E.rectsOverlap(other,padded(box,clearance)),false,'the real ruin and its margin fit without moving an obstacle');
+ for(const owner of scenery){const box=envelope(owner);assert.equal(within(box,plan.worldSize),true);assert.equal(E.roadFootprint202(plan,box,clearance),false);for(const other of [...fixtures,...scenery.filter(n=>n!==owner).map(envelope)])assert.equal(E.rectsOverlap(other,padded(box,clearance)),false,'each full envelope and its margin fit without moving an obstacle');}
  for(const actor of [g.player,...g.units])assert.equal(g.friendlyPositionClear(actor,actor.x,actor.y),true);
  const access=g.fieldcraft.service(g.player,node);assert.ok(access,'the recovered finite object has a native standing point');assert.equal(g.workerCanWorkAt({...g.player,...access},node,node.radius+12),true);
  const initial=rows(g);assert.equal(node.harvest(11),11);assert.equal(node.amount,34);
@@ -57,7 +56,7 @@ test('202 scenery: CI seed2550352072 starts G10 with all finite objects, a real 
  const before=rows(g),runId=g.runId,rng=g.random.state;assert.equal(g.save(false),true);g.returnToMenu();
  assert.equal(g.load(),true);g.campaignIntro132.skip();assert.equal(g.runId,runId);assert.equal(g.random.state,rng);assert.deepEqual(rows(g),before);
  g.exploration125.syncPlan();assert.deepEqual(rows(g),before,'later sync cannot relocate or refill the saved recovered plot');
- g.startNew('standard','2550352072','classic','balanced',true);g.campaignIntro132.skip();
+ g.startNew('standard',String(seed),'classic','balanced',true);g.campaignIntro132.skip();
  assert.deepEqual(rows(g),initial,'repeating the same seed reproduces every node coordinate, identity and stock');
 });
 
