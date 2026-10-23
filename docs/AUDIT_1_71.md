@@ -11,6 +11,7 @@ Ces contrôles portent sur le Codex auteur, ses parcours physiques et sa distrib
 | Le dessin des transports acceptait des identifiants vides, des voies de longueur nulle et des rampes incohérentes. | Ces entrées sont refusées. Les seize types civils et de transport conservent leurs largeurs, extrémités et altitudes ; les croisements superposés ne fusionnent pas. |
 | Le service worker indiquait encore 1.70 et omettait le nouveau module de pictogrammes. | Le cache identifie 1.71 et précharge le module. Un contrôle vérifie désormais que tous les scripts et styles publics appartiennent au manifeste hors ligne de la version courante. |
 | Le tableau manuel d’inspection comportait des totaux par type différents du rapport. | Le tableau courant est réconcilié avec les enregistrements exhaustifs par variante ; les valeurs du classeur viennent des mêmes sources vérifiées. |
+| Certaines cotes du classeur affichaient des résidus flottants tels que `6.199999999999999 m`. | Les libellés métriques utilisent la virgule décimale et trois décimales au maximum. Les valeurs des sources et la géométrie physique restent inchangées. |
 
 La qualification finale exige le rapport complet des 4 000 variantes avec les empreintes exactes des sources, les parcours Chromium sur la distribution reconstruite, les contrôles XML du classeur et la commande littérale `DEADWALL_SOAK=1 npm run check` sur le commit final. Une erreur ou un essai interrompu n’est pas transformé en résultat positif.
 

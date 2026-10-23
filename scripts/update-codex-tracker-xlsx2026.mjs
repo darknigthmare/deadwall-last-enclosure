@@ -82,18 +82,21 @@ function stableRows(name, key, records, map, width, guard) {
   tab.getRangeByIndexes(5, 0, records.length, width).values = ordered.map(map);
   return ordered;
 }
+// Display metric labels to the nearest millimetre; source geometry is unchanged.
+const metricLabel = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 3, useGrouping: false});
+const metricText = value => typeof value === 'number' && Number.isFinite(value) ? metricLabel.format(value) : String(value);
 function dimensions(d, scope = d?.scope) {
   if (!d) return 'À rechercher';
   const provenance = scope ? ` ; ${scope}` : '';
   if (d.lengthRange && d.widthRange) {
-    return `Emprise ${d.lengthRange.join('–')} × ${d.widthRange.join('–')} m ; hauteur ${(d.maxHeightRange || []).join('–')} m${provenance}.`;
+    return `Emprise ${d.lengthRange.map(metricText).join('–')} × ${d.widthRange.map(metricText).join('–')} m ; hauteur ${(d.maxHeightRange || []).map(metricText).join('–')} m${provenance}.`;
   }
   const parts = [];
-  if (d.length !== undefined) parts.push('L ' + d.length);
-  if (d.width !== undefined) parts.push('l ' + d.width);
-  if (d.height !== undefined) parts.push('hauteur ' + (d.height === null ? 'inconnue' : d.height));
-  if (d.draft !== undefined) parts.push('tirant ' + d.draft);
-  if (d.authorAirDraft !== undefined) parts.push('hauteur émergée auteur ' + d.authorAirDraft);
+  if (d.length !== undefined) parts.push('L ' + metricText(d.length));
+  if (d.width !== undefined) parts.push('l ' + metricText(d.width));
+  if (d.height !== undefined) parts.push('hauteur ' + (d.height === null ? 'inconnue' : metricText(d.height)));
+  if (d.draft !== undefined) parts.push('tirant ' + metricText(d.draft));
+  if (d.authorAirDraft !== undefined) parts.push('hauteur émergée auteur ' + metricText(d.authorAirDraft));
   return parts.length ? parts.join(' ; ') + ' m' + provenance : asText(d);
 }
 function architecture(v) {
