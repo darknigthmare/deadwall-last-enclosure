@@ -33,7 +33,7 @@ jobs:
                       raise ValueError('Unsafe tracked path')
                   if any(part.startswith('.env') for part in p.parts):
                       continue
-                  if p.suffix.lower() not in {'.js','.cjs','.mjs','.json','.md','.txt','.html','.css','.yml','.yaml','.svg'} and name not in {'.gitignore','.vercelignore'}:
+                  if p.suffix.lower() not in {'.js','.cjs','.mjs','.py','.json','.md','.txt','.html','.css','.yml','.yaml','.svg'} and name not in {'.gitignore','.vercelignore'}:
                       continue
                   data = source.read_bytes()
                   try:

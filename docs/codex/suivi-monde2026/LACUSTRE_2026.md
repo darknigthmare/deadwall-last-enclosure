@@ -15,7 +15,7 @@ Les parcelles mesurent de 200 × 242 m à 264 × 298 m. Les hauteurs et dimensio
 
 ## Terre et eau
 
-Le sud de chaque plan réserve une bande de lac de 40 m. Cette bande est un volume fermé d’inspection : le disque piéton ne peut pas emprunter le sol générique du site pour marcher sur l’eau. Une promenade sèche et un arrêt de préparation restent à au moins 6 m de sa limite. Les bâtiments, façades, branches routières et retours se trouvent intégralement sur la rive sèche.
+Le sud de chaque plan réserve une bande de lac de 40 m. Cette bande est un volume fermé d’inspection : le disque piéton ne peut pas emprunter le sol générique du site pour marcher sur l’eau. Les nœuds du réseau de rive restent à au moins 6 m de sa limite. Le bord côté eau de la promenade sèche conserve 4 m de recul, et celui de l’aire de préparation 1 m ; ces deux surfaces restent entièrement à terre. Les bâtiments, façades, branches routières et retours se trouvent intégralement sur la rive sèche.
 
 Le volume rectangulaire est une réservation de composition. Il ne fournit ni bathymétrie, ni raccord hydrologique au seed, ni simulation de berge ou de navigation. Les pontons, bateaux, rampes de mise à l’eau et baignades restent ouverts dans le suivi. La zone de préparation est explicitement à terre ; elle ne remplace pas un ponton réalisé.
 

@@ -1,6 +1,6 @@
 # Reprise maritime et suivi reproductible — 21 octobre 2026
 
-> Rapport historique de l’étape maritime. Les compteurs, validations et états de publication ci-dessous décrivent cette étape du 21 octobre. L’état courant des 1 000 inspections et du classeur est consigné dans [PUBLICATION.md](PUBLICATION.md) et [INSPECTION_PHYSIQUE_2026.md](INSPECTION_PHYSIQUE_2026.md).
+> Rapport historique de l’étape maritime. Les compteurs, validations et états de publication ci-dessous décrivent cette étape du 21 octobre. L’état courant des inspections et du classeur est consigné dans [PUBLICATION.md](PUBLICATION.md) et [INSPECTION_PHYSIQUE_2026.md](INSPECTION_PHYSIQUE_2026.md).
 
 ## Base et périmètre
 Suite de `2a246d6f13933e6f8246b3694df9f47a947f8314`, PR #16, sur main 1.68 `6c6fbb6cf563bea6c89ade99c65f18c438481532`. **Outillage auteur uniquement**, sans ajout dans la carte jouée, sans modification de src, des sauvegardes, ressources, rencontres ou du hasard. Les 212 fichiers src de l'archive récupérée sont identiques à leurs empreintes après compilation.

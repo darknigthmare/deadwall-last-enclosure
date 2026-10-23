@@ -84,6 +84,6 @@ DEADWALL_WRITE_INSPECTION_AUDIT=1 node --test tests/codex-furnishings2026.test.c
 
 Les cas complémentaires vérifient la stabilité des résultats, l'absence de hasard, la provenance des dimensions, les niveaux maritimes et l'export navigateur. Les cas négatifs altèrent notamment une emprise, une face de service, un niveau, une porte, une quantité de stock, une connexion, un identifiant, un refus ou les métadonnées d'une pièce : l'audit doit les rejeter. Les contrôles physiques, de sauvegarde d'inspection et de navigateur sont suivis séparément ; aucune qualification globale de la campagne n'est déduite de ce rapport.
 
-La nouvelle passe après restauration accepte **1 950 plans sur 1 950**, sans échec. Les 1 000 plans précédents conservent leurs plans auteur, empreintes géométriques et compteurs. Les journaux natifs et leur provenance figurent dans [validation-industrie-restauration-20261022.json](validation-industrie-restauration-20261022.json).
+La passe courante accepte **1 950 plans sur 1 950**, sans échec. Les 1 200 plans auteur précédents sont conservés ; la correction des dégagements actualise leurs métriques de mobilier dans le rapport courant. Les journaux de la restauration antérieure et leur provenance figurent dans [validation-industrie-restauration-20261022.json](validation-industrie-restauration-20261022.json).
 
 Les [plans industriels](INDUSTRIE_2026.md) ajoutent quinze formes de machines, arrêtées et non raccordées, sans recette ni stock actif. Les résultats de la qualification globale sont consignés dans [PUBLICATION.md](PUBLICATION.md).

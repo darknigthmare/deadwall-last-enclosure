@@ -15,11 +15,8 @@ async function activate(page, selector, touch) {
 }
 
 async function readyWithoutFrames(page) {
-  // The scenario intentionally disables RAF. Keep the shared readiness
-  // predicate, but use a timer until it is true before entering ready().
-  await page.waitForFunction(() => globalThis.DEADWALL?.campaignIntro132 && DEADWALL.frontierUI && DEADWALL.fieldAtlasUI && !document.getElementById('newGameButton').disabled,
-    null, { timeout: 120000, polling: 50 });
-  await ready(page);
+  // The scenario intentionally disables RAF; use the shared timer polling.
+  await ready(page, { polling: 50 });
 }
 
 try {

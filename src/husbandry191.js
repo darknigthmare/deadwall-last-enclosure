@@ -248,7 +248,7 @@ function install(g){
  }
  function notify(text){const stored=g.save(false);message=text+(stored?'':' Stockage indisponible : exportez la partie.');g.notify(message,stored?'good':'danger');}
  function cancel(reason='Travail interrompu. Les fournitures déjà engagées ne sont pas remboursées.'){if(!task)return false;task=null;message=reason;return true;}
- function commit(t){const p=pen(t.id);
+ function commit(t){const p=pen(t.id);let dropInterrupted=false;
   if(t.kind==='build')s.pens.push({id:s.next++,...t.point,health:R.health,food:0,water:0,meat:0,hides:0,leather:0,breed:0,meatAge:0,hideAge:0});
   if(t.kind==='rebuild'){p.health=R.health;p.breed=0;for(const a of held(p.id))if(a.status==='stranded')a.status='held';}
   if(t.kind==='behaviors')s.behaviors=true;
@@ -277,7 +277,7 @@ function install(g){
    if(ageKey)p[ageKey]=p[c.kind]>0?Math.max(p[ageKey],c.age):c.age;
    p[c.kind]+=n;c.amount-=n;if(c.amount<=0)delete s.cargo203;
   }
-  if(t.kind==='drop-products'){cancel('Colis posé ; intervention interrompue, fournitures engagées non remboursées.');s.cargo203.stage='ground';s.cargo203.point={x:pos().x,y:pos().y};}
+  if(t.kind==='drop-products'){dropInterrupted=cancel('Colis posé ; intervention interrompue, fournitures engagées non remboursées.');s.cargo203.stage='ground';s.cargo203.point={x:pos().x,y:pos().y};}
   if(t.kind==='pickup-products'){s.cargo203.stage='held';s.cargo203.point=null;}
   if(t.kind==='feed')p.food+=t.cost.food;
   if(t.kind==='water')p.water=Math.min(R.stockCapacity,p.water+R.waterPortion);
@@ -289,7 +289,10 @@ function install(g){
   if(t.kind==='cook'){const n=Math.min(R.cookPortion,p.meat,g.player.carryCapacity-C.bagTotal(g.player.carry));p.meat-=n;g.player.carry.food+=n;if(!p.meat)p.meatAge=0;}
   if(t.kind==='tan'){p.hides--;p.water-=R.tanWater;p.leather++;if(!p.hides)p.hideAge=0;}
   if(t.kind==='lining'){p.leather-=2;p.health=Math.min(R.health,p.health+25);}
-  notify(t.kind==='cook'?'Provisions cuites dans le sac : rapportez-les au dépôt.':t.kind==='capture'?'Animal placé vivant dans l’enclos. Nourrissez et abreuvez-le.':'Intervention terminée ; stocks et captivité mis à jour.');return{ok:true};
+  notify(t.kind==='cook'?'Provisions cuites dans le sac : rapportez-les au dépôt.':
+   t.kind==='capture'?'Animal placé vivant dans l’enclos. Nourrissez et abreuvez-le.':
+   t.kind==='drop-products'?(dropInterrupted?'Colis posé ; intervention interrompue, fournitures engagées non remboursées.':'Colis posé au sol.'):
+   'Intervention terminée ; stocks et captivité mis à jour.');return{ok:true};
  }
  function begin(kind,id,target){const q=quote(kind,id,target);if(!q.ok){message=q.reason;return q;}if(!C.spend(g.player.carry,q.cost))return bad('Fournitures indisponibles.');
   if(!q.seconds)return commit(q);task={...q,elapsed:0,origin:{...pos()},health:g.player.health,world:g.world};g.frontier.signalAt(pos(),R.noise);g.save(false);return{ok:true};
