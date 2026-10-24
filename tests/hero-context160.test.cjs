@@ -4,8 +4,8 @@ const C=require('../src/core.js'),H=require('../src/hero-actions133.js'),Ops=req
 
 // A small physical controller fixture uses the native maintenance owner. It
 // does not claim seeded placement, travel or organic campaign progression.
-function fixture(kind='restoreAccess',heroFirst=false){
- const registrations=new Map(),point={active:true,generation:10,x:9,y:20,z:0,inside:null,a:1.24,car:{driving:false}},
+function fixture(kind='restoreAccess',heroFirst=false,generation=10){
+ const registrations=new Map(),point={active:true,generation,x:9,y:20,z:0,inside:null,a:1.24,car:{driving:false}},
   site={id:'P0001',generation:10,x:10,y:20,a:0,w:10,h:10,context160:{operations:[{key:'work',kind,anchor:{x:5,y:5,z:0}}]}},
   world={pois:[site],line:()=>true,plan:()=>({objects:[],visuals160:[],gates160:[]})},rule=C.ContextRules160.operations[kind];
  const g={state:'playing',paused:false,gameOver:false,activeOverlay:null,world:{},elapsed:0,stats:{shots:0},
@@ -35,6 +35,24 @@ for(const[kind,pose]of [['restoreAccess','build'],['pumpBasin','handle'],['switc
   assert.deepEqual(g.serialize(),before,'Les lectures et le travail partiel ne paient pas et ne soignent pas');
   assert.equal(g.saveCount,0);assert.equal(g.heroActions133.observeContextWork160(kind,.04,anchor),false,'Un même progrès ne peut rejouer un geste');
  });
+
+test('205 G11 conserve les vrais travaux G10, leurs gestes et leur paiement unique dans le sac',()=>{
+ for(const[kind,pose]of [['restoreAccess','build'],['pumpBasin','handle'],['switchTrack','pry'],['medicalCare','dressing']]){
+  const{g,site,begin,key,rule}=fixture(kind,false,11),before=g.serialize(),depot={...g.resources},health=g.player.health;
+  assert.equal(site.generation,10);assert.equal(begin().ok,true);assert.equal(g.heroActions133.pose(),null);
+  g.contextOperations160.step(.04);assert.equal(g.heroActions133.pose()?.kind,pose);
+  assert.equal(g.heroActions133.pose().elapsed,g.contextOperations160.presentation(key).elapsed);
+  assert.deepEqual(g.serialize(),before);assert.deepEqual(g.resources,depot);
+  g.paused=true;g.contextOperations160.step(1);assert.equal(g.heroActions133.pose()?.elapsed,.04);g.paused=false;
+  for(let seconds=.04;seconds<rule.seconds;seconds+=.25)g.contextOperations160.step(Math.min(.25,rule.seconds-seconds));
+  assert.equal(g.contextOperations160.busy(),false);assert.equal(g.heroActions133.pose(),null);assert.equal(g.saveCount,1);
+  for(const resource of C.RESOURCE_KEYS)assert.equal(g.player.carry[resource],before.carry[resource]-(rule.cost[resource]||0));
+  assert.equal(g.player.health,Math.min(g.player.maxHealth,health+(rule.heal||0)));assert.deepEqual(g.resources,depot);
+  if(!rule.repeat){const paid={...g.player.carry};assert.equal(begin().ok,false);assert.deepEqual(g.player.carry,paid);}
+ }
+ const unknown=fixture('restoreAccess',false,12),before=unknown.g.serialize();
+ assert.equal(unknown.begin().ok,false);assert.equal(unknown.g.heroActions133.pose(),null);assert.deepEqual(unknown.g.serialize(),before);
+});
 
 test('héros G10 : événement absent, mauvais outil, point étranger et pas de temps incohérent sont refusés',()=>{
  const{g,begin,anchor}=fixture(),observe=g.heroActions133.observeContextWork160,before=g.serialize();

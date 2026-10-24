@@ -29,7 +29,7 @@ test('202 scenery: a fully occupied parcel stays unavailable and the final nativ
  assert.equal(E.findMetricSceneryBoundaryPlot202({...footprint,w:5000},size,[],32,()=>{throw Error('oversized envelopes have no candidates');}),null);
 });
 
-for(const [seed,failedId,kind] of [[2550352072,471,'ruinedHouse'],[628472550,461,'ruinedHouse'],[967313470,468,'ruinedHouse'],[960071112,438,'burntTree']])test(`202 scenery: seed${seed} starts G10 with all finite objects, real free plots and authoritative Continue`,()=>{
+for(const [seed,failedId,kind] of [[2550352072,471,'ruinedHouse'],[628472550,461,'ruinedHouse'],[967313470,468,'ruinedHouse'],[1947648717,464,'ruinedHouse'],[960071112,438,'burntTree']])test(`202 scenery: seed${seed} starts G11 with all finite objects, real free plots and authoritative Continue`,()=>{
  // The first seed exposed an unsampled border strip; the second exposed
  // fragmented nearest-plot packing (Actions40032832225/job120687773634).
  const {bootDocument133}=require('./helpers/document133.cjs'),env=bootDocument133(),g=env.g;env.ready();
@@ -37,7 +37,7 @@ for(const [seed,failedId,kind] of [[2550352072,471,'ruinedHouse'],[628472550,461
  // native preview owns this seed; the shipped menu still runs every initializer.
  document.getElementById('mapSeed').value='';g.previewMapSeed135=seed;
  assert.doesNotThrow(()=>g.ui.newGameButton.click());
- assert.equal(g.world.seed,seed);assert.equal(g.world.cityGeometry202,1);assert.equal(g.exploration125.layoutRevision,4);assert.equal(g.frontier.position().generation,10);
+ assert.equal(g.world.seed,seed);assert.equal(g.world.cityGeometry202,1);assert.equal(g.exploration125.layoutRevision,4);assert.equal(g.frontier.position().generation,11);
  assert.equal(g.lastSaveStatus.ok,true);g.campaignIntro132.skip();
  const source=new g.world.constructor(g.world.seed,1),scenery=g.world.nodes.filter(n=>n.sceneryKind),nominal=source.nodes.filter(n=>n.sceneryKind);
  assert.equal(scenery.length,48);assert.equal(new Set(scenery.map(n=>n.id)).size,48);

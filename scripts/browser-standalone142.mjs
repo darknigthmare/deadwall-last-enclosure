@@ -25,7 +25,7 @@ const output = path.join(path.resolve(process.env.DEADWALL_QA_OUTPUT || path.joi
 await fs.mkdir(output, { recursive: true });
 const report = { started: new Date().toISOString(), version, file, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'),
   transport, fileSchemeVerified: false,
-  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh current G10/detail13, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
+  scope: 'Actual Chromium launch of the exact standalone bytes, all embedded images decoded, fresh current G11/detail13, real save/export controls. HTTP mode serves only this HTML and does not certify file:// storage or native Windows.' };
 let browser, checks, server;
 try {
   let documentURL = pathToFileURL(file).href;
@@ -58,8 +58,8 @@ try {
   await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
   report.world = await worldSnapshot(page);
   report.content = await page.evaluate(() => { const f=DEADWALL.frontier.position(); return {generation:f.generation,detailVersion:f.detailVersion,ecologyVersion:f.ecologyVersion,hydrologyVersion:f.hydrologyVersion,landscape189:f.landscape189}; });
-  const currentContent = {generation:10,detailVersion:13,ecologyVersion:1,hydrologyVersion:1,landscape189:'balanced'};
-  checks.check('Fresh current G10/detail13 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 10 && report.world.size === 24576 && report.world.towns === 34 && JSON.stringify(report.content) === JSON.stringify(currentContent));
+  const currentContent = {generation:11,detailVersion:13,ecologyVersion:1,hydrologyVersion:1,landscape189:'balanced'};
+  checks.check('Fresh current G11/detail13 world generated entirely offline', report.world.seed === 17117 && report.world.generation === 11 && report.world.size === 24576 && report.world.towns === 34 && JSON.stringify(report.content) === JSON.stringify(currentContent));
   checks.check('Embedded generation installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(report.world));
   await checks.screenshot('game');
   await page.locator('#pauseButton').click();

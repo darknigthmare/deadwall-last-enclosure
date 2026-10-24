@@ -28,4 +28,9 @@ function variant(row, expected) {
     throw Error('Édition du classeur conservée : ' + expected.id);
   }
 }
-module.exports = {proofPath, task, variant};
+// A campaign audit is separate from the editable inspection statuses. Retain
+// the original variant guard and reject any coverage which promotes them.
+function campaign(data) {
+  return require('./codex-campaign-progress205.cjs').validateCoverage(data);
+}
+module.exports = {proofPath, task, variant, campaign};

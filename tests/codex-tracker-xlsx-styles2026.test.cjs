@@ -52,7 +52,7 @@ print(json.dumps({'sheets':len(baseline),'styledCells':sum(len(t['styles']) for 
   const result = JSON.parse(execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c', script], {
     cwd: path.resolve(__dirname, '..'), encoding: 'utf8', timeout: 30000,
   }));
-  assert.equal(result.sheets, 13); assert.ok(result.styledCells > 90000);
+  assert.equal(result.sheets, 14); assert.ok(result.styledCells > 90000);
   assert.equal(result.mutationDetected, true); assert.equal(result.sourceUnchanged, true);
   assert.equal(result.fontAndFillDetectedInAuthorRows, true);
 });

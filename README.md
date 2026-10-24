@@ -1,4 +1,10 @@
-# DEADWALL 1.71.0 — Codex mondial et parcours verticaux
+# DEADWALL 1.72.0 — Haltes et parcs résidentiels
+
+Les nouvelles campagnes G11 peuvent accueillir des parcs résidentiels de mobil-homes, campings, camps de travailleurs et caravanes abandonnées : quatre familles de 50 modèles, avec au plus huit sites par région selon les parcelles disponibles. Bâtiments, meubles, clôtures et accès gardent leurs dimensions en mètres. Chaque parcelle partage un stock fini ; ses équipements dessinés ne créent pas de production gratuite. Les campagnes G10 peuvent activer ce contenu volontairement depuis le dépôt. Voir [la livraison 1.72](docs/LIVRAISON_1_72.md).
+
+L’audit des 4 000 plans auteur place désormais les **588 378 équipements prescrits, sans refus**, en conservant toutes les demandes. Les 4 670 manquants de six familles ont été corrigés ; les 3 700 autres enregistrements restent identiques. Le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) distingue inspection, éligibilité et implantation réellement observée. La réception complète et la publication sont qualifiées séparément sur le commit livré.
+
+## Historique conservé — 1.71.0
 
 Le Guide auteur couvre désormais 80 types et 4 000 plans métriques issus de 13 générateurs, dont 2 050 nouveaux plans. Les sous-sols et étages déclarés se rejoignent par de vrais passages d’inspection ; les voies de transport fermées gardent leurs dimensions. Le mobilier dispose de 58 sortes de pictogrammes originaux, chacune avec trois variantes. Ces ajouts concernent l’inspection auteur : ils n’ajoutent aucun nouveau lieu jouable en campagne. Voir [la livraison 1.71](docs/LIVRAISON_1_71.md).
 
@@ -10,7 +16,7 @@ Le nouveau quartier local réserve de vraies parcelles et adapte les 21 ensemble
 
 Le Guide auteur (`?tools=1`) permet d’inspecter 4 000 plans de travail, soit 50 variantes pour chacune des 80 typologies, avec murs, portes, niveaux et mobilier à l’échelle. Aux familles déjà présentes s’ajoutent les ports et îles, ponts et échangeurs, HLM et assainissement, parcs et sports, aéroports et sites ferroviaires. Les jardins, cours, cultures, clôtures et passages sont visibles dans le même plan. Le déplacement du gabarit piéton respecte les obstacles, les sols de chaque niveau et les paliers ; afficher un étage ne déplace pas le personnage. Les grandes voies dessinées restent fermées et ne créent aucun train, avion ou trafic.
 
-Les plans auteur ne sont pas encore implantés dans les campagnes. Seed, butin, rencontres, services, graphismes définitifs et persistance de campagne restent à produire ou à qualifier ; les 174 pictogrammes de mobilier servent à l’inspection et ne terminent pas les sprites de campagne. Le [dossier d’inspection](docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) et le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) distinguent les étapes de production des 80 typologies et des 800 tâches. Le rapport exhaustif contrôle 162 460 pièces meublées et 583 708 équipements. Les 2 050 nouveaux plans ne refusent aucun meuble prescrit ; les 4 670 refus des plans précédents restent comptabilisés. La qualification complète est liée au commit final de la PR.
+En 1.71, les plans auteur n’étaient pas implantés dans les campagnes. Le [dossier d’inspection historique](https://github.com/darknigthmare/deadwall-last-enclosure/blob/11f2ace5ee3b39ea318373229d4d5378d14057db/docs/codex/suivi-monde2026/INSPECTION_PHYSIQUE_2026.md) distinguait les étapes des 80 typologies et des 800 tâches. Son rapport contrôlait 162 460 pièces meublées et 583 708 équipements, avec 4 670 prescriptions refusées. Les 174 pictogrammes de mobilier servaient à l’inspection. Les preuves de cette livraison restent liées à son commit.
 
 ## Historique conservé — 1.68.0
 

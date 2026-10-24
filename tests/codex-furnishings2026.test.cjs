@@ -14,6 +14,24 @@ const Detail=require('../src/seed-detail157.js');
 const Core=require('../src/core.js');
 const clone=value=>JSON.parse(JSON.stringify(value));
 const sample=()=>Foundations.build('EXT-MONDE-T065',1);
+// Keep the former shallow cabin as an explicit negative fixture. The current
+// submarine composition now has enough depth for the real equipment catalogue.
+function narrowSubmarine(){
+  const plan=clone(Maritime.build('EXT-MONDE-T008',1));delete plan.furnishingLayout205;
+  const cy=plan.hull.h/2,cw=Maritime.RULES.subCorridor;
+  for(const room of plan.rooms)if(room.kind!=='circulation'){
+    const below=room.y>cy;
+    room.y=below?cy+cw/2+Maritime.RULES.wall:plan.hull.h*.18+Maritime.RULES.wall;
+    room.h=(plan.hull.h*.64-cw)/2-Maritime.RULES.wall*2;
+    const door=plan.portals.find(d=>d.to===room.id);door.y=below?room.y:room.y+room.h;
+    plan.nodes.find(n=>n.id===room.id+':center').y=room.y+room.h/2;
+  }
+  return plan;
+}
+const wallServiceFixture=()=>({id:'wall-service-fixture205',units:'m',
+  rooms:[{id:'wall-service-room',name:'vestiaire',kind:'compartment',x:1,y:1,w:4,h:4,level:'deck-0',z:0,clearHeightM:2.4}],
+  levels:[{id:'deck-0',elevationM:0,clearHeightM:2.4}],
+  portals:[{id:'wall-service-door',from:'circulation',to:'wall-service-room',x:3,y:1,widthM:1.2,axis:'x'}]});
 
 test('all produced variants have bounded metric furniture, truthful shortages and reachable service fronts',()=>{
   const report=InspectionAudit.auditAll({write:process.env.DEADWALL_WRITE_INSPECTION_AUDIT==='1'});
@@ -24,7 +42,7 @@ test('all produced variants have bounded metric furniture, truthful shortages an
   const historical=new Set([...Foundations.TYPES,...Object.keys(Maritime.PROFILES)]);
   const sum=key=>report.records.filter(r=>historical.has(r.typologyId)).reduce((n,r)=>n+r[key],0);
   assert.equal(sum('rooms'),12880);assert.equal(sum('furnishedRooms'),12880);
-  assert.equal(sum('props'),43342);assert.equal(sum('refused'),2851);
+  assert.equal(sum('props'),46193);assert.equal(sum('refused'),0);
   assert.equal(report.summary.campaignPlayable,0);
   assert.ok(report.summary.levels>400);assert.ok(report.summary.walls>400);assert.ok(report.summary.transitions>0);
 });
@@ -72,8 +90,8 @@ test('boat floors use integer indices independently from waterline elevations',(
   assert.ok(result.props.some(p=>!Number.isInteger(p.elevationM)));
 });
 
-test('narrow submarine rooms report large furniture without making miniature substitutes',()=>{
-  const plan=Maritime.build('EXT-MONDE-T008',1),result=Furniture.build(plan);
+test('a deliberately narrow submarine fixture reports large furniture without making miniature substitutes',()=>{
+  const plan=narrowSubmarine(),result=Furniture.build(plan);
   const missing=result.unplaced.find(p=>p.kind==='machine');
   assert.ok(missing);assert.equal(missing.requiredFootprintM.w,Geometry.SHAPES.machine[0]);
   assert.equal(missing.reason,'space-or-access');
@@ -116,8 +134,8 @@ test('the thirty formerly empty maritime rooms retain their envelopes and receiv
 });
 
 test('a service rectangle near a wall keeps its full depth and a reachable actor centre',()=>{
-  const plan=Maritime.build('EXT-MONDE-T005',48),result=Furniture.build(plan);
-  const room=result.rooms.find(r=>r.id===plan.id+':deck-0:room-3-1');
+  const plan=wallServiceFixture(),result=Furniture.build(plan);
+  const room=result.rooms[0];
   const items=result.props.filter(p=>p.roomId===room.id),wardrobe=items.find(p=>p.kind==='wardrobe');
   assert.ok(wardrobe);assert.equal(wardrobe.w,Geometry.SHAPES.wardrobe[0]);
   assert.equal(wardrobe.h,Geometry.SHAPES.wardrobe[1]);
@@ -150,7 +168,7 @@ for(const [label,edit,code,fixture=sample] of [
   ['non-finite coordinate',r=>r.props[0].x=NaN,'shape'],
   ['unsupported furniture',r=>r.props[0].kind='busForLivingRoom','unknown-kind'],
   ['invented completion',r=>r.playable=true,'scope'],
-  ['falsified shortage dimensions',r=>r.unplaced[0].requiredFootprintM.w=.01,'false-unplaced-dimensions',()=>Maritime.build('EXT-MONDE-T008',1)],
+  ['falsified shortage dimensions',r=>r.unplaced[0].requiredFootprintM.w=.01,'false-unplaced-dimensions',narrowSubmarine],
   ['a request assigned to the wrong furniture',r=>{const id=r.props[0].id;r.props[0].id=r.props[1].id;r.props[1].id=id;},'prop-request-mismatch'],
   ['deleted furniture without shortage',r=>{r.props.pop();r.summary.objects--;},'missing-result'],
   ['false room data',r=>r.rooms[0].w+=1,'false-room-metadata']

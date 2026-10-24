@@ -35,6 +35,20 @@ test('200 a scene change hides old peers immediately during pause and re-joins w
 test('200 forged position floor inside a valid envelope is refused',()=>{
  const f=fixture();f.ack();f.receive({type:'peer',id:'mismatch',space:space(),state:{x:1,y:2,active:true,z:1}});assert.equal(f.api.overview().peers.length,0);
 });
+test('205 G11 presence keeps G10 peers isolated without granting simulation authority',()=>{
+ const f=fixture();f.ack();f.scope.generation=11;
+ assert.equal(f.api.ping(),false,'A map change must join its new namespace before a new acknowledgement.');
+ f.ack();const before=JSON.stringify(f.game.resources);
+ f.receive({type:'peer',id:'old-world',space:space(),state:{x:2,y:3,active:true,z:0}});
+ f.receive({type:'ping',space:space(),x:2,y:3});
+ assert.equal(f.api.overview().peers.length,0);assert.equal(f.api.overview().pings.length,0);
+ f.receive({type:'peer',id:'same-world',space:space({generation:11}),state:{x:2,y:3,active:true,z:0}});
+ f.receive({type:'ping',space:space({generation:11}),x:2,y:3});
+ assert.equal(f.api.overview().peers.length,1);assert.equal(f.api.overview().pings.length,1);
+ assert.equal(f.api.ping(),true);assert.equal(f.socket.sent.at(-1).space.generation,11);
+ f.game.update(.3);f.game.update(.3);assert.ok(f.socket.sent.some(m=>m.type==='state'&&m.space.generation===11));
+ assert.equal(JSON.stringify(f.game.resources),before);
+});
 test('200 scope re-join survives backpressure without using the previous map',()=>{
  const f=fixture();f.ack();f.scope.landscape='large';f.socket.bufferedAmount=1e7;assert.equal(f.api.ping(),false);assert.equal(f.api.overview().compatible,false);f.socket.bufferedAmount=0;assert.equal(f.api.ping(),false);f.ack();assert.equal(f.api.ping(),true);
 });

@@ -56,6 +56,10 @@ function install(g){
  const sharedCount=()=>beltCount()+Object.values(g.essentials.snapshot().belt).reduce((a,b)=>a+b,0);
  const unlocked=d=>!d.locked||Object.entries(g.essentials.snapshot().jobs).some(([id,j])=>j.stage==='delivered'&&C.Essentials.content.byId[id]?.family==='light');
  function position(){const v=frontierPosition();return v.active?{domain:'region',x:v.x,y:v.y,z:v.z,inside:v.inside,angle:v.a||0}:{domain:'local',x:g.player.x,y:g.player.y,z:0,inside:null,angle:g.player.facing||0};}
+ function covered205(point){
+  if(point.domain!=='region'||point.z!==0||frontierPosition().generation!==11)return null;
+  return g.frontier.world().coveredAt205?.(point.x,point.y,point.z,point.inside)??null;
+ }
  function localLineClear(a,b){
   if(!g.hostileLineClear(a,b,false))return false;
   // Sample the shared collision grid as well: G4 walls are outside world.at().
@@ -119,7 +123,7 @@ function install(g){
   const reachable=p.domain==='local'?localLineClear(from,p):g.frontier.world().line(from,p,p.z,p.inside,null,.015);
   if(!clear||!reachable)return fail('Le sol devant vous est occupé ou inaccessible.');
   if(d.kind==='campfire'&&!fireSafe(p))return fail('Le feu exige un sol extérieur dégagé, loin des véhicules.');
-  if(p.domain==='region'&&p.z===0){const w=g.frontier.world(),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);p.inside=w.nearPOI(p.x,p.y,50).find(b=>{const q=G.local(b,p.x,p.y);return q.x>=0&&q.y>=0&&q.x<=b.w&&q.y<=b.h;})?.id||null;}
+  if(p.domain==='region'&&p.z===0){const w=g.frontier.world(),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);p.inside=w.nearPOI(p.x,p.y,50).find(b=>{const q=G.local(b,p.x,p.y);return q.x>=0&&q.y>=0&&q.x<=b.w&&q.y<=b.h&&(!b.campaign205||covered205({...p,inside:b.id})!==false);})?.id||null;}
   Object.assign(d,p,{location:'placed'});message=R.types[d.kind].name+' posé'+(d.on?' et allumé.':'.');return save();
  }
  function pickup(id){
@@ -177,7 +181,8 @@ function install(g){
   if(dead)dropOnDeath(p);
   for(const d of state.devices){
    if(d.location==='belt'&&d.on&&driving&&!['flare','chemlight'].includes(d.kind)){d.on=false;message=R.types[d.kind].name+' éteint en montant dans le véhicule.';}
-   if(!d.on)continue;const type=R.types[d.kind],q=d.location==='belt'?p:d,outdoor=q.z===0&&!q.inside&&!(q.domain==='local'&&insideHome(q));
+   if(!d.on)continue;const type=R.types[d.kind],q=d.location==='belt'?p:d,covered=type.flame?covered205(q):null,
+    outdoor=typeof covered==='boolean'?!covered:q.z===0&&!q.inside&&!(q.domain==='local'&&insideHome(q));
    d.left=Math.max(0,d.left-dt*(1+(type.flame&&outdoor?(g.weather||0)*R.fireRainDrain*(1-Math.max(0,Math.min(1,g.survivalPack?.rainProtection(d,p)||0))):0)));
    if(!d.left)d.on=false;
    if(pulse<=0&&type.noise&&d.location==='placed'&&d.domain==='region'&&p.domain==='region'&&d.z===p.z)g.frontier.signalAt(d,type.noise);

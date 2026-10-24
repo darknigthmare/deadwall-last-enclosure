@@ -147,7 +147,7 @@ const inspection=require('./scripts/codex-inspection-progress2026.cjs');
 process.stdout.write(JSON.stringify({
 programmes:d.catalogue.programmes.map(p=>({id:p.id,parent:p.parent,name:p.name,origin:p.origin,family:p.family,generation:p.generation,rooms:p.sourceRooms,props:p.authoredProps+p.authoredSlots,qualification:p.qualification,source:p.source})),
 spaces:d.catalogue.rooms.length,props:d.catalogue.props.length,
-typologies:d.typologies,variants:d.variants.map(v=>({id:v.id,typologyId:v.typologyId,typology:v.typology,domain:v.domain,number:v.number,status:v.status,playable:v.playable,inspection:v.inspection})),tasks:d.tasks,
+typologies:d.typologies,variants:d.variants.map(v=>({id:v.id,typologyId:v.typologyId,typology:v.typology,domain:v.domain,number:v.number,status:v.status,playable:v.playable,inspection:v.inspection,campaign205:v.campaign205})),tasks:d.tasks,campaign205:d.campaign205,
 inspection:inspection.checkedReport(process.cwd()).report,
 inspectionReportSha256:require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(inspection.REPORT)).digest('hex')}));"""
     node = os.environ.get("CODEX_PRIMARY_RUNTIME_NODE", "node")
@@ -203,8 +203,60 @@ def verify_historical_styles(book, baseline, data):
             "inheritedStylesPreserved": True}
 
 
+def verify_campaign(book, data):
+    """Read campaign evidence separately; the author inspection remains unchanged."""
+    coverage = data.get("campaign205")
+    if not coverage:
+        return None
+    tab = book["Campagne G11"]
+    records = coverage["records"]
+    rows = mapped_rows(tab, len(records))
+    assert_equal(set(rows), {r["id"] for r in records}, "Identités de campagne G11")
+    last_row = len(records) + 5
+    total_row = last_row + 1
+    tables = [t for t in tab["tableDetails"] if t["name"] == "CampagneG11205"]
+    assert_equal(len(tables), 1, "Table native de campagne G11")
+    assert_equal(tables[0]["range"], f"A5:L{last_row}", "Emprise de la table G11")
+    if tables[0]["filterRange"] is not None:
+        assert_equal(tables[0]["filterRange"], f"A5:L{last_row}", "Filtre de la table G11")
+    for merge in tab["merges"]:
+        bounds = merge.split(":")
+        start = int("".join(c for c in bounds[0] if c.isdigit()))
+        end = int("".join(c for c in bounds[-1] if c.isdigit()))
+        if start <= last_row and end >= 6:
+            raise AssertionError("Fusion recouvrant des preuves G11")
+    names = {t["id"]: t["name"] for t in data["typologies"]}
+    source_ref = book["Publication"]["cells"].get("B7")
+    source_base = "https://github.com/darknigthmare/deadwall-last-enclosure/blob/" + str(source_ref) + "/"
+    expected_proof = source_base + coverage["report"]
+    for record in records:
+        row = rows[record["id"]]
+        expected = {"B": names[record["typologyId"]], "C": record["number"], "D": record["campaignType"],
+                    "E": "Oui", "F": "Oui", "G": "Oui", "H": "Oui", "I": "Oui",
+                    "J": record["observedInstances"],
+                    "K": ", ".join(str(seed) for seed in record["observedSeeds"]) or "Aucun témoin pour cette variante",
+                    "L": expected_proof}
+        for column, value in expected.items():
+            assert_equal(tab["cells"].get(column + str(row)), value, "Preuve G11 " + record["id"] + "/" + column)
+    for column in ("C", "F", "G", "H", "I"):
+        source_column = "E" if column == "C" else column
+        address = column + str(total_row)
+        assert_equal(tab["cells"].get(address), len(records), "Total de modèles G11 " + column)
+        assert_equal(tab["formulas"].get(address), f'COUNTIF({source_column}6:{source_column}{last_row},"Oui")', "Formule G11 " + column)
+    assert_equal(tab["cells"].get("J" + str(total_row)), coverage["summary"]["observedSites"], "Instances G11 observées")
+    assert_equal(tab["formulas"].get("J" + str(total_row)), f"SUM(J6:J{last_row})", "Somme des instances G11")
+    assert_equal(tab["cells"].get("E" + str(total_row + 5)), coverage["summary"]["observedSeeds"], "Graines G11 réellement auditées")
+    assert_equal(tab["cells"].get("I" + str(total_row + 5)), ", ".join(str(seed) for seed in coverage["witnessSeeds"]) or "Aucun témoin", "Liste des graines G11")
+    assert_equal(tab["cells"].get("E" + str(total_row + 6)), expected_proof, "Rapport de campagne G11")
+    assert_equal(tab["cells"].get("E" + str(total_row + 7)), coverage["reportSha256"], "Empreinte du rapport G11")
+    assert_equal(tab["cells"].get("E" + str(total_row + 8)), "Éligibilité de modèles ; aucun nombre de lieux garanti par graine.", "Portée de la feuille G11")
+    assert_equal(tab["cells"].get("E" + str(total_row + 9)), source_base + coverage["evidence"], "Limites et preuve G11")
+    return coverage["summary"]
+
+
 def verify(book, data, baseline=None):
-    assert_equal(list(book), EXPECTED_SHEETS, "Onglets historiques ajoutés, déplacés ou supprimés")
+    expected_sheets = EXPECTED_SHEETS + (["Campagne G11"] if data.get("campaign205") else [])
+    assert_equal(list(book), expected_sheets, "Onglets historiques ajoutés, déplacés ou supprimés")
     for name, tab in book.items():
         assert_equal(tab["errors"], [], name + " erreurs Excel")
         assert_equal(tab["missing"], [], name + " formules sans résultat enregistré")
@@ -347,10 +399,14 @@ def verify(book, data, baseline=None):
         raise AssertionError("Le nouveau statut n’est pas proposé dans la liste de validation")
     assert_equal(book["Légende"]["cells"].get("A27"), "Inspection physique", "Légende du nouveau statut")
 
+    campaign = verify_campaign(book, data)
+
     style_verification = None
     if baseline:
         style_verification = verify_historical_styles(book, baseline, data)
-        for name in EXPECTED_SHEETS:
+        for name in expected_sheets:
+            if name == "Campagne G11" and name not in baseline:
+                continue
             for feature in ("pane", "tables", "validations", "conditionalFormats"):
                 assert_equal(book[name][feature], baseline[name][feature], name + " conservation " + feature)
         for name in EXPECTED_SHEETS[:11]:
@@ -369,7 +425,7 @@ def verify(book, data, baseline=None):
                 new.pop("B27", None)
             assert_equal(new, old, name + " contenu historique")
             assert_equal(book[name]["formulas"], baseline[name]["formulas"], name + " formules historiques")
-    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "styleVerification": style_verification, "scope": "XLSX source reconciliation; does not certify gameplay"}
+    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "styleVerification": style_verification, "campaignG11": campaign, "scope": "XLSX source reconciliation; does not certify gameplay"}
 
 
 def main():

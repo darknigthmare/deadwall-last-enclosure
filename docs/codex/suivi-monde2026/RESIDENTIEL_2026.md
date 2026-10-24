@@ -36,9 +36,26 @@ Les tests comparent des signatures géométriques sans identifiants pour vérifi
 
 Les emprises de site varient de **118 à 154 m de largeur** et de **84 à 184 m de profondeur**. Les parcelles mesurent 21 à 25 m de largeur utile et 28 à 36 m de profondeur. Les cotes de structure et de terrain restent exprimées en mètres.
 
-Les modules habitables ordinaires mesurent 6,4 à 7,8 m de largeur, pour 11,4 à 14 m de longueur ; ils représentent des unités résidentielles élargies. Les logements de travailleurs utilisent leurs propres gabarits, 9,6 à 10,8 m sur 14,4 à 15,2 m. Les **caravanes tractables conservent une enveloppe étroite**, 2,4 à 2,6 m sur 6,2 à 8,6 m. Leur intérieur n’est pas artificiellement élargi pour y faire entrer le couloir commun : il reste explicitement non réalisé.
+Les logements familiaux visitables mesurent **9,6 à 11 m de largeur sur 14,4 à 17 m de longueur**. Ce sont des compositions auteur de **deux modules résidentiels fixes assemblés**, avec leurs six pièces et une circulation centrale : ces cotes ne décrivent ni un mobil-home de fabricant ni une caravane transportable. Le salon et la cuisine occupent une zone avant plus profonde ; les deux cabines, les sanitaires et la buanderie disposent de leurs pièces arrière. L’emprise des sites et des parcelles reste inchangée.
+
+Les logements de travailleurs conservent leurs propres gabarits, **9,6 à 10,8 m sur 14,4 à 15,2 m**, et leurs cinquante plans sont identiques à ceux de la version précédente. Les **caravanes tractables conservent une enveloppe étroite**, 2,4 à 2,6 m sur 6,2 à 8,6 m. Leur intérieur n’est pas artificiellement élargi pour y faire entrer le couloir commun : il reste explicitement non réalisé.
 
 Les hauteurs maximales dérivent des bâtiments et structures réellement déclarés. Les portes et les couloirs suivent les cotes auteur communes ; les meubles conservent les dimensions du catalogue de mobilier. Un objet trop encombrant est signalé comme non placé plutôt que réduit.
+
+## Complétion des équipements — 1.72
+
+Les petites pièces uniformes des logements familiaux refusaient **1 819 prescriptions** : 1 167 dans les parcs résidentiels, 200 dans les campings et 452 dans les parcs abandonnés. Les refus portaient notamment sur les canapés, fours, réfrigérateurs, égouttoirs et meubles bas. La correction modifie le vrai programme spatial, sans diminuer le nombre de prescriptions ni les dimensions des appareils.
+
+La reconstruction des deux cents variantes place désormais les **25 440 équipements demandés**, avec zéro refus et zéro usage inconnu :
+
+| Type | Plans | Équipements demandés et placés | Refus |
+| --- | ---: | ---: | ---: |
+| T045 | 50 | 8 970 | 0 |
+| T046 | 50 | 3 300 | 0 |
+| T047 | 50 | 8 440 | 0 |
+| T048 | 50 | 4 730 | 0 |
+
+Les accès aux faces de service, les portes des pièces, les portails et les retours piétons passent sur les scènes physiques qui contiennent effectivement ces meubles. Les logements de travailleurs, les coques fermées, les jardins, les piscines et le programme collectif gardent leurs rôles. Aucun stock de campagne ni service raccordé n’est créé par cette complétion auteur.
 
 ## Contrat technique
 
@@ -56,6 +73,7 @@ La suite dédiée parcourt les **200 plans** avec le véritable constructeur de 
 
 ```sh
 node --test tests/codex-residential2026.test.cjs
+node --test tests/codex-residential-furnishing205.test.cjs
 node scripts/codex-residential2026.cjs
 ```
 
@@ -63,4 +81,4 @@ L’audit intégré de l’inspection complète ces contrôles en parcourant tou
 
 Les totaux des 200 variantes représentent **1 240 parcelles**, **1 385 bâtiments visitables**, **8 595 pièces avec circulations** et **455 coques de caravanes fermées**. Ces valeurs additionnent des compositions distinctes. Elles ne décrivent ni un seul camp ni les bâtiments apparus dans une graine.
 
-L’implantation dans le seed, les budgets de ressources, les services d’eau et d’énergie, la population, les rencontres, les intérieurs de coques étroites, les véhicules, l’art définitif et la sauvegarde de campagne restent à réaliser. Aucun stock, rendement, animal ou habitant n’est créé par ces plans.
+Le générateur auteur ne prend pas en charge l’implantation dans le seed, les budgets de ressources, les services d’eau et d’énergie, la population, les rencontres, les intérieurs de coques étroites, les véhicules, l’art définitif ou la sauvegarde de campagne. Les preuves et la portée de l’intégration de campagne restent distinctes de cet audit. Aucun stock, rendement, animal ou habitant n’est créé par la seule production de ces plans.

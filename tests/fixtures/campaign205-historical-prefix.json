@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "scope": "G7/G10 source and plan witnesses generated from released1.71 frontier-world blob in isolated VM",
+  "sourceCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+  "sourceFile": "src/frontier-world.js",
+  "sourceSha256": "21fc3fb614a3870f68048cedf7b6dcf84b1abc19485b081a18bef48cf466dbba",
+  "fixtures": [
+    {
+      "seed": 17117,
+      "generation": 7,
+      "effects": {
+        "detailVersion": 1
+      },
+      "sites": 1267,
+      "poisSha256": "efca6e0a3b9dac4771db51ffd33ddc9b785163e45d2c5667012614a52d833cd9",
+      "roadsSha256": "0ba1bda2bc806a18249fca8e9f2330aaf766730c670b226b1b56a37f2e02495d",
+      "planWitnessIds": [
+        "P0000",
+        "P0633",
+        "P1266"
+      ],
+      "plansSha256": "a6ecceeeab48ffbe194ad7c122dd1fc556eb2fc9044a070c359e034d3ade96da"
+    },
+    {
+      "seed": 42,
+      "generation": 10,
+      "effects": {
+        "detailVersion": 13,
+        "ecologyVersion": 1,
+        "hydrologyVersion": 1
+      },
+      "sites": 3121,
+      "poisSha256": "edc7283adb38bb9b5b7879bd8627fb0b1698fa240c9d22013864c3c15ce886af",
+      "roadsSha256": "196a07026fa0438fd312a05d8a6f70da2d88bc737a687815a7dc7ea43c122d01",
+      "planWitnessIds": [
+        "P0000",
+        "P1560",
+        "P3120"
+      ],
+      "plansSha256": "b8fdb4a95f2899ff922546c632aa2d88f3b3ade37c62087361c1394aaece02d1"
+    },
+    {
+      "seed": 17117,
+      "generation": 10,
+      "effects": {
+        "detailVersion": 13,
+        "ecologyVersion": 1,
+        "hydrologyVersion": 1
+      },
+      "sites": 3178,
+      "poisSha256": "d75769d3104c44d9a5ca48edc0507e719f25346b9097c3dc2fafd8f3ab5a4e4b",
+      "roadsSha256": "df490938c8f3c6d9cd69ced128b3ec47c23b1aa5ffdd7601d24b6d38d35fc9da",
+      "planWitnessIds": [
+        "P0000",
+        "P1589",
+        "P3177"
+      ],
+      "plansSha256": "7d50d8ab41898b1824deddbabc67d067709b74c6dedfb8873e7e75d21c7432a2"
+    },
+    {
+      "seed": 84329,
+      "generation": 10,
+      "effects": {
+        "detailVersion": 13,
+        "ecologyVersion": 1,
+        "hydrologyVersion": 1
+      },
+      "sites": 3055,
+      "poisSha256": "dcace5ee1d2f87ea177e6596667eb5a7ad4c3c775836380e612e7e0d74ccec9a",
+      "roadsSha256": "488b276fcc1e821806ba5f2299c893326b7c1316db490426262b3f749f9f5358",
+      "planWitnessIds": [
+        "P0000",
+        "P1527",
+        "P3054"
+      ],
+      "plansSha256": "3f9f6130c277e6d9ffd0de551e75771326d40b148989b9ddb35da85f29a463cb"
+    }
+  ]
+}
