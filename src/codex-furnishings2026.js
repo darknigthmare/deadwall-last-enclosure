@@ -294,9 +294,15 @@
       rooms.push(r);
     }
     if (Array.isArray(plan.buildings)) {
+      const levels = plan.levels === undefined ? [{id: 'ground', index: 0, elevationM: 0}] : plan.levels;
+      if (!Array.isArray(levels) || !levels.length || levels.some((l,i) => l?.index !== i || !Number.isFinite(l.elevationM)) || new Set(levels.map(l => l.elevationM)).size !== levels.length) throw Error('Niveaux de site invalides.');
       for (const b of plan.buildings) {
         if (!rectangle(b) || !Array.isArray(b.rooms) || !Array.isArray(b.portals)) throw Error('Annexe auteur invalide.');
-        for (const r of b.rooms) add(r, b, 0, 0, b.portals);
+        for (const r of b.rooms) {
+          const level = levels[r.level];
+          if (!level || !b.levels?.includes(r.level)) throw Error('Pièce sans niveau de site.');
+          add(r, b, level.index, level.elevationM, b.portals);
+        }
       }
     } else if (Array.isArray(plan.rooms) && Array.isArray(plan.levels) && Array.isArray(plan.portals)) {
       const levels = new Map(plan.levels.map((l, index) => [l.id, {index, elevationM: l.elevationM}]));

@@ -8,7 +8,12 @@ const SPECS = Object.freeze([
   {name: 'Industrial', path: 'scripts/codex-industrial2026.cjs', proof: 'docs/codex/suivi-monde2026/INDUSTRIE_2026.md'},
   {name: 'Lacustre', path: 'scripts/codex-lacustre2026.cjs', proof: 'docs/codex/suivi-monde2026/LACUSTRE_2026.md'},
   {name: 'Littoral', path: 'scripts/codex-littoral2026.cjs', proof: 'docs/codex/suivi-monde2026/LITTORAL_2026.md'},
-  {name: 'Utilities', path: 'scripts/codex-utilities2026.cjs', proof: 'docs/codex/suivi-monde2026/EAU_ENERGIE_2026.md'}
+  {name: 'Utilities', path: 'scripts/codex-utilities2026.cjs', proof: 'docs/codex/suivi-monde2026/EAU_ENERGIE_2026.md'},
+  {name: 'MaritimeSites', path: 'scripts/codex-maritime-sites2026.cjs', proof: 'docs/codex/suivi-monde2026/PORTS_ILES_2026.md'},
+  {name: 'CivilNetworks', path: 'scripts/codex-civil-networks2026.cjs', proof: 'docs/codex/suivi-monde2026/PONTS_ECHANGEURS_2026.md'},
+  {name: 'UrbanServices', path: 'scripts/codex-urban-services2026.cjs', proof: 'docs/codex/suivi-monde2026/HLM_ASSAINISSEMENT_2026.md'},
+  {name: 'Recreation', path: 'scripts/codex-recreation2026.cjs', proof: 'docs/codex/suivi-monde2026/PARCS_SPORTS_2026.md'},
+  {name: 'TransportSites', path: 'scripts/codex-transport-sites2026.cjs', proof: 'docs/codex/suivi-monde2026/AEROPORTS_RAIL_2026.md'}
 ].map(Object.freeze));
 const REFERENCES = 'docs/codex/suivi-monde2026/references-metriques2026.json';
 const TARGETS = 'docs/codex/suivi-monde2026/OBJECTIFS80.json';

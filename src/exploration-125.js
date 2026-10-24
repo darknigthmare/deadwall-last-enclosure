@@ -1119,6 +1119,21 @@
 
   function removeRuntimeLoot(game){if(game?.world?.nodes)game.world.nodes=game.world.nodes.filter(node=>!node.__exploration125Loot);}
 
+  // Shared physical geometry for initial packing and the later access cleanup.
+  // Callers create this context only for the explicit metric campaign profile.
+  function createMetricSceneryPlacement202(game,plan,{occupied=[],settlementProjection=false}={}) {
+    const field=game.fieldcraft,u=C.TILE||32,margin=C.CityGeometry202.localParcels.clearanceMetres*u;
+    const bounds=node=>{const b=field?.reserveRect?.(node);if(b)return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};const size=node.renderSize||node.radius*2.65;return {x:node.x-size/2,y:node.y-size/2,w:size,h:size};};
+    const reserve=node=>{const b=bounds(node);if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(node.sceneryKind))return b;const p=C.CityGeometry202.presentation,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,o=p.roofOverhangMetres*u;return {x:b.x-o,y:b.y-h-o,w:b.w+o*2,h:b.h+h+o*2};};
+    // Settlement build reservations already include the declared one-metre
+    // clearance. Recover their full projected roof/facade before applying that
+    // clearance once; construction reservations and colliders remain untouched.
+    const exclusions=settlementProjection?plan.buildExclusions.map(a=>a.kind==='settlement-reserve'?{...a,x:a.x+margin,y:a.y+margin,w:a.w-margin*2,h:a.h-margin*2}:a):plan.buildExclusions;
+    const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...exclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
+    const fits=(node,x,y,placed=occupied)=>{const b=reserve({...node,x,y}),padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
+    return {reserve,fixtures,fits,margin};
+  }
+
   function clearNaturalRoadResources(game, plan, protectedBoxes) {
     const roads=[...(plan.roads||[]),...(plan.settlements||[]).flatMap(s=>[s.street,s.connector].filter(Boolean))];
     const field=game.fieldcraft,fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead),...(game.expeditions?.sites?.()||C?.Expeditions?.SITES||[]).map(p=>({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>({...p,renderSize:50})),...(game.world.sites||[]).map(p=>({...p,renderSize:96}))];
@@ -1130,11 +1145,12 @@
       return rect(s.door.x,s.y-s.h/2-margin,depth,s.h+margin*2,'forecourt');
     });
     const onAccess=(x,y,r)=>roads.some(road=>roadContains(road,x,y,r))||forecourts.some(box=>circleIntersectsRect(x,y,r,box));
+    let metricPlacement=null;
     for(const node of game.world.nodes){
       if(node.sceneryKind!=='burntTree'&&(node.sceneryKind||!['wood','stone'].includes(node.type)))continue;
       const radius=Math.max(node.radius*1.86,(node.renderSize||0)*.56);
       if(!onAccess(node.x,node.y,radius))continue;
-      const origin={x:node.x,y:node.y};let target=null;
+      const origin={x:node.x,y:node.y};let target=null,metricOccupied=null;
       // Include exhausted nodes: harvesting must never reshuffle the remaining deposits on reload.
       for(let ring=1;ring<=24&&!target;ring++)for(let direction=0;direction<24;direction++){
         const a=(direction+(node.id%24)/24)*Math.PI/12,x=Math.round((origin.x+Math.cos(a)*ring*32)*100)/100,y=Math.round((origin.y+Math.sin(a)*ring*32)*100)/100;
@@ -1143,6 +1159,14 @@
         if(protectedBoxes.some(box=>circleIntersectsRect(x,y,radius,box)))continue;
         const box=(field?.reserveRect||field?.rect)?.({...node,x,y});
         if(box?[...game.world.nodes,...fixtures].some(other=>other!==node&&field.overlap(box,(field.reserveRect||field.rect)(other),3)):game.world.nodes.some(other=>other!==node&&Math.hypot(x-other.x,y-other.y)<(node.radius+other.radius)*2))continue;
+        // Clearing a forecourt must not undo the earlier full-envelope packing.
+        // Natural deposits retain their existing rules and valid old targets
+        // remain first in the same deterministic search.
+        if(plan.layoutRevision===4&&node.sceneryKind==='burntTree'){
+          metricPlacement??=createMetricSceneryPlacement202(game,plan,{settlementProjection:true});
+          metricOccupied??=game.world.nodes.filter(other=>other!==node&&other.sceneryKind).map(metricPlacement.reserve);
+          if(!metricPlacement.fits(node,x,y,metricOccupied))continue;
+        }
         target={x,y};break;
       }
       if(target){node.x=target.x;node.y=target.y;node.__exploration125RoadRelocated=!node.depleted;}
@@ -1153,7 +1177,7 @@
   // samples. Try a finite set of obstacle/boundary contacts only after those
   // searches fail. The footprint is relative to the node, including its roof
   // and facade; the native predicate still owns roads, oriented solids and gaps.
-  function findMetricSceneryBoundaryPlot202(footprint,worldSize,blockers,margin,accepts) {
+  function findMetricSceneryBoundaryPlot202(footprint,worldSize,blockers,margin,accepts,corner=0) {
     // Keep saved coordinates at hundredth-unit precision, on the free side of
     // each contact even when floating-point arithmetic lands just over an edge.
     const lower=value=>Math.ceil((value+1e-7)*100)/100,upper=value=>Math.floor((value-1e-7)*100)/100;
@@ -1165,6 +1189,7 @@
       ys.add(upper(b.y-margin-footprint.y-footprint.h));ys.add(lower(b.y+b.h+margin-footprint.y));
     }
     const columns=[...xs].filter(x=>x>=minX&&x<=maxX).sort((a,b)=>a-b),rows=[...ys].filter(y=>y>=minY&&y<=maxY).sort((a,b)=>a-b);
+    if(corner&1)columns.reverse();if(corner&2)rows.reverse();
     for(const y of rows)for(const x of columns)if(accepts(x,y))return{x,y};
     return null;
   }
@@ -1177,14 +1202,21 @@
       if(!size)continue;node.metric202=1;node.body202={w:size[0]*u,h:size[1]*u};node.renderSize=Math.max(node.body202.w,node.body202.h);
     }
     if(game.world.__terrain133Prepared||savedAmounts instanceof Map)return;
-    const field=game.fieldcraft,placed=[],bounds=node=>{const b=field?.reserveRect?.(node);if(b)return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};const size=node.renderSize||node.radius*2.65;return {x:node.x-size/2,y:node.y-size/2,w:size,h:size};};
-    const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...plan.buildExclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
-    const reserve=node=>{const b=bounds(node);if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(node.sceneryKind))return b;const p=C.CityGeometry202.presentation,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,o=p.roofOverhangMetres*u;return {x:b.x-o,y:b.y-h-o,w:b.w+o*2,h:b.h+h+o*2};};
-    const fits=(node,x,y)=>{const b=reserve({...node,x,y}),margin=C.CityGeometry202.localParcels.clearanceMetres*u,padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
+    const placed=[],placement=createMetricSceneryPlacement202(game,plan,{occupied:placed}),{reserve,fixtures,fits}=placement;
     // Reserve an undeveloped district for actual city construction. Move finite
     // scenery deposits during creation, retaining every ID and every quantity;
     // saved fieldcraft coordinates remain authoritative on all later loads.
     const scenery=game.world.nodes.filter(n=>n.sceneryKind).sort((a,b)=>{const aa=reserve(a),bb=reserve(b);return bb.w*bb.h-aa.w*aa.h||a.id-b.id;});
+    const compact=(context,corner=0)=>{
+      const occupied=[],layout=[];
+      for(const entry of scenery){
+        const point=findMetricSceneryBoundaryPlot202(context.reserve({...entry,x:0,y:0}),plan.worldSize,[...context.fixtures,...occupied,...roadGeometry202(plan).bounds],context.margin,(x,y)=>context.fits(entry,x,y,occupied),corner);
+        if(!point)return null;
+        layout.push({node:entry,...point});occupied.push(context.reserve({...entry,...point}));
+      }
+      return layout;
+    };
+    const apply=layout=>{if(!layout)return false;for(const entry of layout){entry.node.x=entry.x;entry.node.y=entry.y;}return true;};
     for(const node of scenery){
       if(!fits(node,node.x,node.y)){
         const origin={x:node.x,y:node.y};let found=false;
@@ -1197,7 +1229,16 @@
           const point=findMetricSceneryBoundaryPlot202(reserve({...node,x:0,y:0}),plan.worldSize,[...fixtures,...placed,...roadGeometry202(plan).bounds],C.CityGeometry202.localParcels.clearanceMetres*u,(x,y)=>fits(node,x,y));
           if(point){node.x=point.x;node.y=point.y;found=true;}
         }
-        if(!found)throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
+        if(!found){
+          // Individually lawful nearest plots can fragment the remaining space.
+          // Only this failed branch retries a compact boundary layout, with the
+          // same full envelopes, clearance and native road/fixture vetoes. Keep
+          // every candidate private until the entire finite population fits.
+          if(apply(compact(placement)))return;
+          const singleClearance=createMetricSceneryPlacement202(game,plan,{settlementProjection:true});
+          for(let corner=0;corner<4;corner++)if(apply(compact(singleClearance,corner)))return;
+          throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
+        }
       }
       placed.push(reserve(node));
     }
