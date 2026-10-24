@@ -112,7 +112,7 @@ function install(g){
   }
   lastHealth=g.player.health;
  }
- function rainProtection(device,p){const q=device.location==='belt'&&p?.domain==='local'?{...p,z:g.vertical175?.pose?.()?.z??p.z}:device.location==='belt'?p:device;if(!q||q.z!==0||q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
+ function rainProtection(device,p){const q=device.location==='belt'&&p?.domain==='local'?{...p,z:g.vertical175?.pose?.()?.z??p.z}:device.location==='belt'?p:device;if(!q||q.z!==0)return 0;const covered=q.domain==='region'&&frontierPosition().generation===11?(g.frontier.world().coveredAt205?.(q.x,q.y,q.z,q.inside)??null):null;if(covered===true||covered===null&&q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
  function depthEntries(v,view){return state.camps.filter(c=>c.domain==='region'&&v.z===0&&c.x>=view.l-3&&c.x<=view.r+3&&c.y>=view.t-3&&c.y<=view.b+3&&(root.DeadwallFrontierArt?.visiblePoint?.(g,c,v)??true)).map(c=>({kind:'camp',id:'camp:'+c.id,depth:c.y+R.campRadius,draw:ctx=>draw(ctx,'region',c)}));}
  let terrainWorld=null,terrainRegion=null,terrainProvider=null,terrainKey='',terrainRows=[];
  function surroundings(){

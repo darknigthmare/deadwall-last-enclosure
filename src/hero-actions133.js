@@ -33,7 +33,7 @@
    if(!view||!Object.hasOwn(CONTEXT_WORK160,view.kind)||typeof view.fullKey!=='string'||!/^P\d{4}:160:[a-z][a-zA-Z0-9-]{0,31}$/.test(view.fullKey)||
      !Number.isFinite(view.elapsed)||view.elapsed<0||!Number.isFinite(view.start)||!Number.isFinite(view.duration)||view.duration<=0||
      !Number.isFinite(view.progress)||Math.abs(view.progress-Math.min(1,view.elapsed/view.duration))>EPSILON160||
-     !anchor||![anchor.x,anchor.y,anchor.z].every(Number.isFinite)||!f?.active||f.generation!==10||f.car?.driving||f.z!==anchor.z)return null;
+     !anchor||![anchor.x,anchor.y,anchor.z].every(Number.isFinite)||!f?.active||![10,11].includes(f.generation)||f.car?.driving||f.z!==anchor.z)return null;
    return{owner,view,world:g.world,player:g.player,facing:Number.isFinite(f.a)?f.a:finite(g.player.facing)};
   }
   const sameContext160=(a,b)=>!!a&&!!b&&a.owner===b.owner&&a.world===b.world&&a.player===b.player&&

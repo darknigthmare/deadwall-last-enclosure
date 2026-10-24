@@ -7,11 +7,11 @@ async function fixture({start=true,current=false}={}){const e=bootDocument134();
 const actions=doc=>doc.getElementById('field-expansions').querySelectorAll('.expansion-action').map(c=>c.querySelector('button').id);
 const sections=doc=>[...doc.getElementById('commandPanel-field').children].filter(n=>n.tagName==='SECTION'&&!n.classList.contains('hidden')).map(n=>n.id);
 
-test('194 default native request uses G10/detail13 with water and natural fauna, without visiting settings',async()=>{
+test('194 default native request uses G11/detail13 with water and natural fauna, without visiting settings',async()=>{
  const {g,doc}=await fixture({start:false});g.startupReady=true;assert.equal(g.playerMenus194.mode,'player');assert.equal(doc.getElementById('newGameButton').getAttribute('aria-describedby'),'newCampaignContent194');assert.equal([...doc.getElementById('startScenario').children].find(n=>n.value==='classic').textContent,'Le dépôt — départ recommandé');
  // This DOM harness does not model <option selected>; an empty selector must
  // still use the current balanced profile. Browser proof covers the real select.
- assert.equal(g.requestNewGame(),true);const f=g.frontier.position();assert.equal(f.generation,10);assert.equal(f.detailVersion,13);assert.equal(f.ecologyVersion,1);assert.equal(f.hydrologyVersion,1);assert.equal(f.landscape189,'balanced');
+ assert.equal(g.requestNewGame(),true);const f=g.frontier.position();assert.equal(f.generation,11);assert.equal(f.detailVersion,13);assert.equal(f.ecologyVersion,1);assert.equal(f.hydrologyVersion,1);assert.equal(f.landscape189,'balanced');
  assert.equal(g.campaignIntro132.isOpen(),true);g.campaignIntro132.skip();assert.equal(g.paused,false);assert.equal(g.activeOverlay,null);
  const id=g.runId,seed=g.world.seed;g.togglePause(true);const before=stable(g);assert.equal(g.save(false),true);g.returnToMenu();assert.equal(g.load(),true);g.togglePause(true);assert.equal(stable(g),before);assert.equal(g.runId,id);assert.equal(g.world.seed,seed);
 });
@@ -19,7 +19,7 @@ test('194 four-argument legacy starts and saved legacy worlds are not silently c
  const {g}=await fixture();assert.equal(g.frontier.position().generation,8);assert.equal(g.frontier.position().detailVersion,1);g.togglePause(true);const before=stable(g);assert.equal(g.save(false),true);g.returnToMenu();assert.equal(g.load(),true);g.togglePause(true);assert.equal(stable(g),before);
 });
 test('194 explicit historical landscape affects climate, not the native current-content promise',async()=>{
- const {g,doc}=await fixture({start:false});g.startupReady=true;doc.getElementById('worldLandscape189').value='classic';doc.getElementById('mapSeed').value='17117';assert.equal(g.requestNewGame(),true);const f=g.frontier.position();assert.equal(f.landscape189,undefined);assert.equal(f.generation,10);assert.equal(f.detailVersion,13);
+ const {g,doc}=await fixture({start:false});g.startupReady=true;doc.getElementById('worldLandscape189').value='classic';doc.getElementById('mapSeed').value='17117';assert.equal(g.requestNewGame(),true);const f=g.frontier.position();assert.equal(f.landscape189,undefined);assert.equal(f.generation,11);assert.equal(f.detailVersion,13);
 });
 test('194 invalid fresh options and cancelled replacement retain every saved owner',async()=>{
  const {g}=await fixture();g.togglePause(true);const before=stable(g),world=g.world;
@@ -42,6 +42,10 @@ test('194 player Guide contains playable knowledge, not development proposals or
  assert.ok(doc.getElementById('worldCodexResults').querySelectorAll('details').every(n=>!n.dataset.codexSource159));assert.equal(stable(g),before);
  // The full source API remains available for diagnostics without mutating play.
  assert.equal(g.worldCodex.query({status:'programme'}).length,4000);
+});
+test('205 campaign activation is a compatibility action, keeping current player operations focused',()=>{
+ assert.equal(Policy.isMaintenance('world131','expandCampaignSites205'),true);
+ assert.equal(Policy.isMaintenance('survival','expandCampaignSites205'),false);
 });
 test('194 source tools and historical QA require separate explicit URL choices',()=>{
  const old=globalThis.location;try{for(const [search,tools,current]of [['',false,true],['?tools=1',true,true],['?fixture=legacy',false,true],['?tools=1&fixture=legacy',true,false],['?tools=true',false,true]]){globalThis.location={search};assert.equal(Policy.toolsEnabled(),tools);assert.equal(Policy.currentStart(),current);}}finally{globalThis.location=old;}

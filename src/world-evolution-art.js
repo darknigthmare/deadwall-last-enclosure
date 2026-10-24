@@ -44,6 +44,15 @@ function underClosedRoof(g,p,v){
  if(v.z!==0)return false;
  const places=v.world?.nearPOI?.(p.x,p.y,2)||[];
  for(const place of places){
+  // The compound parcel contains open yards and separately covered buildings.
+  // Share their actual volume test with furniture/equipment, including when
+  // the viewer and actor have the same parcel ID but occupy different roofs.
+  if(place.generation===11&&place.campaign205){
+   const visible=root.DeadwallFrontierArt?.visiblePoint;
+   if(typeof visible!=='function')throw Error('Rendu régional205 absent.');
+   if(!visible(g,p,v))return true;
+   continue;
+  }
   if(place.id===v.inside||place.type==='ruin'||g.worldEvolution?.structureDestroyed?.(place.id))continue;
   const q=G.local(place,p.x,p.y);
   if(q.x>0&&q.y>0&&q.x<place.w&&q.y<place.h)return true;

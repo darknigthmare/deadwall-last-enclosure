@@ -137,6 +137,10 @@
         let id = null;
         for (const place of regionalWorld()?.nearPOI?.(p.x, p.y, 2) || []) {
           if (place.type === 'ruin' || g.worldEvolution?.structureDestroyed?.(place.id)) continue;
+          // A G11 compound has separate buildings and open courtyards. Its
+          // parcel is not a roof or a sight barrier at ground level: real
+          // walls and doorway apertures are tested by the shared line reader.
+          if (place.campaign205) continue;
           const q = G.local(place, p.x, p.y);
           if (q.x > 0 && q.y > 0 && q.x < place.w && q.y < place.h) { id = place.id; break; }
         }

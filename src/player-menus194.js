@@ -20,7 +20,7 @@
  }
 })(globalThis,function(root){
  'use strict';
- const MAINTENANCE=new Set(['expand131','expandCodex3000','expandTerritories160','expandCodex4000','sanitationMedical164','completeCodex163','furnishing162','packing173','gardens171','stations170','sourceComplements169','fillDetails168','ensembleDetails165','quantityDetails164','anchoredDetails160','richDetails159','expand','metricVehicle174']);
+ const MAINTENANCE=new Set(['expand131','expandCodex3000','expandTerritories160','expandCampaignSites205','expandCodex4000','sanitationMedical164','completeCodex163','furnishing162','packing173','gardens171','stations170','sourceComplements169','fillDetails168','ensembleDetails165','quantityDetails164','anchoredDetails160','richDetails159','expand','metricVehicle174']);
  const DOMAINS=[['terrain','SUR LE TERRAIN'],['city','DANS LA CITÉ'],['reference','GUIDE DE SURVIE']];
  const ROUTES={expansions:['terrain','field-expansions'],operations:['terrain','field-operations'],recon:['terrain','reconPanel'],sectors:['terrain','field-sectors'],coordination:['city','coordinationPanel'],crew:['city','field-crew'],logistics:['city','field-logistics'],territories:['city','field-territories'],siege:['city','field-siege'],dayworks:['city','dayworksPanel'],citadel:['city','citadelPanel'],infrastructure:['city','infrastructurePanel'],linecare:['city','linecarePanel'],infected:['reference','field-infected'],'world-codex':['reference','field-world-codex']};
  function toolsEnabled(){try{return new URLSearchParams(root.location?.search||'').get('tools')==='1';}catch{return false;}}

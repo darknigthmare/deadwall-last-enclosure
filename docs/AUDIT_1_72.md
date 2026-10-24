@@ -1,0 +1,24 @@
+# Audit de la reprise 1.72
+
+Les contrôles portent sur les compositions auteur, leur première adaptation résidentielle G11 et la distribution. Les audits assistés et les scénarios automatisés ne sont pas des sessions de testeurs humains.
+
+| Défaut reproduit | Correction et preuve |
+| --- | --- |
+| Six familles refusaient 4 670 meubles demandés. | Les volumes et leur disposition accueillent les mêmes demandes aux dimensions de catalogue. Un secours borné, opté explicitement pour trois familles maritimes, valide atomiquement une pièce complète. L’audit des 4 000 variantes place 588 378 demandes, zéro refus ; 3 700 enregistrements restent identiques à 1.71. |
+| Un parc résidentiel pouvait être traité comme un unique toit sur toute sa parcelle. | Le rendu, l’intérieur et l’abri suivent chaque bâtiment. La cour reste ouverte. Les tests exercent les déplacements au portail et à la porte, la pluie, la pose d’éclairage et la destruction réelle d’une toiture par une horde. |
+| La vision pouvait considérer la parcelle entière comme une barrière optique. | Les sites G11 utilisent leurs murs et ouvertures physiques. Joueur et allié vivant voient à travers un accès libre ; un mur, un mauvais étage ou l’absence d’observateur continue de masquer les contacts. Un bassin infranchissable reste transparent à la vision. |
+| Deux accès G11 traversaient le couloir d’une autre route sur les graines `0` et `967313470`. | L’admission consulte Frontage174 avant toute insertion ou consommation d’identifiant. Un raccord refusé mène au candidat suivant, dans la limite bornée ; les routes et lieux G10 restent identiques. |
+| Le peintre des acteurs masquait encore toute la parcelle G11, y compris sa cour ouverte. | Il partage désormais les volumes réels du peintre régional, tout en conservant le filtre de vision des ennemis. Les 50 témoins de rendu G1–G10 conservent leurs pixels et leur file de dessin ; 14 tests ciblés couvrent la cour, les toits distincts, les rotations, les étages et la destruction. |
+| Ajouter des habitations pouvait multiplier les stocks du lieu. | Un budget historique fini est partagé entre les contenants réellement utilisables. Les tests vérifient prélèvement natif, coût, refus, sauvegarde, reprise et absence de remplissage. |
+| Des propriétaires de gameplay reconnaissaient G10 sans accepter la génération suivante. | Cueillette, opérations, gestes, aperçus, redémarrage et namespace coopératif sont contrôlés pour G11 ; les sites G10 restent identifiés par leur génération propre. |
+| Les fiches auteur pouvaient être confondues avec des lieux déjà implantés. | Le rapport G11 et sa feuille Excel sont distincts. Ils exigent les empreintes des sources livrées, tous les contrôles par modèle et les observations de placement ; une preuve négative ou périmée bloque le suivi. |
+
+Le rapport auteur final passe **4 000/4 000** contrôles sur 29 sources stables. Les tests maritimes passent **18/18**, les tests résidentiels **24/24**, le rendu nouveau et historique **55/55** et les scènes de campagne ciblées **16/16**. Les contrôles de visibilité passent **18/18** et ceux de terrain/météo **35/35**. Certaines suites se recoupent : ces nombres ne sont pas additionnés comme des tests distincts.
+
+L’audit G11 passe les **200 modèles** et observe **63 instances sur huit graines** : sept sites sur `967313470`, huit sur chacune des sept autres graines. Les empreintes de ses **225 entrées source** sont identiques avant et après exécution puis comparées à nouveau aux fichiers courants. Les refus de placement sont conservés ; le plafond de huit ne devient pas un quota.
+
+Les quatre formats du parcours général Chromium passent **179 contrôles**. La PWA historique passe **42 contrôles** ; un parcours distinct sans paramètres auteur crée réellement G11 hors ligne et passe **46 contrôles** sur ordinateur et mobile simulé, avec les huit sites de la graine témoin et leur reprise exacte. Les tests natifs du démarrage courant, identité et anciennes reprises passent **37/37**, et ceux du suivi **33/33**.
+
+Les autres parcours Chromium, vérifications XML du classeur et contrôles CI du commit final sont des réceptions séparées. Une exécution interrompue, un rapport négatif ou un simple changement d’étiquette de génération ne constitue pas une preuve positive. Les essais négatifs sont conservés avant correction. L’audit régional reste borné aux graines explicitement enregistrées ; il ne prouve pas tous les mondes possibles.
+
+Les autres familles du Codex, leurs services, rencontres, budgets et graphismes définitifs conservent leurs étapes de production. La cible Standard de **6 à 10 heures jusqu’au onzième âge** reste à mesurer par une campagne humaine complète.

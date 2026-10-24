@@ -106,7 +106,7 @@ test('fingerprints real bytes and permissions and refuses symlink substitution',
 
 test('CI executes the literal command on the explicit PR head and preserves both exit codes and negative evidence', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/fullcheck201.yml'), 'utf8');
-  assert.match(workflow, /timeout-minutes: 90/);
+  assert.match(workflow, /timeout-minutes: 150/);
   assert.equal((workflow.match(/ref: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/g) || []).length, 2);
   assert.match(workflow, /run: npm ci/);
   assert.match(workflow, /DEADWALL_SOAK=1 npm run check 2>&1 \| tee/);

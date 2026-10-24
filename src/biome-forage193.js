@@ -14,7 +14,7 @@
   function enabled(w) {
     if (!w || !Number.isInteger(w.seed) || w.seed < 0 || w.seed > 0xffffffff ||
         !Number.isFinite(w.size) || w.size <= 0 || w.size > core().GeographyRules135.size ||
-        !Number.isInteger(w.generation) || w.generation < 8 || w.generation > 10 ||
+        !Number.isInteger(w.generation) || w.generation < 8 || w.generation > 11 ||
         w.ecologyVersion !== 1 || w.hydrologyVersion !== 1 ||
         !['classic', 'balanced', 'large', 'patchwork'].includes(profile(w))) return false;
     return !!w.hydrology && typeof w.hydrology.sample === 'function' &&

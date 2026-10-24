@@ -20,7 +20,7 @@ try{
   try{
    await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'networkidle',timeout:120000});await ready(page);
    await click('#newGameButton');await page.waitForFunction(()=>DEADWALL.campaignIntro132.isOpen());await click('#campaignIntro132Skip');await page.waitForFunction(()=>!DEADWALL.paused&&!DEADWALL.activeOverlay);
-   await click('#pauseButton');check('Normal entry retains the current campaign defaults',await page.evaluate(()=>{const p=DEADWALL.frontier.position();return p.generation===10&&p.detailVersion===13&&p.landscape189==='balanced';}));
+   await click('#pauseButton');check('Normal entry retains the current campaign defaults',await page.evaluate(()=>{const p=DEADWALL.frontier.position();return p.generation===11&&p.detailVersion===13&&p.landscape189==='balanced';}));
    const fault=await page.evaluate(()=>{
     const g=DEADWALL,C=DeadwallCore,stable=()=>{const{timestamp,...s}=g.serialize();return JSON.stringify(s);};
     if(!g.save(false))throw Error('Initial real save failed before injection');

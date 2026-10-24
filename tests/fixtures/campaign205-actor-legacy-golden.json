@@ -1,0 +1,748 @@
+{
+  "sourceCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+  "sourcePath": "src/world-evolution-art.js",
+  "sourceSha256": "9d2544ca5e5c423aa87b858103e9470a0684dbaa424a830668494bc268ddf4c0",
+  "scope": "Captured historical actor clipping, queue order, fixed metric proxy rendering; 10 generations x 5 scenarios, actual native Canvas pixels.",
+  "cases": [
+    {
+      "generation": 1,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 1,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 1,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 1,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 1,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 2,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 2,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 2,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 2,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 2,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 3,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 3,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 3,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 3,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 3,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 4,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 4,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 4,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 4,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 4,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 5,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 5,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 5,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 5,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 5,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 6,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 6,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 6,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 6,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 6,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 7,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 7,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 7,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 7,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 7,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 8,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 8,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 8,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 8,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 8,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 9,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 9,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 9,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 9,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 9,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    },
+    {
+      "generation": 10,
+      "scenario": "closed",
+      "entries": [],
+      "pixelSha256": "f627ca4c2c322f15db26152df306bd4f983f0146409b81a4341b9b340c365a16"
+    },
+    {
+      "generation": 10,
+      "scenario": "entered",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 10,
+      "scenario": "ruin",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 10,
+      "scenario": "destroyed",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 27.401923788646684
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 27.401923788646684
+        }
+      ],
+      "pixelSha256": "8db4b00f00a1ae7eb2e813c12d405b116513e657f60121c49bd6d5726dc419d6"
+    },
+    {
+      "generation": 10,
+      "scenario": "outside",
+      "entries": [
+        {
+          "kind": "companion",
+          "id": "lea",
+          "depth": 23.93782217350893
+        },
+        {
+          "kind": "infected",
+          "id": "P0001:e0",
+          "depth": 23.93782217350893
+        }
+      ],
+      "pixelSha256": "6db12ad83406411d8e23f9ff883883e55956dbcc23ef0f4a79349590a305ea31"
+    }
+  ]
+}

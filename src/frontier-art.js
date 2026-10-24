@@ -17,7 +17,8 @@ return true;}
 function object(c,o,taken=0,angle=0,{game=root.DEADWALL,seed=game?.world?.seed??0,floor=0}={}){
 c.save();const{x,y,w,h}=o,shade=localShadow(angle);if(taken>=o.amount-.001)c.globalAlpha=.55;
 const art=game?.art,interiors=root.DeadwallInteriorArt153,sprite=interiors?.spriteForFurniture?.(o,{seed,floor});let painted=false;
-if(sprite&&art?.images?.[sprite.atlas]){
+if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');painted=root.DeadwallCampaignSiteArt205.drawProp(c,art,o,{seed,floor,taken,stateAlpha:false});}
+if(!painted&&sprite&&art?.images?.[sprite.atlas]){
  fill(c,x+shade.x,y+shade.y,w,h,'rgba(0,0,0,.25)');
  if(['counter','shelf','workbench'].includes(o.kind)){
   fill(c,x,y,w,h,o.kind==='shelf'?'#626b5d':o.kind==='counter'&&sprite.variant===1?'#858b80':'#796449');
@@ -68,7 +69,11 @@ function lotGround141(c,p,profile=null){
  if(!natural)wornPad141(c,-8,p.h+2,p.w+16,7,seed^961,'#858a72');
  else for(const o of p.outdoor||[])if(['generator','electricalRack','machine','workbench'].includes(o.kind))wornPad141(c,o.x-.3,o.y-.3,o.w+.6,o.h+.6,G.hash(seed,o.id),'#9a9d84');
 }
-function contextualOpen160(p){return !!p.context160&&(p.context160.mode!=='building'||!!p.context160.profile);}
+function contextualOpen160(p){return !!p.campaign205||!!p.context160&&(p.context160.mode!=='building'||!!p.context160.profile);}
+// G11 compound presentation reuses the established per-volume renderer without
+// registering an author site as one of the historical context160 programmes.
+function contextPresenter205(p){return p.campaign205?{...p,context160:{mode:'compound205'}}:p;}
+function detailPicture205(c,o,g,v){if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');return root.DeadwallCampaignSiteArt205.drawProp(c,g?.art,o,{seed:v.world?.seed??g?.world?.seed??0,floor:v.z??0,scale:v.scale||32});}return root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}
 function lotGround(c,p,v,g=root.DEADWALL){if(v.z!==0)return;if(contextualOpen160(p))return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){const site=root.DeadwallCodexSites162?.forWorld?.(v.world,p);lotGround141(c,p,site?.profile);if(site)root.DeadwallCodexSites162.draw(c,site);for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
 // Floors are painted before the shared queue; their furniture, walls and roofs
 // participate in the same world-space depth ordering as actors and equipment.
@@ -85,7 +90,7 @@ function visiblePoint(g,p,v){
  return true;
 }
 function lotFloor(c,p,v,g=root.DEADWALL){const entered=v.inside===p.id,pl=v.world.plan(p,entered?v.z:0),destroyed=!!g?.worldEvolution?.structureDestroyed(p.id);inLot(c,p,()=>{
- if(contextualOpen160(p)){for(const room of pl.rooms||[]){if(room.open)continue;fill(c,room.x,room.y,room.w,room.h,['#b9b79f','#a8b49b','#b8ac93'][G.hash(room.name)%3]);root.DeadwallInteriorArt153?.drawFloor?.(c,g?.art,{...p,type:'warehouse',id:room.id||p.id},room,{seed:v.world.seed,floor:entered?v.z:0});}root.DeadwallContextArt160?.drawTerrain?.(c,g,p,pl,{world:v.world,v,seed:v.world.seed,z:entered?v.z:0});
+ if(contextualOpen160(p)){if(p.campaign205)root.DeadwallCampaignSiteArt205?.drawAreas(c,p,pl,{seed:v.world.seed,floor:entered?v.z:0});for(const room of pl.rooms||[]){if(room.open)continue;if(p.campaign205&&root.DeadwallCampaignSiteArt205?.drawRoomFloor(c,g?.art,p,pl,room,{seed:v.world.seed,floor:entered?v.z:0}))continue;fill(c,room.x,room.y,room.w,room.h,['#b9b79f','#a8b49b','#b8ac93'][G.hash(room.name)%3]);root.DeadwallInteriorArt153?.drawFloor?.(c,g?.art,{...p,type:'warehouse',id:room.id||p.id},room,{seed:v.world.seed,floor:entered?v.z:0});}root.DeadwallContextArt160?.drawTerrain?.(c,g,contextPresenter205(p),pl,{world:v.world,v,seed:v.world.seed,z:entered?v.z:0});
   if(pl.architecture163){const A=root.DeadwallCodexArchitecture163;if(!A)throw Error('Rendu d’architecture163 absent.');A.draw(c,g,p,pl,{seed:v.world.seed});}return;}
  fill(c,0,0,p.w,p.h,'#bab79e');if(openLot(g,p,v)){
   for(const room of pl.rooms){fill(c,room.x,room.y,room.w,room.h,['#b9b79f','#a8b49b','#b8ac93'][G.hash(room.name)%3]);c.strokeStyle='rgba(60,80,60,.12)';c.lineWidth=.015;for(let x=room.x;x<room.x+room.w;x+=.7){c.beginPath();c.moveTo(x,room.y);c.lineTo(x,room.y+room.h);c.stroke();}}
@@ -106,11 +111,11 @@ c.strokeStyle='#c6bea1';c.lineWidth=.15;c.strokeRect(.13,.13,p.w-.26,p.h-.26);
 function lotEntries(g,p,v){const entries=[],add=(kind,id,depth,draw)=>entries.push({kind,id,depth,draw}),pl=v.world.plan(p,v.inside===p.id?v.z:0),destroyed=!!g?.worldEvolution?.structureDestroyed(p.id);
  if(openLot(g,p,v)){
   for(const o of pl.objects)add('furniture',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:v.inside===p.id?v.z:0})));
-  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface&&!(destroyed&&o.dressing160&&o.plane==='wall'))add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));
+  for(const o of v.world?.detailAt?.(p,v.inside===p.id?v.z:0)?.interior||[])if(!o.surface&&!(destroyed&&o.dressing160&&o.plane==='wall'))add('detail',o.id,rectDepth(p,o),c=>inLot(c,p,()=>detailPicture205(c,o,g,v)));
   for(const [i,b]of (destroyed?[]:pl.walls).entries())add('wall',p.id+':wall:'+i,rectDepth(p,b),c=>inLot(c,p,()=>{const shade=localShadow(p.a,.12,.16);fill(c,b.x+shade.x,b.y+shade.y,b.w,b.h,'rgba(0,0,0,.23)');if(!root.DeadwallStructureArt159?.drawPartition?.(c,g?.art,b,{seed:v.world.seed??g?.world?.seed??0,poiId:p.id,floor:v.inside===p.id?v.z:0})){fill(c,b.x,b.y,b.w,b.h,'#506652');fill(c,b.x,b.y,b.w,Math.min(.075,b.h),'#b7c09e');}}));
  }else add('roof',p.id,rectDepth(p,{x:0,y:0,w:p.w,h:p.h}),c=>lotRoof(c,p,v,g));
- if(v.z===0){for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0})));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}
- if(p.context160)entries.push(...(root.DeadwallContextArt160?.depthEntries?.(g,p,pl,{world:v.world,v,seed:v.world.seed,z:v.inside===p.id?v.z:0})||[]));
+ if(v.z===0){for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(!o.surface)add('detail-yard',o.id,rectDepth(p,o),c=>inLot(c,p,()=>detailPicture205(c,o,g,v)));for(const o of p.outdoor||[])add('outdoor',o.id,rectDepth(p,o),c=>inLot(c,p,()=>object(c,o,v.taken[o.id]||0,p.a,{game:g,seed:v.world.seed??g?.world?.seed??0,floor:0})));for(const cv of p.parking||[])add('car',cv.id,vehicleDepth(cv),c=>{const salvage=g?.travel131?.wreckVisual?.(cv.id);car(c,{...cv,opened:(v.taken[cv.id]||0)>0,dismantled:salvage?.dismantled,exhausted:salvage?.exhausted});});}
+ if(p.context160||p.campaign205){const contexts=root.DeadwallContextArt160?.depthEntries?.(g,contextPresenter205(p),pl,{world:v.world,v,seed:v.world.seed,z:v.inside===p.id?v.z:0})||[];entries.push(...(p.campaign205&&destroyed?contexts.filter(entry=>entry.kind!=='context-roof160'):contexts));}
  return entries;
 }
 function lotLabel(c,p,v){const q=G.global(p,p.w/2,-19);c.fillStyle='#eee4bd';c.font=12/(v.scale||32)+'px sans-serif';c.textAlign='center';c.fillText(p.name,q.x,q.y);}

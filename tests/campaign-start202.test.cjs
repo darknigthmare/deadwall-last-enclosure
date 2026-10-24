@@ -8,12 +8,12 @@ function writes(C){
  return{events,primary:()=>events.filter(e=>e.key===C.SAVE_KEY),restore(){storage.setItem=original;}};
 }
 function assertCurrent(g,data){
- assert.equal(data.cityGeometry202,1);assert.equal(data.exploration125.layoutRevision,4);assert.equal(data.exploration125.generation,4);assert.equal(data.frontier.generation,10);assert.equal(data.frontier.detailVersion,13);assert.equal(g.exploration125.plan.layoutRevision,4);assert.equal(g.world.cityGeometry202,1);
+ assert.equal(data.cityGeometry202,1);assert.equal(data.exploration125.layoutRevision,4);assert.equal(data.exploration125.generation,4);assert.equal(data.frontier.generation,11);assert.equal(data.frontier.detailVersion,13);assert.equal(g.exploration125.plan.layoutRevision,4);assert.equal(g.world.cityGeometry202,1);
  for(const owner of g.expansions.entries())assert.ok(Object.hasOwn(data.expansions127.modules,owner.id),owner.id+' is present in the only campaign write');
  const solid=g.exploration125.plan.stations[0].solids[0],x=solid.x+solid.w/2,y=solid.y+solid.h/2;assert.equal(g.friendlyPositionClear(g.player,x,y),false,'the restored R4 wall really blocks movement');
 }
 
-test('202 native start writes once after all G10, detail and metric local owners, then resumes with active collisions',()=>{
+test('202 native start writes once after all G11, detail and metric local owners, then resumes with active collisions',()=>{
  const{g,C}=fresh(),capture=writes(C);try{
   assert.notEqual(g.startNew('standard','17117','classic','balanced',true),false);assert.equal(capture.primary().length,1);const stored=globalThis.DeadwallSave.parse(capture.primary()[0].value);assertCurrent(g,stored);
   assert.equal(stored.fieldcraft.nodes.length,g.world.nodes.length);assert.deepEqual(stored.fieldcraft.nodes,g.serialize().fieldcraft.nodes);assert.deepEqual(stored.nodes,g.serialize().nodes);const id=stored.runId;

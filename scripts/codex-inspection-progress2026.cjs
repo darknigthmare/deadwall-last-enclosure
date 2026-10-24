@@ -30,6 +30,7 @@ function checkedReport(root){
 }
 function patch(data,root=path.resolve(__dirname,'..')){
  const {records}=checkedReport(root),out=JSON.parse(JSON.stringify(data)),types=new Set(Layouts.types);
+ const refusedByType=new Map();for(const record of records.values())refusedByType.set(record.typologyId,(refusedByType.get(record.typologyId)||0)+record.refused);
  const authorProofs=new Set([Foundation.PROOF+'#architecture-encore-ouverte',Maritime.PROOF,...Registry.SPECS.map(spec=>spec.proof).filter(Boolean)]);
  const changes={inProgress:[],inspectionVariants:[],closed:[],playableAdded:0};
  for(const task of out.tasks){
@@ -40,7 +41,7 @@ function patch(data,root=path.resolve(__dirname,'..')){
   if(task.stage!=='architecture'&&task.status==='À faire'&&task.evidence)throw Error('Preuve concurrente conservée : '+task.id);
   if(!['Non affecté','Production Codex'].includes(task.owner))throw Error('Édition concurrente conservée : '+task.id);
   task.status='En cours';task.owner='Production Codex';task.evidence=PROOF;
-  task.progress={architecture:'Volumes décrits, murs et accès inspectables ; volumes réservés et raccord au monde encore ouverts.',props:'Mobilier à taille déclarée et passages contrôlés ; demandes refusées et interactions encore ouvertes.',sauvegarde:'Identités et reprise d’inspection contrôlées ; migration et persistance de campagne encore ouvertes.',qa:'Inspection physique des 50 variantes contrôlée ; parcours de campagne non livré.'}[task.stage];
+  task.progress={architecture:'Volumes décrits, murs et accès inspectables ; volumes réservés et raccord au monde encore ouverts.',props:(refusedByType.get(task.typologyId)===0?'Tous les équipements demandés sont posés ; ':refusedByType.get(task.typologyId)+' prescriptions refusées à résoudre ; ')+'interactions et qualification de campagne encore ouvertes.',sauvegarde:'Identités et reprise d’inspection contrôlées ; migration et persistance de campagne encore ouvertes.',qa:'Inspection physique des 50 variantes contrôlée ; parcours de campagne non livré.'}[task.stage];
   changes.inProgress.push(task.id);
  }
  for(const type of out.typologies)if(types.has(type.id)){

@@ -1,5 +1,11 @@
 # Architecture technique
 
+## Sites résidentiels G11 — 1.72
+
+`codex-campaign205.js` adapte quatre familles auteur sans changer leurs fiches d’inspection. Le monde G11 reprend le préfixe G10 et ajoute au plus huit lieux ; les détails des nouveaux sites réemploient les murs, ouvertures, emprises et mobilier physiques. Le budget fini du parent est réparti une fois entre les contenants. `world-pack131.js` prépare la migration volontaire G10→G11, vérifie les possessions et valide la sauvegarde avant restauration atomique. Les lectures d’aperçu utilisent un monde préparé en cache, avec relecture des possessions et effets dynamiques.
+
+`campaign-site-art205.js` est raccordé seulement aux objets marqués G11. Les toits, l’intérieur, l’abri et les obstacles optiques suivent les bâtiments du plan plutôt que la parcelle entière. Les équipements fermés gardent leur obstacle de mouvement ; l’opacité est une propriété distincte. Le registre de destruction est relu pour retirer l’abri et le toit sans dépendre d’un ancien plan en cache. Voir [LIVRAISON_1_72.md](LIVRAISON_1_72.md).
+
 ## Mobilier et inspection des plans — 1.62
 
 La révision optionnelle `frontier.detailVersion=11` conserve les révisions 0–10. `codex-geometry160.details` partage la génération des détails des 326 intérieurs G10 entre le monde et l’inspecteur ; les 300 terrains spécialisés gardent leur géométrie propre. Les réserves de placement protègent les obstacles et points de service du contexte sans modifier le plan ou ses contenants.
