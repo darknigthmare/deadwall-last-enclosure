@@ -1,6 +1,6 @@
 {
   "schemaVersion": 4,
-  "verifiedAt": "2026-10-25T06:51:40.665719+00:00",
+  "verifiedAt": "2026-10-25T07:42:10.044804+00:00",
   "repository": "darknigthmare/deadwall-last-enclosure",
   "pullRequests": [
     16,
@@ -11,8 +11,8 @@
   "currentPullRequest": 19,
   "gameVersion": "1.72.0",
   "baseCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
-  "sourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
-  "sourceScope": "Sources publiques corrigées, plans compilés et rapports gelés dans S1a ; classeur et métadonnées livrés ensuite. Les réglages non publics des scénarios navigateur ne changent pas les 225 entrées auditées.",
+  "sourceCommit": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+  "sourceScope": "Sources publiques corrigées, plans compilés et rapports gelés dans S1b ; classeur et métadonnées livrés ensuite. Les réglages non publics des scénarios navigateur ne changent pas les 225 entrées auditées.",
   "workbook": {
     "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
     "sheets": 14,
@@ -53,12 +53,12 @@
     },
     "scope": "Réconciliation XLSX et conservation des fonctions historiques ; ne certifie pas le jeu complet.",
     "metadataReconciled": true,
-    "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
-    "bytes": 571544,
+    "sha256": "6ecb2bc0340c86f3412ecbc8c62be4841bb47994491cc6cdd37ab13ded347b7b",
+    "bytes": 571563,
     "formulaPerturbationDetected": true,
     "renderedWorksheetsReviewed": 9,
     "metricLabelsCheckedForLongFloatResidues": 4080,
-    "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025.json",
+    "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025-S1b.json",
     "metadata": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_72.json",
     "currentWorkbookVerificationAgainstPrevious": {
       "sheets": 14,
@@ -99,8 +99,8 @@
       },
       "scope": "XLSX source reconciliation; does not certify gameplay",
       "metadataReconciled": true,
-      "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
-      "bytes": 571544
+      "sha256": "6ecb2bc0340c86f3412ecbc8c62be4841bb47994491cc6cdd37ab13ded347b7b",
+      "bytes": 571563
     },
     "verificationBaseline": {
       "deliveryCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
@@ -109,12 +109,22 @@
     },
     "stylePerturbationQualified": true,
     "previousIntermediateWorkbook": {
-      "sourceCommit": "42a8dd449965dc184fb87c7f5f560bc61b171869",
-      "sha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
-      "bytes": 571525,
-      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261024.json",
-      "scope": "Candidat local intermédiaire, non réattribué à S1a."
-    }
+      "sourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+      "storedInCommit": "6fcccb09716c417ffdeb4de9edf669b6a3210bd1",
+      "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
+      "bytes": 571544,
+      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025.json",
+      "scope": "Lot S1a intermédiaire conservé ; ne qualifie pas les nouveaux octets S1b."
+    },
+    "earlierIntermediateWorkbooks": [
+      {
+        "sourceCommit": "42a8dd449965dc184fb87c7f5f560bc61b171869",
+        "sha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+        "bytes": 571525,
+        "proof": "docs/codex/suivi-monde2026/validation-classeur-20261024.json",
+        "scope": "Candidat local intermédiaire, non réattribué à S1a."
+      }
+    ]
   },
   "baseline": {
     "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
@@ -183,7 +193,7 @@
   },
   "campaignG11": {
     "report": "docs/codex/suivi-monde2026/campagne205-eligibilite.json",
-    "reportSha256": "b38c4540708fc9b216cfda5ed99ee9a8052bdb0e58671386d0a5d76008d45088",
+    "reportSha256": "d9b849b19deaf80593abb81007c124fc551f0d3d43faaf60da85753b8587804c",
     "proof": "docs/codex/suivi-monde2026/CAMPAGNE_G11_2026.md",
     "verifiedSources": 225,
     "sourceStableBeforeAfter": true,
@@ -275,7 +285,7 @@
     "productionURL": "https://deadwall-last-enclosure.vercel.app/",
     "humanCampaignDurationMeasured": false,
     "physicalPhoneFrameRateMeasured": false,
-    "currentSourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+    "currentSourceCommit": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
     "currentRevisionFullCheckQualified": false,
     "currentRevisionQualification": "Qualification complète du commit final à suivre dans la PR #19 ; aucun succès global déduit des plans, du suivi ou de la livraison 1.71.",
     "previousQualifiedFullCheck": {
@@ -314,7 +324,7 @@
         "todo": 0
       },
       "actualExitCode": 0,
-      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025.json",
+      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025-S1b.json",
       "scope": "34 tests locaux du suivi, du chargeur et des guards ; hors contrôle complet du jeu.",
       "stylePerturbationCounts": {
         "tests": 1,
@@ -332,11 +342,28 @@
     "1.71": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/11f2ace5ee3b39ea318373229d4d5378d14057db/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
     "1.70": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8288178946a189cf5857433b71b9ece8b3379689/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json"
   },
-  "sourceCheckpoint": "S1a",
+  "sourceCheckpoint": "S1b",
   "sourcePublicCorrection": {
-    "checkpoint": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+    "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
     "file": "src/fieldcraft.js",
     "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0",
     "scope": "Points de récolte compatibles avec leur segment de travail ; pas de modification des modèles ou des statuts du catalogue."
-  }
+  },
+  "sourcePublicCorrections": [
+    {
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/fieldcraft.js",
+      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+    },
+    {
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/world-codex-actions159.js",
+      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
+    },
+    {
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/frontier-world.js",
+      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+    }
+  ]
 }

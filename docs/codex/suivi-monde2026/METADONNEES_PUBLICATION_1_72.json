@@ -1,6 +1,6 @@
 {
   "pullRequest": 19,
-  "sourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+  "sourceCommit": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
   "baseCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
   "baseVersion": "1.71.0",
   "baseCheckedAt": "2026-10-25",
@@ -18,7 +18,8 @@
   "globalState": "Voir la CI du commit final ; aucun succès déduit du catalogue",
   "integration": "200 adaptations G11 éligibles ; 63 instances observées sur 8 graines ; 0 promotion globale des variantes d’inspection.",
   "integrationChange": "Nouvelle passe 1.72",
-  "integrationDetail": "Les sources S1a comprennent le correctif des points de récolte. Qualification du commit final, fusion et production restent suivies séparément dans la PR #19.",
+  "integrationDetail": "Les sources S1b intègrent les correctifs de récolte, de disponibilité G11 et de détail manquant. Qualification du commit final, fusion et production suivies séparément dans la PR #19.",
   "integrationState": "Livraison 1.72 ; qualification complète et publication suivies dans la PR #19",
-  "pullRequestURL": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/19"
+  "pullRequestURL": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/19",
+  "sourceCheckpoint": "S1b"
 }
