@@ -329,7 +329,7 @@
   }
   return painted;
  }
- function drawProp(c,art,prop,{seed=0,floor=prop?.z??0,variant,taken=0,stateAlpha=true,scale=32}={}){
+ function drawPropBase(c,art,prop,{seed=0,floor=prop?.z??0,variant,taken=0,stateAlpha=true,scale=32}={}){
   const frame=frameFor(prop);
   if(!frame||!c||!['save','restore','fillRect','rect','clip','translate','rotate','scale','ellipse'].every(name=>typeof c[name]==='function')||
    !Number.isFinite(scale)||scale<=0||![prop.w*scale,prop.h*scale].every(Number.isFinite)||(variant!==undefined&&!Number.isSafeInteger(variant)))return false;
@@ -348,5 +348,78 @@
    return route==='procedural205'?specialisedProp(c,prop.kind,v,p):route==='structural205'?structuralProp(c,prop.kind,v,p,frame.h>frame.w,Math.max(frame.w,frame.h)):conventionalFallback(c,prop.kind,v,p);
   }finally{c.restore();c.fillStyle=fillBefore;c.strokeStyle=strokeBefore;}
  }
- return Object.freeze({version:1,scope:'versioned-campaign-furniture',SPECIALISED_KINDS,STRUCTURAL_KINDS,AREA_KINDS,routeFor,variantFor,frameFor,roofTypeFor,drawRoomFloor,drawAreas,drawProp});
+ const SERVICE_KINDS208=Object.freeze({meal:Object.freeze(['oven']),restSheltered:Object.freeze(['singleBunk']),service:Object.freeze(['workbench','toolbox']),medicalCare:Object.freeze(['medical'])});
+ function servicePresentation208(game,prop,floor=prop?.z??0){
+  if(!game||prop?.campaign205!==true||!Object.values(SERVICE_KINDS208).some(kinds=>kinds.includes(prop.kind))||
+   game.state!=='playing'||game.gameOver||!game.player||game.player.dead||!(game.player.health>0))return null;
+  const f=game.frontier?.position?.();
+  if(!f?.active||f.generation!==11||f.car?.driving||f.z!==floor)return null;
+  const medical=prop.kind==='medical',owner=medical?game.contextOperations160:game.survivalPack;
+  if(!owner?.busy?.())return null;
+  // The owner exposes its already-validated transient task. Do not preview a
+  // service, resolve a world, inspect a save or borrow another game's singleton.
+  const view=medical?owner.activity?.():owner.presentationSupport?.();
+  if(!view||!Object.hasOwn(SERVICE_KINDS208,view.action)||!SERVICE_KINDS208[view.action].includes(prop.kind)||
+   view.kind!==view.action||view.supportKind!==prop.kind||view.supportId!==prop.id||!/^P\d{4}$/.test(view.siteId||'')||
+   typeof prop.id!=='string'||!prop.id.startsWith(view.siteId+':0:')||
+   !Number.isFinite(view.elapsed)||view.elapsed<=0||!Number.isFinite(view.duration)||view.duration<=0||view.elapsed>view.duration+1e-8||
+   !Number.isFinite(view.start)||!Number.isFinite(view.progress)||Math.abs(view.progress-Math.min(1,view.elapsed/view.duration))>1e-8||
+   ![view.anchor,view.workTarget].every(point=>point&&['x','y','z'].every(k=>Number.isFinite(point[k]))&&point.z===floor))return null;
+  const index=/^P\d{4}:0:(0|[1-9]\d*)$/.exec(prop.id)?.[1];if(index===undefined)return null;
+  if(medical){if(view.action!=='medicalCare'||view.fullKey!==view.siteId+':160:medical208-'+index)return null;}
+  else if(view.owner!=='survival'||view.fullKey!==view.siteId+':208:'+index+':'+view.action)return null;
+  if(game.worldEvolution?.structureDestroyed?.(view.siteId))return null;
+  return view;
+ }
+ function servicePieces208(c,kind,v,p,view,reducedMotion){
+  const {fill,box,line,oval,polygon}=tools(c,p),phase=reducedMotion?0:view.elapsed*Math.PI*2/.9,wave=Math.sin(phase),lift=reducedMotion?0:(1-Math.cos(phase*.5))*.025;
+  if(view.action==='meal'){
+   const x=v===1?.65:.35;
+   // Pot, lid, spoon and short steam strokes are separate physical pieces.
+   // They are not a light source or a promise of an electrical connection.
+   oval(x,.53,.19,.23,p.dark,true);oval(x,.51,.16,.19,p.metal,true);
+   line([[x-.23,.50],[x-.16,.50]],p.edge,.04);line([[x+.16,.50],[x+.23,.50]],p.edge,.04);
+   oval(x,.49-lift,.14,.16,p.edge,true);fill(x-.035,.46-lift,.07,.055,p.dark);
+   line([[x+.03,.52],[x+.18+wave*.015,.28]],p.wood,.035);
+   for(let i=0;i<2;i++){const sx=x-.07+i*.14;line([[sx,.31],[sx+wave*.018,.24-lift],[sx-.015,.18-lift]],'#c9c9b5',.018);}
+  }else if(view.action==='restSheltered'){
+   const head=v===1?.73:.17,foot=v===1?.17:.73;
+   // Preparing the blanket and a dressing at the bunk's edge does not invent
+   // a sleeping occupant or move the commander's physical position.
+   polygon([[foot-.13,.31],[foot+.12,.31],[foot+.10,.74],[foot-.13,.72-lift]],p.cloth,true);
+   line([[foot-.10,.46],[foot+.09,.46+wave*.012]],p.paper,.025);
+   fill(head-.06,.65,.12,.12,p.paper);line([[head-.045,.69],[head+.045,.69]],p.cloth,.02);
+  }else if(view.action==='service'){
+   if(kind==='toolbox'){
+    polygon([[.14,.22],[.83,.22],[.80,.37-lift],[.17,.37-lift]],p.metal,true);
+    line([[.18,.23],[.79,.23]],p.edge,.025);box(.39,.25,.20,.06,p.dark,.018);
+   }else{fill(.15,.35,.62,.44,p.paper);box(.15,.35,.62,.44,p.wood,.018);}
+   // The lamp remains extinguished: only the real NightGear owner can refill it.
+   oval(.60,.57,.11,.17,p.dark,true);fill(.53,.47,.14,.19,p.edge);box(.53,.47,.14,.19,p.metal,.02);
+   line([[.54,.45],[.54,.35],[.66,.35],[.66,.45]],p.dark,.025);
+   line([[.24,.67],[.42+wave*.025,.45]],p.metal,.045);oval(.24,.67,.035,.045,p.wood);
+   fill(.76,.58,.065,.15,p.rust);fill(.75,.56,.085,.035,p.dark);
+  }else if(view.action==='medicalCare'){
+   fill(.16,.27,.68,.50,p.paper);box(.16,.27,.68,.50,p.edge,.025);
+   const rollX=.35+wave*.012;oval(rollX,.51,.10,.13,p.cloth,true);oval(rollX,.51,.035,.045,p.paper);
+   polygon([[rollX+.06,.48],[.69,.43-lift],[.72,.57-lift],[rollX+.06,.57]],p.paper,true);
+   line([[.63,.70],[.77,.60]],p.metal,.025);line([[.64,.60],[.76,.70]],p.metal,.025);
+  }
+ }
+ function drawService208(c,prop,view,{seed=0,floor=prop.z??0,variant,taken=0,stateAlpha=true,scale=32,game}={}){
+  const frame=frameFor(prop);if(!frame||Math.min(prop.w,prop.h)*scale<3)return;
+  const p=PALETTES[variantFor(prop,{seed,floor,variant})],fillBefore=c.fillStyle,strokeBefore=c.strokeStyle;
+  c.save();try{
+   c.beginPath();c.rect(prop.x,prop.y,prop.w,prop.h);c.clip();c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetX=c.shadowOffsetY=0;c.setLineDash([]);c.lineCap='butt';c.lineJoin='miter';
+   if(stateAlpha&&Number.isFinite(prop.amount)&&Number.isFinite(taken)&&taken>=prop.amount-.001)c.globalAlpha*=.55;
+   const {turn}=frame;if(turn===0)c.translate(prop.x,prop.y);else if(turn===1)c.translate(prop.x+prop.w,prop.y);else if(turn===2)c.translate(prop.x+prop.w,prop.y+prop.h);else c.translate(prop.x,prop.y+prop.h);c.rotate(turn*Math.PI/2);c.scale(frame.w,frame.h);
+   servicePieces208(c,prop.kind,variantFor(prop,{seed,floor,variant}),p,view,!!game?.settings?.reducedMotion);
+  }finally{c.restore();c.fillStyle=fillBefore;c.strokeStyle=strokeBefore;}
+ }
+ function drawProp(c,art,prop,options={}){
+  const painted=drawPropBase(c,art,prop,options);if(!painted)return false;
+  const view=servicePresentation208(options.game,prop,options.floor??prop.z??0);
+  if(view)drawService208(c,prop,view,options);return true;
+ }
+ return Object.freeze({version:1,scope:'versioned-campaign-furniture',SPECIALISED_KINDS,STRUCTURAL_KINDS,AREA_KINDS,routeFor,variantFor,frameFor,roofTypeFor,drawRoomFloor,drawAreas,servicePresentation208,drawProp});
 });

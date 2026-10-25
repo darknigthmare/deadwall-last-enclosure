@@ -40,6 +40,7 @@ const publicationMeta = PublicationMetadata.resolve(meta);
 const github = PublicationMetadata.GITHUB;
 const Guards = req('./scripts/codex-tracker-xlsx-guards2026.cjs');
 const CampaignProgress = req('./scripts/codex-campaign-progress205.cjs');
+const CampaignServices = req('./scripts/codex-campaign-services-progress208.cjs');
 const Registry = req('./scripts/codex-generators2026.cjs');
 const managedProofs = new Set([
   req('./scripts/codex-progress2026.cjs').PROOF + '#dimensions-auteur-validees',
@@ -48,6 +49,7 @@ const managedProofs = new Set([
   req('./scripts/codex-maritime-progress2026.cjs').PROOF,
   req('./scripts/codex-inspection-progress2026.cjs').PROOF,
   CampaignProgress.PROOF,
+  CampaignServices.PROOF, CampaignServices.ART_PROOF,
   ...Registry.SPECS.map(spec => spec.proof).filter(Boolean),
 ]);
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -69,6 +71,23 @@ const campaignSummary = Guards.campaign(data);
 const campaignReportSha256 = campaignSummary ? CampaignProgress.checkedReport(root).reportSha256 : null;
 if (campaignSummary && data.campaign205.reportSha256 !== campaignReportSha256) {
   throw Error('Le rapport de campagne a changé depuis la préparation des données du classeur.');
+}
+const servicesSummary = Guards.campaignServices(data);
+if (servicesSummary && (!/^[0-9a-f]{40}$/i.test(ref) || (meta.sourceCommit && meta.sourceCommit !== ref))) {
+  throw Error('Le suivi des services exige une référence source immuable de 40 caractères, identique à la métadonnée de publication.');
+}
+const servicesProof = servicesSummary ? CampaignServices.checkedReport(root) : null;
+function checkServicesProof() {
+  if (!servicesSummary) return;
+  const current = CampaignServices.checkedReport(root);
+  if (current.reportSha256 !== servicesProof.reportSha256
+    || (current.art?.reportSha256 || null) !== (servicesProof.art?.reportSha256 || null)) {
+    throw Error('Les preuves de services G11 ont changé pendant la génération du classeur.');
+  }
+}
+if (servicesSummary && (data.campaign208.reportSha256 !== servicesProof.reportSha256
+  || (data.campaign208.art?.reportSha256 || null) !== (servicesProof.art?.reportSha256 || null))) {
+  throw Error('Les preuves de services diffèrent des données préparées du classeur.');
 }
 const source = value => !value ? '' : /^https?:\/\//.test(value) ? value : github + '/blob/' + ref + '/' + value;
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(input));
@@ -152,7 +171,7 @@ if (!inspectionLegend) {
 }
 stableRows('Chantiers', 'id', data.tasks, t => [
   t.id, t.typologyId, t.domain, t.name, t.deliverable, t.priority,
-  t.status, t.owner, t.acceptance, source(t.evidence),
+  t.status, t.owner, Guards.acceptance(t), source(t.evidence),
 ], 10, (row, task) => Guards.task(row, task, managedProofs));
 
 const home = sheet('Accueil');
@@ -370,6 +389,87 @@ if (campaignSummary) {
   }
 }
 
+if (servicesSummary) {
+  const coverage = data.campaign208, records = coverage.records;
+  const visualRecords = coverage.art?.records || [];
+  const visualCounts = new Map();
+  for (const record of visualRecords) visualCounts.set(record.authorPlanId,
+    (visualCounts.get(record.authorPlanId) || 0) + 1);
+  const tab = outputSheet(CampaignServices.SHEET), lastDataRow = records.length + 5;
+  const totalRow = lastDataRow + 1;
+  const body = tab.getRange(`A6:P${totalRow + 14}`);
+  body.unmerge(); body.clear({applyTo: 'all'});
+  styleTable(tab, 'SERVICES G11 — SUPPORTS ET PRÉSENTATIONS CONTRÔLÉS',
+    'Modèles auteur, poses canoniques dans trois graines et présentations préparées sont comptés séparément. Les transactions sont qualifiées par leurs tests et parcours distincts.',
+    ['ID plan auteur', 'Typologie', 'Variante', 'Alias G11', 'Supports proposés', 'Ancres accessibles', 'Refus explicites', 'Repas', 'Repos abrité', 'Entretien', 'Soins T047', 'Visuel échantillonné', 'Échantillons visuels', 'Rapport des supports', 'Rapport visuel', 'Portée'],
+    records.length, CampaignServices.TABLE);
+  tab.getRangeByIndexes(5, 0, records.length, 16).values = records.map(record => [
+    record.authorPlanId, typesById.get(record.typologyId).name, record.number, record.campaignType,
+    record.anchorsOffered, record.anchorsValid, record.refusals.length,
+    ...CampaignServices.ACTIONS.map(action => record.supportCountsByAction[action]),
+    visualCounts.has(record.authorPlanId) ? 'Oui' : 'Non', visualCounts.get(record.authorPlanId) || 0,
+    source(coverage.report), coverage.art ? source(coverage.art.report) : 'Pas de reçu visuel',
+    'Supports proposés et poses canoniques ; parcours et transactions distincts.',
+  ]);
+  tab.getRange(`A6:P${lastDataRow}`).format.wrapText = true;
+  tab.getRange(`A6:P${lastDataRow}`).format.rowHeight = 64;
+  for (const columns of ['C', 'E:K', 'M']) {
+    const [first, last = first] = columns.split(':');
+    tab.getRange(`${first}6:${last}${lastDataRow}`).setNumberFormat('0');
+  }
+  tab.getRange(`C6:M${lastDataRow}`).format.horizontalAlignment = 'center';
+  tab.getRange(`D1:D${lastDataRow}`).format.columnWidth = 28;
+  tab.getRange(`N1:P${lastDataRow}`).format.columnWidth = 36;
+  tab.getRange(`A${totalRow}:B${totalRow}`).merge();
+  tab.getRange('A' + totalRow).values = [['MODÈLES ET SUPPORTS AUDITÉS']];
+  tab.getRange('C' + totalRow).formulas = [[`=COUNTA(A6:A${lastDataRow})`]];
+  tab.getRange('D' + totalRow).values = [['modèles']];
+  for (const column of ['E', 'F', 'G', 'H', 'I', 'J', 'K', 'M']) {
+    tab.getRange(column + totalRow).formulas = [[`=SUM(${column}6:${column}${lastDataRow})`]];
+  }
+  tab.getRange('L' + totalRow).formulas = [[`=COUNTIF(L6:L${lastDataRow},"Oui")`]];
+  tab.getRange(`N${totalRow}:P${totalRow}`).merge();
+  tab.getRange('N' + totalRow).values = [['Aucune promotion globale des plans']];
+  tab.getRange(`A${totalRow}:P${totalRow}`).format = {fill: '#DCECE3', font: {name: 'Arial', size: 10, color: '#245544', bold: true}, rowHeight: 30};
+  for (const [offset, text] of [[2, 'MODÈLES, SITES, TRANSACTIONS ET VISUELS RESTENT DISTINCTS'],
+    [3, 'Un support accessible dans la géométrie auteur ne prouve pas un parcours complet ni un paiement. Les animations contrôlées concernent quatre variantes V01 et leurs activités préparées. Les étapes services et graphismes restent En cours.']]) {
+    tab.getRange(`A${totalRow + offset}:P${totalRow + offset}`).merge();
+    tab.getRange('A' + (totalRow + offset)).values = [[text]];
+    tab.getRange(`A${totalRow + offset}:P${totalRow + offset}`).format = {font: {name: 'Arial', size: 10, color: '#243E37'}, wrapText: true, rowHeight: 42};
+  }
+  const footer = [
+    [5, 'Graines avec poses témoins', coverage.worldSummary.seeds],
+    [6, 'Sites avec poses témoins', coverage.worldSummary.sites],
+    [7, 'Transactions qualifiées ici', coverage.worldSummary.transactions],
+    [8, 'Rapport des supports', source(coverage.report)],
+    [9, 'SHA256 des supports', coverage.reportSha256],
+    [10, 'Rapport visuel préparé', coverage.art ? source(coverage.art.report) : 'Pas de reçu visuel'],
+    [11, 'SHA256 du rapport visuel', coverage.art?.reportSha256 || 'Pas de reçu visuel'],
+    [12, 'Fonctionnement et limites', source(coverage.evidence)],
+    [13, 'Portée', 'Supports et présentations préparées ; aucune qualification globale des 4 000 plans.'],
+    [14, 'Modèles visuels échantillonnés', coverage.art?.summary.models || 0],
+  ];
+  for (const [offset, label, value] of footer) {
+    const row = totalRow + offset;
+    tab.getRange(`A${row}:D${row}`).merge(); tab.getRange('A' + row).values = [[label]];
+    const valueEnd = [5, 6, 14].includes(offset) ? 'H' : 'P';
+    tab.getRange(`E${row}:${valueEnd}${row}`).merge(); tab.getRange('E' + row).values = [[value]];
+    if (offset === 5) {
+      tab.getRange(`I${row}:P${row}`).merge();
+      tab.getRange('I' + row).values = [[coverage.worldWitnesses.map(w => w.seed).join(', ')]];
+    } else if (offset === 6) {
+      tab.getRange(`I${row}:L${row}`).merge(); tab.getRange('I' + row).values = [[coverage.worldSummary.offered]];
+      tab.getRange(`M${row}:P${row}`).merge(); tab.getRange('M' + row).values = [[coverage.worldSummary.valid]];
+      tab.getRange('I' + row).setNumberFormat('0" supports proposés"');
+      tab.getRange('M' + row).setNumberFormat('0" ancres accessibles"');
+    } else if (offset === 14) {
+      tab.getRange(`I${row}:P${row}`).merge(); tab.getRange('I' + row).values = [[coverage.art?.summary.samples || 0]];
+      tab.getRange('I' + row).setNumberFormat('0" présentations préparées"');
+    }
+    tab.getRange(`A${row}:P${row}`).format = {font: {name: 'Arial', size: 10, color: '#243E37'}, wrapText: true, rowHeight: 34};
+  }
+}
+
 // Exercise a real input change, then restore it before the final calculation.
 const taskSheet = sheet('Chantiers');
 const rowToTest = data.tasks.findIndex(t => t.status === 'À faire') + 6;
@@ -400,6 +500,13 @@ const expected = {
   inspectionTypes: inspectionRows.length,
   ...(campaignSummary ? {campaignEligibleVariants: campaignSummary.eligibleVariants,
     campaignObservedSeeds: campaignSummary.observedSeeds, campaignObservedSites: campaignSummary.observedSites} : {}),
+  ...(servicesSummary ? {campaignServiceModels: servicesSummary.models,
+    campaignServiceSupportsOffered: servicesSummary.offered,
+    campaignServiceSupportsAccessible: servicesSummary.valid,
+    campaignServiceSupportsRefused: servicesSummary.refused,
+    campaignServiceWorldSeeds: servicesSummary.worldSeeds, campaignServiceWorldSites: servicesSummary.worldSites,
+    campaignServiceTransactionsTested: servicesSummary.transactionsTested,
+    campaignServiceArtModels: servicesSummary.visualModels, campaignServiceArtSamples: servicesSummary.visualSamples} : {}),
 };
 for (const [cell, n] of [['A6', expected.programmes], ['D6', expected.parents], ['G6', expected.typologies], ['J6', expected.variants], ['C15', expected.tasks], ['K13', expected.pending], ['K14', expected.underway], ['K15', expected.validated], ['C18', expected.playable]]) {
   const actual = home.getRange(cell).values[0][0];
@@ -408,7 +515,7 @@ for (const [cell, n] of [['A6', expected.programmes], ['D6', expected.parents], 
 const errors = await workbook.inspect({kind: 'match', searchTerm: '#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!', options: {useRegex: true, maxResults: 100}, maxChars: 6000});
 await fs.mkdir(proofDir, {recursive: true});
 await fs.writeFile(path.join(proofDir, 'formulas.ndjson'), errors.ndjson || '');
-await fs.writeFile(path.join(proofDir, 'expected.json'), JSON.stringify({summary, expected, ref, missingEvidenceDetected, inspection: inspectionRows, inspectionReportSha256, campaign: campaignSummary, campaignReportSha256}, null, 2) + '\n');
+await fs.writeFile(path.join(proofDir, 'expected.json'), JSON.stringify({summary, expected, ref, missingEvidenceDetected, inspection: inspectionRows, inspectionReportSha256, campaign: campaignSummary, campaignReportSha256, services: servicesSummary, servicesReportSha256: servicesProof?.reportSha256 || null, serviceArtReportSha256: servicesProof?.art?.reportSha256 || null}, null, 2) + '\n');
 if (args.includes('--render')) {
   for (const [name, range, filename] of [['Accueil', 'A1:L34', 'accueil.png'], ['Extension typologies', 'A6:K13', 'typologies.png'], ['Extension typologies', 'A26:K33', 'typologies-agricoles.png'], ['Extension typologies', 'A50:K53', 'typologies-residentielles.png'], ['Chantiers', 'A46:J55', 'chantiers.png'], ['Publication', 'A1:E13', 'publication.png'], ['Avancement par type', 'A1:N17', 'avancement.png'], ['Inspection', `A1:L${inspectionLastRow}`, 'inspection.png']]) {
     const preview = await workbook.render({sheetName: name, range, scale: 1, format: 'png'});
@@ -418,8 +525,13 @@ if (args.includes('--render')) {
     const preview = await workbook.render({sheetName: CampaignProgress.SHEET, range: 'A1:L14', scale: 1, format: 'png'});
     await fs.writeFile(path.join(proofDir, 'campagne-g11.png'), new Uint8Array(await preview.arrayBuffer()));
   }
+  if (servicesSummary) {
+    const preview = await workbook.render({sheetName: CampaignServices.SHEET, range: 'A1:P14', scale: 1, format: 'png'});
+    await fs.writeFile(path.join(proofDir, 'services-g11.png'), new Uint8Array(await preview.arrayBuffer()));
+  }
 }
 inspectionModule.checkedReport(root);
+checkServicesProof();
 if (campaignSummary && CampaignProgress.checkedReport(root).reportSha256 !== campaignReportSha256) throw Error('La preuve G11 a changé pendant la génération du classeur.');
 const reportAtExport = createHash('sha256').update(await fs.readFile(path.join(root, inspectionModule.REPORT))).digest('hex');
 if (reportAtExport !== inspectionReportSha256) throw Error('Le rapport d’inspection a changé pendant la génération du classeur.');
@@ -433,6 +545,7 @@ try {
   await unchanged(input, inputHash, 'Le classeur source');
   await unchanged(output, outputHash, 'Le classeur destination');
   inspectionModule.checkedReport(root);
+  checkServicesProof();
   if (campaignSummary && CampaignProgress.checkedReport(root).reportSha256 !== campaignReportSha256) throw Error('La preuve G11 a changé pendant la génération du classeur.');
   if (await fileHash(path.join(root, inspectionModule.REPORT)) !== inspectionReportSha256) throw Error('Le rapport d’inspection a changé pendant la génération du classeur.');
   await fs.rename(temporary, output);

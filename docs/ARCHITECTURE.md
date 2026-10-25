@@ -1,5 +1,14 @@
 # Architecture technique
 
+## Équipements des haltes G11 — 1.73
+
+`campaign-services208.js` résout des supports depuis les plans et détails existants. Sa liste et sa résolution relisent le monde, la découverte, le meuble, l’étage, la portée, le segment physique et la destruction du support. Elles ne déplacent aucun objet et ne possèdent ni butin ni stock. Les règles de sélection et le combustible supplémentaire de cuisson sont dans `CampaignServices208Rules`.
+
+`survival-pack.js` reste propriétaire du repas, de la relève et du permis d’entretien de lanterne transmis à `night-gear.js`. `context-operations160.js` garde les soins médicaux. Les tâches de service sont transitoires ; les effets achevés conservent leurs registres existants. Une reprise annule un travail inachevé avant tout paiement. Les anciennes actions de bivouac et les opérations G10 suivent leurs contrats historiques.
+
+Le peintre205 reçoit explicitement l’instance du jeu. Ses états de service lisent uniquement la présentation du propriétaire : meuble, action et avancement effectifs. Les gestes du commandant utilisent les poses existantes, sans nouvelle boucle de rendu ni état physique dans le peintre. La compatibilité géométrique G11 est comparée à une copie isolée des sources publiées en 1.72.
+
+
 ## Sites résidentiels G11 — 1.72
 
 `codex-campaign205.js` adapte quatre familles auteur sans changer leurs fiches d’inspection. Le monde G11 reprend le préfixe G10 et ajoute au plus huit lieux ; les détails des nouveaux sites réemploient les murs, ouvertures, emprises et mobilier physiques. Le budget fini du parent est réparti une fois entre les contenants. `world-pack131.js` prépare la migration volontaire G10→G11, vérifie les possessions et valide la sauvegarde avant restauration atomique. Les lectures d’aperçu utilisent un monde préparé en cache, avec relecture des possessions et effets dynamiques.

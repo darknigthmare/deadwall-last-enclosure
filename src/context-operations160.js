@@ -1,4 +1,5 @@
-/* Physical, interruptible maintenance at the G10 sites. Quantities remain in
+/* Physical, interruptible maintenance at the G10 sites and medical furniture
+ * admitted by the G11 support resolver. Quantities remain in
  * the existing bag/loot owners; only completed access changes are persisted. */
 (function(root){'use strict';
  const dependency=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
@@ -7,6 +8,8 @@
  const copy=value=>JSON.parse(JSON.stringify(value)),initial=()=>({version:1,completed:[]});
  const contextWorld=generation=>generation===10||generation===11;
  const operationKey=(site,key)=>site+':160:'+key;
+ const medicalKey=support=>/^P\d{4}:0:(0|[1-9]\d*)$/.test(support||'')?'medical208-'+support.split(':')[2]:null;
+ const services208=()=>dependency('DeadwallCampaignServices208','./campaign-services208.js');
  function operation(p,key){return p?.context160?.operations?.find(o=>o.key===key)||null;}
  function normalize(raw,full){
   if(raw===undefined)return initial();
@@ -42,24 +45,41 @@
     .some(e=>!e.dead&&(e.hp??e.health)>0&&e.z===f.z&&(f.z===0||(e.poi??e.inside)===f.inside)&&
       Math.hypot(e.x-f.x,e.y-f.y)<R.danger&&w.line(f,e,f.z,f.inside,null,.05));
   }
+  const supportOptions208=()=>({structureDestroyed:id=>g.worldEvolution?.structureDestroyed?.(id)===true});
+  function medicalSupports208(){
+   const f=pose();if(!f.active||f.generation!==11)return[];
+   return services208()?.list(world(),f,g.frontier.discoveries(),{...supportOptions208(),action:'medicalCare'})||[];
+  }
   function preview(site,key,{working=false}={}){
    if(!can()||!working&&task)return{ok:false,reason:'Terminez le rechargement ou l’intervention et libérez vos mains.'};
-   const f=pose();if(!f.active||!contextWorld(f.generation)||f.car?.driving)return{ok:false,reason:'Rejoignez à pied un ouvrage G10 dans la région.'};
+   const f=pose();if(!f.active||!contextWorld(f.generation)||f.car?.driving)return{ok:false,reason:'Rejoignez à pied un ouvrage ou poste de service dans la région.'};
    if(!g.frontier.discoveries().includes(site))return{ok:false,reason:'Ce lieu doit être repéré sur place.'};
-   const w=world(),p=w.pois.find(p=>p.id===site),op=operation(p,key),rule=op&&R.operations[op.kind];
-   if(!p||p.generation!==10||!op||!rule)return{ok:false,reason:'Ce lieu ne possède pas cette intervention.'};
-   if(g.worldEvolution?.structureDestroyed?.(p.id))return{ok:false,reason:'Le support de cette intervention a été détruit.'};
-   const anchor={...G.global(p,op.anchor.x,op.anchor.y),z:op.anchor.z??0};
-   if(f.z!==anchor.z||anchor.z!==0&&f.inside!==p.id||Math.hypot(f.x-anchor.x,f.y-anchor.y)>R.reach||
-     !w.line(f,anchor,f.z,f.inside,null,.05))return{ok:false,reason:'Rejoignez le point de travail par un accès libre, sur le bon niveau.'};
+   const w=world(),p=w.pois.find(p=>p.id===site),match=/^medical208-(0|[1-9]\d*)$/.exec(key||'');
+   let kind,anchor,workTarget,op,support208=null;
+   if(match){
+    support208=services208()?.resolve(w,f,{siteId:site,supportId:site+':0:'+match[1],action:'medicalCare'},g.frontier.discoveries(),supportOptions208());
+    if(!support208?.ok)return{ok:false,reason:support208?.reason||'Ce lieu ne possède pas ce poste médical accessible.'};
+    kind='medicalCare';anchor={...support208.anchor};workTarget={...support208.workTarget};
+   }else{
+    op=operation(p,key);kind=op?.kind;
+    if(!p||p.generation!==10||!op||!R.operations[kind])return{ok:false,reason:'Ce lieu ne possède pas cette intervention.'};
+    if(g.worldEvolution?.structureDestroyed?.(p.id))return{ok:false,reason:'Le support de cette intervention a été détruit.'};
+    anchor={...G.global(p,op.anchor.x,op.anchor.y),z:op.anchor.z??0};
+    if(f.z!==anchor.z||anchor.z!==0&&f.inside!==p.id||Math.hypot(f.x-anchor.x,f.y-anchor.y)>R.reach||
+      !w.line(f,anchor,f.z,f.inside,null,.05))return{ok:false,reason:'Rejoignez le point de travail par un accès libre, sur le bon niveau.'};
+   }
+   const rule=R.operations[kind];
    const fullKey=operationKey(site,key);
    if(!rule.repeat&&completed.has(fullKey))return{ok:false,reason:'Cette intervention est déjà achevée.'};
    if(rule.heal&&g.player.health>=g.player.maxHealth-R.healthEpsilon)return{ok:false,reason:'Aucun soin nécessaire.'};
    if(!safe(f,w))return{ok:false,reason:'Sécurisez les abords avant cette intervention.'};
    if(!C.canAfford(g.player.carry,rule.cost))return{ok:false,reason:'Dans le sac : '+C.resourceText(rule.cost)+' nécessaires.'};
-   const plan=w.plan(p,anchor.z),support=[...(plan.visuals160||[]),...(plan.gates160||[]),...plan.objects].find(o=>o.id===op.supportId);
-   const workTarget=support?{...G.global(p,support.x+support.w/2,support.y+support.h/2),z:anchor.z}:anchor;
-   return{ok:true,site,key,fullKey,kind:op.kind,name:rule.name,seconds:rule.seconds,cost:{...rule.cost},anchor,workTarget,
+   if(!support208){
+    const plan=w.plan(p,anchor.z),support=[...(plan.visuals160||[]),...(plan.gates160||[]),...plan.objects].find(o=>o.id===op.supportId);
+    workTarget=support?{...G.global(p,support.x+support.w/2,support.y+support.h/2),z:anchor.z}:anchor;
+   }
+   return{ok:true,site,key,fullKey,kind,name:rule.name,seconds:rule.seconds,cost:{...rule.cost},anchor,workTarget,
+    ...(support208?{siteId:support208.siteId,supportId:support208.supportId,action:'medicalCare',supportKind:support208.supportKind}:{}),
     reason:rule.seconds+' s sur place · '+C.resourceText(rule.cost)+' dans le sac.',heal:rule.heal??0,repeat:rule.repeat};
   }
   function begin(site,key){
@@ -91,32 +111,40 @@
    message=q.name+' terminé.';task=null;g.audio.ui?.();g.save(false);
   }
   function presentation(fullKey){
-   const t=task;if(!t||t.fullKey!==fullKey)return null;
+   const t=task;if(!t||t.fullKey!==fullKey||t.supportId&&g.worldEvolution?.structureDestroyed?.(t.siteId)===true)return null;
    return Object.freeze({fullKey,kind:t.kind,progress:Math.min(1,t.elapsed/t.seconds),elapsed:t.elapsed,
+    ...(t.supportId?{siteId:t.siteId,supportId:t.supportId,action:t.action,supportKind:t.supportKind}:{}),
     start:t.startedElapsed,duration:t.seconds,anchor:Object.freeze({...t.anchor}),workTarget:Object.freeze({...t.workTarget})});
   }
-  function nearby(){
+  function nearby(supports=medicalSupports208()){
    const f=pose();if(!f.active||!contextWorld(f.generation))return[];
    const seen=new Set(g.frontier.discoveries());
-   return world().nearPOI(f.x,f.y,35).filter(p=>p.generation===10&&seen.has(p.id)&&p.context160)
+   const medicalSites=new Set(supports.map(s=>s.siteId));
+   return world().nearPOI(f.x,f.y,35).filter(p=>seen.has(p.id)&&(p.generation===10&&p.context160||medicalSites.has(p.id)))
     .sort((a,b)=>Math.hypot(a.x-f.x,a.y-f.y)-Math.hypot(b.x-f.x,b.y-f.y)).slice(0,4);
   }
   function actions(){
-   const result=[];
-   for(const p of nearby())for(const op of p.context160.operations||[]){
+   const result=[],supports=medicalSupports208();
+   for(const p of nearby(supports))for(const op of p.context160?.operations||[]){
     const q=preview(p.id,op.key),rule=R.operations[op.kind];if(!rule)continue;
     result.push({id:operationKey(p.id,op.key),label:rule.name+' · '+p.name,disabled:!q.ok,reason:q.reason,
      run:()=>begin(p.id,op.key),close:true});
+   }
+   for(const support of supports){
+    const key=medicalKey(support.supportId);if(!key||support.action!=='medicalCare')continue;
+    const q=preview(support.siteId,key),rule=R.operations.medicalCare;
+    result.push({id:operationKey(support.siteId,key),label:rule.name+' · '+support.siteName,disabled:!q.ok,reason:q.reason,
+     run:()=>begin(support.siteId,key),close:true});
    }
    if(task)result.push({id:'cancel160',label:'Interrompre les travaux',run:()=>({ok:cancel()}),close:true});
    return result;
   }
   function overview(){
    const f=pose(),sites=nearby();
-   return{summary:contextWorld(f.generation)?'Ouvrages, accès et postes de service G10. Chaque travail paie le sac après achèvement ; les réserves du lieu restent finies.':
+   return{summary:contextWorld(f.generation)?'Ouvrages, accès et postes médicaux à utiliser sur place. Chaque travail paie le sac après achèvement ; les réserves du lieu restent finies.':
     'Activez les 626 programmes territoriaux au dépôt de D-17, dans Monde & relais.',
     message,task:task?{kind:task.kind,name:task.name,progress:Math.min(1,task.elapsed/task.seconds)}:null,
-    rows:sites.map(p=>({id:p.id,label:p.name,value:p.context160.description||p.context160.archetype})),
+    rows:sites.map(p=>({id:p.id,label:p.name,value:p.context160?.description||p.context160?.archetype||'Poste médical sur place · médicaments du sac requis.'})),
     completed:state.completed.length};
   }
   const api=Object.freeze({preview,begin,cancel,step:tick,actions,overview,presentation,operationKey,

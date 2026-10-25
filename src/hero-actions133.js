@@ -3,10 +3,12 @@
  'use strict';
  const finite=n=>Number.isFinite(n)?n:0;
  const CONTEXT_WORK160=Object.freeze({restoreAccess:'build',pumpBasin:'handle',switchTrack:'pry',medicalCare:'dressing'}),EPSILON160=1e-8;
+ const SUPPORT_WORK208=Object.freeze({meal:'handle',restSheltered:'dressing',service:'handle'});
+ const SUPPORT_KINDS208=Object.freeze({meal:Object.freeze(['oven']),restSheltered:Object.freeze(['singleBunk']),service:Object.freeze(['workbench','toolbox'])});
  function resourceAction(type,scenery=false){return scenery?'pry':type==='wood'?'chop':type==='stone'?'pick':['scrap','fuel'].includes(type)?'pry':'handle';}
  function install(g){
   if(g.heroActions133)return g.heroActions133;
-  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false,contextSample160=null;
+  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false,contextSample160=null,supportSample208=null;
   const wrap=(name,fn)=>{const old=g[name];if(typeof old==='function')g[name]=function(...args){return fn(old.bind(this),...args);};};
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay&&g.player&&!g.player.dead&&g.player.health>0;
   const armed=()=>{
@@ -17,7 +19,7 @@
   function position(){const f=g.frontier?.position?.(),regional=!!f?.active,p=g.player||{};return{world:g.world,player:p,regional,x:regional?f.x*32:p.x,y:regional?f.y*32:p.y,z:regional?f.z:0,inside:regional?f.inside:null,driving:regional?!!f.car?.driving:!!g.expeditions?.driving?.()};}
   const same=(a,b)=>a&&b&&a.world===b.world&&a.player===b.player&&a.regional===b.regional&&a.z===b.z&&a.inside===b.inside&&Math.hypot(a.x-b.x,a.y-b.y)<.12;
   function reset(){action=null;serial++;}
-  function resetAll(){contextSample160=null;reset();}
+  function resetAll(){contextSample160=null;supportSample208=null;reset();}
   function record(kind,dt,{x,y}={},oneShot=false,fallbackFacing){
    const p=position();if(!running()||armed()||p.driving||!Number.isFinite(dt)||dt<=0){reset();return false;}
    const continuous=action?.kind===kind&&same(action.position,p)&&action.oneShot===oneShot;
@@ -51,10 +53,36 @@
    // ticks outside our update wrapper. It also freezes naturally during pause.
    action.elapsed=current.view.elapsed;action.context160=current;contextSample160=current;return true;
   }
+  function supportState208(){
+   const owner=g.survivalPack;if(!owner?.busy?.())return null;
+   const view=owner.presentationSupport?.(),anchor=view?.anchor,target=view?.workTarget,f=g.frontier?.position?.();
+   if(!view||view.owner!=='survival'||!Object.hasOwn(SUPPORT_WORK208,view.action)||view.kind!==view.action||
+    !SUPPORT_KINDS208[view.action].includes(view.supportKind)||!/^P\d{4}$/.test(view.siteId||''))return null;
+   const index=typeof view.supportId==='string'?/^P\d{4}:0:(0|[1-9]\d*)$/.exec(view.supportId)?.[1]:undefined;
+   if(index===undefined||view.supportId!==view.siteId+':0:'+index||view.fullKey!==view.siteId+':208:'+index+':'+view.action||
+    !Number.isFinite(view.elapsed)||view.elapsed<=0||!Number.isFinite(view.start)||!Number.isFinite(view.duration)||view.duration<=0||view.elapsed>view.duration+EPSILON160||
+    !Number.isFinite(view.progress)||Math.abs(view.progress-Math.min(1,view.elapsed/view.duration))>EPSILON160||
+    ![anchor,target].every(p=>p&&['x','y','z'].every(k=>Number.isFinite(p[k])))||
+    !f?.active||f.generation!==11||f.car?.driving||f.z!==anchor.z||target.z!==anchor.z)return null;
+   return{owner,view,world:g.world,player:g.player,facing:Number.isFinite(f.a)?f.a:finite(g.player.facing)};
+  }
+  const sameSupport208=(a,b)=>!!a&&!!b&&a.owner===b.owner&&a.world===b.world&&a.player===b.player&&
+   a.view.fullKey===b.view.fullKey&&a.view.action===b.view.action&&a.view.start===b.view.start&&a.view.duration===b.view.duration&&
+   ['anchor','workTarget'].every(point=>['x','y','z'].every(k=>a.view[point][k]===b.view[point][k]));
+  function observeSupportWork208(dt){
+   const current=supportState208(),maxStep=root.DeadwallCore?.SurvivalPackRules?.maxStep??.1;
+   if(!current||!running()||!Number.isFinite(dt)||dt<=0||dt>maxStep+EPSILON160)return false;
+   const advance=current.view.elapsed-(sameSupport208(supportSample208,current)?supportSample208.view.elapsed:0);
+   if(advance<=EPSILON160||Math.abs(advance-dt)>EPSILON160)return false;
+   const target=current.view.workTarget;
+   if(!record(SUPPORT_WORK208[current.view.action],dt,{x:target.x*32,y:target.y*32},false,current.facing))return false;
+   action.elapsed=current.view.elapsed;action.support208=current;supportSample208=current;return true;
+  }
   function pose(){
    if(!action)return null;const p=position();
    if(g.state!=='playing'||g.gameOver||g.player.dead||g.player.health<=0||p.driving||armed()||!same(action.position,p)){reset();return null;}
    if(action.context160){const current=contextState160();if(!sameContext160(action.context160,current)||Math.abs(current.view.elapsed-action.context160.view.elapsed)>EPSILON160){if(!current)contextSample160=null;reset();return null;}}
+   if(action.support208){const current=supportState208();if(!sameSupport208(action.support208,current)||Math.abs(current.view.elapsed-action.support208.view.elapsed)>EPSILON160){reset();return null;}}
    const posture=p.regional?g.worldEvolution?.posture?.().key:g.player.posture;
    // The action sheets contain planted feet. A prone/crouching character retains
    // the matching native posture instead of snapping upright to swing a tool.
@@ -107,6 +135,7 @@
    // Capture a baseline, never a gesture: only the owner's subsequent useful
    // progress may call observeContextWork160 and select a work pose.
    contextSample160=contextState160();
+   supportSample208=supportState208();
    insideUpdate=true;let result;try{result=old(dt);}finally{insideUpdate=false;}
    if(!active||!running()||!Number.isFinite(dt)||dt<=0)return result;
    if(!same(p,position())||armed()){reset();return result;}
@@ -117,7 +146,7 @@
    return result;
   });
   for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false){resetAll();fireSerial=finite(g.stats?.shots);firing=false;}return r;});
-  g.heroActions133=Object.freeze({pose,reset:resetAll,observeContextWork160});return g.heroActions133;
+  g.heroActions133=Object.freeze({pose,reset:resetAll,observeContextWork160,observeSupportWork208});return g.heroActions133;
  }
  const api=Object.freeze({install,resourceAction});root.DeadwallHeroActions133=api;if(typeof module==='object'&&module.exports)module.exports=api;
  if(root.DEADWALL&&root.document)install(root.DEADWALL);

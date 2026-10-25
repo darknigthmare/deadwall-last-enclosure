@@ -1,0 +1,5125 @@
+{
+  "kind": "released-M-g11-service-golden208",
+  "version": 1,
+  "baseCommit": "8780075f305e405e5aa94e593a70d11391b16e20",
+  "baseTree": "ac2f82aef75e8f4d942977bf68a4b43ff7796764",
+  "isolatedArchiveSha256": "71ae911a185a0763f3270209e1e5f3fa4c2d4c046d9f40206ea5624a82e8e1f8",
+  "capturedUtc": "2026-10-25T09:41:41.799Z",
+  "sourceStable": true,
+  "scope": "Exact releasedM src archive, independent of edited workingtree.200model descriptors use synthetic P9000..P9199 poses;3world seeds are actual G11 witnesses. No service functionality or human traversal is implied.",
+  "sources": [
+    {
+      "path": "src/core.js",
+      "sha256": "c0a6a26b978d00ec2fa495c983877c657818c69a3d854a26a1c115c54f0ae759"
+    },
+    {
+      "path": "src/codex-campaign205.js",
+      "sha256": "b57d1c1dcb0e1e77fe3a9514b66f1e87557873c422815682baebd56601b1e3b5"
+    },
+    {
+      "path": "src/codex-layouts2026.js",
+      "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc"
+    },
+    {
+      "path": "src/codex-physical2026.js",
+      "sha256": "412a63ce1b791be0ff29ecd888ffecb906160e99f034c04cf4443a307abca9f5"
+    },
+    {
+      "path": "src/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36"
+    },
+    {
+      "path": "src/frontier-geometry.js",
+      "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01"
+    },
+    {
+      "path": "src/frontier-world.js",
+      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+    },
+    {
+      "path": "src/biomes135.js",
+      "sha256": "2a2423fe4baec4c95499077d5fb9b1b6ea1df9d37a61f1331ebb7a0ac9fb3ca5"
+    },
+    {
+      "path": "src/biomes164.js",
+      "sha256": "9a820cf47e8c4d9b256488115573ad1eb04759375578db12bc1a0b521d549bc9"
+    },
+    {
+      "path": "src/hydrology165.js",
+      "sha256": "174172d6c9282f14d4e98651de2401cecab8f767afdbd5586340b8a46c9677e5"
+    },
+    {
+      "path": "src/frontage174.js",
+      "sha256": "3956357e6b916f976d0a986b184cc0a97a6ce61ea0be8e983b03106d9ab6c4dd"
+    }
+  ],
+  "models": [
+    {
+      "authorPlanId": "EXT-MONDE-T045-V01",
+      "campaignType": "campaign205-045-01",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 1,
+      "syntheticPose": {
+        "id": "P9000",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b1fa9ecbbd65f451e38077c1a9c7007d759b1e05358a64fe6d3c04a65f36d6c9",
+      "detailsSha256": "8db15a8d78ab9c2dd0cbbc5e1d05dccef38fb16c3788fc25d8fafd6c1e1a78b0",
+      "propsSha256": "c63c5b86c85a7bf6842d2d1cc0acc536b8e69d435fe67ec128f6f538a61c4a8d",
+      "objectIdsSha256": "1322bceff6806ad2b7c84ce4011cc8ec3b6e179b4997033242d64f607d34819e",
+      "stockSha256": "24d22a94ff53a35c70a88003ee64653280221523b984a9a0b4232bbba411571f",
+      "budget": {
+        "food": 20,
+        "wood": 50
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V02",
+      "campaignType": "campaign205-045-02",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 2,
+      "syntheticPose": {
+        "id": "P9001",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cacd847bcfb9ca82a2170b0caa530e85918c194ae9c12508966ee0e24ecb5378",
+      "detailsSha256": "d07de8819841bf3845fa5e66fd0143aeddaf576075fe1013b56e98cf3eb506ae",
+      "propsSha256": "211f648656aa4404fab24b7d2df68571e14abe4c3e321d36446577a5591be7e7",
+      "objectIdsSha256": "eef387284bdac78b60c1b39e837451cb1f771a647b8b8ce288713f14d03d91f0",
+      "stockSha256": "335903ad7aba6adc5daf4ea7811709929a9e034a330507dedfe1222c1148523f",
+      "budget": {
+        "food": 20,
+        "wood": 42
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V03",
+      "campaignType": "campaign205-045-03",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 3,
+      "syntheticPose": {
+        "id": "P9002",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "644becf7672feaca719785d95c22cec1a4c61f76dd90ac37c4acff01ea62a869",
+      "detailsSha256": "5b56a512514a669a360b56bda8651488f14643289f4cb405a4134ef8cd8d8776",
+      "propsSha256": "dcaebec7f5b51fc7ec55497aa52c48de9acc1c21aaff4e854d08bc4770fae501",
+      "objectIdsSha256": "4de7b0f3c12cb86a8f9d63780cb0ec4aa695da61bb9f95bdf75d9b957492dee2",
+      "stockSha256": "84a778693a616c1c10552455590154e57505befd79fd2b79f48d790bc810ff69",
+      "budget": {
+        "food": 16,
+        "wood": 42
+      },
+      "props": 219,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V04",
+      "campaignType": "campaign205-045-04",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 4,
+      "syntheticPose": {
+        "id": "P9003",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a7c57114b2ead28116ff3dfc5968213dcccd491ae1f25621b1c8202ee967d4e8",
+      "detailsSha256": "73cc4f3f298f90beab7fa5ccab4fb7159f0d80f0481a6a2be1e0a7ea6ab5adbb",
+      "propsSha256": "9f14805f018a1762b6e4825a7f7e4f849c50b8fdde03e87cc47ef0224eec5118",
+      "objectIdsSha256": "133d363dffe4829f39d0ba20b4284461f66d45b5b842a2373be106afa7f6c424",
+      "stockSha256": "9c519628e24e326282a051232e8563787189e4336d0729edb73c50df1dcedb1c",
+      "budget": {
+        "food": 9,
+        "wood": 53
+      },
+      "props": 109,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V05",
+      "campaignType": "campaign205-045-05",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 5,
+      "syntheticPose": {
+        "id": "P9004",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "dc5c34d1db79c36cf9d9d827f489b0fd1b27f2ba818ac938deb68e1887b8fa7f",
+      "detailsSha256": "73492656f01d447bc82dfbf9401bb5f53f137110cee2d590c32a58a6009c273e",
+      "propsSha256": "a469053a62146d509a8ad67c8af2f75684650b3a752585fcb46029b03465386e",
+      "objectIdsSha256": "c8c18b2ff5976d5c8b7f2e2fcef66a679090945fe69d79739afd14ac3795f542",
+      "stockSha256": "5026eb316c411a5da778a473f76b21dd03123ca192ffe0a35aa8e8d3e16dc613",
+      "budget": {
+        "food": 13,
+        "wood": 40
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V06",
+      "campaignType": "campaign205-045-06",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 6,
+      "syntheticPose": {
+        "id": "P9005",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ba5b4beb955c0c409ff5b4ec35af7a78516d3ba718d7464f78bff9165030e296",
+      "detailsSha256": "8f8df5c7b7d08e618250400556f555e55d517139186d9e4002bbb600e6f4ecfa",
+      "propsSha256": "a2b57dde04dbeab86d8306b9ee2a4e649b12fe6e8a3bd16f14dd15c7f6083986",
+      "objectIdsSha256": "5bcfdf26cc70fb0f191e1f98a05f750a08d72f9b7c28b56dc49ce95d2935055d",
+      "stockSha256": "2a4d3c75b6bcb0d3b1a05bbe22dd48a9ea8184c35edef6fd9175d638107d76b1",
+      "budget": {
+        "food": 21,
+        "wood": 52
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V07",
+      "campaignType": "campaign205-045-07",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 7,
+      "syntheticPose": {
+        "id": "P9006",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a29a0ae1ef6ae87252c7b90e9fe4097a3e25380e62a743fcb9f6b2188f453498",
+      "detailsSha256": "b8e39f13fef3079bdd79bd84f99a33d682d2970629064023159d5e3cf1096af4",
+      "propsSha256": "4b90f51fa7897285b38e7e18e9daee984489f63d6cb164b1ba6c846f6dc7a946",
+      "objectIdsSha256": "1c70b11254fb523aadd35f4516f09b4648fc6dbe3d539c14d0f155335ba9a7be",
+      "stockSha256": "e652741ff8899273dbb90b35e3ac2786159c21380b166106327eb1593b3556fc",
+      "budget": {
+        "food": 10,
+        "wood": 51
+      },
+      "props": 241,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V08",
+      "campaignType": "campaign205-045-08",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 8,
+      "syntheticPose": {
+        "id": "P9007",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c6491c218c88d70cf7184c601e2acce8998636fd08a0a5d322a067457918bd8e",
+      "detailsSha256": "53971184d6baf7dba7556d5e811e456ac124632db5c2c03b3395991ba34959ae",
+      "propsSha256": "2d240df180dc48d9502ea6b3454e22f04487f5540c98642deb8b70f1a11979d8",
+      "objectIdsSha256": "22cff6f5696fe53ed7b5b758b711e3a96d127e1cf8efe78eee57f8342d77ca18",
+      "stockSha256": "8225408424512a5c838ad464adf2c036e176008f2eb34e58dc8c17bf14c9734f",
+      "budget": {
+        "food": 23,
+        "wood": 35
+      },
+      "props": 197,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V09",
+      "campaignType": "campaign205-045-09",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 9,
+      "syntheticPose": {
+        "id": "P9008",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fc3a956656c1af0075650ecfe33afcaadb26485c6aead581403bfd37cc636f54",
+      "detailsSha256": "3d851b367fb9836ff8a388676f495f6216117cb915d1fe0ac5d97525b6489061",
+      "propsSha256": "a13597139dd464f82a49a1a5e226a3772b24c54ce2e429ec0e41c1b4ea4d2072",
+      "objectIdsSha256": "1e14ec32036c0b54dbcd2380602fa6fa37cbf13f1b279e80cadabc8d413c8dfb",
+      "stockSha256": "a4a5e8714dc149937eaccef4df8e9862e5509e42a29646a4034fe4d408bb239d",
+      "budget": {
+        "food": 8,
+        "wood": 47
+      },
+      "props": 153,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V10",
+      "campaignType": "campaign205-045-10",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 10,
+      "syntheticPose": {
+        "id": "P9009",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1dbf578b675e2dbbd6c59ae7fd4538a0b1dd456acc54a09544b46ed136a41af0",
+      "detailsSha256": "e5e2017667987d0fbe359d6cfd2017415a24db36a288fe63dc73538f9615896f",
+      "propsSha256": "e7d9780e974e769c05e68a37d4990fca9122d4042fb14f4a67e03fe8d0f775a6",
+      "objectIdsSha256": "edc75f0800c24142e45353cc156f6b8fc88bde561f5a470d5c84fe3dc6bde8f0",
+      "stockSha256": "c6524b5e9c980d61a98beffc4bde10e21759283162de62a71c94ffc4c5d1e83b",
+      "budget": {
+        "food": 10,
+        "wood": 42
+      },
+      "props": 263,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V11",
+      "campaignType": "campaign205-045-11",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 11,
+      "syntheticPose": {
+        "id": "P9010",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "34ac0e52bb4a653d1f1e0110038133f59e51135a40c4fd78d5de439984350b08",
+      "detailsSha256": "89c392fabf845b82c0c41fca5a362fd90a014b9669de795509ada45900ec6651",
+      "propsSha256": "d526005897bd7e547797cebda4cdf04ec0cbea719738d02f35e92a56942337f1",
+      "objectIdsSha256": "92215ba4c1df924a1a0600c71f672b482f9d814fb3d26552b5f996f7b4a09841",
+      "stockSha256": "3067112c8e2ffdabd93bd8b19150d07a25cb340cfc07fa76d4c97be85f7a52b7",
+      "budget": {
+        "food": 8,
+        "wood": 52
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V12",
+      "campaignType": "campaign205-045-12",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 12,
+      "syntheticPose": {
+        "id": "P9011",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "772149b2e99e7ce8ff59cfb2fcc2cf942cacd58c6f3da2c0b5b75b5c659ab6e4",
+      "detailsSha256": "9cdb5bd59b60176289d14905c92a8b08f03c7e188c251690f1291637d8972235",
+      "propsSha256": "cbf41cdef6eec1f5ab5aec7136cf72fb732847dc1ffc488fbebe7ba14535899f",
+      "objectIdsSha256": "cf7dd1717352c8c8e9d918789cdeaac1578b7fdaea5d89e11ec2ad15dd0ca0c0",
+      "stockSha256": "fbcd74186fb1d0ae47e43fae8eabb5256892b36b3e87298d63636de978daed9a",
+      "budget": {
+        "food": 10,
+        "wood": 50
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V13",
+      "campaignType": "campaign205-045-13",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 13,
+      "syntheticPose": {
+        "id": "P9012",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "67230bee401a3149bd4820149955cc7447586491c4538f855310e7924be12281",
+      "detailsSha256": "c81fc7cc5580bc84bb822005b25be3a39adb37567d7d6816df1e90d0ce2b64e5",
+      "propsSha256": "dfb3e73153395b6e1ab49c747719add7fe3337b58f74c72eff57c3d666f6e814",
+      "objectIdsSha256": "1506e017091be808e189fc0a600680db13ede67e07c27750d251f6167c0d14f0",
+      "stockSha256": "942470143b431fd7db2b5a95f802bc871ffae4c966cb587e024f761ee3a19e1e",
+      "budget": {
+        "food": 13,
+        "wood": 57
+      },
+      "props": 219,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V14",
+      "campaignType": "campaign205-045-14",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 14,
+      "syntheticPose": {
+        "id": "P9013",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "db0560fde627feca370e4a7081692c848310613303dab0c8ef273bb94ccf28d6",
+      "detailsSha256": "3f6451207d27fad9f452d40aeb174afe536640b8c3a5cbaa77dabdef51101f60",
+      "propsSha256": "97a3eaf08f0cbf3c238a096018e9e44aea3a2a71f7e7add025efbc139c48cad5",
+      "objectIdsSha256": "d6e57a88fc18261b8e537f3c5dcbb1a333bfb0acd6f1a895a8fcaeac3ffa2ac2",
+      "stockSha256": "94078535097671b46fbf65fbc7489aee749ec511425e4194ed00d0df22f87cb7",
+      "budget": {
+        "food": 18,
+        "wood": 28
+      },
+      "props": 109,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V15",
+      "campaignType": "campaign205-045-15",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 15,
+      "syntheticPose": {
+        "id": "P9014",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3836ae0280d0ab8b6f8419a8c3a2252ce0a2a41ab3a6acca1b72a1d783a1493a",
+      "detailsSha256": "a984e1b7bd68bc4d797a8a247474c8c36643cfc3230c1bd3b09849947e94697a",
+      "propsSha256": "f6c2ef3bea8c8e45d41391c9db66920ea9a2f6b264b0653afbcc833aec41df2f",
+      "objectIdsSha256": "290904f94b6632c17a0d9e092823deaf20c918d160f8d11d70caf4a2e1ec34f6",
+      "stockSha256": "0d8946ca791954bfa305c5153cf4bf2541ac8bf2568d3bbe6a4dbdd2f55fe6f4",
+      "budget": {
+        "food": 23,
+        "wood": 59
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V16",
+      "campaignType": "campaign205-045-16",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 16,
+      "syntheticPose": {
+        "id": "P9015",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2814626dce39f99adb7f6b4b9dd8717492980aa402f018b7ceaa065d8b5a90ae",
+      "detailsSha256": "bf9e20a7d007d74b9e93c05046dc5f3e5622535a7680e376f54fcd65f3622eb8",
+      "propsSha256": "26d5da9fc358b51d5f47356904fc2affedc2d69dbf47423f73172d0675f9dae1",
+      "objectIdsSha256": "86f5e2dd50fb631da51da66fa1dff31d181d9f16cfbbeb65608222673d899829",
+      "stockSha256": "e5a5425ff19af2ce0731ec84f8299607064e687f98107e68815a0ac5b152fb80",
+      "budget": {
+        "food": 11,
+        "wood": 55
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V17",
+      "campaignType": "campaign205-045-17",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 17,
+      "syntheticPose": {
+        "id": "P9016",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c982a07b43ce8dd16b6b9f10a1cc44e1a81f75bfec68822a125b2aa4a0524fab",
+      "detailsSha256": "30e1a574ce1084289d96e21d1cc14a5565af3e00327a6de183801aadd91723ef",
+      "propsSha256": "e128134a0afd108904dbcf37bfc4714e6c2ecc1933ac7258192f2e2dfdf5eefb",
+      "objectIdsSha256": "b56653fe01a3844566b5176e5fe483d5e55506fbb3f4272601deb9c1cda4be60",
+      "stockSha256": "e02523dfb80cb0650bf406bfbb9b5f8876f964a6503609d746a9b7a1d6337630",
+      "budget": {
+        "food": 16,
+        "wood": 33
+      },
+      "props": 241,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V18",
+      "campaignType": "campaign205-045-18",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 18,
+      "syntheticPose": {
+        "id": "P9017",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "41ded567da1125100722ec59cad385ba528e6e8769105c9c2ea1f0a33bdd54bd",
+      "detailsSha256": "4d745de9c187ac7b29132bdcc4de2b2898aba565a8c73fe8b883dbdc91a831b5",
+      "propsSha256": "bc30dc17dc2027d3da774593c4d48085b4b8a2997f040e74c14a61859b4805d9",
+      "objectIdsSha256": "82c496a1cc31163bf333add7d46d7ddb4b1c382f094603181a5eaf3b13bd196c",
+      "stockSha256": "011558cdf99e5a8603b2876430d04fd4e0aee7c2d9775718a0054683e737bdb9",
+      "budget": {
+        "food": 23,
+        "wood": 51
+      },
+      "props": 197,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V19",
+      "campaignType": "campaign205-045-19",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 19,
+      "syntheticPose": {
+        "id": "P9018",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "9d4775a38df9a0a4884185647ced8a209612c959920fd720dcf1c3841ed85efd",
+      "detailsSha256": "916a55f7303f87d5cff1e4a310c4d13072adbb59dcb7f66eb1147be5ca2e9ea4",
+      "propsSha256": "359c9210088b5f55fc95df996ba20a595b06b1e332632f63bafefa8be5696b9e",
+      "objectIdsSha256": "535ccffd4d64e7c8f1ec8c90a659efe22c9775cd04043ca8634fa431bc9e37fd",
+      "stockSha256": "a358d80cb3b0b0754fac1029ff29dc505f5fb899471711b35005dbcc47db12ec",
+      "budget": {
+        "food": 10,
+        "wood": 45
+      },
+      "props": 153,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V20",
+      "campaignType": "campaign205-045-20",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 20,
+      "syntheticPose": {
+        "id": "P9019",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "df3e64c7e542f17ee544406cbc132f9dc9e6fab84105f560f421b892a295d0b3",
+      "detailsSha256": "5968fa4244e708e1f62197688168015e16413eb5f7198ae819c6a5ad88423f91",
+      "propsSha256": "c3f7fde98d5796c7d746ea412a3e8638192d109a23842e3ab447698f1aa7ada2",
+      "objectIdsSha256": "0fb32d6d06c4bdc2daa70534d096ed3ecf7385cab276f5a8e9bf5905c03c3ffd",
+      "stockSha256": "816189f02b88db89a144020600e318ca8658dfc8548c720d43b79b3b7e4ae810",
+      "budget": {
+        "food": 7,
+        "wood": 54
+      },
+      "props": 263,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V21",
+      "campaignType": "campaign205-045-21",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 21,
+      "syntheticPose": {
+        "id": "P9020",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fe2e71ed9cb023d1f20f5f6970ac873dbd204a80175561c82176097b22c14cb5",
+      "detailsSha256": "8218677b8107b5d149d21edbb5236adb400b1159d8bde49ed49b4c910c6e0d52",
+      "propsSha256": "62715b2ced452c2f3c2221f6c9d188191845a5bbb6ddfdd83b76984580f39164",
+      "objectIdsSha256": "e5130c2cc63ef0350cb62f2a50fce4d71de8d1070ec64343fc098b348c3878a3",
+      "stockSha256": "a48555b39fb85b888a122b99deaa7f0edf228f384881ee24db0a8f531f5ab82b",
+      "budget": {
+        "food": 22,
+        "wood": 39
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V22",
+      "campaignType": "campaign205-045-22",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 22,
+      "syntheticPose": {
+        "id": "P9021",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "dd12af031d88d9e8a6cf56e75c9a932a84d17c42801a65b8b60c7cdf756b8ba1",
+      "detailsSha256": "59918f1f29881aeae9b4cd808bebeb22365f611cdfe1f3a96fd7f5201127dd22",
+      "propsSha256": "75a5ce60e9ef9e8cec0ba87811966606431deb95a87e2a6afbed6b854da178e3",
+      "objectIdsSha256": "800a000c823f92d03bbfab7ef0d215d0e8337867164e0eb764ff5c811b14a5a9",
+      "stockSha256": "ae59d58e51549abae879b2a71adf63de5dff5996e1c8d7418df180da171c3b99",
+      "budget": {
+        "food": 19,
+        "wood": 56
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V23",
+      "campaignType": "campaign205-045-23",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 23,
+      "syntheticPose": {
+        "id": "P9022",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "bc35923eceb113888ca5683c03a5d80df020669f4209780ec885079980de7949",
+      "detailsSha256": "021b5ad8e2e7a4879d68727e642472e2b8abdd16a9442473fd8ec65ee81e3d55",
+      "propsSha256": "dcdb2732383f0353c97b31a121f08f3a9b166a1903ea7a8f53ef97b4044641ba",
+      "objectIdsSha256": "f361172d27291d08c9924ece940b878ed7569216b1a7a2d69c8942d1b7622aa5",
+      "stockSha256": "40db3c1e3478b32fc063048954f3d7d3304f7de1e1ac63b9344202110738629f",
+      "budget": {
+        "food": 23,
+        "wood": 43
+      },
+      "props": 219,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V24",
+      "campaignType": "campaign205-045-24",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 24,
+      "syntheticPose": {
+        "id": "P9023",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "68cc78f62e2a26e95d5b77d493e90fe67f338b2ee46b28fa01c1ab81e73da2c9",
+      "detailsSha256": "4723486f622d707604123ca8ab47d454f0b349d75e1a7d69483a69f6852c57b1",
+      "propsSha256": "10c0580225695c59c8d13fce951dc0540578118a020d6befd03824d245573ee2",
+      "objectIdsSha256": "f1a2b233078d8b54aa900982b0482d51cf964f2cb4bd6bea5562556471073aa0",
+      "stockSha256": "299a9956c9f1fe86e7c993108da4c0610dbd836cbd729ad252d9ec3fb7429e38",
+      "budget": {
+        "food": 19,
+        "wood": 36
+      },
+      "props": 109,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V25",
+      "campaignType": "campaign205-045-25",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 25,
+      "syntheticPose": {
+        "id": "P9024",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2e8935c0127bb7bb39fabd111ecf5a041578e6a209f065f865b626c2d31d9476",
+      "detailsSha256": "8d8f2550b412d142aa7d4219833a5efe1b01736571a0963fc245c4013f1179c4",
+      "propsSha256": "42494a89d173f5b1aec75f0cb3238a10b21b3a09e6039a7fb0c7c3850cad8487",
+      "objectIdsSha256": "a4657b8ec9af2496d4228b0e3ba35fd126a4726f849898c77b9bb5adf0394bee",
+      "stockSha256": "669c28f418657d5547ec7e49648bf38339c468067196b8841f3b6336a5eedc49",
+      "budget": {
+        "food": 20,
+        "wood": 29
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V26",
+      "campaignType": "campaign205-045-26",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 26,
+      "syntheticPose": {
+        "id": "P9025",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d01bbcae9f1994bfb09d9cba593bf56a4de4b945a74adb9a9b8e593b4b8bd398",
+      "detailsSha256": "d5ff8e99c248d04085c9db3766f4fac210b5250aa404a989780cb9dec186fc0c",
+      "propsSha256": "7b9a5e175fc97e269e3bc472a52507750e9d8697e5be50f980ac338195a967ba",
+      "objectIdsSha256": "1d78dd61151bd9b2ca27c7127a8f8b636690aa0a8362c2d9da5e74ef7386f429",
+      "stockSha256": "0d4cfced70a0dee173996e4577657aec0166279cd2d9556c06614ed2174b524b",
+      "budget": {
+        "food": 16,
+        "wood": 41
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V27",
+      "campaignType": "campaign205-045-27",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 27,
+      "syntheticPose": {
+        "id": "P9026",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "05b3d176951e727986ff78466b8bdaca54ffae231fd8927efd2be4c369464970",
+      "detailsSha256": "e57e29366ea61931d1f1d072c323824e0d3480a6e9a213f793be20edd0970c50",
+      "propsSha256": "d140aa3a96e0095e5cd32f8189d31fc77ae9dde54482bca5a678a20075809174",
+      "objectIdsSha256": "e0e6b36681e9341bffa4d42ab65e4dbddfede0e152d45f0fa5a04228ca5b7f02",
+      "stockSha256": "c0c4c679a3d7cbf7fab50a13a5d20a4996810e59511443f6c5ae99bfda07c639",
+      "budget": {
+        "food": 23,
+        "wood": 34
+      },
+      "props": 241,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V28",
+      "campaignType": "campaign205-045-28",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 28,
+      "syntheticPose": {
+        "id": "P9027",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "84d4543b7160115e17eba87b0579bd93e6a66ad3ad7b413d4c453a1de2bdc738",
+      "detailsSha256": "772877afd5d63e7efebdd26a17efa9df8589524eb6236475c6b7a76718da528f",
+      "propsSha256": "8d04e74159b639759e28f23c742882daaab678be9df4f39b8a1f3398dae4c03d",
+      "objectIdsSha256": "7cd399ab922668ea3b527bdbb5112a1c4108645701d452019e65675bb9bb7234",
+      "stockSha256": "a0e0707e58ad5dfd959e6df6e4139df5c6bcf9d98a0af018827c0222022a074b",
+      "budget": {
+        "food": 16,
+        "wood": 32
+      },
+      "props": 197,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V29",
+      "campaignType": "campaign205-045-29",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 29,
+      "syntheticPose": {
+        "id": "P9028",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fffc5dbb024792024bb7242c7baa34fa1f0eee44b057c8740211510df220e01f",
+      "detailsSha256": "f25d5d61b193df2966421340548cdc011720edfe8da4577ad2ca367a9e269461",
+      "propsSha256": "2fadf00222224b8328689384e8c811a9b4a79c8637c270bc74d58554e6678b72",
+      "objectIdsSha256": "00df5df1a86e3330f2ad31e9b878ac428d816521f1569a104900a09b41c35e1f",
+      "stockSha256": "e399904c67b83c7b3ea4f67329dfa660f3edf62ef1acd6954ecef636fb5a4017",
+      "budget": {
+        "food": 9,
+        "wood": 53
+      },
+      "props": 153,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V30",
+      "campaignType": "campaign205-045-30",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 30,
+      "syntheticPose": {
+        "id": "P9029",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a8f7f57cdd361627fe9257beb35d48a0b8167642e438bdf12e12662f66d5e1db",
+      "detailsSha256": "adc1f44b91912b5205848a720d9902e9c60b9c454af798b5eb9b9089914d0705",
+      "propsSha256": "45814fde26745d3189e493fba3966aa279c375ef050d98890ad25c9b081e882e",
+      "objectIdsSha256": "9efa3c59977c2a83513439b1fe4cea3f28ddf4c80180de35b37e34b7dcd7517a",
+      "stockSha256": "ba4592134b7da34b7201c1fe4d48087b4186734c3eaea4040cdc3c6d6c9e3923",
+      "budget": {
+        "food": 13,
+        "wood": 45
+      },
+      "props": 263,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V31",
+      "campaignType": "campaign205-045-31",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 31,
+      "syntheticPose": {
+        "id": "P9030",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8047fa10bbb5ed9e3bcce6e6e06c3a46c7d4697128a77722c3759883bf1caa10",
+      "detailsSha256": "2b02701287a9ff58aa8c28229e44d3e9b1dff552e4df3ef1e21a78a5aca50e69",
+      "propsSha256": "e21645c437d8a61f0f237cf42a8fb3f216808f3354f9477dfca4e4efb3a62bb3",
+      "objectIdsSha256": "4c8278bc73178921ca96b898fbb403e99e519177555db64e40ad1ab12cfe29a9",
+      "stockSha256": "dd50f16c3005d12d25dbd9d7cd1999f1750b088c5ae3eb96266f0ddfda521781",
+      "budget": {
+        "food": 18,
+        "wood": 38
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V32",
+      "campaignType": "campaign205-045-32",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 32,
+      "syntheticPose": {
+        "id": "P9031",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ded0cf1dfd0ae88ab696b32095fa3d8ada583da477ce3fbe2f91550fac7fd399",
+      "detailsSha256": "990984025599a0cf12303b99884a39cff4b3aeef587435b443ac8ca04bd8a1eb",
+      "propsSha256": "e8807f168e2e9b29754e89ad24fe7300d3ef732ee4a5744965d8577c251290bd",
+      "objectIdsSha256": "081646c48271a4a46c13e0f3f972b3257cdd48dbd2ad2c88d5aedb8956ab98a3",
+      "stockSha256": "67eeb577f98f3ee31ab12677470ec9ba8f227937b5290368818c9ec324e9c9a1",
+      "budget": {
+        "food": 16,
+        "wood": 35
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V33",
+      "campaignType": "campaign205-045-33",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 33,
+      "syntheticPose": {
+        "id": "P9032",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b3ca1ca8627c085418f4dbe6cf459ef13fbbf8b084b0ad25de84fefb49a3c7ec",
+      "detailsSha256": "efdfce02df1c2938c68f63b7be48b7af2be4d575998679a3965081ea48b9d514",
+      "propsSha256": "9efb4d667e912c4099c8bf81b41c71ef991abbd9c16fd66864cbd957704d86e4",
+      "objectIdsSha256": "6ff6718057a8f5ead19889562c3f2788393de1c19cc26b518f5b6c6ae955272d",
+      "stockSha256": "f3d7539ed356f8301bddf500b7e83331d4b1085d6562be45b6ceb246a5fc5eb2",
+      "budget": {
+        "food": 23,
+        "wood": 37
+      },
+      "props": 219,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V34",
+      "campaignType": "campaign205-045-34",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 34,
+      "syntheticPose": {
+        "id": "P9033",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d4e0c138cb093846aa6ca145270e1b0b40a1b1a9e7e01e281994a65aca67235f",
+      "detailsSha256": "a2a31f2952cf2b8465714a6fb8c0703fc756570001eb6f8c0b1d10a90d6fbc03",
+      "propsSha256": "cf868738a6c847966e5b438fbdd04479949f149e5b88b1b058570f24b1f33656",
+      "objectIdsSha256": "bdf44e1a17412a415246d41a8a5df173dcf54f4685f477d11db6e37f7f96d8bf",
+      "stockSha256": "c10342b16386fa82520d018c02f1982a9ee4acab760ce7c2f406f6ee0c2b87a3",
+      "budget": {
+        "food": 20,
+        "wood": 40
+      },
+      "props": 109,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V35",
+      "campaignType": "campaign205-045-35",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 35,
+      "syntheticPose": {
+        "id": "P9034",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cd861b08c00b6f28fc7217719f22c8ac61d689a108de3175e582c210993ce69c",
+      "detailsSha256": "131e8a9cf866214f77e444585490b29a7cd8cfc3cf61e538b6615f4c43f275c7",
+      "propsSha256": "b701000863d5f1309904409b45298768f4cf1ed829ac4c73efec8df3ca04c8bf",
+      "objectIdsSha256": "f25c82839150a08bcb49881f920ab079483a9d73e67a0f49663ea6500092f473",
+      "stockSha256": "271a4c6532ad197d58d4024326fd1af3b5d5cf22499538347b481499f25057fc",
+      "budget": {
+        "food": 16,
+        "wood": 53
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V36",
+      "campaignType": "campaign205-045-36",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 36,
+      "syntheticPose": {
+        "id": "P9035",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6411a49e2e1320593aaaec6e6eb16df8bf70ecf4f55b53032737480fe8859ee9",
+      "detailsSha256": "e2dd252caffd18aaa5cf19a42f0c2cc2ae5a4acb627c63d62e7b1004a20aa8d9",
+      "propsSha256": "7a6d2ac4a20ec3770e491b649f9a48a792fc09f05a881660674144be6610f24e",
+      "objectIdsSha256": "300ec870faaebc702dcea0389427fd563bafc47cfa0d361e0283a2d141238ed5",
+      "stockSha256": "671617de0cc130332718b4f2985ba98f61781a404984c1872ab5055665fb0f3d",
+      "budget": {
+        "food": 19,
+        "wood": 60
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V37",
+      "campaignType": "campaign205-045-37",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 37,
+      "syntheticPose": {
+        "id": "P9036",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8aefac59365c607721cd7c8cff6bb8805ac921b7d21cbd22c9f716fa781a0295",
+      "detailsSha256": "2e48291803fe9bd2c310b7bd4c48227b5e617023abf155e6d660290bbd321a34",
+      "propsSha256": "dd216e0045fd67abee7ef7c1f618427bc83ce66b69b5ac926fccb19f7c3a542a",
+      "objectIdsSha256": "d9cf8469f378c419183f63a7de4ca972dc43d6e1bd3f9a9a783fd4d0615985b7",
+      "stockSha256": "93c5451a5f18c0b89b61f7ae82c67af78a89dfb597818dc12b218b96548909d9",
+      "budget": {
+        "food": 13,
+        "wood": 44
+      },
+      "props": 241,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V38",
+      "campaignType": "campaign205-045-38",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 38,
+      "syntheticPose": {
+        "id": "P9037",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8d54cfad53a6d175f96da2062735e528a9fcbe1243e0d41a1e0d8df505877d16",
+      "detailsSha256": "529fbb8beb27df79a830be403231445ac2af7ac60d8f93c9c24845f5725a8a52",
+      "propsSha256": "71316536b51c67bbe7a70528f5e4654d7ebd9c1cab765519d95ee2348d61125b",
+      "objectIdsSha256": "c3d2a1e9746e8d797699a4f2359b67df890c543005d637102e79661b145a3d0f",
+      "stockSha256": "5c13561be1b5c77247f0112e49830658bbd1076a15ebe0713999977b268ec415",
+      "budget": {
+        "food": 19,
+        "wood": 53
+      },
+      "props": 197,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V39",
+      "campaignType": "campaign205-045-39",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 39,
+      "syntheticPose": {
+        "id": "P9038",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3ca897bfe76cf10d1847820b2c0e404cab584e47a4ba470c6abd4a9dd11d3c04",
+      "detailsSha256": "3bc571a3968b4fb827b1d72f16340e9c9e490bfd17719db70b74ba31e265e1ca",
+      "propsSha256": "5fab951f337e1a70355f5ab74cd47e5c4d37d5dc150b9a997d5adf24a0e21e07",
+      "objectIdsSha256": "09b699f0a6132cfde590de4cfb773bbc1aeef94ef72d0459c6851a3a6b2df395",
+      "stockSha256": "7d56a5ccde0bde3bcc23498ae062656a2646c9f213b9d7c23e10432da3404b02",
+      "budget": {
+        "food": 11,
+        "wood": 43
+      },
+      "props": 153,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V40",
+      "campaignType": "campaign205-045-40",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 40,
+      "syntheticPose": {
+        "id": "P9039",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ce4ef19020789e932d1f5303b6cc6392684e230f23d0ce4afb2983c2db8b18c3",
+      "detailsSha256": "1e2ad188fe54fa92dd70187533bd7192b73e07c569750f2afa38cf3e1851977d",
+      "propsSha256": "760d5e2889670ce46eb2bd13205246e77e2b6731f43e84d14cddcf72794f8bdd",
+      "objectIdsSha256": "60e5efd00b5802c763c0a79395c24bb42f675f32b799e760afad2f4e38e67244",
+      "stockSha256": "7f05a615f85f7d6b1619fa7ed9c770170f2610cfe02939fbf27cacc470ece22a",
+      "budget": {
+        "food": 13,
+        "wood": 38
+      },
+      "props": 263,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V41",
+      "campaignType": "campaign205-045-41",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 41,
+      "syntheticPose": {
+        "id": "P9040",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "9957e7ed9beb8fee6f497e5feea027fc32fa9842053d2203597e1da7c21d73e4",
+      "detailsSha256": "45561661f10814939dfbefb842549f2ed459e7e68267692637fedae94dc34ccc",
+      "propsSha256": "50fa743fbb42045b1d01b77960cb3bf818f3af2793b4d784a968c2d32b6ba806",
+      "objectIdsSha256": "23c94ffbd27c641ff183b44fb44824ffe95f06c42a3820a0fc87c579da22141f",
+      "stockSha256": "cf68f76fb9d41aab6d726344b5328d25eec43538023f7fde83d41420be7626f6",
+      "budget": {
+        "food": 8,
+        "wood": 52
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V42",
+      "campaignType": "campaign205-045-42",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 42,
+      "syntheticPose": {
+        "id": "P9041",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "f7a155aab9f776c27d679a5f64435ce8626d94e38629e0dd085c95f3ba0fc7d9",
+      "detailsSha256": "39d110dcbeb94fd4b3ec11c30452c40c0b38a00db98f9e6f59452889e22a58ff",
+      "propsSha256": "0164531ec2d10812f99707b17d8302606ef89b9f568abb84b3dc2e34e02af9b2",
+      "objectIdsSha256": "69b89cce44c5e4eb866640fdca1e35a1c5dd9fad14209307db03c0b1320ab4e1",
+      "stockSha256": "774e90c421558441cc40b2196f63af8f275815681cab42cdf0779679c63f471e",
+      "budget": {
+        "food": 9,
+        "wood": 34
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V43",
+      "campaignType": "campaign205-045-43",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 43,
+      "syntheticPose": {
+        "id": "P9042",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "019642a0797025aa046676610c8179331548425bf02bf443b0a63e772610a3be",
+      "detailsSha256": "7f0186497d939993045c3ba6f5cf82041b3086306479029b03b69dd108956bb7",
+      "propsSha256": "807775d41e5f1e69af2a5923637f638b577c24e4877c329de2a315f72c3c4b44",
+      "objectIdsSha256": "f26b0b911fa0ab3daceccf633a323b72a53429dee8b80a1656acaba63ed814bc",
+      "stockSha256": "43360145be3252b167ee07298b22fbb59acc81c76ae74494a1e3a1ea04705234",
+      "budget": {
+        "food": 18,
+        "wood": 31
+      },
+      "props": 219,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V44",
+      "campaignType": "campaign205-045-44",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 44,
+      "syntheticPose": {
+        "id": "P9043",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "98c54f6ed89718b473b7e41d34acd5e60c788b235cbe9a37ce54a3376a7ff6af",
+      "detailsSha256": "bf2c00cfce7bea03ecd6ac816b29052ba396c125694b0fd37668b42917d51b29",
+      "propsSha256": "8436e5adf65f94a7accdd3438d54045b9088602ad46659ed4333deece3b38107",
+      "objectIdsSha256": "f01d06aa916981b7aef77c6c7b4b7a053943702b91bef344b36e51263b0f1bff",
+      "stockSha256": "e18089bb12b5eb94d72727e0e8ff646d19e444dbea2acf2e40f77efcd10d8c79",
+      "budget": {
+        "food": 23,
+        "wood": 36
+      },
+      "props": 109,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V45",
+      "campaignType": "campaign205-045-45",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 45,
+      "syntheticPose": {
+        "id": "P9044",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "43a130d2370ddbbe292b8fa73cbc79468f0fb87a187f011b9746209366678623",
+      "detailsSha256": "d14d6e195906ddd9bfad2aab5c1e253eafcf64ed8483e445e6a0666218646060",
+      "propsSha256": "dac31bc443708307edace0d3ce1289d2bb4cffd2858589566018843cb866fb91",
+      "objectIdsSha256": "9a5e4e6191d7c6187d1649e56c72f3484a411b768d6601eb80610a7e2f32eeef",
+      "stockSha256": "acf1ec5ae1d106b9fb675a9354f4b96cebf40ae72c9eb475e371217375484058",
+      "budget": {
+        "food": 22,
+        "wood": 48
+      },
+      "props": 131,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V46",
+      "campaignType": "campaign205-045-46",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 46,
+      "syntheticPose": {
+        "id": "P9045",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4dc0ea3b40e89aadf1274dab8c5c9f09fb93337cbd4d17a279ad71978c7027f1",
+      "detailsSha256": "84860a128df860cb39f41f98d75f2103d776f3683db5a9c1df5c75b3cfa8dd15",
+      "propsSha256": "adfa0fdcd316aa81298efa963e9862a396c5eb9a85ef66caaf5bbcffb0caf937",
+      "objectIdsSha256": "b8b4cde709a4341daa1b31aa7ba4986821c97a483f415bb279a51f1508437a87",
+      "stockSha256": "699b7b98b7df8772becd5222773561dc8baba8c0afb2e472f8f4ade0159fa14b",
+      "budget": {
+        "food": 9,
+        "wood": 47
+      },
+      "props": 175,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V47",
+      "campaignType": "campaign205-045-47",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 47,
+      "syntheticPose": {
+        "id": "P9046",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fa22e15e75037b27df5f53972df0666379656de7f6831416dc268af717c10ab0",
+      "detailsSha256": "0b5a1ef20fb26cfb31a8233428739db75c335fd332b507baf4d03d264ae6013d",
+      "propsSha256": "a141799cafb40e929f2100ce5f8ae6f9db8da575db5d7237261df8ffdbd08da7",
+      "objectIdsSha256": "a3a824252625476457e37cde16f1578171f6a61b478edd81fc5bce735a63349f",
+      "stockSha256": "6a7c829b04218d7ec0a4e6081f20f6cd4d60d28d685157cfd62e1670dd23a8b8",
+      "budget": {
+        "food": 20,
+        "wood": 46
+      },
+      "props": 241,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V48",
+      "campaignType": "campaign205-045-48",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 48,
+      "syntheticPose": {
+        "id": "P9047",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4b7149892f98b7bfeb0b8f47b802f86e026d74093e3985cda537b6805ff4aae8",
+      "detailsSha256": "5a86118c2868244e3524eeec5dca58728eb1eeaa0f0a3b7801418cd977d98263",
+      "propsSha256": "c02b2b56d40380aff020db16d47650d9dc272ec5890cf2d1d9f3394c33b6a150",
+      "objectIdsSha256": "f903bff10e6868acddb812ffa3df45860c0d2e57a01aab2d8d8dccc077bfcbf1",
+      "stockSha256": "da11f720f4e56b5a51cff8f10486d55569aca145ce474bfde3438bcb18d5729c",
+      "budget": {
+        "food": 20,
+        "wood": 62
+      },
+      "props": 197,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V49",
+      "campaignType": "campaign205-045-49",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 49,
+      "syntheticPose": {
+        "id": "P9048",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "9019e2b819b249b6a677148f2471dc7a0f95c8fa6035facbb31e0de5dda786f6",
+      "detailsSha256": "6e4a661e8ea92034cdd3887e624e53f14a9c4859ab300ff97b2a068bdf19144a",
+      "propsSha256": "ce54928a058e09a27037a4cf0d2328908cbc57ec013cdb060f29a6fd90ddff16",
+      "objectIdsSha256": "53f3bd91ae1709a49b25ffbed31dfc816ceef837cb98400b8eb03cda274d6826",
+      "stockSha256": "3a402a93db205840c1b4340fa7b5beba159846c2d0e65193c1f8e7241fc60509",
+      "budget": {
+        "food": 10,
+        "wood": 50
+      },
+      "props": 153,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T045-V50",
+      "campaignType": "campaign205-045-50",
+      "typologyId": "EXT-MONDE-T045",
+      "number": 50,
+      "syntheticPose": {
+        "id": "P9049",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b0aac9ce3bb0c799818e3b913a6b6906b411fc051953e17659ff20e057f3bac7",
+      "detailsSha256": "95c48649e135d3c833f3e17d4f9ec5ce3fc7dc08f7309b5d6a71b7e2bd62ebed",
+      "propsSha256": "846efa7f7b8372c12d6148fa3881a2773ab5770d6310a7b1bbe711e792c7a4d4",
+      "objectIdsSha256": "0cc41dd91c5fbffaa11f299202424d75719b5292560764e8ce94df6c7f39951f",
+      "stockSha256": "bd1b7acff642eb99169fc991a091fb06eccd8e45fa038b12425c7386137240d6",
+      "budget": {
+        "food": 9,
+        "wood": 43
+      },
+      "props": 263,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V01",
+      "campaignType": "campaign205-046-01",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 1,
+      "syntheticPose": {
+        "id": "P9050",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "319076b55fbd644aa0e6ced2c9dcae2a8aa9457d907925c3eba86a6abeb662d7",
+      "detailsSha256": "7b3b419edd6ac5812343a689160b24fd522f9436edccb7f3aad14d6fa91fed28",
+      "propsSha256": "59ab4a114568cf392b27b3d8de9f6df8f2bd6ee16fcd7db80659bf7545b4df12",
+      "objectIdsSha256": "74a883c4380a5498ed9492484fc0f6944fed71d84c0e6434cc2f12f5e6013afd",
+      "stockSha256": "5a3fd4bd50aaffaa8dae1af6b8beb9b7b552e42f80f0e0dd3a04b31243ff7fdc",
+      "budget": {
+        "food": 19,
+        "wood": 59
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V02",
+      "campaignType": "campaign205-046-02",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 2,
+      "syntheticPose": {
+        "id": "P9051",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6cef97d9e5dc48c24bd2b5922204bd0719e76cf356d4553373a3eeab3218c7c6",
+      "detailsSha256": "1d1a696c0610ae1642fe933066fa4b97c786a16e6c10c3cb29a4d8b6a47ebeb8",
+      "propsSha256": "9a45304357bbcc47f6d499b1ac30bda042bf65cecceefb7e78acc8ecfea89aed",
+      "objectIdsSha256": "31b0611d13b8919871b9bdbd233c7a51d4e529cddbc6d09017814ecf2655ff1a",
+      "stockSha256": "bef7e0bc8ed341d250b46d1af1ff4bf940a9e5c041349d3001f0b6d1c65ca8e0",
+      "budget": {
+        "food": 19,
+        "wood": 38
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V03",
+      "campaignType": "campaign205-046-03",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 3,
+      "syntheticPose": {
+        "id": "P9052",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d6b61cac2a1f2756fc15bdb203779528537944400e5f3126a7d0c95337d11ad4",
+      "detailsSha256": "d452c369f015deff169457b5bf7d8a08f2feedded23218c819a7448859432884",
+      "propsSha256": "03b9c444e88919608a9a14769216c82f0ca6c8c7efb1391c701866431051d221",
+      "objectIdsSha256": "ffa59e3674c0942af57064aa7f65abe362356e77f6d2eab4c4a60dd7f2db8652",
+      "stockSha256": "4020854d3caae01ea10cf6dd7a7c75af7d3f5f5fd8efc840ba73c070ad148fc1",
+      "budget": {
+        "food": 15,
+        "wood": 44
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V04",
+      "campaignType": "campaign205-046-04",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 4,
+      "syntheticPose": {
+        "id": "P9053",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "7883ae108eb85fc70fa1581ef2221bde775a60821a895bc9d6854789ddfa8676",
+      "detailsSha256": "2aa8da7434a45e93bd74ef468e92657cdbed609cf3ab7f8f5c63053d4725e307",
+      "propsSha256": "d0b3a3ac5368d6a007034d4b8b18ce5675d5cf8b5f624834407b4ce140000674",
+      "objectIdsSha256": "06a53fc3cdcc9c74f37a70e88201088ed4a443ff130007184de33c47d61ce238",
+      "stockSha256": "3918dde47d4f15a330f1f4fdf55b91aa7be561452bc910dfdfa34d7f39c2515a",
+      "budget": {
+        "food": 9,
+        "wood": 59
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V05",
+      "campaignType": "campaign205-046-05",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 5,
+      "syntheticPose": {
+        "id": "P9054",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ec7b48ebc7f28188bb4a2028989234dc4170e3064137580e28da3ba22928ec25",
+      "detailsSha256": "6eb66ac048d088b6102a2396fb80c784ab7e73fd22553c0214f2dc6b03e2853e",
+      "propsSha256": "9a7084cd7b63d2b58ce946454ab838e4671f6677fa6f2114cb9341eee6d329f1",
+      "objectIdsSha256": "0d750166419a1521bf1caa086b21099937316dee3ba3534e43f0232249dfc2cd",
+      "stockSha256": "a05bd72c9a6fd6d8d7b96088ca0ea646734eec06ad0c7a8e4903e83d4557d3fe",
+      "budget": {
+        "food": 23,
+        "wood": 48
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V06",
+      "campaignType": "campaign205-046-06",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 6,
+      "syntheticPose": {
+        "id": "P9055",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "91069cfa661b1495970a626d2120e0add190cdc533e3f13ed9b6adb49f121ab5",
+      "detailsSha256": "f23fe8c59f20cdde511ca0cddcb6d52b8449c788254894f7fb8c28019fe1487c",
+      "propsSha256": "1280a98e8f1f8664abde531d04ff8b65cb57bab1ce50272f6191cc30c37c4fb2",
+      "objectIdsSha256": "2783b12e37ce561c276c4a9bd9e4c21ba0bd76f752d7ac1bcb56d40e402ae9ad",
+      "stockSha256": "589ee9f7582c46525d3469d420bfd8487925a8fa47049d9e7ac3947ff368c99e",
+      "budget": {
+        "food": 11,
+        "wood": 36
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V07",
+      "campaignType": "campaign205-046-07",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 7,
+      "syntheticPose": {
+        "id": "P9056",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "38247cd234e3d3e102ef55a62e3f0768214e48255b9ebc5b790f12304ac0bd1f",
+      "detailsSha256": "713f2adc68c4a14fd8c071b594e43a3263b5a12c8b13890d22beebae6ace472a",
+      "propsSha256": "657dab751b75267c67e72d30fc0c86be600e75f5fe879d6834d3b6d5b987fe7e",
+      "objectIdsSha256": "3797ae738d0f908ab48f46aae6a11f16eb2c99a02b42c06043e6e4d065cfaeab",
+      "stockSha256": "04baf4175fa7bfe306835ebb71a4dc8b3812a002cc4fec8c0cddf0c19c18ab9d",
+      "budget": {
+        "food": 11,
+        "wood": 32
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V08",
+      "campaignType": "campaign205-046-08",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 8,
+      "syntheticPose": {
+        "id": "P9057",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6522becccd8dda88b1968781b157bfbf8dd8f85f028ed07da80ed237eeb4efd8",
+      "detailsSha256": "fa780c6a53eca415b6480a1d8441f88e61f360321b72784a7bfafc16b851243a",
+      "propsSha256": "c0440b28b089a1b9f400abc5cc562beb2af3f91c7a4445b624cbb58f90479a7b",
+      "objectIdsSha256": "ea2e1995230ff57a03c898d6940858440beb021e477dad072925c9025a03e8b2",
+      "stockSha256": "cd01413a9af6ce314f5dad19d82575e8f4dd66e55c29792da88c4eb9418d1852",
+      "budget": {
+        "food": 11,
+        "wood": 55
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V09",
+      "campaignType": "campaign205-046-09",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 9,
+      "syntheticPose": {
+        "id": "P9058",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "bcdb4deb6892159fe9845de58408cbc374d9ca709c29e3e2c24e959331430d3b",
+      "detailsSha256": "89c3cbf3169ed4111038cce86cd6d3d5e3556cbdd0e124863b6b9452f7aee5a7",
+      "propsSha256": "dfbe874f35d2d8f8f96754ac43d2cba3279c5328db8e894f13a2c698b97a2697",
+      "objectIdsSha256": "5591f9bdf7e904bbd496a56d152f2b57adfd4b7148ffcb6fffc196e1e6e2ba80",
+      "stockSha256": "045549e6d4a0c4fad2143cb990673a389091d0d0594f8def245ff2f2f49881a4",
+      "budget": {
+        "food": 10,
+        "wood": 44
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V10",
+      "campaignType": "campaign205-046-10",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 10,
+      "syntheticPose": {
+        "id": "P9059",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d4b0aefd51182eebe49ca2e914e908787d0dcc8995af3a5d348300ee4c17afa5",
+      "detailsSha256": "f20e98744cc66f48ed320ddef07a21fafd3bc069c0968f2ec130082b37f3fc18",
+      "propsSha256": "d63bc457a80f157d38a9f76c77d23a0cf04bc69546f0972b515d235345dac34d",
+      "objectIdsSha256": "903e21dbbf67fa13c61565d61c42b92451872c72f5313d7827e364caecc97543",
+      "stockSha256": "5cddaa578963166ba27460b217db3542b355c2f474cbb91241f3d93ed59a14f5",
+      "budget": {
+        "food": 17,
+        "wood": 40
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V11",
+      "campaignType": "campaign205-046-11",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 11,
+      "syntheticPose": {
+        "id": "P9060",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6c9e96764c65a140c2c98a156517fb9c55027113774fc14e20b890744e2961d2",
+      "detailsSha256": "77d3e005efe8402ffd5ff66a624b0fb19999cdf20066cc864174a2bc09c03ae8",
+      "propsSha256": "df28121a3de8b410c27fce9df687790b29f7c6210a67831d6e4f462a77a4908a",
+      "objectIdsSha256": "f7cbf126e895a7f73c00a0d2020be0f2134447a6bab8a0483965553df96ade5b",
+      "stockSha256": "98fc1abbe1f0e32940abe7b87b01e9fa9b808e614af6cd5e8e4ef01e7a449c4c",
+      "budget": {
+        "food": 11,
+        "wood": 44
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V12",
+      "campaignType": "campaign205-046-12",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 12,
+      "syntheticPose": {
+        "id": "P9061",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a98bd80a172c187864a3178510bfbec9295da12fefa9269edbf7936356090ad3",
+      "detailsSha256": "3c5c06c1f9e343ade56c3a9637f1a3db72af2e4ed7b98d40b6095b9278e52459",
+      "propsSha256": "550ebd81fafe33a894a8c95b7e9fb8f9bdd2d11b46e113a1483fc09fc0a3d7d2",
+      "objectIdsSha256": "c1faca49423873c88ce43778e12bafd933ff01a0a3925a351d63e64353e3f683",
+      "stockSha256": "552c94505ca85d4bb12b835f0161f7618cac631ffd780f50f578308d2a14509c",
+      "budget": {
+        "food": 15,
+        "wood": 46
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V13",
+      "campaignType": "campaign205-046-13",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 13,
+      "syntheticPose": {
+        "id": "P9062",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "99236c3b365588bdeef4e790ee7683fb8d822ad295406c20994d303704990a4a",
+      "detailsSha256": "4ae15a03c1f210d643f2d69bb4546b5b7fcba633580d95526cb75fcb96f6fafe",
+      "propsSha256": "49634d3fae23925a818b8eed748fbc1fa249b43874ff8b26cfa6d76f6c336c9f",
+      "objectIdsSha256": "40f1ddd7b59fc15e94bd83d73fb0812683e02435f959aa576175c95ae93ac50c",
+      "stockSha256": "d8a0bebb3ad8f4528687524c7acbced84581220bc85ce64656749b15f180b8a4",
+      "budget": {
+        "food": 13,
+        "wood": 53
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V14",
+      "campaignType": "campaign205-046-14",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 14,
+      "syntheticPose": {
+        "id": "P9063",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "244abeb67969f0440a5eb0fa5c65e5feeb93b1f6c96bd205b6c95c36a0b9eec8",
+      "detailsSha256": "735a8d97f9e368bfea014c3508864a5f927080625857d319f9ebf54ff6dab445",
+      "propsSha256": "9804dbafc02864bfc7bebe73319b4e6d5673e3c20a509f3a00bce1534493ef79",
+      "objectIdsSha256": "3b894eb5d2354e042ff9ce1ec7dd37367abcee6355d828a5119faceb764afb4c",
+      "stockSha256": "3ea86a6452e3216bd3b5924ad1a7624c91af6136d6bbc56e1ad2ade2b0f18a75",
+      "budget": {
+        "food": 18,
+        "wood": 53
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V15",
+      "campaignType": "campaign205-046-15",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 15,
+      "syntheticPose": {
+        "id": "P9064",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8804eecffc3e6e252dc475ea3685ae13daa55e468635d8d5168260a225cb5ced",
+      "detailsSha256": "c65edcff924cbe42752c529c88f17ae807773fcb2d2c3ffa14718f5b823d7849",
+      "propsSha256": "4eeff3e3773d4c0219b096121618ea3fa6c6b3fa5155134bbaf7ae9ed3425a49",
+      "objectIdsSha256": "18223d3bc7802fa80bbae8e9b3e74060453a4b9d95005f292ed6c31c208cd10d",
+      "stockSha256": "289891d097cd3f0f9431a5a337623d61257b18d25421c9174f8412eb4d14d8e8",
+      "budget": {
+        "food": 12,
+        "wood": 58
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V16",
+      "campaignType": "campaign205-046-16",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 16,
+      "syntheticPose": {
+        "id": "P9065",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "0d0d4d803ea92553470f179e21124d7b59c5f0e08826436cf7ee45142dc09848",
+      "detailsSha256": "76c7ad2a8e6d4284a92bd18a69d658bc7013ea9c7aa68dc2851b1cff208e5e2d",
+      "propsSha256": "e11599d31daf5bfcc3dde55b38c41b362008d7b781c2dc056aa6143fa257f4ec",
+      "objectIdsSha256": "8e720fdff36505c4e62b98bc67ca2e0ee6ef77e45772936c90190fac11a4b47a",
+      "stockSha256": "dad7c939e4cd1571e1fbf397d5977005e9659a478b31f4d2e8a7c466303aea7b",
+      "budget": {
+        "food": 13,
+        "wood": 52
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V17",
+      "campaignType": "campaign205-046-17",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 17,
+      "syntheticPose": {
+        "id": "P9066",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8e99fbf965b08b0b7b27566b6c36328e16a4cd38a9d112f635a90b5087485b51",
+      "detailsSha256": "5c61524957bc66382c9b55d0f0fabcde764e8e525cdd131ab411c6bf3e6527fa",
+      "propsSha256": "300a3c42e996dbd6473389636618f2c410ae305f7256ccd82531d0592688f3ac",
+      "objectIdsSha256": "f4cd520c243a67e4fbfb1f871cdca982a3dd90ece682eb60b8a994f1c44a534e",
+      "stockSha256": "516a69034b1f312a14269f7217476deee518fe44b3858b6701cf248463e36456",
+      "budget": {
+        "food": 8,
+        "wood": 43
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V18",
+      "campaignType": "campaign205-046-18",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 18,
+      "syntheticPose": {
+        "id": "P9067",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c674e4f35076225909eebce54e467a422f64139ce555c6648b7b3cd77f8048ab",
+      "detailsSha256": "177601692c42c664d5ce43c8a5d4e512b823f6c64af6c4c4bbf7b81432810714",
+      "propsSha256": "ed3da0f08bef28755a0b80a7a011e337d526bc8ccc7285d197e0059cd2e8f99e",
+      "objectIdsSha256": "6610184ecd48c2d070cd1852882aa6889fea85a626c24ebf4c4e5ada8f97c2e6",
+      "stockSha256": "64ddfd6a77f845963782fcf1ed8542f6684ad865fd23a57a3770002240fa554a",
+      "budget": {
+        "food": 13,
+        "wood": 38
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V19",
+      "campaignType": "campaign205-046-19",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 19,
+      "syntheticPose": {
+        "id": "P9068",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "f1d600c973c2a558920b4cbb2da69ca64bf9f5ab24e975475a74853e8515b5b3",
+      "detailsSha256": "ffd493370a7fc204e504c158865a3ea886713f24f50bc6785197523dbf5d9a65",
+      "propsSha256": "0ae1e43e3d6235089f4ae6f1b0eb89cc10f6a141812fc25b9740215cb5c6fce9",
+      "objectIdsSha256": "c248f55786403b872d4b0ba49656a9b8fff5a448058957f322eda01d8199f71c",
+      "stockSha256": "43015043fa6e38ab8ab4c44b1b9913acee91d777d8376bc34449a09c2d7dbbf6",
+      "budget": {
+        "food": 13,
+        "wood": 43
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V20",
+      "campaignType": "campaign205-046-20",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 20,
+      "syntheticPose": {
+        "id": "P9069",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "995d7765e0c26b2a6165d8d66c874f1e719980e728b466872c1dd4f263ec0f5d",
+      "detailsSha256": "6606dadc1df343d639a8cf50c603d141a6d77b6186de210648ce88f668aa97a2",
+      "propsSha256": "6faa89830a01ecb14903d285130213298f1d65ebf6bbb68d02b9a350c9e56d4e",
+      "objectIdsSha256": "71170c2c87e64a07de2b6b815536198c0faed29589b6e128786478b22bd9fed3",
+      "stockSha256": "aea54957628fea8c173d54723f9eef57b2861d93b40a69912c2bc961adb60bce",
+      "budget": {
+        "food": 21,
+        "wood": 47
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V21",
+      "campaignType": "campaign205-046-21",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 21,
+      "syntheticPose": {
+        "id": "P9070",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2a8c55ff974328f9f9db7fab0c0281638d9680185b2ef9135d9f3d6814e289c0",
+      "detailsSha256": "ba91c6e765b805b2412bdb1aefcc5aff469beb6e433c942a21e29aa4eed56978",
+      "propsSha256": "e6ecf7b5520caf8758632b0a50a54e1acbaa1613d6b3909026eed049014c8605",
+      "objectIdsSha256": "a7bc5d1e80583f49d5a84ea392863d619d1abdce5f1b4a1d8308b378af37a451",
+      "stockSha256": "346778e5d9b32a4b93dc6fa9595a77a60d48d5edc3a89f62ba90ea6c62f44858",
+      "budget": {
+        "food": 15,
+        "wood": 56
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V22",
+      "campaignType": "campaign205-046-22",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 22,
+      "syntheticPose": {
+        "id": "P9071",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "86515bceab920410c57897bb98c7f32ba4edd63b9d76737211372dd2792d06f6",
+      "detailsSha256": "8859fbedaf256b34d821a2497e8beb4c48396db4479fc574eb2be9c6b4c68ddb",
+      "propsSha256": "fa05c5a1eefe614d695eb3addd72b7bddd9788205e5e84600b02b78461e382ff",
+      "objectIdsSha256": "8b74525993cc3da7fdf37d1fb0ca3b4231bf71c09db959479920200c35ff35c9",
+      "stockSha256": "f18f5b76349d00d909563b2f2b58f24a2ec556a5643cac209f28d8cea76329fe",
+      "budget": {
+        "food": 9,
+        "wood": 54
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V23",
+      "campaignType": "campaign205-046-23",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 23,
+      "syntheticPose": {
+        "id": "P9072",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "bc4fe85277066d0d620a5ad03f4995f9afece94497b6af347092c754458a2e67",
+      "detailsSha256": "79b00cec13d9d20be5d719387289f1410a54ef8e377c6bc0b3ce98772b9f57d0",
+      "propsSha256": "6316ebc4cd252d2df0e14729d9a68899c52c1a137df3ae316c2869e6f21334dc",
+      "objectIdsSha256": "62938fd0316c475752c1f9c9565c8d2fd55645d961f5945be8c6449b79b5964e",
+      "stockSha256": "531c3b83f118ddf7ddb31440862b943281cf9c03efad8f34dd088b63fa7ddea3",
+      "budget": {
+        "food": 18,
+        "wood": 31
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V24",
+      "campaignType": "campaign205-046-24",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 24,
+      "syntheticPose": {
+        "id": "P9073",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "5ac95abd5df9b2dd9020e1e7245ed4a620ab1752c9ea7e7664d52ad39d9f51be",
+      "detailsSha256": "9b31e28f3f01c228e88f7357f657c3a8cb75b564eaadeb636b864f1934324de1",
+      "propsSha256": "946b4f271448304b90c3ba0963a67da9b272c49bac452a9ee3b1a5aa96a209d8",
+      "objectIdsSha256": "4478c9478c418335cd0d016948a48bd410ece23f42b98013eae56fdb550ef260",
+      "stockSha256": "73de1f083ddbea3f4be71b33585edde144e4272f5fecb0ae0ba49dead2e61678",
+      "budget": {
+        "food": 10,
+        "wood": 30
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V25",
+      "campaignType": "campaign205-046-25",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 25,
+      "syntheticPose": {
+        "id": "P9074",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fecabbea5fdfbf49831dc5246f0bb8573208f80bfd297339ad79133d3d1ee783",
+      "detailsSha256": "1f63cb8d872aeb6e915435460af2937f0a882f13e16ff94502c4e5d2be9a0458",
+      "propsSha256": "62f4872dd9036b97283472314d79cad1686154b21cc26a735a0c25162308337d",
+      "objectIdsSha256": "03a8aa108e1101b1a7655112e9c0de20e3dce797a995d765b9492922a4613a31",
+      "stockSha256": "90efb97432b22604395efb351d0c242d6cf98b99f4ab46734af63750352925ef",
+      "budget": {
+        "food": 9,
+        "wood": 59
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V26",
+      "campaignType": "campaign205-046-26",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 26,
+      "syntheticPose": {
+        "id": "P9075",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "65ef1497360b786c3bc90d07e2a4a9850625e8cfdefc689bcbc9f26e27b1b5a0",
+      "detailsSha256": "dd063c6fdb71ec2085e3629d54c88db9dd0923af93a63ea697ac51d69218e96c",
+      "propsSha256": "e8b07411dcbd7e52f3cc18c32a212d11ead1c37c2dea70b1239445626c1ac27e",
+      "objectIdsSha256": "0646bf09551d8b753fd783d90e99b44e8667a33ced0d3fff947a17581a322383",
+      "stockSha256": "a13dc3ca70da0f53b55f5a3bb12d6e23084f459a18b57b327f5d7160b661f653",
+      "budget": {
+        "food": 20,
+        "wood": 50
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V27",
+      "campaignType": "campaign205-046-27",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 27,
+      "syntheticPose": {
+        "id": "P9076",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "5b1428937799d43b8037fa3ddb960523e042a525d0842b3144246ced080ffc1e",
+      "detailsSha256": "4638a108869a819ba03680e353c529f6af9458fd2300ea8f7cc0bd09e36d7526",
+      "propsSha256": "bd292bfb9211c98d0e3b29614c8c7d65f5dad3ed7c830104609a78ca2c2e5895",
+      "objectIdsSha256": "a4c2ff40b8dd31b5f146483a2bce1004eea11736e9842075b20e7c92a407a6e4",
+      "stockSha256": "e0e3cca8fae9d26e1b29debef9ea526676644495f4c19a510bf77bf8ced80ef5",
+      "budget": {
+        "food": 16,
+        "wood": 37
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V28",
+      "campaignType": "campaign205-046-28",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 28,
+      "syntheticPose": {
+        "id": "P9077",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4bb8ad1f39b921e41387b5848246caffdaa5e93057dde6d4be1b1a23e15d462d",
+      "detailsSha256": "010a963edff74e8bfd8f772b0c519a81c424ba51901a54c1e590e86f6b20079c",
+      "propsSha256": "3118671ab3018b1ebd9ef8e2eb56da2d8a06641ec45d4c0d4909b777401fc1b1",
+      "objectIdsSha256": "53da04c6b746669772f2a6bd1320ff7e76d79da7a22c160028dc29f1e40f3a18",
+      "stockSha256": "86cea43ecdc9fba15c4da1eb4498d46164f1a4954a01ef2c13a388015cbb63ed",
+      "budget": {
+        "food": 19,
+        "wood": 54
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V29",
+      "campaignType": "campaign205-046-29",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 29,
+      "syntheticPose": {
+        "id": "P9078",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "7d6bd25aa764659df676a4de947aac46757fae1d8488768cf176c569f0a2a2ac",
+      "detailsSha256": "614356a5dc0d676879249f6950f195eb8b086adba70c96c3add422d38d172cb5",
+      "propsSha256": "5a42a825b16e01c12d58b6517d3c4dd79e864334d500b6500e24620a7b153ff3",
+      "objectIdsSha256": "648332280306fe8f2ac909eb097d348e57a37e23a5d999dcd418f43a967bc942",
+      "stockSha256": "8944272f5c758f8f728c9a968dd4c8bd7efd127f93d7e27dd0ac931f31baeabb",
+      "budget": {
+        "food": 18,
+        "wood": 51
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V30",
+      "campaignType": "campaign205-046-30",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 30,
+      "syntheticPose": {
+        "id": "P9079",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "17a304907b2843c90630863c32b5217ec7585072badf0dff6bb16ce16d0bb794",
+      "detailsSha256": "b4db28ad72121cb5c6a3bce453f1dd01e44e3ae6316ec14284d812cc47607477",
+      "propsSha256": "028a95f23e3968a23891f755791bb5ff1861d9691f516db35f3457747399d821",
+      "objectIdsSha256": "59cc2ff2c2f2dfb6d633c894ee986a4b751e345991ec6dd9c19be6acb963542a",
+      "stockSha256": "95ebfd343038857986e89c5cbc5a96772e745b6d18ec44c0ad0276fd27d32026",
+      "budget": {
+        "food": 13,
+        "wood": 42
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V31",
+      "campaignType": "campaign205-046-31",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 31,
+      "syntheticPose": {
+        "id": "P9080",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "f7147228e7a080f560b92f1814436fcd835300bddd6ccf9852598247edebe137",
+      "detailsSha256": "5eeabdaaab9a0de3b82bdb6ddb1a52e7ff763e9a6c6e25e45eb0fb8089f0e0d0",
+      "propsSha256": "bcb8bf85f783462b4e6a5c25557f28269a83bad4becedf39c8e283bbac75e1c8",
+      "objectIdsSha256": "03ca080be678aaa57d73ecfda70f88faebeb0b8e3e6bec3b068876a2fc3272f9",
+      "stockSha256": "08f37ae532b4cf5cfc4ee4526b2d8cc205ca2d36ca627a04c60188f1ab3ddf8a",
+      "budget": {
+        "food": 16,
+        "wood": 33
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V32",
+      "campaignType": "campaign205-046-32",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 32,
+      "syntheticPose": {
+        "id": "P9081",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "633e9e71fad6009b9658feeec090c4417b47da4866ab8e3c7b3839a4f92c5503",
+      "detailsSha256": "4345ae2f030b3fefc87942084725ff37b743b8e10c893c34df03bec05b1ee508",
+      "propsSha256": "772f27c2d4ff6c4f3ab9ffe3982730bc781953539fc9e2d429b31e1bedcb7f15",
+      "objectIdsSha256": "cc33661130eb102bfd57f65e80cabaf607841559626764f53998982beffec443",
+      "stockSha256": "f5c7c4a3f75d265afbb7ff301ecb602c7ea79b8c8c1e36e9c4584bd0f6953ed1",
+      "budget": {
+        "food": 22,
+        "wood": 46
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V33",
+      "campaignType": "campaign205-046-33",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 33,
+      "syntheticPose": {
+        "id": "P9082",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2b40fa698c986af22604e06d925113e5ec7896d2a74738123b69f5475447b558",
+      "detailsSha256": "0f8a6c6ffd2ed31ea032cbdd72ffcd207822a8b46b9f0e052c93f62ef943bd8c",
+      "propsSha256": "d2e38c8f942c1b7278a0bcb08a9bc2219b7d741ff9cfbcb82db96332846c7297",
+      "objectIdsSha256": "d66463971a73260e24fe181b4dcd2d8277387dafc7ff0918ceb2f6fcadf2a625",
+      "stockSha256": "e607028fc9fc21daf32df782f799fa91f21244ea869987a6bfc600895a94b29c",
+      "budget": {
+        "food": 17,
+        "wood": 33
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V34",
+      "campaignType": "campaign205-046-34",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 34,
+      "syntheticPose": {
+        "id": "P9083",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3a2a859bb1db5f260e9445300d45a8dc40b0a1650d0354137b76da0ac3c54081",
+      "detailsSha256": "5b4128479ba00209ef70e6a9ab1d43cfe892434669aa588c16718c6395854ae2",
+      "propsSha256": "6a21c98609bcfdc5dde8f2abf263776dc9fd7f07dc39d93a08b48b6ea207cedb",
+      "objectIdsSha256": "39a68d6d39fdc6c5a1ff853b70606f30a344e6b96740ea4cf47a502f215c8b2c",
+      "stockSha256": "fe7ac1e4cfd025a7fc032faeba796ca84f998d416b91dee96775a5b1791d4311",
+      "budget": {
+        "food": 7,
+        "wood": 25
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V35",
+      "campaignType": "campaign205-046-35",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 35,
+      "syntheticPose": {
+        "id": "P9084",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "892f64a6f3509bdfce05c29d5a8c5df1357ba8502c2cbe7d814444e6177249e6",
+      "detailsSha256": "81526365a4e21403bfc79cbdaccce9322b81be240c2e6037e99af965d7a2c88b",
+      "propsSha256": "faf816b3c269d2a23fe95294dbc0a215fd0c43caca7dcace7f1000a9a7648798",
+      "objectIdsSha256": "0e9b1f1e6a8b957a0ca887b7cfe144221dea818fb025f005477f44a05dfceffd",
+      "stockSha256": "a0ed6bf1368bf37c32a73b6a6e3448fd5d42f6b8a1735162124711c9269c702e",
+      "budget": {
+        "food": 10,
+        "wood": 37
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V36",
+      "campaignType": "campaign205-046-36",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 36,
+      "syntheticPose": {
+        "id": "P9085",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "578cebe09bcff3556315acac65d04a6f04f632261fb9509dc45cae1bbcecc29d",
+      "detailsSha256": "c6e19c632e18ce65ad43b5a1657fb655020d0ddeb358c5dbbefe59d2c33b8d0d",
+      "propsSha256": "0e540577d8d089f2f3bae996fb701ca97e42a6ff13c55493a367a8f8822b8f66",
+      "objectIdsSha256": "d9ba66b7f0604c4a8af33ad09a4cbb60b771bc1ebf0680fa37fd78a7986ca76b",
+      "stockSha256": "abb9f68f142c7158f3b8269ed652f1a6666815232fdb98d40a5352a040c2d984",
+      "budget": {
+        "food": 10,
+        "wood": 33
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V37",
+      "campaignType": "campaign205-046-37",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 37,
+      "syntheticPose": {
+        "id": "P9086",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "403a6b788e89d951ad5adccdf5a7087f8789375c571bcbd7eca59d400cb87021",
+      "detailsSha256": "ba781d0b3725da15cc015412de01e7bb0d9bdaf624019123603eb41eb50cebe4",
+      "propsSha256": "e13fade88b6e4201a73081fea1635cfe54360c8be42e992b48757b8bd391d149",
+      "objectIdsSha256": "2ee9b1bb63488fc09d8a54cfab0fb5eed46000be3d1bc1ede7e2fbb552852ec5",
+      "stockSha256": "e3df28d31b2b2a9ad0d98525d5f65b69dd420c44a40ff224127be2e6b539cb28",
+      "budget": {
+        "food": 13,
+        "wood": 41
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V38",
+      "campaignType": "campaign205-046-38",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 38,
+      "syntheticPose": {
+        "id": "P9087",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "eb1b6c58a6d07fb137a8662237d35e468e268128d0ee50b4acf6f5ddde450036",
+      "detailsSha256": "6cba219e9aa4594ae5aa65ad43440362f079e732eb51e8b79e165353ffb2d5f6",
+      "propsSha256": "1a6d788f12167037ebad9b0009ad3434887d342bfec268e79487a295db24ca3e",
+      "objectIdsSha256": "d14b81b3640ccd2aa7df7c5240c33d170b1c85763a30c539e0d8b760df065f22",
+      "stockSha256": "62229d16ebac8e547cb329b6267ec734d3f6e2813ccd8de1055a9654f2a120b1",
+      "budget": {
+        "food": 19,
+        "wood": 51
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V39",
+      "campaignType": "campaign205-046-39",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 39,
+      "syntheticPose": {
+        "id": "P9088",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "5fbbb92fa047eda923030d58d46794cb6b26df16aaac5711b6044caeb4386893",
+      "detailsSha256": "30dc03c39cba6dbfc31ecbf91522d6db02d094f071324c65991d6e5d6eb15b08",
+      "propsSha256": "c17474301a4d25361fe4ed14822e88bf2ecfeb5ecdd13fe1a52f4115e94a191f",
+      "objectIdsSha256": "60f4653e5b4fc2a2fdc0aea83dad20b6c849bf6e974fe465d8ac0828ab7bf0cb",
+      "stockSha256": "55bf92bad2e95f3707c135ea9a5eb79accbd5d7f8bc4c47a40d9f6fd07b6f84c",
+      "budget": {
+        "food": 19,
+        "wood": 37
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V40",
+      "campaignType": "campaign205-046-40",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 40,
+      "syntheticPose": {
+        "id": "P9089",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "309009b80c5aae005252ed7f0f8455a09150e4ae74d073b7e06a9af335a5ed67",
+      "detailsSha256": "63ee0e545137f19eafd75126b8a98413c32659534a43a54b6cdfda7af1ef8747",
+      "propsSha256": "d8c9154b9dbd0653b577f9aff4027184dbb919d8d2a7576aca712b8a97c82a6a",
+      "objectIdsSha256": "64e9deb8db940c10d5c871982a054b99f0a00c98ef262b402e49039435456011",
+      "stockSha256": "a67cc624ef6825e645c77eef1d154161dd8387fd9895801bf7165a9c486e0306",
+      "budget": {
+        "food": 18,
+        "wood": 45
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V41",
+      "campaignType": "campaign205-046-41",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 41,
+      "syntheticPose": {
+        "id": "P9090",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c19c950efd1817131d9e51428adefc7a597ad752650e01a4f4dcc4259ae9724b",
+      "detailsSha256": "757fa0e89699d87b8333d5ebbfcd4f1b4cbe061dad6ec9e37e06f5b6cba239e5",
+      "propsSha256": "8cc4efb7d66fc2251ae82aadeb7882cf66c842053a7f692b1aa945d5a3424593",
+      "objectIdsSha256": "64c48003e7841167ed02858a50ca0380ccad80bf4d03b23d692e438b17855956",
+      "stockSha256": "3d94841909d89e7e4dc0792a3d9c8fe90ae9bb93e9d0c979eaffabd5d534e203",
+      "budget": {
+        "food": 16,
+        "wood": 39
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V42",
+      "campaignType": "campaign205-046-42",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 42,
+      "syntheticPose": {
+        "id": "P9091",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c0573af12c028ecb668bfd1076a1c0ec1fef600e727ebd6c4216a0404476adfc",
+      "detailsSha256": "925af9e69858878fd29dad8f4bfcfdfe7ed8e737cc7cf5db5934c9e1c718eb22",
+      "propsSha256": "05fb144bab2c967c6907e0ba0e6af711ccdc81287516570a360af5fda41b15cf",
+      "objectIdsSha256": "a100f6007aa447265d97674a7932d623df8719f125c92368e6595f53cd69813f",
+      "stockSha256": "d8693b280581fe4ab8393d36caf7b6ded2048b7bc4e35933a0fde65a78c2babd",
+      "budget": {
+        "food": 20,
+        "wood": 44
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V43",
+      "campaignType": "campaign205-046-43",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 43,
+      "syntheticPose": {
+        "id": "P9092",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8f64d33659d4da38ea04f042d20f3c9d650fa29b4128ca12876794c12087dd0e",
+      "detailsSha256": "7f68e8c7123d1dc8ed27256ddf33c60492a17fe09e2db1476d802f07ab59f9b7",
+      "propsSha256": "da25255a1faf1902efe3860558744efd4325b7a86215badcc04e6ba57d6f31ac",
+      "objectIdsSha256": "ed07f70fa08a3c78fa56fb800f026a83c795e1cf236c72d49b4c65d3912416e6",
+      "stockSha256": "4eac6546a97e063bbdda81942e6d55874ee64446b49cd96c9dd440e0926b52a1",
+      "budget": {
+        "food": 17,
+        "wood": 50
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V44",
+      "campaignType": "campaign205-046-44",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 44,
+      "syntheticPose": {
+        "id": "P9093",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ea9624331811add7148663d96de10981c85d8bc5c31884bc20450ec2a1037258",
+      "detailsSha256": "da0642d319a82e9d3c1f8e44595854ecc35698ec34260087a14c4fa486ad5777",
+      "propsSha256": "2d6a8dc791b7816b79c6a85f8f81fce6ddce8bf0eca961cdac897cf678ab1b06",
+      "objectIdsSha256": "6961a1fa0035823c6a55073f3c0557021030baf5aac6e259be4809d844e455f9",
+      "stockSha256": "4961204853ffd1c4ae7e98f4a1716e60e72a58c53254f3407d17821fd0e8cf0f",
+      "budget": {
+        "food": 16,
+        "wood": 44
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V45",
+      "campaignType": "campaign205-046-45",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 45,
+      "syntheticPose": {
+        "id": "P9094",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a3746d40ed375386be635c43c710f47cf623da1bb05344f2fc28a5ac56f0e204",
+      "detailsSha256": "1f09fc0bda74a8e6355df53dc222212c0fb637d5388fcb648356527ca4fe3de1",
+      "propsSha256": "5749c2ec43c9b6df87b30a0aed5f28b77379b8ac2ac67c36c08d92d223347a15",
+      "objectIdsSha256": "f05998d27aaeb38f2bcc634bdbe13abdb7c86b10b3fc8798dccbcffef78098df",
+      "stockSha256": "0a12e08eab9985a0e74b555ed47ee8dc5fc73b5151121be276b7c63859873004",
+      "budget": {
+        "food": 22,
+        "wood": 55
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V46",
+      "campaignType": "campaign205-046-46",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 46,
+      "syntheticPose": {
+        "id": "P9095",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cca8206678054dcb0711717dad9473f808eee24a05a4ce7574d5f7807bbaab51",
+      "detailsSha256": "7623e96438cd043db88d3fda2e33cb7df78d8d6b6070a8f5a7e04b7f458b7a5e",
+      "propsSha256": "9fb845349192bddb935823af97f12e474a23380f2e95c48de8ccf4122aa05d7a",
+      "objectIdsSha256": "e5b3e354d8ceed5e7d6a40c61896aaef47890829274e17ce53701fa83911ea3a",
+      "stockSha256": "35f34a22292e37b2fed18353f71a44f982bd5bbc0e15d09574d5cf5789b7d0a9",
+      "budget": {
+        "food": 20,
+        "wood": 38
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V47",
+      "campaignType": "campaign205-046-47",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 47,
+      "syntheticPose": {
+        "id": "P9096",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c533655a57302e600455759ebcc9bae732bc336f6fd3f08a48c8d525a5b1899f",
+      "detailsSha256": "c909edc07200cdc6da01f5c2c2c29d1d5e2b560602f32c523fbb716c4b47104f",
+      "propsSha256": "ede97b3ed5eb31bcb8945675ea216104fc06f3d01f2076342a34986266e5282d",
+      "objectIdsSha256": "fc13c14d3b91b4310a29bb1b096d5a2329ebe22988d8fecf7320c583d8b6439a",
+      "stockSha256": "3d2dc138669fa42023bcbcef090a9b054fed0e9aa5747fe9b980ccfe23ef2f95",
+      "budget": {
+        "food": 12,
+        "wood": 51
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V48",
+      "campaignType": "campaign205-046-48",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 48,
+      "syntheticPose": {
+        "id": "P9097",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "e73d3bc142165567f70d4aa5af87e3ed01f0622624607fd592e7d8979eccf806",
+      "detailsSha256": "08a34544995b09e9fdfd2f887966099564f151fc61f8c3df697731dc2d9e00ea",
+      "propsSha256": "cd70b18c262f55c64dc93564a91a62570dfca4f2a68991fcf87385c508b110a2",
+      "objectIdsSha256": "cbfcf77becd68b1cc56611f27b5ccd45470e1adf92d1a2e8f88236c6cb8e491a",
+      "stockSha256": "6b2b2abdb62308f0d7d7cbcf626f7202b10830c9b0f3b4cc5fcbe0ec783952f0",
+      "budget": {
+        "food": 23,
+        "wood": 56
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V49",
+      "campaignType": "campaign205-046-49",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 49,
+      "syntheticPose": {
+        "id": "P9098",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d381bb63fc26a83a6098884b2d7ea307daa2978d24eda9f5dd6eb99b277e1b35",
+      "detailsSha256": "a49e541284c1de8dc4d51f66c6555e58fea1d4dc8485ab373b2b5456c8373d84",
+      "propsSha256": "91b4e00e65b89663abffac2e7f208ee5ca1bbbfedcbd753c1a29c0eeda60922e",
+      "objectIdsSha256": "8ad2d617da97636ac17c1a229395f63324719e005717fce782e7110b2163e7f8",
+      "stockSha256": "0253d130313acea6f29f962d819e14c2b8d7e8f517ffb42323d9b71ae93be6c9",
+      "budget": {
+        "food": 13,
+        "wood": 32
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T046-V50",
+      "campaignType": "campaign205-046-50",
+      "typologyId": "EXT-MONDE-T046",
+      "number": 50,
+      "syntheticPose": {
+        "id": "P9099",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "44c32315d1afb150171975b1ca55a62452ec0a33b235e637a6097077dba7feb7",
+      "detailsSha256": "2a12f8f44894d83a12e48d959361d3b9085e78fbb92dcd5bc17e5a046e5cecf0",
+      "propsSha256": "2efa077ca74f0372982e9c98f3441154df618cd349a29701ea2925637956095e",
+      "objectIdsSha256": "a83b5a0129958b44a60855214329573dc8460dfe522371335983d26286c48fd3",
+      "stockSha256": "cbdb97a3bc7099d9c0be4e7a2ee6b04d2c4746a60adcad9f7459c8fbdb569dbe",
+      "budget": {
+        "food": 10,
+        "wood": 34
+      },
+      "props": 66,
+      "containers": 8
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V01",
+      "campaignType": "campaign205-047-01",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 1,
+      "syntheticPose": {
+        "id": "P9100",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "66b03f78a328110c0c90542907bddca0eef9bc87876ae869b28d187da5a38742",
+      "detailsSha256": "ebe898e455ce897e9fde99749866dc25d4cea9868132bea4de8d2083c82b5b18",
+      "propsSha256": "f313a3ec010e315b70a04197638be4dc1458e1b40a8bbf74711644cdc38440a5",
+      "objectIdsSha256": "b0ece26183edbc42d50cdc7500fffe6ffe90a06467b368ac3af34a06e2af16dc",
+      "stockSha256": "cf175f6f1ce87681207d1b6e20a1c3ce09e6d7a4e1e58dcb6a8c494faf304606",
+      "budget": {
+        "food": 18,
+        "scrap": 44,
+        "wood": 72
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V02",
+      "campaignType": "campaign205-047-02",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 2,
+      "syntheticPose": {
+        "id": "P9101",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "e2de60e228b658b9565f116201b32b296bde1f8dd2e2504e218840cd91a8f7fe",
+      "detailsSha256": "9d1b245a504a996206eaca1fdf788e580aef099d3c508d50d39312de4273ca37",
+      "propsSha256": "3e7727b4fa1f4bb1c5f939e71a58f5c43e74fd0ec42352a7d73b0afa98cb3ac8",
+      "objectIdsSha256": "2186d69b83ad13ce306ebd131b9db2b2396679aeecfe4ff38696ab58654ac839",
+      "stockSha256": "6b1c57b07a2f0e2ee8f1fc697c17d7647c0b63787484a8860f8ade67945bf709",
+      "budget": {
+        "food": 9,
+        "scrap": 55,
+        "wood": 41
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V03",
+      "campaignType": "campaign205-047-03",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 3,
+      "syntheticPose": {
+        "id": "P9102",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cf78509a451c0e0c61b2373b6c3b1890dd69dc017e7973053e2e9cf09b2b3fe5",
+      "detailsSha256": "275b09dee730b72733bae495208ecb403971a45482af7cc07030315d8168b334",
+      "propsSha256": "af6021632593a5040b88553554c60d1f090736927bad624a3d77982841d60ea5",
+      "objectIdsSha256": "2d65ec5f884a368020012fcbfb8e7919d76481a83980442376c93bf24acf855d",
+      "stockSha256": "e0821d4d7f1b0211222578e1674094fde6208698ba4c7531121cc95cf40c49b5",
+      "budget": {
+        "food": 19,
+        "scrap": 39,
+        "wood": 47
+      },
+      "props": 203,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V04",
+      "campaignType": "campaign205-047-04",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 4,
+      "syntheticPose": {
+        "id": "P9103",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "45b74ce7e2a81ef8f138f43a682db748582d825ad8c123ebc03792f017d879ba",
+      "detailsSha256": "dee2239d07bddf49295dae4d50f8c1d16fdbf0f08209e9ce65877187b34f0ad6",
+      "propsSha256": "73edaaf21be9e23a9b5a5ebe1e6c8f5abfa10e7c241658b1b70dacb1e2f497c6",
+      "objectIdsSha256": "074adab74ecc33475fef033132a4fd7fdeb56651f97778aa6a2a8cca6112ef24",
+      "stockSha256": "43e86856660ac40855aa4ab08d8ae3d29aa9de3b1b4f9431c2d6e15bb576334e",
+      "budget": {
+        "food": 18,
+        "scrap": 57,
+        "wood": 44
+      },
+      "props": 108,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V05",
+      "campaignType": "campaign205-047-05",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 5,
+      "syntheticPose": {
+        "id": "P9104",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "caaf803932f64af25e9084a607639c358471494c18acba7bd7f78eaeefd3ef49",
+      "detailsSha256": "5da12d07c1560bf14f797a9870f27ed688a4ba9c2ec6e16d6004a98a2ec82497",
+      "propsSha256": "4c10f726672a76db7ec2c64efeef704afbe78e87d83e2994b1aa28e01e92fae1",
+      "objectIdsSha256": "bab3937ae10fcec3ef7fcce455f35346d062c6a2f142bc34312c2ac94d80d642",
+      "stockSha256": "fd3c4cc4808a5bde55b66074e6d87a9bfca133f77287d8392586844f53e5f449",
+      "budget": {
+        "food": 17,
+        "scrap": 54,
+        "wood": 63
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V06",
+      "campaignType": "campaign205-047-06",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 6,
+      "syntheticPose": {
+        "id": "P9105",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "20553bf92a845d0b35d14529186685da44a75a42d83c754ec2e3dfc2a1783bb1",
+      "detailsSha256": "dd9b3e47ef632ba25b8731a0fe4622453d45f4e3542abfc13e3c35d00d402153",
+      "propsSha256": "15e30a862a5aa7b901dcdeaadc809030b6da12054dd69e7099e9fcb22862f0a0",
+      "objectIdsSha256": "3941f47d42b7d173ab115f514f3c3f55c4446ccba0eb9e470ac1a2bb5af6bc77",
+      "stockSha256": "2fafba2c25b2000e3cef300a6a43dbcb069c7e7d90a5726211316037605a3301",
+      "budget": {
+        "food": 19,
+        "scrap": 31,
+        "wood": 60
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V07",
+      "campaignType": "campaign205-047-07",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 7,
+      "syntheticPose": {
+        "id": "P9106",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6881a1826d9c83481f108f4a3669f36b1f6671a9ac12945b32777a64603e5bd3",
+      "detailsSha256": "d44b844583c37e7dde78eabd7de144be89bf16d030bf132cb5a81d6b1f39667a",
+      "propsSha256": "e795326cb9464d4b024d2eef447215de1e4e4eb639fb67f2ad4058237990150f",
+      "objectIdsSha256": "2ce563e74780cf6c5fefd3f2f885bbe5c28213c021c8b9e64c9ed963e6cb5ec7",
+      "stockSha256": "c000199be3a1c750a68e15e6565400ae1e3c018549129edaa1a54394185260a3",
+      "budget": {
+        "food": 8,
+        "scrap": 46,
+        "wood": 82
+      },
+      "props": 222,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V08",
+      "campaignType": "campaign205-047-08",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 8,
+      "syntheticPose": {
+        "id": "P9107",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "147607dfd5b6d55b0a4f58c8b2eaa1e15ae80091d9de15852f33e822d00d1157",
+      "detailsSha256": "0fa64f35a3c398fb0005906080f4c1be43e6a14f872be5df05cf4a137d98cd4a",
+      "propsSha256": "7fddbcb4ae1a4454f4a16d0fc4f5261bf0f26ed37c3b7ee54158d18ede70655b",
+      "objectIdsSha256": "1d9b335d2d557ee41c83271a569da32d9668174ae7b4f581ca743192d99090c9",
+      "stockSha256": "c2ca869b8017d5c4864c6da3a8bd4aef9e50e9629106be4cb6f6f26c981242e1",
+      "budget": {
+        "food": 19,
+        "scrap": 45,
+        "wood": 47
+      },
+      "props": 184,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V09",
+      "campaignType": "campaign205-047-09",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 9,
+      "syntheticPose": {
+        "id": "P9108",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3351c00b53630e38d1ef629a7b1d236be150540e9c37d9b9479ec98ed0e2f664",
+      "detailsSha256": "93f7e94a2ce12add2942342df8d00deb8f8797f5ebacc8e876f45f553d5da958",
+      "propsSha256": "0b1b7baf9c26e03bdffc64f6add779515b9b6cde659af6feeb91154e94c9e5a2",
+      "objectIdsSha256": "6944a6ea966364d6adbfdf98acae1f0a60b52524e3d2cf4a6ff042970e9cb2f3",
+      "stockSha256": "9cff91fd0cf13223fd0abe75120f6d3f97766e7a24b0177c86fc9dc6b8b87025",
+      "budget": {
+        "food": 11,
+        "scrap": 40,
+        "wood": 58
+      },
+      "props": 146,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V10",
+      "campaignType": "campaign205-047-10",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 10,
+      "syntheticPose": {
+        "id": "P9109",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "248773d0287023a34af8f82d749ec6f2d854076140d62794c1c80e9c2a136fe5",
+      "detailsSha256": "87812f34718cca70f55ecf5f51ee7474d5fd52534219551805aef2d984d9eb93",
+      "propsSha256": "b8a3c75f706391c7c3014584b6adddae39be7430185b1277c6cf53f8fc87abb8",
+      "objectIdsSha256": "1e2aa80fee11eba8aaaab94f42ce1d170855fb4aaa6e4107e917aa427b84caf8",
+      "stockSha256": "7d0b59f0623752114758d24aa387f7f109c7301cd1150956e9dc4cb3aea2e59b",
+      "budget": {
+        "food": 10,
+        "scrap": 45,
+        "wood": 81
+      },
+      "props": 241,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V11",
+      "campaignType": "campaign205-047-11",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 11,
+      "syntheticPose": {
+        "id": "P9110",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "863b0726ff7da33c61e2e746840ecf4ba5cc5d3ae35ec58500cb10391245a6de",
+      "detailsSha256": "eb25c68763d36693285bba070db9f08b9984d5e4c0f29da0574854094a4dd7bf",
+      "propsSha256": "d65a216b75b23acc61dd2600356201dd0cdd44d6b92b3545a5956c6150d68d00",
+      "objectIdsSha256": "8cecffd6034af09ad78e65eb3de32f8b153d03401973bc5cb83921470bc934cf",
+      "stockSha256": "2368a41e9b35a6963a9d04de8565c6325655c2496927b8e90bd0213255532b35",
+      "budget": {
+        "food": 17,
+        "scrap": 59,
+        "wood": 65
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V12",
+      "campaignType": "campaign205-047-12",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 12,
+      "syntheticPose": {
+        "id": "P9111",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2f19fa5f82e5a6f26c8b1c814bc749f2b5af4ec2bc3a8b49c1529df4f925ef6f",
+      "detailsSha256": "6c95915543505a3d28cd030824e17c226a4b02ffe87f8364580f0f162ea80a15",
+      "propsSha256": "2c96d058cc7319d15d6ea3e3331bcb5cd4296a38d5483b8c6fea96ede4003bf8",
+      "objectIdsSha256": "08477594e7c7f0fbd1622b98e07bb449a269f27eae2d39457541f84822256db3",
+      "stockSha256": "abb42823e92223cd4c6e19ec458a4bccc17149183e51a4ef600366fe5f095e81",
+      "budget": {
+        "food": 13,
+        "scrap": 46,
+        "wood": 67
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V13",
+      "campaignType": "campaign205-047-13",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 13,
+      "syntheticPose": {
+        "id": "P9112",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "33d645f2b3402fc44b9014d09dd64991a147eb4c1ff383191bc0c96f3cdda03f",
+      "detailsSha256": "003d40ba61b8bc136333300dfe2b1dff4dc669c3f94f5543b899696307f84412",
+      "propsSha256": "49054f11de0b35da13ca6ba882ee83b6e60563e3012e580c3c3eb131a15e29c2",
+      "objectIdsSha256": "b2b0ffe3465c6d2f1aaf33a88cff4b1428aefd1b072f03102eb213b044ec8789",
+      "stockSha256": "46ab76063658812345f75895778d931913333c2ffb604f6118204f74b81bbd12",
+      "budget": {
+        "food": 15,
+        "scrap": 44,
+        "wood": 49
+      },
+      "props": 203,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V14",
+      "campaignType": "campaign205-047-14",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 14,
+      "syntheticPose": {
+        "id": "P9113",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "da0ebb24460e61e8497ac40cc476820168e4b7e7a0b4dc465e15908f1fce9a9a",
+      "detailsSha256": "83a6c36a96f81ebfd2cd70387adb579c73cfad066980f93def66cacc7450a33f",
+      "propsSha256": "4422e26b263544051acb43e10e31a577174a607d3b5d28ad4496ef2c2f348085",
+      "objectIdsSha256": "d51ae4b75d6125a765fe7c42c28b09fcbbead4e3c2d410a5f4da44cd41550f3d",
+      "stockSha256": "ba08679ffb984de32d82a7131ea88f03cd49ef5bdc3b5e67e5096d669395d52b",
+      "budget": {
+        "food": 17,
+        "scrap": 41,
+        "wood": 46
+      },
+      "props": 108,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V15",
+      "campaignType": "campaign205-047-15",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 15,
+      "syntheticPose": {
+        "id": "P9114",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "955133ec0ef6094a787c48a6acfc5bbe1d1daca153b91e16f9a104a3d34857a3",
+      "detailsSha256": "fc56ed4ad138d79dca7d9873719b9be8ddf1901b3b64bda58b61f9cc2f2b7e3f",
+      "propsSha256": "f54d92afa701a8ae937de23916d61ca9239a7d0cadce444b76fe7619be1b14b7",
+      "objectIdsSha256": "58aa3ba43742de0b996394ac74c01121a91a49d4972165bd71e24fd8aa5a5535",
+      "stockSha256": "e10e3f10b8e9f25f5346b685612a2e48078eaca8ac133c2fcc0a4f38ce40a400",
+      "budget": {
+        "food": 14,
+        "scrap": 31,
+        "wood": 52
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V16",
+      "campaignType": "campaign205-047-16",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 16,
+      "syntheticPose": {
+        "id": "P9115",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "bbf358ea68101cd072a573c1be6e05a94bf5210d1c19abdd64c955ccf6a3acdf",
+      "detailsSha256": "e526fdd7ec8b50aede967bfbe34acffa64c7c6684d0c45562cb611b66fe71950",
+      "propsSha256": "72bdc735d0d716faa649311cc33e8a1f54e9edfa379fdb98f002c9b5c6958015",
+      "objectIdsSha256": "16836bb533966899e3ef1434cfd39e9ba8d8ed73442ef2822cf4ce11667c935a",
+      "stockSha256": "637affd2880611e6e7281b8c9b2363155064313b5687e9c51be7a1c66f37899e",
+      "budget": {
+        "food": 10,
+        "scrap": 37,
+        "wood": 53
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V17",
+      "campaignType": "campaign205-047-17",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 17,
+      "syntheticPose": {
+        "id": "P9116",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ee03cce227027714399763dc8678625a82d2781f313a89b786e56ede36be7bcd",
+      "detailsSha256": "22ca35d2d3303d244170620585b3d065d2d65103001ac3ce3809cffa5906aa5b",
+      "propsSha256": "51d5b273d1c715e961802367b02843a0c357f1bd0622aeba0c629dfd50fd2964",
+      "objectIdsSha256": "ccc608a7d66af7e34c1952ad0587095499195ceb438ed7a35e41bb21b6ff08e8",
+      "stockSha256": "eac65b095f059b2ddc476d5cf288bd757f52874f7b1d4e98fb45d7e8949da3ec",
+      "budget": {
+        "food": 9,
+        "scrap": 47,
+        "wood": 66
+      },
+      "props": 222,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V18",
+      "campaignType": "campaign205-047-18",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 18,
+      "syntheticPose": {
+        "id": "P9117",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "0907e6dfe20878b3552adfda9800cfb8cefda8c4c5f89e850e992af0a0347921",
+      "detailsSha256": "cc8f0bbe97a40d75b4b2a821f2d591bf6a3ae3fb7a5e55c8aed581ba828fbc2f",
+      "propsSha256": "a147e33dc962f3e49d4c6f14938c1ec40cdeb63b8753efd88862ea7dd923f703",
+      "objectIdsSha256": "446c75da0e57ad4e02e3b6a0a11aa7ec7009dff192d18f0c2d09529647cb86a4",
+      "stockSha256": "873188a293ededd74489ec3525ce79b03e5fb0612e015cdb1f56aede53522486",
+      "budget": {
+        "food": 8,
+        "scrap": 60,
+        "wood": 64
+      },
+      "props": 184,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V19",
+      "campaignType": "campaign205-047-19",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 19,
+      "syntheticPose": {
+        "id": "P9118",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "48a977bcef195861a2ef3f2c26315bfc0083f7a982f1255050c08190b64fd7a3",
+      "detailsSha256": "9106e41088cc8e347ab4b394a18339e4b0fe34f1292de202c492d2a9282d5d16",
+      "propsSha256": "c49c0a57d1674d178a6b9241208427b384f227346e36d3f0efd24c7a87e2fd33",
+      "objectIdsSha256": "bb3f1a30f8128b999fcc5a87757b2e23b73b9d6158a11a36b5be4504b8757398",
+      "stockSha256": "3d25a79b5d89afa2bee45c84714b4d842255cfce5e3fe739d9f089a79d4da961",
+      "budget": {
+        "food": 8,
+        "scrap": 53,
+        "wood": 73
+      },
+      "props": 146,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V20",
+      "campaignType": "campaign205-047-20",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 20,
+      "syntheticPose": {
+        "id": "P9119",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "30b728e27286cad0c503cdae90208ff54113fe274eb5fc8a8d9a059e1ffec2a1",
+      "detailsSha256": "5f86f8288c3f02b2d71dc2115af8725531ba543b219e877168f0a6d56f281853",
+      "propsSha256": "942d0fc99712a6e6eebc9799ce3e267dac160f0ee7c77ac9bceb31cf11f4bd63",
+      "objectIdsSha256": "086d65df156f37e031286a219fe3f4f3299669cd7b514a26ac4ea7481df4e3b3",
+      "stockSha256": "ed4d40cb934fba2e44e6187c3333052cc4e7ebf9fe9ecba055dd654edb45e30d",
+      "budget": {
+        "food": 7,
+        "scrap": 49,
+        "wood": 63
+      },
+      "props": 241,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V21",
+      "campaignType": "campaign205-047-21",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 21,
+      "syntheticPose": {
+        "id": "P9120",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "62656345fb26af34a99818381b4964cd319bc4a06a26f4bfe1cb6a643548aaa1",
+      "detailsSha256": "11b0d78646aa78d0657870378e9b795910c6b6e9680b34c92391f6658517adee",
+      "propsSha256": "122849a8db39eb3624ead9dddb5f795be8bc5064d3935f670e134a13197d01a3",
+      "objectIdsSha256": "86c0a8d6d6368548eb98ee61f28782c1bbf37747df36568612fd76deeb1523bc",
+      "stockSha256": "fe6e6859f3264f1185be5c575106e3def5ae4037b9d00eef628109c26dadcf2c",
+      "budget": {
+        "food": 20,
+        "scrap": 48,
+        "wood": 82
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V22",
+      "campaignType": "campaign205-047-22",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 22,
+      "syntheticPose": {
+        "id": "P9121",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "0deb54cdf6a95899b2bbe533f5c78a1e2cb2c388a0343f54b9ced6f7514c62e0",
+      "detailsSha256": "a2a55f8ba2babff2f06d34accd057f2d140a7a2f87ffb3a4febb4ba22c8b157b",
+      "propsSha256": "616739cf4852b6425051b7a34982145fe4660495a9ebf1867c82518623b21c05",
+      "objectIdsSha256": "f8d83996b031b7cd00d8f76b69339284d33feee91bfca0aba274dfbd3677480a",
+      "stockSha256": "39857ecf4e5bcfe4ec57042e323ff1bab93e319095aa1fcbda6d7baf12678bde",
+      "budget": {
+        "food": 7,
+        "scrap": 47,
+        "wood": 73
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V23",
+      "campaignType": "campaign205-047-23",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 23,
+      "syntheticPose": {
+        "id": "P9122",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fee5a22f4a9e1f736a10ba1743324efa4068d6a56fc65be77906ae1a2fc208c6",
+      "detailsSha256": "9b2e9aadfab04bc1633f825f5b3fb30a91da10cbf502273cb40d2e5f6d4c0e92",
+      "propsSha256": "e3a37ae14c7eb44c2dc5466ca2f439944642cff19f68d98acb93d52d078c3d17",
+      "objectIdsSha256": "a60c3eaeab5f2473f1da2619972cddfc1b9b678ba12f31f16de52ee968d5723b",
+      "stockSha256": "35bacfaf0729711b33e6eb1b3a517f722c5da009f7ac6f0206cf639fe128a9cc",
+      "budget": {
+        "food": 15,
+        "scrap": 50,
+        "wood": 39
+      },
+      "props": 203,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V24",
+      "campaignType": "campaign205-047-24",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 24,
+      "syntheticPose": {
+        "id": "P9123",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "0492bb5c3b9904d1f3f354ca7229b6b7fb27502ded0652c8ee7695105a47b08c",
+      "detailsSha256": "c4b637485cdcbea28a58e88883c5d8c08e97aea8fc119f939ab3515cdab5bcfc",
+      "propsSha256": "36b575e87aff3905905093fce21eb068e1c6a15ca9588d37898d4060d2cd4b30",
+      "objectIdsSha256": "28729360748e744ebc4e52e6182414b229785cce06e093808c97fa70ee8244d2",
+      "stockSha256": "523a58dc896bfd8c8fbbc03e254955511c4208387f6d3955d0523c7ccdd75771",
+      "budget": {
+        "food": 10,
+        "scrap": 43,
+        "wood": 55
+      },
+      "props": 108,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V25",
+      "campaignType": "campaign205-047-25",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 25,
+      "syntheticPose": {
+        "id": "P9124",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3dd34d0f6395346c4bff2ee52dede7d50339e4ce1f80d5108611d483ccaac59f",
+      "detailsSha256": "a1c8caea15ac2162534ff42ef81a220e16f95b14162eeb7ec82d59d2c0c48439",
+      "propsSha256": "db11c5314933a19db50644cf26d98acd145bd2ad98fc983af199f9bf95650846",
+      "objectIdsSha256": "69cc92c943a6470a38910a21bfb95bd425feea26e0d66ce57f5745efc0d71bbb",
+      "stockSha256": "482c9bdc8f23dcbb45d69beff36c02d49750022bf3a24cf1b6ffb531e5022849",
+      "budget": {
+        "food": 16,
+        "scrap": 41,
+        "wood": 53
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V26",
+      "campaignType": "campaign205-047-26",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 26,
+      "syntheticPose": {
+        "id": "P9125",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b6254bd8f1d17f29ae6d6617a739a71a044a064f6aec695aaa74468fdb9e5ee4",
+      "detailsSha256": "2d9434b21d7a5034a15910ade6ad5af244e4a577afacecb10cf517051174e3ae",
+      "propsSha256": "54d4f0542d8a50cc092b6e0ef70336fc5bd99128a6277de46150c4ae86b0e06e",
+      "objectIdsSha256": "c0ada7227fe5bc383bd987520731bc279e73ea8aee1998a33588e547bb29512c",
+      "stockSha256": "1e93befe3e4cc45e9f00fb7d5636359ad4ca7a9f5c30f796b566a2e853cda27c",
+      "budget": {
+        "food": 14,
+        "scrap": 32,
+        "wood": 58
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V27",
+      "campaignType": "campaign205-047-27",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 27,
+      "syntheticPose": {
+        "id": "P9126",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "eb9acf995b8e8cadc929580e7f366b0e2b5246dcdba67472ffcb50c0413f63a5",
+      "detailsSha256": "5288194a6045fe0af5caa0cf109c48daca5cd442a2d4d1eaebaa819ab41b3957",
+      "propsSha256": "d1bb7b66288aab19da970d828ab78c447603ca901df930923f280a3bae01386d",
+      "objectIdsSha256": "59315993d8ffb1b66742c484f7ffe4857689d9ebe51f22653afc8bbda4cf3d9d",
+      "stockSha256": "082d894840d79adb82c72ca81a931d128422d5838f6978e81a6fec06f23cff23",
+      "budget": {
+        "food": 14,
+        "scrap": 46,
+        "wood": 63
+      },
+      "props": 222,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V28",
+      "campaignType": "campaign205-047-28",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 28,
+      "syntheticPose": {
+        "id": "P9127",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cce49ed650ee7a209dc33e67a2d3bb720f2f51474cfc8a1a688ab5d354b2501e",
+      "detailsSha256": "4b4ce6ef86c6c1f220342f8bf5a9008394815ce99247969c920757e90a3f8b44",
+      "propsSha256": "359bc61e52ab3e7cdff0cd0333dc8872bdc1e9d83216806768dc63e7fff49ecf",
+      "objectIdsSha256": "c046e26fc600b6eb3640f0d901cc09679c61d3509cb5bd50d7d19bfc5cef6ec6",
+      "stockSha256": "22a47bd06314b5b993b8253bf60626fc7e55caa6841008a7939e0f84fe0006b6",
+      "budget": {
+        "food": 9,
+        "scrap": 38,
+        "wood": 68
+      },
+      "props": 184,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V29",
+      "campaignType": "campaign205-047-29",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 29,
+      "syntheticPose": {
+        "id": "P9128",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "924ef0399d05d449798a24ead07243e7ec9259f3b1c05b2135b7a903928f9820",
+      "detailsSha256": "8187ba0cd5e2b45e5f7da394778bbe3ab63d81baab148c48ba214821ce055204",
+      "propsSha256": "d9384a90961e56e2e2eb72ed298c7229ace9a4f013013f1d77b32a93dbc78bcc",
+      "objectIdsSha256": "ae2cbcae284f8fe5a70a76d78797e468c2f8b441894340cfec56fce853977da6",
+      "stockSha256": "b16a56327b513f7cfc5d3cc914f2ff17aa4f8000f61dd7f9a13cd3dd1d132e9c",
+      "budget": {
+        "food": 11,
+        "scrap": 37,
+        "wood": 70
+      },
+      "props": 146,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V30",
+      "campaignType": "campaign205-047-30",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 30,
+      "syntheticPose": {
+        "id": "P9129",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "f627c486f2333e856b6088e252ab6023d0b33e961cb257d038aa3d3cf5e635d2",
+      "detailsSha256": "d003d9005bab7f5b082ff6667c8c478225b1b54b4e384a23ea83ae2e5dfa45b3",
+      "propsSha256": "491f849aa376dd2178b21f559e11cd4c24f36cf333098606d8c6f57a066de999",
+      "objectIdsSha256": "8cf2bb136e8b81b4d10e158470c229c8520f1d46884b9b303ad6b46314c307d6",
+      "stockSha256": "04a16f910ba61e49097cd2552409c970c3075c3a26ac3f0039edaee766c4f45a",
+      "budget": {
+        "food": 14,
+        "scrap": 43,
+        "wood": 59
+      },
+      "props": 241,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V31",
+      "campaignType": "campaign205-047-31",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 31,
+      "syntheticPose": {
+        "id": "P9130",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "00ebc17618bae899a2f13c7d15d0d0dbaf34e27fe479f8d10633df11eb16cbaf",
+      "detailsSha256": "14a7f91edcf9e2d3d126912a62dcc15420921ffa56465174bc1db25f6d886975",
+      "propsSha256": "baca8d4ffaa3133fa367234a1b0246a4e7b351995cd8056a73542cfc0ec7944d",
+      "objectIdsSha256": "1a4ac7f68e3673a79e82899f67344760c7b5a0fdef486f3f1d0a0dbbccdb5f7d",
+      "stockSha256": "4680d481f54325258bd54a190e0fe888fdaf848452713cc4aa78bc521635e619",
+      "budget": {
+        "food": 7,
+        "scrap": 53,
+        "wood": 61
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V32",
+      "campaignType": "campaign205-047-32",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 32,
+      "syntheticPose": {
+        "id": "P9131",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d5db60518796835eb893c6e434d12225b18cd59198a55cb98519d68ab8bcfcc4",
+      "detailsSha256": "ea4eeb872f929369ae7b304d44a8fa13c1232365e6d6aa1b045306b205bab67e",
+      "propsSha256": "c7f24102b68337b220228c600a4e819193a499549a3002809cf9bd294a8b9c24",
+      "objectIdsSha256": "382d7daf02c9fc167b09db408cac691eb54b30f057c18cf11cfb0e1f45649ff2",
+      "stockSha256": "15af384aa87b4f311e65982a961a1494646b4b057d647ee580a557741718cb6c",
+      "budget": {
+        "food": 22,
+        "scrap": 56,
+        "wood": 70
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V33",
+      "campaignType": "campaign205-047-33",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 33,
+      "syntheticPose": {
+        "id": "P9132",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6f50222d6390763367e7bbf9246233c9f0efec2741d7447a30316af51b9d6d48",
+      "detailsSha256": "604c8b4ee2e0aac2081f2d4c65753ea5e059be15bcbc734dee7edb152b42488b",
+      "propsSha256": "92ca6ec2dbc3ec3b349ef2e094aa8c06d98c9edc40370511423c02a6c622f8b2",
+      "objectIdsSha256": "db55cfec42f26e2478536ff5157e15441493d0a6cc943f9cb366d0603a8d3507",
+      "stockSha256": "1d1b625d7824889d10a983c2546e63714a6efa102e88fcad315cc61c26aa224f",
+      "budget": {
+        "food": 13,
+        "scrap": 37,
+        "wood": 69
+      },
+      "props": 203,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V34",
+      "campaignType": "campaign205-047-34",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 34,
+      "syntheticPose": {
+        "id": "P9133",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "143b77619ccb9b8500cb4eabfc4858ca60759cc198ff8d21099e98425f0bb7d3",
+      "detailsSha256": "3017f902bc5947b1e9cb49cdab83de602089377d42a75d55117f85fd9a666860",
+      "propsSha256": "966e750d8a0c3a53b71e65d43a2389d5bea8249aa47ecbbabd150a8f1841fff9",
+      "objectIdsSha256": "b847a60896801f2a4529b278665d08c3cb6c839014319d99ab212a61325b88aa",
+      "stockSha256": "a11bf71537c1417d2041c226e20e467dcbcca9ca3d623458f5d35854212e7811",
+      "budget": {
+        "food": 19,
+        "scrap": 45,
+        "wood": 54
+      },
+      "props": 108,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V35",
+      "campaignType": "campaign205-047-35",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 35,
+      "syntheticPose": {
+        "id": "P9134",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d55ac5f50f949a64e01454e314101f1ead6e437eaaf538a4ca93405a14b43145",
+      "detailsSha256": "42536e27169837b968cd0e2f4d426a436f0a154c8b29b1cea86c7757847e4082",
+      "propsSha256": "77fd922717434230399f5fc4386ae5d1b7ebeca1ebf24c600eeff1351e4d0bfc",
+      "objectIdsSha256": "f01e8cf1eb8755a281a693f957a3623593ef10bf749a55b108ba3f73a0133c23",
+      "stockSha256": "fe591c4560458a3dafbf5af7a975f6b6566a38df99d2f0a12cb1a2705e3f4c92",
+      "budget": {
+        "food": 21,
+        "scrap": 37,
+        "wood": 78
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V36",
+      "campaignType": "campaign205-047-36",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 36,
+      "syntheticPose": {
+        "id": "P9135",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "dd00dc9ea3663f8d199da170e9477dfc384a63eae2cea15e6d89f7912c1ae6b4",
+      "detailsSha256": "86cc7acc6dc548fc4b442685069a3a67d6d70c5a3fe9251b5c5147211276ffa6",
+      "propsSha256": "7eb3c2042ed28888f0d80230066d041c178e3b7cf33214d62344ab7661c47739",
+      "objectIdsSha256": "27d7f6a042709896b2419cae42439a8d0fdd8a2ceee1ef858f76accc353028e7",
+      "stockSha256": "0abfee5c65bc56191f4450880204eca0fbbb3072ce7263fbcbe22ce950b36635",
+      "budget": {
+        "food": 17,
+        "scrap": 48,
+        "wood": 68
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V37",
+      "campaignType": "campaign205-047-37",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 37,
+      "syntheticPose": {
+        "id": "P9136",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fccd4d1e55e707760e3c69da508f718e52e25db848f347c438b5a908fafd5e9b",
+      "detailsSha256": "43010225755088e118359b9a0c9ce3a7383aeb372a2558a709cac2857582a5c7",
+      "propsSha256": "6f062ee70a7c6f123230f04efa8f70281cb20c49ee3643403d9818d3de65b4ba",
+      "objectIdsSha256": "96d7c18b14d732f38d8b0b2552015f4bc3f6a32ad718dacfebcdcb6c3b78ac02",
+      "stockSha256": "0db179aef238ad397676223abbb905cd16f7ef90fc2d767c45f6fb0854040b95",
+      "budget": {
+        "food": 9,
+        "scrap": 31,
+        "wood": 69
+      },
+      "props": 222,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V38",
+      "campaignType": "campaign205-047-38",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 38,
+      "syntheticPose": {
+        "id": "P9137",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "e27449f35b0ba8a7bb5b965016e95ddb3f34584c5c21a1f57a460129ed83c941",
+      "detailsSha256": "14cddae5a8f5a425f04cf4284a991d3211211f5125279a4383aaa5d09ebc4355",
+      "propsSha256": "4d42414509afea01d56f29c31e9616d28a03b6938adcc281b827e3f90264c12e",
+      "objectIdsSha256": "7c915c3c592ac680ae5b30c795f77bd04858b5e3efb906937058414624955c8a",
+      "stockSha256": "fb7bd4d3441c8f4d893241204459f0d978b7d367065b174f1b0eaefcf75f94cb",
+      "budget": {
+        "food": 23,
+        "scrap": 44,
+        "wood": 57
+      },
+      "props": 184,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V39",
+      "campaignType": "campaign205-047-39",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 39,
+      "syntheticPose": {
+        "id": "P9138",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a04152780602752a90e35da301dac34d497b1b4e19533ef658ff1b7a0b936217",
+      "detailsSha256": "cfcc18d97129341b5de5b414fd5f9d068703d8da11192a73b6335631900a74b7",
+      "propsSha256": "9c159a30f387f928d4940a9afae0579033f14cd5eb6b9dd73d6410ea1585dbf7",
+      "objectIdsSha256": "065c5e4f3951bc8245dada7306cb20c863b1a676576105d82ad6bf0b4bcad98c",
+      "stockSha256": "83931d9d7e6d90f6cd27f03332a7c1c4750135c91cee6585655c014fe22a9808",
+      "budget": {
+        "food": 20,
+        "scrap": 37,
+        "wood": 57
+      },
+      "props": 146,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V40",
+      "campaignType": "campaign205-047-40",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 40,
+      "syntheticPose": {
+        "id": "P9139",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b430706bbdbb04ce4736a3354e8cbbc8e050a39616b44d184755e357ac5eb88e",
+      "detailsSha256": "024d4e68e6e5b2355e0b76c66adfe1e13d9e678871d4fe9af6f9494b572cbb8b",
+      "propsSha256": "2829c2bbcb6b4829d7143661a508379f433b00a5a046ae348b46a27d607cc363",
+      "objectIdsSha256": "7ce6f177034134eaddb2b85b0a5c34b4b1d5b0bd3e6c2ab84eb318747e73cb90",
+      "stockSha256": "11f39c298f3c017e8d677222ae4e10d833b7e4cbd769f669e7d41dfdbf7634a0",
+      "budget": {
+        "food": 20,
+        "scrap": 47,
+        "wood": 64
+      },
+      "props": 241,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V41",
+      "campaignType": "campaign205-047-41",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 41,
+      "syntheticPose": {
+        "id": "P9140",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "24176fe3bd513dfd2749c05733fcf9a3a1dd039171be40a1fa9ada6631b0f07b",
+      "detailsSha256": "8995b33f360c576263dc137a05c77db22c8dabb7d829124b00e06001a048f303",
+      "propsSha256": "a3e679604bb4ad5752adc728fc4b5717483862379203491b6d851b391a2cc835",
+      "objectIdsSha256": "6c4e9f0ab466cba2616c41c3f8ed8e4d6ac4704f269d3ed93cb45d5048c224f2",
+      "stockSha256": "8b1fa31c6f1e9566b013cd120eda71e7a6e9ee09eee1ffc8f6c6683f56805597",
+      "budget": {
+        "food": 23,
+        "scrap": 44,
+        "wood": 74
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V42",
+      "campaignType": "campaign205-047-42",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 42,
+      "syntheticPose": {
+        "id": "P9141",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "16c8358f8f4298e989c86f9672bd9dbd3bee7694ae8d5cd0a7794d33893d4cd1",
+      "detailsSha256": "3b2fedd7d71c78da2e702befb8de5e47ab8709e2b9aee326822c6c1a08764ecb",
+      "propsSha256": "39503df6b421a56ef3552c3ce2f836b5e8704744b23aa777d197c0fab1685b69",
+      "objectIdsSha256": "c940b611efef598739beca4d379b228623990d2c359a6d2585e130dcd1f1c33c",
+      "stockSha256": "3fd5876a4f37b8a493b07be25bb04b79ea591c309496cd00f2ff3db122f865a9",
+      "budget": {
+        "food": 11,
+        "scrap": 44,
+        "wood": 56
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V43",
+      "campaignType": "campaign205-047-43",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 43,
+      "syntheticPose": {
+        "id": "P9142",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1c14bf8a41632f61c308d0497c9d9049956fcd5b96743d2818039bb3a622dd6b",
+      "detailsSha256": "43eefb46b689d6724f74c4b1c2a0b92a1ccbebb16c5cd861dc2edaeda7b5c5b3",
+      "propsSha256": "e52df41e9e8402f3db6b61c1aa293948a1ad700868b333a123c76765f64e58ea",
+      "objectIdsSha256": "0ac086df9e501431ac698540b60cdece04228cd0297f2a09cea340292e6cf54f",
+      "stockSha256": "024fc0c4549e30feea9e60b5e5589b4f48d6afdaf8596985efc421744aa771af",
+      "budget": {
+        "food": 20,
+        "scrap": 52,
+        "wood": 67
+      },
+      "props": 203,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V44",
+      "campaignType": "campaign205-047-44",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 44,
+      "syntheticPose": {
+        "id": "P9143",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3c8bfdb194ae1206f0c5c99760c8847609f1f506cc84fe8aee65beb6265c756b",
+      "detailsSha256": "c91dc2256a21cd70c0e3fc96dfa0fb43cfcdbdd3f8d3fab32b119ef3cb0a84cb",
+      "propsSha256": "07b6946460c632af5a84722ab75b35a0b3c7a4a074cd8ba7503d0f1af75cedec",
+      "objectIdsSha256": "8fa9fbd0de28e1454bb3ef02486058c4ad5da2a124ea5e1cb350fadb5f32843c",
+      "stockSha256": "44ca48441765f6be34206c8193505c10c0bb376557168b489ea9e40d64695531",
+      "budget": {
+        "food": 20,
+        "scrap": 46,
+        "wood": 54
+      },
+      "props": 108,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V45",
+      "campaignType": "campaign205-047-45",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 45,
+      "syntheticPose": {
+        "id": "P9144",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "eacc5efef08aaead41ab7ff1a5fc3da200431c901d1577475d2f0a49dac8c948",
+      "detailsSha256": "8d3a289c520cf4a0f547b4ecc3d0936eea76b44a55264645ec11288f1410d4d8",
+      "propsSha256": "f59f1d339a6c4de9b3e1010eae46532de4dae68994bfe8cd4b94962be4a8bafa",
+      "objectIdsSha256": "570cf8f47c80d9cd1114e57cdb15575fd50d62c5149b923389d091891e952eb7",
+      "stockSha256": "e493126d0c0c79e539c7cbffecb5ba8e44af7a06c6d54a66a3df4730f819bbbe",
+      "budget": {
+        "food": 13,
+        "scrap": 43,
+        "wood": 50
+      },
+      "props": 127,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V46",
+      "campaignType": "campaign205-047-46",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 46,
+      "syntheticPose": {
+        "id": "P9145",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "078137be4be81c2ef0da6ea3690065f079f796a5b91a3e857e87b258284e465c",
+      "detailsSha256": "fc51dae5f1fd6f16ff105f578d01b249414a21a91de9bc9abe899b8a58e54363",
+      "propsSha256": "0b229740de0ad19faa4e2db97076c37ce1f60c963af00e0b5f42ca9df45cf2e6",
+      "objectIdsSha256": "cc6a881e3cb3ff726d725c912e89c8b8f13aa8f898d1cc0e8e90cadfb6999e5f",
+      "stockSha256": "ed6422c3c47424ed04137e67a6787d8456ecfb821cf76488c68946fe263d3445",
+      "budget": {
+        "food": 16,
+        "scrap": 40,
+        "wood": 47
+      },
+      "props": 165,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V47",
+      "campaignType": "campaign205-047-47",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 47,
+      "syntheticPose": {
+        "id": "P9146",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "01d4c09600f49e0b33df790d3750dadba62d0aead440e097b53c8fd4fef67648",
+      "detailsSha256": "9e70c86222af643d6834d626985388745e2124d11e2fb332ec8c746870f22d5f",
+      "propsSha256": "bbe434d08f97b712d6a1077202c8074c7dae865a10b0473d919499f6f825839f",
+      "objectIdsSha256": "8bb5b0513dfde15467a2c7d7615b07849ed2026f7b72ba14e0ff4400904cac9c",
+      "stockSha256": "b77334ad15b832d92997e20c905ecd9e8815e5fbf18be22ba2afbe70c74f534d",
+      "budget": {
+        "food": 23,
+        "scrap": 29,
+        "wood": 58
+      },
+      "props": 222,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V48",
+      "campaignType": "campaign205-047-48",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 48,
+      "syntheticPose": {
+        "id": "P9147",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "97b421fc8cf4a7130541c25f0754c34c1db72de11151cc950b9e6301e55af53e",
+      "detailsSha256": "585a18f95389adaee2b77ea454e638ea8d431a8df93931c58f9e54ec35c3c4e7",
+      "propsSha256": "03c9b9e6e5ddacce7461fa8539be5269d97a580b630a5961efa1267b622baa12",
+      "objectIdsSha256": "872e2c0e4b7a18e3482b2c06697637a01e71c5bb93d9d53d7e7a8a8bca20ec1a",
+      "stockSha256": "a904dc2b3642065fc24ab76162765bfd30b6d8ccbacee575fd69faeec3829e01",
+      "budget": {
+        "food": 16,
+        "scrap": 32,
+        "wood": 61
+      },
+      "props": 184,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V49",
+      "campaignType": "campaign205-047-49",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 49,
+      "syntheticPose": {
+        "id": "P9148",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "5bbc647217c97cf33f91b96ba45942de0b3f36234a3e50716a1db72652e5ed26",
+      "detailsSha256": "f9d7f4a351cfcf77e9ee45b24544f2c01f06110a96e70a7f7e9a197136616b79",
+      "propsSha256": "c68c2d2e1cb683b0d7e0afa19fa6e175f9cc2c2bf760c0f46dd573e804131911",
+      "objectIdsSha256": "56ac0f14bfc104cf9ca98b1d78641fa44eaedb253e7f1562ce0662b95cd68fc2",
+      "stockSha256": "91535e74bcccd4e8ea0b5462845d9bb422f5a300e3838bba665bfa483f7c1817",
+      "budget": {
+        "food": 20,
+        "scrap": 44,
+        "wood": 57
+      },
+      "props": 146,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T047-V50",
+      "campaignType": "campaign205-047-50",
+      "typologyId": "EXT-MONDE-T047",
+      "number": 50,
+      "syntheticPose": {
+        "id": "P9149",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "e6767702696aa9e1bd22dc32465ce26b06a335794e27a9725ec88f56a41f6faf",
+      "detailsSha256": "c55f90fb59f051005c21d10b667e01ebaddd5c683b801dd9cec98cfb2583692f",
+      "propsSha256": "86d4c946c6963d8ca93171cc54492819e91f3202a104891452ed58307b76243b",
+      "objectIdsSha256": "506b9be979de0befe6818381856129549cc4bf42d3cbeb400b5e47dc4f9335f2",
+      "stockSha256": "fe96986c6e047cc4a76d754ea01f9d03d046c1e4f18b2acef6fa137ac7e12ae0",
+      "budget": {
+        "food": 7,
+        "scrap": 47,
+        "wood": 67
+      },
+      "props": 241,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V01",
+      "campaignType": "campaign205-048-01",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 1,
+      "syntheticPose": {
+        "id": "P9150",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "5d195c8e552cd729698ce8f7c00700799c5a4d68ce310426fa45bf0263b14399",
+      "detailsSha256": "6db7614d79e8b1055decc003ad26531e810f3173ce74d2356a264166cc06ebe6",
+      "propsSha256": "eae1e7c94dda6b8e7cd04ebe4fc573469445e5f213c2fff863ffabacb9180f99",
+      "objectIdsSha256": "a8ec19d551f6b71d9ccb741c83ef81fe7bb9e5ee0a10204ffaf0072e4c81dc35",
+      "stockSha256": "1641a3fdff5b2587fcf4df8dfd32faeef8dd724d2daff47a1539b42cc32919e9",
+      "budget": {
+        "food": 19,
+        "scrap": 57,
+        "wood": 59
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V02",
+      "campaignType": "campaign205-048-02",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 2,
+      "syntheticPose": {
+        "id": "P9151",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "e692a50f4af57cf82aec0da684a8636f730bdeabe0e6acc931c63a998a2be794",
+      "detailsSha256": "e165482e66930f07797bdcd47b57070bf5f206d997778e76039e9d39c66d7fd5",
+      "propsSha256": "cbf596c272deac8db0ffc9cfa18b319364c5e56d76fbe31f9ffc9e7828e87136",
+      "objectIdsSha256": "7b45257da0f638f764d73b89d0aabc99e81cecec633ce2c93f1311403f4bc4ca",
+      "stockSha256": "174360c53582041aea42c8969d0597ec50ae417379bc0f883d94946254a5b414",
+      "budget": {
+        "food": 9,
+        "scrap": 51,
+        "wood": 65
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V03",
+      "campaignType": "campaign205-048-03",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 3,
+      "syntheticPose": {
+        "id": "P9152",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "b037f7c570a2a72d2e6f81f6453df9125bd515a8318484542e2cd17e9bb39295",
+      "detailsSha256": "2048d2cbb19bf1789c891bf01020657002de4c8ab66f99936bddbbd4717e6f72",
+      "propsSha256": "e42a30298774fc11b836438b9425eb1ad68a369f15fef3530a395eb76c50007a",
+      "objectIdsSha256": "225747fcd6ea9b254c89f526375ffff4dbd966b06a8d36e628c870f2f3150435",
+      "stockSha256": "3b71afb58d35adbebab676995a450243ac9c26647416672d50679a527fe0b170",
+      "budget": {
+        "food": 14,
+        "scrap": 51,
+        "wood": 53
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V04",
+      "campaignType": "campaign205-048-04",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 4,
+      "syntheticPose": {
+        "id": "P9153",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "71394d998e96e4b7904238fbe640aaae128128e4f7d6ee16c6e9e4a7b47d66a3",
+      "detailsSha256": "29593f10ed40ff761256a430dc28c465d81549bfd34b173696d73e9565fb3ddc",
+      "propsSha256": "798bbec2e1fc18727f3913fcf89919f94c9427446d2433fef303d5aca66cf834",
+      "objectIdsSha256": "b7dcc51225f9b17482b18be364ed179737a5ad88d42725154a3eb2f512f79b81",
+      "stockSha256": "96112e70b10ff5556195b0de777fc7f0ca752e4df0383ca2c7acb47498dca61b",
+      "budget": {
+        "food": 20,
+        "scrap": 35,
+        "wood": 56
+      },
+      "props": 66,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V05",
+      "campaignType": "campaign205-048-05",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 5,
+      "syntheticPose": {
+        "id": "P9154",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4968c7cb5e0d0d755ccbe16882546a4203c57eda3e1aec27e2a6e04bd371dbde",
+      "detailsSha256": "8f7357c98afa4b9b7b7a8dc470e3c7f3ebf0651aa641071f8c26f98b391ac3f2",
+      "propsSha256": "2a681732aaa5df5e77893a22230320439e704ca25306a01f199459723fdb5657",
+      "objectIdsSha256": "22e175f8cb0972dbd93ef9f8355df161d796e2017e676d0985bdef8b9b6698b6",
+      "stockSha256": "bcc28d950145430c54392a2b48e149bdc72b7f7064c3c8fdddc75358c66306f5",
+      "budget": {
+        "food": 9,
+        "scrap": 47,
+        "wood": 65
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V06",
+      "campaignType": "campaign205-048-06",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 6,
+      "syntheticPose": {
+        "id": "P9155",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "264bf1a377138f6aa63be9d73a1ca44d85a21c49c1d4ac38ac8cb0f1654da576",
+      "detailsSha256": "1a6eda75eee603f073afdd4b77e0002b93fe956240b00e0ffec6db04f3261e7d",
+      "propsSha256": "a85003122c602fec3d148f8738874abf69ced121b8f4405ffb71c2d256fbdb6c",
+      "objectIdsSha256": "1e75ac6bcb09b8dde9f93b0f2c80a5858e8524f20f3fa8aacce2d701b98bdd75",
+      "stockSha256": "8d9638c411a2dfc0ebe03d7b525310724e6b1830c87e26f8b731b2f7310117a8",
+      "budget": {
+        "food": 19,
+        "scrap": 50,
+        "wood": 65
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V07",
+      "campaignType": "campaign205-048-07",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 7,
+      "syntheticPose": {
+        "id": "P9156",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1c10d90bc62445b0e81c90a63ce1678b6e2213695bed73a047acb54154d0d5e1",
+      "detailsSha256": "c46aaa58b002456ef2edd2499860fe75bddb4d56e913a8dd82c365d23f0f9989",
+      "propsSha256": "e8a495e507a1754cd289474547d8a99b1efa2ef961039492a71943e1c50e61bf",
+      "objectIdsSha256": "0f03f58741679e7066bc731973e0ab7afee7fe268714b130a6f5ce05fb59f93e",
+      "stockSha256": "e4a1fdf4354d8572e37755e6fafae1180b1a551e2b22ed6e369ca3b64809bff5",
+      "budget": {
+        "food": 14,
+        "scrap": 48,
+        "wood": 70
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V08",
+      "campaignType": "campaign205-048-08",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 8,
+      "syntheticPose": {
+        "id": "P9157",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "85f7f73338073cf5a6a95e84fc90f90fe0c9f6c7a3df7bf59ac8c2f791e0ccb3",
+      "detailsSha256": "cc8312b453257032ca29eeb1075b5dc42184c87288d3444b7c42a7d171439d13",
+      "propsSha256": "c4edf3a01eee8519669b0969934f526cd5d6610f54fcf09e8dde2dd24bc8d0df",
+      "objectIdsSha256": "6e0f6662db89d9cbebd8f6da19af3c5bca5dcec20dc4980a7bc8bd3837f0070f",
+      "stockSha256": "eb3dabc04f064099e2ed30f2b7818e6f04b76d3e6042ce3295ce439437561878",
+      "budget": {
+        "food": 7,
+        "scrap": 55,
+        "wood": 39
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V09",
+      "campaignType": "campaign205-048-09",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 9,
+      "syntheticPose": {
+        "id": "P9158",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "678909b2eaed09a2ef7fd88e94690d866d3a004fbe5f1ab219198d58d91a2233",
+      "detailsSha256": "54a722c3509d29b19df1b98d60f5200e13b59dd66e61b7173574db3e9b3d9bbf",
+      "propsSha256": "1aea1073746603fb1d7e47d3a85e3adf7f9c013f501f81904f78b14f2d88aa76",
+      "objectIdsSha256": "2860cd781be978fe69205d768c34d5470cf6c7754455164f166e2b060532ba1e",
+      "stockSha256": "f834ac78cd16a44502e914cc64e85590b5f54916968afcbc483ee089f22b4188",
+      "budget": {
+        "food": 21,
+        "scrap": 35,
+        "wood": 67
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V10",
+      "campaignType": "campaign205-048-10",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 10,
+      "syntheticPose": {
+        "id": "P9159",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "04b526f331b2aa4cd2d5f7167f69c4c8738bd06e3835c28071b3dff74d27bd03",
+      "detailsSha256": "7643d7cd918838e94b114e274c39cc927aa90f10f087bffe7132072cc88e0080",
+      "propsSha256": "f1b2bff15861c912062fec8a207d639c86b766ba1729c31a9f17672952c37c89",
+      "objectIdsSha256": "2733ce36ac6ad0cf18f59ebe83c12a05663a5a40763ccf3aeb0bf1d9db9efafc",
+      "stockSha256": "3a802eb6e7809fec8ca5256212bd3058f5dbe19b5804d899f00fd4e12cc40bbf",
+      "budget": {
+        "food": 19,
+        "scrap": 36,
+        "wood": 68
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V11",
+      "campaignType": "campaign205-048-11",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 11,
+      "syntheticPose": {
+        "id": "P9160",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "40c1ea02a3055637f3c6fd53aeeef8a76e662e4f2af2550ee4d06bc18006654a",
+      "detailsSha256": "3329c78f122187d4dfb5877650fadf3d245dfcae222d58c5459275ee09380009",
+      "propsSha256": "cf378bd01739c1cfa2784ba8b62e87077ca36c85a8f25ad7c8e2f5392b4d0a9e",
+      "objectIdsSha256": "91612225b506ff603e98c1f57f07c27d6a7d8bb2911b114ea56c93bee109b749",
+      "stockSha256": "fc47aaa02701a335d92b603df34caee6986dc9cff4cb8a08bf475db759efa003",
+      "budget": {
+        "food": 8,
+        "scrap": 29,
+        "wood": 72
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V12",
+      "campaignType": "campaign205-048-12",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 12,
+      "syntheticPose": {
+        "id": "P9161",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8c1d5756f453f7dc457d50301a1a15cf787ce6fd7aa997306874b797f030530b",
+      "detailsSha256": "bc0bbf30871ca4a2983485b9a5ed951bddf938599ef7201974b5126b542dd003",
+      "propsSha256": "6185395b6703c381836bbb9c637e88185017ec568615059d7e6c77978eb5c7c7",
+      "objectIdsSha256": "67f965633296c5980301821e9f95101e9fbd37312353971049d1ec3d231a8861",
+      "stockSha256": "ca6227b8d336ab7b6ec6747510fa5f85a56596b38fb27a077f9a1d5711514bea",
+      "budget": {
+        "food": 7,
+        "scrap": 48,
+        "wood": 42
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V13",
+      "campaignType": "campaign205-048-13",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 13,
+      "syntheticPose": {
+        "id": "P9162",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "144cf2c0376658c2c06d33c3d5d46d9442540690f2cb395c4e62623bee656a62",
+      "detailsSha256": "60eaf9c275396e562e80ba48f397379807d129a86d5479732ef608348d2d0265",
+      "propsSha256": "cb24a0784f30e5b3acc458fa7e08025bba51c3b7a87136866c172466cbfa19bc",
+      "objectIdsSha256": "c189d60e7342eb16b387b25747ec6eb6e3a7bd1a1004ea7e1bcd3c62fa2daf57",
+      "stockSha256": "f40ff3b6be7dc09b83a8546958ff319736d3daec4a4bf3eb1cada6f685d101f1",
+      "budget": {
+        "food": 18,
+        "scrap": 54,
+        "wood": 63
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V14",
+      "campaignType": "campaign205-048-14",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 14,
+      "syntheticPose": {
+        "id": "P9163",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "de41b04a41d64620b0320b1a8ebec80b5dc4ca0b151d2c05f97bf57f0f3d15cd",
+      "detailsSha256": "648a150fd068f8c0bcfe1245ac0a9597d974d394b7e30888ee6c0676e6d9c046",
+      "propsSha256": "505ea6020be8a7ba64ee0a95bd7285d208bf60c34eb4dacd7297a774d674db71",
+      "objectIdsSha256": "235709dddd224026aca28f76e0369cdadf6c8f5d651aa9b5b2bf8f5903367c8a",
+      "stockSha256": "d80bd863254c7155d9e9cc7be2b1f492457e8f6dd7e2e28544f5beb5af6fff59",
+      "budget": {
+        "food": 20,
+        "scrap": 47,
+        "wood": 50
+      },
+      "props": 66,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V15",
+      "campaignType": "campaign205-048-15",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 15,
+      "syntheticPose": {
+        "id": "P9164",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "f40d8b381eefcc5886df115be9ded21df1ce17441159f6637016fbc445a697ae",
+      "detailsSha256": "753d3da71cf4f9af2c2e71e1a3d924afa2978cf341a63d62d734a218ad969a87",
+      "propsSha256": "146fe16573abe2ed7a5f922ea900aaf162f839eb2f956d05f4e8be0206d80fbb",
+      "objectIdsSha256": "d87097e9c2c3f997ada32de6c579b90082c608a99df02e17e4520ebb2c475a12",
+      "stockSha256": "d60e98b874909b90f12c35d559914db9d4a6629ee8eb8966473d9f3a54a640ac",
+      "budget": {
+        "food": 22,
+        "scrap": 46,
+        "wood": 62
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V16",
+      "campaignType": "campaign205-048-16",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 16,
+      "syntheticPose": {
+        "id": "P9165",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "246df69dc6c34398e5c31b0104e6721b151c291c4125786f9d983db2aaf5b287",
+      "detailsSha256": "e2c1cd0fe082dcc8ff6970d4cea322f32386bd02d4babfb2779b208611fa51ba",
+      "propsSha256": "9e69d54a07c1a4b1699b0e70f2f7598ede9f37c461b1cade28f73b8033fa1702",
+      "objectIdsSha256": "7455d5c81fdd5d50f03702511a8d7f6b73238c92bce4a3d7cd4f7aafc9c293fd",
+      "stockSha256": "684fef2911d792fa954ed3c17dea22e73d062195270b4b9d1bba155607b6a290",
+      "budget": {
+        "food": 20,
+        "scrap": 40,
+        "wood": 59
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V17",
+      "campaignType": "campaign205-048-17",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 17,
+      "syntheticPose": {
+        "id": "P9166",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a95c4d8bebca240f77ab926d13efe6f1fa8c2cfed7b693d49eb1942df4ef7694",
+      "detailsSha256": "597671ca3654b568cb62e227a8ff38f6dc76a6dd46efb1a42146a2da3d27c759",
+      "propsSha256": "8a136fcd1db8b0d461cda07a8a274418c2b16956afb4220de50f21a037439328",
+      "objectIdsSha256": "c0a0dceb9b44818e1c0638e8deb01b96d21a2ac3eb8992f80588b1af6b76204b",
+      "stockSha256": "4d58c4e03f014d1df31b8a111002d23fe0ae8813bbe705b9d5eb73ff2db8fd89",
+      "budget": {
+        "food": 21,
+        "scrap": 45,
+        "wood": 52
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V18",
+      "campaignType": "campaign205-048-18",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 18,
+      "syntheticPose": {
+        "id": "P9167",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "73400f816e9fcc7e90b03d31f9e3c1dc9b879168ae06ba290f249d2f5b1a0ff5",
+      "detailsSha256": "9f3fd4cfc2817a1d0d369b0aa024aeb38c39161fe28b89c1819870ead1718fd6",
+      "propsSha256": "271fd57da84cd74cf7e39d28e19b2cabd3392b522145be82dddcf80fa773cc5e",
+      "objectIdsSha256": "3b511c553ab34e14f4f7a5d3035d0efdcff1891774d0addb32aecbfa7565a887",
+      "stockSha256": "4b8241bd66ac4853e88d8f65474704d2966ce9c9adb0e5973950d5e893aadb55",
+      "budget": {
+        "food": 14,
+        "scrap": 52,
+        "wood": 71
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V19",
+      "campaignType": "campaign205-048-19",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 19,
+      "syntheticPose": {
+        "id": "P9168",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c049895c9f25efb94ba1826b2c847eea719401881d8e8b7b6e27e5a788d1cb5c",
+      "detailsSha256": "0590237fb530e8c095ab50de8b5e0a1058ef7230f14088ccb4d7f885d54a8268",
+      "propsSha256": "d26292db2e2323f9414ba3879d5281b5b632580a281b63333e43c060242fac0c",
+      "objectIdsSha256": "82b4cf3f77be0d0616d6685c4c4ce43ddab21a93fcda1685114682c144bc47b3",
+      "stockSha256": "0d357ba13cc9533d7ed0a64484ea10121c797a2b137b4490eab0c3fd2ec01b1f",
+      "budget": {
+        "food": 8,
+        "scrap": 26,
+        "wood": 53
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V20",
+      "campaignType": "campaign205-048-20",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 20,
+      "syntheticPose": {
+        "id": "P9169",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "a0b99914d92fcb6853cddd0770cc47da1ebed960a525a9f9a41bd59479989d0c",
+      "detailsSha256": "1fd84be3d87488b2fcbb2f4f15dd06f073089d230689706ae97bed51b532ceb2",
+      "propsSha256": "ea05d469cb5bedbd454560d87c203144e7e38b6a1a19863f96949c84fe2e7c26",
+      "objectIdsSha256": "d1c980718eb8278e5c533531ba6323d6793db3cbe7443f6eb6ffb13c12da6f6c",
+      "stockSha256": "82ee6af34d8180cbd3c11216167748d659b13d1d74889e6fd2eb6509a1015531",
+      "budget": {
+        "food": 15,
+        "scrap": 65,
+        "wood": 75
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V21",
+      "campaignType": "campaign205-048-21",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 21,
+      "syntheticPose": {
+        "id": "P9170",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1ca4ce0db82787ff2ddc378fe9350a8d5ddad499d141524a2738f063e51ea98c",
+      "detailsSha256": "1644c235ba1768f579210728a0e3bf56eea38874c81319d035c463737761c7fe",
+      "propsSha256": "c53504d2f45aad672e2c9de8c23bf60134934f0e87ea1491dcecc2ba31e52291",
+      "objectIdsSha256": "b2f718c62162eb7202d5bc2fe6d668bfa7242ce106ff709036eb87e83e8251e1",
+      "stockSha256": "43f6ce7049aecc4b986f5332e3b026d696470bcd975a8e450bf567655a19f507",
+      "budget": {
+        "food": 18,
+        "scrap": 40,
+        "wood": 67
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V22",
+      "campaignType": "campaign205-048-22",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 22,
+      "syntheticPose": {
+        "id": "P9171",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c98dd28e26bcb480676ec2b8e1a5b3ca5939a4d08b77330c7a48a3cb826fe28e",
+      "detailsSha256": "1a10aeeb8b5c53dfc7daafd775a83712978a430de2452392dbe70121b2cfe881",
+      "propsSha256": "c0a339afbb66b85d7dfccfade4a57240f7d607817a661e5c3d1876bdbfd2f7cb",
+      "objectIdsSha256": "2e45c668a4de0f21642a68883f0f207dff2ba0eb0ef36ae9f310c63724e7c0e8",
+      "stockSha256": "b9cf32fe953354a5b0a4b7118df988c87230b811a86f86922c10e6ac5fae8dad",
+      "budget": {
+        "food": 9,
+        "scrap": 49,
+        "wood": 62
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V23",
+      "campaignType": "campaign205-048-23",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 23,
+      "syntheticPose": {
+        "id": "P9172",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "bd162c9381d5eeec0c1da8d8cb49ada740469ec632be6c9b42151dcc774c670e",
+      "detailsSha256": "db80b0198d185b9851171b87f38a45f748fd76b73e30486d481d4f4b5e71f6d5",
+      "propsSha256": "5a1fe995022e992195079da4ba33c25196be5811222674f11f603264df0f9a1f",
+      "objectIdsSha256": "5c8d03a4a1298a8611999cd95ee4063671b196d0258faa89b7725cc9f868223e",
+      "stockSha256": "5b4b39c1b42d0d8196466962e19b7f061fabef6eac1477703f70a402919aeebe",
+      "budget": {
+        "food": 13,
+        "scrap": 66,
+        "wood": 50
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V24",
+      "campaignType": "campaign205-048-24",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 24,
+      "syntheticPose": {
+        "id": "P9173",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "cdd73c3fe59aba419f23f977b8895da9d5fce48bdb08d9e0a80e1c91129546cf",
+      "detailsSha256": "79177d2216624ca03d002268e7b0f54fc73d2cddf6f082b13fdc87982557d7f0",
+      "propsSha256": "dd1a38e83bf8e8e37732ecb3dc9596528d53e78216dfe192022e774737dc318a",
+      "objectIdsSha256": "e657856f2f3c566432cbd9bd189f331dc1e128e21f880aa0969f1bf3625f4b47",
+      "stockSha256": "e2e0229d0fe6fbfad73f0b60642616afaa024db3aba1207979e080b4bb3dc246",
+      "budget": {
+        "food": 21,
+        "scrap": 43,
+        "wood": 59
+      },
+      "props": 66,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V25",
+      "campaignType": "campaign205-048-25",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 25,
+      "syntheticPose": {
+        "id": "P9174",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8677e4c23ec8cca83e4f5f3fd496c49627321a4a28964ca40acf22702d74bcc8",
+      "detailsSha256": "5a784893f8e51547668001433559e99198e20c63c8d7142f040d72f69688e414",
+      "propsSha256": "838785789cb5990687dfb5c2e8fa2cf944284967c3e964ae4cfb20685b922ef7",
+      "objectIdsSha256": "6af716c281c02771f46eb7677271696e518820260ad759b2e9c13588f655ee74",
+      "stockSha256": "a3280128495aa727813ed77aeac7063528123bd9ef0723c15fa6de4b6a825bfa",
+      "budget": {
+        "food": 19,
+        "scrap": 44,
+        "wood": 71
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V26",
+      "campaignType": "campaign205-048-26",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 26,
+      "syntheticPose": {
+        "id": "P9175",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "00638e400df44c89cff757151909c35e7e39adf2627787015fc209eaabcbb010",
+      "detailsSha256": "263ed971a6675f7b6f59d2300511e5ad49fa5a88e151e0f079e84f434ee386be",
+      "propsSha256": "0f054837eb4a4dc808363e89cde3f477475546a8b83f4914b6fc1857f10a2c0e",
+      "objectIdsSha256": "e44608d108429c5396f69702c392bdb21c6405adeee5436a52b925361e76412b",
+      "stockSha256": "bacd729d6b152c7254482ef7f5ab5d4b2bc1278735b7fb5e5bfcedd845b317e1",
+      "budget": {
+        "food": 12,
+        "scrap": 41,
+        "wood": 36
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V27",
+      "campaignType": "campaign205-048-27",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 27,
+      "syntheticPose": {
+        "id": "P9176",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1a479ea920c50582d89f21ca918013aa5ccc39d76c67d0185c0eb4f01d333015",
+      "detailsSha256": "151d8804771580d2264f134ae866c788a3378c8dbd5404a3aa9b830c1b20d888",
+      "propsSha256": "6fcc5fd4101102580e8fd0b7c4f911534e6df0fff89d4921a7760e5d98c08329",
+      "objectIdsSha256": "2703ec921e5bea4df1c98365f85deba58b343c02bf36c489968da40ec26a9667",
+      "stockSha256": "2806228286f79c05059d5f36ca706b6fc95d14515257f28e5705291bb7be5f01",
+      "budget": {
+        "food": 8,
+        "scrap": 39,
+        "wood": 61
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V28",
+      "campaignType": "campaign205-048-28",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 28,
+      "syntheticPose": {
+        "id": "P9177",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "923bd69612b6ab70d6c49a69e83402af865b1484d5376d0f62894e63aa7def61",
+      "detailsSha256": "c54e4f45b8c33a89b4bdd91872a8403869482afc456b998d3e864188154fc165",
+      "propsSha256": "c75dbd4a110142e8c1f08a539849a64b57ca2ad45c04649fafe2f4e79d198105",
+      "objectIdsSha256": "1e22adf0d617d5f22922e1d02109e7dcb17afe53891eb9cc62a1bfd73aa23c2f",
+      "stockSha256": "42c8e871dcc4534e55ecabfaf7b0fc24e6f77b993c920299506aaacd76bb5e88",
+      "budget": {
+        "food": 17,
+        "scrap": 26,
+        "wood": 61
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V29",
+      "campaignType": "campaign205-048-29",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 29,
+      "syntheticPose": {
+        "id": "P9178",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2d464b0b7c3af036a2eee3e83aaf13b3da158856c2584b74da424eba03ef9982",
+      "detailsSha256": "9ee35d67f49af598085d771e4eb49efee7c16603f7401bbb9f06d47af89cc4f0",
+      "propsSha256": "48154c21d645711fdbc4e159698222326d5f6ff4bb9bc0e87547844ca8177659",
+      "objectIdsSha256": "c3a4142b81ada0b085f88dee9f50184b0f04abc270c0d88706cd9566c49a3d6f",
+      "stockSha256": "bc13cc50edbe5af6db94a59c741caced8772242a6364ccb91cc02c3e6011546e",
+      "budget": {
+        "food": 20,
+        "scrap": 42,
+        "wood": 60
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V30",
+      "campaignType": "campaign205-048-30",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 30,
+      "syntheticPose": {
+        "id": "P9179",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "ec513f474a1ee2d339699852c04b3af15cc795832d53cd5a8349fcdef0cf04c9",
+      "detailsSha256": "7a0f77878ac0e515175066a3196e1adb40f3197b6f193123a872381eacf2304f",
+      "propsSha256": "c48ab890440cfbf8a65512c961bd49ce46ec2764091182bcf3e09f499cc76532",
+      "objectIdsSha256": "2c81dd3502d43f812d5434f4bb6ea437ac59aae2d840d9f5b64b7a578bac3947",
+      "stockSha256": "029b5998dc7376dbacb22a4a3f450b7bafeef54b274c5ca8f25b5780cdd003f5",
+      "budget": {
+        "food": 22,
+        "scrap": 28,
+        "wood": 58
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V31",
+      "campaignType": "campaign205-048-31",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 31,
+      "syntheticPose": {
+        "id": "P9180",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6202248c820053ac52362fb7cfb06c523dfedb68594f19687ff775762c6cfc99",
+      "detailsSha256": "f40cbf5eb40483c4c79eedd85447e8a6fdbc7dadcabbc4638d6f6d6b2f304a7c",
+      "propsSha256": "684b65b93f4268c4cec2f26d6efaaddfc18694b087f854239f0d408409cfa065",
+      "objectIdsSha256": "4027da09ef97e44f4d7d55bf2c44dcce012e285800f32d9a28c320df0b511e72",
+      "stockSha256": "5052f9fecc2903248f596e538ba7924ccda6ce2c3587bfa2744d3537dfee330e",
+      "budget": {
+        "food": 16,
+        "scrap": 47,
+        "wood": 55
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V32",
+      "campaignType": "campaign205-048-32",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 32,
+      "syntheticPose": {
+        "id": "P9181",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "96d65b95966ac5a81cf6aab058734e74fc2de96d1166064c87861010ed495b45",
+      "detailsSha256": "8f185793f807f761e42db49280ffc466ec5a085030ac4055dc1c63a1e28aaece",
+      "propsSha256": "872559742193541480378b21f201456639db1a972a156548835995348afdeac9",
+      "objectIdsSha256": "7af88f896f8a5b48ac461639e05e052242520d7e18a0b451b809a4ee85ce51e8",
+      "stockSha256": "ba33fc92435a115af0fe0344307ce38a938e1e46190214f95692f19780972bdf",
+      "budget": {
+        "food": 18,
+        "scrap": 59,
+        "wood": 60
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V33",
+      "campaignType": "campaign205-048-33",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 33,
+      "syntheticPose": {
+        "id": "P9182",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4596cac9662ff9a6695ecc8d3aaaf65824e00698580f3d1f6de43d732fb82f1e",
+      "detailsSha256": "beab35fbdf8ffc90e67977b1b3b47219783835ca3fd04563655069e80f350403",
+      "propsSha256": "f57c5702ea44eca596322c75b6fa3bf04d1f8d8a0a40d867740bd62766257f7a",
+      "objectIdsSha256": "f8778524175faa551d83ce8ab984e5a90d986019cbccbddd2495fed373e89d23",
+      "stockSha256": "4928a68a0175c7c4db5e317f151d4cd9637d0b87293e31d18f73e3ccdd34f047",
+      "budget": {
+        "food": 16,
+        "scrap": 46,
+        "wood": 59
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V34",
+      "campaignType": "campaign205-048-34",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 34,
+      "syntheticPose": {
+        "id": "P9183",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "6d64e0774053c23950c59f861773162de0f1b4668c4c3327d0565488610f0ff5",
+      "detailsSha256": "c8744e8f11020f6454751d59bc24a50b26cd48082739acb8c0e4bf9fcfb0915d",
+      "propsSha256": "14ffcb185c1dc00f754fb818675256bd813fa4e12740e72575d44cbee0c1eab9",
+      "objectIdsSha256": "1ca07405361b4e9aa56a624e41254cc9b9e010fe5f57d68c77967be7b8aaf9a8",
+      "stockSha256": "dd2307290514eb7890cfe95d4dc0e8cd5a714a2253f703e78a65f2cb543f363a",
+      "budget": {
+        "food": 12,
+        "scrap": 49,
+        "wood": 67
+      },
+      "props": 66,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V35",
+      "campaignType": "campaign205-048-35",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 35,
+      "syntheticPose": {
+        "id": "P9184",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "3db522e01fc0d816e8c58ca008fa46917ff3d42a97d808349a8e6f82d984e4da",
+      "detailsSha256": "1331cd385b62243577feee81613c9ab4aa4c77d5e501cf6271ad8f99f4848020",
+      "propsSha256": "4b5859acf21a61ce7c2c1f507f1fccc801cd3ac45fd2da8735350c3264e9189a",
+      "objectIdsSha256": "eb7aa8aaccdb109c2b65c025a3d2070a43be500d97af769293ca7a1753132024",
+      "stockSha256": "af179ecd3c943a7a75856c20dcbc706a1b1ba23b9a0025fe4c28b15fdfa65969",
+      "budget": {
+        "food": 19,
+        "scrap": 39,
+        "wood": 49
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V36",
+      "campaignType": "campaign205-048-36",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 36,
+      "syntheticPose": {
+        "id": "P9185",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "10a2a766aa2c96b87ccbd7e98640a1cfc2e2e27cfc230fa70d793781618e4a76",
+      "detailsSha256": "e090fe60e5d69858ad7f62d984b1290a9f82c4fc11242753fec8882a382e603c",
+      "propsSha256": "d881013375a60afe61fc40c650a6a05d6e7700765f37b24984a7e7a968c6624f",
+      "objectIdsSha256": "1c63f33dad247b272f1cf7302fbde786c848f31d0b77b79456369b841c9648f9",
+      "stockSha256": "f2d90d4f9cf0385efcb10970f6d5244effcecfce870b9183ea9c2fcc3554f6d0",
+      "budget": {
+        "food": 20,
+        "scrap": 44,
+        "wood": 59
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V37",
+      "campaignType": "campaign205-048-37",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 37,
+      "syntheticPose": {
+        "id": "P9186",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "4a06e7b608c9a7acf7ebf3c7d0ea42095f13ac5353d8dc8e2aaef688ddfc2f74",
+      "detailsSha256": "9a83017c5f6475fdbf88e70edea01ad9ece0ae1e9581d30ae96737fa17d9f96b",
+      "propsSha256": "57ffd6a2246951ae27ebc07664fa9d8954c749d11377de1fce0cd07026f7cf4d",
+      "objectIdsSha256": "9dda8b18cac60f2d3ce0691f25a50ce6caa2965b87364ad653d585c217c26e86",
+      "stockSha256": "2452593b616c3e95381182a9e01d2a3c1f557aa8ef88963ba5888ef8c4265d75",
+      "budget": {
+        "food": 15,
+        "scrap": 45,
+        "wood": 72
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V38",
+      "campaignType": "campaign205-048-38",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 38,
+      "syntheticPose": {
+        "id": "P9187",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "439f1b3b44801f6de5e92696e4616485af8af6dd7658f63b49d62987f247f2b2",
+      "detailsSha256": "b83b5bb1e3214fa9961f910c49a4f8fb5477a7c9a9ed2c0291ae94389667f94e",
+      "propsSha256": "3702355743eb2fa263b7822f1e303917cdfbe88ddb0d86b3004d65d0597e8567",
+      "objectIdsSha256": "989a195c7f72078de2c030a99304b0e85f20759633ab1526916762c8ca879de8",
+      "stockSha256": "78fa02bfc8a25c43c7d72afd2ca2487b3de0883995040ac21425ce2737db9d95",
+      "budget": {
+        "food": 14,
+        "scrap": 51,
+        "wood": 72
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V39",
+      "campaignType": "campaign205-048-39",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 39,
+      "syntheticPose": {
+        "id": "P9188",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "444eb9a99c202e04bee31dc3514ec0b75b73c5e69381d4e60468fb3ea0c441d8",
+      "detailsSha256": "894a605316d38044cbcc19e824280d2a26ba3208c6183a3425243ca6398f76fb",
+      "propsSha256": "ae94c4bb699d01363f90e7cd1ba0d634dcda1a8110e703dcbf14aa0698fb1161",
+      "objectIdsSha256": "ae4c7ffff1320e8a37f3e52b2fa21bf49f8fb920f073a6c0190d02770a4758d5",
+      "stockSha256": "fcfcfc0bdc5c5914d0046f2475b19a60ef5bad6a53e2a0f412d79fbbc267de45",
+      "budget": {
+        "food": 22,
+        "scrap": 45,
+        "wood": 70
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V40",
+      "campaignType": "campaign205-048-40",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 40,
+      "syntheticPose": {
+        "id": "P9189",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "72e93b4fe501173b6a29cd1eb194ba063e24fdf5d40ee0d0ed3a231236a3cf24",
+      "detailsSha256": "c778ef238462662de6ee71230671b53181b001bb88b9a9164431f22ee298e98c",
+      "propsSha256": "913e213794bf365a8122c0bca720238daa59391a4e37042b94467c2d9ace420a",
+      "objectIdsSha256": "53538f343a792099d0ea257146635fa3ab1efc6f4e2c79305c6c59e15e4cacd3",
+      "stockSha256": "a3542416968da2cc5a76692d177918e4e3b4f3a32562f3081709e3097d19ac5c",
+      "budget": {
+        "food": 19,
+        "scrap": 46,
+        "wood": 43
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V41",
+      "campaignType": "campaign205-048-41",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 41,
+      "syntheticPose": {
+        "id": "P9190",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "803f20d20cf6975092112e6c2eadafce257fbadd2e572a3fedf5deebb0d90d73",
+      "detailsSha256": "22494cac962f77cfd0d787e6b89e6f9f16d966346c988024db38e509609ca87f",
+      "propsSha256": "eb6b04254897490febbecfd986d238246e51067674226f8bd3aae701eec245c9",
+      "objectIdsSha256": "7ee2947a409ceb1d1856859a536669555d15425b7e7a90aef9216295787438a1",
+      "stockSha256": "1231cbc8ef1136d7e8906d05aec10ebcb27fb1fd6e56d38b6cf3c10c4e507d75",
+      "budget": {
+        "food": 22,
+        "scrap": 55,
+        "wood": 48
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V42",
+      "campaignType": "campaign205-048-42",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 42,
+      "syntheticPose": {
+        "id": "P9191",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "29967ae326657525c722876348689ec65a1a957a80c9ef49fd6e33f022f384ac",
+      "detailsSha256": "e54f273fa8cb66f31825b677f438427c4187e89f26e9e91bdab656e49c917222",
+      "propsSha256": "a086bbc0a987c97416745706ff7d3e27b17c2f12f1c5b61832befd1d08cc9362",
+      "objectIdsSha256": "dc7206505e7a0dee7dadc5089522721c3102e5e6f3aaa584e95d590a1d5bb365",
+      "stockSha256": "37d7230f63c6ebf412991178260c31ba0b8a77417c204143318f418ebd80abcc",
+      "budget": {
+        "food": 22,
+        "scrap": 38,
+        "wood": 66
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V43",
+      "campaignType": "campaign205-048-43",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 43,
+      "syntheticPose": {
+        "id": "P9192",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "fd3af390e025adfc046104c472cc1dfda66d8c811b547f988784558226552117",
+      "detailsSha256": "a3bdbdba83653b97ddc2a970175d6f421c9f379791ef0cf04340c6421197ec31",
+      "propsSha256": "342077e043d55b413eb3940b8e687769c2e0dff041ecaed8488e89dfdd1c98ae",
+      "objectIdsSha256": "b9ab10a0aeb260425e532fd2e8793e565d8bf1ffd2c81cc539f98406f7de639c",
+      "stockSha256": "7bbaad7c88c27d74e46913023699a19775d637d72bafde04bb34e03606f64e48",
+      "budget": {
+        "food": 9,
+        "scrap": 55,
+        "wood": 64
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V44",
+      "campaignType": "campaign205-048-44",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 44,
+      "syntheticPose": {
+        "id": "P9193",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "8bf8a011c02ac6d217193b61b486ce144bd846953170f24601a1246751153f0f",
+      "detailsSha256": "563e4096ce3201940983ec85e77042527914f3842492543bc36daf7a8da01047",
+      "propsSha256": "8e746b940f01f83753649cb58c43cdeedc84b2f607157a2f8cb1e092fb9626f8",
+      "objectIdsSha256": "16ef657d671fbf269e9b6d63a4f13256247a7b0c42741f6e63a48bf8a9f6df0b",
+      "stockSha256": "891d03743c36c216e5790b1a8118dfebd79891c7b26afc6023cfcf834542868e",
+      "budget": {
+        "food": 19,
+        "scrap": 42,
+        "wood": 50
+      },
+      "props": 66,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V45",
+      "campaignType": "campaign205-048-45",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 45,
+      "syntheticPose": {
+        "id": "P9194",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c4c99eab41ee15bac8c6ba16de863639bf81e5b24008b8eba2d6a31cf7c4ac8b",
+      "detailsSha256": "c29f80ab746a7801e03017d7cb88b1f7e25c32e012504eeef79f816620813873",
+      "propsSha256": "7df33daa542147a659a9289432e60030b95211eac04b86977fdc50880062f9f9",
+      "objectIdsSha256": "4b5e661721c512b1ffc70308ac8adaef93587770d814bd0cc4125c25e5d47741",
+      "stockSha256": "74960640c2dfca6cb5a9cdc0f22f5b331fa2ae700030efbd8b5611aeeee806ce",
+      "budget": {
+        "food": 9,
+        "scrap": 45,
+        "wood": 51
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V46",
+      "campaignType": "campaign205-048-46",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 46,
+      "syntheticPose": {
+        "id": "P9195",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "c027001cab5294f064f5b4da7e4c226687c6c2258e25099f7eb05235ea343e95",
+      "detailsSha256": "7ea48146d337bcbcc3552e12acfd782d9e4d572ecaa8a430b5869e6f5085ed3c",
+      "propsSha256": "80637cff76664ba517e631971f9b780438967b8ef47f57e314660cb12c8b435b",
+      "objectIdsSha256": "2f114ab1cd97002f1e12429cf5ad0fdaccd6814465c52e4506b3f992f5707194",
+      "stockSha256": "d5e3c3f607a3d273651df968363de4cf9701911f87bb16ad965ec3e9b0179c0a",
+      "budget": {
+        "food": 15,
+        "scrap": 44,
+        "wood": 52
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V47",
+      "campaignType": "campaign205-048-47",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 47,
+      "syntheticPose": {
+        "id": "P9196",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "2cc7162035adbbe8be83a0dfe90b97e03fca476c222ce4e14733179483e97540",
+      "detailsSha256": "ca4c8b8e9f77b0a2480d3d037c19022c43c4ae268150b2fad0fab15cd3462231",
+      "propsSha256": "49086d5223804038fa19372a53a245521ab45c9e443f494a69f12b9119fcc96b",
+      "objectIdsSha256": "e8c620330275fcf6d30ce73b2e7feb544c0fa84691273c84b3050338235ae402",
+      "stockSha256": "a24c61db42a95368a122a41815a1659b76c6e42a5fe5e20eb16ebb6d3912d1ea",
+      "budget": {
+        "food": 8,
+        "scrap": 58,
+        "wood": 73
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V48",
+      "campaignType": "campaign205-048-48",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 48,
+      "syntheticPose": {
+        "id": "P9197",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "1076aae1742f277b6fdf382bed213676f7cca871b0992be2e1b645d7345af01c",
+      "detailsSha256": "16bd9ed5e5611adbd06631d549e5c0bbcd4bfb0a01321cf67435f56a01ae5512",
+      "propsSha256": "01fec82c30f21c4ee43403a434e0466fd85fef41f3642d4066cf1cf41435edd3",
+      "objectIdsSha256": "0dfcfe98df1b95af027cd879051f1967ee76cd2dedad2e86288bc568a8b00366",
+      "stockSha256": "41e45a28ab7b6273a9310121172f7ef92abc70a6c70eed6d3e13b87dca061d7b",
+      "budget": {
+        "food": 18,
+        "scrap": 46,
+        "wood": 56
+      },
+      "props": 110,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V49",
+      "campaignType": "campaign205-048-49",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 49,
+      "syntheticPose": {
+        "id": "P9198",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "7cce81b35ab3c2b0a327f4406b63aaedc8bab84342e69c428560028262ed0e05",
+      "detailsSha256": "bb812bac3f4562fc80790c5f8d5f6f8082413f1cf5b9ebb63bfdef5adb287cac",
+      "propsSha256": "bfd4dfc6ccf8fb3a11a46fbc301468d64bac66e3ebe8fb38ec902ff5a2abdc9c",
+      "objectIdsSha256": "75aaac61ca37aa3d5787e5077eceea16463fcd3294d0360e106fa25b1210c213",
+      "stockSha256": "617e5812dca898fbbbd64cd2d0d58d62bf3f43f8e05102671e3d657af87a292e",
+      "budget": {
+        "food": 14,
+        "scrap": 51,
+        "wood": 70
+      },
+      "props": 88,
+      "containers": 12
+    },
+    {
+      "authorPlanId": "EXT-MONDE-T048-V50",
+      "campaignType": "campaign205-048-50",
+      "typologyId": "EXT-MONDE-T048",
+      "number": 50,
+      "syntheticPose": {
+        "id": "P9199",
+        "x": 1000,
+        "y": 2000,
+        "a": 0,
+        "generation": 11
+      },
+      "planSha256": "d8a516709f1f61dc76f9184919768ea11478f307e6bb7bb8ea23505ab2948ae4",
+      "detailsSha256": "18a63a36f072febf2a6c633476df2047422cce3673035459b1085f948937fed9",
+      "propsSha256": "7239082e5e248416c5cf4096eb0309ac7375583c7c764d8422fd3f8aee7bac06",
+      "objectIdsSha256": "6980c8b246dd92e5a01d2c7c06e7afb9958a973bb8642f260ef1d880a298734b",
+      "stockSha256": "aa747898911fb0e413c6329d633fc040846f29d69a80102cfc5164c169c1eb45",
+      "budget": {
+        "food": 20,
+        "scrap": 35,
+        "wood": 58
+      },
+      "props": 110,
+      "containers": 12
+    }
+  ],
+  "worldSeeds": [
+    {
+      "seed": 0,
+      "pois": 3160,
+      "poisSha256": "00ad8c7bab83a6c547ffbf58bd478ac321b54ad769c8a310b8e68b47b8e4fd25",
+      "roadsSha256": "93bacba83f21820fd4faae5934b14822f4dd58fff44909b4ba67f54636f264ec",
+      "coverageSha256": "9fbe1dad74c4fb6322153b6b87b033471655df0fe7fda3e2e04fbf235246aeea",
+      "sites": [
+        {
+          "id": "P3152",
+          "type": "campaign205-045-03",
+          "planSha256": "5bcb0ce0034494be066f33db90609030a8e5cc8ae8304becec7dd34a8ac6b439",
+          "detailsSha256": "016d1a9cfab226f08fabe26092afcdd385fb4f5bcdba110a0c4d056d7092b94e"
+        },
+        {
+          "id": "P3153",
+          "type": "campaign205-045-27",
+          "planSha256": "004a8d0a83131bf9fa3f59d20160524151e5199d933a57a3a046de6b1e7d958c",
+          "detailsSha256": "a4af8f35709fc397c3f70a1dc1d074173053cf105aeb50ddcb1430d6fc87f89c"
+        },
+        {
+          "id": "P3154",
+          "type": "campaign205-046-47",
+          "planSha256": "f1af91c8dc724fef07ce6145c1ff85fa12356f8de8ea484adff0adae134cb4f3",
+          "detailsSha256": "6335bc2aa2d41ca94badf45fc791566dc2ad0b261dc466d06dddfa238461aaa0"
+        },
+        {
+          "id": "P3155",
+          "type": "campaign205-046-12",
+          "planSha256": "215098d573113fe0b249bac9bdda07afc8e8f071893c8ab889e3d9d96c36c024",
+          "detailsSha256": "4d84f9337e24a6111613b563285b59b29f5328d52fbd0b9ceecfed6aaa561921"
+        },
+        {
+          "id": "P3156",
+          "type": "campaign205-047-40",
+          "planSha256": "44e26b410c2d246dcf1445655bd822721bffcf12597d8002a9b28b143a9ad1f7",
+          "detailsSha256": "6efe7c927c973a9c3a4c5f4e91641b533e600c3310e0c665ea4de97df1ace673"
+        },
+        {
+          "id": "P3157",
+          "type": "campaign205-047-13",
+          "planSha256": "816a8499f2e428a7d38e845fbc26220885af595551f264fa715aaffa1f653a9a",
+          "detailsSha256": "52076036e3e86fe38984a5966db15e025833e578268a172c8ae96d274b0aaa73"
+        },
+        {
+          "id": "P3158",
+          "type": "campaign205-048-14",
+          "planSha256": "7e37b5b7eb18c736cfde7dcf441a22b86e614de14558ff002b040808458365f7",
+          "detailsSha256": "d99d792665fb7e54351d5afaeafd327d8bdf9e4c4701cf2c27d499be995f6952"
+        },
+        {
+          "id": "P3159",
+          "type": "campaign205-048-16",
+          "planSha256": "19317d19c6320185a9d4230e77de872e953e7cb4ee5b0ab55c78b017146a17cb",
+          "detailsSha256": "f51fd78aafbc69fd98fd83b34388d273ee0119f7cfd9fda8b9736e282ae1919f"
+        }
+      ]
+    },
+    {
+      "seed": 17117,
+      "pois": 3186,
+      "poisSha256": "a1f3a9cd108ec9b6454785fe266d93ba15829900ad40c6a7d25a8d94de8763cc",
+      "roadsSha256": "df490938c8f3c6d9cd69ced128b3ec47c23b1aa5ffdd7601d24b6d38d35fc9da",
+      "coverageSha256": "59a941a2b33c6b47398a9374ef4f79c4c6e2ae76deb933c627a4013e7e6bfd73",
+      "sites": [
+        {
+          "id": "P3178",
+          "type": "campaign205-045-29",
+          "planSha256": "01f88e7f9f70376b7a4b387f4638c588857475b798118a3da648a6b810b29f1e",
+          "detailsSha256": "81aa3222afffc202e7de6f03b71335eb412eb149fda633d6ede9674eec7f92ba"
+        },
+        {
+          "id": "P3179",
+          "type": "campaign205-045-42",
+          "planSha256": "73cba718d01084b75e32e1c8fbfef24b32a881677f4c26677306b6915c843bc5",
+          "detailsSha256": "d6abd6e75c937e30985dd75d73d4a022b600a4c1043f6011bd467163e285106b"
+        },
+        {
+          "id": "P3180",
+          "type": "campaign205-046-04",
+          "planSha256": "73b3833b168151d5c3742c198beda4ecae3c46a9b97d8fd38f52a2c7fb314a2d",
+          "detailsSha256": "ca2501641400468d0fa20a1207eae94d58cef41e9a2edb7e2b7e3a44369b5b02"
+        },
+        {
+          "id": "P3181",
+          "type": "campaign205-046-31",
+          "planSha256": "fd0cfabf5271476ae19a61bd53627e0c5bb8a4cc72f9170736e71a4fd2ccafb7",
+          "detailsSha256": "fd2fae39416123ce9e8d96ab535b4ba28d5db7500290c5ff74880af88a5ba91f"
+        },
+        {
+          "id": "P3182",
+          "type": "campaign205-047-11",
+          "planSha256": "307a531998f3d6a49b95b0c3eef811b63032cb355d7b49bf874ed0d255950c00",
+          "detailsSha256": "aa9551380851bc723b87dbb85681968aa0e081b53b2b329cea31293f986b6c72"
+        },
+        {
+          "id": "P3183",
+          "type": "campaign205-047-09",
+          "planSha256": "0d82391fdb75d4f98624bc0f76f09449f0de0cb6810f6abdf09f05a2bc01e003",
+          "detailsSha256": "0ea939b69a6a6b42be640dd0f8538bdc77effb1cd3969012b124050ec3fa1b24"
+        },
+        {
+          "id": "P3184",
+          "type": "campaign205-048-34",
+          "planSha256": "7ed3c55cc3efdf09fcb0182f01c0e7dc43df5cdc5b5fcbd70aafecd86fda0518",
+          "detailsSha256": "516d3d503c26f4d286d4d71f648da683edad2acc839ebd13382a76b02cf1f47a"
+        },
+        {
+          "id": "P3185",
+          "type": "campaign205-048-46",
+          "planSha256": "8ae1825c4cf7e55dbaf81b8a6bfce63969e2daa739da09a90ac7cd4fd56ea54b",
+          "detailsSha256": "013c6af64dbe7e1897eb83bb9c6d9e66c858c6a5501493a0cba58504bd588b92"
+        }
+      ]
+    },
+    {
+      "seed": 967313470,
+      "pois": 3174,
+      "poisSha256": "116c76e1947eb47f8bdce6f05d3adbb20b811f2e151a45053e0ce31ca06849a0",
+      "roadsSha256": "385dfc92351f8a661bda51e2cacaaba08cb7f84b0769d073be7219a04410053f",
+      "coverageSha256": "b1d81e6eb53373ad0a62c4f66b299528658e985d3e7a4a0a9e77d612d01cc7d4",
+      "sites": [
+        {
+          "id": "P3167",
+          "type": "campaign205-045-42",
+          "planSha256": "efed4a4e80f52f8385a19a2f8e6bd060e590b91ec0b9ee8f217caf58e22ad5c4",
+          "detailsSha256": "d38e4d25ae4e12940ed8042cd8016e7c985570ecb8a562d912b3d3df323c6ad2"
+        },
+        {
+          "id": "P3168",
+          "type": "campaign205-045-25",
+          "planSha256": "9067d577d2cea82b997a21b5a9d0cbab226a59bda065741bce62907b9a0acc70",
+          "detailsSha256": "adb5139fcc64bed91b5a5eb45e80b706a880b83487560cad15dbf8d028629b0c"
+        },
+        {
+          "id": "P3169",
+          "type": "campaign205-046-19",
+          "planSha256": "4c31c15ce4c1763be963067fac2e886326750baaaee3d2343bc107817518b73f",
+          "detailsSha256": "51de0c06d443e2bae71db04334b7dc05e96eb662bc02fb915ee401aff4192c9f"
+        },
+        {
+          "id": "P3170",
+          "type": "campaign205-047-10",
+          "planSha256": "a9d5dad6a63365fa0ea93a983d950eccba0b8477aa6b8022b3fc16eca51ab7d7",
+          "detailsSha256": "794197350f69e334e784a56adaab33adde288382b41f0f8afce1720badf0ba69"
+        },
+        {
+          "id": "P3171",
+          "type": "campaign205-047-38",
+          "planSha256": "ad043d634fc092b2250c0335f65083585f19b245ee46e156a90c4a310d6c2d4e",
+          "detailsSha256": "22b69cf7d24c20e413d27d8f8c606536eaa408adf51c0472c4760f9bbc51524a"
+        },
+        {
+          "id": "P3172",
+          "type": "campaign205-048-48",
+          "planSha256": "eccd5f28712c1b5233785b6117a1e3292d4556bda2ebf7d4a7f8c0761944f7e2",
+          "detailsSha256": "07cbee249a7e65e349bfb93abf4477ba201cb12b39c07195f62d87c31172a3e0"
+        },
+        {
+          "id": "P3173",
+          "type": "campaign205-048-43",
+          "planSha256": "a84c3bce63289c19bbc02bff93ce64bc0a14b5c3674b218f4263ec1c82a99238",
+          "detailsSha256": "48b794b24f2415a47f042bd259734a535b7bd741675bbd0722333d7e5b8b1a76"
+        }
+      ]
+    }
+  ]
+}
