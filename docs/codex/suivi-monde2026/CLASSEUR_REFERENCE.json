@@ -1,34 +1,36 @@
 {
-  "schemaVersion": 3,
-  "verifiedAt": "2026-10-23T22:17:40.242211+00:00",
+  "schemaVersion": 4,
+  "verifiedAt": "2026-10-25T07:42:10.044804+00:00",
   "repository": "darknigthmare/deadwall-last-enclosure",
   "pullRequests": [
     16,
     17,
-    18
+    18,
+    19
   ],
-  "gameVersion": "1.71.0",
-  "baseCommit": "8288178946a189cf5857433b71b9ece8b3379689",
-  "sourceCommit": "f0ef5a2036d4876ae8f4d4477676da968a032d01",
-  "sourceScope": "Sources, tests, plans compilés et rapport exhaustif gelés dans le commit source ; classeur et manifeste livrés dans le commit suivant.",
+  "currentPullRequest": 19,
+  "gameVersion": "1.72.0",
+  "baseCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+  "sourceCommit": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+  "sourceScope": "Sources publiques corrigées, plans compilés et rapports gelés dans S1b ; classeur et métadonnées livrés ensuite. Les réglages non publics des scénarios navigateur ne changent pas les 225 entrées auditées.",
   "workbook": {
     "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
-    "sheets": 13,
+    "sheets": 14,
     "programmes": 4000,
     "typologies": 80,
     "variants": 4000,
     "tasks": 800,
-    "formulas": 1165,
+    "formulas": 1171,
     "formulaErrors": 0,
     "missingFormulaCaches": 0,
     "validatedTasks": 3,
-    "inProgressTasks": 397,
-    "pendingTasks": 400,
+    "inProgressTasks": 405,
+    "pendingTasks": 392,
     "playableVariants": 0,
     "inspectionPlans": 4000,
     "inspectionTypes": 80,
-    "inspectionProps": 583708,
-    "inspectionRefused": 4670,
+    "inspectionProps": 588378,
+    "inspectionRefused": 0,
     "preservedHistoricalFeatures": true,
     "styleVerification": {
       "checkedHistoricalStyleCells": 98089,
@@ -40,57 +42,89 @@
       },
       "inheritedStylesPreserved": true
     },
-    "scope": "XLSX source reconciliation; does not certify gameplay",
-    "metadataReconciled": true,
-    "sha256": "989083147539313b3aa7a37a66fa8b5ea10d321a001648216087c2858df94b31",
-    "bytes": 557803,
-    "previousWorkbookStyleVerification": {
-      "checkedHistoricalStyleCells": 98089,
-      "authorCellsWithWrapStyleChanges": 22902,
-      "authorCellsWithEquivalentExplicitDefaults": 22902,
-      "equivalentExplicitDefaultsBySheet": {
-        "Extension typologies": 352,
-        "Variantes à concevoir": 22550
-      },
-      "inheritedStylesPreserved": true
+    "campaignG11": {
+      "types": 4,
+      "eligibleVariants": 200,
+      "passedVariants": 200,
+      "guaranteedSitesPerSeed": 0,
+      "observedSeeds": 8,
+      "observedSites": 63,
+      "observedVariants": 58
     },
-    "previousWorkbookVerification": {
-      "sheets": 13,
+    "scope": "Réconciliation XLSX et conservation des fonctions historiques ; ne certifie pas le jeu complet.",
+    "metadataReconciled": true,
+    "sha256": "6ecb2bc0340c86f3412ecbc8c62be4841bb47994491cc6cdd37ab13ded347b7b",
+    "bytes": 571563,
+    "formulaPerturbationDetected": true,
+    "renderedWorksheetsReviewed": 9,
+    "metricLabelsCheckedForLongFloatResidues": 4080,
+    "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025-S1b.json",
+    "metadata": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_72.json",
+    "currentWorkbookVerificationAgainstPrevious": {
+      "sheets": 14,
       "programmes": 4000,
       "typologies": 80,
       "variants": 4000,
       "tasks": 800,
-      "formulas": 1165,
+      "formulas": 1171,
       "formulaErrors": 0,
       "missingFormulaCaches": 0,
       "validatedTasks": 3,
-      "inProgressTasks": 397,
-      "pendingTasks": 400,
+      "inProgressTasks": 405,
+      "pendingTasks": 392,
       "playableVariants": 0,
       "inspectionPlans": 4000,
       "inspectionTypes": 80,
-      "inspectionProps": 583708,
-      "inspectionRefused": 4670,
+      "inspectionProps": 588378,
+      "inspectionRefused": 0,
       "preservedHistoricalFeatures": true,
       "styleVerification": {
         "checkedHistoricalStyleCells": 98089,
-        "authorCellsWithWrapStyleChanges": 22902,
-        "authorCellsWithEquivalentExplicitDefaults": 22902,
+        "authorCellsWithWrapStyleChanges": 0,
+        "authorCellsWithEquivalentExplicitDefaults": 0,
         "equivalentExplicitDefaultsBySheet": {
-          "Extension typologies": 352,
-          "Variantes à concevoir": 22550
+          "Extension typologies": 0,
+          "Variantes à concevoir": 0
         },
         "inheritedStylesPreserved": true
       },
+      "campaignG11": {
+        "types": 4,
+        "eligibleVariants": 200,
+        "passedVariants": 200,
+        "guaranteedSitesPerSeed": 0,
+        "observedSeeds": 8,
+        "observedSites": 63,
+        "observedVariants": 58
+      },
       "scope": "XLSX source reconciliation; does not certify gameplay",
       "metadataReconciled": true,
+      "sha256": "6ecb2bc0340c86f3412ecbc8c62be4841bb47994491cc6cdd37ab13ded347b7b",
+      "bytes": 571563
+    },
+    "verificationBaseline": {
+      "deliveryCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
       "sha256": "989083147539313b3aa7a37a66fa8b5ea10d321a001648216087c2858df94b31",
       "bytes": 557803
     },
-    "formulaPerturbationDetected": true,
-    "renderedWorksheetsReviewed": 8,
-    "metricLabelsCheckedForLongFloatResidues": 4080,
-    "proof": "docs/codex/suivi-monde2026/validation-classeur-20261023.json"
+    "stylePerturbationQualified": true,
+    "previousIntermediateWorkbook": {
+      "sourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+      "storedInCommit": "6fcccb09716c417ffdeb4de9edf669b6a3210bd1",
+      "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
+      "bytes": 571544,
+      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025.json",
+      "scope": "Lot S1a intermédiaire conservé ; ne qualifie pas les nouveaux octets S1b."
+    },
+    "earlierIntermediateWorkbooks": [
+      {
+        "sourceCommit": "42a8dd449965dc184fb87c7f5f560bc61b171869",
+        "sha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+        "bytes": 571525,
+        "proof": "docs/codex/suivi-monde2026/validation-classeur-20261024.json",
+        "scope": "Candidat local intermédiaire, non réattribué à S1a."
+      }
+    ]
   },
   "baseline": {
     "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
@@ -98,19 +132,42 @@
     "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
     "scope": "Classeur public initial conservé ; 20 types / 1000 plans"
   },
+  "sourceWorkbookBaseline": {
+    "deliveryCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+    "sourceCommit": "f0ef5a2036d4876ae8f4d4477676da968a032d01",
+    "bytes": 557803,
+    "sha256": "989083147539313b3aa7a37a66fa8b5ea10d321a001648216087c2858df94b31",
+    "scope": "Classeur publié 1.71 conservé séparément ; 80 types / 4 000 plans / 13 feuilles."
+  },
+  "previousSourceWorkbookBaselines": [
+    {
+      "deliveryCommit": "8288178946a189cf5857433b71b9ece8b3379689",
+      "sourceCommit": "b5bb3652974bc460ae2b08a5dd5a85e2d9a7c4f0",
+      "bytes": 547093,
+      "sha256": "33258e07966e29cc781e49ae0d816f2f609784e31859a25bacc41fc9f41e4cf8",
+      "scope": "Classeur publié 1.70 conservé séparément ; 39 types / 1 950 plans"
+    },
+    {
+      "deliveryCommit": "99ea81bea3fa2654e03cc3f9e34837525110daa4",
+      "sourceCommit": "9db883f27e7039f1376648125d0c3a07916b74f3",
+      "bytes": 547077,
+      "sha256": "ca1082a2940ec487aad2d2737b5bff6bd4f9d77e20d3603ca45ed6693db72b4b",
+      "scope": "Classeur de livraison précédente ; 39 types / 1 950 plans, mêmes données de production"
+    }
+  ],
   "inspection": {
     "report": "docs/codex/suivi-monde2026/inspection-20261023.json",
-    "reportSha256": "c671887ef1bab08224073868e9f1da563bce562cfbe7400289e7a7fe316b37d7",
-    "sourceHash": "37652419da723adc414909f4d65d2c9e07f94a7685dfaf0ae34a9c3b9cc69cb2",
+    "reportSha256": "622ffce8ec60d265938006e0ab441178e0367880c3cde0be20bdaed6792f206f",
+    "sourceHash": "aaa29ca45da71facea8379614897d858847af783bf08676572e4fd310008080c",
     "verifiedSources": 29,
     "types": 80,
     "plans": 4000,
     "passed": 4000,
     "rooms": 162460,
     "furnishedRooms": 162460,
-    "props": 583708,
+    "props": 588378,
     "requested": 588378,
-    "refused": 4670,
+    "refused": 0,
     "unknownUses": 0,
     "levels": 6530,
     "walls": 1228255,
@@ -118,10 +175,89 @@
     "lootContainersCreated": 0,
     "connectedServices": 0,
     "campaignPlayable": 0,
-    "recordsUnchangedSincePrevious": true,
-    "previousRecordsCompared": 1950,
-    "newPlans": 2050,
-    "newRefusals": 0
+    "recordsCompared": 4000,
+    "unchangedRecords": 3700,
+    "changedRecords": 300,
+    "correctedTypes": [
+      "EXT-MONDE-T005",
+      "EXT-MONDE-T008",
+      "EXT-MONDE-T011",
+      "EXT-MONDE-T045",
+      "EXT-MONDE-T046",
+      "EXT-MONDE-T048"
+    ],
+    "correctedRefusals": 4670,
+    "requestsPreserved": true,
+    "newPlans": 0,
+    "scope": "Inspection auteur uniquement ; aucune qualification de campagne inférée."
+  },
+  "campaignG11": {
+    "report": "docs/codex/suivi-monde2026/campagne205-eligibilite.json",
+    "reportSha256": "d9b849b19deaf80593abb81007c124fc551f0d3d43faaf60da85753b8587804c",
+    "proof": "docs/codex/suivi-monde2026/CAMPAGNE_G11_2026.md",
+    "verifiedSources": 225,
+    "sourceStableBeforeAfter": true,
+    "generation": 11,
+    "types": 4,
+    "eligibleVariants": 200,
+    "passedVariants": 200,
+    "guaranteedSitesPerSeed": 0,
+    "observedSeeds": 8,
+    "observedSites": 63,
+    "observedVariants": 58,
+    "maximumSitesPerSeed": 8,
+    "maximumSitesPerType": 2,
+    "seedWitnesses": [
+      {
+        "seed": 0,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 1,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 42,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 17117,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 84329,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 967313470,
+        "sites": 7,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 1947648717,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      },
+      {
+        "seed": 4294967295,
+        "sites": 8,
+        "pass": true,
+        "historicalPrefixUnchanged": true
+      }
+    ],
+    "scope": "Éligibilité des modèles et instances réellement observées distinctes ; aucun nombre de sites garanti par graine ni validation globale des variantes d’inspection."
   },
   "productionTracking": {
     "targetTypes": 80,
@@ -129,36 +265,37 @@
     "remainingTypes": 0,
     "remainingPlans": 0,
     "validatedTasks": 3,
-    "inProgressTasks": 397,
-    "pendingTasks": 400,
+    "inProgressTasks": 405,
+    "pendingTasks": 392,
     "campaignPlayableVariants": 0,
-    "scope": "Complétude des plans auteur ; les étapes ouvertes restent distinctes de la campagne."
+    "campaignEligibleVariants": 200,
+    "campaignObservedSites": 63,
+    "scope": "Cible des plans auteur complète ; tâches de campagne conservées distinctes et non validées globalement."
   },
   "drive": {
     "folder": "1U6uAvZuUeOaMQAt0aH8qiUMo3OhfX1sm",
     "file": "1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X",
     "syncedToCurrentWorkbook": false,
     "baselineSha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
-    "state": "Original public conservé intact ; classeur 1.71 actualisé seulement dans le dépôt, sans synchronisation distante revendiquée."
+    "state": "Original public conservé intact ; classeur 1.72 actualisé seulement dans le dépôt, sans synchronisation distante revendiquée."
   },
   "releaseQualification": {
-    "scope": "La CI et les reçus du SHA livré qualifient séparément la publication. Les compteurs du classeur portent sur la production des plans.",
-    "pullRequest": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/18",
+    "scope": "Le classeur et les audits partiels ne qualifient ni la CI complète, ni la fusion, ni le déploiement.",
+    "pullRequest": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/19",
     "productionURL": "https://deadwall-last-enclosure.vercel.app/",
     "humanCampaignDurationMeasured": false,
     "physicalPhoneFrameRateMeasured": false,
-    "currentSourceCommit": "f0ef5a2036d4876ae8f4d4477676da968a032d01",
+    "currentSourceCommit": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
     "currentRevisionFullCheckQualified": false,
-    "currentRevisionQualification": "Le commit final de livraison doit recevoir sa propre qualification CI ; aucun succès global déduit de l’inspection ou de la livraison 1.70.",
+    "currentRevisionQualification": "Qualification complète du commit final à suivre dans la PR #19 ; aucun succès global déduit des plans, du suivi ou de la livraison 1.71.",
     "previousQualifiedFullCheck": {
-      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/39885063051/job/120191415617",
       "accepted": true,
-      "gitHead": "99ea81bea3fa2654e03cc3f9e34837525110daa4",
-      "sourceTree": "1efbe97f8c3cc971542dcde68716020c3ab58844",
+      "gitHead": "60092b5e32769979d4ac28089a04deb5c600460b",
+      "sourceTree": "d89c435d5329fbd5566cbc4e412d9aa53523d11e",
       "counts": {
-        "tests": 5752,
+        "tests": 5838,
         "suites": 4,
-        "pass": 5752,
+        "pass": 5838,
         "fail": 0,
         "cancelled": 0,
         "skipped": 0,
@@ -166,45 +303,67 @@
       },
       "actualExitCode": 0,
       "teeExitCode": 0,
-      "sourceFiles": 4879,
-      "testFiles": 539,
-      "receiptSha256": "c9fc3dcd0ee3a80de386e9f0eb359ada4ce8304d933cffa091f12dd76006d043",
-      "scope": "Qualification de la livraison 99ea81b seulement ; non réattribuée à la révision courante."
+      "sourceFiles": 4903,
+      "testFiles": 548,
+      "receiptSha256": "ef64a2deb3638cf0816de6019a84f365f8f5c0bb67128911f8e18d794803d68e",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/40042246999/job/120715847527",
+      "command": "DEADWALL_SOAK=1 npm run check",
+      "scope": "Avis GitHub Actions lié au commit 1.71 exact et recoupé avec ses métadonnées ; aucune qualification 1.72 déduite.",
+      "receiptSha256Provenance": "Empreinte annoncée par le job qualifié ; octets de l’artefact original non téléchargés ni empreinte recalculée localement.",
+      "originalReceiptBytesDownloaded": false,
+      "receiptSha256RecomputedLocally": false
     },
-    "targetedBrowserQualification": {
-      "scope": "Distribution locale finale, Chromium, deux formats simulés ; qualification de production et appareil physique distincts.",
-      "publicPayloadFingerprint": "4b0502bc03aef685d216bb5782b3cf58b25efd54aaa5524955308042ae960dbb",
-      "reports": [
-        {
-          "suite": "codex-inspection2026",
-          "checks": 414,
-          "reportSHA256": "41993992952b850a730ec4316598b5f26765318f5bf83c2ef8a04679c4e5d150",
-          "completed": "2026-10-23T22:07:19.470Z"
-        },
-        {
-          "suite": "pwa",
-          "checks": 42,
-          "reportSHA256": "81b64f4f6ded70d2260cd3f1d8a0ef45937f6cad591b0bcb169150b88786abad",
-          "completed": "2026-10-23T22:04:28.211Z"
-        }
-      ]
+    "targetedTrackingQualification": {
+      "counts": {
+        "tests": 34,
+        "suites": 0,
+        "pass": 34,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "actualExitCode": 0,
+      "proof": "docs/codex/suivi-monde2026/validation-classeur-20261025-S1b.json",
+      "scope": "34 tests locaux du suivi, du chargeur et des guards ; hors contrôle complet du jeu.",
+      "stylePerturbationCounts": {
+        "tests": 1,
+        "suites": 0,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "totalPassedAcrossSeparateRuns": 35
     }
   },
-  "sourceWorkbookBaseline": {
-    "deliveryCommit": "8288178946a189cf5857433b71b9ece8b3379689",
-    "sourceCommit": "b5bb3652974bc460ae2b08a5dd5a85e2d9a7c4f0",
-    "bytes": 547093,
-    "sha256": "33258e07966e29cc781e49ae0d816f2f609784e31859a25bacc41fc9f41e4cf8",
-    "scope": "Classeur publié 1.70 conservé séparément ; 39 types / 1 950 plans"
+  "historicalManifests": {
+    "1.71": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/11f2ace5ee3b39ea318373229d4d5378d14057db/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
+    "1.70": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8288178946a189cf5857433b71b9ece8b3379689/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json"
   },
-  "currentPullRequest": 18,
-  "previousSourceWorkbookBaselines": [
+  "sourceCheckpoint": "S1b",
+  "sourcePublicCorrection": {
+    "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+    "file": "src/fieldcraft.js",
+    "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0",
+    "scope": "Points de récolte compatibles avec leur segment de travail ; pas de modification des modèles ou des statuts du catalogue."
+  },
+  "sourcePublicCorrections": [
     {
-      "deliveryCommit": "99ea81bea3fa2654e03cc3f9e34837525110daa4",
-      "sourceCommit": "9db883f27e7039f1376648125d0c3a07916b74f3",
-      "bytes": 547077,
-      "sha256": "ca1082a2940ec487aad2d2737b5bff6bd4f9d77e20d3603ca45ed6693db72b4b",
-      "scope": "Classeur de livraison précédente ; 39 types / 1 950 plans, mêmes données de production"
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/fieldcraft.js",
+      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+    },
+    {
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/world-codex-actions159.js",
+      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
+    },
+    {
+      "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
+      "file": "src/frontier-world.js",
+      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
     }
   ]
 }

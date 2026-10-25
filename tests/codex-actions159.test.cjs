@@ -39,7 +39,7 @@ test('Codex derives every actual city choice, exact costs, prerequisites and all
 });
 test('Capability exposes626 exact G10 contracts while preserving the300 and326 historical generation gates',()=>{
  const records=R.records,before=JSON.stringify(records),summary=A.availabilitySummary();assert.deepEqual(summary,{programmes:4000,choices:192,missingPlan:0,unsupported:0,contextual160:626,historicalMissingPlan:300,historicalUnsupported:626});
- for(const id of X.ids){const c=A.capability(id);assert.equal(c.hasPlan,true);assert.equal(c.eligible,true);assert.equal(c.generation,10);assert.equal(c.context160,X.get(id).context160);assert.deepEqual(c.supportedGenerations,[10]);assert.match(c.text,/activer volontairement au dépôt/);assert.match(c.text,/ne garantit pas un emplacement/);assert.equal(c.historicalEligible,false);}
+ for(const id of X.ids){const c=A.capability(id);assert.equal(c.hasPlan,true);assert.equal(c.eligible,true);assert.equal(c.generation,10);assert.equal(c.context160,X.get(id).context160);assert.deepEqual(c.supportedGenerations,[10,11]);assert.match(c.text,/activer volontairement au dépôt/);assert.match(c.text,/ne garantit pas un emplacement/);assert.equal(c.historicalEligible,false);}
  assert.equal(A.capability('programme-DW-0300').historicalHasPlan,false);assert.equal(A.capability('DW-1241').historicalHasPlan,true);
  for(const card of records.filter(p=>p.extension===158)){assert.equal(A.capability(card.id).hasPlan,true);assert.equal(A.capability(card.id).eligible,true);assert.equal(A.capability(card.id).generation,9);}
  assert.equal(A.capability('DW-9999'),null);assert.equal(JSON.stringify(records),before);assert.equal(R.preset('codex3000-0300'),null);
@@ -61,6 +61,40 @@ test('G10 guide navigation opens only the true controller and never previews, ac
  saved.generation=10;assert.equal(A.openTerritories160(game,'DW-0300'),false);saved.generation=7;assert.equal(A.openTerritories160(game,'DW-0300'),false);
  saved.generation=8;game.expansionUI.open=()=>false;assert.equal(A.openTerritories160(game,'DW-0300'),false);
  delete game.worldOps131.activateTerritories160;assert.equal(A.canOpenTerritories160(game,'DW-0300'),false);
+});
+test('G11 inherits G8, G9 and G10 programme layers without claiming a seeded place or preparing an activation',()=>{
+ const {game,saved,calls}=fixture();saved.seen=[];
+ game.frontier.world=()=>assert.fail('A layer status must not construct or enumerate a region');
+ game.worldOps131={previewTerritories160:()=>assert.fail('A status must not prepare a preview'),activateTerritories160:()=>assert.fail('A status must not activate a layer')};
+ game.expansionUI={open(){assert.fail('A supported G11 card must not open an obsolete activation');}};
+ const beforeRecords=JSON.stringify(R.records),cases=[['DW-0001',8,[8,9,10,11]],['DW-3001',9,[9,10,11]],['DW-0266',10,[10,11]]];
+ for(const[id,origin,supported]of cases){
+  const capability=A.capability(id);assert.equal(capability.generation,origin);assert.deepEqual(capability.supportedGenerations,supported);
+  for(const generation of [7,8,9,10,11,12,11.5,'11',null]){
+   saved.generation=generation;const before=JSON.stringify(saved),status=A.programmeStatus(game,id);
+   assert.equal(status.active,supported.includes(generation),id+' at generation '+String(generation));
+   assert.equal(status.generation,origin,'Availability cannot relabel the programme owner');
+   if(generation===11){assert.equal(status.needsActivation160,false);assert.match(status.text,/conservé dans cette campagne G11/);assert.doesNotMatch(status.text,/Rejoignez le dépôt|activer volontairement/);assert.deepEqual(A.knownPlaces(game,id),[]);assert.equal(A.canOpenTerritories160(game,id),false);}
+   assert.equal(JSON.stringify(saved),before);
+  }
+ }
+ assert.deepEqual(calls,[]);assert.equal(JSON.stringify(R.records),beforeRecords);
+});
+test('The shipped G11 author Guide shows inherited G10 availability without an impossible activation or saved-state changes',()=>{
+ const {g,doc}=bootDocument134({search:'?tools=1'});g.startNew('standard','17117','classic','balanced',true);g.campaignIntro132.skip();
+ assert.equal(g.frontier.position().generation,11);const place=g.frontier.world().pois.find(p=>p.programme160==='DW-0266');assert.ok(place);assert.equal(place.generation,10);
+ g.frontier.revealSites([place.id]);const before=clean(g),rng=g.random.state,next=g.random.next;g.random.next=()=>{throw Error('Guide must not consume simulation RNG');};
+ try{
+  g.worldCodex.open();const use=doc.getElementById('worldCodexAvailability159'),search=doc.getElementById('worldCodexSearch');use.value='context160';search.value='DW-0266';use.dispatch('change');
+  const card=doc.getElementById('worldCodexResults').querySelectorAll('article').find(n=>n.dataset.codexId==='programme-DW-0266');assert.ok(card);
+  assert.match(textTree(card),/Programme territorial G10 conservé dans cette campagne G11/);assert.doesNotMatch(textTree(card),/G10 n’est pas activée/);
+  // Author tools retain historical compatibility controls, with their real
+  // disabled guard, rather than removing them from an already-enabled world.
+  const activation=card.querySelectorAll('button').find(b=>b.dataset.codexTerritories160);assert.ok(activation);assert.equal(activation.disabled,true);
+  const owner=g.expansionUI;g.expansionUI={open(){assert.fail('An inherited G11 card cannot request the obsolete activation');}};
+  try{activation.click();}finally{g.expansionUI=owner;}
+  assert.deepEqual(A.knownPlaces(g,'DW-0266').map(p=>p.id),[place.id]);assert.deepEqual(clean(g),before);assert.equal(g.random.state,rng);
+ }finally{g.random.next=next;}
 });
 test('G10 cards preserve every original programme ID and distinguish the18 limited reference adaptations',()=>{
  const cards=Guide.entries.filter(e=>e.status==='programme'),partial=X.records.filter(c=>c.implementation160?.fullyImplementedReference===false);

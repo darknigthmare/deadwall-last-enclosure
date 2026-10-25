@@ -5,6 +5,7 @@
  const C=dependency('DeadwallCore','./core.js'),W=dependency('DeadwallFrontierWorld','./frontier-world.js'),
   G=dependency('DeadwallFrontierGeometry','./frontier-geometry.js'),R=C.ContextRules160,references=new Map();
  const copy=value=>JSON.parse(JSON.stringify(value)),initial=()=>({version:1,completed:[]});
+ const contextWorld=generation=>generation===10||generation===11;
  const operationKey=(site,key)=>site+':160:'+key;
  function operation(p,key){return p?.context160?.operations?.find(o=>o.key===key)||null;}
  function normalize(raw,full){
@@ -16,10 +17,13 @@
    if(typeof key!=='string'||!/^P\d{4}:160:[a-z][a-zA-Z0-9-]{0,31}$/.test(key))bad();return key;
   });
   if(full&&state.completed.length){
-   if(full.frontier?.generation!==10)bad();
-   const cacheKey=full.worldSeed+':10:'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.landscape189||'classic')+':'+(full.frontier.hydrologyVersion??0);
+   if(!contextWorld(full.frontier?.generation))bad();
+   const generation=full.frontier.generation;
+   // G11 retains the G10 operation owners, but its complete world must still
+   // be reconstructed and cached under its own generation.
+   const cacheKey=full.worldSeed+':'+generation+':'+(full.frontier.ecologyVersion??0)+':'+(full.frontier.detailVersion??0)+':'+(full.frontier.landscape189||'classic')+':'+(full.frontier.hydrologyVersion??0);
    let world=references.get(cacheKey);
-   if(!world){world=W.create(full.worldSeed,10,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})});references.set(cacheKey,world);if(references.size>3)references.delete(references.keys().next().value);}
+   if(!world){world=W.create(full.worldSeed,generation,{detailVersion:full.frontier.detailVersion??0,ecologyVersion:full.frontier.ecologyVersion??0,hydrologyVersion:full.frontier.hydrologyVersion??0,...(full.frontier.landscape189?{landscape189:full.frontier.landscape189}:{})});references.set(cacheKey,world);if(references.size>3)references.delete(references.keys().next().value);}
    const by=new Map(world.pois.map(p=>[p.id,p]));
    for(const key of state.completed){const[site,,name]=key.split(':'),p=by.get(site),op=operation(p,name),rule=op&&R.operations[op.kind];
     if(!p||p.generation!==10||!op||!rule||rule.repeat||!full.frontier.seen.includes(site))bad();
@@ -40,7 +44,7 @@
   }
   function preview(site,key,{working=false}={}){
    if(!can()||!working&&task)return{ok:false,reason:'Terminez le rechargement ou l’intervention et libérez vos mains.'};
-   const f=pose();if(!f.active||f.generation!==10||f.car?.driving)return{ok:false,reason:'Rejoignez à pied un ouvrage G10 dans la région.'};
+   const f=pose();if(!f.active||!contextWorld(f.generation)||f.car?.driving)return{ok:false,reason:'Rejoignez à pied un ouvrage G10 dans la région.'};
    if(!g.frontier.discoveries().includes(site))return{ok:false,reason:'Ce lieu doit être repéré sur place.'};
    const w=world(),p=w.pois.find(p=>p.id===site),op=operation(p,key),rule=op&&R.operations[op.kind];
    if(!p||p.generation!==10||!op||!rule)return{ok:false,reason:'Ce lieu ne possède pas cette intervention.'};
@@ -92,7 +96,7 @@
     start:t.startedElapsed,duration:t.seconds,anchor:Object.freeze({...t.anchor}),workTarget:Object.freeze({...t.workTarget})});
   }
   function nearby(){
-   const f=pose();if(!f.active||f.generation!==10)return[];
+   const f=pose();if(!f.active||!contextWorld(f.generation))return[];
    const seen=new Set(g.frontier.discoveries());
    return world().nearPOI(f.x,f.y,35).filter(p=>p.generation===10&&seen.has(p.id)&&p.context160)
     .sort((a,b)=>Math.hypot(a.x-f.x,a.y-f.y)-Math.hypot(b.x-f.x,b.y-f.y)).slice(0,4);
@@ -109,7 +113,7 @@
   }
   function overview(){
    const f=pose(),sites=nearby();
-   return{summary:f.generation===10?'Ouvrages, accès et postes de service G10. Chaque travail paie le sac après achèvement ; les réserves du lieu restent finies.':
+   return{summary:contextWorld(f.generation)?'Ouvrages, accès et postes de service G10. Chaque travail paie le sac après achèvement ; les réserves du lieu restent finies.':
     'Activez les 626 programmes territoriaux au dépôt de D-17, dans Monde & relais.',
     message,task:task?{kind:task.kind,name:task.name,progress:Math.min(1,task.elapsed/task.seconds)}:null,
     rows:sites.map(p=>({id:p.id,label:p.name,value:p.context160.description||p.context160.archetype})),

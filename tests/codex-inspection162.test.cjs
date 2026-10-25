@@ -38,5 +38,8 @@ test('162 inspection: an explicit historical generation preserves the native rec
  const current=P.inspect('DW-0300',42,0,10);assert.equal(current.supported,true);assert.equal(current.p.generation,10);
  const historical=P.inspect('DW-0300',42,0,10,8);assert.equal(historical.supported,false);assert.equal(historical.plan,undefined);
  const native=P.inspect('DW-0001',42,0,10,8);assert.equal(native.p.generation,8);
- for(const generation of [7,11,'8',null,NaN])assert.throws(()=>P.inspect('DW-0001',42,0,10,generation));
+ const compatible=P.inspect('DW-0300',42,0,10,11);assert.equal(compatible.supported,true);
+ assert.equal(compatible.p.generation,10,'G11 keeps the historical context owner rather than relabelling its site');
+ assert.deepEqual(compatible.plan,current.plan);assert.deepEqual(compatible.details,current.details);
+ for(const generation of [7,12,'8',null,NaN])assert.throws(()=>P.inspect('DW-0001',42,0,10,generation));
 });

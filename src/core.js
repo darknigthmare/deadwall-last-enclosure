@@ -1653,6 +1653,16 @@
  C.Urban=Object.freeze({RULES:rules,BUILDINGS:Object.freeze(defs),empty,normalize,score});C.SAVE_VERSION=10;C.SAVE_KEY='deadwall-save-v10';C.SAVE_BACKUP_KEY='deadwall-save-backup-v10';C.LEGACY_SAVE_KEYS=[...new Set(['deadwall-save-v9','deadwall-save-backup-v9',...C.LEGACY_SAVE_KEYS])];
 })(globalThis);
 
+/* A whole G11 residential parcel inherits one historical finite stock profile.
+ * Extra dwellings and cosmetic variants never multiply that stock. */
+(function(root){'use strict';
+ root.DeadwallCore.CampaignSites205Rules=Object.freeze({version:1,instancesPerType:2,attemptLimit:384,
+  minimumRoadLength:90,frontSetback:28,extraSetback:40,containersPerResource:4,
+  allowedSpawnBiomes:Object.freeze(['rural','forest','industrial']),
+  excludedBiomes:Object.freeze(['wetland','peatland','rockyHighland','limestone']),
+  parentProfiles:Object.freeze({'EXT-MONDE-T045':'cabin','EXT-MONDE-T046':'cabin','EXT-MONDE-T047':'ruin','EXT-MONDE-T048':'ruin'})});
+})(globalThis);
+
 /* 1.12 — energy reserves own real stored charge; circuit commands never create power. */
 (function(root){
  'use strict';const C=root.DeadwallCore;if(C.PowerGrid)return;

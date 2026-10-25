@@ -15,7 +15,7 @@
   contextGeometry:root.DeadwallCodexGeometry160||(typeof require==='function'?require('./codex-geometry160.js'):null)
  };}
  function modelTemplate(id,seed=0,generation=10,detailVersion=5){
-  const {runtime:R,context:X,architecture:A}=dependencies(),historical=R.template(id,seed,'preview-'+id),contract=generation===10?X?.get(id):null;
+  const {runtime:R,context:X,architecture:A}=dependencies(),historical=R.template(id,seed,'preview-'+id),contract=generation>=10?X?.get(id):null;
   return contract?{...historical,w:contract.w,h:contract.h,levels:detailVersion>=12&&A?.supports(contract)?A.levels(contract):[...contract.levels],
    adapted:contract.implementation160?.fullyImplementedReference===false||!contract.profile&&historical.adapted}:historical;
  }
@@ -26,19 +26,19 @@
  }
  function inspect(id,rawSeed=0,z=0,detailVersion=5,generation){
   if(![5,6,7,8,9,10,11,12,13].includes(detailVersion))throw Error('Révision d’aperçu inconnue.');
-  if(generation!==undefined&&![8,9,10].includes(generation))throw Error('Génération d’aperçu inconnue.');
+  if(generation!==undefined&&![8,9,10,11].includes(generation))throw Error('Génération d’aperçu inconnue.');
   if(typeof id!=='string'||!/^DW-\d{4}$/.test(id))throw Error('Identifiant de programme invalide.');
   const seed=validateSeed(rawSeed),{runtime:R,geometry:G,detail:D,dressing:S,context:X,contextGeometry:CG}=dependencies();
   const programme=R?.get(id);if(!programme||!G||!D)throw Error('Programme ou générateur indisponible.');
   const actualGeneration=generation??(X?.has(id)?10:programme.extension===158?9:8);
-  const contract=actualGeneration===10?X?.get(id):null,template=modelTemplate(id,seed,actualGeneration,detailVersion);
+  const contract=actualGeneration>=10?X?.get(id):null,template=modelTemplate(id,seed,actualGeneration,detailVersion);
   if(!Number.isInteger(z)||!template.levels.includes(z))throw Error('Niveau absent du programme.');
   // Do not draw an office-shaped surrogate for a port, tunnel or full district.
   const preset=contract?X.preset(X.typeFor(id)):R.preset('codex3000-'+id.slice(3));
   if(!preset)return Object.freeze({id,seed,z,levels:[...template.levels],supported:false,
    reason:'Aucun gabarit de bâtiment disponible pour cet aperçu. Les ouvrages et terrains spécialisés restent à développer.'});
   const p={id:'preview-'+id,type:preset.id,codex:id,programme3000:id,name:programme.name,
-   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:actualGeneration,
+   w:template.w,h:template.h,levels:[...template.levels],x:template.w/2,y:template.h/2,a:0,generation:contract?10:actualGeneration,
    ...(contract?{programme160:id,context160:contract}:{})};
   p.outdoor=G.outdoor(p);p.parking=G.parking(p);
   if(contract)CG.decorate(p,seed,detailVersion);

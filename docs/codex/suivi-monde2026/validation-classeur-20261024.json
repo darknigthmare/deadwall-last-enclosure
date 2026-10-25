@@ -1,0 +1,232 @@
+{
+  "sheets": 14,
+  "programmes": 4000,
+  "typologies": 80,
+  "variants": 4000,
+  "tasks": 800,
+  "formulas": 1171,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "validatedTasks": 3,
+  "inProgressTasks": 405,
+  "pendingTasks": 392,
+  "playableVariants": 0,
+  "inspectionPlans": 4000,
+  "inspectionTypes": 80,
+  "inspectionProps": 588378,
+  "inspectionRefused": 0,
+  "preservedHistoricalFeatures": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 98089,
+    "authorCellsWithWrapStyleChanges": 33143,
+    "authorCellsWithEquivalentExplicitDefaults": 33143,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 473,
+      "Variantes à concevoir": 32670
+    },
+    "inheritedStylesPreserved": true
+  },
+  "campaignG11": {
+    "types": 4,
+    "eligibleVariants": 200,
+    "passedVariants": 200,
+    "guaranteedSitesPerSeed": 0,
+    "observedSeeds": 8,
+    "observedSites": 63,
+    "observedVariants": 58
+  },
+  "scope": "XLSX source reconciliation; does not certify gameplay",
+  "metadataReconciled": true,
+  "sha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+  "bytes": 571525,
+  "schemaVersion": 2,
+  "verifiedAt": "2026-10-24T02:47:55.298692+00:00",
+  "sourceCommit": "42a8dd449965dc184fb87c7f5f560bc61b171869",
+  "pullRequest": 19,
+  "formulaPerturbationDetected": true,
+  "currentWorkbookVerificationAgainstPrevious": {
+    "sheets": 14,
+    "programmes": 4000,
+    "typologies": 80,
+    "variants": 4000,
+    "tasks": 800,
+    "formulas": 1171,
+    "formulaErrors": 0,
+    "missingFormulaCaches": 0,
+    "validatedTasks": 3,
+    "inProgressTasks": 405,
+    "pendingTasks": 392,
+    "playableVariants": 0,
+    "inspectionPlans": 4000,
+    "inspectionTypes": 80,
+    "inspectionProps": 588378,
+    "inspectionRefused": 0,
+    "preservedHistoricalFeatures": true,
+    "styleVerification": {
+      "checkedHistoricalStyleCells": 98089,
+      "authorCellsWithWrapStyleChanges": 0,
+      "authorCellsWithEquivalentExplicitDefaults": 0,
+      "equivalentExplicitDefaultsBySheet": {
+        "Extension typologies": 0,
+        "Variantes à concevoir": 0
+      },
+      "inheritedStylesPreserved": true
+    },
+    "campaignG11": {
+      "types": 4,
+      "eligibleVariants": 200,
+      "passedVariants": 200,
+      "guaranteedSitesPerSeed": 0,
+      "observedSeeds": 8,
+      "observedSites": 63,
+      "observedVariants": 58
+    },
+    "scope": "XLSX source reconciliation; does not certify gameplay",
+    "metadataReconciled": true,
+    "sha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+    "bytes": 571525
+  },
+  "previousWorkbookBaseline": {
+    "deliveryCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+    "bytes": 557803,
+    "sha256": "989083147539313b3aa7a37a66fa8b5ea10d321a001648216087c2858df94b31"
+  },
+  "originalPublicBaseline": {
+    "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
+    "bytes": 539765,
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "scope": "Classeur public initial conservé ; 20 types / 1000 plans"
+  },
+  "export": {
+    "actualExitCode": 0,
+    "startedUtc": "2026-10-24T02:44:20.868265+00:00",
+    "completedUtc": "2026-10-24T02:45:09.325211+00:00",
+    "command": [
+      "node",
+      "scripts/update-codex-tracker-xlsx2026.mjs",
+      "--root",
+      "/workspace/deadwall-last-enclosure",
+      "--input",
+      "/workspace/deadwall-cloud/extension205/baseline-1.71-workbook.xlsx",
+      "--output",
+      "/workspace/deadwall-cloud/extension205/workbook-export-final/DEADWALL_CODEX_MONDE_SUIVI_CANDIDAT.xlsx",
+      "--proof-dir",
+      "/workspace/deadwall-cloud/extension205/workbook-export-final",
+      "--metadata",
+      "/workspace/deadwall-cloud/extension205/workbook-export-final/metadata-final.json",
+      "--ref",
+      "42a8dd449965dc184fb87c7f5f560bc61b171869",
+      "--render"
+    ]
+  },
+  "metadata": {
+    "path": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_72.json",
+    "sha256": "8546af880daf6c2311a186e7bacc513e7d36c03c70914659f43da98cc84e5b9b"
+  },
+  "nativeTrackingTests": {
+    "pass": true,
+    "command": [
+      "node",
+      "--test",
+      "--test-concurrency=1",
+      "tests/codex-tracker2026.test.cjs",
+      "tests/codex-campaign-progress205.test.cjs",
+      "tests/codex-tracker-xlsx-guards2026.test.cjs",
+      "tests/codex-tracker-campaign-sheet205.test.cjs",
+      "tests/codex-workbook-metadata2026.test.cjs"
+    ],
+    "startedUtc": "2026-10-24T02:44:40.672609+00:00",
+    "completedUtc": "2026-10-24T02:44:53.239839+00:00",
+    "durationMs": 12567.227,
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 34,
+      "suites": 0,
+      "pass": 34,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "scope": "Local tracking and independent worksheet guards; final XLSX preservation and complete game CI are qualified separately."
+  },
+  "visualReview": {
+    "reviewer": "Codex",
+    "scope": "Revue visuelle des neuf rendus du classeur, distincte des essais humains du jeu.",
+    "renderedWorksheetsReviewed": 9,
+    "renders": [
+      {
+        "worksheetRender": "accueil",
+        "bytes": 185237,
+        "sha256": "a5eefe9916f4f199040a6c2796d7152bbd0f9eedb94c89f81fef8caf0f434afa"
+      },
+      {
+        "worksheetRender": "typologies",
+        "bytes": 408534,
+        "sha256": "223eaa0f7098878e8ce5b52fc96b2d9558068f77b1804f47bd0a0596cccbbb68"
+      },
+      {
+        "worksheetRender": "typologies-agricoles",
+        "bytes": 415068,
+        "sha256": "fe0dae2317b7e5ccd4b436198e6498acf55ba235c60290e81087010dec977dc0"
+      },
+      {
+        "worksheetRender": "typologies-residentielles",
+        "bytes": 244355,
+        "sha256": "689d7fc259f8bf063bb5f64533c084ed87dd437721edc18b990946f3ebe025e8"
+      },
+      {
+        "worksheetRender": "chantiers",
+        "bytes": 194108,
+        "sha256": "30f8c148ffdc1331cb21377776e82b00161c5bb8505686dffc09b237935c078a"
+      },
+      {
+        "worksheetRender": "publication",
+        "bytes": 172731,
+        "sha256": "0c078f9c56cf60cebd9aa219b9d2c6254a2d8dc83a0b0e11c1aac0eaef9f7ea0"
+      },
+      {
+        "worksheetRender": "avancement",
+        "bytes": 132693,
+        "sha256": "3216dfca9e44f9d48616bf54d3191b82689b56aa3a9935af32f154c6da9ea27f"
+      },
+      {
+        "worksheetRender": "inspection",
+        "bytes": 747114,
+        "sha256": "fee28ca480d3c4f9ddafcba35ec8275f0a9278c2dbf61217960d281c33b40a9f"
+      },
+      {
+        "worksheetRender": "campagne-g11",
+        "bytes": 309281,
+        "sha256": "06bfaff63539cff26a557719a01b4f423253dd0a09427c189fd4df134f342fd7"
+      }
+    ]
+  },
+  "driveReplaced": false,
+  "stylePerturbationTest": {
+    "pass": true,
+    "command": [
+      "node",
+      "--test",
+      "tests/codex-tracker-xlsx-styles2026.test.cjs"
+    ],
+    "startedUtc": "2026-10-24T02:48:28.249705+00:00",
+    "completedUtc": "2026-10-24T02:48:31.263963+00:00",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 1,
+      "suites": 0,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMs": 3014.269,
+    "metricLabelsCheckedForLongFloatResidues": 4080,
+    "styledWorkbookSha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+    "workbookUnchanged": true,
+    "scope": "Real temporary font/fill perturbations detected; native14-sheet workbook unchanged."
+  },
+  "metricLabelsCheckedForLongFloatResidues": 4080
+}

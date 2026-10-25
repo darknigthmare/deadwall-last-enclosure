@@ -94,14 +94,18 @@ function build(type, number) {
   }
   function building(key,kind,x,y,w,h,names,entrySide='north') {
     const t=RULES.wallM,cw=RULES.corridorM,rows=Math.ceil(names.length/2),clearHeightM=kind==='worker-lodge'?2.65:2.5;
+    // The fixed residential modules contain a complete family programme. Give
+    // the living room and kitchen their own deeper day zone instead of making
+    // every room an equally small slice and refusing full-size equipment.
+    const rowCuts=kind==='mobile-home'?[0,h*.44,h*.72,h]:null;
     const b={id:id+':'+key,kind,x,y,w,h,rotationRad:0,entrySide,heightM:kind==='worker-lodge'?3.4:3.2,
       heightOrigin:'author-design',footprintOrigin:'author-design',levels:[0],rooms:[],portals:[],
       entry:{x:w/2,y:entrySide==='north'?0:h,level:0,widthM:RULES.doorM}};
     const corridor={id:b.id+':circulation',name:'circulation',kind:'circulation',x:(w-cw)/2,y:0,w:cw,h,level:0,clearHeightM};
     b.rooms.push(corridor);
     for(let index=0;index<names.length;index++) {
-      const east=index%2===1,row=Math.floor(index/2),rw=(w-cw)/2-2*t,rh=h/rows-2*t;
-      const r={id:b.id+':room:'+index,name:names[index],x:east?(w+cw)/2+t:t,y:row*h/rows+t,w:rw,h:rh,level:0,clearHeightM,slots:[]};
+      const east=index%2===1,row=Math.floor(index/2),rw=(w-cw)/2-2*t,rh=(rowCuts?rowCuts[row+1]-rowCuts[row]:h/rows)-2*t;
+      const r={id:b.id+':room:'+index,name:names[index],x:east?(w+cw)/2+t:t,y:(rowCuts?rowCuts[row]:row*h/rows)+t,w:rw,h:rh,level:0,clearHeightM,slots:[]};
       b.rooms.push(r);b.portals.push({id:r.id+':door',from:corridor.id,to:r.id,x:east?corridor.x+cw:corridor.x,
         y:r.y+r.h/2,widthM:RULES.doorM,wallGapM:t,axis:'y'});
     }
@@ -140,8 +144,8 @@ function build(type, number) {
     }
     const box={x:px,y:py,w:plotW-1,h:plotH},gateX=px+(plotW-1)/2;
     const isShell=(type==='EXT-MONDE-T046'&&index!==0)||(type==='EXT-MONDE-T048'&&index%3!==0);
-    const bw=isShell?2.4+group*.05:type==='EXT-MONDE-T047'?9.6+group*.3:6.4+group*.3+(index%2)*.2;
-    const bh=isShell?6.2+group*.6:type==='EXT-MONDE-T047'?14.4+group*.2:11.4+group*.5+(index%3)*.3;
+    const bw=isShell?2.4+group*.05:type==='EXT-MONDE-T047'?9.6+group*.3:9.6+group*.3+(index%2)*.2;
+    const bh=isShell?6.2+group*.6:type==='EXT-MONDE-T047'?14.4+group*.2:14.4+group*.5+(index%3)*.3;
     const bx=gateX-bw/2,by=py+5,parcelId=id+':'+key;
     fence(key+':fence',box,gateX);
     const junction=key+':junction',gate=key+':gate',front=key+':front',side=key+':side',rear=key+':rear',back=key+':back',garden=key+':garden-access';

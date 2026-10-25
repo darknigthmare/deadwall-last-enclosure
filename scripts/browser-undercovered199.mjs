@@ -43,7 +43,7 @@ try{
     if(!g.restoreSave(saved))throw Error('Declared regional setup refused');g.paused=false;g.activeOverlay=null;g.dayClock=.4;g.update(.01);g.updateUI();g.render();
     if(g.siege.carriedWater199()!==0)throw Error('Fixture must not inject water');return{point,bank,bag:{...g.player.carry}};
    });profile.fixture=fixture;
-   r.check('Normal player notebook and generated G10 region are used',await page.evaluate(()=>DEADWALL.playerMenus194.mode==='player'&&DEADWALL.frontier.position().generation===10));
+   r.check('Normal player notebook and generated G11 region are used',await page.evaluate(()=>DEADWALL.playerMenus194.mode==='player'&&DEADWALL.frontier.position().generation===11));
    async function openAction(kind,id=null){
     await page.evaluate(()=>DEADWALL.expansionUI.open('husbandry191'));
     const selector='[id="expansionAction-husbandry191-'+kind+':'+id+':null"]',button=page.locator(selector);await button.scrollIntoViewIfNeeded();

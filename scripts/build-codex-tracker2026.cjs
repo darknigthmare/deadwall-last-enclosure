@@ -4,10 +4,14 @@ const fs=require('node:fs'),path=require('node:path');
 const {exportCatalogue}=require('./export-codex-tracker2026.cjs'),Targets=require('./codex-tracker-targets2026.cjs');
 const Foundation=require('./codex-progress2026.cjs'),Maritime=require('./codex-maritime-progress2026.cjs'),Inspection=require('./codex-inspection-progress2026.cjs'),V=require('./validate-codex-tracker2026.cjs');
 const Land=require('./codex-land-progress2026.cjs');
-function currentData(root=path.resolve(__dirname,'..')){return {catalogue:exportCatalogue(root),...Inspection.patch(Land.patch(Maritime.patch(Foundation.patch(Targets.generate()).data).data).data,root).data};}
+const Campaign=require('./codex-campaign-progress205.cjs');
+function currentData(root=path.resolve(__dirname,'..')){
+ const inspected=Inspection.patch(Land.patch(Maritime.patch(Foundation.patch(Targets.generate()).data).data).data,root).data;
+ return {catalogue:exportCatalogue(root),...Campaign.patch(inspected,root).data};
+}
 function write(root,out){
  const data=currentData(root),summary=V.validate(data);fs.mkdirSync(out,{recursive:true});
- const pairs=[['catalogue','catalogue-existant.json'],['typologies','typologies-cibles.json'],['variants','variantes-a-concevoir.json'],['tasks','chantiers.json']];
+ const pairs=[['catalogue','catalogue-existant.json'],['typologies','typologies-cibles.json'],['variants','variantes-a-concevoir.json'],['tasks','chantiers.json'],['campaign205','campagne-g11.json']];
  // Refuse to overwrite editable data; separate fresh output directory required.
  for(const[,name]of pairs)if(fs.existsSync(path.join(out,name)))throw Error('Destination déjà présente : '+name);
  for(const[key,name]of pairs)fs.writeFileSync(path.join(out,name),JSON.stringify(data[key],null,2)+'\n');

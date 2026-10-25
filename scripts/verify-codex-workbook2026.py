@@ -32,6 +32,9 @@ def verify(file, data_dir):
         for expected in data[key]:
             actual = by_id[expected["id"]]
             checker.assert_equal({field: actual.get(field) for field in expected}, expected, filename + " " + expected["id"])
+    if data.get("campaign205"):
+        campaign = json.loads((directory / "campagne-g11.json").read_text())
+        checker.assert_equal(campaign, data["campaign205"], "Preuves de campagne G11 régénérées")
     result = checker.verify(checker.read_workbook(file), data)
     result.update({
         "passed": True,

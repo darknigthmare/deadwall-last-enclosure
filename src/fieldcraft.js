@@ -38,7 +38,7 @@ function attach(g){
   return collides({def:true,left:b.x,top:b.y,right:b.x+b.w,bottom:b.y+b.h},u.x,u.y,u.radius||12);
  }
  function positionFree(u,x,y){const car=g.expeditions.car();if(car?.metric174===1&&car.health>0&&!car.regionAway){if(u===g.player&&car.driving)return g.expeditions.carClear(x,y);if(u.id!==car.id&&root.DeadwallMetric174.bodyCircle(g.expeditions.vehicleBody175(car.x,car.y,car.angle),{x,y},u.radius*.9))return false;}return Number.isFinite(x)&&Number.isFinite(y)&&x>u.radius+3&&y>u.radius+3&&x<C.WORLD_SIZE-u.radius-3&&y<C.WORLD_SIZE-u.radius-3&&!blocked(x,y,u.radius*.9);}
- function segment(u,a,b){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/7));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
+ function segment(u,a,b,step=7){const n=Math.max(1,Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/step));for(let i=0;i<=n;i++)if(!g.friendlyPositionClear(u,a.x+(b.x-a.x)*i/n,a.y+(b.y-a.y)*i/n))return false;return true;}
  function service(u,e){
   if(!e)return null;
   if(!physical(e)){if(g.friendlyPositionClear(u,e.x,e.y))return e;e=blocked(e.x,e.y,u.radius)||e;}
@@ -47,13 +47,30 @@ function attach(g){
   for(let x=b.l+16;x<b.r;x+=32)points.push({x,y:b.t-r},{x,y:b.b+r});
   for(let y=b.t+16;y<b.b;y+=32)points.push({x:b.l-r,y},{x:b.r+r,y});
   const left=Math.floor((b.l-r-16)/32)*32+16,right=Math.ceil((b.r+r-16)/32)*32+16,top=Math.floor((b.t-r-16)/32)*32+16,bottom=Math.ceil((b.b+r-16)/32)*32+16;for(let yy=Math.floor(b.t/32)*32+16;yy<b.b;yy+=32)points.push({x:left,y:yy},{x:right,y:yy});for(let xx=Math.floor(b.l/32)*32+16;xx<b.r;xx+=32)points.push({x:xx,y:top},{x:xx,y:bottom});
-  const reach=e.maxAmount!==undefined?e.radius+12:Math.max(36,u.radius+15),pick=options=>options.filter(p=>distance(p,e)<=reach&&g.friendlyPositionClear(u,p.x,p.y)&&g.friendlyPositionClear(u,Math.floor(p.x/32)*32+16,Math.floor(p.y/32)*32+16)).sort((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)-Math.hypot(b.x-u.x,b.y-u.y))[0]||null;
+  // A free destination alone does not guarantee that the final approach or
+  // work gesture clears the neighbouring props. Reuse their physical owners.
+  const reach=e.maxAmount!==undefined?e.radius+12:Math.max(36,u.radius+15),pick=options=>options.sort((a,b)=>Math.hypot(a.x-u.x,a.y-u.y)-Math.hypot(b.x-u.x,b.y-u.y)).find(p=>{
+   if(distance(p,e)>reach||!g.friendlyPositionClear(u,p.x,p.y)||!workFrom(u,p,e,reach))return false;
+   const cell={x:Math.floor(p.x/32)*32+16,y:Math.floor(p.y/32)*32+16};
+   return g.friendlyPositionClear(u,cell.x,cell.y)&&segment(u,cell,p,1);
+  })||null;
   const available=pick(points);if(available||e.maxAmount===undefined||reach<=r)return available;
   // A nearby standing point can snap back inside the same deposit. Try its
   // existing work reach before treating an otherwise clear resource as blocked.
-  const outer=reach-1e-6;return pick([{x:b.l-outer,y},{x:b.r+outer,y},{x,y:b.t-outer},{x,y:b.b+outer}]);
+  const outer=reach-1e-6,edge=pick([{x:b.l-outer,y},{x:b.r+outer,y},{x,y:b.t-outer},{x,y:b.b+outer}]);if(edge)return edge;
+  // The face samples may miss a legal cell or a short diagonal beside a
+  // corner. Search only cells in this resource's existing work reach, and
+  // project their centres to that reach when the centre itself is too far.
+  const candidates=[];
+  for(let gy=Math.floor((b.t-reach)/32);gy<=Math.floor((b.b+reach)/32);gy++)for(let gx=Math.floor((b.l-reach)/32);gx<=Math.floor((b.r+reach)/32);gx++){
+   const p={x:gx*32+16,y:gy*32+16};if(!g.friendlyPositionClear(u,p.x,p.y))continue;
+   const q={x:Math.max(b.l,Math.min(b.r,p.x)),y:Math.max(b.t,Math.min(b.b,p.y))},d=Math.hypot(p.x-q.x,p.y-q.y);
+   candidates.push(d>reach?{x:q.x+(p.x-q.x)/d*outer,y:q.y+(p.y-q.y)/d*outer}:p);
+  }
+  return pick(candidates);
  }
- function workAt(u,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(u.x-e.x,u.y-e.y)<=r&&segment(u,u,e);if(distance(u,e)>r||!g.friendlyPositionClear(u,u.x,u.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,u.x)),y:Math.max(b.t,Math.min(b.b,u.y))},d=Math.hypot(u.x-p.x,u.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,u,{x:p.x+(u.x-p.x)/d*(u.radius+1),y:p.y+(u.y-p.y)/d*(u.radius+1)});}
+ function workFrom(u,at,e,r){if(!e||!u)return false;if(!physical(e))return Math.hypot(at.x-e.x,at.y-e.y)<=r&&segment(u,at,e);if(distance(at,e)>r||!g.friendlyPositionClear(u,at.x,at.y))return false;const b=rect(e),p={x:Math.max(b.l,Math.min(b.r,at.x)),y:Math.max(b.t,Math.min(b.b,at.y))},d=Math.hypot(at.x-p.x,at.y-p.y);return d===0?Boolean(e.def&&!e.completed):segment(u,at,{x:p.x+(at.x-p.x)/d*(u.radius+1),y:p.y+(at.y-p.y)/d*(u.radius+1)});}
+ function workAt(u,e,r){return workFrom(u,u,e,r);}
  function pack(){
   const placed=[...g.world.buildings.values()].filter(live).map(reserveRect);
   for(const p of g.expeditions.sites?.()||C.Expeditions.SITES)placed.push(reserveRect({...p,renderSize:90}));

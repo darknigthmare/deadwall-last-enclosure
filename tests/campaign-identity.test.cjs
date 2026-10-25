@@ -35,7 +35,7 @@ test('campaign identity: every initial autosave uses one ID, and replaying the s
   assert.deepEqual(archiveIds(g), [first]);
   assert.equal(g.profile.get().summary.retainedRuns, 1);
   assert.equal(g.exploration125.generation, 4); assert.equal(g.exploration125.layoutRevision, 4);
-  assert.equal(g.frontier.position().generation, 10); assert.equal(g.frontier.position().detailVersion, 13); assert.equal(g.frontier.position().ecologyVersion, 1);
+  assert.equal(g.frontier.position().generation, 11); assert.equal(g.frontier.position().detailVersion, 13); assert.equal(g.frontier.position().ecologyVersion, 1);
   click(g.campaignIntro132.element.querySelector('#campaignIntro132Skip'));
   for (let i = 0; i < 3; i++) assert.equal(g.save(false), true);
   g.returnToMenu(); click(g.ui.continueButton);
@@ -49,7 +49,7 @@ test('campaign identity: every initial autosave uses one ID, and replaying the s
   assert.deepEqual(archiveIds(g), [first, second].sort());
   assert.equal(g.profile.get().recentRuns.find(run => run.runId === first).ended, true);
   assert.equal(g.profile.get().summary.retainedRuns, 2);
-  assert.equal(g.frontier.position().generation, 10); assert.equal(g.frontier.position().detailVersion, 13); assert.equal(g.frontier.position().ecologyVersion, 1);
+  assert.equal(g.frontier.position().generation, 11); assert.equal(g.frontier.position().detailVersion, 13); assert.equal(g.frontier.position().ecologyVersion, 1);
   click(g.campaignIntro132.element.querySelector('#campaignIntro132Skip')); g.returnToMenu();
 
   const previousConfirm = Object.getOwnPropertyDescriptor(globalThis, 'confirm');

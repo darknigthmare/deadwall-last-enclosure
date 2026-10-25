@@ -378,11 +378,84 @@
       reason: targets.every(p => seen.has(index(p.x,p.y))) ? null : 'unreachable-service'};
   }
 
-  function build(plan) {
+    // Only revised maritime compositions opt in. Complete room layouts are staged
+  // before replacement; an exhausted search retains the original honest refusals.
+  const REPACK205 = Object.freeze({version:1,maxStates:4096,maxCandidatesPerRequest:512});
+  function maritimeRepack205(plan) {
+    return plan.scope==='author-maritime-layout-not-live-world' && plan.furnishingLayout205===1 && ['EXT-MONDE-T005','EXT-MONDE-T008','EXT-MONDE-T011'].includes(plan.typologyId);
+  }
+  // Wall samples preserve the usual visual preference. Contact offsets and a
+  // small interior grid let the search place freestanding rows without changing
+  // any footprint, service depth, protected doorway path or actor radius.
+  function packRoom205(room,kinds,dependencies) {
+    const ordinals=new Map();
+    const requests=kinds.map(kind=>{const ordinal=ordinals.get(kind)||0;ordinals.set(kind,ordinal+1);return {kind,ordinal,id:room.id+':furnish2026:'+kind+':'+ordinal,definition:shape(kind,dependencies)};});
+    const fractions=[0,1,.5,.25,.75,.125,.375,.625,.875];
+    const items=requests.map((request,index)=>{
+      const d=request.definition,out=[];
+      if(d.heightM>room.clearHeightM)return out;
+      const order=['north','south','west','east'];
+      const poses=[];
+      for(let n=0;n<order.length;n++){
+        const side=order[(n+index)%4];
+        const offsets=[0,...requests.flatMap(q=>[q.definition.w+RULES.gapM,q.definition.h+RULES.gapM,q.definition.w+RULES.serviceDepthM+RULES.gapM,q.definition.h+RULES.serviceDepthM+RULES.gapM])];
+        for(const fraction of fractions){
+          const anchored=pose(room,d,side,fraction);if(!anchored)continue;
+          for(const offset of offsets){
+            const dx=side==='west'?offset:side==='east'?-offset:0,dy=side==='north'?offset:side==='south'?-offset:0;
+            poses.push({...anchored,x:anchored.x+dx,y:anchored.y+dy,access:{...anchored.access,x:anchored.access.x+dx,y:anchored.access.y+dy}});
+          }
+        }
+        const wall=pose(room,d,side,0);
+        if(wall)for(const xf of [0,.25,.5,.75,1])for(const yf of [0,.25,.5,.75,1]){
+          const x=room.x+RULES.wallMarginM+(room.w-wall.w-RULES.wallMarginM*2)*xf;
+          const y=room.y+RULES.wallMarginM+(room.h-wall.h-RULES.wallMarginM*2)*yf;
+          poses.push({...wall,x,y,access:{...wall.access,x:wall.access.x+x-wall.x,y:wall.access.y+y-wall.y}});
+        }
+      }
+      const seen=new Set();
+      for(const candidate of poses){
+        if(!candidate||!within(candidate,room,RULES.wallMarginM)||!within(candidate.access,room)||room.protectedPaths.some(path=>hit(candidate,path,RULES.gapM)))continue;
+        const key=JSON.stringify([candidate.x,candidate.y,candidate.side]);if(seen.has(key))continue;seen.add(key);
+        if(out.length>=REPACK205.maxCandidatesPerRequest)break;
+        out.push({...candidate,id:request.id,roomId:room.id,room:room.name,usage:room.usage,kind:request.kind,
+          name:d.name,heightM:d.heightM,heightOrigin:d.heightOrigin,sourceDimensions:d.sourceDimensions,footprintM:{w:d.w,h:d.h},
+          level:room.level,sourceLevel:room.sourceLevel,elevationM:room.elevationM,solid:true,lootEligible:d.lootEligible,lootAssigned:false,utilityConnected:false});
+      }
+      return out;
+    });
+    const compatible=(a,b)=>!hit(a,b,RULES.gapM)&&!hit(a,b.access,RULES.gapM)&&!hit(a.access,b,RULES.gapM);
+    let states=0,exhausted=false,solution=null;
+    function visit(selected,remaining){
+      if(!remaining.length){if(accessibility(room,selected.filter(Boolean)).ok){solution=selected.slice();return true;}return false;}
+      if(states>=REPACK205.maxStates){exhausted=true;return false;}
+      let chosen=null;
+      for(const index of remaining){
+        const options=items[index].filter(p=>selected.every(q=>!q||compatible(p,q)));
+        if(!options.length)return false;
+        if(!chosen||options.length<chosen.options.length)chosen={index,options};
+      }
+      const next=remaining.filter(index=>index!==chosen.index);
+      for(const p of chosen.options){
+        if(states>=REPACK205.maxStates){exhausted=true;return false;}
+        states++;
+        selected[chosen.index]=p;
+        if(accessibility(room,selected.filter(Boolean)).ok&&visit(selected,next))return true;
+        selected[chosen.index]=null;
+      }
+      return false;
+    }
+    visit(Array(requests.length).fill(null),requests.map((_,index)=>index));
+    return {roomId:room.id,accepted:!!solution,states,candidates:items.reduce((n,a)=>n+a.length,0),exhausted,items:solution};
+  }
+
+function build(plan) {
     const rooms = roomsFor(plan), dependencies = sources(), props = [], unplaced = [], requests = [];
+    const packing205=maritimeRepack205(plan)?[]:null;
     for (const room of rooms) {
       const kinds = room.usage ? PROFILES[room.usage] : null;
       if (!kinds) { unplaced.push({roomId:room.id, kind:null, reason:'room-usage-unresolved'}); continue; }
+      const startProps=props.length,startRequests=requests.length,startUnplaced=unplaced.length;
       const local = [], ordinals = new Map();
       for (const kind of kinds.slice(0,RULES.maxPerRoom)) {
         const ordinal = ordinals.get(kind) || 0; ordinals.set(kind,ordinal+1);
@@ -420,9 +493,20 @@
         else unplaced.push({id,roomId:room.id,kind,reason:definition.heightM>room.clearHeightM?'insufficient-headroom':'space-or-access',
           requiredFootprintM:{w:definition.w,h:definition.h},requiredHeightM:definition.heightM});
       }
+      if(packing205&&unplaced.length>startUnplaced){
+        const staged=packRoom205(room,kinds.slice(0,RULES.maxPerRoom),dependencies);
+        const {items,...receipt}=staged;packing205.push(receipt);
+        if(staged.accepted){
+          props.splice(startProps,props.length-startProps,...items);
+          unplaced.splice(startUnplaced,unplaced.length-startUnplaced);
+          // Direct-pass attempts keep their historical meaning; the independent
+          // bounded room-search work is reported in packing205.
+          for(let i=startRequests;i<requests.length;i++)requests[i].placed=true;
+        }
+      }
     }
     const result = {schemaVersion:1,planId:plan.id,units:'m',scope:'author-furnishings-not-campaign',
-      playable:false,props,unplaced,requests,rooms,summary:{rooms:rooms.length,
+      playable:false,props,unplaced,requests,rooms,...(packing205?{packing205}:{}),summary:{rooms:rooms.length,
         furnishedRooms:new Set(props.map(p=>p.roomId)).size,objects:props.length,
         requested:requests.length,unplaced:unplaced.length,unknownUses:unplaced.filter(p=>p.kind===null).length,
         lootContainersCreated:0,connectedServices:0}};
@@ -508,6 +592,20 @@
         requestIds.add(request.id);
       }
       if (requestIds.size!==expected.size || [...ids].some(id=>!expected.has(id))) fail('incomplete-requests');
+      if(maritimeRepack205(plan)) {
+        if(!Array.isArray(result.packing205))fail('missing-packing-receipt');
+        else {
+          const packedRooms=new Set();
+          for(const record of result.packing205){
+            const room=byRoom.get(record?.roomId),limit=(PROFILES[room?.usage]||[]).length*REPACK205.maxCandidatesPerRequest;
+            if(!room||packedRooms.has(record.roomId)||Object.keys(record).sort().join(',')!=='accepted,candidates,exhausted,roomId,states'||
+              typeof record.accepted!=='boolean'||typeof record.exhausted!=='boolean'||!Number.isInteger(record.states)||record.states<0||record.states>REPACK205.maxStates||
+              !Number.isInteger(record.candidates)||record.candidates<0||record.candidates>limit||record.accepted&&record.exhausted)fail('invalid-packing-receipt');
+            packedRooms.add(record?.roomId);
+            if(record?.accepted===result.unplaced.some(p=>p.roomId===record.roomId))fail('false-packing-result');
+          }
+        }
+      } else if(own(result,'packing205'))fail('unexpected-packing-receipt');
       if (JSON.stringify(result.rooms)!==JSON.stringify(rooms)) fail('false-room-metadata');
       if (result.summary?.objects!==result.props.length || result.summary?.rooms!==rooms.length ||
         result.summary?.furnishedRooms!==new Set(result.props.map(p=>p.roomId)).size || result.summary?.lootContainersCreated!==0 || result.summary?.connectedServices!==0) fail('summary');

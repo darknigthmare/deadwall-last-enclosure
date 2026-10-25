@@ -41,6 +41,36 @@ async function metricCanvas(page,type,rec,label,view='plan',zoomM=32){
  rec.check(label+' remains a furnished author inspection',measured.props>0&&measured.playable===false&&measured.entryConnected===false);
  return measured;
 }
+async function walkIntoRoom(page,type){
+ const route=await page.evaluate(type=>{
+  const scene=DeadwallCodexInspection2026.create(type,1).scene,level=scene.entry.level;
+  const nodes=new Map(scene.nodes.filter(n=>n.level===level).map(n=>[n.id,n])),adj=new Map([...nodes.keys()].map(id=>[id,[]]));
+  for(const edge of scene.edges)if(edge.kind==='walk'&&nodes.has(edge.from)&&nodes.has(edge.to)){adj.get(edge.from).push(edge.to);adj.get(edge.to).push(edge.from);}
+  const previous=new Map([[scene.entry.node,null]]),queue=[scene.entry.node];
+  for(let i=0;i<queue.length;i++)for(const next of adj.get(queue[i]))if(!previous.has(next)){previous.set(next,queue[i]);queue.push(next);}
+  const room=scene.rooms.find(r=>r.kind!=='circulation'&&r.level===level&&previous.has(r.id+':center'));
+  if(!room)throw Error(type+' has no connected room on its entry level');
+  const path=[];for(let id=room.id+':center';id!==null;id=previous.get(id))path.unshift(nodes.get(id));
+  for(let i=1;i<path.length;i++)if(!DeadwallCodexPhysical2026.segmentClear(scene,path[i-1],path[i],level,.32))throw Error(type+' room route crosses a physical obstacle');
+  return{path,room:{id:room.id,x:room.x,y:room.y,w:room.w,h:room.h,level}};
+ },type);
+ const before=await state(page);assert.equal(before.pose.level,route.room.level);
+ assert.ok(Math.hypot(before.pose.x-route.path[0].x,before.pose.y-route.path[0].y)<.01,'The real reset control must start at the measured entry');
+ let inputCount=0;
+ for(const waypoint of route.path.slice(1))for(const axis of ['x','y']){
+  let pose=(await state(page)).pose;
+  while(Math.abs(waypoint[axis]-pose[axis])>.18){
+   assert.ok(++inputCount<=240,type+' room walking has a bounded input budget');
+   const delta=waypoint[axis]-pose[axis],key=axis==='x'?(delta>0?'ArrowRight':'ArrowLeft'):(delta>0?'ArrowDown':'ArrowUp');
+   await page.keyboard.press((Math.abs(delta)>.7?'Shift+':'')+key);
+   const next=(await state(page)).pose;
+   assert.ok(Math.hypot(next.x-pose.x,next.y-pose.y)>.01,type+' native room walk must advance toward '+waypoint.id);
+   assert.equal(next.level,route.room.level,'A doorway walk cannot change floor');pose=next;
+  }
+ }
+ const after=await state(page),p=after.pose,r=route.room;
+ return{...route,inputCount,before,after,entered:inputCount>0&&after.visitedRooms.includes(r.id)&&p.level===r.level&&p.x>r.x&&p.x<r.x+r.w&&p.y>r.y&&p.y<r.y+r.h};
+}
 async function levelJourney(page,type,direction,touch,rec){
  await openPlan(page,type);
  const route=await page.evaluate(({type,direction})=>{
@@ -146,9 +176,8 @@ try{
    await press(page,'resume',view.touch,rec);rec.check('The inspection checkpoint restores the exact observer and visits',JSON.stringify(await state(page))===JSON.stringify(saved));
    await press(page,'reset',view.touch,rec);
    await page.locator(control('canvas')).focus();
-   for(let i=0;i<14;i++)await page.keyboard.press('ArrowRight');
-   for(let i=0;i<9;i++)await page.keyboard.press('ArrowUp');
-   rec.check('Keyboard walking enters a room through its door',((await state(page)).visitedRooms.length)>start.visitedRooms.length);
+   profile.cargoJourney=await walkIntoRoom(page,'EXT-MONDE-T005');
+   rec.check('Keyboard walking enters a room through its door',profile.cargoJourney.entered&&profile.cargoJourney.after.visitedRooms.length>start.visitedRooms.length);
    await page.locator(control('canvas')).scrollIntoViewIfNeeded();await rec.screenshot('cargo-room');
    const available=await page.evaluate(()=>[...DeadwallCodexLayouts2026.types]);profile.inspectedTypes=available;
    for(const type of available){

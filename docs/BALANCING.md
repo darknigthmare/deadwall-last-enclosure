@@ -1,5 +1,9 @@
 # Équilibrage de référence
 
+## Parcs résidentiels G11 — 1.72
+
+`CampaignSites205Rules` borne l’admission à deux sites par type, huit au total, avec 384 candidats par instance. Les contrôles partagent les dégagements physiques du monde et les couloirs routiers. Chaque parcelle utilise un seul budget fini de son parent historique, réparti entre quatre contenants au plus par ressource. Le nombre de logements n’augmente pas ce budget. Les variantes graphiques n’apportent aucun bonus. Les règles de progression des onze âges restent celles de leur propriétaire ; cette extension ne mesure pas la durée d’une campagne humaine complète.
+
 ## Composition des pièces — 1.62
 
 `CodexFurnishingRules162` borne les ajouts de mobilier par usage, surface disponible, pièce, étage et lieu. Ce sont des choix de composition, pas des minima auteur déduits. Les dimensions physiques restent celles du catalogue. La révision 11 ne change ni coût, ni rendement, ni stock, ni population, ni seuil des onze âges ; aucun appareil n’est alimenté par sa seule présence. Les anciennes révisions de détails gardent leurs collisions.

@@ -1,12 +1,12 @@
 # Codex mondial — inspection physique des plans de travail
 
-## Périmètre de la version 1.71
+## Périmètre de la version 1.72
 
 Le Guide auteur propose **80 typologies et 4 000 plans métriques**, avec 50 variantes chacune. Les 2 050 plans supplémentaires complètent les [ports, offshore et îles](PORTS_ILES_2026.md), [ponts et échangeurs](PONTS_ECHANGEURS_2026.md), [HLM et assainissement](HLM_ASSAINISSEMENT_2026.md), [parcs et sports](PARCS_SPORTS_2026.md), [aéroports et ferroviaire](AEROPORTS_RAIL_2026.md). Les familles agricoles, résidentielles, industrielles, lacustres, littorales, d’eau et d’énergie et les navires déjà inspectables sont conservés.
 
 Le dessin et les collisions utilisent les mêmes murs, ouvertures, sols et emprises de mobilier. Le gabarit piéton a un rayon de 0,32 m. Les objets gardent leurs dimensions en mètres ; une prescription qui ne tient pas est refusée et comptabilisée.
 
-Ces scènes sont des outils de production : `playable:false`, aucun poids d’apparition, aucun stock de butin, aucun ennemi créé et aucun service raccordé. Elles ne sont pas implantées dans les campagnes. Les dimensions de composition auteur restent distinguées des cotes publiées dans les références.
+Ces scènes sont des outils de production : `playable:false`, aucun poids d’apparition, aucun stock de butin, aucun ennemi créé et aucun service raccordé. Le raccord de campagne G11 adapte séparément quatre familles résidentielles ; il ne change pas ce statut auteur. Voir [Campagne G11](CAMPAGNE_G11_2026.md). Les dimensions de composition auteur restent distinguées des cotes publiées dans les références.
 
 | Typologie | Plans | Pièces hors circulation | Pièces meublées | Équipements | Refus |
 |---|---:|---:|---:|---:|---:|
@@ -14,13 +14,13 @@ Ces scènes sont des outils de production : `playable:false`, aucun poids d’ap
 | T002 — Village de pêche lacustre | 50 | 1 200 | 1 200 | 4 350 | 0 |
 | T003 — Station limnologique | 50 | 1 200 | 1 200 | 4 350 | 0 |
 | T004 — Camping de rive | 50 | 1 300 | 1 300 | 4 700 | 0 |
-| T005 — Cargo polyvalent | 50 | 1 680 | 1 680 | 4 467 | 1 491 |
+| T005 — Cargo polyvalent | 50 | 1 680 | 1 680 | 5 958 | 0 |
 | T006 — Pétrolier océanique | 50 | 2 800 | 2 800 | 10 015 | 0 |
 | T007 — Croiseur militaire abandonné | 50 | 1 600 | 1 600 | 5 815 | 0 |
-| T008 — Sous-marin en surface | 50 | 600 | 600 | 1 707 | 396 |
+| T008 — Sous-marin en surface | 50 | 600 | 600 | 2 103 | 0 |
 | T009 — Plateforme pétrolière fixe | 50 | 1 700 | 1 700 | 6 350 | 0 |
 | T010 — Plateforme semi-submersible | 50 | 1 700 | 1 700 | 6 200 | 0 |
-| T011 — Navire de soutien offshore | 50 | 1 600 | 1 600 | 4 638 | 964 |
+| T011 — Navire de soutien offshore | 50 | 1 600 | 1 600 | 5 602 | 0 |
 | T012 — Station scientifique marine | 50 | 1 700 | 1 700 | 6 450 | 0 |
 | T013 — Port de pêche | 50 | 1 600 | 1 600 | 5 950 | 0 |
 | T014 — Marina | 50 | 1 600 | 1 600 | 6 000 | 0 |
@@ -54,10 +54,10 @@ Ces scènes sont des outils de production : `playable:false`, aucun poids d’ap
 | T042 — Tour HLM | 50 | 10 900 | 10 900 | 38 150 | 0 |
 | T043 — Résidence en cour | 50 | 12 250 | 12 250 | 42 875 | 0 |
 | T044 — Ensemble HLM mixte | 50 | 14 320 | 14 320 | 50 170 | 0 |
-| T045 — Parc résidentiel de mobil-homes | 50 | 2 460 | 2 460 | 7 803 | 1 167 |
-| T046 — Camping caravanes | 50 | 900 | 900 | 3 100 | 200 |
+| T045 — Parc résidentiel de mobil-homes | 50 | 2 460 | 2 460 | 8 970 | 0 |
+| T046 — Camping caravanes | 50 | 900 | 900 | 3 300 | 0 |
 | T047 — Camp de travailleurs | 50 | 2 560 | 2 560 | 8 440 | 0 |
-| T048 — Parc de caravanes abandonné | 50 | 1 290 | 1 290 | 4 278 | 452 |
+| T048 — Parc de caravanes abandonné | 50 | 1 290 | 1 290 | 4 730 | 0 |
 | T049 — Parc familial | 50 | 1 600 | 1 600 | 6 000 | 0 |
 | T050 — Parc à sensations | 50 | 1 600 | 1 600 | 6 000 | 0 |
 | T051 — Parc aquatique | 50 | 1 600 | 1 600 | 6 050 | 0 |
@@ -90,9 +90,9 @@ Ces scènes sont des outils de production : `playable:false`, aucun poids d’ap
 | T078 — Île agricole habitée | 50 | 1 600 | 1 600 | 6 100 | 0 |
 | T079 — Île portuaire industrielle | 50 | 1 700 | 1 700 | 6 350 | 0 |
 | T080 — Grande île mixte | 50 | 1 600 | 1 600 | 5 900 | 0 |
-| **Total** | **4 000** | **162 460** | **162 460** | **583 708** | **4 670** |
+| **Total** | **4 000** | **162 460** | **162 460** | **588 378** | **0** |
 
-Le [rapport exhaustif](inspection-20261023.json) contient un enregistrement par variante et les empreintes SHA-256 de ses **29 sources**, y compris le dessin des voies et des pictogrammes. Il contrôle 1 228 255 segments de mur, 6 530 niveaux et 3 380 transitions. Les 4 670 prescriptions refusées restent visibles et comptabilisées ; un plan inspectable ne signifie pas une architecture complète réceptionnée.
+Le [rapport exhaustif](inspection-20261023.json) contient un enregistrement par variante et les empreintes SHA-256 de ses **29 sources**, y compris le dessin des voies et des pictogrammes. Il contrôle 1 228 255 segments de mur, 6 530 niveaux et 3 380 transitions. Les 588 378 prescriptions sont placées sans refus. Les 4 670 manquants de six familles ont été corrigés sans réduire les équipements ni supprimer les demandes ; un plan inspectable ne signifie pas une architecture complète réceptionnée.
 
 ## Utiliser le Guide
 
@@ -117,9 +117,9 @@ Le mobilier suit l’usage des pièces et garde ses dimensions de catalogue. Por
 
 ## Suivi Excel et étapes ouvertes
 
-Le [classeur](DEADWALL_CODEX_MONDE_SUIVI.xlsx) conserve **80 typologies, 4 000 objectifs et 800 tâches : 3 validées, 397 en cours, 400 à faire**. Aucun type ni plan ne manque désormais à la cible d’inspection auteur. Les 4 000 variantes ont ce statut, avec `architecture:null`, `spawnWeight:null` et `playable:false` pour la réception de campagne. Les validations métriques précédentes sont conservées ; les dimensions auteur des autres familles restent à documenter.
+Le [classeur](DEADWALL_CODEX_MONDE_SUIVI.xlsx) conserve **80 typologies, 4 000 objectifs et 800 tâches : 3 validées, 405 en cours, 392 à faire**. Aucun type ni plan ne manque désormais à la cible d’inspection auteur. Les 4 000 variantes ont ce statut, avec `architecture:null`, `spawnWeight:null` et `playable:false` pour la réception de campagne. Les validations métriques précédentes sont conservées ; les dimensions auteur des autres familles restent à documenter.
 
-Les étapes architecture, objets, reprise d’inspection et QA sont en cours. Les volumes réservés, l’implantation dans les seeds, les réseaux du monde, le butin fini, les rencontres, les services, l’art définitif et la persistance de campagne restent ouverts. Les 4 000 programmes historiques gardent leurs identifiants ; ce ne sont pas 4 000 nouveaux bâtiments implantés dans une partie.
+Les étapes architecture, objets, reprise d’inspection et QA sont en cours. Les preuves G11 font avancer seed et butin pour quatre familles, sans valider ces étapes. Les volumes réservés, réseaux du monde, rencontres, services, art définitif et persistance de campagne conservent leur réception distincte. La nouvelle feuille Campagne G11 distingue les modèles éligibles des implantations observées. Les 4 000 programmes historiques gardent leurs identifiants ; ce ne sont pas 4 000 nouveaux bâtiments implantés dans une partie.
 
 Le patch de suivi exige tous les identifiants et les empreintes courantes du rapport. Il refuse une preuve périmée ou une modification concurrente au lieu de l’écraser. L’export recalcule les formules ; le vérificateur XML compare identifiants, états, styles et fonctions aux baselines. La copie du dépôt est actualisée, le Drive original reste inchangé.
 
@@ -137,4 +137,4 @@ node scripts/browser-codex-inspection2026.mjs
 DEADWALL_SOAK=1 npm run check
 ```
 
-Les scénarios Chromium vérifient les contrôles réels, les parcours, les règles métriques, les réservations et l’identité des champs sauvegardés de la campagne avant/après consultation. La [livraison 1.71](../../LIVRAISON_1_71.md) et son [audit](../../AUDIT_1_71.md) précisent la qualification. Les preuves de la version 1.70 restent historiques dans [la reprise précédente](REPRISE_20261023.md). Ces contrôles ne mesurent ni une campagne humaine complète de 6 à 10 heures ni la fluidité sur un téléphone physique.
+Les scénarios Chromium vérifient les contrôles réels, les parcours, les règles métriques, les réservations et l’identité des champs sauvegardés de la campagne avant/après consultation. La [livraison 1.72](../../LIVRAISON_1_72.md) et son [audit](../../AUDIT_1_72.md) précisent la qualification. Les preuves de la version 1.70 restent historiques dans [la reprise précédente](REPRISE_20261023.md). Ces contrôles ne mesurent ni une campagne humaine complète de 6 à 10 heures ni la fluidité sur un téléphone physique.

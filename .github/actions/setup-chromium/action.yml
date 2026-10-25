@@ -10,7 +10,20 @@ runs:
         key: playwright-chromium-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
     - name: Install Chromium system libraries with a finite deadline
       shell: bash
-      run: timeout --kill-after=10s 180s node node_modules/playwright/cli.js install-deps chromium
+      run: |
+        for attempt in 1 2; do
+          echo "Chromium system dependency attempt $attempt/2"
+          if timeout --kill-after=10s 180s node node_modules/playwright/cli.js install-deps chromium; then
+            exit 0
+          else
+            installer_status=$?
+          fi
+          echo "::warning::System dependency attempt $attempt exited $installer_status."
+          if [ "$attempt" = 2 ]; then
+            echo '::error::Chromium system dependencies failed after two bounded attempts.'
+            exit "$installer_status"
+          fi
+        done
     - name: Download the locked Chromium with one bounded retry
       shell: bash
       env:

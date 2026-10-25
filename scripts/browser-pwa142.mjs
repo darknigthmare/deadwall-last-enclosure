@@ -2,9 +2,19 @@ import assert from 'node:assert/strict';
 import { runInNewContext } from 'node:vm';
 import { createHarness, recorder, ready, loadedAssets, chooseCampaign, worldSnapshot, hasCurrentProgrammes, campaignSnapshot, observeRestore, restoredCampaign } from './browser-qa-common142.mjs';
 
-const harness = await createHarness('pwa', 'Fresh Chromium service worker, exact shell precache, explicit on-demand warming of three optional atlases, offline reload, new G8 campaign and offline save/continue. This checks local browser offline behavior; it does not certify a production origin or physical mobile device.');
-const { browser, base, version, output } = harness;
+const currentCampaign = process.env.DEADWALL_QA_PWA_CURRENT === '1';
+const expectedGeneration = currentCampaign ? 11 : 8;
+const harness = await createHarness(currentCampaign ? 'pwa205' : 'pwa', `Fresh Chromium service worker, exact shell precache, explicit on-demand warming of three optional atlases, offline reload, new G${expectedGeneration} campaign and offline save/continue. This checks local browser offline behavior; it does not certify a production origin or physical mobile device.`);
+const { browser, base: fixtureBase, version, output } = harness;
+const playerURL = new URL(fixtureBase);playerURL.searchParams.delete('tools');playerURL.searchParams.delete('fixture');
+const base = currentCampaign ? playerURL.href : fixtureBase;
+if (currentCampaign) Object.assign(harness.report, {base, surface:'Ordinary player URL; real G11 new campaign while offline, with no prepared save or author/legacy parameters.'});
 harness.report.profiles = [];
+const residentialSites = page => page.evaluate(() => {
+  const world = DEADWALL.frontier.world();
+  return world.pois.filter(p => p.campaign205).map(p => ({id:p.id,type:p.type,generation:p.generation,x:p.x,y:p.y,a:p.a,w:p.w,h:p.h,
+    containers:world.plan(p,0).objects.map(o => ({id:o.id,kind:o.kind,resource:o.resource,amount:o.amount}))}));
+});
 async function runProfile(viewport) {
   const report = { viewport };
   harness.report.profiles.push(report);
@@ -76,7 +86,7 @@ async function runProfile(viewport) {
     const offlineResponse = await page.reload({ waitUntil: 'load' });
     check('Offline document comes from the service worker', offlineResponse?.status() === 200 && offlineResponse.fromServiceWorker());
     await ready(page);
-    check('Current menu and G8 controllers load offline', await page.locator('#mainMenu').isVisible() && (await page.locator('#mainMenu').innerText()).includes('VERSION ' + version) &&
+    check(`Current menu and G${expectedGeneration} controllers load offline`, await page.locator('#mainMenu').isVisible() && (await page.locator('#mainMenu').innerText()).includes('VERSION ' + version) &&
       await page.evaluate(() => !!DeadwallCore.GeographyRules141 && !!DeadwallCore.EcologyRules141 && !!globalThis.DeadwallCodex3000Runtime && !!DEADWALL.frontier));
     report.offlineAssets = await loadedAssets(page, harness.assetKeys);
     check('All 146 atlases decode offline after their real online first requests', report.offlineAssets.loaded.length === 146 &&
@@ -91,13 +101,18 @@ async function runProfile(viewport) {
     await page.locator('#campaignIntro132Next').click();
     await page.waitForFunction(() => DEADWALL.state === 'playing' && !DEADWALL.paused && !DEADWALL.activeOverlay);
     report.offlineWorld = await worldSnapshot(page);
-    check('Offline new campaign generates the requested G8 territory', report.offlineWorld.seed === 17117 && report.offlineWorld.generation === 8 && report.offlineWorld.size === 24576 && report.offlineWorld.towns === 34);
+    check(`Offline new campaign generates the requested G${expectedGeneration} territory`, report.offlineWorld.seed === 17117 && report.offlineWorld.generation === expectedGeneration && report.offlineWorld.size === 24576 && report.offlineWorld.towns === 34);
     check('Offline generation installs real Codex 3000 places with rooms, resources and road access', hasCurrentProgrammes(report.offlineWorld));
-    await screenshot('offline-g8');
+    if (currentCampaign) {
+      report.residentialSites = await residentialSites(page);
+      check('Offline G11 actually installs eight finite residential sites on witness seed17117', report.residentialSites.length === 8 && report.residentialSites.every(p =>
+        p.generation === 11 && /^campaign205-0(?:45|46|47|48)-/.test(p.type) && p.containers.length > 0 && p.containers.every(o => Number.isSafeInteger(o.amount) && o.amount > 0)));
+    }
+    await screenshot('offline-g' + expectedGeneration);
     await page.locator('#pauseButton').click();
     await page.locator('#saveButton').click();
     const checkpoint = report.checkpoint = await campaignSnapshot(page);
-    check('Offline save button stores a valid identified campaign', checkpoint.ok && !!checkpoint.runId && checkpoint.generation === 8);
+    check('Offline save button stores a valid identified campaign', checkpoint.ok && !!checkpoint.runId && checkpoint.generation === expectedGeneration);
     await page.locator('#quitButton').click();
     const continuedResponse = await page.reload({ waitUntil: 'load' });
     check('Second offline reload comes from service worker', continuedResponse?.fromServiceWorker() === true);
@@ -110,6 +125,11 @@ async function runProfile(viewport) {
     report.continuedWorld = await worldSnapshot(page);
     check('Offline continue rebuilds the same current Codex 3000 places and plans', hasCurrentProgrammes(report.continuedWorld) &&
       JSON.stringify(report.continuedWorld.programmes) === JSON.stringify(report.offlineWorld.programmes));
+    if (currentCampaign) {
+      report.continuedResidentialSites = await residentialSites(page);
+      check('Offline Continue preserves every G11 residential identity, footprint and finite budget', report.continuedWorld.generation === 11 &&
+        JSON.stringify(report.continuedResidentialSites) === JSON.stringify(report.residentialSites));
+    }
     await screenshot('offline-continued');
     check('No page, console, HTTP or request failures', errors() === 0);
     report.pass = true;

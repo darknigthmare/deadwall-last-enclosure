@@ -4,11 +4,21 @@ const fs=require('node:fs'),path=require('node:path');
 const Reference=require('./codex-world-foundations2026.cjs');
 const RULES=Object.freeze({variants:50,wall:.18,corridor:1.8,door:1.2,subCorridor:1.1,subDoor:.85,headroom:2.4,subHeadroom:2.1,shaftLength:7,clearance:.25});
 const PROFILES=Object.freeze({
- 'EXT-MONDE-T005':{key:'cargo',source:'DAMEN5000',name:'Cargo polyvalent',mainKeel:12.4,floors:[3,6.1,9.2,12.4,15.4,18.4],region:[.025,.17,.14,.72],themes:['machines','machines','services','vie à bord','cabines','passerelle'],fixedHold:true},
+ 'EXT-MONDE-T005':{key:'cargo',source:'DAMEN5000',name:'Cargo polyvalent',mainKeel:12.4,floors:[3,6.1,9.2,12.4,15.4,18.4],region:[.025,.17,.14,.72],themes:['machines','machines','services','vie à bord','cabines','passerelle'],fixedHold:true,holdStartFraction205:.26,furnishing205:true},
  'EXT-MONDE-T006':{key:'tanker',source:'SOCATRA',name:'Pétrolier',mainMetric:'tanker.mouldedDepth',floors:[4,7.8,11.6,15.4,19.2,22.4,25.6],region:[.03,.18,.13,.74],themes:['machines','machines','services','services','vie à bord','cabines','passerelle'],tanks:true},
  'EXT-MONDE-T007':{key:'cruiser',source:'LITTLEROCK',name:'Croiseur déclassé',mainKeel:10.2,floors:[3.8,7,10.2,13.4],region:[.15,.7,.16,.68],themes:['machines','équipage','services','commandement']},
- 'EXT-MONDE-T008':{key:'submarine',source:'TORSK',name:'Sous-marin en surface',mainKeel:6.3,floors:[3.5],region:[.14,.72,.18,.64],themes:['compartiments'],sub:true},
- 'EXT-MONDE-T011':{key:'psv',source:'DAMENPSV',name:'Soutien offshore',mainMetric:'psv.mouldedDepth',floors:[3,7.5,10.5,13.5],region:[.64,.27,.13,.74],themes:['machines','vie à bord','cabines','passerelle'],workDeck:true}
+ 'EXT-MONDE-T008':{key:'submarine',source:'TORSK',name:'Sous-marin en surface',mainKeel:6.3,floors:[3.5],region:[.14,.72,.03,.94],themes:['compartiments'],sub:true,furnishing205:true},
+ 'EXT-MONDE-T011':{key:'psv',source:'DAMENPSV',name:'Soutien offshore',mainMetric:'psv.mouldedDepth',floors:[3,7.5,10.5,13.5],region:[.625,.36875,0,1],themes:['machines','vie à bord','cabines','passerelle'],workDeck:true,furnishing205:true}
+});
+// Authored room widths, not vessel survey data or reduced furniture sizes.
+// The two rows need different bay widths: a machine room and a linen store do
+// not become equally narrow merely because they face the same corridor.
+const BAYS205=Object.freeze({
+ machines:[2.56,2,2,2.72,2.82,2.46,1.96,2.2],
+ services:[2.51,2.3,2.72,2,1.96,1.8,2.51,2.3],
+ 'vie à bord':[2.72,2.2,1.96,1.8,2.3,2.2,2,1.9],
+ cabines:[2.3,1.8,2.3,2.2,2.68,1.9,2.3,2.3],
+ passerelle:[2.1,2.1,2.3,2.3,2,2.3,2.1,1.8]
 });
 const USES=Object.freeze({
  machines:['atelier mécanique','distribution électrique','pompes de service','magasin technique','ventilation','groupe auxiliaire','vestiaire technique','contrôle machines'],
@@ -22,6 +32,7 @@ const USES=Object.freeze({
 });
 const freeze=v=>{if(v&&typeof v==='object'&&!Object.isFrozen(v)){Object.values(v).forEach(freeze);Object.freeze(v);}return v;};
 Object.values(PROFILES).forEach(freeze);Object.values(USES).forEach(freeze);
+Object.values(BAYS205).forEach(freeze);
 const finite=(...v)=>v.every(Number.isFinite),positive=v=>Number.isFinite(v)&&v>0;
 const overlap=(a,b)=>a.x<b.x+b.w-1e-8&&a.x+a.w>b.x+1e-8&&a.y<b.y+b.h-1e-8&&a.y+a.h>b.y+1e-8;
 const contains=(a,b)=>finite(a.x,a.y,a.w,a.h,b.x,b.y,b.w,b.h)&&b.x>=a.x-1e-8&&b.y>=a.y-1e-8&&b.x+b.w<=a.x+a.w+1e-8&&b.y+b.h<=a.y+a.h+1e-8;
@@ -37,9 +48,13 @@ function build(type,number,reference=Reference.refs()){
   reference:{source:profile.source,lengthM:L,beamM:B,draftM:draft,draftDatum:profile.tanks?'summer':profile.sub?'mean':'published',realTotalHeightM:null},
   hull:{x:0,y:0,w:L,h:B,keelElevationM:-draft,waterlineM:0,geometryOrigin:'author-envelope-not-lines-plan'},
   mainDeck:{keelHeightM:main,elevationM:main-draft,origin:profile.mainMetric?'source-moulded-depth-used-as-author-deck-datum':'author-design'},
-  levels,rooms:[],portals:[],reservations:[],links:[],nodes:[],boarding:[],requiredServices:['electricity','water','ventilation'],
+  ...(profile.furnishing205?{furnishingLayout205:1}:{}),levels,rooms:[],portals:[],reservations:[],links:[],nodes:[],boarding:[],requiredServices:['electricity','water','ventilation'],
   unresolved:['hauteur hors tout du navire réel','formes exactes de coque et plans généraux','marches/échelles et ouvertures du moteur','objets, butin fini et rencontres','raccord au rivage et au réseau nautique','services, collisions et sauvegarde de campagne']};
- const [start,span,offset,width]=profile.region,area={x:L*start,y:B*offset,w:L*span,h:B*width};
+ const [start,span,offset,width]=profile.region;
+ // The hold keeps its published envelope. Its longitudinal location and the
+ // superstructure remain author choices inside the unchanged rectangular hull.
+ const holdStart=profile.fixedHold?L*profile.holdStartFraction205:null;
+ const area=profile.fixedHold?{x:RULES.wall,y:0,w:holdStart-RULES.wall*2,h:B}:{x:L*start,y:B*offset,w:L*span,h:B*width};
  if(area.w<=shaftLength+2)throw Error('Superstructure trop courte');
  const addNode=(key,x,y,z)=>{const n={id:key.startsWith(id+':')?key:id+':'+key,x,y,z};p.nodes.push(n);return n.id;};
  const edge=(from,to,kind,widthM)=>p.links.push({id:id+':link-'+p.links.length,from,to,kind,widthM,modes:['pedestrian']});
@@ -50,6 +65,25 @@ function build(type,number,reference=Reference.refs()){
   if(prevShaft)edge(prevShaft,shaft,profile.sub?'ladder':'stairs',profile.sub?.75:1.2);prevShaft=shaft;
   const usable=area.w-shaftLength,weights=Array.from({length:columns},(_,i)=>1+((i+pattern)%10)*.035),total=weights.reduce((a,b)=>a+b,0);let x=area.x+shaftLength,previous=shaft;
   const theme=USES[profile.themes[di]];
+  if(profile.fixedHold){
+   const rows=[0,1].map(side=>{
+    const minima=weights.map((_,col)=>BAYS205[profile.themes[di]][(col*2+side+pattern)%theme.length]+RULES.wall*2);
+    const slack=usable-minima.reduce((a,b)=>a+b,0);
+    if(slack<0)throw Error('Programme maritime trop large pour la travée');
+    let cursor=x;
+    return weights.map((weight,col)=>{const bay=minima[col]+slack*weight/total,rect={x:cursor,bay};cursor+=bay;return rect;});
+   });
+   const previousBySide=[shaft,shaft];
+   for(let col=0;col<columns;col++)for(const side of [0,1]){
+    const bay=rows[side][col].bay,rx=rows[side][col].x,cx=rx+bay/2;
+    const junction=addNode(level.id+':junction-'+col+'-'+side,cx,cy,level.elevationM);edge(previousBySide[side],junction,'corridor',cw);previousBySide[side]=junction;
+    const rh=(area.h-cw)/2-RULES.wall*2,r={id:id+':'+level.id+':room-'+col+'-'+side,name:theme[(col*2+side+pattern)%theme.length],kind:'compartment',x:rx+RULES.wall,y:side?cy+cw/2+RULES.wall:area.y+RULES.wall,w:bay-RULES.wall*2,h:rh,level:level.id,z:level.elevationM,clearHeightM:level.clearHeightM};
+    if(r.w<dw+.2||r.h<.7)throw Error('Compartiment trop étroit');
+    const door={id:r.id+':door',from:corridor.id,to:r.id,x:cx,y:side?r.y:r.y+r.h,z:r.z,axis:'x',widthM:dw,level:level.id,origin:'author-design'};
+    p.rooms.push(r);p.portals.push(door);const interior=addNode(r.id+':center',cx,r.y+r.h/2,r.z);edge(junction,interior,'door',dw);
+   }
+   continue;
+  }
   for(let col=0;col<columns;col++){
    const bay=usable*weights[col]/total,cx=x+bay/2,junction=addNode(level.id+':junction-'+col,cx,cy,level.elevationM);edge(previous,junction,'corridor',cw);previous=junction;
    for(const side of [0,1]){
@@ -65,7 +99,7 @@ function build(type,number,reference=Reference.refs()){
  const entryLevel=profile.sub?levels[0]:levels.find(l=>Math.abs(l.keelHeightM-main)<.01),entry=p.nodes.find(n=>n.id.endsWith(entryLevel.id+':shaft'));
  p.boarding.push({id:id+':boarding',node:entry.id,mode:profile.sub?'hatch':'gangway',side:pattern%2?'port':'starboard',connectedToWorld:false,requires:['reachable-landing','clear-boarding-volume']});
  if(profile.sub){const exterior=addNode('surface-hatch',entry.x,entry.y,main-draft);edge(entry.id,exterior,'ladder',.75);p.boarding[0].node=exterior;}
- if(profile.fixedHold)p.reservations.push({id:id+':hold',kind:'cargo-hold',x:L*.205,y:(B-metric('cargo.holdBeam'))/2,w:metric('cargo.holdLength'),h:metric('cargo.holdBeam'),z:1-draft,clearHeightM:metric('cargo.holdHeight'),walkable:false,connected:false,origin:'source-dimensions-author-position'});
+ if(profile.fixedHold)p.reservations.push({id:id+':hold',kind:'cargo-hold',x:holdStart,y:(B-metric('cargo.holdBeam'))/2,w:metric('cargo.holdLength'),h:metric('cargo.holdBeam'),z:1-draft,clearHeightM:metric('cargo.holdHeight'),walkable:false,connected:false,origin:'source-dimensions-author-position'});
  if(profile.tanks)for(let i=0;i<4+group;i++)p.reservations.push({id:id+':tank-'+i,kind:'sealed-cargo-tank',x:L*.23+i*L*.54/(4+group),y:B*.15,w:L*.54/(4+group)-1,h:B*.7,z:2-draft,clearHeightM:main-3,walkable:false,connected:false,origin:'author-design'});
  if(profile.workDeck)p.reservations.push({id:id+':work-deck',kind:'working-deck',x:5,y:1.5,w:L*.56,h:B-3,z:main-draft,clearHeightM:null,walkable:false,connected:false,origin:'author-design-not-entire-published-deck-area'});
  p.authorTopKeelM=Math.max(main,...levels.map(l=>l.keelHeightM+l.clearHeightM))+(profile.sub?4:2);
@@ -76,6 +110,8 @@ function inspectPlan(p){
  const errors=[],bad=x=>errors.push(x),rect=o=>finite(o?.x,o?.y,o?.w,o?.h)&&positive(o.w)&&positive(o.h);
  if(!p||!Array.isArray(p.rooms)||!Array.isArray(p.links)||!Array.isArray(p.nodes)||!Array.isArray(p.levels)||!Array.isArray(p.portals)||!Array.isArray(p.reservations)||!Array.isArray(p.boarding))return {ok:false,errors:['schema']};
  if(p.units!=='m'||p.scope!=='author-maritime-layout-not-live-world'||p.playable!==false)bad('false-scope');
+ const revised=Object.prototype.hasOwnProperty.call(PROFILES,p.typologyId)&&PROFILES[p.typologyId].furnishing205;
+ if(revised?p.furnishingLayout205!==1:Object.prototype.hasOwnProperty.call(p,'furnishingLayout205'))bad('furnishing-layout-revision');
  if(!positive(p.reference?.lengthM)||!positive(p.reference?.beamM)||p.hull?.w!==p.reference.lengthM||p.hull?.h!==p.reference.beamM||!rect(p.hull)||p.hull.waterlineM!==0||!positive(p.reference?.draftM)||Math.abs(p.hull.keelElevationM+p.reference.draftM)>1e-7||p.reference.realTotalHeightM!==null||p.heightOrigin!=='author-design-not-measured-total-height')bad('datum');
  if(!positive(p.authorAirDraftM)||!positive(p.authorTopKeelM)||Math.abs(p.authorAirDraftM-p.authorTopKeelM+p.reference.draftM)>1e-7)bad('height');
  const ids=new Set(),register=id=>{if(typeof id!=='string'||!id||ids.has(id))bad('duplicate-id');ids.add(id);};

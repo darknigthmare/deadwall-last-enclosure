@@ -90,10 +90,10 @@
       const signature=JSON.stringify([context,discoveries,canNavigate,generation]);if(!force&&lastWorld===game.world&&signature===lastSignature)return true;
       lastWorld=game.world;lastSignature=signature;
       coverage.textContent=totals?totals.choices+' choix de D-17 reliés à leurs catalogues. '+totals.programmes+' programmes, dont '+totals.contextual160+' contrats territoriaux G10. '+
-       (generation===10?'G10 est activée dans cette campagne. ':'Leur activation se consulte volontairement au dépôt depuis Monde & relais. ')+
+       (generation>=10?'G10 est activée dans cette campagne. ':'Leur activation se consulte volontairement au dépôt depuis Monde & relais. ')+
        'La présence de chaque programme dépend de la graine et des accès. Les lieux affichés et les repères proviennent seulement de votre carnet.':'';
       territories.disabled=!territorialEntry||!actions159.canOpenTerritories160(game,territorialEntry.id);
-      territories.textContent=generation===10?'TERRITOIRES G10 ACTIVÉS':'VOIR L’ACTIVATION DES TERRITOIRES G10';
+      territories.textContent=generation>=10?'TERRITOIRES G10 ACTIVÉS':'VOIR L’ACTIVATION DES TERRITOIRES G10';
       for(const [entry,view]of liveNodes){
         if(entry.choice159){const state=actions159?.choiceStatus(game,entry.choice159,context);view.status.textContent=state?.text||'Catalogue de D-17 indisponible.';view.conditions.textContent=state?.conditions.join(' ')||'';view.button.disabled=!canNavigate||!game.cityCatalogueUI150;continue;}
         const places=actions159?.knownPlaces(game,entry.id)||[];view.status.textContent=playerGuide?'Lieux déjà repérés : consultez la carte ou choisissez votre prochain repère.':actions159?.programmeStatus(game,entry.id)?.text||'';

@@ -538,8 +538,8 @@
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation===10 && this.frontier?.position().detailVersion===13)); click('gameOverMenuButton', () => this.returnToMenu());
-      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation===10 && this.frontier?.position().detailVersion===13));
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
       click('demolitionCancel', () => this.cancelDemolition(true)); click('demolitionConfirm', () => this.confirmDemolition());

@@ -98,7 +98,7 @@ test('193 seed and landscape produce stable finite identities without consuming 
 test('193 historical revisions and malformed IDs never create sites or reinterpret an old world', () => {
   const poison = () => { throw Error('Unsupported worlds must not read geometry.'); };
   for (const revision of [
-    { generation: 7 }, { generation: 11 }, { ecologyVersion: 0 }, { hydrologyVersion: 0 },
+    { generation: 7 }, { generation: 12 }, { ecologyVersion: 0 }, { hydrologyVersion: 0 },
     { landscape189: 'unknown' }, { seed: -1 }, { seed: 1.5 }, { size: Infinity }
   ]) {
     const w = field({ ...revision, biomeAt: poison, nearestRoad: poison });

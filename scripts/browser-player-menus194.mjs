@@ -46,7 +46,7 @@ try{
    // Intentionally do not change any selector or even open its settings.
    await click('#newGameButton');await page.waitForFunction(()=>DEADWALL.campaignIntro132?.isOpen());
    profile.start=await page.evaluate(()=>({seed:DEADWALL.world.seed,run:DEADWALL.runId,frontier:DEADWALL.frontier.position()}));
-   const f=profile.start.frontier;check('Default campaign is G10/detail13 with ecology, water and natural biomes',f.generation===10&&f.detailVersion===13&&f.ecologyVersion===1&&f.hydrologyVersion===1&&f.landscape189==='balanced');
+   const f=profile.start.frontier;check('Default campaign is G11/detail13 with ecology, water and natural biomes',f.generation===11&&f.detailVersion===13&&f.ecologyVersion===1&&f.hydrologyVersion===1&&f.landscape189==='balanced');
    await click('#campaignIntro132Skip');await page.waitForFunction(()=>!DEADWALL.paused&&!DEADWALL.activeOverlay);await shot('first-field');
    await click('#pauseButton');await click('#pauseCommandButton');await page.locator('#commandModal').waitFor({state:'visible'});const before=await snapshot(page);
    check('Notebook begins with the actual next gameplay objective',await page.evaluate(()=>document.getElementById('playerObjectiveTitle194').textContent===DEADWALL.ui.objectiveTitle.textContent&&!!DEADWALL.ui.objectiveTitle.textContent));
@@ -88,7 +88,7 @@ try{
    check('Inspecting compatibility applies no migration or stock change',await snapshot(page)===afterOrders);
    await click('#maintenanceReturn194');await click('#settingsClose');check('Nested settings retain the deliberate pause',await page.evaluate(()=>DEADWALL.paused&&DEADWALL.activeOverlay===DEADWALL.ui.pauseMenu));await click('#resumeButton');
    profile.recovery=await saveReloadContinue(page,!!viewport.touch);check('Native save/menu/reload/Continue restores every persistent owner',profile.recovery.pass);
-   check('Continue keeps G10/detail13 without a second introduction',await page.evaluate(()=>DEADWALL.frontier.position().generation===10&&DEADWALL.frontier.position().detailVersion===13&&!DEADWALL.campaignIntro132.isOpen()));
+   check('Continue keeps G11/detail13 without a second introduction',await page.evaluate(()=>DEADWALL.frontier.position().generation===11&&DEADWALL.frontier.position().detailVersion===13&&!DEADWALL.campaignIntro132.isOpen()));
    await click('#pauseButton');await click('#quitButton');const menuSnapshot=await snapshot(page);page.once('dialog',d=>d.dismiss());await click('#newGameButton');check('Cancelling replacement preserves the current campaign',await snapshot(page)===menuSnapshot);
    await shot('returned-title');
   }catch(e){profile.failure=String(e.stack||e);await shot('failure').catch(()=>{});}finally{await context.close();}
