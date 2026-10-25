@@ -1,0 +1,3031 @@
+{
+  "version": 1,
+  "scope": "native-collision-before-outdoor-broadphase208",
+  "baselineCommit": "8eda6f03d751d15c583af6d1a6cc14ebd2802244",
+  "sourceSha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda",
+  "worlds": [
+    {
+      "seed": 17117,
+      "generation": 11,
+      "effects": {
+        "detailVersion": 13,
+        "ecologyVersion": 1,
+        "hydrologyVersion": 1,
+        "landscape189": "balanced"
+      },
+      "queries": [
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 14536.721016978188,
+            "y": 2745.660270753155
+          },
+          "b": {
+            "x": 14533.541351098262,
+            "y": 2746.0204459494594
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 14536.721016878824,
+            "y": 2745.6602707644106
+          },
+          "b": {
+            "x": 14533.541351197626,
+            "y": 2746.0204459382035
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 14536.721016779458,
+            "y": 2745.660270775666
+          },
+          "b": {
+            "x": 14533.541351296992,
+            "y": 2746.020445926948
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 14537.038983546308,
+            "y": 2745.624253235776
+          },
+          "b": {
+            "x": 14533.223384530142,
+            "y": 2746.0564634668385
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 14537.038983446944,
+            "y": 2745.6242532470314
+          },
+          "b": {
+            "x": 14533.223384629508,
+            "y": 2746.056463455583
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 14537.038983347578,
+            "y": 2745.624253258287
+          },
+          "b": {
+            "x": 14533.223384728872,
+            "y": 2746.0564634443276
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 14537.963073884906,
+            "y": 2745.5195773258924
+          },
+          "b": {
+            "x": 14532.299294191544,
+            "y": 2746.161139376722
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 14537.963073785542,
+            "y": 2745.519577337148
+          },
+          "b": {
+            "x": 14532.29929429091,
+            "y": 2746.1611393654666
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 14537.963073686176,
+            "y": 2745.5195773484033
+          },
+          "b": {
+            "x": 14532.299294390274,
+            "y": 2746.161139354211
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 14535.477289291797,
+            "y": 2746.0527522152715
+          },
+          "b": {
+            "x": 14534.785078784653,
+            "y": 2745.627964487343
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "shed",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P1125:detail157:yard:0:0",
+          "a": {
+            "x": 14535.477289291797,
+            "y": 2746.0527522152715
+          },
+          "b": {
+            "x": 14534.785078784653,
+            "y": 2745.627964487343
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8849.3891503574,
+            "y": 11289.93078148249
+          },
+          "b": {
+            "x": 8841.393568256623,
+            "y": 11290.19661991037
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8849.389150257453,
+            "y": 11289.930781485813
+          },
+          "b": {
+            "x": 8841.393568356567,
+            "y": 11290.196619907047
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8849.389150157509,
+            "y": 11289.930781489136
+          },
+          "b": {
+            "x": 8841.393568456511,
+            "y": 11290.196619903723
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8849.708973633435,
+            "y": 11289.92014794564
+          },
+          "b": {
+            "x": 8841.073744980586,
+            "y": 11290.207253447219
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8849.70897353349,
+            "y": 11289.920147948964
+          },
+          "b": {
+            "x": 8841.073745080532,
+            "y": 11290.207253443896
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8849.708973433544,
+            "y": 11289.920147952287
+          },
+          "b": {
+            "x": 8841.073745180476,
+            "y": 11290.207253440572
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8850.638460029413,
+            "y": 11289.889244229173
+          },
+          "b": {
+            "x": 8840.144258584609,
+            "y": 11290.238157163687
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8850.638459929467,
+            "y": 11289.889244232496
+          },
+          "b": {
+            "x": 8840.144258684553,
+            "y": 11290.238157160364
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8850.638459829523,
+            "y": 11289.88924423582
+          },
+          "b": {
+            "x": 8840.144258784498,
+            "y": 11290.23815715704
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 8846.230793260283,
+            "y": 11291.23645413944
+          },
+          "b": {
+            "x": 8844.551925353737,
+            "y": 11288.890947253421
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:40",
+          "kind": "closed-pool",
+          "opaque": false,
+          "r": 0.05,
+          "ignore": "P3169:205:static:40",
+          "a": {
+            "x": 8846.230793260283,
+            "y": 11291.23645413944
+          },
+          "b": {
+            "x": 8844.551925353737,
+            "y": 11288.890947253421
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8948.127498013784,
+            "y": 11340.602709875706
+          },
+          "b": {
+            "x": 8945.129154601062,
+            "y": 11340.702399290314
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8948.12749791384,
+            "y": 11340.60270987903
+          },
+          "b": {
+            "x": 8945.129154701006,
+            "y": 11340.70239928699
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 8948.127497813894,
+            "y": 11340.602709882352
+          },
+          "b": {
+            "x": 8945.12915480095,
+            "y": 11340.70239928367
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8948.44732128982,
+            "y": 11340.592076338857
+          },
+          "b": {
+            "x": 8944.809331325027,
+            "y": 11340.713032827163
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8948.447321189875,
+            "y": 11340.59207634218
+          },
+          "b": {
+            "x": 8944.80933142497,
+            "y": 11340.713032823842
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 8948.44732108993,
+            "y": 11340.592076345503
+          },
+          "b": {
+            "x": 8944.809331524915,
+            "y": 11340.713032820518
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8949.376807685798,
+            "y": 11340.561172622389
+          },
+          "b": {
+            "x": 8943.879844929048,
+            "y": 11340.743936543633
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8949.376807585853,
+            "y": 11340.561172625712
+          },
+          "b": {
+            "x": 8943.879845028992,
+            "y": 11340.74393654031
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 8949.376807485907,
+            "y": 11340.561172629034
+          },
+          "b": {
+            "x": 8943.879845128937,
+            "y": 11340.743936536986
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 8946.928659075746,
+            "y": 11340.657577358277
+          },
+          "b": {
+            "x": 8946.3279935391,
+            "y": 11340.647531807741
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P3169",
+          "object": "P3169:205:static:0",
+          "kind": "fence",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P3169:205:static:0",
+          "a": {
+            "x": 8946.928659075746,
+            "y": 11340.657577358277
+          },
+          "b": {
+            "x": 8946.3279935391,
+            "y": 11340.647531807741
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1266.674956939949,
+            "y": 13463.732672351693
+          },
+          "b": {
+            "x": 1264.272458478831,
+            "y": 13464.424049343157
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1266.674956843849,
+            "y": 13463.732672379347
+          },
+          "b": {
+            "x": 1264.2724585749309,
+            "y": 13464.424049315501
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1266.674956747749,
+            "y": 13463.732672407003
+          },
+          "b": {
+            "x": 1264.2724586710308,
+            "y": 13464.424049287847
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1266.9824767183704,
+            "y": 13463.644176103864
+          },
+          "b": {
+            "x": 1263.9649387004094,
+            "y": 13464.512545590984
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1266.9824766222705,
+            "y": 13463.64417613152
+          },
+          "b": {
+            "x": 1263.9649387965094,
+            "y": 13464.51254556333
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1266.9824765261706,
+            "y": 13463.644176159174
+          },
+          "b": {
+            "x": 1263.9649388926093,
+            "y": 13464.512545535674
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1267.876206074408,
+            "y": 13463.386983883616
+          },
+          "b": {
+            "x": 1263.071209344372,
+            "y": 13464.769737811233
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1267.876205978308,
+            "y": 13463.38698391127
+          },
+          "b": {
+            "x": 1263.0712094404719,
+            "y": 13464.769737783578
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1267.876205882208,
+            "y": 13463.386983938926
+          },
+          "b": {
+            "x": 1263.0712095365718,
+            "y": 13464.769737755923
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 1265.729167828877,
+            "y": 13464.062078115727
+          },
+          "b": {
+            "x": 1265.2182475899026,
+            "y": 13464.094643579125
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0000:detail157:yard:0:0",
+          "a": {
+            "x": 1265.729167828877,
+            "y": 13464.062078115727
+          },
+          "b": {
+            "x": 1265.2182475899026,
+            "y": 13464.094643579125
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1345.4131313542564,
+            "y": 13427.785174257724
+          },
+          "b": {
+            "x": 1343.138942050334,
+            "y": 13427.441569935974
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1345.4131312553786,
+            "y": 13427.785174242785
+          },
+          "b": {
+            "x": 1343.1389421492117,
+            "y": 13427.441569950914
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1345.4131311565009,
+            "y": 13427.785174227845
+          },
+          "b": {
+            "x": 1343.1389422480897,
+            "y": 13427.441569965853
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1345.7295402733753,
+            "y": 13427.832980072246
+          },
+          "b": {
+            "x": 1342.822533131215,
+            "y": 13427.393764121452
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1345.7295401744973,
+            "y": 13427.832980057306
+          },
+          "b": {
+            "x": 1342.822533230093,
+            "y": 13427.393764136392
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1345.7295400756195,
+            "y": 13427.832980042367
+          },
+          "b": {
+            "x": 1342.8225333289708,
+            "y": 13427.393764151331
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1346.6491036945642,
+            "y": 13427.971915720698
+          },
+          "b": {
+            "x": 1341.9029697100261,
+            "y": 13427.254828473
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1346.6491035956865,
+            "y": 13427.971915705759
+          },
+          "b": {
+            "x": 1341.902969808904,
+            "y": 13427.25482848794
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1346.6491034968087,
+            "y": 13427.97191569082
+          },
+          "b": {
+            "x": 1341.9029699077817,
+            "y": 13427.254828502879
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 1344.4847814666145,
+            "y": 13427.771329760068
+          },
+          "b": {
+            "x": 1344.0672919379758,
+            "y": 13427.45541443363
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0001:detail157:yard:0:0",
+          "a": {
+            "x": 1344.4847814666145,
+            "y": 13427.771329760068
+          },
+          "b": {
+            "x": 1344.0672919379758,
+            "y": 13427.45541443363
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1367.700731112233,
+            "y": 13589.390324073991
+          },
+          "b": {
+            "x": 1369.1714457261962,
+            "y": 13587.621991683212
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1367.700731176177,
+            "y": 13589.390323997106
+          },
+          "b": {
+            "x": 1369.1714456622522,
+            "y": 13587.621991760096
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1367.7007312401213,
+            "y": 13589.390323920223
+          },
+          "b": {
+            "x": 1369.171445598308,
+            "y": 13587.62199183698
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1367.4961099663442,
+            "y": 13589.636352906966
+          },
+          "b": {
+            "x": 1369.376066872085,
+            "y": 13587.375962850238
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1367.4961100302883,
+            "y": 13589.63635283008
+          },
+          "b": {
+            "x": 1369.3760668081409,
+            "y": 13587.37596292712
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1367.4961100942326,
+            "y": 13589.636352753198
+          },
+          "b": {
+            "x": 1369.3760667441968,
+            "y": 13587.375963004004
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1366.9014297611052,
+            "y": 13590.3513742028
+          },
+          "b": {
+            "x": 1369.970747077324,
+            "y": 13586.660941554403
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1366.9014298250493,
+            "y": 13590.351374125916
+          },
+          "b": {
+            "x": 1369.9707470133799,
+            "y": 13586.660941631286
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1366.9014298889936,
+            "y": 13590.351374049033
+          },
+          "b": {
+            "x": 1369.9707469494358,
+            "y": 13586.66094170817
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 1368.192911957726,
+            "y": 13588.603060967189
+          },
+          "b": {
+            "x": 1368.6792648807032,
+            "y": 13588.409254790013
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0002:detail157:yard:0:0",
+          "a": {
+            "x": 1368.192911957726,
+            "y": 13588.603060967189
+          },
+          "b": {
+            "x": 1368.6792648807032,
+            "y": 13588.409254790013
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1203.230313940482,
+            "y": 13418.354435468238
+          },
+          "b": {
+            "x": 1201.0460359835545,
+            "y": 13417.634067002187
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1203.2303138455134,
+            "y": 13418.354435436919
+          },
+          "b": {
+            "x": 1201.046036078523,
+            "y": 13417.634067033508
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 1203.2303137505448,
+            "y": 13418.354435405598
+          },
+          "b": {
+            "x": 1201.0460361734915,
+            "y": 13417.634067064828
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1203.5342134558894,
+            "y": 13418.454660637408
+          },
+          "b": {
+            "x": 1200.742136468147,
+            "y": 13417.533841833018
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1203.5342133609208,
+            "y": 13418.454660606089
+          },
+          "b": {
+            "x": 1200.7421365631155,
+            "y": 13417.533841864339
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 1203.534213265952,
+            "y": 13418.454660574767
+          },
+          "b": {
+            "x": 1200.7421366580843,
+            "y": 13417.533841895658
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1204.417421422542,
+            "y": 13418.74594003531
+          },
+          "b": {
+            "x": 1199.8589285014943,
+            "y": 13417.242562435116
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1204.4174213275733,
+            "y": 13418.745940003988
+          },
+          "b": {
+            "x": 1199.858928596463,
+            "y": 13417.242562466437
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 1204.4174212326047,
+            "y": 13418.745939972669
+          },
+          "b": {
+            "x": 1199.8589286914316,
+            "y": 13417.242562497757
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 1202.31745228201,
+            "y": 13418.184998823759
+          },
+          "b": {
+            "x": 1201.9588976420264,
+            "y": 13417.803503646666
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0003:detail157:yard:0:0",
+          "a": {
+            "x": 1202.31745228201,
+            "y": 13418.184998823759
+          },
+          "b": {
+            "x": 1201.9588976420264,
+            "y": 13417.803503646666
+          },
+          "scope": "inside-and-ignore"
+        }
+      ],
+      "answers": [
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": true,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        }
+      ],
+      "geometry": {
+        "world": "71ffa7608ad3775920ac9a577c63569396b2611d55c3f2f90b8b36bd99d66747",
+        "sites": [
+          {
+            "id": "P1125",
+            "plan": "bb946eb16a7c3ee80e0f1b53e5ffdee22d4f078a84b079ebb88ce783ded2bcbd",
+            "details": "25dd5226ecc5937842d166af8caeeda829824d0f745af2fb29aea50cd3439b40",
+            "ids": "d21e64364620d971b742e0461744bf6418d7e6b02627c13fd3f92059fb52a1cf",
+            "stocks": "dc448da90ae872f6a2a9135708778ea1b8434a65bceab6571f3bd06121cb51c8"
+          },
+          {
+            "id": "P2565",
+            "plan": "658b30a792d17b5977af3bca9887ba7bd37116233ab399ee28a322187280948f",
+            "details": "281b91f45b86d945dd98d3edd15c0c4ba7e4759cc4ff5e45d1ae647de4b607b3",
+            "ids": "9d0816a7292bfc03d37c350f6657f7f04a316a1e02f4516ae0e37c70d0dbe76c",
+            "stocks": "80ea9e1d76f4d0cefd8ebf04dca3a16e413c809f88f602f513f5d679385c4559"
+          },
+          {
+            "id": "P3169",
+            "plan": "73ab6442609866cd9c6cd500f39e506bdb2567bb4968295a13af22d708411368",
+            "details": "a260c47542874006199710404b1546e68361fb2587e9f8472d760d82631fec3b",
+            "ids": "ab2d947b3228f8d1a8de885441af468398542e9f2a05838d424a172e567c653d",
+            "stocks": "f1ac36ea7cd4fdbfb571a4b108424247ababea7d388389cbbb0301a73da44b6f"
+          },
+          {
+            "id": "P0000",
+            "plan": "e57c7dbcb919a398fa01842d6b75a8b93350b8c67a83c54ba6a5bbfe91337d34",
+            "details": "d125c47283ad1724876589c0779ffe03f3981934faed19ed059fdc3893e80ec1",
+            "ids": "2e2850123fcde38e72cc0691177cfe7b87971fcb264f715ec69e127ac6a57f8f",
+            "stocks": "0227b254dcf100b098668a2c7adde08e814d78855f87324f839137e4dd92055f"
+          },
+          {
+            "id": "P0001",
+            "plan": "b285ff3137e40ae1f81d4637165055f5e09a17836325a4b306daf97433b6f55e",
+            "details": "1cd5cd23bbcb62594c5dbe209dd03cec0d039272424ad539f2785a73ea01529a",
+            "ids": "9f60528097c600233cade08c73e654d18f8da14b7f000d65c921090f9acf98ec",
+            "stocks": "37e0f9f21593a0658abae491fa9a96d72a7a35218058b8a0e8500e1ccf6ba97f"
+          },
+          {
+            "id": "P0002",
+            "plan": "b1aab7cddb3b82374938d7266f1288c6843d292790e72d1401d350c5473beb4d",
+            "details": "b67328eb0039e62d898a3612cdf56e2aad42dd49d4c0c24a292e481016efe30e",
+            "ids": "a25a7255bc94cc00d1ba30c0d5550a08615b4aa3353a72f2bd5ecbef22962cca",
+            "stocks": "bc698895c33034cc84298e6c1ca325d858a9fccddd7a5701ffadb14f3ca1e319"
+          },
+          {
+            "id": "P0003",
+            "plan": "52b95a2660a6594f5158b7701b3203f7678415cbea0bf65d841383fc6b9729c7",
+            "details": "6773866c5f8d356b4d763576c9bd97b55121a772d0aa56fe7fdd6385fd4215af",
+            "ids": "757d803bc49e1d02ce3d577693a405e31e86cfceb4b1d468e26808f2275978c8",
+            "stocks": "29f564697acd06651f45590a6653025f725515418810fec272ae52b729277af1"
+          }
+        ]
+      }
+    },
+    {
+      "seed": 17117,
+      "generation": 7,
+      "effects": {
+        "detailVersion": 2
+      },
+      "queries": [
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 10925.681768156112,
+            "y": 10104.911365320808
+          },
+          "b": {
+            "x": 10926.098825015277,
+            "y": 10102.446397861342
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 10925.681768172795,
+            "y": 10104.91136522221
+          },
+          "b": {
+            "x": 10926.098824998593,
+            "y": 10102.446397959942
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 10925.681768189477,
+            "y": 10104.911365123611
+          },
+          "b": {
+            "x": 10926.098824981911,
+            "y": 10102.44639805854
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 10925.62838488241,
+            "y": 10105.226881130378
+          },
+          "b": {
+            "x": 10926.152208288979,
+            "y": 10102.130882051773
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 10925.628384899092,
+            "y": 10105.22688103178
+          },
+          "b": {
+            "x": 10926.152208272297,
+            "y": 10102.130882150372
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 10925.628384915775,
+            "y": 10105.226880933182
+          },
+          "b": {
+            "x": 10926.152208255615,
+            "y": 10102.13088224897
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 10925.473239743213,
+            "y": 10106.143848951942
+          },
+          "b": {
+            "x": 10926.307353428176,
+            "y": 10101.21391423021
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 10925.473239759895,
+            "y": 10106.143848853344
+          },
+          "b": {
+            "x": 10926.307353411494,
+            "y": 10101.213914328808
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 10925.473239776577,
+            "y": 10106.143848754746
+          },
+          "b": {
+            "x": 10926.307353394812,
+            "y": 10101.213914427406
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 10925.794361623346,
+            "y": 10103.916203067134
+          },
+          "b": {
+            "x": 10925.986231548046,
+            "y": 10103.441560115016
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P1125",
+          "object": "P1125:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P1125:detail157:yard:0:0",
+          "a": {
+            "x": 10925.794361623346,
+            "y": 10103.916203067134
+          },
+          "b": {
+            "x": 10925.986231548046,
+            "y": 10103.441560115016
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5471.796003693001,
+            "y": 11013.380866949065
+          },
+          "b": {
+            "x": 5469.393505231883,
+            "y": 11014.072243940529
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5471.796003596901,
+            "y": 11013.38086697672
+          },
+          "b": {
+            "x": 5469.393505327983,
+            "y": 11014.072243912873
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5471.796003500801,
+            "y": 11013.380867004375
+          },
+          "b": {
+            "x": 5469.393505424083,
+            "y": 11014.072243885219
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5472.103523471422,
+            "y": 11013.292370701236
+          },
+          "b": {
+            "x": 5469.085985453461,
+            "y": 11014.160740188356
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5472.103523375322,
+            "y": 11013.292370728892
+          },
+          "b": {
+            "x": 5469.085985549561,
+            "y": 11014.160740160702
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5472.103523279222,
+            "y": 11013.292370756548
+          },
+          "b": {
+            "x": 5469.085985645661,
+            "y": 11014.160740133046
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5472.997252827459,
+            "y": 11013.035178480988
+          },
+          "b": {
+            "x": 5468.1922560974235,
+            "y": 11014.417932408605
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5472.997252731359,
+            "y": 11013.035178508642
+          },
+          "b": {
+            "x": 5468.1922561935235,
+            "y": 11014.417932380951
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5472.997252635259,
+            "y": 11013.035178536298
+          },
+          "b": {
+            "x": 5468.192256289623,
+            "y": 11014.417932353295
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 5470.850214581928,
+            "y": 11013.710272713099
+          },
+          "b": {
+            "x": 5470.3392943429535,
+            "y": 11013.742838176497
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0000",
+          "object": "P0000:detail157:yard:0:0",
+          "kind": "hedge",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0000:detail157:yard:0:0",
+          "a": {
+            "x": 5470.850214581928,
+            "y": 11013.710272713099
+          },
+          "b": {
+            "x": 5470.3392943429535,
+            "y": 11013.742838176497
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5552.412681666386,
+            "y": 11101.846482483335
+          },
+          "b": {
+            "x": 5553.854180819936,
+            "y": 11101.431656266333
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5552.412681762485,
+            "y": 11101.84648245568
+          },
+          "b": {
+            "x": 5553.854180723836,
+            "y": 11101.431656293988
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5552.412681858585,
+            "y": 11101.846482428025
+          },
+          "b": {
+            "x": 5553.854180627736,
+            "y": 11101.431656321643
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5552.105161887964,
+            "y": 11101.934978731162
+          },
+          "b": {
+            "x": 5554.161700598357,
+            "y": 11101.343160018505
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5552.105161984064,
+            "y": 11101.934978703508
+          },
+          "b": {
+            "x": 5554.161700502257,
+            "y": 11101.34316004616
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5552.105162080164,
+            "y": 11101.934978675852
+          },
+          "b": {
+            "x": 5554.161700406157,
+            "y": 11101.343160073815
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5551.211432531926,
+            "y": 11102.192170951412
+          },
+          "b": {
+            "x": 5555.055429954395,
+            "y": 11101.085967798255
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5551.211432628026,
+            "y": 11102.192170923758
+          },
+          "b": {
+            "x": 5555.055429858295,
+            "y": 11101.085967825911
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5551.211432724126,
+            "y": 11102.192170896102
+          },
+          "b": {
+            "x": 5555.055429762195,
+            "y": 11101.085967853565
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 5552.976836562175,
+            "y": 11101.637307022163
+          },
+          "b": {
+            "x": 5553.290025924147,
+            "y": 11101.640831727505
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0001",
+          "object": "P0001:detail157:yard:0:0",
+          "kind": "sign",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0001:detail157:yard:0:0",
+          "a": {
+            "x": 5552.976836562175,
+            "y": 11101.637307022163
+          },
+          "b": {
+            "x": 5553.290025924147,
+            "y": 11101.640831727505
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5346.0771561091815,
+            "y": 11057.614851642833
+          },
+          "b": {
+            "x": 5347.951989484586,
+            "y": 11058.947143177924
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5346.077156190696,
+            "y": 11057.614851700759
+          },
+          "b": {
+            "x": 5347.951989403072,
+            "y": 11058.947143119998
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5346.077156272211,
+            "y": 11057.614851758684
+          },
+          "b": {
+            "x": 5347.9519893215565,
+            "y": 11058.947143062072
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5345.816309749199,
+            "y": 11057.429489358417
+          },
+          "b": {
+            "x": 5348.212835844569,
+            "y": 11059.13250546234
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5345.816309830713,
+            "y": 11057.429489416343
+          },
+          "b": {
+            "x": 5348.212835763054,
+            "y": 11059.132505404414
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5345.8163099122285,
+            "y": 11057.429489474269
+          },
+          "b": {
+            "x": 5348.212835681539,
+            "y": 11059.132505346488
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5345.058225015499,
+            "y": 11056.890780219335
+          },
+          "b": {
+            "x": 5348.970920578268,
+            "y": 11059.671214601422
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5345.058225097014,
+            "y": 11056.890780277261
+          },
+          "b": {
+            "x": 5348.970920496754,
+            "y": 11059.671214543496
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5345.058225178528,
+            "y": 11056.890780335187
+          },
+          "b": {
+            "x": 5348.970920415239,
+            "y": 11059.67121448557
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 5346.899496617996,
+            "y": 11058.045875159085
+          },
+          "b": {
+            "x": 5347.1296489757715,
+            "y": 11058.51611966167
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0002",
+          "object": "P0002:detail157:yard:0:0",
+          "kind": "pallet",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0002:detail157:yard:0:0",
+          "a": {
+            "x": 5346.899496617996,
+            "y": 11058.045875159085
+          },
+          "b": {
+            "x": 5347.1296489757715,
+            "y": 11058.51611966167
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5578.490750244528,
+            "y": 10987.830665437625
+          },
+          "b": {
+            "x": 5577.007583238403,
+            "y": 10987.606575652178
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5578.49075014565,
+            "y": 10987.830665422685
+          },
+          "b": {
+            "x": 5577.00758333728,
+            "y": 10987.606575667118
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0,
+          "ignore": null,
+          "a": {
+            "x": 5578.490750046772,
+            "y": 10987.830665407746
+          },
+          "b": {
+            "x": 5577.007583436158,
+            "y": 10987.606575682057
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5578.807159163646,
+            "y": 10987.878471252146
+          },
+          "b": {
+            "x": 5576.691174319283,
+            "y": 10987.558769837657
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5578.807159064769,
+            "y": 10987.878471237207
+          },
+          "b": {
+            "x": 5576.691174418162,
+            "y": 10987.558769852596
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0.32,
+          "ignore": null,
+          "a": {
+            "x": 5578.80715896589,
+            "y": 10987.878471222268
+          },
+          "b": {
+            "x": 5576.691174517039,
+            "y": 10987.558769867535
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5579.726722584835,
+            "y": 10988.017406900599
+          },
+          "b": {
+            "x": 5575.771610898094,
+            "y": 10987.419834189204
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5579.726722485958,
+            "y": 10988.01740688566
+          },
+          "b": {
+            "x": 5575.771610996972,
+            "y": 10987.419834204144
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 1.25,
+          "ignore": null,
+          "a": {
+            "x": 5579.7267223870795,
+            "y": 10988.01740687072
+          },
+          "b": {
+            "x": 5575.77161109585,
+            "y": 10987.419834219083
+          },
+          "scope": "tangent-and-rotated-crossing"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": null,
+          "a": {
+            "x": 5577.8840380369675,
+            "y": 10987.830019528961
+          },
+          "b": {
+            "x": 5577.614295445961,
+            "y": 10987.607221560842
+          },
+          "scope": "inside-and-ignore"
+        },
+        {
+          "site": "P0003",
+          "object": "P0003:detail157:yard:0:0",
+          "kind": "cart",
+          "opaque": true,
+          "r": 0.05,
+          "ignore": "P0003:detail157:yard:0:0",
+          "a": {
+            "x": 5577.8840380369675,
+            "y": 10987.830019528961
+          },
+          "b": {
+            "x": 5577.614295445961,
+            "y": 10987.607221560842
+          },
+          "scope": "inside-and-ignore"
+        }
+      ],
+      "answers": [
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": true,
+          "optical": false,
+          "movement": false
+        },
+        {
+          "blocked": false,
+          "optical": true,
+          "movement": true
+        }
+      ],
+      "geometry": {
+        "world": "cbaa8611d36614103ccdd892ba24a22c9f899c16a407a129d33175a561634034",
+        "sites": [
+          {
+            "id": "P1125",
+            "plan": "2ae491645895561821d0b3a17e50a2dc472b99d960a480222f918928e2d03153",
+            "details": "833768d0e7d972c3a7b774bec4c4cfc3591e021da637a3ea09d21adba61baa1c",
+            "ids": "366f3b2f570fbd109507d04105eeb44d4af58c5ab01a506ed00a2ce3954feca5",
+            "stocks": "28c5b0dfd0cb06f7f44595a693e691ceff14b4c1d969e835595202f57806993d"
+          },
+          {
+            "id": "P0000",
+            "plan": "abb604411c2deba282cdd89d49c8dd3b75ddf018d851778fe8d1cb7266dcea07",
+            "details": "dc245d8835da3a32bd8ac3084d7be57d86021c37faa1f541b9544fef0a55577c",
+            "ids": "bf5ea51c49bb007426d71b8eecffcfc9214fc599aa2ff63efe59347d50c55d2a",
+            "stocks": "0227b254dcf100b098668a2c7adde08e814d78855f87324f839137e4dd92055f"
+          },
+          {
+            "id": "P0001",
+            "plan": "ced2b28ce1ac6bdae8e84aca000720a3597cbdcf1e2a40d099a143f736600531",
+            "details": "8a02b533f471ab159b51a47f9c7884c55687b4b9a3dc2d65a806a269a4ae3374",
+            "ids": "c8733785495da69da82d3cd3a44398fbdf2fbfd040b568959b05256655a2aa46",
+            "stocks": "69c86ffbd28925b06115c29d643f6847b6b730f569cf9e58d21f1668e0e4175f"
+          },
+          {
+            "id": "P0002",
+            "plan": "008e0ff407eee185a88fd45c312963f7870170fe81e2295c77b9b8a145e9b45b",
+            "details": "43f2532146fc3fb4b6da10e5e5fee6770b7bcdeb672c33fc6b2a2d52cc2cac2e",
+            "ids": "7507f90771fb59bc1fbe4cdefaf48bc6820b1cb0d0966a65bdb727e1bc48e979",
+            "stocks": "bc698895c33034cc84298e6c1ca325d858a9fccddd7a5701ffadb14f3ca1e319"
+          },
+          {
+            "id": "P0003",
+            "plan": "bb8e274f2a5c49a338f037a9ad920ad5487f5c7fad03f97c94ebf9b0110a4db1",
+            "details": "5aa8430cb0c9743b8fe9dda40aa6cd6ed3e7a704aafd74fe67c96a0f654d2ef6",
+            "ids": "e9435f9f2d83f749718f33f7ab8203c50b6376d91f37c56f637b39fbeba2e3a3",
+            "stocks": "29f564697acd06651f45590a6653025f725515418810fec272ae52b729277af1"
+          }
+        ]
+      }
+    }
+  ]
+}

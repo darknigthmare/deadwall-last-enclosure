@@ -18,7 +18,7 @@ Les quatre familles résidentielles G11 introduites en 1.72 possèdent des plans
 - L'audit des services relit 243 sources stables : 2 905 poses de travail acceptées sur les 200 modèles isolés, puis 360 poses dans 23 sites de trois mondes réellement générés. Plans, détails, meubles, identifiants et stocks correspondent au golden publié. Ces poses ne sont pas comptées comme transactions.
 - L'art préparé couvre quatre modèles V01, treize supports et les quatre actions. Les 1 392 images au repos comparées à 1.72 sont identiques ; cet échantillon ne vaut pas inspection visuelle des 200 variantes.
 - Les tests natifs ciblés passent : six tests du résolveur, neuf de survie, cinq médicaux et dix-huit régressions de survie. La reprise finale de l'art, des gestes et du monde passe 29 tests sans échec, annulation, test ignoré ou TODO.
-- La régression Chromium des sites G11 passe 65 contrôles sur ordinateur et format tactile, sur la distribution finale. Le parcours des quatre nouveaux services et les régressions générales sont reçus séparément.
+- La régression Chromium des sites G11 passe 65 contrôles sur ordinateur et format tactile, sur la distribution finale. Les régressions générales passent séparément 267 contrôles sur huit profils : 179 généraux, 42 PWA historiques et 46 PWA G11 depuis l’entrée ordinaire. Les 368 fichiers distribués sont identiques avant/après ; le parcours des quatre nouveaux services reste distinct.
 
 Deux contre-exemples ont été corrigés : une lanterne posée demande un accès physique réel, et la perte d'un support retire sa présentation immédiatement, même pendant une pause. Cette lecture ne paie ni n'annule le travail ; la reprise du propriétaire l'interrompt normalement.
 
@@ -27,6 +27,16 @@ Deux contre-exemples ont été corrigés : une lanterne posée demande un accès
 Les premières tentatives du parcours automatisé sont conservées. Le guide insistait contre le coin d'un égouttoir alors que le déplacement natif refusait bien cette direction et autorisait une sortie vers le nord. Son guidage et sa marge de planification ont été corrigés sans modifier la géométrie ni le déplacement du jeu.
 
 Une contre-expertise distincte mesure une limite historique du déplacement par points : un sous-pas peut frôler un coin convexe de 1 à 7 mm entre deux positions libres. Aucune traversée de cloison ou exploitation des services n'est établie. La résolution des nouveaux gestes conserve sa vérification de segment physique ; ce lot ne modifie pas le déplacement global ni ne lui attribue une précision continue exhaustive.
+
+## Reconstruction de décors pendant la migration des hordes
+
+Le vrai parcours a révélé un coût moteur distinct du guidage : les collisions des groupes en migration demandaient les décors extérieurs de toutes les parcelles d'une case spatiale, même éloignées du point interrogé. Après éviction des caches, le moteur reconstruisait leur mobilier. Le profil réel attribue 80,34 % de ses échantillons propres à `accessGrid` ; la contrelecture pondérée par les intervalles de mesure donne 75,535 % du temps échantillonné. Ces mesures ne sont pas une cadence d'affichage.
+
+Le correctif conserve une enveloppe exacte et légère des solides extérieurs déjà lus. Il écarte une requête séparée de cette enveloppe avant de recharger les détails. Les caches de 48 plans et 64 détails gardent leurs limites ; aucun tableau de mobilier supplémentaire n'est conservé. Les contextes dynamiques 160 conservent leur lecteur réel, et un premier accès calcule encore la géométrie une fois.
+
+Le contre-test natif reproduit trois cycles de 67 évictions. Avant correction, la requête reconstruisait un détail et son enrichissement à chaque cycle ; après, elle ne les reconstruit plus, avec les mêmes réponses de collision, de visibilité et de mouvement. Cinq nouveaux tests et quatre régressions passent. La contrelecture indépendante recalcule 132 requêtes et les empreintes de douze sites G7/G11 depuis les sources précédentes. [Preuve](codex/suivi-monde2026/validation-performance-1_73.json), [contrelecture](codex/suivi-monde2026/validation-performance-independante-1_73.json).
+
+Les rapports de campagne, de supports et d'art ont été régénérés et leurs sources relues après ce correctif. Les 200 modèles, 63 implantations d'éligibilité sur huit graines et 360 poses de service dans 23 sites conservent leurs résultats. La reprise native des propriétaires passe 20 tests, puis celle de l'art, des gestes et du monde 29 tests, sans échec ni test ignoré. Le parcours complet et le profil CPU après correction restent des preuves séparées.
 
 ## Réceptions à compléter
 

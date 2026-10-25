@@ -637,8 +637,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -1769,8 +1769,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",

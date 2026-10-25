@@ -668,8 +668,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -1885,8 +1885,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -3102,8 +3102,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -4026,6 +4026,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-10-25T10:18:28.622Z",
-  "completedUtc": "2026-10-25T10:18:30.215Z"
+  "startedUtc": "2026-10-25T11:11:02.206Z",
+  "completedUtc": "2026-10-25T11:11:04.762Z"
 }

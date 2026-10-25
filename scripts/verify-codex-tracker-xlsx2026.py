@@ -185,6 +185,7 @@ def mapped_rows(sheet, count):
 
 def verify_historical_styles(book, baseline, data):
     checked = 0
+    resized_footer_excluded = 0
     wrap_changes = []
     normalized = []
     author_types = {t["id"] for t in data["typologies"] if "choix de composition auteur" in (t.get("dimensions_m") or {}).get("scope", "")}
@@ -196,9 +197,35 @@ def verify_historical_styles(book, baseline, data):
     # author wrap exception below is confined to the same two original sheets.
     for name in baseline:
         assert_equal(book[name]["columns"], baseline[name]["columns"], name + " largeurs de colonnes historiques")
+        comparable_last_row = None
+        if name not in EXPECTED_SHEETS[:11]:
+            old_tables = {t["name"]: t["range"] for t in baseline[name]["tableDetails"]}
+            new_tables = {t["name"]: t["range"] for t in book[name]["tableDetails"]}
+            if old_tables != new_tables:
+                assert_equal(set(new_tables), set(old_tables), name + " noms des tables dérivées")
+                old_ends = []
+                for table_name, old_range in old_tables.items():
+                    old_start, old_end = old_range.split(":")
+                    new_start, new_end = new_tables[table_name].split(":")
+                    assert_equal(new_start, old_start, name + " origine de la table dérivée")
+                    assert_equal("".join(c for c in new_end if c.isalpha()),
+                                 "".join(c for c in old_end if c.isalpha()), name + " colonnes de la table dérivée")
+                    old_last = int("".join(c for c in old_end if c.isdigit()))
+                    new_last = int("".join(c for c in new_end if c.isdigit()))
+                    if new_last < old_last:
+                        raise AssertionError(name + " réduction de la table dérivée")
+                    old_ends.append(old_last)
+                # An expanded inspection table occupies the old footer rows.
+                # Its original headers and data rows must retain their style;
+                # its displaced totals and proof notes are checked at their new
+                # addresses by the worksheet reconciliation, not as old cells.
+                comparable_last_row = max(old_ends) if old_ends else None
         for address, signature in baseline[name]["styles"].items():
-            checked += 1
             row = int("".join(c for c in address if c.isdigit()))
+            if comparable_last_row is not None and row > comparable_last_row:
+                resized_footer_excluded += 1
+                continue
+            checked += 1
             column = "".join(c for c in address if c.isalpha())
             # Authored dimensions add line wrapping in A:K, while retaining
             # every font, fill, border, number format and other alignment.
@@ -212,6 +239,7 @@ def verify_historical_styles(book, baseline, data):
             else:
                 assert_equal(book[name]["styles"].get(address), signature, name + " style historique " + address)
     return {"checkedHistoricalStyleCells": checked, "authorCellsWithWrapStyleChanges": len(wrap_changes),
+            "derivedResizedFooterCellsExcluded": resized_footer_excluded,
             "authorCellsWithEquivalentExplicitDefaults": len(normalized),
             "equivalentExplicitDefaultsBySheet": {name: sum(cell.startswith(name + "!") for cell in normalized)
                                                  for name in author_rows},
