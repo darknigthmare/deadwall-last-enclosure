@@ -12,9 +12,9 @@ Chaque modèle doit posséder sa preuve de plan physique, de mobilier, de budget
 
 La feuille dérivée **Campagne G11** du classeur présente les modèles et leurs observations. Les instances sont comptées séparément des graines : deux sites d’un même modèle dans une graine comptent pour deux instances et une seule graine. Les lignes sans témoin indiquent l’absence d’observation pour ce modèle dans cet audit, sans inventer une présence dans le monde.
 
-## Audit final du 24 octobre 2026
+## Audit G11 du 25 octobre 2026
 
-Le rapport accepté contrôle **200/200 adaptations** et **225 fichiers sources**, avec des captures strictement identiques avant et après exécution, puis comparées aux fichiers livrés. Son SHA-256 est `a907f971d67078da7d77b3244d7d170a20b42b3b7f1177f34926a7cf7ece83ed`.
+Le rapport accepté contrôle **200/200 adaptations** et **225 fichiers sources**, avec des captures strictement identiques avant et après exécution, puis comparées aux fichiers livrés. Son SHA-256 est `b38c4540708fc9b216cfda5ed99ee9a8052bdb0e58671386d0a5d76008d45088`.
 
 | Graine témoin | Sites réellement admis |
 | --- | ---: |

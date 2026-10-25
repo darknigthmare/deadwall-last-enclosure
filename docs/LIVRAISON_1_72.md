@@ -6,6 +6,8 @@ Les sites utilisent les mètres réels des compositions auteur, des portes et du
 
 Chaque parcelle partage **un seul budget fini historique de cabane ou de ruine**, réparti entre de vrais contenants accessibles. Ajouter des logements ou des meubles ne multiplie pas le butin. Collecte, portage, sécurisation, repos et relais utilisent les contrôleurs existants. Un potager dessiné ne fournit pas de récolte ; une machine dessinée ne produit ni eau ni courant. Les menaces restent soumises à la vision physique du joueur et des alliés.
 
+À D17, le choix d’une face de récolte vérifie aussi le geste de travail et le dernier segment d’approche. Un point libre ne suffit plus lorsqu’un autre objet coupe cet accès. Les ouvriers peuvent exploiter les passages adaptés à leur propre gabarit ; le commandant garde son rayon, et les objets conservent leurs positions et stocks.
+
 ## Reprendre une campagne
 
 Les sauvegardes G1 à G10 conservent leur génération. Une campagne G10 peut ajouter les nouveaux sites depuis le dépôt de D17, depuis **Paramètres → EXAMINER LES OPTIONS DE COMPATIBILITÉ → Monde & relais → AJOUTER LES PARCS RÉSIDENTIELS ET CARAVANES**. L’aperçu prépare et vérifie l’extension ; l’activation est une transaction distincte. Une possession incompatible bloque l’ensemble, sans déplacement ni remboursement inventé. Les objets déjà pris, camps, éclairages, acteurs et autres possessions restent prioritaires. Les identifiants et stocks des lieux G10 sont conservés avant l’ajout des nouveaux sites.

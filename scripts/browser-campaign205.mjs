@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {createHarness,recorder,ready,chooseCampaign} from './browser-qa-common142.mjs';
 import {activate,holdInput,observePersistentRestore,persistentRestoreComparison,saveReloadContinue,visibleInPanel} from './browser-qa-common144.mjs';
 
-const require=createRequire(import.meta.url),Sources=require('./campaign-sources205.cjs');
+const require=createRequire(import.meta.url),Sources=require('./campaign-sources205.cjs'),Manifest=require('./public-manifest183.cjs');
 const repository=fileURLToPath(new URL('..',import.meta.url));
 process.env.DEADWALL_QA_ROOT ||= path.join(repository,'dist');
 const servedRoot=path.resolve(process.env.DEADWALL_QA_ROOT),hash=b=>createHash('sha256').update(b).digest('hex');
@@ -17,13 +17,30 @@ if(chosen&&(new Set(chosen).size!==chosen.length||chosen.some(name=>!views.some(
 const profiles=chosen?views.filter(view=>chosen.includes(view.name)):views;
 assert.ok(profiles.length);
 const harness=await createHarness('campaign205','Ordinary visible New Game on seed17117, then separately labelled prepared G10-at-depot and G11-at-parcel saves. After each preparation, only native keyboard/touch controls move or harvest. No clock advance, free materials, health edits, enemy neutralisation or repeated pose assignments. Automated desktop/mobile viewport evidence, not a human campaign or physical-device performance claim.');
-const {browser,report,output}=harness;
+const {browser,report,output,version}=harness;
 const ordinary=new URL(harness.base);ordinary.searchParams.delete('tools');ordinary.searchParams.delete('fixture');
 report.surface='Ordinary player URL without author or legacy-fixture parameters; prepared saved positions are explicitly recorded below.';
 report.base=ordinary.href;report.servedRoot=servedRoot;report.profiles=[];
 report.sourceBefore=Sources.capture(repository);
 report.distribution=[];
 let ordinarySites;
+
+// Keep complete evidence in the artifact, and publish a small diagnostic that
+// the existing CI annotator can read without downloading a large archive.
+async function compactSummary(complete=false){
+ const fullFile=path.join(output,complete?'report.json':'report.partial.json'),full=await fs.readFile(fullFile);
+ const firstTen=items=>Array.isArray(items)?items.slice(0,10):[];
+ const summary={kind:'campaign205-browser-summary',version,pass:complete&&report.pass===true,complete,
+  started:report.started,completed:report.completed,scope:report.scope,
+  sourceScriptSha256:hash(await fs.readFile(fileURLToPath(import.meta.url))),
+  fullReport:{file:path.basename(fullFile),bytes:full.length,sha256:hash(full)},
+  checkedDistributionFiles:report.distribution.length,sourceInventoryStable:!!report.sourceAfter&&JSON.stringify(report.sourceBefore)===JSON.stringify(report.sourceAfter),
+  ...(report.failure?{failure:report.failure.slice(0,16384)}:{}),...(report.cleanupFailure?{cleanupFailure:report.cleanupFailure.slice(0,16384)}:{}),
+  profiles:report.profiles.map(p=>({viewport:p.viewport,pass:p.pass===true,checks:p.checks||[],
+   ...(p.failure?{failure:p.failure.slice(0,16384)}:{}),...(p.cleanupFailure?{cleanupFailure:p.cleanupFailure.slice(0,16384)}:{}),
+   pageErrors:firstTen(p.pageErrors),consoleErrors:firstTen(p.consoleErrors),httpErrors:firstTen(p.httpErrors),requestFailures:firstTen(p.requestFailures)}))};
+ await fs.writeFile(path.join(output,'campaign205-summary.json'),JSON.stringify(summary,null,2)+'\n');
+}
 
 async function pause(page,touch){if(!await page.locator('#pauseMenu').isVisible())await activate(page,'#pauseButton',touch);}
 async function resume(page,touch){if(await page.locator('#pauseMenu').isVisible())await activate(page,'#resumeButton',touch);await page.waitForFunction(()=>!DEADWALL.paused&&!DEADWALL.activeOverlay);}
@@ -35,7 +52,7 @@ async function nativeZoom(page,touch,target){
  if(touch&&await page.locator('#touchCommandDrawer').evaluate(n=>n.open))await activate(page,'#touchCommandDrawer > summary',true);
  return{before,after:await read(),nativeInputs:steps,target};
 }
-const state=page=>page.evaluate(()=>({elapsed:DEADWALL.elapsed,pose:DEADWALL.frontier.position(),carry:{...DEADWALL.player.carry},resources:{...DEADWALL.resources},health:DEADWALL.player.health,focus:DEADWALL.frontier.overview().focus,choices:DEADWALL.frontier.overview().choices}));
+const state=page=>page.evaluate(()=>{const v=DEADWALL.frontier.overview();return{elapsed:DEADWALL.elapsed,distance:v.distance,pose:DEADWALL.frontier.position(),carry:{...DEADWALL.player.carry},resources:{...DEADWALL.resources},health:DEADWALL.player.health,focus:v.focus,choices:v.choices};});
 
 function prepareG10(){
  const g=DEADWALL,raw=g.serialize(),before=JSON.stringify({resources:raw.resources,carry:raw.player.carry,randomState:raw.randomState,elapsed:raw.elapsed,enemies:raw.frontier.enemies,tracks:raw.frontier.tracks,groups:raw.worldEvolution.groups});
@@ -95,29 +112,38 @@ function prepareParcel(){
 }
 
 async function nativeWalk(page,context,touch,route){
- const keys={left:'a',right:'d',up:'w',down:'s'},stats={segments:[],inputChanges:0,sampledMoves:0,coordinateAssignments:0};
+ const keys={left:'a',right:'d',up:'w',down:'s'},stats={segments:[],inputChanges:0,sampledMoves:0,coordinateAssignments:0,lastMovements:[]};
  let held=[],session;const boxes={};
  if(touch){session=await context.newCDPSession(page);for(const direction of Object.keys(keys)){const box=await page.locator('#touchControls [data-dir="'+direction+'"]').boundingBox();assert.ok(box,'Visible '+direction+' control');boxes[direction]={x:box.x+box.width/2,y:box.y+box.height/2};}}
  else await page.locator('#game').focus();
  const set=async wanted=>{if(wanted.join(',')===held.join(','))return;stats.inputChanges++;
-  if(touch){if(held.length)await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});if(wanted.length)await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:wanted.map((key,i)=>({...boxes[key],id:i+1}))});}
-  else{for(const key of held.filter(key=>!wanted.includes(key)))await page.keyboard.up(keys[key]);for(const key of wanted.filter(key=>!held.includes(key)))await page.keyboard.down(keys[key]);}held=wanted;
+  for(const key of held.filter(key=>!wanted.includes(key)))await page.keyboard.up(keys[key]);for(const key of wanted.filter(key=>!held.includes(key)))await page.keyboard.down(keys[key]);held=wanted;
  };
  try{
   for(let i=1;i<route.length;i++){
-   const origin=await page.evaluate(()=>DEADWALL.frontier.position()),target=route[i],vx=target.x-origin.x,vy=target.y-origin.y,length=Math.hypot(vx,vy),began=Date.now();let previous=origin,stall=0;
-   assert.ok(await page.evaluate(({a,b})=>DEADWALL.frontier.world().movementLine(a,b,0,null,null,.32),{a:origin,b:target}),'Live movement disc admits segment'+i);
+   const origin=await page.evaluate(()=>DEADWALL.frontier.position()),target=route[i],vx=target.x-origin.x,vy=target.y-origin.y,length=Math.hypot(vx,vy),began=Date.now(),budgetMs=touch?Math.max(30000,Math.ceil(length*20000)):30000;let previous=origin,stall=0;
+   console.log(JSON.stringify({nativeWalk:touch?'touch':'keyboard',segment:i,lengthM:length,budgetMs}));
+   assert.ok(await page.evaluate(({a,b})=>DEADWALL.frontier.world().movementLine(a,b,0,a.inside,null,.32),{a:origin,b:target}),'Live movement disc admits segment'+i+' '+JSON.stringify({origin,target}));
    while(true){const p=await page.evaluate(()=>DEADWALL.frontier.position()),left=Math.hypot(target.x-p.x,target.y-p.y);if(left<.09)break;
-    if(Date.now()-began>30000)throw Error('Native walking timed out on segment'+i+' '+JSON.stringify({p,target,left,held}));
+    if(Date.now()-began>budgetMs)throw Error('Native walking timed out on segment'+i+' '+JSON.stringify({p,target,left,held,budgetMs,lastMovements:stats.lastMovements}));
     const progress=Math.max(0,Math.min(length,((p.x-origin.x)*vx+(p.y-origin.y)*vy)/length)),ahead=Math.min(length,progress+.22),aim={x:origin.x+vx/length*ahead,y:origin.y+vy/length*ahead},angle=Math.atan2(aim.y-p.y,aim.x-p.x),octant=Math.round(angle/(Math.PI/4)),dx=Math.round(Math.cos(octant*Math.PI/4)),dy=Math.round(Math.sin(octant*Math.PI/4)),wanted=[];
-    if(dx)wanted.push(dx>0?'right':'left');if(dy)wanted.push(dy>0?'down':'up');await set(wanted);await page.waitForTimeout(25);stats.sampledMoves++;
-    const next=await page.evaluate(()=>{const p=DEADWALL.frontier.position();return{...p,clear:!DEADWALL.frontier.world().blocked(p.x,p.y,.32,0,p.inside),health:DEADWALL.player.health};});
+    // Release the real controls before measuring the endpoint. Holding input
+    // across a slow browser RPC otherwise overshoots a one-metre doorway.
+    if(touch){
+     const direction=Math.abs(aim.x-p.x)>Math.abs(aim.y-p.y)?(aim.x>p.x?'right':'left'):(aim.y>p.y?'down':'up');
+     // The browser owns both ends of a real held touch gesture. Separate
+     // protocol calls can coalesce before a frame or wait several frames.
+     await session.send('Input.synthesizeTapGesture',{...boxes[direction],duration:left>.35?150:50,tapCount:1,gestureSourceType:'touch'});stats.inputChanges+=2;
+    }else{if(dx)wanted.push(dx>0?'right':'left');if(dy)wanted.push(dy>0?'down':'up');await set(wanted);await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));await set([]);}stats.sampledMoves++;
+    const next=await page.evaluate(()=>{const p=DEADWALL.frontier.position();return{...p,clear:!DEADWALL.frontier.world().blocked(p.x,p.y,.32,0,p.inside),health:DEADWALL.player.health,posture:DEADWALL.worldEvolution.posture().key,movementKeys:[...DEADWALL.input.keys].filter(k=>['KeyA','KeyD','KeyW','KeyS'].includes(k))};});
+    stats.lastMovements.push({segment:i,realMs:Date.now()-began,x:next.x,y:next.y,deltaM:Math.hypot(next.x-previous.x,next.y-previous.y),remainingM:Math.hypot(target.x-next.x,target.y-next.y),keys:next.movementKeys,posture:next.posture});if(stats.lastMovements.length>30)stats.lastMovements.shift();
+    if(touch)assert.equal(next.movementKeys.length,0,'The real pointer release clears every movement key');
     assert.ok(next.clear,'The real actor remains outside physical solids');assert.ok(next.health>0,'The prepared walk retains native danger and must survive it');
     stall=Math.hypot(next.x-previous.x,next.y-previous.y)<.001?stall+1:0;if(stall>70)throw Error('Native walking stalled on segment'+i);previous=next;
    }
    await set([]);stats.segments.push({index:i,target,arrival:await page.evaluate(()=>DEADWALL.frontier.position()),realMilliseconds:Date.now()-began});
   }
- }finally{await set([]);await session?.detach();}
+ }catch(error){error.walkStats=stats;throw error;}finally{if(touch)await session?.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}).catch(()=>{});else await set([]);await session?.detach();}
  return stats;
 }
 
@@ -131,7 +157,10 @@ async function artReadout(page,fixture){return page.evaluate(async f=>{
 },fixture);}
 
 try{
- for(const name of ['src/core.js','src/frontier-world.js','src/frontier.js','src/frontier-state.js','src/world-pack131.js','src/player-menus194.js','src/codex-campaign205.js','src/campaign-site-art205.js','src/frontier-art.js','src/codex-layouts2026.js']){
+ const publicEntries=Manifest.readPublicEntries(repository);
+ // Every delivered script and stylesheet participates in movement, rendering
+ // or a controller. A ten-module sample cannot detect a stale field owner.
+ for(const name of ['index.html',...publicEntries.scripts,...publicEntries.styles]){
   const source=await fs.readFile(path.join(repository,name)),dist=await fs.readFile(path.join(servedRoot,name));assert.equal(hash(source),hash(dist),'Built runtime differs from source: '+name);report.distribution.push({path:name,bytes:dist.length,sha256:hash(dist)});
  }
  report.entrySha256=hash(await fs.readFile(path.join(servedRoot,'index.html')));
@@ -183,10 +212,13 @@ try{
    check('Parcel is open air with individual building roofs',profile.exteriorArt.inside===null&&profile.exteriorArt.covered===false&&profile.exteriorArt.parcelRoofEntries.length===0&&profile.exteriorArt.roofEntries.length===profile.exteriorArt.individualVolumes.length);
    check('Actual campaign furniture has named painters and its canonical metric dimensions',profile.exteriorArt.known&&profile.exteriorArt.allDimensionsCanonical);
    check('Observed natural render reads without altering saved state or keeping instrumentation',profile.exteriorArt.sourceUnchanged&&profile.exteriorArt.instrumentationRestored&&profile.exteriorArt.actorFrames.length>0);
-   await resume(page,viewport.touch);const walkBefore=await state(page);profile.walk=await nativeWalk(page,context,viewport.touch,profile.parcelFixture.route);const walkAfter=await state(page);
+   await resume(page,viewport.touch);
+   if(viewport.touch){profile.touchPostureBefore=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);await click('#fieldDockPosture');await click('#fieldDockPosture');check('Actual touch posture controls enable the slow native prone approach',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='prone');}
+   const walkBefore=await state(page);profile.walk=await nativeWalk(page,context,viewport.touch,profile.parcelFixture.route);const walkAfter=await state(page);
    check('Keyboard or touch pointers perform the whole route without pose assignments',profile.walk.coordinateAssignments===0&&profile.walk.inputChanges>0&&profile.walk.segments.length===profile.parcelFixture.route.length-1);
-   check('Walking advances the ordinary simulation and recorded real distance',walkAfter.elapsed>walkBefore.elapsed&&walkAfter.pose.distance>walkBefore.pose.distance);
+   check('Walking advances the ordinary simulation and recorded real distance',walkAfter.elapsed>walkBefore.elapsed&&walkAfter.distance>walkBefore.distance);
    check('Gate, lane, real doorway and room lead to the intended building',walkAfter.pose.inside===profile.parcelFixture.site.id&&await page.evaluate(f=>{const p=DEADWALL.frontier.position(),s=DEADWALL.frontier.world().pois.find(p=>p.id===f.site.id),q=DeadwallFrontierGeometry.local(s,p.x,p.y);return q.x>f.room.x&&q.x<f.room.x+f.room.w&&q.y>f.room.y&&q.y<f.room.y+f.room.h;},profile.parcelFixture));
+   if(viewport.touch){await click('#fieldDockPosture');check('The actual posture control returns the actor to standing before the metric view',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='stand');}
    profile.roomZoom=await nativeZoom(page,viewport.touch,44);check('Native close zoom exposes individual room furniture',profile.roomZoom.after===44);await rec.screenshot('room');await pause(page,viewport.touch);profile.interiorArt=await artReadout(page,profile.parcelFixture);
    check('Only the occupied building loses its roof and supplies physical cover',profile.interiorArt.covered===true&&profile.interiorArt.parcelRoofEntries.length===0&&profile.interiorArt.roofEntries.length===profile.interiorArt.individualVolumes.length-1);
    check('One metre stays the same for actor foot disc, doors, furniture and rendering',profile.interiorArt.actorFootDiameterM===.64&&profile.interiorArt.doorWidthM>.64&&profile.interiorArt.allDimensionsCanonical&&profile.interiorArt.actorFrames.every(f=>Math.abs(f.scaleX-profile.interiorArt.scale)<1e-6&&Math.abs(f.scaleY-profile.interiorArt.scale)<1e-6));
@@ -203,16 +235,17 @@ try{
    await rec.screenshot('finite-store-empty');profile.lootRecovery=await saveReloadContinue(page,viewport.touch);
    check('Native save/reload/Continue keeps the full depleted-container and carried-bag state',profile.lootRecovery.pass);
    check('Continue does not recreate the depleted store',Math.abs(await page.evaluate(id=>DEADWALL.frontier.takenAmount(id),profile.parcelFixture.target.id)-amount)<.000001);
-   await rec.screenshot('continued-room');profile.loadedScripts=await page.evaluate(()=>[...document.scripts].map(s=>new URL(s.src,location.href).pathname).filter(Boolean));
+   await rec.screenshot('continued-room');profile.loadedScripts=await page.evaluate(()=>[...document.scripts].filter(s=>s.src).map(s=>new URL(s.src,location.href).pathname));
    check('Both new public modules are delivered after Continue',profile.loadedScripts.includes('/src/codex-campaign205.js')&&profile.loadedScripts.includes('/src/campaign-site-art205.js'));
    check('No page, console, HTTP or request error',rec.errors()===0);profile.pass=true;
-  }catch(error){profile.pass=false;profile.failure=error.stack;profile.failureState=await state(page).catch(()=>null);await rec.screenshot('failure').catch(()=>{});}
+  }catch(error){profile.pass=false;profile.failure=error.stack;if(error.walkStats)profile.failedWalk=error.walkStats;profile.failureState=await state(page).catch(()=>null);await rec.screenshot('failure').catch(()=>{});}
   finally{await context.close();profile.requests=[...requests.values()];}
   await fs.writeFile(path.join(output,'report.partial.json'),JSON.stringify(report,null,2)+'\n');
+  await compactSummary();
   console.log(JSON.stringify({profile:viewport.name,pass:profile.pass,checks:profile.checks.length,failure:profile.failure?.split('\n')[0]}));
  }
  report.sourceAfter=Sources.capture(repository);assert.deepEqual(report.sourceAfter,report.sourceBefore,'Campaign source changed during browser qualification');
  report.pass=report.profiles.length===profiles.length&&report.profiles.every(p=>p.pass);
 }catch(error){report.pass=false;report.failure=error.stack;}
-finally{try{await harness.close();}finally{await harness.finish();}}
+finally{try{await harness.close();}finally{await harness.finish();await compactSummary(true);}}
 if(!report.pass)process.exitCode=1;

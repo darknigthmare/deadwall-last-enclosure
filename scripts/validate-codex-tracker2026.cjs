@@ -37,6 +37,6 @@ function validate(data){
   ...(campaign?{campaignEligibleVariants:campaign.eligibleVariants,campaignObservedSeeds:campaign.observedSeeds,campaignObservedSites:campaign.observedSites}:{}),
   scope:'contrats de suivi ; pas une validation de jeu',published:false};
 }
-function load(root){const p=path.join(root,'docs/codex/suivi-monde2026'),read=n=>JSON.parse(fs.readFileSync(path.join(p,n),'utf8'));return {catalogue:read('catalogue-existant.json'),typologies:read('typologies-cibles.json'),variants:read('variantes-a-concevoir.json'),tasks:read('chantiers.json')};}
+function load(root){const p=path.join(root,'docs/codex/suivi-monde2026'),read=n=>JSON.parse(fs.readFileSync(path.join(p,n),'utf8'));return {catalogue:read('catalogue-existant.json'),typologies:read('typologies-cibles.json'),variants:read('variantes-a-concevoir.json'),tasks:read('chantiers.json'),...(fs.existsSync(path.join(p,'campagne-g11.json'))?{campaign205:read('campagne-g11.json')}:{})};}
 module.exports={validate,load};
 if(require.main===module){const data=process.argv[2]?load(path.resolve(process.argv[2])):require('./build-codex-tracker2026.cjs').currentData();console.log(JSON.stringify(validate(data),null,2));}

@@ -49,8 +49,9 @@ test('QA06 G5 : pas de doubles chaussées ni de croisement aveugle dans le rése
 test('QA06 G5 : bornes, coins, étages et caches refusent les coordonnées hors domaine',()=>{
  for(const generation of[1,2,3,4,5])assert.equal(W.sizeForGeneration(generation),generation===5?24576:8192);
  for(const seed of[-1,1.5,4294967296,NaN])assert.throws(()=>W.create(seed,5));
- // G9 is supported; reject values outside the discrete G1–G9 contract.
- for(const generation of[0,11,-1,9.5,NaN,Infinity])assert.throws(()=>W.create(17117,generation),/Version du monde inconnue/,'Génération refusée : '+String(generation));
+ // G11 is supported; the next generation and non-discrete values stay invalid.
+ for(const generation of[0,12,-1,9.5,NaN,Infinity])assert.throws(()=>W.create(17117,generation),/Version du monde inconnue/,'Génération refusée : '+String(generation));
+ assert.equal(W.sizeForGeneration(11),24576);assert.equal(W.create(17117,11).generation,11);
  const w=W.create(17117,5);for(const[x,y]of[[-1,100],[100,-1],[24576,100],[100,24576],[NaN,1],[Infinity,1]])assert.equal(w.blocked(x,y),true);
  for(const[cx,cy]of[[-1,0],[96,0],[0,96],[.5,2]])assert.deepEqual(w.chunk(cx,cy),{cx,cy,trees:[],rocks:[]});
  for(const[cx,cy]of[[0,95],[95,0],[95,95]]){const first=copy(w.chunk(cx,cy));assert.ok(first.trees.length);for(let n=0;n<40;n++)w.chunk(n,80);assert.deepEqual(w.chunk(cx,cy),first);}

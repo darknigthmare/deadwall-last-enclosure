@@ -36,7 +36,19 @@ test('G10 finite scatter provider generates exactly the G9 trees, rocks, decor, 
  const clear=(x,y,pad)=>x<7750-pad||y>7800+pad;
  assert.deepEqual(B.scatter(17117,30,30,{generation:10,clear}),B.scatter(17117,30,30,{generation:9,clear}));
 });
-test('Adding G10 does not silently enable unknown generations or change the legacy default sampler',()=>{
- for(const generation of [undefined,0,1,2,3,4,5,6,6.5,10.5,11,999,Infinity])assert.equal(B.sample(17117,8000,8200,true,{generation}).habitat,undefined,String(generation));
+test('G11 direct readers preserve the existing habitat and finite scatter without consuming gameplay RNG',()=>{
+ const random=Math.random;Math.random=()=>{throw Error('Biome readers must not use ambient or gameplay RNG');};
+ try{for(const seed of [0,17117,4294967295]){
+  for(const[x,y]of [[255.99,256.01],[8192,7904],[19000,23888]]){
+   const previous={generation:10},current={generation:11};
+   assert.ok(B.sample(seed,x,y,true,current).habitat);
+   assert.deepEqual(B.sample(seed,x,y,true,current),B.sample(seed,x,y,true,previous));
+   for(const reader of ['pickTree','pickRock','enemyProfile'])assert.deepEqual(B[reader](seed,x,y,'same205',current),B[reader](seed,x,y,'same205',previous),reader);
+  }
+  assert.deepEqual(B.scatter(seed,30,30,{generation:11}),B.scatter(seed,30,30,{generation:10}));
+ }}finally{Math.random=random;}
+});
+test('Adding G11 does not silently enable unknown generations or change the legacy default sampler',()=>{
+ for(const generation of [undefined,0,1,2,3,4,5,6,6.5,10.5,11.5,12,999,Infinity])assert.equal(B.sample(17117,8000,8200,true,{generation}).habitat,undefined,String(generation));
  assert.equal(B.sample(17117,8000,8200).habitat,undefined);assert.ok(B.sample(17117,8000,8200,true,{generation:10}).habitat);
 });

@@ -117,10 +117,13 @@ test('G10: old save geometry and strict regional identifiers remain valid; unsup
  const object=w.plan(p,0).objects.find(o=>o.amount>0);assert.match(object.id,/^P\d{4}:0:\d+$/);
  installRaw(g,data=>{data.frontier.seen.push(p.id);data.frontier.taken[object.id]=object.amount;});
  const before=checkpoint(g),world=g.world;
- for(const mutate of [data=>{data.frontier.generation=11;},data=>{data.frontier.generation=10.5;},data=>{data.frontier.seen.push('P10000');},data=>{data.frontier.taken[object.id]=object.amount+.01;},data=>{data.frontier.taken[p.id+':0:999999']=1;},data=>{data.frontier.seen.push('P9999');},data=>{data.frontier.z=3;}]){
+ for(const mutate of [data=>{data.frontier.generation=12;},data=>{data.frontier.generation=10.5;},data=>{data.frontier.seen.push('P10000');},data=>{data.frontier.taken[object.id]=object.amount+.01;},data=>{data.frontier.taken[p.id+':0:999999']=1;},data=>{data.frontier.seen.push('P9999');},data=>{data.frontier.z=3;}]){
   const bad=copy(before);mutate(bad);assert.throws(()=>g.restoreSave(bad));assert.equal(g.world,world);assert.deepEqual(checkpoint(g),before);
  }
  for(let i=0;i<2;i++){assert.equal(g.restoreSave(g.serialize()),true);assert.equal(g.frontier.takenAmount(object.id),object.amount);}
+ const compatible=copy(before);compatible.frontier.generation=11;assert.equal(g.restoreSave(compatible),true);
+ assert.equal(g.frontier.position().generation,11);assert.equal(g.frontier.takenAmount(object.id),object.amount);
+ assert.deepEqual(g.resources,before.resources);assert.deepEqual(g.frontier.world().pois.find(row=>row.id===p.id),p);
  assert.equal(Context.ids.length,626);assert.equal(C.Frontier.MAX_TAKEN,120000);
 });
 

@@ -552,8 +552,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 25659,
-      "sha256": "ecd2fac4dd4334bce3b9c3fb1d120a4a2f046fc94884292fd39530764fdaba64"
+      "bytes": 26728,
+      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
     },
     {
       "path": "src/forage-art193.js",
@@ -1679,8 +1679,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 25659,
-      "sha256": "ecd2fac4dd4334bce3b9c3fb1d120a4a2f046fc94884292fd39530764fdaba64"
+      "bytes": 26728,
+      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
     },
     {
       "path": "src/forage-art193.js",

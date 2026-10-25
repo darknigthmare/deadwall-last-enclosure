@@ -189,6 +189,10 @@ publication.getRange('B9:E9').values = [[meta.workbookState || 'Préparé locale
 publication.getRange('B10:E10').values = [[meta.targetedTests || 'Voir les journaux du commit', 'Contrôles ciblés', meta.targetedDetail || 'Contrats et suivi vérifiés indépendamment de la campagne', 'Voir les preuves']];
 publication.getRange('B11:E11').values = [[meta.globalCheck || 'À vérifier sur le commit', 'npm run check', meta.globalDetail || 'Le succès global exige un journal complet du commit livré.', meta.globalState || 'Voir les preuves']];
 publication.getRange('B12:E12').values = [[data.variants.filter(v => v.playable).length, 'Architecture / campagne', meta.integration || 'Aucun statut jouable déduit de la présence du catalogue.', 'Qualification explicite']];
+if (campaignSummary) {
+  publication.getRange('A12').values = [['Variantes d’inspection promues']];
+  publication.getRange('C12').values = [['Validation globale']];
+}
 publication.getRange('B13:E13').values = [[publicationMeta.integrationChange, 'Fusion / déploiement', publicationMeta.integrationDetail, publicationMeta.integrationState]];
 
 const refsPath = path.join(root, 'docs/codex/suivi-monde2026/references-metriques2026.json');
@@ -329,6 +333,10 @@ if (campaignSummary) {
   tab.getRange(`A6:L${lastDataRow}`).format.rowHeight = 64;
   tab.getRange(`C6:C${lastDataRow}`).setNumberFormat('0');
   tab.getRange(`J6:J${lastDataRow}`).setNumberFormat('0');
+  for (const columns of ['C', 'E:I', 'J']) {
+    const [first, last = first] = columns.split(':');
+    tab.getRange(`${first}6:${last}${lastDataRow}`).format.horizontalAlignment = 'center';
+  }
   tab.getRange(`D1:D${lastDataRow}`).format.columnWidth = 28;
   tab.getRange(`K1:L${lastDataRow}`).format.columnWidth = 36;
   tab.getRange(`A${totalRow}:B${totalRow}`).merge();
