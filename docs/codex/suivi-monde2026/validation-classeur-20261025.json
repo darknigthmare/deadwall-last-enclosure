@@ -1,0 +1,296 @@
+{
+  "sheets": 14,
+  "programmes": 4000,
+  "typologies": 80,
+  "variants": 4000,
+  "tasks": 800,
+  "formulas": 1171,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "validatedTasks": 3,
+  "inProgressTasks": 405,
+  "pendingTasks": 392,
+  "playableVariants": 0,
+  "inspectionPlans": 4000,
+  "inspectionTypes": 80,
+  "inspectionProps": 588378,
+  "inspectionRefused": 0,
+  "preservedHistoricalFeatures": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 98089,
+    "authorCellsWithWrapStyleChanges": 33143,
+    "authorCellsWithEquivalentExplicitDefaults": 33143,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 473,
+      "Variantes à concevoir": 32670
+    },
+    "inheritedStylesPreserved": true
+  },
+  "campaignG11": {
+    "types": 4,
+    "eligibleVariants": 200,
+    "passedVariants": 200,
+    "guaranteedSitesPerSeed": 0,
+    "observedSeeds": 8,
+    "observedSites": 63,
+    "observedVariants": 58
+  },
+  "scope": "Réconciliation du nouveau XLSX, de ses métadonnées et des fonctions historiques. Aucun succès CI complet, fusion ou déploiement inféré.",
+  "metadataReconciled": true,
+  "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
+  "bytes": 571544,
+  "schemaVersion": 3,
+  "verifiedAt": "2026-10-25T06:51:40.665719+00:00",
+  "sourceCommit": "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+  "sourceCheckpoint": "S1a",
+  "pullRequest": 19,
+  "formulaPerturbationDetected": true,
+  "currentWorkbookVerificationAgainstPrevious": {
+    "sheets": 14,
+    "programmes": 4000,
+    "typologies": 80,
+    "variants": 4000,
+    "tasks": 800,
+    "formulas": 1171,
+    "formulaErrors": 0,
+    "missingFormulaCaches": 0,
+    "validatedTasks": 3,
+    "inProgressTasks": 405,
+    "pendingTasks": 392,
+    "playableVariants": 0,
+    "inspectionPlans": 4000,
+    "inspectionTypes": 80,
+    "inspectionProps": 588378,
+    "inspectionRefused": 0,
+    "preservedHistoricalFeatures": true,
+    "styleVerification": {
+      "checkedHistoricalStyleCells": 98089,
+      "authorCellsWithWrapStyleChanges": 0,
+      "authorCellsWithEquivalentExplicitDefaults": 0,
+      "equivalentExplicitDefaultsBySheet": {
+        "Extension typologies": 0,
+        "Variantes à concevoir": 0
+      },
+      "inheritedStylesPreserved": true
+    },
+    "campaignG11": {
+      "types": 4,
+      "eligibleVariants": 200,
+      "passedVariants": 200,
+      "guaranteedSitesPerSeed": 0,
+      "observedSeeds": 8,
+      "observedSites": 63,
+      "observedVariants": 58
+    },
+    "scope": "XLSX source reconciliation; does not certify gameplay",
+    "metadataReconciled": true,
+    "sha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
+    "bytes": 571544
+  },
+  "previousWorkbookBaseline": {
+    "deliveryCommit": "11f2ace5ee3b39ea318373229d4d5378d14057db",
+    "bytes": 557803,
+    "sha256": "989083147539313b3aa7a37a66fa8b5ea10d321a001648216087c2858df94b31"
+  },
+  "originalPublicBaseline": {
+    "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
+    "bytes": 539765,
+    "sha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
+    "scope": "Classeur public initial conservé ; 20 types / 1000 plans"
+  },
+  "export": {
+    "actualExitCode": 0,
+    "startedUtc": "2026-10-25T06:47:04.298238+00:00",
+    "completedUtc": "2026-10-25T06:47:48.702804+00:00",
+    "command": [
+      "node",
+      "scripts/update-codex-tracker-xlsx2026.mjs",
+      "--root",
+      "/workspace/deadwall-last-enclosure",
+      "--input",
+      "/workspace/deadwall-cloud/extension205/baseline-1.71-workbook.xlsx",
+      "--output",
+      "/workspace/deadwall-cloud/extension206/workbook-export-final/DEADWALL_CODEX_MONDE_SUIVI_CANDIDAT.xlsx",
+      "--proof-dir",
+      "/workspace/deadwall-cloud/extension206/workbook-export-final",
+      "--metadata",
+      "/workspace/deadwall-cloud/extension206/workbook-export-final/metadata-final.json",
+      "--ref",
+      "1b3b9c5ba232734b1bda3453b4e20a0481bcdd74",
+      "--render"
+    ]
+  },
+  "metadata": {
+    "path": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_72.json",
+    "sha256": "7f6bc7deefd7d7d585bed47984e0e003b870869dd0b231e38fb515ae97540d0a"
+  },
+  "nativeTrackingTests": {
+    "pass": true,
+    "command": [
+      "node",
+      "--test",
+      "--test-reporter=tap",
+      "--test-concurrency=1",
+      "tests/codex-tracker2026.test.cjs",
+      "tests/codex-campaign-progress205.test.cjs",
+      "tests/codex-tracker-xlsx-guards2026.test.cjs",
+      "tests/codex-tracker-campaign-sheet205.test.cjs",
+      "tests/codex-workbook-metadata2026.test.cjs"
+    ],
+    "startedUtc": "2026-10-25T06:47:10.477675+00:00",
+    "completedUtc": "2026-10-25T06:47:22.732054+00:00",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 34,
+      "suites": 0,
+      "pass": 34,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "scope": "Local tracking and worksheet guards; no complete-game or final deployment claim."
+  },
+  "visualReview": {
+    "reviewer": "Codex",
+    "scope": "Revue effective des neuf rendus de feuilles ; la réconciliation des données et formules est contrôlée séparément par XML, sans certification humaine du jeu.",
+    "reviewedUtc": "2026-10-25T06:50:19.562886+00:00",
+    "renderedWorksheetsReviewed": 9,
+    "renders": [
+      {
+        "worksheetRender": "accueil",
+        "bytes": 185237,
+        "sha256": "a5eefe9916f4f199040a6c2796d7152bbd0f9eedb94c89f81fef8caf0f434afa"
+      },
+      {
+        "worksheetRender": "typologies",
+        "bytes": 404178,
+        "sha256": "21c483216091cdb4edce7e4019dec104b80e5a3687982e7b17f05318ce24148b"
+      },
+      {
+        "worksheetRender": "typologies-agricoles",
+        "bytes": 409354,
+        "sha256": "ef1d6852adbcf7a9c5f07dd96d2444f3c2cfd6ac8ba5d5ac611a3e9d83114139"
+      },
+      {
+        "worksheetRender": "typologies-residentielles",
+        "bytes": 244457,
+        "sha256": "4b102f4458dd9a63e1cccc38e7d8a57ac493036f57c43b77314f80ba7cfcb526"
+      },
+      {
+        "worksheetRender": "chantiers",
+        "bytes": 193685,
+        "sha256": "06b6573b3f44514cb70bb85236f6d76863a655c258f04059592aa5de3a20cbce"
+      },
+      {
+        "worksheetRender": "publication",
+        "bytes": 174736,
+        "sha256": "83399dcfe056572586f356983df593f86334edc9be3688b0fec69405b3212de2"
+      },
+      {
+        "worksheetRender": "avancement",
+        "bytes": 132693,
+        "sha256": "3216dfca9e44f9d48616bf54d3191b82689b56aa3a9935af32f154c6da9ea27f"
+      },
+      {
+        "worksheetRender": "inspection",
+        "bytes": 746385,
+        "sha256": "d9d44d12fcb13a2a676011cffaf906609f251e29d90b137f3df977856c891654"
+      },
+      {
+        "worksheetRender": "campagne-g11",
+        "bytes": 325896,
+        "sha256": "51c2902b27fc2f04dea60072470c799045c50d7ca9721c34d8a8480fed1da2a5"
+      }
+    ],
+    "observations": [
+      "Le résumé conserve les 800 tâches et les compteurs 3/405/392.",
+      "Publication affiche le 25 octobre et la source S1a, en distinguant le succès CI 1.71 de la qualification courante.",
+      "Campagne G11 centre les petites colonnes et distingue éligibilité et instances observées.",
+      "Les typologies et libellés métriques gardent les styles historiques et le renvoi à la ligne ; les preuves renvoient à S1a.",
+      "Inspection totalise 4 000 plans, 588 378 équipements, zéro refus et zéro promotion globale de variante auteur."
+    ]
+  },
+  "driveReplaced": false,
+  "stylePerturbationTest": {
+    "pass": true,
+    "command": [
+      "node",
+      "--test",
+      "--test-reporter=tap",
+      "tests/codex-tracker-xlsx-styles2026.test.cjs"
+    ],
+    "startedUtc": "2026-10-25T06:50:25.355124+00:00",
+    "completedUtc": "2026-10-25T06:50:27.469307+00:00",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 1,
+      "suites": 0,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMs": 2071.705638,
+    "styledWorkbookSha256": "1893f25d5a530b384350e6b6093f0e5815e08d47eb35765e2df778d950489e0a",
+    "workbookUnchanged": true,
+    "metricLabelsCheckedForLongFloatResidues": 4080,
+    "scope": "De vraies altérations temporaires de police et de remplissage sont détectées ; le classeur livré de 14 feuilles reste inchangé."
+  },
+  "metricLabelsCheckedForLongFloatResidues": 4080,
+  "regeneratedDataCompatibility": {
+    "sheets": 14,
+    "programmes": 4000,
+    "typologies": 80,
+    "variants": 4000,
+    "tasks": 800,
+    "formulas": 1171,
+    "formulaErrors": 0,
+    "missingFormulaCaches": 0,
+    "validatedTasks": 3,
+    "inProgressTasks": 405,
+    "pendingTasks": 392,
+    "playableVariants": 0,
+    "inspectionPlans": 4000,
+    "inspectionTypes": 80,
+    "inspectionProps": 588378,
+    "inspectionRefused": 0,
+    "preservedHistoricalFeatures": false,
+    "styleVerification": null,
+    "campaignG11": {
+      "types": 4,
+      "eligibleVariants": 200,
+      "passedVariants": 200,
+      "guaranteedSitesPerSeed": 0,
+      "observedSeeds": 8,
+      "observedSites": 63,
+      "observedVariants": 58
+    },
+    "scope": "XLSX source reconciliation; does not certify gameplay",
+    "passed": true,
+    "errors": 0,
+    "uncached": 0,
+    "taskCounts": {
+      "En cours": 405,
+      "À faire": 392,
+      "Validé": 3
+    },
+    "sourceComparison": "All workbook IDs, states, source fields, inspection aggregates and saved formulas; supplied JSON reconciled with current sources"
+  },
+  "sources": {
+    "authorReportSha256": "622ffce8ec60d265938006e0ab441178e0367880c3cde0be20bdaed6792f206f",
+    "campaignReportSha256": "b38c4540708fc9b216cfda5ed99ee9a8052bdb0e58671386d0a5d76008d45088",
+    "authorFiles": 29,
+    "campaignFiles": 225,
+    "sourceCommitIdentityBeforeAfter": true,
+    "publicSourceCorrection": "Le fournisseur des points de récolte est corrigé dans S1a ; données du catalogue et compteurs du suivi inchangés."
+  },
+  "previousIntermediate": {
+    "path": "docs/codex/suivi-monde2026/validation-classeur-20261024.json",
+    "sourceCommit": "42a8dd449965dc184fb87c7f5f560bc61b171869",
+    "workbookSha256": "1e1efe7cce1147ea65d577b51f3fa55400a0a7db43757b5eb5891c4ae0aec79a",
+    "proofSha256": "11a9579bf8aadaa565506d1315df7fe4bbb45f11c4c3b6f44bd2ed507c47aecf",
+    "scope": "Candidat local intermédiaire conservé ; ne qualifie pas les nouveaux octets ni le correctif S1a."
+  }
+}

@@ -11,16 +11,18 @@ const require=createRequire(import.meta.url),Sources=require('./campaign-sources
 const repository=fileURLToPath(new URL('..',import.meta.url));
 process.env.DEADWALL_QA_ROOT ||= path.join(repository,'dist');
 const servedRoot=path.resolve(process.env.DEADWALL_QA_ROOT),hash=b=>createHash('sha256').update(b).digest('hex');
+const scenarioSourceSha256=hash(await fs.readFile(fileURLToPath(import.meta.url)));
 const views=[{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844,touch:true}];
 const chosen=process.env.DEADWALL_QA_PROFILES?.split(',');
 if(chosen&&(new Set(chosen).size!==chosen.length||chosen.some(name=>!views.some(view=>view.name===name))))throw Error('Unknown or repeated campaign205 QA profile');
 const profiles=chosen?views.filter(view=>chosen.includes(view.name)):views;
 assert.ok(profiles.length);
-const harness=await createHarness('campaign205','Ordinary visible New Game on seed17117, then separately labelled prepared G10-at-depot and G11-at-parcel saves. After each preparation, only native keyboard/touch controls move or harvest. No clock advance, free materials, health edits, enemy neutralisation or repeated pose assignments. Automated desktop/mobile viewport evidence, not a human campaign or physical-device performance claim.');
+const harness=await createHarness('campaign205','Ordinary visible New Game on seed17117, then separately labelled prepared G10-at-depot and G11-at-parcel saves. After each preparation, only native keyboard/touch controls move or harvest; actual posture controls select the slow prone approach and restore standing before the metric view. No clock advance, free materials, health edits, enemy neutralisation or repeated pose assignments. Automated desktop/mobile viewport evidence, not a human campaign or physical-device performance claim.');
 const {browser,report,output,version}=harness;
 const ordinary=new URL(harness.base);ordinary.searchParams.delete('tools');ordinary.searchParams.delete('fixture');
 report.surface='Ordinary player URL without author or legacy-fixture parameters; prepared saved positions are explicitly recorded below.';
 report.base=ordinary.href;report.servedRoot=servedRoot;report.profiles=[];
+report.sourceScriptSha256=scenarioSourceSha256;
 report.sourceBefore=Sources.capture(repository);
 report.distribution=[];
 let ordinarySites;
@@ -32,7 +34,7 @@ async function compactSummary(complete=false){
  const firstTen=items=>Array.isArray(items)?items.slice(0,10):[];
  const summary={kind:'campaign205-browser-summary',version,pass:complete&&report.pass===true,complete,
   started:report.started,completed:report.completed,scope:report.scope,
-  sourceScriptSha256:hash(await fs.readFile(fileURLToPath(import.meta.url))),
+  sourceScriptSha256:scenarioSourceSha256,
   fullReport:{file:path.basename(fullFile),bytes:full.length,sha256:hash(full)},
   checkedDistributionFiles:report.distribution.length,sourceInventoryStable:!!report.sourceAfter&&JSON.stringify(report.sourceBefore)===JSON.stringify(report.sourceAfter),
   ...(report.failure?{failure:report.failure.slice(0,16384)}:{}),...(report.cleanupFailure?{cleanupFailure:report.cleanupFailure.slice(0,16384)}:{}),
@@ -213,12 +215,12 @@ try{
    check('Actual campaign furniture has named painters and its canonical metric dimensions',profile.exteriorArt.known&&profile.exteriorArt.allDimensionsCanonical);
    check('Observed natural render reads without altering saved state or keeping instrumentation',profile.exteriorArt.sourceUnchanged&&profile.exteriorArt.instrumentationRestored&&profile.exteriorArt.actorFrames.length>0);
    await resume(page,viewport.touch);
-   if(viewport.touch){profile.touchPostureBefore=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);await click('#fieldDockPosture');await click('#fieldDockPosture');check('Actual touch posture controls enable the slow native prone approach',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='prone');}
+   profile.approachPostureBefore=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);await click('#fieldDockPosture');await click('#fieldDockPosture');check('Actual posture controls enable the slow native prone approach',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='prone');
    const walkBefore=await state(page);profile.walk=await nativeWalk(page,context,viewport.touch,profile.parcelFixture.route);const walkAfter=await state(page);
    check('Keyboard or touch pointers perform the whole route without pose assignments',profile.walk.coordinateAssignments===0&&profile.walk.inputChanges>0&&profile.walk.segments.length===profile.parcelFixture.route.length-1);
    check('Walking advances the ordinary simulation and recorded real distance',walkAfter.elapsed>walkBefore.elapsed&&walkAfter.distance>walkBefore.distance);
    check('Gate, lane, real doorway and room lead to the intended building',walkAfter.pose.inside===profile.parcelFixture.site.id&&await page.evaluate(f=>{const p=DEADWALL.frontier.position(),s=DEADWALL.frontier.world().pois.find(p=>p.id===f.site.id),q=DeadwallFrontierGeometry.local(s,p.x,p.y);return q.x>f.room.x&&q.x<f.room.x+f.room.w&&q.y>f.room.y&&q.y<f.room.y+f.room.h;},profile.parcelFixture));
-   if(viewport.touch){await click('#fieldDockPosture');check('The actual posture control returns the actor to standing before the metric view',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='stand');}
+   await click('#fieldDockPosture');check('The actual posture control returns the actor to standing before the metric view',await page.evaluate(()=>DEADWALL.worldEvolution.posture().key)==='stand');
    profile.roomZoom=await nativeZoom(page,viewport.touch,44);check('Native close zoom exposes individual room furniture',profile.roomZoom.after===44);await rec.screenshot('room');await pause(page,viewport.touch);profile.interiorArt=await artReadout(page,profile.parcelFixture);
    check('Only the occupied building loses its roof and supplies physical cover',profile.interiorArt.covered===true&&profile.interiorArt.parcelRoofEntries.length===0&&profile.interiorArt.roofEntries.length===profile.interiorArt.individualVolumes.length-1);
    check('One metre stays the same for actor foot disc, doors, furniture and rendering',profile.interiorArt.actorFootDiameterM===.64&&profile.interiorArt.doorWidthM>.64&&profile.interiorArt.allDimensionsCanonical&&profile.interiorArt.actorFrames.every(f=>Math.abs(f.scaleX-profile.interiorArt.scale)<1e-6&&Math.abs(f.scaleY-profile.interiorArt.scale)<1e-6));
@@ -245,6 +247,7 @@ try{
   console.log(JSON.stringify({profile:viewport.name,pass:profile.pass,checks:profile.checks.length,failure:profile.failure?.split('\n')[0]}));
  }
  report.sourceAfter=Sources.capture(repository);assert.deepEqual(report.sourceAfter,report.sourceBefore,'Campaign source changed during browser qualification');
+ assert.equal(hash(await fs.readFile(fileURLToPath(import.meta.url))),scenarioSourceSha256,'QA scenario source changed during browser qualification');
  report.pass=report.profiles.length===profiles.length&&report.profiles.every(p=>p.pass);
 }catch(error){report.pass=false;report.failure=error.stack;}
 finally{try{await harness.close();}finally{await harness.finish();await compactSummary(true);}}
