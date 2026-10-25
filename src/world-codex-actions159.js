@@ -51,7 +51,7 @@
   const value=Object.freeze({id:record.id,hasPlan:!!preset,eligible,generation:contract?10:record.extension===158?9:8,
    context160:contract?.context160||null,scope,
    historicalHasPlan:!!historicalPreset,historicalEligible,
-   supportedGenerations:Object.freeze(contract?[10]:record.extension===158?[9,10]:[8,9,10]),
+   supportedGenerations:Object.freeze(contract?[10,11]:record.extension===158?[9,10,11]:[8,9,10,11]),
    adaptation:contract?.adaptation||null,implementation160:contract?.implementation160||null,
    text:contract?'Programme territorial compatible avec G10, à activer volontairement au dépôt depuis Monde & relais. '+scope+' Une fiche ne garantit pas un emplacement sur chaque graine.':
     !preset?'Programme spécialisé sans plan additionnel implantable dans les générations actuelles : eau, ouvrages, rail ou composition de quartier. Les lieux partiels déjà repérés restent visitables.':
@@ -75,10 +75,12 @@
   // territorial preview or inspect a region absent from the discovery notebook.
   const currentGeneration=game?.frontier?.position?.().generation??null;
   const active=Number.isInteger(currentGeneration)&&c.supportedGenerations.includes(currentGeneration);
+  const inherited11=active&&currentGeneration===11;
   return Object.freeze({...c,currentGeneration,active,needsActivation160:!!c.context160&&!active,
-   text:c.context160?(active?'Programme territorial pris en charge par G10, activée dans cette campagne. '+c.scope+
+   text:c.context160?(active?(inherited11?'Programme territorial G10 conservé dans cette campagne G11. ':'Programme territorial pris en charge par G10, activée dans cette campagne. ')+c.scope+
     ' Une fiche ne garantit pas un emplacement sur chaque graine. Seuls les lieux réellement repérés figurent ci-dessous.':
-    c.text+' G10 n’est pas activée dans cette campagne. Rejoignez le dépôt pour consulter son activation après G8 ou G9.'):c.text});
+    c.text+' G10 n’est pas activée dans cette campagne. Rejoignez le dépôt pour consulter son activation après G8 ou G9.'):
+    inherited11?'Programme issu de G'+c.generation+', conservé dans cette campagne G11. Une fiche ne garantit pas un emplacement sur chaque graine. Seuls les lieux réellement repérés figurent ci-dessous.':c.text});
  }
  function canOpenTerritories160(game,programmeId){
   const c=capability(programmeId);

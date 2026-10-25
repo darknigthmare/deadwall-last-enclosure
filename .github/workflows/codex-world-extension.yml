@@ -74,6 +74,9 @@ jobs:
       - uses: ./.github/actions/setup-chromium
       - name: Exercise the actual desktop and touch author controls
         run: node scripts/browser-codex-inspection2026.mjs
+      - name: Publish bounded author failure diagnostics
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
       - name: Ensure generated public sources still match the checkout
         run: git diff --exit-code
       - uses: actions/upload-artifact@v4

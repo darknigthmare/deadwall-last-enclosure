@@ -632,8 +632,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49775,
-      "sha256": "af2cd479177eecc1667871aae1b37eaefcd19c419ec351881aa396e13fc6107f"
+      "bytes": 49776,
+      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
     },
     {
       "path": "src/frontier.js",
@@ -1047,8 +1047,8 @@
     },
     {
       "path": "src/world-codex-actions159.js",
-      "bytes": 13299,
-      "sha256": "c2969b918df83a7e3780842ac1f7a5b13fa94a8a4eca9bd983468bf682aba428"
+      "bytes": 13648,
+      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
     },
     {
       "path": "src/world-codex-activites.js",
@@ -1759,8 +1759,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49775,
-      "sha256": "af2cd479177eecc1667871aae1b37eaefcd19c419ec351881aa396e13fc6107f"
+      "bytes": 49776,
+      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
     },
     {
       "path": "src/frontier.js",
@@ -2174,8 +2174,8 @@
     },
     {
       "path": "src/world-codex-actions159.js",
-      "bytes": 13299,
-      "sha256": "c2969b918df83a7e3780842ac1f7a5b13fa94a8a4eca9bd983468bf682aba428"
+      "bytes": 13648,
+      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
     },
     {
       "path": "src/world-codex-activites.js",

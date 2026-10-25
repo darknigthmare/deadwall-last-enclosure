@@ -14,7 +14,7 @@ La feuille dérivée **Campagne G11** du classeur présente les modèles et leur
 
 ## Audit G11 du 25 octobre 2026
 
-Le rapport accepté contrôle **200/200 adaptations** et **225 fichiers sources**, avec des captures strictement identiques avant et après exécution, puis comparées aux fichiers livrés. Son SHA-256 est `b38c4540708fc9b216cfda5ed99ee9a8052bdb0e58671386d0a5d76008d45088`.
+Le rapport accepté contrôle **200/200 adaptations** et **225 fichiers sources**, avec des captures strictement identiques avant et après exécution, puis comparées aux fichiers livrés. Son SHA-256 est `d9b849b19deaf80593abb81007c124fc551f0d3d43faaf60da85753b8587804c`.
 
 | Graine témoin | Sites réellement admis |
 | --- | ---: |

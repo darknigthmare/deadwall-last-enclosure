@@ -6,6 +6,27 @@ const historical=require('./fixtures/campaign205-historical-prefix.json');
 const hash=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex'),copy=v=>JSON.parse(JSON.stringify(v));
 const effects={detailVersion:13,ecologyVersion:1,hydrologyVersion:1};
 
+test('207 missing-place detail reads preserve the empty fallback and leave historical and G11 worlds untouched',()=>{
+ for(const generation of [1,7,10,11]){
+  let effectReads=0;
+  const options=generation===1?{}:generation===7?{detailVersion:1}:effects;
+  const w=W.create(17117,generation,{...options,resourceTaken:()=>{effectReads++;return 0;},structureDestroyed:()=>{effectReads++;return false;}});
+  const p=generation===11?w.pois.find(p=>p.campaign205):w.pois[0];assert.ok(p);
+  const knownPlan=copy(w.plan(p,0)),knownDetail=copy(w.detailAt(p,0));
+  const material=()=>hash({pois:w.pois,roads:w.roads,home:w.home,sectors:w.sectors,coverage:w.campaignCoverage205});
+  const before=material(),reads=effectReads,random=Math.random;
+  Math.random=()=>assert.fail('A missing-place detail read consumed randomness');
+  try{
+   for(const place of [null,undefined])for(const floor of [0,1])assert.deepEqual(w.detailAt(place,floor),{interior:[],outdoor:[],variant:null});
+   const local=w.detailAt(null,0);local.interior.push({kind:'caller-only'});local.outdoor.push({kind:'caller-only'});
+   assert.deepEqual(w.detailAt(undefined,0),{interior:[],outdoor:[],variant:null},'Missing-place results do not share mutable arrays with the world or another read');
+  }finally{Math.random=random;}
+  assert.equal(effectReads,reads,'Missing-place queries must not consult resource or destruction owners');
+  assert.equal(material(),before,'Missing-place queries must not alter any public world record');
+  assert.deepEqual(w.plan(p,0),knownPlan);assert.deepEqual(w.detailAt(p,0),knownDetail,'The real place still uses its existing detail branch');
+ }
+});
+
 test('205 contracts: four ground-level families adapt actual author geometry and one finite historical budget',()=>{
  assert.equal(A.types.length,4);assert.equal(A.variants,50);
  for(const type of A.types)for(const number of [1,10,11,25,50]){

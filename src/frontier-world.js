@@ -275,7 +275,7 @@ function around(x,y,r=100){const out=[];for(let cy=Math.floor((y-r)/256);cy<=Mat
 function plan(p,z=0){const k=p.id+':'+z;if(plans.has(k)){const v=plans.get(k);plans.delete(k);plans.set(k,v);return v;}const v=p.campaign205?Campaign205.plan(p,z):p.programme160?{...Geometry160.plan(p,seed,z,effects.detailVersion??0),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:p.programme3000?{...Codex3000.floor(p.programme3000,seed,z,p.id),entry:G.global(p,p.w/2,-1),exit:G.global(p,p.w/2,p.h+1)}:G.plan(p,z);plans.set(k,v);if(plans.size>RULES.planCache)plans.delete(plans.keys().next().value);return v;}
 function sceneryRadius(t){const depleted=(effects.resourceTaken?.(t.id)||0)>=t.amount-.001;return depleted?(t.kind==='rock'?0:Math.min(t.r,.18)):t.r;}
 function detailAt(p,z=0){
- if(p.campaign205)return Campaign205.details(p,z);
+ if(p?.campaign205)return Campaign205.details(p,z);
  if(p?.programme160){
   if(effects.detailVersion<11||effects.detailVersion===undefined||p.context160?.profile)return Geometry160.details(p,seed,z,effects.detailVersion??0,plan(p,z));
   const key=p.id+':'+z;if(detailCache.has(key)){const value=detailCache.get(key);detailCache.delete(key);detailCache.set(key,value);return value;}
