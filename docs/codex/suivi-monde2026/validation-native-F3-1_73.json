@@ -1,0 +1,57 @@
+{
+  "kind": "DEADWALL-1.73-F3-trusted-literal-full-check",
+  "observedUtc": "2026-10-26T12:09:52.731793+00:00",
+  "scope": "Actual literal npm run check success on F3 only. Full F3 release still blocked by browser bootstrap and Vercel. No qualification for the subsequent F4 is inferred.",
+  "annotation": {
+    "accepted": true,
+    "gitHead": "017155703299e7332033524591aec8bed72f319f",
+    "sourceTree": "acd747a94a463e001fe840e462563e9b4bdac5a4",
+    "counts": {
+      "tests": 6005,
+      "suites": 4,
+      "pass": 6005,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "actualExitCode": 0,
+    "teeExitCode": 0,
+    "sourceFiles": 5007,
+    "testFiles": 569,
+    "receiptSha256": "166c197623878bce00852f9360c33faec5c9d00492fd89db6f759aa343b57f50",
+    "nativeDiagnostics": {
+      "diagnosticOnly": true,
+      "failures": [],
+      "truncated": false
+    }
+  },
+  "provider": {
+    "appId": 15368,
+    "appSlug": "github-actions",
+    "runId": 40312737410,
+    "runAttempt": 1,
+    "checkId": 121537803313,
+    "startedAt": "2026-10-26T11:09:28Z",
+    "completedAt": "2026-10-26T11:57:51Z"
+  },
+  "rawEvidence": [
+    {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/F3-literal-check211.json",
+      "bytes": 3694,
+      "sha256": "46bafedd44c1ababdb6dd634e03fb25cc5737c5a2bf2b72c1e63f04efd676309"
+    },
+    {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/F3-literal-run211.json",
+      "bytes": 14805,
+      "sha256": "0f7f53f645e75a0e3b6695f68c829576e9258e61941a4cac23db8f001a0d9013"
+    },
+    {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/F3-literal-annotation211.json",
+      "bytes": 1816,
+      "sha256": "ba0d2c6499b542adc32675691ba8eda18213ce5927cb7b59ba64a3da319ef8c4"
+    }
+  ],
+  "originalNativeArtifactBytesRehashedLocally": false,
+  "subsequentFinalHeadQualified": false
+}

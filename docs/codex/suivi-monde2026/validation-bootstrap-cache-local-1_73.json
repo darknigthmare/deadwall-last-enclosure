@@ -1,0 +1,9 @@
+{
+  "kind": "F4-local-pinned-browser-precondition-diagnostic",
+  "observedUtc": "2026-10-26T12:09:52.509Z",
+  "defaultExecutable": "/home/agent/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome",
+  "defaultExecutableExists": false,
+  "browserLaunchSucceeded": false,
+  "noAPTOrDownloadInvoked": true,
+  "sanitizedReason": "browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell ╔════════════════════════════════════════════════════════════╗ ║ Looks like Playwright was just installed or updated. ║ ║ Please run the following command to download new browsers: ║ ║ ║ ║ npx playwright install ║ ║ ║ ║ <3 Playwright Team ║ ╚════════════════════════════════════════════════════════════╝"
+}

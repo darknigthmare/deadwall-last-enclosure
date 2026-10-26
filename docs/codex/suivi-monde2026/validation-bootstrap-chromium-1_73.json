@@ -1,0 +1,79 @@
+{
+  "kind": "DEADWALL-1.73-Chromium-bootstrap-correction",
+  "observedUtc": "2026-10-26T12:09:52.735207+00:00",
+  "sourceBase": "017155703299e7332033524591aec8bed72f319f",
+  "observedFailure": "Repeated180-second dependency installation timeout then failed retry, before any actual gameplay browser step. Campaign PR attempts1/2 and four CI browser jobs affected. Current runner logs do not establish a specific apt-lock cause.",
+  "negativeWorkflowIds": [
+    40312737296,
+    40312737378
+  ],
+  "previousCIOutcome": {
+    "path": "/workspace/deadwall-cloud/extension208/ci-follow-F3-211/lightweight-terminal-receipt-F3-211.json",
+    "bytes": 7367,
+    "sha256": "f4d451eb1b4324db00a5555cfefca5b3d364af6adcbb9c0f17fc1d458243b229"
+  },
+  "changedFiles": [
+    {
+      "path": "/workspace/deadwall-last-enclosure/.github/actions/setup-chromium/action.yml",
+      "bytes": 3305,
+      "sha256": "761212883baf6aeb9fc1ef4d49ac9ed43a9eb7273d81bce345c6cb253c9709c6"
+    },
+    {
+      "path": "/workspace/deadwall-last-enclosure/tests/audit186-ci.test.cjs",
+      "bytes": 20887,
+      "sha256": "f7b0de1e4ed0aa272ac9e1754260ac7732a482f03ea641f80fb6578a15c388ef"
+    }
+  ],
+  "behavior": "Restore/download the locked browser first, attempt a real launch/close, install system libraries only after failed launch, and always perform a final real launch/close. Failed downloads or dependency installation remain failure even if final launch succeeds.",
+  "finiteDependencyBudget": "Two actual timeout arguments with290 seconds plus10-second termination grace each; fixtures calculate the budget from the commands actually executed.",
+  "tests": [
+    {
+      "command": "node --test --test-isolation=none --test-reporter=tap tests/audit186-ci.test.cjs tests/audit188-vertical-ci.test.cjs",
+      "actualExitCode": 0,
+      "counts": {
+        "tests": 61,
+        "pass": 61,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": {
+        "path": "/workspace/deadwall-cloud/extension208/chromium-bootstrap-F4-native211.log",
+        "bytes": 13349,
+        "sha256": "59cc4c5fb91d515b60eb0d93bfb84973efa0e36d79522e8fa7aaffde2fe87d7f"
+      }
+    },
+    {
+      "command": "node --test tests/audit18[345678]-*.test.cjs",
+      "actualExitCode": 0,
+      "counts": {
+        "tests": 169,
+        "pass": 169,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": {
+        "path": "/workspace/deadwall-cloud/extension208/chromium-bootstrap-F4-exact-audit211.log",
+        "bytes": 15960,
+        "sha256": "bb3ebff0de34bba8a05252f4e3d7a5f2319701e07660e5974662e55b15bd939a"
+      }
+    }
+  ],
+  "fixtureScope": "Real Bash/JS blocks against an inert Playwright owner in isolated temporary directories, no actual apt or download.",
+  "localExactProbe": {
+    "path": "/workspace/deadwall-cloud/extension208/chromium-bootstrap-F4-actual-launch211.json",
+    "bytes": 552,
+    "sha256": "42ae05487aae01cae4782ff246c4f785e18d175dd778bf97071d5a811802dbd6"
+  },
+  "localProbeScope": "Default pinned launch unavailable before downloading its local cache. Negative recorded, not a passing actual action run. The separate111 local game checks use the configured browser. Final new-head CI must download and verify its own locked browser.",
+  "gameplayRuntimeAndSourceBound243Unchanged": true,
+  "previousHeadQualificationReused": false,
+  "finalHeadQualified": false,
+  "localMissingCacheEvidence": {
+    "path": "docs/codex/suivi-monde2026/validation-bootstrap-cache-local-1_73.json",
+    "sha256": "42310092f3ec61a61ef82fcc0776e7febbc4b42c7be03e2f0a4281fe5d9d0553"
+  }
+}

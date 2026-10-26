@@ -328,5 +328,7 @@
       "note": "Same160 contracts replayed with default isolation; counts must not be added to the preceding160."
     }
   },
-  "reviewedCandidateCorrections": "docs/codex/suivi-monde2026/validation-revue-corrections-1_73.json"
+  "reviewedCandidateCorrections": "docs/codex/suivi-monde2026/validation-revue-corrections-1_73.json",
+  "priorF3LiteralFullCheck": "docs/codex/suivi-monde2026/validation-native-F3-1_73.json",
+  "chromiumBootstrapCorrection": "docs/codex/suivi-monde2026/validation-bootstrap-chromium-1_73.json"
 }

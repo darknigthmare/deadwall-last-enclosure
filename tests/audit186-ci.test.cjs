@@ -120,3 +120,87 @@ test('186 every vertical QA scenario serves and records the selected built distr
   assert.ok(!source.includes('createGameServer()'),'no silent source fallback '+revision);
  }
 });
+
+
+const chromiumActionPath=path.join(root,'.github/actions/setup-chromium/action.yml');
+function chromiumShellSteps(){
+ return fs.readFileSync(chromiumActionPath,'utf8').split(/^    - name: /m).slice(1).flatMap(block=>{
+  const run=block.match(/^      run: \|\n([\s\S]*)/m);if(!run)return[];
+  return[{name:block.split('\n')[0],id:block.match(/^      id: (.+)$/m)?.[1],condition:block.match(/^      if: (.+)$/m)?.[1],script:run[1].split('\n').map(line=>line.replace(/^        /,'')).join('\n')}];
+ });
+}
+function chromiumSetupFixture(t,config={}){
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'chromium-setup186-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
+ const owner=path.join(dir,'node_modules/playwright');fs.mkdirSync(owner,{recursive:true});
+ fs.writeFileSync(path.join(dir,'config.json'),JSON.stringify(config));fs.writeFileSync(path.join(owner,'package.json'),JSON.stringify({type:'module',main:'index.js'}));
+ fs.writeFileSync(path.join(owner,'fixture-owner.js'),`import fs from 'node:fs';import path from 'node:path';
+ const root=process.env.DEADWALL_CHROMIUM_FIXTURE,config=JSON.parse(fs.readFileSync(path.join(root,'config.json')));
+ export function record(event,extra={}){const file=path.join(root,'state.json'),state=fs.existsSync(file)?JSON.parse(fs.readFileSync(file)):{};const n=state[event]=(state[event]||0)+1;fs.writeFileSync(file,JSON.stringify(state));fs.appendFileSync(path.join(root,'trace.jsonl'),JSON.stringify({event,n,...extra})+'\\n');return{n,status:(config[event+'Statuses']||[])[n-1]??0};}
+ `);
+ fs.writeFileSync(path.join(owner,'index.js'),`import {record} from './fixture-owner.js';
+ export const chromium={async launch(options){const launch=record('launch',{options});if(launch.status)throw Error('SYNTHETIC_TOKEN=FIXTURE_ONLY_LAUNCH');return{version(){if(record('version',{launch:launch.n}).status)throw Error('SYNTHETIC_TOKEN=FIXTURE_ONLY_VERSION');return'fixture-locked';},async close(){if(record('close',{launch:launch.n}).status)throw Error('SYNTHETIC_TOKEN=FIXTURE_ONLY_CLOSE');}};}};
+ `);
+ fs.writeFileSync(path.join(owner,'cli.js'),`import {record} from './fixture-owner.js';const args=process.argv.slice(2),event=args.join(' ')==='install chromium'?'download':args.join(' ')==='install-deps chromium'?'dependencies':null;if(!event)process.exit(99);process.exit(record(event).status);
+ `);
+ fs.writeFileSync(path.join(dir,'timeout.cjs'),`const fs=require('node:fs'),path=require('node:path'),{spawnSync}=require('node:child_process'),root=process.env.DEADWALL_CHROMIUM_FIXTURE,args=process.argv.slice(2);fs.appendFileSync(path.join(root,'deadlines.jsonl'),JSON.stringify(args)+'\\n');const statePath=path.join(root,'timeout-count.json'),n=fs.existsSync(statePath)?JSON.parse(fs.readFileSync(statePath))+1:1;fs.writeFileSync(statePath,JSON.stringify(n));const config=JSON.parse(fs.readFileSync(path.join(root,'config.json'))),status=(config.timeoutStatuses||[])[n-1];if(status)process.exit(status);if(args[2]!=='node')process.exit(98);const child=spawnSync(process.execPath,args.slice(3),{stdio:'inherit',env:process.env});process.exit(child.status??97);
+ `);
+ const outputs={},results=[];let failed=false;
+ for(const step of chromiumShellSteps()){
+  let run=!failed;
+  if(step.condition?.includes('always()'))run=true;
+  else if(step.condition){assert.equal(step.condition,"${{ steps.chromium_probe.outputs.needs_deps == 'true' }}");run=run&&outputs.chromium_probe?.needs_deps==='true';}
+  if(!run){results.push({...step,skipped:true});continue;}
+  const output=path.join(dir,'output-'+results.length),script='timeout() { node "$DEADWALL_CHROMIUM_FIXTURE/timeout.cjs" "$@"; }\nexport -f timeout\n'+step.script;
+  const actual=spawnSync('bash',['--noprofile','--norc','-e','-o','pipefail','-c',script],{cwd:dir,env:{...process.env,DEADWALL_CHROMIUM_FIXTURE:dir,GITHUB_OUTPUT:output},encoding:'utf8',timeout:10000,maxBuffer:1024*1024});
+  assert.ifError(actual.error);assert.equal(actual.signal,null);results.push({...step,status:actual.status,stdout:actual.stdout,stderr:actual.stderr});failed||=actual.status!==0;
+  if(step.id){outputs[step.id]=Object.fromEntries((fs.existsSync(output)?fs.readFileSync(output,'utf8'):'').trim().split('\n').filter(Boolean).map(line=>line.split('=')));}
+ }
+ const rows=file=>fs.existsSync(path.join(dir,file))?fs.readFileSync(path.join(dir,file),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse):[];
+ return{failed,results,outputs,events:rows('trace.jsonl'),deadlines:rows('deadlines.jsonl'),log:results.map(r=>(r.stdout||'')+(r.stderr||'')).join('\n')};
+}
+
+test('186 locked Chromium setup restores and downloads before probing, with conditional bounded dependencies and mandatory final launch',()=>{
+ const source=fs.readFileSync(chromiumActionPath,'utf8'),steps=chromiumShellSteps();
+ assert.match(source,/path: ~\/.cache\/ms-playwright/);assert.match(source,/runner\.os.*runner\.arch.*hashFiles\('package-lock\.json'\)/);
+ assert.match(source,/PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '15000'/);assert.deepEqual(steps.map(s=>s.id),[undefined,'chromium_probe',undefined,undefined]);
+ assert.match(steps[0].script,/120s node node_modules\/playwright\/cli\.js install chromium/);assert.match(steps[2].script,/290s node node_modules\/playwright\/cli\.js install-deps chromium/);
+ assert.equal(steps[2].condition,"${{ steps.chromium_probe.outputs.needs_deps == 'true' }}");assert.equal(steps[3].condition,'${{ always() }}');
+ for(const index of[1,3]){assert.match(steps[index].script,/45s node --input-type=module/);assert.match(steps[index].script,/await chromium\.launch\(\{headless:true\}\)/);assert.match(steps[index].script,/finally \{ await browser\?\.close\(\); \}/);}
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'chromium-syntax186-'));try{for(const[index,step]of steps.entries()){const script=path.join(dir,index+'.bash');fs.writeFileSync(script,step.script);const syntax=spawnSync('bash',['--noprofile','--norc','-n',script],{encoding:'utf8',timeout:5000});assert.ifError(syntax.error);assert.equal(syntax.status,0,syntax.stderr);}}finally{fs.rmSync(dir,{recursive:true,force:true});}
+ assert.doesNotMatch(source,/continue-on-error|--force|killall|pkill|apt-get|CHROMIUM_EXECUTABLE_PATH/);
+});
+test('186 a usable locked browser skips APT and still launches and closes twice',t=>{
+ const r=chromiumSetupFixture(t);assert.equal(r.failed,false);assert.equal(r.outputs.chromium_probe.needs_deps,'false');
+ assert.deepEqual(r.events.map(e=>e.event),['download','launch','version','close','launch','version','close']);assert.equal(r.results[2].skipped,true);assert.equal(r.results[3].status,0);
+ assert.deepEqual(r.deadlines.map(d=>d.slice(0,2)),[['--kill-after=10s','120s'],['--kill-after=5s','45s'],['--kill-after=5s','45s']]);
+});
+test('186 a failed real launch triggers only the bounded dependency fallback and one final launch',t=>{
+ const r=chromiumSetupFixture(t,{launchStatuses:[1,0],dependenciesStatuses:[124,0]});assert.equal(r.failed,false);assert.equal(r.outputs.chromium_probe.needs_deps,'true');
+ assert.deepEqual(r.events.map(e=>e.event),['download','launch','dependencies','dependencies','launch','version','close']);assert.equal(r.results[2].status,0);assert.equal(r.results[3].status,0);
+ const deadlines=r.deadlines.filter(d=>d.slice(2).join(' ')==='node node_modules/playwright/cli.js install-deps chromium');
+ assert.equal(deadlines.length,2);let seconds=0;
+ for(const deadline of deadlines){const grace=/^--kill-after=(\d+)s$/.exec(deadline[0]),limit=/^(\d+)s$/.exec(deadline[1]);assert.ok(grace&&limit,'actual timeout arguments remain finite');seconds+=Number(grace[1])+Number(limit[1]);}
+ assert.ok(seconds>0&&seconds<=600,'actual dependency attempts include termination grace within ten minutes');assert.doesNotMatch(r.log,/SYNTHETIC_TOKEN|FIXTURE_ONLY/);
+});
+test('186 an expired launch probe also takes the dependency branch without inventing a browser close',t=>{
+ const r=chromiumSetupFixture(t,{timeoutStatuses:[0,124]});assert.equal(r.failed,false);assert.equal(r.outputs.chromium_probe.needs_deps,'true');
+ assert.deepEqual(r.events.map(e=>e.event),['download','dependencies','launch','version','close']);
+});
+test('186 failed dependency attempts remain failed even when the mandatory final launch succeeds',t=>{
+ const r=chromiumSetupFixture(t,{launchStatuses:[1,0],dependenciesStatuses:[124,1]});assert.equal(r.failed,true);assert.equal(r.results[2].status,1);assert.equal(r.results[3].status,0);
+ assert.equal(r.events.filter(e=>e.event==='dependencies').length,2);assert.equal(r.events.filter(e=>e.event==='launch').length,2);
+});
+test('186 successful dependencies cannot hide a failed final launch',t=>{
+ const r=chromiumSetupFixture(t,{launchStatuses:[1,1]});assert.equal(r.failed,true);assert.equal(r.results[2].status,0);assert.equal(r.results[3].status,1);assert.equal(r.events.filter(e=>e.event==='close').length,0);
+});
+test('186 the locked download retains its retry and final verification after exhaustion',t=>{
+ const recovered=chromiumSetupFixture(t,{downloadStatuses:[124,0]});assert.equal(recovered.failed,false);assert.equal(recovered.events.filter(e=>e.event==='download').length,2);
+ const failed=chromiumSetupFixture(t,{downloadStatuses:[124,1]});assert.equal(failed.failed,true);assert.equal(failed.results[0].status,1);assert.equal(failed.results[1].skipped,true);assert.equal(failed.results[2].skipped,true);assert.equal(failed.results[3].status,0);
+ assert.deepEqual(failed.events.map(e=>e.event),['download','download','launch','version','close']);
+});
+test('186 a failed version inspection still closes its launched browser before fallback',t=>{
+ const r=chromiumSetupFixture(t,{versionStatuses:[1,0]});assert.equal(r.failed,false);assert.equal(r.events.filter(e=>e.event==='close').length,2);assert.equal(r.events.find(e=>e.event==='dependencies').n,1);assert.doesNotMatch(r.log,/SYNTHETIC_TOKEN|FIXTURE_ONLY/);
+});
+test('186 the final browser close is mandatory and its failure stays nonzero',t=>{
+ const r=chromiumSetupFixture(t,{closeStatuses:[0,1]});assert.equal(r.failed,true);assert.equal(r.results[2].skipped,true);assert.equal(r.results[3].status,1);assert.equal(r.events.filter(e=>e.event==='close').length,2);assert.doesNotMatch(r.log,/SYNTHETIC_TOKEN|FIXTURE_ONLY/);
+});
