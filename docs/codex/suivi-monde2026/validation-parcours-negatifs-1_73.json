@@ -1,0 +1,573 @@
+{
+  "kind": "services208-preserved-attempt-index",
+  "scope": "Historical non-qualifying attempts and CPU diagnostics, retained with their exact report and harness hashes. Early attempts predate the accessGrid correction; later runs fix QA guidance and natural D17 preparation. None of these indexed failures establishes full desktop/touch service qualification.",
+  "attempts": [
+    {
+      "attempt": "attempt1",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt1/services208-2026-10-25T10_02_19_638Z/report.json",
+      "sha256": "e8158dff8b9533883747cbf04f47c7bec0286644dc84f7501fe941f882fe8aef",
+      "bytes": 194040,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk stalled",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "7dc28c2673a449bc666cb4b972ea48dbd5e2c6dd3bd25d4a53421f7d0c6ee50c",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt2",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt2/services208-2026-10-25T10_18_47_995Z/report.json",
+      "sha256": "a7ca9bdccce807778ae9b77142c26b56c29a523c5166398845b7bc4a703eaf3b",
+      "bytes": 202783,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk stalled {\"segment\":3,\"target\":{\"x\":14569.345900004006,\"y\":2643.674631849666,\"local\":{\"x\":84.3,\"y\":13.31}},\"pose\":{\"active\":true,\"generation\":11,\"detailVersion\":13,\"ecologyVersion\":1,\"hydrologyVersion\":1,\"landscape189\":\"balanced\",\"x\":14568.502185334872,\"y\":2643.8191206238794,\"z\":0,\"inside\":\"P3174\",\"a\":0,\"car\":null,\"clear\":true,\"health\":50,\"keys\":[]},\"posture\":\"prone\",\"last\":[{\"i\":3,\"x\":14568.502185334872,\"y\":2643.8191206238794,\"remaining\":0.8559973415761893},{\"i\":3,\"x\":14568.502185334872,\"y\":2643.8191206238794,\"remaining\":0.8559973415761893},{\"i\":3,\"x\":14568.502185334872,\"y\":2643.8191206238794,\"remaining\":0.8559973415761893},{\"i\":3,\"x\":14568.502185334872,\"y\":2643.8191206238794,\"remaining\":0.8559973415761893},{\"i\":3,\"x\":14568.502185334872,\"y\":2643.8191206238794,\"re",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "e5494c58c75836440557fbf63008a8bdc887507268b2d7f8486d22aa432d8516",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt3",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt3/services208-2026-10-25T10_28_32_659Z/report.json",
+      "sha256": "34c8dd377923e1c42378c3553189d5d5225070773d1f6cd78d47d4286699158d",
+      "bytes": 198756,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk timed out {\"i\":12,\"p\":{\"active\":true,\"generation\":11,\"detailVersion\":13,\"ecologyVersion\":1,\"hydrologyVersion\":1,\"landscape189\":\"balanced\",\"x\":14573.11048513021,\"y\":2639.672521238842,\"z\":0,\"inside\":\"P3174\",\"a\":0,\"car\":null,\"clear\":true,\"health\":50,\"keys\":[]},\"target\":{\"x\":14572.188909285664,\"y\":2632.8271509131146,\"local\":{\"x\":80,\"y\":23.666666666666664}},\"remaining\":6.9071265323287285,\"last\":[{\"i\":12,\"x\":14573.193060188865,\"y\":2640.189088510765,\"remaining\":7.430103917718799},{\"i\":12,\"x\":14573.193060188865,\"y\":2640.164399230765,\"remaining\":7.405641897314791},{\"i\":12,\"x\":14573.193060188865,\"y\":2640.127513150765,\"remaining\":7.369098169878969},{\"i\":12,\"x\":14573.101734500886,\"y\":2640.1101074627877,\"remaining\":7.339939099064278},{\"i\":12,\"x\":14573.17717380752,\"y\":2640.083",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "869212fb6f928a48923d45006e729469ac47a4c058da5f50960de7d400d410cf",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt4",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt4/services208-2026-10-25T10_34_45_525Z/report.json",
+      "sha256": "a74ffe3125f92eb4954aeac46874f030d03295236582250b422ec3af99d86a44",
+      "bytes": 210559,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk timed out {\"i\":13,\"p\":{\"active\":true,\"generation\":11,\"detailVersion\":13,\"ecologyVersion\":1,\"hydrologyVersion\":1,\"landscape189\":\"balanced\",\"x\":14572.77810441959,\"y\":2637.2995648385127,\"z\":0,\"inside\":\"P3174\",\"a\":0,\"car\":null,\"clear\":true,\"health\":50,\"keys\":[]},\"target\":{\"x\":14572.188909285664,\"y\":2632.8271509131146,\"local\":{\"x\":80,\"y\":23.666666666666664}},\"remaining\":4.511057218207083,\"last\":[{\"i\":13,\"x\":14572.837531155545,\"y\":2637.814708374469,\"remaining\":5.029556616680929},{\"i\":13,\"x\":14572.837531155545,\"y\":2637.777674454469,\"remaining\":4.992834231535452},{\"i\":13,\"x\":14572.837531155545,\"y\":2637.753059094469,\"remaining\":4.968428498149223},{\"i\":13,\"x\":14572.837531155545,\"y\":2637.7160990944685,\"remaining\":4.93178716593205},{\"i\":13,\"x\":14572.837531155545,\"y\":2637.691",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "72778fc6c7a21ccb2fe32489f2d5bf1a573f149df919be478f49a4bbe747a87b",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt5",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt5/services208-2026-10-25T10_44_18_288Z/report.json",
+      "sha256": "6665d7c4b1d95506588dc0b7d5a92aff67a98c086a995fd063f583007e521716",
+      "bytes": 212097,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk timed out {\"i\":15,\"p\":{\"active\":true,\"generation\":11,\"detailVersion\":13,\"ecologyVersion\":1,\"hydrologyVersion\":1,\"landscape189\":\"balanced\",\"x\":14577.38406155047,\"y\":2632.761698863001,\"z\":0,\"inside\":\"P3174\",\"a\":0,\"car\":null,\"clear\":true,\"health\":50,\"keys\":[]},\"target\":{\"x\":14579.379227524272,\"y\":2632.8471860144086,\"local\":{\"x\":72.88000000000173,\"y\":22.66333333333322}},\"remaining\":1.9969965738758475,\"last\":[{\"i\":15,\"x\":14576.82454823315,\"y\":2632.7442409056907,\"remaining\":2.5567526231335553},{\"i\":15,\"x\":14576.84916359315,\"y\":2632.7442409056907,\"remaining\":2.532157418285184},{\"i\":15,\"x\":14576.87385287315,\"y\":2632.7442409056907,\"remaining\":2.5074887512996304},{\"i\":15,\"x\":14576.910812873151,\"y\":2632.7442409056907,\"remaining\":2.4705603787960637},{\"i\":15,\"x\":14576.9353543",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "32c531a4f86f1c8bf08450bceee140ae2055b1fd1ae90203be871523a61d4ed7",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "cpu-diagnostic",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/cpu-diagnostic/services208-slow-pose-diagnostic-2026-10-25T10_51_52_938Z/report.json",
+      "sha256": "12d625d97b55ea577c2fc7286c6ca8831f90e9ad762c86da1cc8e6eaf1427ee3",
+      "bytes": 96425,
+      "pass": true,
+      "qualification": false,
+      "reason": "Non-qualifying renderer CPU diagnostic. One labelled initial prepared G11 balanced17117 T047 P3174 at the attempt5 failure pose (14577.38406155047,2632.761698863001), health50, finite27-unit bag, used extinguished60-second lantern; normal initial clock/RNG. No gameplay journey, no completed service evidence and no FPS claim. After this one setup, only native posture/zoom/pause and normal RAF. CDP Profiler samples the live renderer without changing game owners.",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": null,
+      "scenarioSourceSha256": "32c531a4f86f1c8bf08450bceee140ae2055b1fd1ae90203be871523a61d4ed7",
+      "profiles": []
+    },
+    {
+      "attempt": "cpu-native-diagnostic",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/report.json",
+      "sha256": "9e489f41fce1ef2416f48df6ed935c9a0f437ccc1a1d2762f56f6feb5af9ea96",
+      "bytes": 230097,
+      "pass": false,
+      "qualification": false,
+      "reason": "Ordinary G11 seed17117 and a labelled single initial prepared T047 service journey per viewport. Initial assignment is limited to an already admitted site pose/discovery, health50, a finite27-unit bag and one already-used extinguished60-second belt lantern. No enemies are neutralised. After preparation, only actual keyboard/touch movement, native notebook action buttons, pause, Save/Menu/Continue and normal RAF advance gameplay. No further writes to pose, health, resources, RNG or clock; no direct beginAtSupport/medical begin call substitutes for UI. Automated desktop/emulated touch evidence, not physical phone performance or a complete human campaign.",
+      "sourceInventoryStable": true,
+      "originScenarioSha256": "32c531a4f86f1c8bf08450bceee140ae2055b1fd1ae90203be871523a61d4ed7",
+      "scenarioSourceSha256": "1658244a5e369a000b17bb6faabbd73583ffb8ee95e09102acc367537263d62b",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 22,
+          "passed": 22,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt6",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt6/services208-2026-10-25T11_10_56_587Z/report.json",
+      "sha256": "f5e1acc1471d4a29fda9ea1ab5763a9a2c73c37f273a9885c5d224f4316fd9a4",
+      "bytes": 223253,
+      "pass": false,
+      "qualification": false,
+      "reason": "AssertionError [ERR_ASSERTION]: medicalCare: field payment preserves depot medicine/fuel and support states end cleanly",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "32c531a4f86f1c8bf08450bceee140ae2055b1fd1ae90203be871523a61d4ed7",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 28,
+          "passed": 27,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt7",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt7/services208-2026-10-25T11_18_36_182Z/report.json",
+      "sha256": "88215b3ffa5b3bdd7709e85b0217b1f147afe0553c92e0bd413aecfa0c4c69e8",
+      "bytes": 258872,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: Native service walk stalled {\"segment\":5,\"target\":{\"x\":14645.92865472652,\"y\":2640.479670330191,\"local\":{\"x\":8,\"y\":6}},\"pose\":{\"active\":true,\"generation\":11,\"detailVersion\":13,\"ecologyVersion\":1,\"hydrologyVersion\":1,\"landscape189\":\"balanced\",\"x\":14576.062539655648,\"y\":2650.140029493757,\"z\":0,\"inside\":null,\"a\":0,\"car\":null,\"clear\":true,\"health\":70,\"keys\":[]},\"posture\":\"crouch\",\"last\":[{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278},{\"i\":5,\"x\":14576.062539655648,\"y\":2650.140029493757,\"remaining\":70.53082003114278}]}",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "d051849a1f13ab0cfbe84b6d3a6527ca834b3caea5c6d0053e48a8036ba9187b",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 42,
+          "passed": 42,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          }
+        }
+      ]
+    },
+    {
+      "attempt": "attempt8-native",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt8-native/services208-2026-10-26T08_10_40_614Z/report.json",
+      "sha256": "adfe6bb4591819f222785fe05551076241e48734991df880447ebf788dbf0e8b",
+      "bytes": 251632,
+      "pass": false,
+      "qualification": false,
+      "reason": "AssertionError [ERR_ASSERTION]: Native campaign remains active during walking: {\"state\":\"playing\",\"gameOver\":true,\"overlay\":\"gameOver\"}",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "601041bd8ecabd3e8479fe2c3b7fa1f46dcc6f4925e711eeeb03803ac423a20c",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 42,
+          "passed": 42,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 304.4376999999775,
+          "realMilliseconds": 427032
+        }
+      ]
+    },
+    {
+      "attempt": "attempt9",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt9/services208-2026-10-26T08_26_50_604Z/report.json",
+      "sha256": "58b73a3811805307f6d04a75e3d409970a006b4730ca15485a4eb31e6689d340",
+      "bytes": 153478,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: No valid visible unoccupied placement for house: native terrain or actor occupancy leaves no candidate",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "ed14c708b040b8d4d0618f20fc0a7daa338a26d7f194687845e1a418ca950c81",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 2,
+          "passed": 2,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 15665
+        }
+      ]
+    },
+    {
+      "attempt": "attempt10",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt10/services208-2026-10-26T08_33_58_975Z/report.json",
+      "sha256": "89222fc570d8da8a3a3b3c742c6cffc2d735a4c6d6bd0da1dab40014eee7a596",
+      "bytes": 289074,
+      "pass": false,
+      "qualification": false,
+      "reason": "AssertionError [ERR_ASSERTION]: Native campaign remains active during walking: {\"state\":\"playing\",\"gameOver\":true,\"overlay\":\"gameOver\"}",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "81a4551904fbb9e874c7dbd77ba9ec98757a82a2ce2674184af9caa5e9964e5b",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 48,
+          "passed": 48,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 284.5551999999804,
+          "realMilliseconds": 443216
+        }
+      ]
+    },
+    {
+      "attempt": "attempt11",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt11/services208-2026-10-26T08_51_19_289Z/report.json",
+      "sha256": "ccac0a416d9960993568459c5eb9a2d18b7eba7c727a14e1414df59765528cc2",
+      "bytes": 170575,
+      "pass": false,
+      "qualification": false,
+      "reason": "page.waitForFunction: Timeout 5000ms exceeded.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "98f31fd2f94e3a9d76a20c904003d31016a907865adf25f9f4a7cc43b42934b5",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 3,
+          "passed": 3,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 32138
+        }
+      ]
+    },
+    {
+      "attempt": "attempt12",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt12/services208-2026-10-26T08_52_39_193Z/report.json",
+      "sha256": "e23e3cbd245bcdc80a75013b5832acc3cca79aab2a351d2ab575ee89c16c8587",
+      "bytes": 156550,
+      "pass": false,
+      "qualification": false,
+      "reason": "Error: No valid visible unoccupied placement for watchtower: native terrain or actor occupancy leaves no candidate",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "31158a0ea86ccfd12463c1e53f1f6920d3f049cd8a569124cde9cc19df5a3145",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 5,
+          "passed": 5,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 40558
+        }
+      ]
+    },
+    {
+      "attempt": "attempt13",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt13/services208-2026-10-26T08_54_22_567Z/report.json",
+      "sha256": "6ba3c75e68aa13b1ad5594f904465ec08f330aa127a6c2b03e33c160bc72c241",
+      "bytes": 312312,
+      "pass": false,
+      "qualification": false,
+      "reason": "Known QA posture assumption required prone despite the same native physical radius0.32 for every posture. Correct the guide to actual standing with0.38 planning and0.32 collision checks before another complete desktop/touch run.",
+      "interruption": {
+        "kind": "intentional-nonqualifying-interruption",
+        "utc": "2026-10-26T09:02:29.010Z",
+        "scenarioSha256": "46d0aafe364aee569e3a1b8181f72e92a924934d651423d90ad17cb0759db92e",
+        "reason": "Known QA posture assumption required prone despite the same native physical radius0.32 for every posture. Correct the guide to actual standing with0.38 planning and0.32 collision checks before another complete desktop/touch run.",
+        "completedServices": [
+          "meal",
+          "medicalCare",
+          "service"
+        ],
+        "qualifiedJourney": false,
+        "pass": false,
+        "action": "Terminate only this attempt13 owned Chromium browser242930; preserve its failure report if the harness can finish."
+      },
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "46d0aafe364aee569e3a1b8181f72e92a924934d651423d90ad17cb0759db92e",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 49,
+          "passed": 49,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 485764
+        }
+      ]
+    },
+    {
+      "attempt": "attempt14",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt14/services208-2026-10-26T09_05_05_797Z/report.json",
+      "sha256": "c22ad78a4b087384f1506a7cd3aad5175406a3ebd8ab1fc33a381258cb014435",
+      "bytes": 154947,
+      "pass": false,
+      "qualification": false,
+      "reason": "page.waitForFunction: Timeout 15000ms exceeded.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "0180cce02c128583a5bc818f5ecefbc9d366002b130a14f61e87c38cc1e6069c",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 4,
+          "passed": 4,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 55022
+        }
+      ]
+    },
+    {
+      "attempt": "attempt15",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt15/services208-2026-10-26T09_07_32_240Z/report.json",
+      "sha256": "114ba6698bbd127a310d8926074d69099b91e9bfcc7fc64b9fd534c91c0464fc",
+      "bytes": 157405,
+      "pass": false,
+      "qualification": false,
+      "reason": "page.waitForFunction: Timeout 15000ms exceeded.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "26b97cc1eb662918108fdcddfa155cf1d1efe3fbd083c228ca953519d6e7e957",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 4,
+          "passed": 4,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 78313
+        }
+      ]
+    },
+    {
+      "attempt": "attempt16",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt16/services208-2026-10-26T09_11_18_080Z/report.json",
+      "sha256": "2462c415a30312f967e013167944d16c6ad8282fbfd76e87a951d91435919d9d",
+      "bytes": 231378,
+      "pass": false,
+      "qualification": false,
+      "reason": "Natural D17 defeat at310.88 simulated seconds after two paid services; the next posture click subsequently timed out against the hidden HUD. Native standing was received, but this journey did not complete.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "e4bda8825723410d425c618fc712f0af1274b4a99c3aac6a90f9cc23006de1e3",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 32,
+          "passed": 32,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 304.94680000000017,
+          "realMilliseconds": 661948
+        }
+      ]
+    },
+    {
+      "attempt": "attempt17",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt17/services208-2026-10-26T09_26_15_838Z/report.json",
+      "sha256": "63be345be7bed407297bf99132f1ce9f4e1841b805dfc4b2c4d5fbeb3ec4bb83",
+      "bytes": 204718,
+      "pass": false,
+      "qualification": false,
+      "reason": "Replace wall-time key/touch pulses with actual held native input until measured RAF displacement, as a short press can fall entirely between frames under load. Preserve every previous service, UI, collision and conservation assertion.",
+      "interruption": {
+        "kind": "intentional-nonqualifying-interruption",
+        "utc": "2026-10-26T09:31:51.833Z",
+        "scenarioSha256": "5ca9ce531f40e60ff097fa55bc2a62876c5fcc89f132e52a34d6d97555fd425e",
+        "reason": "Replace wall-time key/touch pulses with actual held native input until measured RAF displacement, as a short press can fall entirely between frames under load. Preserve every previous service, UI, collision and conservation assertion.",
+        "qualifiedJourney": false,
+        "pass": false,
+        "action": "Terminate only this attempt17 owned Chromium browser247002; preserve failure report."
+      },
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "5ca9ce531f40e60ff097fa55bc2a62876c5fcc89f132e52a34d6d97555fd425e",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 27,
+          "passed": 27,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "realMilliseconds": 334990
+        }
+      ]
+    },
+    {
+      "attempt": "attempt18",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt18/services208-2026-10-26T09_33_48_397Z/report.json",
+      "sha256": "36b4dc608b4a4db17d7da4dbd75f6e7bb4f0dc46451447897589e1b390944ede",
+      "bytes": 334780,
+      "pass": false,
+      "qualification": false,
+      "reason": "Natural D17 defeat at316.5886667s after two paid services. Measured native holds received0timeouts but overshot their read-only stopping thresholds, causing precision loops around artificial mathematical waypoints; no collision bypass.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "b30099b63ee2e7af5e06a766321a55ca5b9f51eaf073156bb83114324e38facb",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 32,
+          "passed": 32,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 309.92226666662907,
+          "realMilliseconds": 493087
+        }
+      ]
+    },
+    {
+      "attempt": "attempt19",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt19/services208-2026-10-26T09_48_35_364Z/report.json",
+      "sha256": "3a6a30e3f6332279dd02b5fb516cf3a7a29e9678f2f3be4759b2eb20791d94d1",
+      "bytes": 196464,
+      "pass": false,
+      "qualification": false,
+      "reason": "Guide rejection after native displacement: actual body remained clear, but the diagonal from its displaced origin to the next mathematical point clipped a corner. This is not evidence of a collision bypass or a qualified complete service journey.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "b2e22d6f795ca2dce4b932f718497d0d18223f082ee5ab3981dc52b633277d79",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 23,
+          "passed": 23,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 34.15570000002369,
+          "realMilliseconds": 204387
+        }
+      ]
+    },
+    {
+      "attempt": "attempt20",
+      "report": "/workspace/deadwall-cloud/extension208/services-browser/attempt20/services208-2026-10-26T10_02_39_200Z/report.json",
+      "sha256": "eaf2faa9a3584fe24b5647ebe979772066fd391ac461820e73e7960cb088be92",
+      "bytes": 974035,
+      "pass": false,
+      "qualification": false,
+      "reason": "Natural D17 defeat at316.77135 simulated seconds before the bunk arrival, after3 paid services and42 passed desktop checks. No full desktop/touch service qualification; body remained clear at0.32. Native release timings and zero movement pulses are retained for controller diagnosis.",
+      "sourceInventoryStable": true,
+      "scenarioSourceSha256": "ec9c8e6cf0446d558fd6bbbaf331cb9e09fd4cb84fe7dc09dac3b5a7c13128e5",
+      "profiles": [
+        {
+          "viewport": "desktop",
+          "checks": 42,
+          "passed": 42,
+          "errors": {
+            "pageErrors": 0,
+            "consoleErrors": 0,
+            "httpErrors": 0,
+            "requestFailures": 0
+          },
+          "simulatedSeconds": 311.60485000000057,
+          "realMilliseconds": 505757,
+          "paidServices": 3,
+          "defeatElapsed": 316.77135000000055
+        }
+      ]
+    }
+  ]
+}

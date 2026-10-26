@@ -1,0 +1,54 @@
+name: DEADWALL G11 field services 208
+on:
+  pull_request:
+  push:
+    branches: [main, feat/field-services-20261025]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: field-services208-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  field-services:
+    name: G11 field services / desktop and touch
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Audit actual furniture supports and preserve released G11 geometry
+        run: node scripts/audit-campaign-services208.cjs --output artifacts/qa/services208/world-report.json
+      - name: Audit action-bound sprites and pure presentation
+        run: node scripts/audit-service-art208.cjs --output artifacts/qa/services208/art-report.json
+      - uses: ./.github/actions/setup-chromium
+      - name: Physical service controls, finite payments, interruption and Continue
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/qa/services208
+          node scripts/browser-services208.mjs 2>&1 | tee artifacts/qa/services208/browser.log
+      - name: Publish bounded services failure diagnostics
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
+      - name: Confirm generated runtime inputs still match the checked out source
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: field-services208-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

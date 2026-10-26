@@ -1,5 +1,19 @@
 # Équilibrage de référence
 
+## Usages de terrain des haltes — 1.73
+
+`CampaignServices208Rules` sélectionne les supports G11 ; temps et effets restent ceux de `SurvivalPackRules` et `ContextRules160`. Le repas sur un four ajoute un carburant apporté au coût existant. Le sac est payé une seule fois après achèvement et revalidation ; une interruption conserve ses fournitures.
+
+| Usage | Support réel | Temps actif | Coût du sac | Effet existant |
+|---|---|---:|---|---|
+| Repas chaud | Four | 8 s | 4 nourriture + 1 bois + 1 carburant | Pendant120 s, économie de25 % de l’endurance réellement dépensée en course, budget 60 |
+| Relève abritée | Couchette dans un bâtiment intact | 20 s | 6 nourriture + 1 médicament | Au plus30 PV utiles |
+| Entretien de lanterne | Établi ou caisse à outils | 8 s | 4 carburants + 2 ferrailles | Au plus240 s dans une vraie lanterne éteinte, plafond 360 s |
+| Soins au poste | Équipement médical des camps T047 | 10 s | 1 médicament | Au plus20 PV utiles |
+
+La portée reprend les 2,2 m du travail contextuel. Danger, manipulation, support et accès sont revalidés jusqu’au paiement. Les plafonds d’effets restent historiques : pas de cumul de repas, pas de soin au-delà du maximum, pas de recharge au-delà de la capacité. Les seuils des onze âges, les rendements, les stocks des lieux et les compositions de hordes restent ceux de leurs propriétaires.
+
+
 ## Parcs résidentiels G11 — 1.72
 
 `CampaignSites205Rules` borne l’admission à deux sites par type, huit au total, avec 384 candidats par instance. Les contrôles partagent les dégagements physiques du monde et les couloirs routiers. Chaque parcelle utilise un seul budget fini de son parent historique, réparti entre quatre contenants au plus par ressource. Le nombre de logements n’augmente pas ce budget. Les variantes graphiques n’apportent aucun bonus. Les règles de progression des onze âges restent celles de leur propriétaire ; cette extension ne mesure pas la durée d’une campagne humaine complète.

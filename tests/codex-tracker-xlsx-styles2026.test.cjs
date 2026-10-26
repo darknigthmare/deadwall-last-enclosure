@@ -1,7 +1,8 @@
 'use strict';
 const test = require('node:test'), assert = require('node:assert/strict');
-const {execFileSync} = require('node:child_process'), path = require('node:path');
-test('le lecteur XML détecte une altération réelle des styles historiques sans éditer le classeur source', () => {
+const {execFile} = require('node:child_process'), path = require('node:path');
+const execFileAsync = require('node:util').promisify(execFile);
+test('le lecteur XML détecte une altération réelle des styles historiques sans éditer le classeur source', async () => {
   const script = String.raw`
 import hashlib,importlib.util,json,pathlib,sys,tempfile,xml.etree.ElementTree as E,zipfile
 sys.dont_write_bytecode=True
@@ -49,10 +50,11 @@ with tempfile.TemporaryDirectory(prefix='deadwall-xlsx-style-') as folder:
 assert hashlib.sha256(source.read_bytes()).hexdigest()==before
 print(json.dumps({'sheets':len(baseline),'styledCells':sum(len(t['styles']) for t in baseline.values()),'mutationDetected':True,'fontAndFillDetectedInAuthorRows':True,'sourceUnchanged':True}))
 `;
-  const result = JSON.parse(execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c', script], {
+  const {stdout} = await execFileAsync(process.platform === 'win32' ? 'python' : 'python3', ['-c', script], {
     cwd: path.resolve(__dirname, '..'), encoding: 'utf8', timeout: 30000,
-  }));
-  assert.equal(result.sheets, 14); assert.ok(result.styledCells > 90000);
+  });
+  const result = JSON.parse(stdout);
+  assert.ok([14, 15].includes(result.sheets)); assert.ok(result.styledCells > 90000);
   assert.equal(result.mutationDetected, true); assert.equal(result.sourceUnchanged, true);
   assert.equal(result.fontAndFillDetectedInAuthorRows, true);
 });

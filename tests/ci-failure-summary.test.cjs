@@ -28,6 +28,102 @@ test('CI diagnostic text removes URLs, credential assignments and authorization 
   assert.ok(text.startsWith('Failure [URL removed]'));
 });
 
+test('CI diagnostic redaction handles synthetic environment names with prefixes and suffixes', async () => {
+  const {safeDiagnosticText} = await helper;
+  // Every value below is an explicit fixture, never an environment lookup.
+  for (const name of ['GITHUB_TOKEN', 'VERCEL_TOKEN', 'AWS_SECRET_ACCESS_KEY', 'API_KEY', 'CI_API_KEY_TEST',
+    'NPM_TOKEN_2', 'TOKEN2', 'MY_PASSWORD_BACKUP', 'APP_AUTHORIZATION_HEADER', 'CI_PRIVATE_KEY',
+    'service-access-key-prod', 'clientSecret', 'cloudApiKey', 'GITHUBTOKEN']) {
+    const actual = safeDiagnosticText('Real stock assertion ' + name + '=FAKE_ONLY_VALUE room=T047');
+    assert.doesNotMatch(actual, /FAKE_ONLY_VALUE/, name);
+    assert.match(actual, /^Real stock assertion /);
+    assert.match(actual, /room=T047$/);
+    assert.equal((actual.match(/\[credential removed\]/g) || []).length, 1, name);
+  }
+});
+
+test('CI diagnostic redaction inspects quoted and nested JSON keys and complete escaped values', async () => {
+  const {safeDiagnosticText} = await helper;
+  const fixtures = [
+    JSON.stringify({payload: {GITHUB_TOKEN: 'FAKE_ONLY_FIRST"FAKE_ONLY_SECOND', API_KEY: 'FAKE_ONLY_THIRD\\FAKE_ONLY_FOURTH'}, site: 'T047', count: 2}),
+    "{'VERCEL_TOKEN':'FAKE_ONLY_FIRST\\'FAKE_ONLY_SECOND','site':'T047'}",
+    '{"GITHUB_\\u0054OKEN":"FAKE_ONLY_UNICODE","site":"T047"}',
+    'payload={"AWS_SECRET_ACCESS_KEY":"FAKE_ONLY_NESTED","site":"T047"}',
+    'GITHUB_TOKEN="FAKE_ONLY_UNFINISHED remaining words\nroom=T047'
+  ];
+  for (const fixture of fixtures) {
+    const actual = safeDiagnosticText(fixture);
+    assert.doesNotMatch(actual, /FAKE_ONLY|remaining words/, fixture);
+    assert.match(actual, /T047/, fixture);
+    assert.match(actual, /\[credential removed\]/, fixture);
+  }
+});
+
+test('CI diagnostic redaction removes complete synthetic raw cookie headers through the line boundary', async () => {
+  const {safeDiagnosticText} = await helper;
+  for (const name of ['Cookie', 'Cookies', 'rawCookie', 'cOoKiE', 'Set-Cookie', 'sEt-CoOkIe', 'COOKIE_HEADER', 'SESSION_COOKIE', 'Set_Cookie', 'COOKIES2', 'Cookie2_HEADER']) {
+    for (const newline of ['\n', '\r\n', '\r']) {
+      for (const contents of ['session=FAKE_ONLY_FIRST; refresh=FAKE_ONLY_SECOND', '"session=FAKE_ONLY_FIRST"; refresh=FAKE_ONLY_SECOND', '', '   ', '\t']) {
+        const actual = safeDiagnosticText(name + ': ' + contents + newline + 'room=T047');
+        assert.equal(actual, '[credential removed] room=T047', name + JSON.stringify({newline, contents}));
+      }
+    }
+  }
+});
+
+test('CI diagnostic redaction removes Set-Cookie expiry commas and every synthetic attribute', async () => {
+  const {safeDiagnosticText} = await helper;
+  const actual = safeDiagnosticText('Failed stock assertion Set-Cookie: session=FAKE_ONLY_FIRST; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Path=/FAKE_ONLY_PATH; HttpOnly; refresh=FAKE_ONLY_SECOND\nsite=T047');
+  assert.equal(actual, 'Failed stock assertion [credential removed] site=T047');
+});
+
+test('CI diagnostic cookie redaction preserves fields after complete quoted JSON values', async () => {
+  const {safeDiagnosticText} = await helper;
+  for (const name of ['Cookie', 'Cookies', 'rawCookie', 'cOoKiE', 'Set-Cookie', 'sEt-CoOkIe', 'COOKIE_HEADER', 'SESSION_COOKIE', 'Set_Cookie', 'COOKIES2', 'Cookie2_HEADER']) {
+    const fixture = JSON.stringify({headers: {[name]: 'session=FAKE_ONLY_FIRST; Expires=Wed, 21 Oct 2037 07:28:00 GMT; refresh="FAKE_ONLY_SECOND"'}, site: 'T047', count: 2});
+    const actual = safeDiagnosticText(fixture);
+    assert.doesNotMatch(actual, /FAKE_ONLY|Expires|2037/);
+    assert.match(actual, /"site":"T047","count":2\}$/);
+    assert.equal((actual.match(/\[credential removed\]/g) || []).length, 1, name);
+  }
+});
+
+test('CI native annotations remove complete synthetic cookie headers while retaining the failed assertion', async () => {
+  const {nativeLogFailures, annotationLines} = await helper;
+  const text = ['not ok 1 - real stock assertion Cookie: session=FAKE_ONLY_TITLE; refresh=FAKE_ONLY_TITLE_TAIL',
+    '  ---', '  error: |-', '    AssertionError: Set-Cookie: session=FAKE_ONLY_DETAIL; Expires=Wed, 21 Oct 2037 07:28:00 GMT; refresh=FAKE_ONLY_DETAIL_TAIL',
+    '  stack: |-', '    at TestContext.<anonymous> (tests/ci-failure-summary.test.cjs:37:2)', '  ...'].join('\n');
+  const failures = nativeLogFailures(text, 'native.log', {details: true});
+  assert.equal(failures.length, 1);
+  const annotation = annotationLines({failures, warnings: []}).join('\n');
+  assert.doesNotMatch(annotation, /FAKE_ONLY|Expires|2037/);
+  assert.match(annotation, /real stock assertion/);
+  assert.match(annotation, /tests\/ci-failure-summary\.test\.cjs:37:2/);
+});
+
+test('CI diagnostic redaction preserves useful test names, source locations and ordinary object fields', async () => {
+  const {safeDiagnosticText} = await helper;
+  for (const actual of [
+    'Real finite stock assertion at tests/ci-failure-summary.test.cjs:37:2 room=T047 biome=wetlands key=door tokenizer=ready passwordless=true secretariat=open',
+    '{"site":"T047","tokenizer":"ready","passwordless":true,"secretariat":"open","key":"door"}',
+    'Reload then Continue preserves the worker tools and the medical cabinet'
+  ]) assert.equal(safeDiagnosticText(actual), actual);
+});
+
+test('CI native failure annotations redact synthetic compound credentials from both titles and details', async () => {
+  const {nativeLogFailures, annotationLines} = await helper;
+  const text = ['not ok 1 - real stock assertion GITHUB_TOKEN=FAKE_ONLY_TITLE', '  ---',
+    '  error: |-', '    AssertionError: {"VERCEL_TOKEN":"FAKE_ONLY_DETAIL\\"FAKE_ONLY_TAIL"}', '  stack: |-',
+    '    at TestContext.<anonymous> (tests/ci-failure-summary.test.cjs:37:2)', '  ...'].join('\n');
+  const failures = nativeLogFailures(text, 'native.log', {details: true});
+  assert.equal(failures.length, 1);
+  const annotation = annotationLines({failures, warnings: []}).join('\n');
+  assert.doesNotMatch(annotation, /FAKE_ONLY/);
+  assert.match(annotation, /real stock assertion/);
+  assert.match(annotation, /tests\/ci-failure-summary\.test\.cjs:37:2/);
+  assert.ok(annotation.length < 900);
+});
+
 test('Native child assertion remains visible behind the launch wrapper', async () => {
   const {reportFailures} = await helper;
   const result=reportFailures({ok:false,stage:'launch-create',error:{message:'Electron create failed (1)',details:['AssertionError [ERR_ASSERTION]: Native atlas did not decode']}},'windows/verification-failure.json');

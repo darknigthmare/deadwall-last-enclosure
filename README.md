@@ -1,3 +1,11 @@
+# DEADWALL 1.73.0 — Équipements et haltes vivantes
+
+Les équipements des sites résidentiels G11 accueillent des usages de terrain : préparer un repas avec son combustible, prendre une relève abritée près d’un couchage, entretenir une lanterne à l’outillage et recevoir des soins aux postes médicaux des camps de travailleurs. Chaque action utilise les fournitures du sac, demande du temps sur place et peut être interrompue. Les gestes et pièces mobiles suivent le travail réellement en cours.
+
+Les cartes G11 conservent leurs parcelles, routes, meubles, identifiants et réserves finies. Les services disponibles dépendent des supports présents ; un équipement dessiné ne fournit pas automatiquement une production. Le [guide 1.73](docs/LIVRAISON_1_73.md) décrit les actions et leurs conditions. Le [classeur de suivi](docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx) sépare les fonctions reçues et les travaux restants ; la qualification de cette livraison est suivie séparément.
+
+## Historique conservé — 1.72.0
+
 # DEADWALL 1.72.0 — Haltes et parcs résidentiels
 
 Les nouvelles campagnes G11 peuvent accueillir des parcs résidentiels de mobil-homes, campings, camps de travailleurs et caravanes abandonnées : quatre familles de 50 modèles, avec au plus huit sites par région selon les parcelles disponibles. Bâtiments, meubles, clôtures et accès gardent leurs dimensions en mètres. Chaque parcelle partage un stock fini ; ses équipements dessinés ne créent pas de production gratuite. Les campagnes G10 peuvent activer ce contenu volontairement depuis le dépôt. Voir [la livraison 1.72](docs/LIVRAISON_1_72.md).

@@ -17,7 +17,7 @@ return true;}
 function object(c,o,taken=0,angle=0,{game=root.DEADWALL,seed=game?.world?.seed??0,floor=0}={}){
 c.save();const{x,y,w,h}=o,shade=localShadow(angle);if(taken>=o.amount-.001)c.globalAlpha=.55;
 const art=game?.art,interiors=root.DeadwallInteriorArt153,sprite=interiors?.spriteForFurniture?.(o,{seed,floor});let painted=false;
-if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');painted=root.DeadwallCampaignSiteArt205.drawProp(c,art,o,{seed,floor,taken,stateAlpha:false});}
+if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');painted=root.DeadwallCampaignSiteArt205.drawProp(c,art,o,{seed,floor,taken,stateAlpha:false,game});}
 if(!painted&&sprite&&art?.images?.[sprite.atlas]){
  fill(c,x+shade.x,y+shade.y,w,h,'rgba(0,0,0,.25)');
  if(['counter','shelf','workbench'].includes(o.kind)){
@@ -73,7 +73,7 @@ function contextualOpen160(p){return !!p.campaign205||!!p.context160&&(p.context
 // G11 compound presentation reuses the established per-volume renderer without
 // registering an author site as one of the historical context160 programmes.
 function contextPresenter205(p){return p.campaign205?{...p,context160:{mode:'compound205'}}:p;}
-function detailPicture205(c,o,g,v){if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');return root.DeadwallCampaignSiteArt205.drawProp(c,g?.art,o,{seed:v.world?.seed??g?.world?.seed??0,floor:v.z??0,scale:v.scale||32});}return root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}
+function detailPicture205(c,o,g,v){if(o.campaign205===true){if(!root.DeadwallCampaignSiteArt205)throw Error('Rendu de mobilier205 absent.');return root.DeadwallCampaignSiteArt205.drawProp(c,g?.art,o,{seed:v.world?.seed??g?.world?.seed??0,floor:v.z??0,scale:v.scale||32,game:g});}return root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}
 function lotGround(c,p,v,g=root.DEADWALL){if(v.z!==0)return;if(contextualOpen160(p))return;c.save();c.translate(p.x,p.y);c.rotate(p.a);c.translate(-p.w/2,-p.h/2);if(p.generation>=7){const site=root.DeadwallCodexSites162?.forWorld?.(v.world,p);lotGround141(c,p,site?.profile);if(site)root.DeadwallCodexSites162.draw(c,site);for(const o of v.world?.detailAt?.(p,0)?.outdoor||[])if(o.surface)root.DeadwallSeedDetailArt157?.draw?.(c,o,{art:g?.art,seed:v.world?.seed??g?.world?.seed??0});}else{fill(c,-11,-17,p.w+22,16,'#707a68');fill(c,-2,-2,p.w+4,p.h+4,'#a2a38a');c.strokeStyle='#d2cba6';c.lineWidth=.065;for(const cv of p.parking){const q=G.local(p,cv.x,cv.y),w=Math.max(5.5,(cv.w||4.6)+.8),h=Math.max(2.7,(cv.h||1.85)+.8);c.save();c.translate(q.x,q.y);c.rotate((cv.a||0)-(p.a||0));c.strokeRect(-w/2,-h/2,w,h);c.restore();}fill(c,p.w/2-1.5,-17,3,17,'#a8a894');fill(c,-8,p.h+2,p.w+16,7,'#858a72');}c.restore();}
 // Floors are painted before the shared queue; their furniture, walls and roofs
 // participate in the same world-space depth ordering as actors and equipment.

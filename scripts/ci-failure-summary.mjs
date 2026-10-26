@@ -10,10 +10,35 @@ const MAX_NATIVE_LOG_BYTES = 2 * 1024 * 1024;
 
 /** CI annotations contain diagnostic text only, never report bodies or signed URLs. */
 export function safeDiagnosticText(value, limit = 480) {
-  return String(value ?? '')
+  const text = String(value ?? '')
     .replace(/(?:[a-z][a-z0-9+.-]*:\/\/|\bdata:|\bblob:)[^\s<>"']*/gi, '[URL removed]')
-    .replace(/\b(?:Bearer|Basic)\s+[A-Za-z0-9+/_.=-]+/gi, '[credential removed]')
-    .replace(/\b(?:access[_-]?token|refresh[_-]?token|token|secret|password|authorization|cookie|api[_-]?key|credential)\b\s*[:=]\s*(?:"[^"]*"|'[^']*'|[^\s,;]+)/gi, '[credential removed]')
+    .replace(/\b(?:Bearer|Basic)\s+[A-Za-z0-9+/_.=-]+/gi, '[credential removed]');
+  const assignment = /(?:(['"])([A-Za-z_\\][A-Za-z0-9_.\\-]*)\1|(\b[A-Za-z_][A-Za-z0-9_-]*))\s*[:=]\s*/g;
+  let cleaned = '', cursor = 0, match;
+  while ((match = assignment.exec(text))) {
+    const rawName = (match[2] ?? match[3]).replace(/\\u([0-9a-f]{4})/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+    const name = rawName.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/([A-Z])([A-Z][a-z])/g, '$1_$2').replace(/[^A-Za-z0-9_]/g, '_');
+    const cookie = /(?:^|_)cookies?\d*(?:_|$)/i.test(name) || /(?:^|[_.-])cookies?\d*(?:[_.-]|$)/i.test(rawName);
+    const sensitive = cookie || /(?:^|_)(?:token|secret|password|authorization|cookies?|credentials?|(?:api|access|private|signing|encryption|ssh)_?key)\d*(?:_|$)/i.test(name)
+      || /^[A-Z_][A-Z0-9_]*(?:TOKEN|SECRET|PASSWORD|APIKEY|ACCESSKEY|PRIVATEKEY)\d*$/.test(name);
+    if (!sensitive) continue;
+    const rawCookie = cookie && !match[1];
+    // The assignment's whitespace may have crossed a newline. A raw header
+    // starts after its separator, keeping even an empty header on its own line.
+    const valueIndex = rawCookie ? match.index + match[0].search(/[:=]/) + 1 : assignment.lastIndex;
+    const tail = text.slice(valueIndex), quoted = tail[0] === '"' || tail[0] === "'";
+    // Raw cookie headers include every cookie and attribute on the line;
+    // quoted JSON values still stop at their closing quote.
+    const contents = (rawCookie ? /^[^\r\n]*/ : quoted ? /^(?:"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*')/
+      : cookie ? /^[^\r\n]*/ : /^[^\s,;]+/).exec(tail);
+    // A cut-off quoted value must not expose its remaining words. Other keys
+    // consume only their header so nested JSON assignments are still inspected.
+    const length = contents?.[0].length ?? (quoted ? tail.search(/[\r\n]/) < 0 ? tail.length : tail.search(/[\r\n]/) : 0);
+    if (!length && !rawCookie) continue;
+    cleaned += text.slice(cursor, match.index) + '[credential removed]';
+    cursor = valueIndex + length; assignment.lastIndex = cursor;
+  }
+  return (cleaned + text.slice(cursor))
     .replace(/[\u0000-\u001f\u007f]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()

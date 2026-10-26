@@ -1,9 +1,10 @@
 'use strict';
 const test = require('node:test'), assert = require('node:assert/strict');
-const {execFileSync} = require('node:child_process');
+const {execFile} = require('node:child_process');
+const execFileAsync = require('node:util').promisify(execFile);
 const path = require('node:path');
 
-test('the independent G11 worksheet reader rejects model/site confusion, aliases, hidden rows and missing formula proofs', () => {
+test('the independent G11 worksheet reader rejects model/site confusion, aliases, hidden rows and missing formula proofs', async () => {
   const script = String.raw`
 import copy,importlib.util,json,pathlib,sys
 sys.dont_write_bytecode=True
@@ -34,9 +35,10 @@ for mutate in negative:
  else:raise AssertionError('Un faux compteur ou une preuve altérée a été accepté')
 print(json.dumps({'pass':True,'eligible':200,'observedSites':2,'observedSeeds':2,'negativeCases':len(negative),'workbookWritten':False}))
 `;
-  const result = JSON.parse(execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-c', script], {
+  const {stdout} = await execFileAsync(process.platform === 'win32' ? 'python' : 'python3', ['-c', script], {
     cwd: path.resolve(__dirname, '..'), encoding: 'utf8', timeout: 30000,
-  }));
+  });
+  const result = JSON.parse(stdout);
   assert.equal(result.pass, true); assert.equal(result.eligible, 200);
   assert.equal(result.observedSites, 2); assert.equal(result.observedSeeds, 2);
   assert.equal(result.negativeCases, 7); assert.equal(result.workbookWritten, false);

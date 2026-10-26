@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "scope": "Actual native seed17117 balanced G11 at profiled point P3174; no native browser timing claim",
+  "mode": "after",
+  "sourceSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+  "point": {
+    "x": 14577.412856171773,
+    "y": 2632.806636736753
+  },
+  "coldDetails": 1,
+  "coldEnrich": 1,
+  "initial": {
+    "blocked": false,
+    "optical": true,
+    "movement": true
+  },
+  "cycles": [
+    {
+      "cycle": 0,
+      "churnEntries": 67,
+      "churnedDetailBuilds": 67,
+      "queryDetailBuilds": 0,
+      "queryEnrichBuilds": 0,
+      "answer": {
+        "blocked": false,
+        "optical": true,
+        "movement": true
+      },
+      "plans": 48,
+      "chunks": 1
+    },
+    {
+      "cycle": 1,
+      "churnEntries": 67,
+      "churnedDetailBuilds": 67,
+      "queryDetailBuilds": 0,
+      "queryEnrichBuilds": 0,
+      "answer": {
+        "blocked": false,
+        "optical": true,
+        "movement": true
+      },
+      "plans": 48,
+      "chunks": 1
+    },
+    {
+      "cycle": 2,
+      "churnEntries": 67,
+      "churnedDetailBuilds": 67,
+      "queryDetailBuilds": 0,
+      "queryEnrichBuilds": 0,
+      "answer": {
+        "blocked": false,
+        "optical": true,
+        "movement": true
+      },
+      "plans": 48,
+      "chunks": 1
+    }
+  ],
+  "expectedRepeatedBuilds": 0,
+  "pass": true
+}

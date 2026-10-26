@@ -125,6 +125,12 @@ def read_workbook(file):
                     })
             result[s.attrib["name"]] = {
                 "cells": cells, "formulas": formulas, "errors": errors,
+                "state": s.attrib.get("state", "visible"),
+                "hiddenRows": [int(row.attrib["r"]) for row in tree.findall("m:sheetData/m:row", NS)
+                               if row.attrib.get("hidden") in ("1", "true")],
+                "hiddenColumns": [(int(column.attrib["min"]), int(column.attrib["max"]))
+                                  for column in tree.findall("m:cols/m:col", NS)
+                                  if column.attrib.get("hidden") in ("1", "true")],
                 "missing": missing,
                 "pane": pane.attrib if pane is not None else None,
                 "tables": len(tree.findall("m:tableParts/m:tablePart", NS)),
@@ -147,7 +153,7 @@ const inspection=require('./scripts/codex-inspection-progress2026.cjs');
 process.stdout.write(JSON.stringify({
 programmes:d.catalogue.programmes.map(p=>({id:p.id,parent:p.parent,name:p.name,origin:p.origin,family:p.family,generation:p.generation,rooms:p.sourceRooms,props:p.authoredProps+p.authoredSlots,qualification:p.qualification,source:p.source})),
 spaces:d.catalogue.rooms.length,props:d.catalogue.props.length,
-typologies:d.typologies,variants:d.variants.map(v=>({id:v.id,typologyId:v.typologyId,typology:v.typology,domain:v.domain,number:v.number,status:v.status,playable:v.playable,inspection:v.inspection,campaign205:v.campaign205})),tasks:d.tasks,campaign205:d.campaign205,
+typologies:d.typologies,variants:d.variants.map(v=>({id:v.id,typologyId:v.typologyId,typology:v.typology,domain:v.domain,number:v.number,status:v.status,playable:v.playable,inspection:v.inspection,campaign205:v.campaign205,campaign208:v.campaign208})),tasks:d.tasks,campaign205:d.campaign205,campaign208:d.campaign208,
 inspection:inspection.checkedReport(process.cwd()).report,
 inspectionReportSha256:require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(inspection.REPORT)).digest('hex')}));"""
     node = os.environ.get("CODEX_PRIMARY_RUNTIME_NODE", "node")
@@ -158,6 +164,13 @@ inspectionReportSha256:require('node:crypto').createHash('sha256').update(requir
 def assert_equal(actual, expected, message):
     if actual != expected:
         raise AssertionError(f"{message}: {actual!r} != {expected!r}")
+
+
+def task_acceptance(task):
+    scoped = (task["typologyId"] in {f"EXT-MONDE-T{n:03}" for n in range(45, 49)}
+              and task.get("stage") in {"architecture", "sauvegarde", "qa", "services", "art"})
+    return task["acceptance"] + ("\nAvancement et limites : " + task["progress"]
+                                if scoped and task.get("progress") else "")
 
 
 def mapped_rows(sheet, count):
@@ -172,6 +185,7 @@ def mapped_rows(sheet, count):
 
 def verify_historical_styles(book, baseline, data):
     checked = 0
+    resized_footer_excluded = 0
     wrap_changes = []
     normalized = []
     author_types = {t["id"] for t in data["typologies"] if "choix de composition auteur" in (t.get("dimensions_m") or {}).get("scope", "")}
@@ -179,11 +193,39 @@ def verify_historical_styles(book, baseline, data):
     for name, records in (("Extension typologies", data["typologies"]), ("Variantes à concevoir", data["variants"])):
         positions = mapped_rows(book[name], len(records))
         author_rows[name] = {positions[item["id"]] for item in records if item.get("typologyId", item["id"]) in author_types}
-    for name in EXPECTED_SHEETS[:11]:
+    # All sheets already present in the source workbook remain historical. The
+    # author wrap exception below is confined to the same two original sheets.
+    for name in baseline:
         assert_equal(book[name]["columns"], baseline[name]["columns"], name + " largeurs de colonnes historiques")
+        comparable_last_row = None
+        if name not in EXPECTED_SHEETS[:11]:
+            old_tables = {t["name"]: t["range"] for t in baseline[name]["tableDetails"]}
+            new_tables = {t["name"]: t["range"] for t in book[name]["tableDetails"]}
+            if old_tables != new_tables:
+                assert_equal(set(new_tables), set(old_tables), name + " noms des tables dérivées")
+                old_ends = []
+                for table_name, old_range in old_tables.items():
+                    old_start, old_end = old_range.split(":")
+                    new_start, new_end = new_tables[table_name].split(":")
+                    assert_equal(new_start, old_start, name + " origine de la table dérivée")
+                    assert_equal("".join(c for c in new_end if c.isalpha()),
+                                 "".join(c for c in old_end if c.isalpha()), name + " colonnes de la table dérivée")
+                    old_last = int("".join(c for c in old_end if c.isdigit()))
+                    new_last = int("".join(c for c in new_end if c.isdigit()))
+                    if new_last < old_last:
+                        raise AssertionError(name + " réduction de la table dérivée")
+                    old_ends.append(old_last)
+                # An expanded inspection table occupies the old footer rows.
+                # Its original headers and data rows must retain their style;
+                # its displaced totals and proof notes are checked at their new
+                # addresses by the worksheet reconciliation, not as old cells.
+                comparable_last_row = max(old_ends) if old_ends else None
         for address, signature in baseline[name]["styles"].items():
-            checked += 1
             row = int("".join(c for c in address if c.isdigit()))
+            if comparable_last_row is not None and row > comparable_last_row:
+                resized_footer_excluded += 1
+                continue
+            checked += 1
             column = "".join(c for c in address if c.isalpha())
             # Authored dimensions add line wrapping in A:K, while retaining
             # every font, fill, border, number format and other alignment.
@@ -197,6 +239,7 @@ def verify_historical_styles(book, baseline, data):
             else:
                 assert_equal(book[name]["styles"].get(address), signature, name + " style historique " + address)
     return {"checkedHistoricalStyleCells": checked, "authorCellsWithWrapStyleChanges": len(wrap_changes),
+            "derivedResizedFooterCellsExcluded": resized_footer_excluded,
             "authorCellsWithEquivalentExplicitDefaults": len(normalized),
             "equivalentExplicitDefaultsBySheet": {name: sum(cell.startswith(name + "!") for cell in normalized)
                                                  for name in author_rows},
@@ -254,8 +297,101 @@ def verify_campaign(book, data):
     return coverage["summary"]
 
 
+def verify_services(book, data):
+    """Reconcile model supports, native poses and prepared art as separate scopes."""
+    coverage = data.get("campaign208")
+    if not coverage:
+        return None
+    records = coverage["records"]
+    assert_equal(len(records), 200, "Modèles de services G11")
+    summary = coverage["summary"]
+    assert_equal(summary["models"], len(records), "Résumé des modèles de services")
+    for key, field in (("offered", "anchorsOffered"), ("valid", "anchorsValid")):
+        assert_equal(summary[key], sum(record[field] for record in records), "Résumé des services " + key)
+    assert_equal(summary["refused"], sum(len(record["refusals"]) for record in records), "Résumé des services refusés")
+    witnesses = coverage["worldWitnesses"]
+    assert_equal([w["seed"] for w in witnesses], [0, 17117, 967313470], "Graines des poses témoins de services")
+    world = coverage["worldSummary"]
+    assert_equal(world["seeds"], len(witnesses), "Nombre de graines des services")
+    assert_equal(world["transactions"], 0, "Les poses de supports ne qualifient aucune transaction")
+    art = coverage.get("art")
+    visual_counts = {}
+    if art:
+        for record in art["records"]:
+            key = record["authorPlanId"]
+            visual_counts[key] = visual_counts.get(key, 0) + 1
+        assert_equal(len(visual_counts), art["summary"]["models"], "Modèles visuels préparés")
+        assert_equal(sum(visual_counts.values()), art["summary"]["samples"], "Échantillons visuels préparés")
+        assert_equal(art["summary"]["models"], 4, "Le rendu échantillonné ne couvre pas 200 modèles")
+        assert_equal(art["summary"]["samples"], 13, "Les treize présentations préparées sont distinctes des transactions")
+    names = {item["id"]: item["name"] for item in data["typologies"]}
+    tab = book["Services G11"]
+    assert_equal(tab.get("state", "visible"), "visible", "Visibilité des preuves services")
+    assert_equal([r for r in tab.get("hiddenRows", []) if 6 <= r <= len(records) + 5], [], "Lignes de services masquées")
+    assert_equal([c for c in tab.get("hiddenColumns", []) if c[0] <= 16 and c[1] >= 1], [], "Colonnes de services masquées")
+    by_id = mapped_rows(tab, len(records))
+    assert_equal(set(by_id), {r["authorPlanId"] for r in records}, "Identifiants de services")
+    native = [table for table in tab["tableDetails"] if table["name"] == "ServicesG11208"]
+    assert_equal(len(native), 1, "Table native des services G11")
+    last_data_row = len(records) + 5
+    assert_equal(native[0]["range"], f"A5:P{last_data_row}", "Emprise des services G11")
+    if native[0]["filterRange"] is not None:
+        assert_equal(native[0]["filterRange"], f"A5:P{last_data_row}", "Filtre des services G11")
+    assert_equal(native[0].get("filterColumns", []), [], "Aucun filtre ne masque les preuves services")
+    for merge in tab["merges"]:
+        bounds = merge.split(":")
+        start_row = int("".join(c for c in bounds[0] if c.isdigit()))
+        end_row = int("".join(c for c in bounds[-1] if c.isdigit()))
+        if start_row <= last_data_row and end_row >= 6:
+            raise AssertionError("Fusion recouvrant les données de services : " + merge)
+    commit = book["Publication"]["cells"].get("B7", "")
+    if len(commit) != 40 or any(c not in "0123456789abcdefABCDEF" for c in commit):
+        raise AssertionError("La feuille services exige un commit source immuable")
+    source_base = "https://github.com/darknigthmare/deadwall-last-enclosure/blob/" + commit + "/"
+    actions = ["meal", "restSheltered", "service", "medicalCare"]
+    for record in records:
+        author_id = record["authorPlanId"]
+        row = by_id[author_id]
+        values = [author_id, names[record["typologyId"]], record["number"], record["campaignType"],
+                  record["anchorsOffered"], record["anchorsValid"], len(record["refusals"]),
+                  *[record["supportCountsByAction"][action] for action in actions],
+                  "Oui" if author_id in visual_counts else "Non", visual_counts.get(author_id, 0),
+                  source_base + coverage["report"], source_base + art["report"] if art else "Pas de reçu visuel",
+                  "Supports proposés et poses canoniques ; parcours et transactions distincts."]
+        for column, expected in enumerate(values):
+            assert_equal(tab["cells"].get(chr(65 + column) + str(row)), expected,
+                         "Services " + author_id + " " + chr(65 + column))
+    total_row = last_data_row + 1
+    totals = {"C": (len(records), f"COUNTA(A6:A{last_data_row})"),
+              "L": (len(visual_counts), f'COUNTIF(L6:L{last_data_row},"Oui")'),
+              "M": (sum(visual_counts.values()), f"SUM(M6:M{last_data_row})")}
+    for column, field in (("E", "anchorsOffered"), ("F", "anchorsValid")):
+        totals[column] = (sum(record[field] for record in records), f"SUM({column}6:{column}{last_data_row})")
+    totals["G"] = (sum(len(record["refusals"]) for record in records), f"SUM(G6:G{last_data_row})")
+    for column, action in zip("HIJK", actions):
+        totals[column] = (sum(record["supportCountsByAction"][action] for record in records),
+                          f"SUM({column}6:{column}{last_data_row})")
+    for column, (expected, formula) in totals.items():
+        address = column + str(total_row)
+        assert_equal(tab["cells"].get(address), expected, "Total services " + column)
+        assert_equal(tab["formulas"].get(address), formula, "Formule éditable des services " + column)
+    footer = {"E211": world["seeds"], "I211": ", ".join(str(w["seed"]) for w in witnesses),
+              "E212": world["sites"], "I212": world["offered"], "M212": world["valid"],
+              "E213": 0, "E214": source_base + coverage["report"], "E215": coverage["reportSha256"],
+              "E216": source_base + art["report"] if art else "Pas de reçu visuel",
+              "E217": art["reportSha256"] if art else "Pas de reçu visuel",
+              "E218": source_base + coverage["evidence"],
+              "E219": "Supports et présentations préparées ; aucune qualification globale des 4 000 plans.",
+              "E220": len(visual_counts), "I220": sum(visual_counts.values())}
+    for address, expected in footer.items():
+        assert_equal(tab["cells"].get(address), expected, "Portée et provenance des services " + address)
+    return {**summary, "worldSeeds": world["seeds"], "worldSites": world["sites"],
+            "transactionsTested": 0, "visualModels": len(visual_counts), "visualSamples": sum(visual_counts.values())}
+
+
 def verify(book, data, baseline=None):
-    expected_sheets = EXPECTED_SHEETS + (["Campagne G11"] if data.get("campaign205") else [])
+    expected_sheets = (EXPECTED_SHEETS + (["Campagne G11"] if data.get("campaign205") else [])
+                       + (["Services G11"] if data.get("campaign208") else []))
     assert_equal(list(book), expected_sheets, "Onglets historiques ajoutés, déplacés ou supprimés")
     for name, tab in book.items():
         assert_equal(tab["errors"], [], name + " erreurs Excel")
@@ -292,7 +428,7 @@ def verify(book, data, baseline=None):
             metric_text = book["Variantes à concevoir"]["cells"].get("H" + str(variant_rows[variant["id"]])) or ""
             if scope not in metric_text:
                 raise AssertionError("Provenance auteur absente des dimensions : " + variant["id"])
-    task_rows = reconcile("Chantiers", data["tasks"], lambda t: {"B": t["typologyId"], "C": t["domain"], "D": t["name"], "E": t["deliverable"], "F": t["priority"], "G": t["status"], "H": t["owner"], "I": t["acceptance"]})
+    task_rows = reconcile("Chantiers", data["tasks"], lambda t: {"B": t["typologyId"], "C": t["domain"], "D": t["name"], "E": t["deliverable"], "F": t["priority"], "G": t["status"], "H": t["owner"], "I": task_acceptance(t)})
     for task in data["tasks"]:
         proof = book["Chantiers"]["cells"].get("J" + str(task_rows[task["id"]])) or ""
         if task.get("evidence"):
@@ -400,12 +536,13 @@ def verify(book, data, baseline=None):
     assert_equal(book["Légende"]["cells"].get("A27"), "Inspection physique", "Légende du nouveau statut")
 
     campaign = verify_campaign(book, data)
+    services = verify_services(book, data)
 
     style_verification = None
     if baseline:
         style_verification = verify_historical_styles(book, baseline, data)
         for name in expected_sheets:
-            if name == "Campagne G11" and name not in baseline:
+            if name in ("Campagne G11", "Services G11") and name not in baseline:
                 continue
             for feature in ("pane", "tables", "validations", "conditionalFormats"):
                 assert_equal(book[name][feature], baseline[name][feature], name + " conservation " + feature)
@@ -425,7 +562,7 @@ def verify(book, data, baseline=None):
                 new.pop("B27", None)
             assert_equal(new, old, name + " contenu historique")
             assert_equal(book[name]["formulas"], baseline[name]["formulas"], name + " formules historiques")
-    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "styleVerification": style_verification, "campaignG11": campaign, "scope": "XLSX source reconciliation; does not certify gameplay"}
+    return {"sheets": len(book), "programmes": len(data["programmes"]), "typologies": len(data["typologies"]), "variants": len(data["variants"]), "tasks": len(data["tasks"]), "formulas": sum(len(s["formulas"]) for s in book.values()), "formulaErrors": 0, "missingFormulaCaches": 0, "validatedTasks": counts["K15"], "inProgressTasks": counts["K14"], "pendingTasks": counts["K13"], "playableVariants": counts["C18"], "inspectionPlans": len(report["records"]), "inspectionTypes": len(inspected), "inspectionProps": report["summary"]["props"], "inspectionRefused": report["summary"]["refused"], "preservedHistoricalFeatures": bool(baseline), "styleVerification": style_verification, "campaignG11": campaign, "campaignServicesG11": services, "scope": "XLSX source reconciliation; does not certify gameplay"}
 
 
 def main():

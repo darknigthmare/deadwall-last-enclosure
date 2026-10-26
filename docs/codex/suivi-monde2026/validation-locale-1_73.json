@@ -1,0 +1,334 @@
+{
+  "kind": "DEADWALL-1.73-local-receptions",
+  "observedUtc": "2026-10-26T10:34:20.559531+00:00",
+  "sourceCheckpoint": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "publicBuild": {
+    "files": 368,
+    "payloadSha256": "b84cf820f77dc5d49d2234f176f8d6fa176956a6113fe6ff5e4a93d0056dc59a",
+    "worldSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
+  },
+  "targetedNative": {
+    "tests": 29,
+    "pass": 29,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/after-broadphase/art-hero-world-native-current208.log",
+      "bytes": 8273,
+      "sha256": "8b7f006d940808487d1599a705b6c4c6b05defec657feea0f3e2bd19e2b7d0a4"
+    }
+  },
+  "generalChromium": {
+    "actualProcessExitCodes": [
+      0,
+      0
+    ],
+    "profiles": 8,
+    "checks": 267,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/general-regression208-after-broadphase-final-receipt.json",
+      "bytes": 11113,
+      "sha256": "6f77eb76ae1aab11b4fd9a3b9b93cd8db288a0786327ab5d3986c23294aeba41"
+    },
+    "runs": [
+      {
+        "kind": "general-browser",
+        "checks": 179,
+        "profiles": 4,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/browser-2026-10-25T11_17_17_073Z/report.json",
+          "bytes": 111864,
+          "sha256": "7d33bde49805ef645217f47d451fd8a9f59dbc8de035668ec8c0e01b3e77dae8"
+        }
+      },
+      {
+        "kind": "legacy-G8-PWA-auto-import",
+        "checks": 42,
+        "profiles": 2,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/pwa-2026-10-25T11_18_56_202Z/report.json",
+          "bytes": 86653,
+          "sha256": "ddaf194271955130b2b3b5d381984f36768f944a0355e4be92975fd9ce321839"
+        }
+      },
+      {
+        "kind": "current-G11-PWA-ordinary-entry",
+        "checks": 46,
+        "profiles": 2,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/pwa205-2026-10-25T11_20_04_575Z/report.json",
+          "bytes": 146826,
+          "sha256": "98d7ab774348cacafea4a91034e6e1fd194f97ce4d0ae941c5949c0bcc0830f2"
+        }
+      }
+    ]
+  },
+  "dedicatedServicesChromium": {
+    "qualified": true,
+    "checks": 111,
+    "profileChecks": [
+      55,
+      56
+    ],
+    "actualExitCode": 0,
+    "nativeCarriedPayments": 8,
+    "exactSaveContinueRecoveries": 6,
+    "site": "P3174 / EXT-MONDE-T047-V09 / seed17117",
+    "sourceScriptSha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a",
+    "receipt": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-1_73.json",
+      "bytes": 12434,
+      "sha256": "2618c1e88c327e8a26c8d312978efde27528cc0eaafad7b3aba982216848dfce"
+    },
+    "rawReportGzip": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-1_73-report.json.gz",
+      "bytes": 124507,
+      "sha256": "4df75d71747a21c486903397151afc16ce631c40fc3de186e102fa44d15a9a4b"
+    },
+    "rawReportSha256": "cd640027f1fbbda042d00d7cb4ebb2de8f9597107657671bb7abb2dfd1dc6743",
+    "summary": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-resume-1_73.json",
+      "bytes": 977,
+      "sha256": "7aebf105df85c5630d9ba50ef0729e717a053f9e3846c0d28918e2b3b1fe249b"
+    },
+    "negativeIndex": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-negatifs-1_73.json",
+      "bytes": 29029,
+      "sha256": "6d953d65cbc6177d3d909a76be15fa2f7af00a1caa28363b2c57173767395a25"
+    },
+    "liveScreenshotsRootVisuallyReviewed": [
+      {
+        "path": "docs/codex/suivi-monde2026/services-terrain-desktop-1_73.png",
+        "bytes": 518213,
+        "sha256": "ac849bf83a645fa076aabf419dd94a4e4c5f41aa2451e90434e46799502e8db5"
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/services-terrain-tactile-1_73.png",
+        "bytes": 143604,
+        "sha256": "6d3aeb52828c9bff10800276e422a79c8f614c0546f0a7ba258583658a80c9e6"
+      }
+    ],
+    "scope": "One explicitly prepared finite regional scene per profile, then real input and UI only. D17/waves/clock stay active. Native arrival and real passages, without asserting every mathematical waypoint was visited. Emulated touch, no physical phone FPS or complete long campaign."
+  },
+  "preparedArtContact": {
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/art-services/prepared-native-contact208.png",
+      "bytes": 175717,
+      "sha256": "bcc4aa63fed9eafcf90aff24c4e1b7eeab231b4d2f50b63121da927c2a5ed545"
+    },
+    "samples": 13,
+    "models": 4,
+    "rootVisuallyReviewed": true,
+    "scope": "Native Canvas de supports réels, entrée de présentation préparée, repos et deux phases ; pas des transactions."
+  },
+  "qualification": {
+    "finalHeadFullCheckQualified": false,
+    "merged": false,
+    "productionVerified": false,
+    "scope": "État au point de préparation ; reçus CI, fusion et Production suivis dans la PR20."
+  },
+  "limits": [
+    "Automatisation Chromium avec émulation tactile, sans cadence mesurée sur téléphone physique.",
+    "Aucune campagne humaine complète de 6 à 10 heures déduite.",
+    "Supports géométriques, modèles, poses, échantillons visuels et transactions ont des reçus distincts."
+  ],
+  "campaign205Chromium": {
+    "checks": 65,
+    "profiles": 2,
+    "pass": true,
+    "actualExitCode": 0,
+    "sourceScriptSha256": "bd9dd7d511bb99dea1160f7e0dab682083b96f0ee7e5a5a37196bdee1e160f61",
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension208/browser205-after-broadphase/campaign205-2026-10-26T07_57_15_892Z/report.json",
+      "bytes": 3138788,
+      "sha256": "41a0865ebe8066112b39c96991d674ec98cbf1724a23f1e6cd48a4244c372413"
+    }
+  },
+  "backendNative": {
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/after-broadphase/backend-native-current208.log",
+      "bytes": 5807,
+      "sha256": "5e8e335746e6cad5c6d147783e3c3d3d2edb57df61c90338153a4d957c401a7b"
+    }
+  },
+  "sourceReviewBeforePerformanceCorrection": {
+    "path": "/workspace/deadwall-cloud/extension208/final-source-review208.json",
+    "bytes": 13853,
+    "sha256": "77a05409a38b05877475048662c6c6a791cd70f54412157d14c69aa159dc1ba5"
+  },
+  "performanceCorrection": {
+    "receipt": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-performance-1_73.json",
+      "bytes": 10441,
+      "sha256": "be072578227f451e07e6d82aa4e29efdf7c4d530002dc4267d8914861ba642df"
+    },
+    "independentReview": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-performance-independante-1_73.json",
+      "bytes": 9390,
+      "sha256": "20be14a40e63996ea3e684cc7ccfe6a76e6587dc30356baa27c10d74b165e68c"
+    },
+    "nativeTests": 5,
+    "legacyTests": 4,
+    "actualExitCodes": [
+      0,
+      0
+    ]
+  },
+  "nativeFailureDiagnostics": {
+    "tests": 44,
+    "pass": 44,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/native-fullcheck-diagnostics209.log",
+      "bytes": 8364,
+      "sha256": "b051dd16f282ce30aed863a86d0287ea8b50c0fe83e2f38b7f87e4c8164e2add"
+    },
+    "scope": "Diagnostics bornés ; critères et qualification native inchangés.",
+    "redactionReception": {
+      "tests": 70,
+      "pass": 70,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "actualExitCode": 0,
+      "receipt": {
+        "path": "docs/codex/suivi-monde2026/validation-expurgation-1_73.json",
+        "bytes": 4278,
+        "sha256": "d50e1035979a90e147d4d75753413251a6044bb85e731a42bec8888af3facd9b"
+      },
+      "note": "26 shared diagnostic tests and 44 full-check201 tests; includes the previous 44, not an additional disjoint total."
+    },
+    "cookieReception": {
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "actualExitCode": 0,
+      "receipt": "docs/codex/suivi-monde2026/validation-expurgation-cookie-1_73.json",
+      "receiptSha256": "b202204162c2110c19f33ebd9cd6dd9f2eb043a58f1e049afe99086fb2118d8d",
+      "independentRequiredProbes": 102,
+      "helperSha256": "d5bf3bd52f7618f625f106d4305193428a4c5054bd968e6b06be64ee55a60d87",
+      "note": "30 helper tests and the same44 full-check201 tests; overlaps earlier70 and is not an additive total."
+    }
+  },
+  "recipeBudgetAudit": {
+    "actualExitCode": 0,
+    "seconds": 492.26225874898955,
+    "receipt": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-budget-ci-1_73.json",
+      "bytes": 2579,
+      "sha256": "b5e065dc4048d92190edfe0a4a5246a13785788cca50256766cb746e0f3fe050"
+    },
+    "scope": "Job budget only; complete existing recipe comparison. Separate old-runner and current local timings; no exact-final-head CI success inferred."
+  },
+  "localFullNativeDiagnostic": {
+    "kind": "DEADWALL-1.73-local-native-diagnostic",
+    "observedUtc": "2026-10-26T10:25:07.723552+00:00",
+    "command": "DEADWALL_SOAK=1 npm test",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 5997,
+      "suites": 4,
+      "pass": 5997,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMilliseconds": 4472463.225308,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/npm-test-diagnostic-b57-working-tree209.log",
+      "bytes": 661990,
+      "sha256": "547faab83953e4af8db7e77ff90fa6bf9db3df83ac0833a5aa63aff4c1b35687"
+    },
+    "headAtLaunch": "b57d0fa83046fa8d4da99a394866734b13428a83",
+    "workingTreeChangedDuringRun": true,
+    "changesDuringRun": "Documentation/workbook and QA/diagnostic preparation continued. Public gameplay source remained frozen.",
+    "finalHeadQualified": false,
+    "literalNpmRunCheck": false,
+    "scope": "Complete local npm test diagnostic, not an exact immutable final-head check. Required final CI must execute literal npm run check and qualify its own source fingerprints and actual exits. Earlier S1 failing test is not identified retrospectively."
+  },
+  "performanceAfterDiagnostic": {
+    "diagnosticWindowComplete": true,
+    "fullServiceQualification": false,
+    "sourceStable": true,
+    "sampledMilliseconds": 11143.641,
+    "samples": 9277,
+    "accessGridSamples": 0,
+    "rootArchivedCopiesAfterExternalCapture": true,
+    "receipt": "docs/codex/suivi-monde2026/validation-cpu-apres-1_73.json",
+    "receiptSha256": "deaf2f2dbded7f841f3bb65af3fda33cb3d76d02195f3c147aa9cdd4c378c2c3",
+    "scope": "The former accessGrid hotspot is absent from this naturally late-migration window. This observation agrees with the separate zero-reconstruction churn test; it is not an FPS benchmark or a matched causal speed comparison.",
+    "limits": [
+      "The old capture has no exact simulation clock at sampling start; no before/after simulation-to-wall or speed ratio is inferred.",
+      "The real guide, posture and host CPU load differ between captures.",
+      "Controller wall time and CDP sample time have different read/ack boundaries; raw durations are retained separately.",
+      "The after report deliberately stops before medical completion and remains pass:false as a full service profile. It does not replace the separately qualified111 checks."
+    ]
+  },
+  "budgetExpectationCorrection": {
+    "kind": "DEADWALL-1.73-CI-budget-expectation-correction",
+    "previousHead": "fd15d351f5ca5779bce606f33e8138305d6e70cf",
+    "previousFailedRunId": 40308716510,
+    "previousCheckId": 121524194292,
+    "finding": "The workflow budget had been updated from45 to75 while audit187 still required45. Only the expected budget changes to75; all exhaustive commands and failure/skip assertions remain.",
+    "changedTest": "tests/audit187-furniture-budget.test.cjs",
+    "targetedCommand": "node --test --test-isolation=none --test-reporter=tap tests/audit18[345678]-*.test.cjs",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 160,
+      "pass": 160,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMilliseconds": 111778.951061,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/F2-audit18x-after-budget-assertion210.log",
+      "bytes": 35688,
+      "sha256": "0f96753aca2e68e154e0159ffdaf56b30373cd66322a3330ec5a82fce099ea51"
+    },
+    "previousObservation": "/workspace/deadwall-cloud/extension208/release/release-observation208-fd15d351f5ca-20261026T103753525581Z.json",
+    "previousJobEvidence": "/workspace/deadwall-cloud/extension208/release-review209/F-audit-regressions-jobs210.json",
+    "limits": [
+      "This focused replay does not qualify the next immutable commit. All actual CI for that next commit, including the exact original command, remain required.",
+      "The earlier local default-isolation launch failed three files with no child details under the restricted execution context. Its negative log is preserved separately; no omitted or hidden result is counted as success."
+    ],
+    "exactWorkflowCommandReplay": {
+      "command": "node --test tests/audit18[345678]-*.test.cjs",
+      "actualExitCode": 0,
+      "counts": {
+        "tests": 160,
+        "pass": 160,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "durationMilliseconds": 58334.37371,
+      "log": {
+        "path": "/workspace/deadwall-cloud/extension208/release-review209/F2-audit18x-exact-command210.log",
+        "bytes": 15017,
+        "sha256": "b5befc2f8794b080a137d4f40ef694f8fd13c644210a3f1e6585a887f36b1efe"
+      },
+      "note": "Same160 contracts replayed with default isolation; counts must not be added to the preceding160."
+    }
+  },
+  "reviewedCandidateCorrections": "docs/codex/suivi-monde2026/validation-revue-corrections-1_73.json",
+  "priorF3LiteralFullCheck": "docs/codex/suivi-monde2026/validation-native-F3-1_73.json",
+  "chromiumBootstrapCorrection": "docs/codex/suivi-monde2026/validation-bootstrap-chromium-1_73.json"
+}

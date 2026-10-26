@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {parseNativeCounts} from './ci-native-receipt160.mjs';
+import {nativeLogFailures} from './ci-failure-summary.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -16,6 +17,24 @@ const expectedScripts = Object.freeze({check: 'node scripts/check-syntax134.mjs 
 const testName = name => /^tests\/[^/]+\.test\.cjs$/.test(name);
 const hex = (value, length) => typeof value === 'string' && new RegExp('^[a-f0-9]{' + length + '}$').test(value);
 const canonical = value => JSON.stringify(value);
+
+/** Selected, sanitised diagnostics; these never decide native qualification. */
+export function nativeDiagnostics201(logBytes) {
+  assert.ok(Buffer.isBuffer(logBytes), 'Native diagnostics require original log bytes');
+  const scanLimit = 2 * 1024 * 1024, start = Math.max(0, logBytes.length - scanLimit);
+  let text = logBytes.subarray(start).toString('utf8');
+  if (start) text = text.slice(text.indexOf('\n') + 1);
+  const candidates = nativeLogFailures(text, 'native.log', {details: true});
+  const result = {diagnosticOnly: true, failures: [], truncated: start > 0};
+  for (const item of candidates) {
+    if (result.failures.length === 8 || Buffer.byteLength(JSON.stringify({...result, failures: [...result.failures, item]})) > 4096) {
+      result.truncated = true;
+      break;
+    }
+    result.failures.push(item);
+  }
+  return result;
+}
 function git(directory, args) {
   return execFileSync('git', ['--no-optional-locks', ...args], {cwd: directory, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
     env: {...process.env, GIT_OPTIONAL_LOCKS: '0'}});
@@ -136,6 +155,7 @@ function main(argv) {
     record.sourceAfter = captureSource201(root);
     const bytes = fs.readFileSync(path.join(directory, 'native.log'));
     record.logBytes = bytes.length; record.logSha256 = hash(bytes); record.counts = parseNativeCounts(bytes.toString('utf8')).counts;
+    record.nativeDiagnostics = nativeDiagnostics201(bytes);
     record.soakEnabled = record.soakEnabled === true && process.env.DEADWALL_SOAK === '1';
     environment(); assert.equal(process.env.DEADWALL_EXPECTED_HEAD, record.expectedHead, 'Expected commit changed between phases');
     const result = qualifyFullCheck201(record, bytes); record.accepted = result.accepted;
@@ -144,7 +164,7 @@ function main(argv) {
   const notice = {accepted: record.accepted, gitHead: record.expectedHead, sourceTree: record.sourceBefore?.tree, counts: record.counts ?? null,
     actualExitCode: record.actualExitCode, teeExitCode: record.teeExitCode, failure: record.failure,
     sourceFiles: record.sourceBefore?.files ? Object.keys(record.sourceBefore.files).length : null,
-    testFiles: record.sourceBefore?.testFiles?.length ?? null, receiptSha256: hash(fs.readFileSync(receiptFile))};
+    testFiles: record.sourceBefore?.testFiles?.length ?? null, receiptSha256: hash(fs.readFileSync(receiptFile)), nativeDiagnostics: record.nativeDiagnostics ?? null};
   console.log(JSON.stringify(notice));
   // Publish only the final source-bound summary, after the actual receipt exists.
   // Workflow command escaping prevents a refusal message from injecting commands.

@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36233,
-      "sha256": "e8407b69dd31a122570974f90f007283096761ab3e471840e8a3e4deb22a754b"
+      "bytes": 36287,
+      "sha256": "2db57ffc3cccf5301fbfcd4af972b95b6bc0cce11d2544c79700469b4cc6b4a9"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -146,9 +146,14 @@
       "sha256": "ee92a11ea253ea4eea89829c70435021a7e7b008c3805ffcf0247cfc425b767b"
     },
     {
+      "path": "src/campaign-services208.js",
+      "bytes": 7485,
+      "sha256": "e4955c8e1d12b6ae0bd100709f0b36238cfa3467d23950f22078347f84a2e3c7"
+    },
+    {
       "path": "src/campaign-site-art205.js",
-      "bytes": 33579,
-      "sha256": "cb889c20a93d9551022f0d61ff50a82f3ae1f11bd48712484dc3600b89081634"
+      "bytes": 39439,
+      "sha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -377,8 +382,8 @@
     },
     {
       "path": "src/context-operations160.js",
-      "bytes": 10041,
-      "sha256": "51c4ccdbccba95977cbeb0ac9bf4264a3c08d3977b5ab93b2d07538e69afcd26"
+      "bytes": 12121,
+      "sha256": "29bd29ceea0e899301fbaa63d5f17496b4a3e706c05111df510a3e9c43f37bc6"
     },
     {
       "path": "src/coop.js",
@@ -393,12 +398,12 @@
     {
       "path": "src/coordination.js",
       "bytes": 6685,
-      "sha256": "3dbc1155b8ee4934a15846cd734614dae0055c85e2c83fb35ab8d11ebed03827"
+      "sha256": "e27a42fd1b3b06ab408c68aeba8722b7a13f775a38b1c77f2c69a7a3259046df"
     },
     {
       "path": "src/core.js",
-      "bytes": 334614,
-      "sha256": "c0a6a26b978d00ec2fa495c983877c657818c69a3d854a26a1c115c54f0ae759"
+      "bytes": 335239,
+      "sha256": "c0ee69d8a283042a732f6d8c4876bedaf7ee5b01e514a6b65faca17d33f9afa3"
     },
     {
       "path": "src/d17-art149.js",
@@ -577,8 +582,8 @@
     },
     {
       "path": "src/frontier-art.js",
-      "bytes": 35974,
-      "sha256": "2e42c7ca7a998fe238a4e700b90c476a8bc234f315a6e5615c6d6eef4f1c14c8"
+      "bytes": 35986,
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017"
     },
     {
       "path": "src/frontier-care-ui.js",
@@ -632,8 +637,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -657,8 +662,8 @@
     },
     {
       "path": "src/hero-actions133.js",
-      "bytes": 10227,
-      "sha256": "f55f4c44142d2cfe0d3fd12d9a266334b7fe14a7a917bff544d20bc5b43bf2cc"
+      "bytes": 13053,
+      "sha256": "f48895efa04e02683b7492dde6b788f459fa3c58134671c38cbaf9ca7ac76951"
     },
     {
       "path": "src/hud135.js",
@@ -922,8 +927,8 @@
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 22857,
-      "sha256": "76550f749ea7f43218e24c7ad763440a3c8a619ec06249a3101140557a98a646"
+      "bytes": 27441,
+      "sha256": "0cbc8fa6ab6beeda3998b9f49b5ce03bff7face9d36026fc05ee6f0c9fb3a773"
     },
     {
       "path": "src/tactics.js",
@@ -1134,8 +1139,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36233,
-      "sha256": "e8407b69dd31a122570974f90f007283096761ab3e471840e8a3e4deb22a754b"
+      "bytes": 36287,
+      "sha256": "2db57ffc3cccf5301fbfcd4af972b95b6bc0cce11d2544c79700469b4cc6b4a9"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -1273,9 +1278,14 @@
       "sha256": "ee92a11ea253ea4eea89829c70435021a7e7b008c3805ffcf0247cfc425b767b"
     },
     {
+      "path": "src/campaign-services208.js",
+      "bytes": 7485,
+      "sha256": "e4955c8e1d12b6ae0bd100709f0b36238cfa3467d23950f22078347f84a2e3c7"
+    },
+    {
       "path": "src/campaign-site-art205.js",
-      "bytes": 33579,
-      "sha256": "cb889c20a93d9551022f0d61ff50a82f3ae1f11bd48712484dc3600b89081634"
+      "bytes": 39439,
+      "sha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -1504,8 +1514,8 @@
     },
     {
       "path": "src/context-operations160.js",
-      "bytes": 10041,
-      "sha256": "51c4ccdbccba95977cbeb0ac9bf4264a3c08d3977b5ab93b2d07538e69afcd26"
+      "bytes": 12121,
+      "sha256": "29bd29ceea0e899301fbaa63d5f17496b4a3e706c05111df510a3e9c43f37bc6"
     },
     {
       "path": "src/coop.js",
@@ -1520,12 +1530,12 @@
     {
       "path": "src/coordination.js",
       "bytes": 6685,
-      "sha256": "3dbc1155b8ee4934a15846cd734614dae0055c85e2c83fb35ab8d11ebed03827"
+      "sha256": "e27a42fd1b3b06ab408c68aeba8722b7a13f775a38b1c77f2c69a7a3259046df"
     },
     {
       "path": "src/core.js",
-      "bytes": 334614,
-      "sha256": "c0a6a26b978d00ec2fa495c983877c657818c69a3d854a26a1c115c54f0ae759"
+      "bytes": 335239,
+      "sha256": "c0ee69d8a283042a732f6d8c4876bedaf7ee5b01e514a6b65faca17d33f9afa3"
     },
     {
       "path": "src/d17-art149.js",
@@ -1704,8 +1714,8 @@
     },
     {
       "path": "src/frontier-art.js",
-      "bytes": 35974,
-      "sha256": "2e42c7ca7a998fe238a4e700b90c476a8bc234f315a6e5615c6d6eef4f1c14c8"
+      "bytes": 35986,
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017"
     },
     {
       "path": "src/frontier-care-ui.js",
@@ -1759,8 +1769,8 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 49776,
-      "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+      "bytes": 51421,
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
     },
     {
       "path": "src/frontier.js",
@@ -1784,8 +1794,8 @@
     },
     {
       "path": "src/hero-actions133.js",
-      "bytes": 10227,
-      "sha256": "f55f4c44142d2cfe0d3fd12d9a266334b7fe14a7a917bff544d20bc5b43bf2cc"
+      "bytes": 13053,
+      "sha256": "f48895efa04e02683b7492dde6b788f459fa3c58134671c38cbaf9ca7ac76951"
     },
     {
       "path": "src/hud135.js",
@@ -2049,8 +2059,8 @@
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 22857,
-      "sha256": "76550f749ea7f43218e24c7ad763440a3c8a619ec06249a3101140557a98a646"
+      "bytes": 27441,
+      "sha256": "0cbc8fa6ab6beeda3998b9f49b5ce03bff7face9d36026fc05ee6f0c9fb3a773"
     },
     {
       "path": "src/tactics.js",

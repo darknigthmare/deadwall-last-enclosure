@@ -1,0 +1,120 @@
+{
+  "kind": "services208-late-macro-cpu-diagnostic-receipt209",
+  "diagnosticWindowComplete": true,
+  "fullServiceQualification": false,
+  "createdUtc": "2026-10-26T10:42:48.734Z",
+  "qualifiedServicesReceipt": "/workspace/deadwall-cloud/extension208/services-browser/attempt21/services208-2026-10-26T10_15_50_282Z/qualified-receipt209.json",
+  "originHarness": {
+    "path": "/workspace/deadwall-last-enclosure/scripts/browser-services208.mjs",
+    "sha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a"
+  },
+  "externalClone": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/profile-native-after209.mjs",
+    "bytes": 56553,
+    "sha256": "ca69d2e86e7f197e20e53d100dc577f47a51e96ba13ae754c7ceb050f9b6d947"
+  },
+  "afterReport": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/profile-native-after208-final209/services208-2026-10-26T10_35_52_187Z/report.json",
+    "bytes": 350881,
+    "sha256": "89c81391e47792d4a8977daa4b2b098c21bcd274b82e34d3a0d28562774a0689"
+  },
+  "afterSummary": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/profile-native-after208-final209/services208-2026-10-26T10_35_52_187Z/cpu-after-summary209.json",
+    "bytes": 66669,
+    "sha256": "c6683cd937437f53ea07dca464c39b91ca18e5899a5485c9dafa99f426576bef"
+  },
+  "beforeProfile": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/renderer-native-slow.cpuprofile",
+    "bytes": 347393,
+    "sha256": "ad36c6ac747681d801da45d97e0b650d91ffe043194b37ca1d03500a2a3fe6ab",
+    "sampledMilliseconds": 12813.802,
+    "samples": 10768,
+    "accessGrid": {
+      "samples": 8651,
+      "sampleFraction": 0.8033989598811293,
+      "weightedMilliseconds": 9678.065,
+      "weightedFraction": 0.7553503821174691
+    }
+  },
+  "afterProfile": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/profile-native-after208-final209/services208-2026-10-26T10_35_52_187Z/renderer-after-native209.cpuprofile",
+    "bytes": 368143,
+    "sha256": "2e24e99bec657e86d38fafb737598daadc45bd4e81bf58e167ed3365c429ea75",
+    "sampledMilliseconds": 11143.641,
+    "samples": 9277,
+    "accessGrid": {
+      "samples": 0,
+      "sampleFraction": 0,
+      "weightedMilliseconds": 0,
+      "weightedFraction": 0
+    }
+  },
+  "sourceChangesRelativeToBefore": [
+    {
+      "path": "src/frontier-world.js",
+      "beforeSha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda",
+      "afterSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
+    }
+  ],
+  "runtimeSourcesStableDuringAfterCapture": true,
+  "sourceInventoryCount": 226,
+  "allDistRowsStillUnchanged": 368,
+  "nativeContext": {
+    "poseBefore": {
+      "active": true,
+      "generation": 11,
+      "detailVersion": 13,
+      "ecologyVersion": 1,
+      "hydrologyVersion": 1,
+      "landscape189": "balanced",
+      "x": 14577.310342444927,
+      "y": 2632.89611834489,
+      "z": 0,
+      "inside": "P3174",
+      "a": 0,
+      "car": null
+    },
+    "poseAfter": {
+      "active": true,
+      "generation": 11,
+      "detailVersion": 13,
+      "ecologyVersion": 1,
+      "hydrologyVersion": 1,
+      "landscape189": "balanced",
+      "x": 14578.026442444921,
+      "y": 2632.89611834489,
+      "z": 0,
+      "inside": "P3174",
+      "a": 0,
+      "car": null
+    },
+    "elapsedBefore": 116.49540000000455,
+    "elapsedAfter": 126.99490000000597,
+    "simulatedSeconds": 10.499500000001419,
+    "macroClockBefore": 116.04530000000447,
+    "macroClockAfter": 126.57810000000589,
+    "groupsBefore": 13,
+    "groupsAfter": 13,
+    "groupStateChanged": true,
+    "nativeWalks": 6,
+    "nativeInputEvents": 62,
+    "controllerWallMilliseconds": 10458,
+    "poseAssignments": 0,
+    "clockAssignments": 0,
+    "groupAssignments": 0,
+    "errors": {
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "requestFailures": 0
+    }
+  },
+  "interpretation": "The former accessGrid hotspot is absent from this naturally late-migration window. This observation agrees with the separate zero-reconstruction churn test; it is not an FPS benchmark or a matched causal speed comparison.",
+  "limits": [
+    "The old capture has no exact simulation clock at sampling start; no before/after simulation-to-wall or speed ratio is inferred.",
+    "The real guide, posture and host CPU load differ between captures.",
+    "Controller wall time and CDP sample time have different read/ack boundaries; raw durations are retained separately.",
+    "The after report deliberately stops before medical completion and remains pass:false as a full service profile. It does not replace the separately qualified111 checks.",
+    "All files here remain external; no repository, index, runtime or dist mutation was made for this diagnostic."
+  ]
+}

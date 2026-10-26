@@ -1,0 +1,46 @@
+{
+  "kind": "DEADWALL-1.73-reviewed-candidate-corrections",
+  "observedUtc": "2026-10-26T11:05:43.867806+00:00",
+  "sourceBase": "afd33450b91051a9cd680ae65c238ef86a1c9aa0",
+  "reviewId": 5650819031,
+  "reviewCommit": "fd15d351f5ca5779bce606f33e8138305d6e70cf",
+  "scope": "Corrections checked in the candidate; final immutable-head CI and fresh final review remain required. No remote review/comment was edited or dismissed.",
+  "corrected": [
+    {
+      "commentId": 4376371153,
+      "path": "scripts/ci-failure-summary.mjs",
+      "resolution": "Consume the complete raw cookie header line, including components, expiry commas, quote prefixes and empty headers; preserve following lines and complete quoted JSON fields. Native74/74 and independent102/102 synthetic probes.",
+      "fileSha256": "d5bf3bd52f7618f625f106d4305193428a4c5054bd968e6b06be64ee55a60d87"
+    },
+    {
+      "commentId": 4376371143,
+      "path": "docs/codex/suivi-monde2026/PUBLICATION.md",
+      "resolution": "State one extra carried fuel for oven meals; historical delays/effects and other costs retained. Checked against core and balancing.",
+      "fileSha256": "269c375490ea73468c0230f0443d5c4dc4b6926a0be90de6927b366a336ff2e2"
+    }
+  ],
+  "nonblocking": [
+    {
+      "path": "src/campaign-site-art205.js",
+      "resolution": "The painter-kind table currently equals the core supports table. No present mismatch or defect reproduced; a future deduplication is outside this frozen gameplay change."
+    },
+    {
+      "paths": [
+        "src/hero-actions133.js",
+        "src/campaign-site-art205.js",
+        "src/context-operations160.js"
+      ],
+      "resolution": "All three highlighted exec calls invoke constant RegExp literals, not shell execution."
+    },
+    {
+      "path": "src/campaign-services208.js",
+      "resolution": "The private dependency helper receives only constant local module paths; no user-controlled require path is exposed."
+    },
+    {
+      "resolution": "Markdown/number/language suggestions and optional lint preferences do not change current behavior or invalidate the existing size and source checks."
+    }
+  ],
+  "finalHeadQualified": false,
+  "merged": false,
+  "productionVerified": false
+}

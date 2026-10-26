@@ -8,12 +8,20 @@ test('les JSON publiés relisent leur couverture G11 et refusent une preuve orph
  const fs=require('node:fs'),os=require('node:os'),folder=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-tracker-load205-'));
  try{
   const target=path.join(folder,'docs/codex/suivi-monde2026');fs.mkdirSync(target,{recursive:true});
-  for(const[key,name]of [['catalogue','catalogue-existant.json'],['typologies','typologies-cibles.json'],['variants','variantes-a-concevoir.json'],['tasks','chantiers.json'],['campaign205','campagne-g11.json']])fs.writeFileSync(path.join(target,name),JSON.stringify(snapshot[key]));
+  const outputs=[['catalogue','catalogue-existant.json'],['typologies','typologies-cibles.json'],['variants','variantes-a-concevoir.json'],['tasks','chantiers.json'],['campaign205','campagne-g11.json']];
+  if(snapshot.campaign208)outputs.push(['campaign208','campagne-services-g11.json']);
+  for(const[key,name]of outputs)fs.writeFileSync(path.join(target,name),JSON.stringify(snapshot[key]));
   const loaded=load(folder);assert.deepEqual(loaded.campaign205,snapshot.campaign205);assert.equal(validate(loaded).campaignEligibleVariants,200);
+  if(snapshot.campaign208){
+   assert.deepEqual(loaded.campaign208,snapshot.campaign208);
+   assert.equal(validate(loaded).campaignServiceModels,200);
+   fs.unlinkSync(path.join(target,'campagne-services-g11.json'));assert.throws(()=>validate(load(folder)),/orpheline/);
+   fs.writeFileSync(path.join(target,'campagne-services-g11.json'),JSON.stringify(snapshot.campaign208));
+  }
   fs.unlinkSync(path.join(target,'campagne-g11.json'));assert.throws(()=>validate(load(folder)),/orphelines/);
  }finally{fs.rmSync(folder,{recursive:true,force:true});}
 });
-test('catalogue complet et 80 × 50 objectifs, sans prétention de jouabilité',()=>{const r=validate(clean());assert.equal(r.programmes,4000);assert.equal(r.parents,2000);assert.equal(r.spaces,12060);assert.equal(r.objectReferences,13539);assert.equal(r.variantTargets,4000);assert.equal(r.variantsDesigned,0);assert.equal(r.variantsInspectable,4000);assert.equal(r.variantsPlayable,0);assert.equal(r.validatedTasks,3);const closed=clean().tasks.filter(t=>t.status==='Validé');assert.deepEqual(closed.map(t=>t.id).sort(),['EXT-MONDE-T060/dimensions','EXT-MONDE-T065/dimensions','EXT-MONDE-T066/dimensions']);assert.ok(closed.every(t=>t.evidence.includes('FONDATIONS_METRIQUES_2026.md#dimensions-auteur-validees')));assert.equal(clean().tasks.filter(t=>t.status==='En cours').length,405);assert.equal(clean().tasks.filter(t=>t.status==='À faire').length,392);assert.equal(r.campaignEligibleVariants,200);assert.ok(r.campaignObservedSites>0);assert.equal(r.published,false);});
+test('catalogue complet et 80 × 50 objectifs, sans prétention de jouabilité',()=>{const r=validate(clean());assert.equal(r.programmes,4000);assert.equal(r.parents,2000);assert.equal(r.spaces,12060);assert.equal(r.objectReferences,13539);assert.equal(r.variantTargets,4000);assert.equal(r.variantsDesigned,0);assert.equal(r.variantsInspectable,4000);assert.equal(r.variantsPlayable,0);assert.equal(r.validatedTasks,3);const closed=clean().tasks.filter(t=>t.status==='Validé');assert.deepEqual(closed.map(t=>t.id).sort(),['EXT-MONDE-T060/dimensions','EXT-MONDE-T065/dimensions','EXT-MONDE-T066/dimensions']);assert.ok(closed.every(t=>t.evidence.includes('FONDATIONS_METRIQUES_2026.md#dimensions-auteur-validees')));const advanced=(snapshot.campaign208?.startedStages.length||0)*4;assert.equal(clean().tasks.filter(t=>t.status==='En cours').length,405+advanced);assert.equal(clean().tasks.filter(t=>t.status==='À faire').length,392-advanced);assert.equal(r.campaignEligibleVariants,200);assert.ok(r.campaignObservedSites>0);assert.equal(r.published,false);});
 test('la validation ne modifie pas ses entrées',()=>{const d=clean(),before=JSON.stringify(d);validate(d);assert.equal(JSON.stringify(d),before);});
 test('parent existant manquant refusé',()=>{const d=clean();d.catalogue.programmes[0].parent='DW-9999';assert.throws(()=>validate(d),/parent absent/);});
 test('identifiant de programme dupliqué refusé',()=>{const d=clean();d.catalogue.programmes[1].id=d.catalogue.programmes[0].id;assert.throws(()=>validate(d),/doublon/);});
@@ -32,5 +40,24 @@ test('les preuves G11 ne deviennent ni 200 sites par graine ni une validation gl
  assert.ok(d.variants.filter(v=>v.campaign205).every(v=>v.playable===false&&v.architecture===null&&v.spawnWeight===null));
  for(const change of [x=>{x.campaign205.summary.observedSites++;},x=>{x.variants.find(v=>v.campaign205).campaign205.eligible=false;},x=>{x.tasks.find(t=>t.id==='EXT-MONDE-T045/seed').status='Validé';}]){
   const changed=clean();change(changed);assert.throws(()=>validate(changed),/campagne|variante|totaux/);
+ }
+});
+
+test('les supports208, poses mondiales et échantillons visuels gardent leurs preuves distinctes',()=>{
+ const d=clean(),proof=d.campaign208;
+ if(!proof){assert.ok(d.variants.every(v=>!v.campaign208));return;}
+ const r=validate(d);assert.equal(r.campaignServiceModels,200);
+ assert.equal(r.campaignServiceTransactionsTested,0);
+ assert.equal(r.campaignServiceWorldSeeds,3);
+ assert.equal(r.campaignServiceSupportsOffered,r.campaignServiceSupportsAccessible+r.campaignServiceSupportsRefused);
+ if(proof.art){assert.equal(r.campaignServiceArtModels,4);assert.equal(r.campaignServiceArtSamples,proof.art.records.length);}
+ assert.ok(d.variants.filter(v=>v.campaign208).every(v=>v.playable===false));
+ for(const change of [
+  x=>{x.campaign208.summary.valid++;},
+  x=>{x.campaign208.worldSummary.transactions=1;},
+  x=>{x.tasks.find(t=>t.id==='EXT-MONDE-T045/services').status='Validé';},
+  x=>{delete x.campaign208;},
+ ]){
+  const changed=clean();change(changed);assert.throws(()=>validate(changed),/totaux|transactions|globale|orpheline/);
  }
 });

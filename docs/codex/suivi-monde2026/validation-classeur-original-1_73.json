@@ -1,0 +1,79 @@
+{
+  "sheets": 15,
+  "programmes": 4000,
+  "typologies": 80,
+  "variants": 4000,
+  "tasks": 800,
+  "formulas": 1181,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "validatedTasks": 3,
+  "inProgressTasks": 413,
+  "pendingTasks": 384,
+  "playableVariants": 0,
+  "inspectionPlans": 4000,
+  "inspectionTypes": 80,
+  "inspectionProps": 588378,
+  "inspectionRefused": 0,
+  "preservedHistoricalFeatures": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 99593,
+    "authorCellsWithWrapStyleChanges": 33143,
+    "derivedResizedFooterCellsExcluded": 120,
+    "authorCellsWithEquivalentExplicitDefaults": 33143,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 473,
+      "Variantes à concevoir": 32670
+    },
+    "inheritedStylesPreserved": true
+  },
+  "campaignG11": {
+    "types": 4,
+    "eligibleVariants": 200,
+    "passedVariants": 200,
+    "guaranteedSitesPerSeed": 0,
+    "observedSeeds": 8,
+    "observedSites": 63,
+    "observedVariants": 58
+  },
+  "campaignServicesG11": {
+    "types": 4,
+    "models": 200,
+    "offered": 2905,
+    "valid": 2905,
+    "refused": 0,
+    "modelsWithAccessibleSupport": 200,
+    "modelsWithoutAccessibleSupport": 0,
+    "byAction": {
+      "meal": {
+        "offered": 625,
+        "valid": 625,
+        "refused": 0
+      },
+      "restSheltered": {
+        "offered": 1880,
+        "valid": 1880,
+        "refused": 0
+      },
+      "service": {
+        "offered": 350,
+        "valid": 350,
+        "refused": 0
+      },
+      "medicalCare": {
+        "offered": 50,
+        "valid": 50,
+        "refused": 0
+      }
+    },
+    "worldSeeds": 3,
+    "worldSites": 23,
+    "transactionsTested": 0,
+    "visualModels": 4,
+    "visualSamples": 13
+  },
+  "scope": "XLSX source reconciliation; does not certify gameplay",
+  "metadataReconciled": true,
+  "sha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e",
+  "bytes": 590915
+}

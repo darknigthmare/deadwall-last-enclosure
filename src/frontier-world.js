@@ -308,12 +308,29 @@ function detailAt(p,z=0){
  if(detailCache.size>64)detailCache.delete(detailCache.keys().next().value);
  return val;
 }
-function detailSolids(p,z,part,optical=false){const items=detailAt(p,z).colliders160?.[part]||[];return optical&&p.campaign205?items.filter(o=>o.opaque!==false):items;}
+// Coarse POI bins also contain parcels whose exterior is nowhere near this
+// query. Keep only their exact local collider envelope after the first read;
+// global horde movement must not regenerate every evicted neighbouring plan.
+// Keys belong to this world and retain neither a detail layer nor its props.
+const outdoorBounds208=new WeakMap(),emptySolids208=Object.freeze([]);
+function outdoorSignature208(p){return[p.x,p.y,p.a,p.w,p.h,p.type,p.programme3000,p.codex,p.generation,...(p.parking||[]).flatMap(c=>[c.x,c.y,c.a,c.w,c.h])].join(':');}
+function detailSolids(p,z,part,optical=false,query=null){
+ const broad=part==='outdoor'&&z===0&&!p.programme160&&query&&[query.l,query.t,query.r,query.b].every(Number.isFinite)&&query.l<=query.r&&query.t<=query.b,signature=broad?outdoorSignature208(p):null,prior=broad?outdoorBounds208.get(p):null;
+ // Strict separation preserves tangencies. Include opaque:false solids in the
+ // envelope too; only the established exact optical predicate may omit them.
+ if(prior?.signature===signature&&prior.bounds&&(!prior.bounds.length||query.r<prior.bounds[0]||query.l>prior.bounds[2]||query.b<prior.bounds[1]||query.t>prior.bounds[3]))return emptySolids208;
+ const items=detailAt(p,z).colliders160?.[part]||[];
+ if(broad&&prior?.signature!==signature){
+  let bounds=[];for(const o of items){if(![o.x,o.y,o.w,o.h].every(Number.isFinite)||o.w<0||o.h<0){bounds=null;break;}bounds=bounds.length?[Math.min(bounds[0],o.x),Math.min(bounds[1],o.y),Math.max(bounds[2],o.x+o.w),Math.max(bounds[3],o.y+o.h)]:[o.x,o.y,o.x+o.w,o.y+o.h];}
+  outdoorBounds208.set(p,{signature,bounds});
+ }
+ return optical&&p.campaign205?items.filter(o=>o.opaque!==false):items;
+}
 function blocked(x,y,r=.32,z=0,inside=null,ignore=null,optical=false,naturalWaterIgnored=false){if(!Number.isFinite(x)||!Number.isFinite(y)||x<r||y<r||x>size-r||y>size-r)return true;
 if(z===0&&!optical&&!naturalWaterIgnored&&hydrology?.blockedCircle(x,y,r))return true;
 if(z!==0){const p=pois.find(p=>p.id===inside);if(!p||!p.levels.includes(z))return true;const q=G.local(p,x,y);if(q.x<r||q.y<r||q.x>p.w-r||q.y>p.h-r)return true;}
 for(const p of nearPOI(x,y,r+3)){const destroyed=!!effects.structureDestroyed?.(p.id);if(z!==0&&p.id!==inside)continue;if(!p.levels.includes(z))continue;const q=G.local(p,x,y);if(p.programme160){const pl=plan(p,z);if((optical?Geometry160.optical(p,pl,q.x,q.y,r,effects):Geometry160.terrainMovement(p,pl,q.x,q.y,r,false,effects)))return true;}if(q.x>-r&&q.y>-r&&q.x<p.w+r&&q.y<p.h+r){const pl=plan(p,z);if(!destroyed&&pl.walls.some(b=>G.circleRect(q.x,q.y,r,b)))return true;if(pl.objects.some(b=>b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;if(detailSolids(p,z,'interior',optical).some(b=>b.id!==ignore&&G.circleRect(q.x,q.y,r,b)))return true;}
-if(z===0){for(const b of p.outdoor||[])if(b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;for(const b of detailSolids(p,0,'outdoor',optical))if(b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;}
+if(z===0){for(const b of p.outdoor||[])if(b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;for(const b of detailSolids(p,0,'outdoor',optical,{l:q.x-r,t:q.y-r,r:q.x+r,b:q.y+r}))if(b.id!==ignore&&G.circleRect(q.x,q.y,r,b))return true;}
 if(z===0)for(const car of p.parking){if(car.id===ignore)continue;const v=G.local(car,x,y);if(G.circleRect(v.x,v.y,r,{x:0,y:0,w:car.w,h:car.h}))return true;}}
 if(z===0)for(const c of around(x,y,r+4))for(const t of [...c.trees,...c.rocks])if(t.id!==ignore&&sceneryRadius(t)>0&&Math.hypot(t.x-x,t.y-y)<sceneryRadius(t)+r)return true;return false;}
 // Sweep the same collision disc against real geometry. Sampling blocked() every
@@ -330,7 +347,7 @@ function line(a,b,z=0,inside=null,ignore=null,r=.05,purpose='optical'){
   if(z!==0&&p.id!==inside||!p.levels.includes(z))continue;const u=G.local(p,a.x,a.y),v=G.local(p,b.x,b.y);
   if(p.programme160&&Geometry160.rects(plan(p,z),effects,{optical:purpose==='optical'}).some(o=>o.id!==ignore&&rect(u,v,o)))return false;
   if(G.segmentRect(u,v,{x:-r,y:-r,w:p.w+2*r,h:p.h+2*r})){const pl=plan(p,z);if(!effects.structureDestroyed?.(p.id)&&pl.walls.some(o=>rect(u,v,o)))return false;if(pl.objects.some(o=>o.id!==ignore&&rect(u,v,o)))return false;if(detailSolids(p,z,'interior',purpose==='optical').some(o=>o.id!==ignore&&rect(u,v,o)))return false;}
-  if(z===0){if((p.outdoor||[]).some(o=>o.id!==ignore&&rect(u,v,o)))return false;if(detailSolids(p,0,'outdoor',purpose==='optical').some(o=>o.id!==ignore&&rect(u,v,o)))return false;for(const car of p.parking){if(car.id===ignore)continue;const ca=G.local(car,a.x,a.y),cb=G.local(car,b.x,b.y);if(rect(ca,cb,{x:0,y:0,w:car.w,h:car.h}))return false;}}
+  if(z===0){if((p.outdoor||[]).some(o=>o.id!==ignore&&rect(u,v,o)))return false;if(detailSolids(p,0,'outdoor',purpose==='optical',{l:Math.min(u.x,v.x)-r,t:Math.min(u.y,v.y)-r,r:Math.max(u.x,v.x)+r,b:Math.max(u.y,v.y)+r}).some(o=>o.id!==ignore&&rect(u,v,o)))return false;for(const car of p.parking){if(car.id===ignore)continue;const ca=G.local(car,a.x,a.y),cb=G.local(car,b.x,b.y);if(rect(ca,cb,{x:0,y:0,w:car.w,h:car.h}))return false;}}
  }
  if(z===0)for(const c of around(mx,my,reach))for(const items of[c.trees,c.rocks])for(const p of items)if(p.id!==ignore&&sceneryRadius(p)>0&&circle(p,sceneryRadius(p)+r))return false;
  return true;

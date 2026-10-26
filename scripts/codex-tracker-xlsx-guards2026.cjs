@@ -33,4 +33,14 @@ function variant(row, expected) {
 function campaign(data) {
   return require('./codex-campaign-progress205.cjs').validateCoverage(data);
 }
-module.exports = {proofPath, task, variant, campaign};
+function campaignServices(data) {
+  return require('./codex-campaign-services-progress208.cjs').validateCoverage(data);
+}
+function acceptance(task) {
+  // Keep the original reception criteria and show the bounded current progress
+  // beside them. A proof note is not a completed task.
+  const scoped = require('./codex-campaign-services-progress208.cjs').TYPES.includes(task.typologyId)
+    && ['architecture', 'sauvegarde', 'qa', 'services', 'art'].includes(task.stage);
+  return task.acceptance + (scoped && task.progress ? '\nAvancement et limites : ' + task.progress : '');
+}
+module.exports = {proofPath, task, variant, campaign, campaignServices, acceptance};

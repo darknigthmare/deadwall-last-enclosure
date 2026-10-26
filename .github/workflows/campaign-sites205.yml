@@ -2,7 +2,7 @@ name: DEADWALL G11 campaign sites 205
 on:
   pull_request:
   push:
-    branches: [main, feat/content-completion-20261024]
+    branches: [main, feat/content-completion-20261024, feat/field-services-20261025]
   workflow_dispatch:
 permissions:
   contents: read

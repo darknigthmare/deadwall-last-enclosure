@@ -31,3 +31,10 @@ test('les paramètres de campagne ou états externes des variantes sont conserv�
     assert.throws(() => Guards.variant(changed, v), /conservée/);
   }
 });
+test('les notes des services G11 complètent leurs critères sans réécrire les autres chantiers', () => {
+  const task = {typologyId: 'EXT-MONDE-T045', stage: 'qa', acceptance: 'Critères inchangés.', progress: 'Parcours témoins distincts ; tous les services restent ouverts.'};
+  assert.equal(Guards.acceptance(task), task.acceptance + '\nAvancement et limites : ' + task.progress);
+  assert.equal(Guards.acceptance({...task, typologyId: 'EXT-MONDE-T044'}), task.acceptance);
+  assert.equal(Guards.acceptance({...task, stage: 'dimensions'}), task.acceptance);
+  assert.equal(Guards.acceptance({...task, progress: ''}), task.acceptance);
+});

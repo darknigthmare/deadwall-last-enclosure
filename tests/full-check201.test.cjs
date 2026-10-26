@@ -26,6 +26,47 @@ function fixture(log = footer()) {
 }
 const rehash = source => { source.sha256 = hash(JSON.stringify(source.files)); };
 
+test('full check exposes bounded real TAP/spec failure names without changing qualification', async () => {
+  const {nativeDiagnostics201, qualifyFullCheck201} = await mod;
+  for (const log of [
+    "not ok 1 - actual inventory assertion\n  ---\n  error: 'AssertionError: medicine differs'\n  stack: |-\n    at TestContext.<anonymous> (tests/full-check201.test.cjs:15:1)\n  ...\n",
+    "test at tests/full-check201.test.cjs:15:1\n✖ actual inventory assertion (14.5ms)\n  AssertionError: medicine differs\n"
+  ]) {
+    const bytes = Buffer.concat([Buffer.from(log), footer({pass: 5190, fail: 1})]);
+    const diagnostics = nativeDiagnostics201(bytes);
+    assert.equal(diagnostics.diagnosticOnly, true);
+    assert.equal(diagnostics.failures.length, 1);
+    assert.match(diagnostics.failures[0].message, /actual inventory assertion/);
+    assert.match(diagnostics.failures[0].message, /medicine differs/);
+    assert.match(diagnostics.failures[0].message, /tests\/full-check201.test.cjs:15:1/);
+    const f = fixture(bytes); f.receipt.nativeDiagnostics = {...diagnostics, failures: []};
+    assert.throws(() => qualifyFullCheck201(f.receipt, bytes), /Failed, skipped or todo/);
+  }
+});
+
+test('native failure diagnostics reuse redaction and bound Unicode output by bytes', async () => {
+  const {nativeDiagnostics201} = await mod;
+  const log = Array.from({length: 30}, (_, i) => 'not ok ' + (i + 1) + ' - case' + i + ' ' + '🧱'.repeat(400) + ' https://example.invalid/?token=secret token=private\n').join('');
+  const result = nativeDiagnostics201(Buffer.from(log));
+  assert.equal(result.truncated, true);
+  assert.ok(result.failures.length > 0 && result.failures.length <= 8);
+  assert.ok(Buffer.byteLength(JSON.stringify(result)) <= 4096);
+  const privateLog = nativeDiagnostics201(Buffer.from('not ok 1 - actual failure https://example.invalid/?token=hidden token=private /private/host/path\n'));
+  assert.doesNotMatch(JSON.stringify(privateLog), /example\.invalid|hidden|private\/host|token=private/);
+});
+
+test('native diagnostics preserve empty results, input bytes and explicit tail truncation', async () => {
+  const {nativeDiagnostics201} = await mod;
+  const green = footer(), original = Buffer.from(green);
+  assert.deepEqual(nativeDiagnostics201(green), {diagnosticOnly: true, failures: [], truncated: false});
+  assert.deepEqual(green, original);
+  assert.throws(() => nativeDiagnostics201('not original bytes'), /original log bytes/);
+  const large = Buffer.from('x'.repeat(2 * 1024 * 1024 + 100) + '\nnot ok 1 - actual final failure\n');
+  const result = nativeDiagnostics201(large);
+  assert.equal(result.truncated, true);
+  assert.match(result.failures[0].message, /actual final failure/);
+});
+
 test('literal full check accepts complete original evidence despite an untrusted claimed result', async () => {
   const {qualifyFullCheck201} = await mod, f = fixture();
   f.receipt.accepted = false;

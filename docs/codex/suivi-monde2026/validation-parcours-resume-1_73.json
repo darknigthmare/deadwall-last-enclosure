@@ -1,0 +1,44 @@
+{
+  "kind": "services208-browser-summary",
+  "version": "1.73.0",
+  "complete": true,
+  "pass": true,
+  "started": "2026-10-26T10:15:50.290Z",
+  "completed": "2026-10-26T10:30:16.531Z",
+  "sourceScriptSha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a",
+  "fullReport": {
+    "file": "report.json",
+    "bytes": 1930987,
+    "sha256": "cd640027f1fbbda042d00d7cb4ebb2de8f9597107657671bb7abb2dfd1dc6743"
+  },
+  "checkedDistributionFiles": 211,
+  "sourceInventoryStable": true,
+  "profiles": [
+    {
+      "viewport": "desktop",
+      "pass": true,
+      "checks": 55,
+      "passed": 55,
+      "failed": [],
+      "errors": {
+        "page": 0,
+        "console": 0,
+        "http": 0,
+        "request": 0
+      }
+    },
+    {
+      "viewport": "mobile",
+      "pass": true,
+      "checks": 56,
+      "passed": 56,
+      "failed": [],
+      "errors": {
+        "page": 0,
+        "console": 0,
+        "http": 0,
+        "request": 0
+      }
+    }
+  ]
+}

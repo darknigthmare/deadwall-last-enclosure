@@ -1,0 +1,33 @@
+{
+  "pullRequest": 20,
+  "pullRequestURL": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/20",
+  "sourceCommit": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "sourceCheckpoint": "S1b",
+  "baseCommit": "8780075f305e405e5aa94e593a70d11391b16e20",
+  "baseVersion": "1.72.0",
+  "baseCheckedAt": "2026-10-25",
+  "subtitle": "DEADWALL 1.73 · Services physiques G11 · supports, transactions et visuels distincts",
+  "summary": "80 typologies, 4 000 objectifs et 800 tâches : 3 validations métriques conservées, 413 tâches en cours, 384 à faire. Les huit étapes services/graphismes T045–T048 commencent sans validation globale.",
+  "details": "4 000 plans auteur réinspectés ; 200 modèles G11 éligibles, avec 63 instances observées sur 8 graines. Le nouvel audit de services vérifie 2 905 supports dans 200 géométries auteur et, séparément, 360 poses canoniques sur 23 sites de 3 graines.",
+  "remaining": "Les visuels d'activité contrôlés concernent 4 variantes V01 et 13 présentations préparées. Services, graphismes et parcours complets restent En cours ; les 4 000 plans d'inspection ne sont pas promus jouables.",
+  "metrics": "Plans auteur, modèles éligibles, sites observés, supports accessibles, transactions et art échantillonné ont des périmètres distincts. Le reçu de supports ne qualifie aucune transaction ; les coûts, paiements, annulations et reprises ont leurs tests propres.",
+  "workbookState": "Copie du dépôt actualisée",
+  "workbookDetail": "Classeur 1.73 régénéré depuis les sources S1b ; sa copie du dépôt est actualisée après réception du candidat externe. Le fichier Drive historique reste intact, sans synchronisation distante revendiquée.",
+  "targetedTests": "Audits source actuels ; progression 25/25 ; lecteurs et gardes XLSX 8/8 ; chargeur 16/16",
+  "targetedDetail": "Rapports réexécutés pour 1.73 : auteur 29 sources, campagne G11 226 sources, services/art 243 sources. Les tests de suivi ne qualifient ni une campagne complète ni le résultat global du jeu.",
+  "globalCheck": "En attente de la CI complète du commit final 1.73",
+  "globalDetail": "Aucun résultat global 1.72 n'est attribué à 1.73. Les audits et tests ciblés ne remplacent pas le contrôle intégral du commit final ; son code de sortie et son reçu doivent être observés séparément.",
+  "globalState": "En attente : CI du commit final",
+  "integration": "200 modèles G11 éligibles ; 63 instances sur 8 graines pour l'admission ; 23 sites sur 3 graines pour les poses de services ; 0 promotion globale des variantes d'inspection.",
+  "integrationChange": "Nouvelle passe 1.73",
+  "integrationDetail": "Sources S1b b57d0fa83046fa8d4da99a394866734b13428a83 dans la PR #20. Correction moteur : une enveloppe exacte des solides extérieurs évite de reconstruire les décors éloignés pendant les collisions des groupes en migration. Les caches de plans et de détails gardent leurs limites. CI complète du commit final, fusion et déploiement Vercel Production exact restent des réceptions séparées, toutes en attente.",
+  "integrationState": "CI / fusion / Production en attente",
+  "validationProtocol": "docs/codex/suivi-monde2026/VALIDATION_1_73.md",
+  "preparationStatus": "Sources S1b et PR #20 réelles ; candidat externe S1b à recevoir avant installation. Le classeur et les preuves S1 sont conservés séparément.",
+  "reportSha256": {
+    "inspection-20261023.json": "07e4f5a9cbfeb35d6c6309391e80d8885a5669366aa855829c6c16d567bb69af",
+    "campagne205-eligibilite.json": "21afaf14cca4ec979b356c31743d4e3576f84a0df74be459c1f2b9c8358c6841",
+    "campagne208-services.json": "96569e04a9cc5858fdb9d8490892141e4f37e7704308c64ff105c5a36f6b8fd2",
+    "campagne208-art.json": "4c73f001eef430ba73fb55cb7a7b09495344579e14c5d054f80b53b58cdd5f77"
+  }
+}

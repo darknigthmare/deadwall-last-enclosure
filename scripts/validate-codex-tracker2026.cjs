@@ -32,11 +32,17 @@ function validate(data){
  for(const t of tasks){if(!types.has(t.typologyId)||!allowed.has(t.status))FAIL('statut ou type tâche invalide');if(t.status==='Validé'&&!t.evidence?.trim())FAIL('validation sans preuve');}
  for(const type of types){const group=tasks.filter(t=>t.typologyId===type);if(group.length!==10||new Set(group.map(t=>t.stage)).size!==10)FAIL('étapes de production incomplètes');}
  const campaign=require('./codex-campaign-progress205.cjs').validateCoverage(data);
+ const services=require('./codex-campaign-services-progress208.cjs').validateCoverage(data);
  return {programmes:programmes.size,parents:parents.size,spaces:rooms.size,objectReferences:catalogue.props.length,typologies:types.size,
   variantTargets:variants.length,variantsDesigned:variants.filter(v=>v.architecture!==null).length,variantsInspectable:variants.filter(v=>v.status==='Inspection physique').length,variantsPlayable:variants.filter(v=>v.playable===true).length,tasks:tasks.length,validatedTasks:tasks.filter(t=>t.status==='Validé').length,
   ...(campaign?{campaignEligibleVariants:campaign.eligibleVariants,campaignObservedSeeds:campaign.observedSeeds,campaignObservedSites:campaign.observedSites}:{}),
+  ...(services?{campaignServiceModels:services.models,campaignServiceSupportsOffered:services.offered,
+   campaignServiceSupportsAccessible:services.valid,campaignServiceSupportsRefused:services.refused,
+   campaignServiceWorldSeeds:services.worldSeeds,campaignServiceWorldSites:services.worldSites,
+   campaignServiceTransactionsTested:services.transactionsTested,campaignServiceArtModels:services.visualModels,
+   campaignServiceArtSamples:services.visualSamples}:{}),
   scope:'contrats de suivi ; pas une validation de jeu',published:false};
 }
-function load(root){const p=path.join(root,'docs/codex/suivi-monde2026'),read=n=>JSON.parse(fs.readFileSync(path.join(p,n),'utf8'));return {catalogue:read('catalogue-existant.json'),typologies:read('typologies-cibles.json'),variants:read('variantes-a-concevoir.json'),tasks:read('chantiers.json'),...(fs.existsSync(path.join(p,'campagne-g11.json'))?{campaign205:read('campagne-g11.json')}:{})};}
+function load(root){const p=path.join(root,'docs/codex/suivi-monde2026'),read=n=>JSON.parse(fs.readFileSync(path.join(p,n),'utf8'));return {catalogue:read('catalogue-existant.json'),typologies:read('typologies-cibles.json'),variants:read('variantes-a-concevoir.json'),tasks:read('chantiers.json'),...(fs.existsSync(path.join(p,'campagne-g11.json'))?{campaign205:read('campagne-g11.json')}:{ }),...(fs.existsSync(path.join(p,'campagne-services-g11.json'))?{campaign208:read('campagne-services-g11.json')}:{})};}
 module.exports={validate,load};
 if(require.main===module){const data=process.argv[2]?load(path.resolve(process.argv[2])):require('./build-codex-tracker2026.cjs').currentData();console.log(JSON.stringify(validate(data),null,2));}

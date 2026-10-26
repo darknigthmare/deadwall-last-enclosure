@@ -35,6 +35,12 @@ def verify(file, data_dir):
     if data.get("campaign205"):
         campaign = json.loads((directory / "campagne-g11.json").read_text())
         checker.assert_equal(campaign, data["campaign205"], "Preuves de campagne G11 régénérées")
+    services_file = directory / "campagne-services-g11.json"
+    if data.get("campaign208"):
+        services = json.loads(services_file.read_text())
+        checker.assert_equal(services, data["campaign208"], "Preuves des services G11 régénérées")
+    elif services_file.exists():
+        raise AssertionError("Preuves de services orphelines : campagne-services-g11.json")
     result = checker.verify(checker.read_workbook(file), data)
     result.update({
         "passed": True,

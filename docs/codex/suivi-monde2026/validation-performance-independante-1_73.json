@@ -1,0 +1,210 @@
+{
+  "kind": "independent-208-native-cpu-and-outdoor-broadphase-review",
+  "observedUtc": "2026-10-25T11:18:30.457Z",
+  "pass": true,
+  "diagnosticComplete": true,
+  "performanceFixedNotYetQualified": true,
+  "servicesJourneyQualified": false,
+  "observedEngineProblem": {
+    "nativeAttemptPass": false,
+    "intentionalNegativeStop": true,
+    "positiveChecks": 22,
+    "segment": 15,
+    "pulseMilliseconds": 6912,
+    "endElapsed": 114.7456000000024,
+    "measuredPath": "game.loop -> worldEvolution.update -> stepGroups -> blocked/line -> detailAt -> codex3000 enrich/fill/furnish -> accessGrid",
+    "isQAGuideOnlyIssue": false,
+    "slow": {
+      "samples": 10768,
+      "profileWindowMs": 12813.802,
+      "sampledDeltaMs": 12812.683,
+      "accessGrid": {
+        "function": "accessGrid",
+        "url": "http://127.0.0.1:40807/src/codex3000-live-data.js",
+        "line": 3473,
+        "column": 21,
+        "selfUs": 9678065,
+        "selfSamples": 8651,
+        "inclusiveUs": 9678065,
+        "inclusiveSamples": 8651,
+        "selfMs": 9678.065,
+        "inclusiveMs": 9678.065,
+        "selfPercent": 75.53503821174691,
+        "inclusivePercent": 75.53503821174691
+      },
+      "stepGroups": {
+        "function": "stepGroups",
+        "url": "http://127.0.0.1:40807/src/world-evolution.js",
+        "line": 68,
+        "column": 20,
+        "selfUs": 1096,
+        "selfSamples": 1,
+        "inclusiveUs": 10557328,
+        "inclusiveSamples": 9450,
+        "selfMs": 1.096,
+        "inclusiveMs": 10557.328,
+        "selfPercent": 0.008554024164962171,
+        "inclusivePercent": 82.39748068378809
+      },
+      "stepContacts": {
+        "function": "stepContacts",
+        "url": "http://127.0.0.1:40807/src/world-evolution.js",
+        "line": 46,
+        "column": 22,
+        "selfUs": 0,
+        "selfSamples": 0,
+        "inclusiveUs": 1076,
+        "inclusiveSamples": 1,
+        "selfMs": 0,
+        "inclusiveMs": 1.076,
+        "selfPercent": 0,
+        "inclusivePercent": 0.00839792883348476
+      },
+      "accessGridSelfUnderStepGroups": {
+        "sampledMs": 9282.323,
+        "percent": 72.44636427827021
+      },
+      "render": {
+        "sampledMs": 706.593,
+        "percent": 5.514793427730944
+      }
+    },
+    "control": {
+      "samples": 9175,
+      "profileWindowMs": 10737.344,
+      "sampledDeltaMs": 10736.876,
+      "stepGroups": {
+        "function": "stepGroups",
+        "url": "http://127.0.0.1:40343/src/world-evolution.js",
+        "line": 68,
+        "column": 20,
+        "selfUs": 5466,
+        "selfSamples": 5,
+        "inclusiveUs": 424102,
+        "inclusiveSamples": 389,
+        "selfMs": 5.466,
+        "inclusiveMs": 424.102,
+        "selfPercent": 0.050908662817750715,
+        "inclusivePercent": 3.9499571383706025
+      },
+      "simulatedSeconds": 10.749600000000001,
+      "realSeconds": 10.825,
+      "simRealRatio": 0.9930346420323327,
+      "reproducedSlowdown": false
+    },
+    "slowSimRealRatio": null,
+    "slowSimRealRatioLimit": "No elapsed field was captured exactly at Profiler.start. The12.075s application duration and12.813802s CPU span use distinct CDP bounds; no exact slow sim/real ratio is fabricated."
+  },
+  "sourceCause": {
+    "established": "nearPOI returns256m-bin candidates. Outdoor detail collision reads were unconditional for every candidate; macro group movement across the map called those readers.",
+    "dynamicContactsExplosionEstablished": false,
+    "continueLeakEstablished": false,
+    "cacheEvictionReproduced": true,
+    "cacheEvictionEvidence": "/workspace/deadwall-cloud/extension208/collision-broadphase208/native-churn-before208.json"
+  },
+  "correctionReview": {
+    "worldSourceSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+    "scope": "Only outdoor detail broadphase for floor0 and nonprogramme160 sites; native exact collision predicates remain authoritative.",
+    "localEnvelope": "All solid detail outdoor collider rectangles, including opaque:false and ignored IDs, contribute conservative exact bounds.",
+    "queryBounds": "Local point or segment bounds expanded by the actual radius; only strict separation rejects; invalid/nonordered bounds fall back to historical exact behavior.",
+    "memory": "A per-world WeakMap retains only a signature and4bounds scalars (or explicit empty/null state) for an existing POI. It retains no details, plans or props and does not enlarge plan48/detail64/chunk25 LRUs.",
+    "dynamicContext": "programme160 is deliberately excluded and keeps its live reader. p.outdoor, terrain160, parking, interior, vehicle and water predicates keep their existing authorities.",
+    "coldLimit": "A first envelope read still constructs the native details. The optimization avoids repeated distant reconstruction after detail LRU eviction; zero cold construction or frame-rate improvement is not claimed.",
+    "blockingFindings": []
+  },
+  "nativeCorrectness": {
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "preFixGoldenIndependentlyRecomputed": {
+      "kind": "independent-recompute-native-pre-broadphase-golden208",
+      "pass": true,
+      "observedUtc": "2026-10-25T11:14:30.131Z",
+      "sourceFile": "/workspace/deadwall-cloud/extension208/collision-broadphase208/frontier-world-before208.js",
+      "sourceSha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda",
+      "rows": [
+        {
+          "generation": 11,
+          "queries": 77,
+          "sites": 7,
+          "answersMatch": true,
+          "geometryAndIdsAndStocksMatch": true
+        },
+        {
+          "generation": 7,
+          "queries": 55,
+          "sites": 5,
+          "answersMatch": true,
+          "geometryAndIdsAndStocksMatch": true
+        }
+      ],
+      "queries": 132,
+      "scope": "Exact original world module in isolated VM via the shared native loader; real geometry and queries recomputed. No browser, game session or performance claim."
+    },
+    "scope": "132real native collision witnesses on G11/G7,12site fingerprints for plans/props/IDs/stocks,3actual67site eviction cycles,rotations/tangencies/ignore/transparent pools/livecontexts/worldownership/RNG refusal."
+  },
+  "evidence": [
+    {
+      "file": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/renderer-native-slow.cpuprofile",
+      "bytes": 347393,
+      "sha256": "ad36c6ac747681d801da45d97e0b650d91ffe043194b37ca1d03500a2a3fe6ab"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/services-browser/cpu-diagnostic/services208-slow-pose-diagnostic-2026-10-25T10_51_52_938Z/renderer.cpuprofile",
+      "bytes": 334437,
+      "sha256": "752b1457b74c10778926b69358be7b97e8e8fd715169219bdb0cf62dbf339da6"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/report.json",
+      "bytes": 230097,
+      "sha256": "9e489f41fce1ef2416f48df6ed935c9a0f437ccc1a1d2762f56f6feb5af9ea96"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/native-cpu-summary.json",
+      "bytes": 14201,
+      "sha256": "bfef50527b450a89e634e7b4c3097599c774a7e01151d525a14f0393acc16f73"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/cpu-independent/native-slow-summary208.json",
+      "bytes": 77926,
+      "sha256": "26449cf359fe9902bfb739fcbd0b7706d87621c47cb9a813226110aaf3f5ffea"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/cpu-independent/fresh-control-summary208.json",
+      "bytes": 71240,
+      "sha256": "b021a09b085aa71306060522a4ccc8eb24b7d89f9c78ce04f91ad6d0c80a24f9"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/cpu-independent/pre-broadphase-golden-independent208.json",
+      "bytes": 826,
+      "sha256": "aabfcea63cfc4e9b6f679c1991411c021819bacba662c4bf72588f7adaf4dd9f"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/cpu-independent/collision-broadphase-independent5.log",
+      "bytes": 1417,
+      "sha256": "6735268047ccc9fab6955a82af9986aa0e05bbcc61a58ff364059f09257e0cb9"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension208/cpu-independent/native-callgraph/native-callgraph208-slow-cpu-readback.json",
+      "bytes": 32001,
+      "sha256": "5e5d0c8160e2ffe42778873e63b237206ad311cc993b25ad33eb4a4be570092d"
+    }
+  ],
+  "repositoryEditsByThisAgent": 0,
+  "browserOrGameStartedByThisAnalysis": false,
+  "profilerStartedByThisAnalysis": false,
+  "remoteRequests": 0,
+  "scopeLimits": [
+    "Counts and timeDelta-weighted percentages are distinct: accessGrid80.34%by sample count and75.535%by weighted sampled time.",
+    "Inclusive frame and category times overlap and must not be added together.",
+    "The fresh control is a separate prepared-pose diagnostic and did not reproduce the actual journey slowdown.",
+    "The real journey diagnostic deliberately stops negative after capture; its22positive checks do not qualify the missing services or complete routes.",
+    "The candidate has source and native geometric correctness counterproof; actual complete browser throughput after the fix remains a separate required result."
+  ]
+}

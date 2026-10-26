@@ -35,6 +35,9 @@ function install(g){
  const same=(a,b)=>a.domain===b.domain&&a.z===b.z&&(a.z===0||a.inside===b.inside);
  const near=(a,b,d=R.campReach)=>same(a,b)&&Math.hypot(a.x-b.x,a.y-b.y)<=d*scale(a)&&line(a,b);
  const nearestCamp=(p=position())=>state.camps.filter(c=>near(p,c)).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0]||null;
+ const supportOwner=()=>root.DeadwallCampaignServices208||(typeof require==='function'?require('./campaign-services208.js'):null);
+ const supportOptions=()=>({structureDestroyed:id=>g.worldEvolution?.structureDestroyed?.(id)===true});
+ function supportAt(request){return supportOwner().resolve(g.frontier.world(),frontierPosition(),request,g.frontier.discoveries(),supportOptions());}
  const fail=reason=>{message=reason;return{ok:false,reason};};
  const save=()=>{g.audio.ui?.();g.save(false);return{ok:true};};
  function danger(p){
@@ -57,29 +60,45 @@ function install(g){
  }
  function warm(p){return (g.nightGear?.snapshot().devices||[]).some(d=>d.kind==='campfire'&&d.on&&d.left>0&&d.location==='placed'&&near(p,d));}
  function lantern(id,p){return (g.nightGear?.snapshot().devices||[]).find(d=>d.kind==='lantern'&&!d.on&&d.left<C.NightGearRules.types.lantern.duration&&(id===undefined||d.id===id)&&(d.location==='belt'||d.location==='placed'&&near(p,d)));}
- function preview(kind,id,placement,remainingSeconds=R[kind]?.seconds){
+ function preview(kind,id,placement,remainingSeconds=R[kind]?.seconds,supportRequest=null){
   if(!Object.hasOwn(R,kind)||!R[kind]?.cost)return{ok:false,reason:'Préparation inconnue.'};
   const p=position(),occupied=manipulationReason();if(occupied)return{ok:false,reason:occupied};
+  if(supportRequest&&!['meal','restSheltered','service'].includes(kind))return{ok:false,reason:'Ce service ne dépend pas du bivouac.'};
+  if(supportRequest&&(g.player.shootCooldown>0||g.player.meleeCooldown>0))return{ok:false,reason:'Terminez le tir ou le geste de combat.'};
+  const support=supportRequest?supportAt(supportRequest):null;if(support&&!support.ok)return support;
   if(danger(p))return{ok:false,reason:'Sécurisez les abords avant de préparer le bivouac.'};
-  if(!C.canAfford(g.player.carry,R[kind].cost))return{ok:false,reason:'Fournitures manquantes dans le sac : '+Object.entries(R[kind].cost).filter(([k,n])=>(g.player.carry[k]||0)<n).map(([k])=>C.RESOURCE_META[k].label.toLowerCase()).join(', ')+'.'};
-  let target=null;
+  const cost=support?{...R[kind].cost}:R[kind].cost;if(support&&kind==='meal')for(const[k,n]of Object.entries(C.CampaignServices208Rules.mealExtraCost))cost[k]=(cost[k]||0)+n;
+  if(!C.canAfford(g.player.carry,cost))return{ok:false,reason:'Fournitures manquantes dans le sac : '+Object.entries(cost).filter(([k,n])=>(g.player.carry[k]||0)<n).map(([k])=>C.RESOURCE_META[k].label.toLowerCase()).join(', ')+'.'};
+  let target=support;
   if(kind==='camp'){
    if(p.z!==0)return{ok:false,reason:'Redescendez au sol pour installer une halte ; aucun bivouac au travers des étages.'};
    if(state.camps.length>=R.maxCamps||state.serial>=R.maxSerial)return{ok:false,reason:'Quatre bivouacs maximum ; démontez une ancienne halte.'};
    target=placement||campPosition(p);if(!clearCamp(target)||!line(p,target))return{ok:false,reason:'Un sol extérieur dégagé est requis devant vous.'};
   }
-  if(['rest','cover','service','ration','restSheltered'].includes(kind)){target=['ration','restSheltered'].includes(kind)&&id!==undefined?state.camps.find(c=>c.id===id&&near(p,c)):nearestCamp(p);if(!target)return{ok:false,reason:'Approchez d’un bivouac accessible.'};}
-  if(['rest','cover','service','ration','restSheltered'].includes(kind)&&target.left<=remainingSeconds)return{ok:false,reason:'La halte expire avant la fin de cette préparation.'};
+  if(!support&&['rest','cover','service','ration','restSheltered'].includes(kind)){target=['ration','restSheltered'].includes(kind)&&id!==undefined?state.camps.find(c=>c.id===id&&near(p,c)):nearestCamp(p);if(!target)return{ok:false,reason:'Approchez d’un bivouac accessible.'};}
+  if(!support&&['rest','cover','service','ration','restSheltered'].includes(kind)&&target.left<=remainingSeconds)return{ok:false,reason:'La halte expire avant la fin de cette préparation.'};
   if(['rest','restSheltered'].includes(kind)&&g.player.health>=g.player.maxHealth)return{ok:false,reason:'Vous êtes déjà en bonne santé.'};
-  if(kind==='restSheltered'&&target.cover<=remainingSeconds)return{ok:false,reason:'Une bâche doit abriter cette halte jusqu’à la fin de la relève.'};
+  if(!support&&kind==='restSheltered'&&target.cover<=remainingSeconds)return{ok:false,reason:'Une bâche doit abriter cette halte jusqu’à la fin de la relève.'};
   if(kind==='ration'&&g.player.stamina>=g.player.maxStamina)return{ok:false,reason:'Votre endurance est déjà pleine.'};
-  if(kind==='meal'){if(!warm(p))return{ok:false,reason:'Approchez d’un feu de camp allumé.'};if(state.meal.left>0)return{ok:false,reason:'Le repas précédent vous soutient encore.'};}
+  if(kind==='meal'){if(!support&&!warm(p))return{ok:false,reason:'Approchez d’un feu de camp allumé.'};if(state.meal.left>0)return{ok:false,reason:'Le repas précédent vous soutient encore.'};}
   if(['dressing','dressingLight'].includes(kind)){if(g.player.health>=g.player.maxHealth)return{ok:false,reason:'Aucune blessure à panser.'};if(state.dressing.left>0)return{ok:false,reason:'Un pansement est déjà actif.'};}
   if(kind==='cover'&&target.cover>0)return{ok:false,reason:'La bâche est encore en place.'};
-  if(kind==='service'){const d=lantern(id,p);if(!d)return{ok:false,reason:'Équipez une lanterne éteinte dont le réservoir est entamé.'};if(!g.nightGear.serviceLantern)return{ok:false,reason:'Entretien d’éclairage indisponible.'};target={camp:target.id,device:d.id};}
-  return{ok:true,cost:R[kind].cost,seconds:R[kind].seconds,target};
+  if(kind==='service'){
+   const d=lantern(id,p);if(!d)return{ok:false,reason:'Équipez une lanterne éteinte dont le réservoir est entamé.'};
+   if(!g.nightGear.serviceLantern)return{ok:false,reason:'Entretien d’éclairage indisponible.'};
+   if(support&&d.location==='placed'){
+    const w=g.frontier.world(),radius=C.CampaignServices208Rules.actorRadius;
+    if(w.blocked(d.x,d.y,radius,p.z,p.inside)||!w.movementLine(p,d,p.z,p.inside,null,radius))return{ok:false,reason:'Reprenez la lanterne ou rejoignez-la par un passage praticable.'};
+   }
+   target={camp:target.id,device:d.id};
+  }
+  return{ok:true,cost,seconds:R[kind].seconds,target,...(support?{support}:{})};
  }
- function begin(kind,id){const q=preview(kind,id);if(!q.ok)return fail(q.reason);lastHealth=g.player.health;task={kind,id:kind==='service'?q.target.device:['ration','restSheltered'].includes(kind)?q.target.id:id,elapsed:0,seconds:q.seconds,p:position(),health:g.player.health,target:q.target};message=R[kind].name+' — restez immobile, le temps et les menaces continuent.';g.releaseInputs();return{ok:true};}
+ function start(kind,id,q,supportRequest=null){if(!q.ok)return fail(q.reason);lastHealth=g.player.health;task={kind,id:kind==='service'?q.target.device:['ration','restSheltered'].includes(kind)?q.target.id:id,elapsed:0,seconds:q.seconds,p:position(),health:g.player.health,target:q.target,
+  ...(supportRequest?{supportRequest:{...supportRequest},support:q.support,world:g.world,player:g.player,source:g.player.carry,shots:g.stats.shots,start:g.elapsed}:{})};message=R[kind].name+' — restez immobile, le temps et les menaces continuent.';g.releaseInputs();return{ok:true};}
+ function begin(kind,id){return start(kind,id,preview(kind,id));}
+ function previewAtSupport(kind,siteId,supportId,id){return preview(kind,id,undefined,undefined,{siteId,supportId,action:kind});}
+ function beginAtSupport(kind,siteId,supportId,id){const request={siteId,supportId,action:kind};return start(kind,id,preview(kind,id,undefined,undefined,request),request);}
  function cancel(reason='Préparation interrompue : les fournitures restent dans le sac.'){if(!task)return false;task=null;message=reason;return true;}
  function dismantleStatus(){const reason=manipulationReason();if(reason)return{ok:false,reason};const target=nearestCamp();return target?{ok:true,target}:{ok:false,reason:'Approchez d’un bivouac accessible.'};}
  function dismantle(){const q=dismantleStatus();if(!q.ok)return fail(q.reason);state.camps=state.camps.filter(a=>a.id!==q.target.id);message='Bivouac démonté. Les fournitures usagées ne sont pas récupérables.';return save();}
@@ -106,11 +125,23 @@ function install(g){
   state.meal.left=Math.max(0,state.meal.left-dt);if(!state.meal.left)state.meal.budget=0;
   if(g.player.dead||g.player.health<=0||g.player.health<lastHealth-1e-7)damageReceived();
   else if(state.dressing.left>0){const n=Math.min(state.dressing.remaining,R.dressing.heal/R.dressing.duration*Math.min(dt,state.dressing.left),Math.max(0,g.player.maxHealth-g.player.health));g.player.health+=n;state.dressing.remaining-=n;state.dressing.left=Math.max(0,state.dressing.left-dt);if(!state.dressing.left||!state.dressing.remaining||g.player.health>=g.player.maxHealth)state.dressing={left:0,remaining:0};}
-  if(task){const t=task,p=position();task=null;const q=preview(t.kind,t.id,t.kind==='camp'?t.target:undefined,Math.max(0,t.seconds-t.elapsed-dt));task=t;
-   if(!q.ok||!same(p,t.p)||Math.hypot(p.x-t.p.x,p.y-t.p.y)>R.moveTolerance*scale(p)||g.player.health<t.health||g.player.reload>0)cancel(q.reason||undefined);
-   else{t.elapsed+=dt;if(t.elapsed+1e-7>=t.seconds)finish(t,q);}
+  if(task?.support&&(g.world!==task.world||g.player!==task.player||g.player.carry!==task.source||g.stats.shots!==task.shots))cancel();
+  if(task){const t=task,p=position();task=null;const q=preview(t.kind,t.id,t.kind==='camp'?t.target:undefined,Math.max(0,t.seconds-t.elapsed-dt),t.supportRequest);task=t;
+   const changedSupport=t.support&&(!q.support||['siteId','supportId','action','supportKind'].some(k=>q.support[k]!==t.support[k])||['anchor','workTarget'].some(k=>['x','y','z'].some(axis=>q.support[k][axis]!==t.support[k][axis])));
+   if(!q.ok||!same(p,t.p)||Math.hypot(p.x-t.p.x,p.y-t.p.y)>R.moveTolerance*scale(p)||g.player.health<t.health||g.player.reload>0||
+    t.support&&(changedSupport||g.world!==t.world||g.player!==t.player||g.player.carry!==t.source||g.stats.shots!==t.shots))cancel(q.reason||undefined);
+   else{t.elapsed+=dt;if(t.support)g.heroActions133?.observeSupportWork208?.(dt);if(t.elapsed+1e-7>=t.seconds)finish(t,q);}
   }
   lastHealth=g.player.health;
+ }
+ function presentationSupport(){
+  const t=task;if(!t?.support||!(t.elapsed>0)||g.world!==t.world||g.player!==t.player||g.state!=='playing'||g.gameOver||g.player.dead||g.player.health<=0||g.worldEvolution?.structureDestroyed?.(t.support.siteId)===true)return null;
+  const f=g.frontier?.position?.();if(!f?.active||f.generation!==C.CampaignServices208Rules.generation||f.car?.driving)return null;
+  const p={domain:'region',x:f.x,y:f.y,z:f.z,inside:f.inside};if(!same(p,t.p)||Math.hypot(p.x-t.p.x,p.y-t.p.y)>R.moveTolerance||g.player.reload>0||g.player.shootCooldown>0||g.player.meleeCooldown>0)return null;
+  const s=t.support,index=s.supportId.split(':').at(-1);
+  return Object.freeze({owner:'survival',siteId:s.siteId,supportId:s.supportId,action:t.kind,kind:t.kind,supportKind:s.supportKind,
+   fullKey:s.siteId+':208:'+index+':'+t.kind,elapsed:t.elapsed,duration:t.seconds,start:t.start,progress:Math.min(1,t.elapsed/t.seconds),
+   anchor:Object.freeze({...s.anchor}),workTarget:Object.freeze({...s.workTarget})});
  }
  function rainProtection(device,p){const q=device.location==='belt'&&p?.domain==='local'?{...p,z:g.vertical175?.pose?.()?.z??p.z}:device.location==='belt'?p:device;if(!q||q.z!==0)return 0;const covered=q.domain==='region'&&frontierPosition().generation===11?(g.frontier.world().coveredAt205?.(q.x,q.y,q.z,q.inside)??null):null;if(covered===true||covered===null&&q.inside)return 0;return state.camps.some(c=>c.cover>0&&near(q,c,R.cover.radius))?R.cover.protection:0;}
  function depthEntries(v,view){return state.camps.filter(c=>c.domain==='region'&&v.z===0&&c.x>=view.l-3&&c.x<=view.r+3&&c.y>=view.t-3&&c.y<=view.b+3&&(root.DeadwallFrontierArt?.visiblePoint?.(g,c,v)??true)).map(c=>({kind:'camp',id:'camp:'+c.id,depth:c.y+R.campRadius,draw:ctx=>draw(ctx,'region',c)}));}
@@ -142,9 +173,18 @@ function install(g){
   cover:'Pendant '+R.cover.duration+' s, réduit de '+Math.round(R.cover.protection*100)+' % la surconsommation des flammes due à la pluie dans un rayon accessible de '+R.cover.radius+' m. La combustion normale continue.',
   service:'Ajoute jusqu’à '+R.service.amount+' s à la lanterne éteinte, sans dépasser '+C.NightGearRules.types.lantern.duration+' s. Le bivouac et la lanterne doivent rester accessibles.'
  }[kind];}
- function actions(){const list=['camp','rest','restSheltered','ration','meal','dressing','dressingLight','cover','service'].map(kind=>{const q=preview(kind);return{id:kind,label:R[kind].name+' · '+Object.entries(R[kind].cost).map(([k,n])=>n+' '+C.RESOURCE_META[k].label.toLowerCase()).join(' + ')+' · '+R[kind].seconds+' s',description:description(kind),disabled:!q.ok,reason:q.reason||'Fournitures prélevées à la fin, dans le sac.',close:true,run:()=>begin(kind)};});if(task)list.unshift({id:'cancel',label:'Interrompre la préparation',run:()=>cancel(),close:false});if(nearestCamp()){const q=dismantleStatus();list.push({id:'dismantle',label:'Démonter cette halte sans récupération',disabled:!q.ok,reason:q.reason||'Les fournitures usagées ne sont pas récupérables.',run:dismantle});}return list;}
+ function supportActions(){
+  const f=frontierPosition();if(!f.active||f.generation!==C.CampaignServices208Rules.generation)return[];
+  return supportOwner().list(g.frontier.world(),f,g.frontier.discoveries(),supportOptions()).filter(s=>['meal','restSheltered','service'].includes(s.action)).map(s=>{
+   const q=previewAtSupport(s.action,s.siteId,s.supportId),index=s.supportId.split(':').at(-1);
+   return{id:'support208-'+s.action+'-'+s.siteId+'-'+index,label:R[s.action].name+' · '+s.supportLabel+' · '+s.room,
+    description:s.action==='meal'?'Cuisson sur place avec le carburant et les vivres apportés. Le repas conserve son effet temporaire.':s.action==='restSheltered'?'Relève et soins personnels auprès de cette couchette abritée, avec les fournitures du sac.':'Entretien de votre lanterne éteinte avec le carburant et les pièces apportés.',
+    disabled:!q.ok,reason:q.reason||(q.seconds+' s sur place · '+C.resourceText(q.cost)+' dans le sac.'),close:true,run:()=>beginAtSupport(s.action,s.siteId,s.supportId)};
+  });
+ }
+ function actions(){const list=[...supportActions(),...['camp','rest','restSheltered','ration','meal','dressing','dressingLight','cover','service'].map(kind=>{const q=preview(kind);return{id:kind,label:R[kind].name+' · '+Object.entries(R[kind].cost).map(([k,n])=>n+' '+C.RESOURCE_META[k].label.toLowerCase()).join(' + ')+' · '+R[kind].seconds+' s',description:description(kind),disabled:!q.ok,reason:q.reason||'Fournitures prélevées à la fin, dans le sac.',close:true,run:()=>begin(kind)};})];if(task)list.unshift({id:'cancel',label:'Interrompre la préparation',run:()=>cancel(),close:false});if(nearestCamp()){const q=dismantleStatus();list.push({id:'dismantle',label:'Démonter cette halte sans récupération',disabled:!q.ok,reason:q.reason||'Les fournitures usagées ne sont pas récupérables.',run:dismantle});}return list;}
  function draw(ctx,domain,only=null){const p=position(),s=domain==='local'?32:1;if(p.domain!==domain&&!only)return;for(const c of state.camps){if(only&&c.id!==only.id||c.domain!==domain||!only&&(p.z!==0||Math.hypot(c.x-p.x,c.y-p.y)>90*s))continue;if(g.operationsArt?.draw(ctx,c.cover>0?'tarp':'bedroll',c.x,c.y,(c.cover>0?88:65)*s/32))continue;ctx.save();ctx.translate(c.x,c.y);ctx.scale(s,s);ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(0,.1,1.3,.75,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#706d4b';ctx.fillRect(-1,-.55,2,1.05);ctx.fillStyle='#a29b70';ctx.fillRect(-.83,-.42,.46,.84);ctx.strokeStyle='#423e2e';ctx.lineWidth=.05;ctx.strokeRect(-1,-.55,2,1.05);ctx.fillStyle='#736e50';ctx.fillRect(.56,-.69,.45,.36);if(c.cover>0){ctx.strokeStyle='#a3a57a';ctx.lineWidth=.07;ctx.beginPath();ctx.moveTo(-1.4,.6);ctx.lineTo(-.95,-1);ctx.lineTo(1.1,-.85);ctx.lineTo(1.45,.6);ctx.stroke();ctx.fillStyle='rgba(86,113,84,.62)';ctx.beginPath();ctx.moveTo(-1.16,-.82);ctx.lineTo(.1,-1.25);ctx.lineTo(1.31,-.72);ctx.lineTo(.96,.3);ctx.lineTo(-.95,.24);ctx.closePath();ctx.fill();}ctx.restore();}}
- g.survivalPack=Object.freeze({begin,preview,cancel,dismantle,step,damageReceived,rainProtection,draw,depthEntries,overview,actions,snapshot:()=>normalize(state),busy:()=>!!task,activity:()=>task?{kind:task.kind,progress:task.elapsed/task.seconds}:null,authorizeService:(id,amount)=>!!servicePermit&&servicePermit.id===id&&servicePermit.amount===amount});
+ g.survivalPack=Object.freeze({begin,preview,beginAtSupport,previewAtSupport,presentationSupport,supportActions,cancel,dismantle,step,damageReceived,rainProtection,draw,depthEntries,overview,actions,snapshot:()=>normalize(state),busy:()=>!!task,activity:()=>task?{kind:task.kind,progress:task.elapsed/task.seconds}:null,authorizeService:(id,amount)=>!!servicePermit&&servicePermit.id===id&&servicePermit.amount===amount});
  g.expansions.register({id:'survival',title:'Bivouacs & survie',overview,actions,validate:normalize,snapshot:()=>normalize(state),restore:raw=>{state=normalize(raw);task=null;lastHealth=g.player.health;message='';},reset:()=>{state=initial();task=null;lastHealth=g.player.health;message='';}});
  wrap('update',(old,dt)=>{const run=running();if(run&&(g.player.dead||g.player.health<=0)){state.dressing={left:0,remaining:0};cancel('Mise à terre : préparation interrompue.');}if(run&&task&&(g.input.keys.size||g.input.mouseDown||g.input.touchFire))cancel();const result=old(dt);if(run)step(dt);return result;});
  wrap('updatePlayer',(old,dt)=>{const before=g.player.stamina,result=old(dt);if(running()&&state.meal.left>0&&state.meal.budget>0&&g.input.keys.has('ShiftLeft')&&g.player.stamina<before){const n=Math.min((before-g.player.stamina)*R.meal.rebate,state.meal.budget);g.player.stamina=Math.min(g.player.maxStamina,g.player.stamina+n);state.meal.budget-=n;}return result;});

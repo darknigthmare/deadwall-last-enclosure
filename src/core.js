@@ -3471,3 +3471,15 @@ siegeBrake193:Object.freeze({name:'Frein à chaîne de siège',seconds:32,cost:O
  }
  C.Dayworks=Object.freeze({...D,MetricRules202:rules,plansFor,planFor,footprint});root.DeadwallDayworks=C.Dayworks;
 })(globalThis);
+
+/* Existing G11 furniture offers paid field uses without changing its geometry. */
+(function(root){
+ 'use strict';
+ const C=root.DeadwallCore,freeze=value=>{for(const child of Object.values(value))if(child&&typeof child==='object')freeze(child);return Object.freeze(value);};
+ C.CampaignServices208Rules=freeze({
+  generation:11,reach:C.ContextRules160.reach,actorRadius:.32,nearbyRadius:35,
+  maxSites:4,maxActions:12,planCache:32,mealExtraCost:{fuel:1},
+  supports:{meal:['oven'],restSheltered:['singleBunk'],service:['workbench','toolbox'],medicalCare:['medical']},
+  medicalTypes:['EXT-MONDE-T047']
+ });
+})(globalThis);

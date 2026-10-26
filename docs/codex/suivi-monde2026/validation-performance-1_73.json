@@ -1,0 +1,271 @@
+{
+  "version": 1,
+  "kind": "outdoor-collision-broadphase208-correction",
+  "capturedUtc": "2026-10-25T11:12:21.949403+00:00",
+  "pass": true,
+  "runtimeFrozen": true,
+  "sources": [
+    {
+      "path": "src/frontier-world.js",
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+      "bytes": 51421
+    },
+    {
+      "path": "tests/collision-broadphase208.test.cjs",
+      "sha256": "f9e6c397add913fda1d79bfd3cbeed06ed9fe18048d52fde169851cd9b5168f2",
+      "bytes": 3756
+    },
+    {
+      "path": "tests/helpers/collision-broadphase208.cjs",
+      "sha256": "896073eb758585fc24c87821052b798974b81dad01abccf1645af7900b92bae5",
+      "bytes": 3815
+    },
+    {
+      "path": "tests/fixtures/collision-broadphase208-golden.json",
+      "sha256": "ee881c2e103ef577bf41a5aa8cde3b0c4a12767fedeff810b40097e28e26d46e",
+      "bytes": 78907
+    }
+  ],
+  "diagnosis": {
+    "cpuProfile": {
+      "path": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/renderer-native-slow.cpuprofile",
+      "sha256": "ad36c6ac747681d801da45d97e0b650d91ffe043194b37ca1d03500a2a3fe6ab",
+      "bytes": 347393
+    },
+    "cpuSummary": {
+      "path": "/workspace/deadwall-cloud/extension208/services-browser/cpu-native-diagnostic/services208-2026-10-25T10_54_22_435Z/native-cpu-summary.json",
+      "sha256": "bfef50527b450a89e634e7b4c3097599c774a7e01151d525a14f0393acc16f73",
+      "bytes": 14201
+    },
+    "observedAccessGridSelfSamples": 8651,
+    "totalSamples": 10768,
+    "selfSampleFraction": 0.8033989598811293,
+    "nativeSourceCause": "Macro horde collision points query every POI returned by256m coarse bins. Static outdoor detail readers rebuild evicted48-plan/64-detail entries even when no outdoor collider can meet the point or segment. CPU independent call-stack attribution belongs to world_content208, not to a fabricated browser result here."
+  },
+  "implementation": {
+    "file": "src/frontier-world.js",
+    "changedRuntimeFiles": 1,
+    "generatedRuntimeFilesHandEdited": 0,
+    "broadphase": "Per-world WeakMap keyed by native POI. Each entry holds a geometry signature and four local union bounds or an explicit empty sentinel; invalid geometry retains the exact reader. No plan/detail/prop arrays retained. Strict rejection only when finite ordered point/segment AABB is outside the union. Existing circle and rounded-rectangle exact tests still decide collisions.",
+    "signature": [
+      "x",
+      "y",
+      "angle",
+      "width",
+      "height",
+      "type",
+      "programme3000",
+      "codex",
+      "generation",
+      "parking geometry"
+    ],
+    "memoryBound": "At most one small entry per native POI in this world; keys reachable only with that world; no new per-query plan cache. Existing LRU plans48, details64 and chunks25 remain unchanged.",
+    "physicalContracts": [
+      "Actor/query radius is preserved, including tangencies and rotated local coordinates.",
+      "Point collision and optical/movement segments both use the broadphase.",
+      "The envelope includes every solid, including opaque:false and ignoredID solids, so exact downstream readers retain optical/ignore authority.",
+      "Native p.outdoor, parking, terrain/context160 and water checks are unchanged. programme160 never uses this static envelope.",
+      "r<0/nonfinite or inverted broadphase boxes fall back to the original exact path."
+    ],
+    "saveAndRng": "No persistent state/save owner, inventory, finite stock, worldgen geometry or RNG changed."
+  },
+  "controlledNativeRegression": {
+    "scope": "Actual native seed17117 balanced G11 at profiled point P3174; no native browser timing claim",
+    "before": {
+      "path": "/workspace/deadwall-cloud/extension208/collision-broadphase208/native-churn-before-assert208.json",
+      "sha256": "00f7a92c99a2711aa5d3ede9051ffb3592d8b342d6c2b51f75c361c9d7d394c7",
+      "bytes": 1365,
+      "actualExitCode": 1,
+      "expectedNegative": true,
+      "coldBuilds": 1,
+      "cycles": [
+        {
+          "cycle": 0,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 1,
+          "queryEnrichBuilds": 1,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        },
+        {
+          "cycle": 1,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 1,
+          "queryEnrichBuilds": 1,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        },
+        {
+          "cycle": 2,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 1,
+          "queryEnrichBuilds": 1,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        }
+      ]
+    },
+    "after": {
+      "path": "/workspace/deadwall-cloud/extension208/collision-broadphase208/native-churn-after-assert208.json",
+      "sha256": "09e5e9fddc63d314cb0d4571f23082108b023cbfac3c8e88f3a0b6f4780cbcc4",
+      "bytes": 1363,
+      "actualExitCode": 0,
+      "coldBuilds": 1,
+      "cycles": [
+        {
+          "cycle": 0,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 0,
+          "queryEnrichBuilds": 0,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        },
+        {
+          "cycle": 1,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 0,
+          "queryEnrichBuilds": 0,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        },
+        {
+          "cycle": 2,
+          "churnEntries": 67,
+          "churnedDetailBuilds": 67,
+          "queryDetailBuilds": 0,
+          "queryEnrichBuilds": 0,
+          "answer": {
+            "blocked": false,
+            "optical": true,
+            "movement": true
+          },
+          "plans": 48,
+          "chunks": 1
+        }
+      ]
+    },
+    "result": "Both versions return blocked=false/optical=true/movement=true. Each of3cycles really rebuilds67churn entries. Old route-point query then reconstructs1 detail/enrich each time and fails the assertion; fixed query reconstructs0 each time. Cold initial build remains1."
+  },
+  "nativeTests": [
+    {
+      "path": "/workspace/deadwall-cloud/extension208/collision-broadphase208/collision-native208-attempt1.log",
+      "sha256": "c2fcaca5070b21443f2c64f5bc92cbac838486d7a6ee0b38f1b4010020a032eb",
+      "bytes": 685,
+      "counts": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "actualExitCode": 0,
+      "durationMilliseconds": 14106.617034
+    },
+    {
+      "path": "/workspace/deadwall-cloud/extension208/collision-broadphase208/legacy-generation208-attempt1.log",
+      "sha256": "9c32f2f68230c295820328925d2cf10823f20ff24813de757a863a4aa1affdfd",
+      "bytes": 622,
+      "counts": {
+        "tests": 4,
+        "suites": 0,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "actualExitCode": 0,
+      "durationMilliseconds": 2874.575
+    }
+  ],
+  "golden": {
+    "sourceBeforeSha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda",
+    "baselineCommit": "8eda6f03d751d15c583af6d1a6cc14ebd2802244",
+    "worlds": [
+      {
+        "generation": 11,
+        "seed": 17117,
+        "effects": {
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced"
+        },
+        "queriedCases": 77,
+        "hashedSites": 7
+      },
+      {
+        "generation": 7,
+        "seed": 17117,
+        "effects": {
+          "detailVersion": 2
+        },
+        "queriedCases": 55,
+        "hashedSites": 5
+      }
+    ],
+    "geometryScope": "Actual roads/POI/world metadata plus selected native plans/details/IDs/stocks hashes, along with132 point/ray/movement query tuples captured from pre-fix source. G7 legacy generation test separately covers all released native plan floors/finite nodes/threats on four seeds."
+  },
+  "review": {
+    "parentApprovedArchitecture": true,
+    "worldAgentCounterRead": true,
+    "parentCounterRead": true,
+    "notes": [
+      "world_content208 confirmed exact conservative union and dynamic160 exclusion; its finite/ordered query guard suggestion is included.",
+      "Root reviewed AABB point+segment/null/tangency path and reported no concrete defect.",
+      "New performance test/helper/fixture are deliberately excluded from the unchanged243-input source audit boundary; final CI must still cover the full final commit."
+    ]
+  },
+  "boundaries": {
+    "commits": 0,
+    "pushes": 0,
+    "networkWrites": 0,
+    "fullCheckQualified": false,
+    "browserAfterQualified": false,
+    "productionQualified": false,
+    "rootRequalificationsPending": [
+      "native browser desktop/touch and passive CPU comparison on rebuilt distribution",
+      "source-bound205/208/art reports with changed frontier-world input",
+      "new S1b commit/tree and workbook export",
+      "complete exact-head CI/fullcheck and release guard"
+    ]
+  },
+  "limitations": [
+    "Counts prove elimination of the measured repeated geometry reconstruction for the real profiled point after controlled native cache churn; they do not establish frame rate or all-world timing.",
+    "A first visit still computes exact outdoor geometry once to learn its envelope. Any query intersecting that envelope retains the full original collision path.",
+    "Original CPU capture and initial browser failures remain historical evidence; no result is relabelled as a post-fix complete journey.",
+    "The previous final-source-review208.json remains pinned to its prior public bytes; this correction receipt adds the changed frontier-world review and does not rewrite that historical source claim."
+  ]
+}

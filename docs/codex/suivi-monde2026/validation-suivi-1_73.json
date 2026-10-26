@@ -1,0 +1,357 @@
+{
+  "kind": "codex-workbook173-S1b-reception",
+  "schemaVersion": 2,
+  "recordedUtc": "2026-10-26T08:01:51.549904+00:00",
+  "sourceCommit": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "sourceCheckpoint": "S1b",
+  "pullRequest": 20,
+  "metadata": {
+    "path": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_73.json",
+    "sha256": "bf42c5d7ad6651b7d83504d3d231b74279658fe97aa7ff5edd92ce1eb75d5aee"
+  },
+  "reportInputs": [
+    {
+      "path": "docs/codex/suivi-monde2026/inspection-20261023.json",
+      "sha256": "07e4f5a9cbfeb35d6c6309391e80d8885a5669366aa855829c6c16d567bb69af",
+      "bytes": 3140934
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/campagne205-eligibilite.json",
+      "sha256": "21afaf14cca4ec979b356c31743d4e3576f84a0df74be459c1f2b9c8358c6841",
+      "bytes": 197813
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/campagne208-services.json",
+      "sha256": "96569e04a9cc5858fdb9d8490892141e4f37e7704308c64ff105c5a36f6b8fd2",
+      "bytes": 1208870
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/campagne208-art.json",
+      "sha256": "4c73f001eef430ba73fb55cb7a7b09495344579e14c5d054f80b53b58cdd5f77",
+      "bytes": 128106
+    }
+  ],
+  "targetedNative": {
+    "recordedAt": "2026-10-25T11:22:20.794836+00:00",
+    "scope": "Requalification S1b du suivi Codex, des rapports de progression et des lecteurs/gardes XLSX uniquement.",
+    "counts": {
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "logsRecheckedBeforeExport": true,
+    "sourceTestFiles": [
+      {
+        "path": "tests/codex-campaign-progress205.test.cjs",
+        "sha256": "b44c17fde3710b2abaa8cbdeeafc02922b6dcaa8bf7b8532f460a2f3d70ed1cb",
+        "bytes": 9506,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-campaign-services-progress208.test.cjs",
+        "sha256": "83bbf4240373ba9e3c9b383a01818e3e6aac37f7f540b854a117dd27d1e69d42",
+        "bytes": 20492,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker-campaign-sheet205.test.cjs",
+        "sha256": "d7052f9925a09f1b2e0980c83c2f9bd29f354bcbd28c30c624a0ff5765299da4",
+        "bytes": 3787,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker-services-sheet208.test.cjs",
+        "sha256": "7bcfd922feb70df6cbc4543695cb01c1cad46cbe8547e10ef0f5b2813a58c2e9",
+        "bytes": 12476,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker-xlsx-derived-styles2026.test.cjs",
+        "sha256": "baf4c07a693e7c1c3a93c959a5994861f6ac7bdbac22a50543f3e43b755f5d90",
+        "bytes": 4200,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker-xlsx-guards2026.test.cjs",
+        "sha256": "cb60d73bf6735e3b2197103d679ecaac6f6a241b0e6fa14682d5329e18b2ae0e",
+        "bytes": 2661,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker-xlsx-styles2026.test.cjs",
+        "sha256": "1f16390f110da16fe5a0b2772d79ed9f4669424a5fcc9aafc6084f38462cd6cc",
+        "bytes": 3875,
+        "matchesSourceCheckpoint": true
+      },
+      {
+        "path": "tests/codex-tracker2026.test.cjs",
+        "sha256": "dd2df517faca1fef4e7198db65cfce12c7defcb449827f8123d224fd80dcf84c",
+        "bytes": 6795,
+        "matchesSourceCheckpoint": true
+      }
+    ],
+    "logs": [
+      {
+        "path": "docs/codex/suivi-monde2026/validation-progression-1_73.log.gz",
+        "sha256": "ac1408634d74c6078f1feb4e4eb9ea1b11e8d8d82e5c65b568fc45c96d6e8c97",
+        "bytes": 1548,
+        "uncompressedSha256": "d1ebc9a87799024a382a2bb0645f5e7d063a8ead93d1094e26f5f44a08d28eb3",
+        "tests": 25,
+        "actualExitCode": 0
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/validation-xlsx-1_73.log.gz",
+        "sha256": "06109d74079ba476199506ed26e1b315fc10bcc832baebc798907e7f42e33353",
+        "bytes": 703,
+        "uncompressedSha256": "6333b222ca982620301ff63fb606c6cb4ae5c548db4c9d4c70a51e636843b508",
+        "tests": 8,
+        "actualExitCode": 0
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/validation-chargeur-1_73.log.gz",
+        "sha256": "454ba235e52e1ddc1a0a9572e7f9b2bc7bf85cd66fc79ec36ebc2ac9d1347899",
+        "bytes": 919,
+        "uncompressedSha256": "1b2c31d7157e0032089b40612132ec3ef05671526d9b4b2805d9dc9138a6df83",
+        "tests": 16,
+        "actualExitCode": 0
+      }
+    ],
+    "fullCheckRun": false
+  },
+  "candidate": {
+    "externalPath": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/DEADWALL_CODEX_MONDE_SUIVI_1_73_S1b_CANDIDAT.xlsx",
+    "sha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e",
+    "bytes": 590915,
+    "sheets": 15,
+    "formulas": 1181,
+    "formulaErrors": 0,
+    "missingFormulaCaches": 0,
+    "installedByThisTask": false
+  },
+  "readers": [
+    {
+      "path": "docs/codex/suivi-monde2026/validation-classeur-1_73.json",
+      "sha256": "ba6668164696cf08b0a4da0afe25bb11a709f501a6376523392841897e5f2871",
+      "bytes": 1914,
+      "actualExitCode": 0
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-classeur-S1-1_73.json",
+      "sha256": "e23a8c0d6fd122b07968bb5a64e090aee4e771cbdb901e116e646cf89310a334",
+      "bytes": 1914,
+      "actualExitCode": 0
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-classeur-original-1_73.json",
+      "sha256": "cd60be38d8fce86140839cc0222fec59e4c24d1999961b2ae3931d25226e4d59",
+      "bytes": 1929,
+      "actualExitCode": 0
+    },
+    {
+      "path": "docs/codex/suivi-monde2026/validation-classeur-compat-1_73.json",
+      "sha256": "de8f588989946c35f33851d76f99c9a498de72b777076e80fb49149a0973c16b",
+      "bytes": 1736,
+      "actualExitCode": 0
+    }
+  ],
+  "styleComparison": {
+    "base172": {
+      "checkedHistoricalStyleCells": 102989,
+      "authorCellsWithWrapStyleChanges": 0,
+      "derivedResizedFooterCellsExcluded": 0,
+      "authorCellsWithEquivalentExplicitDefaults": 0,
+      "equivalentExplicitDefaultsBySheet": {
+        "Extension typologies": 0,
+        "Variantes à concevoir": 0
+      },
+      "inheritedStylesPreserved": true
+    },
+    "previousS1": {
+      "checkedHistoricalStyleCells": 106477,
+      "authorCellsWithWrapStyleChanges": 0,
+      "derivedResizedFooterCellsExcluded": 0,
+      "authorCellsWithEquivalentExplicitDefaults": 0,
+      "equivalentExplicitDefaultsBySheet": {
+        "Extension typologies": 0,
+        "Variantes à concevoir": 0
+      },
+      "inheritedStylesPreserved": true
+    },
+    "originalPublic": {
+      "checkedHistoricalStyleCells": 99593,
+      "authorCellsWithWrapStyleChanges": 33143,
+      "derivedResizedFooterCellsExcluded": 120,
+      "authorCellsWithEquivalentExplicitDefaults": 33143,
+      "equivalentExplicitDefaultsBySheet": {
+        "Extension typologies": 473,
+        "Variantes à concevoir": 32670
+      },
+      "inheritedStylesPreserved": true
+    }
+  },
+  "tracking": {
+    "validated": 3,
+    "inProgress": 413,
+    "pending": 384,
+    "campaignPlayableVariants": 0
+  },
+  "sourceScope": {
+    "authorPlans": 4000,
+    "campaignEligibleModels": 200,
+    "eligibilityObservedSites": 63,
+    "eligibilitySeeds": 8,
+    "supportModels": 200,
+    "supports": 2905,
+    "canonicalWorldSites": 23,
+    "canonicalWorldSeeds": 3,
+    "canonicalWorldPoses": 360,
+    "transactionsQualifiedBySupportAudit": 0,
+    "preparedArtModels": 4,
+    "preparedArtSamples": 13
+  },
+  "historicalS1": {
+    "sourceReference": "8eda6f03d751d15c583af6d1a6cc14ebd2802244",
+    "workbookSha256": "662be369598bb8995abc62bd9651f24b513128bbb42eb8f819aa0dc71be3b585",
+    "preservedAt": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/historique-S1/preservation.json",
+    "qualifiesS1b": false
+  },
+  "releaseQualification": {
+    "fullCheckFinalCommit": "pending",
+    "merged": "pending",
+    "production": "pending",
+    "humanCampaign6to10HoursMeasured": false,
+    "physicalPhoneFrameRateMeasured": false
+  },
+  "limits": [
+    "These readers reconcile this external XLSX to source data; they do not qualify gameplay.",
+    "200 model supports, 360 canonical poses, paid transactions and 13 prepared art samples are distinct evidence scopes.",
+    "The previous S1 workbook and proofs remain historical; neither an old workbook nor a previous CI success qualifies this revision.",
+    "Installation is reserved to root after reviewing the actual candidate."
+  ],
+  "independentZipReadback": {
+    "path": "docs/codex/suivi-monde2026/validation-classeur-independante-1_73.json",
+    "sha256": "a66f8e1ebf8c01feec1cc532cbcfe751c1e64da08167811ac52f1c7445463d98",
+    "formulaCachesRecomputed": 1181,
+    "sourceCellsReconciled": 82440,
+    "currentSourceLinks": 5103,
+    "historicalReferencesPreserved": 6,
+    "oneHistoricalBranchLinkStillMutable": true,
+    "fullGameCheckRun": false
+  },
+  "visualReview": {
+    "reviewedBy": "tracker_resume209",
+    "defaultRenders": 12,
+    "expandedReadViews": 4,
+    "scope": "Expanded views change wrapping and row/column dimensions in memory for reading only; candidate default styles and bytes remain unchanged.",
+    "previews": [
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/accueil.png",
+        "bytes": 195299,
+        "sha256": "48c8831cf20c6ee4b90a15d11006ebb2d91adf8369d7eeecf5f61db6cc2b58e9",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/avancement.png",
+        "bytes": 132693,
+        "sha256": "3216dfca9e44f9d48616bf54d3191b82689b56aa3a9935af32f154c6da9ea27f",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/campagne-g11.png",
+        "bytes": 331264,
+        "sha256": "c734f7aa423075ea33c3ddf6ed797adca413203592e73b2c33eaa8f2932be310",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers-g11-T045-lecture-depliee.png",
+        "bytes": 322365,
+        "sha256": "2b6647685b5718843e0874cd65e07303d97a53942e729a7b035f21b304ef98d9",
+        "kind": "temporary-expanded-read-view"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers-g11-T046-lecture-depliee.png",
+        "bytes": 320579,
+        "sha256": "c9009bb63ed96689f1823a004660114e013e2a8c61d236044359b661b84ba436",
+        "kind": "temporary-expanded-read-view"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers-g11-T047-lecture-depliee.png",
+        "bytes": 319908,
+        "sha256": "483a0541cd16109d957bb8d5b124fec505becc312586f289646dcf9d302277ad",
+        "kind": "temporary-expanded-read-view"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers-g11-T048-lecture-depliee.png",
+        "bytes": 320146,
+        "sha256": "51ea045622a3cc487f5fdd68e42aac4ec848a6e8833c7f15da2a3cd749174819",
+        "kind": "temporary-expanded-read-view"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers-g11.png",
+        "bytes": 256581,
+        "sha256": "3ed1803788065bb1f081a2155063cc55072de5807f03ae3353beb0d5ea85828c",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/chantiers.png",
+        "bytes": 193957,
+        "sha256": "6b9692e67ad0cac2b196d0dbcdae4fc4c1ff375e71c6eb75aae264e2659ce503",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/inspection.png",
+        "bytes": 747332,
+        "sha256": "d4826fded97d552e1cbd3770a6eb223c64f0eec1f8051034840d92deed348aca",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/publication.png",
+        "bytes": 214021,
+        "sha256": "45e52160e24b6a243838c76eb2d3bece206abb96734741dfa301d7e87d7b520b",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/services-g11-totaux.png",
+        "bytes": 482659,
+        "sha256": "25231a2d2d00fde95589f3663c4ac715ea1a9b72e351437841b4c8e055e98812",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/services-g11.png",
+        "bytes": 528433,
+        "sha256": "28e55b06ab8aa9243cb6839ae48d961bd7af92777b1611e9d58d63b2dba94812",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/typologies-agricoles.png",
+        "bytes": 418548,
+        "sha256": "3463dc67787a76b428782820311cc09bd8a2509c2f17ed0bb759587effcdfed3",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/typologies-residentielles.png",
+        "bytes": 247954,
+        "sha256": "57e7d666625e74dcac0b072d97f62cf6b01a5b274cb01d10626d996dc349a640",
+        "kind": "default-format"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/typologies.png",
+        "bytes": 411634,
+        "sha256": "61f2bcffb9cffba25a5668c14dc1f575624b855880d2308c602fa98cbbe511b1",
+        "kind": "default-format"
+      }
+    ],
+    "expandedViewDeclaration": {
+      "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/preuves/lecture-depliee.json",
+      "sha256": "6de7a5a9e702cd0fe6718dda51bc23f74c242081b46c6f25f0b84c2850f5111d"
+    }
+  },
+  "documentation": {
+    "path": "docs/codex/suivi-monde2026/VALIDATION_1_73.md",
+    "sha256": "037737709b3838f82d33bfad9dca9cef56ef20b1da0000634e25beae5042a123",
+    "sourceCheckpoint": "S1b"
+  }
+}
