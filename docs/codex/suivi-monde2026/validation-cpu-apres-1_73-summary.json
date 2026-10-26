@@ -1,0 +1,2484 @@
+{
+  "kind": "after-fix-natural-late-macro-collision-cpu-observation209",
+  "diagnosticOnly": true,
+  "qualifiedJourney": false,
+  "sourceScenarioSha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a",
+  "sourceCloneSha256": "ca69d2e86e7f197e20e53d100dc577f47a51e96ba13ae754c7ceb050f9b6d947",
+  "approach": {
+    "from": {
+      "active": true,
+      "generation": 11,
+      "detailVersion": 13,
+      "ecologyVersion": 1,
+      "hydrologyVersion": 1,
+      "landscape189": "balanced",
+      "x": 14577.310342444927,
+      "y": 2632.89611834489,
+      "z": 0,
+      "inside": "P3174",
+      "a": 0,
+      "car": null
+    },
+    "oldPoint": {
+      "x": 14577.4,
+      "y": 2632.8,
+      "z": 0,
+      "inside": "P3174"
+    },
+    "coordinateAssignments": 0
+  },
+  "realMilliseconds": 10458,
+  "sampledMilliseconds": 11143.641,
+  "before": {
+    "state": "playing",
+    "gameOver": false,
+    "elapsed": 116.49540000000455,
+    "pose": {
+      "active": true,
+      "generation": 11,
+      "detailVersion": 13,
+      "ecologyVersion": 1,
+      "hydrologyVersion": 1,
+      "landscape189": "balanced",
+      "x": 14577.310342444927,
+      "y": 2632.89611834489,
+      "z": 0,
+      "inside": "P3174",
+      "a": 0,
+      "car": null
+    },
+    "health": 50,
+    "maxHealth": 100,
+    "carry": {
+      "wood": 0,
+      "scrap": 2,
+      "stone": 0,
+      "food": 12,
+      "fuel": 4,
+      "ammo": 0,
+      "medicine": 3
+    },
+    "resources": {
+      "wood": 303.1393344440031,
+      "scrap": 311.39899259170625,
+      "stone": 104.99019333333334,
+      "food": 192.8902527164403,
+      "fuel": 45,
+      "ammo": 180,
+      "medicine": 12
+    },
+    "taken": {},
+    "nightGear": {
+      "version": 1,
+      "serial": 2,
+      "devices": [
+        {
+          "id": 1,
+          "kind": "lantern",
+          "location": "belt",
+          "left": 60,
+          "on": false,
+          "used": true
+        }
+      ]
+    },
+    "survival": {
+      "version": 1,
+      "serial": 1,
+      "camps": [],
+      "meal": {
+        "left": 24.17060000000033,
+        "budget": 60
+      },
+      "dressing": {
+        "left": 0,
+        "remaining": 0
+      }
+    },
+    "context": {
+      "version": 1,
+      "completed": []
+    },
+    "survivalTask": null,
+    "survivalPresentation": null,
+    "contextTask": null,
+    "posture": "stand",
+    "paused": false,
+    "overlay": null,
+    "movementKeys": [],
+    "focus": "game"
+  },
+  "after": {
+    "state": "playing",
+    "gameOver": false,
+    "elapsed": 126.99490000000597,
+    "pose": {
+      "active": true,
+      "generation": 11,
+      "detailVersion": 13,
+      "ecologyVersion": 1,
+      "hydrologyVersion": 1,
+      "landscape189": "balanced",
+      "x": 14578.026442444921,
+      "y": 2632.89611834489,
+      "z": 0,
+      "inside": "P3174",
+      "a": 0,
+      "car": null
+    },
+    "health": 50,
+    "maxHealth": 100,
+    "carry": {
+      "wood": 0,
+      "scrap": 2,
+      "stone": 0,
+      "food": 12,
+      "fuel": 4,
+      "ammo": 0,
+      "medicine": 3
+    },
+    "resources": {
+      "wood": 303.1393344440031,
+      "scrap": 311.39899259170625,
+      "stone": 124.93629333333331,
+      "food": 192.61336311644044,
+      "fuel": 54.91643999999998,
+      "ammo": 180,
+      "medicine": 12
+    },
+    "taken": {},
+    "nightGear": {
+      "version": 1,
+      "serial": 2,
+      "devices": [
+        {
+          "id": 1,
+          "kind": "lantern",
+          "location": "belt",
+          "left": 60,
+          "on": false,
+          "used": true
+        }
+      ]
+    },
+    "survival": {
+      "version": 1,
+      "serial": 1,
+      "camps": [],
+      "meal": {
+        "left": 13.671100000000498,
+        "budget": 60
+      },
+      "dressing": {
+        "left": 0,
+        "remaining": 0
+      }
+    },
+    "context": {
+      "version": 1,
+      "completed": []
+    },
+    "survivalTask": null,
+    "survivalPresentation": null,
+    "contextTask": null,
+    "posture": "stand",
+    "paused": false,
+    "overlay": null,
+    "movementKeys": [],
+    "focus": "game"
+  },
+  "simulatedSeconds": 10.499500000001419,
+  "worldClockBefore": 116.04530000000447,
+  "worldClockAfter": 126.57810000000589,
+  "groupsBefore": 13,
+  "groupsAfter": 13,
+  "groupsBeforeSha256": "d3694a6170e753df97d01919e3958361e270798caef003721ffda7d81b02ff8c",
+  "groupsAfterSha256": "09b73641d6e2a293c82612e1c11b67c3c1e8026f8cfc59f677f8aa4b8cda5559",
+  "walks": [
+    {
+      "coordinateAssignments": 0,
+      "inputs": 12,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14577.310342444927,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:33.232Z",
+          "downAcknowledgedMilliseconds": 47,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 96,
+          "actualMetres": 0.10256400000071153,
+          "forwardMetres": 0.10256400000071153,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.412906444928,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.412906444928,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:33.431Z",
+          "downAcknowledgedMilliseconds": 44,
+          "releaseEnqueuedMilliseconds": 62,
+          "releaseAcknowledgedMilliseconds": 90,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.566598444928,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.566598444928,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:33.625Z",
+          "downAcknowledgedMilliseconds": 44,
+          "releaseEnqueuedMilliseconds": 62,
+          "releaseAcknowledgedMilliseconds": 86,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.720290444928,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.720290444928,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:33.810Z",
+          "downAcknowledgedMilliseconds": 49,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 90,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.873982444928,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.873982444928,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:34.003Z",
+          "downAcknowledgedMilliseconds": 50,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 104,
+          "actualMetres": 0.20574399999895832,
+          "forwardMetres": 0.20574399999895832,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.079726444927,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.079726444927,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:34.217Z",
+          "downAcknowledgedMilliseconds": 50,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 98,
+          "actualMetres": 0.2054360000001907,
+          "forwardMetres": 0.2054360000001907,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.285162444927,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14577.412906444928,
+          "y": 2632.89611834489,
+          "remaining": 0.8974679514540465
+        },
+        {
+          "i": 1,
+          "x": 14577.566598444928,
+          "y": 2632.89611834489,
+          "remaining": 0.7438403228559762
+        },
+        {
+          "i": 1,
+          "x": 14577.720290444928,
+          "y": 2632.89611834489,
+          "remaining": 0.5902462110456617
+        },
+        {
+          "i": 1,
+          "x": 14577.873982444928,
+          "y": 2632.89611834489,
+          "remaining": 0.43672098086644906
+        },
+        {
+          "i": 1,
+          "x": 14578.079726444927,
+          "y": 2632.89611834489,
+          "remaining": 0.23154686138032982
+        },
+        {
+          "i": 1,
+          "x": 14578.285162444927,
+          "y": 2632.89611834489,
+          "remaining": 0.03433822602714449
+        }
+      ],
+      "diagnosticArrival": {
+        "pose": {
+          "active": true,
+          "generation": 11,
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced",
+          "x": 14578.285162444927,
+          "y": 2632.89611834489,
+          "z": 0,
+          "inside": "P3174",
+          "a": 0,
+          "car": null
+        },
+        "remaining": 0.03433822602714449
+      }
+    },
+    {
+      "coordinateAssignments": 0,
+      "inputs": 12,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14578.285162444927,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:35.115Z",
+          "downAcknowledgedMilliseconds": 44,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 92,
+          "actualMetres": 0.10256400000071153,
+          "forwardMetres": 0.10256400000071153,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.182598444926,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.182598444926,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:35.314Z",
+          "downAcknowledgedMilliseconds": 46,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 90,
+          "actualMetres": 0.15430800000103773,
+          "forwardMetres": 0.15430800000103773,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.028290444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.028290444925,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:35.505Z",
+          "downAcknowledgedMilliseconds": 44,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 91,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.874290444926,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.874290444926,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:35.704Z",
+          "downAcknowledgedMilliseconds": 49,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 115,
+          "actualMetres": 0.15430800000103773,
+          "forwardMetres": 0.15430800000103773,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.719982444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.719982444925,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:35.935Z",
+          "downAcknowledgedMilliseconds": 59,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 108,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.565982444927,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.565982444927,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:36.144Z",
+          "downAcknowledgedMilliseconds": 50,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 97,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.411982444928,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14578.182598444926,
+          "y": 2632.89611834489,
+          "remaining": 0.8722559999987425
+        },
+        {
+          "i": 1,
+          "x": 14578.028290444925,
+          "y": 2632.89611834489,
+          "remaining": 0.7179479999977048
+        },
+        {
+          "i": 1,
+          "x": 14577.874290444926,
+          "y": 2632.89611834489,
+          "remaining": 0.5639479999990726
+        },
+        {
+          "i": 1,
+          "x": 14577.719982444925,
+          "y": 2632.89611834489,
+          "remaining": 0.4096399999980349
+        },
+        {
+          "i": 1,
+          "x": 14577.565982444927,
+          "y": 2632.89611834489,
+          "remaining": 0.2556399999994028
+        },
+        {
+          "i": 1,
+          "x": 14577.411982444928,
+          "y": 2632.89611834489,
+          "remaining": 0.10164000000077067
+        }
+      ],
+      "diagnosticArrival": {
+        "pose": {
+          "active": true,
+          "generation": 11,
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced",
+          "x": 14577.411982444928,
+          "y": 2632.89611834489,
+          "z": 0,
+          "inside": "P3174",
+          "a": 0,
+          "car": null
+        },
+        "remaining": 0.10164000000077067
+      }
+    },
+    {
+      "coordinateAssignments": 0,
+      "inputs": 12,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14577.411982444928,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:36.925Z",
+          "downAcknowledgedMilliseconds": 54,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 103,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.565982444927,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.565982444927,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:37.129Z",
+          "downAcknowledgedMilliseconds": 42,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 88,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.719982444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.719982444925,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:37.326Z",
+          "downAcknowledgedMilliseconds": 49,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 94,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.873674444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.873674444925,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:37.523Z",
+          "downAcknowledgedMilliseconds": 46,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 98,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.027366444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.027366444925,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:37.717Z",
+          "downAcknowledgedMilliseconds": 43,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 86,
+          "actualMetres": 0.10256400000071153,
+          "forwardMetres": 0.10256400000071153,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.129930444926,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.129930444926,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:37.904Z",
+          "downAcknowledgedMilliseconds": 48,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 99,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.283930444924,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14577.565982444927,
+          "y": 2632.89611834489,
+          "remaining": 0.744456011816028
+        },
+        {
+          "i": 1,
+          "x": 14577.719982444925,
+          "y": 2632.89611834489,
+          "remaining": 0.5905539639448689
+        },
+        {
+          "i": 1,
+          "x": 14577.873674444925,
+          "y": 2632.89611834489,
+          "remaining": 0.43702852942737236
+        },
+        {
+          "i": 1,
+          "x": 14578.027366444925,
+          "y": 2632.89611834489,
+          "remaining": 0.28368353576445465
+        },
+        {
+          "i": 1,
+          "x": 14578.129930444926,
+          "y": 2632.89611834489,
+          "remaining": 0.18167765802174995
+        },
+        {
+          "i": 1,
+          "x": 14578.283930444924,
+          "y": 2632.89611834489,
+          "remaining": 0.03524182493020073
+        }
+      ],
+      "diagnosticArrival": {
+        "pose": {
+          "active": true,
+          "generation": 11,
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced",
+          "x": 14578.283930444924,
+          "y": 2632.89611834489,
+          "z": 0,
+          "inside": "P3174",
+          "a": 0,
+          "car": null
+        },
+        "remaining": 0.03524182493020073
+      }
+    },
+    {
+      "coordinateAssignments": 0,
+      "inputs": 12,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14578.283930444924,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:38.750Z",
+          "downAcknowledgedMilliseconds": 43,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 90,
+          "actualMetres": 0.10287199999947916,
+          "forwardMetres": 0.10287199999947916,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.181058444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.181058444925,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:38.940Z",
+          "releaseEnqueuedMilliseconds": 60,
+          "downAcknowledgedMilliseconds": 62,
+          "releaseAcknowledgedMilliseconds": 112,
+          "actualMetres": 0.2054360000001907,
+          "forwardMetres": 0.2054360000001907,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.975622444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.975622444925,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:39.163Z",
+          "downAcknowledgedMilliseconds": 45,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 97,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.821622444926,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.821622444926,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:39.361Z",
+          "downAcknowledgedMilliseconds": 39,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 87,
+          "actualMetres": 0.15430800000103773,
+          "forwardMetres": 0.15430800000103773,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.667314444925,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.667314444925,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:39.545Z",
+          "downAcknowledgedMilliseconds": 53,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 108,
+          "actualMetres": 0.15430800000103773,
+          "forwardMetres": 0.15430800000103773,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.513006444924,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.513006444924,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:39.744Z",
+          "downAcknowledgedMilliseconds": 47,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 107,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.359314444924,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14578.181058444925,
+          "y": 2632.89611834489,
+          "remaining": 0.8707159999976284
+        },
+        {
+          "i": 1,
+          "x": 14577.975622444925,
+          "y": 2632.89611834489,
+          "remaining": 0.6652799999974377
+        },
+        {
+          "i": 1,
+          "x": 14577.821622444926,
+          "y": 2632.89611834489,
+          "remaining": 0.5112799999988056
+        },
+        {
+          "i": 1,
+          "x": 14577.667314444925,
+          "y": 2632.89611834489,
+          "remaining": 0.35697199999776785
+        },
+        {
+          "i": 1,
+          "x": 14577.513006444924,
+          "y": 2632.89611834489,
+          "remaining": 0.20266399999673013
+        },
+        {
+          "i": 1,
+          "x": 14577.359314444924,
+          "y": 2632.89611834489,
+          "remaining": 0.048971999996865634
+        }
+      ],
+      "diagnosticArrival": {
+        "pose": {
+          "active": true,
+          "generation": 11,
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced",
+          "x": 14577.359314444924,
+          "y": 2632.89611834489,
+          "z": 0,
+          "inside": "P3174",
+          "a": 0,
+          "car": null
+        },
+        "remaining": 0.048971999996865634
+      }
+    },
+    {
+      "coordinateAssignments": 0,
+      "inputs": 12,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14577.359314444924,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:40.694Z",
+          "releaseEnqueuedMilliseconds": 61,
+          "downAcknowledgedMilliseconds": 62,
+          "releaseAcknowledgedMilliseconds": 155,
+          "actualMetres": 0.2054360000001907,
+          "forwardMetres": 0.2054360000001907,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.564750444924,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.564750444924,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:40.991Z",
+          "downAcknowledgedMilliseconds": 51,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 112,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.718750444923,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.718750444923,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:41.216Z",
+          "downAcknowledgedMilliseconds": 48,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 93,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14577.872750444922,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14577.872750444922,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:41.410Z",
+          "downAcknowledgedMilliseconds": 49,
+          "releaseEnqueuedMilliseconds": 61,
+          "releaseAcknowledgedMilliseconds": 94,
+          "actualMetres": 0.1536919999998645,
+          "forwardMetres": 0.1536919999998645,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.026442444921,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.026442444921,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:41.606Z",
+          "downAcknowledgedMilliseconds": 47,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 102,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.18044244492,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        },
+        {
+          "from": {
+            "x": 14578.18044244492,
+            "y": 2632.89611834489
+          },
+          "dx": 1,
+          "dy": 0,
+          "probedMetres": 0.12,
+          "plannedMilliseconds": 60,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:41.817Z",
+          "downAcknowledgedMilliseconds": 50,
+          "releaseEnqueuedMilliseconds": 60,
+          "releaseAcknowledgedMilliseconds": 96,
+          "actualMetres": 0.15399999999863212,
+          "forwardMetres": 0.15399999999863212,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.334442444919,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14577.564750444924,
+          "y": 2632.89611834489,
+          "remaining": 0.7456873912774178
+        },
+        {
+          "i": 1,
+          "x": 14577.718750444923,
+          "y": 2632.89611834489,
+          "remaining": 0.5917849781055388
+        },
+        {
+          "i": 1,
+          "x": 14577.872750444922,
+          "y": 2632.89611834489,
+          "remaining": 0.43795117891356616
+        },
+        {
+          "i": 1,
+          "x": 14578.026442444921,
+          "y": 2632.89611834489,
+          "remaining": 0.28460433100192545
+        },
+        {
+          "i": 1,
+          "x": 14578.18044244492,
+          "y": 2632.89611834489,
+          "remaining": 0.1317593868540615
+        },
+        {
+          "i": 1,
+          "x": 14578.334442444919,
+          "y": 2632.89611834489,
+          "remaining": 0.03396243251624193
+        }
+      ],
+      "diagnosticArrival": {
+        "pose": {
+          "active": true,
+          "generation": 11,
+          "detailVersion": 13,
+          "ecologyVersion": 1,
+          "hydrologyVersion": 1,
+          "landscape189": "balanced",
+          "x": 14578.334442444919,
+          "y": 2632.89611834489,
+          "z": 0,
+          "inside": "P3174",
+          "a": 0,
+          "car": null
+        },
+        "remaining": 0.03396243251624193
+      }
+    },
+    {
+      "coordinateAssignments": 0,
+      "inputs": 2,
+      "postureInputs": 0,
+      "measuredHolds": [
+        {
+          "from": {
+            "x": 14578.334442444919,
+            "y": 2632.89611834489
+          },
+          "dx": -1,
+          "dy": 0,
+          "probedMetres": 0.9,
+          "plannedMilliseconds": 100,
+          "scheduling": "native release scheduled at enqueue, before awaiting down acknowledgement",
+          "issuedUtc": "2026-10-26T10:39:42.612Z",
+          "downAcknowledgedMilliseconds": 44,
+          "releaseEnqueuedMilliseconds": 100,
+          "releaseAcknowledgedMilliseconds": 129,
+          "actualMetres": 0.30799999999726424,
+          "forwardMetres": 0.30799999999726424,
+          "arrival": {
+            "active": true,
+            "generation": 11,
+            "detailVersion": 13,
+            "ecologyVersion": 1,
+            "hydrologyVersion": 1,
+            "landscape189": "balanced",
+            "x": 14578.026442444921,
+            "y": 2632.89611834489,
+            "z": 0,
+            "inside": "P3174",
+            "a": 0,
+            "car": null,
+            "clear": true,
+            "health": 50,
+            "state": "playing",
+            "gameOver": false,
+            "overlay": null,
+            "keys": []
+          }
+        }
+      ],
+      "waypointTransitions": [],
+      "rejoins": [],
+      "collisionAvoidance": [],
+      "segments": [],
+      "lastMovements": [
+        {
+          "i": 1,
+          "x": 14578.026442444921,
+          "y": 2632.89611834489,
+          "remaining": 0.716099999994185
+        }
+      ]
+    }
+  ],
+  "metricsBefore": {
+    "metrics": [
+      {
+        "name": "Timestamp",
+        "value": 277169.211034
+      },
+      {
+        "name": "AudioHandlers",
+        "value": 2
+      },
+      {
+        "name": "AudioWorkletProcessors",
+        "value": 0
+      },
+      {
+        "name": "Documents",
+        "value": 3
+      },
+      {
+        "name": "Frames",
+        "value": 3
+      },
+      {
+        "name": "JSEventListeners",
+        "value": 1126
+      },
+      {
+        "name": "LayoutObjects",
+        "value": 2284
+      },
+      {
+        "name": "MediaKeySessions",
+        "value": 0
+      },
+      {
+        "name": "MediaKeys",
+        "value": 0
+      },
+      {
+        "name": "Nodes",
+        "value": 14249
+      },
+      {
+        "name": "Resources",
+        "value": 323
+      },
+      {
+        "name": "ContextLifecycleStateObservers",
+        "value": 220
+      },
+      {
+        "name": "V8PerContextDatas",
+        "value": 2
+      },
+      {
+        "name": "WorkerGlobalScopes",
+        "value": 0
+      },
+      {
+        "name": "UACSSResources",
+        "value": 0
+      },
+      {
+        "name": "RTCPeerConnections",
+        "value": 0
+      },
+      {
+        "name": "ResourceFetchers",
+        "value": 3
+      },
+      {
+        "name": "AdSubframes",
+        "value": 0
+      },
+      {
+        "name": "DetachedScriptStates",
+        "value": 0
+      },
+      {
+        "name": "ArrayBufferContents",
+        "value": 7
+      },
+      {
+        "name": "LayoutCount",
+        "value": 1
+      },
+      {
+        "name": "RecalcStyleCount",
+        "value": 3
+      },
+      {
+        "name": "LayoutDuration",
+        "value": 0.000985
+      },
+      {
+        "name": "RecalcStyleDuration",
+        "value": 0.000461
+      },
+      {
+        "name": "DevToolsCommandDuration",
+        "value": 0.000157
+      },
+      {
+        "name": "ScriptDuration",
+        "value": 0.036958
+      },
+      {
+        "name": "V8CompileDuration",
+        "value": 0
+      },
+      {
+        "name": "TaskDuration",
+        "value": 0.08761
+      },
+      {
+        "name": "TaskOtherDuration",
+        "value": 0.049049
+      },
+      {
+        "name": "ThreadTime",
+        "value": 0.087667
+      },
+      {
+        "name": "ProcessTime",
+        "value": 271.57
+      },
+      {
+        "name": "JSHeapUsedSize",
+        "value": 165364052
+      },
+      {
+        "name": "JSHeapTotalSize",
+        "value": 250634240
+      },
+      {
+        "name": "FirstMeaningfulPaint",
+        "value": 0
+      },
+      {
+        "name": "DomContentLoaded",
+        "value": 277051.516739
+      },
+      {
+        "name": "NavigationStart",
+        "value": 277048.657201
+      }
+    ]
+  },
+  "metricsAfter": {
+    "metrics": [
+      {
+        "name": "Timestamp",
+        "value": 277180.418575
+      },
+      {
+        "name": "AudioHandlers",
+        "value": 2
+      },
+      {
+        "name": "AudioWorkletProcessors",
+        "value": 0
+      },
+      {
+        "name": "Documents",
+        "value": 3
+      },
+      {
+        "name": "Frames",
+        "value": 3
+      },
+      {
+        "name": "JSEventListeners",
+        "value": 1126
+      },
+      {
+        "name": "LayoutObjects",
+        "value": 2483
+      },
+      {
+        "name": "MediaKeySessions",
+        "value": 0
+      },
+      {
+        "name": "MediaKeys",
+        "value": 0
+      },
+      {
+        "name": "Nodes",
+        "value": 14625
+      },
+      {
+        "name": "Resources",
+        "value": 323
+      },
+      {
+        "name": "ContextLifecycleStateObservers",
+        "value": 220
+      },
+      {
+        "name": "V8PerContextDatas",
+        "value": 2
+      },
+      {
+        "name": "WorkerGlobalScopes",
+        "value": 0
+      },
+      {
+        "name": "UACSSResources",
+        "value": 0
+      },
+      {
+        "name": "RTCPeerConnections",
+        "value": 0
+      },
+      {
+        "name": "ResourceFetchers",
+        "value": 3
+      },
+      {
+        "name": "AdSubframes",
+        "value": 0
+      },
+      {
+        "name": "DetachedScriptStates",
+        "value": 0
+      },
+      {
+        "name": "ArrayBufferContents",
+        "value": 3
+      },
+      {
+        "name": "LayoutCount",
+        "value": 138
+      },
+      {
+        "name": "RecalcStyleCount",
+        "value": 327
+      },
+      {
+        "name": "LayoutDuration",
+        "value": 0.12181
+      },
+      {
+        "name": "RecalcStyleDuration",
+        "value": 0.055709
+      },
+      {
+        "name": "DevToolsCommandDuration",
+        "value": 0.99403
+      },
+      {
+        "name": "ScriptDuration",
+        "value": 4.48503
+      },
+      {
+        "name": "V8CompileDuration",
+        "value": 0
+      },
+      {
+        "name": "TaskDuration",
+        "value": 11.279606
+      },
+      {
+        "name": "TaskOtherDuration",
+        "value": 5.623027
+      },
+      {
+        "name": "ThreadTime",
+        "value": 11.243002
+      },
+      {
+        "name": "ProcessTime",
+        "value": 284.83
+      },
+      {
+        "name": "JSHeapUsedSize",
+        "value": 171083232
+      },
+      {
+        "name": "JSHeapTotalSize",
+        "value": 253779968
+      },
+      {
+        "name": "FirstMeaningfulPaint",
+        "value": 0
+      },
+      {
+        "name": "DomContentLoaded",
+        "value": 277051.516739
+      },
+      {
+        "name": "NavigationStart",
+        "value": 277048.657201
+      }
+    ]
+  },
+  "sampleTotal": 9277,
+  "timeDeltasMilliseconds": 11141.337,
+  "topSelf": [
+    {
+      "frame": [
+        "(program)",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 5086,
+      "sampleFraction": 0.5482375768028458,
+      "timeMilliseconds": 6420.99,
+      "timeFraction": 0.5763213158348949
+    },
+    {
+      "frame": [
+        "drawImage",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 383,
+      "sampleFraction": 0.041284898135173005,
+      "timeMilliseconds": 425.273,
+      "timeFraction": 0.038170733009871255
+    },
+    {
+      "frame": [
+        "get",
+        "http://127.0.0.1:44233/src/render-cache153.js",
+        31,
+        7
+      ],
+      "samples": 260,
+      "sampleFraction": 0.02802630160612267,
+      "timeMilliseconds": 292.679,
+      "timeFraction": 0.02626964788875877
+    },
+    {
+      "frame": [
+        "levelFor",
+        "http://127.0.0.1:44233/src/render-cache153.js",
+        13,
+        19
+      ],
+      "samples": 195,
+      "sampleFraction": 0.021019726204592002,
+      "timeMilliseconds": 210.051,
+      "timeFraction": 0.0188533027948082
+    },
+    {
+      "frame": [
+        "",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        91,
+        170
+      ],
+      "samples": 144,
+      "sampleFraction": 0.015522259351083324,
+      "timeMilliseconds": 163.81,
+      "timeFraction": 0.014702903251198668
+    },
+    {
+      "frame": [
+        "detailSolids",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        316,
+        21
+      ],
+      "samples": 118,
+      "sampleFraction": 0.012719629190471057,
+      "timeMilliseconds": 143.684,
+      "timeFraction": 0.012896477325836209
+    },
+    {
+      "frame": [
+        "clip",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 110,
+      "sampleFraction": 0.011857281448744206,
+      "timeMilliseconds": 122.979,
+      "timeFraction": 0.011038082772292051
+    },
+    {
+      "frame": [
+        "blocked",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        328,
+        16
+      ],
+      "samples": 109,
+      "sampleFraction": 0.01174948798102835,
+      "timeMilliseconds": 132.96,
+      "timeFraction": 0.011933935756543402
+    },
+    {
+      "frame": [
+        "overview",
+        "http://127.0.0.1:44233/src/frontier.js",
+        252,
+        17
+      ],
+      "samples": 105,
+      "sampleFraction": 0.011318314110164924,
+      "timeMilliseconds": 115.533,
+      "timeFraction": 0.010369760828525337
+    },
+    {
+      "frame": [
+        "(garbage collector)",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 100,
+      "sampleFraction": 0.010779346771585641,
+      "timeMilliseconds": 116.624,
+      "timeFraction": 0.010467684443976517
+    },
+    {
+      "frame": [
+        "save",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 97,
+      "sampleFraction": 0.010455966368438072,
+      "timeMilliseconds": 107.081,
+      "timeFraction": 0.009611144515240855
+    },
+    {
+      "frame": [
+        "drawPropBase",
+        "http://127.0.0.1:44233/src/campaign-site-art205.js",
+        331,
+        22
+      ],
+      "samples": 85,
+      "sampleFraction": 0.009162444755847796,
+      "timeMilliseconds": 95.686,
+      "timeFraction": 0.008588376780991365
+    },
+    {
+      "frame": [
+        "getTransform",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 76,
+      "sampleFraction": 0.008192303546405088,
+      "timeMilliseconds": 83.731,
+      "timeFraction": 0.007515345779415881
+    },
+    {
+      "frame": [
+        "nearestWater",
+        "http://127.0.0.1:44233/src/codex3000-live-data.js",
+        266,
+        23
+      ],
+      "samples": 69,
+      "sampleFraction": 0.007437749272394093,
+      "timeMilliseconds": 77.768,
+      "timeFraction": 0.006980131738228545
+    },
+    {
+      "frame": [
+        "restore",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 66,
+      "sampleFraction": 0.007114368869246524,
+      "timeMilliseconds": 71.631,
+      "timeFraction": 0.006429300181836345
+    },
+    {
+      "frame": [
+        "blockedCircle",
+        "http://127.0.0.1:44233/src/codex3000-live-data.js",
+        294,
+        25
+      ],
+      "samples": 61,
+      "sampleFraction": 0.006575401530667242,
+      "timeMilliseconds": 65.107,
+      "timeFraction": 0.005843733117488503
+    },
+    {
+      "frame": [
+        "lotEntries",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        110,
+        19
+      ],
+      "samples": 54,
+      "sampleFraction": 0.005820847256656246,
+      "timeMilliseconds": 58.511,
+      "timeFraction": 0.005251703633055889
+    },
+    {
+      "frame": [
+        "ellipse",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 54,
+      "sampleFraction": 0.005820847256656246,
+      "timeMilliseconds": 59.264,
+      "timeFraction": 0.00531928977644245
+    },
+    {
+      "frame": [
+        "fill",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 47,
+      "sampleFraction": 0.005066292982645252,
+      "timeMilliseconds": 51.126,
+      "timeFraction": 0.004588856795194329
+    },
+    {
+      "frame": [
+        "rect",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        342,
+        12
+      ],
+      "samples": 46,
+      "sampleFraction": 0.004958499514929395,
+      "timeMilliseconds": 50.793,
+      "timeFraction": 0.004558968102302264
+    },
+    {
+      "frame": [
+        "",
+        "http://127.0.0.1:44233/src/region-roadkit.js",
+        32,
+        28
+      ],
+      "samples": 45,
+      "sampleFraction": 0.004850706047213539,
+      "timeMilliseconds": 51.647,
+      "timeFraction": 0.004635619584974406
+    },
+    {
+      "frame": [
+        "position",
+        "http://127.0.0.1:44233/src/frontier.js",
+        12,
+        17
+      ],
+      "samples": 42,
+      "sampleFraction": 0.004527325644065969,
+      "timeMilliseconds": 52.478,
+      "timeFraction": 0.004710206683452803
+    },
+    {
+      "frame": [
+        "blit",
+        "http://127.0.0.1:44233/src/art.js",
+        511,
+        8
+      ],
+      "samples": 40,
+      "sampleFraction": 0.004311738708634257,
+      "timeMilliseconds": 48.144,
+      "timeFraction": 0.004321204896683405
+    },
+    {
+      "frame": [
+        "rotate",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 40,
+      "sampleFraction": 0.004311738708634257,
+      "timeMilliseconds": 44.026,
+      "timeFraction": 0.00395159037016832
+    },
+    {
+      "frame": [
+        "line",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        337,
+        13
+      ],
+      "samples": 39,
+      "sampleFraction": 0.0042039452409184,
+      "timeMilliseconds": 43.965,
+      "timeFraction": 0.003946115264263167
+    },
+    {
+      "frame": [
+        "drawAreas",
+        "http://127.0.0.1:44233/src/campaign-site-art205.js",
+        297,
+        19
+      ],
+      "samples": 38,
+      "sampleFraction": 0.004096151773202544,
+      "timeMilliseconds": 41.176,
+      "timeFraction": 0.0036957862418128093
+    },
+    {
+      "frame": [
+        "translate",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 33,
+      "sampleFraction": 0.003557184434623262,
+      "timeMilliseconds": 37.949,
+      "timeFraction": 0.003406144163846763
+    },
+    {
+      "frame": [
+        "",
+        "http://127.0.0.1:44233/src/frontier.js",
+        252,
+        260
+      ],
+      "samples": 32,
+      "sampleFraction": 0.0034493909669074054,
+      "timeMilliseconds": 34.409,
+      "timeFraction": 0.0030884085096788655
+    },
+    {
+      "frame": [
+        "nearestRoad",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        41,
+        20
+      ],
+      "samples": 29,
+      "sampleFraction": 0.0031260105637598364,
+      "timeMilliseconds": 31.658,
+      "timeFraction": 0.0028414902089399143
+    },
+    {
+      "frame": [
+        "variantFor",
+        "http://127.0.0.1:44233/src/interior-art153.js",
+        82,
+        20
+      ],
+      "samples": 29,
+      "sampleFraction": 0.0031260105637598364,
+      "timeMilliseconds": 35.884,
+      "timeFraction": 0.003220798365582156
+    },
+    {
+      "frame": [
+        "nearPOI",
+        "http://127.0.0.1:44233/src/frontier-world.js",
+        193,
+        16
+      ],
+      "samples": 25,
+      "sampleFraction": 0.0026948366928964103,
+      "timeMilliseconds": 27.582,
+      "timeFraction": 0.002475645427474279
+    },
+    {
+      "frame": [
+        "render",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        176,
+        15
+      ],
+      "samples": 25,
+      "sampleFraction": 0.0026948366928964103,
+      "timeMilliseconds": 28.413,
+      "timeFraction": 0.002550232525952675
+    },
+    {
+      "frame": [
+        "variantFor",
+        "http://127.0.0.1:44233/src/campaign-site-art205.js",
+        27,
+        20
+      ],
+      "samples": 25,
+      "sampleFraction": 0.0026948366928964103,
+      "timeMilliseconds": 27.34,
+      "timeFraction": 0.002453924515522688
+    },
+    {
+      "frame": [
+        "fillRect",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 25,
+      "sampleFraction": 0.0026948366928964103,
+      "timeMilliseconds": 27.08,
+      "timeFraction": 0.0024305879985499048
+    },
+    {
+      "frame": [
+        "w.blocked",
+        "http://127.0.0.1:44233/src/barricades134.js",
+        69,
+        238
+      ],
+      "samples": 25,
+      "sampleFraction": 0.0026948366928964103,
+      "timeMilliseconds": 26.002,
+      "timeFraction": 0.0023338312089473644
+    },
+    {
+      "frame": [
+        "",
+        "http://127.0.0.1:44233/src/wildlife-harvest190.js",
+        38,
+        61
+      ],
+      "samples": 24,
+      "sampleFraction": 0.002587043225180554,
+      "timeMilliseconds": 25.671,
+      "timeFraction": 0.0023041220277243207
+    },
+    {
+      "frame": [
+        "depthEntries",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        151,
+        21
+      ],
+      "samples": 22,
+      "sampleFraction": 0.0023714562897488413,
+      "timeMilliseconds": 24.122,
+      "timeFraction": 0.002165090240067238
+    },
+    {
+      "frame": [
+        "inLot",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        79,
+        14
+      ],
+      "samples": 22,
+      "sampleFraction": 0.0023714562897488413,
+      "timeMilliseconds": 24.028,
+      "timeFraction": 0.0021566531916232317
+    },
+    {
+      "frame": [
+        "rect",
+        "",
+        -1,
+        -1
+      ],
+      "samples": 22,
+      "sampleFraction": 0.0023714562897488413,
+      "timeMilliseconds": 24.201,
+      "timeFraction": 0.0021721809509935835
+    },
+    {
+      "frame": [
+        "marker",
+        "http://127.0.0.1:44233/src/frontier-art.js",
+        208,
+        14
+      ],
+      "samples": 22,
+      "sampleFraction": 0.0023714562897488413,
+      "timeMilliseconds": 23.935,
+      "timeFraction": 0.002148305899013736
+    }
+  ],
+  "accessGrid": {
+    "samples": 0,
+    "sampleFraction": 0,
+    "timeMilliseconds": 0,
+    "timeFraction": 0
+  },
+  "profileSha256": "2e24e99bec657e86d38fafb737598daadc45bd4e81bf58e167ed3365c429ea75",
+  "profileBytes": 368143,
+  "scope": "Current native scene and real controls followed naturally to the old medical CPU point; both elapsed and macro clock reach116 without writes. A bounded input-only deadline ends walking after at least10seconds of CDP sampling, with normal key/touch release. Exact guide, clock and host load differ from the prior capture, which lacks an exact starting simulation clock; no FPS, exact speed ratio or matched causal benchmark is inferred."
+}

@@ -1,0 +1,49 @@
+{
+  "kind": "DEADWALL-1.73-CI-budget-expectation-correction",
+  "previousHead": "fd15d351f5ca5779bce606f33e8138305d6e70cf",
+  "previousFailedRunId": 40308716510,
+  "previousCheckId": 121524194292,
+  "finding": "The workflow budget had been updated from45 to75 while audit187 still required45. Only the expected budget changes to75; all exhaustive commands and failure/skip assertions remain.",
+  "changedTest": "tests/audit187-furniture-budget.test.cjs",
+  "targetedCommand": "node --test --test-isolation=none --test-reporter=tap tests/audit18[345678]-*.test.cjs",
+  "actualExitCode": 0,
+  "counts": {
+    "tests": 160,
+    "pass": 160,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "durationMilliseconds": 111778.951061,
+  "log": {
+    "path": "/workspace/deadwall-cloud/extension208/release-review209/F2-audit18x-after-budget-assertion210.log",
+    "bytes": 35688,
+    "sha256": "0f96753aca2e68e154e0159ffdaf56b30373cd66322a3330ec5a82fce099ea51"
+  },
+  "previousObservation": "/workspace/deadwall-cloud/extension208/release/release-observation208-fd15d351f5ca-20261026T103753525581Z.json",
+  "previousJobEvidence": "/workspace/deadwall-cloud/extension208/release-review209/F-audit-regressions-jobs210.json",
+  "limits": [
+    "This focused replay does not qualify the next immutable commit. All actual CI for that next commit, including the exact original command, remain required.",
+    "The earlier local default-isolation launch failed three files with no child details under the restricted execution context. Its negative log is preserved separately; no omitted or hidden result is counted as success."
+  ],
+  "exactWorkflowCommandReplay": {
+    "command": "node --test tests/audit18[345678]-*.test.cjs",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 160,
+      "pass": 160,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMilliseconds": 58334.37371,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/F2-audit18x-exact-command210.log",
+      "bytes": 15017,
+      "sha256": "b5befc2f8794b080a137d4f40ef694f8fd13c644210a3f1e6585a887f36b1efe"
+    },
+    "note": "Same160 contracts replayed with default isolation; counts must not be added to the preceding160."
+  }
+}
