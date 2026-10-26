@@ -1,0 +1,110 @@
+{
+  "kind": "cookie-header-diagnostic-redaction211",
+  "observedUtc": "2026-10-26T11:03:05.743848+00:00",
+  "sourceBase": "afd33450b91051a9cd680ae65c238ef86a1c9aa0",
+  "pass": true,
+  "scope": "Synthetic-cookie diagnostic correction only. No actual credentials read, complete CI qualification, gameplay or publication reception.",
+  "files": [
+    {
+      "path": "/workspace/deadwall-last-enclosure/scripts/ci-failure-summary.mjs",
+      "bytes": 14600,
+      "sha256": "d5bf3bd52f7618f625f106d4305193428a4c5054bd968e6b06be64ee55a60d87"
+    },
+    {
+      "path": "/workspace/deadwall-last-enclosure/tests/ci-failure-summary.test.cjs",
+      "bytes": 33895,
+      "sha256": "8ef50f5b6e654f365c7b4d77cb1e1cf977a2838d3ef476f87d4b074c08d7c5f5"
+    }
+  ],
+  "changeBoundary": {
+    "onlySafeDiagnosticTextChanged": true,
+    "fourRegressionTestsInserted": true,
+    "qualificationParserAndFullcheckFilesUnchanged": [
+      {
+        "path": "/workspace/deadwall-last-enclosure/scripts/full-check201.mjs",
+        "bytes": 13393,
+        "sha256": "02eb954041e975d1de0e11516b4e98deb85bef5f8f83496b345898fe76c425d7"
+      },
+      {
+        "path": "/workspace/deadwall-last-enclosure/tests/full-check201.test.cjs",
+        "bytes": 12164,
+        "sha256": "a505cd5a6341d6bb7fe5f525c4c19affd4f586a20c4429ef503fe721aafc629a"
+      },
+      {
+        "path": "/workspace/deadwall-last-enclosure/scripts/ci-native-receipt160.mjs",
+        "bytes": 8619,
+        "sha256": "aa3fa28649f046712549b457f7ae7444d709eff8c72db9d39198674f333bbc04"
+      }
+    ],
+    "gamePublicSourceAndWorkflowChanges": 0,
+    "commits": 0,
+    "pushes": 0,
+    "remoteWrites": 0
+  },
+  "fixedFinding": "Raw Cookie/Cookies/Set-Cookie and recognised cookie components now consume every cookie and attribute until CR or LF. Reset the value boundary to its separator so empty headers do not eat the next line; raw quoted first cookies cannot expose later cookies. Quoted JSON keys/values retain following fields.",
+  "fixturesOnly": {
+    "rawHeaders": 165,
+    "quotedJSONHeaders": 11,
+    "setCookieExpiryCase": 1,
+    "nativeAnnotationCase": 1,
+    "includes": [
+      "COOKIE_HEADER",
+      "SESSION_COOKIE",
+      "Set_Cookie",
+      "mixed case",
+      "numeric suffixes",
+      "CR/LF/CRLF",
+      "empty header",
+      "quoted first cookie",
+      "Expires with comma/date",
+      "room=T047 on next line",
+      "site after quoted JSON value"
+    ]
+  },
+  "nativeTests": {
+    "command": "node --test --test-isolation=none --test-reporter=tap tests/ci-failure-summary.test.cjs tests/full-check201.test.cjs",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "helperTests": 30,
+    "fullCheck201Tests": 44,
+    "durationMilliseconds": 2693.713002,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/cookie-fix211/native-cookie-and-fullcheck211-final.log",
+      "bytes": 15772,
+      "sha256": "7c44115fc5c6c949f21f265ce5ea762285f11aac289f9ee3119c560b43d42b03"
+    }
+  },
+  "independentReview": {
+    "receipt": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/redaction-independent209/cookie-probes-d5bf3bd52f76.json",
+      "bytes": 2227,
+      "sha256": "b05afc80fbce0201f98dcf9dc302e3ac137125b81c9ee00df8f917b7b009efb8"
+    },
+    "requiredProbesPassed": 102,
+    "requiredProbes": 102,
+    "deterministic": 102,
+    "idempotent": 102,
+    "previousFourBoundaryFindingsClosed": true
+  },
+  "preliminaryAttempt": {
+    "status": "Historical successful probe of the earlier b5a2ae variant; not substituted for final native evidence",
+    "helperSha256": "b5a2ae268758532a9cc058b3e367a517be18ae73f51b4b502fdf2da8706767ee",
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/cookie-fix211/native-cookie-and-fullcheck211.log",
+      "bytes": 15779,
+      "sha256": "b4912f93f33fcc326e478e404327dbb1d49b7ed47bd3787000b309884aa444f7"
+    }
+  },
+  "limits": [
+    "A cookie header conservatively removes all same-line diagnostic text; following lines remain.",
+    "This diagnostic layer does not change acceptance, counters, source fingerprints, exits or native floors.",
+    "All exact-head CI of the future F3 must still succeed; these targeted tests do not qualify it."
+  ]
+}

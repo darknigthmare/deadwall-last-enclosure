@@ -59,6 +59,48 @@ test('CI diagnostic redaction inspects quoted and nested JSON keys and complete 
   }
 });
 
+test('CI diagnostic redaction removes complete synthetic raw cookie headers through the line boundary', async () => {
+  const {safeDiagnosticText} = await helper;
+  for (const name of ['Cookie', 'Cookies', 'rawCookie', 'cOoKiE', 'Set-Cookie', 'sEt-CoOkIe', 'COOKIE_HEADER', 'SESSION_COOKIE', 'Set_Cookie', 'COOKIES2', 'Cookie2_HEADER']) {
+    for (const newline of ['\n', '\r\n', '\r']) {
+      for (const contents of ['session=FAKE_ONLY_FIRST; refresh=FAKE_ONLY_SECOND', '"session=FAKE_ONLY_FIRST"; refresh=FAKE_ONLY_SECOND', '', '   ', '\t']) {
+        const actual = safeDiagnosticText(name + ': ' + contents + newline + 'room=T047');
+        assert.equal(actual, '[credential removed] room=T047', name + JSON.stringify({newline, contents}));
+      }
+    }
+  }
+});
+
+test('CI diagnostic redaction removes Set-Cookie expiry commas and every synthetic attribute', async () => {
+  const {safeDiagnosticText} = await helper;
+  const actual = safeDiagnosticText('Failed stock assertion Set-Cookie: session=FAKE_ONLY_FIRST; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Path=/FAKE_ONLY_PATH; HttpOnly; refresh=FAKE_ONLY_SECOND\nsite=T047');
+  assert.equal(actual, 'Failed stock assertion [credential removed] site=T047');
+});
+
+test('CI diagnostic cookie redaction preserves fields after complete quoted JSON values', async () => {
+  const {safeDiagnosticText} = await helper;
+  for (const name of ['Cookie', 'Cookies', 'rawCookie', 'cOoKiE', 'Set-Cookie', 'sEt-CoOkIe', 'COOKIE_HEADER', 'SESSION_COOKIE', 'Set_Cookie', 'COOKIES2', 'Cookie2_HEADER']) {
+    const fixture = JSON.stringify({headers: {[name]: 'session=FAKE_ONLY_FIRST; Expires=Wed, 21 Oct 2037 07:28:00 GMT; refresh="FAKE_ONLY_SECOND"'}, site: 'T047', count: 2});
+    const actual = safeDiagnosticText(fixture);
+    assert.doesNotMatch(actual, /FAKE_ONLY|Expires|2037/);
+    assert.match(actual, /"site":"T047","count":2\}$/);
+    assert.equal((actual.match(/\[credential removed\]/g) || []).length, 1, name);
+  }
+});
+
+test('CI native annotations remove complete synthetic cookie headers while retaining the failed assertion', async () => {
+  const {nativeLogFailures, annotationLines} = await helper;
+  const text = ['not ok 1 - real stock assertion Cookie: session=FAKE_ONLY_TITLE; refresh=FAKE_ONLY_TITLE_TAIL',
+    '  ---', '  error: |-', '    AssertionError: Set-Cookie: session=FAKE_ONLY_DETAIL; Expires=Wed, 21 Oct 2037 07:28:00 GMT; refresh=FAKE_ONLY_DETAIL_TAIL',
+    '  stack: |-', '    at TestContext.<anonymous> (tests/ci-failure-summary.test.cjs:37:2)', '  ...'].join('\n');
+  const failures = nativeLogFailures(text, 'native.log', {details: true});
+  assert.equal(failures.length, 1);
+  const annotation = annotationLines({failures, warnings: []}).join('\n');
+  assert.doesNotMatch(annotation, /FAKE_ONLY|Expires|2037/);
+  assert.match(annotation, /real stock assertion/);
+  assert.match(annotation, /tests\/ci-failure-summary\.test\.cjs:37:2/);
+});
+
 test('CI diagnostic redaction preserves useful test names, source locations and ordinary object fields', async () => {
   const {safeDiagnosticText} = await helper;
   for (const actual of [

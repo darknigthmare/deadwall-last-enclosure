@@ -208,6 +208,20 @@
         "sha256": "d50e1035979a90e147d4d75753413251a6044bb85e731a42bec8888af3facd9b"
       },
       "note": "26 shared diagnostic tests and 44 full-check201 tests; includes the previous 44, not an additional disjoint total."
+    },
+    "cookieReception": {
+      "tests": 74,
+      "pass": 74,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "actualExitCode": 0,
+      "receipt": "docs/codex/suivi-monde2026/validation-expurgation-cookie-1_73.json",
+      "receiptSha256": "b202204162c2110c19f33ebd9cd6dd9f2eb043a58f1e049afe99086fb2118d8d",
+      "independentRequiredProbes": 102,
+      "helperSha256": "d5bf3bd52f7618f625f106d4305193428a4c5054bd968e6b06be64ee55a60d87",
+      "note": "30 helper tests and the same44 full-check201 tests; overlaps earlier70 and is not an additive total."
     }
   },
   "recipeBudgetAudit": {
@@ -313,5 +327,6 @@
       },
       "note": "Same160 contracts replayed with default isolation; counts must not be added to the preceding160."
     }
-  }
+  },
+  "reviewedCandidateCorrections": "docs/codex/suivi-monde2026/validation-revue-corrections-1_73.json"
 }

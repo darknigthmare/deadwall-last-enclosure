@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "scope": "Pure fictitious Cookie sanitizer probes only; no native suite, CLI launch, CI, merge or Production qualification.",
+  "candidateSha256": "d5bf3bd52f7618f625f106d4305193428a4c5054bd968e6b06be64ee55a60d87",
+  "testSourceSha256": "8ef50f5b6e654f365c7b4d77cb1e1cf977a2838d3ef476f87d4b074c08d7c5f5",
+  "baseCommit": "afd33450b91051a9cd680ae65c238ef86a1c9aa0",
+  "summary": {
+    "replayed": 27,
+    "componentCases": 70,
+    "usefulNameCases": 5,
+    "total": 102,
+    "passed": 102,
+    "failed": [],
+    "deterministic": 102,
+    "idempotent": 102
+  },
+  "properties": {
+    "helperBytesUnchanged": true,
+    "testBytesUnchanged": true,
+    "outsideSafeDiagnosticTextMatchesHEAD": true,
+    "fullCheckAndWorkflowsMatchHEAD": true,
+    "bounded": true,
+    "normalized": true
+  },
+  "closedFindings": [
+    {
+      "id": "replay-empty-lf",
+      "input": "Cookie:\nroom=T047",
+      "output": "[credential removed] room=T047",
+      "pass": true,
+      "deterministic": true,
+      "idempotent": true
+    },
+    {
+      "id": "replay-empty-crlf",
+      "input": "Set-Cookie:   \r\nroom=T047",
+      "output": "[credential removed] room=T047",
+      "pass": true,
+      "deterministic": true,
+      "idempotent": true
+    },
+    {
+      "id": "replay-empty-cr",
+      "input": "Cookies:\t\rroom=T047",
+      "output": "[credential removed] room=T047",
+      "pass": true,
+      "deterministic": true,
+      "idempotent": true
+    },
+    {
+      "id": "replay-quoted-raw-observation",
+      "input": "Cookie: \"session=FAKE_ONLY_FIRST\"; refresh=FAKE_ONLY_SECOND\nroom=T047",
+      "output": "[credential removed] room=T047",
+      "pass": true,
+      "deterministic": true,
+      "idempotent": true
+    }
+  ],
+  "componentNames": [
+    "COOKIE_HEADER",
+    "SESSION_COOKIE",
+    "Set_Cookie",
+    "Cookie2",
+    "COOKIE2_HEADER",
+    "rawCookie2",
+    "sEt_CoOkIe"
+  ],
+  "allProbeResultsSha256": "786a6b6069d3f0108be4d449c7454b4b1f16aa9143f6c2d51ca66dffeaaa4658",
+  "repositoryFilesWritten": false,
+  "environmentOrSecretFilesRead": false,
+  "networkUsed": false,
+  "nativeTestSuiteRun": false,
+  "fullCheckRun": false,
+  "bootOrExitImplementationModified": false,
+  "passWithinAssignedScope": true
+}
