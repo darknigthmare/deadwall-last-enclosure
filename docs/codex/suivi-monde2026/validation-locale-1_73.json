@@ -1,0 +1,155 @@
+{
+  "kind": "DEADWALL-1.73-local-receptions",
+  "observedUtc": "2026-10-26T08:14:55.447003+00:00",
+  "sourceCheckpoint": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "publicBuild": {
+    "files": 368,
+    "payloadSha256": "b84cf820f77dc5d49d2234f176f8d6fa176956a6113fe6ff5e4a93d0056dc59a",
+    "worldSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc"
+  },
+  "targetedNative": {
+    "tests": 29,
+    "pass": 29,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/after-broadphase/art-hero-world-native-current208.log",
+      "bytes": 8273,
+      "sha256": "8b7f006d940808487d1599a705b6c4c6b05defec657feea0f3e2bd19e2b7d0a4"
+    }
+  },
+  "generalChromium": {
+    "actualProcessExitCodes": [
+      0,
+      0
+    ],
+    "profiles": 8,
+    "checks": 267,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/general-regression208-after-broadphase-final-receipt.json",
+      "bytes": 11113,
+      "sha256": "6f77eb76ae1aab11b4fd9a3b9b93cd8db288a0786327ab5d3986c23294aeba41"
+    },
+    "runs": [
+      {
+        "kind": "general-browser",
+        "checks": 179,
+        "profiles": 4,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/browser-2026-10-25T11_17_17_073Z/report.json",
+          "bytes": 111864,
+          "sha256": "7d33bde49805ef645217f47d451fd8a9f59dbc8de035668ec8c0e01b3e77dae8"
+        }
+      },
+      {
+        "kind": "legacy-G8-PWA-auto-import",
+        "checks": 42,
+        "profiles": 2,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/pwa-2026-10-25T11_18_56_202Z/report.json",
+          "bytes": 86653,
+          "sha256": "ddaf194271955130b2b3b5d381984f36768f944a0355e4be92975fd9ce321839"
+        }
+      },
+      {
+        "kind": "current-G11-PWA-ordinary-entry",
+        "checks": 46,
+        "profiles": 2,
+        "sourceReport": {
+          "path": "/workspace/deadwall-cloud/extension208/general-regression-after-broadphase/pwa205-2026-10-25T11_20_04_575Z/report.json",
+          "bytes": 146826,
+          "sha256": "98d7ab774348cacafea4a91034e6e1fd194f97ce4d0ae941c5949c0bcc0830f2"
+        }
+      }
+    ]
+  },
+  "dedicatedServicesChromium": {
+    "qualified": false,
+    "state": "Nouvelle fixture de parcours physique court en cours ; essais négatifs, production naturelle du dépôt et défaite de ville initiale conservés distinctement."
+  },
+  "preparedArtContact": {
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/art-services/prepared-native-contact208.png",
+      "bytes": 175717,
+      "sha256": "bcc4aa63fed9eafcf90aff24c4e1b7eeab231b4d2f50b63121da927c2a5ed545"
+    },
+    "samples": 13,
+    "models": 4,
+    "rootVisuallyReviewed": true,
+    "scope": "Native Canvas de supports réels, entrée de présentation préparée, repos et deux phases ; pas des transactions."
+  },
+  "qualification": {
+    "finalHeadFullCheckQualified": false,
+    "merged": false,
+    "productionVerified": false,
+    "scope": "État au point de préparation ; reçus CI, fusion et Production suivis dans la PR20."
+  },
+  "limits": [
+    "Automatisation Chromium avec émulation tactile, sans cadence mesurée sur téléphone physique.",
+    "Aucune campagne humaine complète de 6 à 10 heures déduite.",
+    "Supports géométriques, modèles, poses, échantillons visuels et transactions ont des reçus distincts."
+  ],
+  "campaign205Chromium": {
+    "checks": 65,
+    "profiles": 2,
+    "pass": true,
+    "actualExitCode": 0,
+    "sourceScriptSha256": "bd9dd7d511bb99dea1160f7e0dab682083b96f0ee7e5a5a37196bdee1e160f61",
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension208/browser205-after-broadphase/campaign205-2026-10-26T07_57_15_892Z/report.json",
+      "bytes": 3138788,
+      "sha256": "41a0865ebe8066112b39c96991d674ec98cbf1724a23f1e6cd48a4244c372413"
+    }
+  },
+  "backendNative": {
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/after-broadphase/backend-native-current208.log",
+      "bytes": 5807,
+      "sha256": "5e8e335746e6cad5c6d147783e3c3d3d2edb57df61c90338153a4d957c401a7b"
+    }
+  },
+  "sourceReviewBeforePerformanceCorrection": {
+    "path": "/workspace/deadwall-cloud/extension208/final-source-review208.json",
+    "bytes": 13853,
+    "sha256": "77a05409a38b05877475048662c6c6a791cd70f54412157d14c69aa159dc1ba5"
+  },
+  "performanceCorrection": {
+    "receipt": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-performance-1_73.json",
+      "bytes": 10441,
+      "sha256": "be072578227f451e07e6d82aa4e29efdf7c4d530002dc4267d8914861ba642df"
+    },
+    "independentReview": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-performance-independante-1_73.json",
+      "bytes": 9390,
+      "sha256": "20be14a40e63996ea3e684cc7ccfe6a76e6587dc30356baa27c10d74b165e68c"
+    },
+    "nativeTests": 5,
+    "legacyTests": 4,
+    "actualExitCodes": [
+      0,
+      0
+    ]
+  },
+  "nativeFailureDiagnostics": {
+    "tests": 44,
+    "pass": 44,
+    "actualExitCode": 0,
+    "evidence": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/native-fullcheck-diagnostics209.log",
+      "bytes": 8364,
+      "sha256": "b051dd16f282ce30aed863a86d0287ea8b50c0fe83e2f38b7f87e4c8164e2add"
+    },
+    "scope": "Diagnostics bornés ; critères et qualification native inchangés."
+  }
+}

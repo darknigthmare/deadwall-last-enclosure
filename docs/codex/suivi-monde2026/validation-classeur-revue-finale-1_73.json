@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "recordedUtc": "2026-10-26T08:10:23.213779+00:00",
+  "scope": "Clôture de la cohérence documentaire S1b après lecture du texte final ; rattachement aux reçus ZIP/source/TAP immuables. Aucun nouveau contrôle global du jeu.",
+  "sourceCommit": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "sourceCheckpoint": "S1b",
+  "pullRequest": 20,
+  "documentation": {
+    "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/VALIDATION_1_73.md",
+    "bytes": 11490,
+    "sha256": "037737709b3838f82d33bfad9dca9cef56ef20b1da0000634e25beae5042a123",
+    "readInFull": true,
+    "localLinksResolved": [
+      "inspection-20261023.json",
+      "campagne205-eligibilite.json",
+      "campagne208-services.json",
+      "campagne208-art.json",
+      "validation-performance-1_73.json",
+      "validation-suivi-1_73.json",
+      "validation-progression-1_73.log.gz",
+      "validation-xlsx-1_73.log.gz",
+      "validation-chargeur-1_73.log.gz",
+      "validation-classeur-1_73.json",
+      "validation-classeur-S1-1_73.json",
+      "validation-classeur-compat-1_73.json",
+      "validation-classeur-original-1_73.json",
+      "validation-classeur-independante-1_73.json",
+      "METADONNEES_PUBLICATION_1_73.json"
+    ],
+    "pass": true
+  },
+  "metadata": {
+    "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_73.json",
+    "sha256": "bf42c5d7ad6651b7d83504d3d231b74279658fe97aa7ff5edd92ce1eb75d5aee",
+    "matchesExport": true
+  },
+  "independentZipReceipt": {
+    "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/independent209/zip-source-receipt.json",
+    "sha256": "a66f8e1ebf8c01feec1cc532cbcfe751c1e64da08167811ac52f1c7445463d98",
+    "unchanged": true,
+    "repositoryArchiveMatches": true
+  },
+  "candidate": {
+    "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/DEADWALL_CODEX_MONDE_SUIVI_1_73_S1b_CANDIDAT.xlsx",
+    "bytes": 590915,
+    "sha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e",
+    "unchanged": true
+  },
+  "tapSourceReview": {
+    "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/independent209/tap-source-review.json",
+    "sha256": "f9dfeeea98bab949f81cc6a152555cd61b50fa5e773d3f8fb36cdf6b0186b00c",
+    "tests": 49,
+    "sources": 8,
+    "testsRerun": false
+  },
+  "archivedReceiptReview": {
+    "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/independent209/archived-receipts-review.json",
+    "sha256": "74f7787b5568279881d3c4d5b2241d766e7e5f3d74e104f447a50f0fb2d26c86",
+    "nativeCommandsRerunByThisReader": false
+  },
+  "receptionManifest": {
+    "path": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/reception209.json",
+    "sha256": "1096fe5d7cf0549f1cd263419167738ad5de45e446a06545cc48737187854866",
+    "documentedNativeReceiptsHashChecked": true,
+    "documentedNativeExitCodes": {
+      "readerCount": 4,
+      "codes": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "styleCounts": [
+      102989,
+      106477,
+      99593
+    ],
+    "originalAuthorWrapChanges": 33143,
+    "originalDisplacedFooterCells": 120
+  },
+  "renderManifest": {
+    "defaultRenders": 12,
+    "temporaryExpandedReadViews": 4,
+    "all16HashesAndSizesRechecked": true,
+    "expandedDeclarationSha256": "6de7a5a9e702cd0fe6718dda51bc23f74c242081b46c6f25f0b84c2850f5111d",
+    "expandedViewsNotExported": true,
+    "visualReviewPerformedByThisReader": false,
+    "visualReviewAttributedTo": "tracker_resume209"
+  },
+  "findingsClosed": [
+    "VALIDATION anciennement S1 et trois empreintes périmées : version S1b finale concordante.",
+    "Métadonnée lecteurs 7/7 : corrigée à 8/8 avant export ; chargeur16/16 explicite."
+  ],
+  "historicalReferenceLimit": "Six liens Références conservés ; le lien de branche historique reste mutable et ne qualifie pas S1b.",
+  "documentationReconciled": true,
+  "zipSourcePass": true,
+  "repositoryFilesWrittenByThisReader": false,
+  "installationPerformedByThisReader": false,
+  "fullGameCheckRun": false,
+  "ciFinalReceived": false,
+  "mergeReceived": false,
+  "productionReceived": false,
+  "passWithinAssignedScope": true
+}

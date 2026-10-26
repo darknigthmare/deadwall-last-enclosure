@@ -1,0 +1,371 @@
+{
+  "version": 1,
+  "scope": "Independent OOXML ZIP reading and source reconciliation; pre-existing TAP receipt verification only. No gameplay qualification.",
+  "candidate": {
+    "file": "/workspace/deadwall-cloud/extension208/xlsx173-S1b/DEADWALL_CODEX_MONDE_SUIVI_1_73_S1b_CANDIDAT.xlsx",
+    "bytes": 590915,
+    "sha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e"
+  },
+  "sourceCommit": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "sourceCheckpoint": "S1b",
+  "metadataSha256": "bf42c5d7ad6651b7d83504d3d231b74279658fe97aa7ff5edd92ce1eb75d5aee",
+  "sourceReportChecks": [
+    {
+      "name": "inspection-20261023.json",
+      "bytes": 3140934,
+      "sha256": "07e4f5a9cbfeb35d6c6309391e80d8885a5669366aa855829c6c16d567bb69af",
+      "matchesMetadata": true,
+      "sourceCount": 29,
+      "scope": "inspection-only"
+    },
+    {
+      "name": "campagne205-eligibilite.json",
+      "bytes": 197813,
+      "sha256": "21afaf14cca4ec979b356c31743d4e3576f84a0df74be459c1f2b9c8358c6841",
+      "matchesMetadata": true,
+      "sourceCount": 226,
+      "scope": "campaign205-eligibility-audit"
+    },
+    {
+      "name": "campagne208-services.json",
+      "bytes": 1208870,
+      "sha256": "96569e04a9cc5858fdb9d8490892141e4f37e7704308c64ff105c5a36f6b8fd2",
+      "matchesMetadata": true,
+      "sourceCount": 243,
+      "scope": "campaign-services208-audit"
+    },
+    {
+      "name": "campagne208-art.json",
+      "bytes": 128106,
+      "sha256": "4c73f001eef430ba73fb55cb7a7b09495344579e14c5d054f80b53b58cdd5f77",
+      "matchesMetadata": true,
+      "sourceCount": 243,
+      "scope": "campaign-services208-art-audit"
+    }
+  ],
+  "checkedReportEvidence": {
+    "inspection": {
+      "sources": 29,
+      "summary": {
+        "types": 80,
+        "plans": 4000,
+        "passed": 4000,
+        "rooms": 162460,
+        "furnishedRooms": 162460,
+        "props": 588378,
+        "requested": 588378,
+        "refused": 0,
+        "unknownUses": 0,
+        "levels": 6530,
+        "walls": 1228255,
+        "transitions": 3380,
+        "lootContainersCreated": 0,
+        "connectedServices": 0,
+        "campaignPlayable": 0
+      }
+    },
+    "campaign": {
+      "sources": 226,
+      "summary": {
+        "types": 4,
+        "eligibleVariants": 200,
+        "passedVariants": 200,
+        "guaranteedSitesPerSeed": 0,
+        "observedSeeds": 8,
+        "observedSites": 63,
+        "observedVariants": 58
+      }
+    },
+    "services": {
+      "sources": 243,
+      "summary": {
+        "types": 4,
+        "models": 200,
+        "offered": 2905,
+        "valid": 2905,
+        "refused": 0,
+        "modelsWithAccessibleSupport": 200,
+        "modelsWithoutAccessibleSupport": 0,
+        "byAction": {
+          "meal": {
+            "offered": 625,
+            "valid": 625,
+            "refused": 0
+          },
+          "restSheltered": {
+            "offered": 1880,
+            "valid": 1880,
+            "refused": 0
+          },
+          "service": {
+            "offered": 350,
+            "valid": 350,
+            "refused": 0
+          },
+          "medicalCare": {
+            "offered": 50,
+            "valid": 50,
+            "refused": 0
+          }
+        }
+      },
+      "worldSummary": {
+        "seeds": 3,
+        "sites": 23,
+        "offered": 360,
+        "valid": 360,
+        "refused": 0,
+        "transactions": 0
+      },
+      "transactionScope": "not-qualified-by-support-audit"
+    },
+    "art": {
+      "sources": 243,
+      "summary": {
+        "types": 4,
+        "models": 4,
+        "samples": 13,
+        "actions": 4,
+        "passedSamples": 13
+      },
+      "presentationScope": "prepared-activity-reads-not-transactions"
+    }
+  },
+  "sourceSummary": {
+    "programmes": 4000,
+    "parents": 2000,
+    "spaces": 12060,
+    "objectReferences": 13539,
+    "typologies": 80,
+    "variantTargets": 4000,
+    "variantsDesigned": 0,
+    "variantsInspectable": 4000,
+    "variantsPlayable": 0,
+    "tasks": 800,
+    "validatedTasks": 3,
+    "campaignEligibleVariants": 200,
+    "campaignObservedSeeds": 8,
+    "campaignObservedSites": 63,
+    "campaignServiceModels": 200,
+    "campaignServiceSupportsOffered": 2905,
+    "campaignServiceSupportsAccessible": 2905,
+    "campaignServiceSupportsRefused": 0,
+    "campaignServiceWorldSeeds": 3,
+    "campaignServiceWorldSites": 23,
+    "campaignServiceTransactionsTested": 0,
+    "campaignServiceArtModels": 4,
+    "campaignServiceArtSamples": 13,
+    "scope": "contrats de suivi ; pas une validation de jeu",
+    "published": false
+  },
+  "taskStatusCounts": {
+    "En cours": 413,
+    "À faire": 384,
+    "Validé": 3
+  },
+  "sheets": [
+    {
+      "name": "Accueil",
+      "formulas": 14
+    },
+    {
+      "name": "Catalogue existant",
+      "formulas": 0
+    },
+    {
+      "name": "Extension typologies",
+      "formulas": 80
+    },
+    {
+      "name": "Variantes à concevoir",
+      "formulas": 0
+    },
+    {
+      "name": "Chantiers",
+      "formulas": 0
+    },
+    {
+      "name": "Règles seed",
+      "formulas": 0
+    },
+    {
+      "name": "Familles existantes",
+      "formulas": 99
+    },
+    {
+      "name": "Références",
+      "formulas": 0
+    },
+    {
+      "name": "Publication",
+      "formulas": 0
+    },
+    {
+      "name": "Légende",
+      "formulas": 0
+    },
+    {
+      "name": "Références métriques",
+      "formulas": 0
+    },
+    {
+      "name": "Avancement par type",
+      "formulas": 962
+    },
+    {
+      "name": "Inspection",
+      "formulas": 10
+    },
+    {
+      "name": "Campagne G11",
+      "formulas": 6
+    },
+    {
+      "name": "Services G11",
+      "formulas": 10
+    }
+  ],
+  "formulaCachesRecomputed": 1181,
+  "formulaErrors": 0,
+  "missingFormulaCaches": 0,
+  "githubBlobLinksAtS1b": 5103,
+  "historicalReferenceLinksPreserved": [
+    [
+      "Références",
+      "D8",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/6c6fbb6cf563bea6c89ade99c65f18c438481532/codex-3000/INDEX_3000.json"
+    ],
+    [
+      "Références",
+      "D9",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/6c6fbb6cf563bea6c89ade99c65f18c438481532/codex-3000/addendum-1.58/INDEX_1000.json"
+    ],
+    [
+      "Références",
+      "D10",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/6c6fbb6cf563bea6c89ade99c65f18c438481532/src/codex3000-runtime.js"
+    ],
+    [
+      "Références",
+      "D11",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/6c6fbb6cf563bea6c89ade99c65f18c438481532/src/codex-coverage167.js"
+    ],
+    [
+      "Références",
+      "D12",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/6c6fbb6cf563bea6c89ade99c65f18c438481532/src/codex-context160.js"
+    ],
+    [
+      "Références",
+      "D13",
+      "https://github.com/darknigthmare/deadwall-last-enclosure/blob/feat/codex-world-extension-20261021/docs/codex/suivi-monde2026/references-metriques2026.json"
+    ]
+  ],
+  "historicalReferenceBranchLinkIsImmutable": false,
+  "checkedIDs": {
+    "programmes": 4000,
+    "typologies": 80,
+    "variants": 4000,
+    "tasks": 800,
+    "campaignModels": 200,
+    "serviceModels": 200
+  },
+  "checksByCategory": {
+    "zip CRC": 1,
+    "zip duplicate members": 1,
+    "sheet visibility": 15,
+    "Excel error": 106477,
+    "formula cache": 1181,
+    "sheet names and order": 1,
+    "formula total": 1,
+    "recomputed cache": 1181,
+    "array lengths": 3,
+    "MATCH exact mode": 800,
+    "unique IDs": 8,
+    "complete IDs": 8,
+    "source cells": 82440,
+    "publication source ref": 1,
+    "publication PR URL": 1,
+    "publication metadata": 11,
+    "home metadata": 5,
+    "services distinct scopes": 10,
+    "campaign report SHA": 1,
+    "inspection report SHA": 1,
+    "tracking totals": 5,
+    "historical reference links explicitly preserved": 1,
+    "current source links use S1b": 1,
+    "source reports unchanged": 4,
+    "metadata unchanged": 1,
+    "candidate SHA": 1,
+    "candidate size": 1,
+    "TAP log digest": 3,
+    "TAP log bytes": 3,
+    "TAP totals": 18,
+    "TAP aggregate": 1,
+    "TAP 49 successes": 1
+  },
+  "preexistingTAP": {
+    "resultsSha256": "12cea3bdd3d89ad144158f32dd9f89ec93502a8ab8e9663677e3098f8114a3ee",
+    "suites": [
+      {
+        "name": "progression",
+        "bytes": 6206,
+        "sha256": "d1ebc9a87799024a382a2bb0645f5e7d063a8ead93d1094e26f5f44a08d28eb3",
+        "metrics": {
+          "tests": 25,
+          "pass": 25,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      {
+        "name": "lecteurs",
+        "bytes": 2173,
+        "sha256": "6333b222ca982620301ff63fb606c6cb4ae5c548db4c9d4c70a51e636843b508",
+        "metrics": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      },
+      {
+        "name": "courant",
+        "bytes": 3030,
+        "sha256": "1b2c31d7157e0032089b40612132ec3ef05671526d9b4b2805d9dc9138a6df83",
+        "metrics": {
+          "tests": 16,
+          "pass": 16,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        }
+      }
+    ],
+    "totals": {
+      "tests": 49,
+      "pass": 49,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "testsRerun": false,
+    "eightTestSourcesReadByIndependentSubagent": true
+  },
+  "sourceEvidencePass": true,
+  "workbookZipPass": true,
+  "documentationReconciliationPending": true,
+  "visualReviewPerformedByThisReader": false,
+  "fullGameCheckRun": false,
+  "ciFinalReceived": false,
+  "mergeReceived": false,
+  "productionReceived": false,
+  "repositoryFilesWritten": false,
+  "networkUsed": false
+}

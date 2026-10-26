@@ -40,6 +40,8 @@ Les rapports de campagne, de supports et d'art ont été régénérés et leurs 
 
 ## Réceptions à compléter
 
+Le premier contrôle intégral du point S1 a terminé avec 5 988 tests, 5 987 réussites et un échec : ce résultat reste négatif et ne qualifie pas la livraison. Sa synthèse distante donnait les compteurs et le code de sortie sans le nom du test concerné. Le reçu natif expose désormais les diagnostics déjà extraits et expurgés du vrai journal, avec une limite de huit cas et de 4 Kio. Cette information ne participe jamais à la décision de réussite ; les compteurs, codes de sortie, empreintes et critères de qualification restent inchangés. Les 44 tests du lecteur et de sa garde passent, dont trois cas ajoutés pour ces diagnostics.
+
 Les résultats de 1.72 restent liés à leur livraison publiée et ne sont pas réattribués à ce code. Les preuves 1.73 doivent couvrir les 200 modèles et les vrais points de travail, les refus physiques, les transactions payées une fois, l’annulation, les effets après Save/Menu/Continue, la pureté et les pauses du rendu, puis les contrôles complets du commit final.
 
 Le golden géométrique est produit depuis les sources isolées du commit publié1.72 `8780075f305e405e5aa94e593a70d11391b16e20`. Les nouveaux rapports devront vérifier les sources avant/après et conserver les tentatives négatives. Aucune pose de travail refusée ne doit devenir un succès de façade.
