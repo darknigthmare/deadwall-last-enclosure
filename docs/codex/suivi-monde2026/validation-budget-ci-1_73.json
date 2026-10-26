@@ -1,0 +1,73 @@
+{
+  "kind": "DEADWALL-1.73-CI-recipe-budget",
+  "observedUtc": "2026-10-26T10:14:47.192461+00:00",
+  "scope": "Job budget only; complete existing recipe comparison. Separate old-runner and current local timings; no exact-final-head CI success inferred.",
+  "previousJob": {
+    "source": "8eda6f03d751d15c583af6d1a6cc14ebd2802244",
+    "runId": 40185774324,
+    "attempt": 1,
+    "jobId": 121146119679,
+    "nativeContracts": {
+      "conclusion": "success",
+      "seconds": 2439
+    },
+    "audit": {
+      "conclusion": "cancelled",
+      "seconds": 263
+    },
+    "globalBudgetMinutes": 45,
+    "cause": "Explicit maximum job duration annotation",
+    "jobs": {
+      "path": "/workspace/deadwall-cloud/extension208/release-review209/S1-contracts-jobs-api209.json",
+      "bytes": 6154,
+      "sha256": "9a2a8efa3466c7ce78e3f223b2b1f2842b3eae6053edb6b52e3237f9ee33b592"
+    },
+    "annotations": {
+      "path": "/workspace/deadwall-cloud/extension208/resume-S1-annotations-121146119679.json",
+      "bytes": 1661,
+      "sha256": "535ffbc3f4b6b0f0606da6b6522bce7c7c00be479da0c4c68ee7e20a032e77f1"
+    }
+  },
+  "localAudit": {
+    "timing": {
+      "command": "node scripts/audit-fill168.mjs",
+      "scope": "Complete catalogue with unchanged audit scope, local budget diagnostic only; not an exact-head full check.",
+      "startedUtc": "2026-10-26T10:02:59.191508+00:00",
+      "completedUtc": "2026-10-26T10:11:11.453762+00:00",
+      "elapsedSeconds": 492.26225874898955,
+      "actualExitCode": 0
+    },
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/audit-fill168-budget210/report.json",
+      "bytes": 16348,
+      "sha256": "0322720e98428524022d7390a3ba686e93cb47c0dd9f95a3eab116f4f65eddaa"
+    },
+    "commandSource": {
+      "path": "/workspace/deadwall-last-enclosure/scripts/audit-fill168.mjs",
+      "bytes": 3605,
+      "sha256": "7200085ce9476eb31361381bd65135dacf6e3a5c1a9328c8e153f5ef85f3ebb1"
+    },
+    "summary": {
+      "pass": true,
+      "programmes": 4000,
+      "compatible": 3374,
+      "floors": 4426,
+      "added": 3313,
+      "missingBefore": 6960,
+      "missingAfter": 4367,
+      "newLootRecords": 0,
+      "shortageReduction": 2593
+    },
+    "selection": "complete-catalogue",
+    "allModels": true,
+    "historicalContextExclusionsUnchanged": true
+  },
+  "change": {
+    "path": ".github/workflows/codex-fill168.yml",
+    "job": "contracts",
+    "beforeMinutes": 45,
+    "afterMinutes": 75,
+    "commandsSelectionConcurrencyAndAssertionsUnchanged": true
+  },
+  "finalHeadCIQualified": false
+}

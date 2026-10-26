@@ -1,0 +1,101 @@
+{
+  "kind": "native-diagnostics209-shared-redaction-fix-reception",
+  "observedUtc": "2026-10-26T09:46:42.961663+00:00",
+  "sourceHeadAtReview": "bf5eebe65ef2c0b245fe31dabe6a62b9c0599605",
+  "pass": true,
+  "scope": "Shared CI diagnostic sanitizer only; native qualification remains unchanged. No complete check, gameplay or publication reception.",
+  "authorizedFiles": [
+    {
+      "path": "scripts/ci-failure-summary.mjs",
+      "bytes": 13969,
+      "sha256": "48c1f68285e483a416e5dd730fbafb8da9ba5df4a5615257426f54f6d7745766"
+    },
+    {
+      "path": "tests/ci-failure-summary.test.cjs",
+      "bytes": 30978,
+      "sha256": "b465812f5a72f5ea6a8134a38f55c4578fd04f1bd7f064e6a8a19394aee9d04b"
+    }
+  ],
+  "changeBoundary": {
+    "onlySafeDiagnosticTextChangedInHelper": true,
+    "onlyFourTestsInsertedIntoExistingTestFile": true,
+    "fullCheck201Unchanged": true,
+    "fullCheck201TestsUnchanged": true,
+    "publicFilesEdited": 0,
+    "source243Edited": 0,
+    "workflowChanges": 0,
+    "commits": 0,
+    "pushes": 0
+  },
+  "fixedCounterexample": {
+    "syntheticOnly": true,
+    "beforeProbe": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/tracker-readonly-review/pure-probes.json",
+      "sha256": "5ee5ea9cb75fc433ad35c11ee89d7118117b3d6a5638fae09d0892d61afbc43f"
+    },
+    "finding": "Credential assignments under prefixed or suffixed environment names survived the old redactor. Only explicit fictitious values were used.",
+    "mechanism": "Inspect assignment headers without skipping nonsensitive nested values; recognise credential components, composed names and quoted JSON keys; consume quoted values including escape sequences before replacing them. Final whitespace and length bounds remain."
+  },
+  "preservedQualification": {
+    "record": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/tracker-readonly-review/unchanged-qualification.json",
+      "sha256": "49b0a530311f65f5cfd890b72739a36ae4b7874460ce3d2ca3885944f24d8c0c"
+    },
+    "note": "This earlier immutable record compares the pre-fix helper to b57; the helper intentionally changed afterward only inside safeDiagnosticText. fingerprintFiles201/captureSource201/assertSource201/sourceStable201/qualifyFullCheck201, parser and workflow remain byte-identical."
+  },
+  "nativeTests": {
+    "command": "node --test --test-isolation=none --test-reporter=tap tests/ci-failure-summary.test.cjs tests/full-check201.test.cjs",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 70,
+      "pass": 70,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "fileCounts": {
+      "ci-failure-summary.test.cjs": 26,
+      "full-check201.test.cjs": 44
+    },
+    "durationMilliseconds": 7392.079709,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/tracker-readonly-review/native-redaction-and-fullcheck209.log",
+      "sha256": "255bd3a82a455adac492b8e97aa755beaff626e72b789f433058985a6768bdd9",
+      "bytes": 14787
+    }
+  },
+  "byteBounds": {
+    "pass": true,
+    "syntheticOnly": true,
+    "counts": {
+      "tests": 70,
+      "suites": 0,
+      "pass": 70,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "footerComplete": true,
+    "negativeCase": false,
+    "skipOrTodoCase": false,
+    "unicodeCases": 256,
+    "maximumObservedBytes": 3478,
+    "originalLogUnchanged": true
+  },
+  "independentProbes": {
+    "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/redaction-independent209/review-redaction-final209.json",
+    "sha256": "88f1e0878f8d9d2180568ce9adedc0249a372f766b4c5fd2ca5ca98a222206a4",
+    "requiredCasesPassed": 43,
+    "requiredCases": 43,
+    "deterministicCases": 46,
+    "idempotentCases": 46,
+    "fakeValuesOnly": true
+  },
+  "limits": [
+    "The conservative sensitive-name policy also masks token_count; ordinary tokenizer/passwordless/secretariat and useful source frames remain visible in the explicit probes.",
+    "The original full-check receipt/log/source fingerprints still decide qualification. Sanitized excerpts never grant acceptance.",
+    "70 targeted native tests and synthetic pure probes do not replace a real exact-head full check or Vercel reception."
+  ]
+}

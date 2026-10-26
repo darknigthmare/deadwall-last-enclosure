@@ -1,0 +1,27 @@
+{
+  "kind": "DEADWALL-1.73-local-native-diagnostic",
+  "observedUtc": "2026-10-26T10:25:07.723552+00:00",
+  "command": "DEADWALL_SOAK=1 npm test",
+  "actualExitCode": 0,
+  "counts": {
+    "tests": 5997,
+    "suites": 4,
+    "pass": 5997,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "durationMilliseconds": 4472463.225308,
+  "log": {
+    "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/npm-test-diagnostic-b57-working-tree209.log",
+    "bytes": 661990,
+    "sha256": "547faab83953e4af8db7e77ff90fa6bf9db3df83ac0833a5aa63aff4c1b35687"
+  },
+  "headAtLaunch": "b57d0fa83046fa8d4da99a394866734b13428a83",
+  "workingTreeChangedDuringRun": true,
+  "changesDuringRun": "Documentation/workbook and QA/diagnostic preparation continued. Public gameplay source remained frozen.",
+  "finalHeadQualified": false,
+  "literalNpmRunCheck": false,
+  "scope": "Complete local npm test diagnostic, not an exact immutable final-head check. Required final CI must execute literal npm run check and qualify its own source fingerprints and actual exits. Earlier S1 failing test is not identified retrospectively."
+}

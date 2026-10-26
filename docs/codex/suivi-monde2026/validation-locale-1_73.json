@@ -1,6 +1,6 @@
 {
   "kind": "DEADWALL-1.73-local-receptions",
-  "observedUtc": "2026-10-26T08:14:55.447003+00:00",
+  "observedUtc": "2026-10-26T10:34:20.559531+00:00",
   "sourceCheckpoint": "b57d0fa83046fa8d4da99a394866734b13428a83",
   "publicBuild": {
     "files": 368,
@@ -67,8 +67,51 @@
     ]
   },
   "dedicatedServicesChromium": {
-    "qualified": false,
-    "state": "Nouvelle fixture de parcours physique court en cours ; essais négatifs, production naturelle du dépôt et défaite de ville initiale conservés distinctement."
+    "qualified": true,
+    "checks": 111,
+    "profileChecks": [
+      55,
+      56
+    ],
+    "actualExitCode": 0,
+    "nativeCarriedPayments": 8,
+    "exactSaveContinueRecoveries": 6,
+    "site": "P3174 / EXT-MONDE-T047-V09 / seed17117",
+    "sourceScriptSha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a",
+    "receipt": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-1_73.json",
+      "bytes": 12434,
+      "sha256": "2618c1e88c327e8a26c8d312978efde27528cc0eaafad7b3aba982216848dfce"
+    },
+    "rawReportGzip": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-1_73-report.json.gz",
+      "bytes": 124507,
+      "sha256": "4df75d71747a21c486903397151afc16ce631c40fc3de186e102fa44d15a9a4b"
+    },
+    "rawReportSha256": "cd640027f1fbbda042d00d7cb4ebb2de8f9597107657671bb7abb2dfd1dc6743",
+    "summary": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-resume-1_73.json",
+      "bytes": 977,
+      "sha256": "7aebf105df85c5630d9ba50ef0729e717a053f9e3846c0d28918e2b3b1fe249b"
+    },
+    "negativeIndex": {
+      "path": "docs/codex/suivi-monde2026/validation-parcours-negatifs-1_73.json",
+      "bytes": 29029,
+      "sha256": "6d953d65cbc6177d3d909a76be15fa2f7af00a1caa28363b2c57173767395a25"
+    },
+    "liveScreenshotsRootVisuallyReviewed": [
+      {
+        "path": "docs/codex/suivi-monde2026/services-terrain-desktop-1_73.png",
+        "bytes": 518213,
+        "sha256": "ac849bf83a645fa076aabf419dd94a4e4c5f41aa2451e90434e46799502e8db5"
+      },
+      {
+        "path": "docs/codex/suivi-monde2026/services-terrain-tactile-1_73.png",
+        "bytes": 143604,
+        "sha256": "6d3aeb52828c9bff10800276e422a79c8f614c0546f0a7ba258583658a80c9e6"
+      }
+    ],
+    "scope": "One explicitly prepared finite regional scene per profile, then real input and UI only. D17/waves/clock stay active. Native arrival and real passages, without asserting every mathematical waypoint was visited. Emulated touch, no physical phone FPS or complete long campaign."
   },
   "preparedArtContact": {
     "evidence": {
@@ -150,6 +193,58 @@
       "bytes": 8364,
       "sha256": "b051dd16f282ce30aed863a86d0287ea8b50c0fe83e2f38b7f87e4c8164e2add"
     },
-    "scope": "Diagnostics bornés ; critères et qualification native inchangés."
+    "scope": "Diagnostics bornés ; critères et qualification native inchangés.",
+    "redactionReception": {
+      "tests": 70,
+      "pass": 70,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "actualExitCode": 0,
+      "receipt": {
+        "path": "docs/codex/suivi-monde2026/validation-expurgation-1_73.json",
+        "bytes": 4278,
+        "sha256": "d50e1035979a90e147d4d75753413251a6044bb85e731a42bec8888af3facd9b"
+      },
+      "note": "26 shared diagnostic tests and 44 full-check201 tests; includes the previous 44, not an additional disjoint total."
+    }
+  },
+  "recipeBudgetAudit": {
+    "actualExitCode": 0,
+    "seconds": 492.26225874898955,
+    "receipt": {
+      "path": "/workspace/deadwall-last-enclosure/docs/codex/suivi-monde2026/validation-budget-ci-1_73.json",
+      "bytes": 2579,
+      "sha256": "b5e065dc4048d92190edfe0a4a5246a13785788cca50256766cb746e0f3fe050"
+    },
+    "scope": "Job budget only; complete existing recipe comparison. Separate old-runner and current local timings; no exact-final-head CI success inferred."
+  },
+  "localFullNativeDiagnostic": {
+    "kind": "DEADWALL-1.73-local-native-diagnostic",
+    "observedUtc": "2026-10-26T10:25:07.723552+00:00",
+    "command": "DEADWALL_SOAK=1 npm test",
+    "actualExitCode": 0,
+    "counts": {
+      "tests": 5997,
+      "suites": 4,
+      "pass": 5997,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "durationMilliseconds": 4472463.225308,
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension208/native-diagnostics209/npm-test-diagnostic-b57-working-tree209.log",
+      "bytes": 661990,
+      "sha256": "547faab83953e4af8db7e77ff90fa6bf9db3df83ac0833a5aa63aff4c1b35687"
+    },
+    "headAtLaunch": "b57d0fa83046fa8d4da99a394866734b13428a83",
+    "workingTreeChangedDuringRun": true,
+    "changesDuringRun": "Documentation/workbook and QA/diagnostic preparation continued. Public gameplay source remained frozen.",
+    "finalHeadQualified": false,
+    "literalNpmRunCheck": false,
+    "scope": "Complete local npm test diagnostic, not an exact immutable final-head check. Required final CI must execute literal npm run check and qualify its own source fingerprints and actual exits. Earlier S1 failing test is not identified retrospectively."
   }
 }

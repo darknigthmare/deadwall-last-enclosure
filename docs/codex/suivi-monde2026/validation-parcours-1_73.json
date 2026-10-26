@@ -1,0 +1,413 @@
+{
+  "kind": "services208-qualified-browser-receipt209",
+  "qualifiedJourney": true,
+  "pass": true,
+  "createdUtc": "2026-10-26T10:31:41.976Z",
+  "report": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/attempt21/services208-2026-10-26T10_15_50_282Z/report.json",
+    "bytes": 1930987,
+    "sha256": "cd640027f1fbbda042d00d7cb4ebb2de8f9597107657671bb7abb2dfd1dc6743"
+  },
+  "summary": {
+    "path": "/workspace/deadwall-cloud/extension208/services-browser/attempt21/services208-2026-10-26T10_15_50_282Z/services208-summary.json",
+    "sha256": "7aebf105df85c5630d9ba50ef0729e717a053f9e3846c0d28918e2b3b1fe249b"
+  },
+  "harness": {
+    "path": "/workspace/deadwall-last-enclosure/scripts/browser-services208.mjs",
+    "sha256": "65d0e8f5631499cc0592576a4564957c8dc51751dcededfaa8a0dc406e419a9a"
+  },
+  "runtimeWorldSha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+  "sourceInventoryCount": 226,
+  "sourceInventoryStable": true,
+  "servedIndexScriptsStyles": 211,
+  "dist": {
+    "files": 368,
+    "bytes": 317551219,
+    "allBeforeRowsEqual": true,
+    "pwaFingerprint": "b84cf820f77dc5d49d2234f176f8d6fa176956a6113fe6ff5e4a93d0056dc59a",
+    "workerCache": "deadwall-v1.73.0-services-de-terrain-b84cf820f77dc5d49d2234f1"
+  },
+  "fixture": {
+    "site": {
+      "id": "P3174",
+      "type": "campaign205-047-09",
+      "typology": "EXT-MONDE-T047",
+      "variant": 9,
+      "a": 3.0043832546071885,
+      "w": 118,
+      "h": 122,
+      "nativeThreats": 0
+    },
+    "supports": [
+      {
+        "action": "meal",
+        "supportId": "P3174:0:34"
+      },
+      {
+        "action": "medicalCare",
+        "supportId": "P3174:0:44"
+      },
+      {
+        "action": "service",
+        "supportId": "P3174:0:37"
+      },
+      {
+        "action": "restSheltered",
+        "supportId": "P3174:0:73"
+      }
+    ],
+    "routes": [
+      {
+        "from": "meal",
+        "to": "medicalCare",
+        "segments": 4,
+        "metres": 22.925204317786967
+      },
+      {
+        "from": "medicalCare",
+        "to": "service",
+        "segments": 3,
+        "metres": 18.62485918490983
+      },
+      {
+        "from": "service",
+        "to": "restSheltered",
+        "segments": 8,
+        "metres": 63.967331278988915
+      }
+    ],
+    "siteSelection": {
+      "criterion": "minimum total of actual physically verified routes at unchanged0.38m radius; stable site ID tie-break",
+      "admissibleSites": 1,
+      "totalRouteMetres": 105.51739478168571
+    },
+    "bunkSelection": {
+      "criterion": "Shortest verified outdoor/door/room graph route from the selected real tool support; stable supportId tie-break.",
+      "candidates": 15,
+      "previousFirstSupportId": "P3174:0:101",
+      "selectedSupportId": "P3174:0:73",
+      "selectedRouteMetres": 63.967331278988915,
+      "network": "Authored nodes and physical building-corner bypasses; every node and edge is checked at planning radius0.38."
+    },
+    "planningRadius": 0.38,
+    "physicalRadius": 0.32,
+    "initialHealth": 50,
+    "initialLanternSeconds": 60,
+    "assignedFields": [
+      "one initial frontier pose/active/anchor/inside",
+      "one initial site discovery",
+      "player.health50",
+      "finite carry: food16 medicine3 fuel5 scrap2 wood1 (27units)",
+      "one already-used extinguished belt lantern60seconds",
+      "initial pause"
+    ],
+    "protectedOwnersPreserved": true,
+    "enemyNeutralisations": []
+  },
+  "sameGeometryAcrossProfiles": true,
+  "profiles": [
+    {
+      "viewport": "desktop",
+      "checks": 55,
+      "pass": true,
+      "realMilliseconds": 458552,
+      "simulatedSeconds": 232.9376999999841,
+      "initialElapsed": 6.149800000000003,
+      "finalElapsed": 239.0874999999841,
+      "health": 100,
+      "carry": {
+        "wood": 0,
+        "scrap": 0,
+        "stone": 0,
+        "food": 6,
+        "fuel": 0,
+        "ammo": 0,
+        "medicine": 1
+      },
+      "lantern": [
+        {
+          "id": 1,
+          "kind": "lantern",
+          "location": "belt",
+          "left": 300,
+          "on": false,
+          "used": true
+        }
+      ],
+      "postureInputs": 0,
+      "nativeInputs": 1348,
+      "supportArrivals": [
+        {
+          "supportId": "P3174:0:34",
+          "action": "meal",
+          "distance": 0.35912800000187417,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:44",
+          "action": "medicalCare",
+          "distance": 2.1008543685839784,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:37",
+          "action": "service",
+          "distance": 1.9354530300166444,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:73",
+          "action": "restSheltered",
+          "distance": 1.48364096042517,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        }
+      ],
+      "payments": [
+        {
+          "action": "meal",
+          "supportId": "P3174:0:34",
+          "cost": {
+            "food": 4,
+            "wood": 1,
+            "fuel": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 16.665699999999998,
+          "elapsedAfter": 26.698500000000028
+        },
+        {
+          "action": "medicalCare",
+          "supportId": "P3174:0:44",
+          "cost": {
+            "medicine": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 76.11339999999923,
+          "elapsedAfter": 87.86299999999869
+        },
+        {
+          "action": "service",
+          "supportId": "P3174:0:37",
+          "cost": {
+            "fuel": 4,
+            "scrap": 2
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 115.7285999999975,
+          "elapsedAfter": 125.7753999999859
+        },
+        {
+          "action": "restSheltered",
+          "supportId": "P3174:0:73",
+          "cost": {
+            "food": 6,
+            "medicine": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 214.9883999999819,
+          "elapsedAfter": 236.45429999998368
+        }
+      ],
+      "recoveries": {
+        "partial": true,
+        "meal": true,
+        "final": true
+      },
+      "liveCanvas": {
+        "file": "desktop-restSheltered-live-canvas.png",
+        "before": {
+          "elapsed": 216.3215999999819,
+          "task": {
+            "kind": "restSheltered",
+            "progress": 0.028330000000000282
+          },
+          "paused": false,
+          "overlay": null
+        },
+        "after": {
+          "elapsed": 216.9716999999819,
+          "task": {
+            "kind": "restSheltered",
+            "progress": 0.06083500000000057
+          },
+          "paused": false,
+          "overlay": null
+        }
+      },
+      "errors": {
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "httpErrors": 0,
+        "requestFailures": 0
+      }
+    },
+    {
+      "viewport": "mobile",
+      "checks": 56,
+      "pass": true,
+      "realMilliseconds": 406548,
+      "simulatedSeconds": 247.85610000000716,
+      "initialElapsed": 6.168300000000011,
+      "finalElapsed": 254.02440000000718,
+      "health": 100,
+      "carry": {
+        "wood": 0,
+        "scrap": 0,
+        "stone": 0,
+        "food": 6,
+        "fuel": 0,
+        "ammo": 0,
+        "medicine": 1
+      },
+      "lantern": [
+        {
+          "id": 1,
+          "kind": "lantern",
+          "location": "belt",
+          "left": 300,
+          "on": false,
+          "used": true
+        }
+      ],
+      "postureInputs": 0,
+      "nativeInputs": 1084,
+      "supportArrivals": [
+        {
+          "supportId": "P3174:0:34",
+          "action": "meal",
+          "distance": 0.3591280000000552,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:44",
+          "action": "medicalCare",
+          "distance": 2.189303435982823,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:37",
+          "action": "service",
+          "distance": 2.0245919781176793,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        },
+        {
+          "supportId": "P3174:0:73",
+          "action": "restSheltered",
+          "distance": 1.626386610767186,
+          "authority": "native resolve208 with unchanged product reach, wall, floor and shelter checks"
+        }
+      ],
+      "payments": [
+        {
+          "action": "meal",
+          "supportId": "P3174:0:34",
+          "cost": {
+            "food": 4,
+            "wood": 1,
+            "fuel": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 15.88430000000001,
+          "elapsedAfter": 25.383899999999823
+        },
+        {
+          "action": "medicalCare",
+          "supportId": "P3174:0:44",
+          "cost": {
+            "medicine": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 70.6487999999989,
+          "elapsedAfter": 81.49829999999902
+        },
+        {
+          "action": "service",
+          "supportId": "P3174:0:37",
+          "cost": {
+            "fuel": 4,
+            "scrap": 2
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 101.79749999999929,
+          "elapsedAfter": 110.58049999999925
+        },
+        {
+          "action": "restSheltered",
+          "supportId": "P3174:0:73",
+          "cost": {
+            "food": 6,
+            "medicine": 1
+          },
+          "records": 1,
+          "carriedOwner": true,
+          "observerRestored": true,
+          "depotEqual": true,
+          "elapsedBefore": 230.15910000000486,
+          "elapsedAfter": 251.77460000000676
+        }
+      ],
+      "recoveries": {
+        "partial": true,
+        "meal": true,
+        "final": true
+      },
+      "liveCanvas": {
+        "file": "mobile-restSheltered-live-canvas.png",
+        "before": {
+          "elapsed": 231.4090000000049,
+          "task": {
+            "kind": "restSheltered",
+            "progress": 0.022500000000000003
+          },
+          "paused": false,
+          "overlay": null
+        },
+        "after": {
+          "elapsed": 231.85890000000492,
+          "task": {
+            "kind": "restSheltered",
+            "progress": 0.04499500000000115
+          },
+          "paused": false,
+          "overlay": null
+        }
+      },
+      "errors": {
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "httpErrors": 0,
+        "requestFailures": 0
+      }
+    }
+  ],
+  "negativeIndex": "/workspace/deadwall-cloud/extension208/services-browser/preserved-attempt-index208.json",
+  "limits": [
+    "One labelled initial finite regional fixture, not an untouched full human campaign.",
+    "Automated desktop and emulated touch; no physical-device certification, FPS or full 6-10hour campaign claim.",
+    "Native movement probes are not strict displacement caps across asynchronous input/RAF latency; native collisions remain active and every observed pose is checked.",
+    "Other active screenshots show paused menus; only the separately named liveCanvas captures establish unobscured active gameplay at their observed instants.",
+    "Defensive preparation attempts are negative diagnostics and establish no city-defense qualification.",
+    "This receipt does not claim npm run check on the final review commit; root owns exact F validation."
+  ]
+}

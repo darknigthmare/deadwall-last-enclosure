@@ -10,10 +10,27 @@ const MAX_NATIVE_LOG_BYTES = 2 * 1024 * 1024;
 
 /** CI annotations contain diagnostic text only, never report bodies or signed URLs. */
 export function safeDiagnosticText(value, limit = 480) {
-  return String(value ?? '')
+  const text = String(value ?? '')
     .replace(/(?:[a-z][a-z0-9+.-]*:\/\/|\bdata:|\bblob:)[^\s<>"']*/gi, '[URL removed]')
-    .replace(/\b(?:Bearer|Basic)\s+[A-Za-z0-9+/_.=-]+/gi, '[credential removed]')
-    .replace(/\b(?:access[_-]?token|refresh[_-]?token|token|secret|password|authorization|cookie|api[_-]?key|credential)\b\s*[:=]\s*(?:"[^"]*"|'[^']*'|[^\s,;]+)/gi, '[credential removed]')
+    .replace(/\b(?:Bearer|Basic)\s+[A-Za-z0-9+/_.=-]+/gi, '[credential removed]');
+  const assignment = /(?:(['"])([A-Za-z_\\][A-Za-z0-9_.\\-]*)\1|(\b[A-Za-z_][A-Za-z0-9_-]*))\s*[:=]\s*/g;
+  let cleaned = '', cursor = 0, match;
+  while ((match = assignment.exec(text))) {
+    const name = (match[2] ?? match[3]).replace(/\\u([0-9a-f]{4})/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+      .replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/([A-Z])([A-Z][a-z])/g, '$1_$2').replace(/[^A-Za-z0-9_]/g, '_');
+    const sensitive = /(?:^|_)(?:token|secret|password|authorization|cookies?|credentials?|(?:api|access|private|signing|encryption|ssh)_?key)\d*(?:_|$)/i.test(name)
+      || /^[A-Z_][A-Z0-9_]*(?:TOKEN|SECRET|PASSWORD|APIKEY|ACCESSKEY|PRIVATEKEY)\d*$/.test(name);
+    if (!sensitive) continue;
+    const tail = text.slice(assignment.lastIndex), quoted = tail[0] === '"' || tail[0] === "'";
+    const contents = (quoted ? /^(?:"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*')/ : /^[^\s,;]+/).exec(tail);
+    // A cut-off quoted value must not expose its remaining words. Other keys
+    // consume only their header so nested JSON assignments are still inspected.
+    const length = contents?.[0].length ?? (quoted ? tail.search(/[\r\n]/) < 0 ? tail.length : tail.search(/[\r\n]/) : 0);
+    if (!length) continue;
+    cleaned += text.slice(cursor, match.index) + '[credential removed]';
+    cursor = assignment.lastIndex + length; assignment.lastIndex = cursor;
+  }
+  return (cleaned + text.slice(cursor))
     .replace(/[\u0000-\u001f\u007f]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
