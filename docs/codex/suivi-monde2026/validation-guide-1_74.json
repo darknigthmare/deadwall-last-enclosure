@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "observedUtc": "2026-10-28T09:11:45.054119+00:00",
+  "scope": "Targeted correction of the Guide inventory contract; no global check or production qualification",
+  "actualExitCode": 0,
+  "counts": {
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "command": [
+    "node",
+    "--test",
+    "--test-isolation=none",
+    "--test-reporter=tap",
+    "tests/codex-actions159.test.cjs"
+  ],
+  "testSource": {
+    "path": "tests/codex-actions159.test.cjs",
+    "sha256": "69d6bd3a535df59be1e4d20586a2fc9c6fe0c0cc6a2845944ee083d3648f2a14"
+  },
+  "log": {
+    "file": "validation-guide-1_74.log.gz",
+    "sha256": "5c9a6fc8e52be375af4bea8d8f1170294a7783ce56c603bcb67cdbc7abb86d63",
+    "rawSha256": "8581e99c9d89443c0a75e1f4bc04549d737f9fa426e0cca63e5882e940a15184"
+  },
+  "contract": "36 historical content/mechanism cards plus the explicit water214 card; 4620 other historical cards and all availability filters retained"
+}

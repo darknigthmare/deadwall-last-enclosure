@@ -5,12 +5,12 @@ const FORAGE=['blackberry','blackthorn','rosehip','hazelnut','walnut','chestnut'
 const WEATHER=['dry','drizzle','showers','rain','downpour','clearing'];
 const CAMPAIGN=['ruralSurvey','farmSupply','fuelRecovery','archiveRescue','agroRecovery','triageSearch','engineeringRecovery','watchDuty'];
 const MECHANISMS=['runnerCable193','breachClamp193','enduranceRack193','shieldTongs193','quickCable193','siegeBrake193'];
-const expected=[...FORAGE.map(id=>'forage193-'+id),...WEATHER.map(id=>'weather193-'+id),...CAMPAIGN.map(id=>'campaign193-'+id)].sort();
+const expected=[...FORAGE.map(id=>'forage193-'+id),...WEATHER.map(id=>'weather193-'+id),...CAMPAIGN.map(id=>'campaign193-'+id),'water214-rain-collector'].sort();
 const source=fs.readFileSync(require.resolve('../src/content-codex193.js'),'utf8');
 
-test('193 guide has exactly30 unique complete entries without duplicating six operational trap cards',()=>{
- const entries=Guide.entries();assert.equal(entries.length,30);assert.deepEqual(entries.map(e=>e.id).sort(),expected);
- assert.deepEqual([...Guide.CAMPAIGNS],CAMPAIGN);assert.equal(new Set(entries.map(e=>e.id)).size,30);
+test('193 guide retains its30 entries and adds one real water service without duplicating trap cards',()=>{
+ const entries=Guide.entries();assert.equal(entries.length,31);assert.deepEqual(entries.map(e=>e.id).sort(),expected);
+ assert.deepEqual([...Guide.CAMPAIGNS],CAMPAIGN);assert.equal(new Set(entries.map(e=>e.id)).size,31);
  for(const e of entries){
   assert.equal(e.status,'jouable');assert.ok(['nature','systemes'].includes(e.family));
   for(const key of ['title','summary','layout','access','supplies','risks','night','variants','interactions','qa','source']){assert.equal(typeof e[key],'string',e.id+' '+key);assert.ok(e[key].length>(key==='title'?5:20),e.id+' '+key);assert.doesNotMatch(e[key],/undefined|NaN|À COMPLÉTER/);}
@@ -19,6 +19,17 @@ test('193 guide has exactly30 unique complete entries without duplicating six op
  const choices=require('../src/world-codex-actions159.js').entries.filter(e=>MECHANISMS.includes(e.choice159?.split(':')[1]));
  assert.deepEqual(choices.map(e=>e.choice159).sort(),MECHANISMS.map(id=>'mechanism:'+id).sort());
  for(const id of MECHANISMS){const e=choices.find(e=>e.choice159==='mechanism:'+id),d=C.FortificationPackRules.mechanisms[id];assert.ok(e.summary.includes(d.description));assert.ok(e.interactions.includes(d.charges+' déclenchement(s)'));assert.ok(!entries.some(item=>item.id.includes(id)));}
+});
+
+test('214 guide derives rain limits and paid preparation from their owner without promising potable water',()=>{
+ const R=C.CampaignWater214Rules,e=Guide.entries().find(e=>e.id==='water214-rain-collector');
+ assert.ok(e.supplies.includes(R.prepare.seconds+' s'));
+ for(const[k,n]of Object.entries(R.prepare.cost))assert.ok(e.supplies.includes(n+' '+C.RESOURCE_META[k].label.toLowerCase()));
+ assert.ok(e.layout.includes(R.capacity+' unités'));assert.match(e.summary,/Eau non potable/);assert.match(e.risks,/aucune pluie rétroactive/);assert.match(e.interactions,/débite exactement sa source/);
+ const sandbox={DeadwallCore:{...C,CampaignWater214Rules:{...R,capacity:17,prepare:{seconds:19,cost:{wood:7,scrap:9}}}}};vm.createContext(sandbox);vm.runInContext(source,sandbox);
+ const before=sandbox.DeadwallContentCodex193.entries(),changed=before.find(e=>e.id==='water214-rain-collector');assert.match(changed.layout,/17 unités/);assert.match(changed.supplies,/19 s.*7 bois.*9 ferraille/);
+ sandbox.DeadwallCore={...sandbox.DeadwallCore,CampaignWater214Rules:{...R,capacity:13}};
+ const after=sandbox.DeadwallContentCodex193.entries();assert.notStrictEqual(before,after);assert.match(after.find(e=>e.id==='water214-rain-collector').layout,/13 unités/);
 });
 
 test('193 forage guide states finite gains, real footprint and backpack-only commitments',()=>{

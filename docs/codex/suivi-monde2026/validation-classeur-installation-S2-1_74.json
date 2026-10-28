@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "pass": true,
+  "installedObservedUtc": "2026-10-28T11:03:12.824585+00:00",
+  "sourceCommit": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+  "sourceCheckpoint": "S2",
+  "candidateRevision": "S2b",
+  "pullRequest": 21,
+  "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+  "previousSha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+  "installedSha256": "56f2cc4f9b6934107322182f6212112800bb4a36ac96aa7a5543f119f7ae80df",
+  "bytes": 591249,
+  "metadataSha256": "936ffcf2c048dc196980afe38ba266391eb284d3794370f4b0c7555243afa5ab",
+  "rootInstalledCliExitCode": 0,
+  "rootExaminedRenders": [
+    "publication174-S2b.png",
+    "accueil-limites174-S2b.png",
+    "chantiers-T045-lecture-depliee174-S2b.png"
+  ],
+  "agentExaminedRenders": 7,
+  "scope": "Workbook installation after actual S2b external and installed CLI plus visual reception; no final CI or Production qualification"
+}

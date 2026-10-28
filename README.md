@@ -1,3 +1,13 @@
+# DEADWALL 1.74.0 — Récupérateurs et eau de service
+
+Les tonneaux extérieurs des haltes G11 peuvent être remis en service sur place. La préparation coûte du bois et de la ferraille et laisse le collecteur vide. Seule la pluie effectivement simulée remplit ensuite sa réserve, dans sa capacité. Puiser et reverser utilisent le même seau que les incendies et les abreuvoirs ; l’eau n’est pas potable.
+
+Les travaux demandent un vrai accès au support, les mains disponibles et des abords sécurisés. Ils s’interrompent en cas de déplacement, blessure, combat ou support perdu. Les pièces mobiles suivent l’activité réelle ; les quantités achevées sont sauvegardées, les travaux inachevés sont annulés à la reprise. Les cartes, routes, meubles et stocks historiques restent conservés.
+
+Le [guide 1.74](docs/LIVRAISON_1_74.md) et la [fiche des récupérateurs](docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md) décrivent les conditions. Les preuves de géométrie, de transactions, de sauvegarde et de publication restent distinctes dans le suivi.
+
+## Historique conservé — 1.73.0
+
 # DEADWALL 1.73.0 — Équipements et haltes vivantes
 
 Les équipements des sites résidentiels G11 accueillent des usages de terrain : préparer un repas avec son combustible, prendre une relève abritée près d’un couchage, entretenir une lanterne à l’outillage et recevoir des soins aux postes médicaux des camps de travailleurs. Chaque action utilise les fournitures du sac, demande du temps sur place et peut être interrompue. Les gestes et pièces mobiles suivent le travail réellement en cours.

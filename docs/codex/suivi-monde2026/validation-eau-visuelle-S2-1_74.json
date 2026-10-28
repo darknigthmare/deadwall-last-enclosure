@@ -1,0 +1,25 @@
+{
+  "schema": "deadwall-water214-S2-agent-visual-review-v1",
+  "observedUtc": "2026-10-28T10:42:34.805Z",
+  "reviewer": "Independent automated agent receipt_readonly_review214; not a physical human playtest.",
+  "viewedImages": [
+    "desktop-prepare-live-game.png",
+    "desktop-draw-live-game.png",
+    "desktop-pour-live-game.png",
+    "mobile-prepare-live-game.png",
+    "mobile-draw-live-game.png",
+    "mobile-pour-live-game.png"
+  ],
+  "viewedCount": 6,
+  "observations": [
+    "All six PNGs show the actual active rainy game scene and work progress without a Pause menu.",
+    "Player, barrel, progress and interruption button remain visible. Visible proportions are consistent; no obvious road overlap is visible.",
+    "No new blocking visual problem is evident from these static images."
+  ],
+  "limits": [
+    "Mobile HUD is dense: the visible world is mostly in an approximately 170 px central band.",
+    "The D-17 banner clips the end of its text; the mobile building also extends beyond the right image edge, so its full footprint is not assessable.",
+    "The barrel and fine animated pieces/flow are small at this zoom. The HUD uses a generic collector label for prepare/draw/pour.",
+    "Static PNGs do not establish fluid animation, payment correctness or physical-phone performance; functional pose and payment claims come from their separate raw assertions."
+  ]
+}

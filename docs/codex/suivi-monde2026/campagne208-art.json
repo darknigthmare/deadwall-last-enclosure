@@ -8,8 +8,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36287,
-      "sha256": "2db57ffc3cccf5301fbfcd4af972b95b6bc0cce11d2544c79700469b4cc6b4a9"
+      "bytes": 36396,
+      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -28,8 +28,8 @@
     },
     {
       "path": "scripts/build-codex-tracker2026.cjs",
-      "bytes": 2023,
-      "sha256": "ae3244ebc2966e0eec0301f2d2b8c9d4a4e489040e236c87b92dd5c59b927712"
+      "bytes": 2143,
+      "sha256": "b9dc3a619b4d494d828ccf2859b2306c023a6d1e9aaf23f27c531d2c1734e57c"
     },
     {
       "path": "scripts/campaign-services-sources208.cjs",
@@ -183,8 +183,18 @@
     },
     {
       "path": "src/campaign-site-art205.js",
-      "bytes": 39439,
-      "sha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
+      "bytes": 44852,
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2"
+    },
+    {
+      "path": "src/campaign-water-supports214.js",
+      "bytes": 10803,
+      "sha256": "60d1804926302e0517a32452a96133959c78767bc1ad3c9003300f9a6967ec27"
+    },
+    {
+      "path": "src/campaign-water214.js",
+      "bytes": 16413,
+      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -398,8 +408,8 @@
     },
     {
       "path": "src/content-codex193.js",
-      "bytes": 9739,
-      "sha256": "4d4a2fcef65ad11184f44b47ea8d20ed6eb735011c048bfb690cdd784a539222"
+      "bytes": 12062,
+      "sha256": "9c668943d26eb924a12e408d229e67dce83674bbc800f38baa72e609716c93fe"
     },
     {
       "path": "src/content-ui.js",
@@ -429,12 +439,12 @@
     {
       "path": "src/coordination.js",
       "bytes": 6685,
-      "sha256": "e27a42fd1b3b06ab408c68aeba8722b7a13f775a38b1c77f2c69a7a3259046df"
+      "sha256": "e22e5763a693b437bd9bb298b004ebdb934abbc01a842b18495459c174fc36b1"
     },
     {
       "path": "src/core.js",
-      "bytes": 335239,
-      "sha256": "c0ee69d8a283042a732f6d8c4876bedaf7ee5b01e514a6b65faca17d33f9afa3"
+      "bytes": 335878,
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
     },
     {
       "path": "src/d17-art149.js",
@@ -513,13 +523,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5282,
-      "sha256": "824d14fe4cb8145890178b4b0d7a4f5f596ae5a322443009bed9a0aae5a497c0"
+      "bytes": 5293,
+      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24776,
-      "sha256": "d592c9c6425b721dae296c6c0f517aa90922ac581251515559e707f38fef4a60"
+      "bytes": 24864,
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -673,8 +683,8 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 46532,
-      "sha256": "0857e5bea6b482f9079a2c84201952a4544a892f6341892493f0ffcde4e00b9b"
+      "bytes": 46641,
+      "sha256": "c79cc4099b781674f540f22a0e629e92c0c96a20185c010a30f584d09c687c22"
     },
     {
       "path": "src/game.js",
@@ -693,8 +703,8 @@
     },
     {
       "path": "src/hero-actions133.js",
-      "bytes": 13053,
-      "sha256": "f48895efa04e02683b7492dde6b788f459fa3c58134671c38cbaf9ca7ac76951"
+      "bytes": 15599,
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
     },
     {
       "path": "src/hud135.js",
@@ -1225,8 +1235,8 @@
   "sourcesBefore": [
     {
       "path": "index.html",
-      "bytes": 36287,
-      "sha256": "2db57ffc3cccf5301fbfcd4af972b95b6bc0cce11d2544c79700469b4cc6b4a9"
+      "bytes": 36396,
+      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1245,8 +1255,8 @@
     },
     {
       "path": "scripts/build-codex-tracker2026.cjs",
-      "bytes": 2023,
-      "sha256": "ae3244ebc2966e0eec0301f2d2b8c9d4a4e489040e236c87b92dd5c59b927712"
+      "bytes": 2143,
+      "sha256": "b9dc3a619b4d494d828ccf2859b2306c023a6d1e9aaf23f27c531d2c1734e57c"
     },
     {
       "path": "scripts/campaign-services-sources208.cjs",
@@ -1400,8 +1410,18 @@
     },
     {
       "path": "src/campaign-site-art205.js",
-      "bytes": 39439,
-      "sha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
+      "bytes": 44852,
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2"
+    },
+    {
+      "path": "src/campaign-water-supports214.js",
+      "bytes": 10803,
+      "sha256": "60d1804926302e0517a32452a96133959c78767bc1ad3c9003300f9a6967ec27"
+    },
+    {
+      "path": "src/campaign-water214.js",
+      "bytes": 16413,
+      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -1615,8 +1635,8 @@
     },
     {
       "path": "src/content-codex193.js",
-      "bytes": 9739,
-      "sha256": "4d4a2fcef65ad11184f44b47ea8d20ed6eb735011c048bfb690cdd784a539222"
+      "bytes": 12062,
+      "sha256": "9c668943d26eb924a12e408d229e67dce83674bbc800f38baa72e609716c93fe"
     },
     {
       "path": "src/content-ui.js",
@@ -1646,12 +1666,12 @@
     {
       "path": "src/coordination.js",
       "bytes": 6685,
-      "sha256": "e27a42fd1b3b06ab408c68aeba8722b7a13f775a38b1c77f2c69a7a3259046df"
+      "sha256": "e22e5763a693b437bd9bb298b004ebdb934abbc01a842b18495459c174fc36b1"
     },
     {
       "path": "src/core.js",
-      "bytes": 335239,
-      "sha256": "c0ee69d8a283042a732f6d8c4876bedaf7ee5b01e514a6b65faca17d33f9afa3"
+      "bytes": 335878,
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
     },
     {
       "path": "src/d17-art149.js",
@@ -1730,13 +1750,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5282,
-      "sha256": "824d14fe4cb8145890178b4b0d7a4f5f596ae5a322443009bed9a0aae5a497c0"
+      "bytes": 5293,
+      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24776,
-      "sha256": "d592c9c6425b721dae296c6c0f517aa90922ac581251515559e707f38fef4a60"
+      "bytes": 24864,
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -1890,8 +1910,8 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 46532,
-      "sha256": "0857e5bea6b482f9079a2c84201952a4544a892f6341892493f0ffcde4e00b9b"
+      "bytes": 46641,
+      "sha256": "c79cc4099b781674f540f22a0e629e92c0c96a20185c010a30f584d09c687c22"
     },
     {
       "path": "src/game.js",
@@ -1910,8 +1930,8 @@
     },
     {
       "path": "src/hero-actions133.js",
-      "bytes": 13053,
-      "sha256": "f48895efa04e02683b7492dde6b788f459fa3c58134671c38cbaf9ca7ac76951"
+      "bytes": 15599,
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
     },
     {
       "path": "src/hud135.js",
@@ -2442,8 +2462,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36287,
-      "sha256": "2db57ffc3cccf5301fbfcd4af972b95b6bc0cce11d2544c79700469b4cc6b4a9"
+      "bytes": 36396,
+      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -2462,8 +2482,8 @@
     },
     {
       "path": "scripts/build-codex-tracker2026.cjs",
-      "bytes": 2023,
-      "sha256": "ae3244ebc2966e0eec0301f2d2b8c9d4a4e489040e236c87b92dd5c59b927712"
+      "bytes": 2143,
+      "sha256": "b9dc3a619b4d494d828ccf2859b2306c023a6d1e9aaf23f27c531d2c1734e57c"
     },
     {
       "path": "scripts/campaign-services-sources208.cjs",
@@ -2617,8 +2637,18 @@
     },
     {
       "path": "src/campaign-site-art205.js",
-      "bytes": 39439,
-      "sha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
+      "bytes": 44852,
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2"
+    },
+    {
+      "path": "src/campaign-water-supports214.js",
+      "bytes": 10803,
+      "sha256": "60d1804926302e0517a32452a96133959c78767bc1ad3c9003300f9a6967ec27"
+    },
+    {
+      "path": "src/campaign-water214.js",
+      "bytes": 16413,
+      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
     },
     {
       "path": "src/chronicles131-data.js",
@@ -2832,8 +2862,8 @@
     },
     {
       "path": "src/content-codex193.js",
-      "bytes": 9739,
-      "sha256": "4d4a2fcef65ad11184f44b47ea8d20ed6eb735011c048bfb690cdd784a539222"
+      "bytes": 12062,
+      "sha256": "9c668943d26eb924a12e408d229e67dce83674bbc800f38baa72e609716c93fe"
     },
     {
       "path": "src/content-ui.js",
@@ -2863,12 +2893,12 @@
     {
       "path": "src/coordination.js",
       "bytes": 6685,
-      "sha256": "e27a42fd1b3b06ab408c68aeba8722b7a13f775a38b1c77f2c69a7a3259046df"
+      "sha256": "e22e5763a693b437bd9bb298b004ebdb934abbc01a842b18495459c174fc36b1"
     },
     {
       "path": "src/core.js",
-      "bytes": 335239,
-      "sha256": "c0ee69d8a283042a732f6d8c4876bedaf7ee5b01e514a6b65faca17d33f9afa3"
+      "bytes": 335878,
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
     },
     {
       "path": "src/d17-art149.js",
@@ -2947,13 +2977,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5282,
-      "sha256": "824d14fe4cb8145890178b4b0d7a4f5f596ae5a322443009bed9a0aae5a497c0"
+      "bytes": 5293,
+      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24776,
-      "sha256": "d592c9c6425b721dae296c6c0f517aa90922ac581251515559e707f38fef4a60"
+      "bytes": 24864,
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -3107,8 +3137,8 @@
     },
     {
       "path": "src/frontier.js",
-      "bytes": 46532,
-      "sha256": "0857e5bea6b482f9079a2c84201952a4544a892f6341892493f0ffcde4e00b9b"
+      "bytes": 46641,
+      "sha256": "c79cc4099b781674f540f22a0e629e92c0c96a20185c010a30f584d09c687c22"
     },
     {
       "path": "src/game.js",
@@ -3127,8 +3157,8 @@
     },
     {
       "path": "src/hero-actions133.js",
-      "bytes": 13053,
-      "sha256": "f48895efa04e02683b7492dde6b788f459fa3c58134671c38cbaf9ca7ac76951"
+      "bytes": 15599,
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
     },
     {
       "path": "src/hud135.js",
@@ -4026,6 +4056,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-10-25T11:11:02.206Z",
-  "completedUtc": "2026-10-25T11:11:04.762Z"
+  "startedUtc": "2026-10-28T10:28:44.176Z",
+  "completedUtc": "2026-10-28T10:28:47.743Z"
 }

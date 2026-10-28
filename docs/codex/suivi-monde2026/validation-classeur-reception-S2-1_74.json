@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "recordedUtc": "2026-10-28T11:00:02.580246+00:00",
+  "scope": "External S2b Excel candidate, source reconciliation, inherited styles and seven selected preview reviews; no installation or new game qualification",
+  "sourceCommit": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+  "sourceCheckpoint": "S2",
+  "candidateRevision": "S2b",
+  "sourceCheckpointLocalAtExport": true,
+  "remotePublicationInferred": false,
+  "pullRequest": 21,
+  "candidate": {
+    "path": "/workspace/deadwall-cloud/extension214/xlsx174-S2b/DEADWALL_CODEX_MONDE_SUIVI_1_74_S2b_CANDIDAT.xlsx",
+    "bytes": 591249,
+    "sha256": "56f2cc4f9b6934107322182f6212112800bb4a36ac96aa7a5543f119f7ae80df",
+    "unchangedAfterPreviews": true
+  },
+  "baseline": {
+    "path": "/workspace/deadwall-cloud/extension214/baseline174-S1/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+    "sha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1"
+  },
+  "metadataSha256": "936ffcf2c048dc196980afe38ba266391eb284d3794370f4b0c7555243afa5ab",
+  "metadataSnapshot": "METADONNEES_EXPORT_S2b.json",
+  "waterReportBefore": "0b035133d1f101ced3853657d5a8e07c7c01dc4005dd48bf4fe6e1be5fb8b798",
+  "waterReportAfter": "0b035133d1f101ced3853657d5a8e07c7c01dc4005dd48bf4fe6e1be5fb8b798",
+  "sourceCaptureIdentical": true,
+  "metadataChangedAgainstS2a": [
+    "workbookDetail"
+  ],
+  "nativeExitCodes": {
+    "jsonBuild": 0,
+    "export": 0,
+    "verifyBaseline": 0,
+    "verifyCompat": 0,
+    "renderExtra": 0
+  },
+  "manualPublicationCells": {
+    "B7": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+    "C7": "PR #21",
+    "D7": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/21",
+    "B13": "Correctif régional et réception S2",
+    "D13": "Sources S2 8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0 dans la PR #21. Région conserve son dossier météo par défaut, suivi des récupérateurs. Préparation et transferts inchangés, 70 tests ciblés et 117 contrôles eau reçus. Le classeur garde le point de préparation ; CI finale, fusion et Vercel Production restent des réceptions séparées.",
+    "E13": "CI / fusion / Production en attente",
+    "E9": "Sources S2 et PR #21 ; modèle S1 conservé. Réception externe avant installation. Original Drive conservé, sans synchronisation distante."
+  },
+  "notes": [
+    {
+      "row": 452,
+      "id": "EXT-MONDE-T045/services",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 1030 supports proposés, 1030 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Aucun établi ajouté à l’atelier entretien historique ; outillage existant seulement. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 462,
+      "id": "EXT-MONDE-T046/services",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 300 supports proposés, 300 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 472,
+      "id": "EXT-MONDE-T047/services",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 1130 supports proposés, 1130 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 482,
+      "id": "EXT-MONDE-T048/services",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 445 supports proposés, 445 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    }
+  ],
+  "all800CriteriaStatusesAndOwnersIdenticalToS1": true,
+  "service208TransactionsCellE213": 0,
+  "sheets": 15,
+  "formulas": 1181,
+  "allFormulaMapsIdenticalToBaseline": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 106477,
+    "authorCellsWithWrapStyleChanges": 0,
+    "derivedResizedFooterCellsExcluded": 0,
+    "authorCellsWithEquivalentExplicitDefaults": 0,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 0,
+      "Variantes à concevoir": 0
+    },
+    "inheritedStylesPreserved": true
+  },
+  "metadataReconciled": true,
+  "taskCounts": {
+    "En cours": 413,
+    "À faire": 384,
+    "Validé": 3
+  },
+  "playableVariants": 0,
+  "renderManifest": [
+    {
+      "file": "preuves/accueil-limites174-S2b.png",
+      "bytes": 71612,
+      "sha256": "d75ffae745395f61c56b3d29f30dde1cfd3fea3d4831c5badef2ca97cdf1dea7",
+      "width": 1720,
+      "height": 404
+    },
+    {
+      "file": "preuves/accueil.png",
+      "bytes": 189236,
+      "sha256": "d06426828884a424ac3c524b5b7a2e92fb57ef946c5dbf5ef70ac4f54ea31fd1",
+      "width": 1720,
+      "height": 1188
+    },
+    {
+      "file": "preuves/avancement.png",
+      "bytes": 132693,
+      "sha256": "3216dfca9e44f9d48616bf54d3191b82689b56aa3a9935af32f154c6da9ea27f",
+      "width": 2670,
+      "height": 753
+    },
+    {
+      "file": "preuves/campagne-g11.png",
+      "bytes": 308911,
+      "sha256": "5e547c182fc39994c1f19d5835414573eacfe39ad04c5477cc20d04cac273ebe",
+      "width": 2820,
+      "height": 977
+    },
+    {
+      "file": "preuves/chantiers-T045-format-original174-S2b.png",
+      "bytes": 258417,
+      "sha256": "5bc8d82b37bbd0f38f3bd2c827bd718cd6878d73a8b20663b097ddc4ea9ec9a6",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T045-lecture-depliee174-S2b.png",
+      "bytes": 351540,
+      "sha256": "b08c00810842cb064609155a43d002a87165c85fc951669510eb08636c98ba5e",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T046-format-original174-S2b.png",
+      "bytes": 258777,
+      "sha256": "b698f36b6ca6bfc396e0f684e84c4ec808c5e0c9e80a7f5b981f5439c2c57282",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T046-lecture-depliee174-S2b.png",
+      "bytes": 342976,
+      "sha256": "34f886646ace34e15c3241917ae5b7ec63ca7bc4f45dd0bacda9a39edbfd7a29",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T047-format-original174-S2b.png",
+      "bytes": 257352,
+      "sha256": "30c4558baf23f49f5d94618d1a2689bc87744678912050a5590508ae58902778",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T047-lecture-depliee174-S2b.png",
+      "bytes": 341889,
+      "sha256": "ca8ce51939d7a53f788f347d6336e16d95057b1525f85631c7f3c5bae87ca556",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T048-format-original174-S2b.png",
+      "bytes": 256303,
+      "sha256": "3e95c6794c293bd078adfc956e1db70471fb36d9d1ee9c14e546f082d0adcdb7",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T048-lecture-depliee174-S2b.png",
+      "bytes": 340212,
+      "sha256": "86e8fae962b64ac51fc40b94176e4605d693046006b60d5f0c7ddc4857cff962",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers.png",
+      "bytes": 194661,
+      "sha256": "6a32f70cc82caa31d7f273da4a4ff0f0fa1d32be4f756b766f6e6ed6f89b58c2",
+      "width": 3420,
+      "height": 220
+    },
+    {
+      "file": "preuves/inspection.png",
+      "bytes": 746852,
+      "sha256": "656b30199c2270bf3dd24eb4b4ae317f72ff5a449ff8a83a123e8cf16075fa0d",
+      "width": 2330,
+      "height": 4239
+    },
+    {
+      "file": "preuves/publication.png",
+      "bytes": 213939,
+      "sha256": "b3641d40788b411a5bcb1ac5a938f0b8f1025361876fe96ef0fcd975d8e913b9",
+      "width": 1690,
+      "height": 928
+    },
+    {
+      "file": "preuves/publication174-S2b.png",
+      "bytes": 213939,
+      "sha256": "b3641d40788b411a5bcb1ac5a938f0b8f1025361876fe96ef0fcd975d8e913b9",
+      "width": 1690,
+      "height": 928
+    },
+    {
+      "file": "preuves/services-g11-totaux174-S2b.png",
+      "bytes": 386447,
+      "sha256": "91a6b447eac3e60e725f0c09a7fae4e299f2a2d392e6022d7de1b902215a4060",
+      "width": 3690,
+      "height": 1177
+    },
+    {
+      "file": "preuves/services-g11.png",
+      "bytes": 389235,
+      "sha256": "44ffa012b6b462de867be2fb020c57612a02d0c77a7e2ad849169a679cb79892",
+      "width": 3690,
+      "height": 977
+    },
+    {
+      "file": "preuves/typologies-agricoles.png",
+      "bytes": 409653,
+      "sha256": "8eca10053570c7f24185511b2a7937c23687752c620f09f8b6d8ca3a29e3e68d",
+      "width": 3680,
+      "height": 1044
+    },
+    {
+      "file": "preuves/typologies-residentielles.png",
+      "bytes": 244051,
+      "sha256": "0a60478b3df7e7024f4a06a7e4e427745a3412c37952070b900d0200336aaca3",
+      "width": 3680,
+      "height": 532
+    },
+    {
+      "file": "preuves/typologies.png",
+      "bytes": 408677,
+      "sha256": "e659e3c3445c241b388cb51d5e461c69ed2efbba1f4f979b758bbd4172eea122",
+      "width": 3680,
+      "height": 879
+    }
+  ],
+  "defaultRenders": 17,
+  "temporaryExpandedReadingViews": 4,
+  "allPreviewsRegeneratedFromThisCandidate": true,
+  "temporaryExpandedViewsExported": false,
+  "viewsActuallyOpened": [
+    {
+      "file": "preuves/publication174-S2b.png",
+      "sha256": "b3641d40788b411a5bcb1ac5a938f0b8f1025361876fe96ef0fcd975d8e913b9"
+    },
+    {
+      "file": "preuves/accueil-limites174-S2b.png",
+      "sha256": "d75ffae745395f61c56b3d29f30dde1cfd3fea3d4831c5badef2ca97cdf1dea7"
+    },
+    {
+      "file": "preuves/services-g11-totaux174-S2b.png",
+      "sha256": "91a6b447eac3e60e725f0c09a7fae4e299f2a2d392e6022d7de1b902215a4060"
+    },
+    {
+      "file": "preuves/chantiers-T045-lecture-depliee174-S2b.png",
+      "sha256": "b08c00810842cb064609155a43d002a87165c85fc951669510eb08636c98ba5e"
+    },
+    {
+      "file": "preuves/chantiers-T046-lecture-depliee174-S2b.png",
+      "sha256": "34f886646ace34e15c3241917ae5b7ec63ca7bc4f45dd0bacda9a39edbfd7a29"
+    },
+    {
+      "file": "preuves/chantiers-T047-lecture-depliee174-S2b.png",
+      "sha256": "ca8ce51939d7a53f788f347d6336e16d95057b1525f85631c7f3c5bae87ca556"
+    },
+    {
+      "file": "preuves/chantiers-T048-lecture-depliee174-S2b.png",
+      "sha256": "86e8fae962b64ac51fc40b94176e4605d693046006b60d5f0c7ddc4857cff962"
+    }
+  ],
+  "visualFindingS2aClosed": "Publication E9 shortened in metadata; complete final wording visible within inherited row height in fresh S2b preview.",
+  "visualLimits": [
+    "Seven selected views examined, not all21 previews.",
+    "Expanded four-note views are temporary reading layouts, not the exported default.",
+    "Original-height service notes retain their narrow historical layout; complete text is XML-reconciled."
+  ],
+  "repositoryWorkbookUnchanged": true,
+  "installationPerformed": false,
+  "authorAuditRerun": false,
+  "gameTestsRunByThisReceipt": false,
+  "independentXmlReviewReceived": true,
+  "passWithinAssignedScope": true
+}

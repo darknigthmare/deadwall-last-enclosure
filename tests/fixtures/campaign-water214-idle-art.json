@@ -1,0 +1,71 @@
+{
+  "kind": "campaign-water214-idle-art-baseline",
+  "baseline": {
+    "version": "1.73.0",
+    "commit": "70c790cdfab3c2c8b286c70269786872d8be5217",
+    "sourceSha256": "7b3aa2c2359f92cb3351dd9c946e5eba5797bcb78b4d17ed1b242f0a203d7cd7"
+  },
+  "scope": "Native Canvas pixels from exact1.73 painter before214; three barrel variants and four quarter turns, unprepared, no water owner.",
+  "rows": [
+    {
+      "variant": 0,
+      "turn": 0,
+      "hash": "aadf5bb2ada788380a1c80cbe87c41fb60f75629e992c32f4ebced79d2566733"
+    },
+    {
+      "variant": 0,
+      "turn": 1,
+      "hash": "ea336930b7b0e3bedd636fda50be73fbacf41eff14bf5b0be3c068eeedd46dff"
+    },
+    {
+      "variant": 0,
+      "turn": 2,
+      "hash": "fb1708093a937371c535ca08acdfebb577ad96e3676e9ca6c87ef6528b077293"
+    },
+    {
+      "variant": 0,
+      "turn": 3,
+      "hash": "804d7d181fed7f2e1591652d0edf4e624402353f1262a3c30eeeee8a31d3624b"
+    },
+    {
+      "variant": 1,
+      "turn": 0,
+      "hash": "61fd11a60438d5a26b19a24092d8b062b23991d47cb097327aef9890683b3b92"
+    },
+    {
+      "variant": 1,
+      "turn": 1,
+      "hash": "5e17be78e8565e0cbb06e15eda049479b1e2a47ed70f75c94bee7fb08f84ae6b"
+    },
+    {
+      "variant": 1,
+      "turn": 2,
+      "hash": "d0487b2b417144dea12d24930afb77ed14e29c9c5415bdc364968857d2879d2c"
+    },
+    {
+      "variant": 1,
+      "turn": 3,
+      "hash": "7e8121abb15e03792b2930c33f8ae2a05678bcbbd95ba5fa8db6dcfe4c0d14fa"
+    },
+    {
+      "variant": 2,
+      "turn": 0,
+      "hash": "781e6aad24a01b30c88cb00678bc4a32377d6f259bf76ab282183bbc2eb6760e"
+    },
+    {
+      "variant": 2,
+      "turn": 1,
+      "hash": "cf0f37612dbb4b0cd303bd3686701ed6445967de89825339422e82789cad64d8"
+    },
+    {
+      "variant": 2,
+      "turn": 2,
+      "hash": "b2e9d108453a050038a53fe96b0bede54bd74ee3ad2bf229653473a1b7bc6f23"
+    },
+    {
+      "variant": 2,
+      "turn": 3,
+      "hash": "4f0d82d29f3b328e9af9209e01a16d87d58284ff18a725ea46f905237208bdd5"
+    }
+  ]
+}

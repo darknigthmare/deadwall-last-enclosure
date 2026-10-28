@@ -1,5 +1,14 @@
 # Architecture technique
 
+## Récupérateurs G11 — 1.74
+
+`campaign-water-supports214.js` résout les vrais tonneaux extérieurs des plans G11 existants. Les quatre approches gardent le disque piéton dans la parcelle ; le passage réel et le geste jusqu’au support sont contrôlés par les mêmes collisions. Le cache borné ne retient que la géométrie ; découverte, étage, portée et destruction sont relus à chaque demande.
+
+`campaign-water214.js` possède uniquement les réserves des collecteurs préparés. Il rejoint `expansions127` sous `water214`, avec un état versionné et une validation des identifiants dans le monde exact de la sauvegarde. L’absence du registre donne un état vide. Les travaux sont transitoires et la préparation paie une seule fois à l’achèvement. La collecte utilise seulement le pas actif et la pluie courante, sans calcul rétroactif depuis une date.
+
+L’eau portée reste chez `Siege.Engine.fieldWater`, partagée avec l’extinction et les abreuvoirs. Le transfert débite sa source du montant réellement accepté par sa destination. Les peintres ne créent ni registre ni quantité ; leurs vues pures lisent la réserve et le travail effectif. Le seau conserve sa capacité, sa sauvegarde et sa perte au décès. La géométrie et les budgets G11 ne changent pas ; le raccord ne simule pas un réseau domestique ou de l’eau potable.
+
+
 ## Équipements des haltes G11 — 1.73
 
 `campaign-services208.js` résout des supports depuis les plans et détails existants. Sa liste et sa résolution relisent le monde, la découverte, le meuble, l’étage, la portée, le segment physique et la destruction du support. Elles ne déplacent aucun objet et ne possèdent ni butin ni stock. Les règles de sélection et le combustible supplémentaire de cuisson sont dans `CampaignServices208Rules`.

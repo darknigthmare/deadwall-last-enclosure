@@ -6,10 +6,12 @@ const Foundation=require('./codex-progress2026.cjs'),Maritime=require('./codex-m
 const Land=require('./codex-land-progress2026.cjs');
 const Campaign=require('./codex-campaign-progress205.cjs');
 const Services=require('./codex-campaign-services-progress208.cjs');
+const Water=require('./codex-campaign-water-progress214.cjs');
 function currentData(root=path.resolve(__dirname,'..')){
  const inspected=Inspection.patch(Land.patch(Maritime.patch(Foundation.patch(Targets.generate()).data).data).data,root).data;
  const campaign=Campaign.patch(inspected,root).data;
- return {catalogue:exportCatalogue(root),...Services.optionalPatch(campaign,root).data};
+ const services=Services.optionalPatch(campaign,root).data;
+ return {catalogue:exportCatalogue(root),...Water.optionalPatch(services,root).data};
 }
 function write(root,out){
  const data=currentData(root),summary=V.validate(data);fs.mkdirSync(out,{recursive:true});

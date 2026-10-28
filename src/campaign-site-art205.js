@@ -416,10 +416,79 @@
    servicePieces208(c,prop.kind,variantFor(prop,{seed,floor,variant}),p,view,!!game?.settings?.reducedMotion);
   }finally{c.restore();c.fillStyle=fillBefore;c.strokeStyle=strokeBefore;}
  }
+ function waterPresentation214(game,prop,floor=prop?.z??0){
+  if(prop?.kind!=='rain-barrel'||prop.campaign205!==true||prop.campaign205Structural!==true||floor!==0)return null;
+  const identity=/^(P\d{4}):205:static:(0|[1-9]\d*)$/.exec(prop.id||''),owner=game?.campaignWater214;
+  if(!identity||!owner||game.worldEvolution?.structureDestroyed?.(identity[1]))return null;
+  // Persistent fittings and level belong to the reservoir. Reading them does
+  // not discover, prepare, replenish or resolve a physical work point.
+  const raw=owner.status?.(prop.id),status=raw?.prepared===true&&raw.siteId===identity[1]&&raw.supportId===prop.id&&
+   Number.isFinite(raw.capacity)&&raw.capacity>0&&Number.isFinite(raw.water)&&raw.water>=0&&raw.water<=raw.capacity?raw:null;
+  if(raw!=null&&!status)return null;
+  let activity=owner.busy?.()===true?owner.presentation?.(prop.id)||null:null;
+  const f=activity?game.frontier?.position?.():null;
+  if(!activity||game.state!=='playing'||game.gameOver||!game.player||game.player.dead||!(game.player.health>0)||
+   !f?.active||f.generation!==11||f.z!==floor||f.car?.driving||
+   !['prepare','draw','pour'].includes(activity.kind)||activity.supportKind!=='rain-barrel'||activity.siteId!==identity[1]||activity.supportId!==prop.id||
+   !Number.isFinite(activity.elapsed)||activity.elapsed<=0||!Number.isFinite(activity.duration)||activity.duration<=0||activity.elapsed>activity.duration+1e-8||
+   !Number.isFinite(activity.start)||!Number.isFinite(activity.progress)||Math.abs(activity.progress-Math.min(1,activity.elapsed/activity.duration))>1e-8||
+   ![activity.anchor,activity.workTarget].every(point=>point&&['x','y','z'].every(k=>Number.isFinite(point[k]))&&point.z===floor)||
+   activity.kind==='prepare'&&status||activity.kind!=='prepare'&&(!status||!Number.isFinite(activity.amount)||activity.amount<=0)||
+   activity.kind==='draw'&&activity.amount>status.water||activity.kind==='pour'&&activity.amount>status.capacity-status.water)activity=null;
+  return status||activity?{status,activity}:null;
+ }
+ function waterPieces214(c,v,p,{status,activity},reducedMotion){
+  const {fill,box,line,oval,polygon,bolt}=tools(c,p),elapsed=activity&&!reducedMotion?activity.elapsed:0,
+   wave=Math.sin(elapsed*Math.PI*2/.9),lift=activity?.kind==='prepare'?(1-Math.cos(elapsed*Math.PI/.9))*.045:0;
+  if(status){
+   // The mesh, closed tap and narrow gauge are physical fittings. Blue pixels
+   // measure only the owner's stored, non-potable water, never wall-clock rain.
+   oval(.5,.45,.245,.23,p.metal,true);oval(.5,.45,.21,.195,p.dark);
+   for(let i=0;i<5;i++){const t=.35+i*.075;line([[t,.32],[t,.58]],p.edge,.012);line([[.34,t],[.66,t]],p.metal,.012);}
+   fill(.19,.51,.11,.28,p.metal);fill(.215,.53,.06,.24,p.dark);
+   const level=.24*status.water/status.capacity;if(level>0){fill(.215,.77-level,.06,level,p.water);line([[.215,.77-level],[.275,.77-level]],p.edge,.012);}
+   box(.19,.51,.11,.28,p.edge,.012);
+   line([[.70,.69],[.80,.69],[.80,.78]],p.metal,.055);
+   line([[.73,.66],[.84,.66]],p.rust,.035);bolt(.785,.66);
+   if(v===1)line([[.29,.27],[.71,.27]],p.edge,.025);
+   else if(v===2)for(const x of[.34,.66])bolt(x,.26);
+  }
+  if(activity?.kind==='prepare'){
+   // Lifted lid, mesh and hand tool are distinct pieces of the actual work.
+   oval(.5+wave*.035,.41-lift,.25,.215,p.metal,true);
+   line([[.34,.39-lift],[.66,.39-lift]],p.edge,.04);
+   polygon([[.29,.57],[.62,.57],[.65,.74],[.31,.74]],p.dark,true);
+   for(const x of[.36,.44,.52,.60])line([[x,.59],[x,.71]],p.edge,.012);
+   line([[.72,.79],[.56+wave*.045,.62-lift]],p.wood,.045);oval(.72,.79,.03,.04,p.metal);
+  }else if(activity?.kind==='draw'){
+   const offset=reducedMotion?0:wave*.015;
+   line([[.74,.65],[.84,.67+offset]],p.rust,.035);
+   // A stream exists only when the owner reports a positive source transfer.
+   line([[.80,.79],[.80+offset,.84],[.81,.89]],p.water,.028);
+   oval(.80,.91,.09,.045,p.metal,true);oval(.80,.90,.066,.025,p.water);
+  }else if(activity?.kind==='pour'){
+   const x=.74+wave*.025;
+   polygon([[x-.10,.19],[x+.09,.22],[x+.07,.34],[x-.07,.32]],p.metal,true);
+   line([[x-.07,.19],[x-.05,.11],[x+.07,.13],[x+.09,.22]],p.dark,.025);
+   line([[x-.09,.30],[.64+wave*.012,.35],[.59,.43]],p.water,.035);
+  }
+ }
+ function drawWater214(c,prop,view,{seed=0,floor=prop.z??0,variant,scale=32,game}={}){
+  const frame=frameFor(prop);if(!frame||Math.min(prop.w,prop.h)*scale<3)return;
+  const v=variantFor(prop,{seed,floor,variant}),p=PALETTES[v],fillBefore=c.fillStyle,strokeBefore=c.strokeStyle;
+  c.save();try{
+   c.beginPath();c.rect(prop.x,prop.y,prop.w,prop.h);c.clip();c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetX=c.shadowOffsetY=0;c.setLineDash([]);c.lineCap='butt';c.lineJoin='miter';
+   const {turn}=frame;if(turn===0)c.translate(prop.x,prop.y);else if(turn===1)c.translate(prop.x+prop.w,prop.y);else if(turn===2)c.translate(prop.x+prop.w,prop.y+prop.h);else c.translate(prop.x,prop.y+prop.h);c.rotate(turn*Math.PI/2);c.scale(frame.w,frame.h);
+   if(frame.h>frame.w){c.translate(.5,.5);c.rotate(Math.PI/2);c.translate(-.5,-.5);}
+   waterPieces214(c,v,p,view,!!game?.settings?.reducedMotion);
+  }finally{c.restore();c.fillStyle=fillBefore;c.strokeStyle=strokeBefore;}
+ }
  function drawProp(c,art,prop,options={}){
   const painted=drawPropBase(c,art,prop,options);if(!painted)return false;
   const view=servicePresentation208(options.game,prop,options.floor??prop.z??0);
-  if(view)drawService208(c,prop,view,options);return true;
+  if(view)drawService208(c,prop,view,options);
+  const water=Math.min(prop.w,prop.h)*(options.scale??32)>=3?waterPresentation214(options.game,prop,options.floor??prop.z??0):null;
+  if(water)drawWater214(c,prop,water,options);return true;
  }
- return Object.freeze({version:1,scope:'versioned-campaign-furniture',SPECIALISED_KINDS,STRUCTURAL_KINDS,AREA_KINDS,routeFor,variantFor,frameFor,roofTypeFor,drawRoomFloor,drawAreas,servicePresentation208,drawProp});
+ return Object.freeze({version:1,scope:'versioned-campaign-furniture',SPECIALISED_KINDS,STRUCTURAL_KINDS,AREA_KINDS,routeFor,variantFor,frameFor,roofTypeFor,drawRoomFloor,drawAreas,servicePresentation208,waterPresentation214,drawProp});
 });

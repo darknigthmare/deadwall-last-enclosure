@@ -1,0 +1,121 @@
+{
+  "kind": "field-extension193-local-S2-reception",
+  "pass": true,
+  "observedUtc": "2026-10-28T10:34:59.669Z",
+  "runtimeUI": {
+    "file": "src/expansion-ui.js",
+    "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf",
+    "matchesBuiltDistribution": true
+  },
+  "group": [
+    "scripts/browser-weather193.mjs",
+    "scripts/browser-forage193.mjs",
+    "scripts/browser-defense193.mjs"
+  ],
+  "checks": 114,
+  "profiles": 6,
+  "receipts": [
+    {
+      "script": "scripts/browser-weather193.mjs",
+      "exitCode": 0,
+      "report": {
+        "file": "/workspace/deadwall-cloud/extension214/weather-ui-correction/attempt1/weather193-2026-10-28T10_27_21_051Z/report.json",
+        "bytes": 13335,
+        "sha256": "1c69d0c9c7c193952958a4810236aa9f3e256c05233ca4e4d779eba4c0e34c8a"
+      },
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1366,
+            "height": 768
+          },
+          "checks": 13,
+          "passed": 13,
+          "failed": 0
+        },
+        {
+          "viewport": {
+            "name": "portrait",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 13,
+          "passed": 13,
+          "failed": 0
+        }
+      ],
+      "checks": 26,
+      "scope": "Current desktop and emulated portrait: native new campaign, Operations/Region/weather bulletin, paused observational reads and native save/menu/reload/Continue. Explicit weather checkpoint changes only elapsed, weather and target to observe a real seeded rainy front; this is not a naturally elapsed campaign or a physical-device benchmark. No inventory, enemy, terrain, result, RNG or hit-test replacement."
+    },
+    {
+      "script": "scripts/browser-forage193.mjs",
+      "exitCode": 0,
+      "report": {
+        "file": "/workspace/deadwall-cloud/extension214/weather-ui-correction/attempt1/forage193-2026-10-28T10_28_38_504Z/report.json",
+        "bytes": 41882,
+        "sha256": "5b828069eff14b2d167fb57e9bf9b035a7fe9e9a529397659a898bcbea319b7c"
+      },
+      "profiles": [
+        {
+          "viewport": {
+            "width": 1366,
+            "height": 768,
+            "touch": false
+          },
+          "checks": 23,
+          "passed": 23,
+          "failed": 0
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 23,
+          "passed": 23,
+          "failed": 0
+        }
+      ],
+      "checks": 46,
+      "scope": "Actual desktop and portrait touch controls on the frozen built distribution. Native new campaign, operation buttons, ordinary RAF work, pause/resume, finite backpack payment and save/menu/reload/Continue. Regional approach, backpack capacity and an old save without the new module are explicitly prepared and validated checkpoints. The approach is deliberately quiet and at least 80 m from roads; this does not qualify natural discovery rates or population density. Workers receive their existing retreat order so background job selection does not consume combat RNG. A prepared real wild-horde contact tests danger; one declared call to the regional damage owner tests interruption, without claiming human combat. No forage controller action or time-step is invoked to qualify an operation, and RAF is never replaced."
+    },
+    {
+      "script": "scripts/browser-defense193.mjs",
+      "exitCode": 0,
+      "report": {
+        "file": "/workspace/deadwall-cloud/extension214/weather-ui-correction/attempt1/defense193-2026-10-28T10_32_27_520Z/report.json",
+        "bytes": 36308,
+        "sha256": "dbe736ace8aa0730b61f2ec423cc03ec55a158cc85e412c3e2b3ea861f33a879"
+      },
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1366,
+            "height": 768
+          },
+          "checks": 21,
+          "passed": 21,
+          "failed": 0
+        },
+        {
+          "viewport": {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 21,
+          "passed": 21,
+          "failed": 0
+        }
+      ],
+      "checks": 42,
+      "scope": "Real installation/rearm DOM buttons, ordinary RAF, real pause/save/quit/reload/Continue, desktop mouse and mobile emulated touch. Advanced scenes explicitly prepare four legal completed supports and inherited age knowledge, finite depot/bag material and one physical ordinary-health runner. No mechanism, charges, trap damage, cooldown, hold, simulation time or RNG are assigned. This is a focused prepared defender flow, not organic campaign progression, physical-device or frame-rate qualification."
+    }
+  ],
+  "limits": "Automated Chromium desktop and emulated touch workflows with the existing explicitly prepared fixtures. This is not a complete CI receipt, a human campaign, a physical phone or a Production acceptance."
+}

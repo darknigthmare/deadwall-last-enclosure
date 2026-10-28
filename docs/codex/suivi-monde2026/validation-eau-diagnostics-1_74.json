@@ -1,0 +1,153 @@
+{
+  "schema": "deadwall-water214-negative-and-diagnostic-v1",
+  "createdUtc": "2026-10-28T09:05:20.762Z",
+  "immutableRawReports": true,
+  "attempt2": {
+    "classification": "FAILED_LOCAL_QUALIFICATION",
+    "exitCode": 1,
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt2/water214-2026-10-28T08_42_12_196Z/report.json",
+      "bytes": 435149,
+      "sha256": "7186946a7ba873d92afe69c1116d915c3f039ef22b5e98f6bde608fe97c2a01e",
+      "reportedPass": false
+    },
+    "executedHarness": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt2-harness-exact.mjs",
+      "sha256": "2ee6f12e2801cf1ec0640fa8ec5c229699074d4d9dd4353dc73e2d0ef1c1ea2a",
+      "archiveMethod": "Exact byte reconstruction after the failed run, verified against its already recorded execution SHA256."
+    },
+    "profiles": [
+      {
+        "name": "desktop",
+        "pass": true,
+        "checks": 58,
+        "errorCounts": {
+          "page": 0,
+          "console": 0,
+          "http": 0,
+          "request": 0
+        }
+      },
+      {
+        "name": "mobile",
+        "pass": false,
+        "checks": 17,
+        "errorCounts": {
+          "page": 0,
+          "console": 0,
+          "http": 0,
+          "request": 0
+        }
+      }
+    ],
+    "failure": "AssertionError [ERR_ASSERTION]: Actual movement cancels the unpaid preparation with no inventory or water gain",
+    "controllerEvidence": {
+      "microPulses": 22,
+      "zeroMovementSamples": 22,
+      "maximumCDPAcknowledgementMilliseconds": 5013,
+      "allReleaseEnqueuedMilliseconds": [
+        70,
+        70,
+        71,
+        70,
+        80,
+        70,
+        70,
+        70,
+        71,
+        84,
+        70,
+        70,
+        70,
+        70,
+        71,
+        79,
+        70,
+        72,
+        71,
+        80,
+        71,
+        71
+      ],
+      "onlyMovement": 0.2054360000001907,
+      "endedWithPaidCollector": true
+    },
+    "sourceInventoryUnchanged": true,
+    "meaning": "Desktop completed; mobile did not complete. Its repeated 70 ms native taps did not guarantee a game update during an active touch. The assertion correctly rejected movement that happened only after paid preparation. This result does not qualify the final controller."
+  },
+  "probe1": {
+    "classification": "DIAGNOSTIC_SETUP_FAILURE",
+    "exitCode": 1,
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/touch-probe/water214-2026-10-28T08_55_01_141Z/report.json",
+      "bytes": 44853,
+      "sha256": "ecfc50786d1d3c38ddb56069b83063e2057a91065226925e2b850b7a454e655c",
+      "reportedPass": false
+    },
+    "reason": "The external diagnostic attempted mobile zoom while the native Pause screen remained open. It timed out before the intended pointer/frame observation; no runtime failure is inferred."
+  },
+  "probe2": {
+    "classification": "DIAGNOSTIC_NATIVE_TOUCH_DELIVERY_OBSERVED_NOT_QUALIFICATION",
+    "exitCode": 1,
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/touch-probe2/water214-2026-10-28T08_59_49_580Z/report.json",
+      "bytes": 196499,
+      "sha256": "cdc99ae8d7343edbd1027736580992756ac79bd361c9601e0b1e5e513b02d91b",
+      "reportedPass": false
+    },
+    "reason": "The first native micro-tap already moved and cancelled the unpaid job, so the diagnostic did not enter the second held-touch branch. Its reportedPass criterion required that branch and stayed false. No raw pass field is rewritten.",
+    "firstNativePointerDown": {
+      "kind": "event",
+      "performance": 88576.69999998808,
+      "elapsed": 35.19850000000014,
+      "x": 8908.251996011923,
+      "y": 11293.17121386371,
+      "keys": [],
+      "busy": true,
+      "work": 2.366499999999988,
+      "type": "pointerdown",
+      "pointerType": "touch",
+      "target": "",
+      "clientX": 121,
+      "clientY": 723
+    },
+    "firstUsefulNativeRAF": {
+      "kind": "frame",
+      "performance": 88675.80000001192,
+      "elapsed": 35.44850000000013,
+      "x": 8909.021996011927,
+      "y": 11293.17121386371,
+      "keys": [
+        "KeyD"
+      ],
+      "busy": false,
+      "work": null,
+      "frame": 11
+    },
+    "nativePointerUp": {
+      "kind": "event",
+      "performance": 88688.69999998808,
+      "elapsed": 35.44850000000013,
+      "x": 8909.021996011927,
+      "y": 11293.17121386371,
+      "keys": [
+        "KeyD"
+      ],
+      "busy": false,
+      "work": null,
+      "type": "pointerup",
+      "pointerType": "touch",
+      "target": "",
+      "clientX": 121,
+      "clientY": 723
+    },
+    "result": {
+      "bagUnchanged": true,
+      "noCollector": true,
+      "bucket": 0,
+      "taskCancelled": true,
+      "moved": 0.7700000000040745
+    }
+  },
+  "interpretation": "Source review and actual pointer/RAF evidence support replacing only the timed touch nudge controller. The runtime cancels correctly when a native held direction reaches a game update. A new local mobile journey and the final CI two-profile journey remain separately required; this index grants no gameplay or release promotion."
+}

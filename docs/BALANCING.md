@@ -1,5 +1,14 @@
 # Équilibrage de référence
 
+## Eau de pluie des haltes — 1.74
+
+`CampaignWater214Rules` centralise les quantités. Remise en service : 12 secondes, 4 bois et 4 ferrailles du sac, payés seulement à l’achèvement. Le tonneau préparé commence vide et contient au plus 24 unités d’eau de service. À pleine pluie, il reçoit 0,06 unité par seconde active ; le débit suit l’intensité réelle, sans collecte sous un toit, en pause ou après destruction. Un plein depuis zéro demande donc au minimum 400 secondes effectivement exposées à une pluie maximale, sans puisage.
+
+Puisage et versement : 4 secondes et au plus 2 unités, bornées par la réserve de départ et la place réelle d’arrivée. Le seau historique conserve sa capacité de 8. Ces unités ne sont pas des litres certifiés et cette eau n’est pas potable. Un ancien fichier de sauvegarde n’offre aucun collecteur préparé ni réserve gratuite.
+
+La portée de travail est de 2,2 m et le rayon piéton de 0,32 m. Une menace visible à moins de 12 m, les manipulations incompatibles, le mouvement, la blessure, le tir ou la perte du support refusent ou interrompent le travail. Le registre conserve au plus 64 collecteurs. Les coûts des âges, les stocks de butin et les caractéristiques des infectés ne changent pas.
+
+
 ## Usages de terrain des haltes — 1.73
 
 `CampaignServices208Rules` sélectionne les supports G11 ; temps et effets restent ceux de `SurvivalPackRules` et `ContextRules160`. Le repas sur un four ajoute un carburant apporté au coût existant. Le sac est payé une seule fois après achèvement et revalidation ; une interruption conserve ses fournitures.
