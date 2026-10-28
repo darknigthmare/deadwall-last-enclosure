@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "observedUtc": "2026-10-28T09:28:12.665201+00:00",
+  "scope": "Explicit 30 historic content cards plus one collector card, without changing runtime or source reports; browser uses declared legacy G8 author fixture",
+  "native": {
+    "counts": {
+      "tests": 13,
+      "pass": 13,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "actualExitCode": 0,
+    "file": "validation-routes-guide-1_74.log.gz",
+    "sha256": "8ae0ba44c6f85c4bec6b0ebcc8f27a3377bca5e0a74a2c9c0ae08aca55e5c648",
+    "testSha256": "30024dc32966555cff56049f3db82153013ddc6fa800993e78e2af98d942126c"
+  },
+  "browser": {
+    "actualExitCode": 0,
+    "profiles": [
+      {
+        "viewport": {
+          "name": "desktop",
+          "width": 1366,
+          "height": 768
+        },
+        "checks": 40,
+        "pass": true
+      },
+      {
+        "viewport": {
+          "name": "mobile",
+          "width": 390,
+          "height": 844,
+          "touch": true
+        },
+        "checks": 40,
+        "pass": true
+      }
+    ],
+    "file": "validation-codex-navigateur-1_74.json.gz",
+    "sha256": "605f412405fadd20cd5a0660ca643e07d79e540e2bd9c09b23d7fa1fdc39a7c8",
+    "scriptSha256": "f18dd492dba8752050d0a92f9dd1c905df12fc79d3855979dcc33bca41bb52ba",
+    "guideEntries": 4755,
+    "historicContent193": 30,
+    "explicitWater214": 1
+  },
+  "negativeRetained": "/workspace/deadwall-cloud/extension214/routes-codex133-before214.log"
+}

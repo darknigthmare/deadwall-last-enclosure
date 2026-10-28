@@ -31,6 +31,10 @@ Les parcours Chromium bureau/tactile, le contrôle global, le classeur et les r�
 
 Le contrôle global a révélé une attente historique du Guide qui incluait la nouvelle fiche du récupérateur dans un total ancien de 36. Le contrat vérifie désormais séparément les 36 fiches conservées et cette seule nouvelle fiche, tout en conservant les 4 620 autres cartes et les filtres de disponibilité. Les [20 tests du Guide corrigé](codex/suivi-monde2026/validation-guide-1_74.json) passent. Cette correction de test ne change pas les sources publiques, les cinq rapports ni le classeur.
 
+La même séparation est explicite dans les contrôles de routes et du navigateur : les 30 fiches de contenu historiques restent intactes, puis l’unique fiche du récupérateur complète le total de 4 755 cartes. Les [13 tests de routes et 80 contrôles Chromium](codex/suivi-monde2026/validation-inventaires-guide-1_74.json) passent, avec les recherches, filtres, accès aux catalogues et navigations existants conservés.
+
+La [commande native exacte du workflow de chasse et pêche](codex/suivi-monde2026/validation-harvest-exact-1_74.json) est ensuite reçue : **100/100**, sans échec, annulation, test ignoré ou TODO. Elle inclut les deux contrats du Guide corrigés et les régressions de faune, armement, visibilité et navigation. Son résultat local ne remplace pas la nouvelle réception GitHub de la tête finale.
+
 Le [parcours mobile local corrigé](codex/suivi-monde2026/validation-eau-portable-1_74.json) passe **58/58** : appui tactile natif maintenu et annulation sans paiement, puis pluie, puisage, reversement et cinq reprises exactes. Les trois [captures actives](codex/suivi-monde2026/preuves214/mobile-pour-live-game.png) et le rapport sont archivés avec leurs empreintes. Les deux premiers essais et les probes restent diagnostiques ou négatifs. Le parcours eau a également réussi sur S1 dans GitHub ; la CI de la tête finale doit requalifier les deux formats. L’attente bornée du contrôleur ne constitue pas une garantie de durée totale de l’échange CDP.
 
 ## Travail restant

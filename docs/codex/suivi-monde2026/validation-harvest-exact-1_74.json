@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "observedUtc": "2026-10-28T09:32:49.699671+00:00",
+  "scope": "Exact native command from wildlife190 workflow after explicit Guide inventory corrections; no final full-check or deployment claim",
+  "command": "node --test --test-concurrency=2 tests/audit190-*.test.cjs tests/world-codex.test.cjs tests/routes-codex133.test.cjs tests/codex-actions159.test.cjs tests/arsenal134.test.cjs tests/visibility146.test.cjs",
+  "actualExitCode": 0,
+  "counts": {
+    "tests": 100,
+    "suites": 0,
+    "pass": 100,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "durationMs": 284759.496163,
+  "testSources": [
+    {
+      "path": "tests/audit190-contracts.test.cjs",
+      "sha256": "5a948b55236e64fb317faf23d6991fe98ada6e800a16f30d05e813fdd9f7ff39"
+    },
+    {
+      "path": "tests/audit190-harvest.test.cjs",
+      "sha256": "091f313b6c514bd1eee27d78f8f852b7595ce37a1466917760ed2f2714e00d82"
+    },
+    {
+      "path": "tests/world-codex.test.cjs",
+      "sha256": "3db2d5d62ecd99b3b7f90071bc095fe9356bd88980ab814fb95a65f402b30ae5"
+    },
+    {
+      "path": "tests/routes-codex133.test.cjs",
+      "sha256": "30024dc32966555cff56049f3db82153013ddc6fa800993e78e2af98d942126c"
+    },
+    {
+      "path": "tests/codex-actions159.test.cjs",
+      "sha256": "69d6bd3a535df59be1e4d20586a2fc9c6fe0c0cc6a2845944ee083d3648f2a14"
+    },
+    {
+      "path": "tests/arsenal134.test.cjs",
+      "sha256": "4a7455121a1416a0708288f2f4fc2dec4b0641bdf072cc673e619544a51e98f8"
+    },
+    {
+      "path": "tests/visibility146.test.cjs",
+      "sha256": "5553402d60b4ca98b8b8829bcecf668adc535ef6a2a12a391338797b231d86e4"
+    }
+  ],
+  "log": {
+    "file": "validation-harvest-exact-1_74.log.gz",
+    "sha256": "dd5ac814fb6c12667028c149453dff3fdd6d3629f6bb9296c5f2e5ec9ef36102",
+    "rawSha256": "5fc44131caf9b9b88f18d8831508f7147089b43971b3456afc4890420f8781fb"
+  },
+  "runtimeWaterReportSha256": "6e77a2ac74fb0bd14ac38dc71caf209e34f500d5cca5cacc7332aa3b1f05812c"
+}

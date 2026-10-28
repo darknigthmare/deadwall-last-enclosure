@@ -45,9 +45,11 @@ test('routes 1.33 : guide raccordé, recherche sans accents et projets masqués 
   const faunaEntries=require('../src/ecology-codex189.js').entries(),faunaIds=new Set(faunaEntries.map(e=>e.id));
   assert.equal(faunaIds.size,43);for(const e of faunaEntries)assert.deepEqual(C.entries.find(x=>x.id===e.id),e);
   const contentIds=[...['blackberry','blackthorn','rosehip','hazelnut','walnut','chestnut','apple','pear','plum','raspberry','blueberry','wildStrawberry','chanterelle','bolete','fallenBranch','flint'].map(id=>'forage193-'+id),...['dry','drizzle','showers','rain','downpour','clearing'].map(id=>'weather193-'+id),...['ruralSurvey','farmSupply','fuelRecovery','archiveRescue','agroRecovery','triageSearch','engineeringRecovery','watchDuty'].map(id=>'campaign193-'+id)];
-  const contentEntries=require('../src/content-codex193.js').entries();assert.deepEqual(contentEntries.map(e=>e.id).sort(),contentIds.slice().sort());assert.equal(new Set(contentIds).size,30);
+  const collectorIds214=['water214-rain-collector'];
+  const contentEntries=require('../src/content-codex193.js').entries();assert.deepEqual(contentEntries.filter(e=>!collectorIds214.includes(e.id)).map(e=>e.id).sort(),contentIds.slice().sort());assert.equal(new Set(contentIds).size,30);
+  assert.deepEqual(contentEntries.filter(e=>collectorIds214.includes(e.id)).map(e=>e.id),collectorIds214,'one explicit collector card is added to the 30 preserved content cards');
   for(const entry of contentEntries)assert.equal(C.entries.find(e=>e.id===entry.id),entry);
-  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)&&!ecologyIds.has(e.id)&&!waterIds.has(e.id)&&!faunaIds.has(e.id)&&!contentIds.includes(e.id));
+  const historicalAndCity=C.entries.filter(e=>!e.id.startsWith('arm134-')&&!e.id.startsWith('systems134-')&&!e.id.startsWith('seed157-')&&!e.id.startsWith('programme-DW-')&&!require('../src/biomes-codex135.js').some(b=>b.id===e.id)&&!ecologyIds.has(e.id)&&!waterIds.has(e.id)&&!faunaIds.has(e.id)&&!contentIds.includes(e.id)&&!collectorIds214.includes(e.id));
   assert.equal(historicalAndCity.length,215+cityEntries.length);
   assert.equal(historicalAndCity.filter(e=>!cityIds.has(e.id)).length,215);assert.equal(C.query({text:'routes',status:'terrain'}).filter(e=>e.id.startsWith('road133-')).length,3);
   for(const word of['autoroute','tunnel','échangeur','giratoire','chemin'])assert.ok(C.query({text:'routes '+word,status:'plan'}).length,word);
