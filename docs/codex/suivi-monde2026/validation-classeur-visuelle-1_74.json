@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "recordedUtc": "2026-10-28T08:52:01.554481+00:00",
+  "reviewer": "tracker_audit214",
+  "candidateSha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+  "candidateUnchanged": true,
+  "viewsActuallyOpened": [
+    {
+      "file": "preuves/accueil-limites174.png",
+      "sha256": "aa24ce2fe0b72b9a651b320861fd7b57a1348f02cfc9a52e8c387725c5e8cd46"
+    },
+    {
+      "file": "preuves/chantiers-T045-lecture-depliee174.png",
+      "sha256": "0adf0f1f38f23cce2a936287405b2a042e6127dd73c9fe722d3399ef555f7f93"
+    },
+    {
+      "file": "preuves/chantiers-T046-lecture-depliee174.png",
+      "sha256": "61dc9360797ef377a75fe1fe70b470941a769643cfab77d7c694ea192eb4da53"
+    },
+    {
+      "file": "preuves/chantiers-T047-lecture-depliee174.png",
+      "sha256": "83ca63d10ed0a7a53830bb53c185ea0b6fc68689b7c1280c8d08a44f17ef1dc8"
+    },
+    {
+      "file": "preuves/chantiers-T048-lecture-depliee174.png",
+      "sha256": "815671fc70de311eba9c15c5c538311e03ec1178f4ea8f63f63446c0d7bfecfb"
+    },
+    {
+      "file": "preuves/services-g11-totaux174.png",
+      "sha256": "dc85dd9da5912849b23fee7b3b28ed7392c2c9e90c74768576a50d7e3daba449"
+    }
+  ],
+  "findings": [
+    "Accueil limits readable and consistent with unchanged task counts and separate support scopes.",
+    "Four expanded T045–T048 notes fit the temporary reading layout and retain157 physical barrels/157 work poses per family,50models and separate transaction scope.",
+    "G/H statuses and ownership remain visible as En cours/Production Codex; the214 proof note is separate from208 evidence.",
+    "Services footer retains200models,2905supports,23sites/360poses,0transactions and4visual models/13prepared presentations.",
+    "No new overlap or truncated progress note observed within these expanded previews."
+  ],
+  "limits": [
+    "The full21preview set was not visually examined by this reviewer.",
+    "Four expanded views use declared temporary widths/heights; they do not represent the default exported workbook layout.",
+    "Default original-height service notes remain narrow as in1.73; the cell text is complete and XML-reconciled."
+  ],
+  "repositoryFilesModified": false,
+  "workbookExportedByPreview": false,
+  "passWithinVisualScope": true
+}

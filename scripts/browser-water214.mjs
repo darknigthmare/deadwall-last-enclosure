@@ -185,10 +185,32 @@ async function walk(page, context, touch, target, {support, interrupt = false} =
 async function nudge(page, context, touch) {
   const target = await page.evaluate(() => {
     const g = DEADWALL, p = g.frontier.position(), w = g.frontier.world();
-    for (const [dx,dy] of [[.28,0], [-.28,0], [0,.28], [0,-.28]]) {const q = {x:p.x+dx,y:p.y+dy}; if (!w.blocked(q.x,q.y,.38,0,null) && w.movementLine(p,q,0,null,null,.38)) return q;}
+    for (const [dx,dy] of [[.28,0], [-.28,0], [0,.28], [0,-.28]]) {const q = {x:p.x+dx,y:p.y+dy}; if (!w.blocked(q.x,q.y,.38,0,null) && w.movementLine(p,q,0,null,null,.38)) return {...q,direction:dx?(dx>0?'right':'left'):(dy>0?'down':'up')};}
     throw Error('No real collision-free interruption step');
   });
-  return walk(page, context, touch, target, {interrupt:true});
+  if (!touch) return walk(page, context, false, target, {interrupt:true});
+  const before=await state(page),result={nativeEvents:0,coordinateAssignments:0,samples:[],holds:[],nativeHeldInterruption:true,before};
+  assert.ok(before.busy&&before.activity?.kind==='prepare'&&before.activity.elapsed<before.activity.duration&&before.water.collectors.length===0&&before.bucket===0,'Native touch interruption starts during genuinely unpaid preparation');
+  const css='#touchControls [data-dir="'+target.direction+'"]',box=await page.locator(css).boundingBox();assert.ok(box&&box.width>0&&box.height>0);
+  const point={x:box.x+box.width/2,y:box.y+box.height/2},hit=await page.evaluate(({css,point})=>{const button=document.querySelector(css);return !button.disabled&&!button.closest('[inert]')&&document.elementFromPoint(point.x,point.y)?.closest('button')===button;},{css,point});
+  assert.ok(hit,'Fresh native touch interruption target is visible and hit-testable');
+  const session=await context.newCDPSession(page),started=Date.now(),hold={mode:'native-held-until-observed',maximumWallMilliseconds:8000,point,hitTest:hit};result.holds.push(hold);let timer;
+  const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Native held touch did not produce its observable interruption within 8000 ms')),8000);});
+  try {
+    result.nativeEvents++;
+    await Promise.race([session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]}),deadline]);
+    hold.startAcknowledgedWallMilliseconds=Date.now()-started;
+    // A fixed micro-tap can be delivered entirely between two game updates.
+    // Keep this real native pointer down until an actual RAF observes movement
+    // and cancellation. Neither a frame nor simulation time is forced here.
+    await Promise.race([page.waitForFunction(({origin,elapsed})=>{const g=DEADWALL,p=g.frontier.position();return g.elapsed>elapsed&&Math.hypot(p.x-origin.x,p.y-origin.y)>.01&&!g.campaignWater214.busy();},{origin:before.pose,elapsed:before.elapsed},{timeout:8000}),deadline]);
+    hold.heldObservation=await page.evaluate(origin=>{const g=DEADWALL,p=g.frontier.position();return{elapsed:g.elapsed,pose:p,moved:Math.hypot(p.x-origin.x,p.y-origin.y),keys:[...g.input.keys],busy:g.campaignWater214.busy(),activity:g.campaignWater214.activity(),carry:{...g.player.carry},water:g.campaignWater214.snapshot(),bucket:g.siege.carriedWater199(),alive:g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay,clear:!g.frontier.world().blocked(p.x,p.y,.32,0,p.inside)};},before.pose);
+    const held=hold.heldObservation,key={left:'KeyA',right:'KeyD',up:'KeyW',down:'KeyS'}[target.direction];
+    assert.ok(held.alive&&held.clear&&held.elapsed>before.elapsed&&held.moved>.01&&held.keys.includes(key)&&!held.busy&&!held.activity&&held.water.collectors.length===0&&held.bucket===0&&equal(held.carry,before.carry),'A real held touch moves and cancels the unpaid preparation before any collector or payment');
+  } catch(error) {error.water214NativeHold=result;throw error;}
+  finally {clearTimeout(timer);try{result.nativeEvents++;await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});}finally{hold.actualWallMilliseconds=Date.now()-started;await session.detach();}}
+  const released=await page.evaluate(()=>({keys:[...DEADWALL.input.keys],pose:DEADWALL.frontier.position()}));assert.equal(released.keys.length,0,'Native interruption pointer and direction are released');
+  result.arrival={...hold.heldObservation,pose:released.pose,keys:released.keys,done:true};result.samples.push(result.arrival);return result;
 }
 
 async function startObservers(page, supportId) {
@@ -360,7 +382,7 @@ try {
       check('All movement is native and page, console, HTTP and request collectors stay empty',profile.walks.every(w=>w.coordinateAssignments===0)&&rec.errors()===0);
       profile.pass=true;
     } catch(error) {
-      profile.pass=false;profile.failure=error.stack;profile.failureState=await state(page).catch(()=>null);await stopObservers(page).catch(()=>{});await rec.screenshot('failure').catch(()=>{});
+      profile.pass=false;profile.failure=error.stack;profile.nativeInputFailure=error.water214NativeHold;profile.failureState=await state(page).catch(()=>null);await stopObservers(page).catch(()=>{});await rec.screenshot('failure').catch(()=>{});
     } finally {
       await context.close();profile.realCompletedUtc=new Date().toISOString();if(profile.initial&&(profile.final||profile.failureState))profile.simulatedSeconds=(profile.final??profile.failureState).elapsed-profile.initial.elapsed;
     }

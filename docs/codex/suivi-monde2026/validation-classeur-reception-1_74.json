@@ -1,0 +1,257 @@
+{
+  "version": 1,
+  "recordedUtc": "2026-10-28T08:49:41.484452+00:00",
+  "scope": "External Excel candidate, source reconciliation, inherited styles and proof-scope checks; no installation or game qualification",
+  "sourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+  "pullRequest": 21,
+  "candidate": {
+    "path": "/workspace/deadwall-cloud/extension214/xlsx174-S1/DEADWALL_CODEX_MONDE_SUIVI_1_74_S1_CANDIDAT.xlsx",
+    "bytes": 591011,
+    "sha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+    "unchangedAfterPreviews": true
+  },
+  "baseline": {
+    "path": "/workspace/deadwall-cloud/extension214/baseline173/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+    "sha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e"
+  },
+  "metadataSha256": "ecd77c2ba034594cfe482613c86dac9574c5ec54a3257b6ff545445de91708d2",
+  "waterReportBefore": "6e77a2ac74fb0bd14ac38dc71caf209e34f500d5cca5cacc7332aa3b1f05812c",
+  "waterReportAfter": "6e77a2ac74fb0bd14ac38dc71caf209e34f500d5cca5cacc7332aa3b1f05812c",
+  "sourceCaptureIdentical": true,
+  "nativeExitCodes": {
+    "jsonBuild": 0,
+    "export": 0,
+    "verifyBaseline": 0,
+    "verifyCompat": 0,
+    "renderExtra": 0
+  },
+  "manualPublicationCells": {
+    "B7": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+    "C7": "PR #21",
+    "D7": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/21",
+    "B13": "Nouvelle passe 1.74",
+    "D13": "Sources S1 e28f46223e73105ab2c5d83f3d50b99b58ef53e6 dans la PR #21. Préparation payée une fois, pluie active, réserve 24, transferts conservatifs via le seau natif 8 ; animations de pièces et gestes liés au travail réel. CI complète du commit final, fusion et Vercel Production restent à recevoir.",
+    "E13": "CI / fusion / Production en attente"
+  },
+  "notes": [
+    {
+      "row": 452,
+      "id": "EXT-MONDE-T045/services",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 1030 supports proposés, 1030 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Aucun établi ajouté à l’atelier entretien historique ; outillage existant seulement. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/e28f46223e73105ab2c5d83f3d50b99b58ef53e6/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 462,
+      "id": "EXT-MONDE-T046/services",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 300 supports proposés, 300 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/e28f46223e73105ab2c5d83f3d50b99b58ef53e6/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 472,
+      "id": "EXT-MONDE-T047/services",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 1130 supports proposés, 1130 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/e28f46223e73105ab2c5d83f3d50b99b58ef53e6/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    },
+    {
+      "row": 482,
+      "id": "EXT-MONDE-T048/services",
+      "status": "En cours",
+      "owner": "Production Codex",
+      "progress": "Livrable explicite, tests positifs et négatifs ; aucune validation déduite de la seule présence de la fiche.\nAvancement et limites : 445 supports proposés, 445 poses de travail acceptées sur 50 modèles ; transactions et parcours complets ont leurs preuves distinctes, eau potable, assainissement et réseau électrique non raccordés. Récupération de pluie214 : 157 tonneaux physiques et 157 poses de travail contrôlés sur 50 modèles ; transactions natives et UI qualifiées séparément. Preuve de supports : docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md.",
+      "evidence": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/e28f46223e73105ab2c5d83f3d50b99b58ef53e6/docs/codex/suivi-monde2026/SERVICES_G11_2026.md"
+    }
+  ],
+  "onlyChangedAcceptanceRows": [
+    452,
+    462,
+    472,
+    482
+  ],
+  "allTaskStatusesAndOwnersPreserved": true,
+  "service208TransactionsCellE213": 0,
+  "sheets": 15,
+  "formulas": 1181,
+  "allFormulaMapsIdenticalToBaseline": true,
+  "styleVerification": {
+    "checkedHistoricalStyleCells": 106477,
+    "authorCellsWithWrapStyleChanges": 0,
+    "derivedResizedFooterCellsExcluded": 0,
+    "authorCellsWithEquivalentExplicitDefaults": 0,
+    "equivalentExplicitDefaultsBySheet": {
+      "Extension typologies": 0,
+      "Variantes à concevoir": 0
+    },
+    "inheritedStylesPreserved": true
+  },
+  "metadataReconciled": true,
+  "taskCounts": {
+    "En cours": 413,
+    "À faire": 384,
+    "Validé": 3
+  },
+  "playableVariants": 0,
+  "renderManifest": [
+    {
+      "file": "preuves/accueil-limites174.png",
+      "bytes": 71303,
+      "sha256": "aa24ce2fe0b72b9a651b320861fd7b57a1348f02cfc9a52e8c387725c5e8cd46",
+      "width": 1720,
+      "height": 404
+    },
+    {
+      "file": "preuves/accueil.png",
+      "bytes": 189871,
+      "sha256": "f600faa755d3183d04f916523c147342731f26b1ffaa5b57696d75680ae25c9a",
+      "width": 1720,
+      "height": 1188
+    },
+    {
+      "file": "preuves/avancement.png",
+      "bytes": 132693,
+      "sha256": "3216dfca9e44f9d48616bf54d3191b82689b56aa3a9935af32f154c6da9ea27f",
+      "width": 2670,
+      "height": 753
+    },
+    {
+      "file": "preuves/campagne-g11.png",
+      "bytes": 328422,
+      "sha256": "586171bb1155390bbe1ddc9d49f3e7c8d282e1046b1a19a079f841116d0295c8",
+      "width": 2820,
+      "height": 977
+    },
+    {
+      "file": "preuves/chantiers-T045-format-original174.png",
+      "bytes": 256655,
+      "sha256": "3e2a955238d16c90305e297ba27f5877efe983c0f34c77b184b2866201be4304",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T045-lecture-depliee174.png",
+      "bytes": 349489,
+      "sha256": "0adf0f1f38f23cce2a936287405b2a042e6127dd73c9fe722d3399ef555f7f93",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T046-format-original174.png",
+      "bytes": 256603,
+      "sha256": "ef2e0aa92e46bafcc5bb05d682ad06aec93b38b22c794e27caf3103a3a46aa0c",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T046-lecture-depliee174.png",
+      "bytes": 340191,
+      "sha256": "61dc9360797ef377a75fe1fe70b470941a769643cfab77d7c694ea192eb4da53",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T047-format-original174.png",
+      "bytes": 255633,
+      "sha256": "fcc78725318124dc5b21b0f2772c3cf510cb7a1053047f6c9fdcae887734083c",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T047-lecture-depliee174.png",
+      "bytes": 339512,
+      "sha256": "83ca63d10ed0a7a53830bb53c185ea0b6fc68689b7c1280c8d08a44f17ef1dc8",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers-T048-format-original174.png",
+      "bytes": 256273,
+      "sha256": "ab745513ecdc4d9b6adbf8adfe05a7221ea0204a8eb0567de1f6e2400f28bc00",
+      "width": 3420,
+      "height": 296
+    },
+    {
+      "file": "preuves/chantiers-T048-lecture-depliee174.png",
+      "bytes": 340585,
+      "sha256": "815671fc70de311eba9c15c5c538311e03ec1178f4ea8f63f63446c0d7bfecfb",
+      "width": 3870,
+      "height": 1040
+    },
+    {
+      "file": "preuves/chantiers.png",
+      "bytes": 193480,
+      "sha256": "7b04489c88db6db8b11fe65e482da1b738034056a5009edb9d2fbdee7cf66321",
+      "width": 3420,
+      "height": 220
+    },
+    {
+      "file": "preuves/inspection.png",
+      "bytes": 745107,
+      "sha256": "bc7f3d978b20561bf8ee7e5cf4dd1f9905482320319ddf2f03f2b73610a0185b",
+      "width": 2330,
+      "height": 4239
+    },
+    {
+      "file": "preuves/publication.png",
+      "bytes": 203746,
+      "sha256": "05e44c0e9a57c726f20f9d073219f353addb522a24b90ee602914ee88217b49d",
+      "width": 1690,
+      "height": 928
+    },
+    {
+      "file": "preuves/publication174.png",
+      "bytes": 203746,
+      "sha256": "05e44c0e9a57c726f20f9d073219f353addb522a24b90ee602914ee88217b49d",
+      "width": 1690,
+      "height": 928
+    },
+    {
+      "file": "preuves/services-g11-totaux174.png",
+      "bytes": 382251,
+      "sha256": "dc85dd9da5912849b23fee7b3b28ed7392c2c9e90c74768576a50d7e3daba449",
+      "width": 3690,
+      "height": 1177
+    },
+    {
+      "file": "preuves/services-g11.png",
+      "bytes": 379836,
+      "sha256": "0d90aeecca5d7234e6adcdb67c25aeb88109e48b3226ac4000746f51a7709ec5",
+      "width": 3690,
+      "height": 977
+    },
+    {
+      "file": "preuves/typologies-agricoles.png",
+      "bytes": 418920,
+      "sha256": "760cbc3ba696d590819b83054170f77d6f3fb0faff84b98c8f2529e7c899d278",
+      "width": 3680,
+      "height": 1044
+    },
+    {
+      "file": "preuves/typologies-residentielles.png",
+      "bytes": 244902,
+      "sha256": "cfebd1ff53ca8f283bfe8647467f6ace2daa8b695a04d0293ed093439bd2bf09",
+      "width": 3680,
+      "height": 532
+    },
+    {
+      "file": "preuves/typologies.png",
+      "bytes": 410016,
+      "sha256": "4c3fadb841b4fa0b614025c139c5ea3615f52521c7a0a346e8aa2eaed797de31",
+      "width": 3680,
+      "height": 879
+    }
+  ],
+  "defaultRenders": 17,
+  "temporaryExpandedReadingViews": 4,
+  "temporaryExpandedViewsExported": false,
+  "repositoryWorkbookUnchanged": true,
+  "installationPerformed": false,
+  "gameTestsRunByThisReceipt": false,
+  "independentXmlReviewReceived": true,
+  "visualReviewScope": "Tracker agent viewed default Accueil limits and expanded T045 preview; root reviews the complete candidate previews before installation",
+  "passWithinAssignedScope": true
+}

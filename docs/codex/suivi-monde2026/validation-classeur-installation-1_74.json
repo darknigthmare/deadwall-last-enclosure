@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "pass": true,
+  "installedUtc": "2026-10-28T08:53:42.865600+00:00",
+  "sourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+  "pullRequest": 21,
+  "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
+  "previousSha256": "1be9df6dc6f6eb268ff9d41ef4a64bf72e0f8f59b3899decd29230da8a60a29e",
+  "installedSha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+  "bytes": 591011,
+  "rootExaminedRenders": [
+    "publication174.png",
+    "accueil-limites174.png",
+    "chantiers-T045-lecture-depliee174.png"
+  ],
+  "additionalAgentVisualReview": "validation-classeur-visuelle-1_74.json",
+  "scope": "Workbook installation after actual external CLI and visual reception; no global game or deployment qualification"
+}
