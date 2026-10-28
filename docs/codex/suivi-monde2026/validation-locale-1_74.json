@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "version": "1.74.0",
+  "observedUtc": "2026-10-28T08:38:23.950870+00:00",
+  "scope": "Local targeted native tests and existing explicit legacy G8 browser/PWA scenarios; no water214 UI or global CI claim",
+  "native": {
+    "tests": 69,
+    "pass": 69,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "actualExitCode": 0,
+    "runner": "node --test --test-isolation=none --test-reporter=tap (eight targeted files)",
+    "log": {
+      "file": "validation-native-ciblee-1_74.log.gz",
+      "bytes": 3890,
+      "sha256": "cbaa1559cea73a796d240a41531d7eb1a4a839b2782601af83372a242dcdee30",
+      "rawSha256": "fc735c5b284f81d2a77c58e08bc7451ce02a55c419b88c2b6d9d2b708c8d884e"
+    }
+  },
+  "browser": [
+    {
+      "surface": "browser",
+      "scope": "Real Chromium desktop, laptop and touch viewport input; menu, introduction, HUD, firing, atlas, export/import preview and save/reload/continue. Emulated mobile input does not certify physical devices, audio, performance or accessibility.",
+      "started": "2026-10-28T08:32:02.634Z",
+      "completed": "2026-10-28T08:33:37.168Z",
+      "browserVersion": "151.0.7922.173",
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1440,
+            "height": 900
+          },
+          "checks": 42,
+          "pass": true
+        },
+        {
+          "viewport": {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 47,
+          "pass": true
+        }
+      ],
+      "actualExitCode": 0,
+      "report": {
+        "file": "validation-browser-1_74.json.gz",
+        "bytes": 5879,
+        "sha256": "aa8e04a412e58a88ad90d1548aaa41c13d6cf10f31132f37394cceaeae25f7a5",
+        "rawSha256": "4c1b07ae5ac28d173fdfe4d4809f50a7ba667e9b100d6bd5ea6b6b3c00cadee2"
+      }
+    },
+    {
+      "surface": "pwa",
+      "scope": "Fresh Chromium service worker, exact shell precache, explicit on-demand warming of three optional atlases, offline reload, new G8 campaign and offline save/continue. This checks local browser offline behavior; it does not certify a production origin or physical mobile device.",
+      "started": "2026-10-28T08:33:37.175Z",
+      "completed": "2026-10-28T08:34:56.954Z",
+      "browserVersion": "151.0.7922.173",
+      "profiles": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1280,
+            "height": 900
+          },
+          "checks": 21,
+          "pass": true
+        },
+        {
+          "viewport": {
+            "name": "mobile",
+            "width": 390,
+            "height": 844,
+            "touch": true
+          },
+          "checks": 21,
+          "pass": true
+        }
+      ],
+      "actualExitCode": 0,
+      "report": {
+        "file": "validation-pwa-1_74.json.gz",
+        "bytes": 5839,
+        "sha256": "d39a774e6be18e556e3cc0dae669bcd6115dc9d81800c7aaa01e4b89b10505df",
+        "rawSha256": "0f33920b00ffb8597f2c68f81947d65a67e630c1b3f52011f14bffffc44af460"
+      }
+    }
+  ],
+  "sourceBoundary": {
+    "report": "campagne214-eau.json",
+    "reportSha256": "6e77a2ac74fb0bd14ac38dc71caf209e34f500d5cca5cacc7332aa3b1f05812c",
+    "publicRuntimeIncluded": true,
+    "testsAlsoInNativeCommand": [
+      "tests/campaign-water-supports214.test.cjs",
+      "tests/campaign-water214.test.cjs",
+      "tests/campaign-water214-art.test.cjs",
+      "tests/hero-water214.test.cjs",
+      "tests/audit-campaign-water214.test.cjs",
+      "tests/codex-campaign-water-progress214.test.cjs",
+      "tests/content-codex193.test.cjs",
+      "tests/audit183-manifest.test.cjs"
+    ]
+  }
+}

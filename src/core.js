@@ -3483,3 +3483,16 @@ siegeBrake193:Object.freeze({name:'Frein à chaîne de siège',seconds:32,cost:O
   medicalTypes:['EXT-MONDE-T047']
  });
 })(globalThis);
+
+/* Rain collectors feed the existing service bucket, never a second inventory. */
+(function(root){
+ 'use strict';
+ const freeze=value=>{for(const child of Object.values(value))if(child&&typeof child==='object')freeze(child);return Object.freeze(value);};
+ root.DeadwallCore.CampaignWater214Rules=freeze({
+  generation:11,actorRadius:.32,reach:2.2,approachClearance:.1,
+  nearbyRadius:35,maxSites:4,maxActions:8,planCache:32,maxCollectors:64,
+  capacity:24,rainPerSecond:.06,maxStep:.25,moveTolerance:.12,danger:12,
+  prepare:{seconds:12,cost:{wood:4,scrap:4}},
+  draw:{seconds:4,portion:2},pour:{seconds:4,portion:2}
+ });
+})(globalThis);

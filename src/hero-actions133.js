@@ -5,10 +5,11 @@
  const CONTEXT_WORK160=Object.freeze({restoreAccess:'build',pumpBasin:'handle',switchTrack:'pry',medicalCare:'dressing'}),EPSILON160=1e-8;
  const SUPPORT_WORK208=Object.freeze({meal:'handle',restSheltered:'dressing',service:'handle'});
  const SUPPORT_KINDS208=Object.freeze({meal:Object.freeze(['oven']),restSheltered:Object.freeze(['singleBunk']),service:Object.freeze(['workbench','toolbox'])});
+ const WATER_WORK214=Object.freeze({prepare:'build',draw:'handle',pour:'handle'});
  function resourceAction(type,scenery=false){return scenery?'pry':type==='wood'?'chop':type==='stone'?'pick':['scrap','fuel'].includes(type)?'pry':'handle';}
  function install(g){
   if(g.heroActions133)return g.heroActions133;
-  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false,contextSample160=null,supportSample208=null;
+  let action=null,serial=0,insidePlayer=false,insideUpdate=false,interactionStep=0,fireSerial=finite(g.stats?.shots),firing=false,contextSample160=null,supportSample208=null,waterSample214=null;
   const wrap=(name,fn)=>{const old=g[name];if(typeof old==='function')g[name]=function(...args){return fn(old.bind(this),...args);};};
   const running=()=>g.state==='playing'&&!g.paused&&!g.gameOver&&!g.activeOverlay&&g.player&&!g.player.dead&&g.player.health>0;
   const armed=()=>{
@@ -19,7 +20,7 @@
   function position(){const f=g.frontier?.position?.(),regional=!!f?.active,p=g.player||{};return{world:g.world,player:p,regional,x:regional?f.x*32:p.x,y:regional?f.y*32:p.y,z:regional?f.z:0,inside:regional?f.inside:null,driving:regional?!!f.car?.driving:!!g.expeditions?.driving?.()};}
   const same=(a,b)=>a&&b&&a.world===b.world&&a.player===b.player&&a.regional===b.regional&&a.z===b.z&&a.inside===b.inside&&Math.hypot(a.x-b.x,a.y-b.y)<.12;
   function reset(){action=null;serial++;}
-  function resetAll(){contextSample160=null;supportSample208=null;reset();}
+  function resetAll(){contextSample160=null;supportSample208=null;waterSample214=null;reset();}
   function record(kind,dt,{x,y}={},oneShot=false,fallbackFacing){
    const p=position();if(!running()||armed()||p.driving||!Number.isFinite(dt)||dt<=0){reset();return false;}
    const continuous=action?.kind===kind&&same(action.position,p)&&action.oneShot===oneShot;
@@ -78,11 +79,37 @@
    if(!record(SUPPORT_WORK208[current.view.action],dt,{x:target.x*32,y:target.y*32},false,current.facing))return false;
    action.elapsed=current.view.elapsed;action.support208=current;supportSample208=current;return true;
   }
+  function waterState214(){
+   const owner=g.campaignWater214;if(!owner?.busy?.())return null;
+   const view=owner.activity?.(),f=g.frontier?.position?.(),identity=typeof view?.supportId==='string'?/^(P\d{4}):205:static:(0|[1-9]\d*)$/.exec(view.supportId):null;
+   if(!view||!Object.hasOwn(WATER_WORK214,view.kind)||view.supportKind!=='rain-barrel'||!/^P\d{4}$/.test(view.siteId||'')||
+    !identity||identity[1]!==view.siteId||
+    !Number.isFinite(view.elapsed)||view.elapsed<=0||!Number.isFinite(view.start)||!Number.isFinite(view.duration)||view.duration<=0||view.elapsed>view.duration+EPSILON160||
+    !Number.isFinite(view.progress)||Math.abs(view.progress-Math.min(1,view.elapsed/view.duration))>EPSILON160||
+    view.kind!=='prepare'&&(!Number.isFinite(view.amount)||view.amount<=0)||
+    ![view.anchor,view.workTarget].every(p=>p&&['x','y','z'].every(k=>Number.isFinite(p[k]))&&p.z===0)||
+    !f?.active||f.generation!==11||f.car?.driving||f.z!==0)return null;
+   return{owner,view,world:g.world,player:g.player,facing:Number.isFinite(f.a)?f.a:finite(g.player.facing)};
+  }
+  const sameWater214=(a,b)=>!!a&&!!b&&a.owner===b.owner&&a.world===b.world&&a.player===b.player&&
+   a.view.siteId===b.view.siteId&&a.view.supportId===b.view.supportId&&a.view.kind===b.view.kind&&a.view.start===b.view.start&&a.view.duration===b.view.duration&&
+   ['anchor','workTarget'].every(point=>['x','y','z'].every(k=>a.view[point][k]===b.view[point][k]));
+  function observeWaterWork214(dt){
+   const current=waterState214(),maxStep=root.DeadwallCore?.CampaignWater214Rules?.maxStep??root.DeadwallCore?.ContextRules160?.maxStep??.25;
+   if(!current)return false;
+   if(!running()||!Number.isFinite(dt)||dt<=0||dt>maxStep+EPSILON160)return false;
+   const advance=current.view.elapsed-(sameWater214(waterSample214,current)?waterSample214.view.elapsed:0);
+   if(advance<=EPSILON160||Math.abs(advance-dt)>EPSILON160)return false;
+   const target=current.view.workTarget;
+   if(!record(WATER_WORK214[current.view.kind],dt,{x:target.x*32,y:target.y*32},false,current.facing))return false;
+   action.elapsed=current.view.elapsed;action.water214=current;waterSample214=current;return true;
+  }
   function pose(){
    if(!action)return null;const p=position();
    if(g.state!=='playing'||g.gameOver||g.player.dead||g.player.health<=0||p.driving||armed()||!same(action.position,p)){reset();return null;}
    if(action.context160){const current=contextState160();if(!sameContext160(action.context160,current)||Math.abs(current.view.elapsed-action.context160.view.elapsed)>EPSILON160){if(!current)contextSample160=null;reset();return null;}}
    if(action.support208){const current=supportState208();if(!sameSupport208(action.support208,current)||Math.abs(current.view.elapsed-action.support208.view.elapsed)>EPSILON160){reset();return null;}}
+   if(action.water214){const current=waterState214();if(!sameWater214(action.water214,current)||Math.abs(current.view.elapsed-action.water214.view.elapsed)>EPSILON160){reset();return null;}}
    const posture=p.regional?g.worldEvolution?.posture?.().key:g.player.posture;
    // The action sheets contain planted feet. A prone/crouching character retains
    // the matching native posture instead of snapping upright to swing a tool.
@@ -136,6 +163,7 @@
    // progress may call observeContextWork160 and select a work pose.
    contextSample160=contextState160();
    supportSample208=supportState208();
+   waterSample214=waterState214();
    insideUpdate=true;let result;try{result=old(dt);}finally{insideUpdate=false;}
    if(!active||!running()||!Number.isFinite(dt)||dt<=0)return result;
    if(!same(p,position())||armed()){reset();return result;}
@@ -146,7 +174,7 @@
    return result;
   });
   for(const name of ['startNew','restoreSave','returnToMenu'])wrap(name,(old,...a)=>{const r=old(...a);if(r!==false){resetAll();fireSerial=finite(g.stats?.shots);firing=false;}return r;});
-  g.heroActions133=Object.freeze({pose,reset:resetAll,observeContextWork160,observeSupportWork208});return g.heroActions133;
+  g.heroActions133=Object.freeze({pose,reset:resetAll,observeContextWork160,observeSupportWork208,observeWaterWork214});return g.heroActions133;
  }
  const api=Object.freeze({install,resourceAction});root.DeadwallHeroActions133=api;if(typeof module==='object'&&module.exports)module.exports=api;
  if(root.DEADWALL&&root.document)install(root.DEADWALL);

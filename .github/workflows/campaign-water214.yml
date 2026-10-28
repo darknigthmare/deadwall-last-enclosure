@@ -1,0 +1,52 @@
+name: DEADWALL G11 rain collectors 214
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: campaign-water214-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  rain-collectors:
+    name: Rain collectors / physical water desktop and touch
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      DEADWALL_QA_ROOT: dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Audit real exterior supports and preserve G11 geometry
+        run: node scripts/audit-campaign-water214.cjs --output artifacts/qa/water214/supports.json
+      - uses: ./.github/actions/setup-chromium
+      - name: Physical controls, rain, shared bucket and Continue
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/qa/water214
+          node scripts/browser-water214.mjs 2>&1 | tee artifacts/qa/water214/browser.log
+      - name: Publish bounded water failure diagnostics
+        if: failure()
+        run: node scripts/ci-failure-summary.mjs --directory artifacts/qa
+      - name: Confirm generated runtime still matches the checked out source
+        if: always()
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: water214-proof-${{ github.run_attempt }}
+          path: artifacts/qa/
+          retention-days: 14
+          if-no-files-found: error

@@ -11,7 +11,8 @@
  function entries(){
   const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),F=C?.Forage193Rules,W=C?.Weather193Rules,P=C?.CampaignPackRules;
   if(!F?.species||!W?.fronts||!P?.definitions||CAMPAIGNS.some(id=>!P.definitions[id]))throw Error('Règles du guide de contenu193 absentes.');
-  const refs=[F,W,P,C.BiomeRules135,C.EcologyRules164,C.CITY_TIERS,C.RESOURCE_META];
+  const water=C.CampaignWater214Rules;
+  const refs=[F,W,P,water,C.BiomeRules135,C.EcologyRules164,C.CITY_TIERS,C.RESOURCE_META];
   if(previous&&refs.every((r,i)=>r===previous[i]))return previousEntries;
   const costs=cost=>Object.entries(cost).map(([id,n])=>number(n)+' '+C.RESOURCE_META[id].label.toLowerCase()).join(' + ')||'aucun';
   const rewards=reward=>Object.entries(reward).map(([id,n])=>number(n)+' '+({insight:'point(s) d’analyse',morale:'point(s) de moral',worker:'survivant accueilli'}[id]||C.RESOURCE_META[id]?.label.toLowerCase())).join(' · ');
@@ -51,6 +52,16 @@
     variants:'Les accès sont choisis parmi les lieux découverts et compatibles de cette graine. Les sites engagés restent finis ; aucune nouvelle ferme, clinique, unité ou caisse libre n’apparaît à la lecture.',
     interactions:'Âge de D-17, réserves du dépôt, fournitures du sac, découverte, trajets physiques, intégrité, logement et compte rendu. Aucune récompense passive ni mission automatique.'});
   }
+  if(water)list.push({...common,id:'water214-rain-collector',title:'Récupérateur de pluie · eau de service',
+   summary:'Remettre en service un tonneau extérieur déjà présent dans une halte G11, puis partager son eau avec le vrai seau des incendies et des abreuvoirs. Eau non potable ; aucun réseau domestique raccordé.',
+   layout:'Le tonneau conserve son emprise de 0,7 × 0,7 m et ses collisions. Réserve de '+number(water.capacity)+' unités de service, initialement vide après préparation ; aucun nouvel équipement posé par la consultation.',
+   access:'Opérations → Région → Récupérateurs de pluie. Site G11 découvert, support intact, approche à pied au sol à '+number(water.reach)+' m maximum, avec un passage libre et les mains disponibles.',
+   supplies:'Préparation : '+number(water.prepare.seconds)+' s et '+costs(water.prepare.cost)+' du sac, payés une seule fois à la fin. Puisage ou versement : '+number(water.draw.seconds)+' s, jusqu’à '+number(water.draw.portion)+' unités par transfert, selon la réserve et la place réelle du seau ou du tonneau.',
+   risks:'La pluie effectivement simulée alimente seulement les collecteurs préparés et exposés, à '+number(water.rainPerSecond)+' unité par seconde à pleine pluie, sans dépasser la capacité. Temps sec, toit, destruction ou pause empêchent la collecte ; aucune pluie rétroactive au chargement.',
+   night:'Temps et menaces continuent pendant les travaux. Déplacement, blessure, tir, rechargement ou perte du support interrompent l’intervention. Une sauvegarde conserve seulement les réserves achevées, jamais une tâche inachevée.',
+   variants:'Les tonneaux physiques gardent leur variante et leur identité. Crépine, couvercle, robinet et jauge reflètent la préparation, la réserve et le travail effectif, sans modifier leur gabarit.',
+   interactions:'Même seau persistant que les incendies et les animaux, capacité et perte au décès gérées par son propriétaire. Le transfert débite exactement sa source ; aucune eau potable, nourriture ou énergie n’est créée.',
+   source:'Récupérateurs214 dérivés de DeadwallCore.CampaignWater214Rules ; g.campaignWater214 et le propriétaire du seau de siège vérifient les transactions réelles.'});
   previous=refs;previousEntries=Object.freeze(list.map(Object.freeze));return previousEntries;
  }
  return Object.freeze({entries,CAMPAIGNS});
