@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "scope": "Portable local mobile reception with final native held-touch controller; not a complete final-head CI or desktop qualification",
+  "sourceBoundary": "228 public/runtime and G11 source files; unchanged in raw report before/after",
+  "harnessSha256": "a69cbe58aee84edec425fd3aa4f96d88a82e82d4023232fa036b50cd6381abdc",
+  "positive": "validation-eau-mobile-1_74.json",
+  "negativeIndex": "validation-eau-diagnostics-1_74.json",
+  "diagnosticOnly": [
+    "validation-eau-essai2-diagnostic-1_74.json.gz"
+  ],
+  "files": {
+    "validation-eau-mobile-1_74.json.gz": {
+      "sha256": "c0786ba4e68124be27f3b9b5bb4ff90ceddba956a39da7a6bc077002a8a40190",
+      "rawSha256": "0d00eef41377cdc9af8330b8f3c9ec92b32dd9303c5e2ff34d5f608372caae24"
+    },
+    "validation-eau-essai2-diagnostic-1_74.json.gz": {
+      "sha256": "5d34367fdd37508d1319c8d38c2792dd6f5939a9d887dfecb1f65a4b48162f73",
+      "rawSha256": "7186946a7ba873d92afe69c1116d915c3f039ef22b5e98f6bde608fe97c2a01e"
+    },
+    "preuves214/mobile-prepare-live-game.png": {
+      "sha256": "19180214096734b4af41f114a9fb54fdf514122c56f06a8094050d0d9a1477ac"
+    },
+    "preuves214/mobile-draw-live-game.png": {
+      "sha256": "6a630c500a00cc7b4d48dcf3fd6fc420894a4c66d00056ce6efc41ca0e025640"
+    },
+    "preuves214/mobile-pour-live-game.png": {
+      "sha256": "70ae6678e5cf2111a19970bda0b238d60b8285d87cb7ddfd68010e6b60adc7e3"
+    }
+  },
+  "rootExaminedImage": "preuves214/mobile-pour-live-game.png",
+  "scopeLimit": "Mobile emulation and declared initial fixture; no physical phone FPS or human 6–10h campaign measurement. Eight-second race does not bound final passive read and pointer-release ACK."
+}

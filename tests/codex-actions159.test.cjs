@@ -140,11 +140,14 @@ test('Guide usage filters distinguish626 G10 contracts from actual known sites w
  const waterIds=['lake','pond','pool','stream','river','sea','ocean','banks','wildlife','infected'].map(id=>'hydrology165-'+id),waterSet=new Set(waterIds);
  assert.deepEqual(Guide.entries.filter(e=>e.id.startsWith('hydrology165-')).map(e=>e.id).sort(),[...waterIds].sort());
  const mechanisms193=['runnerCable193','breachClamp193','enduranceRack193','shieldTongs193','quickCable193','siegeBrake193'];
- const additions193=new Set([...require('../src/content-codex193.js').entries().map(e=>e.id),...mechanisms193.map(id=>'city159-mechanism:'+id)]);
+ const collectorIds214=new Set(['water214-rain-collector']),content193=require('../src/content-codex193.js').entries();
+ const additions193=new Set([...content193.filter(e=>!collectorIds214.has(e.id)).map(e=>e.id),...mechanisms193.map(id=>'city159-mechanism:'+id)]);
  assert.equal(additions193.size,36);assert.equal(Guide.entries.filter(e=>additions193.has(e.id)).length,36);
- assert.equal(Guide.entries.filter(e=>!waterSet.has(e.id)&&!faunaIds.has(e.id)&&!additions193.has(e.id)&&!programmes201.has(e.id)).length,4620,'all historical Guide entries are retained');
+ assert.deepEqual(content193.filter(e=>collectorIds214.has(e.id)).map(e=>e.id),[...collectorIds214]);
+ assert.deepEqual(Guide.entries.filter(e=>collectorIds214.has(e.id)).map(e=>e.id),[...collectorIds214],'the rain collector adds exactly its explicit guide card');
+ assert.equal(Guide.entries.filter(e=>!waterSet.has(e.id)&&!faunaIds.has(e.id)&&!additions193.has(e.id)&&!collectorIds214.has(e.id)&&!programmes201.has(e.id)).length,4620,'all historical Guide entries are retained');
  assert.deepEqual(Guide.entries.filter(e=>programmes201.has(e.id)).map(e=>e.id).sort(),[...programmes201].sort());
- const {game}=fixture();assert.equal(Guide.entries.length,4620+36+waterIds.length+faunaIds.size+programmes201.size);assert.equal(Guide.query({availability:'city'},game).length,192);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
+ const {game}=fixture();assert.equal(Guide.entries.length,4620+36+collectorIds214.size+waterIds.length+faunaIds.size+programmes201.size);assert.equal(Guide.query({availability:'city'},game).length,192);assert.equal(Guide.query({availability:'unavailable'},game).length,0);assert.equal(Guide.query({availability:'supported'},game).length,4000);
  assert.deepEqual(Guide.entries.filter(e=>e.id.startsWith('biome164-')||e.id==='ecology164-coherence').map(e=>e.id).sort(),['biome164-alluvialTerrace','biome164-agriculturalPlateau','biome164-sandyPine','biome164-peatland','ecology164-coherence'].sort());
  assert.deepEqual(Guide.query({availability:'context160'},game).map(e=>e.id.replace('programme-','')),X.ids);
  assert.deepEqual(Guide.query({availability:'known'},game).map(e=>e.id),['programme-DW-3001']);assert.equal(Guide.query({availability:'known',text:'DW-3002'},game).length,0);

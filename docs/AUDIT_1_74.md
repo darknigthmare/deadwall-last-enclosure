@@ -29,6 +29,10 @@ La régression Chromium existante passe 42 contrôles sur ordinateur et 47 en ta
 
 Les parcours Chromium bureau/tactile, le contrôle global, le classeur et les réceptions GitHub/Vercel doivent être lus dans les reçus de la livraison effective. Les essais diagnostiques et interrompus sont conservés séparément ; ils ne sont pas promus en qualification finale.
 
+Le contrôle global a révélé une attente historique du Guide qui incluait la nouvelle fiche du récupérateur dans un total ancien de 36. Le contrat vérifie désormais séparément les 36 fiches conservées et cette seule nouvelle fiche, tout en conservant les 4 620 autres cartes et les filtres de disponibilité. Les [20 tests du Guide corrigé](codex/suivi-monde2026/validation-guide-1_74.json) passent. Cette correction de test ne change pas les sources publiques, les cinq rapports ni le classeur.
+
+Le [parcours mobile local corrigé](codex/suivi-monde2026/validation-eau-portable-1_74.json) passe **58/58** : appui tactile natif maintenu et annulation sans paiement, puis pluie, puisage, reversement et cinq reprises exactes. Les trois [captures actives](codex/suivi-monde2026/preuves214/mobile-pour-live-game.png) et le rapport sont archivés avec leurs empreintes. Les deux premiers essais et les probes restent diagnostiques ou négatifs. Le parcours eau a également réussi sur S1 dans GitHub ; la CI de la tête finale doit requalifier les deux formats. L’attente bornée du contrôleur ne constitue pas une garantie de durée totale de l’échange CDP.
+
 ## Travail restant
 
 Les **800 tâches** conservent leurs statuts : 3 validées, 413 en cours et 384 à faire. Cette extension enrichit les quatre notes de services sans déclarer les 4 000 variantes jouables. Elle ne raccorde pas les réseaux domestiques, l’eau potable ni l’assainissement. Les plans lacustres nécessitent encore une adaptation physique spécifique avant admission au seed ; ils ne sont pas ajoutés par une simple substitution de décor.

@@ -1,0 +1,226 @@
+{
+  "schema": "deadwall-water214-local-mobile-reception-v1",
+  "createdUtc": "2026-10-28T09:13:42.101Z",
+  "classification": "PASS_LOCAL_MOBILE_ONLY",
+  "processExitCode": 0,
+  "version": "1.74.0",
+  "browserVersion": "151.0.7922.173",
+  "profile": {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "touch": true
+  },
+  "checks": {
+    "passed": 58,
+    "total": 58
+  },
+  "simulationSeconds": 103.57889999999948,
+  "startedUtc": "2026-10-28T09:04:14.250Z",
+  "completedUtc": "2026-10-28T09:12:05.442Z",
+  "evidence": {
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3/water214-2026-10-28T09_04_14_244Z/report.json",
+      "bytes": 338644,
+      "sha256": "0d00eef41377cdc9af8330b8f3c9ec92b32dd9303c5e2ff34d5f608372caae24"
+    },
+    "summary": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3/water214-2026-10-28T09_04_14_244Z/water214-summary.json",
+      "bytes": 610,
+      "sha256": "039fe16388d4ea1b4d9cf41c7fe4caae5fc20741063bc46d98601bb8586f3397"
+    },
+    "log": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3.log",
+      "bytes": 6985,
+      "sha256": "6cd674ac9e6a7dd9bb9105504a3a5000cbd657e8f4cd6d5b4f4707ebc2448124"
+    },
+    "executedHarness": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3-harness-exact.mjs",
+      "bytes": 43152,
+      "sha256": "a69cbe58aee84edec425fd3aa4f96d88a82e82d4023232fa036b50cd6381abdc"
+    },
+    "negativeAndDiagnosticIndex": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/NEGATIVE_AND_DIAGNOSTIC_INDEX214.json",
+      "bytes": 5112,
+      "sha256": "e8e1cf6d00f988e1faf9673383d81fa93c2c8a0aef5b7c9636217f9174ee300b"
+    }
+  },
+  "sourceBinding": {
+    "executedHarnessSHA256": "a69cbe58aee84edec425fd3aa4f96d88a82e82d4023232fa036b50cd6381abdc",
+    "ownerWaterSHA256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e",
+    "runtimeSourceEntries": 228,
+    "runtimeInventorySHA256": "77cbedbfcad63bb40d061e718caf98e513c0ebbe7949ade062431417ecd831f0",
+    "inventoryHashMethod": "SHA256 of UTF-8 JSON.stringify(report.sourceBefore), in its recorded path order.",
+    "beforeEqualsAfter": true,
+    "currentRuntimeEntriesRevalidated": 228,
+    "actualHTTPEntries": 213,
+    "currentSourceAndDistEntriesRevalidated": 213,
+    "servedEntryTypes": {
+      "html": 1,
+      "javascript": 186,
+      "css": 26
+    },
+    "sourceAndDistMismatchCount": 0
+  },
+  "fixture": {
+    "seed": 17117,
+    "generation": 11,
+    "siteId": "P3169",
+    "supportId": "P3169:205:static:12",
+    "inside": null,
+    "oneDeclaredInitialScene": true,
+    "protectedOwnersPreserved": true,
+    "noCollectorInitially": true,
+    "sharedBucketInitiallyEmpty": true,
+    "noInventedWeatherTimer": true,
+    "enemyNeutralisations": [],
+    "coordinateAssignmentsAfterFixture": 0
+  },
+  "nativeTouchInterruption": {
+    "actualTotalWallMilliseconds": 1041,
+    "startAcknowledgedWallMilliseconds": 295,
+    "actualMovement": 1.3516066666652478,
+    "heldKeys": [
+      "KeyD"
+    ],
+    "taskCancelled": true,
+    "noCollector": true,
+    "bag": {
+      "wood": 8,
+      "scrap": 8,
+      "stone": 0,
+      "food": 0,
+      "fuel": 0,
+      "ammo": 0,
+      "medicine": 0
+    },
+    "sourceDeadlineMilliseconds": 8000,
+    "deadlineLimitation": "The 8000 ms race covers touchStart acknowledgement and passive RAF wait. The subsequent passive held-state read and touchEnd acknowledgement are outside that race; it is not a guaranteed bound for the total wall duration. The actual completed local hold lasted 1041 ms."
+  },
+  "partialDrawAtSave": {
+    "paused": true,
+    "busy": true,
+    "kind": "draw",
+    "elapsed": 1.3166999999999969,
+    "duration": 4,
+    "bucket": 0
+  },
+  "completedNativeJobs": [
+    {
+      "kind": "prepare",
+      "payments": 1,
+      "transfers": 0,
+      "observersRestored": true,
+      "passivePersistentStateUnchanged": true
+    },
+    {
+      "kind": "draw",
+      "payments": 0,
+      "transfers": 1,
+      "observersRestored": true,
+      "passivePersistentStateUnchanged": true
+    },
+    {
+      "kind": "pour",
+      "payments": 0,
+      "transfers": 1,
+      "observersRestored": true,
+      "passivePersistentStateUnchanged": true
+    }
+  ],
+  "atomicTransfers": [
+    {
+      "kind": "draw",
+      "accepted": 2,
+      "fixedBefore": 2.5968960000000108,
+      "fixedAfter": 0.5968960000000108,
+      "bucketBefore": 0,
+      "bucketAfter": 2,
+      "checkpoint": "entry-to-native-owner-save",
+      "bagUnchanged": true,
+      "depotUnchanged": true
+    },
+    {
+      "kind": "pour",
+      "accepted": 2,
+      "fixedBefore": 1.0233122231448781,
+      "fixedAfter": 3.0233122231448784,
+      "bucketBefore": 2,
+      "bucketAfter": 0,
+      "checkpoint": "entry-to-native-owner-save",
+      "bagUnchanged": true,
+      "depotUnchanged": true
+    }
+  ],
+  "exactSaveMenuContinueRecoveries": 5,
+  "final": {
+    "bucket": 0,
+    "water": {
+      "version": 1,
+      "collectors": [
+        {
+          "siteId": "P3169",
+          "supportId": "P3169:205:static:12",
+          "water": 3.1766946386571555
+        }
+      ]
+    },
+    "carry": {
+      "wood": 4,
+      "scrap": 4,
+      "stone": 0,
+      "food": 0,
+      "fuel": 0,
+      "ammo": 0,
+      "medicine": 0
+    },
+    "weather": 0.8691339221682076,
+    "weatherTarget": 0.5726685579167679
+  },
+  "errors": {
+    "page": 0,
+    "console": 0,
+    "http": 0,
+    "request": 0
+  },
+  "visualEvidence": {
+    "files": [
+      {
+        "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3/water214-2026-10-28T09_04_14_244Z/mobile-prepare-live-game.png",
+        "bytes": 192190,
+        "sha256": "19180214096734b4af41f114a9fb54fdf514122c56f06a8094050d0d9a1477ac"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3/water214-2026-10-28T09_04_14_244Z/mobile-draw-live-game.png",
+        "bytes": 200955,
+        "sha256": "6a630c500a00cc7b4d48dcf3fd6fc420894a4c66d00056ce6efc41ca0e025640"
+      },
+      {
+        "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt3/water214-2026-10-28T09_04_14_244Z/mobile-pour-live-game.png",
+        "bytes": 200962,
+        "sha256": "70ae6678e5cf2111a19970bda0b238d60b8285d87cb7ddfd68010e6b60adc7e3"
+      }
+    ],
+    "inspectedByAgent": true,
+    "observed": "All three archived mobile gameplay PNGs show the actual rainy game scene and active work progress, with no Pause screen. Owner-bound build/handle elapsed values and idle absence are separately asserted from natural renderer calls."
+  },
+  "previousDesktopReference": {
+    "classification": "PREVIOUS_LOCAL_DESKTOP_REFERENCE_NOT_FINAL_TWO_PROFILE_RECEPTION",
+    "report": {
+      "path": "/workspace/deadwall-cloud/extension214/browser-water/attempt2/water214-2026-10-28T08_42_12_196Z/report.json",
+      "bytes": 435149,
+      "sha256": "7186946a7ba873d92afe69c1116d915c3f039ef22b5e98f6bde608fe97c2a01e"
+    },
+    "profilePass": true,
+    "checks": 58,
+    "executedHarnessSHA256": "2ee6f12e2801cf1ec0640fa8ec5c229699074d4d9dd4353dc73e2d0ef1c1ea2a",
+    "keyboardPathUnchangedInFinalHarness": true
+  },
+  "limits": [
+    "This new local run selects only emulated mobile. The final CI must still run both profiles against its exact final commit; no final two-profile CI result is asserted by this receipt.",
+    "One initial prepared G11 site and real exposed barrel are exercised. This is automated browser QA, not a physical phone, human playtest, FPS qualification or 6–10 hour campaign test.",
+    "The native owner tests separately cover full 24-unit reservoir and 8-unit shared-bucket saturation. This browser journey verifies empty/duplicate/outside/hands refusals and real 2-unit draw/pour, without accelerating weather or time.",
+    "The inherited generic harness base URL retains author query metadata, but the actual tested navigation removes both tools and fixture parameters and explicitly checks an ordinary empty query.",
+    "No Git operation, publication, remote message or deployment was performed by this reception."
+  ]
+}
