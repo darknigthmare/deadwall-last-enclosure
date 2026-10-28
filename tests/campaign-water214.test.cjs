@@ -149,3 +149,30 @@ test('214 actual seeded G11 reservoir validates on its exact source, shares the 
  for(const alter of [d=>d.frontier.seen=[],d=>d.frontier.generation=10,d=>d.worldSeed=0,d=>d.frontier.detailVersion=String(d.frontier.detailVersion),d=>d.frontier.ecologyVersion=true,d=>d.frontier.hydrologyVersion=String(d.frontier.hydrologyVersion),d=>d.frontier.landscape189=null,d=>d.expansions127.modules.water214.collectors[0].supportId=site.id+':205:static:99999']){const value=copy(finished);alter(value);assert.throws(()=>Water.validate(value.expansions127.modules.water214,value));}
  g.player.dead=true;g.siege.playerDown();assert.equal(g.siege.carriedWater199(),0);assert.deepEqual(api.snapshot(),finished.expansions127.modules.water214,'Death empties only the existing carried bucket, not fixed collector stocks');
 });
+
+test('214 the native Region button keeps the weather dossier first while the collector tab remains reachable without changing the campaign',async()=>{
+ const {g,doc}=require('../scripts/qa-startup134.cjs').bootDocument134({search:'?tools=1&fixture=legacy'});
+ await new Promise(resolve=>setTimeout(resolve,0));g.startNew('standard','193167');g.campaignIntro132.skip();
+ assert.equal(g.playerMenus194.mode,'author');
+ for(const id of ['weather193','water214'])assert.ok(g.expansions.get(id),'Both actual regional owners are installed: '+id);
+ assert.ok(g.weather193);assert.ok(g.campaignWater214);
+ const material=()=>{const {timestamp,...saved}=g.serialize();return copy(saved);};
+ const text=node=>[node.textContent,...node.children.map(text)].join(' ');
+ const button=id=>{const node=doc.body.querySelectorAll('#'+id)[0];assert.ok(node,'Actual shipped button '+id);assert.equal(node.tagName,'BUTTON');return node;};
+ const before=material(),bag=copy(g.player.carry),depot=copy(g.resources),rng=g.random.state,next=g.random.next;
+ g.random.next=()=>assert.fail('Opening regional dossiers must not consume simulation randomness');
+ try{
+  button('fieldOperations').click();assert.equal(g.expansionUI.isOpen(),true);assert.equal(g.activeOverlay,g.ui.commandModal);assert.equal(g.paused,true);
+  const region=button('expansionGroup-world');assert.equal(region.hidden,false);assert.equal(region.closest('.hidden'),null);region.click();
+  const weather=button('expansionTab-weather193'),collector=button('expansionTab-water214'),detail=doc.getElementById('expansionDetail');
+  assert.equal(region.getAttribute('aria-pressed'),'true');assert.equal(weather.getAttribute('aria-selected'),'true');assert.equal(collector.getAttribute('aria-selected'),'false');
+  assert.equal(detail.getAttribute('aria-labelledby'),weather.id);
+  for(const label of ['Pluie observée','Prochaine tendance','Éclairage découvert'])assert.ok(text(detail).includes(label),'Region opens the real weather dossier: '+label);
+  assert.deepEqual(material(),before,'Opening Operations and Region leaves the complete campaign unchanged');
+  assert.notEqual(collector.hidden,true);assert.equal(collector.closest('.hidden'),null);collector.click();
+  assert.equal(collector.getAttribute('aria-selected'),'true');assert.equal(weather.getAttribute('aria-selected'),'false');assert.equal(detail.getAttribute('aria-labelledby'),collector.id);
+  for(const label of ['Récupérateurs & eau de service','Récupérateurs aménagés','Réserve maximale','Seau partagé'])assert.ok(text(detail).includes(label),'The collector tab opens its own live dossier: '+label);
+  assert.ok(!text(detail).includes('Pluie observée'),'The weather dossier is replaced rather than left selected');
+  assert.deepEqual(g.player.carry,bag);assert.deepEqual(g.resources,depot);assert.equal(g.random.state,rng);assert.deepEqual(material(),before);
+ }finally{g.random.next=next;}
+});

@@ -1,0 +1,361 @@
+{
+  "schema": "deadwall-water214-S2-local-reception-v1",
+  "classification": "PASS_LOCAL_TWO_PROFILES_ON_FROZEN_S2_PUBLIC_BYTES",
+  "processExitCode": 0,
+  "version": "1.74.0",
+  "browserVersion": "151.0.7922.173",
+  "startedUtc": "2026-10-28T10:28:01.658Z",
+  "completedUtc": "2026-10-28T10:39:27.681Z",
+  "report": {
+    "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/report.json",
+    "bytes": 464818,
+    "sha256": "bd8cac1a1ac15baaeb5cbfe88a5ee1e7e5ccc0efd730db1d59339af6b06eca7d"
+  },
+  "summary": {
+    "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/water214-summary.json",
+    "bytes": 859,
+    "sha256": "a3d03fcc1e426b74ea50b0412006b773d00971ed89ed98a25ec462f433372c55"
+  },
+  "log": {
+    "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final.log",
+    "bytes": 14033,
+    "sha256": "0fe76aad038abc84cd55ef7f153ae7dca9edc80bb3737a58c07ac434f48d6b86"
+  },
+  "executedHarness": {
+    "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/browser-water214-executed.mjs",
+    "bytes": 43152,
+    "sha256": "a69cbe58aee84edec425fd3aa4f96d88a82e82d4023232fa036b50cd6381abdc"
+  },
+  "runtimeSources": {
+    "entries": 228,
+    "beforeEqualsAfter": true,
+    "currentEntriesRevalidated": 228,
+    "inventorySHA256": "fd91689c1e4b656519358e89e32e045ca49c98aad27d6e446c2f5b0d0971e2ed",
+    "inventoryHashMethod": "SHA256 of UTF-8 JSON.stringify(report.sourceBefore) in recorded order; this runtime boundary does not claim all repository documents/tests are frozen."
+  },
+  "publicBuild": {
+    "files": 370,
+    "payloadFingerprint": "216eab28b4f24782992f384c969ad6ec1b8b8b83ccaa2044321e2fa84a5a9fcf",
+    "earlySnapshot": {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/PUBLIC_SNAPSHOT_START214.json",
+      "bytes": 60728,
+      "sha256": "6cf96a377f969ecebbd7e924d6c46a7b9b758dafd4c6b035d62a43fcf85e9c35"
+    },
+    "finalSnapshot": {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/PUBLIC_SNAPSHOT_END214.json",
+      "bytes": 60809,
+      "sha256": "2efbc912db7f86c7cafe2979176124cd92e086603fabb35a24215de60fe5773e"
+    },
+    "all370SourceAndDistFilesExactAndStable": true,
+    "expansionUI": {
+      "path": "src/expansion-ui.js",
+      "bytes": 24864,
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
+    },
+    "worker": {
+      "cache": "deadwall-v1.74.0-recupere-eau-de-pluie-216eab28b4f24782992f384c",
+      "templateSHA256": "1a531f925ee1e21ad59541ba8336218af20563e2140ba21c2b21645b2fed3d91",
+      "stampedSHA256": "c96938120eb952a17d9a7829f6d30cccc220363584b174c6d82e8c4c48c404d4",
+      "distSHA256": "c96938120eb952a17d9a7829f6d30cccc220363584b174c6d82e8c4c48c404d4"
+    },
+    "actualLocalHTTPWorker": {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/LOCAL_HTTP_SW_S2.json",
+      "bytes": 665,
+      "sha256": "316a17dd23792febe7e2b9c74dd685644dd582ab0c51e8930e1d743d28b354a2"
+    }
+  },
+  "profiles": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900
+      },
+      "pass": true,
+      "checks": {
+        "passed": 58,
+        "total": 58
+      },
+      "simulatedSeconds": 86.48170000001154,
+      "actualHTTPEntryChecks": 213,
+      "exactSaveMenuContinueRecoveries": 5,
+      "abandonedDraw": {
+        "paused": true,
+        "busy": true,
+        "elapsed": 1.1333999999999944,
+        "duration": 4,
+        "bucket": 0
+      },
+      "jobs": [
+        {
+          "kind": "prepare",
+          "payments": 1,
+          "transfers": [],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        },
+        {
+          "kind": "draw",
+          "payments": 0,
+          "transfers": [
+            {
+              "accepted": 2,
+              "fixedBefore": 2.5336720000007245,
+              "fixedAfter": 0.5336720000007245,
+              "bucketBefore": 0,
+              "bucketAfter": 2,
+              "bagUnchanged": true,
+              "depotUnchanged": true
+            }
+          ],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        },
+        {
+          "kind": "pour",
+          "payments": 0,
+          "transfers": [
+            {
+              "accepted": 2,
+              "fixedBefore": 0.9091520000007206,
+              "fixedAfter": 2.9091520000007205,
+              "bucketBefore": 2,
+              "bucketAfter": 0,
+              "bagUnchanged": true,
+              "depotUnchanged": true
+            }
+          ],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        }
+      ],
+      "nativeInputEvents": 50,
+      "coordinateAssignmentsAfterFixture": 0,
+      "final": {
+        "water": {
+          "version": 1,
+          "collectors": [
+            {
+              "siteId": "P3169",
+              "supportId": "P3169:205:static:12",
+              "water": 3.027148000000721
+            }
+          ]
+        },
+        "bucket": 0,
+        "carry": {
+          "wood": 4,
+          "scrap": 4,
+          "stone": 0,
+          "food": 0,
+          "fuel": 0,
+          "ammo": 0,
+          "medicine": 0
+        },
+        "weather": 1,
+        "weatherTarget": 1
+      },
+      "errors": {
+        "page": 0,
+        "console": 0,
+        "http": 0,
+        "request": 0
+      },
+      "screenshots": [
+        "desktop-prepare-live-game.png",
+        "desktop-draw-live-game.png",
+        "desktop-pour-live-game.png"
+      ]
+    },
+    {
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844,
+        "touch": true
+      },
+      "pass": true,
+      "checks": {
+        "passed": 59,
+        "total": 59
+      },
+      "simulatedSeconds": 83.11349999999914,
+      "actualHTTPEntryChecks": 213,
+      "exactSaveMenuContinueRecoveries": 5,
+      "abandonedDraw": {
+        "paused": true,
+        "busy": true,
+        "elapsed": 0.7000000000000001,
+        "duration": 4,
+        "bucket": 0
+      },
+      "jobs": [
+        {
+          "kind": "prepare",
+          "payments": 1,
+          "transfers": [],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        },
+        {
+          "kind": "draw",
+          "payments": 0,
+          "transfers": [
+            {
+              "accepted": 2,
+              "fixedBefore": 2.457936000000008,
+              "fixedAfter": 0.4579360000000081,
+              "bucketBefore": 0,
+              "bucketAfter": 2,
+              "bagUnchanged": true,
+              "depotUnchanged": true
+            }
+          ],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        },
+        {
+          "kind": "pour",
+          "payments": 0,
+          "transfers": [
+            {
+              "accepted": 2,
+              "fixedBefore": 0.7969180000000049,
+              "fixedAfter": 2.796918000000005,
+              "bucketBefore": 2,
+              "bucketAfter": 0,
+              "bagUnchanged": true,
+              "depotUnchanged": true
+            }
+          ],
+          "observersRestored": true,
+          "persistentStateUnchanged": true
+        }
+      ],
+      "nativeInputEvents": 14,
+      "coordinateAssignmentsAfterFixture": 0,
+      "nativeHeldInterruption": [
+        {
+          "actualTotalWallMilliseconds": 738,
+          "startAcknowledgedWallMilliseconds": 204,
+          "moved": 0.9754360000006272,
+          "heldKeys": [
+            "KeyD"
+          ],
+          "taskCancelled": true,
+          "noCollector": true,
+          "bag": {
+            "wood": 8,
+            "scrap": 8,
+            "stone": 0,
+            "food": 0,
+            "fuel": 0,
+            "ammo": 0,
+            "medicine": 0
+          }
+        }
+      ],
+      "final": {
+        "water": {
+          "version": 1,
+          "collectors": [
+            {
+              "siteId": "P3169",
+              "supportId": "P3169:205:static:12",
+              "water": 2.9079060000000077
+            }
+          ]
+        },
+        "bucket": 0,
+        "carry": {
+          "wood": 4,
+          "scrap": 4,
+          "stone": 0,
+          "food": 0,
+          "fuel": 0,
+          "ammo": 0,
+          "medicine": 0
+        },
+        "weather": 1,
+        "weatherTarget": 1
+      },
+      "errors": {
+        "page": 0,
+        "console": 0,
+        "http": 0,
+        "request": 0
+      },
+      "screenshots": [
+        "mobile-prepare-live-game.png",
+        "mobile-draw-live-game.png",
+        "mobile-pour-live-game.png"
+      ]
+    }
+  ],
+  "checks": {
+    "passed": 117,
+    "total": 117
+  },
+  "fixture": {
+    "seed": 17117,
+    "generation": 11,
+    "siteId": "P3169",
+    "supportId": "P3169:205:static:12",
+    "inside": null,
+    "oneDeclaredInitialScenePerProfile": true,
+    "protectedOwnersPreserved": true,
+    "initialFiniteBag": {
+      "wood": 8,
+      "scrap": 8
+    },
+    "initialCollectorAndBucketEmpty": true,
+    "noInventedWeatherTimer": true,
+    "enemyNeutralisations": 0,
+    "modelAssignmentsAfterFixture": 0
+  },
+  "visualReview": {
+    "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/VISUAL_REVIEW_S2_214.json",
+    "bytes": 1387,
+    "sha256": "da22e19a9d972a60ef0e6ab565f4a5a74107f76a59cc1e1b82eb72a6de25a6b7"
+  },
+  "images": [
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/desktop-prepare-live-game.png",
+      "bytes": 507752,
+      "sha256": "70ea869679bda588476756c466eea723ac028937a70a05c227ea68731be378f3"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/desktop-draw-live-game.png",
+      "bytes": 558025,
+      "sha256": "b8070ec43dc85760b3a3e7019b755a7806b06e68848ff62629db2dd735f2bae5"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/desktop-pour-live-game.png",
+      "bytes": 557919,
+      "sha256": "9b63378afab7ced3e19e55ccf1ab3dddd1a539b8081a59780937e9207a215b62"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/mobile-prepare-live-game.png",
+      "bytes": 192972,
+      "sha256": "ab9272a5bca9358d434986f3eda0f1da390e81d810aae306bb0130f886206ae8"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/mobile-draw-live-game.png",
+      "bytes": 200186,
+      "sha256": "0df8df884fd544bcd77487e8e70c57607b388e4964fd07690ba6911800bd1882"
+    },
+    {
+      "file": "/workspace/deadwall-cloud/extension214/browser-water/S2-final/water214-2026-10-28T10_28_01_650Z/mobile-pour-live-game.png",
+      "bytes": 200511,
+      "sha256": "1851153c7ac34afed6ef0bea4c9363d52934c1347a01a5414c162d8c9f88d42a"
+    }
+  ],
+  "limits": [
+    "Prepared automated G11 journey on one actual exposed barrel; not a physical device, human 6–10 hour campaign or FPS qualification.",
+    "The 8-second race bounds touchStart acknowledgement and passive RAF wait, not the subsequent held-state read or touchEnd acknowledgement. Actual full hold duration is recorded above.",
+    "The browser checks real 2-unit draw/pour and empty/duplicate/outside/hands refusals. Complete 24-unit reservoir and 8-unit bucket saturation remain separate native-test coverage.",
+    "The local SW GET proves the actual stamped worker bytes/MIME, not activation/offline behaviour or canonical Production.",
+    "These fresh S2 bytes and results do not qualify the historical F3 commit or a future unreceived final commit; root must bind its real S2 checkpoint and CI separately.",
+    "All previous diagnostic and failed attempts remain preserved; no repository or harness file was edited in this S2 task."
+  ]
+}

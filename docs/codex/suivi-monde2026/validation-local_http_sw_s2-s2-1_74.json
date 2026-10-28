@@ -1,0 +1,13 @@
+{
+  "schema": "deadwall-water214-S2-local-http-worker-v1",
+  "scope": "One actual GET of the unchanged S2 harness local server worker. This checks the served stamped SW bytes, not Service Worker activation, offline behaviour or canonical Production.",
+  "observedUtc": "2026-10-28T10:35:05.119Z",
+  "url": "http://127.0.0.1:46329/sw.js",
+  "status": 200,
+  "type": "text/javascript",
+  "bytes": 12194,
+  "sha256": "c96938120eb952a17d9a7829f6d30cccc220363584b174c6d82e8c4c48c404d4",
+  "expectedSHA256": "c96938120eb952a17d9a7829f6d30cccc220363584b174c6d82e8c4c48c404d4",
+  "cache": "deadwall-v1.74.0-recupere-eau-de-pluie-216eab28b4f24782992f384c",
+  "pass": true
+}

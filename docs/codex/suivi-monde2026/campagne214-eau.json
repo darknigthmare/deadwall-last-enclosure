@@ -540,7 +540,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 24864,
-      "sha256": "f8b1cf7788cc8c2e77e3b85f0aec68654a8bae2125c08136d5daa4ea0a0972d7"
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -1224,8 +1224,8 @@
     },
     {
       "path": "tests/campaign-water214.test.cjs",
-      "bytes": 18173,
-      "sha256": "2d545d92aaa962dcef3d6729ad3d345ff01e5b3f1e55f2d63c96bc7d5ec42b1b"
+      "bytes": 21091,
+      "sha256": "68705b3af9141afb3d0990a0c50825f2b25e520fc521c558ff8ed0be5c61d822"
     },
     {
       "path": "tests/codex-campaign-services-progress208.test.cjs",
@@ -1797,7 +1797,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 24864,
-      "sha256": "f8b1cf7788cc8c2e77e3b85f0aec68654a8bae2125c08136d5daa4ea0a0972d7"
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -2481,8 +2481,8 @@
     },
     {
       "path": "tests/campaign-water214.test.cjs",
-      "bytes": 18173,
-      "sha256": "2d545d92aaa962dcef3d6729ad3d345ff01e5b3f1e55f2d63c96bc7d5ec42b1b"
+      "bytes": 21091,
+      "sha256": "68705b3af9141afb3d0990a0c50825f2b25e520fc521c558ff8ed0be5c61d822"
     },
     {
       "path": "tests/codex-campaign-services-progress208.test.cjs",

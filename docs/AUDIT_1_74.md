@@ -15,7 +15,7 @@ La nouvelle sauvegarde conserve uniquement les collecteurs installés et leur r�
 
 ## Réceptions distinctes
 
-Les tests natifs ciblés passent **69/69**, sans échec, annulation, test ignoré ou TODO. Ils couvrent le propriétaire, les accès physiques, le rendu, les gestes, les lecteurs de rapports, le Guide et le manifeste public. Cette réception utilise les sous-tests réels de Node, pas le seul succès des fichiers enveloppes.
+Le lot initial de tests natifs ciblés passe **69/69**, sans échec, annulation, test ignoré ou TODO. Il couvre le propriétaire, les accès physiques, le rendu, les gestes, les lecteurs de rapports, le Guide et le manifeste public. Cette réception utilise les sous-tests réels de Node, pas le seul succès des fichiers enveloppes.
 
 L’audit de supports accepte **200 modèles et 628 tonneaux accessibles**, dont 157 dans chacune des quatre familles. Sur trois graines témoins, il contrôle **23 sites et 72 poses canoniques**. Il conserve les empreintes des plans, détails, routes et couvertures historiques. Il ne qualifie aucune transaction à lui seul : son tableau `transactions` reste vide.
 
@@ -34,6 +34,14 @@ Le contrôle global a révélé une attente historique du Guide qui incluait la 
 La même séparation est explicite dans les contrôles de routes et du navigateur : les 30 fiches de contenu historiques restent intactes, puis l’unique fiche du récupérateur complète le total de 4 755 cartes. Les [13 tests de routes et 80 contrôles Chromium](codex/suivi-monde2026/validation-inventaires-guide-1_74.json) passent, avec les recherches, filtres, accès aux catalogues et navigations existants conservés.
 
 La [commande native exacte du workflow de chasse et pêche](codex/suivi-monde2026/validation-harvest-exact-1_74.json) est ensuite reçue : **100/100**, sans échec, annulation, test ignoré ou TODO. Elle inclut les deux contrats du Guide corrigés et les régressions de faune, armement, visibilité et navigation. Son résultat local ne remplace pas la nouvelle réception GitHub de la tête finale.
+
+## Réception S2 — accès régional corrigé
+
+La CI a trouvé une régression réelle : l’ajout des récupérateurs avant la météo dans le groupe Région changeait le dossier ouvert par défaut. La météo retrouve sa première place ; les récupérateurs sont accessibles juste après. Un parcours DOM vérifie les vrais boutons, les dossiers sélectionnés et l’absence de modification de sauvegarde, de ressources ou de hasard.
+
+Les [tests ciblés S2](codex/suivi-monde2026/validation-S2-1_74.json) passent **70/70**. Le groupe navigateur inchangé météo, cueillette et défenses passe **114/114**, sur deux formats par scénario. Les [quatre rapports de campagne S2](codex/suivi-monde2026/validation-rapports-S2-1_74.json) sont régénérés puis reçus strictement : résultats, géométries, mondes et pixels identiques au point précédent. Le rapport auteur reste valide sur ses 29 sources inchangées ; aucune nouvelle exécution de ses 4 000 plans n’est attribuée au correctif d’interface.
+
+Le [nouveau parcours des collecteurs S2](codex/suivi-monde2026/validation-eau-S2-1_74.json) passe **117/117** : 58 contrôles sur ordinateur et 59 en tactile émulé, avec dix reprises exactes et quatre transferts conservatifs de deux unités. Les 228 sources du parcours et les 370 fichiers publics sont identiques avant/après ; le nouveau SW est réellement servi par le serveur QA. Les [six captures fraîches](codex/suivi-monde2026/preuves214-S2/mobile-pour-live-game.png) gardent leur portée : jeu actif et placement cohérent à ce cadrage, HUD mobile dense et détails fins petits, sans certification de fluidité ou de téléphone physique.
 
 Le [parcours mobile local corrigé](codex/suivi-monde2026/validation-eau-portable-1_74.json) passe **58/58** : appui tactile natif maintenu et annulation sans paiement, puis pluie, puisage, reversement et cinq reprises exactes. Les trois [captures actives](codex/suivi-monde2026/preuves214/mobile-pour-live-game.png) et le rapport sont archivés avec leurs empreintes. Les deux premiers essais et les probes restent diagnostiques ou négatifs. Le parcours eau a également réussi sur S1 dans GitHub ; la CI de la tête finale doit requalifier les deux formats. L’attente bornée du contrôleur ne constitue pas une garantie de durée totale de l’échange CDP.
 

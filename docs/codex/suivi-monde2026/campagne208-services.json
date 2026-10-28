@@ -528,7 +528,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 24864,
-      "sha256": "f8b1cf7788cc8c2e77e3b85f0aec68654a8bae2125c08136d5daa4ea0a0972d7"
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
@@ -1755,7 +1755,7 @@
     {
       "path": "src/expansion-ui.js",
       "bytes": 24864,
-      "sha256": "f8b1cf7788cc8c2e77e3b85f0aec68654a8bae2125c08136d5daa4ea0a0972d7"
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
     },
     {
       "path": "src/expedition-art.js",
