@@ -1,6 +1,6 @@
 {
   "schemaVersion": 5,
-  "verifiedAt": "2026-10-28T08:54:30.546718+00:00",
+  "verifiedAt": "2026-10-28T11:04:58.051138+00:00",
   "repository": "darknigthmare/deadwall-last-enclosure",
   "pullRequests": [
     16,
@@ -13,9 +13,9 @@
   "currentPullRequest": 21,
   "gameVersion": "1.74.0",
   "baseCommit": "70c790cdfab3c2c8b286c70269786872d8be5217",
-  "sourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
-  "sourceCheckpoint": "S1",
-  "sourceScope": "Sources publiques et cinq rapports liés aux octets de S1 ; classeur reçu ensuite. Les réceptions de transactions, CI du commit final, fusion et Production restent distinctes.",
+  "sourceCommit": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+  "sourceCheckpoint": "S2",
+  "sourceScope": "Sources publiques et quatre rapports campagne régénérés dans S2 après restauration de l’accès météo ; rapport auteur valide sur ses 29 entrées inchangées. Classeur S2b reçu ensuite ; CI de la tête finale, fusion et Production reçues séparément.",
   "workbook": {
     "sheets": 15,
     "programmes": 4000,
@@ -92,19 +92,29 @@
     },
     "scope": "XLSX source reconciliation; does not certify gameplay",
     "metadataReconciled": true,
-    "sha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
-    "bytes": 591011,
+    "sha256": "56f2cc4f9b6934107322182f6212112800bb4a36ac96aa7a5543f119f7ae80df",
+    "bytes": 591249,
     "path": "docs/codex/suivi-monde2026/DEADWALL_CODEX_MONDE_SUIVI.xlsx",
-    "proof": "docs/codex/suivi-monde2026/validation-classeur-1_74.json",
-    "compatibilityProof": "docs/codex/suivi-monde2026/validation-classeur-compat-1_74.json",
-    "installationProof": "docs/codex/suivi-monde2026/validation-classeur-installation-1_74.json",
-    "externalReception": "docs/codex/suivi-monde2026/validation-classeur-reception-1_74.json",
+    "sourceReference": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+    "sourceCheckpoint": "S2",
+    "candidateRevision": "S2b",
+    "proof": "docs/codex/suivi-monde2026/validation-classeur-S2-1_74.json",
+    "compatibilityProof": "docs/codex/suivi-monde2026/validation-classeur-compat-S2-1_74.json",
+    "externalReception": "docs/codex/suivi-monde2026/validation-classeur-reception-S2-1_74.json",
+    "installationProof": "docs/codex/suivi-monde2026/validation-classeur-installation-S2-1_74.json",
     "metadata": "docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_74.json",
-    "sourceReference": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+    "metadataSha256": "936ffcf2c048dc196980afe38ba266391eb284d3794370f4b0c7555243afa5ab",
     "rootReviewedCurrentRenders": 3,
-    "agentReviewedCurrentRenders": 6,
-    "expandedReadViewScope": "Quatre vues dépliées en mémoire ; aucun changement de format enregistré dans le fichier livré.",
-    "publicationStateScope": "Les cellules de publication conservent le point de préparation S1 ; la réception du commit final et de Production est suivie dans la PR #21."
+    "agentReviewedCurrentRenders": 7,
+    "expandedReadViewScope": "Quatre lectures dépliées en mémoire ; aucun changement de format exporté. Les 21 PNG sont régénérés, sans prétendre que les 21 vues ont été examinées visuellement.",
+    "verificationBaseline": {
+      "commit": "610e0ae72584c243e34ec4caad9d4bdd87f0fba9",
+      "sourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+      "bytes": 591011,
+      "sha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+      "scope": "Candidat S1 conservé dans la PR, non assimilé à une livraison Production."
+    },
+    "publicationStateScope": "Les cellules de publication conservent le point de préparation S2 ; la réception du commit final est suivie dans la PR #21."
   },
   "baseline": {
     "sourceCommit": "8646f181e44eaba1170ac40f1d748022758e2b41",
@@ -153,14 +163,15 @@
     "1.71": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/11f2ace5ee3b39ea318373229d4d5378d14057db/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
     "1.70": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8288178946a189cf5857433b71b9ece8b3379689/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
     "1.72": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/8780075f305e405e5aa94e593a70d11391b16e20/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
-    "1.73": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/70c790cdfab3c2c8b286c70269786872d8be5217/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json"
+    "1.73": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/70c790cdfab3c2c8b286c70269786872d8be5217/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json",
+    "1.74-S1": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/610e0ae72584c243e34ec4caad9d4bdd87f0fba9/docs/codex/suivi-monde2026/CLASSEUR_REFERENCE.json"
   },
   "drive": {
     "folder": "1U6uAvZuUeOaMQAt0aH8qiUMo3OhfX1sm",
     "file": "1D4Agls6Q2BP1H8Oi9SRb1nOvg1Ff7p1X",
     "syncedToCurrentWorkbook": false,
     "baselineSha256": "a99fb40cbe9e809b852e0af20bced29c4828a76cdb0493c82b0615670fa0636b",
-    "state": "Original public conservé ; copie du dépôt 1.74 reçue séparément, sans synchronisation distante revendiquée."
+    "state": "Original public conservé ; copie du dépôt S2 reçue séparément, sans synchronisation distante revendiquée."
   },
   "inspection": {
     "report": "docs/codex/suivi-monde2026/inspection-20261023.json",
@@ -189,11 +200,13 @@
     "correctedRefusals": 0,
     "requestsPreserved": true,
     "newPlans": 0,
-    "scope": "Réinspection auteur1.73 :4000 enregistrements identiques à1.72. Les champs de services/loot0 décrivent cet outil auteur uniquement."
+    "scope": "Réinspection auteur1.73 :4000 enregistrements identiques à1.72. Les champs de services/loot0 décrivent cet outil auteur uniquement.",
+    "reexecutedAfterUiCorrection": false,
+    "sourcesStillValidAfterUiCorrection": true
   },
   "campaignG11": {
     "report": "docs/codex/suivi-monde2026/campagne205-eligibilite.json",
-    "reportSha256": "3b5816270d5f492e007576d69baecd1907f844770580a6db8884606032a9ca2a",
+    "reportSha256": "c88a732eee5d37dc3ba3bd0afbde4f8ca7e57aa5b608eeb61a3a6f922ef664ac",
     "proof": "docs/codex/suivi-monde2026/CAMPAGNE_G11_2026.md",
     "verifiedSources": 228,
     "sourceStableBeforeAfter": true,
@@ -261,9 +274,9 @@
   },
   "campaignServicesG11": {
     "report": "docs/codex/suivi-monde2026/campagne208-services.json",
-    "reportSha256": "015e289f91110350fa757246b3ac80782817c9c589accc490513c57dac6463bb",
+    "reportSha256": "92daf24db23eb6f250b45dbe69f83788517bdcb1fc0c4a647c454db937ec7060",
     "artReport": "docs/codex/suivi-monde2026/campagne208-art.json",
-    "artReportSha256": "93e396b48e2f58fcc8d0c3515f52e64a0e1f46a4246d2db313f869461fb89238",
+    "artReportSha256": "145fcac05fdd809014f73b819b38f92ea069d688da38a7f382e8b2c0c8f0c9d1",
     "verifiedSources": 245,
     "sourceStableBeforeAfter": true,
     "types": 4,
@@ -305,7 +318,7 @@
   },
   "campaignWaterG11": {
     "report": "docs/codex/suivi-monde2026/campagne214-eau.json",
-    "reportSha256": "6e77a2ac74fb0bd14ac38dc71caf209e34f500d5cca5cacc7332aa3b1f05812c",
+    "reportSha256": "0b035133d1f101ced3853657d5a8e07c7c01dc4005dd48bf4fe6e1be5fb8b798",
     "verifiedSources": 251,
     "sourceStableBeforeAfter": true,
     "summary": {
@@ -386,10 +399,10 @@
     "productionURL": "https://deadwall-last-enclosure.vercel.app/",
     "humanCampaignDurationMeasured": false,
     "physicalPhoneFrameRateMeasured": false,
-    "currentSourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+    "currentSourceCommit": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
     "currentRevisionFullCheckQualified": false,
-    "currentRevisionQualification": "Qualification du commit final suivie dans la PR #21 ; contrôle local complet et parcours eau reçus séparément.",
-    "targetedLocalProof": "docs/codex/suivi-monde2026/validation-locale-1_74.json",
+    "currentRevisionQualification": "Point de préparation S2 : CI du commit final, fusion et Production à recevoir sur leurs identités réelles ; aucun résultat F3 ou ciblé substitué.",
+    "targetedLocalProof": "docs/codex/suivi-monde2026/validation-S2-1_74.json",
     "previousQualifiedFullCheck": {
       "accepted": true,
       "gitHead": "70c790cdfab3c2c8b286c70269786872d8be5217",
@@ -416,9 +429,72 @@
       "runId": 40326052931,
       "checkId": 121582903787,
       "originalNativeArtifactBytesLocallyRehashed": false
-    }
+    },
+    "waterLocalProof": "docs/codex/suivi-monde2026/validation-eau-S2-1_74.json"
   },
   "sourcePublicCorrections": [
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "index.html",
+      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/campaign-water-supports214.js",
+      "sha256": "60d1804926302e0517a32452a96133959c78767bc1ad3c9003300f9a6967ec27"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/campaign-water214.js",
+      "sha256": "056ca5d191937b56ea2a0c1f525cd7980a6c0bcc645b94d53c58e9447f2ad72e"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/content-codex193.js",
+      "sha256": "9c668943d26eb924a12e408d229e67dce83674bbc800f38baa72e609716c93fe"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/coordination.js",
+      "sha256": "e22e5763a693b437bd9bb298b004ebdb934abbc01a842b18495459c174fc36b1"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/core.js",
+      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/expansion-kit.js",
+      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/expansion-ui.js",
+      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/frontier.js",
+      "sha256": "c79cc4099b781674f540f22a0e629e92c0c96a20185c010a30f584d09c687c22"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "src/hero-actions133.js",
+      "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
+    },
+    {
+      "checkpoint": "8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0",
+      "file": "sw.js",
+      "sha256": "1a531f925ee1e21ad59541ba8336218af20563e2140ba21c2b21645b2fed3d91"
+    }
+  ],
+  "previousSourcePublicCorrections": [
     {
       "checkpoint": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
       "file": "index.html",
@@ -478,9 +554,7 @@
       "checkpoint": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
       "file": "sw.js",
       "sha256": "1a531f925ee1e21ad59541ba8336218af20563e2140ba21c2b21645b2fed3d91"
-    }
-  ],
-  "previousSourcePublicCorrections": [
+    },
     {
       "checkpoint": "b57d0fa83046fa8d4da99a394866734b13428a83",
       "file": "src/campaign-services208.js",
@@ -526,6 +600,23 @@
       "checkpoint": "bf6a6ef751ca99e1261b683c586bf7ab07123c10",
       "file": "src/frontier-world.js",
       "sha256": "8a923af965848d13d9fa46efc9b1242ec09241d43204cf70c150a3dd89fc1fda"
+    }
+  ],
+  "previousIntermediate1_74Workbook": {
+    "commit": "610e0ae72584c243e34ec4caad9d4bdd87f0fba9",
+    "sourceCommit": "e28f46223e73105ab2c5d83f3d50b99b58ef53e6",
+    "bytes": 591011,
+    "sha256": "09877e77b9406ee87496200dc3b1f503d71bff9309beedbd33bf97836cedb7d1",
+    "metadata": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/610e0ae72584c243e34ec4caad9d4bdd87f0fba9/docs/codex/suivi-monde2026/METADONNEES_PUBLICATION_1_74.json",
+    "scope": "S1 historique ; ses preuves ne sont pas substituées à S2."
+  },
+  "candidateDiagnostics": [
+    {
+      "candidate": "S2a",
+      "bytes": 591301,
+      "sha256": "a381e500714c4b170ab65975c6faf23576e7f0f1ab9df8304bd79989cb324a96",
+      "installed": false,
+      "reason": "Dernière ligne E9 coupée ; texte metadata raccourci pour S2b, sans changement de styles."
     }
   ]
 }

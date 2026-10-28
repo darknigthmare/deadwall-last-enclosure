@@ -30,6 +30,10 @@ Conserver le classeur S1 et ses métadonnées avant export. Produire un candidat
 
 Les invariants restent **15 feuilles, 1 181 formules, zéro erreur et cache absent**, avec les **800 tâches : 3 validées, 413 en cours et 384 à faire**, sans promotion globale des variantes jouables. Le fichier Drive original reste historique.
 
+Le candidat **S2b est reçu et installé** : 591 249 octets, SHA-256 `56f2cc4f9b6934107322182f6212112800bb4a36ac96aa7a5543f119f7ae80df`. Les [deux lecteurs](validation-classeur-S2-1_74.json) et la vérification du fichier installé passent ; les 106 477 styles et les 1 181 formules sont conservés. Sept rendus ont été examinés par l’agent de suivi, dont les quatre lectures dépliées ; root a examiné Publication, Accueil et la note T045. Les 21 PNG ont été régénérés, sans assimiler leur génération à une revue visuelle de chaque vue.
+
+Le [reçu externe](validation-classeur-reception-S2-1_74.json) et l’[installation](validation-classeur-installation-S2-1_74.json) gardent les ancrages et empreintes exacts. Le premier export S2a reste un diagnostic visuel : la dernière ligne de E9 était coupée. S2b raccourcit ce seul texte de métadonnées, sans modifier le format du classeur. Les cellules CI et Production décrivent le point de préparation S2, pas une publication déjà reçue.
+
 La CI de la tête finale, sa fusion et Vercel Production ne sont pas déduites de ces contrôles partiels. Après fusion, recevoir le vrai commit et son arbre, reconstruire ce commit isolément, puis comparer la racine et les 370 fichiers servis avec une identité de déploiement stable avant/après. Les échecs et essais interrompus restent conservés, sans substitution de résultat entre révisions.
 
 Les scénarios préparés et le tactile émulé ne certifient ni une campagne humaine de six à dix heures ni la cadence d’un téléphone physique.

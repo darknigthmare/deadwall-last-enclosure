@@ -1,8 +1,12 @@
-# DEADWALL 1.74 — point source S2
+# DEADWALL 1.74 — météo et récupérateurs G11, point S2
 
-La météo conserve sa première place dans Région ; les récupérateurs restent accessibles juste après. Le nouveau parcours d’interface vérifie ces deux dossiers sans modification de sauvegarde, de ressources ou de hasard. Les [70 tests natifs ciblés et 114 contrôles du groupe météo/cueillette/défenses](validation-S2-1_74.json) passent. Les quatre [rapports de campagne S2](validation-rapports-S2-1_74.json) sont régénérés, avec résultats et géométries conservés.
+La [PR #21](https://github.com/darknigthmare/deadwall-last-enclosure/pull/21) rend utilisables les tonneaux extérieurs existants : préparation payée une fois, collecte réelle de pluie et transferts conservatifs via le seau partagé. Les pièces mobiles suivent le travail réel sur trois variantes. Le bouton Région conserve son accès habituel à la météo ; les récupérateurs sont disponibles juste après. L’eau reste non potable et les réseaux domestiques restent ouverts.
 
-Le [protocole S2](VALIDATION_1_74_S2.md) décrit les périmètres. Le classeur S2 est produit après le checkpoint source réel et reçu avant installation ; ses métadonnées portent cet ancrage et la PR #21. La CI finale, la fusion et Vercel Production restent des réceptions distinctes.
+Le [classeur S2](DEADWALL_CODEX_MONDE_SUIVI.xlsx) est reçu et installé : **15 feuilles, 1 181 formules**, aucune erreur ni cache absent, **106 477 styles historiques conservés**. Les **800 tâches restent à 3 validées, 413 en cours et 384 à faire**, sans promotion globale de variante jouable. Le fichier pèse **591 249 octets**, SHA-256 `56f2cc4f9b6934107322182f6212112800bb4a36ac96aa7a5543f119f7ae80df`. Le candidat visuel S2a est conservé comme diagnostic ; S2b corrige son texte coupé sans changer les styles.
+
+Les [métadonnées](METADONNEES_PUBLICATION_1_74.json), [contrôles XML](validation-classeur-S2-1_74.json), [réception externe](validation-classeur-reception-S2-1_74.json) et [installation](validation-classeur-installation-S2-1_74.json) ancrent l’export sur le vrai [checkpoint source S2](https://github.com/darknigthmare/deadwall-last-enclosure/commit/8d7151810b1ac6f24f6c3fe1d6f75e9a8b9625f0). Les cellules de publication décrivent ce point de préparation ; CI de la tête finale, fusion et Vercel Production restent suivies séparément dans la PR.
+
+Les [réceptions S2](VALIDATION_1_74_S2.md) conservent **70 sous-tests ciblés**, **114 contrôles météo/cueillette/défenses** et **117 contrôles des récupérateurs sur deux formats**. Les quatre audits de campagne régénérés gardent leurs résultats, dimensions, routes et emplacements. L’inspection auteur reste valide sur ses 29 entrées inchangées, sans nouvelle exécution attribuée au correctif d’interface. Les **628 tonneaux sur 200 modèles** et les **72 poses sur 23 sites et trois graines** ne qualifient aucune transaction à eux seuls. Le fichier Drive original reste historique, sans synchronisation distante revendiquée.
 
 ## Historique du classeur 1.74 S1
 
