@@ -1484,11 +1484,13 @@
       if(typeof game.startNew==='function'){
         const baseStart=game.startNew.bind(game);
         game.startNew=function startNew125(...args){const result=baseStart(...args);if(result===false)return result;if(this.state==='playing'){
-          this.exploration125.layoutRevision=this.world.cityGeometry202===1?4:3;
-          if(!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
+          const recipe=args[5];
+          this.exploration125.layoutRevision=recipe?.layoutRevision??(this.world.cityGeometry202===1?4:3);
+          const generation=recipe?.explorationGeneration??4;
+          if(generation===4&&!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
           // The first autosave already recorded this campaign ID. Generation now
           // lives in its explicit register; keep :g4 as a legacy read hint only.
-          this.exploration125.generation=4;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;
+          this.exploration125.generation=generation;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;
           if(this.exploration125.layoutRevision!==4||metricPreparedRun202?.id!==this.runId||metricPreparedRun202?.seed!==this.world.seed)delete this.world.__terrain133Prepared;
           sync();this.save?.(false);
         }return result;};

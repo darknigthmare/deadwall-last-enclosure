@@ -538,7 +538,7 @@
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.replayCurrentMap()); click('gameOverMenuButton', () => this.returnToMenu());
       click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
@@ -682,9 +682,35 @@
       return seed;
     }
 
-    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false) {
+    campaignMapRecipe() {
+      const regional = this.frontier.position(), local = this.exploration125 || {generation:3,layoutRevision:1};
+      return { generation:regional.generation, detailVersion:regional.detailVersion, ecologyVersion:regional.ecologyVersion, hydrologyVersion:regional.hydrologyVersion,
+        landscape189:regional.landscape189||'classic', cityGeometry202:this.world.cityGeometry202||0, explorationGeneration:local.generation, layoutRevision:local.layoutRevision };
+    }
+
+    validateCampaignMapRecipe(raw, landscape189) {
+      const keys = ['generation','detailVersion','ecologyVersion','hydrologyVersion','landscape189','cityGeometry202','explorationGeneration','layoutRevision'];
+      const invalid = () => { throw new RangeError('Paramètres de rejeu de la carte invalides.'); };
+      if (!raw || typeof raw !== 'object' || Array.isArray(raw) || Object.keys(raw).length !== keys.length || keys.some(key => !Object.hasOwn(raw,key))) invalid();
+      const recipe = Object.fromEntries(keys.map(key => [key,raw[key]]));
+      C.CityGeometry202.version(recipe.cityGeometry202);
+      if (recipe.landscape189 !== landscape189 || ![3,4].includes(recipe.explorationGeneration) || ![1,2,3,4].includes(recipe.layoutRevision) ||
+          recipe.generation >= 4 && recipe.explorationGeneration !== 4 || recipe.layoutRevision === 4 && recipe.cityGeometry202 !== 1 ||
+          keys.filter(key => key !== 'landscape189').some(key => !Number.isInteger(recipe[key]))) invalid();
+      C.Frontier.normalize({...C.Frontier.initial(),generation:recipe.generation,detailVersion:recipe.detailVersion,ecologyVersion:recipe.ecologyVersion,hydrologyVersion:recipe.hydrologyVersion,landscape189:recipe.landscape189});
+      return Object.freeze(recipe);
+    }
+
+    replayCurrentMap() {
+      const recipe = this.campaignMapRecipe();
+      // Reuse only the map's versions; every campaign owner still starts fresh.
+      return this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, recipe.landscape189, recipe.cityGeometry202 === 1, recipe);
+    }
+
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false, mapRecipe) {
       if(typeof currentContent194!=='boolean'){this.notify('Paramètres de départ invalides.', 'danger');return false;}
       if(typeof landscape189!=='string'||!Object.hasOwn(C.Landscape189Rules.presets,landscape189)){this.notify('Profil de paysage invalide.', 'danger');return false;}
+      if(mapRecipe!==undefined){try{mapRecipe=this.validateCampaignMapRecipe(mapRecipe,landscape189);}catch(error){this.notify(error.message,'danger');return false;}}
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
@@ -695,8 +721,8 @@
       catch (error) { this.notify(error.message, 'danger'); return false; }
       this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
-      if(this.exploration125)this.exploration125.layoutRevision=currentContent194?4:3;
-      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), currentContent194 ? 1 : 0); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
+      if(this.exploration125){this.exploration125.layoutRevision=mapRecipe?.layoutRevision??(currentContent194?4:3);if(mapRecipe)this.exploration125.generation=mapRecipe.explorationGeneration;}
+      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), mapRecipe?.cityGeometry202 ?? (currentContent194 ? 1 : 0)); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
@@ -4236,7 +4262,10 @@
    return save.apply(game,args);
   };
   const decorate=start=>function startCampaignTransaction202(...args){
-   const outer=depth===0,previousWorld=game.world;if(outer){failed=false;starting.add(game);}depth++;
+   const outer=depth===0,previousWorld=game.world;
+   // Reject a replay recipe before UI wrappers close overlays or owners reset.
+   if(outer&&args[5]!==undefined){try{args[5]=game.validateCampaignMapRecipe(args[5],args[3]??'classic');}catch(error){game.notify?.(error.message,'danger');return false;}}
+   if(outer){failed=false;starting.add(game);}depth++;
    let result,completed=false;
    try{result=start.apply(game,args);completed=true;if(result===false)failed=true;return result;}
    catch(error){failed=true;throw error;}

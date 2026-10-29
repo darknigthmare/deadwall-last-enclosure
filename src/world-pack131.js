@@ -235,15 +235,16 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  const update=g.update.bind(g);g.update=dt=>{if(task&&unavailable())cancel();const r=update(dt);if(task&&unavailable())cancel();step(dt);return r;};const menu=g.returnToMenu.bind(g);g.returnToMenu=(...a)=>{cancel();return menu(...a);};
  const start=g.startNew.bind(g);
  g.startNew=(...a)=>{
-  const previousWorld=g.world,r=start(...a);
-  if(g.world!==previousWorld&&r!==false&&g.state==='playing'&&pos().generation===4){
+  const previousWorld=g.world,r=start(...a),recipe=a[5];
+  if(g.world!==previousWorld&&r!==false&&g.state==='playing'&&(recipe||pos().generation===4)){
    const data=g.serialize();
    // Native new games request all shipped content (G11 / details 13).
-   // Four-argument historical fixtures and loading keep their recorded owners.
-   data.frontier.generation=root.DeadwallGeography135?(a[4]===true?11:8):5;
-   if(a[4]===true&&data.frontier.generation===11)data.frontier.detailVersion=13;
-   data.frontier.ecologyVersion=data.frontier.generation>=7?1:0;
-   data.frontier.hydrologyVersion=data.frontier.generation>=8?1:0;
+   // Replay selects the original map versions within the same fresh campaign.
+   data.frontier.generation=recipe?.generation??(root.DeadwallGeography135?(a[4]===true?11:8):5);
+   if(recipe)data.frontier.detailVersion=recipe.detailVersion;
+   else if(a[4]===true&&data.frontier.generation===11)data.frontier.detailVersion=13;
+   data.frontier.ecologyVersion=recipe?.ecologyVersion??(data.frontier.generation>=7?1:0);
+   data.frontier.hydrologyVersion=recipe?.hydrologyVersion??(data.frontier.generation>=8?1:0);
    const landscape189=a[3]??'classic';
    if(landscape189&&landscape189!=='classic')data.frontier.landscape189=landscape189;
    if(data.frontier.generation>=6){
