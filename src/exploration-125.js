@@ -1194,14 +1194,20 @@
     return null;
   }
 
-  function packMetricScenery202(game,plan,savedAmounts) {
-    if(plan.layoutRevision!==4)return;
+  function prepareMetricScenery202(game,layoutRevision) {
+    if(layoutRevision!==4||game.world?.cityGeometry202!==1)return;
     const u=C.TILE||32,profiles=C.WorldEvolution?.RULES?.vehicles||{};
     for(const node of game.world.nodes){
       const variant=Math.abs(node.variant||0)%4,vehicle=!node.sceneryKind&&(node.type==='scrap'?({1:'break',2:'van',3:'truck'})[variant]:node.type==='fuel'&&variant%2?'break':null),profile=vehicle&&profiles[vehicle],size=C.CityGeometry202.sceneryMetres[node.sceneryKind]||(profile?[profile.w,profile.h]:null);
       if(!size)continue;node.metric202=1;node.body202={w:size[0]*u,h:size[1]*u};node.renderSize=Math.max(node.body202.w,node.body202.h);
     }
+  }
+
+  function packMetricScenery202(game,plan,savedAmounts) {
+    if(plan.layoutRevision!==4)return;
+    prepareMetricScenery202(game,plan.layoutRevision);
     if(game.world.__terrain133Prepared||savedAmounts instanceof Map)return;
+    const u=C.TILE||32;
     const placed=[],placement=createMetricSceneryPlacement202(game,plan,{occupied:placed}),{reserve,fixtures,fits}=placement;
     // Reserve an undeveloped district for actual city construction. Move finite
     // scenery deposits during creation, retaining every ID and every quantity;
@@ -1906,7 +1912,7 @@
     game.__exploration125Installed = true;
     const worldSize = C?.WORLD_SIZE || 4096;
     const plan = createFeaturePlan(game.world?.seed ?? 17117, worldSize);
-    game.exploration125 = { version: VERSION, plan, codex: WORLD_CODEX, generation: 3, layoutRevision:1 };
+    game.exploration125 = { version: VERSION, plan, codex: WORLD_CODEX, generation: 3, layoutRevision:1, prepareMetricScenery202:revision=>prepareMetricScenery202(game,revision) };
     installSaveExtension(game);
     const syncPlan = installPlanSync(game, plan);
     game.exploration125.syncPlan = syncPlan;

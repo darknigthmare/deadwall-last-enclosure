@@ -1,10 +1,13 @@
-# Application des guides gamedev : priorité des menus et validation clavier
+# Application des guides gamedev : menus et continuité de la campagne
 
 Cette passe poursuit le travail sur les commandes depuis le commit
 `d9896060f762a6bf142e6e66df05ad021ddf5eeb`, qualifié séparément dans la PR 22.
 Elle applique le guide [game-ui-ux][ui-guide] et sa référence
 [layout-and-flow][ui-flow], figés à la même révision amont que le
 [guide projet](GAMEDEV_GUIDANCE.md).
+La correction de reprise issue de cette qualification applique aussi
+[save-systems][save-guide] et sa référence [versioning-and-migration][save-migration] :
+reconstruire les données dérivées avant d'interpréter les positions sauvegardées.
 
 ## Défauts reproduits
 
@@ -60,6 +63,7 @@ possède pas cette entrée. Les contrats documentés dans
 | `src/game.js` : Dayworks et Infrastructure | Délégation aux menus ; annulation de l'aperçu propre visible | `tests/modal-input216.test.cjs` ; parcours Chromium voirie |
 | `src/fieldcraft.js` | Conservation du poste manuel et de la réimplantation ; exception du devis visible | `tests/modal-operations216.test.cjs` ; tests Fieldcraft existants |
 | `src/vertical-citadel175.js` | Suspension du trajet et du travail derrière les menus | `tests/modal-operations216.test.cjs` ; tests Citadel existants |
+| `src/exploration-125.js` et `src/fieldcraft.js` | Dimensions métriques rétablies avant la récupération physique au chargement | `tests/save-metric-geometry216.test.cjs` ; parcours services et reprise |
 
 Les douze nouveaux cas utilisent l'ordre de scripts du HTML livré sous DOM
 simulé. Avant correction, les dix cas d'entrées et les deux cas d'opérations
@@ -106,12 +110,47 @@ contrôles de corps à 0,32 m, de relâchement, de portée et de paiement. Les r
 géométriques sur les quatre poses du témoin vérifient le départ réel et son guide
 court ; le parcours Chromium complet qualifie ensuite le comportement observable.
 
+### Dimensions des décors avant récupération des acteurs à la reprise
+
+Sur la tête `3bb9b31`, le parcours bureau des services atteint les quatre supports
+et valide leurs paiements. Le contrôle final de sauvegarde/reprise signale ensuite
+une différence limitée à `zombies`, avec le même effectif de 18 et le même RNG.
+L'[archive originale](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/40921207524/artifacts/12918282784)
+ne contient pas les valeurs divergentes. Une première simulation native de
+239,04 secondes ne reproduit pas cet écart ; elle ne qualifie pas le parcours
+Chromium et n'en exclut pas le défaut.
+
+Une reproduction distincte, sans avancer la simulation, établit une régression
+d'ordre de restauration. Dans une campagne actuelle de graine 17117, le nœud de
+ferraille 168 a un corps métrique de 147,2 × 59,2 unités locales. Un Errant placé
+explicitement à `(3793.55, 1720.8)` est admis par les collisions actuelles. La
+reprise le déplace pourtant à `y = 1712.0532935585268` : le module de terrain
+évalue temporairement ce décor sans ses métadonnées métriques. La pile observée
+relie ce déplacement à `recoverActor`, appelé par `setup` pendant la restauration.
+Les dimensions finales ne sont rétablies qu'ensuite par l'exploration.
+
+L'exploration partage maintenant une préparation limitée à `metric202`, `body202`
+et `renderSize`. Le module de terrain l'appelle sur le nouveau monde avant son
+`setup`, avec la révision issue des données validées. Le packing du nouveau
+départ garde sa place et sa logique. Les positions et quantités enregistrées
+restent autoritaires ; une vraie collision conserve son mécanisme de récupération.
+Les anciennes révisions gardent leurs dimensions historiques. Aucun champ de
+sauvegarde ni règle d'équilibrage n'est ajouté.
+
+Le test ciblé protège la pose valide, le dégagement d'un vrai recouvrement et le
+garde des révisions historiques. Le pilote des services conserve sa comparaison
+stricte de tous les propriétaires. En cas d'écart, il ajoute au rapport les valeurs
+attendues et restaurées des clés divergentes, avant de retirer son observateur.
+Cette lecture ne modifie pas l'état du jeu. Le défaut déterministe et l'échec CI
+initial restent deux preuves distinctes jusqu'au nouveau parcours navigateur.
+
 Commandes ciblées :
 
 ```sh
 npm run build
 node --test --test-concurrency=1 tests/static.test.cjs tests/modal-input216.test.cjs tests/input-save-boundaries.test.cjs tests/ui-focus130.test.cjs tests/loadout-keyboard.test.cjs tests/undercovered200-input.test.cjs
 node --test --test-concurrency=1 tests/modal-operations216.test.cjs tests/fieldcraft.test.cjs tests/vertical-citadel175.test.cjs
+node --test --test-concurrency=1 tests/save-metric-geometry216.test.cjs
 node scripts/browser-feedback215.mjs
 node scripts/browser-services208.mjs
 ```
@@ -128,3 +167,5 @@ catalogues, les coûts et les générateurs ne changent pas dans cette passe.
 
 [ui-guide]: https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9/skills/disciplines/game-ui-ux/SKILL.md
 [ui-flow]: https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9/skills/disciplines/game-ui-ux/references/layout-and-flow.md
+[save-guide]: https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9/skills/disciplines/save-systems/SKILL.md
+[save-migration]: https://github.com/gamedev-skills/awesome-gamedev-agent-skills/blob/19d93f97c9c1ea0f8b306e77aa81e0d3e352d3e9/skills/disciplines/save-systems/references/versioning-and-migration.md

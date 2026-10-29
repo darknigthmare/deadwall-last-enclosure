@@ -223,7 +223,12 @@ function attach(g){
     return {...value,fieldcraft:{...value.fieldcraft,nodes:value.nodes.map(n=>points.get(n[0]))}};
    }
    const data=prepared(root.DeadwallSave.validate(prepared(input))),before=g.world,result=old(data);
-  if(before!==g.world){setup(data.fieldcraft.nodes,Boolean(data.fieldcraft.nodes.length&&!legacyLayout&&!data.fieldcraft.legacyLayout));opacity=data.fieldcraft.opacity;attempt=data.fieldcraft.attempt;outcome=data.fieldcraft.outcome;cancel();mounted=null;action=null;}
+  if(before!==g.world){
+    // Restore derived bodies before recovery reads them; the live plan may still
+    // belong to the previous campaign, so use the validated save's revision.
+    g.exploration125?.prepareMetricScenery202?.(data.exploration125?.layoutRevision);
+    setup(data.fieldcraft.nodes,Boolean(data.fieldcraft.nodes.length&&!legacyLayout&&!data.fieldcraft.legacyLayout));opacity=data.fieldcraft.opacity;attempt=data.fieldcraft.attempt;outcome=data.fieldcraft.outcome;cancel();mounted=null;action=null;
+  }
   return result;
  });
  wrap('startNew',(old,...a)=>{

@@ -162,7 +162,14 @@ async function nudge(page,context,touch){
 async function saveContinue(page,touch){
  await pause(page,touch);await activate(page,'#saveButton',touch);const checkpoint=await persistedSnapshot(page);assert.ok(checkpoint.ok);await activate(page,'#quitButton',touch);await page.reload({waitUntil:'networkidle'});await ready(page);
  await page.evaluate(()=>{const g=DEADWALL,original=g.restoreSave,descriptor=Object.getOwnPropertyDescriptor(g,'restoreSave');globalThis.__SERVICES208_RESTORE__={g,original,descriptor};globalThis.__DEADWALL_QA_RESTORED_144__=null;g.restoreSave=function(...args){const result=original.apply(this,args),{timestamp,...data}=DeadwallSave.validate(g.serialize());globalThis.__DEADWALL_QA_RESTORED_144__=structuredClone(data);return result;};});
- try{await activate(page,'#continueButton',touch);await page.waitForFunction(()=>DEADWALL.state==='playing');checkpoint.restoreComparison=await page.evaluate(persistentRestoreComparison,{material:checkpoint.material,cp:checkpoint});checkpoint.pass=checkpoint.restoreComparison.pass;}
+ try{
+  await activate(page,'#continueButton',touch);await page.waitForFunction(()=>DEADWALL.state==='playing');
+  checkpoint.restoreComparison=await page.evaluate(persistentRestoreComparison,{material:checkpoint.material,cp:checkpoint});checkpoint.pass=checkpoint.restoreComparison.pass;
+  if(!checkpoint.pass)checkpoint.restoreDifferences=await page.evaluate(({material,keys})=>{
+   const expected=JSON.parse(material),restored=globalThis.__DEADWALL_QA_RESTORED_144__;
+   return{observationAvailable:!!restored,fields:Object.fromEntries(keys.map(key=>[key,{expected:expected[key],restored:restored?.[key]}]))};
+  },{material:checkpoint.material,keys:checkpoint.restoreComparison.changedKeys});
+ }
  finally{checkpoint.wrapperRestored=await page.evaluate(()=>{const s=__SERVICES208_RESTORE__;if(s.descriptor)Object.defineProperty(s.g,'restoreSave',s.descriptor);else delete s.g.restoreSave;const restored=s.g.restoreSave===s.original;delete globalThis.__SERVICES208_RESTORE__;delete globalThis.__DEADWALL_QA_RESTORED_144__;return restored;});}
  return checkpoint;
 }
