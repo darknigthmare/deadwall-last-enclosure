@@ -111,12 +111,13 @@ function prepareServices208(){
 }
 
 async function nativeWalk(page,context,touch,points,arrival={}){
- const keys={left:'a',right:'d',up:'w',down:'s'},stats={coordinateAssignments:0,inputs:0,postureInputs:0,measuredHolds:[],waypointTransitions:[],rejoins:[],collisionAvoidance:[],segments:[],lastMovements:[]},boxes={};let session;
+ const keys={left:'a',right:'d',up:'w',down:'s'},stats={coordinateAssignments:0,inputs:0,postureInputs:0,measuredHolds:[],waypointTransitions:[],guideOrigins:[],rejoins:[],collisionAvoidance:[],segments:[],lastMovements:[]},boxes={};let session,nextGuideStart=null;
  if(touch){session=await context.newCDPSession(page);for(const direction of Object.keys(keys)){const b=await page.locator('#touchControls [data-dir="'+direction+'"]').boundingBox();assert.ok(b);boxes[direction]={x:b.x+b.width/2,y:b.y+b.height/2};}}
  if(!touch)await page.locator('#game').focus();
  try{for(let i=1;i<points.length;i++){
-  const target=points[i],plannedStart=points[i-1],origin=await page.evaluate(()=>DEADWALL.frontier.position()),length=Math.hypot(target.x-origin.x,target.y-origin.y),started=Date.now();if(length<.055&&!arrival.support&&!arrival.interrupt)continue;
+  const target=points[i],plannedStart=nextGuideStart??points[i-1],origin=await page.evaluate(()=>DEADWALL.frontier.position()),length=Math.hypot(target.x-origin.x,target.y-origin.y),started=Date.now();nextGuideStart=null;if(length<.055&&!arrival.support&&!arrival.interrupt)continue;
   const admittedPlanningRadius38=await page.evaluate(({a,b,inside})=>DEADWALL.frontier.world().movementLine(a,b,0,inside,null,.38),{a:plannedStart,b:target,inside:origin.inside});let stalls=0,lastProgress=Date.now(),appliedPosture=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);
+  stats.guideOrigins.push({index:i,preparedStart:points[i-1],guideStart:plannedStart,fromAcceptedTransition:plannedStart!==points[i-1],admittedPlanningRadius38});
   while(true){
    const observation=await page.evaluate(({target,next,support,interrupt,from,plannedStart,admitted,touch})=>{
     const g=DEADWALL,w=g.frontier.world(),p=g.frontier.position(),clear=!w.blocked(p.x,p.y,.32,0,p.inside),active=g.state==='playing'&&!g.gameOver&&!g.activeOverlay,remaining=Math.hypot(target.x-p.x,target.y-p.y);
@@ -132,7 +133,9 @@ async function nativeWalk(page,context,touch,points,arrival={}){
    const p=observation.pose,remaining=observation.remaining;assert.ok(observation.active&&observation.clear&&observation.health>0,'Native campaign and actor remain active before walking: '+JSON.stringify({gameOver:observation.gameOver,overlay:observation.overlay,clear:observation.clear}));assert.equal(observation.keys.length,0,'The previous native input is released before the next decision');
    if(observation.support?.ok){stats.supportArrival={...observation.support,pose:p,authority:'native resolve208 with unchanged product reach, wall, floor and shelter checks'};return stats;}
    if(observation.interrupted){stats.interruptionArrival={pose:p,actualMetres:Math.hypot(p.x-points[0].x,p.y-points[0].y)};return stats;}
-   if(observation.nextClear){stats.waypointTransitions.push({index:i,pose:p,remainingToMathematicalPoint:remaining,next:points[i+1],authority:'actual next segment clear at native0.32m body radius'});break;}
+   // The next line was admitted from this real pose, not the skipped point.
+   // Its guide must use that origin and recompute its own 0.38m admission.
+   if(observation.nextClear){nextGuideStart={...p};stats.waypointTransitions.push({index:i,pose:p,remainingToMathematicalPoint:remaining,next:points[i+1],authority:'actual next segment clear at native0.32m body radius'});break;}
    if(remaining<.055)break;assert.ok(observation.guideClear,'A real physical line rejoins the original planned segment');assert.ok(observation.steering.best,'A native compass pulse has a real collision-free physical ray');
    if(Date.now()-lastProgress>=10000){console.log(JSON.stringify({profile:touch?'mobile':'desktop',nativeWalkProgress:i,total:points.length-1,metres:length,remaining,pose:{x:p.x,y:p.y},realMilliseconds:Date.now()-started,inputs:stats.inputs}));lastProgress=Date.now();}if(Date.now()-started>Math.max(90000,length*30000))throw Error('Native service walk timed out '+JSON.stringify({i,p,target,remaining}));
    const{fast,open,step,steering}=observation;if(observation.rejoining)stats.rejoins.push({index:i,pose:p,aim:observation.aim});

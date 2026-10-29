@@ -84,6 +84,28 @@ d'Échap avec les outils de voirie. Chaque maintien exige un appui initial et
 quatre répétitions de confiance, avec focus et simulation stables. La fixture
 de voirie appelle seulement l'équipement existant, sans pas de simulation injecté.
 
+### Guidage du parcours physique des services
+
+La qualification a aussi révélé un défaut du pilote tactile de
+`scripts/browser-services208.mjs`. Une transition anticipée validait la ligne
+physique vers le point suivant, mais le guide suivant repartait du sommet
+mathématique précédent. Il réutilisait ainsi une admission à 0,38 m qui ne
+décrivait plus le départ réel du joueur.
+
+Dans le [témoin CI](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/40905955279/job/123560631958),
+le passage du segment 5 au segment 6 se faisait encore à 3,184 m de ce sommet.
+La ligne réelle était libre à 0,32 m et refusée à 0,38 m. Après trois impulsions
+physiques valides, l'ancien guide ne pouvait plus rejoindre sa ligne ; le joueur
+restait libre, vivant et au terrain. Le profil bureau avait réussi ses 55
+contrôles, tandis que le profil tactile s'arrêtait après 43 contrôles.
+
+Le pilote transmet maintenant la pose validée par cette transition au guide
+suivant et recalcule son admission à 0,38 m. La trace conserve aussi les points
+préparés. Les commandes natives produisent le déplacement, avec les mêmes
+contrôles de corps à 0,32 m, de relâchement, de portée et de paiement. Les requêtes
+géométriques sur les quatre poses du témoin vérifient le départ réel et son guide
+court ; le parcours Chromium complet qualifie ensuite le comportement observable.
+
 Commandes ciblées :
 
 ```sh
@@ -91,6 +113,7 @@ npm run build
 node --test --test-concurrency=1 tests/static.test.cjs tests/modal-input216.test.cjs tests/input-save-boundaries.test.cjs tests/ui-focus130.test.cjs tests/loadout-keyboard.test.cjs tests/undercovered200-input.test.cjs
 node --test --test-concurrency=1 tests/modal-operations216.test.cjs tests/fieldcraft.test.cjs tests/vertical-citadel175.test.cjs
 node scripts/browser-feedback215.mjs
+node scripts/browser-services208.mjs
 ```
 
 Les résultats exécutés, la révision finale et les preuves de la commande
