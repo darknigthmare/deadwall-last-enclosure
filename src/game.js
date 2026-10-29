@@ -3608,7 +3608,7 @@
  });
  for(const name of ['shootPlayer','melee','startReload'])wrap(name,(original,...args)=>toolActive()?false:original(...args));
  if(typeof g.onEscape==='function')wrap('onEscape',(original,...args)=>{
-  const panel=root.document?.getElementById('dayworksCancel');
+  const panel=g.ui.commandModal?.querySelector('#dayworksCancel');
   // The visible project may consume Back inside its own notebook page only.
   const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
   if(g.activeOverlay&&!ownsPreview)return original(...args);
@@ -4128,7 +4128,7 @@
   if(typeof g.cancelPlacement==='function')wrap('cancelPlacement',(old,...args)=>{anchor=null;preview=null;if(tool==='trace')tool='none';return old(...args);});
   if(typeof g.selectBuild==='function')wrap('selectBuild',(old,...args)=>{tool='none';anchor=null;preview=null;return old(...args);});
   if(typeof g.onEscape==='function')wrap('onEscape',(old,...args)=>{
-   const panel=root.document?.getElementById('infraCancel');
+   const panel=g.ui.commandModal?.querySelector('#infraCancel');
    const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
    if(g.activeOverlay&&!ownsPreview)return old(...args);
    if(preview||anchor||tool!=='none'){tool='none';cancel();return;}return old(...args);

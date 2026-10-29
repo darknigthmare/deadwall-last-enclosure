@@ -699,8 +699,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457775,
-      "sha256": "a9ce0180ed2964db42fb3a49ee7e0e8eb5901e5f94db4e064aebfbb3d7a8250b"
+      "bytes": 457783,
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
     },
     {
       "path": "src/geography135.js",
@@ -1956,8 +1956,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457775,
-      "sha256": "a9ce0180ed2964db42fb3a49ee7e0e8eb5901e5f94db4e064aebfbb3d7a8250b"
+      "bytes": 457783,
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
     },
     {
       "path": "src/geography135.js",

@@ -66,6 +66,11 @@ simulé. Avant correction, les dix cas d'entrées et les deux cas d'opérations
 échouent aux assertions attendues. Les comparaisons DOM utilisent des
 identifiants ou booléens afin de conserver des diagnostics bornés.
 
+Les boutons d'annulation de programme et de voirie sont créés dynamiquement
+par leurs pages. Les gardes les recherchent dans leur dialogue propriétaire,
+`g.ui.commandModal`. Le contrat `tests/static.test.cjs` conserve sa vérification
+des références directes aux éléments déclarés dans `index.html`.
+
 Les fixtures avancées sont déclarées : bureau de chantier et bâtiments achevés
 sur des positions admissibles, connaissances et ressources de citadelle
 préparées. Les opérations, devis, déplacements, paiements et annulations passent
@@ -82,9 +87,9 @@ de voirie appelle seulement l'équipement existant, sans pas de simulation injec
 Commandes ciblées :
 
 ```sh
-node --test --test-concurrency=1 tests/modal-input216.test.cjs tests/input-save-boundaries.test.cjs tests/ui-focus130.test.cjs tests/loadout-keyboard.test.cjs tests/undercovered200-input.test.cjs
-node --test --test-concurrency=1 tests/modal-operations216.test.cjs tests/fieldcraft.test.cjs tests/vertical-citadel175.test.cjs
 npm run build
+node --test --test-concurrency=1 tests/static.test.cjs tests/modal-input216.test.cjs tests/input-save-boundaries.test.cjs tests/ui-focus130.test.cjs tests/loadout-keyboard.test.cjs tests/undercovered200-input.test.cjs
+node --test --test-concurrency=1 tests/modal-operations216.test.cjs tests/fieldcraft.test.cjs tests/vertical-citadel175.test.cjs
 node scripts/browser-feedback215.mjs
 ```
 
