@@ -687,8 +687,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 456294,
-      "sha256": "222e65a68ca33ad4f6f23bf4b5ef705ca62b7da1de5f9341132ed6b52ffc3b95"
+      "bytes": 456692,
+      "sha256": "3d7e9ae5e38ffbc986403a9fa69184ae8375b4c93af4c4f5bb2f3ceeb74d7ac5"
     },
     {
       "path": "src/geography135.js",
@@ -762,8 +762,8 @@
     },
     {
       "path": "src/loadout-ui129.js",
-      "bytes": 19792,
-      "sha256": "0a89b3acf3649f94a1a70eab8ebe530af7c12fbcbcca7d18f70b4f10e596c19f"
+      "bytes": 19895,
+      "sha256": "794c969d19a4469e3e3f598f44883f25ec188e638b5c7f68de934eff25ac24a8"
     },
     {
       "path": "src/loadout129.js",
@@ -1914,8 +1914,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 456294,
-      "sha256": "222e65a68ca33ad4f6f23bf4b5ef705ca62b7da1de5f9341132ed6b52ffc3b95"
+      "bytes": 456692,
+      "sha256": "3d7e9ae5e38ffbc986403a9fa69184ae8375b4c93af4c4f5bb2f3ceeb74d7ac5"
     },
     {
       "path": "src/geography135.js",
@@ -1989,8 +1989,8 @@
     },
     {
       "path": "src/loadout-ui129.js",
-      "bytes": 19792,
-      "sha256": "0a89b3acf3649f94a1a70eab8ebe530af7c12fbcbcca7d18f70b4f10e596c19f"
+      "bytes": 19895,
+      "sha256": "794c969d19a4469e3e3f598f44883f25ec188e638b5c7f68de934eff25ac24a8"
     },
     {
       "path": "src/loadout129.js",

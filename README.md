@@ -14,6 +14,10 @@ monde et seeds, sauvegardes, navigation, HUD, animations, audio et performances.
 Le guide relie les méthodes au moteur existant, aux tests et à douze scénarios
 de réception, avec des références amont figées pour les futures contributions.
 
+La [passe de retours d’action et de commandes](docs/GAMEDEV_FEEDBACK_20261029.md)
+applique ces guides aux tremblements de caméra pendant une pause, à la reprise
+d’un périphérique audio et à la touche maintenue d’ouverture du sac.
+
 ## Historique conservé — 1.73.0
 
 # DEADWALL 1.73.0 — Équipements et haltes vivantes

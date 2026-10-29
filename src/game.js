@@ -128,7 +128,8 @@
     setVolume(value) { this.volume=clamp(Number(value)||0,0,1);this.setMuted(this.muted); }
     voice(build) {
       const limits=C.Audio199Rules;
-      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.ctx.state==='closed' || this.voices>=limits.maxVoices) return false;
+      // A stopped audio clock would queue old events at the same time and burst on resume.
+      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.ctx.state!=='running' || this.voices>=limits.maxVoices) return false;
       const nodes=[];let source=null,counted=false,released=false;
       const own=node=>{if(!node)throw new Error('Ressource audio indisponible.');nodes.push(node);return node;};
       const release=()=>{
@@ -745,6 +746,7 @@
       this.squads = globalThis.DeadwallSquads.create(this.rally);
       this.ensureSquads();
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = this.world.cityGeometry202 ? C.CityGeometry202.defaultZoom : 1;
+      this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
       this.ui.commandModal?.classList.add('hidden'); this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus();
       this.notify(`Protocole lancé — difficulté ${this.difficulty.label}.`, 'good'); this.notify('Récoltez puis rapportez les matériaux au centre.'); this.refreshBuildMenu(true); this.updateUI(); this.save(false);
       if (scenario.id !== 'classic') this.notify(globalThis.DeadwallScenarios.get(scenario.id).name + ' — ' + globalThis.DeadwallScenarios.get(scenario.id).tradeoff);
@@ -832,6 +834,7 @@
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
+      this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
 
@@ -2321,8 +2324,11 @@
     render() {
       const ctx = this.ctx;
       ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); ctx.fillStyle = '#171c18'; ctx.fillRect(0, 0, this.width, this.height);
-      const shakeX = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
-      const shakeY = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
+      // Sampling active simulation time keeps impacts smooth and still during pause,
+      // regardless of how often the scene is painted. Only the visual offset moves.
+      const shake = this.settings.reducedMotion ? 0 : this.camera.shake / 2, shakeTime = this.elapsed * 30;
+      const shakeX = shake ? Math.sin(shakeTime * 1.7) * shake : 0;
+      const shakeY = shake ? Math.sin(shakeTime * 2.3 + 1.2) * shake : 0;
       this.frameShake={x:shakeX,y:shakeY};
       ctx.save(); ctx.translate(this.width / 2 + shakeX, this.height / 2 + shakeY); ctx.scale(this.camera.zoom, this.camera.zoom); ctx.translate(-this.camera.x, -this.camera.y);
       const view = this.viewBounds();

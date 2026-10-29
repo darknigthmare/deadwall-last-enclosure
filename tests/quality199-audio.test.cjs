@@ -66,6 +66,32 @@ test('199 invalid audio values, a closed context, mute and the voice cap allocat
   }
 });
 
+for (const state of ['suspended','interrupted']) {
+  test('199 ' + state + ' audio drops stale events until gesture-driven resume has completed', async () => {
+    const f=fixture();f.audio.ctx.state=state;
+    for(let i=0;i<60;i++){
+      assert.equal(f.audio.tone(220,.1),false);
+      assert.equal(f.audio.noise(.1),false);
+    }
+    assert.equal(f.nodes.length,0);assert.equal(f.events.length,0);
+    assert.equal(f.audio.noiseBuffers.size,0);assert.equal(f.audio.voices,0);
+
+    let finishResume,resumeCalls=0;
+    const resumed=new Promise(resolve=>{finishResume=()=>{f.audio.ctx.state='running';resolve();};});
+    f.audio.ctx.resume=()=>{resumeCalls++;return resumed;};
+    assert.equal(f.audio.unlock(),true);assert.equal(resumeCalls,1);
+    assert.equal(f.audio.tone(440,.1),false,'requesting resume does not make a stopped device playable');
+    assert.equal(f.audio.noise(.1),false);assert.equal(f.nodes.length,0);assert.equal(f.audio.voices,0);
+
+    finishResume();await resumed;
+    assert.equal(f.audio.tone(440,.1),true);assert.equal(f.audio.noise(.1),true);
+    assert.equal(f.audio.voices,2);
+    assert.equal(f.events.filter(event=>event.startsWith('start:')).length,2,'only fresh events start');
+    for(const source of f.nodes.filter(node=>node.onended))source.onended();
+    assert.equal(f.audio.voices,0);assert.ok(f.nodes.every(node=>node.disconnected===1));
+  });
+}
+
 test('199 an actual paid construction still completes its bookkeeping and saves when the audio device fails',()=>{
  const {game:g}=bootGame(),C=require('../src/core.js');g.startNew('standard','17117');const f=fixture('create:oscillator');g.audio=f.audio;
  const type='woodWall',def=C.BUILDINGS[type];let spot=null;
