@@ -444,6 +444,12 @@
       addEventListener('blur', () => this.suspendForFocusLoss());
       document.addEventListener('visibilitychange', () => { if (document.hidden) this.suspendForFocusLoss(); });
       addEventListener('keydown', event => {
+        // A held confirmation must not activate the next focused native control.
+        if (event.repeat && ['Enter', 'NumpadEnter'].includes(event.code) &&
+            !event.ctrlKey && !event.altKey && !event.metaKey &&
+            event.target?.closest?.('button, summary, a[href], [role="button"]')) {
+          event.preventDefault(); return;
+        }
         if (event.code === 'Escape') { event.preventDefault(); if (!event.repeat) this.onEscape(); return; }
         if (event.code === 'Tab' && this.activeOverlay) { this.trapOverlayFocus(event); return; }
         if (!playable()) return;
@@ -451,7 +457,7 @@
         if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
         // Browser/OS shortcuts must not move, reload or command the colony.
         if (event.ctrlKey || event.altKey || event.metaKey) return;
-        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
+        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter','NumpadEnter'].includes(event.code)) return;
         if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
         if (!event.repeat) this.input.pressed.add(event.code);
         hardwareKeys.add(event.code); this.input.keys.add(event.code);
@@ -877,6 +883,7 @@
       if (!this.ui.helpModal.classList.contains('hidden')) { this.showHelp(false); return; }
       if(this.ui.commandModal&&!this.ui.commandModal.classList.contains('hidden')){this.showCommand?.(false);return;}
       if (this.state !== 'playing' || this.gameOver) return;
+      if (this.activeOverlay === this.ui.pauseMenu) { this.togglePause(false); return; }
       if (this.selectedBuild || this.rallyPlacement) { this.cancelPlacement(); return; }
       this.togglePause();
     }
@@ -3600,7 +3607,13 @@
   if(g.input.keys.has('KeyE')){const r=engine.explore(s.id,Math.min(dt,R.maxStep),{running:true,day:true,accessible:true,secure:secure(s),dead:false,bag:g.player.carry,capacity:g.player.carryCapacity});if(r.completed){g.notify(r.unlock?'Relevé terminé : nouveau plan disponible.':'Relevé terminé : les fournitures peuvent être récupérées.','good');g.refreshBuildMenu(true);g.save(false);}if(r.taken)g.stats.gathered+=r.taken;}
  });
  for(const name of ['shootPlayer','melee','startReload'])wrap(name,(original,...args)=>toolActive()?false:original(...args));
- if(typeof g.onEscape==='function')wrap('onEscape',(original,...args)=>{anchorClick=null;if(placing||preview){placing=null;preview=null;tell('Projet annulé sans dépense.');return;}return original(...args);});
+ if(typeof g.onEscape==='function')wrap('onEscape',(original,...args)=>{
+  const panel=root.document?.getElementById('dayworksCancel');
+  // The visible project may consume Back inside its own notebook page only.
+  const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
+  if(g.activeOverlay&&!ownsPreview)return original(...args);
+  anchorClick=null;if(placing||preview){placing=null;preview=null;tell('Projet annulé sans dépense.');return;}return original(...args);
+ });
  function drawSites(ctx){const view=g.viewBounds();for(const s of engine.state.sites){if(!s.seen||!g.visible(s.x,s.y,40,view))continue;const found=s.survey>=6;
    if(root.DeadwallReconArt){const overlap=[[-18,-18],[18,-18],[-18,18],[18,18],[0,0]].some(([x,y])=>{const b=g.world.at(s.x+x,s.y+y);return b&&!b.dead;});if(!overlap)root.DeadwallReconArt.draw(ctx,s,{selected:selectedSite===s.id,label:selectedSite===s.id});continue;}
    if(found&&s.remaining<=.001)continue;
@@ -4114,7 +4127,12 @@
   for(const name of ['shootPlayer','melee','startReload'])wrap(name,(old,...args)=>activeTool()||tool==='trace'||preview?false:old(...args));
   if(typeof g.cancelPlacement==='function')wrap('cancelPlacement',(old,...args)=>{anchor=null;preview=null;if(tool==='trace')tool='none';return old(...args);});
   if(typeof g.selectBuild==='function')wrap('selectBuild',(old,...args)=>{tool='none';anchor=null;preview=null;return old(...args);});
-  if(typeof g.onEscape==='function')wrap('onEscape',(old,...args)=>{if(preview||anchor||tool!=='none'){tool='none';cancel();return;}return old(...args);});
+  if(typeof g.onEscape==='function')wrap('onEscape',(old,...args)=>{
+   const panel=root.document?.getElementById('infraCancel');
+   const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
+   if(g.activeOverlay&&!ownsPreview)return old(...args);
+   if(preview||anchor||tool!=='none'){tool='none';cancel();return;}return old(...args);
+  });
   wrap('destroyBuilding',(old,b,...args)=>{
     ensure();const record=b&&!b.dead&&g.world.buildings.get(b.id)===b&&b.type!=='core'?{id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation||0}:null;
     const result=old(b,...args);if(record&&!g.gameOver&&!g.world.buildings.has(record.id))engine.remember(record,g.elapsed);return result;

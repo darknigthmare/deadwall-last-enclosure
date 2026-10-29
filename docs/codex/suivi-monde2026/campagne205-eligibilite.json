@@ -567,8 +567,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 26728,
-      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+      "bytes": 27057,
+      "sha256": "cce0d05ae0c332eb16c0face5b5c04d383c9da49a80cb0b71fab6e8c558a424f"
     },
     {
       "path": "src/forage-art193.js",
@@ -657,8 +657,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 456692,
-      "sha256": "3d7e9ae5e38ffbc986403a9fa69184ae8375b4c93af4c4f5bb2f3ceeb74d7ac5"
+      "bytes": 457775,
+      "sha256": "a9ce0180ed2964db42fb3a49ee7e0e8eb5901e5f94db4e064aebfbb3d7a8250b"
     },
     {
       "path": "src/geography135.js",
@@ -997,8 +997,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58512,
-      "sha256": "496f057e02c96cdc08536253a9a09f1b3d85877fba97b941dfde0b396e6fb5c6"
+      "bytes": 58551,
+      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
     },
     {
       "path": "src/vertical-network179.js",
@@ -1709,8 +1709,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 26728,
-      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+      "bytes": 27057,
+      "sha256": "cce0d05ae0c332eb16c0face5b5c04d383c9da49a80cb0b71fab6e8c558a424f"
     },
     {
       "path": "src/forage-art193.js",
@@ -1799,8 +1799,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 456692,
-      "sha256": "3d7e9ae5e38ffbc986403a9fa69184ae8375b4c93af4c4f5bb2f3ceeb74d7ac5"
+      "bytes": 457775,
+      "sha256": "a9ce0180ed2964db42fb3a49ee7e0e8eb5901e5f94db4e064aebfbb3d7a8250b"
     },
     {
       "path": "src/geography135.js",
@@ -2139,8 +2139,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58512,
-      "sha256": "496f057e02c96cdc08536253a9a09f1b3d85877fba97b941dfde0b396e6fb5c6"
+      "bytes": 58551,
+      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
     },
     {
       "path": "src/vertical-network179.js",

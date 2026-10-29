@@ -21,7 +21,7 @@ const profiles = selected ? views.filter(view => selected.includes(view.name)) :
 assert.ok(profiles.length, 'At least one known browser profile is required');
 await mkdir(output, {recursive: true});
 const report = {startedUtc: new Date().toISOString(), root, profiles: [], pass: false,
-  scope: 'Current player title and G11 campaign, seed17117 entered through native controls. Keyboard repeat and touch inventory navigation are native. Explicit camera fixture: one point of damage through the real damage owner followed immediately by ordinary Pause, without an injected simulation step. Explicit audio interruption: suspend the real browser AudioContext, submit120 diagnostic tone/noise requests while paused, then resume through the native mute setting. No physical phone/audio-device listening, human campaign or GPU performance claim.',
+  scope: 'Current player title and G11 campaign, seed17117 entered through native controls. Desktop I, Enter, NumpadEnter and Escape, plus touch inventory navigation, use native browser input. Explicit roadwork fixture on desktop: equip the existing roadwork tool through its real owner, then navigate Pause/Settings/Escape without injected simulation steps. Explicit camera fixture: one point of damage through the real damage owner followed immediately by ordinary Pause, without an injected simulation step. Explicit audio interruption: suspend the real browser AudioContext, submit120 diagnostic tone/noise requests while paused, then resume through the native mute setting. No physical phone/audio-device listening, human campaign or GPU performance claim.',
   sourcesBefore: Sources.capture(repository), scriptSha256: hash(await readFile(fileURLToPath(import.meta.url)))};
 let browser, server;
 
@@ -37,6 +37,84 @@ async function pausedFrameSamples(page, count = 8) {
     return {elapsed, elapsedAfter: g.elapsed, amplitude, samples,
       unchanged: before === material(), paused: g.paused, overlay: g.activeOverlay?.id};
   }, count);
+}
+
+async function heldMenuActivation(page, rec, profile) {
+  profile.menuActivation = [];
+  for (const key of ['Enter', 'NumpadEnter']) for (const menu of [
+    {name: 'Pause', opener: 'pauseButton', overlay: 'pauseMenu', closer: '#resumeButton'},
+    {name: 'Bag', opener: 'carryIndicator', overlay: 'loadout129', closer: '#loadout129 .loadout-close'},
+    {name: 'Settings', opener: 'pauseSettingsButton', overlay: 'settingsModal', closer: '#settingsClose', fromPause: true}
+  ]) {
+    if (menu.fromPause) await page.locator('#pauseButton').click();
+    await page.locator('#' + menu.opener).focus();
+    await page.evaluate(() => { __feedback216Keys = []; });
+    const result = {key, menu: menu.name, repeats: []}; profile.menuActivation.push(result);
+    try {
+      await page.keyboard.down(key);
+      result.opened = await page.evaluate(({overlay, closer}) => ({
+        overlay: DEADWALL.activeOverlay?.id || null, paused: DEADWALL.paused, elapsed: DEADWALL.elapsed,
+        focus: document.activeElement.id || document.activeElement.className,
+        focusOnClose: document.activeElement === document.querySelector(closer),
+        expectedOverlay: DEADWALL.activeOverlay === document.getElementById(overlay)
+      }), menu);
+      rec.check(key + ' first press opens ' + menu.name + ' and focuses its ordinary close control',
+        result.opened.expectedOverlay && result.opened.paused && result.opened.focusOnClose);
+      for (let n = 0; n < 4; n++) {
+        await page.keyboard.down(key);
+        result.repeats.push(await page.evaluate(() => ({
+          overlay: DEADWALL.activeOverlay?.id || null, paused: DEADWALL.paused,
+          elapsed: DEADWALL.elapsed, focus: document.activeElement.id || document.activeElement.className
+        })));
+      }
+      result.events = await page.evaluate(() => __feedback216Keys);
+      result.frames = await pausedFrameSamples(page, 4);
+      rec.check(key + ' native repeats preserve ' + menu.name + ', its focus and the paused campaign',
+        result.repeats.every(s => s.overlay === menu.overlay && s.paused &&
+          s.elapsed === result.opened.elapsed && s.focus === result.opened.focus) && result.frames.unchanged &&
+        result.events.length === 5 && result.events.every(e => e.trusted && e.code === key) &&
+        !result.events[0].repeat && result.events.slice(1).every(e => e.repeat));
+    } finally {await page.keyboard.up(key);}
+    await page.keyboard.press(key);
+    result.closed = await page.evaluate(() => ({overlay: DEADWALL.activeOverlay?.id || null,
+      paused: DEADWALL.paused, focus: document.activeElement.id}));
+    rec.check('A fresh ' + key + ' press closes ' + menu.name + ' and restores its originating screen',
+      result.closed.overlay === (menu.fromPause ? 'pauseMenu' : null) &&
+      result.closed.paused === !!menu.fromPause && result.closed.focus === menu.opener);
+    if (menu.fromPause) await page.locator('#resumeButton').click();
+  }
+}
+
+async function roadworkEscape(page, rec, profile) {
+  profile.roadworkFixture = await page.evaluate(() => {
+    const elapsed = DEADWALL.elapsed, equipped = DEADWALL.infrastructure.equip();
+    return {method: 'DEADWALL.infrastructure.equip()', equipped, tool: DEADWALL.infrastructure.toolActive(),
+      elapsedBefore: elapsed, elapsedAfter: DEADWALL.elapsed, injectedSteps: 0};
+  });
+  const fixture = profile.roadworkFixture;
+  rec.check('The declared roadwork fixture equips the existing tool without advancing simulation',
+    fixture.equipped && fixture.tool && fixture.elapsedBefore === fixture.elapsedAfter);
+  await page.locator('#pauseButton').click();
+  await page.locator('#pauseSettingsButton').click();
+  const sample = () => page.evaluate(() => ({overlay: DEADWALL.activeOverlay?.id || null,
+    paused: DEADWALL.paused, tool: DEADWALL.infrastructure.toolActive(), elapsed: DEADWALL.elapsed}));
+  const before = await sample();
+  await page.keyboard.press('Escape');
+  profile.roadworkSettingsEscape = await sample();
+  const settings = profile.roadworkSettingsEscape;
+  rec.check('Escape closes Settings while Pause retains the roadwork tool and simulation time',
+    before.overlay === 'settingsModal' && settings.overlay === 'pauseMenu' && settings.paused &&
+    settings.tool && settings.elapsed === before.elapsed);
+  await page.keyboard.press('Escape');
+  profile.roadworkPauseEscape = await sample();
+  const pause = profile.roadworkPauseEscape;
+  rec.check('A fresh Escape resumes from Pause with the roadwork tool still equipped',
+    pause.overlay === null && !pause.paused && pause.tool);
+  await page.keyboard.press('Escape');
+  profile.roadworkFieldEscape = await sample();
+  const field = profile.roadworkFieldEscape;
+  rec.check('Escape on the playable field puts away the roadwork tool without opening Pause',
+    field.overlay === null && !field.paused && !field.tool);
 }
 
 try {
@@ -58,6 +136,16 @@ try {
     const page = await context.newPage(); page.setDefaultTimeout(120000);
     const rec = recorder(page, profile, output, view.name + '-');
     try {
+      if (!view.touch) await page.addInitScript(() => {
+        // Observe native repeat events before the game's capture/bubble guards consume them.
+        globalThis.__feedback216Keys = [];
+        window.addEventListener('keydown', event => {
+          if (['Enter', 'NumpadEnter'].includes(event.code)) __feedback216Keys.push({
+            code: event.code, repeat: event.repeat, trusted: event.isTrusted,
+            target: event.target.id || event.target.className
+          });
+        }, true);
+      });
       await page.goto(base, {waitUntil: 'networkidle', timeout: 120000}); await ready(page);
       await chooseCampaign(page, '17117'); await activate(page, '#campaignIntro132Skip', view.touch);
       await page.waitForFunction(() => !DEADWALL.paused && !DEADWALL.activeOverlay);
@@ -99,6 +187,11 @@ try {
         await activate(page, '#loadout129 .loadout-close', true);
         rec.check('The native touch close restores gameplay', await page.evaluate(() =>
           !DEADWALL.loadoutUI.isOpen() && !DEADWALL.paused && !DEADWALL.activeOverlay));
+      }
+
+      if (!view.touch) {
+        await heldMenuActivation(page, rec, profile);
+        await roadworkEscape(page, rec, profile);
       }
 
       await page.waitForFunction(() => DEADWALL.player.invulnerable <= 0 && !DEADWALL.paused);
@@ -170,7 +263,7 @@ try {
       await rec.screenshot('failure').catch(() => {});
       console.error(JSON.stringify({profile: view.name, failure: profile.failure}));
     } finally {
-      await page.keyboard.up('i').catch(() => {});
+      for (const key of ['i', 'Enter', 'NumpadEnter', 'Escape']) await page.keyboard.up(key).catch(() => {});
       await context.close();
     }
     console.log(JSON.stringify({profile: view.name, pass: profile.pass, checks: profile.checks.length}));

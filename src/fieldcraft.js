@@ -230,6 +230,11 @@ function attach(g){
   const before=g.world,result=old(...a);if(g.world!==before){setup();opacity=targetOpacity();attempt=false;outcome='';mounted=null;action=null;cancel();g.save(false);}return result;
  });
  wrap('onEscape',(old,...a)=>{
+  if(g.activeOverlay){
+   // Only this dialog's visible quote owns cancellation; menus suspend field actions.
+   const review=root.document?.getElementById('buildingReview14');
+   if(!quote||g.activeOverlay!==g.ui.commandModal||!review||!g.activeOverlay.contains(review)||review.closest('.hidden, [inert]'))return old(...a);
+  }
   if(moving||quote){cancel();g.fieldcraftUI?.refresh();return;}
   if(mounted){mounted=null;return;}
   return old(...a);

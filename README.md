@@ -18,6 +18,10 @@ La [passe de retours d’action et de commandes](docs/GAMEDEV_FEEDBACK_20261029.
 applique ces guides aux tremblements de caméra pendant une pause, à la reprise
 d’un périphérique audio et à la touche maintenue d’ouverture du sac.
 
+La [passe de navigation clavier](docs/GAMEDEV_MENUS_20261029.md) conserve les
+actions de terrain derrière les menus et empêche Entrée maintenue d’activer
+successivement l’ouverture puis la fermeture d’une fenêtre.
+
 ## Historique conservé — 1.73.0
 
 # DEADWALL 1.73.0 — Équipements et haltes vivantes
