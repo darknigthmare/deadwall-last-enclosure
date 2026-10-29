@@ -522,8 +522,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169047,
-      "sha256": "143daa36b14911006e5917ec778dcff0bbb0b8494dd5f1ed9d45656adc885d89"
+      "bytes": 169191,
+      "sha256": "07eb276cd7c27982597a19124f51b562d1c9880e726aabf758590b19c038980b"
     },
     {
       "path": "src/exploration-pack.js",
@@ -657,8 +657,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 453835,
-      "sha256": "b3426228c9ce76f319760c0136484ba6fa60546b5b8d596924c19958d61e4f3e"
+      "bytes": 456294,
+      "sha256": "222e65a68ca33ad4f6f23bf4b5ef705ca62b7da1de5f9341132ed6b52ffc3b95"
     },
     {
       "path": "src/geography135.js",
@@ -1122,8 +1122,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 45532,
-      "sha256": "86115017ad74deb4b26828a88e8570eb88d9a48e4c52abadba50b49477ced9d6"
+      "bytes": 45697,
+      "sha256": "252b489564a3fe687d57a4e94a8edc55cb4eed98202815ae375089a96fc23d50"
     },
     {
       "path": "src/world-props-art153.js",
@@ -1664,8 +1664,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169047,
-      "sha256": "143daa36b14911006e5917ec778dcff0bbb0b8494dd5f1ed9d45656adc885d89"
+      "bytes": 169191,
+      "sha256": "07eb276cd7c27982597a19124f51b562d1c9880e726aabf758590b19c038980b"
     },
     {
       "path": "src/exploration-pack.js",
@@ -1799,8 +1799,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 453835,
-      "sha256": "b3426228c9ce76f319760c0136484ba6fa60546b5b8d596924c19958d61e4f3e"
+      "bytes": 456294,
+      "sha256": "222e65a68ca33ad4f6f23bf4b5ef705ca62b7da1de5f9341132ed6b52ffc3b95"
     },
     {
       "path": "src/geography135.js",
@@ -2264,8 +2264,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 45532,
-      "sha256": "86115017ad74deb4b26828a88e8570eb88d9a48e4c52abadba50b49477ced9d6"
+      "bytes": 45697,
+      "sha256": "252b489564a3fe687d57a4e94a8edc55cb4eed98202815ae375089a96fc23d50"
     },
     {
       "path": "src/world-props-art153.js",
