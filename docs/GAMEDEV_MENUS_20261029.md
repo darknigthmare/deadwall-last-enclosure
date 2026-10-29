@@ -64,6 +64,7 @@ possède pas cette entrée. Les contrats documentés dans
 | `src/fieldcraft.js` | Conservation du poste manuel et de la réimplantation ; exception du devis visible | `tests/modal-operations216.test.cjs` ; tests Fieldcraft existants |
 | `src/vertical-citadel175.js` | Suspension du trajet et du travail derrière les menus | `tests/modal-operations216.test.cjs` ; tests Citadel existants |
 | `src/exploration-125.js` et `src/fieldcraft.js` | Dimensions métriques rétablies avant la récupération physique au chargement | `tests/save-metric-geometry216.test.cjs` ; parcours services et reprise |
+| `scripts/browser-services208.mjs` | Origine physique des transitions et réadmission d'un passage devenu assez large | Archive native et contre-épreuve géométrique ; parcours services Chromium |
 
 Les douze nouveaux cas utilisent l'ordre de scripts du HTML livré sous DOM
 simulé. Avant correction, les dix cas d'entrées et les deux cas d'opérations
@@ -110,6 +111,43 @@ contrôles de corps à 0,32 m, de relâchement, de portée et de paiement. Les r
 géométriques sur les quatre poses du témoin vérifient le départ réel et son guide
 court ; le parcours Chromium complet qualifie ensuite le comportement observable.
 
+#### Réadmettre un passage depuis la position réellement atteinte
+
+Sur `6b27d0b`, le profil bureau réussit ses 55 contrôles, dont la reprise finale
+stricte. Le tactile s'arrête après 43 contrôles à 318,85 secondes de simulation :
+le personnage possède encore 70 points de vie, mais le noyau de D-17 est détruit.
+L'[archive originale](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/40928472387/artifacts/12922342691)
+conserve les 534 gestes observés, la cité initiale et l'état final. Son SHA-256
+est `7cd2434e436069bb08f3c17db6796cfc0efa10f4c8ec98d347e332f786e7bdea` ;
+les CRC de ses 27 membres ont été vérifiés.
+
+Le segment 5 de 21,77 m garde une admission initiale refusée à 0,38 m pendant
+107,209 secondes réelles. Il cumule 244 impulsions, dont 81 sans déplacement,
+et 32 inversions consécutives. L'admission figée maintient ainsi les petits
+gestes prudents même après le dégagement du coin initial. Le temps du monde
+continue entre les commandes natives ; les vagues et les dégâts restent actifs.
+
+Une lecture géométrique des 361 poses enregistrées sur les segments 5 et 6,
+avec les propriétaires et paramètres de carte du rapport, confirme le défaut.
+Dès le deuxième geste du segment 5, la pose réelle
+`(14581.375878190927, 2632.0962985729793)` admet la ligne vers la même cible à
+0,38 m, tandis que l'ancienne origine reste refusée. Le dégagement de 0,6 m est
+également disponible. Cette sonde n'instancie pas de jeu, n'avance aucune
+simulation et ne produit aucun déplacement natif.
+
+Le pilote réévalue maintenant une admission refusée depuis la pose courante.
+Quand la ligne vers la cible passe le même contrôle à 0,38 m, il conserve cette
+pose comme nouvelle origine du guide et journalise les deux origines dans
+`guideReadmissions`. L'origine et son admission évoluent ensemble. Les arrêts
+d'arrivée, d'interruption ou de transition restent prioritaires ; le corps de
+0,32 m, le dégagement de 0,6 m, les commandes et toutes les assertions restent
+ceux du parcours existant. Les stocks, la santé et l'horloge ne sont pas modifiés
+par le pilote.
+
+La contre-épreuve sur les anciennes poses vérifie ce changement de décision.
+Elle ne prédit pas la trajectoire future ni le temps de survie du camp : le
+parcours Chromium du nouveau commit doit les qualifier effectivement.
+
 ### Dimensions des décors avant récupération des acteurs à la reprise
 
 Sur la tête `3bb9b31`, le parcours bureau des services atteint les quatre supports
@@ -142,7 +180,10 @@ garde des révisions historiques. Le pilote des services conserve sa comparaison
 stricte de tous les propriétaires. En cas d'écart, il ajoute au rapport les valeurs
 attendues et restaurées des clés divergentes, avant de retirer son observateur.
 Cette lecture ne modifie pas l'état du jeu. Le défaut déterministe et l'échec CI
-initial restent deux preuves distinctes jusqu'au nouveau parcours navigateur.
+initial restent deux preuves distinctes. Sur `6b27d0b`, les cinq reprises
+effectivement atteintes sont strictement égales, dont la reprise finale du
+profil bureau ; le RNG final `3035373242` est conservé. L'échec tactile décrit
+plus haut intervient pendant la marche, avant sa dernière reprise.
 
 Commandes ciblées :
 

@@ -222,6 +222,16 @@ déclarer le contrôle réussi. En particulier,
 `tests/generation-performance.test.cjs` contrôle des contrats de géométrie et de
 cache ; les performances graphiques se mesurent dans un vrai navigateur.
 
+Un pilote de déplacement doit conserver ensemble l'origine réellement atteinte
+et l'admission géométrique de son guide. Une marge refusée au départ peut être
+réévaluée après un déplacement natif, avec le même rayon et la même cible ;
+consigner la pose qui justifie le changement. Garder les arrêts de sécurité et
+les assertions de gameplay. Distinguer la contre-épreuve géométrique sur des
+poses archivées du nouveau parcours natif, notamment lorsque le camp et les
+vagues continuent d'évoluer pendant les commandes. Le
+[cas services208](GAMEDEV_MENUS_20261029.md#réadmettre-un-passage-depuis-la-position-réellement-atteinte)
+documente cette distinction et ses preuves.
+
 ## 7. Provenance et entretien
 
 Les guides amont sont publiés par **Abhishek Barali et les contributeurs** sous
