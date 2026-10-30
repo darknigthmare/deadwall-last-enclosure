@@ -128,7 +128,8 @@
     setVolume(value) { this.volume=clamp(Number(value)||0,0,1);this.setMuted(this.muted); }
     voice(build) {
       const limits=C.Audio199Rules;
-      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.ctx.state==='closed' || this.voices>=limits.maxVoices) return false;
+      // A stopped audio clock would queue old events at the same time and burst on resume.
+      if (!this.ctx || !this.master || !this.enabled || this.muted || this.volume<=0 || this.ctx.state!=='running' || this.voices>=limits.maxVoices) return false;
       const nodes=[];let source=null,counted=false,released=false;
       const own=node=>{if(!node)throw new Error('Ressource audio indisponible.');nodes.push(node);return node;};
       const release=()=>{
@@ -443,6 +444,12 @@
       addEventListener('blur', () => this.suspendForFocusLoss());
       document.addEventListener('visibilitychange', () => { if (document.hidden) this.suspendForFocusLoss(); });
       addEventListener('keydown', event => {
+        // A held confirmation must not activate the next focused native control.
+        if (event.repeat && ['Enter', 'NumpadEnter'].includes(event.code) &&
+            !event.ctrlKey && !event.altKey && !event.metaKey &&
+            event.target?.closest?.('button, summary, a[href], [role="button"]')) {
+          event.preventDefault(); return;
+        }
         if (event.code === 'Escape') { event.preventDefault(); if (!event.repeat) this.onEscape(); return; }
         if (event.code === 'Tab' && this.activeOverlay) { this.trapOverlayFocus(event); return; }
         if (!playable()) return;
@@ -450,7 +457,7 @@
         if (event.target?.closest?.('input, select, textarea, [contenteditable="true"]')) return;
         // Browser/OS shortcuts must not move, reload or command the colony.
         if (event.ctrlKey || event.altKey || event.metaKey) return;
-        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter'].includes(event.code)) return;
+        if (event.target?.closest?.('button, summary, a[href], [role="button"]') && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','Enter','NumpadEnter'].includes(event.code)) return;
         if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code)) event.preventDefault();
         if (!event.repeat) this.input.pressed.add(event.code);
         hardwareKeys.add(event.code); this.input.keys.add(event.code);
@@ -538,7 +545,7 @@
       click('continueButton', () => this.load());
       click('howToButton', () => this.showHelp(true)); click('helpPauseButton', () => this.showHelp(true)); click('closeHelp', () => this.showHelp(false));
       click('pauseButton', () => this.togglePause()); click('resumeButton', () => this.togglePause(false)); click('saveButton', () => this.save(true));
-      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13)); click('gameOverMenuButton', () => this.returnToMenu());
+      click('quitButton', () => this.returnToMenu()); click('restartButton', () => this.replayCurrentMap()); click('gameOverMenuButton', () => this.returnToMenu());
       click('gameOverNewMapButton', () => this.startNew(this.difficulty.id, '', this.scenarioId, this.frontier?.position().landscape189||'classic', this.frontier?.position().generation>=10 && this.frontier?.position().detailVersion===13));
       click('toggleBuild', () => this.setBuildCollapsed(!this.buildCollapsed));
       click('closeSelection', () => this.selectBuilding(null)); click('repairSelected', () => this.repairSelected()); click('upgradeSelected', () => this.upgradeSelected()); click('demolishSelected', () => this.requestDemolition());
@@ -682,9 +689,35 @@
       return seed;
     }
 
-    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false) {
+    campaignMapRecipe() {
+      const regional = this.frontier.position(), local = this.exploration125 || {generation:3,layoutRevision:1};
+      return { generation:regional.generation, detailVersion:regional.detailVersion, ecologyVersion:regional.ecologyVersion, hydrologyVersion:regional.hydrologyVersion,
+        landscape189:regional.landscape189||'classic', cityGeometry202:this.world.cityGeometry202||0, explorationGeneration:local.generation, layoutRevision:local.layoutRevision };
+    }
+
+    validateCampaignMapRecipe(raw, landscape189) {
+      const keys = ['generation','detailVersion','ecologyVersion','hydrologyVersion','landscape189','cityGeometry202','explorationGeneration','layoutRevision'];
+      const invalid = () => { throw new RangeError('Paramètres de rejeu de la carte invalides.'); };
+      if (!raw || typeof raw !== 'object' || Array.isArray(raw) || Object.keys(raw).length !== keys.length || keys.some(key => !Object.hasOwn(raw,key))) invalid();
+      const recipe = Object.fromEntries(keys.map(key => [key,raw[key]]));
+      C.CityGeometry202.version(recipe.cityGeometry202);
+      if (recipe.landscape189 !== landscape189 || ![3,4].includes(recipe.explorationGeneration) || ![1,2,3,4].includes(recipe.layoutRevision) ||
+          recipe.generation >= 4 && recipe.explorationGeneration !== 4 || recipe.layoutRevision === 4 && recipe.cityGeometry202 !== 1 ||
+          keys.filter(key => key !== 'landscape189').some(key => !Number.isInteger(recipe[key]))) invalid();
+      C.Frontier.normalize({...C.Frontier.initial(),generation:recipe.generation,detailVersion:recipe.detailVersion,ecologyVersion:recipe.ecologyVersion,hydrologyVersion:recipe.hydrologyVersion,landscape189:recipe.landscape189});
+      return Object.freeze(recipe);
+    }
+
+    replayCurrentMap() {
+      const recipe = this.campaignMapRecipe();
+      // Reuse only the map's versions; every campaign owner still starts fresh.
+      return this.startNew(this.difficulty.id, String(this.world.seed), this.scenarioId, recipe.landscape189, recipe.cityGeometry202 === 1, recipe);
+    }
+
+    startNew(id = 'standard', seedText = '', scenarioId = 'classic', landscape189 = 'classic', currentContent194 = false, mapRecipe) {
       if(typeof currentContent194!=='boolean'){this.notify('Paramètres de départ invalides.', 'danger');return false;}
       if(typeof landscape189!=='string'||!Object.hasOwn(C.Landscape189Rules.presets,landscape189)){this.notify('Profil de paysage invalide.', 'danger');return false;}
+      if(mapRecipe!==undefined){try{mapRecipe=this.validateCampaignMapRecipe(mapRecipe,landscape189);}catch(error){this.notify(error.message,'danger');return false;}}
       let seed;
       try { seed = globalThis.DeadwallProfile?.normalizeSeed(seedText) ?? null; }
       catch (error) { const input=document.getElementById('mapSeed'); input?.setCustomValidity?.(error.message); input?.reportValidity?.(); return false; }
@@ -695,8 +728,8 @@
       catch (error) { this.notify(error.message, 'danger'); return false; }
       this.scenarioId = scenario.id;
       this.audio.unlock(); this.difficulty = DIFFICULTIES[id]; this.random = new Random(Date.now()); this.nextId = 1;
-      if(this.exploration125)this.exploration125.layoutRevision=currentContent194?4:3;
-      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), currentContent194 ? 1 : 0); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
+      if(this.exploration125){this.exploration125.layoutRevision=mapRecipe?.layoutRevision??(currentContent194?4:3);if(mapRecipe)this.exploration125.generation=mapRecipe.explorationGeneration;}
+      this.world = new WorldMap(seed ?? this.previewMapSeed135 ?? this.freshMapSeed(), mapRecipe?.cityGeometry202 ?? (currentContent194 ? 1 : 0)); this.previewMapSeed135 = null; this.flow = new FlowField(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = []; this.buckets.clear();
       this.fieldMarker=null;this.narrative=globalThis.DeadwallNarrative.create();this.workerOrder = 'auto'; this.runId = 'run:' + (globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + ':' + Math.random().toString(36).slice(2));
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
@@ -719,6 +752,7 @@
       this.squads = globalThis.DeadwallSquads.create(this.rally);
       this.ensureSquads();
       this.cancelPlacement(); this.selectBuilding(null); this.refreshMetrics(true); this.flow.rebuild(this.world, core); this.camera.x = this.player.x; this.camera.y = this.player.y; this.camera.zoom = this.world.cityGeometry202 ? C.CityGeometry202.defaultZoom : 1;
+      this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
       this.ui.commandModal?.classList.add('hidden'); this.state = 'playing'; this.helpWasPaused = null; this.ui.mainMenu.classList.add('hidden'); this.ui.pauseMenu.classList.add('hidden'); this.ui.helpModal.classList.add('hidden'); this.ui.gameOver.classList.add('hidden'); this.ui.hud.classList.remove('hidden'); this.syncOverlayFocus();
       this.notify(`Protocole lancé — difficulté ${this.difficulty.label}.`, 'good'); this.notify('Récoltez puis rapportez les matériaux au centre.'); this.refreshBuildMenu(true); this.updateUI(); this.save(false);
       if (scenario.id !== 'classic') this.notify(globalThis.DeadwallScenarios.get(scenario.id).name + ' — ' + globalThis.DeadwallScenarios.get(scenario.id).tradeoff);
@@ -806,6 +840,7 @@
       this.fieldMarker=null;this.narrative=data.narrative;this.workerOrder=data.workerOrder;this.runId=data.runId;this.ui.commandModal?.classList.add('hidden');
       this.scenarioId = data.scenarioId; this.squads = data.squads;
       this.buckets.clear();this.cancelPlacement();this.selectBuilding(null);this.refreshMetrics(true);this.camera.x=this.player.x;this.camera.y=this.player.y;
+      this.camera.shake = 0; this.frameShake = {x: 0, y: 0};
       this.state='playing';for(const node of [this.ui.mainMenu,this.ui.pauseMenu,this.ui.helpModal,this.ui.gameOver,this.ui.settingsModal])node?.classList.add('hidden');this.ui.hud.classList.remove('hidden');this.syncOverlayFocus();this.refreshBuildMenu(true);this.updateUI();this.audio.unlock();return true;
     }
 
@@ -848,6 +883,7 @@
       if (!this.ui.helpModal.classList.contains('hidden')) { this.showHelp(false); return; }
       if(this.ui.commandModal&&!this.ui.commandModal.classList.contains('hidden')){this.showCommand?.(false);return;}
       if (this.state !== 'playing' || this.gameOver) return;
+      if (this.activeOverlay === this.ui.pauseMenu) { this.togglePause(false); return; }
       if (this.selectedBuild || this.rallyPlacement) { this.cancelPlacement(); return; }
       this.togglePause();
     }
@@ -2295,8 +2331,11 @@
     render() {
       const ctx = this.ctx;
       ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); ctx.fillStyle = '#171c18'; ctx.fillRect(0, 0, this.width, this.height);
-      const shakeX = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
-      const shakeY = this.camera.shake && !this.settings.reducedMotion ? (Math.random() - .5) * this.camera.shake : 0;
+      // Sampling active simulation time keeps impacts smooth and still during pause,
+      // regardless of how often the scene is painted. Only the visual offset moves.
+      const shake = this.settings.reducedMotion ? 0 : this.camera.shake / 2, shakeTime = this.elapsed * 30;
+      const shakeX = shake ? Math.sin(shakeTime * 1.7) * shake : 0;
+      const shakeY = shake ? Math.sin(shakeTime * 2.3 + 1.2) * shake : 0;
       this.frameShake={x:shakeX,y:shakeY};
       ctx.save(); ctx.translate(this.width / 2 + shakeX, this.height / 2 + shakeY); ctx.scale(this.camera.zoom, this.camera.zoom); ctx.translate(-this.camera.x, -this.camera.y);
       const view = this.viewBounds();
@@ -3568,7 +3607,13 @@
   if(g.input.keys.has('KeyE')){const r=engine.explore(s.id,Math.min(dt,R.maxStep),{running:true,day:true,accessible:true,secure:secure(s),dead:false,bag:g.player.carry,capacity:g.player.carryCapacity});if(r.completed){g.notify(r.unlock?'Relevé terminé : nouveau plan disponible.':'Relevé terminé : les fournitures peuvent être récupérées.','good');g.refreshBuildMenu(true);g.save(false);}if(r.taken)g.stats.gathered+=r.taken;}
  });
  for(const name of ['shootPlayer','melee','startReload'])wrap(name,(original,...args)=>toolActive()?false:original(...args));
- if(typeof g.onEscape==='function')wrap('onEscape',(original,...args)=>{anchorClick=null;if(placing||preview){placing=null;preview=null;tell('Projet annulé sans dépense.');return;}return original(...args);});
+ if(typeof g.onEscape==='function')wrap('onEscape',(original,...args)=>{
+  const panel=g.ui.commandModal?.querySelector('#dayworksCancel');
+  // The visible project may consume Back inside its own notebook page only.
+  const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
+  if(g.activeOverlay&&!ownsPreview)return original(...args);
+  anchorClick=null;if(placing||preview){placing=null;preview=null;tell('Projet annulé sans dépense.');return;}return original(...args);
+ });
  function drawSites(ctx){const view=g.viewBounds();for(const s of engine.state.sites){if(!s.seen||!g.visible(s.x,s.y,40,view))continue;const found=s.survey>=6;
    if(root.DeadwallReconArt){const overlap=[[-18,-18],[18,-18],[-18,18],[18,18],[0,0]].some(([x,y])=>{const b=g.world.at(s.x+x,s.y+y);return b&&!b.dead;});if(!overlap)root.DeadwallReconArt.draw(ctx,s,{selected:selectedSite===s.id,label:selectedSite===s.id});continue;}
    if(found&&s.remaining<=.001)continue;
@@ -4082,7 +4127,12 @@
   for(const name of ['shootPlayer','melee','startReload'])wrap(name,(old,...args)=>activeTool()||tool==='trace'||preview?false:old(...args));
   if(typeof g.cancelPlacement==='function')wrap('cancelPlacement',(old,...args)=>{anchor=null;preview=null;if(tool==='trace')tool='none';return old(...args);});
   if(typeof g.selectBuild==='function')wrap('selectBuild',(old,...args)=>{tool='none';anchor=null;preview=null;return old(...args);});
-  if(typeof g.onEscape==='function')wrap('onEscape',(old,...args)=>{if(preview||anchor||tool!=='none'){tool='none';cancel();return;}return old(...args);});
+  if(typeof g.onEscape==='function')wrap('onEscape',(old,...args)=>{
+   const panel=g.ui.commandModal?.querySelector('#infraCancel');
+   const ownsPreview=preview&&g.activeOverlay===g.ui.commandModal&&panel&&g.ui.commandModal.contains(panel)&&!panel.closest('[inert], .hidden');
+   if(g.activeOverlay&&!ownsPreview)return old(...args);
+   if(preview||anchor||tool!=='none'){tool='none';cancel();return;}return old(...args);
+  });
   wrap('destroyBuilding',(old,b,...args)=>{
     ensure();const record=b&&!b.dead&&g.world.buildings.get(b.id)===b&&b.type!=='core'?{id:b.id,type:b.type,gx:b.gx,gy:b.gy,rotation:b.rotation||0}:null;
     const result=old(b,...args);if(record&&!g.gameOver&&!g.world.buildings.has(record.id))engine.remember(record,g.elapsed);return result;
@@ -4236,7 +4286,10 @@
    return save.apply(game,args);
   };
   const decorate=start=>function startCampaignTransaction202(...args){
-   const outer=depth===0,previousWorld=game.world;if(outer){failed=false;starting.add(game);}depth++;
+   const outer=depth===0,previousWorld=game.world;
+   // Reject a replay recipe before UI wrappers close overlays or owners reset.
+   if(outer&&args[5]!==undefined){try{args[5]=game.validateCampaignMapRecipe(args[5],args[3]??'classic');}catch(error){game.notify?.(error.message,'danger');return false;}}
+   if(outer){failed=false;starting.add(game);}depth++;
    let result,completed=false;
    try{result=start.apply(game,args);completed=true;if(result===false)failed=true;return result;}
    catch(error){failed=true;throw error;}

@@ -1194,14 +1194,20 @@
     return null;
   }
 
-  function packMetricScenery202(game,plan,savedAmounts) {
-    if(plan.layoutRevision!==4)return;
+  function prepareMetricScenery202(game,layoutRevision) {
+    if(layoutRevision!==4||game.world?.cityGeometry202!==1)return;
     const u=C.TILE||32,profiles=C.WorldEvolution?.RULES?.vehicles||{};
     for(const node of game.world.nodes){
       const variant=Math.abs(node.variant||0)%4,vehicle=!node.sceneryKind&&(node.type==='scrap'?({1:'break',2:'van',3:'truck'})[variant]:node.type==='fuel'&&variant%2?'break':null),profile=vehicle&&profiles[vehicle],size=C.CityGeometry202.sceneryMetres[node.sceneryKind]||(profile?[profile.w,profile.h]:null);
       if(!size)continue;node.metric202=1;node.body202={w:size[0]*u,h:size[1]*u};node.renderSize=Math.max(node.body202.w,node.body202.h);
     }
+  }
+
+  function packMetricScenery202(game,plan,savedAmounts) {
+    if(plan.layoutRevision!==4)return;
+    prepareMetricScenery202(game,plan.layoutRevision);
     if(game.world.__terrain133Prepared||savedAmounts instanceof Map)return;
+    const u=C.TILE||32;
     const placed=[],placement=createMetricSceneryPlacement202(game,plan,{occupied:placed}),{reserve,fixtures,fits}=placement;
     // Reserve an undeveloped district for actual city construction. Move finite
     // scenery deposits during creation, retaining every ID and every quantity;
@@ -1484,11 +1490,13 @@
       if(typeof game.startNew==='function'){
         const baseStart=game.startNew.bind(game);
         game.startNew=function startNew125(...args){const result=baseStart(...args);if(result===false)return result;if(this.state==='playing'){
-          this.exploration125.layoutRevision=this.world.cityGeometry202===1?4:3;
-          if(!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
+          const recipe=args[5];
+          this.exploration125.layoutRevision=recipe?.layoutRevision??(this.world.cityGeometry202===1?4:3);
+          const generation=recipe?.explorationGeneration??4;
+          if(generation===4&&!this.worldEvolution?.enableWorld4?.())throw Error('La génération 4 régionale n’a pas pu être activée.');
           // The first autosave already recorded this campaign ID. Generation now
           // lives in its explicit register; keep :g4 as a legacy read hint only.
-          this.exploration125.generation=4;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;
+          this.exploration125.generation=generation;this.d17RegionOffset={x:0,y:0};if(this.player)this.player.posture='stand';this.exploration125.wildNext=0;this.exploration125.wildHordes=0;
           if(this.exploration125.layoutRevision!==4||metricPreparedRun202?.id!==this.runId||metricPreparedRun202?.seed!==this.world.seed)delete this.world.__terrain133Prepared;
           sync();this.save?.(false);
         }return result;};
@@ -1904,7 +1912,7 @@
     game.__exploration125Installed = true;
     const worldSize = C?.WORLD_SIZE || 4096;
     const plan = createFeaturePlan(game.world?.seed ?? 17117, worldSize);
-    game.exploration125 = { version: VERSION, plan, codex: WORLD_CODEX, generation: 3, layoutRevision:1 };
+    game.exploration125 = { version: VERSION, plan, codex: WORLD_CODEX, generation: 3, layoutRevision:1, prepareMetricScenery202:revision=>prepareMetricScenery202(game,revision) };
     installSaveExtension(game);
     const syncPlan = installPlanSync(game, plan);
     game.exploration125.syncPlan = syncPlan;

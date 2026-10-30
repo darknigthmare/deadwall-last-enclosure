@@ -111,18 +111,25 @@ function prepareServices208(){
 }
 
 async function nativeWalk(page,context,touch,points,arrival={}){
- const keys={left:'a',right:'d',up:'w',down:'s'},stats={coordinateAssignments:0,inputs:0,postureInputs:0,measuredHolds:[],waypointTransitions:[],rejoins:[],collisionAvoidance:[],segments:[],lastMovements:[]},boxes={};let session;
+ const keys={left:'a',right:'d',up:'w',down:'s'},stats={coordinateAssignments:0,inputs:0,postureInputs:0,measuredHolds:[],waypointTransitions:[],guideOrigins:[],guideReadmissions:[],rejoins:[],collisionAvoidance:[],segments:[],lastMovements:[]},boxes={};let session,nextGuideStart=null;
  if(touch){session=await context.newCDPSession(page);for(const direction of Object.keys(keys)){const b=await page.locator('#touchControls [data-dir="'+direction+'"]').boundingBox();assert.ok(b);boxes[direction]={x:b.x+b.width/2,y:b.y+b.height/2};}}
  if(!touch)await page.locator('#game').focus();
  try{for(let i=1;i<points.length;i++){
-  const target=points[i],plannedStart=points[i-1],origin=await page.evaluate(()=>DEADWALL.frontier.position()),length=Math.hypot(target.x-origin.x,target.y-origin.y),started=Date.now();if(length<.055&&!arrival.support&&!arrival.interrupt)continue;
-  const admittedPlanningRadius38=await page.evaluate(({a,b,inside})=>DEADWALL.frontier.world().movementLine(a,b,0,inside,null,.38),{a:plannedStart,b:target,inside:origin.inside});let stalls=0,lastProgress=Date.now(),appliedPosture=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);
+  let plannedStart=nextGuideStart??points[i-1];const target=points[i],origin=await page.evaluate(()=>DEADWALL.frontier.position()),length=Math.hypot(target.x-origin.x,target.y-origin.y),started=Date.now();nextGuideStart=null;if(length<.055&&!arrival.support&&!arrival.interrupt)continue;
+  let admittedPlanningRadius38=await page.evaluate(({a,b,inside})=>DEADWALL.frontier.world().movementLine(a,b,0,inside,null,.38),{a:plannedStart,b:target,inside:origin.inside});let stalls=0,lastProgress=Date.now(),appliedPosture=await page.evaluate(()=>DEADWALL.worldEvolution.posture().key);
+  stats.guideOrigins.push({index:i,preparedStart:points[i-1],guideStart:plannedStart,fromAcceptedTransition:plannedStart!==points[i-1],admittedPlanningRadius38});
   while(true){
    const observation=await page.evaluate(({target,next,support,interrupt,from,plannedStart,admitted,touch})=>{
     const g=DEADWALL,w=g.frontier.world(),p=g.frontier.position(),clear=!w.blocked(p.x,p.y,.32,0,p.inside),active=g.state==='playing'&&!g.gameOver&&!g.activeOverlay,remaining=Math.hypot(target.x-p.x,target.y-p.y);
     let resolved=null;if(support)resolved=DeadwallCampaignServices208.resolve(w,p,support,g.frontier.discoveries(),{structureDestroyed:id=>g.worldEvolution.structureDestroyed(id)});
     const result={pose:p,clear,active,remaining,health:g.player.health,keys:[...g.input.keys].filter(k=>['KeyA','KeyD','KeyW','KeyS'].includes(k)),gameOver:!!g.gameOver,overlay:g.activeOverlay?.id??null,support:resolved&&{ok:resolved.ok,supportId:resolved.supportId,action:resolved.action,reason:resolved.reason,distance:Math.hypot(p.x-support.anchor.x,p.y-support.anchor.y)},interrupted:!!interrupt&&!g.survivalPack.busy()&&Math.hypot(p.x-from.x,p.y-from.y)>.01,nextClear:!!next&&clear&&w.movementLine(p,next,0,p.inside,null,.32)};
     if(!active||!clear||result.support?.ok||result.interrupted||result.nextClear||remaining<.055)return result;
+    // A narrow transition can leave the remaining line clear at planning radius.
+    // Admit that actual line once, with the same pose as its new guide origin.
+    if(!admitted&&w.movementLine(p,target,0,p.inside,null,.38)){
+     const previousGuideStart=plannedStart;plannedStart={...p};admitted=true;
+     result.guideReadmission={previousGuideStart,guideStart:plannedStart,radius:.38};
+    }
     const vx=target.x-plannedStart.x,vy=target.y-plannedStart.y,plannedLength=Math.hypot(vx,vy),progress=Math.max(0,Math.min(plannedLength,((p.x-plannedStart.x)*vx+(p.y-plannedStart.y)*vy)/plannedLength));
     let fast=admitted&&remaining>1,open=fast&&!w.blocked(p.x,p.y,.6,0,p.inside)&&w.movementLine(p,{x:p.x+(target.x-p.x)/remaining*Math.min(1,remaining),y:p.y+(target.y-p.y)/remaining*Math.min(1,remaining)},0,p.inside,null,.6),ahead=Math.min(plannedLength,progress+(open?.5:fast?.18:.06)),aim={x:plannedStart.x+vx/plannedLength*ahead,y:plannedStart.y+vy/plannedLength*ahead},rejoining=false;
     if(!w.movementLine(p,aim,0,p.inside,null,.32)){if(!w.movementLine(p,plannedStart,0,p.inside,null,.32))return{...result,guideClear:false};aim=plannedStart;rejoining=true;fast=false;open=false;}
@@ -130,9 +137,15 @@ async function nativeWalk(page,context,touch,points,arrival={}){
     return{...result,guideClear:true,fast,open,aim,rejoining,step,steering:{best,preferred:ranked[0],tested}};
    },{target,next:i<points.length-1?points[i+1]:null,support:arrival.support??null,interrupt:!!arrival.interrupt,from:points[0],plannedStart,admitted:admittedPlanningRadius38,touch:!!touch});
    const p=observation.pose,remaining=observation.remaining;assert.ok(observation.active&&observation.clear&&observation.health>0,'Native campaign and actor remain active before walking: '+JSON.stringify({gameOver:observation.gameOver,overlay:observation.overlay,clear:observation.clear}));assert.equal(observation.keys.length,0,'The previous native input is released before the next decision');
+   if(observation.guideReadmission){
+    const change={index:i,...observation.guideReadmission};plannedStart=change.guideStart;admittedPlanningRadius38=true;stats.guideReadmissions.push(change);
+    console.log(JSON.stringify({profile:touch?'mobile':'desktop',nativeWalkReadmission:change}));
+   }
    if(observation.support?.ok){stats.supportArrival={...observation.support,pose:p,authority:'native resolve208 with unchanged product reach, wall, floor and shelter checks'};return stats;}
    if(observation.interrupted){stats.interruptionArrival={pose:p,actualMetres:Math.hypot(p.x-points[0].x,p.y-points[0].y)};return stats;}
-   if(observation.nextClear){stats.waypointTransitions.push({index:i,pose:p,remainingToMathematicalPoint:remaining,next:points[i+1],authority:'actual next segment clear at native0.32m body radius'});break;}
+   // The next line was admitted from this real pose, not the skipped point.
+   // Its guide must use that origin and recompute its own 0.38m admission.
+   if(observation.nextClear){nextGuideStart={...p};stats.waypointTransitions.push({index:i,pose:p,remainingToMathematicalPoint:remaining,next:points[i+1],authority:'actual next segment clear at native0.32m body radius'});break;}
    if(remaining<.055)break;assert.ok(observation.guideClear,'A real physical line rejoins the original planned segment');assert.ok(observation.steering.best,'A native compass pulse has a real collision-free physical ray');
    if(Date.now()-lastProgress>=10000){console.log(JSON.stringify({profile:touch?'mobile':'desktop',nativeWalkProgress:i,total:points.length-1,metres:length,remaining,pose:{x:p.x,y:p.y},realMilliseconds:Date.now()-started,inputs:stats.inputs}));lastProgress=Date.now();}if(Date.now()-started>Math.max(90000,length*30000))throw Error('Native service walk timed out '+JSON.stringify({i,p,target,remaining}));
    const{fast,open,step,steering}=observation;if(observation.rejoining)stats.rejoins.push({index:i,pose:p,aim:observation.aim});
@@ -159,7 +172,14 @@ async function nudge(page,context,touch){
 async function saveContinue(page,touch){
  await pause(page,touch);await activate(page,'#saveButton',touch);const checkpoint=await persistedSnapshot(page);assert.ok(checkpoint.ok);await activate(page,'#quitButton',touch);await page.reload({waitUntil:'networkidle'});await ready(page);
  await page.evaluate(()=>{const g=DEADWALL,original=g.restoreSave,descriptor=Object.getOwnPropertyDescriptor(g,'restoreSave');globalThis.__SERVICES208_RESTORE__={g,original,descriptor};globalThis.__DEADWALL_QA_RESTORED_144__=null;g.restoreSave=function(...args){const result=original.apply(this,args),{timestamp,...data}=DeadwallSave.validate(g.serialize());globalThis.__DEADWALL_QA_RESTORED_144__=structuredClone(data);return result;};});
- try{await activate(page,'#continueButton',touch);await page.waitForFunction(()=>DEADWALL.state==='playing');checkpoint.restoreComparison=await page.evaluate(persistentRestoreComparison,{material:checkpoint.material,cp:checkpoint});checkpoint.pass=checkpoint.restoreComparison.pass;}
+ try{
+  await activate(page,'#continueButton',touch);await page.waitForFunction(()=>DEADWALL.state==='playing');
+  checkpoint.restoreComparison=await page.evaluate(persistentRestoreComparison,{material:checkpoint.material,cp:checkpoint});checkpoint.pass=checkpoint.restoreComparison.pass;
+  if(!checkpoint.pass)checkpoint.restoreDifferences=await page.evaluate(({material,keys})=>{
+   const expected=JSON.parse(material),restored=globalThis.__DEADWALL_QA_RESTORED_144__;
+   return{observationAvailable:!!restored,fields:Object.fromEntries(keys.map(key=>[key,{expected:expected[key],restored:restored?.[key]}]))};
+  },{material:checkpoint.material,keys:checkpoint.restoreComparison.changedKeys});
+ }
  finally{checkpoint.wrapperRestored=await page.evaluate(()=>{const s=__SERVICES208_RESTORE__;if(s.descriptor)Object.defineProperty(s.g,'restoreSave',s.descriptor);else delete s.g.restoreSave;const restored=s.g.restoreSave===s.original;delete globalThis.__SERVICES208_RESTORE__;delete globalThis.__DEADWALL_QA_RESTORED_144__;return restored;});}
  return checkpoint;
 }

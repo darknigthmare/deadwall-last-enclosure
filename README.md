@@ -6,6 +6,22 @@ Les travaux demandent un vrai accès au support, les mains disponibles et des ab
 
 Le [guide 1.74](docs/LIVRAISON_1_74.md) et la [fiche des récupérateurs](docs/codex/suivi-monde2026/RECUPERATEURS_G11_2026.md) décrivent les conditions. Les preuves de géométrie, de transactions, de sauvegarde et de publication restent distinctes dans le suivi.
 
+## Développement guidé
+
+Les [consignes du projet](AGENTS.md) s'appuient sur une
+[sélection de guides gamedev adaptée à DEADWALL](docs/GAMEDEV_GUIDANCE.md) :
+monde et seeds, sauvegardes, navigation, HUD, animations, audio et performances.
+Le guide relie les méthodes au moteur existant, aux tests et à douze scénarios
+de réception, avec des références amont figées pour les futures contributions.
+
+La [passe de retours d’action et de commandes](docs/GAMEDEV_FEEDBACK_20261029.md)
+applique ces guides aux tremblements de caméra pendant une pause, à la reprise
+d’un périphérique audio et à la touche maintenue d’ouverture du sac.
+
+La [passe de navigation clavier](docs/GAMEDEV_MENUS_20261029.md) conserve les
+actions de terrain derrière les menus et empêche Entrée maintenue d’activer
+successivement l’ouverture puis la fermeture d’une fenêtre.
+
 ## Historique conservé — 1.73.0
 
 # DEADWALL 1.73.0 — Équipements et haltes vivantes

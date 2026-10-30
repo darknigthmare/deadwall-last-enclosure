@@ -564,8 +564,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169047,
-      "sha256": "143daa36b14911006e5917ec778dcff0bbb0b8494dd5f1ed9d45656adc885d89"
+      "bytes": 169474,
+      "sha256": "db9e914661e5b26f9f2dfbf2ebf497adfc45fbca36101ce77418f64bdc4eb2d3"
     },
     {
       "path": "src/exploration-pack.js",
@@ -609,8 +609,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 26728,
-      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+      "bytes": 27311,
+      "sha256": "076d65315e2df39572591fa6a152b407a192f7a8be20f574130d7154a99928ec"
     },
     {
       "path": "src/forage-art193.js",
@@ -699,8 +699,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 453835,
-      "sha256": "b3426228c9ce76f319760c0136484ba6fa60546b5b8d596924c19958d61e4f3e"
+      "bytes": 457783,
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
     },
     {
       "path": "src/geography135.js",
@@ -774,8 +774,8 @@
     },
     {
       "path": "src/loadout-ui129.js",
-      "bytes": 19792,
-      "sha256": "0a89b3acf3649f94a1a70eab8ebe530af7c12fbcbcca7d18f70b4f10e596c19f"
+      "bytes": 19895,
+      "sha256": "794c969d19a4469e3e3f598f44883f25ec188e638b5c7f68de934eff25ac24a8"
     },
     {
       "path": "src/loadout129.js",
@@ -1039,8 +1039,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58512,
-      "sha256": "496f057e02c96cdc08536253a9a09f1b3d85877fba97b941dfde0b396e6fb5c6"
+      "bytes": 58551,
+      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
     },
     {
       "path": "src/vertical-network179.js",
@@ -1164,8 +1164,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 45532,
-      "sha256": "86115017ad74deb4b26828a88e8570eb88d9a48e4c52abadba50b49477ced9d6"
+      "bytes": 45697,
+      "sha256": "252b489564a3fe687d57a4e94a8edc55cb4eed98202815ae375089a96fc23d50"
     },
     {
       "path": "src/world-props-art153.js",
@@ -1821,8 +1821,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169047,
-      "sha256": "143daa36b14911006e5917ec778dcff0bbb0b8494dd5f1ed9d45656adc885d89"
+      "bytes": 169474,
+      "sha256": "db9e914661e5b26f9f2dfbf2ebf497adfc45fbca36101ce77418f64bdc4eb2d3"
     },
     {
       "path": "src/exploration-pack.js",
@@ -1866,8 +1866,8 @@
     },
     {
       "path": "src/fieldcraft.js",
-      "bytes": 26728,
-      "sha256": "35b64b372f1a2bfdf622ec22a9c01ba64505797bed1356fa0b795376e4c631b0"
+      "bytes": 27311,
+      "sha256": "076d65315e2df39572591fa6a152b407a192f7a8be20f574130d7154a99928ec"
     },
     {
       "path": "src/forage-art193.js",
@@ -1956,8 +1956,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 453835,
-      "sha256": "b3426228c9ce76f319760c0136484ba6fa60546b5b8d596924c19958d61e4f3e"
+      "bytes": 457783,
+      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
     },
     {
       "path": "src/geography135.js",
@@ -2031,8 +2031,8 @@
     },
     {
       "path": "src/loadout-ui129.js",
-      "bytes": 19792,
-      "sha256": "0a89b3acf3649f94a1a70eab8ebe530af7c12fbcbcca7d18f70b4f10e596c19f"
+      "bytes": 19895,
+      "sha256": "794c969d19a4469e3e3f598f44883f25ec188e638b5c7f68de934eff25ac24a8"
     },
     {
       "path": "src/loadout129.js",
@@ -2296,8 +2296,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58512,
-      "sha256": "496f057e02c96cdc08536253a9a09f1b3d85877fba97b941dfde0b396e6fb5c6"
+      "bytes": 58551,
+      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
     },
     {
       "path": "src/vertical-network179.js",
@@ -2421,8 +2421,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 45532,
-      "sha256": "86115017ad74deb4b26828a88e8570eb88d9a48e4c52abadba50b49477ced9d6"
+      "bytes": 45697,
+      "sha256": "252b489564a3fe687d57a4e94a8edc55cb4eed98202815ae375089a96fc23d50"
     },
     {
       "path": "src/world-props-art153.js",

@@ -223,13 +223,23 @@ function attach(g){
     return {...value,fieldcraft:{...value.fieldcraft,nodes:value.nodes.map(n=>points.get(n[0]))}};
    }
    const data=prepared(root.DeadwallSave.validate(prepared(input))),before=g.world,result=old(data);
-  if(before!==g.world){setup(data.fieldcraft.nodes,Boolean(data.fieldcraft.nodes.length&&!legacyLayout&&!data.fieldcraft.legacyLayout));opacity=data.fieldcraft.opacity;attempt=data.fieldcraft.attempt;outcome=data.fieldcraft.outcome;cancel();mounted=null;action=null;}
+  if(before!==g.world){
+    // Restore derived bodies before recovery reads them; the live plan may still
+    // belong to the previous campaign, so use the validated save's revision.
+    g.exploration125?.prepareMetricScenery202?.(data.exploration125?.layoutRevision);
+    setup(data.fieldcraft.nodes,Boolean(data.fieldcraft.nodes.length&&!legacyLayout&&!data.fieldcraft.legacyLayout));opacity=data.fieldcraft.opacity;attempt=data.fieldcraft.attempt;outcome=data.fieldcraft.outcome;cancel();mounted=null;action=null;
+  }
   return result;
  });
  wrap('startNew',(old,...a)=>{
   const before=g.world,result=old(...a);if(g.world!==before){setup();opacity=targetOpacity();attempt=false;outcome='';mounted=null;action=null;cancel();g.save(false);}return result;
  });
  wrap('onEscape',(old,...a)=>{
+  if(g.activeOverlay){
+   // Only this dialog's visible quote owns cancellation; menus suspend field actions.
+   const review=root.document?.getElementById('buildingReview14');
+   if(!quote||g.activeOverlay!==g.ui.commandModal||!review||!g.activeOverlay.contains(review)||review.closest('.hidden, [inert]'))return old(...a);
+  }
   if(moving||quote){cancel();g.fieldcraftUI?.refresh();return;}
   if(mounted){mounted=null;return;}
   return old(...a);

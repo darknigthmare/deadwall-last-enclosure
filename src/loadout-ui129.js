@@ -98,7 +98,13 @@ function install(g,doc=root.document){
   returnFocus=doc.activeElement;previousPause=g.paused;opened=true;selected=null;g.paused=true;g.releaseInputs();g.cancelPlacement?.();overlay.classList.remove('hidden');g.syncOverlayFocus();refresh(true);closeButton.focus({preventScroll:true});return true;
  }
  function close(){if(!opened)return false;opened=false;overlay.classList.add('hidden');overlay.inert=true;for(const[n,inert]of inertBefore)n.inert=inert;inertBefore.clear();if(g.state==='playing'&&!g.gameOver)g.paused=previousPause;g.syncOverlayFocus();if(returnFocus&&!returnFocus.closest?.('[inert], .hidden'))returnFocus.focus({preventScroll:true});returnFocus=null;return true;}
- overlay.addEventListener('keydown',e=>{if(e.code==='Escape'||e.code==='KeyI'&&!e.target?.closest?.('input,textarea,select')){e.preventDefault();e.stopPropagation();close();}else if(e.code==='Tab')g.trapOverlayFocus(e);});
+ overlay.addEventListener('keydown',e=>{
+  if(e.code==='Escape'||e.code==='KeyI'&&!e.target?.closest?.('input,textarea,select')){
+   e.preventDefault();e.stopPropagation();
+   // The opening press can repeat after focus moves into the new dialog.
+   if(!e.repeat)close();
+  }else if(e.code==='Tab')g.trapOverlayFocus(e);
+ });
  overlay.addEventListener('pointerdown',e=>{if(e.target===overlay)close();});
  const suspendForFocusLoss=g.suspendForFocusLoss.bind(g);g.suspendForFocusLoss=(...a)=>{
   if(opened&&g.state==='playing'&&!g.gameOver){previousPause=true;g.ui.pauseMenu.classList.remove('hidden');}

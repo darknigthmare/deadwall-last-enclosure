@@ -134,6 +134,7 @@ jobs:
             scripts: 'scripts/browser-touch-layout162.mjs'
           - group: quality-regressions
             suites: 'test:balance test:quality test:world-art'
+            scripts: 'scripts/browser-feedback215.mjs'
           - group: wildlife
             scripts: >-
               scripts/browser-ecology189.mjs

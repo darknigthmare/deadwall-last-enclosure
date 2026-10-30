@@ -163,21 +163,41 @@ async function walk(page, context, touch, target, {support, interrupt = false} =
         const done = interrupt ? moved > .01 && !g.campaignWater214.busy() : resolved?.ok || distance < .055;
         const vectors = touch ? [[1,0], [0,1], [-1,0], [0,-1]] : [[1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1], [0,-1], [1,-1]];
         const steering = vectors.map(([dx,dy]) => {const n = Math.hypot(dx,dy), at = {x:p.x + dx / n * .24, y:p.y + dy / n * .24}; return {dx,dy,score:Math.hypot(at.x-target.x,at.y-target.y),clear:!w.blocked(at.x,at.y,.32,0,p.inside) && w.movementLine(p,at,0,p.inside,null,.32)};}).filter(v => v.clear).sort((a,b) => a.score-b.score)[0];
-        return {pose:p, clear, done, moved, distance, resolved, steering, alive:g.state === 'playing' && !g.gameOver && g.player.health > 0 && !g.paused && !g.activeOverlay, keys:[...g.input.keys]};
+        return {pose:p, elapsed:g.elapsed, clear, done, moved, distance, resolved, steering, alive:g.state === 'playing' && !g.gameOver && g.player.health > 0 && !g.paused && !g.activeOverlay, keys:[...g.input.keys]};
       }, {target, support, interrupt, initial, touch:!!touch});
       result.samples.push(q); assert.ok(q.alive && q.clear && q.keys.length === 0, 'Native walker stays alive, unpaused, released and outside real solids');
       if (q.done) {result.arrival = q; return result;}
       assert.ok(q.steering, 'A real body-radius movement ray is available');
       const {dx,dy} = q.steering, names = []; if (dx) names.push(dx > 0 ? 'right' : 'left'); if (dy) names.push(dy > 0 ? 'down' : 'up');
-      const touchDirection = dx ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'), hold = {from:q.pose, dx, dy, plannedMilliseconds:70}, started = Date.now();
-      const down = touch ? session.send('Input.dispatchTouchEvent', {type:'touchStart', touchPoints:[boxes[touchDirection]]}) : Promise.all(names.map(n => page.keyboard.down(keys[n])));
-      const up = new Promise(resolve => setTimeout(resolve, 70)).then(async () => {hold.releaseEnqueuedMilliseconds = Date.now()-started; if (touch) await session.send('Input.dispatchTouchEvent', {type:'touchEnd', touchPoints:[]}); else await Promise.all(names.map(n => page.keyboard.up(keys[n])));});
-      result.nativeEvents += touch ? 2 : names.length * 2;
-      try {await down;} finally {await up;}
-      hold.actualWallMilliseconds = Date.now()-started; result.holds.push(hold);
+      const touchDirection = dx ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'), hold = {mode:'native-held-until-observed', from:q.pose, dx, dy, maximumWallMilliseconds:8000}, started = Date.now();
+      result.holds.push(hold); let timer, observation;
+      const deadline = new Promise((_, reject) => {timer = setTimeout(() => reject(Error('Native held water approach did not produce observable movement within 8000 ms')), 8000);});
+      try {
+        result.nativeEvents += touch ? 1 : names.length;
+        await Promise.race([touch ? session.send('Input.dispatchTouchEvent', {type:'touchStart', touchPoints:[boxes[touchDirection]]}) : Promise.all(names.map(n => page.keyboard.down(keys[n]))), deadline]);
+        hold.startAcknowledgedWallMilliseconds = Date.now()-started;
+        // A timer can release a micro-tap between two real game updates.
+        // Observe movement while native input is still held; never force a frame.
+        observation = await Promise.race([page.waitForFunction(({origin, elapsed, interrupt}) => {
+          const g = DEADWALL, p = g.frontier.position(), moved = Math.hypot(p.x-origin.x, p.y-origin.y);
+          if (!(g.elapsed > elapsed && moved > .01 && (!interrupt || !g.campaignWater214.busy()))) return false;
+          return {pose:p, elapsed:g.elapsed, moved, keys:[...g.input.keys], busy:g.campaignWater214.busy(),
+            alive:g.state === 'playing' && !g.gameOver && g.player.health > 0 && !g.paused && !g.activeOverlay,
+            clear:!g.frontier.world().blocked(p.x,p.y,.32,0,p.inside)};
+        }, {origin:q.pose, elapsed:q.elapsed, interrupt}, {timeout:8000}), deadline]);
+      } finally {
+        clearTimeout(timer); hold.releaseEnqueuedMilliseconds = Date.now()-started;
+        result.nativeEvents += touch ? 1 : names.length;
+        try {if (touch) await session.send('Input.dispatchTouchEvent', {type:'touchEnd', touchPoints:[]}); else await Promise.all(names.map(n => page.keyboard.up(keys[n])));}
+        finally {hold.actualWallMilliseconds = Date.now()-started;}
+      }
+      try {hold.heldObservation = await observation.jsonValue();} finally {await observation.dispose();}
+      const held = hold.heldObservation, expected = names.map(n => 'Key' + keys[n].toUpperCase());
+      assert.ok(held.alive && held.clear && held.elapsed > q.elapsed && held.moved > .01 && expected.every(key => held.keys.includes(key)), 'Held native input is observed moving the living player through real free space');
     }
     throw Error('Short native water approach did not reach the unchanged product permission');
-  } finally {
+  } catch(error) {error.water214NativeHold = result; throw error;}
+  finally {
     for (const key of Object.values(keys)) await page.keyboard.up(key).catch(() => {});
     if (session) {await session.send('Input.dispatchTouchEvent', {type:'touchEnd', touchPoints:[]}).catch(() => {}); await session.detach();}
   }
