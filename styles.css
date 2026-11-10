@@ -50,6 +50,15 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 8px #0006; }
 kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 21px; height: 21px; padding: 0 5px; background: #101611; border: 1px solid #566152; border-bottom-width: 2px; border-radius: 3px; font-size: 10px; color: #e8ebdf; }
 .hidden { display: none !important; }
 [data-age-veiled="true"] { display: none !important; }
+.fallback-order { margin-top: 12px; padding: 12px; border: 1px solid currentColor; border-radius: 3px; background: transparent; color: inherit; }
+.fallback-order[hidden] { display: none; }
+.fallback-order h3 { margin: 0; font-size: 11px; letter-spacing: .08em; color: inherit; }
+.fallback-order-state { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: inherit; }
+.fallback-order-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+.fallback-order-actions button { padding: 10px 7px; min-height: 56px; overflow-wrap: anywhere; }
+.fallback-order-actions span { display: block; font-size: 10px; line-height: 1.4; }
+.fallback-order-actions small { display: block; margin-top: 3px; font-size: 9px; line-height: 1.35; opacity: .85; }
+@media (max-width: 720px) { .fallback-order-actions { grid-template-columns: 1fr; } }
 .siege-readout { display: grid; gap: 8px; margin-top: 8px; }
 .siege-readout[hidden] { display: none; }
 .siege-readout-card { padding: 10px 12px; border: 1px solid var(--line, #485440); border-radius: 3px; background: #0f1813cc; }

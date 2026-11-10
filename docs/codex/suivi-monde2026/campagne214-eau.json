@@ -9,8 +9,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36686,
-      "sha256": "721ab7edf6188b1b002170ed40511e7438c010f60eae3bf2cce5a282091f22e0"
+      "bytes": 36734,
+      "sha256": "1021458ef40aa284fc5e0aa420221ca41be71d97ebce4f978fda4e61eab6784d"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -581,6 +581,11 @@
       "path": "src/exploration-pack131.js",
       "bytes": 15497,
       "sha256": "4fa54335e2ee5a19f5953f0b0b49cd6d2c0c238dfe3076ff27754f49eb79fa7c"
+    },
+    {
+      "path": "src/fallback-order.js",
+      "bytes": 12510,
+      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1276,8 +1281,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36686,
-      "sha256": "721ab7edf6188b1b002170ed40511e7438c010f60eae3bf2cce5a282091f22e0"
+      "bytes": 36734,
+      "sha256": "1021458ef40aa284fc5e0aa420221ca41be71d97ebce4f978fda4e61eab6784d"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1848,6 +1853,11 @@
       "path": "src/exploration-pack131.js",
       "bytes": 15497,
       "sha256": "4fa54335e2ee5a19f5953f0b0b49cd6d2c0c238dfe3076ff27754f49eb79fa7c"
+    },
+    {
+      "path": "src/fallback-order.js",
+      "bytes": 12510,
+      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
     },
     {
       "path": "src/field-atlas-art.js",

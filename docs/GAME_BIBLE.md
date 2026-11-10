@@ -1285,6 +1285,41 @@ Détails :
 Restent à faire dans ce rang : fronts nommés, secteurs tenus, perdus et
 repris, munitions tirées par la garnison.
 
+#### Repli sur l'enceinte intérieure et brèches nommées **[LIVRÉ]**
+
+**[DÉCISION]** Les deux ordres de repli existent, côte à côte, dans l'onglet
+Situation du carnet :
+
+| Ordre | Ce qu'il fait | Ce qu'il ne touche pas |
+|---|---|---|
+| **Repli des combattants** | Les trois sections se replient vers le centre. | Ouvriers et portes. |
+| **Repli général** | Sections, ouvriers et spécialistes rentrent ; les portes de l'enceinte intérieure sont verrouillées dès que plus personne n'est dehors. | Rien n'est fermé tant qu'un équipier, ou le Commandant, est dehors. |
+| **Lever le repli** | Les portes verrouillées par l'ordre retrouvent leur mode précédent ; les ouvriers reprennent. | Les sections attendent un nouveau point de ralliement. |
+
+- **Enceinte intérieure** : la zone qu'on atteint depuis le centre sans
+  franchir un mur ni une porte, quel que soit le mode de la porte. Avec
+  plusieurs enceintes, c'est la plus proche du centre.
+- Sans enceinte fermée, le repli général replie tout le monde et ne
+  verrouille rien : le jeu le dit.
+- **Brèche nommée** : quand un mur ou une porte tombe pendant l'alerte ou
+  l'assaut, l'annonce donne le **côté** (nord, est, sud, ouest), l'ouvrage, et
+  le nombre d'infectés déjà dans l'enceinte intérieure.
+- Module `src/fallback-order.js`, test `tests/fallback-order.test.cjs`.
+- L'ordre **compose des commandes existantes** (repli des sections, ordre de
+  repli des ouvriers, mode des portes) avec leurs propres refus. Il n'ajoute
+  ni valeur d'équilibrage, ni stock, ni dégât, ni tirage, et ne modifie pas
+  `src/core.js`.
+
+Limites :
+
+- L'attente de verrouillage n'est pas sauvegardée : après une reprise, les
+  portes, les sections et les ouvriers gardent leur état, mais un repli
+  général encore en attente doit être redonné.
+- Le repli vise toujours le centre. Le repli **enceinte par enceinte**, avec
+  le choix de la ligne à tenir, viendra avec les districts (§8.2).
+- Le repli général est le premier pas du sacrifice de secteur (§8.3), sans
+  encore l'évacuation des stocks ni l'état « perdu ».
+
 ### 8.2 Districts autonomes **[DÉCISION]**
 
 - Un **district** est un secteur fermé doté d'un **responsable**, d'une
@@ -1707,7 +1742,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
 | 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
-| 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
+| 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
 | 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
 | 6 | Sacrifice et reconquête (§8.3) | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
