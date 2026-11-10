@@ -3391,6 +3391,9 @@
   function assaultPattern(){ensure();const profile=engine.state.lastWave;return profile?.wave===g.wave?F.PROFILE_BY_ID[profile.id]?.frontPattern:undefined;}
   g.siege=Object.freeze({version:'1.3.0-candidate.1',playerDown:()=>{ensure();engine.playerDown();tool=false;},snapshot:()=>{reconcile();return engine.snapshot();},overview,assaultPattern,assign,release,toggleTool,selectBuilding,updateAssignedUnit,
     carriedWater199:()=>ensure().state.playerWater,
+    // Eau de cité : lecture de la réserve et puisage dans les citernes existantes.
+    cityReserve215:()=>{reconcile();const tanks=engine.state.tanks;return{tanks:tanks.length,water:tanks.reduce((n,t)=>n+t.water,0),capacity:tanks.length*R.waterCapacity};},
+    drawCityWater215:amount=>{reconcile();return engine.cityWater(amount);},
     transferFieldWater199:(direction,amount)=>{
       const p=g.frontier?.position?.();
       // The field activity owns the source/destination geometry and rechecks it

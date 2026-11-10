@@ -804,6 +804,37 @@ Direction :
 - Propriétaires à étendre : `core.js` (`Siege`), `husbandry191.js`,
   `campaign-water214.js`, `weather193.js`, `urban.js`.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+- **La population boit.** À partir de l'âge Ville, chaque habitant puise dans
+  les **citernes existantes** : 0,004 unité par seconde et par personne, soit
+  12 unités par minute pour 50 habitants.
+- **Une seule réserve.** Ce sont les citernes des incendies : l'eau bue
+  n'éteint plus un foyer. Aucune eau n'est créée ; la pompe (électricité et
+  carburant) et la pluie restent les seuls apports.
+- **Pénurie, premier temps seulement.** Citernes vides : 180 s de délai,
+  annoncé. Ensuite le moral baisse de 0,35 par seconde, la moitié de la
+  famine. Le retour de l'eau l'arrête aussitôt.
+- **Nouvelles campagnes** : suivies d'office. **Campagnes existantes** :
+  inchangées jusqu'à une activation volontaire, au dépôt, sans coût.
+- **Avant la Ville** : aucun besoin, aucune consommation.
+- Fiche « Eau de la cité » dans les dossiers du carnet : réserve, besoin par
+  minute, autonomie sans apport.
+- Valeurs dans `C.CityWater215Rules` (`src/core.js`), module
+  `src/city-water215.js`, test `tests/city-water215.test.cjs`. État
+  sauvegardé comme module additif, sans changer la version de sauvegarde.
+
+Restent à faire :
+
+- les deux autres temps de la pénurie : départs d'habitants, puis morts ;
+- les débouchés cultures, élevage et clinique ;
+- l'unité commune avec les abreuvoirs et les tonneaux, qui restent des
+  réserves séparées, reliées par le seau ;
+- puits, château d'eau et réseau ;
+- le lien avec les saisons.
+
+Ces valeurs n'ont été éprouvées par aucune campagne humaine.
+
 ### 7.4 Économie urbaine, énergie et signature **[LIVRÉ]**
 
 - Consommation de 0,0065 nourriture/s par habitant ; une ferme donne 0,42/s.
@@ -1722,12 +1753,11 @@ Passe du 10 novembre 2026 :
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
 
-La fiche du Commandant dit encore « premier responsable de D-17 » dans
-`src/core.js`. Ce fichier est couvert par les preuves d'inspection du codex
-(`docs/codex/suivi-monde2026/`), qui enregistrent son empreinte : toute
-modification de `src/core.js` impose de régénérer ces preuves. La correction
-est donc reportée au premier chantier qui touchera `core.js` pour une raison
-de jeu.
+La fiche du Commandant est corrigée (« premier commandant de D-17 ») depuis
+le chantier de l'eau de cité, qui modifiait déjà `src/core.js`. Ce fichier est
+couvert par les preuves d'inspection du codex
+(`docs/codex/suivi-monde2026/`) : toute modification impose de régénérer
+l'inspection, environ cinq minutes.
 
 ---
 
@@ -1743,7 +1773,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
-| 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
+| 4 | Eau de cité (§7.3) — première tranche livrée | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
 | 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
 | 6 | Sacrifice et reconquête (§8.3) | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
 | 7 | Districts (§8.2) | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |

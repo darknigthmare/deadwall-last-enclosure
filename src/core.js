@@ -1138,6 +1138,12 @@
       if(f.heat<1e-8){this.state.fires.splice(this.state.fires.indexOf(f),1);if(this.state.wet.length>=RULES.maxFires*4)this.state.wet.shift();this.state.wet.push({id:f.id,seconds:RULES.wetSeconds});this.addStat('extinguished',1);this.log('extinguished',f.id,ctx.at||0);}
       return n;
     }
+    // City supply draws from the same cisterns as fire response: one water balance.
+    cityWater(amount){
+      if(!finite(amount,Number.MIN_VALUE))return 0;let left=amount;
+      for(const t of this.state.tanks){if(left<=0)break;const n=Math.min(t.water,left);t.water-=n;left-=n;}
+      const used=amount-left;if(used>0)this.addStat('waterUsed',used);return used;
+    }
     // Shared physical bucket. Field collection/animal care and fire response
     // must never create a second water balance that survives death separately.
     fieldWater(direction,amount,ctx){
@@ -1929,7 +1935,7 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
  maxRemains:1024,unarmedDamage:18,armedMeleeDamage:36,reanimationChance:.30,reanimationMin:75,reanimationMax:150,reach:1.8,danger:4,health:65,damage:8,attackInterval:1.15,maxStep:.1,protection:3,
  requisition:Object.freeze({pistol:8,rifle:20,shotgun:16}),
  profiles:Object.freeze({
- commander:Object.freeze({name:'Commandant',description:'Le premier responsable de D-17.',health:100,speed:1,capacity:36,construction:1}),
+ commander:Object.freeze({name:'Commandant',description:'Le premier commandant de D-17.',health:100,speed:1,capacity:36,construction:1}),
  scout:Object.freeze({name:'Éclaireuse',description:'Une volontaire habituée aux longues reconnaissances.',health:90,speed:1.08,capacity:32,construction:1,advantages:['Déplacement à pied +8 %'],tradeoffs:['90 points de vie','Sac de 32 portions']}),
  porter:Object.freeze({name:'Manutentionnaire',description:'Un réfugié rompu au transport des charges et aux allers-retours du dépôt.',health:100,speed:.94,capacity:44,construction:1,advantages:['Sac de 44 portions'],tradeoffs:['Déplacement à pied −6 %']}),
  builder:Object.freeze({name:'Bâtisseuse',description:'Une ouvrière du refuge capable de reprendre les chantiers interrompus.',health:100,speed:.98,capacity:38,construction:1.15,advantages:['Construction manuelle +15 %','Sac de 38 portions'],tradeoffs:['Déplacement à pied −2 %']})
@@ -3318,6 +3324,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
 
 /* Seeded weather fronts. Rain remains the shared gameplay scalar. */
 (function(root){'use strict';const C=root.DeadwallCore;
+ // Eau de cité (GAME_BIBLE §7.3) : la population puise dans les citernes à partir de l'âge `startAge`
+ // (indice de CITY_TIERS). `moraleDrain` vaut la moitié de la famine ; `graceSeconds` précède tout effet.
+ C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

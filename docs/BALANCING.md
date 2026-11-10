@@ -321,3 +321,16 @@ La météo remplace ses tirages uniquement dans les campagnes qui l’ont activ�
 Les dimensions de `CityGeometry202` expriment les mètres au sol, avec 32 unités locales par mètre. Elles ne multiplient ni les ressources récoltées, ni la santé, ni les effets ou coûts unitaires des bâtiments. Les corps plus grands demandent une vraie parcelle et parfois du déblaiement. Les gains de progression doivent toujours venir des propriétaires existants ; une variante de toit ne donne aucun bonus.
 
 Les 21 ensembles métriques paient la somme exacte de leurs fondations. Le Camp agrandi comporte 59 pièces, au lieu de 45 dans sa géométrie historique : le mur supplémentaire est réellement payé et construit, avec une porte défensive de 4 m. Les allées de service mesurent 2 m. La couverture visuelle des bâtiments est réservée sur les routes à marge nulle ; le corps conserve un dégagement de 0,25 m. Ces règles ne doivent pas rendre le dernier logement impossible à placer après récolte du terrain.
+
+## Eau de cité — 215
+
+Valeurs dans `C.CityWater215Rules` :
+
+| Règle | Valeur |
+|---|---|
+| Âge de départ du besoin | Ville (indice 4) |
+| Besoin par habitant | 0,004 unité d'eau par seconde |
+| Délai avant effet, citernes vides | 180 s |
+| Baisse du moral en pénurie | 0,35 par seconde (famine : 0,7) |
+
+La population puise dans les citernes anti-incendie existantes (120 unités, pompe 0,55/s, pluie 0,12/s). Une citerne pompée couvre environ 137 habitants ; la pluie seule, à plein régime, environ 30. Ces valeurs n'ont été éprouvées par aucune campagne humaine. Direction : `GAME_BIBLE.md` §7.3.

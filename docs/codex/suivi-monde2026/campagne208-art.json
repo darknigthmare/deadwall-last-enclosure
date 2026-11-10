@@ -8,8 +8,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36734,
-      "sha256": "1021458ef40aa284fc5e0aa420221ca41be71d97ebce4f978fda4e61eab6784d"
+      "bytes": 36779,
+      "sha256": "36f67d27c8db2d006d2e727000afafb101423889a5e98579efe19a335e4e7ebd"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -225,6 +225,11 @@
       "path": "src/city-catalogue150.js",
       "bytes": 13781,
       "sha256": "2713d8a0b13098af1f336d75afab8c671f260341cedfd3413b3af1e2d41a29c4"
+    },
+    {
+      "path": "src/city-water215.js",
+      "bytes": 5904,
+      "sha256": "678324e5f6c2ebdc4d00f8ba95159e7de86ca9ec5225dfd73a23b535873d3ed4"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -448,8 +453,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 335878,
-      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
+      "bytes": 336591,
+      "sha256": "9e879b90c4da9bfbb349092f6c51f0fb21044be3ba10d0cecd5dc0c5ab8f0e7d"
     },
     {
       "path": "src/d17-art149.js",
@@ -528,13 +533,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5293,
-      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
+      "bytes": 5308,
+      "sha256": "18229ff6e65da1bad03e90038573dadcf138c479ea2d571e23effb2ef92fbcad"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24864,
-      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
+      "bytes": 24954,
+      "sha256": "ec1ca2041ced5154bcc3f23eb61b9ee638f6a11bf90fd5b19b660a2a903b21bb"
     },
     {
       "path": "src/expedition-art.js",
@@ -698,8 +703,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457830,
-      "sha256": "e20a0e3b97829993b4fab52430ccbc7cce3f8ff1178540f65acb978a92d32906"
+      "bytes": 458167,
+      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
     },
     {
       "path": "src/geography135.js",
@@ -1250,8 +1255,8 @@
   "sourcesBefore": [
     {
       "path": "index.html",
-      "bytes": 36734,
-      "sha256": "1021458ef40aa284fc5e0aa420221ca41be71d97ebce4f978fda4e61eab6784d"
+      "bytes": 36779,
+      "sha256": "36f67d27c8db2d006d2e727000afafb101423889a5e98579efe19a335e4e7ebd"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1467,6 +1472,11 @@
       "path": "src/city-catalogue150.js",
       "bytes": 13781,
       "sha256": "2713d8a0b13098af1f336d75afab8c671f260341cedfd3413b3af1e2d41a29c4"
+    },
+    {
+      "path": "src/city-water215.js",
+      "bytes": 5904,
+      "sha256": "678324e5f6c2ebdc4d00f8ba95159e7de86ca9ec5225dfd73a23b535873d3ed4"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -1690,8 +1700,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 335878,
-      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
+      "bytes": 336591,
+      "sha256": "9e879b90c4da9bfbb349092f6c51f0fb21044be3ba10d0cecd5dc0c5ab8f0e7d"
     },
     {
       "path": "src/d17-art149.js",
@@ -1770,13 +1780,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5293,
-      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
+      "bytes": 5308,
+      "sha256": "18229ff6e65da1bad03e90038573dadcf138c479ea2d571e23effb2ef92fbcad"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24864,
-      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
+      "bytes": 24954,
+      "sha256": "ec1ca2041ced5154bcc3f23eb61b9ee638f6a11bf90fd5b19b660a2a903b21bb"
     },
     {
       "path": "src/expedition-art.js",
@@ -1940,8 +1950,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457830,
-      "sha256": "e20a0e3b97829993b4fab52430ccbc7cce3f8ff1178540f65acb978a92d32906"
+      "bytes": 458167,
+      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
     },
     {
       "path": "src/geography135.js",
@@ -2492,8 +2502,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36734,
-      "sha256": "1021458ef40aa284fc5e0aa420221ca41be71d97ebce4f978fda4e61eab6784d"
+      "bytes": 36779,
+      "sha256": "36f67d27c8db2d006d2e727000afafb101423889a5e98579efe19a335e4e7ebd"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -2709,6 +2719,11 @@
       "path": "src/city-catalogue150.js",
       "bytes": 13781,
       "sha256": "2713d8a0b13098af1f336d75afab8c671f260341cedfd3413b3af1e2d41a29c4"
+    },
+    {
+      "path": "src/city-water215.js",
+      "bytes": 5904,
+      "sha256": "678324e5f6c2ebdc4d00f8ba95159e7de86ca9ec5225dfd73a23b535873d3ed4"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -2932,8 +2947,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 335878,
-      "sha256": "33a3539f8b80015815303b9425e83d49721c5d88938533508c431cc38854909e"
+      "bytes": 336591,
+      "sha256": "9e879b90c4da9bfbb349092f6c51f0fb21044be3ba10d0cecd5dc0c5ab8f0e7d"
     },
     {
       "path": "src/d17-art149.js",
@@ -3012,13 +3027,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5293,
-      "sha256": "511d46a450dc9332e239c0061306acdca0299d474d009a703ad764e72e3eb552"
+      "bytes": 5308,
+      "sha256": "18229ff6e65da1bad03e90038573dadcf138c479ea2d571e23effb2ef92fbcad"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24864,
-      "sha256": "a848da1c0644d7e43e11d09a44780122eda2c264a7e62e78f2d0a1e12e1315cf"
+      "bytes": 24954,
+      "sha256": "ec1ca2041ced5154bcc3f23eb61b9ee638f6a11bf90fd5b19b660a2a903b21bb"
     },
     {
       "path": "src/expedition-art.js",
@@ -3182,8 +3197,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457830,
-      "sha256": "e20a0e3b97829993b4fab52430ccbc7cce3f8ff1178540f65acb978a92d32906"
+      "bytes": 458167,
+      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
     },
     {
       "path": "src/geography135.js",
@@ -4101,6 +4116,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-10T20:53:22.605Z",
-  "completedUtc": "2026-11-10T20:53:24.307Z"
+  "startedUtc": "2026-11-10T23:42:45.038Z",
+  "completedUtc": "2026-11-10T23:42:46.800Z"
 }
