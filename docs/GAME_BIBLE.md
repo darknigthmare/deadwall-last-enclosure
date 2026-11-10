@@ -86,7 +86,11 @@ système supprimé.
 | Récit | Trois chapitres de plus, liés aux âges tardifs et déclenchés par des faits de jeu. |
 | Saisons | Quatre saisons longues sur la durée d'une campagne. |
 | Jour et nuit | Assauts surtout la nuit, parfois le jour. |
-| Habitants | Visibles dans la cité ; quelques-uns nommés, dont les pertes comptent au registre. |
+| Habitants | Visibles dans la cité ; une douzaine de figures nommées, promouvables responsables de district. |
+| Durée d'une saison | Comptée en assauts. |
+| Assauts de jour | Dès la Forteresse (âge 4), environ un sur six, jamais deux de suite. |
+| Son | Enregistrements acceptés pour les hordes ; musique plus présente aux grands moments. |
+| Image | Planche de référence validée avant tout chantier de faction ou d'abomination. |
 
 ---
 
@@ -770,8 +774,13 @@ Direction :
   - On **voit** les habitants circuler, travailler, puis se réfugier pendant
     l'assaut. C'est un dessin de la population réelle, pas une seconde
     simulation : aucun besoin individuel, aucune jauge par personne.
-  - **Quelques-uns ont un nom et un métier.** Leurs pertes entrent au
-    registre, avec celles des compagnons.
+  - **Une douzaine de figures nommées** à la fois, chacune avec un métier.
+    Leurs pertes entrent au registre, avec celles des compagnons.
+  - Une figure nommée peut être **promue responsable de district** (§8.2)
+    quand les quatre compagnons ne suffisent plus. Elle n'a pas d'arc
+    narratif : c'est ce qui la distingue d'un compagnon.
+  - Quand une figure meurt, une autre émerge de la population : la douzaine
+    se renouvelle, les noms perdus restent au registre.
   - Un district perdu se lit dans la rue : des gens fuient vers l'enceinte
     intérieure.
   - Les prénoms viennent de la liste épicène existante ; aucun habitant
@@ -805,7 +814,9 @@ Direction :
 - **Jour et nuit [DÉCISION]** : la nuit reste le temps de l'assaut. Mais une
   migration peut arriver **de jour**, rarement : chantiers ouverts, ouvriers
   dehors, portes en mode automatique. Un assaut de jour est moins nombreux et
-  mieux visible ; il frappe une cité qui ne l'attendait pas. Il s'annonce
+  mieux visible ; il frappe une cité qui ne l'attendait pas. Il apparaît
+  **dès la Forteresse (âge 4)**, pour environ **un assaut sur six**, et
+  **jamais deux de suite**. Il s'annonce
   comme les autres (§8.6) : rare ne veut pas dire sans préavis.
 
 ### 7.7 Ouvriers, escouades, spécialistes **[LIVRÉ]**
@@ -880,8 +891,9 @@ Règles de cohérence :
 
   - Une saison change la **question logistique** du moment, pas les règles.
   - Elle s'annonce : le joueur prépare l'hiver, il ne le subit pas.
-  - [PROPOSITION] Une saison dure environ deux âges de jeu, pour qu'une
-    campagne de 15 à 25 h en traverse plusieurs.
+  - **[DÉCISION]** Une saison se **compte en assauts** : « encore deux nuits
+    avant l'hiver ». [PROPOSITION] Six assauts par saison ; la valeur vit
+    dans `src/core.js`.
   - Le calcul des saisons, comme celui de la météo, ne consomme pas le flux
     aléatoire de la simulation.
 - **Direction** :
@@ -1532,11 +1544,29 @@ déclenche par un fait de jeu, s'ajoute au registre et ne termine rien.
   contrainte de jeu avant d'être une contrainte d'image.
 - **Ambiance** : pluie, nuit, fumée, étincelles, impacts, corps persistants.
 - **Nuits noires** : masque noir réel, torche et projecteurs.
-- **Son** : entièrement synthétisé, sans fichier audio. Musique discrète, sons
-  mécaniques, sirènes, signal radio procédural.
+- **Son [LIVRÉ]** : entièrement synthétisé, sans fichier audio. Musique
+  discrète, sons mécaniques, sirènes, signal radio procédural.
+- **Son [DÉCISION]** :
+  - Des **enregistrements** sont acceptés pour la masse des hordes : la
+    rumeur d'une marée, le piétinement, la pression contre un mur. Chacun
+    porte une fiche de provenance et de licence, comme les images.
+  - Une **musique plus présente** accompagne les grands moments : marée à
+    l'horizon, brèche catastrophe, dernier carré, reconquête. Elle se tait
+    dans le travail ordinaire : le silence reste la règle, la musique
+    l'exception.
+  - La synthèse reste le socle et le repli : le jeu doit sonner juste sans
+    aucun fichier.
+  - Le son continue de **lire** la simulation : la rumeur suit l'effectif
+    réel de la horde, elle ne l'annonce jamais à sa place.
+  - Pas de voix jouée : la règle « ni doublage » demeure.
 - **Provenance** : toute image conserve sa fiche de provenance.
 - **Règle** : peintres, animations, effets et sons **lisent** les actions
   accomplies. Ils ne créent ni stock, ni dégât, ni tirage de simulation.
+
+**Planches de référence [DÉCISION]** : avant tout chantier de faction ou
+d'abomination, une planche validée fixe la silhouette, la palette et le signe
+matériel. Aucune image de jeu n'est produite avant cette validation. La
+planche rejoint les fiches de provenance.
 
 Pour les factions (§4.3) : chaque groupe humain se reconnaît à un **signe
 matériel** sobre (un véhicule, un brassard, une absence de lumière), jamais à
@@ -1622,18 +1652,19 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
 
 ## 13. Questions encore ouvertes
 
-À trancher avant les chantiers concernés.
+Les grandes orientations sont tranchées. Ce qui reste relève du réglage et
+se décide au début du chantier concerné.
 
-1. **Durée d'une saison** : deux âges de jeu, ou une durée fixe en heures ?
-2. **Assauts de jour** : à partir de quel âge, et à quelle fréquence ?
-3. **Habitants nommés** : combien, et peuvent-ils devenir responsables de
-   district ?
-4. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
+1. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
    la cible de 15 à 25 h ?
-5. **Direction artistique des factions et des abominations** : faut-il des
-   planches de référence avant tout chantier ?
-6. **Son** : le jeu reste-t-il entièrement synthétisé, ou accepte-t-on des
-   enregistrements pour les grandes hordes ?
+2. **Valeurs** : assauts par saison, délais des lois, seuils de maladie et de
+   pénurie, portée de la radio. À fixer dans `src/core.js`, avec tests.
+3. **Enregistrements sonores** : quelle source et quelle licence ?
+4. **Textes** : qui écrit les chapitres V à VII et les entretiens des
+   compagnons ?
+5. **Propositions restantes** : les mentions [PROPOSITION] encore présentes
+   (états des routes, rangs d'avant-poste, travaux de terrain, rangs de
+   lieux, rôles des trois géants livrés) sont à valider avec leur chantier.
 
 ## 14. Faire vivre ce document
 
