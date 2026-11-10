@@ -23,7 +23,7 @@ Chaque affirmation de ce document porte l'un de ces statuts :
 | Marque | Sens |
 |---|---|
 | **[LIVRÉ]** | Présent dans le jeu 1.74.0 et vérifiable dans le code ou les docs. |
-| **[DÉCISION]** | Tranché par l'auteur du projet (session de cadrage du 10 novembre 2026). À respecter, pas encore forcément implémenté. |
+| **[DÉCISION]** | Tranché par l'auteur du projet (sessions de cadrage du 10 novembre 2026). À respecter, pas encore forcément implémenté. |
 | **[PROPOSITION]** | Proposé par la bible pour combler un trou. À valider ou corriger avant implémentation. |
 
 Une **[DÉCISION]** ou une **[PROPOSITION]** n'est jamais une fonctionnalité
@@ -47,6 +47,11 @@ système supprimé.
 | Autres humains | Communautés alliées discrètes **et** factions humaines hostiles ou ambiguës (pillards, cannibales, autres). |
 | Récit | Registre et Chroniques racontent un seul groupe de personnes ; les auteurs sont reliés. |
 | Compagnons | Un arc court par compagnon, déclenché par le jeu, sans cinématique. |
+| Monde | Procédural et **sans bord**, avec des lieux générés à découvrir, un terrain modifiable et des graines réellement différentes. |
+| Hordes | Marée visible à l'horizon, pyramides de corps, murs colossaux, brèche catastrophe, et de **rares abominations géantes** cohérentes avec le ton. |
+| Absence du joueur | La cité **se défend vraiment** : la simulation continue pendant l'exploration. |
+| Déplacement | Véhicules à entretenir, avant-postes bâtis, routes à sécuriser, marche et campement. |
+| Rythme de l'exploration | Entre deux vagues au début ; pendant les vagues dès que la cité est autonome. |
 
 ---
 
@@ -103,15 +108,16 @@ remplace pas la précédente.
 
 Ce que DEADWALL refuse, quel que soit le chantier :
 
-- zombies fluorescents, mutations spectaculaires, explosions organiques,
-  pouvoirs surnaturels, boss à très grande barre de vie ;
+- zombies fluorescents, explosions organiques, pouvoirs surnaturels ;
+- difficulté fondée sur des barres de vie : les abominations géantes existent
+  mais restent rares, annoncées et bornées (§3.5) ;
 - renforts ennemis téléportés, IA de chasse omnisciente ;
 - guérison, vaccin, résurrection, explication de l'origine ;
 - sauvetage promis, auteur de document déclaré vivant ou sauvé ;
 - stock, dégât ou tirage aléatoire créés par un effet visuel ou sonore ;
 - récompense donnée pour une simple lecture ; cinématique non sautable ;
 - suppression d'un système existant pour en simplifier un nouveau ;
-- humains transformés en armée : voir §4.4.
+- humains transformés en armée : voir §4.5.
 
 ---
 
@@ -315,6 +321,59 @@ Un profil n'entre dans le jeu que s'il répond « oui » aux quatre questions :
   des cités.
 - Plusieurs documents annoncent encore « huit profils » (§11).
 
+### 3.5 Les abominations
+
+**[LIVRÉ]** Le siège vertical contient déjà trois géants (`core.js`,
+`vertical-siege176.js`) :
+
+| Nom | Taille | Santé | Vitesse | Portée | Âge requis |
+|---|---:|---:|---:|---:|---:|
+| Porte-faille | 6 m | 700 | 1,1 m/s | 3 m | 7 |
+| Porte-charniers | 12 m | 1 000 | 0,8 m/s | 4 m | 9 |
+| Colosse de siège | 20 m | 1 500 | 0,6 m/s | 6 m | 11 |
+
+Les âges suivent la convention 1 à 11 du §2.8 ; le code les note de 0 à 10.
+
+Ils apparaissent à partir de la vague 25, tous les cinq assauts, selon l'âge
+et le rempart construit, à **trois au plus**. Leurs attaques sont annoncées,
+suivies d'une récupération, et ils ont des points faibles à la tête et aux
+jambes. Un affût de précision leur est dédié.
+
+**[DÉCISION]** Les abominations géantes font partie du jeu, à condition de
+rester rares et cohérentes avec le ton. Cette décision **nuance le brief**,
+qui écarte les « zombies fantaisistes transformés en boss » : elle l'encadre,
+elle ne l'abolit pas.
+
+Garde-fous :
+
+1. **Rares.** Une abomination est un événement de fin de campagne, jamais un
+   profil de vague ordinaire. Le plafond de trois reste la règle.
+2. **Jamais seules.** Elles arrivent **dans** une horde et la rendent plus
+   dangereuse ; elles ne la remplacent pas. Le nombre reste la menace.
+3. **Annoncées.** On les voit venir de loin (§8.6) et elles portent un nom
+   dans l'annonce du front.
+4. **Battues par la position**, pas par l'usure : points faibles, affûts
+   dédiés, terrain préparé, moment choisi.
+5. **Inexpliquées.** Personne ne sait ce qu'elles sont. Aucun document ne le
+   dit (§2.4). Les survivants constatent seulement qu'on n'en voit qu'au
+   milieu des très grandes masses.
+6. **Sobres.** Ni couleur vive, ni pouvoir, ni explosion. Une abomination est
+   lourde, lente et abîmée.
+7. **Elles laissent un problème.** Leur dépouille est un obstacle et une
+   charge de corps considérable au pied du mur.
+
+**[PROPOSITION]** Donner à chacune un rôle lisible dans le siège, tiré de son
+nom :
+
+| Abomination | Rôle dans le siège | Réponse du joueur |
+|---|---|---|
+| Porte-faille | Ouvre : elle vise les portes et les pans déjà fissurés. | La ralentir avant le mur ; renforcer ou sacrifier la porte visée. |
+| Porte-charniers | Élève : là où elle s'arrête, l'amas monte plus vite. | L'abattre loin du rempart ; brûler ou déblayer l'amas. |
+| Colosse de siège | Franchit : elle menace directement le sommet d'un rempart de 12 à 24 m. | Affûts de précision, tir aux jambes, repli préparé. |
+
+**[PROPOSITION]** Aucune abomination en région ni contre un avant-poste :
+elles appartiennent aux sièges des grandes cités.
+
 ---
 
 ## 4. Les vivants hors de D-17
@@ -414,7 +473,7 @@ sécurisation**.
 | Pression des cadavres | Horde | Morts près des murs | Rampes, franchissements | Un mur seul ne suffit pas. |
 | Crises et doctrines | Horde | Points d'analyse, événements | Choix à contrepartie | Chaque bonus s'achète une fois et se paie. |
 | Réparation et déblaiement | Reconstruction | Matériaux, travail | Enceintes remises en état | Ce qui est détruit doit être rebâti, pas restauré. |
-| Exploration | Récolte (au large) | Carburant, temps, risque | Ressources finies, recrues, récit | Le monde lointain est fini ; la cité, non. |
+| Exploration | Récolte (au large) | Carburant, temps, risque | Ressources finies par lieu, recrues, récit | Chaque lieu s'épuise ; il faut aller plus loin, donc tenir plus de route. |
 | Récit de D-17 | Toutes | Traces relevées sur place | Sens, pas de puissance | Lire ne rapporte rien ; aller voir, si. |
 
 ### 5.3 Test de cohérence d'une nouvelle fonctionnalité
@@ -621,13 +680,23 @@ supprimée ; chacune est rangée dans une échelle.
 | **2. Les secteurs** | Postes tenus et lignes de fourgons | Territoires 1.2 (6 secteurs), expéditions 1.13 (12 destinations) | 5–6 | Flux régulier, réserves finies, routes à garder. |
 | **3. La région** | Carte lointaine, voyages de plusieurs jours | Monde régional G4 à G11, opérations de campagne (15), codex | 7+ | Recrues, sites rares, factions, grands ouvrages. |
 
+Rythme **[DÉCISION]** :
+
+- **Entre deux vagues** : l'échelle 1 se joue dans la phase calme, retour
+  avant l'alerte. C'est l'exploration des âges 1 à 4.
+- **Pendant les vagues** : les échelles 2 et 3 supposent une cité capable de
+  tenir sans le Commandant (§7.15). C'est l'exploration des âges 5 et
+  suivants.
+
 Règles de cohérence :
 
 - **Une seule carte**, avec trois niveaux de zoom, et un seul vocabulaire.
 - Chaque sortie répond à un **besoin de la cité** affiché au départ : un
   chantier bloqué, une réserve basse, une route coupée.
-- Les ressources lointaines sont **finies** ; la cité est sans limite. À
-  terme, la cité doit produire ce qu'elle ne peut plus aller chercher.
+- Chaque lieu est **fini** et ne se régénère pas ; le monde, lui, n'a pas de
+  bord (§7.13). Aller plus loin coûte plus de carburant et plus de route à
+  tenir : à terme, la cité doit produire ce qu'il devient trop cher d'aller
+  chercher.
 - Les six quartiers reçoivent une **position fixe** par rapport aux villes
   nommées, pour relier la carte locale à la carte régionale.
 - Les versions de génération, flux aléatoires et identifiants restent ceux
@@ -664,6 +733,223 @@ Règles de cohérence :
 - Sauvegarde v20, migrations en chaîne depuis la v2, puis modules additifs.
 - **Direction** : la coopération reste hors des priorités actuelles. Toute
   évolution de cette bible passe par un module de sauvegarde additif.
+
+### 7.13 Un monde procédural sans bord **[DÉCISION]**
+
+#### D'où l'on part **[LIVRÉ]**
+
+| Sujet | État en 1.74.0 |
+|---|---|
+| Taille | Région finie de 24 576 m de côté (8 192 m pour les générations 1 à 4). Constante dure dans `core.js`. |
+| Découpage | 576 secteurs de 1 024 m ; arbres et rochers par morceaux de 256 m (25 en cache) ; 48 plans d'intérieurs en cache. |
+| Génération | Routes et lieux créés **d'un bloc** au lancement (environ 7 s) : de l'ordre de 3 100 routes et 3 200 lieux par graine. |
+| Variété | Depuis G6, la graine fixe la position de D-17, 34 agglomérations, le réseau routier, les biomes, cinq rivières et la côte. Quatre profils de paysage. |
+| Biomes | 16 milieux tempérés. |
+| Relief | **Aucun.** L'altitude n'est qu'un canal de climat ; le sol est plat ; seule l'eau a une profondeur. |
+| Lieux | Tous visitables (un à trois niveaux), butin fini jamais régénéré, un à quatre occupants. Environ 41 % infestés, 53 % vides, 6 % alliés. |
+| Terrain | Arbres, rochers et épaves se prélèvent et le prélèvement persiste. Aucun creusement, fossé ni talus. Aucune construction en région. |
+
+Ce qui borne le monde aujourd'hui : la taille figée, la génération d'un bloc,
+les identifiants de lieux limités à 10 000, les validateurs de sauvegarde
+bornés à la taille de la carte, la côte qui longe les bords, et la carte
+d'atlas calée sur l'étendue totale.
+
+#### Direction : sans bord
+
+- Le monde se génère **par cantons** au fil de l'avancée, à partir de la
+  graine et des coordonnées du canton. Deux cantons voisins partagent leurs
+  points de raccord (routes, cours d'eau) pour ne laisser aucune couture.
+- **La limite n'est plus un mur, c'est le réservoir.** Un break parcourt
+  environ 6 km avec un plein. Aller plus loin exige des dépôts, des
+  avant-postes et des routes tenues (§7.14) : la portée du joueur devient une
+  mesure de la puissance de sa cité.
+- **Plus loin, plus rare et plus dur** : sites remarquables plus riches,
+  migrations plus nombreuses, relais plus espacés.
+- La côte et les grands cours d'eau deviennent des éléments de paysage, pas
+  une clôture.
+- Les identifiants portent les coordonnées de leur canton ; les registres de
+  sauvegarde sont **creux** : ils ne retiennent que ce que le joueur a touché.
+- **Nouvelle génération de monde.** Les campagnes existantes gardent leur
+  région finie, leurs identifiants, leurs flux aléatoires et leurs
+  prélèvements. Le passage au monde sans bord est volontaire et suit la
+  transaction d'activation existante.
+- Propriétaires : `frontier-world.js`, `frontier-state.js`, `geography135.js`,
+  `hydrology165.js`, `atlas-projection.js`, `core.js`.
+
+#### Direction : des lieux à découvrir
+
+Trois rangs de lieux, pour que l'exploration ait des souvenirs :
+
+| Rang | Fréquence | Exemple | Ce qu'on y gagne | Ce qu'on y risque |
+|---|---|---|---|---|
+| **Ordinaire** [LIVRÉ] | Des milliers par région | Maison, commerce, atelier | Butin courant | Un à quatre occupants |
+| **Remarquable** [PROPOSITION] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
+| **Singulier** [PROPOSITION] | Un par grande distance | Un lieu nommé, lié au récit ou à une faction | Une trace, une rencontre, une décision | Propre au lieu |
+
+- Les 4 000 plans du codex servent de matière première ; il manque surtout
+  des **lieux qui comptent**, pas des plans.
+- Un lieu remarquable se **voit de loin** (château d'eau, cheminée, pylône) :
+  on choisit d'y aller, on n'y tombe pas par hasard.
+- Un nid vidé peut se repeupler si une migration passe : rien n'est acquis
+  hors des murs.
+
+#### Direction : un terrain modifiable
+
+Le moteur est en 2D et 2,5D : la transformation du terrain se fait **par
+cases sur la grille existante**, pas par blocs en volume.
+
+| Travail [PROPOSITION] | Effet de jeu | Lien de cohérence |
+|---|---|---|
+| Fossé | Ralentit et canalise la horde | Les corps finissent par le combler : il se déblaie comme un mur. |
+| Douve | Fossé en eau | Consomme l'eau de cité (§7.3). |
+| Talus | Protège un tireur, surélève un mur | Fait avec la terre du fossé : l'un ne va pas sans l'autre. |
+| Défrichage | Dégage un champ de tir | Le bois récolté est un prélèvement ordinaire. |
+| Carrière | Gisement de pierre creusé par le joueur | Reste une cicatrice visible sur la carte. |
+| Remblai | Referme un fossé, répare une route | Coûte de la pierre ou de la terre. |
+
+Règles :
+
+- Tout travail de terrain est un **chantier** : financé, puis accompli
+  physiquement par le joueur ou les ouvriers.
+- Il modifie le **coût de passage** lu par le champ de flux des hordes ; il
+  ne crée pas de règle parallèle.
+- Il est **persistant** et enregistré dans un registre creux, comme les
+  prélèvements actuels.
+- En région, on ne construit que dans l'emprise d'un avant-poste (§7.14).
+- **Le relief** (hauteurs, pentes, points de vue) est un chantier distinct et
+  lourd : il touche le rendu, la vision, l'eau et la construction. À étudier
+  après le monde sans bord, pas en même temps.
+
+#### Direction : des graines qui comptent
+
+- Une graine se **partage** : elle recrée la carte, pas le combat.
+- Chaque campagne affiche une **fiche de graine** : milieu dominant, eau,
+  densité urbaine, distance aux premiers lieux remarquables.
+- La graine doit changer la **stratégie d'ouverture** : une cité de plaine
+  sans pierre ne se bâtit pas comme une cité de plateau sans eau.
+
+### 7.14 Se déplacer dans le monde **[DÉCISION]**
+
+#### Véhicules à entretenir
+
+**[LIVRÉ]** Neuf véhicules pilotables : skate, vélo, moto, compacte, break,
+buggy, fourgon, bus, camion. Vitesses de 6,2 à 20 m/s, coffres de 4 à 260,
+réservoirs de 10 à 65. Santé de 45 à 760 ; épave à zéro. Une révision du
+moteur réduit la consommation de 20 % sur 2 000 m. Aucune panne.
+
+**[PROPOSITION]**
+
+- **Usure plutôt que hasard** : une panne vient d'un entretien négligé, que
+  le joueur pouvait prévoir.
+- **Remorquage** d'une épave par un véhicule plus lourd.
+- **Bruit** : un moteur attire, selon sa taille. Le vélo reste le véhicule de
+  l'éclaireur.
+- **Garage** de cité : entretien, modification, chargement des convois.
+
+#### Avant-postes bâtis
+
+**[LIVRÉ]** Un relais s'ouvre dans un lieu sécurisé ou allié : 8 s, 8 bois et
+4 ferraille, capacité 120, repos possible. Un lieu sécurisé peut être
+réinfesté. Rien ne se construit au loin.
+
+**[PROPOSITION]** Le relais devient le premier rang d'un **avant-poste** :
+
+| Rang | Ce que c'est | Ce qu'il permet |
+|---|---|---|
+| Relais [LIVRÉ] | Un coffre et un lit | Point de retour, dépôt, repos |
+| Poste | Une petite enceinte et un dépôt de carburant | Ravitaillement des véhicules, guet d'une route |
+| Avant-poste | Une garnison, un émetteur, un garage | Convois automatiques, radio, base d'opérations lointaines |
+
+- Mêmes règles que la cité : chantier, enceinte réellement fermée, garnison
+  nourrie, signature locale.
+- Un avant-poste **peut tomber**. Il n'attire pas de vague numérotée mais des
+  migrations et, plus tard, des factions (§4).
+- Nombre limité par l'âge : un avant-poste est un engagement, pas un semis.
+
+#### Routes à sécuriser
+
+**[LIVRÉ]** Les routes servent au guidage et aux chemins de retour ; aucune
+ne se sécurise.
+
+**[PROPOSITION]** Quatre états par tronçon :
+
+`Inconnue → Reconnue → Dégagée → Gardée`
+
+- **Dégager** : retirer les épaves, déjà démontables aujourd'hui.
+- **Garder** : un poste à chaque extrémité.
+- Une route gardée est **rapide et sûre** ; les fourgons des territoires et
+  les convois l'empruntent seuls.
+- Règle déjà vraie dans la cité et qui reste vraie ici : **une bonne route
+  sert aussi l'ennemi**. Une route gardée guide les migrations vers D-17.
+
+#### À pied et campement
+
+**[LIVRÉ]** Quatre bivouacs au plus, 600 s chacun, 12 bois et 6 ferraille ;
+repos contre 3 vivres. Torche, feu de camp et lanterne fonctionnent en
+région. Un bivouac n'arrête ni la nuit ni les vagues.
+
+**[PROPOSITION]** Faire peser la nuit dehors :
+
+- un feu **protège et signale** à la fois : chaleur et visibilité contre
+  attraction locale ;
+- les nuits noires s'appliquent aussi en région ;
+- une sortie à pied de plusieurs jours impose de choisir **où dormir** avant
+  la tombée de la nuit.
+
+### 7.15 La cité autonome **[DÉCISION]**
+
+#### D'où l'on part **[LIVRÉ]**
+
+- Quand le Commandant est en région, **D-17 continue d'être simulée en temps
+  réel** : vagues, ouvriers, production, tourelles, fusiliers.
+- Le joueur absent n'est plus ciblé par les infectés de la cité.
+- Une alerte s'affiche à chaque passage en phase d'alerte ou d'assaut ; le
+  tableau régional montre la phase en cours de D-17.
+- Avant le départ, un bilan signale les postes sans munitions ou sans
+  courant et l'état du centre.
+- Il n'existe **ni radio, ni retour d'urgence** : il faut revenir
+  physiquement à la porte.
+- Si le centre tombe pendant l'absence, la campagne est perdue.
+- **Incohérence** : l'escalade verticale, la population verticale et les
+  meutes sauvages sont **en pause** pendant l'absence. Une partie de la cité
+  se défend, une autre attend le joueur.
+
+#### Direction
+
+1. **Tout ou rien.** Pendant l'absence, tous les systèmes de siège tournent,
+   ou aucun. La pause partielle du siège vertical est à lever en premier.
+2. **Consignes d'absence.** Avant de sortir, le Commandant fixe une posture
+   pour chaque district (§8.2) : tenir, se replier sur une enceinte donnée,
+   sacrifier un secteur. Les responsables l'appliquent ; ils n'improvisent
+   pas.
+3. **Radio.** Un poste radio transmet des messages **factuels** : front
+   annoncé, brèche, secteur perdu, munitions basses. Sa portée dépend des
+   émetteurs des avant-postes. Hors de portée, c'est le silence, et le
+   silence fait partie de la tension.
+4. **Rappel.** Pas de téléportation. Le rappel trace le chemin le plus rapide
+   par les routes gardées. Rentrer à temps est une affaire de routes, donc de
+   préparation.
+5. **Estimation honnête.** À la porte, le bilan de départ indique ce que la
+   cité peut raisonnablement tenir sans le Commandant. C'est une estimation,
+   jamais une garantie.
+6. **L'enjeu reste entier.** Le centre peut tomber pendant une absence. Le
+   jeu le dit clairement avant chaque départ lointain.
+
+#### L'autonomie comme progression
+
+| Âges | La cité sans le Commandant | Exploration possible |
+|---|---|---|
+| 1–2 | Ne tient pas une nuit | Abords, entre deux vagues |
+| 3–4 | Tient une vague ordinaire, pas une brèche | Abords, retour avant l'alerte |
+| 5–6 | Tient si les consignes sont bonnes | Secteurs, pendant une vague |
+| 7+ | Tient plusieurs nuits, perd parfois un district | Région, plusieurs jours |
+
+L'autonomie se **gagne** : c'est la récompense de l'automatisation, des
+districts et des routes. Elle est le lien direct entre le pilier « bâtir la
+mégacité » et l'exploration.
+
+Propriétaires : `frontier.js`, `departure130.js`, `frontier-ui.js`,
+`vertical-siege176.js`, `vertical-population181.js`, `game.js`.
 
 ---
 
@@ -760,11 +1046,105 @@ restent la règle. Révélé à l'âge 10.
 Les lois prolongent les quatre crises existantes : une crise est un choix
 ponctuel, une loi est un choix durable. Révélées à l'âge 8.
 
-### 8.6 Ce que la fin de jeu ne doit pas devenir
+### 8.6 Le siège à grande échelle **[DÉCISION]**
+
+L'image visée : une marée qui vient de l'horizon, s'écrase contre un mur
+immense, s'y entasse jusqu'à le déborder, et parfois le perce.
+
+#### La marée à l'horizon
+
+**[LIVRÉ]** Les infectés apparaissent au bord du carré local de 128 m, après
+un préavis de 10 s (15 s avec la doctrine de reconnaissance), un message et
+une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
+18 groupes de 360) n'existent que lorsque le joueur est en région.
+
+**[PROPOSITION]**
+
+- **Une seule horde, deux échelles.** La vague qui frappe D-17 est une
+  migration qui a traversé la région. Elle ne naît plus au bord de la carte.
+- **On la voit venir** depuis les remparts et la vue à la première personne :
+  une masse lointaine, dessinée à moindre détail, qui grossit.
+- **Le préavis se gagne** : guet, beffroi, Léa, avant-postes et radio
+  l'allongent. Sans eux, on reste à quelques secondes.
+- **En région**, le joueur peut croiser la migration en marche vers sa cité.
+  Il peut la suivre, la prévenir, ou rentrer.
+- La foule lointaine est un **dessin de la simulation**, pas une seconde
+  simulation : elle ne crée ni dégât ni tirage.
+
+#### Les pyramides de corps
+
+**[LIVRÉ]**
+
+- Au sol : seuls l'Infecté récent et le Rampant franchissent un mur, quand la
+  charge de corps dépasse son seuil. Le franchissement n'a pas d'animation ;
+  huit marques au plus signalent l'amas.
+- En hauteur : l'amas a une vraie hauteur (charge ÷ 16, en mètres). La charge
+  compte les corps **et** les vivants pressés contre le mur. L'ascension
+  commence quand l'amas atteint le sommet ; 24 grimpeurs au plus. Le rendu
+  est un empilement de six gradins.
+- **Limite constatée** : un rempart de 48 m demande une charge de 768, soit
+  plus de vivants que le plafond de 720 infectés simultanés. Il est donc
+  aujourd'hui presque inatteignable.
+
+**[PROPOSITION]**
+
+- **Montrer la pyramide** : des corps et des vivants dessinés un à un sur
+  l'amas, à partir de la même charge. Le calcul ne change pas ; l'image, si.
+- **La pyramide est vivante** : elle monte par la base. Tirer dans la base,
+  l'incendier ou la déblayer la fait s'affaisser.
+- **Elle se prépare** : un fossé la retarde, des Hérissons la désorganisent,
+  un Porte-charniers l'accélère (§3.5).
+- **Rétablir la menace sur les grands murs** : représenter la foule au-delà
+  du plafond par des **masses agrégées** qui comptent dans la charge sans
+  être simulées une à une. Un mur de 48 m doit pouvoir être débordé par une
+  très grande horde, sinon il n'a pas d'enjeu.
+- Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
+  de la règle « plus de monde, pas plus de vie ».
+
+#### Les murs colossaux
+
+**[LIVRÉ]** Remparts de 12, 24 et 48 m, dalles jusqu'à 72 m, quatre affûts,
+logements et réserves suspendus, vue à la première personne.
+
+**[PROPOSITION]**
+
+- Un rempart colossal est un **grand ouvrage** (§8.4) : bâti par tranches,
+  sur plusieurs nuits, visible pendant qu'il monte.
+- Il se voit **depuis la région** : c'est un repère pour le joueur qui
+  rentre, et une raison de plus pour la signature de grimper.
+- Il a une **vie** : chemin de ronde, garnison, relève, projecteurs. Un mur
+  vide ne défend rien.
+- Les trois générations de matériau restent la règle ; la hauteur est une
+  dimension de plus, pas une quatrième génération.
+
+#### La brèche catastrophe
+
+**[LIVRÉ]** Une notification signale qu'une structure détruite ouvre le
+secteur. La chute d'un rempart ne termine pas la partie.
+
+**[PROPOSITION]** En faire le moment le plus fort du jeu, et le plus rare :
+
+1. **Des signes avant-coureurs** : intégrité basse, fissures visibles, poids
+   de la pyramide, abomination en approche. Une brèche catastrophe se
+   prévoit ; elle n'est jamais un coup du sort.
+2. **La rupture** : un pan entier ou une porte cède d'un coup, et non case
+   par case.
+3. **L'engouffrement** : la horde change de direction vers l'ouverture. Le
+   champ de flux le fait déjà ; il faut le montrer.
+4. **La décision** : tenir, évacuer ou sacrifier le district (§8.2), dans les
+   secondes qui suivent.
+5. **Le lendemain** : le secteur est perdu, puis repris (§8.3).
+
+Une brèche catastrophe ne termine jamais la partie à elle seule : seule la
+chute du centre de commandement le fait.
+
+### 8.7 Ce que la fin de jeu ne doit pas devenir
 
 - Une suite de chiffres plus grands sans décision nouvelle.
 - Un menu de gestion qui dispense de descendre au sol.
 - Une cité si sûre que la signature ne compte plus.
+- Un mur si haut qu'aucune horde ne peut l'atteindre.
+- Une exploration si confortable que l'absence ne coûte rien.
 
 ---
 
@@ -854,9 +1234,13 @@ un chantier documentaire dédié ; aucun ne demande de changer une règle de jeu
 | 14 | Sami, Sami V., Samir | `src/narrative.js`, `src/chronicles131-data.js` | Fusion et règle d'écriture (§2.6, §2.7). |
 | 15 | « Registre v5 » ambigu | `vertical175/CHANTIERS_VERTICAUX.md` | Préciser qu'il s'agit d'un registre interne. |
 | 16 | Identifiant `D17:` potentiellement affiché | `src/coop.js` | Vérifier qu'il ne paraît jamais à l'écran. |
+| 17 | Siège et population verticaux en pause pendant l'absence, alors que le reste de la cité est simulé | `vertical-siege176.js`, `vertical-population181.js` | Tout simuler ou tout suspendre (§7.15). |
+| 18 | Rempart de 48 m hors d'atteinte : charge requise 768, plafond 720 | `vertical-siege176.js`, `core.js` | Masses agrégées (§8.6). |
+| 19 | « Véhicules pilotables » exclus, alors que neuf sont livrés | `ROADMAP.md`, `GAME_DESIGN.md` §4 | Mettre à jour. |
+| 20 | Trois géants livrés, alors que le brief et `GAME_DESIGN.md` §14 écartent boss et mutations | `docs/vertical175/README.md`, `GAME_DESIGN.md` | Renvoyer à l'encadrement du §3.5. |
 
-Les lignes 12, 13, 14 et 16 touchent du code ou des textes joués : elles
-demandent un test.
+Les lignes 12, 13, 14, 16, 17 et 18 touchent du code ou des textes joués :
+elles demandent un test.
 
 ---
 
@@ -879,6 +1263,19 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
 | 10 | Récit relié et arcs des compagnons (§2.6, §2.7) | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
 | 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
+| 12 | Cité autonome cohérente : siège vertical actif, consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
+| 13 | Marée à l'horizon (§8.6) | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
+| 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
+| 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
+| 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
+| 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
+| 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
+| 19 | Monde sans bord (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | On roule au-delà de l'ancienne limite ; le monde continue. |
+
+Le monde sans bord est placé en dernier parce qu'il touche la génération, les
+identifiants et la sauvegarde. Les rangs 12 à 18 lui donnent d'abord une
+raison d'exister : sans avant-postes ni routes, un monde plus grand n'est
+qu'un monde plus vide.
 
 Les rangs 1 à 3 ne demandent presque aucune règle nouvelle : ils rendent
 lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
@@ -905,6 +1302,19 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
    été mesuré par une campagne humaine. Qui le mesure, et quand ?
 9. **Coopération** : reste-t-elle une simple présence ?
 10. **Records** : faut-il un classement, ou les records restent-ils locaux ?
+11. **Abominations** : valider les trois rôles du §3.5. Faut-il en ajouter, ou
+    s'en tenir aux trois livrées ? Peuvent-elles attaquer un avant-poste ?
+12. **Monde sans bord** : les campagnes en cours doivent-elles pouvoir y
+    passer, ou est-ce réservé aux nouvelles campagnes ?
+13. **Relief** : veut-on un vrai relief (collines, falaises, points de vue),
+    sachant que c'est le chantier le plus lourd de cette bible ?
+14. **Terrain** : les travaux de terrain sont-ils permis partout autour de la
+    cité, ou seulement le long des enceintes ?
+15. **Défaite pendant l'absence** : la chute du centre loin du joueur
+    efface-t-elle la campagne comme aujourd'hui, ou laisse-t-elle une chance
+    de reprise ?
+16. **Plafond de 720 infectés** : jusqu'où peut-on le relever sur le matériel
+    visé ? La réponse fixe l'ampleur réelle des marées et des pyramides.
 
 ---
 
