@@ -2,6 +2,7 @@
 
 - Collecteurs d'eau de pluie des haltes G11 : remise en service, remplissage sous la pluie et puisage au seau. Guide : [docs/LIVRAISON_1_74.md](docs/LIVRAISON_1_74.md).
 - Révélation de l'interface par âge, première tranche : onze entrées de menu masquées au début d'une campagne puis rouvertes avec l'âge ; réglage « Afficher tous les menus dès le début ». Présentation seulement : aucune règle, aucun coût ni aucune sauvegarde ne change. Les raccourcis clavier restent actifs. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §6.4.
+- Lecture de siège : le dossier Situation affiche la signature de la cité, ses quatre parts et son effet sur la vague en cours, ainsi que le bilan de la dernière nuit, annoncé une fois à la sécurisation. Présentation seulement, lue dans le plan de vague et le registre des nuits existants. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §8.1.
 - Récit : le chapitre I ne suppose plus d'effectif de départ ; deux signatures du registre sont précisées.
 - Direction du projet : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) fixe les piliers, l'univers, la cohérence entre systèmes et les décisions de cadrage. La bible ne modifie aucune règle livrée.
 

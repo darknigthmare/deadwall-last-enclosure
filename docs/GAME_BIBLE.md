@@ -1262,6 +1262,29 @@ la deuxième enceinte, on a repris l'atelier au matin. »
 Aucune de ces directions n'ajoute de vie aux infectés. Toutes ajoutent de la
 géographie.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+Le dossier **Situation** s'ouvre désormais sur deux cartes :
+
+- **Signature de la cité** : la valeur, ses quatre parts (bâtiments achevés,
+  population, consommation électrique, nombre de structures) et son effet sur
+  la vague en cours, en pourcentage et en nombre d'infectés supplémentaires.
+- **Dernière nuit** : durée, infectés éliminés, équipiers perdus, structures
+  perdues, tirs du commandant. Une phrase de bilan est aussi annoncée une
+  fois, à la sécurisation.
+
+Détails :
+
+- Module `src/siege-readout.js`, test `tests/siege-readout.test.cjs`.
+- Présentation seulement. L'effet sur la horde est **lu** dans le plan de
+  vague du moteur, sans recopier sa formule ; le bilan est **lu** dans le
+  registre des nuits déjà tenu par la citadelle, jusque-là visible seulement
+  au fond d'un dossier.
+- Une campagne reprise ne répète pas l'annonce de l'ancienne nuit.
+
+Restent à faire dans ce rang : fronts nommés, secteurs tenus, perdus et
+repris, munitions tirées par la garnison.
+
 ### 8.2 Districts autonomes **[DÉCISION]**
 
 - Un **district** est un secteur fermé doté d'un **responsable**, d'une
@@ -1683,7 +1706,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 |---:|---|---|---|---|
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
 | 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
-| 2 | Signature visible et bilan de nuit (§7.4, §8.1) | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
+| 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
 | 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |

@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36639,
-      "sha256": "7c032bd1a6baea6b293c67b31ee3e54c8925245fbcd0e64098e4a714d9ac32b7"
+      "bytes": 36686,
+      "sha256": "721ab7edf6188b1b002170ed40511e7438c010f60eae3bf2cce5a282091f22e0"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -909,6 +909,11 @@
       "path": "src/settlement-plans.js",
       "bytes": 1501,
       "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c"
+    },
+    {
+      "path": "src/siege-readout.js",
+      "bytes": 7189,
+      "sha256": "dc039a3a6f6e8ca3e665b3f487bcc2d52e83a6a1af9e06de9b767283585f6d85"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -1154,8 +1159,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36639,
-      "sha256": "7c032bd1a6baea6b293c67b31ee3e54c8925245fbcd0e64098e4a714d9ac32b7"
+      "bytes": 36686,
+      "sha256": "721ab7edf6188b1b002170ed40511e7438c010f60eae3bf2cce5a282091f22e0"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -2056,6 +2061,11 @@
       "path": "src/settlement-plans.js",
       "bytes": 1501,
       "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c"
+    },
+    {
+      "path": "src/siege-readout.js",
+      "bytes": 7189,
+      "sha256": "dc039a3a6f6e8ca3e665b3f487bcc2d52e83a6a1af9e06de9b767283585f6d85"
     },
     {
       "path": "src/site-infrastructure173.js",
