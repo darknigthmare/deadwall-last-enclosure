@@ -70,7 +70,15 @@ système supprimé.
 | Durée d'une campagne | 15 à 25 h jusqu'à Mégaville III. |
 | Matériel visé | Un ordinateur portable courant, dans un navigateur. |
 | Ordre des chantiers | Prise en main d'abord. |
-| Propositions validées | Sens de « D-17 », fusion des auteurs, quatre factions et trois abominations supplémentaires. |
+| Propositions validées | Sens de « D-17 », fusion des auteurs, quatre factions et trois abominations supplémentaires, six lois et cinq grands ouvrages de base. |
+| Après le dernier carré | Une cité à reconquérir : centre repris, districts perdus à reprendre un par un. |
+| Factions par campagne | Quatre à six sur dix, tirées et placées par la graine ; les Relais toujours présents. |
+| Pause en coopération | Aucune : le temps ne s'arrête jamais à plusieurs. |
+| Relève en coopération | L'hôte incarne la relève. |
+| Lois | Liste validée, complétée par des lois plus dures. |
+| Grands ouvrages | Liste validée, complétée. |
+| Corps après l'assaut | Une vraie filière (fosse ou bûcher), et des corps laissés trop longtemps rendent malade. |
+| Campagnes existantes | Reçoivent les nouveautés indépendantes du nouveau monde, par activation volontaire. |
 
 ---
 
@@ -516,9 +524,15 @@ Cinq états par faction, sans jauge chiffrée affichée :
 - Un état change par des **actes** (troc honoré, convoi attaqué, tribut
   refusé), jamais par un menu de diplomatie abstrait.
 - Les états sont sauvegardés dans un module additif versionné.
-- Les factions utilisent le générateur de monde existant et ses transactions
-  d'activation ; les campagnes anciennes ne reçoivent de faction qu'après une
-  activation volontaire.
+- **Tirage par la graine [DÉCISION]** : une campagne compte **quatre à six
+  factions sur les dix**, choisies et placées par la graine. Les Relais sont
+  toujours présents. Deux campagnes n'ont pas les mêmes voisins, et la fiche
+  de graine (§7.13) ne les révèle pas : on les découvre.
+- **Campagnes existantes [DÉCISION]** : elles peuvent recevoir les factions
+  par **activation volontaire** depuis le dépôt, avec migration additive,
+  comme les extensions actuelles. La même règle vaut pour les lois, les
+  districts, l'eau de cité et la filière des corps. Seuls le monde sans bord
+  et le relief restent réservés aux nouvelles campagnes.
 
 ### 4.5 Affrontements, destruction et ralliement **[DÉCISION]**
 
@@ -865,6 +879,11 @@ Règles de cohérence :
   - Une seule sauvegarde, celle de l'hôte. Les invités n'emportent rien.
   - Le Commandant reste unique ; les autres joueurs tiennent le rôle de
     responsables de district ou de chefs de sortie.
+  - **Aucune pause à plusieurs.** En solo, le poste de commandement met
+    toujours la simulation en pause. En coopération, le temps ne s'arrête
+    jamais : on commande pendant que les autres jouent.
+  - **Si le Commandant meurt**, l'hôte incarne la relève, comme en solo. Les
+    invités gardent leur rôle.
   - Les records restent locaux et sans classement.
 - Toute évolution de cette bible passe par un module de sauvegarde additif.
 
@@ -1101,6 +1120,11 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
    défenseurs, des munitions et des vivres. Une cité préparée tient
    longtemps ; une cité négligée, presque pas. Le joueur voit ce qu'il reste
    au réduit, pas un compte à rebours.
+   **Après la reprise : une cité à reconquérir.** Le centre est repris, mais
+   les districts sont perdus : bâtiments dégradés mais debout, population
+   réduite, secteurs à reprendre un par un selon les règles du §8.3. Les âges
+   et connaissances acquis restent acquis. Le dernier carré n'efface pas la
+   cité ; il transforme la campagne en reconquête.
    La règle ne vaut **que pour l'absence** : un centre détruit sous les yeux
    du Commandant reste une défaite immédiate.
 
@@ -1186,13 +1210,24 @@ Cette étape devient un système à part entière.
   physiquement. Une tranche inachevée est une faiblesse pendant l'assaut.
 - Chaque ouvrage résout un problème de mégacité **et** en crée un.
 
-| Ouvrage [PROPOSITION] | Ce qu'il apporte | Ce qu'il coûte |
+| Ouvrage [DÉCISION] | Ce qu'il apporte | Ce qu'il coûte |
 |---|---|---|
 | Chemin de ronde continu | Garnison mobile entre deux fronts | Une brèche y coupe la circulation. |
 | Château d'eau et réseau | Eau de cité sans portage | Un point unique à défendre. |
 | Beffroi d'alerte | Fronts annoncés plus tôt | Forte signature. |
 | Grand dépôt | Stocks de district mutualisés | Tout perdre d'un coup. |
 | Grande centrale | Énergie pour toutes les défenses | Carburant, signature, Éteints. |
+
+**[PROPOSITION]** Ouvrages ajoutés à la demande, à valider :
+
+| Ouvrage | Ce qu'il apporte | Ce qu'il coûte |
+|---|---|---|
+| Rempart colossal | Une enceinte de 24 à 48 m, bâtie par tranches (§8.6) | Des nuits entières avec un pan inachevé. |
+| Grandes douves | Un fossé en eau sur tout un front | Vide la réserve d'eau en période sèche ; se comble de corps. |
+| Pont-levis | Une porte qui se retire au lieu de tenir | Coupe aussi la sortie de ses propres défenseurs. |
+| Gare de convois | Chargement et départ de plusieurs convois à la fois | Un grand portail de plus à défendre. |
+| Émetteur régional | Radio jusqu'aux cantons lointains (§7.15) | Forte signature ; attire les factions. |
+| Nécropole | Bûchers et fosses à l'échelle d'une mégacité (§8.7) | Fumée permanente, donc signature ; moral du district voisin. |
 
 Un ouvrage ne crée pas de quatrième génération de mur : les trois générations
 restent la règle. Révélé à l'âge 10.
@@ -1203,7 +1238,7 @@ restent la règle. Révélé à l'âge 10.
 - Nombre de lois actives limité par l'âge ; un changement prend effet après un
   délai, jamais au milieu d'un assaut.
 
-| Loi [PROPOSITION] | Effet | Contrepartie |
+| Loi [DÉCISION] | Effet | Contrepartie |
 |---|---|---|
 | Demi-rations | Moins de nourriture consommée | Moral en baisse continue. |
 | Extinction des feux | Signature réduite la nuit | Production nocturne arrêtée, défenses moins éclairées. |
@@ -1211,6 +1246,28 @@ restent la règle. Révélé à l'âge 10.
 | Quarantaine des arrivants | Moins de réanimations dans les murs | Accueil retardé, logements immobilisés. |
 | Corvée de déblaiement | Corps retirés plus vite après l'assaut | Journée de récolte perdue. |
 | Rationnement de l'eau | Réserve d'incendie préservée | Rendement des fermes en baisse. |
+
+**[PROPOSITION]** Lois plus dures, ajoutées à la demande, à valider :
+
+| Loi | Effet | Contrepartie |
+|---|---|---|
+| Portes closes | Plus aucun réfugié accueilli : vivres et logements préservés | Croissance arrêtée ; ceux qu'on refuse meurent devant les murs et s'ajoutent à la horde. |
+| Expulsion des mordus | Aucune réanimation dans les murs | Chaque blessé mordu est perdu, soignable ou non ; moral en forte baisse ; les secouristes peuvent refuser. |
+| Travail forcé des ralliés | Les membres d'une faction ralliée travaillent sans compter | Risque de fuite, de sabotage, et rupture avec les factions voisines. |
+| Justice expéditive | Les pillards pris sont exécutés : les embuscades se raréfient | Les Rouleurs deviennent hostiles pour de bon ; les morts se relèvent ; un compagnon peut s'y opposer. |
+| Garde des morts | Tout mort de la cité est veillé jusqu'à certitude | Mobilise des habitants à chaque décès ; aucune surprise la nuit. |
+
+Règles propres aux lois dures :
+
+- Le jeu **ne juge pas** et ne récompense pas : il montre le prix. Aucune
+  loi dure n'est la bonne réponse évidente.
+- Chacune a un **visage** : un compagnon, un secouriste ou un habitant nommé
+  réagit par un acte, pas par un discours.
+- Elles sont **réversibles**, mais ce qu'elles ont coûté ne revient pas.
+- Ton sobre (§9.3) : on constate, on ne met pas en scène.
+- Elles relèvent du thème « ne rien promettre de faux » : une cité qui
+  ferme ses portes cesse d'être « un endroit où revenir », et le récit doit
+  pouvoir le dire.
 
 Les lois prolongent les quatre crises existantes : une crise est un choix
 ponctuel, une loi est un choix durable. Révélées à l'âge 8.
@@ -1317,7 +1374,43 @@ secteur. La chute d'un rempart ne termine pas la partie.
 Une brèche catastrophe ne termine jamais la partie à elle seule : seule la
 chute du centre de commandement le fait.
 
-### 8.7 Ce que la fin de jeu ne doit pas devenir
+### 8.7 La filière des corps **[DÉCISION]**
+
+**[LIVRÉ]** Un ouvrier en déblaiement retire la charge de corps au pied d'un
+mur ; la charge disparaît. Les corps dessinés s'effacent après 100 s.
+
+**Direction** : un corps déblayé **va quelque part**, et un corps laissé sur
+place **rend malade**.
+
+| Destination | Coût | Contrepartie |
+|---|---|---|
+| **Bûcher** | Carburant ou bois, un emplacement | Fumée : signature en hausse tant qu'il brûle. Rapide. |
+| **Fosse** | Travail, emprise au sol hors des murs | Lent ; la place finit par manquer ; une fosse pleine se referme. |
+| **Laissés sur place** | Rien | Rampe pour la prochaine horde, et maladie dans le secteur voisin. |
+
+Maladie :
+
+- Des corps laissés trop longtemps près d'un secteur habité y dégradent la
+  **santé** et le **moral**. L'effet est local, progressif et annoncé.
+- Il mobilise la clinique et consomme des médicaments : la filière des corps
+  devient une affaire de gouverneur, pas seulement d'ouvriers.
+- Ce n'est **pas** la contamination qui relève les morts : aucune confusion
+  avec l'infection, dont rien n'est expliqué (§2.4).
+- La pluie et la chaleur accélèrent ou ralentissent l'effet : lien avec la
+  météo.
+
+Cohérence :
+
+- La charge de corps au pied du mur garde ses règles actuelles ; la filière
+  commence **après** le déblaiement.
+- Un bûcher est un choix de signature, une fosse un choix d'espace : les deux
+  courbes du §1.2 s'y retrouvent.
+- La corvée de déblaiement (§8.5) et la Nécropole (§8.4) en sont la loi et
+  le grand ouvrage.
+- Propriétaires : `game.js`, `core.js` (`WORKER_RULES`), `urban.js`,
+  `weather193.js`.
+
+### 8.8 Ce que la fin de jeu ne doit pas devenir
 
 - Une suite de chiffres plus grands sans décision nouvelle.
 - Un menu de gestion qui dispense de descendre au sol.
@@ -1451,8 +1544,9 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
-| 20 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
-| 21 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
+| 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
+| 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
+| 22 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
 
 Le dernier carré se traite avec le rang 12. Le monde sans bord et la
 coopération sont placés en fin de liste parce qu'ils touchent la génération,
@@ -1469,18 +1563,15 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
 
 À trancher avant les chantiers concernés.
 
-1. **Dernier carré** : que reste-t-il de la cité une fois le centre repris ?
-2. **Convalescence** : combien de temps pour effacer une marque ?
-3. **Coopération** : que fait un invité quand l'hôte ouvre le poste de
-   commandement, qui met aujourd'hui la simulation en pause ?
-4. **Relève en coopération** : si le Commandant meurt, un invité peut-il
-   prendre la suite ?
+1. **Lois dures** : valider les cinq lois ajoutées (§8.5).
+2. **Grands ouvrages ajoutés** : valider les six ouvrages (§8.4).
+3. **Convalescence** : combien de temps pour effacer une marque ?
+4. **Maladie** : peut-elle tuer, ou seulement affaiblir ?
 5. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
    la cible de 15 à 25 h ?
-6. **Factions et campagnes existantes** : les campagnes en cours peuvent-elles
-   recevoir des factions, ou est-ce lié à la nouvelle génération de monde ?
-7. **Nombre de factions par campagne** : les dix à chaque fois, ou un tirage
-   selon la graine ?
+6. **Table de révélation par âge** (§6.2) : valider la répartition des
+   systèmes entre les onze âges.
+7. **Avant-postes** : combien au plus, à chaque âge ?
 
 ## 14. Faire vivre ce document
 
