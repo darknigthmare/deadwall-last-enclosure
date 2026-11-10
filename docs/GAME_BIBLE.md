@@ -52,6 +52,18 @@ système supprimé.
 | Absence du joueur | La cité **se défend vraiment** : la simulation continue pendant l'exploration. |
 | Déplacement | Véhicules à entretenir, avant-postes bâtis, routes à sécuriser, marche et campement. |
 | Rythme de l'exploration | Entre deux vagues au début ; pendant les vagues dès que la cité est autonome. |
+| Combat contre des humains | Joué au sol, rare et coûteux. |
+| Sort des factions | Destructibles **et** absorbables. Les six factions proposées sont validées ; d'autres s'y ajoutent. |
+| Sort des compagnons | Blessés d'abord ; la mort définitive survient après un certain nombre de blessures graves. |
+| Chute du centre pendant l'absence | Dernier carré : un délai pour rentrer et reprendre le centre. |
+| Relief | Par paliers : plateaux, falaises, cuvettes, pentes. |
+| Ampleur des hordes | Des milliers à l'écran : premiers rangs simulés, gros de la horde en masses agrégées. |
+| Monde sans bord | Réservé aux nouvelles campagnes. |
+| Travaux de terrain | Permis dans toute l'emprise de la cité et des avant-postes. |
+| Pénurie d'eau | Ralentit, fait partir des habitants, puis tue si elle dure. |
+| Révélation par âge | Interface seulement : aucun prérequis déplacé. |
+| Abominations | De nouvelles s'ajoutent aux trois existantes ; certaines rôdent en région. |
+| Coopération | Vraie coopération visée : plusieurs joueurs dans la même cité. |
 
 ---
 
@@ -117,7 +129,7 @@ Ce que DEADWALL refuse, quel que soit le chantier :
 - stock, dégât ou tirage aléatoire créés par un effet visuel ou sonore ;
 - récompense donnée pour une simple lecture ; cinématique non sautable ;
 - suppression d'un système existant pour en simplifier un nouveau ;
-- humains transformés en armée : voir §4.5.
+- humains transformés en armée : voir §4.6.
 
 ---
 
@@ -249,6 +261,20 @@ Déclencheurs proposés, identiques pour les quatre afin de rester lisibles :
 
 Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
 
+**Blessures et mort [DÉCISION]**
+
+- Un compagnon qui tombe est d'abord **blessé gravement** : évacué, soigné,
+  indisponible un temps.
+- Chaque blessure grave laisse une marque. **Au bout d'un certain nombre, la
+  suivante est mortelle.** [PROPOSITION] La troisième blessure grave est la
+  dernière survécue ; le seuil vit dans `src/core.js`.
+- Le joueur **voit** le compte : un compagnon marqué deux fois est un
+  compagnon qu'on n'expose plus sans raison.
+- Une mort est définitive. L'arc s'arrête là où il en était, son district
+  change de responsable, et son nom entre au registre.
+- Un compagnon mort peut se relever comme n'importe qui (§2.4). Le jeu ne
+  met pas cette scène en avant ; il ne l'empêche pas non plus.
+
 ### 2.8 Vocabulaire canonique **[PROPOSITION]**
 
 Un mot, un sens. Les textes affichés s'y conforment.
@@ -347,7 +373,8 @@ elle ne l'abolit pas.
 Garde-fous :
 
 1. **Rares.** Une abomination est un événement de fin de campagne, jamais un
-   profil de vague ordinaire. Le plafond de trois reste la règle.
+   profil de vague ordinaire. Le plafond de trois présentes à la fois reste
+   la règle, quel que soit leur type.
 2. **Jamais seules.** Elles arrivent **dans** une horde et la rendent plus
    dangereuse ; elles ne la remplacent pas. Le nombre reste la menace.
 3. **Annoncées.** On les voit venir de loin (§8.6) et elles portent un nom
@@ -371,8 +398,31 @@ nom :
 | Porte-charniers | Élève : là où elle s'arrête, l'amas monte plus vite. | L'abattre loin du rempart ; brûler ou déblayer l'amas. |
 | Colosse de siège | Franchit : elle menace directement le sommet d'un rempart de 12 à 24 m. | Affûts de précision, tir aux jambes, repli préparé. |
 
-**[PROPOSITION]** Aucune abomination en région ni contre un avant-poste :
-elles appartiennent aux sièges des grandes cités.
+**[DÉCISION]** D'autres abominations s'ajoutent aux trois existantes, et
+certaines **rôdent en région**, où elles menacent avant-postes et convois.
+
+**[PROPOSITION]** Trois nouvelles, chacune avec un rôle que les trois
+premières n'ont pas :
+
+| Abomination | Où | Rôle | Réponse du joueur |
+|---|---|---|---|
+| **Comble-fossé** | Siège | Pousse devant elle corps et gravats : elle annule les fossés et les douves. | La stopper avant l'ouvrage ; recreuser au matin. |
+| **Meneuse** | Région, puis siège | Les groupes sauvages s'agrègent autour d'elle : c'est le noyau d'une migration, visible de très loin. | L'abattre en région disperse la migration avant qu'elle atteigne la cité. |
+| **Traîne-épave** | Région | Empêtrée dans des câbles et de la tôle qu'elle traîne ; elle barre les routes et renverse les véhicules légers. | La contourner, l'attirer hors de la route, ou l'abattre et dégager l'épave. |
+
+Règles propres à la région :
+
+- une abomination de région se **voit et s'entend de loin** : on choisit de
+  l'affronter, on ne la découvre pas au détour d'un mur ;
+- elle n'apparaît que dans les cantons éloignés, jamais aux abords d'une cité
+  des premiers âges ;
+- elle peut ruiner un poste, pas le prendre : seule une migration le fait ;
+- la **Meneuse** relie les deux échelles : la tuer loin de la cité est la
+  seule façon d'affaiblir une vague avant qu'elle n'arrive.
+
+Toute nouvelle abomination passe les quatre questions du §3.3, sauf la
+première : on ne sait pas qui elle était. C'est précisément ce qui la
+distingue d'un infecté.
 
 ---
 
@@ -406,9 +456,9 @@ les hordes restent la menace principale.
    cannibales se lit dans des indices, pas dans un spectacle.
 7. **Aucun survivant d'avant** (§2.6) ne réapparaît dans une faction.
 
-### 4.3 Les factions **[PROPOSITION]**
+### 4.3 Les factions
 
-Noms et contenus originaux, à valider.
+**[DÉCISION]** Les six factions ci-dessous sont validées.
 
 | Faction | Qui ils sont | Ressource et système liés | Ce qu'ils font | Réponse du joueur |
 |---|---|---|---|---|
@@ -418,6 +468,19 @@ Noms et contenus originaux, à valider.
 | **La Garde de Saint-Roch** (autorité) | Reste d'une force publique : uniformes dépareillés, règlement intact. | Munitions, population ; lois et conscription (§8.5). | Réquisitionne, exige des recrues, offre une protection sous condition. | Coopérer et perdre de l'autonomie, ou refuser et perdre une route. |
 | **Les Éteints** (secte) | Communauté convaincue que la lumière et le bruit appellent les morts. | Signature, énergie. | Sabotent générateurs et projecteurs isolés ; ne tuent pas. | Garder les installations, ou négocier une extinction partielle. |
 | **La Tablée** (cannibales) | Hameau accueillant, trop bien nourri pour la saison. | Nourriture, population ; éclaireurs et petits groupes isolés. | Offrent le gîte, troquent une viande sans origine, font disparaître les isolés. | Lire les indices, ne jamais envoyer un isolé, rompre ou détruire. |
+
+**[PROPOSITION]** Quatre factions supplémentaires, à valider :
+
+| Faction | Qui ils sont | Ressource et système liés | Ce qu'ils font | Réponse du joueur |
+|---|---|---|---|---|
+| **Les Sans-Drapeau** (déserteurs) | Anciens soldats sans chaîne de commandement, bien armés, peu nombreux. | Munitions, armurerie. | Tiennent un pont ou un dépôt ; vendent leur protection ou la retirent. | Les payer, les contourner, les rallier, ou les déloger au prix fort. |
+| **Les Bateliers** (communauté fluviale) | Familles vivant sur l'eau, hors d'atteinte des hordes. | Eau, poisson, transport ; hydrologie. | Transportent de lourdes charges par la rivière, loin des routes. | Tenir un quai ; garder le cours d'eau ouvert. |
+| **La Fonderie** (récupérateurs) | Ouvriers retranchés dans une usine qu'ils démontent pièce à pièce. | Ferraille, machines ; grands ouvrages. | Fabriquent ce que la cité ne sait pas encore faire ; exigent de la nourriture. | Les nourrir régulièrement, ou perdre l'accès aux pièces. |
+| **Les Enfants du Préau** | Des enfants et adolescents qui ont tenu seuls dans une école. | Population, moral, logements. | Se cachent, volent de la nourriture, ne font confiance à personne. | Gagner leur confiance par des actes ; aucun affrontement possible. |
+
+Les Enfants du Préau ne sont jamais des adversaires : aucun combat, aucune
+menace armée, aucune mise en danger montrée. Ils posent une seule question au
+Commandant : ce qu'il fait d'une bouche de plus.
 
 Remarque de cohérence : **les Éteints ont raison sur le fond**. La signature
 attire réellement les hordes. C'est la faction qui commente le plus
@@ -436,7 +499,35 @@ Cinq états par faction, sans jauge chiffrée affichée :
   d'activation ; les campagnes anciennes ne reçoivent de faction qu'après une
   activation volontaire.
 
-### 4.5 Ce que les factions ne sont pas
+### 4.5 Affrontements, destruction et ralliement **[DÉCISION]**
+
+**Le combat contre des humains se joue au sol, et il est rare et coûteux.**
+
+- Il arrive dans deux situations : une **embuscade** sur une route, ou
+  l'**assaut d'un repaire** décidé par le joueur.
+- Il est **bref et mortel** : peu d'adversaires, qui s'abritent, tirent juste
+  et se replient. Aucun humain n'encaisse plus qu'un autre.
+- Il se paie **trois fois** (§4.2) : munitions, bruit qui attire une
+  migration, morts qui se relèvent des deux côtés.
+- Il n'est jamais nécessaire pour avancer : chaque situation garde une issue
+  sans tir.
+
+**Une faction peut disparaître de deux façons.**
+
+| Issue | Comment | Ce que la cité gagne | Ce que la cité perd |
+|---|---|---|---|
+| **Détruite** | Repaire pris et vidé | La route, le lieu, le stock sur place | Tout ce que la faction apportait : troc, transport, pièces, informations. Définitif. |
+| **Ralliée** | Entente tenue dans la durée, puis une demande de la faction | Ses membres comme habitants, son lieu comme avant-poste, son savoir-faire | De la nourriture, des logements, parfois une loi imposée par l'accord |
+
+- Une faction détruite ne revient pas. Son lieu reste, vide, et peut devenir
+  un nid.
+- Un ralliement n'est jamais offert : il se demande après des actes.
+- Certaines factions ne se rallient pas : la Tablée ne peut être que tenue à
+  distance ou détruite ; la Colonne ne s'arrête jamais.
+- [PROPOSITION] Les Éteints ne se rallient qu'à une cité qui applique
+  l'extinction des feux (§8.5).
+
+### 4.6 Ce que les factions ne sont pas
 
 - Pas une seconde horde : aucun assaut humain contre les enceintes.
 - Pas un jeu de tir contre des humains : les rencontres armées sont brèves,
@@ -541,8 +632,10 @@ Règles :
 | 10 | Mégaville II | Tour de mégaville, complexe nourricier, **grands ouvrages** | Que laissera cette cité ? |
 | 11 | Mégaville III | Réserve stratégique, croissance et survie continues | Jusqu'où ? |
 
-Cette table est une cible de présentation. Elle ne déplace aucun prérequis
-matériel existant sans un chantier d'équilibrage dédié dans `src/core.js`.
+**[DÉCISION]** Cette table ne porte que sur l'**interface**. Aucun prérequis
+matériel, aucun coût et aucun seuil d'âge ne change : un système dont le
+prérequis existant tombe plus tôt ou plus tard que sa ligne reste jouable
+selon ses règles actuelles, et seul son menu attend l'âge indiqué.
 
 ### 6.3 La première heure
 
@@ -604,8 +697,14 @@ Direction :
 - **Sources** : pluie (tonneaux), berges (seau, puis pompe), puits et château
   d'eau aux âges suivants.
 - **Débouchés** : population, cultures, élevage, incendies, clinique.
-- **Pénurie** : même logique que la nourriture. Elle touche d'abord le
-  rendement des fermes et le moral, puis laisse les incendies se propager.
+- **Pénurie [DÉCISION]**, en trois temps :
+  1. **Ralentir** : rendement des fermes et moral en baisse ; incendies plus
+     difficiles à éteindre.
+  2. **Faire partir** : des habitants quittent la cité.
+  3. **Tuer** : si la pénurie dure, les plus fragiles meurent, **dans les
+     murs**, avec le risque de réanimation ordinaire (§2.4).
+  Chaque temps est annoncé avant d'arriver ; la mort n'est jamais une
+  surprise.
 - **Lien avec la météo** : une suite de fronts secs devient une vraie menace
   de gouverneur.
 - **Lien avec la fiction** : la coupure d'eau ouvre la chronologie (§2.3).
@@ -731,8 +830,18 @@ Règles de cohérence :
 - Quatre départs, trois difficultés. Records locaux, dix campagnes récentes,
   aucun bonus permanent.
 - Sauvegarde v20, migrations en chaîne depuis la v2, puis modules additifs.
-- **Direction** : la coopération reste hors des priorités actuelles. Toute
-  évolution de cette bible passe par un module de sauvegarde additif.
+- **Coopération [DÉCISION]** : viser une **vraie coopération**, plusieurs
+  joueurs dans la même cité.
+  - L'image visée : l'un tient le mur pendant que l'autre explore. C'est la
+    cité autonome (§7.15) avec un humain à la place des consignes.
+  - C'est le chantier technique le plus lourd de cette bible : il faut une
+    **autorité unique** sur le monde (un hôte), là où le relais actuel n'en a
+    aucune, et une simulation qui ne dépend plus de l'écran d'un seul joueur.
+  - Une seule sauvegarde, celle de l'hôte. Les invités n'emportent rien.
+  - Le Commandant reste unique ; les autres joueurs tiennent le rôle de
+    responsables de district ou de chefs de sortie.
+  - Les records restent locaux et sans classement.
+- Toute évolution de cette bible passe par un module de sauvegarde additif.
 
 ### 7.13 Un monde procédural sans bord **[DÉCISION]**
 
@@ -769,10 +878,10 @@ d'atlas calée sur l'étendue totale.
   une clôture.
 - Les identifiants portent les coordonnées de leur canton ; les registres de
   sauvegarde sont **creux** : ils ne retiennent que ce que le joueur a touché.
-- **Nouvelle génération de monde.** Les campagnes existantes gardent leur
-  région finie, leurs identifiants, leurs flux aléatoires et leurs
-  prélèvements. Le passage au monde sans bord est volontaire et suit la
-  transaction d'activation existante.
+- **Nouvelles campagnes seulement [DÉCISION].** Le monde sans bord est une
+  nouvelle génération de monde. Les campagnes existantes gardent leur région
+  finie, leurs identifiants, leurs flux aléatoires et leurs prélèvements ;
+  aucune n'est convertie.
 - Propriétaires : `frontier-world.js`, `frontier-state.js`, `geography135.js`,
   `hydrology165.js`, `atlas-projection.js`, `core.js`.
 
@@ -815,10 +924,34 @@ Règles :
   ne crée pas de règle parallèle.
 - Il est **persistant** et enregistré dans un registre creux, comme les
   prélèvements actuels.
-- En région, on ne construit que dans l'emprise d'un avant-poste (§7.14).
-- **Le relief** (hauteurs, pentes, points de vue) est un chantier distinct et
-  lourd : il touche le rendu, la vision, l'eau et la construction. À étudier
-  après le monde sans bord, pas en même temps.
+- **[DÉCISION]** Les travaux sont permis dans **toute l'emprise de la cité
+  et des avant-postes** (§7.14), pas en pleine région.
+
+#### Direction : un relief par paliers **[DÉCISION]**
+
+Le sol passe de plat à **quelques niveaux francs** : plateaux, falaises,
+cuvettes, et des pentes pour passer de l'un à l'autre.
+
+| Ce que le relief apporte | Lien de cohérence |
+|---|---|
+| Des **points de vue** | On voit la marée venir de plus loin (§8.6). |
+| Des **murs adossés** | Une falaise vaut une enceinte ; une pente est une porte. |
+| De l'**eau qui descend** | Rivières, cuvettes inondables, château d'eau en hauteur (§7.3). |
+| Des **passages obligés** | Les cols et les rampes canalisent hordes et convois. |
+| Des **sites qui diffèrent** | La graine change vraiment la façon de bâtir. |
+
+Règles :
+
+- Paliers discrets, pas de pente continue : le jeu reste lisible vu de
+  dessus, et les collisions restent sur la grille.
+- Le champ de flux des hordes lit le relief comme un coût : une falaise est
+  infranchissable, une rampe est un goulet.
+- Fossés et talus deviennent le relief **fait par le joueur** : mêmes règles,
+  même registre.
+- Le relief n'existe que dans la nouvelle génération de monde.
+- C'est un chantier lourd : rendu, vision, eau, construction, citadelle
+  verticale. À mener **avec** le monde sans bord, puisque les deux exigent
+  une nouvelle génération.
 
 #### Direction : des graines qui comptent
 
@@ -932,8 +1065,17 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
 5. **Estimation honnête.** À la porte, le bilan de départ indique ce que la
    cité peut raisonnablement tenir sans le Commandant. C'est une estimation,
    jamais une garantie.
-6. **L'enjeu reste entier.** Le centre peut tomber pendant une absence. Le
-   jeu le dit clairement avant chaque départ lointain.
+6. **Le dernier carré [DÉCISION].** Si le centre tombe pendant l'absence du
+   Commandant, la campagne n'est pas perdue sur-le-champ :
+   - les survivants se replient dans un **dernier réduit** ;
+   - un **délai** s'ouvre, annoncé par radio si elle porte ;
+   - le Commandant doit **rentrer et reprendre le centre** avant la fin du
+     délai ;
+   - passé ce délai, ou si le réduit tombe, c'est la défaite.
+   Le délai dépend de ce qui a été bâti : garnison, réserves, dernière
+   enceinte. Une cité mal préparée n'en a presque pas.
+   La règle ne vaut **que pour l'absence** : un centre détruit sous les yeux
+   du Commandant reste une défaite immédiate.
 
 #### L'autonomie comme progression
 
@@ -1094,10 +1236,18 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
   l'incendier ou la déblayer la fait s'affaisser.
 - **Elle se prépare** : un fossé la retarde, des Hérissons la désorganisent,
   un Porte-charniers l'accélère (§3.5).
-- **Rétablir la menace sur les grands murs** : représenter la foule au-delà
-  du plafond par des **masses agrégées** qui comptent dans la charge sans
-  être simulées une à une. Un mur de 48 m doit pouvoir être débordé par une
-  très grande horde, sinon il n'a pas d'enjeu.
+- **Des milliers à l'écran [DÉCISION]** : les premiers rangs sont simulés un
+  à un, comme aujourd'hui ; le gros de la horde est fait de **masses
+  agrégées**.
+  - Une masse a un effectif, une position et une direction. Elle pèse sur le
+    mur, nourrit la pyramide et **se déverse** dans la simulation détaillée à
+    mesure que les premiers rangs tombent.
+  - Tirer dans une masse y tue réellement : l'effectif baisse, les munitions
+    sont dépensées, les corps comptent.
+  - Le plafond de 720 reste celui des infectés **détaillés** ; il ne borne
+    plus la taille de la horde.
+  - Un mur de 48 m redevient débordable par une très grande horde, sinon il
+    n'a pas d'enjeu.
 - Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
   de la règle « plus de monde, pas plus de vie ».
 
@@ -1270,10 +1420,13 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
 | 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
-| 19 | Monde sans bord (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | On roule au-delà de l'ancienne limite ; le monde continue. |
+| 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
+| 20 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
+| 21 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
 
-Le monde sans bord est placé en dernier parce qu'il touche la génération, les
-identifiants et la sauvegarde. Les rangs 12 à 18 lui donnent d'abord une
+Le dernier carré se traite avec le rang 12. Le monde sans bord et la
+coopération sont placés en fin de liste parce qu'ils touchent la génération,
+les identifiants, la sauvegarde et l'autorité sur la simulation. Les rangs 12 à 18 lui donnent d'abord une
 raison d'exister : sans avant-postes ni routes, un monde plus grand n'est
 qu'un monde plus vide.
 
@@ -1286,37 +1439,25 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
 
 À trancher avant les chantiers concernés.
 
-1. **Factions** : valider ou remplacer les six groupes et leurs noms (§4.3).
-   Peut-on en détruire une définitivement ?
-2. **Combat contre des humains** : jusqu'où le montrer ? Rencontre jouée au
-   sol, ou résolution d'expédition hors champ ?
+1. **Nouvelles factions** : valider les Sans-Drapeau, les Bateliers, la
+   Fonderie et les Enfants du Préau (§4.3).
+2. **Nouvelles abominations** : valider la Comble-fossé, la Meneuse et la
+   Traîne-épave (§3.5).
 3. **Sens de « D-17 »** et de « La Dernière Enceinte » : valider §2.2.
 4. **Fusion des auteurs** : valider le tableau §2.6, en particulier
    Sami et Sami V.
-5. **Compagnons** : un compagnon peut-il mourir définitivement ? Que devient
-   son district ?
-6. **Révélation par âge** : la table §6.2 déplace-t-elle des prérequis
-   matériels, ou seulement l'affichage ?
-7. **Eau** : la pénurie peut-elle tuer, ou seulement ralentir ?
-8. **Durée d'une campagne** : l'objectif de 6 à 10 h en Standard n'a jamais
+5. **Compagnons** : combien de blessures graves avant la mort ? Le compte
+   peut-il redescendre avec le temps ou des soins longs ?
+6. **Dernier carré** : quelle durée de délai, et que reste-t-il de la cité
+   une fois le centre repris ?
+7. **Durée d'une campagne** : l'objectif de 6 à 10 h en Standard n'a jamais
    été mesuré par une campagne humaine. Qui le mesure, et quand ?
-9. **Coopération** : reste-t-elle une simple présence ?
-10. **Records** : faut-il un classement, ou les records restent-ils locaux ?
-11. **Abominations** : valider les trois rôles du §3.5. Faut-il en ajouter, ou
-    s'en tenir aux trois livrées ? Peuvent-elles attaquer un avant-poste ?
-12. **Monde sans bord** : les campagnes en cours doivent-elles pouvoir y
-    passer, ou est-ce réservé aux nouvelles campagnes ?
-13. **Relief** : veut-on un vrai relief (collines, falaises, points de vue),
-    sachant que c'est le chantier le plus lourd de cette bible ?
-14. **Terrain** : les travaux de terrain sont-ils permis partout autour de la
-    cité, ou seulement le long des enceintes ?
-15. **Défaite pendant l'absence** : la chute du centre loin du joueur
-    efface-t-elle la campagne comme aujourd'hui, ou laisse-t-elle une chance
-    de reprise ?
-16. **Plafond de 720 infectés** : jusqu'où peut-on le relever sur le matériel
-    visé ? La réponse fixe l'ampleur réelle des marées et des pyramides.
-
----
+8. **Coopération** : combien de joueurs ? Un invité peut-il rejoindre une
+   campagne en cours, et que fait la cité quand l'hôte s'absente ?
+9. **Matériel visé** : sur quelles machines les masses de plusieurs milliers
+   doivent-elles tenir la cadence ?
+10. **Ordre des chantiers** : la feuille de route du §12 convient-elle, ou
+    faut-il avancer le siège à grande échelle avant la prise en main ?
 
 ## 14. Faire vivre ce document
 
