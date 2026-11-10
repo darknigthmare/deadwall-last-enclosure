@@ -1,5 +1,7 @@
 # DEADWALL — audit technique, contenu, cohérence et narration
 
+> **Note de mise à jour — novembre 2026.** Audit historique : le bestiaire compte désormais dix profils et le récit est prolongé par les décisions de [GAME_BIBLE.md](GAME_BIBLE.md) (§2, §9).
+
 Date : 31 août 2026. Point de départ inspecté : `14b4c520b185d2b1902dde0a445818832a531e7f`.
 
 Cette passe applique des corrections dans le vrai moteur, pas seulement des recommandations. Le code, les simulations et les parcours navigateur actuels ont été contrôlés. Ce document décrit la validation locale avant publication ; le manifeste Windows et le rapport de livraison séparé identifient ensuite l’archive, le commit et le déploiement effectivement vérifiés.

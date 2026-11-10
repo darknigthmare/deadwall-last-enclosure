@@ -227,3 +227,15 @@ test('récit : un partage requiert une équipe réelle et ne fait pas parler un 
   assert.match(game.narrativeStatus('aid','B').reason,/Recrutez/);assert.deepEqual(game.resources,before);
   assert.equal(game.resolveNarrative('aid','A'),true,'l’étude solitaire reste possible');
 });
+
+test('récit : les textes suivent le vocabulaire et la chronologie de la bible du jeu',()=>{
+  const text=JSON.stringify(N);
+  assert.doesNotMatch(text,/Trois ouvriers ont choisi/,'le chapitre I ne suppose aucun effectif de départ');
+  for(const scenario of Object.values(C.START_SCENARIOS))assert.ok(scenario.roster.length>0,'chaque départ garde une équipe');
+  assert.doesNotMatch(text,/trois migrations/,'une attaque repoussée est un assaut, une migration reste un mouvement régional');
+  assert.match(text,/au moins trois assauts/);
+  assert.doesNotMatch(text,/initiales E\.R\./,'E.R. est Émile R.');assert.match(text,/Émile R\./);
+  assert.doesNotMatch(text,/Sami, répartiteur/,'le répartiteur et le conducteur sont une seule personne');
+  assert.equal((text.match(/Sami V\./g)||[]).length,2);
+  assert.equal(C.SuccessionRules.profiles.commander.description,'Le premier commandant de D-17.');
+});

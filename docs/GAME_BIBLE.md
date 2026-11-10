@@ -1605,6 +1605,22 @@ un chantier documentaire dédié ; aucun ne demande de changer une règle de jeu
 Les lignes 12, 13, 14, 16, 17 et 18 touchent du code ou des textes joués :
 elles demandent un test.
 
+### 11.1 État des corrections
+
+Passe du 10 novembre 2026 :
+
+| Lignes | État |
+|---|---|
+| 1, 2, 3, 5, 6, 8, 11, 15, 19, 20 | **Corrigées** dans les documents cités, par une correction directe ou une note de mise à jour en tête des documents historiques. |
+| 4 | **Requalifiée** : les deux valeurs sont vraies. 82, 112 et 64 s sont les durées historiques ; le premier calme affiché vaut `(210 + durée historique − 82) × difficulté`. `SCENARIOS.md` l'explique désormais. |
+| 7 | **Corrigée en partie** : notes ajoutées. « Aucun puisage à distance » reste exact ; seul le sort des produits bruts avait changé. |
+| 12, 13, 14 | **Corrigées** dans `src/narrative.js` et `src/core.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
+| 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
+| 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
+| 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
+
+L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
+
 ---
 
 ## 12. Feuille de route de la bible

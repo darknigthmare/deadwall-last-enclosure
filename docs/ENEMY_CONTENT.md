@@ -1,5 +1,7 @@
 # Infectés — extension tactique crédible
 
+> **Note de mise à jour — novembre 2026.** Document historique du passage à huit profils. Le jeu en compte dix depuis la 1.48 (Porte-bouclier, Fonceur), plus trois géants dans le siège vertical. Référence d'ensemble : [GAME_BIBLE.md](GAME_BIBLE.md).
+
 Ce lot porte le bestiaire à huit profils sans changer la formule d'effectif total, les statistiques des cinq profils historiques, le plafond de santé ni la limite de 720 infectés actifs. Il ne transforme aucun infecté en boss et n'ajoute ni projectile, explosion organique, téléportation ou apparition de renforts.
 
 ## Trois rôles supplémentaires
