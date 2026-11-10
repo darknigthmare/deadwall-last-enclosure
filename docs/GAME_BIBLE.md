@@ -63,7 +63,14 @@ système supprimé.
 | Pénurie d'eau | Ralentit, fait partir des habitants, puis tue si elle dure. |
 | Révélation par âge | Interface seulement : aucun prérequis déplacé. |
 | Abominations | De nouvelles s'ajoutent aux trois existantes ; certaines rôdent en région. |
-| Coopération | Vraie coopération visée : plusieurs joueurs dans la même cité. |
+| Coopération | Vraie coopération : un hôte et jusqu'à trois invités, qui rejoignent ou quittent une campagne en cours. |
+| Blessures des compagnons | Trois ; une longue convalescence efface une marque. |
+| Délai du dernier carré | Fixé par l'état de la cité, sans chrono arbitraire. |
+| Mort du Commandant | La relève reprend, mais la cité en sort fragilisée. |
+| Durée d'une campagne | 15 à 25 h jusqu'à Mégaville III. |
+| Matériel visé | Un ordinateur portable courant, dans un navigateur. |
+| Ordre des chantiers | Prise en main d'abord. |
+| Propositions validées | Sens de « D-17 », fusion des auteurs, quatre factions et trois abominations supplémentaires. |
 
 ---
 
@@ -116,7 +123,15 @@ Règle d'arbitrage quand deux systèmes se contredisent :
 Le personnage reste jouable à tous les âges. Une identité s'ajoute, elle ne
 remplace pas la précédente.
 
-### 1.5 Interdits
+### 1.5 Cibles **[DÉCISION]**
+
+| Cible | Valeur | Conséquence |
+|---|---|---|
+| Durée d'une campagne | **15 à 25 h** jusqu'à Mégaville III, soit environ deux heures par âge | Remplace l'ancienne cible de 6 à 10 h, jamais mesurée. À vérifier par des campagnes humaines. |
+| Matériel | **Ordinateur portable courant**, puce graphique intégrée, navigateur | Les marées de plusieurs milliers reposent sur les masses agrégées (§8.6), pas sur la puissance de la machine. |
+| Joueurs | Un, ou **deux à quatre** en coopération (§7.12) | Tout système doit rester jouable seul. |
+
+### 1.6 Interdits
 
 Ce que DEADWALL refuse, quel que soit le chantier :
 
@@ -153,11 +168,11 @@ Ce que DEADWALL refuse, quel que soit le chantier :
 - **[LIVRÉ]** Un ancien dépôt municipal de 128 × 128 m, entouré de cinq
   districts d'annexes. Ce n'est pas une frontière : « nous gardons un endroit
   où revenir ».
-- **[PROPOSITION]** « D-17 » est le **Dépôt n° 17** des services techniques
+- **[DÉCISION]** « D-17 » est le **Dépôt n° 17** des services techniques
   intercommunaux : une désignation administrative banale, peinte sur un
   portail. Le nom n'a aucune portée mystérieuse ; c'est ce qui le rend
   crédible.
-- **[PROPOSITION]** « La Dernière Enceinte » n'est pas un lieu. C'est le nom
+- **[DÉCISION]** « La Dernière Enceinte » n'est pas un lieu. C'est le nom
   que les habitants donnent à l'enceinte qu'il reste à tenir cette nuit-là,
   quelle qu'elle soit.
 - **Écriture** : « D-17 » dans tout texte affiché. « D17 » est réservé aux
@@ -206,6 +221,11 @@ condition qu'aucune ne soit confirmée et qu'elles se contredisent entre elles.
 - À sa mort, une **relève** reprend le poste : Éclaireuse, Manutentionnaire ou
   Bâtisseuse **[LIVRÉ]**. La fonction survit à la personne ; c'est le thème
   central du jeu.
+- **[DÉCISION]** La mort du Commandant **fragilise la cité** : le moral
+  chute, les consignes d'absence et les ordres de district sont suspendus un
+  temps, et son corps peut se relever comme celui de n'importe qui. La
+  fonction survit, mais la passation a un prix. Les valeurs vivent dans
+  `src/core.js`.
 
 Corrections de texte à prévoir :
 
@@ -224,12 +244,12 @@ un même événement.
 | Personne | Rôle avant | Regard associé | Statut de la fusion |
 |---|---|---|---|
 | **Luc** | Agent municipal, dernier gardien du dépôt | Chroniques : le quart, la porte qu'on garde | [LIVRÉ] |
-| **Émile R.** | Agent technique | « E.R. » du Registre et Émile des Chroniques sont la même personne : la lumière de service, le fusible absent | [PROPOSITION] |
-| **Sami V.** | Répartiteur bénévole devenu conducteur | « Sami » et « Sami V. » du Registre sont la même personne | [PROPOSITION] |
-| **Oumar** | Conducteur | Second conducteur du dernier convoi, avec Sami V. | [PROPOSITION] |
-| **Nora** et **Héloïse** | Soignantes | Deux soignantes du même dispensaire : les soins sans diagnostic | [PROPOSITION] |
-| **Lina** et **Solène** | Habitantes | Deux voisines de la même rue : la liste des voisins, le mot sous la porte | [PROPOSITION] |
-| **Aline**, **Basile** | Habitants | Témoins du barrage et des ordres contradictoires | [PROPOSITION] |
+| **Émile R.** | Agent technique | « E.R. » du Registre et Émile des Chroniques sont la même personne : la lumière de service, le fusible absent | [DÉCISION] |
+| **Sami V.** | Répartiteur bénévole devenu conducteur | « Sami » et « Sami V. » du Registre sont la même personne | [DÉCISION] |
+| **Oumar** | Conducteur | Second conducteur du dernier convoi, avec Sami V. | [DÉCISION] |
+| **Nora** et **Héloïse** | Soignantes | Deux soignantes du même dispensaire : les soins sans diagnostic | [DÉCISION] |
+| **Lina** et **Solène** | Habitantes | Deux voisines de la même rue : la liste des voisins, le mot sous la porte | [DÉCISION] |
+| **Aline**, **Basile** | Habitants | Témoins du barrage et des ordres contradictoires | [DÉCISION] |
 
 Règles qui ne changent pas **[LIVRÉ]** :
 
@@ -244,7 +264,7 @@ Chaque compagnon reçoit une origine, un lien avec « ceux d'avant » et quatre
 entretien court et lisible plus tard dans le registre, et ne donne aucune
 récompense de lecture.
 
-| Compagnon | Rôle [LIVRÉ] | Origine et lien [PROPOSITION] | Question de l'arc |
+| Compagnon | Rôle [LIVRÉ] | Origine et lien [DÉCISION] | Question de l'arc |
 |---|---|---|---|
 | **Léa** | Éclaireuse, signale les hordes | Habitait la rue de Lina et Solène ; cherche leur liste de voisins. | Continuer à chercher, ou accepter de compter les vivants ? |
 | **Samir** | Soins | Ancien aide-soignant du dispensaire de Nora et Héloïse. | Que vaut un soin sans diagnostic ? |
@@ -265,9 +285,10 @@ Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
 
 - Un compagnon qui tombe est d'abord **blessé gravement** : évacué, soigné,
   indisponible un temps.
-- Chaque blessure grave laisse une marque. **Au bout d'un certain nombre, la
-  suivante est mortelle.** [PROPOSITION] La troisième blessure grave est la
-  dernière survécue ; le seuil vit dans `src/core.js`.
+- Chaque blessure grave laisse une marque. **La troisième est la dernière
+  survécue** : la suivante est mortelle. Le seuil vit dans `src/core.js`.
+- Une **longue convalescence** à l'hôpital, sans combattre ni commander,
+  efface une marque. Soigner un compagnon, c'est s'en priver.
 - Le joueur **voit** le compte : un compagnon marqué deux fois est un
   compagnon qu'on n'expose plus sans raison.
 - Une mort est définitive. L'arc s'arrête là où il en était, son district
@@ -401,8 +422,8 @@ nom :
 **[DÉCISION]** D'autres abominations s'ajoutent aux trois existantes, et
 certaines **rôdent en région**, où elles menacent avant-postes et convois.
 
-**[PROPOSITION]** Trois nouvelles, chacune avec un rôle que les trois
-premières n'ont pas :
+Trois nouvelles, validées, chacune avec un rôle que les trois premières
+n'ont pas :
 
 | Abomination | Où | Rôle | Réponse du joueur |
 |---|---|---|---|
@@ -469,7 +490,7 @@ les hordes restent la menace principale.
 | **Les Éteints** (secte) | Communauté convaincue que la lumière et le bruit appellent les morts. | Signature, énergie. | Sabotent générateurs et projecteurs isolés ; ne tuent pas. | Garder les installations, ou négocier une extinction partielle. |
 | **La Tablée** (cannibales) | Hameau accueillant, trop bien nourri pour la saison. | Nourriture, population ; éclaireurs et petits groupes isolés. | Offrent le gîte, troquent une viande sans origine, font disparaître les isolés. | Lire les indices, ne jamais envoyer un isolé, rompre ou détruire. |
 
-**[PROPOSITION]** Quatre factions supplémentaires, à valider :
+**[DÉCISION]** Quatre factions supplémentaires, validées :
 
 | Faction | Qui ils sont | Ressource et système liés | Ce qu'ils font | Réponse du joueur |
 |---|---|---|---|---|
@@ -837,6 +858,10 @@ Règles de cohérence :
   - C'est le chantier technique le plus lourd de cette bible : il faut une
     **autorité unique** sur le monde (un hôte), là où le relais actuel n'en a
     aucune, et une simulation qui ne dépend plus de l'écran d'un seul joueur.
+  - **Format** : un hôte et jusqu'à **trois invités**, qui rejoignent ou
+    quittent une campagne en cours.
+  - La campagne appartient à l'hôte et ne tourne que lorsqu'il joue : pas de
+    serveur persistant.
   - Une seule sauvegarde, celle de l'hôte. Les invités n'emportent rien.
   - Le Commandant reste unique ; les autres joueurs tiennent le rôle de
     responsables de district ou de chefs de sortie.
@@ -1072,8 +1097,10 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
    - le Commandant doit **rentrer et reprendre le centre** avant la fin du
      délai ;
    - passé ce délai, ou si le réduit tombe, c'est la défaite.
-   Le délai dépend de ce qui a été bâti : garnison, réserves, dernière
-   enceinte. Une cité mal préparée n'en a presque pas.
+   **Aucun chrono arbitraire** : le réduit tient tant qu'il a des
+   défenseurs, des munitions et des vivres. Une cité préparée tient
+   longtemps ; une cité négligée, presque pas. Le joueur voit ce qu'il reste
+   au réduit, pas un compte à rebours.
    La règle ne vaut **que pour l'absence** : un centre détruit sous les yeux
    du Commandant reste une défaite immédiate.
 
@@ -1246,6 +1273,8 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
     sont dépensées, les corps comptent.
   - Le plafond de 720 reste celui des infectés **détaillés** ; il ne borne
     plus la taille de la horde.
+  - Cible de cadence : un ordinateur portable courant (§1.5). Une masse
+    coûte le prix d'un seul objet, quel que soit son effectif.
   - Un mur de 48 m redevient débordable par une très grande horde, sinon il
     n'a pas d'enjeu.
 - Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
@@ -1396,7 +1425,8 @@ elles demandent un test.
 
 ## 12. Feuille de route de la bible
 
-Ordre proposé. Chaque chantier passe par une spécification, suit le test de
+Ordre **validé** : la prise en main d'abord, pour rendre lisible ce qui
+existe avant d'ajouter. Chaque chantier passe par une spécification, suit le test de
 cohérence (§5.3) et se termine par `npm run check`.
 
 | Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
@@ -1439,25 +1469,18 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
 
 À trancher avant les chantiers concernés.
 
-1. **Nouvelles factions** : valider les Sans-Drapeau, les Bateliers, la
-   Fonderie et les Enfants du Préau (§4.3).
-2. **Nouvelles abominations** : valider la Comble-fossé, la Meneuse et la
-   Traîne-épave (§3.5).
-3. **Sens de « D-17 »** et de « La Dernière Enceinte » : valider §2.2.
-4. **Fusion des auteurs** : valider le tableau §2.6, en particulier
-   Sami et Sami V.
-5. **Compagnons** : combien de blessures graves avant la mort ? Le compte
-   peut-il redescendre avec le temps ou des soins longs ?
-6. **Dernier carré** : quelle durée de délai, et que reste-t-il de la cité
-   une fois le centre repris ?
-7. **Durée d'une campagne** : l'objectif de 6 à 10 h en Standard n'a jamais
-   été mesuré par une campagne humaine. Qui le mesure, et quand ?
-8. **Coopération** : combien de joueurs ? Un invité peut-il rejoindre une
-   campagne en cours, et que fait la cité quand l'hôte s'absente ?
-9. **Matériel visé** : sur quelles machines les masses de plusieurs milliers
-   doivent-elles tenir la cadence ?
-10. **Ordre des chantiers** : la feuille de route du §12 convient-elle, ou
-    faut-il avancer le siège à grande échelle avant la prise en main ?
+1. **Dernier carré** : que reste-t-il de la cité une fois le centre repris ?
+2. **Convalescence** : combien de temps pour effacer une marque ?
+3. **Coopération** : que fait un invité quand l'hôte ouvre le poste de
+   commandement, qui met aujourd'hui la simulation en pause ?
+4. **Relève en coopération** : si le Commandant meurt, un invité peut-il
+   prendre la suite ?
+5. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
+   la cible de 15 à 25 h ?
+6. **Factions et campagnes existantes** : les campagnes en cours peuvent-elles
+   recevoir des factions, ou est-ce lié à la nouvelle génération de monde ?
+7. **Nombre de factions par campagne** : les dix à chaque fois, ou un tirage
+   selon la graine ?
 
 ## 14. Faire vivre ce document
 
