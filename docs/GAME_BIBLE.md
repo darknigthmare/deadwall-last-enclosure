@@ -79,6 +79,14 @@ système supprimé.
 | Grands ouvrages | Liste validée, complétée. |
 | Corps après l'assaut | Une vraie filière (fosse ou bûcher), et des corps laissés trop longtemps rendent malade. |
 | Campagnes existantes | Reçoivent les nouveautés indépendantes du nouveau monde, par activation volontaire. |
+| Validations | Cinq lois dures, six grands ouvrages ajoutés, table de révélation par âge. |
+| Maladie des corps | Affaiblit, puis tue si rien n'est fait. |
+| Avant-postes | Aucun plafond fixe : limités par les moyens. |
+| Convalescence | Trois assauts à l'hôpital pour effacer une marque. |
+| Récit | Trois chapitres de plus, liés aux âges tardifs et déclenchés par des faits de jeu. |
+| Saisons | Quatre saisons longues sur la durée d'une campagne. |
+| Jour et nuit | Assauts surtout la nuit, parfois le jour. |
+| Habitants | Visibles dans la cité ; quelques-uns nommés, dont les pertes comptent au registre. |
 
 ---
 
@@ -295,8 +303,9 @@ Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
   indisponible un temps.
 - Chaque blessure grave laisse une marque. **La troisième est la dernière
   survécue** : la suivante est mortelle. Le seuil vit dans `src/core.js`.
-- Une **longue convalescence** à l'hôpital, sans combattre ni commander,
-  efface une marque. Soigner un compagnon, c'est s'en priver.
+- Une **convalescence de trois assauts** à l'hôpital, sans combattre ni
+  commander, efface une marque. Soigner un compagnon, c'est s'en priver au
+  moment où il sert le plus.
 - Le joueur **voit** le compte : un compagnon marqué deux fois est un
   compagnon qu'on n'expose plus sans raison.
 - Une mort est définitive. L'arc s'arrête là où il en était, son district
@@ -651,7 +660,7 @@ Règles :
 - Un réglage « Tout afficher » existe pour les joueurs expérimentés.
 - Les âges acquis restent acquis après une perte **[LIVRÉ]**.
 
-### 6.2 Table de révélation **[PROPOSITION]**
+### 6.2 Table de révélation **[DÉCISION]**
 
 | Âge | Nom | Systèmes révélés | Question posée au joueur |
 |---:|---|---|---|
@@ -757,6 +766,16 @@ Direction :
   + 0,35 × nombre de structures. Effet : jusqu'à +80 % d'effectif.
 - Propriétaires : `urban.js`, `power-grid.js`, `power-network173.js`,
   `vertical-network179.js`, `core.js`.
+- **Habitants visibles et nommés [DÉCISION]** :
+  - On **voit** les habitants circuler, travailler, puis se réfugier pendant
+    l'assaut. C'est un dessin de la population réelle, pas une seconde
+    simulation : aucun besoin individuel, aucune jauge par personne.
+  - **Quelques-uns ont un nom et un métier.** Leurs pertes entrent au
+    registre, avec celles des compagnons.
+  - Un district perdu se lit dans la rue : des gens fuient vers l'enceinte
+    intérieure.
+  - Les prénoms viennent de la liste épicène existante ; aucun habitant
+    nommé n'est l'un de « ceux d'avant » (§2.6).
 - **Direction** : expliquer au joueur **une seule** lecture de l'énergie. Le
   ratio global devient l'indicateur de cité ; les circuits en sont le détail,
   révélé à l'âge 6. La signature doit être **visible et expliquée** dès
@@ -783,6 +802,11 @@ Direction :
 - Huit migrations types, dont la tenaille (vague 10) et le débordement
   (vague 13). Nuits noires aux vagues 4, 7, 10, puis toutes les trois.
 - Propriétaires : `game.js`, `core.js`, `battlefield.js`, `nightwatch.js`.
+- **Jour et nuit [DÉCISION]** : la nuit reste le temps de l'assaut. Mais une
+  migration peut arriver **de jour**, rarement : chantiers ouverts, ouvriers
+  dehors, portes en mode automatique. Un assaut de jour est moins nombreux et
+  mieux visible ; il frappe une cité qui ne l'attendait pas. Il s'annonce
+  comme les autres (§8.6) : rare ne veut pas dire sans préavis.
 
 ### 7.7 Ouvriers, escouades, spécialistes **[LIVRÉ]**
 
@@ -844,6 +868,22 @@ Règles de cohérence :
   90 dernières secondes.
 - Élevage : enclos de 3 × 3 m, huit enclos de quatre animaux au plus.
 - Cueillette : 16 espèces.
+- **Saisons longues [DÉCISION]** : quatre saisons se succèdent sur la durée
+  d'une campagne, par-dessus les fronts météo existants.
+
+  | Saison | Ce qu'elle change | Systèmes touchés |
+  |---|---|---|
+  | Printemps | Crues, sols détrempés | Rivières, cuvettes, routes basses, fossés qui se remplissent |
+  | Été | Sécheresse, incendies | Eau de cité, fermes, feu, bûchers |
+  | Automne | Boue, brouillard | Véhicules, convois, préavis des hordes |
+  | Hiver | Gel, nuits longues | Cultures à l'arrêt, eau gelée, corps conservés plus longtemps, assauts plus longs |
+
+  - Une saison change la **question logistique** du moment, pas les règles.
+  - Elle s'annonce : le joueur prépare l'hiver, il ne le subit pas.
+  - [PROPOSITION] Une saison dure environ deux âges de jeu, pour qu'une
+    campagne de 15 à 25 h en traverse plusieurs.
+  - Le calcul des saisons, comme celui de la météo, ne consomme pas le flux
+    aléatoire de la simulation.
 - **Direction** :
   - la météo doit peser sur le siège (visibilité, boue, feu) et sur l'eau ;
   - le cuir doit trouver un second débouché (équipement, protections) ;
@@ -1041,7 +1081,9 @@ réinfesté. Rien ne se construit au loin.
   nourrie, signature locale.
 - Un avant-poste **peut tomber**. Il n'attire pas de vague numérotée mais des
   migrations et, plus tard, des factions (§4).
-- Nombre limité par l'âge : un avant-poste est un engagement, pas un semis.
+- **Aucun plafond fixe [DÉCISION]** : on tient autant d'avant-postes qu'on
+  peut en nourrir, en garnir et en relier par une route gardée. La limite est
+  logistique, comme partout ailleurs dans le jeu.
 
 #### Routes à sécuriser
 
@@ -1218,7 +1260,7 @@ Cette étape devient un système à part entière.
 | Grand dépôt | Stocks de district mutualisés | Tout perdre d'un coup. |
 | Grande centrale | Énergie pour toutes les défenses | Carburant, signature, Éteints. |
 
-**[PROPOSITION]** Ouvrages ajoutés à la demande, à valider :
+**[DÉCISION]** Ouvrages ajoutés, validés :
 
 | Ouvrage | Ce qu'il apporte | Ce qu'il coûte |
 |---|---|---|
@@ -1247,7 +1289,7 @@ restent la règle. Révélé à l'âge 10.
 | Corvée de déblaiement | Corps retirés plus vite après l'assaut | Journée de récolte perdue. |
 | Rationnement de l'eau | Réserve d'incendie préservée | Rendement des fermes en baisse. |
 
-**[PROPOSITION]** Lois plus dures, ajoutées à la demande, à valider :
+**[DÉCISION]** Lois plus dures, validées :
 
 | Loi | Effet | Contrepartie |
 |---|---|---|
@@ -1392,6 +1434,9 @@ Maladie :
 
 - Des corps laissés trop longtemps près d'un secteur habité y dégradent la
   **santé** et le **moral**. L'effet est local, progressif et annoncé.
+- **[DÉCISION]** Si rien n'est fait, la maladie **tue** les plus fragiles,
+  dans les murs, avec le risque de réanimation ordinaire. Même gradation que
+  la pénurie d'eau (§7.3) : affaiblir, puis tuer, jamais par surprise.
 - Il mobilise la clinique et consomme des médicaments : la filière des corps
   devient une affaire de gouverneur, pas seulement d'ouvriers.
 - Ce n'est **pas** la contamination qui relève les morts : aucune confusion
@@ -1437,6 +1482,23 @@ Cohérence :
 - Propriétaires : `narrative.js`, `chronicles131-data.js`,
   `campaign-intro132.js`.
 
+**Trois chapitres de plus [DÉCISION]**, liés aux âges tardifs. Chacun se
+déclenche par un fait de jeu, s'ajoute au registre et ne termine rien.
+
+| Chapitre | Déclencheur | Ce qu'il raconte |
+|---|---|---|
+| V. Ceux à qui l'on confie | Premier district confié à un responsable | Le Commandant n'est plus partout. La fonction se partage. |
+| VI. Les autres | Première faction ralliée ou détruite | D-17 n'est plus seule ; ce qu'elle fait aux autres dit ce qu'elle est. |
+| VII. Revenir | Cité reconquise après un dernier carré, ou Mégaville III atteinte | « Un endroit où revenir » : la phrase de Luc, vérifiée ou démentie par la campagne. |
+
+- [PROPOSITION] Les titres et les textes restent à écrire selon le ton du
+  §9.3.
+- Le chapitre VI a deux versions, selon que la première faction a été
+  ralliée ou détruite. Aucune n'est présentée comme la bonne.
+- Les lois dures (§8.5) peuvent colorer le chapitre VII : une cité aux
+  portes closes n'écrit pas la même dernière page.
+- L'épilogue du chapitre IV reste en place et reste vrai.
+
 ### 9.2 Thèmes
 
 1. **Un endroit où revenir.** D-17 n'est pas une frontière.
@@ -1458,7 +1520,6 @@ Cohérence :
   la loi de quarantaine (§8.5) et la règle de réanimation.
 - **Voix des Relais** : quelques visages vivants hors de D-17, sans jamais
   confirmer le sort de « ceux d'avant ».
-- **Chapitre V facultatif** : le premier district confié à un compagnon.
 
 ---
 
@@ -1563,15 +1624,16 @@ lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
 
 À trancher avant les chantiers concernés.
 
-1. **Lois dures** : valider les cinq lois ajoutées (§8.5).
-2. **Grands ouvrages ajoutés** : valider les six ouvrages (§8.4).
-3. **Convalescence** : combien de temps pour effacer une marque ?
-4. **Maladie** : peut-elle tuer, ou seulement affaiblir ?
-5. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
+1. **Durée d'une saison** : deux âges de jeu, ou une durée fixe en heures ?
+2. **Assauts de jour** : à partir de quel âge, et à quelle fréquence ?
+3. **Habitants nommés** : combien, et peuvent-ils devenir responsables de
+   district ?
+4. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
    la cible de 15 à 25 h ?
-6. **Table de révélation par âge** (§6.2) : valider la répartition des
-   systèmes entre les onze âges.
-7. **Avant-postes** : combien au plus, à chaque âge ?
+5. **Direction artistique des factions et des abominations** : faut-il des
+   planches de référence avant tout chantier ?
+6. **Son** : le jeu reste-t-il entièrement synthétisé, ou accepte-t-on des
+   enregistrements pour les grandes hordes ?
 
 ## 14. Faire vivre ce document
 
