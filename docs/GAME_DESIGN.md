@@ -149,6 +149,10 @@ Infecté mobile qui dévie vers un survivant proche, isolé et visible. Les grou
 
 Infecté massif et très lent dont la dépouille augmente davantage la pression des corps. Aucune explosion, capacité surnaturelle ou santé de boss. Apparaît à partir de la vague 8.
 
+### Géants du siège vertical
+
+Trois géants rares (Porte-faille, Porte-charniers, Colosse de siège) existent dans le siège vertical à partir de la vague 25, trois au plus. Leur encadrement et leur place face au brief sont fixés dans [GAME_BIBLE.md](GAME_BIBLE.md) (§3.5).
+
 ## 8. Navigation des hordes
 
 Le monde utilise un champ de flux calculé depuis le centre de commandement. Chaque cellule reçoit un coût :

@@ -1,5 +1,7 @@
 # DEADWALL — Les Enceintes du Ciel
 
+> **Note de mise à jour — novembre 2026.** Les chiffres entre parenthèses après un nom d'âge sont les indices du code, de 0 (Refuge) à 10 (Mégaville III). La convention d'affichage du projet numérote les âges de 1 à 11 : Forteresse (3) est l'âge 4, Métropole (6) l'âge 7. Référence d'ensemble : [GAME_BIBLE.md](../GAME_BIBLE.md).
+
 ## Livraison 175 — tranche jouable, PR en brouillon
 
 Base auditée : `main` 5b8f0ade7f7e93d3fc3ea23f762cac93ded43d90 (1.60/G10), 14 octobre 2026. Branche `feat/vertical-citadel-175`, PR #6, sans fusion de main ni de la PR métrique #5. Les murs béton, plusieurs enceintes et le contrôle au sol de tourelles existaient ; l'ensemble cité élevée / murs parcourables / FPS perspective n'existait pas.

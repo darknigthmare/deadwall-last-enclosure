@@ -182,9 +182,9 @@ La sauvegarde versionnée contient :
 - moral, points de ralliement et ordres des trois sections, statistiques et objectifs ;
 - registre narratif et décisions uniques.
 
-La version 2 conserve une copie de secours et accepte la migration v1. Les compteurs de horde, ordres, modes de portes, doctrines, crises et états de spécialistes sont additifs. Les routes temporaires sont recalculées. Le profil de records utilise ses propres clés et conserve dix campagnes récentes ; les meilleurs résultats anciens restent mémorisés. Les profils Windows et navigateur sont séparés : aucun profil voisin n'est lu automatiquement.
+La sauvegarde générale est en **version 20** (`C.SAVE_VERSION`, clé `deadwall-save-v20`) : les migrations s'enchaînent de la v2 à la v20, puis les ajouts passent par des modules additifs versionnés (`expansions127`, axes `frontier.*Version`, registres propres). Depuis la version 2, elle conserve une copie de secours et accepte la migration v1. Les compteurs de horde, ordres, modes de portes, doctrines, crises et états de spécialistes sont additifs. Les routes temporaires sont recalculées. Le profil de records utilise ses propres clés et conserve dix campagnes récentes ; les meilleurs résultats anciens restent mémorisés. Les profils Windows et navigateur sont séparés : aucun profil voisin n'est lu automatiquement.
 
-Une migration devra augmenter `SAVE_VERSION` et prévoir une fonction de transformation avant toute modification incompatible.
+Toute modification incompatible augmente `SAVE_VERSION` et fournit sa fonction de transformation ; un ajout compatible passe par un module additif.
 
 La reprise utilise l’identifiant temporaire réservé 0 pour le joueur, déjà représenté par cette sentinelle dans les cibles de soin : ouvrir une sauvegarde ne consomme plus un nouvel identifiant. Les compteurs dérivés épuisés sont refusés avant remplacement du monde. Les IDs de structures restent compatibles avec la grille `Int32Array` ; il ne s’agit pas d’un espace d’identifiants infini.
 

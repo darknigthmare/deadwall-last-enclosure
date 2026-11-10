@@ -1,5 +1,7 @@
 # Récoltes sauvages et enclos régionaux
 
+> **Note de mise à jour — novembre 2026.** État à la passe 191. Les produits bruts ne restent plus obligatoirement sur le site : le seau (199), les soins (200) et les colis `cargo203` ont été ajoutés depuis. Référence d'ensemble : [GAME_BIBLE.md](GAME_BIBLE.md).
+
 Ces activités prolongent la boucle explorer → rapporter des provisions → financer et entretenir le refuge. Les nombres 189, 190 et 191 identifient les modules techniques. Ils ne désignent pas une certification commerciale ou une nouvelle génération de terrain.
 
 Dans **Opérations → Expéditions**, ouvrir **Récoltes sauvages** ou **Enclos & transformation**. La chasse et la pêche exigent une région avec hydrologie et faune. Les enclos et les comportements naturels concernent les campagnes **Régions naturelles**, **Grands biomes** et **Mosaïque naturelle**. Une ancienne sauvegarde garde son terrain et son peuplement ; la consulter ne la convertit pas.
