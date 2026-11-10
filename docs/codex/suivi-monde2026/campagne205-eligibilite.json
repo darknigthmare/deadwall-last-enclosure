@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36396,
-      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
+      "bytes": 36639,
+      "sha256": "7c032bd1a6baea6b293c67b31ee3e54c8925245fbcd0e64098e4a714d9ac32b7"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -44,6 +44,11 @@
       "path": "src/actor-presentation.js",
       "bytes": 9691,
       "sha256": "115900704feb838293177ea0606325b9fe50dcb1b0d638365dbd68e45b6d6022"
+    },
+    {
+      "path": "src/age-reveal.js",
+      "bytes": 5041,
+      "sha256": "1c93fc3c8fcf546dd965422d25c682f627eee585c1a1da0010e63a85319d4bc1"
     },
     {
       "path": "src/arsenal-ui134.js",
@@ -657,8 +662,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457783,
-      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
+      "bytes": 457830,
+      "sha256": "e20a0e3b97829993b4fab52430ccbc7cce3f8ff1178540f65acb978a92d32906"
     },
     {
       "path": "src/geography135.js",
@@ -752,8 +757,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13060,
-      "sha256": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c"
+      "bytes": 13057,
+      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
     },
     {
       "path": "src/nature-art153.js",
@@ -957,8 +962,8 @@
     },
     {
       "path": "src/ui.js",
-      "bytes": 11116,
-      "sha256": "9385cc886aec76e1be2d7f8824c90edaf562ffae574d0637c758aeae9e0d328a"
+      "bytes": 11358,
+      "sha256": "73632e8a2cb02c1f0ab7c3f4e100890baa3b649e7047c5f7157fb23743611a31"
     },
     {
       "path": "src/urban-art.js",
@@ -1149,8 +1154,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36396,
-      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
+      "bytes": 36639,
+      "sha256": "7c032bd1a6baea6b293c67b31ee3e54c8925245fbcd0e64098e4a714d9ac32b7"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -1186,6 +1191,11 @@
       "path": "src/actor-presentation.js",
       "bytes": 9691,
       "sha256": "115900704feb838293177ea0606325b9fe50dcb1b0d638365dbd68e45b6d6022"
+    },
+    {
+      "path": "src/age-reveal.js",
+      "bytes": 5041,
+      "sha256": "1c93fc3c8fcf546dd965422d25c682f627eee585c1a1da0010e63a85319d4bc1"
     },
     {
       "path": "src/arsenal-ui134.js",
@@ -1799,8 +1809,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 457783,
-      "sha256": "f27835cee4505f1c18d168402f525867a8e3665b367daf8b12fb677ecef35e98"
+      "bytes": 457830,
+      "sha256": "e20a0e3b97829993b4fab52430ccbc7cce3f8ff1178540f65acb978a92d32906"
     },
     {
       "path": "src/geography135.js",
@@ -1894,8 +1904,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13060,
-      "sha256": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c"
+      "bytes": 13057,
+      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
     },
     {
       "path": "src/nature-art153.js",
@@ -2099,8 +2109,8 @@
     },
     {
       "path": "src/ui.js",
-      "bytes": 11116,
-      "sha256": "9385cc886aec76e1be2d7f8824c90edaf562ffae574d0637c758aeae9e0d328a"
+      "bytes": 11358,
+      "sha256": "73632e8a2cb02c1f0ab7c3f4e100890baa3b649e7047c5f7157fb23743611a31"
     },
     {
       "path": "src/urban-art.js",

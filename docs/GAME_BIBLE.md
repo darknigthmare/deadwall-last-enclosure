@@ -714,8 +714,9 @@ Une première tranche de la révélation par âge est en place. Elle masque
 | Bulletin météo | 5 (Ville) |
 | Quartiers | 6 (Grande ville) |
 
-- **Où** : table `C.AgeReveal` dans `src/core.js`, module `src/age-reveal.js`,
-  test `tests/age-reveal.test.cjs`.
+- **Où** : table et module dans `src/age-reveal.js`, test
+  `tests/age-reveal.test.cjs`. La table est une donnée de présentation : elle
+  reste hors de `src/core.js`, qu'aucune règle ne lit pour elle.
 - **Comment** : le module pose un attribut sur des contrôles existants. Il ne
   lit ni n'écrit aucun stock, aucune règle, aucun tirage, aucune sauvegarde.
 - **Réglage** : « Afficher tous les menus dès le début », dans les
@@ -1656,12 +1657,19 @@ Passe du 10 novembre 2026 :
 | 1, 2, 3, 5, 6, 8, 11, 15, 19, 20 | **Corrigées** dans les documents cités, par une correction directe ou une note de mise à jour en tête des documents historiques. |
 | 4 | **Requalifiée** : les deux valeurs sont vraies. 82, 112 et 64 s sont les durées historiques ; le premier calme affiché vaut `(210 + durée historique − 82) × difficulté`. `SCENARIOS.md` l'explique désormais. |
 | 7 | **Corrigée en partie** : notes ajoutées. « Aucun puisage à distance » reste exact ; seul le sort des produits bruts avait changé. |
-| 12, 13, 14 | **Corrigées** dans `src/narrative.js` et `src/core.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
+| 12, 13, 14 | **Corrigées** dans `src/narrative.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
 | 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
 | 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
 | 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
+
+La fiche du Commandant dit encore « premier responsable de D-17 » dans
+`src/core.js`. Ce fichier est couvert par les preuves d'inspection du codex
+(`docs/codex/suivi-monde2026/`), qui enregistrent son empreinte : toute
+modification de `src/core.js` impose de régénérer ces preuves. La correction
+est donc reportée au premier chantier qui touchera `core.js` pour une raison
+de jeu.
 
 ---
 
@@ -1674,7 +1682,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
 |---:|---|---|---|---|
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
-| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `core.js`, `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
+| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |

@@ -4,7 +4,7 @@ const C=require('../src/core.js'),Reveal=require('../src/age-reveal.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const root=path.join(__dirname,'..');
 test('révélation par âge : la table est déclarative, bornée et sans effet sur les règles',()=>{
-  const R=C.AgeReveal;assert.equal(R.version,1);assert.ok(Object.isFrozen(R.entries));
+  const R=Reveal.rules(C);assert.equal(R.version,1);assert.ok(Object.isFrozen(R.entries));
   assert.equal(new Set(R.entries.map(entry=>entry.key)).size,R.entries.length);
   for(const entry of R.entries){
     assert.ok(Number.isInteger(entry.age)&&entry.age>=1&&entry.age<C.CITY_TIERS.length,entry.key);
@@ -21,12 +21,13 @@ test('révélation par âge : la table est déclarative, bornée et sans effet s
 });
 
 test('révélation par âge : les objectifs du début et les ordres de base ne sont jamais masqués',()=>{
-  const veiled=new Set(C.AgeReveal.entries.flatMap(entry=>[...entry.ids,...entry.fieldViews]));
+  const veiled=new Set(Reveal.rules(C).entries.flatMap(entry=>[...entry.ids,...entry.fieldViews]));
   for(const id of ['recruitWorker','repairAll','researchButton','cityCommandButton','journalCommandButton','settingsToggle','soundToggle','toggleBuild','coordination','infected','sectors','recon'])assert.equal(veiled.has(id),false,id);
 });
 
 test('révélation par âge : le module ne touche ni aux stocks, ni à la sauvegarde, ni au hasard',()=>{
   const source=fs.readFileSync(path.join(root,'src/age-reveal.js'),'utf8');
+  assert.equal(C.AgeReveal,undefined,'la table de présentation reste hors du cœur d’équilibrage');
   for(const forbidden of ['resources','serialize','Math.random','localStorage','rng','spend(','.save('])assert.equal(source.includes(forbidden),false,forbidden);
   assert.match(fs.readFileSync(path.join(root,'styles.css'),'utf8'),/\[data-age-veiled="true"\] \{ display: none !important; \}/);
 });
@@ -55,7 +56,7 @@ test('révélation par âge : une nouvelle cité masque les menus tardifs, puis 
   g.tier=C.CITY_TIERS[1];g.updateUI();
   assert.equal(veiled('recruitSoldier'),false);assert.equal(veiled('setRally'),false);assert.equal(veiled('squadCommandButton'),true);
   g.tier=C.CITY_TIERS[5];g.updateUI();
-  for(const entry of C.AgeReveal.entries)for(const id of entry.ids)if(doc.getElementById(id))assert.equal(veiled(id),false,id);
+  for(const entry of Reveal.rules(C).entries)for(const id of entry.ids)if(doc.getElementById(id))assert.equal(veiled(id),false,id);
   assert.notEqual(view('territories').getAttribute(Reveal.ATTRIBUTE),'true');
   g.tier=tier;g.updateUI();assert.equal(veiled('squadCommandButton'),true);
   g.settings.revealAll=true;g.ageReveal.apply();
