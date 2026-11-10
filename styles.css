@@ -49,6 +49,7 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 8px #0006; }
 :focus-visible { outline: 2px solid var(--accent-bright); outline-offset: -3px; }
 kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 21px; height: 21px; padding: 0 5px; background: #101611; border: 1px solid #566152; border-bottom-width: 2px; border-radius: 3px; font-size: 10px; color: #e8ebdf; }
 .hidden { display: none !important; }
+[data-age-veiled="true"] { display: none !important; }
 #game { position: fixed; inset: 0; display: block; width: 100%; height: 100%; background: #171d17; cursor: crosshair; touch-action: none; }
 #hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
 #hud button, #hud .panel, #resources, #minimapWrap { pointer-events: auto; }

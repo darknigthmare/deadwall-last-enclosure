@@ -701,6 +701,48 @@ Tout écran qui ne sert aucun de ces cinq points est masqué pendant l'âge 1.
 Le calme initial doit avoir **une seule valeur documentée par scénario et par
 difficulté**, lue dans `src/core.js` (§11, point 4).
 
+### 6.4 Première tranche livrée **[LIVRÉ]**
+
+Une première tranche de la révélation par âge est en place. Elle masque
+**onze entrées de menu** au début d'une campagne et les rouvre avec l'âge.
+
+| Menu masqué | S'ouvre à l'âge |
+|---|---:|
+| Fusiliers, point de ralliement, dossier de l'équipe | 2 (Camp fortifié) |
+| Spécialistes, sorties, siège et secours, entretien des lignes | 3 (Avant-poste) |
+| Sections de fusiliers, logistique | 4 (Forteresse) |
+| Bulletin météo | 5 (Ville) |
+| Quartiers | 6 (Grande ville) |
+
+- **Où** : table `C.AgeReveal` dans `src/core.js`, module `src/age-reveal.js`,
+  test `tests/age-reveal.test.cjs`.
+- **Comment** : le module pose un attribut sur des contrôles existants. Il ne
+  lit ni n'écrit aucun stock, aucune règle, aucun tirage, aucune sauvegarde.
+- **Réglage** : « Afficher tous les menus dès le début », dans les
+  paramètres, avec le rappel de ce que l'âge suivant ouvrira.
+- **Campagnes chargées** : l'âge ne redescend jamais ; une campagne avancée
+  retrouve tous ses menus.
+- Les fusiliers et les spécialistes suivent le **prérequis réel** de leur
+  recrutement, lu dans les données.
+
+Écarts volontaires avec la table du §6.2, par prudence :
+
+- Les **doctrines** restent visibles dès l'âge 1 : un objectif du début
+  demande d'en lancer une.
+- La **carte**, l'**exploration**, les **préparatifs**, le **journal**, les
+  **secteurs** et le **catalogue de construction** ne sont jamais masqués.
+- Les sorties s'ouvrent à l'âge 3 plutôt qu'à l'âge 5 : elles servent tôt.
+- Les opérations, l'armurerie, l'élevage, la citadelle verticale et la
+  coopération ne sont **pas encore** concernés.
+
+Limites connues :
+
+- Les **raccourcis clavier** des systèmes masqués restent actifs.
+- Les parcours **automatisés** et l'atelier auteur gardent l'interface
+  complète, pour ne pas fausser les contrôles existants ; `?agereveal=1`
+  force le masquage.
+- Aucun objectif nouveau n'accompagne encore l'ouverture d'un menu.
+
 ---
 
 ## 7. Les systèmes, un par un
@@ -1632,7 +1674,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
 |---:|---|---|---|---|
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
-| 1 | Révélation par âge (§6) | Clarté | `command-ui.js`, `urban.js`, `core.js` | Une nouvelle partie n'affiche que cinq systèmes. |
+| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `core.js`, `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |

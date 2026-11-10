@@ -1,6 +1,8 @@
 # 1.74.0 — Récupérateurs et eau de service
 
 - Collecteurs d'eau de pluie des haltes G11 : remise en service, remplissage sous la pluie et puisage au seau. Guide : [docs/LIVRAISON_1_74.md](docs/LIVRAISON_1_74.md).
+- Révélation de l'interface par âge, première tranche : onze entrées de menu masquées au début d'une campagne puis rouvertes avec l'âge ; réglage « Afficher tous les menus dès le début ». Présentation seulement : aucune règle, aucun coût ni aucune sauvegarde ne change. Les raccourcis clavier restent actifs. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §6.4.
+- Récit : le chapitre I ne suppose plus d'effectif de départ ; deux signatures du registre sont précisées.
 - Direction du projet : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) fixe les piliers, l'univers, la cohérence entre systèmes et les décisions de cadrage. La bible ne modifie aucune règle livrée.
 
 # 1.66.0 à 1.73.0 — Résumé

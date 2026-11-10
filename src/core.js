@@ -1616,6 +1616,28 @@
  const labels=['REFUGE','CAMP FORTIFIÉ','AVANT-POSTE','FORTERESSE','VILLE','GRANDE VILLE','MÉTROPOLE'];
  C.CITY_TIERS.forEach((t,i)=>t.name=labels[i]);
  for(const [name,requiredScore]of [['GRANDE MÉTROPOLE',420],['MÉGAVILLE I',750],['MÉGAVILLE II',1200],['MÉGAVILLE III',1850]])C.CITY_TIERS.push({id:C.CITY_TIERS.length,name,requiredScore});
+ // Révélation de l'interface par âge (GAME_BIBLE §6) : présentation seulement.
+ // `age` est l'indice de CITY_TIERS (0 = Refuge). Aucune règle de simulation ne lit cette table.
+ C.AgeReveal=Object.freeze({
+  version:1,
+  entries:Object.freeze([
+   {key:'soldiers',label:'Fusiliers',age:C.SURVIVORS.soldier.tier,ids:['recruitSoldier']},
+   {key:'rally',label:'Point de ralliement',age:1,ids:['setRally']},
+   {key:'crew',label:'Dossier de l’équipe',age:1,fieldViews:['crew']},
+   {key:'specialists',label:'Spécialistes',age:Math.min(C.SURVIVORS.medic.tier,C.SURVIVORS.engineer.tier),ids:['specialistCommandButton']},
+   {key:'sorties',label:'Sorties',age:2,fieldViews:['operations']},
+   {key:'siege',label:'Siège et secours',age:2,fieldViews:['siege']},
+   {key:'linecare',label:'Entretien des lignes',age:2,fieldViews:['linecare']},
+   {key:'squads',label:'Sections de fusiliers',age:3,ids:['squadCommandButton','hud143Squads']},
+   {key:'logistics',label:'Logistique',age:3,fieldViews:['logistics']},
+   {key:'weather',label:'Bulletin météo',age:4,ids:['weather193Open193']},
+   {key:'territories',label:'Quartiers',age:5,fieldViews:['territories']}
+  ].map(entry=>Object.freeze({key:entry.key,label:entry.label,age:entry.age,ids:Object.freeze(entry.ids||[]),fieldViews:Object.freeze(entry.fieldViews||[])}))),
+  normalizeAge(age){const n=Math.floor(Number(age));return Number.isFinite(n)?Math.max(0,Math.min(C.CITY_TIERS.length-1,n)):0;},
+  visible(entry,age,revealAll=false){return revealAll===true||C.AgeReveal.normalizeAge(age)>=entry.age;},
+  pending(age,revealAll=false){return revealAll===true?[]:C.AgeReveal.entries.filter(entry=>!C.AgeReveal.visible(entry,age,false));},
+  next(age,revealAll=false){const pending=C.AgeReveal.pending(age,revealAll);if(!pending.length)return null;const target=Math.min(...pending.map(entry=>entry.age));return Object.freeze({age:target,name:C.CITY_TIERS[target].name,entries:Object.freeze(pending.filter(entry=>entry.age===target))});}
+ });
  const defs={};
  function add(id,name,tier,kind,size,cost,extra){const def={id,name,category:kind==='lamp'?'defense':kind==='housing'||kind==='hospital'||kind==='storage'?'colony':'industry',icon:kind==='lamp'?'☼':kind==='housing'?'▥':kind==='hospital'?'+':'▦',description:'',symbol:name.split(' ').map(s=>s[0]).join('').slice(0,3),size,cost,unlockTier:tier,score:Math.max(2,3+tier*5),buildTime:18+tier*5,health:650+tier*170,color:'#59685e',roof:'#7b8a78',urbanKind:kind,...extra};defs[id]=def;C.BUILDINGS[id]=def;return def;}
  add('beacon','Balise de secours',0,'lamp',[1,1],{wood:8,scrap:10},{score:.5,powerUse:1,light:115,description:'Petit éclairage fixe de proximité. Une alimentation complète est nécessaire ; aucun tir.'});

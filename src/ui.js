@@ -16,7 +16,7 @@
   }
   function refresh(){
     get('settingsVolume').value=Math.round(game.settings.volume*100);get('settingsVolumeValue').textContent=`${Math.round(game.settings.volume*100)} %`;
-    get('settingsMuted').checked=game.settings.muted;get('settingsContrast').checked=game.settings.highContrast;get('settingsMotion').checked=game.settings.reducedMotion;get('settingsQuality').value=game.settings.quality;
+    get('settingsMuted').checked=game.settings.muted;get('settingsContrast').checked=game.settings.highContrast;get('settingsMotion').checked=game.settings.reducedMotion;get('settingsQuality').value=game.settings.quality;get('settingsRevealAll').checked=game.settings.revealAll===true;game.ageReveal?.apply();
     get('settingsSaveNow').disabled=game.state!=='playing'||game.gameOver;
     status(game.lastSaveStatus?.message||'Sauvegarde automatique toutes les 30 secondes. Une copie exportée reste sous votre contrôle.');
   }
@@ -35,6 +35,7 @@
   get('settingsClose').addEventListener('click',()=>game.showSettings(false));
   get('settingsVolume').addEventListener('input',event=>{game.settings.volume=C.clamp(Number(event.target.value)/100,0,1);game.audio.setVolume(game.settings.volume);game.audio.unlock();game.saveSettings();get('settingsVolumeValue').textContent=`${Math.round(game.settings.volume*100)} %`;});
   for(const [id,key]of [['settingsMuted','muted'],['settingsContrast','highContrast'],['settingsMotion','reducedMotion']])get(id).addEventListener('change',event=>{game.settings[key]=event.target.checked;game.audio.setMuted(game.settings.muted);game.audio.unlock();document.body.classList.toggle('high-contrast',game.settings.highContrast);document.body.classList.toggle('reduced-motion',game.settings.reducedMotion);game.saveSettings();});
+  get('settingsRevealAll').addEventListener('change',event=>{game.settings.revealAll=event.target.checked;game.saveSettings();game.ageReveal?.apply();});
   get('settingsQuality').addEventListener('change',event=>{game.settings.quality=['low','high'].includes(event.target.value)?event.target.value:'auto';game.saveSettings();game.resize();});
   get('settingsSaveNow').addEventListener('click',()=>{game.save(true);status(game.lastSaveStatus.message);});
 
