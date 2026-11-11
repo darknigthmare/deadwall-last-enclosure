@@ -67,6 +67,10 @@ Résultat local de cette révision : **43/43 tests ciblés réussis**, dont les 
 
 Le scénario navigateur 176 prépare explicitement un âge avancé, achève la base dans la fixture, fournit une forte pression de cadavres et avance le temps par les contrôleurs de production. Il teste les boutons réels, les portes, le trajet d'un infecté, la sauvegarde en pleine montée, le tir FPS au clavier, la perte/restauration de contexte et l'interface à 390 × 844. Ce n'est ni une progression naturelle de campagne, ni un essai sur téléphone physique. Les résultats et `TESTED_HEAD.txt` publiés dans l'artefact font foi ; un succès de l'ancien commit ne valide pas les nouveaux ajouts.
 
+## Pendant une sortie régionale
+
+Le siège vertical suit la même horloge que le reste de D-17 lorsque le Commandant est en région : pression des faces, ascension, chute, escaliers, passerelles et attaques de palier continuent ; seules la pause et les fenêtres le suspendent. Un grimpeur ne peut ni viser ni blesser le Commandant absent : il s'en prend au personnel présent et aux équipements réels. La première arrivée sur un chemin de ronde est annoncée une fois (« D-17 : … ») par les notifications ordinaires, visibles en région ; ce n'est pas une radio et il n'existe aucun rappel. Tests : `tests/absence-coherence216.test.cjs`.
+
 ## Chantiers encore ouverts
 
 Les intérieurs d'escaliers librement parcourables, les cabines détaillées et le fret ; la navigation verticale générale des civils, ouvriers et infectés ; les passerelles et réseaux entre bâtiments ; le placement libre de tous les bâtiments historiques sur dalles ; les contraintes de piliers et effondrements progressifs ; les masses de corps individuelles et le LOD des foules ; les modèles, textures, animations, sons et éclairages finaux ; l'équilibrage et les longues campagnes multi-appareils. Les géants 175 restent les profils de 6/12/20 m, sans import de la variante #7.

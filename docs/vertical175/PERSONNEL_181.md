@@ -75,6 +75,10 @@ node scripts/qa-vertical181.mjs
 
 Les résultats de la révision réellement testée sont consignés dans le compte rendu QA. Le scénario 181 prépare des matériaux, déblaye et achève deux supports ; il utilise un ouvrier déjà présent au lancement et ne réinjecte pas sa position après création. Il contrôle la livraison, les sauvegardes en escalier et sur le pont, le rappel et les vrais boutons. Ce n'est pas une campagne naturelle jouée jusqu'au dernier âge.
 
+## Pendant une sortie régionale
+
+Le personnel déjà affecté continue ses trajets, livraisons, réparations, soins et gardes pendant que le Commandant est en région, avec les mêmes stocks et les mêmes sacs. Les ordres (affecter, transférer, rappeler) exigent toujours sa présence dans D-17. Sa position mémorisée à la limite n'occupe aucun passage. Tests : `tests/absence-coherence216.test.cjs`.
+
 ## Toujours ouvert
 
 L'ensemble de la population n'est pas encore simulé avec métiers résidentiels, logements individuels et changements de relève. Restent le fret de caisses/modules par PNJ, les stocks par quartier, les monte-charge, le partage complet des files d'attente, l'entretien structurel autonome, les cages/cabines libres, ponts complexes, grands bâtiments historiques sur dalles, piliers/effondrements physiques, corps individuels et foules lointaines avec niveaux de détail, art/sons/HUD finaux et qualification longue multi-appareils. Les plafonds de 720 infectés natifs, 24 infectés élevés et 64 passerelles ne sont pas augmentés.
