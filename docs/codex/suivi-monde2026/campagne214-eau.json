@@ -9,8 +9,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36779,
-      "sha256": "36f67d27c8db2d006d2e727000afafb101423889a5e98579efe19a335e4e7ebd"
+      "bytes": 36874,
+      "sha256": "676a733e74640bf4862967e582160efcd72edf55e9d57c63e1f9add39aae950c"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -239,8 +239,8 @@
     },
     {
       "path": "src/city-water215.js",
-      "bytes": 5904,
-      "sha256": "678324e5f6c2ebdc4d00f8ba95159e7de86ca9ec5225dfd73a23b535873d3ed4"
+      "bytes": 11952,
+      "sha256": "e9d26ed0b6b3b7fc922ce690d45a95459a19e0a216f073bb8895e74eb6aa0509"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -464,8 +464,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 336591,
-      "sha256": "9e879b90c4da9bfbb349092f6c51f0fb21044be3ba10d0cecd5dc0c5ab8f0e7d"
+      "bytes": 337286,
+      "sha256": "91d625b8e57e7a8eee6574c863ddf9a7d899bad08496cb0704080a24365bcffb"
     },
     {
       "path": "src/d17-art149.js",
@@ -494,13 +494,18 @@
     },
     {
       "path": "src/departure130.js",
-      "bytes": 7550,
-      "sha256": "4758f82bc7267496118ab54e4661cdc76205c249dbac534a0d6853c0c05e31a6"
+      "bytes": 7817,
+      "sha256": "bd270285281de07c96510ccec746f1b0fb20d985881b687485878e1ce330eb21"
     },
     {
       "path": "src/display-quality153.js",
       "bytes": 2632,
       "sha256": "3ae93586217b8837631647b8297fef3368b986b829ad531f3edb0429ae4696e4"
+    },
+    {
+      "path": "src/districts.js",
+      "bytes": 16615,
+      "sha256": "4e1dbbabbc65069fe999215b8f3fb3c46a1e210fd3f8756c4ee72f8d36df8bc9"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -574,8 +579,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169474,
-      "sha256": "db9e914661e5b26f9f2dfbf2ebf497adfc45fbca36101ce77418f64bdc4eb2d3"
+      "bytes": 169623,
+      "sha256": "53a996798a6c726829e9993d8260f2a00dbd2b5afe1135306829b19069842118"
     },
     {
       "path": "src/exploration-pack.js",
@@ -588,9 +593,14 @@
       "sha256": "4fa54335e2ee5a19f5953f0b0b49cd6d2c0c238dfe3076ff27754f49eb79fa7c"
     },
     {
+      "path": "src/exploration-scales.js",
+      "bytes": 12947,
+      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+    },
+    {
       "path": "src/fallback-order.js",
-      "bytes": 17559,
-      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
+      "bytes": 18245,
+      "sha256": "1cbb09596de780efbfdedb3a4bb6fa6834436cdf31f289b3cde2057836a9b25c"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1059,8 +1069,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58551,
-      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
+      "bytes": 58642,
+      "sha256": "4cbb7a281a1da35d7a1fe279dfc991bdffb51e1c9e8c9601f216a1ab0f47f5f1"
     },
     {
       "path": "src/vertical-network179.js",
@@ -1069,13 +1079,13 @@
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31290,
-      "sha256": "c3650826304c5405a5e65a49cfd5ce8bb5660b0a568c2d0c5c621f5e313d82c9"
+      "bytes": 31398,
+      "sha256": "da3c1996f9ce01be33e8b50cfe2340dec9512d7748ac44993ac95a673683c498"
     },
     {
       "path": "src/vertical-siege176.js",
-      "bytes": 17705,
-      "sha256": "7c8edd374b9239ccee76efa608b7f1179612c2723e3a6910925a53067a1be9fb"
+      "bytes": 17814,
+      "sha256": "a6216cb2131b4a0a19359e4bfa6e723bb8c87891fd6ecfd12f2ec7d81ee4b20e"
     },
     {
       "path": "src/visibility146.js",
@@ -1286,8 +1296,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36779,
-      "sha256": "36f67d27c8db2d006d2e727000afafb101423889a5e98579efe19a335e4e7ebd"
+      "bytes": 36874,
+      "sha256": "676a733e74640bf4862967e582160efcd72edf55e9d57c63e1f9add39aae950c"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1516,8 +1526,8 @@
     },
     {
       "path": "src/city-water215.js",
-      "bytes": 5904,
-      "sha256": "678324e5f6c2ebdc4d00f8ba95159e7de86ca9ec5225dfd73a23b535873d3ed4"
+      "bytes": 11952,
+      "sha256": "e9d26ed0b6b3b7fc922ce690d45a95459a19e0a216f073bb8895e74eb6aa0509"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -1741,8 +1751,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 336591,
-      "sha256": "9e879b90c4da9bfbb349092f6c51f0fb21044be3ba10d0cecd5dc0c5ab8f0e7d"
+      "bytes": 337286,
+      "sha256": "91d625b8e57e7a8eee6574c863ddf9a7d899bad08496cb0704080a24365bcffb"
     },
     {
       "path": "src/d17-art149.js",
@@ -1771,13 +1781,18 @@
     },
     {
       "path": "src/departure130.js",
-      "bytes": 7550,
-      "sha256": "4758f82bc7267496118ab54e4661cdc76205c249dbac534a0d6853c0c05e31a6"
+      "bytes": 7817,
+      "sha256": "bd270285281de07c96510ccec746f1b0fb20d985881b687485878e1ce330eb21"
     },
     {
       "path": "src/display-quality153.js",
       "bytes": 2632,
       "sha256": "3ae93586217b8837631647b8297fef3368b986b829ad531f3edb0429ae4696e4"
+    },
+    {
+      "path": "src/districts.js",
+      "bytes": 16615,
+      "sha256": "4e1dbbabbc65069fe999215b8f3fb3c46a1e210fd3f8756c4ee72f8d36df8bc9"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -1851,8 +1866,8 @@
     },
     {
       "path": "src/exploration-125.js",
-      "bytes": 169474,
-      "sha256": "db9e914661e5b26f9f2dfbf2ebf497adfc45fbca36101ce77418f64bdc4eb2d3"
+      "bytes": 169623,
+      "sha256": "53a996798a6c726829e9993d8260f2a00dbd2b5afe1135306829b19069842118"
     },
     {
       "path": "src/exploration-pack.js",
@@ -1865,9 +1880,14 @@
       "sha256": "4fa54335e2ee5a19f5953f0b0b49cd6d2c0c238dfe3076ff27754f49eb79fa7c"
     },
     {
+      "path": "src/exploration-scales.js",
+      "bytes": 12947,
+      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+    },
+    {
       "path": "src/fallback-order.js",
-      "bytes": 17559,
-      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
+      "bytes": 18245,
+      "sha256": "1cbb09596de780efbfdedb3a4bb6fa6834436cdf31f289b3cde2057836a9b25c"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -2336,8 +2356,8 @@
     },
     {
       "path": "src/vertical-citadel175.js",
-      "bytes": 58551,
-      "sha256": "804adb3fbd0066afc8a0e205a3639680f54f09177a5c81586501d3e8794d2d36"
+      "bytes": 58642,
+      "sha256": "4cbb7a281a1da35d7a1fe279dfc991bdffb51e1c9e8c9601f216a1ab0f47f5f1"
     },
     {
       "path": "src/vertical-network179.js",
@@ -2346,13 +2366,13 @@
     },
     {
       "path": "src/vertical-population181.js",
-      "bytes": 31290,
-      "sha256": "c3650826304c5405a5e65a49cfd5ce8bb5660b0a568c2d0c5c621f5e313d82c9"
+      "bytes": 31398,
+      "sha256": "da3c1996f9ce01be33e8b50cfe2340dec9512d7748ac44993ac95a673683c498"
     },
     {
       "path": "src/vertical-siege176.js",
-      "bytes": 17705,
-      "sha256": "7c8edd374b9239ccee76efa608b7f1179612c2723e3a6910925a53067a1be9fb"
+      "bytes": 17814,
+      "sha256": "a6216cb2131b4a0a19359e4bfa6e723bb8c87891fd6ecfd12f2ec7d81ee4b20e"
     },
     {
       "path": "src/visibility146.js",
