@@ -28,7 +28,7 @@ test('eau de cité : état validé strictement, absent des anciennes sauvegardes
   const none={version:2,active:false,dry:0,departs:0,deaths:0,left:0,died:0},ok={version:2,active:true,dry:12.5,departs:0,deaths:0,left:3,died:1};
   assert.deepEqual(W.validate(undefined),none);assert.deepEqual(W.validate(ok),ok);
   const late={...ok,dry:R.deathSeconds+1,departs:W.departSlots(R.deathSeconds),deaths:1};assert.deepEqual(W.validate(late),late);
-  for(const bad of [null,[],{version:1,active:true,dry:0},{...ok,version:3},{...ok,active:'oui'},{...ok,dry:-1},{...ok,dry:Infinity},{version:2,active:true,dry:0},{...ok,extra:1},
+  for(const bad of [null,[],{version:1,active:true,dry:0,extra:1},{version:1,active:true},{...ok,version:3},{...ok,active:'oui'},{...ok,dry:-1},{...ok,dry:Infinity},{version:2,active:true,dry:0},{...ok,extra:1},
     {...ok,departs:1},{...ok,deaths:1},{...ok,dry:R.departSeconds,departs:2},{...ok,left:-1},{...ok,died:1.5},{...ok,left:'2'},{...none,left:1},{...none,dry:5}])assert.throws(()=>W.validate(bad),/Eau de cité/);
 });
 
@@ -186,4 +186,12 @@ test('eau de cité : sans activation ou avant la Ville, personne ne part ni ne m
 test('eau de cité : le module ne crée aucune eau et ne tire aucun hasard',()=>{
   const source=fs.readFileSync(path.join(__dirname,'../src/city-water215.js'),'utf8');
   for(const forbidden of ['Math.random','.random.','localStorage','resources.','water+=','.water ='])assert.equal(source.includes(forbidden),false,forbidden);
+});
+
+test('eau de cité : l’état de la première tranche est converti, sans départ ni mort rétroactifs',()=>{
+  assert.deepEqual(W.validate({version:1,active:true,dry:0}),{version:2,active:true,dry:0,departs:0,deaths:0,left:0,died:0});
+  assert.deepEqual(W.validate({version:1,active:false,dry:50}),{version:2,active:false,dry:0,departs:0,deaths:0,left:0,died:0});
+  const late=W.validate({version:1,active:true,dry:R.deathSeconds+R.deathInterval*2+1});
+  assert.equal(late.left,0);assert.equal(late.died,0);assert.ok(late.departs>0&&late.deaths===3,'les échéances passées sont tenues pour échues');
+  assert.deepEqual(W.validate(late),late,'la forme convertie est valide');
 });

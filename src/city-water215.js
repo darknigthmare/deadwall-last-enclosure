@@ -13,6 +13,11 @@
  function validate(raw){
   if(raw===undefined)return initial();
   const count=(v,max)=>Number.isInteger(v)&&v>=0&&v<=max;
+  // Forme de la première tranche ({version:1,active,dry}) : acceptée et convertie. Les échéances déjà
+  // dépassées sont tenues pour échues, afin qu'une reprise ne déclenche ni départ ni mort rétroactifs.
+  if(raw&&typeof raw==='object'&&!Array.isArray(raw)&&raw.version===1&&typeof raw.active==='boolean'&&typeof raw.dry==='number'&&Number.isFinite(raw.dry)&&raw.dry>=0&&raw.dry<=MAX_DRY&&Object.keys(raw).length===3&&Object.keys(raw).every(k=>['version','active','dry'].includes(k))){
+   const dry=raw.active?raw.dry:0;return{version:2,active:raw.active,dry,departs:departSlots(dry),deaths:deathSlots(dry),left:0,died:0};
+  }
   if(!raw||typeof raw!=='object'||Array.isArray(raw)||raw.version!==2||typeof raw.active!=='boolean'||typeof raw.dry!=='number'||!Number.isFinite(raw.dry)||raw.dry<0||raw.dry>MAX_DRY||Object.keys(raw).length!==KEYS.length||Object.keys(raw).some(k=>!KEYS.includes(k))
    ||!count(raw.departs,departSlots(raw.dry))||!count(raw.deaths,deathSlots(raw.dry))||!count(raw.left,MAX_COUNT)||!count(raw.died,MAX_COUNT)||!raw.active&&(raw.dry>0||raw.left>0||raw.died>0))throw Error('Eau de cité 215 invalide.');
   return{version:2,active:raw.active,dry:raw.dry,departs:raw.departs,deaths:raw.deaths,left:raw.left,died:raw.died};
