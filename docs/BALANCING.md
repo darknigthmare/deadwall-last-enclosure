@@ -334,3 +334,17 @@ Valeurs dans `C.CityWater215Rules` :
 | Baisse du moral en pénurie | 0,35 par seconde (famine : 0,7) |
 
 La population puise dans les citernes anti-incendie existantes (120 unités, pompe 0,55/s, pluie 0,12/s). Une citerne pompée couvre environ 137 habitants ; la pluie seule, à plein régime, environ 30. Ces valeurs n'ont été éprouvées par aucune campagne humaine. Direction : `GAME_BIBLE.md` §7.3.
+
+### Pénurie en trois temps
+
+Secondes de citernes vides sans interruption ; le retour de l'eau remet tout à zéro. Valeurs non éprouvées par une partie réelle.
+
+| Clé (`C.CityWater215Rules`) | Valeur | Effet |
+|---|---:|---|
+| `graceSeconds` | 180 | Le moral commence à baisser (0,35/s) |
+| `departWarnSeconds` | 420 | Annonce « des habitants parlent de partir » |
+| `departSeconds` | 600 | Premier départ |
+| `departInterval` | 120 | Un départ toutes les 2 min, 6 au plus par pénurie |
+| `deathWarnSeconds` | 1080 | Annonce « les plus fragiles ne tiendront plus longtemps » |
+| `deathSeconds` | 1260 | Première mort ; les départs cessent |
+| `deathInterval` | 180 | Une mort toutes les 3 min |

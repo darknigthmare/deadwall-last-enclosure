@@ -835,6 +835,35 @@ Restent à faire :
 
 Ces valeurs n'ont été éprouvées par aucune campagne humaine.
 
+#### Deuxième tranche livrée **[LIVRÉ]**
+
+- **Pénurie, deuxième temps : les départs.** Après 7 min de citernes vides,
+  la cité l'annonce ; à 10 min, un ouvrier sans affectation quitte la cité,
+  puis un autre toutes les 2 min, six au plus. Ni le dernier ouvrier, ni un
+  résident nommé, ni un habitant affecté ne partent. Un départ n'est pas une
+  perte au combat.
+- **Pénurie, troisième temps : les morts.** À 18 min, la cité l'annonce ; à
+  21 min, le plus affaibli meurt dans les murs, puis un autre toutes les
+  3 min, par le chemin de mort ordinaire. Les départs cessent alors. Le
+  Commandant et le dernier ouvrier sont épargnés.
+- **Le retour de l'eau arrête tout aussitôt** et réarme les seuils. Une
+  reprise ne rejoue ni annonce, ni départ, ni mort.
+- La fiche « Eau de la cité » indique le temps en cours, l'échéance suivante
+  et les pertes dues à l'eau.
+- L'état de la première tranche, s'il figure dans une sauvegarde, est
+  accepté et converti sans effet rétroactif.
+
+**Écart avec la décision** : les morts de soif **ne se relèvent pas**. Dans
+le jeu actuel, seule la dépouille du survivant joué peut se relever (§2.4) ;
+les unités ne laissent pas de corps. Il faut d'abord un système de dépouilles
+pour toutes les unités.
+
+Restent à faire : ce système de dépouilles ; le départ d'autres habitants
+que les ouvriers ; cultures, élevage, clinique ; l'unité commune avec
+abreuvoirs et tonneaux ; puits et réseau ; les saisons. Le moral tombe à
+zéro vers 7 à 8 min de pénurie, bien avant les premiers départs : cet
+enchaînement n'a pas été observé en partie.
+
 ### 7.4 Économie urbaine, énergie et signature **[LIVRÉ]**
 
 - Consommation de 0,0065 nourriture/s par habitant ; une ferme donne 0,42/s.
@@ -946,6 +975,38 @@ Règles de cohérence :
   des campagnes existantes.
 - Propriétaires : `frontier-*.js`, `expeditions.js`, `exploration-125.js`,
   `campaign-pack.js`, `field-atlas*.js`, `return-routes.js`.
+
+#### Première tranche livrée **[LIVRÉ]**
+
+Le carnet affiche, en tête des dossiers « Sur le terrain » :
+
+- les **besoins de la cité** : eau en pénurie, munitions sous une salve,
+  chantiers financés en attente, logements pleins, et les trois réserves les
+  plus basses par rapport à leur plafond ;
+- **où aller** : les trois échelles avec leurs entrées existantes, ouvertes
+  par leurs onglets et fiches d'origine.
+
+| Échelle | Entrées rangées |
+|---|---|
+| Les abords | Sorties, vestiges des six secteurs, plan de D-17, cueillette, chasse et pêche, trajets et récupération |
+| Les secteurs | Quartiers et fourgons, expéditions et voiture |
+| La région | Carte et exploration, voyages lointains, monde et relais, opérations de campagne |
+
+- Une entrée voilée par l'âge n'est pas proposée. Le bilan de départ cite
+  les mêmes besoins.
+- Module `src/exploration-scales.js`, test
+  `tests/exploration-scales.test.cjs`. Présentation seulement : aucun stock,
+  tirage, règle ni état sauvegardé.
+- Les réserves sont classées par taux de remplissage, sans seuil propre.
+  « Munitions sous une salve » compare le stock au coût d'un tir de toutes
+  les défenses et de tous les fusiliers : c'est le seul critère construit
+  pour cette tranche.
+
+Restent à faire : une seule carte à trois niveaux de zoom ; la position fixe
+des six quartiers ; le besoin « route coupée » ; le lien entre un besoin et
+un lieu précis encore approvisionné ; la révélation par âge des fiches
+d'opérations ; un vocabulaire unifié, car « secteurs » désigne encore
+l'onglet des vestiges **et** la deuxième échelle.
 
 ### 7.10 Météo, élevage, cueillette **[LIVRÉ]**
 
@@ -1272,6 +1333,40 @@ mégacité » et l'exploration.
 Propriétaires : `frontier.js`, `departure130.js`, `frontier-ui.js`,
 `vertical-siege176.js`, `vertical-population181.js`, `game.js`.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+Direction 1, « tout ou rien » : pendant une sortie régionale, D-17 est
+désormais **simulée en entier**.
+
+- **Siège vertical** : pression des faces, ascension, chute, escaliers,
+  passerelles et attaques de palier continuent.
+- **Personnel vertical** déjà affecté : trajets, livraisons, réparations,
+  soins et gardes continuent.
+- **Bandes errantes** : leur calendrier avance. Avant, une bande échue
+  apparaissait à l'instant du retour.
+- Le Commandant absent n'est ni visé ni blessé par un grimpeur, et sa
+  position mémorisée à la limite n'encombre plus aucun passage.
+- Les **ordres** (affecter, transférer, rappeler, bâtir) exigent toujours sa
+  présence : la cité n'improvise pas.
+- La première arrivée de la horde sur un chemin de ronde est annoncée une
+  fois par les notifications ordinaires, qui restent affichées en région
+  comme les annonces de brèche, de secteur perdu et de pénurie d'eau.
+- Test `tests/absence-coherence216.test.cjs`. Aucune valeur d'équilibrage,
+  format de sauvegarde inchangé.
+
+Conséquences à connaître :
+
+- **L'absence est plus dangereuse qu'avant** : remparts escaladés et bandes
+  errantes pèsent sur une cité sans Commandant. Aucun rééquilibrage n'a été
+  fait.
+- **La suite des tirages aléatoires diffère** de la 1.74 dès qu'une sortie
+  chevauche une échéance de bande errante. Les campagnes restent
+  déterministes.
+
+Restent à faire : consignes d'absence, radio et portée (les annonces
+arrivent aujourd'hui sans condition de portée), rappel par les routes
+gardées, estimation honnête au départ, dernier carré.
+
 ---
 
 ## 8. Profondeur du siège et fin de jeu
@@ -1363,6 +1458,34 @@ Limites :
 - **Contrepartie** : chaque district ajoute de la signature et immobilise des
   stocks. Dix districts mal reliés perdent plus sûrement qu'un seul bien tenu.
 - Révélé à l'âge 6.
+
+#### Première tranche livrée **[LIVRÉ]**
+
+Le jeu reconnaît **toutes les enceintes fermées** autour du centre, de
+l'intérieur vers l'extérieur : « Enceinte intérieure », « Deuxième
+enceinte », « Troisième enceinte »… Un **district** est la zone d'une
+enceinte moins celle des enceintes intérieures ; le reste est « Dehors ».
+Une porte reste une limite quel que soit son mode. Pas de district sans
+périmètre réellement fermé.
+
+- L'onglet Situation du carnet liste chaque district avec des faits
+  comptés : bâtiments achevés, logements, équipiers par rôle, portes et leur
+  mode, ouvrages en service et fragiles, infectés présents.
+- Dès qu'il y a deux enceintes fermées, le Commandant choisit la **ligne de
+  repli général** : tout le monde rentre toujours vers le centre, mais ce
+  sont les portes de l'enceinte choisie qui sont verrouillées, et seulement
+  quand plus personne n'est au-delà. Si cette ligne tombe, le repli revient
+  à l'enceinte encore fermée.
+- Module `src/districts.js`, test `tests/districts.test.cjs`. Lecture
+  seule : aucune valeur d'équilibrage, aucun stock, dégât, tirage ni état
+  sauvegardé. Le seuil de mur fragile est celui du relevé de champ de
+  bataille.
+
+Restent à faire : responsable, garnison affectée, stocks propres et
+priorité ; ordres *tenir / évacuer / sacrifier* ; repli des unités vers une
+enceinte plutôt que vers le centre ; état des secteurs (§8.3) par district ;
+révélation à l'âge 6 (la section est visible dès maintenant) ; sauvegarde de
+la ligne choisie.
 
 ### 8.3 Sacrifice et reconquête **[DÉCISION]**
 
@@ -1789,7 +1912,8 @@ Passe du 10 novembre 2026 :
 | 12, 13, 14 | **Corrigées** dans `src/narrative.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
 | 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
 | 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
-| 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
+| 17 | **Résolue** par « tout simuler » (§7.15, première tranche). |
+| 18 | **Ouverte** : chantier de jeu (§12, rang 14). |
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
 
@@ -1814,14 +1938,14 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) — première tranche livrée | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
-| 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
+| 5 | Exploration en trois échelles (§7.9) — première tranche livrée | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
 | 6 | Sacrifice et reconquête (§8.3) — première tranche livrée | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
-| 7 | Districts (§8.2) | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
+| 7 | Districts (§8.2) — première tranche livrée | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
 | 8 | Lois (§8.5) | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
 | 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
 | 10 | Récit relié et arcs des compagnons (§2.6, §2.7) | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
 | 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
-| 12 | Cité autonome cohérente : siège vertical actif, consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
+| 12 | Cité autonome cohérente : siège vertical actif (livré), consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
 | 13 | Marée à l'horizon (§8.6) | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
 | 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
 | 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
