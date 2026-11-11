@@ -594,8 +594,8 @@
     },
     {
       "path": "src/exploration-scales.js",
-      "bytes": 12947,
-      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+      "bytes": 13169,
+      "sha256": "a4c821cd1ca0b118bc0375b1a9e655fbbb2423fbf1e3140bd7eeacf72dde4aa4"
     },
     {
       "path": "src/fallback-order.js",
@@ -1881,8 +1881,8 @@
     },
     {
       "path": "src/exploration-scales.js",
-      "bytes": 12947,
-      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+      "bytes": 13169,
+      "sha256": "a4c821cd1ca0b118bc0375b1a9e655fbbb2423fbf1e3140bd7eeacf72dde4aa4"
     },
     {
       "path": "src/fallback-order.js",

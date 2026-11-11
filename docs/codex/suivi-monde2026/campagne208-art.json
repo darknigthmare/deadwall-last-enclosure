@@ -583,8 +583,8 @@
     },
     {
       "path": "src/exploration-scales.js",
-      "bytes": 12947,
-      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+      "bytes": 13169,
+      "sha256": "a4c821cd1ca0b118bc0375b1a9e655fbbb2423fbf1e3140bd7eeacf72dde4aa4"
     },
     {
       "path": "src/fallback-order.js",
@@ -1840,8 +1840,8 @@
     },
     {
       "path": "src/exploration-scales.js",
-      "bytes": 12947,
-      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+      "bytes": 13169,
+      "sha256": "a4c821cd1ca0b118bc0375b1a9e655fbbb2423fbf1e3140bd7eeacf72dde4aa4"
     },
     {
       "path": "src/fallback-order.js",
@@ -3097,8 +3097,8 @@
     },
     {
       "path": "src/exploration-scales.js",
-      "bytes": 12947,
-      "sha256": "3ecdd19412dadf152ce544283ac84e8fe22111085025d42c077128f443c2f3b2"
+      "bytes": 13169,
+      "sha256": "a4c821cd1ca0b118bc0375b1a9e655fbbb2423fbf1e3140bd7eeacf72dde4aa4"
     },
     {
       "path": "src/fallback-order.js",
@@ -4146,6 +4146,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-11T08:28:26.514Z",
-  "completedUtc": "2026-11-11T08:28:28.517Z"
+  "startedUtc": "2026-11-11T11:55:57.610Z",
+  "completedUtc": "2026-11-11T11:55:59.994Z"
 }
