@@ -48,6 +48,25 @@
   };
   return Object.freeze({hasCore:true,closed,cells:tail,gates,contains});
  }
+ // État d'un secteur (un côté de la cité), déduit de faits observés. Aucune valeur d'équilibrage.
+ //   tenu      : ligne intacte, aucun contact
+ //   menacé    : ligne intacte, contacts ou murs fragiles pendant l'alerte ou l'assaut
+ //   contesté  : ligne ouverte, personne encore à l'intérieur
+ //   perdu     : ligne ouverte et infectés à l'intérieur
+ const STATES=Object.freeze({held:'tenu',threatened:'menacé',contested:'contesté',lost:'perdu'});
+ function sectorState({breached=false,contacts=0,innerContacts=0,fragileWalls=0,fighting=false}={}){
+  if(breached)return innerContacts>0?'lost':'contested';
+  return fighting&&(contacts>0||fragileWalls>0)?'threatened':'held';
+ }
+ // Reconquête en trois temps (GAME_BIBLE §8.3), lue sur l'état réel.
+ function reconquest({breaches=0,intruders=0,order=null}={}){
+  const isolate=breaches===0,clear=intruders===0,restore=isolate&&clear&&!order;
+  return Object.freeze([
+   Object.freeze({id:'isolate',label:'Isoler',detail:'refermer la brèche',done:isolate}),
+   Object.freeze({id:'clear',label:'Nettoyer',detail:'éliminer ce qui est entré',done:clear}),
+   Object.freeze({id:'restore',label:'Rétablir',detail:'lever le repli, rouvrir les portes, déblayer',done:restore})
+  ]);
+ }
  function sideOf(core,building){
   const dx=building.x-core.x,dy=building.y-core.y;
   return Math.abs(dx)>Math.abs(dy)?(dx>0?'east':'west'):(dy>0?'south':'north');
@@ -56,6 +75,8 @@
   const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),T=root.DeadwallTactics||(typeof require==='function'?require('./tactics.js'):null);
   if(!g||!doc?.body||!C||!T||g.fallbackOrder)return false;
   let pending=null,cache=null,clock=0,notice='',walls=null,wallWorld=null,lastBreach=null,quietUntil=0;
+  const B=root.DeadwallBattlefield||null,breaches=new Map(),known=new Map();let nightLog={wave:0,lost:[],retaken:[]};
+  const sideIds=Object.keys(SIDES);
   const zone=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,zone:innerZone(C,T,g.world.buildings.values())};return cache.zone;};
   const troops=()=>g.units.filter(alive);
   const commanderOutside=z=>alive(g.player)&&!g.player.regionAbsent&&!z.contains(g.player);
@@ -121,24 +142,56 @@
    if(core&&['warning','assault'].includes(g.phase)){
     for(const [id,building]of walls){
      if(current.has(id)||g.world.buildings.get(id)===building&&alive(building))continue;
-     const side=sideOf(core,building),z=zone(),inside=z.closed?g.zombies.filter(zombie=>alive(zombie)&&z.contains(zombie)).length:null;
+     const side=(B?.direction||sideOf)(core,building),z=zone(),inside=z.closed?g.zombies.filter(zombie=>alive(zombie)&&z.contains(zombie)).length:null;
      lastBreach=Object.freeze({side,name:building.def.name,gate:T.isGate(building),wave:g.wave,at:g.elapsed});
+     const cells=T.footprint(building);if(cells)breaches.set(building.id,Object.freeze({side,name:building.def.name,cells}));
      if(g.elapsed>=quietUntil){
       quietUntil=g.elapsed+BREACH_QUIET_SECONDS;
       g.notify('Brèche au '+SIDES[side]+' ('+building.def.name+').'+(inside===null?' Le centre n’est plus couvert par une enceinte fermée.':' '+many(inside,'infecté','infectés')+' dans l’enceinte intérieure.'),'danger');
      }
     }
    }
+   // Une brèche est refermée quand un mur ou une porte en service recouvre de nouveau son emplacement.
+   for(const [id,breach]of breaches){
+    const c=breach.cells;let covered=false;
+    for(const wall of current.values()){const f=T.footprint(wall);if(f&&f.x<c.x+c.width&&f.x+f.width>c.x&&f.y<c.y+c.height&&f.y+f.height>c.y){covered=true;break;}}
+    if(covered)breaches.delete(id);
+   }
    walls=current;
+  }
+  function sectors(){
+   const core=g.core?.(),fighting=['warning','assault'].includes(g.phase);
+   const view=B&&core?B.inspect(core,g.zombies,g.world.buildings.values()):null;
+   return sideIds.map(id=>{
+    const facts=view?.sectors.find(sector=>sector.id===id)||{contacts:0,innerContacts:0,fragileWalls:0};
+    const open=[...breaches.values()].filter(breach=>breach.side===id).length;
+    const state=sectorState({breached:open>0,contacts:facts.contacts,innerContacts:facts.innerContacts,fragileWalls:facts.fragileWalls,fighting});
+    return Object.freeze({id,name:SIDES[id],state,label:STATES[state],breaches:open,contacts:facts.contacts,innerContacts:facts.innerContacts});
+   });
+  }
+  // Annonce les secteurs perdus et repris, une fois par changement.
+  function watchSectors(){
+   if(nightLog.wave!==g.wave)nightLog={wave:g.wave,lost:[],retaken:[]};
+   for(const sector of sectors()){
+    const before=known.get(sector.id)||'held';
+    if(sector.state===before)continue;
+    known.set(sector.id,sector.state);
+    if(sector.state==='lost'){if(!nightLog.lost.includes(sector.id))nightLog.lost.push(sector.id);g.notify('Secteur '+sector.name+' perdu : '+many(sector.innerContacts,'infecté est entré','infectés sont entrés')+' par la brèche.','danger');}
+    else if((before==='lost'||before==='contested')&&sector.breaches===0){if(!nightLog.retaken.includes(sector.id))nightLog.retaken.push(sector.id);g.notify('Secteur '+sector.name+' repris : la ligne est refermée.','good');}
+   }
+  }
+  function plan(){
+   const list=sectors(),open=list.reduce((n,sector)=>n+sector.breaches,0),intruders=list.reduce((n,sector)=>n+sector.innerContacts,0);
+   return Object.freeze({needed:open>0||list.some(sector=>sector.state==='lost'),steps:reconquest({breaches:open,intruders,order:pending?.mode||null})});
   }
   function tick(){
    if(g.state!=='playing'||g.gameOver||!g.world)return;
-   watchBreaches();
+   watchBreaches();watchSectors();
    if(pending?.mode==='everyone'&&!pending.sealed)seal();
   }
   const update=g.update;
   if(typeof update==='function')g.update=function(dt,...rest){const result=update.call(this,dt,...rest);const now=Number(g.elapsed)||0;if(now<clock||now-clock>=CHECK_SECONDS){clock=now;tick();}return result;};
-  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);pending=null;cache=null;walls=null;wallWorld=null;lastBreach=null;notice='';clock=-Infinity;quietUntil=0;return result;};}
+  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);pending=null;cache=null;walls=null;wallWorld=null;lastBreach=null;notice='';clock=-Infinity;quietUntil=0;breaches.clear();known.clear();nightLog={wave:0,lost:[],retaken:[]};return result;};}
   // Interface : une section dans l'onglet Situation du carnet.
   const host=doc.getElementById('commandPanel-enclosure');
   let refresh=()=>{};
@@ -153,7 +206,10 @@
    const bEveryone=button('fallbackEveryone','REPLI GÉNÉRAL','tout le monde rentre · portes verrouillées ensuite',everyone);
    const bStand=button('fallbackStandDown','LEVER LE REPLI','portes et ouvriers rendus à leurs ordres',standDown);
    const actions=el('div',undefined,'fallback-order-actions');actions.append(bFighters,bEveryone,bStand);
-   box.append(title,state,actions);host.appendChild(box);
+   const sectorTitle=el('h3','ÉTAT DES SECTEURS'),sectorList=el('ul',undefined,'fallback-sectors');sectorList.id='fallbackSectors';
+   const chips=new Map();for(const id of sideIds){const chip=el('li');chip.dataset.sector=id;sectorList.appendChild(chip);chips.set(id,chip);}
+   const steps=el('ol',undefined,'fallback-reconquest');steps.id='fallbackReconquest';
+   box.append(title,state,actions,sectorTitle,sectorList,steps);host.appendChild(box);
    refresh=()=>{
     const s=status();box.hidden=g.state!=='playing';if(box.hidden)return;
     bFighters.disabled=!s.available;bEveryone.disabled=!s.available;bStand.disabled=!s.available||!s.mode;
@@ -164,11 +220,14 @@
     if(s.infectedInside)lines.push(many(s.infectedInside,'infecté','infectés')+' à l’intérieur.');
     if(s.lastBreach)lines.push('Dernière brèche : '+SIDES[s.lastBreach.side]+', vague '+s.lastBreach.wave+'.');
     write(state,lines.join(' '));
+    for(const sector of sectors()){const chip=chips.get(sector.id);write(chip,sector.name.toUpperCase()+' · '+sector.label+(sector.breaches?' · '+many(sector.breaches,'brèche','brèches'):''));if(chip.dataset.state!==sector.state)chip.dataset.state=sector.state;}
+    const p=plan();steps.hidden=!p.needed;
+    if(p.needed){const key=p.steps.map(step=>step.done?1:0).join('');if(steps.dataset.key!==key){steps.dataset.key=key;steps.replaceChildren();for(const step of p.steps){const item=el('li',(step.done?'Fait — ':'À faire — ')+step.label+' : '+step.detail+'.');item.dataset.done=String(step.done);steps.appendChild(item);}}}
    };
    const updateUI=g.updateUI;if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);refresh();return result;};
   }
-  g.fallbackOrder=Object.freeze({status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone()});
+  g.fallbackOrder=Object.freeze({status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
   refresh();return true;
  }
- return Object.freeze({install,innerZone,sideOf,SIDES});
+ return Object.freeze({install,innerZone,sideOf,sectorState,reconquest,SIDES,STATES});
 });

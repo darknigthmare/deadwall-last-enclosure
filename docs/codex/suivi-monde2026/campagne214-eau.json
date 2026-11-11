@@ -589,8 +589,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 12510,
-      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
+      "bytes": 17559,
+      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1866,8 +1866,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 12510,
-      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
+      "bytes": 17559,
+      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
     },
     {
       "path": "src/field-atlas-art.js",

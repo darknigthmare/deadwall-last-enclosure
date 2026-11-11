@@ -59,6 +59,17 @@ kbd { display: inline-flex; align-items: center; justify-content: center; min-wi
 .fallback-order-actions span { display: block; font-size: 10px; line-height: 1.4; }
 .fallback-order-actions small { display: block; margin-top: 3px; font-size: 9px; line-height: 1.35; opacity: .85; }
 @media (max-width: 720px) { .fallback-order-actions { grid-template-columns: 1fr; } }
+.fallback-order h3 + .fallback-sectors { margin-top: 8px; }
+.fallback-order .fallback-order-actions + h3 { margin-top: 16px; }
+.fallback-sectors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.fallback-sectors li { padding: 7px 8px; border: 1px solid currentColor; border-left-width: 4px; border-radius: 3px; font-size: 10px; letter-spacing: .04em; line-height: 1.4; }
+.fallback-sectors li[data-state="threatened"] { border-left-color: #b9832b; }
+.fallback-sectors li[data-state="contested"] { border-left-color: #b9562b; }
+.fallback-sectors li[data-state="lost"] { border-left-color: #a12a22; font-weight: 700; }
+.fallback-reconquest { margin: 10px 0 0; padding-left: 20px; font-size: 12px; line-height: 1.6; }
+.fallback-reconquest[hidden] { display: none; }
+.fallback-reconquest li[data-done="true"] { opacity: .65; }
+@media (max-width: 720px) { .fallback-sectors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .siege-readout { display: grid; gap: 8px; margin-top: 8px; }
 .siege-readout[hidden] { display: none; }
 .siege-readout-card { padding: 10px 12px; border: 1px solid var(--line, #485440); border-radius: 3px; background: #0f1813cc; }

@@ -1388,6 +1388,46 @@ Cette étape devient un système à part entière.
 - Révélé à l'âge 9, mais la perte et la reprise simples existent dès qu'il y a
   deux enceintes.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+L'onglet Situation du carnet affiche l'**état des quatre secteurs** de la
+cité (nord, est, sud, ouest) et, quand une ligne est ouverte, la
+**reconquête en trois temps**.
+
+| État | Ce qui le déclenche |
+|---|---|
+| Tenu | Ligne intacte, aucun contact. |
+| Menacé | Ligne intacte, mais contacts ou murs fragiles de ce côté pendant l'alerte ou l'assaut. |
+| Contesté | Un mur ou une porte de ce côté est tombé ; personne n'est encore entré. |
+| Perdu | La ligne est ouverte **et** des infectés sont à l'intérieur. |
+| Repris | La brèche est rebâtie : annoncé une fois, puis le secteur redevient tenu. |
+
+Reconquête, lue sur l'état réel :
+
+1. **Isoler** : fait quand chaque brèche est recouverte par un mur ou une
+   porte en service.
+2. **Nettoyer** : fait quand plus aucun infecté n'est près du centre.
+3. **Rétablir** : fait quand les deux premiers le sont et que le repli est
+   levé.
+
+- Les annonces « Secteur nord perdu » et « Secteur nord repris » paraissent
+  une fois par changement.
+- Tout est **déduit de faits déjà calculés** : contacts et murs fragiles par
+  le relevé de champ de bataille existant, brèches par la chute réelle d'un
+  ouvrage. Aucune valeur d'équilibrage, aucun effet sur la simulation.
+- Dans `src/fallback-order.js`, test `tests/fallback-order.test.cjs`.
+
+Écarts avec la direction ci-dessus, à combler :
+
+- Un « secteur » est ici un **côté** de la cité, pas encore la zone entre
+  deux enceintes : cela viendra avec les districts (§8.2).
+- Un secteur perdu **continue de produire** et ses structures ne se
+  dégradent pas davantage : l'état est un constat, pas encore une règle.
+- Le **sacrifice volontaire** avec évacuation des stocks n'existe pas ; le
+  repli général (§8.1) en tient lieu.
+- Les brèches ouvertes ne sont pas sauvegardées : après une reprise, l'état
+  des secteurs repart des faits observables.
+
 ### 8.4 Grands ouvrages **[DÉCISION]**
 
 - Projets géants bâtis **par tranches sur plusieurs nuits**, qui changent la
@@ -1775,7 +1815,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) — première tranche livrée | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
 | 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
-| 6 | Sacrifice et reconquête (§8.3) | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
+| 6 | Sacrifice et reconquête (§8.3) — première tranche livrée | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
 | 7 | Districts (§8.2) | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
 | 8 | Lois (§8.5) | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
 | 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |

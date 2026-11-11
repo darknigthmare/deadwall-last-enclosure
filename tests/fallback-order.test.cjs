@@ -108,3 +108,50 @@ test('brèche nommée : un mur qui tombe pendant l’assaut est annoncé avec so
   assert.equal(g.fallbackOrder.status().lastBreach.side,'north');assert.equal(g.fallbackOrder.status().closed,false);
   g.fallbackOrder.tick();assert.equal(notes.filter(text=>text.startsWith('Brèche au ')).length,1,'une seule annonce par brèche');
 });
+
+test('secteurs : l’état se déduit de faits observés, sans valeur d’équilibrage',()=>{
+  const st=Fallback.sectorState;
+  assert.equal(st({}),'held');assert.equal(st({contacts:12,fighting:false}),'held','des contacts hors assaut ne menacent pas la ligne');
+  assert.equal(st({contacts:1,fighting:true}),'threatened');assert.equal(st({fragileWalls:2,fighting:true}),'threatened');
+  assert.equal(st({breached:true}),'contested','ligne ouverte, personne dedans');assert.equal(st({breached:true,innerContacts:3}),'lost');
+  assert.equal(st({breached:false,innerContacts:3,fighting:true,contacts:3}),'threatened','sans brèche de ce côté, le secteur n’est pas perdu');
+  assert.deepEqual(Object.values(Fallback.STATES),['tenu','menacé','contesté','perdu']);
+});
+
+test('reconquête : trois temps dans l’ordre, lus sur l’état réel',()=>{
+  const done=input=>Fallback.reconquest(input).map(step=>step.done);
+  assert.deepEqual(Fallback.reconquest({}).map(step=>step.id),['isolate','clear','restore']);
+  assert.deepEqual(done({breaches:2,intruders:5,order:'everyone'}),[false,false,false]);
+  assert.deepEqual(done({breaches:0,intruders:5,order:'everyone'}),[true,false,false]);
+  assert.deepEqual(done({breaches:0,intruders:0,order:'everyone'}),[true,true,false],'il reste à lever le repli');
+  assert.deepEqual(done({breaches:0,intruders:0,order:null}),[true,true,true]);
+  assert.deepEqual(done({breaches:1,intruders:0,order:null}),[false,true,false],'on ne rétablit pas une ligne encore ouverte');
+});
+
+test('secteurs : une brèche conteste le côté, des intrus le perdent, un mur rebâti le reprend',()=>{
+  const {g,doc}=campaign(),{placed}=enclose(g);
+  const notes=[],notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};
+  const sector=id=>g.fallbackOrder.sectors().find(item=>item.id===id);
+  g.fallbackOrder.tick();assert.deepEqual(g.fallbackOrder.sectors().map(item=>item.state),['held','held','held','held']);assert.equal(g.fallbackOrder.plan().needed,false);
+  g.phase='assault';
+  const core=g.core(),top=Math.min(...placed.map(b=>b.gy)),north=placed.find(b=>!T.isGate(b)&&b.gy===top&&b.gx===T.footprint(core).x+3);
+  north.health=0;north.dead=true;g.world.navigationVersion++;g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector('north').state,'contested');assert.equal(sector('north').breaches,1);assert.equal(sector('south').state,'held');
+  assert.deepEqual(g.fallbackOrder.plan().steps.map(step=>step.done),[false,true,false]);
+  // Un infecté réel passe la brèche et s’approche du centre, côté nord.
+  const intruder={id:999999,x:core.x,y:core.y-C.TILE*3,health:10,dead:false,kind:'walker'};g.zombies.push(intruder);
+  g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector('north').state,'lost');assert.equal(notes.filter(t=>t.startsWith('Secteur nord perdu')).length,1);
+  assert.deepEqual(g.fallbackOrder.nightLog().lost,['north']);
+  g.fallbackOrder.tick();assert.equal(notes.filter(t=>t.startsWith('Secteur nord perdu')).length,1,'annoncé une fois');
+  g.zombies.splice(g.zombies.indexOf(intruder),1);g.fallbackOrder.tick();assert.equal(sector('north').state,'contested','intrus éliminés, ligne encore ouverte');
+  g.fallbackOrder.refresh();assert.equal(doc.getElementById('fallbackReconquest').hidden,false);
+  // Le mur est rebâti au même emplacement.
+  const B=core.constructor,rebuilt=new B(g.nextId++,'woodWall',north.gx,north.gy,0,1);rebuilt.health=rebuilt.def.health;g.world.buildings.delete(north.id);g.world.add(rebuilt);g.world.navigationVersion++;
+  g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector('north').breaches,0);assert.notEqual(sector('north').state,'lost');assert.notEqual(sector('north').state,'contested');
+  assert.equal(notes.filter(t=>t.startsWith('Secteur nord repris')).length,1);assert.deepEqual(g.fallbackOrder.nightLog().retaken,['north']);
+  assert.equal(g.fallbackOrder.plan().needed,false);assert.equal(g.fallbackOrder.status().closed,true);
+  g.fallbackOrder.refresh();assert.equal(doc.getElementById('fallbackReconquest').hidden,true);
+  assert.match(doc.getElementById('fallbackSectors').children[0].textContent,/^NORD · /);
+});

@@ -578,8 +578,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 12510,
-      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
+      "bytes": 17559,
+      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1825,8 +1825,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 12510,
-      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
+      "bytes": 17559,
+      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -3072,8 +3072,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 12510,
-      "sha256": "81241ec716a76b3c5d9621ebe191ef1f1c6febd6b70b28e50eab0406ecac3e3d"
+      "bytes": 17559,
+      "sha256": "e13e447c757775b780b9e5ebb944206e61f9f8513d01fb43b531c187e96857ac"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -4116,6 +4116,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-10T23:42:45.038Z",
-  "completedUtc": "2026-11-10T23:42:46.800Z"
+  "startedUtc": "2026-11-11T06:26:54.809Z",
+  "completedUtc": "2026-11-11T06:26:56.753Z"
 }
