@@ -392,3 +392,18 @@ body[data-phase="aftermath"] .wave-card { box-shadow: inset 3px 0 var(--ok); }
 /* Le carnet agrandit ses boutons : ceux de la section restent compacts pour ne pas repousser le dossier ouvert. */
 #explorationScales .exploration-scale-links button{min-height:0!important;width:auto!important;padding:3px 7px!important;font-size:11px!important;letter-spacing:0!important;line-height:1.3!important}
 #explorationScales .exploration-scale p{margin-bottom:4px}
+/* Districts (GAME_BIBLE §8.2) : enceintes concentriques dans l'onglet Situation du carnet, sur fond clair. */
+.districts { margin-top: 12px; padding: 12px; border: 1px solid currentColor; border-radius: 3px; background: transparent; color: inherit; }
+.districts[hidden], .districts [hidden] { display: none; }
+.districts h3 { margin: 0; font-size: 11px; letter-spacing: .08em; color: inherit; }
+.districts .districts-list + h3 { margin-top: 16px; }
+.districts-state { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: inherit; }
+.districts-list { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.districts-list li { padding: 7px 8px; border: 1px solid currentColor; border-left-width: 4px; border-radius: 3px; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.districts-list li strong { display: block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.districts-list li[data-district="0"] { border-style: dashed; border-left-style: solid; }
+.districts-list li[data-infected="true"] { border-left-color: #a12a22; }
+.districts-line { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; margin-top: 8px; }
+.districts-line button { padding: 9px 7px; min-height: 44px; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+.districts-line button[aria-pressed="true"] { font-weight: 700; outline: 2px solid currentColor; outline-offset: -4px; }
+@media (max-width: 720px) { .districts-line { grid-template-columns: 1fr; } }

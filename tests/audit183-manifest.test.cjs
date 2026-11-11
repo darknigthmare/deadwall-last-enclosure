@@ -4,8 +4,8 @@ const M=require('../scripts/public-manifest183.cjs'),root=path.join(__dirname,'.
 function fixture(t,body){const p=fs.mkdtempSync(path.join(os.tmpdir(),'deadwall-manifest-'));t.after(()=>fs.rmSync(p,{recursive:true,force:true}));fs.writeFileSync(path.join(p,'index.html'),body);return p;}
 const style='<link rel="stylesheet" href="styles.css">';
 test('183 public manifest preserves actual entry order and bundled modules execute once',()=>{
- const {scripts,styles}=M.readPublicEntries(root);assert.equal(scripts.length,191);assert.equal(styles.length,26);
- assert.equal(new Set([...scripts,...styles]).size,217);assert.equal(M.BUNDLED_MODULES.length,36);
+ const {scripts,styles}=M.readPublicEntries(root);assert.equal(scripts.length,192);assert.equal(styles.length,26);
+ assert.equal(new Set([...scripts,...styles]).size,218);assert.equal(M.BUNDLED_MODULES.length,36);
  for(const file of ['src/landscape189.js','src/wildlife189.js','src/wildlife-art189.js','src/ecology-codex189.js'])assert.equal(M.BUNDLED_MODULES.filter(p=>p===file).length,1,file);
  const harvest=['src/wildlife-harvest190.js','src/wildlife-harvest190-ui.js','src/husbandry191.js','src/husbandry191-art.js'];
  for(const file of harvest)assert.equal(scripts.filter(p=>p===file).length,1,file);
@@ -34,7 +34,7 @@ test('183 public manifest preserves actual entry order and bundled modules execu
  assert.ok(scripts.indexOf('src/core.js')<scripts.indexOf(inspection[0]));
  for(let i=1;i<inspection.length;i++)assert.ok(scripts.indexOf(inspection[i-1])<scripts.indexOf(inspection[i]));
  assert.ok(scripts.indexOf(inspection.at(-1))<scripts.indexOf('src/world-codex.js'));
- assert.equal(scripts.filter(p=>!harvest.includes(p)&&!field193.includes(p)&&!inspection.includes(p)&&!campaign.includes(p)&&!water214.includes(p)&&p!==services208&&p!=='src/player-menus194.js'&&p!=='src/age-reveal.js'&&p!=='src/siege-readout.js'&&p!=='src/fallback-order.js'&&p!=='src/city-water215.js'&&p!=='src/exploration-scales.js').length,164,'historical public entries retained');
+ assert.equal(scripts.filter(p=>!harvest.includes(p)&&!field193.includes(p)&&!inspection.includes(p)&&!campaign.includes(p)&&!water214.includes(p)&&p!==services208&&p!=='src/player-menus194.js'&&p!=='src/age-reveal.js'&&p!=='src/siege-readout.js'&&p!=='src/fallback-order.js'&&p!=='src/city-water215.js'&&p!=='src/exploration-scales.js'&&p!=='src/districts.js').length,164,'historical public entries retained');
  assert.equal(scripts.filter(p=>p==='src/player-menus194.js').length,1);assert.equal(styles.filter(p=>p==='player-menus194.css').length,1);
  assert.ok(scripts.indexOf('src/content-codex193.js')<scripts.indexOf('src/world-codex.js'));
  assert.ok(scripts.indexOf('src/expansion-kit.js')<scripts.indexOf('src/weather193.js'));

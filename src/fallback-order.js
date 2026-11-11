@@ -79,12 +79,18 @@
   const sideIds=Object.keys(SIDES);
   const zone=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,zone:innerZone(C,T,g.world.buildings.values())};return cache.zone;};
   const troops=()=>g.units.filter(alive);
+  // Ligne de repli général. Par défaut l'enceinte intérieure ; le module des districts peut en proposer une autre,
+  // qui n'est retenue que si elle est fermée. Seule l'enceinte dont on verrouille les portes change.
+  let line=null;
+  const hold=()=>{const chosen=typeof line==='function'?line():null;return chosen&&chosen.closed&&Array.isArray(chosen.gates)&&typeof chosen.contains==='function'?chosen:zone();};
+  const nameOf=z=>typeof z.name==='string'&&z.name?z.name:'Enceinte intérieure';
+  const the=z=>{const name=nameOf(z).toLowerCase();return(/^[aeéèiou]/.test(name)?'l’':'la ')+name;};
   const commanderOutside=z=>alive(g.player)&&!g.player.regionAbsent&&!z.contains(g.player);
   function status(){
    const playing=g.state==='playing'&&!g.gameOver;
    if(!playing||!g.world)return Object.freeze({available:false,closed:false,gates:0,outside:0,commanderOutside:false,mode:null,sealed:false,notice:'',lastBreach:null,infectedInside:0});
-   const z=zone(),outside=troops().filter(unit=>!z.contains(unit)).length;
-   return Object.freeze({available:g.canIssueCommand()&&z.hasCore,closed:z.closed,gates:z.gates.length,outside,commanderOutside:commanderOutside(z),mode:pending?.mode||null,sealed:Boolean(pending?.sealed),notice,lastBreach,
+   const z=zone(),h=hold(),outside=troops().filter(unit=>!h.contains(unit)).length;
+   return Object.freeze({available:g.canIssueCommand()&&z.hasCore,closed:z.closed,gates:z.gates.length,line:nameOf(h),lineGates:h.gates.length,outside,commanderOutside:commanderOutside(h),mode:pending?.mode||null,sealed:Boolean(pending?.sealed),notice,lastBreach,
     infectedInside:z.closed?g.zombies.filter(zombie=>alive(zombie)&&z.contains(zombie)).length:0});
   }
   function say(text,tone){notice=text;g.notify(text,tone);return true;}
@@ -101,18 +107,18 @@
   // dès que plus personne n'est dehors. Le verrouillage passe par la commande des portes et ses refus.
   function everyone(){
    if(!g.canIssueCommand()||!g.core?.())return false;
-   const z=zone();
+   const z=hold();
    for(let index=0;index<C.SQUAD_RULES.count;index++)g.retreatSquad(index,g.core());
    if(!g.setWorkerOrder('retreat'))return false;
    const previous=pending?.previous instanceof Map?pending.previous:new Map();
    pending={mode:'everyone',sealed:false,previous};
    if(!z.closed)return say('Repli général : tout le monde revient vers le centre. Aucune enceinte fermée autour du centre : rien à verrouiller.','normal');
-   if(!z.gates.length)return say('Repli général : tout le monde revient vers le centre. L’enceinte intérieure n’a aucune porte à verrouiller.','good');
-   return say('Repli général : tout le monde revient vers le centre. '+(z.gates.length>1?'Les '+z.gates.length+' portes de l’enceinte intérieure seront verrouillées':'La porte de l’enceinte intérieure sera verrouillée')+' dès que plus personne ne sera dehors.','good');
+   if(!z.gates.length)return say('Repli général : tout le monde revient vers le centre. '+nameOf(z)+' : aucune porte à verrouiller.','good');
+   return say('Repli général : tout le monde revient vers le centre. '+(z.gates.length>1?'Les '+z.gates.length+' portes de '+the(z)+' seront verrouillées':'La porte de '+the(z)+' sera verrouillée')+' dès que plus personne ne sera dehors.','good');
   }
   function seal(){
    if(!pending||pending.mode!=='everyone'||pending.sealed)return false;
-   const z=zone();if(!z.closed||!z.gates.length)return false;
+   const z=hold();if(!z.closed||!z.gates.length)return false;
    if(troops().some(unit=>!z.contains(unit))||commanderOutside(z))return false;
    let locked=0;
    for(const gate of z.gates){
@@ -122,7 +128,7 @@
     if(g.setGateMode('closed',gate))locked++;
    }
    if(locked<z.gates.length)return false;
-   pending.sealed=true;return say('Enceinte intérieure verrouillée : '+many(locked,'porte fermée','portes fermées')+', tout le monde est à l’intérieur.','good');
+   pending.sealed=true;return say(nameOf(z)+' verrouillée : '+many(locked,'porte fermée','portes fermées')+', tout le monde est à l’intérieur.','good');
   }
   // Lever le repli : les portes verrouillées par cet ordre retrouvent leur mode, les ouvriers reprennent.
   function standDown(){
@@ -226,7 +232,7 @@
    };
    const updateUI=g.updateUI;if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);refresh();return result;};
   }
-  g.fallbackOrder=Object.freeze({status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
+  g.fallbackOrder=Object.freeze({holdLine:provider=>{line=typeof provider==='function'?provider:null;return true;},status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
   refresh();return true;
  }
  return Object.freeze({install,innerZone,sideOf,sectorState,reconquest,SIDES,STATES});
