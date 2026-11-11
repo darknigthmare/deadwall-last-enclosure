@@ -131,7 +131,8 @@
    const buttons=scale.entries.map(entry=>{const b=el('button',entry.label);b.type='button';b.id='explorationScale-'+entry.kind+'-'+entry.id;b.dataset.entry=entry.id;b.addEventListener('click',()=>{if(!b.disabled&&!b.hidden){go(entry);render();}});links.appendChild(b);return[entry,b];});
    card.append(el('h3',scale.order+'. '+scale.name),el('p',scale.text),links,empty);whereList.appendChild(card);scaleNodes.set(scale.id,{card,buttons,empty});
   }
-  nav.after?nav.after(box):field.insertBefore(box,nav.nextSibling||null);
+  // Certains environnements minimaux n'offrent ni `after` ni `insertBefore` : la section se place alors en fin de panneau.
+  if(typeof nav.after==='function')nav.after(box);else if(typeof field.insertBefore==='function')field.insertBefore(box,nav.nextSibling||null);else field.appendChild(box);
   const offers=()=>SCALES.map(scale=>({id:scale.id,name:scale.name,entries:scale.entries.filter(offered)}));
   let clock=-Infinity,needsKey='';
   // Visible en partie, dans le classement « Sur le terrain » du carnet (toujours dans l'atelier auteur, qui n'a pas de classement).
