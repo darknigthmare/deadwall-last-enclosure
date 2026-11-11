@@ -3326,7 +3326,13 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
 (function(root){'use strict';const C=root.DeadwallCore;
  // Eau de cité (GAME_BIBLE §7.3) : la population puise dans les citernes à partir de l'âge `startAge`
  // (indice de CITY_TIERS). `moraleDrain` vaut la moitié de la famine ; `graceSeconds` précède tout effet.
- C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100});
+ // Pénurie en trois temps, en secondes de citernes vides sans interruption (le retour de l'eau remet tout à zéro) :
+ // 1. moral dès `graceSeconds` ; 2. départs annoncés à `departWarnSeconds`, un ouvrier part à `departSeconds`
+ // puis tous les `departInterval` ; 3. morts annoncées à `deathWarnSeconds`, une mort à `deathSeconds` puis toutes
+ // les `deathInterval`. Les départs cessent quand les morts commencent. Valeurs volontairement lentes
+ // (10 min avant le premier départ, 21 min avant la première mort) ; aucune partie réelle ne les a éprouvées.
+ C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100,
+  departWarnSeconds:420,departSeconds:600,departInterval:120,deathWarnSeconds:1080,deathSeconds:1260,deathInterval:180});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const C=require('../src/core.js'),W=require('../src/city-water215.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
-const R=C.CityWater215Rules,F=globalThis.DeadwallSiege;
+const R=C.CityWater215Rules,F=globalThis.DeadwallSiege,Save=require('../src/save.js');
 
 test('eau de cité : règles dans le cœur, besoin nul avant l’âge de départ',()=>{
   assert.ok(Object.isFrozen(R));assert.equal(C.CITY_TIERS[R.startAge].name,'VILLE');
@@ -13,10 +13,23 @@ test('eau de cité : règles dans le cœur, besoin nul avant l’âge de départ
   assert.equal(W.stage(0),0);assert.equal(W.stage(1),1);assert.equal(W.stage(R.graceSeconds-.01),1);assert.equal(W.stage(R.graceSeconds),2);
 });
 
+test('eau de cité : trois temps ordonnés, lents, chacun précédé de son annonce',()=>{
+  assert.ok(R.graceSeconds<R.departWarnSeconds&&R.departWarnSeconds<R.departSeconds&&R.departSeconds<R.deathWarnSeconds&&R.deathWarnSeconds<R.deathSeconds);
+  assert.ok(R.departSeconds>=300&&R.departSeconds-R.departWarnSeconds>=60,'départs après plusieurs minutes, annoncés au moins une minute avant');
+  assert.ok(R.deathSeconds>=2*R.departSeconds&&R.deathSeconds-R.deathWarnSeconds>=60,'morts bien après, annoncées au moins une minute avant');
+  assert.ok(R.departInterval>=60&&R.deathInterval>=60);
+  assert.deepEqual([R.departWarnSeconds-.01,R.departWarnSeconds,R.departSeconds,R.deathWarnSeconds,R.deathSeconds].map(W.stage),[2,3,4,5,6]);
+  assert.equal(W.departSlots(R.departSeconds-.01),0);assert.equal(W.departSlots(R.departSeconds),1);assert.equal(W.departSlots(R.departSeconds+R.departInterval),2);
+  assert.equal(W.departSlots(1e9),W.departSlots(R.deathSeconds),'les départs cessent quand les morts commencent');
+  assert.equal(W.deathSlots(R.deathSeconds-.01),0);assert.equal(W.deathSlots(R.deathSeconds),1);assert.equal(W.deathSlots(R.deathSeconds+R.deathInterval),2);
+});
+
 test('eau de cité : état validé strictement, absent des anciennes sauvegardes = inactif',()=>{
-  assert.deepEqual(W.validate(undefined),{version:1,active:false,dry:0});
-  assert.deepEqual(W.validate({version:1,active:true,dry:12.5}),{version:1,active:true,dry:12.5});
-  for(const bad of [null,[],{version:2,active:true,dry:0},{version:1,active:'oui',dry:0},{version:1,active:true,dry:-1},{version:1,active:true,dry:Infinity},{version:1,active:true},{version:1,active:true,dry:0,extra:1}])assert.throws(()=>W.validate(bad),/Eau de cité/);
+  const none={version:2,active:false,dry:0,departs:0,deaths:0,left:0,died:0},ok={version:2,active:true,dry:12.5,departs:0,deaths:0,left:3,died:1};
+  assert.deepEqual(W.validate(undefined),none);assert.deepEqual(W.validate(ok),ok);
+  const late={...ok,dry:R.deathSeconds+1,departs:W.departSlots(R.deathSeconds),deaths:1};assert.deepEqual(W.validate(late),late);
+  for(const bad of [null,[],{version:1,active:true,dry:0},{...ok,version:3},{...ok,active:'oui'},{...ok,dry:-1},{...ok,dry:Infinity},{version:2,active:true,dry:0},{...ok,extra:1},
+    {...ok,departs:1},{...ok,deaths:1},{...ok,dry:R.departSeconds,departs:2},{...ok,left:-1},{...ok,died:1.5},{...ok,left:'2'},{...none,left:1},{...none,dry:5}])assert.throws(()=>W.validate(bad),/Eau de cité/);
 });
 
 test('eau de cité : le puisage conserve l’eau, citerne après citerne, sans jamais en créer',()=>{
@@ -79,6 +92,95 @@ test('eau de cité : une ancienne campagne reste inchangée jusqu’à son activ
   const result=g.cityWater215.activate();
   if(result.ok){assert.equal(g.cityWater215.active(),true);assert.equal(g.cityWater215.actions().length,0);step(g,10);assert.ok(g.siege.cityReserve215().water<60);}
   else assert.match(result.reason,/dépôt/);
+});
+
+// Une cité à la Ville, citerne vide, avec exactement les habitants demandés (nourris, pour isoler l'eau).
+function dryCity(kinds){
+  const {g}=campaign();cistern(g,0);toAge(g,R.startAge);
+  const Unit=g.units[0].constructor,core=g.core();
+  g.units=kinds.map((kind,i)=>new Unit(g.nextId++,kind,core.x+60+i*14,core.y+90));g.refreshMetrics(true);g.resources.food=1e5;
+  const notes=[];watch(g,notes);return {g,notes};
+}
+const watch=(g,notes)=>{const notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};};
+const count=(notes,start)=>notes.filter(t=>t.startsWith(start)).length;
+const alive=g=>g.units.filter(u=>!u.dead&&u.health>0),kinds=g=>alive(g).map(u=>u.kind).sort().join(',');
+const dry=g=>g.cityWater215.snapshot().dry,until=(g,seconds)=>step(g,seconds-dry(g),1);
+// Sauvegarde et reprise : aucune référence à un habitant absent, aucune annonce rejouée.
+function resume(g,notes){
+  const before=notes.length,saved=g.serialize(),ids=new Set(saved.units.map(u=>u.id)),living=alive(g).map(u=>u.id);
+  assert.deepEqual([...ids].sort(),[...living].sort(),'seuls les habitants présents sont sauvegardés');
+  for(const id of [...saved.siege.crew.map(c=>c.id),...saved.infrastructure.crew.map(c=>c.id),...(saved.territories.withdrawing||[]),...Object.values(saved.territories.sectors).map(x=>x.workerId).filter(x=>x!==null),...saved.citadel.calls.map(c=>c.unitId).filter(x=>x!==null)])assert.ok(ids.has(id),'référence pendante '+id);
+  assert.doesNotThrow(()=>Save.validate(JSON.parse(JSON.stringify(saved))));
+  assert.equal(g.restoreSave(JSON.parse(JSON.stringify(saved))),true);g.resources.food=1e5;
+  assert.deepEqual(alive(g).map(u=>u.id).sort(),living.sort());
+  assert.deepEqual(g.cityWater215.snapshot(),saved.expansions127.modules.cityWater215);
+  step(g,2,1);assert.equal(notes.length,before,'la reprise ne rejoue ni annonce, ni départ, ni mort');assert.deepEqual(alive(g).map(u=>u.id).sort(),living.sort());
+}
+const LEAVE='Pénurie d’eau : des habitants parlent de partir',LEFT='Pénurie d’eau : un ouvrier a quitté la cité',DOOM='Pénurie d’eau : les plus fragiles ne tiendront plus longtemps',DIED=/^Pénurie d’eau : un (\S+) est mort dans les murs/;
+
+test('eau de cité : la pénurie fait partir des ouvriers, puis tue les plus fragiles, chaque temps annoncé une fois',()=>{
+  const {g,notes}=dryCity(['worker','worker','worker','soldier','medic']);
+  const soldier=g.units.find(u=>u.kind==='soldier');soldier.health=50;
+  const lost=g.stats.unitsLost,health=g.player.health;
+  until(g,R.departWarnSeconds-1);assert.equal(g.cityWater215.stage(),2);assert.equal(count(notes,LEAVE),0);assert.equal(alive(g).length,5);
+  until(g,R.departWarnSeconds+1);assert.equal(g.cityWater215.stage(),3);assert.equal(count(notes,LEAVE),1,'départs annoncés avant d’arriver');
+  assert.match(g.cityWater215.overview().rows.find(r=>r.label==='Ensuite').value,/Premier départ dans/);
+  resume(g,notes);
+  until(g,R.departSeconds-1);assert.equal(alive(g).length,5,'aucun départ avant l’échéance');assert.equal(count(notes,LEFT),0);
+  until(g,R.departSeconds+1);assert.equal(kinds(g),'medic,soldier,worker,worker','un seul ouvrier part');assert.equal(count(notes,LEFT),1);
+  assert.equal(g.stats.unitsLost,lost,'un départ n’est pas une perte au combat');assert.equal(g.population,5,'la population suit le départ');
+  resume(g,notes);
+  assert.match(g.cityWater215.overview().rows.find(r=>r.label==='Pénurie').value,/Deuxième temps/);
+  until(g,R.departSeconds+R.departInterval-2);assert.equal(count(notes,LEFT),1,'un à la fois, à intervalle régulier');
+  until(g,R.departSeconds+R.departInterval+1);assert.equal(kinds(g),'medic,soldier,worker');assert.equal(count(notes,LEFT),2);
+  until(g,R.deathWarnSeconds-1);assert.equal(kinds(g),'medic,soldier,worker','le dernier ouvrier ne part jamais');assert.equal(count(notes,LEFT),2);assert.equal(count(notes,DOOM),0);
+  until(g,R.deathWarnSeconds+1);assert.equal(count(notes,DOOM),1,'morts annoncées avant d’arriver');
+  resume(g,notes);
+  assert.match(g.cityWater215.overview().rows.find(r=>r.label==='Ensuite').value,/[Pp]remière mort dans/);
+  until(g,R.deathSeconds-1);assert.equal(alive(g).length,3);assert.equal(g.stats.unitsLost,lost);
+  until(g,R.deathSeconds+1);assert.equal(kinds(g),'medic,worker','le plus affaibli meurt le premier');
+  assert.equal(g.stats.unitsLost,lost+1,'la mort passe par le chemin ordinaire et ses statistiques');
+  assert.deepEqual(notes.map(t=>DIED.exec(t)?.[1]).filter(Boolean),['fusilier']);assert.equal(count(notes,'Un fusilier a été perdu'),1);
+  resume(g,notes);
+  assert.match(g.cityWater215.overview().summary,/meurent dans les murs/);
+  until(g,R.deathSeconds+R.deathInterval-2);assert.equal(alive(g).length,2,'une mort à la fois');
+  until(g,R.deathSeconds+R.deathInterval+1);assert.equal(kinds(g),'worker');assert.equal(g.stats.unitsLost,lost+2);
+  until(g,R.deathSeconds+R.deathInterval*4);assert.equal(kinds(g),'worker','le dernier ouvrier ne meurt pas de soif');
+  assert.equal(g.player.dead,false);assert.equal(g.player.health,health,'le Commandant n’est jamais touché');
+  assert.equal(count(notes,LEAVE),1);assert.equal(count(notes,DOOM),1);assert.equal(count(notes,LEFT),2);assert.equal(notes.filter(t=>DIED.test(t)).length,2);
+  assert.equal(g.siege.cityReserve215().water,0,'aucune eau créée');
+  const state=g.cityWater215.snapshot();assert.equal(state.left,2);assert.equal(state.died,2);
+  assert.match(g.cityWater215.overview().rows.find(r=>r.label==='Pertes dues à l’eau').value,/2 départs · 2 morts/);
+  resume(g,notes);
+});
+
+test('eau de cité : le retour de l’eau arrête tout aussitôt et réarme les seuils',()=>{
+  const {g,notes}=dryCity(['worker','worker','worker','worker']);
+  g.units[0].state='build';g.units[3].state='build';
+  const idle=g.units.slice(1,3).map(u=>u.id);
+  until(g,R.departSeconds+1);assert.equal(alive(g).length,3);assert.equal(count(notes,LEFT),1);
+  assert.equal(alive(g).some(u=>u.id===idle[1]),false,'un ouvrier sans tâche part avant un ouvrier au chantier');
+  g.updateUnits(.04);assert.equal(g.units.length,3,'le moteur écarte l’ouvrier parti au pas suivant');
+  const data=g.serialize();data.siege.tanks[0].water=120;assert.equal(g.restoreSave(data),true);g.resources.food=1e5;
+  const water=g.siege.cityReserve215().water;step(g,1,1);
+  assert.equal(g.cityWater215.stage(),0);assert.equal(count(notes,'Eau de cité : les citernes servent de nouveau'),1);
+  assert.deepEqual(g.cityWater215.snapshot(),{version:2,active:true,dry:0,departs:0,deaths:0,left:1,died:0});
+  step(g,R.departInterval*3,1);assert.equal(alive(g).length,3,'plus aucun départ, l’eau revenue');assert.equal(count(notes,LEFT),1);
+  assert.ok(g.siege.cityReserve215().water<water,'la population boit ; aucune eau créée');
+  const empty=g.serialize();empty.siege.tanks[0].water=0;assert.equal(g.restoreSave(empty),true);g.resources.food=1e5;
+  until(g,R.departSeconds-1);assert.equal(alive(g).length,3,'une nouvelle pénurie repart de zéro');assert.equal(count(notes,LEAVE),2,'et s’annonce de nouveau');
+  until(g,R.departSeconds+1);assert.equal(alive(g).length,2);assert.equal(g.cityWater215.snapshot().left,2);
+});
+
+test('eau de cité : sans activation ou avant la Ville, personne ne part ni ne meurt',()=>{
+  const old=dryCity(['worker','worker','soldier']),data=old.g.serialize();delete data.expansions127.modules.cityWater215;
+  assert.equal(old.g.restoreSave(data),true);old.g.resources.food=1e5;const notes=[];watch(old.g,notes);
+  assert.equal(old.g.cityWater215.active(),false);step(old.g,R.deathSeconds+R.deathInterval*2,1);
+  assert.equal(alive(old.g).length,3);assert.equal(count(notes,'Pénurie'),0);assert.equal(count(notes,'Eau de cité'),0);assert.equal(old.g.stats.unitsLost,0);
+  assert.deepEqual(old.g.cityWater215.snapshot(),W.initial());
+  const {g}=campaign();cistern(g,0);const early=[];watch(g,early);g.resources.food=1e5;const before=alive(g).length;
+  assert.ok(g.tier.id<R.startAge);step(g,R.deathSeconds+R.deathInterval*2,1);
+  assert.equal(alive(g).length,before);assert.equal(count(early,'Pénurie'),0);assert.equal(g.cityWater215.snapshot().dry,0);
 });
 
 test('eau de cité : le module ne crée aucune eau et ne tire aucun hasard',()=>{
