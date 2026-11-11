@@ -89,7 +89,8 @@ test('échelles : le module ne touche ni aux stocks, ni à la sauvegarde, ni au 
   assert.equal(/(resources|stock|carry)\s*(\[[^\]]*\]|\.\w+)\s*(=(?!=)|\+=|-=|\+\+|--)/.test(source),false,'aucune écriture de stock');
   assert.equal(C.ExplorationScales,undefined,'la table de présentation reste hors du cœur d’équilibrage');
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
-  assert.ok(html.includes('<script src="src/fallback-order.js"></script>\n  <script src="src/exploration-scales.js"></script>'));
+  const after=html.indexOf('<script src="src/fallback-order.js"></script>'),own=html.indexOf('<script src="src/exploration-scales.js"></script>');
+  assert.ok(after>0&&own>after,'chargé après le module de repli et la révélation par âge');
   assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes('"src/exploration-scales.js"'));
 });
 
