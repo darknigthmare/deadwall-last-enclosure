@@ -8,8 +8,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36874,
-      "sha256": "676a733e74640bf4862967e582160efcd72edf55e9d57c63e1f9add39aae950c"
+      "bytes": 36923,
+      "sha256": "a0294ab3f8b697f6a13e96c4864850e7c54341d583c5495742e7f05824844d1e"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -795,6 +795,11 @@
       "path": "src/loadout129.js",
       "bytes": 13965,
       "sha256": "9c52904d2e02159fd6cf136e4d1da0bcd6f76daee73fadfefdb3ebbdac39aeb8"
+    },
+    {
+      "path": "src/map-recovery216.js",
+      "bytes": 2280,
+      "sha256": "010638943150fabbe50e585a7debed7858863f0aba50ff4172d3798766aab0b4"
     },
     {
       "path": "src/metric-contract174.js",
@@ -1265,8 +1270,8 @@
   "sourcesBefore": [
     {
       "path": "index.html",
-      "bytes": 36874,
-      "sha256": "676a733e74640bf4862967e582160efcd72edf55e9d57c63e1f9add39aae950c"
+      "bytes": 36923,
+      "sha256": "a0294ab3f8b697f6a13e96c4864850e7c54341d583c5495742e7f05824844d1e"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -2052,6 +2057,11 @@
       "path": "src/loadout129.js",
       "bytes": 13965,
       "sha256": "9c52904d2e02159fd6cf136e4d1da0bcd6f76daee73fadfefdb3ebbdac39aeb8"
+    },
+    {
+      "path": "src/map-recovery216.js",
+      "bytes": 2280,
+      "sha256": "010638943150fabbe50e585a7debed7858863f0aba50ff4172d3798766aab0b4"
     },
     {
       "path": "src/metric-contract174.js",
@@ -2522,8 +2532,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36874,
-      "sha256": "676a733e74640bf4862967e582160efcd72edf55e9d57c63e1f9add39aae950c"
+      "bytes": 36923,
+      "sha256": "a0294ab3f8b697f6a13e96c4864850e7c54341d583c5495742e7f05824844d1e"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -3309,6 +3319,11 @@
       "path": "src/loadout129.js",
       "bytes": 13965,
       "sha256": "9c52904d2e02159fd6cf136e4d1da0bcd6f76daee73fadfefdb3ebbdac39aeb8"
+    },
+    {
+      "path": "src/map-recovery216.js",
+      "bytes": 2280,
+      "sha256": "010638943150fabbe50e585a7debed7858863f0aba50ff4172d3798766aab0b4"
     },
     {
       "path": "src/metric-contract174.js",
@@ -4146,6 +4161,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-12T11:15:27.257Z",
-  "completedUtc": "2026-11-12T11:15:29.155Z"
+  "startedUtc": "2026-11-12T16:01:49.432Z",
+  "completedUtc": "2026-11-12T16:01:50.950Z"
 }
