@@ -1,0 +1,1708 @@
+# Bible du jeu — DEADWALL : La Dernière Enceinte
+
+> Document de référence pour la cohérence du projet : univers, piliers,
+> systèmes de jeu, liens entre systèmes et direction des prochaines évolutions.
+> État du jeu décrit : **1.74.0**, sauvegarde générale **v20**.
+
+## 0. Mode d'emploi
+
+### 0.1 Place dans la documentation
+
+1. `docs/ORIGINAL_BRIEF.txt` reste la source première.
+2. **Cette bible** fixe l'intention, la cohérence et les décisions de direction.
+3. `GAME_DESIGN.md`, `ARCHITECTURE.md`, `BALANCING.md` et les documents de
+   livraison décrivent le détail de ce qui est livré.
+4. Les valeurs chiffrées vivent dans `src/core.js` ; la bible ne les duplique
+   que pour situer un ordre de grandeur. En cas d'écart, le code fait foi pour
+   l'état livré et la bible fait foi pour la direction.
+
+### 0.2 Trois niveaux de vérité
+
+Chaque affirmation de ce document porte l'un de ces statuts :
+
+| Marque | Sens |
+|---|---|
+| **[LIVRÉ]** | Présent dans le jeu 1.74.0 et vérifiable dans le code ou les docs. |
+| **[DÉCISION]** | Tranché par l'auteur du projet (sessions de cadrage du 10 novembre 2026). À respecter, pas encore forcément implémenté. |
+| **[PROPOSITION]** | Proposé par la bible pour combler un trou. À valider ou corriger avant implémentation. |
+
+Une **[DÉCISION]** ou une **[PROPOSITION]** n'est jamais une fonctionnalité
+livrée. Chaque chantier qui en découle suit les règles d'`AGENTS.md` : valeurs
+dans `src/core.js`, sauvegarde versionnée, tests, `npm run check`, aucun
+système supprimé.
+
+### 0.3 Décisions de cadrage enregistrées
+
+| Sujet | Décision |
+|---|---|
+| Piliers | Siège/enceintes **et** construction de la mégacité en priorité conjointe ; survie au sol et logistique restent présents et servent les deux premiers. |
+| Fin de partie | Mode infini, avec l'arc facultatif de D-17 dont l'épilogue n'arrête pas la partie. |
+| Origine de l'infection | Jamais expliquée. |
+| Chantiers prioritaires | Clarté et prise en main, profondeur du siège, fin de jeu mégacité, exploration et monde. |
+| Exploration | Unifiée en trois échelles lisibles, sans supprimer de couche existante. |
+| Eau | Ressource de cité à part entière, sans jauge de soif individuelle. |
+| Fin de jeu | Districts autonomes, sacrifice et reconquête, grands ouvrages, lois et rationnement. |
+| Première heure | Systèmes révélés âge par âge. |
+| Le joueur | Successeur de Luc : il reprend le quart d'un dépôt déjà tenu. |
+| Autres humains | Communautés alliées discrètes **et** factions humaines hostiles ou ambiguës (pillards, cannibales, autres). |
+| Récit | Registre et Chroniques racontent un seul groupe de personnes ; les auteurs sont reliés. |
+| Compagnons | Un arc court par compagnon, déclenché par le jeu, sans cinématique. |
+| Monde | Procédural et **sans bord**, avec des lieux générés à découvrir, un terrain modifiable et des graines réellement différentes. |
+| Hordes | Marée visible à l'horizon, pyramides de corps, murs colossaux, brèche catastrophe, et de **rares abominations géantes** cohérentes avec le ton. |
+| Absence du joueur | La cité **se défend vraiment** : la simulation continue pendant l'exploration. |
+| Déplacement | Véhicules à entretenir, avant-postes bâtis, routes à sécuriser, marche et campement. |
+| Rythme de l'exploration | Entre deux vagues au début ; pendant les vagues dès que la cité est autonome. |
+| Combat contre des humains | Joué au sol, rare et coûteux. |
+| Sort des factions | Destructibles **et** absorbables. Les six factions proposées sont validées ; d'autres s'y ajoutent. |
+| Sort des compagnons | Blessés d'abord ; la mort définitive survient après un certain nombre de blessures graves. |
+| Chute du centre pendant l'absence | Dernier carré : un délai pour rentrer et reprendre le centre. |
+| Relief | Par paliers : plateaux, falaises, cuvettes, pentes. |
+| Ampleur des hordes | Des milliers à l'écran : premiers rangs simulés, gros de la horde en masses agrégées. |
+| Monde sans bord | Réservé aux nouvelles campagnes. |
+| Travaux de terrain | Permis dans toute l'emprise de la cité et des avant-postes. |
+| Pénurie d'eau | Ralentit, fait partir des habitants, puis tue si elle dure. |
+| Révélation par âge | Interface seulement : aucun prérequis déplacé. |
+| Abominations | De nouvelles s'ajoutent aux trois existantes ; certaines rôdent en région. |
+| Coopération | Vraie coopération : un hôte et jusqu'à trois invités, qui rejoignent ou quittent une campagne en cours. |
+| Blessures des compagnons | Trois ; une longue convalescence efface une marque. |
+| Délai du dernier carré | Fixé par l'état de la cité, sans chrono arbitraire. |
+| Mort du Commandant | La relève reprend, mais la cité en sort fragilisée. |
+| Durée d'une campagne | 15 à 25 h jusqu'à Mégaville III. |
+| Matériel visé | Un ordinateur portable courant, dans un navigateur. |
+| Ordre des chantiers | Prise en main d'abord. |
+| Propositions validées | Sens de « D-17 », fusion des auteurs, quatre factions et trois abominations supplémentaires, six lois et cinq grands ouvrages de base. |
+| Après le dernier carré | Une cité à reconquérir : centre repris, districts perdus à reprendre un par un. |
+| Factions par campagne | Quatre à six sur dix, tirées et placées par la graine ; les Relais toujours présents. |
+| Pause en coopération | Aucune : le temps ne s'arrête jamais à plusieurs. |
+| Relève en coopération | L'hôte incarne la relève. |
+| Lois | Liste validée, complétée par des lois plus dures. |
+| Grands ouvrages | Liste validée, complétée. |
+| Corps après l'assaut | Une vraie filière (fosse ou bûcher), et des corps laissés trop longtemps rendent malade. |
+| Campagnes existantes | Reçoivent les nouveautés indépendantes du nouveau monde, par activation volontaire. |
+| Validations | Cinq lois dures, six grands ouvrages ajoutés, table de révélation par âge. |
+| Maladie des corps | Affaiblit, puis tue si rien n'est fait. |
+| Avant-postes | Aucun plafond fixe : limités par les moyens. |
+| Convalescence | Trois assauts à l'hôpital pour effacer une marque. |
+| Récit | Trois chapitres de plus, liés aux âges tardifs et déclenchés par des faits de jeu. |
+| Saisons | Quatre saisons longues sur la durée d'une campagne. |
+| Jour et nuit | Assauts surtout la nuit, parfois le jour. |
+| Habitants | Visibles dans la cité ; une douzaine de figures nommées, promouvables responsables de district. |
+| Durée d'une saison | Comptée en assauts. |
+| Assauts de jour | Dès la Forteresse (âge 4), environ un sur six, jamais deux de suite. |
+| Son | Enregistrements acceptés pour les hordes ; musique plus présente aux grands moments. |
+| Image | Planche de référence validée avant tout chantier de faction ou d'abomination. |
+
+---
+
+## 1. Identité
+
+### 1.1 Phrase d'intention
+
+Une poignée de survivants transforme physiquement un dépôt municipal en cité
+fortifiée à plusieurs enceintes, puis la défend nuit après nuit contre des
+hordes qui grossissent avec elle.
+
+### 1.2 Les deux courbes
+
+Tout le jeu oppose deux courbes qui montent ensemble **[LIVRÉ]** :
+
+- la puissance et le confort de la cité ;
+- la **signature** de la cité, qui attire des hordes plus nombreuses.
+
+Aucun système ne doit permettre à la première courbe de s'échapper
+définitivement de la seconde. C'est le test de cohérence le plus important de
+cette bible.
+
+### 1.3 Piliers et règle d'arbitrage **[DÉCISION]**
+
+| Rang | Pilier | Ce que le joueur doit ressentir |
+|---|---|---|
+| 1 | **Tenir les enceintes** | Chaque nuit a une géographie : un front, une porte faible, une brèche, un repli, une reconquête. |
+| 1 | **Bâtir la mégacité** | La cité grandit à vue d'œil, du refuge à la mégaville, et chaque âge change sa silhouette. |
+| 2 | **Survivre au sol** | Le personnage reste utile jusqu'au bout : porter, tirer, réparer, sortir. |
+| 2 | **Faire tenir la chaîne** | Munitions, nourriture, eau, énergie : on perd souvent par pénurie avant de perdre par brèche. |
+
+Règle d'arbitrage quand deux systèmes se contredisent :
+
+1. La décision qui rend le **siège plus lisible et plus géographique** ou la
+   **croissance plus visible** l'emporte.
+2. Un système de rang 2 n'est justifié que s'il **alimente** un pilier de
+   rang 1 : une ressource qui ne finit ni dans un mur, ni dans une arme, ni
+   dans un habitant est un système orphelin.
+3. La difficulté monte par **le nombre, les fronts et la pression**, jamais
+   d'abord par les points de vie.
+
+### 1.4 Les trois identités du joueur **[LIVRÉ]**
+
+| Identité | Âges | Geste dominant |
+|---|---|---|
+| Survivant | 1–2 | Récolter, porter, tirer, construire soi-même. |
+| Commandant | 3–5 | Placer, automatiser, former, sécuriser les routes. |
+| Gouverneur | 6–11 | Arbitrer énergie, munitions, renforts et secteurs entre plusieurs enceintes. |
+
+Le personnage reste jouable à tous les âges. Une identité s'ajoute, elle ne
+remplace pas la précédente.
+
+### 1.5 Cibles **[DÉCISION]**
+
+| Cible | Valeur | Conséquence |
+|---|---|---|
+| Durée d'une campagne | **15 à 25 h** jusqu'à Mégaville III, soit environ deux heures par âge | Remplace l'ancienne cible de 6 à 10 h, jamais mesurée. À vérifier par des campagnes humaines. |
+| Matériel | **Ordinateur portable courant**, puce graphique intégrée, navigateur | Les marées de plusieurs milliers reposent sur les masses agrégées (§8.6), pas sur la puissance de la machine. |
+| Joueurs | Un, ou **deux à quatre** en coopération (§7.12) | Tout système doit rester jouable seul. |
+
+### 1.6 Interdits
+
+Ce que DEADWALL refuse, quel que soit le chantier :
+
+- zombies fluorescents, explosions organiques, pouvoirs surnaturels ;
+- difficulté fondée sur des barres de vie : les abominations géantes existent
+  mais restent rares, annoncées et bornées (§3.5) ;
+- renforts ennemis téléportés, IA de chasse omnisciente ;
+- guérison, vaccin, résurrection, explication de l'origine ;
+- sauvetage promis, auteur de document déclaré vivant ou sauvé ;
+- stock, dégât ou tirage aléatoire créés par un effet visuel ou sonore ;
+- récompense donnée pour une simple lecture ; cinématique non sautable ;
+- suppression d'un système existant pour en simplifier un nouveau ;
+- humains transformés en armée : voir §4.6.
+
+---
+
+## 2. Univers
+
+### 2.1 Cadre **[LIVRÉ]**
+
+- **Époque** : contemporaine, jamais datée. Les documents portent « date
+  illisible » ou « non datée ».
+- **Lieu** : une région tempérée francophone, sans nom de pays, finie
+  (24 576 m de côté).
+- **Villes fixes** : Les Verrières, Val-des-Ormes, Saint-Roch, La Briqueterie,
+  Moulin-Neuf, Bois-Mort. Les autres agglomérations tirent leur nom d'une
+  réserve (Les Aubiers, Montbrune, Les Granges, La Rive, Fontvieille…).
+- **Six quartiers abandonnés** autour du dépôt : Maisons sans voix, Arcades
+  muettes, Camp des veilleurs, Cour des citernes, Terminus des cendres,
+  Passage du dernier feu.
+
+### 2.2 D-17
+
+- **[LIVRÉ]** Un ancien dépôt municipal de 128 × 128 m, entouré de cinq
+  districts d'annexes. Ce n'est pas une frontière : « nous gardons un endroit
+  où revenir ».
+- **[DÉCISION]** « D-17 » est le **Dépôt n° 17** des services techniques
+  intercommunaux : une désignation administrative banale, peinte sur un
+  portail. Le nom n'a aucune portée mystérieuse ; c'est ce qui le rend
+  crédible.
+- **[DÉCISION]** « La Dernière Enceinte » n'est pas un lieu. C'est le nom
+  que les habitants donnent à l'enceinte qu'il reste à tenir cette nuit-là,
+  quelle qu'elle soit.
+- **Écriture** : « D-17 » dans tout texte affiché. « D17 » est réservé aux
+  identifiants internes et ne doit jamais apparaître à l'écran.
+
+### 2.3 Chronologie commune **[DÉCISION : auteurs reliés]**
+
+Les événements d'avant l'arrivée du joueur forment une seule suite :
+
+1. Coupure d'eau et délestages électriques.
+2. Ordre de verrouiller les locaux techniques.
+3. Barrages fermés, puis ordre contraire : « laisser sortir les familles ».
+4. Départ du dernier convoi.
+5. Luc et ceux qui restent gardent le dépôt ouvert comme point de retour.
+6. Le dépôt se vide. On ne sait pas comment.
+7. **Le joueur arrive et reprend le quart.**
+
+Le temps écoulé entre 5 et 7 n'est jamais chiffré. Les traces (poussière,
+végétation, rouille) suggèrent des mois, pas des années.
+
+### 2.4 L'infection : ce que l'on sait et ce que l'on ne saura pas
+
+**[DÉCISION]** L'origine n'est jamais expliquée, ni par un document, ni par
+un personnage, ni par l'épilogue. Les mots « virus », « épidémie » et
+« origine » restent absents des textes joués.
+
+Ce que les survivants ont appris à leurs dépens, et que le jeu applique :
+
+| Fait observé | Règle de jeu |
+|---|---|
+| Une partie des morts se relève. | Risque de réanimation de 30 % après 75 à 150 s **[LIVRÉ]**. Règle fictionnelle d'équilibrage, pas une estimation médicale. |
+| Une morsure n'est pas un diagnostic. | Aucune contagion simulée aujourd'hui **[LIVRÉ]**. Une chaîne de quarantaine reste une piste (§9.4). |
+| Les infectés suivent le bruit, la lumière et la masse. | Signature et champ de flux **[LIVRÉ]**. |
+| Ils ne guérissent pas. | Aucun soin, aucun retour **[LIVRÉ]**. |
+
+Les rumeurs contradictoires sont permises dans les documents trouvés, à
+condition qu'aucune ne soit confirmée et qu'elles se contredisent entre elles.
+
+### 2.5 Le joueur **[DÉCISION]**
+
+- Le **Commandant** n'a ni nom ni voix. Il arrive de la route, seul ou avec un
+  petit groupe selon le départ choisi.
+- Il n'est pas le premier occupant du dépôt : **il succède à Luc**, dont il
+  trouve le registre ouvert. Il devient en revanche le **premier Commandant de
+  la cité**, parce que personne avant lui n'a bâti d'enceinte.
+- À sa mort, une **relève** reprend le poste : Éclaireuse, Manutentionnaire ou
+  Bâtisseuse **[LIVRÉ]**. La fonction survit à la personne ; c'est le thème
+  central du jeu.
+- **[DÉCISION]** La mort du Commandant **fragilise la cité** : le moral
+  chute, les consignes d'absence et les ordres de district sont suspendus un
+  temps, et son corps peut se relever comme celui de n'importe qui. La
+  fonction survit, mais la passation a un prix. Les valeurs vivent dans
+  `src/core.js`.
+
+Corrections de texte à prévoir :
+
+- « premier responsable de D-17 » → « premier commandant de D-17 » ;
+- « Trois ouvriers ont choisi d'y rester avec vous » doit suivre l'effectif
+  réel du départ choisi ;
+- accorder la fiche du Manutentionnaire (« un réfugié ») avec les deux autres
+  relèves, ou assumer trois genres différents de façon explicite.
+
+### 2.6 Ceux d'avant : les auteurs de documents **[DÉCISION]**
+
+Le Registre (6 dossiers) et les Chroniques (8 dossiers) décrivent **les mêmes
+personnes au même endroit**. Les scènes en double deviennent deux regards sur
+un même événement.
+
+| Personne | Rôle avant | Regard associé | Statut de la fusion |
+|---|---|---|---|
+| **Luc** | Agent municipal, dernier gardien du dépôt | Chroniques : le quart, la porte qu'on garde | [LIVRÉ] |
+| **Émile R.** | Agent technique | « E.R. » du Registre et Émile des Chroniques sont la même personne : la lumière de service, le fusible absent | [DÉCISION] |
+| **Sami V.** | Répartiteur bénévole devenu conducteur | « Sami » et « Sami V. » du Registre sont la même personne | [DÉCISION] |
+| **Oumar** | Conducteur | Second conducteur du dernier convoi, avec Sami V. | [DÉCISION] |
+| **Nora** et **Héloïse** | Soignantes | Deux soignantes du même dispensaire : les soins sans diagnostic | [DÉCISION] |
+| **Lina** et **Solène** | Habitantes | Deux voisines de la même rue : la liste des voisins, le mot sous la porte | [DÉCISION] |
+| **Aline**, **Basile** | Habitants | Témoins du barrage et des ordres contradictoires | [DÉCISION] |
+
+Règles qui ne changent pas **[LIVRÉ]** :
+
+- le sort de ces personnes reste **inconnu** ;
+- ce ne sont pas des PNJ présents, et aucun ne revient ;
+- aucun appel radio ne les déclare vivants.
+
+### 2.7 Les quatre compagnons **[DÉCISION : arc court]**
+
+Chaque compagnon reçoit une origine, un lien avec « ceux d'avant » et quatre
+étapes d'arc. Une étape se déclenche par un **fait de jeu**, s'affiche comme un
+entretien court et lisible plus tard dans le registre, et ne donne aucune
+récompense de lecture.
+
+| Compagnon | Rôle [LIVRÉ] | Origine et lien [DÉCISION] | Question de l'arc |
+|---|---|---|---|
+| **Léa** | Éclaireuse, signale les hordes | Habitait la rue de Lina et Solène ; cherche leur liste de voisins. | Continuer à chercher, ou accepter de compter les vivants ? |
+| **Samir** | Soins | Ancien aide-soignant du dispensaire de Nora et Héloïse. | Que vaut un soin sans diagnostic ? |
+| **Inès** | Réparations | Apprentie d'Émile R. ; connaît le dépôt mieux que le Commandant. | Réparer ce qui était, ou bâtir autre chose ? |
+| **Malik** | Tir | Réserviste affecté au barrage le jour des ordres contradictoires. | À qui obéit-on quand il n'y a plus d'ordre ? |
+
+Déclencheurs proposés, identiques pour les quatre afin de rester lisibles :
+
+1. **Rencontre** : première affectation du compagnon.
+2. **Trace** : relevé sur place du document lié à son passé.
+3. **Épreuve** : première nuit où son secteur subit une brèche ou une perte.
+4. **Choix** : atteinte de l'âge Ville avec le compagnon vivant ; le
+   Commandant lui confie un district (§8.2) ou le garde à ses côtés.
+
+Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
+
+**Blessures et mort [DÉCISION]**
+
+- Un compagnon qui tombe est d'abord **blessé gravement** : évacué, soigné,
+  indisponible un temps.
+- Chaque blessure grave laisse une marque. **La troisième est la dernière
+  survécue** : la suivante est mortelle. Le seuil vit dans `src/core.js`.
+- Une **convalescence de trois assauts** à l'hôpital, sans combattre ni
+  commander, efface une marque. Soigner un compagnon, c'est s'en priver au
+  moment où il sert le plus.
+- Le joueur **voit** le compte : un compagnon marqué deux fois est un
+  compagnon qu'on n'expose plus sans raison.
+- Une mort est définitive. L'arc s'arrête là où il en était, son district
+  change de responsable, et son nom entre au registre.
+- Un compagnon mort peut se relever comme n'importe qui (§2.4). Le jeu ne
+  met pas cette scène en avant ; il ne l'empêche pas non plus.
+
+### 2.8 Vocabulaire canonique **[PROPOSITION]**
+
+Un mot, un sens. Les textes affichés s'y conforment.
+
+| Terme | Sens unique |
+|---|---|
+| **Migration** | Mouvement d'infectés dans le monde, avant qu'il atteigne la cité. |
+| **Horde** | Le groupe d'infectés lui-même. |
+| **Vague** | Le numéro d'ordre d'une attaque contre D-17 (vague 7). Terme de comptage. |
+| **Assaut** | La phase de jeu où la horde frappe les enceintes. |
+| **Siège** | Un assaut qui a franchi au moins une enceinte et dure. |
+| **Front** | Une direction d'attaque annoncée. |
+| **Enceinte** | Un périmètre réellement fermé autour du centre. |
+| **Secteur** | La zone comprise entre deux enceintes, ou une portion d'enceinte. |
+| **District** | Un secteur doté d'un responsable et de stocks propres (§8.2). |
+| **Âge** | Le palier de la cité, **numéroté de 1 (Refuge) à 11 (Mégaville III)**. |
+| **Contact** | Un infecté rencontré hors de la cité, à l'échelle régionale. |
+
+« Palier » reste un synonyme toléré d'« âge » dans les anciens documents. La
+numérotation à partir de 0 est abandonnée.
+
+Difficultés affichées : **Survivant**, **Standard**, **Brutal**. L'identifiant
+interne `story` désigne Survivant et ne s'affiche pas.
+
+---
+
+## 3. Les infectés
+
+### 3.1 Principe **[LIVRÉ]**
+
+Un infecté est une personne d'avant. Sa dangerosité vient de ce qu'elle
+portait, de ce qu'elle faisait et de son état, jamais d'une mutation.
+
+### 3.2 Les dix profils de D-17 **[LIVRÉ]**
+
+| Vague | Profil | Ce qu'il était | Ce qu'il impose au joueur |
+|---:|---|---|---|
+| 1 | Errant | Civil aux vêtements usés | Gérer la masse et les munitions. |
+| 2 | Infecté récent | Contaminé depuis peu, encore mobile | Surveiller les amas de corps : il les franchit. |
+| 3 | Briseur | Ouvrier en veste ocre | Protéger les structures (dégâts ×1,8 sur le bâti). |
+| 4 | Infecté protégé | Policier, pompier ou militaire encore équipé | Concentrer le tir, compter les munitions. |
+| 5 | Rampant | Blessé qui progresse au ras du sol | Fermer les positions basses, déblayer. |
+| 6 | Traqueur | Silhouette en sweat à capuche | Ne laisser personne isolé hors des murs. |
+| 7 | Hurleur | Infecté dont les cris agitent les proches | L'abattre tôt ; il accélère, il ne crée rien. |
+| 8 | Engorgé | Infecté massif et très lent | Le tuer loin du mur : sa dépouille pèse 3,4. |
+| 9 | Porte-bouclier | Agent antiémeute | Le prendre de flanc : bouclier frontal de 110°. |
+| 11 | Fonceur | Infecté récent en tenue de sport | Poser des obstacles ; il s'épuise après son élan. |
+
+Les profils spéciaux forment au plus 82 % d'une vague. La santé ne dépasse pas
++34 % ; c'est le nombre qui monte.
+
+### 3.3 Règle de création d'un nouveau profil
+
+Un profil n'entre dans le jeu que s'il répond « oui » aux quatre questions :
+
+1. Peut-on dire **qui il était** en une phrase ?
+2. Son effet vient-il d'un **équipement, d'un métier ou d'un état physique** ?
+3. Le joueur dispose-t-il d'une **réponse par la position, le terrain ou le
+   moment**, et pas seulement par plus de dégâts ?
+4. Se **reconnaît-il à sa silhouette** au milieu de 700 autres ?
+
+### 3.4 Harmonisation à faire
+
+- Les contacts régionaux utilisent d'autres noms (« Agent protégé », « Ouvrier
+  infecté », « Infecté mobile »). **[PROPOSITION]** Garder leurs profils et
+  leurs valeurs, mais afficher les noms de D-17 quand le rôle est le même :
+  Infecté protégé, Briseur, Traqueur.
+- Hurleur et Engorgé n'existent pas en région. **[PROPOSITION]** L'assumer
+  dans la fiction : ils ne se forment que dans les grandes masses, donc autour
+  des cités.
+- Plusieurs documents annoncent encore « huit profils » (§11).
+
+### 3.5 Les abominations
+
+**[LIVRÉ]** Le siège vertical contient déjà trois géants (`core.js`,
+`vertical-siege176.js`) :
+
+| Nom | Taille | Santé | Vitesse | Portée | Âge requis |
+|---|---:|---:|---:|---:|---:|
+| Porte-faille | 6 m | 700 | 1,1 m/s | 3 m | 7 |
+| Porte-charniers | 12 m | 1 000 | 0,8 m/s | 4 m | 9 |
+| Colosse de siège | 20 m | 1 500 | 0,6 m/s | 6 m | 11 |
+
+Les âges suivent la convention 1 à 11 du §2.8 ; le code les note de 0 à 10.
+
+Ils apparaissent à partir de la vague 25, tous les cinq assauts, selon l'âge
+et le rempart construit, à **trois au plus**. Leurs attaques sont annoncées,
+suivies d'une récupération, et ils ont des points faibles à la tête et aux
+jambes. Un affût de précision leur est dédié.
+
+**[DÉCISION]** Les abominations géantes font partie du jeu, à condition de
+rester rares et cohérentes avec le ton. Cette décision **nuance le brief**,
+qui écarte les « zombies fantaisistes transformés en boss » : elle l'encadre,
+elle ne l'abolit pas.
+
+Garde-fous :
+
+1. **Rares.** Une abomination est un événement de fin de campagne, jamais un
+   profil de vague ordinaire. Le plafond de trois présentes à la fois reste
+   la règle, quel que soit leur type.
+2. **Jamais seules.** Elles arrivent **dans** une horde et la rendent plus
+   dangereuse ; elles ne la remplacent pas. Le nombre reste la menace.
+3. **Annoncées.** On les voit venir de loin (§8.6) et elles portent un nom
+   dans l'annonce du front.
+4. **Battues par la position**, pas par l'usure : points faibles, affûts
+   dédiés, terrain préparé, moment choisi.
+5. **Inexpliquées.** Personne ne sait ce qu'elles sont. Aucun document ne le
+   dit (§2.4). Les survivants constatent seulement qu'on n'en voit qu'au
+   milieu des très grandes masses.
+6. **Sobres.** Ni couleur vive, ni pouvoir, ni explosion. Une abomination est
+   lourde, lente et abîmée.
+7. **Elles laissent un problème.** Leur dépouille est un obstacle et une
+   charge de corps considérable au pied du mur.
+
+**[PROPOSITION]** Donner à chacune un rôle lisible dans le siège, tiré de son
+nom :
+
+| Abomination | Rôle dans le siège | Réponse du joueur |
+|---|---|---|
+| Porte-faille | Ouvre : elle vise les portes et les pans déjà fissurés. | La ralentir avant le mur ; renforcer ou sacrifier la porte visée. |
+| Porte-charniers | Élève : là où elle s'arrête, l'amas monte plus vite. | L'abattre loin du rempart ; brûler ou déblayer l'amas. |
+| Colosse de siège | Franchit : elle menace directement le sommet d'un rempart de 12 à 24 m. | Affûts de précision, tir aux jambes, repli préparé. |
+
+**[DÉCISION]** D'autres abominations s'ajoutent aux trois existantes, et
+certaines **rôdent en région**, où elles menacent avant-postes et convois.
+
+Trois nouvelles, validées, chacune avec un rôle que les trois premières
+n'ont pas :
+
+| Abomination | Où | Rôle | Réponse du joueur |
+|---|---|---|---|
+| **Comble-fossé** | Siège | Pousse devant elle corps et gravats : elle annule les fossés et les douves. | La stopper avant l'ouvrage ; recreuser au matin. |
+| **Meneuse** | Région, puis siège | Les groupes sauvages s'agrègent autour d'elle : c'est le noyau d'une migration, visible de très loin. | L'abattre en région disperse la migration avant qu'elle atteigne la cité. |
+| **Traîne-épave** | Région | Empêtrée dans des câbles et de la tôle qu'elle traîne ; elle barre les routes et renverse les véhicules légers. | La contourner, l'attirer hors de la route, ou l'abattre et dégager l'épave. |
+
+Règles propres à la région :
+
+- une abomination de région se **voit et s'entend de loin** : on choisit de
+  l'affronter, on ne la découvre pas au détour d'un mur ;
+- elle n'apparaît que dans les cantons éloignés, jamais aux abords d'une cité
+  des premiers âges ;
+- elle peut ruiner un poste, pas le prendre : seule une migration le fait ;
+- la **Meneuse** relie les deux échelles : la tuer loin de la cité est la
+  seule façon d'affaiblir une vague avant qu'elle n'arrive.
+
+Toute nouvelle abomination passe les quatre questions du §3.3, sauf la
+première : on ne sait pas qui elle était. C'est précisément ce qui la
+distingue d'un infecté.
+
+---
+
+## 4. Les vivants hors de D-17
+
+### 4.1 État livré et changement de cap
+
+- **[LIVRÉ]** Le jeu 1.74.0 ne contient **aucune faction humaine hostile**.
+  Les « camps hostiles » sont d'anciens camps occupés par des infectés ; les
+  camps alliés réutilisent les relais existants. `LIVRAISON_1_60.md` et
+  `NARRATIVE.md` formulent ce refus.
+- **[DÉCISION]** Le monde accueillera désormais des communautés alliées
+  discrètes **et** des groupes humains hostiles ou ambigus : pillards,
+  cannibales et autres factions.
+
+Cette décision **remplace** l'ancien refus. Elle ne remplace pas le brief :
+les hordes restent la menace principale.
+
+### 4.2 Principes non négociables
+
+1. **Les humains sont peu nombreux.** Une faction compte des dizaines de
+   personnes, jamais des centaines. Aucune ne peut assiéger D-17.
+2. **Ils attaquent la chaîne, pas le mur.** Convois, fourgons, sites de
+   récolte, relais, éclaireurs isolés. La cité ne tombe que par les hordes.
+3. **Tout combat humain se paie trois fois** : en munitions, en bruit qui
+   attire une migration, et en morts dont une partie se relève (§2.4).
+4. **Chaque faction est reliée à une ressource et à un système existant.**
+   Une faction sans lien mécanique n'entre pas dans le jeu.
+5. **Toujours une issue sans tir** : troc, tribut, détour, dissuasion.
+6. **Ton sobre.** Aucune complaisance, aucune scène gratuite. L'horreur des
+   cannibales se lit dans des indices, pas dans un spectacle.
+7. **Aucun survivant d'avant** (§2.6) ne réapparaît dans une faction.
+
+### 4.3 Les factions
+
+**[DÉCISION]** Les six factions ci-dessous sont validées.
+
+| Faction | Qui ils sont | Ressource et système liés | Ce qu'ils font | Réponse du joueur |
+|---|---|---|---|---|
+| **Les Relais** (alliés) | Hameaux et écluses tenus par quelques familles : Les Granges, La Rive, Fontvieille. | Nourriture, eau, troc ; expéditions et routes de retour. | Échangent, hébergent une expédition, signalent une migration. | Entretenir la route, tenir parole, escorter. |
+| **La Colonne** (neutre) | Convoi marchand itinérant, qui passe et repart. | Carburant, pièces, médicaments ; troc à taux variables. | Vend cher ce qui manque, achète les surplus, ne s'arrête jamais longtemps. | Stocker pour son passage ; protéger son étape. |
+| **Les Rouleurs** (pillards) | Bande motorisée qui vit du carburant des autres. | Carburant ; fourgons, postes de secteur, expéditions. | Embuscades sur les routes, vol de cargaison, tribut exigé aux relais. | Escortes, routes sûres, dissuasion, ou tribut. |
+| **La Garde de Saint-Roch** (autorité) | Reste d'une force publique : uniformes dépareillés, règlement intact. | Munitions, population ; lois et conscription (§8.5). | Réquisitionne, exige des recrues, offre une protection sous condition. | Coopérer et perdre de l'autonomie, ou refuser et perdre une route. |
+| **Les Éteints** (secte) | Communauté convaincue que la lumière et le bruit appellent les morts. | Signature, énergie. | Sabotent générateurs et projecteurs isolés ; ne tuent pas. | Garder les installations, ou négocier une extinction partielle. |
+| **La Tablée** (cannibales) | Hameau accueillant, trop bien nourri pour la saison. | Nourriture, population ; éclaireurs et petits groupes isolés. | Offrent le gîte, troquent une viande sans origine, font disparaître les isolés. | Lire les indices, ne jamais envoyer un isolé, rompre ou détruire. |
+
+**[DÉCISION]** Quatre factions supplémentaires, validées :
+
+| Faction | Qui ils sont | Ressource et système liés | Ce qu'ils font | Réponse du joueur |
+|---|---|---|---|---|
+| **Les Sans-Drapeau** (déserteurs) | Anciens soldats sans chaîne de commandement, bien armés, peu nombreux. | Munitions, armurerie. | Tiennent un pont ou un dépôt ; vendent leur protection ou la retirent. | Les payer, les contourner, les rallier, ou les déloger au prix fort. |
+| **Les Bateliers** (communauté fluviale) | Familles vivant sur l'eau, hors d'atteinte des hordes. | Eau, poisson, transport ; hydrologie. | Transportent de lourdes charges par la rivière, loin des routes. | Tenir un quai ; garder le cours d'eau ouvert. |
+| **La Fonderie** (récupérateurs) | Ouvriers retranchés dans une usine qu'ils démontent pièce à pièce. | Ferraille, machines ; grands ouvrages. | Fabriquent ce que la cité ne sait pas encore faire ; exigent de la nourriture. | Les nourrir régulièrement, ou perdre l'accès aux pièces. |
+| **Les Enfants du Préau** | Des enfants et adolescents qui ont tenu seuls dans une école. | Population, moral, logements. | Se cachent, volent de la nourriture, ne font confiance à personne. | Gagner leur confiance par des actes ; aucun affrontement possible. |
+
+Les Enfants du Préau ne sont jamais des adversaires : aucun combat, aucune
+menace armée, aucune mise en danger montrée. Ils posent une seule question au
+Commandant : ce qu'il fait d'une bouche de plus.
+
+Remarque de cohérence : **les Éteints ont raison sur le fond**. La signature
+attire réellement les hordes. C'est la faction qui commente le plus
+directement la règle centrale du jeu.
+
+### 4.4 Relations **[PROPOSITION]**
+
+Cinq états par faction, sans jauge chiffrée affichée :
+
+`Inconnue → Repérée → En contact → Entente | Tension → Hostile`
+
+- Un état change par des **actes** (troc honoré, convoi attaqué, tribut
+  refusé), jamais par un menu de diplomatie abstrait.
+- Les états sont sauvegardés dans un module additif versionné.
+- **Tirage par la graine [DÉCISION]** : une campagne compte **quatre à six
+  factions sur les dix**, choisies et placées par la graine. Les Relais sont
+  toujours présents. Deux campagnes n'ont pas les mêmes voisins, et la fiche
+  de graine (§7.13) ne les révèle pas : on les découvre.
+- **Campagnes existantes [DÉCISION]** : elles peuvent recevoir les factions
+  par **activation volontaire** depuis le dépôt, avec migration additive,
+  comme les extensions actuelles. La même règle vaut pour les lois, les
+  districts, l'eau de cité et la filière des corps. Seuls le monde sans bord
+  et le relief restent réservés aux nouvelles campagnes.
+
+### 4.5 Affrontements, destruction et ralliement **[DÉCISION]**
+
+**Le combat contre des humains se joue au sol, et il est rare et coûteux.**
+
+- Il arrive dans deux situations : une **embuscade** sur une route, ou
+  l'**assaut d'un repaire** décidé par le joueur.
+- Il est **bref et mortel** : peu d'adversaires, qui s'abritent, tirent juste
+  et se replient. Aucun humain n'encaisse plus qu'un autre.
+- Il se paie **trois fois** (§4.2) : munitions, bruit qui attire une
+  migration, morts qui se relèvent des deux côtés.
+- Il n'est jamais nécessaire pour avancer : chaque situation garde une issue
+  sans tir.
+
+**Une faction peut disparaître de deux façons.**
+
+| Issue | Comment | Ce que la cité gagne | Ce que la cité perd |
+|---|---|---|---|
+| **Détruite** | Repaire pris et vidé | La route, le lieu, le stock sur place | Tout ce que la faction apportait : troc, transport, pièces, informations. Définitif. |
+| **Ralliée** | Entente tenue dans la durée, puis une demande de la faction | Ses membres comme habitants, son lieu comme avant-poste, son savoir-faire | De la nourriture, des logements, parfois une loi imposée par l'accord |
+
+- Une faction détruite ne revient pas. Son lieu reste, vide, et peut devenir
+  un nid.
+- Un ralliement n'est jamais offert : il se demande après des actes.
+- Certaines factions ne se rallient pas : la Tablée ne peut être que tenue à
+  distance ou détruite ; la Colonne ne s'arrête jamais.
+- [PROPOSITION] Les Éteints ne se rallient qu'à une cité qui applique
+  l'extinction des feux (§8.5).
+
+### 4.6 Ce que les factions ne sont pas
+
+- Pas une seconde horde : aucun assaut humain contre les enceintes.
+- Pas un jeu de tir contre des humains : les rencontres armées sont brèves,
+  rares et coûteuses.
+- Pas une source de butin gratuit : détruire une faction supprime aussi ce
+  qu'elle apportait.
+
+---
+
+## 5. La boucle et la carte de cohérence
+
+### 5.1 La boucle à préserver **[LIVRÉ]**
+
+`récolte → dépôt → construction → automatisation → fortification → horde → reconstruction`
+
+Une journée de jeu suit quatre temps : **phase calme → alerte → assaut →
+sécurisation**.
+
+### 5.2 Ce que chaque système doit à la boucle
+
+| Système | Étape servie | Reçoit | Produit | Règle d'or |
+|---|---|---|---|---|
+| Récolte et sac | Récolte | Gisements, vestiges, sites | Ressources portées | Rien n'est crédité avant l'arrivée au dépôt. |
+| Dépôt et stockage | Dépôt | Ressources portées | Stock plafonné par ressource | Un stock plein ne gaspille rien : l'ouvrier garde son reliquat. |
+| Chantiers | Construction | Stock engagé, travail | Structures | On finance, puis on construit physiquement. |
+| Ouvriers et ordres | Automatisation | Nourriture, logement | Collecte, chantier, déblaiement | Un ordre déplace réellement quelqu'un. |
+| Économie urbaine | Automatisation | Nourriture, logement, eau | Population, moral | La pénurie ralentit avant de tuer. |
+| Énergie | Automatisation | Carburant | Défenses et industries alimentées | Les défenses passent avant le reste. |
+| Enceintes et portes | Fortification | Bois, ferraille, pierre | Périmètres fermés | Une enceinte se juge à sa fermeture, pas à son nombre de murs. |
+| Armurerie | Fortification | Ferraille, atelier | Armes, outils, montages | Tout est payé, porté et entretenu. |
+| Escouades et spécialistes | Fortification | Nourriture, munitions, médicaments | Tir, soin, réparation | Personne ne ressuscite ni ne répare gratuitement. |
+| Signature | Horde | Bâti, population, énergie | Taille des hordes | La cité ne devient jamais définitivement sûre. |
+| Directeur de hordes | Horde | Signature, vague, difficulté | Fronts, effectifs, profils | Plus de monde et de fronts, pas plus de vie. |
+| Pression des cadavres | Horde | Morts près des murs | Rampes, franchissements | Un mur seul ne suffit pas. |
+| Crises et doctrines | Horde | Points d'analyse, événements | Choix à contrepartie | Chaque bonus s'achète une fois et se paie. |
+| Réparation et déblaiement | Reconstruction | Matériaux, travail | Enceintes remises en état | Ce qui est détruit doit être rebâti, pas restauré. |
+| Exploration | Récolte (au large) | Carburant, temps, risque | Ressources finies par lieu, recrues, récit | Chaque lieu s'épuise ; il faut aller plus loin, donc tenir plus de route. |
+| Récit de D-17 | Toutes | Traces relevées sur place | Sens, pas de puissance | Lire ne rapporte rien ; aller voir, si. |
+
+### 5.3 Test de cohérence d'une nouvelle fonctionnalité
+
+Avant d'ajouter quoi que ce soit, répondre par écrit dans la spécification :
+
+1. **Quelle étape de la boucle** sert-elle ?
+2. **De quelle ressource existante** se nourrit-elle, et que rend-elle ?
+3. **Fait-elle monter la signature**, ou a-t-elle une autre contrepartie ?
+4. **Que voit le joueur au sol** quand elle agit ?
+5. **Quel pilier de rang 1** renforce-t-elle (§1.3) ?
+6. **À quel âge** apparaît-elle (§6) ?
+7. **Quel fichier propriétaire** existant la porte, et quel test la couvre ?
+
+Une fonctionnalité qui échoue aux questions 1, 2 ou 5 est refusée ou
+reformulée.
+
+### 5.4 Les sept ressources, plus une
+
+| Ressource | Source principale | Débouché principal | Tension voulue |
+|---|---|---|---|
+| Bois | Forêts, vestiges | Logements, palissades | Abondant tôt, insuffisant tard. |
+| Ferraille | Vestiges, sites | Acier, armes, réparations | Disputée entre murs et armes. |
+| Pierre | Carrières | Béton, bâtiments lourds | Lourde à transporter. |
+| Nourriture | Fermes, élevage, cueillette | Population, recrutement | Croît avec la cité. |
+| Carburant | Sites, raffinerie | Énergie, véhicules | Convoité par les Rouleurs. |
+| Munitions | Manufacture | Joueur, fusiliers, tourelles | Se vide en une nuit. |
+| Médicaments | Clinique, ambulances | Soins | Rare par nature. |
+| **Eau** | Pluie, berges, puits | Population, cultures, élevage, incendies | **[DÉCISION]** voir §7.3. |
+
+---
+
+## 6. Prise en main : les systèmes révélés par âge
+
+### 6.1 Principe **[DÉCISION]**
+
+Le jeu contient plus de systèmes qu'un nouveau joueur ne peut en lire. La
+réponse n'est pas d'en retirer : c'est de **ne montrer que ceux de l'âge en
+cours**.
+
+Règles :
+
+- La révélation porte sur **l'interface** (menus, onglets, raccourcis,
+  objectifs). La simulation n'est jamais désactivée par un masquage.
+- Chaque âge introduit **au plus trois systèmes**, chacun par un objectif
+  court qui demande un geste réel.
+- Une campagne chargée affiche tout ce que son âge **le plus haut atteint** a
+  déjà ouvert : aucune sauvegarde ne perd un menu.
+- Un réglage « Tout afficher » existe pour les joueurs expérimentés.
+- Les âges acquis restent acquis après une perte **[LIVRÉ]**.
+
+### 6.2 Table de révélation **[DÉCISION]**
+
+| Âge | Nom | Systèmes révélés | Question posée au joueur |
+|---:|---|---|---|
+| 1 | Refuge | Récolte et sac, dépôt, chantier au sol, palissade, première horde | Vais-je tenir cette nuit ? |
+| 2 | Camp fortifié | Ouvriers et ordres, caserne et fusiliers, générateur, portes et leurs trois modes | Qui travaille pendant que je me bats ? |
+| 3 | Avant-poste | Acier, atelier et armurerie, clinique, secouristes et ingénieurs, pression des cadavres | Que se passe-t-il au pied de mon mur ? |
+| 4 | Forteresse | Béton, manufacture de munitions, deuxième enceinte et diagnostic de fermeture, escouades, nuits noires | Où est-ce que je me replie ? |
+| 5 | Ville | Tourelles lourdes, hôpital, logistique, doctrines et crises, **abords et secteurs** (échelles 1 et 2 de l'exploration), **eau de cité** | Qu'est-ce que je vais chercher dehors ? |
+| 6 | Grande ville | Centrale et circuits, **districts**, territoires et fourgons, météo lisible | Qui commande quand je ne suis pas là ? |
+| 7 | Métropole | Citadelle verticale et vue à la première personne, **région lointaine** (échelle 3), factions | Avec qui est-ce que je partage ce monde ? |
+| 8 | Grande métropole | Services de grande capacité, **lois et rationnement** | Que suis-je prêt à imposer ? |
+| 9 | Mégaville I | Grand ensemble fortifié, **sacrifice et reconquête** planifiés | Quel secteur puis-je perdre ? |
+| 10 | Mégaville II | Tour de mégaville, complexe nourricier, **grands ouvrages** | Que laissera cette cité ? |
+| 11 | Mégaville III | Réserve stratégique, croissance et survie continues | Jusqu'où ? |
+
+**[DÉCISION]** Cette table ne porte que sur l'**interface**. Aucun prérequis
+matériel, aucun coût et aucun seuil d'âge ne change : un système dont le
+prérequis existant tombe plus tôt ou plus tard que sa ligne reste jouable
+selon ses règles actuelles, et seul son menu attend l'âge indiqué.
+
+### 6.3 La première heure
+
+Objectif mesurable **[PROPOSITION]** : un nouveau joueur, sans lire de texte
+d'aide, doit en une heure avoir
+
+1. récolté et déposé ;
+2. financé et bâti un chantier ;
+3. fermé une première enceinte de palissade avec une porte ;
+4. survécu à trois vagues ;
+5. recruté un ouvrier et vu la collecte s'automatiser.
+
+Tout écran qui ne sert aucun de ces cinq points est masqué pendant l'âge 1.
+
+Le calme initial doit avoir **une seule valeur documentée par scénario et par
+difficulté**, lue dans `src/core.js` (§11, point 4).
+
+---
+
+## 7. Les systèmes, un par un
+
+Chaque fiche donne la règle, l'état livré et la direction. Les fichiers
+propriétaires sont ceux à étendre ; ne pas créer de propriétaire concurrent.
+
+### 7.1 Récolte, sac et dépôt **[LIVRÉ]**
+
+- Sac unique partagé entre colis, ballots et cargaisons : 36 pour le
+  Commandant, 32 à 44 selon la relève ; ceinture de 8 objets.
+- Stockage : 500 au centre, +600 par entrepôt, +600 par réserve d'étage.
+  Démontage remboursé à 0,4.
+- Propriétaires : `game.js`, `loadout129.js`, `fieldcraft.js`, `core.js`.
+- **Direction** : conserver tel quel. C'est le geste fondateur de l'âge 1.
+
+### 7.2 Chantiers, routes et bâti **[LIVRÉ]**
+
+- 91 modèles urbains, 21 ensembles métriques, trois générations de murs
+  améliorables sans perdre position ni intégrité.
+- Les routes avancées accélèrent aussi les infectés.
+- Propriétaires : `core.js`, `game.js`, `settlement-plans.js`.
+- **Direction** : le principe « une route sert aussi l'ennemi » est exemplaire
+  et doit inspirer chaque confort tardif.
+
+### 7.3 Eau : une ressource de cité **[DÉCISION]**
+
+État livré : quatre réserves séparées, aux débits différents.
+
+| Réserve | Capacité | Rôle actuel |
+|---|---:|---|
+| Citernes anti-incendie | 120 | Incendies (Siege 1.3) |
+| Seau du joueur | 8 | Transport manuel |
+| Abreuvoirs | 40 | Élevage |
+| Tonneaux de pluie | 24 | Collecte (0,06/s sous la pluie) |
+
+Direction :
+
+- L'**eau** devient la huitième ressource de cité, avec **une seule unité**
+  commune aux quatre réserves.
+- **Pas de jauge de soif** pour le joueur ni pour les unités.
+- **Sources** : pluie (tonneaux), berges (seau, puis pompe), puits et château
+  d'eau aux âges suivants.
+- **Débouchés** : population, cultures, élevage, incendies, clinique.
+- **Pénurie [DÉCISION]**, en trois temps :
+  1. **Ralentir** : rendement des fermes et moral en baisse ; incendies plus
+     difficiles à éteindre.
+  2. **Faire partir** : des habitants quittent la cité.
+  3. **Tuer** : si la pénurie dure, les plus fragiles meurent, **dans les
+     murs**, avec le risque de réanimation ordinaire (§2.4).
+  Chaque temps est annoncé avant d'arriver ; la mort n'est jamais une
+  surprise.
+- **Lien avec la météo** : une suite de fronts secs devient une vraie menace
+  de gouverneur.
+- **Lien avec la fiction** : la coupure d'eau ouvre la chronologie (§2.3).
+- Les quatre réserves restent des objets distincts ; seul leur contenu est
+  unifié. Migration de sauvegarde additive et testée.
+- Propriétaires à étendre : `core.js` (`Siege`), `husbandry191.js`,
+  `campaign-water214.js`, `weather193.js`, `urban.js`.
+
+### 7.4 Économie urbaine, énergie et signature **[LIVRÉ]**
+
+- Consommation de 0,0065 nourriture/s par habitant ; une ferme donne 0,42/s.
+- Sous 20 % de moral, les unités tombent à 82 % de leur vitesse.
+- Énergie servie par priorité : défenses, clinique, industries.
+- Signature = score du bâti + 2 × population + 2 × consommation électrique
+  + 0,35 × nombre de structures. Effet : jusqu'à +80 % d'effectif.
+- Propriétaires : `urban.js`, `power-grid.js`, `power-network173.js`,
+  `vertical-network179.js`, `core.js`.
+- **Habitants visibles et nommés [DÉCISION]** :
+  - On **voit** les habitants circuler, travailler, puis se réfugier pendant
+    l'assaut. C'est un dessin de la population réelle, pas une seconde
+    simulation : aucun besoin individuel, aucune jauge par personne.
+  - **Une douzaine de figures nommées** à la fois, chacune avec un métier.
+    Leurs pertes entrent au registre, avec celles des compagnons.
+  - Une figure nommée peut être **promue responsable de district** (§8.2)
+    quand les quatre compagnons ne suffisent plus. Elle n'a pas d'arc
+    narratif : c'est ce qui la distingue d'un compagnon.
+  - Quand une figure meurt, une autre émerge de la population : la douzaine
+    se renouvelle, les noms perdus restent au registre.
+  - Un district perdu se lit dans la rue : des gens fuient vers l'enceinte
+    intérieure.
+  - Les prénoms viennent de la liste épicène existante ; aucun habitant
+    nommé n'est l'un de « ceux d'avant » (§2.6).
+- **Direction** : expliquer au joueur **une seule** lecture de l'énergie. Le
+  ratio global devient l'indicateur de cité ; les circuits en sont le détail,
+  révélé à l'âge 6. La signature doit être **visible et expliquée** dès
+  l'âge 3 : c'est la règle la plus importante et la moins lisible du jeu.
+
+### 7.5 Enceintes, portes et cadavres **[LIVRÉ]**
+
+- Portes : automatique (alliés), ouverte (tous), verrouillée (personne). Une
+  fermeture occupée est refusée.
+- Une enceinte n'est « fermée » que si le centre est inatteignable depuis
+  l'extérieur.
+- Cadavres : +1 par mort ordinaire, +2,2 protégé, +3,4 Engorgé. Érosion de
+  0,012/s ; un ouvrier déblaie 0,9/s.
+- Propriétaires : `tactics.js`, `game.js`, `barricades134.js`,
+  `fortification-pack.js`, `vertical-siege176.js`.
+- **Direction** : voir §8.1.
+
+### 7.6 Hordes **[LIVRÉ]**
+
+- Effectif : `10 + 5v + 2,35 × v^1,62`, multiplié par la difficulté et
+  l'attraction.
+- Un front de plus tous les trois niveaux, quatre au plus. 720 infectés
+  simultanés au plus.
+- Huit migrations types, dont la tenaille (vague 10) et le débordement
+  (vague 13). Nuits noires aux vagues 4, 7, 10, puis toutes les trois.
+- Propriétaires : `game.js`, `core.js`, `battlefield.js`, `nightwatch.js`.
+- **Jour et nuit [DÉCISION]** : la nuit reste le temps de l'assaut. Mais une
+  migration peut arriver **de jour**, rarement : chantiers ouverts, ouvriers
+  dehors, portes en mode automatique. Un assaut de jour est moins nombreux et
+  mieux visible ; il frappe une cité qui ne l'attendait pas. Il apparaît
+  **dès la Forteresse (âge 4)**, pour environ **un assaut sur six**, et
+  **jamais deux de suite**. Il s'annonce
+  comme les autres (§8.6) : rare ne veut pas dire sans préavis.
+
+### 7.7 Ouvriers, escouades, spécialistes **[LIVRÉ]**
+
+- Cinq ordres d'ouvriers : automatique, récolte, chantier, déblaiement, repli.
+- Trois sections : Alpha, Bravo, Charlie.
+- Secouriste : 6 PV/s. Ingénieur : 14 PV/s. Tous deux consomment.
+- **Direction de vocabulaire [PROPOSITION]** : « spécialiste » désigne
+  uniquement le secouriste et l'ingénieur. Les affectations temporaires
+  (pompier, analyste, agent de quartier, récupération) s'appellent
+  **détachements**. Les programmes de `frontier-specialists.js` s'appellent
+  **programmes**.
+
+### 7.8 Armurerie et équipement **[LIVRÉ]**
+
+- Fabrication : 4 s + 1 s par kilogramme arrondi. Tout se paie, se porte et
+  s'use.
+- Propriétaires : `arsenal134.js`, `night-gear.js`, `interventions134.js`.
+- **Direction** : chaque nouvel objet doit offrir un **compromis** (vitesse
+  contre masse, impact contre matériaux), jamais une simple amélioration.
+
+### 7.9 Exploration en trois échelles **[DÉCISION]**
+
+État livré : cinq couches nées à des versions différentes. Aucune n'est
+supprimée ; chacune est rangée dans une échelle.
+
+| Échelle | Ce que voit le joueur | Couches rangées ici | Âge | Ce qu'elle rapporte à la cité |
+|---|---|---|---:|---|
+| **1. Les abords** | À pied depuis la porte, retour avant la nuit | Sorties 1.1, six quartiers, vestiges, cueillette, chasse et pêche | 1–5 | Ressources de tous les jours, traces du récit. |
+| **2. Les secteurs** | Postes tenus et lignes de fourgons | Territoires 1.2 (6 secteurs), expéditions 1.13 (12 destinations) | 5–6 | Flux régulier, réserves finies, routes à garder. |
+| **3. La région** | Carte lointaine, voyages de plusieurs jours | Monde régional G4 à G11, opérations de campagne (15), codex | 7+ | Recrues, sites rares, factions, grands ouvrages. |
+
+Rythme **[DÉCISION]** :
+
+- **Entre deux vagues** : l'échelle 1 se joue dans la phase calme, retour
+  avant l'alerte. C'est l'exploration des âges 1 à 4.
+- **Pendant les vagues** : les échelles 2 et 3 supposent une cité capable de
+  tenir sans le Commandant (§7.15). C'est l'exploration des âges 5 et
+  suivants.
+
+Règles de cohérence :
+
+- **Une seule carte**, avec trois niveaux de zoom, et un seul vocabulaire.
+- Chaque sortie répond à un **besoin de la cité** affiché au départ : un
+  chantier bloqué, une réserve basse, une route coupée.
+- Chaque lieu est **fini** et ne se régénère pas ; le monde, lui, n'a pas de
+  bord (§7.13). Aller plus loin coûte plus de carburant et plus de route à
+  tenir : à terme, la cité doit produire ce qu'il devient trop cher d'aller
+  chercher.
+- Les six quartiers reçoivent une **position fixe** par rapport aux villes
+  nommées, pour relier la carte locale à la carte régionale.
+- Les versions de génération, flux aléatoires et identifiants restent ceux
+  des campagnes existantes.
+- Propriétaires : `frontier-*.js`, `expeditions.js`, `exploration-125.js`,
+  `campaign-pack.js`, `field-atlas*.js`, `return-routes.js`.
+
+### 7.10 Météo, élevage, cueillette **[LIVRÉ]**
+
+- Six fronts de quatre minutes ; la tendance suivante se lit dans les
+  90 dernières secondes.
+- Élevage : enclos de 3 × 3 m, huit enclos de quatre animaux au plus.
+- Cueillette : 16 espèces.
+- **Saisons longues [DÉCISION]** : quatre saisons se succèdent sur la durée
+  d'une campagne, par-dessus les fronts météo existants.
+
+  | Saison | Ce qu'elle change | Systèmes touchés |
+  |---|---|---|
+  | Printemps | Crues, sols détrempés | Rivières, cuvettes, routes basses, fossés qui se remplissent |
+  | Été | Sécheresse, incendies | Eau de cité, fermes, feu, bûchers |
+  | Automne | Boue, brouillard | Véhicules, convois, préavis des hordes |
+  | Hiver | Gel, nuits longues | Cultures à l'arrêt, eau gelée, corps conservés plus longtemps, assauts plus longs |
+
+  - Une saison change la **question logistique** du moment, pas les règles.
+  - Elle s'annonce : le joueur prépare l'hiver, il ne le subit pas.
+  - **[DÉCISION]** Une saison se **compte en assauts** : « encore deux nuits
+    avant l'hiver ». [PROPOSITION] Six assauts par saison ; la valeur vit
+    dans `src/core.js`.
+  - Le calcul des saisons, comme celui de la météo, ne consomme pas le flux
+    aléatoire de la simulation.
+- **Direction** :
+  - la météo doit peser sur le siège (visibilité, boue, feu) et sur l'eau ;
+  - le cuir doit trouver un second débouché (équipement, protections) ;
+  - ces trois systèmes relèvent de l'échelle 1 et de l'âge 5.
+
+### 7.11 Citadelle verticale **[LIVRÉ]**
+
+- Supports de 12, 24 et 48 m ; dalle à 180 pierre et 90 ferraille.
+- Vue à la première personne en WebGL ; les deux vues partagent une seule
+  simulation.
+- Propriétaires : `vertical-citadel175*.js`, `vertical-siege176.js`.
+- **Direction** : c'est la matérialisation du pilier « bâtir la mégacité ».
+  Les grands ouvrages (§8.4) doivent s'y lire.
+
+### 7.12 Coopération, scénarios, records, sauvegarde **[LIVRÉ]**
+
+- Coopération : présence et repères seulement ; le relais n'a aucune autorité
+  sur le monde.
+- Quatre départs, trois difficultés. Records locaux, dix campagnes récentes,
+  aucun bonus permanent.
+- Sauvegarde v20, migrations en chaîne depuis la v2, puis modules additifs.
+- **Coopération [DÉCISION]** : viser une **vraie coopération**, plusieurs
+  joueurs dans la même cité.
+  - L'image visée : l'un tient le mur pendant que l'autre explore. C'est la
+    cité autonome (§7.15) avec un humain à la place des consignes.
+  - C'est le chantier technique le plus lourd de cette bible : il faut une
+    **autorité unique** sur le monde (un hôte), là où le relais actuel n'en a
+    aucune, et une simulation qui ne dépend plus de l'écran d'un seul joueur.
+  - **Format** : un hôte et jusqu'à **trois invités**, qui rejoignent ou
+    quittent une campagne en cours.
+  - La campagne appartient à l'hôte et ne tourne que lorsqu'il joue : pas de
+    serveur persistant.
+  - Une seule sauvegarde, celle de l'hôte. Les invités n'emportent rien.
+  - Le Commandant reste unique ; les autres joueurs tiennent le rôle de
+    responsables de district ou de chefs de sortie.
+  - **Aucune pause à plusieurs.** En solo, le poste de commandement met
+    toujours la simulation en pause. En coopération, le temps ne s'arrête
+    jamais : on commande pendant que les autres jouent.
+  - **Si le Commandant meurt**, l'hôte incarne la relève, comme en solo. Les
+    invités gardent leur rôle.
+  - Les records restent locaux et sans classement.
+- Toute évolution de cette bible passe par un module de sauvegarde additif.
+
+### 7.13 Un monde procédural sans bord **[DÉCISION]**
+
+#### D'où l'on part **[LIVRÉ]**
+
+| Sujet | État en 1.74.0 |
+|---|---|
+| Taille | Région finie de 24 576 m de côté (8 192 m pour les générations 1 à 4). Constante dure dans `core.js`. |
+| Découpage | 576 secteurs de 1 024 m ; arbres et rochers par morceaux de 256 m (25 en cache) ; 48 plans d'intérieurs en cache. |
+| Génération | Routes et lieux créés **d'un bloc** au lancement (environ 7 s) : de l'ordre de 3 100 routes et 3 200 lieux par graine. |
+| Variété | Depuis G6, la graine fixe la position de D-17, 34 agglomérations, le réseau routier, les biomes, cinq rivières et la côte. Quatre profils de paysage. |
+| Biomes | 16 milieux tempérés. |
+| Relief | **Aucun.** L'altitude n'est qu'un canal de climat ; le sol est plat ; seule l'eau a une profondeur. |
+| Lieux | Tous visitables (un à trois niveaux), butin fini jamais régénéré, un à quatre occupants. Environ 41 % infestés, 53 % vides, 6 % alliés. |
+| Terrain | Arbres, rochers et épaves se prélèvent et le prélèvement persiste. Aucun creusement, fossé ni talus. Aucune construction en région. |
+
+Ce qui borne le monde aujourd'hui : la taille figée, la génération d'un bloc,
+les identifiants de lieux limités à 10 000, les validateurs de sauvegarde
+bornés à la taille de la carte, la côte qui longe les bords, et la carte
+d'atlas calée sur l'étendue totale.
+
+#### Direction : sans bord
+
+- Le monde se génère **par cantons** au fil de l'avancée, à partir de la
+  graine et des coordonnées du canton. Deux cantons voisins partagent leurs
+  points de raccord (routes, cours d'eau) pour ne laisser aucune couture.
+- **La limite n'est plus un mur, c'est le réservoir.** Un break parcourt
+  environ 6 km avec un plein. Aller plus loin exige des dépôts, des
+  avant-postes et des routes tenues (§7.14) : la portée du joueur devient une
+  mesure de la puissance de sa cité.
+- **Plus loin, plus rare et plus dur** : sites remarquables plus riches,
+  migrations plus nombreuses, relais plus espacés.
+- La côte et les grands cours d'eau deviennent des éléments de paysage, pas
+  une clôture.
+- Les identifiants portent les coordonnées de leur canton ; les registres de
+  sauvegarde sont **creux** : ils ne retiennent que ce que le joueur a touché.
+- **Nouvelles campagnes seulement [DÉCISION].** Le monde sans bord est une
+  nouvelle génération de monde. Les campagnes existantes gardent leur région
+  finie, leurs identifiants, leurs flux aléatoires et leurs prélèvements ;
+  aucune n'est convertie.
+- Propriétaires : `frontier-world.js`, `frontier-state.js`, `geography135.js`,
+  `hydrology165.js`, `atlas-projection.js`, `core.js`.
+
+#### Direction : des lieux à découvrir
+
+Trois rangs de lieux, pour que l'exploration ait des souvenirs :
+
+| Rang | Fréquence | Exemple | Ce qu'on y gagne | Ce qu'on y risque |
+|---|---|---|---|---|
+| **Ordinaire** [LIVRÉ] | Des milliers par région | Maison, commerce, atelier | Butin courant | Un à quatre occupants |
+| **Remarquable** [PROPOSITION] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
+| **Singulier** [PROPOSITION] | Un par grande distance | Un lieu nommé, lié au récit ou à une faction | Une trace, une rencontre, une décision | Propre au lieu |
+
+- Les 4 000 plans du codex servent de matière première ; il manque surtout
+  des **lieux qui comptent**, pas des plans.
+- Un lieu remarquable se **voit de loin** (château d'eau, cheminée, pylône) :
+  on choisit d'y aller, on n'y tombe pas par hasard.
+- Un nid vidé peut se repeupler si une migration passe : rien n'est acquis
+  hors des murs.
+
+#### Direction : un terrain modifiable
+
+Le moteur est en 2D et 2,5D : la transformation du terrain se fait **par
+cases sur la grille existante**, pas par blocs en volume.
+
+| Travail [PROPOSITION] | Effet de jeu | Lien de cohérence |
+|---|---|---|
+| Fossé | Ralentit et canalise la horde | Les corps finissent par le combler : il se déblaie comme un mur. |
+| Douve | Fossé en eau | Consomme l'eau de cité (§7.3). |
+| Talus | Protège un tireur, surélève un mur | Fait avec la terre du fossé : l'un ne va pas sans l'autre. |
+| Défrichage | Dégage un champ de tir | Le bois récolté est un prélèvement ordinaire. |
+| Carrière | Gisement de pierre creusé par le joueur | Reste une cicatrice visible sur la carte. |
+| Remblai | Referme un fossé, répare une route | Coûte de la pierre ou de la terre. |
+
+Règles :
+
+- Tout travail de terrain est un **chantier** : financé, puis accompli
+  physiquement par le joueur ou les ouvriers.
+- Il modifie le **coût de passage** lu par le champ de flux des hordes ; il
+  ne crée pas de règle parallèle.
+- Il est **persistant** et enregistré dans un registre creux, comme les
+  prélèvements actuels.
+- **[DÉCISION]** Les travaux sont permis dans **toute l'emprise de la cité
+  et des avant-postes** (§7.14), pas en pleine région.
+
+#### Direction : un relief par paliers **[DÉCISION]**
+
+Le sol passe de plat à **quelques niveaux francs** : plateaux, falaises,
+cuvettes, et des pentes pour passer de l'un à l'autre.
+
+| Ce que le relief apporte | Lien de cohérence |
+|---|---|
+| Des **points de vue** | On voit la marée venir de plus loin (§8.6). |
+| Des **murs adossés** | Une falaise vaut une enceinte ; une pente est une porte. |
+| De l'**eau qui descend** | Rivières, cuvettes inondables, château d'eau en hauteur (§7.3). |
+| Des **passages obligés** | Les cols et les rampes canalisent hordes et convois. |
+| Des **sites qui diffèrent** | La graine change vraiment la façon de bâtir. |
+
+Règles :
+
+- Paliers discrets, pas de pente continue : le jeu reste lisible vu de
+  dessus, et les collisions restent sur la grille.
+- Le champ de flux des hordes lit le relief comme un coût : une falaise est
+  infranchissable, une rampe est un goulet.
+- Fossés et talus deviennent le relief **fait par le joueur** : mêmes règles,
+  même registre.
+- Le relief n'existe que dans la nouvelle génération de monde.
+- C'est un chantier lourd : rendu, vision, eau, construction, citadelle
+  verticale. À mener **avec** le monde sans bord, puisque les deux exigent
+  une nouvelle génération.
+
+#### Direction : des graines qui comptent
+
+- Une graine se **partage** : elle recrée la carte, pas le combat.
+- Chaque campagne affiche une **fiche de graine** : milieu dominant, eau,
+  densité urbaine, distance aux premiers lieux remarquables.
+- La graine doit changer la **stratégie d'ouverture** : une cité de plaine
+  sans pierre ne se bâtit pas comme une cité de plateau sans eau.
+
+### 7.14 Se déplacer dans le monde **[DÉCISION]**
+
+#### Véhicules à entretenir
+
+**[LIVRÉ]** Neuf véhicules pilotables : skate, vélo, moto, compacte, break,
+buggy, fourgon, bus, camion. Vitesses de 6,2 à 20 m/s, coffres de 4 à 260,
+réservoirs de 10 à 65. Santé de 45 à 760 ; épave à zéro. Une révision du
+moteur réduit la consommation de 20 % sur 2 000 m. Aucune panne.
+
+**[PROPOSITION]**
+
+- **Usure plutôt que hasard** : une panne vient d'un entretien négligé, que
+  le joueur pouvait prévoir.
+- **Remorquage** d'une épave par un véhicule plus lourd.
+- **Bruit** : un moteur attire, selon sa taille. Le vélo reste le véhicule de
+  l'éclaireur.
+- **Garage** de cité : entretien, modification, chargement des convois.
+
+#### Avant-postes bâtis
+
+**[LIVRÉ]** Un relais s'ouvre dans un lieu sécurisé ou allié : 8 s, 8 bois et
+4 ferraille, capacité 120, repos possible. Un lieu sécurisé peut être
+réinfesté. Rien ne se construit au loin.
+
+**[PROPOSITION]** Le relais devient le premier rang d'un **avant-poste** :
+
+| Rang | Ce que c'est | Ce qu'il permet |
+|---|---|---|
+| Relais [LIVRÉ] | Un coffre et un lit | Point de retour, dépôt, repos |
+| Poste | Une petite enceinte et un dépôt de carburant | Ravitaillement des véhicules, guet d'une route |
+| Avant-poste | Une garnison, un émetteur, un garage | Convois automatiques, radio, base d'opérations lointaines |
+
+- Mêmes règles que la cité : chantier, enceinte réellement fermée, garnison
+  nourrie, signature locale.
+- Un avant-poste **peut tomber**. Il n'attire pas de vague numérotée mais des
+  migrations et, plus tard, des factions (§4).
+- **Aucun plafond fixe [DÉCISION]** : on tient autant d'avant-postes qu'on
+  peut en nourrir, en garnir et en relier par une route gardée. La limite est
+  logistique, comme partout ailleurs dans le jeu.
+
+#### Routes à sécuriser
+
+**[LIVRÉ]** Les routes servent au guidage et aux chemins de retour ; aucune
+ne se sécurise.
+
+**[PROPOSITION]** Quatre états par tronçon :
+
+`Inconnue → Reconnue → Dégagée → Gardée`
+
+- **Dégager** : retirer les épaves, déjà démontables aujourd'hui.
+- **Garder** : un poste à chaque extrémité.
+- Une route gardée est **rapide et sûre** ; les fourgons des territoires et
+  les convois l'empruntent seuls.
+- Règle déjà vraie dans la cité et qui reste vraie ici : **une bonne route
+  sert aussi l'ennemi**. Une route gardée guide les migrations vers D-17.
+
+#### À pied et campement
+
+**[LIVRÉ]** Quatre bivouacs au plus, 600 s chacun, 12 bois et 6 ferraille ;
+repos contre 3 vivres. Torche, feu de camp et lanterne fonctionnent en
+région. Un bivouac n'arrête ni la nuit ni les vagues.
+
+**[PROPOSITION]** Faire peser la nuit dehors :
+
+- un feu **protège et signale** à la fois : chaleur et visibilité contre
+  attraction locale ;
+- les nuits noires s'appliquent aussi en région ;
+- une sortie à pied de plusieurs jours impose de choisir **où dormir** avant
+  la tombée de la nuit.
+
+### 7.15 La cité autonome **[DÉCISION]**
+
+#### D'où l'on part **[LIVRÉ]**
+
+- Quand le Commandant est en région, **D-17 continue d'être simulée en temps
+  réel** : vagues, ouvriers, production, tourelles, fusiliers.
+- Le joueur absent n'est plus ciblé par les infectés de la cité.
+- Une alerte s'affiche à chaque passage en phase d'alerte ou d'assaut ; le
+  tableau régional montre la phase en cours de D-17.
+- Avant le départ, un bilan signale les postes sans munitions ou sans
+  courant et l'état du centre.
+- Il n'existe **ni radio, ni retour d'urgence** : il faut revenir
+  physiquement à la porte.
+- Si le centre tombe pendant l'absence, la campagne est perdue.
+- **Incohérence** : l'escalade verticale, la population verticale et les
+  meutes sauvages sont **en pause** pendant l'absence. Une partie de la cité
+  se défend, une autre attend le joueur.
+
+#### Direction
+
+1. **Tout ou rien.** Pendant l'absence, tous les systèmes de siège tournent,
+   ou aucun. La pause partielle du siège vertical est à lever en premier.
+2. **Consignes d'absence.** Avant de sortir, le Commandant fixe une posture
+   pour chaque district (§8.2) : tenir, se replier sur une enceinte donnée,
+   sacrifier un secteur. Les responsables l'appliquent ; ils n'improvisent
+   pas.
+3. **Radio.** Un poste radio transmet des messages **factuels** : front
+   annoncé, brèche, secteur perdu, munitions basses. Sa portée dépend des
+   émetteurs des avant-postes. Hors de portée, c'est le silence, et le
+   silence fait partie de la tension.
+4. **Rappel.** Pas de téléportation. Le rappel trace le chemin le plus rapide
+   par les routes gardées. Rentrer à temps est une affaire de routes, donc de
+   préparation.
+5. **Estimation honnête.** À la porte, le bilan de départ indique ce que la
+   cité peut raisonnablement tenir sans le Commandant. C'est une estimation,
+   jamais une garantie.
+6. **Le dernier carré [DÉCISION].** Si le centre tombe pendant l'absence du
+   Commandant, la campagne n'est pas perdue sur-le-champ :
+   - les survivants se replient dans un **dernier réduit** ;
+   - un **délai** s'ouvre, annoncé par radio si elle porte ;
+   - le Commandant doit **rentrer et reprendre le centre** avant la fin du
+     délai ;
+   - passé ce délai, ou si le réduit tombe, c'est la défaite.
+   **Aucun chrono arbitraire** : le réduit tient tant qu'il a des
+   défenseurs, des munitions et des vivres. Une cité préparée tient
+   longtemps ; une cité négligée, presque pas. Le joueur voit ce qu'il reste
+   au réduit, pas un compte à rebours.
+   **Après la reprise : une cité à reconquérir.** Le centre est repris, mais
+   les districts sont perdus : bâtiments dégradés mais debout, population
+   réduite, secteurs à reprendre un par un selon les règles du §8.3. Les âges
+   et connaissances acquis restent acquis. Le dernier carré n'efface pas la
+   cité ; il transforme la campagne en reconquête.
+   La règle ne vaut **que pour l'absence** : un centre détruit sous les yeux
+   du Commandant reste une défaite immédiate.
+
+#### L'autonomie comme progression
+
+| Âges | La cité sans le Commandant | Exploration possible |
+|---|---|---|
+| 1–2 | Ne tient pas une nuit | Abords, entre deux vagues |
+| 3–4 | Tient une vague ordinaire, pas une brèche | Abords, retour avant l'alerte |
+| 5–6 | Tient si les consignes sont bonnes | Secteurs, pendant une vague |
+| 7+ | Tient plusieurs nuits, perd parfois un district | Région, plusieurs jours |
+
+L'autonomie se **gagne** : c'est la récompense de l'automatisation, des
+districts et des routes. Elle est le lien direct entre le pilier « bâtir la
+mégacité » et l'exploration.
+
+Propriétaires : `frontier.js`, `departure130.js`, `frontier-ui.js`,
+`vertical-siege176.js`, `vertical-population181.js`, `game.js`.
+
+---
+
+## 8. Profondeur du siège et fin de jeu
+
+### 8.1 Rendre chaque nuit mémorable **[DÉCISION : priorité]**
+
+Une nuit réussie se raconte en une phrase : « La porte est a cédé, on a tenu
+la deuxième enceinte, on a repris l'atelier au matin. »
+
+| Besoin | État livré | Direction [PROPOSITION] |
+|---|---|---|
+| Lire les fronts | Annonce du ou des fronts | Chaque front porte un nom de lieu (« front de la porte nord ») et un effectif estimé. |
+| Vivre la brèche | Chute d'un mur ou d'une porte | La brèche devient un **événement nommé** : alerte, repère sur la carte, compte des infectés entrés. |
+| Se replier | Repli des escouades vers une redoute | Un **ordre de repli par enceinte**, qui déplace garnison et ouvriers d'un seul geste. |
+| Choisir | Secteurs sacrifiables en phase d'alerte | Le choix se fait sur la carte, avant l'assaut, et s'affiche pendant. |
+| Gérer le terrain | Pression des cadavres | Rendre l'amas **visible et lisible** : hauteur, seuil, franchissement imminent. |
+| Conclure | Récompenses de vague | Un **bilan de nuit** : secteurs tenus, perdus, repris ; pertes ; munitions tirées. |
+
+Aucune de ces directions n'ajoute de vie aux infectés. Toutes ajoutent de la
+géographie.
+
+### 8.2 Districts autonomes **[DÉCISION]**
+
+- Un **district** est un secteur fermé doté d'un **responsable**, d'une
+  **garnison**, de **stocks propres** et d'un rang de **priorité**.
+- Il s'appuie sur le diagnostic topologique existant : pas de district sans
+  périmètre réellement fermé.
+- Le responsable peut être un compagnon (§2.7) ou un habitant nommé.
+- **En temps calme** : le district se ravitaille et répare selon sa priorité.
+- **En assaut** : trois ordres par district — *tenir*, *évacuer*, *sacrifier*.
+- **Contrepartie** : chaque district ajoute de la signature et immobilise des
+  stocks. Dix districts mal reliés perdent plus sûrement qu'un seul bien tenu.
+- Révélé à l'âge 6.
+
+### 8.3 Sacrifice et reconquête **[DÉCISION]**
+
+Le brief demande de « perdre un secteur, se replier puis le reconquérir ».
+Cette étape devient un système à part entière.
+
+États d'un secteur :
+
+`Tenu → Menacé → Perdu → Contesté → Repris`
+
+- **Sacrifice volontaire** : une évacuation ordonnée sauve la population et
+  une part des stocks, puis scelle les portes intérieures. Abandonner à temps
+  doit toujours valoir mieux que perdre.
+- **Secteur perdu** : les infectés y stagnent. Les structures se dégradent
+  mais ne disparaissent pas. Le secteur ne produit plus et ne compte plus dans
+  les capacités ; il compte encore dans la signature.
+- **Reconquête** : une opération de jour en trois temps.
+  1. **Isoler** : refermer la brèche extérieure.
+  2. **Nettoyer** : éliminer ce qui est resté dedans.
+  3. **Rétablir** : déblayer les corps, réparer, rouvrir les portes.
+- Une reconquête rend les structures à leur intégrité restante : reprendre
+  coûte moins cher que rebâtir.
+- Révélé à l'âge 9, mais la perte et la reprise simples existent dès qu'il y a
+  deux enceintes.
+
+### 8.4 Grands ouvrages **[DÉCISION]**
+
+- Projets géants bâtis **par tranches sur plusieurs nuits**, qui changent la
+  silhouette de la cité.
+- Chaque tranche est un chantier ordinaire : financé, puis construit
+  physiquement. Une tranche inachevée est une faiblesse pendant l'assaut.
+- Chaque ouvrage résout un problème de mégacité **et** en crée un.
+
+| Ouvrage [DÉCISION] | Ce qu'il apporte | Ce qu'il coûte |
+|---|---|---|
+| Chemin de ronde continu | Garnison mobile entre deux fronts | Une brèche y coupe la circulation. |
+| Château d'eau et réseau | Eau de cité sans portage | Un point unique à défendre. |
+| Beffroi d'alerte | Fronts annoncés plus tôt | Forte signature. |
+| Grand dépôt | Stocks de district mutualisés | Tout perdre d'un coup. |
+| Grande centrale | Énergie pour toutes les défenses | Carburant, signature, Éteints. |
+
+**[DÉCISION]** Ouvrages ajoutés, validés :
+
+| Ouvrage | Ce qu'il apporte | Ce qu'il coûte |
+|---|---|---|
+| Rempart colossal | Une enceinte de 24 à 48 m, bâtie par tranches (§8.6) | Des nuits entières avec un pan inachevé. |
+| Grandes douves | Un fossé en eau sur tout un front | Vide la réserve d'eau en période sèche ; se comble de corps. |
+| Pont-levis | Une porte qui se retire au lieu de tenir | Coupe aussi la sortie de ses propres défenseurs. |
+| Gare de convois | Chargement et départ de plusieurs convois à la fois | Un grand portail de plus à défendre. |
+| Émetteur régional | Radio jusqu'aux cantons lointains (§7.15) | Forte signature ; attire les factions. |
+| Nécropole | Bûchers et fosses à l'échelle d'une mégacité (§8.7) | Fumée permanente, donc signature ; moral du district voisin. |
+
+Un ouvrage ne crée pas de quatrième génération de mur : les trois générations
+restent la règle. Révélé à l'âge 10.
+
+### 8.5 Lois et rationnement **[DÉCISION]**
+
+- Une **loi** est une politique de cité à contrepartie visible.
+- Nombre de lois actives limité par l'âge ; un changement prend effet après un
+  délai, jamais au milieu d'un assaut.
+
+| Loi [DÉCISION] | Effet | Contrepartie |
+|---|---|---|
+| Demi-rations | Moins de nourriture consommée | Moral en baisse continue. |
+| Extinction des feux | Signature réduite la nuit | Production nocturne arrêtée, défenses moins éclairées. |
+| Conscription | Ouvriers armés pendant l'assaut | Production et chantiers à l'arrêt, pertes civiles. |
+| Quarantaine des arrivants | Moins de réanimations dans les murs | Accueil retardé, logements immobilisés. |
+| Corvée de déblaiement | Corps retirés plus vite après l'assaut | Journée de récolte perdue. |
+| Rationnement de l'eau | Réserve d'incendie préservée | Rendement des fermes en baisse. |
+
+**[DÉCISION]** Lois plus dures, validées :
+
+| Loi | Effet | Contrepartie |
+|---|---|---|
+| Portes closes | Plus aucun réfugié accueilli : vivres et logements préservés | Croissance arrêtée ; ceux qu'on refuse meurent devant les murs et s'ajoutent à la horde. |
+| Expulsion des mordus | Aucune réanimation dans les murs | Chaque blessé mordu est perdu, soignable ou non ; moral en forte baisse ; les secouristes peuvent refuser. |
+| Travail forcé des ralliés | Les membres d'une faction ralliée travaillent sans compter | Risque de fuite, de sabotage, et rupture avec les factions voisines. |
+| Justice expéditive | Les pillards pris sont exécutés : les embuscades se raréfient | Les Rouleurs deviennent hostiles pour de bon ; les morts se relèvent ; un compagnon peut s'y opposer. |
+| Garde des morts | Tout mort de la cité est veillé jusqu'à certitude | Mobilise des habitants à chaque décès ; aucune surprise la nuit. |
+
+Règles propres aux lois dures :
+
+- Le jeu **ne juge pas** et ne récompense pas : il montre le prix. Aucune
+  loi dure n'est la bonne réponse évidente.
+- Chacune a un **visage** : un compagnon, un secouriste ou un habitant nommé
+  réagit par un acte, pas par un discours.
+- Elles sont **réversibles**, mais ce qu'elles ont coûté ne revient pas.
+- Ton sobre (§9.3) : on constate, on ne met pas en scène.
+- Elles relèvent du thème « ne rien promettre de faux » : une cité qui
+  ferme ses portes cesse d'être « un endroit où revenir », et le récit doit
+  pouvoir le dire.
+
+Les lois prolongent les quatre crises existantes : une crise est un choix
+ponctuel, une loi est un choix durable. Révélées à l'âge 8.
+
+### 8.6 Le siège à grande échelle **[DÉCISION]**
+
+L'image visée : une marée qui vient de l'horizon, s'écrase contre un mur
+immense, s'y entasse jusqu'à le déborder, et parfois le perce.
+
+#### La marée à l'horizon
+
+**[LIVRÉ]** Les infectés apparaissent au bord du carré local de 128 m, après
+un préavis de 10 s (15 s avec la doctrine de reconnaissance), un message et
+une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
+18 groupes de 360) n'existent que lorsque le joueur est en région.
+
+**[PROPOSITION]**
+
+- **Une seule horde, deux échelles.** La vague qui frappe D-17 est une
+  migration qui a traversé la région. Elle ne naît plus au bord de la carte.
+- **On la voit venir** depuis les remparts et la vue à la première personne :
+  une masse lointaine, dessinée à moindre détail, qui grossit.
+- **Le préavis se gagne** : guet, beffroi, Léa, avant-postes et radio
+  l'allongent. Sans eux, on reste à quelques secondes.
+- **En région**, le joueur peut croiser la migration en marche vers sa cité.
+  Il peut la suivre, la prévenir, ou rentrer.
+- La foule lointaine est un **dessin de la simulation**, pas une seconde
+  simulation : elle ne crée ni dégât ni tirage.
+
+#### Les pyramides de corps
+
+**[LIVRÉ]**
+
+- Au sol : seuls l'Infecté récent et le Rampant franchissent un mur, quand la
+  charge de corps dépasse son seuil. Le franchissement n'a pas d'animation ;
+  huit marques au plus signalent l'amas.
+- En hauteur : l'amas a une vraie hauteur (charge ÷ 16, en mètres). La charge
+  compte les corps **et** les vivants pressés contre le mur. L'ascension
+  commence quand l'amas atteint le sommet ; 24 grimpeurs au plus. Le rendu
+  est un empilement de six gradins.
+- **Limite constatée** : un rempart de 48 m demande une charge de 768, soit
+  plus de vivants que le plafond de 720 infectés simultanés. Il est donc
+  aujourd'hui presque inatteignable.
+
+**[PROPOSITION]**
+
+- **Montrer la pyramide** : des corps et des vivants dessinés un à un sur
+  l'amas, à partir de la même charge. Le calcul ne change pas ; l'image, si.
+- **La pyramide est vivante** : elle monte par la base. Tirer dans la base,
+  l'incendier ou la déblayer la fait s'affaisser.
+- **Elle se prépare** : un fossé la retarde, des Hérissons la désorganisent,
+  un Porte-charniers l'accélère (§3.5).
+- **Des milliers à l'écran [DÉCISION]** : les premiers rangs sont simulés un
+  à un, comme aujourd'hui ; le gros de la horde est fait de **masses
+  agrégées**.
+  - Une masse a un effectif, une position et une direction. Elle pèse sur le
+    mur, nourrit la pyramide et **se déverse** dans la simulation détaillée à
+    mesure que les premiers rangs tombent.
+  - Tirer dans une masse y tue réellement : l'effectif baisse, les munitions
+    sont dépensées, les corps comptent.
+  - Le plafond de 720 reste celui des infectés **détaillés** ; il ne borne
+    plus la taille de la horde.
+  - Cible de cadence : un ordinateur portable courant (§1.5). Une masse
+    coûte le prix d'un seul objet, quel que soit son effectif.
+  - Un mur de 48 m redevient débordable par une très grande horde, sinon il
+    n'a pas d'enjeu.
+- Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
+  de la règle « plus de monde, pas plus de vie ».
+
+#### Les murs colossaux
+
+**[LIVRÉ]** Remparts de 12, 24 et 48 m, dalles jusqu'à 72 m, quatre affûts,
+logements et réserves suspendus, vue à la première personne.
+
+**[PROPOSITION]**
+
+- Un rempart colossal est un **grand ouvrage** (§8.4) : bâti par tranches,
+  sur plusieurs nuits, visible pendant qu'il monte.
+- Il se voit **depuis la région** : c'est un repère pour le joueur qui
+  rentre, et une raison de plus pour la signature de grimper.
+- Il a une **vie** : chemin de ronde, garnison, relève, projecteurs. Un mur
+  vide ne défend rien.
+- Les trois générations de matériau restent la règle ; la hauteur est une
+  dimension de plus, pas une quatrième génération.
+
+#### La brèche catastrophe
+
+**[LIVRÉ]** Une notification signale qu'une structure détruite ouvre le
+secteur. La chute d'un rempart ne termine pas la partie.
+
+**[PROPOSITION]** En faire le moment le plus fort du jeu, et le plus rare :
+
+1. **Des signes avant-coureurs** : intégrité basse, fissures visibles, poids
+   de la pyramide, abomination en approche. Une brèche catastrophe se
+   prévoit ; elle n'est jamais un coup du sort.
+2. **La rupture** : un pan entier ou une porte cède d'un coup, et non case
+   par case.
+3. **L'engouffrement** : la horde change de direction vers l'ouverture. Le
+   champ de flux le fait déjà ; il faut le montrer.
+4. **La décision** : tenir, évacuer ou sacrifier le district (§8.2), dans les
+   secondes qui suivent.
+5. **Le lendemain** : le secteur est perdu, puis repris (§8.3).
+
+Une brèche catastrophe ne termine jamais la partie à elle seule : seule la
+chute du centre de commandement le fait.
+
+### 8.7 La filière des corps **[DÉCISION]**
+
+**[LIVRÉ]** Un ouvrier en déblaiement retire la charge de corps au pied d'un
+mur ; la charge disparaît. Les corps dessinés s'effacent après 100 s.
+
+**Direction** : un corps déblayé **va quelque part**, et un corps laissé sur
+place **rend malade**.
+
+| Destination | Coût | Contrepartie |
+|---|---|---|
+| **Bûcher** | Carburant ou bois, un emplacement | Fumée : signature en hausse tant qu'il brûle. Rapide. |
+| **Fosse** | Travail, emprise au sol hors des murs | Lent ; la place finit par manquer ; une fosse pleine se referme. |
+| **Laissés sur place** | Rien | Rampe pour la prochaine horde, et maladie dans le secteur voisin. |
+
+Maladie :
+
+- Des corps laissés trop longtemps près d'un secteur habité y dégradent la
+  **santé** et le **moral**. L'effet est local, progressif et annoncé.
+- **[DÉCISION]** Si rien n'est fait, la maladie **tue** les plus fragiles,
+  dans les murs, avec le risque de réanimation ordinaire. Même gradation que
+  la pénurie d'eau (§7.3) : affaiblir, puis tuer, jamais par surprise.
+- Il mobilise la clinique et consomme des médicaments : la filière des corps
+  devient une affaire de gouverneur, pas seulement d'ouvriers.
+- Ce n'est **pas** la contamination qui relève les morts : aucune confusion
+  avec l'infection, dont rien n'est expliqué (§2.4).
+- La pluie et la chaleur accélèrent ou ralentissent l'effet : lien avec la
+  météo.
+
+Cohérence :
+
+- La charge de corps au pied du mur garde ses règles actuelles ; la filière
+  commence **après** le déblaiement.
+- Un bûcher est un choix de signature, une fosse un choix d'espace : les deux
+  courbes du §1.2 s'y retrouvent.
+- La corvée de déblaiement (§8.5) et la Nécropole (§8.4) en sont la loi et
+  le grand ouvrage.
+- Propriétaires : `game.js`, `core.js` (`WORKER_RULES`), `urban.js`,
+  `weather193.js`.
+
+### 8.8 Ce que la fin de jeu ne doit pas devenir
+
+- Une suite de chiffres plus grands sans décision nouvelle.
+- Un menu de gestion qui dispense de descendre au sol.
+- Une cité si sûre que la signature ne compte plus.
+- Un mur si haut qu'aucune horde ne peut l'atteindre.
+- Une exploration si confortable que l'absence ne coûte rien.
+
+---
+
+## 9. Récit
+
+### 9.1 Structure **[LIVRÉ]**
+
+- **Registre de D-17** : six traces relevées sur place, une décision au dépôt
+  par secteur, quatre chapitres persistants.
+  1. Le point de retour
+  2. Une place derrière les murs
+  3. Ce qu'ils ont laissé
+  4. La dernière enceinte
+- **Chroniques de D-17** : huit dossiers de trois documents, trois scènes,
+  quatre entretiens.
+- L'épilogue ne termine pas la simulation : « Vous n'avez ni retrouvé tous les
+  disparus, ni arrêté la contamination. »
+- Propriétaires : `narrative.js`, `chronicles131-data.js`,
+  `campaign-intro132.js`.
+
+**Trois chapitres de plus [DÉCISION]**, liés aux âges tardifs. Chacun se
+déclenche par un fait de jeu, s'ajoute au registre et ne termine rien.
+
+| Chapitre | Déclencheur | Ce qu'il raconte |
+|---|---|---|
+| V. Ceux à qui l'on confie | Premier district confié à un responsable | Le Commandant n'est plus partout. La fonction se partage. |
+| VI. Les autres | Première faction ralliée ou détruite | D-17 n'est plus seule ; ce qu'elle fait aux autres dit ce qu'elle est. |
+| VII. Revenir | Cité reconquise après un dernier carré, ou Mégaville III atteinte | « Un endroit où revenir » : la phrase de Luc, vérifiée ou démentie par la campagne. |
+
+- [PROPOSITION] Les titres et les textes restent à écrire selon le ton du
+  §9.3.
+- Le chapitre VI a deux versions, selon que la première faction a été
+  ralliée ou détruite. Aucune n'est présentée comme la bonne.
+- Les lois dures (§8.5) peuvent colorer le chapitre VII : une cité aux
+  portes closes n'écrit pas la même dernière page.
+- L'épilogue du chapitre IV reste en place et reste vrai.
+
+### 9.2 Thèmes
+
+1. **Un endroit où revenir.** D-17 n'est pas une frontière.
+2. **La fonction survit à la personne.** Luc, puis le Commandant, puis la
+   relève.
+3. **Ne rien promettre de faux.** Ni guérison, ni sauvetage.
+4. **Compter les vivants.** Le registre est un acte, pas un souvenir.
+
+### 9.3 Ton d'écriture
+
+- Sobre, administratif et humain : des quarts, des listes, des faits.
+- Phrases courtes. Aucun lyrisme, aucune ironie.
+- Un document trouvé ne dit jamais plus que ce que son auteur pouvait savoir.
+- Le mot « guérison » reste barré.
+
+### 9.4 Pistes ouvertes **[PROPOSITION]**
+
+- **Chaîne de quarantaine** : arrivants, morsures, isolement. Cohérente avec
+  la loi de quarantaine (§8.5) et la règle de réanimation.
+- **Voix des Relais** : quelques visages vivants hors de D-17, sans jamais
+  confirmer le sort de « ceux d'avant ».
+
+---
+
+## 10. Direction artistique et sonore **[LIVRÉ]**
+
+- **Image** : poste de commandement de terrain. Terre, acier patiné, béton,
+  végétation sale, éclairage sodium. Palette olive, or et acier.
+- **Bâti** : assemblé, rapiécé, réparé. Jamais futuriste, jamais impeccable.
+- **Lisibilité** : une silhouette se reconnaît dans la masse. C'est une
+  contrainte de jeu avant d'être une contrainte d'image.
+- **Ambiance** : pluie, nuit, fumée, étincelles, impacts, corps persistants.
+- **Nuits noires** : masque noir réel, torche et projecteurs.
+- **Son [LIVRÉ]** : entièrement synthétisé, sans fichier audio. Musique
+  discrète, sons mécaniques, sirènes, signal radio procédural.
+- **Son [DÉCISION]** :
+  - Des **enregistrements** sont acceptés pour la masse des hordes : la
+    rumeur d'une marée, le piétinement, la pression contre un mur. Chacun
+    porte une fiche de provenance et de licence, comme les images.
+  - Une **musique plus présente** accompagne les grands moments : marée à
+    l'horizon, brèche catastrophe, dernier carré, reconquête. Elle se tait
+    dans le travail ordinaire : le silence reste la règle, la musique
+    l'exception.
+  - La synthèse reste le socle et le repli : le jeu doit sonner juste sans
+    aucun fichier.
+  - Le son continue de **lire** la simulation : la rumeur suit l'effectif
+    réel de la horde, elle ne l'annonce jamais à sa place.
+  - Pas de voix jouée : la règle « ni doublage » demeure.
+- **Provenance** : toute image conserve sa fiche de provenance.
+- **Règle** : peintres, animations, effets et sons **lisent** les actions
+  accomplies. Ils ne créent ni stock, ni dégât, ni tirage de simulation.
+
+**Planches de référence [DÉCISION]** : avant tout chantier de faction ou
+d'abomination, une planche validée fixe la silhouette, la palette et le signe
+matériel. Aucune image de jeu n'est produite avant cette validation. La
+planche rejoint les fiches de provenance.
+
+Pour les factions (§4.3) : chaque groupe humain se reconnaît à un **signe
+matériel** sobre (un véhicule, un brassard, une absence de lumière), jamais à
+un costume de fiction.
+
+---
+
+## 11. Incohérences relevées dans la documentation
+
+Écarts constatés entre documents ou entre documents et code. À corriger dans
+un chantier documentaire dédié ; aucun ne demande de changer une règle de jeu.
+
+| # | Écart | Où | Correction attendue |
+|---:|---|---|---|
+| 1 | Version annoncée 1.65.0 | `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Aligner sur 1.74.0 ; ajouter les versions 1.66 à 1.74. |
+| 2 | Sauvegarde décrite en « version 2 » | `ARCHITECTURE.md` | Décrire la v20 et les modules additifs. |
+| 3 | « Huit profils d'infectés » | `ROADMAP.md`, `SCENARIOS.md`, `ENEMY_CONTENT.md`, `AUDIT_STORY_RELEASE.md` | Dix profils (§3.2). |
+| 4 | Calme initial : 82/112/64 s contre 210 s | `SCENARIOS.md`, `BALANCING.md` | Une valeur par scénario et difficulté, lue dans `core.js`. |
+| 5 | Feuille de route périmée | `ROADMAP.md` | Retirer des exclusions ce qui est livré : break, relais de coopération, incendies, logements suspendus. |
+| 6 | Âges numérotés depuis 0 ou depuis 1 | `vertical175/README.md`, `SPECIALISTS.md`, `DEFENSES_193.md`, `CAMPAIGN_CONTRACTS_194.md` | 1 à 11 partout (§2.8). |
+| 7 | Élevage : « aucun transfert », « aucun puisage » | `HUSBANDRY_191.md`, `EXTENSION_SURVIE_191.md` | Mentionner seau, soins et colis livrés depuis. |
+| 8 | Tableaux « à traiter » déjà traités | `UNDERCOVERED_SYSTEMS_199.md`, `_200.md` | Marquer le transport et l'identité de carte comme faits. |
+| 9 | « Aucune fusion » alors que le code est présent | `LIFECYCLE_202.md`, `PRODUCT_TRANSPORT_203.md` | Mettre à jour le statut. |
+| 10 | Biomes : « ni rivière, ni animaux » | `BIOMES_1_35.md` contre `docs/codex/README.md` et le code | Marquer la 1.35 comme historique. |
+| 11 | « Camp de pillards » dans une fiche de conception | `docs/codex/HABITAT.md` contre `LIVRAISON_1_60.md` | Désormais cohérent avec §4 ; préciser le statut non livré. |
+| 12 | « Trois ouvriers » quel que soit le départ | `src/narrative.js` | Suivre l'effectif réel (§2.5). |
+| 13 | « trois vagues » contre « trois migrations » | `NARRATIVE.md`, `src/narrative.js` | Vocabulaire canonique (§2.8). |
+| 14 | Sami, Sami V., Samir | `src/narrative.js`, `src/chronicles131-data.js` | Fusion et règle d'écriture (§2.6, §2.7). |
+| 15 | « Registre v5 » ambigu | `vertical175/CHANTIERS_VERTICAUX.md` | Préciser qu'il s'agit d'un registre interne. |
+| 16 | Identifiant `D17:` potentiellement affiché | `src/coop.js` | Vérifier qu'il ne paraît jamais à l'écran. |
+| 17 | Siège et population verticaux en pause pendant l'absence, alors que le reste de la cité est simulé | `vertical-siege176.js`, `vertical-population181.js` | Tout simuler ou tout suspendre (§7.15). |
+| 18 | Rempart de 48 m hors d'atteinte : charge requise 768, plafond 720 | `vertical-siege176.js`, `core.js` | Masses agrégées (§8.6). |
+| 19 | « Véhicules pilotables » exclus, alors que neuf sont livrés | `ROADMAP.md`, `GAME_DESIGN.md` §4 | Mettre à jour. |
+| 20 | Trois géants livrés, alors que le brief et `GAME_DESIGN.md` §14 écartent boss et mutations | `docs/vertical175/README.md`, `GAME_DESIGN.md` | Renvoyer à l'encadrement du §3.5. |
+
+Les lignes 12, 13, 14, 16, 17 et 18 touchent du code ou des textes joués :
+elles demandent un test.
+
+### 11.1 État des corrections
+
+Passe du 10 novembre 2026 :
+
+| Lignes | État |
+|---|---|
+| 1, 2, 3, 5, 6, 8, 11, 15, 19, 20 | **Corrigées** dans les documents cités, par une correction directe ou une note de mise à jour en tête des documents historiques. |
+| 4 | **Requalifiée** : les deux valeurs sont vraies. 82, 112 et 64 s sont les durées historiques ; le premier calme affiché vaut `(210 + durée historique − 82) × difficulté`. `SCENARIOS.md` l'explique désormais. |
+| 7 | **Corrigée en partie** : notes ajoutées. « Aucun puisage à distance » reste exact ; seul le sort des produits bruts avait changé. |
+| 12, 13, 14 | **Corrigées** dans `src/narrative.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
+| 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
+| 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
+| 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
+
+L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
+
+La fiche du Commandant dit encore « premier responsable de D-17 » dans
+`src/core.js`. Ce fichier est couvert par les preuves d'inspection du codex
+(`docs/codex/suivi-monde2026/`) : toute modification impose de régénérer
+l'inspection. La correction est reportée au premier chantier qui touchera
+`core.js` pour une raison de jeu.
+
+### 11.2 Défauts du jeu relevés en passant
+
+Deux défauts de la version d'origine (`main`) faisaient échouer la CI par
+intermittence, quel que soit le contenu d'une demande de fusion.
+
+| Défaut | Constat | Correction |
+|
+
+
+---
+
+## 12. Feuille de route de la bible
+
+Ordre **validé** : la prise en main d'abord, pour rendre lisible ce qui
+existe avant d'ajouter. Chaque chantier passe par une spécification, suit le test de
+cohérence (§5.3) et se termine par `npm run check`.
+
+| Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
+|---:|---|---|---|---|
+| 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
+| 1 | Révélation par âge (§6) | Clarté | `command-ui.js`, `urban.js`, `core.js` | Une nouvelle partie n'affiche que cinq systèmes. |
+| 2 | Signature visible et bilan de nuit (§7.4, §8.1) | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
+| 3 | Brèche nommée et repli par enceinte (§8.1) | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
+| 4 | Eau de cité (§7.3) | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |
+| 5 | Exploration en trois échelles (§7.9) | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
+| 6 | Sacrifice et reconquête (§8.3) | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
+| 7 | Districts (§8.2) | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
+| 8 | Lois (§8.5) | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
+| 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
+| 10 | Récit relié et arcs des compagnons (§2.6, §2.7) | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
+| 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
+| 12 | Cité autonome cohérente : siège vertical actif, consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
+| 13 | Marée à l'horizon (§8.6) | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
+| 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
+| 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
+| 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
+| 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
+| 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
+| 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
+| 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
+| 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
+| 22 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
+
+Le dernier carré se traite avec le rang 12. Le monde sans bord et la
+coopération sont placés en fin de liste parce qu'ils touchent la génération,
+les identifiants, la sauvegarde et l'autorité sur la simulation. Les rangs 12 à 18 lui donnent d'abord une
+raison d'exister : sans avant-postes ni routes, un monde plus grand n'est
+qu'un monde plus vide.
+
+Les rangs 1 à 3 ne demandent presque aucune règle nouvelle : ils rendent
+lisible ce qui existe. C'est le meilleur rapport entre effort et effet.
+
+---
+
+## 13. Questions encore ouvertes
+
+Les grandes orientations sont tranchées. Ce qui reste relève du réglage et
+se décide au début du chantier concerné.
+
+1. **Mesure de durée** : qui joue les campagnes de référence qui vérifient
+   la cible de 15 à 25 h ?
+2. **Valeurs** : assauts par saison, délais des lois, seuils de maladie et de
+   pénurie, portée de la radio. À fixer dans `src/core.js`, avec tests.
+3. **Enregistrements sonores** : quelle source et quelle licence ?
+4. **Textes** : qui écrit les chapitres V à VII et les entretiens des
+   compagnons ?
+5. **Propositions restantes** : les mentions [PROPOSITION] encore présentes
+   (états des routes, rangs d'avant-poste, travaux de terrain, rangs de
+   lieux, rôles des trois géants livrés) sont à valider avec leur chantier.
+
+## 14. Faire vivre ce document
+
+- Toute décision de direction se note ici **avant** son implémentation.
+- Une **[PROPOSITION]** validée devient **[DÉCISION]** ; une décision livrée
+  devient **[LIVRÉ]**, avec la version du jeu.
+- Une valeur chiffrée citée ici se vérifie dans `src/core.js` à chaque
+  livraison qui la touche.
+- Un document de livraison qui contredit la bible doit le dire explicitement
+  et proposer la correction de l'un ou de l'autre.
