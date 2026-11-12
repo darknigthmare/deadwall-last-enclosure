@@ -1921,10 +1921,24 @@ L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
 
 ### 11.2 Défauts du jeu relevés en passant
 
-Constatés sur la version d'origine (`main`), non corrigés ici :
+Deux défauts de la version d'origine (`main`) faisaient échouer la CI par
+intermittence, quel que soit le contenu d'une demande de fusion.
 
-| Défaut | Constat | Où |
+| Défaut | Constat | Correction |
 |---|---|---|
+| **Nouvelle partie impossible sur certaines graines** | En contenu actuel, le décor métrique ne trouvait aucune parcelle libre sur de rares graines (relevées : 3033422227, 139741324, 4075956896 ; aucune sur 60 tirées en série). La création s'interrompait à mi-chemin. | `src/map-recovery216.js` reprend la création avec une autre carte et l'annonce au joueur. Une graine qui fonctionne donne exactement le même monde qu'avant. Test `tests/map-recovery216.test.cjs`. |
+| **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesurait du texte avec la police du système et échouait sur l'image actuelle des machines de CI. | Le test vérifie le contrat de retour à la ligne sur n'importe quelle police, et les vrais noms avec une largeur de caractère fixe. |
+
+Limites de la première correction :
+
+- La **cause** n'est pas traitée : `packMetricScenery202`
+  (`src/exploration-125.js`) abandonne toujours sur ces graines. Elles
+  restent inutilisables ; le joueur reçoit simplement une autre carte.
+- Une graine **saisie à la main** qui se révèle impraticable est remplacée
+  elle aussi, avec l'annonce. Une **recette de carte rejouée** n'est jamais
+  remplacée : l'erreur d'origine est conservée.
+
+---|---|---|
 | **Nouvelle partie impossible sur certaines graines** | En contenu actuel, quelques graines font échouer la génération du décor : « Décor métrique sans parcelle libre ». Trois graines relevées : 3033422227, 139741324, 4075956896. Rare : aucune sur 60 graines tirées en série. La partie ne démarre pas. | `packMetricScenery202`, `src/exploration-125.js` |
 | **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesure du texte avec la police du système ; il échoue sur l'image actuelle des machines de CI et passe ailleurs. | `tests/expedition-art159.test.cjs` |
 

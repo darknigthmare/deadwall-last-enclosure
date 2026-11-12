@@ -10,6 +10,7 @@
 - Districts, première tranche : toutes les enceintes fermées autour du centre sont reconnues et listées avec leurs faits ; le repli général peut verrouiller l'enceinte choisie. Lecture seule. Détail : §8.2.
 - Eau de cité, deuxième tranche : quand la pénurie dure, départs d'ouvriers (à 10 min, annoncés à 7), puis morts (à 21 min, annoncées à 18). Le retour de l'eau arrête tout. Les morts de soif ne se relèvent pas : les unités ne laissent pas de dépouille. Valeurs non éprouvées. Détail : §7.3.
 - Exploration en trois échelles, première tranche : le carnet affiche les besoins de la cité et range les entrées d'exploration existantes en abords, secteurs et région. Présentation seulement. Détail : §7.9.
+- Carte impraticable : sur de rares graines, le décor ne trouvait aucune parcelle libre et la nouvelle partie s'interrompait. La création reprend désormais avec une autre carte, annoncée au joueur ; les graines qui fonctionnent donnent le même monde qu'avant. Le test de libellés d'expédition ne dépend plus de la police de la machine. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §11.2.
 - Récit : le chapitre I ne suppose plus d'effectif de départ ; deux signatures du registre sont précisées.
 - Direction du projet : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) fixe les piliers, l'univers, la cohérence entre systèmes et les décisions de cadrage. La bible ne modifie aucune règle livrée.
 
