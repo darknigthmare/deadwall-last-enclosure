@@ -1929,7 +1929,7 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
  maxRemains:1024,unarmedDamage:18,armedMeleeDamage:36,reanimationChance:.30,reanimationMin:75,reanimationMax:150,reach:1.8,danger:4,health:65,damage:8,attackInterval:1.15,maxStep:.1,protection:3,
  requisition:Object.freeze({pistol:8,rifle:20,shotgun:16}),
  profiles:Object.freeze({
- commander:Object.freeze({name:'Commandant',description:'Le premier commandant de D-17.',health:100,speed:1,capacity:36,construction:1}),
+ commander:Object.freeze({name:'Commandant',description:'Le premier responsable de D-17.',health:100,speed:1,capacity:36,construction:1}),
  scout:Object.freeze({name:'Éclaireuse',description:'Une volontaire habituée aux longues reconnaissances.',health:90,speed:1.08,capacity:32,construction:1,advantages:['Déplacement à pied +8 %'],tradeoffs:['90 points de vie','Sac de 32 portions']}),
  porter:Object.freeze({name:'Manutentionnaire',description:'Un réfugié rompu au transport des charges et aux allers-retours du dépôt.',health:100,speed:.94,capacity:44,construction:1,advantages:['Sac de 44 portions'],tradeoffs:['Déplacement à pied −6 %']}),
  builder:Object.freeze({name:'Bâtisseuse',description:'Une ouvrière du refuge capable de reprendre les chantiers interrompus.',health:100,speed:.98,capacity:38,construction:1.15,advantages:['Construction manuelle +15 %','Sac de 38 portions'],tradeoffs:['Déplacement à pied −2 %']})

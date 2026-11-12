@@ -1614,12 +1614,27 @@ Passe du 10 novembre 2026 :
 | 1, 2, 3, 5, 6, 8, 11, 15, 19, 20 | **Corrigées** dans les documents cités, par une correction directe ou une note de mise à jour en tête des documents historiques. |
 | 4 | **Requalifiée** : les deux valeurs sont vraies. 82, 112 et 64 s sont les durées historiques ; le premier calme affiché vaut `(210 + durée historique − 82) × difficulté`. `SCENARIOS.md` l'explique désormais. |
 | 7 | **Corrigée en partie** : notes ajoutées. « Aucun puisage à distance » reste exact ; seul le sort des produits bruts avait changé. |
-| 12, 13, 14 | **Corrigées** dans `src/narrative.js` et `src/core.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
+| 12, 13, 14 | **Corrigées** dans `src/narrative.js`, avec un test dans `tests/narrative.test.cjs`. Le chapitre I ne suppose plus d'effectif ; « E.R. » est écrit Émile R. ; le répartiteur est Sami V. |
 | 9, 10 | **Non confirmées** à la relecture : les formulations relevées n'ont pas été retrouvées telles quelles. Aucun changement. |
 | 16 | **Vérifiée** : `D17:` est une clé interne de l'espace de coopération, validée par motif et jamais affichée. Aucun changement. |
 | 17, 18 | **Ouvertes** : ce sont des chantiers de jeu (§12, rangs 12 et 14), pas des corrections de texte. |
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
+
+La fiche du Commandant dit encore « premier responsable de D-17 » dans
+`src/core.js`. Ce fichier est couvert par les preuves d'inspection du codex
+(`docs/codex/suivi-monde2026/`) : toute modification impose de régénérer
+l'inspection. La correction est reportée au premier chantier qui touchera
+`core.js` pour une raison de jeu.
+
+### 11.2 Défauts du jeu relevés en passant
+
+Deux défauts de la version d'origine (`main`) faisaient échouer la CI par
+intermittence, quel que soit le contenu d'une demande de fusion.
+
+| Défaut | Constat | Correction |
+|
+
 
 ---
 

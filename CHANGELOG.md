@@ -1,6 +1,8 @@
 # 1.74.0 — Récupérateurs et eau de service
 
 - Collecteurs d'eau de pluie des haltes G11 : remise en service, remplissage sous la pluie et puisage au seau. Guide : [docs/LIVRAISON_1_74.md](docs/LIVRAISON_1_74.md).
+- Carte impraticable : sur de rares graines, le décor ne trouvait aucune parcelle libre et la nouvelle partie s'interrompait. La création reprend désormais avec une autre carte, annoncée au joueur ; les graines qui fonctionnent donnent le même monde qu'avant. Le test de libellés d'expédition ne dépend plus de la police de la machine. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §11.2.
+- Récit : le chapitre I ne suppose plus d'effectif de départ ; deux signatures du registre sont précisées.
 - Direction du projet : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) fixe les piliers, l'univers, la cohérence entre systèmes et les décisions de cadrage. La bible ne modifie aucune règle livrée.
 
 # 1.66.0 à 1.73.0 — Résumé
