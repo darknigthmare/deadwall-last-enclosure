@@ -1342,8 +1342,11 @@ désormais **simulée en entier**.
   passerelles et attaques de palier continuent.
 - **Personnel vertical** déjà affecté : trajets, livraisons, réparations,
   soins et gardes continuent.
-- **Bandes errantes** : leur calendrier avance. Avant, une bande échue
-  apparaissait à l'instant du retour.
+- **Bandes errantes** : elles restent **suspendues** pendant l'absence,
+  comme avant. Une première version les faisait avancer : le parcours de
+  terrain de la CI a montré qu'une cité des premiers âges tombait alors en
+  moins de quatre minutes, sans avoir subi une seule vague. Les lever
+  demandera une règle de distance ou de délai, donc un équilibrage.
 - Le Commandant absent n'est ni visé ni blessé par un grimpeur, et sa
   position mémorisée à la limite n'encombre plus aucun passage.
 - Les **ordres** (affecter, transférer, rappeler, bâtir) exigent toujours sa
@@ -1356,16 +1359,15 @@ désormais **simulée en entier**.
 
 Conséquences à connaître :
 
-- **L'absence est plus dangereuse qu'avant** : remparts escaladés et bandes
-  errantes pèsent sur une cité sans Commandant. Aucun rééquilibrage n'a été
-  fait.
-- **La suite des tirages aléatoires diffère** de la 1.74 dès qu'une sortie
-  chevauche une échéance de bande errante. Les campagnes restent
-  déterministes.
+- **L'absence est plus dangereuse qu'avant aux âges tardifs** : un rempart
+  peut être escaladé pendant que le Commandant est sorti. Aucun
+  rééquilibrage n'a été fait.
+- Les cités sans rempart vertical ne sont pas concernées.
 
-Restent à faire : consignes d'absence, radio et portée (les annonces
-arrivent aujourd'hui sans condition de portée), rappel par les routes
-gardées, estimation honnête au départ, dernier carré.
+Restent à faire : bandes errantes pendant l'absence (avec une règle
+d'équité), consignes d'absence, radio et portée (les annonces arrivent
+aujourd'hui sans condition de portée), rappel par les routes gardées,
+estimation honnête au départ, dernier carré.
 
 ---
 
@@ -1916,6 +1918,18 @@ Passe du 10 novembre 2026 :
 | 18 | **Ouverte** : chantier de jeu (§12, rang 14). |
 
 L'accord de la fiche du Manutentionnaire (§2.5) reste à trancher.
+
+### 11.2 Défauts du jeu relevés en passant
+
+Constatés sur la version d'origine (`main`), non corrigés ici :
+
+| Défaut | Constat | Où |
+|---|---|---|
+| **Nouvelle partie impossible sur certaines graines** | En contenu actuel, quelques graines font échouer la génération du décor : « Décor métrique sans parcelle libre ». Trois graines relevées : 3033422227, 139741324, 4075956896. Rare : aucune sur 60 graines tirées en série. La partie ne démarre pas. | `packMetricScenery202`, `src/exploration-125.js` |
+| **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesure du texte avec la police du système ; il échoue sur l'image actuelle des machines de CI et passe ailleurs. | `tests/expedition-art159.test.cjs` |
+
+Ces deux défauts font échouer la CI par intermittence, indépendamment du
+contenu d'une demande de fusion.
 
 La fiche du Commandant est corrigée (« premier commandant de D-17 ») depuis
 le chantier de l'eau de cité, qui modifiait déjà `src/core.js`. Ce fichier est

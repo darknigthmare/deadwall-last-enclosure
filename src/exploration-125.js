@@ -1860,15 +1860,14 @@
     const baseUpdate=game.update.bind(game);
     function schedule(self){const jitter=self.random?.range?.(0,22)??11;self.exploration125.wildNext=(self.elapsed||0)+wildHordeDelay(self.wave||1,jitter);}
     function spawnPack(self){
-      // The director keeps its schedule while the Commander is in the region; his fairness distance only applies when he stands in D-17.
-      if(!isGeneration4(self)||self.paused||self.phase==='assault'||self.gameOver)return false;const present=!self.player.regionAbsent;
+      if(!isGeneration4(self)||self.paused||self.frontier?.active()||self.phase==='assault'||self.gameOver)return false;
       const limit=C?.PERFORMANCE_LIMITS?.zombies||700;if(self.zombies.length>limit-16)return false;
-      const candidates=(plan.settlements||[]).filter(st=>!present||Math.hypot(st.x-self.player.x,st.y-self.player.y)>650);if(!candidates.length)return false;
+      const candidates=(plan.settlements||[]).filter(st=>Math.hypot(st.x-self.player.x,st.y-self.player.y)>650);if(!candidates.length)return false;
       const settlement=self.random?.pick?.(candidates)||candidates[Math.floor(Math.random()*candidates.length)],kinds=Object.entries(C?.ENEMIES||{}).filter(([,def])=>(def.unlockWave||1)<=(self.wave||1)).map(([kind])=>kind);if(!kinds.length)return false;
       const count=clamp(2+Math.floor((self.wave||1)/3),2,10),spawned=[];
       for(let i=0;i<count;i++){
         const kind=self.random?.pick?.(kinds)||kinds[i%kinds.length],radius=C.ENEMIES[kind]?.radius||12;let position=null;
-        for(let attempt=0;attempt<16&&!position;attempt++){const angle=(self.random?.range?.(0,Math.PI*2)??Math.random()*Math.PI*2),distance=(self.random?.range?.(260,420)??320),x=clamp(settlement.x+Math.cos(angle)*distance,radius+30,plan.worldSize-radius-30),y=clamp(settlement.y+Math.sin(angle)*distance,radius+30,plan.worldSize-radius-30);if((!present||Math.hypot(x-self.player.x,y-self.player.y)>520)&&self.hostilePositionClear({radius},x,y))position={x,y};}
+        for(let attempt=0;attempt<16&&!position;attempt++){const angle=(self.random?.range?.(0,Math.PI*2)??Math.random()*Math.PI*2),distance=(self.random?.range?.(260,420)??320),x=clamp(settlement.x+Math.cos(angle)*distance,radius+30,plan.worldSize-radius-30),y=clamp(settlement.y+Math.sin(angle)*distance,radius+30,plan.worldSize-radius-30);if(Math.hypot(x-self.player.x,y-self.player.y)>520&&self.hostilePositionClear({radius},x,y))position={x,y};}
         if(!position||!self.spawnZombie(kind))continue;const zombie=self.zombies[self.zombies.length-1];zombie.x=position.x;zombie.y=position.y;zombie.bias+=(self.random?.range?.(-60,60)??0);spawned.push(zombie);
       }
       if(spawned.length){
@@ -1879,7 +1878,7 @@
         return true;
       }return false;
     }
-    game.update=function update125(dt){const result=baseUpdate(dt);if(!this.gameOver&&isGeneration4(this)&&!this.paused){if(!Number.isFinite(this.exploration125.wildNext)||this.exploration125.wildNext<=0)schedule(this);else if((this.elapsed||0)>=this.exploration125.wildNext){spawnPack(this);schedule(this);}}return result;};
+    game.update=function update125(dt){const result=baseUpdate(dt);if(!this.gameOver&&isGeneration4(this)&&!this.paused&&!this.frontier?.active()){if(!Number.isFinite(this.exploration125.wildNext)||this.exploration125.wildNext<=0)schedule(this);else if((this.elapsed||0)>=this.exploration125.wildNext){spawnPack(this);schedule(this);}}return result;};
     game.exploration125.spawnWildHorde=()=>spawnPack(game);game.exploration125.scheduleWildHorde=()=>schedule(game);
   }
 

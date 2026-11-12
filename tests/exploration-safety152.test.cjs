@@ -105,8 +105,6 @@ test('152: E cancels a real regional barricade before harvesting the finite cont
   }
   assert.ok(scene, 'A generated doorway has a real accessible finite container beside its work stance.');
   visit(w, scene.p); g.units = []; g.player.carry.wood = 10; g.player.carry.scrap = 4;
-  // D-17's wild-band director now keeps its calendar during a sortie; hold it outside this RNG measurement.
-  g.exploration125.wildNext = g.elapsed + 1e6;
   assert.equal(g.barricades134.begin('build', scene.opening.id, 'planks').ok, true);
   assert.equal(g.expansions.busy(), true);
   const before = gathered(), stock = { ...g.resources }, bag = g.player.carry, resource = scene.loot.resource, credits = [];

@@ -92,24 +92,15 @@ test('216 le Commandant absent n’encombre aucun passage du personnel vertical'
  assert.ok(duty(),JSON.stringify(p.presentation()));
 });
 
-test('216 une bande errante suit le calendrier du directeur pendant l’absence, par l’apparition native',()=>{
+// Les bandes errantes restent suspendues pendant l'absence : une cité des premiers âges, laissée
+// le temps d'une sortie aux abords, tombait sans avoir subi une seule vague (parcours de terrain G11).
+test('216 les bandes errantes ne frappent pas D-17 pendant l’absence ; leur calendrier attend le retour',()=>{
  const {game:g}=boot127();require('../src/visibility146.js').install(g);g.startNew('standard','17117');g.campaignIntro132?.skip?.();
- g.random=new C.Random(17117);g.daylight=()=>1;leave(g);
- const resources=clone(g.resources),ids=new Set(g.zombies.map(z=>z.id));
- g.phase='assault';assert.equal(g.exploration125.spawnWildHorde(),false);
- g.phase='calm';g.paused=true;assert.equal(g.exploration125.spawnWildHorde(),false);g.paused=false;
- assert.equal(g.exploration125.spawnWildHorde(),true);
- const born=g.zombies.filter(z=>!ids.has(z.id));assert.equal(born.length,2);assert.equal(g.exploration125.wildHordes,1);
- assert.equal(new Set(g.zombies.map(z=>z.id)).size,g.zombies.length);assert.deepEqual(g.resources,resources);
- for(const z of born)assert.ok(C.ENEMIES[z.kind]&&z.health>0&&g.hostilePositionClear(z,z.x,z.y));
- assert.ok(g.restoreSave(clone(g.serialize())));assert.equal(g.frontier.active(),true);assert.equal(g.exploration125.wildHordes,1);
-});
-
-test('216 le calendrier des bandes errantes avance pendant l’absence au lieu d’attendre le retour',()=>{
- const {game:g}=boot127();g.startNew('standard','17117');g.campaignIntro132?.skip?.();g.random=new C.Random(17117);
- g.phase='calm';g.phaseTime=9999;leave(g);g.exploration125.wildNext=g.elapsed+.05;
- const hordes=g.exploration125.wildHordes||0;for(let i=0;i<5;i++)g.update(.05);
- assert.equal(g.exploration125.wildHordes,hordes+1);assert.ok(g.exploration125.wildNext>g.elapsed);
+ g.random=new C.Random(17117);g.daylight=()=>1;g.phase='calm';g.phaseTime=9999;leave(g);
+ const ids=new Set(g.zombies.map(z=>z.id)),hordes=g.exploration125.wildHordes||0;
+ assert.equal(g.exploration125.spawnWildHorde(),false,'aucune bande n’apparaît pendant l’absence');
+ g.exploration125.wildNext=g.elapsed+.05;for(let i=0;i<5;i++)g.update(.05);
+ assert.equal(g.exploration125.wildHordes||0,hordes);assert.equal(g.zombies.filter(z=>!ids.has(z.id)).length,0);
 });
 
 test('216 une alerte de D-17 émise pendant l’absence rejoint la pile de notifications affichée en région',()=>{
