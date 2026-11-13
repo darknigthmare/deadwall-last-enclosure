@@ -103,20 +103,52 @@ test('marée 217 : la masse s’amenuise avec la file, sans déplacer les silhou
 });
 
 test('marée 217 : coût borné quel que soit l’effectif, allégé en qualité basse',()=>{
-  assert.equal(Horizon.limits.cap,240);
+  // Deux plafonds : silhouettes entières (corps, jambes, bras) et têtes de rang (une tête, une ligne d'épaules).
+  assert.equal(Horizon.limits.cap,240);assert.equal(Horizon.limits.capLow,96);
+  assert.equal(Horizon.limits.heads,1440);assert.equal(Horizon.limits.headsLow,192);
+  const whole=list=>list.filter(s=>s.detail).length;
   for(const total of [1,86,740,2095,1e6,1e9]){
     for(const fronts of [['north'],['north','east','south','west']]){
       for(const view of [undefined,{left:0,right:2600,top:0,bottom:1500},{left:SIZE-700,right:SIZE,top:SIZE-400,bottom:SIZE}]){
         const high=Horizon.silhouettes(stub({fronts,wavePlan:{total}}),{view}),low=Horizon.silhouettes(stub({fronts,wavePlan:{total},settings:{quality:'low'}}),{view});
-        assert.ok(high.length<=240,total+' : plafond');assert.ok(low.length<=Horizon.limits.capLow,total+' : plafond léger');
+        assert.ok(whole(high)<=240,total+' : plafond des silhouettes');assert.ok(whole(low)<=96,total+' : plafond léger des silhouettes');
+        assert.ok(high.length-whole(high)<=Horizon.limits.heads,total+' : plafond des têtes de rang');
+        assert.ok(low.length-whole(low)<=Horizon.limits.headsLow,total+' : plafond léger des têtes de rang');
       }
     }
   }
+  // Vue la plus large, quatre fronts, marée maximale : le peintre ne dépasse jamais la somme des deux plafonds.
   const g=stub({fronts:['north','west'],wavePlan:{total:2095},width:1600,height:900,camera:{x:800,y:450,zoom:.52}});
-  assert.ok(pixels(g).drawn<=240);
-  assert.ok(pixels({...g,settings:{quality:'low'}}).drawn<=96);
+  assert.ok(pixels(g).drawn<=240+Horizon.limits.heads);
+  assert.ok(pixels({...g,settings:{quality:'low'}}).drawn<=96+Horizon.limits.headsLow);
+  const wide=stub({fronts:['north','east','south','west'],wavePlan:{total:1e9},width:1920,height:1080,camera:{x:1920/.6,y:1080/.6,zoom:.3}});
+  assert.ok(pixels(wide).drawn<=240+Horizon.limits.heads);
   assert.ok(Horizon.silhouettes(stub({fronts:['north'],wavePlan:{total:2095},settings:{quality:'low'}})).length<Horizon.silhouettes(stub({fronts:['north'],wavePlan:{total:2095}})).length);
   assert.deepEqual(Horizon.silhouettes(stub(),{budget:0}),[]);
+  // Un budget réduit borne aussi les têtes de rang.
+  const small=Horizon.silhouettes(stub({fronts:['north'],wavePlan:{total:2095}}),{budget:10});
+  assert.ok(whole(small)<=10&&small.length<=40);
+});
+
+test('marée 217 : trois densités lisibles — petite vague en paquets, vague moyenne compacte, marée profonde',()=>{
+  const view={left:300,right:1022,top:0,bottom:400};
+  const at=total=>Horizon.silhouettes(stub({phase:'assault',fronts:['north'],wavePlan:{total},spawnQueue:[],pendingSpawns:C.normalizeSpawnCounts({walker:total})}),{view});
+  const small=at(18),medium=at(157),large=at(740);
+  assert.ok(small.length>=6&&small.length<70,'petite vague : quelques paquets ('+small.length+')');
+  assert.ok(medium.length>small.length*2.5,'vague moyenne nettement plus dense');
+  assert.ok(large.length>medium.length*1.4,'grande vague plus dense encore');
+  const depth=list=>Math.max(...list.map(s=>s.y));
+  assert.ok(depth(medium)>depth(small)+30&&depth(large)>depth(medium)+30,'la masse s’épaissit vers la cité');
+  // Densité croissante vers le bord : la moitié arrière de la masse porte plus de figures que l'avant-garde.
+  const half=depth(large)/2;assert.ok(large.filter(s=>s.y<half).length>large.filter(s=>s.y>=half).length*1.2);
+  // Avant-garde en silhouettes entières, rangs arrière en têtes de rang ; tailles et allures variées.
+  const front=large.filter(s=>s.detail),back=large.filter(s=>!s.detail);
+  assert.ok(front.length>20&&back.length>front.length);
+  assert.ok(Math.min(...front.map(s=>s.y))>Math.min(...back.map(s=>s.y)),'les silhouettes entières sont devant');
+  assert.ok(new Set(large.map(s=>s.tint)).size>=3&&large.some(s=>s.hunch)&&large.some(s=>s.reach)&&large.some(s=>s.scale>1.25)&&large.some(s=>s.scale<.98));
+  // Paquets : une petite vague laisse des portions de bord vides, une marée n'en laisse pas.
+  const cover=list=>new Set(list.map(s=>Math.floor((s.x-300)/38))).size/19;
+  assert.ok(cover(small)<.7,'petite vague en paquets : '+cover(small));assert.ok(cover(medium)>.9&&cover(large)>.95,'vague moyenne et marée continues');
 });
 
 test('marée 217 : le rendu d’alerte touche la bande du front annoncé, jamais la bande opposée ni l’intérieur',()=>{
@@ -132,28 +164,121 @@ test('marée 217 : le rendu d’alerte touche la bande du front annoncé, jamais
   // Caméra au coin sud-est : un front nord ne dessine rien à l'écran, un front sud dessine en bas.
   const corner={camera:{x:SIZE-320,y:SIZE-200,zoom:1}};
   const far=pixels(stub({...corner,fronts:['north'],wavePlan:{total:400}}));
-  assert.equal(far.drawn,0);assert.equal(far.changed(0,0,640,400),0,'la bande opposée reste intacte');
+  // Masse hors champ : aucune figure, seulement le repère de bord en haut de l'écran.
+  assert.equal(far.drawn,0);assert.ok(far.changed(0,0,640,Horizon.limits.cue)>200,'repère du front hors champ');
+  assert.equal(far.changed(0,Horizon.limits.cue+1,640,400),0,'la bande opposée reste intacte');
   const south=pixels(stub({...corner,fronts:['south'],wavePlan:{total:400}}));
   assert.ok(south.changed(0,400-band,540,400)>500);assert.equal(south.changed(0,0,640,400-band-2),0);
   // Hors partie, en région ou partie perdue : rien.
   for(const off of [{state:'menu'},{gameOver:true},{frontier:{active:()=>true}},{player:{regionAbsent:true}},{phase:'calm'}])assert.equal(pixels(stub({fronts:['north'],wavePlan:{total:400},...off})).changed(0,0,640,400),0,JSON.stringify(Object.keys(off)));
 });
 
-test('marée 217 : la bande se dégage du HUD sans dépasser sa marge, et sans HUD elle colle au bord',()=>{
+test('marée 217 : la masse se tient à la limite de la marge cachée par le HUD, et sans HUD elle colle au bord',()=>{
   const band=Math.ceil(Horizon.limits.band),base={fronts:['north','west'],wavePlan:{total:400}};
-  // Barre haute de 68 px, panneau gauche de 270 px : le nord se décale de 68, l'ouest plafonne à 96.
+  // Barre haute de 68 px, panneau gauche de 270 px : le nord se décale de 68, l'ouest de 270.
   const hud={hud135:{safeFrame:()=>({top:68,left:270,right:600,bottom:380})}};
   const shifted=pixels(stub({...base,...hud}));
-  // Seul le voile continu couvre la marge ; aucune silhouette n'y est posée.
-  const moved=Horizon.silhouettes(stub(base),{clearance:{north:68,west:96}});assert.ok(moved.length>20);
-  for(const s of moved)assert.ok((s.front==='north'?s.y:s.x)>=(s.front==='north'?68:96),'silhouette hors de la marge du HUD');
-  assert.ok(shifted.changed(300,68,640,68+band)>500,'masse nord visible sous la barre');
-  assert.equal(shifted.changed(band+Horizon.limits.clearance+2,68+band+2,640,400),0,'jamais au-delà de la bande décalée');
-  assert.ok(shifted.changed(96,200,96+band,400)>500);
-  // Bord hors écran ou cadre absurde : aucun décalage, aucune erreur.
+  // Seule la base sombre continue couvre la marge ; aucune figure n'y est posée.
+  const moved=Horizon.silhouettes(stub(base),{clearance:{north:68,west:270}});assert.ok(moved.length>20);
+  for(const s of moved)assert.ok((s.front==='north'?s.y:s.x)>=(s.front==='north'?68:270),'figure hors de la marge du HUD');
+  assert.ok(shifted.changed(300,68,600,68+band)>500,'masse nord visible sous la barre');
+  assert.ok(shifted.changed(270,120,270+band,380)>500,'masse ouest visible à droite du panneau');
+  assert.equal(shifted.changed(270+band+2,68+band+2,640,400),0,'jamais au-delà de la bande décalée');
+  // La marge ne dépend pas de la position de la caméra : la masse reste ancrée au monde.
+  const near=stub({...base,...hud}),away=stub({...base,...hud,camera:{x:420,y:260,zoom:1}});
+  Horizon.paint(createCanvas(640,400).getContext('2d'),near);Horizon.paint(createCanvas(640,400).getContext('2d'),away);
+  const anchored=g=>Horizon.silhouettes(g,{clearance:{north:68,west:270},view:{left:0,right:900,top:0,bottom:700}});
+  assert.deepEqual(anchored(away),anchored(near));
+  // Cadre absent ou absurde : aucun décalage, aucune erreur.
   for(const frame of [{top:NaN,left:-50,right:1e9,bottom:Infinity},null])assert.deepEqual(pixels(stub({...base,hud135:{safeFrame:()=>frame}})).after,pixels(stub(base)).after);
+  assert.deepEqual(pixels(stub({...base,hud135:{safeFrame:()=>{throw new Error('mesure indisponible');}}})).after,pixels(stub(base)).after);
   const list=Horizon.silhouettes(stub(base),{clearance:{north:1e6,west:-5}});
   for(const s of list)assert.ok((s.front==='north'?s.y:s.x)<=Horizon.limits.band+Horizon.limits.clearance);
+});
+
+// Écran d'ordinateur : barre haute, panneaux latéraux larges de plus de 230 px, éléments du bas.
+const DESKTOP={width:1280,height:720,hud135:{safeFrame:()=>({left:300,right:1022,top:98,bottom:615})}};
+const EDGE_CAMERA={north:{x:SIZE/2,y:360},south:{x:SIZE/2,y:SIZE-360},west:{x:640,y:SIZE/2},east:{x:SIZE-640,y:SIZE/2}};
+
+test('marée 217 : les quatre fronts se voient entre les panneaux d’un écran d’ordinateur',()=>{
+  for(const front of ['north','east','south','west']){
+    const g=stub({...DESKTOP,fronts:[front],wavePlan:{total:400},camera:{...EDGE_CAMERA[front],zoom:1}});
+    const shot=pixels(g);
+    assert.ok(shot.drawn>80,front+' : figures dessinées ('+shot.drawn+')');
+    // La masse occupe le cadre sûr, pas seulement la marge cachée sous les panneaux.
+    assert.ok(shot.changed(300,98,1022,615)>12000,front+' : masse visible dans le cadre sûr ('+shot.changed(300,98,1022,615)+')');
+    // Les figures tiennent dans la portion visible : aucune n'est posée sous un panneau.
+    const sx=x=>(x-g.camera.x)+640,sy=y=>(y-g.camera.y)+360;
+    for(const s of Horizon.silhouettes(g,{view:{left:g.camera.x-640,right:g.camera.x+640,top:g.camera.y-360,bottom:g.camera.y+360},inner:{left:g.camera.x-340-30,right:g.camera.x+382+30,top:g.camera.y-262-30,bottom:g.camera.y+255+30},clearance:{north:98,south:105,west:300,east:258}})){
+      assert.ok(sx(s.x)>=300-60&&sx(s.x)<=1022+60&&sy(s.y)>=98-60&&sy(s.y)<=615+60,front+' : figure dans le cadre sûr');
+    }
+    // Masse visible : pas de repère de bord, et rien au centre de l'écran.
+    assert.equal(shot.changed(580,340,740,400),0,front+' : centre de l’écran intact');
+  }
+  // Même vague, même écran, sans dégagement : l'ancienne bande de bord serait restée sous les panneaux.
+  const hidden=Horizon.silhouettes(stub({fronts:['west'],wavePlan:{total:400}}),{view:{left:0,right:1280,top:SIZE/2-360,bottom:SIZE/2+360}});
+  assert.ok(hidden.every(s=>s.x<300),'sans cadre sûr, la masse ouest tient entière sous un panneau de 300 px');
+});
+
+test('marée 217 : masse hors champ, un repère sobre par front le long du bord visible',()=>{
+  const centre={camera:{x:SIZE/2,y:SIZE/2,zoom:1}},cue=Horizon.limits.cue;
+  const all=pixels(stub({...DESKTOP,...centre,fronts:['north','east','south','west'],wavePlan:{total:400}}));
+  assert.equal(all.drawn,0,'aucune figure à l’écran');
+  assert.ok(all.changed(300,98-22,1022,98+cue)>2000,'repère nord');assert.ok(all.changed(300,615-cue,1022,615+22)>2000,'repère sud');
+  assert.ok(all.changed(300-22,98,300+cue,615)>2000,'repère ouest');assert.ok(all.changed(1022-cue,98,1022+22,615)>2000,'repère est');
+  assert.equal(all.changed(300+150,98+cue+1,1022-150,615-cue-1),0,'centre de l’écran intact');
+  // L'ombre part du bord de l'écran, sous le HUD, et s'éteint à une largeur de repère du cadre sûr.
+  assert.equal(all.changed(300+cue+1,98+cue+1,1022-cue-1,300),0);assert.equal(all.changed(300+cue+1,460,1022-cue-1,615-cue-1),0);
+  // Un seul front : un seul bord marqué.
+  const east=pixels(stub({...DESKTOP,...centre,fronts:['east'],wavePlan:{total:400}}));
+  assert.ok(east.changed(1022-cue,98,1022+22,615)>2000);assert.equal(east.changed(0,0,1022-150,720),0);
+  // Aucune couleur vive : le repère reste dans les gris et les tons terre.
+  let saturated=0;for(let i=0;i<all.after.length;i+=4){const r=all.after[i],gr=all.after[i+1],b=all.after[i+2];if(Math.max(r,gr,b)-Math.min(r,gr,b)>70&&!(r===0x6a&&gr===0x85&&b===0x99))saturated++;}
+  assert.equal(saturated,0,'ni flèche criarde ni teinte saturée');
+  // Écran étroit sans mesure du HUD : le repère tient au bord de l'écran, plus mince.
+  const phone=pixels(stub({...centre,width:390,height:700,fronts:['north','west'],wavePlan:{total:400}}));
+  assert.ok(phone.changed(0,0,390,40)>500&&phone.changed(0,0,40,700)>500);assert.equal(phone.changed(140,41,390,700),0);
+  // Calme, ou file vide : aucun repère.
+  assert.equal(pixels(stub({...DESKTOP,...centre,phase:'calm',fronts:['north']})).changed(0,0,1280,720),0);
+});
+
+test('marée 217 : la masse ne recouvre jamais le Commandant',()=>{
+  const R=Horizon.limits.clearing;assert.ok(R>=60);
+  for(const front of ['north','east','south','west']){
+    const camera={...EDGE_CAMERA[front],zoom:1};
+    // Le Commandant se tient au milieu de la masse, à 5 m du bord visible.
+    const offset={north:[0,-360+98+70],south:[0,360-105-70],west:[-640+300+70,0],east:[640-258-70,0]}[front];
+    const player={x:camera.x+offset[0],y:camera.y+offset[1]};
+    const g=stub({...DESKTOP,fronts:[front],wavePlan:{total:2095},camera,player});
+    const view={left:camera.x-640,right:camera.x+640,top:camera.y-360,bottom:camera.y+360},clearance={north:98,south:105,west:300,east:258};
+    const around=Horizon.silhouettes(g,{view,clearance,player}),without=Horizon.silhouettes(g,{view,clearance});
+    assert.ok(without.some(s=>Math.hypot(s.x-player.x,s.y-(player.y-8))<R),front+' : sans lui, la masse occuperait sa place');
+    for(const s of around)assert.ok(Math.hypot(s.x-player.x,s.y-(player.y-8))>=R,front+' : aucune figure sur le Commandant');
+    assert.ok(around.length<without.length);
+    // Ordre réel d'une image : sol (avec la masse), puis le Commandant, puis la nuit. Son corps reste intact.
+    const canvas=createCanvas(1280,720),ctx=canvas.getContext('2d'),order=[];
+    const game={...g,nightwatch:{isBlackout:()=>true},daylight:()=>.05,drawGround(c){order.push('sol');c.fillStyle='#6a8599';c.fillRect(view.left,view.top,1280,720);},drawNight(){order.push('nuit');},updateUI(){}};
+    game.ctx=ctx;Horizon.install(game,{getElementById:()=>null});
+    const px=player.x-camera.x+640,py=player.y-camera.y+360,zone=[Math.round(px-26),Math.round(py-44),52,62];
+    ctx.save();ctx.translate(640-camera.x,360-camera.y);game.drawGround(ctx,view);ctx.restore();
+    const ground=ctx.getImageData(0,0,1280,720).data;let touched=0;for(let i=0;i<ground.length;i+=4)if(ground[i]!==0x6a||ground[i+1]!==0x85||ground[i+2]!==0x99)touched++;
+    assert.ok(touched>20000,front+' : la masse est peinte avec le sol');
+    order.push('commandant');ctx.fillStyle='#ff00ff';ctx.fillRect(...zone);
+    game.drawNight(ctx);
+    assert.deepEqual(order,['sol','commandant','nuit']);
+    const body=ctx.getImageData(...zone).data;let covered=0;for(let i=0;i<body.length;i+=4)if(body[i]!==255||body[i+1]!==0||body[i+2]!==255)covered++;
+    assert.equal(covered,0,front+' : aucun pixel dessiné sur le Commandant');
+    // Les reflets de nuit existent bien ailleurs dans la masse.
+    const after=ctx.getImageData(0,0,1280,720).data;let glints=0;for(let i=0;i<after.length;i+=4)if(after[i]!==ground[i]&&!(after[i]===255&&after[i+2]===255))glints++;
+    assert.ok(glints>150,front+' : reflets de nuit au-dessus du masque');
+  }
+  // Un plan ou une projection qui réutilise le peintre de sol ne reçoit pas la masse.
+  const other=createCanvas(64,64).getContext('2d'),main=createCanvas(64,64).getContext('2d'),calls=[];
+  const game={...stub({fronts:['north'],wavePlan:{total:400},width:64,height:64,camera:{x:32,y:32,zoom:1}}),ctx:main,drawGround(){calls.push('sol');},drawNight(){}};
+  Horizon.install(game,{getElementById:()=>null});
+  game.drawGround(other,{});assert.equal(other.getImageData(0,0,64,64).data.some(v=>v!==0),false,'autre canvas : rien');
+  game.drawGround(main,{homeProjection:true});assert.equal(main.getImageData(0,0,64,64).data.some(v=>v!==0),false,'projection : rien');
+  game.drawGround(main,{});assert.equal(main.getImageData(0,0,64,64).data.some(v=>v!==0),true,'scène locale : masse peinte');
 });
 
 test('marée 217 : animation lue dans le temps de jeu, figée en animations réduites, lisible de nuit',()=>{
@@ -162,12 +287,12 @@ test('marée 217 : animation lue dans le temps de jeu, figée en animations réd
   assert.notDeepEqual(a,b,'le balancement suit g.elapsed');assert.deepEqual(again,a,'même temps, même image');
   const still={reducedMotion:true,quality:'auto'};
   assert.deepEqual(pixels(stub({...base,settings:still,elapsed:1})).after,pixels(stub({...base,settings:still,elapsed:2.1})).after,'animations réduites : image fixe');
-  // Nuit noire : sur fond noir, le liseré laisse des pixels discernables dans la bande, et aucun ailleurs.
+  // Nuit noire : sur fond noir, les reflets laissent des pixels discernables dans la bande, et aucun ailleurs.
   const night=pixels(stub({...base,daylight:()=>.08,nightwatch:{isBlackout:()=>true}}),'#000000');
   assert.ok(night.changed(0,0,640,band)>150,'marée discernable de nuit');
   assert.equal(night.changed(0,band+2,640,400),0,'la nuit noire reste entière hors de la bande');
   let brightest=0;for(let i=0;i<night.after.length;i+=4)brightest=Math.max(brightest,night.after[i],night.after[i+1],night.after[i+2]);
-  assert.ok(brightest>30&&brightest<150,'liseré discret : '+brightest);
+  assert.ok(brightest>30&&brightest<150,'reflets discrets : '+brightest);
   // L'alerte fait grossir la masse à mesure que le préavis s'écoule.
   assert.ok(Horizon.silhouettes(stub({...base,phaseTime:10})).length<Horizon.silhouettes(stub({...base,phaseTime:0})).length);
 });
