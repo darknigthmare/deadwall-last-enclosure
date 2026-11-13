@@ -317,6 +317,39 @@ Pour lever la confusion de noms, **Samir** ne s'abrège jamais en « Sami ».
 - Un compagnon mort peut se relever comme n'importe qui (§2.4). Le jeu ne
   met pas cette scène en avant ; il ne l'empêche pas non plus.
 
+**Première tranche livrée [LIVRÉ]**
+
+Léa, Samir, Inès et Malik ont chacun leur origine, leur lien avec « ceux
+d'avant » et **quatre entretiens**, soit seize textes
+(`src/chronicles131-data.js`, déclencheurs dans `src/chronicles131.js`).
+
+| Étape | Fait qui l'ouvre |
+|---|---|
+| Rencontre | Le compagnon est recruté et vivant. |
+| Trace | Le dossier lié à son passé est relevé sur place (Registre), ou le document de terrain correspondant est collecté (Chroniques). |
+| Épreuve | Pendant un assaut, une brèche s'ouvre ou un secteur est perdu. |
+| Choix | La cité atteint l'âge Ville. |
+
+- Une étape s'annonce une fois, se relit au carnet et **ne donne rien**.
+- Un compagnon mort ne parle plus.
+- Correspondances retenues : Léa et la liste de Lina ; Samir et la fiche de
+  Nora ; Inès et le cahier d'Émile R. ; Malik et les deux ordres du barrage.
+- Les signatures d'Émile R., Nora, Héloïse, Solène et Oumar sont reliées,
+  sans réécrire leurs documents.
+- Une campagne en cours consigne en silence ce qui est déjà vrai ; une nuit
+  passée ne compte jamais comme Épreuve.
+- Test `tests/companion-arcs217.test.cjs`.
+
+Écarts : l'Épreuve n'est pas liée au secteur du compagnon, car aucune
+affectation de compagnon à un secteur n'existe ; l'étape Choix pose sa
+question sans offrir encore la décision (district confié ou non). Le jeu
+limite à deux compagnons à la fois : une campagne voit deux arcs en même
+temps.
+
+Restent à faire : blessures, marques et mort définitive ; la décision du
+Choix avec les districts ; relier Aline et Basile au barrage ; les
+chapitres V à VII.
+
 ### 2.8 Vocabulaire canonique **[PROPOSITION]**
 
 Un mot, un sens. Les textes affichés s'y conforment.
@@ -1620,6 +1653,39 @@ Règles propres aux lois dures :
   ferme ses portes cesse d'être « un endroit où revenir », et le récit doit
   pouvoir le dire.
 
+#### Première tranche livrée **[LIVRÉ]**
+
+À la Grande métropole, la cité peut promulguer au dépôt trois lois
+(`src/city-laws217.js`, valeurs dans `C.CityLaws217Rules`) :
+
+| Loi | Effet | Prix |
+|---|---|---|
+| Demi-rations | Nourriture consommée −50 % | Moral −0,12/s (−0,04/s net du regain ordinaire) |
+| Rationnement de l'eau | Eau puisée −30 % ; citernes préservées pour les incendies | Moral −0,10/s (−0,02/s net) |
+| Corvée de déblaiement | Après chaque assaut repoussé, les ouvriers déblaient 30 s à cadence ×1,5 | Ni récolte ni chantier pendant la corvée |
+
+- Une loi à l'âge 8, deux aux âges 9 et 10, trois à l'âge 11. Tout changement
+  prend effet après 60 s, **jamais de l'alerte à la fin de l'assaut**.
+- Nouvelles campagnes : suivies d'office. Campagnes existantes : activation
+  volontaire au dépôt. État sauvegardé comme module additif.
+- Aucune ressource créée : les demi-rations restituent au plus ce qui vient
+  d'être consommé.
+- Test `tests/city-laws217.test.cjs`.
+
+Écarts et réserves :
+
+- **Extinction des feux n'est pas livrée**, et pour une raison de fond :
+  voir §11.3. La signature ne peut plus rien changer aux hordes à cet âge.
+- Le rationnement de l'eau coûte du moral, pas le rendement des fermes prévu
+  plus haut.
+- Le moral n'agit dans le jeu qu'en dessous de 20 : avec une seule loi de
+  rationnement, il faut environ 33 min pour y descendre. Le prix est
+  probablement trop doux.
+- Aucune de ces valeurs n'a été éprouvée par une campagne humaine.
+
+Restent à faire : conscription, quarantaine des arrivants, les lois dures et
+leurs visages, le lien avec les Éteints.
+
 Les lois prolongent les quatre crises existantes : une crise est un choix
 ponctuel, une loi est un choix durable. Révélées à l'âge 8.
 
@@ -1647,6 +1713,33 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
   Il peut la suivre, la prévenir, ou rentrer.
 - La foule lointaine est un **dessin de la simulation**, pas une seconde
   simulation : elle ne crée ni dégât ni tirage.
+
+**Première tranche livrée [LIVRÉ], présentation seulement**
+
+- Pendant l'alerte et l'assaut, une masse sombre de silhouettes se tient au
+  bord de la carte du côté de chaque front encore attendu
+  (`src/horde-horizon217.js`). Elle grossit pendant le préavis et s'amenuise
+  à mesure que la file se vide.
+- Le dossier Situation indique « Horde en approche : fronts — N contacts
+  restant à entrer ».
+- Aucune silhouette n'est un infecté : ni dégât, ni tirage, ni horloge.
+  240 silhouettes au plus, 96 en qualité légère ; positions déterministes.
+- L'effectif n'est pas partagé entre fronts : le jeu tire le front de chaque
+  arrivée au moment où elle entre.
+- Test `tests/horde-horizon217.test.cjs`.
+
+Réserves, constatées dans un navigateur :
+
+- **Fronts est et ouest presque invisibles sur ordinateur** : la masse reste
+  sous les panneaux latéraux de l'interface.
+- Au nord, le centre est couvert par la pile de notifications.
+- Les silhouettes sont schématiques, et la vague 1 (18 contacts) ne donne
+  qu'une rangée clairsemée.
+- La masse ne se voit que si le bord de la carte est à l'écran : pas encore
+  « depuis le rempart ».
+
+Restent à faire : allonger et faire gagner le préavis ; relier la vague à
+une migration régionale ; les masses agrégées ; la vue depuis les remparts.
 
 #### Les pyramides de corps
 
@@ -1929,7 +2022,28 @@ intermittence, quel que soit le contenu d'une demande de fusion.
 | **Nouvelle partie impossible sur certaines graines** | En contenu actuel, le décor métrique ne trouvait aucune parcelle libre sur de rares graines (relevées : 3033422227, 139741324, 4075956896 ; aucune sur 60 tirées en série). La création s'interrompait à mi-chemin. | `src/map-recovery216.js` reprend la création avec une autre carte et l'annonce au joueur. Une graine qui fonctionne donne exactement le même monde qu'avant. Test `tests/map-recovery216.test.cjs`. |
 | **Test de libellés sensible à la police** | `tests/expedition-art159.test.cjs` mesurait du texte avec la police du système et échouait sur l'image actuelle des machines de CI. | Le test vérifie le contrat de retour à la ligne sur n'importe quelle police, et les vrais noms avec une largeur de caractère fixe. |
 
-Limites de la première correction :
+### 11.3 La signature cesse d'agir avant la fin de partie
+
+Constat fait en livrant les lois, sur la version d'origine :
+
+- L'effet de la signature sur l'effectif d'une vague est plafonné à +80 %,
+  atteint dès une signature de **288** (`C.wavePlan`, `signature / 360`
+  borné à 0,8).
+- Or il faut un score de bâtiments de **420** pour atteindre la Grande
+  métropole, et ce score entre entier dans la signature.
+- À partir de là, agrandir la cité n'attire plus un infecté de plus, et la
+  réduire ne change rien.
+
+Cela contredit la règle centrale du §1.2 : les deux courbes cessent de
+monter ensemble vers le milieu de la progression. Tant que cette courbe
+n'est pas revue, **aucune décision de fin de jeu fondée sur la signature n'a
+d'effet** : extinction des feux, grands ouvrages, beffroi, Éteints.
+
+C'est une décision d'équilibrage du cœur du jeu : elle reste à prendre.
+
+### 11.4 Limites de la reprise de carte
+
+Limites de la première correction du défaut de génération (§11.2) :
 
 - La **cause** n'est pas traitée : `packMetricScenery202`
   (`src/exploration-125.js`) abandonne toujours sur ces graines. Elles
@@ -1969,12 +2083,12 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 5 | Exploration en trois échelles (§7.9) — première tranche livrée | Monde | `frontier-*.js`, `expeditions.js`, `field-atlas*.js` | Une seule carte, trois zooms, un besoin affiché. |
 | 6 | Sacrifice et reconquête (§8.3) — première tranche livrée | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
 | 7 | Districts (§8.2) — première tranche livrée | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
-| 8 | Lois (§8.5) | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
+| 8 | Lois (§8.5) — première tranche livrée | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
 | 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
-| 10 | Récit relié et arcs des compagnons (§2.6, §2.7) | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
+| 10 | Récit relié et arcs des compagnons (§2.6, §2.7) — première tranche livrée | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
 | 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
 | 12 | Cité autonome cohérente : siège vertical actif (livré), consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
-| 13 | Marée à l'horizon (§8.6) | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
+| 13 | Marée à l'horizon (§8.6) — première tranche livrée | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
 | 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
 | 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
 | 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |

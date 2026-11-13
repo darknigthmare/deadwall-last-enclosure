@@ -348,3 +348,23 @@ Secondes de citernes vides sans interruption ; le retour de l'eau remet tout à 
 | `deathWarnSeconds` | 1080 | Annonce « les plus fragiles ne tiendront plus longtemps » |
 | `deathSeconds` | 1260 | Première mort ; les départs cessent |
 | `deathInterval` | 180 | Une mort toutes les 3 min |
+
+## Lois de cité — 217
+
+Valeurs prudentes dans `C.CityLaws217Rules`, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §8.5.
+
+| Clé | Valeur | Sens |
+|---|---:|---|
+| `startAge` | 7 | Âge de départ (Grande métropole, indice de `CITY_TIERS`) |
+| `caps` | 1, 2, 2, 3 | Lois engagées permises aux indices 7, 8, 9, 10 |
+| `delaySeconds` | 60 | Délai de promulgation et d'abrogation, gelé de l'alerte à la fin de l'assaut |
+| `activationReach` | 100 | Portée du dépôt pour décider |
+| `foodPerPersonSecond` | 0,0065 | Miroir de la ration d'`economyTick`, vérifié par test |
+| `halfRations.foodFactor` | 0,5 | Part de la ration consommée |
+| `halfRations.moraleDrain` | 0,12 /s | Prix en moral (regain ordinaire 0,08 /s) |
+| `waterRation.waterFactor` | 0,7 | Part du besoin en eau puisée |
+| `waterRation.moraleDrain` | 0,10 /s | Prix en moral |
+| `clearingDuty.seconds` | 30 | Durée de la corvée après chaque assaut repoussé |
+| `clearingDuty.speed` | 1,5 | Multiplicateur de cadence de déblaiement des ouvriers |
+
+L'attirance des hordes (`C.wavePlan`) sature dès une signature de 288 : voir `GAME_BIBLE.md` §11.3.
