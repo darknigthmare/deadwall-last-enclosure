@@ -385,3 +385,15 @@ Valeurs dans `C.Balance217Rules`, pour les nouvelles campagnes seulement, non é
 | `morale.depart.interval` | 180 s | Départs suivants tant que le moral reste sous 10 |
 
 Un seul ouvrier part par échéance, jamais le dernier ni un ouvrier affecté. Tout se remet à zéro dès que le moral atteint 10. L'échéancier est gelé pendant une pénurie d'eau à son deuxième temps ou au-delà. Les campagnes antérieures gardent +80 % plafonné et ×0,82 sous 20.
+
+## Brèche catastrophe — 217
+
+Valeurs dans `C.Breach217Rules`, pour les nouvelles campagnes seulement, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §8.6.
+
+| Constante | Valeur | Rôle |
+|---|---|---|
+| `C.Breach217Rules.minLength` | 3 ouvrages | Longueur à partir de laquelle un pan menace de céder |
+| `C.Breach217Rules.maxCollapse` | 8 ouvrages | Maximum emporté par une rupture, ouvrage détruit compris |
+| `C.BATTLEFIELD_RULES.fragileWallRatio` (existant) | 0,3 | Seuil de fragilité, inchangé et partagé |
+
+Les ruptures pourraient être trop fréquentes en début de partie : leviers `minLength` (4 ou 5) et `maxCollapse`.

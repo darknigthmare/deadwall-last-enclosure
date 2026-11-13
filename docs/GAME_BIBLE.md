@@ -1728,13 +1728,30 @@ une sirène. Rien n'est visible de loin. Les hordes régionales (jusqu'à
   arrivée au moment où elle entre.
 - Test `tests/horde-horizon217.test.cjs`.
 
+**Passe visuelle [LIVRÉ]**
+
+- La masse est une foule : une avant-garde de silhouettes entières (tête,
+  épaules, tronc, jambes, parfois bras tendus) devant des rangs serrés de
+  têtes, sur une base sombre et un voile de poussière. Vues de face au nord,
+  de dos au sud, de profil à l'est et à l'ouest.
+- Trois densités : une petite vague arrive par paquets, une vague moyenne
+  tient tout le bord, une marée s'épaissit sur environ cinq mètres.
+- Elle se tient à la limite de ce que l'interface cache, sur les quatre
+  côtés ; un libellé « HORDE · EST » marque le bord quand elle est hors
+  champ.
+- Elle est peinte avec le sol : acteurs, véhicules et bâtiments passent
+  dessus, et aucune figure n'est posée autour du Commandant.
+- Au plus 240 silhouettes entières et 1 440 têtes de rang (96 et 192 en
+  qualité légère).
+
 Réserves, constatées dans un navigateur :
 
-- **Fronts est et ouest presque invisibles sur ordinateur** : la masse reste
-  sous les panneaux latéraux de l'interface.
-- Au nord, le centre est couvert par la pile de notifications.
-- Les silhouettes sont schématiques, et la vague 1 (18 contacts) ne donne
-  qu'une rangée clairsemée.
+- La masse **entre de 8 à 12 m dans la carte** selon l'interface : un
+  rempart extérieur bâti loin serait dessiné par-dessus elle.
+- Les têtes de rang sont carrées, d'aspect « briques » de près.
+- Est et ouest restent moins imposants que nord et sud ; une petite vague
+  reste discrète ; en nuit noire on voit des têtes, pas des corps.
+- L'animation n'a pas été observée à l'écran, seulement testée.
 - La masse ne se voit que si le bord de la carte est à l'écran : pas encore
   « depuis le rempart ».
 
@@ -1781,6 +1798,36 @@ une migration régionale ; les masses agrégées ; la vue depuis les remparts.
 - Une pyramide ne se forme jamais sans le nombre : c'est l'expression directe
   de la règle « plus de monde, pas plus de vie ».
 
+**Lecture de l'amas au sol [LIVRÉ], présentation seulement**
+(`src/corpse-heaps217.js`, test `tests/corpse-heaps217.test.cjs`)
+
+| État | Charge | Ce qu'on voit contre la face extérieure |
+|---|---|---|
+| Épars | Moins de 50 % du seuil | Quelques corps |
+| Haut | 50 à 85 % | Un talus continu |
+| Imminent | 85 à 100 % | Le talus atteint la crête, liseré ambré |
+| Franchi | Au-delà | Les corps couvrent le mur, liseré rouge et chevrons |
+
+- **Le seuil dépend de chaque infecté, pas du mur** : les infectés agiles
+  ont chacun le leur, de 15 à 32 corps. Les premiers passent à 15, tous
+  passent au-delà de 32. L'affichage prend le premier franchissement pour
+  repère.
+- Une annonce signale « imminent » puis « franchi », une fois par épisode,
+  jamais à la reprise. Le dossier Situation donne l'amas le plus haut par
+  côté et le temps de déblaiement d'un ouvrier.
+- 600 corps dessinés au plus (240 en qualité légère). Aucune règle
+  modifiée, aucun état sauvegardé. Les remparts de citadelle gardent leur
+  rendu en gradins.
+
+Réserves : corps en découpes à plat ; la hauteur se lit par l'emprise et la
+densité, pas par un volume ; l'amas épars est presque invisible de nuit ; la
+montée pendant un vrai combat n'a pas été observée ; dans un cas extrême de
+180 murs chargés visibles, le dessin coûte 8 à 14 ms par image en rendu
+logiciel.
+
+Restent à faire : faire monter l'amas par les vivants ; l'affaisser en
+tirant dans sa base ; l'incendier ; animer le franchissement.
+
 #### Les murs colossaux
 
 **[LIVRÉ]** Remparts de 12, 24 et 48 m, dalles jusqu'à 72 m, quatre affûts,
@@ -1817,6 +1864,38 @@ secteur. La chute d'un rempart ne termine pas la partie.
 
 Une brèche catastrophe ne termine jamais la partie à elle seule : seule la
 chute du centre de commandement le fait.
+
+**Première tranche livrée [LIVRÉ], nouvelles campagnes seulement**
+(`src/breach217.js`, valeurs dans `C.Breach217Rules`, test
+`tests/breach217.test.cjs`)
+
+- **Le pan menacé** : une suite droite d'au moins 3 ouvrages de mur voisins,
+  portes comprises, tous sous 30 % de leur solidité. Il est annoncé une
+  fois (« Le mur nord menace de céder sur 4 ouvrages. ») et figure dans le
+  dossier « Pans menacés ». Réparer un seul de ses ouvrages au-dessus du
+  seuil lève la menace.
+- **La rupture** : si un ouvrage d'un pan déjà annoncé est détruit, le reste
+  du pan cède dans le même instant, 8 ouvrages au plus, avec une annonce
+  unique (« Rupture au nord : 5 ouvrages ont cédé d'un coup. »).
+- Elle n'ajoute aucun dégât aux ouvrages sains, ne tire aucun hasard, ne
+  crée ni infecté ni ressource, n'emporte jamais le centre et ne déclenche
+  pas d'autre rupture. Un pan ne tourne pas le coin.
+- Le seuil de fragilité est celui du relevé de champ de bataille : il n'y en
+  a qu'un.
+- Les campagnes commencées avant gardent la chute ouvrage par ouvrage.
+
+**Risque d'équilibrage, jamais joué** : les ruptures pourraient être
+fréquentes en début de partie, alors qu'elles doivent rester rares. Les
+infectés frappent souvent plusieurs palissades voisines, qui passent vite
+sous 30 %. Une ouverture d'une case peut devenir une ouverture de huit, et
+une section postée sur le pan peut perdre plusieurs équipiers d'un coup.
+Leviers : la longueur minimale d'un pan (4 ou 5 au lieu de 3) et le nombre
+d'ouvrages emportés.
+
+Restent à faire : montrer les pans menacés sur la carte (fissures) ; les
+autres signes avant-coureurs (poids de l'amas, abomination en approche) ;
+la décision tenir, évacuer ou sacrifier avec les districts ; une seule
+brèche nommée par rupture dans l'état des secteurs.
 
 ### 8.7 La filière des corps **[DÉCISION]**
 
@@ -2145,8 +2224,8 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
 | 12 | Cité autonome cohérente : siège vertical actif (livré), consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
 | 13 | Marée à l'horizon (§8.6) — première tranche livrée | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
-| 14 | Pyramides visibles et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
-| 15 | Brèche catastrophe (§8.6) | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
+| 14 | Pyramides visibles (livré) et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
+| 15 | Brèche catastrophe (§8.6) — première tranche livrée | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
 | 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
 | 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
