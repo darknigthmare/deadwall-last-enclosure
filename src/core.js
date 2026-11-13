@@ -3360,6 +3360,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   morale:Object.freeze({
    tiers:Object.freeze([Object.freeze({min:60,factor:1}),Object.freeze({min:40,factor:.94}),Object.freeze({min:20,factor:.88}),Object.freeze({min:0,factor:.82})]),
    depart:Object.freeze({below:10,warnSeconds:120,seconds:300,interval:180})})});
+ // Brèche catastrophe (GAME_BIBLE §8.6), nouvelles campagnes seulement. Un pan est une suite droite d'ouvrages de mur
+ // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
+ // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
+ C.Breach217Rules=Object.freeze({minLength:3,maxCollapse:8});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
