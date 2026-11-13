@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36923,
-      "sha256": "a0294ab3f8b697f6a13e96c4864850e7c54341d583c5495742e7f05824844d1e"
+      "bytes": 37017,
+      "sha256": "a72f22beba027dc1f5bf9b965d9a6888b4000fcbbda3c77dc5f583529e6fc05f"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -172,8 +172,8 @@
     },
     {
       "path": "src/chronicles131-data.js",
-      "bytes": 10968,
-      "sha256": "6c1e7479126fd9e0211bbfc17ae8b9b9a601c6fe65486a5b73c7a2dfbf796ef8"
+      "bytes": 16376,
+      "sha256": "3aa3a2bcfd411709c6da377ddca0900c77a56f46fde30ce46ae4ed686cc7a059"
     },
     {
       "path": "src/chronicles131-ui.js",
@@ -182,8 +182,8 @@
     },
     {
       "path": "src/chronicles131.js",
-      "bytes": 19181,
-      "sha256": "e1205b4735fed385e0a0efc530522f5452abb0940707dd29f2e611059540f577"
+      "bytes": 21893,
+      "sha256": "5dc9c117b9a878ef88e2be1e0a8ba0d9eff01cbb0547c8728015c064b6a61a92"
     },
     {
       "path": "src/city-catalogue-ui150.js",
@@ -196,9 +196,14 @@
       "sha256": "2713d8a0b13098af1f336d75afab8c671f260341cedfd3413b3af1e2d41a29c4"
     },
     {
+      "path": "src/city-laws217.js",
+      "bytes": 13716,
+      "sha256": "17313c450fe4be68e10ee2b78149717889c5f8b59f340fffed1d2e874d635416"
+    },
+    {
       "path": "src/city-water215.js",
-      "bytes": 11952,
-      "sha256": "e9d26ed0b6b3b7fc922ce690d45a95459a19e0a216f073bb8895e74eb6aa0509"
+      "bytes": 12220,
+      "sha256": "df27cf8144f102a3b9f5f230a393c772fd4f5da7905f0206cc9e1e327a0072ab"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -422,8 +427,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 337286,
-      "sha256": "91d625b8e57e7a8eee6574c863ddf9a7d899bad08496cb0704080a24365bcffb"
+      "bytes": 338556,
+      "sha256": "9c7c6e9bfc716815b6706ee615f51e37bf4e9879413e3482034155532718c3cc"
     },
     {
       "path": "src/d17-art149.js",
@@ -507,13 +512,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5308,
-      "sha256": "18229ff6e65da1bad03e90038573dadcf138c479ea2d571e23effb2ef92fbcad"
+      "bytes": 5322,
+      "sha256": "4f4c7c6a7ebb18f6f9412c96feef9cdd544685be0fa7de27e243a50d25093f62"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24954,
-      "sha256": "ec1ca2041ced5154bcc3f23eb61b9ee638f6a11bf90fd5b19b660a2a903b21bb"
+      "bytes": 25040,
+      "sha256": "d638850ccc57e6e8cc2300f8fd4912769342a692b9a11787e3d1d51b1ed876f0"
     },
     {
       "path": "src/expedition-art.js",
@@ -701,6 +706,11 @@
       "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
     },
     {
+      "path": "src/horde-horizon217.js",
+      "bytes": 14282,
+      "sha256": "cbc47426e70a91aa9d6fbdb4daba000e557be515542f170ec8940c15a6247af1"
+    },
+    {
       "path": "src/hud135.js",
       "bytes": 15729,
       "sha256": "cc3a3ff039eaecfe1c32e35dc09c2044a7065a0997bca940e3dc2cf3b229be69"
@@ -782,8 +792,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13057,
-      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
+      "bytes": 13072,
+      "sha256": "6b01995a5bcfe21c3dc5acfeec290acce454d6a980a9e4674db2ef19d47e490c"
     },
     {
       "path": "src/nature-art153.js",
@@ -1184,8 +1194,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36923,
-      "sha256": "a0294ab3f8b697f6a13e96c4864850e7c54341d583c5495742e7f05824844d1e"
+      "bytes": 37017,
+      "sha256": "a72f22beba027dc1f5bf9b965d9a6888b4000fcbbda3c77dc5f583529e6fc05f"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -1349,8 +1359,8 @@
     },
     {
       "path": "src/chronicles131-data.js",
-      "bytes": 10968,
-      "sha256": "6c1e7479126fd9e0211bbfc17ae8b9b9a601c6fe65486a5b73c7a2dfbf796ef8"
+      "bytes": 16376,
+      "sha256": "3aa3a2bcfd411709c6da377ddca0900c77a56f46fde30ce46ae4ed686cc7a059"
     },
     {
       "path": "src/chronicles131-ui.js",
@@ -1359,8 +1369,8 @@
     },
     {
       "path": "src/chronicles131.js",
-      "bytes": 19181,
-      "sha256": "e1205b4735fed385e0a0efc530522f5452abb0940707dd29f2e611059540f577"
+      "bytes": 21893,
+      "sha256": "5dc9c117b9a878ef88e2be1e0a8ba0d9eff01cbb0547c8728015c064b6a61a92"
     },
     {
       "path": "src/city-catalogue-ui150.js",
@@ -1373,9 +1383,14 @@
       "sha256": "2713d8a0b13098af1f336d75afab8c671f260341cedfd3413b3af1e2d41a29c4"
     },
     {
+      "path": "src/city-laws217.js",
+      "bytes": 13716,
+      "sha256": "17313c450fe4be68e10ee2b78149717889c5f8b59f340fffed1d2e874d635416"
+    },
+    {
       "path": "src/city-water215.js",
-      "bytes": 11952,
-      "sha256": "e9d26ed0b6b3b7fc922ce690d45a95459a19e0a216f073bb8895e74eb6aa0509"
+      "bytes": 12220,
+      "sha256": "df27cf8144f102a3b9f5f230a393c772fd4f5da7905f0206cc9e1e327a0072ab"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -1599,8 +1614,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 337286,
-      "sha256": "91d625b8e57e7a8eee6574c863ddf9a7d899bad08496cb0704080a24365bcffb"
+      "bytes": 338556,
+      "sha256": "9c7c6e9bfc716815b6706ee615f51e37bf4e9879413e3482034155532718c3cc"
     },
     {
       "path": "src/d17-art149.js",
@@ -1684,13 +1699,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5308,
-      "sha256": "18229ff6e65da1bad03e90038573dadcf138c479ea2d571e23effb2ef92fbcad"
+      "bytes": 5322,
+      "sha256": "4f4c7c6a7ebb18f6f9412c96feef9cdd544685be0fa7de27e243a50d25093f62"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 24954,
-      "sha256": "ec1ca2041ced5154bcc3f23eb61b9ee638f6a11bf90fd5b19b660a2a903b21bb"
+      "bytes": 25040,
+      "sha256": "d638850ccc57e6e8cc2300f8fd4912769342a692b9a11787e3d1d51b1ed876f0"
     },
     {
       "path": "src/expedition-art.js",
@@ -1878,6 +1893,11 @@
       "sha256": "2d70c7ec3e85243143a7e10d6890670f2de7464e3f4a7a4053af8636a6e0e9c4"
     },
     {
+      "path": "src/horde-horizon217.js",
+      "bytes": 14282,
+      "sha256": "cbc47426e70a91aa9d6fbdb4daba000e557be515542f170ec8940c15a6247af1"
+    },
+    {
       "path": "src/hud135.js",
       "bytes": 15729,
       "sha256": "cc3a3ff039eaecfe1c32e35dc09c2044a7065a0997bca940e3dc2cf3b229be69"
@@ -1959,8 +1979,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13057,
-      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
+      "bytes": 13072,
+      "sha256": "6b01995a5bcfe21c3dc5acfeec290acce454d6a980a9e4674db2ef19d47e490c"
     },
     {
       "path": "src/nature-art153.js",
