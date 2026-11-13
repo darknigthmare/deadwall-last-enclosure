@@ -1473,9 +1473,10 @@ Situation du carnet :
 
 Limites :
 
-- L'attente de verrouillage n'est pas sauvegardée : après une reprise, les
-  portes, les sections et les ouvriers gardent leur état, mais un repli
-  général encore en attente doit être redonné.
+- L'ordre de repli en cours, les portes qu'il a verrouillées avec leur mode
+  précédent, les brèches ouvertes et la ligne de repli choisie sont
+  **sauvegardés** (module additif `fallback217`). Une reprise ne réannonce
+  rien ; une sauvegarde plus ancienne se charge sans ordre ni brèche.
 - Le repli vise toujours le centre. Le repli **enceinte par enceinte**, avec
   le choix de la ligne à tenir, viendra avec les districts (§8.2).
 - Le repli général est le premier pas du sacrifice de secteur (§8.3), sans
@@ -1519,8 +1520,7 @@ périmètre réellement fermé.
 Restent à faire : responsable, garnison affectée, stocks propres et
 priorité ; ordres *tenir / évacuer / sacrifier* ; repli des unités vers une
 enceinte plutôt que vers le centre ; état des secteurs (§8.3) par district ;
-révélation à l'âge 6 (la section est visible dès maintenant) ; sauvegarde de
-la ligne choisie.
+révélation à l'âge 6 (la section est visible dès maintenant).
 
 ### 8.3 Sacrifice et reconquête **[DÉCISION]**
 
@@ -1583,8 +1583,8 @@ Reconquête, lue sur l'état réel :
   dégradent pas davantage : l'état est un constat, pas encore une règle.
 - Le **sacrifice volontaire** avec évacuation des stocks n'existe pas ; le
   repli général (§8.1) en tient lieu.
-- Les brèches ouvertes ne sont pas sauvegardées : après une reprise, l'état
-  des secteurs repart des faits observables.
+- Le relevé de la nuit (secteurs perdus et repris) n'est pas sauvegardé : il
+  repart de zéro après une reprise. Les brèches ouvertes, elles, le sont.
 
 ### 8.4 Grands ouvrages **[DÉCISION]**
 

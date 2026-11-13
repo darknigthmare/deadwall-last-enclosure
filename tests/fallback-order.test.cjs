@@ -51,7 +51,8 @@ function enclose(g){
   const core=g.core(),cells=T.footprint(core),r=3,placed=[];
   const put=(type,gx,gy)=>{const B=core.constructor,b=new B(g.nextId++,type,gx,gy,0,1);b.progress=1;b.health=b.def.health;g.world.add(b);placed.push(b);return b;};
   const x0=cells.x-r,x1=cells.x+cells.width+r-1,y0=cells.y-r,y1=cells.y+cells.height+r-1,gateX=cells.x;
-  for(let x=x0;x<=x1;x++){put(x===gateX?'gate':'woodWall',x,y0);put('woodWall',x,y1);}
+  // La porte occupe deux cases : aucune palissade n'est posée sur la seconde, sinon la sauvegarde refuse des structures superposées.
+  for(let x=x0;x<=x1;x++){if(x===gateX)put('gate',x,y0);else if(x!==gateX+1)put('woodWall',x,y0);put('woodWall',x,y1);}
   for(let y=y0+1;y<y1;y++){put('woodWall',x0,y);put('woodWall',x1,y);}
   g.world.navigationVersion++;g.refreshMetrics(true);
   return {placed,gate:placed.find(b=>T.isGate(b)),inside:{x:core.x,y:core.y+C.TILE*2},outside:{x:core.x,y:(y0-3)*C.TILE}};
@@ -154,4 +155,53 @@ test('secteurs : une brèche conteste le côté, des intrus le perdent, un mur r
   assert.equal(g.fallbackOrder.plan().needed,false);assert.equal(g.fallbackOrder.status().closed,true);
   g.fallbackOrder.refresh();assert.equal(doc.getElementById('fallbackReconquest').hidden,true);
   assert.match(doc.getElementById('fallbackSectors').children[0].textContent,/^NORD · /);
+});
+
+test('repli sauvegardé : état validé strictement, absent des anciennes sauvegardes = rien en cours',()=>{
+  const V=Fallback.validate,ok={version:1,mode:'everyone',sealed:true,gates:[[12,'auto'],[40,'open']],breaches:[{id:7,side:'north',name:'Palissade',x:63,y:59,w:1,h:1}],line:2};
+  assert.deepEqual(V(undefined),{version:1,mode:null,sealed:false,gates:[],breaches:[],line:1});assert.deepEqual(V(ok),ok);
+  for(const bad of [null,[],{...ok,version:2},{...ok,mode:'tout'},{...ok,mode:'fighters'},{...ok,mode:null,sealed:false},{...ok,line:0},{...ok,line:9},{...ok,extra:1},
+    {...ok,gates:[[12,'closed']]},{...ok,gates:[[12,'auto'],[12,'open']]},{...ok,gates:[[0,'auto']]},{...ok,breaches:[{...ok.breaches[0],side:'haut'}]},{...ok,breaches:[{...ok.breaches[0],w:0}]},{...ok,breaches:[ok.breaches[0],ok.breaches[0]]},{...ok,breaches:[{...ok.breaches[0],extra:1}]}])
+    assert.throws(()=>V(bad),/Repli 217 invalide/);
+});
+
+test('repli sauvegardé : un repli général en attente survit à la reprise et verrouille ensuite',()=>{
+  const {g}=campaign(),{gate,inside,outside}=enclose(g);
+  const straggler=g.units.find(u=>!u.dead);for(const unit of g.units){unit.x=inside.x;unit.y=inside.y;}g.player.x=inside.x;g.player.y=inside.y;straggler.x=outside.x;straggler.y=outside.y;
+  assert.equal(g.fallbackOrder.everyone(),true);g.fallbackOrder.tick();assert.equal(g.fallbackOrder.status().sealed,false);
+  const saved=JSON.parse(JSON.stringify(g.serialize()));
+  assert.deepEqual(saved.expansions127.modules.fallback217,{version:1,mode:'everyone',sealed:false,gates:[],breaches:[],line:1});
+  assert.equal(g.restoreSave(saved),true);
+  assert.equal(g.fallbackOrder.status().mode,'everyone','l’ordre est repris');assert.equal(g.workerOrder,'retreat');
+  const kept=g.units.find(u=>u.id===straggler.id),door=[...g.world.buildings.values()].find(b=>T.isGate(b));
+  for(const unit of g.units){unit.x=inside.x;unit.y=inside.y;}g.player.x=inside.x;g.player.y=inside.y;assert.ok(kept);
+  g.fallbackOrder.tick();assert.equal(T.gateMode(door),'closed');assert.equal(g.fallbackOrder.status().sealed,true);
+  const sealed=JSON.parse(JSON.stringify(g.serialize()));assert.deepEqual(sealed.expansions127.modules.fallback217.gates,[[door.id,'auto']]);
+  assert.equal(g.restoreSave(sealed),true);assert.equal(g.fallbackOrder.status().sealed,true);
+  const again=[...g.world.buildings.values()].find(b=>T.isGate(b));
+  assert.equal(g.fallbackOrder.standDown(),true);assert.equal(T.gateMode(again),'auto','la porte retrouve son mode d’avant, même après deux reprises');
+});
+
+test('repli sauvegardé : une brèche ouverte survit à la reprise, sans réannonce, et se referme ensuite',()=>{
+  const {g}=campaign(),{placed}=enclose(g);
+  g.fallbackOrder.tick();g.phase='assault';
+  const core=g.core(),top=Math.min(...placed.map(b=>b.gy)),north=placed.find(b=>!T.isGate(b)&&b.gy===top&&b.gx===T.footprint(core).x+3);
+  north.health=0;north.dead=true;g.world.navigationVersion++;g.elapsed+=10;g.fallbackOrder.tick();
+  g.world.buildings.delete(north.id);
+  const saved=JSON.parse(JSON.stringify(g.serialize()));assert.equal(saved.expansions127.modules.fallback217.breaches.length,1);assert.equal(saved.expansions127.modules.fallback217.breaches[0].side,'north');
+  assert.equal(g.restoreSave(saved),true);
+  const notes=[],notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};
+  g.elapsed+=10;g.fallbackOrder.tick();g.fallbackOrder.tick();
+  const sector=()=>g.fallbackOrder.sectors().find(item=>item.id==='north');
+  assert.equal(sector().breaches,1,'la brèche est toujours ouverte');assert.equal(notes.filter(t=>t.startsWith('Secteur ')||t.startsWith('Brèche ')).length,0,'rien n’est réannoncé à la reprise');
+  const B=g.core().constructor,rebuilt=new B(g.nextId++,'woodWall',north.gx,north.gy,0,1);rebuilt.health=rebuilt.def.health;g.world.add(rebuilt);g.world.navigationVersion++;
+  g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector().breaches,0);assert.equal(notes.filter(t=>t.startsWith('Secteur nord repris')).length,1);
+});
+
+test('repli sauvegardé : une ancienne sauvegarde sans le module se charge sans ordre ni brèche',()=>{
+  const {g}=campaign();enclose(g);
+  const old=JSON.parse(JSON.stringify(g.serialize()));delete old.expansions127.modules.fallback217;
+  assert.equal(g.restoreSave(old),true);assert.equal(g.fallbackOrder.status().mode,null);assert.equal(g.fallbackOrder.sectors().every(s=>s.breaches===0),true);
+  assert.deepEqual(g.fallbackOrder.snapshot(),{version:1,mode:null,sealed:false,gates:[],breaches:[],line:1});
 });

@@ -171,7 +171,7 @@
    if(order.status().mode==='everyone')return false;
    choice=rank;return true;
   }
-  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);cache=null;choice=1;return result;};}
+  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);if(result===false)return result;cache=null;const saved=name==='restoreSave'?order?.savedLine?.():1;choice=Number.isInteger(saved)&&saved>=1?saved:1;return result;};}
   const host=doc.getElementById('commandPanel-enclosure');
   let refresh=()=>{};
   if(host){

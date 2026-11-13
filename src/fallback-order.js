@@ -6,6 +6,7 @@
  const api=factory(root);
  if(typeof module==='object'&&module.exports)module.exports=api;
  else root.DeadwallFallbackOrder=api;
+ if(root.DEADWALL)api.register(root.DEADWALL);
  if(root.document){
   const mount=()=>root.setTimeout(()=>{if(root.DEADWALL)api.install(root.DEADWALL,root.document);},0);
   if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
@@ -13,6 +14,38 @@
 })(globalThis,function(root){
  'use strict';
  const CHECK_SECONDS=.5,BREACH_QUIET_SECONDS=4;
+ // État sauvegardé (module additif `fallback217`) : l'ordre de repli en cours, les portes qu'il a
+ // verrouillées avec leur mode précédent, les brèches encore ouvertes et la ligne de repli choisie.
+ const MODES=['fighters','everyone'],SIDE_IDS=['north','east','south','west'],GATE_MODES=['auto','open','closed'],MAX_ID=0x7ffffffe,MAX_ENTRIES=512,MAX_LINE=8;
+ const KEYS=['version','mode','sealed','gates','breaches','line'];
+ function initial(){return{version:1,mode:null,sealed:false,gates:[],breaches:[],line:1};}
+ function validate(raw){
+  if(raw===undefined)return initial();
+  const bad=()=>{throw Error('Repli 217 invalide.');},id=v=>Number.isInteger(v)&&v>=1&&v<=MAX_ID,cell=v=>Number.isInteger(v)&&v>=-8&&v<=1024,size=v=>Number.isInteger(v)&&v>=1&&v<=64;
+  if(!raw||typeof raw!=='object'||Array.isArray(raw)||raw.version!==1||Object.keys(raw).length!==KEYS.length||Object.keys(raw).some(k=>!KEYS.includes(k)))bad();
+  if(raw.mode!==null&&!MODES.includes(raw.mode)||typeof raw.sealed!=='boolean'||raw.sealed&&raw.mode!=='everyone'||!Number.isInteger(raw.line)||raw.line<1||raw.line>MAX_LINE)bad();
+  if(!Array.isArray(raw.gates)||raw.gates.length>MAX_ENTRIES||!Array.isArray(raw.breaches)||raw.breaches.length>MAX_ENTRIES||raw.mode===null&&raw.gates.length)bad();
+  const seen=new Set(),gates=raw.gates.map(g=>{if(!Array.isArray(g)||g.length!==2||!id(g[0])||seen.has(g[0])||!GATE_MODES.includes(g[1])||g[1]==='closed')bad();seen.add(g[0]);return[g[0],g[1]];});
+  const open=new Set(),breaches=raw.breaches.map(b=>{
+   if(!b||typeof b!=='object'||Array.isArray(b)||Object.keys(b).length!==7||!id(b.id)||open.has(b.id)||!SIDE_IDS.includes(b.side)||typeof b.name!=='string'||!b.name||b.name.length>80||!cell(b.x)||!cell(b.y)||!size(b.w)||!size(b.h))bad();
+   open.add(b.id);return{id:b.id,side:b.side,name:b.name,x:b.x,y:b.y,w:b.w,h:b.h};});
+  return{version:1,mode:raw.mode,sealed:raw.sealed,gates,breaches,line:raw.line};
+ }
+ // L'enregistrement se fait dès le chargement du script : une campagne reprise avant la mise en place
+ // de l'interface doit déjà trouver son validateur. L'état reçu attend alors l'installation.
+ // Clé partagée : le module peut être chargé deux fois (script, puis `require` dans un test).
+ const OWNER=Symbol.for('deadwall.fallback217.owner');
+ function register(g){
+  if(!g?.expansions?.register||g[OWNER])return false;
+  const owner={live:null,early:undefined};Object.defineProperty(g,OWNER,{value:owner,enumerable:false});
+  g.expansions.register({id:'fallback217',title:'Repli et secteurs',validate,
+   snapshot:()=>owner.live?owner.live.snapshot():owner.early?validate(owner.early):initial(),
+   overview:()=>owner.live?owner.live.overview():{summary:'Les ordres de repli se donnent dans l’onglet Situation du carnet.',rows:[]},
+   actions:()=>[],
+   restore:raw=>{const saved=validate(raw);if(owner.live)owner.live.accept(saved);else owner.early=saved;},
+   reset:()=>{owner.early=undefined;owner.live?.accept(undefined);}});
+  return true;
+ }
  const SIDES=Object.freeze({north:'nord',east:'est',south:'sud',west:'ouest'});
  const many=(n,one,several)=>n+' '+(n>1?several:one);
  const alive=entity=>Boolean(entity&&!entity.dead&&entity.health>0);
@@ -74,7 +107,7 @@
  function install(g,doc){
   const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),T=root.DeadwallTactics||(typeof require==='function'?require('./tactics.js'):null);
   if(!g||!doc?.body||!C||!T||g.fallbackOrder)return false;
-  let pending=null,cache=null,clock=0,notice='',walls=null,wallWorld=null,lastBreach=null,quietUntil=0;
+  let pending=null,cache=null,clock=0,notice='',walls=null,wallWorld=null,lastBreach=null,quietUntil=0,incoming,savedLine=1,primed=true;
   const B=root.DeadwallBattlefield||null,breaches=new Map(),known=new Map();let nightLog={wave:0,lost:[],retaken:[]};
   const sideIds=Object.keys(SIDES);
   const zone=()=>{const version=g.world?.navigationVersion;if(!cache||cache.world!==g.world||cache.version!==version)cache={world:g.world,version,zone:innerZone(C,T,g.world.buildings.values())};return cache.zone;};
@@ -178,6 +211,8 @@
   // Annonce les secteurs perdus et repris, une fois par changement.
   function watchSectors(){
    if(nightLog.wave!==g.wave)nightLog={wave:g.wave,lost:[],retaken:[]};
+   // Après une reprise, l'état des secteurs est relevé une fois en silence : rien n'est réannoncé.
+   if(!primed){primed=true;for(const sector of sectors())known.set(sector.id,sector.state);return;}
    for(const sector of sectors()){
     const before=known.get(sector.id)||'held';
     if(sector.state===before)continue;
@@ -197,7 +232,34 @@
   }
   const update=g.update;
   if(typeof update==='function')g.update=function(dt,...rest){const result=update.call(this,dt,...rest);const now=Number(g.elapsed)||0;if(now<clock||now-clock>=CHECK_SECONDS){clock=now;tick();}return result;};
-  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);pending=null;cache=null;walls=null;wallWorld=null;lastBreach=null;notice='';clock=-Infinity;quietUntil=0;breaches.clear();known.clear();nightLog={wave:0,lost:[],retaken:[]};return result;};}
+  for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){
+   incoming=undefined;const result=old.apply(this,args);if(result===false)return result;
+   pending=null;cache=null;walls=null;wallWorld=null;lastBreach=null;notice='';clock=-Infinity;quietUntil=0;breaches.clear();known.clear();nightLog={wave:0,lost:[],retaken:[]};savedLine=1;primed=true;
+   // La reprise rend l'ordre en cours, ses portes et les brèches ouvertes ; les secteurs se relèvent ensuite en silence.
+   if(name==='restoreSave'&&incoming)adopt(incoming);
+   incoming=undefined;return result;
+  };}
+  function adopt(saved){
+   savedLine=saved.line;
+   if(saved.mode)pending={mode:saved.mode,sealed:saved.sealed,previous:new Map(saved.gates)};
+   for(const b of saved.breaches)breaches.set(b.id,Object.freeze({side:b.side,name:b.name,cells:{x:b.x,y:b.y,width:b.w,height:b.h}}));
+   primed=false;
+  }
+  function snapshot(){
+   const rank=line?.()?.rank;
+   return validate({version:1,mode:pending?.mode||null,sealed:Boolean(pending?.sealed),gates:pending?[...pending.previous].filter(([id,mode])=>mode!=='closed').sort((a,b)=>a[0]-b[0]):[],
+    breaches:[...breaches].map(([id,b])=>({id,side:b.side,name:b.name,x:b.cells.x,y:b.cells.y,w:b.cells.width,h:b.cells.height})).sort((a,b)=>a.id-b.id),line:Number.isInteger(rank)&&rank>=1&&rank<=MAX_LINE?rank:Math.min(MAX_LINE,Math.max(1,savedLine))});
+  }
+  function overview(){
+   const s=status(),list=g.state==='playing'&&g.world?sectors():[];
+   return{summary:'Les ordres de repli se donnent dans l’onglet Situation du carnet. Cette fiche rappelle ce qui est en cours et ce qui sera repris à la prochaine reprise de la campagne.',rows:[
+    {label:'Ordre en cours',value:s.mode==='everyone'?(s.sealed?'Repli général, enceinte verrouillée':'Repli général, en attente de verrouillage'):s.mode==='fighters'?'Repli des combattants':'Aucun'},
+    {label:'Brèches ouvertes',value:String(breaches.size)},
+    {label:'Secteurs',value:list.length?list.map(sector=>sector.name+' '+sector.label).join(' · '):'Sans objet'}
+   ]};
+  }
+  register(g);const owner=g[OWNER];
+  if(owner){owner.live={snapshot,overview,accept:saved=>{incoming=saved;}};if(owner.early){adopt(owner.early);owner.early=undefined;}}
   // Interface : une section dans l'onglet Situation du carnet.
   const host=doc.getElementById('commandPanel-enclosure');
   let refresh=()=>{};
@@ -232,8 +294,8 @@
    };
    const updateUI=g.updateUI;if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);refresh();return result;};
   }
-  g.fallbackOrder=Object.freeze({holdLine:provider=>{line=typeof provider==='function'?provider:null;return true;},status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
+  g.fallbackOrder=Object.freeze({snapshot,savedLine:()=>savedLine,holdLine:provider=>{line=typeof provider==='function'?provider:null;return true;},status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
   refresh();return true;
  }
- return Object.freeze({install,innerZone,sideOf,sectorState,reconquest,SIDES,STATES});
+ return Object.freeze({install,register,innerZone,sideOf,sectorState,reconquest,initial,validate,SIDES,STATES});
 });
