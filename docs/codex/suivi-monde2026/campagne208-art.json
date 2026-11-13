@@ -8,8 +8,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 37017,
-      "sha256": "a72f22beba027dc1f5bf9b965d9a6888b4000fcbbda3c77dc5f583529e6fc05f"
+      "bytes": 37059,
+      "sha256": "842c468bd2e07754b2e4d07c4ffe4cb38fcefd9278227cb18dcc5abe25be97f0"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -115,6 +115,11 @@
       "path": "src/atlas-view.js",
       "bytes": 15435,
       "sha256": "f1fa209cc8f50fca12059cf8b96bec494a2dd7853edc72a512fc67ce0e1179f7"
+    },
+    {
+      "path": "src/balance217.js",
+      "bytes": 8552,
+      "sha256": "7e8c8e0de56f7a90e4a576782351dd461bd716c2cb65db818ddafa780f082cc7"
     },
     {
       "path": "src/barricades-ui134.js",
@@ -233,8 +238,8 @@
     },
     {
       "path": "src/city-water215.js",
-      "bytes": 12220,
-      "sha256": "df27cf8144f102a3b9f5f230a393c772fd4f5da7905f0206cc9e1e327a0072ab"
+      "bytes": 12676,
+      "sha256": "6767b88bb4b088ed184c0fbb5d5baf881690db7c04cc0c21c4e91f890ca31cd3"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -458,8 +463,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 338556,
-      "sha256": "9c7c6e9bfc716815b6706ee615f51e37bf4e9879413e3482034155532718c3cc"
+      "bytes": 340115,
+      "sha256": "672c75097b3c8ddf1b6d46ea9325a28567b9818fc4a1e9d014f6fdf4518aaa1c"
     },
     {
       "path": "src/d17-art149.js",
@@ -543,13 +548,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5336,
-      "sha256": "fd825a477772b450102bbdaa73e8d2af43645c53f2b564141a7433baf0e57a64"
+      "bytes": 5349,
+      "sha256": "3f12d95f46a1cd4425db7380bb4855e33072be46423938aec08b8d3ce0d91ca1"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25129,
-      "sha256": "fa558716b1da95d7704d40176d5a0c64fcd15af1e39f93eb7db14de5d34ca28e"
+      "bytes": 25212,
+      "sha256": "4a6dbdf5a72f285b8dbeb8cd6fa4205bdcc65aeb43212910c1b6135aa6f60486"
     },
     {
       "path": "src/expedition-art.js",
@@ -718,8 +723,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 458167,
-      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
+      "bytes": 458349,
+      "sha256": "a7de25bb7eb00f03faa3ec2823263643e6ffb0839c4e065232a48b91010a8cc7"
     },
     {
       "path": "src/geography135.js",
@@ -978,8 +983,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 7189,
-      "sha256": "dc039a3a6f6e8ca3e665b3f487bcc2d52e83a6a1af9e06de9b767283585f6d85"
+      "bytes": 7344,
+      "sha256": "a911cdd916d214d1d86181b0de370bedd7992559bbbbeb378d821fd621e7d805"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -1280,8 +1285,8 @@
   "sourcesBefore": [
     {
       "path": "index.html",
-      "bytes": 37017,
-      "sha256": "a72f22beba027dc1f5bf9b965d9a6888b4000fcbbda3c77dc5f583529e6fc05f"
+      "bytes": 37059,
+      "sha256": "842c468bd2e07754b2e4d07c4ffe4cb38fcefd9278227cb18dcc5abe25be97f0"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1387,6 +1392,11 @@
       "path": "src/atlas-view.js",
       "bytes": 15435,
       "sha256": "f1fa209cc8f50fca12059cf8b96bec494a2dd7853edc72a512fc67ce0e1179f7"
+    },
+    {
+      "path": "src/balance217.js",
+      "bytes": 8552,
+      "sha256": "7e8c8e0de56f7a90e4a576782351dd461bd716c2cb65db818ddafa780f082cc7"
     },
     {
       "path": "src/barricades-ui134.js",
@@ -1505,8 +1515,8 @@
     },
     {
       "path": "src/city-water215.js",
-      "bytes": 12220,
-      "sha256": "df27cf8144f102a3b9f5f230a393c772fd4f5da7905f0206cc9e1e327a0072ab"
+      "bytes": 12676,
+      "sha256": "6767b88bb4b088ed184c0fbb5d5baf881690db7c04cc0c21c4e91f890ca31cd3"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -1730,8 +1740,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 338556,
-      "sha256": "9c7c6e9bfc716815b6706ee615f51e37bf4e9879413e3482034155532718c3cc"
+      "bytes": 340115,
+      "sha256": "672c75097b3c8ddf1b6d46ea9325a28567b9818fc4a1e9d014f6fdf4518aaa1c"
     },
     {
       "path": "src/d17-art149.js",
@@ -1815,13 +1825,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5336,
-      "sha256": "fd825a477772b450102bbdaa73e8d2af43645c53f2b564141a7433baf0e57a64"
+      "bytes": 5349,
+      "sha256": "3f12d95f46a1cd4425db7380bb4855e33072be46423938aec08b8d3ce0d91ca1"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25129,
-      "sha256": "fa558716b1da95d7704d40176d5a0c64fcd15af1e39f93eb7db14de5d34ca28e"
+      "bytes": 25212,
+      "sha256": "4a6dbdf5a72f285b8dbeb8cd6fa4205bdcc65aeb43212910c1b6135aa6f60486"
     },
     {
       "path": "src/expedition-art.js",
@@ -1990,8 +2000,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 458167,
-      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
+      "bytes": 458349,
+      "sha256": "a7de25bb7eb00f03faa3ec2823263643e6ffb0839c4e065232a48b91010a8cc7"
     },
     {
       "path": "src/geography135.js",
@@ -2250,8 +2260,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 7189,
-      "sha256": "dc039a3a6f6e8ca3e665b3f487bcc2d52e83a6a1af9e06de9b767283585f6d85"
+      "bytes": 7344,
+      "sha256": "a911cdd916d214d1d86181b0de370bedd7992559bbbbeb378d821fd621e7d805"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -2552,8 +2562,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 37017,
-      "sha256": "a72f22beba027dc1f5bf9b965d9a6888b4000fcbbda3c77dc5f583529e6fc05f"
+      "bytes": 37059,
+      "sha256": "842c468bd2e07754b2e4d07c4ffe4cb38fcefd9278227cb18dcc5abe25be97f0"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -2659,6 +2669,11 @@
       "path": "src/atlas-view.js",
       "bytes": 15435,
       "sha256": "f1fa209cc8f50fca12059cf8b96bec494a2dd7853edc72a512fc67ce0e1179f7"
+    },
+    {
+      "path": "src/balance217.js",
+      "bytes": 8552,
+      "sha256": "7e8c8e0de56f7a90e4a576782351dd461bd716c2cb65db818ddafa780f082cc7"
     },
     {
       "path": "src/barricades-ui134.js",
@@ -2777,8 +2792,8 @@
     },
     {
       "path": "src/city-water215.js",
-      "bytes": 12220,
-      "sha256": "df27cf8144f102a3b9f5f230a393c772fd4f5da7905f0206cc9e1e327a0072ab"
+      "bytes": 12676,
+      "sha256": "6767b88bb4b088ed184c0fbb5d5baf881690db7c04cc0c21c4e91f890ca31cd3"
     },
     {
       "path": "src/codex-anchors160.js",
@@ -3002,8 +3017,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 338556,
-      "sha256": "9c7c6e9bfc716815b6706ee615f51e37bf4e9879413e3482034155532718c3cc"
+      "bytes": 340115,
+      "sha256": "672c75097b3c8ddf1b6d46ea9325a28567b9818fc4a1e9d014f6fdf4518aaa1c"
     },
     {
       "path": "src/d17-art149.js",
@@ -3087,13 +3102,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5336,
-      "sha256": "fd825a477772b450102bbdaa73e8d2af43645c53f2b564141a7433baf0e57a64"
+      "bytes": 5349,
+      "sha256": "3f12d95f46a1cd4425db7380bb4855e33072be46423938aec08b8d3ce0d91ca1"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25129,
-      "sha256": "fa558716b1da95d7704d40176d5a0c64fcd15af1e39f93eb7db14de5d34ca28e"
+      "bytes": 25212,
+      "sha256": "4a6dbdf5a72f285b8dbeb8cd6fa4205bdcc65aeb43212910c1b6135aa6f60486"
     },
     {
       "path": "src/expedition-art.js",
@@ -3262,8 +3277,8 @@
     },
     {
       "path": "src/game.js",
-      "bytes": 458167,
-      "sha256": "36b545abcd889d82e1104d3a65f565b9baf74fb53a768a97dd747c606607b399"
+      "bytes": 458349,
+      "sha256": "a7de25bb7eb00f03faa3ec2823263643e6ffb0839c4e065232a48b91010a8cc7"
     },
     {
       "path": "src/geography135.js",
@@ -3522,8 +3537,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 7189,
-      "sha256": "dc039a3a6f6e8ca3e665b3f487bcc2d52e83a6a1af9e06de9b767283585f6d85"
+      "bytes": 7344,
+      "sha256": "a911cdd916d214d1d86181b0de370bedd7992559bbbbeb378d821fd621e7d805"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -4191,6 +4206,6 @@
     "Four actual V01 source models supply the support rectangles. Activity clocks are explicitly prepared render inputs, not executed service transactions.",
     "No human campaign, physical phone frame rate or complete200model visual qualification is claimed. Transaction and world access proofs are separate."
   ],
-  "startedUtc": "2026-11-13T08:21:42.940Z",
-  "completedUtc": "2026-11-13T08:21:45.078Z"
+  "startedUtc": "2026-11-13T09:16:50.668Z",
+  "completedUtc": "2026-11-13T09:16:52.669Z"
 }
