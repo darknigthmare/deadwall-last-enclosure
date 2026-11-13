@@ -407,9 +407,11 @@
       randomState: Number(data.randomState || Date.now()) >>> 0
     };
   }
-  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0) {
+  // `curve` (facultatif) : fonction signature → attirance, fournie par src/balance217.js pour les nouvelles
+  // campagnes. Absente, la courbe héritée plafonnée s'applique, inchangée.
+  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0, curve = null) {
     const base = 10 + wave * 5 + Math.pow(wave, 1.62) * 2.35;
-    const attraction = 1 + clamp(signature / 360, 0, 0.8);
+    const attraction = 1 + (typeof curve === 'function' ? curve(signature) : clamp(signature / 360, 0, 0.8));
     const total = Math.max(8, Math.floor(base * difficulty.enemyCount * attraction));
     const weights = Object.fromEntries(Object.entries(ENEMY_RULES.waveWeights).map(([kind, rule]) =>
       [kind, wave >= ENEMIES[kind].unlockWave ? Math.min(rule.maximum, rule.base + (wave - rule.origin) * rule.growth) : 0]));
@@ -3345,6 +3347,19 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   halfRations:Object.freeze({foodFactor:.5,moraleDrain:.12}),
   waterRation:Object.freeze({waterFactor:.7,moraleDrain:.1}),
   clearingDuty:Object.freeze({seconds:30,speed:1.5})});
+ // Équilibrage 217 (docs/GAME_BIBLE.md §1.2 et §11.3), nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // signature : attirance d'une vague = signature / divisor tant qu'elle reste sous `cap` (courbe héritée, inchangée) ;
+ // au-delà, cap + gain × ln(1 + (signature − cap × divisor) / scale) : elle monte toujours, de plus en plus lentement.
+ // morale.tiers : du plus haut au plus bas, premier palier dont `min` ≤ moral ; `factor` multiplie le déplacement des
+ // unités, le travail des ouvriers (récolte, chantiers, déblaiement) et la cadence de tir des fusiliers.
+ // Le dernier palier reprend le ×0,82 hérité : jamais pire qu'avant en vitesse.
+ // morale.depart : moral sous `below` pendant `warnSeconds` continues → annonce ; à `seconds`, un ouvrier part, puis
+ // un autre tous les `interval` tant que le moral reste sous `below`. Le retour du moral remet tout à zéro.
+ C.Balance217Rules=Object.freeze({
+  signature:Object.freeze({cap:.8,divisor:360,gain:.234,scale:120}),
+  morale:Object.freeze({
+   tiers:Object.freeze([Object.freeze({min:60,factor:1}),Object.freeze({min:40,factor:.94}),Object.freeze({min:20,factor:.88}),Object.freeze({min:0,factor:.82})]),
+   depart:Object.freeze({below:10,warnSeconds:120,seconds:300,interval:180})})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

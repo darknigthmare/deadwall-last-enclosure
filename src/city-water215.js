@@ -53,7 +53,11 @@
   function frailest(){return g.units.filter(u=>present(u)&&!lastWorker(u)).sort((a,b)=>a.health/a.maxHealth-b.health/b.maxHealth||a.maxHealth-b.maxHealth||a.id-b.id)[0]||null;}
   // Aucune affectation ne désigne l'ouvrier choisi : le retirer de la cité ne laisse aucune référence.
   // Le jeu écarte de lui-même les unités marquées ; ni perte comptée, ni corps.
-  function depart(){const u=leaver();if(!u)return false;u.dead=true;u.health=0;u.supportActive=false;state.left++;g.refreshMetrics?.(true);g.notify?.('Pénurie d’eau : un ouvrier a quitté la cité.','danger');return true;}
+  // `counted` : départ dû à l'eau, porté au bilan de la fiche. Un autre système (moral, src/balance217.js) emprunte
+  // le même retrait par `departWorker`, avec sa propre annonce et sans toucher au bilan de l'eau.
+  function leave(message,counted){const u=leaver();if(!u)return false;u.dead=true;u.health=0;u.supportActive=false;if(counted)state.left++;g.refreshMetrics?.(true);g.notify?.(message,'danger');return true;}
+  function depart(){return leave('Pénurie d’eau : un ouvrier a quitté la cité.',true);}
+  function departWorker(message){return typeof message==='string'&&message.length>0&&g.state==='playing'&&!g.gameOver?leave(message,false):false;}
   function die(){const u=frailest();if(!u)return false;const name=title(u);g.damageUnit(u,u.health);if(live(u))return false;state.died++;g.refreshMetrics?.(true);g.notify?.('Pénurie d’eau : un '+name+' est mort dans les murs, faute d’eau.','danger');return true;}
   function tick(dt){
    if(!needed()||!(dt>0)||g.state!=='playing'||g.gameOver)return 0;
@@ -99,7 +103,7 @@
   function actions(){if(active())return[];const q=activationQuote();return[{id:'activate',label:'Suivre l’eau de cité pour cette campagne',description:'Conserve le monde et les stocks. À partir de l’âge '+START+', la population puise dans les citernes ; une pénurie fait baisser le moral, puis partir des ouvriers, puis mourir les plus fragiles. Activation durable.',disabled:!q.ok,reason:q.reason||'Aucun matériau consommé ; aucune eau n’est créée.',run:activate}];}
   const economy=g.economyTick;
   g.economyTick=function(dt,...rest){const result=economy.call(this,dt,...rest);tick(dt);return result;};
-  const api=Object.freeze({active,needed,stage:()=>stage(state.dry),reserve,tick,overview,actions,activationQuote,activate,snapshot:()=>validate(state)});g.cityWater215=api;
+  const api=Object.freeze({active,needed,stage:()=>stage(state.dry),reserve,tick,overview,actions,activationQuote,activate,departWorker,snapshot:()=>validate(state)});g.cityWater215=api;
   g.expansions.register({id:'cityWater215',title:'Eau de la cité',overview,actions,validate,snapshot:api.snapshot,restore:raw=>{state=validate(raw);announced=stage(state.dry);},reset:()=>{state={...initial(),active:true};announced=0;}});
   return api;
  }

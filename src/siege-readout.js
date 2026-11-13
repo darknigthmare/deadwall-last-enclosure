@@ -26,7 +26,9 @@
  // L'effet sur la horde est lu dans le plan de vague du moteur, sans recopier sa formule.
  function hordeEffect(C,g){
   const wave=Math.max(1,Math.floor(Number(g.wave)||1)),difficulty=g.difficulty||C.DIFFICULTIES.standard;
-  const quiet=C.wavePlan(wave,difficulty,0).total,actual=C.wavePlan(wave,difficulty,Number(g.signature)||0).total;
+  // Courbe de la campagne (src/balance217.js) ; absente, le moteur applique la courbe héritée.
+  const curve=g.balance217?.curve?.()||null;
+  const quiet=C.wavePlan(wave,difficulty,0,curve).total,actual=C.wavePlan(wave,difficulty,Number(g.signature)||0,curve).total;
   return Object.freeze({wave,quiet,actual,extra:Math.max(0,actual-quiet),percent:quiet>0?Math.max(0,Math.round((actual/quiet-1)*100)):0});
  }
  function lastNight(g){

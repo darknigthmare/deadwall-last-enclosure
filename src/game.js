@@ -1497,10 +1497,10 @@
             if(!b||b.completed||b.dead){u.state='idle';u.think=0;}
             else if(T.overlapsBuilding(b,u)){const point=this.workerBuildExit(u,b);if(point)this.moveWorkerToJob(u,point,dt,point.key);}
             else if(!this.workerCanWorkAt(u,b,62))this.moveWorkerToJob(u,b,dt,`build:${b.id}`);
-            else{const before=b.progress,completed=b.work(dt*(this.hasResearch('logistics')?1.22:1.05));if(b.progress>before)this.recordActorAction159(u,'build',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});if(completed)this.completeBuilding(b);}
+            else{const before=b.progress,completed=b.work(dt*(this.hasResearch('logistics')?1.22:1.05)*(this.balance217?.effort()??1));if(b.progress>before)this.recordActorAction159(u,'build',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});if(completed)this.completeBuilding(b);}
           }
-          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
-          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt);if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
+          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)*(this.balance217?.effort()??1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
+          else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt*(this.balance217?.effort()??1));if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
           else if(u.state==='return'){const storage=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&(b.type==='core'||b.type==='warehouse'||b.def.storageDepot)&&this.workerJobAvailable(u,`return:${b.id}`)).sort((a,b)=>distSq(u,a)-distSq(u,b))[0];if(storage)this.depositWorker(u,storage,dt);}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
         } else if(C.SURVIVORS[u.kind]?.specialist){
@@ -1510,7 +1510,7 @@
           const target=this.nightwatch?this.nightwatch.target(u.x,u.y,rules.range):this.nearestZombie(u.x,u.y,rules.range);
           if(target){const d=dist(u,target);u.facing=Math.atan2(target.y-u.y,target.x-u.x);
             if(d>rules.advanceRange){if(!retreat){if(this.citadel?.isHolding(u)){const post=this.squadFormationTarget(u,group);if(post&&dist(u,post)>rules.rallyRadius)this.moveUnitToward(u,post,dt);}else this.moveUnitToward(u,target,dt,u.speed*rules.pursuitSpeed);}}
-            else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown;this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');this.recordActorAction159(u,'shoot',rules.fireCooldown);}
+            else if(u.fireCooldown<=0&&this.resources.ammo>=1&&(!this.citadel||this.citadel.canFire(1))){u.fireCooldown=rules.fireCooldown/(this.balance217?.effort()??1);this.resources.ammo-=1;this.fireFriendly(u.x,u.y,u.facing,this.hasResearch('ballistics')?rules.researchedDamage:rules.damage,rules.projectileRange,'#ffe0a0');this.recordActorAction159(u,'shoot',rules.fireCooldown);}
             else if(d<rules.meleeRange&&u.fireCooldown<=0&&this.hostileLineClear(u,target,false)){u.fireCooldown=rules.meleeCooldown;target.health-=rules.meleeDamage;this.recordActorAction159(u,'melee',rules.meleeCooldown);if(target.health<=0)this.killZombie(target,false);}
           }
           // Being within range across a wreck or wall is not a physical arrival.
@@ -1705,7 +1705,7 @@
     }
 
     prepareWave() {
-      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature);const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
+      this.wavePlan=wavePlan(this.wave,this.difficulty,this.signature,this.balance217?.curve());const dirs=['north','east','south','west'];this.random.shuffle(dirs);this.fronts=dirs.slice(0,this.wavePlan.fronts);
     }
     triggerCrisis(){
       if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;
@@ -2044,7 +2044,7 @@
         }
         if(activeSeconds>0)activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:activeSeconds});
       }
-      for(const unit of this.units)unit.speed=(C.SURVIVORS[unit.kind]?.speed||60)*(this.morale<20?.82:1);
+      for(const unit of this.units)unit.speed=(C.SURVIVORS[unit.kind]?.speed||60)*(this.balance217?.moveFactor()??(this.morale<20?.82:1));
       for(const key of RESOURCE_KEYS)this.resources[key]=clamp(this.resources[key],0,this.storage);
     }
 
