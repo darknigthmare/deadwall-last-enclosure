@@ -40,6 +40,8 @@
   let state=initial(),announced=0;
   const active=()=>state.active,needed=()=>active()&&g.tier?.id>=R.startAge;
   const reserve=()=>g.siege?.cityReserve215?.()||{tanks:0,water:0,capacity:0};
+  // Part du besoin servie quand une loi de cité rationne l'eau (src/city-laws217.js) ; 1 sans loi.
+  const ration=()=>{const f=g.cityLaws217?.waterFactor?.();return f>0&&f<=1?f:1;};
   const title=u=>(C.SURVIVORS[u.kind]?.name||'survivant').toLowerCase();
   const assigned=u=>Boolean(g.citadel?.isEscort?.(u.id)||['expeditions','salvage','infrastructure','siege','territories'].some(name=>g[name]?.isAssigned?.(u.id))||g.vertical175?.population?.isAssigned?.(u.id));
   const named=u=>Boolean(g.citadel?.snapshot?.().calls?.some(c=>c.citizenId===u.id||c.unitId===u.id));
@@ -55,7 +57,7 @@
   function die(){const u=frailest();if(!u)return false;const name=title(u);g.damageUnit(u,u.health);if(live(u))return false;state.died++;g.refreshMetrics?.(true);g.notify?.('Pénurie d’eau : un '+name+' est mort dans les murs, faute d’eau.','danger');return true;}
   function tick(dt){
    if(!needed()||!(dt>0)||g.state!=='playing'||g.gameOver)return 0;
-   const need=demand(g.population,g.tier.id)*dt;if(need<=0)return 0;
+   const need=demand(g.population,g.tier.id)*ration()*dt;if(need<=0)return 0;
    const drawn=g.siege?.drawCityWater215?.(need)||0;
    if(drawn>=need-1e-9){if(state.dry>0&&announced)g.notify?.('Eau de cité : les citernes servent de nouveau toute la population.','good');state.dry=0;state.departs=0;state.deaths=0;announced=0;return drawn;}
    state.dry=Math.min(MAX_DRY,state.dry+dt);
@@ -77,7 +79,7 @@
   function activate(){const q=activationQuote();if(!q.ok)return q;state={...initial(),active:true};announced=0;g.notify?.('Eau de cité suivie : à partir de l’âge '+START+', la population puisera dans les citernes.');g.audio?.ui?.();g.save(false);return{ok:true};}
   const amount=n=>(Math.round(n*10)/10).toLocaleString('fr-FR');
   function overview(){
-   const r=reserve(),age=g.tier?.id||0,perMinute=demand(g.population||0,age)*60,s=stage(state.dry);
+   const r=reserve(),age=g.tier?.id||0,rationed=ration()<1,perMinute=demand(g.population||0,age)*ration()*60,s=stage(state.dry);
    const autonomy=perMinute>0?r.water/(perMinute/60):null,d=state.dry,wait=t=>C.formatTime(Math.max(0,t-d));
    const phase=['Aucune','Rationnement','Premier temps : le moral baisse','Premier temps : le moral baisse','Deuxième temps : des ouvriers partent','Deuxième temps : des ouvriers partent','Troisième temps : les plus fragiles meurent'][s];
    const next=s===0?'Rien tant que les citernes servent la population.':s===1?'Le moral baissera dans '+wait(R.graceSeconds)+'.':s<=3?'Premier départ dans '+wait(R.departSeconds)+'.':s<=5?(departSlots(R.deathSeconds)>state.departs?'Prochain départ dans '+wait(R.departSeconds+state.departs*R.departInterval)+' ; première':'Première')+' mort dans '+wait(R.deathSeconds)+'.':'Prochaine mort dans '+wait(R.deathSeconds+state.deaths*R.deathInterval)+'.';
@@ -85,7 +87,7 @@
    const summary=!active()?'Cette campagne ne suit pas l’eau de cité. Elle peut l’activer une fois, au dépôt.':age<R.startAge?'La cité est encore assez petite pour se servir sans réseau. L’eau devient un besoin à l’âge '+START+'.':s===6?'Pénurie : les plus fragiles meurent dans les murs tant que l’eau ne revient pas.':s===5?'Pénurie : des ouvriers partent. Il y aura des morts si l’eau ne revient pas.':s===4?'Pénurie : des ouvriers quittent la cité, un à la fois.':s===3?'Pénurie : le moral baisse et des habitants parlent de partir.':s===2?'Pénurie : le moral baisse tant que les citernes restent vides.':s===1?'Citernes vides : la population se rationne.':'La population puise dans les citernes. Ce sont les mêmes que celles des incendies.';
    return{summary,rows:[
     {label:'Réserve des citernes',value:amount(r.water)+' / '+amount(r.capacity)+' · '+r.tanks+' citerne'+(r.tanks>1?'s':'')},
-    {label:'Besoin de la population',value:!active()?'Non suivi':perMinute>0?amount(perMinute)+' par minute':'Aucun avant l’âge '+START},
+    {label:'Besoin de la population',value:!active()?'Non suivi':perMinute>0?amount(perMinute)+' par minute'+(rationed?' · eau rationnée par la loi':''):'Aucun avant l’âge '+START},
     {label:'Autonomie sans apport',value:autonomy===null?'Sans objet':autonomy<=0?'Aucune':C.formatTime(autonomy)},
     {label:'Pénurie',value:s===0?phase:phase+' · citernes vides depuis '+C.formatTime(d)},
     {label:'Ensuite',value:!active()||age<R.startAge?'Sans objet':next+(s>0?' Le retour de l’eau arrête tout.':'')},

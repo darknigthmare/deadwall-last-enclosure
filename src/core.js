@@ -3333,6 +3333,18 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // (10 min avant le premier départ, 21 min avant la première mort) ; aucune partie réelle ne les a éprouvées.
  C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100,
   departWarnSeconds:420,departSeconds:600,departInterval:120,deathWarnSeconds:1080,deathSeconds:1260,deathInterval:180});
+ // Lois de cité (docs/GAME_BIBLE.md §8.5), première tranche. Valeurs prudentes, non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (7 = Grande métropole). caps : lois engagées permises à startAge, puis aux
+ // âges suivants (le dernier vaut au-delà). delaySeconds : délai d'entrée en vigueur ou d'abrogation, gelé de
+ // l'alerte à la fin de l'assaut. foodPerPersonSecond : miroir de la ration d'economyTick (src/game.js), vérifié par test.
+ // halfRations : part de la ration servie ; moraleDrain dépasse le regain ordinaire (0,08/s) : le moral baisse en net.
+ // waterRation : part du besoin en eau servie (C.CityWater215Rules.perPersonSecond) ; moraleDrain en points par seconde.
+ // clearingDuty : après chaque assaut repoussé, ordre « déblayer » imposé aux ouvriers pendant `seconds`,
+ // cadence de déblaiement multipliée par `speed` ; récolte et chantiers des ouvriers arrêtés pendant ce temps.
+ C.CityLaws217Rules=Object.freeze({startAge:7,caps:Object.freeze([1,2,2,3]),delaySeconds:60,activationReach:100,foodPerPersonSecond:.0065,
+  halfRations:Object.freeze({foodFactor:.5,moraleDrain:.12}),
+  waterRation:Object.freeze({waterFactor:.7,moraleDrain:.1}),
+  clearingDuty:Object.freeze({seconds:30,speed:1.5})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
