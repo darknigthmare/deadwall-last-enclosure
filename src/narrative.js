@@ -23,7 +23,7 @@
       discovery:'Le marché distribuait ses dernières réserves. Le registre parle de confiance avant de parler de quantités.',
       a:['Étudier la répartition','Vous séparez le registre en deux colonnes : distribué et attendu. La méthode ne remplit pas les étagères, mais elle montre enfin où les réserves disparaissent.'],
       b:['Partager un repas au dépôt','Une part des réserves devient un repas commun. Pour quelques minutes, les voix autour de la table couvrent les bruits venus du dehors.']},
-    {id:'aid',title:'La colonne des incertains',source:'Fiche de triage · Nora, soignante · fin de permanence',
+    {id:'aid',title:'La colonne des incertains',source:'Fiche de triage · Nora, soignante du dispensaire · fin de permanence',
       excerpt:'« Blessure ne veut pas dire morsure. Morsure ne veut pas dire diagnostic certain. Séparez les couchages, gardez les noms et notez ce que vous avez réellement vu. » La fiche suivante manque.',
       discovery:'Le camp n’a laissé ni remède ni certitude. Seulement une consigne : soigner sans inventer de diagnostic.',
       a:['Consigner le protocole','Vous recopiez les observations avant les conclusions. Dans la marge, le mot « guérison » reste barré. Les équipes auront au moins une méthode commune pour parler des blessures.'],
