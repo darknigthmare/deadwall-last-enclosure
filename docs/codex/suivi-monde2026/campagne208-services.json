@@ -497,8 +497,8 @@
     },
     {
       "path": "src/districts.js",
-      "bytes": 16615,
-      "sha256": "4e1dbbabbc65069fe999215b8f3fb3c46a1e210fd3f8756c4ee72f8d36df8bc9"
+      "bytes": 16743,
+      "sha256": "057385121eeb2f7d6a41e617ef3adb691266e484a24daf9ba4fd6d9b289a9b32"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -542,13 +542,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5322,
-      "sha256": "4f4c7c6a7ebb18f6f9412c96feef9cdd544685be0fa7de27e243a50d25093f62"
+      "bytes": 5336,
+      "sha256": "fd825a477772b450102bbdaa73e8d2af43645c53f2b564141a7433baf0e57a64"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25040,
-      "sha256": "d638850ccc57e6e8cc2300f8fd4912769342a692b9a11787e3d1d51b1ed876f0"
+      "bytes": 25129,
+      "sha256": "fa558716b1da95d7704d40176d5a0c64fcd15af1e39f93eb7db14de5d34ca28e"
     },
     {
       "path": "src/expedition-art.js",
@@ -592,8 +592,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 18245,
-      "sha256": "1cbb09596de780efbfdedb3a4bb6fa6834436cdf31f289b3cde2057836a9b25c"
+      "bytes": 23530,
+      "sha256": "bc1aea817c7161beb807c4794040dc21e3f2aa7115c1953b903ba0ce650e2dfc"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1769,8 +1769,8 @@
     },
     {
       "path": "src/districts.js",
-      "bytes": 16615,
-      "sha256": "4e1dbbabbc65069fe999215b8f3fb3c46a1e210fd3f8756c4ee72f8d36df8bc9"
+      "bytes": 16743,
+      "sha256": "057385121eeb2f7d6a41e617ef3adb691266e484a24daf9ba4fd6d9b289a9b32"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -1814,13 +1814,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5322,
-      "sha256": "4f4c7c6a7ebb18f6f9412c96feef9cdd544685be0fa7de27e243a50d25093f62"
+      "bytes": 5336,
+      "sha256": "fd825a477772b450102bbdaa73e8d2af43645c53f2b564141a7433baf0e57a64"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25040,
-      "sha256": "d638850ccc57e6e8cc2300f8fd4912769342a692b9a11787e3d1d51b1ed876f0"
+      "bytes": 25129,
+      "sha256": "fa558716b1da95d7704d40176d5a0c64fcd15af1e39f93eb7db14de5d34ca28e"
     },
     {
       "path": "src/expedition-art.js",
@@ -1864,8 +1864,8 @@
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 18245,
-      "sha256": "1cbb09596de780efbfdedb3a4bb6fa6834436cdf31f289b3cde2057836a9b25c"
+      "bytes": 23530,
+      "sha256": "bc1aea817c7161beb807c4794040dc21e3f2aa7115c1953b903ba0ce650e2dfc"
     },
     {
       "path": "src/field-atlas-art.js",
