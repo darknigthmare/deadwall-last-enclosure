@@ -2039,7 +2039,25 @@ monter ensemble vers le milieu de la progression. Tant que cette courbe
 n'est pas revue, **aucune décision de fin de jeu fondée sur la signature n'a
 d'effet** : extinction des feux, grands ouvrages, beffroi, Éteints.
 
-C'est une décision d'équilibrage du cœur du jeu : elle reste à prendre.
+**[DÉCISION]** La courbe devient **sans plafond** :
+
+- identique à aujourd'hui tant que l'attirance reste sous +80 % ;
+- au-delà, elle continue de monter, de plus en plus lentement : environ
+  +110 % à la Grande métropole, environ +150 % à Mégaville III ;
+- elle ne s'applique qu'aux **nouvelles campagnes** ; les campagnes en cours
+  gardent la courbe plafonnée.
+
+**[DÉCISION]** Le **moral agit par paliers**, dans les nouvelles campagnes
+seulement. Aujourd'hui il ne pèse qu'en dessous de 20 (vitesse ×0,82). Il
+doit ralentir progressivement, et plus tôt :
+
+- le travail des ouvriers (récolte, chantiers, déblaiement) ;
+- le déplacement de tous ;
+- la cadence de tir des fusiliers ;
+- et, à un moral très bas qui dure, faire partir des habitants.
+
+Sans cela, le prix des lois de rationnement (§8.5) met environ 33 minutes à
+se faire sentir.
 
 ### 11.4 Limites de la reprise de carte
 
