@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 37059,
-      "sha256": "842c468bd2e07754b2e4d07c4ffe4cb38fcefd9278227cb18dcc5abe25be97f0"
+      "bytes": 37149,
+      "sha256": "5b1a206bc5d5ffdfdef05563f1db1f49a64d29013258e3048be2da69bedd3e25"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -92,8 +92,8 @@
     },
     {
       "path": "src/art.js",
-      "bytes": 69066,
-      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47"
+      "bytes": 69253,
+      "sha256": "ddeb687d30512ccde9154f2c8691d09ecd3d4a00d3985eec3b67a021a3dac63b"
     },
     {
       "path": "src/assets136.js",
@@ -169,6 +169,11 @@
       "path": "src/biomes164.js",
       "bytes": 15024,
       "sha256": "9a820cf47e8c4d9b256488115573ad1eb04759375578db12bc1a0b521d549bc9"
+    },
+    {
+      "path": "src/breach217.js",
+      "bytes": 11533,
+      "sha256": "588a96c1bf548981f10b6b754d038e855fd12e423e029daf0829d6a357504e59"
     },
     {
       "path": "src/building-variants157.js",
@@ -462,8 +467,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 340115,
-      "sha256": "672c75097b3c8ddf1b6d46ea9325a28567b9818fc4a1e9d014f6fdf4518aaa1c"
+      "bytes": 340530,
+      "sha256": "16b789d54908f642284232b0d219151cb2e8493654de3b91b56c6516c594084b"
+    },
+    {
+      "path": "src/corpse-heaps217.js",
+      "bytes": 26534,
+      "sha256": "247732a8497814161b8142feb544af3062c41df96c1853584da6669b3d644597"
     },
     {
       "path": "src/d17-art149.js",
@@ -547,13 +557,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5349,
-      "sha256": "3f12d95f46a1cd4425db7380bb4855e33072be46423938aec08b8d3ce0d91ca1"
+      "bytes": 5361,
+      "sha256": "caff0d5b2223bd683c8a3569124d400e87975a60c354dbb34c38c34bc26d6d92"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25212,
-      "sha256": "4a6dbdf5a72f285b8dbeb8cd6fa4205bdcc65aeb43212910c1b6135aa6f60486"
+      "bytes": 25285,
+      "sha256": "6a488adcba95967953302c8dfbf5cf354097813643e295e23df32cc9402972f4"
     },
     {
       "path": "src/expedition-art.js",
@@ -742,8 +752,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 14282,
-      "sha256": "cbc47426e70a91aa9d6fbdb4daba000e557be515542f170ec8940c15a6247af1"
+      "bytes": 27489,
+      "sha256": "1fe1e76e18407be205104d01b00434909a02ecafbbb8157717194ee51f23b70a"
     },
     {
       "path": "src/hud135.js",
@@ -1284,8 +1294,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 37059,
-      "sha256": "842c468bd2e07754b2e4d07c4ffe4cb38fcefd9278227cb18dcc5abe25be97f0"
+      "bytes": 37149,
+      "sha256": "5b1a206bc5d5ffdfdef05563f1db1f49a64d29013258e3048be2da69bedd3e25"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1369,8 +1379,8 @@
     },
     {
       "path": "src/art.js",
-      "bytes": 69066,
-      "sha256": "e7ea9f8ab6350072a5d7785218522d70f583ca7ae2cc36f1496a780f95e26e47"
+      "bytes": 69253,
+      "sha256": "ddeb687d30512ccde9154f2c8691d09ecd3d4a00d3985eec3b67a021a3dac63b"
     },
     {
       "path": "src/assets136.js",
@@ -1446,6 +1456,11 @@
       "path": "src/biomes164.js",
       "bytes": 15024,
       "sha256": "9a820cf47e8c4d9b256488115573ad1eb04759375578db12bc1a0b521d549bc9"
+    },
+    {
+      "path": "src/breach217.js",
+      "bytes": 11533,
+      "sha256": "588a96c1bf548981f10b6b754d038e855fd12e423e029daf0829d6a357504e59"
     },
     {
       "path": "src/building-variants157.js",
@@ -1739,8 +1754,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 340115,
-      "sha256": "672c75097b3c8ddf1b6d46ea9325a28567b9818fc4a1e9d014f6fdf4518aaa1c"
+      "bytes": 340530,
+      "sha256": "16b789d54908f642284232b0d219151cb2e8493654de3b91b56c6516c594084b"
+    },
+    {
+      "path": "src/corpse-heaps217.js",
+      "bytes": 26534,
+      "sha256": "247732a8497814161b8142feb544af3062c41df96c1853584da6669b3d644597"
     },
     {
       "path": "src/d17-art149.js",
@@ -1824,13 +1844,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5349,
-      "sha256": "3f12d95f46a1cd4425db7380bb4855e33072be46423938aec08b8d3ce0d91ca1"
+      "bytes": 5361,
+      "sha256": "caff0d5b2223bd683c8a3569124d400e87975a60c354dbb34c38c34bc26d6d92"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25212,
-      "sha256": "4a6dbdf5a72f285b8dbeb8cd6fa4205bdcc65aeb43212910c1b6135aa6f60486"
+      "bytes": 25285,
+      "sha256": "6a488adcba95967953302c8dfbf5cf354097813643e295e23df32cc9402972f4"
     },
     {
       "path": "src/expedition-art.js",
@@ -2019,8 +2039,8 @@
     },
     {
       "path": "src/horde-horizon217.js",
-      "bytes": 14282,
-      "sha256": "cbc47426e70a91aa9d6fbdb4daba000e557be515542f170ec8940c15a6247af1"
+      "bytes": 27489,
+      "sha256": "1fe1e76e18407be205104d01b00434909a02ecafbbb8157717194ee51f23b70a"
     },
     {
       "path": "src/hud135.js",
