@@ -368,3 +368,20 @@ Valeurs prudentes dans `C.CityLaws217Rules`, non éprouvées par une partie rée
 | `clearingDuty.speed` | 1,5 | Multiplicateur de cadence de déblaiement des ouvriers |
 
 L'attirance des hordes (`C.wavePlan`) sature dès une signature de 288 : voir `GAME_BIBLE.md` §11.3.
+
+## Signature et moral — 217
+
+Valeurs dans `C.Balance217Rules`, pour les nouvelles campagnes seulement, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §11.3.
+
+| Règle | Valeur | Effet |
+|---|---|---|
+| `signature.cap` / `signature.divisor` | 0,8 / 360 | Attirance = signature ÷ 360 jusqu'à +80 % (signature 288) : courbe d'origine, inchangée |
+| `signature.gain` / `signature.scale` | 0,234 / 120 | Au-delà : 0,8 + 0,234 × ln(1 + (signature − 288) ÷ 120) |
+| Repères | 420 → +94 % · 600 → +110 % · 1 000 → +125 % · 2 600 → +150 % | Ancienne courbe : +80 % partout au-delà de 288 |
+| `morale.tiers` | ≥ 60 : ×1 · 40–60 : ×0,94 · 20–40 : ×0,88 · < 20 : ×0,82 | Déplacement des unités, travail des ouvriers, cadence de tir des fusiliers |
+| `morale.depart.below` | 10 | Seuil de moral très bas |
+| `morale.depart.warnSeconds` | 120 s | Annonce préalable |
+| `morale.depart.seconds` | 300 s | Premier départ d'un ouvrier |
+| `morale.depart.interval` | 180 s | Départs suivants tant que le moral reste sous 10 |
+
+Un seul ouvrier part par échéance, jamais le dernier ni un ouvrier affecté. Tout se remet à zéro dès que le moral atteint 10. L'échéancier est gelé pendant une pénurie d'eau à son deuxième temps ou au-delà. Les campagnes antérieures gardent +80 % plafonné et ×0,82 sous 20.

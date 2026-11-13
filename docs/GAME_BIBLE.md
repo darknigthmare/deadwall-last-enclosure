@@ -2059,6 +2059,44 @@ doit ralentir progressivement, et plus tôt :
 Sans cela, le prix des lois de rationnement (§8.5) met environ 33 minutes à
 se faire sentir.
 
+**[LIVRÉ], nouvelles campagnes seulement** (`src/balance217.js`, valeurs dans
+`C.Balance217Rules`, test `tests/balance217.test.cjs`) :
+
+- **Signature sans plafond** : identique à l'ancienne courbe jusqu'à +80 %
+  (signature 288), puis toujours croissante et de plus en plus lente : +94 %
+  à 420, +110 % vers 600, +125 % vers 1 000, +150 % vers 2 600. La fiche
+  « Signature et moral » et la lecture de siège affichent la courbe en
+  vigueur.
+- **Moral par paliers** : ×0,94 sous 60, ×0,88 sous 40, ×0,82 sous 20, sur le
+  déplacement des unités, sur la récolte, les chantiers et le déblaiement
+  des ouvriers, et sur la cadence de tir des fusiliers.
+- **Départs** : sous 10 de moral pendant cinq minutes, un ouvrier quitte la
+  cité, puis un autre toutes les trois minutes, après annonce. Jamais le
+  dernier ; jamais en double d'une pénurie d'eau, qui a ses propres départs.
+- Les campagnes commencées avant gardent la courbe plafonnée et le seul
+  ×0,82 sous 20, sans activation possible. Un plan de vague déjà tiré n'est
+  jamais recalculé.
+
+Conséquences à connaître, **jamais jouées** :
+
+- À signature 600, une vague compte environ 17 % d'infectés de plus
+  qu'avant ; à 2 600, environ 39 % de plus. Le plafond d'infectés simultanés
+  étale ce surplus : les nuits seront plus longues autant que plus denses.
+- Une **spirale** est possible : moral bas, donc ouvriers et fusiliers plus
+  lents, donc moins de récolte et de feu, donc pertes et famine, donc moral
+  plus bas, puis départs. Le plancher ×0,82 et le dernier ouvrier épargné la
+  bornent.
+- Une **famine continue fait maintenant partir des ouvriers** au bout
+  d'environ sept minutes.
+- Le prix des lois de rationnement se sent dès 60 de moral : cinq à six
+  minutes de demi-rations au lieu d'environ 33.
+
+Restent à décider : si le Commandant, les spécialistes, les gardes de palier
+et les travaux affectés (routes, récupération, expéditions) suivent aussi
+les paliers — la bible dit « le déplacement de tous », le Commandant n'est
+pas ralenti aujourd'hui ; une activation pour les anciennes campagnes ; puis
+brancher les décisions de fin de jeu fondées sur la signature.
+
 ### 11.4 Limites de la reprise de carte
 
 Limites de la première correction du défaut de génération (§11.2) :
