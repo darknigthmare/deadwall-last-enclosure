@@ -146,15 +146,30 @@
     nodes.empty.hidden=scale.entries.length>0;
    }
    const needs=cityNeeds(g).map(need=>({need,where:need.scale?SCALE_BY_ID[need.scale].name+(open.find(o=>o.id===need.scale)?.entries.length?'':' · pas encore ouverts dans votre carnet'):'Dans l’enceinte'}));
-   const key=JSON.stringify(needs.map(n=>[n.need.id,n.need.label,n.need.detail,n.where]));
+   // Deuxième tranche : les lieux connus qui répondent à chaque besoin, lus par le module voisin s'il est chargé.
+   const isOpen=entry=>open.some(scale=>scale.entries.some(e=>e.kind===entry.kind&&e.id===entry.id));
+   const places=root.DeadwallExplorationNeeds217?.proposals(g,needs.map(n=>n.need),{offered:isOpen})||[];
+   const key=JSON.stringify([needs.map(n=>[n.need.id,n.need.label,n.need.detail,n.where]),places.map(p=>[p.places.map(x=>[x.id,x.name,x.text]),p.none,p.hint])]);
    if(key!==needsKey){
     needsKey=key;needsList.replaceChildren();
     if(!needs.length)needsList.appendChild(el('li','Aucun besoin pressant : réserves pleines, chantiers achevés.','exploration-need-none'));
-    for(const {need,where}of needs){
+    needs.forEach(({need,where},index)=>{
      const item=el('li');item.dataset.need=need.id;
      item.append(el('strong',need.label),el('span',need.detail),el('em','→ '+where));
+     const found=places[index];
+     if(found&&(found.places.length||found.none||found.hint)){
+      const rows=el('div',undefined,'exploration-need-places');
+      for(const place of found.places){
+       const row=el('p');row.dataset.place=place.id;
+       const b=el('button',place.button);b.type='button';b.setAttribute('aria-label','Ouvrir : '+place.name);b.addEventListener('click',()=>{go(place.entry);render();});
+       row.append(el('b',place.name),el('i',place.text),b);rows.appendChild(row);
+      }
+      if(found.none)rows.appendChild(el('p',found.none,'exploration-need-nowhere'));
+      if(found.hint)rows.appendChild(el('p',found.hint,'exploration-need-hint'));
+      item.appendChild(rows);
+     }
      needsList.appendChild(item);
-    }
+    });
    }
    return true;
   }
