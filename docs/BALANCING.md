@@ -443,3 +443,21 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 ## Cantons du monde sans bord — 217
 
 `C.WorldCantons217Rules`, non lu par le jeu : canton 1 024 m, morceau 256 m, anneau chargé 1 canton, anneau protégé 2 cantons, cache 36 cantons, coordonnées ±1 048 575, 65 536 objets par genre et par canton, génération réservée 12. Ce sont des budgets, pas de l'équilibrage ; à revoir après la sonde de coût.
+
+## Lieux remarquables — 217
+
+`C.Remarkable217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.13.
+
+| Valeur | Réglage |
+|---|---|
+| Canton | 4 096 m de côté, 2 lieux au plus, 1 000 m d'écart (39 à 48 lieux par région) |
+| Lieu admissible | Emprise ≥ 400 m², non allié, socle de monde |
+| Nid | 10 à 16 infectés (occupants ordinaires : 1 à 4) ; points de vie et dégâts inchangés |
+| Repère | Visible à 2 500 m ; lot chargé à 12 m de l'emprise |
+| Lots | Hôpital 30 médicaments · château d'eau 24 médicaments · caserne 36 munitions · barrage 30 munitions · émetteur 24 munitions · dépôt de carburant 36 carburant · gare 30 carburant · centrale 30 carburant · silo 24 carburant |
+
+Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de difficulté.
+
+## Décor des cartes saturées — 217
+
+`C.Scenery217Rules.fallbackClearanceMetres = [1, 0.5, 0]` : dégagements essayés, dans l'ordre, pour une pièce de décor restée sans parcelle. Aucun effet sur les cartes où le placement à un mètre réussit.

@@ -1244,7 +1244,7 @@ Trois rangs de lieux, pour que l'exploration ait des souvenirs :
 | Rang | Fréquence | Exemple | Ce qu'on y gagne | Ce qu'on y risque |
 |---|---|---|---|---|
 | **Ordinaire** [LIVRÉ] | Des milliers par région | Maison, commerce, atelier | Butin courant | Un à quatre occupants |
-| **Remarquable** [PROPOSITION] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
+| **Remarquable** [LIVRÉ, première tranche] | Quelques-uns par canton | Hôpital, caserne, dépôt de carburant, silo, gare de triage, barrage, émetteur | Une chose que la cité ne fabrique pas encore : machine, plan, pièce de grand ouvrage, recrue qualifiée | Un **nid** : des infectés qui stagnent en masse |
 | **Singulier** [PROPOSITION] | Un par grande distance | Un lieu nommé, lié au récit ou à une faction | Une trace, une rencontre, une décision | Propre au lieu |
 
 - Les 4 000 plans du codex servent de matière première ; il manque surtout
@@ -1253,6 +1253,36 @@ Trois rangs de lieux, pour que l'exploration ait des souvenirs :
   on choisit d'y aller, on n'y tombe pas par hasard.
 - Un nid vidé peut se repeupler si une migration passe : rien n'est acquis
   hors des murs.
+
+**Première tranche livrée [LIVRÉ] : lieux remarquables et nids**, nouvelles
+campagnes seulement (`src/remarkable217.js`, valeurs dans
+`C.Remarkable217Rules`, test `tests/remarkable217.test.cjs`)
+
+- Les lieux remarquables sont des lieux **déjà générés**, promus par une
+  fonction pure du monde : usage lu sur leur nom (hôpital, caserne, dépôt de
+  carburant, silo, gare, barrage, émetteur, château d'eau, centrale),
+  emprise d'au moins 400 m², deux au plus par canton de 4 km, à 1 km
+  d'écart. Soit 39 à 48 lieux par région. Aucun lieu créé, déplacé ni
+  renommé.
+- **Vu de loin** : une silhouette (château d'eau, cheminée, pylône) avec nom
+  et distance, sur l'atlas et en vue de région, visible à 2,5 km. Un seul
+  lieu peut être désigné **objectif de sortie**, avec cap et distance.
+- **Nid** : 10 à 16 infectés au lieu de 1 à 4, immobiles tant qu'on ne les
+  dérange pas. Ce sont les occupants ordinaires : seul leur nombre change.
+- **Récompense** : un lot annoncé d'avance sur la fiche (médicaments,
+  munitions ou carburant, 24 à 36 unités), chargé sur place une fois le nid
+  vidé, une seule fois.
+
+Réserves : aucun combat réel contre un nid n'a été joué. **Il n'y a pas de
+distance minimale à la cité** : sur la graine 17117, un nid est à 365 m de
+D-17. Les lots cumulés font environ 1 300 unités rares par région, à
+surveiller. Le classement par nom a ses approximations (une clinique
+vétérinaire compte comme hôpital). La minicarte de région ne porte aucun
+repère.
+
+Restent à faire : le rang singulier, le repeuplement par migration, des
+récompenses autres que des ressources (machine, plan, pièce de grand
+ouvrage, recrue qualifiée).
 
 #### Direction : un terrain modifiable
 
@@ -2392,9 +2422,21 @@ brancher les décisions de fin de jeu fondées sur la signature.
 
 Limites de la première correction du défaut de génération (§11.2) :
 
-- La **cause** n'est pas traitée : `packMetricScenery202`
-  (`src/exploration-125.js`) abandonne toujours sur ces graines. Elles
-  restent inutilisables ; le joueur reçoit simplement une autre carte.
+- La **cause est traitée** (217) : sur une carte saturée, les grandes ruines
+  n'avaient plus de parcelle avec un mètre de dégagement. La seule pièce
+  restée sans parcelle est désormais replacée avec un dégagement réduit par
+  paliers (`C.Scenery217Rules` : 1 m, 0,5 m, contact), sans recouvrement,
+  sans tirage et sans perdre de gisement. Les graines 3033422227,
+  139741324, 4075956896 et 1168806633 démarrent avec leur graine.
+- **Écart assumé** au contrat « un mètre partout » : sur ces cartes
+  saturées seulement, quelques grandes ruines ont entre 0,5 m et 1 m de
+  dégagement. Le palier « contact » n'a été atteint sur aucune graine
+  observée.
+- Balayage de 300 graines : 1 échec avant, 0 après ; 299 cartes saines
+  identiques au bit près. Ce balayage est court : une carte encore plus
+  saturée lancerait la même erreur et serait reprise par
+  `src/map-recovery216.js`, qui reste le filet de sécurité.
+- Test `tests/seed-scenery217.test.cjs`.
 - Une graine **saisie à la main** qui se révèle impraticable est remplacée
   elle aussi, avec l'annonce. Une **recette de carte rejouée** n'est jamais
   remplacée : l'erreur d'origine est conservée.
@@ -2440,7 +2482,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 15 | Brèche catastrophe (§8.6) — première tranche livrée | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
 | 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
 | 17 | Travaux de terrain : fossés (livré), talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
-| 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
+| 18 | Lieux remarquables et nids (§7.13) — première tranche livrée | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
 | 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
 | 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
