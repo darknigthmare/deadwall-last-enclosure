@@ -116,7 +116,7 @@ function installFakeBrowser({ readyState = 'loading', currentScript = null, sear
   };
   for (const [parent, children] of Object.entries(tree)) for (const id of children) (parent === 'body' ? document.body : document.getElementById(parent)).appendChild(document.getElementById(id));
   for(const id of ['settingsClose','settingsSaveNow','settingsExport','settingsImport','settingsFullscreen','settingsQuit']){const node=document.getElementById(id);node.tagName='BUTTON';document.getElementById('settingsModal').appendChild(node);}
-  for(const id of ['settingsVolume','settingsMuted','settingsContrast','settingsMotion','settingsQuality','settingsStatus','settingsVolumeValue','settingsImportFile']){const node=document.getElementById(id);node.tagName=id==='settingsQuality'?'SELECT':id==='settingsStatus'||id==='settingsVolumeValue'?'DIV':'INPUT';document.getElementById('settingsModal').appendChild(node);}
+  for(const id of ['settingsVolume','settingsMuted','settingsContrast','settingsMotion','settingsRevealAll','settingsQuality','settingsStatus','settingsVolumeValue','settingsImportFile']){const node=document.getElementById(id);node.tagName=id==='settingsQuality'?'SELECT':id==='settingsStatus'||id==='settingsVolumeValue'?'DIV':'INPUT';document.getElementById('settingsModal').appendChild(node);}
   const review=document.getElementById('settingsImportReview');review.classList.add('hidden');document.getElementById('settingsModal').appendChild(review);
   for(const id of ['settingsImportSummary','settingsImportConfirm','settingsImportCancel']){const node=document.getElementById(id);node.tagName=id==='settingsImportSummary'?'P':'BUTTON';review.appendChild(node);}
   document.getElementById('menuSettingsButton').tagName='BUTTON';

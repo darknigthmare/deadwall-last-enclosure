@@ -43,6 +43,28 @@ Le moral reste plafonné à 100 ; le gain réellement possible est affiché avan
 
 Les chapitres déjà acquis restent lisibles après la perte d’un bâtiment. Le IV est un épilogue humain, pas une victoire qui arrêterait le directeur de horde. Aucune opération n’est nécessaire pour construire, rechercher ou continuer une campagne.
 
+## Arcs des compagnons
+
+Léa, Samir, Inès et Malik reçoivent chacun une origine, un lien avec « ceux d’avant » et quatre entretiens courts (seize au total). Les textes vivent dans `src/chronicles131-data.js` (`companionArcs`), l’état et les déclencheurs dans `src/chronicles131.js`, à côté des propos déjà recueillis.
+
+| Compagnon | Lien | Dossier du Registre | Document de terrain des Chroniques | Dossier d’affichage |
+| --- | --- | --- | --- | --- |
+| Léa | Lina et Solène | Les portes entrouvertes | Salle trois | Ceux du même palier |
+| Samir | Nora et Héloïse | La colonne des incertains | Une voix recopiée | La colonne des faits |
+| Inès | Émile R. | La lumière de service | Le fusible manquant | Une lampe au retour |
+| Malik | le barrage | Deux ordres sur le même billet | aucun | La porte qu’on garde |
+
+Chaque étape s’ouvre par un fait de jeu lu, jamais créé :
+
+1. Rencontre : le compagnon est affecté à l’équipe et vivant.
+2. Trace : le relevé du dossier du Registre lié est achevé, ou le document de terrain lié des Chroniques est relevé.
+3. Épreuve : pendant un assaut, le module de repli signale pour la vague en cours une brèche nommée ou un secteur perdu. Les compagnons n’ont pas de secteur attitré : toute brèche de la nuit compte. Sans ce module, l’étape ne s’ouvre pas.
+4. Choix : la cité a atteint l’âge Ville.
+
+Un compagnon absent ou mort ne parle pas ; ses entretiens déjà consignés restent lisibles. Une étape s’annonce une fois (« Entretien : Inès — … ») et se relit dans le carnet, sous le dossier d’affichage. Elle ne donne ni ressource, ni moral, ni insight, ni bonus. Les auteurs des documents restent absents : aucun entretien ne dit ce qu’ils sont devenus.
+
+Le champ additionnel `arcs` du module `lore131` liste les étapes acquises (`compagnon:étape`). Il refuse les identifiants inconnus, les doublons et toute étape sans rencontre. Une sauvegarde sans ce champ se charge avec une liste vide. À la première lecture des faits après une reprise, ce qui est déjà vrai (affectation, relevé, âge) est consigné sans annonce ; une brèche passée n’ouvre jamais l’épreuve après coup. `tests/companion-arcs217.test.cjs` couvre ces règles.
+
 ## Sauvegarde et sûreté
 
 Le format global reste v2. Le champ additionnel `narrative` contient sa version 1, six entrées par thème, les secondes de relevé, le choix A/B/null, les identifiants de chapitres et de lectures en attente. Aucun texte libre ni code n’est importé.

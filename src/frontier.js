@@ -189,7 +189,7 @@ function releaseCaptive191(id){
 function retireWildlife191(id){ensure();if(!g.husbandry191?.owns(id)||!state.wildlife165[id]||state.wildlife165[id].hp<=0)return false;state.wildlife165[id]={...state.wildlife165[id],hp:0,alarm:0};animals165.delete(id);return true;}
 function hitWildlife165(id,damage){ensure();resumeAnimals165();const e=animals165.get(id);if(!e||g.husbandry191?.claimed(id)||!Number.isFinite(damage)||damage<=0||!can()||!state.active||state.z!==0)return false;e.hp=Math.max(0,e.hp-damage);e.alarm=C.BiomePopulation165Rules.animalAlarm;state.wildlife165[id]=animalRecord165(e);if(e.hp===0)animals165.delete(id);return true;}
 function spawn(){const w=world();near=w.nearPOI(state.x,state.y,130);for(const p of near){if(Math.hypot(p.x-state.x,p.y-state.y)>80+Math.hypot(p.w,p.h)/2)continue;if(Math.hypot(p.x-state.x,p.y-state.y)<R.discover&&!state.seen.includes(p.id)){state.seen.push(p.id);message='Découverte : '+p.name;}
- const count=w.threatCount(p),sourceLevels=p.legacyLevels160||p.levels,levels=Array.from({length:count},(_,i)=>sourceLevels[G.hash(p.id,i)%sourceLevels.length]),firstGround=levels.indexOf(0);
+ const count=w.threatCount(p)+(g.remarkable217?.nestExtra?.(w,p)||0),sourceLevels=p.legacyLevels160||p.levels,levels=Array.from({length:count},(_,i)=>sourceLevels[G.hash(p.id,i)%sourceLevels.length]),firstGround=levels.indexOf(0);
  for(let i=0;i<count&&enemies.size<R.maxEnemy;i++){
   const id=p.id+':e'+i,z=levels[i];if(state.enemies[id]===0||enemies.has(id)||z!==state.z||z!==0&&p.id!==state.inside)continue;
   const saved=state.tracks[id],validSaved=saved&&!w.blocked(saved.x,saved.y,T.enemyRadius,z,z?p.id:null)?saved:null;

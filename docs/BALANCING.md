@@ -321,3 +321,143 @@ La météo remplace ses tirages uniquement dans les campagnes qui l’ont activ�
 Les dimensions de `CityGeometry202` expriment les mètres au sol, avec 32 unités locales par mètre. Elles ne multiplient ni les ressources récoltées, ni la santé, ni les effets ou coûts unitaires des bâtiments. Les corps plus grands demandent une vraie parcelle et parfois du déblaiement. Les gains de progression doivent toujours venir des propriétaires existants ; une variante de toit ne donne aucun bonus.
 
 Les 21 ensembles métriques paient la somme exacte de leurs fondations. Le Camp agrandi comporte 59 pièces, au lieu de 45 dans sa géométrie historique : le mur supplémentaire est réellement payé et construit, avec une porte défensive de 4 m. Les allées de service mesurent 2 m. La couverture visuelle des bâtiments est réservée sur les routes à marge nulle ; le corps conserve un dégagement de 0,25 m. Ces règles ne doivent pas rendre le dernier logement impossible à placer après récolte du terrain.
+
+## Eau de cité — 215
+
+Valeurs dans `C.CityWater215Rules` :
+
+| Règle | Valeur |
+|---|---|
+| Âge de départ du besoin | Ville (indice 4) |
+| Besoin par habitant | 0,004 unité d'eau par seconde |
+| Délai avant effet, citernes vides | 180 s |
+| Baisse du moral en pénurie | 0,35 par seconde (famine : 0,7) |
+
+La population puise dans les citernes anti-incendie existantes (120 unités, pompe 0,55/s, pluie 0,12/s). Une citerne pompée couvre environ 137 habitants ; la pluie seule, à plein régime, environ 30. Ces valeurs n'ont été éprouvées par aucune campagne humaine. Direction : `GAME_BIBLE.md` §7.3.
+
+### Pénurie en trois temps
+
+Secondes de citernes vides sans interruption ; le retour de l'eau remet tout à zéro. Valeurs non éprouvées par une partie réelle.
+
+| Clé (`C.CityWater215Rules`) | Valeur | Effet |
+|---|---:|---|
+| `graceSeconds` | 180 | Le moral commence à baisser (0,35/s) |
+| `departWarnSeconds` | 420 | Annonce « des habitants parlent de partir » |
+| `departSeconds` | 600 | Premier départ |
+| `departInterval` | 120 | Un départ toutes les 2 min, 6 au plus par pénurie |
+| `deathWarnSeconds` | 1080 | Annonce « les plus fragiles ne tiendront plus longtemps » |
+| `deathSeconds` | 1260 | Première mort ; les départs cessent |
+| `deathInterval` | 180 | Une mort toutes les 3 min |
+
+## Lois de cité — 217
+
+Valeurs prudentes dans `C.CityLaws217Rules`, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §8.5.
+
+| Clé | Valeur | Sens |
+|---|---:|---|
+| `startAge` | 7 | Âge de départ (Grande métropole, indice de `CITY_TIERS`) |
+| `caps` | 1, 2, 2, 3 | Lois engagées permises aux indices 7, 8, 9, 10 |
+| `delaySeconds` | 60 | Délai de promulgation et d'abrogation, gelé de l'alerte à la fin de l'assaut |
+| `activationReach` | 100 | Portée du dépôt pour décider |
+| `foodPerPersonSecond` | 0,0065 | Miroir de la ration d'`economyTick`, vérifié par test |
+| `halfRations.foodFactor` | 0,5 | Part de la ration consommée |
+| `halfRations.moraleDrain` | 0,12 /s | Prix en moral (regain ordinaire 0,08 /s) |
+| `waterRation.waterFactor` | 0,7 | Part du besoin en eau puisée |
+| `waterRation.moraleDrain` | 0,10 /s | Prix en moral |
+| `clearingDuty.seconds` | 30 | Durée de la corvée après chaque assaut repoussé |
+| `clearingDuty.speed` | 1,5 | Multiplicateur de cadence de déblaiement des ouvriers |
+
+L'attirance des hordes (`C.wavePlan`) sature dès une signature de 288 : voir `GAME_BIBLE.md` §11.3.
+
+## Signature et moral — 217
+
+Valeurs dans `C.Balance217Rules`, pour les nouvelles campagnes seulement, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §11.3.
+
+| Règle | Valeur | Effet |
+|---|---|---|
+| `signature.cap` / `signature.divisor` | 0,8 / 360 | Attirance = signature ÷ 360 jusqu'à +80 % (signature 288) : courbe d'origine, inchangée |
+| `signature.gain` / `signature.scale` | 0,234 / 120 | Au-delà : 0,8 + 0,234 × ln(1 + (signature − 288) ÷ 120) |
+| Repères | 420 → +94 % · 600 → +110 % · 1 000 → +125 % · 2 600 → +150 % | Ancienne courbe : +80 % partout au-delà de 288 |
+| `morale.tiers` | ≥ 60 : ×1 · 40–60 : ×0,94 · 20–40 : ×0,88 · < 20 : ×0,82 | Déplacement des unités, travail des ouvriers, cadence de tir des fusiliers |
+| `morale.depart.below` | 10 | Seuil de moral très bas |
+| `morale.depart.warnSeconds` | 120 s | Annonce préalable |
+| `morale.depart.seconds` | 300 s | Premier départ d'un ouvrier |
+| `morale.depart.interval` | 180 s | Départs suivants tant que le moral reste sous 10 |
+
+Un seul ouvrier part par échéance, jamais le dernier ni un ouvrier affecté. Tout se remet à zéro dès que le moral atteint 10. L'échéancier est gelé pendant une pénurie d'eau à son deuxième temps ou au-delà. Les campagnes antérieures gardent +80 % plafonné et ×0,82 sous 20.
+
+## Brèche catastrophe — 217
+
+Valeurs dans `C.Breach217Rules`, pour les nouvelles campagnes seulement, non éprouvées par une partie réelle. Direction : `GAME_BIBLE.md` §8.6.
+
+| Constante | Valeur | Rôle |
+|---|---|---|
+| `C.Breach217Rules.minLength` | 4 ouvrages | Longueur à partir de laquelle un pan menace de céder |
+| `C.Breach217Rules.maxCollapse` | 6 ouvrages | Maximum emporté par une rupture, ouvrage détruit compris |
+| `C.BATTLEFIELD_RULES.fragileWallRatio` (existant) | 0,3 | Seuil de fragilité, inchangé et partagé |
+
+Réglage décidé : 4 ouvrages pour menacer, 6 emportés au plus (auparavant 3 et 8), pour des ruptures moins fréquentes en début de partie. Non éprouvé par une partie réelle. Leviers restants : `minLength` à 5, `maxCollapse`.
+
+## Fossés — 217
+
+`C.Earthworks217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.13.
+
+| Clé | Valeur | Sens |
+|---|---|---|
+| `unlockTier` | 0 | Disponible dès l'âge Refuge |
+| `cost` | 4 bois | Par case, payé à la pose (moitié d'une palissade) |
+| `digSeconds` | 10 | Travail pour creuser une case (une palissade se monte en 4 s) |
+| `slowFactor` | 0,55 | Vitesse d'un infecté dans un fossé ouvert |
+| `flowCost` | 14 | Coût ajouté au champ de flux (case libre : 10) |
+| `capacity` | 6 | Corps absorbés avant comblement |
+| `rimDistance` | 10 px | Bord où un corps tombe encore dedans |
+| `workRange` | 48 px | Portée de travail |
+| `cityRadiusTiles` | 44 | Emprise de la cité autour du centre |
+| `maxDitches` | 256 | Taille du registre |
+
+Le déblaiement reprend `WORKER_RULES.cleanupPerSecond` et `LINECARE_RULES.shovelPerSecond`.
+
+## Factions — 217
+
+`C.Factions217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §4.
+
+- Rouleurs : coffre « chargé » à partir de 20 unités au-delà de 900 unités du centre ; règlement sous 650 ; barrage tous les 3 retours chargés ; perte de 35 % du coffre, 24 unités au plus (Hostile : 50 %, 36), carburant d'abord ; escorte = 2 fusiliers à 180 unités du fourgon ; tribut = 6 carburant pour un barrage, un seul en réserve.
+- Relais : demandes aux vagues 2, 5, 8…, ouvertes une vague ; contrepartie 2 vagues après le don : 14 nourriture → 5 carburant, 24 bois → 10 nourriture, 3 médicaments + 8 nourriture → 8 munitions.
+- Réputation : Rouleurs −3 à 2, Relais −1 à 3 ; Entente à +2, Hostile à −2.
+
+## Grands ouvrages — 217
+
+`C.GreatWorks217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §8.4. `startAge` 9 (Mégaville II) ; trois tranches de 60 s par ouvrage, une par nuit.
+
+| Ouvrage | Tranche 1 | Tranche 2 | Tranche 3 | Effet | Prix |
+|---|---|---|---|---|---|
+| Beffroi d'alerte | P 900 · B 600 · F 400 | P 900 · F 800 | B 400 · F 900 · carburant 120 | +8 s d'alerte | +120 de signature |
+| Nécropole | P 1 200 · B 300 | P 1 000 · F 600 | B 700 · F 300 · carburant 200 | Déblaiement des ouvriers ×1,5 | +80 de signature |
+
+La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la corvée).
+
+## Radio et consignes — 217
+
+`C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.
+
+## Cantons du monde sans bord — 217
+
+`C.WorldCantons217Rules`, non lu par le jeu : canton 1 024 m, morceau 256 m, anneau chargé 1 canton, anneau protégé 2 cantons, cache 36 cantons, coordonnées ±1 048 575, 65 536 objets par genre et par canton, génération réservée 12. Ce sont des budgets, pas de l'équilibrage ; à revoir après la sonde de coût.
+
+## Lieux remarquables — 217
+
+`C.Remarkable217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.13.
+
+| Valeur | Réglage |
+|---|---|
+| Canton | 4 096 m de côté, 2 lieux au plus, 1 000 m d'écart (39 à 48 lieux par région) |
+| Lieu admissible | Emprise ≥ 400 m², non allié, socle de monde |
+| Nid | 10 à 16 infectés (occupants ordinaires : 1 à 4) ; points de vie et dégâts inchangés |
+| Repère | Visible à 2 500 m ; lot chargé à 12 m de l'emprise |
+| Lots | Hôpital 30 médicaments · château d'eau 24 médicaments · caserne 36 munitions · barrage 30 munitions · émetteur 24 munitions · dépôt de carburant 36 carburant · gare 30 carburant · centrale 30 carburant · silo 24 carburant |
+
+Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de difficulté.
+
+## Décor des cartes saturées — 217
+
+`C.Scenery217Rules.fallbackClearanceMetres = [1, 0.5, 0]` : dégagements essayés, dans l'ordre, pour une pièce de décor restée sans parcelle. Aucun effet sur les cartes où le placement à un mètre réussit.

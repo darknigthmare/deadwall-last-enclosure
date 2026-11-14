@@ -183,7 +183,7 @@
   </div>
 
   <div id="settingsModal" class="overlay settings-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><main class="settings-card"><button id="settingsClose" class="close-modal" type="button" aria-label="Fermer les paramètres">×</button><small>POSTE DE COMMANDEMENT</small><h2 id="settingsTitle">PARAMÈTRES</h2>
-    <fieldset><legend>SON & CONFORT</legend><label class="settings-row" for="settingsVolume"><span>Volume <output id="settingsVolumeValue" for="settingsVolume">70 %</output></span><input id="settingsVolume" type="range" min="0" max="100" value="70"></label><label class="settings-row" for="settingsMuted">Couper le son<input id="settingsMuted" type="checkbox"></label><label class="settings-row" for="settingsContrast">Contraste élevé<input id="settingsContrast" type="checkbox"></label><label class="settings-row" for="settingsMotion">Réduire les animations et secousses<input id="settingsMotion" type="checkbox"></label><label class="settings-row" for="settingsQuality">Qualité d’affichage<select id="settingsQuality"><option value="auto">Automatique · adapte la résolution</option><option value="high">Élevée · résolution fixe</option><option value="low">Légère · résolution réduite</option></select></label></fieldset>
+    <fieldset><legend>SON & CONFORT</legend><label class="settings-row" for="settingsVolume"><span>Volume <output id="settingsVolumeValue" for="settingsVolume">70 %</output></span><input id="settingsVolume" type="range" min="0" max="100" value="70"></label><label class="settings-row" for="settingsMuted">Couper le son<input id="settingsMuted" type="checkbox"></label><label class="settings-row" for="settingsContrast">Contraste élevé<input id="settingsContrast" type="checkbox"></label><label class="settings-row" for="settingsMotion">Réduire les animations et secousses<input id="settingsMotion" type="checkbox"></label><label class="settings-row" for="settingsRevealAll">Afficher tous les menus dès le début<input id="settingsRevealAll" type="checkbox"></label><p id="settingsRevealNote" class="settings-status"></p><label class="settings-row" for="settingsQuality">Qualité d’affichage<select id="settingsQuality"><option value="auto">Automatique · adapte la résolution</option><option value="high">Élevée · résolution fixe</option><option value="low">Légère · résolution réduite</option></select></label></fieldset>
     <fieldset><legend>SAUVEGARDES PORTABLES</legend><p class="settings-status">Exportez une copie avant de changer d’appareil ou de navigateur. Importer demande une confirmation et ne modifie rien si le fichier est invalide.</p><div class="settings-actions"><button id="settingsSaveNow">SAUVEGARDER</button><button id="settingsExport">EXPORTER UNE COPIE</button><button id="settingsImport">IMPORTER UN FICHIER</button></div><input id="settingsImportFile" type="file" accept=".json,application/json" hidden><div id="settingsImportReview" class="settings-review hidden"><p id="settingsImportSummary"></p><div class="settings-actions"><button id="settingsImportConfirm" class="primary">CONFIRMER L’IMPORT</button><button id="settingsImportCancel">ANNULER</button></div></div></fieldset>
     <p id="settingsStatus" class="settings-status" role="status" aria-live="polite"></p><div class="settings-actions"><button id="settingsFullscreen">PLEIN ÉCRAN</button><button id="settingsQuit" class="danger hidden">QUITTER DEADWALL</button></div>
   </main></div>
@@ -346,6 +346,14 @@
 <script src="src/world-codex.js"></script>
 <script src="src/expansion-kit.js"></script>
 <script src="src/weather193.js"></script>
+<script src="src/city-water215.js"></script>
+<script src="src/city-laws217.js"></script>
+<script src="src/balance217.js"></script>
+<script src="src/breach217.js"></script>
+<script src="src/earthworks217.js"></script>
+<script src="src/factions217.js"></script>
+<script src="src/great-works217.js"></script>
+<script src="src/remarkable217.js"></script>
 <script src="src/biome-forage193.js"></script>
 <script src="src/forage193.js"></script>
 <script src="src/forage-art193.js"></script>
@@ -393,6 +401,16 @@
   <script src="src/vertical-citadel175-ui.js"></script>
 
 
+  <script src="src/age-reveal.js"></script>
+  <script src="src/siege-readout.js"></script>
+  <script src="src/horde-horizon217.js"></script>
+  <script src="src/corpse-heaps217.js"></script>
+  <script src="src/fallback-order.js"></script>
+  <script src="src/city-radio217.js"></script>
+  <script src="src/districts.js"></script>
+  <script src="src/exploration-scales.js"></script>
+  <script src="src/seed-card217.js"></script>
+  <script src="src/exploration-needs217.js"></script>
   <script src="src/map-recovery216.js"></script>
   <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>

@@ -31,8 +31,11 @@
   if(localPosts)reasons.push('Les caissons locaux sont limités et ne se rechargent pas seuls.');
   if(coreRatio<=R.criticalCoreRatio)reasons.push('Centre gravement endommagé.');
   if(g.nightwatch?.forecast())reasons.push('Nuit noire annoncée : vérifiez les projecteurs.');
+  // Ce que la sortie peut rapporter : besoins lus par le module des échelles d'exploration, s'il est chargé.
+  const needs=root.DeadwallExplorationScales?.cityNeeds(g)||[];
+  if(needs.length)reasons.push(root.DeadwallExplorationScales.needsSentence(needs));
   const urgent=g.phase==='assault'||g.phase==='warning'||noFire||coreRatio<=R.criticalCoreRatio;
-  return{phase:g.phase,wave:g.wave,clock,armedPosts,armedSoldiers,localPosts,unpowered,emptyPosts,unfinished,noFire,coreRatio,
+  return{phase:g.phase,wave:g.wave,clock,needs,armedPosts,armedSoldiers,localPosts,unpowered,emptyPosts,unfinished,noFire,coreRatio,
    tone:urgent?'danger':'warning',title:noFire?'D-17 dépend encore de vous':'D-17 continue sans vous',detail:reasons.join(' '),
    advice:g.phase==='assault'?'Le bastion est attaqué. Votre absence peut entraîner sa chute.':g.phase==='aftermath'?'Le bastion termine la sécurisation. Réparez et ravitaillez avant la prochaine nuit.':'Le bastion peut tomber si vous êtes absent lors de l’assaut nocturne. Préparez ses défenses et prévoyez votre retour.'};
  }

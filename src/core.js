@@ -407,9 +407,11 @@
       randomState: Number(data.randomState || Date.now()) >>> 0
     };
   }
-  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0) {
+  // `curve` (facultatif) : fonction signature → attirance, fournie par src/balance217.js pour les nouvelles
+  // campagnes. Absente, la courbe héritée plafonnée s'applique, inchangée.
+  function wavePlan(wave, difficulty = DIFFICULTIES.standard, signature = 0, curve = null) {
     const base = 10 + wave * 5 + Math.pow(wave, 1.62) * 2.35;
-    const attraction = 1 + clamp(signature / 360, 0, 0.8);
+    const attraction = 1 + (typeof curve === 'function' ? curve(signature) : clamp(signature / 360, 0, 0.8));
     const total = Math.max(8, Math.floor(base * difficulty.enemyCount * attraction));
     const weights = Object.fromEntries(Object.entries(ENEMY_RULES.waveWeights).map(([kind, rule]) =>
       [kind, wave >= ENEMIES[kind].unlockWave ? Math.min(rule.maximum, rule.base + (wave - rule.origin) * rule.growth) : 0]));
@@ -1137,6 +1139,12 @@
       holder[key]=Math.max(0,holder[key]-n);f.heat=Math.max(0,f.heat-n*RULES.coolingPerWater);this.addStat('waterUsed',n);
       if(f.heat<1e-8){this.state.fires.splice(this.state.fires.indexOf(f),1);if(this.state.wet.length>=RULES.maxFires*4)this.state.wet.shift();this.state.wet.push({id:f.id,seconds:RULES.wetSeconds});this.addStat('extinguished',1);this.log('extinguished',f.id,ctx.at||0);}
       return n;
+    }
+    // City supply draws from the same cisterns as fire response: one water balance.
+    cityWater(amount){
+      if(!finite(amount,Number.MIN_VALUE))return 0;let left=amount;
+      for(const t of this.state.tanks){if(left<=0)break;const n=Math.min(t.water,left);t.water-=n;left-=n;}
+      const used=amount-left;if(used>0)this.addStat('waterUsed',used);return used;
     }
     // Shared physical bucket. Field collection/animal care and fire response
     // must never create a second water balance that survives death separately.
@@ -1929,7 +1937,7 @@ C.SAVE_VERSION=20;C.SAVE_KEY='deadwall-save-v20';C.SAVE_BACKUP_KEY='deadwall-sav
  maxRemains:1024,unarmedDamage:18,armedMeleeDamage:36,reanimationChance:.30,reanimationMin:75,reanimationMax:150,reach:1.8,danger:4,health:65,damage:8,attackInterval:1.15,maxStep:.1,protection:3,
  requisition:Object.freeze({pistol:8,rifle:20,shotgun:16}),
  profiles:Object.freeze({
- commander:Object.freeze({name:'Commandant',description:'Le premier responsable de D-17.',health:100,speed:1,capacity:36,construction:1}),
+ commander:Object.freeze({name:'Commandant',description:'Le premier commandant de D-17.',health:100,speed:1,capacity:36,construction:1}),
  scout:Object.freeze({name:'Éclaireuse',description:'Une volontaire habituée aux longues reconnaissances.',health:90,speed:1.08,capacity:32,construction:1,advantages:['Déplacement à pied +8 %'],tradeoffs:['90 points de vie','Sac de 32 portions']}),
  porter:Object.freeze({name:'Manutentionnaire',description:'Un réfugié rompu au transport des charges et aux allers-retours du dépôt.',health:100,speed:.94,capacity:44,construction:1,advantages:['Sac de 44 portions'],tradeoffs:['Déplacement à pied −6 %']}),
  builder:Object.freeze({name:'Bâtisseuse',description:'Une ouvrière du refuge capable de reprendre les chantiers interrompus.',health:100,speed:.98,capacity:38,construction:1.15,advantages:['Construction manuelle +15 %','Sac de 38 portions'],tradeoffs:['Déplacement à pied −2 %']})
@@ -3318,6 +3326,102 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
 
 /* Seeded weather fronts. Rain remains the shared gameplay scalar. */
 (function(root){'use strict';const C=root.DeadwallCore;
+ // Eau de cité (GAME_BIBLE §7.3) : la population puise dans les citernes à partir de l'âge `startAge`
+ // (indice de CITY_TIERS). `moraleDrain` vaut la moitié de la famine ; `graceSeconds` précède tout effet.
+ // Pénurie en trois temps, en secondes de citernes vides sans interruption (le retour de l'eau remet tout à zéro) :
+ // 1. moral dès `graceSeconds` ; 2. départs annoncés à `departWarnSeconds`, un ouvrier part à `departSeconds`
+ // puis tous les `departInterval` ; 3. morts annoncées à `deathWarnSeconds`, une mort à `deathSeconds` puis toutes
+ // les `deathInterval`. Les départs cessent quand les morts commencent. Valeurs volontairement lentes
+ // (10 min avant le premier départ, 21 min avant la première mort) ; aucune partie réelle ne les a éprouvées.
+ C.CityWater215Rules=Object.freeze({startAge:4,perPersonSecond:.004,graceSeconds:180,moraleDrain:.35,activationReach:100,
+  departWarnSeconds:420,departSeconds:600,departInterval:120,deathWarnSeconds:1080,deathSeconds:1260,deathInterval:180});
+ // Lois de cité (docs/GAME_BIBLE.md §8.5), première tranche. Valeurs prudentes, non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (7 = Grande métropole). caps : lois engagées permises à startAge, puis aux
+ // âges suivants (le dernier vaut au-delà). delaySeconds : délai d'entrée en vigueur ou d'abrogation, gelé de
+ // l'alerte à la fin de l'assaut. foodPerPersonSecond : miroir de la ration d'economyTick (src/game.js), vérifié par test.
+ // halfRations : part de la ration servie ; moraleDrain dépasse le regain ordinaire (0,08/s) : le moral baisse en net.
+ // waterRation : part du besoin en eau servie (C.CityWater215Rules.perPersonSecond) ; moraleDrain en points par seconde.
+ // clearingDuty : après chaque assaut repoussé, ordre « déblayer » imposé aux ouvriers pendant `seconds`,
+ // cadence de déblaiement multipliée par `speed` ; récolte et chantiers des ouvriers arrêtés pendant ce temps.
+ C.CityLaws217Rules=Object.freeze({startAge:7,caps:Object.freeze([1,2,2,3]),delaySeconds:60,activationReach:100,foodPerPersonSecond:.0065,
+  halfRations:Object.freeze({foodFactor:.5,moraleDrain:.12}),
+  waterRation:Object.freeze({waterFactor:.7,moraleDrain:.1}),
+  clearingDuty:Object.freeze({seconds:30,speed:1.5})});
+ // Équilibrage 217 (docs/GAME_BIBLE.md §1.2 et §11.3), nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // signature : attirance d'une vague = signature / divisor tant qu'elle reste sous `cap` (courbe héritée, inchangée) ;
+ // au-delà, cap + gain × ln(1 + (signature − cap × divisor) / scale) : elle monte toujours, de plus en plus lentement.
+ // morale.tiers : du plus haut au plus bas, premier palier dont `min` ≤ moral ; `factor` multiplie le déplacement des
+ // unités, le travail des ouvriers (récolte, chantiers, déblaiement) et la cadence de tir des fusiliers.
+ // Le dernier palier reprend le ×0,82 hérité : jamais pire qu'avant en vitesse.
+ // morale.depart : moral sous `below` pendant `warnSeconds` continues → annonce ; à `seconds`, un ouvrier part, puis
+ // un autre tous les `interval` tant que le moral reste sous `below`. Le retour du moral remet tout à zéro.
+ C.Balance217Rules=Object.freeze({
+  signature:Object.freeze({cap:.8,divisor:360,gain:.234,scale:120}),
+  morale:Object.freeze({
+   tiers:Object.freeze([Object.freeze({min:60,factor:1}),Object.freeze({min:40,factor:.94}),Object.freeze({min:20,factor:.88}),Object.freeze({min:0,factor:.82})]),
+   depart:Object.freeze({below:10,warnSeconds:120,seconds:300,interval:180})})});
+ // Brèche catastrophe (GAME_BIBLE §8.6), nouvelles campagnes seulement. Un pan est une suite droite d'ouvrages de mur
+ // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
+ // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
+ C.Breach217Rules=Object.freeze({minLength:4,maxCollapse:6});
+ // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
+ // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
+ C.CityRadio217Rules=Object.freeze({journal:12});
+ // Travaux de terrain (GAME_BIBLE §7.13), première tranche : le fossé. Nouvelles campagnes seulement.
+ // unlockTier : âge d'apparition au catalogue. cost : payé à la pose, par case. digSeconds : travail d'ouvrier ou de
+ // Commandant pour creuser une case. slowFactor : vitesse d'un infecté dans un fossé ouvert. flowCost : coût de passage
+ // ajouté au champ de flux (une case libre vaut 10) : la horde contourne si le détour est court. capacity : corps
+ // qu'une case absorbe avant d'être comblée ; un fossé comblé ne ralentit plus ni ne détourne. rimDistance : distance
+ // au bord, en pixels, à laquelle un infecté abattu tombe encore dans le fossé. workRange : portée de travail.
+ // cityRadiusTiles : emprise de la cité autour du centre, en cases. maxDitches : taille du registre.
+ // Le déblaiement reprend les cadences existantes (WORKER_RULES.cleanupPerSecond, LINECARE_RULES.shovelPerSecond).
+ C.Earthworks217Rules=Object.freeze({unlockTier:0,cost:Object.freeze({wood:4}),digSeconds:10,slowFactor:.55,flowCost:14,capacity:6,
+  rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256});
+ // Factions (GAME_BIBLE §4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // factions : bornes de réputation ; ententeAt / hostileAt : seuils des états affichés. reach : portée du dépôt.
+ // raid (Les Rouleurs) : un fourgon compte comme « chargé » avec `minCargo` unités au coffre au-delà de `awayDistance`
+ // du centre ; l'affaire se règle quand il repasse sous `ambushDistance`. Barrage tous les `period` retours chargés.
+ // Sans escorte (`escortSoldiers` fusiliers à `escortRange` du fourgon) ni tribut payé d'avance (`tribute`, au plus
+ // `maxPasses` en réserve) : `share` du coffre, `maxLoss` unités au plus ; `hostile` s'applique à l'état Hostile.
+ // relay (Les Relais) : demande n à la vague firstWave + n × everyWaves, ouverte `openWaves` vague ; `requests` tourne
+ // dans l'ordre ; la contrepartie `back` arrive `returnWaves` vagues après le don et reste plus petite que `ask`.
+ C.Factions217Rules=Object.freeze({reach:100,ententeAt:2,hostileAt:-2,
+  factions:Object.freeze({rouleurs:Object.freeze({min:-3,max:2}),relais:Object.freeze({min:-1,max:3})}),
+  raid:Object.freeze({minCargo:20,awayDistance:900,ambushDistance:650,period:3,share:.35,maxLoss:24,hostile:Object.freeze({share:.5,maxLoss:36}),
+   escortSoldiers:2,escortRange:180,tribute:Object.freeze({fuel:6}),maxPasses:1}),
+  relay:Object.freeze({firstWave:2,everyWaves:3,openWaves:1,returnWaves:2,requests:Object.freeze([
+   Object.freeze({relay:'Les Granges',ask:Object.freeze({food:14}),back:Object.freeze({fuel:5})}),
+   Object.freeze({relay:'La Rive',ask:Object.freeze({wood:24}),back:Object.freeze({food:10})}),
+   Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])})});
+ // Grands ouvrages (docs/GAME_BIBLE.md §8.4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (9 = Mégaville II, « âge 10 » de la bible). Un ouvrage se bâtit par tranches : chaque
+ // tranche est payée au dépôt (`cost`, pris sur le stock), puis construite pendant `seconds` de chantier, suspendu de l'alerte
+ // à la fin de l'assaut. Une seule tranche par ouvrage et par nuit. Aucun effet avant la dernière tranche.
+ // belfry : `warningSeconds` s'ajoute à l'alerte du moteur (10 s, +5 avec la reconnaissance).
+ // necropolis : `clearSpeed` multiplie la cadence de déblaiement des ouvriers (se compose avec la corvée de C.CityLaws217Rules).
+ // `signature` : points ajoutés à la signature de la cité une fois l'ouvrage achevé (cloche qui porte, fumée permanente).
+ {const step=(seconds,cost)=>Object.freeze({seconds,cost:Object.freeze(cost)});
+ C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,works:Object.freeze({
+  belfry:Object.freeze({warningSeconds:8,signature:120,steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
+  necropolis:Object.freeze({clearSpeed:1.5,signature:80,steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
+ // Monde sans bord (docs/GAME_BIBLE.md §7.13, specs/monde-sans-bord/) : adressage des cantons, lu par src/world-cantons217.js.
+ // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
+ // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².
+ C.WorldCantons217Rules=Object.freeze({reservedGeneration:12,canton:1024,chunk:256,loadRadius:1,keepRadius:2,cacheCapacity:36,maxCoordinate:1048575,maxIndex:65535});
+ // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
+ // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
+ // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.
+ // nestMin/nestMax : infectés du nid (les occupants ordinaires sont un à quatre). sight : distance (m) à laquelle le repère se voit.
+ // claimReach : marge (m) autour de l'emprise pour charger le lot. kinds : silhouette du repère et lot annoncé, pris une seule fois.
+ {const kind=(label,silhouette,resource,amount)=>Object.freeze({label,silhouette,reward:Object.freeze({resource,amount})});
+ C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,
+  kinds:Object.freeze({
+   water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
+   fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),
+   dam:kind('barrage','tower','ammo',30),transmitter:kind('émetteur','pylon','ammo',24),power:kind('centrale','chimney','fuel',30)})});}
+ // Repli du décor métrique sur carte saturée (src/exploration-125.js) : dégagements essayés, en mètres, pour la seule pièce
+ // restée sans parcelle après toutes les recherches à un mètre. Zéro = au contact, jamais en recouvrement.
+ C.Scenery217Rules=Object.freeze({fallbackClearanceMetres:Object.freeze([1,.5,0])});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
