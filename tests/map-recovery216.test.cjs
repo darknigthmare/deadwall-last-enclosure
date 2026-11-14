@@ -2,16 +2,21 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const Recovery=require('../src/map-recovery216.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
-// Graines relevées par la CI : en contenu actuel, le décor métrique n'y trouve aucune parcelle libre.
+// Graines relevées par la CI : le décor métrique n'y trouvait aucune parcelle libre. Depuis 217 la
+// cause est traitée (tests/seed-scenery217.test.cjs) et ces graines démarrent ; le filet reste en place.
 const UNFIT=['3033422227','139741324','4075956896'];
+// Le défaut est donc rejoué là où il naissait : pendant le placement du décor, à l'instant où il
+// mesure l'emprise d'une pièce, la création s'interrompt avec l'erreur d'origine.
+const saturate=(g,seeds)=>{const field=g.fieldcraft;g.fieldcraft=Object.freeze(Object.create(field,{reserveRect:{value(node){if(node?.sceneryKind&&seeds.includes(String(g.world?.seed))&&g.exploration125?.plan?.seed===g.world.seed)throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${g.world.seed} · ${node.sceneryKind}`);return field.reserveRect(node);}}}));};
 const current=(g,seed)=>g.startNew('standard',seed,'classic','classic',true);
 
-test('216 le défaut d’origine est réel : ces graines interrompent la création de campagne',()=>{
+test('216 sans le module, une carte saturée interrompt encore la création de campagne',()=>{
   // Témoin : le même document, chargé sans le module de reprise.
   const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8'),read=fs.readFileSync;
   fs.readFileSync=(file,...rest)=>{const text=read(file,...rest);return String(file).endsWith('index.html')&&typeof text==='string'?text.replace('  <script src="src/map-recovery216.js"></script>\n',''):text;};
   let g;try{g=bootDocument134().g;}finally{fs.readFileSync=read;}
   assert.ok(html.includes('<script src="src/map-recovery216.js"></script>'));assert.equal(g.mapRecovery216,undefined,'module absent de ce témoin');
+  saturate(g,UNFIT);
   assert.throws(()=>current(g,UNFIT[0]),/Décor métrique sans parcelle libre/);
 });
 
@@ -19,6 +24,7 @@ test('216 une carte impraticable est remplacée par une autre, annoncée au joue
   const {g}=bootDocument134();assert.ok(g.mapRecovery216,'installé dès le chargement');assert.equal(Recovery.install(g),false);
   const notes=[],notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};
   const draws=[];g.freshMapSeed=()=>{const seed=17117+draws.length;draws.push(seed);return seed;};
+  saturate(g,UNFIT);
   for(const seed of UNFIT){
     draws.length=0;notes.length=0;
     assert.notEqual(current(g,seed),false);

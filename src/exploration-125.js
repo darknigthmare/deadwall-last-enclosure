@@ -1121,14 +1121,16 @@
 
   // Shared physical geometry for initial packing and the later access cleanup.
   // Callers create this context only for the explicit metric campaign profile.
-  function createMetricSceneryPlacement202(game,plan,{occupied=[],settlementProjection=false}={}) {
-    const field=game.fieldcraft,u=C.TILE||32,margin=C.CityGeometry202.localParcels.clearanceMetres*u;
+  function createMetricSceneryPlacement202(game,plan,{occupied=[],settlementProjection=false,clearance=null}={}) {
+    // `clearance` (repli 217 seulement) réduit le dégagement exigé autour de la pièce ; les
+    // réserves des hameaux gardent leur mètre déclaré (`declared`), jamais compté deux fois.
+    const field=game.fieldcraft,u=C.TILE||32,declared=C.CityGeometry202.localParcels.clearanceMetres*u,margin=clearance??declared;
     const bounds=node=>{const b=field?.reserveRect?.(node);if(b)return {x:b.l,y:b.t,w:b.r-b.l,h:b.b-b.t};const size=node.renderSize||node.radius*2.65;return {x:node.x-size/2,y:node.y-size/2,w:size,h:size};};
     const reserve=node=>{const b=bounds(node);if(!['ruinedHouse','ruinedShop','warehouseShell'].includes(node.sceneryKind))return b;const p=C.CityGeometry202.presentation,h=p.storeyHeightMetres*p.projectedHeightUnitsPerMetre,o=p.roofOverhangMetres*u;return {x:b.x-o,y:b.y-h-o,w:b.w+o*2,h:b.h+h+o*2};};
     // Settlement build reservations already include the declared one-metre
     // clearance. Recover their full projected roof/facade before applying that
     // clearance once; construction reservations and colliders remain untouched.
-    const exclusions=settlementProjection?plan.buildExclusions.map(a=>a.kind==='settlement-reserve'?{...a,x:a.x+margin,y:a.y+margin,w:a.w-margin*2,h:a.h-margin*2}:a):plan.buildExclusions;
+    const exclusions=settlementProjection?plan.buildExclusions.map(a=>a.kind==='settlement-reserve'?{...a,x:a.x+declared,y:a.y+declared,w:a.w-declared*2,h:a.h-declared*2}:a):plan.buildExclusions;
     const fixtures=[...[...game.world.buildings.values()].filter(b=>!b.dead).map(b=>({x:b.left,y:b.top,w:b.right-b.left,h:b.bottom-b.top})),...(game.expeditions?.sites?.()||C.Expeditions?.SITES||[]).map(p=>bounds({...p,renderSize:90})),...(game.dayworks?.snapshot().sites||[]).map(p=>bounds({...p,renderSize:50})),...(game.world.sites||[]).map(p=>bounds({...p,renderSize:96})),...exclusions,...plan.buildableDistricts202,...physicalSolids134(plan)];
     const fits=(node,x,y,placed=occupied)=>{const b=reserve({...node,x,y}),padded={x:b.x-margin,y:b.y-margin,w:b.w+margin*2,h:b.h+margin*2};return b.x>=38&&b.y>=38&&b.x+b.w<=plan.worldSize-38&&b.y+b.h<=plan.worldSize-38&&!roadFootprint202(plan,b,margin)&&!fixtures.some(a=>rectsOverlap(a,padded))&&!placed.some(a=>rectsOverlap(a,padded));};
     return {reserve,fixtures,fits,margin};
@@ -1223,6 +1225,23 @@
       return layout;
     };
     const apply=layout=>{if(!layout)return false;for(const entry of layout){entry.node.x=entry.x;entry.node.y=entry.y;}return true;};
+    // Repli 217 : carte saturée. Les grandes ruines (enveloppe de 10,3 m avec toit) ne tiennent
+    // dans les bandes de bordure est et ouest (10,8 à 11,3 m) qu'avec moins d'un mètre de
+    // dégagement. Seule la pièce restée sans parcelle reçoit ce dégagement réduit, par paliers
+    // (C.Scenery217Rules) ; routes, bâtis, épaves et autres pièces restent des interdits stricts.
+    let compactRefused=false;
+    const relaxed=node=>{
+      for(const metres of C.Scenery217Rules.fallbackClearanceMetres){
+        const context=createMetricSceneryPlacement202(game,plan,{occupied:placed,settlementProjection:true,clearance:metres*u});
+        for(let ring=1;ring<=120;ring++)for(let direction=0;direction<32;direction++){
+          const a=(direction+(node.id%17)/17)*Math.PI/16,x=Math.round((node.x+Math.cos(a)*ring*32)*100)/100,y=Math.round((node.y+Math.sin(a)*ring*32)*100)/100;
+          if(context.fits(node,x,y))return{x,y};
+        }
+        const point=findMetricSceneryBoundaryPlot202(context.reserve({...node,x:0,y:0}),plan.worldSize,[...context.fixtures,...placed,...roadGeometry202(plan).bounds],context.margin,(x,y)=>context.fits(node,x,y));
+        if(point)return point;
+      }
+      return null;
+    };
     for(const node of scenery){
       if(!fits(node,node.x,node.y)){
         const origin={x:node.x,y:node.y};let found=false;
@@ -1240,9 +1259,16 @@
           // Only this failed branch retries a compact boundary layout, with the
           // same full envelopes, clearance and native road/fixture vetoes. Keep
           // every candidate private until the entire finite population fits.
-          if(apply(compact(placement)))return;
-          const singleClearance=createMetricSceneryPlacement202(game,plan,{settlementProjection:true});
-          for(let corner=0;corner<4;corner++)if(apply(compact(singleClearance,corner)))return;
+          if(!compactRefused){
+            if(apply(compact(placement)))return;
+            const singleClearance=createMetricSceneryPlacement202(game,plan,{settlementProjection:true});
+            for(let corner=0;corner<4;corner++)if(apply(compact(singleClearance,corner)))return;
+            compactRefused=true;
+          }
+          const point=relaxed(node);
+          if(point){node.x=point.x;node.y=point.y;found=true;}
+        }
+        if(!found){
           throw Error(`Décor métrique sans parcelle libre : ${node.id} · seed ${plan.seed} · ${node.sceneryKind} · ${node.body202?.w??node.renderSize}×${node.body202?.h??node.renderSize}`);
         }
       }

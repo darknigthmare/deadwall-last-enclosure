@@ -3419,6 +3419,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
    water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
    fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),
    dam:kind('barrage','tower','ammo',30),transmitter:kind('émetteur','pylon','ammo',24),power:kind('centrale','chimney','fuel',30)})});}
+ // Repli du décor métrique sur carte saturée (src/exploration-125.js) : dégagements essayés, en mètres, pour la seule pièce
+ // restée sans parcelle après toutes les recherches à un mètre. Zéro = au contact, jamais en recouvrement.
+ C.Scenery217Rules=Object.freeze({fallbackClearanceMetres:Object.freeze([1,.5,0])});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
