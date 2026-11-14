@@ -3364,6 +3364,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
  // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
  C.Breach217Rules=Object.freeze({minLength:3,maxCollapse:8});
+ // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
+ // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
+ C.CityRadio217Rules=Object.freeze({journal:12});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

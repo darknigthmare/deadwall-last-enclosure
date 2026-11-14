@@ -70,6 +70,28 @@ kbd { display: inline-flex; align-items: center; justify-content: center; min-wi
 .fallback-reconquest[hidden] { display: none; }
 .fallback-reconquest li[data-done="true"] { opacity: .65; }
 @media (max-width: 720px) { .fallback-sectors { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.city-radio { position: absolute; z-index: 23; left: 16px; top: 84px; width: min(268px, calc(100% - 32px)); box-sizing: border-box; padding: 10px 12px; border: 1px solid #6f8a86; border-left: 4px solid #9fc0b8; border-radius: 3px; background: rgba(16, 24, 25, .94); color: #eef2ea; font: 12px/1.45 system-ui, sans-serif; pointer-events: none; }
+.city-radio.hidden { display: none !important; }
+.city-radio strong { display: block; font-size: 11px; letter-spacing: .06em; color: #cfe0da; }
+.city-radio ol, .city-radio-log { margin: 6px 0 0; padding: 0; list-style: none; }
+.city-radio li, .city-radio-log li { padding: 4px 0 4px 8px; border-left: 3px solid #6f8a86; margin-top: 4px; }
+.city-radio li[data-tone="danger"], .city-radio-log li[data-tone="danger"] { border-left-color: #c9623f; }
+.city-radio li[data-tone="good"], .city-radio-log li[data-tone="good"] { border-left-color: #7fa860; }
+.city-radio time, .city-radio-log time { display: block; font-size: 10px; letter-spacing: .04em; opacity: .8; font-variant-numeric: tabular-nums; }
+.city-radio li.city-radio-empty, .city-radio-log li.city-radio-empty { border-left-color: transparent; padding-left: 0; opacity: .8; }
+.city-radio-journal { margin-top: 12px; padding: 12px; border: 1px solid currentColor; border-radius: 3px; color: inherit; }
+.city-radio-journal[hidden] { display: none; }
+.city-radio-journal h3 { margin: 0; font-size: 11px; letter-spacing: .08em; color: inherit; }
+.city-radio-journal .city-radio-actions + h3 { margin-top: 16px; }
+.city-radio-order { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: inherit; }
+.city-radio-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 10px; }
+.city-radio-actions button { padding: 10px 7px; min-height: 56px; overflow-wrap: anywhere; }
+.city-radio-actions button[hidden] { display: none; }
+.city-radio-actions button[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: -4px; font-weight: 700; }
+.city-radio-actions span { display: block; font-size: 10px; line-height: 1.4; }
+.city-radio-actions small { display: block; margin-top: 3px; font-size: 9px; line-height: 1.35; opacity: .85; }
+.city-radio-log { font-size: 12px; line-height: 1.5; }
+@media (max-width: 720px) { .city-radio-actions { grid-template-columns: 1fr; } .city-radio { top: 108px; left: 8px; width: min(260px, calc(100% - 16px)); font-size: 11px; } }
 .siege-readout { display: grid; gap: 8px; margin-top: 8px; }
 .siege-readout[hidden] { display: none; }
 .siege-readout-card { padding: 10px 12px; border: 1px solid var(--line, #485440); border-radius: 3px; background: #0f1813cc; }
