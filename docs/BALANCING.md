@@ -439,3 +439,7 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 ## Radio et consignes — 217
 
 `C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.
+
+## Cantons du monde sans bord — 217
+
+`C.WorldCantons217Rules`, non lu par le jeu : canton 1 024 m, morceau 256 m, anneau chargé 1 canton, anneau protégé 2 cantons, cache 36 cantons, coordonnées ±1 048 575, 65 536 objets par genre et par canton, génération réservée 12. Ce sont des budgets, pas de l'équilibrage ; à revoir après la sonde de coût.

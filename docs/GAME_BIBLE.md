@@ -1188,6 +1188,23 @@ d'atlas calée sur l'étendue totale.
 - Propriétaires : `frontier-world.js`, `frontier-state.js`, `geography135.js`,
   `hydrology165.js`, `atlas-projection.js`, `core.js`.
 
+**Avancement [LIVRÉ, sans effet en jeu]**
+
+- **[DÉCISION]** Le monde sans bord passe avant le relief.
+- Cadrage dans `specs/monde-sans-bord/` : inventaire de ce qui suppose un
+  bord, architecture, tranches T0 à T7, risques, décisions D1 à D7.
+- Première brique : `src/world-cantons217.js`, adressage pur des cantons de
+  1 024 m (coordonnées signées, identifiants `K<cx>_<cy>`, sous-graines de
+  canton, de couture et de sommet indépendantes de l'ordre de visite, anneau
+  de chargement, cache borné). Le jeu ne la charge pas ; aucune génération
+  1 à 11 ne la lit. La génération 12 est réservée et refusée partout tant
+  que la tranche d'ouverture n'est pas livrée.
+- Les deux inconnues techniques : un réseau routier connexe sans arbre
+  couvrant global, et une hydrologie qui ne dépend plus d'un bord (la côte
+  est aujourd'hui un des quatre bords).
+- Tranche suivante recommandée : des accesseurs de limite posés sur les
+  mondes existants, sans changer aucune valeur, vérifiés par les empreintes.
+
 #### Direction : des lieux à découvrir
 
 Trois rangs de lieux, pour que l'exploration ait des souvenirs :
@@ -2304,10 +2321,13 @@ Conséquences à connaître, **jamais jouées** :
 - Le prix des lois de rationnement se sent dès 60 de moral : cinq à six
   minutes de demi-rations au lieu d'environ 33.
 
-Restent à décider : si le Commandant, les spécialistes, les gardes de palier
-et les travaux affectés (routes, récupération, expéditions) suivent aussi
-les paliers — la bible dit « le déplacement de tous », le Commandant n'est
-pas ralenti aujourd'hui ; une activation pour les anciennes campagnes ; puis
+**[DÉCISION]** Le Commandant n'est **pas** ralenti par le moral : le moral
+pèse sur la cité, pas sur la maniabilité du personnage joué. « Le
+déplacement de tous » s'entend des habitants et des équipes.
+
+Restent à décider : si les spécialistes, les gardes de palier et les travaux
+affectés (routes, récupération, expéditions) suivent aussi les paliers ; une
+activation pour les anciennes campagnes ; puis
 brancher les décisions de fin de jeu fondées sur la signature.
 
 ### 11.4 Limites de la reprise de carte
