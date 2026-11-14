@@ -3367,6 +3367,16 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
  // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
  C.CityRadio217Rules=Object.freeze({journal:12});
+ // Travaux de terrain (GAME_BIBLE §7.13), première tranche : le fossé. Nouvelles campagnes seulement.
+ // unlockTier : âge d'apparition au catalogue. cost : payé à la pose, par case. digSeconds : travail d'ouvrier ou de
+ // Commandant pour creuser une case. slowFactor : vitesse d'un infecté dans un fossé ouvert. flowCost : coût de passage
+ // ajouté au champ de flux (une case libre vaut 10) : la horde contourne si le détour est court. capacity : corps
+ // qu'une case absorbe avant d'être comblée ; un fossé comblé ne ralentit plus ni ne détourne. rimDistance : distance
+ // au bord, en pixels, à laquelle un infecté abattu tombe encore dans le fossé. workRange : portée de travail.
+ // cityRadiusTiles : emprise de la cité autour du centre, en cases. maxDitches : taille du registre.
+ // Le déblaiement reprend les cadences existantes (WORKER_RULES.cleanupPerSecond, LINECARE_RULES.shovelPerSecond).
+ C.Earthworks217Rules=Object.freeze({unlockTier:0,cost:Object.freeze({wood:4}),digSeconds:10,slowFactor:.55,flowCost:14,capacity:6,
+  rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

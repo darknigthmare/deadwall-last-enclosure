@@ -1469,6 +1469,7 @@
         if(this.citadel?.updateEscort(u,dt))continue;
         if(this.siege?.updateAssignedUnit(u,dt))continue;
         if(this.territories?.updateAssignedUnit(u,dt))continue;
+        if(this.earthworks217?.updateAssignedUnit(u,dt))continue;
         const danger=this.nearestZombie(u.x,u.y,C.SURVIVORS[u.kind]?.specialist?C.NPC_RULES.dangerRange:105);
         if(u.kind==='worker'){
           if(danger){u.state='flee';this.moveUnitToward(u,core,dt,u.speed*1.25);continue;}
@@ -1902,7 +1903,7 @@
       for(const z of this.zombies){if(this.gameOver)break;if(z.dead)continue;const def=ENEMIES[z.kind],staggered=z.stagger>0;z.attackCooldown=Math.max(0,z.attackCooldown-dt);z.stagger=Math.max(0,z.stagger-dt);z.rage=Math.max(0,z.rage-dt);z.howl-=dt;if(z.kind==='shielded')z.shieldImpact=Math.max(0,(z.shieldImpact||0)-dt);
         if(this.vertical175?.updateClimber?.(z,dt))continue;
         if(z.kind==='howler'&&z.howl<=0){z.howl=9+this.random.range(-1,2);for(const other of this.nearbyZombies(z.x,z.y,190))other.rage=Math.max(other.rage,3);for(let i=0;i<10;i++){const a=this.random.range(0,Math.PI*2);this.particles.push(new Particle(z.x,z.y,Math.cos(a)*this.random.range(20,90),Math.sin(a)*this.random.range(20,90),.7,2,'#9d554d','dust'));}}
-        let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1);const look=z.radius+13;
+        let dir=this.flow.direction(z.x,z.y,z.bias,this.elapsed),speed=def.speed*night*(z.rage>0?1.18:1)*(z.stagger>0?.35:1)*(1-this.weather*.05)*(this.infrastructure?this.infrastructure.speed(z.x,z.y,'hostile'):1)*(this.earthworks217?.speed(z.x,z.y)??1);const look=z.radius+13;
         if(z.kind==='stalker'){
           z.huntThink-=dt;
           if(z.prey&&(z.prey.dead||z.prey.regionAbsent||distSq(z,z.prey)>C.ENEMY_RULES.stalkRange**2||!this.hostileLineClear(z,z.prey))){z.prey=null;z.huntThink=0;}
