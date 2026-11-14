@@ -3404,6 +3404,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,works:Object.freeze({
   belfry:Object.freeze({warningSeconds:8,signature:120,steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
   necropolis:Object.freeze({clearSpeed:1.5,signature:80,steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
+ // Monde sans bord (docs/GAME_BIBLE.md §7.13, specs/monde-sans-bord/) : adressage des cantons, lu par src/world-cantons217.js.
+ // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
+ // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².
+ C.WorldCantons217Rules=Object.freeze({reservedGeneration:12,canton:1024,chunk:256,loadRadius:1,keepRadius:2,cacheCapacity:36,maxCoordinate:1048575,maxIndex:65535});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
