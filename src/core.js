@@ -3363,7 +3363,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Brèche catastrophe (GAME_BIBLE §8.6), nouvelles campagnes seulement. Un pan est une suite droite d'ouvrages de mur
  // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
  // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
- C.Breach217Rules=Object.freeze({minLength:3,maxCollapse:8});
+ C.Breach217Rules=Object.freeze({minLength:4,maxCollapse:6});
  // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
  // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
  C.CityRadio217Rules=Object.freeze({journal:12});

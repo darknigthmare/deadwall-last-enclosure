@@ -108,14 +108,16 @@ test('radio 217 : ce que le Commandant savait en partant n’est pas répété ;
 });
 
 test('radio 217 : relevé des faits, un par épisode, lus chez leurs propriétaires',()=>{
+ // Deux pans au nord tels que la brèche 217 peut en relever : le plus court possible, et un plus long avec une porte.
+ const short=C.Breach217Rules.minLength,longer=short+1;
  const g={phase:'warning',wave:4,morale:5,resources:{ammo:0},core:()=>({health:30,maxHealth:100}),balance217:{moraleTiers:()=>true},
-  cityWater215:{needed:()=>true,stage:()=>6},breach217:{threatened:()=>[{side:'north',length:3,gates:0},{side:'north',length:5,gates:1}]},
+  cityWater215:{needed:()=>true,stage:()=>6},breach217:{threatened:()=>[{side:'north',length:short,gates:0},{side:'north',length:longer,gates:1}]},
   corpseHeaps217:{summary:()=>({north:{state:'franchi',gate:false},east:null,south:{state:'imminent',gate:true},west:{state:'haut',gate:false}})},
   fallbackOrder:{status:()=>({closed:true,infectedInside:2,lastBreach:{side:'east',name:'Porte',wave:4,at:90}}),nightLog:()=>({wave:4,lost:['east'],retaken:['west']})}};
  const list=Radio.facts(g),by=Object.fromEntries(list.map(f=>[f.key,f]));
  assert.deepEqual(Object.keys(by).sort(),['ammo','breach:4:90','core','front:4','heap:north','heap:south','lost:4:east','morale','pan:north','retaken:4:west','water'].sort());
  assert.equal(by['breach:4:90'].text,'Brèche au est (Porte). 2 infectés dans l’enceinte intérieure.');
- assert.equal(by['pan:north'].text,'Le mur nord menace de céder sur 5 ouvrages, porte comprise.');
+ assert.equal(by['pan:north'].text,'Le mur nord menace de céder sur '+longer+' ouvrages, porte comprise.');
  assert.equal(by['heap:north'].level,2);assert.equal(by['heap:south'].level,1);assert.match(by['heap:south'].text,/la porte sera bientôt franchissable/);
  assert.equal(by.water.level,4);assert.equal(by['retaken:4:west'].tone,'good');assert.equal(by['front:4'].tone,'normal');
  assert.deepEqual(Radio.facts({phase:'calm',wave:1,morale:5,resources:{ammo:40}}),[],'sans module propriétaire, aucun fait');
