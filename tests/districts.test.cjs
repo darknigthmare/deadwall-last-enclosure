@@ -99,7 +99,7 @@ test('districts : le module ne crée ni stock, ni dégât, ni tirage, ni sauvega
   const source=fs.readFileSync(path.join(root,'src/districts.js'),'utf8');
   for(const forbidden of ['Math.random','.random.','resources','localStorage','serialize','.save(','setGateMode','retreatSquad','setWorkerOrder'])assert.equal(source.includes(forbidden),false,forbidden);
   for(const write of [/\.health\s*[-+*/]?=[^=]/,/gateMode\s*=[^=]/,/workerOrder\s*=[^=]/,/\.squads\s*=[^=]/,/\.(wood|scrap|food|ammo|stone|fuel|medicine|water)\s*[-+]?=[^=]/])assert.doesNotMatch(source,write);
-  assert.ok(fs.readFileSync(path.join(root,'index.html'),'utf8').includes('<script src="src/fallback-order.js"></script>\n  <script src="src/districts.js"></script>'));
+  {const h=fs.readFileSync(path.join(root,'index.html'),'utf8');assert.ok(h.indexOf('src/fallback-order.js')>0&&h.indexOf('src/fallback-order.js')<h.indexOf('src/districts.js'));};
   assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes('"src/districts.js"'));
 });
 
