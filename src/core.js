@@ -3408,6 +3408,17 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
  // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².
  C.WorldCantons217Rules=Object.freeze({reservedGeneration:12,canton:1024,chunk:256,loadRadius:1,keepRadius:2,cacheCapacity:36,maxCoordinate:1048575,maxIndex:65535});
+ // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
+ // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
+ // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.
+ // nestMin/nestMax : infectés du nid (les occupants ordinaires sont un à quatre). sight : distance (m) à laquelle le repère se voit.
+ // claimReach : marge (m) autour de l'emprise pour charger le lot. kinds : silhouette du repère et lot annoncé, pris une seule fois.
+ {const kind=(label,silhouette,resource,amount)=>Object.freeze({label,silhouette,reward:Object.freeze({resource,amount})});
+ C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,
+  kinds:Object.freeze({
+   water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
+   fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),
+   dam:kind('barrage','tower','ammo',30),transmitter:kind('émetteur','pylon','ammo',24),power:kind('centrale','chimney','fuel',30)})});}
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
