@@ -616,6 +616,45 @@ Cinq états par faction, sans jauge chiffrée affichée :
 - Pas une source de butin gratuit : détruire une faction supprime aussi ce
   qu'elle apportait.
 
+### 4.7 Première tranche livrée **[LIVRÉ]**, nouvelles campagnes seulement
+
+(`src/factions217.js`, valeurs dans `C.Factions217Rules`, test
+`tests/factions217.test.cjs`)
+
+Deux factions sur dix : **Les Rouleurs** (bande motorisée) et **Les Relais**
+(Les Granges, La Rive, Fontvieille). Aucun hasard : tout suit le compteur de
+retours chargés et le numéro de vague.
+
+- **Relation** : une réputation entière par faction, montrée par les états
+  de §4.4 (Inconnue, Repérée, En contact, Entente, Tension, Hostile), jamais
+  par une jauge chiffrée. Seuls des actes la changent. Un relais ne devient
+  jamais hostile.
+- **Interception** : un fourgon d'expédition qui rentre avec au moins 20
+  unités au coffre est repéré la première fois, puis barré tous les trois
+  retours chargés. Les Rouleurs prennent 35 % du coffre, 24 unités au plus,
+  carburant d'abord (50 % et 36 à l'état Hostile). Deux parades sans tir :
+  deux fusiliers près du fourgon, ou un tribut de 6 carburant versé d'avance
+  au dépôt. Personne ne tire, le fourgon n'est pas abîmé, le stock du dépôt
+  n'est jamais touché.
+- **Demande d'aide** : un relais demande de l'aide aux vagues 2, 5, 8…, en
+  phase calme, pendant une vague. Un don pris au stock fait monter l'entente
+  et rapporte, deux vagues plus tard, une contrepartie annoncée et plus
+  petite que le don. Une demande ignorée fait baisser l'entente, sans autre
+  sanction.
+- Carte « Factions » dans le dossier de situation ; fiche et actions dans
+  les opérations, groupe Région.
+
+Réserves : jamais joué en partie réelle. L'escorte est sans doute trop
+facile pour une grande cité (des fusiliers de garnison suffisent). Le tribut
+est bon marché. « Entente » n'a encore aucun effet propre. Seul le fourgon
+d'expédition local est concerné. Les factions n'ont aucune présence sur la
+carte : ni lieu, ni silhouette, ni son.
+
+Restent à faire : le tirage de quatre à six factions par la graine, leur
+placement sur la carte, le combat « payé trois fois » (§4.2), la destruction
+et le ralliement, l'activation volontaire des campagnes existantes, les huit
+autres factions.
+
 ---
 
 ## 5. La boucle et la carte de cohérence
@@ -1225,6 +1264,37 @@ Règles :
 - La graine doit changer la **stratégie d'ouverture** : une cité de plaine
   sans pierre ne se bâtit pas comme une cité de plateau sans eau.
 
+**Première tranche livrée [LIVRÉ] : le fossé**, nouvelles campagnes seulement
+(`src/earthworks217.js`, valeurs dans `C.Earthworks217Rules`, test
+`tests/earthworks217.test.cjs`)
+
+- Le fossé se choisit au catalogue, onglet Défense, dès l'âge Refuge, et se
+  pose case par case dans l'emprise de la cité (44 cases autour du centre).
+  La pose coûte 4 bois ; la case est ensuite creusée à la main en 10 s de
+  travail, par les ouvriers (après les autres chantiers) ou par le
+  Commandant immobile à portée.
+- Un fossé ouvert ralentit l'infecté qui le traverse (vitesse ×0,55) et
+  ajoute un coût de passage : une partie de la horde le contourne quand le
+  détour est court. Il ne bloque aucun passage, n'inflige aucun dégât et ne
+  gêne ni les ouvriers ni le Commandant.
+- Les infectés abattus dans le fossé ou à son bord y tombent. Chaque case
+  absorbe 6 corps ; au-delà elle est comblée et n'a plus d'effet. L'ordre
+  « déblayer » existant, et la corvée de déblaiement (§8.5), vident les
+  fossés après les murs, à la même cadence.
+- Le fossé n'est pas un ouvrage du monde : il tient dans un registre à part,
+  sauvegardé par case, pour ne jamais devenir un obstacle attaquable.
+
+Réserves : aucun assaut réel n'a été joué ; l'effet sur le choix des fronts
+n'a pas été observé. Une ligne simple devant un front dense sera vite
+comblée. À 4 bois, un joueur peut tapisser les approches (256 cases au
+plus). Un clic par case, pas de tracé en ligne. Le fossé n'est pas dessiné
+dans la vue à la première personne. Le Commandant creuse dès qu'il reste
+immobile près d'un fossé, sans geste explicite. Le remblai est gratuit,
+alors que la direction le veut payant.
+
+Restent à faire : talus, douve, défrichage, carrière, remblai payant, tracé
+en ligne, travaux aux avant-postes.
+
 ### 7.14 Se déplacer dans le monde **[DÉCISION]**
 
 #### Véhicules à entretenir
@@ -1401,6 +1471,41 @@ Restent à faire : bandes errantes pendant l'absence (avec une règle
 d'équité), consignes d'absence, radio et portée (les annonces arrivent
 aujourd'hui sans condition de portée), rappel par les routes gardées,
 estimation honnête au départ, dernier carré.
+
+**Radio et consignes, première tranche [LIVRÉ]**
+(`src/city-radio217.js`, valeur dans `C.CityRadio217Rules`, test
+`tests/city-radio217.test.cjs`)
+
+- **Radio, toutes campagnes** : pendant une sortie en région, un répartiteur
+  (Sami V.) relaie les faits de D-17 : front annoncé, assaut, brèche nommée,
+  secteur perdu ou repris, mur qui menace de céder, amas imminent ou
+  franchi, pénurie d'eau, moral au plus bas, centre gravement endommagé,
+  munitions communes épuisées.
+- Chaque fait est daté et annoncé une fois par épisode ; jamais quand le
+  Commandant est sur place, ni à la reprise d'une sauvegarde. Une
+  aggravation est réannoncée, une amélioration non.
+- Le poste s'affiche pendant la sortie ; les douze derniers messages restent
+  dans le carnet, onglet Situation.
+- **Consignes, nouvelles campagnes seulement** : avant de sortir, le
+  Commandant fixe une consigne pour toute la cité : tenir la ligne, replier
+  les combattants à la première brèche, ou repli général à la première
+  brèche. La cité l'applique seule, une fois par vague, par les ordres de
+  repli existants, et lève le repli quand l'assaut est fini. Si le
+  Commandant rentre avant, c'est à lui de le lever.
+- Aucune règle de combat nouvelle. Les bandes errantes restent en pause
+  pendant l'absence.
+
+Réserves : jamais joué en vraie partie ; la brèche vue au navigateur venait
+d'un mur détruit par script. **La radio porte partout**, alors que la
+direction veut le silence hors portée. L'absence, c'est la sortie
+régionale seulement. Risque du repli général en absence : les ouvriers
+cessent de produire jusqu'à la fin de l'assaut, les portes peuvent être
+closes au retour, et les sections restent groupées au centre après la
+levée. À valider côté récit : Sami V. est-il bien vivant à D-17 ?
+
+Restent à faire : portée radio liée aux émetteurs des avant-postes,
+consignes par district et « sacrifier un secteur », rappel par les routes
+gardées, estimation honnête au départ, dernier carré.
 
 ---
 
@@ -1615,6 +1720,35 @@ Reconquête, lue sur l'état réel :
 
 Un ouvrage ne crée pas de quatrième génération de mur : les trois générations
 restent la règle. Révélé à l'âge 10.
+
+**Première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement
+(`src/great-works217.js`, valeurs dans `C.GreatWorks217Rules`, test
+`tests/great-works217.test.cjs`)
+
+- À l'âge Mégaville II, la cité peut lancer deux grands ouvrages depuis le
+  dépôt : le **Beffroi d'alerte** et la **Nécropole**.
+- Chaque ouvrage compte trois tranches. Une tranche est payée sur le stock,
+  puis construite en 60 s. Le chantier s'arrête de l'alerte à la fin de
+  l'assaut, et quand aucun ouvrier n'est présent. Une seule tranche par
+  ouvrage et par nuit : un ouvrage demande donc au moins trois nuits.
+- **Un ouvrage inachevé n'a aucun effet**, ni bénéfice ni prix.
+- Achevé, le beffroi allonge l'alerte avant l'assaut de 8 s ; la nécropole
+  accélère de moitié le déblaiement des corps par les ouvriers. Chacun
+  ajoute à la signature de la cité (+120 et +80) : c'est leur prix.
+- L'avancement se lit dans le dossier de situation (carte « Grands
+  ouvrages ») et sur un repère dessiné au-dessus du dépôt.
+
+Réserves : rien n'a été joué en conditions réelles ; l'âge a été forcé par
+une sauvegarde modifiée. **Écart avec la direction** : la tranche est un
+minuteur sans bâtiment ni emprise, la silhouette de la cité ne change pas,
+et une tranche inachevée n'est pas une faiblesse pendant l'assaut. Le prix
+en signature est presque symbolique avec la courbe ouverte (environ 1 %
+d'infectés en plus). La carte « Signature » affiche un total qui inclut les
+ouvrages, mais pas dans ses quatre parts.
+
+Restent à faire : les neuf autres ouvrages, un vrai chantier posé sur la
+carte, la tranche inachevée comme point faible, le prix en moral du
+district voisin, l'activation sur une campagne ancienne.
 
 ### 8.5 Lois et rationnement **[DÉCISION]**
 
@@ -2219,15 +2353,15 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 6 | Sacrifice et reconquête (§8.3) — première tranche livrée | Siège | `tactics.js`, `game.js`, `core.js` | Un secteur est abandonné puis repris au matin. |
 | 7 | Districts (§8.2) — première tranche livrée | Mégacité | `urban.js`, `tactics.js`, `squads.js` | Un compagnon tient un district sans le joueur. |
 | 8 | Lois (§8.5) — première tranche livrée | Mégacité | `command-ui.js`, `urban.js`, `core.js` | Une loi change un chiffre et son contraire. |
-| 9 | Grands ouvrages (§8.4) | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
+| 9 | Grands ouvrages (§8.4) — première tranche livrée | Mégacité | `core.js`, `settlement-plans.js`, `vertical-citadel175*.js` | La silhouette de la cité change en plusieurs nuits. |
 | 10 | Récit relié et arcs des compagnons (§2.6, §2.7) — première tranche livrée | Récit | `narrative.js`, `chronicles131-data.js`, `companions-pack.js` | Un entretien suit une nuit difficile. |
-| 11 | Factions (§4) | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
-| 12 | Cité autonome cohérente : siège vertical actif (livré), consignes, radio (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
+| 11 | Factions (§4) — première tranche livrée | Monde | `frontier-*.js`, `expeditions.js`, nouveau module additif | Un fourgon est intercepté ; un relais demande de l'aide. |
+| 12 | Cité autonome cohérente : siège vertical actif (livré), consignes et radio (première tranche livrée) (§7.15) | Siège, Monde | `frontier.js`, `departure130.js`, `vertical-siege176.js` | Un message radio annonce une brèche pendant une sortie. |
 | 13 | Marée à l'horizon (§8.6) — première tranche livrée | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
 | 14 | Pyramides visibles (livré) et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
 | 15 | Brèche catastrophe (§8.6) — première tranche livrée | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
 | 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
-| 17 | Travaux de terrain : fossés, talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
+| 17 | Travaux de terrain : fossés (livré), talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
 | 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |

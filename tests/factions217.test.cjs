@@ -235,7 +235,7 @@ test('factions : aucun hasard, aucune horloge, génération du monde intacte, mo
   assert.equal((source.match(/g\.resources\[k\]\+=/g)||[]).length,1,'un seul point de crédit : la contrepartie d’un don payé');
   assert.equal((source.match(/C\.spend\(/g)||[]).length,2,'deux débits : le don et le tribut');
   for(const file of ['index.html','sw.js','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(fs.readFileSync(path.join(__dirname,'..',file),'utf8').includes('factions217'),file);
-  assert.ok(fs.readFileSync(path.join(__dirname,'../index.html'),'utf8').includes('<script src="src/breach217.js"></script>\n<script src="src/factions217.js"></script>'));
+  {const h=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');assert.ok(h.indexOf('src/breach217.js')>0&&h.indexOf('src/breach217.js')<h.indexOf('src/factions217.js'));};
   // Même graine, mêmes lieux : la campagne avec factions n'a rien décalé.
   const a=campaign(),b=campaign();const strip=d=>{const c=JSON.parse(JSON.stringify(d));delete c.expansions127.modules.factions217;delete c.savedAt;return c;};
   const da=a.serialize();withVan(b,{});sortie(b,{scrap:40});

@@ -397,3 +397,45 @@ Valeurs dans `C.Breach217Rules`, pour les nouvelles campagnes seulement, non ép
 | `C.BATTLEFIELD_RULES.fragileWallRatio` (existant) | 0,3 | Seuil de fragilité, inchangé et partagé |
 
 Les ruptures pourraient être trop fréquentes en début de partie : leviers `minLength` (4 ou 5) et `maxCollapse`.
+
+## Fossés — 217
+
+`C.Earthworks217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.13.
+
+| Clé | Valeur | Sens |
+|---|---|---|
+| `unlockTier` | 0 | Disponible dès l'âge Refuge |
+| `cost` | 4 bois | Par case, payé à la pose (moitié d'une palissade) |
+| `digSeconds` | 10 | Travail pour creuser une case (une palissade se monte en 4 s) |
+| `slowFactor` | 0,55 | Vitesse d'un infecté dans un fossé ouvert |
+| `flowCost` | 14 | Coût ajouté au champ de flux (case libre : 10) |
+| `capacity` | 6 | Corps absorbés avant comblement |
+| `rimDistance` | 10 px | Bord où un corps tombe encore dedans |
+| `workRange` | 48 px | Portée de travail |
+| `cityRadiusTiles` | 44 | Emprise de la cité autour du centre |
+| `maxDitches` | 256 | Taille du registre |
+
+Le déblaiement reprend `WORKER_RULES.cleanupPerSecond` et `LINECARE_RULES.shovelPerSecond`.
+
+## Factions — 217
+
+`C.Factions217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §4.
+
+- Rouleurs : coffre « chargé » à partir de 20 unités au-delà de 900 unités du centre ; règlement sous 650 ; barrage tous les 3 retours chargés ; perte de 35 % du coffre, 24 unités au plus (Hostile : 50 %, 36), carburant d'abord ; escorte = 2 fusiliers à 180 unités du fourgon ; tribut = 6 carburant pour un barrage, un seul en réserve.
+- Relais : demandes aux vagues 2, 5, 8…, ouvertes une vague ; contrepartie 2 vagues après le don : 14 nourriture → 5 carburant, 24 bois → 10 nourriture, 3 médicaments + 8 nourriture → 8 munitions.
+- Réputation : Rouleurs −3 à 2, Relais −1 à 3 ; Entente à +2, Hostile à −2.
+
+## Grands ouvrages — 217
+
+`C.GreatWorks217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §8.4. `startAge` 9 (Mégaville II) ; trois tranches de 60 s par ouvrage, une par nuit.
+
+| Ouvrage | Tranche 1 | Tranche 2 | Tranche 3 | Effet | Prix |
+|---|---|---|---|---|---|
+| Beffroi d'alerte | P 900 · B 600 · F 400 | P 900 · F 800 | B 400 · F 900 · carburant 120 | +8 s d'alerte | +120 de signature |
+| Nécropole | P 1 200 · B 300 | P 1 000 · F 600 | B 700 · F 300 · carburant 200 | Déblaiement des ouvriers ×1,5 | +80 de signature |
+
+La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la corvée).
+
+## Radio et consignes — 217
+
+`C.CityRadio217Rules.journal` : 12 messages gardés. Les consignes n'ajoutent aucune valeur d'équilibrage : elles appellent les ordres de repli existants, une fois par vague.

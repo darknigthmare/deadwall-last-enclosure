@@ -197,7 +197,7 @@ test('grands ouvrages : aucun hasard, aucune ressource créée, script publié',
   assert.equal(source.match(/C\.spend\(/g).length,1,'un seul point de paiement');
   for(const file of ['index.html','sw.js'])assert.ok(fs.readFileSync(path.join(__dirname,'..',file),'utf8').includes('src/great-works217.js'),file);
   const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
-  assert.ok(html.includes('<script src="src/breach217.js"></script>\n<script src="src/great-works217.js"></script>'),'chargé avec les règles de cité, après le registre des opérations');
+  assert.ok(html.indexOf('src/breach217.js')>0&&html.indexOf('src/breach217.js')<html.indexOf('src/great-works217.js')&&html.indexOf('src/great-works217.js')<html.indexOf('src/siege-readout.js'),'chargé avec les règles de cité, après le registre des opérations');
   const ui=fs.readFileSync(path.join(__dirname,'../src/expansion-ui.js'),'utf8'),kit=fs.readFileSync(path.join(__dirname,'../src/expansion-kit.js'),'utf8');
   assert.ok(kit.includes("'greatWorks217'"));assert.equal(ui.match(/greatWorks217/g).length,5,'ORDER, GROUPS, API_NAMES (deux fois) et LABELS');
 });
