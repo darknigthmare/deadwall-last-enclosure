@@ -2020,13 +2020,13 @@ chute du centre de commandement le fait.
 (`src/breach217.js`, valeurs dans `C.Breach217Rules`, test
 `tests/breach217.test.cjs`)
 
-- **Le pan menacé** : une suite droite d'au moins 3 ouvrages de mur voisins,
+- **Le pan menacé** : une suite droite d'au moins 4 ouvrages de mur voisins,
   portes comprises, tous sous 30 % de leur solidité. Il est annoncé une
   fois (« Le mur nord menace de céder sur 4 ouvrages. ») et figure dans le
   dossier « Pans menacés ». Réparer un seul de ses ouvrages au-dessus du
   seuil lève la menace.
 - **La rupture** : si un ouvrage d'un pan déjà annoncé est détruit, le reste
-  du pan cède dans le même instant, 8 ouvrages au plus, avec une annonce
+  du pan cède dans le même instant, 6 ouvrages au plus, avec une annonce
   unique (« Rupture au nord : 5 ouvrages ont cédé d'un coup. »).
 - Elle n'ajoute aucun dégât aux ouvrages sains, ne tire aucun hasard, ne
   crée ni infecté ni ressource, n'emporte jamais le centre et ne déclenche
@@ -2040,8 +2040,9 @@ fréquentes en début de partie, alors qu'elles doivent rester rares. Les
 infectés frappent souvent plusieurs palissades voisines, qui passent vite
 sous 30 %. Une ouverture d'une case peut devenir une ouverture de huit, et
 une section postée sur le pan peut perdre plusieurs équipiers d'un coup.
-Leviers : la longueur minimale d'un pan (4 ou 5 au lieu de 3) et le nombre
-d'ouvrages emportés.
+**[DÉCISION]** Réglage retenu : 4 ouvrages pour menacer, 6 emportés au
+plus (auparavant 3 et 8). Leviers restants : passer à 5, ou réduire encore
+le nombre d'ouvrages emportés.
 
 Restent à faire : montrer les pans menacés sur la carte (fissures) ; les
 autres signes avant-coureurs (poids de l'amas, abomination en approche) ;

@@ -392,11 +392,11 @@ Valeurs dans `C.Breach217Rules`, pour les nouvelles campagnes seulement, non ép
 
 | Constante | Valeur | Rôle |
 |---|---|---|
-| `C.Breach217Rules.minLength` | 3 ouvrages | Longueur à partir de laquelle un pan menace de céder |
-| `C.Breach217Rules.maxCollapse` | 8 ouvrages | Maximum emporté par une rupture, ouvrage détruit compris |
+| `C.Breach217Rules.minLength` | 4 ouvrages | Longueur à partir de laquelle un pan menace de céder |
+| `C.Breach217Rules.maxCollapse` | 6 ouvrages | Maximum emporté par une rupture, ouvrage détruit compris |
 | `C.BATTLEFIELD_RULES.fragileWallRatio` (existant) | 0,3 | Seuil de fragilité, inchangé et partagé |
 
-Les ruptures pourraient être trop fréquentes en début de partie : leviers `minLength` (4 ou 5) et `maxCollapse`.
+Réglage décidé : 4 ouvrages pour menacer, 6 emportés au plus (auparavant 3 et 8), pour des ruptures moins fréquentes en début de partie. Non éprouvé par une partie réelle. Leviers restants : `minLength` à 5, `maxCollapse`.
 
 ## Fossés — 217
 
