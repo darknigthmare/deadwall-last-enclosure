@@ -1080,6 +1080,38 @@ un lieu précis encore approvisionné ; la révélation par âge des fiches
 d'opérations ; un vocabulaire unifié, car « secteurs » désigne encore
 l'onglet des vestiges **et** la deuxième échelle.
 
+#### Deuxième tranche livrée **[LIVRÉ]**
+
+- **Un besoin, des lieux.** Sous chaque besoin de réserve, le carnet nomme
+  les lieux connus qui en détiennent encore, au plus deux par échelle, du
+  plus proche au plus lointain : nom, sorte de lieu, échelle, reste, cap et
+  distance depuis le centre de D-17, bouton vers l'onglet ou la fiche
+  d'origine. Un lieu vidé disparaît ; un lieu voilé par l'âge n'est ni
+  proposé ni nommé. Sans lieu : « Aucune source connue : explorer plus
+  loin. » L'eau renvoie à l'enceinte.
+- **Vocabulaire unique des lieux** : gisement, vestige, cueillette,
+  **quartier** (les six territoires), **halte d'expédition** (les douze
+  destinations), site régional.
+- **Une seule carte.** Les six quartiers et les douze haltes avaient déjà
+  une position régionale : ils tiennent dans le carré de 128 m de D-17.
+  Chacun reçoit un cap et une distance fixes depuis le centre et la ville
+  nommée la plus proche. L'atlas les dessine au zoom de la cité (losange :
+  quartier ; carré : halte repérée) ; un volet sous la carte les liste et
+  cadre la vue.
+- Module `src/exploration-needs217.js`, test
+  `tests/exploration-needs217.test.cjs`. Présentation seulement, toutes
+  campagnes : aucun stock, tirage, règle ni état sauvegardé.
+
+Réserves : les sites régionaux ne sont relus que si la carte régionale a
+déjà été dessinée dans la session (la construire coûte environ 4 s) ; cette
+partie n'a pas été jouée. Chasse et pêche ne sont pas reliées. Les distances
+sont à vol d'oiseau, sans durée ni carburant. **À trancher** : les haltes
+d'expédition sont proposées dès l'âge 1, alors que cette échelle est rangée
+aux âges 5 et 6.
+
+Restent à faire : le besoin « route coupée », une durée de trajet, la chasse
+et la pêche comme sources, le renommage des onglets d'origine.
+
 ### 7.10 Météo, élevage, cueillette **[LIVRÉ]**
 
 - Six fronts de quatre minutes ; la tendance suivante se lit dans les
