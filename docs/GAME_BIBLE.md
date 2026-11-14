@@ -776,7 +776,7 @@ difficulté**, lue dans `src/core.js` (§11, point 4).
 ### 6.4 Première tranche livrée **[LIVRÉ]**
 
 Une première tranche de la révélation par âge est en place. Elle masque
-**onze entrées de menu** au début d'une campagne et les rouvre avec l'âge.
+**douze entrées de menu** au début d'une campagne et les rouvre avec l'âge.
 
 | Menu masqué | S'ouvre à l'âge |
 |---|---:|
@@ -1105,9 +1105,9 @@ l'onglet des vestiges **et** la deuxième échelle.
 Réserves : les sites régionaux ne sont relus que si la carte régionale a
 déjà été dessinée dans la session (la construire coûte environ 4 s) ; cette
 partie n'a pas été jouée. Chasse et pêche ne sont pas reliées. Les distances
-sont à vol d'oiseau, sans durée ni carburant. **À trancher** : les haltes
-d'expédition sont proposées dès l'âge 1, alors que cette échelle est rangée
-aux âges 5 et 6.
+sont à vol d'oiseau, sans durée ni carburant. **[DÉCISION]** L'entrée « Expéditions et
+voiture » est voilée jusqu'à l'âge 5, comme les quartiers : les haltes
+d'expédition ne sont plus proposées avant.
 
 Restent à faire : le besoin « route coupée », une durée de trajet, la chasse
 et la pêche comme sources, le renommage des onglets d'origine.
@@ -1236,6 +1236,14 @@ d'atlas calée sur l'étendue totale.
   est aujourd'hui un des quatre bords).
 - Tranche suivante recommandée : des accesseurs de limite posés sur les
   mondes existants, sans changer aucune valeur, vérifiés par les empreintes.
+- **[DÉCISION]** Le relief par paliers entre dans la **même** nouvelle
+  génération que le monde sans bord : une seule rupture, quitte à reculer
+  l'ouverture.
+- **[DÉCISION]** Le monde sans bord s'ouvre d'abord comme option
+  « expérimental » à la création de partie ; la région finie reste le
+  défaut tant qu'il n'est pas éprouvé.
+- **[DÉCISION]** La mer est gardée comme zone basse de la carte, et non
+  plus comme bord.
 
 #### Direction : des lieux à découvrir
 
@@ -1273,9 +1281,10 @@ campagnes seulement (`src/remarkable217.js`, valeurs dans
   munitions ou carburant, 24 à 36 unités), chargé sur place une fois le nid
   vidé, une seule fois.
 
-Réserves : aucun combat réel contre un nid n'a été joué. **Il n'y a pas de
-distance minimale à la cité** : sur la graine 17117, un nid est à 365 m de
-D-17. Les lots cumulés font environ 1 300 unités rares par région, à
+- **[DÉCISION]** Aucun nid à moins de 1 km de D-17 : un lieu plus proche
+  reste ordinaire (`homeClearance`).
+
+Réserves : aucun combat réel contre un nid n'a été joué. Les lots cumulés font environ 1 300 unités rares par région, à
 surveiller. Le classement par nom a ses approximations (une clinique
 vétérinaire compte comme hôpital). La minicarte de région ne porte aucun
 repère.
@@ -1342,6 +1351,42 @@ Règles :
   densité urbaine, distance aux premiers lieux remarquables.
 - La graine doit changer la **stratégie d'ouverture** : une cité de plaine
   sans pierre ne se bâtit pas comme une cité de plateau sans eau.
+
+**Première tranche livrée [LIVRÉ] : le milieu de la cité**, nouvelles
+campagnes seulement (`src/biome217.js`, valeurs dans `C.Biome217Rules`, test
+`tests/biome217.test.cjs`)
+
+Constat de départ : le milieu où tombe D-17 ne changeait **que le décor**.
+Ni les gisements, ni la météo, ni l'eau, ni les fermes ne le lisaient.
+
+- Le milieu d'ouverture est relevé une fois à la fondation, sur 169 points
+  dans un carré de 1 536 m centré sur D-17, puis **figé dans la
+  sauvegarde**.
+- Les 16 milieux sont rangés en cinq familles. Chacune donne un avantage et
+  une contrainte, appliqués à des calculs existants **[DÉCISION : ampleur
+  modérée, ±10 à 20 %]** :
+
+| Famille | Avantage | Contrainte |
+|---|---|---|
+| Forêt | Récolte du bois +15 % | Fermes protégées −10 % |
+| Plaine cultivée | Fermes protégées +15 % | Récolte de la pierre −15 % |
+| Zone humide | Pluie des citernes +20 % | Récolte de la ferraille −15 % |
+| Hauteurs pierreuses | Récolte de la pierre +20 % | Pluie des citernes −15 % |
+| Friche urbaine | Récolte de la ferraille +20 % | Récolte du bois −15 % |
+
+- Les facteurs de récolte changent la **cadence** (à la main et par les
+  ouvriers), pas la quantité des gisements. La génération et le placement ne
+  changent pas.
+- Une annonce unique au lancement, et une fiche « Milieu de la cité » dans
+  le carnet.
+
+Réserves : jamais joué en partie réelle. Il n'existe pas de milieu
+« littoral » (la côte relève de l'hydrologie), donc pas de famille
+littorale. Sur les huit graines de référence, quatre tombent en forêt.
+
+Restent à faire : cueillette, gibier et pêche ; bâtiments de production
+automatisée ; faire varier le placement des gisements locaux pour les
+campagnes futures.
 
 **Première tranche livrée [LIVRÉ] : la fiche de graine**, toutes campagnes
 (`src/seed-card217.js`, présentation seule, test
@@ -2465,7 +2510,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | Rang | Chantier | Pilier servi | Propriétaires principaux | Parcours joueur observable |
 |---:|---|---|---|---|
 | 0 | Nettoyage documentaire (§11) | Tous | `docs/`, `PROJECT_MANIFEST.md`, `CHANGELOG.md` | Les documents disent la même chose que le jeu. |
-| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque onze menus, rouverts âge par âge. |
+| 1 | Révélation par âge (§6) — première tranche livrée (§6.4) | Clarté | `age-reveal.js`, `ui.js` | Une nouvelle partie masque douze menus, rouverts âge par âge. |
 | 2 | Signature visible et bilan de nuit (§7.4, §8.1) — première tranche livrée | Siège | `urban.js`, `battlefield.js`, `command-ui.js` | Le joueur voit pourquoi la horde grossit et ce qu'il a tenu. |
 | 3 | Brèche nommée et repli par enceinte (§8.1) — première tranche livrée | Siège | `tactics.js`, `squads.js`, `game.js` | Une porte cède, un ordre replie la garnison. |
 | 4 | Eau de cité (§7.3) — première tranche livrée | Chaîne | `core.js`, `urban.js`, `husbandry191.js`, `weather193.js` | Une sécheresse fait baisser les fermes. |

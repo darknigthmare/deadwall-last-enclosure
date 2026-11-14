@@ -46,6 +46,8 @@
   const cantons=new Map();
   for(const p of world.pois){
    const kind=kindOf(p);if(!kind)continue;
+   // Aucun nid aux portes de la cité : un lieu à moins de `homeClearance` de D-17 reste ordinaire.
+   if(world.home&&Math.hypot(p.x-world.home.x,p.y-world.home.y)<R.homeClearance)continue;
    const cx=Math.floor(p.x/R.cantonSize),cy=Math.floor(p.y/R.cantonSize),key=cy*4096+cx;
    if(!cantons.has(key))cantons.set(key,[]);
    cantons.get(key).push({p,kind,rank:G.hash(world.seed,p.id,'remarkable217')});

@@ -134,7 +134,10 @@ test('échelles : une entrée voilée par l’âge n’est jamais proposée, et 
   assert.equal(g.explorationScales.go(Scales.SCALES[0].entries[0]),false,'aucune ouverture d’un dossier voilé');
   assert.ok(offered().includes('fieldView:recon'),'la carte n’est jamais voilée');assert.equal(button('fieldView','recon').hidden,false);
   for(const key of offered()){const [kind,id]=key.split(':');if(kind==='fieldView')assert.notEqual(tab(id).getAttribute('data-age-veiled'),'true',id);}
+  assert.equal(offered().includes('control:expOpen'),false,'les expéditions sont voilées jusqu’à l’âge 5');
   // Chaque besoin nomme son échelle ; un besoin réglé dans l'enceinte le dit.
+  g.tier=g.constructor?.C?.CITY_TIERS?.[5]||require('../src/core.js').CITY_TIERS[5];g.updateUI();g.explorationScales.render();
+  assert.ok(offered().includes('control:expOpen'),'elles reparaissent à l’âge 5');
   g.resources.fuel=0;g.showCommand(true,'field');
   const fuel=doc.getElementById('explorationScalesNeeds').children.find(n=>n.dataset.need==='stock-fuel');
   assert.ok(fuel);assert.equal(g.explorationScales.offers()[1].entries.length>0,true);assert.equal(fuel.children[2].textContent,'→ Les secteurs');

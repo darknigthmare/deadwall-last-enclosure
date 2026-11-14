@@ -201,8 +201,8 @@ test('carnet : chaque besoin affiche ses lieux, un quartier voilé par l’âge 
   assert.equal(rows('stock-ammo').length,1);assert.equal(rows('stock-ammo')[0].className,'exploration-need-nowhere');
   assert.equal(rows('stock-ammo')[0].textContent,'Aucune source connue : explorer plus loin.');
   assert.equal(line('stock-ammo').textContent?.includes('dernier feu')??false,false);
-  // Carburant : gisement des abords et haltes repérées, à leurs deux échelles.
-  assert.deepEqual(rows('stock-fuel').map(r=>r.dataset.place.split(':')[0]),['gisement','halte','halte']);
+  // Carburant : gisement des abords seulement ; les haltes d'expédition sont voilées jusqu'à l'âge 5.
+  assert.deepEqual(rows('stock-fuel').map(r=>r.dataset.place.split(':')[0]),['gisement']);
   // Le bouton délègue au contrôle d'origine : on compte les clics de l'onglet.
   let clicks=0;tab('recon').addEventListener('click',()=>clicks++);
   rows('stock-wood')[0].children[2].click();assert.equal(clicks,1);
@@ -210,6 +210,7 @@ test('carnet : chaque besoin affiche ses lieux, un quartier voilé par l’âge 
   // L'âge venu, le quartier reparaît avec ce qu'il lui reste.
   g.tier=C.CITY_TIERS[C.CITY_TIERS.length-1];g.updateUI();g.explorationScales.render();
   assert.deepEqual(rows('stock-wood').map(r=>r.dataset.place),['gisement:wood','quartier:housing']);
+  assert.deepEqual(rows('stock-fuel').map(r=>r.dataset.place.split(':')[0]).filter(k=>k==='halte'),['halte','halte'],'l’âge venu, les haltes repérées reparaissent');
   assert.equal(rows('stock-ammo')[0].dataset.place,'quartier:checkpoint');
   assert.match(rows('stock-ammo')[0].children[1].textContent,/^Quartier · Les secteurs — encore 680 munitions ; poste à établir, à \d+ m /);
   let quarters=0;tab('territories').addEventListener('click',()=>quarters++);

@@ -3364,7 +3364,6 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
  // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
  C.Breach217Rules=Object.freeze({minLength:4,maxCollapse:6});
- C.Breach217Rules=Object.freeze({minLength:3,maxCollapse:8});
  // Milieu de la cité (GAME_BIBLE §7.13, « des graines qui comptent »), nouvelles campagnes seulement.
  // Le milieu dominant est relevé sur une grille de pas `step` dans un carré de demi-côté `radius` (mètres de région)
  // centré sur D-17 ; à égalité, la première famille de `families` l'emporte. Chaque famille a un avantage et une
@@ -3427,7 +3426,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // nestMin/nestMax : infectés du nid (les occupants ordinaires sont un à quatre). sight : distance (m) à laquelle le repère se voit.
  // claimReach : marge (m) autour de l'emprise pour charger le lot. kinds : silhouette du repère et lot annoncé, pris une seule fois.
  {const kind=(label,silhouette,resource,amount)=>Object.freeze({label,silhouette,reward:Object.freeze({resource,amount})});
- C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,
+ C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,homeClearance:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,
   kinds:Object.freeze({
    water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
    fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),

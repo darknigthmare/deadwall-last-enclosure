@@ -26,7 +26,8 @@
    {key:'squads',label:'Sections de fusiliers',age:3,ids:['squadCommandButton','hud143Squads']},
    {key:'logistics',label:'Logistique',age:3,fieldViews:['logistics']},
    {key:'weather',label:'Bulletin météo',age:4,ids:['weather193Open193']},
-   {key:'territories',label:'Quartiers',age:5,fieldViews:['territories']}
+   {key:'territories',label:'Quartiers',age:5,fieldViews:['territories']},
+   {key:'expeditions',label:'Expéditions et voiture',age:5,ids:['expOpen']}
   ].map(entry=>Object.freeze({key:entry.key,label:entry.label,age:entry.age,ids:Object.freeze(entry.ids||[]),fieldViews:Object.freeze(entry.fieldViews||[])})));
   const normalizeAge=age=>{const n=Math.floor(Number(age));return Number.isFinite(n)?Math.max(0,Math.min(tiers.length-1,n)):0;};
   const visible=(entry,age,revealAll=false)=>revealAll===true||normalizeAge(age)>=entry.age;

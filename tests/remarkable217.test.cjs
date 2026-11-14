@@ -27,7 +27,7 @@ const groundSite=g=>g.remarkable217.list().find(v=>{const p=site(g,v.id);return(
 
 test('lieux remarquables 217 : règles gelées dans le cœur, état validé strictement',()=>{
   assert.ok(Object.isFrozen(R)&&Object.isFrozen(R.kinds));
-  assert.deepEqual({...R,kinds:null},{cantonSize:4096,perCanton:2,spacing:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,kinds:null});
+  assert.deepEqual({...R,kinds:null},{cantonSize:4096,perCanton:2,spacing:1000,homeClearance:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,kinds:null});
   assert.ok(R.nestMin>4,'un nid dépasse nettement les un à quatre occupants ordinaires');
   assert.ok(R.nestMax<W.RULES.maxEnemy,'un nid tient sous le plafond de contacts vivants');
   assert.deepEqual(M.KINDS,['water','hospital','barracks','fuel','silo','station','dam','transmitter','power']);

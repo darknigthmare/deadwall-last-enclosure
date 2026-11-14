@@ -450,7 +450,7 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 | Valeur | Réglage |
 |---|---|
-| Canton | 4 096 m de côté, 2 lieux au plus, 1 000 m d'écart (39 à 48 lieux par région) |
+| Canton | 4 096 m de côté, 2 lieux au plus, 1 000 m d'écart, aucun à moins de 1 000 m de D-17 (`homeClearance`) |
 | Lieu admissible | Emprise ≥ 400 m², non allié, socle de monde |
 | Nid | 10 à 16 infectés (occupants ordinaires : 1 à 4) ; points de vie et dégâts inchangés |
 | Repère | Visible à 2 500 m ; lot chargé à 12 m de l'emprise |
@@ -461,3 +461,17 @@ Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de d
 ## Décor des cartes saturées — 217
 
 `C.Scenery217Rules.fallbackClearanceMetres = [1, 0.5, 0]` : dégagements essayés, dans l'ordre, pour une pièce de décor restée sans parcelle. Aucun effet sur les cartes où le placement à un mètre réussit.
+
+## Milieu de la cité — 217
+
+`C.Biome217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.13. Relevé : `radius` 768, `step` 128.
+
+| Famille | Avantage | Contrainte |
+|---|---|---|
+| Forêt | `wood` ×1,15 | `farm` ×0,9 |
+| Plaine cultivée | `farm` ×1,15 | `stone` ×0,85 |
+| Zone humide | `rain` ×1,2 | `scrap` ×0,85 |
+| Hauteurs pierreuses | `stone` ×1,2 | `rain` ×0,85 |
+| Friche urbaine | `scrap` ×1,2 | `wood` ×0,85 |
+
+`wood`, `stone` et `scrap` multiplient la cadence de récolte, pas la quantité des gisements. `farm` porte sur la nourriture des fermes protégées, `rain` sur la pluie recueillie par les citernes.
