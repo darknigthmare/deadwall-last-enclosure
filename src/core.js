@@ -3377,6 +3377,22 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Le déblaiement reprend les cadences existantes (WORKER_RULES.cleanupPerSecond, LINECARE_RULES.shovelPerSecond).
  C.Earthworks217Rules=Object.freeze({unlockTier:0,cost:Object.freeze({wood:4}),digSeconds:10,slowFactor:.55,flowCost:14,capacity:6,
   rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256});
+ // Factions (GAME_BIBLE §4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // factions : bornes de réputation ; ententeAt / hostileAt : seuils des états affichés. reach : portée du dépôt.
+ // raid (Les Rouleurs) : un fourgon compte comme « chargé » avec `minCargo` unités au coffre au-delà de `awayDistance`
+ // du centre ; l'affaire se règle quand il repasse sous `ambushDistance`. Barrage tous les `period` retours chargés.
+ // Sans escorte (`escortSoldiers` fusiliers à `escortRange` du fourgon) ni tribut payé d'avance (`tribute`, au plus
+ // `maxPasses` en réserve) : `share` du coffre, `maxLoss` unités au plus ; `hostile` s'applique à l'état Hostile.
+ // relay (Les Relais) : demande n à la vague firstWave + n × everyWaves, ouverte `openWaves` vague ; `requests` tourne
+ // dans l'ordre ; la contrepartie `back` arrive `returnWaves` vagues après le don et reste plus petite que `ask`.
+ C.Factions217Rules=Object.freeze({reach:100,ententeAt:2,hostileAt:-2,
+  factions:Object.freeze({rouleurs:Object.freeze({min:-3,max:2}),relais:Object.freeze({min:-1,max:3})}),
+  raid:Object.freeze({minCargo:20,awayDistance:900,ambushDistance:650,period:3,share:.35,maxLoss:24,hostile:Object.freeze({share:.5,maxLoss:36}),
+   escortSoldiers:2,escortRange:180,tribute:Object.freeze({fuel:6}),maxPasses:1}),
+  relay:Object.freeze({firstWave:2,everyWaves:3,openWaves:1,returnWaves:2,requests:Object.freeze([
+   Object.freeze({relay:'Les Granges',ask:Object.freeze({food:14}),back:Object.freeze({fuel:5})}),
+   Object.freeze({relay:'La Rive',ask:Object.freeze({wood:24}),back:Object.freeze({food:10})}),
+   Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
