@@ -1366,7 +1366,7 @@
         if (incomplete.work(dt * 3.7 * (this.playerOps131?.constructionFactor(dt) ?? 1))) this.completeBuilding(incomplete);
         if (this.random.chance(dt * 8)) this.particles.push(new Particle(incomplete.x+this.random.range(-20,20),incomplete.y+this.random.range(-15,15),this.random.range(-8,8),-18,.6,3,'#c9a05a','spark'));
       } else {
-        const room = p.carryCapacity - bagTotal(p.carry), amount = node.harvest(Math.min(room, dt * 10 * this.difficulty.resourceYield * (this.arsenal134?.toolFactor(node.type) ?? 1))); p.carry[node.type] += amount; this.stats.gathered += amount;
+        const room = p.carryCapacity - bagTotal(p.carry), amount = node.harvest(Math.min(room, dt * 10 * this.difficulty.resourceYield * (this.arsenal134?.toolFactor(node.type) ?? 1) * (this.biome217?.factor(node.type) ?? 1))); p.carry[node.type] += amount; this.stats.gathered += amount;
         if (amount > 0) this.arsenal134?.wearTool(node.type, dt);
         if (this.random.chance(dt * 8)) this.particles.push(new Particle(node.x+this.random.range(-8,8),node.y+this.random.range(-8,8),this.random.range(-10,10),this.random.range(-20,-5),.5,3,RESOURCE_META[node.type].color,'debris'));
       }
@@ -1500,7 +1500,7 @@
             else if(!this.workerCanWorkAt(u,b,62))this.moveWorkerToJob(u,b,dt,`build:${b.id}`);
             else{const before=b.progress,completed=b.work(dt*(this.hasResearch('logistics')?1.22:1.05)*(this.balance217?.effort()??1));if(b.progress>before)this.recordActorAction159(u,'build',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});if(completed)this.completeBuilding(b);}
           }
-          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)*(this.balance217?.effort()??1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
+          else if(u.state==='gather'){const node=this.world.nodes.find(n=>n.id===u.targetNode);if(!node||node.depleted){u.state=u.carry>0?'return':'idle';u.think=0;}else if(!this.workerCanWorkAt(u,node,node.radius+12))this.moveWorkerToJob(u,node,dt,`gather:${node.id}`);else{const room=Math.max(0,u.maxCarry-u.carry),amount=node.harvest(Math.min(room,dt*3.4*this.difficulty.resourceYield*(this.hasResearch('logistics')?1.18:1)*(this.balance217?.effort()??1)*(this.biome217?.factor(node.type)??1)));u.carry+=amount;u.carryType=node.type;if(u.carry>=u.maxCarry-.1||node.depleted)u.state='return';}}
           else if(u.state==='clear'){const b=this.world.buildings.get(u.targetBuilding);if(!b||b.dead||!b.completed||!b.def.wall||b.corpseLoad<=0){u.state='idle';u.think=0;}else{const point=this.workerCleanupPoint(u,b);if(this.workerCanWorkAt(u,point,C.WORKER_RULES.cleanupRange)){const before=b.corpseLoad;this.clearCorpsesWithWorker(u,b,dt*(this.balance217?.effort()??1));if(b.corpseLoad<before)this.recordActorAction159(u,'clear',1.2,{continuous:true,facing:Math.atan2(b.y-u.y,b.x-u.x)});}else this.moveWorkerToJob(u,point,dt,`clear:${b.id}`);}}
           else if(u.state==='return'){const storage=[...this.world.buildings.values()].filter(b=>!b.dead&&b.completed&&(b.type==='core'||b.type==='warehouse'||b.def.storageDepot)&&this.workerJobAvailable(u,`return:${b.id}`)).sort((a,b)=>distSq(u,a)-distSq(u,b))[0];if(storage)this.depositWorker(u,storage,dt);}
           else{const target={x:core.x+u.offset.x,y:core.y+u.offset.y};if(dist(u,target)>35)this.moveUnitToward(u,target,dt,u.speed*.6);}
@@ -2041,7 +2041,7 @@
           if(fraction<=0)continue;
           activeSeconds=Math.max(activeSeconds,seconds*fraction);
           for(const [key,rate]of Object.entries(plan.consumes||{}))this.resources[key]-=rate*seconds*fraction;
-          for(const [key,rate]of Object.entries(plan.production||{}))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction);
+          for(const [key,rate]of Object.entries(plan.production||{}))this.resources[key]=Math.min(this.storage,this.resources[key]+rate*seconds*fraction*(this.biome217?.yieldFactor(b,key)??1));
         }
         if(activeSeconds>0)activity.set(b,{at:this.elapsed,duration:Math.max(.25,dt),seconds:activeSeconds});
       }
@@ -2786,7 +2786,7 @@
       text(ui.summary,engine.state.completed.length+' / '+O.CONTRACTS.length+' contrats livrés · '+Object.keys(O.BLUEPRINTS).filter(id=>engine.canBuild(id)).length+' / 4 plans récupérés');
     }
     if(!ui.logisticsPanel.classList.contains('hidden')){
-      const report=O.logistics({resources:g.resources,storage:g.storage,population:g.population,buildings:[...g.world.buildings.values()],hasResearch:id=>g.hasResearch(id),inputReserve:id=>g.fortificationPack?.inputReserve(id)||0,activeCrisis:g.activeCrisis,siegeFuelUse:g.siege?.pumpFuelPerMinute()||0});
+      const report=O.logistics({resources:g.resources,storage:g.storage,population:g.population,buildings:[...g.world.buildings.values()],hasResearch:id=>g.hasResearch(id),inputReserve:id=>g.fortificationPack?.inputReserve(id)||0,activeCrisis:g.activeCrisis,siegeFuelUse:g.siege?.pumpFuelPerMinute()||0,yieldFactor:(b,key)=>g.biome217?.yieldFactor(b,key)??1});
       for(const row of report.rows){const cells=ui.rows.get(row.key);text(cells[0],Math.floor(row.stock)+' / '+row.capacity);text(cells[1],row.production.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));text(cells[2],row.consumption.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));text(cells[3],(row.net>=0?'+':'')+row.net.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1}));cells[3].dataset.negative=String(row.net<0);}
       text(ui.logisticsStatus,report.unpowered+' équipement(s) sans allocation complète · '+report.pausedIndustry+' industrie(s) arrêtée(s). Les tirs, récoltes, chantiers et variations futures de stocks ne sont pas projetés.');
     }
@@ -3344,7 +3344,7 @@
     ensure();dousing.clear();mark();const result=original(dt);
     if(running()&&Number.isFinite(dt)&&dt>0){
       const before=engine.state.fires.length;fireDamage=true;
-      try{engine.step(Math.min(dt,R.maxStep),{buildings:buildings(),resources:g.resources,weather:g.weather,running:true,damage:(b,n)=>{g.damageBuilding(b,n);return !g.gameOver;},units:g.units,at:g.elapsed});}finally{fireDamage=false;}
+      try{engine.step(Math.min(dt,R.maxStep),{buildings:buildings(),resources:g.resources,weather:g.weather,running:true,damage:(b,n)=>{g.damageBuilding(b,n);return !g.gameOver;},units:g.units,at:g.elapsed,rainFactor:g.biome217?.factor('rain')??1});}finally{fireDamage=false;}
       if(g.gameOver)return result;
       if(!live(g.player))engine.playerDown();mark();
       if(engine.state.fires.length!==before)g.refreshMetrics(true);
@@ -3383,7 +3383,7 @@
   function pumpFuelPerMinute(){
     ensure();let fuel=g.resources.fuel,cost=0;
     for(const t of engine.state.tanks){const b=g.world.buildings.get(t.id);if(!operational(b))continue;
-      const flow=F.waterFlow(t.water,{powered:b.powered&&!engine.fire(b.id),weather:g.weather||0,fuel},R.maxStep);fuel=Math.max(0,fuel-flow.cost);cost+=flow.cost;
+      const flow=F.waterFlow(t.water,{powered:b.powered&&!engine.fire(b.id),weather:g.weather||0,fuel,rainFactor:g.biome217?.factor('rain')??1},R.maxStep);fuel=Math.max(0,fuel-flow.cost);cost+=flow.cost;
     }return cost/R.maxStep*60;
   }
   function overview(){reconcile();const bs=buildings(),list=engine.state.fires.map(f=>{const b=g.world.buildings.get(f.id);return{...f,name:b?.def.name||'Structure',health:b?.health||0};});

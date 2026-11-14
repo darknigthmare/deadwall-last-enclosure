@@ -730,7 +730,7 @@
       for(const [key,rate]of Object.entries(b.def.consumes||{}))if(rate>0)fraction=Math.min(fraction,Math.max(0,ctx.resources[key]-reserve)/(rate*.25*Math.max(.0001,power)*crisis));
       if(power<=.05||fraction<=0){pausedIndustry++;continue;}
       const factor=Math.min(1,fraction)*power*crisis*60;
-      for(const [key,rate]of Object.entries(b.def.production))production[key]+=rate*factor;
+      for(const [key,rate]of Object.entries(b.def.production))production[key]+=rate*factor*(ctx.yieldFactor?.(b,key)??1);
       for(const [key,rate]of Object.entries(b.def.consumes||{}))consumption[key]+=rate*factor;
     }
     return {rows:KEYS.map(key=>({key,stock:ctx.resources[key],capacity:ctx.storage,production:production[key],consumption:consumption[key],net:production[key]-consumption[key]})),unpowered,pausedIndustry,generatorUse};
@@ -1079,10 +1079,10 @@
   function edgeDistance(a,b){const x=rect(a),y=rect(b);return Math.hypot(Math.max(0,x.left-y.right,y.left-x.right),Math.max(0,x.top-y.bottom,y.top-x.bottom));}
   function intersects(a,b,r){let lo=0,hi=1;for(const [o,d,min,max]of [[a.x,b.x-a.x,r.left,r.right],[a.y,b.y-a.y,r.top,r.bottom]]){if(Math.abs(d)<1e-9){if(o<min||o>max)return false;}else{lo=Math.max(lo,Math.min((min-o)/d,(max-o)/d));hi=Math.min(hi,Math.max((min-o)/d,(max-o)/d));if(lo>hi)return false;}}return true;}
   function heatClear(a,b,buildings){return !buildings.some(c=>c.id!==a.id&&c.id!==b.id&&operational(c)&&['fireScreen','steelWall','concreteWall'].includes(c.type)&&intersects(a,b,rect(c)));}
-  function waterFlow(water,{powered,weather=0,fuel=0},dt=RULES.maxStep){
+  function waterFlow(water,{powered,weather=0,fuel=0,rainFactor=1},dt=RULES.maxStep){
     if(!finite(water,0,RULES.waterCapacity)||!finite(fuel)||!finite(dt,Number.MIN_VALUE,RULES.maxStep))return{rain:0,pumped:0,cost:0};
     weather=finite(weather,0,1)?weather:0;
-    const space=Math.max(0,RULES.waterCapacity-water),rain=Math.min(space,RULES.rainRate*weather*dt);
+    const space=Math.max(0,RULES.waterCapacity-water),rain=Math.min(space,RULES.rainRate*weather*(finite(rainFactor,0,4)?rainFactor:1)*dt);
     const pumped=powered?Math.min(space-rain,RULES.pumpRate*dt,fuel/RULES.fuelPerWater):0;
     return{rain,pumped,cost:pumped*RULES.fuelPerWater};
   }
@@ -1108,12 +1108,12 @@
       this.state.fires.push({id:b.id,heat:RULES.initialHeat,age:0,spread:0,origin});this.addStat('ignitions',1);this.log('ignited',b.id,at);return true;
     }
     explosion(source,buildings,at=0){let count=0;for(const b of buildings.slice().sort((a,b)=>a.id-b.id))if(b.id!==source.id&&edgeDistance(source,b)<=Math.min(70,source.def?.explosive||0)&&heatClear(source,b,buildings))count+=Number(this.ignite(b,'blast',at));return count;}
-    step(dt,{buildings,resources,weather=0,running=false,damage,units=[],at=0}){
+    step(dt,{buildings,resources,weather=0,running=false,damage,units=[],at=0,rainFactor=1}){
       if(!running||!finite(dt,Number.MIN_VALUE,RULES.maxStep)||!Array.isArray(buildings)||!object(resources)||!finite(resources.fuel))return false;
       this.reconcile(buildings,units);weather=finite(weather,0,1)?weather:0;
       this.state.wet=this.state.wet.map(w=>({...w,seconds:w.seconds-dt})).filter(w=>w.seconds>0);
       for(const t of this.state.tanks){const b=buildings.find(b=>b.id===t.id);if(!operational(b))continue;
-        const flow=waterFlow(t.water,{powered:b.powered&&!this.fire(b.id),weather,fuel:resources.fuel},dt);
+        const flow=waterFlow(t.water,{powered:b.powered&&!this.fire(b.id),weather,fuel:resources.fuel,rainFactor},dt);
         resources.fuel=Math.max(0,resources.fuel-flow.cost);t.water+=flow.rain+flow.pumped;this.addStat('waterProduced',flow.rain+flow.pumped);
       }
       const byId=new Map(buildings.map(b=>[b.id,b]));
@@ -3364,6 +3364,19 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // contigus, tous sous `BATTLEFIELD_RULES.fragileWallRatio` : à partir de `minLength` ouvrages il menace de céder ;
  // si l'un d'eux est détruit, le pan cède avec lui, `maxCollapse` ouvrages au plus, ouvrage détruit compris.
  C.Breach217Rules=Object.freeze({minLength:4,maxCollapse:6});
+ C.Breach217Rules=Object.freeze({minLength:3,maxCollapse:8});
+ // Milieu de la cité (GAME_BIBLE §7.13, « des graines qui comptent »), nouvelles campagnes seulement.
+ // Le milieu dominant est relevé sur une grille de pas `step` dans un carré de demi-côté `radius` (mètres de région)
+ // centré sur D-17 ; à égalité, la première famille de `families` l'emporte. Chaque famille a un avantage et une
+ // contrainte, facteurs sur des calculs existants : wood / stone / scrap = cadence de récolte à la main et par les
+ // ouvriers ; farm = nourriture des fermes protégées ; rain = pluie recueillie par les citernes.
+ C.Biome217Rules=(()=>{const f=(name,biomes,bonus,malus)=>Object.freeze({name,biomes:Object.freeze(biomes),bonus:Object.freeze({key:bonus[0],factor:bonus[1]}),malus:Object.freeze({key:malus[0],factor:malus[1]})});
+  return Object.freeze({radius:768,step:128,families:Object.freeze({
+   forest:f('Forêt',['deciduous','mixed','conifer','sandyPine'],['wood',1.15],['farm',.9]),
+   farmland:f('Plaine cultivée',['meadow','bocage','orchard','agriculturalPlateau'],['farm',1.15],['stone',.85]),
+   wetland:f('Zone humide',['riparian','wetland','peatland','alluvialTerrace'],['rain',1.2],['scrap',.85]),
+   highland:f('Hauteurs pierreuses',['heath','limestone','rockyHighland'],['stone',1.2],['rain',.85]),
+   brownfield:f('Friche urbaine',['brownfield'],['scrap',1.2],['wood',.85])})});})();
  // Radio et consignes d'absence (GAME_BIBLE §7.15), consignes pour les nouvelles campagnes seulement.
  // journal : nombre de messages radio gardés (et sauvegardés avec la campagne quand les consignes sont actives).
  C.CityRadio217Rules=Object.freeze({journal:12});
