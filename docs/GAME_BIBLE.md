@@ -1281,6 +1281,31 @@ Règles :
 - La graine doit changer la **stratégie d'ouverture** : une cité de plaine
   sans pierre ne se bâtit pas comme une cité de plateau sans eau.
 
+**Première tranche livrée [LIVRÉ] : la fiche de graine**, toutes campagnes
+(`src/seed-card217.js`, présentation seule, test
+`tests/seed-card217.test.cjs`)
+
+- Le carnet, classement « Sur le terrain », affiche sous les échelles
+  d'exploration une fiche de graine repliable : graine et profil de paysage,
+  milieu dominant et milieux voisins autour de D-17, rivière et côte les
+  plus proches (ou « aucune eau proche »), densité urbaine en un mot (isolé,
+  rural, périurbain, urbain), gisements de bois, de pierre et de ferraille à
+  portée de marche du centre, premiers lieux de la carte, et un conseil
+  d'ouverture déduit de ces seuls faits.
+- Deux boutons copient la graine seule ou la fiche entière.
+- Au menu, une ligne sous le champ de graine résume la carte en cours.
+- La fiche est une fonction pure du monde déjà généré : aucun tirage, aucun
+  état sauvegardé. Elle compte les gisements à leur quantité d'origine et ne
+  change donc pas avec la récolte.
+
+Réserves : la fiche **décrit**, elle ne change pas l'ouverture. Elle nomme
+des agglomérations, une carrière ou une casse avant leur reconnaissance.
+Le menu ne décrit pas une graine saisie avant le départ (il faudrait tracer
+la région, 1 à 8 s). Les cartes d'avant G6 n'ont ni milieu ni eau relevés.
+Un adjectif du conseil ne s'accorde pas avec les noms de milieux au pluriel.
+
+**Travaux de terrain** (direction « un terrain modifiable », plus haut)
+
 **Première tranche livrée [LIVRÉ] : le fossé**, nouvelles campagnes seulement
 (`src/earthworks217.js`, valeurs dans `C.Earthworks217Rules`, test
 `tests/earthworks217.test.cjs`)
