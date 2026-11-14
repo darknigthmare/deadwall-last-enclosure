@@ -3393,6 +3393,17 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
    Object.freeze({relay:'Les Granges',ask:Object.freeze({food:14}),back:Object.freeze({fuel:5})}),
    Object.freeze({relay:'La Rive',ask:Object.freeze({wood:24}),back:Object.freeze({food:10})}),
    Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])})});
+ // Grands ouvrages (docs/GAME_BIBLE.md §8.4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (9 = Mégaville II, « âge 10 » de la bible). Un ouvrage se bâtit par tranches : chaque
+ // tranche est payée au dépôt (`cost`, pris sur le stock), puis construite pendant `seconds` de chantier, suspendu de l'alerte
+ // à la fin de l'assaut. Une seule tranche par ouvrage et par nuit. Aucun effet avant la dernière tranche.
+ // belfry : `warningSeconds` s'ajoute à l'alerte du moteur (10 s, +5 avec la reconnaissance).
+ // necropolis : `clearSpeed` multiplie la cadence de déblaiement des ouvriers (se compose avec la corvée de C.CityLaws217Rules).
+ // `signature` : points ajoutés à la signature de la cité une fois l'ouvrage achevé (cloche qui porte, fumée permanente).
+ {const step=(seconds,cost)=>Object.freeze({seconds,cost:Object.freeze(cost)});
+ C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,works:Object.freeze({
+  belfry:Object.freeze({warningSeconds:8,signature:120,steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
+  necropolis:Object.freeze({clearSpeed:1.5,signature:80,steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
