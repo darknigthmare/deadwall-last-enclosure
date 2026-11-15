@@ -68,13 +68,23 @@
   const factor=key=>state.active?factorOf(family(),key):1;
   // Seule la ferme protégée est une « ferme » : serres, halles et usines gardent leur débit.
   const yieldFactor=(b,key)=>key==='food'&&b?.type==='farm'?factor('farm'):1;
-  const profile=()=>describe(family());
+  // Lecture seule pour l'affichage (fiche, fiche de graine) : ne fige rien dans la sauvegarde. Si la région existe déjà,
+  // le relevé est calculé sans être enregistré ; la simulation l'enregistrera au premier usage d'un facteur.
+  let peeked=null;
+  function peek(){
+   if(!state.active)return null;
+   if(state.family!==null)return Object.hasOwn(F,state.family)?state.family:null;
+   if(g.state!=='playing'||!g.frontier?.worldReady?.())return null;
+   if(peeked===null){try{peeked=dominant(g.frontier.world())||NEUTRAL;}catch{peeked=NEUTRAL;}}
+   return Object.hasOwn(F,peeked)?peeked:null;
+  }
+  const profile=()=>describe(peek());
   function tick(){
    if(!state.active||state.announced||g.state!=='playing'||g.gameOver)return;
    // La région est construite dès le premier affichage du sol ; sans affichage, le premier usage d'un facteur la relève.
    if(state.family===null&&g.frontier?.worldReady?.())resolve();
    if(state.family===null)return;
-   state.announced=true;const p=profile();
+   state.announced=true;const p=describe(family());
    if(p.family)g.notify?.('Milieu de la cité : '+p.name+'. Avantage : '+p.bonus.text+'. Contrainte : '+p.malus.text+'.');
   }
   function overview(){
@@ -95,7 +105,7 @@
   const update=g.update;
   g.update=function(dt,...rest){const result=update.call(this,dt,...rest);tick();return result;};
   const api=Object.freeze({active,family,factor,yieldFactor,profile,tick,overview,actions:()=>[],snapshot:()=>validate(state)});g.biome217=api;
-  g.expansions.register({id:'biome217',title:'Milieu de la cité',overview,actions:api.actions,validate,snapshot:api.snapshot,restore:raw=>{state=validate(raw);},reset:()=>{state=fresh();}});
+  g.expansions.register({id:'biome217',title:'Milieu de la cité',overview,actions:api.actions,validate,snapshot:api.snapshot,restore:raw=>{state=validate(raw);peeked=null;},reset:()=>{state=fresh();peeked=null;}});
   return api;
  }
  const api=Object.freeze({initial,fresh,validate,familyOf,survey,dominant,describe,profileFor,factorOf,install});root.DeadwallBiome217=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
