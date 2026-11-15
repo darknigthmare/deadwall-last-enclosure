@@ -81,9 +81,9 @@
  // Autres points du même côté, dans un ordre fixe : le poste d'origine, puis de part et d'autre le long du bord,
  // puis la même suite un pas plus loin du bord.
  function posts(seed,wave){
-  const p=post(seed,wave),lo=R.spanMin*C.WORLD_SIZE,hi=R.spanMax*C.WORLD_SIZE,horizontal=p.side==='north'||p.side==='south',along=horizontal?p.x:p.y,list=[];
+  const p=post(seed,wave),lo=R.spanMin*C.LOCAL_MAP217.size,hi=R.spanMax*C.LOCAL_MAP217.size,horizontal=p.side==='north'||p.side==='south',along=horizontal?p.x:p.y,list=[];
   for(let depth=0;depth<2;depth++){
-   const off=R.standoff+depth*P.step,deep=p.side==='north'||p.side==='west'?off:C.WORLD_SIZE-off;
+   const off=R.standoff+depth*P.step,deep=p.side==='north'||p.side==='west'?off:C.LOCAL_MAP217.size-off;
    for(let i=0;i<=P.tries*2;i++){
     const a=along+(i===0?0:(i%2?1:-1)*Math.ceil(i/2)*P.step);if(a<lo||a>hi)continue;
     list.push(Object.freeze({side:p.side,name:p.name,where:p.where,x:horizontal?a:deep,y:horizontal?deep:a}));
@@ -169,12 +169,12 @@
   // Terrain praticable et atteignable : le Commandant peut s'y tenir, un infecté aussi, et le champ de marche
   // des infectés relie ce point à la cité.
   function clear(x,y){
-   if(!(x>=BODY+4&&y>=BODY+4&&x<=C.WORLD_SIZE-BODY-4&&y<=C.WORLD_SIZE-BODY-4))return false;
+   if(!(x>=BODY+4&&y>=BODY+4&&x<=(g.local||C.LOCAL_MAP217).size-BODY-4&&y<=(g.local||C.LOCAL_MAP217).size-BODY-4))return false;
    try{
     const probe={radius:BODY,x,y};
     if(typeof g.friendlyPositionClear==='function'&&!g.friendlyPositionClear(probe,x,y))return false;
     if(typeof g.hostilePositionClear==='function'&&!g.hostilePositionClear(probe,x,y))return false;
-    const values=g.flow?.values,core=g.core?.(),cell=(a,b)=>Math.floor(a/C.TILE)+Math.floor(b/C.TILE)*C.WORLD_TILES;
+    const values=g.flow?.values,core=g.core?.(),cell=(a,b)=>Math.floor(a/C.TILE)+Math.floor(b/C.TILE)*(g.local||C.LOCAL_MAP217).tiles;
     // Le champ n'est consulté que s'il est construit (valeur nulle au centre).
     if(values&&core&&values[cell(core.x,core.y)]===0&&!(values[cell(x,y)]<UNREACHED))return false;
    }catch(error){return false;}

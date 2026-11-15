@@ -1336,6 +1336,21 @@ d'atlas calée sur l'étendue totale.
   10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
   suivent pas toujours les vallées. Des noms d'agglomération en double sont
   possibles. Le coût dans le navigateur reste à mesurer au calme.
+- **Tranche T5 livrée, sans effet en jeu** : la taille de la carte de la
+  cité se lit désormais sur son propriétaire au lieu de constantes — monde
+  de la cité, champ de flux des hordes, déplacements, apparitions,
+  projectiles, sortie vers la région, expéditions, minicartes. La carte
+  reste de 128 m ; un parcours de quatre minutes avec une vague donne le
+  même état au bit près avant et après. Restent en clair : le cœur de la
+  grille, la voirie, quelques validateurs, la vue à la première personne.
+- Hors jeu : le site de D-17 reçoit une **prime de rive** (l'eau ferme un
+  côté pour 5 graines sur 400, 0 avant ; un gué en ralentit un pour 25) et
+  les falaises de la carte locale ne suivent plus les mailles de 32 m (bord
+  décalé de quelques mètres, mêmes régions et mêmes cols). **Raréfier les
+  cols n'a pas abouti** : la moitié des passages d'un plateau sont des
+  rampes taillées par les routes, et les variantes essayées enfermaient des
+  plateaux. Pistes : un propriétaire global par plateau, ou une trame
+  routière moins dense.
 - **Tranche T4 livrée, sans effet en jeu** : `src/world-local217.js` dérive
   du canton d'origine la carte locale de D-17, case de 1 m par case :
   paliers, falaises infranchissables, rampes de col, eau, routes. Pour
