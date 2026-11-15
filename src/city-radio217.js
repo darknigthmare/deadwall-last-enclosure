@@ -108,15 +108,18 @@
   // Sans registre des opérations, la radio fonctionne seule, en mémoire : jamais de consigne ni de sauvegarde.
   const owner=g[OWNER]||{state:initial()};
   // Journal en mémoire : celui de la sauvegarde pour une campagne récente, vide sinon.
-  let log=[],primed=false,clock=-Infinity,seenWorld=null,wasAway=false,received=0,notice='';
+  let log=[],primed=false,clock=-Infinity,seenWorld=null,wasAway=false,received=0,missed=0,notice='';
   const known=new Map(),told=new Map();
   const state=()=>owner.state;
   const playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
   const away=()=>Boolean(g.frontier?.active?.()||g.player?.regionAbsent);
   const now=()=>Math.min(MAX_AT,Math.max(0,Number(g.elapsed)||0));
-  const forget=()=>{primed=false;clock=-Infinity;seenWorld=g.world||null;wasAway=false;received=0;notice='';known.clear();told.clear();};
+  const forget=()=>{primed=false;clock=-Infinity;seenWorld=g.world||null;wasAway=false;received=0;missed=0;notice='';known.clear();told.clear();};
   owner.changed=()=>{log=owner.state.journal.map(e=>({...e}));forget();refresh();};
+  // Portée (avant-postes 217, nouvelles campagnes) : hors de portée de D-17 et de tout avant-poste, rien n'est reçu.
+  const inRange=()=>g.outposts217?.radioInRange?.()!==false;
   function say(text,tone='normal'){
+   if(away()&&!inRange()){missed++;return null;}
    const entry={at:now(),wave:wave(g.wave)?g.wave:0,tone:TONES.includes(tone)?tone:'normal',text:String(text).slice(0,MAX_TEXT)};
    log.push(entry);while(log.length>R.journal)log.shift();
    if(state().active)state().journal=log.map(e=>({...e}));
@@ -151,8 +154,9 @@
    followOrder(isAway);
    if(!isAway){
     // Retour : un seul rappel, puis plus aucun relevé tant que le Commandant est sur place.
+    if(wasAway&&missed>0){const lost=missed;missed=0;say('Hors de portée pendant la sortie : '+many(lost,'message n’a pas été reçu','messages n’ont pas été reçus')+'.','danger');}
     if(wasAway&&received>0)g.notify?.('Radio : '+many(received,'message reçu','messages reçus')+' pendant votre sortie. Journal dans le carnet, onglet Situation.','normal');
-    wasAway=false;received=0;primed=false;known.clear();return;
+    wasAway=false;received=0;missed=0;primed=false;known.clear();return;
    }
    wasAway=true;
    const list=facts(g),t=now(),current=new Set();
@@ -188,7 +192,7 @@
   }
   function overview(){
    const s=state(),last=log[log.length-1];
-   const rows=[{label:'Radio',value:SPEAKER+' transmet les faits de D-17 pendant vos sorties : front, brèche, secteur perdu, mur menacé, amas de corps, eau, moral, centre, munitions. Portée non limitée pour l’instant.'},
+   const rows=[{label:'Radio',value:SPEAKER+' transmet les faits de D-17 pendant vos sorties : front, brèche, secteur perdu, mur menacé, amas de corps, eau, moral, centre, munitions. '+(g.outposts217?.active?.()?'Portée : '+C.Outposts217Rules.radio.range+' m autour de D-17 et de chaque avant-poste ; au-delà, silence.':'Portée non limitée pour l’instant.')},
     {label:'Dernier message',value:last?line(last):'Aucun.'},
     {label:'Journal',value:many(log.length,'message','messages')+' sur '+R.journal+' gardés'+(s.active?', sauvegardés avec la campagne.':', non sauvegardés.')}];
    if(!s.active)return{summary:'Cette campagne a commencé avant les consignes d’absence : la radio transmet, mais la cité ne donne aucun ordre sans vous. Les consignes ne s’activent pas en cours de campagne.',

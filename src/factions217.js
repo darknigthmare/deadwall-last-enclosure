@@ -10,7 +10,7 @@
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.Factions217Rules,RAID=R.raid,RELAY=R.relay;
  const IDS=['rouleurs','relais'],NAMES={rouleurs:'Les Rouleurs',relais:'Les Relais'};
  const KEYS=['version','active','spotted','returns','exposed','passes','rep','affairs','relay'],STAGES=['none','open','owed'];
- const CODES={rouleurs:['spotted','robbed','deterred','passed','tribute'],relais:['asked','helped','returned','unanswered']};
+ const CODES={rouleurs:['spotted','robbed','deterred','passed','tribute','guarded'],relais:['asked','helped','returned','unanswered']};
  const MAX=1e6;
  function initial(){return{version:1,active:false,spotted:false,returns:0,exposed:false,passes:0,rep:{rouleurs:0,relais:0},affairs:{rouleurs:null,relais:null},relay:{index:0,stage:'none',wave:0}};}
  const fresh=()=>({...initial(),active:true});
@@ -83,7 +83,10 @@
    state.returns=Math.min(MAX,state.returns+1);
    if(!state.spotted){state.spotted=true;affair('rouleurs','spotted');g.notify?.('Des motards ont suivi le fourgon à distance jusqu’aux abords de D-17. Les Rouleurs savent désormais qu’il rentre chargé.','danger');}
    if(!ambushAt(state.returns)){g.save(false);return;}
-   if(state.passes>0){state.passes--;affair('rouleurs','passed');g.notify?.('Barrage des Rouleurs sur la route du retour : le tribut a été versé, ils laissent passer le fourgon.');}
+   // Route gardée (avant-postes 217) : un fourgon qui rentre du côté d'un avant-poste n'est pas barré ; le tribut est gardé.
+   const guard=g.outposts217?.guards?.(v);
+   if(guard){affair('rouleurs','guarded');g.notify?.('Les Rouleurs n’ont pas barré la route du retour : elle est gardée par l’avant-poste « '+guard+' ».','good');}
+   else if(state.passes>0){state.passes--;affair('rouleurs','passed');g.notify?.('Barrage des Rouleurs sur la route du retour : le tribut a été versé, ils laissent passer le fourgon.');}
    else if(escort(v)>=RAID.escortSoldiers){affair('rouleurs','deterred');g.notify?.('Barrage des Rouleurs sur la route du retour : devant l’escorte, ils dégagent la chaussée sans un tir.','good');}
    else{
     const t=toll(v.cargo,state.rep.rouleurs);for(const k of C.RESOURCE_KEYS)v.cargo[k]=Math.max(0,v.cargo[k]-t.taken[k]);
@@ -146,6 +149,7 @@
    robbed:a=>'fourgon intercepté, '+amount(a.amount)+' unités prises dans le coffre',
    deterred:()=>'barrage levé devant l’escorte, sans un tir',
    passed:()=>'barrage franchi, tribut honoré',
+   guarded:()=>'pas de barrage, la route du retour est gardée par un avant-poste',
    tribute:a=>'tribut versé ('+amount(a.amount)+' carburant)',
    asked:a=>request(a.amount).relay+' demande '+bagText(request(a.amount).ask),
    helped:a=>'aide envoyée '+to(request(a.amount).relay),
