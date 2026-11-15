@@ -460,6 +460,8 @@ La nécropole se multiplie avec la corvée de déblaiement (×2,25 pendant la co
 
 Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de difficulté.
 
+Deuxième tranche : repérage à 600 m (`spot`), en sortie seulement ; repeuplement `{range 400, unseen 400, min 4, max 8, perSite 3}`, toujours sous la taille d'un nid d'origine.
+
 ## Décor des cartes saturées — 217
 
 `C.Scenery217Rules.fallbackClearanceMetres = [1, 0.5, 0]` : dégagements essayés, dans l'ordre, pour une pièce de décor restée sans parcelle. Aucun effet sur les cartes où le placement à un mètre réussit.

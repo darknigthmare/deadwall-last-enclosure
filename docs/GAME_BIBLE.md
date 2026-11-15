@@ -1405,9 +1405,30 @@ surveiller. Le classement par nom a ses approximations (une clinique
 vétérinaire compte comme hôpital). La minicarte de région ne porte aucun
 repère.
 
-Restent à faire : le rang singulier, le repeuplement par migration, des
-récompenses autres que des ressources (machine, plan, pièce de grand
-ouvrage, recrue qualifiée).
+**Deuxième tranche livrée [LIVRÉ] : repérage en sortie, repeuplement**
+
+- **Vu de loin, repéré** : un lieu remarquable se voit de loin (2,5 km) —
+  silhouette, nom, distance, sur l'atlas, en vue de région et en point
+  sobre sur la minicarte de région. Ce « vu de loin » n'est jamais
+  sauvegardé. Le lieu n'est **repéré** (nid et lot connus) qu'en sortie, le
+  Commandant dehors à 600 m ; **depuis la cité, rien n'est repéré**. On peut
+  désigner comme objectif un lieu seulement vu de loin, sans apprendre son
+  nid.
+- **Repeuplement** : une migration qui passe à moins de 400 m d'un nid
+  vidé, loin du Commandant, sur un lieu **sans avant-poste**, y ramène 4 à
+  8 infectés. Chaque migration ne repeuple qu'une fois, un lieu au plus
+  trois fois. Le lot emporté ne revient pas. Un avant-poste protège donc
+  son lieu.
+- Les noms d'usage sont corrigés à l'affichage (clinique vétérinaire,
+  station de pompage…) sans changer la sélection des campagnes existantes.
+
+Réserves : non éprouvé en partie réelle. Les migrations ne bougent qu'en
+sortie, donc le repeuplement se produit surtout pendant une sortie. Une
+clinique vétérinaire reste du genre « hôpital » (lot de médicaments) : la
+corriger aurait changé la liste des lieux des campagnes existantes.
+
+Restent à faire : le rang singulier, des récompenses autres que des
+ressources (machine, plan, pièce de grand ouvrage, recrue qualifiée).
 
 #### Direction : un terrain modifiable
 
@@ -1558,9 +1579,7 @@ Réserves : le calcul dure toujours 7 à 9 s. Il ne fige plus le menu sur le
 web, mais le fige encore dans l'application de bureau et la version
 autonome en un fichier, qui n'autorisent pas l'arrière-plan (déduit de leur
 configuration, non lancé). L'aperçu ne compte pas les gisements à portée du
-centre. **Un lieu à moins de 2,5 km de D-17 est en vue dès le départ** : son
-nid et son lot s'affichent donc dans le carnet dès la première minute — sur
-la graine 17117, c'est le cas des trois lieux de la fiche. Le repérage a été
+centre. **[Corrigé depuis]** Un lieu n'est plus repéré depuis la cité (§7.13, lieux remarquables, deuxième tranche). Le repérage a été
 simulé par sauvegarde, pas joué.
 
 **Travaux de terrain** (direction « un terrain modifiable », plus haut)
