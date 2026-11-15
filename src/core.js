@@ -3387,8 +3387,16 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // au bord, en pixels, à laquelle un infecté abattu tombe encore dans le fossé. workRange : portée de travail.
  // cityRadiusTiles : emprise de la cité autour du centre, en cases. maxDitches : taille du registre.
  // Le déblaiement reprend les cadences existantes (WORKER_RULES.cleanupPerSecond, LINECARE_RULES.shovelPerSecond).
+ // Deuxième tranche. earthPerDitch : terre tirée d'une case creusée (réserve bornée par maxEarth). maxLine : cases d'un tracé.
+ // talus : coût en terre, travail, corps supplémentaires exigés pour franchir le mur adossé (au-dessus de
+ // LINECARE_RULES.rampMin), facteur de vitesse appliqué en plus au fossé ouvert qu'il borde.
+ // moat (douve) : eau de cité par case à la mise en eau puis par seconde, ralentissement, coût de passage, corps absorbés.
+ // backfill (remblai) : terre, ou à défaut pierre, puis secondes de travail. Valeurs non éprouvées en partie réelle.
  C.Earthworks217Rules=Object.freeze({unlockTier:0,cost:Object.freeze({wood:4}),digSeconds:10,slowFactor:.55,flowCost:14,capacity:6,
-  rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256});
+  rimDistance:10,workRange:48,cityRadiusTiles:44,maxDitches:256,earthPerDitch:1,maxEarth:999,maxLine:32,
+  talus:Object.freeze({earth:2,buildSeconds:6,rampBonus:8,slowFactor:.85,maxBanks:256}),
+  moat:Object.freeze({fillWater:4,upkeepPerSecond:.004,slowFactor:.4,flowCost:20,capacity:12}),
+  backfill:Object.freeze({earth:1,stone:2,seconds:5})});
  // Factions (GAME_BIBLE §4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
  // factions : bornes de réputation ; ententeAt / hostileAt : seuils des états affichés. reach : portée du dépôt.
  // raid (Les Rouleurs) : un fourgon compte comme « chargé » avec `minCargo` unités au coffre au-delà de `awayDistance`

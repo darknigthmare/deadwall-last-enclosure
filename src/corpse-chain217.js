@@ -57,7 +57,8 @@
   const crew=()=>Array.isArray(g.units)&&g.units.some(u=>present(u)&&u.kind==='worker');
   const walls=()=>{let n=0;for(const b of g.world?.buildings?.values?.()||[])if(!b.dead&&b.completed&&b.def?.wall&&b.corpseLoad>0)n+=b.corpseLoad;return n;};
   // Corps laissés : ceux qui attendent d'être traités et ceux qui n'ont pas été déblayés.
-  const left=()=>state.pending+walls(),limit=()=>threshold(g.population||0);
+  // Les corps d'une douve restent dans l'eau : ils comptent aussi (src/earthworks217.js).
+  const left=()=>state.pending+walls()+(g.earthworks217?.moatBodies?.()||0),limit=()=>threshold(g.population||0);
   const rain=()=>weatherFactor(Number(g.weather)||0);
   const clinic=()=>{for(const b of g.world?.buildings?.values?.()||[])if(b.type==='clinic'&&!b.dead&&b.completed&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline)return true;return false;};
   const title=u=>(C.SURVIVORS[u.kind]?.name||'survivant').toLowerCase();
