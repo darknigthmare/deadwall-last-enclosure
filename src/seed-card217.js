@@ -4,15 +4,22 @@
 // Il ne modifie aucun stock, aucune règle, aucun tirage, aucune version de génération et aucune sauvegarde.
 // Aperçu avant le départ : au menu, sur clic seulement, la région d'une graine saisie est tracée à part, dans les
 // versions que le départ choisirait (`DeadwallWorldPack131.startVersions`), sans créer de campagne ni toucher au jeu.
+// Divulgation : la fiche nomme les lieux remarquables (nom, genre, direction, distance). Le nid et le lot d'un lieu ne
+// s'affichent que dans le carnet, pour un lieu déjà repéré par la campagne, et dans leur état réel. Jamais dans l'aperçu.
+// Tracé hors du fil principal : ce même fichier sert de script de Web Worker. Chargé dans un worker, il charge les
+// scripts de génération (`WORKER_SCRIPTS`) et répond aux demandes d'aperçu ; la page garde le calcul direct en repli.
 (function(root,factory){
- const api=factory(root);
+ // Adresse de ce script, relevée au chargement : c'est elle que le worker d'aperçu recharge.
+ const own=root.document?.currentScript?.src||'';
+ const api=factory(root,own);
  if(typeof module==='object'&&module.exports)module.exports=api;
  else root.DeadwallSeedCard217=api;
+ if(!root.document&&typeof root.importScripts==='function'&&typeof root.postMessage==='function')api.serve(root);
  if(root.document){
   const mount=()=>root.setTimeout(()=>{if(root.DEADWALL)api.install(root.DEADWALL,root.document);},0);
   if(root.document.readyState==='loading')root.document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
  }
-})(globalThis,function(root){
+})(globalThis,function(root,ownUrl){
  'use strict';
  const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){for(const v of Object.values(value))freeze(v);Object.freeze(value);}return value;};
  // Seuils de lecture seulement : aucun système de jeu ne les consulte. Distances régionales en mètres ;
@@ -22,6 +29,9 @@
   waterNear:1500,townNear:2000,townWide:3000,placeRadius:1500,
   walkRadius:900,scarce:5,plenty:15,places:3,cache:8,refreshSeconds:.5,previewDelayMs:60
  });
+ // Scripts de génération qu'un worker d'aperçu charge avant de tracer une région, dans l'ordre d'`index.html`.
+ // Noms relatifs à ce fichier. Une dépendance manquante fait échouer le worker : la page calcule alors elle-même.
+ const WORKER_SCRIPTS=freeze(['frontier-specialists.js','frontier-places.js','settlement-plans.js','frontier-geometry.js','seed-detail157.js','codex3000-live-data.js','codex3000-runtime.js','region-roadkit.js','region-settlements.js','codex-context160-data.js','codex-context160.js','codex-geometry160.js','frontage174.js','frontier-world.js','frontier-state.js','frontier-logistics.js','field-atlas-state.js','essential-content.js','essential-state.js','world-evolution-state.js','core.js','biomes135.js','geography135.js','world-spawns131.js','world-stream131.js','profile.js','codex-layouts2026.js','codex-physical2026.js','codex-furnishings2026.js','codex-campaign205.js','biome217.js','remarkable217.js','world-pack131.js']);
  const OPENING=freeze(['wood','stone','scrap']);
  // Type de lieu régional qui fournit chaque ressource d'ouverture, et son nom dans une phrase.
  const SOURCES=freeze([['wood','sawmill'],['stone','quarry'],['scrap','scrapyard']]);
@@ -138,17 +148,23 @@
   return out;
  }
  // Lieux : les lieux remarquables si leur module est présent, sinon les grandes agglomérations du monde généré.
- function places(remarkable,dense,home,C){
+ // `reveal` : seul le carnet d'une campagne peut montrer nid et lot, et seulement pour un lieu que la campagne a
+ // repéré (`sighted` de `g.remarkable217.list()`). L'état montré est l'état réel : nid, nid vidé, lot emporté.
+ function places(remarkable,dense,home,C,reveal){
   const items=[];
   if(Array.isArray(remarkable))for(const r of remarkable){
    if(!r||typeof r.name!=='string')continue;
    // Distance depuis le centre de la cité, calculée sur les coordonnées : la distance fournie par le module dépend
    // de la position du joueur et ne sert que si le lieu n'a pas de coordonnées.
    const placed=finite(r.x)&&finite(r.y),d=placed?Math.hypot(r.x-home.x,r.y-home.y):finite(r.distance)?r.distance:NaN;if(!finite(d))continue;
-   const nest=Number.isInteger(r.nest)&&r.nest>0?r.nest:0,amount=Number(r.reward?.amount),resource=r.reward?.resource;
-   const lot=amount>0&&typeof resource==='string'?Math.round(amount)+' '+String(C?.RESOURCE_META?.[resource]?.label||resource).toLowerCase():'';
+   const sighted=reveal===true&&r.sighted===true,state=!sighted?'':r.state==='cleared'||r.state==='rewarded'?r.state:'nest';
+   const nest=state==='nest'&&Number.isInteger(r.nest)&&r.nest>0?r.nest:0,amount=Number(r.reward?.amount),resource=r.reward?.resource;
+   // Lot restant sur place : l'annonce d'origine tant que rien n'est chargé, puis ce qui reste, puis rien.
+   const rawLeft=r.reward?.left,left=typeof rawLeft==='number'&&finite(rawLeft)?Math.max(0,rawLeft):amount,partial=state==='cleared'&&left<amount-1e-9;
+   const lot=sighted&&state!=='rewarded'&&amount>0&&left>1e-9&&typeof resource==='string'?Math.ceil(left-1e-9)+' '+String(C?.RESOURCE_META?.[resource]?.label||resource).toLowerCase():'';
+   const detail=!sighted?'':state==='rewarded'||state==='cleared'&&!lot?'nid vidé, lot emporté':state==='cleared'?'nid vidé, '+(partial?'reste du lot : ':'lot à charger : ')+lot:[nest?'nid de '+nest:'',lot?'lot : '+lot:''].filter(Boolean).join(', ');
    // Titre d'origine du lieu, sans sa variante ni son milieu : le nom complet déborde d'une ligne de fiche.
-   items.push({id:String(r.id??r.name),name:r.name.split(' · ')[0].split(' — ')[0]||r.name,kind:typeof r.label==='string'&&r.label?r.label:typeof r.kind==='string'?r.kind:'',distance:d,direction:placed?direction(r.x-home.x,r.y-home.y):'',nest,lot});
+   items.push({id:String(r.id??r.name),name:r.name.split(' · ')[0].split(' — ')[0]||r.name,kind:typeof r.label==='string'&&r.label?r.label:typeof r.kind==='string'?r.kind:'',distance:d,direction:placed?direction(r.x-home.x,r.y-home.y):'',sighted,state,nest,lot,detail});
   }
   if(items.length){items.sort((a,b)=>a.distance-b.distance||(a.id<b.id?-1:1));return{source:'remarkable',title:'Premiers lieux remarquables',items:items.slice(0,RULES.places)};}
   // Sans module de lieux remarquables : les premières agglomérations d'importance (bourg et au-delà), à défaut toutes.
@@ -198,10 +214,10 @@
   card.preview=input?.preview===true;
   if(card.preview&&!card.opening.known)card.opening.text='Gisements à portée du centre : relevés au départ seulement, la carte locale de D-17 n’est tracée qu’au lancement.';
   card.milieu=milieu(input?.milieu);
-  card.places=places(input?.remarkable,card.density,h,C);
+  card.places=places(input?.remarkable,card.density,h,C,!card.preview);
   delete card.density.all;
   card.adviceLines=advice(card);card.advice=card.adviceLines.join(' ');
-  const detail=p=>[p.kind,p.nest?'nid de '+p.nest:'',p.lot?'lot : '+p.lot:''].filter(Boolean).join(', ');
+  const detail=p=>[p.kind,p.detail].filter(Boolean).join(', ');
   const placeText=card.places.items.map(p=>p.name+(detail(p)?' ('+detail(p)+')':'')+' à '+distanceText(p.distance)+(p.direction?' '+p.direction:'')).join(' · ');
   card.lines=[['Milieu',card.biomes.text]];
   if(card.milieu.text)card.lines.push(['Effet du milieu',card.milieu.text]);
@@ -242,7 +258,8 @@
  function previewWorld(seed,landscape='classic',current=true,recipe){
   const C=core(),Pack=need('DeadwallWorldPack131','./world-pack131.js'),World=need('DeadwallFrontierWorld','./frontier-world.js');
   if(!C?.Frontier||typeof Pack?.startVersions!=='function'||typeof World?.create!=='function')throw Error('Aperçu indisponible : génération de région absente.');
-  const v=Pack.startVersions(C.Frontier.initial(),recipe,current,landscape);
+  // Même point de départ que le départ réel : le registre régional neuf, normalisé comme à sa sérialisation.
+  const v=Pack.startVersions(C.Frontier.normalize(C.Frontier.initial()),recipe,current,landscape);
   return World.create(seed,v.generation,{detailVersion:v.detailVersion,ecologyVersion:v.ecologyVersion,hydrologyVersion:v.hydrologyVersion,...(v.landscape189?{landscape189:v.landscape189}:{})});
  }
  // Fiche d'une graine sans campagne : fonction pure de la graine, du profil de paysage et du contenu de départ.
@@ -255,11 +272,33 @@
   return describe({seed,world,landscape:world.landscape189||'classic',preview:true,remarkable:Remarkable?.select?Remarkable.select(world):null,
    milieu:Biome?.profileFor?{active:true,profile:Biome.profileFor(world)}:null});
  }
+ // Service d'aperçu dans un Web Worker : une demande `{id,choice}`, une réponse `{id,card}` ou `{id,error}`.
+ // Les scripts de génération ne sont chargés qu'à la première demande. Aucun accès au jeu, au DOM ni au stockage.
+ function serve(scope){
+  let loaded=false;
+  scope.onmessage=event=>{
+   const id=event?.data?.id;
+   try{
+    if(!loaded){scope.importScripts(...WORKER_SCRIPTS);loaded=true;}
+    scope.postMessage({id,card:preview(event.data.choice)});
+   }catch(error){scope.postMessage({id,error:String(error?.message||error),unloaded:!loaded});}
+  };
+  return true;
+ }
+ // Lieux repérés et leur état, pour la clé de cache : la fiche du carnet suit le repérage, le nid vidé, le lot chargé.
+ // Tant que la région n'est pas tracée, rien n'est lu : la clé ne déclenche jamais un tracé.
+ function placesKey(g){
+  try{
+   if(!g?.remarkable217||typeof g.remarkable217.list!=='function')return g?.remarkable217?'1':'0';
+   if(typeof g.frontier?.worldReady==='function'&&!g.frontier.worldReady())return 'attente';
+   return '1:'+g.remarkable217.list().filter(v=>v?.sighted===true).map(v=>v.id+'/'+(v.state||'')+'/'+(v.reward?.left??'')).join(',');
+  }catch{return '1';}
+ }
  // État du milieu pour la clé de cache : inactif, relevé en attente, ou famille figée.
  function biomeKey(g){try{return g?.biome217?.active?.()===true?String(g.biome217.snapshot?.().family??'attente'):'0';}catch{return '0';}}
  function keyOf(g){
   const p=g?.frontier?.position?.()||{};
-  return [g?.world?.seed,p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic',g?.world?.cityGeometry202||0,g?.remarkable217?1:0,biomeKey(g)].join('|');
+  return [g?.world?.seed,p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic',g?.world?.cityGeometry202||0,placesKey(g),biomeKey(g)].join('|');
  }
  // Presse-papiers : l'API moderne, puis l'ancienne commande, puis un simple « faux » si rien n'existe.
  function copyText(text,doc){
@@ -273,8 +312,10 @@
   try{const clip=root.navigator?.clipboard;if(typeof clip?.writeText==='function')return Promise.resolve(clip.writeText(text)).then(()=>true,legacy);}catch{/* repli ci-dessous */}
   return Promise.resolve(legacy());
  }
- function install(g,doc){
+ // `env` (facultatif) : classe de worker et adresse du script, pour les essais ; sinon ceux de la page.
+ function install(g,doc,env){
   if(!g||!doc?.body||g.seedCard217)return false;
+  const WorkerClass=env?.Worker||root.Worker,workerUrl=env?.url||ownUrl;
   const field=doc.getElementById('commandPanel-field'),nav=field?.querySelector?.('.field-nav');if(!field||!nav)return false;
   const el=(tag,text,cls)=>{const node=doc.createElement(tag);if(text!==undefined)node.textContent=String(text);if(cls)node.className=cls;return node;};
   const write=(node,text)=>{const value=String(text);if(node.textContent!==value)node.textContent=value;};
@@ -289,7 +330,9 @@
   head.append(copySeed,copyCard,status);
   const list=el('dl');list.id='seedCard217Facts';
   const tip=el('p',undefined,'seed-card217-advice');tip.id='seedCard217Advice';
-  fold.append(line,head,list,tip,el('p','La graine recrée la carte, pas le combat. Même graine et même profil de paysage : même monde.','seed-card217-note'));
+  const NOTE='La graine recrée la carte, pas le combat. Même graine et même profil de paysage : même monde.';
+  const note=el('p',NOTE,'seed-card217-note');note.id='seedCard217Note';
+  fold.append(line,head,list,tip,note);
   box.append(fold);
   const anchor=doc.getElementById('explorationScales')||nav;
   // Certains environnements minimaux n'offrent ni `after` ni `insertBefore` : la fiche se place alors en fin de panneau.
@@ -305,6 +348,7 @@
   const under=menu||hint;
   if(under&&typeof under.after==='function'){
    previewButton=el('button','Aperçu de la carte','seed-card217-preview-button');previewButton.id='seedCard217PreviewButton';previewButton.type='button';
+   previewButton.title='Trace à part la région de cette graine : quelques secondes de calcul, sans créer de campagne.';
    previewBox=el('div',undefined,'seed-card217 seed-card217-preview');previewBox.id='seedCard217Preview';previewBox.hidden=true;previewBox.setAttribute('role','status');previewBox.setAttribute('aria-live','polite');
    previewTitle=el('strong');previewTitle.id='seedCard217PreviewTitle';previewList=el('dl');previewList.id='seedCard217PreviewFacts';
    previewTip=el('p',undefined,'seed-card217-advice');previewTip.id='seedCard217PreviewAdvice';previewNote=el('p',undefined,'seed-card217-note');previewNote.id='seedCard217PreviewNote';
@@ -321,13 +365,31 @@
    if(!value){write(previewTip,'');write(previewNote,'');return;}
    for(const [label,text]of value.lines)previewList.append(el('dt',label),el('dd',text));
    write(previewTip,value.advice);
-   write(previewNote,'Aperçu calculé sans démarrer : aucune campagne créée, aucune sauvegarde touchée. Les gisements à portée du centre ne sont relevés qu’au départ.');
+   write(previewNote,'Aperçu calculé sans démarrer : aucune campagne créée, aucune sauvegarde touchée. Les gisements à portée du centre ne sont relevés qu’au départ.'
+    +(value.places.source==='remarkable'?' Nids et lots des lieux remarquables se découvrent en campagne, en les repérant.':'')
+    +' L’aperçu ne vérifie pas la carte locale de D-17 : une carte impraticable, cas rare, est remplacée au départ par une autre graine, avec une annonce.');
   }
   // Le champ a changé : l'encadré montre l'aperçu déjà calculé pour cette graine, sinon il se retire.
   function syncPreview(){
    if(!previewBox||previewBusy)return;
    let key=null;try{key=previewKey(startChoice(doc));}catch{key=null;}
    showPreview(key&&previews.get(key)||null,'');
+  }
+  // Tracé dans un Web Worker quand la page en offre un et que ce script a une adresse : le menu reste utilisable.
+  // Refus de la politique de sécurité (application de bureau), page d'un seul fichier, erreur de chargement ou de
+  // calcul : la page trace alors elle-même, comme avant, et ne retente plus le worker après un échec de chargement.
+  let workerOk=Boolean(workerUrl)&&typeof WorkerClass==='function',job=null,jobs=0,lastMode='';
+  function inWorker(choice){
+   return new Promise((resolve,reject)=>{
+    let worker=null;const id=++jobs;
+    const end=(fn,value)=>{if(!job||job.id!==id)return;job=null;try{worker?.terminate?.();}catch{/* déjà arrêté */}fn(value);};
+    try{worker=new WorkerClass(workerUrl);}catch(error){workerOk=false;reject(error);return;}
+    job={id,cancel:()=>end(reject,Error('annulé'))};
+    worker.onmessage=event=>{const d=event?.data;if(!d||d.id!==id)return;if(d.card&&typeof d.card==='object')end(resolve,freeze(d.card));else{if(d.unloaded)workerOk=false;end(reject,Error(d.error||'worker'));}};
+    // Erreur de script ou de chargement : ce worker ne servira pas davantage.
+    worker.onerror=event=>{event?.preventDefault?.();workerOk=false;end(reject,Error('worker indisponible'));};
+    try{worker.postMessage({id,choice:{seedText:choice.seedText,landscape:choice.landscape,current:choice.current}});}catch(error){workerOk=false;end(reject,error);}
+   });
   }
   // Calcul sur demande : une seule région à la fois, un résultat gardé par graine, profil et contenu de départ.
   function runPreview(){
@@ -336,22 +398,42 @@
    try{key=previewKey(choice);}catch(error){showPreview(null,error.message);return Promise.resolve(null);}
    if(key===null){showPreview(null,'Saisissez ou tirez une graine pour en voir l’aperçu.');return Promise.resolve(null);}
    const known=previews.get(key);if(known){showPreview(known,'');return Promise.resolve(known);}
-   showPreview(null,'Calcul en cours… la région de la graine '+choice.seedText.trim()+' est tracée, quelques secondes.');
+   const label='Calcul en cours… la région de la graine '+choice.seedText.trim()+' est tracée, quelques secondes.';
    if(previewButton){previewButton.disabled=true;previewButton.setAttribute('aria-busy','true');}
    const later=typeof root.setTimeout==='function'?fn=>root.setTimeout(fn,RULES.previewDelayMs):fn=>fn();
-   // Le délai laisse l'écran afficher « calcul en cours » avant le tracé, qui occupe le fil principal.
-   previewBusy=new Promise(resolve=>later(()=>{
-    let value=null,failure='';
-    try{value=preview(choice);previews.set(key,value);if(previews.size>RULES.cache)previews.delete(previews.keys().next().value);}catch(error){failure='Aperçu impossible : '+(error?.message||'erreur de génération')+'.';}
+   let cancelled=false;
+   const finish=(resolve,value,failure)=>{
+    if(value){previews.set(key,value);if(previews.size>RULES.cache)previews.delete(previews.keys().next().value);}
     previewBusy=null;
     if(previewButton){previewButton.disabled=false;previewButton.removeAttribute?.('aria-busy');}
     // Le joueur a pu changer la graine pendant le calcul : l'encadré suit le champ, le résultat reste en cache.
     let now=null;try{now=previewKey(startChoice(doc));}catch{now=null;}
-    if(value&&now!==key)syncPreview();else showPreview(value,failure);
+    if(cancelled||value&&now!==key)syncPreview();else showPreview(value,failure);
     resolve(value);
-   }));
+   };
+   // Repli : tracé sur le fil principal. Le délai laisse l'écran afficher l'avertissement avant que le menu se fige.
+   const direct=resolve=>{
+    lastMode='direct';
+    showPreview(null,label+' Le menu ne répond pas pendant ce calcul.');
+    later(()=>{
+     let value=null,failure='';
+     try{value=preview(choice);}catch(error){failure='Aperçu impossible : '+(error?.message||'erreur de génération')+'.';}
+     finish(resolve,value,failure);
+    });
+   };
+   previewBusy=new Promise(resolve=>{
+    if(!workerOk){direct(resolve);return;}
+    lastMode='worker';
+    showPreview(null,label+' Le menu reste utilisable.');
+    inWorker(choice).then(value=>finish(resolve,value,''),()=>{
+     // Départ ou reprise pendant le calcul : l'aperçu est abandonné, rien n'est retracé.
+     if(cancelled)finish(resolve,null,'');else direct(resolve);
+    });
+    cancelPreview=()=>{cancelled=true;job?.cancel();};
+   });
    return previewBusy;
   }
+  let cancelPreview=()=>{};
   previewButton?.addEventListener?.('click',()=>{runPreview();});
   doc.getElementById('worldLandscape189')?.addEventListener?.('change',()=>{syncPreview();});
   function card(){
@@ -369,6 +451,7 @@
    const key=keyOf(g);if(key===shownKey)return true;
    const value=card();shownKey=key;
    write(title,value.title);write(brief,value.summary);write(tip,value.advice);tip.hidden=!value.advice;write(status,'');
+   write(note,NOTE+(value.places.source==='remarkable'?' Le nid et le lot d’un lieu remarquable s’affichent une fois le lieu repéré.':''));
    list.replaceChildren();
    for(const [label,text]of value.lines)list.append(el('dt',label),el('dd',text));
    return true;
@@ -401,7 +484,7 @@
    const old=g[name];if(typeof old!=='function')continue;
    g[name]=function(...args){
     const result=old.apply(this,args);
-    if(name!=='showCommand'&&result!==false){started=true;ticks=0;shownKey='';}
+    if(name!=='showCommand'&&result!==false){started=true;ticks=0;shownKey='';if(job)cancelPreview();}
     clock=Number(g.elapsed)||0;render();renderMenu();if(name!=='showCommand')syncPreview();return result;
    };
   }
@@ -413,8 +496,8 @@
   };
   // Un changement d'onglet ou de classement doit rafraîchir la visibilité sans attendre l'horloge.
   field.addEventListener?.('click',()=>render());
-  g.seedCard217=Object.freeze({render,card,copy,key:()=>keyOf(g),menu:renderMenu,preview:runPreview,previewBusy:()=>Boolean(previewBusy),previewCount:()=>previews.size});
+  g.seedCard217=Object.freeze({render,card,copy,key:()=>keyOf(g),menu:renderMenu,preview:runPreview,previewBusy:()=>Boolean(previewBusy),previewCount:()=>previews.size,previewMode:()=>lastMode});
   render();return true;
  }
- return Object.freeze({install,describe,inputs,preview,previewWorld,startChoice,distanceText,direction,copyText,RULES});
+ return Object.freeze({install,describe,inputs,preview,previewWorld,startChoice,distanceText,direction,copyText,serve,RULES,WORKER_SCRIPTS});
 });

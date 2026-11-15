@@ -262,15 +262,32 @@ test('fiche de graine : le milieu de la cité s’affiche avec son avantage et s
   }finally{if(had===undefined)delete globalThis.DeadwallBiome217;else globalThis.DeadwallBiome217=had;}
 });
 
-test('fiche de graine : lieux remarquables mesurés depuis D-17 sur leurs coordonnées, avec genre, nid et lot',()=>{
+test('fiche de graine : lieux remarquables mesurés depuis D-17 sur leurs coordonnées, avec genre ; nid et lot une fois repérés',()=>{
   // Forme de `g.remarkable217.list()` : `distance` y est mesurée depuis le joueur, ici volontairement fausse.
-  const view=(id,name,label,dx,dy,nest,resource,amount,distance)=>({id,name,kind:'water',label,x:5000+dx,y:5000+dy,distance,nest,reward:{resource,amount,left:amount},state:'nest',sighted:false,objective:false});
+  const view=(id,name,label,dx,dy,nest,resource,amount,distance)=>({id,name,kind:'water',label,x:5000+dx,y:5000+dy,distance,nest,reward:{resource,amount,left:amount},state:'nest',sighted:true,objective:false});
   const list=[view('P0004','Silo Nord','silo',0,-3000,11,'fuel',24,10),view('P0001','Château d’eau','château d’eau',1200,0,12,'medicine',24,99999),
     view('P0003','Caserne','caserne',0,2000,16,'ammo',36,5),view('P0002','Gare','gare',-1500,0,10,'fuel',30,1)];
   const card=Card.describe({world:fake({}),remarkable:list});
   assert.equal(card.places.source,'remarkable');assert.deepEqual(card.places.items.map(p=>p.id),['P0001','P0002','P0003'],'les trois plus proches de D-17, pas du joueur');
   assert.deepEqual(card.places.items.map(p=>p.distance),[1200,1500,2000]);assert.deepEqual(card.places.items.map(p=>p.nest),[12,10,16]);
   assert.equal(card.lines.at(-1)[1],'Château d’eau (château d’eau, nid de 12, lot : 24 médicaments) à 1,2 km à l’est · Gare (gare, nid de 10, lot : 30 carburant) à 1,5 km à l’ouest · Caserne (caserne, nid de 16, lot : 36 munitions) à 2 km au sud.');
+  // Décision de divulgation : sans repérage, nom, genre, direction et distance seulement — ni nid, ni lot, nulle part.
+  const hidden=Card.describe({world:fake({}),remarkable:list.map(v=>({...v,sighted:false}))});
+  assert.equal(hidden.lines.at(-1)[1],'Château d’eau (château d’eau) à 1,2 km à l’est · Gare (gare) à 1,5 km à l’ouest · Caserne (caserne) à 2 km au sud.');
+  assert.ok(hidden.places.items.every(p=>p.sighted===false&&p.nest===0&&p.lot===''&&p.detail===''&&p.state===''));
+  assert.equal(/nid|lot|médicaments|munitions|carburant/.test(hidden.share),false,hidden.share);
+  assert.deepEqual(hidden.places.items.map(p=>[p.id,p.name,p.kind,p.distance,p.direction]),card.places.items.map(p=>[p.id,p.name,p.kind,p.distance,p.direction]));
+  // Un seul lieu repéré : lui seul est détaillé.
+  const one=Card.describe({world:fake({}),remarkable:list.map(v=>({...v,sighted:v.id==='P0002'}))});
+  assert.equal(one.lines.at(-1)[1],'Château d’eau (château d’eau) à 1,2 km à l’est · Gare (gare, nid de 10, lot : 30 carburant) à 1,5 km à l’ouest · Caserne (caserne) à 2 km au sud.');
+  // État réel d'un lieu repéré : nid vidé, lot entamé, lot emporté — jamais les valeurs d'origine une fois périmées.
+  const lived=Card.describe({world:fake({}),remarkable:[
+    {...list[1],state:'cleared'},{...list[3],state:'cleared',reward:{resource:'fuel',amount:30,left:11.5}},{...list[2],state:'rewarded',reward:{resource:'ammo',amount:36,left:0}}]});
+  assert.equal(lived.lines.at(-1)[1],'Château d’eau (château d’eau, nid vidé, lot à charger : 24 médicaments) à 1,2 km à l’est · Gare (gare, nid vidé, reste du lot : 12 carburant) à 1,5 km à l’ouest · Caserne (caserne, nid vidé, lot emporté) à 2 km au sud.');
+  assert.deepEqual(lived.places.items.map(p=>[p.state,p.nest,p.lot]),[['cleared',0,'24 médicaments'],['cleared',0,'12 carburant'],['rewarded',0,'']]);
+  // L'aperçu ne détaille jamais, même si on lui passe des lieux marqués repérés.
+  const peek=Card.describe({world:fake({}),remarkable:list,preview:true});
+  assert.equal(peek.lines.at(-1)[1],hidden.lines.at(-1)[1]);assert.deepEqual(peek.places,hidden.places);
   // Le joueur se déplace : la liste rend d'autres distances, la fiche ne bouge pas.
   const moved=list.map(v=>({...v,distance:v.distance+777}));
   assert.deepEqual(Card.describe({world:fake({}),remarkable:moved}).places,card.places);
@@ -281,7 +298,8 @@ test('fiche de graine : lieux remarquables mesurés depuis D-17 sur leurs coordo
   assert.equal(Card.inputs(g).remarkable,list);
   // La sélection pure du module donne la même fiche que sa liste en campagne (mêmes lieux, mêmes nids, mêmes lots).
   const w=region(17117),picked=Remarkable.select(w),byPure=Card.describe({seed:17117,world:w,remarkable:picked});
-  assert.equal(byPure.places.items.length,3);assert.ok(byPure.places.items.every(p=>p.nest>=C.Remarkable217Rules.nestMin&&p.nest<=C.Remarkable217Rules.nestMax&&p.lot&&p.kind));
+  assert.equal(byPure.places.items.length,3);assert.ok(byPure.places.items.every(p=>p.kind&&p.name&&p.direction&&p.nest===0&&p.lot===''&&p.detail===''),'la sélection pure ne porte aucun repérage : rien n’est divulgué');
+  assert.equal(/nid|lot :/.test(byPure.lines.at(-1)[1]),false);
   const expect=[...picked].sort((a,b)=>Math.hypot(a.x-w.home.x,a.y-w.home.y)-Math.hypot(b.x-w.home.x,b.y-w.home.y)).slice(0,3);
   assert.deepEqual(byPure.places.items.map(p=>p.id),expect.map(e=>e.id));assert.ok(byPure.places.items[0].distance>=C.Remarkable217Rules.homeClearance);
 });
@@ -290,6 +308,9 @@ test('fiche de graine : lieux remarquables mesurés depuis D-17 sur leurs coordo
 const SHARED=['seed','generation','profile','home','biomes','milieu','water','density','sources','places','summary'];
 const shared=card=>JSON.parse(JSON.stringify(Object.fromEntries(SHARED.map(key=>[key,card[key]]))));
 const linesOf=card=>card.lines.filter(l=>l[0]!=='Ouverture');
+// Lieux d'une fiche sans ce que seul le repérage en campagne révèle (nid, lot, état).
+const undisclosed=places=>({...places,items:places.items.map(p=>({...p,sighted:false,state:'',nest:0,lot:'',detail:''}))});
+const blind=inputs=>({...inputs,remarkable:inputs.remarkable?.map(v=>({...v,sighted:false}))});
 
 test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, sans sauvegarde, identique à la fiche réelle',async()=>{
   const {g,doc}=bootDocument134();
@@ -323,6 +344,13 @@ test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, 
     // Ce qui exige la carte locale est dit, pas inventé.
     assert.equal(a.opening.known,false);assert.match(a.lines.find(l=>l[0]==='Ouverture')[1],/relevés au départ seulement/);
     assert.equal(a.milieu.active,true);assert.ok(a.milieu.family);assert.equal(a.places.source,'remarkable');assert.equal(a.places.items.length,3);
+    // Divulgation : l'aperçu nomme et situe les lieux, sans nid ni lot, dans la fiche comme dans le texte affiché.
+    assert.ok(a.places.items.every(p=>p.name&&p.kind&&p.direction&&p.distance>0&&p.sighted===false&&p.nest===0&&p.lot===''&&p.detail===''));
+    assert.equal(/nid de|lot :|nid vidé/.test(a.share),false,a.share);assert.equal(/nid de|lot :/.test(box.textContent||[...facts].map(n=>n.textContent).join(' ')),false);
+    assert.match(doc.getElementById('seedCard217PreviewNote').textContent,/Nids et lots des lieux remarquables se découvrent en campagne/);
+    // Graine impraticable : l'aperçu ne prétend pas le savoir, il dit ce que fait le départ.
+    assert.match(doc.getElementById('seedCard217PreviewNote').textContent,/une carte impraticable, cas rare, est remplacée au départ par une autre graine/);
+    assert.equal(g.seedCard217.previewMode(),'direct','sans worker (Node) : calcul direct');
     // Cache par graine : le même objet, sans nouveau tracé.
     assert.equal(await g.seedCard217.preview(),a);assert.equal(created,1);
     // Deuxième graine : un autre aperçu.
@@ -335,12 +363,45 @@ test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, 
     // Départ réel de la graine 17117, avec les arguments du menu : la fiche du carnet reprend l'aperçu.
     const choice=Card.startChoice(doc);assert.equal(choice.current,true);
     g.startNew('standard','17117','classic',choice.landscape,choice.current);g.campaignIntro132?.skip?.();g.refreshMetrics(true);
-    const p=g.frontier.position(),v=Pack.startVersions(C.Frontier.initial(),undefined,choice.current,choice.landscape);
+    const p=g.frontier.position(),v=Pack.startVersions(C.Frontier.normalize(C.Frontier.initial()),undefined,choice.current,choice.landscape);
     assert.deepEqual([v.generation,v.detailVersion,v.ecologyVersion,v.hydrologyVersion,v.landscape189||'classic'],[p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic'],'versions de l’aperçu = versions du départ');
     const real=g.seedCard217.card();
     assert.equal(real.preview,false);assert.equal(real.opening.known,true);
-    assert.deepEqual(shared(real),shared(a),'milieu, effets, eau, densité, lieux remarquables : identiques');
-    assert.deepEqual(linesOf(real),linesOf(a));assert.equal(real.adviceLines[0],a.adviceLines[0]);assert.equal('Aperçu · '+real.title,a.title);
+    // Identique au bit près, hors ce que seul le repérage révèle : la fiche réelle sans repérage EST l'aperçu.
+    const unseen=Card.describe(blind(Card.inputs(g)));
+    assert.deepEqual(shared(unseen),shared(a),'milieu, effets, eau, densité, lieux remarquables : identiques');
+    assert.deepEqual(linesOf(unseen),linesOf(a));assert.equal(real.adviceLines[0],a.adviceLines[0]);assert.equal('Aperçu · '+real.title,a.title);
+    assert.deepEqual(shared({...real,places:undisclosed(real.places)}),shared(a));
+    for(const key of SHARED.filter(k=>k!=='places'))assert.deepEqual(JSON.parse(JSON.stringify(real[key])),JSON.parse(JSON.stringify(a[key])),key);
+    // Carnet : nid et lot pour les seuls lieux repérés par la campagne, tels que le module les annonce.
+    const live=new Map(g.remarkable217.list().map(v=>[v.id,v])),label=r=>C.RESOURCE_META[r].label.toLowerCase();
+    assert.ok(real.places.items.some(p=>p.sighted),'au moins un lieu en vue de D-17 sur cette graine');
+    for(const item of real.places.items){
+      const v=live.get(item.id);assert.equal(item.sighted,v.sighted);
+      assert.equal(item.detail,v.sighted?'nid de '+v.nest+', lot : '+v.reward.amount+' '+label(v.reward.resource):'');
+      assert.equal(real.lines.at(-1)[1].includes(item.name+' ('+item.kind+(item.detail?', '+item.detail:'')+')'),true);
+    }
+    assert.match(doc.getElementById('seedCard217Note')?.textContent||'',/s’affichent une fois le lieu repéré/);
+    // Nid vidé puis lot chargé : la fiche suit l'état réel de la campagne, sans rien écrire dans la sauvegarde.
+    const pristine=JSON.parse(JSON.stringify(g.serialize()));
+    const target=real.places.items.find(p=>p.sighted),site=live.get(target.id),moduleState=()=>JSON.stringify(g.remarkable217.snapshot());
+    const withState=(taken)=>{
+      const raw=JSON.parse(JSON.stringify(g.serialize())),m=raw.expansions127.modules.remarkable217;
+      for(let i=0;i<site.nest;i++)raw.frontier.enemies[site.id+':e'+i]=0;raw.frontier.kills=Object.values(raw.frontier.enemies).filter(h=>h===0).length;
+      m.sighted=[...new Set([...m.sighted,site.id])].sort();m.cleared=[site.id];m.taken=taken?{[site.id]:taken}:{};
+      assert.notEqual(g.restoreSave(raw),false);g.refreshMetrics(true);return g.seedCard217.card();
+    };
+    const emptied=withState(0),at=card=>card.places.items.find(p=>p.id===site.id);
+    assert.equal(at(emptied).detail,'nid vidé, lot à charger : '+site.reward.amount+' '+label(site.reward.resource));
+    const started=withState(site.reward.amount/2);assert.equal(at(started).detail,'nid vidé, reste du lot : '+Math.ceil(site.reward.amount/2)+' '+label(site.reward.resource));
+    const before217=moduleState(),gone=withState(site.reward.amount);
+    assert.equal(at(gone).detail,'nid vidé, lot emporté');assert.equal(at(gone).state,'rewarded');assert.equal(/nid de \d+, lot : /.test(gone.lines.at(-1)[1].split(' · ').find(t=>t.startsWith(target.name))),false,'plus de valeurs d’origine');
+    assert.notEqual(before217,moduleState());const frozen=moduleState();g.seedCard217.render();g.seedCard217.card();assert.equal(moduleState(),frozen,'la fiche lit l’état, elle ne l’écrit pas');
+    assert.equal(Object.hasOwn(g.serialize(),'seedCard217'),false);assert.equal(JSON.stringify(g.serialize()).includes('seedCard217'),false,'aucun état sauvegardé');
+    // Hors divulgation, rien d'autre n'a bougé : même fiche que l'aperçu.
+    assert.deepEqual(shared({...gone,places:undisclosed(gone.places)}),shared(a));
+    // Retour à la sauvegarde d'avant : la fiche retrouve le nid et le lot annoncés.
+    assert.notEqual(g.restoreSave(pristine),false);g.refreshMetrics(true);assert.deepEqual(g.seedCard217.card(),real);
     assert.equal(real.milieu.family,g.biome217.profile().family,'famille figée de la campagne');
     // Le joueur s'éloigne : la liste du module change de distances, la fiche du carnet non.
     const far=g.remarkable217.list().map(e=>e.distance);g.player.x+=600;g.player.y+=400;
@@ -355,6 +416,124 @@ test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, 
     const legacy=Card.preview({seed:'17117',landscape:'classic',current:false});
     g.startNew('standard','17117','classic','classic',false);g.campaignIntro132?.skip?.();g.refreshMetrics(true);
     assert.equal(g.frontier.position().generation,8);assert.equal(legacy.generation,8);
-    assert.deepEqual(shared(g.seedCard217.card()),shared(legacy));
+    const old8=g.seedCard217.card();
+    assert.deepEqual(shared({...old8,places:undisclosed(old8.places)}),shared(legacy));assert.deepEqual(shared(Card.describe(blind(Card.inputs(g)))),shared(legacy));
+    // Contenu historique : l'aperçu part du registre régional neuf, comme le départ — mêmes versions, détail compris.
+    const p8=g.frontier.position(),v8=Pack.startVersions(C.Frontier.normalize(C.Frontier.initial()),undefined,false,'classic');
+    assert.deepEqual([v8.generation,v8.detailVersion,v8.ecologyVersion,v8.hydrologyVersion,v8.landscape189||'classic'],[p8.generation,p8.detailVersion,p8.ecologyVersion,p8.hydrologyVersion,p8.landscape189||'classic']);
   }finally{World.create=create;}
+});
+
+// ---- Troisième tranche : divulgation réduite, aperçu tracé hors du fil principal, graine impraticable annoncée. ----
+const vm=require('node:vm');
+
+test('fiche de graine : le script sert de Web Worker et rend la même fiche que le calcul direct',()=>{
+  // Portée de worker simulée : ni `require`, ni `document`, ni jeu. `importScripts` charge les fichiers de `src/`.
+  const sent=[],loaded=[],scope={postMessage:m=>sent.push(m)};scope.self=scope;
+  const context=vm.createContext(scope);
+  scope.importScripts=(...names)=>{for(const name of names){assert.match(name,/^[a-z0-9-]+\.js$/);loaded.push(name);vm.runInContext(fs.readFileSync(path.join(root,'src',name),'utf8'),context,{filename:name});}};
+  vm.runInContext(fs.readFileSync(path.join(root,'src/seed-card217.js'),'utf8'),context,{filename:'seed-card217.js'});
+  assert.equal(typeof scope.onmessage,'function','service installé dès le chargement dans un worker');assert.equal(loaded.length,0,'rien n’est chargé avant la première demande');
+  scope.onmessage({data:{id:7,choice:{seedText:'42',landscape:'classic',current:false}}});
+  assert.deepEqual(loaded,[...Card.WORKER_SCRIPTS]);assert.equal(sent.length,1);assert.equal(sent[0].id,7);assert.equal(sent[0].error,undefined,sent[0].error);
+  // Même fiche, au bit près, que le calcul direct de la page.
+  const had=globalThis.DeadwallGeography135;globalThis.DeadwallGeography135=require('../src/geography135.js');
+  try{
+    const direct=Card.preview({seedText:'42',landscape:'classic',current:false}),got=JSON.parse(JSON.stringify(sent[0].card));
+    assert.equal(direct.generation,8);assert.deepEqual(got,JSON.parse(JSON.stringify(direct)));assert.equal(got.share,direct.share);
+    assert.equal(/nid de|lot :/.test(got.share),false);
+  }finally{if(had===undefined)delete globalThis.DeadwallGeography135;else globalThis.DeadwallGeography135=had;}
+  // Seconde demande : scripts déjà chargés. Graine invalide : une erreur dite, pas une exception.
+  scope.onmessage({data:{id:8,choice:{seedText:'abc',landscape:'classic',current:false}}});
+  assert.equal(loaded.length,Card.WORKER_SCRIPTS.length);assert.equal(sent[1].id,8);assert.equal(sent[1].card,undefined);assert.match(sent[1].error,/entier entre 0 et 4294967295/);assert.equal(sent[1].unloaded,false);
+  // Chargement impossible : erreur signalée comme telle, pour que la page reprenne le calcul.
+  const lost=[],dead={importScripts(){throw Error('réseau');},postMessage:m=>lost.push(m)};
+  assert.equal(Card.serve(dead),true);dead.onmessage({data:{id:3,choice:{seedText:'1'}}});assert.deepEqual(lost,[{id:3,error:'réseau',unloaded:true}]);
+});
+
+test('fiche de graine : les scripts du worker sont publics, en cache hors ligne et dans l’ordre de la page',()=>{
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
+  let last=-1;
+  for(const name of Card.WORKER_SCRIPTS){
+    const at=html.indexOf('<script src="src/'+name+'"></script>');
+    assert.ok(at>last,name+' : présent dans index.html, dans l’ordre');last=at;
+    assert.ok(sw.includes('"src/'+name+'"'),name+' : en cache du service worker');
+  }
+  assert.ok(html.indexOf('<script src="src/seed-card217.js"></script>')>last,'la fiche est chargée après ses dépendances');
+  assert.ok(Object.isFrozen(Card.WORKER_SCRIPTS)&&new Set(Card.WORKER_SCRIPTS).size===Card.WORKER_SCRIPTS.length);
+  assert.match(fs.readFileSync(path.join(root,'vercel.json'),'utf8'),/worker-src 'self'/,'la politique du site autorise un worker de même origine');
+  // L'application de bureau interdit les workers : le repli sur le fil principal y est le chemin normal.
+  assert.match(fs.readFileSync(path.join(root,'desktop/policy.cjs'),'utf8'),/worker-src 'none'/);
+});
+
+test('fiche de graine : aperçu dans un worker quand il existe, repli direct sinon, abandon au départ',async()=>{
+  const {g,doc}=bootDocument134();
+  require('../src/exploration-scales.js').install(g,doc);
+  // Worker factice : note ce qu'il reçoit, répond sur commande.
+  const made=[];let mode='answer';
+  const canned=seed=>JSON.parse(JSON.stringify(Card.describe({seed,world:fake({seed}),preview:true,remarkable:[{id:'P0001',name:'Gare',label:'gare',x:6500,y:5000,nest:12,sighted:true,reward:{resource:'fuel',amount:30}}]})));
+  class FakeWorker{
+    constructor(url){if(mode==='refuse')throw Error('worker-src none');this.url=url;this.posted=[];this.terminated=false;made.push(this);}
+    postMessage(message){
+      this.posted.push(message);
+      if(mode==='answer')setTimeout(()=>this.onmessage({data:{id:message.id,card:canned(Number(message.choice.seedText))}}),5);
+      if(mode==='crash')setTimeout(()=>this.onerror({preventDefault(){}}),5);
+      if(mode==='unloaded')setTimeout(()=>this.onmessage({data:{id:message.id,error:'réseau',unloaded:true}}),5);
+    }
+    terminate(){this.terminated=true;}
+  }
+  assert.equal(Card.install(g,doc,{Worker:FakeWorker,url:'http://jeu.test/src/seed-card217.js'}),true);
+  const World=globalThis.DeadwallFrontierWorld,create=World.create;let created=0;
+  // Tracé direct remplacé par une région factice : ce test vérifie l'aiguillage, pas la génération.
+  World.create=seed=>{created++;return fake({seed});};
+  const input=doc.getElementById('mapSeed'),button=doc.getElementById('seedCard217PreviewButton'),title=()=>doc.getElementById('seedCard217PreviewTitle').textContent;
+  try{
+    assert.match(button.title,/quelques secondes de calcul, sans créer de campagne/,'le coût est annoncé avant le clic');
+    // 1. Worker disponible : rien n'est tracé sur le fil principal, le menu reste utilisable.
+    input.value='11';const first=g.seedCard217.preview();
+    assert.match(title(),/^Calcul en cours… la région de la graine 11 est tracée, quelques secondes\. Le menu reste utilisable\.$/);
+    assert.equal(g.seedCard217.previewBusy(),true);assert.equal(button.disabled,true);assert.equal(g.seedCard217.preview(),first);
+    const a=await first;
+    assert.equal(created,0,'aucun tracé sur le fil principal');assert.equal(g.seedCard217.previewMode(),'worker');
+    assert.equal(made.length,1);assert.equal(made[0].url,'http://jeu.test/src/seed-card217.js');assert.equal(made[0].terminated,true,'un worker par aperçu, arrêté ensuite');
+    assert.deepEqual(made[0].posted.map(m=>m.choice),[{seedText:'11',landscape:Card.startChoice(doc).landscape,current:true}],'seul le choix de départ part au worker');
+    assert.equal(a.seed,11);assert.ok(Object.isFrozen(a)&&Object.isFrozen(a.lines));assert.equal(title(),a.title);assert.equal(button.disabled,false);
+    assert.equal(/nid|lot :/.test(a.share),false);
+    assert.equal(await g.seedCard217.preview(),a,'gardé en cache : pas de second worker');assert.equal(made.length,1);
+    // 2. Le worker plante : la page trace elle-même et prévient que le menu se fige.
+    mode='crash';input.value='12';const second=g.seedCard217.preview();
+    await new Promise(r=>setTimeout(r,20));
+    assert.match(title(),/Le menu ne répond pas pendant ce calcul\.$/);
+    const b=await second;assert.equal(b.seed,12);assert.equal(created,1);assert.equal(g.seedCard217.previewMode(),'direct');assert.equal(made.length,2);assert.equal(made[1].terminated,true);
+    // 3. Après un échec de chargement, plus aucun worker n'est tenté.
+    mode='answer';input.value='13';const c=await g.seedCard217.preview();assert.equal(c.seed,13);assert.equal(made.length,2);assert.equal(created,2);
+  }finally{World.create=create;}
+});
+
+test('fiche de graine : worker refusé ou muet — repli, puis abandon propre quand une partie démarre',async()=>{
+  const {g,doc}=bootDocument134();
+  require('../src/exploration-scales.js').install(g,doc);
+  const made=[];let mode='refuse';
+  class FakeWorker{constructor(){if(mode==='refuse')throw Error('worker-src none');this.terminated=false;made.push(this);}postMessage(){}terminate(){this.terminated=true;}}
+  assert.equal(Card.install(g,doc,{Worker:FakeWorker,url:'x'}),true);
+  const World=globalThis.DeadwallFrontierWorld,create=World.create;let created=0;
+  World.create=seed=>{created++;return fake({seed});};
+  const input=doc.getElementById('mapSeed');
+  try{
+    // Politique de sécurité qui refuse le worker (application de bureau) : calcul direct, résultat normal.
+    input.value='21';const a=await g.seedCard217.preview();
+    assert.equal(a.seed,21);assert.equal(created,1);assert.equal(made.length,0);assert.equal(g.seedCard217.previewMode(),'direct');
+  }finally{World.create=create;}
+  // Autre installation, worker qui ne répond jamais : un départ abandonne l'aperçu sans rien tracer de plus.
+  const second=bootDocument134();
+  require('../src/exploration-scales.js').install(second.g,second.doc);
+  mode='silent';assert.equal(Card.install(second.g,second.doc,{Worker:FakeWorker,url:'x'}),true);
+  second.doc.getElementById('mapSeed').value='22';
+  const pending=second.g.seedCard217.preview();assert.equal(second.g.seedCard217.previewBusy(),true);assert.equal(made.length,1);
+  const before=JSON.stringify({state:second.g.state,seed:second.g.world?.seed??null,save:localStorage.getItem(C.SAVE_KEY)});
+  await new Promise(r=>setTimeout(r,30));
+  assert.equal(JSON.stringify({state:second.g.state,seed:second.g.world?.seed??null,save:localStorage.getItem(C.SAVE_KEY)}),before,'un aperçu en cours ne touche ni au jeu ni à la sauvegarde');
+  second.g.startNew('standard','17117');second.g.campaignIntro132?.skip?.();
+  assert.equal(await pending,null);assert.equal(made[0].terminated,true);assert.equal(second.g.seedCard217.previewBusy(),false);assert.equal(second.g.seedCard217.previewCount(),0);
+  assert.equal(second.doc.getElementById('seedCard217PreviewButton').disabled,false);assert.equal(second.g.world.seed,17117);
 });
