@@ -1279,14 +1279,16 @@ d'atlas calée sur l'étendue totale.
   10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
   suivent pas toujours les vallées. Des noms d'agglomération en double sont
   possibles. Le coût dans le navigateur reste à mesurer au calme.
-- **Tranche T1 livrée en partie, sans effet en jeu** : le monde fini expose
-  `outside`, `outsideOpen`, `contains`, `clampInside`, `extent`,
-  `chunkRange` et `site(id)`. Acteurs, faune, atlas et recherches de lieu
-  par identifiant les lisent (22 fichiers). Aucune valeur ne change : mondes
-  G1 à G11 identiques, parcours en région identique au bit près avant et
-  après. Restent à convertir les validateurs de sauvegarde et les
-  constantes `24576` / `8192` liées au schéma de reconnaissance — voir
-  `specs/monde-sans-bord/tasks.md`.
+- **Tranche T1 achevée, sans effet en jeu** : tous les lecteurs de la taille
+  de région passent par les accesseurs de `frontier-world.js` — acteurs,
+  faune, atlas, recherches de lieu par identifiant, les huit validateurs de
+  sauvegarde, et un préfiltre de voisinage `sitesNear`. Les nombres 8 192 et
+  24 576 restants sont nommés : ce sont des schémas historiques fixes, pas
+  des bornes de monde. Preuve : mondes G1 à G11 identiques avant et après,
+  sauvegarde relue dans les deux sens, 2 100 falsifications de coordonnées
+  aux mêmes verdicts. `specs/monde-sans-bord/tasks.md` recense les parcours
+  de la liste complète des lieux qui restent incompatibles avec un monde
+  sans bord : c'est la matière des tranches suivantes.
 - **[DÉCISION]** Le relief par paliers entre dans la **même** nouvelle
   génération que le monde sans bord : une seule rupture, quitte à reculer
   l'ouverture.
