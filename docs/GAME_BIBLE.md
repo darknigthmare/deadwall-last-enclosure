@@ -1254,6 +1254,9 @@ d'atlas calée sur l'étendue totale.
   falaise vaille une enceinte, il faudra durcir la règle. L'eau est
   clairsemée et sans vallée. Aucune agglomération, aucun décor, D-17 n'est
   pas encore placé.
+- **[DÉCISION]** Falaises fréquentes, rampes rares : un plateau doit être
+  une enceinte naturelle avec quelques passages obligés à garder. En
+  chantier dans le générateur, avec les agglomérations et le site de D-17.
 - **Tranche T1 livrée en partie, sans effet en jeu** : le monde fini expose
   `outside`, `outsideOpen`, `contains`, `clampInside`, `extent`,
   `chunkRange` et `site(id)`. Acteurs, faune, atlas et recherches de lieu
@@ -1458,8 +1461,10 @@ Réserves : l'aperçu prend 7 à 12 s et **fige le menu pendant ce temps**. Il
 ne compte pas les gisements à portée du centre (la carte locale n'est
 tracée qu'au lancement) et le dit. Il décrit aussi une graine impraticable,
 alors que le départ tirerait une autre carte (§11.4). La fiche montre le nid
-et le lot d'origine, même une fois le nid vidé. Elle révèle nids et lots
-avant toute reconnaissance : choix de conception à valider.
+et le lot d'origine, même une fois le nid vidé. **[DÉCISION]** La fiche et
+l'aperçu ne citent que le nom, le genre et la distance d'un lieu
+remarquable ; le nid et le lot ne se découvrent qu'une fois le lieu repéré.
+En chantier.
 
 **Travaux de terrain** (direction « un terrain modifiable », plus haut)
 
@@ -1597,6 +1602,11 @@ et n'a pas de signature. « Côté gardé » est la direction de l'avant-poste,
 pas le tracé de la route. Les fusiliers rendus sont des fusiliers neufs. Le
 convoi n'est pas dessiné. 2 carburant contre 16 unités est sans doute
 généreux.
+
+**[DÉCISION]** Le convoi doit ramener le **butin réel** du lieu, et non un
+stock propre : ce que le Commandant a pris à la main n'est plus au convoi,
+et inversement. **[DÉCISION]** Plus de plafond fixe par âge : la limite
+vient des hommes immobilisés et du coût. Ces deux points sont en chantier.
 
 Restent à faire : rangs Relais → Poste → Avant-poste et chantier sur place,
 chute et réinfestation, garnison nourrie, signature locale, états de route,
