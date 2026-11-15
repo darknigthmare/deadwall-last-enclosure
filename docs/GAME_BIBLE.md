@@ -1593,8 +1593,32 @@ dans la vue à la première personne. Le Commandant creuse dès qu'il reste
 immobile près d'un fossé, sans geste explicite. Le remblai est gratuit,
 alors que la direction le veut payant.
 
-Restent à faire : talus, douve, défrichage, carrière, remblai payant, tracé
-en ligne, travaux aux avant-postes.
+**Deuxième tranche livrée [LIVRÉ] : talus, douve, remblai, tracé en ligne**
+
+- Chaque case de fossé creusée laisse sa **terre**. Le **talus** la consomme
+  (2 terre, 6 s de travail) contre un mur ou au bord d'un fossé. Adossé à
+  un mur, il faut **8 corps de plus pour franchir l'amas** : la règle de
+  franchissement du jeu est relue, pas remplacée, et un amas plus haut passe
+  toujours. Au bord d'un fossé ouvert, il ralentit encore la traversée
+  (×0,85). On peut l'araser, sa terre est rendue.
+- La **douve** est un fossé mis en eau avec l'eau de cité (4 par case, puis
+  un entretien continu). Elle ralentit davantage (×0,4) et absorbe 12 corps,
+  qui restent dans l'eau et comptent pour la salubrité (§8.7). En pénurie,
+  elle se vide et redevient un fossé.
+- Le **remblai** coûte 1 terre ou 2 pierre, puis 5 s de travail.
+- Fossé et talus se **tracent en ligne** par glissé, avec aperçu et coût
+  total (32 cases au plus).
+- Tout travail à la main du Commandant demande **ACTION / E**.
+- La sauvegarde de la première tranche est convertie.
+
+Réserves : rien n'a été joué en vraie vague. Le talus ne protège pas encore
+un tireur (aucun couvert). Talus et douve ne sont pas dessinés dans la vue
+à la première personne. Deux lectures de risque existantes annoncent encore
+un franchissement un peu trop tôt contre un mur adossé à un talus. La mise
+en eau reste permise pendant l'alerte.
+
+Restent à faire : défrichage, carrière, couvert du talus, travaux aux
+avant-postes.
 
 ### 7.14 Se déplacer dans le monde **[DÉCISION]**
 

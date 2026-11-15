@@ -417,6 +417,8 @@ Réglage décidé : 4 ouvrages pour menacer, 6 emportés au plus (auparavant 3 e
 
 Le déblaiement reprend `WORKER_RULES.cleanupPerSecond` et `LINECARE_RULES.shovelPerSecond`.
 
+Deuxième tranche : `earthPerDitch` 1, `maxLine` 32 ; talus `{earth 2, buildSeconds 6, rampBonus 8, slowFactor 0,85}` ; douve `{fillWater 4, upkeepPerSecond 0,004, slowFactor 0,4, flowCost 20, capacity 12}` ; remblai `{earth 1 ou stone 2, seconds 5}`. Non éprouvé en partie réelle.
+
 ## Factions — 217
 
 `C.Factions217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §4.
