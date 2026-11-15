@@ -1445,8 +1445,11 @@ départ**
   effet. Le conseil d'ouverture part de ces effets réels (« Forêt : bois
   +15 %, fermes −10 % — ouvrez en bois, prévoyez plus de fermes »).
 - Les **trois lieux remarquables les plus proches de D-17** sont nommés avec
-  leur genre, la taille du nid et le lot annoncé, à distance mesurée depuis
-  le centre de la cité.
+  leur genre, leur direction et leur distance, mesurée depuis le centre de
+  la cité. **[DÉCISION, livrée] Divulgation : nom et distance seulement.**
+  Le nid et le lot ne s'affichent que dans le carnet, pour un lieu déjà
+  repéré, et dans leur état réel : nid, nid vidé avec lot à charger, reste
+  du lot, lot emporté. L'aperçu au menu ne les montre jamais.
 - **Aperçu avant le départ** : au menu, sous le champ de graine, le bouton
   « Aperçu de la carte » trace à part la région de la graine saisie et
   affiche sa fiche. Le calcul ne part que sur clic, un seul à la fois, et
@@ -1457,14 +1460,21 @@ départ**
   et à l'aperçu) : il est identique à la fiche du carnet après le départ,
   hors gisements locaux.
 
-Réserves : l'aperçu prend 7 à 12 s et **fige le menu pendant ce temps**. Il
-ne compte pas les gisements à portée du centre (la carte locale n'est
-tracée qu'au lancement) et le dit. Il décrit aussi une graine impraticable,
-alors que le départ tirerait une autre carte (§11.4). La fiche montre le nid
-et le lot d'origine, même une fois le nid vidé. **[DÉCISION]** La fiche et
-l'aperçu ne citent que le nom, le genre et la distance d'un lieu
-remarquable ; le nid et le lot ne se découvrent qu'une fois le lieu repéré.
-En chantier.
+**Troisième tranche livrée [LIVRÉ]** : l'aperçu trace la région **en
+arrière-plan** (Web Worker), le menu reste utilisable pendant le calcul.
+Si l'arrière-plan est refusé ou échoue, la page trace elle-même et prévient
+que le menu ne répond pas pendant ce temps. Un départ ou une reprise
+abandonne l'aperçu en cours. L'aperçu dit qu'il ne vérifie pas la carte
+locale et qu'une carte impraticable est remplacée au départ (§11.4).
+
+Réserves : le calcul dure toujours 7 à 9 s. Il ne fige plus le menu sur le
+web, mais le fige encore dans l'application de bureau et la version
+autonome en un fichier, qui n'autorisent pas l'arrière-plan (déduit de leur
+configuration, non lancé). L'aperçu ne compte pas les gisements à portée du
+centre. **Un lieu à moins de 2,5 km de D-17 est en vue dès le départ** : son
+nid et son lot s'affichent donc dans le carnet dès la première minute — sur
+la graine 17117, c'est le cas des trois lieux de la fiche. Le repérage a été
+simulé par sauvegarde, pas joué.
 
 **Travaux de terrain** (direction « un terrain modifiable », plus haut)
 
