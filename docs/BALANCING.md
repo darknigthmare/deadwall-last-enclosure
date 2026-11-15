@@ -475,3 +475,21 @@ Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de d
 | Friche urbaine | `scrap` ×1,2 | `wood` ×0,85 |
 
 `wood`, `stone` et `scrap` multiplient la cadence de récolte, pas la quantité des gisements. `farm` porte sur la nourriture des fermes protégées, `rain` sur la pluie recueillie par les citernes.
+
+## Avant-postes — 217
+
+`C.Outposts217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §7.14.
+
+| Valeur | Réglage |
+|---|---|
+| Âge minimal | Indice 2 (« Avant-poste ») |
+| Plafond | 1 dès l'indice 2, 2 dès l'indice 5, 3 dès l'indice 8 |
+| Garnison | 2 fusiliers, rendus à l'abandon |
+| Coût d'établissement | 30 bois, 20 ferraille, 20 nourriture, 20 munitions, non remboursé |
+| Fonds d'un lieu | 0,08 unité par m² d'emprise, borné de 40 à 160 |
+| Convoi | 16 unités au plus par vague, phase calme, 2 carburant |
+| Portée radio | 3 000 m autour de D-17 et de chaque avant-poste |
+
+## Relief des cantons — 217
+
+`C.WorldRelief217Rules`, hors jeu (génération 12 réservée) : maille 32 m, 6 paliers, palier 0 = mer ; ruisseau à 2 cantons drainés, rivière à 5 ; trame routière une rangée de cantons sur 3 ; 12 lieux au plus par canton. Détail des échelles de bruit dans le commentaire du cœur. Aucune de ces valeurs n'a été éprouvée en jeu.

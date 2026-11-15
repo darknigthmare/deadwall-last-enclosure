@@ -641,6 +641,8 @@ retours chargés et le numéro de vague.
   et rapporte, deux vagues plus tard, une contrepartie annoncée et plus
   petite que le don. Une demande ignorée fait baisser l'entente, sans autre
   sanction.
+- Troisième parade : un avant-poste du côté par lequel le fourgon rentre
+  (§7.14) ; le barrage n'a pas lieu et le tribut n'est pas consommé.
 - Carte « Factions » dans le dossier de situation ; fiche et actions dans
   les opérations, groupe Région.
 
@@ -1234,8 +1236,26 @@ d'atlas calée sur l'étendue totale.
 - Les deux inconnues techniques : un réseau routier connexe sans arbre
   couvrant global, et une hydrologie qui ne dépend plus d'un bord (la côte
   est aujourd'hui un des quatre bords).
-- Tranche suivante recommandée : des accesseurs de limite posés sur les
-  mondes existants, sans changer aucune valeur, vérifiés par les empreintes.
+- **Tranche T2 livrée, sans effet en jeu** : `src/world-canton-gen217.js`
+  génère un canton de 1 024 m à partir de la graine et de ses coordonnées,
+  indépendamment de l'ordre de visite. Relief en six paliers sur une maille
+  de 32 m (palier 0 = mer), falaises là où deux mailles voisines diffèrent
+  de plus d'un cran, rampes ailleurs ; milieu par maille parmi les 16
+  existants ; cours d'eau qui descendent de canton en canton, lacs dans les
+  cuvettes ; routes dont les passages aux coutures sont identiques vus des
+  deux cantons et qui ne changent de palier que par une rampe ; lieux
+  candidats sans plan d'intérieur. Page d'aperçu hors jeu :
+  `node scripts/apercu-cantons217.mjs`. Coût : 1,8 ms par canton en médiane
+  sous Node, 3 à 4 ms en navigateur, pour un budget de 8 ms.
+- Réserves de T2 : rien n'a été joué, c'est un générateur de données et une
+  image. Le réseau routier n'est pas entièrement connexe (92 à 99,5 % des
+  cantons desservis selon la graine). **Les falaises sont minoritaires face
+  aux rampes** (environ 17 arêtes contre 80 par canton) : pour qu'une
+  falaise vaille une enceinte, il faudra durcir la règle. L'eau est
+  clairsemée et sans vallée. Aucune agglomération, aucun décor, D-17 n'est
+  pas encore placé.
+- Tranche T1 en cours : des accesseurs de limite posés sur les mondes
+  existants, sans changer aucune valeur, vérifiés par les empreintes.
 - **[DÉCISION]** Le relief par paliers entre dans la **même** nouvelle
   génération que le monde sans bord : une seule rupture, quitte à reculer
   l'ouverture.
@@ -1405,11 +1425,35 @@ campagnes futures.
   état sauvegardé. Elle compte les gisements à leur quantité d'origine et ne
   change donc pas avec la récolte.
 
-Réserves : la fiche **décrit**, elle ne change pas l'ouverture. Elle nomme
-des agglomérations, une carrière ou une casse avant leur reconnaissance.
-Le menu ne décrit pas une graine saisie avant le départ (il faudrait tracer
-la région, 1 à 8 s). Les cartes d'avant G6 n'ont ni milieu ni eau relevés.
-Un adjectif du conseil ne s'accorde pas avec les noms de milieux au pluriel.
+Réserves : elle nomme des agglomérations, une carrière ou une casse avant
+leur reconnaissance. Les cartes d'avant G6 n'ont ni milieu ni eau relevés.
+
+**Deuxième tranche livrée [LIVRÉ] : la fiche qui compte et l'aperçu avant le
+départ**
+
+- La fiche affiche la **famille de milieu** de la campagne avec son avantage
+  et sa contrainte chiffrés ; une campagne d'avant la règle n'affiche aucun
+  effet. Le conseil d'ouverture part de ces effets réels (« Forêt : bois
+  +15 %, fermes −10 % — ouvrez en bois, prévoyez plus de fermes »).
+- Les **trois lieux remarquables les plus proches de D-17** sont nommés avec
+  leur genre, la taille du nid et le lot annoncé, à distance mesurée depuis
+  le centre de la cité.
+- **Aperçu avant le départ** : au menu, sous le champ de graine, le bouton
+  « Aperçu de la carte » trace à part la région de la graine saisie et
+  affiche sa fiche. Le calcul ne part que sur clic, un seul à la fois, et
+  son résultat est gardé par graine. Aucune campagne n'est créée, aucune
+  sauvegarde touchée.
+- L'aperçu utilise les versions de région que le départ choisirait (une
+  même fonction, `DeadwallWorldPack131.startVersions`, sert au départ réel
+  et à l'aperçu) : il est identique à la fiche du carnet après le départ,
+  hors gisements locaux.
+
+Réserves : l'aperçu prend 7 à 12 s et **fige le menu pendant ce temps**. Il
+ne compte pas les gisements à portée du centre (la carte locale n'est
+tracée qu'au lancement) et le dit. Il décrit aussi une graine impraticable,
+alors que le départ tirerait une autre carte (§11.4). La fiche montre le nid
+et le lot d'origine, même une fois le nid vidé. Elle révèle nids et lots
+avant toute reconnaissance : choix de conception à valider.
 
 **Travaux de terrain** (direction « un terrain modifiable », plus haut)
 
@@ -1513,6 +1557,45 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
 - les nuits noires s'appliquent aussi en région ;
 - une sortie à pied de plusieurs jours impose de choisir **où dormir** avant
   la tombée de la nuit.
+
+#### Première tranche livrée **[LIVRÉ]** : avant-postes et routes gardées
+
+Nouvelles campagnes seulement (`src/outposts217.js`, valeurs dans
+`C.Outposts217Rules`, test `tests/outposts217.test.cjs`).
+
+- **Avant-poste** : décidé au dépôt de D-17, sur un lieu régional déjà vu,
+  infesté puis vidé de ses occupants (ou un lieu remarquable dont le nid est
+  vidé), relié à D-17 par la route. Deux fusiliers quittent la cité ; 30
+  bois, 20 ferraille, 20 nourriture et 20 munitions sont pris au stock. Un
+  avant-poste dès l'âge « Avant-poste », deux à l'âge 6, trois à l'âge 9.
+  Il figure sur l'atlas et en vue de région.
+- **Route gardée** : l'itinéraire routier existant entre D-17 et
+  l'avant-poste, tant qu'il tient. Un fourgon d'expédition qui rentre de ce
+  côté n'est pas barré par les Rouleurs (§4.7), et le tribut n'est pas
+  consommé.
+- **Convoi** : à chaque vague, en phase calme, 16 unités au plus du fonds du
+  lieu arrivent seules au dépôt, contre 2 carburant. Le fonds est fini (40 à
+  160 unités selon l'emprise du lieu) et ne se régénère jamais ; quand il
+  est vide, le convoi s'arrête et le dit. Sans carburant ou dépôt plein, il
+  reste sur place.
+- **Abandon** : au dépôt. Les deux fusiliers rentrent ; le coût reste perdu,
+  la route n'est plus gardée.
+- **Radio** : elle porte à 3 000 m de D-17 et de chaque avant-poste.
+  Au-delà, silence ; le journal le dit au retour (§7.15).
+
+Réserves : jamais joué en partie réelle. **Le fonds n'est pas le butin
+restant du lieu** : c'est un stock propre à l'avant-poste, dérivé de
+l'emprise du lieu. Le plafond par âge contredit pour l'instant la décision
+« aucun plafond fixe ». Un avant-poste ne peut pas tomber, n'est pas nourri
+et n'a pas de signature. « Côté gardé » est la direction de l'avant-poste,
+pas le tracé de la route. Les fusiliers rendus sont des fusiliers neufs. Le
+convoi n'est pas dessiné. 2 carburant contre 16 unités est sans doute
+généreux.
+
+Restent à faire : rangs Relais → Poste → Avant-poste et chantier sur place,
+chute et réinfestation, garnison nourrie, signature locale, états de route,
+« une bonne route sert aussi l'ennemi », rappel du Commandant par les routes
+gardées, fourgons des territoires, entretien des véhicules.
 
 ### 7.15 La cité autonome **[DÉCISION]**
 
@@ -1645,15 +1728,15 @@ estimation honnête au départ, dernier carré.
   pendant l'absence.
 
 Réserves : jamais joué en vraie partie ; la brèche vue au navigateur venait
-d'un mur détruit par script. **La radio porte partout**, alors que la
-direction veut le silence hors portée. L'absence, c'est la sortie
+d'un mur détruit par script. **[LIVRÉ ensuite]** La radio porte à 3 000 m
+de D-17 et de chaque avant-poste (§7.14), nouvelles campagnes seulement ;
+la consigne d'absence s'applique toujours, même hors de portée. L'absence, c'est la sortie
 régionale seulement. Risque du repli général en absence : les ouvriers
 cessent de produire jusqu'à la fin de l'assaut, les portes peuvent être
 closes au retour, et les sections restent groupées au centre après la
 levée. À valider côté récit : Sami V. est-il bien vivant à D-17 ?
 
-Restent à faire : portée radio liée aux émetteurs des avant-postes,
-consignes par district et « sacrifier un secteur », rappel par les routes
+Restent à faire : consignes par district et « sacrifier un secteur », rappel par les routes
 gardées, estimation honnête au départ, dernier carré.
 
 ---
@@ -2525,7 +2608,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 13 | Marée à l'horizon (§8.6) — première tranche livrée | Siège | `game.js`, `world-evolution.js`, `vertical-citadel175-render.js` | La horde se voit depuis le rempart avant la sirène. |
 | 14 | Pyramides visibles (livré) et masses agrégées (§8.6) | Siège | `vertical-siege176.js`, `art.js`, `core.js` | Un amas déborde un rempart de 24 m ; tirer dans sa base l'affaisse. |
 | 15 | Brèche catastrophe (§8.6) — première tranche livrée | Siège | `tactics.js`, `game.js`, `battlefield.js` | Un pan cède, la horde s'engouffre, un district est sacrifié. |
-| 16 | Avant-postes, routes gardées, entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
+| 16 | Avant-postes et routes gardées (première tranche livrée), entretien des véhicules (§7.14) | Monde | `world-pack131.js`, `frontier-routing.js`, `return-routes.js` | Un convoi roule seul sur une route gardée. |
 | 17 | Travaux de terrain : fossés (livré), talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) — première tranche livrée | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
