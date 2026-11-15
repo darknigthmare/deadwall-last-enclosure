@@ -137,7 +137,7 @@ test('cantons 217 : brique isolée — aucune génération existante ne la lit, 
   assert.ok(!/Math\.random|Date\.now|performance\.|localStorage|document\b|setTimeout|setInterval/.test(source.replace(/\/\/.*$/gm,'')),'module pur');
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js'],'seule dépendance : les règles du cœur');
   assert.ok(!read('index.html').includes('world-cantons217'),'non chargé par le jeu');assert.ok(!read('sw.js').includes('world-cantons217'));
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(file!=='world-cantons217.js'&&file!=='core.js')assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas encore dépendre des cantons');
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(file!=='world-cantons217.js'&&file!=='world-canton-gen217.js'&&file!=='core.js')assert.ok(!read('src/'+file).includes('WorldCantons217'),file+' ne doit pas encore dépendre des cantons');
   assert.equal((read('src/core.js').match(/WorldCantons217Rules/g)||[]).length,1);
   // Les générations acceptées et la taille de la région finie n'ont pas bougé.
   const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');

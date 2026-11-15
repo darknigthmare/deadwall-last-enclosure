@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEADWALL — aperçu des cantons (hors jeu)</title>
+<!-- Outil de QA hors jeu (specs/monde-sans-bord, T2.5). Servi par `node scripts/apercu-cantons217.mjs` (port PORT, 4442 par défaut)
+     : il lit src/ mais n’est ni servi par scripts/server.mjs ni chargé par index.html. -->
+<style>
+ body{margin:0;background:#15171a;color:#d8d6cc;font:13px/1.4 system-ui,sans-serif}
+ header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px 12px;background:#1e2125;border-bottom:1px solid #33373d}
+ header label{display:flex;gap:4px;align-items:center}
+ input,select,button{background:#2a2e34;color:inherit;border:1px solid #454a52;border-radius:3px;padding:3px 6px;font:inherit}
+ input[type=number]{width:5.5em}#seed{width:8em}
+ #wrap{overflow:auto;padding:12px}canvas{display:block;image-rendering:pixelated}
+ #legend{display:flex;flex-wrap:wrap;gap:12px;padding:6px 12px;border-bottom:1px solid #33373d}
+ #legend span{display:inline-flex;align-items:center;gap:5px}#legend i{display:inline-block;width:16px;height:12px;border:1px solid #0006}
+ #info{padding:6px 12px;color:#a9a79c;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+ <strong>Cantons G12 — aperçu hors jeu</strong>
+ <label>Graine <input id="seed" type="number" min="0" max="4294967295" value="17117"></label>
+ <label>Centre <input id="cx" type="number" value="0"><input id="cy" type="number" value="0"></label>
+ <label>Rayon <input id="radius" type="number" min="0" max="8" value="2"></label>
+ <label>Pixels par maille <input id="px" type="number" min="2" max="16" value="6"></label>
+ <label>Fond <select id="mode"><option value="relief">paliers</option><option value="biome">milieux</option></select></label>
+ <button id="draw">Dessiner</button>
+ <button data-move="-1,0">←</button><button data-move="0,-1">↑</button><button data-move="0,1">↓</button><button data-move="1,0">→</button>
+</header>
+<div id="legend"></div>
+<div id="info"></div>
+<div id="wrap"><canvas id="map"></canvas></div>
+<!-- SCRIPTS : chaîne de index.html jusqu’à core.js puis les deux modules de cantons, injectée par scripts/apercu-cantons217.mjs -->
+<script>
+'use strict';
+(function(){
+ const C=globalThis.DeadwallCore,K=globalThis.DeadwallWorldCantons217,G=globalThis.DeadwallWorldCantonGen217,$=id=>document.getElementById(id);
+ // Teintes des paliers : mer, puis du bas vers le haut.
+ const TINT=['#2f5d7c','#6f8f5a','#93a468','#b9ad76','#b0957a','#d9d4c6'];
+ const ROAD={regional:['#f4e9c8',2.6],secondary:['#e2d3ac',1.8],local:['#cdbf9d',1.1]};
+ const biomeColour=Object.fromEntries([...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>[d.id,d.palette.base]));
+ const query=new URLSearchParams(location.search);
+ for(const key of ['seed','cx','cy','radius','px','mode'])if(query.has(key))$(key).value=query.get(key);
+ $('legend').innerHTML=TINT.map((c,i)=>'<span><i style="background:'+c+'"></i>'+(i?'palier '+i:'mer (palier 0)')+'</span>').join('')
+  +'<span><i style="background:#2a1d14"></i>falaise (≥ 2 crans)</span><span><i style="background:#0003;border-style:dashed"></i>rampe (1 cran)</span>'
+  +'<span><i style="background:#3f86b8"></i>rivière, lac</span><span><i style="background:#f4e9c8"></i>route</span><span><i style="background:#c0392b"></i>lieu candidat</span>'
+  +'<span><i style="background:#ffb020"></i>rampe empruntée</span><span><i style="background:#fff"></i>pont</span>';
+ function draw(){
+  const seed=Number($('seed').value),cx=Number($('cx').value),cy=Number($('cy').value),radius=Number($('radius').value),px=Number($('px').value),mode=$('mode').value;
+  const n=G.CELLS,side=2*radius+1,canvas=$('map'),size=side*n*px;canvas.width=size;canvas.height=size;
+  const g=canvas.getContext('2d'),scale=px/G.CELL,ox=(cx-radius)*K.SIZE,oy=(cy-radius)*K.SIZE,X=x=>(x-ox)*scale,Y=y=>(y-oy)*scale;
+  const started=performance.now(),cantons=[],times=[];
+  for(const c of K.ring(cx,cy,radius)){const t=performance.now();cantons.push(G.generate(seed,c.cx,c.cy));times.push(performance.now()-t);}
+  const elapsed=performance.now()-started,median=times.sort((a,b)=>a-b)[times.length>>1],total={rivers:0,lakes:0,roads:0,dead:0,sites:0,ramps:0,cliffs:0,slopes:0};
+  for(const c of cantons){
+   const bx=X(c.bounds.x),by=Y(c.bounds.y);
+   for(let i=0;i<n*n;i++){const x=i%n,y=(i-x)/n,l=c.levels[i];g.fillStyle=l===0?TINT[0]:mode==='biome'?biomeColour[G.BIOMES[c.biomes[i]]]:TINT[l];g.fillRect(bx+x*px,by+y*px,px,px);
+    if(c.water[i]===G.WATER.lake){g.fillStyle='#3f86b8';g.fillRect(bx+x*px,by+y*px,px,px);}}
+   // Rampes en tireté clair, falaises en trait sombre épais avec hachures du côté bas.
+   for(let i=0;i<n*n;i++){const x=i%n,y=(i-x)/n;
+    for(const[d,vertical]of [[c.east[i],true],[c.south[i],false]]){if(!d)continue;const steep=Math.abs(d)>1,x0=bx+(x+1)*px,y0=by+(y+1)*px;
+     g.beginPath();if(vertical){g.moveTo(x0,y0-px);g.lineTo(x0,y0);}else{g.moveTo(x0-px,y0);g.lineTo(x0,y0);}
+     if(steep){g.strokeStyle='#2a1d14';g.lineWidth=Math.max(2,px*.45);g.setLineDash([]);g.stroke();
+      const low=d>0?-1:1;g.lineWidth=1;g.beginPath();for(let k=.25;k<1;k+=.5){if(vertical){g.moveTo(x0,y0-px*k);g.lineTo(x0+low*px*.45,y0-px*k);}else{g.moveTo(x0-px*k,y0);g.lineTo(x0-px*k,y0+low*px*.45);}}g.stroke();}
+     else{g.strokeStyle='rgba(30,22,14,.38)';g.lineWidth=1;g.setLineDash([2,2]);g.stroke();g.setLineDash([]);}
+    }}
+   total.cliffs+=c.counts.cliffs;total.slopes+=c.counts.slopes;
+  }
+  g.lineCap='round';g.lineJoin='round';
+  for(const c of cantons){
+   for(const r of c.rivers){g.strokeStyle='#3f86b8';g.lineWidth=Math.max(1.4,(r.kind==='river'?3:1.6)*px/6+r.width*scale);g.beginPath();r.points.forEach((p,i)=>i?g.lineTo(X(p.x),Y(p.y)):g.moveTo(X(p.x),Y(p.y)));g.stroke();total.rivers++;}
+   total.lakes+=c.lakes.length;
+  }
+  for(const pass of [0,1])for(const c of cantons)for(const r of c.roads){const[colour,w]=ROAD[r.class];g.strokeStyle=pass?colour:'#2b2620';g.lineWidth=(w+(pass?0:1.4))*px/6;g.beginPath();r.points.forEach((p,i)=>i?g.lineTo(X(p.x),Y(p.y)):g.moveTo(X(p.x),Y(p.y)));g.stroke();
+   if(pass){total.roads++;if(r.deadEnd){total.dead++;const p=r.points[r.points.length-1];g.fillStyle='#e0452f';g.fillRect(X(p.x)-px*.5,Y(p.y)-px*.5,px,px);}}}
+  for(const c of cantons){
+   for(const b of c.bridges){g.fillStyle='#fff';g.fillRect(X(b.x)-px*.35,Y(b.y)-px*.35,px*.7,px*.7);}
+   for(const r of c.ramps){g.fillStyle='#ffb020';g.beginPath();g.arc(X(r.x),Y(r.y),px*.42,0,7);g.fill();g.strokeStyle='#3a2a08';g.lineWidth=1;g.stroke();total.ramps++;}
+   if(c.hub){g.strokeStyle='#111';g.lineWidth=1;g.fillStyle='#f4e9c8';g.beginPath();g.arc(X(c.hub.x),Y(c.hub.y),px*.55,0,7);g.fill();g.stroke();}
+   for(const s of c.sites){g.fillStyle='#c0392b';g.strokeStyle='#1c0906';g.lineWidth=1;g.beginPath();g.rect(X(s.x)-px*.32,Y(s.y)-px*.32,px*.64,px*.64);g.fill();g.stroke();total.sites++;}
+   // Coutures et nom du canton.
+   g.strokeStyle='rgba(255,255,255,.28)';g.lineWidth=1;g.setLineDash([6,5]);g.strokeRect(X(c.bounds.x)+.5,Y(c.bounds.y)+.5,n*px,n*px);g.setLineDash([]);
+   g.font='11px system-ui,sans-serif';g.fillStyle='rgba(0,0,0,.6)';g.fillText(c.id,X(c.bounds.x)+6,Y(c.bounds.y)+15);g.fillStyle='rgba(255,255,255,.85)';g.fillText(c.id,X(c.bounds.x)+5,Y(c.bounds.y)+14);
+  }
+  $('info').textContent=cantons.length+' cantons ('+side+' × '+side+' km) en '+elapsed.toFixed(1)+' ms, soit '+(elapsed/cantons.length).toFixed(2)+' ms par canton en moyenne, '+median.toFixed(2)+' ms en médiane — '
+   +total.roads+' tronçons de route ('+total.dead+' en impasse), '+total.ramps+' rampes empruntées, '+total.rivers+' cours d’eau, '+total.lakes+' lacs, '+total.sites+' lieux candidats, '
+   +total.cliffs+' arêtes de falaise, '+total.slopes+' arêtes de rampe.';
+  globalThis.apercu217={cantons:cantons.length,elapsed,median,total};
+ }
+ $('draw').onclick=draw;
+ for(const b of document.querySelectorAll('[data-move]'))b.onclick=()=>{const[dx,dy]=b.dataset.move.split(',').map(Number);$('cx').value=Number($('cx').value)+dx;$('cy').value=Number($('cy').value)+dy;draw();};
+ draw();
+})();
+</script>
+</body>
+</html>

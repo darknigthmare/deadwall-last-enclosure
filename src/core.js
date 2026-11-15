@@ -3420,6 +3420,21 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
  // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².
  C.WorldCantons217Rules=Object.freeze({reservedGeneration:12,canton:1024,chunk:256,loadRadius:1,keepRadius:2,cacheCapacity:36,maxCoordinate:1048575,maxIndex:65535});
+ // Canton sec et relief par paliers du monde sans bord (génération 12 réservée), lus par src/world-canton-gen217.js, hors jeu.
+ // cell : maille du relief (m) ; levels : nombre de paliers, le palier 0 est la mer. field : champ d'altitude continu en crans
+ // (échelles en m, déformé par `warp`). escarpments : ressauts raides de `height` crans, d'où naissent les falaises (écart de deux crans entre
+ // mailles voisines). pass : largeur du ressaut en unité de bruit — étroite (falaise), large là où un bruit fin dépasse `threshold` (col en rampes).
+ // water : seuils de débit (cantons drainés) d'un ruisseau et d'une rivière, plafond de comptage, pas des points de couture.
+ // roads : rangée de la trame (une sur `trunkEvery`), chance d'un passage en plus, coûts de tracé. sites : lieux candidats par canton.
+ {const f=Object.freeze;C.WorldRelief217Rules=f({version:1,cell:32,levels:6,
+  field:f({scale:2800,detailScale:900,detailWeight:.28,contrast:2.1,span:3.7,offset:.45,warpScale:1700,warpAmplitude:420}),
+  escarpments:f([f({scale:1500,threshold:.6,height:2}),f({scale:2300,threshold:.66,height:2})]),
+  pass:f({band:.008,wideBand:.13,scale:520,threshold:.72}),
+  climate:f({wetLow:.2,coldHigh:.16}),
+  water:f({streamFlow:2,riverFlow:5,capFlow:24,seamStep:2,seamMargin:3,climbCost:12,levelCost:.5,meander:1.2,lakeMargin:6}),
+  roads:f({trunkEvery:3,westChance:.5,extraChance:.45,seamMargin:2,rampCost:4,bridgeCost:5,borderCost:3,jitter:.8,hubTries:12,hubMargin:5,
+   widths:f({regional:9,secondary:7,local:5})}),
+  sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});}
  // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
  // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
  // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.

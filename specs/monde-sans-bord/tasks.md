@@ -37,27 +37,56 @@ sources, à `docs/codex/suivi-monde2026/campagne205-eligibilite.json`).
 - Tests : ceux de chaque fichier touché, `tests/codex-campaign*.test.cjs`.
 - Parcours : sortie en voiture jusqu'au bord est, atlas, sauvegarde et reprise — inchangés.
 
-## T2 — Canton sec (module pur, hors jeu)
+## T2 — Canton sec hors jeu, avec relief par paliers (livré, sans effet en jeu)
 
-- [ ] T2.1 `src/world-macro217.js` : climat, biome, densité, bande de distance en fonctions
-      de champ ; règles dans `core.js`.
-- [ ] T2.2 `src/world-canton217.js` : points de raccord des quatre coutures, carrefours des
-      quatre sommets, routes internes, sans lieux.
-- [ ] T2.3 Tests : trois ordres de visite ; régénération après éviction ; égalité des points
-      de raccord des deux côtés de 2 000 coutures ; connexité sur 31 × 31 cantons pour les
-      huit graines ; aucune route hors de son canton sauf aux points de raccord.
-- [ ] T2.4 Sonde `scripts/probe-cantons217.cjs` : coût médian et maximal d'un canton.
-- [ ] T2.5 Page d'aperçu de QA (hors `index.html`) : carte défilante de cantons.
-- [ ] T2.6 Preuve `docs/codex/suivi-monde2026/monde-sans-bord-cantons.json` + son test.
-- Décision requise avant de commencer : D1.
+Décisions prises avant la tranche : D1 (canton de 1 024 m), D2 (le relief par paliers entre
+dans la même génération 12), D3 (ouverture en « expérimental », plus tard), D6 (la mer est une
+zone basse — le palier 0 —, plus un bord). La génération 12 reste refusée partout.
+
+Le découpage prévu en deux fichiers (`world-macro217.js`, `world-canton217.js`) est livré en
+un seul module, `src/world-canton-gen217.js` : les champs macro y sont des fonctions exportées
+(`altitude`, `levelAt`, `biomeAt`, `drainage`, `seam`).
+
+- [x] T2.1 Champs en coordonnées monde : altitude continue quantifiée en six paliers
+      (maille de 32 m), ressauts raides qui donnent les falaises (écart de deux crans entre
+      mailles voisines), rampes ailleurs ; milieu par maille parmi les 16 existants, selon
+      chaleur, humidité et altitude. Règles `C.WorldRelief217Rules` dans `src/core.js`.
+- [x] T2.2 `src/world-canton-gen217.js` : passages de route et d'eau des quatre coutures
+      (sous-graines de couture), carrefour intérieur, routes qui ne changent de palier que
+      par une rampe, lieux candidats `K<cx>_<cy>:site:<n>` sans plan d'intérieur.
+- [x] T2.3 `tests/world-canton-gen217.test.cjs` : ordres de visite et cache ; empreintes de
+      référence ; coordonnées négatives et bout de l'adressage ; relief, routes et eau
+      identiques des deux côtés de 486 coutures ; routes jamais par une falaise ; connexité
+      mesurée sur les huit graines (31 × 31 cantons pour 17117, 21 × 21 pour les autres) ;
+      module isolé, génération 12 refusée, monde existant inchangé.
+      Écart avec le plan : la connexité n'est **pas** totale. Plus grande composante entre
+      92 % et 99,5 % des cantons desservis ; la mer et les plateaux fermés isolent le reste.
+- [x] T2.4 Sonde `scripts/probe-cantons217.cjs` : médiane 1,8 ms par canton sous Node,
+      3 à 4 ms dans Chromium, pour un budget de 8 ms ; la moyenne subit la charge machine.
+- [x] T2.5 Page d'aperçu hors jeu : `PORT=4442 node scripts/apercu-cantons217.mjs`, page
+      `tools/apercu-cantons217.html` (paliers ou milieux, falaises, eau, routes, rampes,
+      ponts, lieux). Ni servie par `scripts/server.mjs`, ni chargée par `index.html`.
+- [ ] T2.6 Preuve `docs/codex/suivi-monde2026/monde-sans-bord-cantons.json` + son test
+      (à produire par le mainteneur avec les autres preuves, une fois les réglages arrêtés).
+- [ ] T2.7 Reste à faire avant T4 : agglomérations portées par les sommets (les lieux sont
+      aujourd'hui semés le long des routes, sans bourg) ; décor (arbres, rochers) par
+      morceaux de 256 m ; D-17 dans `K0_0` ; bande de distance ; rendre les routes de la
+      trame moins régulières (une rangée sur trois porte une route d'est en ouest).
 
 ## T3 — Eau sans bord
 
-- [ ] T3.1 Altitude macro et sens d'écoulement par couture.
-- [ ] T3.2 Cours d'eau de canton en canton, confluences, plans d'eau contenus dans un canton
-      ou déclarés aux coutures.
-- [ ] T3.3 Ponts : réemploi de `hydrology165` (croisements route/eau) par canton.
-- [ ] T3.4 Tests : continuité de largeur et de niveau aux coutures ; aucune route noyée.
+Première version livrée avec T2 (même module, mêmes tests) : chaque canton s'écoule vers son
+voisin le plus bas, le débit compte les cantons drainés, un cours d'eau franchit la couture
+au point bas de celle-ci et son niveau ne remonte jamais ; cuvette = lac contenu dans son
+canton ; palier 0 = mer.
+
+- [x] T3.1 Altitude macro et sens d'écoulement par couture.
+- [x] T3.2 Cours d'eau de canton en canton, confluences, plans d'eau contenus dans un canton
+      (première version : peu de cours d'eau — 0,4 par canton —, pas de méandres ni de
+      largeur de lit dans la maille, pas d'étangs hors cuvette).
+- [ ] T3.3 Ponts : réemploi de `hydrology165` (croisements route/eau) par canton. Les ponts
+      sont pour l'instant de simples mailles déclarées (`bridges`).
+- [x] T3.4 Tests : continuité de largeur et de niveau aux coutures ; aucune route noyée.
 - Décision requise : D6. Repli prévu si la tranche dérape (plan §8).
 
 ## T4 — Lieux et sauvegarde creuse
