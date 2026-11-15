@@ -203,7 +203,7 @@ test('milieu 217 : aucun effet de bord, module inscrit partout',()=>{
   for(const forbidden of ['Math.random','g.random','.health','damage','setTimeout','Date.now'])assert.equal(source.includes(forbidden),false,forbidden);
   const ui=fs.readFileSync(path.join(root,'src/expansion-ui.js'),'utf8');
   for(const table of ['ORDER','GROUPS','API_NAMES','LABELS'])assert.ok(ui.split('\n').find(l=>l.includes(table+' ')||l.includes(table+'=')).includes('biome217'),table);
-  assert.ok(fs.readFileSync(path.join(root,'src/expansion-kit.js'),'utf8').includes("'biome217','balance217','breach217']"));
+  {const kit=fs.readFileSync(path.join(root,'src/expansion-kit.js'),'utf8');assert.ok(kit.includes("'biome217'")&&kit.indexOf("'biome217'")<kit.indexOf("'balance217','breach217']"));};
   assert.ok(fs.readFileSync(path.join(root,'sw.js'),'utf8').includes('"src/biome217.js"'));
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),at=html.indexOf('src/biome217.js');
   assert.ok(at>html.indexOf('src/expansion-kit.js')&&at>html.indexOf('src/core.js')&&at>html.indexOf('src/frontier.js')&&at>0);
