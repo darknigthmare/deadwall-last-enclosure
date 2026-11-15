@@ -3501,6 +3501,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
    deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2})}),
   weather:Object.freeze({wetAbove:.62,wet:1.5,dryBelow:.1,dry:.75})});
+ // Vagues menées (GAME_BIBLE §3.5, la Meneuse), nouvelles campagnes seulement. À partir de `firstWave`, une vague sur
+ // `every` est menée (décalage tiré de la graine, jamais une vague de géants). La Meneuse est une Errante ordinaire,
+ // postée à `standoff` unités du bord de carte, entre `spanMin` et `spanMax` de sa longueur. Vivante à l'assaut : le
+ // plan de vague gagne `gatherShare` de son effectif ; abattue avant : il en perd `cutShare`. Rien d'autre ne change.
+ C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
