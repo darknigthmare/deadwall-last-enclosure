@@ -2380,6 +2380,45 @@ Cohérence :
 - Propriétaires : `game.js`, `core.js` (`WORKER_RULES`), `urban.js`,
   `weather193.js`.
 
+**Première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement, à partir
+de l'âge Avant-poste (`src/corpse-chain217.js`, valeurs dans
+`C.CorpseChain217Rules`, test `tests/corpse-chain217.test.cjs`)
+
+- Un corps retiré d'un mur ou d'un fossé, par un ouvrier ou par le
+  Commandant, reste **« à traiter »**. La charge au pied du mur garde ses
+  règles.
+- **Bûcher** : décidé au dépôt, au bois ou au carburant. Il consume vite
+  (90 corps par minute), ajoute 60 à la signature tant qu'il brûle, fume, et
+  s'éteint seul faute de corps ou de combustible. On peut l'éteindre avant
+  un assaut.
+- **Fosse** : 20 bois et un chantier d'ouvriers. Lente (15 corps par
+  minute), sans signature, arrêtée pendant les assauts ; pleine à 120 corps,
+  elle se referme et il faut en ouvrir une autre.
+- **Maladie** : les corps laissés (à traiter, plus la charge au pied des
+  murs) au-delà d'un seuil proportionné à la population rendent la cité
+  malade, par paliers annoncés d'avance comme la pénurie d'eau : grâce de
+  2 minutes, baisse du moral, malades affaiblis un à un, puis mort des plus
+  fragiles par le chemin de mort ordinaire. Les médicaments du dépôt évitent
+  une mort, à moindre dose avec une clinique en service. La pluie hâte le
+  mal, le temps sec le ralentit ; repasser sous le seuil arrête tout.
+- La corvée de déblaiement et la Nécropole accélèrent le déblaiement, donc
+  l'arrivée des corps à traiter.
+- Carte « Corps et salubrité » dans le dossier de situation.
+
+Réserves : rien n'a été joué en partie réelle. **Risque principal** : les
+vagues tardives laissent des centaines de corps et le calme est court ; la
+maladie pourrait devenir chronique dans une grande cité. Le seuil par
+habitant est une estimation, à éprouver en priorité. Trois baisses de moral
+peuvent se cumuler (eau, demi-rations, maladie). **Écarts avec la
+direction** : la maladie est à l'échelle de la cité, pas du secteur ; le
+bûcher et la fosse sont des emplacements tenus par le module, dessinés sous
+le dépôt, pas des ouvrages posés, donc la fosse n'est pas encore un vrai
+choix d'espace. Le Commandant ne tombe jamais malade. La radio ne relaie pas
+la maladie.
+
+Restent à faire : effet par secteur, fosse comme emprise réelle hors des
+murs, chaleur, rôle propre de la Nécropole dans la filière.
+
 ### 8.8 Ce que la fin de jeu ne doit pas devenir
 
 - Une suite de chiffres plus grands sans décision nouvelle.
@@ -2689,7 +2728,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 17 | Travaux de terrain : fossés (livré), talus, douves (§7.13) | Siège | `core.js`, `game.js`, `barricades134.js` | Un fossé ralentit un front, puis se comble de corps. |
 | 18 | Lieux remarquables et nids (§7.13) — première tranche livrée | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
-| 20 | Filière des corps et maladie (§8.7) | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
+| 20 | Filière des corps et maladie (§8.7) — première tranche livrée | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
 | 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
 | 22 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
 

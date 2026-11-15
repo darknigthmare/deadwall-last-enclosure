@@ -494,3 +494,20 @@ Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de d
 ## Relief des cantons — 217
 
 `C.WorldRelief217Rules`, hors jeu (génération 12 réservée) : maille 32 m, 6 paliers, palier 0 = mer ; ruisseau à 2 cantons drainés, rivière à 5 ; trame routière une rangée de cantons sur 3 ; 12 lieux au plus par canton. Détail des échelles de bruit dans le commentaire du cœur. Aucune de ces valeurs n'a été éprouvée en jeu.
+
+## Filière des corps — 217
+
+`C.CorpseChain217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §8.7.
+
+| Élément | Valeur |
+|---|---|
+| Âge d'ouverture | 2 (Avant-poste) |
+| Bûcher | 1,5 corps/s ; 0,4 bois ou 0,1 carburant par corps ; signature +60 tant qu'il brûle |
+| Fosse | 20 bois ; 45 s de chantier ; 0,25 corps/s ; 120 corps |
+| Seuil de corps laissés | 40 + 4 × population ; sortie sous 60 % du seuil |
+| Grâce | 120 s d'exposition continue |
+| Moral | −0,2 point/s à partir de 120 s |
+| Malades | Annonce à 300 s ; premier à 420 s puis toutes les 90 s ; −35 % de santé maximale, jamais mortel |
+| Morts | Annonce à 780 s ; première à 960 s puis toutes les 180 s |
+| Médicaments | 4 par mort évitée, 2 avec une clinique en service |
+| Météo | Exposition ×1,5 si pluie > 62 % ; ×0,75 si pluie < 10 % |
