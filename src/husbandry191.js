@@ -2,6 +2,8 @@
 (function(root){'use strict';
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.Husbandry191Rules;
 const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null);
+/* Monde sans bord T1 : bornes de position lues par l'accesseur de limites ; repli identique si le module du monde n'en a pas. */
+const limitsOf217=(W,g,size)=>W&&W.limitsForGeneration?W.limitsForGeneration(g):(s=>({axisMin:(pad=0)=>pad,axisMax:(pad=0)=>s-pad}))(size());
 const P=root.DeadwallBiomePopulation165||(typeof require==='function'?require('./biome-population165.js'):null);
 const Wild=root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null);
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
@@ -29,7 +31,7 @@ function validate(raw,full){
  num(raw.next,1,1000000,true);const ids=new Set(),sources=new Set(),id=n=>{num(n,1,raw.next-1,true);if(ids.has(n))bad();ids.add(n);};
  for(const p of raw.pens){fields(p,['id','x','y','health','food','water','meat','hides','leather','breed','meatAge','hideAge',...(p&&Object.hasOwn(p,'breeding199')?['breeding199']:[])]);id(p.id);
   if(Object.hasOwn(p,'breeding199')&&(typeof p.breeding199!=='boolean'||!p.breeding199&&p.breed!==0))bad();
-  num(p.x,R.penSize,W.sizeForGeneration(10)-R.penSize);num(p.y,R.penSize,W.sizeForGeneration(10)-R.penSize);num(p.health,0,R.health);
+  {const L217=limitsOf217(W,10,()=>W.sizeForGeneration(10));num(p.x,L217.axisMin(R.penSize),L217.axisMax(R.penSize));num(p.y,L217.axisMin(R.penSize),L217.axisMax(R.penSize));}num(p.health,0,R.health);
   for(const k of ['food','water','meat','hides','leather'])num(p[k],0,R.stockCapacity);
   num(p.breed,0,R.breedSeconds);num(p.meatAge,0,R.meatLife);num(p.hideAge,0,R.hideLife);
   if(raw.pens.some(q=>q!==p&&distance(q,p)<R.spacing))bad();
@@ -40,7 +42,7 @@ function validate(raw,full){
   num(c.amount,Number.MIN_VALUE,Products203.capacity);num(c.age,0,productLife(c.kind));
   if(c.kind==='leather'?c.age!==0:c.age>=productLife(c.kind))bad();
   if(c.stage==='held'){if(c.point!==null)bad();if(full&&(!full.frontier?.active||full.frontier.z!==0||full.frontier.car?.driving||full.player?.dead||full.player?.health<=0))bad();}
-  else{fields(c.point,['x','y']);const size=W.sizeForGeneration(full?.frontier?.generation??10);num(c.point.x,0,size);num(c.point.y,0,size);}
+  else{fields(c.point,['x','y']);const L217=limitsOf217(W,full?.frontier?.generation??10,()=>W.sizeForGeneration(full?.frontier?.generation??10));num(c.point.x,L217.axisMin(),L217.axisMax());num(c.point.y,L217.axisMin(),L217.axisMax());}
  }
  const pens=new Map(raw.pens.map(p=>[p.id,p]));
  for(const a of raw.animals){fields(a,['id','source','species','pen','sex','age','health','status','parents']);id(a.id);

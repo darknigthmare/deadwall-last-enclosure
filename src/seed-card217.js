@@ -113,7 +113,7 @@
  function density(world,home){
   const towns=(world?.towns||[]).filter(t=>finite(t?.x)&&finite(t?.y)).map(t=>({id:t.id,name:t.name,kind:t.kind,distance:Math.hypot(t.x-home.x,t.y-home.y),direction:direction(t.x-home.x,t.y-home.y)})).sort((a,b)=>a.distance-b.distance||(String(a.id)<String(b.id)?-1:1));
   const near=towns.filter(t=>t.distance<=RULES.townNear),wide=towns.filter(t=>t.distance<=RULES.townWide);
-  let places=0;for(const p of world?.pois||[])if(finite(p?.x)&&finite(p?.y)&&Math.hypot(p.x-home.x,p.y-home.y)<=RULES.placeRadius)places++;
+  let places=0;for(const p of (world?.sitesNear?world.sitesNear(home.x,home.y,RULES.placeRadius):world?.pois)||[])if(finite(p?.x)&&finite(p?.y)&&Math.hypot(p.x-home.x,p.y-home.y)<=RULES.placeRadius)places++;
   const big=near.some(t=>(TOWN_RANK[t.kind]||0)>=4);
   const level=near.length>=2||big?'urbain':near.length>=1||wide.length>=2?'periurbain':wide.length>=1?'rural':'isole';
   const first=towns[0]||null,km=distanceText(RULES.townWide),m=distanceText(RULES.placeRadius);

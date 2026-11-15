@@ -2,15 +2,17 @@
 (function(root){
 'use strict';
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.SurvivalPackRules;
+/* Monde sans bord T1 : bornes de position lues par l'accesseur de limites ; repli identique si le module du monde n'en a pas. */
+const limitsOf217=(W,g,size)=>W&&W.limitsForGeneration?W.limitsForGeneration(g):(s=>({axisMin:(pad=0)=>pad,axisMax:(pad=0)=>s-pad}))(size());
 const initial=()=>({version:1,serial:1,camps:[],meal:{left:0,budget:0},dressing:{left:0,remaining:0}});
 function normalize(raw,full){
  if(raw===undefined)return initial();
  const bad=()=>{throw Error('Registre de bivouac invalide.');};
  const number=(v,min,max,integer=false)=>{if(!Number.isFinite(v)||v<min||v>max||integer&&!Number.isInteger(v))bad();return v;};
  if(!raw||raw.version!==1||!Array.isArray(raw.camps)||raw.camps.length>R.maxCamps||!raw.meal||!raw.dressing)bad();
- const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),regionSize=W.sizeForGeneration(full?.frontier?.generation??5);
+ const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),L217=limitsOf217(W,full?.frontier?.generation??5,()=>W.sizeForGeneration(full?.frontier?.generation??5));
  const out=initial(),seen=new Set();out.serial=number(raw.serial,1,R.maxSerial,true);
- for(const camp of raw.camps){if(!camp||!['local','region'].includes(camp.domain)||camp.z!==0||camp.inside!==null)bad();const q={id:number(camp.id,1,out.serial-1,true),domain:camp.domain,x:number(camp.x,0,camp.domain==='local'?4096:regionSize),y:number(camp.y,0,camp.domain==='local'?4096:regionSize),z:0,inside:null,left:number(camp.left,0,R.campLife),cover:number(camp.cover,0,R.cover.duration)};if(seen.has(q.id)||q.left===0)bad();seen.add(q.id);out.camps.push(q);}
+ for(const camp of raw.camps){if(!camp||!['local','region'].includes(camp.domain)||camp.z!==0||camp.inside!==null)bad();const q={id:number(camp.id,1,out.serial-1,true),domain:camp.domain,x:number(camp.x,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?4096:L217.axisMax()),y:number(camp.y,camp.domain==='local'?0:L217.axisMin(),camp.domain==='local'?4096:L217.axisMax()),z:0,inside:null,left:number(camp.left,0,R.campLife),cover:number(camp.cover,0,R.cover.duration)};if(seen.has(q.id)||q.left===0)bad();seen.add(q.id);out.camps.push(q);}
  out.meal={left:number(raw.meal.left,0,R.meal.duration),budget:number(raw.meal.budget,0,R.meal.budget)};
  out.dressing={left:number(raw.dressing.left,0,R.dressing.duration),remaining:number(raw.dressing.remaining,0,R.dressing.heal)};
  if(out.meal.left===0&&out.meal.budget!==0||out.dressing.left===0&&out.dressing.remaining!==0)bad();return out;

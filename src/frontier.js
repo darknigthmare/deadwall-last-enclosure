@@ -2,6 +2,7 @@
 (function(root){'use strict';
 /* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
 const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const outside217=(w,x,y,pad)=>w.outside?w.outside(x,y,pad):x<pad||y<pad||x>w.size-pad||y>w.size-pad;
 const outsideOpen217=(w,x,y,pad)=>w.outsideOpen?w.outsideOpen(x,y,pad):x<=pad||y<=pad||x>=w.size-pad||y>=w.size-pad;
 const C=root.DeadwallCore,G=root.DeadwallFrontierGeometry,W=root.DeadwallFrontierWorld,R=W.RULES,Survey=root.DeadwallFrontierSurvey||(typeof require==='function'?require('./frontier-survey.js'):null),T=C.FrontierTacticsRules,P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null);
 function install(g){if(g.frontier)return g.frontier;let state=C.Frontier.initial(),home=g.world,region=null,regionDetailVersion=null,regionEcologyVersion=null,regionHydrologyVersion=null,regionLandscape189=null,pending=null,near=[],enemies=new Map(),bullets=[],action=null,message='',scale=26,oldCollapse=false,locked=null,focus=null,candidates=[],sound={kind:'Silence',radius:0,time:0},pulse=0,takenCount=0;
@@ -233,7 +234,7 @@ function selection(){candidates=Survey.targets(world(),state,state.taken,R.lootR
 function cycle(){if(!can()||!state.active||state.car?.driving)return false;selection();if(!candidates.length)return false;const at=candidates.findIndex(b=>b.id===focus?.id);locked=candidates[(at+1)%candidates.length].id;selection();return true;}
 function emitNoise(radius,kind){if(!state.active||radius<=0)return;sound={kind,radius,time:T.pulse+0.2};Survey.hear(world(),enemies.values(),state,radius,T);g.worldEvolution?.hear(state,radius);animalNoise165(state,radius);}
 function visibleEnemy(e){return e.z===state.z&&world().line(state,e,e.z,e.z?state.inside:null,null,.015);}
-function enemyBlocked(e,x,y){if(e.natural165&&(Math.hypot(x-e.natural165.x,y-e.natural165.y)>C.BiomePopulation165Rules.contactDrift||x<R.footRadius||y<R.footRadius||x>world().size-R.footRadius||y>world().size-R.footRadius))return true;if(world().blocked(x,y,T.enemyRadius,e.z,e.z?e.poi:null))return true;if(e.z===0&&state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},q=G.local({...state.car,w:vp.w,h:vp.h},x,y);return G.circleRect(q.x,q.y,T.enemyRadius,{x:0,y:0,w:vp.w,h:vp.h});}return false;}
+function enemyBlocked(e,x,y){if(e.natural165&&(Math.hypot(x-e.natural165.x,y-e.natural165.y)>C.BiomePopulation165Rules.contactDrift||x<R.footRadius||y<R.footRadius||outside217(world(),x,y,R.footRadius)))return true;if(world().blocked(x,y,T.enemyRadius,e.z,e.z?e.poi:null))return true;if(e.z===0&&state.car){const vp=g.worldEvolution?.vehicleProfile()||{w:4.6,h:1.85},q=G.local({...state.car,w:vp.w,h:vp.h},x,y);return G.circleRect(q.x,q.y,T.enemyRadius,{x:0,y:0,w:vp.w,h:vp.h});}return false;}
 function enemyTurn(dt){const budget={left:T.pathBudget};for(const e of enemies.values()){
  Survey.step(world(),e,state,dt,e.biomeProfile?{...T,enemySpeed:e.biomeProfile.speed}:T,budget,(x,y)=>enemyBlocked(e,x,y));
  if(e.natural165){const origin=e.natural165,dx=e.gx-origin.x,dy=e.gy-origin.y,length=Math.hypot(dx,dy),limit=C.BiomePopulation165Rules.contactDrift;if(length>limit){e.gx=origin.x+dx/length*limit;e.gy=origin.y+dy/length*limit;}state.tracks[e.id]=Survey.record(e);}

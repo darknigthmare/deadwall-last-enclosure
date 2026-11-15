@@ -9,6 +9,7 @@
   'use strict';
 /* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
 const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const listed217=(w,p)=>w.site?w.site(p.id)===p:w.pois.includes(p);
 
   const dependency = (name, file) => root[name] || (typeof require === 'function' ? require(file) : null);
   const rules = () => dependency('DeadwallCore', './core.js').CampaignWater214Rules;
@@ -150,7 +151,7 @@ const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
     if (!available(world, pose)) return freeze([]);
     const R = rules(), seen = new Set(Array.isArray(discoveries) ? discoveries : []);
     const candidates = typeof world.nearPOI === 'function' ? world.nearPOI(pose.x, pose.y, R.nearbyRadius) : world.pois;
-    const sites = [...new Set(candidates)].filter(p => validSite(p) && world.pois.includes(p) && seen.has(p.id) &&
+    const sites = [...new Set(candidates)].filter(p => validSite(p) && listed217(world, p) && seen.has(p.id) &&
       distanceToParcel(p, pose) <= R.nearbyRadius)
       .sort((a, b) => distanceToParcel(a, pose) - distanceToParcel(b, pose) || a.id.localeCompare(b.id)).slice(0, R.maxSites);
     const offered = [];

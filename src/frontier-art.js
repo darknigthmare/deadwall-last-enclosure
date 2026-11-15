@@ -1,4 +1,7 @@
-(function(root){'use strict';const G=root.DeadwallFrontierGeometry;let mask=null,opacity=0,last=null;
+(function(root){'use strict';
+/* Monde sans bord T1 : le lieu occupé est lu par identifiant ; repli identique pour un monde sans accesseur. */
+const sitesById217=(w,id)=>w.site?(p=>p?[p]:[])(w.site(id)):w.pois.filter(p=>p.id===id);
+const G=root.DeadwallFrontierGeometry;let mask=null,opacity=0,last=null;
 const fill=(c,x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(x,y,w,h);};
 // Parcel orientation rotates surfaces, never the shared world-space sunlight.
 function localShadow(angle=0,x=.08,y=.12){const a=Number.isFinite(angle)?angle:0;return{x:Math.cos(a)*x+Math.sin(a)*y,y:-Math.sin(a)*x+Math.cos(a)*y};}
@@ -175,7 +178,7 @@ function depthEntries(g,v,view,places=v.world.nearPOI(v.x,v.y,Math.max(view.r-vi
  return sortEntries(entries);
 }
 function render(g,v){const c=g.ctx,s=v.scale,r=Math.max(g.width,g.height)/s/2+30,view={l:v.x-g.width/s/2-8,r:v.x+g.width/s/2+8,t:v.y-g.height/s/2-8,b:v.y+g.height/s/2+8};c.setTransform(g.dpr,0,0,g.dpr,0,0);fill(c,0,0,g.width,g.height,'#1e3023');c.save();c.translate(g.width/2,g.height/2);c.scale(s,s);c.translate(-v.x,-v.y);
- const places=v.z===0?v.world.nearPOI(v.x,v.y,r):v.world.pois.filter(p=>p.id===v.inside);
+ const places=v.z===0?v.world.nearPOI(v.x,v.y,r):sitesById217(v.world,v.inside);
  if(v.z===0){if(!root.DeadwallGround135?.draw(c,v.world,view,{scale:s,time:g.elapsed,reducedMotion:!!g.settings?.reducedMotion})){fill(c,view.l,view.t,view.r-view.l,view.b-view.t,'#65754f');for(let y=Math.floor(view.t/3)*3;y<view.b;y+=3)for(let x=Math.floor(view.l/3)*3;x<view.r;x+=3){const n=G.noise(v.world.seed,x,y,38);fill(c,x,y,3.04,3.04,'rgba(29,67,41,'+(n*.34)+')');}}if(v.world.generation>=6)for(const chunk of v.world.around(v.x,v.y,r))for(const d of chunk.decor||[])if(d.x>=view.l-2&&d.x<=view.r+2&&d.y>=view.t-2&&d.y<=view.b+2)root.DeadwallGround135?.drawDecor(c,d);for(const p of places)lotGround(c,p,v);const roads=[...v.world.roads,...places.map(p=>v.world.driveFor?v.world.driveFor(p):p.drive),...(root.DeadwallAtlasRender.getApproaches?.(g)||[])];root.DeadwallRoadKit.drawNetwork(c,roads,{view});root.DeadwallSeedDetail157?.drawRoads?.(c,v.world.roads,view,v.world.seed);root.DeadwallWaterArt165?.drawCrossings?.(c,v.world,view,{scale:s});}
  for(const p of places)lotFloor(c,p,v,g);
  const evolution=g.worldEvolution?.overview();

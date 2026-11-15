@@ -3,6 +3,7 @@
 'use strict';
 /* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
 const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
+const limitsOf217=(W,g,size)=>W&&W.limitsForGeneration?W.limitsForGeneration(g):(s=>({axisMin:(pad=0)=>pad,axisMax:(pad=0)=>s-pad}))(size());
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.NightGearRules;
 const kinds=Object.keys(R.types),copy=v=>JSON.parse(JSON.stringify(v));
 const initial=()=>({version:1,serial:1,devices:[]});
@@ -20,7 +21,7 @@ function normalize(raw,data){
  const number=(v,min,max,int=false)=>{if(!Number.isFinite(v)||v<min||v>max||int&&!Number.isInteger(v))bad();return v;};
  if(!raw||raw.version!==1||!Array.isArray(raw.devices)||raw.devices.length>R.maxDevices)bad();
  let regionalWorld=null;
- const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),regionSize=W.sizeForGeneration(data?.frontier?.generation??5);
+ const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),L217=limitsOf217(W,data?.frontier?.generation??5,()=>W.sizeForGeneration(data?.frontier?.generation??5));
  const out=initial(),seen=new Set();out.serial=number(raw.serial,1,1e9,true);let held=0,lit=0,placed=0;
  const advancedAllowed=!data||Object.entries(data.essentials?.jobs||{}).some(([id,j])=>j.stage==='delivered'&&C.Essentials.content.byId[id]?.family==='light');
  for(const d of raw.devices){
@@ -30,7 +31,7 @@ function normalize(raw,data){
   if(d.location==='belt'){held++;if(d.on)lit++;}
   if(d.location==='placed'){
    placed++;if(!['local','region'].includes(d.domain))bad();
-   Object.assign(item,{domain:d.domain,x:number(d.x,0,d.domain==='local'?4096:regionSize),y:number(d.y,0,d.domain==='local'?4096:regionSize),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
+   Object.assign(item,{domain:d.domain,x:number(d.x,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?4096:L217.axisMax()),y:number(d.y,d.domain==='local'?0:L217.axisMin(),d.domain==='local'?4096:L217.axisMax()),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
    if(item.inside!==null&&!/^P\d{4}$/.test(item.inside)||item.domain==='local'&&(item.z!==0||item.inside!==null))bad();
    if(data&&item.domain==='region'&&(item.z!==0||item.inside!==null)){
     const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation,data.frontier)),p=siteOf217(w,item.inside);
