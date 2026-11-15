@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 37558,
-      "sha256": "04b0fc6357ea3579dd9f4ebc7f2e224cbfffe0842462291c9ed39030c01bd948"
+      "bytes": 37652,
+      "sha256": "5a506f57796e6bd34439d1b1209a0cfa4434621c0970c5e9eacbc410e9392b38"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -34,6 +34,11 @@
       "path": "scripts/public-manifest183.cjs",
       "bytes": 4314,
       "sha256": "4465664254595fa89972f54e045f9c07aac44f425c63e778e83822cbf7daa03b"
+    },
+    {
+      "path": "src/abominations217.js",
+      "bytes": 16873,
+      "sha256": "b85fca68ea026c75d19e9615de976ab5717e91c2c3479d76e28946faa0755158"
     },
     {
       "path": "src/actor-actions159.js",
@@ -447,8 +452,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 353335,
-      "sha256": "c1e506c167e2db47b54aedc77d107aed51011f954119fc6bea22d1bf50619781"
+      "bytes": 357853,
+      "sha256": "ce2a009a9ee664caa817608fe5e132b60c33c94ef864999bab51483ee8ced3c0"
+    },
+    {
+      "path": "src/corpse-chain217.js",
+      "bytes": 27600,
+      "sha256": "19a7dbf3af3fcb90ab6c9be3baf02c93d0da43489f4caad1bf48349292b1f052"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -497,8 +507,8 @@
     },
     {
       "path": "src/earthworks217.js",
-      "bytes": 23082,
-      "sha256": "af59471c69e83f15bff9e9338470a26e8cdf34987b449e64dee8375b6555c914"
+      "bytes": 23224,
+      "sha256": "762f2b07479120dd62d131543d159b518c73d9a0291817ec9962941df363fc1e"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -542,13 +552,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5463,
-      "sha256": "fe1ad88b90ce7442cb73028738d408b78a3658380a1cc4cff01225a6fa756ec3"
+      "bytes": 5498,
+      "sha256": "e4595a14798e0d85c4129d9cec45a74e5c702025cd24d36b67fc43d223206cdd"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25902,
-      "sha256": "18552dbc9bdbb6d8a238abd3cff717c7b97c844eb0ccb5db4eca7048392a1750"
+      "bytes": 26110,
+      "sha256": "bdfb4e3791fc174fbebe391924de3b3988564df1d2a497a5a2aa16ee81c2fe55"
     },
     {
       "path": "src/expedition-art.js",
@@ -1254,8 +1264,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 37558,
-      "sha256": "04b0fc6357ea3579dd9f4ebc7f2e224cbfffe0842462291c9ed39030c01bd948"
+      "bytes": 37652,
+      "sha256": "5a506f57796e6bd34439d1b1209a0cfa4434621c0970c5e9eacbc410e9392b38"
     },
     {
       "path": "scripts/audit-campaign-sites205.cjs",
@@ -1281,6 +1291,11 @@
       "path": "scripts/public-manifest183.cjs",
       "bytes": 4314,
       "sha256": "4465664254595fa89972f54e045f9c07aac44f425c63e778e83822cbf7daa03b"
+    },
+    {
+      "path": "src/abominations217.js",
+      "bytes": 16873,
+      "sha256": "b85fca68ea026c75d19e9615de976ab5717e91c2c3479d76e28946faa0755158"
     },
     {
       "path": "src/actor-actions159.js",
@@ -1694,8 +1709,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 353335,
-      "sha256": "c1e506c167e2db47b54aedc77d107aed51011f954119fc6bea22d1bf50619781"
+      "bytes": 357853,
+      "sha256": "ce2a009a9ee664caa817608fe5e132b60c33c94ef864999bab51483ee8ced3c0"
+    },
+    {
+      "path": "src/corpse-chain217.js",
+      "bytes": 27600,
+      "sha256": "19a7dbf3af3fcb90ab6c9be3baf02c93d0da43489f4caad1bf48349292b1f052"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -1744,8 +1764,8 @@
     },
     {
       "path": "src/earthworks217.js",
-      "bytes": 23082,
-      "sha256": "af59471c69e83f15bff9e9338470a26e8cdf34987b449e64dee8375b6555c914"
+      "bytes": 23224,
+      "sha256": "762f2b07479120dd62d131543d159b518c73d9a0291817ec9962941df363fc1e"
     },
     {
       "path": "src/ecology-codex189.js",
@@ -1789,13 +1809,13 @@
     },
     {
       "path": "src/expansion-kit.js",
-      "bytes": 5463,
-      "sha256": "fe1ad88b90ce7442cb73028738d408b78a3658380a1cc4cff01225a6fa756ec3"
+      "bytes": 5498,
+      "sha256": "e4595a14798e0d85c4129d9cec45a74e5c702025cd24d36b67fc43d223206cdd"
     },
     {
       "path": "src/expansion-ui.js",
-      "bytes": 25902,
-      "sha256": "18552dbc9bdbb6d8a238abd3cff717c7b97c844eb0ccb5db4eca7048392a1750"
+      "bytes": 26110,
+      "sha256": "bdfb4e3791fc174fbebe391924de3b3988564df1d2a497a5a2aa16ee81c2fe55"
     },
     {
       "path": "src/expedition-art.js",
