@@ -82,8 +82,8 @@
     },
     {
       "path": "src/atlas-view.js",
-      "bytes": 15727,
-      "sha256": "8e4cab4466211510c34d1bb61f97563d4761df63b6128bd0c2b5301058ccfe61"
+      "bytes": 15819,
+      "sha256": "acfed5b68bbc22f95e1b2b0443f8a9531f593e65ebd9595628ae3057e3de50a6"
     },
     {
       "path": "src/balance217.js",
@@ -167,8 +167,8 @@
     },
     {
       "path": "src/campaign-services208.js",
-      "bytes": 7655,
-      "sha256": "e8b0d027a31d9de8ad2ed6cbafe20fe2092e1c9e6e61bd8375fe9ae76edffce3"
+      "bytes": 7718,
+      "sha256": "a300f96a475cde8abcf0e40cd5620b9cba1a5b693dca3f35e850dd9979f964e6"
     },
     {
       "path": "src/campaign-site-art205.js",
@@ -177,8 +177,8 @@
     },
     {
       "path": "src/campaign-water-supports214.js",
-      "bytes": 10970,
-      "sha256": "9e5f550abbbffbbddb59fed9d3a156384073fc9dd811076295ad44e1a9be6311"
+      "bytes": 11034,
+      "sha256": "567d37b6ffb741b60c93124e873675240aef2387d7d3b77ccda3e88939445365"
     },
     {
       "path": "src/campaign-water214.js",
@@ -407,8 +407,8 @@
     },
     {
       "path": "src/companions-pack.js",
-      "bytes": 18811,
-      "sha256": "3edec24532830bad5a2000721b6226deca94059cd12e45ef94c27a1939ed98cb"
+      "bytes": 19288,
+      "sha256": "4a32ffa7293059e228f454ee018aaa1deb08330b1874ff662be3b83bc8066655"
     },
     {
       "path": "src/content-codex193.js",
@@ -447,8 +447,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 351754,
-      "sha256": "234c3adfa07f0282ab5ce59f7f5d65092bb4aabf7106bb2db0f24e942c02fc6b"
+      "bytes": 353335,
+      "sha256": "c1e506c167e2db47b54aedc77d107aed51011f954119fc6bea22d1bf50619781"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -532,8 +532,8 @@
     },
     {
       "path": "src/essential-state.js",
-      "bytes": 5648,
-      "sha256": "170591e6c67a8e59f2c932e2e0ac25030a79b1cfb8d8ab522efe577f434351b3"
+      "bytes": 5911,
+      "sha256": "89c03c6d168449230466509cc296335457439ccc32ff47d50a1875241296c2f4"
     },
     {
       "path": "src/essential-ui.js",
@@ -612,8 +612,8 @@
     },
     {
       "path": "src/field-atlas-state.js",
-      "bytes": 5431,
-      "sha256": "e064788b0cd76141a86ac78afeb10aae00280ed9d5d6e6f3e468ade656cfa757"
+      "bytes": 5873,
+      "sha256": "6d0defdd551f9e8f260df8e723d03edef3016ebdc33959b3f4a4d44ff8ba96f1"
     },
     {
       "path": "src/field-atlas-ui.js",
@@ -662,8 +662,8 @@
     },
     {
       "path": "src/frontier-art.js",
-      "bytes": 35986,
-      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017"
+      "bytes": 36181,
+      "sha256": "ff4a83106843e630d3540cb7ddae2c36f8f77e65045c70f40ff1aec8ba22fd27"
     },
     {
       "path": "src/frontier-care-ui.js",
@@ -702,8 +702,8 @@
     },
     {
       "path": "src/frontier-state.js",
-      "bytes": 12795,
-      "sha256": "4fe546f83b40f6ee54bbf6ada21f64cc8ea9ab1a110b794ff939119a6cd90c3a"
+      "bytes": 13329,
+      "sha256": "53ca76a06b94efd40c4630ea4896f168b1b892670ea09bfbb7b747d7c507daeb"
     },
     {
       "path": "src/frontier-survey.js",
@@ -717,13 +717,13 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 53012,
-      "sha256": "e4cd86c0c1c43cb1a0f2aa5596d757798afc8e22f6d6d336c5f3955bc6bc791a"
+      "bytes": 53747,
+      "sha256": "39db8cbbc248f544b024916d33860a1fc519315d7d4c10c482a3ba83dbe727ce"
     },
     {
       "path": "src/frontier.js",
-      "bytes": 46947,
-      "sha256": "3e9673a7f34fe267f3c3d31d98357c7862f49fd30d09c79bc614b97048e85884"
+      "bytes": 48860,
+      "sha256": "aeeb456e421416814953a451c2108cb91b318860de26a3d82f98a4930f13227d"
     },
     {
       "path": "src/game.js",
@@ -767,8 +767,8 @@
     },
     {
       "path": "src/husbandry191.js",
-      "bytes": 42888,
-      "sha256": "064a8503b057af77fd2265d149b80e552d29db6e6fd0803ff449e5d95fae9277"
+      "bytes": 43323,
+      "sha256": "298370719c0cfa37a240e929c9a6f44e2d2d652e1b4e9f73f7ecaeff01b6b734"
     },
     {
       "path": "src/hydrology-codex165.js",
@@ -847,8 +847,8 @@
     },
     {
       "path": "src/night-gear.js",
-      "bytes": 30343,
-      "sha256": "72fa4edc66f0d7b970370e4f7059ccfcace404847bbe149956b20092ac5648a2"
+      "bytes": 30604,
+      "sha256": "0ed1949272daac7108db08b4f5a192d4d55e6cdbdbab9a0d51741f2582c2cf02"
     },
     {
       "path": "src/nightwatch.js",
@@ -862,8 +862,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 20896,
-      "sha256": "9c06828e8ba3b5c5e5b94eda03962e3cd32dd90bb2ff0a88a39ea7d46f745b87"
+      "bytes": 24204,
+      "sha256": "e0263191e4592975a625a5af3660d956e24445e43eb843b9a4ac6e0c3c009a64"
     },
     {
       "path": "src/player-menus194.js",
@@ -987,8 +987,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 34421,
-      "sha256": "5a597243939a9f75fc18a4252d4041e2995810285e9b0786229dbe25feacaa0e"
+      "bytes": 41498,
+      "sha256": "f053daf5c6656a81b7fceb640b2c9390bfea7393286b042fb6dc4a3c3e4be7d5"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -1037,13 +1037,13 @@
     },
     {
       "path": "src/succession133.js",
-      "bytes": 29506,
-      "sha256": "f166d726125e091bcaba38c90b0032073b30cc9a44898c1b4ee6602d15b2a5d5"
+      "bytes": 29991,
+      "sha256": "8d75c0e82154b7695e373d46751a505cf38ae232d0ec37555598360539e7e1cd"
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 27441,
-      "sha256": "0cbc8fa6ab6beeda3998b9f49b5ce03bff7face9d36026fc05ee6f0c9fb3a773"
+      "bytes": 27838,
+      "sha256": "f092b6de49bedeeaf6f04bbd42fe229dc73ae05c1243d125d40904f0c8aee710"
     },
     {
       "path": "src/tactics.js",
@@ -1212,8 +1212,8 @@
     },
     {
       "path": "src/world-evolution-state.js",
-      "bytes": 6822,
-      "sha256": "1a737e139f762ef6d7d494f6bdd4c07a93811918f079eb9a4707a3757ada3dc3"
+      "bytes": 7199,
+      "sha256": "076a0ce1fe8cf6260783c32549e19acbc4392efe511995ca3401d2afd18eec0d"
     },
     {
       "path": "src/world-evolution-ui.js",
@@ -1227,8 +1227,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46224,
-      "sha256": "3078d0218c34db11de5a09e10b8c2d6819a7c407d3f124cfe8df19df112c5575"
+      "bytes": 46391,
+      "sha256": "d33b1352da682e3b678034677c4d8f20f15897b575b565fca6ca0b728dd20ebb"
     },
     {
       "path": "src/world-props-art153.js",
@@ -1242,8 +1242,8 @@
     },
     {
       "path": "src/world-stream131.js",
-      "bytes": 4550,
-      "sha256": "c2835da5ba817a4305a6c88e127225f4cdf7256a1a92974375fb0661f461133f"
+      "bytes": 4696,
+      "sha256": "3d2da0889ea3fa25bb605f7da22fc483b80e538a34b98d79ea3ea04e54446071"
     },
     {
       "path": "src/world-variants158.js",
@@ -1329,8 +1329,8 @@
     },
     {
       "path": "src/atlas-view.js",
-      "bytes": 15727,
-      "sha256": "8e4cab4466211510c34d1bb61f97563d4761df63b6128bd0c2b5301058ccfe61"
+      "bytes": 15819,
+      "sha256": "acfed5b68bbc22f95e1b2b0443f8a9531f593e65ebd9595628ae3057e3de50a6"
     },
     {
       "path": "src/balance217.js",
@@ -1414,8 +1414,8 @@
     },
     {
       "path": "src/campaign-services208.js",
-      "bytes": 7655,
-      "sha256": "e8b0d027a31d9de8ad2ed6cbafe20fe2092e1c9e6e61bd8375fe9ae76edffce3"
+      "bytes": 7718,
+      "sha256": "a300f96a475cde8abcf0e40cd5620b9cba1a5b693dca3f35e850dd9979f964e6"
     },
     {
       "path": "src/campaign-site-art205.js",
@@ -1424,8 +1424,8 @@
     },
     {
       "path": "src/campaign-water-supports214.js",
-      "bytes": 10970,
-      "sha256": "9e5f550abbbffbbddb59fed9d3a156384073fc9dd811076295ad44e1a9be6311"
+      "bytes": 11034,
+      "sha256": "567d37b6ffb741b60c93124e873675240aef2387d7d3b77ccda3e88939445365"
     },
     {
       "path": "src/campaign-water214.js",
@@ -1654,8 +1654,8 @@
     },
     {
       "path": "src/companions-pack.js",
-      "bytes": 18811,
-      "sha256": "3edec24532830bad5a2000721b6226deca94059cd12e45ef94c27a1939ed98cb"
+      "bytes": 19288,
+      "sha256": "4a32ffa7293059e228f454ee018aaa1deb08330b1874ff662be3b83bc8066655"
     },
     {
       "path": "src/content-codex193.js",
@@ -1694,8 +1694,8 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 351754,
-      "sha256": "234c3adfa07f0282ab5ce59f7f5d65092bb4aabf7106bb2db0f24e942c02fc6b"
+      "bytes": 353335,
+      "sha256": "c1e506c167e2db47b54aedc77d107aed51011f954119fc6bea22d1bf50619781"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -1779,8 +1779,8 @@
     },
     {
       "path": "src/essential-state.js",
-      "bytes": 5648,
-      "sha256": "170591e6c67a8e59f2c932e2e0ac25030a79b1cfb8d8ab522efe577f434351b3"
+      "bytes": 5911,
+      "sha256": "89c03c6d168449230466509cc296335457439ccc32ff47d50a1875241296c2f4"
     },
     {
       "path": "src/essential-ui.js",
@@ -1859,8 +1859,8 @@
     },
     {
       "path": "src/field-atlas-state.js",
-      "bytes": 5431,
-      "sha256": "e064788b0cd76141a86ac78afeb10aae00280ed9d5d6e6f3e468ade656cfa757"
+      "bytes": 5873,
+      "sha256": "6d0defdd551f9e8f260df8e723d03edef3016ebdc33959b3f4a4d44ff8ba96f1"
     },
     {
       "path": "src/field-atlas-ui.js",
@@ -1909,8 +1909,8 @@
     },
     {
       "path": "src/frontier-art.js",
-      "bytes": 35986,
-      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017"
+      "bytes": 36181,
+      "sha256": "ff4a83106843e630d3540cb7ddae2c36f8f77e65045c70f40ff1aec8ba22fd27"
     },
     {
       "path": "src/frontier-care-ui.js",
@@ -1949,8 +1949,8 @@
     },
     {
       "path": "src/frontier-state.js",
-      "bytes": 12795,
-      "sha256": "4fe546f83b40f6ee54bbf6ada21f64cc8ea9ab1a110b794ff939119a6cd90c3a"
+      "bytes": 13329,
+      "sha256": "53ca76a06b94efd40c4630ea4896f168b1b892670ea09bfbb7b747d7c507daeb"
     },
     {
       "path": "src/frontier-survey.js",
@@ -1964,13 +1964,13 @@
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 53012,
-      "sha256": "e4cd86c0c1c43cb1a0f2aa5596d757798afc8e22f6d6d336c5f3955bc6bc791a"
+      "bytes": 53747,
+      "sha256": "39db8cbbc248f544b024916d33860a1fc519315d7d4c10c482a3ba83dbe727ce"
     },
     {
       "path": "src/frontier.js",
-      "bytes": 46947,
-      "sha256": "3e9673a7f34fe267f3c3d31d98357c7862f49fd30d09c79bc614b97048e85884"
+      "bytes": 48860,
+      "sha256": "aeeb456e421416814953a451c2108cb91b318860de26a3d82f98a4930f13227d"
     },
     {
       "path": "src/game.js",
@@ -2014,8 +2014,8 @@
     },
     {
       "path": "src/husbandry191.js",
-      "bytes": 42888,
-      "sha256": "064a8503b057af77fd2265d149b80e552d29db6e6fd0803ff449e5d95fae9277"
+      "bytes": 43323,
+      "sha256": "298370719c0cfa37a240e929c9a6f44e2d2d652e1b4e9f73f7ecaeff01b6b734"
     },
     {
       "path": "src/hydrology-codex165.js",
@@ -2094,8 +2094,8 @@
     },
     {
       "path": "src/night-gear.js",
-      "bytes": 30343,
-      "sha256": "72fa4edc66f0d7b970370e4f7059ccfcace404847bbe149956b20092ac5648a2"
+      "bytes": 30604,
+      "sha256": "0ed1949272daac7108db08b4f5a192d4d55e6cdbdbab9a0d51741f2582c2cf02"
     },
     {
       "path": "src/nightwatch.js",
@@ -2109,8 +2109,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 20896,
-      "sha256": "9c06828e8ba3b5c5e5b94eda03962e3cd32dd90bb2ff0a88a39ea7d46f745b87"
+      "bytes": 24204,
+      "sha256": "e0263191e4592975a625a5af3660d956e24445e43eb843b9a4ac6e0c3c009a64"
     },
     {
       "path": "src/player-menus194.js",
@@ -2234,8 +2234,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 34421,
-      "sha256": "5a597243939a9f75fc18a4252d4041e2995810285e9b0786229dbe25feacaa0e"
+      "bytes": 41498,
+      "sha256": "f053daf5c6656a81b7fceb640b2c9390bfea7393286b042fb6dc4a3c3e4be7d5"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -2284,13 +2284,13 @@
     },
     {
       "path": "src/succession133.js",
-      "bytes": 29506,
-      "sha256": "f166d726125e091bcaba38c90b0032073b30cc9a44898c1b4ee6602d15b2a5d5"
+      "bytes": 29991,
+      "sha256": "8d75c0e82154b7695e373d46751a505cf38ae232d0ec37555598360539e7e1cd"
     },
     {
       "path": "src/survival-pack.js",
-      "bytes": 27441,
-      "sha256": "0cbc8fa6ab6beeda3998b9f49b5ce03bff7face9d36026fc05ee6f0c9fb3a773"
+      "bytes": 27838,
+      "sha256": "f092b6de49bedeeaf6f04bbd42fe229dc73ae05c1243d125d40904f0c8aee710"
     },
     {
       "path": "src/tactics.js",
@@ -2459,8 +2459,8 @@
     },
     {
       "path": "src/world-evolution-state.js",
-      "bytes": 6822,
-      "sha256": "1a737e139f762ef6d7d494f6bdd4c07a93811918f079eb9a4707a3757ada3dc3"
+      "bytes": 7199,
+      "sha256": "076a0ce1fe8cf6260783c32549e19acbc4392efe511995ca3401d2afd18eec0d"
     },
     {
       "path": "src/world-evolution-ui.js",
@@ -2474,8 +2474,8 @@
     },
     {
       "path": "src/world-pack131.js",
-      "bytes": 46224,
-      "sha256": "3078d0218c34db11de5a09e10b8c2d6819a7c407d3f124cfe8df19df112c5575"
+      "bytes": 46391,
+      "sha256": "d33b1352da682e3b678034677c4d8f20f15897b575b565fca6ca0b728dd20ebb"
     },
     {
       "path": "src/world-props-art153.js",
@@ -2489,8 +2489,8 @@
     },
     {
       "path": "src/world-stream131.js",
-      "bytes": 4550,
-      "sha256": "c2835da5ba817a4305a6c88e127225f4cdf7256a1a92974375fb0661f461133f"
+      "bytes": 4696,
+      "sha256": "3d2da0889ea3fa25bb605f7da22fc483b80e538a34b98d79ea3ea04e54446071"
     },
     {
       "path": "src/world-variants158.js",
