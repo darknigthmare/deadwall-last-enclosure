@@ -240,13 +240,7 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
    const data=g.serialize();
    // Native new games request all shipped content (G11 / details 13).
    // Replay selects the original map versions within the same fresh campaign.
-   data.frontier.generation=recipe?.generation??(root.DeadwallGeography135?(a[4]===true?11:8):5);
-   if(recipe)data.frontier.detailVersion=recipe.detailVersion;
-   else if(a[4]===true&&data.frontier.generation===11)data.frontier.detailVersion=13;
-   data.frontier.ecologyVersion=recipe?.ecologyVersion??(data.frontier.generation>=7?1:0);
-   data.frontier.hydrologyVersion=recipe?.hydrologyVersion??(data.frontier.generation>=8?1:0);
-   const landscape189=a[3]??'classic';
-   if(landscape189&&landscape189!=='classic')data.frontier.landscape189=landscape189;
+   startVersions(data.frontier,recipe,a[4],a[3]);
    if(data.frontier.generation>=6){
     const home=root.DeadwallGeography135.home(data.worldSeed,data.frontier.generation);
     data.frontier.x=home.maxX+2;data.frontier.y=home.y;
@@ -257,5 +251,17 @@ function install(g){if(g.worldOps131)return g.worldOps131;if(!g.expansions)retur
  };
  return api;
 }
-const api={install,normalize,initial};root.DeadwallWorldPack131=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
+// Versions de région d'un départ, écrites dans le registre régional donné. Seule source de ce choix : le départ réel
+// (enveloppe de `startNew` ci-dessus) et l'aperçu d'une graine avant le départ (src/seed-card217.js) l'appellent tous deux.
+function startVersions(frontier,recipe,currentContent194,landscape){
+ frontier.generation=recipe?.generation??(root.DeadwallGeography135?(currentContent194===true?11:8):5);
+ if(recipe)frontier.detailVersion=recipe.detailVersion;
+ else if(currentContent194===true&&frontier.generation===11)frontier.detailVersion=13;
+ frontier.ecologyVersion=recipe?.ecologyVersion??(frontier.generation>=7?1:0);
+ frontier.hydrologyVersion=recipe?.hydrologyVersion??(frontier.generation>=8?1:0);
+ const landscape189=landscape??'classic';
+ if(landscape189&&landscape189!=='classic')frontier.landscape189=landscape189;
+ return frontier;
+}
+const api={install,normalize,initial,startVersions};root.DeadwallWorldPack131=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root.DEADWALL&&root.document)install(root.DEADWALL);
 })(globalThis);

@@ -83,14 +83,14 @@ test('fiche de graine : ressources d’ouverture et conseil déduits des gisemen
   assert.deepEqual([plain.opening.wood.level,plain.opening.stone.level,plain.opening.scrap.level],['plenty','scarce','fair']);
   assert.equal(plain.opening.wood.amount,640,'quantités d’origine, pas le reste après récolte');
   assert.equal(plain.opening.text,'Bois abondant (16 gisements, 640) · Pierre rare (0 gisement, 0) · Ferraille présente (8 gisements, 320) — à moins de 28 m du centre.');
-  assert.ok(plain.advice.startsWith('Prairies ouvertes sans pierre à portée : la carrière la plus proche est à 2,4 km au nord ; ouvrez en bois.'),plain.advice);
+  assert.ok(plain.advice.startsWith('Aucune pierre à portée de marche : la carrière la plus proche est à 2,4 km au nord ; ouvrez en bois.'),plain.advice);
   assert.equal(plain.biomes.text,'Prairies ouvertes (100 %) ; milieu unique à la ronde.');
   const noQuarry=Card.describe({world:fake(biome),nodes:[...ring('wood',16,400),...ring('scrap',8,600)]});
-  assert.ok(noQuarry.advice.startsWith('Prairies ouvertes sans pierre à portée : la carrière sera loin ; ouvrez en bois.'),noQuarry.advice);
+  assert.ok(noQuarry.advice.startsWith('Aucune pierre à portée de marche : la carrière sera loin ; ouvrez en bois.'),noQuarry.advice);
   const bare=Card.describe({world:fake({...biome,pois:[quarry,sawmill]}),nodes:[...ring('stone',9,300),...ring('scrap',9,300),node('wood',20,0)]});
-  assert.ok(bare.advice.startsWith('Prairies ouvertes pauvre en bois à portée : la scierie la plus proche est à 1,2 km à l’est ; la pierre, elle, est sur place.'),bare.advice);
+  assert.ok(bare.advice.startsWith('Peu de bois à portée de marche : la scierie la plus proche est à 1,2 km à l’est ; la pierre, elle, est sur place.'),bare.advice);
   const rich=Card.describe({world:fake(biome),nodes:[...ring('wood',9,300),...ring('stone',9,300),...ring('scrap',9,300)]});
-  assert.ok(rich.advice.startsWith('Prairies ouvertes : bois, pierre et ferraille à portée de marche, l’ouverture est libre.'));
+  assert.ok(rich.advice.startsWith('Bois, pierre et ferraille à portée de marche : l’ouverture est libre.'));
   assert.ok(rich.advice.includes('Aucune agglomération à moins de 3 km'),'le second conseil vient de la densité');
   // La récolte ne change pas la fiche : un gisement épuisé compte toujours pour sa quantité d'origine.
   const nodes=ring('stone',9,300),first=Card.describe({world:fake(biome),nodes}).opening;for(const n of nodes){n.amount=0;n.depleted=true;}
@@ -211,4 +211,150 @@ test('fiche de graine : le carnet l’affiche pour toute campagne sans toucher �
   assert.equal(menu.hidden,false);assert.ok(menu.textContent.startsWith('Carte en cours — graine 42 (Paysage historique) : '+other.summary+'.'),menu.textContent);
   const input=doc.getElementById('mapSeed');
   if(input){input.value='777';g.seedCard217.menu();assert.equal(menu.hidden,true,'une graine saisie inconnue n’est pas décrite');input.value='42';g.seedCard217.menu();assert.equal(menu.hidden,false);input.value='';}
+});
+
+// ---- Deuxième tranche : le milieu qui compte, les lieux remarquables réels, l'aperçu avant le départ. ----
+const Biome=require('../src/biome217.js'),Remarkable=require('../src/remarkable217.js');
+
+test('fiche de graine : le milieu de la cité s’affiche avec son avantage et sa contrainte chiffrés, et porte le conseil',()=>{
+  const biome={biomeAt:()=>({id:'sandyPine',primary:'sandyPine',name:'Pinèdes sur sols sableux'})};
+  const nodes=[...ring('wood',16,400),...ring('scrap',8,600),node('stone',40,0)];
+  const forest=Card.describe({world:fake(biome),nodes,milieu:{active:true,profile:Biome.describe('forest')}});
+  assert.deepEqual(forest.lines.map(l=>l[0]),['Milieu','Effet du milieu','Eau','Densité','Ouverture']);
+  assert.equal(forest.lines[1][1],'Forêt : récolte du bois +15 %, nourriture des fermes protégées −10 %.');
+  assert.equal(forest.milieu.family,'forest');assert.equal(forest.milieu.bonus.factor,C.Biome217Rules.families.forest.bonus.factor);assert.equal(forest.milieu.malus.percent,'−10 %');
+  assert.equal(forest.adviceLines[0],'Forêt : bois +15 %, fermes −10 % — ouvrez en bois, prévoyez plus de fermes.');
+  // L'accord fautif (« Pinèdes sur sols sableux pauvre en pierre ») a disparu : la phrase a son propre sujet.
+  assert.equal(forest.adviceLines[1],'Peu de pierre à portée de marche : la carrière sera loin.');
+  assert.equal(forest.advice.includes('Pinèdes'),false);assert.ok(forest.share.includes('Effet du milieu : Forêt : récolte du bois +15 %'));
+  assert.equal(fs.readFileSync(path.join(root,'src/seed-card217.js'),'utf8').includes('pauvre en'),false,'plus d’adjectif accordé avec un nom de milieu');
+  // Les cinq familles : chiffres lus dans les règles, jamais recopiés.
+  for(const [id,d]of Object.entries(C.Biome217Rules.families)){
+    const card=Card.describe({world:fake(biome),nodes,milieu:{active:true,profile:Biome.describe(id)}}),pct=x=>Math.round(Math.abs(x-1)*100)+' %';
+    assert.ok(card.adviceLines[0].startsWith(d.name+' : '),id);assert.ok(card.adviceLines[0].includes('+'+pct(d.bonus.factor))&&card.adviceLines[0].includes('−'+pct(d.malus.factor)),card.adviceLines[0]);
+    assert.equal(/undefined|NaN|profitez-en|compensez/.test(card.share),false,id);
+    assert.equal(card.lines[1][1],d.name+' : '+Biome.describe(id).bonus.text+', '+Biome.describe(id).malus.text+'.');
+  }
+  // Ancienne campagne (règle inactive) ou module absent : aucun effet affiché, conseil sans chiffres.
+  for(const milieu of [undefined,null,{active:false,profile:Biome.describe('forest')}]){
+    const old=Card.describe({world:fake(biome),nodes,milieu});
+    assert.deepEqual(old.lines.map(l=>l[0]),['Milieu','Eau','Densité','Ouverture']);assert.equal(old.milieu.active,false);assert.equal(old.milieu.family,null);
+    assert.equal(old.advice.includes('%'),false);assert.equal(old.share.includes('Effet du milieu'),false);
+    assert.equal(old.adviceLines[0],'Peu de pierre à portée de marche : la carrière sera loin ; ouvrez en bois.');
+  }
+  // Campagne neuve sans milieu marqué : dit, sans chiffre inventé.
+  const neutral=Card.describe({world:fake(biome),nodes,milieu:{active:true,profile:Biome.describe(null)}});
+  assert.equal(neutral.lines[1][1],'Aucun milieu marqué autour de D-17 : rendements inchangés.');assert.equal(neutral.advice.includes('%'),false);
+  // `inputs` lit la famille figée de la campagne, et rien pour une campagne inactive ou un module en panne.
+  const g=extra=>({world:{seed:9,nodes:[]},frontier:{world:()=>fake({})},...extra});
+  assert.deepEqual(Card.inputs(g({})).milieu,{active:false,profile:null});
+  assert.deepEqual(Card.inputs(g({biome217:{active:()=>false,profile:()=>Biome.describe('forest')}})).milieu,{active:false,profile:null});
+  assert.equal(Card.inputs(g({biome217:{active:()=>true,profile:()=>Biome.describe('highland')}})).milieu.profile.family,'highland');
+  assert.deepEqual(Card.inputs(g({biome217:{active:()=>true,profile:()=>{throw Error('panne');}}})).milieu,{active:false,profile:null});
+  // Avec l'état du module sous la main, la fiche ne fait jamais avancer le relevé : elle ne touche pas à `profile()`.
+  const had=globalThis.DeadwallBiome217;globalThis.DeadwallBiome217=Biome;
+  try{
+    const never=()=>{throw Error('la fiche ne doit pas figer la famille');},peat={home:{x:5000,y:5000},towns:[],pois:[],biomeAt:()=>({id:'peatland'})};
+    const live=(family,world)=>Card.inputs({world:{seed:9,nodes:[]},frontier:{world:()=>world},biome217:{active:()=>true,snapshot:()=>({version:1,active:true,family,announced:false}),profile:never}}).milieu;
+    assert.equal(live('highland',peat).profile.family,'highland','famille figée, même si le relevé d’aujourd’hui dirait autre chose');
+    assert.equal(live(null,peat).profile.family,'wetland','relevé en attente : même relevé pur que la fondation');
+    assert.equal(live('neutral',peat).profile.family,null);
+  }finally{if(had===undefined)delete globalThis.DeadwallBiome217;else globalThis.DeadwallBiome217=had;}
+});
+
+test('fiche de graine : lieux remarquables mesurés depuis D-17 sur leurs coordonnées, avec genre, nid et lot',()=>{
+  // Forme de `g.remarkable217.list()` : `distance` y est mesurée depuis le joueur, ici volontairement fausse.
+  const view=(id,name,label,dx,dy,nest,resource,amount,distance)=>({id,name,kind:'water',label,x:5000+dx,y:5000+dy,distance,nest,reward:{resource,amount,left:amount},state:'nest',sighted:false,objective:false});
+  const list=[view('P0004','Silo Nord','silo',0,-3000,11,'fuel',24,10),view('P0001','Château d’eau','château d’eau',1200,0,12,'medicine',24,99999),
+    view('P0003','Caserne','caserne',0,2000,16,'ammo',36,5),view('P0002','Gare','gare',-1500,0,10,'fuel',30,1)];
+  const card=Card.describe({world:fake({}),remarkable:list});
+  assert.equal(card.places.source,'remarkable');assert.deepEqual(card.places.items.map(p=>p.id),['P0001','P0002','P0003'],'les trois plus proches de D-17, pas du joueur');
+  assert.deepEqual(card.places.items.map(p=>p.distance),[1200,1500,2000]);assert.deepEqual(card.places.items.map(p=>p.nest),[12,10,16]);
+  assert.equal(card.lines.at(-1)[1],'Château d’eau (château d’eau, nid de 12, lot : 24 médicaments) à 1,2 km à l’est · Gare (gare, nid de 10, lot : 30 carburant) à 1,5 km à l’ouest · Caserne (caserne, nid de 16, lot : 36 munitions) à 2 km au sud.');
+  // Le joueur se déplace : la liste rend d'autres distances, la fiche ne bouge pas.
+  const moved=list.map(v=>({...v,distance:v.distance+777}));
+  assert.deepEqual(Card.describe({world:fake({}),remarkable:moved}).places,card.places);
+  // Sans coordonnées, la distance fournie sert de repli.
+  assert.equal(Card.describe({world:fake({}),remarkable:[{id:'a',name:'Repère',distance:640}]}).places.items[0].distance,640);
+  // `inputs` préfère la liste entière (coordonnées) au seul lieu le plus proche.
+  const g={world:{seed:9,nodes:[]},frontier:{world:()=>fake({})},remarkable217:{list:()=>list,nearest:()=>list[0]}};
+  assert.equal(Card.inputs(g).remarkable,list);
+  // La sélection pure du module donne la même fiche que sa liste en campagne (mêmes lieux, mêmes nids, mêmes lots).
+  const w=region(17117),picked=Remarkable.select(w),byPure=Card.describe({seed:17117,world:w,remarkable:picked});
+  assert.equal(byPure.places.items.length,3);assert.ok(byPure.places.items.every(p=>p.nest>=C.Remarkable217Rules.nestMin&&p.nest<=C.Remarkable217Rules.nestMax&&p.lot&&p.kind));
+  const expect=[...picked].sort((a,b)=>Math.hypot(a.x-w.home.x,a.y-w.home.y)-Math.hypot(b.x-w.home.x,b.y-w.home.y)).slice(0,3);
+  assert.deepEqual(byPure.places.items.map(p=>p.id),expect.map(e=>e.id));assert.ok(byPure.places.items[0].distance>=C.Remarkable217Rules.homeClearance);
+});
+
+// Parties de la fiche que l'aperçu peut établir sans carte locale : tout, sauf les gisements à portée du centre.
+const SHARED=['seed','generation','profile','home','biomes','milieu','water','density','sources','places','summary'];
+const shared=card=>JSON.parse(JSON.stringify(Object.fromEntries(SHARED.map(key=>[key,card[key]]))));
+const linesOf=card=>card.lines.filter(l=>l[0]!=='Ouverture');
+
+test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, sans sauvegarde, identique à la fiche réelle',async()=>{
+  const {g,doc}=bootDocument134();
+  require('../src/exploration-scales.js').install(g,doc);
+  assert.equal(Card.install(g,doc),true);
+  const Pack=globalThis.DeadwallWorldPack131,World=globalThis.DeadwallFrontierWorld;
+  const button=doc.getElementById('seedCard217PreviewButton'),box=doc.getElementById('seedCard217Preview'),input=doc.getElementById('mapSeed');
+  assert.ok(button&&box&&input);assert.equal(button.textContent,'Aperçu de la carte');assert.equal(box.hidden,true,'rien n’est calculé ni affiché sans clic');
+  const siblings=[...doc.getElementById('seedHint').parentNode.children].map(n=>n.id);
+  assert.ok(siblings.indexOf('seedCard217PreviewButton')>siblings.indexOf('seedHint')&&siblings.indexOf('seedCard217Preview')>siblings.indexOf('seedCard217PreviewButton'),'sous le champ de graine');
+  // Compteur de régions tracées : l'aperçu doit en tracer une par graine, jamais deux.
+  let created=0;const create=World.create;World.create=function(...args){created++;return create.apply(this,args);};
+  try{
+    const trace=()=>JSON.stringify({state:g.state,runId:g.runId||null,seed:g.world?.seed??null,ready:g.frontier.worldReady(),save:localStorage.getItem(C.SAVE_KEY),keys:localStorage.length,prepared:g.previewMapSeed135??null});
+    const world=g.world,before=trace();
+    // Champ vide ou graine invalide : un message, aucun calcul.
+    input.value='';assert.equal(await g.seedCard217.preview(),null);assert.equal(box.hidden,false);assert.match(doc.getElementById('seedCard217PreviewTitle').textContent,/^Saisissez ou tirez une graine/);
+    input.value='abc';assert.equal(await g.seedCard217.preview(),null);assert.match(doc.getElementById('seedCard217PreviewTitle').textContent,/entier entre 0 et 4294967295/);
+    assert.equal(created,0);assert.equal(g.seedCard217.previewCount(),0);
+    // Graine 17117 : état « calcul en cours », bouton verrouillé, un seul calcul même sur double clic.
+    input.value='17117';
+    const first=g.seedCard217.preview();
+    assert.equal(g.seedCard217.previewBusy(),true);assert.equal(button.disabled,true);assert.match(doc.getElementById('seedCard217PreviewTitle').textContent,/^Calcul en cours… la région de la graine 17117/);
+    assert.equal(g.seedCard217.preview(),first,'un second clic ne relance rien');
+    const a=await first;
+    assert.equal(created,1);assert.equal(g.seedCard217.previewBusy(),false);assert.equal(button.disabled,false);
+    assert.equal(a.preview,true);assert.equal(a.seed,17117);assert.equal(a.title,'Aperçu · Graine 17117 · '+C.Landscape189Rules.presets[Card.startChoice(doc).landscape].name);
+    assert.equal(doc.getElementById('seedCard217PreviewTitle').textContent,a.title);
+    const facts=doc.getElementById('seedCard217PreviewFacts').children;assert.equal(facts.length,a.lines.length*2);assert.equal(facts[2].textContent,'Effet du milieu');
+    assert.equal(doc.getElementById('seedCard217PreviewAdvice').textContent,a.advice);assert.match(doc.getElementById('seedCard217PreviewNote').textContent,/aucune campagne créée, aucune sauvegarde touchée/);
+    // Ce qui exige la carte locale est dit, pas inventé.
+    assert.equal(a.opening.known,false);assert.match(a.lines.find(l=>l[0]==='Ouverture')[1],/relevés au départ seulement/);
+    assert.equal(a.milieu.active,true);assert.ok(a.milieu.family);assert.equal(a.places.source,'remarkable');assert.equal(a.places.items.length,3);
+    // Cache par graine : le même objet, sans nouveau tracé.
+    assert.equal(await g.seedCard217.preview(),a);assert.equal(created,1);
+    // Deuxième graine : un autre aperçu.
+    input.value='42';const b=await g.seedCard217.preview();
+    assert.equal(created,2);assert.equal(b.seed,42);assert.notEqual(b.share,a.share);assert.notDeepEqual(b.places,a.places);assert.notDeepEqual(b.home,a.home);assert.notDeepEqual(b.density,a.density);
+    assert.equal(doc.getElementById('seedCard217PreviewTitle').textContent,b.title);
+    assert.equal(g.seedCard217.previewCount(),2);
+    // Aucune trace : pas de campagne, pas de sauvegarde, monde de la partie en cours intact, région du jeu non tracée.
+    assert.equal(trace(),before);assert.equal(g.world,world);assert.equal(g.state,'menu');
+    // Départ réel de la graine 17117, avec les arguments du menu : la fiche du carnet reprend l'aperçu.
+    const choice=Card.startChoice(doc);assert.equal(choice.current,true);
+    g.startNew('standard','17117','classic',choice.landscape,choice.current);g.campaignIntro132?.skip?.();g.refreshMetrics(true);
+    const p=g.frontier.position(),v=Pack.startVersions(C.Frontier.initial(),undefined,choice.current,choice.landscape);
+    assert.deepEqual([v.generation,v.detailVersion,v.ecologyVersion,v.hydrologyVersion,v.landscape189||'classic'],[p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic'],'versions de l’aperçu = versions du départ');
+    const real=g.seedCard217.card();
+    assert.equal(real.preview,false);assert.equal(real.opening.known,true);
+    assert.deepEqual(shared(real),shared(a),'milieu, effets, eau, densité, lieux remarquables : identiques');
+    assert.deepEqual(linesOf(real),linesOf(a));assert.equal(real.adviceLines[0],a.adviceLines[0]);assert.equal('Aperçu · '+real.title,a.title);
+    assert.equal(real.milieu.family,g.biome217.profile().family,'famille figée de la campagne');
+    // Le joueur s'éloigne : la liste du module change de distances, la fiche du carnet non.
+    const far=g.remarkable217.list().map(e=>e.distance);g.player.x+=600;g.player.y+=400;
+    assert.notDeepEqual(g.remarkable217.list().map(e=>e.distance),far);assert.deepEqual(Card.describe(Card.inputs(g)),real);
+    // Ancienne campagne : même sauvegarde sans les deux règles, aucun effet de milieu affiché.
+    const raw=JSON.parse(JSON.stringify(g.serialize()));delete raw.expansions127.modules.biome217;delete raw.expansions127.modules.remarkable217;
+    assert.notEqual(g.restoreSave(raw),false);assert.equal(g.biome217.active(),false);
+    const old=g.seedCard217.card();
+    assert.equal(old.milieu.active,false);assert.equal(old.lines.some(l=>l[0]==='Effet du milieu'),false);assert.equal(old.advice.includes('%'),false);assert.equal(old.places.source,'towns');
+    assert.deepEqual(old.biomes,real.biomes);
+    // L'autre contenu de départ (région historique G8) suit le même chemin de versions.
+    const legacy=Card.preview({seed:'17117',landscape:'classic',current:false});
+    g.startNew('standard','17117','classic','classic',false);g.campaignIntro132?.skip?.();g.refreshMetrics(true);
+    assert.equal(g.frontier.position().generation,8);assert.equal(legacy.generation,8);
+    assert.deepEqual(shared(g.seedCard217.card()),shared(legacy));
+  }finally{World.create=create;}
 });

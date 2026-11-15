@@ -1,6 +1,9 @@
 // Fiche de graine (docs/GAME_BIBLE.md §7.13, « des graines qui comptent ») : ce que la graine fixe autour de D-17.
-// Présentation seulement : ce module lit le monde déjà généré (région, rivières, côte, agglomérations, gisements du site).
+// Présentation seulement : ce module lit le monde déjà généré (région, rivières, côte, agglomérations, gisements du site),
+// le milieu de la cité (src/biome217.js) et les lieux remarquables (src/remarkable217.js).
 // Il ne modifie aucun stock, aucune règle, aucun tirage, aucune version de génération et aucune sauvegarde.
+// Aperçu avant le départ : au menu, sur clic seulement, la région d'une graine saisie est tracée à part, dans les
+// versions que le départ choisirait (`DeadwallWorldPack131.startVersions`), sans créer de campagne ni toucher au jeu.
 (function(root,factory){
  const api=factory(root);
  if(typeof module==='object'&&module.exports)module.exports=api;
@@ -17,7 +20,7 @@
  const RULES=freeze({
   biomeRings:[[0,1],[400,8],[800,12],[1200,16],[1600,20]],biomeMinShare:.05,biomeOthers:3,
   waterNear:1500,townNear:2000,townWide:3000,placeRadius:1500,
-  walkRadius:900,scarce:5,plenty:15,places:3,cache:8,refreshSeconds:.5
+  walkRadius:900,scarce:5,plenty:15,places:3,cache:8,refreshSeconds:.5,previewDelayMs:60
  });
  const OPENING=freeze(['wood','stone','scrap']);
  // Type de lieu régional qui fournit chaque ressource d'ouverture, et son nom dans une phrase.
@@ -29,7 +32,12 @@
  const DENSITY=freeze({isole:'isolé',rural:'rural',periurbain:'périurbain',urbain:'urbain'});
  const DIRECTIONS=freeze(['à l’est','au sud-est','au sud','au sud-ouest','à l’ouest','au nord-ouest','au nord','au nord-est']);
  const COAST_SIDE=freeze({west:'à l’ouest',east:'à l’est',north:'au nord',south:'au sud'});
- const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
+ // Effets du milieu de la cité, en mots courts pour le conseil : ressource touchée, puis ce qu'il faut en faire.
+ const EFFECT_NAMES=freeze({wood:'bois',stone:'pierre',scrap:'ferraille',farm:'fermes',rain:'citernes'});
+ const BONUS_HINTS=freeze({wood:'ouvrez en bois',stone:'ouvrez en pierre',scrap:'ouvrez en ferraille',farm:'misez tôt sur les fermes',rain:'comptez sur les citernes'});
+ const MALUS_HINTS=freeze({wood:'comptez plus de temps pour le bois',stone:'comptez plus de temps pour la pierre',scrap:'comptez plus de temps pour la ferraille',farm:'prévoyez plus de fermes',rain:'prévoyez plus de citernes'});
+ const need=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
+ const core=()=>need('DeadwallCore','./core.js');
  const finite=Number.isFinite;
  const plural=(n,one,many)=>n+' '+(n>1?many:one);
  const lower=text=>{const s=String(text||'');return s.charAt(0).toLowerCase()+s.slice(1);};
@@ -130,12 +138,17 @@
   return out;
  }
  // Lieux : les lieux remarquables si leur module est présent, sinon les grandes agglomérations du monde généré.
- function places(remarkable,dense,home){
+ function places(remarkable,dense,home,C){
   const items=[];
   if(Array.isArray(remarkable))for(const r of remarkable){
    if(!r||typeof r.name!=='string')continue;
-   const d=finite(r.distance)?r.distance:finite(r.x)&&finite(r.y)?Math.hypot(r.x-home.x,r.y-home.y):NaN;if(!finite(d))continue;
-   items.push({id:String(r.id??r.name),name:r.name,kind:typeof r.kind==='string'?r.kind:'',distance:d,direction:finite(r.x)&&finite(r.y)?direction(r.x-home.x,r.y-home.y):''});
+   // Distance depuis le centre de la cité, calculée sur les coordonnées : la distance fournie par le module dépend
+   // de la position du joueur et ne sert que si le lieu n'a pas de coordonnées.
+   const placed=finite(r.x)&&finite(r.y),d=placed?Math.hypot(r.x-home.x,r.y-home.y):finite(r.distance)?r.distance:NaN;if(!finite(d))continue;
+   const nest=Number.isInteger(r.nest)&&r.nest>0?r.nest:0,amount=Number(r.reward?.amount),resource=r.reward?.resource;
+   const lot=amount>0&&typeof resource==='string'?Math.round(amount)+' '+String(C?.RESOURCE_META?.[resource]?.label||resource).toLowerCase():'';
+   // Titre d'origine du lieu, sans sa variante ni son milieu : le nom complet déborde d'une ligne de fiche.
+   items.push({id:String(r.id??r.name),name:r.name.split(' · ')[0].split(' — ')[0]||r.name,kind:typeof r.label==='string'&&r.label?r.label:typeof r.kind==='string'?r.kind:'',distance:d,direction:placed?direction(r.x-home.x,r.y-home.y):'',nest,lot});
   }
   if(items.length){items.sort((a,b)=>a.distance-b.distance||(a.id<b.id?-1:1));return{source:'remarkable',title:'Premiers lieux remarquables',items:items.slice(0,RULES.places)};}
   // Sans module de lieux remarquables : les premières agglomérations d'importance (bourg et au-delà), à défaut toutes.
@@ -143,22 +156,36 @@
   const towns=pool.slice(0,RULES.places).map(t=>({id:String(t.id),name:t.name,kind:TOWN_NAMES[t.kind]||'',distance:t.distance,direction:t.direction}));
   return towns.length?{source:'towns',title:large.length?'Premières grandes agglomérations':'Premières agglomérations',items:towns}:{source:'none',title:'',items:[]};
  }
- // Conseil d'ouverture : une ou deux phrases qui ne font que relier les faits relevés ci-dessus.
+ // Milieu qui compte : famille figée de la campagne, avec son avantage et sa contrainte chiffrés. `source` vaut
+ // `{active,profile}` ; une campagne d'avant la règle (inactive) ou une lecture sans module n'affiche aucun effet.
+ function milieu(source){
+  const none={active:false,family:null,name:'',bonus:null,malus:null,text:''};
+  if(!source||source.active!==true)return none;
+  const p=source.profile,side=e=>e&&typeof e.key==='string'&&finite(e.factor)&&typeof e.text==='string'?{key:e.key,factor:e.factor,text:e.text,percent:(e.factor>=1?'+':'−')+Math.round(Math.abs(e.factor-1)*100)+' %'}:null;
+  const bonus=side(p?.bonus),malus=side(p?.malus);
+  if(!p||typeof p.family!=='string'||!bonus||!malus)return{...none,active:true,text:'Aucun milieu marqué autour de D-17 : rendements inchangés.'};
+  return{active:true,family:p.family,name:String(p.name),bonus,malus,text:p.name+' : '+bonus.text+', '+malus.text+'.'};
+ }
+ // Conseil d'ouverture : d'abord les effets réels du milieu, puis une ou deux phrases qui relient les faits relevés.
+ // Aucun adjectif n'est accordé avec un nom de milieu : les phrases ont leur propre sujet.
  function advice(card){
-  const o=card.opening,lines=[],milieu=card.biomes.known?card.biomes.dominant.name:'Site';
+  const o=card.opening,m=card.milieu,first=[],lines=[];
+  if(m.family)first.push(m.name+' : '+(EFFECT_NAMES[m.bonus.key]||m.bonus.key)+' '+m.bonus.percent+', '+(EFFECT_NAMES[m.malus.key]||m.malus.key)+' '+m.malus.percent+' — '+(BONUS_HINTS[m.bonus.key]||'profitez-en')+', '+(MALUS_HINTS[m.malus.key]||'compensez')+'.');
   const far=key=>{const q=card.sources[key];return q?SOURCE_NAMES[key]+' est à '+distanceText(q.distance)+(q.direction?' '+q.direction:''):'';};
   if(o.known){
    const rare=OPENING.filter(key=>o[key].level==='scarce'),has=key=>!rare.includes(key),tail=key=>far(key)?' : '+far(key):'';
-   if(rare.includes('stone'))lines.push(milieu+(o.stone.count?' pauvre en pierre':' sans pierre')+' à portée'+(tail('stone')||' : la carrière sera loin')+(has('wood')?' ; ouvrez en bois.':'.'));
-   if(rare.includes('wood'))lines.push((lines.length?'Peu de bois':milieu+' pauvre en bois')+' à portée'+tail('wood')+(has('stone')?' ; la pierre, elle, est sur place.':'.'));
-   if(rare.includes('scrap')&&lines.length<2)lines.push((lines.length?'Peu de ferraille':milieu+' pauvre en ferraille')+' à portée'+tail('scrap')+'.');
-   if(!rare.length)lines.push(milieu+' : bois, pierre et ferraille à portée de marche, l’ouverture est libre.');
+   const few=key=>(o[key].count?'Peu de ':key==='wood'?'Aucun ':'Aucune ')+o.labels[key]+' à portée de marche';
+   // Sans effet de milieu, le conseil dit lui-même par quoi ouvrir ; avec, la première phrase l'a déjà dit.
+   if(rare.includes('stone'))lines.push(few('stone')+(tail('stone')||' : la carrière sera loin')+(has('wood')&&!m.family?' ; ouvrez en bois.':'.'));
+   if(rare.includes('wood'))lines.push(few('wood')+tail('wood')+(has('stone')?' ; la pierre, elle, est sur place.':'.'));
+   if(rare.includes('scrap')&&lines.length<2)lines.push(few('scrap')+tail('scrap')+'.');
+   if(!rare.length)lines.push('Bois, pierre et ferraille à portée de marche'+(m.family?'.':' : l’ouverture est libre.'));
   }
   if(lines.length<2&&card.water.known&&card.water.none)lines.push('Aucune eau proche : rives et pêche demandent une longue sortie.');
   if(lines.length<2&&card.density.level==='isole')lines.push('Aucune agglomération à moins de '+distanceText(RULES.townWide)+' : la récupération se paie en longues sorties.');
   if(lines.length<2&&card.density.level==='urbain')lines.push('Agglomérations toutes proches : la récupération est à courte sortie.');
   if(lines.length<2&&card.water.known&&!card.water.none&&card.water.river&&card.water.river.distance<=RULES.waterNear)lines.push('Une rivière coule à '+distanceText(card.water.river.distance)+' de l’enceinte.');
-  return lines.join(' ');
+  return[...first,...lines];
  }
  // Fonction pure : mêmes données générées, même fiche. Elle ne garde aucune référence au monde.
  function describe(input){
@@ -167,28 +194,72 @@
   const landscape=input?.landscape??world?.landscape189??null,preset=landscape&&C?.Landscape189Rules?.presets?.[landscape];
   const card={seed,generation:world?.generation??null,profile:preset?{id:landscape,name:preset.name}:null,home:h};
   card.biomes=biomes(world,h);card.water=water(world,h);card.density=density(world,h);card.opening=opening(input?.nodes,C);card.sources=sources(world,h);
-  card.places=places(input?.remarkable,card.density,h);
+  // Aperçu avant le départ : la carte locale de D-17 n'existe pas encore, ses gisements ne peuvent pas être comptés.
+  card.preview=input?.preview===true;
+  if(card.preview&&!card.opening.known)card.opening.text='Gisements à portée du centre : relevés au départ seulement, la carte locale de D-17 n’est tracée qu’au lancement.';
+  card.milieu=milieu(input?.milieu);
+  card.places=places(input?.remarkable,card.density,h,C);
   delete card.density.all;
-  card.advice=advice(card);
-  const placeText=card.places.items.map(p=>p.name+(p.kind?' ('+p.kind+')':'')+' à '+distanceText(p.distance)+(p.direction?' '+p.direction:'')).join(' · ');
-  card.lines=[['Milieu',card.biomes.text],['Eau',card.water.text],['Densité',card.density.text],['Ouverture',card.opening.text]];
+  card.adviceLines=advice(card);card.advice=card.adviceLines.join(' ');
+  const detail=p=>[p.kind,p.nest?'nid de '+p.nest:'',p.lot?'lot : '+p.lot:''].filter(Boolean).join(', ');
+  const placeText=card.places.items.map(p=>p.name+(detail(p)?' ('+detail(p)+')':'')+' à '+distanceText(p.distance)+(p.direction?' '+p.direction:'')).join(' · ');
+  card.lines=[['Milieu',card.biomes.text]];
+  if(card.milieu.text)card.lines.push(['Effet du milieu',card.milieu.text]);
+  card.lines.push(['Eau',card.water.text],['Densité',card.density.text],['Ouverture',card.opening.text]);
   if(placeText)card.lines.push([card.places.title,placeText+'.']);
   card.summary=[card.biomes.known?lower(card.biomes.dominant.name):null,card.water.known?(card.water.none?'aucune eau proche':card.water.river&&card.water.river.distance<=RULES.waterNear?'rivière à '+distanceText(card.water.river.distance):card.water.nearest?card.water.nearest.name+' à '+distanceText(card.water.nearest.distance):'côte à '+distanceText(card.water.coast?.distance)):null,card.density.word].filter(Boolean).join(' · ');
-  card.title='Graine '+seed+(card.profile?' · '+card.profile.name:'');
+  card.title=(card.preview?'Aperçu · ':'')+'Graine '+seed+(card.profile?' · '+card.profile.name:'');
   card.share=['DEADWALL — '+card.title,...card.lines.map(([label,text])=>label+' : '+text),...(card.advice?['Conseil : '+card.advice]:[])].join('\n');
   return freeze(card);
  }
  // Lecture de la partie en cours. `g.frontier.world()` rend la région que le jeu trace déjà dès la première image.
  function inputs(g){
   const world=g?.frontier?.world?.()||null;
+  // Lieux remarquables : la liste entière avec ses coordonnées (la fiche mesure elle-même depuis le centre de la cité) ;
+  // à défaut, le plus proche. Une campagne sans lieux remarquables rend une liste vide : la fiche nomme les agglomérations.
   let remarkable=null;
-  try{const r=g.remarkable217?.nearest?.();remarkable=Array.isArray(r)?r:r&&typeof r==='object'?[r]:null;if(!remarkable?.length){const l=g.remarkable217?.list?.();remarkable=Array.isArray(l)?l:null;}}catch{remarkable=null;}
+  try{const l=g.remarkable217?.list?.();remarkable=Array.isArray(l)&&l.length?l:null;if(!remarkable){const r=g.remarkable217?.nearest?.();remarkable=Array.isArray(r)?r:r&&typeof r==='object'?[r]:null;}}catch{remarkable=null;}
+  // Milieu : la famille figée de la campagne. Inactif (ancienne campagne) ou absent : aucun effet affiché.
+  // La fiche lit l'état sans le faire avancer : `profile()` figerait la famille au premier appel, parfois sur une région
+  // encore provisoire en plein départ. Tant que le relevé n'a pas eu lieu, elle applique le même relevé pur à la région lue.
+  let milieu={active:false,profile:null};
+  try{
+   if(g.biome217?.active?.()===true){
+    const B=root.DeadwallBiome217,family=typeof g.biome217.snapshot==='function'?g.biome217.snapshot().family:undefined;
+    milieu={active:true,profile:family===undefined||!B?g.biome217.profile():family===null?B.profileFor(world):B.describe(family)};
+   }
+  }catch{milieu={active:false,profile:null};}
   const nodes=g?.world?.nodes;
-  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable};
+  return{seed:g?.world?.seed,world,landscape:world?.landscape189||'classic',nodes:nodes?[...(typeof nodes.values==='function'?nodes.values():nodes)]:[],remarkable,milieu};
  }
+ // Arguments de départ lus au menu, comme `requestNewGame` (src/game.js) les passe à `startNew`.
+ function startChoice(doc){
+  let current=true;try{current=root.DeadwallPlayerMenus194?.currentStart?.()!==false;}catch{current=true;}
+  return{seedText:String(doc?.getElementById?.('mapSeed')?.value||''),landscape:doc?.getElementById?.('worldLandscape189')?.value||'balanced',current};
+ }
+ // Région qu'un départ tracerait pour cette graine. Les versions viennent de la fonction que le départ réel appelle ;
+ // la création reprend les options de `src/frontier.js`. Rien n'est écrit ailleurs que dans l'objet rendu.
+ function previewWorld(seed,landscape='classic',current=true,recipe){
+  const C=core(),Pack=need('DeadwallWorldPack131','./world-pack131.js'),World=need('DeadwallFrontierWorld','./frontier-world.js');
+  if(!C?.Frontier||typeof Pack?.startVersions!=='function'||typeof World?.create!=='function')throw Error('Aperçu indisponible : génération de région absente.');
+  const v=Pack.startVersions(C.Frontier.initial(),recipe,current,landscape);
+  return World.create(seed,v.generation,{detailVersion:v.detailVersion,ecologyVersion:v.ecologyVersion,hydrologyVersion:v.hydrologyVersion,...(v.landscape189?{landscape189:v.landscape189}:{})});
+ }
+ // Fiche d'une graine sans campagne : fonction pure de la graine, du profil de paysage et du contenu de départ.
+ // Un départ au menu ouvre toujours une campagne neuve : milieu de la cité et lieux remarquables y sont actifs.
+ function preview(choice){
+  const seed=need('DeadwallProfile','./profile.js').normalizeSeed(choice?.seed??choice?.seedText);
+  if(seed===null)throw new RangeError('Saisissez ou tirez une graine pour en voir l’aperçu.');
+  const world=previewWorld(seed,choice?.landscape??'classic',choice?.current!==false,choice?.recipe);
+  const Biome=need('DeadwallBiome217','./biome217.js'),Remarkable=need('DeadwallRemarkable217','./remarkable217.js');
+  return describe({seed,world,landscape:world.landscape189||'classic',preview:true,remarkable:Remarkable?.select?Remarkable.select(world):null,
+   milieu:Biome?.profileFor?{active:true,profile:Biome.profileFor(world)}:null});
+ }
+ // État du milieu pour la clé de cache : inactif, relevé en attente, ou famille figée.
+ function biomeKey(g){try{return g?.biome217?.active?.()===true?String(g.biome217.snapshot?.().family??'attente'):'0';}catch{return '0';}}
  function keyOf(g){
   const p=g?.frontier?.position?.()||{};
-  return [g?.world?.seed,p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic',g?.world?.cityGeometry202||0,g?.remarkable217?1:0].join('|');
+  return [g?.world?.seed,p.generation,p.detailVersion,p.ecologyVersion,p.hydrologyVersion,p.landscape189||'classic',g?.world?.cityGeometry202||0,g?.remarkable217?1:0,biomeKey(g)].join('|');
  }
  // Presse-papiers : l'API moderne, puis l'ancienne commande, puis un simple « faux » si rien n'existe.
  function copyText(text,doc){
@@ -229,8 +300,60 @@
    menu=el('p',undefined,'seed-hint seed-card217-menu');menu.id='seedCard217Menu';menu.hidden=true;
    if(typeof hint.after==='function')hint.after(menu);else if(typeof hint.parentNode?.insertBefore==='function')hint.parentNode.insertBefore(menu,hint.nextSibling||null);else menu=null;
   }
+  // Aperçu d'une graine saisie : un bouton et un encadré sous le champ de graine. Rien n'est calculé sans clic.
+  let previewButton=null,previewBox=null,previewTitle=null,previewList=null,previewTip=null,previewNote=null;
+  const under=menu||hint;
+  if(under&&typeof under.after==='function'){
+   previewButton=el('button','Aperçu de la carte','seed-card217-preview-button');previewButton.id='seedCard217PreviewButton';previewButton.type='button';
+   previewBox=el('div',undefined,'seed-card217 seed-card217-preview');previewBox.id='seedCard217Preview';previewBox.hidden=true;previewBox.setAttribute('role','status');previewBox.setAttribute('aria-live','polite');
+   previewTitle=el('strong');previewTitle.id='seedCard217PreviewTitle';previewList=el('dl');previewList.id='seedCard217PreviewFacts';
+   previewTip=el('p',undefined,'seed-card217-advice');previewTip.id='seedCard217PreviewAdvice';previewNote=el('p',undefined,'seed-card217-note');previewNote.id='seedCard217PreviewNote';
+   previewBox.append(previewTitle,previewList,previewTip,previewNote);under.after(previewBox);under.after(previewButton);
+  }
+  const previews=new Map();let previewBusy=null;
   const cache=new Map();
   let clock=-Infinity,shownKey='',ticks=0,started=false;
+  const previewKey=c=>{const seed=root.DeadwallProfile?.normalizeSeed?.(c.seedText);return seed===null||seed===undefined?null:[seed,c.landscape,c.current?1:0].join('|');};
+  function showPreview(value,message){
+   if(!previewBox)return;
+   previewBox.hidden=!value&&!message;write(previewTitle,value?value.title:message||'');
+   previewList.replaceChildren();previewList.hidden=!value;previewTip.hidden=!value||!value.advice;previewNote.hidden=!value;
+   if(!value){write(previewTip,'');write(previewNote,'');return;}
+   for(const [label,text]of value.lines)previewList.append(el('dt',label),el('dd',text));
+   write(previewTip,value.advice);
+   write(previewNote,'Aperçu calculé sans démarrer : aucune campagne créée, aucune sauvegarde touchée. Les gisements à portée du centre ne sont relevés qu’au départ.');
+  }
+  // Le champ a changé : l'encadré montre l'aperçu déjà calculé pour cette graine, sinon il se retire.
+  function syncPreview(){
+   if(!previewBox||previewBusy)return;
+   let key=null;try{key=previewKey(startChoice(doc));}catch{key=null;}
+   showPreview(key&&previews.get(key)||null,'');
+  }
+  // Calcul sur demande : une seule région à la fois, un résultat gardé par graine, profil et contenu de départ.
+  function runPreview(){
+   if(previewBusy)return previewBusy;
+   const choice=startChoice(doc);let key;
+   try{key=previewKey(choice);}catch(error){showPreview(null,error.message);return Promise.resolve(null);}
+   if(key===null){showPreview(null,'Saisissez ou tirez une graine pour en voir l’aperçu.');return Promise.resolve(null);}
+   const known=previews.get(key);if(known){showPreview(known,'');return Promise.resolve(known);}
+   showPreview(null,'Calcul en cours… la région de la graine '+choice.seedText.trim()+' est tracée, quelques secondes.');
+   if(previewButton){previewButton.disabled=true;previewButton.setAttribute('aria-busy','true');}
+   const later=typeof root.setTimeout==='function'?fn=>root.setTimeout(fn,RULES.previewDelayMs):fn=>fn();
+   // Le délai laisse l'écran afficher « calcul en cours » avant le tracé, qui occupe le fil principal.
+   previewBusy=new Promise(resolve=>later(()=>{
+    let value=null,failure='';
+    try{value=preview(choice);previews.set(key,value);if(previews.size>RULES.cache)previews.delete(previews.keys().next().value);}catch(error){failure='Aperçu impossible : '+(error?.message||'erreur de génération')+'.';}
+    previewBusy=null;
+    if(previewButton){previewButton.disabled=false;previewButton.removeAttribute?.('aria-busy');}
+    // Le joueur a pu changer la graine pendant le calcul : l'encadré suit le champ, le résultat reste en cache.
+    let now=null;try{now=previewKey(startChoice(doc));}catch{now=null;}
+    if(value&&now!==key)syncPreview();else showPreview(value,failure);
+    resolve(value);
+   }));
+   return previewBusy;
+  }
+  previewButton?.addEventListener?.('click',()=>{runPreview();});
+  doc.getElementById('worldLandscape189')?.addEventListener?.('change',()=>{syncPreview();});
   function card(){
    const key=keyOf(g);let value=cache.get(key);
    if(!value){
@@ -266,7 +389,7 @@
   }
   copySeed.addEventListener?.('click',()=>{copy('seed');});
   copyCard.addEventListener?.('click',()=>{copy('card');});
-  input?.addEventListener?.('input',()=>{renderMenu();});
+  input?.addEventListener?.('input',()=>{renderMenu();syncPreview();});
   const updateUI=g.updateUI;
   if(typeof updateUI==='function')g.updateUI=function(...args){
    const result=updateUI.apply(this,args);const now=Number(g.elapsed)||0;
@@ -279,7 +402,7 @@
    g[name]=function(...args){
     const result=old.apply(this,args);
     if(name!=='showCommand'&&result!==false){started=true;ticks=0;shownKey='';}
-    clock=Number(g.elapsed)||0;render();renderMenu();return result;
+    clock=Number(g.elapsed)||0;render();renderMenu();if(name!=='showCommand')syncPreview();return result;
    };
   }
   // Au retour au menu, la fiche n'est établie que si la partie a tourné : la région existe alors déjà.
@@ -290,8 +413,8 @@
   };
   // Un changement d'onglet ou de classement doit rafraîchir la visibilité sans attendre l'horloge.
   field.addEventListener?.('click',()=>render());
-  g.seedCard217=Object.freeze({render,card,copy,key:()=>keyOf(g),menu:renderMenu});
+  g.seedCard217=Object.freeze({render,card,copy,key:()=>keyOf(g),menu:renderMenu,preview:runPreview,previewBusy:()=>Boolean(previewBusy),previewCount:()=>previews.size});
   render();return true;
  }
- return Object.freeze({install,describe,inputs,distanceText,direction,copyText,RULES});
+ return Object.freeze({install,describe,inputs,preview,previewWorld,startChoice,distanceText,direction,copyText,RULES});
 });
