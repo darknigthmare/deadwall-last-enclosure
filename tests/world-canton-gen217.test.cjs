@@ -11,7 +11,9 @@ const same=(a,b)=>Math.abs(a.x-b.x)<=.005+1e-9&&Math.abs(a.y-b.y)<=.005+1e-9;
 
 test('canton 217 : règles gelées dans le cœur, maille et milieux cohérents avec l’existant',()=>{
   assert.ok(Object.isFrozen(R)&&Object.isFrozen(R.field)&&Object.isFrozen(R.escarpments)&&Object.isFrozen(R.roads.widths)&&Object.isFrozen(G)&&G.RULES===R);
-  assert.equal(R.version,3);assert.equal(K.SIZE%R.cell,0);
+  assert.equal(R.version,4);assert.equal(K.SIZE%R.cell,0);
+  // Version 4 (T5) : prime de rive au choix du site de D-17 ; seul le site de certaines graines change.
+  assert.ok(R.foundation.shoreWeight>0&&R.foundation.shoreReach>=1&&R.foundation.shoreCap>=1);
   for(const part of [R.pass,R.valley,R.origin,R.water,R.roads,R.towns,R.towns.kinds,R.towns.kinds.ville,R.towns.names,R.towns.order,R.foundation,R.sites])assert.ok(Object.isFrozen(part));
   // Falaises fréquentes, rampes rares : tailler une rampe coûte bien plus cher qu'emprunter un col.
   assert.ok(R.roads.rampCost*5<=R.roads.cutCost&&R.roads.cutCost<R.roads.steepCost&&R.pass.strand>=4&&R.pass.every>=16&&R.pass.islet>=2);

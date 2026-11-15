@@ -74,7 +74,7 @@
  }
  // Poste de la Meneuse : un côté et un point du bord, fonction pure de la graine et de la vague.
  function post(seed,wave){
-  const h=hash(seed,wave),side=SIDE_IDS[h&3],along=(R.spanMin+(R.spanMax-R.spanMin)*((h>>>8)%1024)/1023)*C.WORLD_SIZE,near=R.standoff,far=C.WORLD_SIZE-R.standoff;
+  const h=hash(seed,wave),side=SIDE_IDS[h&3],along=(R.spanMin+(R.spanMax-R.spanMin)*((h>>>8)%1024)/1023)*C.LOCAL_MAP217.size,near=R.standoff,far=C.LOCAL_MAP217.size-R.standoff;
   const at=side==='north'?{x:along,y:near}:side==='south'?{x:along,y:far}:side==='east'?{x:far,y:along}:{x:near,y:along};
   return Object.freeze({side,name:SIDES[side],where:WHERE[side],x:at.x,y:at.y});
  }
@@ -236,7 +236,7 @@
     }
    }finally{g.random=random;}
    const z=made[0];if(!z)return false;
-   const set=(m,at)=>{m.x=at.x;m.y=at.y;m.lastX=at.x;m.lastY=at.y;m.facing=Math.atan2(C.WORLD_SIZE/2-at.y,C.WORLD_SIZE/2-at.x);};
+   const set=(m,at)=>{m.x=at.x;m.y=at.y;m.lastX=at.x;m.lastY=at.y;m.facing=Math.atan2((g.local||C.LOCAL_MAP217).size/2-at.y,(g.local||C.LOCAL_MAP217).size/2-at.x);};
    set(z,p);made.slice(1).forEach((m,i)=>set(m,spots[i]));
    state.led={wave,id:z.id,status:'alive',delta:0};ref=z;refs.clear();
    state.escort={wave,ids:made.slice(1).map(m=>m.id),kinds:kinds.slice(0,made.length-1),woken:false,taken:0};
@@ -376,7 +376,7 @@
    const result=minimap.apply(this,args);
    try{
     const ctx=this.mctx,z=ctx&&this.minimap&&playing()?leader():null;
-    if(z&&typeof ctx.arc==='function'){const sx=this.minimap.width/C.WORLD_SIZE,sy=this.minimap.height/C.WORLD_SIZE;ctx.save();ctx.strokeStyle='#d6c9a0';ctx.lineWidth=1;ctx.beginPath();ctx.arc(z.x*sx,z.y*sy,4,0,Math.PI*2);ctx.stroke();ctx.restore();}
+    if(z&&typeof ctx.arc==='function'){const sx=this.minimap.width/(this.local||C.LOCAL_MAP217).size,sy=this.minimap.height/(this.local||C.LOCAL_MAP217).size;ctx.save();ctx.strokeStyle='#d6c9a0';ctx.lineWidth=1;ctx.beginPath();ctx.arc(z.x*sx,z.y*sy,4,0,Math.PI*2);ctx.stroke();ctx.restore();}
    }catch(error){/* idem */}
    return result;
   };

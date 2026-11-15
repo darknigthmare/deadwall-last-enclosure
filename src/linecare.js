@@ -16,8 +16,8 @@
   }
   // Structural access only: non-wall buildings and corpse ramps are deliberately not obstacles here.
   // Keep the same cardinal connectivity as analyzeEnclosure; do not invent an enemy route or ring count.
-  function traceAccess(buildings,target,width=C.WORLD_TILES,height=C.WORLD_TILES){
-    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>C.WORLD_TILES||height>C.WORLD_TILES)throw new RangeError('Grille de diagnostic invalide.');
+  function traceAccess(buildings,target,width=C.LOCAL_MAP217.tiles,height=C.LOCAL_MAP217.tiles){
+    if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>C.LOCAL_MAP217.tiles||height>C.LOCAL_MAP217.tiles)throw new RangeError('Grille de diagnostic invalide.');
     const size=width*height,barrier=new Uint8Array(size),parents=new Int32Array(size);parents.fill(-2);
     const queue=new Int32Array(size),list=Array.from(buildings);let head=0,tail=0;
     for(const b of list)if(T.blocksEnclosure(b)){const f=T.footprint(b);for(let y=Math.max(0,f.y);y<Math.min(height,f.y+f.height);y++)for(let x=Math.max(0,f.x);x<Math.min(width,f.x+f.width);x++)barrier[y*width+x]=1;}

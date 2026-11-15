@@ -59,9 +59,9 @@
     if(d<=surveyRules.surveyPointSearchRadius**2)surveyOffsets.push({dx,dy,d});
   }
   surveyOffsets.sort((a,b)=>a.d-b.d||a.dy-b.dy||a.dx-b.dx);
-  function createSurveyApproach(origin,clear,worldSize=C.WORLD_SIZE){
+  function createSurveyApproach(origin,clear,worldSize=C.LOCAL_MAP217.size){
     const width=worldSize/C.TILE,radius=surveyRules.surveyPointClearance,unavailable=()=>false;
-    if(!origin||![origin.x,origin.y,worldSize].every(Number.isFinite)||!Number.isInteger(width)||width<1||width>C.WORLD_TILES||typeof clear!=='function')return unavailable;
+    if(!origin||![origin.x,origin.y,worldSize].every(Number.isFinite)||!Number.isInteger(width)||width<1||width>C.LOCAL_MAP217.tiles||typeof clear!=='function')return unavailable;
     const inside=p=>p.x>=radius&&p.y>=radius&&p.x<=worldSize-radius&&p.y<=worldSize-radius;
     const key=p=>C.grid(p.y)*width+C.grid(p.x),point=k=>({x:C.world(k%width),y:C.world(Math.floor(k/width))});
     const stand=p=>inside(p)&&clear(p,radius);
@@ -85,7 +85,7 @@
     }
     return candidate=>Boolean(candidate&&Number.isFinite(candidate.x)&&Number.isFinite(candidate.y)&&stand(candidate)&&reached[key(candidate)]&&segment(point(key(candidate)),candidate));
   }
-  function resolveSurveyPoint(site,clear,worldSize=C.WORLD_SIZE){
+  function resolveSurveyPoint(site,clear,worldSize=C.LOCAL_MAP217.size){
     if(!site||![site.x,site.y,worldSize].every(Number.isFinite)||worldSize<=0||typeof clear!=='function')return null;
     const radius=surveyRules.surveyPointClearance;
     // Resolve against immutable terrain only. Player construction must obstruct

@@ -28,7 +28,7 @@
  // Les cases d'un ouvrage appartiennent au district extérieur à cet ouvrage, comme dans le module de repli :
  // se tenir sur une porte, ce n'est pas être rentré.
  function survey(C,T,buildings){
-  const size=Math.min(MAX_GRID,C.WORLD_TILES),total=size*size;
+  const size=Math.min(MAX_GRID,C.LOCAL_MAP217?.tiles??C.WORLD_TILES),total=size*size;
   const barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),level=new Uint8Array(total),queue=new Int32Array(total);
   const works=[],cellsOf=[];let core=null;
   for(const building of Array.from(buildings)){

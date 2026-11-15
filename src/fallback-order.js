@@ -52,7 +52,7 @@
  // Zone tenue autour du centre : tout ce qu'on atteint depuis le centre sans franchir un mur ni une porte,
  // quel que soit le mode de la porte. `closed` vaut faux si cette zone touche le bord de la carte.
  function innerZone(C,T,buildings){
-  const size=C.WORLD_TILES,total=size*size,barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),inside=new Uint8Array(total),queue=new Int32Array(total);
+  const size=C.LOCAL_MAP217?.tiles??C.WORLD_TILES,total=size*size,barrier=new Uint8Array(total),owner=new Int32Array(total).fill(-1),inside=new Uint8Array(total),queue=new Int32Array(total);
   const list=Array.from(buildings),walls=[];let core=null;
   for(const building of list){
    if(!T.operational(building))continue;

@@ -130,7 +130,7 @@
         ctx.clearRect(0, 0, mapCanvas.width, mapCanvas.height);
         if (g.exploration125?.renderMap) {
           g.exploration125.renderMap(ctx, mapCanvas.width, mapCanvas.height);
-          const scale = mapCanvas.width / globalThis.DeadwallCore.WORLD_SIZE;
+          const scale = mapCanvas.width / (g.local || globalThis.DeadwallCore.LOCAL_MAP217).size;
           ctx.fillStyle = '#aa3934';
           const vision = g.visibility?.frame?.();
           for (const z of g.zombies || []) if (vision?.canSeeLocal(z)) ctx.fillRect(z.x * scale - 1.5, z.y * scale - 1.5, 3, 3);
@@ -140,7 +140,7 @@
         else {
           // Minimal local fallback if the map module has not loaded. Never substitute a regional map.
           ctx.fillStyle = '#162119'; ctx.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
-          const scale = mapCanvas.width / globalThis.DeadwallCore.WORLD_SIZE;
+          const scale = mapCanvas.width / (g.local || globalThis.DeadwallCore.LOCAL_MAP217).size;
           for (const b of g.world.buildings.values()) if (!b.dead) { ctx.fillStyle = b.type === 'core' ? '#dcca88' : '#7c9277'; ctx.fillRect(b.left * scale, b.top * scale, Math.max(2,b.w * 32 * scale), Math.max(2,b.h * 32 * scale)); }
           if (!regional) { ctx.fillStyle = '#fff0b0'; ctx.beginPath(); ctx.arc(g.player.x * scale, g.player.y * scale, 4, 0, Math.PI * 2); ctx.fill(); }
         }

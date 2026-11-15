@@ -43,7 +43,7 @@
   if(g.departure130)return g.departure130;
   let world=g.world,episode=false,notice=null,until=0,lastRefresh=-Infinity,phaseKey='',awaySeen=false;
   const running=()=>g.state==='playing'&&!g.gameOver&&!g.paused&&!g.activeOverlay&&live(g.player);
-  const distance=()=>Math.min(g.player.x,g.player.y,C.WORLD_SIZE-g.player.x,C.WORLD_SIZE-g.player.y);
+  const distance=()=>Math.min(g.player.x,g.player.y,(g.local||C.LOCAL_MAP217).size-g.player.x,(g.local||C.LOCAL_MAP217).size-g.player.y);
   let box=null,title=null,detail=null,advice=null,clock=null,announcement=null;
   if(doc&&g.ui.hud){
    const el=(tag,text)=>{const n=doc.createElement(tag);if(text)n.textContent=text;return n;};
@@ -88,10 +88,10 @@
     if(distance()>R.rearmDistance){episode=false;notice=null;until=0;}
     if(!episode&&distance()<R.approachDistance){
      const p=g.player,k=g.input.keys,side=[
-      ['east',C.WORLD_SIZE-p.x,['KeyD','ArrowRight']],['west',p.x,['KeyA','KeyQ','ArrowLeft']],
-      ['north',p.y,['KeyW','KeyZ','ArrowUp']],['south',C.WORLD_SIZE-p.y,['KeyS','ArrowDown']]
+      ['east',(g.local||C.LOCAL_MAP217).size-p.x,['KeyD','ArrowRight']],['west',p.x,['KeyA','KeyQ','ArrowLeft']],
+      ['north',p.y,['KeyW','KeyZ','ArrowUp']],['south',(g.local||C.LOCAL_MAP217).size-p.y,['KeyS','ArrowDown']]
      ].find(([,d,keys])=>d<R.approachDistance&&keys.some(key=>k.has(key)))?.[0];
-     const legacyOK=side&&(g.frontier?.position().generation>=4||(side==='east'||side==='west'?Math.abs(p.y-C.WORLD_SIZE/2):Math.abs(p.x-C.WORLD_SIZE/2))<=66);
+     const legacyOK=side&&(g.frontier?.position().generation>=4||(side==='east'||side==='west'?Math.abs(p.y-(g.local||C.LOCAL_MAP217).size/2):Math.abs(p.x-(g.local||C.LOCAL_MAP217).size/2))<=66);
      if(legacyOK){episode=true;show();}
     }
    }

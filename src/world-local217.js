@@ -37,12 +37,35 @@
   const mx=ox/CELL,my=oy/CELL,size=S*S,levels=new Uint8Array(size),biomes=new Uint8Array(size),water=new Uint8Array(size),passes=new Uint8Array(size),kinds=new Uint8Array(size),roads=new Uint8Array(size);
   // 1. Paliers, milieux, mer et lacs : ceux de la maille du canton, case par case. Une arête
   //    de col ne se franchit que par sa rampe, large de `ramp` mètres au milieu de l'arête.
-  const half=ramp/2,mid=CELL/2;
+  //    Bord de falaise décalé (version 2) : chaque case lit la maille d'un point déplacé d'au
+  //    plus `amplitude` mètres par un bruit continu en coordonnées monde. Le déplacement s'annule
+  //    près des arêtes de col (la rampe reste droite) et des coins où deux mailles de même palier
+  //    ne se touchent qu'en diagonale, au bord du cadre et au plat du site ; il reste contractant (pente du
+  //    décalage sous 1) : régions, cols et rampes gardent leur topologie.
+  const half=ramp/2,mid=CELL/2,E=R.edge,A=options.edge===false?0:E.amplitude,bx0=c.bounds.x+ox,by0=c.bounds.y+oy;
+  const sx=K.subSeed(seed,0,0,'falaise-bord-x'),sy=K.subSeed(seed,0,0,'falaise-bord-y');
+  const lev=(gx,gy)=>gx<0||gy<0||gx>=N||gy>=N?-1:c.levels[gy*N+gx];
+  const colEdge=(gx,gy,dir)=>gx>=0&&gy>=0&&gx<N&&gy<N&&(c.passes[gy*N+gx]>>dir&1)===1;
+  // Coin (gx, gy) = sommet nord-ouest de la maille (gx, gy) : protégé s'il touche une arête de col ou s'il est ambigu.
+  const corner=(gx,gy)=>{const a=lev(gx-1,gy-1),b=lev(gx,gy-1),d=lev(gx-1,gy),e=lev(gx,gy);
+   if(colEdge(gx-1,gy-1,0)||colEdge(gx-1,gy-1,1)||colEdge(gx,gy-1,1)||colEdge(gx-1,gy,0))return true;
+   return(a===e&&b!==a&&d!==a)||(b===d&&a!==b&&e!==b);};
+  const shift=(x,y)=>{
+   if(!A)return null;const lx=x%CELL,ly=y%CELL,gx=mx+(x-lx)/CELL,gy=my+(y-ly)/CELL,px=lx+.5,py=ly+.5;
+   // Le bord du cadre reste droit : rien n'y entre que la grille du canton n'y mette.
+   // Le plat du site reste entier : le décalage s'annule à son approche.
+   const pl=(S-G.RULES.foundation.size)/2,pr=(S+G.RULES.foundation.size)/2,rx=Math.max(pl-x-.5,0,x+.5-pr),ry=Math.max(pl-y-.5,0,y+.5-pr);
+   let d=Math.min(x+.5,y+.5,S-x-.5,S-y-.5,far(rx,ry));
+   if(colEdge(gx,gy,0))d=Math.min(d,CELL-px);if(colEdge(gx-1,gy,0))d=Math.min(d,px);if(colEdge(gx,gy,1))d=Math.min(d,CELL-py);if(colEdge(gx,gy-1,1))d=Math.min(d,py);
+   for(const[cx,cy,dx,dy]of [[gx,gy,px,py],[gx+1,gy,CELL-px,py],[gx,gy+1,px,CELL-py],[gx+1,gy+1,CELL-px,CELL-py]])if(corner(cx,cy))d=Math.min(d,far(dx,dy));
+   const f=Math.max(0,Math.min(1,(d-A-1)/E.band));if(!f)return null;
+   const wx=bx0+x+.5,wy=by0+y+.5,qx=ox+x+.5+A*f*(2*G.noise(sx,wx,wy,E.scale)-1),qy=oy+y+.5+A*f*(2*G.noise(sy,wx,wy,E.scale)-1);
+   const nx=Math.max(0,Math.min(N-1,Math.floor(qx/CELL))),ny=Math.max(0,Math.min(N-1,Math.floor(qy/CELL)));return ny*N+nx;};
   for(let y=0;y<S;y++)for(let x=0;x<S;x++){
-   const i=y*S+x,lx=x%CELL,ly=y%CELL,m=(my+(y-ly)/CELL)*N+mx+(x-lx)/CELL;
+   const i=y*S+x,lx=x%CELL,ly=y%CELL,m0=(my+(y-ly)/CELL)*N+mx+(x-lx)/CELL,w=shift(x,y),m=w===null?m0:w;
    levels[i]=c.levels[m];biomes[i]=c.biomes[m];if(c.water[m]===W.sea||c.water[m]===W.lake)water[i]=c.water[m];
-   if(lx===CELL-1&&x<S-1&&c.passes[m]&1&&Math.abs(ly+.5-mid)<half)passes[i]|=1;
-   if(ly===CELL-1&&y<S-1&&c.passes[m]&2&&Math.abs(lx+.5-mid)<half)passes[i]|=2;
+   if(lx===CELL-1&&x<S-1&&c.passes[m0]&1&&Math.abs(ly+.5-mid)<half)passes[i]|=1;
+   if(ly===CELL-1&&y<S-1&&c.passes[m0]&2&&Math.abs(lx+.5-mid)<half)passes[i]|=2;
   }
   // 2. Cours d'eau et routes : tracés du canton, posés à leur largeur réelle.
   const trace=(points,r,mark)=>{

@@ -332,8 +332,8 @@
    if(k===0)return passes[i]&1?0:b-a;if(k===2)return passes[i]&2?0:b-a;if(k===1)return x>0&&passes[i-1]&1?0:b-a;return y>0&&passes[i-N]&2?0:b-a;};
   // Distance en mailles à un ensemble de mailles (parcours en largeur, quatre voisins).
   const spread=sources=>{const d=new Int16Array(N*N).fill(-1),queue=[];for(const i of sources){d[i]=0;queue.push(i);}for(let q=0;q<queue.length;q++){const i=queue[q],x=i%N,y=(i-x)/N;for(let k=0;k<4;k++){const nx=x+DX[k],ny=y+DY[k];if(nx<0||ny<0||nx>=N||ny>=N)continue;const j=ny*N+nx;if(d[j]<0){d[j]=d[i]+1;queue.push(j);}}}return d;};
-  // 5. Site de fondation de D-17, dans K0_0 seulement : un plat sec de 128 m, près du
-  //    centre, de préférence au pied d'une falaise ou près de l'eau. Il devient le carrefour.
+  // 5. Site de fondation de D-17, dans K0_0 seulement : un plat sec, près du centre, de
+  //    préférence adossé à une falaise ou longé par l'eau. Il devient le carrefour.
   const F=R.foundation,span=F.size/CELL;let found=null;
   if(cx===0&&cy===0){
    const edge=[],wet=[];for(let i=0;i<N*N;i++){if(water[i])wet.push(i);else if(wall(i,0)||wall(i,1)||wall(i,2)||wall(i,3))edge.push(i);}
@@ -345,7 +345,11 @@
     // Site adossé : côtés du plat entièrement bordés par une falaise (au plus `backCap` comptés).
     let backed=0;
     if(F.backWeight)for(let k=0;k<4;k++){let all=true;for(let t=0;t<span&&all;t++){const i=k===0?(y+t)*N+x+span-1:k===1?(y+t)*N+x:k===2?(y+span-1)*N+x+t:y*N+x+t;if(!wall(i,k))all=false;}if(all)backed++;}
-    const interest=Math.min(c,w)<=F.reach,score=(interest?0:1000)+far(box.x+(x+span/2)*CELL-R.origin.x,box.y+(y+span/2)*CELL-R.origin.y)/CELL*F.centreWeight+Math.min(F.reach,Math.abs(c-F.idealCliff))+Math.min(F.reach,Math.abs(w-F.idealWater))-(F.backWeight?F.backWeight*Math.min(backed,F.backCap):0);
+    // Prime de rive (version 4) : côté du plat longé, à `shoreReach` mailles au plus, par une
+    // eau qui ne se passe pas à gué (mer, lac, rivière) : l'eau peut alors fermer ce côté.
+    let shored=0;
+    if(F.shoreWeight)for(let k=0;k<4;k++){let hits=0;for(let t=0;t<span;t++)for(let d=1;d<=F.shoreReach;d++){const gx=k===0?x+span-1+d:k===1?x-d:x+t,gy=k===2?y+span-1+d:k===3?y-d:y+t;if(gx<0||gy<0||gx>=N||gy>=N)break;const v=water[gy*N+gx];if(v===WATER.sea||v===WATER.lake||v===WATER.river){hits++;break;}}if(hits*2>=span)shored++;}
+    const interest=Math.min(c,w)<=F.reach,score=(interest?0:1000)+far(box.x+(x+span/2)*CELL-R.origin.x,box.y+(y+span/2)*CELL-R.origin.y)/CELL*F.centreWeight+Math.min(F.reach,Math.abs(c-F.idealCliff))+Math.min(F.reach,Math.abs(w-F.idealWater))-(F.backWeight?F.backWeight*Math.min(backed,F.backCap):0)-(F.shoreWeight?F.shoreWeight*Math.min(shored,F.shoreCap):0);
     if(score<low){low=score;found={x,y,level:l,interest};}
    }
   }
@@ -475,5 +479,5 @@
  function foundation(seed){return generate(seed,0,0).foundation;}
  const forget=()=>{memo=null;};
 
- return Object.freeze({RULES:R,CELL,CELLS:N,BIOMES:BIOME_IDS,WATER,CLASSES,TOWNS,altitude,levelAt,biomeAt,seam,drainage,town,foundation,generate,digest,forget});
+ return Object.freeze({RULES:R,CELL,CELLS:N,BIOMES:BIOME_IDS,WATER,CLASSES,TOWNS,noise,altitude,levelAt,biomeAt,seam,drainage,town,foundation,generate,digest,forget});
 });

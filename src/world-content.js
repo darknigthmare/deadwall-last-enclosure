@@ -19,7 +19,7 @@
     if(typeof seed!=='number'||!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new RangeError('Graine de quartier invalide.');
     if(!C?.SCENERY_DEFS||!C.Random)throw new Error('Catalogue de décors DEADWALL absent.');
     // This generator never consumes the base-map or simulation RNG streams.
-    const random=new C.Random((seed^0xd17c0de5)>>>0),center=C.WORLD_SIZE/2;
+    const random=new C.Random((seed^0xd17c0de5)>>>0),center=C.LOCAL_MAP217.size/2;
     const orientation=random.range(0,Math.PI*2),districts=random.shuffle(THEMES.slice());
     const sites=[],props=[];
     districts.forEach((district,index)=>{

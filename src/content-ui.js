@@ -47,7 +47,7 @@
   const tasks={idle:'Disponible',move:'En déplacement',haul:'Transport',gather:'Récolte',build:'Chantier',repair:'Soutien',clear:'Déblaiement',return:'Retour au dépôt',flee:'Mise à l’abri'};
   function drawPortraits(){for(const {canvas,kind}of portraits){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,160,140);ctx.save();ctx.translate(80,73);ctx.scale(2.2,2.2);game.art.drawActor(ctx,{id:0,x:0,y:0,facing:0},kind,0,true,false);ctx.restore();}}
   function drawMap(sites){
-    const ctx=sectorMap.getContext('2d'),s=480/C.WORLD_SIZE;ctx.fillStyle='#0c1710';ctx.fillRect(0,0,480,480);
+    const ctx=sectorMap.getContext('2d'),s=480/(game.local||C.LOCAL_MAP217).size;ctx.fillStyle='#0c1710';ctx.fillRect(0,0,480,480);
     ctx.strokeStyle='#354231';ctx.lineWidth=1;for(let i=0;i<=8;i++){ctx.beginPath();ctx.moveTo(i*60,0);ctx.lineTo(i*60,480);ctx.moveTo(0,i*60);ctx.lineTo(480,i*60);ctx.stroke();}
     ctx.strokeStyle='#586144';for(const r of [650,1100,1600]){ctx.beginPath();ctx.arc(240,240,r*s,0,Math.PI*2);ctx.stroke();}
     ctx.fillStyle='#dec177';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillRect(235,235,10,10);ctx.fillText('DÉPÔT D-17',240,226);
@@ -69,7 +69,7 @@
       if(key!==sectorKey){sectorKey=key;sectorList.replaceChildren();for(const [i,site]of sites.entries()){
         const nodes=game.world.nodes.filter(n=>n.siteId===site.id&&!n.depleted),stock=C.makeBag();for(const n of nodes)stock[n.type]+=n.amount;
         const card=el('article');card.dataset.siteId=site.id;card.dataset.marked=String(game.fieldMarker===site.id);
-        card.append(el('h3',(i+1)+' · '+site.name),el('p',({housing:'Lotissement',market:'Commerces',aid:'Secours',industry:'Industrie',transit:'Transport',checkpoint:'Barrage'})[site.theme]+' · '+Math.floor(site.x/C.TILE)+','+Math.floor(site.y/C.TILE)+' · '+Math.round(Math.hypot(site.x-C.WORLD_SIZE/2,site.y-C.WORLD_SIZE/2))+' unités du dépôt'),el('p',nodes.length?C.resourceText(stock)+' · '+nodes.length+' gisements restants':'Secteur épuisé ou recouvert par la cité.'));
+        card.append(el('h3',(i+1)+' · '+site.name),el('p',({housing:'Lotissement',market:'Commerces',aid:'Secours',industry:'Industrie',transit:'Transport',checkpoint:'Barrage'})[site.theme]+' · '+Math.floor(site.x/C.TILE)+','+Math.floor(site.y/C.TILE)+' · '+Math.round(Math.hypot(site.x-(game.local||C.LOCAL_MAP217).size/2,site.y-(game.local||C.LOCAL_MAP217).size/2))+' unités du dépôt'),el('p',nodes.length?C.resourceText(stock)+' · '+nodes.length+' gisements restants':'Secteur épuisé ou recouvert par la cité.'));
         const point=game.narrativeSurveyPoint(site.theme);card.appendChild(el('p',point?'Point de relevé · cellule '+Math.floor(point.x/C.TILE)+','+Math.floor(point.y/C.TILE):'Point de relevé indisponible sur cette carte.'));
         const button=el('button',game.fieldMarker===site.id?'EFFACER LE REPÈRE':'MARQUER SUR LA CARTE');button.type='button';button.disabled=!playing||!point;button.dataset.markSite=site.id;card.appendChild(button);
         button.addEventListener('click',()=>{if(button.disabled||!game.narrativeSurveyPoint(site.theme))return;game.fieldMarker=game.fieldMarker===site.id?null:site.id;sectorKey='';get('commandStatus').textContent=game.fieldMarker?'Repère posé : '+site.name+'. Il ne donne aucun ordre de déplacement.':'Repère retiré.';refresh();sectorList.querySelector('[data-mark-site="'+site.id+'"]')?.focus({preventScroll:true});});

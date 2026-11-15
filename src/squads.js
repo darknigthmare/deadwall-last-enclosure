@@ -5,10 +5,10 @@
   const invalid=label=>{throw new RangeError('Sections invalides : '+label+'.');};
   const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
   function point(value){
-    if(!object(value)||!Number.isFinite(value.x)||!Number.isFinite(value.y)||value.x< -64||value.y< -64||value.x>C.WORLD_SIZE+64||value.y>C.WORLD_SIZE+64)invalid('ralliement');
+    if(!object(value)||!Number.isFinite(value.x)||!Number.isFinite(value.y)||value.x< -64||value.y< -64||value.x>C.LOCAL_MAP217.size+64||value.y>C.LOCAL_MAP217.size+64)invalid('ralliement');
     return{x:value.x,y:value.y};
   }
-  function create(rally={x:C.WORLD_SIZE/2,y:C.WORLD_SIZE/2}){
+  function create(rally={x:C.LOCAL_MAP217.size/2,y:C.LOCAL_MAP217.size/2}){
     return{version:1,selected:0,groups:Array.from({length:RULES.count},()=>({order:'rally',rally:point(rally)}))};
   }
   function normalize(raw,legacyRally,buildings){

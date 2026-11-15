@@ -44,8 +44,8 @@
     return !closing || !isGateOccupied(building, entities);
   }
 
-  function analyzeEnclosure({ buildings, target = null, width = C.WORLD_TILES, height = C.WORLD_TILES }) {
-    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > C.WORLD_TILES || height > C.WORLD_TILES) throw new RangeError('Grille tactique invalide.');
+  function analyzeEnclosure({ buildings, target = null, width = C.LOCAL_MAP217.tiles, height = C.LOCAL_MAP217.tiles }) {
+    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > C.LOCAL_MAP217.tiles || height > C.LOCAL_MAP217.tiles) throw new RangeError('Grille tactique invalide.');
     const structures = Array.from(buildings), size = width * height, barrier = new Uint8Array(size), exterior = new Uint8Array(size), queue = new Int32Array(size);
     let gates = 0, openGates = 0, wallCount = 0, barrierCells = 0;
     for (const building of structures) {

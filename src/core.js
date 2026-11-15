@@ -255,6 +255,31 @@
   function grid(value) { return clamp(Math.floor(value / TILE), 0, WORLD_TILES - 1); }
   function world(cell) { return cell * TILE + TILE / 2; }
   function index(x, y) { return y * WORLD_TILES + x; }
+  // Carte locale de la cité : taille, centre et bornes portés par un seul objet gelé.
+  // Une seule taille aujourd'hui (WORLD_TILES cases) ; chaque prédicat reprend la
+  // comparaison historique qu'il remplace : `contains` (bord admis, NaN refusé),
+  // `outside` (bord admis, NaN admis), `outsideOpen` (bord refusé, NaN admis).
+  function localMap217(tiles = WORLD_TILES) {
+    if (!Number.isInteger(tiles) || tiles < 8 || tiles > 1024) throw new RangeError('Taille de carte locale invalide.');
+    const size = TILE * tiles;
+    const axisMax = (pad = 0) => size - pad;
+    const clampAxis = (value, pad = 0) => Math.max(pad, Math.min(size - pad, value));
+    return Object.freeze({
+      tiles, size, tile: TILE, cells: tiles * tiles,
+      extent() { return { x: 0, y: 0, w: size, h: size }; },
+      centre() { return { x: size / 2, y: size / 2 }; },
+      centreCell() { return tiles / 2; },
+      axisMax, clampAxis,
+      contains(x, y, pad = 0) { return x >= pad && y >= pad && x <= size - pad && y <= size - pad; },
+      outside(x, y, pad = 0) { return x < pad || y < pad || x > size - pad || y > size - pad; },
+      outsideOpen(x, y, pad = 0) { return x <= pad || y <= pad || x >= size - pad || y >= size - pad; },
+      clampInside(x, y, pad = 0) { return { x: clampAxis(x, pad), y: clampAxis(y, pad) }; },
+      cellInside(gx, gy) { return gx >= 0 && gy >= 0 && gx < tiles && gy < tiles; },
+      cellOf(value) { return clamp(Math.floor(value / TILE), 0, tiles - 1); },
+      index(gx, gy) { return gy * tiles + gx; }
+    });
+  }
+  const LOCAL_MAP217 = localMap217(WORLD_TILES);
   function makeBag(source = {}) { const bag = {}; for (const key of RESOURCE_KEYS) bag[key] = Number(source[key] || 0); return bag; }
   function bagTotal(bag) { return RESOURCE_KEYS.reduce((sum, key) => sum + Number(bag[key] || 0), 0); }
   function canAfford(stock, cost, multiplier = 1) { return RESOURCE_KEYS.every(key => (stock[key] || 0) + 1e-6 >= (cost[key] || 0) * multiplier); }
@@ -498,7 +523,7 @@
     RESOURCE_KEYS, RESOURCE_META, DIFFICULTIES, START_SCENARIOS, START_SCENARIO_STORY_BONUS, CITY_TIERS, BUILDINGS, ENEMIES, ENEMY_RULES, WEAPONS, OBJECTIVES,
     RESEARCH, RESEARCH_INSIGHT_MAX, CRISES, PERFORMANCE_LIMITS, SIMULATION_RULES, STRATEGY_RULES, WORKER_RULES, LINECARE_RULES, SURVIVORS, NPC_RULES, NARRATIVE_RULES, NARRATIVE_OPERATIONS,
     SCENERY_DEFS, SQUAD_RULES, BATTLEFIELD_RULES, MAINTENANCE_RULES,
-    clamp, lerp, dist, distSq, grid, world, index, makeBag, bagTotal, canAfford, spend, add,
+    clamp, lerp, dist, distSq, grid, world, index, localMap217, LOCAL_MAP217, makeBag, bagTotal, canAfford, spend, add,
     scaledCost, resourceText, formatNumber, formatTime, seededHash, cityTier, buildingList,
     enemyHealthScale, wallLine, powerPriority, researchById, crisisForWave, normalizeResearch, migrateSaveData,
     normalizeCrisis, normalizeSpawnCounts, spawnCount, takeSpawnKind, productionFraction, findFriendlyPath,
@@ -1740,7 +1765,7 @@
   const out=initial(),seen=new Set();out.intel=raw.intel;
   out.sites=raw.sites.map(s=>{const d=BY_ID[s?.id];if(!d||seen.has(s.id)||typeof s.known!=='boolean'||typeof s.reported!=='boolean'||!num(s.progress,0,d.seconds)||s.reported!==(s.progress===d.seconds)||!s.stock)bad('lieu');seen.add(s.id);const stock=C.makeBag();for(const k of C.RESOURCE_KEYS){const cap=k===d.resource?d.amount:k==='fuel'?d.fuel:0;if(!num(s.stock[k],0,cap))bad('réserve');stock[k]=s.stock[k];}if((s.reported||C.bagTotal(stock)<d.amount+d.fuel)&&!s.known)bad('lieu non repéré');return{id:s.id,known:s.known,progress:s.progress,reported:s.reported,stock};});
   if(raw.analyst!==null){const a=raw.analyst;if(!a||!id(a.id)||!id(a.post)||!num(a.progress,0,RULES.researchSeconds)||typeof a.returning!=='boolean')bad('analyste');out.analyst={id:a.id,post:a.post,progress:a.progress,returning:a.returning};}
-  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.WORLD_SIZE-26)||!num(v.y,26,C.WORLD_SIZE-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
+  if(raw.vehicle!==null){const v=raw.vehicle;if(!v||!id(v.id)||!num(v.x,26,C.LOCAL_MAP217.size-26)||!num(v.y,26,C.LOCAL_MAP217.size-26)||!num(v.health,0,800)||!num(v.fuel,0,80)||!num(v.angle,-Math.PI,Math.PI)||typeof v.driving!=='boolean'||!v.cargo)bad('véhicule');const cargo=C.makeBag();for(const k of C.RESOURCE_KEYS){if(!num(v.cargo[k],0,300))bad('coffre');cargo[k]=v.cargo[k];}if(C.bagTotal(cargo)>300.000001||v.health===0&&(v.fuel>0||v.driving||C.bagTotal(cargo)>0))bad('épave');out.vehicle={id:v.id,x:v.x,y:v.y,health:v.health,fuel:v.fuel,angle:v.angle,driving:v.driving,cargo};if(v.metric174!==undefined){if(v.metric174!==1)bad('révision métrique');out.vehicle.metric174=1;}}
   if(raw.active!==null){if(!raw.active||!BY_ID[raw.active.id]||!Number.isSafeInteger(raw.active.wave)||!num(raw.active.wave,1,1e7))bad('sortie');out.active={id:raw.active.id,wave:raw.active.wave};}
   if(!Number.isInteger(raw.trade.wave)||!num(raw.trade.wave,1,1e7)||!num(raw.trade.remaining,0,RULES.tradeStock))bad('troc');out.trade={wave:raw.trade.wave,remaining:raw.trade.remaining};
   for(const k of Object.keys(out.stats)){if(!num(raw.stats[k],0,1e12)||!['distance','fuelUsed','delivered'].includes(k)&&!Number.isInteger(raw.stats[k]))bad('compteur');out.stats[k]=raw.stats[k];}
@@ -1758,7 +1783,7 @@
  function normalize(raw){
   if(raw===undefined)return empty();
   if(!raw||raw.version!==1||!Array.isArray(raw.nodes)||raw.nodes.length>RULES.maxNodes||!(raw.opacity===null||Number.isFinite(raw.opacity)&&raw.opacity>=0&&raw.opacity<=1)||typeof raw.attempt!=='boolean'||!['','normal','good','perfect','failed'].includes(raw.outcome))throw Error('Registre de terrain invalide.');
-  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.WORLD_SIZE||n[2]>C.WORLD_SIZE)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
+  const ids=new Set();const nodes=raw.nodes.map(n=>{if(!Array.isArray(n)||n.length!==3||!Number.isInteger(n[0])||n[0]<1||ids.has(n[0])||!Number.isFinite(n[1])||!Number.isFinite(n[2])||n[1]<0||n[2]<0||n[1]>C.LOCAL_MAP217.size||n[2]>C.LOCAL_MAP217.size)throw Error('Emplacement de décor invalide.');ids.add(n[0]);return n.slice();});
   return{version:1,nodes,opacity:raw.opacity,attempt:raw.attempt,outcome:raw.outcome};
  }
  const previous=C.migrateSaveData;
@@ -3442,7 +3467,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // foundation : site de D-17 (côté du plat en m, marge et portée en mailles, distances idéales à la falaise et à l'eau, cols décrits).
  // foundation.size 64 et idealCliff 0 depuis la tranche de la carte locale : site adossé, falaise au bord du plat ; backWeight/backCap : prime par côté du plat
  // entièrement bordé de falaise, pour `backCap` côtés au plus (jamais une cuvette fermée recherchée).
- {const f=Object.freeze;C.WorldRelief217Rules=f({version:3,cell:32,levels:6,
+ {const f=Object.freeze;C.WorldRelief217Rules=f({version:4,cell:32,levels:6,
   field:f({scale:2800,detailScale:900,detailWeight:.28,contrast:2.1,span:3.7,offset:.45,warpScale:1700,warpAmplitude:420}),
   escarpments:f([f({scale:1500,threshold:.6,height:2}),f({scale:2300,threshold:.66,height:2})]),
   pass:f({band:.008,wideBand:.13,scale:520,threshold:.72,reach:1.6,strand:5,every:32,islet:6}),
@@ -3455,7 +3480,7 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   towns:f({chance:.4,tries:6,margin:96,reach:352,order:f(['hameau','bourg','ville']),
    kinds:f({hameau:f({share:.6,radius:110,sites:4}),bourg:f({share:.3,radius:190,sites:9}),ville:f({share:.1,radius:300,sites:16})}),
    names:f(['Les Aubiers','Val-des-Saules','Montbrune','Belle-Futaie','La Combe','Les Ramiers','Rochebrune','Les Granges','Clairval','Bois-Ferré','La Rive','Fontvieille','Chantepierre','Les Brandes','Le Vallon','Saint-Orme'])}),
-  foundation:f({size:64,margin:3,reach:6,idealCliff:0,idealWater:3,centreWeight:.35,guard:8,backWeight:6,backCap:2}),
+  foundation:f({size:64,margin:3,reach:6,idealCliff:0,idealWater:3,centreWeight:.35,guard:8,backWeight:6,backCap:2,shoreWeight:6,shoreReach:2,shoreCap:1}),
   sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});
  // Carte locale de D-17 née de son canton (src/world-local217.js, hors jeu, génération 12 réservée). frame : côté du cadre jouable (m), multiple de
  // deux mailles, centré sur le site ; tile : pas de la case (m), celui de la carte actuelle. ramp : largeur (m) de la rampe praticable au milieu de
@@ -3465,7 +3490,8 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // deposits : gisements candidats dans le carré de récolte `zone` (m), hors du rayon `clear` du centre, espacés de `spacing`, sur un treillis de
  // `lattice` m ; kinds : nombre, quantité moyenne et rayon (m) relevés sur la carte actuelle ; spread : dispersion des quantités ;
  // foot/roadside/edge : portée (m) du pied de falaise, du bord de route, de la lisière ; poids : attrait de chaque situation.
- C.WorldLocal217Rules=f({version:1,frame:192,tile:1,ramp:12,rampDepth:6,brush:1,narrow:24,
+ C.WorldLocal217Rules=f({version:2,frame:192,tile:1,ramp:12,rampDepth:6,brush:1,narrow:24,
+  edge:f({amplitude:4,scale:40,band:12}),
   costs:f({step:10,ramp:30,ford:20}),
   deposits:f({zone:128,clear:9,spacing:2.5,lattice:2,foot:8,roadside:10,edge:12,spread:f([.72,1.35]),
    kinds:f({stone:f({count:40,amount:100,radius:.75}),wood:f({count:100,amount:85,radius:.69}),scrap:f({count:52,amount:70,radius:.63})}),

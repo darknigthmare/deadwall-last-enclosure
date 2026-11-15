@@ -27,6 +27,7 @@
  <label>Pixels par maille <input id="px" type="number" min="2" max="16" value="6"></label>
  <label>Fond <select id="mode"><option value="relief">paliers</option><option value="biome">milieux</option><option value="local">carte locale de D-17</option></select></label>
  <label>Cadre local (m) <input id="frame" type="number" min="64" max="320" step="64" value=""></label>
+ <label>Bord de falaise <select id="edge"><option value="">décalé (T5)</option><option value="mailles">sur les mailles (T4)</option></select></label>
  <button id="draw">Dessiner</button>
  <button data-move="-1,0">←</button><button data-move="0,-1">↑</button><button data-move="0,1">↓</button><button data-move="1,0">→</button>
 </header>
@@ -43,7 +44,7 @@
  const ROAD={regional:['#f4e9c8',2.6],secondary:['#e2d3ac',1.8],local:['#cdbf9d',1.1]};
  const biomeColour=Object.fromEntries([...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>[d.id,d.palette.base]));
  const query=new URLSearchParams(location.search);
- for(const key of ['seed','cx','cy','radius','px','mode','frame'])if(query.has(key))$(key).value=query.get(key);
+ for(const key of ['seed','cx','cy','radius','px','mode','frame','edge'])if(query.has(key))$(key).value=query.get(key);
  $('legend').innerHTML=TINT.map((c,i)=>'<span><i style="background:'+c+'"></i>'+(i?'palier '+i:'mer (palier 0)')+'</span>').join('')
   +'<span><i style="background:#2a1d14"></i>falaise (tout changement de palier hors col ; trait double : deux crans)</span><span><i style="background:#7dff6b"></i>col naturel (rampe)</span>'
   +'<span><i style="background:#ffb020"></i>rampe taillée par une route</span><span><i style="background:#3f86b8"></i>rivière, lac</span><span><i style="background:#f4e9c8"></i>route</span>'
@@ -114,7 +115,8 @@
   '<i style="background:rgba(0,0,0,.55)"></i>hors d’atteinte de la cité','<i style="background:#1f5a2a"></i>bois','<i style="background:#e8e8e8"></i>pierre','<i style="background:#c2571a"></i>ferraille'];
  function drawLocal(){
   const seed=Number($('seed').value),frame=$('frame').value===''?undefined:Number($('frame').value),started=performance.now();
-  const l=L.describe(seed,frame===undefined?{}:{frame}),siege=L.siege(l),elapsed=performance.now()-started,S=l.frame,px=Math.max(2,Math.min(6,Math.floor(900/S))),pad=14,canvas=$('map');
+  const options=frame===undefined?{}:{frame};if($('edge').value==='mailles')options.edge=false;
+  const l=L.describe(seed,options),siege=L.siege(l),elapsed=performance.now()-started,S=l.frame,px=Math.max(2,Math.min(6,Math.floor(900/S))),pad=14,canvas=$('map');
   canvas.width=canvas.height=S*px+2*pad;const g=canvas.getContext('2d');g.fillStyle='#15171a';g.fillRect(0,0,canvas.width,canvas.height);g.translate(pad,pad);
   for(let i=0;i<S*S;i++){const x=i%S,y=(i-x)/S,w=l.water[i],road=l.roads[i];
    g.fillStyle=w&&!road?(w===G.WATER.sea?TINT[0]:'#3f86b8'):road?(w?'#ffffff':'#e2d3ac'):l.kinds[i]===L.KIND.ramp?'#7dff6b':TINT[l.levels[i]];g.fillRect(x*px,y*px,px,px);
@@ -146,7 +148,7 @@
    +'.\nSiège : '+siege.fronts.length+' front(s) — '+siege.open+' ouvert(s), '+siege.slowed+' ralenti(s), '+siege.funnelled+' canalisé(s), '+siege.closed+' côté(s) fermé(s) ; cité '+(siege.enclosed?'ENCLAVÉE':'accessible')+', centre '+(siege.reachable?'atteint depuis chaque front':'NON atteint')
    +'. Sol : '+Math.round(l.sheet.ground.reachable*100)+' % du cadre à portée de la cité, '+Math.round(l.sheet.ground.plateau*100)+' % sur son palier. Routes : '+(l.accesses.map(a=>fr[a.side]+(a.linked?'':' (hors d’atteinte)')).join(', ')||'aucune')+'.'
    +'\nGisements : '+Object.entries(count).map(([k,v])=>v+' '+k).join(', ')+'.';
-  globalThis.apercu217={local:{seed,frame:S,digest:l.digest,sentence:l.sheet.sentence,sides:Object.fromEntries(L.SIDES.map(k=>[k,l.sides[k].status])),siege:{ok:siege.ok,fronts:siege.fronts.length},elapsed}};
+  globalThis.apercu217={local:{seed,frame:S,edge:options.edge!==false,digest:l.digest,sentence:l.sheet.sentence,sides:Object.fromEntries(L.SIDES.map(k=>[k,l.sides[k].status])),siege:{ok:siege.ok,fronts:siege.fronts.length},elapsed}};
  }
  const LEGEND=$('legend').innerHTML;
  $('draw').onclick=draw;

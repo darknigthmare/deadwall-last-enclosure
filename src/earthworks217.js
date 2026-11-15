@@ -14,7 +14,7 @@
    Registre creux, sauvegardé par case. Aucun tirage aléatoire, aucune horloge propre. */
 (function(root){'use strict';
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.Earthworks217Rules,B=R.talus,M=R.moat,F=R.backfill;
- const ID='ditch217',BANK='bank217',TILE=C.TILE,TILES=C.WORLD_TILES;
+ const ID='ditch217',BANK='bank217',TILE=C.TILE,TILES=C.LOCAL_MAP217.tiles;
  const KEYS=['version','active','earth','ditches','banks'],CELL=['x','y','dug','fill','wet','back'],MOUND=['x','y','built'],KEYS1=['version','active','ditches'],CELL1=['x','y','dug','fill'];
  const ENTRIES=Object.freeze([
   Object.freeze({id:ID,name:'Fossé',icon:'▬',description:'Ralentit les infectés qui le traversent, sans bloquer aucun passage. Les corps le comblent : à déblayer. Glissez pour tracer une ligne.'}),

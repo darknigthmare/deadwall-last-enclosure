@@ -15,6 +15,9 @@
     wavePlan, createStats, Random, MinHeap
   } = C;
 
+  // Carte locale : ses dimensions se lisent sur son propriétaire (`WorldMap#local`) ;
+  // repli sur la carte par défaut quand le monde manque ou qu'un test le simule.
+  const local217 = map => map?.local || C.LOCAL_MAP217;
   const now = () => performance.now() / 1000;
   const rotateSize = (def, rotation) => Math.abs(rotation) % 2 ? [def.size[1], def.size[0]] : def.size;
   const distanceToBuildingSquared = (p, b) => (p.x - clamp(p.x, b.left, b.right)) ** 2 + (p.y - clamp(p.y, b.top, b.bottom)) ** 2;
@@ -182,8 +185,10 @@
   }
 
   class WorldMap {
+    // Accesseurs de taille : une seule carte, celle par défaut, aujourd'hui.
+    get local() { return C.LOCAL_MAP217; }
     constructor(seed = 17117, cityGeometry202 = 0) {
-      this.seed = seed; this.occupancy = new Int32Array(WORLD_TILES * WORLD_TILES);
+      this.seed = seed; this.occupancy = new Int32Array(this.local.cells);
       this.cityGeometry202 = C.CityGeometry202.version(cityGeometry202);
       this.buildings = new Map(); this.nodes = []; this.nodeId = 1; this.flowDirty = true; this.navigationVersion = 0;
       this.generateNodes();
@@ -201,32 +206,32 @@
       if (building instanceof Building) building.geometryVersion202 = this.cityGeometry202;
       this.navigationVersion++;
       this.buildings.set(building.id, building);
-      for (const cell of this.cells(building)) this.occupancy[index(cell.x, cell.y)] = building.id;
+      for (const cell of this.cells(building)) this.occupancy[this.local.index(cell.x, cell.y)] = building.id;
       for (const node of this.nodes) if (!node.depleted && node.x + node.radius > building.left - 6 && node.x - node.radius < building.right + 6 && node.y + node.radius > building.top - 6 && node.y - node.radius < building.bottom + 6) { node.depleted = true; node.amount = 0; }
       this.flowDirty = true;
     }
     remove(building) {
       this.navigationVersion++;
-      for (const cell of this.cells(building)) if (this.occupancy[index(cell.x, cell.y)] === building.id) this.occupancy[index(cell.x, cell.y)] = 0;
+      for (const cell of this.cells(building)) if (this.occupancy[this.local.index(cell.x, cell.y)] === building.id) this.occupancy[this.local.index(cell.x, cell.y)] = 0;
       this.buildings.delete(building.id); this.flowDirty = true;
     }
     rewrite(building, oldCells) {
       this.navigationVersion++;
-      for (const cell of oldCells) if (this.occupancy[index(cell.x, cell.y)] === building.id) this.occupancy[index(cell.x, cell.y)] = 0;
-      for (const cell of this.cells(building)) this.occupancy[index(cell.x, cell.y)] = building.id;
+      for (const cell of oldCells) if (this.occupancy[this.local.index(cell.x, cell.y)] === building.id) this.occupancy[this.local.index(cell.x, cell.y)] = 0;
+      for (const cell of this.cells(building)) this.occupancy[this.local.index(cell.x, cell.y)] = building.id;
       this.flowDirty = true;
     }
     atCell(gx, gy) {
-      if (gx < 0 || gy < 0 || gx >= WORLD_TILES || gy >= WORLD_TILES) return null;
-      return this.buildings.get(this.occupancy[index(gx, gy)]) || null;
+      if (!this.local.cellInside(gx, gy)) return null;
+      return this.buildings.get(this.occupancy[this.local.index(gx, gy)]) || null;
     }
-    at(x, y) { return this.atCell(grid(x), grid(y)); }
+    at(x, y) { return this.atCell(this.local.cellOf(x), this.local.cellOf(y)); }
     placement(def, gx, gy, rotation = 0, ignoreId = 0) {
       if (def?.id && Object.hasOwn(BUILDINGS, def.id)) def = this.definition(def.id);
       const [w, h] = rotateSize(def, rotation);
-      if (gx < 1 || gy < 1 || gx + w >= WORLD_TILES - 1 || gy + h >= WORLD_TILES - 1) return { valid: false, reason: 'Hors de la zone' };
+      if (gx < 1 || gy < 1 || gx + w >= this.local.tiles - 1 || gy + h >= this.local.tiles - 1) return { valid: false, reason: 'Hors de la zone' };
       for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-        const id = this.occupancy[index(gx + x, gy + y)];
+        const id = this.occupancy[this.local.index(gx + x, gy + y)];
         if (id && id !== ignoreId) return { valid: false, reason: 'Emplacement occupé' };
       }
       const l = gx * TILE - 4, t = gy * TILE - 4, r = (gx + w) * TILE + 4, b = (gy + h) * TILE + 4;
@@ -254,12 +259,12 @@
       if (b.def.wall) return 130; if (b.def.defense) return 185; return 245;
     }
     generateNodes() {
-      const rnd = new Random(this.seed), center = WORLD_SIZE / 2;
+      const rnd = new Random(this.seed), span = this.local.size, center = span / 2;
       const addCluster = (type, cx, cy, count, spread) => {
         const amountBase = { wood: 85, scrap: 70, stone: 100, food: 55, fuel: 45 }, size = { wood: 22, scrap: 20, stone: 24, food: 17, fuel: 18 };
         for (let i = 0; i < count; i++) {
           const a = rnd.range(0, Math.PI * 2), rr = Math.sqrt(rnd.next()) * spread;
-          const x = clamp(cx + Math.cos(a) * rr, 70, WORLD_SIZE - 70), y = clamp(cy + Math.sin(a) * rr, 70, WORLD_SIZE - 70);
+          const x = clamp(cx + Math.cos(a) * rr, 70, span - 70), y = clamp(cy + Math.sin(a) * rr, 70, span - 70);
           if (Math.hypot(x - center, y - center) < 260) continue;
           const amount = amountBase[type] * rnd.range(.72, 1.35);
           this.nodes.push(new ResourceNode(this.nodeId++, type, x, y, amount, size[type] * rnd.range(.8, 1.2), rnd.int(0, 4)));
@@ -267,7 +272,7 @@
       };
       const clusters = { wood: 26, scrap: 22, stone: 18, food: 17, fuel: 12 };
       for (const type of Object.keys(clusters)) for (let c = 0; c < clusters[type]; c++) {
-        const a = rnd.range(0, Math.PI * 2), r = rnd.range(350, WORLD_SIZE * .64), cx = clamp(center + Math.cos(a) * r, 120, WORLD_SIZE - 120), cy = clamp(center + Math.sin(a) * r, 120, WORLD_SIZE - 120);
+        const a = rnd.range(0, Math.PI * 2), r = rnd.range(350, span * .64), cx = clamp(center + Math.cos(a) * r, 120, span - 120), cy = clamp(center + Math.sin(a) * r, 120, span - 120);
         addCluster(type, cx, cy, type === 'wood' ? rnd.int(4, 9) : rnd.int(2, 6), type === 'wood' ? 105 : 75);
       }
       const starter = [['wood',-330,-170],['wood',330,120],['scrap',-250,290],['scrap',290,-300],['stone',430,30],['food',-100,420],['fuel',120,-430]];
@@ -276,28 +281,29 @@
   }
 
   class FlowField {
-    constructor() { this.values = new Int32Array(WORLD_TILES * WORLD_TILES); this.heap = new MinHeap(); }
+    constructor() { this.local = C.LOCAL_MAP217; this.values = new Int32Array(this.local.cells); this.heap = new MinHeap(); }
     rebuild(map, target) {
+      const L = local217(map); if (this.values.length !== L.cells) this.values = new Int32Array(L.cells); this.local = L;
       this.values.fill(0x3fffffff); this.heap.clear();
-      const tx = grid(target.x), ty = grid(target.y), start = index(tx, ty); this.values[start] = 0; this.heap.push(start, 0);
+      const N = L.tiles, tx = L.cellOf(target.x), ty = L.cellOf(target.y), start = L.index(tx, ty); this.values[start] = 0; this.heap.push(start, 0);
       const dirs = [[-1,0,10],[1,0,10],[0,-1,10],[0,1,10]];
       while (this.heap.size) {
         const current = this.heap.pop(); if (!current || current.priority !== this.values[current.index]) continue;
-        const x = current.index % WORLD_TILES, y = Math.floor(current.index / WORLD_TILES);
+        const x = current.index % N, y = Math.floor(current.index / N);
         for (const [dx, dy, step] of dirs) {
-          const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= WORLD_TILES || ny >= WORLD_TILES) continue;
-          const i = index(nx, ny), cost = current.priority + step + map.movementCost(nx, ny);
+          const nx = x + dx, ny = y + dy; if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+          const i = L.index(nx, ny), cost = current.priority + step + map.movementCost(nx, ny);
           if (cost < this.values[i]) { this.values[i] = cost; this.heap.push(i, cost); }
         }
       }
       map.flowDirty = false;
     }
     direction(x, y, bias, time) {
-      const gx = grid(x), gy = grid(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]];
-      let bx = gx, by = gy, best = this.values[index(gx, gy)];
+      const L = this.local, N = L.tiles, gx = L.cellOf(x), gy = L.cellOf(y), dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+      let bx = gx, by = gy, best = this.values[L.index(gx, gy)];
       for (let i = 0; i < dirs.length; i++) {
-        const nx = gx + dirs[i][0], ny = gy + dirs[i][1]; if (nx < 0 || ny < 0 || nx >= WORLD_TILES || ny >= WORLD_TILES) continue;
-        const score = this.values[index(nx, ny)] + Math.sin(bias + i * 4.17 + time * .3) * 2.5;
+        const nx = gx + dirs[i][0], ny = gy + dirs[i][1]; if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+        const score = this.values[L.index(nx, ny)] + Math.sin(bias + i * 4.17 + time * .3) * 2.5;
         if (score < best) { best = score; bx = nx; by = ny; }
       }
       const dx = world(bx) - x, dy = world(by) - y, l = Math.hypot(dx, dy) || 1; return { x: dx / l, y: dy / l };
@@ -305,14 +311,16 @@
   }
 
   class Game {
+    // Carte locale de la partie en cours (lue sur le monde, repli par défaut).
+    get local() { return local217(this.world); }
     constructor() {
       this.canvas = document.getElementById('game'); this.ctx = this.canvas.getContext('2d', { alpha: false });
       this.minimap = document.getElementById('minimap'); this.mctx = this.minimap.getContext('2d');
       if (!this.ctx || !this.mctx) throw new Error('Canvas 2D indisponible.');
       this.audio = new AudioSystem(); this.state = 'menu'; document.body.dataset.phase = 'menu'; this.paused = false; this.gameOver = false;
       this.dpr = 1; this.width = innerWidth; this.height = innerHeight; this.lastFrame = performance.now(); this.nextId = 1;
-      this.input = { keys: new Set(), pressed: new Set(), mouseX: this.width / 2, mouseY: this.height / 2, mouseWorldX: WORLD_SIZE / 2, mouseWorldY: WORLD_SIZE / 2, mouseDown: false, touchFire: false };
-      this.camera = { x: WORLD_SIZE / 2, y: WORLD_SIZE / 2, zoom: 1, shake: 0 };
+      this.input = { keys: new Set(), pressed: new Set(), mouseX: this.width / 2, mouseY: this.height / 2, mouseWorldX: this.local.size / 2, mouseWorldY: this.local.size / 2, mouseDown: false, touchFire: false };
+      this.camera = { x: this.local.size / 2, y: this.local.size / 2, zoom: 1, shake: 0 };
       this.random = new Random(Date.now()); this.world = new WorldMap(17117); this.flow = new FlowField();
       this.resources = makeBag(); this.player = this.makePlayer(); this.units = []; this.zombies = []; this.projectiles = []; this.particles = []; this.corpses = []; this.floaters = [];
       this.buckets = new Map(); this.bucketSize = 160; this.notifications = []; this.notificationId = 1;
@@ -325,7 +333,7 @@
       this.profile = globalThis.DeadwallProfile?.create({ getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) });
       this.profileStatus = this.profile?.load();
       this.audio.setVolume(this.settings.volume);
-      this.rally = { x: WORLD_SIZE / 2 + 110, y: WORLD_SIZE / 2 }; this.rallyPlacement = false;
+      this.rally = { x: this.local.size / 2 + 110, y: this.local.size / 2 }; this.rallyPlacement = false;
       this.selectedBuild = null; this.buildRotation = 0; this.wallStart = null; this.wallPreview = []; this.selectedBuilding = null;
       this.interactionText = ''; this.stats = createStats(); this.objectiveIndex = 0; this.objectiveProgress = 0; this.objectiveReady = false;
       this.economyTimer = 0; this.metricsTimer = 0; this.uiTimer = 0; this.minimapTimer = 0; this.saveTimer = 0; this.flowTimer = 0;
@@ -356,7 +364,7 @@
 
     makePlayer(id = this.nextId++) {
       return {
-        id, x: WORLD_SIZE / 2 + 130, y: WORLD_SIZE / 2, radius: 13,
+        id, x: this.local.size / 2 + 130, y: this.local.size / 2, radius: 13,
         health: 100, maxHealth: 100, dead: false, downTimer: 0, invulnerable: 0,
         facing: 0, vx: 0, vy: 0, stamina: 100, maxStamina: 100,
         weapon: 'pistol', magazine: { pistol: 12, rifle: 30, shotgun: 8 },
@@ -734,7 +742,7 @@
       this.resources = makeBag({ wood: 180, scrap: 120, stone: 70, food: 130, fuel: 45, ammo: 180, medicine: 12 });
       if (id === 'story') add(this.resources, { wood: 50, scrap: 35, food: 50, ammo: 50 });
       if (scenario.id !== 'classic') this.resources = scenario.resources;
-      this.player = this.makePlayer(); const center = WORLD_TILES / 2, coreSize=this.world.definition('core').size;
+      this.player = this.makePlayer(); const center = this.local.centreCell(), coreSize=this.world.definition('core').size;
       const core = new Building(this.nextId++, 'core', center - coreSize[0]/2, center - coreSize[1]/2, 0, 1, this.world.cityGeometry202); core.health = core.maxHealth; this.world.add(core);
       if (scenario.id !== 'classic') core.health = scenario.coreHealth;
       this.player.x = this.world.cityGeometry202 ? core.x + 20 : core.x + 135; this.player.y = this.world.cityGeometry202 ? core.bottom + C.CityGeometry202.initialPlayerClearance : core.y + 20;
@@ -923,7 +931,7 @@
     }
 
     placeWallLine(type, cells) {
-      if (!Array.isArray(cells) || cells.length === 0 || cells.some(cell => !cell || !Number.isInteger(cell.x) || !Number.isInteger(cell.y) || cell.x < 0 || cell.y < 0 || cell.x >= WORLD_TILES || cell.y >= WORLD_TILES)) return false;
+      if (!Array.isArray(cells) || cells.length === 0 || cells.some(cell => !cell || !Number.isInteger(cell.x) || !Number.isInteger(cell.y) || cell.x < 0 || cell.y < 0 || cell.x >= this.local.tiles || cell.y >= this.local.tiles)) return false;
       const candidate = Object.hasOwn(BUILDINGS, type) ? BUILDINGS[type] : null;
       if (!candidate || !this.isLineWall(candidate) || candidate.unlockTier > this.tier.id || (candidate.requires && !this.world.has(candidate.requires))) { this.notify('Technologie non disponible.', 'danger'); return; }
       const def = BUILDINGS[type], unique = wallLine(cells[0] || { x:0, y:0 }, cells[cells.length - 1] || { x:0, y:0 });
@@ -1063,7 +1071,7 @@
     }
     squadRallyStatus(point) {
       const radius=C.SURVIVORS.soldier.radius,margin=radius+4;
-      if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<margin||point.y<margin||point.x>WORLD_SIZE-margin||point.y>WORLD_SIZE-margin)return{ok:false,reason:'Choisissez un point à l’intérieur de la carte.'};
+      if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y)||this.local.outside(point.x,point.y,margin))return{ok:false,reason:'Choisissez un point à l’intérieur de la carte.'};
       const probe={...point,radius};
       if([...this.world.buildings.values()].some(b=>T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)))return{ok:false,reason:'Ce point est bloqué par un rempart ou une porte verrouillée.'};
       return{ok:true,reason:''};
@@ -1074,7 +1082,7 @@
       // A valid rally can have an obstructed formation offset, including after a gate closes.
       // Check only nearby footprints, with the full radius and touching cell boundaries.
       for(const point of [preferred,group.rally]){
-        if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||point.x<margin||point.y<margin||point.x>WORLD_SIZE-margin||point.y>WORLD_SIZE-margin)continue;
+        if(!Number.isFinite(point.x)||!Number.isFinite(point.y)||this.local.outside(point.x,point.y,margin))continue;
         const probe={...point,radius};let blocked=false;
         for(let y=Math.ceil((point.y-radius)/TILE)-1;y<=grid(point.y+radius)&&!blocked;y++)for(let x=Math.ceil((point.x-radius)/TILE)-1;x<=grid(point.x+radius);x++){
           const b=this.world.atCell(x,y);if(T.blocksFriendly(b)&&T.overlapsBuilding(b,probe)){blocked=true;break;}
@@ -1129,7 +1137,7 @@
     createProtectedSurvivor(kind, x, y) {
       if (!Object.hasOwn(C.SURVIVORS, kind) || !Number.isFinite(x) || !Number.isFinite(y) || !Number.isSafeInteger(this.nextId) || this.nextId < 1 || this.nextId >= 0x7ffffffd) throw new RangeError('Survivant ou compteur invalide.');
       const unit = new Unit(this.nextId, kind, x, y);
-      if (x < unit.radius + 4 || y < unit.radius + 4 || x > WORLD_SIZE - unit.radius - 4 || y > WORLD_SIZE - unit.radius - 4 || !this.friendlyPositionClear(unit, x, y)) return null;
+      if (x < unit.radius + 4 || y < unit.radius + 4 || x > this.local.size - unit.radius - 4 || y > this.local.size - unit.radius - 4 || !this.friendlyPositionClear(unit, x, y)) return null;
       if (kind === 'soldier') unit.squad = globalThis.DeadwallSquads.nextGroup(this.units);
       this.nextId++; this.units.push(unit); return unit;
     }
@@ -1137,7 +1145,7 @@
     coreArrivalPosition(entity, preferred) {
       const core = this.core(); if (!core) return null;
       const margin = entity.radius + 4, probe = { x: preferred.x, y: preferred.y, radius: entity.radius };
-      const clear = preferred.x >= margin && preferred.y >= margin && preferred.x <= WORLD_SIZE - margin && preferred.y <= WORLD_SIZE - margin
+      const clear = this.local.contains(preferred.x, preferred.y, margin)
         && ![...this.world.buildings.values()].some(building => T.blocksFriendly(building) && T.overlapsBuilding(building, probe));
       // The command centre is passable and its footprint cannot overlap a wall.
       // Fall back inside it, never search for an arrival beyond a closed enclosure.
@@ -1236,8 +1244,8 @@
       this.uiTimer -= dt; if (this.uiTimer <= 0) { this.updateUI(); this.uiTimer = .09; }
       this.minimapTimer -= dt; if (this.minimapTimer <= 0) { this.renderMinimap(); this.minimapTimer = .22; }
       this.camera.x = lerp(this.camera.x, this.player.x, clamp(dt * 5.2, 0, 1)); this.camera.y = lerp(this.camera.y, this.player.y, clamp(dt * 5.2, 0, 1));
-      const halfWidth=this.world.cityGeometry202?Math.min(WORLD_SIZE/2,this.width/this.camera.zoom/2):this.width/this.camera.zoom/2,halfHeight=this.world.cityGeometry202?Math.min(WORLD_SIZE/2,this.height/this.camera.zoom/2):this.height/this.camera.zoom/2;
-      this.camera.x = clamp(this.camera.x, halfWidth, WORLD_SIZE - halfWidth); this.camera.y = clamp(this.camera.y, halfHeight, WORLD_SIZE - halfHeight);
+      const halfWidth=this.world.cityGeometry202?Math.min(this.local.size/2,this.width/this.camera.zoom/2):this.width/this.camera.zoom/2,halfHeight=this.world.cityGeometry202?Math.min(this.local.size/2,this.height/this.camera.zoom/2):this.height/this.camera.zoom/2;
+      this.camera.x = clamp(this.camera.x, halfWidth, this.local.size - halfWidth); this.camera.y = clamp(this.camera.y, halfHeight, this.local.size - halfHeight);
       const time = now(); this.notifications = this.notifications.filter(n => n.expires > time); for (const child of [...this.ui.notifications.children]) if (!this.notifications.some(n => String(n.id) === child.dataset.id)) child.remove();
     }
 
@@ -1300,8 +1308,8 @@
 
     moveFriendly(entity, dx, dy) {
       if(this.infrastructure){const boost=this.infrastructure.speed(entity.x,entity.y);dx*=boost;dy*=boost;}
-      const nx = clamp(entity.x + dx, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (this.friendlyPositionClear(entity, nx, entity.y)) entity.x = nx;
-      const ny = clamp(entity.y + dy, entity.radius + 4, WORLD_SIZE - entity.radius - 4); if (this.friendlyPositionClear(entity, entity.x, ny)) entity.y = ny;
+      const nx = clamp(entity.x + dx, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, nx, entity.y)) entity.x = nx;
+      const ny = clamp(entity.y + dy, entity.radius + 4, this.local.size - entity.radius - 4); if (this.friendlyPositionClear(entity, entity.x, ny)) entity.y = ny;
     }
 
     moveUnitToward(unit, target, dt, speed = unit.speed) {
@@ -1404,8 +1412,8 @@
         z.health -= this.succession133?.meleeDamage?.() ?? 36; z.stagger = .35; hit = true;
         // Preserve the 20px shove, stopping each short step before a physical obstacle.
         for (let step = 0; step < 5; step++) {
-          const nx = clamp(z.x + Math.cos(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
-          const ny = clamp(z.y + Math.sin(a) * 4, z.radius + 3, WORLD_SIZE - z.radius - 3);
+          const nx = clamp(z.x + Math.cos(a) * 4, z.radius + 3, this.local.size - z.radius - 3);
+          const ny = clamp(z.y + Math.sin(a) * 4, z.radius + 3, this.local.size - z.radius - 3);
           if (!this.hostilePositionClear(z, nx, ny)) break;
           z.x = nx; z.y = ny;
         }
@@ -1631,7 +1639,7 @@
       // Leave the future collision footprint by walking before finishing a wall around ourselves.
       const offset=Math.max(TILE/2,unit.radius+4),x=clamp(unit.x,building.left+TILE/2,building.right-TILE/2),y=clamp(unit.y,building.top+TILE/2,building.bottom-TILE/2);
       const points=[{x:building.left-offset,y},{x:building.right+offset,y},{x,y:building.top-offset},{x,y:building.bottom+offset}];
-      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>point.x>=offset&&point.y>=offset&&point.x<=WORLD_SIZE-offset&&point.y<=WORLD_SIZE-offset&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
+      return points.map((point,i)=>({...point,key:`${keyPrefix}:${building.id}:${i}`})).filter(point=>this.local.contains(point.x,point.y,offset)&&this.friendlyPositionClear(unit,point.x,point.y)&&this.workerJobAvailable(unit,point.key)).sort((a,b)=>distSq(unit,a)-distSq(unit,b))[0]||null;
     }
 
     workerJobAvailable(unit, key) {
@@ -1667,7 +1675,7 @@
 
     workerCleanupPoint(unit, wall) {
       // Corpse pressure has no saved side; always service the face away from the command centre.
-      const core=this.core()||{x:WORLD_SIZE/2,y:WORLD_SIZE/2},dx=wall.x-core.x,dy=wall.y-core.y,offset=Math.max(TILE/2,unit.radius+4);
+      const core=this.core()||this.local.centre(),dx=wall.x-core.x,dy=wall.y-core.y,offset=Math.max(TILE/2,unit.radius+4);
       return Math.abs(dx)>Math.abs(dy)?{x:dx>=0?wall.right+offset:wall.left-offset,y:wall.y}:{x:wall.x,y:dy>=0?wall.bottom+offset:wall.top-offset};
     }
 
@@ -1711,7 +1719,7 @@
     triggerCrisis(){
       if(this.wave<2||this.activeCrisis||!this.random.chance(.22-(this.hasResearch('recon')?.08:0)))return;
       const crisis=crisisForWave(this.wave,this.world.seed);if(!crisis)return;
-      const wall=crisis.id==='breach'?this.nearestWall(WORLD_SIZE/2,WORLD_SIZE/2,WORLD_SIZE):null;
+      const wall=crisis.id==='breach'?this.nearestWall(this.local.size/2,this.local.size/2,this.local.size):null;
       if(crisis.id==='breach'&&!wall)return;
       this.activeCrisis={id:crisis.id,wave:this.wave,status:'pending',remaining:STRATEGY_RULES.crisisDecisionSeconds,targetId:wall?.id||0,choice:null};
       this.notify(`${crisis.title} — choisissez une réponse dans le commandement.`,'danger');this.updateCrisisUI();
@@ -1772,7 +1780,7 @@
     spawnZombie(kind) {
       if(!Object.hasOwn(ENEMIES,kind))return false;
       const front=this.random.pick(this.fronts.length?this.fronts:['north']),margin=18;let x,y;
-      if(front==='north'){x=this.random.range(80,WORLD_SIZE-80);y=margin;}else if(front==='south'){x=this.random.range(80,WORLD_SIZE-80);y=WORLD_SIZE-margin;}else if(front==='east'){x=WORLD_SIZE-margin;y=this.random.range(80,WORLD_SIZE-80);}else{x=margin;y=this.random.range(80,WORLD_SIZE-80);}
+      if(front==='north'){x=this.random.range(80,this.local.size-80);y=margin;}else if(front==='south'){x=this.random.range(80,this.local.size-80);y=this.local.size-margin;}else if(front==='east'){x=this.local.size-margin;y=this.random.range(80,this.local.size-80);}else{x=margin;y=this.random.range(80,this.local.size-80);}
       x+=this.random.range(-22,22);y+=this.random.range(-22,22);this.zombies.push(new Zombie(this.nextId++,kind,x,y,this.difficulty,this.wave));return true;
     }
 
@@ -1879,13 +1887,13 @@
     }
     moveChargingZombie(z,dir,distance){
       const steps=Math.max(1,Math.ceil(distance/C.ENEMY_RULES.charge.moveStep)),dx=dir.x*distance/steps,dy=dir.y*distance/steps;
-      for(let i=0;i<steps;i++){const x=clamp(z.x+dx,3,WORLD_SIZE-3),y=clamp(z.y+dy,3,WORLD_SIZE-3);if(!this.hostilePositionClear(z,x,y)){this.endZombieCharge(z);return false;}z.x=x;z.y=y;}
+      for(let i=0;i<steps;i++){const x=clamp(z.x+dx,3,this.local.size-3),y=clamp(z.y+dy,3,this.local.size-3);if(!this.hostilePositionClear(z,x,y)){this.endZombieCharge(z);return false;}z.x=x;z.y=y;}
       return true;
     }
     moveOrdinaryZombie(z,dir,distance){
       const steps=Math.max(1,Math.ceil(distance/C.ENEMY_RULES.moveStep)),dx=dir.x*distance/steps,dy=dir.y*distance/steps;
       for(let i=0;i<steps;i++){
-        const x=clamp(z.x+dx,3,WORLD_SIZE-3),y=clamp(z.y+dy,3,WORLD_SIZE-3);
+        const x=clamp(z.x+dx,3,this.local.size-3),y=clamp(z.y+dy,3,this.local.size-3);
         if(!this.hostilePositionClear(z,x,y)){
           const blocker=this.hostileBuildingAt(z,x,y);
           if(blocker&&z.attackCooldown<=0&&this.strikeZombieBuilding159(z,blocker,ENEMIES[z.kind].damage*this.difficulty.enemyDamage))z.attackCooldown=1/ENEMIES[z.kind].attackRate;
@@ -1965,11 +1973,11 @@
       for (const p of this.projectiles) {
         if (p.dead) continue;
         const fullDx = p.vx * dt, fullDy = p.vy * dt, fullLength = Math.hypot(fullDx, fullDy), remaining = p.range - p.travelled;
-        if (!(fullLength > 0) || !(remaining > 0) || p.x < 0 || p.y < 0 || p.x > WORLD_SIZE || p.y > WORLD_SIZE) { p.dead = true; continue; }
+        if (!(fullLength > 0) || !(remaining > 0) || this.local.outside(p.x, p.y)) { p.dead = true; continue; }
         let fraction = Math.min(1, remaining / fullLength);
-        if (fullDx > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.x) / fullDx);
+        if (fullDx > 0) fraction = Math.min(fraction, (this.local.size - p.x) / fullDx);
         else if (fullDx < 0) fraction = Math.min(fraction, -p.x / fullDx);
-        if (fullDy > 0) fraction = Math.min(fraction, (WORLD_SIZE - p.y) / fullDy);
+        if (fullDy > 0) fraction = Math.min(fraction, (this.local.size - p.y) / fullDy);
         else if (fullDy < 0) fraction = Math.min(fraction, -p.y / fullDy);
         const dx = fullDx * fraction, dy = fullDy * fraction, length = fullLength * fraction, lengthSq = dx * dx + dy * dy;
         const endpoint = {x:p.x+dx,y:p.y+dy};
@@ -2004,7 +2012,7 @@
         } else if (barrierImpact <= 1) {
           p.dead = true;
           if (obstruction.barricade) this.barricades134.damage(obstruction.barricade,p.damage);
-        } else if (fraction < 1 || p.travelled >= p.range || p.x <= 0 || p.y <= 0 || p.x >= WORLD_SIZE || p.y >= WORLD_SIZE) p.dead = true;
+        } else if (fraction < 1 || p.travelled >= p.range || this.local.outsideOpen(p.x, p.y)) p.dead = true;
       }
       this.projectiles = this.projectiles.filter(p => !p.dead);
     }
@@ -2372,34 +2380,34 @@
     drawGround(ctx,v){
       const pose=this.frontier?.position(),biomeGround=pose?.generation>=6&&globalThis.DeadwallGround135;
       if(biomeGround){
-        const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(WORLD_SIZE,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(WORLD_SIZE,v.bottom)/32};
+        const h=globalThis.DeadwallAtlasProjection.home(this),regionView={left:h.minX+Math.max(0,v.left)/32,right:h.minX+Math.min(this.local.size,v.right)/32,top:h.minY+Math.max(0,v.top)/32,bottom:h.minY+Math.min(this.local.size,v.bottom)/32};
         let ground=this.groundEcology164;
         if(!ground||ground.owner!==this.world||ground.seed!==this.world.seed||ground.generation!==pose.generation||ground.ecologyVersion!==(pose.ecologyVersion||0)||ground.hydrologyVersion!==(pose.hydrologyVersion||0)||ground.landscape189!==(pose.landscape189||'classic')||ground.frontier!==this.frontier){
           ground={landscape189:pose.landscape189||'classic',owner:this.world,seed:this.world.seed,generation:pose.generation,ecologyVersion:pose.ecologyVersion||0,hydrologyVersion:pose.hydrologyVersion||0,frontier:this.frontier,world:pose.ecologyVersion===1?this.frontier.world():{seed:this.world.seed,generation:pose.generation}};this.groundEcology164=ground;
         }
         ctx.save();ctx.scale(32,32);ctx.translate(-h.minX,-h.minY);biomeGround.draw(ctx,ground.world,regionView,{scale:this.camera.zoom*32,time:this.elapsed,reducedMotion:!!this.settings.reducedMotion});ctx.restore();
       }else{
-      const tile=96,minX=Math.max(0,Math.floor(v.left/tile)),maxX=Math.min(Math.ceil(WORLD_SIZE/tile),Math.ceil(v.right/tile)),minY=Math.max(0,Math.floor(v.top/tile)),maxY=Math.min(Math.ceil(WORLD_SIZE/tile),Math.ceil(v.bottom/tile));
+      const tile=96,minX=Math.max(0,Math.floor(v.left/tile)),maxX=Math.min(Math.ceil(this.local.size/tile),Math.ceil(v.right/tile)),minY=Math.max(0,Math.floor(v.top/tile)),maxY=Math.min(Math.ceil(this.local.size/tile),Math.ceil(v.bottom/tile));
       for(let y=minY;y<=maxY;y++)for(let x=minX;x<=maxX;x++){
         const n=seededHash(x,y,this.world.seed),r=Math.floor(25+n*7),g=Math.floor(31+n*8),b=Math.floor(27+n*5);ctx.fillStyle=`rgb(${r},${g},${b})`;ctx.fillRect(x*tile,y*tile,tile+1,tile+1);
         if(n>.74){ctx.fillStyle='rgba(150,135,95,.045)';ctx.beginPath();ctx.arc(x*tile+n*tile,y*tile+seededHash(y,x,3)*tile,6+n*8,0,Math.PI*2);ctx.fill();}
       }
-      this.art?.drawGround(ctx,v,WORLD_SIZE);
+      this.art?.drawGround(ctx,v,this.local.size);
       }
-      const c=WORLD_SIZE/2;
+      const c=this.local.size/2;
       if(![3,4].includes(this.exploration125?.layoutRevision)){
-      ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,WORLD_SIZE,132);ctx.fillRect(c-66,0,132,WORLD_SIZE);
-      ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,WORLD_SIZE,4);ctx.fillRect(0,c+66,WORLD_SIZE,4);ctx.fillRect(c-70,0,4,WORLD_SIZE);ctx.fillRect(c+66,0,4,WORLD_SIZE);
+      ctx.fillStyle='#242a28';ctx.fillRect(0,c-66,this.local.size,132);ctx.fillRect(c-66,0,132,this.local.size);
+      ctx.fillStyle='rgba(7,10,9,.28)';ctx.fillRect(0,c-70,this.local.size,4);ctx.fillRect(0,c+66,this.local.size,4);ctx.fillRect(c-70,0,4,this.local.size);ctx.fillRect(c+66,0,4,this.local.size);
       }
       if(v.right>c-620&&v.left<c+620&&v.bottom>c-520&&v.top<c+520){
         const yard=ctx.createRadialGradient(c,c,70,c,c,560);yard.addColorStop(0,'rgba(55,62,58,.95)');yard.addColorStop(.52,'rgba(45,52,49,.72)');yard.addColorStop(.82,'rgba(38,44,41,.25)');yard.addColorStop(1,'rgba(35,41,38,0)');ctx.fillStyle=yard;ctx.fillRect(c-580,c-500,1160,1000);
         for(let i=0;i<18;i++){const a=seededHash(i,this.world.seed,71)*Math.PI*2,rad=90+seededHash(i,12,this.world.seed)*410,x=c+Math.cos(a)*rad,y=c+Math.sin(a)*rad*.72,w=34+seededHash(i,22,9)*82,h=15+seededHash(i,41,3)*34;ctx.save();ctx.translate(x,y);ctx.rotate((seededHash(i,7,13)-.5)*.55);ctx.fillStyle=`rgba(112,117,108,${.018+seededHash(i,44,2)*.035})`;ctx.fillRect(-w/2,-h/2,w,h);ctx.restore();}
         ctx.strokeStyle='rgba(216,190,112,.055)';ctx.lineWidth=2;for(const radius of [225,355,490]){ctx.beginPath();ctx.ellipse(c,c,radius,radius*.72,0,0,Math.PI*2);ctx.stroke();}
       }
-      if(![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(WORLD_SIZE,c);ctx.moveTo(c,0);ctx.lineTo(c,WORLD_SIZE);ctx.stroke();ctx.setLineDash([]);}
-      ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,WORLD_SIZE-6,WORLD_SIZE-6);
+      if(![3,4].includes(this.exploration125?.layoutRevision)){ctx.strokeStyle='rgba(208,196,142,.13)';ctx.lineWidth=3;ctx.setLineDash([38,32]);ctx.beginPath();ctx.moveTo(0,c);ctx.lineTo(this.local.size,c);ctx.moveTo(c,0);ctx.lineTo(c,this.local.size);ctx.stroke();ctx.setLineDash([]);}
+      ctx.strokeStyle='rgba(220,225,215,.09)';ctx.lineWidth=5;ctx.strokeRect(3,3,this.local.size-6,this.local.size-6);
       this.infrastructure?.drawRoads(ctx,v);
-      if(this.selectedBuild||this.rallyPlacement){const minGX=Math.max(0,Math.floor(v.left/TILE)),maxGX=Math.min(WORLD_TILES,Math.ceil(v.right/TILE)),minGY=Math.max(0,Math.floor(v.top/TILE)),maxGY=Math.min(WORLD_TILES,Math.ceil(v.bottom/TILE));ctx.strokeStyle='rgba(210,220,210,.055)';ctx.lineWidth=1/this.camera.zoom;ctx.beginPath();for(let x=minGX;x<=maxGX;x++){ctx.moveTo(x*TILE,minGY*TILE);ctx.lineTo(x*TILE,maxGY*TILE);}for(let y=minGY;y<=maxGY;y++){ctx.moveTo(minGX*TILE,y*TILE);ctx.lineTo(maxGX*TILE,y*TILE);}ctx.stroke();}
+      if(this.selectedBuild||this.rallyPlacement){const minGX=Math.max(0,Math.floor(v.left/TILE)),maxGX=Math.min(this.local.tiles,Math.ceil(v.right/TILE)),minGY=Math.max(0,Math.floor(v.top/TILE)),maxGY=Math.min(this.local.tiles,Math.ceil(v.bottom/TILE));ctx.strokeStyle='rgba(210,220,210,.055)';ctx.lineWidth=1/this.camera.zoom;ctx.beginPath();for(let x=minGX;x<=maxGX;x++){ctx.moveTo(x*TILE,minGY*TILE);ctx.lineTo(x*TILE,maxGY*TILE);}for(let y=minGY;y<=maxGY;y++){ctx.moveTo(minGX*TILE,y*TILE);ctx.lineTo(maxGX*TILE,y*TILE);}ctx.stroke();}
     }
 
 
@@ -2583,7 +2591,7 @@
       if(this.state!=='playing'||this.selectedBuild||this.rallyPlacement||globalThis.matchMedia?.('(pointer: coarse)')?.matches)return;const x=this.input.mouseX,y=this.input.mouseY,gap=this.player.weapon==='shotgun'?8:5;ctx.save();ctx.strokeStyle=this.player.reload>0?'rgba(216,173,77,.78)':'rgba(235,240,235,.88)';ctx.lineWidth=1.25;ctx.beginPath();ctx.moveTo(x-gap-8,y);ctx.lineTo(x-gap,y);ctx.moveTo(x+gap,y);ctx.lineTo(x+gap+8,y);ctx.moveTo(x,y-gap-8);ctx.lineTo(x,y-gap);ctx.moveTo(x,y+gap);ctx.lineTo(x,y+gap+8);ctx.stroke();ctx.fillStyle=this.player.reload>0?'#d8ad4d':'#edf1ec';ctx.fillRect(x-1,y-1,2,2);ctx.restore();
     }
 
-    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/WORLD_SIZE,sy=h/WORLD_SIZE;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((WORLD_SIZE/2-430)*sx,(WORLD_SIZE/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
+    renderMinimap(){if(this.state!=='playing')return;const ctx=this.mctx,w=this.minimap.width,h=this.minimap.height,sx=w/this.local.size,sy=h/this.local.size;ctx.clearRect(0,0,w,h);ctx.fillStyle='#151b17';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.035)';for(let i=0;i<=8;i++){const x=i/8*w,y=i/8*h;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.fillStyle='rgba(125,130,120,.08)';ctx.fillRect((this.local.size/2-430)*sx,(this.local.size/2-320)*sy,860*sx,640*sy);for(const b of this.world.buildings.values()){if(b.dead)continue;ctx.fillStyle=b.type==='core'?'#d2a84a':b.def.defense?'#89958f':'#687a68';ctx.fillRect(b.left*sx,b.top*sy,Math.max(1,b.w*TILE*sx),Math.max(1,b.h*TILE*sy));}this.contentUI?.drawMinimap(ctx,sx,sy);ctx.fillStyle='#b64f45';const vision=this.visibility?.frame?.(),step=this.zombies.length>400?2:1;for(let i=0;i<this.zombies.length;i+=step){const z=this.zombies[i];if(vision?.canSeeLocal(z))ctx.fillRect(z.x*sx,z.y*sy,1.5,1.5);}ctx.fillStyle='#85a975';for(const u of this.units)if(!u.dead)ctx.fillRect(u.x*sx-1,u.y*sy-1,2,2);ctx.fillStyle='#f2d16d';ctx.beginPath();ctx.arc(this.player.x*sx,this.player.y*sy,3,0,Math.PI*2);ctx.fill();const hw=this.width/this.camera.zoom/2,hh=this.height/this.camera.zoom/2;ctx.strokeStyle='rgba(255,255,255,.55)';ctx.strokeRect((this.camera.x-hw)*sx,(this.camera.y-hh)*sy,hw*2*sx,hh*2*sy);}
   }
 
   try {
@@ -3752,7 +3760,7 @@
   function signal(id){const site=(g.world.sites||[]).find(s=>s.theme===id);return site?{x:site.x,y:site.y}:null;}
   function spawnPoint(id){const s=signal(id);if(!s)return null;const radius=C.SURVIVORS?.[D.BY_ID[id]?.kind]?.radius||11;
     for(const r of [0,32,64,96])for(let i=0;i<(r?8:1);i++){const p={x:s.x+Math.cos(i*Math.PI/4)*r,y:s.y+Math.sin(i*Math.PI/4)*r};
-      if(p.x<radius+4||p.y<radius+4||p.x>4096-radius-4||p.y>4096-radius-4)continue;
+      const size=(g.local||C.LOCAL_MAP217).size;if(p.x<radius+4||p.y<radius+4||p.x>size-radius-4||p.y>size-radius-4)continue;
       if(g.friendlyPositionClear({radius},p.x,p.y)&&g.workerCanWorkAt(g.player,p,R.contactRange))return p;
     }return null;
   }

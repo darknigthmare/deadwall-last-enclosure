@@ -17,7 +17,9 @@ function stepOK(l,i,j){
 
 test('carte locale 217 : règles gelées dans le cœur, cadre réglable et aligné sur les mailles',()=>{
   assert.ok(Object.isFrozen(R)&&Object.isFrozen(R.costs)&&Object.isFrozen(R.deposits)&&Object.isFrozen(R.deposits.kinds.wood));
-  assert.equal(L.RULES,R);assert.equal(R.version,1);assert.equal(R.frame,192);assert.equal(R.tile,1,'même pas que la carte actuelle : une case d’un mètre');
+  assert.equal(L.RULES,R);assert.equal(R.version,2);
+  // Bord de falaise décalé : contractant (pente du décalage sous 1) et bien plus petit qu'une maille.
+  assert.ok(Object.isFrozen(R.edge)&&R.edge.amplitude>0&&R.edge.amplitude*4<=G.CELL&&2*R.edge.amplitude*1.5*Math.SQRT2/R.edge.scale+R.edge.amplitude/R.edge.band<1);assert.equal(R.frame,192);assert.equal(R.tile,1,'même pas que la carte actuelle : une case d’un mètre');
   assert.equal(C.TILE,32);assert.equal(C.WORLD_TILES,128,'la carte actuelle fait 128 cases de 1 m');
   assert.equal(R.frame%(2*G.CELL),0);assert.ok(R.ramp>=2&&R.ramp<=G.CELL&&R.narrow>R.ramp,'une rampe est plus étroite qu’un front ouvert');
   // Le cadre tient dans le canton d'origine quel que soit le site retenu.
@@ -40,13 +42,15 @@ test('carte locale 217 : déterminisme — même graine, même carte, quel que s
   const a=L.describe(17117),b=L.describe(17117);assert.notEqual(a,b);assert.deepEqual(a.levels,b.levels);assert.deepEqual(a.sides,b.sides);assert.deepEqual(a.deposits,b.deposits);assert.equal(L.digest(a),a.digest);
   // Empreintes de référence, vues à l'identique sous Node et dans Chromium (page d'aperçu). Elles peuvent
   // encore bouger avec un réglage tant que la génération 12 n'est ouverte nulle part.
-  assert.deepEqual([17117,42,4294967295].map(s=>local(s).digest),['e59f29a8','8d447481','8a666ce2']);
+  // Version 2 (T5) : bord de falaise décalé, prime de rive au choix du site.
+  assert.deepEqual([17117,42,4294967295].map(s=>local(s).digest),['f34175ea','b82c6bc4','76e8b703']);
   assert.ok(Object.isFrozen(a)&&Object.isFrozen(a.sides)&&Object.isFrozen(a.sides.north)&&Object.isFrozen(a.sheet)&&Object.isFrozen(a.deposits)&&Object.isFrozen(a.accesses));
 });
 
 test('carte locale 217 : cohérence avec le canton — mêmes paliers, milieux, eau et cols aux mêmes points',()=>{
   for(const seed of SEEDS){
-   const l=local(seed),c=G.generate(seed,0,0),f=c.foundation,S=l.frame,N=G.CELLS,CELL=G.CELL;
+   // Sans décalage de bord, la grille est exactement celle des mailles du canton.
+   const l=L.describe(seed,{edge:false}),c=G.generate(seed,0,0),f=c.foundation,S=l.frame,N=G.CELLS,CELL=G.CELL;
    assert.equal(l.canton,'K0_0');assert.equal(l.site,f.id);assert.equal(l.generation,12);assert.equal(l.unit,C.TILE);
    assert.deepEqual(l.origin,{x:f.x-S/2,y:f.y-S/2});assert.equal(l.level,f.level);assert.equal(l.biome,f.biome);
    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
@@ -78,6 +82,32 @@ test('carte locale 217 : cohérence avec le canton — mêmes paliers, milieux, 
    // Nature des cases : l'eau est de l'eau, une rampe touche un col, une falaise borde un ressaut.
    for(let i=0;i<S*S;i++){const k=l.kinds[i];if(k===L.KIND.water)assert.ok(l.water[i]&&!(l.roads[i]&&l.water[i]!==W.sea&&l.water[i]!==W.lake));}
   }
+});
+
+// Composantes de même palier (quatre voisins), comptées par palier.
+function components(l){const S=l.frame,id=new Int32Array(S*S).fill(-1),per={};for(let s=0;s<S*S;s++){if(id[s]>=0)continue;const q=[s];id[s]=s;for(let k=0;k<q.length;k++){const i=q[k],x=i%S;for(const j of [x<S-1?i+1:-1,x>0?i-1:-1,i+S<S*S?i+S:-1,i-S])if(j>=0&&id[j]<0&&l.levels[j]===l.levels[i]){id[j]=s;q.push(j);}}per[l.levels[s]]=(per[l.levels[s]]||0)+1;}return per;}
+
+test('carte locale 217 : bord de falaise décalé à 1 m — moins en escalier, même topologie, mêmes cols (50 graines)',()=>{
+  const A=R.edge.amplitude,CELL=G.CELL;let onLine=[0,0],edges=[0,0],changed=0;
+  for(const seed of FIFTY){
+   const l=local(seed),o=L.describe(seed,{edge:false}),S=l.frame;
+   assert.deepEqual(l.passes,o.passes,'les rampes de col ne bougent pas : '+seed);
+   assert.deepEqual(components(l),components(o),'mêmes régions de même palier : '+seed);
+   for(const k of L.SIDES)assert.equal(l.sides[k].status,o.sides[k].status,'même verdict de côté : '+seed+' '+k);
+   assert.ok(L.siege(l).ok);
+   for(let y=0;y<S;y++)for(let x=0;x<S;x++){const i=y*S+x;if(l.levels[i]===o.levels[i])continue;changed++;
+    // Une case décalée prend le palier d'une maille à `amplitude` mètres au plus, jamais au bord du cadre ni sur le plat du site.
+    let near=false;for(let dy=-A-1;dy<=A+1&&!near;dy++)for(let dx=-A-1;dx<=A+1;dx++){const nx=x+dx,ny=y+dy;if(nx>=0&&ny>=0&&nx<S&&ny<S&&o.levels[ny*S+nx]===l.levels[i]){near=true;break;}}
+    assert.ok(near,'décalage trop grand en '+x+','+y+' : '+seed);assert.ok(x>A&&y>A&&x<S-1-A&&y<S-1-A,'bord du cadre décalé : '+seed);
+    const F=C.WorldRelief217Rules.foundation.size;assert.ok(!(x>=(S-F)/2&&x<(S+F)/2&&y>=(S-F)/2&&y<(S+F)/2),'plat du site entamé : '+seed);}
+   // Escalier : part des arêtes de changement de palier portées par une ligne de maille (1 sans décalage).
+   for(const[n,g]of [[0,o],[1,l]])for(let y=0;y<S;y++)for(let x=0;x<S;x++){const i=y*S+x;
+    if(x<S-1&&g.levels[i]!==g.levels[i+1]){edges[n]++;if((x+1)%CELL===0)onLine[n]++;}
+    if(y<S-1&&g.levels[i]!==g.levels[i+S]){edges[n]++;if((y+1)%CELL===0)onLine[n]++;}}
+  }
+  const before=onLine[0]/edges[0],after=onLine[1]/edges[1];
+  console.log('# bord de falaise décalé (amplitude '+A+' m) : '+(changed/FIFTY.length).toFixed(0)+' cases changées par carte ; arêtes de ressaut sur une ligne de maille '+(before*100).toFixed(0)+' % → '+(after*100).toFixed(0)+' %');
+  assert.equal(before,1);assert.ok(after<.75,'les falaises suivent encore les mailles : '+after);assert.ok(changed>0);
 });
 
 test('carte locale 217 : 50 graines — jamais de cité enclavée, centre atteint depuis chaque front, fronts conformes aux côtés',()=>{
@@ -125,7 +155,8 @@ test('carte locale 217 : « une falaise vaut une enceinte » — parts mesurées
    +tally.ramps+' passages à tenir ; '+(tally.plateau/50*100).toFixed(0)+' % du cadre sur le palier de la cité ; '+sentences.size+' phrases d’ouverture différentes');
   // Chiffres obtenus avec les règles livrées (cadre de 192 m, plat de 64 m, site adossé). Avant cette tranche,
   // avec un plat de 128 m et la falaise idéale à deux mailles : 0 graine sur 50 à 128 m, 4 sur 50 à 256 m.
-  assert.deepEqual({closed:tally.closed,cliff:tally.cliff,water:tally.water,gated:tally.gated,either:tally.either,open:tally.open},{closed:29,cliff:29,water:0,gated:12,either:38,open:[0,2,18,18,12]});
+  assert.deepEqual({closed:tally.closed,cliff:tally.cliff,water:tally.water,gated:tally.gated,either:tally.either,open:tally.open},{closed:28,cliff:28,water:2,gated:10,either:36,open:[0,2,18,16,14]});
+  // T5 (prime de rive) : l'eau ferme un côté pour 2 graines sur 50 (0 avant) ; T4 donnait 29 / 29 / 0 / 12 / 38 / [0,2,18,18,12].
   assert.ok(tally.seen>=40&&tally.near/tally.seen<=40,'la falaise est à l’échelle de la cité');
   assert.ok(sentences.size>=30,'la graine change la phrase d’ouverture');
 });
