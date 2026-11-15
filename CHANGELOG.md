@@ -14,6 +14,7 @@
 - Avant-postes, deuxième tranche : le convoi ramène le butin réel du lieu (partagé avec la fouille à la main) ; plus de plafond par âge ; entretien de 2 nourriture par vague, faute de quoi la route n'est plus gardée.
 - Avant-postes et routes gardées, première tranche (nouvelles campagnes) : avant-poste établi au dépôt sur un lieu régional vidé, garnison de deux fusiliers retirée de la cité, route gardée qui écarte le barrage des Rouleurs de ce côté, convoi automatique d'un fonds fini à chaque vague contre du carburant, abandon qui rend les hommes, portée radio de 3 km autour de D-17 et des avant-postes.
 - Fiche de graine, deuxième tranche : milieu de la cité chiffré, trois lieux remarquables les plus proches, conseil fondé sur ces effets ; au menu, « Aperçu de la carte » montre la fiche d'une graine saisie sans démarrer de campagne.
+- Monde sans bord, tranche T3 (hors jeu) : relief durci (falaises fréquentes, cols rares), routes par les cols, eau plus présente, agglomérations, site de fondation de D-17 dans le canton d'origine avec sa fiche.
 - Monde sans bord, tranche T1 : accesseurs de limite sur le monde régional. Aucun effet en jeu ; mondes et sauvegardes G1 à G11 inchangés.
 - Monde sans bord, tranche T2 (sans effet en jeu) : générateur de canton avec relief par paliers, eau, routes et lieux candidats (`src/world-canton-gen217.js`), sonde de coût et page d'aperçu hors jeu.
 - Correction : ouvrir la fiche « Milieu de la cité » ne fige plus le milieu dans la sauvegarde.

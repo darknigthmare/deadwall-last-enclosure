@@ -1254,9 +1254,31 @@ d'atlas calée sur l'étendue totale.
   falaise vaille une enceinte, il faudra durcir la règle. L'eau est
   clairsemée et sans vallée. Aucune agglomération, aucun décor, D-17 n'est
   pas encore placé.
-- **[DÉCISION]** Falaises fréquentes, rampes rares : un plateau doit être
-  une enceinte naturelle avec quelques passages obligés à garder. En
-  chantier dans le générateur, avec les agglomérations et le site de D-17.
+- **[DÉCISION, livrée hors jeu]** Falaises fréquentes, rampes rares : un
+  plateau doit être une enceinte naturelle avec quelques passages obligés à
+  garder.
+- **Tranche T3 livrée, sans effet en jeu** : tout changement de palier est
+  une falaise, sauf aux **cols**, quelques mailles de rampe par contour de
+  plateau. Un canton compte 87 à 102 arêtes de falaise pour 15 à 20 de rampe
+  (T2 : 17 pour 80) et 4 à 5,5 cols. Les routes passent par les cols ; faute
+  de col, elles taillent une rampe, qui devient un passage de plus à garder.
+  Le réseau tient d'un seul tenant à 97,9–100 % des cantons desservis : seule
+  la mer isole encore. Un cours d'eau coule dans 68 à 82 % des cantons hors
+  hauts plateaux, avec fonds de vallée et lacs. Les agglomérations (hameau,
+  bourg, ville) sont portées par les sommets de la grille, reliées entre
+  voisines et entourées de lieux. **D-17 a son site de fondation dans le
+  canton d'origine** : un plat de 128 m relié à une route, décrit par sa
+  fiche (palier, falaise et eau les plus proches, cols à garder). Sur 50
+  graines, 45 sites ont une falaise à 400 m ou moins et au moins un col à
+  garder.
+- Réserves de T3 : rien n'a été joué. « Une falaise vaut une enceinte » **se
+  lit à l'échelle régionale, pas encore à celle de la cité** : la falaise la
+  plus proche de D-17 est à une centaine de mètres, hors de la carte locale
+  de 128 m, et le palier de D-17 s'ouvre presque toujours de plain-pied vers
+  un canton voisin (1 plateau fermé sur 50 graines). Un grand plateau garde
+  10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
+  suivent pas toujours les vallées. Des noms d'agglomération en double sont
+  possibles. Le coût dans le navigateur reste à mesurer au calme.
 - **Tranche T1 livrée en partie, sans effet en jeu** : le monde fini expose
   `outside`, `outsideOpen`, `contains`, `clampInside`, `extent`,
   `chunkRange` et `site(id)`. Acteurs, faune, atlas et recherches de lieu
