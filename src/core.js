@@ -3475,8 +3475,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.
  // nestMin/nestMax : infectés du nid (les occupants ordinaires sont un à quatre). sight : distance (m) à laquelle le repère se voit.
  // claimReach : marge (m) autour de l'emprise pour charger le lot. kinds : silhouette du repère et lot annoncé, pris une seule fois.
+ // Deuxième tranche. spot : distance (m) à laquelle, en sortie seulement, un lieu est repéré (nid et lot connus) ; de plus loin ou
+ // depuis la cité il n'est que « vu de loin ». repopulate : une migration à moins de `range` m d'un nid vidé, Commandant à plus de
+ // `unseen` m, sans avant-poste, y ramène `min` à `max` infectés (moins que `nestMin`), `perSite` fois au plus par lieu. Non éprouvé en partie réelle.
  {const kind=(label,silhouette,resource,amount)=>Object.freeze({label,silhouette,reward:Object.freeze({resource,amount})});
- C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,homeClearance:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,
+ C.Remarkable217Rules=Object.freeze({cantonSize:4096,perCanton:2,spacing:1000,homeClearance:1000,minArea:400,maxGeneration:8,nestMin:10,nestMax:16,sight:2500,claimReach:12,spot:600,repopulate:Object.freeze({range:400,unseen:400,min:4,max:8,perSite:3}),
   kinds:Object.freeze({
    water:kind('château d’eau','tower','medicine',24),hospital:kind('hôpital','chimney','medicine',30),barracks:kind('caserne','pylon','ammo',36),
    fuel:kind('dépôt de carburant','chimney','fuel',36),silo:kind('silo','tower','fuel',24),station:kind('gare','pylon','fuel',30),

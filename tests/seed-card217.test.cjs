@@ -375,7 +375,10 @@ test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, 
     for(const key of SHARED.filter(k=>k!=='places'))assert.deepEqual(JSON.parse(JSON.stringify(real[key])),JSON.parse(JSON.stringify(a[key])),key);
     // Carnet : nid et lot pour les seuls lieux repérés par la campagne, tels que le module les annonce.
     const live=new Map(g.remarkable217.list().map(v=>[v.id,v])),label=r=>C.RESOURCE_META[r].label.toLowerCase();
-    assert.ok(real.places.items.some(p=>p.sighted),'au moins un lieu en vue de D-17 sur cette graine');
+    // Au départ, rien n'est repéré : un lieu ne se repère qu'en sortie (src/remarkable217.js). Ni nid ni lot sur la fiche.
+    assert.ok(real.places.items.every(p=>p.sighted===false&&p.nest===0&&p.lot===''&&p.detail===''),'au départ : aucun lieu repéré depuis la cité');
+    g.remarkable217.tick();for(let i=0;i<12;i++)g.update(.05);g.refreshMetrics(true);
+    assert.deepEqual(g.remarkable217.snapshot().sighted,[]);assert.deepEqual(Card.describe(Card.inputs(g)).places,real.places,'la cité ne repère rien en jouant');
     for(const item of real.places.items){
       const v=live.get(item.id);assert.equal(item.sighted,v.sighted);
       assert.equal(item.detail,v.sighted?'nid de '+v.nest+', lot : '+v.reward.amount+' '+label(v.reward.resource):'');
@@ -384,7 +387,7 @@ test('fiche de graine : aperçu d’une graine avant le départ, sans campagne, 
     assert.match(doc.getElementById('seedCard217Note')?.textContent||'',/s’affichent une fois le lieu repéré/);
     // Nid vidé puis lot chargé : la fiche suit l'état réel de la campagne, sans rien écrire dans la sauvegarde.
     const pristine=JSON.parse(JSON.stringify(g.serialize()));
-    const target=real.places.items.find(p=>p.sighted),site=live.get(target.id),moduleState=()=>JSON.stringify(g.remarkable217.snapshot());
+    const target=real.places.items[0],site=live.get(target.id),moduleState=()=>JSON.stringify(g.remarkable217.snapshot());
     const withState=(taken)=>{
       const raw=JSON.parse(JSON.stringify(g.serialize())),m=raw.expansions127.modules.remarkable217;
       for(let i=0;i<site.nest;i++)raw.frontier.enemies[site.id+':e'+i]=0;raw.frontier.kills=Object.values(raw.frontier.enemies).filter(h=>h===0).length;

@@ -24,7 +24,7 @@ const key=data.worldSeed+':'+s.generation+':'+s.detailVersion+':'+s.ecologyVersi
 let reference=cache.get(key);if(!reference){reference={current:null,world:null};cache.set(key,reference);if(cache.size>3)cache.delete(cache.keys().next().value);}
 const completed=geometryState?.expansions127?.modules?.context160?.completed;
 // Nids des lieux remarquables : seulement si la sauvegarde validée les suit (nouvelles campagnes).
-const nests217=geometryState?.expansions127?.modules?.remarkable217?.active===true?(root.DeadwallRemarkable217||(typeof require==='function'?require('./remarkable217.js'):null)):null,nest217=(w,p)=>nests217?nests217.extra(w,p):0;
+const nests217=geometryState?.expansions127?.modules?.remarkable217?.active===true?(root.DeadwallRemarkable217||(typeof require==='function'?require('./remarkable217.js'):null)):null,nest217=(w,p)=>{if(!nests217)return 0;const n=nests217.extra(w,p);return n>0?n+nests217.refilled(geometryState.expansions127.modules.remarkable217,p.id):n;};
 reference.current={frontier:s,structures:geometryState?.worldEvolution?.structures,completed:new Set(Array.isArray(completed)?completed:[])};
 if(!reference.world)reference.world=W.create(data.worldSeed,s.generation,{detailVersion:s.detailVersion,ecologyVersion:s.ecologyVersion,hydrologyVersion:s.hydrologyVersion,...(s.landscape189?{landscape189:s.landscape189}:{}),
  resourceTaken:id=>reference.current.frontier.taken[id]||0,
