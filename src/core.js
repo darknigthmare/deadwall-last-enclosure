@@ -3484,6 +3484,23 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  C.Outposts217Rules=Object.freeze({startAge:2,
   reach:100,garrison:2,cost:Object.freeze({wood:30,scrap:20,food:20,ammo:20}),upkeep:Object.freeze({food:2}),
   convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000}),limits:Object.freeze({posts:64,hauled:1000000})});
+ // Filière des corps et maladie (docs/GAME_BIBLE.md §8.7), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
+ // startAge : indice de C.CITY_TIERS (2 = « Avant-poste ») ; avant, un corps déblayé disparaît comme toujours. reach : portée du dépôt.
+ // pyre : `perSecond` corps consumés par seconde ; `cost` combustible par corps (bois ou carburant, au choix à l'allumage) ;
+ // `signature` s'ajoute à la signature de la cité tant qu'il brûle. pit : `cost` et `digSeconds` pour l'ouvrir (chantier d'ouvriers,
+ // arrêté de l'alerte à la fin de l'assaut), `perSecond` corps ensevelis, `capacity` corps avant qu'elle se referme.
+ // sickness : seuil de corps laissés (à traiter + charge au pied des murs) = `base` + `perPerson` × population ; la maladie cesse
+ // sous `clearRatio` × seuil. Paliers en secondes d'exposition continue, comme la pénurie d'eau : moral dès `graceSeconds`
+ // (`moraleDrain` points/s) ; malades annoncés à `sickWarnSeconds`, un habitant affaibli de `sickDamage` × sa santé maximale à
+ // `sickSeconds` puis tous les `sickInterval` ; morts annoncées à `deathWarnSeconds`, une à `deathSeconds` puis toutes les
+ // `deathInterval`, évitée contre `medicine.plain` médicaments (`medicine.clinic` avec une clinique en service).
+ // weather : l'exposition avance ×`wet` quand la pluie observée dépasse `wetAbove`, ×`dry` sous `dryBelow`.
+ C.CorpseChain217Rules=Object.freeze({startAge:2,reach:100,
+  pyre:Object.freeze({perSecond:1.5,cost:Object.freeze({wood:.4,fuel:.1}),signature:60}),
+  pit:Object.freeze({cost:Object.freeze({wood:20}),digSeconds:45,perSecond:.25,capacity:120}),
+  sickness:Object.freeze({base:40,perPerson:4,clearRatio:.6,graceSeconds:120,moraleDrain:.2,sickWarnSeconds:300,sickSeconds:420,sickInterval:90,sickDamage:.35,
+   deathWarnSeconds:780,deathSeconds:960,deathInterval:180,medicine:Object.freeze({plain:4,clinic:2})}),
+  weather:Object.freeze({wetAbove:.62,wet:1.5,dryBelow:.1,dry:.75})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

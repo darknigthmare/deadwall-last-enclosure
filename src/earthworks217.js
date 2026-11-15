@@ -111,6 +111,8 @@
    let removed=Math.ceil(before)-Math.ceil(d.fill);
    for(let i=(g.corpses?.length||0)-1;i>=0&&removed>0;i--){const c=g.corpses[i];if(!(c.altitude>0)&&rimDistance(d,c.x,c.y)<=R.rimDistance){g.corpses.splice(i,1);removed--;}}
    if(wasFull&&!full(d)){reroute();g.notify?.('Fossé rouvert : il ralentit de nouveau.','good');}
+   // Filière des corps (src/corpse-chain217.js) : un corps sorti du fossé reste à traiter.
+   g.corpseChain217?.receive?.(before-d.fill);
    return before-d.fill;
   }
   function receive(x,y){
