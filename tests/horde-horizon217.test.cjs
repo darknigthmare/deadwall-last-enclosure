@@ -341,3 +341,28 @@ test('marée 217 : installation sans erreur dans un DOM minimal, et source en le
   for(const field of ['zombies','resources','spawnQueue','pendingSpawns','fronts','wavePlan','phase','phaseTime'])assert.equal(new RegExp('\\.'+field+'\\s*(?:=(?!=)|\\+=|-=|\\.(?:push|pop|shift|splice|length\\s*=))').test(source),false,'écriture de '+field);
   assert.equal(/\bzombies\b/.test(source),false);assert.equal(/\bresources\b/.test(source),false);
 });
+
+test('marée 217 : repère sobre de la Meneuse sur le côté d’une vague menée, présentation seule',()=>{
+  const A=require('../src/abominations217.js'),wave=16,p=A.post(17117,wave),side=p.side;
+  const forecast={wave,side,status:'alive',decided:false,plan:200,alive:240,slain:176,escort:6,standing:6,woken:false};
+  const along=side==='north'||side==='south'?p.x:p.y,edge=side==='north'||side==='west'?200:SIZE-200;
+  const camera=side==='north'||side==='south'?{x:along,y:edge,zoom:1}:{x:edge,y:along,zoom:1};
+  const make=f=>stub({wave,fronts:[side],wavePlan:{total:200},camera,abominations217:{forecast:()=>f}});
+  const leader=Horizon.leaderOf(make(forecast));
+  assert.deepEqual({...leader},{side,along,status:'alive',wave});
+  assert.equal(Horizon.leaderOf(make({...forecast,status:'slain'})),null,'abattue : plus de repère');
+  assert.equal(Horizon.leaderOf(make({...forecast,status:'dispersed',decided:true})),null);
+  assert.equal(Horizon.leaderOf(make({...forecast,status:'gathered',decided:true})).status,'gathered');
+  assert.equal(Horizon.leaderOf(stub()),null,'vague ordinaire : rien');
+  assert.equal(Horizon.leaderSentence(leader),' · vague menée : Meneuse '+{north:'au nord',east:'à l’est',south:'au sud',west:'à l’ouest'}[side]+', encore debout');
+  // L'état de la marée est inchangé : le repère vit à côté.
+  const g=make(forecast);assert.deepEqual(Object.keys(Horizon.horizon(g)).sort(),['entering','fronts','perFront','phase','remaining','total','wave']);
+  const canvas=createCanvas(g.width,g.height),ctx=canvas.getContext('2d'),texts=[],fill=ctx.fillText.bind(ctx);ctx.fillText=(t,...rest)=>{texts.push(t);return fill(t,...rest);};
+  Horizon.paint(ctx,g);assert.ok(texts.includes('MENEUSE'),'repère posé devant la masse');
+  const plain=createCanvas(g.width,g.height).getContext('2d'),none=[],f2=plain.fillText.bind(plain);plain.fillText=(t,...rest)=>{none.push(t);return f2(t,...rest);};
+  Horizon.paint(plain,make({...forecast,status:'slain'}));assert.ok(!none.includes('MENEUSE'));
+  // Côté sans horde annoncée : aucun repère dessiné.
+  const other=['north','east','south','west'].find(s=>s!==side),off=createCanvas(g.width,g.height).getContext('2d'),seen=[],f3=off.fillText.bind(off);off.fillText=(t,...rest)=>{seen.push(t);return f3(t,...rest);};
+  Horizon.paint(off,stub({wave,fronts:[other],wavePlan:{total:200},camera,abominations217:{forecast:()=>forecast}}));assert.ok(!seen.includes('MENEUSE'));
+  const source=fs.readFileSync(path.join(root,'src/horde-horizon217.js'),'utf8');assert.doesNotMatch(source,/Math\.random|spawnZombie|\.health\s*-=|g\.random/);
+});

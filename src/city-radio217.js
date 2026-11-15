@@ -74,6 +74,22 @@
    if(heap?.state==='franchi')add('heap:'+side,2,'Amas de corps '+WHERE[side]+' : des infectés franchissent '+(heap.gate?'la porte':'le mur')+'.');
    else if(heap?.state==='imminent')add('heap:'+side,1,'Amas de corps '+WHERE[side]+' : '+(heap.gate?'la porte':'le mur')+' sera bientôt franchissable.');
   }
+  // Vague menée (src/abominations217.js) : annoncée, dérangée (aggravation), puis abattue. Effectif lu dans sa prévision.
+  let led=null;try{led=g.abominations217?.forecast?.()||null;}catch(error){led=null;}
+  if(led&&WHERE[led.side]&&!led.decided){
+   if(led.status==='alive')add('led:'+led.wave,led.woken?2:1,led.woken?'Meneuse dérangée '+WHERE[led.side]+' : elle marche sur la cité'+(led.standing?' avec '+many(led.standing,'infecté','infectés')+' de son escorte':'')+'.'
+    :'Vague '+led.wave+' menée : une Meneuse rassemble la horde '+WHERE[led.side]+'. '+led.alive+' contacts si elle vit à l’assaut, '+led.slain+' si elle tombe.');
+   else if(led.status==='slain')add('ledslain:'+led.wave,1,'Meneuse abattue '+WHERE[led.side]+' : la vague '+led.wave+' arrivera dispersée, '+led.slain+' contacts attendus.','good');
+  }
+  // Maladie des charniers (src/corpse-chain217.js) : mêmes paliers que l'eau, lus dans leur propriétaire.
+  const chain=g.corpseChain217;
+  if(chain?.open?.()){
+   const s=Number(chain.stage?.())||0;
+   if(s>=6)add('disease',4,'Maladie : les plus fragiles meurent de la fièvre des charniers.');
+   else if(s>=4)add('disease',3,'Maladie : des habitants tombent malades, les corps ne sont pas traités.');
+   else if(s>=2)add('disease',2,'Salubrité : l’odeur des corps pèse sur la cité, le moral baisse.');
+   else if(s>=1)add('disease',1,'Salubrité : trop de corps restent dans la cité.','normal');
+  }
   const water=g.cityWater215;
   if(water?.needed?.()){
    const s=water.stage();

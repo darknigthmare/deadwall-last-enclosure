@@ -67,6 +67,21 @@
   if(plan){const left=DIRECTIONS.filter(front=>plan.pending.includes(front));if(left.length){fronts=announced.filter(front=>left.includes(front)).concat(left.filter(front=>!announced.includes(front)));entering=fronts.filter(front=>plan.entering.includes(front));}}
   return Object.freeze({phase:g.phase,wave:Math.max(1,Math.floor(Number(g.wave)||1)),fronts:Object.freeze(fronts.slice()),entering:Object.freeze(entering.slice()),remaining,total:Math.max(remaining,Math.floor(Number(g.wavePlan?.total)||0)),perFront:null});
  }
+ // Vague menée (src/abominations217.js) : le côté de la Meneuse, lu dans sa prévision, tant qu'elle mène.
+ // Abattue, elle ne mène plus rien : aucun repère. Le point du bord est son poste, fonction de la graine.
+ const WHERE=Object.freeze({north:'au nord',east:'à l’est',south:'au sud',west:'à l’ouest'});
+ function leaderOf(g){
+  let f=null;try{f=g?.abominations217?.forecast?.()||null;}catch(error){f=null;}
+  if(!f||!DIRECTIONS.includes(f.side)||f.status==='slain'||f.status==='dispersed')return null;
+  const A=root.DeadwallAbominations217||(typeof require==='function'?(()=>{try{return require('./abominations217.js');}catch(error){return null;}})():null);
+  let along=worldSize()/2;
+  try{const p=A?.post?.(g.world?.seed??0,f.wave);if(p)along=f.side==='north'||f.side==='south'?p.x:p.y;}catch(error){/* repli : milieu du bord */}
+  return Object.freeze({side:f.side,along,status:f.status,wave:f.wave});
+ }
+ function leaderSentence(leader){
+  if(!leader)return '';
+  return leader.status==='gathered'?' · vague menée : la Meneuse marche avec la horde '+WHERE[leader.side]:' · vague menée : Meneuse '+WHERE[leader.side]+', encore debout';
+ }
  function sentence(state){
   if(!state)return '';
   return 'Horde en approche : '+state.fronts.map(front=>LABELS[front]).join(', ')+' — '+state.remaining+' contact'+(state.remaining>1?'s':'')+' restant à entrer';
@@ -208,7 +223,8 @@
   if(!active(g))return null;
   const state=horizon(g);if(!state)return null;
   const zoom=Number(g.camera.zoom)||1,still=!!g.settings?.reducedMotion,time=Number(g.elapsed)||0,safe=safeRect(g),p=g.player;
-  const scene=[g.camera.x,g.camera.y,zoom,g.width,g.height,state.phase,state.wave,state.remaining,state.fronts.join(),g.phaseTime,safe.left,safe.right,safe.top,safe.bottom,p?.x,p?.y,g.settings?.quality,still,g.world?.seed].join(':');
+  const leader=leaderOf(g);
+  const scene=[g.camera.x,g.camera.y,zoom,g.width,g.height,state.phase,state.wave,state.remaining,state.fronts.join(),g.phaseTime,safe.left,safe.right,safe.top,safe.bottom,p?.x,p?.y,g.settings?.quality,still,g.world?.seed,leader?leader.side+leader.along+leader.status:''].join(':');
   const known=frames.get(g);if(known&&known.time===time&&known.scene===scene)return known;
   const clear=clearanceOf(g,safe,still,time),layout=scene+':'+clear.north+':'+clear.east+':'+clear.south+':'+clear.west;
   let frame=known&&known.layout===layout?known:null;
@@ -219,14 +235,14 @@
    // Du fond vers l'avant de l'écran : chaque rang recouvre celui qui est derrière lui.
    list.sort((a,b)=>a.y-b.y);
    const strength=mass(g,state);
-   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength)};
+   frame={layout,state,zoom,still,safe,clear,view,inner,list,strength,depth:rowsOf(strength),leader:null};
   }
   // Mouvement collectif : une houle lente le long de la masse et le pas de chacun, lus dans le temps de jeu.
   if(!still)for(const s of frame.list){
    const swell=Math.sin(time*.7+(s.fy?s.x:s.y)*.011)*2.2;s.step=Math.sin(time*2.1+s.sway);
    s.px=s.x+s.fx*swell+(s.fx?0:s.step*.6);s.py=s.y+s.fy*swell+(s.fy?0:s.step*.6);
   }
-  frame.scene=scene;frame.time=time;frame.night=nightOpacity(g);
+  frame.scene=scene;frame.time=time;frame.night=nightOpacity(g);frame.leader=leader&&state.fronts.includes(leader.side)?leader:null;
   frames.set(g,frame);return frame;
  }
  const TAU=Math.PI*2;
@@ -282,6 +298,19 @@
    if(dh>dl){if(horizontal)ctx.fillRect(dl,low?from:size-from-span,dh-dl,span);else ctx.fillRect(low?from:size-from-span,dl,span,dh-dl);}
   }
   for(const s of f.list)figure(ctx,s);
+  leaderMark(ctx,f);
+ }
+ // Repère sobre de la Meneuse : un cercle fin en pointillé, posé juste devant la masse, à son poste. Lecture seule.
+ function leaderMark(ctx,f){
+  const l=f.leader;if(!l||typeof ctx.arc!=='function')return false;
+  const size=worldSize(),low=l.side==='north'||l.side==='west',inward=f.clear[l.side]+EDGE+f.depth*ROW_DEPTH+16,at=low?inward:size-inward;
+  const x=l.side==='north'||l.side==='south'?l.along:at,y=l.side==='north'||l.side==='south'?at:l.along;
+  ctx.save();
+  try{
+   ctx.globalAlpha=1;ctx.strokeStyle='rgba(214,201,160,.75)';ctx.lineWidth=1.2;ctx.setLineDash?.([4,5]);ctx.beginPath();ctx.arc(x,y,12,0,TAU);ctx.stroke();ctx.setLineDash?.([]);
+   ctx.fillStyle='rgba(214,201,160,.85)';ctx.font='9px sans-serif';ctx.textAlign='center';ctx.fillText?.('MENEUSE',x,y-17);
+  }finally{ctx.restore();}
+  return true;
  }
  function worldTransform(ctx,g,zoom){
   ctx.translate(g.width/2+(g.frameShake?.x||0),g.height/2+(g.frameShake?.y||0));ctx.scale(zoom,zoom);ctx.translate(-g.camera.x,-g.camera.y);
@@ -330,7 +359,7 @@
     const middle=(lo+hi)/2,tx=horizontal?middle:edge+sign*(margin+3),ty=horizontal?edge+sign*(margin+15):middle+30;
     ctx.font='bold '+(compact?10:11)+'px Bahnschrift,sans-serif';ctx.textBaseline='middle';ctx.textAlign=horizontal?'center':low?'left':'right';
     if('letterSpacing' in ctx)ctx.letterSpacing='1.5px';
-    const label=CUE_LABELS[front],ox=horizontal?30+ctx.measureText(label).width/2:0;
+    const label=CUE_LABELS[front]+(f.leader?.side===front?' · MENEUSE':''),ox=horizontal?30+ctx.measureText(label).width/2:0;
     ctx.fillStyle='rgba(8,10,9,'+(.8*alpha).toFixed(3)+')';ctx.fillText(label,tx+ox+1,ty+1);
     ctx.fillStyle='rgba(224,212,184,'+(.88*alpha).toFixed(3)+')';ctx.fillText(label,tx+ox,ty);
    }finally{ctx.restore();}
@@ -360,7 +389,7 @@
   }
   function render(){
    const node=attach();if(!node)return false;
-   const text=g.state==='playing'?sentence(horizon(g)):'';
+   const state=g.state==='playing'?horizon(g):null,text=state?sentence(state)+leaderSentence(leaderOf(g)):'';
    if(text!==shown){shown=text;node.textContent=text;}
    node.hidden=!text;return !!text;
   }
@@ -382,8 +411,8 @@
   const updateUI=g.updateUI;
   if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);const now=Number(g.elapsed)||0;if(now<clock||now-clock>=REFRESH_SECONDS||g.state!=='playing'){clock=now;render();}return result;};
   for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);clock=-Infinity;render();return result;};}
-  g.hordeHorizon217=Object.freeze({render,horizon:()=>horizon(g),silhouettes:options=>silhouettes(g,options),paint:ctx=>paint(ctx,g),sentence:()=>sentence(horizon(g))});
+  g.hordeHorizon217=Object.freeze({render,horizon:()=>horizon(g),silhouettes:options=>silhouettes(g,options),paint:ctx=>paint(ctx,g),sentence:()=>sentence(horizon(g)),leader:()=>leaderOf(g)});
   render();return true;
  }
- return Object.freeze({install,horizon,sentence,silhouettes,paint,limits:Object.freeze({cap:CAP,capLow:CAP_LOW,heads:HEADS,headsLow:HEADS_LOW,band:BAND,clearance:CLEARANCE_MAX,clearing:PLAYER_CLEARING,cue:CUE+CUE_MARGIN})});
+ return Object.freeze({install,horizon,sentence,leaderOf,leaderSentence,silhouettes,paint,limits:Object.freeze({cap:CAP,capLow:CAP_LOW,heads:HEADS,headsLow:HEADS_LOW,band:BAND,clearance:CLEARANCE_MAX,clearing:PLAYER_CLEARING,cue:CUE+CUE_MARGIN})});
 });

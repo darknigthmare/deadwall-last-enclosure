@@ -221,3 +221,35 @@ test('radio 217 : les bandes errantes restent suspendues pendant l’absence, ra
  assert.equal(g.exploration125.wildHordes||0,hordes);assert.equal(g.zombies.filter(z=>!ids.has(z.id)).length,0);
  assert.deepEqual(texts(g),[]);
 });
+
+test('radio 217 : vague menée et paliers de maladie, lus chez leurs propriétaires',()=>{
+ const base={phase:'calm',wave:16,morale:5,resources:{ammo:40}};
+ const forecast={wave:16,side:'east',status:'alive',decided:false,plan:200,alive:240,slain:176,escort:6,standing:6,woken:false};
+ let by=Object.fromEntries(Radio.facts({...base,abominations217:{forecast:()=>forecast}}).map(f=>[f.key,f]));
+ assert.deepEqual(Object.keys(by),['led:16']);assert.equal(by['led:16'].level,1);
+ assert.equal(by['led:16'].text,'Vague 16 menée : une Meneuse rassemble la horde à l’est. 240 contacts si elle vit à l’assaut, 176 si elle tombe.');
+ by=Object.fromEntries(Radio.facts({...base,abominations217:{forecast:()=>({...forecast,woken:true,standing:4})}}).map(f=>[f.key,f]));
+ assert.equal(by['led:16'].level,2,'dérangée : une aggravation');assert.equal(by['led:16'].text,'Meneuse dérangée à l’est : elle marche sur la cité avec 4 infectés de son escorte.');
+ by=Object.fromEntries(Radio.facts({...base,abominations217:{forecast:()=>({...forecast,status:'slain'})}}).map(f=>[f.key,f]));
+ assert.deepEqual(Object.keys(by),['ledslain:16']);assert.equal(by['ledslain:16'].tone,'good');assert.match(by['ledslain:16'].text,/176 contacts attendus/);
+ assert.deepEqual(Radio.facts({...base,abominations217:{forecast:()=>({...forecast,status:'gathered',decided:true})}}),[],'décidée : l’assaut est relayé par ailleurs');
+ assert.deepEqual(Radio.facts({...base,abominations217:{forecast:()=>{throw Error('x');}}}),[],'un propriétaire en défaut ne bloque rien');
+ const levels=[0,1,2,3,4,5,6].map(stage=>Radio.facts({...base,corpseChain217:{open:()=>true,stage:()=>stage}}).find(f=>f.key==='disease')?.level??0);
+ assert.deepEqual(levels,[0,1,2,2,3,3,4]);
+ assert.deepEqual(Radio.facts({...base,corpseChain217:{open:()=>false,stage:()=>6}}),[],'filière fermée : rien');
+});
+
+test('radio 217 : la vague menée et la maladie sont relayées une fois pendant la sortie, jamais à la reprise',()=>{
+ const {g}=campaign(),api=g.abominations217,wave=api.next();
+ g.wave=wave-1;g.phase='calm';g.phaseTime=60;
+ step(g);leave(g);step(g,2);const before=texts(g).length;
+ g.wave=wave;api.tick();assert.ok(api.leader(),'la Meneuse paraît pendant la sortie');
+ step(g);const led=texts(g).slice(before).filter(t=>t.startsWith('Vague '+wave+' menée'));assert.equal(led.length,1);
+ step(g,4);assert.equal(texts(g).filter(t=>t.startsWith('Vague '+wave+' menée')).length,1,'une fois par épisode');
+ let stage=0;g.corpseChain217={open:()=>true,stage:()=>stage};
+ stage=2;step(g,2);stage=4;step(g,2);stage=4;step(g,2);
+ assert.equal(texts(g).filter(t=>/^Salubrité : l’odeur/.test(t)).length,1);assert.equal(texts(g).filter(t=>/^Maladie : des habitants tombent malades/.test(t)).length,1);
+ const count=texts(g).length,saved=clone(g.serialize());assert.equal(g.restoreSave(saved),true);
+ g.corpseChain217={open:()=>true,stage:()=>4};step(g,4);
+ assert.equal(texts(g).length,count,'la reprise ne relaie rien de ce qui était connu');
+});

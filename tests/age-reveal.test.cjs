@@ -65,3 +65,23 @@ test('révélation par âge : une nouvelle cité masque les menus tardifs, puis 
   assert.equal(JSON.stringify(g.resources),before,'aucun stock modifié');
   assert.match(doc.getElementById('settingsRevealNote').textContent,/Prochain âge/);
 });
+
+test('révélation par âge : l’ouverture de la filière des corps est annoncée une fois, au passage de l’âge, jamais à la reprise',()=>{
+  const start=C.CorpseChain217Rules.startAge,name=C.CITY_TIERS[start].name;
+  const run=(old)=>{
+    const {g,doc}=bootDocument134();Reveal.install(g,doc);g.startNew('standard','17117');g.campaignIntro132?.skip?.();
+    if(old){const data=JSON.parse(JSON.stringify(g.serialize()));delete data.expansions127.modules.corpseChain217;assert.equal(g.restoreSave(data),true);}
+    const notes=[],notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};
+    g.updateUI();g.tier=C.CITY_TIERS[start-1];g.updateUI();g.tier=C.CITY_TIERS[start];g.updateUI();g.updateUI();g.tier=C.CITY_TIERS[start+1];g.updateUI();
+    const said=notes.filter(t=>t.includes('la filière des corps s’ouvre'));
+    // Reprise d'une campagne déjà à cet âge : rien n'est rejoué. L'âge est recalculé au chargement par le moteur ;
+    // ici, la mesure d'âge est forcée pour que la campagne reprise soit bien à cet âge dès son chargement.
+    const data=JSON.parse(JSON.stringify(g.serialize()));const urban=g.urban;g.urban={...urban,attain:()=>C.CITY_TIERS[start]};
+    assert.equal(g.restoreSave(data),true);assert.equal(g.tier.id,start);g.updateUI();g.updateUI();g.urban=urban;
+    return {said,again:notes.filter(t=>t.includes('la filière des corps s’ouvre')).length};
+  };
+  const fresh=run(false);
+  assert.equal(fresh.said.length,1);assert.ok(fresh.said[0].startsWith(name.charAt(0)+name.slice(1).toLowerCase()+' : la filière des corps s’ouvre.'));assert.match(fresh.said[0],/Corps et salubrité/);
+  assert.equal(fresh.again,1,'la reprise ne répète pas l’annonce');
+  assert.equal(run(true).said.length,0,'ancienne campagne : la filière reste fermée, rien n’est annoncé');
+});

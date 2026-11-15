@@ -62,3 +62,13 @@ test('lecture de siège : une nuit sécurisée est annoncée une seule fois, jam
   assert.equal(g.restoreSave(g.serialize()),true);g.phase='calm';g.siegeReadout.render();g.phase='aftermath';g.siegeReadout.render();
   assert.equal(notes.filter(text=>text.startsWith('Bilan de la vague 1')).length,1,'une reprise ne répète pas le bilan');
 });
+
+test('lecture de siège : une vague menée donne son effectif réel, fourchette tant que rien n’est décidé',()=>{
+  const f={wave:16,side:'east',status:'alive',decided:false,plan:200,alive:240,slain:176,real:null,entering:null,escort:6,standing:6,woken:false};
+  assert.equal(Readout.ledSentence(f),'Vague 16 menée : 240 infectés si la Meneuse vit à l’assaut, 176 si elle tombe (200 au plan, dont 6 de l’escorte déjà sur place).');
+  assert.equal(Readout.ledSentence({...f,escort:0}),'Vague 16 menée : 240 infectés si la Meneuse vit à l’assaut, 176 si elle tombe (200 au plan).');
+  assert.equal(Readout.ledSentence({...f,status:'slain',real:176}),'Vague 16 menée : Meneuse abattue, 176 infectés attendus au lieu de 200, dont 6 de l’escorte déjà sur place.');
+  assert.equal(Readout.ledSentence({...f,status:'gathered',decided:true,alive:null,slain:null,real:240,entering:234}),'Vague 16 menée : 240 infectés en tout (200 au plan, +40 rassemblés par la Meneuse), dont 6 de l’escorte déjà sur place.');
+  assert.equal(Readout.ledSentence({...f,status:'dispersed',decided:true,alive:null,slain:null,real:176,entering:170}),'Vague 16 menée : 176 infectés en tout (200 au plan, −24, Meneuse abattue avant l’assaut), dont 6 de l’escorte déjà sur place.');
+  assert.equal(Readout.ledSentence(null),'');
+});

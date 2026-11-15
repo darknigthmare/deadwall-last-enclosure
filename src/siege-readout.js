@@ -31,6 +31,19 @@
   const quiet=C.wavePlan(wave,difficulty,0,curve).total,actual=C.wavePlan(wave,difficulty,Number(g.signature)||0,curve).total;
   return Object.freeze({wave,quiet,actual,extra:Math.max(0,actual-quiet),percent:quiet>0?Math.max(0,Math.round((actual/quiet-1)*100)):0});
  }
+ // Vague menée (src/abominations217.js) : l'effectif réel, lu dans sa prévision. Fourchette tant que rien n'est décidé.
+ const people=n=>whole(n)+' infecté'+(whole(n)>1?'s':'');
+ function ledSentence(f){
+  if(!f||!Number.isFinite(f.plan))return '';
+  const guard=f.escort?', dont '+f.escort+' de l’escorte déjà sur place':'';
+  if(f.decided){
+   const change=f.status==='gathered'?'+'+whole(f.real-f.plan)+' rassemblés par la Meneuse':'−'+whole(f.plan-f.real)+', Meneuse abattue avant l’assaut';
+   return 'Vague '+f.wave+' menée : '+people(f.real)+' en tout ('+whole(f.plan)+' au plan, '+change+')'+(f.escort?', dont '+whole(f.real-f.entering)+' de l’escorte déjà sur place':'')+'.';
+  }
+  if(f.status==='slain')return 'Vague '+f.wave+' menée : Meneuse abattue, '+people(f.slain)+' attendus au lieu de '+whole(f.plan)+guard+'.';
+  return 'Vague '+f.wave+' menée : '+people(f.alive)+' si la Meneuse vit à l’assaut, '+whole(f.slain)+' si elle tombe ('+whole(f.plan)+' au plan'+guard+').';
+ }
+ function ledForecast(g){try{return g.abominations217?.forecast?.()||null;}catch(error){return null;}}
  function lastNight(g){
   const history=g.citadel?.snapshot?.()?.history;
   if(!Array.isArray(history)||!history.length)return null;
@@ -61,11 +74,11 @@
   const write=(node,text)=>{const value=String(text);if(node.textContent!==value)node.textContent=value;};
   const box=el('section',undefined,'siege-readout');box.id='siegeReadout';box.setAttribute('aria-label','Signature de la cité et bilan de la dernière nuit');
   const signature=el('article',undefined,'siege-readout-card');signature.id='siegeReadoutSignature';
-  const sigTitle=el('h3'),sigEffect=el('p',undefined,'siege-readout-effect'),sigList=el('dl'),sigNote=el('p','Plus la cité grandit, consomme et s’étend, plus elle se voit de loin : les hordes grossissent avec elle.','siege-readout-note');
-  sigTitle.id='siegeReadoutSignatureTitle';sigEffect.id='siegeReadoutEffect';
+  const sigTitle=el('h3'),sigEffect=el('p',undefined,'siege-readout-effect'),sigLed=el('p',undefined,'siege-readout-effect'),sigList=el('dl'),sigNote=el('p','Plus la cité grandit, consomme et s’étend, plus elle se voit de loin : les hordes grossissent avec elle.','siege-readout-note');
+  sigTitle.id='siegeReadoutSignatureTitle';sigEffect.id='siegeReadoutEffect';sigLed.id='siegeReadoutLed';sigLed.hidden=true;
   const sigRows=new Map();
   for(const part of signatureParts(g).parts){const dt=el('dt',part.label),dd=el('dd','0');sigList.append(dt,dd);sigRows.set(part.key,dd);}
-  signature.append(el('small','SIGNATURE DE LA CITÉ'),sigTitle,sigEffect,sigList,sigNote);
+  signature.append(el('small','SIGNATURE DE LA CITÉ'),sigTitle,sigEffect,sigLed,sigList,sigNote);
   const night=el('article',undefined,'siege-readout-card');night.id='siegeReadoutNight';
   const nightTitle=el('h3'),nightList=el('dl');nightTitle.id='siegeReadoutNightTitle';
   night.append(el('small','DERNIÈRE NUIT'),nightTitle,nightList);
@@ -78,6 +91,7 @@
    const sig=signatureParts(g),effect=hordeEffect(C,g);
    write(sigTitle,String(whole(sig.total)));
    write(sigEffect,effect.extra>0?'Vague '+effect.wave+' : +'+effect.percent+' % d’infectés, soit '+effect.extra+' de plus ('+effect.actual+' au lieu de '+effect.quiet+').':'Vague '+effect.wave+' : aucun infecté supplémentaire pour l’instant ('+effect.actual+').');
+   const led=ledSentence(ledForecast(g));write(sigLed,led);sigLed.hidden=!led;
    for(const part of sig.parts)write(sigRows.get(part.key),whole(part.value));
    // Le registre des nuits n'est relu qu'au changement de phase : il n'évolue qu'à ce moment.
    if(phase!==g.phase||!primed){phase=g.phase;last=lastNight(g);}
@@ -97,8 +111,8 @@
   const updateUI=g.updateUI;
   if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);const now=Number(g.elapsed)||0;if(now<clock||now-clock>=REFRESH_SECONDS||g.state!=='playing'){clock=now;render();}return result;};
   for(const name of ['startNew','restoreSave']){const old=g[name];if(typeof old!=='function')continue;g[name]=function(...args){const result=old.apply(this,args);primed=false;phase=null;nightKey='\u0000';clock=-Infinity;render();return result;};}
-  g.siegeReadout=Object.freeze({render,signature:()=>signatureParts(g),effect:()=>hordeEffect(C,g),lastNight:()=>lastNight(g)});
+  g.siegeReadout=Object.freeze({render,signature:()=>signatureParts(g),effect:()=>hordeEffect(C,g),lastNight:()=>lastNight(g),led:()=>ledSentence(ledForecast(g))});
   render();return true;
  }
- return Object.freeze({install,signatureParts,hordeEffect,nightSentence});
+ return Object.freeze({install,signatureParts,hordeEffect,nightSentence,ledSentence});
 });

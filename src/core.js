@@ -3516,7 +3516,11 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // `every` est menée (décalage tiré de la graine, jamais une vague de géants). La Meneuse est une Errante ordinaire,
  // postée à `standoff` unités du bord de carte, entre `spanMin` et `spanMax` de sa longueur. Vivante à l'assaut : le
  // plan de vague gagne `gatherShare` de son effectif ; abattue avant : il en perd `cutShare`. Rien d'autre ne change.
- C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7});
+ // Escorte : `base` infectés ordinaires à la première vague menée, `perLed` de plus à chaque suivante, `max` au plus et
+ // jamais plus de `share` du plan, pris sur son effectif ; placés à `ringMin`–`ringMax` du poste, réveillés par le
+ // Commandant à `wake` ou un tir à `shot`. Poste : `tries` points de part et d'autre, au pas `step`, sur deux profondeurs.
+ C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7,
+  escort:Object.freeze({base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150}),post:Object.freeze({tries:6,step:128})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

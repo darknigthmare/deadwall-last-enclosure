@@ -1,6 +1,8 @@
 // Révélation de l'interface par âge (docs/GAME_BIBLE.md §6).
 // Présentation seulement : ce module pose ou retire un attribut sur des contrôles existants.
 // Il ne lit ni n'écrit aucun stock, aucune règle, aucun tirage et aucune sauvegarde.
+// Il annonce aussi, une fois, ce qu'un âge atteint en cours de partie ouvre sans contrôle propre (filière des
+// corps) : seulement au passage de l'âge, jamais au chargement d'une campagne ni à la reprise.
 (function(root,factory){
  const api=factory(root);
  if(typeof module==='object'&&module.exports)module.exports=api;
@@ -74,9 +76,26 @@
    }
    return true;
   }
+  // Annonces d'âge : une par système, au moment où la cité atteint l'âge, si le système est actif dans la campagne.
+  const arrivals=Object.freeze([
+   {key:'corpses',age:C.CorpseChain217Rules?.startAge??2,on:()=>g.corpseChain217?.open?.()===true,
+    text:()=>title(C.CorpseChain217Rules?.startAge??2)+' : la filière des corps s’ouvre. Les corps déblayés des murs restent à traiter : bûcher ou fosse, fiche « Corps et salubrité » des opérations. Trop de corps laissés rendent la cité malade.'}
+  ]);
+  const title=n=>{const name=C.CITY_TIERS[n].name;return name.charAt(0)+name.slice(1).toLowerCase();};
+  let seenWorld=null,seenAge=null;
+  function announce(){
+   if(g.state!=='playing'||!g.world){seenWorld=null;seenAge=null;return;}
+   const now=age();
+   // Nouvelle campagne ou reprise : l'âge courant est déjà connu, rien n'est annoncé.
+   if(seenWorld!==g.world){seenWorld=g.world;seenAge=now;return;}
+   if(now<=seenAge){seenAge=Math.max(seenAge,now);return;}
+   const from=seenAge;seenAge=now;
+   for(const a of arrivals)if(a.age>from&&a.age<=now&&a.on())g.notify?.(a.text(),'normal');
+  }
   const wrap=name=>{const old=g[name];if(typeof old!=='function')return;g[name]=function(...args){const result=old.apply(this,args);apply();return result;};};
   wrap('updateUI');wrap('showCommand');
-  g.ageReveal=Object.freeze({apply,bypassed:off,pending:()=>table.pending(age(),revealAll()),next:()=>table.next(age(),revealAll())});
+  const updateUI=g.updateUI;if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);try{announce();}catch(error){/* annonce facultative */}return result;};
+  g.ageReveal=Object.freeze({apply,announce,bypassed:off,pending:()=>table.pending(age(),revealAll()),next:()=>table.next(age(),revealAll())});
   apply();return true;
  }
  return Object.freeze({install,rules,ATTRIBUTE,bypassed});
