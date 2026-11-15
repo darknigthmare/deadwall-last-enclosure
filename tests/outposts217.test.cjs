@@ -30,53 +30,95 @@ function soldiers(g,n){
   for(let i=0;made.length<n&&i<40;i++){const u=g.createProtectedSurvivor('soldier',core.x-60+(i%8)*18,core.y+80+Math.floor(i/8)*18);if(u)made.push(u);}
   assert.equal(made.length,n);g.refreshMetrics(true);return made;
 }
+// Butin réel d'un lieu, lu chez son propriétaire ; contenants dans l'ordre du registre régional.
+const stockOf=(g,p)=>g.frontier.siteStock(p.id);
+function containers(g,p){
+  const w=g.frontier.world(),out=[],add=(b,z)=>{if(b&&b.amount>0&&C.RESOURCE_KEYS.includes(b.resource))out.push({...b,poi:p.id,z,left:b.amount-g.frontier.takenAmount(b.id)});};
+  for(const z of [...p.levels].sort((a,b)=>a-b))for(const b of w.plan(p,z).objects)add(b,z);
+  for(const b of p.outdoor||[])add(b,0);for(const b of p.parking||[])add(b,0);return out;
+}
+const closed=(g,b)=>Boolean(g.interventions134?.blocksLoot(b));
+const takenAt=(g,p)=>Object.entries(g.serialize().frontier.taken).filter(([id])=>id.startsWith(p.id+':'));
+const takenSum=(g,p)=>takenAt(g,p).reduce((n,[,v])=>n+v,0);
+// Fouille à la main, par une sauvegarde validée : même registre, même format que la touche E.
+function handTake(g,id,n){const data=g.serialize();data.frontier.taken[id]=(data.frontier.taken[id]||0)+n;assert.equal(g.restoreSave(data),true);}
 const riflemen=g=>g.units.filter(u=>u.kind==='soldier'&&!u.dead).length;
 // Campagne à l'âge requis, un lieu vidé, la garnison disponible.
 function ready(age=R.startAge,sites=1){
   const g=campaign();toAge(g,age);
   const list=infested(g).slice(0,sites);for(const p of list)clearSite(g,p);
   soldiers(g,R.garrison*sites+1);
-  Object.assign(g.resources,{wood:200,scrap:200,stone:100,food:200,fuel:40,ammo:200});
+  Object.assign(g.resources,{wood:200,scrap:200,stone:100,food:300,fuel:40,ammo:200});
   return{g,list,p:list[0]};
 }
 
-test('avant-postes 217 : règles gelées dans le cœur, bornées ; état validé strictement',()=>{
+test('avant-postes 217 : règles gelées dans le cœur, bornées ; état v2 validé strictement, état v1 converti',()=>{
   const frozen=o=>{assert.ok(Object.isFrozen(o));for(const v of Object.values(o))if(v&&typeof v==='object')frozen(v);};frozen(R);
-  assert.ok(R.startAge>=1&&R.startAge<C.CITY_TIERS.length&&R.caps[0].age===R.startAge);
-  for(let i=1;i<R.caps.length;i++)assert.ok(R.caps[i].age>R.caps[i-1].age&&R.caps[i].max>R.caps[i-1].max);
-  assert.deepEqual([0,1,2,4,5,7,8,10].map(M.cap),[0,0,1,1,2,2,3,3]);assert.equal(M.cap(2.5),0);
+  assert.ok(R.startAge>=1&&R.startAge<C.CITY_TIERS.length);
+  assert.equal(R.caps,undefined,'plus de plafond par âge');assert.equal(R.hold,undefined,'plus de fonds dérivé de l’emprise');
+  assert.deepEqual([0,1,2,4,5,7,8,10].map(M.open),[false,false,true,true,true,true,true,true]);assert.equal(M.open(2.5),false);
   assert.ok(R.garrison>=1&&C.bagTotal(bag(R.cost))>0&&Object.keys(R.cost).every(k=>C.RESOURCE_KEYS.includes(k)));
-  assert.ok(R.hold.min>0&&R.hold.max>R.hold.min&&R.convoy.lot>0&&R.convoy.lot<R.hold.min&&R.convoy.fuel>0&&R.convoy.everyWaves>=1&&R.radio.range>0);
-  assert.ok(R.convoy.fuel<R.convoy.lot,'un convoi rapporte plus qu’il ne brûle');
-  for(const mix of R.hold.mixes){near(Object.values(mix).reduce((a,b)=>a+b,0),1);assert.ok(Object.keys(mix).every(k=>C.RESOURCE_KEYS.includes(k)&&!['fuel','ammo','medicine'].includes(k)),'fonds lourd : matériaux et vivres, pas de ressource rare');}
+  assert.ok(C.bagTotal(bag(R.upkeep))>0&&Object.keys(R.upkeep).every(k=>C.RESOURCE_KEYS.includes(k)&&R.upkeep[k]>0),'entretien par vague');
+  assert.ok(R.convoy.lot>0&&R.convoy.fuel>0&&R.convoy.everyWaves>=1&&R.radio.range>0);
+  assert.ok(R.convoy.fuel+C.bagTotal(bag(R.upkeep))<R.convoy.lot,'un convoi rapporte plus que ne coûtent son carburant et l’entretien');
+  assert.ok(Number.isInteger(R.limits.posts)&&R.limits.posts>=32&&R.limits.hauled>=1e5,'plafonds techniques larges');
   const core=fs.readFileSync(path.join(root,'src/core.js'),'utf8');
   assert.ok(core.indexOf('C.Scenery217Rules=')<core.indexOf('C.Outposts217Rules=')&&core.indexOf('C.Outposts217Rules=')<core.indexOf('C.Weather193Rules='));
-  assert.deepEqual(M.validate(undefined),{version:1,active:false,posts:[]});assert.deepEqual(M.fresh(),{version:1,active:true,posts:[]});
+  assert.deepEqual(M.validate(undefined),{version:2,active:false,posts:[]});assert.deepEqual(M.fresh(),{version:2,active:true,posts:[]});
   const post=(id,patch={})=>({id,garrison:R.garrison,founded:3,convoy:4,hauled:bag({wood:16}),note:'delivered',sent:16,...patch});
-  const ok={version:1,active:true,posts:[post('P0001'),post('P0002',{note:'held',sent:0,convoy:3,hauled:bag({})})]};
+  const ok={version:2,active:true,posts:[post('P0001'),post('P0002',{note:'held',sent:0,convoy:3,hauled:bag({})}),post('P0003',{note:'unfed',sent:0}),post('P0004',{hauled:bag({scrap:900,fuel:40})})]};
   assert.deepEqual(M.validate(ok),ok);assert.notEqual(M.validate(ok),ok);
-  const bad=posts=>({version:1,active:true,posts});
-  for(const raw of [null,[],'217',{},{version:1,active:true},{...ok,version:2},{...ok,active:1},{...ok,extra:1},{version:1,active:false,posts:[post('P0001')]},
+  const bad=(posts,version=2)=>({version,active:true,posts});
+  const id=i=>'P'+String(i).padStart(4,'0');
+  const many=n=>Array.from({length:n},(_,i)=>post(id(i+1)));
+  assert.equal(M.validate(bad(many(R.limits.posts))).posts.length,R.limits.posts,'le registre accepte son plafond technique');
+  for(const raw of [null,[],'217',{},{version:2,active:true},{...ok,version:3},{...ok,version:0},{...ok,active:1},{...ok,extra:1},{version:2,active:false,posts:[post('P0001')]},
     bad([post('P0002'),post('P0001')]),bad([post('P0001'),post('P0001')]),bad([post('P1')]),bad([post('P0001',{garrison:R.garrison+1})]),bad([post('P0001',{convoy:2})]),
     bad([post('P0001',{note:'lost'})]),bad([post('P0001',{sent:R.convoy.lot+1})]),bad([post('P0001',{sent:-1})]),bad([post('P0001',{hauled:{wood:1}})]),
-    bad([post('P0001',{hauled:bag({wood:-1})})]),bad([post('P0001',{hauled:bag({wood:R.hold.max,scrap:1})})]),bad([post('P0001',{extra:1})]),
-    bad(['P0001','P0002','P0003','P0004'].map(id=>post(id)))])assert.throws(()=>M.validate(raw),/Avant-postes 217/);
+    bad([post('P0001',{hauled:bag({wood:-1})})]),bad([post('P0001',{hauled:bag({wood:R.limits.hauled+1})})]),bad([post('P0001',{hauled:bag({wood:NaN})})]),bad([post('P0001',{extra:1})]),
+    bad(many(R.limits.posts+1))])assert.throws(()=>M.validate(raw),/Avant-postes 217/);
   // Un avant-poste suppose un lieu vu et au moins un occupant tombé dans la même sauvegarde.
-  const one=bad([post('P0001')]);
-  assert.deepEqual(M.validate(one,{frontier:{seen:['P0001'],enemies:{'P0001:e0':0}}}),one);
-  assert.throws(()=>M.validate(one,{frontier:{seen:[],enemies:{'P0001:e0':0}}}),/Avant-postes 217/);
-  assert.throws(()=>M.validate(one,{frontier:{seen:['P0001'],enemies:{'P0001:e0':12,'P0002:e0':0}}}),/Avant-postes 217/);
+  const single=bad([post('P0001')]);
+  assert.deepEqual(M.validate(single,{frontier:{seen:['P0001'],enemies:{'P0001:e0':0}}}),single);
+  assert.throws(()=>M.validate(single,{frontier:{seen:[],enemies:{'P0001:e0':0}}}),/Avant-postes 217/);
+  assert.throws(()=>M.validate(single,{frontier:{seen:['P0001'],enemies:{'P0001:e0':12,'P0002:e0':0}}}),/Avant-postes 217/);
+  // v2 : ce qu'un convoi a rapporté figure dans les prélèvements du même lieu, dans la même sauvegarde.
+  const ledger=taken=>({frontier:{seen:['P0001'],enemies:{'P0001:e0':0},taken}});
+  assert.deepEqual(M.validate(single,ledger({'P0001:0:3':10,'P0001:out:0':6})),single);
+  assert.deepEqual(M.validate(single,ledger({'P0001:0:3':40})),single,'la fouille à la main s’ajoute au registre');
+  assert.throws(()=>M.validate(single,ledger({'P0001:0:3':10,'P0002:0:1':50})),/Avant-postes 217/);
+  assert.throws(()=>M.validate(single,ledger({})),/Avant-postes 217/);
+  // v1 → v2 : validation aux bornes de la première tranche, puis conversion sans perte du lieu.
+  const v1={version:1,active:true,posts:[post('P0001',{hauled:bag({wood:80,scrap:48,stone:32}),note:'empty',sent:0}),post('P0002'),post('P0003',{note:'nofuel',sent:0})]};
+  assert.deepEqual(M.validate(v1),{version:2,active:true,posts:v1.posts.map(p=>({id:p.id,garrison:R.garrison,founded:p.founded,convoy:p.convoy,hauled:bag({}),note:'held',sent:0}))});
+  assert.equal(M.validate(v1,{frontier:{seen:['P0001','P0002','P0003'],enemies:{'P0001:e0':0,'P0002:e1':0,'P0003:e0':0},taken:{}}}).posts.length,3,'un état v1 n’a rien écrit dans les prélèvements : aucun rapprochement exigé');
+  assert.deepEqual(M.validate({version:1,active:false,posts:[]}),M.initial());
+  for(const raw of [bad(many(4),1),bad([post('P0001',{note:'unfed'})],1),bad([post('P0001',{hauled:bag({wood:161})})],1),bad([post('P0001',{hauled:bag({wood:100,scrap:100})})],1),
+    bad([post('P0001',{sent:17})],1),{version:1,active:false,posts:[post('P0001')]}])assert.throws(()=>M.validate(raw),/Avant-postes 217/);
+  assert.throws(()=>M.validate(v1,{frontier:{seen:['P0001'],enemies:{'P0001:e0':0}}}),/Avant-postes 217/,'v1 : lieux vus et vidés exigés aussi');
 });
 
-test('avant-postes 217 : fonds du lieu, côté de route et lot de convoi sont des fonctions pures',()=>{
-  const w=W.create(17117,8,{detailVersion:1,ecologyVersion:1,hydrologyVersion:1}),before=JSON.stringify(w.pois.slice(0,200));
-  const seenMix=new Set();
-  for(const p of w.pois.slice(0,200)){
-    const h=M.holding(w.seed,p),total=C.bagTotal(h);
-    assert.deepEqual(M.holding(w.seed,p),h);assert.ok(Number.isInteger(total)&&total>=R.hold.min&&total<=R.hold.max,p.id);
-    assert.equal(h.fuel+h.ammo+h.medicine,0);seenMix.add(Object.keys(h).filter(k=>h[k]>0).sort((a,b)=>h[b]-h[a])[0]);
+test('avant-postes 217 : butin réel lu chez son propriétaire, côté de route et lot de convoi sans effet de bord',()=>{
+  const g=campaign(),w=g.frontier.world(),sites=infested(g).slice(0,12),before=JSON.stringify(w.pois.slice(0,200)),ledger=JSON.stringify(g.serialize().frontier.taken);
+  assert.equal(typeof g.frontier.siteStock,'function');assert.equal(typeof g.frontier.takeFromSite,'function');
+  let withStock=0,withLock=0;
+  for(const p of sites){
+    const s=stockOf(g,p),list=containers(g,p);
+    assert.deepEqual(stockOf(g,p),s);assert.deepEqual(Object.keys(s).sort(),['free','locked']);
+    // Le relevé est exactement la somme des contenants du lieu : ouverts d'un côté, sous clé de l'autre.
+    for(const k of C.RESOURCE_KEYS){
+      near(s.free[k],list.filter(b=>b.resource===k&&!closed(g,b)).reduce((n,b)=>n+b.amount,0),p.id+' libre '+k);
+      near(s.locked[k],list.filter(b=>b.resource===k&&closed(g,b)).reduce((n,b)=>n+b.amount,0),p.id+' sous clé '+k);
+    }
+    for(const b of list)assert.match(b.id,new RegExp('^'+p.id+':(-?\\d+:\\d+|car:\\d+|out:\\d+)$'),'identifiants du registre régional');
+    if(C.bagTotal(s.free)>0)withStock++;if(C.bagTotal(s.locked)>0)withLock++;
   }
-  assert.ok(seenMix.size>=2,'plusieurs compositions selon le lieu');assert.equal(JSON.stringify(w.pois.slice(0,200)),before,'le monde n’est pas touché');
+  assert.ok(withStock>=6,'la plupart des lieux infestés ont un butin prenable');assert.ok(withLock>=1,'des contenants restent sous clé');
+  // Lecture seule ; demandes invalides : rien n'est pris, rien n'est écrit.
+  assert.equal(g.frontier.siteStock('P9999'),null);assert.equal(g.frontier.siteStock(7),null);assert.equal(g.frontier.siteStock('T1_2_3'),null);
+  for(const [id,k,n] of [['P9999','scrap',5],[sites[0].id,'gold',5],[sites[0].id,'scrap',0],[sites[0].id,'scrap',-3],[sites[0].id,'scrap',NaN],[sites[0].id,'scrap',Infinity],[7,'scrap',5]])assert.equal(g.frontier.takeFromSite(id,k,n),0);
+  assert.equal(JSON.stringify(g.serialize().frontier.taken),ledger,'le registre des prélèvements n’a pas bougé');
+  assert.equal(JSON.stringify(w.pois.slice(0,200)),before,'le monde n’est pas touché');
   assert.deepEqual([[5,1],[-5,1],[1,5],[1,-5],[3,3],[-3,-4]].map(([x,y])=>M.sideOf(x,y)),['east','west','south','north','east','north']);
   const full=()=>1e9;
   let l=M.lot(bag({wood:10,scrap:30}),full);near(l.total,R.convoy.lot);assert.deepEqual(l.bag,bag({wood:10,scrap:R.convoy.lot-10}));
@@ -85,9 +127,34 @@ test('avant-postes 217 : fonds du lieu, côté de route et lot de convoi sont de
   near(M.lot(bag({}),full).total,0);
 });
 
+test('avant-postes 217 : takeFromSite suit le chemin de la fouille — ordre fixe, bornes, contenants sous clé intacts, format sauvegardé',()=>{
+  const g=campaign(),p=infested(g).find(q=>{const s=stockOf(g,q);return C.bagTotal(s.free)>30&&C.bagTotal(s.locked)>0;});
+  assert.ok(p,'un lieu avec butin libre et butin sous clé');
+  const list=containers(g,p),s=stockOf(g,p),k=C.RESOURCE_KEYS.find(r=>s.free[r]>20),open=list.filter(b=>b.resource===k&&!closed(g,b)),shut=list.filter(b=>closed(g,b));
+  // Prise partielle : le premier contenant ouvert de la ressource, dans l'ordre du lieu.
+  const part=Math.min(open[0].amount,5)-1;
+  near(g.frontier.takeFromSite(p.id,k,part),part);near(g.frontier.takenAmount(open[0].id),part);
+  assert.deepEqual(takenAt(g,p).map(([id])=>id),[open[0].id]);near(stockOf(g,p).free[k],s.free[k]-part);
+  // Demande supérieure au contenu : tout le libre de cette ressource, jamais plus ; chaque contenant plafonné à son contenu.
+  near(g.frontier.takeFromSite(p.id,k,1e6),s.free[k]-part);near(stockOf(g,p).free[k],0);
+  for(const b of open)near(g.frontier.takenAmount(b.id),b.amount,b.id);
+  assert.equal(g.frontier.takeFromSite(p.id,k,10),0,'épuisé : plus rien');
+  for(const b of shut)assert.equal(g.frontier.takenAmount(b.id),0,'sous clé : intact '+b.id);
+  assert.deepEqual(stockOf(g,p).locked,s.locked);
+  // Les autres lieux et les autres ressources ne sont pas touchés ; le registre garde son format et sa validation.
+  const taken=g.serialize().frontier.taken;
+  assert.deepEqual(Object.keys(taken).sort(),open.map(b=>b.id).sort());
+  for(const [id,v] of Object.entries(taken))assert.ok(/^P\d{4}:(-?\d+:\d+|car:\d+|out:\d+)$/.test(id)&&v>0&&v<=1000);
+  const data=copy(g.serialize());assert.equal(g.restoreSave(data),true,'la sauvegarde est acceptée par le validateur du registre régional');
+  for(const b of open)near(g.frontier.takenAmount(b.id),b.amount);near(stockOf(g,p).free[k],0);
+  // Un prélèvement supérieur au contenant reste refusé par le validateur existant.
+  const forged=copy(data);forged.frontier.taken[open[0].id]=open[0].amount+1;
+  let refused=false;try{refused=g.restoreSave(forged)===false;}catch(error){refused=true;}assert.equal(refused,true);
+});
+
 test('avant-postes 217 : campagne neuve active, rien de changé au départ, aucun avant-poste avant l’âge requis',()=>{
   const g=campaign();
-  assert.deepEqual(saved(g),M.fresh());assert.equal(g.outposts217.active(),true);assert.equal(g.outposts217.cap(),0);
+  assert.deepEqual(saved(g),M.fresh());assert.equal(g.outposts217.active(),true);assert.equal(g.outposts217.open(),false);
   assert.equal(g.expansions.get('outposts217').title,'Avant-postes');
   assert.match(row(g,'Avant-postes'),/Aucun avant l’âge « /);assert.deepEqual(g.outposts217.actions(),[]);assert.deepEqual(g.outposts217.roads(),[]);
   assert.equal(g.outposts217.radioInRange(),true);assert.equal(g.outposts217.guards({x:9e3,y:0}),null);
@@ -103,7 +170,7 @@ test('avant-postes 217 : établissement payé en hommes et en stock, refus hors 
   clearSite(g,empty,false);assert.match(O.foundQuote(empty.id).reason,/vidé de ses occupants/,'un lieu sans occupant n’a pas été conquis');
   clearSite(g,allied,false);assert.match(O.foundQuote(allied.id).reason,/relais allié/);
   assert.deepEqual(O.candidates(),[p.id]);
-  const act=O.actions().find(a=>a.id==='found-'+p.id);assert.equal(act.disabled,false,act.reason);assert.match(act.description,/Coût : 2 fusiliers et 30 bois, 20 ferraille, 20 nourriture, 20 munitions\. Fonds du lieu : .*Route de .*, côté (est|ouest|nord|sud) de D-17\./);
+  const act=O.actions().find(a=>a.id==='found-'+p.id);assert.equal(act.disabled,false,act.reason);assert.match(act.description,/Coût : 2 fusiliers et 30 bois, 20 ferraille, 20 nourriture, 20 munitions, puis 2 nourriture par vague\. Butin du lieu : .*Route de .*, côté (est|ouest|nord|sud) de D-17\./);
   // Refus sans débit : loin du dépôt, garnison absente, stock insuffisant.
   const x=g.player.x;g.player.x+=900;assert.match(O.foundQuote(p.id).reason,/au dépôt de D-17/);g.player.x=x;
   const wood=g.resources.wood;g.resources.wood=R.cost.wood-1;assert.match(O.found(p.id).reason,/Stock insuffisant/);assert.equal(g.resources.wood,R.cost.wood-1);g.resources.wood=wood;
@@ -116,10 +183,12 @@ test('avant-postes 217 : établissement payé en hommes et en stock, refus hors 
   assert.deepEqual(saved(g).posts,[{id:p.id,garrison:R.garrison,founded:g.wave,convoy:g.wave,hauled:bag({}),note:'held',sent:0}]);
   assert.equal(count(notes,'Avant-poste établi : '),1);assert.match(notes.find(t=>t.includes('Avant-poste établi')),/2 fusiliers quittent la cité ; la route qui y mène \(.*\) est désormais gardée, côté (est|ouest|nord|sud) de D-17\./);
   assert.match(O.foundQuote(p.id).reason,/tient déjà ce lieu/);
-  // Plafond de l'âge : un seul avant-poste à l'âge de départ.
-  clearSite(g,other);soldiers(g,R.garrison);
-  assert.match(O.foundQuote(other.id).reason,/plus de 1 avant-poste à son âge/);assert.equal(O.actions().some(a=>a.id.startsWith('found-')),false);
-  assert.equal(row(g,'Avant-postes'),'1 sur 1 à cet âge.');
+  // Aucun plafond par âge : la seule limite est celle des hommes. Un fusilier restant ne suffit pas, deux de plus suffisent.
+  clearSite(g,other);assert.equal(riflemen(g),1);
+  assert.match(O.foundQuote(other.id).reason,/Il faut 2 fusiliers présents dans la cité pour la garnison\./);assert.equal(O.found(other.id).ok,false);assert.equal(saved(g).posts.length,1);
+  const offer=O.actions().find(a=>a.id==='found-'+other.id);assert.equal(offer.disabled,true);assert.match(offer.reason,/2 fusiliers présents/);
+  soldiers(g,1);assert.equal(O.foundQuote(other.id).ok,true,'même âge, deuxième avant-poste permis');
+  assert.equal(row(g,'Avant-postes'),'1 tenu : 2 fusiliers hors de la cité, 2 nourriture par vague. Pas de plafond : la limite est celle des hommes et du stock.');
 });
 
 test('avant-postes 217 : route gardée = itinéraire routier existant ; un fourgon qui rentre de ce côté n’est pas barré',()=>{
@@ -147,37 +216,100 @@ test('avant-postes 217 : route gardée = itinéraire routier existant ; un fourg
   assert.equal(O.abandon(p.id).ok,true);assert.deepEqual(O.roads(),[]);assert.equal(O.guards({x:core.x+dx*500,y:core.y+dy*500}),null);
 });
 
-test('avant-postes 217 : le convoi roule seul, lot borné, fonds fini qui s’épuise et le dit',()=>{
+test('avant-postes 217 : le convoi roule seul, lot borné, butin RÉEL du lieu qui s’épuise et le dit',()=>{
   const {g,p}=ready(),O=g.outposts217,notes=watch(g);
   // Relevé du module seul : l'économie de la cité (rations, production) ne brouille pas le compte.
   const tick=()=>O.tick(.25);
   g.resources.fuel=100;g.storage=Math.max(g.storage,2000);
   assert.equal(O.found(p.id).ok,true);
-  const hold=O.holding(p.id),total=C.bagTotal(hold),start={...g.resources},wave0=g.wave;
-  g.phase='calm';tick();assert.equal(count(notes,'Convoi de'),0,'pas de convoi la vague de l’établissement');
+  const stock=stockOf(g,p),total=C.bagTotal(stock.free),shut=containers(g,p).filter(b=>closed(g,b)),start={...g.resources},wave0=g.wave;
+  assert.ok(total>R.convoy.lot*2,'un lieu avec plusieurs convois de butin');assert.deepEqual(O.stock(p.id),stock);assert.deepEqual(O.posts()[0].left,stock.free);
+  const delta=(from,k)=>g.resources[k]-from[k];
+  g.phase='calm';tick();assert.equal(count(notes,'Convoi de'),0,'pas de convoi la vague de l’établissement');assert.deepEqual({...g.resources},start,'ni entretien la vague de l’établissement');
   g.wave=wave0+1;g.phase='assault';tick();assert.equal(count(notes,'Convoi de'),0,'jamais pendant l’assaut');
   g.phase='calm';tick();tick();
   assert.equal(count(notes,'arrivé seul par la route gardée'),1,'un seul convoi par vague');
-  const first=O.posts()[0];near(first.sent,Math.min(R.convoy.lot,total));assert.equal(first.note,'delivered');near(C.bagTotal(first.hauled),first.sent);
-  near(start.fuel-g.resources.fuel,R.convoy.fuel,'carburant brûlé');
-  near(C.RESOURCE_KEYS.filter(k=>k!=='fuel').reduce((n,k)=>n+g.resources[k]-start[k],0),first.sent,'livré au dépôt');
+  const first=O.posts()[0];near(first.sent,R.convoy.lot);assert.equal(first.note,'delivered');near(C.bagTotal(first.hauled),first.sent);
+  for(const k of C.RESOURCE_KEYS){
+    near(delta(start,k),first.hauled[k]-(k==='fuel'?R.convoy.fuel:0)-(R.upkeep[k]||0),'dépôt '+k);
+    assert.ok(first.hauled[k]<=stock.free[k]+1e-9,'jamais plus que ce que le lieu contient : '+k);
+    near(stockOf(g,p).free[k],stock.free[k]-first.hauled[k],'le lieu a perdu ce que le dépôt a reçu : '+k);
+  }
+  near(takenSum(g,p),first.sent,'écrit dans le registre des prélèvements');
   assert.match(row(g,first.name),/2 fusiliers en garnison · route gardée côté (est|ouest|nord|sud), .* · reste sur place : .* · dernier convoi : 16 unités livrées \(vague \d+\)\./);
-  // Pas de carburant : le convoi reste sur place, rien n'est livré ni perdu.
-  const fuel=g.resources.fuel;g.resources.fuel=R.convoy.fuel-1;g.wave++;const held={...g.resources};tick();
-  assert.equal(O.posts()[0].note,'nofuel');assert.deepEqual({...g.resources},held);assert.equal(count(notes,'il faut 2 carburant au dépôt'),1);near(C.bagTotal(O.posts()[0].hauled),first.sent);
+  // Pas de carburant : le convoi reste sur place, rien n'est livré ni pris au lieu ; la garnison, elle, est ravitaillée et garde la route.
+  const fuel=g.resources.fuel;g.resources.fuel=R.convoy.fuel-1;g.wave++;let held={...g.resources};tick();
+  assert.equal(O.posts()[0].note,'nofuel');for(const k of C.RESOURCE_KEYS)near(delta(held,k),-(R.upkeep[k]||0),k);
+  assert.equal(count(notes,'il faut 2 carburant au dépôt'),1);near(takenSum(g,p),first.sent);assert.equal(O.roads()[0].guarded,true);
   g.resources.fuel=fuel;
-  // Dépôt plein : rien n'entre, rien n'est brûlé.
-  const storage=g.storage;g.storage=0;g.wave++;const blocked={...g.resources};tick();
-  assert.equal(O.posts()[0].note,'full');assert.deepEqual({...g.resources},blocked);assert.equal(count(notes,'le dépôt n’a pas la place'),1);g.storage=storage;
-  // Jusqu'à épuisement : le total livré est exactement le fonds, puis plus rien.
-  let guard=0;while(O.posts()[0].note!=='empty'&&guard++<40){g.wave++;tick();}
-  const done=O.posts()[0];for(const k of C.RESOURCE_KEYS)near(done.hauled[k],hold[k],k);near(C.bagTotal(done.left),0);
+  // Dépôt plein : rien n'entre, rien n'est brûlé, rien ne quitte le lieu.
+  const storage=g.storage;g.storage=0;g.wave++;held={...g.resources};tick();
+  assert.equal(O.posts()[0].note,'full');for(const k of C.RESOURCE_KEYS)near(delta(held,k),-(R.upkeep[k]||0),k);
+  assert.equal(count(notes,'le dépôt n’a pas la place'),1);near(takenSum(g,p),first.sent);g.storage=storage;
+  // Jusqu'à épuisement : le total livré est exactement le butin prenable du lieu, puis plus rien.
+  let guard=0;while(O.posts()[0].note!=='empty'&&guard++<60){g.wave++;tick();}
+  const done=O.posts()[0];for(const k of C.RESOURCE_KEYS)near(done.hauled[k],stock.free[k],k);near(C.bagTotal(done.left),0);near(takenSum(g,p),total);
   assert.equal(count(notes,'c’était le dernier convoi'),1);
-  const after={...g.resources},lots=count(notes,'arrivé seul par la route gardée');assert.equal(lots,Math.ceil(total/R.convoy.lot));
+  const lots=count(notes,'arrivé seul par la route gardée');assert.equal(lots,Math.ceil(total/R.convoy.lot));
+  // Les contenants sous clé n'ont pas été forcés : ils restent au Commandant.
+  assert.ok(shut.length>0);for(const b of shut)assert.equal(g.frontier.takenAmount(b.id),0,b.id);assert.deepEqual(stockOf(g,p).locked,stock.locked);
+  for(const b of containers(g,p).filter(b=>!shut.some(s=>s.id===b.id)))near(g.frontier.takenAmount(b.id),b.amount,'vidé : '+b.id);
+  // Lieu vide : plus de convoi ni de carburant ; l'entretien de la garnison continue, la route reste gardée.
+  const after={...g.resources};
   for(let i=0;i<5;i++){g.wave++;tick();}
-  assert.deepEqual({...g.resources},after,'un lieu vide ne donne plus rien et ne coûte plus rien');assert.equal(count(notes,'arrivé seul par la route gardée'),lots);
-  assert.match(row(g,done.name),/reste sur place : rien · lieu vide, plus de convoi\./);
-  assert.equal(O.roads().length,1,'la route reste gardée');
+  for(const k of C.RESOURCE_KEYS)near(delta(after,k),-5*(R.upkeep[k]||0),k);
+  assert.equal(count(notes,'arrivé seul par la route gardée'),lots);assert.equal(count(notes,'Convoi : il ne reste rien'),0,'déjà dit par le dernier convoi');
+  assert.match(row(g,done.name),/reste sur place : rien \(sous clé : .*\) · plus rien à prendre, plus de convoi\./);
+  assert.equal(O.roads().length,1,'la route reste gardée');assert.equal(O.roads()[0].guarded,true);
+  assert.equal(g.restoreSave(copy(g.serialize())),true,'registre accepté par ses validateurs après épuisement');
+});
+
+test('avant-postes 217 : ce que le Commandant a pris à la main n’est plus au convoi, et inversement',()=>{
+  const {g,p}=ready(),O=g.outposts217,notes=watch(g),tick=()=>O.tick(.25);
+  g.resources.fuel=100;g.storage=Math.max(g.storage,2000);
+  const stock=stockOf(g,p),total=C.bagTotal(stock.free),open=containers(g,p).filter(b=>!closed(g,b));
+  // Le Commandant vide un contenant et en entame un autre avant d'établir l'avant-poste.
+  const whole=open[0],half=open.find(b=>b.id!==whole.id&&b.amount>4),mine=whole.amount+half.amount/2;
+  handTake(g,whole.id,whole.amount);handTake(g,half.id,half.amount/2);
+  near(C.bagTotal(stockOf(g,p).free),total-mine,'le relevé du lieu tient compte de la fouille');
+  assert.equal(O.found(p.id).ok,true);assert.match(O.actions().find(a=>a.id==='abandon-'+p.id).label,/Abandonner/);
+  let guard=0;while(O.posts()[0].note!=='empty'&&guard++<60){g.wave++;g.phase='calm';tick();}
+  const done=O.posts()[0];
+  near(C.bagTotal(done.hauled),total-mine,'le convoi ne rapporte que ce qui restait');
+  near(takenSum(g,p),total,'fouille et convois ensemble : exactement le butin prenable');
+  near(g.frontier.takenAmount(whole.id),whole.amount);near(g.frontier.takenAmount(half.id),half.amount);
+  // Inversement : ce que le convoi a pris n'est plus à la fouille (le registre lu par la touche E indique zéro restant).
+  const Survey=require('../src/frontier-survey.js'),w=g.frontier.world(),taken=g.serialize().frontier.taken;
+  for(const b of open)near(Math.max(0,b.amount-(taken[b.id]||0)),0,'plus rien à fouiller : '+b.id);
+  assert.equal(typeof Survey.targets,'function');assert.equal(w.containers(p.x,p.y,60,0,null).filter(b=>b.poi===p.id&&open.some(o=>o.id===b.id)).every(b=>b.amount-g.frontier.takenAmount(b.id)<1e-9),true);
+  // Second avant-poste sur un lieu que le Commandant a entièrement vidé : aucun convoi, rien de créé.
+  const lots=count(notes,'arrivé seul par la route gardée');assert.equal(lots,Math.ceil((total-mine)/R.convoy.lot));
+  assert.equal(O.abandon(p.id).ok,true);assert.equal(O.found(p.id).ok,true,'repris');
+  const res={...g.resources};g.wave++;tick();
+  assert.equal(O.posts()[0].note,'empty');assert.equal(count(notes,'Convoi : il ne reste rien à prendre à'),1);assert.equal(count(notes,'arrivé seul par la route gardée'),lots);
+  for(const k of C.RESOURCE_KEYS)near(g.resources[k]-res[k],-(R.upkeep[k]||0),k);
+});
+
+test('avant-postes 217 : entretien par vague — garnison non ravitaillée, route non gardée et pas de convoi, jusqu’au ravitaillement',()=>{
+  const {g,p}=ready(),O=g.outposts217,notes=watch(g),tick=()=>O.tick(.25),w=g.frontier.world();
+  g.resources.fuel=100;g.storage=Math.max(g.storage,2000);
+  assert.equal(O.found(p.id).ok,true);
+  const core=g.core(),side=O.roads()[0].side,dir={east:[1,0],west:[-1,0],south:[0,1],north:[0,-1]}[side],at={x:core.x+dir[0]*500,y:core.y+dir[1]*500};
+  assert.equal(typeof O.guards(at),'string');
+  // Dépôt sans nourriture : rien n'est débité, rien ne part, la route n'est plus gardée.
+  const food=g.resources.food;g.resources.food=R.upkeep.food-1;g.wave++;g.phase='calm';let held={...g.resources};tick();
+  assert.equal(O.posts()[0].note,'unfed');assert.deepEqual({...g.resources},held);assert.equal(takenSum(g,p),0);
+  assert.equal(O.guards(at),null,'route non gardée');assert.equal(O.roads()[0].guarded,false);assert.equal(O.roads().length,1,'l’avant-poste tient toujours le lieu');
+  assert.equal(count(notes,'non ravitaillé : il faut 2 nourriture au dépôt à chaque vague'),1);
+  assert.match(row(g,O.posts()[0].name),/route non gardée côté .* · garnison non ravitaillée \(vague \d+\), pas de convoi\./);
+  assert.equal(saved(g).posts[0].note,'unfed');assert.equal(g.restoreSave(copy(g.serialize())),true);assert.equal(O.guards(at),null,'toujours non gardée après reprise');
+  g.resources.food=R.upkeep.food-1;g.wave++;tick();assert.equal(count(notes,'non ravitaillé'),1,'dit une fois');assert.equal(O.posts()[0].note,'unfed');
+  // Ravitaillée : entretien payé, route de nouveau gardée, le convoi repart dans la même accalmie.
+  g.resources.food=food;g.wave++;held={...g.resources};tick();
+  assert.equal(count(notes,'de nouveau ravitaillé : sa route est gardée'),1);assert.equal(O.posts()[0].note,'delivered');
+  assert.equal(typeof O.guards(at),'string');assert.equal(O.roads()[0].guarded,true);
+  near(g.resources.food-held.food,(O.posts()[0].hauled.food||0)-R.upkeep.food,'entretien débité une fois');near(takenSum(g,p),R.convoy.lot);
+  assert.equal(w.pois.includes(p),true);
 });
 
 test('avant-postes 217 : abandon, les hommes sont rendus à la cité, le coût reste perdu',()=>{
@@ -196,26 +328,77 @@ test('avant-postes 217 : abandon, les hommes sont rendus à la cité, le coût r
   assert.equal(O.foundQuote(p.id).ok,true);
 });
 
-test('avant-postes 217 : plafond lié à l’âge, deux avant-postes à l’âge suivant',()=>{
-  const {g,list}=ready(R.caps[1].age,2),O=g.outposts217;
-  assert.equal(O.cap(),2);assert.equal(O.found(list[0].id).ok,true);assert.equal(O.found(list[1].id).ok,true);
-  assert.deepEqual(saved(g).posts.map(q=>q.id),list.map(q=>q.id).sort());assert.equal(row(g,'Avant-postes'),'2 sur 2 à cet âge.');
-  g.wave++;g.phase='calm';g.resources.fuel=50;const fuel=g.resources.fuel;tick(g);near(fuel-g.resources.fuel,2*R.convoy.fuel,'un convoi par avant-poste');
+test('avant-postes 217 : aucun plafond par âge — quatre avant-postes dès l’âge d’ouverture, limités par les fusiliers',()=>{
+  const {g,list}=ready(R.startAge,5),O=g.outposts217,notes=watch(g);
+  assert.equal(O.open(),true);assert.equal(riflemen(g),R.garrison*5+1);
+  // Quatre de suite au même âge (l'ancien plafond était un, puis trois au plus à l'âge 9).
+  for(const q of list.slice(0,4)){Object.assign(g.resources,{wood:200,scrap:200,food:300,ammo:200});assert.deepEqual(O.found(q.id),{ok:true},q.id);}
+  assert.deepEqual(saved(g).posts.map(q=>q.id),list.slice(0,4).map(q=>q.id).sort());assert.equal(riflemen(g),R.garrison+1);
+  assert.equal(row(g,'Avant-postes'),'4 tenus : 8 fusiliers hors de la cité, 8 nourriture par vague. Pas de plafond : la limite est celle des hommes et du stock.');
+  assert.ok(O.actions().some(a=>a.id==='found-'+list[4].id),'l’offre suivante reste ouverte');
+  // La limite réelle : les hommes. Un fusilier de moins que la garnison : refus sans débit.
+  const spare=g.units.filter(u=>u.kind==='soldier'&&!u.dead);spare[0].regionAbsent=true;spare[1].regionAbsent=true;
+  const stock={...g.resources};assert.match(O.found(list[4].id).reason,/Il faut 2 fusiliers présents dans la cité pour la garnison\./);
+  assert.deepEqual({...g.resources},stock);assert.equal(saved(g).posts.length,4);spare[0].regionAbsent=false;spare[1].regionAbsent=false;
+  // Le coût suit le nombre : un convoi et un entretien par avant-poste et par vague.
+  g.storage=Math.max(g.storage,2000);g.wave++;g.phase='calm';g.resources.fuel=50;g.resources.food=100;const before={...g.resources};O.tick(.25);
+  assert.equal(count(notes,'arrivé seul par la route gardée'),4);
+  const hauled=k=>O.posts().reduce((n,q)=>n+q.hauled[k],0);
+  near(before.fuel-g.resources.fuel,4*R.convoy.fuel-hauled('fuel'),'un convoi par avant-poste');near(before.food-g.resources.food,4*R.upkeep.food-hauled('food'),'un entretien par avant-poste');
+  // Stock court : seuls les premiers du registre sont ravitaillés, les autres ne gardent plus leur route.
+  g.wave++;g.resources.food=R.upkeep.food*2+1;g.resources.fuel=0;O.tick(.25);
+  assert.deepEqual(O.posts().map(q=>q.note==='unfed'),[false,false,true,true]);assert.deepEqual(O.roads().map(r=>r.guarded),[true,true,false,false]);
+  assert.equal(g.restoreSave(copy(g.serialize())),true);assert.equal(saved(g).posts.length,4,'quatre avant-postes sauvegardés et repris');
 });
 
 test('avant-postes 217 : sauvegarde et reprise ; sauvegarde abîmée refusée',()=>{
   const {g,p}=ready(),O=g.outposts217;g.resources.fuel=50;g.storage=Math.max(g.storage,2000);
   assert.equal(O.found(p.id).ok,true);g.wave++;g.phase='calm';tick(g);
-  const data=copy(g.serialize()),mine=data.expansions127.modules.outposts217;
-  assert.equal(mine.posts[0].note,'delivered');assert.equal(g.restoreSave(copy(data)),true);
-  assert.deepEqual(saved(g),mine);assert.equal(O.roads().length,1);assert.equal(riflemen(g),1,'la garnison reste hors de la cité après reprise');
-  tick(g);assert.deepEqual(saved(g),mine,'pas de second convoi dans la même vague après reprise');
+  const data=copy(g.serialize()),mine=data.expansions127.modules.outposts217,ledger=copy(data.frontier.taken);
+  assert.equal(mine.version,2);assert.equal(mine.posts[0].note,'delivered');near(C.bagTotal(mine.posts[0].hauled),R.convoy.lot);
+  near(Object.values(ledger).reduce((a,b)=>a+b,0),R.convoy.lot,'le convoi est dans les prélèvements sauvegardés');
+  const left=copy(stockOf(g,p));
+  assert.equal(g.restoreSave(copy(data)),true);
+  assert.deepEqual(saved(g),mine);assert.deepEqual(g.serialize().frontier.taken,ledger);assert.deepEqual(stockOf(g,p),left,'le butin restant est le même après reprise');
+  assert.equal(O.roads().length,1);assert.equal(riflemen(g),1,'la garnison reste hors de la cité après reprise');
+  tick(g);assert.deepEqual(saved(g),mine,'pas de second convoi dans la même vague après reprise');assert.deepEqual(g.serialize().frontier.taken,ledger);
   const broken=patch=>{const d=copy(data);patch(d.expansions127.modules.outposts217,d);return d;};
-  for(const d of [broken(m=>{m.posts[0].id='P9999';}),broken(m=>{m.posts[0].sent=99;}),broken(m=>{m.active=false;}),broken(m=>{m.posts[0].hauled.wood=-1;}),
+  const key=C.RESOURCE_KEYS.find(k=>mine.posts[0].hauled[k]>0);
+  for(const d of [broken(m=>{m.posts[0].id='P9999';}),broken(m=>{m.posts[0].sent=99;}),broken(m=>{m.active=false;}),broken(m=>{m.posts[0].hauled.wood=-1;}),broken(m=>{m.version=3;}),
+    broken(m=>{m.posts[0].hauled[key]+=5;}),broken((m,d)=>{d.frontier.taken={};}),
     broken((m,d)=>{d.frontier.seen=d.frontier.seen.filter(id=>id!==p.id);delete d.frontier.enemies[p.id+':e0'];for(const k of Object.keys(d.frontier.enemies))if(k.startsWith(p.id+':'))delete d.frontier.enemies[k];d.frontier.kills=Object.values(d.frontier.enemies).filter(h=>h===0).length;})]){
     let refused=false;try{refused=g.restoreSave(d)===false;}catch(error){refused=true;}
     assert.equal(refused,true);assert.deepEqual(saved(g),mine,'état conservé après refus');
   }
+});
+
+test('avant-postes 217 : migration v1 → v2 — l’avant-poste garde son lieu et repart sur le butin réel restant',()=>{
+  const {g,list}=ready(R.startAge,2),O=g.outposts217,[p,q]=list,notes=watch(g);g.resources.fuel=50;g.storage=Math.max(g.storage,2000);
+  assert.equal(O.found(p.id).ok,true);assert.equal(O.found(q.id).ok,true);
+  // Le Commandant a déjà fouillé un contenant du premier lieu : ce prélèvement d'ancienne campagne ne doit pas bouger.
+  const first=containers(g,p).find(b=>!closed(g,b));handTake(g,first.id,first.amount);
+  const data=copy(g.serialize()),wave=g.wave,taken=copy(data.frontier.taken),stock=copy(stockOf(g,p)),other=copy(stockOf(g,q));
+  // État tel que la première tranche l'écrivait : fonds dérivé de l'emprise, entamé pour l'un, « vide » pour l'autre.
+  const ids=[p.id,q.id].sort();
+  data.expansions127.modules.outposts217={version:1,active:true,posts:[
+    {id:ids[0],garrison:R.garrison,founded:wave,convoy:wave,hauled:bag({wood:16,scrap:16}),note:'delivered',sent:16},
+    {id:ids[1],garrison:R.garrison,founded:wave,convoy:wave,hauled:bag({scrap:80,stone:48,wood:32}),note:'empty',sent:0}]};
+  const stockBefore={...g.resources},men=riflemen(g);
+  assert.equal(g.restoreSave(copy(data)),true,'une sauvegarde v1 est acceptée');
+  assert.deepEqual(saved(g),{version:2,active:true,posts:ids.map(id=>({id,garrison:R.garrison,founded:wave,convoy:wave,hauled:bag({}),note:'held',sent:0}))});
+  assert.deepEqual(g.serialize().frontier.taken,taken,'les prélèvements existants ne changent pas');
+  assert.deepEqual({...g.resources},stockBefore,'rien n’est repris au dépôt, rien n’est rendu');assert.equal(riflemen(g),men,'les garnisons restent en place');
+  assert.equal(O.roads().length,2);assert.deepEqual(O.roads().map(r=>r.guarded),[true,true]);
+  assert.deepEqual(stockOf(g,p),stock);assert.deepEqual(stockOf(g,q),other,'le butin réel restant est celui du registre régional');
+  // Pas de convoi rejoué dans la vague déjà servie ; à la suivante, les deux repartent sur le butin réel, même l'ancien « vide ».
+  g.phase='calm';O.tick(.25);assert.equal(count(notes,'arrivé seul par la route gardée'),0);
+  g.wave++;O.tick(.25);assert.equal(count(notes,'arrivé seul par la route gardée'),2);
+  for(const post of O.posts()){assert.equal(post.note,'delivered');near(C.bagTotal(post.hauled),R.convoy.lot);}
+  near(takenSum(g,p),first.amount+R.convoy.lot);near(takenSum(g,q),R.convoy.lot);near(g.frontier.takenAmount(first.id),first.amount,'le contenant fouillé n’est pas repris');
+  // L'état converti se sauvegarde en v2 et se relit ; un v1 abîmé reste refusé.
+  const again=copy(g.serialize());assert.equal(again.expansions127.modules.outposts217.version,2);assert.equal(g.restoreSave(copy(again)),true);
+  const kept=saved(g),bad=copy(data);bad.expansions127.modules.outposts217.posts[0].hauled.wood=500;
+  let refused=false;try{refused=g.restoreSave(bad)===false;}catch(error){refused=true;}assert.equal(refused,true);assert.deepEqual(saved(g),kept);
 });
 
 test('avant-postes 217 : une ancienne campagne reste sans avant-poste, sans portée radio ni route gardée',()=>{
@@ -291,7 +474,9 @@ test('avant-postes 217 : aucun tirage, aucune horloge, monde intact, module réf
   const source=fs.readFileSync(path.join(root,'src/outposts217.js'),'utf8');
   for(const forbidden of ['Math.random','.random.','.random(','rng','localStorage','Date.now','performance.now','setTimeout','setInterval','nextId','.health=','.health-=','damage','zombies'])assert.equal(source.includes(forbidden),false,forbidden);
   assert.equal((source.match(/g\.resources\[k\]\+=/g)||[]).length,1,'un seul point de crédit : la livraison d’un convoi');
-  assert.equal((source.match(/C\.spend\(/g)||[]).length,1,'un débit : l’établissement');assert.equal((source.match(/g\.resources\.fuel-=/g)||[]).length,1,'un débit : le carburant du convoi');
+  assert.equal((source.match(/C\.spend\(/g)||[]).length,2,'deux débits : l’établissement et l’entretien');
+  for(const gone of ['holding','R.hold','R.caps','frontier.taken','state.taken','.taken['])assert.equal(source.includes(gone),false,gone+' : le module n’écrit pas le registre régional lui-même');
+  assert.equal((source.match(/takeFromSite\(/g)||[]).length,1,'un seul point de prélèvement : le convoi, chez le propriétaire');assert.equal((source.match(/g\.resources\.fuel-=/g)||[]).length,1,'un débit : le carburant du convoi');
   for(const file of ['index.html','sw.js','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(fs.readFileSync(path.join(root,file),'utf8').includes('outposts217'),file);
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
   assert.ok(html.indexOf('src/expansion-kit.js')<html.indexOf('src/outposts217.js')&&html.indexOf('src/frontier-routing.js')<html.indexOf('src/outposts217.js')&&html.indexOf('src/outposts217.js')<html.indexOf('src/expansion-ui.js'));
@@ -305,5 +490,9 @@ test('avant-postes 217 : aucun tirage, aucune horloge, monde intact, module réf
   finally{Math.random=random;}
   assert.equal(JSON.stringify(g.random),stream,'flux de simulation intact');
   assert.equal(JSON.stringify(w.pois.slice(0,300)),pois);assert.equal(w.roads.length,roads);
-  assert.equal(g.frontier.takenAmount(p.id),0);assert.deepEqual(Object.keys(g.serialize().frontier.taken),[],'le registre des prélèvements n’est pas touché');
+  const touched=Object.keys(g.serialize().frontier.taken);
+  assert.ok(touched.length>0&&touched.every(id=>id.startsWith(p.id+':')),'seuls les contenants du lieu tenu sont prélevés');
+  // Empreinte de monde : une région neuve de même graine donne les mêmes lieux, contenants compris.
+  const twin=campaign().frontier.world();assert.equal(JSON.stringify(twin.pois.slice(0,300)),pois);
+  assert.deepEqual(twin.plan(twin.site(p.id),p.levels[0]).objects.map(b=>[b.id,b.resource,b.amount]),w.plan(p,p.levels[0]).objects.map(b=>[b.id,b.resource,b.amount]));
 });

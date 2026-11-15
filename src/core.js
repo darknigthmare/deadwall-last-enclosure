@@ -3454,10 +3454,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // cost : pris au stock du dépôt à l'établissement, jamais rendu. hold : fonds lourd du lieu, fini, proportionnel à son emprise (m²),
  // réparti selon l'un des `mixes` (hachage de l'identifiant). convoy : un lot de `lot` unités au plus toutes les `everyWaves` vagues,
  // en phase calme, contre `fuel` carburant pris au dépôt. radio.range : portée, en mètres, autour de D-17 et de chaque avant-poste.
- C.Outposts217Rules=Object.freeze({startAge:2,caps:Object.freeze([Object.freeze({age:2,max:1}),Object.freeze({age:5,max:2}),Object.freeze({age:8,max:3})]),
-  reach:100,garrison:2,cost:Object.freeze({wood:30,scrap:20,food:20,ammo:20}),
-  hold:Object.freeze({perArea:.08,min:40,max:160,mixes:Object.freeze([Object.freeze({wood:.5,scrap:.3,stone:.2}),Object.freeze({scrap:.5,stone:.3,wood:.2}),Object.freeze({food:.5,wood:.3,scrap:.2})])}),
-  convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000})});
+ C.Outposts217Rules=Object.freeze({startAge:2,
+  reach:100,garrison:2,cost:Object.freeze({wood:30,scrap:20,food:20,ammo:20}),upkeep:Object.freeze({food:2}),
+  convoy:Object.freeze({everyWaves:1,lot:16,fuel:2}),radio:Object.freeze({range:3000}),limits:Object.freeze({posts:64,hauled:1000000})});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),
