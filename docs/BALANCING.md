@@ -483,10 +483,11 @@ Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de d
 | Valeur | Réglage |
 |---|---|
 | Âge minimal | Indice 2 (« Avant-poste ») |
-| Plafond | 1 dès l'indice 2, 2 dès l'indice 5, 3 dès l'indice 8 |
+| Plafond | Aucun par âge ; 64 au registre (borne de validation) |
+| Entretien | 2 nourriture par avant-poste et par vague ; impayé, la route n'est plus gardée |
 | Garnison | 2 fusiliers, rendus à l'abandon |
 | Coût d'établissement | 30 bois, 20 ferraille, 20 nourriture, 20 munitions, non remboursé |
-| Fonds d'un lieu | 0,08 unité par m² d'emprise, borné de 40 à 160 |
+| Butin | Le butin réel du lieu, partagé avec la fouille à la main ; contenants verrouillés exclus |
 | Convoi | 16 unités au plus par vague, phase calme, 2 carburant |
 | Portée radio | 3 000 m autour de D-17 et de chaque avant-poste |
 

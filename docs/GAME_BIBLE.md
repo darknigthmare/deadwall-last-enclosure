@@ -1569,7 +1569,7 @@ région. Un bivouac n'arrête ni la nuit ni les vagues.
 - une sortie à pied de plusieurs jours impose de choisir **où dormir** avant
   la tombée de la nuit.
 
-#### Première tranche livrée **[LIVRÉ]** : avant-postes et routes gardées
+#### Deux tranches livrées **[LIVRÉ]** : avant-postes, routes gardées, butin réel
 
 Nouvelles campagnes seulement (`src/outposts217.js`, valeurs dans
 `C.Outposts217Rules`, test `tests/outposts217.test.cjs`).
@@ -1577,41 +1577,42 @@ Nouvelles campagnes seulement (`src/outposts217.js`, valeurs dans
 - **Avant-poste** : décidé au dépôt de D-17, sur un lieu régional déjà vu,
   infesté puis vidé de ses occupants (ou un lieu remarquable dont le nid est
   vidé), relié à D-17 par la route. Deux fusiliers quittent la cité ; 30
-  bois, 20 ferraille, 20 nourriture et 20 munitions sont pris au stock. Un
-  avant-poste dès l'âge « Avant-poste », deux à l'âge 6, trois à l'âge 9.
-  Il figure sur l'atlas et en vue de région.
+  bois, 20 ferraille, 20 nourriture et 20 munitions sont pris au stock.
+  Ouvert dès l'âge « Avant-poste ».
+- **[DÉCISION, livrée]** **Aucun plafond par âge** : on en tient autant
+  qu'on a de fusiliers et de stock.
+- **Entretien** : à chaque vague, en phase calme, 2 nourriture du dépôt par
+  avant-poste. Non ravitaillée, une garnison ne garde plus sa route et
+  n'envoie pas de convoi, jusqu'au prochain ravitaillement payé. C'est la
+  vraie limite une fois le plafond retiré.
 - **Route gardée** : l'itinéraire routier existant entre D-17 et
-  l'avant-poste, tant qu'il tient. Un fourgon d'expédition qui rentre de ce
-  côté n'est pas barré par les Rouleurs (§4.7), et le tribut n'est pas
-  consommé.
-- **Convoi** : à chaque vague, en phase calme, 16 unités au plus du fonds du
-  lieu arrivent seules au dépôt, contre 2 carburant. Le fonds est fini (40 à
-  160 unités selon l'emprise du lieu) et ne se régénère jamais ; quand il
-  est vide, le convoi s'arrête et le dit. Sans carburant ou dépôt plein, il
+  l'avant-poste, tant qu'il tient et qu'il est ravitaillé. Un fourgon qui
+  rentre de ce côté n'est pas barré par les Rouleurs (§4.7).
+- **[DÉCISION, livrée]** **Convoi sur le butin réel** : à chaque vague, en
+  phase calme, 16 unités au plus du butin du lieu arrivent seules au dépôt,
+  contre 2 carburant. Le convoi prélève dans le registre régional, par le
+  même chemin que la fouille à la main : ce que le Commandant a pris n'est
+  plus au convoi, et inversement. Les contenants verrouillés restent sur
+  place ; les ouvrir relance le convoi. Sans carburant ou dépôt plein, il
   reste sur place.
-- **Abandon** : au dépôt. Les deux fusiliers rentrent ; le coût reste perdu,
-  la route n'est plus gardée.
-- **Radio** : elle porte à 3 000 m de D-17 et de chaque avant-poste.
-  Au-delà, silence ; le journal le dit au retour (§7.15).
+- **Abandon** : au dépôt. Les deux fusiliers rentrent ; le coût reste perdu.
+- **Radio** : elle porte à 3 000 m de D-17 et de chaque avant-poste (§7.15).
+- Un avant-poste créé avant la deuxième tranche garde son lieu et sa
+  garnison et repart sur le butin réel restant.
 
-Réserves : jamais joué en partie réelle. **Le fonds n'est pas le butin
-restant du lieu** : c'est un stock propre à l'avant-poste, dérivé de
-l'emprise du lieu. Le plafond par âge contredit pour l'instant la décision
-« aucun plafond fixe ». Un avant-poste ne peut pas tomber, n'est pas nourri
+Réserves : jamais joué en partie réelle. Un avant-poste ne peut pas tomber
 et n'a pas de signature. « Côté gardé » est la direction de l'avant-poste,
 pas le tracé de la route. Les fusiliers rendus sont des fusiliers neufs. Le
-convoi n'est pas dessiné. 2 carburant contre 16 unités est sans doute
-généreux.
-
-**[DÉCISION]** Le convoi doit ramener le **butin réel** du lieu, et non un
-stock propre : ce que le Commandant a pris à la main n'est plus au convoi,
-et inversement. **[DÉCISION]** Plus de plafond fixe par âge : la limite
-vient des hommes immobilisés et du coût. Ces deux points sont en chantier.
+convoi n'est pas dessiné, et vide les ressources dans un ordre fixe, sans
+choix du joueur. Sur les lieux proches de la graine 17117, le butin
+prenable est surtout de la ferraille (44 à 99 unités par lieu), les
+ressources rares étant souvent sous clé. 16 unités pour 2 carburant et 2
+nourriture restent sans doute généreux.
 
 Restent à faire : rangs Relais → Poste → Avant-poste et chantier sur place,
-chute et réinfestation, garnison nourrie, signature locale, états de route,
-« une bonne route sert aussi l'ennemi », rappel du Commandant par les routes
-gardées, fourgons des territoires, entretien des véhicules.
+chute et réinfestation, signature locale, états de route, « une bonne route
+sert aussi l'ennemi », rappel du Commandant par les routes gardées,
+fourgons des territoires, entretien des véhicules.
 
 ### 7.15 La cité autonome **[DÉCISION]**
 
