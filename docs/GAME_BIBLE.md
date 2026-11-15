@@ -1279,6 +1279,32 @@ d'atlas calée sur l'étendue totale.
   10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
   suivent pas toujours les vallées. Des noms d'agglomération en double sont
   possibles. Le coût dans le navigateur reste à mesurer au calme.
+- **Tranche T4 livrée, sans effet en jeu** : `src/world-local217.js` dérive
+  du canton d'origine la carte locale de D-17, case de 1 m par case :
+  paliers, falaises infranchissables, rampes de col, eau, routes. Pour
+  chacun des quatre côtés, il dit s'il est ouvert à une horde, fermé par
+  une falaise, ou réduit à des passages à tenir (rampe de 12 m, pont,
+  goulet), puis vérifie par un calcul de chemins qu'aucune cité n'est
+  enclavée. Il donne aussi des gisements candidats et une fiche de site
+  (« Adossée à une falaise à l'est, ouverte au nord, au sud et à l'ouest »).
+- **Site adossé et cadre de 192 m** (choix de l'agent, à valider) : le site
+  n'exige plus qu'un plat de 64 m, choisi contre une falaise, et le cadre
+  jouable passe de 128 à 192 m. Sur 50 graines, 38 ont un côté fermé ou
+  réduit à un passage (29 un côté fermé), contre 0 auparavant ; la falaise
+  est à 32 m du centre, à l'échelle des murs. Agrandir seulement la carte à
+  256 m n'en donnait que 4. Sur 400 graines, aucune cité enclavée. Exemple,
+  graine 17117 : un couloir est-ouest entre deux falaises, deux fronts
+  seulement.
+- Réserves de T4 : rien n'a été joué, c'est une description et une image.
+  12 graines sur 50 restent ouvertes des quatre côtés. **L'eau ne ferme
+  aucun côté.** Les falaises suivent les mailles de 32 m : traits droits,
+  angles droits. Le terrain derrière une falaise est de l'espace mort dans
+  le cadre (58 % du cadre utile en moyenne). **Équilibrage à décider à
+  l'ouverture** : la même vague sur deux côtés ouverts au lieu de quatre
+  concentre la pression ; trois côtés fermés et une rampe de 12 m
+  pourraient être trop faciles. Consommer cette grille touche la taille de
+  la carte locale (35 fichiers), les collisions, le champ de flux, les
+  enceintes et les deux vues : liste dans `specs/monde-sans-bord/tasks.md`.
 - **Tranche T1 achevée, sans effet en jeu** : tous les lecteurs de la taille
   de région passent par les accesseurs de `frontier-world.js` — acteurs,
   faune, atlas, recherches de lieu par identifiant, les huit validateurs de
