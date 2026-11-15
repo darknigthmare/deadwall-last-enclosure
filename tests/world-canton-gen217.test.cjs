@@ -11,7 +11,7 @@ const same=(a,b)=>Math.abs(a.x-b.x)<=.005+1e-9&&Math.abs(a.y-b.y)<=.005+1e-9;
 
 test('canton 217 : règles gelées dans le cœur, maille et milieux cohérents avec l’existant',()=>{
   assert.ok(Object.isFrozen(R)&&Object.isFrozen(R.field)&&Object.isFrozen(R.escarpments)&&Object.isFrozen(R.roads.widths)&&Object.isFrozen(G)&&G.RULES===R);
-  assert.equal(R.version,2);assert.equal(K.SIZE%R.cell,0);
+  assert.equal(R.version,3);assert.equal(K.SIZE%R.cell,0);
   for(const part of [R.pass,R.valley,R.origin,R.water,R.roads,R.towns,R.towns.kinds,R.towns.kinds.ville,R.towns.names,R.towns.order,R.foundation,R.sites])assert.ok(Object.isFrozen(part));
   // Falaises fréquentes, rampes rares : tailler une rampe coûte bien plus cher qu'emprunter un col.
   assert.ok(R.roads.rampCost*5<=R.roads.cutCost&&R.roads.cutCost<R.roads.steepCost&&R.pass.strand>=4&&R.pass.every>=16&&R.pass.islet>=2);
@@ -20,7 +20,7 @@ test('canton 217 : règles gelées dans le cœur, maille et milieux cohérents a
   assert.ok(R.towns.kinds.hameau.radius<R.towns.kinds.bourg.radius&&R.towns.kinds.bourg.radius<R.towns.kinds.ville.radius&&R.towns.reach+R.towns.kinds.ville.radius<K.SIZE);
   // Les noms sont ceux du générateur d'agglomérations existant, repris tels quels.
   assert.deepEqual([...R.towns.names],JSON.parse(/const names=(\[[^\]]+\])/.exec(read('src/geography135.js'))[1].replace(/'/g,'"')));
-  assert.equal(R.foundation.size,128);assert.equal(R.foundation.size%R.cell,0);assert.ok(R.origin.floor>1&&R.origin.inner<R.origin.outer);assert.equal(N,32);assert.equal(R.levels,6);
+  assert.equal(R.foundation.size,64);assert.equal(R.foundation.size%R.cell,0);assert.ok(R.origin.floor>1&&R.origin.inner<R.origin.outer);assert.equal(N,32);assert.equal(R.levels,6);
   assert.deepEqual([...G.BIOMES],[...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>d.id),'les 16 milieux existants, dans leur ordre');
   assert.equal(G.BIOMES.length,16);
   assert.ok(R.water.streamFlow<R.water.riverFlow&&R.water.riverFlow<R.water.capFlow);
@@ -53,7 +53,7 @@ test('canton 217 : empreintes de référence figées (les changer, c’est chang
   G.forget();
   assert.deepEqual([[17117,0,0],[17117,-3,2],[4294967295,-1048575,1048575],[0,5,-7]].map(([s,x,y])=>G.generate(s,x,y).digest),REFERENCE);
 });
-const REFERENCE=['0b76c81a','a2a42a37','21cd15f4','113884c5'];
+const REFERENCE=['d9f33527','a2a42a37','21cd15f4','113884c5'];
 
 test('canton 217 : coordonnées négatives et bout de l’adressage',()=>{
   const m=K.RULES.maxCoordinate;
@@ -351,8 +351,8 @@ test('canton 217 : site de fondation de D-17 — dans K0_0, plat, sec, relié, d
   for(const seed of seeds){
    G.forget();const c=G.generate(seed,0,0),f=c.foundation;assert.ok(f,'aucun site de fondation pour la graine '+seed);
    assert.deepEqual(G.foundation(seed),f);assert.ok(Object.isFrozen(f)&&Object.isFrozen(f.cols)&&Object.isFrozen(f.plateau));
-   assert.deepEqual(K.parseEntity(f.id),{cx:0,cy:0,canton:'K0_0',kind:'d17',index:0});assert.equal(f.size,128);
-   // Un plat de 128 m, tout entier dans K0_0, à l'écart des coutures, d'un seul palier, hors mer et hors eau.
+   assert.deepEqual(K.parseEntity(f.id),{cx:0,cy:0,canton:'K0_0',kind:'d17',index:0});assert.equal(f.size,R.foundation.size);
+   // Un plat (64 m depuis la tranche de la carte locale : site adossé), tout entier dans K0_0, à l'écart des coutures, d'un seul palier, hors mer et hors eau.
    const x0=(f.x-f.size/2)/R.cell,y0=(f.y-f.size/2)/R.cell;assert.ok(Number.isInteger(x0)&&Number.isInteger(y0)&&x0>=R.foundation.margin&&y0>=R.foundation.margin&&x0+span<=N-R.foundation.margin&&y0+span<=N-R.foundation.margin,'site hors du canton : '+seed);
    for(let dy=0;dy<span;dy++)for(let dx=0;dx<span;dx++){const i=(y0+dy)*N+x0+dx;assert.equal(c.levels[i],f.level,'site en pente : '+seed);assert.equal(c.water[i],G.WATER.none,'site dans l’eau : '+seed);}
    assert.ok(f.level>=1&&f.level<R.levels);assert.equal(G.levelAt(seed,f.x,f.y),f.level);assert.equal(G.biomeAt(seed,f.x+1,f.y+1),f.biome);levels[f.level]=(levels[f.level]||0)+1;
@@ -399,7 +399,7 @@ test('canton 217 : module isolé — rien de chargé par le jeu, génération 12
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js'],'dépendances : les règles et la brique d’adressage');
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|Hydrology165\b(?!Rules)|geography141|taken|localStorage/.test(code),'aucun flux ni registre des générations 1 à 11');
   for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs'])assert.ok(!read(file).includes('canton-gen217')&&!read(file).includes('apercu-cantons217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','world-local217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
   assert.ok(read('tools/apercu-cantons217.html').includes('hors jeu'));
   const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');
   assert.throws(()=>W.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);

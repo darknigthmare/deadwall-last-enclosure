@@ -10,12 +10,12 @@ import {join} from 'node:path';
 
 const root=fileURLToPath(new URL('..',import.meta.url)),port=Number(process.env.PORT||4442);
 // core.js attend en navigateur les scripts qui le précèdent dans index.html : on reprend
-// cette chaîne telle quelle, puis on ajoute les deux modules de cantons.
+// cette chaîne telle quelle, puis on ajoute les modules de cantons et la carte locale de D-17.
 async function page(){
  const index=await readFile(join(root,'index.html'),'utf8'),chain=[];
  for(const m of index.matchAll(/<script src="(src\/[a-zA-Z0-9._-]+\.js)"><\/script>/g)){chain.push(m[1]);if(m[1]==='src/core.js')break;}
  if(chain[chain.length-1]!=='src/core.js')throw Error('core.js introuvable dans index.html');
- chain.push('src/world-cantons217.js','src/world-canton-gen217.js');
+ chain.push('src/world-cantons217.js','src/world-canton-gen217.js','src/world-local217.js');
  const html=await readFile(join(root,'tools','apercu-cantons217.html'),'utf8'),marker=/<!-- SCRIPTS[^>]*-->/;
  if(!marker.test(html))throw Error('Repère SCRIPTS absent de la page d’aperçu');
  return html.replace(marker,chain.map(src=>'<script src="/'+src+'"></script>').join('\n'));

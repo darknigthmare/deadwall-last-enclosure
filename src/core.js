@@ -3432,7 +3432,9 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // highLevel) ; pondChance : lac de vallée sur un cours d'eau. roads.cutCost/steepCost : coût d'une rampe taillée dans une falaise d'un cran, de deux crans (une route évite de tailler).
  // towns : agglomérations portées par les sommets (chance, parts et rayons par rang, lieux en plus, noms repris de geography135).
  // foundation : site de D-17 (côté du plat en m, marge et portée en mailles, distances idéales à la falaise et à l'eau, cols décrits).
- {const f=Object.freeze;C.WorldRelief217Rules=f({version:2,cell:32,levels:6,
+ // foundation.size 64 et idealCliff 0 depuis la tranche de la carte locale : site adossé, falaise au bord du plat ; backWeight/backCap : prime par côté du plat
+ // entièrement bordé de falaise, pour `backCap` côtés au plus (jamais une cuvette fermée recherchée).
+ {const f=Object.freeze;C.WorldRelief217Rules=f({version:3,cell:32,levels:6,
   field:f({scale:2800,detailScale:900,detailWeight:.28,contrast:2.1,span:3.7,offset:.45,warpScale:1700,warpAmplitude:420}),
   escarpments:f([f({scale:1500,threshold:.6,height:2}),f({scale:2300,threshold:.66,height:2})]),
   pass:f({band:.008,wideBand:.13,scale:520,threshold:.72,reach:1.6,strand:5,every:32,islet:6}),
@@ -3445,8 +3447,21 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   towns:f({chance:.4,tries:6,margin:96,reach:352,order:f(['hameau','bourg','ville']),
    kinds:f({hameau:f({share:.6,radius:110,sites:4}),bourg:f({share:.3,radius:190,sites:9}),ville:f({share:.1,radius:300,sites:16})}),
    names:f(['Les Aubiers','Val-des-Saules','Montbrune','Belle-Futaie','La Combe','Les Ramiers','Rochebrune','Les Granges','Clairval','Bois-Ferré','La Rive','Fontvieille','Chantepierre','Les Brandes','Le Vallon','Saint-Orme'])}),
-  foundation:f({size:128,margin:3,reach:6,idealCliff:2,idealWater:3,centreWeight:.35,guard:8}),
-  sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});}
+  foundation:f({size:64,margin:3,reach:6,idealCliff:0,idealWater:3,centreWeight:.35,guard:8,backWeight:6,backCap:2}),
+  sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});
+ // Carte locale de D-17 née de son canton (src/world-local217.js, hors jeu, génération 12 réservée). frame : côté du cadre jouable (m), multiple de
+ // deux mailles, centré sur le site ; tile : pas de la case (m), celui de la carte actuelle. ramp : largeur (m) de la rampe praticable au milieu de
+ // chaque arête de col ; rampDepth : profondeur dessinée de part et d'autre. brush : demi-largeur minimale (m) d'un cours d'eau sur la grille.
+ // costs : pas, rampe et gué pour le calcul de chemins (une falaise, la mer, un lac, une rivière sans pont sont infranchissables).
+ // narrow : un couloir de plain-pied plus étroit (m) est un goulet ; un côté est « ouvert » s'il se joint par un couloir au moins aussi large.
+ // deposits : gisements candidats dans le carré de récolte `zone` (m), hors du rayon `clear` du centre, espacés de `spacing`, sur un treillis de
+ // `lattice` m ; kinds : nombre, quantité moyenne et rayon (m) relevés sur la carte actuelle ; spread : dispersion des quantités ;
+ // foot/roadside/edge : portée (m) du pied de falaise, du bord de route, de la lisière ; poids : attrait de chaque situation.
+ C.WorldLocal217Rules=f({version:1,frame:192,tile:1,ramp:12,rampDepth:6,brush:1,narrow:24,
+  costs:f({step:10,ramp:30,ford:20}),
+  deposits:f({zone:128,clear:9,spacing:2.5,lattice:2,foot:8,roadside:10,edge:12,spread:f([.72,1.35]),
+   kinds:f({stone:f({count:40,amount:100,radius:.75}),wood:f({count:100,amount:85,radius:.69}),scrap:f({count:52,amount:70,radius:.63})}),
+   weights:f({base:.12,cliffFoot:6,rock:1,tree:5,edge:2.5,roadside:5})})});}
  // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
  // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
  // minArea : emprise minimale (m²) pour loger un nid ; maxGeneration : seuls les lieux du socle de monde sont promus.

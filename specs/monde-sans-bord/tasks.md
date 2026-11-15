@@ -259,6 +259,166 @@ génération 12 n'est ouverte nulle part).
       du coin nord-ouest de leur canton ; noms en double possibles (16 noms × 97 numéros) ;
       les mesas ceintes de falaises de deux crans restent sans accès.
 
+## T4 (hors jeu) — La carte locale de D-17 née de son canton (livré, sans effet en jeu)
+
+Réserve de T3 à lever : « une falaise vaut une enceinte » ne se lisait qu'à l'échelle
+régionale. Toujours rien de branché : génération 12 refusée partout, aucune option de menu.
+Module `src/world-local217.js`, règles `C.WorldLocal217Rules`, test
+`tests/world-local217.test.cjs` (9 cas). Échelle rappelée : une case de la carte actuelle fait
+1 m (`C.TILE` = 32 unités), la carte 128 cases ; une maille de relief fait 32 m.
+
+- [x] T4.L1 Cadrage du site — mesuré sur les 50 graines du relevé de fondation, puis décidé.
+      « Fermé » = aucune case du bord d'où l'on atteint la cité ; « passage » = le côté ne
+      se joint que par des rampes, un pont ou un goulet.
+
+  | Option | Site (`foundation`) | Cadre | Un côté fermé | Fermé ou passage | Côtés ouverts 0/1/2/3/4 | Falaise dans le cadre |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | état T3 | plat 128 m, falaise idéale à 2 mailles | 128 m | 0 | 0 | 0/0/0/0/50 | 0 |
+  | (a) agrandir | idem | 256 m | 2 | 4 | 0/0/0/4/46 | 32 graines, à 107 m |
+  | (a) agrandir | idem | 320 m | 6 | 12 | 0/0/0/12/38 | 43 graines, à 112 m |
+  | (b) rapprocher | plat 128 m, falaise idéale à 0 | 128 m | 0 | 0 | 0/0/0/0/50 | 0 |
+  | (b) rapprocher | plat 64 m, falaise idéale à 0 | 128 m | 7 | 13 | 0/0/1/12/37 | 43, à 32 m |
+  | (b) adossé | plat 64 m, idéale 0, prime d'adossement | 128 m | 22 | 26 | 0/0/11/15/24 | 44, à 32 m |
+  | **retenu** | plat 64 m, idéale 0, prime d'adossement | **192 m** | **29** | **38** | **0/2/18/18/12** | 44, à 32 m |
+  | (a)+(b) | idem | 256 m | 28 | 42 | 0/3/19/20/8 | 45, à 33 m |
+
+  Décision : **combinaison**. Agrandir seul ne suffit pas (4 sur 50 à 256 m, et la falaise
+  reste à 107 m, loin de toute muraille). Ce qui compte est le site : un plat exigé de 64 m
+  au lieu de 128, adossé (`foundation.size` 64, `idealCliff` 0, prime `backWeight` 6 par côté
+  du plat entièrement bordé de falaise, pour `backCap` 2 côtés au plus). Le cadre passe à
+  192 m (2,25 fois la surface actuelle, pas 4 fois) : il montre ce qu'il y a derrière la
+  falaise et fait entrer les rampes. Réglable : `C.WorldLocal217Rules.frame` (128 reste
+  valide et donne déjà 26 sur 50 ; 256 aussi), `C.WorldRelief217Rules.foundation`.
+  Sur 400 graines à 192 m : 303 avec un côté fermé ou réduit à un passage, 212 avec un côté
+  fermé, aucune cité enclavée.
+  Conséquence sur T3 : `C.WorldRelief217Rules.version` passe à 3, l'empreinte de référence
+  de `K0_0` (graine 17117) est refigée — les trois autres ne bougent pas : seul le canton
+  d'origine change. Les seuils du test de fondation tiennent sans retouche (48 sites sur 50
+  près d'une falaise ou de l'eau).
+- [x] T4.L2 Grille locale `L.describe(graine, {frame})` : par case de 1 m, `levels` (palier
+      de la maille du canton), `biomes`, `water` (mer et lacs de la maille ; rivières et
+      ruisseaux posés à leur largeur réelle depuis les tracés du canton), `passes` (bit 1 :
+      l'arête est se franchit ; bit 2 : l'arête sud), `kinds` (plat, falaise, rampe, rive,
+      eau), `roads` (classe + 1), `cost` (coût du chemin jusqu'au centre, −1 hors
+      d'atteinte). **Une arête de col ne se franchit que par sa rampe**, large de `ramp`
+      (12 m) au milieu de l'arête : à l'échelle régionale un col fait 3 à 4 mailles, soit
+      une centaine de mètres — ce n'est pas une porte ; à l'échelle de la cité, chacune de
+      ses arêtes porte une rampe de 12 m. Les routes du canton franchissent une arête en
+      son milieu, donc par la rampe. `accesses` : routes qui entrent dans le cadre (côté,
+      position, classe, `linked` : mène à la cité sans sortir du cadre) ; `cols` : cols du
+      canton pris dans le cadre. `sides.<côté>` : `ouvert` (au moins `narrow` = 24 m de bord
+      de plain-pied, joint par un couloir au moins aussi large), `ralenti` (idem, mais un
+      ruisseau à passer à gué), `passage` (rampes de col, pont, goulet, avec largeur et
+      position), `clos` (cause : falaise ou eau), plus `width`, `share`, `lanes`, `entries`.
+- [x] T4.L3 Siège hors jeu `L.siege(carte)` : fronts possibles (où la horde entre, où elle
+      est canalisée), relus par un parcours en largeur indépendant sur la grille seule ;
+      `enclosed`, `reachable`, `consistent`. Test : 50 graines sans cité enclavée, chaque
+      extrémité d'entrée reliée au centre par `L.pathToCentre` sans falaise ni eau profonde.
+- [x] T4.L4 Gisements candidats `deposits` (`K0_0:gite:n`) : 40 pierre, 100 bois, 52
+      ferraille, dans le carré de 128 m de la carte actuelle, à portée de la cité. Relevé de
+      la carte actuelle (graines 17117, 42, 84329, hors vivres et carburant) : 99 à 102
+      gisements de bois (8 700 à 9 100), 30 à 47 de pierre (3 100 à 4 800), 44 à 59 de
+      ferraille (3 200 à 4 200), plus les 48 pièces de décor métrique (20 à 23 de ferraille,
+      5 à 10 de pierre, 6 à 10 de bois, 4 à 5 de vivres, 1 de soins, 1 de carburant). Pierre
+      au pied des falaises (15 par graine en moyenne) sinon selon `rockChance` du milieu ;
+      bois selon `treeChance` et en lisière ; ferraille en bord de route. Tirage par hachage
+      de la case, aucun flux existant. Non repris : vivres, carburant, décor métrique, lots.
+- [x] T4.L5 Fiche du site `sheet` : côtés fermés (falaise, eau), passages, côtés ralentis,
+      ouverts, à demi couverts, eau et falaise les plus proches dans le cadre, part du cadre
+      à portée et sur le palier de la cité, phrase d'ouverture (38 phrases différentes sur
+      50 graines).
+- [x] T4.L6 Page d'aperçu : mode « carte locale de D-17 » (`?mode=local&seed=…&frame=…`).
+- [x] T4.L7 Mondes G1–G11 identiques sur les huit graines (procédure d'en-tête) ; coût
+      médian 25 à 35 ms sous Node canton compris, environ 130 ms au premier appel dans
+      Chromium ; une fois par campagne.
+- Réserves : **l'eau ne ferme aucun côté** (0 sur 400 graines) et ne ralentit que 17 graines
+  sur 400 — le site est choisi à sec et les rivières larges sont rares près de lui ; les
+  falaises suivent les mailles de 32 m (traits droits, angles droits) ; 12 graines sur 50
+  restent ouvertes des quatre côtés ; le plat garanti n'est que de 64 m (58 % du cadre sur
+  le palier de la cité en moyenne, 28 % au pire) ; une route peut longer le cadre sur un
+  autre palier sans mener à la cité (`linked` faux) ; la horde qui contourne par l'extérieur
+  du cadre n'est pas modélisée ; rien n'a été joué.
+
+### Ce que la tranche d'ouverture devra changer pour consommer cette grille (non commencé)
+
+Tout ce qui suit est conditionné à la génération 12 ; les campagnes G1–G11 gardent la carte
+plate de 128 m, ses flux et ses identifiants.
+
+1. **Taille de la carte locale** (`src/core.js`, `src/game.js`, sauvegarde). `WORLD_TILES`
+   (128) et `WORLD_SIZE` (4 096) sont des constantes lues par 35 fichiers de `src/`
+   (`game.js`, `tactics.js`, `save.js`, `squads.js`, `linecare.js`, `recon.js`,
+   `exploration-125.js`, `vertical-citadel175*.js`, `earthworks217.js`,
+   `horde-horizon217.js`, `seed-card217.js`…). À 192 m il faut une taille par campagne :
+   `world.tiles` / `world.size` portés par `WorldMap`, `occupancy` et `FlowField.values`
+   dimensionnés par carte, `index(x, y)` et `grid()` paramétrés, caméra, minicarte
+   (`renderMinimap`), bornes des validateurs du domaine « local » (4 096 en clair dans
+   `frontier-state.js`, `essential-state.js`, `night-gear.js`, `survival-pack.js`,
+   `save.js` : véhicule, unités, chantiers). Repli sans rien de cela : `frame` 128 garde
+   la taille actuelle et donne déjà 26 graines sur 50 avec un côté fermé ou un passage.
+2. **`WorldMap`** (`src/game.js`). Le constructeur reçoit la description locale : tableaux
+   `levels`, `passes`, `water`, `roads`, `kinds`. `generateNodes()` et
+   `DeadwallWorldContent.generate` ne servent plus en G12 : les nœuds viennent de
+   `deposits` (identifiants `K0_0:gite:n` → `ResourceNode`), le décor métrique reste à
+   replacer (`packMetricScenery202` : parcelles libres hors falaise, hors eau, hors rampe).
+   `placement()` refuse une emprise à cheval sur deux paliers, sur l'eau, sur une rampe
+   (sauf porte et mur), et le message le dit. `movementCost()` ajoute le coût de rampe et de
+   gué ; nouvelle méthode `canStep(gx, gy, nx, ny)` (falaise, eau profonde) lue par tout
+   déplacement.
+3. **Collisions** (`src/game.js`). `friendlyPositionClear`, `hostilePositionClear`,
+   `moveFriendly` (lignes de `clamp(…, WORLD_SIZE - …)`), `hostileBuildingAt`, les lancers de
+   rayon par pas de `TILE/3` (lignes de vue des unités, charge des infectés, projectiles
+   dans `updateProjectiles`) : un pas qui change de palier hors rampe est refusé ; un
+   projectile tiré d'en bas s'arrête à la falaise, tiré d'en haut la franchit (règle à
+   décider). `findFriendlyPath` (`src/core.js`) reçoit le même prédicat d'arête, pas
+   seulement `blocked(x, y)` : une falaise ferme une arête, pas une case.
+4. **Champ de flux des hordes** (`FlowField.rebuild` et `direction`, `src/game.js`). Les
+   quatre voisins ne sont développés que si `canStep` ; coût = `movementCost` + rampe + gué
+   (`C.WorldLocal217Rules.costs`). Une case hors d'atteinte garde `0x3fffffff` : un infecté
+   qui s'y trouve (chute, apparition) doit avoir un repli. Les murs restent franchissables
+   au prix fort (ils se détruisent), une falaise jamais.
+5. **Fronts et apparitions** (`prepareWave`, `spawnZombie`, `src/game.js` ;
+   `src/horde-horizon217.js` ; `C.wavePlan`, `CARDINAL_FRONTS` et les formes d'assaut de
+   `src/core.js`). Les fronts d'une vague se tirent parmi les côtés non `clos` ; l'apparition
+   se fait dans les `entries` du côté (au lieu de `80 … WORLD_SIZE-80`). Un plan à quatre
+   fronts sur une cité à deux côtés ouverts doit se replier (deux fronts, même effectif :
+   la pression reste, elle se concentre) — décision d'équilibrage à prendre et à écrire dans
+   `docs/BALANCING.md`. Annonces de vague, horizon de horde et lecture de siège
+   (`siege-readout.js`) nomment le passage (« par la rampe du nord »).
+6. **Placement des murs et enceintes** (`wallLine`, `placement`, `tactics.js` : enceintes,
+   portes, `nearestWall`, `breach217.js`, `fallback-order.js`, `linecare.js`). Une enceinte
+   se ferme sur une falaise : le calcul d'enceinte close (cases intérieures atteintes sans
+   franchir de mur) doit compter l'arête de falaise comme un mur indestructible, sinon
+   aucune enceinte adossée n'est reconnue. Une rampe se barre comme une porte : un mur
+   posé sur les 12 cases de la rampe ferme le front. Les brèches (`breach217`) ne
+   s'appliquent pas à une falaise. Fossés et talus (`earthworks217.js`) : interdits sur une
+   rampe ou à préciser.
+7. **Récolte et ouvriers** (`nearestNode`, tâches et points d'approche des ouvriers,
+   `src/game.js` ; `linecare.js`). Les gisements sont tous à portée par construction, mais
+   parfois sur un autre palier : les trajets passent par les rampes, donc hors des murs si
+   la rampe est barrée — à montrer au joueur.
+8. **Rendu 2D / 2,5D** (`drawGround` dans `src/game.js`, `src/art.js`, `src/ground135.js`,
+   `exploration-125.js` pour les routes d'accès aujourd'hui en croix). Teinte ou ombrage
+   par palier, face de falaise dessinée du côté bas (hauteur projetée comme les étages de
+   `CityGeometry202.presentation`), rampe lisible, eau (`hydrology165` sait dessiner un
+   lit), routes d'après `roads` au lieu de la croix fixe, tri de profondeur des acteurs
+   derrière une falaise, brouillard de `visibility146.js` (une falaise coupe-t-elle la vue ?),
+   minicarte. Les falaises suivent les mailles de 32 m : prévoir un adoucissement de
+   présentation qui ne change pas la grille de collision.
+9. **Vue FPS de la citadelle** (`src/vertical-citadel175.js`, `-render.js`, `-state.js`,
+   `vertical-network179.js`). La vue partage la simulation : le sol devient un champ de
+   hauteur par palier (hauteur d'un cran à fixer en mètres), les falaises des parois
+   verticales, les rampes des plans inclinés ; collisions de la caméra par `canStep` ; pose
+   verticale des infectés (`vertical175.enemyPose`) décalée du palier. Aucune seconde
+   horloge ni tirage : les peintres lisent la grille.
+10. **Sauvegarde et campagne** (`save.js`, `frontier-state.js`, module d'extension de la
+    tranche d'ouverture). La description locale se recalcule de la graine et de la version
+    des règles (`WorldRelief217Rules.version`, `WorldLocal217Rules.version`) : la sauvegarde
+    ne garde que ces deux versions et les prélèvements par identifiant de gisement. Geler
+    les deux jeux de règles à l'ouverture : après, tout réglage change les cartes.
+    `Geo.home` (`geography135.js`) devient le site de `K0_0` ; les quatre approches fixes
+    (`D17_E`…) deviennent les `accesses`.
+11. **Fiche de graine** (`seed-card217.js`) : phrase d'ouverture et côtés depuis `sheet`.
+
 ## T4 — Lieux et sauvegarde creuse
 
 - [ ] T4.1 Lieux par canton : `K…:site:n`, plans par les fabriques existantes (`G.plan`,

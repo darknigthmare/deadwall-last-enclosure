@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DEADWALL — aperçu des cantons (hors jeu)</title>
 <!-- Outil de QA hors jeu (specs/monde-sans-bord, T2.5 et T3). Servi par `node scripts/apercu-cantons217.mjs` (port PORT, 4442 par défaut)
-     : il lit src/ mais n’est ni servi par scripts/server.mjs ni chargé par index.html. -->
+     : il lit src/ (dont la carte locale de D-17, mode « carte locale », T4 hors jeu) mais n’est ni servi par scripts/server.mjs ni chargé par index.html. -->
 <style>
  body{margin:0;background:#15171a;color:#d8d6cc;font:13px/1.4 system-ui,sans-serif}
  header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px 12px;background:#1e2125;border-bottom:1px solid #33373d}
@@ -25,7 +25,8 @@
  <label>Centre <input id="cx" type="number" value="0"><input id="cy" type="number" value="0"></label>
  <label>Rayon <input id="radius" type="number" min="0" max="8" value="2"></label>
  <label>Pixels par maille <input id="px" type="number" min="2" max="16" value="6"></label>
- <label>Fond <select id="mode"><option value="relief">paliers</option><option value="biome">milieux</option></select></label>
+ <label>Fond <select id="mode"><option value="relief">paliers</option><option value="biome">milieux</option><option value="local">carte locale de D-17</option></select></label>
+ <label>Cadre local (m) <input id="frame" type="number" min="64" max="320" step="64" value=""></label>
  <button id="draw">Dessiner</button>
  <button data-move="-1,0">←</button><button data-move="0,-1">↑</button><button data-move="0,1">↓</button><button data-move="1,0">→</button>
 </header>
@@ -36,18 +37,20 @@
 <script>
 'use strict';
 (function(){
- const C=globalThis.DeadwallCore,K=globalThis.DeadwallWorldCantons217,G=globalThis.DeadwallWorldCantonGen217,$=id=>document.getElementById(id);
+ const C=globalThis.DeadwallCore,K=globalThis.DeadwallWorldCantons217,G=globalThis.DeadwallWorldCantonGen217,L=globalThis.DeadwallWorldLocal217,$=id=>document.getElementById(id);
  // Teintes des paliers : mer, puis du bas vers le haut.
  const TINT=['#2f5d7c','#6f8f5a','#93a468','#b9ad76','#b0957a','#d9d4c6'];
  const ROAD={regional:['#f4e9c8',2.6],secondary:['#e2d3ac',1.8],local:['#cdbf9d',1.1]};
  const biomeColour=Object.fromEntries([...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>[d.id,d.palette.base]));
  const query=new URLSearchParams(location.search);
- for(const key of ['seed','cx','cy','radius','px','mode'])if(query.has(key))$(key).value=query.get(key);
+ for(const key of ['seed','cx','cy','radius','px','mode','frame'])if(query.has(key))$(key).value=query.get(key);
  $('legend').innerHTML=TINT.map((c,i)=>'<span><i style="background:'+c+'"></i>'+(i?'palier '+i:'mer (palier 0)')+'</span>').join('')
   +'<span><i style="background:#2a1d14"></i>falaise (tout changement de palier hors col ; trait double : deux crans)</span><span><i style="background:#7dff6b"></i>col naturel (rampe)</span>'
   +'<span><i style="background:#ffb020"></i>rampe taillée par une route</span><span><i style="background:#3f86b8"></i>rivière, lac</span><span><i style="background:#f4e9c8"></i>route</span>'
   +'<span><i style="background:#c0392b"></i>lieu candidat</span><span><i style="background:#fff"></i>pont</span><span><i style="background:#e9c46a;border-radius:50%"></i>agglomération</span><span><i style="background:#ff3df2"></i>site de D-17</span>';
  function draw(){
+  if($('mode').value==='local')return drawLocal();
+  $('legend').innerHTML=LEGEND;
   const seed=Number($('seed').value),cx=Number($('cx').value),cy=Number($('cy').value),radius=Number($('radius').value),px=Number($('px').value),mode=$('mode').value;
   const n=G.CELLS,side=2*radius+1,canvas=$('map'),size=side*n*px;canvas.width=size;canvas.height=size;
   const g=canvas.getContext('2d'),scale=px/G.CELL,ox=(cx-radius)*K.SIZE,oy=(cy-radius)*K.SIZE,X=x=>(x-ox)*scale,Y=y=>(y-oy)*scale;
@@ -102,6 +105,50 @@
     +' ; cols à garder : '+(foundation.cols.map(k=>k.kind+' '+k.low+'→'+k.high+' à '+Math.round(k.distance)+' m ('+k.wind+')').join(', ')||'aucun')+'.':'');
   globalThis.apercu217={cantons:cantons.length,elapsed,median,total,foundation};
  }
+
+ // Carte locale de D-17 (specs/monde-sans-bord, T4 hors jeu) : le cadre jouable case par case.
+ // Liseré du cadre : rouge = front ouvert, orange = ruisseau à passer à gué, jaune = bord d'où la
+ // horde n'arrive que par un passage obligé (cercle magenta), noir = côté fermé.
+ const LOCAL=['Carte locale : case de 1 m, teinte du palier','<i style="background:#2a1d14"></i>falaise infranchissable','<i style="background:#7dff6b"></i>rampe de col','<i style="background:#3f86b8"></i>eau','<i style="background:#e2d3ac"></i>route',
+  '<i style="background:#e0271b"></i>front ouvert','<i style="background:#ff9a2e"></i>front ralenti par un gué','<i style="background:#ffe14d"></i>bord canalisé vers un passage','<i style="background:#ff3df2;border-radius:50%"></i>passage obligé','<i style="background:#050505"></i>côté fermé',
+  '<i style="background:rgba(0,0,0,.55)"></i>hors d’atteinte de la cité','<i style="background:#1f5a2a"></i>bois','<i style="background:#e8e8e8"></i>pierre','<i style="background:#c2571a"></i>ferraille'];
+ function drawLocal(){
+  const seed=Number($('seed').value),frame=$('frame').value===''?undefined:Number($('frame').value),started=performance.now();
+  const l=L.describe(seed,frame===undefined?{}:{frame}),siege=L.siege(l),elapsed=performance.now()-started,S=l.frame,px=Math.max(2,Math.min(6,Math.floor(900/S))),pad=14,canvas=$('map');
+  canvas.width=canvas.height=S*px+2*pad;const g=canvas.getContext('2d');g.fillStyle='#15171a';g.fillRect(0,0,canvas.width,canvas.height);g.translate(pad,pad);
+  for(let i=0;i<S*S;i++){const x=i%S,y=(i-x)/S,w=l.water[i],road=l.roads[i];
+   g.fillStyle=w&&!road?(w===G.WATER.sea?TINT[0]:'#3f86b8'):road?(w?'#ffffff':'#e2d3ac'):l.kinds[i]===L.KIND.ramp?'#7dff6b':TINT[l.levels[i]];g.fillRect(x*px,y*px,px,px);
+   if(l.cost[i]<0&&!w){g.fillStyle='rgba(0,0,0,.55)';g.fillRect(x*px,y*px,px,px);}}
+  // Falaises : tout changement de palier hors rampe, trait sombre sur l'arête.
+  g.strokeStyle='#2a1d14';g.lineWidth=Math.max(2,px*.9);g.beginPath();
+  for(let i=0;i<S*S;i++){const x=i%S,y=(i-x)/S;
+   if(x<S-1&&l.levels[i+1]!==l.levels[i]&&!(l.passes[i]&1)&&l.levels[i]&&l.levels[i+1]){g.moveTo((x+1)*px,y*px);g.lineTo((x+1)*px,(y+1)*px);}
+   if(y<S-1&&l.levels[i+S]!==l.levels[i]&&!(l.passes[i]&2)&&l.levels[i]&&l.levels[i+S]){g.moveTo(x*px,(y+1)*px);g.lineTo((x+1)*px,(y+1)*px);}}
+  g.stroke();
+  // Mailles du canton, plat du site, centre.
+  g.strokeStyle='rgba(255,255,255,.12)';g.lineWidth=1;g.beginPath();for(let t=0;t<=S;t+=G.CELL){g.moveTo(t*px,0);g.lineTo(t*px,S*px);g.moveTo(0,t*px);g.lineTo(S*px,t*px);}g.stroke();
+  const flat=G.RULES.foundation.size;g.strokeStyle='#ff3df2';g.lineWidth=1.5;g.setLineDash([5,4]);g.strokeRect((S-flat)/2*px,(S-flat)/2*px,flat*px,flat*px);g.setLineDash([]);
+  for(const d of l.deposits){g.fillStyle=d.type==='wood'?'#1f5a2a':d.type==='stone'?'#e8e8e8':'#c2571a';g.beginPath();g.arc(d.x*px,d.y*px,Math.max(1.5,d.radius*px),0,7);g.fill();g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=.6;g.stroke();}
+  g.fillStyle='#ff3df2';g.beginPath();g.arc(S/2*px,S/2*px,5,0,7);g.fill();g.font='bold 12px system-ui,sans-serif';g.fillStyle='#000';g.fillText('D-17',S/2*px+8,S/2*px+5);g.fillStyle='#ff9df8';g.fillText('D-17',S/2*px+7,S/2*px+4);
+  // Liseré des quatre côtés.
+  const band=(side,from,to,colour)=>{g.fillStyle=colour;const a=from*px,b=(to-from)*px,w=pad-3;if(side==='north')g.fillRect(a,-pad,b,w);else if(side==='south')g.fillRect(a,S*px+3,b,w);else if(side==='west')g.fillRect(-pad,a,w,b);else g.fillRect(S*px+3,a,w,b);};
+  for(const side of L.SIDES){const s=l.sides[side];band(side,0,S,'#050505');
+   if(s.status==='passage')for(const e of s.entries)band(side,e.from,e.to,'#ffe14d');
+   for(const lane of s.status==='ouvert'||s.status==='ralenti'?s.lanes:[])band(side,lane.from,lane.to,s.status==='ouvert'?'#e0271b':'#ff9a2e');
+   for(const p of s.passages){g.strokeStyle='#ff3df2';g.lineWidth=3;g.beginPath();g.arc(p.x*px,p.y*px,Math.max(8,p.width*px/2+3),0,7);g.stroke();
+    g.font='bold 11px system-ui,sans-serif';g.fillStyle='#000';g.fillText(p.kind+' '+p.width+' m',p.x*px+11,p.y*px-9);g.fillStyle='#ffd0fb';g.fillText(p.kind+' '+p.width+' m',p.x*px+10,p.y*px-10);}}
+  for(const a of l.accesses){g.fillStyle=a.linked?'#fff':'#888';g.strokeStyle='#000';g.lineWidth=1;g.beginPath();g.arc(Math.min(S,Math.max(0,a.x))*px,Math.min(S,Math.max(0,a.y))*px,4,0,7);g.fill();g.stroke();}
+  g.setTransform(1,0,0,1,0,0);
+  $('legend').innerHTML=LOCAL.map(t=>'<span>'+t+'</span>').join('');
+  const fr={north:'nord',east:'est',south:'sud',west:'ouest'},count={};for(const d of l.deposits)count[d.type+' ('+d.why+')']=(count[d.type+' ('+d.why+')']||0)+1;
+  $('info').textContent='Graine '+seed+' — cadre de '+S+' m ('+S+' × '+S+' cases), palier '+l.level+', '+l.sheet.biomeName+', '+elapsed.toFixed(1)+' ms. '+l.sheet.sentence
+   +'\nCôtés : '+L.SIDES.map(k=>{const s=l.sides[k];return fr[k]+' '+(s.status==='clos'?'fermé ('+s.cause+')':s.status==='passage'?'passage obligé ('+s.passages.map(p=>p.kind+' '+p.width+' m').join(', ')+')':s.status+' sur '+s.width+' m');}).join(' ; ')
+   +'.\nSiège : '+siege.fronts.length+' front(s) — '+siege.open+' ouvert(s), '+siege.slowed+' ralenti(s), '+siege.funnelled+' canalisé(s), '+siege.closed+' côté(s) fermé(s) ; cité '+(siege.enclosed?'ENCLAVÉE':'accessible')+', centre '+(siege.reachable?'atteint depuis chaque front':'NON atteint')
+   +'. Sol : '+Math.round(l.sheet.ground.reachable*100)+' % du cadre à portée de la cité, '+Math.round(l.sheet.ground.plateau*100)+' % sur son palier. Routes : '+(l.accesses.map(a=>fr[a.side]+(a.linked?'':' (hors d’atteinte)')).join(', ')||'aucune')+'.'
+   +'\nGisements : '+Object.entries(count).map(([k,v])=>v+' '+k).join(', ')+'.';
+  globalThis.apercu217={local:{seed,frame:S,digest:l.digest,sentence:l.sheet.sentence,sides:Object.fromEntries(L.SIDES.map(k=>[k,l.sides[k].status])),siege:{ok:siege.ok,fronts:siege.fronts.length},elapsed}};
+ }
+ const LEGEND=$('legend').innerHTML;
  $('draw').onclick=draw;
  for(const b of document.querySelectorAll('[data-move]'))b.onclick=()=>{const[dx,dy]=b.dataset.move.split(',').map(Number);$('cx').value=Number($('cx').value)+dx;$('cy').value=Number($('cy').value)+dy;draw();};
  draw();

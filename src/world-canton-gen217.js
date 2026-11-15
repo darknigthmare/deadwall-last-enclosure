@@ -342,7 +342,10 @@
     const l=levels[y*N+x];let flat=l>0,c=N,w=N;
     for(let dy=0;dy<span&&flat;dy++)for(let dx=0;dx<span;dx++){const i=(y+dy)*N+x+dx;if(levels[i]!==l||water[i]){flat=false;break;}if(dC[i]>=0&&dC[i]<c)c=dC[i];if(dW[i]>=0&&dW[i]<w)w=dW[i];}
     if(!flat)continue;
-    const interest=Math.min(c,w)<=F.reach,score=(interest?0:1000)+far(box.x+(x+span/2)*CELL-R.origin.x,box.y+(y+span/2)*CELL-R.origin.y)/CELL*F.centreWeight+Math.min(F.reach,Math.abs(c-F.idealCliff))+Math.min(F.reach,Math.abs(w-F.idealWater));
+    // Site adossé : côtés du plat entièrement bordés par une falaise (au plus `backCap` comptés).
+    let backed=0;
+    if(F.backWeight)for(let k=0;k<4;k++){let all=true;for(let t=0;t<span&&all;t++){const i=k===0?(y+t)*N+x+span-1:k===1?(y+t)*N+x:k===2?(y+span-1)*N+x+t:y*N+x+t;if(!wall(i,k))all=false;}if(all)backed++;}
+    const interest=Math.min(c,w)<=F.reach,score=(interest?0:1000)+far(box.x+(x+span/2)*CELL-R.origin.x,box.y+(y+span/2)*CELL-R.origin.y)/CELL*F.centreWeight+Math.min(F.reach,Math.abs(c-F.idealCliff))+Math.min(F.reach,Math.abs(w-F.idealWater))-(F.backWeight?F.backWeight*Math.min(backed,F.backCap):0);
     if(score<low){low=score;found={x,y,level:l,interest};}
    }
   }
