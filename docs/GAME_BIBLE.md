@@ -532,7 +532,27 @@ avec ses défenses. Seule la sortie du Commandant a été vérifiée. Elle n'a
 pas de silhouette propre et laisse une dépouille ordinaire. La lecture de
 siège et l'annonce de migration donnent encore l'effectif avant l'écart.
 
-Restent à faire : une escorte, la Meneuse en région (noyau d'une migration),
+**Deuxième tranche livrée [LIVRÉ]**
+
+- Une **escorte** d'infectés ordinaires (types du plan, points de vie et
+  dégâts inchangés) se tient immobile autour de la Meneuse : 6 à la
+  première vague menée, 2 de plus à chaque suivante, 18 au plus et jamais
+  plus de 8 % du plan. Elle est **prise sur l'effectif de la vague** :
+  abattre l'escorte avant l'assaut réduit donc la vague.
+- Elle se réveille si le Commandant approche à environ 8 m, si un tir passe
+  à environ 5 m, si un membre est touché, ou si la Meneuse meurt. Dérangée,
+  la Meneuse marche et frappe comme une Errante.
+- Le poste est vérifié contre le décor : sol praticable et relié à la cité.
+- L'annonce de migration et la lecture de siège donnent l'**effectif réel**
+  (« 282 si la Meneuse vit, 207 si elle tombe »), la marée à l'horizon porte
+  un repère MENEUSE, et la radio relaie la vague menée pendant une sortie.
+
+Réserves de la deuxième tranche : équilibrage non joué. Une escorte
+réveillée en plein jour marche sur la cité hors de l'assaut, une pression
+diurne nouvelle. Une sortie bien armée reste une réponse fiable. Le réveil
+ne tient pas compte de la ligne de vue.
+
+Restent à faire : la Meneuse en région (noyau d'une migration),
 sa présence dans la marée à l'horizon, la Comble-fossé, la Traîne-épave, les
 rôles propres des trois géants.
 
@@ -2495,6 +2515,9 @@ bûcher et la fosse sont des emplacements tenus par le module, dessinés sous
 le dépôt, pas des ouvrages posés, donc la fosse n'est pas encore un vrai
 choix d'espace. Le Commandant ne tombe jamais malade. La radio ne relaie pas
 la maladie.
+
+L'ouverture de la filière à l'âge Avant-poste est annoncée une fois ; la
+radio relaie les paliers de maladie pendant une sortie.
 
 Restent à faire : effet par secteur, fosse comme emprise réelle hors des
 murs, chaleur, rôle propre de la Nécropole dans la filière.

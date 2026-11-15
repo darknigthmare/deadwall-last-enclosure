@@ -529,3 +529,5 @@ Deuxième tranche : repérage à 600 m (`spot`), en sortie seulement ; repeuplem
 | `standoff` | 256 | Distance au bord de carte |
 
 Exemple, vague 13 standard, signature de départ : 235 annoncés, 282 si elle vit, 207 si elle est abattue.
+
+Deuxième tranche : escorte `{base 6, perLed 2, max 18, share 0,08, ringMin 46, ringMax 110, wake 260, shot 150}`, prise sur le plan ; poste `{tries 6, step 128}`.
