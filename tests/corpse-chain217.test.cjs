@@ -293,7 +293,7 @@ test('filière des corps : aucun hasard, aucun texte d’infection, script publi
   for(const file of ['index.html','sw.js'])assert.ok(read(file).includes('src/corpse-chain217.js'),file);
   const html=read('index.html'),at=name=>html.indexOf(name);
   assert.ok(at('src/earthworks217.js')>0&&at('src/great-works217.js')<at('src/corpse-chain217.js')&&at('src/corpse-chain217.js')<at('src/siege-readout.js'),'après les règles de cité qu’elle compose');
-  assert.ok(read('src/expansion-kit.js').includes("'corpseChain217','balance217','breach217']"));
+  {const kit=read('src/expansion-kit.js');assert.ok(kit.includes("'corpseChain217'")&&kit.indexOf("'corpseChain217'")<kit.indexOf("'balance217','breach217']"));}
   const ui=read('src/expansion-ui.js');assert.equal(ui.match(/corpseChain217/g).length,5);assert.ok(ui.includes("corpseChain217:'Corps et salubrité'"));
   assert.ok(read('src/earthworks217.js').includes('g.corpseChain217?.receive?.(before-d.fill)'));
 });

@@ -511,3 +511,17 @@ Un lot tient dans un sac vide (36) et n'est pas multiplié par le rendement de d
 | Morts | Annonce à 780 s ; première à 960 s puis toutes les 180 s |
 | Médicaments | 4 par mort évitée, 2 avec une clinique en service |
 | Météo | Exposition ×1,5 si pluie > 62 % ; ×0,75 si pluie < 10 % |
+
+## Vagues menées — 217
+
+`C.Abominations217Rules`, nouvelles campagnes seulement, non éprouvé en partie réelle. Direction : `GAME_BIBLE.md` §3.5.
+
+| Clé | Valeur | Sens |
+|---|---|---|
+| `firstWave` | 12 | Première vague qui peut être menée |
+| `every` | 4 | Une vague sur quatre, décalage selon la graine ; vagues de géants exclues |
+| `gatherShare` | 0,20 | Meneuse vivante à l'assaut : effectif du plan +20 % |
+| `cutShare` | 0,12 | Abattue avant l'assaut : −12 %, jamais sous le plancher de 8 |
+| `standoff` | 256 | Distance au bord de carte |
+
+Exemple, vague 13 standard, signature de départ : 235 annoncés, 282 si elle vit, 207 si elle est abattue.

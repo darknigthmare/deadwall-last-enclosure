@@ -499,6 +499,43 @@ Toute nouvelle abomination passe les quatre questions du §3.3, sauf la
 première : on ne sait pas qui elle était. C'est précisément ce qui la
 distingue d'un infecté.
 
+**Meneuse, première tranche livrée [LIVRÉ]**, nouvelles campagnes seulement
+(`src/abominations217.js`, valeurs dans `C.Abominations217Rules`, test
+`tests/abominations217.test.cjs`)
+
+- À partir de la vague 12, une vague sur quatre est **menée**. Le choix
+  dépend du numéro de vague et de la graine, sans tirage, et n'est jamais
+  une vague de géants.
+- Pendant la journée qui précède, une Meneuse se tient au bord de la carte,
+  hors de portée des défenses : une Errante ordinaire, aux points de vie
+  d'une Errante, immobile, signalée par un cercle sobre au sol et sur la
+  carte réduite.
+- Ce n'est pas elle qui est dangereuse, c'est le nombre qu'elle amène :
+  **vivante au lancement de l'assaut, la vague compte 20 % d'infectés
+  ordinaires de plus** ; **abattue avant, 12 % de moins**. Ni points de vie
+  ni dégâts ne changent.
+- Annonces à l'apparition, à l'alerte, à sa mort et à l'assaut ; ligne
+  « Vague menée » dans le dossier de situation.
+
+**Écart avec la feuille de route, assumé** : l'effet porte sur la vague qui
+suit immédiatement l'élimination, pas sur la suivante. Ajouter ou retirer
+des infectés en plein assaut casserait un contrôle de cohérence de la
+sauvegarde, et cette section dit que tuer la Meneuse au loin est « la seule
+façon d'affaiblir une vague avant qu'elle n'arrive ».
+
+Réserves : équilibrage non joué. **Rien ne garde la Meneuse** et une sortie
+de 13 s suffit à l'atteindre : un joueur attentif l'abattra presque
+toujours, et la vague menée devient alors plus facile qu'une vague
+ordinaire. Elle ne se défend pas tant qu'elle rassemble. Son poste n'est pas
+vérifié contre le décor. Une cité étendue jusqu'au bord pourrait la tuer
+avec ses défenses. Seule la sortie du Commandant a été vérifiée. Elle n'a
+pas de silhouette propre et laisse une dépouille ordinaire. La lecture de
+siège et l'annonce de migration donnent encore l'effectif avant l'écart.
+
+Restent à faire : une escorte, la Meneuse en région (noyau d'une migration),
+sa présence dans la marée à l'horizon, la Comble-fossé, la Traîne-épave, les
+rôles propres des trois géants.
+
 ---
 
 ## 4. Les vivants hors de D-17
@@ -2729,7 +2766,7 @@ cohérence (§5.3) et se termine par `npm run check`.
 | 18 | Lieux remarquables et nids (§7.13) — première tranche livrée | Monde | `frontier-geometry.js`, `codex-campaign205.js` | Un château d'eau vu de loin devient un objectif de sortie. |
 | 19 | Monde sans bord et relief par paliers (§7.13) | Monde | `frontier-world.js`, `frontier-state.js`, `geography135.js` | Une nouvelle campagne n'a plus de bord ; une falaise sert d'enceinte. |
 | 20 | Filière des corps et maladie (§8.7) — première tranche livrée | Siège, Chaîne | `game.js`, `core.js`, `urban.js` | Un bûcher fume après l'assaut ; un secteur négligé tombe malade. |
-| 21 | Nouvelles abominations, dont celles de région (§3.5) | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
+| 21 | Nouvelles abominations, dont celles de région (§3.5) — Meneuse au siège livrée | Siège, Monde | `core.js`, `vertical-siege176.js`, `world-evolution.js` | Abattre une Meneuse au loin réduit la vague suivante. |
 | 22 | Vraie coopération (§7.12) | Tous | `coop.js`, `scripts/coop-server.mjs`, `game.js` | Un joueur tient le mur pendant qu'un autre explore. |
 
 Le dernier carré se traite avec le rang 12. Le monde sans bord et la

@@ -480,7 +480,7 @@ test('avant-postes 217 : aucun tirage, aucune horloge, monde intact, module réf
   for(const file of ['index.html','sw.js','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(fs.readFileSync(path.join(root,file),'utf8').includes('outposts217'),file);
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
   assert.ok(html.indexOf('src/expansion-kit.js')<html.indexOf('src/outposts217.js')&&html.indexOf('src/frontier-routing.js')<html.indexOf('src/outposts217.js')&&html.indexOf('src/outposts217.js')<html.indexOf('src/expansion-ui.js'));
-  assert.match(fs.readFileSync(path.join(root,'src/expansion-kit.js'),'utf8'),/'outposts217','balance217','breach217'\]/);
+  {const kit=fs.readFileSync(path.join(root,'src/expansion-kit.js'),'utf8');assert.ok(kit.includes("'outposts217'")&&kit.indexOf("'outposts217'")<kit.indexOf("'balance217','breach217']"));}
   // Établissement et convois : le flux aléatoire de la simulation et Math.random ne sont pas consultés ; le monde ne bouge pas.
   const {g,p}=ready(),O=g.outposts217,w=g.frontier.world(),pois=JSON.stringify(w.pois.slice(0,300)),roads=w.roads.length;
   g.resources.fuel=50;g.storage=Math.max(g.storage,2000);
