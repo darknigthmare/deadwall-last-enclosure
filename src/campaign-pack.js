@@ -1,6 +1,8 @@
 /* Optional campaign operations link discovered places, carried supplies and D-17. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),P=root.DeadwallAtlasProjection||(typeof require==='function'?require('./atlas-projection.js'):null),R=C.CampaignPackRules,D=R.definitions,keys=Object.keys(D),copy=x=>JSON.parse(JSON.stringify(x));
 const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k),integer=(n,a,b)=>Number.isSafeInteger(n)&&n>=a&&n<=b;
 const legacyKeys=['patrol','aid','salvage','evacuation','defense'];
@@ -50,7 +52,7 @@ function install(g){
  const expired=a=>!!a&&!!D[a.kind].waveLimit&&g.wave-a.wave>=D[a.kind].waveLimit;
  function sitePoint(id){
   const w=g.frontier.world();if(worldRef!==w){worldRef=w;targetCache.clear();candidateCache.clear();}if(targetCache.has(id))return targetCache.get(id);
-  const p=w.pois.find(p=>p.id===id);if(!p)return null;const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);let point=null;
+  const p=siteOf217(w,id);if(!p)return null;const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);let point=null;
   for(const offset of [-3,-5,-8,-12,-16,-20]){const q=G.global(p,p.w/2,offset);if(!w.blocked(q.x,q.y,.4,0,null)){point={...q,z:0,inside:null,id:p.id,name:p.name,type:p.type};break;}}
   targetCache.set(id,point);return point;
  }

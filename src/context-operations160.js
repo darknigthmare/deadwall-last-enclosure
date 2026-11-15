@@ -2,6 +2,8 @@
  * admitted by the G11 support resolver. Quantities remain in
  * the existing bag/loot owners; only completed access changes are persisted. */
 (function(root){'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
  const dependency=(name,file)=>root[name]||(typeof require==='function'?require(file):null);
  const C=dependency('DeadwallCore','./core.js'),W=dependency('DeadwallFrontierWorld','./frontier-world.js'),
   G=dependency('DeadwallFrontierGeometry','./frontier-geometry.js'),R=C.ContextRules160,references=new Map();
@@ -54,7 +56,7 @@
    if(!can()||!working&&task)return{ok:false,reason:'Terminez le rechargement ou l’intervention et libérez vos mains.'};
    const f=pose();if(!f.active||!contextWorld(f.generation)||f.car?.driving)return{ok:false,reason:'Rejoignez à pied un ouvrage ou poste de service dans la région.'};
    if(!g.frontier.discoveries().includes(site))return{ok:false,reason:'Ce lieu doit être repéré sur place.'};
-   const w=world(),p=w.pois.find(p=>p.id===site),match=/^medical208-(0|[1-9]\d*)$/.exec(key||'');
+   const w=world(),p=siteOf217(w,site),match=/^medical208-(0|[1-9]\d*)$/.exec(key||'');
    let kind,anchor,workTarget,op,support208=null;
    if(match){
     support208=services208()?.resolve(w,f,{siteId:site,supportId:site+':0:'+match[1],action:'medicalCare'},g.frontier.discoveries(),supportOptions208());

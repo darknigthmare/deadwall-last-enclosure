@@ -1,15 +1,18 @@
 /* Stable natural encounters. Merely sampling a landscape never creates saved actors. */
 (function(root){'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const outside217=(w,x,y,pad)=>w.outside?w.outside(x,y,pad):x<pad||y<pad||x>w.size-pad||y>w.size-pad;
+const chunks217=(w,chunk)=>w.chunkRange?w.chunkRange(chunk).count:Math.ceil(w.size/chunk);
  const geometry=()=>root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),worlds=new WeakMap();
  const expanded=w=>!!w&&typeof w.landscape189==='string'&&w.landscape189!=='classic';
  const wildlife=()=>root.DeadwallWildlife189||(typeof require==='function'?require('./wildlife189.js'):null);
  const core=()=>root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),rules=()=>{const r=core()?.BiomePopulation165Rules;if(!r)throw Error('Règles de population naturelle absentes.');return r;};
  const unit=(w,id,key)=>geometry().hash(w.seed,id,key)/4294967296;
  function context(w,id,cx,cy,index,kind){
-  const R=rules();if(w?.hydrologyVersion!==1||!w.hydrology||!Number.isInteger(cx)||!Number.isInteger(cy)||!Number.isInteger(index)||cx<0||cy<0||cx>=Math.ceil(w.size/R.chunk)||cy>=Math.ceil(w.size/R.chunk)||index<0||index>=(kind==='animal'?R.animalCandidates:R.contactCandidates))return null;
+  const R=rules();if(w?.hydrologyVersion!==1||!w.hydrology||!Number.isInteger(cx)||!Number.isInteger(cy)||!Number.isInteger(index)||cx<0||cy<0||cx>=chunks217(w,R.chunk)||cy>=chunks217(w,R.chunk)||index<0||index>=(kind==='animal'?R.animalCandidates:R.contactCandidates))return null;
   if(unit(w,id,'presence')>=(kind==='animal'?R.animalChance:R.contactChance))return null;
   const x=(cx+.08+unit(w,id,'x')*.84)*R.chunk,y=(cy+.08+unit(w,id,'y')*.84)*R.chunk;
-  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||x<2||y<2||x>w.size-2||y>w.size-2)return null;
+  if(Math.hypot(x-w.home.x,y-w.home.y)<R.homeExclusion||outside217(w,x,y,2))return null;
   const water=w.hydrology.sample(x,y);if(water.water||water.movementBlocked)return null;
   const road=w.nearestRoad({x,y});if(road&&road.d<road.road.width/2+R.roadClearance)return null;
   return{id,x,y,z:0,poi:null,cx,cy,index,water,biome:w.biomeAt(x,y)};
@@ -38,7 +41,7 @@
   for(const p of w.nearPOI(q.x,q.y,60)){const box=p.reserve;if(box&&q.x>box.l-margin&&q.x<box.r+margin&&q.y>box.t-margin&&q.y<box.b+margin)return false;}return true;
  }
  function around(w,x,y,range=rules().streamRange){const R=rules(),animals=[],contacts=[];if(w.hydrologyVersion!==1)return{animals,contacts};
-  const max=Math.ceil(w.size/R.chunk)-1;for(let cy=Math.max(0,Math.floor((y-range)/R.chunk));cy<=Math.min(max,Math.floor((y+range)/R.chunk));cy++)for(let cx=Math.max(0,Math.floor((x-range)/R.chunk));cx<=Math.min(max,Math.floor((x+range)/R.chunk));cx++){
+  const max=chunks217(w,R.chunk)-1;for(let cy=Math.max(0,Math.floor((y-range)/R.chunk));cy<=Math.min(max,Math.floor((y+range)/R.chunk));cy++)for(let cx=Math.max(0,Math.floor((x-range)/R.chunk));cx<=Math.min(max,Math.floor((x+range)/R.chunk));cx++){
    for(let i=0;i<(expanded(w)?core().Landscape189Rules.population.groups*core().Landscape189Rules.population.members:R.animalCandidates);i++){const q=animal(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)animals.push(q);}
    for(let i=0;i<R.contactCandidates;i++){const q=contact(w,cx,cy,i);if(q&&Math.hypot(q.x-x,q.y-y)<=range)contacts.push(q);}
   }

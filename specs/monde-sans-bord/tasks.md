@@ -18,24 +18,74 @@ sources, à `docs/codex/suivi-monde2026/campagne205-eligibilite.json`).
 - [x] T0.4 Vérification : empreintes de monde inchangées ; seule l'empreinte de source de
       `src/core.js` change.
 
-## T1 — Accesseurs de limite (aucun changement de valeur)
+## T1 — Accesseurs de limite (aucun changement de valeur) — en partie livré
 
-- [ ] T1.1 Dans l'objet rendu par `frontier-world.create` : `contains(x, y, pad)`,
-      `clampInside(x, y, pad)`, `extent()`, `site(id)`, `chunkRange()`. En G1–G11 ils
-      rendent exactement ce que calculent aujourd'hui les comparaisons à `size`.
-- [ ] T1.2 Test d'équivalence : 10 000 points tirés, bords compris, anciens calculs contre
-      accesseurs, pour les tailles 8 192 et 24 576.
-- [ ] T1.3 Remplacer les comparaisons une famille à la fois, un commit par famille :
-      a) acteurs (`frontier.js:173, 232`, `world-evolution.js:41, 80`) ;
-      b) faune et cueillette (`biome-population165.js`, `wildlife189.js`, `biome-forage193.js`, `forage193.js`) ;
-      c) validateurs (`frontier-state.js`, `essential-state.js`, `night-gear.js`, `survival-pack.js`, `succession133.js`, `husbandry191.js`, `world-evolution-state.js`, `companions-pack.js`) ;
-      d) atlas (`atlas-projection.js`, `atlas-view.js`, `atlas-render.js`, `field-atlas-state.js`).
-- [ ] T1.4 Remplacer `pois.find(p => p.id === id)` par `world.site(id)` (30 fichiers ; index
-      par identifiant construit une fois en G≤11).
-- [ ] T1.5 Supprimer les `24576` et `8192` en dur relevés en §3.1 de la spec au profit de
-      `sizeForGeneration` — sans changer aucune valeur.
-- Tests : ceux de chaque fichier touché, `tests/codex-campaign*.test.cjs`.
-- Parcours : sortie en voiture jusqu'au bord est, atlas, sauvegarde et reprise — inchangés.
+Livré (tranche vérifiée ; test `tests/world-bounds217.test.cjs`) :
+
+- [x] T1.1 `src/frontier-world.js` : `limits(size)` et `limitsForGeneration(g)` (objets gelés, un
+      par taille), repris tels quels par le monde rendu par `create` : `outside(x, y, pad)`,
+      `outsideOpen(x, y, pad)`, `contains(x, y, pad)`, `clampInside(x, y, pad)`, `extent()`,
+      `chunkRange(chunk)`, plus `site(id)`. Trois prédicats et non un seul, parce que les sites
+      d'appel historiques ne traitent pas un `NaN` ni le bord exact de la même façon :
+      `outside` = `x<pad||y<pad||x>size-pad||y>size-pad` (bord admis, `NaN` admis),
+      `outsideOpen` = `x<=pad||…||x>=size-pad` (bord refusé), `contains` = forme positive
+      `x>=pad&&…&&x<=size-pad` (`NaN` refusé). `contains` n'est donc **pas** la négation de
+      `outside`. `site(id)` : index par identifiant construit à la première lecture, reconstruit
+      si la liste change, premier lieu portant l'identifiant comme `pois.find`.
+- [x] T1.2 Test d'équivalence : 10 000 points par taille (8 192 et 24 576), bords, `NaN`, infinis
+      et marges compris, anciens calculs contre accesseurs ; mondes réels G4, G8, G11 ; tailles
+      des générations 1 à 11.
+- [x] T1.3 a) acteurs : `frontier.js` (dérive animale, ex-ligne 173), `world-evolution.js`
+      (ex-lignes 41 et 80).
+- [x] T1.3 b) faune : `biome-population165.js`, `wildlife189.js`, `biome-forage193.js`
+      (ex-ligne 105). Le fichier généré `src/codex3000-live-data.js` suit `wildlife189.js`.
+- [x] T1.3 d) atlas, en partie : `atlas-view.js` (étendue, sélection de terrain, lieux),
+      `atlas-render.js` (fond, grille, cellules ; `8192` en dur remplacé par
+      `AtlasRules.regionSize`, même valeur).
+- [x] T1.4 `pois.find(p => p.id === id)` → `site(id)` : les 28 recherches par identifiant de
+      18 fichiers hors `frontier-world.js`, et les 3 de `frontier-world.js`.
+
+Forme retenue aux sites d'appel : une fonction locale par fichier (`siteOf217`, `outside217`,
+`outsideOpen217`, `inside217`, `chunks217`, `span217`) qui lit l'accesseur du monde et, **si le
+monde n'en a pas**, refait le calcul historique. Ce repli existe pour les mondes factices des
+tests (une vingtaine de fichiers de test construisent `{size, pois: […]}` à la main) ; il est
+vérifié identique dans `tests/world-bounds217.test.cjs`.
+
+Reste à faire en T1 :
+
+- [ ] T1.3 a) `frontier.js`, `enemyBlocked` (ex-ligne 232) : **non converti**. L'expression lit
+      `world()` seulement si les premières comparaisons échouent ; `world()` crée la région à la
+      demande. Passer par un accesseur évaluerait `world()` plus tôt : équivalence non évidente.
+- [ ] T1.3 b) `forage193.js:16` et `biome-forage193.js:16` : bornes lues dans
+      `GeographyRules135.size`, pas dans le monde — validateur d'identifiants, à traiter avec T4.
+- [ ] T1.3 c) validateurs (`frontier-state.js`, `essential-state.js`, `night-gear.js`,
+      `survival-pack.js`, `succession133.js`, `husbandry191.js`, `world-evolution-state.js`,
+      `companions-pack.js`) : **non convertis**. Ils n'ont pas de monde, seulement
+      `sizeForGeneration`, et plusieurs fichiers de test fournissent un faux `DeadwallFrontierWorld`
+      réduit à `sizeForGeneration` : lire `limitsForGeneration` exigerait de modifier ces tests.
+      `limitsForGeneration` est prêt ; la conversion va avec T4 (bornes de position signées).
+- [ ] T1.3 d) `atlas-view.js`, lecture des coordonnées au survol (ex-ligne 36) : **non
+      converti** (`view()` appelé deux fois, sous court-circuit). `atlas-projection.js` :
+      caméra bornée par une étendue scalaire, laissée telle quelle — relève de T6.
+      `field-atlas-state.js` : voir T1.5.
+- [ ] T1.5 `24576` / `8192` en dur **laissés** : `field-atlas-state.js:6` (schéma d'indexation
+      fixe 3 × 3 blocs de 8 192 m, indépendant de la génération : le remplacer par
+      `sizeForGeneration` changerait les mondes G1–G4) ; `succession133.js:20` et
+      `companions-pack.js:16` (replis quand `DeadwallFrontierWorld` est absent) ;
+      `world-stream131.js:7` (`old=8192`, emprise de l'ancienne région dans le flux G5) ;
+      `frontier-world.js` (emprise historique de 8 192 m dans `install` et `chunk`, repli de
+      `sizeForGeneration`).
+- [ ] Comparaisons internes de `frontier-world.js` (`blocked`, `line`, `vehicleClear`, `chunk`,
+      `prefetch`, décor) : laissées en clair — c'est l'implémentation du monde fini, que la
+      façade G12 remplace entièrement (T5).
+- [ ] Parcours de `pois` autres que la recherche par identifiant (`filter`, `map`, `some`) :
+      non traités ; ils demandent une vue par cantons chargés (T5).
+- [ ] Retirer les replis locaux quand les mondes factices des tests porteront les accesseurs.
+- Tests : ceux de chaque fichier touché, `tests/world-bounds217.test.cjs`,
+  `tests/codex-campaign*.test.cjs`.
+- Parcours vérifié : sortie à pied par le bord est de D-17 (G11, graine 17117), marche, atlas
+  ouvert en région, sauvegarde et reprise, retour — positions identiques au bit près à la base.
+  Non joué : sortie en voiture jusqu'au bord est de la région.
 
 ## T2 — Canton sec hors jeu, avec relief par paliers (livré, sans effet en jeu)
 

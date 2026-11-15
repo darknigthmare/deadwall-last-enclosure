@@ -1,6 +1,8 @@
 /* Physical opening reinforcements. Geometry is derived from existing walls; materials remain in the carried bag until work completes. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null);
 const G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null);
 const rules=()=>C.BarricadeRules134,clone=x=>JSON.parse(JSON.stringify(x));
@@ -32,7 +34,7 @@ function regionTargets(world,p,z=0){
 function localPoint(t,p){const dx=p.x-t.x,dy=p.y-t.y,c=Math.cos(t.angle),s=Math.sin(t.angle);return{x:dx*c+dy*s,y:-dx*s+dy*c};}
 function hitCircle(t,x,y,r){const q=localPoint(t,{x,y}),h=rules().thickness*scale(t)/2;return G.circleRect(q.x,q.y,r,{x:-t.width/2,y:-h,w:t.width,h:h*2});}
 function hitLine(t,a,b,pad=0){const h=rules().thickness*scale(t)/2;return G.segmentRect(localPoint(t,a),localPoint(t,b),{x:-t.width/2-pad,y:-h-pad,w:t.width+pad*2,h:h*2+pad*2});}
-function resolveFrom(world,plan,id){if(id.startsWith('local:'))return localTargets(plan).find(t=>t.id===id)||null;const parts=id.split(':'),p=world?.pois.find(p=>p.id===parts[1]);return p?regionTargets(world,p,Number(parts[2])).find(t=>t.id===id)||null:null;}
+function resolveFrom(world,plan,id){if(id.startsWith('local:'))return localTargets(plan).find(t=>t.id===id)||null;const parts=id.split(':'),p=(world==null?undefined:siteOf217(world,parts[1]));return p?regionTargets(world,p,Number(parts[2])).find(t=>t.id===id)||null:null;}
 const validationCache=new Map();
 function validationGeometry(full){const key=full.worldSeed+':'+(full.frontier?.generation??3)+':'+(full.frontier?.ecologyVersion??0)+':'+(full.frontier?.detailVersion??0)+':'+(full.frontier?.landscape189||'classic')+':'+(full.frontier?.hydrologyVersion??0)+':'+(full.exploration125?.layoutRevision??1);let ctx=validationCache.get(key);if(!ctx){const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),E=root.DeadwallExploration125||(typeof require==='function'?require('./exploration-125.js'):null);ctx={world:null,plan:E.createFeaturePlan(full.worldSeed,C.WORLD_SIZE,full.exploration125?.layoutRevision??1),create:()=>W.create(full.worldSeed,full.frontier?.generation??3,{detailVersion:full.frontier?.detailVersion??0,ecologyVersion:full.frontier?.ecologyVersion??0,hydrologyVersion:full.frontier?.hydrologyVersion??0,...(full.frontier?.landscape189?{landscape189:full.frontier?.landscape189}:{})})};validationCache.set(key,ctx);if(validationCache.size>3)validationCache.delete(validationCache.keys().next().value);}return ctx;}
 function normalize(raw,full){

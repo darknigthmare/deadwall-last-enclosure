@@ -1,6 +1,8 @@
 /* Night equipment shares the essential belt and both spatial domains. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.NightGearRules;
 const kinds=Object.keys(R.types),copy=v=>JSON.parse(JSON.stringify(v));
 const initial=()=>({version:1,serial:1,devices:[]});
@@ -31,7 +33,7 @@ function normalize(raw,data){
    Object.assign(item,{domain:d.domain,x:number(d.x,0,d.domain==='local'?4096:regionSize),y:number(d.y,0,d.domain==='local'?4096:regionSize),z:number(d.z,-1,2,true),inside:d.inside??null,angle:number(d.angle,-Math.PI*2,Math.PI*2)});
    if(item.inside!==null&&!/^P\d{4}$/.test(item.inside)||item.domain==='local'&&(item.z!==0||item.inside!==null))bad();
    if(data&&item.domain==='region'&&(item.z!==0||item.inside!==null)){
-    const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation,data.frontier)),p=w.pois.find(p=>p.id===item.inside);
+    const W=root.DeadwallFrontierWorld||(typeof require==='function'?require('./frontier-world.js'):null),G=root.DeadwallFrontierGeometry||(typeof require==='function'?require('./frontier-geometry.js'):null),w=regionalWorld||(regionalWorld=validationWorld(W,data.worldSeed,data.frontier.generation,data.frontier)),p=siteOf217(w,item.inside);
     if(!p||!p.levels.includes(item.z))bad();const q=G.local(p,item.x,item.y);if(q.x<0||q.y<0||q.x>p.w||q.y>p.h)bad();
    }
   }

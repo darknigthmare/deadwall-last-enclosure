@@ -1,6 +1,8 @@
 /* Persistent fallen survivors. The depot, roads and inventories keep their original owners. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.SuccessionRules;
 const copy=o=>JSON.parse(JSON.stringify(o)),weapons=Object.keys(C.WEAPONS),kitKeys=['light','aid','brace','decoy'];
 const geometryCache=new Map();
@@ -29,7 +31,7 @@ function validate(raw,full){
   if(b.phase==='waiting'&&b.roll/4294967296>=R.reanimationChance||b.phase==='rest'&&b.roll/4294967296<R.reanimationChance||b.phase==='risen'&&b.health<=0||b.phase!=='risen'&&b.zombieId!==null||p.domain==='region'&&b.zombieId!==null)bad();
   if(p.domain==='local'&&b.phase==='risen'){if(b.zombieId===null||zids.has(b.zombieId))bad();zids.add(b.zombieId);if(full&&!full.zombies?.some(z=>z.id===b.zombieId&&z.kind==='walker'&&Math.abs(z.x-b.x)<.001&&Math.abs(z.y-b.y)<.001&&Math.abs(z.health-b.health)<.001))bad();}
   if(full&&p.domain==='region'&&(p.inside!==null||p.z!==0)){
-   const w=saveWorld(full),poi=w.pois.find(q=>q.id===p.inside);if(!poi||!poi.levels.includes(p.z))bad();
+   const w=saveWorld(full),poi=siteOf217(w,p.inside);if(!poi||!poi.levels.includes(p.z))bad();
    const q=root.DeadwallFrontierGeometry.local(poi,p.x,p.y);if(q.x<0||q.y<0||q.x>poi.w||q.y>poi.h)bad();if(p.z!==0){const body=root.DeadwallFrontierGeometry.local(poi,b.x,b.y);if(body.x<0||body.y<0||body.x>poi.w||body.y>poi.h)bad();}
   }
   out.remains.push({id:r.id,profile:r.profile,point:{...p},bag:bag(r.bag),magazine,weapons:owned(r.weapons),gear,kits,body:{...b},time:n(r.time,0,1e12)});

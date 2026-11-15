@@ -1,6 +1,8 @@
 /* Field-team orders, formations, training and finite shared supplies. */
 (function(root){
 'use strict';
+/* Monde sans bord T1 : lecture par les accesseurs du monde ; repli identique pour un monde sans accesseur. */
+const siteOf217=(w,id)=>w.site?w.site(id):w.pois.find(p=>p.id===id);
 const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.CompanionPackRules;
 const ids=Object.keys(C.WorldEvolution.RULES.companions),types=['ammo','medicine','scrap'];
 const worldCache=new Map();
@@ -39,7 +41,7 @@ function validate(raw,data){
    const key=data.worldSeed+':'+data.frontier.generation+':'+(data.frontier.ecologyVersion??0)+':'+(data.frontier.detailVersion??0)+':'+(data.frontier.landscape189||'classic')+':'+(data.frontier.hydrologyVersion??0);let w=worldCache.get(key);
    if(!w){w=W.create(data.worldSeed,data.frontier.generation,{detailVersion:data.frontier.detailVersion??0,ecologyVersion:data.frontier.ecologyVersion??0,hydrologyVersion:data.frontier.hydrologyVersion??0,...(data.frontier.landscape189?{landscape189:data.frontier.landscape189}:{})});worldCache.set(key,w);if(worldCache.size>3)worldCache.delete(worldCache.keys().next().value);}
    for(const p of indoor){
-    const place=w.pois.find(x=>x.id===p.inside);if(!place||!place.levels.includes(p.z))fail();
+    const place=siteOf217(w,p.inside);if(!place||!place.levels.includes(p.z))fail();
     if(p.z!==0){
      const q=G.local(place,p.x,p.y),r=C.WorldEvolution.RULES.companionRules.radius;
      if(q.x<r||q.y<r||q.x>place.w-r||q.y>place.h-r)fail();
