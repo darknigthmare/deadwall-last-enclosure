@@ -118,10 +118,10 @@ un seul module, `src/world-canton-gen217.js` : les champs macro y sont des fonct
       ponts, lieux). Ni servie par `scripts/server.mjs`, ni chargée par `index.html`.
 - [ ] T2.6 Preuve `docs/codex/suivi-monde2026/monde-sans-bord-cantons.json` + son test
       (à produire par le mainteneur avec les autres preuves, une fois les réglages arrêtés).
-- [ ] T2.7 Reste à faire avant T4 : agglomérations portées par les sommets (les lieux sont
-      aujourd'hui semés le long des routes, sans bourg) ; décor (arbres, rochers) par
-      morceaux de 256 m ; D-17 dans `K0_0` ; bande de distance ; rendre les routes de la
-      trame moins régulières (une rangée sur trois porte une route d'est en ouest).
+- [ ] T2.7 Reste à faire avant T4 : décor (arbres, rochers) par morceaux de 256 m ; bande de
+      distance ; trame des routes moins régulière (une rangée sur trois porte encore la route
+      principale d'est en ouest, et chaque canton a son carrefour). Agglomérations et D-17 :
+      livrés dans la seconde tranche T3 ci-dessous.
 
 ## T3 — Eau sans bord
 
@@ -133,11 +133,62 @@ canton ; palier 0 = mer.
 - [x] T3.1 Altitude macro et sens d'écoulement par couture.
 - [x] T3.2 Cours d'eau de canton en canton, confluences, plans d'eau contenus dans un canton
       (première version : peu de cours d'eau — 0,4 par canton —, pas de méandres ni de
-      largeur de lit dans la maille, pas d'étangs hors cuvette).
+      largeur de lit dans la maille, pas d'étangs hors cuvette ; densité et lacs de vallée
+      repris dans la tranche suivante).
 - [ ] T3.3 Ponts : réemploi de `hydrology165` (croisements route/eau) par canton. Les ponts
       sont pour l'instant de simples mailles déclarées (`bridges`).
 - [x] T3.4 Tests : continuité de largeur et de niveau aux coutures ; aucune route noyée.
 - Décision requise : D6. Repli prévu si la tranche dérape (plan §8).
+
+## T3 (suite) — Relief durci, routes par les cols, eau, agglomérations et D-17 (livré, sans effet en jeu)
+
+Décision de l'utilisateur avant la tranche : **falaises fréquentes, rampes rares** — un
+plateau est une enceinte naturelle avec quelques passages à garder. Même module, mêmes
+règles (`C.WorldRelief217Rules`, version 2), toujours hors jeu : la génération 12 reste
+refusée partout. Les empreintes de référence de T2 ont été refigées (permis tant que la
+génération 12 n'est ouverte nulle part).
+
+- [x] T3.5 Relief durci. **Tout changement de palier est une falaise**, sauf aux cols. Dans
+      un canton, chaque contour d'un cran entre deux régions porte un col par 32 arêtes (au
+      moins un dès 5 arêtes), large de 3 à 4 arêtes ; toute région d'au moins 6 mailles
+      garde un accès. Le canton expose `passes` (arêtes franchissables) et `cols`
+      (`K…:col:n`, naturel ou taillé). Mesure sur les huit graines (11 × 11 cantons) :
+      87 à 102 arêtes de falaise pour 15 à 20 de rampe par canton, rapport **4,9 à 5,7**
+      (T2 : 17 pour 80) ; 4,2 à 5,5 cols par canton. Aucun plateau fermé de 12 mailles ou
+      plus sur 49 km² par graine ; restent des îlots de moins de 12 mailles (75 à 204) et
+      0 à 10 mesas ceintes de falaises de deux crans.
+- [x] T3.6 Routes par les cols. Un col coûte 4, tailler une rampe 40 (un cran) ou 160 (deux
+      crans) : la route fait le détour par un col quand le canton en offre un, sinon elle
+      taille sa rampe, qui devient un col déclaré (0,4 à 0,6 par canton). Toute couture
+      franchissable porte une route ; de plain-pied d'abord, sinon rampe taillée sur la
+      couture (rare : 4 sur 2 500 cantons). Raccord de secours si la mer ferme la couture
+      voulue. Connexité sur les huit graines : plus grande composante **97,9 à 100 %** des
+      cantons desservis (T2 : 92 à 99,5 %) ; sur une même masse de terre, **99,77 à 100 %**
+      des réseaux. Ce qui reste isolé l'est par la mer. Pas d'arbre couvrant global.
+- [x] T3.7 Eau. Fonds de vallée creusés dans le champ (jamais sous le palier 1), sources
+      dans les cantons sans amont, lacs de vallée traversés par leur cours d'eau. Un cours
+      d'eau dans 68 à 82 % des cantons hors hauts plateaux et hors mer (T2 : 0,4 par
+      canton) ; 0,15 à 0,3 lac par canton. Niveau jamais remontant, continu aux coutures.
+- [x] T3.8 Agglomérations portées par les sommets (`cornerSeed`), posées dans le canton dont
+      le sommet est le coin nord-ouest, lues à l'identique par leurs quatre cantons
+      (`G.town`) : hameau, bourg, ville (60 / 30 / 10 %), noms repris de `geography135`. Elles
+      servent de carrefour, attirent les lieux (12,4 lieux par canton d'agglomération contre
+      4,0 ailleurs) et sont reliées à leurs voisines, par une route principale entre bourgs
+      et villes.
+- [x] T3.9 D-17 dans `K0_0` : `G.foundation(graine)` rend un plat sec de 128 m, carrefour du
+      canton, avec sa fiche — palier, milieu, falaise et eau les plus proches (distance,
+      direction), part de falaise autour du palier, cols à garder. Un socle garde le centre
+      de `K0_0` hors d'eau ; le sommet (0,0) ne porte pas d'agglomération. Valide sur 50
+      graines (et 400 en relevé) : 48 sur 50 près d'une falaise ou de l'eau.
+- [x] T3.10 Sonde et aperçu mis à jour (cols, rampes taillées, agglomérations, D-17 et sa
+      fiche). Coût médian : 3 à 4,6 ms sous Node sur machine chargée (T2 : 1,8 ms au calme),
+      5 à 8 ms dans Chromium sur la même machine chargée — le budget de 8 ms est tenu de
+      peu dans le navigateur, à remesurer au calme.
+- [ ] T3.11 Réserves à lever avant T4 : les rivières suivent les vallées quand le plus court
+      chemin y passe, pas toujours ; les vallées ne dépendent pas du sens d'écoulement ; un
+      col naturel n'est jamais posé sur une couture ; les agglomérations sont toutes près
+      du coin nord-ouest de leur canton ; noms en double possibles (16 noms × 97 numéros) ;
+      les mesas ceintes de falaises de deux crans restent sans accès.
 
 ## T4 — Lieux et sauvegarde creuse
 

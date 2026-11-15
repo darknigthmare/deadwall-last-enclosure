@@ -3426,14 +3426,26 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // mailles voisines). pass : largeur du ressaut en unité de bruit — étroite (falaise), large là où un bruit fin dépasse `threshold` (col en rampes).
  // water : seuils de débit (cantons drainés) d'un ruisseau et d'une rivière, plafond de comptage, pas des points de couture.
  // roads : rangée de la trame (une sur `trunkEvery`), chance d'un passage en plus, coûts de tracé. sites : lieux candidats par canton.
- {const f=Object.freeze;C.WorldRelief217Rules=f({version:1,cell:32,levels:6,
+ // pass.reach/strand/every : dans un canton, chaque contour d'un cran d'au moins `strand` arêtes porte un col par `every` arêtes (au moins un), large de `reach` mailles, et toute région d'au moins `islet` mailles garde un accès ; tout autre
+ // changement de palier est une falaise. valley : fonds de vallée creusés dans le champ (largeur en unité de bruit, profondeur en crans, jamais sous `floor`).
+ // origin : socle hors d'eau autour du site de fondation de K0_0. water.spring : chance d'une source dans un canton sans amont (highSpring au-dessus de
+ // highLevel) ; pondChance : lac de vallée sur un cours d'eau. roads.cutCost/steepCost : coût d'une rampe taillée dans une falaise d'un cran, de deux crans (une route évite de tailler).
+ // towns : agglomérations portées par les sommets (chance, parts et rayons par rang, lieux en plus, noms repris de geography135).
+ // foundation : site de D-17 (côté du plat en m, marge et portée en mailles, distances idéales à la falaise et à l'eau, cols décrits).
+ {const f=Object.freeze;C.WorldRelief217Rules=f({version:2,cell:32,levels:6,
   field:f({scale:2800,detailScale:900,detailWeight:.28,contrast:2.1,span:3.7,offset:.45,warpScale:1700,warpAmplitude:420}),
   escarpments:f([f({scale:1500,threshold:.6,height:2}),f({scale:2300,threshold:.66,height:2})]),
-  pass:f({band:.008,wideBand:.13,scale:520,threshold:.72}),
+  pass:f({band:.008,wideBand:.13,scale:520,threshold:.72,reach:1.6,strand:5,every:32,islet:6}),
+  valley:f({scale:1500,width:.03,depth:1.15,floor:1.2}),
+  origin:f({x:512,y:512,inner:620,outer:1100,floor:1.35}),
   climate:f({wetLow:.2,coldHigh:.16}),
-  water:f({streamFlow:2,riverFlow:5,capFlow:24,seamStep:2,seamMargin:3,climbCost:12,levelCost:.5,meander:1.2,lakeMargin:6}),
-  roads:f({trunkEvery:3,westChance:.5,extraChance:.45,seamMargin:2,rampCost:4,bridgeCost:5,borderCost:3,jitter:.8,hubTries:12,hubMargin:5,
+  water:f({streamFlow:1,riverFlow:5,capFlow:24,seamStep:2,seamMargin:3,climbCost:12,levelCost:.5,meander:1.2,lakeMargin:6,spring:.6,highSpring:.25,highLevel:4,pondChance:.3,pondMargin:5}),
+  roads:f({trunkEvery:3,westChance:.5,extraChance:1,seamMargin:2,rampCost:4,cutCost:40,steepCost:160,bridgeCost:5,borderCost:3,jitter:.8,hubTries:12,hubMargin:5,
    widths:f({regional:9,secondary:7,local:5})}),
+  towns:f({chance:.4,tries:6,margin:96,reach:352,order:f(['hameau','bourg','ville']),
+   kinds:f({hameau:f({share:.6,radius:110,sites:4}),bourg:f({share:.3,radius:190,sites:9}),ville:f({share:.1,radius:300,sites:16})}),
+   names:f(['Les Aubiers','Val-des-Saules','Montbrune','Belle-Futaie','La Combe','Les Ramiers','Rochebrune','Les Granges','Clairval','Bois-Ferré','La Rive','Fontvieille','Chantepierre','Les Brandes','Le Vallon','Saint-Orme'])}),
+  foundation:f({size:128,margin:3,reach:6,idealCliff:2,idealWater:3,centreWeight:.35,guard:8}),
   sites:f({maximum:12,densityScale:3000,seamMargin:48,spacing:40,highlandFactor:.5})});}
  // Lieux remarquables et nids (docs/GAME_BIBLE.md §7.13), nouvelles campagnes seulement.
  // cantonSize/perCanton/spacing : au plus `perCanton` lieux promus par canton carré de `cantonSize` m, espacés d'au moins `spacing` m.
