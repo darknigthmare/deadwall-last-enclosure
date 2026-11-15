@@ -1254,8 +1254,14 @@ d'atlas calée sur l'étendue totale.
   falaise vaille une enceinte, il faudra durcir la règle. L'eau est
   clairsemée et sans vallée. Aucune agglomération, aucun décor, D-17 n'est
   pas encore placé.
-- Tranche T1 en cours : des accesseurs de limite posés sur les mondes
-  existants, sans changer aucune valeur, vérifiés par les empreintes.
+- **Tranche T1 livrée en partie, sans effet en jeu** : le monde fini expose
+  `outside`, `outsideOpen`, `contains`, `clampInside`, `extent`,
+  `chunkRange` et `site(id)`. Acteurs, faune, atlas et recherches de lieu
+  par identifiant les lisent (22 fichiers). Aucune valeur ne change : mondes
+  G1 à G11 identiques, parcours en région identique au bit près avant et
+  après. Restent à convertir les validateurs de sauvegarde et les
+  constantes `24576` / `8192` liées au schéma de reconnaissance — voir
+  `specs/monde-sans-bord/tasks.md`.
 - **[DÉCISION]** Le relief par paliers entre dans la **même** nouvelle
   génération que le monde sans bord : une seule rupture, quitte à reculer
   l'ouverture.
