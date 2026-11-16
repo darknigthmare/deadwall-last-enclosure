@@ -141,7 +141,8 @@ test('O4 : sites d\'appel convertis, repli historique seulement sans accesseur',
   'urban.js':[/byId=typeof world\.siteIndex==='function'\?world\.siteIndex\(\)/],
   'outposts217.js':[/b=\{by:typeof w\.siteIndex==='function'\?w\.siteIndex\(\)/]};
  for(const[file,list]of Object.entries(checks)){const text=src(file);for(const re of list)assert.match(text,re,file);}
- // Les accesseurs restent hors des modules hors jeu : world-open217.js n'est lu par aucun fichier de src/.
- for(const file of fs.readdirSync(path.join(__dirname,'..','src')).filter(f=>f.endsWith('.js')&&f!=='world-open217.js'))
+ // Les accesseurs restent hors des modules hors jeu : world-open217.js n'est lu par aucun fichier de src/,
+ // sauf world-sites217.js (tranche O2), qui l'enveloppe et reste lui-même hors jeu.
+ for(const file of fs.readdirSync(path.join(__dirname,'..','src')).filter(f=>f.endsWith('.js')&&f!=='world-open217.js'&&f!=='world-sites217.js'))
   assert.doesNotMatch(src(file),/require\([^)]*world-open217|DeadwallWorldOpen217/,file);
 });
