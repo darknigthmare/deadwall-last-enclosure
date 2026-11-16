@@ -112,8 +112,8 @@
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 17728,
-      "sha256": "8122a8248e6e1828f5c24f494f1d0fbf172b7b15c58f40e512b36f4ef9dd1190"
+      "bytes": 17994,
+      "sha256": "bedd78aca265b253b96764ea6668a7fa41dcd28e8c13e3b3074a68c1dea2d3fa"
     },
     {
       "path": "src/atlas-view.js",
@@ -182,8 +182,8 @@
     },
     {
       "path": "src/breach217.js",
-      "bytes": 11533,
-      "sha256": "588a96c1bf548981f10b6b754d038e855fd12e423e029daf0829d6a357504e59"
+      "bytes": 14081,
+      "sha256": "bcb01659aa161c0280cdca22da9001f786594545a3ab360b1aae9020db7a159b"
     },
     {
       "path": "src/building-variants157.js",
@@ -197,8 +197,8 @@
     },
     {
       "path": "src/campaign-pack.js",
-      "bytes": 23832,
-      "sha256": "642b23424a392c78205eac3df8fa2477f4887982832204f634ccebe25e674837"
+      "bytes": 24053,
+      "sha256": "0b07ef63608a9281c4a4b102441aac3b7ef0028c207efa99c81b90a1ec860cc3"
     },
     {
       "path": "src/campaign-services208.js",
@@ -252,8 +252,8 @@
     },
     {
       "path": "src/city-radio217.js",
-      "bytes": 21482,
-      "sha256": "746dd9ced8a77be4e49ac9d893638fa85e9ef08c8f981f5cf41a9f9cac26ed0c"
+      "bytes": 43451,
+      "sha256": "ea0f71208dff4ed8a0418371801d50a8ce96b84d868c72b3cc8e002d03ec966d"
     },
     {
       "path": "src/city-water215.js",
@@ -482,13 +482,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 361489,
-      "sha256": "3e88e261ef52a6fe8d1674c44e383aa108d4210c7b7dec6fde5f1e5d57866102"
+      "bytes": 365589,
+      "sha256": "5afafa18cb2820db6d391099e439133aa2d49ff14df841782e3f05e68fc50d1d"
     },
     {
       "path": "src/corpse-chain217.js",
-      "bytes": 27728,
-      "sha256": "6534bebe314a00efa494af2ad977a6777559404e60c5f1736b2fd9190702aa05"
+      "bytes": 30433,
+      "sha256": "599db2d859e999bbb58793c9f2fc742da30f1af4e75f3778ea4d5681a07f53dc"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -532,8 +532,8 @@
     },
     {
       "path": "src/districts.js",
-      "bytes": 16766,
-      "sha256": "ea254d14894dd814e3157a689803bba5340d0bd6883c016c9be5bd10f8308fdc"
+      "bytes": 17407,
+      "sha256": "629197778cd67f0d35d41498fd4702577b7a37036136e35886234966deeaa26a"
     },
     {
       "path": "src/earthworks217.js",
@@ -617,8 +617,8 @@
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18540,
-      "sha256": "18510250ebbf57b00b7890f6596ce7da55ec67f256467d5705e9672d06fa05fc"
+      "bytes": 18746,
+      "sha256": "163114b422b673ba5b59f3306aed727052f86746eaa3b33b20735c52e12a9dd5"
     },
     {
       "path": "src/exploration-pack.js",
@@ -637,13 +637,13 @@
     },
     {
       "path": "src/factions217.js",
-      "bytes": 18349,
-      "sha256": "b57f16b5095184a1e8a98e158fa9affcbe0ae79cd4bdb946436418c6425218ab"
+      "bytes": 50198,
+      "sha256": "d0137a6b3d68274d6049a6e8590b185646c65b28f179cf1b9e143d89bfac7cf3"
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 23553,
-      "sha256": "75a0860007e841709fcf85a9649d09346686710c6d881b276fb81aad9a985e24"
+      "bytes": 26171,
+      "sha256": "e02616166128c37a56e2e86292660a3fc718fbf7fc6d6f0d2f1cec452090fccc"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -657,13 +657,13 @@
     },
     {
       "path": "src/field-atlas-ui.js",
-      "bytes": 13545,
-      "sha256": "cd3fea814c53d35f1b5e834e972f6bcaa25fa926c350b5357b4aa3285730354e"
+      "bytes": 13585,
+      "sha256": "17394ab0d0509b51022cf1098f30c52a7344e524ea5c77d32a3f451760c19e78"
     },
     {
       "path": "src/field-atlas.js",
-      "bytes": 13254,
-      "sha256": "0ddbd9d9367914f2341b288615f358e407d37a9ed5694a1950b094ad040df975"
+      "bytes": 13574,
+      "sha256": "92e3c92f95862f9900475f8109191f90d7edd14df6e85deafbaac8435918cb5b"
     },
     {
       "path": "src/field-content193-ui.js",
@@ -752,18 +752,18 @@
     },
     {
       "path": "src/frontier-ui.js",
-      "bytes": 12333,
-      "sha256": "a8ed1c4c05ffee9d1b7d4a52bdfce908a2ad259f47001c2186a4cff7d526676e"
+      "bytes": 12389,
+      "sha256": "edee3f79e6b662a834f87c83d141ebd8eabd991c6679d08bdcb273716d39c932"
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 53747,
-      "sha256": "39db8cbbc248f544b024916d33860a1fc519315d7d4c10c482a3ba83dbe727ce"
+      "bytes": 55207,
+      "sha256": "c779ed2ce837463e87df78cbb161486e8b0be43c05e14c5bb88775f622ee64a1"
     },
     {
       "path": "src/frontier.js",
-      "bytes": 48968,
-      "sha256": "cb6fb952606adc611b060078c9aff8c9a227e8a566836d4a8419a5ca02146909"
+      "bytes": 49166,
+      "sha256": "a4943d2a13af41a39a9cb70dc6f94f77e0f6b7794ed6463466f7a6270162fce5"
     },
     {
       "path": "src/game.js",
@@ -777,8 +777,8 @@
     },
     {
       "path": "src/great-works217.js",
-      "bytes": 16479,
-      "sha256": "494c66506c8fd46d03a11a3a975ad63c0b4c11ee669b43077953b24dbc66960f"
+      "bytes": 35254,
+      "sha256": "3ab831a3cf1f596f816f57d84e763b6db0afc2b78157406a8aa7f574bfbb5edc"
     },
     {
       "path": "src/ground135.js",
@@ -902,8 +902,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 24204,
-      "sha256": "e0263191e4592975a625a5af3660d956e24445e43eb843b9a4ac6e0c3c009a64"
+      "bytes": 24378,
+      "sha256": "fe3c68e9b2fdac2939341898c744dc76b285814f8251bf46ec96ab57edaef230"
     },
     {
       "path": "src/player-menus194.js",
@@ -977,8 +977,8 @@
     },
     {
       "path": "src/remarkable217.js",
-      "bytes": 30333,
-      "sha256": "ceda3764666f59cc38339579659bf1407ee9f834ba33261c9d30b4c1a2cb5eba"
+      "bytes": 31652,
+      "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2"
     },
     {
       "path": "src/render-cache153.js",
@@ -1027,8 +1027,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 41498,
-      "sha256": "f053daf5c6656a81b7fceb640b2c9390bfea7393286b042fb6dc4a3c3e4be7d5"
+      "bytes": 41834,
+      "sha256": "1a54127a60612a25a39115b5b03bb34a4d7de0e0e11a479a3760a6caf52f516f"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -1047,8 +1047,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 8693,
-      "sha256": "4c28b08073dc6ca460453b30a8c3ceabec3cae37d9249aad429ab38b97ad3ba2"
+      "bytes": 9179,
+      "sha256": "36ad1d14c8bf97b33cc702325bd78e1b809cf32e574184af543ef71a10bc16f1"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -1117,8 +1117,8 @@
     },
     {
       "path": "src/urban.js",
-      "bytes": 9829,
-      "sha256": "858e032b6b232453ddf21a24257c86cce32fc89846cc193410266fae95ef58de"
+      "bytes": 9883,
+      "sha256": "5f6c1dbdc49cc646bf71576a9f36920417b5416b6842e5204b59df7816e49762"
     },
     {
       "path": "src/vehicle-art152.js",
@@ -1207,8 +1207,8 @@
     },
     {
       "path": "src/world-codex-actions159.js",
-      "bytes": 13648,
-      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
+      "bytes": 13870,
+      "sha256": "a8d4feceef6a84a5e75d84db96635b72f553d322478fc85e19566885cd0899ec"
     },
     {
       "path": "src/world-codex-activites.js",
@@ -1454,8 +1454,8 @@
     },
     {
       "path": "src/atlas-render.js",
-      "bytes": 17728,
-      "sha256": "8122a8248e6e1828f5c24f494f1d0fbf172b7b15c58f40e512b36f4ef9dd1190"
+      "bytes": 17994,
+      "sha256": "bedd78aca265b253b96764ea6668a7fa41dcd28e8c13e3b3074a68c1dea2d3fa"
     },
     {
       "path": "src/atlas-view.js",
@@ -1524,8 +1524,8 @@
     },
     {
       "path": "src/breach217.js",
-      "bytes": 11533,
-      "sha256": "588a96c1bf548981f10b6b754d038e855fd12e423e029daf0829d6a357504e59"
+      "bytes": 14081,
+      "sha256": "bcb01659aa161c0280cdca22da9001f786594545a3ab360b1aae9020db7a159b"
     },
     {
       "path": "src/building-variants157.js",
@@ -1539,8 +1539,8 @@
     },
     {
       "path": "src/campaign-pack.js",
-      "bytes": 23832,
-      "sha256": "642b23424a392c78205eac3df8fa2477f4887982832204f634ccebe25e674837"
+      "bytes": 24053,
+      "sha256": "0b07ef63608a9281c4a4b102441aac3b7ef0028c207efa99c81b90a1ec860cc3"
     },
     {
       "path": "src/campaign-services208.js",
@@ -1594,8 +1594,8 @@
     },
     {
       "path": "src/city-radio217.js",
-      "bytes": 21482,
-      "sha256": "746dd9ced8a77be4e49ac9d893638fa85e9ef08c8f981f5cf41a9f9cac26ed0c"
+      "bytes": 43451,
+      "sha256": "ea0f71208dff4ed8a0418371801d50a8ce96b84d868c72b3cc8e002d03ec966d"
     },
     {
       "path": "src/city-water215.js",
@@ -1824,13 +1824,13 @@
     },
     {
       "path": "src/core.js",
-      "bytes": 361489,
-      "sha256": "3e88e261ef52a6fe8d1674c44e383aa108d4210c7b7dec6fde5f1e5d57866102"
+      "bytes": 365589,
+      "sha256": "5afafa18cb2820db6d391099e439133aa2d49ff14df841782e3f05e68fc50d1d"
     },
     {
       "path": "src/corpse-chain217.js",
-      "bytes": 27728,
-      "sha256": "6534bebe314a00efa494af2ad977a6777559404e60c5f1736b2fd9190702aa05"
+      "bytes": 30433,
+      "sha256": "599db2d859e999bbb58793c9f2fc742da30f1af4e75f3778ea4d5681a07f53dc"
     },
     {
       "path": "src/corpse-heaps217.js",
@@ -1874,8 +1874,8 @@
     },
     {
       "path": "src/districts.js",
-      "bytes": 16766,
-      "sha256": "ea254d14894dd814e3157a689803bba5340d0bd6883c016c9be5bd10f8308fdc"
+      "bytes": 17407,
+      "sha256": "629197778cd67f0d35d41498fd4702577b7a37036136e35886234966deeaa26a"
     },
     {
       "path": "src/earthworks217.js",
@@ -1959,8 +1959,8 @@
     },
     {
       "path": "src/exploration-needs217.js",
-      "bytes": 18540,
-      "sha256": "18510250ebbf57b00b7890f6596ce7da55ec67f256467d5705e9672d06fa05fc"
+      "bytes": 18746,
+      "sha256": "163114b422b673ba5b59f3306aed727052f86746eaa3b33b20735c52e12a9dd5"
     },
     {
       "path": "src/exploration-pack.js",
@@ -1979,13 +1979,13 @@
     },
     {
       "path": "src/factions217.js",
-      "bytes": 18349,
-      "sha256": "b57f16b5095184a1e8a98e158fa9affcbe0ae79cd4bdb946436418c6425218ab"
+      "bytes": 50198,
+      "sha256": "d0137a6b3d68274d6049a6e8590b185646c65b28f179cf1b9e143d89bfac7cf3"
     },
     {
       "path": "src/fallback-order.js",
-      "bytes": 23553,
-      "sha256": "75a0860007e841709fcf85a9649d09346686710c6d881b276fb81aad9a985e24"
+      "bytes": 26171,
+      "sha256": "e02616166128c37a56e2e86292660a3fc718fbf7fc6d6f0d2f1cec452090fccc"
     },
     {
       "path": "src/field-atlas-art.js",
@@ -1999,13 +1999,13 @@
     },
     {
       "path": "src/field-atlas-ui.js",
-      "bytes": 13545,
-      "sha256": "cd3fea814c53d35f1b5e834e972f6bcaa25fa926c350b5357b4aa3285730354e"
+      "bytes": 13585,
+      "sha256": "17394ab0d0509b51022cf1098f30c52a7344e524ea5c77d32a3f451760c19e78"
     },
     {
       "path": "src/field-atlas.js",
-      "bytes": 13254,
-      "sha256": "0ddbd9d9367914f2341b288615f358e407d37a9ed5694a1950b094ad040df975"
+      "bytes": 13574,
+      "sha256": "92e3c92f95862f9900475f8109191f90d7edd14df6e85deafbaac8435918cb5b"
     },
     {
       "path": "src/field-content193-ui.js",
@@ -2094,18 +2094,18 @@
     },
     {
       "path": "src/frontier-ui.js",
-      "bytes": 12333,
-      "sha256": "a8ed1c4c05ffee9d1b7d4a52bdfce908a2ad259f47001c2186a4cff7d526676e"
+      "bytes": 12389,
+      "sha256": "edee3f79e6b662a834f87c83d141ebd8eabd991c6679d08bdcb273716d39c932"
     },
     {
       "path": "src/frontier-world.js",
-      "bytes": 53747,
-      "sha256": "39db8cbbc248f544b024916d33860a1fc519315d7d4c10c482a3ba83dbe727ce"
+      "bytes": 55207,
+      "sha256": "c779ed2ce837463e87df78cbb161486e8b0be43c05e14c5bb88775f622ee64a1"
     },
     {
       "path": "src/frontier.js",
-      "bytes": 48968,
-      "sha256": "cb6fb952606adc611b060078c9aff8c9a227e8a566836d4a8419a5ca02146909"
+      "bytes": 49166,
+      "sha256": "a4943d2a13af41a39a9cb70dc6f94f77e0f6b7794ed6463466f7a6270162fce5"
     },
     {
       "path": "src/game.js",
@@ -2119,8 +2119,8 @@
     },
     {
       "path": "src/great-works217.js",
-      "bytes": 16479,
-      "sha256": "494c66506c8fd46d03a11a3a975ad63c0b4c11ee669b43077953b24dbc66960f"
+      "bytes": 35254,
+      "sha256": "3ab831a3cf1f596f816f57d84e763b6db0afc2b78157406a8aa7f574bfbb5edc"
     },
     {
       "path": "src/ground135.js",
@@ -2244,8 +2244,8 @@
     },
     {
       "path": "src/outposts217.js",
-      "bytes": 24204,
-      "sha256": "e0263191e4592975a625a5af3660d956e24445e43eb843b9a4ac6e0c3c009a64"
+      "bytes": 24378,
+      "sha256": "fe3c68e9b2fdac2939341898c744dc76b285814f8251bf46ec96ab57edaef230"
     },
     {
       "path": "src/player-menus194.js",
@@ -2319,8 +2319,8 @@
     },
     {
       "path": "src/remarkable217.js",
-      "bytes": 30333,
-      "sha256": "ceda3764666f59cc38339579659bf1407ee9f834ba33261c9d30b4c1a2cb5eba"
+      "bytes": 31652,
+      "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2"
     },
     {
       "path": "src/render-cache153.js",
@@ -2369,8 +2369,8 @@
     },
     {
       "path": "src/seed-card217.js",
-      "bytes": 41498,
-      "sha256": "f053daf5c6656a81b7fceb640b2c9390bfea7393286b042fb6dc4a3c3e4be7d5"
+      "bytes": 41834,
+      "sha256": "1a54127a60612a25a39115b5b03bb34a4d7de0e0e11a479a3760a6caf52f516f"
     },
     {
       "path": "src/seed-detail-art157.js",
@@ -2389,8 +2389,8 @@
     },
     {
       "path": "src/siege-readout.js",
-      "bytes": 8693,
-      "sha256": "4c28b08073dc6ca460453b30a8c3ceabec3cae37d9249aad429ab38b97ad3ba2"
+      "bytes": 9179,
+      "sha256": "36ad1d14c8bf97b33cc702325bd78e1b809cf32e574184af543ef71a10bc16f1"
     },
     {
       "path": "src/site-infrastructure173.js",
@@ -2459,8 +2459,8 @@
     },
     {
       "path": "src/urban.js",
-      "bytes": 9829,
-      "sha256": "858e032b6b232453ddf21a24257c86cce32fc89846cc193410266fae95ef58de"
+      "bytes": 9883,
+      "sha256": "5f6c1dbdc49cc646bf71576a9f36920417b5416b6842e5204b59df7816e49762"
     },
     {
       "path": "src/vehicle-art152.js",
@@ -2549,8 +2549,8 @@
     },
     {
       "path": "src/world-codex-actions159.js",
-      "bytes": 13648,
-      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8"
+      "bytes": 13870,
+      "sha256": "a8d4feceef6a84a5e75d84db96635b72f553d322478fc85e19566885cd0899ec"
     },
     {
       "path": "src/world-codex-activites.js",
