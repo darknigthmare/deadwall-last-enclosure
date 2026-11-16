@@ -12,7 +12,8 @@
  const R=C.Breach217Rules,RATIO=C.BATTLEFIELD_RULES.fragileWallRatio;
  // Réglages techniques, sans effet sur l'équilibrage : cadence du relevé, silence entre deux annonces de menace
  // d'un même côté, nombre d'ouvrages de mur examinés par relevé.
- const CHECK_SECONDS=.5,QUIET_SECONDS=10,SCAN_LIMIT=8192;
+ const CHECK_SECONDS=.5,QUIET_SECONDS=10,SCAN_LIMIT=8192,RUPTURE_MEMORY=256;
+ const DECISIONS=Object.freeze([['hold','Tenir'],['evacuate','Évacuer'],['sacrifice','Sacrifier']]);
  const KEYS=['version','active'],SIDES=Object.freeze({north:'nord',east:'est',south:'sud',west:'ouest'}),SIDE_IDS=Object.keys(SIDES);
  function initial(){return{version:1,active:false};}
  function fresh(){return{version:1,active:true};}
@@ -91,8 +92,8 @@
  function install(g){
   if(g.breach217)return g.breach217;if(!g.expansions)throw Error('Installer les opérations avant la brèche 217.');
   let state=initial(),pans=[],seenWorld=null,primed=false,clock=-Infinity,busy=false,view=Object.freeze([]);
-  const announced=new Set(),quiet=new Map();
-  const forget=()=>{pans=[];seenWorld=null;primed=false;clock=-Infinity;view=Object.freeze([]);announced.clear();quiet.clear();};
+  const announced=new Set(),quiet=new Map(),ruptures=new Map();
+  const forget=()=>{pans=[];seenWorld=null;primed=false;clock=-Infinity;view=Object.freeze([]);announced.clear();quiet.clear();ruptures.clear();};
   const playing=()=>g.state==='playing'&&!g.gameOver&&Boolean(g.world);
   const expose=()=>Object.freeze(pans.map(pan=>Object.freeze({key:pan.key,axis:pan.axis,side:pan.side,name:pan.name,length:pan.length,gates:pan.gates,
    ids:Object.freeze(pan.members.map(b=>b.id)),cells:Object.freeze({...pan.cells})})));
@@ -135,6 +136,9 @@
     if(own)g.notify=notify;else delete g.notify;
     busy=false;
     if(fallen>1&&!g.gameOver)g.notify('Rupture au '+SIDES[plan.side]+' : '+many(fallen)+' ont cédé d’un coup.','danger');
+    // Mémoire courte des ouvrages tombés ensemble : le repli n'en fait qu'une brèche nommée.
+    if(fallen>1)for(const o of [b,...plan.others])if(o.dead){ruptures.delete(o.id);ruptures.set(o.id,b.id);}
+    while(ruptures.size>RUPTURE_MEMORY)ruptures.delete(ruptures.keys().next().value);
     if(playing()){pans=survey(g.world.buildings.values(),g.core?.());view=expose();}
    }
   };
@@ -151,9 +155,40 @@
    return{summary:'Un pan de '+R.minLength+' ouvrages de mur voisins ou plus, tous sous '+percent+' de leur solidité, cède d’un seul coup dès que l’un d’eux est détruit. Cette règle vaut pour toute la campagne et ne s’active pas en cours de campagne.',rows:[
     {label:'Règle',value:'Pan : ouvrages de mur alignés, côte à côte, portes comprises, tous sous '+percent+'. Une rupture emporte au plus '+R.maxCollapse+' ouvrages, les plus proches de celui qui tombe. Un ouvrage sain arrête le pan.'},
     {label:'Pans menacés',value:view.length?view.map(pan=>'mur '+pan.name+' : '+many(pan.length)+(pan.gates?', porte comprise':'')).join(' · '):'Aucun.'},
-    {label:'Lever la menace',value:view.length?'Réparez un seul ouvrage de chaque pan au-dessus de '+percent+' : le pan est rompu, le reste tombera ouvrage par ouvrage.':'Rien à réparer d’urgence. Gardez les murs voisins au-dessus de '+percent+'.'}]};
+    {label:'Lever la menace',value:view.length?'Réparez un seul ouvrage de chaque pan au-dessus de '+percent+' : le pan est rompu, le reste tombera ouvrage par ouvrage.':'Rien à réparer d’urgence. Gardez les murs voisins au-dessus de '+percent+'.'},
+    ...decision()]};
   }
-  const api=Object.freeze({active:()=>state.active,threatened:()=>state.active?view:Object.freeze([]),tick,overview,actions:()=>[],snapshot:()=>validate(state)});g.breach217=api;
+  // Ligne de décision, seulement quand un pan menace un district fermé et que la cité suit des consignes.
+  function decision(){
+   const radio=g.cityRadio217,list=radio?.active?.()?districts():[];
+   return list.length?[{label:'Décision',value:list.map(d=>d.name+' (mur '+SIDES[d.side]+') : tenir, évacuer ou sacrifier ? Consigne actuelle : '+radio.postureText(d.rank)+'.').join(' · ')}]:[];
+  }
+  // District de chaque pan menacé : l'enceinte fermée dont le pourtour porte ses ouvrages (src/districts.js).
+  // Un pan hors de toute enceinte fermée n'est rattaché à aucun district.
+  function districts(){
+   if(!state.active||!view.length)return Object.freeze([]);
+   let rings=[];try{rings=g.districts?.rings?.()||[];}catch(error){rings=[];}
+   const found=new Map();
+   for(const pan of view){
+    const ring=rings.find(r=>r.works.some(w=>pan.ids.includes(w.id)));if(!ring)continue;
+    const known=found.get(ring.rank);
+    if(!known||pan.length>known.length)found.set(ring.rank,{rank:ring.rank,name:ring.name,side:pan.side,length:pan.length,gates:pan.gates});
+   }
+   return Object.freeze([...found.values()].sort((a,b)=>a.rank-b.rank).map(d=>Object.freeze(d)));
+  }
+  // Décision sur pan menacé : tenir, évacuer ou sacrifier le district concerné. Elle devient la consigne de ce district
+  // (src/city-radio217.js), que la cité applique seule à la rupture, en présence comme en absence.
+  function actions(){
+   const radio=g.cityRadio217;if(!radio?.active?.()||typeof radio.setDistrictOrder!=='function')return[];
+   const list=[];
+   for(const d of districts())for(const [id,label]of DECISIONS){
+    const q=radio.districtQuote(d.rank,id);
+    list.push({id:'decide-'+d.rank+'-'+id,label:label+' : '+d.name.toLowerCase()+' (mur '+SIDES[d.side]+')',description:radio.postureHint(d.rank,id),
+     disabled:!q.ok,reason:q.reason||'Devient la consigne de ce district ; la cité l’applique seule si le pan cède.',run:()=>radio.setDistrictOrder(d.rank,id)});
+   }
+   return list;
+  }
+  const api=Object.freeze({active:()=>state.active,threatened:()=>state.active?view:Object.freeze([]),districts,ruptureOf:id=>state.active&&ruptures.has(id)?ruptures.get(id):null,tick,overview,actions,snapshot:()=>validate(state)});g.breach217=api;
   g.expansions.register({id:'breach217',title:'Pans menacés',overview,actions:api.actions,validate,snapshot:api.snapshot,
    restore:raw=>{state=validate(raw);forget();},reset:()=>{state=fresh();forget();}});
   return api;

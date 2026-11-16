@@ -352,8 +352,10 @@ test('rupture et repli : une annonce de destruction, une de rupture, une de brè
   assert.equal(native(notes),1);assert.equal(count(notes,'Rupture au nord : '+fallen+' ouvrages'),1);assert.equal(count(notes,'Brèche au '),1,'le repli n’annonce qu’une brèche pour tout le pan');
   assert.ok(notes.length<=4,'tout tient dans les quatre lignes de notification : '+notes.join(' | '));
   assert.deepEqual(notes.slice(0,2),[north[2].def.name+' détruit — le secteur est ouvert !','Rupture au nord : '+fallen+' ouvrages ont cédé d’un coup.']);
-  // Le repli a enregistré chaque ouvrage tombé comme une brèche ouverte du secteur nord.
-  assert.equal(g.fallbackOrder.sectors().find(s=>s.id==='north').breaches,fallen);
+  // Une rupture est une seule brèche nommée du secteur nord, sur toute la bande des ouvrages tombés.
+  assert.equal(g.fallbackOrder.sectors().find(s=>s.id==='north').breaches,1);
+  const band=g.fallbackOrder.breachList();assert.equal(band.length,1);assert.equal(band[0].cells.height,1);
+  assert.equal(band[0].cells.width,north.filter(b=>b.dead).reduce((n,b)=>n+T.footprint(b).width,0),'la bande couvre exactement les ouvrages tombés');
   g.elapsed+=10;g.fallbackOrder.tick();g.breach217.tick();assert.equal(count(notes,'Brèche au '),1);assert.equal(count(notes,'Rupture'),1);
 });
 
@@ -364,4 +366,27 @@ test('brèche 217 : source sans hasard, sans stock, sans écriture de santé',()
   assert.equal(source.match(/g\.destroyBuilding\(/g).length,1,'les ouvrages emportés passent par la destruction du jeu');
   assert.ok(source.includes('C.BATTLEFIELD_RULES.fragileWallRatio'));assert.equal(/fragileWallRatio\s*[:=]\s*[\d.]/.test(source),false,'pas de second seuil');
   const game=fs.readFileSync(path.join(root,'src/game.js'),'utf8');assert.equal(game.includes('breach217'),false,'le moteur n’est pas modifié');
+});
+
+test('rupture et repli : une seule brèche nommée par rupture, refermée quand toute la bande est rebâtie, même après reprise',()=>{
+  const g=campaign(true),{north}=enclose(g),notes=watch(g);
+  g.fallbackOrder.tick();g.phase='assault';weaken(north);g.elapsed+=1;g.breach217.tick();notes.length=0;
+  kill(g,north[2]);g.elapsed+=10;g.fallbackOrder.tick();
+  const fallen=north.filter(b=>b.dead),sector=()=>g.fallbackOrder.sectors().find(s=>s.id==='north');
+  assert.ok(fallen.length>=N);assert.equal(g.breach217.ruptureOf(fallen[0].id),north[2].id,'la rupture garde la mémoire de ses ouvrages');
+  assert.deepEqual(notes.filter(t=>t.startsWith('Brèche au ')).map(t=>t.split(').')[0]),['Brèche au nord ('+north[2].def.name+', '+many(fallen.length)]);
+  assert.equal(g.fallbackOrder.status().lastBreach.count,fallen.length);assert.deepEqual([...g.fallbackOrder.status().lastBreach.ids].sort((a,b)=>a-b),fallen.map(b=>b.id).sort((a,b)=>a-b));
+  assert.equal(g.fallbackOrder.breachList().length,1);assert.equal(sector().breaches,1);
+  // Rebâtir une partie de la bande ne referme pas la brèche.
+  const W=g.core().constructor,rebuild=b=>{const n=new W(g.nextId++,b.type,b.gx,b.gy,0,1);n.progress=1;n.health=n.def.health;g.world.add(n);g.world.navigationVersion++;return n;};
+  for(const b of fallen.slice(1))rebuild(b);g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector().breaches,1,'une case de la bande reste ouverte');assert.equal(count(notes,'Secteur nord repris'),0);
+  const saved=validSave(g),band=saved.expansions127.modules.fallback217.breaches;assert.equal(band.length,1);assert.ok(band[0].w*band[0].h>2,'la bande est sauvegardée entière');
+  assert.equal(g.restoreSave(saved),true);g.elapsed+=10;g.fallbackOrder.tick();g.fallbackOrder.tick();assert.equal(sector().breaches,1);
+  rebuild(fallen[0]);g.elapsed+=10;g.fallbackOrder.tick();
+  assert.equal(sector().breaches,0);assert.equal(count(notes,'Secteur nord repris'),1);
+  // Une chute isolée reste une brèche à part, refermée par un seul ouvrage, comme avant.
+  const lone=g.world.buildings.get([...g.world.buildings.values()].find(b=>b.def?.wall&&b.gy>g.core().gy&&!T.isGate(b)).id);
+  kill(g,lone);g.elapsed+=10;g.fallbackOrder.tick();assert.equal(g.fallbackOrder.breachList().length,1);assert.equal(g.fallbackOrder.status().lastBreach.count,1);
+  rebuild(lone);g.elapsed+=10;g.fallbackOrder.tick();assert.equal(g.fallbackOrder.breachList().length,0);
 });

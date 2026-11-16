@@ -181,3 +181,22 @@ test('districts : la ligne de repli général peut être la deuxième enceinte',
   g.startNew('standard','17118');g.campaignIntro132?.skip?.();assert.equal(g.districts.lineRank(),0);
   enclose(g,3);enclose(g,7);assert.equal(g.districts.lineRank(),1);
 });
+
+test('districts : chaque district porte sa consigne ; évacuer la troisième enceinte tient la deuxième',()=>{
+  const {g,doc}=campaign();require('../src/city-radio217.js').install(g,doc);g.startNew('standard','17117');g.campaignIntro132?.skip?.();
+  const a=enclose(g,3),b=enclose(g,7),c=enclose(g,11),center={x:g.core().x,y:g.core().y+C.TILE*2};
+  for(const u of g.units){u.x=center.x;u.y=center.y;}g.player.x=center.x;g.player.y=center.y;
+  const R=g.cityRadio217;
+  assert.deepEqual(R.districtStates().map(d=>d.rank),g.districts.list().map(d=>d.rank),'les consignes suivent les districts relevés');
+  assert.equal(R.setDistrictOrder(3,'evacuate').ok,true);assert.equal(R.setDistrictOrder(2,'sacrifice').ok,true);
+  g.districts.refresh();const rows=doc.getElementById('districtsList').children;
+  assert.equal(rows[2].children[2].textContent,'tenu · consigne : évacuer vers l’anneau intérieur');assert.equal(rows[1].children[2].textContent,'tenu · consigne : sacrifier');
+  assert.equal(rows[2].children[1].textContent,Districts.describe(C,g.districts.list()[2]),'le relevé reste celui des districts');
+  const before=stable(g);g.districts.refresh();g.updateUI();assert.deepEqual(stable(g),before,'l’affichage ne modifie rien');
+  g.fallbackOrder.tick();R.tick();g.phase='assault';
+  const top=Math.min(...c.placed.map(w=>w.gy)),lost=c.placed.find(w=>!T.isGate(w)&&w.gy===top&&w.gx===T.footprint(g.core()).x+3);
+  g.destroyBuilding(lost);g.world.navigationVersion++;g.elapsed+=1;g.fallbackOrder.tick();R.tick();
+  assert.equal(g.districts.lineRank(),2,'la troisième enceinte s’évacue derrière la deuxième');assert.equal(g.fallbackOrder.status().mode,'everyone');
+  g.fallbackOrder.tick();assert.equal(T.gateMode(b.gate),'closed');assert.equal(T.gateMode(a.gate),'auto');
+  assert.equal(R.sacrificed(),null,'la deuxième enceinte n’a pas été menacée : pas de sacrifice');
+});

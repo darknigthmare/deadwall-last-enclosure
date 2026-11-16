@@ -205,3 +205,18 @@ test('repli sauvegardé : une ancienne sauvegarde sans le module se charge sans 
   assert.equal(g.restoreSave(old),true);assert.equal(g.fallbackOrder.status().mode,null);assert.equal(g.fallbackOrder.sectors().every(s=>s.breaches===0),true);
   assert.deepEqual(g.fallbackOrder.snapshot(),{version:1,mode:null,sealed:false,gates:[],breaches:[],line:1});
 });
+
+test('repli des combattants d’un district : seules les sections désignées se replient, avec la commande des sections',()=>{
+  const {g}=campaign();enclose(g);
+  const before=g.squads.groups.map(group=>group.order),order=g.workerOrder,stock=JSON.stringify(g.resources);
+  const notes=[],notify=g.notify.bind(g);g.notify=(text,tone)=>{notes.push(String(text));return notify(text,tone);};
+  let calls=[];const retreat=g.retreatSquad;g.retreatSquad=function(index,...rest){calls.push(index);return retreat.call(this,index,...rest);};
+  assert.equal(g.fallbackOrder.fighters({squads:[1]}),true);assert.deepEqual(calls,[1]);
+  assert.deepEqual(g.squads.groups.map(group=>group.order),[before[0],'retreat',before[2]]);
+  assert.equal(g.fallbackOrder.status().mode,'fighters');assert.equal(g.workerOrder,order);assert.equal(JSON.stringify(g.resources),stock);
+  assert.ok(notes.includes('Repli des combattants : la section '+C.SQUAD_RULES.labels[1]+' revient vers le centre. Les autres sections et les ouvriers gardent leurs ordres.'));
+  calls=[];assert.equal(g.fallbackOrder.fighters({squads:[]}),false,'aucune section désignée : aucun ordre');assert.deepEqual(calls,[]);
+  assert.equal(g.fallbackOrder.fighters({squads:[0,2,7]}),true);assert.deepEqual(calls,[0,2],'un rang de section inconnu est ignoré');
+  assert.deepEqual(g.squads.groups.map(group=>group.order),['retreat','retreat','retreat']);
+  assert.equal(g.fallbackOrder.standDown(),true);assert.equal(g.fallbackOrder.status().mode,null);
+});

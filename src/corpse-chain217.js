@@ -65,6 +65,24 @@
   // Nécropole : facteurs du bûcher et de la fosse, lus chez leur propriétaire ; 1 sans elle.
   const boost=()=>{const b=g.greatWorks217?.corpses?.();return{pyre:b?.pyre>0?b.pyre:1,pit:b?.pit>0?b.pit:1};};
   const pitCapacity=()=>F.capacity*boost().pit;
+  // Corps laissés par district (src/districts.js), lecture seule : la charge au pied des ouvrages de chaque enceinte, les
+  // corps à traiter au dépôt dans le district du centre, le reste des murs dehors, les douves à part. La somme est `left()`.
+  // La maladie reste comptée pour toute la cité : son seuil suit la population, qui n'est pas répartie par district, et un
+  // district change de rang quand une enceinte s'ouvre, ce qu'une exposition sauvegardée par district ne suivrait pas.
+  function byDistrict(){
+   if(!open())return Object.freeze({districts:Object.freeze([]),moat:0});
+   let rings=[];try{rings=g.districts?.rings?.()||[];}catch(error){rings=[];}
+   const rows=rings.map(ring=>({rank:ring.rank,name:ring.name,walls:0,pending:0}));let ringed=0;
+   rings.forEach((ring,index)=>{for(const work of [...ring.works,...(ring.strayWorks||[])])if(!work.dead&&work.completed&&work.def?.wall&&work.corpseLoad>0){rows[index].walls+=work.corpseLoad;ringed+=work.corpseLoad;}});
+   const outside={rank:0,name:'Dehors',walls:Math.max(0,walls()-ringed),pending:0};
+   (rows[0]||outside).pending=state.pending;rows.push(outside);
+   return Object.freeze({districts:Object.freeze(rows.map(row=>Object.freeze({...row,bodies:row.walls+row.pending}))),moat:g.earthworks217?.moatBodies?.()||0});
+  }
+  function districtText(){
+   const view=byDistrict();if(view.districts.length<2)return null;
+   return view.districts.map(d=>d.name+' '+whole(d.bodies)+(d.pending>=1?' (dont '+whole(d.pending)+' à traiter au dépôt)':'')).join(' · ')+(view.moat>=1?' · douves '+whole(view.moat):'')
+    +'. La salubrité se compte pour toute la cité : le seuil suit la population entière.';
+  }
   const clinic=()=>{for(const b of g.world?.buildings?.values?.()||[])if(b.type==='clinic'&&!b.dead&&b.completed&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline)return true;return false;};
   const title=u=>(C.SURVIVORS[u.kind]?.name||'survivant').toLowerCase();
   const lastWorker=u=>u.kind==='worker'&&g.units.filter(o=>live(o)&&o.kind==='worker').length<=1;
@@ -210,6 +228,7 @@
    return{summary,rows:[
     {label:'Corps à traiter',value:whole(state.pending)+' · déblayés des murs et des fossés'},
     {label:'Corps laissés',value:whole(load)+' (à traiter + au pied des murs) · seuil '+whole(cap)+' pour '+(g.population||0)+' habitants'},
+    ...(districtText()?[{label:'Par district',value:districtText()}]:[]),
     {label:'Bûcher',value:pyreText()+' — '+amount(P.cost.wood)+' bois ou '+amount(P.cost.fuel)+' carburant par corps ; s’éteint seul sans corps ni combustible.'},
     {label:'Fosse',value:pitText()+' — '+cost(F.cost)+' et '+C.formatTime(F.digSeconds)+' de chantier ; '+amount(F.perSecond*60)+' corps par minute, '+whole(pitCapacity())+' corps'+necropolis()+', puis elle se referme.'},
     {label:'Salubrité',value:PHASES[s]+(s>0?' · seuil dépassé depuis '+C.formatTime(state.exposure):'')},
@@ -314,7 +333,7 @@
    return result;
   };
   const fresh=()=>{text='';clock=-Infinity;};
-  const api=Object.freeze({active,open,pending:()=>state.pending,left,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
+  const api=Object.freeze({active,open,pending:()=>state.pending,left,byDistrict,threshold:limit,stage:()=>stage(state.exposure),burning:()=>open()&&state.pyre?state.pyre:null,signature:()=>open()&&state.pyre?P.signature:0,
    pit:()=>({digging:state.pitLeft>0,left:state.pitLeft,open:state.pitOpen,fill:state.pitFill,closed:state.pitsClosed}),
    receive,lightQuote,light,douseQuote,douse,pitQuote,openPit,tick,overview,actions,render,marks,drawMarks,snapshot:()=>validate(state)});g.corpseChain217=api;
   g.expansions.register({id:'corpseChain217',title:'Corps et salubrité',overview,actions,validate,snapshot:api.snapshot,

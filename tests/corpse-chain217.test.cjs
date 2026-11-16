@@ -297,3 +297,26 @@ test('filière des corps : aucun hasard, aucun texte d’infection, script publi
   const ui=read('src/expansion-ui.js');assert.equal(ui.match(/corpseChain217/g).length,5);assert.ok(ui.includes("corpseChain217:'Corps et salubrité'"));
   assert.ok(read('src/earthworks217.js').includes('g.corpseChain217?.receive?.(before-d.fill)'));
 });
+
+test('filière des corps : corps laissés lus par district, la maladie reste comptée pour toute la cité',()=>{
+  const g=withState(outpost(),{pending:12}),A=g.corpseChain217;
+  assert.deepEqual(A.byDistrict(),{districts:[{rank:0,name:'Dehors',walls:0,pending:12,bodies:12}],moat:0},'sans module des districts, tout est dehors');
+  assert.equal(require('../src/districts.js').install(g,g.__doc),true);
+  // Une enceinte de palissades à trois cases du centre, et un mur isolé dehors.
+  const core=g.core(),c=T(core),B=core.constructor,placed=[];
+  const put=(type,gx,gy)=>{const b=new B(g.nextId++,type,gx,gy,0,1);b.progress=1;b.health=b.def.health;g.world.add(b);placed.push(b);return b;};
+  const x0=c.x-3,x1=c.x+c.width+2,y0=c.y-3,y1=c.y+c.height+2;
+  for(let x=x0;x<=x1;x++){put('woodWall',x,y0);put('woodWall',x,y1);}for(let y=y0+1;y<y1;y++){put('woodWall',x0,y);put('woodWall',x1,y);}
+  const loose=put('woodWall',c.x+12,c.y);g.world.navigationVersion++;g.refreshMetrics(true);
+  placed[3].corpseLoad=20;placed[7].corpseLoad=5;loose.corpseLoad=8;
+  const before=JSON.stringify({...g.serialize(),timestamp:0}),exposure=state(g).exposure;
+  const view=A.byDistrict();
+  assert.deepEqual(view.districts.map(d=>[d.rank,d.name,d.walls,d.pending,d.bodies]),[[1,'Enceinte intérieure',25,12,37],[0,'Dehors',8,0,8]]);
+  assert.equal(view.districts.reduce((n,d)=>n+d.bodies,0)+view.moat,A.left(),'la répartition recouvre exactement les corps laissés');
+  assert.equal(row(g,'Par district'),'Enceinte intérieure 37 (dont 12 à traiter au dépôt) · Dehors 8. La salubrité se compte pour toute la cité : le seuil suit la population entière.');
+  assert.equal(JSON.stringify({...g.serialize(),timestamp:0}),before,'lecture seule');assert.equal(state(g).exposure,exposure);
+  assert.throws(()=>{view.districts[0].bodies=0;},TypeError,'relevé figé');
+  // Une ancienne campagne ne lit rien.
+  const old=JSON.parse(JSON.stringify(g.serialize()));delete old.expansions127.modules.corpseChain217;assert.equal(g.restoreSave(old),true);
+  assert.deepEqual(g.corpseChain217.byDistrict(),{districts:[],moat:0});
+});

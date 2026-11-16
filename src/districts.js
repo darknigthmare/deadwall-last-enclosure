@@ -3,6 +3,8 @@
 // Lecture seule : ce module n'ajoute ni stock, ni dégât, ni tirage, ni valeur d'équilibrage, ni état
 // sauvegardé. Le seul ordre proposé, le choix de la ligne de repli, est confié au module de repli,
 // qui le réalise avec les commandes existantes des sections, des ouvriers et des portes.
+// Deuxième tranche : la ligne affiche aussi l'état et la consigne de chaque district, lus chez leur propriétaire
+// (src/city-radio217.js) ; une évacuation ou un sacrifice y choisit la ligne de repli par `setLine`.
 (function(root,factory){
  const api=factory(root);
  if(typeof module==='object'&&module.exports)module.exports=api;
@@ -193,9 +195,11 @@
     const key=districts.map(district=>district.rank).join(',');
     if(key!==rowKey){
      rowKey=key;rows.replaceChildren();rowNodes.length=0;
-     for(const district of districts){const item=el('li'),name=el('strong',district.name),text=el('span');item.dataset.district=String(district.rank);item.append(name,text);rows.appendChild(item);rowNodes.push({item,text});}
+     for(const district of districts){const item=el('li'),name=el('strong',district.name),text=el('span'),post=el('em',undefined,'districts-posture');item.dataset.district=String(district.rank);item.append(name,text,post);rows.appendChild(item);rowNodes.push({item,text,post});}
     }
-    districts.forEach((district,index)=>{const node=rowNodes[index];write(node.text,describe(C,district));const mark=district.infected?'true':'false';if(node.item.dataset.infected!==mark)node.item.dataset.infected=mark;});
+    // État et consigne de chaque district, lus chez leur propriétaire (src/city-radio217.js) quand il est là.
+    let postures=[];try{postures=g.cityRadio217?.districtStates?.()||[];}catch(error){postures=[];}
+    districts.forEach((district,index)=>{const node=rowNodes[index],p=postures.find(d=>d.rank===district.rank);write(node.text,describe(C,district));write(node.post,p&&g.cityRadio217.active()?(p.state?p.label+' · ':'')+'consigne : '+p.text.toLowerCase():'');const mark=district.infected?'true':'false';if(node.item.dataset.infected!==mark)node.item.dataset.infected=mark;});
     const show=canChoose&&closed>1;lineTitle.hidden=!show;lineBox.hidden=!show;lineNote.hidden=!show;
     if(!show){if(lineKey){lineKey='';lineBox.replaceChildren();buttons.length=0;}return;}
     if(lineKey!==String(closed)){

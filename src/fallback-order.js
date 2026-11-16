@@ -128,13 +128,16 @@
   }
   function say(text,tone){notice=text;g.notify(text,tone);return true;}
   // Ordre 1 : les trois sections se replient vers le centre, par la commande existante des sections.
-  function fighters(){
+  // `options.squads` restreint l'ordre à certaines sections (consigne d'un district) : les autres gardent leurs ordres.
+  function fighters(options){
    if(!g.canIssueCommand()||!g.core?.())return false;
-   const count=C.SQUAD_RULES.count;let sent=0;
-   for(let index=0;index<count;index++)if(g.retreatSquad(index,g.core()))sent++;
-   if(!sent)return false;
+   const count=C.SQUAD_RULES.count,only=Array.isArray(options?.squads)?options.squads.filter(index=>Number.isInteger(index)&&index>=0&&index<count):null,sent=[];
+   for(let index=0;index<count;index++)if((!only||only.includes(index))&&g.retreatSquad(index,g.core()))sent.push(index);
+   if(!sent.length)return false;
    if(!pending)pending={mode:'fighters',sealed:false,previous:new Map()};
-   return say('Repli des combattants : les sections reviennent vers le centre. Les ouvriers gardent leurs ordres.','good');
+   if(!only)return say('Repli des combattants : les sections reviennent vers le centre. Les ouvriers gardent leurs ordres.','good');
+   const names=sent.map(index=>C.SQUAD_RULES.labels[index]).join(', ');
+   return say('Repli des combattants : '+(sent.length>1?'les sections '+names+' reviennent':'la section '+names+' revient')+' vers le centre. Les autres sections et les ouvriers gardent leurs ordres.','good');
   }
   // Ordre 2 : tout le monde se replie, puis les portes de l'enceinte intérieure sont verrouillées
   // dès que plus personne n'est dehors. Le verrouillage passe par la commande des portes et ses refus.
@@ -172,28 +175,50 @@
    pending=null;
    return say('Repli levé : '+(restored?many(restored,'porte rendue','portes rendues')+' à leur mode précédent, ':'')+'les ouvriers reprennent leurs ordres. Redonnez un point de ralliement aux sections.','normal');
   }
+  // Bande pleine formée par les ouvrages d'une même rupture : leur emprise commune si elle est exactement
+  // couverte par eux (une ligne droite), sinon rien et chaque ouvrage reste une brèche à part.
+  function band(list){
+   const cells=list.map(b=>T.footprint(b));if(cells.some(c=>!c))return null;
+   const x=Math.min(...cells.map(c=>c.x)),y=Math.min(...cells.map(c=>c.y)),width=Math.max(...cells.map(c=>c.x+c.width))-x,height=Math.max(...cells.map(c=>c.y+c.height))-y;
+   return cells.reduce((n,c)=>n+c.width*c.height,0)===width*height&&width<=64&&height<=64?{x,y,width,height}:null;
+  }
   // Brèche nommée : un mur ou une porte de l'enceinte tombe pendant l'alerte ou l'assaut.
+  // Les ouvrages emportés par une même rupture (src/breach217.js) forment une seule brèche, nommée une fois.
   function watchBreaches(){
    const current=new Map();
    for(const building of g.world.buildings.values())if(building.def?.wall&&T.operational(building))current.set(building.id,building);
    if(wallWorld!==g.world||!walls){walls=current;wallWorld=g.world;return;}
    const core=g.core?.();
    if(core&&['warning','assault'].includes(g.phase)){
+    const groups=new Map();
     for(const [id,building]of walls){
      if(current.has(id)||g.world.buildings.get(id)===building&&alive(building))continue;
-     const side=(B?.direction||sideOf)(core,building),z=zone(),inside=z.closed?g.zombies.filter(zombie=>alive(zombie)&&z.contains(zombie)).length:null;
-     lastBreach=Object.freeze({side,name:building.def.name,gate:T.isGate(building),wave:g.wave,at:g.elapsed});
-     const cells=T.footprint(building);if(cells)breaches.set(building.id,Object.freeze({side,name:building.def.name,cells}));
-     if(g.elapsed>=quietUntil){
-      quietUntil=g.elapsed+BREACH_QUIET_SECONDS;
-      g.notify('Brèche au '+SIDES[side]+' ('+building.def.name+').'+(inside===null?' Le centre n’est plus couvert par une enceinte fermée.':' '+many(inside,'infecté','infectés')+' dans l’enceinte intérieure.'),'danger');
+     const rupture=g.breach217?.ruptureOf?.(id),key=Number.isInteger(rupture)?'r'+rupture:'w'+id;
+     if(!groups.has(key))groups.set(key,{lead:Number.isInteger(rupture)?rupture:id,list:[]});groups.get(key).list.push(building);
+    }
+    for(const group of groups.values()){
+     const shared=group.list.length>1?band(group.list):null;
+     const entries=shared?[{lead:group.list.find(b=>b.id===group.lead)||group.list[0],list:group.list,cells:shared}]:group.list.map(b=>({lead:b,list:[b],cells:T.footprint(b)}));
+     for(const entry of entries){
+      const building=entry.lead,n=entry.list.length,side=(B?.direction||sideOf)(core,building),z=zone(),inside=z.closed?g.zombies.filter(zombie=>alive(zombie)&&z.contains(zombie)).length:null;
+      lastBreach=Object.freeze({side,name:building.def.name,gate:entry.list.some(b=>T.isGate(b)),wave:g.wave,at:g.elapsed,count:n,ids:Object.freeze(entry.list.map(b=>b.id))});
+      if(entry.cells)breaches.set(building.id,Object.freeze({side,name:building.def.name,cells:entry.cells}));
+      if(g.elapsed>=quietUntil){
+       quietUntil=g.elapsed+BREACH_QUIET_SECONDS;
+       g.notify('Brèche au '+SIDES[side]+' ('+building.def.name+(n>1?', '+many(n,'ouvrage','ouvrages'):'')+').'+(inside===null?' Le centre n’est plus couvert par une enceinte fermée.':' '+many(inside,'infecté','infectés')+' dans l’enceinte intérieure.'),'danger');
+      }
      }
     }
    }
    // Une brèche est refermée quand un mur ou une porte en service recouvre de nouveau son emplacement.
+   // Une bande de rupture (plus de deux cases, aucun ouvrage seul n'en a autant) l'est quand chacune de ses cases l'est.
+   const overlaps=(f,c)=>f&&f.x<c.x+c.width&&f.x+f.width>c.x&&f.y<c.y+c.height&&f.y+f.height>c.y;
    for(const [id,breach]of breaches){
     const c=breach.cells;let covered=false;
-    for(const wall of current.values()){const f=T.footprint(wall);if(f&&f.x<c.x+c.width&&f.x+f.width>c.x&&f.y<c.y+c.height&&f.y+f.height>c.y){covered=true;break;}}
+    if(c.width*c.height>2){
+     const prints=[...current.values()].map(wall=>T.footprint(wall)).filter(f=>overlaps(f,c));covered=true;
+     for(let y=c.y;covered&&y<c.y+c.height;y++)for(let x=c.x;covered&&x<c.x+c.width;x++)if(!prints.some(f=>x>=f.x&&x<f.x+f.width&&y>=f.y&&y<f.y+f.height))covered=false;
+    }else for(const wall of current.values())if(overlaps(T.footprint(wall),c)){covered=true;break;}
     if(covered)breaches.delete(id);
    }
    walls=current;
@@ -294,7 +319,8 @@
    };
    const updateUI=g.updateUI;if(typeof updateUI==='function')g.updateUI=function(...args){const result=updateUI.apply(this,args);refresh();return result;};
   }
-  g.fallbackOrder=Object.freeze({snapshot,savedLine:()=>savedLine,holdLine:provider=>{line=typeof provider==='function'?provider:null;return true;},status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
+  g.fallbackOrder=Object.freeze({snapshot,savedLine:()=>savedLine,holdLine:provider=>{line=typeof provider==='function'?provider:null;return true;},status,fighters,everyone,standDown,tick,refresh:()=>refresh(),zone:()=>zone(),sectors,plan,
+   breachList:()=>Object.freeze([...breaches].map(([id,b])=>Object.freeze({id,side:b.side,name:b.name,cells:Object.freeze({...b.cells})}))),nightLog:()=>Object.freeze({wave:nightLog.wave,lost:Object.freeze([...nightLog.lost]),retaken:Object.freeze([...nightLog.retaken])})});
   refresh();return true;
  }
  return Object.freeze({install,register,innerZone,sideOf,sectorState,reconquest,initial,validate,SIDES,STATES});
