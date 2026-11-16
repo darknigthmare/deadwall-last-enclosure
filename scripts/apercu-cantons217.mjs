@@ -16,6 +16,8 @@ async function page(){
  for(const m of index.matchAll(/<script src="(src\/[a-zA-Z0-9._-]+\.js)"><\/script>/g)){chain.push(m[1]);if(m[1]==='src/core.js')break;}
  if(chain[chain.length-1]!=='src/core.js')throw Error('core.js introuvable dans index.html');
  chain.push('src/world-cantons217.js','src/world-canton-gen217.js','src/world-local217.js');
+ // Lieux complets de la tranche O2 : milieux, occupants, monde régional d'O1, puis les lieux.
+ chain.push('src/biomes135.js','src/world-spawns131.js','src/world-open217.js','src/world-sites217.js');
  const html=await readFile(join(root,'tools','apercu-cantons217.html'),'utf8'),marker=/<!-- SCRIPTS[^>]*-->/;
  if(!marker.test(html))throw Error('Repère SCRIPTS absent de la page d’aperçu');
  return html.replace(marker,chain.map(src=>'<script src="/'+src+'"></script>').join('\n'));

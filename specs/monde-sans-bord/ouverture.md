@@ -114,7 +114,7 @@ But : un objet monde G12 qui répond aux accesseurs déjà lus par le jeu sur le
   trouvés (un point d'arrivée non relié dans la zone permise) ; un lieu G12 n'a pas encore
   d'emprise (`sitesNear` mesure le centre) ni de `drive`.
 
-### O2 — Lieux G12 complets et collisions régionales (hors jeu)
+### O2 — Lieux G12 complets et collisions régionales (**livré**, hors jeu)
 
 But : que le monde O1 porte tout ce que la région finie offre au déplacement et à la fouille.
 C'est T4.1 plus la façade de mouvement de `plan.md` §3.3.
@@ -139,6 +139,25 @@ C'est T4.1 plus la façade de mouvement de `plan.md` §3.3.
   emprises.
 - Ampleur L, risque G12 haut (coût par canton : mesurer contre le budget de 8 ms ; plans
   d'intérieur paresseux comme dans le monde fini).
+- **Fait** : `src/world-sites217.js` (le fichier séparé est pris d'emblée : il dépend des modules
+  du codex, de la géométrie et des occupants, que `world-open217.js` ne doit pas lire),
+  `C.WorldSites217Rules`, `tests/world-sites217.test.cjs` (13 cas), page d'aperçu (case
+  « emprises des lieux (O2) »). Le monde O2 enveloppe celui d'O1 sans le modifier ; `site(id)`
+  y rend le lieu complet, `candidate(id)` le candidat brut. Genre tiré du milieu, programme du
+  codex (`forParcel`, plan `floor`) ou plan historique du genre, emprise tournée face à la
+  route, lot de la région finie, allée de `frontage174`, occupation et nombre d'occupants de
+  la région finie, détails de la chaîne des campagnes neuves. Collisions : falaise
+  infranchissable (pas et voiture), rampe franchissable, eau bloquante hors des ponts, décor
+  par morceaux signés. D-O1 : `lineOfSight(from, to)` faux seulement si une arête de falaise
+  **montante** dépasse le palier du tireur ; d'un plateau à un plateau de même hauteur
+  par-dessus une vallée, la vue passe ; une rampe n'arrête rien. Isolement : les gardes des
+  tests `world-cantons217`, `world-canton-gen217` et `world-open217` nomment le nouveau
+  lecteur ; procédure 1 refaite (seule l'empreinte de `src/core.js` change).
+- **Reste** : tracé adouci des routes qui coupe parfois une falaise près d'une rampe (moins de
+  0,2 % des points, O6/O8 ou générateur) ; 45 % seulement des candidats deviennent des lieux ;
+  nids de `remarkable217` (O4) ; segments de plus de 512 m refusés par `line` ; coût du premier
+  détail du codex (chargement des grilles) à mesurer en jeu (O9) ; règle D-O1 à brancher sur
+  les projectiles de la cité (O6b) et sur la vue (O8).
 
 ### O3 — Sauvegarde G12 creuse (G12 toujours non créable)
 

@@ -27,6 +27,7 @@
  <label>Pixels par maille <input id="px" type="number" min="2" max="16" value="6"></label>
  <label>Fond <select id="mode"><option value="relief">paliers</option><option value="biome">milieux</option><option value="local">carte locale de D-17</option></select></label>
  <label>Cadre local (m) <input id="frame" type="number" min="64" max="320" step="64" value=""></label>
+ <label><input id="sites" type="checkbox"> emprises des lieux (O2)</label>
  <label>Bord de falaise <select id="edge"><option value="">décalé (T5)</option><option value="mailles">sur les mailles (T4)</option></select></label>
  <button id="draw">Dessiner</button>
  <button data-move="-1,0">←</button><button data-move="0,-1">↑</button><button data-move="0,1">↓</button><button data-move="1,0">→</button>
@@ -45,19 +46,24 @@
  const biomeColour=Object.fromEntries([...C.BiomeRules135.defs,...C.EcologyRules164.defs].map(d=>[d.id,d.palette.base]));
  const query=new URLSearchParams(location.search);
  for(const key of ['seed','cx','cy','radius','px','mode','frame','edge'])if(query.has(key))$(key).value=query.get(key);
+ if(query.get('sites')==='1')$('sites').checked=true;
+ // Lieux complets de la tranche O2 (src/world-sites217.js) : lot, bâtiment tourné face à sa route, allée.
+ const OCCUPATION={empty:'#d8d0b8',infected:'#c0392b',allied:'#3aa35b',hostile:'#8e44ad'};let sitesWorld=null;
  $('legend').innerHTML=TINT.map((c,i)=>'<span><i style="background:'+c+'"></i>'+(i?'palier '+i:'mer (palier 0)')+'</span>').join('')
   +'<span><i style="background:#2a1d14"></i>falaise (tout changement de palier hors col ; trait double : deux crans)</span><span><i style="background:#7dff6b"></i>col naturel (rampe)</span>'
   +'<span><i style="background:#ffb020"></i>rampe taillée par une route</span><span><i style="background:#3f86b8"></i>rivière, lac</span><span><i style="background:#f4e9c8"></i>route</span>'
-  +'<span><i style="background:#c0392b"></i>lieu candidat</span><span><i style="background:#fff"></i>pont</span><span><i style="background:#e9c46a;border-radius:50%"></i>agglomération</span><span><i style="background:#ff3df2"></i>site de D-17</span>';
+  +'<span><i style="background:#c0392b"></i>lieu candidat</span><span><i style="background:#fff"></i>pont</span><span><i style="background:#e9c46a;border-radius:50%"></i>agglomération</span><span><i style="background:#ff3df2"></i>site de D-17</span>'
+  +'<span><i style="background:#d8d0b8"></i>lieu complet (O2) : bâtiment, lot en pointillé, allée ; rouge infecté, vert allié</span>';
  function draw(){
   if($('mode').value==='local')return drawLocal();
   $('legend').innerHTML=LEGEND;
   const seed=Number($('seed').value),cx=Number($('cx').value),cy=Number($('cy').value),radius=Number($('radius').value),px=Number($('px').value),mode=$('mode').value;
   const n=G.CELLS,side=2*radius+1,canvas=$('map'),size=side*n*px;canvas.width=size;canvas.height=size;
   const g=canvas.getContext('2d'),scale=px/G.CELL,ox=(cx-radius)*K.SIZE,oy=(cy-radius)*K.SIZE,X=x=>(x-ox)*scale,Y=y=>(y-oy)*scale;
-  const started=performance.now(),cantons=[],times=[];
+  const started=performance.now(),cantons=[],times=[],siteTimes=[];
+  if($('sites').checked&&globalThis.DeadwallWorldSites217){if(!sitesWorld||sitesWorld.seed!==seed){const w=globalThis.DeadwallWorldSites217.create(seed);sitesWorld=Object.assign(Object.create(w),{RULES_LOT:globalThis.DeadwallWorldSites217.RULES.lot});}}else sitesWorld=null;
   for(const c of K.ring(cx,cy,radius)){const t=performance.now();cantons.push(G.generate(seed,c.cx,c.cy));times.push(performance.now()-t);}
-  const elapsed=performance.now()-started,median=times.sort((a,b)=>a-b)[times.length>>1],total={rivers:0,lakes:0,roads:0,dead:0,sites:0,ramps:0,cliffs:0,slopes:0,cols:0,cuts:0,towns:0,watered:0};let foundation=null;
+  const elapsed=performance.now()-started,median=times.sort((a,b)=>a-b)[times.length>>1],total={rivers:0,lakes:0,roads:0,dead:0,sites:0,ramps:0,cliffs:0,slopes:0,cols:0,cuts:0,towns:0,watered:0,placed:0,codex:0};let foundation=null;
   for(const c of cantons){
    const bx=X(c.bounds.x),by=Y(c.bounds.y);
    for(let i=0;i<n*n;i++){const x=i%n,y=(i-x)/n,l=c.levels[i];g.fillStyle=l===0?TINT[0]:mode==='biome'?biomeColour[G.BIOMES[c.biomes[i]]]:TINT[l];g.fillRect(bx+x*px,by+y*px,px,px);
@@ -88,6 +94,12 @@
    total.ramps+=c.ramps.length;
    if(c.hub){g.strokeStyle='#111';g.lineWidth=1;g.fillStyle='#f4e9c8';g.beginPath();g.arc(X(c.hub.x),Y(c.hub.y),px*.55,0,7);g.fill();g.stroke();}
    for(const s of c.sites){g.fillStyle='#c0392b';g.strokeStyle='#1c0906';g.lineWidth=1;g.beginPath();g.rect(X(s.x)-px*.32,Y(s.y)-px*.32,px*.64,px*.64);g.fill();g.stroke();total.sites++;}
+   if(sitesWorld){const t=performance.now(),places=sitesWorld.placesOf(c.cx,c.cy);siteTimes.push(performance.now()-t);
+    const F=globalThis.DeadwallFrontierGeometry,poly=(p,x0,y0,w,h)=>{g.beginPath();[[x0,y0],[x0+w,y0],[x0+w,y0+h],[x0,y0+h]].forEach(([u,v],k)=>{const q=F.global(p,u,v);k?g.lineTo(X(q.x),Y(q.y)):g.moveTo(X(q.x),Y(q.y));});g.closePath();};
+    for(const p of places){total.placed++;if(p.programme3000)total.codex++;const L=sitesWorld.RULES_LOT;
+     poly(p,-L.side,-L.front,p.w+2*L.side,p.h+L.front+L.back);g.setLineDash([3,2]);g.strokeStyle='rgba(255,255,255,.7)';g.lineWidth=1;g.stroke();g.setLineDash([]);
+     poly(p,0,0,p.w,p.h);g.fillStyle=OCCUPATION[p.occupation]||'#d8d0b8';g.fill();g.strokeStyle='#111';g.stroke();
+     g.strokeStyle='#f4e9c8';g.lineWidth=1.5;g.beginPath();g.moveTo(X(p.drive.a.x),Y(p.drive.a.y));g.lineTo(X(p.drive.b.x),Y(p.drive.b.y));g.stroke();}}
    // Agglomérations : celle du coin nord-ouest est dessinée par son canton, avec son rayon et son nom.
    for(const t of c.towns)if(t.vx===c.cx&&t.vy===c.cy){total.towns++;g.strokeStyle='#e9c46a';g.lineWidth=t.kind==='ville'?2.5:t.kind==='bourg'?1.8:1;g.setLineDash([4,3]);g.beginPath();g.arc(X(t.x),Y(t.y),t.radius*scale,0,7);g.stroke();g.setLineDash([]);
     const label=t.name+' ('+t.kind+')';g.font='bold 11px system-ui,sans-serif';g.fillStyle='rgba(0,0,0,.75)';g.fillText(label,X(t.x)+7,Y(t.y)-5);g.fillStyle='#ffe9a8';g.fillText(label,X(t.x)+6,Y(t.y)-6);}
@@ -101,10 +113,11 @@
    +total.roads+' tronçons de route ('+total.dead+' en impasse), '+total.ramps+' rampes empruntées, '+total.rivers+' cours d’eau, '+total.lakes+' lacs, '+total.sites+' lieux candidats, '
    +total.cliffs+' arêtes de falaise, '+total.slopes+' arêtes de rampe (rapport '+(total.cliffs/Math.max(1,total.slopes)).toFixed(1)+'), '+total.cols+' cols dont '+total.cuts+' taillés par une route, '
    +total.towns+' agglomérations, '+total.watered+' cantons avec un cours d’eau.'
+   +(sitesWorld?'\nLieux complets (O2) : '+total.placed+' sur '+total.sites+' candidats ('+total.codex+' programmes du codex), mobilier d’un canton en '+(siteTimes.sort((a,b)=>a-b)[siteTimes.length>>1]||0).toFixed(2)+' ms en médiane.':'')
    +(foundation?'\nSite de D-17 : palier '+foundation.level+' ('+foundation.biome+'), plateau de '+foundation.plateau.cells+' mailles dans le canton, bordé à '+Math.round(foundation.plateau.enclosure*100)+' % de falaise ou de rivage'+(foundation.plateau.closed?', fermé':', ouvert vers un canton voisin')
     +' ; falaise à '+(foundation.cliff?Math.round(foundation.cliff.distance)+' m ('+foundation.cliff.wind+')':'—')+', eau à '+(foundation.water?Math.round(foundation.water.distance)+' m ('+foundation.water.kind+', '+foundation.water.wind+')':'—')
     +' ; cols à garder : '+(foundation.cols.map(k=>k.kind+' '+k.low+'→'+k.high+' à '+Math.round(k.distance)+' m ('+k.wind+')').join(', ')||'aucun')+'.':'');
-  globalThis.apercu217={cantons:cantons.length,elapsed,median,total,foundation};
+  globalThis.apercu217={cantons:cantons.length,elapsed,median,total,foundation,siteTimes};
  }
 
  // Carte locale de D-17 (specs/monde-sans-bord, T4 hors jeu) : le cadre jouable case par case.

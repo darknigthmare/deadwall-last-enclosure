@@ -422,7 +422,7 @@ plate de 128 m, ses flux et ses identifiants.
 
 ## T4 — Lieux et sauvegarde creuse
 
-- [ ] T4.1 Lieux par canton : `K…:site:n`, plans par les fabriques existantes (`G.plan`,
+- [x] T4.1 (→ O2, livré hors jeu) Lieux par canton : `K…:site:n`, plans par les fabriques existantes (`G.plan`,
       codex 160, sites 205), occupants par `world-spawns131` et la bande de distance.
 - [ ] T4.2 `frontier-state` : G12 acceptée, bornes de position, expressions d'identifiants
       par génération, registre `cantons`, plafonds.
@@ -592,6 +592,42 @@ Toujours rien d'ouvert : génération 12 refusée partout, aucune option de menu
 - Réserves : tracé sur les centres de maille, pas sur les courbes adoucies ; lieux sans
   emprise ni `drive` (O2) ; `home` = plat de 64 m du site, à remplacer par le cadre de la carte
   locale en O5 ; aucun `blocked` / `line` : la falaise n'est pas encore un obstacle régional (O2).
+- [x] O2 Lieux G12 complets et collisions régionales, hors jeu : `src/world-sites217.js`
+      (enveloppe du monde d'O1, qui reste intact), règles `C.WorldSites217Rules` (`src/core.js`,
+      juste après `C.WorldOpen217Rules`), test `tests/world-sites217.test.cjs` (13 cas) ; page
+      d'aperçu étendue (case « emprises des lieux (O2) », servie par
+      `scripts/apercu-cantons217.mjs`). Chaque candidat `K…:site:n` devient un lieu complet par
+      (graine, canton, indice) : genre tiré du milieu du lieu (flux `lieu-genre-n`), programme du
+      codex par `forParcel` et plan `floor` comme les lieux natifs de G8+ (sinon `G.plan` du
+      genre), emprise tournée face à sa route avec le lot de la région finie (w + 26 × h + 48),
+      allée raccordée par `frontage174.resolve`, occupation `world-spawns131`, nombre
+      d'occupants identique à `frontier-world.threatCount`, occupants `K…:site:n:eN` (étage et
+      profil du milieu), détails par la chaîne des campagnes neuves (version 13), plans et
+      détails paresseux. Veto : lot dans le canton à 12 m des coutures, sur un seul palier sec,
+      sans route ni rivière, hors du site de fondation et des autres lots. Accesseurs ajoutés :
+      `site` (lieu complet ; `candidate` = candidat brut d'O1), `sitesNear` par emprise tournée,
+      `nearPOI`, `plan`, `detailAt`, `drive`, `driveFor`, `connectionFor`, `threatCount`,
+      `occupants`, `chunk(cx, cy)` (256 m, clé signée, arbres `K…:arbre:n` et rochers
+      `K…:roche:n` par flux `arbres-j` / `roches-j`), `around`, `containers`, `blocked`,
+      `line`, `opticalBlocked`, `movementLine`, `vehicleClear`, `lineOfSight`, `levelAt`,
+      `edgesIn`. Obstacles : une arête de falaise bloque le pas et la voiture, une rampe (col
+      naturel ou taillé) se franchit, la mer, les lacs et les cours d'eau bloquent sauf sur un
+      pont (règle G8+) ; **D-O1** : `lineOfSight` (et `line` en vue ou en tir) est arrêté par
+      une arête de falaise montante plus haute que le palier du tireur, jamais en descendant ;
+      règle pure `SIGHT.blocks(tireur, avant, après)`.
+      Mesures : 45 % des candidats deviennent des lieux (17117 : 222 sur 489 en 7 × 7 cantons ;
+      refus surtout par lot voisin, palier, route, raccord) ; un tiers à la moitié des lieux
+      portent un programme du codex ; mobilier d'un canton 1 ms en médiane hors génération
+      (6,5 ms dans le navigateur), morceau de 256 m 2 ms en médiane ; 200 cantons : toutes les
+      arêtes de falaise bloquantes, aucune rampe bloquée par le relief. Mondes G1–G11 des huit
+      graines identiques à `campagne205-eligibilite.json` hors empreinte de `src/core.js`.
+- Réserves O2 : le tracé adouci `road.points` coupe parfois l'angle d'une falaise près d'une
+  rampe (moins de 0,2 % des points de route refusés à la voiture) : à reprendre avec le rendu
+  (O8) ou le générateur ; plus de la moitié des candidats restent sans lieu (aucun second
+  essai de position) ; les lots refusent toute route sur leur arrière (plus strict que la
+  région finie, dont les clôtures de détail peuvent toucher une route) ; `line` refuse un
+  segment de plus de 512 m ; pas de nids de `remarkable217` (O4) ; un détail du codex coûte
+  50 à 1 000 ms au premier appel (chargement des grilles), à surveiller en O9.
 
 ## T5 — Ouverture expérimentale
 

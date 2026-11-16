@@ -401,7 +401,7 @@ test('canton 217 : module isolé — rien de chargé par le jeu, génération 12
   assert.deepEqual([...source.matchAll(/require\('([^']+)'\)/g)].map(m=>m[1]),['./core.js','./world-cantons217.js'],'dépendances : les règles et la brique d’adressage');
   assert.ok(!/G\.hash|G\.rng|Frontier|Geography135|Hydrology165\b(?!Rules)|geography141|taken|localStorage/.test(code),'aucun flux ni registre des générations 1 à 11');
   for(const file of ['index.html','sw.js','scripts/server.mjs','scripts/build.mjs','scripts/public-manifest183.cjs'])assert.ok(!read(file).includes('canton-gen217')&&!read(file).includes('apercu-cantons217'),file);
-  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','world-local217.js','world-open217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
+  for(const file of fs.readdirSync(path.join(ROOT,'src')))if(!['world-canton-gen217.js','world-local217.js','world-open217.js','world-sites217.js','core.js'].includes(file)){const text=read('src/'+file);assert.ok(!text.includes('WorldRelief217')&&!text.includes('CantonGen217')&&!text.includes('canton-gen217'),file+' ne doit pas dépendre du générateur de cantons');}
   assert.ok(read('tools/apercu-cantons217.html').includes('hors jeu'));
   const W=require('../src/frontier-world.js'),S=require('../src/frontier-state.js');
   assert.throws(()=>W.create(17117,K.RULES.reservedGeneration),/Version du monde inconnue/);
