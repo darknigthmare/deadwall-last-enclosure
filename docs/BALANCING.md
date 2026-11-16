@@ -531,3 +531,5 @@ Deuxième tranche : repérage à 600 m (`spot`), en sortie seulement ; repeuplem
 Exemple, vague 13 standard, signature de départ : 235 annoncés, 282 si elle vit, 207 si elle est abattue.
 
 Deuxième tranche : escorte `{base 6, perLed 2, max 18, share 0,08, ringMin 46, ringMax 110, wake 260, shot 150}`, prise sur le plan ; poste `{tries 6, step 128}`.
+
+Grands ouvrages, deuxième tranche : `site = {reach 44, trampleSeconds 2, maxLossShare 0,5}` ; beffroi `{size 4×4, heights 8/16/24 m}` ; nécropole `{size 8×6, heights 2/3,5/5 m, pyreSpeed 1,5, pitCapacity ×2}`. Non éprouvé.

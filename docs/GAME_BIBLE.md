@@ -2196,6 +2196,35 @@ Restent à faire : les neuf autres ouvrages, un vrai chantier posé sur la
 carte, la tranche inachevée comme point faible, le prix en moral du
 district voisin, l'activation sur une campagne ancienne.
 
+**Deuxième tranche livrée [LIVRÉ] : le chantier posé sur la carte**
+
+- Un grand ouvrage occupe une **emprise choisie par le joueur** dans la
+  cité, à 44 cases au plus du dépôt : 4 × 4 cases pour le beffroi, 8 × 6
+  pour la nécropole. Pose comme au catalogue (aperçu, clic, Échap),
+  gratuite, déplaçable tant qu'aucune tranche n'est lancée. Aucun ouvrage
+  ne peut ensuite se poser dessus ; l'emprise ne ferme aucune case.
+- **La silhouette grandit à chaque tranche** : 8, 16 puis 24 m pour le
+  beffroi ; 2, 3,5 puis 5 m pour l'enceinte de la nécropole. Une tranche en
+  chantier apparaît en échafaudage.
+- **Une tranche inachevée est une faiblesse** : pendant l'assaut, chaque
+  infecté présent dans l'emprise lui retire 2 s de chantier par seconde, au
+  plus la moitié de la tranche par assaut. Aucun dégât, rien de repayé.
+- Achevée, la nécropole sert la filière des corps (§8.7) : bûcher 1,5 fois
+  plus rapide, fosses de 240 corps au lieu de 120.
+- La carte « Signature » compte les grands ouvrages et le bûcher comme une
+  cinquième part.
+- Une campagne de la première tranche garde son avancement ; ses ouvrages
+  restent sans emprise, sauf si le joueur leur en choisit une.
+
+Réserves : l'emprise n'est pas un ouvrage du monde (pas de points de vie, la
+horde ne la vise pas : elle la piétine en passant). Bien abritée à
+l'intérieur, elle ne risque rien. La vue à la première personne ne montre
+pas la silhouette. Rien n'a été joué en conditions réelles.
+
+Restent à faire : les neuf autres ouvrages, un vrai ouvrage du monde
+(points de vie, cible de la horde), le prix en moral du district voisin, la
+silhouette en vue à la première personne.
+
 ### 8.5 Lois et rationnement **[DÉCISION]**
 
 - Une **loi** est une politique de cité à contrepartie visible.
