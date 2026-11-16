@@ -3,7 +3,11 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const C=require('../src/core.js'),F=require('../src/factions217.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const R=C.Factions217Rules,RAID=R.raid,RELAY=R.relay;
-const none=()=>({version:1,active:false,spotted:false,returns:0,exposed:false,passes:0,rep:{rouleurs:0,relais:0},affairs:{rouleurs:null,relais:null},relay:{index:0,stage:'none',wave:0}});
+// État de la première tranche (v1), puis état v2 : mêmes champs, plus repaires repérés, escorte du retour et effets d'Entente.
+const none1=()=>({version:1,active:false,spotted:false,returns:0,exposed:false,passes:0,rep:{rouleurs:0,relais:0},affairs:{rouleurs:null,relais:null},relay:{index:0,stage:'none',wave:0}});
+const fresh1=()=>({...none1(),active:true});
+const second=()=>({lairs:{rouleurs:false,relais:false},leg:{checks:0,guarded:0},kept:0,entente:null,fate:'free',rally:{stage:'none',wave:0},intel:null,noise:0,traded:-1,recruit:'none'});
+const none=()=>({...none1(),version:2,...second()});
 const fresh=()=>({...none(),active:true});
 const near=(a,b,message)=>assert.ok(Math.abs(a-b)<1e-9,(message||'')+' : '+a+' ≠ '+b);
 const bag=o=>({...C.makeBag(),...o});
@@ -49,8 +53,13 @@ test('factions : états de relation, barrage au compteur, prélèvement borné',
 
 test('factions : état validé strictement, absent des anciennes sauvegardes = inactif',()=>{
   assert.deepEqual(F.validate(undefined),none());assert.deepEqual(F.initial(),none());assert.deepEqual(F.validate(fresh()),fresh());
+  // Une sauvegarde v1 est convertie : mêmes valeurs, champs de la deuxième tranche neutres, entretien daté de la dernière affaire.
+  assert.deepEqual(F.validate(fresh1()),fresh());assert.deepEqual(F.validate(none1()),none());
+  {const none=none1,fresh=fresh1;
   const ok={...fresh(),spotted:true,returns:4,exposed:true,passes:1,rep:{rouleurs:-2,relais:3},affairs:{rouleurs:{code:'robbed',amount:13.5,wave:6},relais:{code:'helped',amount:1,wave:5}},relay:{index:1,stage:'owed',wave:7}};
-  assert.deepEqual(F.validate(ok),ok);assert.notEqual(F.validate(ok).rep,ok.rep);assert.notEqual(F.validate(ok).affairs.rouleurs,ok.affairs.rouleurs);
+  const converted={...ok,version:2,...second(),kept:6};
+  assert.deepEqual(F.validate(ok),converted);assert.notEqual(F.validate(ok).rep,ok.rep);assert.notEqual(F.validate(ok).affairs.rouleurs,ok.affairs.rouleurs);
+  assert.deepEqual(F.validate(converted),converted,'la conversion est stable');
   for(const bad of [null,[],'factions',{},{...ok,version:2},{...ok,active:1},{...ok,extra:1},(({passes,...rest})=>rest)(ok),
     {...ok,returns:-1},{...ok,returns:1.5},{...ok,returns:1e7},{...ok,exposed:'oui'},{...ok,passes:RAID.maxPasses+1},{...ok,passes:-1},
     {...ok,rep:{rouleurs:-4,relais:0}},{...ok,rep:{rouleurs:3,relais:0}},{...ok,rep:{rouleurs:0,relais:-2}},{...ok,rep:{rouleurs:0,relais:4}},{...ok,rep:{rouleurs:0}},{...ok,rep:{rouleurs:0,relais:0,garde:0}},{...ok,rep:{rouleurs:.5,relais:0}},
@@ -58,7 +67,7 @@ test('factions : état validé strictement, absent des anciennes sauvegardes = i
     {...ok,affairs:{rouleurs:{code:'robbed',amount:-1,wave:1},relais:null}},{...ok,affairs:{rouleurs:{code:'robbed',amount:NaN,wave:1},relais:null}},{...ok,affairs:{rouleurs:{code:'robbed',amount:1,wave:1.5},relais:null}},{...ok,affairs:{rouleurs:{code:'robbed',amount:1,wave:1,extra:1},relais:null}},
     {...ok,relay:{index:1,stage:'due',wave:7}},{...ok,relay:{index:-1,stage:'owed',wave:7}},{...ok,relay:{index:1,stage:'none',wave:7}},{...ok,relay:{index:1,stage:'owed'}},{...ok,relay:null},
     {...ok,spotted:false},{...ok,returns:0},{...fresh(),passes:1},{...fresh(),rep:{rouleurs:1,relais:0}},{...fresh(),affairs:{rouleurs:{code:'spotted',amount:0,wave:1},relais:null}},
-    {...ok,active:false},{...none(),rep:{rouleurs:0,relais:1}},{...none(),relay:{index:1,stage:'none',wave:0}},{...none(),exposed:true}])assert.throws(()=>F.validate(bad),/Factions 217/);
+    {...ok,active:false},{...none(),rep:{rouleurs:0,relais:1}},{...none(),relay:{index:1,stage:'none',wave:0}},{...none(),exposed:true}])assert.throws(()=>F.validate(bad),/Factions 217/);}
 });
 
 function campaign(){const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132?.skip?.();return g;}
@@ -233,11 +242,299 @@ test('factions : aucun hasard, aucune horloge, génération du monde intacte, mo
   const source=fs.readFileSync(path.join(__dirname,'../src/factions217.js'),'utf8');
   for(const forbidden of ['Math.random','.random.','.random(','rng','localStorage','Date.now','performance.now','setTimeout','setInterval','nextId','.health=','.health-=','damage','zombies','ammo-='])assert.equal(source.includes(forbidden),false,forbidden);
   assert.equal((source.match(/g\.resources\[k\]\+=/g)||[]).length,1,'un seul point de crédit : la contrepartie d’un don payé');
-  assert.equal((source.match(/C\.spend\(/g)||[]).length,2,'deux débits : le don et le tribut');
+  // Débits : le don, le tribut (première tranche), puis le renseignement, le ralliement, l'assaut et l'échange — tous des actions annoncées.
+  assert.equal((source.match(/C\.spend\(/g)||[]).length,6,'six débits, chacun derrière une action annoncée');
+  assert.equal((source.match(/g\.resources\[k\]-=/g)||[]).length,0,'aucun débit hors C.spend');
   for(const file of ['index.html','sw.js','src/expansion-kit.js','src/expansion-ui.js'])assert.ok(fs.readFileSync(path.join(__dirname,'..',file),'utf8').includes('factions217'),file);
   {const h=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');assert.ok(h.indexOf('src/breach217.js')>0&&h.indexOf('src/breach217.js')<h.indexOf('src/factions217.js'));};
   // Même graine, mêmes lieux : la campagne avec factions n'a rien décalé.
   const a=campaign(),b=campaign();const strip=d=>{const c=JSON.parse(JSON.stringify(d));delete c.expansions127.modules.factions217;delete c.savedAt;return c;};
   const da=a.serialize();withVan(b,{});sortie(b,{scrap:40});
   assert.deepEqual(strip(da).exploration125,strip(b.serialize()).exploration125);assert.deepEqual(da.expeditions.sites,b.serialize().expeditions.sites);
+});
+
+// --- Deuxième tranche : repaires, repérage, effets d'Entente, escorte hors des murs, assaut, ralliement, tribut. ---
+const G=require('../src/frontier-geometry.js'),W=require('../src/frontier-world.js'),M=require('../src/remarkable217.js'),T=require('../src/tactics.js');
+const OPT={detailVersion:1,ecologyVersion:1,hydrologyVersion:1},copy=v=>JSON.parse(JSON.stringify(v));
+const titleOf=p=>String(p.name).split(' · ')[0].split(' — ')[0];
+const step=(g,n=6)=>{for(let i=0;i<n;i++)g.update(.05);};
+// Remplace l'état du module par une sauvegarde validée (seul moyen d'écrire l'état, comme une reprise).
+function withState(g,patch,edit){
+  const data=copy(g.serialize());data.expansions127.modules.factions217={...saved(g),...patch};if(edit)edit(data);
+  assert.equal(g.restoreSave(data),true);return g;
+}
+const known=(returns=1,rep=0,extra={})=>({spotted:true,returns,rep:{rouleurs:rep,relais:0},affairs:{rouleurs:{code:'spotted',amount:0,wave:1},relais:null},...extra});
+// Place le commandant en sortie, à pied, devant la façade du lieu, par une sauvegarde validée.
+function enterAt(g,p,edit){
+  const base=JSON.stringify(g.serialize());
+  for(const d of [3,5,8,12,20,30])for(const t of [.5,.2,.8]){
+    const data=JSON.parse(base),q=G.global(p,p.w*t,p.h+d);
+    Object.assign(data.frontier,{active:true,anchor:{x:data.player.x,y:data.player.y},x:q.x,y:q.y,z:0,inside:null});if(edit)edit(data);
+    try{if(g.restoreSave(data)!==false&&g.frontier.position().active)return true;}catch(error){/* point refusé : essai suivant */}
+  }
+  return false;
+}
+function standNear(g,v,d){
+  const base=JSON.stringify(g.serialize());
+  for(const k of [0,1,-1,2,-2,3,-3,4])for(let a=0;a<16;a++){
+    const r=d+k*15,t=a/16*Math.PI*2,data=JSON.parse(base);
+    Object.assign(data.frontier,{active:true,anchor:{x:data.player.x,y:data.player.y},x:v.x+Math.cos(t)*r,y:v.y+Math.sin(t)*r,z:0,inside:null});
+    try{if(g.restoreSave(data)!==false&&g.frontier.position().active)return Math.hypot(g.frontier.position().x-v.x,g.frontier.position().y-v.y);}catch(error){/* point refusé : essai suivant */}
+  }
+  return NaN;
+}
+const home=g=>{const data=copy(g.serialize());data.frontier.active=false;data.frontier.anchor=null;assert.equal(g.restoreSave(data),true);assert.equal(g.frontier.active(),false);};
+// Fusiliers posés à des points donnés (positions libres de la carte locale).
+// Le fusilier est créé sur la première place libre proche du point (décor), puis posé exactement au point voulu.
+function soldiersAt(g,points){return points.map(p=>{
+  let u=null;for(let r=0;r<=160&&!u;r+=16)for(let a=0;a<8&&!u;a++)u=g.createProtectedSurvivor('soldier',p.x+Math.cos(a*Math.PI/4)*r,p.y+Math.sin(a*Math.PI/4)*r);
+  assert.ok(u,'place libre près de '+p.x+','+p.y);u.x=p.x;u.y=p.y;return u;});}
+// Enceinte de palissades réelle autour du centre, porte au nord (même construction que tests/districts.test.cjs).
+function enclose(g,r){
+  const center=g.core(),cells=T.footprint(center),placed=[];
+  const put=(type,gx,gy)=>{const B=center.constructor,b=new B(g.nextId++,type,gx,gy,0,1);b.progress=1;b.health=b.def.health;g.world.add(b);placed.push(b);return b;};
+  const x0=cells.x-r,x1=cells.x+cells.width+r-1,y0=cells.y-r,y1=cells.y+cells.height+r-1,gateX=cells.x;
+  for(let x=x0;x<=x1;x++){if(x===gateX)put('gate',x,y0);else if(x!==gateX+1)put('woodWall',x,y0);put('woodWall',x,y1);}
+  for(let y=y0+1;y<y1;y++){put('woodWall',x0,y);put('woodWall',x1,y);}
+  g.world.navigationVersion++;g.refreshMetrics(true);
+  return{placed,east:(x1+1)*C.TILE,gate:{x:(gateX+1)*C.TILE,y:y0*C.TILE}};
+}
+// Retour réaliste : le fourgon part au-delà du seuil de sortie, puis rentre par l'est à pas de `stepPx`, chaque pas étant un tick.
+function drive(g,cargo,{stepPx=8,follow=null}={}){
+  const v=g.expeditions.car(),core=g.core(),z=g.factions217.approach();
+  Object.assign(v.cargo,cargo);v.y=core.y;v.x=core.x+z.away+40;tick(g);
+  const before={...v.cargo};
+  for(let d=z.away+40;d>=z.near-12;d-=stepPx){v.x=core.x+d;if(follow)follow(v);tick(g);}
+  return{before,after:{...v.cargo}};
+}
+
+test('repaires : lieu régional déjà généré, compatible, ni remarquable ni infecté, déterministe et sans écriture',()=>{
+  for(const seed of [17117,42]){
+    const w=W.create(seed,8,OPT),before=JSON.stringify(w.pois),keys=Object.keys(w).join();
+    const random=Math.random;let draws=0;Math.random=()=>{draws++;return random();};
+    let l;try{l=F.lairs(w);}finally{Math.random=random;}
+    assert.equal(draws,0,'aucun tirage');assert.equal(JSON.stringify(w.pois),before,'aucune écriture dans le monde');assert.equal(Object.keys(w).join(),keys);
+    assert.equal(F.lairs(w),l,'gardé par monde');assert.deepEqual(F.lairs(W.create(seed,8,OPT)),l,'même graine, mêmes repaires');
+    const marked=new Set(M.select(w).map(e=>e.id));
+    assert.notEqual(l.rouleurs.id,l.relais.id);
+    for(const id of F.IDS){
+      const e=l[id],p=w.pois.find(q=>q.id===e.id);assert.ok(p,'lieu existant : '+e.id);
+      assert.deepEqual([e.name,e.x,e.y],[p.name,p.x,p.y],'nom et position d’origine');
+      assert.match(titleOf(p),id==='rouleurs'?/^garage|^casse automobile|station-service|^entrep[ôo]t/i:/^ferme|^corps de ferme|^hameau|^long[èe]re|^exploitation mara/i,seed+' '+id+' : '+p.name);
+      assert.notEqual(p.occupation,'infected');assert.equal(w.threatCount(p),0,'aucun occupant infecté');assert.equal(marked.has(p.id),false,'jamais un lieu remarquable');
+      if(id==='rouleurs')assert.notEqual(p.occupation,'allied');
+      const d=Math.hypot(p.x-w.home.x,p.y-w.home.y);assert.ok(d>=R.lair.minDistance&&d<=R.lair.maxDistance,'distance raisonnable : '+Math.round(d));
+    }
+  }
+  assert.notDeepEqual(F.lairs(W.create(17117,8,OPT)).rouleurs.id,F.lairs(W.create(42,8,OPT)).rouleurs.id,'deux graines, deux voisinages');
+  assert.deepEqual(F.lairs(null),{rouleurs:null,relais:null});
+  // En jeu : même repaire que la fonction pure ; un avant-poste ne peut pas tenir un lieu sans occupant infecté.
+  const g=campaign(),l=F.lairs(g.frontier.world());
+  assert.equal(g.factions217.lair('rouleurs').id,l.rouleurs.id);assert.equal(g.factions217.lair('rouleurs').sighted,false);
+  assert.equal(g.outposts217.candidates().includes(l.rouleurs.id),false);assert.equal(g.outposts217.candidates().includes(l.relais.id),false);
+  assert.match(row(g,'Repaire des Rouleurs'),/^Inconnu : il se repère en sortie, à 600 m/);assert.deepEqual(g.factions217.marks(),[]);
+});
+
+test('repaires : repérés en sortie seulement, à portée ; repère d’atlas ensuite, sauvegardé',()=>{
+  const g=campaign(),notes=watch(g),l=g.factions217.lair('rouleurs');
+  // Depuis la cité : rien, quel que soit le temps passé.
+  step(g,30);assert.equal(saved(g).lairs.rouleurs,false);
+  const far=standNear(g,l,R.lair.spot+250);assert.ok(far>R.lair.spot,'position à '+far);step(g,30);
+  assert.equal(saved(g).lairs.rouleurs,false,'trop loin');assert.equal(count(notes,'Repaire repéré'),0);
+  const close=standNear(g,l,R.lair.spot-150);assert.ok(close<=R.lair.spot,'position à '+close);step(g,30);
+  assert.equal(saved(g).lairs.rouleurs,true);assert.equal(count(notes,'Repaire repéré : '+l.title),1);assert.match(notes.find(t=>t.includes('Repaire repéré')),/une bande motorisée vit ici/);
+  const mark=g.factions217.marks().find(m=>m.id==='rouleurs');assert.equal(mark.x,l.x);assert.match(mark.text,/^REPAIRE · /);
+  assert.ok(row(g,'Repaire des Rouleurs').startsWith(l.title+' · cap '),row(g,'Repaire des Rouleurs'));
+  // Repère dessiné sur l'atlas (contexte factice) : lecture seule.
+  const calls=[],ctx=new Proxy({},{get:(t,k)=>k==='measureText'?()=>({width:40}):typeof k==='string'?(...a)=>calls.push(k):undefined,set:()=>true});
+  const before=JSON.stringify(saved(g));g.factions217.drawAtlas(ctx,{screen:()=>({x:50,y:50}),width:400,height:300,scale:.1});
+  assert.ok(calls.includes('fillText'));assert.equal(JSON.stringify(saved(g)),before);
+  // Rentré : le repère reste, une seule annonce.
+  home(g);step(g,20);assert.equal(saved(g).lairs.rouleurs,true);assert.equal(count(notes,'Repaire repéré'),1);
+});
+
+test('escorte : mesurée pendant tout le retour, hors des murs ; la garnison des portes ne compte pas',()=>{
+  const g=campaign(),notes=watch(g),v=withVan(g,{}),core=g.core();
+  // Sans enceinte : les abords et le seuil de la première tranche.
+  assert.deepEqual(g.factions217.approach(),{away:RAID.awayDistance,near:RAID.ambushDistance});
+  const ring=enclose(g,18),z=g.factions217.approach();
+  assert.ok(z.near>=ring.east-core.x+R.escort.margin-1e-9&&z.near>RAID.ambushDistance,'abords au-delà de l’enceinte extérieure : '+JSON.stringify(z));
+  assert.equal(z.away-z.near,RAID.awayDistance-RAID.ambushDistance);
+  // Hors des murs : dedans non, au pied du mur non, au-delà de `beyond` oui.
+  const probe=(x,y)=>g.factions217.outside({x,y});
+  assert.equal(probe(core.x+200,core.y+300),false,'dans l’enceinte');assert.equal(probe(ring.gate.x,ring.gate.y-20),false,'devant la porte');
+  assert.equal(probe(ring.east+40,core.y),false,'au pied du mur');assert.equal(probe(ring.east+R.escort.beyond+30,core.y),true);
+  // Deux retours chargés : repéré, compté.
+  drive(g,{wood:70});drive(g,{});assert.equal(g.factions217.returns(),2);
+  // Garnison aux portes et fusiliers postés aux seuls abords : le barrage tombe quand même.
+  const gate=soldiersAt(g,[{x:ring.gate.x-40,y:ring.gate.y-24},{x:ring.gate.x+40,y:ring.gate.y-24}]);
+  const late=soldiersAt(g,[{x:core.x+z.near-10,y:core.y+150},{x:core.x+z.near-10,y:core.y-150}]);
+  let r=drive(g,{});assert.equal(g.factions217.returns(),3);
+  near(C.bagTotal(r.before)-C.bagTotal(r.after),Math.min(C.bagTotal(r.before)*RAID.share,RAID.maxLoss),'escorte arrivée trop tard : barrage');
+  assert.equal(count(notes,'devant l’escorte'),0);
+  // Une section envoyée sur la route, hors des murs, couvre tout le retour : le barrage est levé sans perte.
+  g.units=g.units.filter(u=>!late.includes(u));
+  const mid=(z.away+z.near)/2,section=soldiersAt(g,[{x:core.x+mid,y:core.y+100},{x:core.x+mid,y:core.y-100}]);
+  Object.assign(v.cargo,bag({wood:70}));drive(g,{});drive(g,{});r=drive(g,{});
+  assert.deepEqual(r.after,r.before,'rien de pris');assert.equal(count(notes,'devant l’escorte qui a suivi le fourgon hors des murs'),1);
+  // Une escorte qui suit le fourgon pas à pas vaut aussi ; un seul fusilier ne suffit pas.
+  g.units=g.units.filter(u=>!section.includes(u));
+  const pair=soldiersAt(g,[{x:core.x+z.away,y:core.y+120},{x:core.x+z.away,y:core.y-120}]);
+  drive(g,{});drive(g,{});r=drive(g,{},{follow:van=>{pair[0].x=van.x;pair[1].x=van.x;}});
+  assert.deepEqual(r.after,r.before);assert.equal(count(notes,'devant l’escorte'),2);
+  pair[1].dead=true;drive(g,{});drive(g,{});r=drive(g,{},{follow:van=>{pair[0].x=van.x;}});
+  assert.ok(C.bagTotal(r.after)<C.bagTotal(r.before),'un seul fusilier : barrage');
+  assert.ok(gate.every(u=>!u.dead),'la garnison des portes n’a pas bougé');
+  // L'état de l'escorte est sauvegardé pendant le retour, puis remis à zéro.
+  pair[1].dead=false;Object.assign(v.cargo,bag({wood:70}));v.x=core.x+z.away+40;tick(g);pair[0].x=pair[1].x=core.x+z.away-(z.away-z.near)/R.escort.checks-5;v.x=pair[0].x;tick(g);
+  assert.deepEqual(saved(g).leg,{checks:1,guarded:1});const data=copy(g.serialize());assert.equal(g.restoreSave(data),true);assert.deepEqual(saved(g).leg,{checks:1,guarded:1});
+  const w=g.expeditions.car();w.x=core.x+z.away+40;tick(g);assert.deepEqual(saved(g).leg,{checks:0,guarded:0},'reparti au large : tout recommence');
+});
+
+test('Entente des Rouleurs : plus de barrage, renseignement vendu contre carburant, entretien par des actes',()=>{
+  const g=campaign(),notes=watch(g);withVan(g,{});
+  withState(g,known(2,R.ententeAt,{kept:1}));assert.equal(g.factions217.standing('rouleurs'),'Entente');
+  const stock={...g.resources};let r=sortie(g,{wood:70});
+  assert.deepEqual(r.after,r.before,'pas de barrage en Entente');assert.equal(g.factions217.passes(),0);assert.equal(count(notes,'en Entente, ils laissent passer le fourgon'),1);
+  assert.match(g.factions217.lastAffair('rouleurs'),/Entente, le fourgon passe/);
+  assert.equal(saved(g).entente,g.wave,'Entente datée');
+  // Renseignement : la prochaine vague menée d'abord, un par vague, payé au stock.
+  const act=g.factions217.actions().find(a=>a.id==='intel');assert.ok(act,'action proposée');assert.equal(act.disabled,false,act.reason);
+  const led=g.abominations217.next();assert.ok(Number.isInteger(led));
+  g.resources.fuel=50;let res=act.run();assert.equal(res.ok,true);assert.deepEqual(res.intel,{kind:'led',ref:led,wave:g.wave});
+  assert.equal(g.resources.fuel,50-R.intel.cost.fuel);assert.match(notes.at(-1),new RegExp('vague '+led+' menée : la Meneuse rassemblera la horde (au nord|à l’est|au sud|à l’ouest)'));
+  assert.match(g.factions217.intelQuote().reason,/Un renseignement par vague/);assert.equal(g.resources.fuel,50-R.intel.cost.fuel);
+  // Vague suivante : la même vague menée n'est pas revendue ; un lieu remarquable pas encore repéré l'est.
+  g.wave++;res=g.factions217.buyIntel();assert.equal(res.ok,true,res.reason);assert.equal(res.intel.kind,'site');
+  const site=g.remarkable217.list().find(e=>e.id===res.intel.ref);assert.ok(site&&!site.sighted);
+  assert.match(notes.at(-1),/Renseignement des Rouleurs, payé 8 carburant : .*, cap (N|NE|E|SE|S|SO|O|NO) à .* de D-17/);
+  assert.equal(g.remarkable217.list().find(e=>e.id===site.id).sighted,false,'un renseignement ne repère pas le lieu : le repérage se fait en sortie');
+  for(const k of C.RESOURCE_KEYS)if(!['fuel','food'].includes(k))assert.equal(g.resources[k],stock[k],k);
+  // Sans tribut ni achat pendant `memory` vagues : un cran de moins, l'Entente est rompue et annoncée.
+  g.wave+=R.entente.memory;tick(g);
+  assert.equal(g.factions217.reputation('rouleurs'),R.ententeAt-1);assert.equal(saved(g).entente,null);assert.equal(count(notes,'l’Entente est rompue'),1);
+  assert.match(g.factions217.intelQuote().reason,/qu’en Entente/);assert.equal(g.factions217.actions().some(a=>a.id==='intel'),false);
+  assert.deepEqual(F.validate(saved(g)),saved(g));
+});
+
+test('ralliement des Rouleurs : demandé après une Entente tenue, payé en nourriture et logements',()=>{
+  const g=campaign(),notes=watch(g);withVan(g,{});
+  withState(g,known(2,R.ententeAt,{kept:g.wave}));tick(g);const since=saved(g).entente;assert.equal(since,g.wave);
+  assert.match(g.factions217.rallyQuote().reason,/n’ont rien demandé/);
+  // L'Entente se tient par des achats de renseignement, une vague sur deux.
+  for(let w=since+1;w<since+R.rally.afterWaves;w++){g.wave=w;tick(g);if(w%2===0){g.resources.fuel=50;assert.equal(g.factions217.buyIntel().ok,true,'vague '+w);}assert.equal(saved(g).rally.stage,'none','vague '+w);}
+  g.wave=since+R.rally.afterWaves;tick(g);
+  assert.deepEqual(saved(g).rally,{stage:'asked',wave:g.wave});assert.equal(count(notes,'Les Rouleurs demandent à rejoindre D-17'),1);
+  const act=g.factions217.actions().find(a=>a.id==='rally');assert.ok(act);assert.match(act.description,/3 fusiliers de plus, contre 40 nourriture et 3 logements/);
+  // Logements comptés, refus sans débit.
+  g.housing=g.population+R.rally.members-1;g.resources.food=100;assert.match(g.factions217.rallyQuote().reason,/Logements insuffisants/);assert.equal(g.resources.food,100);
+  g.housing=g.population+R.rally.members;const soldiers=g.units.filter(u=>u.kind==='soldier').length;
+  assert.deepEqual(g.factions217.rally(),{ok:true});
+  assert.equal(g.units.filter(u=>u.kind==='soldier').length,soldiers+R.rally.members);assert.equal(g.resources.food,100-R.rally.cost.food);
+  assert.equal(g.factions217.fate(),'rallied');assert.equal(g.factions217.standing('rouleurs'),'Ralliée');
+  assert.match(row(g,'Route du retour'),/les Rouleurs vivent à D-17/);assert.equal(g.factions217.tributeQuote().ok,false);
+  // Plus de barrage ensuite, plus de retour compté ; leurs éclaireurs vendent toujours.
+  const returns=g.factions217.returns();for(let i=0;i<3;i++){const r=sortie(g,{wood:60});assert.deepEqual(r.after,r.before);}
+  assert.equal(g.factions217.returns(),returns);g.wave++;g.resources.fuel=50;assert.equal(g.factions217.intelQuote().ok,true,g.factions217.intelQuote().reason);
+  const data=copy(g.serialize());assert.equal(g.restoreSave(data),true);assert.equal(g.factions217.fate(),'rallied');assert.deepEqual(F.validate(saved(g)),saved(g));
+});
+
+test('assaut du repaire : en sortie, payé trois fois, définitif ; refusé sans repérage ni section',()=>{
+  const g=campaign(),notes=watch(g),l=g.factions217.lair('rouleurs'),p=g.frontier.world().pois.find(q=>q.id===l.id);
+  withVan(g,{});
+  // Six fusiliers à D-17 et des munitions au stock.
+  const core=g.core(),pts=[];for(let i=0;i<R.assault.soldiers;i++)pts.push({x:core.x-160+i*60,y:core.y+190});soldiersAt(g,pts);
+  g.resources.ammo=100;g.resources.fuel=10;
+  assert.match(g.factions217.assaultQuote().reason,/Personne ne sait encore/);
+  withState(g,known(1,0));
+  assert.match(g.factions217.assaultQuote().reason,/n’a pas été repéré/);
+  assert.ok(enterAt(g,p),'devant le repaire');step(g,4);assert.equal(saved(g).lairs.rouleurs,true);
+  const q=g.factions217.assaultQuote();assert.equal(q.ok,true,q.reason);assert.equal(q.losses,R.assault.losses);
+  const act=g.factions217.actions().find(a=>a.id==='assault');assert.match(act.description,/30 munitions prises au stock, 2 fusiliers de la section tués, la cité s’entend de plus loin pendant 2 vagues/);
+  // Section incomplète : refus sans rien prendre.
+  const extra=g.units.filter(u=>u.kind==='soldier').at(-1);extra.dead=true;
+  assert.match(g.factions217.assaultQuote().reason,/Il faut 6 fusiliers/);assert.equal(g.resources.ammo,100);extra.dead=false;
+  g.refreshMetrics(true);
+  const before={signature:g.signature,soldiers:g.units.filter(u=>u.kind==='soldier'&&!u.dead).length,ammo:g.resources.ammo,fuel:g.resources.fuel,wave:g.wave};
+  const plan=sig=>C.wavePlan(g.wave,g.difficulty,sig).total;
+  assert.deepEqual(g.factions217.assault(),{ok:true,losses:R.assault.losses});
+  assert.equal(g.units.filter(u=>u.kind==='soldier'&&!u.dead).length,before.soldiers-R.assault.losses,'fusiliers tués');
+  assert.equal(g.resources.ammo,before.ammo-R.assault.cost.ammo,'munitions');
+  near(g.signature,before.signature-2*R.assault.losses+R.assault.signature,'bruit : signature');
+  assert.ok(plan(g.signature)>plan(before.signature-2*R.assault.losses),'hordes plus nombreuses');
+  assert.equal(g.resources.fuel,before.fuel+R.assault.cache.fuel,'stock du repaire rentré au dépôt');
+  assert.equal(g.factions217.fate(),'destroyed');assert.equal(g.factions217.standing('rouleurs'),'Détruite');assert.equal(count(notes,'Repaire des Rouleurs pris et vidé'),1);
+  assert.match(g.factions217.marks().find(m=>m.id==='rouleurs').text,/^REPAIRE VIDÉ/);
+  assert.match(g.factions217.assaultQuote().reason,/déjà vide/);
+  // Définitif : plus de tribut ni de renseignement, plus de barrage, plus de retour compté.
+  home(g);
+  assert.match(g.factions217.tributeQuote().reason,/ne sont plus/);assert.match(g.factions217.intelQuote().reason,/ne sont plus/);
+  assert.deepEqual(g.factions217.actions().filter(a=>['tribute','intel','rally','assault'].includes(a.id)),[]);
+  const returns=g.factions217.returns();for(let i=0;i<3;i++){const r=sortie(g,{wood:60});assert.deepEqual(r.after,r.before);}assert.equal(g.factions217.returns(),returns);
+  // Le bruit dure les vagues annoncées, puis s'éteint.
+  g.wave=before.wave+R.assault.noiseWaves-1;tick(g);g.refreshMetrics(true);const loud=g.signature;
+  g.wave++;tick(g);g.refreshMetrics(true);near(loud-g.signature,R.assault.signature,'bruit éteint');assert.equal(saved(g).noise,0);
+  const data=copy(g.serialize());assert.equal(g.restoreSave(data),true);assert.equal(g.factions217.fate(),'destroyed');
+  // Bande hostile : alertée, elle tue un fusilier de plus.
+  const h=campaign();withVan(h,{});soldiersAt(h,pts);h.resources.ammo=100;
+  withState(h,{...known(1,R.hostileAt),lairs:{rouleurs:true,relais:false}});const hp=h.frontier.world().pois.find(q=>q.id===h.factions217.lair('rouleurs').id);
+  assert.ok(enterAt(h,hp));assert.equal(h.factions217.assaultQuote().losses,R.assault.losses+R.assault.alerted);
+});
+
+test('Entente des Relais : un échange par vague, une recrue une seule fois',()=>{
+  const g=campaign(),notes=watch(g);
+  assert.match(g.factions217.tradeQuote().reason,/qu’en Entente/);assert.match(g.factions217.recruitQuote().reason,/avant l’Entente/);
+  withState(g,{rep:{rouleurs:0,relais:R.ententeAt}});tick(g);
+  assert.equal(saved(g).recruit,'offered');assert.equal(count(notes,'une famille propose'),1);
+  g.resources.wood=40;const food=g.resources.food;
+  assert.deepEqual(g.factions217.trade(),{ok:true});assert.equal(g.resources.wood,40-R.exchange.give.wood);near(g.resources.food,food+R.exchange.get.food);
+  assert.match(g.factions217.tradeQuote().reason,/Un échange par vague/);assert.equal(g.factions217.trade().ok,false);assert.equal(g.resources.wood,40-R.exchange.give.wood);
+  g.wave++;g.resources.wood=R.exchange.give.wood-1;assert.match(g.factions217.tradeQuote().reason,/Stock insuffisant/);
+  g.resources.wood=40;g.resources.food=g.storage;assert.match(g.factions217.tradeQuote().reason,/pas la place/);assert.equal(g.resources.wood,40);
+  g.resources.food=food;
+  // Recrue : un ouvrier, un logement, une seule fois.
+  const workers=g.units.filter(u=>u.kind==='worker').length;g.housing=g.population;assert.match(g.factions217.recruitQuote().reason,/Logements/);
+  g.housing=g.population+1;assert.deepEqual(g.factions217.recruit(),{ok:true});
+  assert.equal(g.units.filter(u=>u.kind==='worker').length,workers+1);assert.equal(saved(g).recruit,'taken');assert.match(g.factions217.recruitQuote().reason,/déjà rejoint/);
+  for(let i=0;i<4;i++){g.wave++;tick(g);}assert.equal(count(notes,'une famille propose'),1,'jamais reproposée');
+  assert.deepEqual(F.validate(saved(g)),saved(g));
+});
+
+test('tribut : il suit l’âge de la cité et les vagues, borné sous le plafond d’un barrage',()=>{
+  const S=R.tributeScale;
+  assert.deepEqual(F.tributeCost(0,1),bag({fuel:RAID.tribute.fuel}),'la cité naissante paie le tribut de la première tranche');
+  assert.equal(F.tributeCost(3,12).fuel,RAID.tribute.fuel+3*S.perTier+2*S.perStep);
+  assert.equal(F.tributeCost(20,500).fuel,S.max);assert.ok(S.max<RAID.maxLoss,'jamais plus cher que le pire barrage');
+  for(let age=0;age<12;age++)for(let w=0;w<60;w+=7)assert.ok(F.tributeCost(age,w).fuel<=F.tributeCost(age+1,w+1).fuel,'croissant');
+  const g=campaign();withVan(g,{});sortie(g,{wood:60});g.wave=11;g.resources.fuel=50;
+  const cost=F.tributeCost(g.tier.id,11).fuel;assert.ok(cost>RAID.tribute.fuel);
+  assert.match(row(g,'Route du retour'),new RegExp('tribut versé d’avance \\('+cost+' carburant\\)'));
+  assert.deepEqual(g.factions217.tribute(),{ok:true});assert.equal(g.resources.fuel,50-cost);
+  assert.match(g.factions217.lastAffair('rouleurs'),new RegExp('tribut versé \\('+cost+' carburant\\)'));
+});
+
+test('conversion : une campagne de la première tranche reprend en v2, mêmes repaires, monde identique',()=>{
+  const g=campaign(),world=JSON.stringify(g.frontier.world().pois.map(p=>[p.id,p.name,p.x,p.y,p.occupation]));
+  const v1={...fresh1(),spotted:true,returns:4,passes:1,rep:{rouleurs:1,relais:2},affairs:{rouleurs:{code:'tribute',amount:6,wave:3},relais:{code:'helped',amount:1,wave:5}},relay:{index:1,stage:'owed',wave:7}};
+  const data=copy(g.serialize());data.expansions127.modules.factions217=v1;assert.equal(g.restoreSave(data),true);
+  assert.deepEqual(saved(g),{...v1,version:2,...second(),kept:3});assert.equal(g.factions217.passes(),1);assert.equal(g.factions217.standing('relais'),'Entente');
+  assert.equal(g.factions217.lair('rouleurs').id,F.lairs(g.frontier.world()).rouleurs.id);
+  tick(g);assert.equal(saved(g).recruit,'offered','les effets d’Entente valent aussi pour une campagne convertie');
+  assert.equal(JSON.stringify(g.frontier.world().pois.map(p=>[p.id,p.name,p.x,p.y,p.occupation])),world);
+  // Une v2 abîmée est refusée.
+  for(const patch of [{fate:'gone'},{leg:{checks:R.escort.checks+1,guarded:0}},{leg:{checks:1,guarded:2}},{intel:{kind:'site',ref:'X1',wave:1}},{noise:3},{rally:{stage:'asked',wave:4}},{traded:-2},{recruit:'maybe'},{lairs:{rouleurs:1,relais:false}},{entente:2}]){
+    const bad=copy(g.serialize());bad.expansions127.modules.factions217={...saved(g),...patch};
+    let ok=false;try{ok=g.restoreSave(bad)===true;}catch(error){assert.match(error.message,/Factions 217/);}assert.equal(ok,false,JSON.stringify(patch));
+  }
+  assert.throws(()=>F.validate({...fresh(),fate:'destroyed'}),/Factions 217/,'détruits sans être connus');
+  assert.throws(()=>F.validate({...fresh(),...known(1,0),fate:'destroyed',passes:1}),/Factions 217/,'un repaire détruit ne garde pas de tribut');
+});
+
+test('ancienne campagne : ni repaire, ni repère, ni effet d’Entente, même en sortie',()=>{
+  const g=campaign(),notes=watch(g),l=g.factions217.lair('rouleurs');
+  const data=copy(g.serialize());delete data.expansions127.modules.factions217;assert.equal(g.restoreSave(data),true);
+  assert.equal(g.factions217.lair('rouleurs'),null);assert.deepEqual(g.factions217.marks(),[]);
+  standNear(g,l,100);step(g,30);assert.deepEqual(saved(g),none());assert.equal(notes.filter(t=>/Repaire|Relais repéré/.test(t)).length,0);
+  for(const q of ['intelQuote','rallyQuote','assaultQuote','tradeQuote','recruitQuote'])assert.match(g.factions217[q]().reason,/ne connaît pas les factions/,q);
+  const sig=g.signature;g.refreshMetrics(true);assert.equal(g.signature,sig);
 });

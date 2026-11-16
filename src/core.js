@@ -3437,7 +3437,23 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
   relay:Object.freeze({firstWave:2,everyWaves:3,openWaves:1,returnWaves:2,requests:Object.freeze([
    Object.freeze({relay:'Les Granges',ask:Object.freeze({food:14}),back:Object.freeze({fuel:5})}),
    Object.freeze({relay:'La Rive',ask:Object.freeze({wood:24}),back:Object.freeze({food:10})}),
-   Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])})});
+   Object.freeze({relay:'Fontvieille',ask:Object.freeze({medicine:3,food:8}),back:Object.freeze({ammo:8})})])}),
+  // Deuxième tranche. lair : repaire sur un lieu existant, entre minDistance et maxDistance (m) de D-17, repéré en sortie à `spot` m.
+  // escort : l'escorte est vérifiée à `checks` points du retour ; un fusilier compte hors des murs, à `beyond` px au moins de
+  // l'enceinte extérieure et `minCore` px du centre ; les abords sont à `margin` px au-delà de l'enceinte extérieure.
+  // entente.memory : vagues sans tribut ni renseignement avant que la réputation des Rouleurs baisse d'un cran.
+  // intel : prix d'un renseignement (un par vague). rally : demande après `afterWaves` vagues d'Entente ; `members` fusiliers
+  // contre `cost` et autant de logements. assault : `soldiers` fusiliers à D-17, `cost` pris au stock, `losses` tués (+`alerted`
+  // à l'état Hostile), signature +`signature` pendant `noiseWaves` vagues, `cache` du repaire au dépôt ; `reach` : portée (m).
+  // exchange : un échange par vague avec les Relais en Entente. tributeScale : tribut = base + perTier × âge + perStep par
+  // tranche de `everyWaves` vagues, au plus `max` carburant (reste sous le plafond d'un barrage).
+  lair:Object.freeze({minDistance:1200,maxDistance:4000,spot:600}),
+  escort:Object.freeze({checks:3,beyond:96,minCore:400,margin:200}),
+  entente:Object.freeze({memory:4}),intel:Object.freeze({cost:Object.freeze({fuel:8})}),
+  rally:Object.freeze({afterWaves:6,members:3,cost:Object.freeze({food:40})}),
+  assault:Object.freeze({reach:40,soldiers:6,losses:2,alerted:1,cost:Object.freeze({ammo:30}),signature:90,noiseWaves:2,cache:Object.freeze({fuel:20})}),
+  exchange:Object.freeze({give:Object.freeze({wood:16}),get:Object.freeze({food:10})}),
+  tributeScale:Object.freeze({perTier:2,everyWaves:5,perStep:1,max:20})});
  // Grands ouvrages (docs/GAME_BIBLE.md §8.4), première tranche, nouvelles campagnes seulement. Valeurs non éprouvées en partie réelle.
  // startAge : indice de C.CITY_TIERS (9 = Mégaville II, « âge 10 » de la bible). Un ouvrage se bâtit par tranches : chaque
  // tranche est payée au dépôt (`cost`, pris sur le stock), puis construite pendant `seconds` de chantier, suspendu de l'alerte
