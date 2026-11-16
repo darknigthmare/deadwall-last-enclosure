@@ -1388,6 +1388,13 @@ d'atlas calée sur l'étendue totale.
   actuelle ; une route coupe parfois l'angle d'une falaise près d'une rampe
   (moins de 0,2 % des points) ; la règle de vue n'est pas encore branchée
   sur les tirs de la cité.
+- **Tranche O4, premier lot, sans effet en jeu** : douze lecteurs (atlas,
+  fiche de graine, lieux remarquables, codex, carnet, opérations) ne
+  parcourent plus la liste complète des lieux mais leur voisinage, sur les
+  deux mondes. Sorties identiques au bit près sur les campagnes actuelles.
+  Restent : les validateurs de sauvegarde (avec O3), la chronique, et la
+  règle de sélection des lieux remarquables dans un monde sans bord (à
+  trancher : espacement vérifié par cantons voisins, sans plafond global).
 - **[DÉCISION]** Ouverture du monde sans bord : une falaise arrête la vue
   et les tirs d'en bas, pas ceux d'en haut ; une cité à deux côtés ouverts
   reçoit la même vague, concentrée sur ces côtés ; la vue à la première
