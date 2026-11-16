@@ -56,22 +56,46 @@
  // candidats sont classés par hachage de la graine et de l'identifiant, et un candidat trop proche d'un lieu déjà
  // retenu est écarté. Le résultat est gelé et gardé par monde, sans rien écrire dans le monde.
  const cache=new WeakMap();
- function select(world){
-  if(!world||!Array.isArray(world.pois))return Object.freeze([]);
-  const known=cache.get(world);if(known)return known.list;
+ // Candidat promouvable : usage reconnu, hors des abords de D-17, avec son hachage de rang.
+ function candidate(world,p,out){
+  const kind=kindOf(p);if(!kind)return;
+  // Aucun nid aux portes de la cité : un lieu à moins de `homeClearance` de D-17 reste ordinaire.
+  if(world.home&&Math.hypot(p.x-world.home.x,p.y-world.home.y)<R.homeClearance)return;
+  out.push({p,kind,rank:G.hash(world.seed,p.id,'remarkable217')});
+ }
+ // Candidats groupés par canton de `cantonSize` m, cantons dans l'ordre de la clé cy*4096+cx (ligne puis colonne),
+ // lieux d'un canton dans l'ordre du monde. Région finie : chaque canton est lu par `sitesIn` (monde sans bord,
+ // tranche O4), jamais toute la liste. Monde factice sans accesseur : parcours historique de `pois`. Monde sans
+ // bord (G12) : aucun lieu remarquable tant que l'espacement n'est pas rendu local (voir ouverture.md, O4).
+ function cantonGroups(world){
+  const S=R.cantonSize,e=typeof world.sitesIn==='function'&&typeof world.extent==='function'?world.extent():null;
+  if(e&&e.bounded===true){
+   const groups=[];
+   for(let cy=Math.floor(e.minY/S);cy<=Math.floor(e.maxY/S);cy++)for(let cx=Math.floor(e.minX/S);cx<=Math.floor(e.maxX/S);cx++){
+    const out=[];
+    for(const p of world.sitesIn({left:cx*S,top:cy*S,right:(cx+1)*S,bottom:(cy+1)*S}))if(Math.floor(p.x/S)===cx&&Math.floor(p.y/S)===cy)candidate(world,p,out);
+    if(out.length)groups.push(out);
+   }
+   return groups;
+  }
+  if(e||!Array.isArray(world.pois))return null;
   const cantons=new Map();
   for(const p of world.pois){
-   const kind=kindOf(p);if(!kind)continue;
-   // Aucun nid aux portes de la cité : un lieu à moins de `homeClearance` de D-17 reste ordinaire.
-   if(world.home&&Math.hypot(p.x-world.home.x,p.y-world.home.y)<R.homeClearance)continue;
-   const cx=Math.floor(p.x/R.cantonSize),cy=Math.floor(p.y/R.cantonSize),key=cy*4096+cx;
+   const out=[];candidate(world,p,out);if(!out.length)continue;
+   const key=Math.floor(p.y/S)*4096+Math.floor(p.x/S);
    if(!cantons.has(key))cantons.set(key,[]);
-   cantons.get(key).push({p,kind,rank:G.hash(world.seed,p.id,'remarkable217')});
+   cantons.get(key).push(out[0]);
   }
+  return [...cantons.keys()].sort((a,b)=>a-b).map(key=>cantons.get(key));
+ }
+ function select(world){
+  if(!world)return Object.freeze([]);
+  const known=cache.get(world);if(known)return known.list;
+  const groups=cantonGroups(world);if(!groups)return Object.freeze([]);
   const list=[];
-  for(const key of [...cantons.keys()].sort((a,b)=>a-b)){
+  for(const group of groups){
    let kept=0;
-   for(const c of cantons.get(key).sort((a,b)=>a.rank-b.rank||(a.p.id<b.p.id?-1:1))){
+   for(const c of group.sort((a,b)=>a.rank-b.rank||(a.p.id<b.p.id?-1:1))){
     if(kept>=R.perCanton||list.length>=MAX_SITES)break;
     if(list.some(e=>Math.hypot(e.x-c.p.x,e.y-c.p.y)<R.spacing))continue;
     const rule=R.kinds[c.kind],nest=R.nestMin+G.hash(world.seed,c.p.id,'nest217')%(R.nestMax-R.nestMin+1);

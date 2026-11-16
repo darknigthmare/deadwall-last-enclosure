@@ -75,7 +75,8 @@
   const active=()=>state.active&&Boolean(g.frontier);
   const world=()=>g.frontier.world(),age=()=>g.tier?.id||0,wave=()=>int(g.wave,0,MAX_WAVE)?g.wave:0;
   // Par monde : lieux par identifiant et itinéraires déjà calculés. Rien n'est écrit dans le monde.
-  function book(){const w=world();let b=memo.get(w);if(!b){b={by:new Map(w.pois.map(p=>[p.id,p])),routes:new Map()};memo.set(w,b);}return b;}
+  // Monde sans bord O4 : index par identifiant lu par l'accesseur du monde (dernier doublon, comme une Map) ; repli identique.
+  function book(){const w=world();let b=memo.get(w);if(!b){b={by:typeof w.siteIndex==='function'?w.siteIndex():new Map(w.pois.map(p=>[p.id,p])),routes:new Map()};memo.set(w,b);}return b;}
   const site=id=>book().by.get(id)||null;
   function routeOf(id){
    const b=book();if(b.routes.has(id))return b.routes.get(id);

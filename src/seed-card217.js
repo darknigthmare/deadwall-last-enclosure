@@ -142,7 +142,10 @@
   const out={};
   for(const [key,type]of SOURCES){
    let best=null;
-   for(const p of world?.pois||[]){if(p?.type!==type||!finite(p.x)||!finite(p.y))continue;const d=Math.hypot(p.x-home.x,p.y-home.y);if(!best||d<best.distance)best={distance:d,direction:direction(p.x-home.x,p.y-home.y)};}
+   // Premier lieu de distance minimale, lu par `nearestSite` quand le monde l'offre (monde sans bord, O4).
+   const wanted=p=>p?.type===type&&finite(p.x)&&finite(p.y);
+   if(typeof world?.nearestSite==='function'){const p=world.nearestSite(home.x,home.y,wanted);if(p)best={distance:Math.hypot(p.x-home.x,p.y-home.y),direction:direction(p.x-home.x,p.y-home.y)};}
+   else for(const p of world?.pois||[]){if(!wanted(p))continue;const d=Math.hypot(p.x-home.x,p.y-home.y);if(!best||d<best.distance)best={distance:d,direction:direction(p.x-home.x,p.y-home.y)};}
    out[key]=best;
   }
   return out;

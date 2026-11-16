@@ -2,7 +2,8 @@
 // specs/monde-sans-bord/ouverture.md, tranche O1). Objet monde hors jeu qui répond aux
 // accesseurs communs du monde fini (`site`, `sitesNear`, `contains`, `outside`,
 // `outsideOpen`, `clampInside`, `extent`, `chunkRange`, `axisMin`, `axisMax`,
-// `nearestRoad`) à partir des cantons de src/world-canton-gen217.js, avec un itinéraire
+// `nearestRoad`, et depuis O4 `sitesIn`, `seenSites`, `nearestSite`, `sitesByDistance`,
+// `siteIndex`) à partir des cantons de src/world-canton-gen217.js, avec un itinéraire
 // borné à quelques cantons au lieu du Dijkstra global, et un tirage de route par position
 // au lieu de `% roads.length`.
 // Aucune liste globale (`roads`, `pois`, `size`) : un lecteur qui en dépend échoue au lieu
@@ -72,6 +73,51 @@
    for(const k of box(a.cx,a.cy,b.cx,b.cy))for(const s of canton(k.cx,k.cy).sites)if(!(far(s.x-x,s.y-y)>radius))out.push(s);
    const c=K.at(x,y);settle(c.cx,c.cy);return out;
   }
+  // Accesseurs de voisinage (tranche O4), mêmes noms que sur la région finie, sans liste globale.
+  // Lieux dont le centre est dans le rectangle {left, top, right, bottom}, dans l'ordre canonique ; côté borné au
+  // double de `nearMaxRadius` (le carré de `sitesNear`). Un lieu G12 n'a pas encore d'emprise (O2).
+  function sitesIn(rect){
+   const l=rect?.left,t=rect?.top,r=rect?.right,b=rect?.bottom;
+   if(![l,t,r,b].every(Number.isFinite)||l>r||t>b||r-l>2*R.nearMaxRadius||b-t>2*R.nearMaxRadius)throw Error('Rectangle de voisinage invalide.');
+   if(r<LO||l>HI||b<LO||t>HI)return[];
+   const a=K.at(Math.max(LO,l),Math.max(LO,t)),z=K.at(Math.min(HI,r),Math.min(HI,b)),out=[];
+   for(const k of box(a.cx,a.cy,z.cx,z.cy))for(const s of canton(k.cx,k.cy).sites)if(!(s.x<l||s.x>r||s.y<t||s.y>b))out.push(s);
+   const c=K.at(Math.max(LO,Math.min(HI,(l+r)/2)),Math.max(LO,Math.min(HI,(t+b)/2)));settle(c.cx,c.cy);return out;
+  }
+  // Lieux cités, lus un par un par `site(id)`, dans l'ordre des identifiants donnés (doublons et inconnus écartés).
+  // La région finie rend l'ordre de sa liste : un appelant qui dépend de l'ordre trie lui-même.
+  function seenSites(ids){
+   const out=[],done=new Set();
+   for(const id of ids instanceof Set?ids:Array.from(ids||[])){if(done.has(id))continue;done.add(id);const s=site(id);if(s)out.push(s);}
+   return out;
+  }
+  // Index paresseux : seules `get` et `has` existent ; chaque lecture charge le seul canton cité.
+  const index=Object.freeze({get:id=>site(id),has:id=>site(id)!==undefined});
+  // Lieux retenus à `maxRadius` au plus, triés par distance puis identifiant (même ordre que la région finie).
+  function sitesByDistance(x,y,filter,maxRadius=R.nearMaxRadius){
+   const d=s=>far(s.x-x,s.y-y);
+   return sitesNear(x,y,maxRadius).filter(s=>filter(s)).sort((p,q)=>d(p)-d(q)||p.id.localeCompare(q.id));
+  }
+  // Lieu retenu le plus proche, cherché par anneaux de cantons autour du point : un lieu de l'anneau k est à plus
+  // de (k - 1) cantons, la recherche s'arrête donc dès qu'un lieu retenu est à moins. Égalité : ordre canonique.
+  function nearestSite(x,y,filter,maxRadius=R.nearMaxRadius){
+   if(!(maxRadius>=0)||maxRadius>R.nearMaxRadius)throw Error('Rayon de voisinage invalide.');
+   if(!finite(x,y)||!LIMITS.contains(x,y))return null;
+   // Au-delà de l'anneau ceil(maxRadius / SIZE), tout lieu est à plus de maxRadius.
+   const c=K.at(x,y),last=Math.ceil(maxRadius/SIZE);let best=null,bd=0,bk=null;
+   const before=(p,q)=>p[0]-q[0]||p[1]-q[1]||p[2]-q[2];
+   for(let k=0;k<=last;k++){
+    if(best&&bd<=(k-1)*SIZE)break;
+    for(const q of box(c.cx-k,c.cy-k,c.cx+k,c.cy+k)){
+     if(Math.max(Math.abs(q.cx-c.cx),Math.abs(q.cy-c.cy))!==k)continue;
+     canton(q.cx,q.cy).sites.forEach((s,i)=>{
+      if(!filter(s))return;const d=far(s.x-x,s.y-y);if(d>maxRadius)return;const key=[q.cy,q.cx,i];
+      if(!best||d<bd||d===bd&&before(key,bk)<0){best=s;bd=d;bk=key;}
+     });
+    }
+   }
+   settle(c.cx,c.cy);return best;
+  }
   // Routes des cantons à `radius` cantons du point, dans l'ordre canonique.
   function roadsAround(x,y,radius=R.pickRadius){
    if(!finite(x,y)||!LIMITS.contains(x,y))return[];if(!Number.isInteger(radius)||radius<0||radius>2)throw Error('Rayon de cantons invalide.');
@@ -131,7 +177,7 @@
    seed,generation:K.RULES.reservedGeneration,unbounded:true,
    reliefVersion:G.RULES.version,
    home,foundation:found,...LIMITS,
-   site,sitesNear,roadsAround,pickRoad,nearestRoad,route,
+   site,sitesNear,sitesIn,seenSites,nearestSite,sitesByDistance,siteIndex:()=>index,roadsAround,pickRoad,nearestRoad,route,
    canton:(cx,cy)=>{const t=canton(cx,cy);settle(cx,cy);return t;},
    cantonAt:(x,y)=>{const c=K.at(x,y),t=canton(c.cx,c.cy);settle(c.cx,c.cy);return t;},
    streamStats:()=>({...cache.stats(),generated:stats.generated,routes:stats.routes,routeNodes:stats.routeNodes})

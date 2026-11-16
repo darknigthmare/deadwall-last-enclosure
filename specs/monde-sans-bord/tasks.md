@@ -629,6 +629,81 @@ Toujours rien d'ouvert : génération 12 refusée partout, aucune option de menu
   segment de plus de 512 m ; pas de nids de `remarkable217` (O4) ; un détail du codex coûte
   50 à 1 000 ms au premier appel (chargement des grilles), à surveiller en O9.
 
+## O4 — Lecteurs de voisinage (premier lot livré, sans effet en jeu)
+
+Fiche : [ouverture.md](ouverture.md), O4. Test `tests/world-neighbourhood217.test.cjs` (5 cas).
+
+- [x] O4.1 Accesseurs sur les deux mondes. Région finie (`src/frontier-world.js`) : chacun rend
+      exactement l'ancien parcours de toute la liste, dans son ordre. Monde G12 hors jeu
+      (`src/world-open217.js`) : mêmes noms, réponses par cantons, aucune liste globale ; bornes
+      reprises de `nearMaxRadius` (aucune règle nouvelle, `src/core.js` inchangé).
+
+  | Accesseur | Région finie (G1–G11) | Monde G12 |
+  | --- | --- | --- |
+  | `sitesIn({left, top, right, bottom})` | lieux dont `x ± w`, `y ± h` touche le rectangle (critère de `atlas-render.js`), ordre de la liste, `NaN` jamais écarté | centre dans le rectangle, ordre canonique ; côté ≤ 2 × `nearMaxRadius`, refus sinon (pas encore d'emprise : O2) |
+  | `seenSites(ids)` | `pois.filter(p => ids.has(p.id))` (liste ou ensemble), ordre de la liste, doublons de la liste gardés | `site(id)` pour chaque identifiant, ordre des identifiants, doublons et inconnus écartés |
+  | `nearestSite(x, y, filtre, rayonMax)` | premier lieu de distance minimale dans l'ordre de la liste (`<` strict, comme `seed-card217.js`) | recherche par anneaux de cantons, arrêt dès qu'un lieu retenu est à moins de (k − 1) cantons ; égalité : ordre canonique ; rayon ≤ `nearMaxRadius` |
+  | `sitesByDistance(x, y, filtre, rayonMax)` (ajouté à la fiche) | `pois.filter(filtre).sort(distance ‖ id.localeCompare)` : le tri recopié par `campaign-pack`, `essential-state`, `field-atlas` | `sitesNear` filtré, même tri |
+  | `siteIndex()` | `new Map(pois.map(p => [p.id, p]))` neuve à chaque appel (le **dernier** doublon gagne, comme les `Map` actuelles) | index paresseux gelé `{get, has}` par `site(id)` ; ni `size` ni parcours |
+
+- [x] O4.2 Lecteurs convertis, chacun avec un repli historique identique quand le monde n'a pas
+      l'accesseur (mondes factices des tests) :
+
+  | Lot | Fichier | Avant | Après |
+  | --- | --- | --- | --- |
+  | lieux remarquables | `remarkable217.js` `select` | toute la liste groupée par canton de 4 096 m (clé `cy*4096+cx`) | cantons de l'étendue parcourus ligne puis colonne (même ordre que les clés triées), chacun lu par `sitesIn` du canton puis `floor(x / 4096)` ; rang, espacement, plafonds inchangés. Monde sans bord (étendue non bornée) : liste vide, comme avant, sans lire `pois` |
+  | fiche de graine | `seed-card217.js` `sources` | plus proche carrière, scierie, casse dans toute la liste | `nearestSite` |
+  | atlas | `atlas-render.js` voies d'accès (44), emprises et parkings (80), étiquettes (92) | `pois` filtrés par `seen` | `seenSites` (44, 92), `sitesIn(caméra)` puis critère d'origine (80) |
+  | lieux vus | `field-atlas-ui.js` (22), `frontier-ui.js` (19), `world-codex-actions159.js` (68, 100), `field-atlas.js` biomes connus et étapes (26, 28), `campaign-pack.js` candidats (62) | `pois.filter(seen…)` | `seenSites` puis le reste du filtre et du tri d'origine |
+  | plus proche par secteur | `field-atlas.js` `pool` (11) | `pois.filter(secteur).sort(distance ‖ id)` | `sitesByDistance` |
+  | index | `frontier.js` `revealSites`, `exploration-needs217.js` (106), `urban.js` (43), `outposts217.js` `book` | `new Set` / `new Map` de toute la liste | `siteIndex()` (lectures `get` / `has` seulement) |
+
+- [ ] O4.3 Restent sur toute la liste (à convertir avec leur tranche) :
+
+  | Fichier | Usage | Pourquoi pas dans ce lot |
+  | --- | --- | --- |
+  | `frontier-state.js:33`, `field-atlas-state.js:20`, `world-pack131.js:12`, `campaign-water214.js:43,130`, `campaign-pack.js:42`, `context-operations160.js:32`, `world-evolution-state.js:28` | index ou ensemble de toute la liste dans un validateur de sauvegarde | `siteIndex()` est prêt, mais toucher un validateur exige les falsifications de T1 (règle 4) : avec O3, qui réécrit ces validateurs pour G12 |
+  | `essential-state.js:12` (`targets`) | plus proche lieu d'un type, puis plan intérieur | appelé par la validation de l'état essentiel (ligne 13) : même raison ; `sitesByDistance` le remplace mot pour mot |
+  | `chronicles131.js:45` | lieux d'un type triés par hachage sur toute la région | tri global par hachage, pas une distance : demande une règle par canton (G12), à décider avec O2 |
+  | `night-gear.js:156` | panneaux solaires des lieux de six types | cache par canton chargé : avec le chargement par anneau (O9) |
+  | `frontage174.js:88,90,114` | index et audit des façades | construction de la région finie ; index par canton avec O2 |
+  | `world-pack131.js` (préparations G5–G11, `normalize`) | activations | sans objet en G12 (inchangé, voir la fiche) |
+  | `campaign-services208.js`, `campaign-water-supports214.js`, `frontier-world.js` (`contextSites160` sans point, `install`) | replis des mondes factices, construction | inchangés (T1.6) |
+
+- Lieux remarquables en G12 : la sélection finie est une **chaîne** — l'espacement (1 000 m) est
+  vérifié contre tous les lieux déjà retenus dans l'ordre des cantons, et le plafond de 512 est
+  global. Un canton dépend donc de tous ceux qui le précèdent, ce qu'un monde sans bord ne peut pas
+  recalculer localement. Le monde fini garde cette chaîne (sélection identique). Le monde G12
+  appliquera une règle locale, propre aux nouvelles campagnes G12 : candidats d'un canton de
+  4 096 m par `sitesIn` (côté exactement à la borne de 2 × 2 048 m), rang par hachage inchangé,
+  au plus `perCanton` ; espacement résolu contre les **candidats bruts** des huit cantons voisins
+  (le plus petit hachage l'emporte), sans dépendre de leur propre sélection ; pas de plafond
+  global (le registre sauvegardé reste plafonné à 512). Rien de cela n'est codé : `select` rend
+  une liste vide en G12, comme avant ; décision à prendre avec O2 (types et emprises des lieux G12).
+- Preuves (base `9940aa1`, même worktree) :
+  - test d'équivalence sur G4, G8, G11 de 17117 et 42 : 300 rectangles par monde (dégénérés,
+    hors région, `NaN` compris), 40 listes de lieux vus (inconnus et doublons compris), plus proche
+    lieu et liste triée pour chaque type depuis 28 points, index par identifiant : mêmes objets,
+    même ordre ; lecteurs convertis contre leur repli historique (lieux remarquables, fiche de
+    graine entière, lieux et programmes connus du codex) : sorties identiques ; en G12, contre un
+    calcul exhaustif sur 7 × 7 cantons, et aucun lecteur converti ne lit `pois`, `roads` ni `size` ;
+  - lieux remarquables et fiche de graine des huit graines de référence en G8 et G11, base contre
+    tranche, deux processus : JSON identique octet pour octet (43 à 50 lieux remarquables par monde) ;
+  - mondes G1–G11 des huit graines identiques à `campagne205-eligibilite.json` hors empreintes de
+    sources ; seules les empreintes des fichiers touchés changent ;
+  - parcours déterministe de T5.B4 (240 s, graine 17117) : sauvegardes de départ, de mi-parcours
+    et de fin identiques octet pour octet, résultats identiques ; sauvegarde de mi-parcours d'avant
+    relue après : mêmes empreintes que relue avant ;
+  - navigateur (Playwright, campagne standard 17117, G8) : 60 lieux révélés autour de D-17, carnet
+    ouvert sur l'atlas, cadrage « tout voir » : liste des lieux, lieux remarquables (44), biomes
+    connus, programmes du codex (56) et leurs lieux, besoins d'exploration, image du canevas de
+    l'atlas et capture de page **identiques** à la base ; aucune erreur de page.
+- Réserves : le parcours de 240 s reste dans la cité (il ne lit ni l'atlas ni la région) ;
+  l'atlas, la fiche, le codex et les lieux remarquables sont couverts par le test d'équivalence et
+  le parcours navigateur. Sur la région finie, `sitesIn` et les autres accesseurs parcourent
+  encore la liste : même coût qu'avant (les lieux remarquables lisent 49 cantons une fois par
+  monde, résultat gardé).
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.

@@ -67,7 +67,7 @@ O1 monde régional G12 (interface)  ── livré, hors jeu
 | **O1** | Monde régional G12, interface commune, routage borné | Aucun (hors jeu) | M | nul / moyen | — (**livré**) |
 | O2 | Lieux G12 complets et collisions régionales | Aucun (hors jeu) | L | nul / haut | O4, O5 |
 | O3 | Sauvegarde G12 creuse, validation sans régénération globale | Aucun (G12 non créable) | L | moyen / moyen | O4, O5, O6 |
-| O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
+| O4 | Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**) | Aucun (valeurs identiques) | L | moyen / bas | O2, O3, O5–O8 |
 | O5 | Carte de la cité par campagne, taille portée par la sauvegarde | Aucun (128 partout) | L | haut / moyen | O2, O3, O4 |
 | O6 | Carte de 192 m née de `world-local217` : arêtes de falaise, flux, collisions, gisements | Aucun (G12 non créable) | XL → O6a, O6b | moyen / haut | O3, O4 |
 | O7 | Siège adossé : fronts par côté ouvert, enceintes sur falaise, équilibrage à deux côtés | Aucun | L | moyen / haut | O8 |
@@ -190,7 +190,7 @@ régénérer le monde entier. C'est T4.2 à T4.5.
 - Parcours joueur : aucun (test sans interface).
 - Ampleur L, risque G1–G11 moyen (validateurs partagés).
 
-### O4 — Lecteurs de la liste complète des lieux → lecteurs de voisinage
+### O4 — Lecteurs de la liste complète des lieux → lecteurs de voisinage (**premier lot livré**)
 
 But : qu'aucun module ne parcoure `world.pois` en entier. Les lecteurs relevés en T1.6
 (« exigent tous les lieux ») passent par des accesseurs **ajoutés aussi au monde fini**, qui y
@@ -221,6 +221,30 @@ le **dernier** doublon comme les `Map` actuelles, cf. T1.6).
 - Innocuité : procédures 1 et 3 ; un lot par famille de lecteurs.
 - Parcours joueur : atlas ouvert, fiche de graine, lieux remarquables, codex — identiques.
 - Ampleur L, risque G1–G11 moyen (ordre de parcours), parallélisable avec tout le reste.
+
+**Premier lot livré** (détail, preuves et réserves : `tasks.md`, section O4) :
+
+- Accesseurs posés sur les deux mondes : `sitesIn`, `seenSites`, `nearestSite`, `siteIndex`, plus
+  `sitesByDistance(x, y, filtre, rayonMax)` — liste triée par distance puis identifiant, le tri que
+  recopient `campaign-pack.js`, `essential-state.js` et `field-atlas.js` (`nearestSite` ne rend que
+  le premier). En G12, rayons et rectangles bornés par `nearMaxRadius` ; `siteIndex()` n'y offre
+  que `get` et `has`. `src/core.js` inchangé.
+- Convertis (sorties identiques, repli historique pour les mondes factices) : `remarkable217.js`
+  (`select` par cantons lus par `sitesIn`), `seed-card217.js` (`sources`), `atlas-render.js` (44,
+  80, 92), `field-atlas.js` (11, 26, 28), `field-atlas-ui.js` (22), `frontier-ui.js` (19),
+  `world-codex-actions159.js` (68, 100), `campaign-pack.js` (62), `frontier.js` (`revealSites`),
+  `exploration-needs217.js` (106), `urban.js` (43), `outposts217.js` (`book`).
+- **Reportés** : les index de validateurs (`frontier-state.js:33`, `field-atlas-state.js:20`,
+  `world-pack131.js:12`, `campaign-water214.js`, `campaign-pack.js:42`,
+  `context-operations160.js:32`, `world-evolution-state.js`) et `essential-state.js:12` (appelé
+  par sa validation) passent avec O3, qui refait les falsifications (règle 4) ;
+  `chronicles131.js:45` (tri global par hachage), `night-gear.js:156` (cache par canton, O9),
+  `frontage174.js` (O2).
+- Lieux remarquables en G12 : la sélection finie est une chaîne (espacement contre tous les lieux
+  déjà retenus, plafond global) que le monde fini garde à l'identique ; G12 ne peut pas la
+  recalculer localement et prendra une règle locale propre aux campagnes G12 (espacement contre
+  les candidats bruts des huit cantons de 4 096 m voisins), à trancher avec O2. D'ici là,
+  `select` rend une liste vide en G12, comme avant.
 
 ### O5 — Carte de la cité par campagne (128 partout)
 

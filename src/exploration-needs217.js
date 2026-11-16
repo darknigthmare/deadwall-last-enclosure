@@ -101,9 +101,10 @@
   for(const s of halts){const def=defs.get(s?.id);if(def&&s.known&&s.stock)push('halte',s.id,def.name,s.stock,local(def.x,def.y),{note:'voiture requise'});}
   // Région — sites repérés, si le monde régional est déjà construit dans cette session.
   const seen=read(()=>g.frontier.discoveries(),[]);
-  if(region&&home&&seen.length&&Array.isArray(region.pois)){
+  // Monde sans bord O4 : index par identifiant lu par l'accesseur du monde ; repli identique sans accesseur.
+  if(region&&home&&seen.length&&(typeof region.siteIndex==='function'||Array.isArray(region.pois))){
    let cache=poiCache.get(region);if(!cache){cache=new Map();poiCache.set(region,cache);}
-   let index=cache.get('#index');if(!index){index=new Map(region.pois.map(p=>[p.id,p]));cache.set('#index',index);}
+   let index=cache.get('#index');if(!index){index=typeof region.siteIndex==='function'?region.siteIndex():new Map(region.pois.map(p=>[p.id,p]));cache.set('#index',index);}
    const near=seen.map(id=>index.get(id)).filter(Boolean).map(p=>({p,d:Math.hypot(p.x-home.x,p.y-home.y)})).sort((a,b)=>a.d-b.d||(a.p.id<b.p.id?-1:1)).slice(0,REGION_SITES);
    for(const {p}of near){
     const left={};for(const item of poiStock(region,p)){const rest=item.amount-(read(()=>g.frontier.takenAmount(item.id),0)||0);if(rest>0)left[item.resource]=(left[item.resource]||0)+rest;}
