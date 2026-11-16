@@ -3547,6 +3547,10 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // Commandant à `wake` ou un tir à `shot`. Poste : `tries` points de part et d'autre, au pas `step`, sur deux profondeurs.
  C.Abominations217Rules=Object.freeze({firstWave:12,every:4,gatherShare:.2,cutShare:.12,standoff:256,spanMin:.3,spanMax:.7,
   escort:Object.freeze({base:6,perLed:2,max:18,share:.08,ringMin:46,ringMax:110,wake:260,shot:150}),post:Object.freeze({tries:6,step:128})});
+ // Monde régional de la génération 12, hors jeu (src/world-open217.js, specs/monde-sans-bord/ouverture.md, tranche O1). Aucune génération 1 à 11 ne le lit.
+ // route : zone de recherche = rectangle des cantons de départ et d'arrivée élargi de `margin` cantons, au plus `maxCantons` cantons ; snap : rayon (cantons)
+ // où chercher la route la plus proche ; near : rayon maximal (m) d'une recherche de voisinage ; pick : rayon (cantons) des routes candidates d'un tirage (migrations, épaves).
+ C.WorldOpen217Rules=Object.freeze({route:Object.freeze({margin:1,maxCantons:25}),snapRadius:1,nearMaxRadius:2048,pickRadius:1});
  C.Weather193Rules=Object.freeze({frontSeconds:240,spellFronts:3,wetSpellChance:.55,forecastLead:90,activationReach:100,
   fronts:Object.freeze({
    dry:Object.freeze({name:'Temps sec',rain:0,wind:35,note:'Préparez les travaux et les réserves de lumière avant le prochain front.'}),

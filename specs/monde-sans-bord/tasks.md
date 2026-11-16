@@ -558,6 +558,41 @@ cité reste de 128 cases (4 096 unités, 128 m).
       aperçu : sélecteur « Bord de falaise » (décalé / sur les mailles), regardé sur 17117, 42,
       84329 et 1947648717 (empreintes identiques à Node).
 
+## T6 (cadrage) — Plan d'ouverture « expérimental » et première brique O1 (livré, sans effet en jeu)
+
+Décisions de l'utilisateur avant la tranche : le monde sans bord s'ouvrira d'abord comme
+**option « expérimental » à la création de partie**, la région finie restant le défaut ; relief
+dans la même génération 12 ; cadre de la cité de 192 m et site adossé ; mer comme zone basse.
+Toujours rien d'ouvert : génération 12 refusée partout, aucune option de menu.
+
+- [x] T6.P Plan d'ouverture exécutable : [ouverture.md](ouverture.md) — tranches O1 à O10,
+      livrables une à une, chacune avec fichiers et lignes, tests, preuve d'innocuité pour
+      G1–G11, parcours joueur, ampleur, risque et parallélisme ; décisions ouvertes D-O1 à D-O5.
+      Les tâches T4, T5.1–T5.6 et T6.1–T6.2 ci-dessous y sont redécoupées : T4.1 → O2,
+      T4.2–T4.5 → O3, T5.1–T5.5 → O9, T5.6 → O9, T6.1–T6.2 → O10 ; la liste en 11 points de
+      T4 → O5 (points 1, 10), O6 (2, 3, 4, 7), O7 (5, 6), O8 (8, 9), O9 et O4 (11) ; le
+      tableau « exigent tous les lieux » de T1.6 → O4 ; le tableau « Restent en clair » de
+      T5.B3 → O5.
+- [x] O1 Monde régional G12 hors jeu : `src/world-open217.js`, règles `C.WorldOpen217Rules`
+      (`src/core.js`, avant `C.Weather193Rules`), test `tests/world-open217.test.cjs` (9 cas).
+      Accesseurs communs du monde fini (`site`, `sitesNear`, `contains` vrai pour tout point
+      mesurable, `outside`, `outsideOpen`, `clampInside`, `axisMin`, `axisMax`, `chunkRange`,
+      `extent()` infini, `nearestRoad`), plus `roadsAround` / `pickRoad(hash, x, y)` (tirage de
+      route sans `% roads.length`) et `route(from, to)` borné au rectangle des deux cantons
+      élargi d'un canton, 25 cantons au plus, sur un graphe dont les passages de couture sont
+      partagés par leurs deux cantons. Aucun `roads`, `pois`, `size` global.
+      Module **absent du jeu** : ni `index.html`, ni `sw.js`, ni build, lu par aucun fichier de
+      `src/`. Les listes d'isolement de `tests/world-cantons217.test.cjs` et
+      `tests/world-canton-gen217.test.cjs` nomment le nouveau lecteur (aucune garde retirée).
+      Mesures (huit graines, 4 itinéraires de 1,9 à 2,9 km depuis D-17) : 31 trouvés sur 32,
+      détour de 1,23 à 2,42 fois le vol d'oiseau, 1 150 à 1 590 nœuds, 83 à 168 ms à froid
+      cantons compris. Mondes G1–G11 des huit graines identiques à
+      `campagne205-eligibilite.json` hors empreintes de sources ; seule l'empreinte de
+      `src/core.js` change.
+- Réserves : tracé sur les centres de maille, pas sur les courbes adoucies ; lieux sans
+  emprise ni `drive` (O2) ; `home` = plat de 64 m du site, à remplacer par le cadre de la carte
+  locale en O5 ; aucun `blocked` / `line` : la falaise n'est pas encore un obstacle régional (O2).
+
 ## T5 — Ouverture expérimentale
 
 - [ ] T5.1 `src/world-open217.js` : façade ; aiguillage dans `frontier-world.create`.
