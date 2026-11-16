@@ -370,16 +370,20 @@ G12 avec un message (décision D-O3).
 
 Puis T7 (défaut pour toute nouvelle campagne, gradient de distance) : hors de ce plan.
 
-## 3. Points de décision ouverts
+## 3. Décisions de l'utilisateur (16 novembre 2026)
 
-- **D-O1** — Projectile et vue à travers une falaise : tiré d'en bas, arrêté ; tiré d'en haut,
-  franchit ? (O6b, O8a).
-- **D-O2** — Valeurs du repli des fronts et du plafond de passage (O7), après mesures.
-- **D-O3** — Vue FPS dès l'ouverture, ou indisponible en G12 jusqu'à O8b ; hauteur d'un cran.
-- **D-O4** — Gel des règles à l'ouverture : `WorldRelief217Rules.version` 4,
-  `WorldLocal217Rules.version` 2 et `WorldOpen217Rules` deviennent des versions de génération
-  (toute retouche crée une version, les campagnes G12 gardent la leur), ou restent libres tant
-  que l'option dit « expérimental » (la campagne en cours changerait de carte) ? Proposé : gel
-  à O9, version de détail propre à G12 pour les corrections.
-- **D-O5** — Repli de la carte de la cité à 128 m (26 graines sur 50 déjà adossées) si le
-  coût du champ de flux à 192 m dépasse le budget mesuré en O6b.
+- **D-O1 — tranché** : une falaise **arrête la vue et les tirs d'en bas**, mais **pas les tirs
+  d'en haut** : depuis le haut d'une falaise on voit et on touche ce qui est en contrebas ; d'en bas
+  on ne voit ni ne touche ce qui est au-dessus. Le haut d'une falaise devient une position à tenir.
+  S'applique à O6b (collisions des projectiles) et O8a/O8b (vue).
+- **D-O2 — tranché sur le principe** : quand la cité n'a que deux côtés ouverts, la vague garde
+  **le même effectif, concentré sur les côtés ouverts**. Aucune réduction pour les côtés fermés.
+  Les valeurs du plafond de passage par front restent à mesurer en O7.
+- **D-O3 — tranché** : la vue à la première personne est **disponible dès l'ouverture** de
+  l'option expérimentale. O8b passe donc sur le chemin critique de O9 ; la hauteur d'un cran reste
+  à fixer en O8b.
+- **D-O4 — ouvert** : gel des règles de génération à l'ouverture. Proposé : gel à O9, version de
+  détail propre à G12 pour les corrections.
+- **D-O5 — tranché** : la carte de la cité **reste à 192 m** ; si le champ de flux coûte trop, on
+  l'**optimise** plutôt que de revenir à 128 m, quitte à retarder l'ouverture. O6b doit donc
+  mesurer et, si nécessaire, inclure l'optimisation.

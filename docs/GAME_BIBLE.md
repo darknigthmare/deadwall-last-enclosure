@@ -1352,6 +1352,12 @@ d'atlas calée sur l'étendue totale.
   plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
   fronts ; vue à la première personne dès l'ouverture ; gel des règles de
   génération ; repli à 128 m si 192 m coûte trop).
+- **[DÉCISION]** Ouverture du monde sans bord : une falaise arrête la vue
+  et les tirs d'en bas, pas ceux d'en haut ; une cité à deux côtés ouverts
+  reçoit la même vague, concentrée sur ces côtés ; la vue à la première
+  personne est disponible dès l'ouverture expérimentale ; la carte de la
+  cité reste à 192 m, quitte à optimiser le champ de flux. Reste ouvert :
+  le gel des règles de génération à l'ouverture.
 - **Tranche T5 livrée, sans effet en jeu** : la taille de la carte de la
   cité se lit désormais sur son propriétaire au lieu de constantes — monde
   de la cité, champ de flux des hordes, déplacements, apparitions,
