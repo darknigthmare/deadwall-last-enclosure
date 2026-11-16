@@ -3445,10 +3445,15 @@ C.Husbandry191Rules=Object.freeze({version:1,maxPens:8,maxAnimals:64,penSize:3,p
  // belfry : `warningSeconds` s'ajoute à l'alerte du moteur (10 s, +5 avec la reconnaissance).
  // necropolis : `clearSpeed` multiplie la cadence de déblaiement des ouvriers (se compose avec la corvée de C.CityLaws217Rules).
  // `signature` : points ajoutés à la signature de la cité une fois l'ouvrage achevé (cloche qui porte, fumée permanente).
- {const step=(seconds,cost)=>Object.freeze({seconds,cost:Object.freeze(cost)});
- C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,works:Object.freeze({
-  belfry:Object.freeze({warningSeconds:8,signature:120,steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
-  necropolis:Object.freeze({clearSpeed:1.5,signature:80,steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
+ // Deuxième tranche : chaque ouvrage occupe une emprise posée par le joueur (`size` en cases, carrée ou non, jamais tournée),
+ // à `site.reach` cases au plus du centre du dépôt. `heights` : hauteur dessinée (m) après chaque tranche, la silhouette.
+ // Une tranche inachevée foulée par la horde pendant l'assaut perd `trampleSeconds` s de chantier par infecté et par seconde
+ // passée dans l'emprise, au plus `maxLossShare` de la tranche touchée par assaut ; une tranche construite peut rouvrir.
+ // necropolis : achevée, `pyreSpeed` multiplie la cadence du bûcher et `pitCapacity` la contenance des fosses (src/corpse-chain217.js).
+ {const step=(seconds,cost)=>Object.freeze({seconds,cost:Object.freeze(cost)}),site=(size,heights)=>Object.freeze({size:Object.freeze(size),heights:Object.freeze(heights)});
+ C.GreatWorks217Rules=Object.freeze({startAge:9,activationReach:100,site:Object.freeze({reach:44,trampleSeconds:2,maxLossShare:.5}),works:Object.freeze({
+  belfry:Object.freeze({warningSeconds:8,signature:120,site:site([4,4],[8,16,24]),steps:Object.freeze([step(60,{stone:900,wood:600,scrap:400}),step(60,{stone:900,scrap:800}),step(60,{wood:400,scrap:900,fuel:120})])}),
+  necropolis:Object.freeze({clearSpeed:1.5,signature:80,pyreSpeed:1.5,pitCapacity:2,site:site([8,6],[2,3.5,5]),steps:Object.freeze([step(60,{stone:1200,wood:300}),step(60,{stone:1000,scrap:600}),step(60,{wood:700,scrap:300,fuel:200})])})})});}
  // Monde sans bord (docs/GAME_BIBLE.md §7.13, specs/monde-sans-bord/) : adressage des cantons, lu par src/world-cantons217.js.
  // Brique d'adressage seule : aucune génération existante (1 à 11) ne lit ces valeurs. `reservedGeneration` n'est encore acceptée nulle part.
  // canton/chunk en mètres ; loadRadius/keepRadius en cantons (anneau chargé, anneau protégé de l'éviction) ; cacheCapacity ≥ (2·keepRadius+1)².

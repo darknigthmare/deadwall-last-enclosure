@@ -4,11 +4,18 @@ const C=require('../src/core.js'),Readout=require('../src/siege-readout.js');
 const {bootDocument134}=require('../scripts/qa-startup134.cjs');
 const root=path.join(__dirname,'..');
 
-test('lecture de siège : les quatre parts reproduisent exactement la signature du moteur',()=>{
+test('lecture de siège : les cinq parts reproduisent exactement la signature du moteur',()=>{
   const {g}=bootDocument134();g.startNew('standard','17117');g.campaignIntro132?.skip?.();g.refreshMetrics(true);
   const sig=Readout.signatureParts(g),sum=sig.parts.reduce((n,part)=>n+part.value,0);
-  assert.equal(sig.parts.length,4);assert.ok(Math.abs(sum-g.signature)<1e-9,'somme des parts = signature');assert.equal(sig.total,g.signature);
+  // Les quatre parts du moteur, puis celle des règles de cité (grands ouvrages achevés et bûcher allumé).
+  assert.equal(sig.parts.length,5);assert.deepEqual(sig.parts.map(p=>p.key),['buildings','population','power','structures','works']);
+  assert.ok(Math.abs(sum-g.signature)<1e-9,'somme des parts = signature');assert.equal(sig.total,g.signature);
+  assert.equal(sig.parts[4].value,0,'rien d’ajouté en début de campagne');
   assert.ok(Object.isFrozen(sig)&&Object.isFrozen(sig.parts));
+  // Une part propre lue chez ses propriétaires : la somme reste exacte quand ils ajoutent leur prix.
+  const fake={...g,greatWorks217:{signature:()=>120},corpseChain217:{signature:()=>60},signature:g.signature+180};
+  const more=Readout.signatureParts(fake);assert.equal(more.parts[4].value,180);assert.ok(Math.abs(more.parts.reduce((n,p)=>n+p.value,0)-more.total)<1e-9);
+  assert.equal(Readout.signatureParts({...g,greatWorks217:{signature:()=>{throw Error('x');}}}).parts[4].value,0,'lecture défaillante : part nulle, jamais d’erreur');
 });
 
 test('lecture de siège : l’effet sur la horde est lu dans le plan de vague, sans formule recopiée',()=>{

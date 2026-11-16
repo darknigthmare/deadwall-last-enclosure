@@ -8,6 +8,8 @@
      plus fragiles meurent par `g.damageUnit`, le chemin de mort ordinaire. Les médicaments évitent une mort.
    Cette maladie est celle des charniers ; elle n'a rien à voir avec ce qui relève les morts.
    Bûcher et fosse sont des emplacements tenus par ce module, près du dépôt : aucun bâtiment n'est posé.
+   La Nécropole achevée (src/great-works217.js, lue par `corpses()`) hâte le bûcher et agrandit les fosses : un corps n'y
+   prend qu'une part de place. Le remplissage reste compté en places de la fosse ordinaire, donc la sauvegarde ne change pas.
    Ce module ne crée aucune ressource et ne tire aucun hasard. La carte et les repères dessinés ne font que lire l'état. */
 (function(root){'use strict';
  const C=root.DeadwallCore||(typeof require==='function'?require('./core.js'):null),R=C.CorpseChain217Rules,P=R.pyre,F=R.pit,S=R.sickness,W=R.weather;
@@ -60,6 +62,9 @@
   // Les corps d'une douve restent dans l'eau : ils comptent aussi (src/earthworks217.js).
   const left=()=>state.pending+walls()+(g.earthworks217?.moatBodies?.()||0),limit=()=>threshold(g.population||0);
   const rain=()=>weatherFactor(Number(g.weather)||0);
+  // Nécropole : facteurs du bûcher et de la fosse, lus chez leur propriétaire ; 1 sans elle.
+  const boost=()=>{const b=g.greatWorks217?.corpses?.();return{pyre:b?.pyre>0?b.pyre:1,pit:b?.pit>0?b.pit:1};};
+  const pitCapacity=()=>F.capacity*boost().pit;
   const clinic=()=>{for(const b of g.world?.buildings?.values?.()||[])if(b.type==='clinic'&&!b.dead&&b.completed&&b.powered&&b.health>0&&!b.siegeOffline&&!b.territoryOffline&&!b.dayOffline&&!b.gridOffline)return true;return false;};
   const title=u=>(C.SURVIVORS[u.kind]?.name||'survivant').toLowerCase();
   const lastWorker=u=>u.kind==='worker'&&g.units.filter(o=>live(o)&&o.kind==='worker').length<=1;
@@ -110,12 +115,12 @@
    const q=pitQuote();if(!q.ok)return q;
    if(!C.spend(g.resources,q.cost))return{ok:false,reason:'Stock insuffisant.'};
    state.pitLeft=F.digSeconds;
-   g.notify?.('Fosse en chantier : '+C.formatTime(F.digSeconds)+' de terrassement par les ouvriers, arrêté pendant les assauts. Elle recevra '+F.capacity+' corps.');
+   g.notify?.('Fosse en chantier : '+C.formatTime(F.digSeconds)+' de terrassement par les ouvriers, arrêté pendant les assauts. Elle recevra '+whole(pitCapacity())+' corps'+necropolis()+'.');
    g.audio?.build?.();g.save(false);return{ok:true};
   }
   function burn(dt){
    const fuel=state.pyre,per=P.cost[fuel],stock=Math.max(0,g.resources[fuel]||0);
-   const want=Math.min(state.pending,P.perSecond*dt),done=Math.min(want,stock/per);
+   const want=Math.min(state.pending,P.perSecond*boost().pyre*dt),done=Math.min(want,stock/per);
    if(done>0){g.resources[fuel]=Math.max(0,stock-done*per);state.pending=Math.max(0,state.pending-done);state.burned=Math.min(MAX,state.burned+done);}
    if(!(state.pending>EPS)){state.pending=0;out('Bûcher éteint : tous les corps sont brûlés.','good');}
    else if(done<want-EPS)out('Bûcher éteint faute de '+FUEL_NAMES[fuel]+' : '+whole(state.pending)+' corps restent à traiter.','danger');
@@ -129,8 +134,9 @@
     return;
    }
    if(!state.pitOpen)return;
-   const done=Math.min(state.pending,F.perSecond*dt,F.capacity-state.pitFill);
-   if(done>0){state.pending=Math.max(0,state.pending-done);if(!(state.pending>EPS))state.pending=0;state.pitFill+=done;state.buried=Math.min(MAX,state.buried+done);}
+   // Une place de fosse ordinaire reçoit `pit` corps dans une fosse de nécropole.
+   const room=boost().pit,done=Math.min(state.pending,F.perSecond*dt,(F.capacity-state.pitFill)*room);
+   if(done>0){state.pending=Math.max(0,state.pending-done);if(!(state.pending>EPS))state.pending=0;state.pitFill+=done/room;state.buried=Math.min(MAX,state.buried+done);}
    if(state.pitFill>=F.capacity-EPS){
     state.pitOpen=false;state.pitFill=0;state.pitsClosed=Math.min(MAX_COUNT,state.pitsClosed+1);
     g.notify?.('Fosse pleine : elle est refermée. Il faut en ouvrir une autre pour continuer d’ensevelir.','normal');
@@ -176,10 +182,12 @@
    bury(dt);
    sickness(dt);
   }
-  function pyreText(){return state.pyre?'Brûle au '+FUEL_NAMES[state.pyre]+' · '+amount(P.perSecond*60)+' corps par minute · signature +'+P.signature:'Éteint';}
+  const pyreRate=()=>P.perSecond*boost().pyre,pitBodies=()=>state.pitFill*boost().pit;
+  const necropolis=()=>boost().pyre!==1||boost().pit!==1?' (Nécropole)':'';
+  function pyreText(){return state.pyre?'Brûle au '+FUEL_NAMES[state.pyre]+' · '+amount(pyreRate()*60)+' corps par minute'+necropolis()+' · signature +'+P.signature:'Éteint';}
   function pitText(){
    return state.pitLeft>0?'En chantier · '+C.formatTime(state.pitLeft)+(sieged()?' (arrêté pendant l’assaut)':crew()?'':' (aucun ouvrier présent)')
-    :state.pitOpen?'Ouverte · '+whole(state.pitFill)+' / '+F.capacity+' corps'+(sieged()?' (arrêtée pendant l’assaut)':crew()?'':' (aucun ouvrier présent)')
+    :state.pitOpen?'Ouverte · '+whole(pitBodies())+' / '+whole(pitCapacity())+' corps'+(sieged()?' (arrêtée pendant l’assaut)':crew()?'':' (aucun ouvrier présent)')
     :'Aucune fosse ouverte'+(state.pitsClosed?' · '+plural(state.pitsClosed,'fosse refermée','fosses refermées'):'');
   }
   const PHASES=['Salubre','Trop de corps : délai de grâce','Premier temps : le moral baisse','Premier temps : le moral baisse','Deuxième temps : des habitants tombent malades','Deuxième temps : des habitants tombent malades','Troisième temps : les plus fragiles meurent'];
@@ -203,7 +211,7 @@
     {label:'Corps à traiter',value:whole(state.pending)+' · déblayés des murs et des fossés'},
     {label:'Corps laissés',value:whole(load)+' (à traiter + au pied des murs) · seuil '+whole(cap)+' pour '+(g.population||0)+' habitants'},
     {label:'Bûcher',value:pyreText()+' — '+amount(P.cost.wood)+' bois ou '+amount(P.cost.fuel)+' carburant par corps ; s’éteint seul sans corps ni combustible.'},
-    {label:'Fosse',value:pitText()+' — '+cost(F.cost)+' et '+C.formatTime(F.digSeconds)+' de chantier ; '+amount(F.perSecond*60)+' corps par minute, '+F.capacity+' corps, puis elle se referme.'},
+    {label:'Fosse',value:pitText()+' — '+cost(F.cost)+' et '+C.formatTime(F.digSeconds)+' de chantier ; '+amount(F.perSecond*60)+' corps par minute, '+whole(pitCapacity())+' corps'+necropolis()+', puis elle se referme.'},
     {label:'Salubrité',value:PHASES[s]+(s>0?' · seuil dépassé depuis '+C.formatTime(state.exposure):'')},
     {label:'Ensuite',value:nextText()},
     {label:'Médicaments',value:'Une mort est évitée contre '+dose+' médicaments'+(clinic()?' (clinique en service)':' ('+S.medicine.clinic+' avec une clinique en service)')+' ; le dépôt en a '+Math.floor(g.resources?.medicine||0)+'.'},
@@ -216,10 +224,10 @@
    const list=[];
    if(state.pyre){const q=douseQuote();list.push({id:'douse',label:'Éteindre le bûcher',description:'La signature retombe ; les corps non brûlés restent à traiter.',disabled:!q.ok,reason:q.reason||'Aucun combustible n’est rendu.',run:douse});}
    else for(const fuel of FUELS){const q=lightQuote(fuel);list.push({id:'light-'+fuel,label:'Allumer le bûcher au '+FUEL_NAMES[fuel],
-    description:'Consume '+amount(P.perSecond*60)+' corps par minute contre '+amount(P.cost[fuel])+' '+FUEL_NAMES[fuel]+' par corps. Signature +'+P.signature+' tant qu’il brûle ; il s’éteint seul.',
+    description:'Consume '+amount(pyreRate()*60)+' corps par minute contre '+amount(P.cost[fuel])+' '+FUEL_NAMES[fuel]+' par corps. Signature +'+P.signature+' tant qu’il brûle ; il s’éteint seul.',
     disabled:!q.ok,reason:q.reason||'Le combustible est pris au dépôt à mesure que les corps brûlent.',run:()=>light(fuel)});}
    if(!state.pitOpen){const q=pitQuote();list.push({id:'open-pit',label:'Ouvrir une fosse',
-    description:'Coût : '+cost(F.cost)+', '+C.formatTime(F.digSeconds)+' de chantier d’ouvriers. Ensevelit '+amount(F.perSecond*60)+' corps par minute, sans combustible ni signature ; pleine à '+F.capacity+' corps, elle se referme.',
+    description:'Coût : '+cost(F.cost)+', '+C.formatTime(F.digSeconds)+' de chantier d’ouvriers. Ensevelit '+amount(F.perSecond*60)+' corps par minute, sans combustible ni signature ; pleine à '+whole(pitCapacity())+' corps'+necropolis()+', elle se referme.',
     disabled:!q.ok,reason:q.reason||'Le stock paie maintenant ; rien n’est rendu.',run:openPit});}
    return list;
   }
@@ -256,8 +264,8 @@
    const s=stage(state.exposure);
    return{head:s>0?PHASES[s]:state.pyre?'Le bûcher brûle':state.pitOpen?'Fosse ouverte':state.pending>=1?'Des corps attendent':'Cité salubre',
     rows:{pending:whole(state.pending),left:whole(left())+' · seuil '+whole(limit()),pyre:state.pyre?'Brûle au '+FUEL_NAMES[state.pyre]+' · signature +'+P.signature:'Éteint',
-     pit:state.pitLeft>0?'En chantier · '+C.formatTime(state.pitLeft):state.pitOpen?whole(state.pitFill)+' / '+F.capacity:'Aucune',health:PHASES[s],next:nextText()},
-    foot:'Bûcher et fosse se décident au dépôt, fiche « Corps et salubrité » des opérations.'+(state.pyre?' Signature du bûcher : +'+P.signature+' (comptée dans le total ci-dessus, hors des quatre parts).':'')};
+     pit:state.pitLeft>0?'En chantier · '+C.formatTime(state.pitLeft):state.pitOpen?whole(pitBodies())+' / '+whole(pitCapacity()):'Aucune',health:PHASES[s],next:nextText()},
+    foot:'Bûcher et fosse se décident au dépôt, fiche « Corps et salubrité » des opérations.'+(state.pyre?' Signature du bûcher : +'+P.signature+' (part « Grands ouvrages et bûcher » de la signature ci-dessus).':'')};
   }
   function render(){
    const node=attach();if(!node)return false;
@@ -274,7 +282,7 @@
    if(!open()||!core||!Number.isFinite(core.x)||!Number.isFinite(core.y))return[];
    const list=[];
    if(state.pyre)list.push({id:'pyre',x:core.x-64,y:core.y+MARK_DROP,smoke:true,label:'BÛCHER'});
-   if(state.pitLeft>0||state.pitOpen)list.push({id:'pit',x:core.x+64,y:core.y+MARK_DROP,smoke:false,digging:state.pitLeft>0,fill:state.pitFill/F.capacity,label:state.pitLeft>0?'FOSSE · CHANTIER':'FOSSE '+whole(state.pitFill)+'/'+F.capacity});
+   if(state.pitLeft>0||state.pitOpen)list.push({id:'pit',x:core.x+64,y:core.y+MARK_DROP,smoke:false,digging:state.pitLeft>0,fill:state.pitFill/F.capacity,label:state.pitLeft>0?'FOSSE · CHANTIER':'FOSSE '+whole(pitBodies())+'/'+whole(pitCapacity())});
    return list;
   }
   function drawMarks(ctx){

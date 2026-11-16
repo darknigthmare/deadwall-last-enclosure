@@ -13,13 +13,17 @@
  'use strict';
  const REFRESH_SECONDS=.5;
  const whole=value=>Math.max(0,Math.round(Number(value)||0));
- // Les quatre parts de la signature, dans les termes du calcul de `refreshMetrics`.
+ // Les parts de la signature, dans les termes du calcul de `refreshMetrics` : les quatre du moteur, puis celle des règles de cité.
+ const part=owner=>{try{const n=Number(owner?.signature?.());return Number.isFinite(n)&&n>0?n:0;}catch(error){return 0;}};
  function signatureParts(g){
   const parts=[
    {key:'buildings',label:'Bâtiments achevés',value:Number(g.cityScore)||0},
    {key:'population',label:'Population',value:(Number(g.population)||0)*2},
    {key:'power',label:'Consommation électrique',value:(Number(g.powerUsed)||0)*2},
-   {key:'structures',label:'Nombre de structures',value:(g.world?.buildings?.size||0)*.35}
+   {key:'structures',label:'Nombre de structures',value:(g.world?.buildings?.size||0)*.35},
+   // Cinquième part : ce que les règles de cité ajoutent au calcul du moteur, lu chez leurs propriétaires
+   // (grands ouvrages achevés, src/great-works217.js ; bûcher allumé, src/corpse-chain217.js).
+   {key:'works',label:'Grands ouvrages et bûcher',value:part(g.greatWorks217)+part(g.corpseChain217)}
   ];
   return Object.freeze({total:Number(g.signature)||0,parts:Object.freeze(parts.map(Object.freeze))});
  }
