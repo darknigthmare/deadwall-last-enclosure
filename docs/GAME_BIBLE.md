@@ -1378,6 +1378,16 @@ d'atlas calée sur l'étendue totale.
   plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
   fronts ; vue à la première personne dès l'ouverture ; gel des règles de
   génération ; repli à 128 m si 192 m coûte trop).
+- **Tranche O2 livrée, sans effet en jeu** : les lieux du monde sans bord
+  reçoivent emprise, genre, plan, accès et occupants, avec les mêmes
+  fabriques que la région actuelle, de façon déterministe. Falaise et eau
+  deviennent des obstacles : falaise infranchissable à pied et en voiture,
+  rampes de col franchissables, eau bloquante hors des ponts. La règle de
+  vue et de tir décidée est prête : une falaise arrête ce qui vient d'en
+  bas, pas d'en haut. Réserves : moitié moins de lieux que dans la région
+  actuelle ; une route coupe parfois l'angle d'une falaise près d'une rampe
+  (moins de 0,2 % des points) ; la règle de vue n'est pas encore branchée
+  sur les tirs de la cité.
 - **[DÉCISION]** Ouverture du monde sans bord : une falaise arrête la vue
   et les tirs d'en bas, pas ceux d'en haut ; une cité à deux côtés ouverts
   reçoit la même vague, concentrée sur ces côtés ; la vue à la première

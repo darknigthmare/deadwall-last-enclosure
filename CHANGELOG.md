@@ -17,6 +17,7 @@
 - Factions, deuxième tranche : repaires repérés en sortie, effets d'Entente (renseignement, échange, recrue), escorte mesurée hors des murs, assaut du repaire payé trois fois et ralliement des Rouleurs, tribut indexé.
 - Districts : consigne par district (tenir, replier, évacuer, sacrifier), sacrifice d'un secteur avec reconquête au matin, décision sur un pan menacé, une seule brèche nommée par rupture.
 - Grands ouvrages, deuxième tranche : chantier posé sur la carte avec aperçu, silhouette qui grandit par tranche, tranche inachevée piétinée pendant l'assaut, nécropole au service du bûcher et des fosses, cinquième part « Grands ouvrages et bûcher » dans la signature.
+- Monde sans bord, tranche O2 (hors jeu) : lieux complets du monde sans bord ; falaises et eau comme obstacles ; règle de vue et de tir des falaises.
 - Monde sans bord : plan d'ouverture expérimental en dix tranches et monde régional de la génération 12, hors jeu (aucun effet sur les parties).
 - Meneuse, deuxième tranche : escorte d'infectés ordinaires prise sur l'effectif de la vague, poste vérifié contre le décor, effectif réel dans l'annonce de migration et la lecture de siège, repère sur la marée, relais radio (vague menée et maladie), annonce de l'ouverture de la filière des corps.
 - Lieux remarquables, deuxième tranche : repérage en sortie seulement (vu de loin depuis la cité, sans nid ni lot), repeuplement partiel d'un nid vidé par une migration sauf sous avant-poste, repères sur la minicarte de région.
