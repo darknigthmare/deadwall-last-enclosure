@@ -533,3 +533,5 @@ Exemple, vague 13 standard, signature de départ : 235 annoncés, 282 si elle vi
 Deuxième tranche : escorte `{base 6, perLed 2, max 18, share 0,08, ringMin 46, ringMax 110, wake 260, shot 150}`, prise sur le plan ; poste `{tries 6, step 128}`.
 
 Grands ouvrages, deuxième tranche : `site = {reach 44, trampleSeconds 2, maxLossShare 0,5}` ; beffroi `{size 4×4, heights 8/16/24 m}` ; nécropole `{size 8×6, heights 2/3,5/5 m, pyreSpeed 1,5, pitCapacity ×2}`. Non éprouvé.
+
+Factions, deuxième tranche (`C.Factions217Rules`) : repaire à 1 200–4 000 m, repéré à 600 m ; renseignement 8 carburant ; Entente entretenue sous 4 vagues ; ralliement après 6 vagues, 3 membres contre 40 nourriture ; assaut {6 fusiliers, 2 tués +1 si Hostile, 30 munitions, signature +90 pendant 2 vagues, gain 20 carburant} ; échange 16 bois contre 10 nourriture ; tribut 6 carburant +2 par âge +1 toutes les 5 vagues, au plus 20. Non éprouvé.

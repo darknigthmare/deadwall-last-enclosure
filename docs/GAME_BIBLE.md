@@ -709,9 +709,35 @@ est bon marché. « Entente » n'a encore aucun effet propre. Seul le fourgon
 d'expédition local est concerné. Les factions n'ont aucune présence sur la
 carte : ni lieu, ni silhouette, ni son.
 
-Restent à faire : le tirage de quatre à six factions par la graine, leur
-placement sur la carte, le combat « payé trois fois » (§4.2), la destruction
-et le ralliement, l'activation volontaire des campagnes existantes, les huit
+**Deuxième tranche livrée [LIVRÉ]**
+
+- **Repaires** : chaque faction tient un lieu régional déjà généré, choisi
+  par une fonction pure du monde (Rouleurs : garage, casse, station-service
+  ou entrepôt ; Relais : ferme, hameau ou longère), sans occupant infecté,
+  ni remarquable ni avant-poste, à 1,2–4 km de D-17. Il ne se repère qu'en
+  sortie, à 600 m, puis porte un repère en région et sur l'atlas.
+- **Entente utile** : avec les Rouleurs, plus de barrage et un
+  renseignement par vague contre 8 carburant (la prochaine vague menée, ou
+  un lieu remarquable non repéré) ; elle s'entretient, sinon elle baisse.
+  Avec les Relais, un échange par vague (16 bois contre 10 nourriture) et
+  une recrue unique.
+- **Escorte réelle** : seuls comptent les fusiliers hors des murs, le long
+  du retour du fourgon ; la garnison des portes ne compte plus.
+- **Assaut du repaire**, payé trois fois : aucun humain hostile n'est
+  simulé, la garde est neutralisée par une section de 6 fusiliers au prix
+  de 30 munitions, 2 fusiliers tués (3 si la bande est Hostile) et une
+  signature +90 pendant 2 vagues. Gain : 20 carburant et plus de barrage.
+  Perte définitive : tribut, renseignement et ralliement.
+- **Ralliement** : demandé par les Rouleurs après 6 vagues d'Entente ; 40
+  nourriture et 3 logements contre 3 fusiliers.
+- **Tribut** indexé sur l'âge et les vagues, au plus 20 carburant.
+
+Réserves : jamais joué en partie réelle. L'assaut est une opération résolue
+à prix fixe, pas un combat joué. Les morts qui se relèvent ne sont pas
+simulés. Aucune silhouette ni son de faction.
+
+Restent à faire : le tirage de quatre à six factions par la graine, un vrai
+combat contre des vivants, l'activation des campagnes existantes, les huit
 autres factions.
 
 ---
@@ -1358,6 +1384,19 @@ d'atlas calée sur l'étendue totale.
   personne est disponible dès l'ouverture expérimentale ; la carte de la
   cité reste à 192 m, quitte à optimiser le champ de flux. Reste ouvert :
   le gel des règles de génération à l'ouverture.
+- **Consignes par district et sacrifice [LIVRÉ]** (§8.2, §8.3) : chaque
+  district reçoit sa consigne — tenir, replier ses combattants, évacuer vers
+  l'anneau intérieur, ou **sacrifier** —, appliquée en présence comme en
+  absence, à la première brèche ou au premier pan menacé. Sacrifier laisse
+  les portes du district ouvertes : une porte ouverte coûte au champ de flux
+  autant qu'une case libre, la horde y est canalisée au lieu d'enfoncer les
+  murs ; repli général derrière l'enceinte suivante ; reconquête en trois
+  temps au matin (isoler, nettoyer, rétablir). Quand un pan menace, la
+  fiche propose tenir, évacuer ou sacrifier le district. Une rupture ne crée
+  plus qu'une seule brèche nommée. Réserves : le passage réel de la horde
+  par la porte ouverte n'a pas été observé ; aucune pénalité de moral ou de
+  production n'existe pour un secteur « perdu » ; la maladie reste comptée
+  pour toute la cité (une répartition par district est seulement affichée).
 - **Tranche T5 livrée, sans effet en jeu** : la taille de la carte de la
   cité se lit désormais sur son propriétaire au lieu de constantes — monde
   de la cité, champ de flux des hordes, déplacements, apparitions,
