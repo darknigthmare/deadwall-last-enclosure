@@ -1336,6 +1336,22 @@ d'atlas calée sur l'étendue totale.
   10 à 20 cols, ce qui dépasse « quelques passages ». Les rivières ne
   suivent pas toujours les vallées. Des noms d'agglomération en double sont
   possibles. Le coût dans le navigateur reste à mesurer au calme.
+- **Plan d'ouverture et première brique (T6), sans effet en jeu** :
+  `specs/monde-sans-bord/ouverture.md` ordonne dix tranches (O1 à O10)
+  jusqu'à une partie en génération 12 jouable derrière l'option
+  « expérimental », chacune avec ses preuves d'innocuité pour les campagnes
+  existantes. Chemins critiques : monde régional → sauvegarde → ouverture,
+  et carte de la cité à 192 m → fronts par côté ouvert → ouverture. O1 est
+  livrée : `src/world-open217.js`, un monde régional hors jeu qui répond aux
+  mêmes accesseurs que la région finie (lieu par identifiant, voisinage,
+  limites toujours ouvertes, étendue infinie), avec un itinéraire limité à
+  quelques cantons et un tirage de route par position pour les migrations.
+  Réserves : rien n'a été joué ; les itinéraires suivent les mailles de
+  32 m (détour de 1,2 à 2,4 fois le vol d'oiseau) ; une falaise n'est pas
+  encore un obstacle en région. Cinq décisions restent ouvertes dans le
+  plan (une falaise arrête-t-elle un tir ou la vue ? valeurs du repli des
+  fronts ; vue à la première personne dès l'ouverture ; gel des règles de
+  génération ; repli à 128 m si 192 m coûte trop).
 - **Tranche T5 livrée, sans effet en jeu** : la taille de la carte de la
   cité se lit désormais sur son propriétaire au lieu de constantes — monde
   de la cité, champ de flux des hordes, déplacements, apparitions,
