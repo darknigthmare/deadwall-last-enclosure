@@ -1,0 +1,615 @@
+[
+  {
+    "key": "pumping_station",
+    "id": "DW-0342",
+    "label": "Station de pompage",
+    "file": "DW-0342_station-pompage.png",
+    "prompt": "Use case: stylized-concept.\nAsset type: one isolated transparent PNG building sprite for DEADWALL — Last Enclosure, continuation asset art222 / DW-0342 pumping station.\nInput image 1 is the EXISTING GAME BUILDINGS ATLAS, a STRICT STYLE AND CAMERA REFERENCE ONLY. Produce exactly ONE new building, not an atlas and not any of the reference buildings. Match its hand-painted semi-realistic industrial post-apocalyptic strategy-game rendering, muted steel gray, olive, dusty brown and restrained rust; fine readable worn material details, realistic human scale. Match its very high near-overhead orthographic camera, approximately 68 degrees down toward the front: roof edges nearly horizontal/vertical in the image, front access on the bottom, a short visible front wall. NO isometric diamond rotation, no cinematic low angle.\nPrimary subject: a modest municipal WATER PUMPING STATION, clearly distinct from a water tower, fuel depot, generator or power station. Low compact rectangular utility structure with weathered sheet-metal roofing, an adjoining uncovered service bay containing two clearly recognizable centrifugal pumps mounted on concrete pads, and continuous thick steel water pipes with visible elbow joints and shutoff valves. The inlet pipe must visibly connect from a small practical intake channel/forebay at the back-left edge to the pumps; outlet manifold exits the opposite side. Keep a coherent continuous mechanical route, not disconnected decorative pipes. A small enclosed operator/control compartment and an accessible maintenance aisle complete the four functions: intake, pumps, command, maintenance. Clean readable silhouette; pipe supports anchored to the ground; believable unobstructed doorway and service access. Preserve ordinary real-world machinery, no science-fiction apparatus.\nComposition: ONE cohesive building-and-machinery asset centered, whole object visible with generous empty margin on all sides, small flush concrete service footprint only, no raised display plinth. The tiny intake water channel is part of the asset, not a landscape. Roof can cover the control compartment but leave the pumps visible in the service bay. No people, vehicles, extra detached buildings, surrounding landscape, roads, fences, icons, labels or lettering. No UI or watermark. No exaggerated vegetation, fires or smoke. Diffuse lighting matching the reference with subtle short contact shadows.\nBACKGROUND: true fully transparent alpha outside the asset and its small contact shadow. Absolutely do not reproduce the reference's checkerboard: no checkerboard pixels, white backdrop, colored matte or drawn transparency pattern. High-resolution crisp native sprite, not pixel art.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-f2d47d48-42f2-4980-84a4-5533dd1e6d80.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0342_station-pompage.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0342_station-pompage.png",
+      "bytes": 2409190,
+      "sha256": "b03ba974465b8cd04bacc92fb60fd283bfcf49fb9caf018cff7f4841ac1a85c5",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.5230375925699869,
+      "visibleBoundsAlphaAbove8": [
+        171,
+        131,
+        1344,
+        907
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Station de pompage",
+      "levels": [
+        0
+      ],
+      "buildingFootprintMetres": null,
+      "exteriorProgram": [
+        "prise d’eau reliée aux pompes",
+        "pompes accessibles",
+        "commande",
+        "maintenance"
+      ],
+      "sourceLimit": "La fiche ne prescrit pas une emprise bâtie unique ; ses plages de parcelles ne constituent pas les dimensions du bâtiment."
+    }
+  },
+  {
+    "key": "clinic",
+    "id": "DW-0132",
+    "label": "Clinique chirurgicale — DW-0132",
+    "file": "DW-0132_clinique-chirurgicale.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0132 SURGICAL CLINIC, a small single-ground-floor regional medical facility, distinctly smaller and simpler than a city hospital. A coherent modest rectangular building with five connected functional volumes implied by roof sections: public reception at the FRONT, preparation and sterile surgical block in a controlled central/rear section, a quiet recovery wing, and a separate rear sterilization/service area. Show the front public entrance with small weathered canopy and a clearly separate rear/side service doorway; routes must be unobstructed. Use subdued blue-green corrugated or metal roof panels and worn off-white/gray walls, consistent with the small clinic in the atlas, with one small plain off-white medical plus symbol on the roof (generic function symbol, no lettering). Restrained vents and cleanable service details; visibly a human surgical clinic, not a veterinary clinic. Preserve functional separation: no refuse piled at the public door or medical supplies scattered outdoors. Exterior sprite with roofs intact, no dollhouse cutaway, no interior furniture displayed through walls. Compact 3:2 composition.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-d128a877-57ac-4fbc-b667-160644b2871c.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0132_clinique-chirurgicale.png",
+      "bytes": 2256901,
+      "sha256": "12d009eaa57d831bb7d28ed27e5b8b54c84e8390355eea96085c8ad4720f19e0",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.5505847930908203,
+      "visibleBoundsAlphaAbove8": [
+        179,
+        157,
+        1359,
+        890
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Clinique chirurgicale",
+      "levels": [
+        0
+      ],
+      "buildingFootprintMetres": null,
+      "exteriorProgram": [
+        "accès public en façade",
+        "accès de service distinct",
+        "enveloppe de clinique de plain-pied"
+      ],
+      "interiorProgramNotVerifiedByExteriorSprite": [
+        "accueil",
+        "préparation",
+        "chirurgie",
+        "réveil",
+        "stérilisation",
+        "séparation des circuits propre et sale"
+      ],
+      "sourceLimit": "Aucun plan de toiture ni modèle visuel canonique propre à ce lieu dans la fiche récupérée."
+    }
+  },
+  {
+    "key": "substation",
+    "id": "DW-0321",
+    "label": "Poste électrique de quartier — DW-0321",
+    "file": "DW-0321_poste-electrique-quartier.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0321 NEIGHBOURHOOD ELECTRICAL SUBSTATION, a compact contained utility site with four legible areas: perimeter enclosure, inert electrical equipment, a modest operator hut, and unobstructed service access. Two or three weathered distribution transformers and ceramic-insulator switchgear must stand securely on individual low concrete pads, connected by visually coherent short cable/conduit runs. A small single-storey operator hut at the rear side, a restrained mesh safety perimeter with a clear entrance gate at the front, and usable service aisles between the equipment. Ordinary plausible abandoned distribution equipment, no arcs, sparks, energized lights or implied operating power. This is NOT a thermal power station, not a generator plant: no cooling tower, chimney, turbine hall or fuel tanks. Whole low-level compound visible, the fence must not obscure all equipment, no background utility pylons. Minimal flush gravel/concrete footprint belonging to the compound only. Compact 3:2 composition.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-74d29a26-16da-4dc6-b331-048125690149.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0321_poste-electrique-quartier.png",
+      "bytes": 3187881,
+      "sha256": "da21ba0dcb99785f4d6a897a909754fb588a6f11aecfd738bbfd8f423739e730",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.35535113016764325,
+      "visibleBoundsAlphaAbove8": [
+        128,
+        73,
+        1406,
+        951
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Poste électrique de quartier",
+      "levels": [
+        0
+      ],
+      "buildingFootprintMetres": null,
+      "exteriorProgram": [
+        "enceinte",
+        "appareillages sur socles",
+        "local opérateur",
+        "accès de maintenance"
+      ],
+      "sourceLimit": "Aucun calepinage métrique unique de l’installation n’est fourni par la fiche."
+    }
+  },
+  {
+    "key": "radio_relay",
+    "id": "DW-0334",
+    "label": "Relais radio rural — DW-0334",
+    "file": "DW-0334_relais-radio-rural.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0334 RURAL RADIO RELAY, a modest local communications installation distinctly smaller than a high-power broadcast transmitter. One low single-ground-floor service building with a compact integrated workshop and energy cabinet area; beside it, ONE short practical lattice communications mast on a concrete footing, with a few restrained small radio antennas and at most one modest microwave dish. Antenna and building must form one coherent installation: visible cable conduit connects the mast base to the building, clear access aisle, accessible workshop/service door, simple energy cabinets against the technical wall. Represent the rural access only as a very short worn threshold/earth apron terminating at the front edge, not an extended road or surrounding landscape. No massive antenna farm, radar dome, giant broadcast tower, huge dish, solar farm, glowing signal waves or sci-fi panels. Preserve the very high camera of the atlas even though the mast is taller than the low building; keep the entire mast in frame, do not enlarge it into the main transmitter from art221. Compact portrait-friendly composition with generous transparent margin.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-557157e9-0c4c-4acd-ba92-f182a4d345f6.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0334_relais-radio-rural.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0334_relais-radio-rural.png",
+      "bytes": 1276907,
+      "sha256": "2cc0a824ee14287a228bb65f51a1c1163389e1db6d42fece3227c15ee01f3bc3",
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.7046509794747655,
+      "visibleBoundsAlphaAbove8": [
+        199,
+        167,
+        1118,
+        995
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Relais radio rural",
+      "levels": [
+        0
+      ],
+      "buildingFootprintMetres": null,
+      "exteriorProgram": [
+        "petite antenne reliée au local",
+        "énergie",
+        "atelier",
+        "accès rural"
+      ],
+      "sourceLimit": "Installation distincte du grand émetteur du lot précédent ; implantation détaillée interprétée depuis le programme."
+    }
+  },
+  {
+    "key": "civil_bunker",
+    "id": "DW-0541",
+    "label": "Bunker de défense civile — DW-0541 / 01",
+    "file": "DW-0541_bunker-defense-civile-v01.png",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0541 CIVIL DEFENCE BUNKER, VARIANT 01. Canonical source specifies a long narrow 18-by-41-metre footprint and TWO levels. Keep that elongated approximately 1:2.28 footprint, length running toward the top of the image, short 18m front edge toward bottom, in the same near-overhead camera as the atlas. Show a squat two-level reinforced-concrete civil shelter, with visibly two storeys in the short front/side elevation, thick weathered concrete walls, heavy flat roof, restrained protected ventilation openings. A sheltered front entrance with an unmistakable protective return wall and heavy double airlock-door arrangement, accessible threshold, small second-level openings/vent bands, generator ventilation/exhaust at the rear and a small practical radio aerial. These correspond to protected entry, airlock, dormitory, reserve, generator and radio functions; do not invent a tank turret, gun emplacements or science-fiction fortress. The source does NOT specify underground levels: do not add an underground cutaway, trench, earth mound or subterranean floor. Intact exterior roofs, no exploded diagram. A very narrow irregular earth contact strip belongs to the asset; no village, forest, surrounding road or big terrain tile. No crates scattered uniformly, no loot icons. Portrait composition, entire long building visible, human-scale doors and details, no shortening the footprint into a square.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-f5148f84-76a9-4f23-bbfc-3a1518cc1b8c.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0541_bunker-defense-civile-v01.png",
+      "bytes": 2837296,
+      "sha256": "46b2e5d55607a7a47c8378cffeb95536c83f341031e74286115d1be4c9a53309",
+      "width": 830,
+      "height": 1895,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.3035407063610643,
+      "visibleBoundsAlphaAbove8": [
+        85,
+        10,
+        751,
+        1883
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Bunker de défense civile — variante 01",
+      "levelCount": 2,
+      "buildingFootprintMetres": [
+        18,
+        41
+      ],
+      "exteriorProgram": [
+        "entrée protégée",
+        "enveloppe allongée",
+        "ventilation",
+        "petit équipement radio"
+      ],
+      "interiorProgramNotVerifiedByExteriorSprite": [
+        "sas",
+        "dortoir",
+        "réserve",
+        "groupe électrogène",
+        "radio"
+      ],
+      "sourceLimit": "Deux niveaux sont prescrits sans obligation qu’ils soient tous deux souterrains. Les mètres et la rotation de placement restent des contraintes d’intégration."
+    }
+  },
+  {
+    "key": "fire_station",
+    "id": "DW-0528",
+    "file": "DW-0528_caserne-pompiers-v01.png",
+    "label": "Caserne de pompiers — DW-0528 / 01",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0528 FIRE STATION, VARIANT 01, with the specific canonical elongated footprint 19 metres wide by 36 metres deep and exactly ONE LEVEL. Preserve the long rectangular approximately 1:1.89 ground outline, depth running up the image, and single-storey massing. This is a small regional fire station, not a military barracks. At the front short end, two clearly readable full-size fire-appliance garage/remise bays with faded dark red rolling doors and substantial concrete piers; beside them a smaller pedestrian entrance safely outside vehicle exit paths. A low long roof covers the vehicle remises and rear quarters/workshop/storage volumes, with restrained roof vents and appropriate windows along the sides. The functions are court, remises, changing rooms, dormitory, workshop and reserve; exterior sprite, not a cutaway. Keep a shallow clear concrete departure apron in front of the bays and a very narrow grass/earth contact strip on the sides; a tiny side-access threshold can suggest the separate lateral approach. No trucks, people, hoses blocking vehicle doors, tall training tower, upper floor, surrounding highway or full parking lot. DO NOT borrow the separate old firestation pilot's 36-by-28m two-storey design: this asset is strictly the 19-by-36m single-level variant. No lettering, badges, numbered bays or logo. Match the atlas camera and realistic human-scale doors. Portrait-friendly composition with generous transparent margin.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-b56adefe-7525-45b0-ad8f-edcb851ebdf4.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "references/iterations/DW-0528_candidate-v1.png",
+    "status": "superseded_after_proportion_review",
+    "audit": {
+      "file": "references/iterations/DW-0528_candidate-v1.png",
+      "bytes": 2286417,
+      "sha256": "4a106a783447199cfd99398f05301dcb41fe6474ff215449ec94254fd67186e6",
+      "width": 914,
+      "height": 1721,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.42957824378223947,
+      "visibleBoundsAlphaAbove8": [
+        136,
+        123,
+        786,
+        1601
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "nativeBytesPreserved": true
+    }
+  },
+  {
+    "key": "fire_station",
+    "id": "DW-0528",
+    "file": "DW-0528_caserne-pompiers-v01.png",
+    "label": "Caserne de pompiers — variante 01",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-b56adefe-7525-45b0-ad8f-edcb851ebdf4.png",
+    "prompt": "Use case: stylized-concept. This is a GEOMETRY CORRECTION of input image 1, the DEADWALL DW-0528 fire-station sprite. Input image 2 is the original game atlas for strict material style and camera. Preserve the identity, realistic worn concrete and metal, two red vehicle bay doors, separate pedestrian doorway, single storey, uncluttered exit apron, no vehicles or people, and genuine transparent alpha. Correct ONLY the overextended ground plan and related roof details: the physical building footprint is exactly 19 metres WIDE across the two front garages by 36 metres DEEP toward image top, ONE level. With the high orthographic camera about 68 degrees down, a rectangular flat roof should have projected depth about 1.76 times its width, not a very narrow endless strip. Shorten the long roof and side walls by approximately 15–20 percent relative to their width compared with the first input; preserve two genuinely vehicle-sized doors and a modest one-storey front wall. The complete main building silhouette, excluding tiny contact shadow and shallow apron, should read close to twice as tall as wide, not 2.5 or 3 times as tall as wide. Keep roof footprint axes horizontal/vertical, roofs dominant, front wall toward image bottom, no isometric diamond rotation. Do not add a floor, tower, large terrain pad, surrounding road or parking lot. Do not convert the building to the different 36-by-28-metre old pilot. Keep native weathered hand-painted semi-realistic game art matching atlas; no labels, digits, logo, badges, text, checkerboard, background color, matte or glow. Center the full corrected building with generous fully transparent margins. Preserve all door openings and clean structural construction. True RGBA transparency.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-ede8045f-71db-434f-a747-eea906cebdda.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-b56adefe-7525-45b0-ad8f-edcb851ebdf4.png",
+      "/workspace/scratch/55dad3ac334d/references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "referenceImagesInPack": [
+      "references/iterations/DW-0528_candidate-v1.png",
+      "references/buildings-atlas.webp"
+    ],
+    "supersedesIteration": 1,
+    "status": "final_visual_asset_metric_placement_unverified",
+    "outputInPack": "assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+    "audit": {
+      "file": "assets/art222/regional/DW-0528_caserne-pompiers-v01.png",
+      "bytes": 2423245,
+      "sha256": "5cd2493e07f7b44849d59ff8c6473d5eab9b86c7819dc405157a497ff1629a6f",
+      "width": 1184,
+      "height": 1328,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentFraction": 0.4772849845327255,
+      "visibleBoundsAlphaAbove8": [
+        217,
+        92,
+        967,
+        1243
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Caserne de pompiers — variante 01",
+      "levelCount": 1,
+      "buildingFootprintMetres": [
+        19,
+        36
+      ],
+      "exteriorProgram": [
+        "remises avec sortie dégagée",
+        "accès piéton séparé",
+        "cour",
+        "approche latérale"
+      ],
+      "interiorProgramNotVerifiedByExteriorSprite": [
+        "vestiaires",
+        "dortoir",
+        "atelier",
+        "réserve"
+      ],
+      "sourceLimit": "Variante 19 × 36 m à un niveau ; ne pas substituer le pilote DW-0181 de 36 × 28 m. Correction visuelle de proportions effectuée, échelle métrique non certifiée par le PNG."
+    }
+  },
+  {
+    "key": "bus_station",
+    "id": "DW-0549",
+    "file": "DW-0549_gare-routiere-v01.png",
+    "label": "Gare routière — DW-0549 / 01",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0549 BUS STATION, VARIANT 01, canonical footprint 34 metres wide by 15 metres deep, exactly ONE LEVEL. A long low peri-urban passenger terminal with a clearly wide approximately 2.27:1 rectangular footprint, long facade across the bottom of the image. Small central public waiting hall entrance, glazed/boarded office windows, a discreet light-workshop service door toward one end, and a practical covered BUS boarding platform along the front with slender physically supported posts, a few simple benches and a clear raised curb. A very shallow flush worn asphalt boarding apron with restrained bus-bay line segments is part of this one asset; maintain clear pedestrian space and an unobstructed vehicle approach. Roof may be worn flat/low pitched metal with modest vents, all within the shallow wide massing. Ordinary abandoned bus terminal at human scale, clearly distinguishable from the railway station made earlier. NO railway tracks, rails, train, locomotive, clock tower, extra storey, buses, cars, people, surrounding road network or large terrain tile. No place names, lettering, logos, timetables or numbered signs. Show the whole isolated building and attached platform in a wide landscape composition, with the same high near-overhead camera as the atlas.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-936d38fa-ba4f-4292-9097-664a65ca0366.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "references/iterations/DW-0549_candidate-v1.png",
+    "status": "superseded_after_proportion_review",
+    "audit": {
+      "file": "references/iterations/DW-0549_candidate-v1.png",
+      "bytes": 2592749,
+      "sha256": "ed8a78755d44052d900eb62d978c09949e07398d4ec1da69f6468075407cac23",
+      "width": 1866,
+      "height": 843,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.3624597752883274,
+      "visibleBoundsAlphaAbove8": [
+        81,
+        150,
+        1788,
+        729
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    }
+  },
+  {
+    "key": "bus_station",
+    "id": "DW-0549",
+    "file": "DW-0549_gare-routiere-v01.png",
+    "label": "Gare routière — variante 01",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-936d38fa-ba4f-4292-9097-664a65ca0366.png",
+    "prompt": "Use case: stylized-concept. This is a GEOMETRY CORRECTION of input image 1, the DEADWALL DW-0549 bus-station sprite. Input image 2 is the original game atlas for strict visual style and camera. Preserve the worn concrete/metal style, one-storey bus terminal, centered waiting-hall entrance, office windows, small end service workshop, attached supported platform canopy, benches, curb and modest asphalt boarding strip. The current image is much too shallow, like a thin shopfront. The canonical BUILDING ground footprint is exactly 34 metres WIDE and 15 metres DEEP, ONE level; make the main roof/volume substantially DEEPER, approximately twice the current roof depth relative to facade width, so it can actually contain a waiting hall, offices and light workshop. At an orthographic near-overhead camera 68 degrees down, the projected flat roof rectangle should be approximately 2.44 times wider than deep, BEFORE adding the short visible front wall and shallow boarding strip. Do not confuse the whole canvas aspect ratio with the building footprint. Maintain width across image and depth toward image top; roof edges aligned horizontal/vertical. The complete asset including wall, platform and curb should read as a substantial broad rectangle, roughly twice as wide as tall, not an extremely thin 3-to-1 strip. Keep the front wall low at realistic single-storey scale. Roof should dominate like the game atlas; no low camera angle, isometric diamond or cinematic facade view. No railway tracks, trains, clock tower, extra floors, buses, cars, people, surrounding roads or broad terrain. Keep the same coherent building identity and muted industrial palette. No text, labels, station name, bay numbers, logo or UI. Show the entire corrected asset with generous native fully transparent margins; no checkerboard, matte, vignette, colored fringe or opaque background. High-resolution native transparent PNG.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-07c45838-2370-4163-89b6-bf2cc5d01cd2.png",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-936d38fa-ba4f-4292-9097-664a65ca0366.png",
+      "/workspace/scratch/55dad3ac334d/references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "referenceImagesInPack": [
+      "references/iterations/DW-0549_candidate-v1.png",
+      "references/buildings-atlas.webp"
+    ],
+    "supersedesIteration": 1,
+    "status": "final_visual_asset_metric_placement_unverified",
+    "outputInPack": "assets/art222/regional/DW-0549_gare-routiere-v01.png",
+    "audit": {
+      "file": "assets/art222/regional/DW-0549_gare-routiere-v01.png",
+      "bytes": 3156619,
+      "sha256": "59929ac12222ae8c54022a5c954b1edcc08dd7c5147f2ebed8ac601ac6486e72",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.19781918199624032,
+      "visibleBoundsAlphaAbove8": [
+        68,
+        63,
+        1710,
+        854
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Gare routière — variante 01",
+      "levelCount": 1,
+      "buildingFootprintMetres": [
+        34,
+        15
+      ],
+      "exteriorProgram": [
+        "hall",
+        "bureaux",
+        "atelier léger",
+        "quai couvert",
+        "approche sur asphalte"
+      ],
+      "sourceLimit": "Transport par autobus sans rails. Profondeur augmentée après revue ; l’emprise de 34 × 15 m n’est pas une mesure déduite du canevas PNG."
+    }
+  },
+  {
+    "key": "veterinary",
+    "id": "DW-0097",
+    "file": "DW-0097_clinique-veterinaire.png",
+    "label": "Clinique vétérinaire — DW-0097",
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new standalone building sprite for DEADWALL — Last Enclosure, continuation batch art222. Input image is the ORIGINAL GAME ATLAS, used as STRICT STYLE AND CAMERA reference, not an edit target. Match its painted semi-realistic post-apocalyptic industrial strategy-game look, detailed weathered concrete and metal, muted steel-gray, olive, dusty earth and restrained rust, believable human scale. Match the original very high near-overhead orthographic camera, approximately 68–70 degrees down, roofs dominant, short visible front walls toward image bottom, roof footprint axes aligned to the image edges. No isometric diamond rotation and no low-angle cinematic perspective. One whole cohesive asset centered with generous fully transparent margins; no cropping, no surrounding scenery, no display plinth, no people or vehicles. No text, labels, logos, UI, watermark or extraneous icons. No fire, smoke, magical glow, fantasy weapons or exaggerated overgrowth. Diffuse natural lighting, short subtle contact shadow only. True fully transparent alpha outside the asset; NO checkerboard pattern, colored matte, vignette, halo or backdrop. Do not copy the atlas grid or its checkerboard. High-resolution native sprite, not pixel art. Subject: DW-0097 VETERINARY CLINIC, current pilot building envelope 26 metres wide by 20 metres deep, ground floor only. Keep a compact nearly rectangular 1.3:1 ground footprint and ONE LEVEL. A modest regional veterinary practice with front public reception entrance and consultation/treatment volumes, separate protected medical storage, food reserve, and an EMPTY kennel/service area toward the rear side with its own accessible service gate. Use an attached recessed covered kennel run within the overall rectangular compound footprint: a few cleanly readable small mesh stall partitions, all empty, no animals, no patients, no people. Keep the front public entrance clearly separated from the kennel/service access, neither route obstructed. Subdued olive-gray or gray-green roof and worn pale concrete walls in the original atlas palette; small practical ventilation and service details, no giant medical cross, signage, lettering or paw logo. The building must read as a small animal-care facility through its modest clinic architecture and empty service kennel, not as a hospital, warehouse, prison or human surgical block. Exterior roofs intact, no dollhouse cutaway or invented basement. No extra detached annex, doghouse, vehicle, surrounding landscape or oversized concrete display base. Preserve realistic doorway and fence scale. Entire object centered on true transparent alpha, same near-overhead camera as reference.",
+    "generatedSourcePath": "/workspace/scratch/55dad3ac334d/generated_images/exec-455808e7-0a4d-4688-b262-2bb752c43e16.png",
+    "referenceImages": [
+      "references-art222/buildings-atlas.webp"
+    ],
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true,
+    "iteration": 1,
+    "referenceImagesInPack": [
+      "references/buildings-atlas.webp"
+    ],
+    "outputInPack": "assets/art222/regional/DW-0097_clinique-veterinaire.png",
+    "status": "final_visual_asset_metric_placement_unverified",
+    "audit": {
+      "file": "assets/art222/regional/DW-0097_clinique-veterinaire.png",
+      "bytes": 2166450,
+      "sha256": "74a259003e431bc6a4c0bd2888ae00687239ecc8dd4e571627c0dacc3a41edcf",
+      "width": 1430,
+      "height": 1100,
+      "mode": "RGBA",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentFraction": 0.4661309599491418,
+      "visibleBoundsAlphaAbove8": [
+        148,
+        157,
+        1277,
+        973
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nativeBytesPreserved": true
+    },
+    "programConstraints": {
+      "name": "Clinique vétérinaire",
+      "levels": [
+        0
+      ],
+      "buildingFootprintMetres": [
+        26,
+        20
+      ],
+      "exteriorProgram": [
+        "entrée publique",
+        "accès de service distinct",
+        "chenil vide"
+      ],
+      "interiorProgramNotVerifiedByExteriorSprite": [
+        "accueil et dossiers",
+        "consultation",
+        "soins et nettoyage",
+        "pharmacie vétérinaire séparée",
+        "réserve alimentaire"
+      ],
+      "sourceLimit": "Emprise du pilote actuel 26 × 20 m ; la plage de parcelle proposée dans la fiche ne remplace pas cette emprise."
+    }
+  }
+]
