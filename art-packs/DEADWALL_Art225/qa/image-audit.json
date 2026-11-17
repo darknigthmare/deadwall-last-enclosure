@@ -1,0 +1,622 @@
+{
+  "schemaVersion": 1,
+  "batch": "art225",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature/IHDR and Pillow verify, native RGBA alpha histogram and bounds, SHA-256. No write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "Hidden RGB colors with alpha=0 are transparent. Low alpha1–7 noise is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or fidelity certificate.",
+  "finalSpriteCount": 6,
+  "allRgba": true,
+  "allVisibleBodiesWithinCanvasAtAlpha8": true,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art225/regional/DW-0053_pharmacie_commerciale.png",
+      "bytes": 1009663,
+      "sha256": "52c7ce2e99630091bfbf80dccd1773dfb3cb8731e91624050b05ec43566a2c26",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1155608,
+      "fullyTransparentFraction": 0.7348727653816021,
+      "lowAlphaPixels1to7": 12227,
+      "boundsAlphaAtLeast": {
+        "1": [
+          25,
+          19,
+          1410,
+          1086
+        ],
+        "8": [
+          341,
+          301,
+          1107,
+          858
+        ],
+        "32": [
+          342,
+          301,
+          1106,
+          858
+        ],
+        "128": [
+          342,
+          302,
+          1105,
+          857
+        ],
+        "240": [
+          343,
+          303,
+          1105,
+          856
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 25,
+          "top": 19,
+          "right": 38,
+          "bottom": 0
+        },
+        "8": {
+          "left": 341,
+          "top": 301,
+          "right": 341,
+          "bottom": 228
+        },
+        "32": {
+          "left": 342,
+          "top": 301,
+          "right": 342,
+          "bottom": 228
+        },
+        "128": {
+          "left": 342,
+          "top": 302,
+          "right": 343,
+          "bottom": 229
+        },
+        "240": {
+          "left": 343,
+          "top": 303,
+          "right": 343,
+          "bottom": 230
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art225/regional/DW-0045_magasin_bricolage.png",
+      "bytes": 1217107,
+      "sha256": "61e9e8f9857b99471a442c09590d2e910f3fc824f6d5f23eac053afd57038919",
+      "width": 1458,
+      "height": 1079,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1060268,
+      "fullyTransparentFraction": 0.6739639787386329,
+      "lowAlphaPixels1to7": 20153,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          23,
+          1430,
+          1079
+        ],
+        "8": [
+          291,
+          253,
+          1170,
+          837
+        ],
+        "32": [
+          295,
+          253,
+          1167,
+          833
+        ],
+        "128": [
+          296,
+          254,
+          1161,
+          827
+        ],
+        "240": [
+          297,
+          255,
+          1159,
+          823
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 23,
+          "right": 28,
+          "bottom": 0
+        },
+        "8": {
+          "left": 291,
+          "top": 253,
+          "right": 288,
+          "bottom": 242
+        },
+        "32": {
+          "left": 295,
+          "top": 253,
+          "right": 291,
+          "bottom": 246
+        },
+        "128": {
+          "left": 296,
+          "top": 254,
+          "right": 297,
+          "bottom": 252
+        },
+        "240": {
+          "left": 297,
+          "top": 255,
+          "right": 299,
+          "bottom": 256
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art225/regional/DW-0069_restaurant_routier.png",
+      "bytes": 1231088,
+      "sha256": "9533f46f825debbf5388c91659256670a34f0fd7254ce8a9d8b8c534d9b56090",
+      "width": 1520,
+      "height": 1035,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1092616,
+      "fullyTransparentFraction": 0.6945181795067379,
+      "lowAlphaPixels1to7": 12681,
+      "boundsAlphaAtLeast": {
+        "1": [
+          31,
+          56,
+          1500,
+          1035
+        ],
+        "8": [
+          314,
+          253,
+          1214,
+          803
+        ],
+        "32": [
+          319,
+          254,
+          1211,
+          800
+        ],
+        "128": [
+          322,
+          255,
+          1202,
+          795
+        ],
+        "240": [
+          324,
+          255,
+          1197,
+          792
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 31,
+          "top": 56,
+          "right": 20,
+          "bottom": 0
+        },
+        "8": {
+          "left": 314,
+          "top": 253,
+          "right": 306,
+          "bottom": 232
+        },
+        "32": {
+          "left": 319,
+          "top": 254,
+          "right": 309,
+          "bottom": 235
+        },
+        "128": {
+          "left": 322,
+          "top": 255,
+          "right": 318,
+          "bottom": 240
+        },
+        "240": {
+          "left": 324,
+          "top": 255,
+          "right": 323,
+          "bottom": 243
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art225/regional/DW-0241_garage_independant.png",
+      "bytes": 1222517,
+      "sha256": "47cce51065919feae6271fc0fa5838417f084d25a85379899b6709f3ab57fa63",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1074718,
+      "fullyTransparentFraction": 0.6832091155746438,
+      "lowAlphaPixels1to7": 15280,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1364,
+          1122
+        ],
+        "8": [
+          303,
+          289,
+          1102,
+          917
+        ],
+        "32": [
+          307,
+          289,
+          1098,
+          912
+        ],
+        "128": [
+          311,
+          290,
+          1094,
+          907
+        ],
+        "240": [
+          312,
+          291,
+          1090,
+          903
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 38,
+          "bottom": 0
+        },
+        "8": {
+          "left": 303,
+          "top": 289,
+          "right": 300,
+          "bottom": 205
+        },
+        "32": {
+          "left": 307,
+          "top": 289,
+          "right": 304,
+          "bottom": 210
+        },
+        "128": {
+          "left": 311,
+          "top": 290,
+          "right": 308,
+          "bottom": 215
+        },
+        "240": {
+          "left": 312,
+          "top": 291,
+          "right": 312,
+          "bottom": 219
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art225/regional/DW-0142_ecole_primaire.png",
+      "bytes": 1840280,
+      "sha256": "d9ef2bdc5bc0d49d05e72f0d7bc6223d34a529ed31a954244548f34247f1c09c",
+      "width": 1460,
+      "height": 1078,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 792530,
+      "fullyTransparentFraction": 0.5035517320253132,
+      "lowAlphaPixels1to7": 61691,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1444,
+          1078
+        ],
+        "8": [
+          197,
+          193,
+          1265,
+          898
+        ],
+        "32": [
+          199,
+          193,
+          1262,
+          894
+        ],
+        "128": [
+          200,
+          194,
+          1261,
+          888
+        ],
+        "240": [
+          201,
+          195,
+          1260,
+          884
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 197,
+          "top": 193,
+          "right": 195,
+          "bottom": 180
+        },
+        "32": {
+          "left": 199,
+          "top": 193,
+          "right": 198,
+          "bottom": 184
+        },
+        "128": {
+          "left": 200,
+          "top": 194,
+          "right": 199,
+          "bottom": 190
+        },
+        "240": {
+          "left": 201,
+          "top": 195,
+          "right": 200,
+          "bottom": 194
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art225/regional/DW-0161_mairie.png",
+      "bytes": 1280704,
+      "sha256": "f26afa54cf24925d9b046dcbe91a919d083cc6ce252e7b6dfc881d55ed9dff75",
+      "width": 1484,
+      "height": 1060,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1069367,
+      "fullyTransparentFraction": 0.6798091593347912,
+      "lowAlphaPixels1to7": 16114,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          32,
+          1454,
+          1044
+        ],
+        "8": [
+          310,
+          240,
+          1172,
+          828
+        ],
+        "32": [
+          311,
+          241,
+          1170,
+          824
+        ],
+        "128": [
+          312,
+          241,
+          1170,
+          819
+        ],
+        "240": [
+          312,
+          242,
+          1169,
+          818
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 32,
+          "right": 30,
+          "bottom": 16
+        },
+        "8": {
+          "left": 310,
+          "top": 240,
+          "right": 312,
+          "bottom": 232
+        },
+        "32": {
+          "left": 311,
+          "top": 241,
+          "right": 314,
+          "bottom": 236
+        },
+        "128": {
+          "left": 312,
+          "top": 241,
+          "right": 314,
+          "bottom": 241
+        },
+        "240": {
+          "left": 312,
+          "top": 242,
+          "right": 315,
+          "bottom": 242
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

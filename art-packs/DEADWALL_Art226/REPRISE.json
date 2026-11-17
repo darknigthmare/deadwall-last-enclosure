@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art226",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0381",
+    "DW-0221",
+    "DW-0289",
+    "DW-0073",
+    "DW-0331",
+    "DW-0403"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0381",
+      "path": "assets/art226/regional/DW-0381_scierie-de-vallee.png",
+      "sha256": "0a9f735108513def3efedba02687e2360d2221e7913d762996e3349845c2bef1"
+    },
+    {
+      "id": "DW-0221",
+      "path": "assets/art226/regional/DW-0221_entrepot-de-messagerie.png",
+      "sha256": "a0ae23dddd27dceaca513e80ed6250a5db0b8dc9cfa149bd38bdb2803fecde39"
+    },
+    {
+      "id": "DW-0289",
+      "path": "assets/art226/regional/DW-0289_halle-fret-desaffectee.png",
+      "sha256": "53fa62641d81eb5621bfd14ff572570afab1d1bbffaf3b5bd2e253cc3cc09dd9"
+    },
+    {
+      "id": "DW-0073",
+      "path": "assets/art226/regional/DW-0073_cuisine-centrale.png",
+      "sha256": "0cfb8f195d13ebfdd397ea72432f22e9013ac1df164dda039904ce65e05abe25"
+    },
+    {
+      "id": "DW-0331",
+      "path": "assets/art226/regional/DW-0331_local-groupe-electrogene.png",
+      "sha256": "82a9b1482ba8e7c9961624a42108c6769bfd4ba5c85ddd44bab68e6fff5a175b"
+    },
+    {
+      "id": "DW-0403",
+      "path": "assets/art226/regional/DW-0403_halle-technique-carriere.png",
+      "sha256": "38b6064fac6db2ce396361e3a0097811d3ba96104e30fde52f633313f82ac69d"
+    }
+  ],
+  "priorArt221Regenerated": false,
+  "priorArt222Regenerated": false,
+  "priorArt223Regenerated": false,
+  "priorArt224Regenerated": false,
+  "exclusionEvidence": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "All six selected native names are outside the nine remarkable217 USES category matchers. Complete historical Art221 files remain unrecovered; no claim of exhaustive deduplication against those nine old PNGs.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ],
+    "art225CodexIds": [
+      "DW-0053",
+      "DW-0045",
+      "DW-0069",
+      "DW-0241",
+      "DW-0142",
+      "DW-0161"
+    ]
+  },
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "pullRequestLabel": "PR #27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2
+    },
+    {
+      "batch": "art223",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "pullRequestLabel": "PR #28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9
+    },
+    {
+      "batch": "art224",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/29",
+      "pullRequestLabel": "PR #29",
+      "headRevision": "384f6ebaa5c573dfdedf5621a85f2a36be95b046",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 1
+    }
+  ],
+  "continuationCounts": {
+    "priorPublishedFinalSprites": 20,
+    "art226FinalSprites": 6,
+    "distinctFinalSpritesAcrossArt222Art223Art224Art226": 26,
+    "supersededCandidates": {
+      "art222": 2,
+      "art223": 9,
+      "art224": 1,
+      "art226": 6
+    },
+    "art225IsParallelCompanionNotCountedHere": true,
+    "countsDescribeArtPacksNotRuntimeIntegration": true
+  },
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "nextSteps": [
+    "Lire les PR et manifestes publiés avant de sélectionner la suite.",
+    "Conserver les six PNG retenus et les itérations remplacées.",
+    "Associer les futurs visuels aux fiches et types exacts.",
+    "Calibrer projection, échelle, ancrages, portes et ouverture des intérieurs avant raccord au moteur.",
+    "Après raccord, qualifier le commit réel par les contrôles du dépôt et le parcours joueur."
+  ],
+  "knownLimits": [
+    "No canonical pixel exterior exists in these source cards. Pilot programme, footprint and floors constrain the proposed sprites; roof materials and facade details remain visual interpretation.",
+    "Larger proposed parcel ranges are not pilot building footprints.",
+    "Inventaire historique Art221 incomplet.",
+    "Intégration au chargement et au rendu du jeu non effectuée.",
+    "Fidélité métrique ou pixel pour pixel 1:1 non certifiée."
+  ]
+}

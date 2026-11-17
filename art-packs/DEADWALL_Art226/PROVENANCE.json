@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art226",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "finalSpriteCount": 6,
+  "generationCount": 12,
+  "supersededCandidateCount": 6,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Six extérieurs dédiés aux ateliers, à la logistique et aux locaux techniques ; pack de préparation artistique.",
+  "styleReference": {
+    "path": "references/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "bytes": 364648,
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true,
+    "sourceDigestVerified": true
+  },
+  "fidelity": {
+    "observed": [
+      "Atlas réel utilisé",
+      "Programmes et niveaux documentés",
+      "Accès visibles au sol",
+      "Silhouettes et alpha contrôlés"
+    ],
+    "notCertified": [
+      "Projection métrique exacte",
+      "Mètres par pixel",
+      "Identité pixel pour pixel",
+      "Ancres et collisions",
+      "Position des accès et intégration en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0381",
+      "type": "sawmill",
+      "name": "Scierie de vallée",
+      "path": "assets/art226/regional/DW-0381_scierie-de-vallee.png",
+      "sha256": "0a9f735108513def3efedba02687e2360d2221e7913d762996e3349845c2bef1",
+      "bytes": 2450016,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        40,
+        26
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0221",
+      "type": "warehouse",
+      "name": "Entrepôt de messagerie",
+      "path": "assets/art226/regional/DW-0221_entrepot-de-messagerie.png",
+      "sha256": "a0ae23dddd27dceaca513e80ed6250a5db0b8dc9cfa149bd38bdb2803fecde39",
+      "bytes": 2473624,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        46,
+        29
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0289",
+      "type": "freight",
+      "name": "Halle fret désaffectée",
+      "path": "assets/art226/regional/DW-0289_halle-fret-desaffectee.png",
+      "sha256": "53fa62641d81eb5621bfd14ff572570afab1d1bbffaf3b5bd2e253cc3cc09dd9",
+      "bytes": 2772448,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        46,
+        24
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0073",
+      "type": "centralKitchen",
+      "name": "Cuisine centrale",
+      "path": "assets/art226/regional/DW-0073_cuisine-centrale.png",
+      "sha256": "0cfb8f195d13ebfdd397ea72432f22e9013ac1df164dda039904ce65e05abe25",
+      "bytes": 2372882,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        38,
+        29
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0331",
+      "type": "generatorRoom",
+      "name": "Local groupe électrogène",
+      "path": "assets/art226/regional/DW-0331_local-groupe-electrogene.png",
+      "sha256": "82a9b1482ba8e7c9961624a42108c6769bfd4ba5c85ddd44bab68e6fff5a175b",
+      "bytes": 1602503,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        16,
+        13
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0403",
+      "type": "quarry",
+      "name": "Carrière de pierre",
+      "path": "assets/art226/regional/DW-0403_halle-technique-carriere.png",
+      "sha256": "38b6064fac6db2ce396361e3a0097811d3ba96104e30fde52f633313f82ac69d",
+      "bytes": 2178707,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        30,
+        24
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}

@@ -1,0 +1,999 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art225",
+  "selectionStatus": "six_native_regional_pilots_verified_ready_for_generation",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "focus": "Six extérieurs de commerces, atelier et services urbains : pharmacie, magasin de bricolage, restaurant routier, garage, école et mairie.",
+  "absenceEvidence": {
+    "imageFilesInspected": 156,
+    "namedDedicatedExteriorImagePaths": [],
+    "nativeRenderer": "src/frontier-art.js::lotRoof calls DeadwallInteriorArt153.drawRoof; src/interior-art153.js::ROOF_ALIASES maps all six to existing generic roof families.",
+    "scope": "A dedicated whole-building exterior is missing from the inspected runtime; existing floors, furniture, props and generic roof variants already represent these sites.",
+    "sharedSourcesMainVsSavedPr24": [
+      {
+        "repositoryPath": "src/frontier-places.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/interior-art153.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/frontier-art.js",
+        "mainAndSavedPr24BytesEqual": false
+      },
+      {
+        "repositoryPath": "assets/buildings-atlas.webp",
+        "mainAndSavedPr24BytesEqual": true
+      }
+    ],
+    "lotRoofMainAndSavedPr24Identical": true,
+    "frontierArtDiffExplanation": "The saved PR24 version adds sitesById217 and uses it for occupied-site lookup. The lotRoof function and its generic roof delegation are byte-identical."
+  },
+  "exclusions": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "Les six noms sont hors des neuf catégories exactes de remarkable217. Pharmacie ne correspond pas à /hôpital|clinique|centre médical/. Inventaire complet Art221 non retrouvé; aucun dédoublonnage historique exhaustif revendiqué.",
+    "art224CodexIds": [
+      "DW-0046",
+      "DW-0367",
+      "DW-0104",
+      "DW-0251",
+      "DW-0306",
+      "DW-0237"
+    ]
+  },
+  "limits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve the verified pilot programme, native floor count, dimensions and atlas style; exterior roof/façade details are design choices. Exact metric 1:1 rendering is not certified.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "No images generated, no engine integration, no tests or game code modified.",
+    "Do not apply a whole-building sprite directly to a generic roof rectangle without calibrating metres, anchors, depth, rotated colliders and opened interiors."
+  ],
+  "sources": [
+    {
+      "path": "references/frontier-places.js",
+      "repositoryPath": "src/frontier-places.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+      "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+      "bytes": 9588,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js"
+    },
+    {
+      "path": "references/frontier-specialists.js",
+      "repositoryPath": "src/frontier-specialists.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+      "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+      "bytes": 6605,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js"
+    },
+    {
+      "path": "references/frontier-geometry.js",
+      "repositoryPath": "src/frontier-geometry.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+      "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+      "bytes": 14015,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js"
+    },
+    {
+      "path": "references/interior-art153.js",
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "bytes": 18868,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/interior-art153.js"
+    },
+    {
+      "path": "references/frontier-art.js",
+      "repositoryPath": "src/frontier-art.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+      "gitBlob": "bc3933fb70aae5c092fd0a89361eb818c5a9aa7a",
+      "bytes": 35986,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-art.js"
+    },
+    {
+      "path": "references/buildings-atlas.webp",
+      "repositoryPath": "assets/buildings-atlas.webp",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+      "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+      "bytes": 364648,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp"
+    },
+    {
+      "path": "references/remarkable217.js",
+      "repositoryPath": "src/remarkable217.js",
+      "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2",
+      "gitBlob": "b53875eac7d7bdf28201b4beedb7ce33313dc0e5",
+      "bytes": 31652,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/src/remarkable217.js"
+    },
+    {
+      "path": "references/DW-0053.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "bd15b98474f2339bfe0680b2a0ec9be2658c26345b830239babac7b10c5cab55",
+      "gitBlob": "0c119f4824645a2d4d83dfcc796a1c80799901d5",
+      "bytes": 9135,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md"
+    },
+    {
+      "path": "references/DW-0045.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "67491564142d7619a6477953f0922aac9edc3d7229795e1d940144c66338501b",
+      "gitBlob": "0f06adc87d9cf5e550116fd6287c8730fd660bd9",
+      "bytes": 9700,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md"
+    },
+    {
+      "path": "references/DW-0069.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "9d940eb02b22252e5d794ce9b2e55239f2cec85df7422bb7d2d7bdc4d9de8974",
+      "gitBlob": "0fa3cdb544c4fc5b53d15cc7f980d2ad8bad873b",
+      "bytes": 9458,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md"
+    },
+    {
+      "path": "references/DW-0241.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "8dba9ca70132c4c4d11042ed70baf3e48e89c5703c3f56b420468cac31fcf014",
+      "gitBlob": "883c76be4725be68ff689f9ae6b8f2e7ff0a14cc",
+      "bytes": 8697,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md"
+    },
+    {
+      "path": "references/DW-0142.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "12b5ccbe7ea1993412d569f21ebc31e0082923a8cfbd6c25656828d69b87656e",
+      "gitBlob": "8a166f8b26ca1a6b605962498544fa863676f5ba",
+      "bytes": 9631,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md"
+    },
+    {
+      "path": "references/DW-0161.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "aa7387714ec526787d7fc02d35f0d079b398a09fbfd27516701bc313f0408813",
+      "gitBlob": "20c0e4716d0b21150b7b863564df309986152a76",
+      "bytes": 8897,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md"
+    }
+  ],
+  "targets": [
+    {
+      "type": "pharmacy",
+      "preset": {
+        "id": "pharmacy",
+        "name": "Pharmacie commerciale",
+        "w": 24,
+        "h": 18,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0053",
+        "layout": "specialists117"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Vente et conseil",
+            "Comptoir et attente",
+            "Préparation et lavabos",
+            "Réserve — hors public"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "crate"
+      ],
+      "source": {
+        "path": "references/DW-0053.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "bd15b98474f2339bfe0680b2a0ec9be2658c26345b830239babac7b10c5cab55",
+        "gitBlob": "0c119f4824645a2d4d83dfcc796a1c80799901d5",
+        "bytes": 9135,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md"
+      },
+      "codexQuotes": [
+        "# DW-0053 — Pharmacie commerciale",
+        "**Statut :** pilote_1_17 — Plan pilote de la 1.17, génération régionale 3. Le programme construit est défini dans src/frontier-specialists.js; les autres variantes restent des propositions. Les générations 1 et 2 conservent leurs lieux et leurs prélèvements.",
+        "### Vente",
+        "### Préparation",
+        "### Stock sécurisé",
+        "### Bureau",
+        "Plan source : `pharmacy`; enveloppe bâtie actuelle [24, 18] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0053 PHARMACIE COMMERCIALE: compact 24 m wide by 18 m deep rectangular neighborhood pharmacy, ONE ground floor. Modest glazed public sales/reception frontage; enclosed preparation and secure stock toward the rear. Low simple weathered roof, small human-scale doorway. Avoid a giant cross, rooftop medical symbol, hospital wing or outdoor medicine display. PROJECTION PRIORITY: visible projected roof depth about 70% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0053_pharmacie_commerciale.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Vente et conseil, comptoir et attente à l’avant; préparation et lavabos, réserve hors public à l’arrière, selon le pilote specialists117.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 70,
+        "combinedFrontFacadePercentWidth": 6,
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "hardware",
+      "preset": {
+        "id": "hardware",
+        "name": "Magasin de bricolage",
+        "w": 38,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "layout": "retail",
+        "codex": "DW-0045"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve",
+            "Service et caisse"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "crate",
+        "crate",
+        "crate",
+        "shelf"
+      ],
+      "source": {
+        "path": "references/DW-0045.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "67491564142d7619a6477953f0922aac9edc3d7229795e1d940144c66338501b",
+        "gitBlob": "0f06adc87d9cf5e550116fd6287c8730fd660bd9",
+        "bytes": 9700,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md"
+      },
+      "codexQuotes": [
+        "# DW-0045 — Magasin de bricolage",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Cour matériaux",
+        "### Vente",
+        "### Outillage",
+        "### Découpe",
+        "### Réserve",
+        "Plan source : `hardware`; enveloppe bâtie actuelle [38, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0045 MAGASIN DE BRICOLAGE: 38 m wide by 28 m deep rectangular hardware/DIY store, ONE ground floor. Broad low practical roof, modest customer storefront and discreet rear storage/service frontage. Sales shelves and reserve remain inside. Draw only the native building envelope: no full materials yard, parking, outdoor aisle, oversized warehouse or extra floor. PROJECTION PRIORITY: visible projected roof depth about 69% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0045_magasin_bricolage.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Zone Vente à rayonnages; Réserve et Service et caisse en retrait, selon layout retail. La cour matériaux de la fiche ne doit pas agrandir l’emprise bâtie pilote.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 69,
+        "combinedFrontFacadePercentWidth": 6,
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "diner",
+      "preset": {
+        "id": "diner",
+        "name": "Restaurant routier",
+        "w": 25,
+        "h": 17,
+        "levels": [
+          0
+        ],
+        "layout": "diner",
+        "codex": "DW-0069"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve",
+            "Service et caisse"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [],
+      "source": {
+        "path": "references/DW-0069.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "9d940eb02b22252e5d794ce9b2e55239f2cec85df7422bb7d2d7bdc4d9de8974",
+        "gitBlob": "0fa3cdb544c4fc5b53d15cc7f980d2ad8bad873b",
+        "bytes": 9458,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md"
+      },
+      "codexQuotes": [
+        "# DW-0069 — Restaurant routier",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Salle",
+        "### Cuisine",
+        "### Réserve",
+        "### Sanitaires",
+        "### Parking poids lourds",
+        "Plan source : `diner`; enveloppe bâtie actuelle [25, 17] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0069 RESTAURANT ROUTIER: 25 m wide by 17 m deep rectangular roadside restaurant, ONE ground floor. Restrained dining-room windows along the public front, compact ground-level doorway, enclosed rear service/storage band, low simple roof with only modest service ventilation. Tables and kitchen programme stay indoors. No terrace, car park, neon sign, giant chimney, rooftop dining or extra floor. PROJECTION PRIORITY: visible projected roof depth about 64% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0069_restaurant_routier.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Salle avec tables dans la zone avant; Réserve et Service et caisse en retrait dans le pilote diner. La fiche propose aussi Cuisine, sans justifier un volume extérieur supplémentaire.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 64,
+        "combinedFrontFacadePercentWidth": 6,
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "garage",
+      "preset": {
+        "id": "garage",
+        "name": "Garage automobile",
+        "w": 25,
+        "h": 20,
+        "levels": [
+          0
+        ],
+        "layout": "garage",
+        "codex": "DW-0241"
+      },
+      "roofFamily": "workshop",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 0,
+          "rect": [
+            791,
+            291,
+            342,
+            206
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 1,
+          "rect": [
+            1164,
+            295,
+            353,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve technique",
+            "Bureau"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "fuel",
+        "tirePile",
+        "workbench"
+      ],
+      "source": {
+        "path": "references/DW-0241.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "8dba9ca70132c4c4d11042ed70baf3e48e89c5703c3f56b420468cac31fcf014",
+        "gitBlob": "883c76be4725be68ff689f9ae6b8f2e7ff0a14cc",
+        "bytes": 8697,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md"
+      },
+      "codexQuotes": [
+        "# DW-0241 — Garage automobile indépendant",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Accueil",
+        "### Baies",
+        "### Magasin de pièces",
+        "### Cour",
+        "Plan source : `garage`; enveloppe bâtie actuelle [25, 20] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0241 GARAGE AUTOMOBILE INDEPENDANT: 25 m wide by 20 m deep compact rectangular repair workshop, ONE ground floor. Low practical industrial roof, modest closed workshop entrance at ground level, restrained small service windows. The native repair hall contains machinery, with a technical reserve and office at the rear. Keep the coherent built envelope: no petrol pumps, vehicle yard, loose cars, huge multi-bay depot or added storey. PROJECTION PRIORITY: visible projected roof depth about 75% of its width; the entire front facade band about 6% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0241_garage_independant.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Halle avec machines; Réserve technique (établi et carburant), Bureau en retrait. Les objets extérieurs natifs comprennent fuel, tirePile et workbench mais ne sont pas nécessaires dans le sprite du bâtiment.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 75,
+        "combinedFrontFacadePercentWidth": 6,
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "school",
+      "preset": {
+        "id": "school",
+        "name": "École primaire",
+        "w": 38,
+        "h": 28,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "school",
+        "codex": "DW-0142"
+      },
+      "roofFamily": "school",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "school",
+          "variant": 0,
+          "rect": [
+            17,
+            18,
+            369,
+            238
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "school",
+          "variant": 1,
+          "rect": [
+            409,
+            40,
+            343,
+            204
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "school",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "school",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "school",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "school",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Classe",
+            "Classe",
+            "Bibliothèque",
+            "Réserve"
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Classe",
+            "Classe",
+            "Bibliothèque",
+            "Réserve"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [],
+      "source": {
+        "path": "references/DW-0142.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "12b5ccbe7ea1993412d569f21ebc31e0082923a8cfbd6c25656828d69b87656e",
+        "gitBlob": "8a166f8b26ca1a6b605962498544fa863676f5ba",
+        "bytes": 9631,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md"
+      },
+      "codexQuotes": [
+        "# DW-0142 — École primaire",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Hall",
+        "### Classes",
+        "### Bibliothèque",
+        "### Cantine",
+        "### Cour",
+        "Plan source : `school`; enveloppe bâtie actuelle [38, 28] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0142 ECOLE PRIMAIRE: 38 m wide by 28 m deep rectangular primary school, EXACTLY TWO floors, ground floor plus one upper floor. Broad roof over a plain teaching block; two compact rows of repeated classroom windows and a modest centered ground-floor public entrance. The combined visible wall band for BOTH floors stays short. Classes, library and reserve are inside. No attic floor, dormer storey, tower, detached gym, playground, whole school grounds or signal lettering. PROJECTION PRIORITY: visible projected roof depth about 69% of its width; the entire front facade band about 10% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0142_ecole_primaire.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Deux niveaux natifs [0,1]; chacun contient Classe, Classe, Bibliothèque, Réserve. Escalier intérieur du pilote, pas d’accès ajouté sur toiture.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 69,
+        "combinedFrontFacadePercentWidth": 10,
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "townhall",
+      "preset": {
+        "id": "townhall",
+        "name": "Mairie",
+        "w": 28,
+        "h": 20,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "civic",
+        "codex": "DW-0161"
+      },
+      "roofFamily": "civic",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 0,
+          "rect": [
+            28,
+            766,
+            341,
+            218
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 1,
+          "rect": [
+            396,
+            774,
+            315,
+            204
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Accueil",
+            "Bureau",
+            "Archives",
+            "Conseil"
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Accueil",
+            "Bureau",
+            "Archives",
+            "Conseil"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [],
+      "source": {
+        "path": "references/DW-0161.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "aa7387714ec526787d7fc02d35f0d079b398a09fbfd27516701bc313f0408813",
+        "gitBlob": "20c0e4716d0b21150b7b863564df309986152a76",
+        "bytes": 8897,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md"
+      },
+      "codexQuotes": [
+        "# DW-0161 — Mairie",
+        "**Statut :** pilote_1_15 — Un plan pilote simplifié existe depuis le moteur 1.15. Cette fiche est plus ambitieuse et ne signifie pas que toutes ses variantes et sous-zones sont implémentées.",
+        "### Accueil",
+        "### État civil",
+        "### Salle du conseil",
+        "### Archives",
+        "Plan source : `townhall`; enveloppe bâtie actuelle [28, 20] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Exactly ONE isolated DEADWALL exterior sprite, Art225. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, strict style/camera reference only. Serious hand-painted semi-realistic abandoned strategy-game art; muted steel gray, olive, dusty earth, restrained weathering. Very high near-overhead orthographic camera, 70 degrees down; roof axes horizontal/vertical, short front wall toward image bottom, no diamond isometric rotation. Roof dominates. Preserve the exact native pilot footprint ratio and floor count. Intact roof, no cutaway. Ground-floor entrance threshold touches GROUND; rear doors may remain hidden by the roof, never move them onto it. One complete centered building with generous real transparent RGBA margins; only a short contact shadow and narrow threshold. No terrain tile, full parcel, display base, copied checkerboard, matte, lettering, logo, pictogram, UI, people, vehicles or disconnected annexes. DW-0161 MAIRIE: 28 m wide by 20 m deep compact rectangular town hall, EXACTLY TWO floors, ground floor plus one upper floor. Sober civic masonry/plaster, simple broad low roof, two compact rows of restrained windows, modest centered doorway at ground level. The combined visible wall band for BOTH floors stays short. Reception, offices, archives and council room remain inside. No attic floor, clock tower, bell tower, giant pediment, rooftop doorway, flag or lettering. PROJECTION PRIORITY: visible projected roof depth about 67% of its width; the entire front facade band about 10% of building width, both floors combined when present. Do not tilt the camera down to display a tall facade. It is acceptable for ground-level entrances to be partly hidden by eaves.",
+      "filename": "DW-0161_mairie.png",
+      "status": "selected_missing_dedicated_exterior_not_generated",
+      "nativeFunction": "Deux niveaux natifs [0,1]; chacun contient Accueil, Bureau, Archives, Conseil. Escalier intérieur du pilote, pas de tour ni d’étage supplémentaire attesté.",
+      "cameraTargets": {
+        "downwardDegrees": 70,
+        "projectedRoofDepthPercentWidth": 67,
+        "combinedFrontFacadePercentWidth": 10,
+        "metricProjectionCertified": false
+      }
+    }
+  ],
+  "selectionNotes": {
+    "ambiguousRequestedAlternatives": [
+      {
+        "codex": "DW-0056",
+        "title": "Quincaillerie ancienne",
+        "status": "conception_non_integree",
+        "reason": "No direct native preset; hardware is DW-0045 Magasin de bricolage and must not be renamed DW-0056."
+      },
+      {
+        "codex": "DW-0066",
+        "title": "Boucherie",
+        "status": "conception_non_integree",
+        "reason": "No direct native preset; grocer/market must not be renamed as this sheet."
+      }
+    ],
+    "inventaireComplementaire": "remaining-native-inventory.json is a separate incomplete follow-up, not a blocker for generation."
+  }
+}
