@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "kind": "ci-native-latin-font-preparation-validation",
+  "recordedAt": "2026-11-17T10:18:57.320519+00:00",
+  "baseCommit": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "scope": "Targeted checks on the uncommitted source files fingerprinted below; no complete npm run check or new GitHub run result is claimed.",
+  "environment": {
+    "node": "v24.22.1",
+    "canvas": "0.1.100",
+    "platform": "linux x64",
+    "newDependencyInstallation": false,
+    "systemFontInstallationExecutedLocally": false
+  },
+  "implementationSha256": {
+    ".github/actions/setup-native-fonts/action.yml": "e53e06f416a908231e3b7787fa4c1223b807d33fc54db2700221fd951211e771",
+    ".github/workflows/ci.yml": "11d513a815bf89606c5736dfedb39da684e16048dd2b16a338094d8729906abb",
+    ".github/workflows/fullcheck201.yml": "352f4998699a7ab10ad95feea62d28046aca39723491e8689a49afb29eb9d50d",
+    "scripts/ci-native-fonts.mjs": "288955017997c5c9dca11cb93df2051b6d45e2fe8e5d16c9c1482b9bdca4cc5f"
+  },
+  "baseFilesPreserved": [
+    {
+      "path": "tests/expedition-art159.test.cjs",
+      "sha256": "1eb0a3a2fe13de3d81d931c8a2e8e9c2be8498984a5fb50acce716e994e21e13",
+      "identicalToBase": true
+    },
+    {
+      "path": "src/expedition-art.js",
+      "sha256": "640c17a6ef75b1c30d2c492619a1e6e0b4dfef048c7a6bb86ccabcebbaa3892a",
+      "identicalToBase": true
+    },
+    {
+      "path": "package.json",
+      "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0",
+      "identicalToBase": true
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53",
+      "identicalToBase": true
+    }
+  ],
+  "fontFixtures": [
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "bytes": 759720,
+      "sha256": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e"
+    },
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "bytes": 708920,
+      "sha256": "a4c5bc453ca281d90ea079e596da7ae0dfeb5777497c29ec254e76d97ff6f890"
+    },
+    {
+      "path": "/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf",
+      "bytes": 11260748,
+      "sha256": "dac5c27651082d6c53dab5081f50d2022ddf6877d730fa919cf6a4fc2af22de0"
+    }
+  ],
+  "preflightResults": [
+    {
+      "case": "local",
+      "accepted": true,
+      "exitCode": 0,
+      "registeredFamilies": {
+        "count": 250
+      },
+      "errorCount": 0,
+      "errorsFirstEight": [],
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 82,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 82
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 82,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 82
+        }
+      ],
+      "fullReportSha256": "c90f91d1ca27c175d41fd6ed7ce746fd29e3df8372d3adecb44087eaa0ffdfc5"
+    },
+    {
+      "case": "dejavu",
+      "accepted": true,
+      "exitCode": 0,
+      "registeredFamilies": [
+        "DejaVu Sans"
+      ],
+      "errorCount": 0,
+      "errorsFirstEight": [],
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 82,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 82
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 82,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 82
+        }
+      ],
+      "fullReportSha256": "5c952b28231fa9e80be52012134bcc8db6f614779bc15f4ae1cea8b201b897a7"
+    },
+    {
+      "case": "emoji",
+      "accepted": false,
+      "exitCode": 1,
+      "registeredFamilies": [
+        "Noto Color Emoji"
+      ],
+      "errorCount": 84,
+      "errorsFirstEight": [
+        {
+          "reason": "required-family-unavailable",
+          "family": "DejaVu Sans"
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "A",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "B",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "C",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "D",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "E",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "F",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "text": "G",
+          "reasons": [
+            "invisible-glyph"
+          ]
+        }
+      ],
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 0,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 1
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finiteMetrics": 82,
+          "visibleGlyphs": 82,
+          "missingPlaceholderMatches": 0,
+          "distinctRasters": 82
+        }
+      ],
+      "fullReportSha256": "1e937ff49ced02c2e42f1628eb5365074f358383541c31361eaa4658fe36a6b5"
+    }
+  ],
+  "originalArt159Test": {
+    "command": "DISABLE_SYSTEM_FONTS_LOAD=1 DEADWALL_FONT_FIXTURE=dejavu node --require PRELOAD_FIXTURE --test tests/expedition-art159.test.cjs",
+    "fixture": "Only the two DejaVu Sans files listed above are registered in this isolated test process. Production uses system installation, without a preload.",
+    "exitCode": 0,
+    "tests": 3,
+    "pass": 3,
+    "fail": 0,
+    "skipped": 0,
+    "logSha256": "eeaf86f82b4bffbeecf978a554f866f0ca8ef5054090e52af642086620b7dc45"
+  },
+  "workflowChecks": [
+    {
+      "file": ".github/workflows/ci.yml",
+      "onlyChange": "insert one native-font preparation step after npm ci",
+      "job": "native-shard",
+      "report": "artifacts/qa/native186/font-preflight.json"
+    },
+    {
+      "file": ".github/workflows/fullcheck201.yml",
+      "onlyChange": "insert one native-font preparation step after npm ci",
+      "job": "full-check",
+      "report": "${{ env.DEADWALL_FULLCHECK_OUTPUT }}/font-preflight.json"
+    },
+    {
+      "file": ".github/actions/setup-native-fonts/action.yml",
+      "yaml": "parsed",
+      "bashScripts": "syntax accepted",
+      "systemInstallExecuted": false
+    }
+  ],
+  "syntaxCheck": {
+    "command": "node --check scripts/ci-native-fonts.mjs",
+    "exitCode": 0
+  },
+  "diffCheck": {
+    "command": "git diff --check",
+    "exitCode": 0
+  },
+  "historicalFailureLimit": "The failed GitHub runners did not record their resolved Canvas font or the exact word that failed. Emoji-only is a controlled reproduction, not proof of their historical font selection.",
+  "ubuntuPackageAvailability": {
+    "package": "fonts-dejavu-core",
+    "release": "Ubuntu 26.04 resolute",
+    "versionObserved": "2.37-8build1",
+    "source": "https://packages.ubuntu.com/resolute/fonts-dejavu-core",
+    "fileList": "https://packages.ubuntu.com/resolute/all/fonts-dejavu-core/filelist"
+  },
+  "evidenceSha256": {
+    "art159-dejavu.log": "eeaf86f82b4bffbeecf978a554f866f0ca8ef5054090e52af642086620b7dc45",
+    "initial-verification.json": "32897f7e74d96ee3d6e663a33b44ada92a8ed26934dcc696d3f2d398d4d71a76",
+    "preflight-dejavu.json": "5c952b28231fa9e80be52012134bcc8db6f614779bc15f4ae1cea8b201b897a7",
+    "preflight-dejavu.log": "cff30a1124961b4d79892f3c37165c0098d398021f4bacc628f0690a8f58079c",
+    "preflight-emoji.json": "1e937ff49ced02c2e42f1628eb5365074f358383541c31361eaa4658fe36a6b5",
+    "preflight-emoji.log": "48ff90056fa9346a72a4168dbf56741eae317d51e03bebe9485b393144270de3",
+    "preflight-local.json": "c90f91d1ca27c175d41fd6ed7ce746fd29e3df8372d3adecb44087eaa0ffdfc5",
+    "preflight-local.log": "d40b9a43e4d4d042d51713ba11ae73cb5f6110b70917d47fec6970151ed1732b",
+    "preload-font-fixture.cjs": "0f57c0a5f30a41fa346a949ed0c7ecc2122e1eec6040659f07337cd1d2bc9c9f",
+    "syntax.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "workflow-checks.json": "68b585beff5a67abe5ab0c050b6872c02d330f694e17f525f9581e19bc042052"
+  }
+}

@@ -1,0 +1,32 @@
+name: Prepare native Canvas Latin fonts
+description: Install and preload a known Latin font, then verify real native Canvas glyphs.
+inputs:
+  report:
+    description: JSON evidence path inside the native job's existing artifact directory.
+    required: true
+outputs:
+  node_options:
+    description: Exact checkout-owned preload for the subsequent native test step only.
+    value: ${{ steps.bootstrap.outputs.node_options }}
+runs:
+  using: composite
+  steps:
+    - name: Select the canonical checkout font preload
+      id: bootstrap
+      shell: bash
+      run: |
+        native_font_options="$(node scripts/ci-native-node-policy.cjs)"
+        printf 'node_options=%s\n' "$native_font_options" >> "$GITHUB_OUTPUT"
+    - name: Install the Ubuntu Latin font package
+      shell: bash
+      run: |
+        sudo timeout --kill-after=10s 180s apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 update
+        sudo timeout --kill-after=10s 120s apt-get install --no-install-recommends -y fonts-dejavu-core
+        dpkg-query --show --showformat='${binary:Package} ${Version}\n' fonts-dejavu-core
+    - name: Verify visible Latin glyphs in native Canvas
+      if: ${{ always() }}
+      shell: bash
+      env:
+        NODE_OPTIONS: ${{ steps.bootstrap.outputs.node_options }}
+        DEADWALL_NATIVE_FONT_REPORT: ${{ inputs.report }}
+      run: timeout --kill-after=5s 30s node scripts/ci-native-fonts.mjs "$DEADWALL_NATIVE_FONT_REPORT"
