@@ -1,0 +1,26 @@
+{
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "dateEuropeParis": "2026-11-17",
+  "historicalRoot": "/workspace/scratch/55dad3ac334d",
+  "cameraRecords": {
+    "path": "/workspace/scratch/6f470a892a0f/art223-camera/results.json",
+    "sha256": "2f5535fc5e8e8f11c24863ff497ca169c74614a5c3c72083296f5377b3ad6f63"
+  },
+  "cameraPrompts": [
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art223-camera/prompts.json",
+      "sha256": "5bf5a64dd06c9b50de0bfe13de8d76ff7c6415b550105b10fdd8cf1fdd680728"
+    },
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art223-camera/next-prompts.json",
+      "sha256": "163b274c24fb28d8ed36e6568bf449eb24376ede443b2f2e1966270705568640"
+    }
+  ],
+  "historicalSourceIndex": {
+    "path": "/workspace/scratch/55dad3ac334d/references-art223/sources.json",
+    "sha256": "74971f941ca9453906be0a046c2ea2e42dc56e5107a9cb5c48eee08c9da6196e"
+  },
+  "assemblerSha256": "5bafc0c5a1c8c9020d5a1ac1f7a0f1900d7cf8b2fcbf1969ccd590feba2f00f1",
+  "outputFilesAreDeterministic": true,
+  "nativePngBytesPreserved": true
+}

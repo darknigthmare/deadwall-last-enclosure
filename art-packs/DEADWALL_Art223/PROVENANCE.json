@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art223",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "finalSpriteCount": 6,
+  "generationCount": 15,
+  "supersededCandidateCount": 9,
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "referenceRevision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "referenceRevisionIsOutputCommit": false,
+  "publicationBaseIsOutputCommit": false,
+  "styleReference": {
+    "localPath": "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/assets/buildings-atlas.webp",
+    "bytes": 364648,
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "packPath": "references/buildings-atlas.webp",
+    "verifiedAgainstRetrievedSourceDigest": true,
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "basePathPresent": true,
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true
+  },
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Six extérieurs civils dédiés, leurs références et quinze sorties ImageGen natives conservées. Pack de préparation artistique distinct des ressources chargées par le jeu.",
+  "fidelity": {
+    "observed": [
+      "Atlas réel fourni comme référence",
+      "Programmes et niveaux rapprochés des fiches",
+      "Accès sur toiture corrigés",
+      "Projection rapprochée de la caméra haute",
+      "Silhouettes entières et canal alpha vérifiés"
+    ],
+    "notCertified": [
+      "Projection et mètres par pixel exacts",
+      "Fidélité pixel pour pixel",
+      "Ancres et collision",
+      "Positions d’accès conformes au moteur",
+      "Intérieurs ou comportement en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run",
+    "priorRuntimeCheck": "interrupted_without_final_success",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0065",
+      "type": "bakery",
+      "name": "Boulangerie artisanale",
+      "path": "assets/art223/regional/DW-0065_boulangerie-artisanale.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-b4cddcf7-5e39-4018-b528-589a1a959d92.png",
+      "sha256": "14967654138df62aac926ad4a8847e9df6fe5d51f339f2cc07b0110078bc9b6e",
+      "bytes": 1467188,
+      "pilotBuildingFootprintMetres": [
+        22,
+        17
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 3,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0153",
+      "type": "library",
+      "name": "Bibliothèque municipale",
+      "path": "assets/art223/regional/DW-0153_bibliotheque-municipale.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-260760d0-fc73-4eae-90f5-f473de2a819f.png",
+      "sha256": "91ff2610137571b5467785a9f77166d5ae868797d2fbfab08919eed1670ea39e",
+      "bytes": 1545130,
+      "pilotBuildingFootprintMetres": [
+        32,
+        24
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 2,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0085",
+      "type": "laundry",
+      "name": "Laverie automatique",
+      "path": "assets/art223/regional/DW-0085_laverie-automatique.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-15061757-a6b5-493d-8c32-ab4e8081eb80.png",
+      "sha256": "a30aaec3b793d163499572621c0a9aa7c4a0fb5733b53f00be391e3d42fa516e",
+      "bytes": 2012566,
+      "pilotBuildingFootprintMetres": [
+        21,
+        15
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 3,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0082",
+      "type": "postoffice",
+      "name": "Bureau postal",
+      "path": "assets/art223/regional/DW-0082_bureau-postal.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ca12cc28-a8c5-4338-b3d3-724716c71017.png",
+      "sha256": "4dd8cd481bd11a3287d793dc946cde66bf3e403a0df366e46802406e978de121",
+      "bytes": 1169629,
+      "pilotBuildingFootprintMetres": [
+        28,
+        22
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 3,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0444",
+      "type": "gym",
+      "name": "Gymnase municipal",
+      "path": "assets/art223/regional/DW-0444_gymnase-municipal.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-fe62c9d9-7f3c-494d-87a5-6706aa778d6c.png",
+      "sha256": "d481e296f9ca9b80cba79497afb5dbbd11187e2904d20df500ac4223dfbcd13a",
+      "bytes": 1725619,
+      "pilotBuildingFootprintMetres": [
+        38,
+        28
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 2,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0224",
+      "type": "selfstorage",
+      "name": "Garde-meubles",
+      "path": "assets/art223/regional/DW-0224_garde-meubles.png",
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4336f3fe-f2b4-451e-a280-b3a4bffe70ac.png",
+      "sha256": "e218863d9be7324e60ef3789301b79aaa133b25cf4985df1e5b9cbff97dc645a",
+      "bytes": 2362524,
+      "pilotBuildingFootprintMetres": [
+        36,
+        26
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "sourceMap": "references/SOURCE_MAP.json",
+      "generationIteration": 2,
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}

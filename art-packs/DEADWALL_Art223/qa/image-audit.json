@@ -1,0 +1,640 @@
+{
+  "schemaVersion": 1,
+  "batch": "art223",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "PNG signature and IHDR inspection; Pillow verify; native RGBA alpha histogram and bounds; SHA-256 comparison. No image write, crop, resize or pixel transformation.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left, top inclusive; right, bottom exclusive",
+  "alphaInterpretation": "Raw RGB outside the silhouette may contain hidden background colors while alpha=0. Very low alpha noise at thresholds1–7 is reported separately. Alpha>=8 margins are a technical visibility indicator, not a physical footprint or a fidelity certificate.",
+  "finalSpriteCount": 6,
+  "allNativePngSignaturesValid": true,
+  "allRgba": true,
+  "allVisibleSilhouettesWithinCanvasAtAlpha8": true,
+  "assets": [
+    {
+      "id": "DW-0065",
+      "key": "bakery",
+      "file": "assets/art223/regional/DW-0065_boulangerie-artisanale.png",
+      "bytes": 1467188,
+      "sha256": "14967654138df62aac926ad4a8847e9df6fe5d51f339f2cc07b0110078bc9b6e",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 985192,
+      "fullyTransparentFraction": 0.6265020400272682,
+      "lowAlphaPixels1to7": 20500,
+      "boundsAlphaAtLeast": {
+        "1": [
+          47,
+          20,
+          1370,
+          1086
+        ],
+        "8": [
+          273,
+          220,
+          1160,
+          891
+        ],
+        "32": [
+          274,
+          220,
+          1159,
+          889
+        ],
+        "128": [
+          275,
+          221,
+          1159,
+          888
+        ],
+        "240": [
+          276,
+          222,
+          1158,
+          887
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 47,
+          "top": 20,
+          "right": 78,
+          "bottom": 0
+        },
+        "8": {
+          "left": 273,
+          "top": 220,
+          "right": 288,
+          "bottom": 195
+        },
+        "32": {
+          "left": 274,
+          "top": 220,
+          "right": 289,
+          "bottom": 197
+        },
+        "128": {
+          "left": 275,
+          "top": 221,
+          "right": 289,
+          "bottom": 198
+        },
+        "240": {
+          "left": 276,
+          "top": 222,
+          "right": 290,
+          "bottom": 199
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "id": "DW-0153",
+      "key": "library",
+      "file": "assets/art223/regional/DW-0153_bibliotheque-municipale.png",
+      "bytes": 1545130,
+      "sha256": "91ff2610137571b5467785a9f77166d5ae868797d2fbfab08919eed1670ea39e",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1495,
+      "height": 1052,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 909678,
+      "fullyTransparentFraction": 0.578403296158297,
+      "lowAlphaPixels1to7": 18363,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          23,
+          1403,
+          1052
+        ],
+        "8": [
+          261,
+          176,
+          1263,
+          900
+        ],
+        "32": [
+          263,
+          177,
+          1261,
+          897
+        ],
+        "128": [
+          264,
+          177,
+          1261,
+          894
+        ],
+        "240": [
+          265,
+          178,
+          1260,
+          892
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 23,
+          "right": 92,
+          "bottom": 0
+        },
+        "8": {
+          "left": 261,
+          "top": 176,
+          "right": 232,
+          "bottom": 152
+        },
+        "32": {
+          "left": 263,
+          "top": 177,
+          "right": 234,
+          "bottom": 155
+        },
+        "128": {
+          "left": 264,
+          "top": 177,
+          "right": 234,
+          "bottom": 158
+        },
+        "240": {
+          "left": 265,
+          "top": 178,
+          "right": 235,
+          "bottom": 160
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "id": "DW-0085",
+      "key": "laundry",
+      "file": "assets/art223/regional/DW-0085_laverie-automatique.png",
+      "bytes": 2012566,
+      "sha256": "a30aaec3b793d163499572621c0a9aa7c4a0fb5733b53f00be391e3d42fa516e",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 961376,
+      "fullyTransparentFraction": 0.6112263997395834,
+      "lowAlphaPixels1to7": 42978,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1520,
+          1024
+        ],
+        "8": [
+          305,
+          180,
+          1231,
+          857
+        ],
+        "32": [
+          306,
+          182,
+          1230,
+          855
+        ],
+        "128": [
+          307,
+          182,
+          1229,
+          853
+        ],
+        "240": [
+          309,
+          183,
+          1228,
+          851
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 305,
+          "top": 180,
+          "right": 305,
+          "bottom": 167
+        },
+        "32": {
+          "left": 306,
+          "top": 182,
+          "right": 306,
+          "bottom": 169
+        },
+        "128": {
+          "left": 307,
+          "top": 182,
+          "right": 307,
+          "bottom": 171
+        },
+        "240": {
+          "left": 309,
+          "top": 183,
+          "right": 308,
+          "bottom": 173
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "id": "DW-0082",
+      "key": "postoffice",
+      "file": "assets/art223/regional/DW-0082_bureau-postal.png",
+      "bytes": 1169629,
+      "sha256": "4dd8cd481bd11a3287d793dc946cde66bf3e403a0df366e46802406e978de121",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1028090,
+      "fullyTransparentFraction": 0.6537816814708546,
+      "lowAlphaPixels1to7": 21327,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          52,
+          1420,
+          1086
+        ],
+        "8": [
+          263,
+          256,
+          1176,
+          872
+        ],
+        "32": [
+          265,
+          256,
+          1174,
+          869
+        ],
+        "128": [
+          266,
+          256,
+          1174,
+          867
+        ],
+        "240": [
+          267,
+          257,
+          1173,
+          866
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 52,
+          "right": 28,
+          "bottom": 0
+        },
+        "8": {
+          "left": 263,
+          "top": 256,
+          "right": 272,
+          "bottom": 214
+        },
+        "32": {
+          "left": 265,
+          "top": 256,
+          "right": 274,
+          "bottom": 217
+        },
+        "128": {
+          "left": 266,
+          "top": 256,
+          "right": 274,
+          "bottom": 219
+        },
+        "240": {
+          "left": 267,
+          "top": 257,
+          "right": 275,
+          "bottom": 220
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "id": "DW-0444",
+      "key": "gym",
+      "file": "assets/art223/regional/DW-0444_gymnase-municipal.png",
+      "bytes": 1725619,
+      "sha256": "d481e296f9ca9b80cba79497afb5dbbd11187e2904d20df500ac4223dfbcd13a",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 778425,
+      "fullyTransparentFraction": 0.4950150331186472,
+      "lowAlphaPixels1to7": 21722,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          50,
+          1434,
+          1086
+        ],
+        "8": [
+          174,
+          194,
+          1269,
+          939
+        ],
+        "32": [
+          176,
+          194,
+          1268,
+          938
+        ],
+        "128": [
+          177,
+          195,
+          1267,
+          937
+        ],
+        "240": [
+          177,
+          196,
+          1266,
+          936
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 50,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 174,
+          "top": 194,
+          "right": 179,
+          "bottom": 147
+        },
+        "32": {
+          "left": 176,
+          "top": 194,
+          "right": 180,
+          "bottom": 148
+        },
+        "128": {
+          "left": 177,
+          "top": 195,
+          "right": 181,
+          "bottom": 149
+        },
+        "240": {
+          "left": 177,
+          "top": 196,
+          "right": 182,
+          "bottom": 150
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "id": "DW-0224",
+      "key": "selfstorage",
+      "file": "assets/art223/regional/DW-0224_garde-meubles.png",
+      "bytes": 2362524,
+      "sha256": "e218863d9be7324e60ef3789301b79aaa133b25cf4985df1e5b9cbff97dc645a",
+      "pngSignatureValid": true,
+      "pillowVerifyPassed": true,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 788223,
+      "fullyTransparentFraction": 0.5011386871337891,
+      "lowAlphaPixels1to7": 25913,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1482,
+          1024
+        ],
+        "8": [
+          199,
+          192,
+          1333,
+          896
+        ],
+        "32": [
+          202,
+          192,
+          1328,
+          892
+        ],
+        "128": [
+          203,
+          193,
+          1328,
+          888
+        ],
+        "240": [
+          204,
+          193,
+          1327,
+          887
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 54,
+          "bottom": 0
+        },
+        "8": {
+          "left": 199,
+          "top": 192,
+          "right": 203,
+          "bottom": 128
+        },
+        "32": {
+          "left": 202,
+          "top": 192,
+          "right": 208,
+          "bottom": 132
+        },
+        "128": {
+          "left": 203,
+          "top": 193,
+          "right": 208,
+          "bottom": 136
+        },
+        "240": {
+          "left": 204,
+          "top": 193,
+          "right": 209,
+          "bottom": 137
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleSilhouetteWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "key": "bakery",
+    "id": "DW-0065",
+    "file": "DW-0065_boulangerie-artisanale.png",
+    "label": "Boulangerie — accès de livraison au sol",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0065 bakery: one low storey, plan width22m and depth17m, ratio width/projected roof depth about1.38. Roof depth should be about72% of roof width, not half. At this camera, the single-storey facade should be about7% of roof width. Preserve the oven flue, front awning, bread shop windows and ground-floor door at left from the edit target.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-e9571785-ca5f-4d70-81bd-857236184c8a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 3,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  },
+  {
+    "key": "library",
+    "id": "DW-0153",
+    "file": "DW-0153_bibliotheque-municipale.png",
+    "label": "Bibliothèque municipale",
+    "input": "/workspace/scratch/55dad3ac334d/generated_images/exec-52558726-b6fd-4763-bfb7-278a55f9a12a.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the exact current DEADWALL asset to edit; image 2 is the ORIGINAL GAME BUILDINGS ATLAS, the camera and materials reference. Correct ONLY the projection/camera of the target building. Raise the orthographic camera to the very high near-overhead view of the atlas, looking 70 degrees below horizontal, with the roof plan horizontal/vertical axes aligned to the image axes. Front facade must become a SHORT, vertically foreshortened strip, not a large head-on elevation. Restore true plan DEPTH: the roof rectangle must have its specified width to projected-depth ratio. Draw the entire same building from the raised camera, do not merely stretch pixels. Preserve the recognizable building identity, exact number of storeys, ground-level entrances, roof equipment, materials, palette and wear. No doorway or threshold on any roof; a rear service door may be hidden by the roof instead of falsely visible on it. Building facade at image bottom. No diagonal isometric view, no perspective vanishing points, no added annex, no giant symbols, no lettering, people or vehicles. Genuinely transparent RGBA background, only a narrow contact shadow, generous fully transparent margins on all four sides, no backdrop, terrain tile, border or checkerboard. One isolated building only. DW-0153 municipal library: exactly two storeys (ground plus1), plan width32m and depth24m, ratio width/projected roof depth about1.42. Roof depth should be about70% of roof width. The entire two-storey facade should be about10% of roof width, keeping two compressed rows of windows; roof must dominate. Keep entrance porch supported at ground level, modest skylight and archives function.",
+    "referenceImages": [
+      "/workspace/scratch/55dad3ac334d/generated_images/exec-52558726-b6fd-4763-bfb7-278a55f9a12a.png",
+      "/workspace/scratch/55dad3ac334d/references-art223/buildings-atlas.webp"
+    ],
+    "iteration": 2,
+    "transparentBackgroundRequested": true,
+    "generator": "OpenAI ImageGen intégré",
+    "promptIsVerbatim": true
+  }
+]
