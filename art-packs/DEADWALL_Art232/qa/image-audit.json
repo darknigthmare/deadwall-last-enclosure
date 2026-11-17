@@ -1,0 +1,620 @@
+{
+  "schemaVersion": 1,
+  "batch": "art232",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Native PNG/IHDR, Pillow decode/verify, RGBA alpha histogram and margins, SHA256; no image writes.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "RGB under alpha=0 is invisible. Low alpha1–7 is reported separately. Alpha>=8 margins do not certify geometry or fidelity.",
+  "finalSpriteCount": 6,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art232/native/officeBlock_immeuble_de_bureaux.png",
+      "bytes": 1489897,
+      "sha256": "0f4103daf6c700479df84192a2e4f66b197d58cae50343c0d7294d2d7b972e86",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 875290,
+      "fullyTransparentFraction": 0.55661754792956,
+      "lowAlphaPixels1to7": 12175,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          54,
+          1202,
+          1238
+        ],
+        "8": [
+          125,
+          298,
+          1129,
+          998
+        ],
+        "32": [
+          126,
+          299,
+          1129,
+          996
+        ],
+        "128": [
+          127,
+          299,
+          1128,
+          992
+        ],
+        "240": [
+          128,
+          300,
+          1127,
+          990
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 54,
+          "right": 52,
+          "bottom": 16
+        },
+        "8": {
+          "left": 125,
+          "top": 298,
+          "right": 125,
+          "bottom": 256
+        },
+        "32": {
+          "left": 126,
+          "top": 299,
+          "right": 125,
+          "bottom": 258
+        },
+        "128": {
+          "left": 127,
+          "top": 299,
+          "right": 126,
+          "bottom": 262
+        },
+        "240": {
+          "left": 128,
+          "top": 300,
+          "right": 127,
+          "bottom": 264
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art232/native/medicalCentre_maison_de_sante.png",
+      "bytes": 1836967,
+      "sha256": "338077b17697f2ad47827b717db88ae34610f82e6775b84d68a59044c174dd0b",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 751824,
+      "fullyTransparentFraction": 0.4781026075410362,
+      "lowAlphaPixels1to7": 50082,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1240,
+          1254
+        ],
+        "8": [
+          169,
+          190,
+          1087,
+          1057
+        ],
+        "32": [
+          173,
+          191,
+          1082,
+          1053
+        ],
+        "128": [
+          174,
+          191,
+          1080,
+          1049
+        ],
+        "240": [
+          175,
+          192,
+          1079,
+          1048
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 169,
+          "top": 190,
+          "right": 167,
+          "bottom": 197
+        },
+        "32": {
+          "left": 173,
+          "top": 191,
+          "right": 172,
+          "bottom": 201
+        },
+        "128": {
+          "left": 174,
+          "top": 191,
+          "right": 174,
+          "bottom": 205
+        },
+        "240": {
+          "left": 175,
+          "top": 192,
+          "right": 175,
+          "bottom": 206
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art232/native/smallWorkshop_atelier_artisanal.png",
+      "bytes": 1654674,
+      "sha256": "25c6843792033343b6f3fd810e8ea3adf24e5e2531068dcd7faddcccdc8f26a2",
+      "width": 1402,
+      "height": 1122,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 819885,
+      "fullyTransparentFraction": 0.52120919694554,
+      "lowAlphaPixels1to7": 18946,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1388,
+          1122
+        ],
+        "8": [
+          209,
+          186,
+          1184,
+          955
+        ],
+        "32": [
+          209,
+          186,
+          1183,
+          948
+        ],
+        "128": [
+          210,
+          187,
+          1183,
+          944
+        ],
+        "240": [
+          210,
+          188,
+          1182,
+          942
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 9,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 209,
+          "top": 186,
+          "right": 218,
+          "bottom": 167
+        },
+        "32": {
+          "left": 209,
+          "top": 186,
+          "right": 219,
+          "bottom": 174
+        },
+        "128": {
+          "left": 210,
+          "top": 187,
+          "right": 219,
+          "bottom": 178
+        },
+        "240": {
+          "left": 210,
+          "top": 188,
+          "right": 220,
+          "bottom": 180
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art232/native/logisticsHall_plateforme_logistique.png",
+      "bytes": 2427864,
+      "sha256": "f2af6d7457a45217af7fd2a7167b06623c532732d0adc0862ac7458f6c07febb",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 435303,
+      "fullyTransparentFraction": 0.27675819396972656,
+      "lowAlphaPixels1to7": 17552,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1526,
+          1024
+        ],
+        "8": [
+          73,
+          103,
+          1466,
+          924
+        ],
+        "32": [
+          73,
+          103,
+          1464,
+          921
+        ],
+        "128": [
+          73,
+          103,
+          1463,
+          917
+        ],
+        "240": [
+          74,
+          104,
+          1462,
+          916
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 10,
+          "bottom": 0
+        },
+        "8": {
+          "left": 73,
+          "top": 103,
+          "right": 70,
+          "bottom": 100
+        },
+        "32": {
+          "left": 73,
+          "top": 103,
+          "right": 72,
+          "bottom": 103
+        },
+        "128": {
+          "left": 73,
+          "top": 103,
+          "right": 73,
+          "bottom": 107
+        },
+        "240": {
+          "left": 74,
+          "top": 104,
+          "right": 74,
+          "bottom": 108
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art232/native/chapel_chapelle_et_salle_commune.png",
+      "bytes": 1839541,
+      "sha256": "20add16248a8d9846e690aa70740707d9834a3399781e33c066420bd1c7e26af",
+      "width": 1086,
+      "height": 1448,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 657668,
+      "fullyTransparentFraction": 0.41822339570424183,
+      "lowAlphaPixels1to7": 59523,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          1,
+          1085,
+          1448
+        ],
+        "8": [
+          163,
+          132,
+          923,
+          1279
+        ],
+        "32": [
+          163,
+          133,
+          921,
+          1276
+        ],
+        "128": [
+          164,
+          134,
+          921,
+          1272
+        ],
+        "240": [
+          165,
+          135,
+          920,
+          1270
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 1,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 163,
+          "top": 132,
+          "right": 163,
+          "bottom": 169
+        },
+        "32": {
+          "left": 163,
+          "top": 133,
+          "right": 165,
+          "bottom": 172
+        },
+        "128": {
+          "left": 164,
+          "top": 134,
+          "right": 165,
+          "bottom": 176
+        },
+        "240": {
+          "left": 165,
+          "top": 135,
+          "right": 166,
+          "bottom": 178
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 2,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art232/native/waterStation_station_de_pompage.png",
+      "bytes": 1714127,
+      "sha256": "26db9796f60122493e6dbeeb28bd69d30d01479e5c579f2d0234161f75999f0f",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 745491,
+      "fullyTransparentFraction": 0.47407530352632343,
+      "lowAlphaPixels1to7": 12752,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          33,
+          1236,
+          1254
+        ],
+        "8": [
+          147,
+          220,
+          1108,
+          1080
+        ],
+        "32": [
+          148,
+          221,
+          1106,
+          1078
+        ],
+        "128": [
+          149,
+          221,
+          1105,
+          1075
+        ],
+        "240": [
+          150,
+          222,
+          1104,
+          1071
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 33,
+          "right": 18,
+          "bottom": 0
+        },
+        "8": {
+          "left": 147,
+          "top": 220,
+          "right": 146,
+          "bottom": 174
+        },
+        "32": {
+          "left": 148,
+          "top": 221,
+          "right": 148,
+          "bottom": 176
+        },
+        "128": {
+          "left": 149,
+          "top": 221,
+          "right": 149,
+          "bottom": 179
+        },
+        "240": {
+          "left": 150,
+          "top": 222,
+          "right": 150,
+          "bottom": 183
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

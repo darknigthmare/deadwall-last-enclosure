@@ -1,0 +1,182 @@
+{
+  "evaluated-native-plans.json": {
+    "path": "references/evaluated-native-plans.json",
+    "sha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970",
+    "bytes": 164392
+  },
+  "prompt-validation.json": {
+    "path": "references/prepared-prompt-validation.json",
+    "sha256": "1ce776847f92e6bbd8813029bc331ff5187688f0c15026285a6f364b9c31de16",
+    "bytes": 2964
+  },
+  "references/art221-bounded-evidence.json": {
+    "path": "references/art221-bounded-evidence.json",
+    "sha256": "77aa0637e1f0d4e815edf31c67aba2837affc4ebed5a3c318660b63d0b71e16c",
+    "bytes": 3986
+  },
+  "references/buildings-atlas.webp": {
+    "path": "references/buildings-atlas.webp",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "bytes": 364648
+  },
+  "references/conflicting-codex/DW-0508.md": {
+    "path": "references/conflicting-codex/DW-0508.md",
+    "sha256": "6efc28e5d3f449ed4314a3b488fbfae93af5e869b06f5e7618cf22b457e45d06",
+    "bytes": 1978
+  },
+  "references/conflicting-codex/DW-0509.md": {
+    "path": "references/conflicting-codex/DW-0509.md",
+    "sha256": "2d4d0c9bc0f4cc915e1dc9555250cd1cc3a8f078b92bdc4b23bccec98f619bd1",
+    "bytes": 2035
+  },
+  "references/conflicting-codex/DW-0510.md": {
+    "path": "references/conflicting-codex/DW-0510.md",
+    "sha256": "662e560e0e87013827ad53dff7691e0a50f065d5e86eb8a2b98bdf65214d2f27",
+    "bytes": 2105
+  },
+  "references/conflicting-codex/DW-0511.md": {
+    "path": "references/conflicting-codex/DW-0511.md",
+    "sha256": "b9751209d054da2062d741a64cb924c214f4ed46b7fe366c1dae8077cc506649",
+    "bytes": 2232
+  },
+  "references/conflicting-codex/DW-0512.md": {
+    "path": "references/conflicting-codex/DW-0512.md",
+    "sha256": "d343c4c4aac903641266bea78c7df7fddb4554a695f6f1c085d5e53cf7559cc5",
+    "bytes": 2014
+  },
+  "references/conflicting-codex/DW-0513.md": {
+    "path": "references/conflicting-codex/DW-0513.md",
+    "sha256": "36ebebb06091bc3cd408308d7c44293d653bddfbb4c2c339693e0b2e19da65f1",
+    "bytes": 1834
+  },
+  "references/conflicting-codex/DW-0514.md": {
+    "path": "references/conflicting-codex/DW-0514.md",
+    "sha256": "3348f77002e01508b1999fe8416b80128a39417904e402c7fabb0362493f2bde",
+    "bytes": 1979
+  },
+  "references/coverage-art222-229.json": {
+    "path": "references/coverage-art222-229.json",
+    "sha256": "bc357cd7679f20ba8da585fd94f8d9388762a2104c4aeb7225556a1aa8802aac",
+    "bytes": 73598
+  },
+  "references/policy/CODEX_MASTER_PROMPT.md": {
+    "path": "references/policy/CODEX_MASTER_PROMPT.md",
+    "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+    "bytes": 5269
+  },
+  "references/policy/GAMEDEV_GUIDANCE.md": {
+    "path": "references/policy/GAMEDEV_GUIDANCE.md",
+    "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+    "bytes": 24935
+  },
+  "references/policy/SEED_DETAIL_1_57.md": {
+    "path": "references/policy/SEED_DETAIL_1_57.md",
+    "sha256": "8df6b7e63f2a26e5df7ce169f03ce4ed661185a954d3aced56c341c3e0e82d84",
+    "bytes": 11283
+  },
+  "references/policy/WORLD_1.23.md": {
+    "path": "references/policy/WORLD_1.23.md",
+    "sha256": "86481f725d7aa7955015ab200915fe09229490c6152ad8d9d494ceb0ea1a54fc",
+    "bytes": 2387
+  },
+  "references/policy/codex-CONTRATS.md": {
+    "path": "references/policy/codex-CONTRATS.md",
+    "sha256": "a1282e2efd39b253f4ffc2bf82725ad6a6ac33c9c97d7947ea60b6f8239d12fe",
+    "bytes": 8572
+  },
+  "references/policy/codex-README.md": {
+    "path": "references/policy/codex-README.md",
+    "sha256": "7f3da86c180486a700c12887c929641f35c850b266fc619b5f186e88ef609073",
+    "bytes": 7367
+  },
+  "references/runtime/codex3000-runtime.js": {
+    "path": "references/runtime/codex3000-runtime.js",
+    "sha256": "8cd00dac101864ac9906734ba3bf743ad7921637ef929eae176e5460ac3e6d25",
+    "bytes": 24428
+  },
+  "references/runtime/frontier-art.js": {
+    "path": "references/runtime/frontier-art.js",
+    "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+    "bytes": 35986
+  },
+  "references/runtime/frontier-geometry.js": {
+    "path": "references/runtime/frontier-geometry.js",
+    "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+    "bytes": 14015
+  },
+  "references/runtime/frontier-places.js": {
+    "path": "references/runtime/frontier-places.js",
+    "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+    "bytes": 9588
+  },
+  "references/runtime/frontier-specialists.js": {
+    "path": "references/runtime/frontier-specialists.js",
+    "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+    "bytes": 6605
+  },
+  "references/runtime/frontier-state.js": {
+    "path": "references/runtime/frontier-state.js",
+    "sha256": "201b98a90a78b6d2c6cf5beff007391c4e7f4c139dc7822936b4f3b97cd2bfd0",
+    "bytes": 12443
+  },
+  "references/runtime/frontier-world.js": {
+    "path": "references/runtime/frontier-world.js",
+    "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+    "bytes": 51421
+  },
+  "references/runtime/interior-art153.js": {
+    "path": "references/runtime/interior-art153.js",
+    "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+    "bytes": 18868
+  },
+  "references/runtime/region-settlements.js": {
+    "path": "references/runtime/region-settlements.js",
+    "sha256": "6bc19e49f5f3976908ff4b8f5ec0586ec2e1563faec2cb95714283d87e454545",
+    "bytes": 7216
+  },
+  "references/runtime/save.js": {
+    "path": "references/runtime/save.js",
+    "sha256": "30de0de238258160ac1018b175b5bb4041c38ac44206cbb70ca3035c4f8e503d",
+    "bytes": 36557
+  },
+  "references/runtime/seed-detail157.js": {
+    "path": "references/runtime/seed-detail157.js",
+    "sha256": "8f5d6b9cee27cc6eec49f62d0233f24ed7491e2440fb0064b85b40c5aefbee4f",
+    "bytes": 17505
+  },
+  "references/runtime/settlement-plans.js": {
+    "path": "references/runtime/settlement-plans.js",
+    "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+    "bytes": 1501
+  },
+  "references/runtime/world-codex-actions159.js": {
+    "path": "references/runtime/world-codex-actions159.js",
+    "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8",
+    "bytes": 13648
+  },
+  "references/runtime/world-codex-seed157.js": {
+    "path": "references/runtime/world-codex-seed157.js",
+    "sha256": "11c223035bf973640b1988f00432037e42f8385af9ca0bd2e6e9f7c39c5a22b9",
+    "bytes": 2769
+  },
+  "references/sources.json": {
+    "path": "references/prepared-sources.json",
+    "sha256": "e4ba53ebabe4c75d6dc73c3e939ceb54b0aca18dcdee2a5fd38d9705f678cfb7",
+    "bytes": 18282
+  },
+  "references/task-prompt-draft.json": {
+    "path": "references/task-prompt-draft.json",
+    "sha256": "b27100f691c534a61c6dfd524a9326a10af3b8de2d07b9d2a6a98d5370e8eef2",
+    "bytes": 12656
+  },
+  "selection-and-prompts.json": {
+    "path": "references/selection-at-retrieval.json",
+    "sha256": "cf22b725f6e19eb20d10402923fa4d311b81b17dc7fdfc4973cb1666238395bd",
+    "bytes": 106916
+  },
+  "source-only-contract.md": {
+    "path": "references/source-only-contract.md",
+    "sha256": "f05672af939949d7a51fa60ac4805ad46c3f153ce0bca22edfe595d79af5d0c1",
+    "bytes": 3548
+  }
+}

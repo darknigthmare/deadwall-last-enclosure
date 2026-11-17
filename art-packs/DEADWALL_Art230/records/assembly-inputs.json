@@ -1,0 +1,17 @@
+{
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "dateEuropeParis": "2026-11-17",
+  "selectionSha256": "cc066cb46fc7269af9d8b9b4630e870a9a3c08e253891e197157e1f6a850dadc",
+  "preparationManifestSha256": "b1e685600e3367f0c88723135973b57726f37f4bd39493157168fd5459767bdf",
+  "historyRecordSha256": [
+    "98042f1b4a21ec07cc1011f35906888ccfc27056daad20995489bdd3f0e4f761"
+  ],
+  "finalRecordsSha256": "3baac393d4dc8c36a2d08b63cea6bc3c79b75b978ea26ecbdd092cb89f644bc0",
+  "visualReviewSha256": "71833800a3dfa344e6342bcc20f363d33574582685a467d32e39b8c45efca20a",
+  "priorPublicationsSha256": "e6a90f4d6e82f51d506f7d1a75678a58798cb842b28d27bc37282743dce303ce",
+  "aggregateCoverage": null,
+  "assemblerSha256": "209f8433809162d29bb8edc64e3c91f735b8625e5ead57df9702bfe07c5768ae",
+  "nativePngBytesPreserved": true,
+  "outputDeterministicForSameInputsAndExplicitDate": true,
+  "assemblerIsLocalNotPartOfRuntime": true
+}

@@ -1,0 +1,2386 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art231",
+  "selectionStatus": "prepared_native_type_source_art; no image generation asserted by this selection",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "focus": "Native settlement exteriors with unresolved historical Codex assignments",
+  "identityPolicy": {
+    "primary": "artId = native:<nativeType>",
+    "filename": "<nativeType>_<native_name_slug>.png",
+    "dwIdRole": "provenance.declaredCodexId only; contradictory_unresolved",
+    "runtimeIdentityChanges": false,
+    "codexRemappingPerformed": false
+  },
+  "absenceEvidence": {
+    "source": {
+      "path": "references/coverage-art222-229.json",
+      "repositoryPath": "art-packs/DEADWALL_Art229/coverage/coverage-art222-229.json",
+      "revision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "sha256": "bc357cd7679f20ba8da585fd94f8d9388762a2104c4aeb7225556a1aa8802aac",
+      "gitBlob": "966e5a718d713f41e62287978f54698f92a56f10",
+      "bytes": 73598,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf/art-packs/DEADWALL_Art229/coverage/coverage-art222-229.json",
+      "usage": "Prior final coverage and explicitly unresolved mappings",
+      "byteSourceLocalCommit": "0057d837fbcd1a60f591aad6264944c7c6117fcd",
+      "publishedEquivalentTree": "b7d2e7ce5b8ecc35e7a0460f8a113e1605de55ec"
+    },
+    "priorFinalNativeTypes": [
+      "veterinary",
+      "bakery",
+      "library",
+      "laundry",
+      "postoffice",
+      "gym",
+      "selfstorage",
+      "garden",
+      "marketgarden",
+      "inn",
+      "scrapyard",
+      "joinery",
+      "reuse",
+      "pharmacy",
+      "hardware",
+      "diner",
+      "garage",
+      "school",
+      "townhall",
+      "sawmill",
+      "warehouse",
+      "freight",
+      "centralKitchen",
+      "generatorRoom",
+      "quarry",
+      "house",
+      "duplex",
+      "cabin",
+      "apartments",
+      "basementHouse",
+      "ruin",
+      "hotel",
+      "mall",
+      "grocer",
+      "market",
+      "motel",
+      "firestation",
+      "dental",
+      "mine",
+      "clinic",
+      "bunker",
+      "fuel"
+    ],
+    "allSelectedTypesAbsentFromPriorArt222229Finals": true,
+    "existingRuntimeRoofs": "Generic native-type aliases remain the current renderer selection. This preparation does not register dedicated sprites.",
+    "historicalArt221InventoryRecovered": false,
+    "historicalAbsenceCertified": false
+  },
+  "limits": [
+    "The 20 historical Codex contradictions remain unresolved.",
+    "These exterior proposals are keyed by nativeType, not reconstructions of the conflicting DW cards.",
+    "The evaluated base/native plan does not replace later Codex detail layers selected via the unchanged codex field.",
+    "No loader, renderer, geometry, RNG, resource, save, dependency or test is modified.",
+    "No metric or pixel-for-pixel 1:1 fidelity certificate; future integration requires anchors, scale, depth, doors, rotations, collision and roof removal calibration.",
+    "This preparation does not claim that an image has been generated, published or integrated."
+  ],
+  "sources": [
+    {
+      "path": "references/runtime/settlement-plans.js",
+      "repositoryPath": "src/settlement-plans.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+      "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+      "bytes": 1501,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-geometry.js",
+      "repositoryPath": "src/frontier-geometry.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+      "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+      "bytes": 14015,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-places.js",
+      "repositoryPath": "src/frontier-places.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+      "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+      "bytes": 9588,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-specialists.js",
+      "repositoryPath": "src/frontier-specialists.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+      "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+      "bytes": 6605,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/interior-art153.js",
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "bytes": 18868,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/interior-art153.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-art.js",
+      "repositoryPath": "src/frontier-art.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+      "gitBlob": "bc3933fb70aae5c092fd0a89361eb818c5a9aa7a",
+      "bytes": 35986,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-art.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/seed-detail157.js",
+      "repositoryPath": "src/seed-detail157.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "8f5d6b9cee27cc6eec49f62d0233f24ed7491e2440fb0064b85b40c5aefbee4f",
+      "gitBlob": "6a225148de9dce2fb31d926181d0fef976bf4f91",
+      "bytes": 17505,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/seed-detail157.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/world-codex-seed157.js",
+      "repositoryPath": "src/world-codex-seed157.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "11c223035bf973640b1988f00432037e42f8385af9ca0bd2e6e9f7c39c5a22b9",
+      "gitBlob": "ec07e6bd655418978dc202448d005e3ae428ab87",
+      "bytes": 2769,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/world-codex-seed157.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/region-settlements.js",
+      "repositoryPath": "src/region-settlements.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "6bc19e49f5f3976908ff4b8f5ec0586ec2e1563faec2cb95714283d87e454545",
+      "gitBlob": "d1c7939ebc86ddd7f288d8dc0df908a4acb848a3",
+      "bytes": 7216,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/region-settlements.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/codex3000-runtime.js",
+      "repositoryPath": "src/codex3000-runtime.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "8cd00dac101864ac9906734ba3bf743ad7921637ef929eae176e5460ac3e6d25",
+      "gitBlob": "03a569d8cf8008754643875db380f0205816fc7b",
+      "bytes": 24428,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/codex3000-runtime.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-world.js",
+      "repositoryPath": "src/frontier-world.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "3057970edb115a2c05ddeb86bf1e1e0b8d7a7ef78cdda3c7041e1ee25f0beebc",
+      "gitBlob": "741670922e84a707c8bf8483d662ba0332946070",
+      "bytes": 51421,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-world.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/frontier-state.js",
+      "repositoryPath": "src/frontier-state.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "201b98a90a78b6d2c6cf5beff007391c4e7f4c139dc7822936b4f3b97cd2bfd0",
+      "gitBlob": "79f28052da65c36b882d58aa1789aaa63133ffc0",
+      "bytes": 12443,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-state.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/world-codex-actions159.js",
+      "repositoryPath": "src/world-codex-actions159.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "34d2390fd843f2d3d82f9de6cfac892be3913508772bb63b632672f9c5ab45e8",
+      "gitBlob": "b6c7010433e1fbebda7c8fe7ab6b26d888717ad4",
+      "bytes": 13648,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/world-codex-actions159.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/runtime/save.js",
+      "repositoryPath": "src/save.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "30de0de238258160ac1018b175b5bb4041c38ac44206cbb70ca3035c4f8e503d",
+      "gitBlob": "27780a3e608630520d366037631c12ab417c2139",
+      "bytes": 36557,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/save.js",
+      "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+    },
+    {
+      "path": "references/policy/WORLD_1.23.md",
+      "repositoryPath": "docs/WORLD_1.23.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "86481f725d7aa7955015ab200915fe09229490c6152ad8d9d494ceb0ea1a54fc",
+      "gitBlob": "99eb9a59b76bf7c8555dcc30bde684de45d2b758",
+      "bytes": 2387,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/WORLD_1.23.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/policy/SEED_DETAIL_1_57.md",
+      "repositoryPath": "docs/codex/SEED_DETAIL_1_57.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "8df6b7e63f2a26e5df7ce169f03ce4ed661185a954d3aced56c341c3e0e82d84",
+      "gitBlob": "fa287c190e003b853c27bb39616ce6e7f6154a14",
+      "bytes": 11283,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/codex/SEED_DETAIL_1_57.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/policy/codex-CONTRATS.md",
+      "repositoryPath": "docs/codex/CONTRATS.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "a1282e2efd39b253f4ffc2bf82725ad6a6ac33c9c97d7947ea60b6f8239d12fe",
+      "gitBlob": "fa6c5c44d1ddaa34024bd21a7a64c5e2d82c5c54",
+      "bytes": 8572,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/codex/CONTRATS.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/policy/codex-README.md",
+      "repositoryPath": "docs/codex/README.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "7f3da86c180486a700c12887c929641f35c850b266fc619b5f186e88ef609073",
+      "gitBlob": "abb9366bf6df75e3353028fa9786c25d37437a92",
+      "bytes": 7367,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/codex/README.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/policy/CODEX_MASTER_PROMPT.md",
+      "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+      "gitBlob": "1b15347772ed2da3b22cd33fe572792255db9d51",
+      "bytes": 5269,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/CODEX_MASTER_PROMPT.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/policy/GAMEDEV_GUIDANCE.md",
+      "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+      "gitBlob": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+      "bytes": 24935,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/docs/GAMEDEV_GUIDANCE.md",
+      "usage": "Documented historical-plan and provenance contract"
+    },
+    {
+      "path": "references/buildings-atlas.webp",
+      "repositoryPath": "assets/buildings-atlas.webp",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+      "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+      "bytes": 364648,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+      "usage": "Original game painting-style and camera reference only"
+    },
+    {
+      "path": "references/coverage-art222-229.json",
+      "repositoryPath": "art-packs/DEADWALL_Art229/coverage/coverage-art222-229.json",
+      "revision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "sha256": "bc357cd7679f20ba8da585fd94f8d9388762a2104c4aeb7225556a1aa8802aac",
+      "gitBlob": "966e5a718d713f41e62287978f54698f92a56f10",
+      "bytes": 73598,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf/art-packs/DEADWALL_Art229/coverage/coverage-art222-229.json",
+      "usage": "Prior final coverage and explicitly unresolved mappings",
+      "byteSourceLocalCommit": "0057d837fbcd1a60f591aad6264944c7c6117fcd",
+      "publishedEquivalentTree": "b7d2e7ce5b8ecc35e7a0460f8a113e1605de55ec"
+    },
+    {
+      "path": "references/art221-bounded-evidence.json",
+      "repositoryPath": "art-packs/DEADWALL_Art227/backlog/art221-bounded-evidence.json",
+      "revision": "5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf",
+      "sha256": "77aa0637e1f0d4e815edf31c67aba2837affc4ebed5a3c318660b63d0b71e16c",
+      "gitBlob": "57101494edd29c545c5e7c0cf69dede594a8edac",
+      "bytes": 3986,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/5cc184d4cfeb6d62ddf4f5ae043c1dd6b852ffaf/art-packs/DEADWALL_Art227/backlog/art221-bounded-evidence.json",
+      "usage": "Bounded historical evidence; not exhaustive deduplication",
+      "byteSourceLocalCommit": "0057d837fbcd1a60f591aad6264944c7c6117fcd",
+      "publishedEquivalentTree": "b7d2e7ce5b8ecc35e7a0460f8a113e1605de55ec"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0508.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "6efc28e5d3f449ed4314a3b488fbfae93af5e869b06f5e7618cf22b457e45d06",
+      "gitBlob": "07c7743aefebe1db5f1b6db1eef132706f222c38",
+      "bytes": 1978,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0509.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "2d4d0c9bc0f4cc915e1dc9555250cd1cc3a8f078b92bdc4b23bccec98f619bd1",
+      "gitBlob": "e981a371ce7f42903dd353b05effb1f31403a177",
+      "bytes": 2035,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0510.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "662e560e0e87013827ad53dff7691e0a50f065d5e86eb8a2b98bdf65214d2f27",
+      "gitBlob": "b6b4d78cbac190b58d41656896afec6bfabd13d7",
+      "bytes": 2105,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0511.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "b9751209d054da2062d741a64cb924c214f4ed46b7fe366c1dae8077cc506649",
+      "gitBlob": "1a507b0bfe2d6f2f74b1d752122c71b0c0343ad6",
+      "bytes": 2232,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0512.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "d343c4c4aac903641266bea78c7df7fddb4554a695f6f1c085d5e53cf7559cc5",
+      "gitBlob": "d65fac555d0f96a88076717a325edf729951130a",
+      "bytes": 2014,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0513.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "36ebebb06091bc3cd408308d7c44293d653bddfbb4c2c339693e0b2e19da65f1",
+      "gitBlob": "ada9e1f717066a860ff20f9b1f37729f8aa7bc89",
+      "bytes": 1834,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    },
+    {
+      "path": "references/conflicting-codex/DW-0514.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "3348f77002e01508b1999fe8416b80128a39417904e402c7fabb0362493f2bde",
+      "gitBlob": "2f0445bdaba03780e2198a7e097011b28cfa3de2",
+      "bytes": 1979,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+      "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+    }
+  ],
+  "taskPromptSource": {
+    "path": "references/task-prompt-draft.json",
+    "kind": "task_input",
+    "providedBy": "root",
+    "sha256": "b27100f691c534a61c6dfd524a9326a10af3b8de2d07b9d2a6a98d5370e8eef2",
+    "bytes": 12656,
+    "usage": "Exact common and subject texts reviewed against the native plans; actual generation calls remain separate records"
+  },
+  "referenceComparisonPolicy": "Immutable reference bytes and SHA256 define equivalence; the generating call may use another local path containing the identical original atlas.",
+  "sourceArtContract": "source-only-contract.md",
+  "nativePlanEvaluation": {
+    "path": "evaluated-native-plans.json",
+    "sha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970",
+    "nodeVersion": "v24.22.1",
+    "allTargetsEvaluated": true
+  },
+  "targets": [
+    {
+      "type": "studioBlock",
+      "nativeType": "studioBlock",
+      "artId": "native:studioBlock",
+      "preset": {
+        "id": "studioBlock",
+        "name": "Petit collectif",
+        "w": 26,
+        "h": 22,
+        "parent": "apartments",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 0,
+          "rect": [
+            746,
+            274,
+            377,
+            213
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 1,
+          "rect": [
+            1150,
+            279,
+            359,
+            207
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "workbench",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-studioBlock-0:stairs",
+              "x": 11.95,
+              "y": 18,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "sink",
+            "wardrobe",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-studioBlock-0:stairs",
+              "x": 11.95,
+              "y": 18,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 2,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "sink",
+            "wardrobe",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-studioBlock-0:stairs",
+              "x": 11.95,
+              "y": 18,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "bench",
+        "crate"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-studioBlock-0:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 27,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 5,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-studioBlock-0:out:1",
+          "kind": "crate",
+          "x": 22,
+          "y": 27,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 18,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0508",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0508 — Maison avec sous-sol — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 15 × 20 m  ",
+        "referencedCodexLevels": "**Niveaux :** 1",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0508.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "6efc28e5d3f449ed4314a3b488fbfae93af5e869b06f5e7618cf22b457e45d06",
+          "gitBlob": "07c7743aefebe1db5f1b6db1eef132706f222c38",
+          "bytes": 1978,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:studioBlock",
+        "canonicalPayloadSha256": "b071c13072c4354c0b637030baebc8f5b3bf95eca822240b9c54745c3c38f289",
+        "fixture": {
+          "id": "source-native-studioBlock-0",
+          "type": "studioBlock",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 26,
+          "h": 22,
+          "levels": [
+            0,
+            1,
+            2
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Petit collectif: one compact apartment block 26 m wide by 22 m deep, exactly THREE total above-ground levels, ground floor plus two upper storeys. Weathered concrete and muted plaster, low broad flat roof with a few discreet vents, repetitive modest domestic windows and one central entrance at ground level. The inherited apartments programme repeats domestic rooms across levels. Roof dominates and the three facade bands remain extremely foreshortened. No fourth floor, exposed interior, basement stair, projecting balconies or apartment campus.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "studioBlock_petit_collectif.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de apartments ; niveau 0: Séjour, Cuisine, Chambre, Garage / rangement; niveau 1: Chambre, Salle d’eau, Réserve; niveau 2: Chambre, Salle d’eau, Réserve.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 81.7,
+        "aboveGroundFloorCount": 3,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "longBlock",
+      "nativeType": "longBlock",
+      "artId": "native:longBlock",
+      "preset": {
+        "id": "longBlock",
+        "name": "Barre de logements",
+        "w": 58,
+        "h": 25,
+        "parent": "apartments",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 0,
+          "rect": [
+            746,
+            274,
+            377,
+            213
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 1,
+          "rect": [
+            1150,
+            279,
+            359,
+            207
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "wardrobe",
+            "workbench",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-longBlock-2:stairs",
+              "x": 27.95,
+              "y": 21,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe",
+            "desk",
+            "sink",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-longBlock-2:stairs",
+              "x": 27.95,
+              "y": 21,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 2,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe",
+            "desk",
+            "sink",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-longBlock-2:stairs",
+              "x": 27.95,
+              "y": 21,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "bench",
+        "crate"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-longBlock-2:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 30,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 7,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-longBlock-2:out:1",
+          "kind": "crate",
+          "x": 54,
+          "y": 30,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 6,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0509",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0509 — Supérette — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 26 × 37 m  ",
+        "referencedCodexLevels": "**Niveaux :** 2",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0509.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2d4d0c9bc0f4cc915e1dc9555250cd1cc3a8f078b92bdc4b23bccec98f619bd1",
+          "gitBlob": "e981a371ce7f42903dd353b05effb1f31403a177",
+          "bytes": 2035,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:longBlock",
+        "canonicalPayloadSha256": "afe55742111ccaf17a7d55e80c6db0f77d805c5ba5b2e81b1093f9ae90bd304f",
+        "fixture": {
+          "id": "source-native-longBlock-2",
+          "type": "longBlock",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 58,
+          "h": 25,
+          "levels": [
+            0,
+            1,
+            2
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Barre de logements: one long rectangular residential block 58 m wide by 25 m deep, exactly THREE total above-ground levels, ground floor plus two upper storeys. Muted weathered concrete, a long low flat gray roof with restrained practical vents, repeated domestic windows, one modest central ground entrance. Native programme is apartments. Keep its pronounced width and a very narrow strongly foreshortened front elevation. No fourth storey, towers, courtyards, bridges, open roof or detached annexes.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "longBlock_barre_de_logements.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de apartments ; niveau 0: Séjour, Cuisine, Chambre, Garage / rangement; niveau 1: Chambre, Salle d’eau, Réserve; niveau 2: Chambre, Salle d’eau, Réserve.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 41.6,
+        "aboveGroundFloorCount": 3,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "residence",
+      "nativeType": "residence",
+      "artId": "native:residence",
+      "preset": {
+        "id": "residence",
+        "name": "Grande résidence",
+        "w": 46,
+        "h": 38,
+        "parent": "apartments",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 0,
+          "rect": [
+            746,
+            274,
+            377,
+            213
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "collective",
+          "variant": 1,
+          "rect": [
+            1150,
+            279,
+            359,
+            207
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "collective",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Séjour",
+            "Cuisine",
+            "Chambre",
+            "Garage / rangement"
+          ],
+          "objectKinds": [
+            "sofa",
+            "table",
+            "fridge",
+            "sink",
+            "bed",
+            "wardrobe",
+            "workbench",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-residence-0:stairs",
+              "x": 21.95,
+              "y": 34,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe",
+            "desk",
+            "sink",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-residence-0:stairs",
+              "x": 21.95,
+              "y": 34,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "z": 2,
+          "names": [
+            "Chambre",
+            "Salle d’eau",
+            "Réserve"
+          ],
+          "objectKinds": [
+            "bed",
+            "wardrobe",
+            "desk",
+            "sink",
+            "crate"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-residence-0:stairs",
+              "x": 21.95,
+              "y": 34,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "bench",
+        "crate"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-residence-0:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 43,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 19,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-residence-0:out:1",
+          "kind": "crate",
+          "x": 42,
+          "y": 43,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 11,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0510",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0510 — Centre commercial — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 37 × 54 m  ",
+        "referencedCodexLevels": "**Niveaux :** 1",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0510.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "662e560e0e87013827ad53dff7691e0a50f065d5e86eb8a2b98bdf65214d2f27",
+          "gitBlob": "b6b4d78cbac190b58d41656896afec6bfabd13d7",
+          "bytes": 2105,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:residence",
+        "canonicalPayloadSha256": "8346c12db7af7d177b163a7ef39515ae39a7089f4a659231eaddd083fccb3cae",
+        "fixture": {
+          "id": "source-native-residence-0",
+          "type": "residence",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 46,
+          "h": 38,
+          "levels": [
+            0,
+            1,
+            2
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Grande résidence: one large rectangular residential building 46 m wide by 38 m deep, exactly THREE total above-ground levels, ground floor plus two upper storeys. Broad almost-square low flat roof, aged gray plaster and concrete, restrained roof service boxes, repeated small residential windows, one central ground-level entrance. Native programme is apartments. It is a filled rectangular envelope, not a ring around an open courtyard. No fourth storey, shopping-mall signage, roof terrace, courtyard, towers or separate blocks.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "residence_grande_residence.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de apartments ; niveau 0: Séjour, Cuisine, Chambre, Garage / rangement; niveau 1: Chambre, Salle d’eau, Réserve; niveau 2: Chambre, Salle d’eau, Réserve.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 79.8,
+        "aboveGroundFloorCount": 3,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "cornerShop",
+      "nativeType": "cornerShop",
+      "artId": "native:cornerShop",
+      "preset": {
+        "id": "cornerShop",
+        "name": "Commerce d’angle",
+        "w": 12,
+        "h": 13,
+        "parent": "grocer",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve",
+            "Service et caisse",
+            "Vente"
+          ],
+          "objectKinds": [
+            "shelf",
+            "crate",
+            "workbench"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [],
+      "nativeOutdoorProps": [],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0511",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0511 — Supermarché — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 48 × 17 m  ",
+        "referencedCodexLevels": "**Niveaux :** 1",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0511.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b9751209d054da2062d741a64cb924c214f4ed46b7fe366c1dae8077cc506649",
+          "gitBlob": "1a507b0bfe2d6f2f74b1d752122c71b0c0343ad6",
+          "bytes": 2232,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:cornerShop",
+        "canonicalPayloadSha256": "fe72d4ec635140995b760ba57deb5dd756a4b9e5e99b197a67c28d173db6c6dc",
+        "fixture": {
+          "id": "source-native-cornerShop-0",
+          "type": "cornerShop",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 12,
+          "h": 13,
+          "levels": [
+            0
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Commerce d’angle: one small neighborhood corner shop 12 m wide by 13 m deep, exactly ONE ground-floor level. Slightly deeper than wide compact rectangular envelope, dull plaster and brick, modest worn storefront glazing and central public doorway, shallow flat or tiled roof. Inherited grocer/food programme has sales, rear stock and service. Show only this standalone building, with no neighboring street row. No extra floor, giant supermarket, full pavement, street intersection, signs or oversized awning.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "cornerShop_commerce_dangle.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de grocer ; niveau 0: Réserve, Service et caisse, Vente.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 104.6,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "superstore",
+      "nativeType": "superstore",
+      "artId": "native:superstore",
+      "preset": {
+        "id": "superstore",
+        "name": "Grande surface",
+        "w": 64,
+        "h": 43,
+        "parent": "market",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve",
+            "Service et caisse",
+            "Vente"
+          ],
+          "objectKinds": [
+            "shelf",
+            "crate",
+            "fridge",
+            "workbench",
+            "desk"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "crate",
+        "shelf"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-superstore-0:out:0",
+          "kind": "crate",
+          "x": 2,
+          "y": 48,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "food",
+          "amount": 7,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-superstore-0:out:1",
+          "kind": "crate",
+          "x": 5,
+          "y": 48,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "food",
+          "amount": 7,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-superstore-0:out:2",
+          "kind": "crate",
+          "x": 8,
+          "y": 48,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "food",
+          "amount": 6,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-superstore-0:out:3",
+          "kind": "shelf",
+          "x": 59,
+          "y": 48,
+          "w": 2.4,
+          "h": 0.7,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 18,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0512",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0512 — Magasin de bricolage — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 59 × 34 m  ",
+        "referencedCodexLevels": "**Niveaux :** 1",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0512.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "d343c4c4aac903641266bea78c7df7fddb4554a695f6f1c085d5e53cf7559cc5",
+          "gitBlob": "d65fac555d0f96a88076717a325edf729951130a",
+          "bytes": 2014,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:superstore",
+        "canonicalPayloadSha256": "abc0a9279c69420152c2f7570541f34edba75451ff78536730bb28aa38911226",
+        "fixture": {
+          "id": "source-native-superstore-0",
+          "type": "superstore",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 64,
+          "h": 43,
+          "levels": [
+            0
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Grande surface: one broad single-storey supermarket 64 m wide by 43 m deep, exactly ONE ground-floor level. Large low rectangular retail hall, weathered light concrete and corrugated muted gray cladding, expansive flat roof with small restrained HVAC vents and skylight strips, central public entry and sparse ordinary glazing. The inherited market/food programme contains sales, stock and service. Keep a single envelope with human-scale openings. No second storey, mall wings, oversized signs, parking lot, loading yard, fuel pumps or detached warehouse.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "superstore_grande_surface.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de market ; niveau 0: Réserve, Service et caisse, Vente.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 64.9,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "cafe",
+      "nativeType": "cafe",
+      "artId": "native:cafe",
+      "preset": {
+        "id": "cafe",
+        "name": "Café de quartier",
+        "w": 19,
+        "h": 17,
+        "parent": "diner",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réserve",
+            "Service et caisse",
+            "Salle"
+          ],
+          "objectKinds": [
+            "table",
+            "crate",
+            "workbench"
+          ],
+          "stairs": []
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "crate",
+        "dishRack"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-cafe-0:out:0",
+          "kind": "crate",
+          "x": 2,
+          "y": 22,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "food",
+          "amount": 12,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-cafe-0:out:1",
+          "kind": "dishRack",
+          "x": 15,
+          "y": 22,
+          "w": 1.5,
+          "h": 0.7,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 5,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0513",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0513 — Pharmacie — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 70 × 51 m  ",
+        "referencedCodexLevels": "**Niveaux :** 2",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0513.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "36ebebb06091bc3cd408308d7c44293d653bddfbb4c2c339693e0b2e19da65f1",
+          "gitBlob": "ada9e1f717066a860ff20f9b1f37729f8aa7bc89",
+          "bytes": 1834,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:cafe",
+        "canonicalPayloadSha256": "27b6ddf40b1f65d587ecc1894dad64b7710862cea2c7fb05b8549371c9f12b8a",
+        "fixture": {
+          "id": "source-native-cafe-0",
+          "type": "cafe",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 19,
+          "h": 17,
+          "levels": [
+            0
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Café de quartier: a modest neighborhood café 19 m wide by 17 m deep, exactly ONE ground-floor level. Compact nearly square weathered plaster/brick building, low aged slate or dark tile roof, small public glazing and central ground-level entry. A tiny wall-attached rain hood may be present. The inherited diner programme has a dining room, rear reserve and service. No outdoor tables, terrace platform, separate kitchen annex, drive-through, branded signs or second floor.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "cafe_cafe_de_quartier.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de diner ; niveau 0: Réserve, Service et caisse, Salle.",
+      "inheritanceNotes": "Le programme générique du parent est conservé ; le nom natif ne crée aucun local, accès, stock ou équipement spécialisé supplémentaire.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 86.4,
+        "aboveGroundFloorCount": 1,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    },
+    {
+      "type": "bank",
+      "nativeType": "bank",
+      "artId": "native:bank",
+      "preset": {
+        "id": "bank",
+        "name": "Agence bancaire",
+        "w": 27,
+        "h": 21,
+        "parent": "townhall",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "civic",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 0,
+          "rect": [
+            28,
+            766,
+            341,
+            218
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 1,
+          "rect": [
+            396,
+            774,
+            315,
+            204
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Accueil",
+            "Bureau",
+            "Archives",
+            "Conseil"
+          ],
+          "objectKinds": [
+            "desk",
+            "table",
+            "wardrobe",
+            "shelf"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-bank-1:stairs",
+              "x": 12.45,
+              "y": 17,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Accueil",
+            "Bureau",
+            "Archives",
+            "Conseil"
+          ],
+          "objectKinds": [
+            "desk",
+            "table",
+            "wardrobe",
+            "shelf"
+          ],
+          "stairs": [
+            {
+              "id": "source-native-bank-1:stairs",
+              "x": 12.45,
+              "y": 17,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "bench",
+        "crate"
+      ],
+      "nativeOutdoorProps": [
+        {
+          "id": "source-native-bank-1:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 26,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 5,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-bank-1:out:1",
+          "kind": "crate",
+          "x": 23,
+          "y": 26,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 13,
+          "room": "Cour de service"
+        }
+      ],
+      "source": {
+        "path": "references/runtime/settlement-plans.js",
+        "repositoryPath": "src/settlement-plans.js",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+        "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+        "bytes": 1501,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+        "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+      },
+      "geometrySources": [
+        {
+          "path": "references/runtime/settlement-plans.js",
+          "repositoryPath": "src/settlement-plans.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "b6753636ae6b075af11b3c49da9616c3853f3a5c3cdb28b03707752b70ac2f1c",
+          "gitBlob": "9e41d4318462975f50f4b9cc2d9bdd1879ecd93f",
+          "bytes": 1501,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/settlement-plans.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-geometry.js",
+          "repositoryPath": "src/frontier-geometry.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+          "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+          "bytes": 14015,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-places.js",
+          "repositoryPath": "src/frontier-places.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+          "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+          "bytes": 9588,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        },
+        {
+          "path": "references/runtime/frontier-specialists.js",
+          "repositoryPath": "src/frontier-specialists.js",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+          "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+          "bytes": 6605,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js",
+          "usage": "Runtime evidence; preserve identity, geometry, RNG, save and loot owners"
+        }
+      ],
+      "provenance": {
+        "declaredCodexId": "DW-0514",
+        "codexMappingStatus": "contradictory_unresolved",
+        "referencedCodexTitle": "DW-0514 — Station-service — variante 01",
+        "referencedCodexFootprint": "**Emprise :** 81 × 14 m  ",
+        "referencedCodexLevels": "**Niveaux :** 1",
+        "conflictingCardSource": {
+          "path": "references/conflicting-codex/DW-0514.md",
+          "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+          "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+          "sha256": "3348f77002e01508b1999fe8416b80128a39417904e402c7fabb0362493f2bde",
+          "gitBlob": "2f0445bdaba03780e2198a7e097011b28cfa3de2",
+          "bytes": 1979,
+          "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+          "usage": "Conflicting historical assignment preserved as evidence only; NOT authoritative geometry or sprite identity"
+        },
+        "treatment": "Preserve existing assignment as conflict evidence. Do not reassign it, use it as sprite identity, or claim that this exterior reconstructs that authored card."
+      },
+      "nativePlanSnapshot": {
+        "path": "evaluated-native-plans.json",
+        "artId": "native:bank",
+        "canonicalPayloadSha256": "900b55ee6746d6847c069f2aea59a1112530feca6a6236cb07cf29fd6a8564a4",
+        "fixture": {
+          "id": "source-native-bank-1",
+          "type": "bank",
+          "x": 0,
+          "y": 0,
+          "a": 0,
+          "w": 27,
+          "h": 21,
+          "levels": [
+            0,
+            1
+          ],
+          "generation": 7
+        },
+        "codexFieldInvariantForGeometryOnly": true,
+        "fileSha256": "ee42362dedf6490a6ab5c8a7b7746978ec07979f79cf7f35825afaa330588970"
+      },
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card. Agence bancaire: one compact bank branch 27 m wide by 21 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Restrained civic masonry and weathered light concrete, low flat or shallow hipped roof, orderly modest office windows and one central public doorway at ground level. Native plan inherits townhall/civic rooms: reception, office, archives and council; exterior bank identity comes only from restrained office architecture, not invented vault geometry. No vault visible outside, cash machines, lettering, emblem, grand staircase, columns, tower or third floor.",
+      "referenceImages": [
+        "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+      ],
+      "filename": "bank_agence_bancaire.png",
+      "status": "prepared_source_selection_no_generation_claim",
+      "nativeFunction": "Plan réellement hérité de townhall ; niveau 0: Accueil, Bureau, Archives, Conseil; niveau 1: Accueil, Bureau, Archives, Conseil.",
+      "inheritanceNotes": "Le programme réel hérite de townhall : Accueil, Bureau, Archives, Conseil sur deux niveaux. Aucun coffre bancaire, automate ou système financier n’est créé.",
+      "artScope": "Single closed exterior envelope only. Native outdoor props, cars, land, yards and supplementary details are documented but excluded from this image; their game owners remain unchanged.",
+      "cameraTargets": {
+        "downwardDegrees": 75,
+        "degreesAwayFromVertical": 15,
+        "projectedRoofDepthPercentWidthApprox": 75.1,
+        "aboveGroundFloorCount": 2,
+        "buriedLevels": [],
+        "metricProjectionCertified": false
+      }
+    }
+  ]
+}

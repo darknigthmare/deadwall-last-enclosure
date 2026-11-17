@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art232",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "generator": "OpenAI ImageGen intégré",
+  "finalSpriteCount": 6,
+  "generationCount": 18,
+  "supersededCandidateCount": 12,
+  "identityPolicy": {
+    "primary": "artId = native:<nativeType>",
+    "filename": "<nativeType>_<native_name_slug>.png",
+    "dwIdRole": "provenance.declaredCodexId only; contradictory_unresolved",
+    "runtimeIdentityChanges": false,
+    "codexRemappingPerformed": false
+  },
+  "scope": "Dedicated closed exteriors identified only by existing native types; contradictory declared Codex references remain unresolved evidence.",
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Existing native preset and unchanged-owner canonical fixture; inherited programme is preserved. No live campaign instance is claimed.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "codexRemappingPerformed": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "observed": [
+      "Actual game-atlas reference",
+      "SHA-bound visual review",
+      "Native PNG and alpha checks"
+    ],
+    "notCertified": [
+      "Exact metric projection",
+      "Metres per pixel",
+      "Pixel-for-pixel identity",
+      "Runtime anchors, collisions and access alignment"
+    ]
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "aggregateCoverage": {
+    "report": "coverage/coverage-art222-232.json",
+    "reportSha256": "4b78dde9619601992c7461836b20ee829de8a403a35e1afda963be9d543165ac",
+    "explanation": "coverage/coverage-art222-232.md",
+    "explanationSha256": "6f07378bd1f6dde1d7b0990c60dc2c2fa410c1e4ad4728922089285070b06d5f",
+    "thisPackIdentityHashSizePathVerified": true,
+    "ownManifestSha256Included": false
+  },
+  "historicalArt221Inventory": "incomplete_not_reconstructed",
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "assets": [
+    {
+      "id": "native:officeBlock",
+      "artId": "native:officeBlock",
+      "type": "officeBlock",
+      "nativeType": "officeBlock",
+      "name": "Immeuble de bureaux",
+      "path": "assets/art232/native/officeBlock_immeuble_de_bureaux.png",
+      "sha256": "0f4103daf6c700479df84192a2e4f66b197d58cae50343c0d7294d2d7b972e86",
+      "bytes": 1489897,
+      "iteration": 4,
+      "nativeBuildingFootprintMetres": [
+        44,
+        32
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:medicalCentre",
+      "artId": "native:medicalCentre",
+      "type": "medicalCentre",
+      "nativeType": "medicalCentre",
+      "name": "Maison de santé",
+      "path": "assets/art232/native/medicalCentre_maison_de_sante.png",
+      "sha256": "338077b17697f2ad47827b717db88ae34610f82e6775b84d68a59044c174dd0b",
+      "bytes": 1836967,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        46,
+        34
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:smallWorkshop",
+      "artId": "native:smallWorkshop",
+      "type": "smallWorkshop",
+      "nativeType": "smallWorkshop",
+      "name": "Atelier artisanal",
+      "path": "assets/art232/native/smallWorkshop_atelier_artisanal.png",
+      "sha256": "25c6843792033343b6f3fd810e8ea3adf24e5e2531068dcd7faddcccdc8f26a2",
+      "bytes": 1654674,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        18,
+        15
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:logisticsHall",
+      "artId": "native:logisticsHall",
+      "type": "logisticsHall",
+      "nativeType": "logisticsHall",
+      "name": "Plateforme logistique",
+      "path": "assets/art232/native/logisticsHall_plateforme_logistique.png",
+      "sha256": "f2af6d7457a45217af7fd2a7167b06623c532732d0adc0862ac7458f6c07febb",
+      "bytes": 2427864,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        70,
+        42
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:chapel",
+      "artId": "native:chapel",
+      "type": "chapel",
+      "nativeType": "chapel",
+      "name": "Chapelle et salle commune",
+      "path": "assets/art232/native/chapel_chapelle_et_salle_commune.png",
+      "sha256": "20add16248a8d9846e690aa70740707d9834a3399781e33c066420bd1c7e26af",
+      "bytes": 1839541,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        24,
+        33
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:waterStation",
+      "artId": "native:waterStation",
+      "type": "waterStation",
+      "nativeType": "waterStation",
+      "name": "Station de pompage",
+      "path": "assets/art232/native/waterStation_station_de_pompage.png",
+      "sha256": "26db9796f60122493e6dbeeb28bd69d30d01479e5c579f2d0234161f75999f0f",
+      "bytes": 1714127,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        28,
+        21
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    }
+  ]
+}

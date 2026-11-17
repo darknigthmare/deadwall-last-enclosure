@@ -1,0 +1,3455 @@
+{
+  "schemaVersion": 1,
+  "batch": "Art232",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "nodeVersion": "v24.22.1",
+  "evaluationPurpose": "Read-only evaluation of native plans, roofs and outdoor definitions, not a generated campaign or gameplay test",
+  "targets": [
+    {
+      "type": "officeBlock",
+      "artId": "native:officeBlock",
+      "preset": {
+        "id": "officeBlock",
+        "name": "Immeuble de bureaux",
+        "w": 44,
+        "h": 32,
+        "parent": "school",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-officeBlock-1",
+        "type": "officeBlock",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 44,
+        "h": 32,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 20.7,
+              "h": 0.24
+            },
+            {
+              "x": 23.3,
+              "y": 0,
+              "w": 20.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 31.76,
+              "w": 21,
+              "h": 0.24
+            },
+            {
+              "x": 23,
+              "y": 31.76,
+              "w": 21,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 32
+            },
+            {
+              "x": 43.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 32
+            },
+            {
+              "x": 20.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 9,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 9,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 16,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 24.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 16,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 24.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 0.25,
+              "y": 16,
+              "w": 20.35,
+              "h": 0.24
+            },
+            {
+              "x": 23.4,
+              "y": 16,
+              "w": 20.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-officeBlock-1:0:0",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 13.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:2",
+              "kind": "desk",
+              "x": 24.35,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:3",
+              "kind": "table",
+              "x": 24.35,
+              "y": 13.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 16,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:4",
+              "kind": "shelf",
+              "x": 0.95,
+              "y": 16.9,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "wood",
+              "amount": 7,
+              "room": "Bibliothèque"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:5",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 28.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Bibliothèque"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:6",
+              "kind": "wardrobe",
+              "x": 24.35,
+              "y": 16.9,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-officeBlock-1:0:7",
+              "kind": "crate",
+              "x": 24.35,
+              "y": 28.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Classe",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 20,
+              "h": 15
+            },
+            {
+              "name": "Classe",
+              "x": 23.75,
+              "y": 0.75,
+              "w": 19.900000000000002,
+              "h": 15
+            },
+            {
+              "name": "Bibliothèque",
+              "x": 0.35,
+              "y": 16.25,
+              "w": 20,
+              "h": 15
+            },
+            {
+              "name": "Réserve",
+              "x": 23.75,
+              "y": 16.25,
+              "w": 19.900000000000002,
+              "h": 15
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-officeBlock-1:stairs",
+              "x": 20.95,
+              "y": 28,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 43.5,
+            "h": 31.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -17
+          },
+          "exit": {
+            "x": 0,
+            "y": 17
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 20.7,
+              "h": 0.24
+            },
+            {
+              "x": 23.3,
+              "y": 0,
+              "w": 20.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 31.76,
+              "w": 21,
+              "h": 0.24
+            },
+            {
+              "x": 23,
+              "y": 31.76,
+              "w": 21,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 32
+            },
+            {
+              "x": 43.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 32
+            },
+            {
+              "x": 20.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 9,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 9,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 16,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 20.6,
+              "y": 24.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 16,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 23.4,
+              "y": 24.5,
+              "w": 0.24,
+              "h": 7
+            },
+            {
+              "x": 0.25,
+              "y": 16,
+              "w": 20.35,
+              "h": 0.24
+            },
+            {
+              "x": 23.4,
+              "y": 16,
+              "w": 20.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-officeBlock-1:1:0",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 13.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 17,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:2",
+              "kind": "desk",
+              "x": 24.35,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:3",
+              "kind": "table",
+              "x": 24.35,
+              "y": 13.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Classe"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:4",
+              "kind": "shelf",
+              "x": 0.95,
+              "y": 16.9,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Bibliothèque"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:5",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 28.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Bibliothèque"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:6",
+              "kind": "wardrobe",
+              "x": 24.35,
+              "y": 16.9,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Réserve"
+            },
+            {
+              "id": "source-native-officeBlock-1:1:7",
+              "kind": "crate",
+              "x": 24.35,
+              "y": 28.65,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Réserve"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Classe",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 20,
+              "h": 15
+            },
+            {
+              "name": "Classe",
+              "x": 23.75,
+              "y": 0.75,
+              "w": 19.900000000000002,
+              "h": 15
+            },
+            {
+              "name": "Bibliothèque",
+              "x": 0.35,
+              "y": 16.25,
+              "w": 20,
+              "h": 15
+            },
+            {
+              "name": "Réserve",
+              "x": 23.75,
+              "y": 16.25,
+              "w": 19.900000000000002,
+              "h": 15
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-officeBlock-1:stairs",
+              "x": 20.95,
+              "y": 28,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 43.5,
+            "h": 31.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -17
+          },
+          "exit": {
+            "x": 0,
+            "y": 17
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-officeBlock-1:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 37,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 11,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-officeBlock-1:out:1",
+          "kind": "crate",
+          "x": 40,
+          "y": 37,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 8,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "civic",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 0,
+          "rect": [
+            28,
+            766,
+            341,
+            218
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "civic",
+          "variant": 1,
+          "rect": [
+            396,
+            774,
+            315,
+            204
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "civic",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "28f275879c74fe1cfa63b411bcd0c8745bd9356634ec3419dc273ab05d09dae4"
+    },
+    {
+      "type": "medicalCentre",
+      "artId": "native:medicalCentre",
+      "preset": {
+        "id": "medicalCentre",
+        "name": "Maison de santé",
+        "w": 46,
+        "h": 34,
+        "parent": "clinic",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-medicalCentre-5",
+        "type": "medicalCentre",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 46,
+        "h": 34,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 21.7,
+              "h": 0.24
+            },
+            {
+              "x": 24.3,
+              "y": 0,
+              "w": 21.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 33.76,
+              "w": 22,
+              "h": 0.24
+            },
+            {
+              "x": 24,
+              "y": 33.76,
+              "w": 22,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 34
+            },
+            {
+              "x": 45.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 34
+            },
+            {
+              "x": 21.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 21.6,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 24.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 24.4,
+              "y": 9.5,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 21.6,
+              "y": 17,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 21.6,
+              "y": 26,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 24.4,
+              "y": 17,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 24.4,
+              "y": 26,
+              "w": 0.24,
+              "h": 7.5
+            },
+            {
+              "x": 0.25,
+              "y": 17,
+              "w": 21.35,
+              "h": 0.24
+            },
+            {
+              "x": 24.4,
+              "y": 17,
+              "w": 21.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-medicalCentre-5:0:0",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 14.15,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 22,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:2",
+              "kind": "medical",
+              "x": 25.35,
+              "y": 1.4,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "medicine",
+              "amount": 20,
+              "room": "Consultation"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:3",
+              "kind": "desk",
+              "x": 25.35,
+              "y": 14.15,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Consultation"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:4",
+              "kind": "bed",
+              "x": 0.95,
+              "y": 17.9,
+              "w": 2.05,
+              "h": 1.6,
+              "a": 0,
+              "resource": "wood",
+              "amount": 14,
+              "room": "Soins"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:5",
+              "kind": "medical",
+              "x": 0.95,
+              "y": 30.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "medicine",
+              "amount": 20,
+              "room": "Soins"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:6",
+              "kind": "medical",
+              "x": 25.35,
+              "y": 17.9,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "medicine",
+              "amount": 21,
+              "room": "Stock médical"
+            },
+            {
+              "id": "source-native-medicalCentre-5:0:7",
+              "kind": "shelf",
+              "x": 25.35,
+              "y": 30.65,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "medicine",
+              "amount": 9,
+              "room": "Stock médical"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Accueil",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 21,
+              "h": 16
+            },
+            {
+              "name": "Consultation",
+              "x": 24.75,
+              "y": 0.75,
+              "w": 20.900000000000002,
+              "h": 16
+            },
+            {
+              "name": "Soins",
+              "x": 0.35,
+              "y": 17.25,
+              "w": 21,
+              "h": 16
+            },
+            {
+              "name": "Stock médical",
+              "x": 24.75,
+              "y": 17.25,
+              "w": 20.900000000000002,
+              "h": 16
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 45.5,
+            "h": 33.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -18
+          },
+          "exit": {
+            "x": 0,
+            "y": 18
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-medicalCentre-5:out:0",
+          "kind": "medical",
+          "x": 2,
+          "y": 38,
+          "w": 1.2,
+          "h": 0.65,
+          "a": 0,
+          "resource": "medicine",
+          "amount": 19,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-medicalCentre-5:out:1",
+          "kind": "crate",
+          "x": 43,
+          "y": 38,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 8,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "clinic",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "clinic",
+          "variant": 0,
+          "rect": [
+            789,
+            39,
+            345,
+            212
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "clinic",
+          "variant": 1,
+          "rect": [
+            1167,
+            41,
+            352,
+            209
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "clinic",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "clinic",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "clinic",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "clinic",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "db60098976a6902ed11afeb1cfc35e580cc746764265a0c29a4e5a7d2a2651cf"
+    },
+    {
+      "type": "smallWorkshop",
+      "artId": "native:smallWorkshop",
+      "preset": {
+        "id": "smallWorkshop",
+        "name": "Atelier artisanal",
+        "w": 18,
+        "h": 15,
+        "parent": "garage",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-smallWorkshop-0",
+        "type": "smallWorkshop",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 18,
+        "h": 15,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 7.7,
+              "h": 0.24
+            },
+            {
+              "x": 10.3,
+              "y": 0,
+              "w": 7.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 14.76,
+              "w": 8,
+              "h": 0.24
+            },
+            {
+              "x": 10,
+              "y": 14.76,
+              "w": 8,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 15
+            },
+            {
+              "x": 17.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 15
+            },
+            {
+              "x": 0.25,
+              "y": 9,
+              "w": 7.55,
+              "h": 0.24
+            },
+            {
+              "x": 10.2,
+              "y": 9,
+              "w": 7.55,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-smallWorkshop-0:0:0",
+              "kind": "machine",
+              "x": 1,
+              "y": 2,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-smallWorkshop-0:0:1",
+              "kind": "machine",
+              "x": 13,
+              "y": 2,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-smallWorkshop-0:0:2",
+              "kind": "workbench",
+              "x": 1.1,
+              "y": 10.15,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-smallWorkshop-0:0:3",
+              "kind": "fuel",
+              "x": 1.1,
+              "y": 11.9,
+              "w": 0.65,
+              "h": 0.5,
+              "a": 0,
+              "resource": "fuel",
+              "amount": 23,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-smallWorkshop-0:0:4",
+              "kind": "desk",
+              "x": 11.6,
+              "y": 10.15,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-smallWorkshop-0:0:5",
+              "kind": "crate",
+              "x": 11.6,
+              "y": 11.9,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Bureau"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Réserve technique",
+              "x": 0.5,
+              "y": 9.5,
+              "w": 7,
+              "h": 5
+            },
+            {
+              "name": "Bureau",
+              "x": 11,
+              "y": 9.5,
+              "w": 6.5,
+              "h": 5
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 17.5,
+            "h": 14.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -8.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 8.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-smallWorkshop-0:out:0",
+          "kind": "fuel",
+          "x": -5,
+          "y": 6,
+          "w": 0.65,
+          "h": 0.5,
+          "a": 0,
+          "resource": "fuel",
+          "amount": 6,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-smallWorkshop-0:out:1",
+          "kind": "tirePile",
+          "x": 21,
+          "y": 6,
+          "w": 1.2,
+          "h": 1.2,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 6,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-smallWorkshop-0:out:2",
+          "kind": "workbench",
+          "x": -5,
+          "y": 10,
+          "w": 2,
+          "h": 0.85,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 16,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "workshop",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 0,
+          "rect": [
+            791,
+            291,
+            342,
+            206
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 1,
+          "rect": [
+            1164,
+            295,
+            353,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "d09ad5bedc609a9ad9b05752f31cbc47afdd28e70d797c22a7e7d3b1b287276e"
+    },
+    {
+      "type": "logisticsHall",
+      "artId": "native:logisticsHall",
+      "preset": {
+        "id": "logisticsHall",
+        "name": "Plateforme logistique",
+        "w": 70,
+        "h": 42,
+        "parent": "warehouse",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-logisticsHall-1",
+        "type": "logisticsHall",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 70,
+        "h": 42,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 33.7,
+              "h": 0.24
+            },
+            {
+              "x": 36.3,
+              "y": 0,
+              "w": 33.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 41.76,
+              "w": 34,
+              "h": 0.24
+            },
+            {
+              "x": 36,
+              "y": 41.76,
+              "w": 34,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 42
+            },
+            {
+              "x": 69.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 42
+            },
+            {
+              "x": 0.25,
+              "y": 36,
+              "w": 33.55,
+              "h": 0.24
+            },
+            {
+              "x": 36.2,
+              "y": 36,
+              "w": 33.55,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-logisticsHall-1:0:0",
+              "kind": "shelf",
+              "x": 1,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:1",
+              "kind": "shelf",
+              "x": 1,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:2",
+              "kind": "shelf",
+              "x": 1,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:3",
+              "kind": "shelf",
+              "x": 1,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:4",
+              "kind": "shelf",
+              "x": 1,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:5",
+              "kind": "shelf",
+              "x": 1,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:6",
+              "kind": "shelf",
+              "x": 1,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:7",
+              "kind": "shelf",
+              "x": 7,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:8",
+              "kind": "shelf",
+              "x": 7,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:9",
+              "kind": "shelf",
+              "x": 7,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:10",
+              "kind": "shelf",
+              "x": 7,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 20,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:11",
+              "kind": "shelf",
+              "x": 7,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:12",
+              "kind": "shelf",
+              "x": 7,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:13",
+              "kind": "shelf",
+              "x": 7,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:14",
+              "kind": "shelf",
+              "x": 13,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:15",
+              "kind": "shelf",
+              "x": 13,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:16",
+              "kind": "shelf",
+              "x": 13,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 20,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:17",
+              "kind": "shelf",
+              "x": 13,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:18",
+              "kind": "shelf",
+              "x": 13,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:19",
+              "kind": "shelf",
+              "x": 13,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:20",
+              "kind": "shelf",
+              "x": 13,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:21",
+              "kind": "shelf",
+              "x": 19,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:22",
+              "kind": "shelf",
+              "x": 19,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:23",
+              "kind": "shelf",
+              "x": 19,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:24",
+              "kind": "shelf",
+              "x": 19,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:25",
+              "kind": "shelf",
+              "x": 19,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:26",
+              "kind": "shelf",
+              "x": 19,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:27",
+              "kind": "shelf",
+              "x": 19,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 13,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:28",
+              "kind": "shelf",
+              "x": 25,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:29",
+              "kind": "shelf",
+              "x": 25,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:30",
+              "kind": "shelf",
+              "x": 25,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 22,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:31",
+              "kind": "shelf",
+              "x": 25,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:32",
+              "kind": "shelf",
+              "x": 25,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:33",
+              "kind": "shelf",
+              "x": 25,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:34",
+              "kind": "shelf",
+              "x": 25,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:35",
+              "kind": "shelf",
+              "x": 31,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 13,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:36",
+              "kind": "shelf",
+              "x": 31,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:37",
+              "kind": "shelf",
+              "x": 31,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:38",
+              "kind": "shelf",
+              "x": 31,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:39",
+              "kind": "shelf",
+              "x": 31,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:40",
+              "kind": "shelf",
+              "x": 31,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:41",
+              "kind": "shelf",
+              "x": 31,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 9,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:42",
+              "kind": "shelf",
+              "x": 43,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:43",
+              "kind": "shelf",
+              "x": 43,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:44",
+              "kind": "shelf",
+              "x": 43,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:45",
+              "kind": "shelf",
+              "x": 43,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:46",
+              "kind": "shelf",
+              "x": 43,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 20,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:47",
+              "kind": "shelf",
+              "x": 43,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:48",
+              "kind": "shelf",
+              "x": 43,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:49",
+              "kind": "shelf",
+              "x": 49,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 22,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:50",
+              "kind": "shelf",
+              "x": 49,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:51",
+              "kind": "shelf",
+              "x": 49,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:52",
+              "kind": "shelf",
+              "x": 49,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 22,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:53",
+              "kind": "shelf",
+              "x": 49,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:54",
+              "kind": "shelf",
+              "x": 49,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:55",
+              "kind": "shelf",
+              "x": 49,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:56",
+              "kind": "shelf",
+              "x": 55,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:57",
+              "kind": "shelf",
+              "x": 55,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:58",
+              "kind": "shelf",
+              "x": 55,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:59",
+              "kind": "shelf",
+              "x": 55,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:60",
+              "kind": "shelf",
+              "x": 55,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:61",
+              "kind": "shelf",
+              "x": 55,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:62",
+              "kind": "shelf",
+              "x": 55,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:63",
+              "kind": "shelf",
+              "x": 61,
+              "y": 2,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:64",
+              "kind": "shelf",
+              "x": 61,
+              "y": 6.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:65",
+              "kind": "shelf",
+              "x": 61,
+              "y": 11,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:66",
+              "kind": "shelf",
+              "x": 61,
+              "y": 15.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 17,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:67",
+              "kind": "shelf",
+              "x": 61,
+              "y": 20,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:68",
+              "kind": "shelf",
+              "x": 61,
+              "y": 24.5,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:69",
+              "kind": "shelf",
+              "x": 61,
+              "y": 29,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:70",
+              "kind": "workbench",
+              "x": 1.1,
+              "y": 37.15,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:71",
+              "kind": "fuel",
+              "x": 1.1,
+              "y": 38.9,
+              "w": 0.65,
+              "h": 0.5,
+              "a": 0,
+              "resource": "fuel",
+              "amount": 14,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:72",
+              "kind": "desk",
+              "x": 37.6,
+              "y": 37.15,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-logisticsHall-1:0:73",
+              "kind": "crate",
+              "x": 37.6,
+              "y": 38.9,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Bureau"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Réserve technique",
+              "x": 0.5,
+              "y": 36.5,
+              "w": 33,
+              "h": 5
+            },
+            {
+              "name": "Bureau",
+              "x": 37,
+              "y": 36.5,
+              "w": 32.5,
+              "h": 5
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 69.5,
+            "h": 41.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -22
+          },
+          "exit": {
+            "x": 0,
+            "y": 22
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-logisticsHall-1:out:0",
+          "kind": "crate",
+          "x": 2,
+          "y": 47,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 11,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-logisticsHall-1:out:1",
+          "kind": "crate",
+          "x": 5,
+          "y": 47,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 20,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-logisticsHall-1:out:2",
+          "kind": "crate",
+          "x": 8,
+          "y": 47,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 14,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-logisticsHall-1:out:3",
+          "kind": "shelf",
+          "x": 65,
+          "y": 47,
+          "w": 2.4,
+          "h": 0.7,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 15,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "industrial",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "industrial",
+          "variant": 0,
+          "rect": [
+            18,
+            279,
+            359,
+            224
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "industrial",
+          "variant": 1,
+          "rect": [
+            406,
+            284,
+            357,
+            217
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "b424ec2fafe2c26d06545181ea1f1a308700bb3ada7ff798726f4d436807f96c"
+    },
+    {
+      "type": "chapel",
+      "artId": "native:chapel",
+      "preset": {
+        "id": "chapel",
+        "name": "Chapelle et salle commune",
+        "w": 24,
+        "h": 33,
+        "parent": "townhall",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-chapel-2",
+        "type": "chapel",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 24,
+        "h": 33,
+        "levels": [
+          0,
+          1
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 10.7,
+              "h": 0.24
+            },
+            {
+              "x": 13.3,
+              "y": 0,
+              "w": 10.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 32.76,
+              "w": 11,
+              "h": 0.24
+            },
+            {
+              "x": 13,
+              "y": 32.76,
+              "w": 11,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 33
+            },
+            {
+              "x": 23.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 33
+            },
+            {
+              "x": 10.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 9.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 9.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 16.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 25.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 16.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 25.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 0.25,
+              "y": 16.5,
+              "w": 10.35,
+              "h": 0.24
+            },
+            {
+              "x": 13.4,
+              "y": 16.5,
+              "w": 10.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-chapel-2:0:0",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-chapel-2:0:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 13.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 8,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-chapel-2:0:2",
+              "kind": "desk",
+              "x": 14.35,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 14,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-chapel-2:0:3",
+              "kind": "wardrobe",
+              "x": 14.35,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 10,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-chapel-2:0:4",
+              "kind": "shelf",
+              "x": 0.95,
+              "y": 17.4,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Archives"
+            },
+            {
+              "id": "source-native-chapel-2:0:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 29.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 11,
+              "room": "Archives"
+            },
+            {
+              "id": "source-native-chapel-2:0:6",
+              "kind": "table",
+              "x": 14.35,
+              "y": 17.4,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 7,
+              "room": "Conseil"
+            },
+            {
+              "id": "source-native-chapel-2:0:7",
+              "kind": "desk",
+              "x": 14.35,
+              "y": 29.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 16,
+              "room": "Conseil"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Accueil",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 10,
+              "h": 15.5
+            },
+            {
+              "name": "Bureau",
+              "x": 13.75,
+              "y": 0.75,
+              "w": 9.9,
+              "h": 15.5
+            },
+            {
+              "name": "Archives",
+              "x": 0.35,
+              "y": 16.75,
+              "w": 10,
+              "h": 15.5
+            },
+            {
+              "name": "Conseil",
+              "x": 13.75,
+              "y": 16.75,
+              "w": 9.9,
+              "h": 15.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-chapel-2:stairs",
+              "x": 10.95,
+              "y": 29,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 23.5,
+            "h": 32.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -17.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 17.5
+          },
+          "layoutVariant141": "original"
+        },
+        {
+          "z": 1,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 10.7,
+              "h": 0.24
+            },
+            {
+              "x": 13.3,
+              "y": 0,
+              "w": 10.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 32.76,
+              "w": 11,
+              "h": 0.24
+            },
+            {
+              "x": 13,
+              "y": 32.76,
+              "w": 11,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 33
+            },
+            {
+              "x": 23.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 33
+            },
+            {
+              "x": 10.6,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 9.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 0.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 9.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 16.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 10.6,
+              "y": 25.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 16.5,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 13.4,
+              "y": 25.25,
+              "w": 0.24,
+              "h": 7.25
+            },
+            {
+              "x": 0.25,
+              "y": 16.5,
+              "w": 10.35,
+              "h": 0.24
+            },
+            {
+              "x": 13.4,
+              "y": 16.5,
+              "w": 10.35,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-chapel-2:1:0",
+              "kind": "desk",
+              "x": 0.95,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-chapel-2:1:1",
+              "kind": "table",
+              "x": 0.95,
+              "y": 13.65,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 21,
+              "room": "Accueil"
+            },
+            {
+              "id": "source-native-chapel-2:1:2",
+              "kind": "desk",
+              "x": 14.35,
+              "y": 1.4,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 13,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-chapel-2:1:3",
+              "kind": "wardrobe",
+              "x": 14.35,
+              "y": 13.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 8,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-chapel-2:1:4",
+              "kind": "shelf",
+              "x": 0.95,
+              "y": 17.4,
+              "w": 2.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Archives"
+            },
+            {
+              "id": "source-native-chapel-2:1:5",
+              "kind": "wardrobe",
+              "x": 0.95,
+              "y": 29.65,
+              "w": 1.2,
+              "h": 0.65,
+              "a": 0,
+              "resource": "wood",
+              "amount": 19,
+              "room": "Archives"
+            },
+            {
+              "id": "source-native-chapel-2:1:6",
+              "kind": "table",
+              "x": 14.35,
+              "y": 17.4,
+              "w": 1.6,
+              "h": 0.85,
+              "a": 0,
+              "resource": "wood",
+              "amount": 18,
+              "room": "Conseil"
+            },
+            {
+              "id": "source-native-chapel-2:1:7",
+              "kind": "desk",
+              "x": 14.35,
+              "y": 29.65,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Conseil"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Accueil",
+              "x": 0.35,
+              "y": 0.75,
+              "w": 10,
+              "h": 15.5
+            },
+            {
+              "name": "Bureau",
+              "x": 13.75,
+              "y": 0.75,
+              "w": 9.9,
+              "h": 15.5
+            },
+            {
+              "name": "Archives",
+              "x": 0.35,
+              "y": 16.75,
+              "w": 10,
+              "h": 15.5
+            },
+            {
+              "name": "Conseil",
+              "x": 13.75,
+              "y": 16.75,
+              "w": 9.9,
+              "h": 15.5
+            }
+          ],
+          "stairs": [
+            {
+              "id": "source-native-chapel-2:stairs",
+              "x": 10.95,
+              "y": 29,
+              "w": 2.1,
+              "h": 2.9,
+              "levels": [
+                0,
+                1
+              ]
+            }
+          ],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 23.5,
+            "h": 32.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -17.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 17.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-chapel-2:out:0",
+          "kind": "bench",
+          "x": 2,
+          "y": 38,
+          "w": 1.8,
+          "h": 0.65,
+          "a": 0,
+          "resource": "wood",
+          "amount": 10,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-chapel-2:out:1",
+          "kind": "crate",
+          "x": 20,
+          "y": 38,
+          "w": 1.2,
+          "h": 0.8,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 11,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "chapel",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "chapel",
+          "variant": 0,
+          "rect": [
+            747,
+            776,
+            359,
+            197
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "chapel",
+          "variant": 1,
+          "rect": [
+            1146,
+            748,
+            366,
+            225
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "434cd8c33624a718e40f497b9e090ae317e2cc7006e62c79c310ff7c558f8797"
+    },
+    {
+      "type": "waterStation",
+      "artId": "native:waterStation",
+      "preset": {
+        "id": "waterStation",
+        "name": "Station de pompage",
+        "w": 28,
+        "h": 21,
+        "parent": "garage",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "fixture": {
+        "id": "source-native-waterStation-0",
+        "type": "waterStation",
+        "x": 0,
+        "y": 0,
+        "a": 0,
+        "w": 28,
+        "h": 21,
+        "levels": [
+          0
+        ],
+        "generation": 7
+      },
+      "floors": [
+        {
+          "z": 0,
+          "walls": [
+            {
+              "x": 0,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 15.3,
+              "y": 0,
+              "w": 12.7,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 20.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 15,
+              "y": 20.76,
+              "w": 13,
+              "h": 0.24
+            },
+            {
+              "x": 0,
+              "y": 0,
+              "w": 0.24,
+              "h": 21
+            },
+            {
+              "x": 27.76,
+              "y": 0,
+              "w": 0.24,
+              "h": 21
+            },
+            {
+              "x": 0.25,
+              "y": 15,
+              "w": 12.55,
+              "h": 0.24
+            },
+            {
+              "x": 15.2,
+              "y": 15,
+              "w": 12.55,
+              "h": 0.24
+            }
+          ],
+          "objects": [
+            {
+              "id": "source-native-waterStation-0:0:0",
+              "kind": "machine",
+              "x": 1,
+              "y": 2,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 11,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:1",
+              "kind": "machine",
+              "x": 1,
+              "y": 6.5,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 10,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:2",
+              "kind": "machine",
+              "x": 1,
+              "y": 11,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 12,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:3",
+              "kind": "machine",
+              "x": 7,
+              "y": 2,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 8,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:4",
+              "kind": "machine",
+              "x": 7,
+              "y": 6.5,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 19,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:5",
+              "kind": "machine",
+              "x": 7,
+              "y": 11,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 23,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:6",
+              "kind": "machine",
+              "x": 19,
+              "y": 2,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 15,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:7",
+              "kind": "machine",
+              "x": 19,
+              "y": 6.5,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 21,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:8",
+              "kind": "machine",
+              "x": 19,
+              "y": 11,
+              "w": 2.6,
+              "h": 1.6,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Halle"
+            },
+            {
+              "id": "source-native-waterStation-0:0:9",
+              "kind": "workbench",
+              "x": 1.1,
+              "y": 16.15,
+              "w": 2,
+              "h": 0.85,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 7,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-waterStation-0:0:10",
+              "kind": "fuel",
+              "x": 1.1,
+              "y": 17.9,
+              "w": 0.65,
+              "h": 0.5,
+              "a": 0,
+              "resource": "fuel",
+              "amount": 10,
+              "room": "Réserve technique"
+            },
+            {
+              "id": "source-native-waterStation-0:0:11",
+              "kind": "desk",
+              "x": 16.6,
+              "y": 16.15,
+              "w": 1.4,
+              "h": 0.7,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 22,
+              "room": "Bureau"
+            },
+            {
+              "id": "source-native-waterStation-0:0:12",
+              "kind": "crate",
+              "x": 16.6,
+              "y": 17.9,
+              "w": 1.2,
+              "h": 0.8,
+              "a": 0,
+              "resource": "scrap",
+              "amount": 18,
+              "room": "Bureau"
+            }
+          ],
+          "rooms": [
+            {
+              "name": "Réserve technique",
+              "x": 0.5,
+              "y": 15.5,
+              "w": 12,
+              "h": 5
+            },
+            {
+              "name": "Bureau",
+              "x": 16,
+              "y": 15.5,
+              "w": 11.5,
+              "h": 5
+            }
+          ],
+          "stairs": [],
+          "floor": {
+            "x": 0.25,
+            "y": 0.25,
+            "w": 27.5,
+            "h": 20.5
+          },
+          "entry": {
+            "x": 0,
+            "y": -11.5
+          },
+          "exit": {
+            "x": 0,
+            "y": 11.5
+          },
+          "layoutVariant141": "original"
+        }
+      ],
+      "outdoor": [
+        {
+          "id": "source-native-waterStation-0:out:0",
+          "kind": "fuel",
+          "x": -5,
+          "y": 8.4,
+          "w": 0.65,
+          "h": 0.5,
+          "a": 0,
+          "resource": "fuel",
+          "amount": 11,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-waterStation-0:out:1",
+          "kind": "tirePile",
+          "x": 31,
+          "y": 8.4,
+          "w": 1.2,
+          "h": 1.2,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 12,
+          "room": "Cour de service"
+        },
+        {
+          "id": "source-native-waterStation-0:out:2",
+          "kind": "workbench",
+          "x": -5,
+          "y": 12.4,
+          "w": 2,
+          "h": 0.85,
+          "a": 0,
+          "resource": "scrap",
+          "amount": 15,
+          "room": "Cour de service"
+        }
+      ],
+      "roofFamily": "workshop",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 0,
+          "rect": [
+            791,
+            291,
+            342,
+            206
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 1,
+          "rect": [
+            1164,
+            295,
+            353,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "codexFieldInvariantForGeometryOnly": true,
+      "prototypeScope": "Synthetic canonical unmirrored G7 fixture evaluated with the unchanged owners; not a live campaign instance. Native Pxxxx identities and saved records are untouched.",
+      "canonicalPayloadSha256": "6adfa2246f7322f60b8dcfabcfa8569cd2b1743a7aa327b2cdbf541b2d69d081"
+    }
+  ]
+}

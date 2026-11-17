@@ -1,0 +1,720 @@
+{
+  "schemaVersion": 1,
+  "batch": "art231",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Native PNG/IHDR, Pillow decode/verify, RGBA alpha histogram and margins, SHA256; no image writes.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "RGB under alpha=0 is invisible. Low alpha1–7 is reported separately. Alpha>=8 margins do not certify geometry or fidelity.",
+  "finalSpriteCount": 7,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art231/native/studioBlock_petit_collectif.png",
+      "bytes": 1708430,
+      "sha256": "810d9598ba6c4556bec8e68c6371776b3abbec0a9a4bf23ee93554fb6695c079",
+      "width": 1341,
+      "height": 1173,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 823856,
+      "fullyTransparentFraction": 0.5237505824882882,
+      "lowAlphaPixels1to7": 24074,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1311,
+          1173
+        ],
+        "8": [
+          206,
+          189,
+          1136,
+          991
+        ],
+        "32": [
+          207,
+          189,
+          1135,
+          987
+        ],
+        "128": [
+          207,
+          190,
+          1135,
+          981
+        ],
+        "240": [
+          208,
+          191,
+          1134,
+          979
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 30,
+          "bottom": 0
+        },
+        "8": {
+          "left": 206,
+          "top": 189,
+          "right": 205,
+          "bottom": 182
+        },
+        "32": {
+          "left": 207,
+          "top": 189,
+          "right": 206,
+          "bottom": 186
+        },
+        "128": {
+          "left": 207,
+          "top": 190,
+          "right": 206,
+          "bottom": 192
+        },
+        "240": {
+          "left": 208,
+          "top": 191,
+          "right": 207,
+          "bottom": 194
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/longBlock_barre_de_logements.png",
+      "bytes": 1883889,
+      "sha256": "b8bdaf01d22f873d98384ebdd4a6ae7f1ca1d8f4c5eafa5bf27f0fc5c4146873",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 635970,
+      "fullyTransparentFraction": 0.4041656445538652,
+      "lowAlphaPixels1to7": 18980,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          4,
+          1665,
+          887
+        ],
+        "8": [
+          120,
+          149,
+          1659,
+          758
+        ],
+        "32": [
+          121,
+          151,
+          1656,
+          754
+        ],
+        "128": [
+          121,
+          152,
+          1655,
+          749
+        ],
+        "240": [
+          122,
+          153,
+          1654,
+          746
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 4,
+          "right": 109,
+          "bottom": 0
+        },
+        "8": {
+          "left": 120,
+          "top": 149,
+          "right": 115,
+          "bottom": 129
+        },
+        "32": {
+          "left": 121,
+          "top": 151,
+          "right": 118,
+          "bottom": 133
+        },
+        "128": {
+          "left": 121,
+          "top": 152,
+          "right": 119,
+          "bottom": 138
+        },
+        "240": {
+          "left": 122,
+          "top": 153,
+          "right": 120,
+          "bottom": 141
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/residence_grande_residence.png",
+      "bytes": 2230054,
+      "sha256": "b52322ca933a9c8611dfd704b327a64d5acc218ae33feaf3bb6d871192cb6956",
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 656679,
+      "fullyTransparentFraction": 0.4174458135844911,
+      "lowAlphaPixels1to7": 37902,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1250,
+          1199
+        ],
+        "8": [
+          139,
+          155,
+          1171,
+          1024
+        ],
+        "32": [
+          140,
+          156,
+          1171,
+          1020
+        ],
+        "128": [
+          141,
+          157,
+          1170,
+          1016
+        ],
+        "240": [
+          142,
+          158,
+          1169,
+          1014
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 62,
+          "bottom": 0
+        },
+        "8": {
+          "left": 139,
+          "top": 155,
+          "right": 141,
+          "bottom": 175
+        },
+        "32": {
+          "left": 140,
+          "top": 156,
+          "right": 141,
+          "bottom": 179
+        },
+        "128": {
+          "left": 141,
+          "top": 157,
+          "right": 142,
+          "bottom": 183
+        },
+        "240": {
+          "left": 142,
+          "top": 158,
+          "right": 143,
+          "bottom": 185
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/cornerShop_commerce_dangle.png",
+      "bytes": 1345532,
+      "sha256": "723c7c5d3f428440451975d5f82d753d46aa3e0860a1cc6b12cf1e096ddbc64b",
+      "width": 1261,
+      "height": 1247,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1024619,
+      "fullyTransparentFraction": 0.6515996838089448,
+      "lowAlphaPixels1to7": 11134,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          9,
+          1213,
+          1198
+        ],
+        "8": [
+          273,
+          188,
+          970,
+          984
+        ],
+        "32": [
+          273,
+          190,
+          970,
+          982
+        ],
+        "128": [
+          274,
+          190,
+          969,
+          979
+        ],
+        "240": [
+          275,
+          191,
+          969,
+          977
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 9,
+          "right": 48,
+          "bottom": 49
+        },
+        "8": {
+          "left": 273,
+          "top": 188,
+          "right": 291,
+          "bottom": 263
+        },
+        "32": {
+          "left": 273,
+          "top": 190,
+          "right": 291,
+          "bottom": 265
+        },
+        "128": {
+          "left": 274,
+          "top": 190,
+          "right": 292,
+          "bottom": 268
+        },
+        "240": {
+          "left": 275,
+          "top": 191,
+          "right": 292,
+          "bottom": 270
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/superstore_grande_surface.png",
+      "bytes": 2421975,
+      "sha256": "fea1150eedd61e4922008c349462c4450aeb48cb00d121b38ee862bc3984ecde",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 652555,
+      "fullyTransparentFraction": 0.414883295694987,
+      "lowAlphaPixels1to7": 49206,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1535,
+          1024
+        ],
+        "8": [
+          134,
+          170,
+          1406,
+          871
+        ],
+        "32": [
+          136,
+          171,
+          1402,
+          867
+        ],
+        "128": [
+          137,
+          172,
+          1400,
+          862
+        ],
+        "240": [
+          138,
+          172,
+          1399,
+          860
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 1,
+          "bottom": 0
+        },
+        "8": {
+          "left": 134,
+          "top": 170,
+          "right": 130,
+          "bottom": 153
+        },
+        "32": {
+          "left": 136,
+          "top": 171,
+          "right": 134,
+          "bottom": 157
+        },
+        "128": {
+          "left": 137,
+          "top": 172,
+          "right": 136,
+          "bottom": 162
+        },
+        "240": {
+          "left": 138,
+          "top": 172,
+          "right": 137,
+          "bottom": 164
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/cafe_cafe_de_quartier.png",
+      "bytes": 1903732,
+      "sha256": "c1efae61845fe965defd92c1bd9ecac91d3016e6744df5e8c4b30e83a6a95104",
+      "width": 1312,
+      "height": 1199,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 765718,
+      "fullyTransparentFraction": 0.4867610712178848,
+      "lowAlphaPixels1to7": 24665,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1298,
+          1199
+        ],
+        "8": [
+          196,
+          177,
+          1117,
+          1039
+        ],
+        "32": [
+          197,
+          177,
+          1117,
+          1037
+        ],
+        "128": [
+          197,
+          177,
+          1116,
+          1032
+        ],
+        "240": [
+          199,
+          178,
+          1116,
+          1030
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 196,
+          "top": 177,
+          "right": 195,
+          "bottom": 160
+        },
+        "32": {
+          "left": 197,
+          "top": 177,
+          "right": 195,
+          "bottom": 162
+        },
+        "128": {
+          "left": 197,
+          "top": 177,
+          "right": 196,
+          "bottom": 167
+        },
+        "240": {
+          "left": 199,
+          "top": 178,
+          "right": 196,
+          "bottom": 169
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art231/native/bank_agence_bancaire.png",
+      "bytes": 1530064,
+      "sha256": "6b2b71a080fdb58c29f88fbd92958077fbdd75ba7c021ca3622d3d3f4ac10dcd",
+      "width": 1448,
+      "height": 1086,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 918180,
+      "fullyTransparentFraction": 0.583887854461097,
+      "lowAlphaPixels1to7": 38804,
+      "boundsAlphaAtLeast": {
+        "1": [
+          25,
+          39,
+          1430,
+          1086
+        ],
+        "8": [
+          249,
+          240,
+          1203,
+          899
+        ],
+        "32": [
+          251,
+          240,
+          1198,
+          895
+        ],
+        "128": [
+          251,
+          241,
+          1195,
+          891
+        ],
+        "240": [
+          252,
+          242,
+          1193,
+          889
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 25,
+          "top": 39,
+          "right": 18,
+          "bottom": 0
+        },
+        "8": {
+          "left": 249,
+          "top": 240,
+          "right": 245,
+          "bottom": 187
+        },
+        "32": {
+          "left": 251,
+          "top": 240,
+          "right": 250,
+          "bottom": 191
+        },
+        "128": {
+          "left": 251,
+          "top": 241,
+          "right": 253,
+          "bottom": 195
+        },
+        "240": {
+          "left": 252,
+          "top": 242,
+          "right": 255,
+          "bottom": 197
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}
