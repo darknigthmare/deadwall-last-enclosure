@@ -1,0 +1,242 @@
+[
+  {
+    "preparedPath": "references/repository/src/campaign-site-art205.js",
+    "repositoryPath": "src/campaign-site-art205.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+    "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+    "bytes": 44852,
+    "packPath": "references/repository/src/campaign-site-art205.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/codex-furnishings2026.js",
+    "repositoryPath": "src/codex-furnishings2026.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "57648ec1a6e908069734f622eb449166770495d4",
+    "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+    "bytes": 40680,
+    "packPath": "references/repository/src/codex-furnishings2026.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/interior-art153.js",
+    "repositoryPath": "src/interior-art153.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+    "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+    "bytes": 18868,
+    "packPath": "references/repository/src/interior-art153.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/seed-detail-art157.js",
+    "repositoryPath": "src/seed-detail-art157.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "656725ffab51afa8dc70653748efabf4defa8419",
+    "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+    "bytes": 25806,
+    "packPath": "references/repository/src/seed-detail-art157.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/world-props-art153.js",
+    "repositoryPath": "src/world-props-art153.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+    "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+    "bytes": 21665,
+    "packPath": "references/repository/src/world-props-art153.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/world-variants158.js",
+    "repositoryPath": "src/world-variants158.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "90faf681eb06c0cf5c3795e53946fad862503c4b",
+    "sha256": "fd131b78b25398bed75de226b8c7d46e4b6547b08d429fc3e888efc6948718db",
+    "bytes": 12786,
+    "packPath": "references/repository/src/world-variants158.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/src/codex-layouts2026.js",
+    "repositoryPath": "src/codex-layouts2026.js",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+    "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+    "bytes": 311787,
+    "packPath": "references/repository/src/codex-layouts2026.js",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/scripts/codex-residential2026.cjs",
+    "repositoryPath": "scripts/codex-residential2026.cjs",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "731bf90160f921aee9b4550b6846d976a943b4b3",
+    "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+    "bytes": 17963,
+    "packPath": "references/repository/scripts/codex-residential2026.cjs",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/scripts/codex-world-foundations2026.cjs",
+    "repositoryPath": "scripts/codex-world-foundations2026.cjs",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+    "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+    "bytes": 19639,
+    "packPath": "references/repository/scripts/codex-world-foundations2026.cjs",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+    "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+    "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+    "bytes": 9436,
+    "packPath": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/GAME_BIBLE.md",
+    "repositoryPath": "docs/GAME_BIBLE.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "f13043eae6cad2d009c9287c80f02b6bfb926ef7",
+    "sha256": "3f6f48befcd5408e03ab4ed0c79a68a040cac48c09f087545e334f0b3c738890",
+    "bytes": 98486,
+    "packPath": "references/repository/docs/GAME_BIBLE.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art153/props-yard.png",
+    "repositoryPath": "assets/art153/props-yard.png",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "ed3d23edb190584560287cf39b1bceae3b635ecb",
+    "sha256": "ca1039feaf685e05341bb8b20da56049de409dbf11a3450de042de507288a35c",
+    "bytes": 2554149,
+    "packPath": "references/repository/assets/art153/props-yard.png",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art153/PROPS_PROVENANCE.json",
+    "repositoryPath": "assets/art153/PROPS_PROVENANCE.json",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "8ed32a67a5b514ca8e6c4b8a09a4a0e4e42645b5",
+    "sha256": "b6e8aa735f723d82e14824f5114daaa60372f1836ba019a55ccf921a5adce107",
+    "bytes": 38737,
+    "packPath": "references/repository/assets/art153/PROPS_PROVENANCE.json",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art157/yard-atlas.png",
+    "repositoryPath": "assets/art157/yard-atlas.png",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "d3f0b43f144d3a13e1949ec87b642857a64cad39",
+    "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+    "bytes": 2018982,
+    "packPath": "references/repository/assets/art157/yard-atlas.png",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art157/PROVENANCE.json",
+    "repositoryPath": "assets/art157/PROVENANCE.json",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "75fd837aac8d9d7bb0398533aa601e49c47e1fd8",
+    "sha256": "381ed20c4e2e6fe09ba1d8d0d20173a3f0f0875dd02309dd7bb6ed93fb2bb4f2",
+    "bytes": 114883,
+    "packPath": "references/repository/assets/art157/PROVENANCE.json",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art158/details.png",
+    "repositoryPath": "assets/art158/details.png",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "97efcb38976e839ff502fee9cd30255efdc47c4b",
+    "sha256": "f2885adc46fbf9616b49a28eb5b3f1ea72d5625f9be2838b345cd0e6025e59cf",
+    "bytes": 1843048,
+    "packPath": "references/repository/assets/art158/details.png",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/assets/art158/PROVENANCE.json",
+    "repositoryPath": "assets/art158/PROVENANCE.json",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "8cd13996f4b0d22b86304dbe2ccb497d62d88a18",
+    "sha256": "a0db76f012817a3eac49e8283e1b9d52bff172b833ec3553c914de987c592df4",
+    "bytes": 30752,
+    "packPath": "references/repository/assets/art158/PROVENANCE.json",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/AGENTS.md",
+    "repositoryPath": "AGENTS.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "9fc35b328129aa19d57642dd6f78b913b94f17aa",
+    "sha256": "7d02c6bd7f9c6a8e04c4c18680f9539109ecbc943f240de12a536ab9a8a8ab13",
+    "bytes": 4190,
+    "packPath": "references/repository/AGENTS.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/ORIGINAL_BRIEF.txt",
+    "repositoryPath": "docs/ORIGINAL_BRIEF.txt",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "4a1d493b07b8094dbaabd21b2682615f7a372af5",
+    "sha256": "64fe23e910f065cdd6ce4f8f84fcc8efd6894d923122c086cd7b16f599492297",
+    "bytes": 1283,
+    "packPath": "references/repository/docs/ORIGINAL_BRIEF.txt",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/GAME_DESIGN.md",
+    "repositoryPath": "docs/GAME_DESIGN.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "31bca14159be0eac8986c8e50540936e9482b8e9",
+    "sha256": "3f5ce6afc19ca49f5ffe239eee67b7258078098e8d0477a5ef62fd2fc8fd65f9",
+    "bytes": 15746,
+    "packPath": "references/repository/docs/GAME_DESIGN.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/ARCHITECTURE.md",
+    "repositoryPath": "docs/ARCHITECTURE.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "63b12166f52109d70bf95637b48a96c23f8260fc",
+    "sha256": "880657b6abfc044a3ef534d8a092ad9a20ad3a0a2a9024bdbbea6642d8eb3f3c",
+    "bytes": 57076,
+    "packPath": "references/repository/docs/ARCHITECTURE.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/BALANCING.md",
+    "repositoryPath": "docs/BALANCING.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "1b668d20d6e60c7cb05c721e37d396d4a05f5781",
+    "sha256": "5caf2749d57201a01f9aafa80de8a3e70e0579a01895283e6d5b05abdc526088",
+    "bytes": 37720,
+    "packPath": "references/repository/docs/BALANCING.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+    "repositoryPath": "docs/CODEX_MASTER_PROMPT.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "1b15347772ed2da3b22cd33fe572792255db9d51",
+    "sha256": "9c0280c574ad13d7ba03cb4391713411e8eb8fcdbcc4cc94f2609f277c727c6d",
+    "bytes": 5269,
+    "packPath": "references/repository/docs/CODEX_MASTER_PROMPT.md",
+    "exactGitBaseBytesVerified": true
+  },
+  {
+    "preparedPath": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+    "repositoryPath": "docs/GAMEDEV_GUIDANCE.md",
+    "revision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "gitBlob": "922952410a6d7efa4eb28c48fc1b4101457e1e55",
+    "sha256": "0b2df8233ea2c49ff0c1fd959cf43bac8d1245fb6900334e42cb541b0d2f0144",
+    "bytes": 24935,
+    "packPath": "references/repository/docs/GAMEDEV_GUIDANCE.md",
+    "exactGitBaseBytesVerified": true
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "touring-caravan:v1": {
+    "key": "touring-caravan:v1",
+    "id": "prop:touring-caravan:v1",
+    "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.804318+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Canonical and native candidate were inspected in the preceding uninterrupted review: complete vertical chamfered closed shell, upward hitch, four wheels at two widely separated longitudinal stations, two closed roof panels and central frame with two longitudinal highlights. Rounded wheels, bevels and texture interpret the source geometry.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "touring-caravan:v2": {
+    "key": "touring-caravan:v2",
+    "id": "prop:touring-caravan:v2",
+    "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.805061+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Canonical and native candidate were inspected in the preceding uninterrupted review: complete closed shell, upward hitch and four wheels, one upper central closed panel, long left strip, lower-right wooden patch with one diagonal. Canonical asymmetry and colour family retained.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "abandoned-caravan:v1": {
+    "key": "abandoned-caravan:v1",
+    "id": "prop:abandoned-caravan:v1",
+    "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+    "iteration": 2,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.805575+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and iteration 2 inspected: closed complete shell, upward hitch, four wheels, two closed panels and central frame retained. Rust and zigzag cracking now read as surface damage rather than new raised straps. Fine branching cracks and weathering remain interpretative.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "abandoned-caravan:v2": {
+    "key": "abandoned-caravan:v2",
+    "id": "prop:abandoned-caravan:v2",
+    "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+    "iteration": 3,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.806115+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and iteration 3 inspected: closed complete shell, upward hitch, four wheels, central panel, long left strip extended upwards, lower-right wooden patch and diagonal retained. Rust and cracks now appear as surface damage; no newly exposed interior or added utility.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  }
+}

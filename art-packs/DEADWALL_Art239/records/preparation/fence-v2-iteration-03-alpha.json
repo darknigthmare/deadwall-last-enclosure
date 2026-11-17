@@ -1,0 +1,103 @@
+{
+  "key": "fence:v2",
+  "iteration": 3,
+  "path": "/workspace/scratch/6f470a892a0f/art239-prep/outputs/iteration-03/fence_cloture_croisillons_metal_v2.png",
+  "originalGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-99d7b7f3-19ab-432f-bfa3-b78b22622947.png",
+  "sha256": "2f871f6f1d70b64ecb99842a8cd03413c9ed049b3e19ffa45444d13cb1d3b78f",
+  "bytes": 162683,
+  "width": 1402,
+  "height": 1122,
+  "mode": "RGBA",
+  "alphaExtrema": [
+    0,
+    255
+  ],
+  "fullyTransparentPixels": 1519324,
+  "alpha1Pixels": 8612,
+  "alpha2to7Pixels": 9340,
+  "lowAlpha1to7Pixels": 17952,
+  "alpha8to31Pixels": 5150,
+  "alpha32to127Pixels": 4507,
+  "alpha128to254Pixels": 26090,
+  "alpha255Pixels": 21,
+  "boundsAlphaAtLeast": {
+    "1": [
+      134,
+      53,
+      1358,
+      1082
+    ],
+    "2": [
+      204,
+      535,
+      1199,
+      591
+    ],
+    "8": [
+      206,
+      537,
+      1196,
+      587
+    ],
+    "32": [
+      206,
+      538,
+      1196,
+      586
+    ],
+    "128": [
+      207,
+      538,
+      1195,
+      586
+    ],
+    "240": [
+      208,
+      539,
+      1195,
+      585
+    ]
+  },
+  "marginFractionsAlphaAtLeast": {
+    "1": [
+      0.09557774607703282,
+      0.04723707664884135,
+      0.03138373751783167,
+      0.035650623885918005
+    ],
+    "2": [
+      0.14550641940085593,
+      0.4768270944741533,
+      0.144793152639087,
+      0.4732620320855615
+    ],
+    "8": [
+      0.14693295292439373,
+      0.4786096256684492,
+      0.14693295292439373,
+      0.4768270944741533
+    ],
+    "32": [
+      0.14693295292439373,
+      0.47950089126559714,
+      0.14693295292439373,
+      0.47771836007130125
+    ],
+    "128": [
+      0.14764621968616262,
+      0.47950089126559714,
+      0.14764621968616262,
+      0.47771836007130125
+    ],
+    "240": [
+      0.14835948644793154,
+      0.4803921568627451,
+      0.14764621968616262,
+      0.4786096256684492
+    ]
+  },
+  "borderAlphaMaximum": 0,
+  "readOnlyDecode": true,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingPerformed": false
+}

@@ -1,0 +1,62 @@
+{
+  "compost-bin:v1": {
+    "key": "compost-bin:v1",
+    "id": "prop:compost-bin:v1",
+    "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.795646+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and candidate inspected: square overhead timber frame, four longitudinal members including the sides, one descending diagonal, nine organic clusters under partial occlusion. Small corner fasteners and leaf textures are interpretative surface detail.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "compost-bin:v2": {
+    "key": "compost-bin:v2",
+    "id": "prop:compost-bin:v2",
+    "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.801715+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and candidate inspected: square frame, two horizontal metal bands, left partial wooden cover with four contained short seams, six visible organic clusters on the right. No v1 diagonal or full-width lid.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "closed-pool:v1": {
+    "key": "closed-pool:v1",
+    "id": "prop:closed-pool:v1",
+    "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.802360+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and candidate inspected: rectangular exterior and water, two longitudinal lines, right-hand ladder in lower half, five organic groups. Stone joints, rust and water/leaf texture are interpretation of the canonical surfaces.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  },
+  "closed-pool:v2": {
+    "key": "closed-pool:v2",
+    "id": "prop:closed-pool:v2",
+    "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+    "iteration": 1,
+    "reviewer": "root",
+    "reviewedAtUtc": "2026-11-17T15:21:58.802972+00:00",
+    "decision": "accepted_source_art_proposal",
+    "observation": "Paired canonical and candidate inspected: rectangular exterior and eight-sided water opening, ladder in right upper half, a single bent line on the left, five organic groups. Relative arrangement preserved; texture and fine geometry are not pixel-identical.",
+    "nativeOutputBytesPreserved": true,
+    "sourceGeometryCertification": false,
+    "metricOneToOneCertified": false,
+    "pixelOneToOneCertified": false,
+    "limitations": "Visual source proposal only. Texture, bevels, fasteners, alpha edge pixels and exact metric calibration remain subject to later integration review; no runtime integration or new gameplay state is asserted."
+  }
+}

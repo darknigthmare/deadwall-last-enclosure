@@ -1,0 +1,368 @@
+[
+  {
+    "key": "compost-bin:v1",
+    "id": "prop:compost-bin:v1",
+    "kind": "compost-bin",
+    "name": "Composteur de jardin — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/compost-bin_v1.png",
+      "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf"
+    },
+    "canonicalReplay": {
+      "id": "prop:compost-bin:v1",
+      "key": "compost-bin:v1",
+      "canonicalSha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+      "replaySha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+      "bytes": 28111,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanVariant": 1,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        1,
+        1
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+          "repositoryPath": "assets/art157/yard-atlas.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "materials-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "kind": "compost-bin",
+      "x": 41,
+      "y": 62.4,
+      "w": 1,
+      "h": 1,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 1,
+      "h": 1,
+      "heightM": 1,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing Art157 generic compost images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v1 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration.",
+    "runtimeIdentity": "compost-bin",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/compost-bin_v1.png",
+        "relativePath": "references/canonical/compost-bin_v1.png",
+        "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+        "role": "canonical-geometry"
+      },
+      {
+        "path": "references/repository/assets/art157/yard-atlas.png",
+        "relativePath": "references/repository/assets/art157/yard-atlas.png",
+        "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+        "role": "materials-only"
+      }
+    ]
+  },
+  {
+    "key": "compost-bin:v2",
+    "id": "prop:compost-bin:v2",
+    "kind": "compost-bin",
+    "name": "Composteur de jardin — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/compost-bin_v2.png",
+      "sha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab"
+    },
+    "canonicalReplay": {
+      "id": "prop:compost-bin:v2",
+      "key": "compost-bin:v2",
+      "canonicalSha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+      "replaySha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+      "bytes": 16476,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V01",
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanVariant": 1,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        1,
+        1
+      ],
+      "heightAuthorMetres": 1,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+          "repositoryPath": "assets/art157/yard-atlas.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "materials-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+    "sourcePlanId": "EXT-MONDE-T045-V01",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "kind": "compost-bin",
+      "x": 41,
+      "y": 62.4,
+      "w": 1,
+      "h": 1,
+      "maxHeightM": 1,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "not-built",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "parcelId": "EXT-MONDE-T045-V01:parcel:0"
+    },
+    "dimensions": {
+      "w": 1,
+      "h": 1,
+      "heightM": 1,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "existingAnalogue": "Existing Art157 generic compost images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v2 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration.",
+    "runtimeIdentity": "compost-bin",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/compost-bin_v2.png",
+        "relativePath": "references/canonical/compost-bin_v2.png",
+        "sha256": "d8d41028c0b5f054ca8a71936f47a4e38d6d6e5bdf4274c2e4b823044b81f1ab",
+        "role": "canonical-geometry"
+      },
+      {
+        "path": "references/repository/assets/art157/yard-atlas.png",
+        "relativePath": "references/repository/assets/art157/yard-atlas.png",
+        "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+        "role": "materials-only"
+      }
+    ]
+  },
+  {
+    "key": "closed-pool:v1",
+    "id": "prop:closed-pool:v1",
+    "kind": "closed-pool",
+    "name": "Bassin fermé — variante 1",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/closed-pool_v1.png",
+      "sha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe"
+    },
+    "canonicalReplay": {
+      "id": "prop:closed-pool:v1",
+      "key": "closed-pool:v1",
+      "canonicalSha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+      "replaySha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+      "bytes": 10409,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V21",
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanVariant": 21,
+      "painterVariant": 1,
+      "canonicalVariant": 1,
+      "footprintAuthorMetres": [
+        8,
+        12
+      ],
+      "heightAuthorMetres": 0.4,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+          "repositoryPath": "assets/art157/yard-atlas.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "materials-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+    "sourcePlanId": "EXT-MONDE-T045-V21",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V21:communal-pool",
+      "kind": "closed-pool",
+      "x": 73,
+      "y": 50,
+      "w": 8,
+      "h": 12,
+      "maxHeightM": 0.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "water-basin-closed",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "depthM": 1.4,
+      "walkable": false,
+      "waterPotable": false
+    },
+    "dimensions": {
+      "w": 8,
+      "h": 12,
+      "heightM": 0.4,
+      "depthM": 1.4,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 21,
+    "existingAnalogue": "Existing Art157 generic pool images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v1 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration.",
+    "runtimeIdentity": "closed-pool",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/closed-pool_v1.png",
+        "relativePath": "references/canonical/closed-pool_v1.png",
+        "sha256": "f699e4f65d895fbd7102e67f296113603e41d814ca6a63ca9d02ddf87a0a00fe",
+        "role": "canonical-geometry"
+      },
+      {
+        "path": "references/repository/assets/art157/yard-atlas.png",
+        "relativePath": "references/repository/assets/art157/yard-atlas.png",
+        "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+        "role": "materials-only"
+      }
+    ]
+  },
+  {
+    "key": "closed-pool:v2",
+    "id": "prop:closed-pool:v2",
+    "kind": "closed-pool",
+    "name": "Bassin fermé — variante 2",
+    "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+    "canonicalReference": {
+      "path": "references/canonical/closed-pool_v2.png",
+      "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b"
+    },
+    "canonicalReplay": {
+      "id": "prop:closed-pool:v2",
+      "key": "closed-pool:v2",
+      "canonicalSha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+      "replaySha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+      "bytes": 16241,
+      "replayedBytesIdentical": true,
+      "entryPoint": "campaign-site-art205.drawProp",
+      "sourcePlanId": "EXT-MONDE-T045-V21",
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanVariant": 21,
+      "painterVariant": 2,
+      "canonicalVariant": 2,
+      "footprintAuthorMetres": [
+        8,
+        12
+      ],
+      "heightAuthorMetres": 0.4,
+      "sourceFixtureAndOptionsUnchanged": true,
+      "gameArgumentOmitted": true,
+      "rngCalls": 0,
+      "styleBindings": [
+        {
+          "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+          "repositoryPath": "assets/art157/yard-atlas.png",
+          "verifiedAtRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+          "role": "materials-only",
+          "existingImageNotNewGeneration": true
+        }
+      ]
+    },
+    "deliveryStatus": "accepted-source-art-proposal",
+    "runtimeIntegrationPerformed": false,
+    "newGameplayPlacementCreated": false,
+    "route": "structural205",
+    "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+    "sourcePlanId": "EXT-MONDE-T045-V21",
+    "sourceType": "EXT-MONDE-T045",
+    "sourceObject": {
+      "id": "EXT-MONDE-T045-V21:communal-pool",
+      "kind": "closed-pool",
+      "x": 73,
+      "y": 50,
+      "w": 8,
+      "h": 12,
+      "maxHeightM": 0.4,
+      "heightOrigin": "author-design",
+      "footprintOrigin": "author-design",
+      "interiorStatus": "water-basin-closed",
+      "lootAssigned": false,
+      "utilityConnected": false,
+      "depthM": 1.4,
+      "walkable": false,
+      "waterPotable": false
+    },
+    "dimensions": {
+      "w": 8,
+      "h": 12,
+      "heightM": 0.4,
+      "depthM": 1.4,
+      "units": "metres",
+      "authority": "author-design"
+    },
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 21,
+    "existingAnalogue": "Existing Art157 generic pool images and Art238 painter-v0 source proposal remain available. This is an explicitly requested existing painter-v2 proposal; it does not imply an invisible object, a missing gameplay feature, or runtime integration.",
+    "runtimeIdentity": "closed-pool",
+    "referenceFiles": [
+      {
+        "path": "references/canonical/closed-pool_v2.png",
+        "relativePath": "references/canonical/closed-pool_v2.png",
+        "sha256": "86acdb271d95ed15123e34536e214a0cadbc41d58dd375414cbf055fead3670b",
+        "role": "canonical-geometry"
+      },
+      {
+        "path": "references/repository/assets/art157/yard-atlas.png",
+        "relativePath": "references/repository/assets/art157/yard-atlas.png",
+        "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+        "role": "materials-only"
+      }
+    ]
+  }
+]

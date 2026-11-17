@@ -1,0 +1,35 @@
+{
+  "key": "compost-bin:v1",
+  "id": "prop:compost-bin:v1",
+  "artId": "prop:compost-bin:v1",
+  "iteration": 1,
+  "requestedAt": "2026-11-17 15:08:00 UTC",
+  "tool": "image_gen.imagegen",
+  "arguments": {
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source sprite, one complete isolated Composteur de jardin — variante 1.\nINPUTS: Image 1 is the authoritative geometry/layout reference rendered by the unchanged game public painter for this exact authored fixture, painter variant 1. Image 2 is MATERIAL AND PAINTERLY STYLE ONLY from the original game atlas; ignore its camera angles, other sprites, grid and background.\nCAMERA AND SHAPE: strict orthographic overhead plan, looking vertically downward. Follow image 1 exactly: X points right and Y points down. Preserve its orientation, silhouette, footprint aspect ratio, part count, positions and occlusions. No tilted isometric view or tall exposed facade.\nSUBJECT: One complete almost-square timber compost bin in strict overhead plan. Preserve its thick wooden perimeter, dark interior, FOUR vertical wooden members at the exact canonical x positions, and ONE diagonal wooden brace running from upper left to lower right. The nine small source matter clusters are arranged in three rows and three columns beneath this structure; respect the partial occlusions by the members and brace. Render the visible matter as irregular small dry leaves and twig scraps in subdued brown and olive, with no painted oval tokens or fresh plants. Keep the framing and relative member widths in image 1. No horizontal full-width slats replacing the four vertical members, no crossed double brace, tools, sack, full lid, tall legs, insects, steam or loose ground pile.\nAUTHOR DESIGN ENVELOPE: 1 m across X by 1 m along Y, separate maximum height 1 m. These are game-author design values, not manufacturer measurements. Keep the existing metric proportions; do not redesign the object to fill the canvas.\nMATERIALS: grounded serious post-apocalyptic game, restrained detailed hand-painted pre-rendered source art. Follow the canonical variant palette with weathered wood, dull metal and worn stone as applicable; modest grain, small scuffs and soft neutral overhead light. Keep major structural features readable. Idle and unattended, no invented damage or new activity.\nOUTPUT: ONE whole object only on true transparent RGBA. Centre the complete silhouette with at least 12 percent clear transparent margin on every side. No crop, detached objects, external ground shadow, ground plane, background scene, UI, lettering, dimensions, logo or watermark. Preserve all thin components. This is a source-art proposal for later calibration, not a claim of metric or pixel-for-pixel certification.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/compost-bin_v1.png",
+      "/workspace/scratch/6f470a892a0f/art240-prep/references/repository/assets/art157/yard-atlas.png"
+    ],
+    "transparent_background": true
+  },
+  "referenceFiles": [
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art240-prep/references/canonical/compost-bin_v1.png",
+      "relativePath": "references/canonical/compost-bin_v1.png",
+      "sha256": "c9f292fe49a83e47d24d6598db7cd5a0b02461baa8bd55219221a99feeb63caf",
+      "role": "canonical-geometry"
+    },
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art240-prep/references/repository/assets/art157/yard-atlas.png",
+      "relativePath": "references/repository/assets/art157/yard-atlas.png",
+      "sha256": "bc59caf35959c0074987e50d4a2059f63e0e17d8725d21e6b1a0b8a2ffcff6b1",
+      "role": "materials-only"
+    }
+  ],
+  "inspection": {
+    "performed": true,
+    "canonical": "Four vertical members and one top-left to bottom-right brace; nine source matter marks beneath, with the diagonal occluding three of them. Entire canonical frame visible.",
+    "style": "Original Art157 yard atlas inspected; material/style role only."
+  }
+}

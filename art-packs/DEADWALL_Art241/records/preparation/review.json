@@ -1,0 +1,506 @@
+{
+  "touring-caravan:v1": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+    "iteration": 1,
+    "reviewedBy": "prepare_main236 — inspection visuelle des canoniques, des références Art235 et des sorties natives",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "kind": "touring-caravan",
+    "id": "prop:touring-caravan:v1",
+    "artId": "prop:touring-caravan:v1",
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+    "observation": "Canonique et sortie comparés : coque fermée et inoccupée en vue zénithale, axe long vertical et attelage vers le haut. Quatre roues visibles à deux positions espacées. Deux panneaux de toit fermés et grand cadre central avec deux lignes claires intérieures conservés ; palette froide crème et gris bleuté. Aucun intérieur ou signe de fonctionnement.",
+    "alphaAudit": {
+      "key": "touring-caravan:v1",
+      "iteration": 1,
+      "file": "outputs/iteration-01/touring-caravan_v1.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064,
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1080025,
+      "fullyTransparentFraction": 0.6863672818832466,
+      "lowAlpha1to7Pixels": 14898,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          21,
+          867,
+          1741
+        ],
+        "8": [
+          219,
+          194,
+          668,
+          1494
+        ],
+        "32": [
+          219,
+          195,
+          668,
+          1492
+        ],
+        "128": [
+          220,
+          195,
+          667,
+          1491
+        ],
+        "240": [
+          221,
+          196,
+          666,
+          1490
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 21,
+          "right": 20,
+          "bottom": 33
+        },
+        "8": {
+          "left": 219,
+          "top": 194,
+          "right": 219,
+          "bottom": 280
+        },
+        "32": {
+          "left": 219,
+          "top": 195,
+          "right": 219,
+          "bottom": 282
+        },
+        "128": {
+          "left": 220,
+          "top": 195,
+          "right": 220,
+          "bottom": 283
+        },
+        "240": {
+          "left": 221,
+          "top": 196,
+          "right": 221,
+          "bottom": 284
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition source uniquement : aucune intégration runtime, calibration de pivot ou échelle raster réalisée.",
+      "Les cotes 2,4 × 6,2 m et hauteur 2,8 m sont des enveloppes auteur ; aucune certification métrique 1:1 ou égalité pixel à pixel.",
+      "Les trois variantes du peintre sont distinctes de la variante V01 du plan résidentiel. Ces quatre images ajoutent des variantes de deux familles existantes, pas de nouveaux types.",
+      "Les marges natives au seuil alpha≥8 mesurent au moins 10,7 % verticalement, malgré la demande initiale 12 %. Les silhouettes et pièces ne sont pas coupées. Des pixels d’alpha 1/255 touchent certains bords ; aucun nettoyage, recadrage ni réencodage local.",
+      "Le relief subtil, le grain et les reflets sont des interprétations de matière. Les fissures et la rouille des caravanes abandonnées décrivent une usure décorative sans nouvelle collision ni état sauvegardé."
+    ],
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "notRuntimeIntegrated": true,
+    "pixelEditingPerformed": false,
+    "rootApprovalRequiredBeforeAssembly": true
+  },
+  "touring-caravan:v2": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+    "iteration": 1,
+    "reviewedBy": "prepare_main236 — inspection visuelle des canoniques, des références Art235 et des sorties natives",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "kind": "touring-caravan",
+    "id": "prop:touring-caravan:v2",
+    "artId": "prop:touring-caravan:v2",
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+    "observation": "Canonique et sortie comparés : coque fermée en vue zénithale, quatre roues espacées, attelage complet. Un panneau fermé central, une bande métallique longitudinale à gauche remontant au-dessus du panneau et un patch de bois rectangulaire avec diagonale en partie basse droite. Les trois éléments distinguent la variante 2 de la v0 et de la v1 ; aucune charge mobile ajoutée.",
+    "alphaAudit": {
+      "key": "touring-caravan:v2",
+      "iteration": 1,
+      "file": "outputs/iteration-01/touring-caravan_v2.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407,
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1067551,
+      "fullyTransparentFraction": 0.6784399232811664,
+      "lowAlpha1to7Pixels": 16263,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          878,
+          1774
+        ],
+        "8": [
+          215,
+          196,
+          672,
+          1495
+        ],
+        "32": [
+          217,
+          196,
+          671,
+          1495
+        ],
+        "128": [
+          217,
+          197,
+          670,
+          1494
+        ],
+        "240": [
+          218,
+          197,
+          669,
+          1493
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 9,
+          "bottom": 0
+        },
+        "8": {
+          "left": 215,
+          "top": 196,
+          "right": 215,
+          "bottom": 279
+        },
+        "32": {
+          "left": 217,
+          "top": 196,
+          "right": 216,
+          "bottom": 279
+        },
+        "128": {
+          "left": 217,
+          "top": 197,
+          "right": 217,
+          "bottom": 280
+        },
+        "240": {
+          "left": 218,
+          "top": 197,
+          "right": 218,
+          "bottom": 281
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition source uniquement : aucune intégration runtime, calibration de pivot ou échelle raster réalisée.",
+      "Les cotes 2,4 × 6,2 m et hauteur 2,8 m sont des enveloppes auteur ; aucune certification métrique 1:1 ou égalité pixel à pixel.",
+      "Les trois variantes du peintre sont distinctes de la variante V01 du plan résidentiel. Ces quatre images ajoutent des variantes de deux familles existantes, pas de nouveaux types.",
+      "Les marges natives au seuil alpha≥8 mesurent au moins 10,7 % verticalement, malgré la demande initiale 12 %. Les silhouettes et pièces ne sont pas coupées. Des pixels d’alpha 1/255 touchent certains bords ; aucun nettoyage, recadrage ni réencodage local.",
+      "Le relief subtil, le grain et les reflets sont des interprétations de matière. Les fissures et la rouille des caravanes abandonnées décrivent une usure décorative sans nouvelle collision ni état sauvegardé."
+    ],
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "notRuntimeIntegrated": true,
+    "pixelEditingPerformed": false,
+    "rootApprovalRequiredBeforeAssembly": true
+  },
+  "abandoned-caravan:v1": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+    "iteration": 2,
+    "reviewedBy": "prepare_main236 — inspection visuelle des canoniques, des références Art235 et des sorties natives",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v1",
+    "artId": "prop:abandoned-caravan:v1",
+    "canonicalVariant": 1,
+    "painterVariant": 1,
+    "sourcePlanVariant": 1,
+    "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+    "observation": "Itération 2 retenue après correction ciblée : les anciennes barres en zigzag sont devenues des fissures fines de surface et les pièces brunes sont devenues des plages irrégulières de corrosion sur le toit. Les deux panneaux fermés, le cadre central, les quatre roues et l’attelage restent lisibles, dans la palette froide du canonique. La coque évacuée reste complète et fermée.",
+    "alphaAudit": {
+      "key": "abandoned-caravan:v1",
+      "iteration": 2,
+      "file": "outputs/iteration-02/abandoned-caravan_v1.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005,
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1068521,
+      "fullyTransparentFraction": 0.6790563685147737,
+      "lowAlpha1to7Pixels": 8271,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          37,
+          863,
+          1750
+        ],
+        "8": [
+          210,
+          191,
+          678,
+          1498
+        ],
+        "32": [
+          210,
+          191,
+          677,
+          1497
+        ],
+        "128": [
+          211,
+          191,
+          677,
+          1497
+        ],
+        "240": [
+          211,
+          192,
+          676,
+          1496
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 37,
+          "right": 24,
+          "bottom": 24
+        },
+        "8": {
+          "left": 210,
+          "top": 191,
+          "right": 209,
+          "bottom": 276
+        },
+        "32": {
+          "left": 210,
+          "top": 191,
+          "right": 210,
+          "bottom": 277
+        },
+        "128": {
+          "left": 211,
+          "top": 191,
+          "right": 210,
+          "bottom": 277
+        },
+        "240": {
+          "left": 211,
+          "top": 192,
+          "right": 211,
+          "bottom": 278
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition source uniquement : aucune intégration runtime, calibration de pivot ou échelle raster réalisée.",
+      "Les cotes 2,4 × 6,2 m et hauteur 2,8 m sont des enveloppes auteur ; aucune certification métrique 1:1 ou égalité pixel à pixel.",
+      "Les trois variantes du peintre sont distinctes de la variante V01 du plan résidentiel. Ces quatre images ajoutent des variantes de deux familles existantes, pas de nouveaux types.",
+      "Les marges natives au seuil alpha≥8 mesurent au moins 10,7 % verticalement, malgré la demande initiale 12 %. Les silhouettes et pièces ne sont pas coupées. Des pixels d’alpha 1/255 touchent certains bords ; aucun nettoyage, recadrage ni réencodage local.",
+      "Le relief subtil, le grain et les reflets sont des interprétations de matière. Les fissures et la rouille des caravanes abandonnées décrivent une usure décorative sans nouvelle collision ni état sauvegardé."
+    ],
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "notRuntimeIntegrated": true,
+    "pixelEditingPerformed": false,
+    "rootApprovalRequiredBeforeAssembly": true
+  },
+  "abandoned-caravan:v2": {
+    "decision": "accepted_source_art_proposal",
+    "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+    "iteration": 3,
+    "reviewedBy": "prepare_main236 — inspection visuelle des canoniques, des références Art235 et des sorties natives",
+    "reviewedOn": "2026-11-17",
+    "timezone": "Europe/Paris",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v2",
+    "artId": "prop:abandoned-caravan:v2",
+    "canonicalVariant": 2,
+    "painterVariant": 2,
+    "sourcePlanVariant": 1,
+    "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+    "observation": "Itération 3 retenue : corrosion et fissures sont des marques superficielles, pas des accessoires rapportés. La bande métallique gauche remonte désormais nettement au-dessus du panneau central, selon le canonique. Le patch de bois inférieur droit et sa diagonale restent présents, ainsi que les quatre roues espacées et l’attelage haut. Palette gris olive ; aucune ouverture ou activité ajoutée.",
+    "alphaAudit": {
+      "key": "abandoned-caravan:v2",
+      "iteration": 3,
+      "file": "outputs/iteration-03/abandoned-caravan_v2.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029,
+      "width": 887,
+      "height": 1774,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1065631,
+      "fullyTransparentFraction": 0.6772197430249539,
+      "lowAlpha1to7Pixels": 6117,
+      "boundsAlphaAtLeast": {
+        "1": [
+          41,
+          9,
+          802,
+          1750
+        ],
+        "8": [
+          208,
+          192,
+          680,
+          1502
+        ],
+        "32": [
+          208,
+          193,
+          680,
+          1502
+        ],
+        "128": [
+          209,
+          193,
+          679,
+          1502
+        ],
+        "240": [
+          209,
+          194,
+          678,
+          1501
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 41,
+          "top": 9,
+          "right": 85,
+          "bottom": 24
+        },
+        "8": {
+          "left": 208,
+          "top": 192,
+          "right": 207,
+          "bottom": 272
+        },
+        "32": {
+          "left": 208,
+          "top": 193,
+          "right": 207,
+          "bottom": 272
+        },
+        "128": {
+          "left": 209,
+          "top": 193,
+          "right": 208,
+          "bottom": 272
+        },
+        "240": {
+          "left": 209,
+          "top": 194,
+          "right": 209,
+          "bottom": 273
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "readOnlyDecode": true,
+      "nativeOutputBytesPreserved": true,
+      "pixelEditingPerformed": false
+    },
+    "limitations": [
+      "Proposition source uniquement : aucune intégration runtime, calibration de pivot ou échelle raster réalisée.",
+      "Les cotes 2,4 × 6,2 m et hauteur 2,8 m sont des enveloppes auteur ; aucune certification métrique 1:1 ou égalité pixel à pixel.",
+      "Les trois variantes du peintre sont distinctes de la variante V01 du plan résidentiel. Ces quatre images ajoutent des variantes de deux familles existantes, pas de nouveaux types.",
+      "Les marges natives au seuil alpha≥8 mesurent au moins 10,7 % verticalement, malgré la demande initiale 12 %. Les silhouettes et pièces ne sont pas coupées. Des pixels d’alpha 1/255 touchent certains bords ; aucun nettoyage, recadrage ni réencodage local.",
+      "Le relief subtil, le grain et les reflets sont des interprétations de matière. Les fissures et la rouille des caravanes abandonnées décrivent une usure décorative sans nouvelle collision ni état sauvegardé."
+    ],
+    "canonicalReplayFile": "root-canonical-replay.json",
+    "notRuntimeIntegrated": true,
+    "pixelEditingPerformed": false,
+    "rootApprovalRequiredBeforeAssembly": true
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 2,
+  "batch": "Art240",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "completedArtIds": [
+    "prop:compost-bin:v1",
+    "prop:compost-bin:v2",
+    "prop:closed-pool:v1",
+    "prop:closed-pool:v2"
+  ],
+  "finalAssets": [
+    {
+      "key": "compost-bin:v1",
+      "id": "prop:compost-bin:v1",
+      "artId": "prop:compost-bin:v1",
+      "kind": "compost-bin",
+      "name": "Composteur de jardin — variante 1",
+      "path": "assets/art240/props/compost-bin_composteur_jardin_v1.png",
+      "sha256": "74341943da6e2292c2510df4cabdfeb696a0dfa661c51e8ad8a576a1837ce5eb",
+      "bytes": 1447148,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1,
+        "h": 1,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "compost-bin:v2",
+      "id": "prop:compost-bin:v2",
+      "artId": "prop:compost-bin:v2",
+      "kind": "compost-bin",
+      "name": "Composteur de jardin — variante 2",
+      "path": "assets/art240/props/compost-bin_composteur_jardin_v2.png",
+      "sha256": "450d49d558661f0217fac526ed62146ea74afe30f96885762368274a90a8bfbc",
+      "bytes": 1610623,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1,
+        "h": 1,
+        "heightM": 1,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V01:parcel:0:compost",
+      "sourcePlanId": "EXT-MONDE-T045-V01"
+    },
+    {
+      "key": "closed-pool:v1",
+      "id": "prop:closed-pool:v1",
+      "artId": "prop:closed-pool:v1",
+      "kind": "closed-pool",
+      "name": "Bassin fermé — variante 1",
+      "path": "assets/art240/props/closed-pool_bassin_ferme_v1.png",
+      "sha256": "4b511e0eb83c8bba591336e3af21881ea416b14f0d88b7d5c336fd565c7e5df1",
+      "bytes": 761122,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourcePlanVariant": 21,
+      "dimensionsAuthorDesignMetres": {
+        "w": 8,
+        "h": 12,
+        "heightM": 0.4,
+        "depthM": 1.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21"
+    },
+    {
+      "key": "closed-pool:v2",
+      "id": "prop:closed-pool:v2",
+      "artId": "prop:closed-pool:v2",
+      "kind": "closed-pool",
+      "name": "Bassin fermé — variante 2",
+      "path": "assets/art240/props/closed-pool_bassin_ferme_v2.png",
+      "sha256": "8b4f76904cb66eec85ec824488b03398c3019c00756d7f935c2d910143e567eb",
+      "bytes": 836767,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourcePlanVariant": 21,
+      "dimensionsAuthorDesignMetres": {
+        "w": 8,
+        "h": 12,
+        "heightM": 0.4,
+        "depthM": 1.4,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T045-V21:communal-pool",
+      "sourcePlanId": "EXT-MONDE-T045-V21"
+    }
+  ],
+  "supersededCandidates": 0,
+  "priorPacksRegenerated": false,
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedArtIds": [
+    "prop:compost-bin:v1",
+    "prop:compost-bin:v2",
+    "prop:closed-pool:v1",
+    "prop:closed-pool:v2"
+  ],
+  "blockedTargets": [],
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "runtimeIntegrationPerformed": false,
+  "remainingWork": [
+    "Qualify scale, anchors, clipping and orientation before any separate runtime registration.",
+    "Preserve the existing author-plan IDs, physics, service and water state owners.",
+    "Keep this painter variant distinct from the author-plan variant and from every other instance size."
+  ]
+}

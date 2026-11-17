@@ -1,0 +1,12 @@
+# Art240 — Revue visuelle
+
+Revue du 2026-11-17, liée aux SHA256 des PNG natifs.
+
+| Identité de proposition | Observation |
+|---|---|
+| `prop:compost-bin:v1` | Plan complet vu strictement du dessus. Quatre membres verticaux, dont les deux latéraux, et une traverse diagonale du haut gauche au bas droit conservent la disposition canonique. Les neuf groupes de feuilles sèches et brindilles suivent les trois rangées, avec les occultations par la diagonale. Les petites ferrures de coin sont une interprétation de matière ajoutée par la génération, à examiner en revue indépendante. Aucun outil ou nouveau stock fonctionnel. Source native conservée sans retouche. |
+| `prop:compost-bin:v2` | Plan complet fidèle à la variante 2 : deux bandes métalliques horizontales, panneau de bois à gauche avec quatre joints horizontaux courts, six groupes organiques visibles à droite en deux colonnes de trois. Le panneau conserve son rôle de recouvrement de la colonne gauche, sans ajout de matière visible derrière lui. Les petits boulons des bandes et le grain sont une interprétation de surface. Source native conservée sans retouche. |
+| `prop:closed-pool:v1` | Bassin entier en vue de dessus stricte, grand axe vertical et ouverture rectangulaire. Une échelle reste sur le côté droit dans la moitié basse, deux rails et trois barreaux dans la disposition canonique. Deux lignes longitudinales verticales et cinq groupes principaux de résidus sont conservés, trois à droite et deux à gauche. Joints de pierre, petites feuilles éparses et corrosion des attaches interprètent les matériaux de l’atlas sans ajouter un objet fonctionnel. Source native conservée sans retouche. |
+| `prop:closed-pool:v2` | Cadre extérieur rectangulaire complet, grand axe vertical ; seule l’ouverture d’eau intérieure possède huit côtés et quatre angles coupés. Échelle à droite dans la moitié haute, deux rails et trois barreaux. Une seule ligne pâle à deux segments reste à gauche avec coude vers la droite. Cinq groupes de résidus suivent la disposition trois à droite et deux à gauche. Joints de pierre, grain, petites feuilles éparses et corrosion sont des interprétations de surface ; aucune nouvelle activité ni équipement. Source native conservée sans retouche. |
+
+La revue visuelle ne certifie ni fidélité métrique 1:1, ni identité pixel pour pixel, ni intégration moteur. Les dimensions, lorsqu’elles sont déclarées, proviennent des choix auteur exacts.

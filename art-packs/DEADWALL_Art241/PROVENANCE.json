@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 2,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "Art241",
+  "title": "Caravanes fermées — variantes 1 et 2",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "publicationBaseTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "runtimeSourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "publicationBaseIsOutputCommit": false,
+  "identityPolicy": "prop:<kind>:vN identifies an existing structural205 painter variant, not a new runtime type. Author-plan instance and plan variant are preserved separately.",
+  "scope": "Additional source proposals for existing structural205 painter variants 1 and 2. Variant 0 images and all existing rendering remain unchanged. This is a chosen coverage extension, not evidence that the objects lack a visible in-game render.",
+  "deliveryStatus": "accepted-source-art-proposals",
+  "plannedTargetCount": 4,
+  "plannedArtIds": [
+    "prop:touring-caravan:v1",
+    "prop:touring-caravan:v2",
+    "prop:abandoned-caravan:v1",
+    "prop:abandoned-caravan:v2"
+  ],
+  "finalSpriteCount": 4,
+  "generationCount": 7,
+  "supersededCandidateCount": 3,
+  "blockedTargetCount": 0,
+  "blockedArtIds": [],
+  "failureReceiptCount": 0,
+  "blockedTargetRecords": null,
+  "generationFailureRecords": null,
+  "nativeOutputBytesPreserved": true,
+  "imageEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Unmodified public drawProp on exact authored fixtures. Painter variant 1 or 2; stateAlpha false; no live game argument. Author-design dimensions and plan variants are separate from raster pixels.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "newWorldPlacementCreated": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "reviewed": [
+      "canonical source layout",
+      "existing object identity and components",
+      "selected source presentation",
+      "native PNG and transparency",
+      "exact references and prompt history"
+    ],
+    "notCertified": [
+      "metric or pixel-for-pixel 1:1 fidelity",
+      "generated-sprite metres per pixel",
+      "runtime anchors and collision alignment",
+      "unseen variants, phases or rotations"
+    ]
+  },
+  "sourcesIndex": "references/verified-sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "generationHistory": "generation-history.json",
+  "canonicalReplay": "records/preparation/root-canonical-replay.json",
+  "canonicalReplayScript": "records/root_replay_canonicals.cjs",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "independentVisualReview": "records/preparation/root-review.json",
+  "gallery": "gallery.html",
+  "aggregateCoverage": {
+    "coverage/SHA256SUMS.txt": "90a9c7b0f7852ceb1ab381277828e7c516f8869b2b63e3a9f9e97e1e018fb00b",
+    "coverage/coverage-art222-241.json": "1b05e7a5226351709e8a9bd41f50e1d37d803f43dc758d6ebf42756c771bb30c",
+    "coverage/coverage-art222-241.md": "4f5a10484c0ede03e7500bc7df6111839168e91e9bf736afd22fa4948143276b",
+    "coverage/new-inputs-snapshot.json": "d18e9870255bfb4d2dd465ab07edce59276b2aad7cd7de8d2fdc6fdbadac516f",
+    "coverage/prior-coverage-art222-238.json": "0c07c9a4d5d3f8e2f2b1704e9b043170f0e818677fcb996bcab89e54288f351d",
+    "coverage/prior-files-audit.json": "e0be17b34533830121bb7e73a484011ca4c996258c60e6485810b324f7bdaa6d"
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeTests": "not_run_by_assembler",
+    "browser": "not_run_by_assembler"
+  },
+  "assets": [
+    {
+      "key": "touring-caravan:v1",
+      "id": "prop:touring-caravan:v1",
+      "artId": "prop:touring-caravan:v1",
+      "kind": "touring-caravan",
+      "name": "Caravane tractable fermée et inoccupée — variante 1",
+      "path": "assets/art241/props/touring-caravan_v1.png",
+      "sha256": "9ed37d39104b00b35de4146fb6cfb2ef5323a351374ca7564c2e6905b8e80be6",
+      "bytes": 1111064,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T046-V01"
+    },
+    {
+      "key": "touring-caravan:v2",
+      "id": "prop:touring-caravan:v2",
+      "artId": "prop:touring-caravan:v2",
+      "kind": "touring-caravan",
+      "name": "Caravane tractable fermée et inoccupée — variante 2",
+      "path": "assets/art241/props/touring-caravan_v2.png",
+      "sha256": "e24289d2185870da391b3c3260f1c03fbd41e31732fb113a6082b8d0f38c7841",
+      "bytes": 1198407,
+      "iteration": 1,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T046-V01"
+    },
+    {
+      "key": "abandoned-caravan:v1",
+      "id": "prop:abandoned-caravan:v1",
+      "artId": "prop:abandoned-caravan:v1",
+      "kind": "abandoned-caravan",
+      "name": "Caravane abandonnée fermée et évacuée — variante 1",
+      "path": "assets/art241/props/abandoned-caravan_v1.png",
+      "sha256": "941c7282cd9b01dd12a88fea3bce77b28ce59e61a45f8ec156933fdc090faa6b",
+      "bytes": 1002005,
+      "iteration": 2,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 1,
+      "painterVariant": 1,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T048-V01"
+    },
+    {
+      "key": "abandoned-caravan:v2",
+      "id": "prop:abandoned-caravan:v2",
+      "artId": "prop:abandoned-caravan:v2",
+      "kind": "abandoned-caravan",
+      "name": "Caravane abandonnée fermée et évacuée — variante 2",
+      "path": "assets/art241/props/abandoned-caravan_v2.png",
+      "sha256": "87ca8ebb699f6838a36fccf9741451c5e9eefec33c555097a1476839560348c8",
+      "bytes": 1019029,
+      "iteration": 3,
+      "status": "dedicated_source_art_proposal_not_runtime_integrated",
+      "existingRoute": "structural205",
+      "canonicalVariant": 2,
+      "painterVariant": 2,
+      "sourcePlanVariant": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2.4,
+        "h": 6.2,
+        "heightM": 2.8,
+        "units": "metres",
+        "authority": "author-design"
+      },
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "sourcePlanId": "EXT-MONDE-T048-V01"
+    }
+  ]
+}

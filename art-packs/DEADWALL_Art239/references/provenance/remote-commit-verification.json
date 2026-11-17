@@ -1,0 +1,11 @@
+{
+  "remoteCommit": "6ebd6707251e675a5b75ded23e91dd28339dfe38",
+  "remoteTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "parentShas": [
+    "12e0aa4aa77b9901bd53eb7a8771382a5f753593"
+  ],
+  "localCommit": "e728993ee81f50b1bcc241ffe9503304a19e6ae0",
+  "localTree": "33d089eab2bb23f288e66d57c2794f6a38b3ba84",
+  "treeIdentical": true,
+  "commitMessage": "art: ajouter 11 propositions source dans Art236\u2013238\n\nConserver une d\u00e9pouille, cinq m\u00e9canismes mont\u00e9s et cinq objets de parcelle\navec les PNG natifs, r\u00e9f\u00e9rences exactes, prompts, historiques et revues SHA.\nDocumenter le sixi\u00e8me m\u00e9canisme bloqu\u00e9 apr\u00e8s deux refus sans image.\nPorter la couverture v\u00e9rifi\u00e9e \u00e0 110 finales, sans int\u00e9gration au moteur."
+}

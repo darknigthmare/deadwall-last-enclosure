@@ -1,0 +1,58 @@
+{
+  "sourceRevision": "12e0aa4aa77b9901bd53eb7a8771382a5f753593",
+  "sourcePlanVariantIsDistinctFromPainterVariant": true,
+  "plans": [
+    {
+      "sourceType": "EXT-MONDE-T046",
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T046-V01",
+      "sourceId": "EXT-MONDE-T046-V01:parcel:1:caravan",
+      "file": "references/authored-plans/EXT-MONDE-T046-V01.json",
+      "sha256": "e1d657f421bf9e52659677afe3586e632c1ddf65e5804b78564871d7829bad5f",
+      "bytes": 54920,
+      "sourceObject": {
+        "id": "EXT-MONDE-T046-V01:parcel:1:caravan",
+        "kind": "touring-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T046-V01:parcel:1",
+        "condition": "unoccupied"
+      },
+      "exportedApi": "Residential.build(type,1)"
+    },
+    {
+      "sourceType": "EXT-MONDE-T048",
+      "sourcePlanVariant": 1,
+      "sourcePlanId": "EXT-MONDE-T048-V01",
+      "sourceId": "EXT-MONDE-T048-V01:parcel:1:caravan",
+      "file": "references/authored-plans/EXT-MONDE-T048-V01.json",
+      "sha256": "a9e04f886d4541822025dfaea73020af256dc0dd1e0cce8291ab6b09502c0868",
+      "bytes": 58522,
+      "sourceObject": {
+        "id": "EXT-MONDE-T048-V01:parcel:1:caravan",
+        "kind": "abandoned-caravan",
+        "x": 53.3,
+        "y": 47,
+        "w": 2.4,
+        "h": 6.2,
+        "maxHeightM": 2.8,
+        "heightOrigin": "author-design",
+        "footprintOrigin": "author-design",
+        "interiorStatus": "closed-towable-interior-not-built",
+        "lootAssigned": false,
+        "utilityConnected": false,
+        "parcelId": "EXT-MONDE-T048-V01:parcel:1",
+        "condition": "evacuated"
+      },
+      "exportedApi": "Residential.build(type,1)"
+    }
+  ]
+}
