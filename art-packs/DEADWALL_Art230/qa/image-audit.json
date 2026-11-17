@@ -1,0 +1,720 @@
+{
+  "schemaVersion": 1,
+  "batch": "art230",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Native PNG/IHDR, Pillow decode/verify, RGBA alpha histogram and margins, SHA256; no image writes.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "boundsConvention": "left/top inclusive, right/bottom exclusive",
+  "alphaInterpretation": "RGB under alpha=0 is invisible. Low alpha1–7 is reported separately. Alpha>=8 margins do not certify geometry or fidelity.",
+  "finalSpriteCount": 7,
+  "nativeBytesPreserved": true,
+  "assets": [
+    {
+      "file": "assets/art230/native/cottageSmall_petite_maison_ouvriere.png",
+      "bytes": 1790145,
+      "sha256": "8d7783838562f4afc20c4e37ff16c2bf5bdbfe21c2dff7cd9627cd5ae0a16302",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 838036,
+      "fullyTransparentFraction": 0.5329268509827563,
+      "lowAlphaPixels1to7": 35511,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1190,
+          1254
+        ],
+        "8": [
+          199,
+          200,
+          1056,
+          1043
+        ],
+        "32": [
+          199,
+          200,
+          1056,
+          1037
+        ],
+        "128": [
+          200,
+          201,
+          1055,
+          1032
+        ],
+        "240": [
+          201,
+          201,
+          1054,
+          1030
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 64,
+          "bottom": 0
+        },
+        "8": {
+          "left": 199,
+          "top": 200,
+          "right": 198,
+          "bottom": 211
+        },
+        "32": {
+          "left": 199,
+          "top": 200,
+          "right": 198,
+          "bottom": 217
+        },
+        "128": {
+          "left": 200,
+          "top": 201,
+          "right": 199,
+          "bottom": 222
+        },
+        "240": {
+          "left": 201,
+          "top": 201,
+          "right": 200,
+          "bottom": 224
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/rowhouse_maison_etroite.png",
+      "bytes": 1547631,
+      "sha256": "386e0771eee9a10dceb290a3a9bcec50504d51f154f57658d6ebdcd4a805aee4",
+      "width": 1063,
+      "height": 1479,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 933323,
+      "fullyTransparentFraction": 0.5936500788397235,
+      "lowAlphaPixels1to7": 15351,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          22,
+          1043,
+          1479
+        ],
+        "8": [
+          226,
+          247,
+          836,
+          1326
+        ],
+        "32": [
+          226,
+          248,
+          836,
+          1321
+        ],
+        "128": [
+          227,
+          248,
+          835,
+          1317
+        ],
+        "240": [
+          228,
+          250,
+          834,
+          1315
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 22,
+          "right": 20,
+          "bottom": 0
+        },
+        "8": {
+          "left": 226,
+          "top": 247,
+          "right": 227,
+          "bottom": 153
+        },
+        "32": {
+          "left": 226,
+          "top": 248,
+          "right": 227,
+          "bottom": 158
+        },
+        "128": {
+          "left": 227,
+          "top": 248,
+          "right": 228,
+          "bottom": 162
+        },
+        "240": {
+          "left": 228,
+          "top": 250,
+          "right": 229,
+          "bottom": 164
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/bungalow_pavillon.png",
+      "bytes": 2398689,
+      "sha256": "274f2cd1d785c159929525b9296dc2c7d0502a73066fc0855eea04342f1512c3",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 743117,
+      "fullyTransparentFraction": 0.4724610646565755,
+      "lowAlphaPixels1to7": 25203,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1488,
+          1024
+        ],
+        "8": [
+          155,
+          201,
+          1381,
+          879
+        ],
+        "32": [
+          156,
+          202,
+          1381,
+          878
+        ],
+        "128": [
+          156,
+          203,
+          1380,
+          877
+        ],
+        "240": [
+          157,
+          204,
+          1379,
+          876
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 48,
+          "bottom": 0
+        },
+        "8": {
+          "left": 155,
+          "top": 201,
+          "right": 155,
+          "bottom": 145
+        },
+        "32": {
+          "left": 156,
+          "top": 202,
+          "right": 155,
+          "bottom": 146
+        },
+        "128": {
+          "left": 156,
+          "top": 203,
+          "right": 156,
+          "bottom": 147
+        },
+        "240": {
+          "left": 157,
+          "top": 204,
+          "right": 157,
+          "bottom": 148
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/familyHouse_maison_familiale.png",
+      "bytes": 1738361,
+      "sha256": "208e1ad317fbb560274c4d5229d7c13e6148148caea54a4fa8f7afeec0716402",
+      "width": 1374,
+      "height": 1145,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 839425,
+      "fullyTransparentFraction": 0.5335678826363596,
+      "lowAlphaPixels1to7": 26601,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1322,
+          1145
+        ],
+        "8": [
+          229,
+          168,
+          1140,
+          958
+        ],
+        "32": [
+          231,
+          170,
+          1139,
+          954
+        ],
+        "128": [
+          232,
+          171,
+          1138,
+          950
+        ],
+        "240": [
+          233,
+          172,
+          1137,
+          948
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 52,
+          "bottom": 0
+        },
+        "8": {
+          "left": 229,
+          "top": 168,
+          "right": 234,
+          "bottom": 187
+        },
+        "32": {
+          "left": 231,
+          "top": 170,
+          "right": 235,
+          "bottom": 191
+        },
+        "128": {
+          "left": 232,
+          "top": 171,
+          "right": 236,
+          "bottom": 195
+        },
+        "240": {
+          "left": 233,
+          "top": 172,
+          "right": 237,
+          "bottom": 197
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/farmhouse_corps_de_ferme.png",
+      "bytes": 1957748,
+      "sha256": "f037201ca257e23de8f447c316584da37fac7ac3245b4b47b6634b147c18dd0b",
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 718748,
+      "fullyTransparentFraction": 0.456771936870924,
+      "lowAlphaPixels1to7": 12414,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1702,
+          887
+        ],
+        "8": [
+          240,
+          88,
+          1534,
+          756
+        ],
+        "32": [
+          241,
+          89,
+          1534,
+          754
+        ],
+        "128": [
+          243,
+          90,
+          1532,
+          750
+        ],
+        "240": [
+          244,
+          91,
+          1531,
+          749
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 72,
+          "bottom": 0
+        },
+        "8": {
+          "left": 240,
+          "top": 88,
+          "right": 240,
+          "bottom": 131
+        },
+        "32": {
+          "left": 241,
+          "top": 89,
+          "right": 240,
+          "bottom": 133
+        },
+        "128": {
+          "left": 243,
+          "top": 90,
+          "right": 242,
+          "bottom": 137
+        },
+        "240": {
+          "left": 244,
+          "top": 91,
+          "right": 243,
+          "bottom": 138
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/villa_grande_villa.png",
+      "bytes": 2134178,
+      "sha256": "94f5fbc89e6029d679a4fefa881d42d7138b7c5db4159bb75eadb169f858974f",
+      "width": 1412,
+      "height": 1114,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 697756,
+      "fullyTransparentFraction": 0.44359198661384086,
+      "lowAlphaPixels1to7": 24091,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1406,
+          1114
+        ],
+        "8": [
+          173,
+          185,
+          1237,
+          1003
+        ],
+        "32": [
+          174,
+          186,
+          1237,
+          998
+        ],
+        "128": [
+          175,
+          187,
+          1236,
+          992
+        ],
+        "240": [
+          176,
+          188,
+          1235,
+          987
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 6,
+          "bottom": 0
+        },
+        "8": {
+          "left": 173,
+          "top": 185,
+          "right": 175,
+          "bottom": 111
+        },
+        "32": {
+          "left": 174,
+          "top": 186,
+          "right": 175,
+          "bottom": 116
+        },
+        "128": {
+          "left": 175,
+          "top": 187,
+          "right": 176,
+          "bottom": 122
+        },
+        "240": {
+          "left": 176,
+          "top": 188,
+          "right": 177,
+          "bottom": 127
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    },
+    {
+      "file": "assets/art230/native/duplexWide_maison_double.png",
+      "bytes": 2485810,
+      "sha256": "5f27bdcb1ae1e263efd647cd8e0a323559aa435e5851ecae7a13118416ca5a8b",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 777571,
+      "fullyTransparentFraction": 0.4943663279215495,
+      "lowAlphaPixels1to7": 18585,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          6,
+          1520,
+          1024
+        ],
+        "8": [
+          174,
+          180,
+          1363,
+          860
+        ],
+        "32": [
+          174,
+          180,
+          1362,
+          857
+        ],
+        "128": [
+          175,
+          181,
+          1362,
+          854
+        ],
+        "240": [
+          176,
+          182,
+          1361,
+          853
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 6,
+          "right": 16,
+          "bottom": 0
+        },
+        "8": {
+          "left": 174,
+          "top": 180,
+          "right": 173,
+          "bottom": 164
+        },
+        "32": {
+          "left": 174,
+          "top": 180,
+          "right": 174,
+          "bottom": 167
+        },
+        "128": {
+          "left": 175,
+          "top": 181,
+          "right": 174,
+          "bottom": 170
+        },
+        "240": {
+          "left": 176,
+          "top": 182,
+          "right": 175,
+          "bottom": 171
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBodyWithinCanvasAtAlpha8": true,
+      "nativeBytesPreserved": true,
+      "pixelEditingResizingCroppingPerformed": false
+    }
+  ]
+}

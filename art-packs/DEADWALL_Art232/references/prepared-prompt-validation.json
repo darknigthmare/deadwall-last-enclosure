@@ -1,0 +1,70 @@
+{
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "rootDraftSha256": "b27100f691c534a61c6dfd524a9326a10af3b8de2d07b9d2a6a98d5370e8eef2",
+  "targetCount": 6,
+  "promptEditingPerformed": false,
+  "generationPerformedByPreparer": false,
+  "checks": [
+    {
+      "artId": "native:officeBlock",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    },
+    {
+      "artId": "native:medicalCentre",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    },
+    {
+      "artId": "native:smallWorkshop",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    },
+    {
+      "artId": "native:logisticsHall",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    },
+    {
+      "artId": "native:chapel",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    },
+    {
+      "artId": "native:waterStation",
+      "nativeDimensionsAndFloorCountMatchRootDraft": true,
+      "exactPromptEqualsCommonPlusSubject": true,
+      "promptContainsNoDwId": true,
+      "filenameUsesNativeTypeOnly": true,
+      "declaredCodexMappingPreservedAsConflict": true,
+      "evaluatedNativePlanWithAndWithoutCodexFieldIdentical": true,
+      "divergences": []
+    }
+  ],
+  "divergences": []
+}

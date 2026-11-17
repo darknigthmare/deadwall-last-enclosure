@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art231",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "generator": "OpenAI ImageGen intégré",
+  "finalSpriteCount": 7,
+  "generationCount": 15,
+  "supersededCandidateCount": 8,
+  "identityPolicy": {
+    "primary": "artId = native:<nativeType>",
+    "filename": "<nativeType>_<native_name_slug>.png",
+    "dwIdRole": "provenance.declaredCodexId only; contradictory_unresolved",
+    "runtimeIdentityChanges": false,
+    "codexRemappingPerformed": false
+  },
+  "scope": "Dedicated closed exteriors identified only by existing native types; contradictory declared Codex references remain unresolved evidence.",
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "geometryBasis": "Existing native preset and unchanged-owner canonical fixture; inherited programme is preserved. No live campaign instance is claimed.",
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false,
+    "codexRemappingPerformed": false,
+    "saveOrWorldIdentityChanged": false
+  },
+  "fidelity": {
+    "observed": [
+      "Actual game-atlas reference",
+      "SHA-bound visual review",
+      "Native PNG and alpha checks"
+    ],
+    "notCertified": [
+      "Exact metric projection",
+      "Metres per pixel",
+      "Pixel-for-pixel identity",
+      "Runtime anchors, collisions and access alignment"
+    ]
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "aggregateCoverage": null,
+  "historicalArt221Inventory": "incomplete_not_reconstructed",
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "assets": [
+    {
+      "id": "native:studioBlock",
+      "artId": "native:studioBlock",
+      "type": "studioBlock",
+      "nativeType": "studioBlock",
+      "name": "Petit collectif",
+      "path": "assets/art231/native/studioBlock_petit_collectif.png",
+      "sha256": "810d9598ba6c4556bec8e68c6371776b3abbec0a9a4bf23ee93554fb6695c079",
+      "bytes": 1708430,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        26,
+        22
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:longBlock",
+      "artId": "native:longBlock",
+      "type": "longBlock",
+      "nativeType": "longBlock",
+      "name": "Barre de logements",
+      "path": "assets/art231/native/longBlock_barre_de_logements.png",
+      "sha256": "b8bdaf01d22f873d98384ebdd4a6ae7f1ca1d8f4c5eafa5bf27f0fc5c4146873",
+      "bytes": 1883889,
+      "iteration": 3,
+      "nativeBuildingFootprintMetres": [
+        58,
+        25
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:residence",
+      "artId": "native:residence",
+      "type": "residence",
+      "nativeType": "residence",
+      "name": "Grande résidence",
+      "path": "assets/art231/native/residence_grande_residence.png",
+      "sha256": "b52322ca933a9c8611dfd704b327a64d5acc218ae33feaf3bb6d871192cb6956",
+      "bytes": 2230054,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        46,
+        38
+      ],
+      "nativeLevels": [
+        0,
+        1,
+        2
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:cornerShop",
+      "artId": "native:cornerShop",
+      "type": "cornerShop",
+      "nativeType": "cornerShop",
+      "name": "Commerce d’angle",
+      "path": "assets/art231/native/cornerShop_commerce_dangle.png",
+      "sha256": "723c7c5d3f428440451975d5f82d753d46aa3e0860a1cc6b12cf1e096ddbc64b",
+      "bytes": 1345532,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        12,
+        13
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:superstore",
+      "artId": "native:superstore",
+      "type": "superstore",
+      "nativeType": "superstore",
+      "name": "Grande surface",
+      "path": "assets/art231/native/superstore_grande_surface.png",
+      "sha256": "fea1150eedd61e4922008c349462c4450aeb48cb00d121b38ee862bc3984ecde",
+      "bytes": 2421975,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        64,
+        43
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:cafe",
+      "artId": "native:cafe",
+      "type": "cafe",
+      "nativeType": "cafe",
+      "name": "Café de quartier",
+      "path": "assets/art231/native/cafe_cafe_de_quartier.png",
+      "sha256": "c1efae61845fe965defd92c1bd9ecac91d3016e6744df5e8c4b30e83a6a95104",
+      "bytes": 1903732,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        19,
+        17
+      ],
+      "nativeLevels": [
+        0
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    },
+    {
+      "id": "native:bank",
+      "artId": "native:bank",
+      "type": "bank",
+      "nativeType": "bank",
+      "name": "Agence bancaire",
+      "path": "assets/art231/native/bank_agence_bancaire.png",
+      "sha256": "6b2b71a080fdb58c29f88fbd92958077fbdd75ba7c021ca3622d3d3f4ac10dcd",
+      "bytes": 1530064,
+      "iteration": 2,
+      "nativeBuildingFootprintMetres": [
+        27,
+        21
+      ],
+      "nativeLevels": [
+        0,
+        1
+      ],
+      "status": "native_type_source_art_not_runtime_integrated"
+    }
+  ]
+}

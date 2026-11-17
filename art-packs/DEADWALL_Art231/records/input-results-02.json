@@ -1,0 +1,142 @@
+[
+  {
+    "key": "studioBlock",
+    "id": "native:studioBlock",
+    "artId": "native:studioBlock",
+    "label": "Petit collectif",
+    "file": "studioBlock_petit_collectif.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:studioBlock. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. Reduce the entire front facade to about TWO FIFTHS of its current image height, while retaining all THREE floor bands. Enlarge the roof depth slightly to its native proportion.\n\nControlling native envelope: 26 metres wide by 22 metres deep, native levels [0, 1, 2], exactly 3 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 820 pixels and the TOTAL visible front facade, including all 3 floor levels together, must be no more than 90 pixels high. The separate storeys must remain as 3 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-58ecf86a-1211-4f74-9f68-f0d586684ae8.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-58ecf86a-1211-4f74-9f68-f0d586684ae8.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4b198e4e-305f-48d3-85bf-c8f5c263d7a1.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-4b198e4e-305f-48d3-85bf-c8f5c263d7a1.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "longBlock",
+    "id": "native:longBlock",
+    "artId": "native:longBlock",
+    "label": "Barre de logements",
+    "file": "longBlock_barre_de_logements.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the current DEADWALL Art231 native:longBlock sprite to edit; Image 2 is only a painting-style reference. Keep this exact long residential building, its roof texture and equipment, the central ground entrance, and the THREE very thin visible floor bands. The foreshortened facade is now suitable: do not enlarge it or add floors.\n\nCorrect one remaining error: THE ROOF PLAN IS STILL TOO SHALLOW. The controlling native footprint is 58 metres wide by 25 metres deep. Its high-camera projected roof rectangle must have front-to-back depth about 42% of its horizontal width, not the current roughly 28%. Make the visible roof plane about ONE AND A HALF TIMES DEEPER in the image while preserving its horizontal width. Use more of the transparent space above and below, or a taller canvas; do not merely shrink the existing long shallow sprite. For a roof width near1500 pixels, its front-to-back depth should be near630 pixels. The entire facade of all three floors remains a strip no higher than75 pixels. These are artistic projection guides, not a metric certification.\n\nNear-overhead orthographic camera, only15 degrees from vertical. Keep all roof and footprint edges parallel to the image axes. Keep the same intact rectangular roof, subdued weathered concrete, restrained vents and exactly three rows of foreshortened domestic windows. The only doorway remains in the bottom ground-floor band and touches ground. No new room volume, terrace, courtyard, fourth floor, roof doorway, staircase, annex, terrain, plinth, text or props. Generous genuinely transparent RGBA margins and only a short contact shadow. Return one complete isolated corrected sprite.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-29bcc699-4e5b-4fb4-82d6-430ba16f26ea.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 3,
+    "editReason": "Increase still-compressed roof depth while preserving the accepted thin three-storey facade.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-29bcc699-4e5b-4fb4-82d6-430ba16f26ea.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-3a2f5782-f046-4296-aeed-33590f1cae29.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-3a2f5782-f046-4296-aeed-33590f1cae29.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "residence",
+    "id": "native:residence",
+    "artId": "native:residence",
+    "label": "Grande résidence",
+    "file": "residence_grande_residence.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:residence. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. Reduce the entire front facade to about ONE QUARTER of its current image height while retaining all THREE floor bands. Extend the deep roof to its native near-square proportion.\n\nControlling native envelope: 46 metres wide by 38 metres deep, native levels [0, 1, 2], exactly 3 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 800 pixels and the TOTAL visible front facade, including all 3 floor levels together, must be no more than 60 pixels high. The separate storeys must remain as 3 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-3aa12c4d-9dc2-423c-a805-1c195a4ab390.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-3aa12c4d-9dc2-423c-a805-1c195a4ab390.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d48850e9-be3a-43e9-80d9-862642b72cb0.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-d48850e9-be3a-43e9-80d9-862642b72cb0.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "cornerShop",
+    "id": "native:cornerShop",
+    "artId": "native:cornerShop",
+    "label": "Commerce d’angle",
+    "file": "cornerShop_commerce_dangle.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:cornerShop. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. Reduce the entire front facade to about ONE THIRD of its current image height. Retain exactly ONE storey and the small central ground entrance. The roof remains slightly deeper than wide.\n\nControlling native envelope: 12 metres wide by 13 metres deep, native levels [0], exactly 1 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 1050 pixels and the TOTAL visible front facade, including all 1 floor levels together, must be no more than 70 pixels high. The separate storeys must remain as 1 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-b938ac23-a459-42db-8c97-55da5b7a1cec.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-b938ac23-a459-42db-8c97-55da5b7a1cec.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-b7936e5d-fb48-43b5-87e1-fa4342c3c333.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-b7936e5d-fb48-43b5-87e1-fa4342c3c333.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "superstore",
+    "id": "native:superstore",
+    "artId": "native:superstore",
+    "label": "Grande surface",
+    "file": "superstore_grande_surface.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:superstore. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. The roof is currently too shallow. Increase its projected front-to-back depth to its native broad rectangle. Reduce the entire front facade to about HALF its current image height. Retain exactly ONE storey.\n\nControlling native envelope: 64 metres wide by 43 metres deep, native levels [0], exactly 1 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 650 pixels and the TOTAL visible front facade, including all 1 floor levels together, must be no more than 40 pixels high. The separate storeys must remain as 1 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-d4752f6c-9dae-4d71-940a-9591d8bf0e66.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d4752f6c-9dae-4d71-940a-9591d8bf0e66.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-d3834df8-cb34-4746-bb1b-667142aa412c.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-d3834df8-cb34-4746-bb1b-667142aa412c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "cafe",
+    "id": "native:cafe",
+    "artId": "native:cafe",
+    "label": "Café de quartier",
+    "file": "cafe_cafe_de_quartier.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:cafe. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. Keep the existing deep hipped roof and reduce the entire front wall to about TWO FIFTHS of its current image height. Retain exactly ONE storey and the existing public doorway. Do not turn the pitched roof into an extra floor.\n\nControlling native envelope: 19 metres wide by 17 metres deep, native levels [0], exactly 1 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 860 pixels and the TOTAL visible front facade, including all 1 floor levels together, must be no more than 50 pixels high. The separate storeys must remain as 1 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-1b051fd5-4646-46de-8a66-b2de2bfe5493.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-1b051fd5-4646-46de-8a66-b2de2bfe5493.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-368704e1-3d12-430f-8775-226d6e0acc14.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-368704e1-3d12-430f-8775-226d6e0acc14.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  },
+  {
+    "key": "bank",
+    "id": "native:bank",
+    "artId": "native:bank",
+    "label": "Agence bancaire",
+    "file": "bank_agence_bancaire.png",
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the initial DEADWALL Art231 sprite for native:bank. Image 2 is only the original game atlas painting-style reference. Correct ONLY the camera projection of the same building. Preserve its recognizable materials, roof design, restrained roof equipment, window rhythm, central ground-level entrance, weathering and exact floor count. Do not copy the atlas checkerboard.\n\nThe existing image shows too much front elevation. Reproject from a MUCH HIGHER orthographic camera, only 15 degrees away from vertically straight down, equivalent to 75 degrees above the ground. This is nearly a top-down ROOF PLAN. The roof is currently too shallow. Increase its projected front-to-back depth to its native rectangle. Reduce the entire front facade to about ONE THIRD of its current image height, retaining exactly TWO floor bands.\n\nControlling native envelope: 27 metres wide by 21 metres deep, native levels [0, 1], exactly 2 total above-ground floor levels. At a main roof width of 1000 image pixels, the roof footprint front-to-back depth should be approximately 750 pixels and the TOTAL visible front facade, including all 2 floor levels together, must be no more than 60 pixels high. The separate storeys must remain as 2 very thin foreshortened bands. Doors and windows must be shortened vertically by projection; do not enlarge them for readability. Ground-level thresholds stay at the bottom of the building, never on the roof. Roof equipment must also be seen nearly from above with very little vertical side visible.\n\nKeep footprint axes horizontal and vertical, parallel edges, no convergence or diamond rotation. Keep the roof intact, no cutaway, extra storey, roof entrance, exterior stair, new annex or detached props. Reframe the canvas as needed so the entire building has generous transparent margins; never crop any part. True RGBA transparency and only a short contact shadow. No visible colored fringe, background, gradient, matte, terrain slab, platform, text, signs, people or vehicles. Return exactly ONE corrected isolated sprite. This is a plausible source-art projection for later calibration, not a certified 1:1 metric render.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/generated_images/exec-a7ae12cd-e73d-44b3-901f-41963407da1a.png",
+      "/workspace/scratch/6f470a892a0f/art231-prep/references/buildings-atlas.webp"
+    ],
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 2,
+    "editReason": "Correct excessive front facade exposure and/or compressed roof depth while retaining native floor count.",
+    "supersedesGeneratedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-a7ae12cd-e73d-44b3-901f-41963407da1a.png",
+    "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ae793a1d-c6ee-4866-a658-552357b2b533.png",
+    "outputHint": "Generated images are saved to /workspace/scratch/6f470a892a0f/generated_images as /workspace/scratch/6f470a892a0f/generated_images/exec-ae793a1d-c6ee-4866-a658-552357b2b533.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+  }
+]

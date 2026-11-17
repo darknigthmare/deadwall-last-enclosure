@@ -1,0 +1,398 @@
+[
+  {
+    "key": "cottageSmall",
+    "id": "native:cottageSmall",
+    "artId": "native:cottageSmall",
+    "nativeType": "cottageSmall",
+    "name": "Petite maison ouvrière",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=cottageSmall. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 97% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Petite maison ouvrière: a small square 10 m by 10 m workers cottage, exactly ONE ground-floor level. Compact modest weathered plaster and old brick, simple low-pitched tiled or slate roof, restrained chimney, tiny domestic windows and one central ground-level entrance. The inherited home programme contains living room, kitchen, bedroom and storage. Keep the silhouette almost square. No upper floor, cellar opening, attached garage, extension or plot of land.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/cottageSmall-v1.png",
+    "selected": false,
+    "sha256": "576da6e3fe2dbd6dcc0947dd1a23d48a3b625c7cbee968a6f0dfda8afb107b31",
+    "bytes": 1922418,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "cottageSmall",
+    "id": "native:cottageSmall",
+    "artId": "native:cottageSmall",
+    "nativeType": "cottageSmall",
+    "name": "Petite maison ouvrière",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Petite maison ouvrière native exterior for DEADWALL, type cottageSmall. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 1 native floors together must be no more than 80 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 1 total above-ground floor ([0] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 10 m wide by 10 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 97% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/cottageSmall-v1.png",
+        "sha256": "576da6e3fe2dbd6dcc0947dd1a23d48a3b625c7cbee968a6f0dfda8afb107b31"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "assets/art230/native/cottageSmall_petite_maison_ouvriere.png",
+    "selected": true,
+    "sha256": "8d7783838562f4afc20c4e37ff16c2bf5bdbfe21c2dff7cd9627cd5ae0a16302",
+    "bytes": 1790145,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "rowhouse",
+    "id": "native:rowhouse",
+    "artId": "native:rowhouse",
+    "nativeType": "rowhouse",
+    "name": "Maison étroite",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=rowhouse. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 158% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Maison étroite: one narrow 11 m wide by 18 m deep terraced-house unit, exactly TWO total above-ground levels, ground floor plus one upper storey. Its rectangle is visibly deeper than it is wide. Modest weathered brick and plaster, narrow low-pitched slate roof, compact domestic front. One central ground-level entrance; upper-floor windows remain strongly foreshortened. The inherited duplex programme is domestic. Only this single freestanding isolated unit is included; no neighboring row, extra storey or large yard.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/rowhouse-v1.png",
+    "selected": false,
+    "sha256": "daaf8b42c64ca719d31beb405757648d5f8715939b7dc10993dda64ba6249e69",
+    "bytes": 2370866,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "rowhouse",
+    "id": "native:rowhouse",
+    "artId": "native:rowhouse",
+    "nativeType": "rowhouse",
+    "name": "Maison étroite",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Maison étroite native exterior for DEADWALL, type rowhouse. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 2 native floors together must be no more than 150 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 2 total above-ground floors ([0,1] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 11 m wide by 18 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 158% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/rowhouse-v1.png",
+        "sha256": "daaf8b42c64ca719d31beb405757648d5f8715939b7dc10993dda64ba6249e69"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/rowhouse-v2.png",
+    "selected": false,
+    "sha256": "97b9f503621a424c4b1f8ad80455dc5d2f9f9901b85dae1320d7be909c04fb7c",
+    "bytes": 2259778,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "rowhouse",
+    "id": "native:rowhouse",
+    "artId": "native:rowhouse",
+    "nativeType": "rowhouse",
+    "name": "Maison étroite",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the edit target, a native DEADWALL source-art building. Correct only the main roof footprint proportion, preserving the high almost-top-down orthographic view. The roof is now excessively long. Shorten its front-to-back footprint by about one quarter while keeping its width, so the main roof rectangle is about 11 units wide and 18 units deep. Its projected TOP-to-BOTTOM roof length must be about 1.58 times its LEFT-to-RIGHT width, excluding the chimney and the tiny front wall. It must not look twice as deep as it is wide. Keep the roof ridge aligned front-to-back, the same slate roof and one chimney. Keep EXACTLY TWO total native floor levels, ground floor plus one upper storey, shown as the same two very short foreshortened bands at the image bottom. Do not raise the facade, change its doors or windows, remove a storey, introduce any third storey, expose interior rooms or alter the building identity. Preserve aged plaster, restrained stone/brick, roof detail and weathering in the same serious hand-painted game style. The central ground-level doorway and threshold remain at ground level below the wall, not on the roof. Re-render the geometry cleanly from this high view, with horizontal/vertical footprint axes, no perspective convergence or diagonal rotation. Keep a true transparent RGBA background and generous margins, only a short contact shadow. No solid ground tile, platform, extra wing, props, text, symbols, people or vehicles. This is a native source-image edit, not a requested bitmap stretch.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/rowhouse-v2.png",
+        "sha256": "97b9f503621a424c4b1f8ad80455dc5d2f9f9901b85dae1320d7be909c04fb7c"
+      }
+    ],
+    "output": "assets/art230/native/rowhouse_maison_etroite.png",
+    "selected": true,
+    "sha256": "386e0771eee9a10dceb290a3a9bcec50504d51f154f57658d6ebdcd4a805aee4",
+    "bytes": 1547631,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "bungalow",
+    "id": "native:bungalow",
+    "artId": "native:bungalow",
+    "nativeType": "bungalow",
+    "name": "Pavillon",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=bungalow. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 68% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Pavillon: a broad low 20 m wide by 14 m deep suburban bungalow, exactly ONE ground-floor level. Weathered pale plaster, dull terracotta or slate roof with low pitch, ordinary domestic windows and a modest central ground-level entry. The inherited programme is a home with living room, kitchen, bedroom and storage. One compact rectangle, no upper floor, attached wing, garage block, patio or full garden.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/bungalow-v1.png",
+    "selected": false,
+    "sha256": "5c43d599bb605dc8bfa1bb138e51259610f1d2bc56060c8350a8f7824eb6bf0c",
+    "bytes": 2521369,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "bungalow",
+    "id": "native:bungalow",
+    "artId": "native:bungalow",
+    "nativeType": "bungalow",
+    "name": "Pavillon",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Pavillon native exterior for DEADWALL, type bungalow. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 1 native floors together must be no more than 40 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 1 total above-ground floor ([0] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 20 m wide by 14 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 68% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/bungalow-v1.png",
+        "sha256": "5c43d599bb605dc8bfa1bb138e51259610f1d2bc56060c8350a8f7824eb6bf0c"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "assets/art230/native/bungalow_pavillon.png",
+    "selected": true,
+    "sha256": "274f2cd1d785c159929525b9296dc2c7d0502a73066fc0855eea04342f1512c3",
+    "bytes": 2398689,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "familyHouse",
+    "id": "native:familyHouse",
+    "artId": "native:familyHouse",
+    "nativeType": "familyHouse",
+    "name": "Maison familiale",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=familyHouse. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 83% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Maison familiale: a 22 m wide by 19 m deep family house, exactly TWO total above-ground levels, ground floor plus one upper storey. Restrained aging plaster and stone trim, broad shallow hipped dark-gray roof, small domestic windows. Keep a nearly square coherent envelope and one central entry touching the ground. The inherited duplex programme is domestic. No third storey, roof terrace, detached garage, balcony platform or invented annex.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/familyHouse-v1.png",
+    "selected": false,
+    "sha256": "ddfb6b7100190afc0225c7e520a98ee3509e549a1221336bb6ff164ba2d910b7",
+    "bytes": 1888727,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "familyHouse",
+    "id": "native:familyHouse",
+    "artId": "native:familyHouse",
+    "nativeType": "familyHouse",
+    "name": "Maison familiale",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Maison familiale native exterior for DEADWALL, type familyHouse. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 2 native floors together must be no more than 80 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 2 total above-ground floors ([0,1] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 22 m wide by 19 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 83% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/familyHouse-v1.png",
+        "sha256": "ddfb6b7100190afc0225c7e520a98ee3509e549a1221336bb6ff164ba2d910b7"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "assets/art230/native/familyHouse_maison_familiale.png",
+    "selected": true,
+    "sha256": "208e1ad317fbb560274c4d5229d7c13e6148148caea54a4fa8f7afeec0716402",
+    "bytes": 1738361,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "farmhouse",
+    "id": "native:farmhouse",
+    "artId": "native:farmhouse",
+    "nativeType": "farmhouse",
+    "name": "Corps de ferme",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=farmhouse. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 51% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Corps de ferme: one long rectangular farmhouse 32 m wide by 17 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Rural weathered stone and muted old plaster, continuous low-pitched aged tile roof, restrained chimney, rhythm of modest domestic openings. Its native interior inherits the duplex home programme; represent the single residential farmhouse envelope only. Keep the front low and strongly foreshortened with a central ground-level doorway. No farm courtyard, detached barn, animals, silo, separate wing, third storey or full agricultural estate.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/farmhouse-v1.png",
+    "selected": false,
+    "sha256": "f22cab19f5787e35734add30f0fc27fc3cf156fb9ca9405cf0001b893a7cf027",
+    "bytes": 1947146,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "farmhouse",
+    "id": "native:farmhouse",
+    "artId": "native:farmhouse",
+    "nativeType": "farmhouse",
+    "name": "Corps de ferme",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Corps de ferme native exterior for DEADWALL, type farmhouse. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 2 native floors together must be no more than 50 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 2 total above-ground floors ([0,1] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 32 m wide by 17 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 51% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/farmhouse-v1.png",
+        "sha256": "f22cab19f5787e35734add30f0fc27fc3cf156fb9ca9405cf0001b893a7cf027"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/farmhouse-v2.png",
+    "selected": false,
+    "sha256": "441b6eefd2745dea3cb68dfc06467ad2b2ec9b7ca7b81b4c9b0262d4ae92e28a",
+    "bytes": 1696867,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "farmhouse",
+    "id": "native:farmhouse",
+    "artId": "native:farmhouse",
+    "nativeType": "farmhouse",
+    "name": "Corps de ferme",
+    "iteration": 3,
+    "prompt": "Use case: precise-object-edit. Image 1 is the edit target, a native DEADWALL source-art building. Correct only the main roof footprint proportion, preserving the high almost-top-down orthographic view. The roof footprint is now too shallow front-to-back. Increase its front-to-back depth by about 45 percent while keeping its width, so the main roof rectangle is about 32 units wide and 17 units deep. Its projected TOP-to-BOTTOM roof depth must be about 0.51 times its LEFT-to-RIGHT width, excluding the chimney and the tiny front wall. It must read as roughly two units wide for one unit deep, not a very skinny three-to-one strip. Keep the same continuous gable roof and terracotta tiles. Keep EXACTLY TWO total native floor levels, ground floor plus one upper storey, shown as the same two very short foreshortened bands at the image bottom. Do not raise the facade, change its doors or windows, remove a storey, introduce any third storey, expose interior rooms or alter the building identity. Preserve aged plaster, restrained stone/brick, roof detail and weathering in the same serious hand-painted game style. The central ground-level doorway and threshold remain at ground level below the wall, not on the roof. Re-render the geometry cleanly from this high view, with horizontal/vertical footprint axes, no perspective convergence or diagonal rotation. Keep a true transparent RGBA background and generous margins, only a short contact shadow. No solid ground tile, platform, extra wing, props, text, symbols, people or vehicles. This is a native source-image edit, not a requested bitmap stretch.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/farmhouse-v2.png",
+        "sha256": "441b6eefd2745dea3cb68dfc06467ad2b2ec9b7ca7b81b4c9b0262d4ae92e28a"
+      }
+    ],
+    "output": "assets/art230/native/farmhouse_corps_de_ferme.png",
+    "selected": true,
+    "sha256": "f037201ca257e23de8f447c316584da37fac7ac3245b4b47b6634b147c18dd0b",
+    "bytes": 1957748,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "villa",
+    "id": "native:villa",
+    "artId": "native:villa",
+    "nativeType": "villa",
+    "name": "Grande villa",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=villa. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 79% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Grande villa: one substantial rectangular villa 28 m wide by 23 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Aged warm-gray plaster and restrained stone trim, broad low hipped weathered roof, balanced domestic windows, a modest central ground-level doorway. The native plan is a larger duplex home programme. Understated abandoned civilian architecture. No towers, mansard extra storey, mansion wings, swimming pool, ornamental garden, terraces or courtyard.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/villa-v1.png",
+    "selected": false,
+    "sha256": "c537b78f923ca5c2bad3f3889e213e18465979c377a6bcd54176e155610d6fbd",
+    "bytes": 2252536,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "villa",
+    "id": "native:villa",
+    "artId": "native:villa",
+    "nativeType": "villa",
+    "name": "Grande villa",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Grande villa native exterior for DEADWALL, type villa. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 2 native floors together must be no more than 60 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 2 total above-ground floors ([0,1] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 28 m wide by 23 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 79% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/villa-v1.png",
+        "sha256": "c537b78f923ca5c2bad3f3889e213e18465979c377a6bcd54176e155610d6fbd"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "assets/art230/native/villa_grande_villa.png",
+    "selected": true,
+    "sha256": "94f5fbc89e6029d679a4fefa881d42d7138b7c5db4159bb75eadb169f858974f",
+    "bytes": 2134178,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "duplexWide",
+    "id": "native:duplexWide",
+    "artId": "native:duplexWide",
+    "nativeType": "duplexWide",
+    "name": "Maison double",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE isolated source-art exterior sprite for DEADWALL — Last Enclosure. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS: use only as painting-style and high-camera reference, never copy its checkerboard. Serious semi-realistic hand-painted abandoned strategy-game architecture; muted gray, olive, dusty earth, aged plaster, old brick and restrained rust, believable human scale. CAMERA: orthographic from 75 degrees above the ground, only 15 degrees away from vertically straight down. Building footprint axes align horizontally and vertically with the image. The roof is deep and dominant, the visible front facade at image bottom is a very narrow foreshortened strip. Correct floor count must survive in those short facade bands. No diamond/isometric rotation, low cinematic perspective or tall dollhouse elevation. Intact roof, no cutaway. Ground-level doors and thresholds touch the ground; the rear exit may be naturally occluded. No rooftop door or staircase. Exactly one centered cohesive building, generous transparent margins, true RGBA alpha, only a short contact shadow. No checkerboard, matte, background color, gradient, halo, terrain tile or display plinth. No text, letters, logo, pictogram, UI, watermark, people, animals, vehicles, fire, smoke, active machinery, detached props or invented annexes. Facade materials and precise roof details are artistic interpretations; the controlling geometry and level count are the actual native plan. This is source art for later calibration, with no asserted reassignment to a Codex card.  BATCH art230; nativeType=duplexWide. PROPORTION TARGET: the roof footprint's projected front-to-back depth is approximately 61% of its horizontal width. This proportion is a visual target, not a pixel certificate. SUBJECT: Maison double: one broad rectangular double house 30 m wide by 19 m deep, exactly TWO total above-ground levels, ground floor plus one upper storey. Weathered brick and plaster, continuous shallow double-house roof whose paired halves remain one cohesive rectangle, modest repeated domestic windows. The actual native plan inherits one duplex/home programme with central entry and rear exit; keep a single understated central front access and do not invent separate gameplay entrances. No third floor, detached units, courtyards or large porch.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "references/iterations/duplexWide-v1.png",
+    "selected": false,
+    "sha256": "79e4f845454228462f90ffdeaf7a834822e0e3ec0217b366d0bff1687ecd1eba",
+    "bytes": 2419733,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "duplexWide",
+    "id": "native:duplexWide",
+    "artId": "native:duplexWide",
+    "nativeType": "duplexWide",
+    "name": "Maison double",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. EDIT IMAGE 1, the selected Maison double native exterior for DEADWALL, type duplexWide. Image 2 is the original game atlas, used only for its near-overhead game camera and painted texture. Correct ONLY the camera projection of image 1: raise the camera almost directly above the building, about 75 degrees above the ground. The result should read as a TOP-DOWN ROOF PLAN with a tiny foreshortened front wall band at the bottom. At a roof width of 1000 image pixels, the TOTAL visible facade for all 2 native floors together must be no more than 60 image pixels high. The wall is currently much too tall. Compress the doors and windows vertically with the projection, never enlarge that wall for readability. Keep the exact 2 total above-ground floors ([0,1] native levels); do not remove an upper floor, add a floor, or expose an interior. Keep the 30 m wide by 19 m deep rectangular footprint; the main roof's projected front-to-back depth should be approximately 61% of its width. Roof edges align horizontally/vertically and remain parallel. Preserve the same building identity, roof material and structure, chimneys, weathering, muted palette, and fine hand-painted rendering. The ground-level central entrance and threshold stay below the wall and touch the ground, never move onto the roof. Preserve the true RGBA transparent background and generous margins. Short contact shadow only, no opaque ground tile, display plinth, halo, checkerboard, text, symbols, people, vehicles, extra props or annexes. Re-render this single building faithfully from the higher camera; do not stretch the bitmap or leave a front-elevation facade pasted under the roof.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/duplexWide-v1.png",
+        "sha256": "79e4f845454228462f90ffdeaf7a834822e0e3ec0217b366d0bff1687ecd1eba"
+      },
+      {
+        "path": "references/buildings-atlas.webp",
+        "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a"
+      }
+    ],
+    "output": "assets/art230/native/duplexWide_maison_double.png",
+    "selected": true,
+    "sha256": "5f27bdcb1ae1e263efd647cd8e0a323559aa435e5851ecae7a13118416ca5a8b",
+    "bytes": 2485810,
+    "nativeBytesPreserved": true
+  }
+]
