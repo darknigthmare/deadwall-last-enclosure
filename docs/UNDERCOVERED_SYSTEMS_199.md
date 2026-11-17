@@ -1,5 +1,7 @@
 # 199 — Entretien de terrain, eau portée et cas limites
 
+> **Note de mise à jour — novembre 2026.** La liste « Zones peu couvertes encore à traiter » date de la passe 199 : le transport des produits bruts (203) et l'identité de carte en coopération (200, 201) ont été traités depuis. Référence d'ensemble : [GAME_BIBLE.md](GAME_BIBLE.md).
+
 Cette continuation part du commit `5fccf78b553300fc7fc1411ee339d68a6f381be3`, tête qualifiée de la PR #10. La branche des menus reste intacte. La suite est proposée séparément et dépend de son intégration ; aucune fusion ni publication de production n'est effectuée. `199` est un repère de développement, pas une nouvelle version commerciale.
 
 ## Ce qui a été réalisé

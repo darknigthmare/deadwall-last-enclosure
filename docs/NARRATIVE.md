@@ -39,7 +39,7 @@ Le moral reste plafonné à 100 ; le gain réellement possible est affiché avan
 - I, Le point de retour : début de chaque campagne.
 - II, Une place derrière les murs : les trois premiers objectifs d’introduction ont été accomplis.
 - III, Ce qu’ils ont laissé : premier relevé terminé.
-- IV, La dernière enceinte : six décisions consignées et au moins trois vagues repoussées.
+- IV, La dernière enceinte : six décisions consignées et au moins trois assauts repoussés.
 
 Les chapitres déjà acquis restent lisibles après la perte d’un bâtiment. Le IV est un épilogue humain, pas une victoire qui arrêterait le directeur de horde. Aucune opération n’est nécessaire pour construire, rechercher ou continuer une campagne.
 

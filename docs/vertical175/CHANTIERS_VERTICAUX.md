@@ -15,7 +15,7 @@ Ce tableau distingue des fonctions intégrées des travaux non livrés. Les onze
 | Intégrité | Charge d'ancrage, perte de pont/support, chutes et caisses ; dépose interdite sur intrus et personnel affecté | Piliers endommageables, propagation des ruptures, débris physiques |
 | Siège massif | Pression agrégée des amas, 24 occupants élevés, géants 6/12/20 m | Corps individuels empilés, grandes foules distantes/LOD, qualification de performances |
 | Double vue | État partagé, WebGL réel, tir clavier, panne/restauration du contexte, ponts et cibles en altitude | Modèles, textures, animations, sons et éclairages finaux ; HUD général encore chargé |
-| Sauvegarde | Registre v5, migrations additives, trajectoires natives et inventaires conservatifs | Campagnes de longue durée, tests de charge des plus grands réseaux |
+| Sauvegarde | Registre vertical interne v5 (distinct de la sauvegarde générale v20), migrations additives, trajectoires natives et inventaires conservatifs | Campagnes de longue durée, tests de charge des plus grands réseaux |
 | Livraison | Sources et tests sur branche dédiée, pipelines de QA, patchs et reçus | Revue de fusion, déploiement de production et qualification sur appareils physiques |
 
 Ne pas réunir automatiquement la variante PR #7 avec ce code : ses données, chiffres et rendu diffèrent.

@@ -1,6 +1,8 @@
 # Départs de campagne — DEADWALL 1.0
 
-Quatre conditions de départ utilisent la même cité, les mêmes huit profils d’infectés, les mêmes règles de vague et les mêmes objectifs. Un départ n’est ni une quatrième difficulté, ni un bonus permanent. La difficulté Survivant / Standard / Brutal demeure indépendante.
+> **Note de mise à jour — novembre 2026.** Les durées de 82, 112 et 64 s sont les valeurs historiques de `START_SCENARIOS`. Depuis « Aube & Bastions », le premier calme affiché vaut `(210 + durée historique − 82) × difficulté.calmTime` : 210 s en départ classique Standard (voir `BALANCING.md`).
+
+Quatre conditions de départ utilisent la même cité, les mêmes dix profils d’infectés, les mêmes règles de vague et les mêmes objectifs. Un départ n’est ni une quatrième difficulté, ni un bonus permanent. La difficulté Survivant / Standard / Brutal demeure indépendante.
 
 ## Contrats initiaux
 

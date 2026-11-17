@@ -7,8 +7,8 @@
   "sources": [
     {
       "path": "index.html",
-      "bytes": 36396,
-      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
+      "bytes": 36445,
+      "sha256": "8ab70b9c020f6cee452d93f8b1ee82057e863be21e5828ce94c4f31ff3763c66"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -771,6 +771,11 @@
       "sha256": "9c52904d2e02159fd6cf136e4d1da0bcd6f76daee73fadfefdb3ebbdac39aeb8"
     },
     {
+      "path": "src/map-recovery216.js",
+      "bytes": 2280,
+      "sha256": "010638943150fabbe50e585a7debed7858863f0aba50ff4172d3798766aab0b4"
+    },
+    {
       "path": "src/metric-contract174.js",
       "bytes": 7220,
       "sha256": "e1378c278f4bb4b3b3ad04ec24bffb3cea3783a2d9b768368d839e0313ac1b9f"
@@ -782,8 +787,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13060,
-      "sha256": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c"
+      "bytes": 13057,
+      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
     },
     {
       "path": "src/nature-art153.js",
@@ -1234,8 +1239,8 @@
   "sourcesAfter": [
     {
       "path": "index.html",
-      "bytes": 36396,
-      "sha256": "bda457cf066cc2983a4cd23f6d200f13bdc18f0e38abe59342c2deae6dd4b0eb"
+      "bytes": 36445,
+      "sha256": "8ab70b9c020f6cee452d93f8b1ee82057e863be21e5828ce94c4f31ff3763c66"
     },
     {
       "path": "scripts/audit-campaign-services208.cjs",
@@ -1998,6 +2003,11 @@
       "sha256": "9c52904d2e02159fd6cf136e4d1da0bcd6f76daee73fadfefdb3ebbdac39aeb8"
     },
     {
+      "path": "src/map-recovery216.js",
+      "bytes": 2280,
+      "sha256": "010638943150fabbe50e585a7debed7858863f0aba50ff4172d3798766aab0b4"
+    },
+    {
       "path": "src/metric-contract174.js",
       "bytes": 7220,
       "sha256": "e1378c278f4bb4b3b3ad04ec24bffb3cea3783a2d9b768368d839e0313ac1b9f"
@@ -2009,8 +2019,8 @@
     },
     {
       "path": "src/narrative.js",
-      "bytes": 13060,
-      "sha256": "afa7ebea2a2da7e7e9704707f4c532eb3f8445b5e3c454e3d1c619702c76f56c"
+      "bytes": 13057,
+      "sha256": "811715ba9e8d504206625accaa00d90066dbffa04cfdb067e22201c979d9fcb2"
     },
     {
       "path": "src/nature-art153.js",

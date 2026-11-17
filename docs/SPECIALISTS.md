@@ -6,8 +6,8 @@ Le secouriste et l’ingénieur sont des survivants physiques. Chacun occupe un 
 
 | Rôle | Conditions | Recrutement | Santé / vitesse | Soutien |
 |---|---|---|---|---|
-| Secouriste (`medic`) | Palier 2, clinique terminée, logement libre | 35 nourriture + 8 médicaments | 90 PV / 66 unités par seconde | 6 PV par seconde au contact, 0,025 médicament par PV réellement soigné |
-| Ingénieur (`engineer`) | Palier 2, atelier terminé, logement libre | 35 nourriture + 35 ferraille | 105 PV / 62 unités par seconde | 14 PV de structure par seconde au contact, matériaux au prorata des PV réellement réparés |
+| Secouriste (`medic`) | Palier 2 du code (Avant-poste, âge 3), clinique terminée, logement libre | 35 nourriture + 8 médicaments | 90 PV / 66 unités par seconde | 6 PV par seconde au contact, 0,025 médicament par PV réellement soigné |
+| Ingénieur (`engineer`) | Palier 2 du code (Avant-poste, âge 3), atelier terminé, logement libre | 35 nourriture + 35 ferraille | 105 PV / 62 unités par seconde | 14 PV de structure par seconde au contact, matériaux au prorata des PV réellement réparés |
 
 Le recrutement vérifie toutes les conditions avant de prélever le coût entier. Il est autorisé pendant la partie et la pause volontaire du poste de commandement, jamais depuis les autres menus, une pause ordinaire ou une défaite. Les anciens ouvriers et fusiliers gardent leurs statistiques et coûts.
 

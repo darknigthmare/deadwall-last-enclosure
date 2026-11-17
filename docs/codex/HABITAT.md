@@ -1,5 +1,7 @@
 # Modules habitat — Codex territorial 1.26
 
+> **Note de mise à jour — novembre 2026.** La variante « camp de pillards » est une fiche de conception : aucune faction humaine n'est livrée en 1.74.0. Les factions sont cadrées par [GAME_BIBLE.md](../GAME_BIBLE.md) (§4).
+
 Source structurée : `src/world-codex-habitat.js`. Les statuts indiquent la portée réelle : jouable, plan pilote partiel, ou conception. Ces fiches ne peuplent pas automatiquement le monde.
 
 ## Hameau — `hameau`

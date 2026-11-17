@@ -1,3 +1,23 @@
+# 1.74.0 — Récupérateurs et eau de service
+
+- Collecteurs d'eau de pluie des haltes G11 : remise en service, remplissage sous la pluie et puisage au seau. Guide : [docs/LIVRAISON_1_74.md](docs/LIVRAISON_1_74.md).
+- Carte impraticable : sur de rares graines, le décor ne trouvait aucune parcelle libre et la nouvelle partie s'interrompait. La création reprend désormais avec une autre carte, annoncée au joueur ; les graines qui fonctionnent donnent le même monde qu'avant. Le test de libellés d'expédition ne dépend plus de la police de la machine. Détail : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) §11.2.
+- Récit : le chapitre I ne suppose plus d'effectif de départ ; deux signatures du registre sont précisées.
+- Direction du projet : [docs/GAME_BIBLE.md](docs/GAME_BIBLE.md) fixe les piliers, l'univers, la cohérence entre systèmes et les décisions de cadrage. La bible ne modifie aucune règle livrée.
+
+# 1.66.0 à 1.73.0 — Résumé
+
+Chaque version est décrite par son guide ; ce résumé ne remplace pas leurs portées et limites.
+
+- 1.73 — Équipements et haltes vivantes : actions de terrain sur le mobilier des haltes G11. [Guide](docs/LIVRAISON_1_73.md).
+- 1.72 — Haltes et parcs résidentiels : génération G11, quatre familles de lieux, au plus huit implantations par graine. [Guide](docs/LIVRAISON_1_72.md).
+- 1.71 — Codex mondial et parcours verticaux : 80 types et 4 000 plans métriques. [Guide](docs/LIVRAISON_1_71.md).
+- 1.70 — Rives et réseaux. [Guide](docs/LIVRAISON_1_70.md).
+- 1.69 — D-17 à échelle humaine : dimensions et placement des bâtiments. [Guide](docs/LIVRAISON_1_69.md).
+- 1.68 — Chantiers et expéditions : six ensembles de construction. [Guide](docs/LIVRAISON_1_68.md).
+- 1.67 — Sorties et lignes de défense : cueillette, six fronts météo. [Guide](docs/LIVRAISON_1_67.md).
+- 1.66 — Faune et survie : chasse, pêche et enclos. [Guide](docs/LIVRAISON_1_66.md).
+
 # 1.65.0 — Maintenance après audit (PR)
 
 - Rendu FPS : orientation des acteurs, marche liée au déplacement réel, buffers réutilisés et géométrie statique invalidée par ses données.

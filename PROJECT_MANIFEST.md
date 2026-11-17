@@ -1,6 +1,10 @@
-# État courant — DEADWALL 1.65.0
+# État courant — DEADWALL 1.74.0
 
-Le package et le README font référence à Eaux et biomes vivants. Guide courant : `docs/LIVRAISON_1_65.md`. Maintenance issue de l'audit : `docs/AUDIT_FIXES_183.md`. Les signatures des builds et les résultats sont associés au commit de chaque exécution ; aucune mise en production n'est déduite de ce manifeste.
+Le package et le README font référence à Récupérateurs et eau de service. Guide courant : `docs/LIVRAISON_1_74.md`. Sauvegarde générale : v20. Direction et cohérence d'ensemble : `docs/GAME_BIBLE.md`. Les livraisons 1.66 à 1.73 sont décrites par leurs guides `docs/LIVRAISON_1_66.md` à `docs/LIVRAISON_1_73.md`.
+
+## État précédent — DEADWALL 1.65.0
+
+Le package et le README faisaient référence à Eaux et biomes vivants. Guide : `docs/LIVRAISON_1_65.md`. Maintenance issue de l'audit : `docs/AUDIT_FIXES_183.md`. Les signatures des builds et les résultats sont associés au commit de chaque exécution ; aucune mise en production n'est déduite de ce manifeste.
 
 Les livraisons ci-dessous sont historiques et ne constituent pas une certification de cette PR.
 

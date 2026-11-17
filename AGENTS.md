@@ -8,6 +8,7 @@ Avant toute modification, lire dans cet ordre :
 4. `docs/BALANCING.md`
 5. `docs/CODEX_MASTER_PROMPT.md`
 6. `docs/GAMEDEV_GUIDANCE.md` : contrat du moteur, choix des guides gamedev et critères de réception.
+7. `docs/GAME_BIBLE.md` : bible du jeu — piliers, univers, cohérence entre systèmes et décisions de direction.
 
 Règles obligatoires :
 

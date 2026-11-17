@@ -1,5 +1,7 @@
 # Roadmap de production
 
+> **Note de mise à jour — novembre 2026.** L'ordre des prochains chantiers est désormais fixé par la feuille de route de [GAME_BIBLE.md](GAME_BIBLE.md) (§12). Les listes ci-dessous restent l'inventaire historique.
+
 Le jeu actuel utilise un moteur Canvas 2D/2.5D, livré en application Windows Electron autonome et en navigateur/PWA. Une présentation commerciale ne nécessite pas, à elle seule, un changement de moteur. Ce document sépare les systèmes présents des pistes futures ; il ne constitue ni un engagement de contenu ni une certification de sortie.
 
 ## Déjà présent dans la base actuelle
@@ -11,13 +13,13 @@ Le jeu actuel utilise un moteur Canvas 2D/2.5D, livré en application Windows El
 - six doctrines et records locaux, dix campagnes récentes ;
 - secouristes et ingénieurs, soins/réparations payés sur stock ;
 - six secteurs nommés, 48 vestiges récupérables et dossiers de terrain ;
-- huit profils d'infectés, dix atlas/textures originaux et seize cycles animés ;
+- dix profils d'infectés et trois géants du siège vertical, dix atlas/textures originaux et seize cycles animés ;
 - édition PC hors ligne, sandbox et archives portables non signées.
 - quatre conditions de départ, douze combinaisons avec les difficultés et records séparés ;
 - trois sections de fusiliers, points indépendants, repli et raccourcis 4/5/6/G/T ;
 - situation par front, alerte de proximité du centre et bilan de défaite mesuré.
 
-Ces intitulés ne promettent pas de véhicules pilotables, de gestion de morsures, de population abritée automatiquement ou de coopération. Le récit et ses opérations sont documentés par leur module propre ; ils ne remplacent pas une campagne de combat intégralement scénarisée.
+Sont aussi livrés depuis : neuf véhicules pilotables en région, un relais de coopération limité à la présence et aux repères, les incendies et leur propagation (Siege 1.3), les logements suspendus de la citadelle verticale. Ces intitulés ne promettent pas de gestion de morsures, de population abritée automatiquement ni de monde coopératif partagé. Le récit et ses opérations sont documentés par leur module propre ; ils ne remplacent pas une campagne de combat intégralement scénarisée.
 
 ## Pistes — Consolidation de la version actuelle
 
@@ -32,7 +34,7 @@ Ces intitulés ne promettent pas de véhicules pilotables, de gestion de morsure
 - routes logistiques visibles ;
 - brouettes, chariots, camionnettes et camions ;
 - métiers supplémentaires au-delà des secouristes et ingénieurs existants ;
-- incendies et propagation ;
+- incendies et propagation : livrés par Siege 1.3, extensions possibles ;
 - eau potable, canalisations et contamination ;
 - quarantaine, morsures et tests ;
 - évacuation/fermeture administrée des quartiers, au-delà des sites nommés actuels ;

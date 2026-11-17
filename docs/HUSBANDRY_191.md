@@ -1,5 +1,7 @@
 # 191 — Enclos régionaux, entretien et transformation
 
+> **Note de mise à jour — novembre 2026.** État à la passe 191. Depuis : seau transportable (199), soins des captifs (200) et colis de produits `cargo203`. Référence d'ensemble : [GAME_BIBLE.md](GAME_BIBLE.md).
+
 Cette passe complète le correctif local chasse/pêche 190 et part du contenu de `main` au commit `667de8bcf8a9d6252483aa82f6f13ce42f136458` (PR 8 déjà fusionnée). Les nombres 190 et 191 sont des repères techniques, pas des numéros de version commerciale.
 
 ## Commandes et boucle réellement implémentées

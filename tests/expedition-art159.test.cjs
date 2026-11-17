@@ -27,7 +27,11 @@ test('159 native site picture, owner finite/report state, labels and selection u
  c.clearRect(0,0,220,180);s.stock.fuel=0;E.site(c,d,s,true,{art,seed:17117});assert.ok(Math.abs(calls.at(-1).alpha-.52)<=1/255);
  c.clearRect(0,0,220,180);E.site(c,d,s,true,{art:{images:{}},seed:17117});assert.notEqual(sha(c.getImageData(0,0,220,180).data),sha(Buffer.alloc(220*180*4)),'fallback still paints site and label');
  assert.equal(A.draw(c,{images:{}},d,s),false);assert.equal(A.select('constructor','anything'),null);
- c.font='bold 11px sans-serif';for(const site of C.Expeditions.SITES){const lines=E.siteLabel(c,site.name);assert.equal(lines.join(' '),site.name);assert.ok(lines.every(line=>c.measureText(line).width<=108),'site labels fit their bounded world support');}
+ c.font='bold 11px sans-serif';for(const site of C.Expeditions.SITES){const lines=E.siteLabel(c,site.name);assert.equal(lines.join(' '),site.name);// The system font decides the measure: a runner image can ship a much wider fallback face. The wrap
+  // contract is checked on any font — only a lone, unsplittable word may exceed the support — and the
+  // real names are checked against the 108 px support with a fixed advance that no machine can change.
+  assert.ok(lines.every(line=>c.measureText(line).width<=108||!line.includes(' ')),'site labels wrap at their bounded world support');
+  const fixed={measureText:text=>({width:text.length*7})},stable=E.siteLabel(fixed,site.name);assert.equal(stable.join(' '),site.name);assert.ok(stable.every(line=>line.length*7<=108),'site labels fit their bounded world support');}
 });
 
 test('159 site identity and seed pick stable true variants without rerolling on reported/empty state, frame clock or reload',async()=>{

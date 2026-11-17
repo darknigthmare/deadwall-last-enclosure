@@ -7,10 +7,10 @@
   'use strict';
   // Authored traces belong to places, not living units. No hidden survivor or rescue is promised.
   const CHAPTERS=[
-    {id:'departure',title:'I · Le point de retour',text:'D-17 était un dépôt municipal. Trois ouvriers ont choisi d’y rester avec vous. Il reste des outils, un peu de vivres et une règle écrite sur la porte : personne ne part sans savoir où revenir. Commencez par rapporter des matériaux ; une cité ne tient pas dans un sac.'},
+    {id:'departure',title:'I · Le point de retour',text:'D-17 était un dépôt municipal. Ceux qui vous accompagnent ont choisi d’y rester. Il reste des outils, un peu de vivres et une règle écrite sur la porte : personne ne part sans savoir où revenir. Commencez par rapporter des matériaux ; une cité ne tient pas dans un sac.'},
     {id:'shelter',title:'II · Une place derrière les murs',text:'Un dortoir et une ferme ne rendent personne invulnérable. Ils donnent une raison de revenir. Gardez des portes praticables, des réserves et une ligne de repli : les bâtiments ne mettront pas automatiquement vos équipes à l’abri.'},
     {id:'initiative',title:'III · Ce qu’ils ont laissé',text:'Les quartiers n’étaient pas vides avant votre arrivée. Leurs traces racontent des décisions prises avec trop peu de temps. Au dépôt, vous pouvez en tirer une méthode ou en faire un moment partagé avec l’équipe. Choisir l’un, c’est renoncer à l’autre pour ce dossier.'},
-    {id:'network',title:'IV · La dernière enceinte',text:'Six quartiers ont retrouvé une place dans le registre de D-17. La ligne a tenu au moins trois migrations. Vous n’avez ni retrouvé tous les disparus, ni arrêté la contamination. Vous avez gardé leurs pratiques d’entraide et un point de retour. La dernière enceinte n’est pas le dernier mur : c’est la décision de ne pas abandonner ceux qui le défendent. Les migrations continuent.'}
+    {id:'network',title:'IV · La dernière enceinte',text:'Six quartiers ont retrouvé une place dans le registre de D-17. La ligne a tenu au moins trois assauts. Vous n’avez ni retrouvé tous les disparus, ni arrêté la contamination. Vous avez gardé leurs pratiques d’entraide et un point de retour. La dernière enceinte n’est pas le dernier mur : c’est la décision de ne pas abandonner ceux qui le défendent. Les migrations continuent.'}
   ];
   const definitions=[
     {id:'housing',title:'Les portes entrouvertes',source:'Liste au crayon · Lina, habitante · date illisible',
@@ -18,7 +18,7 @@
       discovery:'Une liste de voisins, pas un inventaire de ruines. Leur destination reste inconnue.',
       a:['Formaliser les tournées','Vous recopiez les tournées rue par rue. À côté de chaque départ, vous laissez une case pour le retour. Le prochain responsable ne devra pas tout réapprendre.'],
       b:['Lire les noms à l’équipe','Au dépôt, vous prenez le temps de lire chaque nom. Aucun disparu n’est déclaré sauvé ; ceux qui sont ici savent qu’ils seront comptés.']},
-    {id:'market',title:'Le registre des parts',source:'Cahier de comptoir · Sami, répartiteur bénévole · avant le dernier départ',
+    {id:'market',title:'Le registre des parts',source:'Cahier de comptoir · Sami V., répartiteur bénévole · avant le dernier départ',
       excerpt:'« Les rations des absents restent à part jusqu’au soir. Ne rayez pas quelqu’un parce qu’il rentre en retard. Nous avons déjà fait cette erreur hier. » Sous la page, une balance est bloquée par la poussière.',
       discovery:'Le marché distribuait ses dernières réserves. Le registre parle de confiance avant de parler de quantités.',
       a:['Étudier la répartition','Vous séparez le registre en deux colonnes : distribué et attendu. La méthode ne remplit pas les étagères, mais elle montre enfin où les réserves disparaissent.'],
@@ -28,7 +28,7 @@
       discovery:'Le camp n’a laissé ni remède ni certitude. Seulement une consigne : soigner sans inventer de diagnostic.',
       a:['Consigner le protocole','Vous recopiez les observations avant les conclusions. Dans la marge, le mot « guérison » reste barré. Les équipes auront au moins une méthode commune pour parler des blessures.'],
       b:['Organiser une relève','Vous mettez des rations de côté pour la relève. Quelqu’un s’assoit enfin sans garder son équipement contre lui. Personne ne lui demande de se dépêcher.']},
-    {id:'industry',title:'La lumière de service',source:'Cahier de quart · initiales E.R. · après le premier délestage',
+    {id:'industry',title:'La lumière de service',source:'Cahier de quart · Émile R. · après le premier délestage',
       excerpt:'« Garder une lampe pour le retour des équipes. Couper le reste avant que la citerne soit vide. Le prochain quart doit trouver assez de carburant pour redémarrer. » Le fusible de rechange est déjà absent.',
       discovery:'Le site s’est arrêté pour économiser une reprise qui n’est peut-être jamais venue.',
       a:['Analyser le délestage','Vous reconstituez le raisonnement du dernier quart sur un schéma. Une ligne est soulignée deux fois : économiser assez pour pouvoir redémarrer.'],
