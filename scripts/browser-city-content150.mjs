@@ -4,6 +4,7 @@ import path from 'node:path';
 import { createHarness, recorder, ready, chooseCampaign, activate, openCommand, resumeCommand, holdInput, visibleInPanel } from './browser-qa-common144.mjs';
 import { loadedAssets } from './browser-qa-common142.mjs';
 import { prepareAge150, prepareSupports150, prepareService150, prepareRoad150, prepareCompanion150, prepareConstruction150 } from './browser-city-fixtures150.mjs';
+import { inspectPlannedPlacement150, findVisiblePlacement150, observeConstructionPayment150 } from './browser-city-placement150.mjs';
 async function withHold(page, context, touch, key, selector, action) {
   if (touch) {
     // Wait for the real control after drawers/overlays finish changing layout.
@@ -126,20 +127,6 @@ async function readEconomy(page) {
     player: { x: DEADWALL.player.x, y: DEADWALL.player.y }, workerOrder: DEADWALL.workerOrder }));
 }
 
-function inspectPlannedPlacement150({ type, site }) {
-  const g = DEADWALL, def = DeadwallCore.BUILDINGS[type], safe = g.hud135.measure();
-  const placement = g.world.placement(def, site.gx, site.gy, 0);
-  const bounds = { left: site.gx * 32, top: site.gy * 32, right: (site.gx + def.size[0]) * 32, bottom: (site.gy + def.size[1]) * 32 };
-  const overlaps = (actor, margin) => actor.x + actor.radius + margin > bounds.left && actor.x - actor.radius - margin < bounds.right && actor.y + actor.radius + margin > bounds.top && actor.y - actor.radius - margin < bounds.bottom;
-  const actors = [g.player, ...g.units].filter(actor => overlaps(actor, 5)).map(actor => ({ id: actor.id, kind: actor === g.player ? 'player' : actor.kind, x: actor.x, y: actor.y, radius: actor.radius, dead: actor.dead, health: actor.health, state: actor.state, bodyOverlap: overlaps(actor, 0), safetyMarginOverlap: true }));
-  const screen = { x: (site.gx * 32 + 16 - g.camera.x) * g.camera.zoom + g.width / 2, y: (site.gy * 32 + 16 - g.camera.y) * g.camera.zoom + g.height / 2 };
-  const hit = document.elementFromPoint(screen.x, screen.y), screenClear = screen.x >= safe.left + 10 && screen.x <= safe.right - 10 && screen.y >= safe.top + 10 && screen.y <= safe.bottom - 10;
-  const withinSearch = Math.abs(site.gx - Math.floor(g.player.x / 32)) <= 12 && Math.abs(site.gy - Math.floor(g.player.y / 32)) <= 12;
-  return { type, site, bounds, placement: { valid: placement.valid, reason: placement.reason }, actors, screen, safe: { ...safe }, screenClear, hit: { id: hit?.id, tag: hit?.tagName, className: hit?.className },
-    camera: { ...g.camera }, player: { id: g.player.id, x: g.player.x, y: g.player.y, radius: g.player.radius, health: g.player.health, dead: g.player.dead }, workerOrder: g.workerOrder,
-    withinSearch, selectedBuild: g.selectedBuild, valid: placement.valid && !actors.length && screenClear && hit?.id === 'game' && withinSearch };
-}
-
 async function chooseSite(page, type, plannedSite = null) {
   if (plannedSite) {
     const diagnostic = await page.evaluate(inspectPlannedPlacement150, { type, site: plannedSite });
@@ -149,24 +136,7 @@ async function chooseSite(page, type, plannedSite = null) {
     }
     return { gx: plannedSite.gx, gy: plannedSite.gy, screen: diagnostic.screen, cost: await page.evaluate(type => DeadwallCore.BUILDINGS[type].cost, type), diagnostic };
   }
-  return page.evaluate(({ type, plannedSite }) => {
-    const game = DEADWALL, core = game.core(), def = DeadwallCore.BUILDINGS[type], safe = game.hud135.measure(), candidates = [];
-    const origin = { gx: Math.floor(game.player.x / 32), gy: Math.floor(game.player.y / 32) };
-    for (let gy = origin.gy - 12; gy <= origin.gy + 12; gy++) for (let gx = origin.gx - 12; gx <= origin.gx + 12; gx++) {
-      if (plannedSite && (gx !== plannedSite.gx || gy !== plannedSite.gy)) continue;
-      if (!game.world.placement(def, gx, gy, 0).valid) continue;
-      const left = gx * 32, top = gy * 32, right = (gx + def.size[0]) * 32, bottom = (gy + def.size[1]) * 32;
-      if ([game.player, ...game.units].some(actor => actor.x + actor.radius + 5 > left && actor.x - actor.radius - 5 < right && actor.y + actor.radius + 5 > top && actor.y - actor.radius - 5 < bottom)) continue;
-      const x = (gx + .5) * 32, y = (gy + .5) * 32;
-      const screen = { x: (x - game.camera.x) * game.camera.zoom + game.width / 2, y: (y - game.camera.y) * game.camera.zoom + game.height / 2 };
-      if (screen.x < safe.left + 10 || screen.x > safe.right - 10 || screen.y < safe.top + 10 || screen.y > safe.bottom - 10) continue;
-      if (document.elementFromPoint(screen.x, screen.y)?.id !== 'game') continue;
-      candidates.push({ gx, gy, screen, cost: def.cost, distance: Math.hypot((left + right) / 2 - game.player.x, (top + bottom) / 2 - game.player.y) });
-    }
-    candidates.sort((a, b) => a.distance - b.distance || a.gy - b.gy || a.gx - b.gx);
-    if (!candidates.length) throw Error('No valid visible unoccupied placement for ' + type);
-    return candidates[0];
-  }, { type, plannedSite });
+  return page.evaluate(findVisiblePlacement150, { type, plannedSite });
 }
 
 async function selectConstruction150(page, touch, type, category = null) {
@@ -477,22 +447,7 @@ async function saveContinue150(page, touch) {
 
 /** Observation wraps the real owner without modifying its arguments or result. */
 async function observePayment(page, method, type) {
-  await page.evaluate(({ method, type }) => {
-    const g = DEADWALL, original = g[method]; globalThis.__CITY150_PAYMENT__ = null;
-    g[method] = function (...args) {
-      const before = { ...g.resources }, rng = g.random.state;
-      let placement = null;
-      if (method === 'placeOne') {
-        const [id, gx, gy, rotation = 0] = args, def = DeadwallCore.BUILDINGS[id], width = rotation % 2 ? def.size[1] : def.size[0], height = rotation % 2 ? def.size[0] : def.size[1];
-        const bounds = { left: gx * 32, top: gy * 32, right: (gx + width) * 32, bottom: (gy + height) * 32 };
-        const actors = [g.player, ...g.units].filter(a => a.x + a.radius + 5 > bounds.left && a.x - a.radius - 5 < bounds.right && a.y + a.radius + 5 > bounds.top && a.y - a.radius - 5 < bounds.bottom).map(a => ({ id: a.id, kind: a === g.player ? 'player' : a.kind, x: a.x, y: a.y, radius: a.radius }));
-        placement = { type: id, gx, gy, rotation, valid: g.world.placement(def, gx, gy, rotation).valid, actors };
-      }
-      const result = original.apply(this, args);
-      if (!type || args[0] === type) { globalThis.__CITY150_PAYMENT__ = { before, after: { ...g.resources }, rng, afterRNG: g.random.state, result, placement }; g[method] = original; }
-      return result;
-    };
-  }, { method, type });
+  await page.evaluate(observeConstructionPayment150, { method, type });
 }
 
 /** Capture and bubbling listeners bracket existing UI handlers in the same event. */
