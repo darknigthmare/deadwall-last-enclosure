@@ -1,0 +1,854 @@
+{
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art224",
+  "selectionStatus": "proposal_from_local_sources; not_generated",
+  "repository": "darknigthmare/deadwall-last-enclosure",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "focus": "Services de bourg et activités rurales : commerce horticole, conditionnement des récoltes, hébergement, démontage, menuiserie et réemploi.",
+  "absenceEvidence": {
+    "imageFilesInspected": 156,
+    "namedDedicatedExteriorImagePaths": [],
+    "nativeRenderer": "src/frontier-art.js::lotRoof calls DeadwallInteriorArt153.drawRoof; src/interior-art153.js::ROOF_ALIASES maps all six to existing generic roof families.",
+    "scope": "A dedicated whole-building exterior is missing from the inspected runtime; existing floors, furniture, props and generic roof variants already represent these sites.",
+    "sharedSourcesMainVsSavedPr24": [
+      {
+        "repositoryPath": "src/frontier-places.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/interior-art153.js",
+        "mainAndSavedPr24BytesEqual": true
+      },
+      {
+        "repositoryPath": "src/frontier-art.js",
+        "mainAndSavedPr24BytesEqual": false
+      },
+      {
+        "repositoryPath": "assets/buildings-atlas.webp",
+        "mainAndSavedPr24BytesEqual": true
+      }
+    ],
+    "lotRoofMainAndSavedPr24Identical": true,
+    "frontierArtDiffExplanation": "The saved PR24 version adds sitesById217 and uses it for occupied-site lookup. The lotRoof function and its generic roof delegation are byte-identical."
+  },
+  "exclusions": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "All six selected names are outside all nine remarkable217 USES categories (water, hospital, barracks, fuel, silo, station, dam, transmitter, power). No claim of complete historical file deduplication."
+  },
+  "limits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve pilot programme, floor count, aspect and atlas style; exterior details inferred from functions are design choices, not measured canonical pixels.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "No images generated, no engine integration, no tests or game code modified.",
+    "Do not apply a whole-building sprite directly to a generic roof rectangle without calibrating metres, anchors, depth, rotated colliders and opened interiors."
+  ],
+  "sources": [
+    {
+      "path": "references/frontier-places.js",
+      "repositoryPath": "src/frontier-places.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "61c2f10383a70ba923682598a5e81bdd73269fdfb7291ef4ee8fd42336ab535a",
+      "gitBlob": "8c9f0e7da52e71de36c8b717ea6a221aac4edcf2",
+      "bytes": 9588,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-places.js"
+    },
+    {
+      "path": "references/frontier-specialists.js",
+      "repositoryPath": "src/frontier-specialists.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "2a08756f31fc62bfc05f90950ce2008d99e0aba0ed9997fa664411ec87b77874",
+      "gitBlob": "31757f4b0f83b5c9532972fac1ac38ed1c74c7d5",
+      "bytes": 6605,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-specialists.js"
+    },
+    {
+      "path": "references/frontier-geometry.js",
+      "repositoryPath": "src/frontier-geometry.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "fbdd65ee4047ed510692fc7e822c4b55339f35a17a721dafe671f79baf5c3a01",
+      "gitBlob": "20ccaa7bfcd3584a7aab4e8cd2dddb2f8c5a84e0",
+      "bytes": 14015,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-geometry.js"
+    },
+    {
+      "path": "references/interior-art153.js",
+      "repositoryPath": "src/interior-art153.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+      "bytes": 18868,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/interior-art153.js"
+    },
+    {
+      "path": "references/frontier-art.js",
+      "repositoryPath": "src/frontier-art.js",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "50e3f6e92a1a33bbaddc0a98b99472e367ee66834eeb691c9a26e2507837b017",
+      "gitBlob": "bc3933fb70aae5c092fd0a89361eb818c5a9aa7a",
+      "bytes": 35986,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/src/frontier-art.js"
+    },
+    {
+      "path": "references/buildings-atlas.webp",
+      "repositoryPath": "assets/buildings-atlas.webp",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+      "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+      "bytes": 364648,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp"
+    },
+    {
+      "path": "references/remarkable217.js",
+      "repositoryPath": "src/remarkable217.js",
+      "revision": "c9e60c28d8a4b831b94f64c64c766eb724a90d25",
+      "sha256": "c2aaf40a08f2a5fce22a076d481edcb7aab908688efebfaece118ee31bf062b2",
+      "gitBlob": "b53875eac7d7bdf28201b4beedb7ce33313dc0e5",
+      "bytes": 31652,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/c9e60c28d8a4b831b94f64c64c766eb724a90d25/src/remarkable217.js"
+    },
+    {
+      "path": "references/DW-0046.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "9ae6644dfbdb8d20ad83a88043034d4a25cea3461493bed9bf3f7df0d4690482",
+      "gitBlob": "b342111c685eb0ae378936430a8c1a898bf7f2d7",
+      "bytes": 9956,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md"
+    },
+    {
+      "path": "references/DW-0367.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "f00d032ed4decfca1cc8ceced351e19679f385c9edaba22814d50565834a5ba4",
+      "gitBlob": "9916bf2c3eff79b36a9f12c07541e0e1544cf4d0",
+      "bytes": 8661,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md"
+    },
+    {
+      "path": "references/DW-0104.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "0eac0d0a487d9a0d2f5514eadebe1f5daa7e0b07f131130733d6cb3e20fd99bb",
+      "gitBlob": "48b079dd5cb5d9950e06cf4940714ba9764936f0",
+      "bytes": 8751,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md"
+    },
+    {
+      "path": "references/DW-0251.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "4427b7c911145266778f96309d10b44cf9e82e7a6d1045d447b2892c0ceecfef",
+      "gitBlob": "228d617631a7118f51722caa74f6f0593ee72934",
+      "bytes": 9816,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md"
+    },
+    {
+      "path": "references/DW-0306.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "008f9281e56c22292d691375028b9ce0cee12bb64fdc9e8c9447a3a0619bd6b5",
+      "gitBlob": "f42c6b91cc782547c6d2a581143f2503973fbc5b",
+      "bytes": 8716,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md"
+    },
+    {
+      "path": "references/DW-0237.md",
+      "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md",
+      "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+      "sha256": "5f7e8b76aa3719ce7071420e22340118ff1d3bbac09be6390e81de4f3351e842",
+      "gitBlob": "85ed8e9a9d8a443c6304a4f2f80eaa42cfce1c1d",
+      "bytes": 9946,
+      "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md"
+    }
+  ],
+  "targets": [
+    {
+      "type": "garden",
+      "preset": {
+        "id": "garden",
+        "name": "Jardinerie",
+        "w": 36,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0046"
+      },
+      "roofFamily": "greenhouse",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "greenhouse",
+          "variant": 0,
+          "rect": [
+            786,
+            537,
+            346,
+            214
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "greenhouse",
+          "variant": 1,
+          "rect": [
+            1164,
+            534,
+            354,
+            216
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Serre de vente",
+            "Préparation et réserve",
+            "Bureau",
+            "Stock et livraison"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "plantTray",
+        "crate",
+        "plantTray",
+        "crate",
+        "plantTray",
+        "crate"
+      ],
+      "source": {
+        "path": "references/DW-0046.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "9ae6644dfbdb8d20ad83a88043034d4a25cea3461493bed9bf3f7df0d4690482",
+        "gitBlob": "b342111c685eb0ae378936430a8c1a898bf7f2d7",
+        "bytes": 9956,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md"
+      },
+      "codexQuotes": [
+        "Le terreau est près du chargement et les serres sont raccordées au parcours client.",
+        "### Serres de vente",
+        "### Pépinière",
+        "### Animalerie",
+        "### Réserve",
+        "### Parking",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `garden`; enveloppe bâtie actuelle [36, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0046 JARDINERIE: the native 36 m wide by 28 m deep pilot building, ONE ground-floor level, ratio about 1.29:1. A modest retail greenhouse structure with repeated translucent glazed roof bays, coherent metal frame, low enclosed rear service/storage band. Sales planting trays can be suggested through the actual greenhouse glazing; keep the main aisle and small front public doorway readable. Potting soil/stock relates to the loading access, not scattered across customer circulation. Render the building envelope, not the full proposed 180 m nursery site. No detached greenhouse, animal display, full car park, garden landscape or extra storey.",
+      "filename": "DW-0046_jardinerie.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    },
+    {
+      "type": "marketgarden",
+      "preset": {
+        "id": "marketgarden",
+        "name": "Exploitation maraîchère",
+        "w": 32,
+        "h": 24,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0367"
+      },
+      "roofFamily": "greenhouse",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "greenhouse",
+          "variant": 0,
+          "rect": [
+            786,
+            537,
+            346,
+            214
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "greenhouse",
+          "variant": 1,
+          "rect": [
+            1164,
+            534,
+            354,
+            216
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Lavage et tri des récoltes",
+            "Préparation et réserve",
+            "Bureau",
+            "Stock et livraison"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "plantTray",
+        "crate",
+        "plantTray",
+        "crate",
+        "plantTray",
+        "crate"
+      ],
+      "source": {
+        "path": "references/DW-0367.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f00d032ed4decfca1cc8ceced351e19679f385c9edaba22814d50565834a5ba4",
+        "gitBlob": "9916bf2c3eff79b36a9f12c07541e0e1544cf4d0",
+        "bytes": 8661,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md"
+      },
+      "codexQuotes": [
+        "La récolte rejoint lavage et expédition; les planches de culture restent desservies.",
+        "### Champs",
+        "### Serres",
+        "### Lavage",
+        "### Conditionnement",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `marketgarden`; enveloppe bâtie actuelle [32, 24] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0367 EXPLOITATION MARAICHERE: the native 32 m wide by 24 m deep ONE ground-floor produce washing/sorting/packing building, ratio 1.33:1. This asset is the working packhouse, not an entire farm parcel. Low rectangular agricultural hall, modest weathered roof with some natural-light glazing, practical ground-level produce receiving and dispatch opening, discreet attached wash plumbing and a compact service threshold. Separate the washing/tri side from the dry packing/reserve side in the exterior massing only where plausible; intact roof, no exposed interior rooms. Do not turn it into a glass retail garden store, sprawling crops diorama, silo or multi-storey farmhouse. No fields or detached sheds.",
+      "filename": "DW-0367_exploitation-maraichere.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    },
+    {
+      "type": "inn",
+      "preset": {
+        "id": "inn",
+        "name": "Auberge de village",
+        "w": 28,
+        "h": 23,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "places116",
+        "codex": "DW-0104"
+      },
+      "roofFamily": "hotel",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "hotel",
+          "variant": 0,
+          "rect": [
+            26,
+            523,
+            362,
+            223
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "hotel",
+          "variant": 1,
+          "rect": [
+            414,
+            533,
+            333,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 2,
+          "model": "concrete-services",
+          "rect": [
+            55,
+            300,
+            299,
+            180
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 3,
+          "model": "flat-water-tank",
+          "rect": [
+            430,
+            302,
+            306,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 4,
+          "model": "slate-three-dormers",
+          "rect": [
+            805,
+            289,
+            313,
+            190
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "hotel",
+          "variant": 5,
+          "model": "terracotta-double-ridge",
+          "rect": [
+            1188,
+            303,
+            298,
+            175
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Salle commune",
+            "Comptoir et repas",
+            "Cuisine",
+            "Cellier et livraison"
+          ]
+        },
+        {
+          "z": 1,
+          "names": [
+            "Chambre 1",
+            "Chambre 2",
+            "Chambre 3",
+            "Chambre 4",
+            "Lingerie",
+            "Salle d’eau"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "table",
+        "crate"
+      ],
+      "source": {
+        "path": "references/DW-0104.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0eac0d0a487d9a0d2f5514eadebe1f5daa7e0b07f131130733d6cb3e20fd99bb",
+        "gitBlob": "48b079dd5cb5d9950e06cf4940714ba9764936f0",
+        "bytes": 8751,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md"
+      },
+      "codexQuotes": [
+        "Les chambres sont au-dessus; les denrées rejoignent la cuisine depuis la cour.",
+        "### Salle commune",
+        "### Cuisine",
+        "### Chambres",
+        "### Cour",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `inn`; enveloppe bâtie actuelle [28, 23] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0104 AUBERGE DE VILLAGE: native 28 m wide by 23 m deep compact rectangular village inn, ratio 1.22:1, exactly TWO FLOORS, ground plus one upper level. A modest old rural masonry building; a public common room and meal counter downstairs, four modest guest-room windows above, restrained shallow pitched roof, small practical kitchen flue. Clearly grounded front entrance; separate kitchen/cellar service access can be suggested by a discreet grounded threshold. Bedrooms are above the common room, not detached cabins. No third level, attic windows that imply an added floor, huge hotel wings, medieval tavern fantasy, balconies or external stair tower.",
+      "filename": "DW-0104_auberge-village.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    },
+    {
+      "type": "scrapyard",
+      "preset": {
+        "id": "scrapyard",
+        "name": "Casse automobile",
+        "w": 35,
+        "h": 25,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0251"
+      },
+      "roofFamily": "workshop",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 0,
+          "rect": [
+            791,
+            291,
+            342,
+            206
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "workshop",
+          "variant": 1,
+          "rect": [
+            1164,
+            295,
+            353,
+            202
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "workshop",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Atelier de démontage",
+            "Pièces détachées",
+            "Bureau",
+            "Stock et livraison"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "fuel",
+        "tirePile",
+        "workbench"
+      ],
+      "source": {
+        "path": "references/DW-0251.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "4427b7c911145266778f96309d10b44cf9e82e7a6d1045d447b2892c0ceecfef",
+        "gitBlob": "228d617631a7118f51722caa74f6f0593ee72934",
+        "bytes": 9816,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md"
+      },
+      "codexQuotes": [
+        "Les empilements sont intentionnels, portés et rangés le long d'allées d'engins.",
+        "### Accueil",
+        "### Tri",
+        "### Épaves",
+        "### Pièces",
+        "### Atelier",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `scrapyard`; enveloppe bâtie actuelle [35, 25] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0251 CASSE AUTOMOBILE: native 35 m wide by 25 m deep ONE ground-floor dismantling workshop building, ratio 1.4:1. Low weathered concrete and corrugated-metal hall, broad ground-level workshop opening and a smaller separate reception door. Show coherent sheltered parts racks and a few supported tire stacks near a short service apron, leaving handling lanes open. The native building houses dismantling, spare parts, office and stock; the full scrapyard grounds are outside this sprite. No giant field of wrecks, vehicles or crane, roof-mounted doorway, unsecured towering scrap piles, extra building or extra storey.",
+      "filename": "DW-0251_casse-automobile.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    },
+    {
+      "type": "joinery",
+      "preset": {
+        "id": "joinery",
+        "name": "Atelier de menuiserie",
+        "w": 35,
+        "h": 26,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0306",
+        "layout": "specialists117"
+      },
+      "roofFamily": "industrial",
+      "roofChoices": [
+        {
+          "atlas": "habitatServices153",
+          "family": "industrial",
+          "variant": 0,
+          "rect": [
+            18,
+            279,
+            359,
+            224
+          ]
+        },
+        {
+          "atlas": "habitatServices153",
+          "family": "industrial",
+          "variant": 1,
+          "rect": [
+            406,
+            284,
+            357,
+            217
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 2,
+          "model": "corrugated-metal",
+          "rect": [
+            53,
+            544,
+            302,
+            177
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 3,
+          "model": "industrial-sawtooth",
+          "rect": [
+            428,
+            534,
+            310,
+            187
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 4,
+          "model": "concrete-ducts",
+          "rect": [
+            809,
+            541,
+            306,
+            182
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "industrial",
+          "variant": 5,
+          "model": "rusted-metal",
+          "rect": [
+            1184,
+            544,
+            307,
+            177
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Bois et débit — machines arrêtées",
+            "Assemblage et finition",
+            "Bureau et archives",
+            "Réserve et petit matériel"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "timberRack",
+        "palletStack",
+        "logs"
+      ],
+      "source": {
+        "path": "references/DW-0306.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "008f9281e56c22292d691375028b9ce0cee12bb64fdc9e8c9447a3a0619bd6b5",
+        "gitBlob": "f42c6b91cc782547c6d2a581143f2503973fbc5b",
+        "bytes": 8716,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md"
+      },
+      "codexQuotes": [
+        "Le bois brut arrive par la cour, rejoint le débit, puis les établis d’assemblage et la finition. Les longueurs sont orientées pour pouvoir être manipulées. Les machines sont arrêtées ; les piles de planches et les réserves expliquent les matériaux disponibles.",
+        "Le stockage long possède une allée et la finition reste hors de la poussière.",
+        "### Bois",
+        "### Découpe",
+        "### Assemblage",
+        "### Finition",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `joinery`; enveloppe bâtie actuelle [35, 26] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0306 ATELIER DE MENUISERIE: native 35 m wide by 26 m deep ONE ground-floor joinery workshop, ratio 1.35:1. Practical low rectangular timber-working hall, worn industrial roof and pale masonry/metal walls, wide grounded timber-delivery opening and separate modest office/pedestrian door. A few long boards on supported horizontal timber racks beside a narrow covered delivery edge indicate wood intake. Keep the long-material handling aisle clear; dust extraction is modest and mechanically connected to the building. The programme runs wood intake, cutting, assembly, clean finishing. No huge sawmill, exposed spinning machines, giant log yard, scattered boards crossing doors, extra annex or upper floor.",
+      "filename": "DW-0306_atelier-menuiserie.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    },
+    {
+      "type": "reuse",
+      "preset": {
+        "id": "reuse",
+        "name": "Recyclerie",
+        "w": 40,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0237",
+        "layout": "specialists117"
+      },
+      "roofFamily": "retail",
+      "roofChoices": [
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 0,
+          "rect": [
+            773,
+            535,
+            332,
+            199
+          ]
+        },
+        {
+          "atlas": "habitatResidential153",
+          "family": "retail",
+          "variant": 1,
+          "rect": [
+            1127,
+            533,
+            390,
+            203
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 2,
+          "model": "terracotta-skylight",
+          "rect": [
+            53,
+            774,
+            303,
+            184
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 3,
+          "model": "concrete-ventilation",
+          "rect": [
+            432,
+            777,
+            304,
+            179
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 4,
+          "model": "metal-skylights",
+          "rect": [
+            804,
+            777,
+            313,
+            183
+          ]
+        },
+        {
+          "atlas": "habitatRoofs157",
+          "family": "retail",
+          "variant": 5,
+          "model": "weathered-flat",
+          "rect": [
+            1203,
+            777,
+            266,
+            184
+          ]
+        }
+      ],
+      "nativeRooms": [
+        {
+          "z": 0,
+          "names": [
+            "Réception et tri",
+            "Meubles remis en vente",
+            "Réparation et diagnostic",
+            "Réserve et petit matériel"
+          ]
+        }
+      ],
+      "nativeOutdoorKinds": [
+        "palletStack",
+        "crate",
+        "crate"
+      ],
+      "source": {
+        "path": "references/DW-0237.md",
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "5f7e8b76aa3719ce7071420e22340118ff1d3bbac09be6390e81de4f3351e842",
+        "gitBlob": "85ed8e9a9d8a443c6304a4f2f80eaa42cfce1c1d",
+        "bytes": 9946,
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md"
+      },
+      "codexQuotes": [
+        "La recyclerie distingue ce qui vient d’être déposé, ce qui est en cours de réparation et ce qui peut être remis en vente. Des meubles différents racontent ce trajet. Les allées permettent de déplacer une armoire sans la superposer au mobilier voisin.",
+        "Les objets non triés sont distincts de ceux remis en vente.",
+        "### Apport",
+        "### Tri",
+        "### Réparation",
+        "### Vente",
+        "### Stock",
+        "Le retour vers des réserves locales déjà vidées force progressivement une nouvelle tournée plus loin. La ressource d’un lieu disparu ne réapparaît pas dans un voisin.",
+        "Plan source : `reuse`; enveloppe bâtie actuelle [40, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions."
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0237 RECYCLERIE: native 40 m wide by 28 m deep ONE ground-floor reuse and repair shop, ratio 1.43:1. Broad low rectangular building, modest glazed public resale frontage and distinct grounded donation/loading opening, weathered light concrete and subdued metal roof. A compact sheltered receiving recess and orderly repair/service frontage should distinguish intake from resale. The interior holds reception/tri, repaired furniture for sale, repair diagnosis and stock; do not expose rooms through an opaque roof. Any tiny furniture glimpse belongs behind real glazing or within the receiving recess, with clear circulation. No landfill, scrap mountain, recycling logo, shopping mall, outside row of self-storage units, detached workshop or extra floor.",
+      "filename": "DW-0237_recyclerie.png",
+      "status": "selected_missing_dedicated_exterior_not_generated"
+    }
+  ]
+}
