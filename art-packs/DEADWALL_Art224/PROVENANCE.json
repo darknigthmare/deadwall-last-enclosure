@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art224",
+  "assembledOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "generator": "OpenAI ImageGen intégré",
+  "referenceRepository": "darknigthmare/deadwall-last-enclosure",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "publicationBaseIsOutputCommit": false,
+  "finalSpriteCount": 6,
+  "generationCount": 7,
+  "supersededCandidateCount": 1,
+  "nativeOutputBytesPreserved": true,
+  "pixelEditingResizingCroppingPerformed": false,
+  "scope": "Six extérieurs dédiés aux services de bourg et activités rurales ; pack de préparation artistique.",
+  "styleReference": {
+    "path": "references/buildings-atlas.webp",
+    "repositoryPath": "assets/buildings-atlas.webp",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "sha256": "efa4a50f6c446b0a7ccbbc3d90efa89bf51f4259e1b306a32a5a8ee009b4382a",
+    "gitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "bytes": 364648,
+    "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/assets/buildings-atlas.webp",
+    "baseRevisionCompared": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "baseGitBlob": "99f730d209168f7be2e5c8aee1b0e927c9ab02e5",
+    "sameBlobAtPublicationBase": true,
+    "sourceDigestVerified": true
+  },
+  "fidelity": {
+    "observed": [
+      "Atlas réel utilisé",
+      "Programmes et niveaux documentés",
+      "Accès visibles au sol",
+      "Silhouettes et alpha contrôlés"
+    ],
+    "notCertified": [
+      "Projection métrique exacte",
+      "Mètres par pixel",
+      "Identité pixel pour pixel",
+      "Ancres et collisions",
+      "Position des accès et intégration en jeu"
+    ]
+  },
+  "integration": {
+    "performed": false,
+    "runtimeSourceChanged": false,
+    "runtimeAssetRegistrationChanged": false,
+    "testsChanged": false
+  },
+  "validation": {
+    "packTechnicalAudit": "passed",
+    "runtimeCheckThisPack": "not_run_by_assembler",
+    "browser": "not_run",
+    "windows": "not_run"
+  },
+  "sourcesIndex": "references/sources.json",
+  "sourceMapping": "references/SOURCE_MAP.json",
+  "prompts": "generation-prompts.json",
+  "generationHistory": "generation-history.json",
+  "technicalAudit": "qa/image-audit.json",
+  "visualReview": "qa/visual-review.md",
+  "assets": [
+    {
+      "id": "DW-0046",
+      "type": "garden",
+      "name": "Jardinerie",
+      "path": "assets/art224/regional/DW-0046_jardinerie.png",
+      "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3",
+      "bytes": 2509793,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        36,
+        28
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0367",
+      "type": "marketgarden",
+      "name": "Exploitation maraîchère",
+      "path": "assets/art224/regional/DW-0367_exploitation-maraichere.png",
+      "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42",
+      "bytes": 1844526,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        32,
+        24
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0104",
+      "type": "inn",
+      "name": "Auberge de village",
+      "path": "assets/art224/regional/DW-0104_auberge-village.png",
+      "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1",
+      "bytes": 1916954,
+      "iteration": 2,
+      "pilotBuildingFootprintMetres": [
+        28,
+        23
+      ],
+      "pilotLevels": [
+        0,
+        1
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0251",
+      "type": "scrapyard",
+      "name": "Casse automobile",
+      "path": "assets/art224/regional/DW-0251_casse-automobile.png",
+      "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858",
+      "bytes": 1781331,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        35,
+        25
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0306",
+      "type": "joinery",
+      "name": "Atelier de menuiserie",
+      "path": "assets/art224/regional/DW-0306_atelier-menuiserie.png",
+      "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c",
+      "bytes": 1855342,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        35,
+        26
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    },
+    {
+      "id": "DW-0237",
+      "type": "reuse",
+      "name": "Recyclerie",
+      "path": "assets/art224/regional/DW-0237_recyclerie.png",
+      "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb",
+      "bytes": 2169861,
+      "iteration": 1,
+      "pilotBuildingFootprintMetres": [
+        40,
+        28
+      ],
+      "pilotLevels": [
+        0
+      ],
+      "status": "generated_review_candidate_not_runtime_integrated"
+    }
+  ]
+}

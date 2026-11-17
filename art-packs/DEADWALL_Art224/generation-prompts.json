@@ -1,0 +1,129 @@
+[
+  {
+    "key": "garden",
+    "id": "DW-0046",
+    "name": "Jardinerie",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0046 JARDINERIE: the native 36 m wide by 28 m deep pilot building, ONE ground-floor level, ratio about 1.29:1. A modest retail greenhouse structure with repeated translucent glazed roof bays, coherent metal frame, low enclosed rear service/storage band. Sales planting trays can be suggested through the actual greenhouse glazing; keep the main aisle and small front public doorway readable. Potting soil/stock relates to the loading access, not scattered across customer circulation. Render the building envelope, not the full proposed 180 m nursery site. No detached greenhouse, animal display, full car park, garden landscape or extra storey. PROJECTION PRIORITY: for this 36x28 metre footprint, the roof's projected front-to-back depth must be about 73% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 6% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0046_jardinerie.png",
+    "selected": true,
+    "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3",
+    "bytes": 2509793,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "marketgarden",
+    "id": "DW-0367",
+    "name": "Exploitation maraîchère",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0367 EXPLOITATION MARAICHERE: the native 32 m wide by 24 m deep ONE ground-floor produce washing/sorting/packing building, ratio 1.33:1. This asset is the working packhouse, not an entire farm parcel. Low rectangular agricultural hall, modest weathered roof with some natural-light glazing, practical ground-level produce receiving and dispatch opening, discreet attached wash plumbing and a compact service threshold. Separate the washing/tri side from the dry packing/reserve side in the exterior massing only where plausible; intact roof, no exposed interior rooms. Do not turn it into a glass retail garden store, sprawling crops diorama, silo or multi-storey farmhouse. No fields or detached sheds. PROJECTION PRIORITY: for this 32x24 metre footprint, the roof's projected front-to-back depth must be about 71% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 6% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0367_exploitation-maraichere.png",
+    "selected": true,
+    "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42",
+    "bytes": 1844526,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "inn",
+    "id": "DW-0104",
+    "name": "Auberge de village",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0104 AUBERGE DE VILLAGE: native 28 m wide by 23 m deep compact rectangular village inn, ratio 1.22:1, exactly TWO FLOORS, ground plus one upper level. A modest old rural masonry building; a public common room and meal counter downstairs, four modest guest-room windows above, restrained shallow pitched roof, small practical kitchen flue. Clearly grounded front entrance; separate kitchen/cellar service access can be suggested by a discreet grounded threshold. Bedrooms are above the common room, not detached cabins. No third level, attic windows that imply an added floor, huge hotel wings, medieval tavern fantasy, balconies or external stair tower. PROJECTION PRIORITY: for this 28x23 metre footprint, the roof's projected front-to-back depth must be about 77% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 10% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "references/iterations/DW-0104_inn-v1.png",
+    "selected": false,
+    "sha256": "7a66fc405a71272e64f3003000e123497f44cf2b451d5f15b24c9cb695e64f7b",
+    "bytes": 1996822,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "inn",
+    "id": "DW-0104",
+    "name": "Auberge de village",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. Image1 is the DEADWALL village inn to edit; image2 is the original GAME ATLAS specifying the actual much higher camera. Keep this exact rural inn identity, grey stone, patched slate roof, kitchen flue, front ground-level entrance, right service door and exactly TWO storeys with four guest windows upstairs. Correct ONLY the projection: raise the orthographic camera close to overhead, looking 70 degrees down from horizontal. The original target has an overly tall facade and too shallow a roof. In the corrected image, the full roof plan must be about 77% as deep in image pixels as it is wide: a 28m-wide by23m-deep footprint seen from this high angle. Make the TWO-STOREY front facade together a short foreshortened band only about10% of roof width, retaining both rows of windows at their correct levels. Roof should dominate almost the whole visible silhouette; the top-down door thresholds and small entrance canopy remain grounded. Keep axes horizontal/vertical, never rotate into an isometric diamond. Show the whole same building with margin, not a new zoom crop. No doorway on roof, no extra room, balcony, stair tower, symbols, lettering or people. Preserve original worn painted materials and subdued atlas light. True transparent RGBA background with generous clean transparent margins and only a very short contact shadow; no backdrop, fog, ground tile, display platform or checkerboard.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/iterations/DW-0104_inn-v1.png",
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0104_auberge-village.png",
+    "selected": true,
+    "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1",
+    "bytes": 1916954,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "scrapyard",
+    "id": "DW-0251",
+    "name": "Casse automobile",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0251 CASSE AUTOMOBILE: native 35 m wide by 25 m deep ONE ground-floor dismantling workshop building, ratio 1.4:1. Low weathered concrete and corrugated-metal hall, broad ground-level workshop opening and a smaller separate reception door. Show coherent sheltered parts racks and a few supported tire stacks near a short service apron, leaving handling lanes open. The native building houses dismantling, spare parts, office and stock; the full scrapyard grounds are outside this sprite. No giant field of wrecks, vehicles or crane, roof-mounted doorway, unsecured towering scrap piles, extra building or extra storey. PROJECTION PRIORITY: for this 35x25 metre footprint, the roof's projected front-to-back depth must be about 67% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 6% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0251_casse-automobile.png",
+    "selected": true,
+    "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858",
+    "bytes": 1781331,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "joinery",
+    "id": "DW-0306",
+    "name": "Atelier de menuiserie",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0306 ATELIER DE MENUISERIE: native 35 m wide by 26 m deep ONE ground-floor joinery workshop, ratio 1.35:1. Practical low rectangular timber-working hall, worn industrial roof and pale masonry/metal walls, wide grounded timber-delivery opening and separate modest office/pedestrian door. A few long boards on supported horizontal timber racks beside a narrow covered delivery edge indicate wood intake. Keep the long-material handling aisle clear; dust extraction is modest and mechanically connected to the building. The programme runs wood intake, cutting, assembly, clean finishing. No huge sawmill, exposed spinning machines, giant log yard, scattered boards crossing doors, extra annex or upper floor. PROJECTION PRIORITY: for this 35x26 metre footprint, the roof's projected front-to-back depth must be about 70% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 6% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0306_atelier-menuiserie.png",
+    "selected": true,
+    "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c",
+    "bytes": 1855342,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "reuse",
+    "id": "DW-0237",
+    "name": "Recyclerie",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: exactly ONE new isolated exterior building sprite for DEADWALL — Last Enclosure, batch art224. Image 1 is the ORIGINAL GAME BUILDINGS ATLAS, a strict reference for style and camera only, not an edit target. Match the serious hand-painted semi-realistic abandoned strategy-game rendering, muted steel gray, olive, dusty earth, worn concrete/metal, restrained rust and believable human doorway scale. Very high near-overhead orthographic camera, about 68–70 degrees down, roof footprint axes aligned to image horizontal/vertical; short front wall toward image bottom. No 45-degree isometric diamond and no low cinematic view. Preserve the specified native pilot footprint ratio and number of floors. Exterior roof intact, no dollhouse cutaway. Public entrance threshold must touch GROUND. A rear service door may be hidden by the roof; never place a doorway or threshold on a roof merely to make it visible. Whole cohesive silhouette centered with generous true transparent margins. RGBA output, real alpha, no copied atlas checkerboard, background, matte, gradient, halo, surrounding terrain tile or display plinth; only a short subtle contact shadow and narrow service threshold. No lettering, logos, pictograms, UI, watermarks, people, animals, vehicles, fire, smoke, giant props or disconnected annexes. SUBJECT DW-0237 RECYCLERIE: native 40 m wide by 28 m deep ONE ground-floor reuse and repair shop, ratio 1.43:1. Broad low rectangular building, modest glazed public resale frontage and distinct grounded donation/loading opening, weathered light concrete and subdued metal roof. A compact sheltered receiving recess and orderly repair/service frontage should distinguish intake from resale. The interior holds reception/tri, repaired furniture for sale, repair diagnosis and stock; do not expose rooms through an opaque roof. Any tiny furniture glimpse belongs behind real glazing or within the receiving recess, with clear circulation. No landfill, scrap mountain, recycling logo, shopping mall, outside row of self-storage units, detached workshop or extra floor. PROJECTION PRIORITY: for this 40x28 metre footprint, the roof's projected front-to-back depth must be about 66% of its width. The camera is near overhead like the atlas. The visible front wall is only a short 6% of building-width band, strongly foreshortened; the large roof plan dominates. Maintain modest human-scale door proportions. Do not enlarge the facade to display the interior programme. Image is the whole building, no separate scene.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI ImageGen intégré",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      "references/buildings-atlas.webp"
+    ],
+    "output": "assets/art224/regional/DW-0237_recyclerie.png",
+    "selected": true,
+    "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb",
+    "bytes": 2169861,
+    "nativeBytesPreserved": true
+  }
+]

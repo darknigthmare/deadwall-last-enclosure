@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "project": "DEADWALL — Last Enclosure",
+  "batch": "art224",
+  "savedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "intent": "Continuer les sprites manquants depuis le point conservé, sans régénérer les lots précédents.",
+  "completedSpriteIds": [
+    "DW-0046",
+    "DW-0367",
+    "DW-0104",
+    "DW-0251",
+    "DW-0306",
+    "DW-0237"
+  ],
+  "finalAssets": [
+    {
+      "id": "DW-0046",
+      "path": "assets/art224/regional/DW-0046_jardinerie.png",
+      "sha256": "4d706deaf20a60819a9615f404fb4a3548beef82d3682c8c58e84daa6dbbf3c3"
+    },
+    {
+      "id": "DW-0367",
+      "path": "assets/art224/regional/DW-0367_exploitation-maraichere.png",
+      "sha256": "ed8a37f3558a46e7b9dee2733010ffb2fd6b946560d05a32f2f429ab3f5b6a42"
+    },
+    {
+      "id": "DW-0104",
+      "path": "assets/art224/regional/DW-0104_auberge-village.png",
+      "sha256": "6546172aabf16ab3ed5ecc8eef5ac77d48829470971fdbaf94328ad7463453f1"
+    },
+    {
+      "id": "DW-0251",
+      "path": "assets/art224/regional/DW-0251_casse-automobile.png",
+      "sha256": "73d8fdd0069419394d4936ad6865d55c0f12c095f07771f82167e9863cc0c858"
+    },
+    {
+      "id": "DW-0306",
+      "path": "assets/art224/regional/DW-0306_atelier-menuiserie.png",
+      "sha256": "40db38e118f5bd187366cae886c594e743fd29d571f822408cd627341326c95c"
+    },
+    {
+      "id": "DW-0237",
+      "path": "assets/art224/regional/DW-0237_recyclerie.png",
+      "sha256": "86850c82f7c2b0594818668bdc700fbfcef2594bd5f9a55893a239c89d8c1edb"
+    }
+  ],
+  "priorArt221Regenerated": false,
+  "priorArt222Regenerated": false,
+  "priorArt223Regenerated": false,
+  "exclusionEvidence": {
+    "art222CodexIds": [
+      "DW-0342",
+      "DW-0132",
+      "DW-0321",
+      "DW-0334",
+      "DW-0541",
+      "DW-0528",
+      "DW-0549",
+      "DW-0097"
+    ],
+    "art223CodexIds": [
+      "DW-0065",
+      "DW-0153",
+      "DW-0085",
+      "DW-0082",
+      "DW-0444",
+      "DW-0224"
+    ],
+    "art221KnownCount": 9,
+    "art221CompleteAssetInventoryRecovered": false,
+    "art221CategoryExclusion": "All six selected names are outside all nine remarkable217 USES categories (water, hospital, barracks, fuel, silo, station, dam, transmitter, power). No claim of complete historical file deduplication."
+  },
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "priorPublishedPacks": [
+    {
+      "batch": "art222",
+      "pullRequestLabel": "PR #27",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/27",
+      "headRevision": "f76b216a9b98c1d4ebd5a6c53dc1fc07142c9114",
+      "finalSpriteCount": 8,
+      "supersededCandidateCount": 2,
+      "publicationStatus": "published_for_review",
+      "runtimeIntegrationPerformed": false
+    },
+    {
+      "batch": "art223",
+      "pullRequestLabel": "PR #28",
+      "url": "https://github.com/darknigthmare/deadwall-last-enclosure/pull/28",
+      "headRevision": "e16e501e3ad18ea5f1088ffd4ba8cbab38f0e149",
+      "finalSpriteCount": 6,
+      "supersededCandidateCount": 9,
+      "publicationStatus": "published_for_review",
+      "runtimeIntegrationPerformed": false
+    }
+  ],
+  "continuationCounts": {
+    "art222FinalSprites": 8,
+    "art223FinalSprites": 6,
+    "art224FinalSprites": 6,
+    "distinctFinalSpritesAcrossThreePacks": 20,
+    "supersededCandidates": {
+      "art222": 2,
+      "art223": 9,
+      "art224": 1
+    },
+    "countsDescribeArtPacksNotRuntimeIntegration": true
+  },
+  "integration": "not_performed",
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "nextSteps": [
+    "Lire les PR et manifestes publiés avant de sélectionner la suite.",
+    "Conserver les six PNG retenus et les itérations remplacées.",
+    "Associer les futurs visuels aux fiches et types exacts.",
+    "Calibrer projection, échelle, ancrages, portes et ouverture des intérieurs avant raccord au moteur.",
+    "Après raccord, qualifier le commit réel par les contrôles du dépôt et le parcours joueur."
+  ],
+  "knownLimits": [
+    "No canonical pixel exterior is supplied by the Codex. Prompts preserve pilot programme, floor count, aspect and atlas style; exterior details inferred from functions are design choices, not measured canonical pixels.",
+    "The larger proposed parcel ranges in the source cards are NOT the pilot building dimensions.",
+    "Inventaire historique Art221 incomplet.",
+    "Intégration au chargement et au rendu du jeu non effectuée.",
+    "Fidélité métrique ou pixel pour pixel 1:1 non certifiée."
+  ]
+}
