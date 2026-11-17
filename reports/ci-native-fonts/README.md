@@ -1,99 +1,117 @@
-# Préparation des polices pour les tests Canvas natifs
+# Polices du Canvas natif en CI
 
-Les jobs natifs installent désormais le paquet Ubuntu `fonts-dejavu-core`,
-puis vérifient le dessin de vrais caractères latins dans `@napi-rs/canvas`.
-Cette préparation précède les six partitions de `ci.yml` et la commande
-complète de `fullcheck201.yml`. Les parcours navigateur et Windows gardent
-leur environnement existant.
+Les étapes de tests natifs installent `fonts-dejavu-core`, puis préchargent
+DejaVu Sans normal et gras sous l’alias `sans-serif` dans chaque processus
+Node. La sonde conserve ses exigences de métriques finies et de vrais glyphes
+visibles. Le renderer, le test Art159 original et les versions npm restent
+identiques à la base `f3ba02a5b73a55120c02c21d5703902ea3e901d9`.
 
-## Problème reproduit
+## Constat direct sur le runner
 
-Les runs des PR28 et PR29 échouent dans le test existant Art159, sur
-`site labels fit their bounded world support` :
+La première version de cette PR installait le paquet sans initialisation
+native. Son [job fullcheck201](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44064499900/job/133974542288)
+a confirmé que `fonts-dejavu-core 2.37-8build1` était déjà installé. APT a
+réussi ; le précontrôle a ensuite échoué avec 83 erreurs, avant la commande
+coûteuse. L’artefact natif vérifié donne :
 
-- [PR28, partition native 3](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44050503433/job/133926823507).
-- [PR29, partition native 3](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44051304789/job/133929526350).
+| CSS sondé | Métriques finies | Glyphes latins visibles |
+|---|---:|---:|
+| `bold 11px sans-serif` | 82/82 | 0/82 |
+| `bold 11px "DejaVu Sans"` | 82/82 | 82/82 |
 
-Le test et son peintre sont identiques à la base
-`f3ba02a5b73a55120c02c21d5703902ea3e901d9`. Art223 et Art224 ajoutent leurs
-packs source sans modifier ce code. Sur la base locale, le fichier Art159
-réussit ses trois tests. Dans un processus où seule Noto Color Emoji est
-enregistrée, il échoue à la même assertion : le mot « Roseraie » mesure
-109,50px et ne produit aucun pixel, avec ou sans `maxWidth=108`.
+Les neuf familles enregistrées étaient DejaVu Math TeX Gyre, DejaVu Sans,
+DejaVu Sans Mono, DejaVu Serif, Lato, Liberation Mono, Liberation Sans,
+Liberation Serif et Noto Color Emoji. La présence d’une famille ne prouve
+pas sa résolution par le CSS générique. Le JSON ne prétend pas identifier
+la police effectivement choisie ; `fc-match` ne fournit pas cette preuve.
 
-Le [catalogue exact de l’image Ubuntu 26.04 utilisée](https://github.com/actions/runner-images/blob/ubuntu26/20261111.196/images/ubuntu/Ubuntu2604-Readme.md)
-répertorie `fonts-noto-color-emoji`. Les runners en échec ne journalisent ni
-leur police Canvas effective ni le mot fautif. Le scénario emoji seul
-reproduit une condition défaillante ; il ne prouve pas leur sélection
-historique de police. Le correctif élimine cette fragilité d’environnement,
-sans assouplir le test Art159 ni changer le renderer.
+Les [PR28](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44050503433/job/133926823507)
+et [PR29](https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44051304789/job/133929526350)
+échouaient à l’assertion Art159 sur les noms de sites. Leurs anciens logs ne
+journalisent ni le nom fautif ni la police résolue. La reproduction locale
+et l’artefact plus récent ne permettent pas d’inventer ces détails historiques.
 
-## Préparation et contrôle
+## Initialisation avant le premier Canvas
 
-L’action partagée [setup-native-fonts](../../.github/actions/setup-native-fonts/action.yml)
-installe le paquet libre fourni par Ubuntu, avec des durées bornées pour APT.
-`fonts-dejavu-core` est [disponible dans Ubuntu 26.04/resolute](https://packages.ubuntu.com/resolute/fonts-dejavu-core) ;
-sa [liste de fichiers](https://packages.ubuntu.com/resolute/all/fonts-dejavu-core/filelist)
-contient DejaVu Sans normal et gras. Aucune police ni dépendance npm n’est
-ajoutée à la distribution du jeu.
+Dans un registre local contrôlé, charger Noto Color Emoji avant DejaVu Sans
+normal et gras reproduit le défaut malgré la disponibilité de DejaVu.
+Le mot « Roseraie » mesure 109,50 px sous `sans-serif`, avec un dessin vide ;
+il mesure 54,11 px sous DejaVu Sans gras explicite. Art159 réussit alors
+2 tests sur 3 et échoue à l’assertion historique.
 
-Le [précontrôle](../../scripts/ci-native-fonts.mjs) utilise un nouveau processus
-Node, comme les tests qui suivent. Il ne charge, n’alias et ne remplace aucune
-police : l’installation système est la source commune. Il contrôle :
+L’API [Canvas 0.1.100](https://github.com/Brooooooklyn/canvas/blob/v0.1.100/src/global_fonts.rs)
+expose `registerFromPath(path, alias)` et `setAlias(family, alias)`.
+L’essai de `setAlias` ne conserve que le style normal de la famille. Enregistrer
+les deux fichiers avec l’alias conserve le gras et produit le même raster
+que DejaVu explicite. L’essai après un premier dessin ne corrige pas le
+résultat déjà mis en cache ; l’ordre d’initialisation est donc nécessaire.
 
-- la présence de DejaVu Sans dans le registre natif ;
-- le CSS effectif du peintre, `bold 11px sans-serif`, puis DejaVu Sans explicite ;
-- 82 caractères latins distincts, dont les majuscules, minuscules et accents,
-  avec des métriques finies, une largeur positive et des pixels visibles ;
-- la différence avec le raster du caractère manquant témoin U+10FFFF,
-  pour refuser un simple carré de substitution ;
-- la présence de plusieurs rasters distincts, pour refuser un résultat uniforme.
+Le [bootstrap](../../scripts/ci-native-fonts-bootstrap.cjs) enregistre les
+fichiers Ubuntu normal et gras sous leurs noms explicite et générique,
+avant tout Canvas. Il conserve le chargement système et les autres familles.
+Il ne change pas le CSS du jeu et échoue clairement si les fichiers sont
+absents ou refusés. Il reste silencieux en cas de succès pour préserver
+les journaux natifs. Le paquet Ubuntu est [disponible](https://packages.ubuntu.com/resolute/fonts-dejavu-core)
+et sa [liste de fichiers](https://packages.ubuntu.com/resolute/all/fonts-dejavu-core/filelist)
+contient les deux chemins utilisés.
 
-Le JSON conserve les métriques, comptages de pixels, empreintes des rasters,
-familles enregistrées et erreurs. L’inventaire ne prétend pas identifier la
-famille effectivement résolue : `fc-match` peut différer du choix interne de
-Canvas. Une image vide ne peut pas devenir un succès de contrôle des bornes.
+L’[action partagée](../../.github/actions/setup-native-fonts/action.yml)
+retourne une seule option canonique de préchargement. Elle est transmise par
+`env.NODE_OPTIONS` à la sonde et aux seules étapes de tests natifs des deux
+workflows. Selon la [documentation Node 24](https://github.com/nodejs/node/blob/v24.22.2/doc/api/cli.md),
+`--require` s’exécute au démarrage et dans les workers et processus dérivés.
+Les sous-commandes npm et les enfants des partitions héritent également de
+l’environnement. Aucun `NODE_OPTIONS` n’est ajouté aux jobs navigateur ou
+Windows, à `npm ci`, ni aux actions de téléversement. Les sorties de l’action
+sont utilisées car [GitHub interdit de définir NODE_OPTIONS via GITHUB_ENV](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable).
 
-Une erreur du précontrôle fait échouer l’action et empêche les tests coûteux
-de démarrer. Même si APT échoue, la sonde tente de conserver un diagnostic ;
-un succès éventuel de cette sonde n’efface pas l’échec de l’installation.
-Le JSON rejoint les artefacts natifs déjà téléversés, y compris lors d’un échec.
-Les commandes `ci-native186`, `full-check201 start/finish`, `npm run check`,
-`DEADWALL_SOAK`, le checkout du head exact, les reçus et les agrégations
-conservent leur comportement.
+## Exception de qualification bornée
 
-## Vérifications exécutées
+La [politique commune](../../scripts/ci-native-node-policy.cjs) autorise
+l’absence d’options, comme auparavant, ou uniquement la chaîne exacte
+`--require="/chemin/canonique/du/checkout/scripts/ci-native-fonts-bootstrap.cjs"`.
+Elle refuse les autres chemins, graphies, préchargements, options concaténées,
+espaces ajoutés et filtres. Le fichier doit être ordinaire ; le chemin est
+résolu depuis le module du checkout, sans entrée de chemin configurable.
+Les contrôles de source propre et leurs empreintes complètes restent en place :
+le bootstrap versionné est lié à la même tête que les tests.
 
-Les empreintes des quatre fichiers de code/configuration vérifiés et les
-résultats sont dans [verification.json](verification.json). La vérification
-porte sur ces fichiers avant commit, avec Node 24.22.1 et Canvas 0.1.100.
+Les deux gardes conservent `DEADWALL_SOAK=1` et le rejet des contextes de tests
+imbriqués. La partition refuse désormais aussi les deux variables de filtres
+que fullcheck201 refusait déjà. Les commandes, leur ordre, les planchers,
+les reçus, les sept compteurs, le head exact et les deux `PIPESTATUS` sont
+conservés. La commande littérale reste `DEADWALL_SOAK=1 npm run check`.
 
-| Contrôle ciblé | Résultat |
+La [sonde](../../scripts/ci-native-fonts.mjs) n’enregistre aucune police
+elle-même. Elle vérifie 82 caractères latins dans chacun des deux CSS, des
+métriques finies, une largeur positive, des pixels visibles, des rasters
+distincts et la différence avec le caractère manquant U+10FFFF. Elle ajoute
+seulement la provenance du bootstrap au JSON ; aucun critère n’est assoupli.
+
+## Vérifications ciblées
+
+Les résultats, empreintes des neuf fichiers de code/configuration et sources
+primaires sont dans [verification-v2.json](verification-v2.json).
+Le [reçu de la première version](verification.json) reste conservé comme historique.
+
+| Contrôle local, Node 24.22.1 / Canvas 0.1.100 | Résultat |
 |---|---|
-| Précontrôle dans l’environnement local existant | Accepté ; 164 glyphes sondés, aucune erreur |
-| Précontrôle avec seulement DejaVu Sans normal et gras | Accepté ; 164 glyphes visibles, métriques finies |
-| Précontrôle avec seulement Noto Color Emoji | Refusé, code 1 ; les 82 glyphes du CSS générique sont invisibles |
-| Test Art159 original, registre DejaVu contrôlé | 3 tests réussis, aucun échec ni test ignoré |
-| Syntaxe Node du précontrôle | Réussie |
-| YAML des workflows et de l’action ; syntaxe Bash | Réussies |
-| Comparaison structurée des workflows à la base | Une seule étape ajoutée dans chacun des deux jobs ; autres champs identiques |
-| `git diff --check` | Réussi |
+| Registre mixte, sans bootstrap | Sonde refusée : générique invisible, DejaVu explicite visible ; Art159 2/3 |
+| Registre emoji seul, sans bootstrap | Sonde refusée, code 1 ; aucun succès vide |
+| Registre mixte avec bootstrap | Sonde acceptée : 164/164 glyphes visibles, métriques finies |
+| Registre système avec bootstrap | Sonde acceptée : 164/164 glyphes visibles |
+| Enfant distinct héritant du preload | Normal et gras génériques identiques aux rasters explicites ; Art159 original 3/3, aucun skip |
+| Gardes 186/201 et tests existants ciblés | 125/125 tests réussis, aucun skip |
+| YAML, Bash, syntaxe Node, `git diff --check` | Réussis |
+| Comparaison structurée des workflows à la base | Seules la préparation native et son option d’étape diffèrent |
+| Renderer, Art159, anciens tests des gardes, package et verrou | Six fichiers identiques octet pour octet à la base |
 
-Les registres isolés utilisent `DISABLE_SYSTEM_FONTS_LOAD=1` et un preload de
-diagnostic qui enregistre seulement les fichiers de police indiqués dans le
-rapport. Ces options ne figurent pas dans les workflows et ne modifient pas
-le système. Le scénario négatif vérifie le code de sortie réel du précontrôle.
+Les registres isolés utilisent `DISABLE_SYSTEM_FONTS_LOAD=1` uniquement dans
+les fixtures de diagnostic. Ils ne reproduisent pas l’ordre exact du runner.
+Le bootstrap de production ne définit ni ne modifie cette variable.
 
-Pour contrôler un environnement déjà préparé :
-
-```sh
-node scripts/ci-native-fonts.mjs artifacts/qa/native-fonts/manual.json
-node --test tests/expedition-art159.test.cjs
-```
-
-Aucune installation système ou npm n’a été lancée pour la validation locale.
-La commande exhaustive `npm run check` n’a pas été exécutée localement, selon
-le périmètre demandé ; elle reste exigée par les workflows sur le futur commit.
-L’installation APT et le comportement sur un nouveau runner GitHub restent à
-observer. Ce rapport n’est ni une preuve de CI complète réussie ni une
-validation du rendu dans un navigateur. Aucun pack artistique n’est modifié.
+Aucune installation système ou npm, ni suite exhaustive, n’a été lancée
+localement. APT a été observé en succès sur la première version distante ;
+la version avec bootstrap doit encore être exécutée par les workflows après
+revue et publication. Ces contrôles ciblés ne constituent pas un succès de
+CI complète. Aucun pack artistique n’est modifié.

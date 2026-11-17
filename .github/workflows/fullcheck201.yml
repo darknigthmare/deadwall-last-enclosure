@@ -36,11 +36,14 @@ jobs:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
         run: npm ci
       - name: Préparer les polices latines du Canvas natif
+        id: native_fonts
         uses: ./.github/actions/setup-native-fonts
         with:
           report: ${{ env.DEADWALL_FULLCHECK_OUTPUT }}/font-preflight.json
       - name: Exécuter réellement la commande complète et conserver les deux sorties
         shell: bash
+        env:
+          NODE_OPTIONS: ${{ steps.native_fonts.outputs.node_options }}
         run: |
           node scripts/full-check201.mjs start "$DEADWALL_FULLCHECK_OUTPUT"
           set +e

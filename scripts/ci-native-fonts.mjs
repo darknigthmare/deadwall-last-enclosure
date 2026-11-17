@@ -24,8 +24,8 @@ function drawProbe(context, text) {
     inkPixels, rasterSha256: hash(pixels)};
 }
 
-// Inspect the same system-loaded registry as a subsequent test process. Do not
-// register a font here: that would repair only this process and conceal a bad job.
+// Inspect the same system fonts and CI preload as every subsequent native test
+// process. Never repair fonts inside this probe alone.
 export function inspectNativeFonts() {
   const report = {version: 1, kind: 'native-canvas-latin-fonts', checkedAt: new Date().toISOString(),
     node: process.version, platform: process.platform, canvasVersion: null, requiredFamily: REQUIRED_FAMILY,
@@ -35,6 +35,7 @@ export function inspectNativeFonts() {
   try {
     const {createCanvas, GlobalFonts} = require('@napi-rs/canvas');
     report.canvasVersion = require('@napi-rs/canvas/package.json').version;
+    report.bootstrap = require.cache[require.resolve('./ci-native-fonts-bootstrap.cjs')]?.exports ?? null;
     report.registeredFamilies = [...new Set(GlobalFonts.families.map(entry => entry.family))].sort();
     if (!report.registeredFamilies.includes(REQUIRED_FAMILY)) {
       report.errors.push({reason: 'required-family-unavailable', family: REQUIRED_FAMILY});
@@ -76,7 +77,7 @@ export function main(argv) {
     errors: report.errors.slice(0, 8), errorCount: report.errors.length, report: argv[0]};
   console.log(JSON.stringify(summary));
   if (!report.accepted) {
-    console.error('Native Canvas cannot render the required Latin glyphs. Install fonts-dejavu-core before starting Node; inspect the JSON glyph metrics and registered-family inventory. A fontconfig match alone does not prove Canvas rendering.');
+    console.error('Native Canvas cannot render the required Latin glyphs. Install fonts-dejavu-core and use the canonical CI font preload before the first Canvas; inspect the JSON glyph metrics and registered-family inventory. A fontconfig match alone does not prove Canvas rendering.');
     process.exitCode = 1;
   }
   return report;

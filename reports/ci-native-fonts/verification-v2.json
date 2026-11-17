@@ -1,0 +1,901 @@
+{
+  "version": 2,
+  "checkedAt": "2026-11-17T10:52:55.382385+00:00",
+  "baseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "previousLocalCommit": "d8f1d52b9c5a8c61ab316005a9875bf963edfb71",
+  "scope": "Targeted local validation before review and commit. No full check or native qualification run.",
+  "canvasVersion": "0.1.100",
+  "node": "v24.22.1",
+  "codeFiles": [
+    {
+      "path": ".github/actions/setup-native-fonts/action.yml",
+      "sha256": "fcec6e4c42fb1200cf1215072a59ce343c641fc4b02d2459f2c352597a766480",
+      "bytes": 1469
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "9d8878248827c2f5a21316ced648bb361a86a8214e738c36f05b01fb17a6d8ab",
+      "bytes": 9961
+    },
+    {
+      "path": ".github/workflows/fullcheck201.yml",
+      "sha256": "df416c63039a632ac98b972178fe3439ba21c8fc1227df534f7eee0202a0e581",
+      "bytes": 3331
+    },
+    {
+      "path": "scripts/ci-native-fonts-bootstrap.cjs",
+      "sha256": "995814b23af4ce45f484b741aba2efcfc9439f1c4982cfcc0fc70b25c1ab97ee",
+      "bytes": 1234
+    },
+    {
+      "path": "scripts/ci-native-node-policy.cjs",
+      "sha256": "d02b805a6082cf292c682b6320f3c7b5d649a63988b8ba4b4566cf196a9dacc2",
+      "bytes": 1403
+    },
+    {
+      "path": "scripts/ci-native-fonts.mjs",
+      "sha256": "4a120eff2e42944ea844e9cbc41c13950c49b814838a1cf036e73a248203f95d",
+      "bytes": 4959
+    },
+    {
+      "path": "scripts/ci-native186.mjs",
+      "sha256": "e31a0ea32b4450302c68043cb5354c5c36663d4e42ba7bef93685b19f3340c95",
+      "bytes": 12598
+    },
+    {
+      "path": "scripts/full-check201.mjs",
+      "sha256": "04bbbc60ded0185c55d726be54600cb626af4506d1366792788e82684268f67e",
+      "bytes": 13363
+    },
+    {
+      "path": "tests/ci-native-fonts.test.cjs",
+      "sha256": "906ef3e68aebe186111d6dd88353da888cf7862f28b517e15bf12c5610a49781",
+      "bytes": 3997
+    }
+  ],
+  "runnerObservation": {
+    "remoteHead": "71649ff1b09f340645b6f890a5465aa8372b004d",
+    "run": 44064499900,
+    "job": 133974542288,
+    "url": "https://github.com/darknigthmare/deadwall-last-enclosure/actions/runs/44064499900/job/133974542288",
+    "fontPackage": "fonts-dejavu-core 2.37-8build1 (already installed)",
+    "artifactId": 14319129777,
+    "artifactZipSha256": "081e0ebe45b5f623ec397e44e2490072da096847c70b345aaeed73b75aa788e4",
+    "reportSha256": "3e7357605b98ee5c743ad548d340683de7186f40b90f433ff6c4103375538fbc",
+    "registeredFamilies": [
+      "DejaVu Math TeX Gyre",
+      "DejaVu Sans",
+      "DejaVu Sans Mono",
+      "DejaVu Serif",
+      "Lato",
+      "Liberation Mono",
+      "Liberation Sans",
+      "Liberation Serif",
+      "Noto Color Emoji"
+    ],
+    "accepted": false,
+    "errorCount": 83,
+    "probes": [
+      {
+        "font": "bold 11px sans-serif",
+        "finite": 82,
+        "visible": 0,
+        "glyphs": 82,
+        "distinctRasters": 1
+      },
+      {
+        "font": "bold 11px \"DejaVu Sans\"",
+        "finite": 82,
+        "visible": 82,
+        "glyphs": 82,
+        "distinctRasters": 82
+      }
+    ],
+    "resolvedFamily": null
+  },
+  "nativeApiOrderProbe": {
+    "diagnosticOnly": true,
+    "controlledRegistrationOrder": [
+      "Noto Color Emoji",
+      "DejaVu Sans regular",
+      "DejaVu Sans bold"
+    ],
+    "canvasVersion": "0.1.100",
+    "rows": [
+      {
+        "mode": "none",
+        "result": null,
+        "before": null,
+        "after": [
+          {
+            "font": "bold 11px sans-serif",
+            "word": "Roseraie",
+            "width": 109.5,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 0,
+            "rasterSha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+          },
+          {
+            "font": "bold 11px \"DejaVu Sans\"",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          }
+        ],
+        "registeredFamilies": [
+          {
+            "family": "Noto Color Emoji",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "DejaVu Sans",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "early-setAlias",
+        "result": true,
+        "before": null,
+        "after": [
+          {
+            "font": "bold 11px sans-serif",
+            "word": "Roseraie",
+            "width": 47.459999084472656,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 547,
+            "rasterSha256": "f2890b6bf6732811c6118fb2a225b2de3811f024d045cdd412975928177b0602"
+          },
+          {
+            "font": "bold 11px \"DejaVu Sans\"",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          }
+        ],
+        "registeredFamilies": [
+          {
+            "family": "Noto Color Emoji",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "DejaVu Sans",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "sans-serif",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "early-register",
+        "result": [
+          true,
+          true
+        ],
+        "before": null,
+        "after": [
+          {
+            "font": "bold 11px sans-serif",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          },
+          {
+            "font": "bold 11px \"DejaVu Sans\"",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          }
+        ],
+        "registeredFamilies": [
+          {
+            "family": "Noto Color Emoji",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "DejaVu Sans",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "sans-serif",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "late-register",
+        "result": [
+          true,
+          true
+        ],
+        "before": [
+          {
+            "font": "bold 11px sans-serif",
+            "word": "Roseraie",
+            "width": 109.5,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 0,
+            "rasterSha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+          },
+          {
+            "font": "bold 11px \"DejaVu Sans\"",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          }
+        ],
+        "after": [
+          {
+            "font": "bold 11px sans-serif",
+            "word": "Roseraie",
+            "width": 109.5,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 0,
+            "rasterSha256": "de2f256064a0af797747c2b97505dc0b9f3df0de4f489eac731c23ae9ca9cc31"
+          },
+          {
+            "font": "bold 11px \"DejaVu Sans\"",
+            "word": "Roseraie",
+            "width": 54.11000061035156,
+            "sample": "Roseraie AéŒz",
+            "inkPixels": 505,
+            "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+          }
+        ],
+        "registeredFamilies": [
+          {
+            "family": "Noto Color Emoji",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "DejaVu Sans",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          },
+          {
+            "family": "sans-serif",
+            "styles": [
+              {
+                "weight": 400,
+                "width": "normal",
+                "style": "normal"
+              },
+              {
+                "weight": 700,
+                "width": "normal",
+                "style": "normal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "preflights": [
+    {
+      "name": "preflight-emoji-no-bootstrap",
+      "sha256": "45ee9d2811f99904afaba8e9cb479aa156e16e6f7c928eaf2b6e18cf06cb6e26",
+      "accepted": false,
+      "errorCount": 84,
+      "bootstrap": null,
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 0,
+          "distinctRasters": 1
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        }
+      ],
+      "registeredFamilyCount": 1,
+      "requiredFamilyPresent": false,
+      "registeredFamilies": [
+        "Noto Color Emoji"
+      ]
+    },
+    {
+      "name": "preflight-mixed-no-bootstrap",
+      "sha256": "bf4a3c095ad5c339952c1a4cb193d32742dabe3789d9ae09e7e53cbf02758cfe",
+      "accepted": false,
+      "errorCount": 83,
+      "bootstrap": null,
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 0,
+          "distinctRasters": 1
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        }
+      ],
+      "registeredFamilyCount": 2,
+      "requiredFamilyPresent": true,
+      "registeredFamilies": [
+        "DejaVu Sans",
+        "Noto Color Emoji"
+      ]
+    },
+    {
+      "name": "preflight-mixed-with-bootstrap",
+      "sha256": "6c78d2828b1fced3c2fd5c139b1e4cb9d35013c31eb7563e763feb08bd7364d1",
+      "accepted": true,
+      "errorCount": 0,
+      "bootstrap": {
+        "kind": "native-canvas-font-bootstrap",
+        "family": "DejaVu Sans",
+        "alias": "sans-serif",
+        "files": [
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        ]
+      },
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        }
+      ],
+      "registeredFamilyCount": 3,
+      "requiredFamilyPresent": true,
+      "registeredFamilies": [
+        "DejaVu Sans",
+        "Noto Color Emoji",
+        "sans-serif"
+      ]
+    },
+    {
+      "name": "preflight-system-with-bootstrap",
+      "sha256": "db00bc70d1d9ff5fcfbefa2909c09bae4ef7ceea1b95aefc7c348703a7cfd7db",
+      "accepted": true,
+      "errorCount": 0,
+      "bootstrap": {
+        "kind": "native-canvas-font-bootstrap",
+        "family": "DejaVu Sans",
+        "alias": "sans-serif",
+        "files": [
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        ]
+      },
+      "probes": [
+        {
+          "font": "bold 11px sans-serif",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "glyphs": 82,
+          "finite": 82,
+          "visible": 82,
+          "distinctRasters": 82
+        }
+      ],
+      "registeredFamilyCount": 251,
+      "requiredFamilyPresent": true
+    }
+  ],
+  "separateChild": {
+    "parentPid": 119,
+    "canonicalNodeOptions": "--require=\"/workspace/scratch/6f470a892a0f/deadwall-ci-fonts/scripts/ci-native-fonts-bootstrap.cjs\"",
+    "observed": {
+      "pid": 136,
+      "parentPid": 119,
+      "nodeOptions": "--require=\"/workspace/scratch/6f470a892a0f/deadwall-ci-fonts/scripts/ci-native-fonts-bootstrap.cjs\"",
+      "bootstrap": {
+        "kind": "native-canvas-font-bootstrap",
+        "family": "DejaVu Sans",
+        "alias": "sans-serif",
+        "files": [
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+          "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+        ]
+      },
+      "rows": [
+        {
+          "font": "11px sans-serif",
+          "width": 47.459999084472656,
+          "ink": 364,
+          "rasterSha256": "5d5bf058177efb035b0488af47cb9dc57d973d95a775074b75721e14d0681b18"
+        },
+        {
+          "font": "11px \"DejaVu Sans\"",
+          "width": 47.459999084472656,
+          "ink": 364,
+          "rasterSha256": "5d5bf058177efb035b0488af47cb9dc57d973d95a775074b75721e14d0681b18"
+        },
+        {
+          "font": "bold 11px sans-serif",
+          "width": 54.11000061035156,
+          "ink": 505,
+          "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+        },
+        {
+          "font": "bold 11px \"DejaVu Sans\"",
+          "width": 54.11000061035156,
+          "ink": 505,
+          "rasterSha256": "f2ed1e98667aa44e394ba9c58ff1534a6bc2ff35b1cdebd9d21e814d76a0e455"
+        }
+      ]
+    },
+    "originalTestChild": {
+      "pid": 153,
+      "command": [
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-mixed.cjs",
+        "--test",
+        "--test-reporter=tap",
+        "tests/expedition-art159.test.cjs"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "log": "art159-bootstrap-child.log",
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "targetedGateTests": {
+    "command": "node --test --test-reporter=tap tests/ci-native-fonts.test.cjs tests/audit186-ci.test.cjs tests/full-check201.test.cjs",
+    "counts": {
+      "tests": 125,
+      "suites": 0,
+      "pass": 125,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "logSha256": "e22fae10d7e13c3557144d07c311cc18ff259eef9c46774106a3a2e0ee958a5a"
+  },
+  "structureAndInvariants": {
+    "ci.yml": {
+      "onlyNativeSetupAndNativeStepPreloadChanged": true,
+      "otherJobsAndFieldsIdenticalToBase": true
+    },
+    "fullcheck201.yml": {
+      "onlyNativeSetupAndNativeStepPreloadChanged": true,
+      "otherJobsAndFieldsIdenticalToBase": true
+    },
+    "action": {
+      "yamlParsed": true,
+      "allBashSyntaxValid": true,
+      "actualSelectorOutputMatchesCanonical": true,
+      "aptExecutedLocally": false
+    },
+    "nodeSyntax": [
+      "scripts/ci-native-fonts-bootstrap.cjs",
+      "scripts/ci-native-node-policy.cjs",
+      "scripts/ci-native-fonts.mjs",
+      "scripts/ci-native186.mjs",
+      "scripts/full-check201.mjs",
+      "tests/ci-native-fonts.test.cjs"
+    ],
+    "unchangedFromBase": [
+      {
+        "path": "src/expedition-art.js",
+        "sha256": "640c17a6ef75b1c30d2c492619a1e6e0b4dfef048c7a6bb86ccabcebbaa3892a"
+      },
+      {
+        "path": "tests/expedition-art159.test.cjs",
+        "sha256": "1eb0a3a2fe13de3d81d931c8a2e8e9c2be8498984a5fb50acce716e994e21e13"
+      },
+      {
+        "path": "tests/audit186-ci.test.cjs",
+        "sha256": "f7b0de1e4ed0aa272ac9e1754260ac7732a482f03ea641f80fb6578a15c388ef"
+      },
+      {
+        "path": "tests/full-check201.test.cjs",
+        "sha256": "a505cd5a6341d6bb7fe5f525c4c19affd4f586a20c4429ef503fe721aafc629a"
+      },
+      {
+        "path": "package.json",
+        "sha256": "722c28f9946e5c9c2095e2b3a03774c595aa4bd9bfc1655484dcb34396c0cea0"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "41cd5573880263b30206dbb78766b789f65702fa2ffebe2401601b1bd2205c53"
+      }
+    ],
+    "gitDiffCheck": true
+  },
+  "runs": [
+    {
+      "name": "preflight-mixed-no-bootstrap",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-mixed.cjs",
+        "scripts/ci-native-fonts.mjs",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preflight-mixed-no-bootstrap.json"
+      ],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "durationSeconds": 0.226,
+      "environment": {
+        "NODE_OPTIONS": null,
+        "DISABLE_SYSTEM_FONTS_LOAD": "1"
+      },
+      "log": "preflight-mixed-no-bootstrap.log",
+      "logSha256": "508c7be5117479653be47b63dbf491d2fd246dd0abfb4719fd1b29b30675a55d"
+    },
+    {
+      "name": "preflight-emoji-no-bootstrap",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-emoji.cjs",
+        "scripts/ci-native-fonts.mjs",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preflight-emoji-no-bootstrap.json"
+      ],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "durationSeconds": 0.245,
+      "environment": {
+        "NODE_OPTIONS": null,
+        "DISABLE_SYSTEM_FONTS_LOAD": "1"
+      },
+      "log": "preflight-emoji-no-bootstrap.log",
+      "logSha256": "6316934d87e8a5845fcc8ab5398db5a20ed7c6730302549073032a56b877dcf6"
+    },
+    {
+      "name": "preflight-mixed-with-bootstrap",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-mixed.cjs",
+        "scripts/ci-native-fonts.mjs",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preflight-mixed-with-bootstrap.json"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "durationSeconds": 0.251,
+      "environment": {
+        "NODE_OPTIONS": "--require=\"/workspace/scratch/6f470a892a0f/deadwall-ci-fonts/scripts/ci-native-fonts-bootstrap.cjs\"",
+        "DISABLE_SYSTEM_FONTS_LOAD": "1"
+      },
+      "log": "preflight-mixed-with-bootstrap.log",
+      "logSha256": "7ee86c8e3ce1dae90fcdee09f3600e96cca4295cbe24a3eb99d8b7d7c300e2f8"
+    },
+    {
+      "name": "preflight-system-with-bootstrap",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "scripts/ci-native-fonts.mjs",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preflight-system-with-bootstrap.json"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "durationSeconds": 0.393,
+      "environment": {
+        "NODE_OPTIONS": "--require=\"/workspace/scratch/6f470a892a0f/deadwall-ci-fonts/scripts/ci-native-fonts-bootstrap.cjs\"",
+        "DISABLE_SYSTEM_FONTS_LOAD": null
+      },
+      "log": "preflight-system-with-bootstrap.log",
+      "logSha256": "a61fa82860a9dc234b96c5890ca75a6da95b14b5c4dd1ab4e59ec4190eb08d9f"
+    },
+    {
+      "name": "art159-mixed-no-bootstrap",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-mixed.cjs",
+        "--test",
+        "--test-reporter=tap",
+        "tests/expedition-art159.test.cjs"
+      ],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "durationSeconds": 0.968,
+      "environment": {
+        "NODE_OPTIONS": null,
+        "DISABLE_SYSTEM_FONTS_LOAD": "1"
+      },
+      "log": "art159-mixed-no-bootstrap.log",
+      "logSha256": "58a0d31717ed65b6d123a35bbf62255100603421442573a85b869763622ff327"
+    },
+    {
+      "name": "spawn-original-test",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--require",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/preload-mixed.cjs",
+        "/workspace/scratch/6f470a892a0f/ci-fonts-prep/v2/spawn-original-test.cjs"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "durationSeconds": 1.081,
+      "environment": {
+        "NODE_OPTIONS": "--require=\"/workspace/scratch/6f470a892a0f/deadwall-ci-fonts/scripts/ci-native-fonts-bootstrap.cjs\"",
+        "DISABLE_SYSTEM_FONTS_LOAD": "1"
+      },
+      "log": "spawn-original-test.log",
+      "logSha256": "bb716199c041b33a9c5fd4e72cd338715d40bed21e7d6a40a1545bbb73795a63"
+    }
+  ],
+  "officialReferences": {
+    "checkedAt": "2026-11-17",
+    "sources": [
+      {
+        "url": "https://github.com/Brooooooklyn/canvas/blob/v0.1.100/src/global_fonts.rs",
+        "gitBlob": "6e7d837a222575fabe5a21e3ea664c6b1a5e00a7",
+        "finding": "Canvas 0.1.100 exposes registerFromPath(path, nameAlias), setAlias(fontName, alias), and loads Linux system fonts from /usr/share/fonts."
+      },
+      {
+        "url": "https://github.com/nodejs/node/blob/v24.22.2/doc/api/cli.md",
+        "gitBlob": "b4f389241f66f34b94fb8df756ac0db9f679a7b5",
+        "finding": "Node 24 preloads --require modules at process startup and in worker/forked processes; NODE_OPTIONS precedes CLI options."
+      },
+      {
+        "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable",
+        "gitBlob": null,
+        "finding": "GITHUB_ENV cannot set NODE_OPTIONS. Use an action output consumed by the env of the native steps only."
+      }
+    ]
+  },
+  "fontInputs": [
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "sha256": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
+      "bytes": 759720
+    },
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "sha256": "a4c5bc453ca281d90ea079e596da7ae0dfeb5777497c29ec254e76d97ff6f890",
+      "bytes": 708920
+    },
+    {
+      "path": "/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf",
+      "sha256": "dac5c27651082d6c53dab5081f50d2022ddf6877d730fa919cf6a4fc2af22de0",
+      "bytes": 11260748
+    }
+  ],
+  "limits": [
+    "The failing PR28/29 runners did not report the selected font or offending word.",
+    "The newer PR32 artifact proves invisible generic Latin despite an available DejaVu family; it does not name the resolved generic face.",
+    "The mixed fixture is controlled local evidence, not a capture of runner font registration order.",
+    "APT and npm installation were not run locally; v1 APT success is observed remotely.",
+    "No full check or exhaustive native run was executed locally.",
+    "The v2 change is not committed or published at this verification time."
+  ],
+  "evidenceFiles": [
+    {
+      "path": "ci-fonts-prep/v2/art159-bootstrap-child.log",
+      "sha256": "cc06845318c44abd5e669d2138aa86c84ea89f738181aee626910ad4694090db",
+      "bytes": 1091
+    },
+    {
+      "path": "ci-fonts-prep/v2/art159-mixed-no-bootstrap.log",
+      "sha256": "58a0d31717ed65b6d123a35bbf62255100603421442573a85b869763622ff327",
+      "bytes": 1653
+    },
+    {
+      "path": "ci-fonts-prep/v2/native-api-order-probe.cjs",
+      "sha256": "3e335630314850b6be6368f7c06d2d396eb5d1aa2250664e1f9df3d5ff05702f",
+      "bytes": 1269
+    },
+    {
+      "path": "ci-fonts-prep/v2/native-api-order.json",
+      "sha256": "159adc9fbfb17d688cd5634ab694fdd5e4a11c4e32d761afc8c654bf81184491",
+      "bytes": 6911
+    },
+    {
+      "path": "ci-fonts-prep/v2/official-api-references.json",
+      "sha256": "d47efab8e4e3f22b3f3a660dcc359f76a32ff530e66e904102163e149220467e",
+      "bytes": 5510
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-emoji-no-bootstrap.json",
+      "sha256": "45ee9d2811f99904afaba8e9cb479aa156e16e6f7c928eaf2b6e18cf06cb6e26",
+      "bytes": 83737
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-emoji-no-bootstrap.log",
+      "sha256": "6316934d87e8a5845fcc8ab5398db5a20ed7c6730302549073032a56b877dcf6",
+      "bytes": 1130
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-mixed-no-bootstrap.json",
+      "sha256": "bf4a3c095ad5c339952c1a4cb193d32742dabe3789d9ae09e7e53cbf02758cfe",
+      "bytes": 83666
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-mixed-no-bootstrap.log",
+      "sha256": "508c7be5117479653be47b63dbf491d2fd246dd0abfb4719fd1b29b30675a55d",
+      "bytes": 1153
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-mixed-with-bootstrap.json",
+      "sha256": "6c78d2828b1fced3c2fd5c139b1e4cb9d35013c31eb7563e763feb08bd7364d1",
+      "bytes": 73902
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-mixed-with-bootstrap.log",
+      "sha256": "7ee86c8e3ce1dae90fcdee09f3600e96cca4295cbe24a3eb99d8b7d7c300e2f8",
+      "bytes": 317
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-system-with-bootstrap.json",
+      "sha256": "db00bc70d1d9ff5fcfbefa2909c09bae4ef7ceea1b95aefc7c348703a7cfd7db",
+      "bytes": 80090
+    },
+    {
+      "path": "ci-fonts-prep/v2/preflight-system-with-bootstrap.log",
+      "sha256": "a61fa82860a9dc234b96c5890ca75a6da95b14b5c4dd1ab4e59ec4190eb08d9f",
+      "bytes": 5266
+    },
+    {
+      "path": "ci-fonts-prep/v2/preload-emoji.cjs",
+      "sha256": "263b473ca34e7ec5b97935d99e6fc76dfe141972c67cf1fbebeef6363a089795",
+      "bytes": 293
+    },
+    {
+      "path": "ci-fonts-prep/v2/preload-mixed.cjs",
+      "sha256": "d2677f32e3677fc5306fd7f60dd77799adb842855cb9d6c2f94eecf6f46e39df",
+      "bytes": 454
+    },
+    {
+      "path": "ci-fonts-prep/v2/run-verification.py",
+      "sha256": "6ddd6a102df9a9d1554236c1c27412ce7407c0fce14a38549229fd97a9279499",
+      "bytes": 3540
+    },
+    {
+      "path": "ci-fonts-prep/v2/spawn-original-test.cjs",
+      "sha256": "19a23d59d5bbe1179927327a7e02bc72fa07196451928db51cf87e974bee074f",
+      "bytes": 2751
+    },
+    {
+      "path": "ci-fonts-prep/v2/spawn-original-test.json",
+      "sha256": "36c9cb8742c907fd901449d6ff7287a5b4a8f66551113aa7f1f4806281ade170",
+      "bytes": 1847
+    },
+    {
+      "path": "ci-fonts-prep/v2/spawn-original-test.log",
+      "sha256": "bb716199c041b33a9c5fd4e72cd338715d40bed21e7d6a40a1545bbb73795a63",
+      "bytes": 1417
+    },
+    {
+      "path": "ci-fonts-prep/v2/structure-and-invariants.json",
+      "sha256": "430e01857aef134b7b2aa7fc16d9208363664c385697ef9766867332025577af",
+      "bytes": 1531
+    },
+    {
+      "path": "ci-fonts-prep/v2/targeted-gates.log",
+      "sha256": "e22fae10d7e13c3557144d07c311cc18ff259eef9c46774106a3a2e0ee958a5a",
+      "bytes": 24817
+    },
+    {
+      "path": "ci-fonts-prep/v2/verification-runs.json",
+      "sha256": "124dbb9d2888652bc6b9fec59a70b7ef4a2fcdd9c5422d9498f14b4175127801",
+      "bytes": 4778
+    },
+    {
+      "path": "ci-fonts-prep/v2/verify-structure.py",
+      "sha256": "4fefce3984c150b6cb5ca144af0ef844a3f9fb0a75824c372b70193969538448",
+      "bytes": 3826
+    }
+  ]
+}
