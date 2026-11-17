@@ -1,0 +1,1787 @@
+{
+  "project": "DEADWALL",
+  "sourceMainRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "scope": "Incomplete art backlog: 62 native presets only. This is not an exhaustive inventory of the 4000 Codex sheets, local-scene types, props, interiors, terrain, UI, animation, or all prior art packs.",
+  "counts": {
+    "remaining_verified_direct_pilot": 17,
+    "selected_art225_generation_pending": 6,
+    "reserved_art226_separate_agent": 6,
+    "prior_final_asset": 13,
+    "requires_codex_mapping_reconciliation": 20
+  },
+  "priorArt222Art223Art224FinalIds": [
+    "DW-0342",
+    "DW-0132",
+    "DW-0321",
+    "DW-0334",
+    "DW-0541",
+    "DW-0528",
+    "DW-0549",
+    "DW-0097",
+    "DW-0065",
+    "DW-0153",
+    "DW-0085",
+    "DW-0082",
+    "DW-0444",
+    "DW-0224",
+    "DW-0046",
+    "DW-0367",
+    "DW-0104",
+    "DW-0251",
+    "DW-0306",
+    "DW-0237"
+  ],
+  "priorFinalIdsMatchingDirectNativePresets": [
+    "DW-0065",
+    "DW-0153",
+    "DW-0046",
+    "DW-0097",
+    "DW-0085",
+    "DW-0224",
+    "DW-0367",
+    "DW-0082",
+    "DW-0444",
+    "DW-0104",
+    "DW-0251",
+    "DW-0237",
+    "DW-0306"
+  ],
+  "art221CompleteAssetInventoryRecovered": false,
+  "art225Types": [
+    "pharmacy",
+    "hardware",
+    "diner",
+    "garage",
+    "school",
+    "townhall"
+  ],
+  "art226ReservedTypes": [
+    "sawmill",
+    "warehouse",
+    "freight",
+    "centralKitchen",
+    "generatorRoom",
+    "quarry"
+  ],
+  "rows": [
+    {
+      "preset": {
+        "id": "house",
+        "name": "Maison de lotissement",
+        "w": 14,
+        "h": 12,
+        "levels": [
+          0
+        ],
+        "layout": "home",
+        "codex": "DW-0001"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "e72bb792bd2b6acbed1f2f04fc934f80513e910b45a100cdc8f5911f05fe005e",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0001.md"
+      },
+      "codexTitle": "DW-0001 — Maison de lotissement",
+      "codexPilotQuote": "Plan source : `house`; enveloppe bâtie actuelle [14, 12] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "duplex",
+        "name": "Maison à étage",
+        "w": 16,
+        "h": 13,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "home",
+        "codex": "DW-0003"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "919f1f707421d5c8d0f327e9ae39ba46618bc019c09be23729d6043591c2f5be",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0003.md"
+      },
+      "codexTitle": "DW-0003 — Maison à étage avec balcon",
+      "codexPilotQuote": "Plan source : `duplex`; enveloppe bâtie actuelle [16, 13] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "cabin",
+        "name": "Chalet forestier",
+        "w": 9,
+        "h": 8,
+        "levels": [
+          0
+        ],
+        "layout": "cabin",
+        "codex": "DW-0010"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 4,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "5b6f279db28c8c5f7e1819d9e188cb5f6463393b79b17df1d0cdae7bd04fa096",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0010.md"
+      },
+      "codexTitle": "DW-0010 — Chalet forestier",
+      "codexPilotQuote": "Plan source : `cabin`; enveloppe bâtie actuelle [9, 8] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "apartments",
+        "name": "Immeuble de trois étages",
+        "w": 30,
+        "h": 23,
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "apartments",
+        "codex": "DW-0021"
+      },
+      "roofFamily": "collective",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "47876fe0eaa8a571d20a2eaa9d1ac486056b4909d446ce21eb9fa55315c799b9",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0021.md"
+      },
+      "codexTitle": "DW-0021 — Immeuble de trois étages",
+      "codexPilotQuote": "Plan source : `apartments`; enveloppe bâtie actuelle [30, 23] m; niveaux [0, 1, 2]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "mall",
+        "name": "Centre commercial régional",
+        "w": 82,
+        "h": 56,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "mall",
+        "codex": "DW-0041"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0041.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "dc2ffa2d0b983bfd9a4b1eb14a70683948b619ee31a0d75f4d6414c05277df15",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0041.md"
+      },
+      "codexTitle": "DW-0041 — Centre commercial régional",
+      "codexPilotQuote": "Plan source : `mall`; enveloppe bâtie actuelle [82, 56] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "hardware",
+        "name": "Magasin de bricolage",
+        "w": 38,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "layout": "retail",
+        "codex": "DW-0045"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "67491564142d7619a6477953f0922aac9edc3d7229795e1d940144c66338501b",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0045.md"
+      },
+      "codexTitle": "DW-0045 — Magasin de bricolage",
+      "codexPilotQuote": "Plan source : `hardware`; enveloppe bâtie actuelle [38, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "grocer",
+        "name": "Supérette de quartier",
+        "w": 19,
+        "h": 15,
+        "levels": [
+          0
+        ],
+        "layout": "food",
+        "codex": "DW-0061"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0061.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "fc32cb1d4d17033f8152913ab6f14a6bf459959b9773480b021d59fed269d9f3",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0061.md"
+      },
+      "codexTitle": "DW-0061 — Supérette de quartier",
+      "codexPilotQuote": "Plan source : `grocer`; enveloppe bâtie actuelle [19, 15] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "market",
+        "name": "Supermarché avec quai",
+        "w": 42,
+        "h": 30,
+        "levels": [
+          0
+        ],
+        "layout": "food",
+        "codex": "DW-0062"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0062.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "627120a2486ae478f3b45c19ae470358e2bfeb8203bd366f30ce15d5da32227c",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0062.md"
+      },
+      "codexTitle": "DW-0062 — Supermarché avec quai",
+      "codexPilotQuote": "Plan source : `market`; enveloppe bâtie actuelle [42, 30] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "diner",
+        "name": "Restaurant routier",
+        "w": 25,
+        "h": 17,
+        "levels": [
+          0
+        ],
+        "layout": "diner",
+        "codex": "DW-0069"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "9d940eb02b22252e5d794ce9b2e55239f2cec85df7422bb7d2d7bdc4d9de8974",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0069.md"
+      },
+      "codexTitle": "DW-0069 — Restaurant routier",
+      "codexPilotQuote": "Plan source : `diner`; enveloppe bâtie actuelle [25, 17] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "hotel",
+        "name": "Hôtel de centre-ville",
+        "w": 42,
+        "h": 26,
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "hotel",
+        "codex": "DW-0101"
+      },
+      "roofFamily": "hotel",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "cbb20cee25ceb70553a4d30646be37ab3b63424926ca5440dd938a9b1c94505f",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0101.md"
+      },
+      "codexTitle": "DW-0101 — Hôtel de centre-ville",
+      "codexPilotQuote": "Plan source : `hotel`; enveloppe bâtie actuelle [42, 26] m; niveaux [0, 1, 2]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "clinic",
+        "name": "Dispensaire rural",
+        "w": 23,
+        "h": 17,
+        "levels": [
+          0
+        ],
+        "layout": "clinic",
+        "codex": "DW-0123"
+      },
+      "roofFamily": "clinic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0123.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "ec4bc75c86142b2ed25a9f9f08e258dd33b510b084565d0918b63826b22d9468",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0123.md"
+      },
+      "codexTitle": "DW-0123 — Dispensaire rural",
+      "codexPilotQuote": "Plan source : `clinic`; enveloppe bâtie actuelle [23, 17] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "historicalNote": "Theme may overlap Art221 remarkable categories; full Art221 filename/ID inventory unavailable. This is not proof that this exact pilot has already been drawn.",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "school",
+        "name": "École primaire",
+        "w": 38,
+        "h": 28,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "school",
+        "codex": "DW-0142"
+      },
+      "roofFamily": "school",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "12b5ccbe7ea1993412d569f21ebc31e0082923a8cfbd6c25656828d69b87656e",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0142.md"
+      },
+      "codexTitle": "DW-0142 — École primaire",
+      "codexPilotQuote": "Plan source : `school`; enveloppe bâtie actuelle [38, 28] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "townhall",
+        "name": "Mairie",
+        "w": 28,
+        "h": 20,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "civic",
+        "codex": "DW-0161"
+      },
+      "roofFamily": "civic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "aa7387714ec526787d7fc02d35f0d079b398a09fbfd27516701bc313f0408813",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0161.md"
+      },
+      "codexTitle": "DW-0161 — Mairie",
+      "codexPilotQuote": "Plan source : `townhall`; enveloppe bâtie actuelle [28, 20] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "bunker",
+        "name": "Abri communal souterrain",
+        "w": 26,
+        "h": 21,
+        "levels": [
+          -1,
+          0
+        ],
+        "layout": "bunker",
+        "codex": "DW-0201"
+      },
+      "roofFamily": "underground",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0201.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "9aef411fdfac839fb99e20616df5c0c23375341ec6281a65c9638e82935bcead",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0201.md"
+      },
+      "codexTitle": "DW-0201 — Abri communal souterrain",
+      "codexPilotQuote": "Plan source : `bunker`; enveloppe bâtie actuelle [26, 21] m; niveaux [-1, 0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "historicalNote": "Theme may overlap Art221 remarkable categories; full Art221 filename/ID inventory unavailable. This is not proof that this exact pilot has already been drawn.",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "warehouse",
+        "name": "Entrepôt de messagerie",
+        "w": 46,
+        "h": 29,
+        "levels": [
+          0
+        ],
+        "layout": "warehouse",
+        "codex": "DW-0221"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0221.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "31fa8cdfb005614431a82d440a61e88e3681f10cb3bbdaf0b3f4e13e6428b08f",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0221.md"
+      },
+      "codexTitle": "DW-0221 — Entrepôt de messagerie",
+      "codexPilotQuote": "Plan source : `warehouse`; enveloppe bâtie actuelle [46, 29] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "garage",
+        "name": "Garage automobile",
+        "w": 25,
+        "h": 20,
+        "levels": [
+          0
+        ],
+        "layout": "garage",
+        "codex": "DW-0241"
+      },
+      "roofFamily": "workshop",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "8dba9ca70132c4c4d11042ed70baf3e48e89c5703c3f56b420468cac31fcf014",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0241.md"
+      },
+      "codexTitle": "DW-0241 — Garage automobile indépendant",
+      "codexPilotQuote": "Plan source : `garage`; enveloppe bâtie actuelle [25, 20] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "fuel",
+        "name": "Station-service",
+        "w": 19,
+        "h": 14,
+        "levels": [
+          0
+        ],
+        "layout": "fuel",
+        "codex": "DW-0247"
+      },
+      "roofFamily": "service",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0247.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "8a6e4ff6087bbfcfcf2ef766d020eceb171b9373c5a9c016c297b7d64625cfde",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0247.md"
+      },
+      "codexTitle": "DW-0247 — Station-service de village",
+      "codexPilotQuote": "Plan source : `fuel`; enveloppe bâtie actuelle [19, 14] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "historicalNote": "Theme may overlap Art221 remarkable categories; full Art221 filename/ID inventory unavailable. This is not proof that this exact pilot has already been drawn.",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "sawmill",
+        "name": "Scierie de vallée",
+        "w": 40,
+        "h": 26,
+        "levels": [
+          0
+        ],
+        "layout": "sawmill",
+        "codex": "DW-0381"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0381.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "38e6af7a5e0c1c0445ac7cc0f17397fa0a3eae9f40be3b5379086f2f2d259640",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0381.md"
+      },
+      "codexTitle": "DW-0381 — Scierie de vallée",
+      "codexPilotQuote": "Plan source : `sawmill`; enveloppe bâtie actuelle [40, 26] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "mine",
+        "name": "Mine à galerie",
+        "w": 32,
+        "h": 25,
+        "levels": [
+          -1,
+          0
+        ],
+        "layout": "mine",
+        "codex": "DW-0401"
+      },
+      "roofFamily": "underground",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0401.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "6ec9b0cea70b486ea24635ea249074410fb76567e76abeb1de08cb877411a1e7",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0401.md"
+      },
+      "codexTitle": "DW-0401 — Mine à galerie",
+      "codexPilotQuote": "Plan source : `mine`; enveloppe bâtie actuelle [32, 25] m; niveaux [-1, 0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "quarry",
+        "name": "Carrière de pierre",
+        "w": 30,
+        "h": 24,
+        "levels": [
+          0
+        ],
+        "layout": "quarry",
+        "codex": "DW-0403"
+      },
+      "roofFamily": "underground",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0403.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "47b5c782d50f8d9a70689a2f39656e00406e3104d3917ef8aca0d4d8267f25ff",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0403.md"
+      },
+      "codexTitle": "DW-0403 — Carrière de pierre",
+      "codexPilotQuote": "Plan source : `quarry`; enveloppe bâtie actuelle [30, 24] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "ruin",
+        "name": "Maison effondrée visitable",
+        "w": 18,
+        "h": 14,
+        "levels": [
+          0
+        ],
+        "layout": "ruin",
+        "codex": "DW-0481"
+      },
+      "roofFamily": "ruin",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "51b852442dd01c93a191873a1fc96a9c9ac9170f3ffd1ed096e80cfe0843d195",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0481.md"
+      },
+      "codexTitle": "DW-0481 — Maison effondrée visitable",
+      "codexPilotQuote": "Plan source : `ruin`; enveloppe bâtie actuelle [18, 14] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "motel",
+        "name": "Motel gagné par la forêt",
+        "w": 44,
+        "h": 19,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "hotel",
+        "codex": "DW-0498"
+      },
+      "roofFamily": "hotel",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0498.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "68d44bf4e811c1bff7e983c399e6261dba61bd6ac9c37207bdffae19e34dab5c",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0498.md"
+      },
+      "codexTitle": "DW-0498 — Motel gagné par la forêt",
+      "codexPilotQuote": "Plan source : `motel`; enveloppe bâtie actuelle [44, 19] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "bakery",
+        "name": "Boulangerie artisanale",
+        "w": 22,
+        "h": 17,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0065"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0065.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "cbb0d3ba53f7f5ef3b51c65eb6ea7f89befc1c366f8a0164f7f66ecc9d612155",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0065.md"
+      },
+      "codexTitle": "DW-0065 — Boulangerie artisanale",
+      "codexPilotQuote": "Plan source : `bakery`; enveloppe bâtie actuelle [22, 17] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "library",
+        "name": "Bibliothèque municipale",
+        "w": 32,
+        "h": 24,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "places116",
+        "codex": "DW-0153"
+      },
+      "roofFamily": "civic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0153.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "5e39c61a20dbcf763b57c8cd87b96753b92d5c5babaabe3d99b452b04a2b6bd9",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0153.md"
+      },
+      "codexTitle": "DW-0153 — Bibliothèque municipale",
+      "codexPilotQuote": "Plan source : `library`; enveloppe bâtie actuelle [32, 24] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "garden",
+        "name": "Jardinerie",
+        "w": 36,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0046"
+      },
+      "roofFamily": "greenhouse",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "9ae6644dfbdb8d20ad83a88043034d4a25cea3461493bed9bf3f7df0d4690482",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0046.md"
+      },
+      "codexTitle": "DW-0046 — Jardinerie",
+      "codexPilotQuote": "Plan source : `garden`; enveloppe bâtie actuelle [36, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "veterinary",
+        "name": "Clinique vétérinaire",
+        "w": 26,
+        "h": 20,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0097"
+      },
+      "roofFamily": "clinic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "d41939485e5179110a02a6d019407bd08487734424bb3a92466ad8a1f361e70d",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0097.md"
+      },
+      "codexTitle": "DW-0097 — Clinique vétérinaire",
+      "codexPilotQuote": "Plan source : `veterinary`; enveloppe bâtie actuelle [26, 20] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art222",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "laundry",
+        "name": "Laverie automatique",
+        "w": 21,
+        "h": 15,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0085"
+      },
+      "roofFamily": "service",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0085.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0a6857e58e2955b8d60e88a8fb9f9d1dcff680a3cc3f3811dd4e3876f27730aa",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0085.md"
+      },
+      "codexTitle": "DW-0085 — Laverie automatique",
+      "codexPilotQuote": "Plan source : `laundry`; enveloppe bâtie actuelle [21, 15] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "firestation",
+        "name": "Caserne de pompiers",
+        "w": 36,
+        "h": 28,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "places116",
+        "codex": "DW-0181"
+      },
+      "roofFamily": "service",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "c38c4aa75c78c4a8f78f73a09c40705780110d5169a39fba1263b321324ef0f5",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0181.md"
+      },
+      "codexTitle": "DW-0181 — Caserne de pompiers",
+      "codexPilotQuote": "Plan source : `firestation`; enveloppe bâtie actuelle [36, 28] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "historicalNote": "Art222 DW-0528 fire station is a different 19×36 m, one-level supplement variant. This direct DW-0181 pilot is 36×28 m and two levels; no automatic reuse as 1:1.",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "selfstorage",
+        "name": "Garde-meubles",
+        "w": 36,
+        "h": 26,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0224"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0224.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "ced5be434af982716e111efd0fb12df7b0230e44ee8a5cb05668355e42b66a4c",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0224.md"
+      },
+      "codexTitle": "DW-0224 — Garde-meubles",
+      "codexPilotQuote": "Plan source : `selfstorage`; enveloppe bâtie actuelle [36, 26] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "marketgarden",
+        "name": "Exploitation maraîchère",
+        "w": 32,
+        "h": 24,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0367"
+      },
+      "roofFamily": "greenhouse",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f00d032ed4decfca1cc8ceced351e19679f385c9edaba22814d50565834a5ba4",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0367.md"
+      },
+      "codexTitle": "DW-0367 — Exploitation maraîchère",
+      "codexPilotQuote": "Plan source : `marketgarden`; enveloppe bâtie actuelle [32, 24] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "postoffice",
+        "name": "Bureau postal",
+        "w": 28,
+        "h": 22,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0082"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0082.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "df6f5f02f0f999d05c1916a2a01a0367ef43f127d9c1656e0598f38c81eda608",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0082.md"
+      },
+      "codexTitle": "DW-0082 — Bureau postal",
+      "codexPilotQuote": "Plan source : `postoffice`; enveloppe bâtie actuelle [28, 22] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "gym",
+        "name": "Gymnase municipal",
+        "w": 38,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0444"
+      },
+      "roofFamily": "school",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0444.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "4aaece7cd71d7fc739e597acf66e693d3a39d6f1f6ae94a5e5ada68346d2b08b",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0444.md"
+      },
+      "codexTitle": "DW-0444 — Gymnase",
+      "codexPilotQuote": "Plan source : `gym`; enveloppe bâtie actuelle [38, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art223",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "inn",
+        "name": "Auberge de village",
+        "w": 28,
+        "h": 23,
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "places116",
+        "codex": "DW-0104"
+      },
+      "roofFamily": "hotel",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0eac0d0a487d9a0d2f5514eadebe1f5daa7e0b07f131130733d6cb3e20fd99bb",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0104.md"
+      },
+      "codexTitle": "DW-0104 — Auberge de village",
+      "codexPilotQuote": "Plan source : `inn`; enveloppe bâtie actuelle [28, 23] m; niveaux [0, 1]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "scrapyard",
+        "name": "Casse automobile",
+        "w": 35,
+        "h": 25,
+        "levels": [
+          0
+        ],
+        "layout": "places116",
+        "codex": "DW-0251"
+      },
+      "roofFamily": "workshop",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "4427b7c911145266778f96309d10b44cf9e82e7a6d1045d447b2892c0ceecfef",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0251.md"
+      },
+      "codexTitle": "DW-0251 — Casse automobile",
+      "codexPilotQuote": "Plan source : `scrapyard`; enveloppe bâtie actuelle [35, 25] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "basementHouse",
+        "name": "Maison sur sous-sol",
+        "w": 18,
+        "h": 15,
+        "levels": [
+          -1,
+          0
+        ],
+        "codex": "DW-0004",
+        "layout": "specialists117"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "141ec20937679d1dc8884f14c0a5419199d48e131322433d4d86bf7ea6d70ecd",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0004.md"
+      },
+      "codexTitle": "DW-0004 — Maison sur sous-sol",
+      "codexPilotQuote": "Plan source : `basementHouse`; enveloppe bâtie actuelle [18, 15] m; niveaux [-1, 0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "pharmacy",
+        "name": "Pharmacie commerciale",
+        "w": 24,
+        "h": 18,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0053",
+        "layout": "specialists117"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "bd15b98474f2339bfe0680b2a0ec9be2658c26345b830239babac7b10c5cab55",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0053.md"
+      },
+      "codexTitle": "DW-0053 — Pharmacie commerciale",
+      "codexPilotQuote": "Plan source : `pharmacy`; enveloppe bâtie actuelle [24, 18] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "selected_art225_generation_pending",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "centralKitchen",
+        "name": "Cuisine centrale",
+        "w": 38,
+        "h": 29,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0073",
+        "layout": "specialists117"
+      },
+      "roofFamily": "service",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0073.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "707e8c692b97f47162bd0fabca374e46f05fe1bcbae7e0b1e738d2bb349c5f48",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0073.md"
+      },
+      "codexTitle": "DW-0073 — Cuisine centrale",
+      "codexPilotQuote": "Plan source : `centralKitchen`; enveloppe bâtie actuelle [38, 29] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "dental",
+        "name": "Cabinet dentaire",
+        "w": 25,
+        "h": 20,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0126",
+        "layout": "specialists117"
+      },
+      "roofFamily": "clinic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0126.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "12ae72ac8ebac1252c56ab85c9f88bdaf754d669c46d5d4be338df7b63702f67",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0126.md"
+      },
+      "codexTitle": "DW-0126 — Cabinet dentaire",
+      "codexPilotQuote": "Plan source : `dental`; enveloppe bâtie actuelle [25, 20] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "remaining_verified_direct_pilot",
+      "historicalNote": "Theme may overlap Art221 remarkable categories; full Art221 filename/ID inventory unavailable. This is not proof that this exact pilot has already been drawn.",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "reuse",
+        "name": "Recyclerie",
+        "w": 40,
+        "h": 28,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0237",
+        "layout": "specialists117"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "5f7e8b76aa3719ce7071420e22340118ff1d3bbac09be6390e81de4f3351e842",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0237.md"
+      },
+      "codexTitle": "DW-0237 — Recyclerie",
+      "codexPilotQuote": "Plan source : `reuse`; enveloppe bâtie actuelle [40, 28] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "freight",
+        "name": "Halle fret désaffectée",
+        "w": 46,
+        "h": 24,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0289",
+        "layout": "specialists117"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0289.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "2087adace92774c5736f3fe2d0c20f78aa0a74dd55b8b07f10d44a5c371eab86",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0289.md"
+      },
+      "codexTitle": "DW-0289 — Halle fret désaffectée",
+      "codexPilotQuote": "Plan source : `freight`; enveloppe bâtie actuelle [46, 24] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "joinery",
+        "name": "Atelier de menuiserie",
+        "w": 35,
+        "h": 26,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0306",
+        "layout": "specialists117"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "008f9281e56c22292d691375028b9ce0cee12bb64fdc9e8c9447a3a0619bd6b5",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0306.md"
+      },
+      "codexTitle": "DW-0306 — Atelier de menuiserie",
+      "codexPilotQuote": "Plan source : `joinery`; enveloppe bâtie actuelle [35, 26] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "prior_final_asset",
+      "batch": "Art224",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "generatorRoom",
+        "name": "Local groupe électrogène",
+        "w": 16,
+        "h": 13,
+        "levels": [
+          0
+        ],
+        "codex": "DW-0331",
+        "layout": "specialists117"
+      },
+      "roofFamily": "workshop",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0331.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0cac5646607fa33827dc3f3bd483a45fca8f18e0a4fd2fc77ed4c6660b0c5d74",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_1.22/fiches/DW-0331.md"
+      },
+      "codexTitle": "DW-0331 — Local groupe électrogène",
+      "codexPilotQuote": "Plan source : `generatorRoom`; enveloppe bâtie actuelle [16, 13] m; niveaux [0]. Les autres variantes de la fiche restent des propositions.",
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "reserved_art226_separate_agent",
+      "nativeCodexPilotAgreement": true
+    },
+    {
+      "preset": {
+        "id": "cottageSmall",
+        "name": "Petite maison ouvrière",
+        "w": 10,
+        "h": 10,
+        "parent": "house",
+        "codex": "DW-0501",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0501.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "a10896d58ba51d4bb50bf3cf9679c67f889b2fb1f564910eda9c3855272fea84",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0501.md"
+      },
+      "codexTitle": "DW-0501 — Maison de lotissement — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 10 × 9 m  ",
+      "codexLevelsQuote": "**Niveaux :** 2",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "rowhouse",
+        "name": "Maison étroite",
+        "w": 11,
+        "h": 18,
+        "parent": "duplex",
+        "codex": "DW-0502",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "rowhouse",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0502.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "726a043b91b67da1f0fabeedc4ab833fe14fd9f3a9139129e81b97043fd3a32f",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0502.md"
+      },
+      "codexTitle": "DW-0502 — Maison mitoyenne — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 21 × 26 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "bungalow",
+        "name": "Pavillon",
+        "w": 20,
+        "h": 14,
+        "parent": "house",
+        "codex": "DW-0503",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0503.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f006937d7d96df84a43403b221b18108dafaec09447c5402d3da18130f6f15cd",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0503.md"
+      },
+      "codexTitle": "DW-0503 — Villa isolée — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 32 × 43 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "familyHouse",
+        "name": "Maison familiale",
+        "w": 22,
+        "h": 19,
+        "parent": "duplex",
+        "codex": "DW-0504",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0504.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "3370f65ccfa44b316707b317f1be632ee3be420c617cdbf966c208ad6e3e740a",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0504.md"
+      },
+      "codexTitle": "DW-0504 — Ferme familiale — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 43 × 60 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "farmhouse",
+        "name": "Corps de ferme",
+        "w": 32,
+        "h": 17,
+        "parent": "duplex",
+        "codex": "DW-0505",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "farm",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0505.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "7d503a500d5398399b4de9c434ddbc391486a96edd9215f6da9c757492025322",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0505.md"
+      },
+      "codexTitle": "DW-0505 — Immeuble résidentiel — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 54 × 23 m  ",
+      "codexLevelsQuote": "**Niveaux :** 3",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "villa",
+        "name": "Grande villa",
+        "w": 28,
+        "h": 23,
+        "parent": "duplex",
+        "codex": "DW-0506",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0506.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "0f8795d0bd8393d3f03d5a81022088d973c756a7867246ed6e053c86c55064b7",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0506.md"
+      },
+      "codexTitle": "DW-0506 — Barre de logements — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 65 × 40 m  ",
+      "codexLevelsQuote": "**Niveaux :** 4",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "duplexWide",
+        "name": "Maison double",
+        "w": 30,
+        "h": 19,
+        "parent": "duplex",
+        "codex": "DW-0507",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "cottage",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0507.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "10bb80df1a4d833c86ccb3d2abaeeb2738d6bbc883596dba60f5b9e3761be0df",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0507.md"
+      },
+      "codexTitle": "DW-0507 — Résidence senior — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 76 × 57 m  ",
+      "codexLevelsQuote": "**Niveaux :** 2",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "studioBlock",
+        "name": "Petit collectif",
+        "w": 26,
+        "h": 22,
+        "parent": "apartments",
+        "codex": "DW-0508",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "6efc28e5d3f449ed4314a3b488fbfae93af5e869b06f5e7618cf22b457e45d06",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0508.md"
+      },
+      "codexTitle": "DW-0508 — Maison avec sous-sol — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 15 × 20 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "longBlock",
+        "name": "Barre de logements",
+        "w": 58,
+        "h": 25,
+        "parent": "apartments",
+        "codex": "DW-0509",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "2d4d0c9bc0f4cc915e1dc9555250cd1cc3a8f078b92bdc4b23bccec98f619bd1",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0509.md"
+      },
+      "codexTitle": "DW-0509 — Supérette — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 26 × 37 m  ",
+      "codexLevelsQuote": "**Niveaux :** 2",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "residence",
+        "name": "Grande résidence",
+        "w": 46,
+        "h": 38,
+        "parent": "apartments",
+        "codex": "DW-0510",
+        "levels": [
+          0,
+          1,
+          2
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "collective",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "662e560e0e87013827ad53dff7691e0a50f065d5e86eb8a2b98bdf65214d2f27",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0510.md"
+      },
+      "codexTitle": "DW-0510 — Centre commercial — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 37 × 54 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "cornerShop",
+        "name": "Commerce d’angle",
+        "w": 12,
+        "h": 13,
+        "parent": "grocer",
+        "codex": "DW-0511",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "b9751209d054da2062d741a64cb924c214f4ed46b7fe366c1dae8077cc506649",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0511.md"
+      },
+      "codexTitle": "DW-0511 — Supermarché — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 48 × 17 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "superstore",
+        "name": "Grande surface",
+        "w": 64,
+        "h": 43,
+        "parent": "market",
+        "codex": "DW-0512",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "d343c4c4aac903641266bea78c7df7fddb4554a695f6f1c085d5e53cf7559cc5",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0512.md"
+      },
+      "codexTitle": "DW-0512 — Magasin de bricolage — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 59 × 34 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "cafe",
+        "name": "Café de quartier",
+        "w": 19,
+        "h": 17,
+        "parent": "diner",
+        "codex": "DW-0513",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "retail",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "36ebebb06091bc3cd408308d7c44293d653bddfbb4c2c339693e0b2e19da65f1",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0513.md"
+      },
+      "codexTitle": "DW-0513 — Pharmacie — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 70 × 51 m  ",
+      "codexLevelsQuote": "**Niveaux :** 2",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "bank",
+        "name": "Agence bancaire",
+        "w": 27,
+        "h": 21,
+        "parent": "townhall",
+        "codex": "DW-0514",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "civic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "3348f77002e01508b1999fe8416b80128a39417904e402c7fabb0362493f2bde",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0514.md"
+      },
+      "codexTitle": "DW-0514 — Station-service — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 81 × 14 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "officeBlock",
+        "name": "Immeuble de bureaux",
+        "w": 44,
+        "h": 32,
+        "parent": "school",
+        "codex": "DW-0515",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "civic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0515.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "795271169f84fe6f7d15a03e8c99002a59b81d88a281cb44b1e1d6802b2f5685",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0515.md"
+      },
+      "codexTitle": "DW-0515 — Restaurant routier — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 20 × 31 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "medicalCentre",
+        "name": "Maison de santé",
+        "w": 46,
+        "h": 34,
+        "parent": "clinic",
+        "codex": "DW-0516",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "clinic",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0516.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "6fc821c48b65e6fa2b6716f3021c2ac6e867eb860e444b2a732e3d4d9049e066",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0516.md"
+      },
+      "codexTitle": "DW-0516 — Hôtel — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 31 × 48 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "smallWorkshop",
+        "name": "Atelier artisanal",
+        "w": 18,
+        "h": 15,
+        "parent": "garage",
+        "codex": "DW-0517",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "workshop",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0517.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "7e8c33792bf7ddf8ba5de7df191cffbcb7d9955c42ac73567671e498a9059200",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0517.md"
+      },
+      "codexTitle": "DW-0517 — Scierie — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 42 × 11 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "logisticsHall",
+        "name": "Plateforme logistique",
+        "w": 70,
+        "h": 42,
+        "parent": "warehouse",
+        "codex": "DW-0518",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "industrial",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0518.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "58f82c0bcdb928f8bafee5384e6aba341b1de42290ae6c31d7337ab214112402",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0518.md"
+      },
+      "codexTitle": "DW-0518 — Garage automobile — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 53 × 28 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "chapel",
+        "name": "Chapelle et salle commune",
+        "w": 24,
+        "h": 33,
+        "parent": "townhall",
+        "codex": "DW-0519",
+        "levels": [
+          0,
+          1
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "chapel",
+      "roofChoicesCount": 2,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0519.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "f55228f449747f552bc053bdb4b7d8ae1c2a1866b70c226f09f3ec9c465ee383",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0519.md"
+      },
+      "codexTitle": "DW-0519 — Entrepôt logistique — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 64 × 45 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    },
+    {
+      "preset": {
+        "id": "waterStation",
+        "name": "Station de pompage",
+        "w": 28,
+        "h": 21,
+        "parent": "garage",
+        "codex": "DW-0520",
+        "levels": [
+          0
+        ],
+        "layout": "settlements123"
+      },
+      "roofFamily": "workshop",
+      "roofChoicesCount": 6,
+      "source": {
+        "repositoryPath": "codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0520.md",
+        "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+        "sha256": "ff5da7ce73df02ef119ebdbc44854aa4ba5fc7462ab0a3063173c9fbf7f43842",
+        "sourceUrl": "https://github.com/darknigthmare/deadwall-last-enclosure/blob/f3ba02a5b73a55120c02c21d5703902ea3e901d9/codex-3000/originaux/DEADWALL_CODEX_SUPPLEMENT_1.23/FICHES_501_1000/DW-0520.md"
+      },
+      "codexTitle": "DW-0520 — Petite usine — variante 01",
+      "codexPilotQuote": null,
+      "dedicatedWholeBuildingExteriorEvidence": "Missing dedicated exterior in inspected runtime: existing ROOF_ALIASES family/crops remain available; prior art packs are separate assets, not runtime integration.",
+      "status": "requires_codex_mapping_reconciliation",
+      "codexFootprintQuote": "**Emprise :** 75 × 62 m  ",
+      "codexLevelsQuote": "**Niveaux :** 1",
+      "reason": "Native settlement-plans assigns DW-0501+i by row position. The referenced supplement sheet describes a different footprint and often a different programme. Do not claim 1:1 native/Codex identity."
+    }
+  ]
+}

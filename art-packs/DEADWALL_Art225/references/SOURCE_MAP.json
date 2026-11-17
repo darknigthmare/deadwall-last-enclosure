@@ -1,0 +1,735 @@
+[
+  {
+    "id": "DW-0053",
+    "name": "Pharmacie commerciale",
+    "type": "pharmacy",
+    "sourceSheet": "references/DW-0053.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      24,
+      18
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Vente et conseil",
+          "Comptoir et attente",
+          "Préparation et lavabos",
+          "Réserve — hors public"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        20
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ],
+    "nativeFunction": "Vente et conseil, comptoir et attente à l’avant; préparation et lavabos, réserve hors public à l’arrière, selon le pilote specialists117.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 70,
+      "combinedFrontFacadePercentWidth": 6,
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0045",
+    "name": "Magasin de bricolage",
+    "type": "hardware",
+    "sourceSheet": "references/DW-0045.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      38,
+      28
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve",
+          "Service et caisse"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "crate",
+      "crate",
+      "crate",
+      "shelf"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        20
+      ],
+      "maximum": [
+        180,
+        120
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ],
+    "nativeFunction": "Zone Vente à rayonnages; Réserve et Service et caisse en retrait, selon layout retail. La cour matériaux de la fiche ne doit pas agrandir l’emprise bâtie pilote.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 69,
+      "combinedFrontFacadePercentWidth": 6,
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0069",
+    "name": "Restaurant routier",
+    "type": "diner",
+    "sourceSheet": "references/DW-0069.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      25,
+      17
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve",
+          "Service et caisse"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        18,
+        14
+      ],
+      "maximum": [
+        90,
+        60
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "retail",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 0,
+        "rect": [
+          773,
+          535,
+          332,
+          199
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "retail",
+        "variant": 1,
+        "rect": [
+          1127,
+          533,
+          390,
+          203
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "retail",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ],
+    "nativeFunction": "Salle avec tables dans la zone avant; Réserve et Service et caisse en retrait dans le pilote diner. La fiche propose aussi Cuisine, sans justifier un volume extérieur supplémentaire.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 64,
+      "combinedFrontFacadePercentWidth": 6,
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0241",
+    "name": "Garage automobile",
+    "type": "garage",
+    "sourceSheet": "references/DW-0241.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      25,
+      20
+    ],
+    "pilotLevels": [
+      0
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Réserve technique",
+          "Bureau"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [
+      "fuel",
+      "tirePile",
+      "workbench"
+    ],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        22,
+        18
+      ],
+      "maximum": [
+        100,
+        85
+      ]
+    },
+    "authorProposedLevelsText": "0",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "workshop",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 0,
+        "rect": [
+          791,
+          291,
+          342,
+          206
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "workshop",
+        "variant": 1,
+        "rect": [
+          1164,
+          295,
+          353,
+          202
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 2,
+        "model": "corrugated-metal",
+        "rect": [
+          53,
+          544,
+          302,
+          177
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 3,
+        "model": "industrial-sawtooth",
+        "rect": [
+          428,
+          534,
+          310,
+          187
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 4,
+        "model": "concrete-ducts",
+        "rect": [
+          809,
+          541,
+          306,
+          182
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "workshop",
+        "variant": 5,
+        "model": "rusted-metal",
+        "rect": [
+          1184,
+          544,
+          307,
+          177
+        ]
+      }
+    ],
+    "nativeFunction": "Halle avec machines; Réserve technique (établi et carburant), Bureau en retrait. Les objets extérieurs natifs comprennent fuel, tirePile et workbench mais ne sont pas nécessaires dans le sprite du bâtiment.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 75,
+      "combinedFrontFacadePercentWidth": 6,
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0142",
+    "name": "École primaire",
+    "type": "school",
+    "sourceSheet": "references/DW-0142.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      38,
+      28
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Classe",
+          "Classe",
+          "Bibliothèque",
+          "Réserve"
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Classe",
+          "Classe",
+          "Bibliothèque",
+          "Réserve"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        28,
+        20
+      ],
+      "maximum": [
+        160,
+        110
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "school",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatServices153",
+        "family": "school",
+        "variant": 0,
+        "rect": [
+          17,
+          18,
+          369,
+          238
+        ]
+      },
+      {
+        "atlas": "habitatServices153",
+        "family": "school",
+        "variant": 1,
+        "rect": [
+          409,
+          40,
+          343,
+          204
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "school",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "school",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "school",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "school",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ],
+    "nativeFunction": "Deux niveaux natifs [0,1]; chacun contient Classe, Classe, Bibliothèque, Réserve. Escalier intérieur du pilote, pas d’accès ajouté sur toiture.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 69,
+      "combinedFrontFacadePercentWidth": 10,
+      "metricProjectionCertified": false
+    }
+  },
+  {
+    "id": "DW-0161",
+    "name": "Mairie",
+    "type": "townhall",
+    "sourceSheet": "references/DW-0161.md",
+    "sourceRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "pilotBuildingFootprintMetres": [
+      28,
+      20
+    ],
+    "pilotLevels": [
+      0,
+      1
+    ],
+    "nativeRooms": [
+      {
+        "z": 0,
+        "names": [
+          "Accueil",
+          "Bureau",
+          "Archives",
+          "Conseil"
+        ]
+      },
+      {
+        "z": 1,
+        "names": [
+          "Accueil",
+          "Bureau",
+          "Archives",
+          "Conseil"
+        ]
+      }
+    ],
+    "nativeOutdoorKinds": [],
+    "authorProposedParcelRangeMetres": {
+      "minimum": [
+        25,
+        20
+      ],
+      "maximum": [
+        120,
+        80
+      ]
+    },
+    "authorProposedLevelsText": "0, 1",
+    "pilotAndParcelAreDifferentConcepts": true,
+    "existingGenericRoofFamily": "civic",
+    "existingRoofChoices": [
+      {
+        "atlas": "habitatResidential153",
+        "family": "civic",
+        "variant": 0,
+        "rect": [
+          28,
+          766,
+          341,
+          218
+        ]
+      },
+      {
+        "atlas": "habitatResidential153",
+        "family": "civic",
+        "variant": 1,
+        "rect": [
+          396,
+          774,
+          315,
+          204
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "civic",
+        "variant": 2,
+        "model": "terracotta-skylight",
+        "rect": [
+          53,
+          774,
+          303,
+          184
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "civic",
+        "variant": 3,
+        "model": "concrete-ventilation",
+        "rect": [
+          432,
+          777,
+          304,
+          179
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "civic",
+        "variant": 4,
+        "model": "metal-skylights",
+        "rect": [
+          804,
+          777,
+          313,
+          183
+        ]
+      },
+      {
+        "atlas": "habitatRoofs157",
+        "family": "civic",
+        "variant": 5,
+        "model": "weathered-flat",
+        "rect": [
+          1203,
+          777,
+          266,
+          184
+        ]
+      }
+    ],
+    "nativeFunction": "Deux niveaux natifs [0,1]; chacun contient Accueil, Bureau, Archives, Conseil. Escalier intérieur du pilote, pas de tour ni d’étage supplémentaire attesté.",
+    "cameraTargets": {
+      "downwardDegrees": 70,
+      "projectedRoofDepthPercentWidth": 67,
+      "combinedFrontFacadePercentWidth": 10,
+      "metricProjectionCertified": false
+    }
+  }
+]
