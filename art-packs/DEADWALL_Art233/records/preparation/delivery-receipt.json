@@ -1,0 +1,381 @@
+{
+  "batch": "Art233",
+  "frozenAt": "2026-11-17T12:09:54.428554+00:00",
+  "sourceBase": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "status": "frozen_preparation_ready_for_root_assembly",
+  "finalCount": 13,
+  "historicalNativeCount": 17,
+  "replacedCount": 4,
+  "finalPNGBytes": 19255858,
+  "historicalPNGBytes": 24595089,
+  "sourceCopies": 13,
+  "canonicalReferences": 13,
+  "styleAtlases": 2,
+  "reviewAcceptedCount": 13,
+  "independentRootReviewAcceptedCount": 13,
+  "pixelEditingPerformed": false,
+  "packAssemblyPerformed": false,
+  "commitOrPublicationPerformed": false,
+  "receiptExcludesOwnHashToAvoidCycle": true,
+  "assets": [
+    {
+      "key": "singleBunk",
+      "id": "prop:singleBunk:v0",
+      "file": "singleBunk_couchette_individuelle.png",
+      "iteration": 2,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-83aa0527-cff6-4905-bd1d-8a3c7169955f.png",
+      "sha256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+      "bytes": 1545813
+    },
+    {
+      "key": "feedTrough",
+      "id": "prop:feedTrough:v0",
+      "file": "feedTrough_mangeoire.png",
+      "iteration": 2,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-47a8ba0c-1d51-44a9-a07d-d20379c9c703.png",
+      "sha256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+      "bytes": 981717
+    },
+    {
+      "key": "waterTrough",
+      "id": "prop:waterTrough:v0",
+      "file": "waterTrough_abreuvoir.png",
+      "iteration": 2,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-aa7a56f7-f27c-477b-b121-ac3f1bcde819.png",
+      "sha256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+      "bytes": 1201022
+    },
+    {
+      "key": "fodderRack",
+      "id": "prop:fodderRack:v0",
+      "file": "fodderRack_ratelier_fourrage.png",
+      "iteration": 2,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-18e52fee-dbd0-4034-9209-d5ba447a73e3.png",
+      "sha256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+      "bytes": 1405542
+    },
+    {
+      "key": "milkingUnit",
+      "id": "prop:milkingUnit:v0",
+      "file": "milkingUnit_poste_traite.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-71c3235f-4595-400c-b65f-da25f84f1c60.png",
+      "sha256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+      "bytes": 1768332
+    },
+    {
+      "key": "milkVat",
+      "id": "prop:milkVat:v0",
+      "file": "milkVat_cuve_lait.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-66dd67f3-150a-497a-8e31-fa028958d4f2.png",
+      "sha256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+      "bytes": 1287736
+    },
+    {
+      "key": "nestBox",
+      "id": "prop:nestBox:v0",
+      "file": "nestBox_pondoir.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-6a679a3f-ff25-4533-8121-f1f8c2d39cb4.png",
+      "sha256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+      "bytes": 1648512
+    },
+    {
+      "key": "wineVat",
+      "id": "prop:wineVat:v0",
+      "file": "wineVat_cuve_vinicole.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ba805d50-f16c-415e-935d-a85d0bf6779c.png",
+      "sha256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+      "bytes": 1690686
+    },
+    {
+      "key": "wineBarrel",
+      "id": "prop:wineBarrel:v0",
+      "file": "wineBarrel_fut_chai.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-e992df8e-f162-4a5b-a4f1-74c2af24d96c.png",
+      "sha256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+      "bytes": 1715843
+    },
+    {
+      "key": "grapePress",
+      "id": "prop:grapePress:v0",
+      "file": "grapePress_pressoir.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-ce628ea5-f218-406e-ab92-ed554144d661.png",
+      "sha256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+      "bytes": 1567039
+    },
+    {
+      "key": "veterinaryTable",
+      "id": "prop:veterinaryTable:v0",
+      "file": "veterinaryTable_table_soins_veterinaires.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-4b568201-1f5c-44f6-8f09-9e66a5497c5d.png",
+      "sha256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+      "bytes": 1140127
+    },
+    {
+      "key": "growingBench",
+      "id": "prop:growingBench:v0",
+      "file": "growingBench_table_semis.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-36e999df-2c62-4750-8991-9d3ce6b8c107.png",
+      "sha256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+      "bytes": 1533323
+    },
+    {
+      "key": "growingBed",
+      "id": "prop:growingBed:v0",
+      "file": "growingBed_bac_culture.png",
+      "iteration": 1,
+      "generatedSourcePath": "/workspace/scratch/6f470a892a0f/generated_images/exec-f2896146-3aa3-4243-9848-a41b6749908f.png",
+      "sha256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+      "bytes": 1770166
+    }
+  ],
+  "preparationFiles": [
+    {
+      "path": "README.md",
+      "sha256": "dc8bb6d7751226fac6385b55894c00a304d5db4c334d1d299a9810f42eb8b06b",
+      "bytes": 6672
+    },
+    {
+      "path": "finalize-review.py",
+      "sha256": "40f5c369356af2fbdafc99c882b921268274ef3105911d6da5e58dacfd847775",
+      "bytes": 13952
+    },
+    {
+      "path": "generation-corrections.json",
+      "sha256": "edbe5bbc8f2c212db156aff8d367fe548b3785a8b2b869712eaa4699e51a353b",
+      "bytes": 8829
+    },
+    {
+      "path": "generation-ledger.json",
+      "sha256": "0ad8669e8beb1ab0fe950e05109adf8032c949eba9ef25b4940f058f2bf71dad",
+      "bytes": 18832
+    },
+    {
+      "path": "generation-prompts.json",
+      "sha256": "aac1db300862dc89853904ced6193bbf9beed31cb6ed74658e2576f5b2d47b84",
+      "bytes": 44196
+    },
+    {
+      "path": "history-results.json",
+      "sha256": "2dfc4750dc72262a68f8fa9a6124ee3ee38ff4922b812f2411b8eda5e9c13d60",
+      "bytes": 55147
+    },
+    {
+      "path": "initial-results.json",
+      "sha256": "374281f9a6690ec56e015790da80a84474a0aad876893b3b5690277cf58f054b",
+      "bytes": 45821
+    },
+    {
+      "path": "native-alpha-audit.json",
+      "sha256": "4fed727957f1a325308cad109d57a270984db898b267160af269fdf5527469f6",
+      "bytes": 15506
+    },
+    {
+      "path": "prepare-art233.cjs",
+      "sha256": "e6752ee33eb769e2b54f895b577694ab306404b4103310aff43dc7da6081b818",
+      "bytes": 17585
+    },
+    {
+      "path": "record-result.py",
+      "sha256": "cc2662a21feb54a7ecbb95e4aa7f2c603b24b96289192cc3db3fecf4f495ddce",
+      "bytes": 1224
+    },
+    {
+      "path": "reference-inspections.json",
+      "sha256": "004e7a15e2b46f11c7277235fd5a54c9dced39139741518d3d1a8f9456e52afc",
+      "bytes": 5484
+    },
+    {
+      "path": "references/atlases/interior-home-atlas.png",
+      "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+      "bytes": 2379240
+    },
+    {
+      "path": "references/atlases/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "bytes": 2334203
+    },
+    {
+      "path": "references/canonical/feedTrough-v0.png",
+      "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+      "bytes": 13898
+    },
+    {
+      "path": "references/canonical/fodderRack-v0.png",
+      "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+      "bytes": 12698
+    },
+    {
+      "path": "references/canonical/grapePress-v0.png",
+      "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a",
+      "bytes": 18488
+    },
+    {
+      "path": "references/canonical/growingBed-v0.png",
+      "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c",
+      "bytes": 22587
+    },
+    {
+      "path": "references/canonical/growingBench-v0.png",
+      "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b",
+      "bytes": 23868
+    },
+    {
+      "path": "references/canonical/milkVat-v0.png",
+      "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9",
+      "bytes": 45134
+    },
+    {
+      "path": "references/canonical/milkingUnit-v0.png",
+      "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803",
+      "bytes": 22077
+    },
+    {
+      "path": "references/canonical/nestBox-v0.png",
+      "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2",
+      "bytes": 15350
+    },
+    {
+      "path": "references/canonical/singleBunk-v0.png",
+      "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+      "bytes": 5767
+    },
+    {
+      "path": "references/canonical/veterinaryTable-v0.png",
+      "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9",
+      "bytes": 5788
+    },
+    {
+      "path": "references/canonical/waterTrough-v0.png",
+      "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+      "bytes": 11190
+    },
+    {
+      "path": "references/canonical/wineBarrel-v0.png",
+      "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1",
+      "bytes": 30411
+    },
+    {
+      "path": "references/canonical/wineVat-v0.png",
+      "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47",
+      "bytes": 47547
+    },
+    {
+      "path": "references/canonical-render-records.json",
+      "sha256": "88531535df9f0242d1ba91879f063203305c287fd2dd6eab43ee2fc963b79039",
+      "bytes": 13409
+    },
+    {
+      "path": "references/policy/AGRICULTURE_2026.md",
+      "sha256": "78e73ff807a7c4f24997983568b32a5764b02c445db7ee83841656a73c9cd4d3",
+      "bytes": 9741
+    },
+    {
+      "path": "references/policy/RESIDENTIEL_2026.md",
+      "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+      "bytes": 9436
+    },
+    {
+      "path": "references/policy/SERVICES_G11_2026.md",
+      "sha256": "54c9e04de7723fa01f34f7b76d1166f4272e1d10f401346b7ace701660b9e840",
+      "bytes": 4429
+    },
+    {
+      "path": "references/runtime/campaign-site-art205.js",
+      "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+      "bytes": 44852
+    },
+    {
+      "path": "references/runtime/campaign-site-art205.test.cjs",
+      "sha256": "3d4d03795e8e935235c7d31efd12d15de3a99993d1a342afb7da50be65dd205a",
+      "bytes": 19939
+    },
+    {
+      "path": "references/runtime/codex-agriculture2026.cjs",
+      "sha256": "3813da7aace3ce9e2707f1007932327936213e00bbf5f340fe5f9d505d94baaa",
+      "bytes": 24180
+    },
+    {
+      "path": "references/runtime/codex-campaign205.js",
+      "sha256": "b57d1c1dcb0e1e77fe3a9514b66f1e87557873c422815682baebd56601b1e3b5",
+      "bytes": 10663
+    },
+    {
+      "path": "references/runtime/codex-furnishings2026.js",
+      "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+      "bytes": 40680
+    },
+    {
+      "path": "references/runtime/codex-plan-art204.js",
+      "sha256": "69d76592a6dcdac46ee6b1d2005f4b80b028e9f6a7c129b570a7d33922a58a4b",
+      "bytes": 13076
+    },
+    {
+      "path": "references/runtime/codex-residential2026.cjs",
+      "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+      "bytes": 17963
+    },
+    {
+      "path": "references/runtime/interior-art153.js",
+      "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+      "bytes": 18868
+    },
+    {
+      "path": "references/runtime/seed-detail-art157.js",
+      "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+      "bytes": 25806
+    },
+    {
+      "path": "references/runtime/world-props-art153.js",
+      "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+      "bytes": 21665
+    },
+    {
+      "path": "references/source-index.json",
+      "sha256": "c347a29c854d950bed8efa6c2cd2e74d095854fc6198018832263d4728c7aa57",
+      "bytes": 7495
+    },
+    {
+      "path": "results.json",
+      "sha256": "e5ec88e1886a01cff6db506b008e42cbcb4246f073b8ab6ea8dc518cb1d1f759",
+      "bytes": 41106
+    },
+    {
+      "path": "review.json",
+      "sha256": "06dee2f551390fdb926daa59c02ec9ece5f7acd7f08e6e6db87be91f82178750",
+      "bytes": 44364
+    },
+    {
+      "path": "root-canonical-replay.json",
+      "sha256": "2087513aee942a17c7b89fea5add535d00c6cff246ae3cd9d870cafd207c36bb",
+      "bytes": 5873
+    },
+    {
+      "path": "root-independent-visual-review.json",
+      "sha256": "04758ed2319f523aca7c9c0762b2d2037358e29a47370a65fd43e760f747c36c",
+      "bytes": 7978
+    },
+    {
+      "path": "selection-and-prompts.json",
+      "sha256": "b96d12673a3c412b73c32bf1dd4e1289189db042c7297762dfa991efdfe4b3d4",
+      "bytes": 82335
+    },
+    {
+      "path": "source-integrity.json",
+      "sha256": "c45cee9e0ccfa15221383c7f0a6ee8de138627888425fb92dfd1d57cb6f4f7fd",
+      "bytes": 9015
+    },
+    {
+      "path": "verification.json",
+      "sha256": "e26b7ee6ea9740741ee5f9dd978749d606a4976ff6c3ea96760772e6956fc3e0",
+      "bytes": 3793
+    }
+  ]
+}

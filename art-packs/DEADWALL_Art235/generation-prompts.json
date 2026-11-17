@@ -1,0 +1,88 @@
+[
+  {
+    "key": "touring-caravan",
+    "kind": "touring-caravan",
+    "id": "prop:touring-caravan:v0",
+    "artId": "prop:touring-caravan:v0",
+    "label": "Caravane tractable fermée",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite of ONE isolated towable caravan, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL GEOMETRY REFERENCE rendered from the unchanged game drawProp, structural205, variant 0. Input image 2 is MATERIAL AND PAINTING STYLE ONLY from the game's original vehicle atlas. Preserve reference 1's silhouette, internal top-view layout and orientation. Do not copy any car, van, motorcycle, multi-object arrangement or background from reference 2.\nCamera: strictly orthographic bird's-eye directly overhead, 90 degrees elevation. The long axis is VERTICAL on the canvas, with the short tow hitch pointing straight UP toward negative screen Y. No diagonal or isometric rotation, no side-view facade, no perspective convergence. Refine the flat source forms with subtle bevels, believable painted metal and carefully painted surface texture while keeping this overhead plan.\nSubject: one long narrow generic caravan with a chamfered rounded rectangular body, closed roof and closed body. A short centered hitch protrudes from the TOP end. Exactly FOUR modest rubber wheels, two on each long side, at TWO widely separated longitudinal positions matching reference 1 (approximately 0.33 and 0.72 of the reference local Y length). Do not substitute a close tandem axle or the ordinary two-wheel trailer stereotype. Keep the middle small rectangular roof panel in the UPPER half and a dark rectangular glazed hatch in the LOWER half, their source positions unchanged. Two slim parallel longitudinal dark roof-edge seams. No extra roof box, solar panel, air conditioner, aerial, ladder, spare wheel, open door or extra detached accessory.\nUnoccupied touring version: closed intact shell in faded cream and muted sage paint, modest age, grime and light wear. No severe ruin or open interior.\nAuthor-design envelope for this exact V01 source instance: footprint 2.4 metres across screen X by 6.2 metres along screen Y; height envelope 2.8 metres. These are game author-design dimensions, not manufacturer measurements. Keep the same narrow portrait aspect ratio as reference 1. The body takes only the source interior portion of this bounding footprint; do not widen it to fill a square.\nStyle: grounded post-apocalyptic game art, detailed hand-painted pre-rendered appearance, muted cream, sage, gray-green metal, restrained dull rust, tire rubber, small worn edges, soft overhead lighting. No cast ground-shadow plane. Center the complete silhouette with at least 10 percent empty transparent margin on all sides. Preserve every wheel and the hitch inside the canvas.\nNo people, animals, zombies, landscape, grass, gravel, floor, terrain slab, colored background, gradient, text, digits, logos, labels, license plate lettering, watermarks, UI or border. This is one source-art proposal for later calibration, not a certified metric replacement or a newly accessible gameplay interior.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/touring-caravan_v0.png",
+        "sha256": "b391a653228f8d4e07efacc3466f550a41d1260facc32ea86b183c5f4c81312b"
+      },
+      {
+        "path": "references/repository/assets/art152/vehicles-atlas.png",
+        "sha256": "a4bd324be804bd5a5b6c1d3faf42f291d9f4d917111056924a8e5aae9c21244f"
+      }
+    ],
+    "output": "assets/art235/props/touring-caravan_caravane_tractable.png",
+    "sha256": "49d5f583cfde5c4217598b2dd2c57703ebe74868bdc2dd47855adff5f1dbbbee",
+    "bytes": 1195406,
+    "selected": true,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v0",
+    "artId": "prop:abandoned-caravan:v0",
+    "label": "Caravane abandonnée fermée",
+    "iteration": 1,
+    "prompt": "Use case: stylized-concept. Asset type: original DEADWALL source-art sprite of ONE isolated towable caravan, true RGBA transparency.\nInput image 1 is the AUTHORITATIVE CANONICAL GEOMETRY REFERENCE rendered from the unchanged game drawProp, structural205, variant 0. Input image 2 is MATERIAL AND PAINTING STYLE ONLY from the game's original vehicle atlas. Preserve reference 1's silhouette, internal top-view layout and orientation. Do not copy any car, van, motorcycle, multi-object arrangement or background from reference 2.\nCamera: strictly orthographic bird's-eye directly overhead, 90 degrees elevation. The long axis is VERTICAL on the canvas, with the short tow hitch pointing straight UP toward negative screen Y. No diagonal or isometric rotation, no side-view facade, no perspective convergence. Refine the flat source forms with subtle bevels, believable painted metal and carefully painted surface texture while keeping this overhead plan.\nSubject: one long narrow generic caravan with a chamfered rounded rectangular body, closed roof and closed body. A short centered hitch protrudes from the TOP end. Exactly FOUR modest rubber wheels, two on each long side, at TWO widely separated longitudinal positions matching reference 1 (approximately 0.33 and 0.72 of the reference local Y length). Do not substitute a close tandem axle or the ordinary two-wheel trailer stereotype. Keep the middle small rectangular roof panel in the UPPER half and a dark rectangular glazed hatch in the LOWER half, their source positions unchanged. Two slim parallel longitudinal dark roof-edge seams. No extra roof box, solar panel, air conditioner, aerial, ladder, spare wheel, open door or extra detached accessory.\nAbandoned, evacuated version: keep the closed intact shell, dull grey-green metal and several localized rust streaks and shallow zigzag cracks as in image 1. No missing roof, gaping interior or large destroyed section.\nAuthor-design envelope for this exact V01 source instance: footprint 2.4 metres across screen X by 6.2 metres along screen Y; height envelope 2.8 metres. These are game author-design dimensions, not manufacturer measurements. Keep the same narrow portrait aspect ratio as reference 1. The body takes only the source interior portion of this bounding footprint; do not widen it to fill a square.\nStyle: grounded post-apocalyptic game art, detailed hand-painted pre-rendered appearance, muted cream, sage, gray-green metal, restrained dull rust, tire rubber, small worn edges, soft overhead lighting. No cast ground-shadow plane. Center the complete silhouette with at least 10 percent empty transparent margin on all sides. Preserve every wheel and the hitch inside the canvas.\nNo people, animals, zombies, landscape, grass, gravel, floor, terrain slab, colored background, gradient, text, digits, logos, labels, license plate lettering, watermarks, UI or border. This is one source-art proposal for later calibration, not a certified metric replacement or a newly accessible gameplay interior.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/canonical/abandoned-caravan_v0.png",
+        "sha256": "5bf7ba84f11ab0302c358fc409ef926fd1531b606947f196495f1ee8b1ad9f03"
+      },
+      {
+        "path": "references/repository/assets/art152/vehicles-atlas.png",
+        "sha256": "a4bd324be804bd5a5b6c1d3faf42f291d9f4d917111056924a8e5aae9c21244f"
+      }
+    ],
+    "output": "references/iterations/abandoned-caravan-iteration-01.png",
+    "sha256": "56aeff6d1d8c2b078eb7cb699f4969faa7f1257e419fa03f4f70709b9733727f",
+    "bytes": 1204894,
+    "selected": false,
+    "nativeBytesPreserved": true
+  },
+  {
+    "key": "abandoned-caravan",
+    "kind": "abandoned-caravan",
+    "id": "prop:abandoned-caravan:v0",
+    "artId": "prop:abandoned-caravan:v0",
+    "label": "Caravane abandonnée fermée",
+    "iteration": 2,
+    "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET, an original DEADWALL abandoned caravan sprite. Image 2 is the flat canonical geometry reference; image 3 is painting-style only. Preserve image 1's exact overhead orthographic camera, narrow vertical footprint, chamfered closed body, top hitch, exactly four wheels at the two separated positions, two longitudinal roof seams, and the two roof panels in their current positions. Preserve its muted worn sage/gray/cream palette. Change ONLY the damage rendering: the two large dark solid zigzag shapes currently look like painted N symbols, and the three rust strips look like printed rectangular bands. Replace those zigzag shapes with fine, naturally branching physical cracks in the paint/outer skin, and replace the straight rust strips with localized irregular, feathered corrosion patches. Keep damage in the same general roof regions as shown, but no letter-like marks or geometric paint symbols. The roof and body remain CLOSED and structurally complete, with no holes or visible interior. No added fittings, extra wheel, door, object, ground, background, shadow plane, lettering, logo or UI. Center with generous empty transparent margins. Return exactly ONE RGBA sprite with true transparency; do not otherwise redesign the caravan.",
+    "promptIsVerbatim": true,
+    "generator": "OpenAI built-in ImageGen",
+    "transparentBackgroundRequested": true,
+    "referenceImages": [
+      {
+        "path": "references/iterations/abandoned-caravan-iteration-01.png",
+        "sha256": "56aeff6d1d8c2b078eb7cb699f4969faa7f1257e419fa03f4f70709b9733727f"
+      },
+      {
+        "path": "references/canonical/abandoned-caravan_v0.png",
+        "sha256": "5bf7ba84f11ab0302c358fc409ef926fd1531b606947f196495f1ee8b1ad9f03"
+      },
+      {
+        "path": "references/repository/assets/art152/vehicles-atlas.png",
+        "sha256": "a4bd324be804bd5a5b6c1d3faf42f291d9f4d917111056924a8e5aae9c21244f"
+      }
+    ],
+    "output": "assets/art235/props/abandoned-caravan_caravane_abandonnee.png",
+    "sha256": "be15ae950d99461b2351a0295713a36e0091aaec5a37da5191e392f4e3748748",
+    "bytes": 1098099,
+    "selected": true,
+    "nativeBytesPreserved": true,
+    "editReason": "Replace literal symbol-like damage marks with natural shallow cracks and localized corrosion, preserving all source geometry."
+  }
+]

@@ -1,0 +1,223 @@
+[
+  {
+    "key": "singleBunk",
+    "kind": "singleBunk",
+    "id": "prop:singleBunk:v0",
+    "artId": "prop:singleBunk:v0",
+    "label": "Couchette individuelle",
+    "file": "singleBunk_couchette_individuelle.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Couchette individuelle (singleBunk), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 2 m along X by 0.75 m along Y; its separate authored height envelope is 1.7 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: Exactly ONE narrow sleeping surface on a worn metal support frame. Long sleeping axis is horizontal. One pale pillow at the LEFT short end, a muted olive mattress/blanket, narrow end rails, and the small three-rung access ladder along the LOWER long side near the middle, exactly as reference 1. No second mattress, no lower bed, no stacked bunks, no person, no extra chair or bedside objects. Preserve the narrow 2.00 to 0.75 rectangular plan; height is a separate authored envelope, never permission to invent another sleeping tier.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "feedTrough",
+    "kind": "feedTrough",
+    "id": "prop:feedTrough:v0",
+    "artId": "prop:feedTrough:v0",
+    "label": "Mangeoire",
+    "file": "feedTrough_mangeoire.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Mangeoire (feedTrough), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 2 m along X by 0.5 m along Y; its separate authored height envelope is 0.65 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One long shallow metal feeding trough, plan ratio 4:1. Keep the six-sided flared outline, four small support feet, broad rim, and narrow brown interior at the same positions as reference 1. Interior marks are fixed dry wear or a few residual straw traces, not a heap of feed. No sack, bale, animal or separate feeder.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "waterTrough",
+    "kind": "waterTrough",
+    "id": "prop:waterTrough:v0",
+    "artId": "prop:waterTrough:v0",
+    "label": "Abreuvoir",
+    "file": "waterTrough_abreuvoir.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Abreuvoir (waterTrough), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.2 m along X by 0.5 m along Y; its separate authored height envelope is 0.6 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One low metal water trough, plan ratio 2.4:1. Keep the six-sided flared outline, four small support feet, blue-grey recessed basin, broad rim and the tiny fitting at the UPPER RIGHT of the basin exactly as reference 1. It is disconnected and idle: no flow, hose reaching outside the object, gauge, powered light or added water container. The subdued basin colour is not a claim of potable water or inventory.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "fodderRack",
+    "kind": "fodderRack",
+    "id": "prop:fodderRack:v0",
+    "artId": "prop:fodderRack:v0",
+    "label": "Râtelier à fourrage",
+    "file": "fodderRack_ratelier_fourrage.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Râtelier à fourrage (fodderRack), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 0.6 m along Y; its separate authored height envelope is 1.3 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One rectangular wooden fodder rack, plan ratio 1.6:0.6. Preserve its outer timber frame, SIX slender parallel slats running from the upper edge to the lower edge of the image, and muted dry interior traces visible behind them. The long dimension stays horizontal. No hay bale, loose tool, animal, feeding bowl or second rack. Any residual fibre is part of the fixed source illustration, not a harvest pile.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "milkingUnit",
+    "kind": "milkingUnit",
+    "id": "prop:milkingUnit:v0",
+    "artId": "prop:milkingUnit:v0",
+    "label": "Poste de traite",
+    "file": "milkingUnit_poste_traite.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Poste de traite (milkingUnit), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.1 m along X by 0.8 m along Y; its separate authored height envelope is 1.6 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact stationary milking unit on its own integrated metal chassis. Preserve ONE oval metal vessel left of centre with its small top cap; the dark hose rises from the vessel toward the upper edge, runs to the right and descends on the RIGHT side. Exactly FOUR small teat-cup components hang together in the LOWER RIGHT portion of the chassis. Preserve their four-part count and source positions. No second vessel, cow, wheeled trolley, loose milk bucket, extra hoses or operating effects.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkingUnit-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "milkVat",
+    "kind": "milkVat",
+    "id": "prop:milkVat:v0",
+    "artId": "prop:milkVat:v0",
+    "label": "Cuve à lait",
+    "file": "milkVat_cuve_lait.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Cuve à lait (milkVat), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.5 m along X by 1.3 m along Y; its separate authored height envelope is 1.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One closed stainless milk vat with the rounded slightly wider-than-deep plan silhouette of reference 1. Preserve its inset rounded lid, ONE small pale central inspection cap, the dark seam crossing the lower part, small integrated feet, and the short outlet at the BOTTOM centre turning RIGHT toward the small rust-coloured valve. No extra tank, refrigeration cabinet, ladder, gauge, pipe network, spill or visible milk contents.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkVat-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "nestBox",
+    "kind": "nestBox",
+    "id": "prop:nestBox:v0",
+    "artId": "prop:nestBox:v0",
+    "label": "Pondoir",
+    "file": "nestBox_pondoir.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Pondoir (nestBox), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.2 m along X by 0.5 m along Y; its separate authored height envelope is 0.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One wooden nesting-box unit, plan ratio 1.2:0.5, exactly THREE side-by-side nesting recesses from LEFT to RIGHT. Keep the dark recesses, muted straw-coloured liners, small pale oval accents already visible in the source, the upper timber panel and the lower perch/rail. No fourth compartment, chicken, freestanding egg tray, loose eggs outside the box, tools or floor.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/nestBox-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "wineVat",
+    "kind": "wineVat",
+    "id": "prop:wineVat:v0",
+    "artId": "prop:wineVat:v0",
+    "label": "Cuve vinicole",
+    "file": "wineVat_cuve_vinicole.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Cuve vinicole (wineVat), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 1.6 m along Y; its separate authored height envelope is 2.2 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One closed wine vat with a nearly circular plan within a square 1.6 by 1.6 footprint. Preserve the inset metal lid, ONE small wood-toned central cap, the dark lower seam, small integrated feet, and the short BOTTOM-centre outlet bending RIGHT to the small rust-coloured valve. Follow reference 1, which distinguishes its central cap from the pale milk-vat cap. No separate barrel, grape pile, glass bottle, pipe network, ladder or flowing liquid.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineVat-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "wineBarrel",
+    "kind": "wineBarrel",
+    "id": "prop:wineBarrel:v0",
+    "artId": "prop:wineBarrel:v0",
+    "label": "Fût de chai",
+    "file": "wineBarrel_fut_chai.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Fût de chai (wineBarrel), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 0.8 m along X by 0.8 m along Y; its separate authored height envelope is 0.95 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact closed wooden wine cask with the rounded plan silhouette in reference 1. Preserve SIX visible lengthwise stave seams running TOP TO BOTTOM and TWO fixed dark metal bands running LEFT TO RIGHT at the source positions. Keep its nearly square 0.8 by 0.8 footprint and exact source orientation. No second cask, support pallet, bottle, loose grape, liquid, label or outside tap. Interpret the native schematic as the design authority; do not substitute an unrelated tall side-view barrel.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineBarrel-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "grapePress",
+    "kind": "grapePress",
+    "id": "prop:grapePress:v0",
+    "artId": "prop:grapePress:v0",
+    "label": "Pressoir",
+    "file": "grapePress_pressoir.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Pressoir (grapePress), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.4 m along X by 1.2 m along Y; its separate authored height envelope is 1.8 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One compact hand-operated grape press. Preserve the round wooden basket in the lower central area, FIVE visible narrow basket slats, TWO uprights flanking the basket, one upper crossbeam, one vertical central screw and its horizontal T-handle near the TOP edge. Keep the integrated metal frame and small feet within the same outline. No motor, second press, barrel, basket of grapes, spilled juice, loose hand tool or operator.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/grapePress-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "veterinaryTable",
+    "kind": "veterinaryTable",
+    "id": "prop:veterinaryTable:v0",
+    "artId": "prop:veterinaryTable:v0",
+    "label": "Table de soins vétérinaires",
+    "file": "veterinaryTable_table_soins_veterinaires.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Table de soins vétérinaires (veterinaryTable), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.3 m along X by 0.7 m along Y; its separate authored height envelope is 0.85 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One narrow stainless veterinary treatment table. Preserve the pale rectangular tabletop, TWO muted olive restraint straps running TOP TO BOTTOM at roughly one-third and two-thirds of the width, their two central metal buckles, and the single small folded pad already present at the UPPER LEFT. Four integrated feet may be visible only as small source-aligned supports. No animal, person, instruments, cabinet, IV stand or loose equipment.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/veterinaryTable-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "growingBench",
+    "kind": "growingBench",
+    "id": "prop:growingBench:v0",
+    "artId": "prop:growingBench:v0",
+    "label": "Table de semis",
+    "file": "growingBench_table_semis.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Table de semis (growingBench), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.6 m along X by 0.7 m along Y; its separate authored height envelope is 0.85 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One raised seed-starting bench with timber tray, metal rim, two narrow side rails and four integrated support feet. Preserve the dark rectangular growing surface and exactly TWELVE small seedling groups in a THREE-ROW by FOUR-COLUMN arrangement, as reference 1. Long axis horizontal. No additional pot, watering can, greenhouse, sack, detached tool or ground patch. It is a fixed idle source illustration, not an active growth or harvest state.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBench-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  },
+  {
+    "key": "growingBed",
+    "kind": "growingBed",
+    "id": "prop:growingBed:v0",
+    "artId": "prop:growingBed:v0",
+    "label": "Bac de culture",
+    "file": "growingBed_bac_culture.png",
+    "prompt": "Create ONE original DEADWALL production source sprite: Bac de culture (growingBed), native procedural205 variant 0.\n\nREFERENCE PRIORITY: Image 1 is a direct transparent PNG rendered by the unchanged game painter for this exact kind, variant=0, canonical rotation=0. It is the authority for the footprint silhouette, proportions, orientation, number of parts and their relative positions. Image 2 is an existing game atlas used ONLY for realistic worn materials, muted palette and painterly texture. Do not copy its camera angle, background, grid or any neighbouring object. Translate the native schematic into one detailed believable game object; keep its design.\n\nCAMERA AND GEOMETRY: Perfectly overhead orthographic PLAN VIEW, camera looking straight DOWN, no perspective convergence, no isometric diamond and no tilted front view. Horizontal source X stays horizontal in the image; source Y stays vertical, increasing toward the lower image edge. Preserve the exact source aspect ratio and canonical orientation. The authored plan footprint is 1.8 m along X by 0.7 m along Y; its separate authored height envelope is 0.65 m. These are game-design dimensions, not manufacturer measurements. Do not enlarge depth to make a thin item look square. Show top surfaces; do not expose a tall front or side face.\n\nIDENTITY AND V0 PARTS: One low rectangular wooden growing box with broad timber rim and narrow reinforcement strips along the upper and lower long edges. Preserve the dark interior and exactly TWELVE small seedling groups in a THREE-ROW by FOUR-COLUMN arrangement. Long axis horizontal. Unlike the seed bench, this source has NO tall bench legs, no metal side rails, and no freestanding table frame. No additional pot, watering can, greenhouse, sack, tool or soil island.\n\nFINISH: Serious grounded post-apocalyptic survival game, detailed worn timber, dull aged steel, restrained rust, dusty muted olive/grey/brown materials as appropriate to the reference. Soft neutral overhead lighting, readable major parts at small game scale, crisp silhouette. Hardware is idle and unattended. No powered light, smoke, movement, liquid flow or invented active mechanism. Fixed contents already drawn in reference 1 are visual details only; add no loose stock.\n\nOUTPUT: One complete isolated object only on TRUE transparent RGBA background. Centre the complete object with at least 12 percent transparent margin on every side, including its source-defined ladder, outlet or handle. Preserve thin parts. No terrain, floor tile, ground plane, landscaping, ground shadow outside the object, display plinth, frame, lettering, labels, dimensions, watermark, logos, border or additional object. Native PNG output; no composite sheet. The reference palette and textures may become naturalistic, but its part layout must remain recognisable.",
+    "referenceImages": [
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBed-v0.png",
+      "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png"
+    ],
+    "generator": "image_gen.imagegen",
+    "transparentBackgroundRequested": true,
+    "promptIsVerbatim": true,
+    "iteration": 1
+  }
+]

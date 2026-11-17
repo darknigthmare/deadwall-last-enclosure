@@ -1,0 +1,127 @@
+{
+  "reviewer": "art226_assets",
+  "reviewedOn": "2026-11-17",
+  "method": "Visual inspection of each native PNG through view_image before its ImageGen call; atlases inspected in full before use.",
+  "canonicalReferences": [
+    {
+      "key": "singleBunk",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+      "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "feedTrough",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+      "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "waterTrough",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+      "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "fodderRack",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+      "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "milkingUnit",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkingUnit-v0.png",
+      "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "milkVat",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkVat-v0.png",
+      "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "nestBox",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/nestBox-v0.png",
+      "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "wineVat",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineVat-v0.png",
+      "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "wineBarrel",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineBarrel-v0.png",
+      "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "grapePress",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/grapePress-v0.png",
+      "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "veterinaryTable",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/veterinaryTable-v0.png",
+      "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "growingBench",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBench-v0.png",
+      "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b",
+      "inspectedBeforeGeneration": true
+    },
+    {
+      "key": "growingBed",
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBed-v0.png",
+      "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c",
+      "inspectedBeforeGeneration": true
+    }
+  ],
+  "styleAtlases": [
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+      "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+      "role": "materials and palette only; not camera or object additions"
+    },
+    {
+      "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png",
+      "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+      "role": "materials and palette only; not camera or object additions"
+    }
+  ],
+  "nativeGeneratedInputsForEdits": [
+    {
+      "key": "singleBunk",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-8e7ec820-697b-4aa4-9f6b-857a8316faeb.png",
+      "sha256": "2d11918b0521add4b3168aa320cb5968bdc91a52510d11c447c8da98c3f4cbfa",
+      "visuallyInspectedBeforeEdit": true
+    },
+    {
+      "key": "feedTrough",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-09264aea-aab2-465a-aa8e-c6e9c0d789a7.png",
+      "sha256": "62cc2b744a5926938ebeeb6d6c95f22134b797d41864337a25f76274a4862086",
+      "visuallyInspectedBeforeEdit": true
+    },
+    {
+      "key": "waterTrough",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-12796b17-a5a9-42b2-93da-65e2ab98fe07.png",
+      "sha256": "ce4e1945976b8510a4d655e15f652b85d3ab32caa1a01b72eea987b10e2ad9d3",
+      "visuallyInspectedBeforeEdit": true
+    },
+    {
+      "key": "fodderRack",
+      "iteration": 2,
+      "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-9cfa0173-265f-4b3b-9c24-bf4dc7f6e200.png",
+      "sha256": "166762e52be67982caa6bee786b8cda48b753dbba98cf99d29b78bc1381f3329",
+      "visuallyInspectedBeforeEdit": true
+    }
+  ]
+}

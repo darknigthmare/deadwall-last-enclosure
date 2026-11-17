@@ -1,0 +1,90 @@
+[
+  {
+    "path": "references/repository/src/campaign-site-art205.js",
+    "repositoryPath": "src/campaign-site-art205.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "adcceb210d194cdbf4f19359a743c9cec2a8e4e6",
+    "sha256": "492790bf2aa6c77dd244f4fcd8c164f1960f08eb2654b10b1ca20663bd72e0f2",
+    "bytes": 44852
+  },
+  {
+    "path": "references/repository/src/codex-furnishings2026.js",
+    "repositoryPath": "src/codex-furnishings2026.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "57648ec1a6e908069734f622eb449166770495d4",
+    "sha256": "5aacd2944d7cf44d21997a9b265dac966a873875e9e5cd7a48a43c8dca044b36",
+    "bytes": 40680
+  },
+  {
+    "path": "references/repository/src/interior-art153.js",
+    "repositoryPath": "src/interior-art153.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "bd63cd1e0e15d02d03f1c386a35f4f9cc0edf428",
+    "sha256": "7b686fc06c7be2b00a8263ce47b42eeb5dc8413fedee71c9f4fed790f50ffd21",
+    "bytes": 18868
+  },
+  {
+    "path": "references/repository/src/seed-detail-art157.js",
+    "repositoryPath": "src/seed-detail-art157.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "656725ffab51afa8dc70653748efabf4defa8419",
+    "sha256": "03978da0de17b4255107b3ee0966d7bb3a160ef14d2eb08efad09afe16eead8a",
+    "bytes": 25806
+  },
+  {
+    "path": "references/repository/src/world-props-art153.js",
+    "repositoryPath": "src/world-props-art153.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "f47c982f1a30fde8d29c229b2e3f34cea9ba8b8f",
+    "sha256": "8366c7fe4d3dc529c64d3f50523f78bd1651c63a287d22818fe18dd065548726",
+    "bytes": 21665
+  },
+  {
+    "path": "references/repository/src/codex-layouts2026.js",
+    "repositoryPath": "src/codex-layouts2026.js",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "e5c4c8d8ff1db8394fcf63068f9e200610945e34",
+    "sha256": "2ab0b563e26f64877b6d9fbdd0ceb1bcfca4e439b147825a571bd0e446f714cc",
+    "bytes": 311787
+  },
+  {
+    "path": "references/repository/scripts/codex-residential2026.cjs",
+    "repositoryPath": "scripts/codex-residential2026.cjs",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "731bf90160f921aee9b4550b6846d976a943b4b3",
+    "sha256": "6978137b18dc3ea26916efdabeff6a36a26abeb9c09e27bc0549de74d909982d",
+    "bytes": 17963
+  },
+  {
+    "path": "references/repository/scripts/codex-world-foundations2026.cjs",
+    "repositoryPath": "scripts/codex-world-foundations2026.cjs",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "01875362d8fedbe8cad43cd30db148d5e56945b5",
+    "sha256": "a709d508e1d2c71ed549f2192bd27f0afd7dae37cb1957f54a2ec32ab0b969b3",
+    "bytes": 19639
+  },
+  {
+    "path": "references/repository/docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+    "repositoryPath": "docs/codex/suivi-monde2026/RESIDENTIEL_2026.md",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "225f7f6253ce233d8e8561e734d7c6d58f9f5006",
+    "sha256": "71e3b672505516af97c91b0e8b9c493de189076f764cacbb2e5450eb5095308c",
+    "bytes": 9436
+  },
+  {
+    "path": "references/repository/assets/art152/vehicles-atlas.png",
+    "repositoryPath": "assets/art152/vehicles-atlas.png",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "efe030a11fe2e206c82a4018e7f9022b468896f8",
+    "sha256": "a4bd324be804bd5a5b6c1d3faf42f291d9f4d917111056924a8e5aae9c21244f",
+    "bytes": 1911557
+  },
+  {
+    "path": "references/repository/assets/art152/PROVENANCE_VEHICLES.json",
+    "repositoryPath": "assets/art152/PROVENANCE_VEHICLES.json",
+    "revision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+    "gitBlob": "63529fe976302f117133773e457a85358fc64ff4",
+    "sha256": "12ee3c008fb1fa670c99fd35d7772a2a9ea70b07f1ffc84d63a6806a0e720804",
+    "bytes": 1261
+  }
+]

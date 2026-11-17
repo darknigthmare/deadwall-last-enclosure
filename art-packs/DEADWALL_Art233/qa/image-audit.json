@@ -1,0 +1,1668 @@
+{
+  "pack": "Art233",
+  "checkedOn": "2026-11-17",
+  "timezone": "Europe/Paris",
+  "method": "Read-only PNG decode, chunk inventory, RGBA histogram, alpha thresholds and SHA256.",
+  "alphaThresholds": [
+    1,
+    8,
+    32,
+    128,
+    240
+  ],
+  "alphaInterpretation": "Transparent pixels and alpha 1–7 are recorded separately; visible margins at alpha>=8 do not imply perfectly zero alpha everywhere or certify geometry.",
+  "assets": [
+    {
+      "file": "assets/art233/props/singleBunk_couchette_individuelle.png",
+      "sha256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+      "bytes": 1545813,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 14486
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 1129398,
+      "fullyTransparentFraction": 0.7180519104003906,
+      "lowAlphaPixels1to7": 14054,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          103,
+          1484,
+          880
+        ],
+        "8": [
+          210,
+          321,
+          1326,
+          764
+        ],
+        "32": [
+          210,
+          321,
+          1326,
+          764
+        ],
+        "128": [
+          211,
+          322,
+          1325,
+          763
+        ],
+        "240": [
+          212,
+          323,
+          1324,
+          762
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 103,
+          "right": 52,
+          "bottom": 144
+        },
+        "8": {
+          "left": 210,
+          "top": 321,
+          "right": 210,
+          "bottom": 260
+        },
+        "32": {
+          "left": 210,
+          "top": 321,
+          "right": 210,
+          "bottom": 260
+        },
+        "128": {
+          "left": 211,
+          "top": 322,
+          "right": 211,
+          "bottom": 261
+        },
+        "240": {
+          "left": 212,
+          "top": 323,
+          "right": 212,
+          "bottom": 262
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/feedTrough_mangeoire.png",
+      "sha256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+      "bytes": 981717,
+      "width": 1774,
+      "height": 887,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 957994
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1169030,
+      "fullyTransparentFraction": 0.7429308983958443,
+      "lowAlphaPixels1to7": 7641,
+      "boundsAlphaAtLeast": {
+        "1": [
+          23,
+          88,
+          1712,
+          760
+        ],
+        "8": [
+          155,
+          288,
+          1617,
+          617
+        ],
+        "32": [
+          155,
+          290,
+          1617,
+          617
+        ],
+        "128": [
+          156,
+          291,
+          1616,
+          617
+        ],
+        "240": [
+          157,
+          291,
+          1615,
+          616
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 23,
+          "top": 88,
+          "right": 62,
+          "bottom": 127
+        },
+        "8": {
+          "left": 155,
+          "top": 288,
+          "right": 157,
+          "bottom": 270
+        },
+        "32": {
+          "left": 155,
+          "top": 290,
+          "right": 157,
+          "bottom": 270
+        },
+        "128": {
+          "left": 156,
+          "top": 291,
+          "right": 158,
+          "bottom": 270
+        },
+        "240": {
+          "left": 157,
+          "top": 291,
+          "right": 159,
+          "bottom": 271
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/waterTrough_abreuvoir.png",
+      "sha256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+      "bytes": 1201022,
+      "width": 1944,
+      "height": 809,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1179072
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 998936,
+      "fullyTransparentFraction": 0.6351742485515319,
+      "lowAlphaPixels1to7": 8899,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          23,
+          1896,
+          809
+        ],
+        "8": [
+          289,
+          185,
+          1655,
+          658
+        ],
+        "32": [
+          290,
+          186,
+          1655,
+          658
+        ],
+        "128": [
+          290,
+          186,
+          1654,
+          657
+        ],
+        "240": [
+          291,
+          187,
+          1653,
+          656
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 23,
+          "right": 48,
+          "bottom": 0
+        },
+        "8": {
+          "left": 289,
+          "top": 185,
+          "right": 289,
+          "bottom": 151
+        },
+        "32": {
+          "left": 290,
+          "top": 186,
+          "right": 289,
+          "bottom": 151
+        },
+        "128": {
+          "left": 290,
+          "top": 186,
+          "right": 290,
+          "bottom": 152
+        },
+        "240": {
+          "left": 291,
+          "top": 187,
+          "right": 291,
+          "bottom": 153
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/fodderRack_ratelier_fourrage.png",
+      "sha256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+      "bytes": 1405542,
+      "width": 1620,
+      "height": 971,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1381819
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 948636,
+      "fullyTransparentFraction": 0.6030667124384941,
+      "lowAlphaPixels1to7": 8870,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          38,
+          1596,
+          945
+        ],
+        "8": [
+          161,
+          243,
+          1460,
+          718
+        ],
+        "32": [
+          161,
+          243,
+          1460,
+          717
+        ],
+        "128": [
+          162,
+          244,
+          1459,
+          716
+        ],
+        "240": [
+          163,
+          245,
+          1458,
+          716
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 38,
+          "right": 24,
+          "bottom": 26
+        },
+        "8": {
+          "left": 161,
+          "top": 243,
+          "right": 160,
+          "bottom": 253
+        },
+        "32": {
+          "left": 161,
+          "top": 243,
+          "right": 160,
+          "bottom": 254
+        },
+        "128": {
+          "left": 162,
+          "top": 244,
+          "right": 161,
+          "bottom": 255
+        },
+        "240": {
+          "left": 163,
+          "top": 245,
+          "right": 162,
+          "bottom": 255
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/milkingUnit_poste_traite.png",
+      "sha256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+      "bytes": 1768332,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1746382
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 815229,
+      "fullyTransparentFraction": 0.518423341956457,
+      "lowAlphaPixels1to7": 21585,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          32,
+          1228,
+          1254
+        ],
+        "8": [
+          121,
+          253,
+          1134,
+          984
+        ],
+        "32": [
+          121,
+          255,
+          1133,
+          982
+        ],
+        "128": [
+          122,
+          256,
+          1132,
+          981
+        ],
+        "240": [
+          123,
+          257,
+          1131,
+          980
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 32,
+          "right": 26,
+          "bottom": 0
+        },
+        "8": {
+          "left": 121,
+          "top": 253,
+          "right": 120,
+          "bottom": 270
+        },
+        "32": {
+          "left": 121,
+          "top": 255,
+          "right": 121,
+          "bottom": 272
+        },
+        "128": {
+          "left": 122,
+          "top": 256,
+          "right": 122,
+          "bottom": 273
+        },
+        "240": {
+          "left": 123,
+          "top": 257,
+          "right": 123,
+          "bottom": 274
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/milkVat_cuve_lait.png",
+      "sha256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+      "bytes": 1287736,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1264013
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1036386,
+      "fullyTransparentFraction": 0.6590622925299329,
+      "lowAlphaPixels1to7": 11524,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          37,
+          1224,
+          1222
+        ],
+        "8": [
+          178,
+          266,
+          1066,
+          1033
+        ],
+        "32": [
+          179,
+          268,
+          1066,
+          1032
+        ],
+        "128": [
+          180,
+          269,
+          1065,
+          1032
+        ],
+        "240": [
+          180,
+          270,
+          1064,
+          1031
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 37,
+          "right": 30,
+          "bottom": 32
+        },
+        "8": {
+          "left": 178,
+          "top": 266,
+          "right": 188,
+          "bottom": 221
+        },
+        "32": {
+          "left": 179,
+          "top": 268,
+          "right": 188,
+          "bottom": 222
+        },
+        "128": {
+          "left": 180,
+          "top": 269,
+          "right": 189,
+          "bottom": 222
+        },
+        "240": {
+          "left": 180,
+          "top": 270,
+          "right": 190,
+          "bottom": 223
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/nestBox_pondoir.png",
+      "sha256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+      "bytes": 1648512,
+      "width": 1942,
+      "height": 809,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1626562
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 926057,
+      "fullyTransparentFraction": 0.589440498816736,
+      "lowAlphaPixels1to7": 18891,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          17,
+          1922,
+          809
+        ],
+        "8": [
+          341,
+          155,
+          1601,
+          653
+        ],
+        "32": [
+          343,
+          155,
+          1599,
+          653
+        ],
+        "128": [
+          344,
+          156,
+          1598,
+          652
+        ],
+        "240": [
+          345,
+          157,
+          1598,
+          652
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 17,
+          "right": 20,
+          "bottom": 0
+        },
+        "8": {
+          "left": 341,
+          "top": 155,
+          "right": 341,
+          "bottom": 156
+        },
+        "32": {
+          "left": 343,
+          "top": 155,
+          "right": 343,
+          "bottom": 156
+        },
+        "128": {
+          "left": 344,
+          "top": 156,
+          "right": 344,
+          "bottom": 157
+        },
+        "240": {
+          "left": 345,
+          "top": 157,
+          "right": 344,
+          "bottom": 157
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/wineVat_cuve_vinicole.png",
+      "sha256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+      "bytes": 1690686,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1668736
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 868697,
+      "fullyTransparentFraction": 0.5524249037847627,
+      "lowAlphaPixels1to7": 15653,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          8,
+          1240,
+          1254
+        ],
+        "8": [
+          175,
+          152,
+          1062,
+          1138
+        ],
+        "32": [
+          176,
+          153,
+          1061,
+          1137
+        ],
+        "128": [
+          176,
+          154,
+          1061,
+          1136
+        ],
+        "240": [
+          177,
+          154,
+          1060,
+          1135
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 8,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 175,
+          "top": 152,
+          "right": 192,
+          "bottom": 116
+        },
+        "32": {
+          "left": 176,
+          "top": 153,
+          "right": 193,
+          "bottom": 117
+        },
+        "128": {
+          "left": 176,
+          "top": 154,
+          "right": 193,
+          "bottom": 118
+        },
+        "240": {
+          "left": 177,
+          "top": 154,
+          "right": 194,
+          "bottom": 119
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/wineBarrel_fut_chai.png",
+      "sha256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+      "bytes": 1715843,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1693893
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 904801,
+      "fullyTransparentFraction": 0.575384288617731,
+      "lowAlphaPixels1to7": 7828,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          79,
+          1240,
+          1254
+        ],
+        "8": [
+          167,
+          158,
+          1077,
+          1091
+        ],
+        "32": [
+          167,
+          159,
+          1077,
+          1091
+        ],
+        "128": [
+          168,
+          159,
+          1076,
+          1090
+        ],
+        "240": [
+          169,
+          160,
+          1075,
+          1089
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 79,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 167,
+          "top": 158,
+          "right": 177,
+          "bottom": 163
+        },
+        "32": {
+          "left": 167,
+          "top": 159,
+          "right": 177,
+          "bottom": 163
+        },
+        "128": {
+          "left": 168,
+          "top": 159,
+          "right": 178,
+          "bottom": 164
+        },
+        "240": {
+          "left": 169,
+          "top": 160,
+          "right": 179,
+          "bottom": 165
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/grapePress_pressoir.png",
+      "sha256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+      "bytes": 1567039,
+      "width": 1355,
+      "height": 1161,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1543316
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 919063,
+      "fullyTransparentFraction": 0.5842164313116,
+      "lowAlphaPixels1to7": 13826,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1319,
+          1161
+        ],
+        "8": [
+          230,
+          197,
+          1125,
+          962
+        ],
+        "32": [
+          231,
+          198,
+          1124,
+          962
+        ],
+        "128": [
+          231,
+          198,
+          1124,
+          961
+        ],
+        "240": [
+          232,
+          199,
+          1123,
+          961
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 36,
+          "bottom": 0
+        },
+        "8": {
+          "left": 230,
+          "top": 197,
+          "right": 230,
+          "bottom": 199
+        },
+        "32": {
+          "left": 231,
+          "top": 198,
+          "right": 231,
+          "bottom": 199
+        },
+        "128": {
+          "left": 231,
+          "top": 198,
+          "right": 231,
+          "bottom": 200
+        },
+        "240": {
+          "left": 232,
+          "top": 199,
+          "right": 232,
+          "bottom": 200
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/veterinaryTable_table_soins_veterinaires.png",
+      "sha256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+      "bytes": 1140127,
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 23654
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1116404
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 1106211,
+      "fullyTransparentFraction": 0.7034656563112871,
+      "lowAlphaPixels1to7": 26023,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          25,
+          1232,
+          1223
+        ],
+        "8": [
+          149,
+          395,
+          1105,
+          862
+        ],
+        "32": [
+          149,
+          396,
+          1105,
+          861
+        ],
+        "128": [
+          150,
+          397,
+          1104,
+          861
+        ],
+        "240": [
+          151,
+          398,
+          1104,
+          860
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 25,
+          "right": 22,
+          "bottom": 31
+        },
+        "8": {
+          "left": 149,
+          "top": 395,
+          "right": 149,
+          "bottom": 392
+        },
+        "32": {
+          "left": 149,
+          "top": 396,
+          "right": 149,
+          "bottom": 393
+        },
+        "128": {
+          "left": 150,
+          "top": 397,
+          "right": 150,
+          "bottom": 393
+        },
+        "240": {
+          "left": 151,
+          "top": 398,
+          "right": 150,
+          "bottom": 394
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 0,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/growingBench_table_semis.png",
+      "sha256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+      "bytes": 1533323,
+      "width": 1586,
+      "height": 992,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 1511373
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "fullyTransparentPixels": 946657,
+      "fullyTransparentFraction": 0.6016969297888785,
+      "lowAlphaPixels1to7": 16442,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          19,
+          1572,
+          992
+        ],
+        "8": [
+          169,
+          229,
+          1417,
+          721
+        ],
+        "32": [
+          170,
+          231,
+          1415,
+          720
+        ],
+        "128": [
+          171,
+          231,
+          1415,
+          720
+        ],
+        "240": [
+          172,
+          232,
+          1414,
+          719
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 19,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 169,
+          "top": 229,
+          "right": 169,
+          "bottom": 271
+        },
+        "32": {
+          "left": 170,
+          "top": 231,
+          "right": 171,
+          "bottom": 272
+        },
+        "128": {
+          "left": 171,
+          "top": 231,
+          "right": 171,
+          "bottom": 272
+        },
+        "240": {
+          "left": 172,
+          "top": 232,
+          "right": 172,
+          "bottom": 273
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 0,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    },
+    {
+      "file": "assets/art233/props/growingBed_bac_culture.png",
+      "sha256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+      "bytes": 1770166,
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "pngBitDepth": 8,
+      "pngColorType": 6,
+      "pngCompressionMethod": 0,
+      "pngFilterMethod": 0,
+      "pngInterlaceMethod": 0,
+      "pngChunks": [
+        {
+          "type": "IHDR",
+          "bytes": 13
+        },
+        {
+          "type": "caBX",
+          "bytes": 21881
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 65536
+        },
+        {
+          "type": "IDAT",
+          "bytes": 43968
+        },
+        {
+          "type": "IEND",
+          "bytes": 0
+        }
+      ],
+      "pillowVerifyPassed": true,
+      "alphaExtrema": [
+        0,
+        254
+      ],
+      "fullyTransparentPixels": 1106283,
+      "fullyTransparentFraction": 0.7033557891845703,
+      "lowAlphaPixels1to7": 17632,
+      "boundsAlphaAtLeast": {
+        "1": [
+          0,
+          0,
+          1522,
+          1024
+        ],
+        "8": [
+          209,
+          309,
+          1326,
+          713
+        ],
+        "32": [
+          210,
+          310,
+          1325,
+          713
+        ],
+        "128": [
+          211,
+          311,
+          1325,
+          712
+        ],
+        "240": [
+          212,
+          312,
+          1324,
+          712
+        ]
+      },
+      "marginsAlphaAtLeast": {
+        "1": {
+          "left": 0,
+          "top": 0,
+          "right": 14,
+          "bottom": 0
+        },
+        "8": {
+          "left": 209,
+          "top": 309,
+          "right": 210,
+          "bottom": 311
+        },
+        "32": {
+          "left": 210,
+          "top": 310,
+          "right": 211,
+          "bottom": 311
+        },
+        "128": {
+          "left": 211,
+          "top": 311,
+          "right": 211,
+          "bottom": 312
+        },
+        "240": {
+          "left": 212,
+          "top": 312,
+          "right": 212,
+          "bottom": 312
+        }
+      },
+      "borderAlphaMaximum": {
+        "top": 1,
+        "bottom": 1,
+        "left": 1,
+        "right": 0
+      },
+      "nativeBytesPreserved": true,
+      "imageEditingPerformed": false,
+      "geometryCertified": false
+    }
+  ]
+}

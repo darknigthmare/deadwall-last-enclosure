@@ -1,0 +1,16 @@
+{
+  "pack": "Art234",
+  "finalCount": 15,
+  "generationCount": 15,
+  "supersededCount": 0,
+  "totalFinalNativePngBytes": 25881324,
+  "reviewSha256": "4ce024eb12de56ce209f40a742cfb485509622801d3172579ef8c29b6239d4a8",
+  "resultsSha256": "2aebf5614ed69347fd0837c3b6a14ca9be0929a5bae8371e5fdf526529ddf882",
+  "alphaReviewSha256": "508847b1562e7994bb1d78a5c9d105465da054138bd84e04dd0d029c971042c1",
+  "allFinalsRgba": true,
+  "allFinalBorderAlphaMaximum": 1,
+  "allOriginalsBytePreserved": true,
+  "runtimeIntegrationPerformed": false,
+  "metricFidelityCertified": false,
+  "independentReviewSeparate": "independent-review-art225.json"
+}

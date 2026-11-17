@@ -1,0 +1,447 @@
+[
+  {
+    "key": "singleBunk",
+    "id": "prop:singleBunk:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-8e7ec820-697b-4aa4-9f6b-857a8316faeb.png",
+    "nativeSHA256": "2d11918b0521add4b3168aa320cb5968bdc91a52510d11c447c8da98c3f4cbfa",
+    "nativeBytes": 1578684,
+    "promptSHA256": "7d8ca8b6805b844e1b0c349ffd316302715e532cc2a4f179b5c5ca548b9be758",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+        "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+        "bytes": 5767
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png",
+        "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+        "bytes": 2379240
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "singleBunk",
+    "id": "prop:singleBunk:v0",
+    "iteration": 2,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-83aa0527-cff6-4905-bd1d-8a3c7169955f.png",
+    "nativeSHA256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+    "nativeBytes": 1545813,
+    "promptSHA256": "c709b3f528a72e609ef0a4990e311590e596b3a465a97c90649056e1cc9849dc",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-8e7ec820-697b-4aa4-9f6b-857a8316faeb.png",
+        "sha256": "2d11918b0521add4b3168aa320cb5968bdc91a52510d11c447c8da98c3f4cbfa",
+        "bytes": 1578684
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/singleBunk-v0.png",
+        "sha256": "a17e2280ad41d7c114b56d85add2b9253439eb6354e05105e9532c0425bd3a78",
+        "bytes": 5767
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-home-atlas.png",
+        "sha256": "7a50be3a0338fec20e7429f20a79dc39c548b61113fbd07326a6b82e70b71be9",
+        "bytes": 2379240
+      }
+    ],
+    "operation": "native_image_edit",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "feedTrough",
+    "id": "prop:feedTrough:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-09264aea-aab2-465a-aa8e-c6e9c0d789a7.png",
+    "nativeSHA256": "62cc2b744a5926938ebeeb6d6c95f22134b797d41864337a25f76274a4862086",
+    "nativeBytes": 984566,
+    "promptSHA256": "52758069b174c97dfbe791efb6f95dffbe5c46b2f3668e59f45f2323a1c905f5",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+        "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+        "bytes": 13898
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "feedTrough",
+    "id": "prop:feedTrough:v0",
+    "iteration": 2,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-47a8ba0c-1d51-44a9-a07d-d20379c9c703.png",
+    "nativeSHA256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+    "nativeBytes": 981717,
+    "promptSHA256": "e47a6d897cf70fae576a855bdf8db7ce6c99914a12919f69306d38d983942df0",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-09264aea-aab2-465a-aa8e-c6e9c0d789a7.png",
+        "sha256": "62cc2b744a5926938ebeeb6d6c95f22134b797d41864337a25f76274a4862086",
+        "bytes": 984566
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/feedTrough-v0.png",
+        "sha256": "ce148512b2696b4343edda035fd253c223c4a8224bf882045357bc48e4882555",
+        "bytes": 13898
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "native_image_edit",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "waterTrough",
+    "id": "prop:waterTrough:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-12796b17-a5a9-42b2-93da-65e2ab98fe07.png",
+    "nativeSHA256": "ce4e1945976b8510a4d655e15f652b85d3ab32caa1a01b72eea987b10e2ad9d3",
+    "nativeBytes": 1258462,
+    "promptSHA256": "06adfd26a50f38619b7bde9a132d5b8271c6ce188dc41d93b4a0030695292412",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+        "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+        "bytes": 11190
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "waterTrough",
+    "id": "prop:waterTrough:v0",
+    "iteration": 2,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-aa7a56f7-f27c-477b-b121-ac3f1bcde819.png",
+    "nativeSHA256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+    "nativeBytes": 1201022,
+    "promptSHA256": "233ac6437bbef6dffba4290a65abf2c856dfc2923e4ba45ebb5c5fdc08b925f9",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-12796b17-a5a9-42b2-93da-65e2ab98fe07.png",
+        "sha256": "ce4e1945976b8510a4d655e15f652b85d3ab32caa1a01b72eea987b10e2ad9d3",
+        "bytes": 1258462
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/waterTrough-v0.png",
+        "sha256": "4c3e623cd7278611f817ee7cf15d0f0e5e545f241562ece23dd53ef299dd06cd",
+        "bytes": 11190
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "native_image_edit",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "fodderRack",
+    "id": "prop:fodderRack:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-9cfa0173-265f-4b3b-9c24-bf4dc7f6e200.png",
+    "nativeSHA256": "166762e52be67982caa6bee786b8cda48b753dbba98cf99d29b78bc1381f3329",
+    "nativeBytes": 1517519,
+    "promptSHA256": "75213c6e3e936fb589dbb63ce1c46168b05859087fb5c1dd939da2c152535d7b",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+        "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+        "bytes": 12698
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "fodderRack",
+    "id": "prop:fodderRack:v0",
+    "iteration": 2,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-18e52fee-dbd0-4034-9209-d5ba447a73e3.png",
+    "nativeSHA256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+    "nativeBytes": 1405542,
+    "promptSHA256": "ad9f1da85ec384ebb81756fe1fdf64fced68832030d812124d6d4f8e128d9732",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/generated_images/exec-9cfa0173-265f-4b3b-9c24-bf4dc7f6e200.png",
+        "sha256": "166762e52be67982caa6bee786b8cda48b753dbba98cf99d29b78bc1381f3329",
+        "bytes": 1517519
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/fodderRack-v0.png",
+        "sha256": "aec6a68d04e589eafb1c96143065dddf819371312e6c40db73b1f529775ec180",
+        "bytes": 12698
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "native_image_edit",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "milkingUnit",
+    "id": "prop:milkingUnit:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-71c3235f-4595-400c-b65f-da25f84f1c60.png",
+    "nativeSHA256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+    "nativeBytes": 1768332,
+    "promptSHA256": "751686cf11045cf0b9b61a9cc1e693361fa1fe70414442443849757358cb8ab7",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkingUnit-v0.png",
+        "sha256": "b278f415729b42842633c09e036476e9adfe44d083ca653aec0af2335d73d803",
+        "bytes": 22077
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "milkVat",
+    "id": "prop:milkVat:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-66dd67f3-150a-497a-8e31-fa028958d4f2.png",
+    "nativeSHA256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+    "nativeBytes": 1287736,
+    "promptSHA256": "3a3836e8939dde39aac0bf255e372f53a0e3131236ae8647a94c0644398bbcd6",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/milkVat-v0.png",
+        "sha256": "262513508d0860ff8a667ddae85f8537b27b036e1fdc67ba019c26da3eaa2cd9",
+        "bytes": 45134
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "nestBox",
+    "id": "prop:nestBox:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-6a679a3f-ff25-4533-8121-f1f8c2d39cb4.png",
+    "nativeSHA256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+    "nativeBytes": 1648512,
+    "promptSHA256": "af3e8645be981b91956fdee015c8c129abb4d40b58cc2fa1f5c359a60350a0c1",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/nestBox-v0.png",
+        "sha256": "7b2a5ed2e43e8b4797312714512ad82b91cc579b42fea31a7011fdd2a85aebf2",
+        "bytes": 15350
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "wineVat",
+    "id": "prop:wineVat:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-ba805d50-f16c-415e-935d-a85d0bf6779c.png",
+    "nativeSHA256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+    "nativeBytes": 1690686,
+    "promptSHA256": "24e76ed0361378a791608e35193cc4b19c45c39fa7e00b41f12a477e5c6f8e37",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineVat-v0.png",
+        "sha256": "b3d69e067def6225ee35c35e44e684e6ea6ca5675f13b360cf2fef2dc8d1be47",
+        "bytes": 47547
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "wineBarrel",
+    "id": "prop:wineBarrel:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-e992df8e-f162-4a5b-a4f1-74c2af24d96c.png",
+    "nativeSHA256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+    "nativeBytes": 1715843,
+    "promptSHA256": "b4453e22dce341278e69e34e58bf3ba5d305094f838856d8f74f0c9ba0bd245a",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/wineBarrel-v0.png",
+        "sha256": "21cb64648fdb8ea2ed97c9fb6cb1c7c353771bb59b776271706cdc9c7a4de3d1",
+        "bytes": 30411
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "grapePress",
+    "id": "prop:grapePress:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-ce628ea5-f218-406e-ab92-ed554144d661.png",
+    "nativeSHA256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+    "nativeBytes": 1567039,
+    "promptSHA256": "ab75524666aa219bb96c2dbf6a8024e90335881c681a8378d9a259524fd41891",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/grapePress-v0.png",
+        "sha256": "341788b3e1315bda6310f6da93a981ffdcbc3bd7d383ebe922b9ac66e27a7b3a",
+        "bytes": 18488
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "veterinaryTable",
+    "id": "prop:veterinaryTable:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-4b568201-1f5c-44f6-8f09-9e66a5497c5d.png",
+    "nativeSHA256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+    "nativeBytes": 1140127,
+    "promptSHA256": "bef218b66dc64a662f7333f628980d1d67b92b0427cee545c09730432150d66e",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/veterinaryTable-v0.png",
+        "sha256": "dcbc96a5c38549c0935221cd4ba66e2637e6ad3183df4687d64d9b60552882c9",
+        "bytes": 5788
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "growingBench",
+    "id": "prop:growingBench:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-36e999df-2c62-4750-8991-9d3ce6b8c107.png",
+    "nativeSHA256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+    "nativeBytes": 1533323,
+    "promptSHA256": "d5226d37c166b19dacdcbfae0c49a76ab34354c313a11bd2b483e3d2eacd52ad",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBench-v0.png",
+        "sha256": "de95d296fc7bd0a054bdeb53b97366248512d43928b8fc3178263f0f9357603b",
+        "bytes": 23868
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  },
+  {
+    "key": "growingBed",
+    "id": "prop:growingBed:v0",
+    "iteration": 1,
+    "nativePNG": "/workspace/scratch/6f470a892a0f/generated_images/exec-f2896146-3aa3-4243-9848-a41b6749908f.png",
+    "nativeSHA256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+    "nativeBytes": 1770166,
+    "promptSHA256": "f6a65a0ebfaf081be27422a9bbe41065d49843ad0f2e73418c588445a714905e",
+    "promptVerbatimMatched": true,
+    "referenceImages": [
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/canonical/growingBed-v0.png",
+        "sha256": "87e133e24a0311b7b5110e00e44100c4ed0ff4e949cd00e4b8b034d60e19ad8c",
+        "bytes": 22587
+      },
+      {
+        "path": "/workspace/scratch/6f470a892a0f/art233-prep/references/atlases/interior-workshop-atlas.png",
+        "sha256": "c96f0069af7cebe186dda1bc71673c37d917a7c213c080d01369d0b9ad96eebe",
+        "bytes": 2334203
+      }
+    ],
+    "operation": "reference_generation",
+    "generator": "image_gen.imagegen",
+    "pixelEditingPerformed": false
+  }
+]

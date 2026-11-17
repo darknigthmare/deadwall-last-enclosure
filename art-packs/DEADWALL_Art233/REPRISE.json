@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "batch": "Art233",
+  "savedOn": "2026-11-17",
+  "publicationBaseRevision": "f3ba02a5b73a55120c02c21d5703902ea3e901d9",
+  "completedArtIds": [
+    "prop:singleBunk:v0",
+    "prop:feedTrough:v0",
+    "prop:waterTrough:v0",
+    "prop:fodderRack:v0",
+    "prop:milkingUnit:v0",
+    "prop:milkVat:v0",
+    "prop:nestBox:v0",
+    "prop:wineVat:v0",
+    "prop:wineBarrel:v0",
+    "prop:grapePress:v0",
+    "prop:veterinaryTable:v0",
+    "prop:growingBench:v0",
+    "prop:growingBed:v0"
+  ],
+  "finalAssets": [
+    {
+      "id": "prop:singleBunk:v0",
+      "artId": "prop:singleBunk:v0",
+      "kind": "singleBunk",
+      "name": "Couchette individuelle",
+      "path": "assets/art233/props/singleBunk_couchette_individuelle.png",
+      "sha256": "b57ef02052f6239b68c9b9483647beb92ff0698b1f7b8d5e1edfb8cea93b9245",
+      "bytes": 1545813,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2,
+        "h": 0.75,
+        "heightM": 1.7
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:feedTrough:v0",
+      "artId": "prop:feedTrough:v0",
+      "kind": "feedTrough",
+      "name": "Mangeoire",
+      "path": "assets/art233/props/feedTrough_mangeoire.png",
+      "sha256": "60030226d034de24233669d9da537afd20d209e1828cbd0d84e90d322298f65e",
+      "bytes": 981717,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 2,
+        "h": 0.5,
+        "heightM": 0.65
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:waterTrough:v0",
+      "artId": "prop:waterTrough:v0",
+      "kind": "waterTrough",
+      "name": "Abreuvoir",
+      "path": "assets/art233/props/waterTrough_abreuvoir.png",
+      "sha256": "74b0852f38b8472db9a2e340a04bb4bf02dcef283822587a7cc53a0302fe3639",
+      "bytes": 1201022,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.2,
+        "h": 0.5,
+        "heightM": 0.6
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:fodderRack:v0",
+      "artId": "prop:fodderRack:v0",
+      "kind": "fodderRack",
+      "name": "Râtelier à fourrage",
+      "path": "assets/art233/props/fodderRack_ratelier_fourrage.png",
+      "sha256": "8ffe95acdc78655d0eccaeb5ff4402e3adc8519788024483371c633871935cc4",
+      "bytes": 1405542,
+      "iteration": 2,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.6,
+        "h": 0.6,
+        "heightM": 1.3
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:milkingUnit:v0",
+      "artId": "prop:milkingUnit:v0",
+      "kind": "milkingUnit",
+      "name": "Poste de traite",
+      "path": "assets/art233/props/milkingUnit_poste_traite.png",
+      "sha256": "6e5fbf069388434fa63983c4bbaff999604fbb5900dae6aa6b821471ec3272c2",
+      "bytes": 1768332,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.1,
+        "h": 0.8,
+        "heightM": 1.6
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:milkVat:v0",
+      "artId": "prop:milkVat:v0",
+      "kind": "milkVat",
+      "name": "Cuve à lait",
+      "path": "assets/art233/props/milkVat_cuve_lait.png",
+      "sha256": "3c0e19f2477492542d7b983dd30788a34f560ac49e98c328d5e377fa868b1eb9",
+      "bytes": 1287736,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.5,
+        "h": 1.3,
+        "heightM": 1.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:nestBox:v0",
+      "artId": "prop:nestBox:v0",
+      "kind": "nestBox",
+      "name": "Pondoir",
+      "path": "assets/art233/props/nestBox_pondoir.png",
+      "sha256": "ce6450ea7fe75d4de8cb5a4a8ddfc670a58648e30349568a14639ec9657f74cb",
+      "bytes": 1648512,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.2,
+        "h": 0.5,
+        "heightM": 0.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:wineVat:v0",
+      "artId": "prop:wineVat:v0",
+      "kind": "wineVat",
+      "name": "Cuve vinicole",
+      "path": "assets/art233/props/wineVat_cuve_vinicole.png",
+      "sha256": "94fdc6d80419d2aac8d414b7f0fb0476edcd2e117615fd52620ff054e9a1e477",
+      "bytes": 1690686,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.6,
+        "h": 1.6,
+        "heightM": 2.2
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:wineBarrel:v0",
+      "artId": "prop:wineBarrel:v0",
+      "kind": "wineBarrel",
+      "name": "Fût de chai",
+      "path": "assets/art233/props/wineBarrel_fut_chai.png",
+      "sha256": "e2cde5890abda4259bfba1be400848c6b3a7eec52a759391c54a7170be2bc81f",
+      "bytes": 1715843,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 0.8,
+        "h": 0.8,
+        "heightM": 0.95
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:grapePress:v0",
+      "artId": "prop:grapePress:v0",
+      "kind": "grapePress",
+      "name": "Pressoir",
+      "path": "assets/art233/props/grapePress_pressoir.png",
+      "sha256": "1b3641093d145090af5a7be4a405c978694a168086194e87f7a04f39378fb088",
+      "bytes": 1567039,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.4,
+        "h": 1.2,
+        "heightM": 1.8
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:veterinaryTable:v0",
+      "artId": "prop:veterinaryTable:v0",
+      "kind": "veterinaryTable",
+      "name": "Table de soins vétérinaires",
+      "path": "assets/art233/props/veterinaryTable_table_soins_veterinaires.png",
+      "sha256": "e71f18be263898eb03e8f618dace7321858daef43ff608d591431df60b938873",
+      "bytes": 1140127,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.3,
+        "h": 0.7,
+        "heightM": 0.85
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:growingBench:v0",
+      "artId": "prop:growingBench:v0",
+      "kind": "growingBench",
+      "name": "Table de semis",
+      "path": "assets/art233/props/growingBench_table_semis.png",
+      "sha256": "cac434c2f82b06f63c6320d20d47e5474a4dbeae04bb910e321b0d3d271d8898",
+      "bytes": 1533323,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.6,
+        "h": 0.7,
+        "heightM": 0.85
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    },
+    {
+      "id": "prop:growingBed:v0",
+      "artId": "prop:growingBed:v0",
+      "kind": "growingBed",
+      "name": "Bac de culture",
+      "path": "assets/art233/props/growingBed_bac_culture.png",
+      "sha256": "d194af56ede2ca57b53620349d2baaa27d17f18d07df35d126de1629c62b2199",
+      "bytes": 1770166,
+      "iteration": 1,
+      "dimensionsAuthorDesignMetres": {
+        "w": 1.8,
+        "h": 0.7,
+        "heightM": 0.65
+      },
+      "canonicalVariant": 0,
+      "existingRoute": "procedural205",
+      "status": "dedicated_source_art_proposal_not_runtime_integrated"
+    }
+  ],
+  "supersededCandidates": 4,
+  "priorPacksRegenerated": false,
+  "publicationStatusAtAssembly": "prepared_locally_not_published_by_assembler",
+  "runtimeIntegrationPerformed": false,
+  "remainingWork": [
+    "Review proposal against the exact source fixture before registration.",
+    "Calibrate scale, anchors, orientation and clipping on a separate integration commit.",
+    "Keep inactive material appearance; preserve service/water state owners.",
+    "Do not extrapolate V01 caravan dimensions or v0 furnishings to all variants."
+  ]
+}
